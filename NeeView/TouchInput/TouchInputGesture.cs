@@ -164,7 +164,7 @@ namespace NeeView
             [DataMember(Name = "GestureMinimumDistanceX"), DefaultValue(16.0)]
             public double GestureMinimumDistance { get; set; }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
             }
         }

@@ -119,7 +119,7 @@ namespace NeeView
             [DataMember]
             public PanelListItemStyle PanelListItemStyle { get; set; }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
             }
         }

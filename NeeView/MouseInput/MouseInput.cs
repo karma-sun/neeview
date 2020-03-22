@@ -356,11 +356,11 @@ namespace NeeView
             #endregion
 
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
-                Normal.RestoreConfig();
-                Loupe.RestoreConfig();
-                Gesture.RestoreConfig();
+                Normal.RestoreConfig(config);
+                Loupe.RestoreConfig(config);
+                Gesture.RestoreConfig(config);
             }
         }
 

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace NeeView
@@ -72,7 +73,7 @@ namespace NeeView
             ////WindowShape.Current.WindowChromeFrame = App.Current.WindowChromeFrame;
 
             ////SusiePluginManager.Current.Restore(setting.SusieMemento);
-            CommandTable.Current.Restore(setting.CommandMememto, false);
+            ////CommandTable.Current.Restore(setting.CommandMememto, false);
             DragActionTable.Current.Restore(setting.DragActionMemento);
 
             _models.Resore(setting.Memento);
@@ -101,23 +102,23 @@ namespace NeeView
         {
             App.Current.SemaphoreWait();
 
+            var v1FileName = Path.ChangeExtension(App.Current.Option.SettingFilename, ".xml");
+            var v2FileName = Path.ChangeExtension(App.Current.Option.SettingFilename, ".json");
+
             try
             {
-                var v1FileName = Path.ChangeExtension(App.Current.Option.SettingFilename, ".xml");
-                var v2FileName = Path.ChangeExtension(App.Current.Option.SettingFilename, ".json");
-
                 if (File.Exists(v2FileName))
                 {
-                    return SafetyLoad(UserSettingV2Accessor.Load, v2FileName, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
+                    var settingV2 = SafetyLoad(UserSettingV2Accessor.Load, v2FileName, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
+                    __TestV1Compatibilty(settingV2);
+                    return settingV2;
                 }
 
-#if false
                 if (File.Exists(v1FileName))
                 {
                     var settingV1 = SafetyLoad(UserSetting.Load, v1FileName, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
                     return settingV1.ConvertToV2();
                 }
-#endif
 
                 return new UserSettingV2();
             }
@@ -126,6 +127,116 @@ namespace NeeView
                 App.Current.SemaphoreRelease();
             }
         }
+
+        /// <summary>
+        /// 設定V1とのデータ互換性チェック
+        /// </summary>
+        /// <param name="settingV2"></param>
+        [Conditional("DEBUG")]
+        private void __TestV1Compatibilty(UserSettingV2 settingV2)
+        {
+            var v1FileName = Path.ChangeExtension(App.Current.Option.SettingFilename, ".xml");
+            if (File.Exists(v1FileName))
+            {
+                var settingV1 = SafetyLoad(UserSetting.Load, v1FileName, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
+                var settingV1Converted = settingV1.ConvertToV2();
+                Debug.Assert(CheckValueEquality(settingV1Converted, settingV2, nameof(UserSettingV2)));
+            }
+
+            bool CheckValueEquality(object v1, object v2, string name)
+            {
+                if (v1 == null && v2 == null) return true;
+                if (v1 == null || v2 == null)
+                {
+                    Debug.WriteLine($"!!!! {name}: {v1} != {v2}");
+                    return false;
+                }
+
+                var type = v1.GetType();
+                if (type != v2.GetType()) throw new InvalidOperationException();
+
+                if (type.IsValueType || type == typeof(string))
+                {
+                    if (!Equals(v1, v2))
+                    {
+                        Debug.WriteLine($"!!!! {name}: {v1} != {v2}");
+                        return false;
+                    }
+                }
+                else if (type.GetInterfaces().Contains(typeof(System.Collections.IDictionary)))
+                {
+                    var c1 = (System.Collections.IDictionary)v1;
+                    var c2 = (System.Collections.IDictionary)v2;
+                    if (c1.Count != c2.Count)
+                    {
+                        Debug.WriteLine($"!!!! {v1}.Count != {v2}.Count");
+                        return false;
+                    }
+                    else
+                    {
+                        bool result = true;
+                        foreach(var key in c1.Keys)
+                        {
+                            var a1 = c1[key];
+                            var a2 = c2[key];
+                            result = CheckValueEquality(a1, a2, name + $"[{key}]") && result;
+                        }
+                        return result;
+                    }
+                }
+                else if (type.GetInterfaces().Contains(typeof(System.Collections.ICollection)))
+                {
+                    var c1 = (System.Collections.ICollection)v1;
+                    var c2 = (System.Collections.ICollection)v2;
+                    if (c1.Count != c2.Count)
+                    {
+                        Debug.WriteLine($"!!!! {v1}.Count != {v2}.Count");
+                        return false;
+                    }
+                    else
+                    {
+                        bool result = true;
+                        var e1 = c1.GetEnumerator();
+                        var e2 = c2.GetEnumerator();
+
+                        for (int i = 0; i < c1.Count; ++i)
+                        {
+                            e1.MoveNext();
+                            e2.MoveNext();
+                            var a1 = e1.Current;
+                            var a2 = e2.Current;
+                            result = CheckValueEquality(a1, a2, name + $"[{i}]") && result;
+                        }
+                        return result;
+                    }
+                }
+                else if (type.IsClass)
+                {
+                    bool result = true;
+                    var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+                    foreach (var property in properties)
+                    {
+                        try
+                        {
+                            result = CheckValueEquality(property.GetValue(v1), property.GetValue(v2), name + $".{property.Name}") && result;
+                        }
+                        catch(Exception ex)
+                        {
+                            Debug.WriteLine(ex.Message);
+                        }
+                    }
+                    return result;
+                }
+                else
+                {
+                    throw new InvalidOperationException();
+                }
+
+                return true;
+            }
+
+        }
+
 
         /// <summary>
         /// 設定の読み込み
@@ -323,10 +434,10 @@ namespace NeeView
             var setting = CreateSetting();
 
             // ウィンドウ状態保存
-            ////setting.WindowShape = WindowShape.Current.SnapMemento;
+            setting.WindowShape = WindowShape.Current.CreateMemento();
 
             // ウィンドウ座標保存
-            ////setting.WindowPlacement = WindowPlacement.Current.CreateMemento();
+            setting.WindowPlacement = WindowPlacement.Current.CreateMemento();
 
             // 設定をファイルに保存
             try

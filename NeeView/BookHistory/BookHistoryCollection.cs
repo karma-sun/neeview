@@ -547,7 +547,7 @@ namespace NeeView
                 }
             }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
                 Config.Current.StartUp.IsKeepLastFolder = IsKeepLastFolder;
             }

@@ -256,7 +256,7 @@ namespace NeeView
             [DataMember]
             public double AngleFrequency { get; set; }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
             }
         }

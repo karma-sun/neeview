@@ -155,9 +155,9 @@ namespace NeeView
             [DataMember]
             public bool IsHamburgerMenu { get; set; }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
-                Config.Current.Window.IsCaptionEmulateInFullScreen = CaptionEmulateInFullScreen;
+                config.Window.IsCaptionEmulateInFullScreen = CaptionEmulateInFullScreen;
             }
         }
 

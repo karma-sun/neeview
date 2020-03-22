@@ -210,10 +210,10 @@ namespace NeeView
                 this.InitializePropertyDefaultValues();
             }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
-                Config.Current.Performance.ThumbnailPageCapacity = PageCapacity;
-                Config.Current.Performance.ThumbnailBookCapacity = BookCapacity;
+                config.Performance.ThumbnailPageCapacity = PageCapacity;
+                config.Performance.ThumbnailBookCapacity = BookCapacity;
             }
         }
 

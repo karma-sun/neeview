@@ -67,10 +67,10 @@ namespace NeeView
                 this.InitializePropertyDefaultValues();
             }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
-                Config.Current.Archive.Media.PageSeconds = PageSeconds;
-                Config.Current.Archive.Media.MediaStartDelaySeconds = MediaStartDelaySeconds;
+                config.Archive.Media.PageSeconds = PageSeconds;
+                config.Archive.Media.MediaStartDelaySeconds = MediaStartDelaySeconds;
             }
         }
 

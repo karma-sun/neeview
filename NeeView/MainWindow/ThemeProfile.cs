@@ -122,10 +122,10 @@ namespace NeeView
                 this.InitializePropertyDefaultValues();
             }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
-                Config.Current.Layout.Theme.PanelColor = PanelColor;
-                Config.Current.Layout.Theme.MenuColor = MenuColor;
+                config.Layout.Theme.PanelColor = PanelColor;
+                config.Layout.Theme.MenuColor = MenuColor;
             }
         }
 

@@ -119,10 +119,10 @@ namespace NeeView
 #pragma warning restore CS0612
             }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
-                Config.Current.Archive.Pdf.IsEnabled = IsEnabled;
-                Config.Current.Archive.Pdf.RenderSize = RenderSize;
+                config.Archive.Pdf.IsEnabled = IsEnabled;
+                config.Archive.Pdf.RenderSize = RenderSize;
             }
         }
 

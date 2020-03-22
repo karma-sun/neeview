@@ -224,7 +224,7 @@ namespace NeeView
             {
             }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
                 // TODO:
             }

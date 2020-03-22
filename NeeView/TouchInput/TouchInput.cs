@@ -280,11 +280,11 @@ namespace NeeView
                 Constructor();
             }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
-                Normal.RestoreConfig();
-                Gesture.RestoreConfig();
-                Drag.RestoreConfig();
+                Normal.RestoreConfig(config);
+                Gesture.RestoreConfig(config);
+                Drag.RestoreConfig(config);
             }
         }
 

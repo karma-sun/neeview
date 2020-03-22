@@ -290,11 +290,11 @@ namespace NeeView
             [DataMember]
             public double Height { get; set; }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
-                Config.Current.Window.Placement = Placement ?? default;
-                Config.Current.Window.Width = Width;
-                Config.Current.Window.Height = Height;
+                config.Window.Placement = Placement ?? default;
+                config.Window.Width = Width;
+                config.Window.Height = Height;
             }
         }
 

@@ -80,10 +80,10 @@ namespace NeeView
             {
             }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
-                Config.Current.System.IsRemoveConfirmed = IsRemoveConfirmed;
-                Config.Current.System.IsRemoveExplorerDialogEnabled = IsRemoveExplorerDialogEnabled;
+                config.System.IsRemoveConfirmed = IsRemoveConfirmed;
+                config.System.IsRemoveExplorerDialogEnabled = IsRemoveExplorerDialogEnabled;
             }
         }
 

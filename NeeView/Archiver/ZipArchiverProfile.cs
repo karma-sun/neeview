@@ -42,10 +42,10 @@ namespace NeeView
             [DataMember, DefaultValue(".zip")]
             public string SupportFileTypes { get; set; }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config) 
             {
-                Config.Current.Archive.Zip.IsEnabled = IsEnabled;
-                Config.Current.Archive.Zip.SupportFileTypes.OneLine = SupportFileTypes;
+                config.Archive.Zip.IsEnabled = IsEnabled;
+                config.Archive.Zip.SupportFileTypes.OneLine = SupportFileTypes;
             }
         }
 

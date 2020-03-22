@@ -286,7 +286,7 @@ namespace NeeView
             [DataMember(EmitDefaultValue = false)]
             public string PageViewRecordPath { get; set; }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
             }
         }

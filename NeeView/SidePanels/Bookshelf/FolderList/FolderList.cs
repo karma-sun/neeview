@@ -1451,7 +1451,7 @@ namespace NeeView
                 this.InitializePropertyDefaultValues();
             }
 
-            public void RestoreConfig(object memento)
+            public void RestoreConfig(Config config, object memento)
             {
                 // NOTE: 複数のインスタンスから使用されているので区別できるようにする
                 var type = memento.GetType();

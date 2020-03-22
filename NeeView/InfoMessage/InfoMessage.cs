@@ -145,7 +145,7 @@ namespace NeeView
                 this.InitializePropertyDefaultValues();
             }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
             }
         }

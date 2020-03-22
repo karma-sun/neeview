@@ -1173,7 +1173,7 @@ namespace NeeView
             [DataMember]
             public bool IsNotifyPageLoop { get; set; }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
                 // TODO: ExternalApplicationの扱い
             }

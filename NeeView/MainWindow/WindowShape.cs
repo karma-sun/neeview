@@ -787,14 +787,14 @@ namespace NeeView
                 return (Memento)this.MemberwiseClone();
             }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
-                Config.Current.Window.IsTopmost = IsTopMost;
-                Config.Current.Window.IsCaptionVisible = IsCaptionVisible;
-                Config.Current.Window.IsFullScreenWithTaskBar = IsFullScreenWithTaskBar;
-                Config.Current.Window.MaximizeWindowGapWidth = MaximizeWindowGapWidth;
-                Config.Current.Window.State = State;
-                Config.Current.Window.LastState = LastState;
+                config.Window.IsTopmost = IsTopMost;
+                config.Window.IsCaptionVisible = IsCaptionVisible;
+                config.Window.IsFullScreenWithTaskBar = IsFullScreenWithTaskBar;
+                config.Window.MaximizeWindowGapWidth = MaximizeWindowGapWidth;
+                config.Window.State = State;
+                config.Window.LastState = LastState;
             }
         }
 

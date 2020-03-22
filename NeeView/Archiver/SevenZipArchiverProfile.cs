@@ -83,14 +83,14 @@ namespace NeeView
             {
             }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
-                Config.Current.Performance.PreExtractSolidSize = PreExtractSolidSize;
-                Config.Current.Performance.IsPreExtractToMemory = IsPreExtractToMemory;
-                Config.Current.Archive.SevenZip.IsEnabled = IsEnabled;
-                Config.Current.Archive.SevenZip.X86DllPath = X86DllPath;
-                Config.Current.Archive.SevenZip.X64DllPath = X64DllPath;
-                Config.Current.Archive.SevenZip.SupportFileTypes.OneLine = SupportFileTypes;
+                config.Performance.PreExtractSolidSize = PreExtractSolidSize;
+                config.Performance.IsPreExtractToMemory = IsPreExtractToMemory;
+                config.Archive.SevenZip.IsEnabled = IsEnabled;
+                config.Archive.SevenZip.X86DllPath = X86DllPath;
+                config.Archive.SevenZip.X64DllPath = X64DllPath;
+                config.Archive.SevenZip.SupportFileTypes.OneLine = SupportFileTypes;
             }
         }
 

@@ -61,9 +61,9 @@ namespace NeeView
                 this.InitializePropertyDefaultValues();
             }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
-                FolderList.RestoreConfig(this);
+                FolderList.RestoreConfig(config, this);
             }
         }
 

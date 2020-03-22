@@ -93,7 +93,7 @@ namespace NeeView
             [DataMember]
             public bool IsVisibleFilePath { get; set; }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
             }
         }

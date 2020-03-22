@@ -243,14 +243,14 @@ namespace NeeView
 #pragma warning restore CS0612
             }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
-                Config.Current.Performance.PreLoadSize = PreLoadSize;
-                Config.Current.System.BookPageCollectMode = BookPageCollectMode;
-                Config.Current.Performance.IsLoadingPageVisible = IsLoadingPageVisible;
-                Config.Current.Performance.CacheMemorySize = CacheMemorySize;
-                Config.Current.Image.Standard.IsAnimatedGifEnabled = IsEnableAnimatedGif;
-                Config.Current.Image.Standard.IsAllFileSupported = IsAllFileAnImage;
+                config.Performance.PreLoadSize = PreLoadSize;
+                config.System.BookPageCollectMode = BookPageCollectMode;
+                config.Performance.IsLoadingPageVisible = IsLoadingPageVisible;
+                config.Performance.CacheMemorySize = CacheMemorySize;
+                config.Image.Standard.IsAnimatedGifEnabled = IsEnableAnimatedGif;
+                config.Image.Standard.IsAllFileSupported = IsAllFileAnImage;
             }
         }
 

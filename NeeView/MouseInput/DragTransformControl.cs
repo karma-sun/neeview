@@ -1188,7 +1188,7 @@ namespace NeeView
 #pragma warning restore CS0612
             }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
             }
         }

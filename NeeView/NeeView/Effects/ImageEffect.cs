@@ -146,7 +146,7 @@ namespace NeeView.Effects
                 }
             }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
             }
         }

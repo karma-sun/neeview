@@ -388,29 +388,29 @@ namespace NeeView
 
 #pragma warning restore CS0612
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
                 // ver 37.0
-                Config.Current.StartUp.IsMultiBootEnabled = IsMultiBootEnabled;
-                Config.Current.StartUp.IsRestoreFullScreen = IsSaveFullScreen;
-                Config.Current.StartUp.IsRestoreWindowPlacement = IsSaveWindowPlacement;
-                Config.Current.StartUp.IsRestoreSecondWindowPlacement = IsRestoreSecondWindow;
-                Config.Current.System.IsNetworkEnabled = IsNetworkEnabled;
-                Config.Current.StartUp.IsOpenLastBook = IsOpenLastBook;
-                Config.Current.System.Language = Language;
-                Config.Current.StartUp.IsSplashScreenEnabled = IsSplashScreenEnabled;
-                Config.Current.History.IsSaveHistory = IsSaveHistory;
-                Config.Current.History.HistoryFilePath = HistoryFilePath;
-                Config.Current.Bookmark.IsSaveBookmark = IsSaveBookmark;
-                Config.Current.Bookmark.BookmarkFilePath = BookmarkFilePath;
-                Config.Current.Pagemark.IsSavePagemark = IsSavePagemark;
-                Config.Current.Pagemark.PagemarkFilePath = PagemarkFilePath;
-                Config.Current.System.IsSettingBackup = IsSettingBackup;
-                Config.Current.System.IsSyncUserSetting = IsSyncUserSetting;
-                Config.Current.System.TemporaryDirectory = TemporaryDirectory;
-                Config.Current.System.CacheDirectory = CacheDirectory;
-                ////Config.Current.System.CacheDirectoryOld = CacheDirectoryOld;
-                Config.Current.Window.WindowChromeFrame = WindowChromeFrame;
+                config.StartUp.IsMultiBootEnabled = IsMultiBootEnabled;
+                config.StartUp.IsRestoreFullScreen = IsSaveFullScreen;
+                config.StartUp.IsRestoreWindowPlacement = IsSaveWindowPlacement;
+                config.StartUp.IsRestoreSecondWindowPlacement = IsRestoreSecondWindow;
+                config.System.IsNetworkEnabled = IsNetworkEnabled;
+                config.StartUp.IsOpenLastBook = IsOpenLastBook;
+                config.System.Language = Language;
+                config.StartUp.IsSplashScreenEnabled = IsSplashScreenEnabled;
+                config.History.IsSaveHistory = IsSaveHistory;
+                config.History.HistoryFilePath = HistoryFilePath;
+                config.Bookmark.IsSaveBookmark = IsSaveBookmark;
+                config.Bookmark.BookmarkFilePath = BookmarkFilePath;
+                config.Pagemark.IsSavePagemark = IsSavePagemark;
+                config.Pagemark.PagemarkFilePath = PagemarkFilePath;
+                config.System.IsSettingBackup = IsSettingBackup;
+                config.System.IsSyncUserSetting = IsSyncUserSetting;
+                config.System.TemporaryDirectory = TemporaryDirectory;
+                config.System.CacheDirectory = CacheDirectory;
+                ////config.System.CacheDirectoryOld = CacheDirectoryOld;
+                config.Window.WindowChromeFrame = WindowChromeFrame;
             }
         }
 

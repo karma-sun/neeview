@@ -110,7 +110,7 @@ namespace NeeView
             public string GridLength2 { get; set; }
 
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
             }
         }

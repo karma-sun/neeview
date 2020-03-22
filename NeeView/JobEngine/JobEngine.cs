@@ -192,9 +192,9 @@ namespace NeeView
             [DataMember, DefaultValue(2)]
             public int WorkerSize { get; set; }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
-                Config.Current.Performance.JobWorkerSize = WorkerSize;
+                config.Performance.JobWorkerSize = WorkerSize;
             }
         }
 

@@ -168,7 +168,7 @@ namespace NeeView
             [DataMember]
             public TouchAction HoldAction { get; set; }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
             }
         }

@@ -174,10 +174,10 @@ namespace NeeView
                 this.InitializePropertyDefaultValues();
             }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
-                Config.Current.Performance.IsLimitSourceSize = IsLimitSourceSize;
-                Config.Current.Performance.MaximumSize = Maximum;
+                config.Performance.IsLimitSourceSize = IsLimitSourceSize;
+                config.Performance.MaximumSize = Maximum;
             }
         }
 

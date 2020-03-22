@@ -165,50 +165,50 @@ namespace NeeView
 #pragma warning restore CS0612
             }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
-                FileIOProfile.RestoreConfig();
-                JobEngine.RestoreConfig();
-                SoundPlayerService.RestoreConfig();
-                PictureProfile.RestoreConfig();
-                ImageFilter.RestoreConfig();
-                ZipArchiverProfile.RestoreConfig();
-                SevenZipArchiverProfile.RestoreConfig();
-                PdfArchiverProfile.RestoreConfig();
-                MediaArchiverProfile.RestoreConfig();
-                ThumbnailProfile.RestoreConfig();
-                InfoMessage.RestoreConfig();
-                BookProfile.RestoreConfig();
-                BookHub.RestoreConfig();
-                BookOperation.RestoreConfig();
-                BookSettingPresenter.RestoreConfig();
-                ThemeProfile.RestoreConfig();
-                MainWindowModel.RestoreConfig();
-                ContentCanvas.RestoreConfig();
-                ContentCanvasBrush.RestoreConfig();
-                DragTransform.RestoreConfig();
-                DragTransformControl.RestoreConfig();
-                LoupeTransform.RestoreConfig();
-                MouseInput.RestoreConfig();
-                TouchInput.RestoreConfig();
-                SlideShow.RestoreConfig();
-                WindowTitle.RestoreConfig();
-                PageSlider.RestoreConfig();
-                MediaControl.RestoreConfig();
-                ThumbnailList.RestoreConfig();
-                MenuBar.RestoreConfig();
-                SidePanelProfile.RestoreConfig();
-                PageListPlacementService.RestoreConfig();
-                FolderPanel.RestoreConfig();
-                BookshelfFolderList.RestoreConfig();
-                BookmarkFolderList.RestoreConfig();
-                PageList.RestoreConfig();
-                HistoryList.RestoreConfig();
-                PagemarkList.RestoreConfig();
-                FileInformation.RestoreConfig();
-                ImageEffect.RestoreConfig();
-                SidePanel.RestoreConfig();
-                PageViewRecorder.RestoreConfig();
+                FileIOProfile.RestoreConfig(config);
+                JobEngine.RestoreConfig(config);
+                SoundPlayerService.RestoreConfig(config);
+                PictureProfile.RestoreConfig(config);
+                ImageFilter.RestoreConfig(config);
+                ZipArchiverProfile.RestoreConfig(config);
+                SevenZipArchiverProfile.RestoreConfig(config);
+                PdfArchiverProfile.RestoreConfig(config);
+                MediaArchiverProfile.RestoreConfig(config);
+                ThumbnailProfile.RestoreConfig(config);
+                InfoMessage.RestoreConfig(config);
+                BookProfile.RestoreConfig(config);
+                BookHub.RestoreConfig(config);
+                BookOperation.RestoreConfig(config);
+                BookSettingPresenter.RestoreConfig(config);
+                ThemeProfile.RestoreConfig(config);
+                MainWindowModel.RestoreConfig(config);
+                ContentCanvas.RestoreConfig(config);
+                ContentCanvasBrush.RestoreConfig(config);
+                DragTransform.RestoreConfig(config);
+                DragTransformControl.RestoreConfig(config);
+                LoupeTransform.RestoreConfig(config);
+                MouseInput.RestoreConfig(config);
+                TouchInput.RestoreConfig(config);
+                SlideShow.RestoreConfig(config);
+                WindowTitle.RestoreConfig(config);
+                PageSlider.RestoreConfig(config);
+                MediaControl.RestoreConfig(config);
+                ThumbnailList.RestoreConfig(config);
+                MenuBar.RestoreConfig(config);
+                SidePanelProfile.RestoreConfig(config);
+                PageListPlacementService.RestoreConfig(config);
+                FolderPanel.RestoreConfig(config);
+                BookshelfFolderList.RestoreConfig(config);
+                BookmarkFolderList.RestoreConfig(config);
+                PageList.RestoreConfig(config);
+                HistoryList.RestoreConfig(config);
+                PagemarkList.RestoreConfig(config);
+                FileInformation.RestoreConfig(config);
+                ImageEffect.RestoreConfig(config);
+                SidePanel.RestoreConfig(config);
+                PageViewRecorder.RestoreConfig(config);
             }
         }
 

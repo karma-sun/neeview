@@ -95,9 +95,9 @@ namespace NeeView
             [DataMember]
             public TouchDragManipulation.Memento Manipulation { get; set; }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
-                Manipulation.RestoreConfig();
+                Manipulation.RestoreConfig(config);
             }
         }
 

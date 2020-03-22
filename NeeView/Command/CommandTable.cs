@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Data;
 using NeeView.Effects;
 using NeeView.Windows.Property;
 using System;
@@ -945,12 +946,12 @@ namespace NeeView
                 }
             }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
-                Config.Current.Command.IsReversePageMove = IsReversePageMove;
-                Config.Current.Command.IsReversePageMoveWheel = IsReversePageMoveWheel;
-                Config.Current.Script.IsScriptFolderEnabled = IsScriptFolderEnabled;
-                Config.Current.Script.ScriptFolder = ScriptFolder;
+                config.Command.IsReversePageMove = IsReversePageMove;
+                config.Command.IsReversePageMoveWheel = IsReversePageMoveWheel;
+                config.Script.IsScriptFolderEnabled = IsScriptFolderEnabled;
+                config.Script.ScriptFolder = ScriptFolder;
             }
 
             public Memento Clone()
@@ -960,6 +961,48 @@ namespace NeeView
                 return memento;
             }
 
+            public CommandCollection CreateCommandCollection()
+            {
+                // TODO: とてもしっくりこないアクセスなのでいい感じに修正する
+                var elements =  CommandTable.Current._elements;
+
+                var collection = new CommandCollection() { Items = new Dictionary<string, CommandElement.MementoV2>() };
+                foreach (var pair in Elements)
+                {
+                    if (elements.ContainsKey(pair.Key))
+                    {
+                        elements[pair.Key].Restore(pair.Value);
+
+                        var parameterType = elements[pair.Key].ParameterSource?.GetDefault().GetType();
+
+                        var value = CreateCommandMementoV2(pair.Value, parameterType);
+                        collection.Items.Add(pair.Key, value);
+                    }
+                    else
+                    {
+                        Debug.WriteLine($"Warning: No such command '{pair.Key}'");
+                    }
+                }
+
+                return collection;
+
+
+                CommandElement.MementoV2 CreateCommandMementoV2(CommandElement.Memento mementoV1, Type parameterType)
+                {
+                    var mementoV2 = new CommandElement.MementoV2();
+                    mementoV2.ShortCutKey = mementoV1.ShortCutKey;
+                    mementoV2.TouchGesture = mementoV1.TouchGesture;
+                    mementoV2.MouseGesture = mementoV1.MouseGesture;
+                    mementoV2.IsShowMessage = mementoV1.IsShowMessage;
+
+                    if (parameterType != null && !string.IsNullOrWhiteSpace(mementoV1.Parameter))
+                    {
+                        mementoV2.Parameter = (CommandParameter)Json.Deserialize(mementoV1.Parameter, parameterType);
+                    }
+
+                    return mementoV2;
+                }
+            }
         }
 
         public Memento CreateMemento()

@@ -313,7 +313,7 @@ namespace NeeView
                 this.InitializePropertyDefaultValues();
             }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
                 // TODO: Left, Right の処理は？
                 // Left.Restore(Config.Current.Layout.SidePanel.Left)

@@ -162,43 +162,30 @@ namespace NeeView
     }
 
 
-#if false
-    // Window状態のConfig対応してからだな...
+
+    /// <summary>
+    /// 設定V1を設定V2に変換
+    /// </summary>
     public static class UserSettingV1Extensions
     {
         public static UserSettingV2 ConvertToV2(this UserSetting setting)
         {
             var settingV2 = new UserSettingV2();
 
+            settingV2.Format = new FormatVersion(Environment.SolutionName, 36, 9, 0);
+
             // restore setting
             //void RestoreSetting(UserSetting setting)
             {
-                App.Current.Restore(setting.App);
-                
-                WindowShape.Current.WindowChromeFrame = App.Current.WindowChromeFrame;
-
-                ////SusiePluginManager.Current.Restore(setting.SusieMemento);
-                CommandTable.Current.Restore(setting.CommandMememto, false);
-                DragActionTable.Current.Restore(setting.DragActionMemento);
-
-                _models.Resore(setting.Memento);
-            }
-
-            // TODO: restore window shape
-            void RestoreSettingWindowShape(UserSetting setting_)
-            {
-                if (setting_ == null) return;
-                if (setting_.WindowShape == null) return;
-
-                // ウィンドウ状態をのぞく設定を反映
-                var memento = setting_.WindowShape.Clone();
-                memento.State = WindowShape.Current.State;
-                WindowShape.Current.Restore(memento);
-                WindowShape.Current.Refresh();
+                settingV2.Config = new Config();
+                setting.RestoreConfig(settingV2);
             }
 
             return settingV2;
+
+            // 記帳中の設定更新MEMO（同期、インポート等）
+            // - ウィドウ状態等の引き継がない情報をsettingV2で修正
+            // - Current.Configにマージ
         }
     }
-#endif
 }

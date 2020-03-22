@@ -409,7 +409,7 @@ namespace NeeView
             public bool IsScaleEnabled { get; set; }
 
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
             }
         }

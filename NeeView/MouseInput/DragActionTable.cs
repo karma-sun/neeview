@@ -204,7 +204,7 @@ namespace NeeView
                 return memento;
             }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
             }
         }

@@ -241,7 +241,7 @@ namespace NeeView
             [DataMember]
             public UnsharpMaskProfile UnsharpMaskProfile { get; set; }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
                 // TODO: UnsharpMaskProfile のあつかい
             }

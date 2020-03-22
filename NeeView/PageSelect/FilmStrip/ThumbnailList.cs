@@ -439,7 +439,7 @@ namespace NeeView
                 this.IsManipulationBoundaryFeedbackEnabled = true;
             }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
             }
         }

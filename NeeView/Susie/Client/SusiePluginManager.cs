@@ -380,15 +380,15 @@ namespace NeeView
 #pragma warning restore CS0612
             }
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
                 // Pluginsは可変のためConfigに向かない。フラグのみConfigに対応
 
-                Config.Current.Susie.IsEnabled = false; // NOTE: 設定最後にIsEnabledを確定することにより更新タイミングを制御する
-                Config.Current.Susie.IsFirstOrderSusieImage = IsFirstOrderSusieImage;
-                Config.Current.Susie.IsFirstOrderSusieArchive = IsFirstOrderSusieArchive;
-                Config.Current.Susie.SusiePluginPath = SusiePluginPath;
-                Config.Current.Susie.IsEnabled = IsEnableSusie;
+                config.Susie.IsEnabled = false; // NOTE: 設定最後にIsEnabledを確定することにより更新タイミングを制御する
+                config.Susie.IsFirstOrderSusieImage = IsFirstOrderSusieImage;
+                config.Susie.IsFirstOrderSusieArchive = IsFirstOrderSusieArchive;
+                config.Susie.SusiePluginPath = SusiePluginPath;
+                config.Susie.IsEnabled = IsEnableSusie;
             }
 
             public Dictionary<string, SusiePluginMemento> CreateSusiePluginCollection()

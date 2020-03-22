@@ -132,15 +132,19 @@ namespace NeeView
             }
         }
 
-        public void RestoreConfig()
+        public void RestoreConfig(UserSettingV2 setting)
         {
-            App?.RestoreConfig();
-            WindowPlacement?.RestoreConfig();
-            WindowShape?.RestoreConfig();
-            Memento?.RestoreConfig();
-            SusieMemento?.RestoreConfig();
-            CommandMememto?.RestoreConfig();
-            DragActionMemento?.RestoreConfig();
+            App?.RestoreConfig(setting.Config);
+            WindowPlacement?.RestoreConfig(setting.Config);
+            WindowShape?.RestoreConfig(setting.Config);
+            Memento?.RestoreConfig(setting.Config);
+            SusieMemento?.RestoreConfig(setting.Config);
+            CommandMememto?.RestoreConfig(setting.Config);
+            DragActionMemento?.RestoreConfig(setting.Config);
+
+            setting.SusiePlugins = this.SusieMemento?.CreateSusiePluginCollection() ?? new Dictionary<string, SusiePluginMemento>();
+            setting.Commands = this.CommandMememto?.CreateCommandCollection() ?? new CommandTable.CommandCollection();
+            // TODO:DragActionのリスト
         }
     }
 

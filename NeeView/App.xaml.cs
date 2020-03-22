@@ -158,14 +158,19 @@ namespace NeeView
 
             // 設定ファイル(V2)の読み込み (V2)
             var settingV2 = SaveData.Current.LoadConfig();
-            Config.Current.Merge(settingV2.Config);
+            Config.Current.Merge(settingV2.Config); // 適用
 
+#if false
             // 設定ファイル(V1)の先行読み込み
             var setting = SaveData.Current.LoasUserSettingTemp();
             // 設定ファイル(V1)をConfigに適用 (互換性処理)
             setting.RestoreConfig();
             // 設定ファイル(V1)を(V2)に適用 (互換性処理)
             settingV2.SusiePlugins = setting.SusieMemento?.CreateSusiePluginCollection() ?? new Dictionary<string, SusiePluginMemento>();
+#endif
+
+            // 設定ファイル(V1)の先行読み込み。この処理はV2対応完了後削除する。
+            var setting = SaveData.Current.LoasUserSettingTemp();
 
             Debug.WriteLine($"App.UserSettingLoaded: {Stopwatch.ElapsedMilliseconds}ms");
 

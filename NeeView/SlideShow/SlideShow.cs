@@ -257,9 +257,9 @@ namespace NeeView
             public bool IsAutoPlaySlideShow { get; set; }
 
 
-            public void RestoreConfig()
+            public void RestoreConfig(Config config)
             {
-                Config.Current.SlideShow.IsAutoPlaySlideShow = IsAutoPlaySlideShow;
+                config.SlideShow.IsAutoPlaySlideShow = IsAutoPlaySlideShow;
             }
         }
 

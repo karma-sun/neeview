@@ -69,7 +69,7 @@ namespace NeeView
         private bool _canHidePanel;
 
         ////private bool _IsHidePageSliderInFullscreen = true;
-        private bool _IsHidePanelInFullscreen = true;
+        ////private bool _IsHidePanelInFullscreen = true;
         ////private bool _IsVisibleWindowTitle = true;
         private bool _isVisibleAddressBar = true;
         private bool _isVisibleBusy = true;
@@ -120,6 +120,11 @@ namespace NeeView
             Config.Current.Layout.Slider.AddPropertyChanged(nameof(SliderConfig.IsHidePageSliderInFullscreen), (s, e) =>
             {
                 RefreshCanHidePageSlider();
+            });
+
+            Config.Current.Layout.Panels.AddPropertyChanged(nameof(PanelsConfig.IsHidePanelInFullscreen), (s, e) =>
+            {
+                RefreshCanHidePanel();
             });
 
             RefreshCanHidePanel();
@@ -255,6 +260,7 @@ namespace NeeView
             }
         }
 
+#if false
         /// <summary>
         /// フルスクリーン時にパネルを隠す
         /// </summary>
@@ -264,6 +270,7 @@ namespace NeeView
             get { return _IsHidePanelInFullscreen; }
             set { if (_IsHidePanelInFullscreen != value) { _IsHidePanelInFullscreen = value; RaisePropertyChanged(); RefreshCanHidePanel(); } }
         }
+#endif
 
         // パネルを自動的に隠せるか
         public bool CanHidePanel
@@ -363,9 +370,9 @@ namespace NeeView
         [PropertyRange("@ParameterCursorHideReleaseDistance", 0.0, 1000.0, TickFrequency = 1.0, IsEditable = true)]
         public double CursorHideReleaseDistance { get; set; } = 5.0;
 
-#endregion
+        #endregion
 
-#region Methods
+        #region Methods
 
         private void RefreshSliderBrushes()
         {
@@ -398,7 +405,7 @@ namespace NeeView
 
         public void RefreshCanHidePanel()
         {
-            CanHidePanel = IsHidePanel || (IsHidePanelInFullscreen && WindowShape.Current.IsFullScreen);
+            CanHidePanel = IsHidePanel || (Config.Current.Layout.Panels.IsHidePanelInFullscreen && WindowShape.Current.IsFullScreen);
         }
 
         //
@@ -739,9 +746,9 @@ namespace NeeView
             FocusMainViewCall?.Invoke(this, null);
         }
 
-#endregion
+        #endregion
 
-#region Memento
+        #region Memento
 
         [DataContract]
         public class Memento : IMemento
@@ -796,6 +803,7 @@ namespace NeeView
                 config.Layout.Slider.Opacity = SliderOpacity;
                 config.Layout.Slider.IsHidePageSliderInFullscreen = IsHidePageSliderInFullscreen;
                 config.Layout.WindowTittle.IsMainViewDisplayEnabled = IsVisibleWindowTitle;
+                config.Layout.Panels.IsHidePanelInFullscreen = IsHidePanelInFullscreen;
 
             }
 
@@ -811,7 +819,7 @@ namespace NeeView
             memento.IsHidePageSlider = this.IsHidePageSlider;
             memento.IsVisibleAddressBar = this.IsVisibleAddressBar;
             memento.IsHidePanel = this.IsHidePanel;
-            memento.IsHidePanelInFullscreen = this.IsHidePanelInFullscreen;
+            memento.IsHidePanelInFullscreen = Config.Current.Layout.Panels.IsHidePanelInFullscreen;
             memento.IsVisibleWindowTitle = Config.Current.Layout.WindowTittle.IsMainViewDisplayEnabled;
             memento.IsVisibleBusy = this.IsVisibleBusy;
             memento.IsOpenbookAtCurrentPlace = this.IsOpenbookAtCurrentPlace;
@@ -836,7 +844,7 @@ namespace NeeView
             this.IsHidePageSlider = memento.IsHidePageSlider;
             this.IsHidePanel = memento.IsHidePanel;
             this.IsVisibleAddressBar = memento.IsVisibleAddressBar;
-            this.IsHidePanelInFullscreen = memento.IsHidePanelInFullscreen;
+            ////this.IsHidePanelInFullscreen = memento.IsHidePanelInFullscreen;
             ////this.IsVisibleWindowTitle = memento.IsVisibleWindowTitle;
             this.IsVisibleBusy = memento.IsVisibleBusy;
             this.IsOpenbookAtCurrentPlace = memento.IsOpenbookAtCurrentPlace;
@@ -849,7 +857,7 @@ namespace NeeView
             this.CursorHideReleaseDistance = memento.CursorHideReleaseDistance;
         }
 
-#endregion
+        #endregion
     }
 
 }

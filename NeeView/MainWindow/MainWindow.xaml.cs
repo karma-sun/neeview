@@ -907,7 +907,7 @@ namespace NeeView
             DartyWindowLayout();
 
             // フルスクリーン解除でフォーカスが表示されたパネルに移動してしまう現象を回避
-            if (!WindowShape.Current.IsFullScreen && MainWindowModel.Current.IsHidePanelInFullscreen)
+            if (!WindowShape.Current.IsFullScreen && Config.Current.Layout.Panels.IsHidePanelInFullscreen)
             {
                 this.MainView.Focus();
             }

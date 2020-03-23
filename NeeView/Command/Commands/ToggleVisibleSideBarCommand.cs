@@ -16,17 +16,17 @@ namespace NeeView
 
         public override Binding CreateIsCheckedBinding()
         {
-            return new Binding(nameof(SidePanel.IsSideBarVisible)) { Source = SidePanel.Current };
+            return new Binding(nameof(PanelsConfig.IsSideBarEnabled)) { Source = Config.Current.Layout.Panels };
         }
 
         public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
         {
-            return SidePanel.Current.IsSideBarVisible ? Properties.Resources.CommandToggleVisibleSideBarOff : Properties.Resources.CommandToggleVisibleSideBarOn;
+            return Config.Current.Layout.Panels.IsSideBarEnabled ? Properties.Resources.CommandToggleVisibleSideBarOff : Properties.Resources.CommandToggleVisibleSideBarOn;
         }
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            SidePanel.Current.IsSideBarVisible = !SidePanel.Current.IsSideBarVisible;
+            Config.Current.Layout.Panels.IsSideBarEnabled = !Config.Current.Layout.Panels.IsSideBarEnabled;
         }
     }
 }

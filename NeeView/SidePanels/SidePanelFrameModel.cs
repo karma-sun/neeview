@@ -21,7 +21,7 @@ namespace NeeView
     {
         #region Fields
 
-        private bool _IsSideBarVisible = true;
+        ////private bool _IsSideBarVisible = true;
         private bool _isVisibleLocked;
         private SidePanelGroup _left;
         private SidePanelGroup _right;
@@ -59,12 +59,14 @@ namespace NeeView
 
         #region Properties
 
+#if false
         // サイドバー表示フラグ
         public bool IsSideBarVisible
         {
             get { return _IsSideBarVisible; }
             set { if (_IsSideBarVisible != value) { _IsSideBarVisible = value; RaisePropertyChanged(); } }
         }
+#endif
 
         // サイドバー表示ロック。自動非表示にならないようにする
         public bool IsVisibleLocked
@@ -73,9 +75,10 @@ namespace NeeView
             set { if (_isVisibleLocked != value) { _isVisibleLocked = value; RaisePropertyChanged(); } }
         }
 
-
+#if false
         [PropertyMember("@ParamSidePanelIsManipulationBoundaryFeedbackEnabled")]
         public bool IsManipulationBoundaryFeedbackEnabled { get; set; }
+#endif
 
         // Left Panel
         public SidePanelGroup Left
@@ -249,7 +252,7 @@ namespace NeeView
         /// <param name="e"></param>
         public void ScrollViewer_ManipulationBoundaryFeedback(object sender, ManipulationBoundaryFeedbackEventArgs e)
         {
-            if (!this.IsManipulationBoundaryFeedbackEnabled)
+            if (!Config.Current.Layout.Panels.IsManipulationBoundaryFeedbackEnabled)
             {
                 e.Handled = true;
             }
@@ -315,6 +318,9 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
+                config.Layout.Panels.IsSideBarEnabled = IsSideBarVisible;
+                config.Layout.Panels.IsManipulationBoundaryFeedbackEnabled = IsManipulationBoundaryFeedbackEnabled;
+
                 // TODO: Left, Right の処理は？
                 // Left.Restore(Config.Current.Layout.SidePanel.Left)
                 // Right.Restore(Config.Current.Layout.SidePanel.Right) とか
@@ -325,8 +331,8 @@ namespace NeeView
         {
             var memento = new Memento();
 
-            memento.IsSideBarVisible = this.IsSideBarVisible;
-            memento.IsManipulationBoundaryFeedbackEnabled = this.IsManipulationBoundaryFeedbackEnabled;
+            memento.IsSideBarVisible = Config.Current.Layout.Panels.IsSideBarEnabled;
+            memento.IsManipulationBoundaryFeedbackEnabled = Config.Current.Layout.Panels.IsManipulationBoundaryFeedbackEnabled;
             memento.Left = Left.CreateMemento();
             memento.Right = Right.CreateMemento();
 
@@ -343,8 +349,8 @@ namespace NeeView
             _right.Panels.Clear();
 
             // memento反映
-            this.IsSideBarVisible = memento.IsSideBarVisible;
-            this.IsManipulationBoundaryFeedbackEnabled = memento.IsManipulationBoundaryFeedbackEnabled;
+            ////this.IsSideBarVisible = memento.IsSideBarVisible;
+            ////this.IsManipulationBoundaryFeedbackEnabled = memento.IsManipulationBoundaryFeedbackEnabled;
             _left.Restore(memento.Left, panels);
             _right.Restore(memento.Right, panels);
 

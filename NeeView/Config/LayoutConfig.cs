@@ -14,7 +14,7 @@ namespace NeeView
 
         public NoticeConfig Notice { get; set; } = new NoticeConfig();
 
-        public SidePanelsConfig SidePanels { get; set; } = new SidePanelsConfig();
+        public PanelsConfig Panels { get; set; } = new PanelsConfig();
 
         public MenuBarConfig MenuBar { get; set; } = new MenuBarConfig();
 

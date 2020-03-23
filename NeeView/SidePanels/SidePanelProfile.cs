@@ -55,7 +55,7 @@ namespace NeeView
             ThemeProfile.Current.ThemeColorChanged += (s, e) => RefreshBrushes();
             MainWindowModel.Current.CanHidePanelChanged += (s, e) => RefreshBrushes();
 
-            Config.Current.Layout.SidePanels.AddPropertyChanged(nameof(SidePanelsConfig.Opacity), (s, e) =>
+            Config.Current.Layout.Panels.AddPropertyChanged(nameof(PanelsConfig.Opacity), (s, e) =>
             {
                 RefreshBrushes();
             });
@@ -64,10 +64,10 @@ namespace NeeView
         }
 
 
+#if false
         [PropertyMember("@ParamSidePanelIsLeftRightKeyEnabled", Tips = "@ParamSidePanelIsLeftRightKeyEnabledTips")]
         public bool IsLeftRightKeyEnabled { get; set; } = true;
 
-#if false
         [PropertyPercent("@ParamSidePanelOpacity", Tips = "@ParamSidePanelOpacityTips")]
         public double Opacity
         {
@@ -299,7 +299,7 @@ namespace NeeView
 
         private void RefreshBrushes()
         {
-            var opacity = MainWindowModel.Current.CanHidePanel ? Config.Current.Layout.SidePanels.Opacity : 1.0;
+            var opacity = MainWindowModel.Current.CanHidePanel ? Config.Current.Layout.Panels.Opacity : 1.0;
 
             BackgroundBrush = CreatePanelBrush((SolidColorBrush)App.Current.Resources["NVBackground"], opacity);
             BaseBrush = CreatePanelBrush((SolidColorBrush)App.Current.Resources["NVBaseBrush"], opacity);
@@ -400,7 +400,8 @@ namespace NeeView
             {
                 // TODO: PanelListItemProfile
 
-                config.Layout.SidePanels.Opacity = Opacity;
+                config.Layout.Panels.IsLeftRightKeyEnabled = IsLeftRightKeyEnabled;
+                config.Layout.Panels.Opacity = Opacity;
             }
         }
 
@@ -408,8 +409,8 @@ namespace NeeView
         {
             var memento = new Memento();
 
-            memento.IsLeftRightKeyEnabled = this.IsLeftRightKeyEnabled;
-            memento.Opacity = Config.Current.Layout.SidePanels.Opacity;
+            memento.IsLeftRightKeyEnabled = Config.Current.Layout.Panels.IsLeftRightKeyEnabled;
+            memento.Opacity = Config.Current.Layout.Panels.Opacity;
             memento.FontName = this.FontName;
             memento.FontSize = this.FontSize;
             memento.FolderTreeFontSize = this.FolderTreeFontSize;
@@ -425,7 +426,7 @@ namespace NeeView
         {
             if (memento == null) return;
 
-            this.IsLeftRightKeyEnabled = memento.IsLeftRightKeyEnabled;
+            ////this.IsLeftRightKeyEnabled = memento.IsLeftRightKeyEnabled;
             ////this.Opacity = memento.Opacity;
             this.FontName = memento.FontName;
             this.FontSize = memento.FontSize;

@@ -19,7 +19,6 @@ namespace NeeView
             if (model == null) return;
 
             _model = model;
-            _model.PropertyChanged += Model_PropertyChanged;
 
             Left = new SidePanelViewModel(_model.Left, leftItemsControl);
             Left.PropertyChanged += Left_PropertyChanged;
@@ -28,6 +27,11 @@ namespace NeeView
             Right = new SidePanelViewModel(_model.Right, rightItemsControl);
             Right.PropertyChanged += Right_PropertyChanged;
             Right.PanelDroped += Right_PanelDroped;
+
+            Config.Current.Layout.Panels.AddPropertyChanged(nameof(PanelsConfig.IsSideBarEnabled), (s, e) =>
+            {
+                RaisePropertyChanged(nameof(IsSideBarVisible));
+            });
         }
         
 
@@ -36,8 +40,8 @@ namespace NeeView
 
         public bool IsSideBarVisible
         {
-            get { return _model != null ? _model.IsSideBarVisible : true; }
-            set { if (_model.IsSideBarVisible != value) { _model.IsSideBarVisible = value; RaisePropertyChanged(); } }
+            get => Config.Current.Layout.Panels.IsSideBarEnabled;
+            set => Config.Current.Layout.Panels.IsSideBarEnabled = value;
         }
 
         private double _width;
@@ -104,18 +108,7 @@ namespace NeeView
 
         public AutoHideConfig AutoHideConfig => Config.Current.Layout.AutoHide;
 
-        /// <summary>
-        /// モデルのプロパティ変更イベント処理
-        /// </summary>
-        private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case nameof(Model.IsSideBarVisible):
-                    RaisePropertyChanged(nameof(IsSideBarVisible));
-                    break;
-            }
-        }
+
 
         /// <summary>
         /// ドラッグ開始イベント処理.

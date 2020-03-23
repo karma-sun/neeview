@@ -37,7 +37,7 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Theme, nameof(ThemeConfig.MenuColor)))),
 
                 new SettingItemSection(Properties.Resources.SettingPageVisualGeneralOpacity,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.SidePanels, nameof(SidePanelsConfig.Opacity))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Panels, nameof(PanelsConfig.Opacity))),
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Slider, nameof(SliderConfig.Opacity)))),
 
                 new SettingItemSection(Properties.Resources.SettingPageVisualGeneralBackground,
@@ -225,11 +225,11 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                  new SettingItemSection(Properties.Resources.SettingPagePanelGeneralVisual,
-                    new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.IsHidePanelInFullscreen)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Panels, nameof(PanelsConfig.IsHidePanelInFullscreen)))),
 
                 new SettingItemSection(Properties.Resources.SettingPagePanelGeneralOperation,
-                    new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.IsLeftRightKeyEnabled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(SidePanel.Current, nameof(SidePanel.IsManipulationBoundaryFeedbackEnabled)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Panels, nameof(PanelsConfig.IsLeftRightKeyEnabled))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Panels, nameof(PanelsConfig.IsManipulationBoundaryFeedbackEnabled)))),
             };
         }
     }

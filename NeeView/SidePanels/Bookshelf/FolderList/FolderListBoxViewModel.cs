@@ -103,7 +103,7 @@ namespace NeeView
 
         public bool IsLRKeyEnabled()
         {
-            return SidePanelProfile.Current.IsLeftRightKeyEnabled && _folderList.PanelListItemStyle != PanelListItemStyle.Thumbnail;
+            return Config.Current.Layout.Panels.IsLeftRightKeyEnabled && _folderList.PanelListItemStyle != PanelListItemStyle.Thumbnail;
         }
 
         public void MoveToHome()

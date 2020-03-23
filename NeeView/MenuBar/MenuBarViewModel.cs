@@ -27,7 +27,7 @@ namespace NeeView
         {
             _model = model;
             _model.CommandGestureChanged += (s, e) => MainMenu?.UpdateInputGestureText();
-            _model.AddPropertyChanged(nameof(MenuBar.IsHamburgerMenu), (s, e) => InitializeMainMenu());
+            Config.Current.Layout.MenuBar.AddPropertyChanged(nameof(MenuBarConfig.IsHamburgerMenu), (s, e) => InitializeMainMenu());
 
             InitializeMainMenu();
             InitializeWindowCaptionEmulator(control);
@@ -108,7 +108,7 @@ namespace NeeView
 #endif
 
             var menu = new Menu();
-            if (_model.IsHamburgerMenu)
+            if (Config.Current.Layout.MenuBar.IsHamburgerMenu)
             {
                 var converter = new PanelColorToImageSourceConverter()
                 {

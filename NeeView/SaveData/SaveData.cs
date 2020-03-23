@@ -117,7 +117,10 @@ namespace NeeView
                 if (File.Exists(v1FileName))
                 {
                     var settingV1 = SafetyLoad(UserSetting.Load, v1FileName, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
-                    return settingV1.ConvertToV2();
+                    var settingV1Converted = settingV1.ConvertToV2();
+                    var historyV1 = SafetyLoad(BookHistoryCollection.Memento.Load, HistoryFilePath, Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle); // 一部の履歴設定を反映
+                    historyV1.RestoreConfig(settingV1Converted.Config);
+                    return settingV1Converted;
                 }
 
                 return new UserSettingV2();
@@ -140,6 +143,10 @@ namespace NeeView
             {
                 var settingV1 = SafetyLoad(UserSetting.Load, v1FileName, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
                 var settingV1Converted = settingV1.ConvertToV2();
+
+                var historyV1 = SafetyLoad(BookHistoryCollection.Memento.Load, HistoryFilePath, Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle); // 一部の履歴設定を反映
+                historyV1.RestoreConfig(settingV1Converted.Config);
+
                 Debug.Assert(CheckValueEquality(settingV1Converted, settingV2, nameof(UserSettingV2)));
             }
 

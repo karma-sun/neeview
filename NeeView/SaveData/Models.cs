@@ -276,7 +276,7 @@ namespace NeeView
             ////PdfArchiverProfile.Current.Restore(memento.PdfArchiverProfile);
             ////MediaArchiverProfile.Current.Restore(memento.MediaArchiverProfile);
             ThumbnailProfile.Current.Restore(memento.ThumbnailProfile);
-            InfoMessage.Current.Restore(memento.InfoMessage);
+            ////InfoMessage.Current.Restore(memento.InfoMessage);
             BookProfile.Current.Restore(memento.BookProfile);
             BookHub.Current.Restore(memento.BookHub);
             BookOperation.Current.Restore(memento.BookOperation);
@@ -295,7 +295,7 @@ namespace NeeView
             PageSlider.Current.Restore(memento.PageSlider);
             MediaControl.Current.Restore(memento.MediaControl);
             ThumbnailList.Current.Restore(memento.ThumbnailList);
-            MenuBar.Current.Restore(memento.MenuBar);
+            ////MenuBar.Current.Restore(memento.MenuBar);
             SidePanelProfile.Current.Restore(memento.SidePanelProfile);
             PageListPlacementService.Current.Restore(memento.PageListPlacementService);
             FolderPanelModel.Current.Restore(memento.FolderPanel);

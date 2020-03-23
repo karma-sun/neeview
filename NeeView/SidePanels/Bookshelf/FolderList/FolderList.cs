@@ -765,7 +765,7 @@ namespace NeeView
                     RaiseCollectionChanged();
 
                     // 最終フォルダー更新
-                    BookHistoryCollection.Current.LastFolder = Place.SimpleQuery;
+                    Config.Current.StartUp.LastFolderPath = Place.SimpleQuery;
 
                     // 履歴追加
                     if (options.HasFlag(FolderSetPlaceOption.UpdateHistory))

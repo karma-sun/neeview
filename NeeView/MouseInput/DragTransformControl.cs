@@ -131,9 +131,11 @@ namespace NeeView
 
         #region Properties
 
+#if false
         // View変換情報表示のスケール表示をオリジナルサイズ基準にする
         [PropertyMember("@ParamDragTransformIsOriginalScaleShowMessage", Tips = "@ParamDragTransformIsOriginalScaleShowMessageTips")]
         public bool IsOriginalScaleShowMessage { get; set; }
+#endif
 
         // 回転の中心
         [PropertyMember("@ParamDragTransformIsControRotatelCenter")]
@@ -672,7 +674,7 @@ namespace NeeView
 
             if (isSnap)
             {
-                if (this.IsOriginalScaleShowMessage && originalScale > 0.0)
+                if (Config.Current.Layout.Notice.IsOriginalScaleShowMessage && originalScale > 0.0)
                 {
                     // original scale 100% snap
                     if (_baseScale * originalScale < 0.99 && scale * originalScale > 0.99)
@@ -702,7 +704,7 @@ namespace NeeView
 
             if (isSnap)
             {
-                if (this.IsOriginalScaleShowMessage && originalScale > 0.0)
+                if (Config.Current.Layout.Notice.IsOriginalScaleShowMessage && originalScale > 0.0)
                 {
                     // original scale 100% snap
                     if (_baseScale * originalScale > 1.01 && scale * originalScale < 1.01)
@@ -1190,6 +1192,7 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
+                config.Layout.Notice.IsOriginalScaleShowMessage = IsOriginalScaleShowMessage;
             }
         }
 
@@ -1197,7 +1200,7 @@ namespace NeeView
         {
             var memento = new Memento();
 
-            memento.IsOriginalScaleShowMessage = this.IsOriginalScaleShowMessage;
+            memento.IsOriginalScaleShowMessage = Config.Current.Layout.Notice.IsOriginalScaleShowMessage;
             memento.DragControlRotateCenter = this.DragControlRotateCenter;
             memento.DragControlScaleCenter = this.DragControlScaleCenter;
             memento.DragControlFlipCenter = this.DragControlFlipCenter;
@@ -1213,7 +1216,7 @@ namespace NeeView
         {
             if (memento == null) return;
 
-            this.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
+            ////this.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
             this.DragControlRotateCenter = memento.DragControlRotateCenter;
             this.DragControlScaleCenter = memento.DragControlScaleCenter;
             this.DragControlFlipCenter = memento.DragControlFlipCenter;

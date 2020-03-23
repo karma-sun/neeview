@@ -62,9 +62,9 @@ namespace NeeView
         /// <param name="isDisp"></param>
         private void DispNowLoading(bool isDisp)
         {
-            if (isDisp && InfoMessage.Current.NowLoadingShowMessageStyle != ShowMessageStyle.None)
+            if (isDisp && Config.Current.Layout.Notice.NowLoadingShowMessageStyle != ShowMessageStyle.None)
             {
-                if (InfoMessage.Current.NowLoadingShowMessageStyle == ShowMessageStyle.Normal)
+                if (Config.Current.Layout.Notice.NowLoadingShowMessageStyle == ShowMessageStyle.Normal)
                 {
                     this.NowLoadingNormal.Visibility = Visibility.Visible;
                     this.NowLoadingTiny.Visibility = Visibility.Collapsed;

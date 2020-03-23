@@ -1,6 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
-using System.Windows.Media;
 
 namespace NeeView
 {
@@ -12,65 +11,40 @@ namespace NeeView
 
         public AutoHideConfig AutoHide { get; set; } = new AutoHideConfig();
 
+        public NoticeConfig Notice { get; set; } = new NoticeConfig();
+
         public SidePanelsConfig SidePanels { get; set; } = new SidePanelsConfig();
+
+        public MenuBarConfig MenuBar { get; set; } = new MenuBarConfig();
 
         public SliderConfig Slider { get; set; } = new SliderConfig();
     }
 
 
-    public class SidePanelsConfig : BindableBase
+    public class NoticeConfig : BindableBase
     {
-        private double _opacity = 1.0;
+        [PropertyMember("@ParamInfoMessageNoticeShowMessageStyle")]
+        public ShowMessageStyle NoticeShowMessageStyle { get; set; } = ShowMessageStyle.Normal;
 
+        [PropertyMember("@ParamInfoBookNameShowMessageStyle")]
+        public ShowMessageStyle BookNameShowMessageStyle { get; set; } = ShowMessageStyle.Normal;
 
-        [PropertyPercent("@ParamSidePanelOpacity", Tips = "@ParamSidePanelOpacityTips")]
-        public double Opacity
-        {
-            get { return _opacity; }
-            set { SetProperty(ref _opacity, value); }
-        }
-    }
+        [PropertyMember("@ParamInfoMessageCommandShowMessageStyle")]
+        public ShowMessageStyle CommandShowMessageStyle { get; set; } = ShowMessageStyle.Normal;
 
-    public class SliderConfig : BindableBase
-    {
-        private double _sliderOpacity = 1.0;
+        [PropertyMember("@ParamInfoMessageGestureShowMessageStyle")]
+        public ShowMessageStyle GestureShowMessageStyle { get; set; } = ShowMessageStyle.Normal;
 
+        [PropertyMember("@ParamInfoMessageNowLoadingShowMessageStyle")]
+        public ShowMessageStyle NowLoadingShowMessageStyle { get; set; } = ShowMessageStyle.Normal;
 
-        // スライダー透明度
-        [PropertyPercent("@ParamSliderOpacity", Tips = "@ParamSliderOpacityTips")]
-        public double Opacity
-        {
-            get { return _sliderOpacity; }
-            set { SetProperty(ref _sliderOpacity, value); }
-        }
-    }
+        [PropertyMember("@ParamInfoMessageViewTransformShowMessageStyle")]
+        public ShowMessageStyle ViewTransformShowMessageStyle { get; set; } = ShowMessageStyle.None;
 
-    public class BackgroundConfig : BindableBase
-    {
-        private BackgroundType _backgroundType = BackgroundType.Black;
-        private BrushSource _customBackground = new BrushSource();
-        private Color _pageBackgroundColor = Colors.Transparent;
-
-
-        public BackgroundType BackgroundType
-        {
-            get { return _backgroundType; }
-            set { SetProperty(ref _backgroundType, value); }
-        }
-
-        [PropertyMember("@ParamCustomBackground", Tips = "@ParamCustomBackgroundTips")]
-        public BrushSource CustomBackground
-        {
-            get { return _customBackground; }
-            set { SetProperty(ref _customBackground, value ?? new BrushSource()); }
-        }
-
-        // ページの背景色。透過画像用
-        [PropertyMember("@ParamPageBackgroundColor")]
-        public Color PageBackgroundColor
-        {
-            get { return _pageBackgroundColor; }
-            set { SetProperty(ref _pageBackgroundColor, value); }
-        }
+        // View変換情報表示のスケール表示をオリジナルサイズ基準にする
+        [PropertyMember("@ParamDragTransformIsOriginalScaleShowMessage", Tips = "@ParamDragTransformIsOriginalScaleShowMessageTips")]
+        public bool IsOriginalScaleShowMessage { get; set; }
     }
 }
+
+

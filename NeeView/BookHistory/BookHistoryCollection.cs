@@ -77,11 +77,13 @@ namespace NeeView
 
         #region Poperties for Folders
 
+#if false
         // フォルダーリストで開いていた場所
         public string LastFolder { get; set; }
 
         // 最後に開いたフォルダー
         public string LastAddress { get; set; }
+#endif
 
         // 検索履歴
         private ObservableCollection<string> _searchHistory = new ObservableCollection<string>();
@@ -549,7 +551,9 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
-                Config.Current.StartUp.IsKeepLastFolder = IsKeepLastFolder;
+                config.StartUp.IsOpenLastFolder = IsKeepLastFolder;
+                config.StartUp.LastFolderPath = LastFolder;
+                config.StartUp.LastBookPath = LastAddress;
             }
         }
 
@@ -561,12 +565,12 @@ namespace NeeView
             memento._Version = Environment.ProductVersionNumber;
 
             memento.Folders = _folders;
-            memento.LastFolder = this.LastFolder;
+            memento.LastFolder = Config.Current.StartUp.LastFolderPath;
             memento.LimitSize = this.LimitSize;
             memento.LimitSpan = this.LimitSpan;
             memento.IsKeepFolderStatus = IsKeepFolderStatus;
-            memento.IsKeepLastFolder = Config.Current.StartUp.IsKeepLastFolder;
-            memento.LastAddress = Config.Current.StartUp.IsOpenLastBook ? this.LastAddress : null;
+            memento.IsKeepLastFolder = Config.Current.StartUp.IsOpenLastFolder;
+            memento.LastAddress = Config.Current.StartUp.LastBookPath;
             memento.IsKeepSearchHistory = IsKeepSearchHistory;
             memento.SearchHistory = this.SearchHistory.Any() ? this.SearchHistory.ToList() : null;
 
@@ -574,24 +578,6 @@ namespace NeeView
             {
                 memento.Items = Limit(this.Items.Where(e => !e.Place.StartsWith(Temporary.Current.TempDirectory)), LimitSize, LimitSpan).ToList();
                 memento.Books = memento.Items.Select(e => e.Unit.Memento).ToList();
-
-                if (memento.LastFolder != null && memento.LastFolder.StartsWith(Temporary.Current.TempDirectory))
-                {
-                    memento.LastFolder = null;
-                }
-                if (memento.LastAddress != null && memento.LastAddress.StartsWith(Temporary.Current.TempDirectory))
-                {
-                    memento.LastAddress = null;
-                }
-
-                if (!memento.IsKeepLastFolder)
-                {
-                    memento.LastFolder = null;
-                }
-                if (!memento.IsKeepFolderStatus)
-                {
-                    memento.Folders = null;
-                }
 
                 if (!memento.IsKeepSearchHistory)
                 {
@@ -612,8 +598,8 @@ namespace NeeView
         {
             if (memento == null) return;
 
-            this.LastFolder = memento.LastFolder;
-            this.LastAddress = memento.LastAddress;
+            ////this.LastFolder = memento.LastFolder;
+            ////this.LastAddress = memento.LastAddress;
             _folders = memento.Folders ?? _folders;
             this.LimitSize = memento.LimitSize;
             this.LimitSpan = memento.LimitSpan;

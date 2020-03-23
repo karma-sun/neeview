@@ -18,6 +18,16 @@ namespace NeeView
             _bookPath = null;
             _folderPath = App.Current.Option.FolderList;
 
+            if (Config.Current.StartUp.LastBookPath?.StartsWith(Temporary.Current.TempRootPath) == true)
+            {
+                Config.Current.StartUp.LastBookPath = null;
+            }
+
+            if (Config.Current.StartUp.LastFolderPath?.StartsWith(Temporary.Current.TempRootPath) == true)
+            {
+                Config.Current.StartUp.LastFolderPath = null;
+            }
+
             SetBookPlace();
             SetFolderPlace();
             LoadBook();
@@ -43,34 +53,34 @@ namespace NeeView
             // 最後に開いたブックを復元する
             if (Config.Current.StartUp.IsOpenLastBook)
             {
-                path = BookHistoryCollection.Current.LastAddress;
+                path = Config.Current.StartUp.LastBookPath;
                 if (path != null)
                 {
                     _bookPath = path;
                     _bookLoadOptions = BookLoadOption.Resume | BookLoadOption.IsBook;
 
-                    if (_folderPath == null && BookHistoryCollection.Current.LastFolder != null)
+                    if (_folderPath == null && Config.Current.StartUp.LastFolderPath != null)
                     {
                         // 前回開いていたフォルダーがブックマークであった場合、なるべくそのフォルダーをひらく
-                        if (QueryScheme.Bookmark.IsMatch(BookHistoryCollection.Current.LastFolder))
+                        if (QueryScheme.Bookmark.IsMatch(Config.Current.StartUp.LastFolderPath))
                         {
-                            var node = BookmarkCollection.Current.FindNode(BookHistoryCollection.Current.LastFolder);
+                            var node = BookmarkCollection.Current.FindNode(Config.Current.StartUp.LastFolderPath);
                             if (node != null && node.Select(e => e.Value).OfType<Bookmark>().Any(e => e.Place == path))
                             {
-                                _folderPath = BookHistoryCollection.Current.LastFolder;
+                                _folderPath = Config.Current.StartUp.LastFolderPath;
                                 _isFolderLink = true;
                                 return;
                             }
                         }
                         // 前回開いていたフォルダーがプレイリストあった場合、なるべくそのフォルダーを開く
-                        if (PlaylistArchive.IsSupportExtension(BookHistoryCollection.Current.LastFolder))
+                        if (PlaylistArchive.IsSupportExtension(Config.Current.StartUp.LastFolderPath))
                         {
                             try
                             {
-                                var playlist = PlaylistFile.Load(BookHistoryCollection.Current.LastFolder);
+                                var playlist = PlaylistFile.Load(Config.Current.StartUp.LastFolderPath);
                                 if (playlist.Items.Contains(path))
                                 {
-                                    _folderPath = BookHistoryCollection.Current.LastFolder;
+                                    _folderPath = Config.Current.StartUp.LastFolderPath;
                                     _isFolderLink = true;
                                     return;
                                 }
@@ -97,9 +107,9 @@ namespace NeeView
             if (_bookPath == null)
             {
                 // 前回開いていたフォルダーを復元する
-                if (BookHistoryCollection.Current.LastFolder != null)
+                if (Config.Current.StartUp.LastFolderPath != null)
                 {
-                    _folderPath = BookHistoryCollection.Current.LastFolder;
+                    _folderPath = Config.Current.StartUp.LastFolderPath;
                     return;
                 }
 

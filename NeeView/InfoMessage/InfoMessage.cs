@@ -46,6 +46,7 @@ namespace NeeView
         {
         }
 
+#if false
         [PropertyMember("@ParamInfoMessageNoticeShowMessageStyle")]
         public ShowMessageStyle NoticeShowMessageStyle { get; set; } = ShowMessageStyle.Normal;
 
@@ -63,7 +64,7 @@ namespace NeeView
 
         [PropertyMember("@ParamInfoMessageViewTransformShowMessageStyle")]
         public ShowMessageStyle ViewTransformShowMessageStyle { get; set; } = ShowMessageStyle.None;
-
+#endif
 
         //
         private ShowMessageStyle GetShowMessageStyle(InfoMessageType type)
@@ -72,17 +73,17 @@ namespace NeeView
             {
                 default:
                 case InfoMessageType.Notify:
-                    return NoticeShowMessageStyle;
+                    return Config.Current.Layout.Notice.NoticeShowMessageStyle;
                 case InfoMessageType.BookName:
-                    return BookNameShowMessageStyle;
+                    return Config.Current.Layout.Notice.BookNameShowMessageStyle;
                 case InfoMessageType.Command:
-                    return CommandShowMessageStyle;
+                    return Config.Current.Layout.Notice.CommandShowMessageStyle;
                 case InfoMessageType.Gesture:
-                    return GestureShowMessageStyle;
+                    return Config.Current.Layout.Notice.GestureShowMessageStyle;
                 case InfoMessageType.Loading:
-                    return NowLoadingShowMessageStyle;
+                    return Config.Current.Layout.Notice.NowLoadingShowMessageStyle;
                 case InfoMessageType.ViewTransform:
-                    return ViewTransformShowMessageStyle;
+                    return Config.Current.Layout.Notice.ViewTransformShowMessageStyle;
             }
         }
 
@@ -117,7 +118,7 @@ namespace NeeView
 
 
 
-        #region Memento
+#region Memento
         [DataContract]
         public class Memento : IMemento
         {
@@ -147,6 +148,12 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
+                config.Layout.Notice.NoticeShowMessageStyle = NoticeShowMessageStyle;
+                config.Layout.Notice.BookNameShowMessageStyle = BookNameShowMessageStyle;
+                config.Layout.Notice.CommandShowMessageStyle = CommandShowMessageStyle;
+                config.Layout.Notice.GestureShowMessageStyle = GestureShowMessageStyle;
+                config.Layout.Notice.NowLoadingShowMessageStyle = NowLoadingShowMessageStyle;
+                config.Layout.Notice.ViewTransformShowMessageStyle = ViewTransformShowMessageStyle;
             }
         }
 
@@ -154,28 +161,29 @@ namespace NeeView
         {
             var memento = new Memento();
 
-            memento.NoticeShowMessageStyle = this.NoticeShowMessageStyle;
-            memento.BookNameShowMessageStyle = this.BookNameShowMessageStyle;
-            memento.CommandShowMessageStyle = this.CommandShowMessageStyle;
-            memento.GestureShowMessageStyle = this.GestureShowMessageStyle;
-            memento.NowLoadingShowMessageStyle = this.NowLoadingShowMessageStyle;
-            memento.ViewTransformShowMessageStyle = this.ViewTransformShowMessageStyle;
+            memento.NoticeShowMessageStyle = Config.Current.Layout.Notice.NoticeShowMessageStyle;
+            memento.BookNameShowMessageStyle = Config.Current.Layout.Notice.BookNameShowMessageStyle;
+            memento.CommandShowMessageStyle = Config.Current.Layout.Notice.CommandShowMessageStyle;
+            memento.GestureShowMessageStyle = Config.Current.Layout.Notice.GestureShowMessageStyle;
+            memento.NowLoadingShowMessageStyle = Config.Current.Layout.Notice.NowLoadingShowMessageStyle;
+            memento.ViewTransformShowMessageStyle = Config.Current.Layout.Notice.ViewTransformShowMessageStyle;
 
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
 
-            this.NoticeShowMessageStyle = memento.NoticeShowMessageStyle;
-            this.BookNameShowMessageStyle = memento.BookNameShowMessageStyle;
-            this.CommandShowMessageStyle = memento.CommandShowMessageStyle;
-            this.GestureShowMessageStyle = memento.GestureShowMessageStyle;
-            this.NowLoadingShowMessageStyle = memento.NowLoadingShowMessageStyle;
-            this.ViewTransformShowMessageStyle = memento.ViewTransformShowMessageStyle;
+            ////this.NoticeShowMessageStyle = memento.NoticeShowMessageStyle;
+            ////this.BookNameShowMessageStyle = memento.BookNameShowMessageStyle;
+            ////this.CommandShowMessageStyle = memento.CommandShowMessageStyle;
+            ////this.GestureShowMessageStyle = memento.GestureShowMessageStyle;
+            ////this.NowLoadingShowMessageStyle = memento.NowLoadingShowMessageStyle;
+            ////this.ViewTransformShowMessageStyle = memento.ViewTransformShowMessageStyle;
         }
-        #endregion
+#endregion
 
     }
 }

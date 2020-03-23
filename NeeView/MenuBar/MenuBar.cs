@@ -18,7 +18,7 @@ namespace NeeView
         public static MenuBar Current { get; }
 
 
-        private bool _isHamburgerMenu;
+        ////private bool _isHamburgerMenu;
 
 
         private MenuBar()
@@ -50,7 +50,6 @@ namespace NeeView
 #if false
         [PropertyMember("@ParamIsCaptionEmulateInFullScreen", Tips = "@ParamIsCaptionEmulateInFullScreenTips")]
         public bool IsCaptionEmulateInFullScreen { get; set; }
-#endif
 
         /// <summary>
         /// ハンバーガーメニューにする
@@ -61,6 +60,7 @@ namespace NeeView
             get { return _isHamburgerMenu; }
             set { SetProperty(ref _isHamburgerMenu, value); }
         }
+#endif
 
         public MenuTree MainMenuSource { get; set; }
 
@@ -158,6 +158,7 @@ namespace NeeView
             public void RestoreConfig(Config config)
             {
                 config.Window.IsCaptionEmulateInFullScreen = CaptionEmulateInFullScreen;
+                config.Layout.MenuBar.IsHamburgerMenu = IsHamburgerMenu;
             }
         }
 
@@ -165,15 +166,16 @@ namespace NeeView
         {
             var memento = new Memento();
             memento.CaptionEmulateInFullScreen = Config.Current.Window.IsCaptionEmulateInFullScreen;
-            memento.IsHamburgerMenu = this.IsHamburgerMenu;
+            memento.IsHamburgerMenu = Config.Current.Layout.MenuBar.IsHamburgerMenu;
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
             //// this.IsCaptionEmulateInFullScreen = memento.CaptionEmulateInFullScreen;
-            this.IsHamburgerMenu = memento.IsHamburgerMenu;
+            ////this.IsHamburgerMenu = memento.IsHamburgerMenu;
         }
         #endregion
 

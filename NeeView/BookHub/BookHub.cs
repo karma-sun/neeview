@@ -933,7 +933,7 @@ namespace NeeView
                     BookUnit?.Dispose();
                     BookUnit = null;
                 }
-                BookHistoryCollection.Current.LastAddress = null;
+                Config.Current.StartUp.LastBookPath = null;
 
                 throw;
             }
@@ -945,7 +945,7 @@ namespace NeeView
                     BookUnit?.Dispose();
                     BookUnit = null;
                 }
-                BookHistoryCollection.Current.LastAddress = null;
+                Config.Current.StartUp.LastBookPath = null;
 
                 // 履歴から消去
                 ////BookHistory.Current.Remove(address.Place);
@@ -955,7 +955,7 @@ namespace NeeView
             }
 
             Address = BookUnit?.Book.Address;
-            BookHistoryCollection.Current.LastAddress = Address;
+            Config.Current.StartUp.LastBookPath = Address;
         }
 
 
@@ -977,7 +977,7 @@ namespace NeeView
             if (param.IsClearViewContent)
             {
                 Address = null;
-                BookHistoryCollection.Current.LastAddress = null;
+                Config.Current.StartUp.LastBookPath = null;
 
                 AppDispatcher.Invoke(() =>
                 {

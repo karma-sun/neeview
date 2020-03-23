@@ -72,19 +72,19 @@
         </Style>
 
         <Style x:Key="ContentNameStyle" TargetType="TextBlock" BasedOn="{StaticResource NameStyle}">
-            <Setter Property="TextWrapping" Value="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ContentItemProfile.IsTextWrapped, Converter={StaticResource BooleanToTextWrappingConverter}}"/>
-            <Setter Property="Height" Value="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ContentItemProfile.TextHeight}"/>
+            <Setter Property="TextWrapping" Value="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.ContentItemProfile.IsTextWrapped, Converter={StaticResource BooleanToTextWrappingConverter}}"/>
+            <Setter Property="Height" Value="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.ContentItemProfile.TextHeight}"/>
         </Style>
 
         <Style x:Key="BannerrNameStyle" TargetType="TextBlock" BasedOn="{StaticResource NameStyle}">
-            <Setter Property="TextWrapping" Value="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=BannerItemProfile.IsTextWrapped, Converter={StaticResource BooleanToTextWrappingConverter}}"/>
-            <Setter Property="Height" Value="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=BannerItemProfile.TextHeight}"/>
+            <Setter Property="TextWrapping" Value="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.BannerItemProfile.IsTextWrapped, Converter={StaticResource BooleanToTextWrappingConverter}}"/>
+            <Setter Property="Height" Value="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.BannerItemProfile.TextHeight}"/>
         </Style>
 
         <Style x:Key="ThumbnailNameStyle" TargetType="TextBlock" BasedOn="{StaticResource NameStyle}">
-            <Setter Property="TextWrapping" Value="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ThumbnailItemProfile.IsTextWrapped, Converter={StaticResource BooleanToTextWrappingConverter}}"/>
-            <Setter Property="Height" Value="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ThumbnailItemProfile.TextHeight}"/>
-            <Setter Property="Visibility" Value="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ThumbnailItemProfile.IsTextVisibled, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <Setter Property="TextWrapping" Value="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.ThumbnailItemProfile.IsTextWrapped, Converter={StaticResource BooleanToTextWrappingConverter}}"/>
+            <Setter Property="Height" Value="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.ThumbnailItemProfile.TextHeight}"/>
+            <Setter Property="Visibility" Value="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.ThumbnailItemProfile.IsTextVisibled, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             <Setter Property="ToolTip" Value="{x:Null}"/>
         </Style>
 
@@ -92,9 +92,9 @@
         <Style x:Key="NoteTextStyle" TargetType="TextBlock" >
             <Setter Property="Margin" Value="5,0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Opacity" Value="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ContentItemProfile.NoteOpacity}"/>
+            <Setter Property="Opacity" Value="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.ContentItemProfile.NoteOpacity}"/>
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
-            <Setter Property="Visibility" Value="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ContentItemProfile.NoteVisibility}"/>
+            <Setter Property="Visibility" Value="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.ContentItemProfile.NoteVisibility}"/>
         </Style>
 
 
@@ -171,7 +171,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="ThumbnailTemplate">
-            <StackPanel Margin="0,5" Width="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ThumbnailItemProfile.ShapeWidth}" ToolTip="{Binding EntryFullName}" ToolTipService.InitialShowDelay="1000">
+            <StackPanel Margin="0,5" Width="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.ThumbnailItemProfile.ShapeWidth}" ToolTip="{Binding EntryFullName}" ToolTipService.InitialShowDelay="1000">
                 <local:PanelListThumbnailImage Thumbnail="{Binding Thumbnail}"/>
                 <Rectangle DockPanel.Dock="Bottom" Style="{StaticResource HorizontalSelectedStyle}"/>
                 <DockPanel>

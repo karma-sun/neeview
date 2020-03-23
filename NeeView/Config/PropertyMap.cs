@@ -156,7 +156,7 @@ namespace NeeView
     {
         protected object _source;
         protected PropertyInfo _property;
-         
+
         public PropertyMapItem(object source, PropertyInfo property)
         {
             _source = source;

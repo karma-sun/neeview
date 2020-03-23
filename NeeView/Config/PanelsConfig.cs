@@ -55,7 +55,6 @@ namespace NeeView
         public bool IsManipulationBoundaryFeedbackEnabled { get; set; }
 
 
-#if false
         /// <summary>
         /// フォント名
         /// </summary>
@@ -75,6 +74,12 @@ namespace NeeView
             get { return _fontSize; }
             set { SetProperty(ref _fontSize, Math.Max(1.0, value)); }
         }
-#endif
+
+
+        public PanelListItemProfile ContentItemProfile { get; set; } = PanelListItemProfile.DefaultContentItemProfile.Clone();
+
+        public PanelListItemProfile BannerItemProfile { get; set; } = PanelListItemProfile.DefaultBannerItemProfile.Clone();
+
+        public PanelListItemProfile ThumbnailItemProfile { get; set; } = PanelListItemProfile.DefaultThumbnailItemProfile.Clone();
     }
 }

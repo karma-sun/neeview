@@ -29,6 +29,12 @@ namespace NeeView
     [DataContract]
     public class PanelListItemProfile : BindableBase
     {
+        public static PanelListItemProfile DefaultNormalItemProfile = new PanelListItemProfile(PanelListItemImageShape.Square, 0, false, true, false, 0.0);
+        public static PanelListItemProfile DefaultContentItemProfile = new PanelListItemProfile(PanelListItemImageShape.Square, 64, true, true, false, 0.5);
+        public static PanelListItemProfile DefaultBannerItemProfile = new PanelListItemProfile(PanelListItemImageShape.Banner, 200, false, true, false, 0.0);
+        public static PanelListItemProfile DefaultThumbnailItemProfile = new PanelListItemProfile(PanelListItemImageShape.Original, 128, false, true, true, 0.0);
+
+
         private static Rect _rectDefault = new Rect(0, 0, 1, 1);
         private static Rect _rectBanner = new Rect(0, 0, 1, 0.6);
         private static SolidColorBrush _brushBanner = new SolidColorBrush(Color.FromArgb(0x20, 0x99, 0x99, 0x99));
@@ -40,6 +46,8 @@ namespace NeeView
         private bool _isTextWrapped;
         private double _noteOpacity;
         private bool _isTextheightDarty = true;
+        private double _textHeight = double.NaN;
+
 
         public PanelListItemProfile()
         {
@@ -57,6 +65,8 @@ namespace NeeView
             UpdateTextHeight();
         }
 
+
+        #region 公開プロパティ
 
         [DataMember(EmitDefaultValue = false)]
         public PanelListItemImageShape ImageShape
@@ -86,91 +96,6 @@ namespace NeeView
             }
         }
 
-        public int ShapeWidth
-        {
-            get
-            {
-                switch (_imageShape)
-                {
-                    default:
-                        return _imageWidth;
-                    case PanelListItemImageShape.BookShape:
-                        return (int)(_imageWidth * 0.7071);
-                }
-            }
-        }
-
-        public int ShapeHeight
-        {
-            get
-            {
-                switch (_imageShape)
-                {
-                    default:
-                        return _imageWidth;
-                    case PanelListItemImageShape.Banner:
-                        return _imageWidth / 4;
-                }
-            }
-        }
-
-        public Rect Viewbox
-        {
-            get
-            {
-                switch (_imageShape)
-                {
-                    default:
-                        return _rectDefault;
-                    case PanelListItemImageShape.Banner:
-                        return _rectBanner;
-                }
-            }
-        }
-
-        public AlignmentY AlignmentY
-        {
-            get
-            {
-                switch (_imageShape)
-                {
-                    default:
-                        return AlignmentY.Top;
-                    case PanelListItemImageShape.Banner:
-                        return AlignmentY.Center;
-                }
-            }
-        }
-
-        public Brush Background
-        {
-            get
-            {
-                switch (_imageShape)
-                {
-                    default:
-                        return null;
-                    case PanelListItemImageShape.Banner:
-                        return _brushBanner;
-                }
-            }
-        }
-
-        public Stretch ImageStretch
-        {
-            get
-            {
-                switch (_imageShape)
-                {
-                    default:
-                        return Stretch.UniformToFill;
-                    case PanelListItemImageShape.Original:
-                        return Stretch.Uniform;
-                }
-            }
-        }
-
-
         [DataMember(EmitDefaultValue = false)]
         public bool IsImagePopupEnabled
         {
@@ -198,25 +123,6 @@ namespace NeeView
             }
         }
 
-
-        private double _textHeight = double.NaN;
-        public double TextHeight
-        {
-            get
-            {
-                if (_isTextheightDarty)
-                {
-                    _isTextheightDarty = false;
-                    _textHeight = CalcTextHeight();
-                }
-                return _textHeight;
-            }
-            set
-            {
-                SetProperty(ref _textHeight, value);
-            }
-        }
-
         [DataMember(EmitDefaultValue = false)]
         public double NoteOpacity
         {
@@ -230,10 +136,123 @@ namespace NeeView
             }
         }
 
+        #endregion
+
+
+        #region 非公開プロパティ
+
+        [PropertyMapIgnore]
+        public int ShapeWidth
+        {
+            get
+            {
+                switch (_imageShape)
+                {
+                    default:
+                        return _imageWidth;
+                    case PanelListItemImageShape.BookShape:
+                        return (int)(_imageWidth * 0.7071);
+                }
+            }
+        }
+
+        [PropertyMapIgnore]
+        public int ShapeHeight
+        {
+            get
+            {
+                switch (_imageShape)
+                {
+                    default:
+                        return _imageWidth;
+                    case PanelListItemImageShape.Banner:
+                        return _imageWidth / 4;
+                }
+            }
+        }
+
+        [PropertyMapIgnore]
+        public Rect Viewbox
+        {
+            get
+            {
+                switch (_imageShape)
+                {
+                    default:
+                        return _rectDefault;
+                    case PanelListItemImageShape.Banner:
+                        return _rectBanner;
+                }
+            }
+        }
+
+        [PropertyMapIgnore]
+        public AlignmentY AlignmentY
+        {
+            get
+            {
+                switch (_imageShape)
+                {
+                    default:
+                        return AlignmentY.Top;
+                    case PanelListItemImageShape.Banner:
+                        return AlignmentY.Center;
+                }
+            }
+        }
+
+        [PropertyMapIgnore]
+        public Brush Background
+        {
+            get
+            {
+                switch (_imageShape)
+                {
+                    default:
+                        return null;
+                    case PanelListItemImageShape.Banner:
+                        return _brushBanner;
+                }
+            }
+        }
+
+        [PropertyMapIgnore]
+        public Stretch ImageStretch
+        {
+            get
+            {
+                switch (_imageShape)
+                {
+                    default:
+                        return Stretch.UniformToFill;
+                    case PanelListItemImageShape.Original:
+                        return Stretch.Uniform;
+                }
+            }
+        }
+        
+        [PropertyMapIgnore]
+        public double TextHeight
+        {
+            get
+            {
+                if (_isTextheightDarty)
+                {
+                    _isTextheightDarty = false;
+                    _textHeight = CalcTextHeight();
+                }
+                return _textHeight;
+            }
+        }
+
+        [PropertyMapIgnore]
         public Visibility NoteVisibility
         {
             get { return NoteOpacity > 0.0 ? Visibility.Visible : Visibility.Collapsed; }
         }
+
+        #endregion
+
 
 
         [OnDeserializing]
@@ -265,18 +284,18 @@ namespace NeeView
 
         // calc 2 line textbox height
         private double CalcTextHeight()
-        { 
+        {
             if (IsTextWrapped)
             {
                 // 実際にTextBlockを作成して計算する
                 var textBlock = new TextBlock()
                 {
                     Text = "Age\nBusy",
-                    FontSize = SidePanelProfile.Current.FontSize,
+                    FontSize = Config.Current.Layout.Panels.FontSize,
                 };
-                if (SidePanelProfile.Current.FontName != null)
+                if (Config.Current.Layout.Panels.FontName != null)
                 {
-                    textBlock.FontFamily = new FontFamily(SidePanelProfile.Current.FontName);
+                    textBlock.FontFamily = new FontFamily(Config.Current.Layout.Panels.FontName);
                 };
                 var panel = new StackPanel();
                 panel.Children.Add(textBlock);

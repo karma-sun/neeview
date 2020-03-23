@@ -241,8 +241,8 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageVisualFontPanel,
-                    new SettingItemPropertyFont(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.FontName))),
-                    new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.FontSize)))),
+                    new SettingItemPropertyFont(PropertyMemberElement.Create(Config.Current.Layout.Panels, nameof(PanelsConfig.FontName))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Panels, nameof(PanelsConfig.FontSize)))),
 
                 new SettingItemSection(Properties.Resources.WordStyleContent,
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.ContentItemImageWidth))),

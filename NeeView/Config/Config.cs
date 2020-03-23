@@ -72,6 +72,10 @@ namespace NeeView
                 if (v1 == null && v2 == null)
                 {
                 }
+                else if (property.GetSetMethod(false) == null)
+                {
+                    Debug.WriteLine($"{property.Name} is readonly");
+                }
                 else if (property.PropertyType.IsValueType || property.PropertyType == typeof(string) || property.PropertyType.GetCustomAttribute(typeof(PropertyMergeAttribute)) != null)
                 {
                     property.GetSetMethod(false)?.Invoke(a1, new object[] { v2 });

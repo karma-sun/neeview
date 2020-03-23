@@ -10,35 +10,35 @@
         <local:BrushesSelectConverter x:Key="BrushesSelectConverter" />
     </UserControl.Resources>
 
-    <Grid x:Name="Root" Width="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ThumbnailItemProfile.ShapeWidth}"
-            Height="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ThumbnailItemProfile.ShapeHeight}">
+    <Grid x:Name="Root" Width="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.ThumbnailItemProfile.ShapeWidth}"
+            Height="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.ThumbnailItemProfile.ShapeHeight}">
         <Grid.Background>
             <MultiBinding Converter="{StaticResource BrushesSelectConverter}">
                 <Binding Path="Thumbnail.Background" />
-                <Binding Source="{x:Static local:SidePanelProfile.Current}" Path="ThumbnailItemProfile.Background" />
+                <Binding Source="{x:Static local:Config.Current}" Path="Layout.Panels.ThumbnailItemProfile.Background" />
             </MultiBinding>
         </Grid.Background>
         <Rectangle HorizontalAlignment="Center" VerticalAlignment="Bottom" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True"
-                Width="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ThumbnailItemProfile.ShapeWidth}"
-                Height="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ThumbnailItemProfile.ShapeHeight}">
+                Width="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.ThumbnailItemProfile.ShapeWidth}"
+                Height="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.ThumbnailItemProfile.ShapeHeight}">
             <Rectangle.Fill>
                 <ImageBrush ImageSource="{Binding Thumbnail.ImageSource, Converter={StaticResource ImageSourceToThumbnailConverter}}">
                     <ImageBrush.Stretch>
                         <MultiBinding Converter="{StaticResource BooleanToStretchConverter}" >
                             <Binding Path="Thumbnail.IsNormalImage" />
-                            <Binding Source="{x:Static local:SidePanelProfile.Current}" Path="ThumbnailItemProfile.ImageStretch" />
+                            <Binding Source="{x:Static local:Config.Current}" Path="Layout.Panels.ThumbnailItemProfile.ImageStretch" />
                         </MultiBinding>
                     </ImageBrush.Stretch>
                     <ImageBrush.Viewbox>
                         <MultiBinding Converter="{StaticResource BooleanToValueConverter}">
                             <Binding Path="Thumbnail.IsNormalImage" />
-                            <Binding Source="{x:Static local:SidePanelProfile.Current}" Path="ThumbnailItemProfile.Viewbox" />
+                            <Binding Source="{x:Static local:Config.Current}" Path="Layout.Panels.ThumbnailItemProfile.Viewbox" />
                         </MultiBinding>
                     </ImageBrush.Viewbox>
                     <ImageBrush.AlignmentY>
                         <MultiBinding Converter="{StaticResource BooleanToValueConverter}">
                             <Binding Path="Thumbnail.IsNormalImage" />
-                            <Binding Source="{x:Static local:SidePanelProfile.Current}" Path="ThumbnailItemProfile.AlignmentY" />
+                            <Binding Source="{x:Static local:Config.Current}" Path="Layout.Panels.ThumbnailItemProfile.AlignmentY" />
                         </MultiBinding>
                     </ImageBrush.AlignmentY>
                 </ImageBrush>

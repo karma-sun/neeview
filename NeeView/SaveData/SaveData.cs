@@ -223,6 +223,11 @@ namespace NeeView
                     var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
                     foreach (var property in properties)
                     {
+                        if (property.GetSetMethod(false) == null)
+                        {
+                            continue;
+                        }
+
                         try
                         {
                             result = CheckValueEquality(property.GetValue(v1), property.GetValue(v2), name + $".{property.Name}") && result;

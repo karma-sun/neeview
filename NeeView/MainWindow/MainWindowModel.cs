@@ -68,7 +68,7 @@ namespace NeeView
         private bool _isHidePanel; // = true;
         private bool _canHidePanel;
 
-        private bool _IsHidePageSliderInFullscreen = true;
+        ////private bool _IsHidePageSliderInFullscreen = true;
         private bool _IsHidePanelInFullscreen = true;
         ////private bool _IsVisibleWindowTitle = true;
         private bool _isVisibleAddressBar = true;
@@ -115,6 +115,11 @@ namespace NeeView
             Config.Current.Layout.WindowTittle.AddPropertyChanged(nameof(WindowTitleConfig.IsMainViewDisplayEnabled), (s, e) =>
             {
                 RaisePropertyChanged(nameof(CanVisibleWindowTitle));
+            });
+
+            Config.Current.Layout.Slider.AddPropertyChanged(nameof(SliderConfig.IsHidePageSliderInFullscreen), (s, e) =>
+            {
+                RefreshCanHidePageSlider();
             });
 
             RefreshCanHidePanel();
@@ -214,6 +219,7 @@ namespace NeeView
             }
         }
 
+#if false
         /// <summary>
         /// フルスクリーン時にスライダーを隠す
         /// </summary>
@@ -223,6 +229,7 @@ namespace NeeView
             get { return _IsHidePageSliderInFullscreen; }
             set { if (_IsHidePageSliderInFullscreen != value) { _IsHidePageSliderInFullscreen = value; RaisePropertyChanged(); RefreshCanHidePageSlider(); } }
         }
+#endif
 
         public bool CanHidePageSlider
         {
@@ -356,9 +363,9 @@ namespace NeeView
         [PropertyRange("@ParameterCursorHideReleaseDistance", 0.0, 1000.0, TickFrequency = 1.0, IsEditable = true)]
         public double CursorHideReleaseDistance { get; set; } = 5.0;
 
-        #endregion
+#endregion
 
-        #region Methods
+#region Methods
 
         private void RefreshSliderBrushes()
         {
@@ -386,7 +393,7 @@ namespace NeeView
 
         private void RefreshCanHidePageSlider()
         {
-            CanHidePageSlider = IsHidePageSlider || (IsHidePageSliderInFullscreen && WindowShape.Current.IsFullScreen);
+            CanHidePageSlider = IsHidePageSlider || (Config.Current.Layout.Slider.IsHidePageSliderInFullscreen && WindowShape.Current.IsFullScreen);
         }
 
         public void RefreshCanHidePanel()
@@ -732,9 +739,9 @@ namespace NeeView
             FocusMainViewCall?.Invoke(this, null);
         }
 
-        #endregion
+#endregion
 
-        #region Memento
+#region Memento
 
         [DataContract]
         public class Memento : IMemento
@@ -787,7 +794,9 @@ namespace NeeView
                 // TODO: ContextMenuSetting
 
                 config.Layout.Slider.Opacity = SliderOpacity;
+                config.Layout.Slider.IsHidePageSliderInFullscreen = IsHidePageSliderInFullscreen;
                 config.Layout.WindowTittle.IsMainViewDisplayEnabled = IsVisibleWindowTitle;
+
             }
 
         }
@@ -808,7 +817,7 @@ namespace NeeView
             memento.IsOpenbookAtCurrentPlace = this.IsOpenbookAtCurrentPlace;
             memento.IsAccessKeyEnabled = this.IsAccessKeyEnabled;
             memento.SliderOpacity = Config.Current.Layout.Slider.Opacity;
-            memento.IsHidePageSliderInFullscreen = this.IsHidePageSliderInFullscreen;
+            memento.IsHidePageSliderInFullscreen = Config.Current.Layout.Slider.IsHidePageSliderInFullscreen;
             memento.IsCursorHideEnabled = this.IsCursorHideEnabled;
             memento.CursorHideTime = this.CursorHideTime;
             memento.IsCursorHideReleaseAction = this.IsCursorHideReleaseAction;
@@ -833,14 +842,14 @@ namespace NeeView
             this.IsOpenbookAtCurrentPlace = memento.IsOpenbookAtCurrentPlace;
             this.IsAccessKeyEnabled = memento.IsAccessKeyEnabled;
             ////this.SliderOpacity = memento.SliderOpacity;
-            this.IsHidePageSliderInFullscreen = memento.IsHidePageSliderInFullscreen;
+            ////this.IsHidePageSliderInFullscreen = memento.IsHidePageSliderInFullscreen;
             this.IsCursorHideEnabled = memento.IsCursorHideEnabled;
             this.CursorHideTime = memento.CursorHideTime;
             this.IsCursorHideReleaseAction = memento.IsCursorHideReleaseAction;
             this.CursorHideReleaseDistance = memento.CursorHideReleaseDistance;
         }
 
-        #endregion
+#endregion
     }
 
 }

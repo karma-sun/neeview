@@ -292,7 +292,7 @@ namespace NeeView
             TouchInput.Current.Restore(memento.TouchInput);
             SlideShow.Current.Restore(memento.SlideShow);
             ////WindowTitle.Current.Restore(memento.WindowTitle);
-            PageSlider.Current.Restore(memento.PageSlider);
+            ////PageSlider.Current.Restore(memento.PageSlider);
             MediaControl.Current.Restore(memento.MediaControl);
             ThumbnailList.Current.Restore(memento.ThumbnailList);
             ////MenuBar.Current.Restore(memento.MenuBar);

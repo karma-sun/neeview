@@ -43,10 +43,10 @@ namespace NeeView
 
         #region Fields
 
-        private SliderIndexLayout _SliderIndexLayout = SliderIndexLayout.Right;
-        private SliderDirection _sliderDirection = SliderDirection.SyncBookReadDirection;
+        ////private SliderIndexLayout _SliderIndexLayout = SliderIndexLayout.Right;
+        ////private SliderDirection _sliderDirection = SliderDirection.SyncBookReadDirection;
         private bool _isSliderDirectionReversed;
-        private bool _IsSliderLinkedThumbnailList = true;
+        ////private bool _IsSliderLinkedThumbnailList = true;
 
         #endregion
 
@@ -61,6 +61,11 @@ namespace NeeView
             ThumbnailList.Current.IsSliderDirectionReversed = this.IsSliderDirectionReversed;
 
             PageSelector.Current.SelectionChanged += PageSelector_SelectionChanged;
+
+            Config.Current.Layout.Slider.AddPropertyChanged(nameof(SliderConfig.SliderDirection), (s, e) =>
+            {
+                UpdateIsSliderDirectionReversed();
+            });
         }
 
         #endregion
@@ -72,6 +77,7 @@ namespace NeeView
         /// </summary>
         public PageMarkers PageMarkers { get; private set; }
 
+#if false
         /// <summary>
         /// ページ数表示位置
         /// </summary>
@@ -91,6 +97,7 @@ namespace NeeView
             get { return _sliderDirection; }
             set { if (_sliderDirection != value) { _sliderDirection = value; RaisePropertyChanged(); UpdateIsSliderDirectionReversed(); } }
         }
+#endif
 
         /// <summary>
         /// 実際のスライダー方向
@@ -110,6 +117,7 @@ namespace NeeView
             }
         }
 
+#if false
         /// <summary>
         /// フィルムストリップとスライダーの連動
         /// フィルムストリップ表示時に限りフィルムストリップのみに連動し表示は変化しない(マウスを離したときに決定)
@@ -120,6 +128,7 @@ namespace NeeView
             get { return _IsSliderLinkedThumbnailList; }
             set { if (_IsSliderLinkedThumbnailList != value) { _IsSliderLinkedThumbnailList = value; RaisePropertyChanged(); } }
         }
+#endif
 
         //
         public PageSelector PageSelector => PageSelector.Current;
@@ -141,9 +150,9 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
-        #region Methods
+#region Methods
 
         private void PageSelector_SelectionChanged(object sender, EventArgs e)
         {
@@ -154,7 +163,7 @@ namespace NeeView
         // スライダー方向更新
         private void UpdateIsSliderDirectionReversed()
         {
-            switch (this.SliderDirection)
+            switch (Config.Current.Layout.Slider.SliderDirection)
             {
                 default:
                 case SliderDirection.LeftToRight:
@@ -172,7 +181,7 @@ namespace NeeView
         /// <summary>
         /// スライドとフィルムストリップを連動させるかを判定
         /// </summary>
-        public bool IsThumbnailLinked() => ThumbnailList.Current.IsEnableThumbnailList && IsSliderLinkedThumbnailList;
+        public bool IsThumbnailLinked() => ThumbnailList.Current.IsEnableThumbnailList && Config.Current.Layout.Slider.IsSliderLinkedFilmStrip;
 
 
         // ページ番号を決定し、コンテンツを切り替える
@@ -184,9 +193,9 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
-        #region Memento
+#region Memento
         [DataContract]
         public class Memento : IMemento
         {
@@ -208,27 +217,31 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
+                config.Layout.Slider.SliderIndexLayout = SliderIndexLayout;
+                config.Layout.Slider.SliderDirection = SliderDirection;
+                config.Layout.Slider.IsSliderLinkedFilmStrip = IsSliderLinkedThumbnailList;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.SliderIndexLayout = this.SliderIndexLayout;
-            memento.SliderDirection = this.SliderDirection;
-            memento.IsSliderLinkedThumbnailList = this.IsSliderLinkedThumbnailList;
+            memento.SliderIndexLayout = Config.Current.Layout.Slider.SliderIndexLayout;
+            memento.SliderDirection = Config.Current.Layout.Slider.SliderDirection;
+            memento.IsSliderLinkedThumbnailList = Config.Current.Layout.Slider.IsSliderLinkedFilmStrip;
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            this.SliderIndexLayout = memento.SliderIndexLayout;
-            this.SliderDirection = memento.SliderDirection;
-            this.IsSliderLinkedThumbnailList = memento.IsSliderLinkedThumbnailList;
+            ////this.SliderIndexLayout = memento.SliderIndexLayout;
+            ////this.SliderDirection = memento.SliderDirection;
+            ////this.IsSliderLinkedThumbnailList = memento.IsSliderLinkedThumbnailList;
         }
 
-        #endregion
+#endregion
     }
 }
 

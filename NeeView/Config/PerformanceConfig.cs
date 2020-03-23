@@ -13,6 +13,7 @@ namespace NeeView
         private int _cacheMemorySize = 100;
         private int _jobWorkerSize = 2;
         private Size _maximumSize = new Size(4096, 4096);
+        ////private int _quality = 80;
 
 
         /// <summary>
@@ -68,11 +69,7 @@ namespace NeeView
         [PropertyMember("@ParamSevenZipArchiverIsPreExtractToMemory", Tips = "@ParamSevenZipArchiverIsPreExtractToMemoryTips")]
         public bool IsPreExtractToMemory { get; set; }
 
-        [PropertyMember("@ParamThumbnailBookCapacity", Tips = "@ParamThumbnailBookCapacityTips")]
-        public int ThumbnailBookCapacity { get; set; } = 200;
 
-        [PropertyMember("@ParamThumbnailPageCapacity", Tips = "@ParamThumbnailPageCapacityTips")]
-        public int ThumbnailPageCapacity { get; set; } = 100;
 
 
 

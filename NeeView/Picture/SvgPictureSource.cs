@@ -143,7 +143,7 @@ namespace NeeView
 
             size = profile.GetThumbnailSize(size);
             var setting = profile.CreateBitmapCreateSetting();
-            return CreateImage(size, setting, profile.Format, profile.Quality, token);
+            return CreateImage(size, setting, Config.Current.Thumbnail.Format, Config.Current.Thumbnail.Quality, token);
         }
 
         public override Size FixedSize(Size size)

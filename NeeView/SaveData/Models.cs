@@ -275,7 +275,7 @@ namespace NeeView
             ////SevenZipArchiverProfile.Current.Restore(memento.SevenZipArchiverProfile);
             ////PdfArchiverProfile.Current.Restore(memento.PdfArchiverProfile);
             ////MediaArchiverProfile.Current.Restore(memento.MediaArchiverProfile);
-            ThumbnailProfile.Current.Restore(memento.ThumbnailProfile);
+            ////ThumbnailProfile.Current.Restore(memento.ThumbnailProfile);
             ////InfoMessage.Current.Restore(memento.InfoMessage);
             BookProfile.Current.Restore(memento.BookProfile);
             BookHub.Current.Restore(memento.BookHub);

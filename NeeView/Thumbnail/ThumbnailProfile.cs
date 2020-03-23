@@ -32,6 +32,7 @@ namespace NeeView
         /// </summary>
         public BitmapCreateMode CreateMode { get; } = BitmapCreateMode.HighQuality;
 
+#if false
         /// <summary>
         /// 画像フォーマット
         /// </summary>
@@ -52,7 +53,6 @@ namespace NeeView
         [PropertyMember("@ParamThumbnailIsCacheEnabled", Tips = "@ParamThumbnailIsCacheEnabledTips")]
         public bool IsCacheEnabled { get; set; } = true;
 
-#if false
         [PropertyMember("@ParamThumbnailPageCapacity", Tips = "@ParamThumbnailPageCapacityTips")]
         public int PageCapacity { get; set; } = 1000;
 
@@ -212,28 +212,32 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
-                config.Performance.ThumbnailPageCapacity = PageCapacity;
-                config.Performance.ThumbnailBookCapacity = BookCapacity;
+                config.Thumbnail.IsCacheEnabled = IsCacheEnabled;
+                config.Thumbnail.Format = Format;
+                config.Thumbnail.Quality = Quality;
+                config.Thumbnail.ThumbnailPageCapacity = PageCapacity;
+                config.Thumbnail.ThumbnailBookCapacity = BookCapacity;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.Format = this.Format;
-            memento.Quality = this.Quality;
-            memento.IsCacheEnabled = this.IsCacheEnabled;
-            memento.PageCapacity = Config.Current.Performance.ThumbnailPageCapacity;
-            memento.BookCapacity = Config.Current.Performance.ThumbnailBookCapacity;
+            memento.Format = Config.Current.Thumbnail.Format;
+            memento.Quality = Config.Current.Thumbnail.Quality;
+            memento.IsCacheEnabled = Config.Current.Thumbnail.IsCacheEnabled;
+            memento.PageCapacity = Config.Current.Thumbnail.ThumbnailPageCapacity;
+            memento.BookCapacity = Config.Current.Thumbnail.ThumbnailBookCapacity;
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            this.Format = memento.Format;
-            this.Quality = memento.Quality;
-            this.IsCacheEnabled = memento.IsCacheEnabled;
+            ////this.Format = memento.Format;
+            ////this.Quality = memento.Quality;
+            ////this.IsCacheEnabled = memento.IsCacheEnabled;
             ////this.PageCapacity = memento.PageCapacity;
             ////this.lBookCapacity = memento.BookCapacity;
         }

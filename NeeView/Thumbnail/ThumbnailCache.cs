@@ -89,7 +89,7 @@ namespace NeeView
         /// <summary>
         /// キャッシュ有効フラグ
         /// </summary>
-        public bool IsEnabled => ThumbnailProfile.Current.IsCacheEnabled;
+        public bool IsEnabled => Config.Current.Thumbnail.IsCacheEnabled;
 
         /// <summary>
         /// キャッシュファイルの場所

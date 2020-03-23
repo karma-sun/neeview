@@ -70,7 +70,7 @@ namespace NeeView
 
         private bool _IsHidePageSliderInFullscreen = true;
         private bool _IsHidePanelInFullscreen = true;
-        private bool _IsVisibleWindowTitle = true;
+        ////private bool _IsVisibleWindowTitle = true;
         private bool _isVisibleAddressBar = true;
         private bool _isVisibleBusy = true;
 
@@ -110,6 +110,11 @@ namespace NeeView
             Config.Current.Layout.Slider.AddPropertyChanged(nameof(SliderConfig.Opacity), (s, e) =>
             {
                 RefreshSliderBrushes();
+            });
+
+            Config.Current.Layout.WindowTittle.AddPropertyChanged(nameof(WindowTitleConfig.IsMainViewDisplayEnabled), (s, e) =>
+            {
+                RaisePropertyChanged(nameof(CanVisibleWindowTitle));
             });
 
             RefreshCanHidePanel();
@@ -266,6 +271,7 @@ namespace NeeView
             }
         }
 
+#if false
         /// <summary>
         /// IsVisibleWindowTitle property.
         /// タイトルバーが表示されておらず、スライダーにフォーカスがある場合等にキャンバスにタイトルを表示する
@@ -282,10 +288,11 @@ namespace NeeView
                 }
             }
         }
+#endif
 
         public bool CanVisibleWindowTitle
         {
-            get => IsVisibleWindowTitle && CanHideMenu && !WindowShape.Current.CanCaptionVisible;
+            get => Config.Current.Layout.WindowTittle.IsMainViewDisplayEnabled && CanHideMenu && !WindowShape.Current.CanCaptionVisible;
         }
 
 
@@ -780,6 +787,7 @@ namespace NeeView
                 // TODO: ContextMenuSetting
 
                 config.Layout.Slider.Opacity = SliderOpacity;
+                config.Layout.WindowTittle.IsMainViewDisplayEnabled = IsVisibleWindowTitle;
             }
 
         }
@@ -795,7 +803,7 @@ namespace NeeView
             memento.IsVisibleAddressBar = this.IsVisibleAddressBar;
             memento.IsHidePanel = this.IsHidePanel;
             memento.IsHidePanelInFullscreen = this.IsHidePanelInFullscreen;
-            memento.IsVisibleWindowTitle = this.IsVisibleWindowTitle;
+            memento.IsVisibleWindowTitle = Config.Current.Layout.WindowTittle.IsMainViewDisplayEnabled;
             memento.IsVisibleBusy = this.IsVisibleBusy;
             memento.IsOpenbookAtCurrentPlace = this.IsOpenbookAtCurrentPlace;
             memento.IsAccessKeyEnabled = this.IsAccessKeyEnabled;
@@ -820,7 +828,7 @@ namespace NeeView
             this.IsHidePanel = memento.IsHidePanel;
             this.IsVisibleAddressBar = memento.IsVisibleAddressBar;
             this.IsHidePanelInFullscreen = memento.IsHidePanelInFullscreen;
-            this.IsVisibleWindowTitle = memento.IsVisibleWindowTitle;
+            ////this.IsVisibleWindowTitle = memento.IsVisibleWindowTitle;
             this.IsVisibleBusy = memento.IsVisibleBusy;
             this.IsOpenbookAtCurrentPlace = memento.IsOpenbookAtCurrentPlace;
             this.IsAccessKeyEnabled = memento.IsAccessKeyEnabled;

@@ -194,10 +194,10 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageVisualWindowTitileDisplay,
-                    new SettingItemProperty(PropertyMemberElement.Create(WindowTitle.Current, nameof(WindowTitle.WindowTitleFormat1))) {IsStretch = true },
-                    new SettingItemProperty(PropertyMemberElement.Create(WindowTitle.Current, nameof(WindowTitle.WindowTitleFormat2))) {IsStretch = true },
-                    new SettingItemProperty(PropertyMemberElement.Create(WindowTitle.Current, nameof(WindowTitle.WindowTitleFormatMedia))) {IsStretch = true },
-                    new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.IsVisibleWindowTitle)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.WindowTittle, nameof(WindowTitleConfig.WindowTitleFormat1))) {IsStretch = true },
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.WindowTittle, nameof(WindowTitleConfig.WindowTitleFormat2))) {IsStretch = true },
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.WindowTittle, nameof(WindowTitleConfig.WindowTitleFormatMedia))) {IsStretch = true },
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.WindowTittle, nameof(WindowTitleConfig.IsMainViewDisplayEnabled)))),
 
                 new SettingItemNote(Properties.Resources.SettingPageVisualWindowTitileNote),
             };

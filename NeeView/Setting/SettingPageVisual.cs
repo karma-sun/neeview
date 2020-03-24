@@ -304,9 +304,9 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPagePanelFileInfoVisual,
-                    new SettingItemProperty(PropertyMemberElement.Create(FileInformation.Current, nameof(FileInformation.IsVisibleFilePath))),
-                    new SettingItemProperty(PropertyMemberElement.Create(FileInformation.Current, nameof(FileInformation.IsVisibleBitsPerPixel))),
-                    new SettingItemProperty(PropertyMemberElement.Create(FileInformation.Current, nameof(FileInformation.IsVisibleLoader)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Information, nameof(InformationPanelConfig.IsVisibleFilePath))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Information, nameof(InformationPanelConfig.IsVisibleBitsPerPixel))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Information, nameof(InformationPanelConfig.IsVisibleLoader)))),
             };
         }
     }

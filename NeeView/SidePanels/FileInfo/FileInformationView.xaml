@@ -40,7 +40,7 @@
 
                 <!-- Parameters -->
                 <local:FileInfoItem x:Name="ItemFileName" Header="{x:Static properties:Resources.FolderInfoFileName}" Text="{Binding Model.ViewContent.FileName}" IsTabStop="True"/>
-                <local:FileInfoItem x:Name="ItemFilePath" Header="{x:Static properties:Resources.FolderInfoFilePath}" Text="{Binding FullPath}" IsTabStop="True" Visibility="{Binding Model.IsVisibleFilePath, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <local:FileInfoItem x:Name="ItemFilePath" Header="{x:Static properties:Resources.FolderInfoFilePath}" Text="{Binding FullPath}" IsTabStop="True" Visibility="{Binding Source={x:Static local:Config.Current}, Path=Layout.Information.IsVisibleFilePath, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 <local:FileInfoItem x:Name="ItemLastWriteTime" Header="{x:Static properties:Resources.FolderInfoDate}" Text="{Binding LastWriteTime}"/>
                 <local:FileInfoItem x:Name="ItemFileSize" Header="{x:Static properties:Resources.FolderInfoFileSize}" Text="{Binding FileSize}"/>
                 <local:FileInfoItem x:Name="ItemSize" Header="{x:Static properties:Resources.FolderInfoImageSize}" Text="{Binding ImageSize}"/>

@@ -15,6 +15,40 @@ namespace NeeView
     public class FileInformationViewModel : BindableBase
     {
         /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="model"></param>
+        public FileInformationViewModel(FileInformation model)
+        {
+            _model = model;
+            _model.PropertyChanged += (s, e) =>
+            {
+                switch (e.PropertyName)
+                {
+                    case null:
+                    case nameof(_model.ViewContent):
+                        _isDarty = true;
+                        Update();
+                        break;
+                }
+            };
+
+            Config.Current.Layout.Information.PropertyChanged += (s, e) =>
+            {
+                switch (e.PropertyName)
+                {
+                    case null:
+                    case nameof(InformationPanelConfig.IsVisibleBitsPerPixel):
+                    case nameof(InformationPanelConfig.IsVisibleLoader):
+                        _isDarty = true;
+                        Update();
+                        break;
+                }
+            };
+        }
+
+
+        /// <summary>
         /// Model property.
         /// </summary>
         public FileInformation Model
@@ -25,33 +59,6 @@ namespace NeeView
 
         private FileInformation _model;
 
-
-
-        /// <summary>
-        /// constructor
-        /// </summary>
-        /// <param name="model"></param>
-        public FileInformationViewModel(FileInformation model)
-        {
-            _model = model;
-            _model.PropertyChanged += Model_PropertyChanged;
-        }
-
-
-        //
-        private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case null:
-                case nameof(_model.ViewContent):
-                case nameof(_model.IsVisibleBitsPerPixel):
-                case nameof(_model.IsVisibleLoader):
-                    _isDarty = true;
-                    Update();
-                    break;
-            }
-        }
 
         /// <summary>
         /// 表示状態。
@@ -214,7 +221,7 @@ namespace NeeView
         {
             if (!_isDarty) return;
 
-            LoaderVisibility = _model.IsVisibleLoader ? Visibility.Visible : Visibility.Collapsed;
+            LoaderVisibility = Config.Current.Layout.Information.IsVisibleLoader ? Visibility.Visible : Visibility.Collapsed;
 
             FullPath = Model.ViewContent?.Page?.Entry?.Link ?? Model.ViewContent?.FullPath;
 
@@ -244,7 +251,7 @@ namespace NeeView
                 }
                 else
                 {
-                    ImageSize = $"{(int)info.OriginalSize.Width} x {(int)info.OriginalSize.Height}" + (info.IsLimited ? "*" : "") + (_model.IsVisibleBitsPerPixel ? $" ({info.BitsPerPixel}bit)" : "");
+                    ImageSize = $"{(int)info.OriginalSize.Width} x {(int)info.OriginalSize.Height}" + (info.IsLimited ? "*" : "") + (Config.Current.Layout.Information.IsVisibleBitsPerPixel ? $" ({info.BitsPerPixel}bit)" : "");
                 }
 
                 // ファイルサイズ表示

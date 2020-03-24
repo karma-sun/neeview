@@ -20,9 +20,6 @@ namespace NeeView
 
         #region Fields
 
-        private bool _IsVisibleBitsPerPixel;
-        private bool _IsVisibleLoader;
-        private bool _IsVisibleFilePath;
         private ViewContent _viewContent;
 
         #endregion
@@ -38,6 +35,11 @@ namespace NeeView
         #endregion
 
         #region Properties
+
+#if false
+        private bool _IsVisibleBitsPerPixel;
+        private bool _IsVisibleLoader;
+        private bool _IsVisibleFilePath;
 
         [PropertyMember("@ParamFileInformationIsVisibleBitsPerPixel")]
         public bool IsVisibleBitsPerPixel
@@ -59,8 +61,8 @@ namespace NeeView
             get { return _IsVisibleFilePath; }
             set { if (_IsVisibleFilePath != value) { _IsVisibleFilePath = value; RaisePropertyChanged(); } }
         }
+#endif
 
-        //
         public ViewContent ViewContent
         {
             get { return _viewContent; }
@@ -95,24 +97,28 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
+                config.Layout.Information.IsVisibleBitsPerPixel = IsVisibleBitsPerPixel;
+                config.Layout.Information.IsVisibleLoader = IsVisibleLoader;
+                config.Layout.Information.IsVisibleFilePath = IsVisibleFilePath;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.IsVisibleBitsPerPixel = this.IsVisibleBitsPerPixel;
-            memento.IsVisibleLoader = this.IsVisibleLoader;
-            memento.IsVisibleFilePath = this.IsVisibleFilePath;
+            memento.IsVisibleBitsPerPixel = Config.Current.Layout.Information.IsVisibleBitsPerPixel;
+            memento.IsVisibleLoader = Config.Current.Layout.Information.IsVisibleLoader;
+            memento.IsVisibleFilePath = Config.Current.Layout.Information.IsVisibleFilePath;
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            IsVisibleBitsPerPixel = memento.IsVisibleBitsPerPixel;
-            IsVisibleLoader = memento.IsVisibleLoader;
-            IsVisibleFilePath = memento.IsVisibleFilePath;
+            //IsVisibleBitsPerPixel = memento.IsVisibleBitsPerPixel;
+            //IsVisibleLoader = memento.IsVisibleLoader;
+            //IsVisibleFilePath = memento.IsVisibleFilePath;
         }
 
         #endregion

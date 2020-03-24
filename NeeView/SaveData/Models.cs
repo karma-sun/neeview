@@ -304,7 +304,7 @@ namespace NeeView
             PageList.Current.Restore(memento.PageList);
             HistoryList.Current.Restore(memento.HistoryList);
             PagemarkList.Current.Restore(memento.PagemarkList);
-            FileInformation.Current.Restore(memento.FileInformation);
+            ////FileInformation.Current.Restore(memento.FileInformation);
             ImageEffect.Current.Restore(memento.ImageEffect);
             SidePanel.Current.Restore(memento.SidePanel);
             PageViewRecorder.Current.Restore(memento.PageViewRecorder);

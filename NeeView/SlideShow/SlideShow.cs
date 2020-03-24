@@ -52,13 +52,13 @@ namespace NeeView
                 (s, e) => ResetTimer();
 
             MouseInput.Current.MouseMoved +=
-                (s, e) => { if (this.IsCancelSlideByMouseMove) ResetTimer(); };
+                (s, e) => { if (Config.Current.SlideShow.IsCancelSlideByMouseMove) ResetTimer(); };
 
             // アプリ終了前の開放予約
             ApplicationDisposer.Current.Add(this);
         }
 
-
+#if false
         /// <summary>
         /// スライドショーの表示間隔(秒)
         /// </summary>
@@ -84,7 +84,6 @@ namespace NeeView
 
         private bool _IsCancelSlideByMouseMove = true;
 
-
         /// <summary>
         /// ループ再生フラグ
         /// </summary>
@@ -97,8 +96,6 @@ namespace NeeView
 
         private bool _IsSlideShowByLoop = true;
 
-
-#if false
         /// <summary>
         /// 起動時の自動開始
         /// </summary>
@@ -173,7 +170,7 @@ namespace NeeView
             if (_disposedValue) return;
 
             // インターバル時間を修正する
-            _timer.Interval = TimeSpan.FromSeconds(MathUtility.Clamp(this.SlideShowInterval * 0.5, _minTimerTick, _maxTimerTick));
+            _timer.Interval = TimeSpan.FromSeconds(MathUtility.Clamp(Config.Current.SlideShow.SlideShowInterval * 0.5, _minTimerTick, _maxTimerTick));
             _lastShowTime = DateTime.Now;
             _timer.Start();
         }
@@ -200,7 +197,7 @@ namespace NeeView
             }
 
             // スライドショーのインターバルを非アクティブ時間で求める
-            if ((DateTime.Now - _lastShowTime).TotalSeconds >= this.SlideShowInterval)
+            if ((DateTime.Now - _lastShowTime).TotalSeconds >= Config.Current.SlideShow.SlideShowInterval)
             {
                 if (!BookHub.Current.IsLoading) NextSlide();
                 _lastShowTime = DateTime.Now;
@@ -259,26 +256,30 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
-                config.SlideShow.IsAutoPlaySlideShow = IsAutoPlaySlideShow;
+                config.SlideShow.SlideShowInterval = SlideShowInterval;
+                config.SlideShow.IsCancelSlideByMouseMove = IsCancelSlideByMouseMove;
+                config.SlideShow.IsSlideShowByLoop = IsSlideShowByLoop;
+                config.StartUp.IsAutoPlaySlideShow = IsAutoPlaySlideShow;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.SlideShowInterval = this.SlideShowInterval;
-            memento.IsCancelSlideByMouseMove = this.IsCancelSlideByMouseMove;
-            memento.IsSlideShowByLoop = this.IsSlideShowByLoop;
-            memento.IsAutoPlaySlideShow = Config.Current.SlideShow.IsAutoPlaySlideShow;
+            memento.SlideShowInterval = Config.Current.SlideShow.SlideShowInterval;
+            memento.IsCancelSlideByMouseMove = Config.Current.SlideShow.IsCancelSlideByMouseMove;
+            memento.IsSlideShowByLoop = Config.Current.SlideShow.IsSlideShowByLoop;
+            memento.IsAutoPlaySlideShow = Config.Current.StartUp.IsAutoPlaySlideShow;
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            this.SlideShowInterval = memento.SlideShowInterval;
-            this.IsCancelSlideByMouseMove = memento.IsCancelSlideByMouseMove;
-            this.IsSlideShowByLoop = memento.IsSlideShowByLoop;
+            //this.SlideShowInterval = memento.SlideShowInterval;
+            //this.IsCancelSlideByMouseMove = memento.IsCancelSlideByMouseMove;
+            //this.IsSlideShowByLoop = memento.IsSlideShowByLoop;
             ////this.IsAutoPlaySlideShow = memento.IsAutoPlaySlideShow;
         }
 

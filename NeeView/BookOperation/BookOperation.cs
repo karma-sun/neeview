@@ -453,7 +453,7 @@ namespace NeeView
         private void Book_PageTerminated(object sender, PageTerminatedEventArgs e)
         {
             // TODO ここでSlideShowを参照しているが、引数で渡すべきでは？
-            if (SlideShow.Current.IsPlayingSlideShow && SlideShow.Current.IsSlideShowByLoop)
+            if (SlideShow.Current.IsPlayingSlideShow && Config.Current.SlideShow.IsSlideShowByLoop)
             {
                 FirstPage();
             }

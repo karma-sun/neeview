@@ -471,7 +471,7 @@ namespace NeeView
             }
 
             // スライドショーの自動再生
-            if (App.Current.Option.IsSlideShow != null ? App.Current.Option.IsSlideShow == SwitchOption.on : Config.Current.SlideShow.IsAutoPlaySlideShow)
+            if (App.Current.Option.IsSlideShow != null ? App.Current.Option.IsSlideShow == SwitchOption.on : Config.Current.StartUp.IsAutoPlaySlideShow)
             {
                 SlideShow.Current.IsPlayingSlideShow = true;
             }

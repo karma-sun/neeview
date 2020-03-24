@@ -38,6 +38,11 @@ namespace NeeView
         [PropertyMember("@ParamHistoryIsKeepLastFolder", Tips = "@ParamHistoryIsKeepLastFolderTips")]
         public bool IsOpenLastFolder { get; set; }
 
+        /// <summary>
+        /// 起動時にスライドショーを開始する
+        /// </summary>
+        [PropertyMember("@ParamIsAutoPlaySlideShow")]
+        public bool IsAutoPlaySlideShow { get; set; }
 
         #region 状態保存用
 

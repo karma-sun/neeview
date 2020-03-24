@@ -19,12 +19,12 @@ namespace NeeView
 
         public override Binding CreateIsCheckedBinding()
         {
-            return new Binding(nameof(ImageEffect.Current.IsEnabled)) { Mode = BindingMode.OneWay, Source = ImageEffect.Current };
+            return new Binding(nameof(EffectConfig.IsEnabled)) { Mode = BindingMode.OneWay, Source = Config.Current.Effect };
         }
 
         public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
         {
-            return ImageEffect.Current.IsEnabled ? Properties.Resources.CommandToggleEffectOff : Properties.Resources.CommandToggleEffectOn;
+            return Config.Current.Effect.IsEnabled ? Properties.Resources.CommandToggleEffectOff : Properties.Resources.CommandToggleEffectOn;
         }
 
         [MethodArgument("@CommandToggleArgument")]
@@ -32,11 +32,11 @@ namespace NeeView
         {
             if (args.Length > 0)
             {
-                ImageEffect.Current.IsEnabled = Convert.ToBoolean(args[0]);
+                Config.Current.Effect.IsEnabled = Convert.ToBoolean(args[0]);
             }
             else
             {
-                ImageEffect.Current.IsEnabled = !ImageEffect.Current.IsEnabled;
+                Config.Current.Effect.IsEnabled = !Config.Current.Effect.IsEnabled;
             }
         }
     }

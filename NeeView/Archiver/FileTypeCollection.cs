@@ -11,7 +11,7 @@ namespace NeeView
     /// ファイル拡張子コレクション
     /// </summary>
     [DataContract]
-    [PropertyMerge]
+    [PropertyMergeReferenceCopy]
     [JsonConverter(typeof(JsonFileTypeCollectionConverter))]
     public class FileTypeCollection : StringCollection
     {

@@ -16,8 +16,8 @@ namespace NeeView.Effects
     [DataContract]
     public class ColorToneEffectUnit : EffectUnit
     {
-        private static ColorToneEffect s_effect = new ColorToneEffect();
-        public override Effect Effect => s_effect;
+        private static ColorToneEffect _effect = new ColorToneEffect();
+        public override Effect GetEffect() => _effect;
 
         /// <summary>
         /// Property: DarkColor
@@ -27,8 +27,8 @@ namespace NeeView.Effects
         [DefaultValue(typeof(Color), "#FF338000")]
         public Color DarkColor
         {
-            get { return s_effect.DarkColor; }
-            set { if (s_effect.DarkColor != value) { s_effect.DarkColor = value; RaiseEffectPropertyChanged(); } }
+            get { return _effect.DarkColor; }
+            set { if (_effect.DarkColor != value) { _effect.DarkColor = value; RaiseEffectPropertyChanged(); } }
         }
 
         /// <summary>
@@ -49,8 +49,8 @@ namespace NeeView.Effects
         [DefaultValue(typeof(Color), "#FFFFE580")]
         public Color LightColor
         {
-            get { return s_effect.LightColor; }
-            set { if (s_effect.LightColor != value) { s_effect.LightColor = value; RaiseEffectPropertyChanged(); } }
+            get { return _effect.LightColor; }
+            set { if (_effect.LightColor != value) { _effect.LightColor = value; RaiseEffectPropertyChanged(); } }
         }
 
         /// <summary>
@@ -71,8 +71,8 @@ namespace NeeView.Effects
         [DefaultValue(0.5)]
         public double ToneAmount
         {
-            get { return s_effect.ToneAmount; }
-            set { if (s_effect.ToneAmount != value) { s_effect.ToneAmount = value; RaiseEffectPropertyChanged(); } }
+            get { return _effect.ToneAmount; }
+            set { if (_effect.ToneAmount != value) { _effect.ToneAmount = value; RaiseEffectPropertyChanged(); } }
         }
 
         /// <summary>
@@ -83,8 +83,8 @@ namespace NeeView.Effects
         [DefaultValue(0.5)]
         public double Desaturation
         {
-            get { return s_effect.Desaturation; }
-            set { if (s_effect.Desaturation != value) { s_effect.Desaturation = value; RaiseEffectPropertyChanged(); } }
+            get { return _effect.Desaturation; }
+            set { if (_effect.Desaturation != value) { _effect.Desaturation = value; RaiseEffectPropertyChanged(); } }
         }
     }
 }

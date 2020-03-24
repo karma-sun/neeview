@@ -14,8 +14,9 @@ namespace NeeView.Effects
     [DataContract]
     public class LevelEffectUnit : EffectUnit
     {
-        private static LevelEffect s_effect = new LevelEffect();
-        public override Effect Effect => s_effect;
+        private static LevelEffect _effect = new LevelEffect();
+
+        public override Effect GetEffect() => _effect;
 
 
         /// <summary>
@@ -26,8 +27,8 @@ namespace NeeView.Effects
         [DefaultValue(0.0)]
         public double Black
         {
-            get { return s_effect.Black; }
-            set { if (s_effect.Black != value) { s_effect.Black = value; RaiseEffectPropertyChanged(); } }
+            get { return _effect.Black; }
+            set { if (_effect.Black != value) { _effect.Black = value; RaiseEffectPropertyChanged(); } }
         }
 
 
@@ -39,8 +40,8 @@ namespace NeeView.Effects
         [DefaultValue(1.0)]
         public double White
         {
-            get { return s_effect.White; }
-            set { if (s_effect.White != value) { s_effect.White = value; RaiseEffectPropertyChanged(); } }
+            get { return _effect.White; }
+            set { if (_effect.White != value) { _effect.White = value; RaiseEffectPropertyChanged(); } }
         }
 
 
@@ -52,8 +53,8 @@ namespace NeeView.Effects
         [DefaultValue(0.5)]
         public double Center
         {
-            get { return s_effect.Center; }
-            set { if (s_effect.Center != value) { s_effect.Center = value; RaiseEffectPropertyChanged(); } }
+            get { return _effect.Center; }
+            set { if (_effect.Center != value) { _effect.Center = value; RaiseEffectPropertyChanged(); } }
         }
 
         /// <summary>
@@ -64,8 +65,8 @@ namespace NeeView.Effects
         [DefaultValue(0.0)]
         public double Minimum
         {
-            get { return s_effect.Minimum; }
-            set { if (s_effect.Minimum != value) { s_effect.Minimum = value; RaiseEffectPropertyChanged(); } }
+            get { return _effect.Minimum; }
+            set { if (_effect.Minimum != value) { _effect.Minimum = value; RaiseEffectPropertyChanged(); } }
         }
 
         /// <summary>
@@ -76,8 +77,8 @@ namespace NeeView.Effects
         [DefaultValue(1.0)]
         public double Maximum
         {
-            get { return s_effect.Maximum; }
-            set { if (s_effect.Maximum != value) { s_effect.Maximum = value; RaiseEffectPropertyChanged(); } }
+            get { return _effect.Maximum; }
+            set { if (_effect.Maximum != value) { _effect.Maximum = value; RaiseEffectPropertyChanged(); } }
         }
 
     }

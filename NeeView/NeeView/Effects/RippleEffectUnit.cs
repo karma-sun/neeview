@@ -17,8 +17,8 @@ namespace NeeView.Effects
     [DataContract]
     public class RippleEffectUnit : EffectUnit
     {
-        private static RippleEffect s_effect = new RippleEffect();
-        public override Effect Effect => s_effect;
+        private static RippleEffect _effect = new RippleEffect();
+        public override Effect GetEffect() => _effect;
 
         /// <summary>
         /// Property: Center
@@ -28,8 +28,8 @@ namespace NeeView.Effects
         [DefaultValue(typeof(Point), "0.5,0.5")]
         public Point Center
         {
-            get { return s_effect.Center; }
-            set { if (s_effect.Center != value) { s_effect.Center = value; RaiseEffectPropertyChanged(); } }
+            get { return _effect.Center; }
+            set { if (_effect.Center != value) { _effect.Center = value; RaiseEffectPropertyChanged(); } }
         }
 
         /// <summary>
@@ -40,8 +40,8 @@ namespace NeeView.Effects
         [DefaultValue(40)]
         public double Frequency
         {
-            get { return s_effect.Frequency; }
-            set { if (s_effect.Frequency != value) { s_effect.Frequency = value; RaiseEffectPropertyChanged(); } }
+            get { return _effect.Frequency; }
+            set { if (_effect.Frequency != value) { _effect.Frequency = value; RaiseEffectPropertyChanged(); } }
         }
 
         /// <summary>
@@ -52,8 +52,8 @@ namespace NeeView.Effects
         [DefaultValue(0.1)]
         public double Magnitude
         {
-            get { return s_effect.Magnitude; }
-            set { if (s_effect.Magnitude != value) { s_effect.Magnitude = value; RaiseEffectPropertyChanged(); } }
+            get { return _effect.Magnitude; }
+            set { if (_effect.Magnitude != value) { _effect.Magnitude = value; RaiseEffectPropertyChanged(); } }
         }
 
         /// <summary>
@@ -64,8 +64,8 @@ namespace NeeView.Effects
         [DefaultValue(10)]
         public double Phase
         {
-            get { return s_effect.Phase; }
-            set { if (s_effect.Phase != value) { s_effect.Phase = value; RaiseEffectPropertyChanged(); } }
+            get { return _effect.Phase; }
+            set { if (_effect.Phase != value) { _effect.Phase = value; RaiseEffectPropertyChanged(); } }
         }
     }
 }

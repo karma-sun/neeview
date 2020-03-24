@@ -14,8 +14,8 @@ namespace NeeView.Effects
     [DataContract]
     public class HsvEffectUnit : EffectUnit
     {
-        private static HsvEffect s_effect = new HsvEffect();
-        public override Effect Effect => s_effect;
+        private static HsvEffect _effect = new HsvEffect();
+        public override Effect GetEffect() => _effect;
 
 
         /// <summary>
@@ -26,8 +26,8 @@ namespace NeeView.Effects
         [DefaultValue(0.0)]
         public double Hue
         {
-            get { return s_effect.Hue; }
-            set { if (s_effect.Hue != value) { s_effect.Hue = value; RaiseEffectPropertyChanged(); } }
+            get { return _effect.Hue; }
+            set { if (_effect.Hue != value) { _effect.Hue = value; RaiseEffectPropertyChanged(); } }
         }
 
         /// <summary>
@@ -38,8 +38,8 @@ namespace NeeView.Effects
         [DefaultValue(0.0)]
         public double Saturation
         {
-            get { return s_effect.Saturation; }
-            set { if (s_effect.Saturation != value) { s_effect.Saturation = value; RaiseEffectPropertyChanged(); } }
+            get { return _effect.Saturation; }
+            set { if (_effect.Saturation != value) { _effect.Saturation = value; RaiseEffectPropertyChanged(); } }
         }
 
         /// <summary>
@@ -50,8 +50,8 @@ namespace NeeView.Effects
         [DefaultValue(0.0)]
         public double Value
         {
-            get { return s_effect.Value; }
-            set { if (s_effect.Value != value) { s_effect.Value = value; RaiseEffectPropertyChanged(); } }
+            get { return _effect.Value; }
+            set { if (_effect.Value != value) { _effect.Value = value; RaiseEffectPropertyChanged(); } }
         }
     }
 }

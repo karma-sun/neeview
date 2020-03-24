@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 
@@ -38,9 +39,12 @@ namespace NeeView
 
         public SlideShowConfig SlideShow { get; set; } = new SlideShowConfig();
 
+        public EffectConfig Effect { get; set; } = new EffectConfig();
+
         public CommandConfig Command { get; set; } = new CommandConfig();
 
         public ScriptConfig Script { get; set; } = new ScriptConfig();
+
 
 
 
@@ -50,14 +54,17 @@ namespace NeeView
         public void Merge(Config config)
         {
             if (config == null) throw new ArgumentNullException();
-            MergeObject(this, config);
+            ObjectTools.Merge(this, config);
         }
+    }
 
+    public static class ObjectTools
+    { 
         /// <summary>
         /// インスタンスのプロパティを上書き
         /// TODO: 配列や辞書の対応
         /// </summary>
-        private static void MergeObject(object a1, object a2)
+        public static void Merge(object a1, object a2)
         {
             if (a1 == null && a2 == null) return;
 
@@ -78,10 +85,11 @@ namespace NeeView
                 {
                     Debug.WriteLine($"{property.Name} is readonly");
                 }
-                else if (property.PropertyType.IsValueType || property.PropertyType == typeof(string) || property.PropertyType.GetCustomAttribute(typeof(PropertyMergeAttribute)) != null)
+                else if (property.PropertyType.IsValueType || property.PropertyType == typeof(string) || property.PropertyType.GetCustomAttribute(typeof(PropertyMergeReferenceCopyAttribute)) != null)
                 {
                     property.GetSetMethod(false)?.Invoke(a1, new object[] { v2 });
                 }
+
                 else
                 {
                     if (v1 == null)
@@ -89,7 +97,7 @@ namespace NeeView
                         v1 = Activator.CreateInstance(type);
                         property.SetValue(a1, v1);
                     }
-                    MergeObject(v1, v2);
+                    Merge(v1, v2);
                 }
             }
         }
@@ -98,7 +106,7 @@ namespace NeeView
 
     // この属性がクラスに定義されている場合、リファレンスの変更のみとする
     [AttributeUsage(AttributeTargets.Class)]
-    public class PropertyMergeAttribute : Attribute
+    public class PropertyMergeReferenceCopyAttribute : Attribute
     {
     }
 }

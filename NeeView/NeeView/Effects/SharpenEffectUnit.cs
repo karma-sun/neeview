@@ -16,16 +16,16 @@ namespace NeeView.Effects
     [DataContract]
     public class SharpenEffectUnit : EffectUnit
     {
-        private static SharpenEffect s_effect = new SharpenEffect();
-        public override Effect Effect => s_effect;
+        private static SharpenEffect _effect = new SharpenEffect();
+        public override Effect GetEffect() => _effect;
 
         [DataMember]
         [PropertyRange(0, 4)]
         [DefaultValue(2.0)]
         public double Amount
         {
-            get { return s_effect.Amount; }
-            set { if (s_effect.Amount != value) { s_effect.Amount = value; RaiseEffectPropertyChanged(); } }
+            get { return _effect.Amount; }
+            set { if (_effect.Amount != value) { _effect.Amount = value; RaiseEffectPropertyChanged(); } }
         }
 
         [DataMember]
@@ -33,8 +33,8 @@ namespace NeeView.Effects
         [DefaultValue(0.5)]
         public double Height
         {
-            get { return s_effect.Height * 1000; }
-            set { var a = value * 0.001; if (s_effect.Height != a) { s_effect.Height = a; RaiseEffectPropertyChanged(); } }
+            get { return _effect.Height * 1000; }
+            set { var a = value * 0.001; if (_effect.Height != a) { _effect.Height = a; RaiseEffectPropertyChanged(); } }
         }
     }
 }

@@ -15,8 +15,8 @@ namespace NeeView.Effects
     [DataContract]
     public class MonochromeEffectUnit : EffectUnit
     {
-        private static MonochromeEffect s_effect = new MonochromeEffect();
-        public override Effect Effect => s_effect;
+        private static MonochromeEffect _effect = new MonochromeEffect();
+        public override Effect GetEffect() => _effect;
 
         /// <summary>
         /// Property: Color
@@ -26,8 +26,8 @@ namespace NeeView.Effects
         [DefaultValue(typeof(Color), "#FFFFFFFF")]
         public Color Color
         {
-            get { return s_effect.Color; }
-            set { if (s_effect.Color != value) { s_effect.Color = value; RaiseEffectPropertyChanged(); } }
+            get { return _effect.Color; }
+            set { if (_effect.Color != value) { _effect.Color = value; RaiseEffectPropertyChanged(); } }
         }
 
         /// <summary>

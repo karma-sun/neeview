@@ -14,8 +14,8 @@ namespace NeeView.Effects
     [DataContract]
     public class BlurEffectUnit : EffectUnit
     {
-        private static BlurEffect s_effect = new BlurEffect();
-        public override Effect Effect => s_effect;
+        private static BlurEffect _effect = new BlurEffect();
+        public override Effect GetEffect() => _effect;
 
         /// <summary>
         /// Property: Radius
@@ -25,8 +25,8 @@ namespace NeeView.Effects
         [DefaultValue(5.0)]
         public double Radius
         {
-            get { return s_effect.Radius; }
-            set { if (s_effect.Radius != value) { s_effect.Radius = value; RaiseEffectPropertyChanged(); } }
+            get { return _effect.Radius; }
+            set { if (_effect.Radius != value) { _effect.Radius = value; RaiseEffectPropertyChanged(); } }
         }
     }
 }

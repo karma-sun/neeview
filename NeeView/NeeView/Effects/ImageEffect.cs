@@ -29,19 +29,30 @@ namespace NeeView.Effects
             Effects = new Dictionary<EffectType, EffectUnit>();
 
             Effects[EffectType.None] = null;
-            Effects[EffectType.Level] = new LevelEffectUnit();
-            Effects[EffectType.Hsv] = new HsvEffectUnit();
-            Effects[EffectType.ColorSelect] = new ColorSelectEffectUnit();
-            Effects[EffectType.Blur] = new BlurEffectUnit();
-            Effects[EffectType.Bloom] = new BloomEffectUnit();
-            Effects[EffectType.Monochrome] = new MonochromeEffectUnit();
-            Effects[EffectType.ColorTone] = new ColorToneEffectUnit();
-            Effects[EffectType.Sharpen] = new SharpenEffectUnit();
-            Effects[EffectType.Embossed] = new EmbossedEffectUnit();
-            Effects[EffectType.Pixelate] = new PixelateEffectUnit();
-            Effects[EffectType.Magnify] = new MagnifyEffectUnit();
-            Effects[EffectType.Ripple] = new RippleEffectUnit();
-            Effects[EffectType.Swirl] = new SwirlEffectUnit();
+            Effects[EffectType.Level] = Config.Current.Effect.ImageEffects.Level;
+            Effects[EffectType.Hsv] = Config.Current.Effect.ImageEffects.Hsv;
+            Effects[EffectType.ColorSelect] = Config.Current.Effect.ImageEffects.ColorSelect;
+            Effects[EffectType.Blur] = Config.Current.Effect.ImageEffects.Blur;
+            Effects[EffectType.Bloom] = Config.Current.Effect.ImageEffects.Bloom;
+            Effects[EffectType.Monochrome] = Config.Current.Effect.ImageEffects.Monochrome;
+            Effects[EffectType.ColorTone] = Config.Current.Effect.ImageEffects.ColorTone;
+            Effects[EffectType.Sharpen] = Config.Current.Effect.ImageEffects.Sharpen;
+            Effects[EffectType.Embossed] = Config.Current.Effect.ImageEffects.Embossed;
+            Effects[EffectType.Pixelate] = Config.Current.Effect.ImageEffects.Pixelate;
+            Effects[EffectType.Magnify] = Config.Current.Effect.ImageEffects.Magnify;
+            Effects[EffectType.Ripple] = Config.Current.Effect.ImageEffects.Ripple;
+            Effects[EffectType.Swirl] = Config.Current.Effect.ImageEffects.Swirl;
+
+            Config.Current.Effect.AddPropertyChanged(nameof(EffectConfig.IsEnabled), (s, e) =>
+            {
+                RaisePropertyChanged(nameof(Effect));
+            });
+
+            Config.Current.Effect.AddPropertyChanged(nameof(EffectConfig.EffectType), (s, e) =>
+            {
+                RaisePropertyChanged(nameof(Effect));
+                UpdateEffectParameters();
+            });
 
             UpdateEffectParameters();
         }
@@ -56,8 +67,9 @@ namespace NeeView.Effects
         /// <summary>
         /// Property: Effect
         /// </summary>
-        public Effect Effect => this.IsEnabled ? Effects[_effectType]?.Effect : null;
+        public Effect Effect => Config.Current.Effect.IsEnabled ? Effects[Config.Current.Effect.EffectType]?.GetEffect() : null;
 
+#if false
         /// <summary>
         /// Property: EffectType
         /// </summary>
@@ -67,6 +79,7 @@ namespace NeeView.Effects
             get { return _effectType; }
             set { if (_effectType != value) { _effectType = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(Effect)); UpdateEffectParameters(); } }
         }
+#endif
 
         /// <summary>
         /// Property: EffectParameters
@@ -78,6 +91,7 @@ namespace NeeView.Effects
             set { if (_effectParameters != value) { _effectParameters = value; RaisePropertyChanged(); } }
         }
 
+#if false
         /// <summary>
         /// Property: IsHsvMode
         /// </summary>
@@ -98,6 +112,7 @@ namespace NeeView.Effects
             get { return _isEnabled; }
             set { if (_isEnabled != value) { _isEnabled = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(Effect)); } }
         }
+#endif
 
         #endregion
 
@@ -106,13 +121,13 @@ namespace NeeView.Effects
         //
         private void UpdateEffectParameters()
         {
-            if (Effects[_effectType] == null)
+            if (Effects[Config.Current.Effect.EffectType] == null)
             {
                 EffectParameters = null;
             }
             else
             {
-                EffectParameters = new PropertyDocument(Effects[_effectType]);
+                EffectParameters = new PropertyDocument(Effects[Config.Current.Effect.EffectType]);
             }
         }
 
@@ -148,6 +163,28 @@ namespace NeeView.Effects
 
             public void RestoreConfig(Config config)
             {
+                config.Effect.IsEnabled = IsEnabled;
+                config.Effect.EffectType = EffectType;
+                config.Effect.IsHsvMode = IsHsvMode;
+
+                if (Effects != null)
+                {
+                    MargeEffect(config.Effect.ImageEffects.Level, Effects[EffectType.Level]);
+                    MargeEffect(config.Effect.ImageEffects.Hsv, Effects[EffectType.Hsv]);
+                    MargeEffect(config.Effect.ImageEffects.ColorSelect, Effects[EffectType.ColorSelect]);
+                    MargeEffect(config.Effect.ImageEffects.Blur, Effects[EffectType.Blur]);
+                    MargeEffect(config.Effect.ImageEffects.Bloom, Effects[EffectType.Bloom]);
+                    MargeEffect(config.Effect.ImageEffects.Monochrome, Effects[EffectType.Monochrome]);
+                    MargeEffect(config.Effect.ImageEffects.ColorTone, Effects[EffectType.ColorTone]);
+                    MargeEffect(config.Effect.ImageEffects.Sharpen, Effects[EffectType.Sharpen]);
+                    MargeEffect(config.Effect.ImageEffects.Embossed, Effects[EffectType.Embossed]);
+                    MargeEffect(config.Effect.ImageEffects.Pixelate, Effects[EffectType.Pixelate]);
+                    MargeEffect(config.Effect.ImageEffects.Magnify, Effects[EffectType.Magnify]);
+                    MargeEffect(config.Effect.ImageEffects.Ripple, Effects[EffectType.Ripple]);
+                    MargeEffect(config.Effect.ImageEffects.Swirl, Effects[EffectType.Swirl]);
+
+                    void MargeEffect(EffectUnit unit, string json) => ObjectTools.Merge(unit, Json.Deserialize(json, unit.GetType()));
+                }
             }
         }
 
@@ -155,9 +192,9 @@ namespace NeeView.Effects
         {
             var memento = new Memento();
 
-            memento.EffectType = this.EffectType;
-            memento.IsHsvMode = this.IsHsvMode;
-            memento.IsEnabled = this.IsEnabled;
+            memento.EffectType = Config.Current.Effect.EffectType;
+            memento.IsHsvMode = Config.Current.Effect.IsHsvMode;
+            memento.IsEnabled = Config.Current.Effect.IsEnabled;
 
             memento.Effects = new Dictionary<EffectType, string>();
             foreach (var effect in Effects)
@@ -171,24 +208,25 @@ namespace NeeView.Effects
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
 
-            this.EffectType = memento.EffectType;
-            this.IsHsvMode = memento.IsHsvMode;
-            this.IsEnabled = memento.IsEnabled;
+            ////this.EffectType = memento.EffectType;
+            ////this.IsHsvMode = memento.IsHsvMode;
+            ////this.IsEnabled = memento.IsEnabled;
 
-            if (memento.Effects != null)
-            {
-                foreach (var effect in memento.Effects)
-                {
-                    if (this.Effects.ContainsKey(effect.Key))
-                    {
-                        this.Effects[effect.Key] = (EffectUnit)Json.Deserialize(effect.Value, this.Effects[effect.Key].GetType());
-                    }
-                }
-            }
+            //if (memento.Effects != null)
+            //{
+            //    foreach (var effect in memento.Effects)
+            //    {
+            //        if (this.Effects.ContainsKey(effect.Key))
+            //        {
+            //            this.Effects[effect.Key] = (EffectUnit)Json.Deserialize(effect.Value, this.Effects[effect.Key].GetType());
+            //        }
+            //    }
+            //}
         }
         #endregion
     }

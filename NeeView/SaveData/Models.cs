@@ -305,7 +305,7 @@ namespace NeeView
             HistoryList.Current.Restore(memento.HistoryList);
             PagemarkList.Current.Restore(memento.PagemarkList);
             ////FileInformation.Current.Restore(memento.FileInformation);
-            ImageEffect.Current.Restore(memento.ImageEffect);
+            ////ImageEffect.Current.Restore(memento.ImageEffect);
             SidePanel.Current.Restore(memento.SidePanel);
             PageViewRecorder.Current.Restore(memento.PageViewRecorder);
         }

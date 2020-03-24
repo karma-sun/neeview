@@ -14,8 +14,8 @@ namespace NeeView.Effects
     [DataContract]
     public class ColorSelectEffectUnit : EffectUnit
     {
-        private static ColorSelectEffect s_effect = new ColorSelectEffect();
-        public override Effect Effect => s_effect;
+        private static ColorSelectEffect _effect = new ColorSelectEffect();
+        public override Effect GetEffect() => _effect;
 
 
         /// <summary>
@@ -26,8 +26,8 @@ namespace NeeView.Effects
         [DefaultValue(15.0)]
         public double Hue
         {
-            get { return s_effect.Hue; }
-            set { if (s_effect.Hue != value) { s_effect.Hue = value; RaiseEffectPropertyChanged(); } }
+            get { return _effect.Hue; }
+            set { if (_effect.Hue != value) { _effect.Hue = value; RaiseEffectPropertyChanged(); } }
         }
 
         /// <summary>
@@ -38,8 +38,8 @@ namespace NeeView.Effects
         [DefaultValue(0.1)]
         public double Range
         {
-            get { return s_effect.Range; }
-            set { if (s_effect.Range != value) { s_effect.Range = value; RaiseEffectPropertyChanged(); } }
+            get { return _effect.Range; }
+            set { if (_effect.Range != value) { _effect.Range = value; RaiseEffectPropertyChanged(); } }
         }
 
         /// <summary>
@@ -50,8 +50,8 @@ namespace NeeView.Effects
         [DefaultValue(0.1)]
         public double Curve
         {
-            get { return s_effect.Curve; }
-            set { if (s_effect.Curve != value) { s_effect.Curve = value; RaiseEffectPropertyChanged(); } }
+            get { return _effect.Curve; }
+            set { if (_effect.Curve != value) { _effect.Curve = value; RaiseEffectPropertyChanged(); } }
         }
     }
 }

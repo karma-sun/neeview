@@ -48,10 +48,10 @@ namespace NeeView
             ImageFilter.Current.PropertyChanged += (s, e) => Request();
 
             // ドット表示監視
-            ContentCanvas.Current.AddPropertyChanged(nameof(ContentCanvas.IsEnabledNearestNeighbor), (s, e) => Request());
+            Config.Current.ImageDotKeep.AddPropertyChanged(nameof(ImageDotKeepConfig.IsEnabled), (s, e) => Request());
 
             // サイズ指定状態監視
-            PictureProfile.Current.CustomSize.PropertyChanged += (s, e) => RequestWithResize();
+            Config.Current.ImageCustomSize.PropertyChanged += (s, e) => RequestWithResize();
 
             WindowMessage.Current.EnterSizeMove += (s, e) => _isResizingWindow = true;
             WindowMessage.Current.ExitSizeMove += (s, e) => _isResizingWindow = false;

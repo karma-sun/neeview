@@ -132,7 +132,7 @@ namespace NeeView
             get
             {
                 // サイズ指定を反映
-                var customSize = PictureProfile.Current.CustomSize;
+                var customSize = Config.Current.ImageCustomSize;
                 if (customSize.IsEnabled && !_content.Size.IsEmptyOrZero())
                 {
                     return customSize.IsUniformed ? _content.Size.Uniformed(customSize.Size) : customSize.Size;

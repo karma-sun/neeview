@@ -19,7 +19,7 @@ namespace NeeView
 
             this.UnsharpMaskProfile = new PropertyDocument(_imageFilter.UnsharpMaskProfile);
 
-            this.CustomSizeProfile = new PropertyDocument(PictureProfile.Current.CustomSize);
+            this.CustomSizeProfile = new PropertyDocument(Config.Current.ImageCustomSize);
             this.CustomSizeProfile.SetVisualType<PropertyValue_Boolean>(PropertyVisualType.ToggleSwitch);
 
             this.GridLineProfile = new PropertyDocument(ContentCanvas.Current.GridLine);

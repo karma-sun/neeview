@@ -98,6 +98,11 @@ namespace NeeView
 
             BookHub.Current.EmptyMessage +=
                 (s, e) => EmptyPageMessage = e.Message;
+
+            Config.Current.ImageDotKeep.AddPropertyChanged(nameof(ImageDotKeepConfig.IsEnabled), (s, e) =>
+            {
+                UpdateContentScalingMode();
+            });
         }
 
         #endregion
@@ -176,6 +181,7 @@ namespace NeeView
             }
         }
 
+#if false
         // ドットのまま拡大
         private bool _isEnabledNearestNeighbor;
         public bool IsEnabledNearestNeighbor
@@ -191,6 +197,7 @@ namespace NeeView
                 }
             }
         }
+#endif
 
         // スケールモード
         private PageStretchMode _stretchMode = PageStretchMode.Uniform;
@@ -618,7 +625,7 @@ namespace NeeView
                     }
                     else
                     {
-                        content.BitmapScalingMode = (IsEnabledNearestNeighbor && pixelHeight < viewHeight && pixelWidth < viewWidth) ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
+                        content.BitmapScalingMode = (Config.Current.ImageDotKeep.IsEnabled && pixelHeight < viewHeight && pixelWidth < viewWidth) ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
                         content.SetViewMode(ContentViewMode.Scale, finalScale);
                     }
 
@@ -926,6 +933,8 @@ namespace NeeView
             public void RestoreConfig(Config config)
             {
                 // TODO: GridLine
+
+                config.ImageDotKeep.IsEnabled = IsEnabledNearestNeighbor;
             }
         }
 
@@ -935,7 +944,7 @@ namespace NeeView
             memento.StretchMode = this.StretchMode;
             memento.AllowEnlarge = this.AllowEnlarge;
             memento.AllowReduce = this.AllowReduce;
-            memento.IsEnabledNearestNeighbor = this.IsEnabledNearestNeighbor;
+            memento.IsEnabledNearestNeighbor = Config.Current.ImageDotKeep.IsEnabled;
             memento.ContentsSpace = this.ContentsSpace;
             memento.AutoRotateType = this.AutoRotateType;
             memento.GridLine = this.GridLine.CreateMemento();
@@ -948,7 +957,7 @@ namespace NeeView
             this.StretchMode = memento.StretchMode;
             this.AllowEnlarge = memento.AllowEnlarge;
             this.AllowReduce = memento.AllowReduce;
-            this.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
+            //this.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
             this.ContentsSpace = memento.ContentsSpace;
             this.AutoRotateType = memento.AutoRotateType;
             this.GridLine.Restore(memento.GridLine);

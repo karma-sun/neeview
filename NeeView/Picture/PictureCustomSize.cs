@@ -1,5 +1,6 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
+using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 using System.Windows;
@@ -13,14 +14,15 @@ namespace NeeView
     {
         #region Fields
 
-        private bool _IsEnabled;
-        private bool _IsUniformed;
-        private Size _Size;
+        //private bool _IsEnabled;
+        //private bool _IsUniformed;
+        //private Size _Size;
 
         #endregion
 
         #region Properties
 
+#if false
         /// <summary>
         /// 指定サイズ有効
         /// </summary>
@@ -70,11 +72,13 @@ namespace NeeView
             get { return _IsUniformed; }
             set { if (_IsUniformed != value) { _IsUniformed = value; RaisePropertyChanged(); } }
         }
+#endif
 
         #endregion
 
         #region Methods
 
+#if false
         /// <summary>
         /// ハッシュ値取得
         /// </summary>
@@ -85,6 +89,7 @@ namespace NeeView
             ////System.Diagnostics.Debug.WriteLine($"hash={hash}");
             return hash;
         }
+#endif
 
         #endregion
 
@@ -99,26 +104,34 @@ namespace NeeView
             public bool IsUniformed { get; set; }
             [DataMember]
             public Size Size { get; set; }
+
+            public void RestoreConfig(Config config)
+            {
+                config.ImageCustomSize.IsEnabled = IsEnabled;
+                config.ImageCustomSize.IsUniformed = IsUniformed;
+                config.ImageCustomSize.Size = Size;
+            }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
 
-            memento.IsEnabled = this.IsEnabled;
-            memento.IsUniformed = this.IsUniformed;
-            memento.Size = this.Size;
+            memento.IsEnabled = Config.Current.ImageCustomSize.IsEnabled;
+            memento.IsUniformed = Config.Current.ImageCustomSize.IsUniformed;
+            memento.Size = Config.Current.ImageCustomSize.Size;
 
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
 
-            this.IsEnabled = memento.IsEnabled;
-            this.IsUniformed = memento.IsUniformed;
-            this.Size = memento.Size;
+            //this.IsEnabled = memento.IsEnabled;
+            //this.IsUniformed = memento.IsUniformed;
+            //this.Size = memento.Size;
         }
 
         #endregion

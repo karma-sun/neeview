@@ -82,7 +82,7 @@ namespace NeeView
         // 画像生成に影響する設定のハッシュ値取得
         private int GetEnvironmentoHashCode()
         {
-            return ImageFilter.Current.GetHashCode() ^ PictureProfile.Current.CustomSize.GetHashCodde();
+            return ImageFilter.Current.GetHashCode() ^ Config.Current.ImageCustomSize.GetHashCodde();
         }
 
         // Imageが同じサイズであるか判定
@@ -120,7 +120,7 @@ namespace NeeView
             }
 
             // アスペクト比固定?
-            var cutomSize = PictureProfile.Current.CustomSize;
+            var cutomSize = Config.Current.ImageCustomSize;
             var keepAspectRatio = size.IsEmpty || !cutomSize.IsEnabled || cutomSize.IsUniformed;
 
             int filterHashCode = GetEnvironmentoHashCode();

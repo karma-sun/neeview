@@ -22,18 +22,18 @@ namespace NeeView
 
         private Size _MaximumSize = new Size(4096, 4096);
         private bool _isResizeFilterEnabled = false;
-        private PictureCustomSize _customSize;
+        ////private PictureCustomSize _customSize;
         private bool _isAspectRatioEnabled;
 
 
         private PictureProfile()
         {
-            _customSize = new PictureCustomSize()
-            {
-                IsEnabled = false,
-                IsUniformed = false,
-                Size = new Size(256, 256)
-            };
+            //_customSize = new PictureCustomSize()
+            //{
+            //    IsEnabled = false,
+            //    IsUniformed = false,
+            //    Size = new Size(256, 256)
+            //};
         }
 
 
@@ -69,11 +69,13 @@ namespace NeeView
             set { if (_isResizeFilterEnabled != value) { _isResizeFilterEnabled = value; RaisePropertyChanged(); } }
         }
 
+#if false
         public PictureCustomSize CustomSize
         {
             get { return _customSize; }
             set { if (_customSize != value) { _customSize = value; RaisePropertyChanged(); } }
         }
+#endif
 
         // 画像の解像度情報を表示に反映する
         [PropertyMember("@ParamPictureProfileIsAspectRatioEnabled", Tips = "@ParamPictureProfileIsAspectRatioEnabledTips")]
@@ -176,8 +178,11 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
+                CustomSize.RestoreConfig(config);
+
                 config.Performance.IsLimitSourceSize = IsLimitSourceSize;
                 config.Performance.MaximumSize = Maximum;
+
             }
         }
 
@@ -187,7 +192,7 @@ namespace NeeView
             memento.IsLimitSourceSize = Config.Current.Performance.IsLimitSourceSize;
             memento.Maximum = Config.Current.Performance.MaximumSize;
             memento.IsResizeFilterEnabled = this.IsResizeFilterEnabled;
-            memento.CustomSize = this.CustomSize.CreateMemento();
+            memento.CustomSize = new PictureCustomSize().CreateMemento();
             memento.IsAspectRatioEnabled = this.IsAspectRatioEnabled;
             memento.IsSvgEnabled = this.IsSvgEnabled;
             return memento;
@@ -198,8 +203,8 @@ namespace NeeView
             if (memento == null) return;
             ////this.IsLimitSourceSize = memento.IsLimitSourceSize;
             ////this.MaximumSize = memento.Maximum;
+            ////this.CustomSize.Restore(memento.CustomSize);
             this.IsResizeFilterEnabled = memento.IsResizeFilterEnabled;
-            this.CustomSize.Restore(memento.CustomSize);
             this.IsAspectRatioEnabled = memento.IsAspectRatioEnabled;
             this.IsSvgEnabled = memento.IsSvgEnabled;
         }

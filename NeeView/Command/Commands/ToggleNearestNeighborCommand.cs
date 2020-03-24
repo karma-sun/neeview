@@ -17,12 +17,12 @@ namespace NeeView
 
         public override Binding CreateIsCheckedBinding()
         {
-            return new Binding(nameof(ContentCanvas.Current.IsEnabledNearestNeighbor)) { Source = ContentCanvas.Current };
+            return new Binding(nameof(ImageDotKeepConfig.IsEnabled)) { Source = Config.Current.ImageDotKeep };
         }
 
         public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
         {
-            return ContentCanvas.Current.IsEnabledNearestNeighbor ? Properties.Resources.CommandToggleIsEnabledNearestNeighborOff : Properties.Resources.CommandToggleIsEnabledNearestNeighborOn;
+            return Config.Current.ImageDotKeep.IsEnabled ? Properties.Resources.CommandToggleIsEnabledNearestNeighborOff : Properties.Resources.CommandToggleIsEnabledNearestNeighborOn;
         }
 
         public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)
@@ -35,11 +35,11 @@ namespace NeeView
         {
             if (args.Length > 0)
             {
-                ContentCanvas.Current.IsEnabledNearestNeighbor = Convert.ToBoolean(args[0]);
+                Config.Current.ImageDotKeep.IsEnabled = Convert.ToBoolean(args[0]);
             }
             else
             {
-                ContentCanvas.Current.IsEnabledNearestNeighbor = !ContentCanvas.Current.IsEnabledNearestNeighbor;
+                Config.Current.ImageDotKeep.IsEnabled = !Config.Current.ImageDotKeep.IsEnabled;
             }
         }
     }

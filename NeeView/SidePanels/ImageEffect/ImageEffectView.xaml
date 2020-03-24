@@ -97,11 +97,11 @@
                 <Separator />
 
                 <DockPanel Margin="0,5">
-                    <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding PictureProfile.CustomSize.IsEnabled}" VerticalAlignment="Center"/>
+                    <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding Source={x:Static local:Config.Current}, Path=ImageCustomSize.IsEnabled}" VerticalAlignment="Center"/>
                     <TextBlock Text="{x:Static properties:Resources.EffectCustomSize}" VerticalAlignment="Center" />
                 </DockPanel>
 
-                <StackPanel Margin="10,0,0,5" Visibility="{Binding PictureProfile.CustomSize.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StackPanel Margin="10,0,0,5" Visibility="{Binding Source={x:Static local:Config.Current}, Path=ImageCustomSize.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <nvp:PropertyInspector Document="{Binding CustomSizeProfile}" IsResetButtonVisible="False"/>
                 </StackPanel>
 
@@ -109,7 +109,7 @@
 
 
                 <DockPanel Margin="0,5">
-                    <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding ContentCanvas.IsEnabledNearestNeighbor}" VerticalAlignment="Center"/>
+                    <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding Source={x:Static local:Config.Current}, Path=ImageDotKeep.IsEnabled}" VerticalAlignment="Center"/>
                     <TextBlock Text="{x:Static properties:Resources.EffectKeepDot}" VerticalAlignment="Center" />
                 </DockPanel>
 

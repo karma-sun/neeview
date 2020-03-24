@@ -1,10 +1,12 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Property;
 using System;
 using System.Collections;
-using System.Diagnostics;
+using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
+using System.Windows;
 
 namespace NeeView
 {
@@ -41,12 +43,18 @@ namespace NeeView
 
         public EffectConfig Effect { get; set; } = new EffectConfig();
 
+        public ImageCustomSizeConfig ImageCustomSize { get; set; } = new ImageCustomSizeConfig();
+
+        public ImageDotKeepConfig ImageDotKeep { get; set; } = new ImageDotKeepConfig();
+
+        public ImageGridConfig ImageGridConfig { get; set; } = new ImageGridConfig();
+
+        public ImageResizeFilterConfig ImageResizeFilter { get; set; } = new ImageResizeFilterConfig();
+
+
         public CommandConfig Command { get; set; } = new CommandConfig();
 
         public ScriptConfig Script { get; set; } = new ScriptConfig();
-
-
-
 
         /// <summary>
         /// Configプロパティを上書き
@@ -58,55 +66,99 @@ namespace NeeView
         }
     }
 
-    public static class ObjectTools
-    { 
+
+    public class ImageCustomSizeConfig : BindableBase
+    {
+        private bool _IsEnabled;
+        private bool _IsUniformed;
+        private Size _Size = new Size(256, 256);
+
+
         /// <summary>
-        /// インスタンスのプロパティを上書き
-        /// TODO: 配列や辞書の対応
+        /// 指定サイズ有効
         /// </summary>
-        public static void Merge(object a1, object a2)
+        public bool IsEnabled
         {
-            if (a1 == null && a2 == null) return;
+            get { return _IsEnabled; }
+            set { SetProperty(ref _IsEnabled, value); }
+        }
 
-            var type = a1.GetType();
-            if (type != a2.GetType()) throw new ArgumentException();
-            if (!type.IsClass) throw new ArgumentException();
-
-            var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            foreach (var property in properties)
+        /// <summary>
+        /// カスタムサイズ
+        /// </summary>
+        public Size Size
+        {
+            get { return _Size; }
+            set
             {
-                var v1 = property.GetValue(a1);
-                var v2 = property.GetValue(a2);
-
-                if (v1 == null && v2 == null)
+                if (SetProperty(ref _Size, value))
                 {
-                }
-                else if (property.GetSetMethod(false) == null)
-                {
-                    Debug.WriteLine($"{property.Name} is readonly");
-                }
-                else if (property.PropertyType.IsValueType || property.PropertyType == typeof(string) || property.PropertyType.GetCustomAttribute(typeof(PropertyMergeReferenceCopyAttribute)) != null)
-                {
-                    property.GetSetMethod(false)?.Invoke(a1, new object[] { v2 });
-                }
-
-                else
-                {
-                    if (v1 == null)
-                    {
-                        v1 = Activator.CreateInstance(type);
-                        property.SetValue(a1, v1);
-                    }
-                    Merge(v1, v2);
+                    RaisePropertyChanged(nameof(Width));
+                    RaisePropertyChanged(nameof(Height));
                 }
             }
         }
 
+        /// <summary>
+        /// カスタムサイズ：横幅
+        /// </summary>
+        [PropertyRange("@ParamPictureCustomWidth", 16, 4096)]
+        [JsonIgnore, PropertyMapIgnore]
+        public int Width
+        {
+            get { return (int)_Size.Width; }
+            set { if (value != _Size.Width) { Size = new Size(value, _Size.Height); } }
+        }
+
+        /// <summary>
+        /// カスタムサイズ：縦幅
+        /// </summary>
+        [PropertyRange("@ParamPictureCustomHeight", 16, 4096)]
+        [JsonIgnore, PropertyMapIgnore]
+        public int Height
+        {
+            get { return (int)_Size.Height; }
+            set { if (value != _Size.Height) { Size = new Size(_Size.Width, value); } }
+        }
+
+        /// <summary>
+        /// 縦横比を固定する
+        /// </summary>
+        [PropertyMember("@ParamPictureCustomLockAspect")]
+        public bool IsUniformed
+        {
+            get { return _IsUniformed; }
+            set { SetProperty(ref _IsUniformed, value); }
+        }
+
+        /// <summary>
+        /// ハッシュ値の計算
+        /// </summary>
+        /// <returns></returns>
+        public int GetHashCodde()
+        {
+            var hash = (_IsEnabled.GetHashCode() << 30) ^ (_IsUniformed.GetHashCode() << 29) ^ _Size.GetHashCode();
+            ////System.Diagnostics.Debug.WriteLine($"hash={hash}");
+            return hash;
+        }
     }
 
-    // この属性がクラスに定義されている場合、リファレンスの変更のみとする
-    [AttributeUsage(AttributeTargets.Class)]
-    public class PropertyMergeReferenceCopyAttribute : Attribute
+    public class ImageDotKeepConfig : BindableBase
+    {
+        private bool _isEnabled;
+
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set { SetProperty(ref _isEnabled, value); }
+        }
+    }
+
+    public class ImageGridConfig : BindableBase
+    {
+    }
+
+    public class ImageResizeFilterConfig : BindableBase
     {
     }
 }

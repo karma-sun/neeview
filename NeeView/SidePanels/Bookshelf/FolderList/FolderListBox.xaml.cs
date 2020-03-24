@@ -262,7 +262,7 @@ namespace NeeView
         private void FileCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
-            e.CanExecute = (item != null && item.IsEditable && FileIOProfile.Current.IsEnabled);
+            e.CanExecute = (item != null && item.IsEditable && Config.Current.System.IsFileWriteAccessEnabled);
         }
 
         /// <summary>
@@ -339,7 +339,7 @@ namespace NeeView
                 }
                 else
                 {
-                    return FileIOProfile.Current.IsEnabled;
+                    return Config.Current.System.IsFileWriteAccessEnabled;
                 }
             }
             else if (item.Attributes.HasFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.Directory))

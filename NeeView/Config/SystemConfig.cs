@@ -14,6 +14,9 @@ namespace NeeView
         private bool _isSettingBackup;
         private string _temporaryDirectory;
         private string _cacheDirectory;
+        private bool _isHiddenFileVisibled;
+        private bool _isFileWriteAccessEnabled = true;
+
 
         /// <summary>
         /// 言語
@@ -82,6 +85,21 @@ namespace NeeView
         [DefaultValue("")]
         [PropertyPath("@ParamDownloadPath", Tips = "@ParamDownloadPathTips", FileDialogType = FileDialogType.Directory)]
         public string DownloadPath { get; set; } = "";
+
+        // 隠しファイルを表示する？
+        [PropertyMember("@ParamIsHiddenFileVisibled")]
+        public bool IsHiddenFileVisibled
+        {
+            get { return _isHiddenFileVisibled; }
+            set { SetProperty(ref _isHiddenFileVisibled, value); }
+        }
+
+        [PropertyMember("@ParamIsFileOperationEnabled")]
+        public bool IsFileWriteAccessEnabled
+        {
+            get { return _isFileWriteAccessEnabled; }
+            set { SetProperty(ref _isFileWriteAccessEnabled, value); }
+        }
     }
 
 }

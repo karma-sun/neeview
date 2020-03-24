@@ -57,7 +57,7 @@ namespace NeeView
     /// <summary>
     /// FolderList Model
     /// </summary>
-    public class FolderList : BindableBase, IDisposable
+    public abstract class FolderList : BindableBase, IDisposable
     {
         #region Fields
 
@@ -86,12 +86,15 @@ namespace NeeView
         private CancellationTokenSource _updateFolderCancellationTokenSource;
         private CancellationTokenSource _cruiseFolderCancellationTokenSource;
 
+        private FolderListConfig _folderListConfig;
+
         #endregion Fields
 
         #region Constructors
 
-        protected FolderList(bool isSyncBookHub, bool isOverlayEnabled)
+        protected FolderList(bool isSyncBookHub, bool isOverlayEnabled, FolderListConfig folderListConfig)
         {
+            _folderListConfig = folderListConfig;
             _folderListBoxModel = new FolderListBoxModel(null);
 
             _searchEngine = new FolderSearchEngine();
@@ -100,7 +103,7 @@ namespace NeeView
             _searchKeyword = new DelayValue<string>();
             _searchKeyword.ValueChanged += (s, e) =>
             {
-                if (IsIncrementalSearchEnabled)
+                if (IsIncrementalSearchEnabled())
                 {
                     RequestSearchPlace(false);
                 }
@@ -139,6 +142,28 @@ namespace NeeView
 
             // ブックマーク監視
             BookmarkCollection.Current.BookmarkChanged += BookmarkCollection_BookmarkChanged;
+
+            _folderListConfig.AddPropertyChanged(nameof(FolderListConfig.FolderTreeLayout), (s, e) =>
+            {
+                RaisePropertyChanged(nameof(FolderTreeDock));
+                RaisePropertyChanged(nameof(FolderTreeAreaWidth));
+                RaisePropertyChanged(nameof(FolderTreeAreaHeight));
+            });
+
+            _folderListConfig.AddPropertyChanged(nameof(FolderListConfig.PanelListItemStyle), (s, e) =>
+            {
+                RaisePropertyChanged(nameof(PanelListItemStyle));
+            });
+
+            _folderListConfig.AddPropertyChanged(nameof(FolderListConfig.IsFolderTreeVisible), (s, e) =>
+            {
+                RaisePropertyChanged(nameof(IsFolderTreeVisible));
+            });
+
+            _folderListConfig.AddPropertyChanged(nameof(FolderListConfig.FolderTreeLayout), (s, e) =>
+            {
+                RaisePropertyChanged(nameof(FolderTreeLayout));
+            });
         }
 
         #endregion Constructors
@@ -162,13 +187,23 @@ namespace NeeView
 
         #region Properties
 
+        public FolderListConfig FolderListConfig => _folderListConfig;
+
         public FolderCollectionFactory FolderCollectionFactory { get; }
 
+#if false
         private PanelListItemStyle _panelListItemStyle;
         public PanelListItemStyle PanelListItemStyle
         {
             get { return _panelListItemStyle; }
             set { if (_panelListItemStyle != value) { _panelListItemStyle = value; RaisePropertyChanged(); } }
+        }
+#endif
+
+        public PanelListItemStyle PanelListItemStyle
+        {
+            get { return _folderListConfig.PanelListItemStyle; }
+            set { _folderListConfig.PanelListItemStyle = value; }
         }
 
         // サムネイル画像が表示される？？
@@ -176,7 +211,7 @@ namespace NeeView
         {
             get
             {
-                switch (_panelListItemStyle)
+                switch (_folderListConfig.PanelListItemStyle)
                 {
                     default:
                         return false;
@@ -190,6 +225,7 @@ namespace NeeView
             }
         }
 
+#if false
         /// <summary>
         /// IsVisibleHistoryMark property.
         /// </summary>
@@ -247,6 +283,7 @@ namespace NeeView
         [PropertyMember("@ParamBookshelfIsCruise", Tips = "@ParamBookshelfIsCruiseTips")]
         public bool IsCruise { get; set; }
 
+
         [PropertyMember("@ParamBookshelfIsCloseBookWhenMove")]
         public bool IsCloseBookWhenMove { get; set; }
 
@@ -286,6 +323,7 @@ namespace NeeView
         // 除外パターンの正規表現
         private Regex _excludeRegex;
         public Regex ExcludeRegex => _excludeRegex;
+#endif
 
         /// <summary>
         /// フォルダーコレクション
@@ -343,12 +381,6 @@ namespace NeeView
         public bool IsFolderSearchBoxVisible => true;
 
         /// <summary>
-        /// インクリメンタルサーチ有効
-        /// </summary>
-        public bool IsIncrementalSearchEnabled { get; set; } = true;
-
-
-        /// <summary>
         /// 入力キーワード
         /// </summary>
         private string _inputKeyword;
@@ -363,6 +395,12 @@ namespace NeeView
                 }
             }
         }
+
+#if false
+        /// <summary>
+        /// インクリメンタルサーチ有効
+        /// </summary>
+        public bool IsIncrementalSearchEnabled { get; set; } = true;
 
         /// <summary>
         /// サブフォルダーを含めた検索を行う
@@ -379,6 +417,11 @@ namespace NeeView
                 }
             }
         }
+#endif
+
+        protected virtual bool IsIncrementalSearchEnabled() => false;
+        protected virtual bool IsSearchIncludeSubdirectories() => false;
+
 
         /// <summary>
         /// 検索キーワードエラーメッセージ
@@ -390,6 +433,12 @@ namespace NeeView
             set { SetProperty(ref _searchKeywordErrorMessage, value); }
         }
 
+        public bool IsFolderTreeVisible
+        {
+            get { return _folderListConfig.IsFolderTreeVisible; }
+            set { _folderListConfig.IsFolderTreeVisible = value; }
+        }
+#if false
         /// <summary>
         /// フォルダーツリーの表示
         /// </summary>
@@ -399,8 +448,6 @@ namespace NeeView
             get { return _isFolderTreeVisible; }
             set { SetProperty(ref _isFolderTreeVisible, value); }
         }
-
-
 
         private FolderTreeLayout _FolderTreeLayout = FolderTreeLayout.Left;
         [PropertyMember("@ParamFolderTreeLayout")]
@@ -417,23 +464,33 @@ namespace NeeView
                 }
             }
         }
+#endif
+
+        public FolderTreeLayout FolderTreeLayout
+        {
+            get => FolderListConfig.FolderTreeLayout;
+            set => FolderListConfig.FolderTreeLayout = value;
+        }
 
         public Dock FolderTreeDock
         {
-            get { return FolderTreeLayout == FolderTreeLayout.Left ? Dock.Left : Dock.Top; }
+            get { return _folderListConfig.FolderTreeLayout == FolderTreeLayout.Left ? Dock.Left : Dock.Top; }
         }
 
         /// <summary>
         /// フォルダーツリーエリアの幅
         /// </summary>
-        private double _folderTreeAreaWidth = 128.0;
         public double FolderTreeAreaWidth
         {
-            get { return _folderTreeAreaWidth; }
+            get { return _folderListConfig.FolderTreeAreaWidth; }
             set
             {
                 var width = Math.Max(Math.Min(value, _areaWidth - 32.0), 32.0 - 6.0);
-                SetProperty(ref _folderTreeAreaWidth, width);
+                if (_folderListConfig.FolderTreeAreaWidth != width)
+                {
+                    _folderListConfig.FolderTreeAreaWidth = width;
+                    RaisePropertyChanged();
+                }
             }
         }
 
@@ -450,7 +507,7 @@ namespace NeeView
                 if (SetProperty(ref _areaWidth, value))
                 {
                     // 再設定する
-                    FolderTreeAreaWidth = _folderTreeAreaWidth;
+                    FolderTreeAreaWidth = _folderListConfig.FolderTreeAreaWidth;
                 }
             }
         }
@@ -459,14 +516,17 @@ namespace NeeView
         /// <summary>
         /// フォルダーツリーエリアの高さ
         /// </summary>
-        private double _folderTreeAreaHeight = 72.0;
         public double FolderTreeAreaHeight
         {
-            get { return _folderTreeAreaHeight; }
+            get { return _folderListConfig.FolderTreeAreaHeight; }
             set
             {
                 var height = Math.Max(Math.Min(value, _areaHeight - 32.0), 32.0 - 6.0);
-                SetProperty(ref _folderTreeAreaHeight, height);
+                if (_folderListConfig.FolderTreeAreaHeight != height)
+                {
+                    _folderListConfig.FolderTreeAreaHeight = height;
+                    RaisePropertyChanged();
+                }
             }
         }
 
@@ -483,7 +543,7 @@ namespace NeeView
                 if (SetProperty(ref _areaHeight, value))
                 {
                     // 再設定する
-                    FolderTreeAreaHeight = _folderTreeAreaHeight;
+                    FolderTreeAreaHeight = _folderListConfig.FolderTreeAreaHeight;
                 }
             }
         }
@@ -499,6 +559,7 @@ namespace NeeView
             set { SetProperty(ref _IsLocked, value && Place != null); }
         }
 
+#if false
         /// <summary>
         /// 本の読み込みで本棚の更新を要求する
         /// </summary>
@@ -514,7 +575,9 @@ namespace NeeView
                 }
             }
         }
+#endif
 
+        protected virtual bool IsSyncBookshelfEnabled() => false;
 
         public PageListPlacementService PageListPlacementService => PageListPlacementService.Current;
 
@@ -539,7 +602,7 @@ namespace NeeView
             SetSearchKeyword(keyword);
 
             // 検索を重複させないための処置
-            if (!IsIncrementalSearchEnabled)
+            if (!IsIncrementalSearchEnabled())
             {
                 RequestSearchPlace(false);
             }
@@ -572,55 +635,10 @@ namespace NeeView
         }
 
         /// <summary>
-        /// 補正されたHOME取得
+        /// HOME取得
         /// </summary>
-        /// <returns></returns>
-        public virtual QueryPath GetFixedHome()
-        {
-            var path = new QueryPath(_home);
+        public abstract QueryPath GetFixedHome();
 
-            switch (path.Scheme)
-            {
-                case QueryScheme.Root:
-                    return path;
-
-                case QueryScheme.File:
-                    if (Directory.Exists(_home))
-                    {
-                        return path;
-                    }
-                    else
-                    {
-                        return GetDefaultHome();
-                    }
-
-                case QueryScheme.Bookmark:
-                    if (BookmarkCollection.Current.FindNode(_home)?.Value is BookmarkFolder)
-                    {
-                        return path;
-                    }
-                    else
-                    {
-                        return new QueryPath(QueryScheme.Bookmark, null, null);
-                    }
-
-                default:
-                    Debug.WriteLine($"Not support yet: {_home}");
-                    return GetDefaultHome();
-            }
-        }
-
-        private QueryPath GetDefaultHome()
-        {
-            var myPicture = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyPictures);
-            if (Directory.Exists(myPicture))
-            {
-                return new QueryPath(myPicture);
-            }
-
-            // 救済措置
-            return new QueryPath(System.Environment.CurrentDirectory);
-        }
 
         /// <summary>
         /// フォルダー状態保存
@@ -708,6 +726,12 @@ namespace NeeView
             var task = SetPlaceAsync(path, select, options);
         }
 
+
+        public void SetDarty()
+        {
+            _isDarty = true;
+        }
+
         /// <summary>
         /// フォルダーリスト更新
         /// </summary>
@@ -754,7 +778,7 @@ namespace NeeView
 
                     this.FolderCollection = collection;
                     this.FolderListBoxModel = new FolderListBoxModel(this.FolderCollection);
-                    this.FolderListBoxModel.IsSyncBookshelfEnabled = _isSyncBookshelfEnabled;
+                    this.FolderListBoxModel.IsSyncBookshelfEnabled = IsSyncBookshelfEnabled();
                     this.FolderListBoxModel.SetSelectedItem(select, options.HasFlag(FolderSetPlaceOption.Focus));
                     this.FolderListBoxModel.IsFocusAtOnce = isFocusAtOnce;
                     if (options.HasFlag(FolderSetPlaceOption.Focus))
@@ -994,13 +1018,18 @@ namespace NeeView
             }
         }
 
+        // 巡回移動できる？
+        protected virtual bool IsCruise()
+        {
+            return false;
+        }
 
         /// <summary>
         /// コマンドの「前のフォルダーに移動」「次のフォルダーへ移動」に対応
         /// </summary>
         private async Task<bool> MoveFolder(int direction, BookLoadOption options)
         {
-            var isCruise = IsCruise && !(_folderCollection is FolderSearchCollection);
+            var isCruise = IsCruise() && !(_folderCollection is FolderSearchCollection);
 
             if (isCruise)
             {
@@ -1139,6 +1168,9 @@ namespace NeeView
                 return null;
             }
 
+            // サブディレクトリー検索フラグを確定
+            _searchEngine.IncludeSubdirectories = IsSearchIncludeSubdirectories();
+
             if (path.Search != null && _folderCollection is FolderSearchCollection && _folderCollection.Place.FullPath == path.FullPath)
             {
                 ////Debug.WriteLine($"SearchEngine: Cancel");
@@ -1160,7 +1192,7 @@ namespace NeeView
 
         public void AddQuickAccess()
         {
-            IsFolderTreeVisible = true;
+            _folderListConfig.IsFolderTreeVisible = true;
             BookshelfFolderTreeModel.Current.AddQuickAccess(GetCurentQueryPath());
         }
 
@@ -1178,7 +1210,7 @@ namespace NeeView
         {
             if (BookHub.Current == null) return;
             if (Place == null) return;
-            this.Home = Place.SimplePath;
+            Config.Current.Layout.Bookshelf.Home = Place.SimplePath;
         }
 
         public async void MoveToHome()
@@ -1260,47 +1292,18 @@ namespace NeeView
             CloseBookIfNecessary();
         }
 
-        public virtual async void Sync()
-        {
-            var address = BookHub.Current?.Book?.Address;
+        public abstract void Sync();
 
-            if (address != null)
-            {
-                // TODO: Queryの求め方はこれでいいのか？
-                var path = new QueryPath(address);
-                var parent = new QueryPath(BookHub.Current?.Book?.Source.GetFolderPlace() ?? LoosePath.GetDirectoryName(address));
-
-                _isDarty = true; // 強制更新
-                await SetPlaceAsync(parent, new FolderItemPosition(path), FolderSetPlaceOption.Focus | FolderSetPlaceOption.UpdateHistory | FolderSetPlaceOption.ResetKeyword | FolderSetPlaceOption.FileSystem);
-
-                _folderListBoxModel.RaiseSelectedItemChanged(true);
-            }
-            else if (Place != null)
-            {
-                _isDarty = true; // 強制更新
-                await SetPlaceAsync(Place, null, FolderSetPlaceOption.Focus | FolderSetPlaceOption.FileSystem);
-
-                _folderListBoxModel.RaiseSelectedItemChanged(true);
-            }
-
-            if (IsSyncFolderTree && Place != null)
-            {
-                BookshelfFolderTreeModel.Current.SyncDirectory(Place.SimplePath);
-            }
-        }
 
         public void ToggleFolderRecursive()
         {
             _folderListBoxModel.ToggleFolderRecursive_Executed();
         }
 
-        private void CloseBookIfNecessary()
+        protected virtual void CloseBookIfNecessary()
         {
-            if (IsCloseBookWhenMove)
-            {
-                BookHub.Current.RequestUnload(true);
-            }
         }
+
 
         public void NewFolder()
         {
@@ -1451,48 +1454,40 @@ namespace NeeView
                 this.InitializePropertyDefaultValues();
             }
 
-            public void RestoreConfig(Config config, object memento)
+            public void RestoreConfig(FolderListConfig config)
             {
-                // NOTE: 複数のインスタンスから使用されているので区別できるようにする
-                var type = memento.GetType();
-                if (type == typeof(BookshelfFolderList.Memento))
-                {
-                    // TODO: 
-                }
-                else if (type == typeof(BookmarkFolderList.Memento))
-                {
-                    // TODO:
-                }
-                else
-                {
-                    throw new NotSupportedException();
-                }
+                config.PanelListItemStyle = PanelListItemStyle;
+                config.FolderTreeLayout = FolderTreeLayout;
+                config.FolderTreeAreaHeight = FolderTreeAreaHeight;
+                config.FolderTreeAreaWidth = FolderTreeAreaWidth;
+                config.IsFolderTreeVisible = IsFolderTreeVisible;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.PanelListItemStyle = this.PanelListItemStyle;
-            memento.FolderTreeLayout = this.FolderTreeLayout;
-            memento.FolderTreeAreaHeight = this.FolderTreeAreaHeight;
-            memento.FolderTreeAreaWidth = this.FolderTreeAreaWidth;
-            memento.IsFolderTreeVisible = this.IsFolderTreeVisible;
-            memento.IsSyncFolderTree = this.IsSyncFolderTree;
+            memento.PanelListItemStyle = _folderListConfig.PanelListItemStyle;
+            memento.FolderTreeLayout = _folderListConfig.FolderTreeLayout;
+            memento.FolderTreeAreaHeight = _folderListConfig.FolderTreeAreaHeight;
+            memento.FolderTreeAreaWidth = _folderListConfig.FolderTreeAreaWidth;
+            memento.IsFolderTreeVisible = _folderListConfig.IsFolderTreeVisible;
+            memento.IsSyncFolderTree = Config.Current.Layout.Bookshelf.IsSyncFolderTree;
 
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
 
-            this.PanelListItemStyle = memento.PanelListItemStyle;
-            this.FolderTreeLayout = memento.FolderTreeLayout;
-            this.FolderTreeAreaHeight = memento.FolderTreeAreaHeight;
-            this.FolderTreeAreaWidth = memento.FolderTreeAreaWidth;
-            this.IsFolderTreeVisible = memento.IsFolderTreeVisible;
-            this.IsSyncFolderTree = memento.IsSyncFolderTree;
+            ////this.PanelListItemStyle = memento.PanelListItemStyle;
+            ////this.FolderTreeLayout = memento.FolderTreeLayout;
+            ////this.FolderTreeAreaHeight = memento.FolderTreeAreaHeight;
+            ////this.FolderTreeAreaWidth = memento.FolderTreeAreaWidth;
+            ////this.IsFolderTreeVisible = memento.IsFolderTreeVisible;
+            ////this.IsSyncFolderTree = memento.IsSyncFolderTree;
         }
 
         #endregion

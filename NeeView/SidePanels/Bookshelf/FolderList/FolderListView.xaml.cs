@@ -59,7 +59,7 @@ namespace NeeView
         /// <param name="e"></param>
         private void FolderList_FolderTreeFocus(object sender, System.IO.ErrorEventArgs e)
         {
-            if (!_vm.Model.IsFolderTreeVisible) return;
+            if (!_vm.Model.FolderListConfig.IsFolderTreeVisible) return;
 
             this.FolderTree.FocusSelectedItem();
         }

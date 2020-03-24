@@ -266,7 +266,7 @@ namespace NeeView
         public void Resore(Memento memento)
         {
             if (memento == null) return;
-            FileIOProfile.Current.Restore(memento.FileIOProfile);
+            ////FileIOProfile.Current.Restore(memento.FileIOProfile);
             ////JobEngine.Current.Restore(memento.JobEngine);
             SoundPlayerService.Current.Restore(memento.SoundPlayerService);
             PictureProfile.Current.Restore(memento.PictureProfile);
@@ -296,11 +296,11 @@ namespace NeeView
             MediaControl.Current.Restore(memento.MediaControl);
             ThumbnailList.Current.Restore(memento.ThumbnailList);
             ////MenuBar.Current.Restore(memento.MenuBar);
-            SidePanelProfile.Current.Restore(memento.SidePanelProfile);
-            PageListPlacementService.Current.Restore(memento.PageListPlacementService);
+            ////SidePanelProfile.Current.Restore(memento.SidePanelProfile);
+            ////PageListPlacementService.Current.Restore(memento.PageListPlacementService);
             FolderPanelModel.Current.Restore(memento.FolderPanel);
-            BookshelfFolderList.Current.Restore(memento.BookshelfFolderList);
-            BookmarkFolderList.Current.Restore(memento.BookmarkFolderList);
+            ////BookshelfFolderList.Current.Restore(memento.BookshelfFolderList);
+            ////BookmarkFolderList.Current.Restore(memento.BookmarkFolderList);
             PageList.Current.Restore(memento.PageList);
             HistoryList.Current.Restore(memento.HistoryList);
             PagemarkList.Current.Restore(memento.PagemarkList);

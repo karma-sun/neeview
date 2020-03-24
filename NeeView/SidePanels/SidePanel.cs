@@ -64,7 +64,7 @@ namespace NeeView
 
             SelectedPanelChanged += SidePanel_SelectedPanelChanged;
 
-            SidePanelProfile.Current.AddPropertyChanged(nameof(SidePanelProfile.IsDecoratePlace), SidePanelProfile_IsDecoratePlaceChanged);
+            Config.Current.Layout.Panels.AddPropertyChanged(nameof(PanelsConfig.IsDecoratePlace), SidePanelProfile_IsDecoratePlaceChanged);
         }
 
 
@@ -270,7 +270,7 @@ namespace NeeView
         /// </summary>
         public bool IsVisibleFolderTree
         { 
-            get { return BookshelfFolderList.Current.IsFolderTreeVisible && IsVisibleFolderList; }
+            get { return Config.Current.Layout.Bookshelf.IsFolderTreeVisible && IsVisibleFolderList; }
             set { SetVisibleFolderTree(false, value); }
         }
 
@@ -292,12 +292,12 @@ namespace NeeView
                 BookshelfFolderTreeModel.Current.FocusAtOnce();
             }
 
-            BookshelfFolderList.Current.IsFolderTreeVisible = isVisible;
+            Config.Current.Layout.Bookshelf.IsFolderTreeVisible = isVisible;
 
             SetSelectedPanel(FolderListPanel, true);
             RaisePanelPropertyChanged();
 
-            return BookshelfFolderList.Current.IsFolderTreeVisible;
+            return Config.Current.Layout.Bookshelf.IsFolderTreeVisible;
         }
 
 

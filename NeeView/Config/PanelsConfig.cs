@@ -12,6 +12,9 @@ namespace NeeView
         private bool _isHidePanelInFullscreen = true;
         private string _fontName = SystemFonts.MessageFontFamily.Source;
         private double _fontSize = 15.0;
+        private double _folderTreeFontSize = 12.0;
+        private bool _isDecoratePlace = true;
+
 
         /// <summary>
         /// サイドバー表示フラグ 
@@ -73,6 +76,26 @@ namespace NeeView
         {
             get { return _fontSize; }
             set { SetProperty(ref _fontSize, Math.Max(1.0, value)); }
+        }
+
+        /// <summary>
+        /// フォルダーツリーのフォントサイズ
+        /// </summary>
+        [PropertyRange("@ParamListItemFolderTreeFontSize", 8, 24, TickFrequency = 0.5, IsEditable = true)]
+        public double FolderTreeFontSize
+        {
+            get { return _folderTreeFontSize; }
+            set { SetProperty(ref _folderTreeFontSize, Math.Max(1.0, value)); }
+        }
+
+        /// <summary>
+        /// パス表示形式を "CCC (C:\AAA\BBB) にする
+        /// </summary>
+        [PropertyMember("@ParamListItemContentIsDecoratePlace", Tips = "@ParamListItemContentIsDecoratePlaceTips")]
+        public bool IsDecoratePlace
+        {
+            get { return _isDecoratePlace; }
+            set { SetProperty(ref _isDecoratePlace, value); }
         }
 
 

@@ -24,6 +24,15 @@ namespace NeeView
             get { return _historyFilePath; }
             set { _historyFilePath = string.IsNullOrWhiteSpace(value) || value.Trim() == SaveData.DefaultHistoryFilePath ? null : value; }
         }
+
+
+        // フォルダーリストの情報記憶
+        [PropertyMember("@ParamHistoryIsKeepFolderStatus")]
+        public bool IsKeepFolderStatus { get; set; } = true;
+
+        // 検索履歴の情報記憶
+        [PropertyMember("@ParamHistoryIsKeepSearchHistory")]
+        public bool IsKeepSearchHistory { get; set; } = true;
     }
 }
 

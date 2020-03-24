@@ -17,7 +17,7 @@ namespace NeeView
 
         public override Binding CreateIsCheckedBinding()
         {
-            return new Binding(nameof(BookshelfFolderList.Current.IsFolderTreeVisible)) { Source = BookshelfFolderList.Current, Mode = BindingMode.OneWay };
+            return new Binding(nameof(BookshelfPanelConfig.IsFolderTreeVisible)) { Source = Config.Current.Layout.Bookshelf, Mode = BindingMode.OneWay };
         }
 
         public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)

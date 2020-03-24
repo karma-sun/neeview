@@ -57,7 +57,6 @@ namespace NeeView
         // 最後に開いたフォルダーの場所記憶
         [PropertyMember("@ParamHistoryIsKeepLastFolder", Tips = "@ParamHistoryIsKeepLastFolderTips")]
         public bool IsKeepLastFolder { get; set; }
-#endif
 
         // フォルダーリストの情報記憶
         [PropertyMember("@ParamHistoryIsKeepFolderStatus")]
@@ -66,6 +65,7 @@ namespace NeeView
         // 検索履歴の情報記憶
         [PropertyMember("@ParamHistoryIsKeepSearchHistory")]
         public bool IsKeepSearchHistory { get; set; } = true;
+#endif
 
         // 要素数
         public int Count => Items.Count;
@@ -554,6 +554,8 @@ namespace NeeView
                 config.StartUp.IsOpenLastFolder = IsKeepLastFolder;
                 config.StartUp.LastFolderPath = LastFolder;
                 config.StartUp.LastBookPath = LastAddress;
+                config.History.IsKeepFolderStatus = IsKeepFolderStatus;
+                config.History.IsKeepSearchHistory = IsKeepSearchHistory;
             }
         }
 
@@ -568,10 +570,10 @@ namespace NeeView
             memento.LastFolder = Config.Current.StartUp.LastFolderPath;
             memento.LimitSize = this.LimitSize;
             memento.LimitSpan = this.LimitSpan;
-            memento.IsKeepFolderStatus = IsKeepFolderStatus;
+            memento.IsKeepFolderStatus = Config.Current.History.IsKeepFolderStatus;
             memento.IsKeepLastFolder = Config.Current.StartUp.IsOpenLastFolder;
             memento.LastAddress = Config.Current.StartUp.LastBookPath;
-            memento.IsKeepSearchHistory = IsKeepSearchHistory;
+            memento.IsKeepSearchHistory = Config.Current.History.IsKeepSearchHistory;
             memento.SearchHistory = this.SearchHistory.Any() ? this.SearchHistory.ToList() : null;
 
             if (forSave)
@@ -603,11 +605,11 @@ namespace NeeView
             _folders = memento.Folders ?? _folders;
             this.LimitSize = memento.LimitSize;
             this.LimitSpan = memento.LimitSpan;
-            this.IsKeepFolderStatus = memento.IsKeepFolderStatus;
             ////this.IsKeepLastFolder = memento.IsKeepLastFolder;
-            this.IsKeepSearchHistory = memento.IsKeepSearchHistory;
+            ////this.IsKeepFolderStatus = memento.IsKeepFolderStatus;
+            ////this.IsKeepSearchHistory = memento.IsKeepSearchHistory;
 
-            if (this.IsKeepSearchHistory)
+            if (memento.IsKeepSearchHistory)
             {
                 this.SearchHistory = memento.SearchHistory != null ? new ObservableCollection<string>(memento.SearchHistory) : new ObservableCollection<string>();
             }

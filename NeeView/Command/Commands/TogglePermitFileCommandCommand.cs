@@ -17,12 +17,12 @@ namespace NeeView
 
         public override Binding CreateIsCheckedBinding()
         {
-            return new Binding(nameof(FileIOProfile.Current.IsEnabled)) { Source = FileIOProfile.Current, Mode = BindingMode.OneWay };
+            return new Binding(nameof(SystemConfig.IsFileWriteAccessEnabled)) { Source = Config.Current.System, Mode = BindingMode.OneWay };
         }
 
         public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
         {
-            return FileIOProfile.Current.IsEnabled ? Properties.Resources.CommandTogglePermitFileCommandOff : Properties.Resources.CommandTogglePermitFileCommandOn;
+            return Config.Current.System.IsFileWriteAccessEnabled ? Properties.Resources.CommandTogglePermitFileCommandOff : Properties.Resources.CommandTogglePermitFileCommandOn;
         }
 
         [MethodArgument("@CommandToggleArgument")]
@@ -30,11 +30,11 @@ namespace NeeView
         {
             if (args.Length > 0)
             {
-                FileIOProfile.Current.IsEnabled = Convert.ToBoolean(args[0]);
+                Config.Current.System.IsFileWriteAccessEnabled = Convert.ToBoolean(args[0]);
             }
             else
             {
-                FileIOProfile.Current.IsEnabled = !FileIOProfile.Current.IsEnabled;
+                Config.Current.System.IsFileWriteAccessEnabled = !Config.Current.System.IsFileWriteAccessEnabled;
             }
         }
     }

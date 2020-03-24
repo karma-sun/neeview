@@ -97,14 +97,19 @@ namespace NeeView
             _model.History.Changed +=
                 (s, e) => UpdateCommandCanExecute();
 
-            _model.PropertyChanged +=
-                Model_PropertyChanged;
+            ////_model.PropertyChanged +=
+            ////    Model_PropertyChanged;
 
             _model.PlaceChanged +=
                 (s, e) => MoveToUp.RaiseCanExecuteChanged();
 
             _model.CollectionChanged +=
                 Model_CollectionChanged;
+
+            _model.FolderListConfig.AddPropertyChanged(nameof(FolderListConfig.PanelListItemStyle), (s, e) =>
+            {
+                UpdateFolderListBox();
+            });
 
             InitializeMoreMenu();
 
@@ -378,7 +383,7 @@ namespace NeeView
 
                 void Execute(FolderTreeLayout layout)
                 {
-                    _model.FolderTreeLayout = layout;
+                    _model.FolderListConfig.FolderTreeLayout = layout;
                     SidePanel.Current.SetVisibleFolderTree(true, true);
                 }
             }
@@ -512,11 +517,11 @@ namespace NeeView
             item.Header = header;
             item.Command = SetListItemStyle;
             item.CommandParameter = style;
-            var binding = new Binding(nameof(_model.PanelListItemStyle))
+            var binding = new Binding(nameof(FolderListConfig.PanelListItemStyle))
             {
                 Converter = _panelListItemStyleToBooleanConverter,
                 ConverterParameter = style,
-                Source = _model,
+                Source = _model.FolderListConfig,
             };
             item.SetBinding(MenuItem.IsCheckedProperty, binding);
 
@@ -536,13 +541,14 @@ namespace NeeView
         //
         private void SetListItemStyle_Executed(PanelListItemStyle style)
         {
-            _model.PanelListItemStyle = style;
+            _model.FolderListConfig.PanelListItemStyle = style;
         }
 
         #endregion MoreMenu
 
-        #region Methods
+#region Methods
 
+#if false
         private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
@@ -552,6 +558,7 @@ namespace NeeView
                     break;
             }
         }
+#endif
 
         private void Model_CollectionChanged(object sender, EventArgs e)
         {
@@ -606,6 +613,6 @@ namespace NeeView
             }
         }
 
-        #endregion Methods
+#endregion Methods
     }
 }

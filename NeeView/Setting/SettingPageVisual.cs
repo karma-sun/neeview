@@ -250,7 +250,7 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.ContentItemIsImagePopupEnabled))),
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.ContentItemIsTextWrapped))),
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.ContentItemNoteOpacity))),
-                    new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.IsDecoratePlace)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Panels, nameof(PanelsConfig.IsDecoratePlace)))),
 
                 new SettingItemSection(Properties.Resources.WordStyleBanner,
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.BannerItemImageWidth))),
@@ -272,27 +272,27 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                  new SettingItemSection(Properties.Resources.SettingPagePanelBookshelfGeneral,
-                    new SettingItemProperty(PropertyMemberElement.Create(BookshelfFolderList.Current, nameof(FolderList.Home))) {IsStretch = true}),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Bookshelf, nameof(BookshelfPanelConfig.Home))) {IsStretch = true}),
 
                 new SettingItemSection(Properties.Resources.SettingPagePanelBookshelfVisual,
-                    new SettingItemProperty(PropertyMemberElement.Create(BookshelfFolderList.Current, nameof(BookshelfFolderList.IsVisibleBookmarkMark))),
-                    new SettingItemProperty(PropertyMemberElement.Create(BookshelfFolderList.Current, nameof(BookshelfFolderList.IsVisibleHistoryMark)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Bookshelf, nameof(BookshelfPanelConfig.IsBookmarkMark))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Bookshelf, nameof(BookshelfPanelConfig.IsHistoryMark)))),
 
                 new SettingItemSection(Properties.Resources.SettingPagePanelBookshelfTree,
-                    new SettingItemProperty(PropertyMemberElement.Create(BookshelfFolderList.Current, nameof(FolderList.FolderTreeLayout))),
-                    new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.FolderTreeFontSize))),
-                    new SettingItemProperty(PropertyMemberElement.Create(BookshelfFolderList.Current, nameof(FolderList.IsSyncFolderTree)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Bookshelf, nameof(BookshelfPanelConfig.FolderTreeLayout))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Panels, nameof(PanelsConfig.FolderTreeFontSize))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Bookshelf, nameof(BookshelfPanelConfig.IsSyncFolderTree)))),
 
                 new SettingItemSection(Properties.Resources.SettingPagePanelBookshelfAdvance,
-                    new SettingItemProperty(PropertyMemberElement.Create(BookHistoryCollection.Current, nameof(BookHistoryCollection.IsKeepFolderStatus))),
-                    new SettingItemProperty(PropertyMemberElement.Create(BookHistoryCollection.Current, nameof(BookHistoryCollection.IsKeepSearchHistory))),
-                    new SettingItemProperty(PropertyMemberElement.Create(PageListPlacementService.Current, nameof(PageListPlacementService.IsPlacedInBookshelf))),
-                    new SettingItemProperty(PropertyMemberElement.Create(BookshelfFolderList.Current, nameof(FolderList.IsCloseBookWhenMove))),
-                    new SettingItemProperty(PropertyMemberElement.Create(BookshelfFolderList.Current, nameof(FolderList.IsOpenNextBookWhenRemove))),
-                    new SettingItemProperty(PropertyMemberElement.Create(BookshelfFolderList.Current, nameof(FolderList.IsInsertItem))),
-                    new SettingItemProperty(PropertyMemberElement.Create(FileIOProfile.Current, nameof(FileIOProfile.IsHiddenFileVisibled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(BookshelfFolderList.Current, nameof(FolderList.IsMultipleRarFilterEnabled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(BookshelfFolderList.Current, nameof(FolderList.ExcludePattern))) { IsStretch = true }),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.IsKeepFolderStatus))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.IsKeepSearchHistory))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Bookshelf, nameof(BookshelfPanelConfig.IsPageListDocked))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Bookshelf, nameof(BookshelfPanelConfig.IsCloseBookWhenMove))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Bookshelf, nameof(BookshelfPanelConfig.IsOpenNextBookWhenRemove))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Bookshelf, nameof(BookshelfPanelConfig.IsInsertItem))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.IsHiddenFileVisibled))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Bookshelf, nameof(BookshelfPanelConfig.IsMultipleRarFilterEnabled))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Bookshelf, nameof(BookshelfPanelConfig.ExcludePattern))) { IsStretch = true }),
             };
         }
     }

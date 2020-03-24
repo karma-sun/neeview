@@ -77,7 +77,7 @@ namespace NeeView
                 return false;
             }
 
-            if ((info.Attributes & FileAttributes.Hidden) != 0 && !FileIOProfile.Current.IsHiddenFileVisibled)
+            if ((info.Attributes & FileAttributes.Hidden) != 0 && !Config.Current.System.IsHiddenFileVisibled)
             {
                 return false;
             }

@@ -128,7 +128,7 @@ namespace NeeView
 
                 void Execute(FolderTreeLayout layout)
                 {
-                    _model.FolderTreeLayout = layout;
+                    _model.FolderListConfig.FolderTreeLayout = layout;
                     SidePanel.Current.SetVisibleFolderTree(true, true);
                 }
             }
@@ -180,7 +180,7 @@ namespace NeeView
 
         private void ToggleVisibleFoldersTree_Executed()
         {
-            _model.IsFolderTreeVisible = !_model.IsFolderTreeVisible;
+            _model.FolderListConfig.IsFolderTreeVisible = !_model.FolderListConfig.IsFolderTreeVisible;
         }
 
         #endregion Commands
@@ -208,7 +208,7 @@ namespace NeeView
             items.Add(CreateCommandMenuItem(Properties.Resources.WordNewFolder, NewFolderCommand));
             items.Add(CreateCommandMenuItem(Properties.Resources.FolderTreeMenuAddBookmark, AddBookmarkCommand));
             items.Add(new Separator());
-            items.Add(CreateCheckFlagMenuItem(Properties.Resources.BookmarkListMoreMenuSyncBookshelf, new Binding(nameof(BookmarkFolderList.IsSyncBookshelfEnabled)) { Source = BookmarkFolderList.Current }));
+            items.Add(CreateCheckFlagMenuItem(Properties.Resources.BookmarkListMoreMenuSyncBookshelf, new Binding(nameof(BookmarkPanelConfig.IsSyncBookshelfEnabled)) { Source = Config.Current.Layout.Bookmark }));
         }
 
         private MenuItem CreateCheckFlagMenuItem(string header, Binding binding)
@@ -249,11 +249,11 @@ namespace NeeView
             item.Header = header;
             item.Command = SetListItemStyle;
             item.CommandParameter = style;
-            var binding = new Binding(nameof(_model.PanelListItemStyle))
+            var binding = new Binding(nameof(FolderListConfig.PanelListItemStyle))
             {
                 Converter = _panelListItemStyleToBooleanConverter,
                 ConverterParameter = style,
-                Source = _model,
+                Source = _model.FolderListConfig,
             };
             item.SetBinding(MenuItem.IsCheckedProperty, binding);
 
@@ -271,7 +271,7 @@ namespace NeeView
 
         private void SetListItemStyle_Executed(PanelListItemStyle style)
         {
-            _model.PanelListItemStyle = style;
+            _model.FolderListConfig.PanelListItemStyle = style;
         }
 
         #endregion MoreMenu
@@ -282,7 +282,7 @@ namespace NeeView
         {
             switch (e.PropertyName)
             {
-                case nameof(_model.PanelListItemStyle):
+                case nameof(_model.FolderListConfig.PanelListItemStyle):
                     UpdateFolderListBox();
                     break;
             }

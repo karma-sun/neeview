@@ -13,11 +13,17 @@ namespace NeeView
         static BookmarkFolderList() => Current = new BookmarkFolderList();
         public static BookmarkFolderList Current { get; }
 
-        private BookmarkFolderList() : base(false, false)
+        private BookmarkFolderList() : base(false, false, Config.Current.Layout.Bookmark)
         {
-            IsSyncBookshelfEnabled = true;
-
             ApplicationDisposer.Current.Add(this);
+
+            Config.Current.Layout.Bookmark.AddPropertyChanged(nameof(BookmarkPanelConfig.IsSyncBookshelfEnabled), (s, e) =>
+            {
+                if (FolderListBoxModel != null)
+                {
+                    FolderListBoxModel.IsSyncBookshelfEnabled = Config.Current.Layout.Bookmark.IsSyncBookshelfEnabled;
+                }
+            });
         }
 
         public override void IsVisibleChanged(bool isVisible)
@@ -44,6 +50,12 @@ namespace NeeView
             return new QueryPath(QueryScheme.Bookmark, null, null);
         }
 
+        protected override bool IsSyncBookshelfEnabled()
+        {
+            return Config.Current.Layout.Bookmark.IsSyncBookshelfEnabled;
+        }
+
+
         #region Memento
 
         [DataContract]
@@ -63,7 +75,8 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
-                FolderList.RestoreConfig(config, this);
+                FolderList.RestoreConfig(config.Layout.Bookmark);
+                Config.Current.Layout.Bookmark.IsSyncBookshelfEnabled = IsSyncBookshelfEnabled;
             }
         }
 
@@ -72,17 +85,18 @@ namespace NeeView
             var memento = new Memento();
 
             memento.FolderList = base.CreateMemento();
-            memento.IsSyncBookshelfEnabled = this.IsSyncBookshelfEnabled;
+            memento.IsSyncBookshelfEnabled = Config.Current.Layout.Bookmark.IsSyncBookshelfEnabled;
 
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
 
-            base.Restore(memento.FolderList);
-            this.IsSyncBookshelfEnabled = memento.IsSyncBookshelfEnabled;
+            ////base.Restore(memento.FolderList);
+            ////this.IsSyncBookshelfEnabled = memento.IsSyncBookshelfEnabled;
         }
 
         #endregion

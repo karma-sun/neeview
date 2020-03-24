@@ -251,9 +251,9 @@ namespace NeeView
             {
                 if (IsDisable())
                     _iconOverlay = FolderItemIconOverlay.Disable;
-                else if (BookshelfFolderList.Current.IsVisibleBookmarkMark && BookmarkCollection.Current.Contains(EntityPath.SimplePath))
+                else if (Config.Current.Layout.Bookshelf.IsBookmarkMark && BookmarkCollection.Current.Contains(EntityPath.SimplePath))
                     _iconOverlay = FolderItemIconOverlay.Star;
-                else if (BookshelfFolderList.Current.IsVisibleHistoryMark && BookHistoryCollection.Current.Contains(EntityPath.SimplePath))
+                else if (Config.Current.Layout.Bookshelf.IsHistoryMark && BookHistoryCollection.Current.Contains(EntityPath.SimplePath))
                     _iconOverlay = FolderItemIconOverlay.Checked;
                 else
                     _iconOverlay = FolderItemIconOverlay.None;
@@ -302,7 +302,7 @@ namespace NeeView
             }
             else if (IsFileSystem())
             {
-                return FileIOProfile.Current.IsEnabled;
+                return Config.Current.System.IsFileWriteAccessEnabled;
             }
             else if (Attributes.HasFlag(FolderItemAttribute.Bookmark))
             {

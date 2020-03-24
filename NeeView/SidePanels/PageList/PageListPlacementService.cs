@@ -17,11 +17,13 @@ namespace NeeView
 
 
         private PageListPanel _panel;
-        private bool _isPlacedInBookshelf;
 
         private PageListPlacementService()
         {
-            _isPlacedInBookshelf = true;
+            Config.Current.Layout.Bookshelf.AddPropertyChanged(nameof(BookshelfPanelConfig.IsPageListDocked), (s, e) =>
+            {
+                Update();
+            });
         }
 
 
@@ -31,6 +33,8 @@ namespace NeeView
         }
 
 
+#if false
+        private bool _isPlacedInBookshelf = true;
         [PropertyMember("@ParamPageListPlacementInBookshelf", Tips = "@ParamPageListPlacementInBookshelfTips")]
         public bool IsPlacedInBookshelf
         {
@@ -43,10 +47,11 @@ namespace NeeView
                 }
             }
         }
+#endif
 
         public void Update()
         {
-            if (_isPlacedInBookshelf)
+            if (Config.Current.Layout.Bookshelf.IsPageListDocked)
             {
                 SidePanel.Current?.DetachPageListPanel();
                 FolderPanelModel.Current?.SetVisual(Panel.View);
@@ -74,21 +79,23 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
+                config.Layout.Bookshelf.IsPageListDocked = IsPlacedInBookshelf;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.IsPlacedInBookshelf = this.IsPlacedInBookshelf;
+            memento.IsPlacedInBookshelf = Config.Current.Layout.Bookshelf.IsPageListDocked;
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
 
-            this.IsPlacedInBookshelf = memento.IsPlacedInBookshelf;
+            ////this.IsPlacedInBookshelf = memento.IsPlacedInBookshelf;
         }
 
         #endregion

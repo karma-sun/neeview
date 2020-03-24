@@ -40,9 +40,9 @@ namespace NeeView
         private SolidColorBrush _baseBrush;
         private SolidColorBrush _iconBackgroundBrush;
         ////private string _fontName = SystemFonts.MessageFontFamily.Source;
-        private double _folderTreeFontSize = 12;
+        ////private double _folderTreeFontSize = 12;
         ////private double _fontSize = 15.0;
-        private bool _isDecoratePlace = true;
+        ////private bool _isDecoratePlace = true;
 
         private SidePanelProfile()
         {
@@ -53,7 +53,7 @@ namespace NeeView
 
             SetFontFamilyResource(Config.Current.Layout.Panels.FontName);
             SetFontSizeResource(Config.Current.Layout.Panels.FontSize);
-            SetFolderTreeFontSizeResource(_folderTreeFontSize);
+            SetFolderTreeFontSizeResource(Config.Current.Layout.Panels.FolderTreeFontSize);
 
             ThemeProfile.Current.ThemeColorChanged += (s, e) => RefreshBrushes();
             MainWindowModel.Current.CanHidePanelChanged += (s, e) => RefreshBrushes();
@@ -68,9 +68,7 @@ namespace NeeView
                 try
                 {
                     SetFontFamilyResource(Config.Current.Layout.Panels.FontName);
-                    Config.Current.Layout.Panels.ContentItemProfile.UpdateTextHeight();
-                    Config.Current.Layout.Panels.BannerItemProfile.UpdateTextHeight();
-                    Config.Current.Layout.Panels.ThumbnailItemProfile.UpdateTextHeight();
+                    ValidatePanelListItemProfile();
                 }
                 catch
                 {
@@ -81,11 +79,15 @@ namespace NeeView
             Config.Current.Layout.Panels.AddPropertyChanged(nameof(PanelsConfig.FontSize), (s, e) =>
             {
                 SetFontSizeResource(Config.Current.Layout.Panels.FontSize);
-                Config.Current.Layout.Panels.ContentItemProfile.UpdateTextHeight();
-                Config.Current.Layout.Panels.BannerItemProfile.UpdateTextHeight();
-                Config.Current.Layout.Panels.ThumbnailItemProfile.UpdateTextHeight();
+                ValidatePanelListItemProfile();
             });
 
+            Config.Current.Layout.Panels.AddPropertyChanged(nameof(PanelsConfig.FolderTreeFontSize), (s, e) =>
+            {
+                SetFolderTreeFontSizeResource(Config.Current.Layout.Panels.FolderTreeFontSize);
+            });
+
+            ValidatePanelListItemProfile();
             RefreshBrushes();
         }
 
@@ -179,7 +181,6 @@ namespace NeeView
                 }
             }
         }
-#endif
         [PropertyRange("@ParamListItemFolderTreeFontSize", 8, 24, TickFrequency = 0.5, IsEditable = true)]
         public double FolderTreeFontSize
         {
@@ -196,8 +197,6 @@ namespace NeeView
             }
         }
 
-
-#if false
         private PanelListItemProfile _normalItemProfile;
         public PanelListItemProfile NormalItemProfile
         {
@@ -267,12 +266,14 @@ namespace NeeView
             set { Config.Current.Layout.Panels.ContentItemProfile.NoteOpacity = value; }
         }
 
+#if false
         [PropertyMember("@ParamListItemContentIsDecoratePlace", Tips = "@ParamListItemContentIsDecoratePlaceTips")]
         public bool IsDecoratePlace
         {
             get { return _isDecoratePlace; }
             set { SetProperty(ref _isDecoratePlace, value); }
         }
+#endif
 
 
         [PropertyRange("@ParamListItemBannerImageWidth", 0, 512, TickFrequency = 8, IsEditable = true, Tips = "@ParamListItemBannerImageWidthTips")]
@@ -322,7 +323,7 @@ namespace NeeView
         public string GetDecoratePlaceName(string s)
         {
             if (string.IsNullOrEmpty(s)) return s;
-            return IsDecoratePlace ? LoosePath.GetPlaceName(s) : s;
+            return Config.Current.Layout.Panels.IsDecoratePlace ? LoosePath.GetPlaceName(s) : s;
         }
 
         private void RefreshBrushes()
@@ -376,7 +377,7 @@ namespace NeeView
             Config.Current.Layout.Panels.ThumbnailItemProfile.UpdateTextHeight();
         }
 
-        #region Memento
+#region Memento
 
         [DataContract]
         public class Memento : IMemento
@@ -432,6 +433,8 @@ namespace NeeView
                 config.Layout.Panels.Opacity = Opacity;
                 config.Layout.Panels.FontName = FontName;
                 config.Layout.Panels.FontSize = FontSize;
+                config.Layout.Panels.FolderTreeFontSize = FolderTreeFontSize;
+                config.Layout.Panels.IsDecoratePlace = IsDecoratePlace;
 
                 config.Layout.Panels.ContentItemProfile = ContentItemProfile ?? PanelListItemProfile.DefaultContentItemProfile.Clone();
                 config.Layout.Panels.BannerItemProfile = BannerItemProfile ?? PanelListItemProfile.DefaultBannerItemProfile.Clone();
@@ -447,15 +450,16 @@ namespace NeeView
             memento.Opacity = Config.Current.Layout.Panels.Opacity;
             memento.FontName = Config.Current.Layout.Panels.FontName;
             memento.FontSize = Config.Current.Layout.Panels.FontSize;
-            memento.FolderTreeFontSize = this.FolderTreeFontSize;
+            memento.FolderTreeFontSize = Config.Current.Layout.Panels.FolderTreeFontSize;
             memento.ContentItemProfile = Config.Current.Layout.Panels.ContentItemProfile.Clone();
             memento.BannerItemProfile = Config.Current.Layout.Panels.BannerItemProfile.Clone();
             memento.ThumbnailItemProfile = Config.Current.Layout.Panels.ThumbnailItemProfile.Clone();
-            memento.IsDecoratePlace = this.IsDecoratePlace;
+            memento.IsDecoratePlace = Config.Current.Layout.Panels.IsDecoratePlace;
 
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
@@ -464,16 +468,16 @@ namespace NeeView
             ////this.Opacity = memento.Opacity;
             ////this.FontName = memento.FontName;
             ////this.FontSize = memento.FontSize;
-            this.FolderTreeFontSize = memento.FolderTreeFontSize;
+            ////this.FolderTreeFontSize = memento.FolderTreeFontSize;
             ////this.ContentItemProfile = memento.ContentItemProfile ?? _defaultContentItemProfile.Clone();
             ////this.BannerItemProfile = memento.BannerItemProfile ?? _defaultBannerItemProfile.Clone();
             ////this.ThumbnailItemProfile = memento.ThumbnailItemProfile ?? _defaultThumbnailItemProfile.Clone();
-            this.IsDecoratePlace = memento.IsDecoratePlace;
+            ////this.IsDecoratePlace = memento.IsDecoratePlace;
 
             ValidatePanelListItemProfile();
         }
 
-        #endregion
+#endregion
     }
 
     // TODO: 定義位置

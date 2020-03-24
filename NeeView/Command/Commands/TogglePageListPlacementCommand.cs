@@ -17,12 +17,12 @@ namespace NeeView
 
         public override Binding CreateIsCheckedBinding()
         {
-            return new Binding(nameof(PageListPlacementService.Current.IsPlacedInBookshelf)) { Source = PageListPlacementService.Current };
+            return new Binding(nameof(BookshelfPanelConfig.IsPageListDocked)) { Source = Config.Current.Layout.Bookshelf };
         }
 
         public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
         {
-            return PageListPlacementService.Current.IsPlacedInBookshelf ? Properties.Resources.CommandTogglePageListPlacementPanel : Properties.Resources.CommandTogglePageListPlacementBookshelf;
+            return Config.Current.Layout.Bookshelf.IsPageListDocked ? Properties.Resources.CommandTogglePageListPlacementPanel : Properties.Resources.CommandTogglePageListPlacementBookshelf;
         }
 
         [MethodArgument("@CommandToggleArgument")]
@@ -30,11 +30,11 @@ namespace NeeView
         {
             if (args.Length > 0)
             {
-                PageListPlacementService.Current.IsPlacedInBookshelf = Convert.ToBoolean(args[0]);
+                Config.Current.Layout.Bookshelf.IsPageListDocked = Convert.ToBoolean(args[0]);
             }
             else
             {
-                PageListPlacementService.Current.IsPlacedInBookshelf = !PageListPlacementService.Current.IsPlacedInBookshelf;
+                Config.Current.Layout.Bookshelf.IsPageListDocked = !Config.Current.Layout.Bookshelf.IsPageListDocked;
             }
         }
     }

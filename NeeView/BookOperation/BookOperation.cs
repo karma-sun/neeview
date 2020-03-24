@@ -284,7 +284,7 @@ namespace NeeView
         // 指定ページのファル削除可能？
         public bool CanDeleteFile(Page page)
         {
-            return FileIOProfile.Current.IsEnabled && FileIO.Current.CanRemovePage(page);
+            return Config.Current.System.IsFileWriteAccessEnabled && FileIO.Current.CanRemovePage(page);
         }
 
         // 指定ページのファルを削除する
@@ -307,7 +307,7 @@ namespace NeeView
         // 現在表示しているブックの削除可能？
         public bool CanDeleteBook()
         {
-            return FileIOProfile.Current.IsEnabled && Book != null && (Book.LoadOption & BookLoadOption.Undeliteable) == 0 && (File.Exists(Book.SourceAddress) || Directory.Exists(Book.SourceAddress));
+            return Config.Current.System.IsFileWriteAccessEnabled && Book != null && (Book.LoadOption & BookLoadOption.Undeliteable) == 0 && (File.Exists(Book.SourceAddress) || Directory.Exists(Book.SourceAddress));
         }
 
         // 現在表示しているブックを削除する

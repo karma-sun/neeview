@@ -1,5 +1,6 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
+using System;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.Serialization;
@@ -11,8 +12,6 @@ namespace NeeView
         static FileIOProfile() => Current = new FileIOProfile();
         public static FileIOProfile Current { get; }
 
-        private bool _isEnabled = true;
-        private bool _isHiddenFileVisibled;
 
 
         private FileIOProfile()
@@ -26,8 +25,8 @@ namespace NeeView
 
         [PropertyMember("@ParamIsRemoveExplorerDialogEnabled", Tips = "@ParamIsRemoveExplorerDialogEnabledTips")]
         public bool IsRemoveExplorerDialogEnabled { get; set; } = false;
-#endif
 
+        private bool _isEnabled = true;
         [PropertyMember("@ParamIsFileOperationEnabled")]
         public bool IsEnabled
         {
@@ -35,24 +34,24 @@ namespace NeeView
             set { SetProperty(ref _isEnabled, value); }
         }
 
+        private bool _isHiddenFileVisibled;
         [PropertyMember("@ParamIsHiddenFileVisibled")]
         public bool IsHiddenFileVisibled
         {
             get { return _isHiddenFileVisibled; }
             set { SetProperty(ref _isHiddenFileVisibled, value); }
         }
-
-
+#endif
 
         /// <summary>
         /// ファイルは項目として有効か？
         /// </summary>
         public bool IsFileValid(FileAttributes attributes)
         {
-            return IsHiddenFileVisibled || (attributes & FileAttributes.Hidden) == 0;
+            return Config.Current.System.IsHiddenFileVisibled || (attributes & FileAttributes.Hidden) == 0;
         }
 
-        #region Memento
+#region Memento
         [DataContract]
         public class Memento : IMemento
         {
@@ -84,6 +83,8 @@ namespace NeeView
             {
                 config.System.IsRemoveConfirmed = IsRemoveConfirmed;
                 config.System.IsRemoveExplorerDialogEnabled = IsRemoveExplorerDialogEnabled;
+                config.System.IsFileWriteAccessEnabled = IsEnabled;
+                config.System.IsHiddenFileVisibled = IsHiddenFileVisibled;
             }
         }
 
@@ -92,18 +93,19 @@ namespace NeeView
             var memento = new Memento();
             memento.IsRemoveConfirmed = Config.Current.System.IsRemoveConfirmed;
             memento.IsRemoveExplorerDialogEnabled = Config.Current.System.IsRemoveExplorerDialogEnabled;
-            memento.IsEnabled = this.IsEnabled;
-            memento.IsHiddenFileVisibled = this.IsHiddenFileVisibled;
+            memento.IsEnabled = Config.Current.System.IsFileWriteAccessEnabled;
+            memento.IsHiddenFileVisibled = Config.Current.System.IsHiddenFileVisibled;
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
             ////this.IsRemoveConfirmed = memento.IsRemoveConfirmed;
             ////this.IsRemoveExplorerDialogEnabled = memento.IsRemoveExplorerDialogEnabled;
-            this.IsEnabled = memento.IsEnabled;
-            this.IsHiddenFileVisibled = memento.IsHiddenFileVisibled;
+            ////this.IsEnabled = memento.IsEnabled;
+            ////this.IsHiddenFileVisibled = memento.IsHiddenFileVisibled;
         }
         #endregion
 

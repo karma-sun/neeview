@@ -49,11 +49,12 @@ namespace NeeView
         /// </summary>
         public TransformGroup TransformCalc { get; private set; }
 
+#if false
         /// <summary>
         /// 標準スケール
         /// </summary>
         ////public double DefaultScale { get; set; } = 2.0;
-        
+
         /// <summary>
         /// IsVisibleLoupeInfo property.
         /// </summary>
@@ -64,7 +65,8 @@ namespace NeeView
             get { return _IsVisibleLoupeInfo; }
             set { if (_IsVisibleLoupeInfo != value) { _IsVisibleLoupeInfo = value; RaisePropertyChanged(); } }
         }
-        
+#endif
+
         /// <summary>
         /// IsEnabled property.
         /// </summary>
@@ -101,7 +103,7 @@ namespace NeeView
 
         public double PositionX => _isEnabled ? Position.X : 0.0;
         public double PositionY => _isEnabled ? Position.Y : 0.0;
-        
+
 
         /// <summary>
         /// ルーペ倍率
@@ -195,20 +197,23 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
+                config.Loupe.IsVisibleLoupeInfo = IsVisibleLoupeInfo;
+
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.IsVisibleLoupeInfo = this.IsVisibleLoupeInfo;
+            memento.IsVisibleLoupeInfo = Config.Current.Loupe.IsVisibleLoupeInfo;
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            this.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
+            //this.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
         }
         #endregion
     }

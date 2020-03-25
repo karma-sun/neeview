@@ -223,7 +223,7 @@
                                     </TextBlock>
 
                                     <!-- loupe info -->
-                                    <Grid Visibility="{Binding LoupeTransform.IsVisibleLoupeInfo, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <Grid Visibility="{Binding Source={x:Static local:Config.Current}, Path=Loupe.IsVisibleLoupeInfo, Converter={StaticResource BooleanToVisibilityConverter}}">
                                         <Grid x:Name="LoupeInfo" VerticalAlignment="Top" HorizontalAlignment="Right" DataContext="{Binding LoupeTransform}"
                                                 Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
                                                 Background="#88000000">

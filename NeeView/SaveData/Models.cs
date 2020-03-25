@@ -287,7 +287,7 @@ namespace NeeView
             ////ContentCanvasBrush.Current.Restore(memento.ContentCanvasBrush);
             DragTransform.Current.Restore(memento.DragTransform);
             ////DragTransformControl.Current.Restore(memento.DragTransformControl);
-            LoupeTransform.Current.Restore(memento.LoupeTransform);
+            ////LoupeTransform.Current.Restore(memento.LoupeTransform);
             ////MouseInput.Current.Restore(memento.MouseInput);
             ////TouchInput.Current.Restore(memento.TouchInput);
             ////SlideShow.Current.Restore(memento.SlideShow);

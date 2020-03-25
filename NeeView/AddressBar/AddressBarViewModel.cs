@@ -44,7 +44,7 @@ namespace NeeView
             get { return RoutedCommandTable.Current.Commands; }
         }
 
-        public BookSetting BookSetting
+        public BookSettingConfig BookSetting
         {
             get { return NeeView.BookSettingPresenter.Current.LatestSetting; }
         }

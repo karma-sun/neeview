@@ -20,34 +20,28 @@ namespace NeeView
         public event EventHandler<BookSettingEventArgs> SettingChanged;
 
 
-        public BookSetting DefaultSetting { get; private set; } = new BookSetting();
+        public BookSettingConfig DefaultSetting => Config.Current.BookSettingDefault;
 
-        public BookSetting LatestSetting { get; private set; } = new BookSetting();
+        public BookSettingConfig LatestSetting => Config.Current.BookSetting;
 
-        public BookSettingGenerater Generater { get; set; } = new BookSettingGenerater();
+        public BookSettingPolicyConfig Generater => Config.Current.BookSettingPolicy;
 
         public bool IsLocked { get; set; }
 
-        public void SetDefaultSetting(BookSetting setting)
+
+        public void SetLatestSetting(BookSettingConfig setting)
         {
             if (setting == null) return;
-
-            DefaultSetting = setting.Clone();
-            DefaultSetting.Page = null;
-        }
-
-
-        public void SetLatestSetting(BookSetting setting)
-        {
-            if (setting == null) return;
-
-            LatestSetting = setting.Clone();
-            LatestSetting.Page = null;
-            SettingChanged?.Invoke(this, null);
+            if (!LatestSetting.Equals(setting))
+            {
+                setting.CopyTo(LatestSetting);
+                LatestSetting.Page = null;
+                SettingChanged?.Invoke(this, null);
+            }
         }
 
         // 新しい本の設定
-        public BookSetting GetSetting(BookSetting restore, bool isDefaultRecursive)
+        public BookSettingConfig GetSetting(BookSettingConfig restore, bool isDefaultRecursive)
         {
             // TODO: isRecursived
             return Generater.Mix(DefaultSetting, LatestSetting, restore, isDefaultRecursive);
@@ -204,13 +198,13 @@ namespace NeeView
         public class Memento : IMemento
         {
             [DataMember]
-            public BookSetting DefaultSetting { get; set; }
+            public BookSettingConfig DefaultSetting { get; set; }
 
             [DataMember]
-            public BookSetting LatestSetting { get; set; }
+            public BookSettingConfig LatestSetting { get; set; }
 
             [DataMember]
-            public BookSettingGenerater Generater { get; set; }
+            public BookSettingPolicyConfig Generater { get; set; }
 
 
             [OnDeserializing]
@@ -226,26 +220,62 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
-                // TODO:
+                if (DefaultSetting != null)
+                {
+                    config.BookSettingDefault.Page = DefaultSetting.Page;
+                    config.BookSettingDefault.PageMode = DefaultSetting.PageMode;
+                    config.BookSettingDefault.BookReadOrder = DefaultSetting.BookReadOrder;
+                    config.BookSettingDefault.IsSupportedDividePage = DefaultSetting.IsSupportedDividePage;
+                    config.BookSettingDefault.IsSupportedSingleFirstPage = DefaultSetting.IsSupportedSingleFirstPage;
+                    config.BookSettingDefault.IsSupportedSingleLastPage = DefaultSetting.IsSupportedSingleLastPage;
+                    config.BookSettingDefault.IsSupportedWidePage = DefaultSetting.IsSupportedWidePage;
+                    config.BookSettingDefault.IsRecursiveFolder = DefaultSetting.IsRecursiveFolder;
+                    config.BookSettingDefault.SortMode = DefaultSetting.SortMode;
+                }
+                if (LatestSetting != null)
+                {
+                    config.BookSetting.Page = LatestSetting.Page;
+                    config.BookSetting.PageMode = LatestSetting.PageMode;
+                    config.BookSetting.BookReadOrder = LatestSetting.BookReadOrder;
+                    config.BookSetting.IsSupportedDividePage = LatestSetting.IsSupportedDividePage;
+                    config.BookSetting.IsSupportedSingleFirstPage = LatestSetting.IsSupportedSingleFirstPage;
+                    config.BookSetting.IsSupportedSingleLastPage = LatestSetting.IsSupportedSingleLastPage;
+                    config.BookSetting.IsSupportedWidePage = LatestSetting.IsSupportedWidePage;
+                    config.BookSetting.IsRecursiveFolder = LatestSetting.IsRecursiveFolder;
+                    config.BookSetting.SortMode = LatestSetting.SortMode;
+                }
+                if (Generater != null)
+                {
+                    config.BookSettingPolicy.Page = Generater.Page;
+                    config.BookSettingPolicy.PageMode = Generater.PageMode;
+                    config.BookSettingPolicy.BookReadOrder = Generater.BookReadOrder;
+                    config.BookSettingPolicy.IsSupportedDividePage = Generater.IsSupportedDividePage;
+                    config.BookSettingPolicy.IsSupportedSingleFirstPage = Generater.IsSupportedSingleFirstPage;
+                    config.BookSettingPolicy.IsSupportedSingleLastPage = Generater.IsSupportedSingleLastPage;
+                    config.BookSettingPolicy.IsSupportedWidePage = Generater.IsSupportedWidePage;
+                    config.BookSettingPolicy.IsRecursiveFolder = Generater.IsRecursiveFolder;
+                    config.BookSettingPolicy.SortMode = Generater.SortMode;
+                }
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.DefaultSetting = this.DefaultSetting.Clone();
-            memento.LatestSetting = this.LatestSetting.Clone();
-            memento.Generater = this.Generater.Clone();
+            memento.DefaultSetting = (BookSettingConfig)this.DefaultSetting.Clone();
+            memento.LatestSetting = (BookSettingConfig)this.LatestSetting.Clone();
+            memento.Generater = (BookSettingPolicyConfig)this.Generater.Clone();
             return memento;
         }
-
+        
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
 
-            this.DefaultSetting = memento.DefaultSetting?.Clone() ?? new BookSetting();
-            this.LatestSetting = memento.LatestSetting?.Clone() ?? new BookSetting();
-            this.Generater = memento.Generater?.Clone() ?? new BookSettingGenerater();
+            ////this.DefaultSetting = (BookSetting)memento.DefaultSetting?.Clone() ?? new BookSetting();
+            ////this.LatestSetting = (BookSetting)memento.LatestSetting?.Clone() ?? new BookSetting();
+            ////this.Generater = memento.Generater?.Clone() ?? new BookSettingGenerater();
         }
 
         #endregion

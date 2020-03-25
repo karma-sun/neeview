@@ -25,12 +25,12 @@ namespace NeeView
             public BookSettingPresenter.Memento ToBookSettingPresenter()
             {
                 var memento = new BookSettingPresenter.Memento();
-                memento.DefaultSetting = BookSetting.FromBookMement(this.BookMementoDefault);
+                memento.DefaultSetting = BookSettingConfigExtensions.FromBookMement(this.BookMementoDefault);
                 memento.DefaultSetting.Page = null;
-                memento.LatestSetting = BookSetting.FromBookMement(this.BookMemento);
+                memento.LatestSetting = BookSettingConfigExtensions.FromBookMement(this.BookMemento);
                 memento.LatestSetting.Page = null;
 
-                memento.Generater = new BookSettingGenerater();
+                memento.Generater = new BookSettingPolicyConfig();
                 var defaultSelecor = this.IsUseBookMementoDefault ? BookSettingSelectMode.Default : BookSettingSelectMode.Continue;
                 var storeSelector = this.IsUseBookMementoDefault ? BookSettingSelectMode.RestoreOrDefault : BookSettingSelectMode.RestoreOrContinue;
                 memento.Generater.Page = (this.HistoryMementoFilter.Page ? storeSelector : defaultSelecor).ToPageSelectMode();

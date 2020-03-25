@@ -734,7 +734,7 @@ namespace NeeView
                     CommandTable.Current.GetElement("ViewReset").Execute(CommandElement.EmptyArgs, CommandOption.None);
 
                     // 本の設定を更新
-                    BookSettingPresenter.Current.SetLatestSetting(BookSetting.FromBookMement(BookUnit?.Book.CreateMemento()));
+                    BookSettingPresenter.Current.SetLatestSetting(BookSettingConfigExtensions.FromBookMement(BookUnit?.Book.CreateMemento()));
 
                     // 本の変更通知
                     lock (_lock)
@@ -1071,7 +1071,7 @@ namespace NeeView
             }
             else
             {
-                return BookSettingPresenter.Current.GetSetting(BookSetting.FromBookMement(memory), option.HasFlag(BookLoadOption.DefaultRecursive)).ToBookMemento();
+                return BookSettingPresenter.Current.GetSetting(BookSettingConfigExtensions.FromBookMement(memory), option.HasFlag(BookLoadOption.DefaultRecursive)).ToBookMemento();
             }
         }
 

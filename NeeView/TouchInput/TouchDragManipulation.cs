@@ -375,14 +375,14 @@ namespace NeeView
         /// <returns></returns>
         private double GetSnapAngle()
         {
-            if (_transform.AngleFrequency > 0.0)
+            if (Config.Current.View.AngleFrequency > 0.0)
             {
                 var delta = _goal.Angle - _base.Angle;
 
                 if (Math.Abs(delta) > 1.0)
                 {
                     var direction = delta > 0.0 ? 1.0 : -1.0;
-                    return Math.Floor((_goal.Angle + _transform.AngleFrequency * (0.5 + direction * 0.25)) / _transform.AngleFrequency) * _transform.AngleFrequency;
+                    return Math.Floor((_goal.Angle + Config.Current.View.AngleFrequency * (0.5 + direction * 0.25)) / Config.Current.View.AngleFrequency) * Config.Current.View.AngleFrequency;
                 }
             }
 

@@ -461,7 +461,7 @@ namespace NeeView
                 : _contentSizeCalcurator.GetFixedContentSize(sizes);
 
             // スケール維持？
-            var scale = _dragTransformControl.IsKeepScale ? _dragTransform.Scale : 1.0;
+            var scale = Config.Current.View.IsKeepScale ? _dragTransform.Scale : 1.0;
 
             // リサイズ
             for (int i = 0; i < 2; ++i)

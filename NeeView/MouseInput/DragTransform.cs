@@ -65,11 +65,11 @@ namespace NeeView
             set { if (_isLimitMove != value) { _isLimitMove = value; RaisePropertyChanged(); } }
         }
 
-
+#if false
         // 回転スナップ。0で無効
         [PropertyMember("@ParamDragTransformAngleFrequency")]
         public double AngleFrequency { get; set; } = 0;
-
+#endif
 
         // 移動アニメーション有効フラグ(内部管理)
         private bool _isEnableTranslateAnimation;
@@ -204,9 +204,9 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
-        #region Methods
+#region Methods
 
         // パラメータとトランスフォームを対応させる
         private TransformGroup CreateTransformGroup()
@@ -244,9 +244,9 @@ namespace NeeView
             TransformChanged?.Invoke(this, new TransformEventArgs(actionType));
         }
 
-        #endregion
+#endregion
 
-        #region Memento
+#region Memento
 
         [DataContract]
         public class Memento : IMemento
@@ -258,6 +258,7 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
+                config.View.AngleFrequency = AngleFrequency;
             }
         }
 
@@ -266,7 +267,7 @@ namespace NeeView
             var memento = new Memento();
 
             memento.IsLimitMove = this.IsLimitMove;
-            memento.AngleFrequency = this.AngleFrequency;
+            memento.AngleFrequency = Config.Current.View.AngleFrequency;
 
             return memento;
         }
@@ -276,7 +277,7 @@ namespace NeeView
             if (memento == null) return;
 
             this.IsLimitMove = memento.IsLimitMove;
-            this.AngleFrequency = memento.AngleFrequency;
+            //this.AngleFrequency = memento.AngleFrequency;
         }
 
         #endregion

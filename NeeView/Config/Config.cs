@@ -47,19 +47,11 @@ namespace NeeView
 
         public ImageResizeFilterConfig ImageResizeFilter { get; set; } = new ImageResizeFilterConfig();
 
+        public ViewConfig View { get; set; } = new ViewConfig();
 
         public CommandConfig Command { get; set; } = new CommandConfig();
 
         public ScriptConfig Script { get; set; } = new ScriptConfig();
-
-        /// <summary>
-        /// Configプロパティを上書き
-        /// </summary>
-        public void Merge(Config config)
-        {
-            if (config == null) throw new ArgumentNullException();
-            ObjectTools.Merge(this, config);
-        }
     }
 
 }

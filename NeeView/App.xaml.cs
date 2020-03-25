@@ -158,7 +158,8 @@ namespace NeeView
 
             // 設定ファイル(V2)の読み込み (V2)
             var settingV2 = SaveData.Current.LoadConfig();
-            Config.Current.Merge(settingV2.Config); // 適用
+            ObjectTools.Merge(Config.Current, settingV2.Config); // 適用
+ 
 
 #if false
             // 設定ファイル(V1)の先行読み込み

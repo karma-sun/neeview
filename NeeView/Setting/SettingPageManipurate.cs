@@ -23,16 +23,16 @@ namespace NeeView.Setting
             {
                 new SettingItemSection(Properties.Resources.SettingPageManipurateGeneralViewOperation,
                     new SettingItemProperty(PropertyMemberElement.Create(DragTransform.Current, nameof(DragTransform.IsLimitMove))),
-                    new SettingItemProperty(PropertyMemberElement.Create(DragTransformControl.Current, nameof(DragTransformControl.IsViewStartPositionCenter))),
-                    new SettingItemProperty(PropertyMemberElement.Create(DragTransformControl.Current, nameof(DragTransformControl.DragControlRotateCenter))),
-                    new SettingItemProperty(PropertyMemberElement.Create(DragTransformControl.Current, nameof(DragTransformControl.DragControlScaleCenter))),
-                    new SettingItemProperty(PropertyMemberElement.Create(DragTransformControl.Current, nameof(DragTransformControl.DragControlFlipCenter))),
-                    new SettingItemProperty(PropertyMemberElement.Create(DragTransformControl.Current, nameof(DragTransformControl.IsKeepScale))),
-                    new SettingItemProperty(PropertyMemberElement.Create(DragTransformControl.Current, nameof(DragTransformControl.IsKeepAngle))),
-                    new SettingItemProperty(PropertyMemberElement.Create(DragTransformControl.Current, nameof(DragTransformControl.IsKeepFlip)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.View, nameof(ViewConfig.IsViewStartPositionCenter))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.View, nameof(ViewConfig.DragControlRotateCenter))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.View, nameof(ViewConfig.DragControlScaleCenter))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.View, nameof(ViewConfig.DragControlFlipCenter))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.View, nameof(ViewConfig.IsKeepScale))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.View, nameof(ViewConfig.IsKeepAngle))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.View, nameof(ViewConfig.IsKeepFlip)))),
 
                 new SettingItemSection(Properties.Resources.SettingPageManipurateGeneralAdvance,
-                    new SettingItemIndexValue<double>(PropertyMemberElement.Create(DragTransform.Current, nameof(DragTransform.AngleFrequency)), new AngleFrequency(), false)),
+                    new SettingItemIndexValue<double>(PropertyMemberElement.Create(Config.Current.View, nameof(ViewConfig.AngleFrequency)), new AngleFrequency(), false)),
             };
         }
 

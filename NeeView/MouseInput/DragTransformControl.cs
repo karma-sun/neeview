@@ -137,6 +137,7 @@ namespace NeeView
         public bool IsOriginalScaleShowMessage { get; set; }
 #endif
 
+#if false
         // 回転の中心
         [PropertyMember("@ParamDragTransformIsControRotatelCenter")]
         public DragControlCenter DragControlRotateCenter { get; set; }
@@ -164,6 +165,7 @@ namespace NeeView
         // 表示開始時の基準
         [PropertyMember("@ParamDragTransformIsViewStartPositionCenter", Tips = "@ParamDragTransformIsViewStartPositionCenterTips")]
         public bool IsViewStartPositionCenter { get; set; }
+#endif
 
         // 開始時の基準
         public DragViewOrigin ViewOrigin { get; set; }
@@ -248,19 +250,19 @@ namespace NeeView
         {
             if (origin == DragViewOrigin.None)
             {
-                origin = this.IsViewStartPositionCenter
+                origin = Config.Current.View.IsViewStartPositionCenter
                     ? DragViewOrigin.Center
                     : order == PageReadOrder.LeftToRight
                         ? DragViewOrigin.LeftTop
                         : DragViewOrigin.RightTop;
 
-                this.ViewOrigin = direction < 0 ? origin.Reverse() : origin;
-                this.ViewHorizontalDirection = (origin == DragViewOrigin.LeftTop) ? 1.0 : -1.0;
+                ViewOrigin = direction < 0 ? origin.Reverse() : origin;
+                ViewHorizontalDirection = (origin == DragViewOrigin.LeftTop) ? 1.0 : -1.0;
             }
             else
             {
-                this.ViewOrigin = direction < 0 ? origin.Reverse() : origin;
-                this.ViewHorizontalDirection = (origin == DragViewOrigin.LeftTop || origin == DragViewOrigin.LeftBottom) ? 1.0 : -1.0;
+                ViewOrigin = direction < 0 ? origin.Reverse() : origin;
+                ViewHorizontalDirection = (origin == DragViewOrigin.LeftTop || origin == DragViewOrigin.LeftBottom) ? 1.0 : -1.0;
             }
         }
 
@@ -271,9 +273,9 @@ namespace NeeView
         /// <param name="angle">Nanでない場合はこの角度で初期化する</param>
         public void Reset(bool forceReset, double angle)
         {
-            bool isResetScale = forceReset || !this.IsKeepScale;
-            bool isResetAngle = forceReset || !this.IsKeepAngle || !double.IsNaN(angle);
-            bool isResetFlip = forceReset || !this.IsKeepFlip;
+            bool isResetScale = forceReset || !Config.Current.View.IsKeepScale;
+            bool isResetAngle = forceReset || !Config.Current.View.IsKeepAngle || !double.IsNaN(angle);
+            bool isResetFlip = forceReset || !Config.Current.View.IsKeepFlip;
 
             Reset(isResetScale, isResetAngle, isResetFlip, double.IsNaN(angle) ? 0.0 : angle); // DefaultViewAngle(isResetAngle));
         }
@@ -731,9 +733,9 @@ namespace NeeView
         public void Rotate(double angle)
         {
             // スナップ値を下限にする
-            if (Math.Abs(angle) < _transform.AngleFrequency)
+            if (Math.Abs(angle) < Config.Current.View.AngleFrequency)
             {
-                angle = _transform.AngleFrequency * Math.Sign(angle);
+                angle = Config.Current.View.AngleFrequency * Math.Sign(angle);
             }
 
             InitializeDragParameter(Mouse.GetPosition(_sender));
@@ -800,9 +802,9 @@ namespace NeeView
 
             InitializeWindowDragPosition();
 
-            _rotateCenter = GetCenterPosition(DragControlRotateCenter);
-            _scaleCenter = GetCenterPosition(DragControlScaleCenter);
-            _flipCenter = GetCenterPosition(DragControlFlipCenter);
+            _rotateCenter = GetCenterPosition(Config.Current.View.DragControlRotateCenter);
+            _scaleCenter = GetCenterPosition(Config.Current.View.DragControlScaleCenter);
+            _flipCenter = GetCenterPosition(Config.Current.View.DragControlFlipCenter);
 
             _basePosition = _transform.Position;
             _baseAngle = _transform.Angle;
@@ -957,9 +959,9 @@ namespace NeeView
         // 回転実行
         private void DoRotate(double angle)
         {
-            if (_transform.AngleFrequency > 0)
+            if (Config.Current.View.AngleFrequency > 0)
             {
-                angle = Math.Floor((angle + _transform.AngleFrequency * 0.5) / _transform.AngleFrequency) * _transform.AngleFrequency;
+                angle = Math.Floor((angle + Config.Current.View.AngleFrequency * 0.5) / Config.Current.View.AngleFrequency) * Config.Current.View.AngleFrequency;
             }
 
             _transform.SetAngle(angle, TransformActionType.Angle);
@@ -1193,6 +1195,14 @@ namespace NeeView
             public void RestoreConfig(Config config)
             {
                 config.Layout.Notice.IsOriginalScaleShowMessage = IsOriginalScaleShowMessage;
+
+                config.View.DragControlRotateCenter = DragControlRotateCenter;
+                config.View.DragControlScaleCenter = DragControlScaleCenter;
+                config.View.DragControlFlipCenter = DragControlFlipCenter;
+                config.View.IsKeepScale = IsKeepScale;
+                config.View.IsKeepAngle = IsKeepAngle;
+                config.View.IsKeepFlip = IsKeepFlip;
+                config.View.IsViewStartPositionCenter = IsViewStartPositionCenter;
             }
         }
 
@@ -1201,29 +1211,30 @@ namespace NeeView
             var memento = new Memento();
 
             memento.IsOriginalScaleShowMessage = Config.Current.Layout.Notice.IsOriginalScaleShowMessage;
-            memento.DragControlRotateCenter = this.DragControlRotateCenter;
-            memento.DragControlScaleCenter = this.DragControlScaleCenter;
-            memento.DragControlFlipCenter = this.DragControlFlipCenter;
-            memento.IsKeepScale = this.IsKeepScale;
-            memento.IsKeepAngle = this.IsKeepAngle;
-            memento.IsKeepFlip = this.IsKeepFlip;
-            memento.IsViewStartPositionCenter = this.IsViewStartPositionCenter;
+            memento.DragControlRotateCenter = Config.Current.View.DragControlRotateCenter;
+            memento.DragControlScaleCenter = Config.Current.View.DragControlScaleCenter;
+            memento.DragControlFlipCenter = Config.Current.View.DragControlFlipCenter;
+            memento.IsKeepScale = Config.Current.View.IsKeepScale;
+            memento.IsKeepAngle = Config.Current.View.IsKeepAngle;
+            memento.IsKeepFlip = Config.Current.View.IsKeepFlip;
+            memento.IsViewStartPositionCenter = Config.Current.View.IsViewStartPositionCenter;
 
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
 
             ////this.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
-            this.DragControlRotateCenter = memento.DragControlRotateCenter;
-            this.DragControlScaleCenter = memento.DragControlScaleCenter;
-            this.DragControlFlipCenter = memento.DragControlFlipCenter;
-            this.IsKeepScale = memento.IsKeepScale;
-            this.IsKeepAngle = memento.IsKeepAngle;
-            this.IsKeepFlip = memento.IsKeepFlip;
-            this.IsViewStartPositionCenter = memento.IsViewStartPositionCenter;
+            //this.DragControlRotateCenter = memento.DragControlRotateCenter;
+            //this.DragControlScaleCenter = memento.DragControlScaleCenter;
+            //this.DragControlFlipCenter = memento.DragControlFlipCenter;
+            //this.IsKeepScale = memento.IsKeepScale;
+            //this.IsKeepAngle = memento.IsKeepAngle;
+            //this.IsKeepFlip = memento.IsKeepFlip;
+            //this.IsViewStartPositionCenter = memento.IsViewStartPositionCenter;
         }
 
         #endregion

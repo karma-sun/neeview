@@ -19,14 +19,14 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageHistoryGeneralGeneral,
-                    new SettingItemIndexValue<int>(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.HistoryEntryPageCount)), new HistoryEntryPageCount(), true),
-                    new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsInnerArchiveHistoryEnabled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsUncHistoryEnabled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsForceUpdateHistory)))),
+                    new SettingItemIndexValue<int>(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.HistoryEntryPageCount)), new HistoryEntryPageCount(), true),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.IsInnerArchiveHistoryEnabled))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.IsUncHistoryEnabled))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.IsForceUpdateHistory)))),
 
                 new SettingItemSection(Properties.Resources.SettingPageHistoryGeneralLimit, Properties.Resources.SettingPageHistoryGeneralLimitTips,
-                    new SettingItemIndexValue<int>(PropertyMemberElement.Create(BookHistoryCollection.Current, nameof(BookHistoryCollection.LimitSize)), new HistoryLimitSize(), false),
-                    new SettingItemIndexValue<TimeSpan>(PropertyMemberElement.Create(BookHistoryCollection.Current, nameof(BookHistoryCollection.LimitSpan)), new HistoryLimitSpan(), false)),
+                    new SettingItemIndexValue<int>(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.LimitSize)), new HistoryLimitSize(), false),
+                    new SettingItemIndexValue<TimeSpan>(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.LimitSpan)), new HistoryLimitSpan(), false)),
 
                 new SettingItemSection(Properties.Resources.SettingPageHistoryGeneralDelete,
                     new SettingItemGroup(
@@ -152,8 +152,8 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageHistoryPageViewRecord,
-                    new SettingItemProperty(PropertyMemberElement.Create(PageViewRecorder.Current, nameof(PageViewRecorder.IsRecordPageView))),
-                    new SettingItemProperty(PropertyMemberElement.Create(PageViewRecorder.Current, nameof(PageViewRecorder.PageViewRecordPath)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.PageViewRecorder, nameof(PageViewRecorderConfig.IsSavePageViewRecord))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.PageViewRecorder, nameof(PageViewRecorderConfig.PageViewRecordFilePath)))),
             };
         }
     }

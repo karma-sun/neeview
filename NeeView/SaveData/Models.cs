@@ -278,7 +278,7 @@ namespace NeeView
             ////ThumbnailProfile.Current.Restore(memento.ThumbnailProfile);
             ////InfoMessage.Current.Restore(memento.InfoMessage);
             ////BookProfile.Current.Restore(memento.BookProfile);
-            BookHub.Current.Restore(memento.BookHub);
+            ////BookHub.Current.Restore(memento.BookHub);
             BookOperation.Current.Restore(memento.BookOperation);
             ////BookSettingPresenter.Current.Restore(memento.BookSettingPresenter);
             ////ThemeProfile.Current.Restore(memento.ThemeProfile);
@@ -307,7 +307,7 @@ namespace NeeView
             ////FileInformation.Current.Restore(memento.FileInformation);
             ////ImageEffect.Current.Restore(memento.ImageEffect);
             SidePanel.Current.Restore(memento.SidePanel);
-            PageViewRecorder.Current.Restore(memento.PageViewRecorder);
+            ////PageViewRecorder.Current.Restore(memento.PageViewRecorder);
         }
 
         #endregion

@@ -45,6 +45,7 @@ namespace NeeView
         // 履歴コレクション
         public LinkedDicionary<string, BookHistory> Items { get; set; } = new LinkedDicionary<string, BookHistory>();
 
+#if false
         // 履歴制限
         [PropertyMember("@ParamHistoryLimitSize")]
         public int LimitSize { get; set; }
@@ -53,7 +54,6 @@ namespace NeeView
         [PropertyMember("@ParamHistoryLimitSpan")]
         public TimeSpan LimitSpan { get; set; }
 
-#if false
         // 最後に開いたフォルダーの場所記憶
         [PropertyMember("@ParamHistoryIsKeepLastFolder", Tips = "@ParamHistoryIsKeepLastFolderTips")]
         public bool IsKeepLastFolder { get; set; }
@@ -556,6 +556,8 @@ namespace NeeView
                 config.StartUp.LastBookPath = LastAddress;
                 config.History.IsKeepFolderStatus = IsKeepFolderStatus;
                 config.History.IsKeepSearchHistory = IsKeepSearchHistory;
+                config.History.LimitSize = LimitSize;
+                config.History.LimitSpan = LimitSpan;
             }
         }
 
@@ -568,8 +570,8 @@ namespace NeeView
 
             memento.Folders = _folders;
             memento.LastFolder = Config.Current.StartUp.LastFolderPath;
-            memento.LimitSize = this.LimitSize;
-            memento.LimitSpan = this.LimitSpan;
+            memento.LimitSize = Config.Current.History.LimitSize;
+            memento.LimitSpan = Config.Current.History.LimitSpan;
             memento.IsKeepFolderStatus = Config.Current.History.IsKeepFolderStatus;
             memento.IsKeepLastFolder = Config.Current.StartUp.IsOpenLastFolder;
             memento.LastAddress = Config.Current.StartUp.LastBookPath;
@@ -578,7 +580,7 @@ namespace NeeView
 
             if (forSave)
             {
-                memento.Items = Limit(this.Items.Where(e => !e.Place.StartsWith(Temporary.Current.TempDirectory)), LimitSize, LimitSpan).ToList();
+                memento.Items = Limit(this.Items.Where(e => !e.Place.StartsWith(Temporary.Current.TempDirectory)), Config.Current.History.LimitSize, Config.Current.History.LimitSpan).ToList();
                 memento.Books = memento.Items.Select(e => e.Unit.Memento).ToList();
 
                 if (!memento.IsKeepSearchHistory)
@@ -603,8 +605,8 @@ namespace NeeView
             ////this.LastFolder = memento.LastFolder;
             ////this.LastAddress = memento.LastAddress;
             _folders = memento.Folders ?? _folders;
-            this.LimitSize = memento.LimitSize;
-            this.LimitSpan = memento.LimitSpan;
+            //this.LimitSize = memento.LimitSize;
+            //this.LimitSpan = memento.LimitSpan;
             ////this.IsKeepLastFolder = memento.IsKeepLastFolder;
             ////this.IsKeepFolderStatus = memento.IsKeepFolderStatus;
             ////this.IsKeepSearchHistory = memento.IsKeepSearchHistory;
@@ -614,7 +616,7 @@ namespace NeeView
                 this.SearchHistory = memento.SearchHistory != null ? new ObservableCollection<string>(memento.SearchHistory) : new ObservableCollection<string>();
             }
 
-            this.Load(fromLoad ? Limit(memento.Items, LimitSize, LimitSpan) : memento.Items, memento.Books);
+            this.Load(fromLoad ? Limit(memento.Items, memento.LimitSize, memento.LimitSpan) : memento.Items, memento.Books);
         }
 
 

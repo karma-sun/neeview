@@ -22,8 +22,8 @@ namespace NeeView
 
         #region Fields
 
-        private bool _isRecordPageView;
-        private string _pageViewRecordPath;
+        //private bool _isRecordPageView;
+        //private string _pageViewRecordPath;
         private FileStream _file;
         private StringBuilder _writeBuffer;
         private DateTime _viewedPagesDateTime;
@@ -49,6 +49,7 @@ namespace NeeView
 
         #region Properties
 
+#if false
         // 履歴を保存するか
         [PropertyMember("@ParamIsRecordPageView")]
         public bool IsRecordPageView
@@ -64,6 +65,7 @@ namespace NeeView
             get { return _pageViewRecordPath; }
             set { SetProperty(ref _pageViewRecordPath, value); }
         }
+#endif
 
         #endregion Properties
 
@@ -163,7 +165,7 @@ namespace NeeView
             {
                 try
                 {
-                    _file = File.Open(PageViewRecordPath, FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
+                    _file = File.Open(Config.Current.PageViewRecorder.PageViewRecordFilePath, FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
                     _writeBuffer = new StringBuilder(1024);
                 }
                 catch (IOException err)
@@ -253,12 +255,12 @@ namespace NeeView
         {
             CloseFile();
 
-            if (!IsRecordPageView)
+            if (!Config.Current.PageViewRecorder.IsSavePageViewRecord)
             {
                 return;
             }
 
-            if (String.IsNullOrEmpty(PageViewRecordPath))
+            if (String.IsNullOrEmpty(Config.Current.PageViewRecorder.PageViewRecordFilePath))
             {
                 return;
             }
@@ -288,6 +290,8 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
+                config.PageViewRecorder.IsSavePageViewRecord = IsRecordPageView;
+                config.PageViewRecorder.PageViewRecordFilePath = PageViewRecordPath;
             }
         }
 
@@ -298,19 +302,20 @@ namespace NeeView
 
             memento._Version = Environment.ProductVersionNumber;
 
-            memento.IsRecordPageView = IsRecordPageView;
-            memento.PageViewRecordPath = PageViewRecordPath;
+            memento.IsRecordPageView = Config.Current.PageViewRecorder.IsSavePageViewRecord;
+            memento.PageViewRecordPath = Config.Current.PageViewRecorder.PageViewRecordFilePath;
 
             return memento;
         }
 
         // memento反映
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
 
-            IsRecordPageView = memento.IsRecordPageView;
-            PageViewRecordPath = memento.PageViewRecordPath;
+            //IsRecordPageView = memento.IsRecordPageView;
+            //PageViewRecordPath = memento.PageViewRecordPath;
 
         }
 

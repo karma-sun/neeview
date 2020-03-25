@@ -81,6 +81,7 @@ namespace NeeView
             options.Converters.Add(new JsonEnumFuzzyConverter());
             options.Converters.Add(new JsonColorConverter());
             options.Converters.Add(new JsonSizeConverter());
+            options.Converters.Add(new JsonTimeSpanConverter());
             return options;
         }
     }
@@ -164,6 +165,22 @@ namespace NeeView
         }
     }
 
+
+    /// <summary>
+    /// TimeSpanを文字列に変換する
+    /// </summary>
+    public sealed class JsonTimeSpanConverter : JsonConverter<TimeSpan>
+    {
+        public override TimeSpan Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            return TimeSpan.Parse(reader.GetString());
+        }
+
+        public override void Write(Utf8JsonWriter writer, TimeSpan value, JsonSerializerOptions options)
+        {
+            writer.WriteStringValue(value.ToString());
+        }
+    }
 
 
     /// <summary>

@@ -24,6 +24,8 @@ namespace NeeView
 
         public HistoryConfig History { get; set; } = new HistoryConfig();
 
+        public PageViewRecorderConfig PageViewRecorder { get; set; } = new PageViewRecorderConfig();
+
         public BookmarkConfig Bookmark { get; set; } = new BookmarkConfig();
 
         public PagemarkConfig Pagemark { get; set; } = new PagemarkConfig();
@@ -67,5 +69,4 @@ namespace NeeView
 
         public ScriptConfig Script { get; set; } = new ScriptConfig();
     }
-
 }

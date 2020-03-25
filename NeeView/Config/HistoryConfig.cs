@@ -1,6 +1,7 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Controls;
 using NeeView.Windows.Property;
+using System;
 
 namespace NeeView
 {
@@ -33,6 +34,38 @@ namespace NeeView
         // 検索履歴の情報記憶
         [PropertyMember("@ParamHistoryIsKeepSearchHistory")]
         public bool IsKeepSearchHistory { get; set; } = true;
+
+        /// <summary>
+        /// アーカイブ内アーカイブの履歴保存
+        /// </summary>
+        [PropertyMember("@ParamIsInnerArchiveHistoryEnabled")]
+        public bool IsInnerArchiveHistoryEnabled { get; set; } = true;
+
+        /// <summary>
+        /// UNCパスの履歴保存
+        /// </summary>
+        [PropertyMember("@ParamIsUncHistoryEnabled", Tips = "@ParamIsUncHistoryEnabledTips")]
+        public bool IsUncHistoryEnabled { get; set; } = true;
+
+        /// <summary>
+        /// 履歴閲覧でも履歴登録日を更新する
+        /// </summary>
+        [PropertyMember("@ParamIsForceUpdateHistory")]
+        public bool IsForceUpdateHistory { get; set; }
+
+        /// <summary>
+        /// 何回ページを切り替えたら履歴登録するか
+        /// </summary>
+        [PropertyMember("@ParamHistoryEntryPageCount", Tips = "@ParamHistoryEntryPageCountTips")]
+        public int HistoryEntryPageCount { get; set; } = 0;
+
+        // 履歴制限
+        [PropertyMember("@ParamHistoryLimitSize")]
+        public int LimitSize { get; set; } = -1;
+
+        // 履歴制限(時間)
+        [PropertyMember("@ParamHistoryLimitSpan")]
+        public TimeSpan LimitSpan { get; set; }
     }
 }
 

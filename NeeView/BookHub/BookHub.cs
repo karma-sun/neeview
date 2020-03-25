@@ -344,7 +344,6 @@ namespace NeeView
             get { return _archiveRecursiveMode; }
             set { SetProperty(ref _archiveRecursiveMode, value); }
         }
-#endif
 
         /// <summary>
         /// アーカイブ内アーカイブの履歴保存
@@ -369,6 +368,7 @@ namespace NeeView
         /// </summary>
         [PropertyMember("@ParamHistoryEntryPageCount", Tips = "@ParamHistoryEntryPageCountTips")]
         public int HistoryEntryPageCount { get; set; } = 0;
+#endif
 
         /// <summary>
         /// 現在の本
@@ -490,7 +490,7 @@ namespace NeeView
                 lock (_lock)
                 {
                     if (BookUnit == null) return;
-                    allowUpdateHistory = !BookUnit.IsKeepHistoryOrder || IsForceUpdateHistory;
+                    allowUpdateHistory = !BookUnit.IsKeepHistoryOrder || Config.Current.History.IsForceUpdateHistory;
                 }
 
                 // 履歴更新
@@ -1085,7 +1085,7 @@ namespace NeeView
             lock (_lock)
             {
                 if (BookUnit == null) return;
-                isKeepHistoryOrder = BookUnit.IsKeepHistoryOrder || IsForceUpdateHistory;
+                isKeepHistoryOrder = BookUnit.IsKeepHistoryOrder || Config.Current.History.IsForceUpdateHistory;
             }
             SaveBookMemento(memento, isKeepHistoryOrder);
         }
@@ -1140,8 +1140,8 @@ namespace NeeView
         private bool CanHistory()
         {
             // 履歴閲覧時の履歴更新は最低１操作を必要とする
-            var historyEntryPageCount = this.HistoryEntryPageCount;
-            if (BookUnit.IsKeepHistoryOrder && IsForceUpdateHistory && historyEntryPageCount <= 0)
+            var historyEntryPageCount = Config.Current.History.HistoryEntryPageCount;
+            if (BookUnit.IsKeepHistoryOrder && Config.Current.History.IsForceUpdateHistory && historyEntryPageCount <= 0)
             {
                 historyEntryPageCount = 1;
             }
@@ -1150,8 +1150,8 @@ namespace NeeView
                 && !_historyRemoved
                 && Book.Pages.Count > 0
                 && (_historyEntry || Book.Viewer.PageChangeCount > historyEntryPageCount || Book.Viewer.IsPageTerminated)
-                && (IsInnerArchiveHistoryEnabled || Book.Source.ArchiveEntryCollection.Archiver?.Parent == null)
-                && (IsUncHistoryEnabled || !LoosePath.IsUnc(Book.Address));
+                && (Config.Current.History.IsInnerArchiveHistoryEnabled || Book.Source.ArchiveEntryCollection.Archiver?.Parent == null)
+                && (Config.Current.History.IsUncHistoryEnabled || !LoosePath.IsUnc(Book.Address));
         }
 
         #endregion BookMemento Control
@@ -1279,6 +1279,10 @@ namespace NeeView
                 config.System.ArchiveRecursiveMode = ArchiveRecursveMode;
                 config.Book.IsConfirmRecursive = IsConfirmRecursive;
                 config.Book.IsAutoRecursive = IsAutoRecursive;
+                config.History.HistoryEntryPageCount = HistoryEntryPageCount;
+                config.History.IsInnerArchiveHistoryEnabled = IsInnerArchiveHistoryEnabled;
+                config.History.IsUncHistoryEnabled = IsUncHistoryEnabled;
+                config.History.IsForceUpdateHistory = IsForceUpdateHistory;
             }
         }
 
@@ -1291,26 +1295,27 @@ namespace NeeView
 
             memento.IsConfirmRecursive = Config.Current.Book.IsConfirmRecursive;
             memento.IsAutoRecursive = Config.Current.Book.IsAutoRecursive;
-            memento.HistoryEntryPageCount = HistoryEntryPageCount;
-            memento.IsInnerArchiveHistoryEnabled = IsInnerArchiveHistoryEnabled;
-            memento.IsUncHistoryEnabled = IsUncHistoryEnabled;
-            memento.IsForceUpdateHistory = IsForceUpdateHistory;
+            memento.HistoryEntryPageCount = Config.Current.History.HistoryEntryPageCount;
+            memento.IsInnerArchiveHistoryEnabled = Config.Current.History.IsInnerArchiveHistoryEnabled;
+            memento.IsUncHistoryEnabled = Config.Current.History.IsUncHistoryEnabled;
+            memento.IsForceUpdateHistory = Config.Current.History.IsForceUpdateHistory;
             memento.ArchiveRecursveMode = Config.Current.System.ArchiveRecursiveMode;
 
             return memento;
         }
 
         // memento反映
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
 
             //IsConfirmRecursive = memento.IsConfirmRecursive;
             //IsAutoRecursive = memento.IsAutoRecursive;
-            HistoryEntryPageCount = memento.HistoryEntryPageCount;
-            IsInnerArchiveHistoryEnabled = memento.IsInnerArchiveHistoryEnabled;
-            IsUncHistoryEnabled = memento.IsUncHistoryEnabled;
-            IsForceUpdateHistory = memento.IsForceUpdateHistory;
+            //HistoryEntryPageCount = memento.HistoryEntryPageCount;
+            //IsInnerArchiveHistoryEnabled = memento.IsInnerArchiveHistoryEnabled;
+            //IsUncHistoryEnabled = memento.IsUncHistoryEnabled;
+            //IsForceUpdateHistory = memento.IsForceUpdateHistory;
             ////this.ArchiveRecursiveMode = memento.ArchiveRecursveMode;
         }
 

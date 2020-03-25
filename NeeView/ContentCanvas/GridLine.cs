@@ -1,5 +1,6 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
+using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 using System.Windows;
@@ -11,6 +12,15 @@ namespace NeeView
 {
     public class GridLine : BindableBase
     {
+        public GridLine()
+        {
+            Config.Current.ImageGrid.PropertyChanged += (s, e) =>
+            {
+                RaisePropertyChanged(nameof(Content));
+            };
+        }
+
+#if false
         private bool _isEnabled;
         public bool IsEnabled
         {
@@ -49,7 +59,7 @@ namespace NeeView
             get { return _isSquare; }
             set { if (SetProperty(ref _isSquare, value)) RaisePropertyChanged(nameof(Content)); }
         }
-
+#endif
 
         private double _width;
         public double Width
@@ -84,12 +94,14 @@ namespace NeeView
 
         private UIElement CreatePath()
         {
-            if (!IsEnabled || Width <= 0.0 || Height <= 0.0) return null;
+            var imageGrid = Config.Current.ImageGrid;
 
-            double cellX = DivX > 0 ? Width / DivX : Width;
-            double cellY = DivY > 0 ? Height / DivY : Height;
+            if (!imageGrid.IsEnabled || Width <= 0.0 || Height <= 0.0) return null;
 
-            if (IsSquare)
+            double cellX = imageGrid.DivX > 0 ? Width / imageGrid.DivX : Width;
+            double cellY = imageGrid.DivY > 0 ? Height / imageGrid.DivY : Height;
+
+            if (imageGrid.IsSquare)
             {
                 if (cellX < cellY)
                 {
@@ -105,7 +117,7 @@ namespace NeeView
             canvas.Width = Width;
             canvas.Height = Height;
 
-            var stroke = new SolidColorBrush(Color);
+            var stroke = new SolidColorBrush(imageGrid.Color);
 
             canvas.Children.Add(CreatePath(new Point(0, 0), new Point(0, Height), stroke));
             canvas.Children.Add(CreatePath(new Point(Width, 0), new Point(Width, Height), stroke));
@@ -164,32 +176,42 @@ namespace NeeView
             {
                 this.InitializePropertyDefaultValues();
             }
+
+            public void RestoreConfig(Config config)
+            {
+                config.ImageGrid.DivX = DivX;
+                config.ImageGrid.DivY = DivY;
+                config.ImageGrid.IsSquare = IsSquare;
+                config.ImageGrid.Color = Color;
+                config.ImageGrid.IsEnabled = IsEnabled;
+            }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
 
-            memento.IsEnabled = this.IsEnabled;
-            memento.DivX = this.DivX;
-            memento.DivY = this.DivY;
-            memento.IsSquare = this.IsSquare;
-            memento.Color = this.Color;
+            memento.IsEnabled = Config.Current.ImageGrid.IsEnabled;
+            memento.DivX = Config.Current.ImageGrid.DivX;
+            memento.DivY = Config.Current.ImageGrid.DivY;
+            memento.IsSquare = Config.Current.ImageGrid.IsSquare;
+            memento.Color = Config.Current.ImageGrid.Color;
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
 
             // 更新回数を抑えるために設定前に無効にする
-            this.IsEnabled = false;
+            //this.IsEnabled = false;
 
-            this.DivX = memento.DivX;
-            this.DivY = memento.DivY;
-            this.IsSquare = memento.IsSquare;
-            this.Color = memento.Color;
-            this.IsEnabled = memento.IsEnabled;
+            //this.DivX = memento.DivX;
+            //this.DivY = memento.DivY;
+            //this.IsSquare = memento.IsSquare;
+            //this.Color = memento.Color;
+            //this.IsEnabled = memento.IsEnabled;
         }
 
         #endregion

@@ -51,7 +51,7 @@ namespace NeeView
 
         public virtual Size GetRenderSize(Size size)
         {
-            return CanResize && PictureProfile.Current.IsResizeFilterEnabled ? size : Size.Empty;
+            return CanResize && Config.Current.ImageResizeFilter.IsEnabled ? size : Size.Empty;
         }
 
         /// <summary>

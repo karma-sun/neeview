@@ -18,12 +18,12 @@ namespace NeeView
 
         public override Binding CreateIsCheckedBinding()
         {
-            return new Binding(nameof(PictureProfile.Current.IsResizeFilterEnabled)) { Mode = BindingMode.OneWay, Source = PictureProfile.Current };
+            return new Binding(nameof(ImageResizeFilterConfig.IsEnabled)) { Mode = BindingMode.OneWay, Source = Config.Current.ImageResizeFilter };
         }
 
         public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
         {
-            return PictureProfile.Current.IsResizeFilterEnabled ? Properties.Resources.CommandToggleResizeFilterOff : Properties.Resources.CommandToggleResizeFilterOn;
+            return Config.Current.ImageResizeFilter.IsEnabled ? Properties.Resources.CommandToggleResizeFilterOff : Properties.Resources.CommandToggleResizeFilterOn;
         }
 
         public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)
@@ -36,11 +36,11 @@ namespace NeeView
         {
             if (args.Length > 0)
             {
-                PictureProfile.Current.IsResizeFilterEnabled = Convert.ToBoolean(args[0]);
+                Config.Current.ImageResizeFilter.IsEnabled = Convert.ToBoolean(args[0]);
             }
             else
             {
-                PictureProfile.Current.IsResizeFilterEnabled = !PictureProfile.Current.IsResizeFilterEnabled;
+                Config.Current.ImageResizeFilter.IsEnabled = !Config.Current.ImageResizeFilter.IsEnabled;
             }
         }
     }

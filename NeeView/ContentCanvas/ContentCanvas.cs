@@ -932,9 +932,9 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
-                // TODO: GridLine
-
                 config.ImageDotKeep.IsEnabled = IsEnabledNearestNeighbor;
+
+                this.GridLine.RestoreConfig(config);
             }
         }
 
@@ -960,7 +960,7 @@ namespace NeeView
             //this.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
             this.ContentsSpace = memento.ContentsSpace;
             this.AutoRotateType = memento.AutoRotateType;
-            this.GridLine.Restore(memento.GridLine);
+            //this.GridLine.Restore(memento.GridLine);
         }
 
         #endregion

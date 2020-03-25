@@ -44,8 +44,8 @@ namespace NeeView
             LoupeTransform.Current.AddPropertyChanged(nameof(LoupeTransform.FixedScale), (s, e) => Request());
 
             // リサイズフィルター状態監視
-            PictureProfile.Current.AddPropertyChanged(nameof(PictureProfile.IsResizeFilterEnabled), (s, e) => Request());
-            ImageFilter.Current.PropertyChanged += (s, e) => Request();
+            ////Config.Current.ImageResizeFilter.AddPropertyChanged(nameof(ImageResizeFilterConfig.IsEnabled), (s, e) => Request());
+            Config.Current.ImageResizeFilter.PropertyChanged += (s, e) => Request();
 
             // ドット表示監視
             Config.Current.ImageDotKeep.AddPropertyChanged(nameof(ImageDotKeepConfig.IsEnabled), (s, e) => Request());

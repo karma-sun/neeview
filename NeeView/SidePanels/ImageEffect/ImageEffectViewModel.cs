@@ -17,12 +17,12 @@ namespace NeeView
             _model = model;
             _imageFilter = imageFilter;
 
-            this.UnsharpMaskProfile = new PropertyDocument(_imageFilter.UnsharpMaskProfile);
+            this.UnsharpMaskProfile = new PropertyDocument(Config.Current.ImageResizeFilter.UnsharpMask);
 
             this.CustomSizeProfile = new PropertyDocument(Config.Current.ImageCustomSize);
             this.CustomSizeProfile.SetVisualType<PropertyValue_Boolean>(PropertyVisualType.ToggleSwitch);
 
-            this.GridLineProfile = new PropertyDocument(ContentCanvas.Current.GridLine);
+            this.GridLineProfile = new PropertyDocument(Config.Current.ImageGrid);
             this.GridLineProfile.SetVisualType<PropertyValue_Boolean>(PropertyVisualType.ToggleSwitch);
             this.GridLineProfile.SetVisualType<PropertyValue_Color>(PropertyVisualType.ComboColorPicker);
         }
@@ -71,8 +71,8 @@ namespace NeeView
         {
             using (var lockerKey = ContentRebuild.Current.Locker.Lock())
             {
-                _imageFilter.ResizeInterpolation = ResizeInterpolation.Lanczos;
-                _imageFilter.Sharpen = true;
+                Config.Current.ImageResizeFilter.ResizeInterpolation = ResizeInterpolation.Lanczos;
+                Config.Current.ImageResizeFilter.Sharpen = true;
                 this.UnsharpMaskProfile.Reset();
             }
         }

@@ -21,7 +21,6 @@ namespace NeeView
         private PictureFileExtension _fileExtension = new PictureFileExtension();
 
         private Size _MaximumSize = new Size(4096, 4096);
-        private bool _isResizeFilterEnabled = false;
         ////private PictureCustomSize _customSize;
         private bool _isAspectRatioEnabled;
 
@@ -61,7 +60,8 @@ namespace NeeView
                 if (_MaximumSize != size) { _MaximumSize = size; RaisePropertyChanged(); }
             }
         }
-#endif
+
+        private bool _isResizeFilterEnabled = false;
 
         public bool IsResizeFilterEnabled
         {
@@ -69,7 +69,6 @@ namespace NeeView
             set { if (_isResizeFilterEnabled != value) { _isResizeFilterEnabled = value; RaisePropertyChanged(); } }
         }
 
-#if false
         public PictureCustomSize CustomSize
         {
             get { return _customSize; }
@@ -182,7 +181,7 @@ namespace NeeView
 
                 config.Performance.IsLimitSourceSize = IsLimitSourceSize;
                 config.Performance.MaximumSize = Maximum;
-
+                config.ImageResizeFilter.IsEnabled = IsResizeFilterEnabled;
             }
         }
 
@@ -191,7 +190,7 @@ namespace NeeView
             var memento = new Memento();
             memento.IsLimitSourceSize = Config.Current.Performance.IsLimitSourceSize;
             memento.Maximum = Config.Current.Performance.MaximumSize;
-            memento.IsResizeFilterEnabled = this.IsResizeFilterEnabled;
+            memento.IsResizeFilterEnabled = Config.Current.ImageResizeFilter.IsEnabled;
             memento.CustomSize = new PictureCustomSize().CreateMemento();
             memento.IsAspectRatioEnabled = this.IsAspectRatioEnabled;
             memento.IsSvgEnabled = this.IsSvgEnabled;
@@ -204,7 +203,7 @@ namespace NeeView
             ////this.IsLimitSourceSize = memento.IsLimitSourceSize;
             ////this.MaximumSize = memento.Maximum;
             ////this.CustomSize.Restore(memento.CustomSize);
-            this.IsResizeFilterEnabled = memento.IsResizeFilterEnabled;
+            ////this.IsResizeFilterEnabled = memento.IsResizeFilterEnabled;
             this.IsAspectRatioEnabled = memento.IsAspectRatioEnabled;
             this.IsSvgEnabled = memento.IsSvgEnabled;
         }

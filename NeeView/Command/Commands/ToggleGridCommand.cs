@@ -16,12 +16,12 @@ namespace NeeView
 
         public override Binding CreateIsCheckedBinding()
         {
-            return new Binding(nameof(ContentCanvas.Current.GridLine.IsEnabled)) { Mode = BindingMode.OneWay, Source = ContentCanvas.Current.GridLine };
+            return new Binding(nameof(ImageGridConfig.IsEnabled)) { Mode = BindingMode.OneWay, Source = Config.Current.ImageGrid };
         }
 
         public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
         {
-            return ContentCanvas.Current.GridLine.IsEnabled ? Properties.Resources.CommandToggleGridOff : Properties.Resources.CommandToggleGridOn;
+            return Config.Current.ImageGrid.IsEnabled ? Properties.Resources.CommandToggleGridOff : Properties.Resources.CommandToggleGridOn;
         }
 
         [MethodArgument("@CommandToggleArgument")]
@@ -29,11 +29,11 @@ namespace NeeView
         {
             if (args.Length > 0)
             {
-                ContentCanvas.Current.GridLine.IsEnabled = Convert.ToBoolean(args[0]);
+                Config.Current.ImageGrid.IsEnabled = Convert.ToBoolean(args[0]);
             }
             else
             {
-                ContentCanvas.Current.GridLine.IsEnabled = !ContentCanvas.Current.GridLine.IsEnabled;
+                Config.Current.ImageGrid.IsEnabled = !Config.Current.ImageGrid.IsEnabled;
             }
         }
     }

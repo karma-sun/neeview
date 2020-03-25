@@ -270,7 +270,7 @@ namespace NeeView
             ////JobEngine.Current.Restore(memento.JobEngine);
             SoundPlayerService.Current.Restore(memento.SoundPlayerService);
             PictureProfile.Current.Restore(memento.PictureProfile);
-            ImageFilter.Current.Restore(memento.ImageFilter);
+            ////ImageFilter.Current.Restore(memento.ImageFilter);
             ////ZipArchiverProfile.Current.Restore(memento.ZipArchiverProfile);
             ////SevenZipArchiverProfile.Current.Restore(memento.SevenZipArchiverProfile);
             ////PdfArchiverProfile.Current.Restore(memento.PdfArchiverProfile);

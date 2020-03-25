@@ -164,7 +164,7 @@ namespace NeeView
         //
         public override bool Rebuild(double scale)
         {
-            var size = PictureProfile.Current.IsResizeFilterEnabled ? GetScaledSize(scale) : Size.Empty;
+            var size = Config.Current.ImageResizeFilter.IsEnabled ? GetScaledSize(scale) : Size.Empty;
 
             // TODO: 判定サイズの修正
             if (Config.Current.ImageDotKeep.IsEnabled && (size.Width >= this.Source.Size.Width || size.Height >= this.Source.Size.Height))

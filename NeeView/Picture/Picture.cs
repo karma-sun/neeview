@@ -82,7 +82,7 @@ namespace NeeView
         // 画像生成に影響する設定のハッシュ値取得
         private int GetEnvironmentoHashCode()
         {
-            return ImageFilter.Current.GetHashCode() ^ Config.Current.ImageCustomSize.GetHashCodde();
+            return Config.Current.ImageResizeFilter.GetHashCode() ^ Config.Current.ImageCustomSize.GetHashCodde();
         }
 
         // Imageが同じサイズであるか判定
@@ -160,10 +160,10 @@ namespace NeeView
             if (!size.IsEmpty)
             {
                 setting.IsKeepAspectRatio = keepAspectRatio;
-                if (PictureProfile.Current.IsResizeFilterEnabled)
+                if (Config.Current.ImageResizeFilter.IsEnabled)
                 {
                     setting.Mode = BitmapCreateMode.HighQuality;
-                    setting.ProcessImageSettings = ImageFilter.Current.CreateProcessImageSetting();
+                    setting.ProcessImageSettings = Config.Current.ImageResizeFilter.CreateProcessImageSetting();
                 }
             }
 

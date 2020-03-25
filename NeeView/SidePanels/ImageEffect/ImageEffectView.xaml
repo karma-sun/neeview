@@ -116,26 +116,27 @@
                 <Separator />
 
                 <DockPanel Margin="0,5">
-                    <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding PictureProfile.IsResizeFilterEnabled}" VerticalAlignment="Center" />
+                    <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding Source={x:Static local:Config.Current}, Path=ImageResizeFilter.IsEnabled}" VerticalAlignment="Center" />
                     <TextBlock Text="{x:Static properties:Resources.EffectResizeFilter}" VerticalAlignment="Center" />
                 </DockPanel>
 
-                <StackPanel Visibility="{Binding PictureProfile.IsResizeFilterEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StackPanel Visibility="{Binding Source={x:Static local:Config.Current}, Path=ImageResizeFilter.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
 
                     <DockPanel Margin="0,5">
                         <!--
                         <ComboBox  DockPanel.Dock="Right" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}"  Background="{DynamicResource NVBackground}"
                         -->
-                        <ComboBox  DockPanel.Dock="Right" ItemsSource="{x:Static local:ResizeInterpolationExtensions.ResizeInterpolationList}" SelectedValue="{Binding ImageFilter.ResizeInterpolation}"/>
+                        <ComboBox DockPanel.Dock="Right" ItemsSource="{x:Static local:ResizeInterpolationExtensions.ResizeInterpolationList}"
+                                SelectedValue="{Binding Source={x:Static local:Config.Current}, Path=ImageResizeFilter.ResizeInterpolation}"/>
                         <TextBlock Text="{x:Static properties:Resources.EffectResizeInterpolation}" VerticalAlignment="Center" />
                     </DockPanel>
 
                     <DockPanel Margin="0,5">
-                        <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding ImageFilter.Sharpen}" VerticalAlignment="Center" />
+                        <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding Source={x:Static local:Config.Current}, Path=ImageResizeFilter.Sharpen}" VerticalAlignment="Center" />
                         <TextBlock Text="{x:Static properties:Resources.EffectResizeUnsharp}" VerticalAlignment="Center"/>
                     </DockPanel>
 
-                    <Grid Margin="10,0,0,10" Visibility="{Binding ImageFilter.Sharpen, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Grid Margin="10,0,0,10" Visibility="{Binding Source={x:Static local:Config.Current}, Path=ImageResizeFilter.Sharpen, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <nvp:PropertyInspector x:Name="inspectorF" Document="{Binding UnsharpMaskProfile}" IsResetButtonVisible="False"/>
                     </Grid>
 
@@ -148,11 +149,11 @@
                 <Separator />
 
                 <DockPanel Margin="0,5">
-                    <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding ContentCanvas.GridLine.IsEnabled}" VerticalAlignment="Center"/>
+                    <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding Source={x:Static local:Config.Current}, Path=ImageGrid.IsEnabled}" VerticalAlignment="Center"/>
                     <TextBlock Text="{x:Static properties:Resources.EffectGrid}" VerticalAlignment="Center" />
                 </DockPanel>
 
-                <StackPanel Margin="10,0,0,5" Visibility="{Binding ContentCanvas.GridLine.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StackPanel Margin="10,0,0,5" Visibility="{Binding Source={x:Static local:Config.Current}, Path=ImageGrid.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <nvp:PropertyInspector Document="{Binding GridLineProfile}" IsResetButtonVisible="True"/>
                 </StackPanel>
 

@@ -99,7 +99,7 @@ namespace NeeView
                 var picture = new Picture(source);
 
                 // NOTE: リサイズフィルター有効の場合はBitmapSourceの生成をサイズ確定まで遅延させる
-                if (!PictureProfile.Current.IsResizeFilterEnabled)
+                if (!Config.Current.ImageResizeFilter.IsEnabled)
                 {
                     picture.CreateImageSource(Size.Empty, token);
                 }
@@ -168,7 +168,7 @@ namespace NeeView
             await LoadContentAsyncTemplate(() =>
             {
                 // NOTE: リサイズフィルター有効の場合はBitmapSourceの生成をサイズ確定まで遅延させる
-                if (!PictureProfile.Current.IsResizeFilterEnabled)
+                if (!Config.Current.ImageResizeFilter.IsEnabled)
                 {
                     PictureCreateBitmapSource(token);
                 }

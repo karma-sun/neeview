@@ -19,12 +19,12 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageExternalGeneralCopyToClipboard,
-                    new SettingItemProperty(PropertyMemberElement.Create(BookOperation.Current.ClipboardUtility, nameof(ClipboardUtility.MultiPageOption))),
-                    new SettingItemProperty(PropertyMemberElement.Create(BookOperation.Current.ClipboardUtility, nameof(ClipboardUtility.ArchiveOption))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Clipboard, nameof(ClipboardConfig.MultiPageOption))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Clipboard, nameof(ClipboardConfig.ArchiveOption))),
                     new SettingItemGroup(
-                        new SettingItemProperty(PropertyMemberElement.Create(BookOperation.Current.ClipboardUtility, nameof(ClipboardUtility.ArchiveSeparater))))
+                        new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Clipboard, nameof(ClipboardConfig.ArchiveSeparater))))
                         {
-                            VisibleTrigger = new DataTriggerSource(BookOperation.Current.ClipboardUtility, nameof(ClipboardUtility.ArchiveOption), ArchiveOptionType.SendArchivePath, true),
+                            VisibleTrigger = new DataTriggerSource(Config.Current.Clipboard, nameof(ClipboardConfig.ArchiveOption), ArchiveOptionType.SendArchivePath, true),
                         }),
 
                 new SettingItemSection(Properties.Resources.SettingPageExternalGeneralFromBrowser,
@@ -40,24 +40,24 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageExternalProgramSetting,
-                    new SettingItemProperty(PropertyMemberElement.Create(BookOperation.Current.ExternalApplication, nameof(ExternalApplication.ProgramType))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.External, nameof(ExternalConfig.ProgramType))),
                     new SettingItemGroup(
-                        new SettingItemProperty(PropertyMemberElement.Create(BookOperation.Current.ExternalApplication, nameof(ExternalApplication.Command))) { IsStretch = true },
-                        new SettingItemProperty(PropertyMemberElement.Create(BookOperation.Current.ExternalApplication, nameof(ExternalApplication.Parameter))) { IsStretch = true })
+                        new SettingItemProperty(PropertyMemberElement.Create(Config.Current.External, nameof(ExternalConfig.Command))) { IsStretch = true },
+                        new SettingItemProperty(PropertyMemberElement.Create(Config.Current.External, nameof(ExternalConfig.Parameter))) { IsStretch = true })
                     {
-                        VisibleTrigger = new DataTriggerSource(BookOperation.Current.ExternalApplication, nameof(ExternalApplication.ProgramType), ExternalProgramType.Normal, true),
+                        VisibleTrigger = new DataTriggerSource(Config.Current.External, nameof(ExternalConfig.ProgramType), ExternalProgramType.Normal, true),
                     },
                     new SettingItemGroup(
-                        new SettingItemProperty(PropertyMemberElement.Create(BookOperation.Current.ExternalApplication, nameof(ExternalApplication.Protocol))) { IsStretch = true })
+                        new SettingItemProperty(PropertyMemberElement.Create(Config.Current.External, nameof(ExternalConfig.Protocol))) { IsStretch = true })
                     {
-                        VisibleTrigger = new DataTriggerSource(BookOperation.Current.ExternalApplication, nameof(ExternalApplication.ProgramType), ExternalProgramType.Protocol, true),
+                        VisibleTrigger = new DataTriggerSource(Config.Current.External, nameof(ExternalConfig.ProgramType), ExternalProgramType.Protocol, true),
                     },
-                    new SettingItemProperty(PropertyMemberElement.Create(BookOperation.Current.ExternalApplication, nameof(ExternalApplication.MultiPageOption))),
-                    new SettingItemProperty(PropertyMemberElement.Create(BookOperation.Current.ExternalApplication, nameof(ExternalApplication.ArchiveOption))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.External, nameof(ExternalConfig.MultiPageOption))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.External, nameof(ExternalConfig.ArchiveOption))),
                     new SettingItemGroup(
-                        new SettingItemProperty(PropertyMemberElement.Create(BookOperation.Current.ExternalApplication, nameof(ExternalApplication.ArchiveSeparater))))
+                        new SettingItemProperty(PropertyMemberElement.Create(Config.Current.External, nameof(ExternalConfig.ArchiveSeparater))))
                         {
-                            VisibleTrigger = new DataTriggerSource(BookOperation.Current.ExternalApplication, nameof(ExternalApplication.ArchiveOption), ArchiveOptionType.SendArchivePath, true),
+                            VisibleTrigger = new DataTriggerSource(Config.Current.External, nameof(ExternalConfig.ArchiveOption), ArchiveOptionType.SendArchivePath, true),
                         }),
             };
         }

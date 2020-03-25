@@ -1233,9 +1233,6 @@ namespace NeeView
             [Obsolete, DataMember(Order = 4, EmitDefaultValue = false)]
             public bool IsSupportArchiveFile { get; set; } // no used (v.23)
 
-            [Obsolete, DataMember(Order = 4, EmitDefaultValue = false)]
-            public ExternalApplication ExternalApplication { get; set; } // no used (ver.23)
-
             [Obsolete, DataMember(Order = 5, EmitDefaultValue = false)]
             public bool AllowPagePreLoad { get; set; } // no used
 
@@ -1244,9 +1241,6 @@ namespace NeeView
 
             [Obsolete, DataMember(Order = 6, EmitDefaultValue = false)]
             public bool IsUseBookMementoDefault { get; set; } // no used (v.23)
-
-            [Obsolete, DataMember(Order = 10, EmitDefaultValue = false)]
-            public ClipboardUtility ClipboardUtility { get; set; } // no used (ver.23)
 
             [Obsolete, DataMember(Order = 19, EmitDefaultValue = false)]
             public BookMementoFilter HistoryMementoFilter { get; set; } // no used (v.23)

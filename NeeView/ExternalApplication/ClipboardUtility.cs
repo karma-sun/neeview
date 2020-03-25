@@ -8,57 +8,10 @@ namespace NeeView
 {
     // コピー設定
     [DataContract]
-    public class ClipboardUtility : BindableBase
+    public static class ClipboardUtility
     {
-        private ArchiveOptionType _archiveOption;
-        private string _archiveSeparater;
-
-        // 複数ページのときの動作
-        [DataMember]
-        [PropertyMember("@ParamClipboardMultiPageOption")]
-        public MultiPageOptionType MultiPageOption { get; set; }
-
-        // 圧縮ファイルのときの動作
-        [DataMember]
-        [PropertyMember("@ParamClipboardArchiveOption")]
-        public ArchiveOptionType ArchiveOption
-        {
-            get { return _archiveOption; }
-            set { SetProperty(ref _archiveOption, value); }
-        }
-
-        [DataMember(EmitDefaultValue = false)]
-        [PropertyMember("@ParamClipboardArchiveSeparater", EmptyMessage = "\\")]
-        public string ArchiveSeparater
-        {
-            get => _archiveSeparater;
-            set => _archiveSeparater = string.IsNullOrEmpty(value) ? null : value;
-        }
-
-
-        // コンストラクタ
-        private void Constructor()
-        {
-            MultiPageOption = MultiPageOptionType.Once;
-            ArchiveOption = ArchiveOptionType.SendExtractFile;
-        }
-
-        // コンストラクタ
-        public ClipboardUtility()
-        {
-            Constructor();
-        }
-
-        //
-        [OnDeserializing]
-        private void Deserializing(StreamingContext c)
-        {
-            Constructor();
-        }
-
-
         // クリップボードにコピー
-        public void Copy(List<Page> pages)
+        public static void Copy(List<Page> pages)
         {
             var files = new List<string>();
 
@@ -72,7 +25,7 @@ namespace NeeView
                 // in archive
                 else
                 {
-                    switch (ArchiveOption)
+                    switch (Config.Current.Clipboard.ArchiveOption)
                     {
                         case ArchiveOptionType.None:
                             break;
@@ -83,11 +36,11 @@ namespace NeeView
                             files.Add(page.ContentAccessor.CreateTempFile(true).Path);
                             break;
                         case ArchiveOptionType.SendArchivePath:
-                            files.Add(page.Entry.CreateArchivePath(_archiveSeparater));
+                            files.Add(page.Entry.CreateArchivePath(Config.Current.Clipboard.ArchiveSeparater));
                             break;
                     }
                 }
-                if (MultiPageOption == MultiPageOptionType.Once || ArchiveOption == ArchiveOptionType.SendArchiveFile) break;
+                if (Config.Current.Clipboard.MultiPageOption == MultiPageOptionType.Once || Config.Current.Clipboard.ArchiveOption == ArchiveOptionType.SendArchiveFile) break;
             }
 
             if (files.Count > 0)
@@ -105,9 +58,8 @@ namespace NeeView
             System.Windows.Clipboard.SetImage(image);
         }
 
-
-        // クリップボードからペースト
-        public void Paste()
+        // クリップボードからペースト(テスト)
+        public static void Paste()
         {
             var data = System.Windows.Clipboard.GetDataObject(); // クリップボードからオブジェクトを取得する。
             if (data.GetDataPresent(System.Windows.DataFormats.FileDrop)) // テキストデータかどうか確認する。
@@ -115,13 +67,6 @@ namespace NeeView
                 var files = (string[])data.GetData(System.Windows.DataFormats.FileDrop); // オブジェクトからテキストを取得する。
                 Debug.WriteLine("=> " + files[0]);
             }
-        }
-
-
-        // インスタンスのクローン
-        public ClipboardUtility Clone()
-        {
-            return (ClipboardUtility)MemberwiseClone();
         }
     }
 }

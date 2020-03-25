@@ -33,8 +33,8 @@ namespace NeeView
         private bool _isEnabled;
         private Book _book;
         private ObservableCollection<Page> _pageList;
-        private ExternalApplication _ExternalApplication = new ExternalApplication();
-        private ClipboardUtility _ClipboardUtility = new ClipboardUtility();
+        ////private ExternalApplication _ExternalApplication = new ExternalApplication();
+        ////private ClipboardUtility _ClipboardUtility = new ClipboardUtility();
         private ExportImageProceduralDialog _exportImageProceduralDialog;
 
         #endregion
@@ -122,6 +122,7 @@ namespace NeeView
             get { return _pageList; }
         }
 
+#if false
         /// <summary>
         /// 外部アプリ設定
         /// </summary>
@@ -139,6 +140,7 @@ namespace NeeView
             get { return _ClipboardUtility; }
             set { if (_ClipboardUtility != value) { _ClipboardUtility = value ?? new ClipboardUtility(); RaisePropertyChanged(); } }
         }
+#endif
 
         #endregion
 
@@ -358,16 +360,17 @@ namespace NeeView
         {
             if (CanOpenFilePlace())
             {
+                var external = new ExternalApplicationUtility();
                 try
                 {
-                    this.ExternalApplication.Call(Book?.Viewer.GetViewPages());
+                    external.Call(Book?.Viewer.GetViewPages());
                 }
                 catch (Exception e)
                 {
                     var message = "";
-                    if (this.ExternalApplication.LastCall != null)
+                    if (external.LastCall != null)
                     {
-                        message += $"{Resources.WordCommand}: {this.ExternalApplication.LastCall}\n";
+                        message += $"{Resources.WordCommand}: {external.LastCall}\n";
                     }
                     message += $"{Resources.WordCause}: {e.Message}";
 
@@ -384,7 +387,7 @@ namespace NeeView
             {
                 try
                 {
-                    this.ClipboardUtility.Copy(Book?.Viewer.GetViewPages());
+                    ClipboardUtility.Copy(Book?.Viewer.GetViewPages());
                 }
                 catch (Exception e)
                 {
@@ -392,7 +395,6 @@ namespace NeeView
                 }
             }
         }
-
 
         /// <summary>
         /// ファイル保存可否
@@ -1167,20 +1169,30 @@ namespace NeeView
             public PageEndAction PageEndAction { get; set; }
 
             [DataMember]
-            public ExternalApplication ExternalApplication { get; set; }
+            public ExternalApplicationMemento ExternalApplication { get; set; }
 
             [DataMember]
-            public ClipboardUtility ClipboardUtility { get; set; }
+            public ClipboardUtilityMemento ClipboardUtility { get; set; }
 
             [DataMember]
             public bool IsNotifyPageLoop { get; set; }
 
             public void RestoreConfig(Config config)
             {
-                // TODO: ExternalApplicationの扱い
-
                 config.Book.PageEndAction = PageEndAction;
                 config.Book.IsNotifyPageLoop = IsNotifyPageLoop;
+
+                config.External.ProgramType = ExternalApplication.ProgramType;
+                config.External.Command = ExternalApplication.Command;
+                config.External.Parameter = ExternalApplication.Parameter;
+                config.External.Protocol = ExternalApplication.Protocol;
+                config.External.MultiPageOption = ExternalApplication.MultiPageOption;
+                config.External.ArchiveOption = ExternalApplication.ArchiveOption;
+                config.External.ArchiveSeparater = ExternalApplication.ArchiveSeparater;
+
+                config.Clipboard.MultiPageOption = ClipboardUtility.MultiPageOption;
+                config.Clipboard.ArchiveOption = ClipboardUtility.ArchiveOption;
+                config.Clipboard.ArchiveSeparater = ClipboardUtility.ArchiveSeparater;
             }
         }
 
@@ -1188,22 +1200,85 @@ namespace NeeView
         {
             var memento = new Memento();
             memento.PageEndAction = Config.Current.Book.PageEndAction;
-            memento.ExternalApplication = ExternalApplication.Clone();
-            memento.ClipboardUtility = ClipboardUtility.Clone();
+            memento.ExternalApplication = ExternalApplicationMemento.CreateMemento();
+            memento.ClipboardUtility = ClipboardUtilityMemento.CreateMemento();
             memento.IsNotifyPageLoop = Config.Current.Book.IsNotifyPageLoop;
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
             //this.PageEndAction = memento.PageEndAction;
-            this.ExternalApplication = memento.ExternalApplication?.Clone();
-            this.ClipboardUtility = memento.ClipboardUtility?.Clone();
+            //this.ExternalApplication = memento.ExternalApplication?.Clone();
+            //this.ClipboardUtility = memento.ClipboardUtility?.Clone();
             //this.IsNotifyPageLoop = memento.IsNotifyPageLoop;
         }
         #endregion
 
+
+        public class ExternalApplicationMemento
+        {
+            [DataMember]
+            public ExternalProgramType ProgramType { get; set; }
+
+            [DataMember]
+            public string Command { get; set; }
+
+            [DataMember]
+            public string Parameter { get; set; }
+
+            [DataMember]
+            public string Protocol { get; set; }
+
+            // 複数ページのときの動作
+            [PropertyMember("@ParamExternalMultiPageOption")]
+            public MultiPageOptionType MultiPageOption { get; set; }
+
+            // 圧縮ファイルのときの動作
+            [DataMember]
+            public ArchiveOptionType ArchiveOption { get; set; }
+
+            [DataMember]
+            public string ArchiveSeparater { get; set; }
+
+
+            public static ExternalApplicationMemento CreateMemento()
+            {
+                return new ExternalApplicationMemento()
+                {
+                    ProgramType = Config.Current.External.ProgramType,
+                    Command = Config.Current.External.Command,
+                    Parameter = Config.Current.External.Parameter,
+                    Protocol = Config.Current.External.Protocol,
+                    MultiPageOption = Config.Current.External.MultiPageOption,
+                    ArchiveOption = Config.Current.External.ArchiveOption,
+                    ArchiveSeparater = Config.Current.External.ArchiveSeparater,
+                };
+            }
+        }
+
+        [DataContract]
+        public class ClipboardUtilityMemento
+        {
+            [DataMember]
+            public MultiPageOptionType MultiPageOption { get; set; }
+            [DataMember]
+            public ArchiveOptionType ArchiveOption { get; set; }
+            [DataMember]
+            public string ArchiveSeparater { get; set; }
+
+            public static ClipboardUtilityMemento CreateMemento()
+            {
+                return new ClipboardUtilityMemento()
+                {
+                    MultiPageOption = Config.Current.Clipboard.MultiPageOption,
+                    ArchiveOption = Config.Current.Clipboard.ArchiveOption,
+                    ArchiveSeparater = Config.Current.Clipboard.ArchiveSeparater
+                };
+            }
+        }
     }
 
 }

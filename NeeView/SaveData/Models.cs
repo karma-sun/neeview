@@ -279,7 +279,7 @@ namespace NeeView
             ////InfoMessage.Current.Restore(memento.InfoMessage);
             ////BookProfile.Current.Restore(memento.BookProfile);
             ////BookHub.Current.Restore(memento.BookHub);
-            BookOperation.Current.Restore(memento.BookOperation);
+            ////BookOperation.Current.Restore(memento.BookOperation);
             ////BookSettingPresenter.Current.Restore(memento.BookSettingPresenter);
             ////ThemeProfile.Current.Restore(memento.ThemeProfile);
             MainWindowModel.Current.Restore(memento.MainWindowModel);

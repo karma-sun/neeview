@@ -36,7 +36,7 @@ namespace NeeView
             _gesture = gesture;
         }
 
-
+#if false
         /// ドラッグアクション
         [PropertyMember("@ParamTouchDragAction")]
         public TouchAction DragAction { get; set; } = TouchAction.Gesture;
@@ -44,7 +44,7 @@ namespace NeeView
         /// 長押しドラッグアクション
         [PropertyMember("@ParamTouchHoldAction")]
         public TouchAction HoldAction { get; set; } = TouchAction.Drag;
-
+#endif
 
         /// <summary>
         /// 状態開始
@@ -126,7 +126,7 @@ namespace NeeView
             // drag check
             if (deltaX > Config.Current.Touch.GestureMinimumDistance || deltaY > Config.Current.Touch.GestureMinimumDistance)
             {
-                SetState(this.DragAction);
+                SetState(Config.Current.Touch.DragAction);
             }
         }
 
@@ -138,7 +138,7 @@ namespace NeeView
 
             if (e.SystemGesture == SystemGesture.HoldEnter || e.SystemGesture == SystemGesture.RightDrag)
             {
-                SetState(this.HoldAction);
+                SetState(Config.Current.Touch.HoldAction);
             }
         }
 
@@ -159,7 +159,7 @@ namespace NeeView
             }
         }
 
-        #region Memento
+#region Memento
         [DataContract]
         public class Memento : IMemento
         {
@@ -170,24 +170,27 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
+                config.Touch.DragAction = DragAction;
+                config.Touch.HoldAction = HoldAction;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.DragAction = this.DragAction;
-            memento.HoldAction = this.HoldAction;
+            memento.DragAction = Config.Current.Touch.DragAction;
+            memento.HoldAction = Config.Current.Touch.HoldAction;
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            this.DragAction = memento.DragAction;
-            this.HoldAction = memento.HoldAction;
+            //this.DragAction = memento.DragAction;
+            //this.HoldAction = memento.HoldAction;
         }
-        #endregion
+#endregion
 
     }
 

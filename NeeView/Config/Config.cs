@@ -141,7 +141,31 @@ namespace NeeView
 
     public class TouchConfig : BindableBase
     {
+        private bool _isEnabled = true;
         private double _gestureMinimumDistance = 16.0;
+
+        [PropertyMember("@ParamTouchIsEnabled", Tips = "@ParamTouchIsEnabledTips")]
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set { if (_isEnabled != value) { _isEnabled = value; RaisePropertyChanged(); } }
+        }
+
+        /// ドラッグアクション
+        [PropertyMember("@ParamTouchDragAction")]
+        public TouchAction DragAction { get; set; } = TouchAction.Gesture;
+
+        /// 長押しドラッグアクション
+        [PropertyMember("@ParamTouchHoldAction")]
+        public TouchAction HoldAction { get; set; } = TouchAction.Drag;
+
+
+        [PropertyMember("@ParamTouchIsAngleEnabled")]
+        public bool IsAngleEnabled { get; set; } = true;
+
+        [PropertyMember("@ParamTouchIsScaleEnabled")]
+        public bool IsScaleEnabled { get; set; } = true;
+
 
         [PropertyMember("@ParamTouchGestureMinimumDistance", Tips = "@ParamTouchGestureMinimumDistanceTips")]
         public double GestureMinimumDistance
@@ -149,11 +173,96 @@ namespace NeeView
             get { return _gestureMinimumDistance; }
             set { _gestureMinimumDistance = value; }
         }
+
+        [PropertyMember("@ParamTouchMinimumManipulationRadius", Tips = "@ParamTouchMinimumManipulationRadiusTips")]
+        public double MinimumManipulationRadius { get; set; } = 80.0;
+
+        [PropertyMember("@ParamTouchMinimumManipulationDistance", Tips = "@ParamTouchMinimumManipulationDistanceTips")]
+        public double MinimumManipulationDistance { get; set; } = 30.0;
+
     }
 
     public class LoupeConfig : BindableBase
     {
+        private double _defaultScale = 2.0;
+        private bool _IsLoupeCenter;
+        private double _minimumScale = 2.0;
+        private double _maximumScale = 10.0;
+        private double _scaleStep = 1.0;
+        private bool _isResetByRestart = false;
+        private bool _isResetByPageChanged = true;
 
+        [PropertyMember("@ParamLoupeIsLoupeCenter")]
+        public bool IsLoupeCenter
+        {
+            get { return _IsLoupeCenter; }
+            set { if (_IsLoupeCenter != value) { _IsLoupeCenter = value; RaisePropertyChanged(); } }
+        }
+
+        [PropertyRange("@ParamLoupeMinimumScale", 1, 20, TickFrequency = 1.0, IsEditable = true)]
+        public double MinimumScale
+        {
+            get { return _minimumScale; }
+            set
+            {
+                if (_minimumScale != value)
+                {
+                    _minimumScale = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        [PropertyRange("@ParamLoupeMaximumScale", 1, 20, TickFrequency = 1.0, IsEditable = true)]
+        public double MaximumScale
+        {
+            get { return _maximumScale; }
+            set
+            {
+                if (_maximumScale != value)
+                {
+                    _maximumScale = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        [PropertyRange("@ParamLoupeDefaultScale", 1, 20, TickFrequency = 1.0, IsEditable = true)]
+        public double DefaultScale
+        {
+            get { return _defaultScale; }
+            set { SetProperty(ref _defaultScale, value); }
+        }
+
+        [PropertyRange("@ParamLoupeScaleStep", 0.1, 5.0, TickFrequency = 0.1, IsEditable = true)]
+        public double ScaleStep
+        {
+            get { return _scaleStep; }
+            set { if (_scaleStep != value) { _scaleStep = Math.Max(value, 0.0); RaisePropertyChanged(); } }
+        }
+
+        [PropertyMember("@ParamLoupeIsResetByRestart", Tips = "@ParamLoupeIsResetByRestartTips")]
+        public bool IsResetByRestart
+        {
+            get { return _isResetByRestart; }
+            set { if (_isResetByRestart != value) { _isResetByRestart = value; RaisePropertyChanged(); } }
+        }
+
+        [PropertyMember("@ParamLoupeIsResetByPageChanged")]
+        public bool IsResetByPageChanged
+        {
+            get { return _isResetByPageChanged; }
+            set { if (_isResetByPageChanged != value) { _isResetByPageChanged = value; RaisePropertyChanged(); } }
+        }
+
+        [PropertyMember("@ParamLoupeIsWheelScalingEnabled", Tips = "@ParamLoupeIsWheelScalingEnabledTips")]
+        public bool IsWheelScalingEnabled { get; set; } = true;
+
+        [PropertyRange("@ParamLoupeSpeed", 0.0, 10.0, TickFrequency = 0.1, Format = "×{0:0.0}")]
+        public double Speed { get; set; } = 1.0;
+
+        [PropertyMember("@ParamLoupeIsEscapeKeyEnabled")]
+        public bool IsEscapeKeyEnabled { get; set; } = true;
     }
 
 }

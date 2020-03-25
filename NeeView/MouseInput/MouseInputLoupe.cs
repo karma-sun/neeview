@@ -19,12 +19,12 @@ namespace NeeView
 
         private LoupeTransform _loupe;
         private Point _loupeBasePosition;
-        private bool _IsLoupeCenter;
-        private double _minimumScale = 2.0;
-        private double _maximumScale = 10.0;
-        private double _scaleStep = 1.0;
-        private bool _isResetByRestart = false;
-        private bool _isResetByPageChanged = true;
+        //private bool _IsLoupeCenter;
+        //private double _minimumScale = 2.0;
+        //private double _maximumScale = 10.0;
+        //private double _scaleStep = 1.0;
+        //private bool _isResetByRestart = false;
+        //private bool _isResetByPageChanged = true;
         private bool _isLongDownMode;
         private bool _isButtonDown;
 
@@ -40,7 +40,7 @@ namespace NeeView
         #endregion
 
         #region Properties
-
+#if false
         [PropertyMember("@ParamLoupeIsLoupeCenter")]
         public bool IsLoupeCenter
         {
@@ -119,7 +119,7 @@ namespace NeeView
 
         [PropertyMember("@ParamLoupeIsEscapeKeyEnabled")]
         public bool IsEscapeKeyEnabled { get; set; } = true;
-
+#endif
         #endregion
 
         #region Methods
@@ -146,15 +146,15 @@ namespace NeeView
             _context.StartPoint = Mouse.GetPosition(sender);
             var center = new Point(sender.ActualWidth * 0.5, sender.ActualHeight * 0.5);
             Vector v = _context.StartPoint - center;
-            _loupeBasePosition = (Point)(this.IsLoupeCenter ? -v : -v + v / _loupe.Scale);
+            _loupeBasePosition = (Point)(Config.Current.Loupe.IsLoupeCenter ? -v : -v + v / _loupe.Scale);
             _loupe.Position = _loupeBasePosition;
 
             _loupe.IsEnabled = true;
             _isButtonDown = false;
 
-            if (_isResetByRestart)
+            if (Config.Current.Loupe.IsResetByRestart)
             {
-                _loupe.Scale = _loupe.DefaultScale;
+                _loupe.Scale = Config.Current.Loupe.DefaultScale;
             }
         }
 
@@ -244,7 +244,7 @@ namespace NeeView
         public override void OnMouseMove(object sender, MouseEventArgs e)
         {
             var point = e.GetPosition(_context.Sender);
-            _loupe.Position = _loupeBasePosition - (point - _context.StartPoint) * Speed;
+            _loupe.Position = _loupeBasePosition - (point - _context.StartPoint) * Config.Current.Loupe.Speed;
 
             e.Handled = true;
         }
@@ -256,7 +256,7 @@ namespace NeeView
         /// <param name="e"></param>
         public override void OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (IsWheelScalingEnabled)
+            if (Config.Current.Loupe.IsWheelScalingEnabled)
             {
                 if (e.Delta > 0)
                 {
@@ -285,7 +285,7 @@ namespace NeeView
         /// </summary>
         public void LoupeZoomIn()
         {
-            _loupe.Scale = Math.Min(_loupe.Scale + _scaleStep, _maximumScale);
+            _loupe.Scale = Math.Min(_loupe.Scale + Config.Current.Loupe.ScaleStep, Config.Current.Loupe.MaximumScale);
         }
 
         /// <summary>
@@ -293,7 +293,7 @@ namespace NeeView
         /// </summary>
         public void LoupeZoomOut()
         {
-            _loupe.Scale = Math.Max(_loupe.Scale - _scaleStep, _minimumScale);
+            _loupe.Scale = Math.Max(_loupe.Scale - Config.Current.Loupe.ScaleStep, Config.Current.Loupe.MinimumScale);
         }
 
         /// <summary>
@@ -304,7 +304,7 @@ namespace NeeView
         public override void OnKeyDown(object sender, KeyEventArgs e)
         {
             // ESC で 状態解除
-            if (IsEscapeKeyEnabled && e.Key == Key.Escape)
+            if (Config.Current.Loupe.IsEscapeKeyEnabled && e.Key == Key.Escape)
             {
                 // ルーペ解除
                 ResetState();
@@ -361,39 +361,50 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
+                config.Loupe.IsLoupeCenter = IsLoupeCenter;
+                config.Loupe.MinimumScale = MinimumScale;
+                config.Loupe.MaximumScale = MaximumScale;
+                config.Loupe.DefaultScale = DefaultScale;
+                config.Loupe.ScaleStep = ScaleStep;
+                config.Loupe.IsResetByRestart = IsResetByRestart;
+                config.Loupe.IsResetByPageChanged = IsResetByPageChanged;
+                config.Loupe.IsWheelScalingEnabled = IsWheelScalingEnabled;
+                config.Loupe.Speed = Speed;
+                config.Loupe.IsEscapeKeyEnabled = IsEscapeKeyEnabled;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.IsLoupeCenter = this.IsLoupeCenter;
-            memento.DefaultScale = this.DefaultScale;
-            memento.MinimumScale = this.MinimumScale;
-            memento.MaximumScale = this.MaximumScale;
-            memento.ScaleStep = this.ScaleStep;
-            memento.IsResetByRestart = this.IsResetByRestart;
-            memento.IsResetByPageChanged = this.IsResetByPageChanged;
-            memento.IsWheelScalingEnabled = this.IsWheelScalingEnabled;
-            memento.Speed = this.Speed;
-            memento.IsEscapeKeyEnabled = this.IsEscapeKeyEnabled;
+            memento.IsLoupeCenter = Config.Current.Loupe.IsLoupeCenter;
+            memento.DefaultScale = Config.Current.Loupe.DefaultScale;
+            memento.MinimumScale = Config.Current.Loupe.MinimumScale;
+            memento.MaximumScale = Config.Current.Loupe.MaximumScale;
+            memento.ScaleStep = Config.Current.Loupe.ScaleStep;
+            memento.IsResetByRestart = Config.Current.Loupe.IsResetByRestart;
+            memento.IsResetByPageChanged = Config.Current.Loupe.IsResetByPageChanged;
+            memento.IsWheelScalingEnabled = Config.Current.Loupe.IsWheelScalingEnabled;
+            memento.Speed = Config.Current.Loupe.Speed;
+            memento.IsEscapeKeyEnabled = Config.Current.Loupe.IsEscapeKeyEnabled;
 
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            this.IsLoupeCenter = memento.IsLoupeCenter;
-            this.MinimumScale = memento.MinimumScale;
-            this.MaximumScale = memento.MaximumScale;
-            this.DefaultScale = memento.DefaultScale;
-            this.ScaleStep = memento.ScaleStep;
-            this.IsResetByRestart = memento.IsResetByRestart;
-            this.IsResetByPageChanged = memento.IsResetByPageChanged;
-            this.IsWheelScalingEnabled = memento.IsWheelScalingEnabled;
-            this.Speed = memento.Speed;
-            this.IsEscapeKeyEnabled = memento.IsEscapeKeyEnabled;
+            //this.IsLoupeCenter = memento.IsLoupeCenter;
+            //this.MinimumScale = memento.MinimumScale;
+            //this.MaximumScale = memento.MaximumScale;
+            //this.DefaultScale = memento.DefaultScale;
+            //this.ScaleStep = memento.ScaleStep;
+            //this.IsResetByRestart = memento.IsResetByRestart;
+            //this.IsResetByPageChanged = memento.IsResetByPageChanged;
+            //this.IsWheelScalingEnabled = memento.IsWheelScalingEnabled;
+            //this.Speed = memento.Speed;
+            //this.IsEscapeKeyEnabled = memento.IsEscapeKeyEnabled;
         }
         #endregion
     }

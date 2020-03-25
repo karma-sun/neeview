@@ -94,6 +94,7 @@ namespace NeeView
 
         #region Properties
 
+#if false
         //
         [PropertyMember("@ParamTouchMinimumManipulationRadius", Tips = "@ParamTouchMinimumManipulationRadiusTips")]
         public double MinimumManipulationRadius { get; set; } = 80.0;
@@ -109,10 +110,10 @@ namespace NeeView
         //
         [PropertyMember("@ParamTouchIsScaleEnabled")]
         public bool IsScaleEnabled { get; set; } = true;
-
+#endif
 
         #endregion
-        
+
         #region Methods
 
         /// <summary>
@@ -334,12 +335,12 @@ namespace NeeView
 
             // rotate
             var angle = current.GetAngle(_origin);
-            _allowAngle = this.IsAngleEnabled && (_allowAngle || (current.Radius > this.MinimumManipulationRadius && Math.Abs(current.Radius * 2.0 * Math.Sin(angle * 0.5 * Math.PI / 180)) > this.MinimumManipulationDistance));
+            _allowAngle = Config.Current.Touch.IsAngleEnabled && (_allowAngle || (current.Radius > Config.Current.Touch.MinimumManipulationRadius && Math.Abs(current.Radius * 2.0 * Math.Sin(angle * 0.5 * Math.PI / 180)) > Config.Current.Touch.MinimumManipulationDistance));
             angle = _allowAngle ? angle : 0.0;
 
             //  scale
             var scale = current.GetScale(_origin);
-            _allowScale = this.IsScaleEnabled && (_allowScale || (current.Radius > this.MinimumManipulationRadius && Math.Abs(current.Radius - _origin.Radius) > this.MinimumManipulationDistance));
+            _allowScale = Config.Current.Touch.IsScaleEnabled && (_allowScale || (current.Radius > Config.Current.Touch.MinimumManipulationRadius && Math.Abs(current.Radius - _origin.Radius) > Config.Current.Touch.MinimumManipulationDistance));
             scale = _allowScale ? scale : 1.0;
 
 
@@ -411,26 +412,31 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
+                config.Touch.MinimumManipulationRadius = MinimumManipulationRadius;
+                config.Touch.MinimumManipulationDistance = MinimumManipulationDistance;
+                config.Touch.IsAngleEnabled = IsAngleEnabled;
+                config.Touch.IsScaleEnabled = IsScaleEnabled;
             }
         }
-        
+
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.MinimumManipulationRadius = this.MinimumManipulationRadius;
-            memento.MinimumManipulationDistance = this.MinimumManipulationDistance;
-            memento.IsAngleEnabled = this.IsAngleEnabled;
-            memento.IsScaleEnabled = this.IsScaleEnabled;
+            memento.MinimumManipulationRadius = Config.Current.Touch.MinimumManipulationRadius;
+            memento.MinimumManipulationDistance = Config.Current.Touch.MinimumManipulationDistance;
+            memento.IsAngleEnabled = Config.Current.Touch.IsAngleEnabled;
+            memento.IsScaleEnabled = Config.Current.Touch.IsScaleEnabled;
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            this.MinimumManipulationRadius = memento.MinimumManipulationRadius;
-            this.MinimumManipulationDistance = memento.MinimumManipulationDistance;
-            this.IsAngleEnabled = memento.IsAngleEnabled;
-            this.IsScaleEnabled = memento.IsScaleEnabled;
+            //this.MinimumManipulationRadius = memento.MinimumManipulationRadius;
+            //this.MinimumManipulationDistance = memento.MinimumManipulationDistance;
+            //this.IsAngleEnabled = memento.IsAngleEnabled;
+            //this.IsScaleEnabled = memento.IsScaleEnabled;
         }
         #endregion
     }

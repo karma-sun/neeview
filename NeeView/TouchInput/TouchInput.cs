@@ -137,6 +137,7 @@ namespace NeeView
         /// </summary>
         private TouchInputBase _current;
 
+#if false
         /// <summary>
         /// IsEnabled property.
         /// </summary>
@@ -147,7 +148,7 @@ namespace NeeView
             get { return _isEnabled; }
             set { if (_isEnabled != value) { _isEnabled = value; RaisePropertyChanged(); } }
         }
-
+#endif
 
         //
         public bool IsCaptured()
@@ -191,7 +192,7 @@ namespace NeeView
         //
         private void OnStylusDown(object sender, StylusDownEventArgs e)
         {
-            if (!_isEnabled) return;
+            if (!Config.Current.Touch.IsEnabled) return;
             if (sender != _sender) return;
 
             ////Debug.WriteLine($"TouchDown: {e.StylusDevice.Id}");
@@ -213,7 +214,7 @@ namespace NeeView
         //
         private void OnStylusUp(object sender, StylusEventArgs e)
         {
-            if (!_isEnabled) return;
+            if (!Config.Current.Touch.IsEnabled) return;
             if (sender != _sender) return;
 
             _context.TouchMap.Remove(e.StylusDevice);
@@ -231,7 +232,7 @@ namespace NeeView
         //
         private void OnStylusMove(object sender, StylusEventArgs e)
         {
-            if (!_isEnabled) return;
+            if (!Config.Current.Touch.IsEnabled) return;
             if (sender != _sender) return;
 
             _current.OnStylusMove(_sender, e);
@@ -240,7 +241,7 @@ namespace NeeView
         //
         private void OnStylusSystemGesture(object sender, StylusSystemGestureEventArgs e)
         {
-            if (!_isEnabled) return;
+            if (!Config.Current.Touch.IsEnabled) return;
             if (sender != _sender) return;
 
             ////Debug.WriteLine($"Gesture: {e.SystemGesture}");
@@ -250,7 +251,7 @@ namespace NeeView
 
 
 
-        #region Memento
+#region Memento
         [DataContract]
         public class Memento : IMemento
         {
@@ -282,6 +283,8 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
+                config.Touch.IsEnabled = IsEnabled;
+
                 Normal.RestoreConfig(config);
                 Gesture.RestoreConfig(config);
                 Drag.RestoreConfig(config);
@@ -291,22 +294,23 @@ namespace NeeView
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.IsEnabled = this.IsEnabled;
+            memento.IsEnabled = Config.Current.Touch.IsEnabled;
             memento.Normal = this.Normal.CreateMemento();
             memento.Gesture = this.Gesture.CreateMemento();
             memento.Drag = this.Drag.CreateMemento();
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            this.IsEnabled = memento.IsEnabled;
-            this.Normal.Restore(memento.Normal);
+            //this.IsEnabled = memento.IsEnabled;
+            //this.Normal.Restore(memento.Normal);
             //this.Gesture.Restore(memento.Gesture);
-            this.Drag.Restore(memento.Drag);
+            //this.Drag.Restore(memento.Drag);
         }
-        #endregion
+#endregion
 
 
     }

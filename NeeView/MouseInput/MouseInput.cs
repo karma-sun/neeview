@@ -223,7 +223,7 @@ namespace NeeView
         public bool IsNormalMode => _state == MouseInputState.Normal;
 
         //
-        private bool IsStylusDevice(MouseEventArgs e) => e.StylusDevice != null && TouchInput.Current.IsEnabled;
+        private bool IsStylusDevice(MouseEventArgs e) => e.StylusDevice != null && Config.Current.Touch.IsEnabled;
 
         /// <summary>
         /// OnMouseButtonDown
@@ -373,11 +373,12 @@ namespace NeeView
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
             //this.Normal.Restore(memento.Normal);
-            this.Loupe.Restore(memento.Loupe);
+            //this.Loupe.Restore(memento.Loupe);
             //this.Gesture.Restore(memento.Gesture);
         }
         #endregion

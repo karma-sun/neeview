@@ -52,7 +52,7 @@ namespace NeeView
         /// <summary>
         /// 標準スケール
         /// </summary>
-        public double DefaultScale { get; set; } = 2.0;
+        ////public double DefaultScale { get; set; } = 2.0;
         
         /// <summary>
         /// IsVisibleLoupeInfo property.
@@ -113,7 +113,7 @@ namespace NeeView
             {
                 if (double.IsNaN(_scale))
                 {
-                    _scale = this.DefaultScale;
+                    _scale = Config.Current.Loupe.DefaultScale;
                 }
                 return _scale;
             }

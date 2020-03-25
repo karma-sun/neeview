@@ -402,7 +402,7 @@ namespace NeeView
             UpdateContentSize(GetAutoRotateAngle());
 
             // ルーペ解除
-            if (MouseInput.Current.Loupe.IsResetByPageChanged)
+            if (Config.Current.Loupe.IsResetByPageChanged)
             {
                 MouseInput.Current.IsLoupeMode = false;
             }
@@ -432,7 +432,7 @@ namespace NeeView
             if (!source.IsForceResize)
             {
                 // ルーペモードでかつ継続される設定の場合、先読みではリサイズしない
-                if (LoupeTransform.Current.IsEnabled && !MouseInput.Current.Loupe.IsResetByPageChanged) return;
+                if (LoupeTransform.Current.IsEnabled && !Config.Current.Loupe.IsResetByPageChanged) return;
             }
 
             ResizeConten(source.ViewPageCollection, source.CancellationToken);

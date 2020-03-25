@@ -802,9 +802,9 @@ namespace NeeView
 
             InitializeWindowDragPosition();
 
-            _rotateCenter = GetCenterPosition(Config.Current.View.DragControlRotateCenter);
-            _scaleCenter = GetCenterPosition(Config.Current.View.DragControlScaleCenter);
-            _flipCenter = GetCenterPosition(Config.Current.View.DragControlFlipCenter);
+            _rotateCenter = GetCenterPosition(Config.Current.View.RotateCenter);
+            _scaleCenter = GetCenterPosition(Config.Current.View.ScaleCenter);
+            _flipCenter = GetCenterPosition(Config.Current.View.FlipCenter);
 
             _basePosition = _transform.Position;
             _baseAngle = _transform.Angle;
@@ -1196,9 +1196,9 @@ namespace NeeView
             {
                 config.Layout.Notice.IsOriginalScaleShowMessage = IsOriginalScaleShowMessage;
 
-                config.View.DragControlRotateCenter = DragControlRotateCenter;
-                config.View.DragControlScaleCenter = DragControlScaleCenter;
-                config.View.DragControlFlipCenter = DragControlFlipCenter;
+                config.View.RotateCenter = DragControlRotateCenter;
+                config.View.ScaleCenter = DragControlScaleCenter;
+                config.View.FlipCenter = DragControlFlipCenter;
                 config.View.IsKeepScale = IsKeepScale;
                 config.View.IsKeepAngle = IsKeepAngle;
                 config.View.IsKeepFlip = IsKeepFlip;
@@ -1211,9 +1211,9 @@ namespace NeeView
             var memento = new Memento();
 
             memento.IsOriginalScaleShowMessage = Config.Current.Layout.Notice.IsOriginalScaleShowMessage;
-            memento.DragControlRotateCenter = Config.Current.View.DragControlRotateCenter;
-            memento.DragControlScaleCenter = Config.Current.View.DragControlScaleCenter;
-            memento.DragControlFlipCenter = Config.Current.View.DragControlFlipCenter;
+            memento.DragControlRotateCenter = Config.Current.View.RotateCenter;
+            memento.DragControlScaleCenter = Config.Current.View.ScaleCenter;
+            memento.DragControlFlipCenter = Config.Current.View.FlipCenter;
             memento.IsKeepScale = Config.Current.View.IsKeepScale;
             memento.IsKeepAngle = Config.Current.View.IsKeepAngle;
             memento.IsKeepFlip = Config.Current.View.IsKeepFlip;

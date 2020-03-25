@@ -385,13 +385,13 @@ namespace NeeView
             _nonActiveTimer.Interval = TimeSpan.FromSeconds(0.2);
             _nonActiveTimer.Tick += new EventHandler(DispatcherTimer_Tick);
 
-            _vm.Model.AddPropertyChanged(nameof(MainWindowModel.IsCursorHideEnabled), (s, e) => UpdateNonActiveTimerActivity());
+            Config.Current.Mouse.AddPropertyChanged(nameof(MouseConfig.IsCursorHideEnabled), (s, e) => UpdateNonActiveTimerActivity());
             UpdateNonActiveTimerActivity();
         }
 
         private void UpdateNonActiveTimerActivity()
         {
-            if (_vm.Model.IsCursorHideEnabled)
+            if (Config.Current.Mouse.IsCursorHideEnabled)
             {
                 _nonActiveTimer.Start();
             }
@@ -407,7 +407,7 @@ namespace NeeView
         private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
             // 非アクティブ時間が続いたらマウスカーソルを非表示にする
-            if (IsCursurVisibled() && (DateTime.Now - _lastActionTime).TotalSeconds > _vm.Model.CursorHideTime)
+            if (IsCursurVisibled() && (DateTime.Now - _lastActionTime).TotalSeconds > Config.Current.Mouse.CursorHideTime)
             {
                 SetCursorVisible(false);
             }
@@ -425,7 +425,7 @@ namespace NeeView
             else
             {
                 _cursorMoveDistance += Math.Abs(nowPoint.X - _lastActionPoint.X) + Math.Abs(nowPoint.Y - _lastActionPoint.Y);
-                if (_cursorMoveDistance > _vm.Model.CursorHideReleaseDistance)
+                if (_cursorMoveDistance > Config.Current.Mouse.CursorHideReleaseDistance)
                 {
                     SetCursorVisible(true);
                 }
@@ -438,7 +438,7 @@ namespace NeeView
         // マウスアクション
         private void MainView_PreviewMouseAction(object sender, MouseEventArgs e)
         {
-            if (_vm.Model.IsCursorHideReleaseAction)
+            if (Config.Current.Mouse.IsCursorHideReleaseAction)
             {
                 SetCursorVisible(true);
             }
@@ -460,7 +460,7 @@ namespace NeeView
             _cursorMoveDistance = 0.0;
             _lastActionTime = DateTime.Now;
 
-            isVisible = isVisible | !_vm.Model.IsCursorHideEnabled;
+            isVisible = isVisible | !Config.Current.Mouse.IsCursorHideEnabled;
             if (isVisible)
             {
                 if (this.MainView.Cursor == Cursors.None && !MouseInput.Current.IsLoupeMode)

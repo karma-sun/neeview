@@ -81,8 +81,8 @@ namespace NeeView
         private SolidColorBrush _sliderBackground;
         private SolidColorBrush _sliderBackgroundGlass;
 
-        private bool _isCursorHideEnabled = true;
-        private double _cursorHideTime = 2.0;
+        //private bool _isCursorHideEnabled = true;
+        //private double _cursorHideTime = 2.0;
 
         private volatile EditCommandWindow _editCommandWindow;
 
@@ -347,6 +347,7 @@ namespace NeeView
         [PropertyMember("@ParamIsAccessKeyEnabled", Tips = "@ParamIsAccessKeyEnabledTips")]
         public bool IsAccessKeyEnabled { get; set; } = true;
 
+#if false
         /// <summary>
         /// カーソルの自動非表示
         /// </summary>
@@ -369,6 +370,7 @@ namespace NeeView
 
         [PropertyRange("@ParameterCursorHideReleaseDistance", 0.0, 1000.0, TickFrequency = 1.0, IsEditable = true)]
         public double CursorHideReleaseDistance { get; set; } = 5.0;
+#endif
 
         #endregion
 
@@ -804,7 +806,10 @@ namespace NeeView
                 config.Layout.Slider.IsHidePageSliderInFullscreen = IsHidePageSliderInFullscreen;
                 config.Layout.WindowTittle.IsMainViewDisplayEnabled = IsVisibleWindowTitle;
                 config.Layout.Panels.IsHidePanelInFullscreen = IsHidePanelInFullscreen;
-
+                config.Mouse.IsCursorHideEnabled = IsCursorHideEnabled;
+                config.Mouse.CursorHideTime = CursorHideTime;
+                config.Mouse.IsCursorHideReleaseAction = IsCursorHideReleaseAction;
+                config.Mouse.CursorHideReleaseDistance = CursorHideReleaseDistance;
             }
 
         }
@@ -826,10 +831,10 @@ namespace NeeView
             memento.IsAccessKeyEnabled = this.IsAccessKeyEnabled;
             memento.SliderOpacity = Config.Current.Layout.Slider.Opacity;
             memento.IsHidePageSliderInFullscreen = Config.Current.Layout.Slider.IsHidePageSliderInFullscreen;
-            memento.IsCursorHideEnabled = this.IsCursorHideEnabled;
-            memento.CursorHideTime = this.CursorHideTime;
-            memento.IsCursorHideReleaseAction = this.IsCursorHideReleaseAction;
-            memento.CursorHideReleaseDistance = this.CursorHideReleaseDistance;
+            memento.IsCursorHideEnabled = Config.Current.Mouse.IsCursorHideEnabled;
+            memento.CursorHideTime = Config.Current.Mouse.CursorHideTime;
+            memento.IsCursorHideReleaseAction = Config.Current.Mouse.IsCursorHideReleaseAction;
+            memento.CursorHideReleaseDistance = Config.Current.Mouse.CursorHideReleaseDistance;
 
             return memento;
         }
@@ -851,10 +856,10 @@ namespace NeeView
             this.IsAccessKeyEnabled = memento.IsAccessKeyEnabled;
             ////this.SliderOpacity = memento.SliderOpacity;
             ////this.IsHidePageSliderInFullscreen = memento.IsHidePageSliderInFullscreen;
-            this.IsCursorHideEnabled = memento.IsCursorHideEnabled;
-            this.CursorHideTime = memento.CursorHideTime;
-            this.IsCursorHideReleaseAction = memento.IsCursorHideReleaseAction;
-            this.CursorHideReleaseDistance = memento.CursorHideReleaseDistance;
+            //this.IsCursorHideEnabled = memento.IsCursorHideEnabled;
+            //this.CursorHideTime = memento.CursorHideTime;
+            //this.IsCursorHideReleaseAction = memento.IsCursorHideReleaseAction;
+            //this.CursorHideReleaseDistance = memento.CursorHideReleaseDistance;
         }
 
         #endregion

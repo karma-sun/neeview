@@ -108,8 +108,9 @@ namespace NeeView
         // TODO: Configに設定が移動するまでの応急処置
         public void Initialize()
         {
-            MouseInput.Current.Normal.AddPropertyChanged(nameof(MouseInputNormal.IsGestureEnabled), MouseInputNormal_IsGestureEnabledChanged);
-            MouseInputNormal_IsGestureEnabledChanged(this, null);
+            Config.Current.Mouse.AddPropertyChanged(nameof(MouseConfig.IsGestureEnabled), MouseConfig_IsGestureEnabledChanged);
+
+            MouseConfig_IsGestureEnabledChanged(this, null);
         }
 
 
@@ -148,14 +149,14 @@ namespace NeeView
         }
 
 
-        private void MouseInputNormal_IsGestureEnabledChanged(object sender, PropertyChangedEventArgs e)
+        private void MouseConfig_IsGestureEnabledChanged(object sender, PropertyChangedEventArgs e)
         {
             UpdateGestureDragAction();
         }
 
         public void UpdateGestureDragAction()
         {
-            _elements[GestureDragActionName].DragKey = MouseInput.Current.Normal.IsGestureEnabled ? new DragKey("RightButton") : new DragKey();
+            _elements[GestureDragActionName].DragKey = Config.Current.Mouse.IsGestureEnabled ? new DragKey("RightButton") : new DragKey();
             GestureDragActionChanged?.Invoke(this, null);
         }
 

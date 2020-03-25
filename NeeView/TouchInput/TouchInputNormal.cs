@@ -124,7 +124,7 @@ namespace NeeView
             var deltaY = Math.Abs(point.Y - touchStart.Y);
 
             // drag check
-            if (deltaX > _gesture.GestureMinimumDistance || deltaY > _gesture.GestureMinimumDistance)
+            if (deltaX > Config.Current.Touch.GestureMinimumDistance || deltaY > Config.Current.Touch.GestureMinimumDistance)
             {
                 SetState(this.DragAction);
             }

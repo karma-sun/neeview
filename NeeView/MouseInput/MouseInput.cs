@@ -376,9 +376,9 @@ namespace NeeView
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            this.Normal.Restore(memento.Normal);
+            //this.Normal.Restore(memento.Normal);
             this.Loupe.Restore(memento.Loupe);
-            this.Gesture.Restore(memento.Gesture);
+            //this.Gesture.Restore(memento.Gesture);
         }
         #endregion
 

@@ -303,7 +303,7 @@ namespace NeeView
             if (memento == null) return;
             this.IsEnabled = memento.IsEnabled;
             this.Normal.Restore(memento.Normal);
-            this.Gesture.Restore(memento.Gesture);
+            //this.Gesture.Restore(memento.Gesture);
             this.Drag.Restore(memento.Drag);
         }
         #endregion

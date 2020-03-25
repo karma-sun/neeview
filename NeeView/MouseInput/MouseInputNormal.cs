@@ -42,6 +42,7 @@ namespace NeeView
     /// </summary>
     public class MouseInputNormal : MouseInputBase
     {
+#if false
         private LongButtonDownMode _longButtonDownMode = LongButtonDownMode.Loupe;
         [PropertyMember("@ParamMouseLongButtonDownMode")]
         public LongButtonDownMode LongButtonDownMode
@@ -80,6 +81,7 @@ namespace NeeView
         // ドラッグ開始距離
         [PropertyRange("@ParamMouseMinimumDragDistance", 1.0, 200.0, TickFrequency = 1.0, IsEditable = true, Tips = "@ParamMouseMinimumDragDistanceTips")]
         public double MinimumDragDistance { get; set; } = 5.0;
+#endif
 
         /// <summary>
         /// ボタン押されている？
@@ -116,12 +118,12 @@ namespace NeeView
         {
             _timer.Stop();
 
-            if ((CreateMouseButtonBits() & LongButtonMask.ToMouseButtonBits()) == 0)
+            if ((CreateMouseButtonBits() & Config.Current.Mouse.LongButtonMask.ToMouseButtonBits()) == 0)
             {
                 return;
             }
 
-            switch (LongButtonDownMode)
+            switch (Config.Current.Mouse.LongButtonDownMode)
             {
                 case LongButtonDownMode.Loupe:
                     SetState(MouseInputState.Loupe, true);
@@ -133,7 +135,7 @@ namespace NeeView
                     // その後の操作は全て無効
                     _isButtonDown = false;
 
-                    _timerRepeat.Interval = TimeSpan.FromSeconds(LongButtonRepeatTime);
+                    _timerRepeat.Interval = TimeSpan.FromSeconds(Config.Current.Mouse.LongButtonRepeatTime);
                     _timerRepeat.Start();
                     break;
             }
@@ -214,7 +216,7 @@ namespace NeeView
             if (e.StylusDevice == null)
             {
                 // 長押し判定開始
-                _timer.Interval = TimeSpan.FromSeconds(this.LongButtonDownTime);
+                _timer.Interval = TimeSpan.FromSeconds(Config.Current.Mouse.LongButtonDownTime);
                 _timer.Start();
 
                 // リピート用にパラメータ保存
@@ -276,18 +278,18 @@ namespace NeeView
             var deltaY = Math.Abs(point.Y - _context.StartPoint.Y);
 
             // drag check
-            if (deltaX > MinimumDragDistance || deltaY > MinimumDragDistance)
+            if (deltaX > Config.Current.Mouse.MinimumDragDistance || deltaY > Config.Current.Mouse.MinimumDragDistance)
             {
                 // ドラッグ開始。処理をドラッグ系に移行
                 var action = DragActionTable.Current.GetActionType(new DragKey(CreateMouseButtonBits(e), Keyboard.Modifiers));
                 if (string.IsNullOrEmpty(action))
                 {
                 }
-                else if (this.IsGestureEnabled && action == DragActionTable.GestureDragActionName)
+                else if (Config.Current.Mouse.IsGestureEnabled && action == DragActionTable.GestureDragActionName)
                 {
                     SetState(MouseInputState.Gesture);
                 }
-                else if (this.IsDragEnabled)
+                else if (Config.Current.Mouse.IsDragEnabled)
                 {
                     SetState(MouseInputState.Drag, e);
                 }
@@ -295,7 +297,7 @@ namespace NeeView
         }
 
 
-        #region Memento
+#region Memento
         [DataContract]
         public class Memento : IMemento
         {
@@ -329,34 +331,42 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
+                config.Mouse.IsGestureEnabled = IsGestureEnabled;
+                config.Mouse.IsDragEnabled = IsDragEnabled;
+                config.Mouse.MinimumDragDistance = MinimumDragDistance;
+                config.Mouse.LongButtonDownMode = LongButtonDownMode;
+                config.Mouse.LongButtonMask = LongButtonMask;
+                config.Mouse.LongButtonDownTime = LongButtonDownTime;
+                config.Mouse.LongButtonRepeatTime = LongButtonRepeatTime;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.LongButtonDownMode = this.LongButtonDownMode;
-            memento.LongButtonMask = this.LongButtonMask;
-            memento.LongButtonDownTime = this.LongButtonDownTime;
-            memento.LongButtonRepeatTime = this.LongButtonRepeatTime;
-            memento.IsGestureEnabled = this.IsGestureEnabled;
-            memento.IsDragEnabled = this.IsDragEnabled;
-            memento.MinimumDragDistance = this.MinimumDragDistance;
+            memento.LongButtonDownMode = Config.Current.Mouse.LongButtonDownMode;
+            memento.LongButtonMask = Config.Current.Mouse.LongButtonMask;
+            memento.LongButtonDownTime = Config.Current.Mouse.LongButtonDownTime;
+            memento.LongButtonRepeatTime = Config.Current.Mouse.LongButtonRepeatTime;
+            memento.IsGestureEnabled = Config.Current.Mouse.IsGestureEnabled;
+            memento.IsDragEnabled = Config.Current.Mouse.IsDragEnabled;
+            memento.MinimumDragDistance = Config.Current.Mouse.MinimumDragDistance;
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            this.LongButtonDownMode = memento.LongButtonDownMode;
-            this.LongButtonMask = memento.LongButtonMask;
-            this.LongButtonDownTime = memento.LongButtonDownTime;
-            this.LongButtonRepeatTime = memento.LongButtonRepeatTime;
-            this.IsGestureEnabled = memento.IsGestureEnabled;
-            this.IsDragEnabled = memento.IsDragEnabled;
-            this.MinimumDragDistance = memento.MinimumDragDistance;
+            //this.LongButtonDownMode = memento.LongButtonDownMode;
+            //this.LongButtonMask = memento.LongButtonMask;
+            //this.LongButtonDownTime = memento.LongButtonDownTime;
+            //this.LongButtonRepeatTime = memento.LongButtonRepeatTime;
+            //this.IsGestureEnabled = memento.IsGestureEnabled;
+            //this.IsDragEnabled = memento.IsDragEnabled;
+            //this.MinimumDragDistance = memento.MinimumDragDistance;
         }
-        #endregion
+#endregion
 
 
     }

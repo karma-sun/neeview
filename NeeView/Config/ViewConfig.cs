@@ -7,15 +7,15 @@ namespace NeeView
     {
         // 回転の中心
         [PropertyMember("@ParamDragTransformIsControRotatelCenter")]
-        public DragControlCenter DragControlRotateCenter { get; set; }
+        public DragControlCenter RotateCenter { get; set; }
 
         // 拡大の中心
         [PropertyMember("@ParamDragTransformIsControlScaleCenter")]
-        public DragControlCenter DragControlScaleCenter { get; set; }
+        public DragControlCenter ScaleCenter { get; set; }
 
         // 反転の中心
         [PropertyMember("@ParamDragTransformIsControlFlipCenter")]
-        public DragControlCenter DragControlFlipCenter { get; set; }
+        public DragControlCenter FlipCenter { get; set; }
 
         // 拡大率キープ
         [PropertyMember("@ParamDragTransformIsKeepScale")]

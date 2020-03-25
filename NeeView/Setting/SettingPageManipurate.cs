@@ -24,9 +24,9 @@ namespace NeeView.Setting
                 new SettingItemSection(Properties.Resources.SettingPageManipurateGeneralViewOperation,
                     new SettingItemProperty(PropertyMemberElement.Create(DragTransform.Current, nameof(DragTransform.IsLimitMove))),
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.View, nameof(ViewConfig.IsViewStartPositionCenter))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.View, nameof(ViewConfig.DragControlRotateCenter))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.View, nameof(ViewConfig.DragControlScaleCenter))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.View, nameof(ViewConfig.DragControlFlipCenter))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.View, nameof(ViewConfig.RotateCenter))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.View, nameof(ViewConfig.ScaleCenter))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.View, nameof(ViewConfig.FlipCenter))),
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.View, nameof(ViewConfig.IsKeepScale))),
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.View, nameof(ViewConfig.IsKeepAngle))),
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.View, nameof(ViewConfig.IsKeepFlip)))),
@@ -63,33 +63,33 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageManipurateMouseDrag,
-                    new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Normal, nameof(MouseInputNormal.MinimumDragDistance))),
-                    new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Normal, nameof(MouseInputNormal.IsDragEnabled))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Mouse, nameof(MouseConfig.MinimumDragDistance))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Mouse, nameof(MouseConfig.IsDragEnabled))),
                     new SettingItemProperty(PropertyMemberElement.Create(DragActionTable.Current, nameof(DragActionTable.Elements)), new SettingMouseDragControl())
                     {
                         IsStretch = true,
-                        IsEnabled = new IsEnabledPropertyValue(MouseInput.Current.Normal, nameof(MouseInputNormal.IsDragEnabled))
+                        IsEnabled = new IsEnabledPropertyValue(Config.Current.Mouse, nameof(MouseConfig.IsDragEnabled))
                     },
-                    new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Normal, nameof(MouseInputNormal.IsGestureEnabled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Gesture, nameof(MouseInputGesture.GestureMinimumDistance)))
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Mouse, nameof(MouseConfig.IsGestureEnabled))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Mouse, nameof(MouseConfig.GestureMinimumDistance)))
                     {
-                        IsEnabled = new IsEnabledPropertyValue(MouseInput.Current.Normal, nameof(MouseInputNormal.IsGestureEnabled))
+                        IsEnabled = new IsEnabledPropertyValue(Config.Current.Mouse, nameof(MouseConfig.IsGestureEnabled))
                     }),
 
                 new SettingItemSection(Properties.Resources.SettingPageManipurateMouseHold,
-                    new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Normal, nameof(MouseInputNormal.LongButtonDownMode))),
-                    new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Normal, nameof(MouseInputNormal.LongButtonMask))),
-                    new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Normal, nameof(MouseInputNormal.LongButtonDownTime))),
-                    new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Normal, nameof(MouseInputNormal.LongButtonRepeatTime)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Mouse, nameof(MouseConfig.LongButtonDownMode))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Mouse, nameof(MouseConfig.LongButtonMask))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Mouse, nameof(MouseConfig.LongButtonDownTime))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Mouse, nameof(MouseConfig.LongButtonRepeatTime)))),
 
                 new SettingItemSection(Properties.Resources.SettingPageManipurateMouseVisibility, Properties.Resources.SettingPageManipurateMouseVisibilityTips,
-                    new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.IsCursorHideEnabled))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Mouse, nameof(MouseConfig.IsCursorHideEnabled))),
                     new SettingItemGroup(
-                        new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.CursorHideTime))),
-                        new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.CursorHideReleaseDistance))),
-                        new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.IsCursorHideReleaseAction))))
+                        new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Mouse, nameof(MouseConfig.CursorHideTime))),
+                        new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Mouse, nameof(MouseConfig.CursorHideReleaseDistance))),
+                        new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Mouse, nameof(MouseConfig.IsCursorHideReleaseAction))))
                     {
-                        IsEnabled = new IsEnabledPropertyValue(MainWindowModel.Current, nameof(MainWindowModel.IsCursorHideEnabled))
+                        IsEnabled = new IsEnabledPropertyValue(Config.Current.Mouse, nameof(MouseConfig.IsCursorHideEnabled))
                     }),
             };
         }
@@ -113,7 +113,7 @@ namespace NeeView.Setting
                     }),
 
                 new SettingItemSection(Properties.Resources.SettingPageManipurateTouchAdvance,
-                    new SettingItemProperty(PropertyMemberElement.Create(TouchInput.Current.Gesture, nameof(TouchInputGesture.GestureMinimumDistance))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Touch, nameof(TouchConfig.GestureMinimumDistance))),
                     new SettingItemProperty(PropertyMemberElement.Create(TouchInput.Current.Drag.Manipulation, nameof(TouchDragManipulation.MinimumManipulationRadius))),
                     new SettingItemProperty(PropertyMemberElement.Create(TouchInput.Current.Drag.Manipulation, nameof(TouchDragManipulation.MinimumManipulationDistance))))
                 {

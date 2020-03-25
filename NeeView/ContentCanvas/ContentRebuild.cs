@@ -111,7 +111,7 @@ namespace NeeView
             }
 
             var mouseButtonBits = MouseButtonBitsExtensions.Create();
-            if (MouseInput.Current.IsLoupeMode && MouseInput.Current.Normal.LongButtonDownMode == LongButtonDownMode.Loupe)
+            if (MouseInput.Current.IsLoupeMode && Config.Current.Mouse.LongButtonDownMode == LongButtonDownMode.Loupe)
             {
                 mouseButtonBits = MouseButtonBits.None;
             }

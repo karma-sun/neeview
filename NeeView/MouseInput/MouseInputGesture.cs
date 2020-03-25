@@ -40,6 +40,7 @@ namespace NeeView
         public event EventHandler<MouseGestureEventArgs> GestureChanged;
 
 
+#if false
         //
         [PropertyRange("@ParamMouseGestureMinimumDistance", 5.0, 200.0, TickFrequency = 1.0, IsEditable = true, Tips = "@ParamMouseGestureMinimumDistanceTips")]
         public double GestureMinimumDistance
@@ -47,6 +48,7 @@ namespace NeeView
             get { return _gesture.GestureMinimumDistance; }
             set { _gesture.GestureMinimumDistance = value; }
         }
+#endif
 
         //
         public void Reset()
@@ -154,7 +156,7 @@ namespace NeeView
             if (_gesture.Sequence.Count > 0) return;
 
             var action = DragActionTable.Current.GetActionType(new DragKey(CreateMouseButtonBits(e), Keyboard.Modifiers));
-            switch(action ?? string.Empty)
+            switch (action ?? string.Empty)
             {
                 case "":
                     break;
@@ -191,20 +193,22 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
+                config.Mouse.GestureMinimumDistance = GestureMinimumDistance;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.GestureMinimumDistance = this.GestureMinimumDistance;
+            memento.GestureMinimumDistance = Config.Current.Mouse.GestureMinimumDistance;
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            this.GestureMinimumDistance = memento.GestureMinimumDistance;
+            //this.GestureMinimumDistance = memento.GestureMinimumDistance;
         }
         #endregion
 

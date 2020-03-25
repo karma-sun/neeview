@@ -165,7 +165,7 @@ namespace NeeView
         {
             if (Pages.Count <= 0) return;
 
-            var isSortFileFirst = BookProfile.Current.IsSortFileFirst;
+            var isSortFileFirst = Config.Current.Book.IsSortFileFirst;
             var pages = Pages.OrderBy(e => e.PageType);
 
             switch (SortMode)

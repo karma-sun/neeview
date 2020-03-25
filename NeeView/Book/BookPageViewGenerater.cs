@@ -212,7 +212,7 @@ namespace NeeView
         // ページのワイド判定
         private bool IsWide(Page page)
         {
-            return page.Width > page.Height * BookProfile.Current.WideRatio;
+            return page.Width > page.Height * Config.Current.Book.WideRatio;
         }
 
         // 見開きモードでも単独表示するべきか判定

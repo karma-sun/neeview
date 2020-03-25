@@ -75,12 +75,14 @@ namespace NeeView
 
         #region Properties
 
+#if false
         // ページ終端でのアクション
         [PropertyMember("@ParamBookOperationPageEndAction")]
         public PageEndAction PageEndAction { get; set; }
 
         [PropertyMember("@ParamBookOperationNotifyPageLoop")]
         public bool IsNotifyPageLoop { get; set; }
+#endif
 
         /// <summary>
         /// 操作の有効設定。ロード中は機能を無効にするために使用
@@ -458,7 +460,7 @@ namespace NeeView
                 FirstPage();
             }
 
-            else if (this.PageEndAction == PageEndAction.Loop)
+            else if (Config.Current.Book.PageEndAction == PageEndAction.Loop)
             {
                 if (e.Direction < 0)
                 {
@@ -468,12 +470,12 @@ namespace NeeView
                 {
                     FirstPage();
                 }
-                if (this.IsNotifyPageLoop)
+                if (Config.Current.Book.IsNotifyPageLoop)
                 {
                     InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyBookOperationPageLoop);
                 }
             }
-            else if (this.PageEndAction == PageEndAction.NextFolder)
+            else if (Config.Current.Book.PageEndAction == PageEndAction.NextFolder)
             {
                 AppDispatcher.Invoke(async () =>
                 {
@@ -968,7 +970,7 @@ namespace NeeView
 
             var address = Book.Address;
             var entryName = Book.Viewer.GetViewPage()?.EntryFullName;
-            
+
             if (isPagemark)
             {
                 return AddPagemark(address, entryName); ////, page.Length, page.LastWriteTime);
@@ -1176,26 +1178,29 @@ namespace NeeView
             public void RestoreConfig(Config config)
             {
                 // TODO: ExternalApplicationの扱い
+
+                config.Book.PageEndAction = PageEndAction;
+                config.Book.IsNotifyPageLoop = IsNotifyPageLoop;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.PageEndAction = this.PageEndAction;
+            memento.PageEndAction = Config.Current.Book.PageEndAction;
             memento.ExternalApplication = ExternalApplication.Clone();
             memento.ClipboardUtility = ClipboardUtility.Clone();
-            memento.IsNotifyPageLoop = this.IsNotifyPageLoop;
+            memento.IsNotifyPageLoop = Config.Current.Book.IsNotifyPageLoop;
             return memento;
         }
 
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            this.PageEndAction = memento.PageEndAction;
+            //this.PageEndAction = memento.PageEndAction;
             this.ExternalApplication = memento.ExternalApplication?.Clone();
             this.ClipboardUtility = memento.ClipboardUtility?.Clone();
-            this.IsNotifyPageLoop = memento.IsNotifyPageLoop;
+            //this.IsNotifyPageLoop = memento.IsNotifyPageLoop;
         }
         #endregion
 

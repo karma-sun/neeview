@@ -38,7 +38,7 @@ namespace NeeView
         }
 
 
-        public static FileTypeCollection Parse(string s)
+        public new static FileTypeCollection Parse(string s)
         {
             return new FileTypeCollection(s);
         }

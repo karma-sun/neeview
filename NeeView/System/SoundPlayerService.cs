@@ -12,6 +12,7 @@ namespace NeeView
 
         private DateTime _lastTime;
 
+#if false
         private string _seCannotMove;
         [PropertyPath("@ParamSeCannotMove", Filter ="Wave|*.wav")]
         public string SeCannotMove
@@ -19,12 +20,13 @@ namespace NeeView
             get { return _seCannotMove; }
             set { _seCannotMove = string.IsNullOrWhiteSpace(value) ? null : value; }
         }
+#endif
 
         public void PlaySeCannotMove()
         {
-            if (SeCannotMove == null) return;
+            if (Config.Current.Book.TerminalSound == null) return;
 
-            PlaySe(SeCannotMove);
+            PlaySe(Config.Current.Book.TerminalSound);
         }
 
         private void PlaySe(string path)
@@ -47,7 +49,7 @@ namespace NeeView
             _lastTime = DateTime.Now;
         }
 
-        #region Memento
+#region Memento
 
         [DataContract]
         public class Memento : IMemento
@@ -57,24 +59,26 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
+                config.Book.TerminalSound = SeCannotMove;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.SeCannotMove = this.SeCannotMove;
+            memento.SeCannotMove = Config.Current.Book.TerminalSound;
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
 
-            this.SeCannotMove = memento.SeCannotMove;
+            ////this.SeCannotMove = memento.SeCannotMove;
         }
 
-        #endregion
+#endregion
 
     }
 

@@ -239,7 +239,7 @@ namespace NeeView
         /// <returns></returns>
         public bool IsExcludedFolder(string path)
         {
-            return BookProfile.Current.Excludes.Contains(LoosePath.GetFileName(path));
+            return Config.Current.Book.Excludes.Contains(LoosePath.GetFileName(path));
         }
 
 

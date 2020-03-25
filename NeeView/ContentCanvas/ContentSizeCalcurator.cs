@@ -43,7 +43,7 @@ namespace NeeView
         #region Properties
 
         private PageStretchMode StretchMode => _contentCanvas.StretchMode;
-        private double ContentsSpace => _contentCanvas.ContentsSpace;
+        private double ContentsSpace => Config.Current.Book.ContentsSpace;
         private AutoRotateType AutoRotateType => _contentCanvas.AutoRotateType;
         private Size ViewSize => _contentCanvas.ViewSize;
         private bool AllowEnlarge => _contentCanvas.AllowEnlarge;

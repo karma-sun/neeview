@@ -100,6 +100,12 @@ namespace NeeView
             get { return _isFileWriteAccessEnabled; }
             set { SetProperty(ref _isFileWriteAccessEnabled, value); }
         }
+
+
+        // 「ブックを開く」ダイアログを現在の場所を基準にして開く
+        // TODO: LoadAs のコマンドパラメータにする
+        [PropertyMember("@ParamIsOpenbookAtCurrentPlace")]
+        public bool IsOpenbookAtCurrentPlace { get; set; }
     }
 
 }

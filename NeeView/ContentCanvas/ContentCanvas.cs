@@ -103,6 +103,11 @@ namespace NeeView
             {
                 UpdateContentScalingMode();
             });
+
+            Config.Current.Book.AddPropertyChanged(nameof(BookConfig.ContentsSpace), (s, e) =>
+            {
+                UpdateContentSize(); ;
+            });
         }
 
         #endregion
@@ -299,6 +304,7 @@ namespace NeeView
             set { _contentsMargin = value; RaisePropertyChanged(); }
         }
 
+#if false
         // 2ページコンテンツの隙間
         private double _contentSpace = -1.0;
         [DefaultValue(-1.0)]
@@ -308,6 +314,7 @@ namespace NeeView
             get { return _contentSpace; }
             set { _contentSpace = value; RaisePropertyChanged(); UpdateContentSize(); }
         }
+#endif
 
         /// <summary>
         /// 次のページ更新時の表示開始位置
@@ -933,6 +940,7 @@ namespace NeeView
             public void RestoreConfig(Config config)
             {
                 config.ImageDotKeep.IsEnabled = IsEnabledNearestNeighbor;
+                config.Book.ContentsSpace = ContentsSpace;
 
                 this.GridLine.RestoreConfig(config);
             }
@@ -945,7 +953,7 @@ namespace NeeView
             memento.AllowEnlarge = this.AllowEnlarge;
             memento.AllowReduce = this.AllowReduce;
             memento.IsEnabledNearestNeighbor = Config.Current.ImageDotKeep.IsEnabled;
-            memento.ContentsSpace = this.ContentsSpace;
+            memento.ContentsSpace = Config.Current.Book.ContentsSpace;
             memento.AutoRotateType = this.AutoRotateType;
             memento.GridLine = this.GridLine.CreateMemento();
             return memento;
@@ -958,7 +966,7 @@ namespace NeeView
             this.AllowEnlarge = memento.AllowEnlarge;
             this.AllowReduce = memento.AllowReduce;
             //this.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
-            this.ContentsSpace = memento.ContentsSpace;
+            //this.ContentsSpace = memento.ContentsSpace;
             this.AutoRotateType = memento.AutoRotateType;
             //this.GridLine.Restore(memento.GridLine);
         }

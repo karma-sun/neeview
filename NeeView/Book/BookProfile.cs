@@ -65,6 +65,7 @@ namespace NeeView
 
         #region Properties
 
+#if false
         /// <summary>
         /// ページ移動優先設定
         /// </summary>
@@ -77,7 +78,6 @@ namespace NeeView
         [PropertyMember("@ParamBookIsMultiplePageMove", Tips = "@ParamBookIsMultiplePageMoveTips")]
         public bool IsMultiplePageMove { get; set; } = true;
 
-#if false
         /// <summary>
         /// 先読みページ数
         /// </summary>
@@ -85,6 +85,7 @@ namespace NeeView
         public int PreLoadSize { get; set; } = 2;
 #endif
 
+#if false
         /// <summary>
         /// 横長画像判定用比率
         /// </summary>
@@ -97,7 +98,6 @@ namespace NeeView
         [PropertyMember("@ParamBookExcludes")]
         public StringCollection Excludes { get; set; } = new StringCollection("__MACOSX;.DS_Store");
 
-#if false
         // GIFアニメ有効
         [PropertyMember("@ParamBookIsEnableAnimatedGif", Tips = "@ParamBookIsEnableAnimatedGifTips")]
         public bool IsEnableAnimatedGif { get; set; } = true;
@@ -122,11 +122,11 @@ namespace NeeView
             get { return Math.Min(_cacheMemorySize, _maxCacheMemorySize); }
             set { SetProperty(ref _cacheMemorySize, Math.Min(value, _maxCacheMemorySize)); }
         }
-#endif
 
         // ファイル並び順、ファイル優先
         [PropertyMember("@ParamIsSortFileFirst", Tips = "@ParamIsSortFileFirstTips")]
         public bool IsSortFileFirst { get; set; }
+#endif
 
         #endregion
 
@@ -156,7 +156,7 @@ namespace NeeView
         /// </summary>
         public bool CanPrioritizePageMove()
         {
-            return this.IsPrioritizePageMove && !SlideShow.Current.IsPlayingSlideShow;
+            return Config.Current.Book.IsPrioritizePageMove && !SlideShow.Current.IsPlayingSlideShow;
         }
 
         /// <summary>
@@ -164,13 +164,13 @@ namespace NeeView
         /// </summary>
         public bool CanMultiplePageMove()
         {
-            return this.IsMultiplePageMove && !SlideShow.Current.IsPlayingSlideShow;
+            return Config.Current.Book.IsMultiplePageMove && !SlideShow.Current.IsPlayingSlideShow;
         }
 
         // 除外パス判定
         public bool IsExcludedPath(string path)
         {
-            return path.Split('/', '\\').Any(e => this.Excludes.ConainsOrdinalIgnoreCase(e));
+            return path.Split('/', '\\').Any(e => Config.Current.Book.Excludes.ConainsOrdinalIgnoreCase(e));
         }
 
 
@@ -251,40 +251,46 @@ namespace NeeView
                 config.Performance.CacheMemorySize = CacheMemorySize;
                 config.Image.Standard.IsAnimatedGifEnabled = IsEnableAnimatedGif;
                 config.Image.Standard.IsAllFileSupported = IsAllFileAnImage;
+                config.Book.WideRatio = WideRatio;
+                config.Book.Excludes.OneLine = ExcludePath;
+                config.Book.IsPrioritizePageMove = IsPrioritizePageMove;
+                config.Book.IsMultiplePageMove = IsMultiplePageMove;
+                config.Book.IsSortFileFirst = IsSortFileFirst;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.IsPrioritizePageMove = this.IsPrioritizePageMove;
-            memento.IsMultiplePageMove = this.IsMultiplePageMove;
+            memento.IsPrioritizePageMove = Config.Current.Book.IsPrioritizePageMove;
+            memento.IsMultiplePageMove = Config.Current.Book.IsMultiplePageMove;
             memento.PreLoadSize = Config.Current.Performance.PreLoadSize;
-            memento.WideRatio = this.WideRatio;
-            memento.ExcludePath = this.Excludes.OneLine;
+            memento.WideRatio = Config.Current.Book.WideRatio;
+            memento.ExcludePath = Config.Current.Book.Excludes.OneLine;
             memento.IsEnableAnimatedGif = Config.Current.Image.Standard.IsAnimatedGifEnabled;
             memento.BookPageCollectMode = Config.Current.System.BookPageCollectMode;
             memento.IsLoadingPageVisible = Config.Current.Performance.IsLoadingPageVisible;
             memento.IsAllFileAnImage = Config.Current.Image.Standard.IsAllFileSupported;
             memento.CacheMemorySize = Config.Current.Performance.CacheMemorySize;
-            memento.IsSortFileFirst = this.IsSortFileFirst;
+            memento.IsSortFileFirst = Config.Current.Book.IsSortFileFirst;
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            this.IsPrioritizePageMove = memento.IsPrioritizePageMove;
-            this.IsMultiplePageMove = memento.IsMultiplePageMove;
+            ////this.IsPrioritizePageMove = memento.IsPrioritizePageMove;
+            ////this.IsMultiplePageMove = memento.IsMultiplePageMove;
             ////this.PreLoadSize = memento.PreLoadSize;
-            this.WideRatio = memento.WideRatio;
-            this.Excludes.OneLine = memento.ExcludePath;
+            ////this.WideRatio = memento.WideRatio;
+            ////this.Excludes.OneLine = memento.ExcludePath;
             ////this.IsEnableAnimatedGif = memento.IsEnableAnimatedGif;
             ////this.BookPageCollectMode = memento.BookPageCollectMode;
             ////this.IsLoadingPageVisible = memento.IsLoadingPageVisible;
             ////this.IsAllFileAnImage = memento.IsAllFileAnImage;
             ////this.CacheMemorySize = memento.CacheMemorySize;
-            this.IsSortFileFirst = memento.IsSortFileFirst;
+            ////this.IsSortFileFirst = memento.IsSortFileFirst;
         }
         #endregion
 

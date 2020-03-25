@@ -232,7 +232,6 @@ namespace NeeView
 
         private Toast _bookHubToast;
         private bool _isLoading;
-        private bool _isAutoRecursive = false;
         ////private ArchiveEntryCollectionMode _archiveRecursiveMode = ArchiveEntryCollectionMode.IncludeSubArchives;
         private BookUnit _bookUnit;
         private string _address;
@@ -322,11 +321,13 @@ namespace NeeView
 
         #region Properties
 
+#if false
         // 再帰を確認する
         [PropertyMember("@ParamIsConfirmRecursive", Tips = "@ParamIsConfirmRecursiveTips")]
         public bool IsConfirmRecursive { get; set; }
 
         // 自動再帰
+        private bool _isAutoRecursive = false;
         [PropertyMember("@ParamIsAutoRecursive")]
         public bool IsAutoRecursive
         {
@@ -334,7 +335,6 @@ namespace NeeView
             set { SetProperty(ref _isAutoRecursive, value); }
         }
 
-#if false
         /// <summary>
         /// アーカイブの展開モード
         /// </summary>
@@ -755,7 +755,7 @@ namespace NeeView
                     {
                         EmptyMessage?.Invoke(this, new BookHubMessageEventArgs(string.Format(Properties.Resources.NotifyNoPages, Book.Address)));
 
-                        if (IsConfirmRecursive && (args.Option & BookLoadOption.ReLoad) == 0 && !Book.Source.IsRecursiveFolder && Book.Source.SubFolderCount > 0)
+                        if (Config.Current.Book.IsConfirmRecursive && (args.Option & BookLoadOption.ReLoad) == 0 && !Book.Source.IsRecursiveFolder && Book.Source.SubFolderCount > 0)
                         {
                             ConfirmRecursive(token);
                         }
@@ -877,7 +877,7 @@ namespace NeeView
                 var book = await BookFactory.CreateAsync(address.Address, address.SourceAddress, bookSetting, memento, token);
 
                 // auto recursive
-                if (IsAutoRecursive && !book.Source.IsRecursiveFolder && book.Source.SubFolderCount == 1)
+                if (Config.Current.Book.IsAutoRecursive && !book.Source.IsRecursiveFolder && book.Source.SubFolderCount == 1)
                 {
                     bookSetting.IsRecursiveFolder = true;
                     book = await BookFactory.CreateAsync(address.Address, address.SourceAddress, bookSetting, memento, token);
@@ -1277,6 +1277,8 @@ namespace NeeView
             public void RestoreConfig(Config config)
             {
                 config.System.ArchiveRecursiveMode = ArchiveRecursveMode;
+                config.Book.IsConfirmRecursive = IsConfirmRecursive;
+                config.Book.IsAutoRecursive = IsAutoRecursive;
             }
         }
 
@@ -1287,8 +1289,8 @@ namespace NeeView
 
             memento._Version = Environment.ProductVersionNumber;
 
-            memento.IsConfirmRecursive = IsConfirmRecursive;
-            memento.IsAutoRecursive = IsAutoRecursive;
+            memento.IsConfirmRecursive = Config.Current.Book.IsConfirmRecursive;
+            memento.IsAutoRecursive = Config.Current.Book.IsAutoRecursive;
             memento.HistoryEntryPageCount = HistoryEntryPageCount;
             memento.IsInnerArchiveHistoryEnabled = IsInnerArchiveHistoryEnabled;
             memento.IsUncHistoryEnabled = IsUncHistoryEnabled;
@@ -1303,8 +1305,8 @@ namespace NeeView
         {
             if (memento == null) return;
 
-            IsConfirmRecursive = memento.IsConfirmRecursive;
-            IsAutoRecursive = memento.IsAutoRecursive;
+            //IsConfirmRecursive = memento.IsConfirmRecursive;
+            //IsAutoRecursive = memento.IsAutoRecursive;
             HistoryEntryPageCount = memento.HistoryEntryPageCount;
             IsInnerArchiveHistoryEnabled = memento.IsInnerArchiveHistoryEnabled;
             IsUncHistoryEnabled = memento.IsUncHistoryEnabled;

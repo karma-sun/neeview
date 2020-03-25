@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace NeeView.Text
 {
@@ -10,6 +12,7 @@ namespace NeeView.Text
     /// 文字列コレクション
     /// </summary>
     [DataContract]
+    [JsonConverter(typeof(JsonStringCollectionConverter))]
     public class StringCollection
     {
         public StringCollection()
@@ -146,6 +149,23 @@ namespace NeeView.Text
             return collection.ToList();
         }
 
+        public static StringCollection Parse(string s)
+        {
+            return new StringCollection(s);
+        }
     }
 
+
+    public sealed class JsonStringCollectionConverter : JsonConverter<StringCollection>
+    {
+        public override StringCollection Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            return StringCollection.Parse(reader.GetString());
+        }
+
+        public override void Write(Utf8JsonWriter writer, StringCollection value, JsonSerializerOptions options)
+        {
+            writer.WriteStringValue(value.ToString());
+        }
+    }
 }

@@ -268,7 +268,7 @@ namespace NeeView
             if (memento == null) return;
             ////FileIOProfile.Current.Restore(memento.FileIOProfile);
             ////JobEngine.Current.Restore(memento.JobEngine);
-            SoundPlayerService.Current.Restore(memento.SoundPlayerService);
+            ////SoundPlayerService.Current.Restore(memento.SoundPlayerService);
             PictureProfile.Current.Restore(memento.PictureProfile);
             ////ImageFilter.Current.Restore(memento.ImageFilter);
             ////ZipArchiverProfile.Current.Restore(memento.ZipArchiverProfile);
@@ -277,7 +277,7 @@ namespace NeeView
             ////MediaArchiverProfile.Current.Restore(memento.MediaArchiverProfile);
             ////ThumbnailProfile.Current.Restore(memento.ThumbnailProfile);
             ////InfoMessage.Current.Restore(memento.InfoMessage);
-            BookProfile.Current.Restore(memento.BookProfile);
+            ////BookProfile.Current.Restore(memento.BookProfile);
             BookHub.Current.Restore(memento.BookHub);
             BookOperation.Current.Restore(memento.BookOperation);
             BookSettingPresenter.Current.Restore(memento.BookSettingPresenter);

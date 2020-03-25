@@ -5,6 +5,9 @@ namespace NeeView
 {
     public class NoticeConfig : BindableBase
     {
+        private bool _isBusyMarkEnabled = true;
+
+
         [PropertyMember("@ParamInfoMessageNoticeShowMessageStyle")]
         public ShowMessageStyle NoticeShowMessageStyle { get; set; } = ShowMessageStyle.Normal;
 
@@ -26,6 +29,18 @@ namespace NeeView
         // View変換情報表示のスケール表示をオリジナルサイズ基準にする
         [PropertyMember("@ParamDragTransformIsOriginalScaleShowMessage", Tips = "@ParamDragTransformIsOriginalScaleShowMessageTips")]
         public bool IsOriginalScaleShowMessage { get; set; }
+
+
+        /// <summary>
+        /// 非同期のページ読込処理中のマークを表示する
+        /// </summary>
+        [PropertyMember("@ParamIsVisibleBusy")]
+        public bool IsBusyMarkEnabled
+        {
+            get { return _isBusyMarkEnabled; }
+            set { if (_isBusyMarkEnabled != value) { _isBusyMarkEnabled = value; RaisePropertyChanged(); } }
+        }
+
     }
 }
 

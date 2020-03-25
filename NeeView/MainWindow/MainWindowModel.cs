@@ -72,7 +72,7 @@ namespace NeeView
         ////private bool _IsHidePanelInFullscreen = true;
         ////private bool _IsVisibleWindowTitle = true;
         private bool _isVisibleAddressBar = true;
-        private bool _isVisibleBusy = true;
+        ////private bool _isVisibleBusy = true;
 
         private DateTime _scrollPageTime;
         private const double _scrollPageMargin = 100.0;
@@ -149,11 +149,11 @@ namespace NeeView
 
         #region Properties
 
+#if false
         // 「ブックを開く」ダイアログを現在の場所を基準にして開く
         [PropertyMember("@ParamIsOpenbookAtCurrentPlace")]
         public bool IsOpenbookAtCurrentPlace { get; set; }
 
-#if false
         // スライダー透明度
         [PropertyPercent("@ParamSliderOpacity", Tips = "@ParamSliderOpacityTips")]
         public double SliderOpacity
@@ -334,6 +334,7 @@ namespace NeeView
             }
         }
 
+#if false
         /// <summary>
         /// IsVisibleBusy property.
         /// </summary>
@@ -343,6 +344,7 @@ namespace NeeView
             get { return _isVisibleBusy; }
             set { if (_isVisibleBusy != value) { _isVisibleBusy = value; RaisePropertyChanged(); } }
         }
+#endif
 
         [PropertyMember("@ParamIsAccessKeyEnabled", Tips = "@ParamIsAccessKeyEnabledTips")]
         public bool IsAccessKeyEnabled { get; set; } = true;
@@ -372,9 +374,9 @@ namespace NeeView
         public double CursorHideReleaseDistance { get; set; } = 5.0;
 #endif
 
-        #endregion
+#endregion
 
-        #region Methods
+#region Methods
 
         private void RefreshSliderBrushes()
         {
@@ -501,7 +503,7 @@ namespace NeeView
         private string GetDefaultFolder()
         {
             // 既に開いている場合、その場所を起点とする
-            if (this.IsOpenbookAtCurrentPlace && BookHub.Current.Book != null)
+            if (Config.Current.System.IsOpenbookAtCurrentPlace && BookHub.Current.Book != null)
             {
                 return System.IO.Path.GetDirectoryName(BookHub.Current.Book.Address);
             }
@@ -748,9 +750,9 @@ namespace NeeView
             FocusMainViewCall?.Invoke(this, null);
         }
 
-        #endregion
+#endregion
 
-        #region Memento
+#region Memento
 
         [DataContract]
         public class Memento : IMemento
@@ -810,6 +812,9 @@ namespace NeeView
                 config.Mouse.CursorHideTime = CursorHideTime;
                 config.Mouse.IsCursorHideReleaseAction = IsCursorHideReleaseAction;
                 config.Mouse.CursorHideReleaseDistance = CursorHideReleaseDistance;
+                config.System.IsOpenbookAtCurrentPlace = IsOpenbookAtCurrentPlace;
+                config.Layout.Notice.IsBusyMarkEnabled = IsVisibleBusy;
+
             }
 
         }
@@ -826,8 +831,8 @@ namespace NeeView
             memento.IsHidePanel = this.IsHidePanel;
             memento.IsHidePanelInFullscreen = Config.Current.Layout.Panels.IsHidePanelInFullscreen;
             memento.IsVisibleWindowTitle = Config.Current.Layout.WindowTittle.IsMainViewDisplayEnabled;
-            memento.IsVisibleBusy = this.IsVisibleBusy;
-            memento.IsOpenbookAtCurrentPlace = this.IsOpenbookAtCurrentPlace;
+            memento.IsVisibleBusy = Config.Current.Layout.Notice.IsBusyMarkEnabled;
+            memento.IsOpenbookAtCurrentPlace = Config.Current.System.IsOpenbookAtCurrentPlace;
             memento.IsAccessKeyEnabled = this.IsAccessKeyEnabled;
             memento.SliderOpacity = Config.Current.Layout.Slider.Opacity;
             memento.IsHidePageSliderInFullscreen = Config.Current.Layout.Slider.IsHidePageSliderInFullscreen;
@@ -835,6 +840,7 @@ namespace NeeView
             memento.CursorHideTime = Config.Current.Mouse.CursorHideTime;
             memento.IsCursorHideReleaseAction = Config.Current.Mouse.IsCursorHideReleaseAction;
             memento.CursorHideReleaseDistance = Config.Current.Mouse.CursorHideReleaseDistance;
+
 
             return memento;
         }
@@ -851,8 +857,8 @@ namespace NeeView
             this.IsVisibleAddressBar = memento.IsVisibleAddressBar;
             ////this.IsHidePanelInFullscreen = memento.IsHidePanelInFullscreen;
             ////this.IsVisibleWindowTitle = memento.IsVisibleWindowTitle;
-            this.IsVisibleBusy = memento.IsVisibleBusy;
-            this.IsOpenbookAtCurrentPlace = memento.IsOpenbookAtCurrentPlace;
+            ////this.IsVisibleBusy = memento.IsVisibleBusy;
+            ////this.IsOpenbookAtCurrentPlace = memento.IsOpenbookAtCurrentPlace;
             this.IsAccessKeyEnabled = memento.IsAccessKeyEnabled;
             ////this.SliderOpacity = memento.SliderOpacity;
             ////this.IsHidePageSliderInFullscreen = memento.IsHidePageSliderInFullscreen;
@@ -862,7 +868,7 @@ namespace NeeView
             //this.CursorHideReleaseDistance = memento.CursorHideReleaseDistance;
         }
 
-        #endregion
+#endregion
     }
 
 }

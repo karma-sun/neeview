@@ -681,5 +681,44 @@ namespace NeeView
         }
 
         #endregion
+
+
+        public MenuNode CreateMenuNode()
+        {
+            var node = new MenuNode();
+            node.Name = this.Name;
+            node.MenuElementType = this.MenuElementType;
+            node.CommandName = this.CommandName;
+
+            if (this.Children != null)
+            {
+                node.Children = new List<MenuNode>();
+                foreach (var child in this.Children)
+                {
+                    node.Children.Add(child.CreateMenuNode());
+                }
+            }
+
+            return node;
+        }
+
+        public static MenuTree CreateMenuTree(MenuNode node)
+        {
+            var tree = new MenuTree();
+            tree.Name = node.Name;
+            tree.MenuElementType = node.MenuElementType;
+            tree.CommandName = node.CommandName;
+
+            if (node.Children != null)
+            {
+                tree.Children = new ObservableCollection<MenuTree>();
+                foreach (var child in node.Children)
+                {
+                    tree.Children.Add(CreateMenuTree(child));
+                }
+            }
+
+            return tree;
+        }
     }
 }

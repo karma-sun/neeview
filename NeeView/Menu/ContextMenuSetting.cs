@@ -10,17 +10,56 @@ using System.Windows.Controls;
 
 namespace NeeView
 {
+    public class MenuNode
+    {
+        public string Name { get; set; }
+
+        public MenuElementType MenuElementType { get; set; }
+
+        public string CommandName { get; set; }
+
+        public List<MenuNode> Children { get; set; }
+    }
+
+
+    public class ContextMenuManager : ContextMenuSetting
+    {
+        public static ContextMenuManager Current { get; } = new ContextMenuManager();
+     
+        public MenuNode CreateContextMenuNode()
+        {
+            return SourceTreeRaw?.CreateMenuNode();
+        }
+
+        internal void Resotre(MenuNode contextMenuNode)
+        {
+            SourceTree = contextMenuNode != null ? MenuTree.CreateMenuTree(contextMenuNode) : null;
+        }
+    }
+
+
     [DataContract]
     public class ContextMenuSetting : BindableBase
     {
         private ContextMenu _contextMenu;
-        private bool _isDarty;
+        private bool _isDarty = true;
 
         [DataMember]
         private MenuTree _sourceTree;
 
         [DataMember]
         public int _Version { get; set; } = Environment.ProductVersionNumber;
+
+
+        public ContextMenuSetting()
+        {
+        }
+
+        public ContextMenuSetting(MenuTree source)
+        {
+            _sourceTree = source;
+        }
+
 
         public ContextMenu ContextMenu
         {
@@ -32,6 +71,12 @@ namespace NeeView
             }
         }
 
+        public MenuTree SourceTreeRaw
+        {
+            get => _sourceTree;
+            set => _sourceTree = value;
+        }
+
         public MenuTree SourceTree
         {
             get { return _sourceTree ?? MenuTree.CreateDefault(); }
@@ -40,6 +85,7 @@ namespace NeeView
                 _sourceTree = value;
                 _contextMenu = null;
                 _isDarty = true;
+                RaisePropertyChanged();
             }
         }
 
@@ -51,10 +97,7 @@ namespace NeeView
 
         public ContextMenuSetting Clone()
         {
-            var clone = (ContextMenuSetting)this.MemberwiseClone();
-            clone._sourceTree = _sourceTree?.Clone();
-            clone._contextMenu = null;
-            return clone;
+            return new ContextMenuSetting(_sourceTree?.Clone());
         }
 
         public void Validate()

@@ -142,6 +142,7 @@ namespace NeeView
             CommandMememto?.RestoreConfig(setting.Config);
             DragActionMemento?.RestoreConfig(setting.Config);
 
+            setting.ContextMenu = this.Memento?.MainWindowModel?.ContextMenuSetting?.SourceTreeRaw?.CreateMenuNode();
             setting.SusiePlugins = this.SusieMemento?.CreateSusiePluginCollection() ?? new SusiePluginCollection();
             setting.Commands = this.CommandMememto?.CreateCommandCollection() ?? new CommandCollection();
             setting.DragActions = this.DragActionMemento?.CreateDragActionCollectioin() ?? new DragActionCollection();

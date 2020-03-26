@@ -971,16 +971,14 @@ namespace NeeView
                 {
                     if (elements.ContainsKey(pair.Key))
                     {
-                        elements[pair.Key].Restore(pair.Value);
-
                         var parameterType = elements[pair.Key].ParameterSource?.GetDefault().GetType();
-
                         var value = CreateCommandMementoV2(pair.Value, parameterType);
                         collection.Add(pair.Key, value);
                     }
                     else
                     {
                         Debug.WriteLine($"Warning: No such command '{pair.Key}'");
+                        collection.Add(pair.Key, CreateCommandMementoV2(pair.Value, null));
                     }
                 }
 

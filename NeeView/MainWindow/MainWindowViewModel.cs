@@ -96,10 +96,10 @@ namespace NeeView
         {
             get
             {
-                if (_model.ContextMenuSetting.IsDarty)
+                if (ContextMenuManager.Current.IsDarty)
                 {
                     Debug.WriteLine($"new ContextMenu.");
-                    _contextMenu = _model.ContextMenuSetting.ContextMenu;
+                    _contextMenu = ContextMenuManager.Current.ContextMenu;
                     _contextMenu?.UpdateInputGestureText();
                 }
                 return _contextMenu;
@@ -108,7 +108,7 @@ namespace NeeView
 
         public void UpdateContextMenu()
         {
-            if (_model.ContextMenuSetting.IsDarty)
+            if (ContextMenuManager.Current.IsDarty)
             {
                 RaisePropertyChanged(nameof(ContextMenu));
             }
@@ -139,8 +139,13 @@ namespace NeeView
             // mainwindow model
             _model = model;
 
+            ContextMenuManager.Current.AddPropertyChanged(nameof(ContextMenuManager.Current.SourceTree),
+                (s, e) => UpdateContextMenu());
+
+            /*
             _model.AddPropertyChanged(nameof(_model.ContextMenuSetting),
                 (s, e) => UpdateContextMenu());
+            */
 
             _model.AddPropertyChanged(nameof(_model.CanHideMenu),
                 (s, e) => UpdateSidePanelMargin());

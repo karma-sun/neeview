@@ -201,7 +201,7 @@ namespace NeeView
             set { SetProperty(ref _sliderBackgroundGlass, value); }
         }
 
-
+#if false
         //
         public ContextMenuSetting ContextMenuSetting
         {
@@ -214,7 +214,6 @@ namespace NeeView
             }
         }
 
-#if false
         // メニューを自動的に隠す
         public bool IsHideMenu
         {
@@ -403,9 +402,9 @@ namespace NeeView
         public double CursorHideReleaseDistance { get; set; } = 5.0;
 #endif
 
-#endregion
+        #endregion
 
-#region Methods
+        #region Methods
 
         private void RefreshSliderBrushes()
         {
@@ -779,9 +778,9 @@ namespace NeeView
             FocusMainViewCall?.Invoke(this, null);
         }
 
-#endregion
+        #endregion
 
-#region Memento
+        #region Memento
 
         [DataContract]
         public class Memento : IMemento
@@ -831,7 +830,7 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
-                // TODO: ContextMenuSetting
+                // ContextMenuの復元は上位階層で行っている
 
                 config.Layout.Slider.Opacity = SliderOpacity;
                 config.Layout.Slider.IsHidePageSliderInFullscreen = IsHidePageSliderInFullscreen;
@@ -856,7 +855,7 @@ namespace NeeView
         {
             var memento = new Memento();
 
-            memento.ContextMenuSetting = this.ContextMenuSetting.Clone();
+            memento.ContextMenuSetting = ContextMenuManager.Current.Clone();
 
             memento.IsHideMenu = Config.Current.Layout.MenuBar.IsHideMenu;
             memento.IsHidePageSlider = Config.Current.Layout.Slider.IsHidePageSlider;
@@ -874,15 +873,15 @@ namespace NeeView
             memento.IsCursorHideReleaseAction = Config.Current.Mouse.IsCursorHideReleaseAction;
             memento.CursorHideReleaseDistance = Config.Current.Mouse.CursorHideReleaseDistance;
 
-
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
 
-            this.ContextMenuSetting = memento.ContextMenuSetting.Clone();
+            ////this.ContextMenuSetting = memento.ContextMenuSetting.Clone();
 
             ////this.IsHideMenu = memento.IsHideMenu;
             ////this.IsHidePageSlider = memento.IsHidePageSlider;

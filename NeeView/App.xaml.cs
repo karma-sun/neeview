@@ -217,6 +217,9 @@ namespace NeeView
             // SusiePlugins反映
             SusiePluginManager.Current.RestoreSusiePluginCollection(settingV2.SusiePlugins);
             SusiePluginManager.Current.UpdateSusiePluginCollection(); // TODO: 実際の初期化処理(プラグイン読み込みとか)。ウィンドウ表示後にするべきか。
+
+            // コンテキストメニュー設定反映
+            ContextMenuManager.Current.Resotre(settingV2.ContextMenu); 
         }
 
         /// <summary>

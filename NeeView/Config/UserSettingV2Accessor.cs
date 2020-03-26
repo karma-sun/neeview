@@ -25,6 +25,8 @@ namespace NeeView
 
         public Config Config { get; set; }
 
+        public MenuNode ContextMenu { get; set; }
+
         public SusiePluginCollection SusiePlugins { get; set; }
 
         public DragActionCollection DragActions { get; set; }
@@ -45,6 +47,7 @@ namespace NeeView
             {
                 Format = new FormatVersion(Environment.SolutionName, Environment.AssemblyVersion.Major, Environment.AssemblyVersion.Minor, 0),
                 Config = Config.Current,
+                ContextMenu = ContextMenuManager.Current.CreateContextMenuNode(),
                 SusiePlugins = SusiePluginManager.Current.CreateSusiePluginCollection(),
                 DragActions = DragActionTable.Current.CreateDragActionCollection(),
                 Commands = CommandTable.Current.CreateCommandCollectionMemento(),

@@ -282,7 +282,7 @@ namespace NeeView
             ////BookOperation.Current.Restore(memento.BookOperation);
             ////BookSettingPresenter.Current.Restore(memento.BookSettingPresenter);
             ////ThemeProfile.Current.Restore(memento.ThemeProfile);
-            MainWindowModel.Current.Restore(memento.MainWindowModel);
+            ////MainWindowModel.Current.Restore(memento.MainWindowModel);
             ContentCanvas.Current.Restore(memento.ContentCanvas);
             ////ContentCanvasBrush.Current.Restore(memento.ContentCanvasBrush);
             DragTransform.Current.Restore(memento.DragTransform);

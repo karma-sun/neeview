@@ -180,12 +180,12 @@ namespace NeeView
         {
             if (_listPanel == null) return;
 
-            if (!_vm.Model.IsEnableThumbnailList) return;
+            if (!Config.Current.Layout.FilmStrip.IsEnabled) return;
 
             if (!_isDartyThumbnailList) return;
             _isDartyThumbnailList = false;
 
-            if (_vm.Model.IsSelectedCenter)
+            if (Config.Current.Layout.FilmStrip.IsSelectedCenter)
             {
                 var scrollUnit = VirtualizingStackPanel.GetScrollUnit(this.ThumbnailListBox);
 

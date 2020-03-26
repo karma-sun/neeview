@@ -22,5 +22,15 @@ namespace NeeView
 
         [PropertyMember("@ParamMediaStartDelaySeconds", Tips = "@ParamMediaStartDelaySecondsTips")]
         public double MediaStartDelaySeconds { get; set; } = 0.5;
+
+
+        [PropertyMapIgnore]
+        public bool IsMuted { get; set; }
+        
+        [PropertyMapIgnore]
+        public double Volume { get; set; } = 0.5;
+
+        [PropertyMapIgnore]
+        public bool IsRepeat { get; set; }
     }
 }

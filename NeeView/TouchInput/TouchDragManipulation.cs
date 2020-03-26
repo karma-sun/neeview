@@ -287,7 +287,7 @@ namespace NeeView
             }
 
             // snap trans
-            if (_transform.IsLimitMove)
+            if (Config.Current.View.IsLimitMove)
             {
                 // レイアウト更新
                 _context.Sender.UpdateLayout();
@@ -305,7 +305,7 @@ namespace NeeView
             {
                 _transform.Angle = _snapAngle;
 
-                if (_transform.IsLimitMove)
+                if (Config.Current.View.IsLimitMove)
                 {
                     var area = _context.GetArea();
                     _transform.Position = (Point)area.SnapView(_now.Trans);

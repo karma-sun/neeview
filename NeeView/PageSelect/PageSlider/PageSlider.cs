@@ -66,6 +66,8 @@ namespace NeeView
             {
                 UpdateIsSliderDirectionReversed();
             });
+
+            UpdateIsSliderDirectionReversed();
         }
 
         #endregion
@@ -150,9 +152,9 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
-#region Methods
+        #region Methods
 
         private void PageSelector_SelectionChanged(object sender, EventArgs e)
         {
@@ -181,7 +183,7 @@ namespace NeeView
         /// <summary>
         /// スライドとフィルムストリップを連動させるかを判定
         /// </summary>
-        public bool IsThumbnailLinked() => ThumbnailList.Current.IsEnableThumbnailList && Config.Current.Layout.Slider.IsSliderLinkedFilmStrip;
+        public bool IsThumbnailLinked() => Config.Current.Layout.FilmStrip.IsEnabled && Config.Current.Layout.Slider.IsSliderLinkedFilmStrip;
 
 
         // ページ番号を決定し、コンテンツを切り替える
@@ -193,9 +195,9 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
-#region Memento
+        #region Memento
         [DataContract]
         public class Memento : IMemento
         {
@@ -241,7 +243,7 @@ namespace NeeView
             ////this.IsSliderLinkedThumbnailList = memento.IsSliderLinkedThumbnailList;
         }
 
-#endregion
+        #endregion
     }
 }
 

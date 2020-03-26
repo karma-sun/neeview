@@ -17,17 +17,17 @@ namespace NeeView
 
         public override Binding CreateIsCheckedBinding()
         {
-            return new Binding(nameof(ThumbnailList.Current.IsHideThumbnailList)) { Source = ThumbnailList.Current };
+            return new Binding(nameof(FilmStripConfig.IsHideFilmStrip)) { Source = Config.Current.Layout.FilmStrip };
         }
 
         public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
         {
-            return ThumbnailList.Current.IsHideThumbnailList ? Properties.Resources.CommandToggleHideThumbnailListOff : Properties.Resources.CommandToggleHideThumbnailListOn;
+            return Config.Current.Layout.FilmStrip.IsHideFilmStrip ? Properties.Resources.CommandToggleHideThumbnailListOff : Properties.Resources.CommandToggleHideThumbnailListOn;
         }
 
         public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)
         {
-            return ThumbnailList.Current.IsEnableThumbnailList;
+            return Config.Current.Layout.FilmStrip.IsEnabled;
         }
 
         [MethodArgument("@CommandToggleArgument")]
@@ -35,7 +35,7 @@ namespace NeeView
         {
             if (args.Length > 0)
             {
-                ThumbnailList.Current.IsHideThumbnailList = Convert.ToBoolean(args[0]);
+                Config.Current.Layout.FilmStrip.IsHideFilmStrip = Convert.ToBoolean(args[0]);
             }
             else
             {

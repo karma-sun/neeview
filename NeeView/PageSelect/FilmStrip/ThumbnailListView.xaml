@@ -37,8 +37,9 @@
                             <DataTemplate>
                                 <DockPanel>
                                     <Rectangle DockPanel.Dock="Bottom"  Margin="-1,0,-1,-1" Height="4" Fill="{StaticResource NVSelectedMarkBrush}" Visibility="{Binding IsVisibled, Converter={StaticResource BooleanToVisibilityHiddenConverter}}"/>
-                                    <StackPanel Margin="5"  Width="{Binding ElementName=Root, Path=DataContext.Model.ThumbnailSize}" MinWidth="32">
-                                        <Grid Width="{Binding ElementName=Root, Path=DataContext.Model.ThumbnailSize}" Height="{Binding ElementName=Root, Path=DataContext.Model.ThumbnailSize}">
+                                    <StackPanel Margin="5" Width="{Binding Source={x:Static local:Config.Current},  Path=Layout.FilmStrip.ThumbnailSize}" MinWidth="32">
+                                        <Grid Width="{Binding Source={x:Static local:Config.Current},  Path=Layout.FilmStrip.ThumbnailSize}"
+                                                Height="{Binding Source={x:Static local:Config.Current},  Path=Layout.FilmStrip.ThumbnailSize}">
                                             <Ellipse Fill="Gray" Width="8" Height="8">
                                                 <Ellipse.Style>
                                                     <Style TargetType="Ellipse">
@@ -59,13 +60,13 @@
                                             </Image>
                                         </Grid>
                                         <TextBlock Height="16" FontSize="12" FontFamily="Arial" MinWidth="32" TextAlignment="Center"
-                                                           Visibility="{Binding ElementName=Root, Path=DataContext.Model.IsVisibleThumbnailNumber, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                           Visibility="{Binding Source={x:Static local:Config.Current},  Path=Layout.FilmStrip.IsVisibleNumber, Converter={StaticResource BooleanToVisibilityConverter}}"
                                                            VerticalAlignment="Center"  HorizontalAlignment="Center" Text="{Binding IndexPlusOne}" Padding="5,2">
                                             <TextBlock.Style>
                                                 <Style TargetType="TextBlock">
                                                     <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding ElementName=Root, Path=DataContext.Model.IsVisibleThumbnailPlate}" Value="False">
+                                                        <DataTrigger Binding="{Binding Source={x:Static local:Config.Current},  Path=Layout.FilmStrip.IsVisiblePlate}" Value="False">
                                                             <Setter Property="Foreground" Value="White"/>
                                                             <Setter Property="Effect">
                                                                 <Setter.Value>

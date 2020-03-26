@@ -16,12 +16,12 @@ namespace NeeView
 
         public override Binding CreateIsCheckedBinding()
         {
-            return new Binding(nameof(ContentCanvas.Current.AllowReduce)) { Source = ContentCanvas.Current };
+            return new Binding(nameof(ViewConfig.AllowReduce)) { Source = Config.Current.View };
         }
 
         public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
         {
-            return this.Text + (ContentCanvas.Current.AllowReduce ? " OFF" : "");
+            return this.Text + (Config.Current.View.AllowReduce ? " OFF" : "");
         }
 
         public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)
@@ -34,11 +34,11 @@ namespace NeeView
         {
             if (args.Length > 0)
             {
-                ContentCanvas.Current.AllowReduce = Convert.ToBoolean(args[0]);
+                Config.Current.View.AllowReduce = Convert.ToBoolean(args[0]);
             }
             else
             {
-                ContentCanvas.Current.AllowReduce = !ContentCanvas.Current.AllowReduce;
+                Config.Current.View.AllowReduce = !Config.Current.View.AllowReduce;
             }
         }
     }

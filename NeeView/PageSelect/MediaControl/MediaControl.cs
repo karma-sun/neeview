@@ -20,13 +20,13 @@ namespace NeeView
         public event EventHandler<MediaPlayerChanged> Changed;
 
 
+#if false
         public bool IsMuted { get; set; }
 
         public double Volume { get; set; } = 0.5;
 
         public bool IsRepeat { get; set; }
 
-#if false
         [PropertyMember("@ParamPageSeconds")]
         public double PageSeconds { get; set; } = 10.0;
 
@@ -69,6 +69,9 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
+                config.Archive.Media.IsMuted = IsMuted;
+                config.Archive.Media.Volume = Volume;
+                config.Archive.Media.IsRepeat = IsRepeat;
                 config.Archive.Media.PageSeconds = PageSeconds;
                 config.Archive.Media.MediaStartDelaySeconds = MediaStartDelaySeconds;
             }
@@ -78,22 +81,23 @@ namespace NeeView
         {
             var memento = new Memento();
 
-            memento.IsMuted = this.IsMuted;
-            memento.Volume = this.Volume;
-            memento.IsRepeat = this.IsRepeat;
+            memento.IsMuted = Config.Current.Archive.Media.IsMuted;
+            memento.Volume = Config.Current.Archive.Media.Volume;
+            memento.IsRepeat = Config.Current.Archive.Media.IsRepeat;
             memento.PageSeconds = Config.Current.Archive.Media.PageSeconds;
             memento.MediaStartDelaySeconds = Config.Current.Archive.Media.MediaStartDelaySeconds;
 
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
 
-            this.IsMuted = memento.IsMuted;
-            this.Volume = memento.Volume;
-            this.IsRepeat = memento.IsRepeat;
+            //this.IsMuted = memento.IsMuted;
+            //this.Volume = memento.Volume;
+            //this.IsRepeat = memento.IsRepeat;
             ////this.PageSeconds = memento.PageSeconds;
             ////this.MediaStartDelaySeconds = memento.MediaStartDelaySeconds;
         }

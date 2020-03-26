@@ -3,8 +3,15 @@ using NeeView.Windows.Property;
 
 namespace NeeView
 {
-    public class ViewConfig : BindableBase
+    public class ViewConfig : BindableBaseFull
     {
+        private PageStretchMode _stretchMode = PageStretchMode.Uniform;
+        private bool _allowEnlarge = true;
+        private bool _allowReduce = true;
+        private AutoRotateType _autoRotate;
+        private bool _isLimitMove = true;
+
+
         // 回転の中心
         [PropertyMember("@ParamDragTransformIsControRotatelCenter")]
         public DragControlCenter RotateCenter { get; set; }
@@ -36,6 +43,43 @@ namespace NeeView
         // 回転スナップ。0で無効
         [PropertyMember("@ParamDragTransformAngleFrequency")]
         public double AngleFrequency { get; set; } = 0;
+
+        // ウィンドウ枠内の移動に制限する
+        [PropertyMember("@ParamDragTransformIsLimitMove")]
+        public bool IsLimitMove
+        {
+            get { return _isLimitMove; }
+            set { SetProperty(ref _isLimitMove, value); }
+        }
+
+
+        // スケールモード
+        public PageStretchMode StretchMode
+        {
+            get { return _stretchMode; }
+            set { SetProperty(ref _stretchMode, value); }
+        }
+
+        // スケールモード・拡大許可
+        public bool AllowEnlarge
+        {
+            get { return _allowEnlarge; }
+            set { SetProperty(ref _allowEnlarge, value); }
+        }
+
+        // スケールモード・縮小許可
+        public bool AllowReduce
+        {
+            get { return _allowReduce; }
+            set { SetProperty(ref _allowReduce, value); }
+        }
+
+        // 自動回転左/右
+        public AutoRotateType AutoRotate
+        {
+            get { return _autoRotate; }
+            set { SetProperty(ref _autoRotate, value); }
+        }
     }
 
 }

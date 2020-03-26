@@ -16,12 +16,12 @@ namespace NeeView
 
         public override Binding CreateIsCheckedBinding()
         {
-            return new Binding(nameof(ContentCanvas.Current.AllowEnlarge)) { Source = ContentCanvas.Current };
+            return new Binding(nameof(ViewConfig.AllowEnlarge)) { Source = Config.Current.View };
         }
 
         public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
         {
-            return this.Text + (ContentCanvas.Current.AllowEnlarge ? " OFF" : " ");
+            return this.Text + (Config.Current.View.AllowEnlarge ? " OFF" : " ");
         }
 
         public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)
@@ -34,11 +34,11 @@ namespace NeeView
         {
             if (args.Length > 0)
             {
-                ContentCanvas.Current.AllowEnlarge = Convert.ToBoolean(args[0]);
+                Config.Current.View.AllowEnlarge = Convert.ToBoolean(args[0]);
             }
             else
             {
-                ContentCanvas.Current.AllowEnlarge = !ContentCanvas.Current.AllowEnlarge;
+                Config.Current.View.AllowEnlarge = !Config.Current.View.AllowEnlarge;
             }
         }
     }

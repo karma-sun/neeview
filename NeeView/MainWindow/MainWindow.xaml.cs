@@ -96,10 +96,10 @@ namespace NeeView
             ////MainWindowModel.Current.AddPropertyChanged(nameof(MainWindowModel.IsPanelVisibleLocked),
             ////    (s, e) => UpdateControlsVisibility());
 
-            ThumbnailList.Current.AddPropertyChanged(nameof(ThumbnailList.IsEnableThumbnailList),
+            Config.Current.Layout.FilmStrip.AddPropertyChanged(nameof(FilmStripConfig.IsEnabled),
                 (s, e) => DartyThumbnailListLayout());
 
-            ThumbnailList.Current.AddPropertyChanged(nameof(ThumbnailList.IsHideThumbnailList),
+            Config.Current.Layout.FilmStrip.AddPropertyChanged(nameof(FilmStripConfig.IsHideFilmStrip),
                 (s, e) => DartyThumbnailListLayout());
 
             ThumbnailList.Current.VisibleEvent +=
@@ -1036,7 +1036,7 @@ namespace NeeView
             _isDartyThumbnailListLayout = false;
 
             bool isPageSliderDock = !Config.Current.Layout.Slider.IsHidePageSlider && !WindowShape.Current.IsFullScreen;
-            bool isThimbnailListDock = !ThumbnailList.Current.IsHideThumbnailList && isPageSliderDock;
+            bool isThimbnailListDock = !Config.Current.Layout.FilmStrip.IsHideFilmStrip && isPageSliderDock;
 
             if (isThimbnailListDock)
             {
@@ -1050,7 +1050,7 @@ namespace NeeView
             }
 
             // フィルムストリップ
-            this.ThumbnailListArea.Visibility = ThumbnailList.Current.IsEnableThumbnailList && !ContentCanvas.Current.IsMediaContent ? Visibility.Visible : Visibility.Collapsed;
+            this.ThumbnailListArea.Visibility = Config.Current.Layout.FilmStrip.IsEnabled && !ContentCanvas.Current.IsMediaContent ? Visibility.Visible : Visibility.Collapsed;
             this.ThumbnailListArea.DartyThumbnailList();
         }
 

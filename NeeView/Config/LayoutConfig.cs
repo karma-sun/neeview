@@ -19,6 +19,8 @@ namespace NeeView
 
         public SliderConfig Slider { get; set; } = new SliderConfig();
 
+        public FilmStripConfig FilmStrip { get; set; } = new FilmStripConfig();
+
         public PanelsConfig Panels { get; set; } = new PanelsConfig();
 
         public BookshelfPanelConfig Bookshelf { get; set; } = new BookshelfPanelConfig();
@@ -28,5 +30,6 @@ namespace NeeView
         public InformationPanelConfig Information { get; set; } = new InformationPanelConfig();
     }
 }
+
 
 

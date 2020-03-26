@@ -286,8 +286,8 @@ namespace NeeView
         // コンテンツ切り替わり時等
         public void Reset(bool isResetScale, bool isResetAngle, bool isResetFlip, double angle)
         {
-            _lockMoveX = _transform.IsLimitMove;
-            _lockMoveY = _transform.IsLimitMove;
+            _lockMoveX = Config.Current.View.IsLimitMove;
+            _lockMoveY = Config.Current.View.IsLimitMove;
 
             if (isResetAngle)
             {
@@ -391,7 +391,7 @@ namespace NeeView
         // ビューエリアサイズ変更に追従する
         public void SnapView()
         {
-            if (!_transform.IsLimitMove) return;
+            if (!Config.Current.View.IsLimitMove) return;
 
             // レイアウト更新
             _sender.UpdateLayout();
@@ -915,7 +915,7 @@ namespace NeeView
                 move.Y = 0;
             }
 
-            if (_transform.IsLimitMove)
+            if (Config.Current.View.IsLimitMove)
             {
                 var moveExpectation = move;
                 move = GetLimitMove(area, move);

@@ -45,7 +45,7 @@
                 <Style.Triggers>
                     <MultiDataTrigger>
                         <MultiDataTrigger.Conditions>
-                            <Condition Binding="{Binding ThumbnailList.IsVisibleThumbnailPlate}" Value="True" />
+                            <Condition Binding="{Binding Source={x:Static local:Config.Current}, Path=Layout.FilmStrip.IsVisiblePlate}" Value="True" />
                             <Condition Binding="{Binding Visibility, ElementName=ThumbnailListArea}" Value="Visible" />
                         </MultiDataTrigger.Conditions>
                         <Setter Property="Background" Value="{DynamicResource NVBackground}" />
@@ -292,7 +292,7 @@
                     <Grid.Style>
                         <Style TargetType="Grid">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ThumbnailList.IsVisibleThumbnailPlate}" Value="True">
+                                <DataTrigger Binding="{Binding Source={x:Static local:Config.Current},  Path=Layout.FilmStrip.IsVisiblePlate}" Value="True">
                                     <Setter Property="Background" Value="{Binding Model.SliderBackground}" />
                                 </DataTrigger>
                             </Style.Triggers>

@@ -26,7 +26,7 @@
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            ContentCanvas.Current.StretchMode = ContentCanvas.Current.GetToggleStretchModeReverse((ToggleStretchModeCommandParameter)param);
+            Config.Current.View.StretchMode = ContentCanvas.Current.GetToggleStretchModeReverse((ToggleStretchModeCommandParameter)param);
         }
     }
 }

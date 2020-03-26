@@ -53,9 +53,9 @@ namespace NeeView
             _player.MediaEnded += Player_MediaEnded;
             _player.MediaFailed += Player_MediaFailed;
 
-            this.IsMuted = MediaControl.Current.IsMuted;
-            this.Volume = MediaControl.Current.Volume;
-            this.IsRepeat = MediaControl.Current.IsRepeat;
+            this.IsMuted = Config.Current.Archive.Media.IsMuted;
+            this.Volume = Config.Current.Archive.Media.Volume;
+            this.IsRepeat = Config.Current.Archive.Media.IsRepeat;
 
             _timer = new DispatcherTimer(DispatcherPriority.Normal, App.Current.Dispatcher);
             _timer.Interval = TimeSpan.FromSeconds(0.1);
@@ -144,7 +144,7 @@ namespace NeeView
                     UpdateVolume();
                     RaisePropertyChanged();
 
-                    MediaControl.Current.Volume = _volume;
+                    Config.Current.Archive.Media.Volume = _volume;
                 }
             }
         }
@@ -192,7 +192,7 @@ namespace NeeView
                     _isRepeat = value;
                     RaisePropertyChanged();
 
-                    MediaControl.Current.IsRepeat = _isRepeat;
+                    Config.Current.Archive.Media.IsRepeat = _isRepeat;
                 }
             }
         }
@@ -204,7 +204,7 @@ namespace NeeView
             {
                 _player.IsMuted = value;
                 RaisePropertyChanged();
-                MediaControl.Current.IsMuted = _player.IsMuted;
+                Config.Current.Archive.Media.IsMuted = _player.IsMuted;
             }
         }
 

@@ -108,6 +108,36 @@ namespace NeeView
             {
                 UpdateContentSize(); ;
             });
+
+            Config.Current.View.PropertyChanging += (s, e) =>
+            {
+                switch (e.PropertyName)
+                {
+                    case nameof(ViewConfig.StretchMode):
+                        _stretchModePrev = Config.Current.View.StretchMode;
+                        break;
+                }
+            };
+
+            Config.Current.View.PropertyChanged += (s, e) =>
+            {
+                switch (e.PropertyName)
+                {
+                    case nameof(ViewConfig.StretchMode):
+                    case nameof(ViewConfig.AllowEnlarge):
+                    case nameof(ViewConfig.AllowReduce):
+                        UpdateContentSize();
+                        ResetTransform(true);
+                        break;
+
+                    case nameof(ViewConfig.AutoRotate):
+                        RaisePropertyChanged(nameof(IsAutoRotateLeft));
+                        RaisePropertyChanged(nameof(IsAutoRotateRight));
+                        UpdateContentSize(GetAutoRotateAngle());
+                        ResetTransform(true);
+                        break;
+                }
+            };
         }
 
         #endregion
@@ -137,6 +167,7 @@ namespace NeeView
             set { _emptyPageMessage = value; RaisePropertyChanged(); }
         }
 
+#if false
         // 自動回転左/右
         private AutoRotateType _autoRotate;
         public AutoRotateType AutoRotateType
@@ -153,35 +184,36 @@ namespace NeeView
                 }
             }
         }
+#endif
 
         public bool IsAutoRotateLeft
         {
-            get { return AutoRotateType == AutoRotateType.Left; }
+            get { return Config.Current.View.AutoRotate == AutoRotateType.Left; }
             set
             {
                 if (value)
                 {
-                    AutoRotateType = AutoRotateType.Left;
+                    Config.Current.View.AutoRotate = AutoRotateType.Left;
                 }
-                else if (AutoRotateType == AutoRotateType.Left)
+                else if (Config.Current.View.AutoRotate == AutoRotateType.Left)
                 {
-                    AutoRotateType = AutoRotateType.None;
+                    Config.Current.View.AutoRotate = AutoRotateType.None;
                 }
             }
         }
 
         public bool IsAutoRotateRight
         {
-            get { return AutoRotateType == AutoRotateType.Right; }
+            get { return Config.Current.View.AutoRotate == AutoRotateType.Right; }
             set
             {
                 if (value)
                 {
-                    AutoRotateType = AutoRotateType.Right;
+                    Config.Current.View.AutoRotate = AutoRotateType.Right;
                 }
-                else if (AutoRotateType == AutoRotateType.Right)
+                else if (Config.Current.View.AutoRotate == AutoRotateType.Right)
                 {
-                    AutoRotateType = AutoRotateType.None;
+                    Config.Current.View.AutoRotate = AutoRotateType.None;
                 }
             }
         }
@@ -202,7 +234,6 @@ namespace NeeView
                 }
             }
         }
-#endif
 
         // スケールモード
         private PageStretchMode _stretchMode = PageStretchMode.Uniform;
@@ -248,6 +279,7 @@ namespace NeeView
                 }
             }
         }
+#endif
 
 
 
@@ -526,7 +558,7 @@ namespace NeeView
                 _dragTransformControl.SetMouseDragSetting(pageDirection, viewOrigin, BookSettingPresenter.Current.LatestSetting.BookReadOrder);
 
                 // リセット
-                var angle = _autoRotate != AutoRotateType.None ? GetAutoRotateAngle() : double.NaN;
+                var angle = Config.Current.View.AutoRotate != AutoRotateType.None ? GetAutoRotateAngle() : double.NaN;
                 _dragTransformControl.Reset(isForce, angle);
             }
         }
@@ -653,40 +685,40 @@ namespace NeeView
         // トグル
         public PageStretchMode GetToggleStretchMode(ToggleStretchModeCommandParameter param)
         {
-            PageStretchMode mode = StretchMode;
+            PageStretchMode mode = Config.Current.View.StretchMode;
             int length = Enum.GetNames(typeof(PageStretchMode)).Length;
             int count = 0;
             do
             {
                 var next = (int)mode + 1;
-                if (!param.IsLoop && next >= length) return StretchMode;
+                if (!param.IsLoop && next >= length) return Config.Current.View.StretchMode;
                 mode = (PageStretchMode)(next % length);
                 if (param.StretchModes[mode]) return mode;
             }
             while (count++ < length);
-            return StretchMode;
+            return Config.Current.View.StretchMode;
         }
 
         // 逆トグル
         public PageStretchMode GetToggleStretchModeReverse(ToggleStretchModeCommandParameter param)
         {
-            PageStretchMode mode = StretchMode;
+            PageStretchMode mode = Config.Current.View.StretchMode;
             int length = Enum.GetNames(typeof(PageStretchMode)).Length;
             int count = 0;
             do
             {
                 var prev = (int)mode - 1;
-                if (!param.IsLoop && prev < 0) return StretchMode;
+                if (!param.IsLoop && prev < 0) return Config.Current.View.StretchMode;
                 mode = (PageStretchMode)((prev + length) % length);
                 if (param.StretchModes[mode]) return mode;
             }
             while (count++ < length);
-            return StretchMode;
+            return Config.Current.View.StretchMode;
         }
 
         public void SetStretchMode(PageStretchMode mode, bool isToggle)
         {
-            StretchMode = GetFixedStretchMode(mode, isToggle);
+            Config.Current.View.StretchMode = GetFixedStretchMode(mode, isToggle);
         }
 
         public bool TestStretchMode(PageStretchMode mode, bool isToggle)
@@ -696,7 +728,7 @@ namespace NeeView
 
         private PageStretchMode GetFixedStretchMode(PageStretchMode mode, bool isToggle)
         {
-            if (isToggle && StretchMode == mode)
+            if (isToggle && Config.Current.View.StretchMode == mode)
             {
                 return (mode == PageStretchMode.None) ? _stretchModePrev : PageStretchMode.None;
             }
@@ -942,6 +974,11 @@ namespace NeeView
                 config.ImageDotKeep.IsEnabled = IsEnabledNearestNeighbor;
                 config.Book.ContentsSpace = ContentsSpace;
 
+                config.View.StretchMode = StretchMode;
+                config.View.AllowEnlarge = AllowEnlarge;
+                config.View.AllowReduce = AllowReduce;
+                config.View.AutoRotate = AutoRotateType;
+
                 this.GridLine.RestoreConfig(config);
             }
         }
@@ -949,25 +986,26 @@ namespace NeeView
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.StretchMode = this.StretchMode;
-            memento.AllowEnlarge = this.AllowEnlarge;
-            memento.AllowReduce = this.AllowReduce;
+            memento.StretchMode = Config.Current.View.StretchMode;
+            memento.AllowEnlarge = Config.Current.View.AllowEnlarge;
+            memento.AllowReduce = Config.Current.View.AllowReduce;
             memento.IsEnabledNearestNeighbor = Config.Current.ImageDotKeep.IsEnabled;
             memento.ContentsSpace = Config.Current.Book.ContentsSpace;
-            memento.AutoRotateType = this.AutoRotateType;
+            memento.AutoRotateType = Config.Current.View.AutoRotate;
             memento.GridLine = this.GridLine.CreateMemento();
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            this.StretchMode = memento.StretchMode;
-            this.AllowEnlarge = memento.AllowEnlarge;
-            this.AllowReduce = memento.AllowReduce;
+            //this.StretchMode = memento.StretchMode;
+            //this.AllowEnlarge = memento.AllowEnlarge;
+            //this.AllowReduce = memento.AllowReduce;
+            //this.AutoRotateType = memento.AutoRotateType;
             //this.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
             //this.ContentsSpace = memento.ContentsSpace;
-            this.AutoRotateType = memento.AutoRotateType;
             //this.GridLine.Restore(memento.GridLine);
         }
 

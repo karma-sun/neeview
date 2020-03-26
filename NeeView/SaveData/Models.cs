@@ -283,9 +283,9 @@ namespace NeeView
             ////BookSettingPresenter.Current.Restore(memento.BookSettingPresenter);
             ////ThemeProfile.Current.Restore(memento.ThemeProfile);
             ////MainWindowModel.Current.Restore(memento.MainWindowModel);
-            ContentCanvas.Current.Restore(memento.ContentCanvas);
+            ////ContentCanvas.Current.Restore(memento.ContentCanvas);
             ////ContentCanvasBrush.Current.Restore(memento.ContentCanvasBrush);
-            DragTransform.Current.Restore(memento.DragTransform);
+            ////DragTransform.Current.Restore(memento.DragTransform);
             ////DragTransformControl.Current.Restore(memento.DragTransformControl);
             ////LoupeTransform.Current.Restore(memento.LoupeTransform);
             ////MouseInput.Current.Restore(memento.MouseInput);
@@ -293,8 +293,8 @@ namespace NeeView
             ////SlideShow.Current.Restore(memento.SlideShow);
             ////WindowTitle.Current.Restore(memento.WindowTitle);
             ////PageSlider.Current.Restore(memento.PageSlider);
-            MediaControl.Current.Restore(memento.MediaControl);
-            ThumbnailList.Current.Restore(memento.ThumbnailList);
+            ////MediaControl.Current.Restore(memento.MediaControl);
+            ////ThumbnailList.Current.Restore(memento.ThumbnailList);
             ////MenuBar.Current.Restore(memento.MenuBar);
             ////SidePanelProfile.Current.Restore(memento.SidePanelProfile);
             ////PageListPlacementService.Current.Restore(memento.PageListPlacementService);

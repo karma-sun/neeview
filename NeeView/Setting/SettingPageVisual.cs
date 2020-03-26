@@ -122,12 +122,12 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                  new SettingItemSection(Properties.Resources.SettingPageVisualFilmstripFilmstrip,
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.ThumbnailSize))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.FilmStrip, nameof(FilmStripConfig.ThumbnailSize))),
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Slider, nameof(SliderConfig.IsSliderLinkedFilmStrip))),
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsVisibleThumbnailNumber))),
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsVisibleThumbnailPlate))),
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsSelectedCenter))),
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsManipulationBoundaryFeedbackEnabled)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.FilmStrip, nameof(FilmStripConfig.IsVisibleNumber))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.FilmStrip, nameof(FilmStripConfig.IsVisiblePlate))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.FilmStrip, nameof(FilmStripConfig.IsSelectedCenter))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.FilmStrip, nameof(FilmStripConfig.IsManipulationBoundaryFeedbackEnabled)))),
             };
         }
 

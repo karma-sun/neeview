@@ -62,16 +62,14 @@ namespace NeeView
 
 
         private ContextMenuSetting _contextMenuSetting = new ContextMenuSetting();
-        private bool _isHideMenu;
-        private bool _isIsHidePageSlider;
+        ////private bool _isHideMenu;
         private bool _canHidePageSlider;
-        private bool _isHidePanel; // = true;
         private bool _canHidePanel;
 
         ////private bool _IsHidePageSliderInFullscreen = true;
         ////private bool _IsHidePanelInFullscreen = true;
         ////private bool _IsVisibleWindowTitle = true;
-        private bool _isVisibleAddressBar = true;
+        ////private bool _isVisibleAddressBar = true;
         ////private bool _isVisibleBusy = true;
 
         private DateTime _scrollPageTime;
@@ -126,6 +124,26 @@ namespace NeeView
             {
                 RefreshCanHidePanel();
             });
+
+            Config.Current.Layout.MenuBar.AddPropertyChanged(nameof(MenuBarConfig.IsHideMenu), (s, e) =>
+            {
+                RaisePropertyChanged(nameof(CanHideMenu));
+                RaisePropertyChanged(nameof(CanVisibleWindowTitle));
+            });
+
+            Config.Current.Layout.Slider.AddPropertyChanged(nameof(SliderConfig.IsHidePageSlider), (s, e) =>
+            {
+                RefreshCanHidePageSlider();
+            });
+
+            Config.Current.Layout.Panels.AddPropertyChanged(nameof(PanelsConfig.IsHidePanel), (s, e) =>
+            {
+                RefreshCanHidePanel();
+            });
+
+
+
+            //--
 
             RefreshCanHidePanel();
             RefreshCanHidePageSlider();
@@ -196,6 +214,7 @@ namespace NeeView
             }
         }
 
+#if false
         // メニューを自動的に隠す
         public bool IsHideMenu
         {
@@ -208,9 +227,13 @@ namespace NeeView
                 RaisePropertyChanged(nameof(CanVisibleWindowTitle));
             }
         }
+#endif
 
         //
-        public bool CanHideMenu => IsHideMenu || WindowShape.Current.IsFullScreen;
+        public bool CanHideMenu => Config.Current.Layout.MenuBar.IsHideMenu || WindowShape.Current.IsFullScreen;
+
+#if false
+        private bool _isIsHidePageSlider;
 
         // スライダーを自動的に隠す
         public bool IsHidePageSlider
@@ -224,7 +247,6 @@ namespace NeeView
             }
         }
 
-#if false
         /// <summary>
         /// フルスクリーン時にスライダーを隠す
         /// </summary>
@@ -248,7 +270,11 @@ namespace NeeView
             }
         }
 
+
+#if false
+        private bool _isHidePanel; // = true;
         // パネルを自動的に隠す
+
         public bool IsHidePanel
         {
             get { return _isHidePanel; }
@@ -260,7 +286,6 @@ namespace NeeView
             }
         }
 
-#if false
         /// <summary>
         /// フルスクリーン時にパネルを隠す
         /// </summary>
@@ -310,12 +335,16 @@ namespace NeeView
         }
 
 
+#if false
+        ////private bool _isVisibleAddressBar = true;
+
         // アドレスバーON/OFF
         public bool IsVisibleAddressBar
         {
             get { return _isVisibleAddressBar; }
             set { _isVisibleAddressBar = value; RaisePropertyChanged(); }
         }
+#endif
 
         /// <summary>
         /// パネル表示状態をロックする
@@ -346,10 +375,10 @@ namespace NeeView
         }
 #endif
 
+#if false
         [PropertyMember("@ParamIsAccessKeyEnabled", Tips = "@ParamIsAccessKeyEnabledTips")]
         public bool IsAccessKeyEnabled { get; set; } = true;
 
-#if false
         /// <summary>
         /// カーソルの自動非表示
         /// </summary>
@@ -404,38 +433,38 @@ namespace NeeView
 
         private void RefreshCanHidePageSlider()
         {
-            CanHidePageSlider = IsHidePageSlider || (Config.Current.Layout.Slider.IsHidePageSliderInFullscreen && WindowShape.Current.IsFullScreen);
+            CanHidePageSlider = Config.Current.Layout.Slider.IsHidePageSlider || (Config.Current.Layout.Slider.IsHidePageSliderInFullscreen && WindowShape.Current.IsFullScreen);
         }
 
         public void RefreshCanHidePanel()
         {
-            CanHidePanel = IsHidePanel || (Config.Current.Layout.Panels.IsHidePanelInFullscreen && WindowShape.Current.IsFullScreen);
+            CanHidePanel = Config.Current.Layout.Panels.IsHidePanel || (Config.Current.Layout.Panels.IsHidePanelInFullscreen && WindowShape.Current.IsFullScreen);
         }
 
         //
         public bool ToggleHideMenu()
         {
-            IsHideMenu = !IsHideMenu;
-            return IsHideMenu;
+            Config.Current.Layout.MenuBar.IsHideMenu = !Config.Current.Layout.MenuBar.IsHideMenu;
+            return Config.Current.Layout.MenuBar.IsHideMenu;
         }
 
         //
         public bool ToggleHidePageSlider()
         {
-            IsHidePageSlider = !IsHidePageSlider;
-            return IsHidePageSlider;
+            Config.Current.Layout.Slider.IsHidePageSlider = !Config.Current.Layout.Slider.IsHidePageSlider;
+            return Config.Current.Layout.Slider.IsHidePageSlider;
         }
 
         public bool ToggleHidePanel()
         {
-            IsHidePanel = !IsHidePanel;
-            return IsHidePanel;
+            Config.Current.Layout.Panels.IsHidePanel = !Config.Current.Layout.Panels.IsHidePanel;
+            return Config.Current.Layout.Panels.IsHidePanel;
         }
 
         public bool ToggleVisibleAddressBar()
         {
-            IsVisibleAddressBar = !IsVisibleAddressBar;
-            return IsVisibleAddressBar;
+            Config.Current.Layout.MenuBar.IsVisibleAddressBar = !Config.Current.Layout.MenuBar.IsVisibleAddressBar;
+            return Config.Current.Layout.MenuBar.IsVisibleAddressBar;
         }
 
         // 起動時処理
@@ -814,7 +843,11 @@ namespace NeeView
                 config.Mouse.CursorHideReleaseDistance = CursorHideReleaseDistance;
                 config.System.IsOpenbookAtCurrentPlace = IsOpenbookAtCurrentPlace;
                 config.Layout.Notice.IsBusyMarkEnabled = IsVisibleBusy;
-
+                config.Layout.MenuBar.IsHideMenu = IsHideMenu;
+                config.Layout.Slider.IsHidePageSlider = IsHidePageSlider;
+                config.Layout.Panels.IsHidePanel = IsHidePanel;
+                config.Layout.MenuBar.IsVisibleAddressBar = IsVisibleAddressBar;
+                config.Command.IsAccessKeyEnabled = IsAccessKeyEnabled;
             }
 
         }
@@ -825,15 +858,15 @@ namespace NeeView
 
             memento.ContextMenuSetting = this.ContextMenuSetting.Clone();
 
-            memento.IsHideMenu = this.IsHideMenu;
-            memento.IsHidePageSlider = this.IsHidePageSlider;
-            memento.IsVisibleAddressBar = this.IsVisibleAddressBar;
-            memento.IsHidePanel = this.IsHidePanel;
+            memento.IsHideMenu = Config.Current.Layout.MenuBar.IsHideMenu;
+            memento.IsHidePageSlider = Config.Current.Layout.Slider.IsHidePageSlider;
+            memento.IsVisibleAddressBar = Config.Current.Layout.MenuBar.IsVisibleAddressBar;
+            memento.IsHidePanel = Config.Current.Layout.Panels.IsHidePanel;
             memento.IsHidePanelInFullscreen = Config.Current.Layout.Panels.IsHidePanelInFullscreen;
             memento.IsVisibleWindowTitle = Config.Current.Layout.WindowTittle.IsMainViewDisplayEnabled;
             memento.IsVisibleBusy = Config.Current.Layout.Notice.IsBusyMarkEnabled;
             memento.IsOpenbookAtCurrentPlace = Config.Current.System.IsOpenbookAtCurrentPlace;
-            memento.IsAccessKeyEnabled = this.IsAccessKeyEnabled;
+            memento.IsAccessKeyEnabled = Config.Current.Command.IsAccessKeyEnabled;
             memento.SliderOpacity = Config.Current.Layout.Slider.Opacity;
             memento.IsHidePageSliderInFullscreen = Config.Current.Layout.Slider.IsHidePageSliderInFullscreen;
             memento.IsCursorHideEnabled = Config.Current.Mouse.IsCursorHideEnabled;
@@ -851,15 +884,15 @@ namespace NeeView
 
             this.ContextMenuSetting = memento.ContextMenuSetting.Clone();
 
-            this.IsHideMenu = memento.IsHideMenu;
-            this.IsHidePageSlider = memento.IsHidePageSlider;
-            this.IsHidePanel = memento.IsHidePanel;
-            this.IsVisibleAddressBar = memento.IsVisibleAddressBar;
+            ////this.IsHideMenu = memento.IsHideMenu;
+            ////this.IsHidePageSlider = memento.IsHidePageSlider;
+            ////this.IsHidePanel = memento.IsHidePanel;
+            ////this.IsVisibleAddressBar = memento.IsVisibleAddressBar;
             ////this.IsHidePanelInFullscreen = memento.IsHidePanelInFullscreen;
             ////this.IsVisibleWindowTitle = memento.IsVisibleWindowTitle;
             ////this.IsVisibleBusy = memento.IsVisibleBusy;
             ////this.IsOpenbookAtCurrentPlace = memento.IsOpenbookAtCurrentPlace;
-            this.IsAccessKeyEnabled = memento.IsAccessKeyEnabled;
+            ////this.IsAccessKeyEnabled = memento.IsAccessKeyEnabled;
             ////this.SliderOpacity = memento.SliderOpacity;
             ////this.IsHidePageSliderInFullscreen = memento.IsHidePageSliderInFullscreen;
             //this.IsCursorHideEnabled = memento.IsCursorHideEnabled;
@@ -868,7 +901,7 @@ namespace NeeView
             //this.CursorHideReleaseDistance = memento.CursorHideReleaseDistance;
         }
 
-#endregion
+        #endregion
     }
 
 }

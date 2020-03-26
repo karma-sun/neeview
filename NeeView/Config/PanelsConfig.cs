@@ -7,6 +7,7 @@ namespace NeeView
 {
     public class PanelsConfig : BindableBase
     {
+        private bool _isHidePanel;
         private bool _isSideBarEnabled = true;
         private double _opacity = 1.0;
         private bool _isHidePanelInFullscreen = true;
@@ -14,6 +15,16 @@ namespace NeeView
         private double _fontSize = 15.0;
         private double _folderTreeFontSize = 12.0;
         private bool _isDecoratePlace = true;
+
+
+
+        // パネルを自動的に隠す
+
+        public bool IsHidePanel
+        {
+            get { return _isHidePanel; }
+            set { SetProperty(ref _isHidePanel, value); }
+        }
 
 
         /// <summary>

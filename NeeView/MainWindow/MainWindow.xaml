@@ -103,7 +103,7 @@
                             <local:MenuBarView x:Name="MenuBar" IsUnactiveEnabled="{Binding WindowShape.CanCaptionVisible, Converter={StaticResource BooleanReverseConverter}}" />
 
                             <!-- アドレスバー -->
-                            <local:AddressBarView x:Name="AddressBar" VerticalAlignment="Top" Visibility="{Binding Model.IsVisibleAddressBar, Converter={StaticResource BooleanToVisibilityConverter}}" IsTabStop="False" />
+                            <local:AddressBarView x:Name="AddressBar" VerticalAlignment="Top" Visibility="{Binding Source={x:Static local:Config.Current}, Path=Layout.MenuBar.IsVisibleAddressBar, Converter={StaticResource BooleanToVisibilityConverter}}" IsTabStop="False" />
 
                         </StackPanel>
                     </Grid>

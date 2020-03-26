@@ -22,7 +22,7 @@ namespace NeeView
 
         private Size _MaximumSize = new Size(4096, 4096);
         ////private PictureCustomSize _customSize;
-        private bool _isAspectRatioEnabled;
+        ////private bool _isAspectRatioEnabled;
 
 
         private PictureProfile()
@@ -74,7 +74,6 @@ namespace NeeView
             get { return _customSize; }
             set { if (_customSize != value) { _customSize = value; RaisePropertyChanged(); } }
         }
-#endif
 
         // 画像の解像度情報を表示に反映する
         [PropertyMember("@ParamPictureProfileIsAspectRatioEnabled", Tips = "@ParamPictureProfileIsAspectRatioEnabledTips")]
@@ -87,6 +86,7 @@ namespace NeeView
         // support SVG
         [PropertyMember("@ParamPictureProfileIsSvgEnabled", Tips = "@ParamPictureProfileIsSvgEnabledTips")]
         public bool IsSvgEnabled { get; set; } = true;
+#endif
 
 
 
@@ -102,7 +102,7 @@ namespace NeeView
                 if (_fileExtension.SusieExtensions.Contains(ext)) return true;
             }
 
-            if (IsSvgEnabled)
+            if (Config.Current.Image.Svg.IsEnabled)
             {
                 if (_fileExtension.SvgExtensions.Contains(ext)) return true;
             }
@@ -129,7 +129,7 @@ namespace NeeView
         // 対応拡張子判定 (Svg)
         public bool IsSvgSupported(string fileName)
         {
-            if (!IsSvgEnabled) return false;
+            if (!Config.Current.Image.Svg.IsEnabled) return false;
 
             string ext = LoosePath.GetExtension(fileName);
             return _fileExtension.SvgExtensions.Contains(ext);
@@ -182,6 +182,8 @@ namespace NeeView
                 config.Performance.IsLimitSourceSize = IsLimitSourceSize;
                 config.Performance.MaximumSize = Maximum;
                 config.ImageResizeFilter.IsEnabled = IsResizeFilterEnabled;
+                config.Image.Standard.IsAspectRatioEnabled = IsAspectRatioEnabled;
+                config.Image.Svg.IsEnabled = IsSvgEnabled;
             }
         }
 
@@ -192,11 +194,12 @@ namespace NeeView
             memento.Maximum = Config.Current.Performance.MaximumSize;
             memento.IsResizeFilterEnabled = Config.Current.ImageResizeFilter.IsEnabled;
             memento.CustomSize = new PictureCustomSize().CreateMemento();
-            memento.IsAspectRatioEnabled = this.IsAspectRatioEnabled;
-            memento.IsSvgEnabled = this.IsSvgEnabled;
+            memento.IsAspectRatioEnabled = Config.Current.Image.Standard.IsAspectRatioEnabled;
+            memento.IsSvgEnabled = Config.Current.Image.Svg.IsEnabled;
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
@@ -204,8 +207,8 @@ namespace NeeView
             ////this.MaximumSize = memento.Maximum;
             ////this.CustomSize.Restore(memento.CustomSize);
             ////this.IsResizeFilterEnabled = memento.IsResizeFilterEnabled;
-            this.IsAspectRatioEnabled = memento.IsAspectRatioEnabled;
-            this.IsSvgEnabled = memento.IsSvgEnabled;
+            ////this.IsAspectRatioEnabled = memento.IsAspectRatioEnabled;
+            ////this.IsSvgEnabled = memento.IsSvgEnabled;
         }
         #endregion
 

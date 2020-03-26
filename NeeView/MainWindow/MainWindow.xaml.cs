@@ -87,7 +87,7 @@ namespace NeeView
 
 
             //
-            MainWindowModel.Current.AddPropertyChanged(nameof(MainWindowModel.IsHideMenu),
+            Config.Current.Layout.MenuBar.AddPropertyChanged(nameof(MenuBarConfig.IsHideMenu),
                 (s, e) => DartyMenuAreaLayout());
 
             MainWindowModel.Current.AddPropertyChanged(nameof(MainWindowModel.CanHidePageSlider),
@@ -682,7 +682,7 @@ namespace NeeView
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
             // ALTキーのメニュー操作無効 (Alt+F4は常に有効)
-            if (!_vm.Model.IsAccessKeyEnabled && (Keyboard.Modifiers == ModifierKeys.Alt && e.SystemKey != Key.F4))
+            if (!Config.Current.Command.IsAccessKeyEnabled && (Keyboard.Modifiers == ModifierKeys.Alt && e.SystemKey != Key.F4))
             {
                 e.Handled = true;
             }
@@ -967,7 +967,7 @@ namespace NeeView
             _isDartyMenuAreaLayout = false;
 
             // menu hide
-            bool isMenuDock = !MainWindowModel.Current.IsHideMenu && !WindowShape.Current.IsFullScreen;
+            bool isMenuDock = !Config.Current.Layout.MenuBar.IsHideMenu && !WindowShape.Current.IsFullScreen;
 
             if (isMenuDock)
             {
@@ -1035,7 +1035,7 @@ namespace NeeView
             if (!_isDartyThumbnailListLayout) return;
             _isDartyThumbnailListLayout = false;
 
-            bool isPageSliderDock = !MainWindowModel.Current.IsHidePageSlider && !WindowShape.Current.IsFullScreen;
+            bool isPageSliderDock = !Config.Current.Layout.Slider.IsHidePageSlider && !WindowShape.Current.IsFullScreen;
             bool isThimbnailListDock = !ThumbnailList.Current.IsHideThumbnailList && isPageSliderDock;
 
             if (isThimbnailListDock)

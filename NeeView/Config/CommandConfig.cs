@@ -8,6 +8,9 @@ namespace NeeView
         private bool _isReversePageMove = true;
         private bool _isReversePageMoveWheel;
 
+        [PropertyMember("@ParamIsAccessKeyEnabled", Tips = "@ParamIsAccessKeyEnabledTips")]
+        public bool IsAccessKeyEnabled { get; set; } = true;
+
         [PropertyMember("@ParamCommandIsReversePageMove", Tips = "@ParamCommandIsReversePageMoveTips")]
         public bool IsReversePageMove
         {

@@ -5,11 +5,21 @@ namespace NeeView
 {
     public class SliderConfig : BindableBase
     {
+        private bool _isIsHidePageSlider;
         private double _sliderOpacity = 1.0;
         private SliderIndexLayout _sliderIndexLayout = SliderIndexLayout.Right;
         private SliderDirection _sliderDirection = SliderDirection.SyncBookReadDirection;
         private bool _isSliderLinkedFilmStrip = true;
         private bool _isHidePageSliderInFullscreen = true;
+
+
+
+        // スライダーを自動的に隠す
+        public bool IsHidePageSlider
+        {
+            get { return _isIsHidePageSlider; }
+            set { SetProperty(ref _isIsHidePageSlider, value); }
+        }
 
         // スライダー透明度
         [PropertyPercent("@ParamSliderOpacity", Tips = "@ParamSliderOpacityTips")]

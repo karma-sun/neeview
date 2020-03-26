@@ -32,6 +32,8 @@ namespace NeeView
         [Conditional("DEBUG")]
         public static void CheckFocus()
         {
+            Debug.WriteLine($"KeyboardFocus: {Keyboard.FocusedElement}");
+
             var element = FocusManager.GetFocusedElement(App.Current.MainWindow) as Visual;
             ElementWalk(element);
             Debug.WriteLine(".");

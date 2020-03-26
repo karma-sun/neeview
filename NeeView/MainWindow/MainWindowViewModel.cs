@@ -337,7 +337,7 @@ namespace NeeView
         {
             if (IsClosing) return;
 
-            // NOTE: メインスレッドで行うとSevenZipSharpがCOM例外になるのであえてタスク化。なぜ！？
+            // NOTE: MTAスレッドで実行。SevenZipSharpのCOM例外対策
             Task.Run(() =>
             {
                 try

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -19,14 +20,50 @@ namespace NeeView
     /// <summary>
     /// RenameManager.xaml の相互作用ロジック
     /// </summary>
-    public partial class RenameManager : UserControl
+    public partial class RenameManager : UserControl, INotifyPropertyChanged
     {
+        #region INotifyPropertyChanged Support
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected bool SetProperty<T>(ref T storage, T value, [System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        {
+            if (object.Equals(storage, value)) return false;
+            storage = value;
+            this.RaisePropertyChanged(propertyName);
+            return true;
+        }
+
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        public void AddPropertyChanged(string propertyName, PropertyChangedEventHandler handler)
+        {
+            PropertyChanged += (s, e) => { if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == propertyName) handler?.Invoke(s, e); };
+        }
+
+        #endregion
+
+
         public static RenameManager Current { get; private set; }
+
+
+        private bool _isRenaming;
+
 
         public RenameManager()
         {
             InitializeComponent();
             Current = this;
+        }
+
+
+        public bool IsRenaming
+        {
+            get { return _isRenaming; }
+            set { SetProperty(ref _isRenaming, value); }
         }
 
         public UIElement RenameElement
@@ -45,6 +82,7 @@ namespace NeeView
             }
         }
 
+
         public void Open(RenameControl rename)
         {
             rename.Close += Rename_Close;
@@ -58,6 +96,8 @@ namespace NeeView
             this.Root.Children.Add(rename);
 
             rename.Target.Visibility = Visibility.Hidden;
+
+            IsRenaming = true;
         }
 
         private void Rename_Close(object sender, EventArgs e)
@@ -66,6 +106,8 @@ namespace NeeView
             rename.Target.Visibility = Visibility.Visible;
 
             this.Root.Children.Remove(sender as RenameControl);
+
+            IsRenaming = this.Root.Children != null && this.Root.Children.Count > 0;
         }
 
         public void Stop()

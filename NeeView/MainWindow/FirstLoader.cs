@@ -123,7 +123,14 @@ namespace NeeView
         {
             if (_bookPath != null)
             {
-                BookHub.Current.RequestLoad(_bookPath, null, _bookLoadOptions, _folderPath == null);
+                if (PlaylistArchive.IsSupportExtension(_bookPath))
+                {
+                    PlaylistBookLoader.LoadPlaylist(_bookPath, true);
+                }
+                else
+                {
+                    BookHub.Current.RequestLoad(_bookPath, null, _bookLoadOptions, _folderPath == null);
+                }
             }
         }
 

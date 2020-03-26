@@ -238,6 +238,7 @@ namespace NeeView
         private bool _isAttached;
         private bool _isMouseOver;
         private bool _isFocusLock;
+        private bool _isVisibilityHolded;
 
 
         protected override void OnAttached()
@@ -282,16 +283,49 @@ namespace NeeView
             _window = Window.GetWindow(this.AssociatedObject);
             _window.MouseMove += Screen_MouseMove;
             _window.MouseLeave += Screen_MouseLeave;
+            _window.StateChanged += Window_StateChanged;
         }
 
         private void AssociatedObject_Unloaded(object sender, RoutedEventArgs e)
         {
             _window.MouseMove -= Screen_MouseMove;
             _window.MouseLeave -= Screen_MouseLeave;
+            _window.StateChanged -= Window_StateChanged;
             _window = null;
         }
 
+
+        /// <summary>
+        /// ウィンドウ最小化中にパネルが消えるとキーボードフォーカスが失われる現象の対策
+        /// </summary>
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            if (!IsEnabled) return;
+
+            if (_isVisibilityHolded && ((Window)sender).WindowState != WindowState.Minimized)
+            {
+                _isVisibilityHolded = false;
+                AppDispatcher.BeginInvoke(() =>
+                {
+                    FlushVisibility();
+                    UpdateVisibility(UpdateVisibilityOption.UpdateMouseOver);
+                });
+            }
+        }
+
         private void DelayVisibility_ValueChanged(object sender, EventArgs e)
+        {
+            if (_window?.WindowState != WindowState.Minimized)
+            {
+                FlushVisibility();
+            }
+            else
+            {
+                _isVisibilityHolded = true;
+            }
+        }
+
+        private void FlushVisibility()
         {
             var visibility = _delayVisibility.Value;
             this.AssociatedObject.Visibility = visibility;

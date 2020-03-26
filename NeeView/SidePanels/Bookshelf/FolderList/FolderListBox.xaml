@@ -71,7 +71,7 @@
             <Setter Property="ToolTip" Value="{Binding Detail}"/>
             <Setter Property="ToolTipService.InitialShowDelay" Value="1000"/>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Source={RelativeSource FindAncestor, AncestorType=ListBox}, Path=DataContext.IsRenaming}" Value="True">
+                <DataTrigger Binding="{Binding Source={x:Static local:RenameManager.Current}, Path=IsRenaming}" Value="True">
                     <Setter Property="ToolTip" Value="{x:Null}"/>
                     <Setter Property="ToolTipService.IsEnabled" Value="False"/>
                 </DataTrigger>

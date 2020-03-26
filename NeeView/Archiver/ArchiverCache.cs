@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NeeView
 {
@@ -21,20 +22,26 @@ namespace NeeView
         {
             if (!_disposedValue)
             {
+                _disposedValue = true;
                 if (disposing)
                 {
-                    foreach (var item in _caches.Values.ToList())
+                    var items = _caches.Values
+                        .Select(e => e.TryGetTarget(out var archiver) ? archiver as IDisposable : null)
+                        .Where(e => e != null)
+                        .ToList();
+
+                    if (items.Count > 0)
                     {
-                        if (item.TryGetTarget(out var archiver))
+                        // NOTE: MTAスレッドで実行。SevenZipSharpのCOM例外対策
+                        Task.Run(() =>
                         {
-                            if (archiver is IDisposable disposable)
+                            foreach (var item in items)
                             {
-                                disposable.Dispose();
+                                item.Dispose();
                             }
-                        }
+                        });
                     }
                 }
-                _disposedValue = true;
             }
         }
 

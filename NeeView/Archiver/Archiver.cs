@@ -214,9 +214,13 @@ namespace NeeView
                 return _entries;
             }
 
-            _entries = (await GetEntriesInnerAsync(token))
-                .Where(e => !BookProfile.Current.IsExcludedPath(e.EntryName))
-                .ToList();
+            // NOTE: MTAスレッドで実行。SevenZipSharpのCOM例外対策
+            _entries = await Task.Run(async () =>
+            {
+                return (await GetEntriesInnerAsync(token))
+                    .Where(e => !BookProfile.Current.IsExcludedPath(e.EntryName))
+                    .ToList();
+            });
 
             return _entries;
         }
@@ -384,7 +388,7 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
     }
 
     /// <summary>

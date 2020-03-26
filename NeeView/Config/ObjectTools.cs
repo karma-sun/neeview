@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 
 namespace NeeView
@@ -35,12 +36,16 @@ namespace NeeView
                 {
                     property.GetSetMethod(false)?.Invoke(a1, new object[] { v2 });
                 }
-
+                // 配列はとりあえず参照コピー
+                else if (property.PropertyType.GetInterfaces().Contains(typeof(System.Collections.ICollection)))
+                {
+                    property.GetSetMethod(false)?.Invoke(a1, new object[] { v2 });
+                }
                 else
                 {
                     if (v1 == null)
                     {
-                        v1 = Activator.CreateInstance(type);
+                        v1 = Activator.CreateInstance(property.PropertyType);
                         property.SetValue(a1, v1);
                     }
                     Merge(v1, v2);

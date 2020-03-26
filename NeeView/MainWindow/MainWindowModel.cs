@@ -473,7 +473,7 @@ namespace NeeView
             ////WindowShape.Current.WindowChromeFrame = App.Current.WindowChromeFrame;
 
             // 設定反映
-            SaveData.Current.RestoreSetting(SaveData.Current.UserSettingTemp);
+            ////SaveData.Current.RestoreSetting(SaveData.Current.UserSettingTemp);
             // 保持設定破棄
             SaveData.Current.ReleaseUserSettingTemp();
 

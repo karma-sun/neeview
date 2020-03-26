@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -25,6 +26,16 @@ namespace NeeView
     /// </summary>
     public class SidePanelGroup : BindableBase
     {
+        private SidePanelConfig _sidePanelConfig;
+
+
+        public SidePanelGroup(SidePanelConfig sidePanelConfig)
+        {
+            _sidePanelConfig = sidePanelConfig;
+            Panels = new ObservableCollection<IPanel>();
+        }
+
+
         /// <summary>
         /// 選択変更通知
         /// </summary>
@@ -38,9 +49,23 @@ namespace NeeView
         public ObservableCollection<IPanel> Panels
         {
             get { return _panels; }
-            set { if (_panels != value) { _panels = value; RaisePropertyChanged(); } }
+            set
+            {
+                if (_panels != value)
+                {
+                    if (_panels != null)
+                    {
+                        _panels.CollectionChanged -= Panels_CollectionChanged;
+                    }
+                    _panels = value;
+                    if (_panels != null)
+                    {
+                        _panels.CollectionChanged += Panels_CollectionChanged;
+                    }
+                    RaisePropertyChanged();
+                }
+            }
         }
-
 
         /// <summary>
         /// SelectedPanel property.
@@ -59,6 +84,7 @@ namespace NeeView
                     }
 
                     _selectedPanel = value;
+                    _sidePanelConfig.SelectedPanelTypeCode = _selectedPanel?.TypeCode;
                     RaisePropertyChanged();
 
                     if (_selectedPanel != null)
@@ -92,11 +118,10 @@ namespace NeeView
         /// <summary>
         /// Width property.
         /// </summary>
-        private double _width = 300.0;
         public double Width
         {
-            get { return _width; }
-            set { if (_width != value) { _width = value; RaisePropertyChanged(); } }
+            get { return _sidePanelConfig.Width; }
+            set { if (_sidePanelConfig.Width != value) { _sidePanelConfig.Width = value; RaisePropertyChanged(); } }
         }
 
         /// <summary>
@@ -105,12 +130,23 @@ namespace NeeView
         public bool IsVisible { get; set; } = true;
 
 
-        /// <summary>
-        /// constructor
-        /// </summary>
-        public SidePanelGroup()
+
+        private void Panels_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            _panels = new ObservableCollection<IPanel>();
+            FlushConfig();
+        }
+
+        public void Initialize(IEnumerable<IPanel> panels)
+        {
+            Panels = new ObservableCollection<IPanel>(panels);
+            SelectedPanel = Panels.FirstOrDefault(e => e.TypeCode == _sidePanelConfig.SelectedPanelTypeCode);
+            FlushConfig();
+        }
+
+        private void FlushConfig()
+        {
+            _sidePanelConfig.PanelTypeCodes = Panels.Select(e => e.TypeCode).ToList();
+            _sidePanelConfig.SelectedPanelTypeCode = SelectedPanel?.TypeCode;
         }
 
         /// <summary>
@@ -240,6 +276,13 @@ namespace NeeView
 
             [DataMember]
             public double Width { get; set; }
+
+            public void RectoreConfig(SidePanelConfig sidePanelConfig)
+            {
+                sidePanelConfig.PanelTypeCodes = PanelTypeCodes;
+                sidePanelConfig.SelectedPanelTypeCode = SelectedPanelTypeCode;
+                sidePanelConfig.Width = Width;
+            }
         }
 
         public Memento CreateMemento()
@@ -248,18 +291,19 @@ namespace NeeView
 
             memento.PanelTypeCodes = Panels.Select(e => e.TypeCode).ToList();
             memento.SelectedPanelTypeCode = SelectedPanel?.TypeCode;
-            memento.Width = Width;
+            memento.Width = _sidePanelConfig.Width;
 
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento, List<IPanel> panels)
         {
             if (memento == null) return;
 
-            Panels = new ObservableCollection<IPanel>(memento.PanelTypeCodes.Select(e => panels.FirstOrDefault(panel => panel.TypeCode == e)).Where(e => e != null));
-            SelectedPanel = Panels.FirstOrDefault(e => e.TypeCode == memento.SelectedPanelTypeCode);
-            Width = memento.Width;
+            ////Panels = new ObservableCollection<IPanel>(memento.PanelTypeCodes.Select(e => panels.FirstOrDefault(panel => panel.TypeCode == e)).Where(e => e != null));
+            ////SelectedPanel = Panels.FirstOrDefault(e => e.TypeCode == memento.SelectedPanelTypeCode);
+            //Width = memento.Width;
         }
 
         #endregion

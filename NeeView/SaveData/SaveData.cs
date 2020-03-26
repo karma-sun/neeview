@@ -67,6 +67,7 @@ namespace NeeView
         }
 
         // アプリ設定反映
+        [Obsolete]
         public void RestoreSetting(UserSetting setting)
         {
             ////App.Current.Restore(setting.App);
@@ -76,7 +77,7 @@ namespace NeeView
             ////CommandTable.Current.Restore(setting.CommandMememto, false);
             ////DragActionTable.Current.Restore(setting.DragActionMemento);
 
-            _models.Resore(setting.Memento);
+            ////_models.Resore(setting.Memento);
         }
 
         // アプリ設定のシェイプを反映

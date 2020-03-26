@@ -32,11 +32,11 @@ namespace NeeView
 
         public SidePanelFrameModel()
         {
-            _left = new SidePanelGroup();
-            _left.SelectedPanelChanged += (s, e) => SelectedPanelChanged(s, e);
+            _left = new SidePanelGroup(Config.Current.Layout.Panels.LeftPanel);
+            _left.SelectedPanelChanged += (s, e) => SelectedPanelChanged?.Invoke(s, e);
 
-            _right = new SidePanelGroup();
-            _right.SelectedPanelChanged += (s, e) => SelectedPanelChanged(s, e);
+            _right = new SidePanelGroup(Config.Current.Layout.Panels.RightPanel);
+            _right.SelectedPanelChanged += (s, e) => SelectedPanelChanged?.Invoke(s, e);
         }
 
         #endregion
@@ -105,8 +105,44 @@ namespace NeeView
         /// <param name="rightPanels"></param>
         public void InitializePanels(List<IPanel> leftPanels, List<IPanel> rightPanels)
         {
-            leftPanels.ForEach(e => _left.Panels.Add(e));
-            rightPanels.ForEach(e => _right.Panels.Add(e));
+            var leftPanelConfig = Config.Current.Layout.Panels.LeftPanel;
+            var rightPanelConfig = Config.Current.Layout.Panels.RightPanel;
+
+            if (leftPanelConfig.PanelTypeCodes == null)
+            {
+                _left.Initialize(leftPanels);
+                _right.Initialize(rightPanels);
+            }
+            else
+            {
+                var panels = leftPanels.Concat(rightPanels).ToList();
+
+                // 左パネルを復元
+                var lefts = leftPanelConfig.PanelTypeCodes
+                    .Select(e => panels.FirstOrDefault(panel => panel.TypeCode == e))
+                    .Where(e => e != null)
+                    .ToList();
+
+                panels = panels.Except(lefts).ToList();
+
+                // 右パネルを復元
+                var rights = rightPanelConfig.PanelTypeCodes
+                    .Select(e => panels.FirstOrDefault(panel => panel.TypeCode == e))
+                    .Where(e => e != null)
+                    .ToList();
+
+                panels = panels.Except(rights).ToList();
+
+                // 未登録パネルを既定パネルに登録
+                lefts = lefts.Concat(panels.Where(e => e.DefaultPlace == PanelPlace.Left)).ToList();
+                rights = rights.Concat(panels.Where(e => e.DefaultPlace == PanelPlace.Right)).ToList();
+
+                _left.Initialize(lefts);
+                _right.Initialize(rights);
+            }
+
+            // 情報更新
+            SelectedPanelChanged?.Invoke(this, null);
         }
 
         /// <summary>
@@ -321,9 +357,8 @@ namespace NeeView
                 config.Layout.Panels.IsSideBarEnabled = IsSideBarVisible;
                 config.Layout.Panels.IsManipulationBoundaryFeedbackEnabled = IsManipulationBoundaryFeedbackEnabled;
 
-                // TODO: Left, Right の処理は？
-                // Left.Restore(Config.Current.Layout.SidePanel.Left)
-                // Right.Restore(Config.Current.Layout.SidePanel.Right) とか
+                Left.RectoreConfig(config.Layout.Panels.LeftPanel);
+                Right.RectoreConfig(config.Layout.Panels.RightPanel);
             }
         }
 
@@ -339,10 +374,12 @@ namespace NeeView
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
 
+#if false
             // パネル収集
             var panels = _left.Panels.Concat(_right.Panels).ToList();
             _left.Panels.Clear();
@@ -362,6 +399,7 @@ namespace NeeView
 
             // 情報更新
             SelectedPanelChanged?.Invoke(this, null);
+#endif
         }
 
         #endregion

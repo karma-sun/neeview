@@ -263,6 +263,7 @@ namespace NeeView
             return memento;
         }
 
+        [Obsolete]
         public void Resore(Memento memento)
         {
             if (memento == null) return;
@@ -306,7 +307,7 @@ namespace NeeView
             ////PagemarkList.Current.Restore(memento.PagemarkList);
             ////FileInformation.Current.Restore(memento.FileInformation);
             ////ImageEffect.Current.Restore(memento.ImageEffect);
-            SidePanel.Current.Restore(memento.SidePanel);
+            ////SidePanel.Current.Restore(memento.SidePanel);
             ////PageViewRecorder.Current.Restore(memento.PageViewRecorder);
         }
 

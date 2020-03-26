@@ -1,6 +1,7 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 
 namespace NeeView
@@ -19,7 +20,6 @@ namespace NeeView
 
 
         // パネルを自動的に隠す
-
         public bool IsHidePanel
         {
             get { return _isHidePanel; }
@@ -115,5 +115,23 @@ namespace NeeView
         public PanelListItemProfile BannerItemProfile { get; set; } = PanelListItemProfile.DefaultBannerItemProfile.Clone();
 
         public PanelListItemProfile ThumbnailItemProfile { get; set; } = PanelListItemProfile.DefaultThumbnailItemProfile.Clone();
+
+
+        [PropertyMapIgnore]
+        public SidePanelConfig LeftPanel { get; set; } = new SidePanelConfig();
+
+        [PropertyMapIgnore]
+        public SidePanelConfig RightPanel { get; set; } = new SidePanelConfig();
+    }
+
+
+    public class SidePanelConfig : BindableBase
+    {
+        [PropertyMergeReferenceCopy]
+        public List<string> PanelTypeCodes { get; set; }
+
+        public string SelectedPanelTypeCode { get; set; }
+
+        public double Width { get; set; } = 300.0;
     }
 }

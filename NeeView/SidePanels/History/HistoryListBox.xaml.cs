@@ -222,7 +222,7 @@ namespace NeeView
         // リストのキ入力
         private void HistoryListBox_KeyDown(object sender, KeyEventArgs e)
         {
-            bool isLRKeyEnabled = Config.Current.Layout.Panels.IsLeftRightKeyEnabled;
+            bool isLRKeyEnabled = Config.Current.Panels.IsLeftRightKeyEnabled;
 
             // このパネルで使用するキーのイベントを止める
             if (e.Key == Key.Up || e.Key == Key.Down || (isLRKeyEnabled && (e.Key == Key.Left || e.Key == Key.Right)) || e.Key == Key.Return || e.Key == Key.Delete)

@@ -1210,7 +1210,7 @@ namespace NeeView
         {
             if (BookHub.Current == null) return;
             if (Place == null) return;
-            Config.Current.Layout.Bookshelf.Home = Place.SimplePath;
+            Config.Current.Bookshelf.Home = Place.SimplePath;
         }
 
         public async void MoveToHome()
@@ -1472,7 +1472,7 @@ namespace NeeView
             memento.FolderTreeAreaHeight = _folderListConfig.FolderTreeAreaHeight;
             memento.FolderTreeAreaWidth = _folderListConfig.FolderTreeAreaWidth;
             memento.IsFolderTreeVisible = _folderListConfig.IsFolderTreeVisible;
-            memento.IsSyncFolderTree = Config.Current.Layout.Bookshelf.IsSyncFolderTree;
+            memento.IsSyncFolderTree = Config.Current.Bookshelf.IsSyncFolderTree;
 
             return memento;
         }

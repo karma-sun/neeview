@@ -44,7 +44,7 @@ code {
     padding: 0px 10px;
     display: block;
     border: 1px solid #CCC;
-    font-family: "メイリオ", Meiryo;
+    font-family: Consolas,"メイリオ", Meiryo;
 }
 
 hr {
@@ -60,7 +60,8 @@ table {
 }
 
 table tr th, table tr td {
-    font-size: 12px;
+    font-size: 14px;
+    font-family: Consolas;
     border-bottom: 1px solid #CCC;
     border-right: 1px solid #CCC;
     padding: 7px;

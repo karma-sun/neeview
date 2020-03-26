@@ -62,7 +62,7 @@ namespace NeeView
 
             PageSelector.Current.SelectionChanged += PageSelector_SelectionChanged;
 
-            Config.Current.Layout.Slider.AddPropertyChanged(nameof(SliderConfig.SliderDirection), (s, e) =>
+            Config.Current.Slider.AddPropertyChanged(nameof(SliderConfig.SliderDirection), (s, e) =>
             {
                 UpdateIsSliderDirectionReversed();
             });
@@ -165,7 +165,7 @@ namespace NeeView
         // スライダー方向更新
         private void UpdateIsSliderDirectionReversed()
         {
-            switch (Config.Current.Layout.Slider.SliderDirection)
+            switch (Config.Current.Slider.SliderDirection)
             {
                 default:
                 case SliderDirection.LeftToRight:
@@ -183,7 +183,7 @@ namespace NeeView
         /// <summary>
         /// スライドとフィルムストリップを連動させるかを判定
         /// </summary>
-        public bool IsThumbnailLinked() => Config.Current.Layout.FilmStrip.IsEnabled && Config.Current.Layout.Slider.IsSliderLinkedFilmStrip;
+        public bool IsThumbnailLinked() => Config.Current.FilmStrip.IsEnabled && Config.Current.Slider.IsSliderLinkedFilmStrip;
 
 
         // ページ番号を決定し、コンテンツを切り替える
@@ -219,18 +219,18 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
-                config.Layout.Slider.SliderIndexLayout = SliderIndexLayout;
-                config.Layout.Slider.SliderDirection = SliderDirection;
-                config.Layout.Slider.IsSliderLinkedFilmStrip = IsSliderLinkedThumbnailList;
+                config.Slider.SliderIndexLayout = SliderIndexLayout;
+                config.Slider.SliderDirection = SliderDirection;
+                config.Slider.IsSliderLinkedFilmStrip = IsSliderLinkedThumbnailList;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.SliderIndexLayout = Config.Current.Layout.Slider.SliderIndexLayout;
-            memento.SliderDirection = Config.Current.Layout.Slider.SliderDirection;
-            memento.IsSliderLinkedThumbnailList = Config.Current.Layout.Slider.IsSliderLinkedFilmStrip;
+            memento.SliderIndexLayout = Config.Current.Slider.SliderIndexLayout;
+            memento.SliderDirection = Config.Current.Slider.SliderDirection;
+            memento.IsSliderLinkedThumbnailList = Config.Current.Slider.IsSliderLinkedFilmStrip;
             return memento;
         }
 

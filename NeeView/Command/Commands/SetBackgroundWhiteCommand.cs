@@ -20,7 +20,7 @@ namespace NeeView
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            Config.Current.Layout.Background.BackgroundType = BackgroundType.White;
+            Config.Current.Background.BackgroundType = BackgroundType.White;
         }
     }
 }

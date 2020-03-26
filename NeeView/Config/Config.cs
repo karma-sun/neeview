@@ -31,7 +31,29 @@ namespace NeeView
 
         public WindowConfig Window { get; set; } = new WindowConfig();
 
-        public LayoutConfig Layout { get; set; } = new LayoutConfig();
+        public ThemeConfig Theme { get; set; } = new ThemeConfig();
+
+        public BackgroundConfig Background { get; set; } = new BackgroundConfig();
+
+        public WindowTitleConfig WindowTittle { get; set; } = new WindowTitleConfig();
+
+        public AutoHideConfig AutoHide { get; set; } = new AutoHideConfig();
+
+        public NoticeConfig Notice { get; set; } = new NoticeConfig();
+
+        public MenuBarConfig MenuBar { get; set; } = new MenuBarConfig();
+
+        public SliderConfig Slider { get; set; } = new SliderConfig();
+
+        public FilmStripConfig FilmStrip { get; set; } = new FilmStripConfig();
+
+        public PanelsConfig Panels { get; set; } = new PanelsConfig();
+
+        public BookshelfConfig Bookshelf { get; set; } = new BookshelfConfig();
+
+        public InformationConfig Information { get; set; } = new InformationConfig();
+
+        public PageListConfig PageList { get; set; } = new PageListConfig();
 
         public ThumbnailConfig Thumbnail { get; set; } = new ThumbnailConfig();
 

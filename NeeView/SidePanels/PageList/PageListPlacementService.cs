@@ -20,7 +20,7 @@ namespace NeeView
 
         private PageListPlacementService()
         {
-            Config.Current.Layout.Bookshelf.AddPropertyChanged(nameof(BookshelfPanelConfig.IsPageListDocked), (s, e) =>
+            Config.Current.Bookshelf.AddPropertyChanged(nameof(BookshelfConfig.IsPageListDocked), (s, e) =>
             {
                 Update();
             });
@@ -51,7 +51,7 @@ namespace NeeView
 
         public void Update()
         {
-            if (Config.Current.Layout.Bookshelf.IsPageListDocked)
+            if (Config.Current.Bookshelf.IsPageListDocked)
             {
                 SidePanel.Current?.DetachPageListPanel();
                 FolderPanelModel.Current?.SetVisual(Panel.View);
@@ -79,14 +79,14 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
-                config.Layout.Bookshelf.IsPageListDocked = IsPlacedInBookshelf;
+                config.Bookshelf.IsPageListDocked = IsPlacedInBookshelf;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.IsPlacedInBookshelf = Config.Current.Layout.Bookshelf.IsPageListDocked;
+            memento.IsPlacedInBookshelf = Config.Current.Bookshelf.IsPageListDocked;
             return memento;
         }
 

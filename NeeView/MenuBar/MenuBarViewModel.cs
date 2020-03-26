@@ -27,7 +27,7 @@ namespace NeeView
         {
             _model = model;
             _model.CommandGestureChanged += (s, e) => MainMenu?.UpdateInputGestureText();
-            Config.Current.Layout.MenuBar.AddPropertyChanged(nameof(MenuBarConfig.IsHamburgerMenu), (s, e) => InitializeMainMenu());
+            Config.Current.MenuBar.AddPropertyChanged(nameof(MenuBarConfig.IsHamburgerMenu), (s, e) => InitializeMainMenu());
 
             InitializeMainMenu();
             InitializeWindowCaptionEmulator(control);
@@ -108,7 +108,7 @@ namespace NeeView
 #endif
 
             var menu = new Menu();
-            if (Config.Current.Layout.MenuBar.IsHamburgerMenu)
+            if (Config.Current.MenuBar.IsHamburgerMenu)
             {
                 var converter = new PanelColorToImageSourceConverter()
                 {
@@ -120,7 +120,7 @@ namespace NeeView
                 image.Width = 18;
                 image.Height = 18;
                 image.Margin = new Thickness(4, 2, 4, 2);
-                image.SetBinding(Image.SourceProperty, new Binding(nameof(ThemeConfig.MenuColor)) { Source = Config.Current.Layout.Theme, Converter = converter });
+                image.SetBinding(Image.SourceProperty, new Binding(nameof(ThemeConfig.MenuColor)) { Source = Config.Current.Theme, Converter = converter });
                 image.SetBinding(Image.OpacityProperty, new Binding(nameof(Window.IsActive)) { Source = MainWindow.Current, Converter = new BooleanToOpacityConverter() });
 
                 var topMenu = new MenuItem();

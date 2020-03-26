@@ -16,12 +16,12 @@ namespace NeeView
 
         public override Binding CreateIsCheckedBinding()
         {
-            return new Binding(nameof(MenuBarConfig.IsHideMenu)) { Source = Config.Current.Layout.MenuBar };
+            return new Binding(nameof(MenuBarConfig.IsHideMenu)) { Source = Config.Current.MenuBar };
         }
 
         public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
         {
-            return Config.Current.Layout.MenuBar.IsHideMenu ? Properties.Resources.CommandToggleHideMenuOff : Properties.Resources.CommandToggleHideMenuOn;
+            return Config.Current.MenuBar.IsHideMenu ? Properties.Resources.CommandToggleHideMenuOff : Properties.Resources.CommandToggleHideMenuOn;
         }
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)

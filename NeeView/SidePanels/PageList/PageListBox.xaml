@@ -62,7 +62,7 @@
                 <Setter.Value>
                     <MultiBinding Converter="{StaticResource PageNameFormatConverter}">
                         <Binding />
-                        <Binding Source="{x:Static local:Config.Current}" Path="Layout.PageList.Format"/>
+                        <Binding Source="{x:Static local:Config.Current}" Path="PageList.Format"/>
                     </MultiBinding>
                 </Setter.Value>
             </Setter>
@@ -72,19 +72,19 @@
         </Style>
 
         <Style x:Key="ContentNameStyle" TargetType="TextBlock" BasedOn="{StaticResource NameStyle}">
-            <Setter Property="TextWrapping" Value="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.ContentItemProfile.IsTextWrapped, Converter={StaticResource BooleanToTextWrappingConverter}}"/>
-            <Setter Property="Height" Value="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.ContentItemProfile.TextHeight}"/>
+            <Setter Property="TextWrapping" Value="{Binding Source={x:Static local:Config.Current}, Path=Panels.ContentItemProfile.IsTextWrapped, Converter={StaticResource BooleanToTextWrappingConverter}}"/>
+            <Setter Property="Height" Value="{Binding Source={x:Static local:Config.Current}, Path=Panels.ContentItemProfile.TextHeight}"/>
         </Style>
 
         <Style x:Key="BannerrNameStyle" TargetType="TextBlock" BasedOn="{StaticResource NameStyle}">
-            <Setter Property="TextWrapping" Value="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.BannerItemProfile.IsTextWrapped, Converter={StaticResource BooleanToTextWrappingConverter}}"/>
-            <Setter Property="Height" Value="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.BannerItemProfile.TextHeight}"/>
+            <Setter Property="TextWrapping" Value="{Binding Source={x:Static local:Config.Current}, Path=Panels.BannerItemProfile.IsTextWrapped, Converter={StaticResource BooleanToTextWrappingConverter}}"/>
+            <Setter Property="Height" Value="{Binding Source={x:Static local:Config.Current}, Path=Panels.BannerItemProfile.TextHeight}"/>
         </Style>
 
         <Style x:Key="ThumbnailNameStyle" TargetType="TextBlock" BasedOn="{StaticResource NameStyle}">
-            <Setter Property="TextWrapping" Value="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.ThumbnailItemProfile.IsTextWrapped, Converter={StaticResource BooleanToTextWrappingConverter}}"/>
-            <Setter Property="Height" Value="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.ThumbnailItemProfile.TextHeight}"/>
-            <Setter Property="Visibility" Value="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.ThumbnailItemProfile.IsTextVisibled, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <Setter Property="TextWrapping" Value="{Binding Source={x:Static local:Config.Current}, Path=Panels.ThumbnailItemProfile.IsTextWrapped, Converter={StaticResource BooleanToTextWrappingConverter}}"/>
+            <Setter Property="Height" Value="{Binding Source={x:Static local:Config.Current}, Path=Panels.ThumbnailItemProfile.TextHeight}"/>
+            <Setter Property="Visibility" Value="{Binding Source={x:Static local:Config.Current}, Path=Panels.ThumbnailItemProfile.IsTextVisibled, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             <Setter Property="ToolTip" Value="{x:Null}"/>
         </Style>
 
@@ -92,9 +92,9 @@
         <Style x:Key="NoteTextStyle" TargetType="TextBlock" >
             <Setter Property="Margin" Value="5,0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Opacity" Value="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.ContentItemProfile.NoteOpacity}"/>
+            <Setter Property="Opacity" Value="{Binding Source={x:Static local:Config.Current}, Path=Panels.ContentItemProfile.NoteOpacity}"/>
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
-            <Setter Property="Visibility" Value="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.ContentItemProfile.NoteVisibility}"/>
+            <Setter Property="Visibility" Value="{Binding Source={x:Static local:Config.Current}, Path=Panels.ContentItemProfile.NoteVisibility}"/>
         </Style>
 
 
@@ -171,7 +171,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="ThumbnailTemplate">
-            <StackPanel Margin="0,5" Width="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.ThumbnailItemProfile.ShapeWidth}" ToolTip="{Binding EntryFullName}" ToolTipService.InitialShowDelay="1000">
+            <StackPanel Margin="0,5" Width="{Binding Source={x:Static local:Config.Current}, Path=Panels.ThumbnailItemProfile.ShapeWidth}" ToolTip="{Binding EntryFullName}" ToolTipService.InitialShowDelay="1000">
                 <local:PanelListThumbnailImage Thumbnail="{Binding Thumbnail}"/>
                 <Rectangle DockPanel.Dock="Bottom" Style="{StaticResource HorizontalSelectedStyle}"/>
                 <DockPanel>
@@ -208,16 +208,16 @@
         <ListBox.Style>
             <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding Source={x:Static local:Config.Current}, Path=Layout.PageList.PanelListItemStyle}" Value="Normal">
+                    <DataTrigger Binding="{Binding Source={x:Static local:Config.Current}, Path=PageList.PanelListItemStyle}" Value="Normal">
                         <Setter Property="ItemTemplate" Value="{StaticResource NormalTemplate}"/>
                     </DataTrigger>
-                    <DataTrigger Binding="{Binding Source={x:Static local:Config.Current}, Path=Layout.PageList.PanelListItemStyle}" Value="Content">
+                    <DataTrigger Binding="{Binding Source={x:Static local:Config.Current}, Path=PageList.PanelListItemStyle}" Value="Content">
                         <Setter Property="ItemTemplate" Value="{StaticResource ContentTemplate}"/>
                     </DataTrigger>
-                    <DataTrigger Binding="{Binding Source={x:Static local:Config.Current}, Path=Layout.PageList.PanelListItemStyle}" Value="Banner">
+                    <DataTrigger Binding="{Binding Source={x:Static local:Config.Current}, Path=PageList.PanelListItemStyle}" Value="Banner">
                         <Setter Property="ItemTemplate" Value="{StaticResource BannerTemplate}"/>
                     </DataTrigger>
-                    <DataTrigger Binding="{Binding Source={x:Static local:Config.Current}, Path=Layout.PageList.PanelListItemStyle}" Value="Thumbnail">
+                    <DataTrigger Binding="{Binding Source={x:Static local:Config.Current}, Path=PageList.PanelListItemStyle}" Value="Thumbnail">
                         <Setter Property="ItemTemplate" Value="{StaticResource ThumbnailTemplate}"/>
                         <Setter Property="ItemsPanel">
                             <Setter.Value>

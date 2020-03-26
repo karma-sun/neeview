@@ -20,7 +20,7 @@ namespace NeeView
         private Regex _excludeRegex;
 
 
-        private BookshelfFolderList() : base(true, true, Config.Current.Layout.Bookshelf)
+        private BookshelfFolderList() : base(true, true, Config.Current.Bookshelf)
         {
             ApplicationDisposer.Current.Add(this);
 
@@ -29,22 +29,22 @@ namespace NeeView
                 await RefreshAsync(true, true);
             });
 
-            Config.Current.Layout.Bookshelf.AddPropertyChanged(nameof(BookshelfPanelConfig.IsHistoryMark), (s, e) =>
+            Config.Current.Bookshelf.AddPropertyChanged(nameof(BookshelfConfig.IsHistoryMark), (s, e) =>
             {
                 FolderCollection?.RefreshIcon(null);
             });
 
-            Config.Current.Layout.Bookshelf.AddPropertyChanged(nameof(BookshelfPanelConfig.IsBookmarkMark), (s, e) =>
+            Config.Current.Bookshelf.AddPropertyChanged(nameof(BookshelfConfig.IsBookmarkMark), (s, e) =>
             {
                 FolderCollection?.RefreshIcon(null);
             });
 
-            Config.Current.Layout.Bookshelf.AddPropertyChanged(nameof(BookshelfPanelConfig.ExcludePattern), (s, e) =>
+            Config.Current.Bookshelf.AddPropertyChanged(nameof(BookshelfConfig.ExcludePattern), (s, e) =>
             {
                 UpdateExcludeRegex();
             });
 
-            Config.Current.Layout.Bookshelf.AddPropertyChanged(nameof(BookshelfPanelConfig.IsSearchIncludeSubdirectories), (s, e) =>
+            Config.Current.Bookshelf.AddPropertyChanged(nameof(BookshelfConfig.IsSearchIncludeSubdirectories), (s, e) =>
             {
                 RequestSearchPlace(true);
             });
@@ -60,7 +60,7 @@ namespace NeeView
 
         public override QueryPath GetFixedHome()
         {
-            var path = new QueryPath(Config.Current.Layout.Bookshelf.Home);
+            var path = new QueryPath(Config.Current.Bookshelf.Home);
 
             switch (path.Scheme)
             {
@@ -68,7 +68,7 @@ namespace NeeView
                     return path;
 
                 case QueryScheme.File:
-                    if (Directory.Exists(Config.Current.Layout.Bookshelf.Home))
+                    if (Directory.Exists(Config.Current.Bookshelf.Home))
                     {
                         return path;
                     }
@@ -78,7 +78,7 @@ namespace NeeView
                     }
 
                 case QueryScheme.Bookmark:
-                    if (BookmarkCollection.Current.FindNode(Config.Current.Layout.Bookshelf.Home)?.Value is BookmarkFolder)
+                    if (BookmarkCollection.Current.FindNode(Config.Current.Bookshelf.Home)?.Value is BookmarkFolder)
                     {
                         return path;
                     }
@@ -88,7 +88,7 @@ namespace NeeView
                     }
 
                 default:
-                    Debug.WriteLine($"Not support yet: {Config.Current.Layout.Bookshelf.Home}");
+                    Debug.WriteLine($"Not support yet: {Config.Current.Bookshelf.Home}");
                     return GetDefaultHome();
             }
         }
@@ -128,7 +128,7 @@ namespace NeeView
                 this.FolderListBoxModel.RaiseSelectedItemChanged(true);
             }
 
-            if (Config.Current.Layout.Bookshelf.IsSyncFolderTree && Place != null)
+            if (Config.Current.Bookshelf.IsSyncFolderTree && Place != null)
             {
                 BookshelfFolderTreeModel.Current.SyncDirectory(Place.SimplePath);
             }
@@ -136,7 +136,7 @@ namespace NeeView
 
         protected override void CloseBookIfNecessary()
         {
-            if (Config.Current.Layout.Bookshelf.IsCloseBookWhenMove)
+            if (Config.Current.Bookshelf.IsCloseBookWhenMove)
             {
                 BookHub.Current.RequestUnload(true);
             }
@@ -144,7 +144,7 @@ namespace NeeView
 
         protected override bool IsCruise()
         {
-            return Config.Current.Layout.Bookshelf.IsCruise;
+            return Config.Current.Bookshelf.IsCruise;
         }
 
         // 除外パターンの正規表現を更新
@@ -152,7 +152,7 @@ namespace NeeView
         {
             try
             {
-                ExcludeRegex = string.IsNullOrWhiteSpace(Config.Current.Layout.Bookshelf.ExcludePattern) ? null : new Regex(Config.Current.Layout.Bookshelf.ExcludePattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+                ExcludeRegex = string.IsNullOrWhiteSpace(Config.Current.Bookshelf.ExcludePattern) ? null : new Regex(Config.Current.Bookshelf.ExcludePattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
             }
             catch (Exception ex)
             {
@@ -163,12 +163,12 @@ namespace NeeView
 
         protected override bool IsIncrementalSearchEnabled()
         {
-            return Config.Current.Layout.Bookshelf.IsIncrementalSearchEnabled;
+            return Config.Current.Bookshelf.IsIncrementalSearchEnabled;
         }
 
         protected override bool IsSearchIncludeSubdirectories()
         {
-            return Config.Current.Layout.Bookshelf.IsSearchIncludeSubdirectories;
+            return Config.Current.Bookshelf.IsSearchIncludeSubdirectories;
         }
 
 
@@ -222,20 +222,20 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
-                FolderList.RestoreConfig(config.Layout.Bookshelf);
+                FolderList.RestoreConfig(config.Bookshelf);
 
-                config.Layout.Bookshelf.Home = Home;
-                config.Layout.Bookshelf.IsHistoryMark = IsVisibleHistoryMark;
-                config.Layout.Bookshelf.IsBookmarkMark = IsVisibleBookmarkMark;
-                config.Layout.Bookshelf.IsSyncFolderTree = FolderList.IsSyncFolderTree;
-                config.Layout.Bookshelf.IsCloseBookWhenMove = IsCloseBookWhenMove;
-                config.Layout.Bookshelf.IsOpenNextBookWhenRemove = IsOpenNextBookWhenRemove;
-                config.Layout.Bookshelf.IsInsertItem = IsInsertItem;
-                config.Layout.Bookshelf.IsMultipleRarFilterEnabled = IsMultipleRarFilterEnabled;
-                config.Layout.Bookshelf.ExcludePattern = ExcludePattern;
-                config.Layout.Bookshelf.IsCruise = IsCruise;
-                config.Layout.Bookshelf.IsIncrementalSearchEnabled = IsIncrementalSearchEnabled;
-                config.Layout.Bookshelf.IsSearchIncludeSubdirectories = IsSearchIncludeSubdirectories;
+                config.Bookshelf.Home = Home;
+                config.Bookshelf.IsHistoryMark = IsVisibleHistoryMark;
+                config.Bookshelf.IsBookmarkMark = IsVisibleBookmarkMark;
+                config.Bookshelf.IsSyncFolderTree = FolderList.IsSyncFolderTree;
+                config.Bookshelf.IsCloseBookWhenMove = IsCloseBookWhenMove;
+                config.Bookshelf.IsOpenNextBookWhenRemove = IsOpenNextBookWhenRemove;
+                config.Bookshelf.IsInsertItem = IsInsertItem;
+                config.Bookshelf.IsMultipleRarFilterEnabled = IsMultipleRarFilterEnabled;
+                config.Bookshelf.ExcludePattern = ExcludePattern;
+                config.Bookshelf.IsCruise = IsCruise;
+                config.Bookshelf.IsIncrementalSearchEnabled = IsIncrementalSearchEnabled;
+                config.Bookshelf.IsSearchIncludeSubdirectories = IsSearchIncludeSubdirectories;
             }
         }
 
@@ -244,17 +244,17 @@ namespace NeeView
             var memento = new Memento();
 
             memento.FolderList = base.CreateMemento();
-            memento.IsVisibleHistoryMark = Config.Current.Layout.Bookshelf.IsHistoryMark;
-            memento.IsVisibleBookmarkMark = Config.Current.Layout.Bookshelf.IsBookmarkMark;
-            memento.Home = Config.Current.Layout.Bookshelf.Home;
-            memento.IsInsertItem = Config.Current.Layout.Bookshelf.IsInsertItem;
-            memento.IsMultipleRarFilterEnabled = Config.Current.Layout.Bookshelf.IsMultipleRarFilterEnabled;
-            memento.ExcludePattern = Config.Current.Layout.Bookshelf.ExcludePattern;
-            memento.IsCruise = Config.Current.Layout.Bookshelf.IsCruise;
-            memento.IsCloseBookWhenMove = Config.Current.Layout.Bookshelf.IsCloseBookWhenMove;
-            memento.IsIncrementalSearchEnabled = Config.Current.Layout.Bookshelf.IsIncrementalSearchEnabled;
-            memento.IsSearchIncludeSubdirectories = Config.Current.Layout.Bookshelf.IsSearchIncludeSubdirectories;
-            memento.IsOpenNextBookWhenRemove = Config.Current.Layout.Bookshelf.IsOpenNextBookWhenRemove;
+            memento.IsVisibleHistoryMark = Config.Current.Bookshelf.IsHistoryMark;
+            memento.IsVisibleBookmarkMark = Config.Current.Bookshelf.IsBookmarkMark;
+            memento.Home = Config.Current.Bookshelf.Home;
+            memento.IsInsertItem = Config.Current.Bookshelf.IsInsertItem;
+            memento.IsMultipleRarFilterEnabled = Config.Current.Bookshelf.IsMultipleRarFilterEnabled;
+            memento.ExcludePattern = Config.Current.Bookshelf.ExcludePattern;
+            memento.IsCruise = Config.Current.Bookshelf.IsCruise;
+            memento.IsCloseBookWhenMove = Config.Current.Bookshelf.IsCloseBookWhenMove;
+            memento.IsIncrementalSearchEnabled = Config.Current.Bookshelf.IsIncrementalSearchEnabled;
+            memento.IsSearchIncludeSubdirectories = Config.Current.Bookshelf.IsSearchIncludeSubdirectories;
+            memento.IsOpenNextBookWhenRemove = Config.Current.Bookshelf.IsOpenNextBookWhenRemove;
 
             return memento;
         }

@@ -309,14 +309,14 @@ namespace NeeView
         public void ShowMessage(TransformActionType ActionType, ViewContent mainContent)
         {
             var infoMessage = InfoMessage.Current;
-            if (Config.Current.Layout.Notice.ViewTransformShowMessageStyle == ShowMessageStyle.None) return;
+            if (Config.Current.Notice.ViewTransformShowMessageStyle == ShowMessageStyle.None) return;
 
             var transform = DragTransform.Current;
 
             switch (ActionType)
             {
                 case TransformActionType.Scale:
-                    string scaleText = Config.Current.Layout.Notice.IsOriginalScaleShowMessage && mainContent != null && mainContent.IsValid
+                    string scaleText = Config.Current.Notice.IsOriginalScaleShowMessage && mainContent != null && mainContent.IsValid
                         ? $"{(int)(transform.Scale * mainContent.Scale * Environment.Dpi.DpiScaleX * 100 + 0.1)}%"
                         : $"{(int)(transform.Scale * 100.0 + 0.1)}%";
                     infoMessage.SetMessage(InfoMessageType.ViewTransform, scaleText);

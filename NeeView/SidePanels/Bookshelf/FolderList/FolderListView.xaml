@@ -152,7 +152,7 @@
                     <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
                 </ToggleButton>
                 <Button x:Name="PageListButton" DockPanel.Dock="Right" Style="{StaticResource FolderListButtonStyle}"  VerticalAlignment="Center" TabIndex="3"
-                        Visibility="{Binding Source={x:Static local:Config.Current}, Path=Layout.Bookshelf.IsPageListDocked, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        Visibility="{Binding Source={x:Static local:Config.Current}, Path=Bookshelf.IsPageListDocked, Converter={StaticResource BooleanToVisibilityConverter}}"
                         ToolTip="{x:Static properties:Resources.WordPageList}"
                         Command="{Binding ToggleVisiblePageList}">
                     <Image Source="{StaticResource ic_photo_library_24px}" Width="16" Height="16"/>
@@ -250,9 +250,9 @@
                         <Image Source="{StaticResource ic_search_24px_b}" Width="16" Height="16"/>
                         <Button.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="{x:Static properties:Resources.BookshelfMoreMenuSearchIncremental}" IsChecked="{Binding Source={x:Static local:Config.Current}, Path=Layout.Bookshelf.IsIncrementalSearchEnabled}" IsCheckable="True"/>
+                                <MenuItem Header="{x:Static properties:Resources.BookshelfMoreMenuSearchIncremental}" IsChecked="{Binding Source={x:Static local:Config.Current}, Path=Bookshelf.IsIncrementalSearchEnabled}" IsCheckable="True"/>
                                 <MenuItem Header="{x:Static properties:Resources.BookshelfMoreMenuSearchIncludeSubdirectories}"
-                                        IsChecked="{Binding Source={x:Static local:Config.Current}, Path=Layout.Bookshelf.IsSearchIncludeSubdirectories}" IsCheckable="True"/>
+                                        IsChecked="{Binding Source={x:Static local:Config.Current}, Path=Bookshelf.IsSearchIncludeSubdirectories}" IsCheckable="True"/>
                             </ContextMenu>
                         </Button.ContextMenu>
                     </Button>

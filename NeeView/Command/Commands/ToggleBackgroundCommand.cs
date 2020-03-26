@@ -12,12 +12,12 @@
 
         public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
         {
-            return Config.Current.Layout.Background.BackgroundType.GetToggle().ToAliasName();
+            return Config.Current.Background.BackgroundType.GetToggle().ToAliasName();
         }
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            Config.Current.Layout.Background.BackgroundType = Config.Current.Layout.Background.BackgroundType.GetToggle();
+            Config.Current.Background.BackgroundType = Config.Current.Background.BackgroundType.GetToggle();
         }
     }
 }

@@ -87,7 +87,7 @@ namespace NeeView
 
 
             //
-            Config.Current.Layout.MenuBar.AddPropertyChanged(nameof(MenuBarConfig.IsHideMenu),
+            Config.Current.MenuBar.AddPropertyChanged(nameof(MenuBarConfig.IsHideMenu),
                 (s, e) => DartyMenuAreaLayout());
 
             MainWindowModel.Current.AddPropertyChanged(nameof(MainWindowModel.CanHidePageSlider),
@@ -96,10 +96,10 @@ namespace NeeView
             ////MainWindowModel.Current.AddPropertyChanged(nameof(MainWindowModel.IsPanelVisibleLocked),
             ////    (s, e) => UpdateControlsVisibility());
 
-            Config.Current.Layout.FilmStrip.AddPropertyChanged(nameof(FilmStripConfig.IsEnabled),
+            Config.Current.FilmStrip.AddPropertyChanged(nameof(FilmStripConfig.IsEnabled),
                 (s, e) => DartyThumbnailListLayout());
 
-            Config.Current.Layout.FilmStrip.AddPropertyChanged(nameof(FilmStripConfig.IsHideFilmStrip),
+            Config.Current.FilmStrip.AddPropertyChanged(nameof(FilmStripConfig.IsHideFilmStrip),
                 (s, e) => DartyThumbnailListLayout());
 
             ThumbnailList.Current.VisibleEvent +=
@@ -907,7 +907,7 @@ namespace NeeView
             DartyWindowLayout();
 
             // フルスクリーン解除でフォーカスが表示されたパネルに移動してしまう現象を回避
-            if (!WindowShape.Current.IsFullScreen && Config.Current.Layout.Panels.IsHidePanelInFullscreen)
+            if (!WindowShape.Current.IsFullScreen && Config.Current.Panels.IsHidePanelInFullscreen)
             {
                 this.MainView.Focus();
             }
@@ -967,7 +967,7 @@ namespace NeeView
             _isDartyMenuAreaLayout = false;
 
             // menu hide
-            bool isMenuDock = !Config.Current.Layout.MenuBar.IsHideMenu && !WindowShape.Current.IsFullScreen;
+            bool isMenuDock = !Config.Current.MenuBar.IsHideMenu && !WindowShape.Current.IsFullScreen;
 
             if (isMenuDock)
             {
@@ -1035,8 +1035,8 @@ namespace NeeView
             if (!_isDartyThumbnailListLayout) return;
             _isDartyThumbnailListLayout = false;
 
-            bool isPageSliderDock = !Config.Current.Layout.Slider.IsHidePageSlider && !WindowShape.Current.IsFullScreen;
-            bool isThimbnailListDock = !Config.Current.Layout.FilmStrip.IsHideFilmStrip && isPageSliderDock;
+            bool isPageSliderDock = !Config.Current.Slider.IsHidePageSlider && !WindowShape.Current.IsFullScreen;
+            bool isThimbnailListDock = !Config.Current.FilmStrip.IsHideFilmStrip && isPageSliderDock;
 
             if (isThimbnailListDock)
             {
@@ -1050,7 +1050,7 @@ namespace NeeView
             }
 
             // フィルムストリップ
-            this.ThumbnailListArea.Visibility = Config.Current.Layout.FilmStrip.IsEnabled && !ContentCanvas.Current.IsMediaContent ? Visibility.Visible : Visibility.Collapsed;
+            this.ThumbnailListArea.Visibility = Config.Current.FilmStrip.IsEnabled && !ContentCanvas.Current.IsMediaContent ? Visibility.Visible : Visibility.Collapsed;
             this.ThumbnailListArea.DartyThumbnailList();
         }
 

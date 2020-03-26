@@ -76,7 +76,7 @@ namespace NeeView
             BookHub.Current.Loading +=
                 (s, e) => this.LoadingPath = e.Path;
 
-            Config.Current.Layout.WindowTittle.PropertyChanged += (s, e) =>
+            Config.Current.WindowTittle.PropertyChanged += (s, e) =>
             {
                 switch (e.PropertyName)
                 {
@@ -187,7 +187,7 @@ namespace NeeView
         // フォーマットの使用キーワード更新
         private void UpdateFomatterFilter()
         {
-            _windowTitleFormatter.SetFilter(Config.Current.Layout.WindowTittle.WindowTitleFormat1 + " " + Config.Current.Layout.WindowTittle.WindowTitleFormat2 + " " + Config.Current.Layout.WindowTittle.WindowTitleFormatMedia);
+            _windowTitleFormatter.SetFilter(Config.Current.WindowTittle.WindowTitleFormat1 + " " + Config.Current.WindowTittle.WindowTitleFormat2 + " " + Config.Current.WindowTittle.WindowTitleFormatMedia);
         }
 
         /// <summary>
@@ -243,8 +243,8 @@ namespace NeeView
             var _viewScale = DragTransform.Current.Scale;
 
             string format = MainContent is MediaViewContent
-                ? Config.Current.Layout.WindowTittle.WindowTitleFormatMedia
-                : Contents[1].IsValid ? Config.Current.Layout.WindowTittle.WindowTitleFormat2 : Config.Current.Layout.WindowTittle.WindowTitleFormat1;
+                ? Config.Current.WindowTittle.WindowTitleFormatMedia
+                : Contents[1].IsValid ? Config.Current.WindowTittle.WindowTitleFormat2 : Config.Current.WindowTittle.WindowTitleFormat1;
 
             bool isMainContent0 = MainContent == Contents[0];
 
@@ -386,18 +386,18 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
-                config.Layout.WindowTittle.WindowTitleFormat1 = WindowTitleFormat1;
-                config.Layout.WindowTittle.WindowTitleFormat2 = WindowTitleFormat2;
-                config.Layout.WindowTittle.WindowTitleFormatMedia = WindowTitleFormatMedia;
+                config.WindowTittle.WindowTitleFormat1 = WindowTitleFormat1;
+                config.WindowTittle.WindowTitleFormat2 = WindowTitleFormat2;
+                config.WindowTittle.WindowTitleFormatMedia = WindowTitleFormatMedia;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.WindowTitleFormat1 = Config.Current.Layout.WindowTittle.WindowTitleFormat1;
-            memento.WindowTitleFormat2 = Config.Current.Layout.WindowTittle.WindowTitleFormat2;
-            memento.WindowTitleFormatMedia = Config.Current.Layout.WindowTittle.WindowTitleFormatMedia;
+            memento.WindowTitleFormat1 = Config.Current.WindowTittle.WindowTitleFormat1;
+            memento.WindowTitleFormat2 = Config.Current.WindowTittle.WindowTitleFormat2;
+            memento.WindowTitleFormatMedia = Config.Current.WindowTittle.WindowTitleFormatMedia;
             return memento;
         }
 

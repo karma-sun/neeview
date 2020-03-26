@@ -67,7 +67,7 @@ namespace NeeView
             PageSelector.Current.ViewContentsChanged += PageSelector_ViewContentsChanged;
 
 
-            Config.Current.Layout.FilmStrip.PropertyChanged += (s, e) =>
+            Config.Current.FilmStrip.PropertyChanged += (s, e) =>
             {
                 switch (e.PropertyName)
                 {
@@ -138,7 +138,7 @@ namespace NeeView
         /// <summary>
         /// サムネイルを隠すことができる
         /// </summary>
-        public bool CanHideThumbnailList => Config.Current.Layout.FilmStrip.IsEnabled && Config.Current.Layout.FilmStrip.IsHideFilmStrip;
+        public bool CanHideThumbnailList => Config.Current.FilmStrip.IsEnabled && Config.Current.FilmStrip.IsHideFilmStrip;
 
 #if false
         /// <summary>
@@ -185,7 +185,7 @@ namespace NeeView
         /// ページ番号の表示状態
         /// TODO: Converterで
         /// </summary>
-        public Visibility ThumbnailNumberVisibility => Config.Current.Layout.FilmStrip.IsVisibleNumber ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility ThumbnailNumberVisibility => Config.Current.FilmStrip.IsVisibleNumber ? Visibility.Visible : Visibility.Collapsed;
 
 
         /// <summary>
@@ -337,25 +337,25 @@ namespace NeeView
 
         public bool SetVisibleThumbnailList(bool isVisible)
         {
-            Config.Current.Layout.FilmStrip.IsEnabled = isVisible;
+            Config.Current.FilmStrip.IsEnabled = isVisible;
 
-            if (Config.Current.Layout.FilmStrip.IsEnabled && !IsVisible)
+            if (Config.Current.FilmStrip.IsEnabled && !IsVisible)
             {
                 VisibleEvent?.Invoke(this, new VisibleEventArgs(true));
             }
 
-            return Config.Current.Layout.FilmStrip.IsEnabled;
+            return Config.Current.FilmStrip.IsEnabled;
         }
 
         public bool ToggleVisibleThumbnailList(bool byMenu)
         {
-            bool isVisible = byMenu ? !Config.Current.Layout.FilmStrip.IsEnabled : !IsVisible;
+            bool isVisible = byMenu ? !Config.Current.FilmStrip.IsEnabled : !IsVisible;
             return SetVisibleThumbnailList(isVisible);
         }
 
         public bool ToggleHideThumbnailList()
         {
-            return Config.Current.Layout.FilmStrip.IsHideFilmStrip = !Config.Current.Layout.FilmStrip.IsHideFilmStrip;
+            return Config.Current.FilmStrip.IsHideFilmStrip = !Config.Current.FilmStrip.IsHideFilmStrip;
         }
 
         // 本が変更される
@@ -390,10 +390,10 @@ namespace NeeView
 
             var pageList = BookOperation.Current.PageList;
 
-            if (pageList == null || Config.Current.Layout.FilmStrip.ThumbnailSize < 8.0) return;
+            if (pageList == null || Config.Current.FilmStrip.ThumbnailSize < 8.0) return;
 
             // フィルムストリップが無効の場合、処理しない
-            if (!Config.Current.Layout.FilmStrip.IsEnabled) return;
+            if (!Config.Current.FilmStrip.IsEnabled) return;
 
             // 本の切り替え中は処理しない
             if (!BookOperation.Current.IsEnabled) return;
@@ -423,7 +423,7 @@ namespace NeeView
         /// <param name="e"></param>
         public void ScrollViewer_ManipulationBoundaryFeedback(object sender, ManipulationBoundaryFeedbackEventArgs e)
         {
-            if (!Config.Current.Layout.FilmStrip.IsManipulationBoundaryFeedbackEnabled)
+            if (!Config.Current.FilmStrip.IsManipulationBoundaryFeedbackEnabled)
             {
                 e.Handled = true;
             }
@@ -464,26 +464,26 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
-                config.Layout.FilmStrip.IsEnabled = IsEnableThumbnailList;
-                config.Layout.FilmStrip.IsHideFilmStrip = IsHideThumbnailList;
-                config.Layout.FilmStrip.ThumbnailSize = ThumbnailSize;
-                config.Layout.FilmStrip.IsVisibleNumber = IsVisibleThumbnailNumber;
-                config.Layout.FilmStrip.IsVisiblePlate = IsVisibleThumbnailPlate;
-                config.Layout.FilmStrip.IsManipulationBoundaryFeedbackEnabled = IsManipulationBoundaryFeedbackEnabled;
-                config.Layout.FilmStrip.IsSelectedCenter = IsSelectedCenter;
+                config.FilmStrip.IsEnabled = IsEnableThumbnailList;
+                config.FilmStrip.IsHideFilmStrip = IsHideThumbnailList;
+                config.FilmStrip.ThumbnailSize = ThumbnailSize;
+                config.FilmStrip.IsVisibleNumber = IsVisibleThumbnailNumber;
+                config.FilmStrip.IsVisiblePlate = IsVisibleThumbnailPlate;
+                config.FilmStrip.IsManipulationBoundaryFeedbackEnabled = IsManipulationBoundaryFeedbackEnabled;
+                config.FilmStrip.IsSelectedCenter = IsSelectedCenter;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.IsEnableThumbnailList = Config.Current.Layout.FilmStrip.IsEnabled;
-            memento.IsHideThumbnailList = Config.Current.Layout.FilmStrip.IsHideFilmStrip;
-            memento.ThumbnailSize = Config.Current.Layout.FilmStrip.ThumbnailSize;
-            memento.IsVisibleThumbnailNumber = Config.Current.Layout.FilmStrip.IsVisibleNumber;
-            memento.IsVisibleThumbnailPlate = Config.Current.Layout.FilmStrip.IsVisiblePlate;
-            memento.IsManipulationBoundaryFeedbackEnabled = Config.Current.Layout.FilmStrip.IsManipulationBoundaryFeedbackEnabled;
-            memento.IsSelectedCenter = Config.Current.Layout.FilmStrip.IsSelectedCenter;
+            memento.IsEnableThumbnailList = Config.Current.FilmStrip.IsEnabled;
+            memento.IsHideThumbnailList = Config.Current.FilmStrip.IsHideFilmStrip;
+            memento.ThumbnailSize = Config.Current.FilmStrip.ThumbnailSize;
+            memento.IsVisibleThumbnailNumber = Config.Current.FilmStrip.IsVisibleNumber;
+            memento.IsVisibleThumbnailPlate = Config.Current.FilmStrip.IsVisiblePlate;
+            memento.IsManipulationBoundaryFeedbackEnabled = Config.Current.FilmStrip.IsManipulationBoundaryFeedbackEnabled;
+            memento.IsSelectedCenter = Config.Current.FilmStrip.IsSelectedCenter;
             return memento;
         }
 

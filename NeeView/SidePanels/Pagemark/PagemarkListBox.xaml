@@ -32,22 +32,22 @@
         </Style>
 
         <Style x:Key="ContentNameStyle" TargetType="TextBlock" BasedOn="{StaticResource NameStyle}">
-            <Setter Property="TextWrapping" Value="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.ContentItemProfile.IsTextWrapped, Converter={StaticResource BooleanToTextWrappingConverter}}"/>
-            <Setter Property="Height" Value="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.ContentItemProfile.TextHeight}"/>
+            <Setter Property="TextWrapping" Value="{Binding Source={x:Static local:Config.Current}, Path=Panels.ContentItemProfile.IsTextWrapped, Converter={StaticResource BooleanToTextWrappingConverter}}"/>
+            <Setter Property="Height" Value="{Binding Source={x:Static local:Config.Current}, Path=Panels.ContentItemProfile.TextHeight}"/>
         </Style>
 
         <Style x:Key="BannerrNameStyle" TargetType="TextBlock" BasedOn="{StaticResource NameStyle}">
-            <Setter Property="TextWrapping" Value="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.BannerItemProfile.IsTextWrapped, Converter={StaticResource BooleanToTextWrappingConverter}}"/>
-            <Setter Property="Height" Value="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.BannerItemProfile.TextHeight}"/>
+            <Setter Property="TextWrapping" Value="{Binding Source={x:Static local:Config.Current}, Path=Panels.BannerItemProfile.IsTextWrapped, Converter={StaticResource BooleanToTextWrappingConverter}}"/>
+            <Setter Property="Height" Value="{Binding Source={x:Static local:Config.Current}, Path=Panels.BannerItemProfile.TextHeight}"/>
         </Style>
 
 
         <Style x:Key="NoteTextStyle" TargetType="TextBlock">
             <Setter Property="Margin" Value="5,0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Opacity" Value="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.ContentItemProfile.NoteOpacity}"/>
+            <Setter Property="Opacity" Value="{Binding Source={x:Static local:Config.Current}, Path=Panels.ContentItemProfile.NoteOpacity}"/>
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
-            <Setter Property="Visibility" Value="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.ContentItemProfile.NoteVisibility}"/>
+            <Setter Property="Visibility" Value="{Binding Source={x:Static local:Config.Current}, Path=Panels.ContentItemProfile.NoteVisibility}"/>
             <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
         </Style>
 

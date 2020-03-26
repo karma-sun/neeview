@@ -73,17 +73,17 @@ namespace NeeView
             {
                 default:
                 case InfoMessageType.Notify:
-                    return Config.Current.Layout.Notice.NoticeShowMessageStyle;
+                    return Config.Current.Notice.NoticeShowMessageStyle;
                 case InfoMessageType.BookName:
-                    return Config.Current.Layout.Notice.BookNameShowMessageStyle;
+                    return Config.Current.Notice.BookNameShowMessageStyle;
                 case InfoMessageType.Command:
-                    return Config.Current.Layout.Notice.CommandShowMessageStyle;
+                    return Config.Current.Notice.CommandShowMessageStyle;
                 case InfoMessageType.Gesture:
-                    return Config.Current.Layout.Notice.GestureShowMessageStyle;
+                    return Config.Current.Notice.GestureShowMessageStyle;
                 case InfoMessageType.Loading:
-                    return Config.Current.Layout.Notice.NowLoadingShowMessageStyle;
+                    return Config.Current.Notice.NowLoadingShowMessageStyle;
                 case InfoMessageType.ViewTransform:
-                    return Config.Current.Layout.Notice.ViewTransformShowMessageStyle;
+                    return Config.Current.Notice.ViewTransformShowMessageStyle;
             }
         }
 
@@ -148,12 +148,12 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
-                config.Layout.Notice.NoticeShowMessageStyle = NoticeShowMessageStyle;
-                config.Layout.Notice.BookNameShowMessageStyle = BookNameShowMessageStyle;
-                config.Layout.Notice.CommandShowMessageStyle = CommandShowMessageStyle;
-                config.Layout.Notice.GestureShowMessageStyle = GestureShowMessageStyle;
-                config.Layout.Notice.NowLoadingShowMessageStyle = NowLoadingShowMessageStyle;
-                config.Layout.Notice.ViewTransformShowMessageStyle = ViewTransformShowMessageStyle;
+                config.Notice.NoticeShowMessageStyle = NoticeShowMessageStyle;
+                config.Notice.BookNameShowMessageStyle = BookNameShowMessageStyle;
+                config.Notice.CommandShowMessageStyle = CommandShowMessageStyle;
+                config.Notice.GestureShowMessageStyle = GestureShowMessageStyle;
+                config.Notice.NowLoadingShowMessageStyle = NowLoadingShowMessageStyle;
+                config.Notice.ViewTransformShowMessageStyle = ViewTransformShowMessageStyle;
             }
         }
 
@@ -161,12 +161,12 @@ namespace NeeView
         {
             var memento = new Memento();
 
-            memento.NoticeShowMessageStyle = Config.Current.Layout.Notice.NoticeShowMessageStyle;
-            memento.BookNameShowMessageStyle = Config.Current.Layout.Notice.BookNameShowMessageStyle;
-            memento.CommandShowMessageStyle = Config.Current.Layout.Notice.CommandShowMessageStyle;
-            memento.GestureShowMessageStyle = Config.Current.Layout.Notice.GestureShowMessageStyle;
-            memento.NowLoadingShowMessageStyle = Config.Current.Layout.Notice.NowLoadingShowMessageStyle;
-            memento.ViewTransformShowMessageStyle = Config.Current.Layout.Notice.ViewTransformShowMessageStyle;
+            memento.NoticeShowMessageStyle = Config.Current.Notice.NoticeShowMessageStyle;
+            memento.BookNameShowMessageStyle = Config.Current.Notice.BookNameShowMessageStyle;
+            memento.CommandShowMessageStyle = Config.Current.Notice.CommandShowMessageStyle;
+            memento.GestureShowMessageStyle = Config.Current.Notice.GestureShowMessageStyle;
+            memento.NowLoadingShowMessageStyle = Config.Current.Notice.NowLoadingShowMessageStyle;
+            memento.ViewTransformShowMessageStyle = Config.Current.Notice.ViewTransformShowMessageStyle;
 
             return memento;
         }

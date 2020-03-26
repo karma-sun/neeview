@@ -13,15 +13,15 @@ namespace NeeView
         static BookmarkFolderList() => Current = new BookmarkFolderList();
         public static BookmarkFolderList Current { get; }
 
-        private BookmarkFolderList() : base(false, false, Config.Current.Layout.Bookmark)
+        private BookmarkFolderList() : base(false, false, Config.Current.Bookmark)
         {
             ApplicationDisposer.Current.Add(this);
 
-            Config.Current.Layout.Bookmark.AddPropertyChanged(nameof(BookmarkPanelConfig.IsSyncBookshelfEnabled), (s, e) =>
+            Config.Current.Bookmark.AddPropertyChanged(nameof(BookmarkConfig.IsSyncBookshelfEnabled), (s, e) =>
             {
                 if (FolderListBoxModel != null)
                 {
-                    FolderListBoxModel.IsSyncBookshelfEnabled = Config.Current.Layout.Bookmark.IsSyncBookshelfEnabled;
+                    FolderListBoxModel.IsSyncBookshelfEnabled = Config.Current.Bookmark.IsSyncBookshelfEnabled;
                 }
             });
         }
@@ -52,7 +52,7 @@ namespace NeeView
 
         protected override bool IsSyncBookshelfEnabled()
         {
-            return Config.Current.Layout.Bookmark.IsSyncBookshelfEnabled;
+            return Config.Current.Bookmark.IsSyncBookshelfEnabled;
         }
 
 
@@ -75,8 +75,8 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
-                FolderList.RestoreConfig(config.Layout.Bookmark);
-                Config.Current.Layout.Bookmark.IsSyncBookshelfEnabled = IsSyncBookshelfEnabled;
+                FolderList.RestoreConfig(config.Bookmark);
+                Config.Current.Bookmark.IsSyncBookshelfEnabled = IsSyncBookshelfEnabled;
             }
         }
 
@@ -85,7 +85,7 @@ namespace NeeView
             var memento = new Memento();
 
             memento.FolderList = base.CreateMemento();
-            memento.IsSyncBookshelfEnabled = Config.Current.Layout.Bookmark.IsSyncBookshelfEnabled;
+            memento.IsSyncBookshelfEnabled = Config.Current.Bookmark.IsSyncBookshelfEnabled;
 
             return memento;
         }

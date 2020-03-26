@@ -16,12 +16,12 @@ namespace NeeView
 
         public override Binding CreateIsCheckedBinding()
         {
-            return new Binding(nameof(SliderConfig.IsHidePageSlider)) { Source = Config.Current.Layout.Slider };
+            return new Binding(nameof(SliderConfig.IsHidePageSlider)) { Source = Config.Current.Slider };
         }
 
         public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
         {
-            return Config.Current.Layout.Slider.IsHidePageSlider ? Properties.Resources.CommandToggleHidePageSliderOff : Properties.Resources.CommandToggleHidePageSliderOn;
+            return Config.Current.Slider.IsHidePageSlider ? Properties.Resources.CommandToggleHidePageSliderOff : Properties.Resources.CommandToggleHidePageSliderOn;
         }
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)

@@ -58,7 +58,7 @@ namespace NeeView
         {
             get
             {
-                switch (Config.Current.Layout.PageList.PanelListItemStyle)
+                switch (Config.Current.PageList.PanelListItemStyle)
                 {
                     default:
                         return false;
@@ -122,16 +122,16 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
-                config.Layout.PageList.PanelListItemStyle = PanelListItemStyle;
-                config.Layout.PageList.Format = Format;
+                config.PageList.PanelListItemStyle = PanelListItemStyle;
+                config.PageList.Format = Format;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.PanelListItemStyle = Config.Current.Layout.PageList.PanelListItemStyle;
-            memento.Format = Config.Current.Layout.PageList.Format;
+            memento.PanelListItemStyle = Config.Current.PageList.PanelListItemStyle;
+            memento.Format = Config.Current.PageList.Format;
             return memento;
         }
 

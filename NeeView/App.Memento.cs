@@ -405,11 +405,11 @@ namespace NeeView
                 ////config.System.CacheDirectoryOld = CacheDirectoryOld;
                 config.Window.WindowChromeFrame = WindowChromeFrame;
                 config.System.IsIgnoreImageDpi = IsIgnoreImageDpi;
-                config.Layout.AutoHide.AutoHideDelayTime = AutoHideDelayTime;
-                config.Layout.AutoHide.AutoHideDelayVisibleTime = AutoHideDelayVisibleTime;
-                config.Layout.AutoHide.AutoHideFocusLockMode = AutoHideFocusLockMode;
-                config.Layout.AutoHide.IsAutoHideKeyDownDelay = IsAutoHideKeyDownDelay;
-                config.Layout.AutoHide.AutoHideHitTestMargin = AutoHideHitTestMargin;
+                config.AutoHide.AutoHideDelayTime = AutoHideDelayTime;
+                config.AutoHide.AutoHideDelayVisibleTime = AutoHideDelayVisibleTime;
+                config.AutoHide.AutoHideFocusLockMode = AutoHideFocusLockMode;
+                config.AutoHide.IsAutoHideKeyDownDelay = IsAutoHideKeyDownDelay;
+                config.AutoHide.AutoHideHitTestMargin = AutoHideHitTestMargin;
                 config.System.DownloadPath = DownloadPath;
             }
         }
@@ -428,8 +428,8 @@ namespace NeeView
             memento.BookmarkFilePath = Config.Current.Bookmark.BookmarkFilePath;
             memento.IsSavePagemark = Config.Current.Pagemark.IsSavePagemark;
             memento.PagemarkFilePath = Config.Current.Pagemark.PagemarkFilePath;
-            memento.AutoHideDelayTime = Config.Current.Layout.AutoHide.AutoHideDelayTime;
-            memento.AutoHideDelayVisibleTime = Config.Current.Layout.AutoHide.AutoHideDelayVisibleTime;
+            memento.AutoHideDelayTime = Config.Current.AutoHide.AutoHideDelayTime;
+            memento.AutoHideDelayVisibleTime = Config.Current.AutoHide.AutoHideDelayVisibleTime;
             memento.WindowChromeFrame = Config.Current.Window.WindowChromeFrame;
             memento.IsOpenLastBook = Config.Current.StartUp.IsOpenLastBook;
             memento.DownloadPath = Config.Current.System.DownloadPath;
@@ -441,9 +441,9 @@ namespace NeeView
             memento.TemporaryDirectory = Config.Current.System.TemporaryDirectory;
             memento.CacheDirectory = Config.Current.System.CacheDirectory;
             memento.CacheDirectoryOld = Config.Current.System.CacheDirectory; //// CacheDirectoryOld廃止(ver.37)
-            memento.AutoHideFocusLockMode = Config.Current.Layout.AutoHide.AutoHideFocusLockMode;
-            memento.IsAutoHideKeyDownDelay = Config.Current.Layout.AutoHide.IsAutoHideKeyDownDelay;
-            memento.AutoHideHitTestMargin = Config.Current.Layout.AutoHide.AutoHideHitTestMargin;
+            memento.AutoHideFocusLockMode = Config.Current.AutoHide.AutoHideFocusLockMode;
+            memento.IsAutoHideKeyDownDelay = Config.Current.AutoHide.IsAutoHideKeyDownDelay;
+            memento.AutoHideHitTestMargin = Config.Current.AutoHide.AutoHideHitTestMargin;
             return memento;
         }
 

@@ -44,7 +44,7 @@ namespace NeeView
             {
                 Converter = _backgroundStyleToBooleanConverter,
                 ConverterParameter = mode.ToString(),
-                Source = Config.Current.Layout.Background
+                Source = Config.Current.Background
             };
         }
 

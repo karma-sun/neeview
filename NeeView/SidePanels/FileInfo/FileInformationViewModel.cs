@@ -33,13 +33,13 @@ namespace NeeView
                 }
             };
 
-            Config.Current.Layout.Information.PropertyChanged += (s, e) =>
+            Config.Current.Information.PropertyChanged += (s, e) =>
             {
                 switch (e.PropertyName)
                 {
                     case null:
-                    case nameof(InformationPanelConfig.IsVisibleBitsPerPixel):
-                    case nameof(InformationPanelConfig.IsVisibleLoader):
+                    case nameof(InformationConfig.IsVisibleBitsPerPixel):
+                    case nameof(InformationConfig.IsVisibleLoader):
                         _isDarty = true;
                         Update();
                         break;
@@ -221,7 +221,7 @@ namespace NeeView
         {
             if (!_isDarty) return;
 
-            LoaderVisibility = Config.Current.Layout.Information.IsVisibleLoader ? Visibility.Visible : Visibility.Collapsed;
+            LoaderVisibility = Config.Current.Information.IsVisibleLoader ? Visibility.Visible : Visibility.Collapsed;
 
             FullPath = Model.ViewContent?.Page?.Entry?.Link ?? Model.ViewContent?.FullPath;
 
@@ -251,7 +251,7 @@ namespace NeeView
                 }
                 else
                 {
-                    ImageSize = $"{(int)info.OriginalSize.Width} x {(int)info.OriginalSize.Height}" + (info.IsLimited ? "*" : "") + (Config.Current.Layout.Information.IsVisibleBitsPerPixel ? $" ({info.BitsPerPixel}bit)" : "");
+                    ImageSize = $"{(int)info.OriginalSize.Width} x {(int)info.OriginalSize.Height}" + (info.IsLimited ? "*" : "") + (Config.Current.Information.IsVisibleBitsPerPixel ? $" ({info.BitsPerPixel}bit)" : "");
                 }
 
                 // ファイルサイズ表示

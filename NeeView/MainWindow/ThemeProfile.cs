@@ -27,7 +27,7 @@ namespace NeeView
         {
             RefreshThemeColor();
 
-            Config.Current.Layout.Theme.AddPropertyChanged(nameof(ThemeConfig.PanelColor), (s, e) =>
+            Config.Current.Theme.AddPropertyChanged(nameof(ThemeConfig.PanelColor), (s, e) =>
             {
                 RefreshThemeColor();
             });
@@ -68,7 +68,7 @@ namespace NeeView
         {
             if (App.Current == null) return;
 
-            if (Config.Current.Layout.Theme.PanelColor == PanelColor.Dark)
+            if (Config.Current.Theme.PanelColor == PanelColor.Dark)
             {
                 App.Current.Resources["NVBackgroundFade"] = new SolidColorBrush(Color.FromRgb(0x00, 0x00, 0x00));
                 App.Current.Resources["NVBackground"] = new SolidColorBrush(Color.FromRgb(0x22, 0x22, 0x22));
@@ -124,16 +124,16 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
-                config.Layout.Theme.PanelColor = PanelColor;
-                config.Layout.Theme.MenuColor = MenuColor;
+                config.Theme.PanelColor = PanelColor;
+                config.Theme.MenuColor = MenuColor;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.PanelColor = Config.Current.Layout.Theme.PanelColor;
-            memento.MenuColor = Config.Current.Layout.Theme.MenuColor;
+            memento.PanelColor = Config.Current.Theme.PanelColor;
+            memento.MenuColor = Config.Current.Theme.MenuColor;
             return memento;
         }
 

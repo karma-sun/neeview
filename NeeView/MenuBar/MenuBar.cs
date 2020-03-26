@@ -158,7 +158,7 @@ namespace NeeView
             public void RestoreConfig(Config config)
             {
                 config.Window.IsCaptionEmulateInFullScreen = CaptionEmulateInFullScreen;
-                config.Layout.MenuBar.IsHamburgerMenu = IsHamburgerMenu;
+                config.MenuBar.IsHamburgerMenu = IsHamburgerMenu;
             }
         }
 
@@ -166,7 +166,7 @@ namespace NeeView
         {
             var memento = new Memento();
             memento.CaptionEmulateInFullScreen = Config.Current.Window.IsCaptionEmulateInFullScreen;
-            memento.IsHamburgerMenu = Config.Current.Layout.MenuBar.IsHamburgerMenu;
+            memento.IsHamburgerMenu = Config.Current.MenuBar.IsHamburgerMenu;
             return memento;
         }
 

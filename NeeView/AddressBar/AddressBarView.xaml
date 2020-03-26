@@ -36,7 +36,7 @@
 
     </UserControl.Resources>
 
-    <Grid x:Name="Root" MinHeight="32" Background="{Binding Config.Layout.Theme.MenuColor, Converter={StaticResource BackgroundSelector}}" KeyboardNavigation.TabNavigation="Local">
+    <Grid x:Name="Root" MinHeight="32" Background="{Binding Config.Theme.MenuColor, Converter={StaticResource BackgroundSelector}}" KeyboardNavigation.TabNavigation="Local">
         <Grid.Resources>
             <Style x:Key="AddressIconButton" TargetType="Button" BasedOn="{StaticResource IconButton}">
                 <Setter Property="Width" Value="24"/>
@@ -55,11 +55,11 @@
                     <Image Width="18" Height="18">
                         <Image.Style>
                             <Style TargetType="Image">
-                                <Setter Property="Source" Value="{Binding Config.Layout.Theme.MenuColor, Converter={StaticResource IconLooksOneSelector}}"/>
+                                <Setter Property="Source" Value="{Binding Config.Theme.MenuColor, Converter={StaticResource IconLooksOneSelector}}"/>
                                 <Setter Property="ToolTip" Value="{x:Static properties:Resources.EnumPageModeSinglePage}"/>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding BookSetting.PageMode}"  Value="WidePage">
-                                        <Setter Property="Source" Value="{Binding Config.Layout.Theme.MenuColor, Converter={StaticResource IconLooksTwoSelector}}"/>
+                                        <Setter Property="Source" Value="{Binding Config.Theme.MenuColor, Converter={StaticResource IconLooksTwoSelector}}"/>
                                         <Setter Property="ToolTip" Value="{x:Static properties:Resources.EnumPageModeWidePage}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -73,11 +73,11 @@
                         <Image Width="18" Height="18">
                             <Image.Style>
                                 <Style TargetType="Image">
-                                    <Setter Property="Source" Value="{Binding Config.Layout.Theme.MenuColor, Converter={StaticResource IconLeftToRightSelector}}"/>
+                                    <Setter Property="Source" Value="{Binding Config.Theme.MenuColor, Converter={StaticResource IconLeftToRightSelector}}"/>
                                     <Setter Property="ToolTip" Value="{x:Static properties:Resources.EnumPageReadOrderLeftToRight}"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding BookSetting.BookReadOrder}"  Value="RightToLeft">
-                                            <Setter Property="Source" Value="{Binding Config.Layout.Theme.MenuColor, Converter={StaticResource IconRightToLeftSelector}}"/>
+                                            <Setter Property="Source" Value="{Binding Config.Theme.MenuColor, Converter={StaticResource IconRightToLeftSelector}}"/>
                                             <Setter Property="ToolTip" Value="{x:Static properties:Resources.EnumPageReadOrderRightToLeft}"/>
                                         </DataTrigger>
                                     </Style.Triggers>
@@ -91,7 +91,7 @@
                         Click="PageSortModeButton_Click"
                         ToolTip="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToStringConverter}}">
                     <Grid Width="20" Height="18">
-                        <local:PageSortModeIcon PageSortMode="{Binding BookSetting.SortMode}" MenuColor="{Binding Config.Layout.Theme.MenuColor}"/>
+                        <local:PageSortModeIcon PageSortMode="{Binding BookSetting.SortMode}" MenuColor="{Binding Config.Theme.MenuColor}"/>
                     </Grid>
                 </Button>
                 <Popup x:Name="PageSortModePopup" PlacementTarget="{Binding ElementName=PageSortModeButton}" StaysOpen="False" AllowsTransparency="True" Opened="Popup_Opened" Closed="Popup_Closed">
@@ -109,7 +109,7 @@
                                     ContextMenuService.Placement="Bottom"
                                     ContextMenuOpening="PrevHistoryButton_ContextMenuOpening"
                                     ToolTip="{x:Static properties:Resources.ControlAddressBarBack}">
-                <Image Source="{Binding Config.Layout.Theme.MenuColor, Converter={StaticResource IconArrowBackSelector}}" Width="16" Height="16"/>
+                <Image Source="{Binding Config.Theme.MenuColor, Converter={StaticResource IconArrowBackSelector}}" Width="16" Height="16"/>
                 <Button.ContextMenu>
                     <ContextMenu ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}" />
                 </Button.ContextMenu>
@@ -118,26 +118,26 @@
                                     ContextMenuService.Placement="Bottom"
                                     ContextMenuOpening="NextHistoryButton_ContextMenuOpening"
                                     ToolTip="{x:Static properties:Resources.ControlAddressBarNext}">
-                <Image Source="{Binding Config.Layout.Theme.MenuColor, Converter={StaticResource IconArrowForwardSelector}}" Width="16" Height="16" />
+                <Image Source="{Binding Config.Theme.MenuColor, Converter={StaticResource IconArrowForwardSelector}}" Width="16" Height="16" />
                 <Button.ContextMenu>
                     <ContextMenu ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}" />
                 </Button.ContextMenu>
             </Button>
             <Button x:Name="MoveToParentButton" Command="{Binding BookCommands[MoveToParentBook]}"  Style="{StaticResource AddressIconButton}" TabIndex="3"
                                     ToolTip="{x:Static properties:Resources.ControlAddressBarUp}">
-                <Image Source="{Binding Config.Layout.Theme.MenuColor, Converter={StaticResource IconArrowUpSelector}}" Width="16" Height="16"/>
+                <Image Source="{Binding Config.Theme.MenuColor, Converter={StaticResource IconArrowUpSelector}}" Width="16" Height="16"/>
             </Button>
 
             <Grid>
                 <Button Command="{Binding BookCommands[ReLoad]}" Style="{StaticResource AddressIconButton}" TabIndex="4"
                         Visibility="{Binding IsLoading, Converter={StaticResource BooleanToInverseVisibilityConverter}}"
                         ToolTip="{x:Static properties:Resources.ControlAddressBarReLoad}">
-                    <Image Source="{Binding Config.Layout.Theme.MenuColor, Converter={StaticResource IconRefreshSelector}}" Width="16" Height="16" />
+                    <Image Source="{Binding Config.Theme.MenuColor, Converter={StaticResource IconRefreshSelector}}" Width="16" Height="16" />
                 </Button>
                 <Button Command="{Binding BookCommands[Unload]}" Style="{StaticResource AddressIconButton}" TabIndex="5"
                         Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
                         ToolTip="{x:Static properties:Resources.ControlAddressBarUnload}">
-                    <Image Source="{Binding Config.Layout.Theme.MenuColor, Converter={StaticResource IconCloseSelector}}" Width="16" Height="16" />
+                    <Image Source="{Binding Config.Theme.MenuColor, Converter={StaticResource IconCloseSelector}}" Width="16" Height="16" />
                 </Button>
             </Grid>
 
@@ -167,11 +167,11 @@
                                 PreviewMouseLeftButtonUp="BookButton_MouseLeftButtonUp"
                                 PreviewMouseMove="BookButton_MouseMove"
                                 QueryContinueDrag="BookButton_QueryContinueDrag">
-                            <Image Source="{Binding Config.Layout.Theme.MenuColor, Converter={StaticResource IconInfoOutlineSelector}}" Width="16"/>
+                            <Image Source="{Binding Config.Theme.MenuColor, Converter={StaticResource IconInfoOutlineSelector}}" Width="16"/>
                         </Button>
                         <TextBox x:Name="AddressTextBox" Text="{Binding Model.Address}" BorderThickness="0" VerticalAlignment="Center" TabIndex="12"
-                                Background="{Binding Config.Layout.Theme.MenuColor, Converter={StaticResource BackgroundSelector}}"
-                                Foreground="{Binding Config.Layout.Theme.MenuColor, Converter={StaticResource ForegroundSelector}}" KeyDown="AddressTextBox_KeyDown">
+                                Background="{Binding Config.Theme.MenuColor, Converter={StaticResource BackgroundSelector}}"
+                                Foreground="{Binding Config.Theme.MenuColor, Converter={StaticResource ForegroundSelector}}" KeyDown="AddressTextBox_KeyDown">
                             <TextBox.FocusVisualStyle>
                                 <Style>
                                     <Setter Property="Control.Template">

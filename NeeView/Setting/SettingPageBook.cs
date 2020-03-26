@@ -22,7 +22,7 @@ namespace NeeView.Setting
             {
                 new SettingItemSection(Properties.Resources.SettingPageBookGeneralGeneral,
 
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Background, nameof(BackgroundConfig.PageBackgroundColor))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Background, nameof(BackgroundConfig.PageBackgroundColor))),
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.IsOpenbookAtCurrentPlace))),
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Book, nameof(BookConfig.Excludes)), new SettingItemCollectionControl() { Collection = Config.Current.Book.Excludes, AddDialogHeader=Properties.Resources.WordExcludePath }),
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Book, nameof(BookConfig.WideRatio)))),
@@ -37,7 +37,7 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageBookVisualVisual,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Notice, nameof(NoticeConfig.IsBusyMarkEnabled))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Notice, nameof(NoticeConfig.IsBusyMarkEnabled))),
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.IsIgnoreImageDpi))),
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Book, nameof(BookConfig.ContentsSpace)))),
             };
@@ -51,7 +51,7 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageBookMoveBook,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Bookshelf, nameof(BookshelfPanelConfig.IsCruise)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.IsCruise)))),
 
                 new SettingItemSection(Properties.Resources.SettingPageBookMovePage,
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Book, nameof(BookConfig.IsPrioritizePageMove))),

@@ -208,7 +208,7 @@ namespace NeeView
             items.Add(CreateCommandMenuItem(Properties.Resources.WordNewFolder, NewFolderCommand));
             items.Add(CreateCommandMenuItem(Properties.Resources.FolderTreeMenuAddBookmark, AddBookmarkCommand));
             items.Add(new Separator());
-            items.Add(CreateCheckFlagMenuItem(Properties.Resources.BookmarkListMoreMenuSyncBookshelf, new Binding(nameof(BookmarkPanelConfig.IsSyncBookshelfEnabled)) { Source = Config.Current.Layout.Bookmark }));
+            items.Add(CreateCheckFlagMenuItem(Properties.Resources.BookmarkListMoreMenuSyncBookshelf, new Binding(nameof(BookmarkConfig.IsSyncBookshelfEnabled)) { Source = Config.Current.Bookmark }));
         }
 
         private MenuItem CreateCheckFlagMenuItem(string header, Binding binding)

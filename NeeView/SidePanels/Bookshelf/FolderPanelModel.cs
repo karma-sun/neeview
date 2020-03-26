@@ -27,7 +27,7 @@ namespace NeeView
 
         private FolderPanelModel()
         {
-            Config.Current.Layout.Bookshelf.AddPropertyChanged(nameof(BookshelfPanelConfig.IsPageListVisible), (s, e) =>
+            Config.Current.Bookshelf.AddPropertyChanged(nameof(BookshelfConfig.IsPageListVisible), (s, e) =>
             {
                 RaisePropertyChanged(nameof(IsPageListVisible));
                 RaisePropertyChanged(nameof(FolderListGridLength0));
@@ -38,12 +38,12 @@ namespace NeeView
 
         public bool IsPageListVisible
         {
-            get { return Config.Current.Layout.Bookshelf.IsPageListVisible && _visual != null; }
+            get { return Config.Current.Bookshelf.IsPageListVisible && _visual != null; }
             set
             {
-                if (Config.Current.Layout.Bookshelf.IsPageListVisible != value)
+                if (Config.Current.Bookshelf.IsPageListVisible != value)
                 {
-                    Config.Current.Layout.Bookshelf.IsPageListVisible = value;
+                    Config.Current.Bookshelf.IsPageListVisible = value;
                     RaisePropertyChanged();
                     RaisePropertyChanged(nameof(FolderListGridLength0));
                     RaisePropertyChanged(nameof(FolderListGridLength2));
@@ -71,12 +71,12 @@ namespace NeeView
 
         public GridLength FolderListGridLength0
         {
-            get { return IsPageListVisible ? Config.Current.Layout.Bookshelf.GridLength0 : new GridLength(1, GridUnitType.Star); }
+            get { return IsPageListVisible ? Config.Current.Bookshelf.GridLength0 : new GridLength(1, GridUnitType.Star); }
             set
             {
                 if (IsPageListVisible)
                 {
-                    Config.Current.Layout.Bookshelf.GridLength0 = value;
+                    Config.Current.Bookshelf.GridLength0 = value;
                 }
                 RaisePropertyChanged();
             }
@@ -84,12 +84,12 @@ namespace NeeView
 
         public GridLength FolderListGridLength2
         {
-            get { return IsPageListVisible ? Config.Current.Layout.Bookshelf.GridLength2 : new GridLength(0); }
+            get { return IsPageListVisible ? Config.Current.Bookshelf.GridLength2 : new GridLength(0); }
             set
             {
                 if (IsPageListVisible)
                 {
-                    Config.Current.Layout.Bookshelf.GridLength2 = value;
+                    Config.Current.Bookshelf.GridLength2 = value;
                 }
                 RaisePropertyChanged();
             }
@@ -117,14 +117,14 @@ namespace NeeView
 #if false
         private void StoreGridLength()
         {
-            Config.Current.Layout.Bookshelf.GridLength0 = FolderListGridLength0;
-            Config.Current.Layout.Bookshelf.GridLength2 = FolderListGridLength2;
+            Config.Current.Bookshelf.GridLength0 = FolderListGridLength0;
+            Config.Current.Bookshelf.GridLength2 = FolderListGridLength2;
         }
 
         private void RestoreGridLength()
         {
-            FolderListGridLength0 = Config.Current.Layout.Bookshelf.GridLength0;
-            FolderListGridLength2 = Config.Current.Layout.Bookshelf.GridLength2;
+            FolderListGridLength0 = Config.Current.Bookshelf.GridLength0;
+            FolderListGridLength2 = Config.Current.Bookshelf.GridLength2;
         }
 #endif
 
@@ -144,22 +144,22 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
-                config.Layout.Bookshelf.IsPageListVisible = IsVisiblePanelList;
+                config.Bookshelf.IsPageListVisible = IsVisiblePanelList;
 
                 var converter = new GridLengthConverter();
-                config.Layout.Bookshelf.GridLength0 = (GridLength)converter.ConvertFromString(GridLength0);
-                config.Layout.Bookshelf.GridLength2 = (GridLength)converter.ConvertFromString(GridLength2);
+                config.Bookshelf.GridLength0 = (GridLength)converter.ConvertFromString(GridLength0);
+                config.Bookshelf.GridLength2 = (GridLength)converter.ConvertFromString(GridLength2);
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.IsVisiblePanelList = Config.Current.Layout.Bookshelf.IsPageListVisible;
+            memento.IsVisiblePanelList = Config.Current.Bookshelf.IsPageListVisible;
 
             ////if (this.IsPageListVisible) StoreGridLength();
-            memento.GridLength0 = Config.Current.Layout.Bookshelf.GridLength0.ToString();
-            memento.GridLength2 = Config.Current.Layout.Bookshelf.GridLength2.ToString();
+            memento.GridLength0 = Config.Current.Bookshelf.GridLength0.ToString();
+            memento.GridLength2 = Config.Current.Bookshelf.GridLength2.ToString();
 
             return memento;
         }

@@ -10,37 +10,37 @@
         <local:BrushesSelectConverter x:Key="BrushesSelectConverter" />
     </UserControl.Resources>
 
-    <Grid x:Name="Root" Width="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.ContentItemProfile.ShapeWidth}"
-            Height="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.ContentItemProfile.ShapeHeight}" Margin="5,0">
+    <Grid x:Name="Root" Width="{Binding Source={x:Static local:Config.Current}, Path=Panels.ContentItemProfile.ShapeWidth}"
+            Height="{Binding Source={x:Static local:Config.Current}, Path=Panels.ContentItemProfile.ShapeHeight}" Margin="5,0">
 
         <Grid.Background>
             <MultiBinding Converter="{StaticResource BrushesSelectConverter}">
                 <Binding Path="Thumbnail.Background" />
-                <Binding Source="{x:Static local:Config.Current}" Path="Layout.Panels.ContentItemProfile.Background" />
+                <Binding Source="{x:Static local:Config.Current}" Path="Panels.ContentItemProfile.Background" />
             </MultiBinding>
         </Grid.Background>
 
         <Rectangle HorizontalAlignment="Center" VerticalAlignment="Bottom" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True"
-                Width="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.ContentItemProfile.ShapeWidth}"
-                Height="{Binding Source={x:Static local:Config.Current}, Path=Layout.Panels.ContentItemProfile.ShapeHeight}">
+                Width="{Binding Source={x:Static local:Config.Current}, Path=Panels.ContentItemProfile.ShapeWidth}"
+                Height="{Binding Source={x:Static local:Config.Current}, Path=Panels.ContentItemProfile.ShapeHeight}">
             <Rectangle.Fill>
                 <ImageBrush ImageSource="{Binding Thumbnail.ImageSource, Converter={StaticResource ImageSourceToThumbnailConverter}}">
                     <ImageBrush.Stretch>
                         <MultiBinding Converter="{StaticResource BooleanToStretchConverter}">
                             <Binding Path="Thumbnail.IsNormalImage" />
-                            <Binding Source="{x:Static local:Config.Current}" Path="Layout.Panels.ContentItemProfile.ImageStretch" />
+                            <Binding Source="{x:Static local:Config.Current}" Path="Panels.ContentItemProfile.ImageStretch" />
                         </MultiBinding>
                     </ImageBrush.Stretch>
                     <ImageBrush.Viewbox>
                         <MultiBinding Converter="{StaticResource BooleanToValueConverter}">
                             <Binding Path="Thumbnail.IsNormalImage" />
-                            <Binding Source="{x:Static local:Config.Current}" Path="Layout.Panels.ContentItemProfile.Viewbox" />
+                            <Binding Source="{x:Static local:Config.Current}" Path="Panels.ContentItemProfile.Viewbox" />
                         </MultiBinding>
                     </ImageBrush.Viewbox>
                     <ImageBrush.AlignmentY>
                         <MultiBinding Converter="{StaticResource BooleanToValueConverter}">
                             <Binding Path="Thumbnail.IsNormalImage" />
-                            <Binding Source="{x:Static local:Config.Current}" Path="Layout.Panels.ContentItemProfile.AlignmentY" />
+                            <Binding Source="{x:Static local:Config.Current}" Path="Panels.ContentItemProfile.AlignmentY" />
                         </MultiBinding>
                     </ImageBrush.AlignmentY>
                 </ImageBrush>
@@ -52,7 +52,7 @@
             <ToolTipService.IsEnabled>
                 <MultiBinding Converter="{StaticResource MultiBooleanAndConverter}">
                     <Binding Path="Thumbnail.IsUniqueImage" />
-                    <Binding Source="{x:Static local:Config.Current}" Path="Layout.Panels.ContentItemProfile.IsImagePopupEnabled" />
+                    <Binding Source="{x:Static local:Config.Current}" Path="Panels.ContentItemProfile.IsImagePopupEnabled" />
                 </MultiBinding>
             </ToolTipService.IsEnabled>
         </Rectangle>

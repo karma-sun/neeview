@@ -26,7 +26,7 @@ namespace NeeView
 
             _model = model;
 
-            Config.Current.Layout.Slider.AddPropertyChanged(nameof(SliderConfig.SliderIndexLayout),
+            Config.Current.Slider.AddPropertyChanged(nameof(SliderConfig.SliderIndexLayout),
                 (s, e) =>
                 {
                     RaisePropertyChanged(null);
@@ -49,9 +49,9 @@ namespace NeeView
             set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
         }
 
-        public bool IsSliderWithIndex => _model != null && Config.Current.Layout.Slider.SliderIndexLayout != SliderIndexLayout.None;
+        public bool IsSliderWithIndex => _model != null && Config.Current.Slider.SliderIndexLayout != SliderIndexLayout.None;
 
-        public Dock SliderIndexDock => _model != null && Config.Current.Layout.Slider.SliderIndexLayout == SliderIndexLayout.Left ? Dock.Left : Dock.Right;
+        public Dock SliderIndexDock => _model != null && Config.Current.Slider.SliderIndexLayout == SliderIndexLayout.Left ? Dock.Left : Dock.Right;
 
         public Thickness SliderMargin => IsSliderWithIndex ? SliderIndexDock == Dock.Left ? new Thickness(-8, 0, 0, 0) : new Thickness(0, 0, -8, 0) : new Thickness();
 

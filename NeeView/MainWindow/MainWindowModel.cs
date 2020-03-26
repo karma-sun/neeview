@@ -105,38 +105,38 @@ namespace NeeView
 
             ThemeProfile.Current.ThemeColorChanged += (s, e) => RefreshSliderBrushes();
 
-            Config.Current.Layout.Slider.AddPropertyChanged(nameof(SliderConfig.Opacity), (s, e) =>
+            Config.Current.Slider.AddPropertyChanged(nameof(SliderConfig.Opacity), (s, e) =>
             {
                 RefreshSliderBrushes();
             });
 
-            Config.Current.Layout.WindowTittle.AddPropertyChanged(nameof(WindowTitleConfig.IsMainViewDisplayEnabled), (s, e) =>
+            Config.Current.WindowTittle.AddPropertyChanged(nameof(WindowTitleConfig.IsMainViewDisplayEnabled), (s, e) =>
             {
                 RaisePropertyChanged(nameof(CanVisibleWindowTitle));
             });
 
-            Config.Current.Layout.Slider.AddPropertyChanged(nameof(SliderConfig.IsHidePageSliderInFullscreen), (s, e) =>
+            Config.Current.Slider.AddPropertyChanged(nameof(SliderConfig.IsHidePageSliderInFullscreen), (s, e) =>
             {
                 RefreshCanHidePageSlider();
             });
 
-            Config.Current.Layout.Panels.AddPropertyChanged(nameof(PanelsConfig.IsHidePanelInFullscreen), (s, e) =>
+            Config.Current.Panels.AddPropertyChanged(nameof(PanelsConfig.IsHidePanelInFullscreen), (s, e) =>
             {
                 RefreshCanHidePanel();
             });
 
-            Config.Current.Layout.MenuBar.AddPropertyChanged(nameof(MenuBarConfig.IsHideMenu), (s, e) =>
+            Config.Current.MenuBar.AddPropertyChanged(nameof(MenuBarConfig.IsHideMenu), (s, e) =>
             {
                 RaisePropertyChanged(nameof(CanHideMenu));
                 RaisePropertyChanged(nameof(CanVisibleWindowTitle));
             });
 
-            Config.Current.Layout.Slider.AddPropertyChanged(nameof(SliderConfig.IsHidePageSlider), (s, e) =>
+            Config.Current.Slider.AddPropertyChanged(nameof(SliderConfig.IsHidePageSlider), (s, e) =>
             {
                 RefreshCanHidePageSlider();
             });
 
-            Config.Current.Layout.Panels.AddPropertyChanged(nameof(PanelsConfig.IsHidePanel), (s, e) =>
+            Config.Current.Panels.AddPropertyChanged(nameof(PanelsConfig.IsHidePanel), (s, e) =>
             {
                 RefreshCanHidePanel();
             });
@@ -229,7 +229,7 @@ namespace NeeView
 #endif
 
         //
-        public bool CanHideMenu => Config.Current.Layout.MenuBar.IsHideMenu || WindowShape.Current.IsFullScreen;
+        public bool CanHideMenu => Config.Current.MenuBar.IsHideMenu || WindowShape.Current.IsFullScreen;
 
 #if false
         private bool _isIsHidePageSlider;
@@ -330,7 +330,7 @@ namespace NeeView
 
         public bool CanVisibleWindowTitle
         {
-            get => Config.Current.Layout.WindowTittle.IsMainViewDisplayEnabled && CanHideMenu && !WindowShape.Current.CanCaptionVisible;
+            get => Config.Current.WindowTittle.IsMainViewDisplayEnabled && CanHideMenu && !WindowShape.Current.CanCaptionVisible;
         }
 
 
@@ -409,7 +409,7 @@ namespace NeeView
         private void RefreshSliderBrushes()
         {
             var original = (SolidColorBrush)App.Current.Resources["NVBaseBrush"];
-            var glass = CreatePanelBrush(original, Config.Current.Layout.Slider.Opacity);
+            var glass = CreatePanelBrush(original, Config.Current.Slider.Opacity);
 
             SliderBackground = CanHidePageSlider ? glass : original;
             SliderBackgroundGlass = glass;
@@ -432,38 +432,38 @@ namespace NeeView
 
         private void RefreshCanHidePageSlider()
         {
-            CanHidePageSlider = Config.Current.Layout.Slider.IsHidePageSlider || (Config.Current.Layout.Slider.IsHidePageSliderInFullscreen && WindowShape.Current.IsFullScreen);
+            CanHidePageSlider = Config.Current.Slider.IsHidePageSlider || (Config.Current.Slider.IsHidePageSliderInFullscreen && WindowShape.Current.IsFullScreen);
         }
 
         public void RefreshCanHidePanel()
         {
-            CanHidePanel = Config.Current.Layout.Panels.IsHidePanel || (Config.Current.Layout.Panels.IsHidePanelInFullscreen && WindowShape.Current.IsFullScreen);
+            CanHidePanel = Config.Current.Panels.IsHidePanel || (Config.Current.Panels.IsHidePanelInFullscreen && WindowShape.Current.IsFullScreen);
         }
 
         //
         public bool ToggleHideMenu()
         {
-            Config.Current.Layout.MenuBar.IsHideMenu = !Config.Current.Layout.MenuBar.IsHideMenu;
-            return Config.Current.Layout.MenuBar.IsHideMenu;
+            Config.Current.MenuBar.IsHideMenu = !Config.Current.MenuBar.IsHideMenu;
+            return Config.Current.MenuBar.IsHideMenu;
         }
 
         //
         public bool ToggleHidePageSlider()
         {
-            Config.Current.Layout.Slider.IsHidePageSlider = !Config.Current.Layout.Slider.IsHidePageSlider;
-            return Config.Current.Layout.Slider.IsHidePageSlider;
+            Config.Current.Slider.IsHidePageSlider = !Config.Current.Slider.IsHidePageSlider;
+            return Config.Current.Slider.IsHidePageSlider;
         }
 
         public bool ToggleHidePanel()
         {
-            Config.Current.Layout.Panels.IsHidePanel = !Config.Current.Layout.Panels.IsHidePanel;
-            return Config.Current.Layout.Panels.IsHidePanel;
+            Config.Current.Panels.IsHidePanel = !Config.Current.Panels.IsHidePanel;
+            return Config.Current.Panels.IsHidePanel;
         }
 
         public bool ToggleVisibleAddressBar()
         {
-            Config.Current.Layout.MenuBar.IsVisibleAddressBar = !Config.Current.Layout.MenuBar.IsVisibleAddressBar;
-            return Config.Current.Layout.MenuBar.IsVisibleAddressBar;
+            Config.Current.MenuBar.IsVisibleAddressBar = !Config.Current.MenuBar.IsVisibleAddressBar;
+            return Config.Current.MenuBar.IsVisibleAddressBar;
         }
 
         // 起動時処理
@@ -832,20 +832,20 @@ namespace NeeView
             {
                 // ContextMenuの復元は上位階層で行っている
 
-                config.Layout.Slider.Opacity = SliderOpacity;
-                config.Layout.Slider.IsHidePageSliderInFullscreen = IsHidePageSliderInFullscreen;
-                config.Layout.WindowTittle.IsMainViewDisplayEnabled = IsVisibleWindowTitle;
-                config.Layout.Panels.IsHidePanelInFullscreen = IsHidePanelInFullscreen;
+                config.Slider.Opacity = SliderOpacity;
+                config.Slider.IsHidePageSliderInFullscreen = IsHidePageSliderInFullscreen;
+                config.WindowTittle.IsMainViewDisplayEnabled = IsVisibleWindowTitle;
+                config.Panels.IsHidePanelInFullscreen = IsHidePanelInFullscreen;
                 config.Mouse.IsCursorHideEnabled = IsCursorHideEnabled;
                 config.Mouse.CursorHideTime = CursorHideTime;
                 config.Mouse.IsCursorHideReleaseAction = IsCursorHideReleaseAction;
                 config.Mouse.CursorHideReleaseDistance = CursorHideReleaseDistance;
                 config.System.IsOpenbookAtCurrentPlace = IsOpenbookAtCurrentPlace;
-                config.Layout.Notice.IsBusyMarkEnabled = IsVisibleBusy;
-                config.Layout.MenuBar.IsHideMenu = IsHideMenu;
-                config.Layout.Slider.IsHidePageSlider = IsHidePageSlider;
-                config.Layout.Panels.IsHidePanel = IsHidePanel;
-                config.Layout.MenuBar.IsVisibleAddressBar = IsVisibleAddressBar;
+                config.Notice.IsBusyMarkEnabled = IsVisibleBusy;
+                config.MenuBar.IsHideMenu = IsHideMenu;
+                config.Slider.IsHidePageSlider = IsHidePageSlider;
+                config.Panels.IsHidePanel = IsHidePanel;
+                config.MenuBar.IsVisibleAddressBar = IsVisibleAddressBar;
                 config.Command.IsAccessKeyEnabled = IsAccessKeyEnabled;
             }
 
@@ -857,17 +857,17 @@ namespace NeeView
 
             memento.ContextMenuSetting = ContextMenuManager.Current.Clone();
 
-            memento.IsHideMenu = Config.Current.Layout.MenuBar.IsHideMenu;
-            memento.IsHidePageSlider = Config.Current.Layout.Slider.IsHidePageSlider;
-            memento.IsVisibleAddressBar = Config.Current.Layout.MenuBar.IsVisibleAddressBar;
-            memento.IsHidePanel = Config.Current.Layout.Panels.IsHidePanel;
-            memento.IsHidePanelInFullscreen = Config.Current.Layout.Panels.IsHidePanelInFullscreen;
-            memento.IsVisibleWindowTitle = Config.Current.Layout.WindowTittle.IsMainViewDisplayEnabled;
-            memento.IsVisibleBusy = Config.Current.Layout.Notice.IsBusyMarkEnabled;
+            memento.IsHideMenu = Config.Current.MenuBar.IsHideMenu;
+            memento.IsHidePageSlider = Config.Current.Slider.IsHidePageSlider;
+            memento.IsVisibleAddressBar = Config.Current.MenuBar.IsVisibleAddressBar;
+            memento.IsHidePanel = Config.Current.Panels.IsHidePanel;
+            memento.IsHidePanelInFullscreen = Config.Current.Panels.IsHidePanelInFullscreen;
+            memento.IsVisibleWindowTitle = Config.Current.WindowTittle.IsMainViewDisplayEnabled;
+            memento.IsVisibleBusy = Config.Current.Notice.IsBusyMarkEnabled;
             memento.IsOpenbookAtCurrentPlace = Config.Current.System.IsOpenbookAtCurrentPlace;
             memento.IsAccessKeyEnabled = Config.Current.Command.IsAccessKeyEnabled;
-            memento.SliderOpacity = Config.Current.Layout.Slider.Opacity;
-            memento.IsHidePageSliderInFullscreen = Config.Current.Layout.Slider.IsHidePageSliderInFullscreen;
+            memento.SliderOpacity = Config.Current.Slider.Opacity;
+            memento.IsHidePageSliderInFullscreen = Config.Current.Slider.IsHidePageSliderInFullscreen;
             memento.IsCursorHideEnabled = Config.Current.Mouse.IsCursorHideEnabled;
             memento.CursorHideTime = Config.Current.Mouse.CursorHideTime;
             memento.IsCursorHideReleaseAction = Config.Current.Mouse.IsCursorHideReleaseAction;

@@ -26,17 +26,17 @@ namespace NeeView
             ////this.CustomBackground = new BrushSource();
 
 
-            Config.Current.Layout.Background.AddPropertyChanged(nameof(BackgroundConfig.CustomBackground), (s, e) =>
+            Config.Current.Background.AddPropertyChanged(nameof(BackgroundConfig.CustomBackground), (s, e) =>
             {
                 InitializeCustomBackgroundBrush();
             });
 
-            Config.Current.Layout.Background.AddPropertyChanged(nameof(BackgroundConfig.BackgroundType), (s, e) =>
+            Config.Current.Background.AddPropertyChanged(nameof(BackgroundConfig.BackgroundType), (s, e) =>
             {
                 UpdateBackgroundBrush();
             });
 
-            Config.Current.Layout.Background.AddPropertyChanged(nameof(BackgroundConfig.PageBackgroundColor), (s, e) =>
+            Config.Current.Background.AddPropertyChanged(nameof(BackgroundConfig.PageBackgroundColor), (s, e) =>
             {
                 RaisePropertyChanged(nameof(PageBackgroundBrush));
             });
@@ -50,9 +50,9 @@ namespace NeeView
         private void InitializeCustomBackgroundBrush()
         {
             UpdateCustomBackgroundBrush();
-            if (Config.Current.Layout.Background.CustomBackground != null)
+            if (Config.Current.Background.CustomBackground != null)
             {
-                Config.Current.Layout.Background.CustomBackground.PropertyChanged += (s, e) => UpdateCustomBackgroundBrush();
+                Config.Current.Background.CustomBackground.PropertyChanged += (s, e) => UpdateCustomBackgroundBrush();
             }
         }
 
@@ -84,7 +84,7 @@ namespace NeeView
 
         public Brush PageBackgroundBrush
         {
-            get { return new SolidColorBrush(Config.Current.Layout.Background.PageBackgroundColor); }
+            get { return new SolidColorBrush(Config.Current.Background.PageBackgroundColor); }
         }
 
 
@@ -141,7 +141,7 @@ namespace NeeView
         {
             _customBackgroundBrush = null;
             _customBackgroundFrontBrush = null;
-            if (Config.Current.Layout.Background.BackgroundType == BackgroundType.Custom)
+            if (Config.Current.Background.BackgroundType == BackgroundType.Custom)
             {
                 UpdateBackgroundBrush();
             }
@@ -153,7 +153,7 @@ namespace NeeView
         private Brush _customBackgroundBrush;
         public Brush CustomBackgroundBrush
         {
-            get { return _customBackgroundBrush ?? (_customBackgroundBrush = Config.Current.Layout.Background.CustomBackground?.CreateBackBrush()); }
+            get { return _customBackgroundBrush ?? (_customBackgroundBrush = Config.Current.Background.CustomBackground?.CreateBackBrush()); }
         }
 
 
@@ -163,7 +163,7 @@ namespace NeeView
         private Brush _customBackgroundFrontBrush;
         public Brush CustomBackgroundFrontBrush
         {
-            get { return _customBackgroundFrontBrush ?? (_customBackgroundFrontBrush = Config.Current.Layout.Background.CustomBackground?.CreateFrontBrush()); }
+            get { return _customBackgroundFrontBrush ?? (_customBackgroundFrontBrush = Config.Current.Background.CustomBackground?.CreateFrontBrush()); }
         }
 
         /// <summary>
@@ -207,7 +207,7 @@ namespace NeeView
         /// <returns></returns>
         public Brush CreateBackgroundBrush()
         {
-            switch (Config.Current.Layout.Background.BackgroundType)
+            switch (Config.Current.Background.BackgroundType)
             {
                 default:
                 case BackgroundType.Black:
@@ -230,7 +230,7 @@ namespace NeeView
         /// <returns></returns>
         public Brush CreateBackgroundFrontBrush(DpiScale dpi)
         {
-            switch (Config.Current.Layout.Background.BackgroundType)
+            switch (Config.Current.Background.BackgroundType)
             {
                 default:
                 case BackgroundType.Black:
@@ -305,9 +305,9 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
-                config.Layout.Background.CustomBackground = CustomBackground;
-                config.Layout.Background.BackgroundType = Background;
-                config.Layout.Background.PageBackgroundColor = PageBackgroundColor;
+                config.Background.CustomBackground = CustomBackground;
+                config.Background.BackgroundType = Background;
+                config.Background.PageBackgroundColor = PageBackgroundColor;
             }
         }
 
@@ -315,9 +315,9 @@ namespace NeeView
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.CustomBackground = Config.Current.Layout.Background.CustomBackground;
-            memento.Background = Config.Current.Layout.Background.BackgroundType;
-            memento.PageBackgroundColor = Config.Current.Layout.Background.PageBackgroundColor;
+            memento.CustomBackground = Config.Current.Background.CustomBackground;
+            memento.Background = Config.Current.Background.BackgroundType;
+            memento.PageBackgroundColor = Config.Current.Background.PageBackgroundColor;
             return memento;
         }
 

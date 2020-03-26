@@ -32,10 +32,10 @@ namespace NeeView
 
         public SidePanelFrameModel()
         {
-            _left = new SidePanelGroup(Config.Current.Layout.Panels.LeftPanel);
+            _left = new SidePanelGroup(Config.Current.Panels.LeftPanel);
             _left.SelectedPanelChanged += (s, e) => SelectedPanelChanged?.Invoke(s, e);
 
-            _right = new SidePanelGroup(Config.Current.Layout.Panels.RightPanel);
+            _right = new SidePanelGroup(Config.Current.Panels.RightPanel);
             _right.SelectedPanelChanged += (s, e) => SelectedPanelChanged?.Invoke(s, e);
         }
 
@@ -105,8 +105,8 @@ namespace NeeView
         /// <param name="rightPanels"></param>
         public void InitializePanels(List<IPanel> leftPanels, List<IPanel> rightPanels)
         {
-            var leftPanelConfig = Config.Current.Layout.Panels.LeftPanel;
-            var rightPanelConfig = Config.Current.Layout.Panels.RightPanel;
+            var leftPanelConfig = Config.Current.Panels.LeftPanel;
+            var rightPanelConfig = Config.Current.Panels.RightPanel;
 
             if (leftPanelConfig.PanelTypeCodes == null)
             {
@@ -288,7 +288,7 @@ namespace NeeView
         /// <param name="e"></param>
         public void ScrollViewer_ManipulationBoundaryFeedback(object sender, ManipulationBoundaryFeedbackEventArgs e)
         {
-            if (!Config.Current.Layout.Panels.IsManipulationBoundaryFeedbackEnabled)
+            if (!Config.Current.Panels.IsManipulationBoundaryFeedbackEnabled)
             {
                 e.Handled = true;
             }
@@ -354,11 +354,11 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
-                config.Layout.Panels.IsSideBarEnabled = IsSideBarVisible;
-                config.Layout.Panels.IsManipulationBoundaryFeedbackEnabled = IsManipulationBoundaryFeedbackEnabled;
+                config.Panels.IsSideBarEnabled = IsSideBarVisible;
+                config.Panels.IsManipulationBoundaryFeedbackEnabled = IsManipulationBoundaryFeedbackEnabled;
 
-                Left.RectoreConfig(config.Layout.Panels.LeftPanel);
-                Right.RectoreConfig(config.Layout.Panels.RightPanel);
+                Left.RectoreConfig(config.Panels.LeftPanel);
+                Right.RectoreConfig(config.Panels.RightPanel);
             }
         }
 
@@ -366,8 +366,8 @@ namespace NeeView
         {
             var memento = new Memento();
 
-            memento.IsSideBarVisible = Config.Current.Layout.Panels.IsSideBarEnabled;
-            memento.IsManipulationBoundaryFeedbackEnabled = Config.Current.Layout.Panels.IsManipulationBoundaryFeedbackEnabled;
+            memento.IsSideBarVisible = Config.Current.Panels.IsSideBarEnabled;
+            memento.IsManipulationBoundaryFeedbackEnabled = Config.Current.Panels.IsManipulationBoundaryFeedbackEnabled;
             memento.Left = Left.CreateMemento();
             memento.Right = Right.CreateMemento();
 

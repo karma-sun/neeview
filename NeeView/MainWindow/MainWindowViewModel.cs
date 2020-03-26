@@ -232,7 +232,7 @@ namespace NeeView
         public LoupeTransform LoupeTransform => LoupeTransform.Current;
         public ToastService ToastService => ToastService.Current;
         public App App => App.Current;
-        public AutoHideConfig AutoHideConfig => Config.Current.Layout.AutoHide;
+        public AutoHideConfig AutoHideConfig => Config.Current.AutoHide;
 
 
         public MainWindowModel Model
@@ -308,7 +308,7 @@ namespace NeeView
         private void UpdateBusyVisibility()
         {
             ////Debug.WriteLine($"IsBusy: {BookHub.Current.IsLoading}, {BookOperation.Current.IsBusy}, {ContentRebuild.Current.IsBusy}");
-            this.BusyVisibility = Config.Current.Layout.Notice.IsBusyMarkEnabled && (BookHub.Current.IsLoading || BookOperation.Current.IsBusy || ContentRebuild.Current.IsBusy) && !SlideShow.Current.IsPlayingSlideShow ? Visibility.Visible : Visibility.Collapsed;
+            this.BusyVisibility = Config.Current.Notice.IsBusyMarkEnabled && (BookHub.Current.IsLoading || BookOperation.Current.IsBusy || ContentRebuild.Current.IsBusy) && !SlideShow.Current.IsPlayingSlideShow ? Visibility.Visible : Visibility.Collapsed;
         }
 
         /// <summary>

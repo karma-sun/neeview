@@ -33,26 +33,26 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageVisualGeneralTheme,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Theme, nameof(ThemeConfig.PanelColor))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Theme, nameof(ThemeConfig.MenuColor)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Theme, nameof(ThemeConfig.PanelColor))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Theme, nameof(ThemeConfig.MenuColor)))),
 
                 new SettingItemSection(Properties.Resources.SettingPageVisualGeneralOpacity,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Panels, nameof(PanelsConfig.Opacity))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Slider, nameof(SliderConfig.Opacity)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels, nameof(PanelsConfig.Opacity))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Slider, nameof(SliderConfig.Opacity)))),
 
                 new SettingItemSection(Properties.Resources.SettingPageVisualGeneralBackground,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Background, nameof(BackgroundConfig.CustomBackground)),
-                        new BackgroundSettingControl(Config.Current.Layout.Background.CustomBackground))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Background, nameof(BackgroundConfig.CustomBackground)),
+                        new BackgroundSettingControl(Config.Current.Background.CustomBackground))),
 
                 new SettingItemSection(Properties.Resources.SettingPageVisualGeneralAutoHide,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.AutoHide, nameof(AutoHideConfig.AutoHideFocusLockMode))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.AutoHide, nameof(AutoHideConfig.IsAutoHideKeyDownDelay))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.AutoHide, nameof(AutoHideConfig.AutoHideDelayVisibleTime))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.AutoHide, nameof(AutoHideConfig.AutoHideDelayTime))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.AutoHide, nameof(AutoHideConfig.AutoHideHitTestMargin)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.AutoHide, nameof(AutoHideConfig.AutoHideFocusLockMode))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.AutoHide, nameof(AutoHideConfig.IsAutoHideKeyDownDelay))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.AutoHide, nameof(AutoHideConfig.AutoHideDelayVisibleTime))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.AutoHide, nameof(AutoHideConfig.AutoHideDelayTime))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.AutoHide, nameof(AutoHideConfig.AutoHideHitTestMargin)))),
 
                 new SettingItemSection(Properties.Resources.SettingPageVisualGeneralAdvance,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.MenuBar, nameof(MenuBarConfig.IsHamburgerMenu))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.MenuBar, nameof(MenuBarConfig.IsHamburgerMenu))),
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Window, nameof(WindowConfig.IsFullScreenWithTaskBar))),
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Window, nameof(WindowConfig.WindowChromeFrame))),
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Window, nameof(WindowConfig.MaximizeWindowGapWidth)))),
@@ -122,12 +122,12 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                  new SettingItemSection(Properties.Resources.SettingPageVisualFilmstripFilmstrip,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.FilmStrip, nameof(FilmStripConfig.ThumbnailSize))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Slider, nameof(SliderConfig.IsSliderLinkedFilmStrip))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.FilmStrip, nameof(FilmStripConfig.IsVisibleNumber))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.FilmStrip, nameof(FilmStripConfig.IsVisiblePlate))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.FilmStrip, nameof(FilmStripConfig.IsSelectedCenter))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.FilmStrip, nameof(FilmStripConfig.IsManipulationBoundaryFeedbackEnabled)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.FilmStrip, nameof(FilmStripConfig.ThumbnailSize))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Slider, nameof(SliderConfig.IsSliderLinkedFilmStrip))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.FilmStrip, nameof(FilmStripConfig.IsVisibleNumber))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.FilmStrip, nameof(FilmStripConfig.IsVisiblePlate))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.FilmStrip, nameof(FilmStripConfig.IsSelectedCenter))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.FilmStrip, nameof(FilmStripConfig.IsManipulationBoundaryFeedbackEnabled)))),
             };
         }
 
@@ -176,13 +176,13 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageVisualNotifyDisplay,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Notice, nameof(NoticeConfig.NoticeShowMessageStyle))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Notice, nameof(NoticeConfig.BookNameShowMessageStyle))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Notice, nameof(NoticeConfig.CommandShowMessageStyle))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Notice, nameof(NoticeConfig.GestureShowMessageStyle))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Notice, nameof(NoticeConfig.NowLoadingShowMessageStyle))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Notice, nameof(NoticeConfig.ViewTransformShowMessageStyle))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Notice, nameof(NoticeConfig.IsOriginalScaleShowMessage)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Notice, nameof(NoticeConfig.NoticeShowMessageStyle))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Notice, nameof(NoticeConfig.BookNameShowMessageStyle))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Notice, nameof(NoticeConfig.CommandShowMessageStyle))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Notice, nameof(NoticeConfig.GestureShowMessageStyle))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Notice, nameof(NoticeConfig.NowLoadingShowMessageStyle))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Notice, nameof(NoticeConfig.ViewTransformShowMessageStyle))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Notice, nameof(NoticeConfig.IsOriginalScaleShowMessage)))),
             };
         }
     }
@@ -194,10 +194,10 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageVisualWindowTitileDisplay,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.WindowTittle, nameof(WindowTitleConfig.WindowTitleFormat1))) {IsStretch = true },
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.WindowTittle, nameof(WindowTitleConfig.WindowTitleFormat2))) {IsStretch = true },
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.WindowTittle, nameof(WindowTitleConfig.WindowTitleFormatMedia))) {IsStretch = true },
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.WindowTittle, nameof(WindowTitleConfig.IsMainViewDisplayEnabled)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.WindowTittle, nameof(WindowTitleConfig.WindowTitleFormat1))) {IsStretch = true },
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.WindowTittle, nameof(WindowTitleConfig.WindowTitleFormat2))) {IsStretch = true },
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.WindowTittle, nameof(WindowTitleConfig.WindowTitleFormatMedia))) {IsStretch = true },
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.WindowTittle, nameof(WindowTitleConfig.IsMainViewDisplayEnabled)))),
 
                 new SettingItemNote(Properties.Resources.SettingPageVisualWindowTitileNote),
             };
@@ -211,9 +211,9 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageVisualSliderVisual,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Slider, nameof(SliderConfig.IsHidePageSliderInFullscreen))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Slider, nameof(SliderConfig.SliderDirection))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Slider, nameof(SliderConfig.SliderIndexLayout)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Slider, nameof(SliderConfig.IsHidePageSliderInFullscreen))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Slider, nameof(SliderConfig.SliderDirection))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Slider, nameof(SliderConfig.SliderIndexLayout)))),
             };
         }
     }
@@ -225,11 +225,11 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                  new SettingItemSection(Properties.Resources.SettingPagePanelGeneralVisual,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Panels, nameof(PanelsConfig.IsHidePanelInFullscreen)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels, nameof(PanelsConfig.IsHidePanelInFullscreen)))),
 
                 new SettingItemSection(Properties.Resources.SettingPagePanelGeneralOperation,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Panels, nameof(PanelsConfig.IsLeftRightKeyEnabled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Panels, nameof(PanelsConfig.IsManipulationBoundaryFeedbackEnabled)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels, nameof(PanelsConfig.IsLeftRightKeyEnabled))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels, nameof(PanelsConfig.IsManipulationBoundaryFeedbackEnabled)))),
             };
         }
     }
@@ -241,8 +241,8 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageVisualFontPanel,
-                    new SettingItemPropertyFont(PropertyMemberElement.Create(Config.Current.Layout.Panels, nameof(PanelsConfig.FontName))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Panels, nameof(PanelsConfig.FontSize)))),
+                    new SettingItemPropertyFont(PropertyMemberElement.Create(Config.Current.Panels, nameof(PanelsConfig.FontName))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels, nameof(PanelsConfig.FontSize)))),
 
                 new SettingItemSection(Properties.Resources.WordStyleContent,
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.ContentItemImageWidth))),
@@ -250,7 +250,7 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.ContentItemIsImagePopupEnabled))),
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.ContentItemIsTextWrapped))),
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.ContentItemNoteOpacity))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Panels, nameof(PanelsConfig.IsDecoratePlace)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels, nameof(PanelsConfig.IsDecoratePlace)))),
 
                 new SettingItemSection(Properties.Resources.WordStyleBanner,
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.BannerItemImageWidth))),
@@ -272,27 +272,27 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                  new SettingItemSection(Properties.Resources.SettingPagePanelBookshelfGeneral,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Bookshelf, nameof(BookshelfPanelConfig.Home))) {IsStretch = true}),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.Home))) {IsStretch = true}),
 
                 new SettingItemSection(Properties.Resources.SettingPagePanelBookshelfVisual,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Bookshelf, nameof(BookshelfPanelConfig.IsBookmarkMark))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Bookshelf, nameof(BookshelfPanelConfig.IsHistoryMark)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.IsBookmarkMark))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.IsHistoryMark)))),
 
                 new SettingItemSection(Properties.Resources.SettingPagePanelBookshelfTree,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Bookshelf, nameof(BookshelfPanelConfig.FolderTreeLayout))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Panels, nameof(PanelsConfig.FolderTreeFontSize))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Bookshelf, nameof(BookshelfPanelConfig.IsSyncFolderTree)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.FolderTreeLayout))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels, nameof(PanelsConfig.FolderTreeFontSize))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.IsSyncFolderTree)))),
 
                 new SettingItemSection(Properties.Resources.SettingPagePanelBookshelfAdvance,
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.IsKeepFolderStatus))),
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.IsKeepSearchHistory))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Bookshelf, nameof(BookshelfPanelConfig.IsPageListDocked))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Bookshelf, nameof(BookshelfPanelConfig.IsCloseBookWhenMove))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Bookshelf, nameof(BookshelfPanelConfig.IsOpenNextBookWhenRemove))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Bookshelf, nameof(BookshelfPanelConfig.IsInsertItem))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.IsPageListDocked))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.IsCloseBookWhenMove))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.IsOpenNextBookWhenRemove))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.IsInsertItem))),
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.IsHiddenFileVisibled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Bookshelf, nameof(BookshelfPanelConfig.IsMultipleRarFilterEnabled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Bookshelf, nameof(BookshelfPanelConfig.ExcludePattern))) { IsStretch = true }),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.IsMultipleRarFilterEnabled))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.ExcludePattern))) { IsStretch = true }),
             };
         }
     }
@@ -304,9 +304,9 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPagePanelFileInfoVisual,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Information, nameof(InformationPanelConfig.IsVisibleFilePath))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Information, nameof(InformationPanelConfig.IsVisibleBitsPerPixel))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Information, nameof(InformationPanelConfig.IsVisibleLoader)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Information, nameof(InformationConfig.IsVisibleFilePath))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Information, nameof(InformationConfig.IsVisibleBitsPerPixel))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Information, nameof(InformationConfig.IsVisibleLoader)))),
             };
         }
     }

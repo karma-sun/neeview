@@ -72,7 +72,7 @@ namespace NeeView
                             .ToList();
 
                         // RAR連番フィルター
-                        if (Config.Current.Layout.Bookshelf.IsMultipleRarFilterEnabled)
+                        if (Config.Current.Bookshelf.IsMultipleRarFilterEnabled)
                         {
                             var archives = items.Where(e => e.Type == FolderItemType.File).ToList();
                             var groups = archives.Select(e => new MultipleArchive(e)).GroupBy(e => e.Key);

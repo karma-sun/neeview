@@ -16,12 +16,12 @@ namespace NeeView
 
         public override Binding CreateIsCheckedBinding()
         {
-            return new Binding(nameof(PanelsConfig.IsHidePanel)) { Source = Config.Current.Layout.Panels };
+            return new Binding(nameof(PanelsConfig.IsHidePanel)) { Source = Config.Current.Panels };
         }
 
         public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
         {
-            return Config.Current.Layout.Panels.IsHidePanel ? Properties.Resources.CommandToggleHidePanelOff : Properties.Resources.CommandToggleHidePanelOn;
+            return Config.Current.Panels.IsHidePanel ? Properties.Resources.CommandToggleHidePanelOff : Properties.Resources.CommandToggleHidePanelOn;
         }
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)

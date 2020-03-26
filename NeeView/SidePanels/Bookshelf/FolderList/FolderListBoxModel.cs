@@ -459,7 +459,7 @@ namespace NeeView
                 if (removed)
                 {
                     FolderCollection?.RequestDelete(item.TargetPath);
-                    if (isCurrentBook && Config.Current.Layout.Bookshelf.IsOpenNextBookWhenRemove)
+                    if (isCurrentBook && Config.Current.Bookshelf.IsOpenNextBookWhenRemove)
                     {
                         var next = NeeLaboratory.MathUtility.Clamp(index, -1, this.FolderCollection.Items.Count - 1);
                         if (!FolderCollection.IsEmpty() && next >= 0)

@@ -4,7 +4,7 @@ using System.Windows;
 
 namespace NeeView
 {
-    public class BookshelfPanelConfig : FolderListConfig
+    public class BookshelfConfig : FolderListConfig
     {
         private string _home;
         private bool _isVisibleHistoryMark = true;

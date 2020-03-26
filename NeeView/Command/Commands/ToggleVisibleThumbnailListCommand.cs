@@ -17,7 +17,7 @@ namespace NeeView
 
         public override Binding CreateIsCheckedBinding()
         {
-            return new Binding(nameof(FilmStripConfig.IsEnabled)) { Source = Config.Current.Layout.FilmStrip };
+            return new Binding(nameof(FilmStripConfig.IsEnabled)) { Source = Config.Current.FilmStrip };
         }
 
         public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)

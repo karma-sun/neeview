@@ -43,7 +43,7 @@ namespace NeeView
 
         private void Root_KeyDown(object sender, KeyEventArgs e)
         {
-            bool isLRKeyEnabled = Config.Current.Layout.Panels.IsLeftRightKeyEnabled;
+            bool isLRKeyEnabled = Config.Current.Panels.IsLeftRightKeyEnabled;
 
             if (e.Key == Key.Up || e.Key == Key.Down || (isLRKeyEnabled && (e.Key == Key.Left || e.Key == Key.Right)) || e.Key == Key.Return || e.Key == Key.Delete)
             {

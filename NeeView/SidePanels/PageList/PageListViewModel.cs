@@ -34,7 +34,7 @@ namespace NeeView
             _model = model;
             _model.CollectionChanging += PageList_CollectionChanging;
             _model.CollectionChanged += PageList_CollectionChanged;
-            Config.Current.Layout.PageList.AddPropertyChanged(nameof(PageListConfig.PanelListItemStyle), (s, e) => UpdateListBoxContent());
+            Config.Current.PageList.AddPropertyChanged(nameof(PageListConfig.PanelListItemStyle), (s, e) => UpdateListBoxContent());
 
             InitializeMoreMenu();
             UpdateListBoxContent();
@@ -106,7 +106,7 @@ namespace NeeView
             {
                 Converter = _panelListItemStyleToBooleanConverter,
                 ConverterParameter = style,
-                Source = Config.Current.Layout.PageList
+                Source = Config.Current.PageList
             };
             item.SetBinding(MenuItem.IsCheckedProperty, binding);
 
@@ -121,7 +121,7 @@ namespace NeeView
 
         private void SetListItemStyle_Executed(PanelListItemStyle style)
         {
-            Config.Current.Layout.PageList.PanelListItemStyle = style;
+            Config.Current.PageList.PanelListItemStyle = style;
         }
 
         #endregion

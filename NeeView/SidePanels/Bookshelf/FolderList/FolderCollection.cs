@@ -400,7 +400,7 @@ namespace NeeView
                 {
                     this.Items.Add(item);
                 }
-                else if (Config.Current.Layout.Bookshelf.IsInsertItem)
+                else if (Config.Current.Bookshelf.IsInsertItem)
                 {
                     // 別にリストを作ってソートを実行し、それで挿入位置を決める
                     var list = Sort(this.Items.Concat(new List<FolderItem>() { item })).ToList();

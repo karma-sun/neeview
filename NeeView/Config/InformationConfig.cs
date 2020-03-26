@@ -3,7 +3,7 @@ using NeeView.Windows.Property;
 
 namespace NeeView
 {
-    public class InformationPanelConfig : BindableBase
+    public class InformationConfig : BindableBase
     {
         private bool _isVisibleBitsPerPixel;
         private bool _isVisibleLoader;

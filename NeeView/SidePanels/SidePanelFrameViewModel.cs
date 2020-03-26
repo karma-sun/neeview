@@ -28,7 +28,7 @@ namespace NeeView
             Right.PropertyChanged += Right_PropertyChanged;
             Right.PanelDroped += Right_PanelDroped;
 
-            Config.Current.Layout.Panels.AddPropertyChanged(nameof(PanelsConfig.IsSideBarEnabled), (s, e) =>
+            Config.Current.Panels.AddPropertyChanged(nameof(PanelsConfig.IsSideBarEnabled), (s, e) =>
             {
                 RaisePropertyChanged(nameof(IsSideBarVisible));
             });
@@ -40,8 +40,8 @@ namespace NeeView
 
         public bool IsSideBarVisible
         {
-            get => Config.Current.Layout.Panels.IsSideBarEnabled;
-            set => Config.Current.Layout.Panels.IsSideBarEnabled = value;
+            get => Config.Current.Panels.IsSideBarEnabled;
+            set => Config.Current.Panels.IsSideBarEnabled = value;
         }
 
         private double _width;
@@ -106,7 +106,7 @@ namespace NeeView
 
         public App App => App.Current;
 
-        public AutoHideConfig AutoHideConfig => Config.Current.Layout.AutoHide;
+        public AutoHideConfig AutoHideConfig => Config.Current.AutoHide;
 
 
 

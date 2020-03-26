@@ -19,7 +19,7 @@
         <StackPanel DockPanel.Dock="Top" Margin="5,0,5,2">
 
             <StackPanel Margin="0,10,0,0"
-                    Visibility="{Binding Source={x:Static local:Config.Current}, Path=Layout.Bookshelf.IsPageListDocked, Converter={StaticResource InverseBooleanToVisibilityConverter}}" >
+                    Visibility="{Binding Source={x:Static local:Config.Current}, Path=Bookshelf.IsPageListDocked, Converter={StaticResource InverseBooleanToVisibilityConverter}}" >
                 <TextBlock Text="{x:Static properties:Resources.PageListName}" Foreground="Gray" VerticalAlignment="Top" Margin="2,0"/>
                 <DockPanel LastChildFill="False">
                     <TextBlock Text="{Binding Model.PlaceDispString}" ToolTip="{Binding Model.PlaceDispString}" Margin="2,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
@@ -33,7 +33,7 @@
                 </ToggleButton>
                 <WrapPanel>
                     <ComboBox x:Name="FormatComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" TabIndex="1"
-                          ItemsSource="{Binding FormatList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding Source={x:Static local:Config.Current}, Path=Layout.PageList.Format, Delay=1}"
+                          ItemsSource="{Binding FormatList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding Source={x:Static local:Config.Current}, Path=PageList.Format, Delay=1}"
                           VerticalAlignment="Center">
                     </ComboBox>
                     <ComboBox x:Name="PageSortComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" TabIndex="1"

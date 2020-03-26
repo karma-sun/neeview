@@ -676,7 +676,7 @@ namespace NeeView
 
             if (isSnap)
             {
-                if (Config.Current.Layout.Notice.IsOriginalScaleShowMessage && originalScale > 0.0)
+                if (Config.Current.Notice.IsOriginalScaleShowMessage && originalScale > 0.0)
                 {
                     // original scale 100% snap
                     if (_baseScale * originalScale < 0.99 && scale * originalScale > 0.99)
@@ -706,7 +706,7 @@ namespace NeeView
 
             if (isSnap)
             {
-                if (Config.Current.Layout.Notice.IsOriginalScaleShowMessage && originalScale > 0.0)
+                if (Config.Current.Notice.IsOriginalScaleShowMessage && originalScale > 0.0)
                 {
                     // original scale 100% snap
                     if (_baseScale * originalScale > 1.01 && scale * originalScale < 1.01)
@@ -1194,7 +1194,7 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
-                config.Layout.Notice.IsOriginalScaleShowMessage = IsOriginalScaleShowMessage;
+                config.Notice.IsOriginalScaleShowMessage = IsOriginalScaleShowMessage;
 
                 config.View.RotateCenter = DragControlRotateCenter;
                 config.View.ScaleCenter = DragControlScaleCenter;
@@ -1210,7 +1210,7 @@ namespace NeeView
         {
             var memento = new Memento();
 
-            memento.IsOriginalScaleShowMessage = Config.Current.Layout.Notice.IsOriginalScaleShowMessage;
+            memento.IsOriginalScaleShowMessage = Config.Current.Notice.IsOriginalScaleShowMessage;
             memento.DragControlRotateCenter = Config.Current.View.RotateCenter;
             memento.DragControlScaleCenter = Config.Current.View.ScaleCenter;
             memento.DragControlFlipCenter = Config.Current.View.FlipCenter;

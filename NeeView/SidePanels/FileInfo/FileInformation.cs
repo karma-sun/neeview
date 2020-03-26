@@ -97,18 +97,18 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
-                config.Layout.Information.IsVisibleBitsPerPixel = IsVisibleBitsPerPixel;
-                config.Layout.Information.IsVisibleLoader = IsVisibleLoader;
-                config.Layout.Information.IsVisibleFilePath = IsVisibleFilePath;
+                config.Information.IsVisibleBitsPerPixel = IsVisibleBitsPerPixel;
+                config.Information.IsVisibleLoader = IsVisibleLoader;
+                config.Information.IsVisibleFilePath = IsVisibleFilePath;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.IsVisibleBitsPerPixel = Config.Current.Layout.Information.IsVisibleBitsPerPixel;
-            memento.IsVisibleLoader = Config.Current.Layout.Information.IsVisibleLoader;
-            memento.IsVisibleFilePath = Config.Current.Layout.Information.IsVisibleFilePath;
+            memento.IsVisibleBitsPerPixel = Config.Current.Information.IsVisibleBitsPerPixel;
+            memento.IsVisibleLoader = Config.Current.Information.IsVisibleLoader;
+            memento.IsVisibleFilePath = Config.Current.Information.IsVisibleFilePath;
             return memento;
         }
 

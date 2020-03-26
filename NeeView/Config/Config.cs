@@ -71,5 +71,6 @@ namespace NeeView
 
         public ScriptConfig Script { get; set; } = new ScriptConfig();
     }
+
 }
 

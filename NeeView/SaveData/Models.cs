@@ -298,12 +298,12 @@ namespace NeeView
             ////MenuBar.Current.Restore(memento.MenuBar);
             ////SidePanelProfile.Current.Restore(memento.SidePanelProfile);
             ////PageListPlacementService.Current.Restore(memento.PageListPlacementService);
-            FolderPanelModel.Current.Restore(memento.FolderPanel);
+            ////FolderPanelModel.Current.Restore(memento.FolderPanel);
             ////BookshelfFolderList.Current.Restore(memento.BookshelfFolderList);
             ////BookmarkFolderList.Current.Restore(memento.BookmarkFolderList);
-            PageList.Current.Restore(memento.PageList);
-            HistoryList.Current.Restore(memento.HistoryList);
-            PagemarkList.Current.Restore(memento.PagemarkList);
+            ////PageList.Current.Restore(memento.PageList);
+            ////HistoryList.Current.Restore(memento.HistoryList);
+            ////PagemarkList.Current.Restore(memento.PagemarkList);
             ////FileInformation.Current.Restore(memento.FileInformation);
             ////ImageEffect.Current.Restore(memento.ImageEffect);
             SidePanel.Current.Restore(memento.SidePanel);

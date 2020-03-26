@@ -85,6 +85,7 @@ namespace NeeView
             options.Converters.Add(new JsonColorConverter());
             options.Converters.Add(new JsonSizeConverter());
             options.Converters.Add(new JsonTimeSpanConverter());
+            options.Converters.Add(new JsonGridLengthConverter());
             return options;
         }
     }
@@ -168,6 +169,22 @@ namespace NeeView
         }
     }
 
+
+    /// <summary>
+    /// GridLengthを文字列に変換する
+    /// </summary>
+    public sealed class JsonGridLengthConverter : JsonConverter<GridLength>
+    {
+        public override GridLength Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            return (GridLength)new GridLengthConverter().ConvertFromString(reader.GetString());
+        }
+
+        public override void Write(Utf8JsonWriter writer, GridLength value, JsonSerializerOptions options)
+        {
+            writer.WriteStringValue(value.ToString());
+        }
+    }
 
     /// <summary>
     /// TimeSpanを文字列に変換する

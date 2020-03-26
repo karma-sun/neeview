@@ -6,8 +6,17 @@ namespace NeeView
 {
     public class PagemarkConfig : BindableBase
     {
+        private PanelListItemStyle _panelListItemStyle;
         private bool _isSavePagemark = true;
         private string _pagemarkFilePath;
+
+
+        public PanelListItemStyle PanelListItemStyle
+        {
+            get { return _panelListItemStyle; }
+            set { SetProperty(ref _panelListItemStyle, value); }
+        }
+
 
         [PropertyMember("@ParamIsSavePagemark")]
         public bool IsSavePagemark

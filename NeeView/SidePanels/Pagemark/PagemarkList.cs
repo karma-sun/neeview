@@ -15,7 +15,6 @@ namespace NeeView
         public static PagemarkList Current { get; }
 
 
-        private PanelListItemStyle _panelListItemStyle;
         private PagemarkListBoxModel _listBox;
 
 
@@ -27,18 +26,20 @@ namespace NeeView
             PagemarkCollection.Current.AddPropertyChanged(nameof(PagemarkCollection.PagemarkOrder), (s, e) => RaisePropertyChanged(nameof(IsSortPath)));
         }
 
-
+#if false
+        private PanelListItemStyle _panelListItemStyle;
         public PanelListItemStyle PanelListItemStyle
         {
             get { return _panelListItemStyle; }
             set { if (_panelListItemStyle != value) { _panelListItemStyle = value; RaisePropertyChanged(); } }
         }
+#endif
 
         public bool IsThumbnailVisibled
         {
             get
             {
-                switch (_panelListItemStyle)
+                switch (Config.Current.Pagemark.PanelListItemStyle)
                 {
                     default:
                         return false;
@@ -112,7 +113,7 @@ namespace NeeView
         }
 
 
-        #region Memento
+#region Memento
         [DataContract]
         public class Memento : IMemento
         {
@@ -121,22 +122,24 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
+                config.Pagemark.PanelListItemStyle = PanelListItemStyle;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.PanelListItemStyle = this.PanelListItemStyle;
+            memento.PanelListItemStyle = Config.Current.Pagemark.PanelListItemStyle;
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
-            if (memento == null) return;
-            this.PanelListItemStyle = memento.PanelListItemStyle;
+            //if (memento == null) return;
+            //this.PanelListItemStyle = memento.PanelListItemStyle;
         }
 
-        #endregion
+#endregion
     }
 }

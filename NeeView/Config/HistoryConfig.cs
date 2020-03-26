@@ -7,8 +7,17 @@ namespace NeeView
 {
     public class HistoryConfig : BindableBase
     {
+        private PanelListItemStyle _panelListItemStyle;
         private bool _isSaveHistory = true;
         private string _historyFilePath;
+
+
+        public PanelListItemStyle PanelListItemStyle
+        {
+            get { return _panelListItemStyle; }
+            set { SetProperty(ref _panelListItemStyle, value); }
+        }
+
 
         // 履歴データの保存
         [PropertyMember("@ParamIsSaveHistory")]

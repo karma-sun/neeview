@@ -1,5 +1,6 @@
 ﻿using NeeView.Windows.Controls;
 using NeeView.Windows.Property;
+using System.Windows;
 
 namespace NeeView
 {
@@ -10,6 +11,7 @@ namespace NeeView
         private bool _isVisibleBookmarkMark = true;
         private bool _isPlacedInBookshelf = true;
         private string _excludePattern;
+        private bool _isPageListVisible;
 
         /// <summary>
         /// ホームのパス
@@ -55,6 +57,12 @@ namespace NeeView
         {
             get { return _isPlacedInBookshelf; }
             set { SetProperty(ref _isPlacedInBookshelf, value); }
+        }
+
+        public bool IsPageListVisible
+        {
+            get { return _isPageListVisible; }
+            set { SetProperty(ref _isPageListVisible, value); }
         }
 
         /// <summary>
@@ -113,6 +121,17 @@ namespace NeeView
             get { return _isSearchIncludeSubdirectories; }
             set { SetProperty(ref _isSearchIncludeSubdirectories, value); }
         }
+
+        #region 非公開パラメーター
+
+        [PropertyMapIgnore]
+        public GridLength GridLength0 { get; set; } = new GridLength(1, GridUnitType.Star);
+
+        [PropertyMapIgnore]
+        public GridLength GridLength2 { get; set; } = new GridLength(1, GridUnitType.Star);
+
+        #endregion
+
     }
 
 }

@@ -62,7 +62,7 @@
                 <Setter.Value>
                     <MultiBinding Converter="{StaticResource PageNameFormatConverter}">
                         <Binding />
-                        <Binding Source="{x:Static local:PageList.Current}" Path="Format"/>
+                        <Binding Source="{x:Static local:Config.Current}" Path="Layout.PageList.Format"/>
                     </MultiBinding>
                 </Setter.Value>
             </Setter>
@@ -208,16 +208,16 @@
         <ListBox.Style>
             <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding Source={x:Static local:PageList.Current}, Path=PanelListItemStyle}" Value="Normal">
+                    <DataTrigger Binding="{Binding Source={x:Static local:Config.Current}, Path=Layout.PageList.PanelListItemStyle}" Value="Normal">
                         <Setter Property="ItemTemplate" Value="{StaticResource NormalTemplate}"/>
                     </DataTrigger>
-                    <DataTrigger Binding="{Binding Source={x:Static local:PageList.Current}, Path=PanelListItemStyle}" Value="Content">
+                    <DataTrigger Binding="{Binding Source={x:Static local:Config.Current}, Path=Layout.PageList.PanelListItemStyle}" Value="Content">
                         <Setter Property="ItemTemplate" Value="{StaticResource ContentTemplate}"/>
                     </DataTrigger>
-                    <DataTrigger Binding="{Binding Source={x:Static local:PageList.Current}, Path=PanelListItemStyle}" Value="Banner">
+                    <DataTrigger Binding="{Binding Source={x:Static local:Config.Current}, Path=Layout.PageList.PanelListItemStyle}" Value="Banner">
                         <Setter Property="ItemTemplate" Value="{StaticResource BannerTemplate}"/>
                     </DataTrigger>
-                    <DataTrigger Binding="{Binding Source={x:Static local:PageList.Current}, Path=PanelListItemStyle}" Value="Thumbnail">
+                    <DataTrigger Binding="{Binding Source={x:Static local:Config.Current}, Path=Layout.PageList.PanelListItemStyle}" Value="Thumbnail">
                         <Setter Property="ItemTemplate" Value="{StaticResource ThumbnailTemplate}"/>
                         <Setter Property="ItemsPanel">
                             <Setter.Value>

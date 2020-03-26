@@ -102,7 +102,7 @@ namespace NeeView
 
             var length = Length;
 
-            if (item.DataContext is TreeListNode<IPagemarkEntry> && PagemarkList.Current.PanelListItemStyle != PanelListItemStyle.Normal)
+            if (item.DataContext is TreeListNode<IPagemarkEntry> && Config.Current.Pagemark.PanelListItemStyle != PanelListItemStyle.Normal)
             {
                 length = length * 2;
             }
@@ -129,7 +129,7 @@ namespace NeeView
 
             var length = Length;
 
-            if (item.DataContext is TreeListNode<IPagemarkEntry> && PagemarkList.Current.PanelListItemStyle != PanelListItemStyle.Normal)
+            if (item.DataContext is TreeListNode<IPagemarkEntry> && Config.Current.Pagemark.PanelListItemStyle != PanelListItemStyle.Normal)
             {
                 length = length * 2;
             }

@@ -15,23 +15,25 @@ namespace NeeView
         public static HistoryList Current { get; }
 
 
-        private PanelListItemStyle _panelListItemStyle;
 
         private HistoryList()
         {
         }
 
+#if false
+        private PanelListItemStyle _panelListItemStyle;
         public PanelListItemStyle PanelListItemStyle
         {
             get { return _panelListItemStyle; }
             set { if (_panelListItemStyle != value) { _panelListItemStyle = value; RaisePropertyChanged(); } }
         }
+#endif
 
         public bool IsThumbnailVisibled
         {
             get
             {
-                switch (_panelListItemStyle)
+                switch (Config.Current.History.PanelListItemStyle)
                 {
                     default:
                         return false;
@@ -53,20 +55,22 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
+                config.History.PanelListItemStyle = PanelListItemStyle;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.PanelListItemStyle = this.PanelListItemStyle;
+            memento.PanelListItemStyle = Config.Current.History.PanelListItemStyle;
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
-            if (memento == null) return;
-            this.PanelListItemStyle = memento.PanelListItemStyle;
+            //if (memento == null) return;
+            //this.PanelListItemStyle = memento.PanelListItemStyle;
         }
         #endregion
     }

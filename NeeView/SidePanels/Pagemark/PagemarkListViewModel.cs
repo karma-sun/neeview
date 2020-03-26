@@ -28,7 +28,8 @@ namespace NeeView
         public PagemarkListViewModel(PagemarkList model)
         {
             _model = model;
-            _model.AddPropertyChanged(nameof(_model.PanelListItemStyle), (s, e) => UpdateListBoxContent());
+
+            Config.Current.Pagemark.AddPropertyChanged(nameof(PagemarkConfig.PanelListItemStyle), (s, e) => UpdateListBoxContent());
 
             InitializeMoreMenu();
 
@@ -133,11 +134,11 @@ namespace NeeView
             item.Header = header;
             item.Command = SetListItemStyle;
             item.CommandParameter = style;
-            var binding = new Binding(nameof(_model.PanelListItemStyle))
+            var binding = new Binding(nameof(PagemarkConfig.PanelListItemStyle))
             {
                 Converter = _PanelListItemStyleToBooleanConverter,
                 ConverterParameter = style,
-                Source = _model
+                Source = Config.Current.Pagemark
             };
             item.SetBinding(MenuItem.IsCheckedProperty, binding);
 
@@ -157,7 +158,7 @@ namespace NeeView
 
         private void SetListItemStyle_Executed(PanelListItemStyle style)
         {
-            _model.PanelListItemStyle = style;
+            Config.Current.Pagemark.PanelListItemStyle = style;
         }
 
 

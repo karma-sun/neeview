@@ -17,8 +17,6 @@ namespace NeeView
         public static PageList Current { get; }
 
 
-        private PanelListItemStyle _panelListItemStyle;
-        private PageNameFormat _format = PageNameFormat.Smart;
 
 
         private PageList()
@@ -32,6 +30,9 @@ namespace NeeView
         public event EventHandler CollectionChanging;
         public event EventHandler CollectionChanged;
 
+#if false
+        private PanelListItemStyle _panelListItemStyle;
+        private PageNameFormat _format = PageNameFormat.Smart;
 
         /// <summary>
         /// ページリストのリスト項目表示形式
@@ -50,13 +51,14 @@ namespace NeeView
             get { return _format; }
             set { _format = value; RaisePropertyChanged(); }
         }
+#endif
 
         // サムネイル画像が表示される？？
         public bool IsThumbnailVisibled
         {
             get
             {
-                switch (_panelListItemStyle)
+                switch (Config.Current.Layout.PageList.PanelListItemStyle)
                 {
                     default:
                         return false;
@@ -108,7 +110,7 @@ namespace NeeView
         }
 
 
-        #region Memento
+#region Memento
         [DataContract]
         public class Memento : IMemento
         {
@@ -120,24 +122,27 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
+                config.Layout.PageList.PanelListItemStyle = PanelListItemStyle;
+                config.Layout.PageList.Format = Format;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.PanelListItemStyle = this.PanelListItemStyle;
-            memento.Format = this.Format;
+            memento.PanelListItemStyle = Config.Current.Layout.PageList.PanelListItemStyle;
+            memento.Format = Config.Current.Layout.PageList.Format;
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
-            if (memento == null) return;
-            this.PanelListItemStyle = memento.PanelListItemStyle;
-            this.Format = memento.Format;
+            //if (memento == null) return;
+            //this.PanelListItemStyle = memento.PanelListItemStyle;
+            //this.Format = memento.Format;
         }
     }
 
-    #endregion Memento
+#endregion Memento
 }

@@ -28,7 +28,34 @@ namespace NeeView
         public BookmarkPanelConfig Bookmark { get; set; } = new BookmarkPanelConfig();
 
         public InformationPanelConfig Information { get; set; } = new InformationPanelConfig();
+
+        public PageListConfig PageList { get; set; } = new PageListConfig();
     }
+
+    public class PageListConfig : BindableBase
+    {
+        private PanelListItemStyle _panelListItemStyle;
+        private PageNameFormat _format = PageNameFormat.Smart;
+
+        /// <summary>
+        /// ページリストのリスト項目表示形式
+        /// </summary>
+        public PanelListItemStyle PanelListItemStyle
+        {
+            get { return _panelListItemStyle; }
+            set { SetProperty(ref _panelListItemStyle, value); }
+        }
+
+        /// <summary>
+        /// ページ名表示形式
+        /// </summary>
+        public PageNameFormat Format
+        {
+            get { return _format; }
+            set { SetProperty(ref _format, value); }
+        }
+    }
+
 }
 
 

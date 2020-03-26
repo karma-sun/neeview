@@ -116,11 +116,11 @@ namespace NeeView
             item.Header = header;
             item.Command = SetListItemStyle;
             item.CommandParameter = style;
-            var binding = new Binding(nameof(_model.PanelListItemStyle))
+            var binding = new Binding(nameof(HistoryConfig.PanelListItemStyle))
             {
                 Converter = _PanelListItemStyleToBooleanConverter,
                 ConverterParameter = style,
-                Source = _model
+                Source = Config.Current.History
             };
             item.SetBinding(MenuItem.IsCheckedProperty, binding);
 
@@ -145,7 +145,7 @@ namespace NeeView
         //
         private void SetListItemStyle_Executed(PanelListItemStyle style)
         {
-            _model.PanelListItemStyle = style;
+            Config.Current.History.PanelListItemStyle = style;
         }
 
         #endregion
@@ -173,7 +173,8 @@ namespace NeeView
         public HistoryListViewModel(HistoryList model)
         {
             _model = model;
-            _model.AddPropertyChanged(nameof(_model.PanelListItemStyle), (s, e) => UpdateListBoxContent());
+            
+            Config.Current.History.AddPropertyChanged(nameof(HistoryConfig.PanelListItemStyle), (s, e) => UpdateListBoxContent());
 
             _isDarty = true;
 

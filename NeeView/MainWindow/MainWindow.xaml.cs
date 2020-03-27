@@ -48,7 +48,7 @@ namespace NeeView
 
             Current = this;
 
-            var setting = SaveData.Current.UserSettingTemp;
+            ////var setting = SaveData.Current.UserSettingTemp;
 
             ContextMenuWatcher.Initialize();
 

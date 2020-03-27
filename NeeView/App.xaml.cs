@@ -158,8 +158,9 @@ namespace NeeView
 
             // 設定ファイル(V2)の読み込み (V2)
             var settingV2 = SaveData.Current.LoadConfig();
-            ObjectTools.Merge(Config.Current, settingV2.Config); // 適用
- 
+            //ObjectTools.Merge(Config.Current, settingV2.Config); // 適用
+            UserSettingV2Accessor.RestoreConfig(settingV2, new ObjectMergeOption() { IsIgnoreEnabled = false });
+
 
 #if false
             // 設定ファイル(V1)の先行読み込み
@@ -171,7 +172,7 @@ namespace NeeView
 #endif
 
             // 設定ファイル(V1)の先行読み込み。この処理はV2対応完了後削除する。
-            var setting = SaveData.Current.LoasUserSettingTemp();
+            ////var setting = SaveData.Current.LoasUserSettingTemp();
 
             Debug.WriteLine($"App.UserSettingLoaded: {Stopwatch.ElapsedMilliseconds}ms");
 
@@ -207,7 +208,11 @@ namespace NeeView
             Config.Current.System.CacheDirectory = ThumbnailCache.Current.SetDirectory(Config.Current.System.CacheDirectory);
 
 
+
             // TODO: このあたりの実装はConfig.Margeと同じタイミングが理想
+            UserSettingV2Accessor.RestoreCollections(settingV2);
+
+#if false
             // コマンド設定反映
             CommandTable.Current.RestoreCommandCollection(settingV2.Commands);
 
@@ -220,6 +225,7 @@ namespace NeeView
 
             // コンテキストメニュー設定反映
             ContextMenuManager.Current.Resotre(settingV2.ContextMenu); 
+#endif
         }
 
         /// <summary>

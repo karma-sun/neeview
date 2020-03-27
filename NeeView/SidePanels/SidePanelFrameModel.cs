@@ -25,6 +25,8 @@ namespace NeeView
         private bool _isVisibleLocked;
         private SidePanelGroup _left;
         private SidePanelGroup _right;
+        private List<IPanel> _panels;
+        private bool _isFlushPanelsConfigEnabled = true;
 
         #endregion
 
@@ -32,10 +34,10 @@ namespace NeeView
 
         public SidePanelFrameModel()
         {
-            _left = new SidePanelGroup(Config.Current.Panels.LeftPanel);
+            _left = new SidePanelGroup();
             _left.SelectedPanelChanged += (s, e) => SelectedPanelChanged?.Invoke(s, e);
 
-            _right = new SidePanelGroup(Config.Current.Panels.RightPanel);
+            _right = new SidePanelGroup();
             _right.SelectedPanelChanged += (s, e) => SelectedPanelChanged?.Invoke(s, e);
         }
 
@@ -98,6 +100,7 @@ namespace NeeView
 
         #region Methods
 
+
         /// <summary>
         /// パネル登録
         /// </summary>
@@ -105,44 +108,110 @@ namespace NeeView
         /// <param name="rightPanels"></param>
         public void InitializePanels(List<IPanel> leftPanels, List<IPanel> rightPanels)
         {
-            var leftPanelConfig = Config.Current.Panels.LeftPanel;
-            var rightPanelConfig = Config.Current.Panels.RightPanel;
+            _panels = leftPanels.Concat(rightPanels).ToList();
 
-            if (leftPanelConfig.PanelTypeCodes == null)
-            {
-                _left.Initialize(leftPanels);
-                _right.Initialize(rightPanels);
-            }
-            else
-            {
-                var panels = leftPanels.Concat(rightPanels).ToList();
+            InitializePanelsInner();
 
-                // 左パネルを復元
-                var lefts = leftPanelConfig.PanelTypeCodes
-                    .Select(e => panels.FirstOrDefault(panel => panel.TypeCode == e))
-                    .Where(e => e != null)
-                    .ToList();
+            // Configに反映
+            _left.Panels.CollectionChanged +=
+                (s, e) => FlushPanelsConfig();
 
-                panels = panels.Except(lefts).ToList();
+            _left.AddPropertyChanged(nameof(SidePanelGroup.SelectedPanel),
+                (s, e) => Config.Current.Panels.LeftPanelSeleted = _left.SelectedPanel?.TypeCode);
 
-                // 右パネルを復元
-                var rights = rightPanelConfig.PanelTypeCodes
-                    .Select(e => panels.FirstOrDefault(panel => panel.TypeCode == e))
-                    .Where(e => e != null)
-                    .ToList();
+            _left.AddPropertyChanged(nameof(SidePanelGroup.Width),
+                (s, e) => Config.Current.Panels.LeftPanelWidth = _left.Width);
 
-                panels = panels.Except(rights).ToList();
+            _right.Panels.CollectionChanged +=
+                (s, e) => FlushPanelsConfig();
 
-                // 未登録パネルを既定パネルに登録
-                lefts = lefts.Concat(panels.Where(e => e.DefaultPlace == PanelPlace.Left)).ToList();
-                rights = rights.Concat(panels.Where(e => e.DefaultPlace == PanelPlace.Right)).ToList();
+            _right.AddPropertyChanged(nameof(SidePanelGroup.SelectedPanel),
+                (s, e) => Config.Current.Panels.RightPanelSeleted = _right.SelectedPanel?.TypeCode);
 
-                _left.Initialize(lefts);
-                _right.Initialize(rights);
-            }
+            _right.AddPropertyChanged(nameof(SidePanelGroup.Width),
+                (s, e) => Config.Current.Panels.RightPanelWidth = _right.Width);
+
+            FlushPanelsConfig();
+
+            // Configを監視
+            Config.Current.Panels.AddPropertyChanged(nameof(PanelsConfig.PanelDocks), PanelsConfig_PanelDocksChanged);
 
             // 情報更新
             SelectedPanelChanged?.Invoke(this, null);
+        }
+
+        private void InitializePanelsInner()
+        {
+            var lefts = new List<IPanel>();
+            var rights = new List<IPanel>();
+
+            if (Config.Current.Panels.PanelDocks.Any())
+            {
+                lefts = Config.Current.Panels.PanelDocks
+                    .Where(e => e.Value == PanelDock.Left)
+                    .Select(e => _panels.FirstOrDefault(panel => panel.TypeCode == e.Key))
+                    .Where(e => e != null)
+                    .ToList();
+
+                rights = Config.Current.Panels.PanelDocks
+                    .Where(e => e.Value == PanelDock.Right)
+                    .Select(e => _panels.FirstOrDefault(panel => panel.TypeCode == e.Key))
+                    .Where(e => e != null)
+                    .ToList();
+
+                var rests = _panels.Except(lefts).Except(rights).ToList();
+
+                // 未登録パネルを既定パネルに登録
+                lefts = lefts.Concat(rests.Where(e => e.DefaultPlace == PanelPlace.Left)).ToList();
+                rights = rights.Concat(rests.Where(e => e.DefaultPlace == PanelPlace.Right)).ToList();
+            }
+            else
+            {
+                lefts = _panels.Where(e => e.DefaultPlace == PanelPlace.Left).ToList();
+                rights = _panels.Where(e => e.DefaultPlace == PanelPlace.Left).ToList();
+            }
+
+            _left.Initialize(lefts, Config.Current.Panels.LeftPanelSeleted, Config.Current.Panels.LeftPanelWidth);
+            _right.Initialize(rights, Config.Current.Panels.RightPanelSeleted, Config.Current.Panels.RightPanelWidth);
+        }
+
+        private void PanelsConfig_PanelDocksChanged(object sender, PropertyChangedEventArgs e)
+        {
+            try
+            {
+                // NOTE: 更新を抑制。あとでまとめて更新する
+                _isFlushPanelsConfigEnabled = false;
+                InitializePanelsInner();
+            }
+            finally
+            {
+                _isFlushPanelsConfigEnabled = true;
+            }
+
+            FlushPanelsConfig();
+        }
+
+
+        public void FlushPanelsConfig()
+        {
+            if (!_isFlushPanelsConfigEnabled) return;
+
+            var dictionary = Config.Current.Panels.PanelDocks;
+
+            dictionary.Clear();
+            foreach (var panel in _left.Panels)
+            {
+                dictionary.Add(panel.TypeCode, PanelDock.Left);
+            }
+            foreach (var panel in _right.Panels)
+            {
+                dictionary.Add(panel.TypeCode, PanelDock.Right);
+            }
+
+            Config.Current.Panels.LeftPanelSeleted = _left.SelectedPanel?.TypeCode;
+            Config.Current.Panels.RightPanelSeleted = _right.SelectedPanel?.TypeCode;
+            Config.Current.Panels.LeftPanelWidth = _left.Width;
+            Config.Current.Panels.RightPanelWidth = _right.Width;
         }
 
         /// <summary>
@@ -357,8 +426,19 @@ namespace NeeView
                 config.Panels.IsSideBarEnabled = IsSideBarVisible;
                 config.Panels.IsManipulationBoundaryFeedbackEnabled = IsManipulationBoundaryFeedbackEnabled;
 
-                Left.RectoreConfig(config.Panels.LeftPanel);
-                Right.RectoreConfig(config.Panels.RightPanel);
+                config.Panels.PanelDocks.Clear();
+                foreach (var panelTypeCode in Left.PanelTypeCodes)
+                {
+                    config.Panels.PanelDocks.Add(panelTypeCode, PanelDock.Left);
+                }
+                foreach (var panelTypeCode in Right.PanelTypeCodes)
+                {
+                    config.Panels.PanelDocks.Add(panelTypeCode, PanelDock.Right);
+                }
+                config.Panels.LeftPanelSeleted = Left.SelectedPanelTypeCode;
+                config.Panels.LeftPanelWidth = Left.Width;
+                config.Panels.RightPanelSeleted = Right.SelectedPanelTypeCode;
+                config.Panels.RightPanelWidth = Right.Width;
             }
         }
 

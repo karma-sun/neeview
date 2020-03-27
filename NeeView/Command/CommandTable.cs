@@ -806,7 +806,7 @@ namespace NeeView
         {
             public static Dictionary<string, string> RenameMap_37_0_0 = new Dictionary<string, string>()
             {
-                ["OpenApplicaion"] = "OpenExternalApp",
+                ["OpenApplication"] = "OpenExternalApp",
                 ["OpenFilePlace"] = "OpenExplorer",
                 ["Export"] = "ExportImageAs",
                 ["PrevFolder"] = "PrevBook",
@@ -941,7 +941,7 @@ namespace NeeView
                     if (Elements.TryGetValue(oldName, out var element))
                     {
                         Elements[newName] = element;
-                        // NOTE: 未登録コマンドは適用されないので古いコマンドの削除の必要はない
+                        Elements.Remove(oldName);
                     }
                 }
             }

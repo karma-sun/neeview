@@ -31,7 +31,7 @@ namespace NeeView
             dialog.InitialDirectory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
             dialog.OverwritePrompt = true;
             dialog.AddExtension = true;
-            dialog.FileName = $"NeeView{Environment.DispVersion}-{DateTime.Now.ToString("yyyyMMdd")}";
+            dialog.FileName = $"NeeView{Environment.DispVersion}-{DateTime.Now:yyyyMMdd}";
             dialog.DefaultExt = backupDialogDefaultExt;
             dialog.Filter = backupDialogFilder;
             dialog.Title = Resources.DialogExportTitle;
@@ -124,7 +124,7 @@ namespace NeeView
         // バックアップファイル復元
         public void LoadBackupFile(string filename)
         {
-            UserSetting setting = null;
+            UserSettingV2 setting = null;
             BookHistoryCollection.Memento history = null;
             BookmarkCollection.Memento bookmark = null;
             PagemarkCollection.Memento pagemark = null;
@@ -135,13 +135,14 @@ namespace NeeView
             using (var archiver = ZipFile.OpenRead(filename))
             {
                 var settingEntry = archiver.GetEntry(SaveData.UserSettingFileName);
+                var settingEntryLegacy = archiver.GetEntry(SaveData.UserSettingFileNameLegacy);
                 var historyEntry = archiver.GetEntry(SaveData.HistoryFileName);
                 var bookmarkEntry = archiver.GetEntry(SaveData.BookmarkFileName);
                 var pagemarkEntry = archiver.GetEntry(SaveData.PagemarkFileName);
 
                 // 選択
                 {
-                    if (settingEntry != null)
+                    if (settingEntry != null || settingEntryLegacy != null)
                     {
                         selector.UserSettingCheckBox.IsEnabled = true;
                         selector.UserSettingCheckBox.IsChecked = true;
@@ -173,9 +174,29 @@ namespace NeeView
                 // 読み込み
                 if (selector.UserSettingCheckBox.IsChecked == true)
                 {
-                    using (var stream = settingEntry.Open())
+                    if (settingEntry != null)
                     {
-                        setting = UserSetting.Load(stream);
+                        using (var stream = settingEntry.Open())
+                        {
+                            setting = UserSettingV2Accessor.Load(stream);
+                        }
+                    }
+                    else if (settingEntryLegacy != null)
+                    {
+                        using (var stream = settingEntryLegacy.Open())
+                        {
+                            var settingV1 = UserSetting.Load(stream);
+                            setting = settingV1.ConvertToV2();
+                        }
+                        // 一部の履歴設定を反映
+                        if (historyEntry != null)
+                        {
+                            using (var stream = historyEntry.Open())
+                            {
+                                var historyV1 = BookHistoryCollection.Memento.Load(stream); 
+                                historyV1.RestoreConfig(setting.Config);
+                            }
+                        }
                     }
                 }
 
@@ -211,8 +232,12 @@ namespace NeeView
             if (setting != null)
             {
                 Setting.SettingWindow.Current?.Cancel();
-                SaveData.Current.RestoreSetting(setting);
-                SaveData.Current.RestoreSettingWindowShape(setting);
+
+                setting.Config.Window.State = Config.Current.Window.State;
+                UserSettingV2Accessor.RestoreConfig(setting);
+                UserSettingV2Accessor.RestoreCollections(setting);
+                ////SaveData.Current.RestoreSetting(setting);
+                ////SaveData.Current.RestoreSettingWindowShape(setting);
             }
 
             // 履歴読み込み

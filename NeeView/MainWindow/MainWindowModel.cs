@@ -475,7 +475,7 @@ namespace NeeView
             // 設定反映
             ////SaveData.Current.RestoreSetting(SaveData.Current.UserSettingTemp);
             // 保持設定破棄
-            SaveData.Current.ReleaseUserSettingTemp();
+            ////SaveData.Current.ReleaseUserSettingTemp();
 
             // 現在セッションでのファイルの保存場所の確定
             App.Current.UpdateLocation();

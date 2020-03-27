@@ -26,13 +26,8 @@ namespace NeeView
     /// </summary>
     public class SidePanelGroup : BindableBase
     {
-        private SidePanelConfig _sidePanelConfig;
-
-
-        public SidePanelGroup(SidePanelConfig sidePanelConfig)
+        public SidePanelGroup()
         {
-            _sidePanelConfig = sidePanelConfig;
-            Panels = new ObservableCollection<IPanel>();
         }
 
 
@@ -45,26 +40,20 @@ namespace NeeView
         /// <summary>
         /// Panels property.
         /// </summary>
-        private ObservableCollection<IPanel> _panels;
+        private ObservableCollection<IPanel> _panels = new ObservableCollection<IPanel>();
         public ObservableCollection<IPanel> Panels
         {
             get { return _panels; }
+            /*
             set
             {
                 if (_panels != value)
                 {
-                    if (_panels != null)
-                    {
-                        _panels.CollectionChanged -= Panels_CollectionChanged;
-                    }
                     _panels = value;
-                    if (_panels != null)
-                    {
-                        _panels.CollectionChanged += Panels_CollectionChanged;
-                    }
                     RaisePropertyChanged();
                 }
             }
+            */
         }
 
         /// <summary>
@@ -84,7 +73,6 @@ namespace NeeView
                     }
 
                     _selectedPanel = value;
-                    _sidePanelConfig.SelectedPanelTypeCode = _selectedPanel?.TypeCode;
                     RaisePropertyChanged();
 
                     if (_selectedPanel != null)
@@ -118,10 +106,11 @@ namespace NeeView
         /// <summary>
         /// Width property.
         /// </summary>
+        private double _width = 300.0;
         public double Width
         {
-            get { return _sidePanelConfig.Width; }
-            set { if (_sidePanelConfig.Width != value) { _sidePanelConfig.Width = value; RaisePropertyChanged(); } }
+            get { return _width; }
+            set { if (_width != value) { _width = value; RaisePropertyChanged(); } }
         }
 
         /// <summary>
@@ -130,24 +119,17 @@ namespace NeeView
         public bool IsVisible { get; set; } = true;
 
 
-
-        private void Panels_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        public void Initialize(IEnumerable<IPanel> panels, string selectedPanelTypeCode, double width)
         {
-            FlushConfig();
+            Panels.Clear();
+            foreach(var panel in panels)
+            {
+                Panels.Add(panel);
+            }
+            SelectedPanel = Panels.FirstOrDefault(e => e.TypeCode == selectedPanelTypeCode);
+            Width = width;
         }
 
-        public void Initialize(IEnumerable<IPanel> panels)
-        {
-            Panels = new ObservableCollection<IPanel>(panels);
-            SelectedPanel = Panels.FirstOrDefault(e => e.TypeCode == _sidePanelConfig.SelectedPanelTypeCode);
-            FlushConfig();
-        }
-
-        private void FlushConfig()
-        {
-            _sidePanelConfig.PanelTypeCodes = Panels.Select(e => e.TypeCode).ToList();
-            _sidePanelConfig.SelectedPanelTypeCode = SelectedPanel?.TypeCode;
-        }
 
         /// <summary>
         /// パネル存在チェック
@@ -276,13 +258,6 @@ namespace NeeView
 
             [DataMember]
             public double Width { get; set; }
-
-            public void RectoreConfig(SidePanelConfig sidePanelConfig)
-            {
-                sidePanelConfig.PanelTypeCodes = PanelTypeCodes;
-                sidePanelConfig.SelectedPanelTypeCode = SelectedPanelTypeCode;
-                sidePanelConfig.Width = Width;
-            }
         }
 
         public Memento CreateMemento()
@@ -291,7 +266,7 @@ namespace NeeView
 
             memento.PanelTypeCodes = Panels.Select(e => e.TypeCode).ToList();
             memento.SelectedPanelTypeCode = SelectedPanel?.TypeCode;
-            memento.Width = _sidePanelConfig.Width;
+            memento.Width = Width;
 
             return memento;
         }

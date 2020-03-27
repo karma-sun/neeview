@@ -23,7 +23,8 @@ namespace NeeView
             UpdateLocation();
         }
 
-        public const string UserSettingFileName = "UserSetting.xml";
+        public const string UserSettingFileNameLegacy = "UserSetting.xml";
+        public const string UserSettingFileName = "UserSetting.json";
         public const string HistoryFileName = "History.xml";
         public const string BookmarkFileName = "Bookmark.xml";
         public const string PagemarkFileName = "Pagemark.xml";
@@ -37,6 +38,7 @@ namespace NeeView
         public string BookmarkFilePath { get; private set; }
         public string PagemarkFilePath { get; private set; }
 
+        [Obsolete]
         public UserSetting UserSettingTemp { get; private set; }
 
         public bool IsEnableSave { get; set; } = true;
@@ -255,6 +257,7 @@ namespace NeeView
         /// 設定の読み込み
         /// 先行して設定ファイルのみ取得するため
         /// </summary>
+        [Obsolete]
         public UserSetting LoasUserSettingTemp()
         {
             if (UserSettingTemp != null)
@@ -277,6 +280,7 @@ namespace NeeView
         /// <summary>
         /// 設定領域の開放
         /// </summary>
+        [Obsolete]
         public void ReleaseUserSettingTemp()
         {
             UserSettingTemp = null;
@@ -285,6 +289,7 @@ namespace NeeView
         /// <summary>
         /// 設定読み込みと反映
         /// </summary>
+        [Obsolete]
         public void LoadUserSetting()
         {
             Setting.SettingWindow.Current?.Cancel();
@@ -439,6 +444,7 @@ namespace NeeView
             }
         }
 
+        [Obsolete]
         public void SaveUserSetting()
         {
             if (!IsEnableSave) return;
@@ -456,7 +462,7 @@ namespace NeeView
             try
             {
                 App.Current.SemaphoreWait();
-                SafetySave(setting.Save, App.Current.Option.SettingFilename, Config.Current.System.IsSettingBackup);
+                SafetySave(setting.Save, Path.ChangeExtension(App.Current.Option.SettingFilename, ".xml"), Config.Current.System.IsSettingBackup);
             }
             catch
             {

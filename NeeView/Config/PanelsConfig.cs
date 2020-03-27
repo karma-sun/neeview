@@ -116,15 +116,49 @@ namespace NeeView
 
         public PanelListItemProfile ThumbnailItemProfile { get; set; } = PanelListItemProfile.DefaultThumbnailItemProfile.Clone();
 
-
+        /*
         [PropertyMapIgnore]
         public SidePanelConfig LeftPanel { get; set; } = new SidePanelConfig();
 
         [PropertyMapIgnore]
         public SidePanelConfig RightPanel { get; set; } = new SidePanelConfig();
+        */
+
+        private Dictionary<string, PanelDock> _panelDocks = new Dictionary<string, PanelDock>();
+
+        [PropertyMapIgnore]
+        [ObjectMergeReferenceCopy]
+        public Dictionary<string, PanelDock> PanelDocks
+        {
+            get { return _panelDocks; }
+            set { SetProperty(ref _panelDocks, value ?? new Dictionary<string, PanelDock>()); }
+        } 
+
+        [PropertyMapIgnore]
+        [ObjectMergeIgnore]
+        public string LeftPanelSeleted { get; set; }
+
+        [PropertyMapIgnore]
+        [ObjectMergeIgnore]
+        public double LeftPanelWidth { get; set; } = 300.0;
+
+        [PropertyMapIgnore]
+        [ObjectMergeIgnore]
+        public string RightPanelSeleted { get; set; }
+
+        [PropertyMapIgnore]
+        [ObjectMergeIgnore]
+        public double RightPanelWidth { get; set; } = 300.0;
+
     }
 
+    public enum PanelDock
+    {
+        Left,
+        Right
+    }
 
+    /*
     public class SidePanelConfig : BindableBase
     {
         [PropertyMergeReferenceCopy]
@@ -134,4 +168,5 @@ namespace NeeView
 
         public double Width { get; set; } = 300.0;
     }
+    */
 }

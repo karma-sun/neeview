@@ -66,10 +66,25 @@ namespace NeeView
         }
 
 
+
         public static UserSettingV2 Load(string path)
         {
             var json = File.ReadAllBytes(path);
-            return JsonSerializer.Deserialize<UserSettingV2>(new ReadOnlySpan<byte>(json), GetSerializerOptions());
+            return Load(new ReadOnlySpan<byte>(json));
+        }
+
+        public static UserSettingV2 Load(Stream stream)
+        {
+            using (var ms = new MemoryStream())
+            {
+                stream.CopyTo(ms);
+                return Load(new ReadOnlySpan<byte>(ms.ToArray()));
+            }
+        }
+
+        public static UserSettingV2 Load(ReadOnlySpan<byte> json)
+        {
+            return JsonSerializer.Deserialize<UserSettingV2>(json, GetSerializerOptions());
 
             // TODO: v.38以後の互換性処理をここで？
         }
@@ -87,6 +102,37 @@ namespace NeeView
             options.Converters.Add(new JsonTimeSpanConverter());
             options.Converters.Add(new JsonGridLengthConverter());
             return options;
+        }
+
+        public static void Restore(UserSettingV2 setting, ObjectMergeOption options = null)
+        {
+            RestoreConfig(setting, options);
+            RestoreCollections(setting);
+        }
+
+        public static void RestoreConfig(UserSettingV2 setting, ObjectMergeOption options = null)
+        {
+            if (setting?.Config != null)
+            {
+                ObjectMerge.Merge(Config.Current, setting.Config, options);
+            }
+        }
+
+        public static void RestoreCollections(UserSettingV2 setting)
+        {
+            // TODO: このあたりの実装はConfig.Margeと同じタイミングが理想
+            // コマンド設定反映
+            CommandTable.Current.RestoreCommandCollection(setting.Commands);
+
+            // ドラッグアクション反映
+            DragActionTable.Current.RestoreDragActionCollection(setting.DragActions);
+
+            // SusiePlugins反映
+            SusiePluginManager.Current.RestoreSusiePluginCollection(setting.SusiePlugins);
+            SusiePluginManager.Current.UpdateSusiePluginCollection(); // TODO: 実際の初期化処理(プラグイン読み込みとか)。ウィンドウ表示後にするべきか。
+
+            // コンテキストメニュー設定反映
+            ContextMenuManager.Current.Resotre(setting.ContextMenu);
         }
     }
 
@@ -228,4 +274,5 @@ namespace NeeView
             // - Current.Configにマージ
         }
     }
+
 }

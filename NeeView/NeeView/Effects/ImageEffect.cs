@@ -183,7 +183,7 @@ namespace NeeView.Effects
                     MargeEffect(config.Effect.ImageEffects.Ripple, Effects[EffectType.Ripple]);
                     MargeEffect(config.Effect.ImageEffects.Swirl, Effects[EffectType.Swirl]);
 
-                    void MargeEffect(EffectUnit unit, string json) => ObjectTools.Merge(unit, Json.Deserialize(json, unit.GetType()));
+                    void MargeEffect(EffectUnit unit, string json) => ObjectMerge.Merge(unit, Json.Deserialize(json, unit.GetType()));
                 }
             }
         }

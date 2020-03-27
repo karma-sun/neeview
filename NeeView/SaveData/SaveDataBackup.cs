@@ -178,7 +178,7 @@ namespace NeeView
                     {
                         using (var stream = settingEntry.Open())
                         {
-                            setting = UserSettingV2Accessor.Load(stream);
+                            setting = UserSettingTools.Load(stream);
                         }
                     }
                     else if (settingEntryLegacy != null)
@@ -232,12 +232,10 @@ namespace NeeView
             if (setting != null)
             {
                 Setting.SettingWindow.Current?.Cancel();
+                MainWindowModel.Current.CloseCommandParameterDialog();
 
-                setting.Config.Window.State = Config.Current.Window.State;
-                UserSettingV2Accessor.RestoreConfig(setting);
-                UserSettingV2Accessor.RestoreCollections(setting);
-                ////SaveData.Current.RestoreSetting(setting);
-                ////SaveData.Current.RestoreSettingWindowShape(setting);
+                setting.Config.Window.State = Config.Current.Window.State; // ウィンドウ状態は維持する
+                UserSettingTools.Restore(setting);
             }
 
             // 履歴読み込み

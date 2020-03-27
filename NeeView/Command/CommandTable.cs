@@ -49,17 +49,10 @@ namespace NeeView
         public static CommandTable Current { get; }
 
 
-        #region Fields
-
         private Dictionary<string, CommandElement> _elements;
-        ////private bool _isReversePageMove = true;
-        ////private bool _isReversePageMoveWheel;
+        private bool _isScriptFolderDarty = true;
 
-        #endregion
 
-        #region Constructors
-
-        // コンストラクタ
         private CommandTable()
         {
             InitializeCommandTable();
@@ -67,47 +60,27 @@ namespace NeeView
 
             Changed += CommandTable_Changed;
 
-            InitializeScripts();
+            Config.Current.Script.AddPropertyChanged(nameof(ScriptConfig.IsScriptFolderEnabled), ScriptConfigChanged);
+            Config.Current.Script.AddPropertyChanged(nameof(ScriptConfig.ScriptFolder), ScriptConfigChanged);
         }
 
-        #endregion
-
-        #region Events
 
         /// <summary>
         /// コマンドテーブルが変更された
         /// </summary>
         public event EventHandler<CommandChangedEventArgs> Changed;
 
-        #endregion
-
-        #region Properties
 
         public CommandCollection DefaultMemento { get; private set; }
 
-#if false
-        [PropertyMember("@ParamCommandIsReversePageMove", Tips = "@ParamCommandIsReversePageMoveTips")]
-        public bool IsReversePageMove
-        {
-            get { return _isReversePageMove; }
-            set { if (_isReversePageMove != value) { _isReversePageMove = value; RaisePropertyChanged(); } }
-        }
-
-        [PropertyMember("@ParamCommandIsReversePageMoveWheel", Tips = "@ParamCommandIsReversePageMoveWheelTips")]
-        public bool IsReversePageMoveWheel
-        {
-            get { return _isReversePageMoveWheel; }
-            set { if (_isReversePageMoveWheel != value) { _isReversePageMoveWheel = value; RaisePropertyChanged(); } }
-        }
-#endif
-
         public int ChangeCount { get; private set; }
 
-        #endregion
+        // NODE: 応急処置
+        public IEnumerable<string> Keys => _elements.Keys;
+
 
         #region IEnumerable Support
 
-        // Enumerator
         public IEnumerator<KeyValuePair<string, CommandElement>> GetEnumerator()
         {
             foreach (var pair in _elements)
@@ -116,7 +89,6 @@ namespace NeeView
             }
         }
 
-        // Enumerator
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
@@ -352,9 +324,6 @@ namespace NeeView
         #endregion
 
         #region Methods
-
-        // NODE: 応急処置
-        public IEnumerable<string> Keys => _elements.Keys;
 
         // NODE: 応急処置
         public bool ContainsKey(string key)
@@ -650,20 +619,7 @@ namespace NeeView
 
         #endregion
 
-
         #region Scripts
-
-        ////private readonly string _defaultScriptFolderName = "Scripts";
-        ////private bool _isScriptFolderEnabled;
-        ////private string _scriptFolder;
-        private bool _isScriptFolderDarty = true;
-
-
-        private void InitializeScripts()
-        {
-            Config.Current.Script.AddPropertyChanged(nameof(ScriptConfig.IsScriptFolderEnabled), ScriptConfigChanged);
-            Config.Current.Script.AddPropertyChanged(nameof(ScriptConfig.ScriptFolder), ScriptConfigChanged);
-        }
 
         private void ScriptConfigChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -692,55 +648,6 @@ namespace NeeView
                 }
             }
         }
-
-#if false
-        public string GetDefaultScriptFolder()
-        {
-            if (Environment.IsZipLikePackage)
-            {
-                return Path.Combine(Environment.LocalApplicationDataPath, _defaultScriptFolderName);
-            }
-            else
-            {
-                return Path.Combine(Environment.GetMyDocumentPath(false), _defaultScriptFolderName);
-            }
-        }
-
-        [PropertyMember("@ParamIsScriptFolderEnabled")]
-        public bool IsScriptFolderEnabled
-        {
-            get { return _isScriptFolderEnabled; }
-            set
-            {
-                if (SetProperty(ref _isScriptFolderEnabled, value))
-                {
-
-                    UpdateScriptCommand(true);
-                    Changed?.Invoke(this, new CommandChangedEventArgs(false));
-                }
-            }
-        }
-
-        [PropertyPath("@ParamScriptFolder", Tips = "@ParamScriptFolderTips", FileDialogType = Windows.Controls.FileDialogType.Directory)]
-        public string ScriptFolder
-        {
-            get { return _scriptFolder ?? GetDefaultScriptFolder(); }
-            set
-            {
-                var path = value?.Trim();
-                if (string.IsNullOrEmpty(path) || path == GetDefaultScriptFolder())
-                {
-                    path = null;
-                }
-
-                if (SetProperty(ref _scriptFolder, path))
-                {
-                    UpdateScriptCommand(true);
-                    Changed?.Invoke(this, new CommandChangedEventArgs(false));
-                }
-            }
-        }
-#endif
 
         public bool UpdateScriptCommand()
         {
@@ -1030,11 +937,6 @@ namespace NeeView
         {
             if (memento == null) return;
 
-            ////Config.Current.Command.IsReversePageMove = memento.IsReversePageMove;
-            ////Config.Current.Command.IsReversePageMoveWheel = memento.IsReversePageMoveWheel;
-            ////Config.Current.Script.IsScriptFolderEnabled = memento.IsScriptFolderEnabled;
-            ////Config.Current.Script.ScriptFolder = memento.ScriptFolder;
-
             UpdateScriptCommand();
 
             foreach (var pair in memento.Elements)
@@ -1052,10 +954,7 @@ namespace NeeView
 
         #endregion
 
-
         #region Memento CommandCollection
-
-
 
         public CommandCollection CreateCommandCollectionMemento()
         {
@@ -1089,8 +988,6 @@ namespace NeeView
         }
 
         #endregion
-
-
     }
 
     /// <summary>

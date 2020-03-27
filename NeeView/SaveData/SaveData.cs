@@ -56,7 +56,6 @@ namespace NeeView
         {
             var setting = new UserSetting();
 
-            ////App.Current.WindowChromeFrame = WindowShape.Current.WindowChromeFrame;
             setting.App = App.Current.CreateMemento();
 
             setting.SusieMemento = SusiePluginManager.Current.CreateMemento();
@@ -68,51 +67,29 @@ namespace NeeView
             return setting;
         }
 
-        // アプリ設定反映
-        [Obsolete]
-        public void RestoreSetting(UserSetting setting)
-        {
-            ////App.Current.Restore(setting.App);
-            ////WindowShape.Current.WindowChromeFrame = App.Current.WindowChromeFrame;
-
-            ////SusiePluginManager.Current.Restore(setting.SusieMemento);
-            ////CommandTable.Current.Restore(setting.CommandMememto, false);
-            ////DragActionTable.Current.Restore(setting.DragActionMemento);
-
-            ////_models.Resore(setting.Memento);
-        }
-
-        // アプリ設定のシェイプを反映
-        [Obsolete]
-        public void RestoreSettingWindowShape(UserSetting setting)
-        {
-            if (setting == null) return;
-            if (setting.WindowShape == null) return;
-
-            // ウィンドウ状態をのぞく設定を反映
-            ////var memento = setting.WindowShape.Clone();
-            ////memento.State = WindowShape.Current.State;
-            ////WindowShape.Current.Restore(memento);
-            ////WindowShape.Current.Refresh();
-        }
-
         #region Load
 
         /// <summary>
-        /// 設定の読み込み(仮)
+        /// 設定の読み込み
         /// </summary>
         public UserSettingV2 LoadConfig()
         {
-            App.Current.SemaphoreWait();
-
-            var v1FileName = Path.ChangeExtension(App.Current.Option.SettingFilename, ".xml");
-            var v2FileName = Path.ChangeExtension(App.Current.Option.SettingFilename, ".json");
+            if (App.Current.IsMainWindowLoaded)
+            {
+                Setting.SettingWindow.Current?.Cancel();
+                MainWindowModel.Current.CloseCommandParameterDialog();
+            }
 
             try
             {
+                App.Current.SemaphoreWait();
+
+                var v1FileName = Path.ChangeExtension(App.Current.Option.SettingFilename, ".xml");
+                var v2FileName = Path.ChangeExtension(App.Current.Option.SettingFilename, ".json");
+
                 if (File.Exists(v2FileName))
                 {
-                    var settingV2 = SafetyLoad(UserSettingV2Accessor.Load, v2FileName, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
+                    var settingV2 = SafetyLoad(UserSettingTools.Load, v2FileName, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
                     __TestV1Compatibilty(settingV2);
                     return settingV2;
                 }
@@ -185,7 +162,7 @@ namespace NeeView
                     else
                     {
                         bool result = true;
-                        foreach(var key in c1.Keys)
+                        foreach (var key in c1.Keys)
                         {
                             var a1 = c1[key];
                             var a2 = c2[key];
@@ -235,7 +212,7 @@ namespace NeeView
                         {
                             result = CheckValueEquality(property.GetValue(v1), property.GetValue(v2), name + $".{property.Name}") && result;
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             Debug.WriteLine(ex.Message);
                         }
@@ -252,61 +229,6 @@ namespace NeeView
 
         }
 
-
-        /// <summary>
-        /// 設定の読み込み
-        /// 先行して設定ファイルのみ取得するため
-        /// </summary>
-        [Obsolete]
-        public UserSetting LoasUserSettingTemp()
-        {
-            if (UserSettingTemp != null)
-            {
-                return UserSettingTemp;
-            }
-
-            try
-            {
-                App.Current.SemaphoreWait();
-                UserSettingTemp = SafetyLoad(UserSetting.Load, App.Current.Option.SettingFilename, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
-                return UserSettingTemp;
-            }
-            finally
-            {
-                App.Current.SemaphoreRelease();
-            }
-        }
-
-        /// <summary>
-        /// 設定領域の開放
-        /// </summary>
-        [Obsolete]
-        public void ReleaseUserSettingTemp()
-        {
-            UserSettingTemp = null;
-        }
-
-        /// <summary>
-        /// 設定読み込みと反映
-        /// </summary>
-        [Obsolete]
-        public void LoadUserSetting()
-        {
-            Setting.SettingWindow.Current?.Cancel();
-            MainWindowModel.Current.CloseCommandParameterDialog();
-
-            try
-            {
-                App.Current.SemaphoreWait();
-                var setting = SafetyLoad(UserSetting.Load, App.Current.Option.SettingFilename, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
-                RestoreSetting(setting);
-                ////RestoreSettingWindowShape(setting);
-            }
-            finally
-            {
-                App.Current.SemaphoreRelease();
-            }
-        }
 
         // 履歴読み込み
         public void LoadHistory()
@@ -431,9 +353,7 @@ namespace NeeView
             try
             {
                 App.Current.SemaphoreWait();
-                SafetySave(new UserSettingV2Accessor().Save
-                    , Path.ChangeExtension(App.Current.Option.SettingFilename, ".json")
-                    , Config.Current.System.IsSettingBackup);
+                SafetySave(UserSettingTools.Save, Path.ChangeExtension(App.Current.Option.SettingFilename, ".json"), Config.Current.System.IsSettingBackup);
             }
             catch
             {

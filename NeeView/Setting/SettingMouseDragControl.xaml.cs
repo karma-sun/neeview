@@ -163,7 +163,7 @@ namespace NeeView.Setting
 
             if (answer == UICommands.Yes)
             {
-                var memento = DragActionTable.CreateDefaultMemento();
+                var memento = DragActionTable.Current.CreateDefaultMemento();
                 DragActionTable.Current.RestoreDragActionCollection(memento);
                 DragActionTable.Current.UpdateGestureDragAction();
 

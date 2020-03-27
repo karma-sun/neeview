@@ -84,7 +84,7 @@ namespace NeeView
         {
             Debug.WriteLine($"{SaveData.UserSettingFileName} is updated by other process.");
             var setting = SaveData.Current.LoadConfig();
-            UserSettingV2Accessor.Restore(setting);
+            UserSettingTools.Restore(setting);
         }
 
         private void LoadHistory(RemoteCommand command)

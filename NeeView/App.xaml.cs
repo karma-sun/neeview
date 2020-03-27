@@ -41,7 +41,6 @@ namespace NeeView
         private Semaphore _semaphore;
 
 
-
         #region Properties
 
         // オプション設定
@@ -55,6 +54,9 @@ namespace NeeView
 
         // 開発用：ストップウォッチ
         public Stopwatch Stopwatch { get; private set; }
+
+        // MainWindowはLoad完了している？
+        public bool IsMainWindowLoaded { get; set; }
 
         #endregion
 
@@ -150,37 +152,19 @@ namespace NeeView
             Environment.IsSecondProcess = _multiBootService.IsServerExists;
 
             Debug.WriteLine($"App.UserSettingLoading: {Stopwatch.ElapsedMilliseconds}ms");
-
-
-            // TODO: 設定ファイルV1の読み込みは設定ファイルV2を新しく作るようにし、直接Config.Currentに書き込まないようにする
-            // TODO: ↑設定ファイルV1しかないときの処理とする
-            // TODO: 起動オプションによっては設定値を書き換える
-
-            // 設定ファイル(V2)の読み込み (V2)
-            var settingV2 = SaveData.Current.LoadConfig();
-            //ObjectTools.Merge(Config.Current, settingV2.Config); // 適用
-            UserSettingV2Accessor.RestoreConfig(settingV2, new ObjectMergeOption() { IsIgnoreEnabled = false });
-
-
-#if false
-            // 設定ファイル(V1)の先行読み込み
-            var setting = SaveData.Current.LoasUserSettingTemp();
-            // 設定ファイル(V1)をConfigに適用 (互換性処理)
-            setting.RestoreConfig();
-            // 設定ファイル(V1)を(V2)に適用 (互換性処理)
-            settingV2.SusiePlugins = setting.SusieMemento?.CreateSusiePluginCollection() ?? new Dictionary<string, SusiePluginMemento>();
-#endif
-
-            // 設定ファイル(V1)の先行読み込み。この処理はV2対応完了後削除する。
-            ////var setting = SaveData.Current.LoasUserSettingTemp();
+            
+            // 設定の読み込み 
+            var setting = SaveData.Current.LoadConfig();
 
             Debug.WriteLine($"App.UserSettingLoaded: {Stopwatch.ElapsedMilliseconds}ms");
 
-            // restore
-            ////Restore(setting.App);
+            // スプラッシュスクリーン
+            ShowSplashScreen(setting.Config);
+            
+            // 設定の適用
+            UserSettingTools.Restore(setting, new ObjectMergeOption() { IsIgnoreEnabled = false });
 
-            // スプラッシュスクリーン(予備)
-            ShowSplashScreen();
+            Debug.WriteLine($"App.RestreSettings: {Stopwatch.ElapsedMilliseconds}ms");
 
             // 言語適用
             NeeView.Properties.Resources.Culture = CultureInfo.GetCultureInfo(Config.Current.System.Language.GetCultureName());
@@ -194,8 +178,8 @@ namespace NeeView
             }
 
             // 多重起動制限になる場合、サーバーにパスを送って終了
-            Trace.WriteLine($"CanStart: {CanStart()}: IsServerExists={_multiBootService.IsServerExists}, IsNewWindow={Option.IsNewWindow}, IsMultiBootEnabled={Config.Current.StartUp.IsMultiBootEnabled}");
-            if (!CanStart())
+            Trace.WriteLine($"CanStart: {CanStart(Config.Current)}: IsServerExists={_multiBootService.IsServerExists}, IsNewWindow={Option.IsNewWindow}, IsMultiBootEnabled={Config.Current.StartUp.IsMultiBootEnabled}");
+            if (!CanStart(Config.Current))
             {
                 await _multiBootService.RemoteLoadAsAsync(Option.Values);
                 throw new OperationCanceledException("Already started.");
@@ -206,26 +190,6 @@ namespace NeeView
 
             // キャッシュの場所
             Config.Current.System.CacheDirectory = ThumbnailCache.Current.SetDirectory(Config.Current.System.CacheDirectory);
-
-
-
-            // TODO: このあたりの実装はConfig.Margeと同じタイミングが理想
-            UserSettingV2Accessor.RestoreCollections(settingV2);
-
-#if false
-            // コマンド設定反映
-            CommandTable.Current.RestoreCommandCollection(settingV2.Commands);
-
-            // ドラッグアクション反映
-            DragActionTable.Current.RestoreDragActionCollection(settingV2.DragActions);
-
-            // SusiePlugins反映
-            SusiePluginManager.Current.RestoreSusiePluginCollection(settingV2.SusiePlugins);
-            SusiePluginManager.Current.UpdateSusiePluginCollection(); // TODO: 実際の初期化処理(プラグイン読み込みとか)。ウィンドウ表示後にするべきか。
-
-            // コンテキストメニュー設定反映
-            ContextMenuManager.Current.Resotre(settingV2.ContextMenu); 
-#endif
         }
 
         /// <summary>
@@ -257,17 +221,13 @@ namespace NeeView
         /// <summary>
         /// Show SplashScreen
         /// </summary>
-        public void ShowSplashScreen()
+        public void ShowSplashScreen(Config config)
         {
-            if (Config.Current.StartUp.IsSplashScreenEnabled && CanStart())
+            if (config.StartUp.IsSplashScreenEnabled && CanStart(config))
             {
                 if (_isSplashScreenVisibled) return;
                 _isSplashScreenVisibled = true;
-#if NEEVIEW_S
-                var resourceName = "Resources/SplashScreenS.png";
-#else
                 var resourceName = "Resources/SplashScreen.png";
-#endif
                 SplashScreen splashScreen = new SplashScreen(resourceName);
                 splashScreen.Show(true);
                 Debug.WriteLine($"App.ShowSplashScreen: {Stopwatch.ElapsedMilliseconds}ms");
@@ -277,9 +237,9 @@ namespace NeeView
         /// <summary>
         /// 多重起動用実行可能判定
         /// </summary>
-        private bool CanStart()
+        private bool CanStart(Config config)
         {
-            return !_multiBootService.IsServerExists || (Option.IsNewWindow != null ? Option.IsNewWindow == SwitchOption.on : Config.Current.StartUp.IsMultiBootEnabled);
+            return !_multiBootService.IsServerExists || (Option.IsNewWindow != null ? Option.IsNewWindow == SwitchOption.on : config.StartUp.IsMultiBootEnabled);
         }
 
         /// <summary>
@@ -318,7 +278,6 @@ namespace NeeView
             ApplicationDisposer.Current.Dispose();
 
             // 設定保存
-            ////WindowShape.Current.CreateSnapMemento();
             SaveDataSync.Current.Flush();
             SaveDataSync.Current.SaveUserSetting(false);
             SaveDataSync.Current.SaveHistory();
@@ -343,6 +302,6 @@ namespace NeeView
             ThumbnailCache.Current.Dispose();
         }
 
-#endregion
+        #endregion
     }
 }

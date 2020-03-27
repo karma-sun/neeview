@@ -61,63 +61,8 @@ namespace NeeView
         {
             using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
-                LoadAndExecSplashScreen(stream);
                 stream.Seek(0, SeekOrigin.Begin);
                 return Load(stream);
-            }
-        }
-
-        /// <summary>
-        /// 必要なパラメータだけ取得してスプラッシュスクリーンを開始する
-        /// </summary>
-        public static void LoadAndExecSplashScreen(Stream stream)
-        {
-            try
-            {
-                using (XmlReader xr = XmlReader.Create(stream))
-                {
-                    while (xr.Read())
-                    {
-                        if (xr.NodeType == XmlNodeType.EndElement && xr.Name == "App")
-                        {
-                            break;
-                        }
-                        else if (xr.NodeType == XmlNodeType.Element)
-                        {
-                            if (xr.Name == nameof(NeeView.App.Memento.IsMultiBootEnabled))
-                            {
-                                xr.Read();
-                                if (xr.NodeType == XmlNodeType.Text)
-                                {
-                                    if (bool.TryParse(xr.Value, out bool isMultiBootEnabled))
-                                    {
-                                        NeeView.Config.Current.StartUp.IsMultiBootEnabled = isMultiBootEnabled;
-                                        Debug.WriteLine($"IsMultiBootEnabled: {isMultiBootEnabled}");
-                                    }
-                                }
-                            }
-
-                            if (xr.Name == nameof(NeeView.App.Memento.IsSplashScreenEnabled))
-                            {
-                                xr.Read();
-                                if (xr.NodeType == XmlNodeType.Text)
-                                {
-                                    if (bool.TryParse(xr.Value, out bool isSplashScreenEnabled))
-                                    {
-                                        NeeView.Config.Current.StartUp.IsSplashScreenEnabled = isSplashScreenEnabled;
-                                        Debug.WriteLine($"IsSplashScreenEnabled: {isSplashScreenEnabled}");
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                ////Debug.WriteLine($"App.UserSettingFast: {NeeView.App.Current.Stopwatch.ElapsedMilliseconds}ms");
-                NeeView.App.Current.ShowSplashScreen();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
             }
         }
 
@@ -150,11 +95,8 @@ namespace NeeView
     }
 
 
+    // 一般化できなかったインターフェイス
     public interface IMemento
     {
-        ////[OnDeserialized]
-        ////void OnDeserialized(StreamingContext c);
-
-        ////void RestoreConfig();
     }
 }

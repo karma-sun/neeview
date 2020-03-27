@@ -16,25 +16,13 @@ namespace NeeView
         static DragActionTable() => Current = new DragActionTable();
         public static DragActionTable Current { get; }
 
-        private static DragActionCollection s_defaultMemento;
-
-        // 初期設定取得
-        public static DragActionCollection CreateDefaultMemento()
-        {
-            return (DragActionCollection)s_defaultMemento.Clone();
-        }
-
-
-        // コマンドリスト
+        public const string GestureDragActionName = "Gesture";
+        private DragActionCollection _defaultMemento;
+        
         private Dictionary<string, DragAction> _elements;
-
-        // コマンドターゲット
         private DragTransformControl _drag;
 
 
-        public const string GestureDragActionName = "Gesture";
-
-        // コンストラクタ
         private DragActionTable()
         {
             _elements = new Dictionary<string, DragAction>()
@@ -102,27 +90,18 @@ namespace NeeView
 
             };
 
-            s_defaultMemento = CreateDragActionCollection();
-        }
+            _defaultMemento = CreateDragActionCollection();
 
-        // TODO: Configに設定が移動するまでの応急処置
-        public void Initialize()
-        {
-            Config.Current.Mouse.AddPropertyChanged(nameof(MouseConfig.IsGestureEnabled), MouseConfig_IsGestureEnabledChanged);
+            Config.Current.Mouse.AddPropertyChanged(nameof(MouseConfig.IsGestureEnabled),
+                (s, e) => UpdateGestureDragAction());
 
-            MouseConfig_IsGestureEnabledChanged(this, null);
+            UpdateGestureDragAction();
         }
 
 
         public event EventHandler GestureDragActionChanged;
+        
 
-
-        // コマンドリスト
-        [PropertyMember("@ParamDragActionElements")]
-        public Dictionary<string, DragAction> Elements => _elements;
-
-
-        // インテグザ
         public DragAction this[string key]
         {
             get
@@ -133,7 +112,11 @@ namespace NeeView
             set { _elements[key] = value; }
         }
 
-        // Enumerator
+        // コマンドリスト
+        [PropertyMember("@ParamDragActionElements")]
+        public Dictionary<string, DragAction> Elements => _elements;
+
+
         public IEnumerator<KeyValuePair<string, DragAction>> GetEnumerator()
         {
             foreach (var pair in _elements)
@@ -142,16 +125,15 @@ namespace NeeView
             }
         }
 
-        // Enumerator
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
         }
 
 
-        private void MouseConfig_IsGestureEnabledChanged(object sender, PropertyChangedEventArgs e)
+        public DragActionCollection CreateDefaultMemento()
         {
-            UpdateGestureDragAction();
+            return (DragActionCollection)_defaultMemento.Clone();
         }
 
         public void UpdateGestureDragAction()
@@ -169,8 +151,6 @@ namespace NeeView
         /// <summary>
         /// 入力からアクション取得
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
         public string GetActionType(DragKey key)
         {
             if (!key.IsValid) return string.Empty;
@@ -180,15 +160,13 @@ namespace NeeView
         /// <summary>
         /// 入力からアクション取得
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
         public DragAction GetAction(DragKey key)
         {
             return _elements.Values.FirstOrDefault(e => e.DragKey == key);
         }
 
 
-        #region Memento
+#region Memento
 
         [DataContract]
         public class Memento : IMemento
@@ -230,23 +208,7 @@ namespace NeeView
 #pragma warning restore CS0612
         }
 
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-#if false
-            if (memento == null) return;
-
-            foreach (var pair in memento.Elements)
-            {
-                if (_elements.ContainsKey(pair.Key))
-                {
-                    _elements[pair.Key].Restore(pair.Value);
-                }
-            }
-#endif
-        }
-
-        #endregion
+#endregion
 
 
         public DragActionCollection CreateDragActionCollection()

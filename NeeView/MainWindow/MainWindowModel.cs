@@ -469,6 +469,10 @@ namespace NeeView
         // 起動時処理
         public void Loaded()
         {
+            // Susie起動
+            // TODO: 非同期化できないか？
+            SusiePluginManager.Current.Initialize();
+
             // Chrome反映
             ////WindowShape.Current.WindowChromeFrame = App.Current.WindowChromeFrame;
 

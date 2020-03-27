@@ -15,33 +15,12 @@ using System.Windows.Media;
 
 namespace NeeView
 {
-    public class UserSettingV2
+    public static class UserSettingTools
     {
-        public UserSettingV2()
+        public static UserSettingV2 CreateUserSetting()
         {
-        }
-
-        public FormatVersion Format { get; set; }
-
-        public Config Config { get; set; }
-
-        public MenuNode ContextMenu { get; set; }
-
-        public SusiePluginCollection SusiePlugins { get; set; }
-
-        public DragActionCollection DragActions { get; set; }
-
-        public CommandCollection Commands { get; set; }
-    }
-
-
-
-    public class UserSettingV2Accessor
-    {
-        public UserSettingV2 CreateUserSetting()
-        {
-            // TODO: 情報の確定。ウィンドウ座標の保存とか
-            // :
+            // 情報の確定
+            WindowPlacement.Current.StorePlacement();
 
             return new UserSettingV2()
             {
@@ -54,12 +33,12 @@ namespace NeeView
             };
         }
 
-        public void Save(string path)
+        public static void Save(string path)
         {
             Save(path, CreateUserSetting());
         }
 
-        public void Save(string path, UserSettingV2 setting)
+        public static void Save(string path, UserSettingV2 setting)
         {
             var json = JsonSerializer.SerializeToUtf8Bytes(setting, GetSerializerOptions());
             File.WriteAllBytes(path, json);
@@ -106,37 +85,23 @@ namespace NeeView
 
         public static void Restore(UserSettingV2 setting, ObjectMergeOption options = null)
         {
-            RestoreConfig(setting, options);
-            RestoreCollections(setting);
-        }
+            if (setting == null) return;
 
-        public static void RestoreConfig(UserSettingV2 setting, ObjectMergeOption options = null)
-        {
-            if (setting?.Config != null)
-            {
-                ObjectMerge.Merge(Config.Current, setting.Config, options);
-            }
-        }
+            ObjectMerge.Merge(Config.Current, setting.Config, options);
 
-        public static void RestoreCollections(UserSettingV2 setting)
-        {
-            // TODO: このあたりの実装はConfig.Margeと同じタイミングが理想
             // コマンド設定反映
             CommandTable.Current.RestoreCommandCollection(setting.Commands);
 
             // ドラッグアクション反映
             DragActionTable.Current.RestoreDragActionCollection(setting.DragActions);
 
-            // SusiePlugins反映
-            SusiePluginManager.Current.RestoreSusiePluginCollection(setting.SusiePlugins);
-            SusiePluginManager.Current.UpdateSusiePluginCollection(); // TODO: 実際の初期化処理(プラグイン読み込みとか)。ウィンドウ表示後にするべきか。
-
             // コンテキストメニュー設定反映
             ContextMenuManager.Current.Resotre(setting.ContextMenu);
+
+            // SusiePlugins反映
+            SusiePluginManager.Current.RestoreSusiePluginCollection(setting.SusiePlugins);
         }
     }
-
-
 
 
     /// <summary>

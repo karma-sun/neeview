@@ -578,8 +578,7 @@ namespace NeeView
 
             _vm.Loaded();
 
-            // TODO: これは応急処置です
-            DragActionTable.Current.Initialize();
+            App.Current.IsMainWindowLoaded = true;
 
             Debug.WriteLine($"App.MainWndow.Loaded.Done: {App.Current.Stopwatch.ElapsedMilliseconds}ms");
         }

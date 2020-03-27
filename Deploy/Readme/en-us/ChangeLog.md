@@ -1,6 +1,18 @@
 ## ChangeLog
 
 
+### 36.2
+(2020-03-28)
+
+#### Fixed
+
+- Fixed a bug that COM exception may occur when reading using 7z.
+- Fixed a bug where a playlist was not opened as a bookshelf when a playlist was specified as a startup argument.
+- Fixed a bug that keyboard focus may be lost when returning from window minimization.
+- Fixed a bug that the pop-up function was working when renaming bookshelf in thumbnail display.
+
+----
+
 ### 36.1
 (2020-03-07)
 

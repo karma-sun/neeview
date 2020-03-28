@@ -7,7 +7,7 @@ namespace NeeView
 {
     public class ScriptCommand : CommandElement
     {
-        public static string Prefix => "Script.";
+        public static string Prefix => "Script_";
         public static string Extension => ".nvjs";
         public static string EventOnBookLoaded => "OnBookLoaded";
 

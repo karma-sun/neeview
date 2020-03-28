@@ -16,26 +16,18 @@ namespace NeeView
         {
             _commandTable = commandTable;
             _configMap = configMap;
+            Book = new BookAccessor();
+            Command = new CommandAccessorMap(_commandTable);
         }
 
         public Dictionary<string, object> Values => _values;
 
         public PropertyMap Config => _configMap.Map;
 
-        public BookAccessor Book { get; } = new BookAccessor();
+        public BookAccessor Book { get; }
 
+        public CommandAccessorMap Command { get; }
 
-        public CommandAccessor Command(string name)
-        {
-            if (_commandTable.TryGetValue(name, out CommandElement command))
-            {
-                return new CommandAccessor(command);
-            }
-            else
-            {
-                return null;
-            }
-        }
 
         public void ShowMessage(string message)
         {

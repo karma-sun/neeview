@@ -248,10 +248,10 @@
 
 <hr/>
 
-<h2>nv.Command(commandName)</h2>
-コマンドのアクセサを取得します。
+<h2>nv.Command</h2>
+コマンドアクセサの連想配列です。
 コマンドは 設定 > コマンド設定 で表示されるコマンドと同じものです。詳細は後述する「コマンド一覧」を参照してください。
-<h4>引数</h4>
+<h4>キー</h4>
 <dl>
     <dt>commandName: string</dt><dd>コマンド名</dd>
 </dl>
@@ -259,6 +259,15 @@
 <dl>
     <dt>CommandAccessor</dt><dd>コマンドアクセサ。コマンドが見つからない場合はnull。</dd>
 </dl>
+<h4>使用例</h4>
+<p>
+    <pre><code>
+        // "NextPage" コマンドを実行
+        nv.Command["NextPage"].Execute()
+        // 連想配列なので次の書き方でも良い
+        nv.Command.NextPage.Execute()
+    </code></pre>
+</p>
 
 <h2>[Type] CommandAccessor</h2>
 <p>
@@ -271,7 +280,7 @@
 <p>
     <pre><code>
         // ViewRotateLeft コマンドの回転量を45度に変更
-        nv.Command("ViewRotateLeft").Parameter.Angle = 45
+        nv.Command.ViewRotateLeft.Parameter.Angle = 45
     </code></pre>
 </p>
 <h3>CommandAccessor.ShortCutKey: string</h3>
@@ -281,7 +290,7 @@
 <p>
     <pre><code>
         // ViewRotateLeft のショートカットに Ctrl+A を設定
-        nv.Command("ViewRotateLeft").ShourtCutKey = "Ctrl+A"
+        nv.Command.ViewRotateLeft.ShourtCutKey = "Ctrl+A"
     </code></pre>
 </p>
 <h3>CommandAccessor.MouseGesture: string</h3>
@@ -302,7 +311,7 @@
 <p>
     <pre><code>
         // ViewRotateLeft のマウスジェスチャーに ↑←↓ を設定
-        nv.Command("ViewRotateLeft").MouseGesture = "ULD"
+        nv.Command.ViewRotateLeft.MouseGesture = "ULD"
     </code></pre>
 </p>
 <h3>CommandAccessor.TouchGesture: string</h3>
@@ -313,7 +322,7 @@
 <p>
     <pre><code>
         // ViewRotateLeft のタッチ操作に TouchCenter を設定
-        nv.Command("ViewRotateLeft").TouchGesture = "TouchCenter"
+        nv.Command.ViewRotateLeft.TouchGesture = "TouchCenter"
     </code></pre>
 </p>
 <h3>CommandAccessor.Execute(args...)</h3>
@@ -336,7 +345,7 @@
 <p>
     <pre><code>
         // C:\\Foo\\Bar.zip を開く
-        nv.Command("LoadAs").Execute("C:\\Foo\\Bar.zip")
+        nv.Command.LoadAs.Execute("C:\\Foo\\Bar.zip")
     </code></pre>
 </p>
 <h3>CommandAccessor.Patch(patch)</h3>
@@ -356,7 +365,7 @@
 <p>
     <pre><code>
         // 5度指定で左回転を実行
-        nv.Command("ViewRotateLeft").Patch({"Angle": 5}).Execute()
+        nv.Command.ViewRotateLeft.Patch({"Angle": 5}).Execute()
     </code></pre>
 </p>
 

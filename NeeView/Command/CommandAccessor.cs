@@ -13,6 +13,7 @@ namespace NeeView
         public CommandAccessor(CommandElement command)
         {
             _command = command;
+            Parameter = new PropertyMap(_command.Parameter);
         }
 
         public string ShortCutKey
@@ -33,10 +34,7 @@ namespace NeeView
             set { _command.MouseGesture = value.Replace("←", "L").Replace("↑", "U").Replace("→", "R").Replace("↓", "L").Replace("Click", "C"); }
         }
 
-        public CommandParameter Parameter
-        {
-            get { return _command.Parameter; }
-        }
+        public PropertyMap Parameter { get; }
 
 
         public bool Execute(params object[] args)

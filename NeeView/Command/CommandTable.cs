@@ -538,7 +538,6 @@ namespace NeeView
                     {
                         var type = command.Parameter.GetType();
                         var title = "";
-                        var enums = "";
 
                         if (command.Share != null)
                         {
@@ -555,14 +554,15 @@ namespace NeeView
                                     title = ResourceService.GetString(attribute.Title) + " / ";
                                 }
 
+                                var enums = "";
                                 if (info.PropertyType.IsEnum)
                                 {
-                                    enums = string.Join(" / ", info.PropertyType.VisibledAliasNameDictionary().Select(e => $"{Convert.ToInt32(e.Key)}: {e.Value}")) + "<br/>";
+                                    enums = string.Join(" / ", info.PropertyType.VisibledAliasNameDictionary().Select(e => $"\"{e.Key}\": {e.Value}")) + "<br/>";
                                 }
 
                                 var text = title + ResourceService.GetString(attribute.Name).TrimEnd(Properties.Resources.WordPeriod.ToArray()) + Properties.Resources.WordPeriod + (attribute.Tips != null ? " " + ResourceService.GetString(attribute.Tips) : "");
 
-                                properties = properties + $"<dt><b>{info.Name}</b>: {TypeToString(info.PropertyType)}</dt><dd>{enums + text}<dd/>";
+                                properties = properties + $"<dt><b>{info.Name}</b>: {info.PropertyType.ToManualString()}</dt><dd>{enums + text}<dd/>";
                             }
                         }
                         if (!string.IsNullOrEmpty(properties))
@@ -596,26 +596,6 @@ namespace NeeView
                 }
             }
         }
-
-
-
-        private string TypeToString(Type type)
-        {
-            switch (Type.GetTypeCode(type))
-            {
-                case TypeCode.Boolean:
-                    return "bool";
-                case TypeCode.Int32:
-                    return "int";
-                case TypeCode.Double:
-                    return "double";
-                case TypeCode.String:
-                    return "string";
-            }
-
-            return "???";
-        }
-
 
         #endregion
 
@@ -871,7 +851,7 @@ namespace NeeView
             public CommandCollection CreateCommandCollection()
             {
                 // TODO: とてもしっくりこないアクセスなのでいい感じに修正する
-                var elements =  CommandTable.Current._elements;
+                var elements = CommandTable.Current._elements;
 
                 var collection = new CommandCollection();
                 foreach (var pair in Elements)

@@ -6,6 +6,11 @@ namespace NeeView
     {
         public static string ToManualString(this Type type)
         {
+            if (type.IsEnum)
+            {
+                return "enum";
+            }
+
             switch (Type.GetTypeCode(type))
             {
                 case TypeCode.Boolean:

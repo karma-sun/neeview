@@ -12,7 +12,22 @@ namespace NeeView
     /// </summary>
     public class PropertyMap : PropertyMapNode
     {
-        private static PropertyMapConverter _defaultConverter = new PropertyMapDefaultConverter();
+        private static PropertyMapConverter _defaultConverter;
+        private static PropertyMapOptions _defaultOptions;
+
+        static PropertyMap()
+        {
+            _defaultConverter = new PropertyMapDefaultConverter();
+
+            _defaultOptions = new PropertyMapOptions();
+            _defaultOptions.Converters.Add(new PropertyMapEnumConverter());
+            _defaultOptions.Converters.Add(new PropertyMapSizeConverter());
+            _defaultOptions.Converters.Add(new PropertyMapPointConverter());
+            _defaultOptions.Converters.Add(new PropertyMapColorConverter());
+            _defaultOptions.Converters.Add(new PropertyMapFileTypeCollectionConverter());
+            _defaultOptions.Converters.Add(new PropertyMapStringCollectionConverter());
+        }
+
 
         private object _source;
         private Dictionary<string, PropertyMapNode> _items;
@@ -26,7 +41,7 @@ namespace NeeView
         public PropertyMap(object source, string prefix, PropertyMapOptions options)
         {
             _source = source;
-            _options = options ?? CreateDefaultOptions();
+            _options = options ?? _defaultOptions;
 
             var type = _source.GetType();
 
@@ -79,18 +94,12 @@ namespace NeeView
         }
 
 
-        public static PropertyMapOptions CreateDefaultOptions()
+        internal bool ContainsKey(string key)
         {
-            var options = new PropertyMapOptions();
-            options.Converters.Add(new PropertyMapEnumConverter());
-            options.Converters.Add(new PropertyMapSizeConverter());
-            options.Converters.Add(new PropertyMapPointConverter());
-            options.Converters.Add(new PropertyMapColorConverter());
-            options.Converters.Add(new PropertyMapFileTypeCollectionConverter());
-            options.Converters.Add(new PropertyMapStringCollectionConverter());
-
-            return options;
+            return _items.ContainsKey(key);
         }
+
+
 
         /// <summary>
         /// 外部からのプロパティの追加
@@ -105,7 +114,7 @@ namespace NeeView
         }
 
 
-        public string CreateHelpHtml(string prefix)
+        internal string CreateHelpHtml(string prefix)
         {
             string s = string.Empty;
 

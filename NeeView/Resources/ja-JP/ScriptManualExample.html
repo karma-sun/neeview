@@ -10,10 +10,10 @@
 
     if (nv.Book.IsNew) {
       if (nv.Book.Path.match(/English/) != null) {
-        nv.Command.SetBookReadOrderLeft.Execute()
+        nv.Book.Config.BookReadOrder = "LeftToRight"
       }
       else {
-        nv.Command.SetBookReadOrderRight.Execute()
+        nv.Book.Config.BookReadOrder = "RightToLeft"
       }
     }
   </code></pre>

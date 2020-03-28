@@ -170,21 +170,10 @@ namespace NeeView
             var clone = (CommandParameter)source.Clone();
             if (args == null) return clone;
 
-            var type = source.GetType();
-
+            var map = new PropertyMap(clone);
             foreach (var arg in args)
             {
-                var property = type.GetProperty(arg.Key);
-                if (property == null) throw new ArgumentException($"Property '{arg.Key}' is not supported.");
-
-                try
-                {
-                    property.SetValue(clone, Convert.ChangeType(arg.Value, property.PropertyType));
-                }
-                catch (Exception ex)
-                {
-                    throw new ArgumentException($"Property '{arg.Key}' value is invalid. {ex.Message}", ex);
-                }
+                map[arg.Key] = arg.Value;
             }
 
             return clone;
@@ -233,7 +222,7 @@ namespace NeeView
             return string.Join(",", new string[] { this.Group, this.Text, this.MenuText, this.Note, this.ShortCutKey, this.MouseGesture, new MouseGestureSequence(this.MouseGesture).ToDispString(), this.TouchGesture });
         }
 
-        #region Memento
+#region Memento
 
         [DataContract]
         public class Memento
@@ -289,9 +278,9 @@ namespace NeeView
             ParameterSource?.Restore(memento.Parameter);
         }
 
-        #endregion
+#endregion
 
-        #region MementoV2
+#region MementoV2
 
         /// <summary>
         /// 設定V2用
@@ -307,7 +296,7 @@ namespace NeeView
 
             public object Clone()
             {
-                var clone =  (MementoV2)MemberwiseClone();
+                var clone = (MementoV2)MemberwiseClone();
                 clone.Parameter = (CommandParameter)this.Parameter.Clone();
                 return clone;
             }
@@ -336,7 +325,7 @@ namespace NeeView
             ParameterSource?.Set(memento.Parameter);
         }
 
-        #endregion
+#endregion
 
     }
 }

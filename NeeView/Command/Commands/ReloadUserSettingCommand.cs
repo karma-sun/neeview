@@ -17,7 +17,7 @@
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            var setting = SaveData.Current.LoadConfig();
+            var setting = SaveData.Current.LoadUserSetting();
             UserSettingTools.Restore(setting);
         }
     }

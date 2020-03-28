@@ -8,6 +8,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
@@ -186,8 +188,8 @@ namespace NeeView
             {
                 try
                 {
-                    var newItem = new BookHistory() { Place = item.Place, LastAccessTime = item.LastAccessTime };
-                    Items.AddLastRaw(newItem.Place, newItem);
+                    var newItem = new BookHistory() { Path = item.Path, LastAccessTime = item.LastAccessTime };
+                    Items.AddLastRaw(newItem.Path, newItem);
                 }
                 catch (Exception ex)
                 {
@@ -233,11 +235,11 @@ namespace NeeView
 
             try
             {
-                var node = FindNode(memento.Place);
+                var node = FindNode(memento.Path);
                 if (node != null && isKeepOrder)
                 {
                     node.Value.Unit.Memento = memento;
-                    HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Update, memento.Place));
+                    HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Update, memento.Path));
                 }
                 else
                 {
@@ -247,12 +249,12 @@ namespace NeeView
 
                     if (node == Items.First)
                     {
-                        HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Update, memento.Place));
+                        HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Update, memento.Path));
                     }
                     else
                     {
-                        Items.AddFirst(node.Value.Place, node.Value);
-                        HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Add, memento.Place));
+                        Items.AddFirst(node.Value.Path, node.Value);
+                        HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Add, memento.Path));
                     }
                 }
             }
@@ -299,7 +301,7 @@ namespace NeeView
             var unlinked = new List<LinkedListNode<BookHistory>>();
             for (var node = this.Items.First; node != null; node = node.Next)
             {
-                if (!await ArchiveEntryUtility.ExistsAsync(node.Value.Place, token))
+                if (!await ArchiveEntryUtility.ExistsAsync(node.Value.Path, token))
                 {
                     unlinked.Add(node);
                 }
@@ -309,8 +311,8 @@ namespace NeeView
             {
                 foreach (var node in unlinked)
                 {
-                    Debug.WriteLine($"HistoryRemove: {node.Value.Place}");
-                    Items.Remove(node.Value.Place);
+                    Debug.WriteLine($"HistoryRemove: {node.Value.Path}");
+                    Items.Remove(node.Value.Path);
                 }
 
                 HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, null));
@@ -362,7 +364,7 @@ namespace NeeView
             {
                 Items.Remove(dst);
                 Items.Remap(src, dst);
-                item.Value.Place = dst;
+                item.Value.Path = dst;
                 HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Add, dst));
             }
         }
@@ -378,6 +380,10 @@ namespace NeeView
         [DataContract(Name = "BookHistory.Memento")]
         public class Memento : BindableBase, IMemento
         {
+            [JsonPropertyName("Format")]
+            public FormatVersion Format { get; set; }
+
+            [JsonIgnore]
             [DataMember]
             public int _Version { get; set; }
 
@@ -387,27 +393,34 @@ namespace NeeView
             [DataMember]
             public List<Book.Memento> Books { get; set; }
 
+            [JsonIgnore]
             [DataMember(Order = 8)]
             public string LastFolder { get; set; }
 
+            [JsonIgnore]
             [DataMember(Order = 12)]
             public int LimitSize { get; set; }
 
+            [JsonIgnore]
             [DataMember(Order = 12)]
             public TimeSpan LimitSpan { get; set; }
 
+            [JsonIgnore]
             [DataMember(Order = 19)]
             public bool IsKeepFolderStatus { get; set; }
 
+            [JsonIgnore]
             [DataMember]
             public bool IsKeepLastFolder { get; set; }
 
             [DataMember]
             public Dictionary<string, FolderParameter.Memento> Folders { get; set; }
 
+            [JsonIgnore]
             [DataMember]
             public string LastAddress { get; set; }
 
+            [JsonIgnore]
             [DataMember]
             public bool IsKeepSearchHistory { get; set; }
 
@@ -415,9 +428,11 @@ namespace NeeView
             public List<string> SearchHistory { get; set; }
 
             // no used
+            [JsonIgnore]
             [Obsolete, DataMember(Order = 8, EmitDefaultValue = false)]
             public Dictionary<string, FolderOrder> FolderOrders { get; set; } // no used (ver.22)
 
+            [JsonIgnore]
             [Obsolete, DataMember(Name = "History", EmitDefaultValue = false)]
             public List<Book.Memento> OldBooks { get; set; } // no used (ver.31)
 
@@ -451,7 +466,7 @@ namespace NeeView
                 if (_Version < Environment.GenerateProductVersionNumber(31, 0, 0))
                 {
                     Items = OldBooks != null
-                        ? OldBooks.Select(e => new BookHistory() { Place = e.Place, LastAccessTime = e.LastAccessTime }).ToList()
+                        ? OldBooks.Select(e => new BookHistory() { Path = e.Path, LastAccessTime = e.LastAccessTime }).ToList()
                         : new List<BookHistory>();
 
                     Books = OldBooks ?? new List<Book.Memento>();
@@ -472,8 +487,41 @@ namespace NeeView
             }
 
 
-            // ファイルに保存
             public void Save(string path)
+            {
+                Format = new FormatVersion(Environment.SolutionName + ".History", Environment.AssemblyVersion.Major, Environment.AssemblyVersion.Minor, 0);
+
+                var json = JsonSerializer.SerializeToUtf8Bytes(this, UserSettingTools.GetSerializerOptions());
+                File.WriteAllBytes(path, json);
+            }
+
+            public static Memento Load(string path)
+            {
+                var json = File.ReadAllBytes(path);
+                return Load(new ReadOnlySpan<byte>(json));
+            }
+
+            public static Memento Load(Stream stream)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    stream.CopyTo(ms);
+                    return Load(new ReadOnlySpan<byte>(ms.ToArray()));
+                }
+            }
+
+            public static Memento Load(ReadOnlySpan<byte> json)
+            {
+                return JsonSerializer.Deserialize<Memento>(json, UserSettingTools.GetSerializerOptions());
+
+                // TODO: v.38以後の互換性処理をここで？
+            }
+
+            #region Legacy
+
+            // ファイルに保存
+            [Obsolete]
+            public void SaveV1(string path)
             {
                 XmlWriterSettings settings = new XmlWriterSettings();
                 settings.Encoding = new System.Text.UTF8Encoding(false);
@@ -486,16 +534,16 @@ namespace NeeView
             }
 
             // ファイルから読み込み
-            public static Memento Load(string path)
+            public static Memento LoadV1(string path)
             {
                 using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
                 {
-                    return Load(stream);
+                    return LoadV1(stream);
                 }
             }
 
             // ストリームから読み込み
-            public static Memento Load(Stream stream)
+            public static Memento LoadV1(Stream stream)
             {
                 using (XmlReader xr = XmlReader.Create(stream))
                 {
@@ -504,6 +552,8 @@ namespace NeeView
                     return memento;
                 }
             }
+
+            #endregion Legacy
 
             // 合成
             public void Merge(Memento memento)
@@ -517,27 +567,27 @@ namespace NeeView
                 }
 
                 bool isDarty = false;
-                var itemMap = Items.ToDictionary(e => e.Place, e => e);
-                var bookMap = Books.ToDictionary(e => e.Place, e => e);
-                var importBookMap = memento.Books.ToDictionary(e => e.Place, e => e);
+                var itemMap = Items.ToDictionary(e => e.Path, e => e);
+                var bookMap = Books.ToDictionary(e => e.Path, e => e);
+                var importBookMap = memento.Books.ToDictionary(e => e.Path, e => e);
 
                 foreach (var item in memento.Items)
                 {
-                    if (itemMap.ContainsKey(item.Place))
+                    if (itemMap.ContainsKey(item.Path))
                     {
-                        if (itemMap[item.Place].LastAccessTime < item.LastAccessTime)
+                        if (itemMap[item.Path].LastAccessTime < item.LastAccessTime)
                         {
-                            Debug.WriteLine($"HistoryMerge: Update: {item.Place}");
-                            itemMap[item.Place] = item;
-                            bookMap[item.Place] = importBookMap[item.Place];
+                            Debug.WriteLine($"HistoryMerge: Update: {item.Path}");
+                            itemMap[item.Path] = item;
+                            bookMap[item.Path] = importBookMap[item.Path];
                             isDarty = true;
                         }
                     }
                     else
                     {
-                        Debug.WriteLine($"HistoryMerge: Add: {item.Place}");
-                        itemMap.Add(item.Place, item);
-                        bookMap.Add(item.Place, importBookMap[item.Place]);
+                        Debug.WriteLine($"HistoryMerge: Add: {item.Path}");
+                        itemMap.Add(item.Path, item);
+                        bookMap.Add(item.Path, importBookMap[item.Path]);
                         isDarty = true;
                     }
                 }
@@ -562,36 +612,32 @@ namespace NeeView
         }
 
         // memento作成
-        public Memento CreateMemento(bool forSave)
+        public Memento CreateMemento()
         {
             var memento = new Memento();
 
+#if false
             memento._Version = Environment.ProductVersionNumber;
-
-            memento.Folders = _folders;
             memento.LastFolder = Config.Current.StartUp.LastFolderPath;
             memento.LimitSize = Config.Current.History.LimitSize;
             memento.LimitSpan = Config.Current.History.LimitSpan;
             memento.IsKeepFolderStatus = Config.Current.History.IsKeepFolderStatus;
             memento.IsKeepLastFolder = Config.Current.StartUp.IsOpenLastFolder;
             memento.LastAddress = Config.Current.StartUp.LastBookPath;
-            memento.IsKeepSearchHistory = Config.Current.History.IsKeepSearchHistory;
-            memento.SearchHistory = this.SearchHistory.Any() ? this.SearchHistory.ToList() : null;
+            memento.IsKeepSearchHistory = Config.Current.History.IsKeepSearchHistory;  
+#endif
 
-            if (forSave)
+            memento.Items = Limit(this.Items.Where(e => !e.Path.StartsWith(Temporary.Current.TempDirectory)), Config.Current.History.LimitSize, Config.Current.History.LimitSpan).ToList();
+            memento.Books = memento.Items.Select(e => e.Unit.Memento).ToList();
+
+            if (Config.Current.History.IsKeepFolderStatus)
             {
-                memento.Items = Limit(this.Items.Where(e => !e.Place.StartsWith(Temporary.Current.TempDirectory)), Config.Current.History.LimitSize, Config.Current.History.LimitSpan).ToList();
-                memento.Books = memento.Items.Select(e => e.Unit.Memento).ToList();
-
-                if (!memento.IsKeepSearchHistory)
-                {
-                    memento.SearchHistory = null;
-                }
+                memento.Folders = _folders;
             }
-            else
+
+            if (Config.Current.History.IsKeepSearchHistory)
             {
-                memento.Items = this.Items.ToList();
-                memento.Books = memento.Items.Select(e => e.Unit.Memento).ToList();
+                memento.SearchHistory = this.SearchHistory.Any() ? this.SearchHistory.ToList() : null;
             }
 
             return memento;
@@ -602,14 +648,7 @@ namespace NeeView
         {
             if (memento == null) return;
 
-            ////this.LastFolder = memento.LastFolder;
-            ////this.LastAddress = memento.LastAddress;
             _folders = memento.Folders ?? _folders;
-            //this.LimitSize = memento.LimitSize;
-            //this.LimitSpan = memento.LimitSpan;
-            ////this.IsKeepLastFolder = memento.IsKeepLastFolder;
-            ////this.IsKeepFolderStatus = memento.IsKeepFolderStatus;
-            ////this.IsKeepSearchHistory = memento.IsKeepSearchHistory;
 
             if (memento.IsKeepSearchHistory)
             {
@@ -634,6 +673,6 @@ namespace NeeView
         }
 
 
-        #endregion
+#endregion
     }
 }

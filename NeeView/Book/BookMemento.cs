@@ -15,15 +15,15 @@ namespace NeeView
         public class Memento
         {
             // フォルダーの場所
-            [DataMember(EmitDefaultValue = false)]
-            public string Place { get; set; }
+            [DataMember(Name = "Place", EmitDefaultValue = false)]
+            public string Path { get; set; }
 
             // ディレクトリ？
             [DataMember(EmitDefaultValue = false)]
             public bool IsDirectorty { get; set; }
 
             // 名前
-            public string Name => Place.EndsWith(@":\") ? Place : System.IO.Path.GetFileName(Place);
+            public string Name => Path.EndsWith(@":\") ? Path : System.IO.Path.GetFileName(Path);
 
             // 現在ページ
             [DataMember(EmitDefaultValue = false)]
@@ -78,7 +78,7 @@ namespace NeeView
             // このmementoは履歴とデフォルト設定の２つに使われるが、デフォルト設定には本の場所やページ等は不要
             public void ValidateForDefault()
             {
-                Place = null;
+                Path = null;
                 Page = null;
                 IsDirectorty = false;
             }

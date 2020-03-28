@@ -204,7 +204,7 @@ namespace NeeView
         private void HistoryListItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var item = ((sender as ListBoxItem)?.Content as BookHistory);
-            _vm.Load(item?.Place);
+            _vm.Load(item?.Path);
         }
 
         // 履歴項目決定(キー)
@@ -214,7 +214,7 @@ namespace NeeView
 
             if (e.Key == Key.Return)
             {
-                _vm.Load(item?.Place);
+                _vm.Load(item?.Path);
                 e.Handled = true;
             }
         }

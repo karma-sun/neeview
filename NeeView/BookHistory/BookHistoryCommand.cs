@@ -40,7 +40,7 @@ namespace NeeView
 
             if (previous != null)
             {
-                BookHub.Current.RequestLoad(previous.Place, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe | BookLoadOption.IsBook, true);
+                BookHub.Current.RequestLoad(previous.Path, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe | BookLoadOption.IsBook, true);
             }
             else
             {
@@ -64,7 +64,7 @@ namespace NeeView
             var next = unit?.Previous; // リストと履歴の方向は逆 
             if (next != null)
             {
-                BookHub.Current.RequestLoad(next.Value.Place, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe | BookLoadOption.IsBook, true);
+                BookHub.Current.RequestLoad(next.Value.Path, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe | BookLoadOption.IsBook, true);
             }
             else
             {

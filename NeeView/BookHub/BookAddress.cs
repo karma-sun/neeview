@@ -94,7 +94,7 @@ namespace NeeView
                 switch (node.Value)
                 {
                     case Bookmark bookmark:
-                        query = new QueryPath(bookmark.Place);
+                        query = new QueryPath(bookmark.Path);
                         break;
                     case BookmarkFolder folder:
                         throw new BookAddressException(string.Format(Properties.Resources.NotifyCannotOpenBookmarkFolder, query.SimplePath));

@@ -137,7 +137,7 @@ namespace NeeView
         {
             var memento = new Book.Memento();
 
-            memento.Place = _source.Address;
+            memento.Path = _source.Address;
             memento.IsDirectorty = _source.IsDirectory;
             memento.Page = _source.Pages.SortMode != PageSortMode.Random ? _viewer.GetViewPage()?.EntryFullName : null;
 

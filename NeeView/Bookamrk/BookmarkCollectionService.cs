@@ -29,7 +29,7 @@ namespace NeeView
             }
 
             // TODO: 重複チェックはBookmarkCollectionで行うようにする?
-            var node = parent.Children.FirstOrDefault(e => e.Value is Bookmark bookmark && bookmark.Place == query.SimplePath);
+            var node = parent.Children.FirstOrDefault(e => e.Value is Bookmark bookmark && bookmark.Path == query.SimplePath);
             if (node == null)
             {
                 var unit = BookMementoCollection.Current.Set(query.SimplePath);

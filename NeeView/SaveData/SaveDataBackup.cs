@@ -135,19 +135,20 @@ namespace NeeView
             using (var archiver = ZipFile.OpenRead(filename))
             {
                 var settingEntry = archiver.GetEntry(SaveData.UserSettingFileName);
-                var settingEntryLegacy = archiver.GetEntry(SaveData.UserSettingFileNameLegacy);
+                var settingEntryV1 = archiver.GetEntry(Path.ChangeExtension(SaveData.UserSettingFileName, ".xml"));
                 var historyEntry = archiver.GetEntry(SaveData.HistoryFileName);
+                var historyEntryV1 = archiver.GetEntry(Path.ChangeExtension(SaveData.HistoryFileName, ".xml"));
                 var bookmarkEntry = archiver.GetEntry(SaveData.BookmarkFileName);
                 var pagemarkEntry = archiver.GetEntry(SaveData.PagemarkFileName);
 
                 // 選択
                 {
-                    if (settingEntry != null || settingEntryLegacy != null)
+                    if (settingEntry != null || settingEntryV1 != null)
                     {
                         selector.UserSettingCheckBox.IsEnabled = true;
                         selector.UserSettingCheckBox.IsChecked = true;
                     }
-                    if (historyEntry != null)
+                    if (historyEntry != null || historyEntryV1 != null)
                     {
                         selector.HistoryCheckBox.IsEnabled = true;
                         selector.HistoryCheckBox.IsChecked = true;
@@ -181,19 +182,19 @@ namespace NeeView
                             setting = UserSettingTools.Load(stream);
                         }
                     }
-                    else if (settingEntryLegacy != null)
+                    else if (settingEntryV1 != null)
                     {
-                        using (var stream = settingEntryLegacy.Open())
+                        using (var stream = settingEntryV1.Open())
                         {
-                            var settingV1 = UserSetting.Load(stream);
+                            var settingV1 = UserSetting.LoadV1(stream);
                             setting = settingV1.ConvertToV2();
                         }
                         // 一部の履歴設定を反映
-                        if (historyEntry != null)
+                        if (historyEntryV1 != null)
                         {
-                            using (var stream = historyEntry.Open())
+                            using (var stream = historyEntryV1.Open())
                             {
-                                var historyV1 = BookHistoryCollection.Memento.Load(stream); 
+                                var historyV1 = BookHistoryCollection.Memento.LoadV1(stream); 
                                 historyV1.RestoreConfig(setting.Config);
                             }
                         }
@@ -202,9 +203,19 @@ namespace NeeView
 
                 if (selector.HistoryCheckBox.IsChecked == true)
                 {
-                    using (var stream = historyEntry.Open())
+                    if (historyEntry != null)
                     {
-                        history = BookHistoryCollection.Memento.Load(stream);
+                        using (var stream = historyEntry.Open())
+                        {
+                            history = BookHistoryCollection.Memento.Load(stream);
+                        }
+                    }
+                    else if (historyEntryV1 != null)
+                    {
+                        using (var stream = historyEntryV1.Open())
+                        {
+                            history = BookHistoryCollection.Memento.LoadV1(stream);
+                        }
                     }
                 }
 

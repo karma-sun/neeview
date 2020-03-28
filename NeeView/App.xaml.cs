@@ -154,7 +154,7 @@ namespace NeeView
             Debug.WriteLine($"App.UserSettingLoading: {Stopwatch.ElapsedMilliseconds}ms");
             
             // 設定の読み込み 
-            var setting = SaveData.Current.LoadConfig();
+            var setting = SaveData.Current.LoadUserSetting();
 
             Debug.WriteLine($"App.UserSettingLoaded: {Stopwatch.ElapsedMilliseconds}ms");
 
@@ -190,15 +190,6 @@ namespace NeeView
 
             // キャッシュの場所
             Config.Current.System.CacheDirectory = ThumbnailCache.Current.SetDirectory(Config.Current.System.CacheDirectory);
-        }
-
-        /// <summary>
-        /// 各種データの場所情報の確定
-        /// </summary>
-        public void UpdateLocation()
-        {
-            Config.Current.System.TemporaryDirectory = Temporary.Current.TempRootPath;
-            Config.Current.System.CacheDirectory = ThumbnailCache.Current.CacheFolderPath;
         }
 
 

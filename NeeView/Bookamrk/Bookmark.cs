@@ -16,7 +16,7 @@ namespace NeeView
     [DataContract]
     public class Bookmark : BindableBase, IBookmarkEntry
     {
-        private string _place;
+        private string _path;
 
         public Bookmark()
         {
@@ -24,17 +24,17 @@ namespace NeeView
 
         public Bookmark(BookMementoUnit unit)
         {
-            Place = unit.Place;
+            Path = unit.Path;
             Unit = unit;
         }
 
-        [DataMember]
-        public string Place
+        [DataMember(Name = "Place")]
+        public string Path
         {
-            get { return _place; }
+            get { return _path; }
             set
             {
-                if (SetProperty(ref _place, value))
+                if (SetProperty(ref _path, value))
                 {
                     _unit = null;
                     RaisePropertyChanged(null);
@@ -50,13 +50,13 @@ namespace NeeView
         private BookMementoUnit _unit;
         public BookMementoUnit Unit
         {
-            get { return _unit = _unit ?? BookMementoCollection.Current.Set(Place); }
+            get { return _unit = _unit ?? BookMementoCollection.Current.Set(Path); }
             private set { _unit = value; }
         }
 
         public bool IsEqual(IBookmarkEntry entry)
         {
-            return entry is Bookmark bookmark && this.Name == bookmark.Name && this.Place == bookmark.Place;
+            return entry is Bookmark bookmark && this.Name == bookmark.Name && this.Path == bookmark.Path;
         }
 
         public override string ToString()

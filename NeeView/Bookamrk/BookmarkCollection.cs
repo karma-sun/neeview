@@ -67,11 +67,11 @@ namespace NeeView
         }
 
 
-        public Bookmark Find(string place)
+        public Bookmark Find(string path)
         {
-            if (place == null) return null;
+            if (path == null) return null;
 
-            return Items.Select(e => e.Value).OfType<Bookmark>().FirstOrDefault(e => e.Place == place);
+            return Items.Select(e => e.Value).OfType<Bookmark>().FirstOrDefault(e => e.Path == path);
         }
 
 
@@ -115,11 +115,11 @@ namespace NeeView
             }
             else if (path.Scheme == QueryScheme.Pagemark)
             {
-                return Items.FirstOrDefault(e => e.Value is Bookmark bookmark && bookmark.Place == path.SimplePath);
+                return Items.FirstOrDefault(e => e.Value is Bookmark bookmark && bookmark.Path == path.SimplePath);
             }
             else if (path.Scheme == QueryScheme.File)
             {
-                return Items.FirstOrDefault(e => e.Value is Bookmark bookmark && bookmark.Place == path.SimplePath);
+                return Items.FirstOrDefault(e => e.Value is Bookmark bookmark && bookmark.Path == path.SimplePath);
             }
             else
             {
@@ -226,7 +226,7 @@ namespace NeeView
             foreach (var node in Items.Where(e => e.Value is Bookmark))
             {
                 var bookmark = (Bookmark)node.Value;
-                if (!await ArchiveEntryUtility.ExistsAsync(bookmark.Place, token))
+                if (!await ArchiveEntryUtility.ExistsAsync(bookmark.Path, token))
                 {
                     unlinked.Add(node);
                 }
@@ -238,7 +238,7 @@ namespace NeeView
                 foreach (var node in unlinked)
                 {
                     var bookmark = (Bookmark)node.Value;
-                    Debug.WriteLine($"BookmarkRemove: {bookmark.Place}");
+                    Debug.WriteLine($"BookmarkRemove: {bookmark.Path}");
                     node.RemoveSelf();
                 }
 
@@ -407,9 +407,9 @@ namespace NeeView
         {
             foreach (var item in Items)
             {
-                if (item.Value is Bookmark bookmark && bookmark.Place == src)
+                if (item.Value is Bookmark bookmark && bookmark.Path == src)
                 {
-                    bookmark.Place = dst;
+                    bookmark.Path = dst;
                     BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Rename, item.Parent, item));
                 }
             }
@@ -521,7 +521,7 @@ namespace NeeView
                     Nodes = new TreeListNode<IBookmarkEntry>();
                     foreach (var book in OldBooks)
                     {
-                        Nodes.Add(new Bookmark() { Place = book.Place });
+                        Nodes.Add(new Bookmark() { Path = book.Path });
                     }
 
                     Books = OldBooks ?? new List<Book.Memento>();
@@ -539,9 +539,9 @@ namespace NeeView
                     {
                         try
                         {
-                            if (book.Place != null)
+                            if (book.Path != null)
                             {
-                                book.IsDirectorty = Directory.Exists(book.Place);
+                                book.IsDirectorty = Directory.Exists(book.Path);
                             }
                         }
                         catch (Exception ex)
@@ -643,7 +643,7 @@ namespace NeeView
             {
                 if (node.Value is Bookmark bookmark)
                 {
-                    return bookmark.Place == path.SimplePath;
+                    return bookmark.Path == path.SimplePath;
                 }
             }
 

@@ -28,7 +28,7 @@ namespace NeeView
 
         public BookMementoUnit Set(Book.Memento memento)
         {
-            var unit = Get(memento.Place);
+            var unit = Get(memento.Path);
             if (unit != null)
             {
                 unit.Memento = memento;
@@ -42,7 +42,7 @@ namespace NeeView
 
         public BookMementoUnit Set(BookMementoUnit unit)
         {
-            Items[unit.Memento.Place] = unit;
+            Items[unit.Memento.Path] = unit;
             return unit;
         }
 
@@ -67,7 +67,7 @@ namespace NeeView
             {
                 Items.Remove(src);
                 Items.Remove(dst);
-                unit.Memento.Place = dst;
+                unit.Memento.Path = dst;
                 Items.Add(dst, unit);
 
                 BookHistoryCollection.Current.Rename(src, dst);
@@ -87,7 +87,7 @@ namespace NeeView
             var histories = BookHistoryCollection.Current.Items.Select(e => e.Unit);
             var bookmarks = BookmarkCollection.Current.Items.Select(e => e.Value).OfType<Bookmark>().Select(e => e.Unit).Distinct();
 
-            Items = histories.Union(bookmarks).ToDictionary(e => e.Place, e => e);
+            Items = histories.Union(bookmarks).ToDictionary(e => e.Path, e => e);
         }
     }
 }

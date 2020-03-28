@@ -12,7 +12,7 @@ namespace NeeView
     [DataContract]
     public class BookHistory : BindableBase, IHasPage, IHasName
     {
-        private string _place;
+        private string _path;
 
         public BookHistory()
         {
@@ -20,18 +20,18 @@ namespace NeeView
 
         public BookHistory(BookMementoUnit unit, DateTime lastAccessTime)
         {
-            Place = unit.Place;
+            Path = unit.Path;
             LastAccessTime = lastAccessTime;
             Unit = unit;
         }
 
-        [DataMember]
-        public string Place
+        [DataMember(Name = "Place")]
+        public string Path
         {
-            get { return _place; }
+            get { return _path; }
             set
             {
-                if (SetProperty(ref _place, value))
+                if (SetProperty(ref _path, value))
                 {
                     _unit = null;
                     RaisePropertyChanged(null);
@@ -48,20 +48,20 @@ namespace NeeView
 
         public string Name => Unit.Memento.Name;
         public string Note => Unit.ArchivePage.Entry?.RootArchiverName;
-        public string Detail => Place + "\n" + LastAccessTime;
+        public string Detail => Path + "\n" + LastAccessTime;
 
         public IThumbnail Thumbnail => Unit.ArchivePage.Thumbnail;
 
         private BookMementoUnit _unit;
         public BookMementoUnit Unit
         {
-            get { return _unit = _unit ?? BookMementoCollection.Current.Set(Place); }
+            get { return _unit = _unit ?? BookMementoCollection.Current.Set(Path); }
             private set { _unit = value; }
         }
 
         public override string ToString()
         {
-            return Place ?? base.ToString();
+            return Path ?? base.ToString();
         }
 
         public Page GetPage()

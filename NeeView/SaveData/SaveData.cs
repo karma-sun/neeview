@@ -15,17 +15,15 @@ namespace NeeView
         static SaveData() => Current = new SaveData();
         public static SaveData Current { get; }
 
-        private Models _models;
+        private string _settingFilenameToDelete;
+        private string _historyFilenameToDelete;
 
         private SaveData()
         {
-            _models = new Models();
-            UpdateLocation();
         }
 
-        public const string UserSettingFileNameLegacy = "UserSetting.xml";
         public const string UserSettingFileName = "UserSetting.json";
-        public const string HistoryFileName = "History.xml";
+        public const string HistoryFileName = "History.json";
         public const string BookmarkFileName = "Bookmark.xml";
         public const string PagemarkFileName = "Pagemark.xml";
 
@@ -34,22 +32,15 @@ namespace NeeView
         public static string DefaultPagemarkFilePath => Path.Combine(Environment.LocalApplicationDataPath, PagemarkFileName);
 
         public string UserSettingFilePath => App.Current.Option.SettingFilename;
-        public string HistoryFilePath { get; private set; }
-        public string BookmarkFilePath { get; private set; }
-        public string PagemarkFilePath { get; private set; }
+        public string HistoryFilePath => Config.Current.History.HistoryFilePath ?? DefaultHistoryFilePath;
+        public string BookmarkFilePath => Config.Current.Bookmark.BookmarkFilePath ?? DefaultBookmarkFilePath;
+        public string PagemarkFilePath => Config.Current.Pagemark.PagemarkFilePath ?? DefaultPagemarkFilePath;
 
         [Obsolete]
         public UserSetting UserSettingTemp { get; private set; }
 
         public bool IsEnableSave { get; set; } = true;
 
-
-        public void UpdateLocation()
-        {
-            HistoryFilePath = Config.Current.History.HistoryFilePath ?? DefaultHistoryFilePath;
-            BookmarkFilePath = Config.Current.Bookmark.BookmarkFilePath ?? DefaultBookmarkFilePath;
-            PagemarkFilePath = Config.Current.Pagemark.PagemarkFilePath ?? DefaultPagemarkFilePath;
-        }
 
         // アプリ設定作成
         public UserSetting CreateSetting()
@@ -62,17 +53,18 @@ namespace NeeView
             setting.CommandMememto = CommandTable.Current.CreateMemento();
             setting.DragActionMemento = DragActionTable.Current.CreateMemento();
 
-            setting.Memento = _models.CreateMemento();
+            setting.Memento = new Models().CreateMemento();
 
             return setting;
         }
 
         #region Load
 
+
         /// <summary>
         /// 設定の読み込み
         /// </summary>
-        public UserSettingV2 LoadConfig()
+        public UserSettingV2 LoadUserSetting()
         {
             if (App.Current.IsMainWindowLoaded)
             {
@@ -84,22 +76,29 @@ namespace NeeView
             {
                 App.Current.SemaphoreWait();
 
-                var v1FileName = Path.ChangeExtension(App.Current.Option.SettingFilename, ".xml");
-                var v2FileName = Path.ChangeExtension(App.Current.Option.SettingFilename, ".json");
+                var filename = App.Current.Option.SettingFilename;
+                var extension = Path.GetExtension(filename).ToLower();
+                var filenameV1 = Path.ChangeExtension(filename, ".xml");
 
-                if (File.Exists(v2FileName))
+                if (extension == ".json" && File.Exists(filename))
                 {
-                    var settingV2 = SafetyLoad(UserSettingTools.Load, v2FileName, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
-                    __TestV1Compatibilty(settingV2);
-                    return settingV2;
+                    var setting = SafetyLoad(UserSettingTools.Load, filename, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
+                    __TestV1Compatibilty(setting);
+                    return setting;
                 }
 
-                if (File.Exists(v1FileName))
+                // before v.37
+                else if (File.Exists(filenameV1))
                 {
-                    var settingV1 = SafetyLoad(UserSetting.Load, v1FileName, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
+                    var settingV1 = SafetyLoad(UserSetting.LoadV1, filenameV1, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
                     var settingV1Converted = settingV1.ConvertToV2();
-                    var historyV1 = SafetyLoad(BookHistoryCollection.Memento.Load, HistoryFilePath, Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle); // 一部の履歴設定を反映
+
+                    var historyV1FilePath = Path.ChangeExtension(settingV1.App.HistoryFilePath ?? DefaultHistoryFilePath, ".xml");
+                    var historyV1 = SafetyLoad(BookHistoryCollection.Memento.LoadV1, historyV1FilePath, Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle); // 一部の履歴設定を反映
                     historyV1.RestoreConfig(settingV1Converted.Config);
+
+                    _settingFilenameToDelete = filenameV1;
+
                     return settingV1Converted;
                 }
 
@@ -121,11 +120,25 @@ namespace NeeView
             var v1FileName = Path.ChangeExtension(App.Current.Option.SettingFilename, ".xml");
             if (File.Exists(v1FileName))
             {
-                var settingV1 = SafetyLoad(UserSetting.Load, v1FileName, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
+                var settingV1 = SafetyLoad(UserSetting.LoadV1, v1FileName, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
                 var settingV1Converted = settingV1.ConvertToV2();
 
-                var historyV1 = SafetyLoad(BookHistoryCollection.Memento.Load, HistoryFilePath, Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle); // 一部の履歴設定を反映
-                historyV1.RestoreConfig(settingV1Converted.Config);
+                var historyV1FilePath = Path.ChangeExtension(settingV1.App.HistoryFilePath ?? DefaultHistoryFilePath, ".xml");
+                if (File.Exists(historyV1FilePath))
+                {
+                    var historyV1 = SafetyLoad(BookHistoryCollection.Memento.LoadV1, historyV1FilePath, Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle); // 一部の履歴設定を反映
+                    historyV1.RestoreConfig(settingV1Converted.Config);
+                }
+                else
+                {
+                    settingV1Converted.Config.StartUp.IsOpenLastFolder = settingV2.Config.StartUp.IsOpenLastFolder;
+                    settingV1Converted.Config.StartUp.LastFolderPath = settingV2.Config.StartUp.LastFolderPath;
+                    settingV1Converted.Config.StartUp.LastBookPath = settingV2.Config.StartUp.LastBookPath;
+                    settingV1Converted.Config.History.IsKeepFolderStatus = settingV2.Config.History.IsKeepFolderStatus;
+                    settingV1Converted.Config.History.IsKeepSearchHistory = settingV2.Config.History.IsKeepSearchHistory;
+                    settingV1Converted.Config.History.LimitSize = settingV2.Config.History.LimitSize;
+                    settingV1Converted.Config.History.LimitSpan = settingV2.Config.History.LimitSpan;
+                }
 
                 Debug.Assert(CheckValueEquality(settingV1Converted, settingV2, nameof(UserSettingV2)));
             }
@@ -236,8 +249,24 @@ namespace NeeView
             try
             {
                 App.Current.SemaphoreWait();
-                BookHistoryCollection.Memento memento = SafetyLoad(BookHistoryCollection.Memento.Load, HistoryFilePath, Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle);
-                BookHistoryCollection.Current.Restore(memento, true);
+
+                var filename = HistoryFilePath;
+                var extension = Path.GetExtension(filename).ToLower();
+                var filenameV1 = Path.ChangeExtension(filename, ".xml");
+
+                if (extension == ".json" && File.Exists(filename))
+                {
+                    BookHistoryCollection.Memento memento = SafetyLoad(BookHistoryCollection.Memento.Load, HistoryFilePath, Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle);
+                    BookHistoryCollection.Current.Restore(memento, true);
+                }
+                // before v.37
+                else if (File.Exists(filenameV1))
+                {
+                    BookHistoryCollection.Memento memento = SafetyLoad(BookHistoryCollection.Memento.LoadV1, filenameV1, Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle);
+                    BookHistoryCollection.Current.Restore(memento, true);
+
+                    _historyFilenameToDelete = filenameV1;
+                }
             }
             finally
             {
@@ -344,9 +373,9 @@ namespace NeeView
         #region Save
 
         /// <summary>
-        /// 設定の保存(仮)
+        /// 設定の保存
         /// </summary>
-        public void SaveConfig()
+        public void SaveUserSetting()
         {
             if (!IsEnableSave) return;
 
@@ -362,10 +391,37 @@ namespace NeeView
             {
                 App.Current.SemaphoreRelease();
             }
+
+            RemoveLegacyUserSetting();
+        }
+
+        /// <summary>
+        /// 必要であるならば、古い設定ファイルを削除
+        /// </summary>
+        public void RemoveLegacyUserSetting()
+        {
+            if (_settingFilenameToDelete == null) return;
+
+            try
+            {
+                App.Current.SemaphoreWait();
+                Debug.WriteLine($"RemoveLegacyUserSetting: {_settingFilenameToDelete}");
+                FileIO.RemoveFile(_settingFilenameToDelete);
+            }
+            catch
+            {
+            }
+            finally
+            {
+                App.Current.SemaphoreRelease();
+            }
+
+            _settingFilenameToDelete = null;
         }
 
         [Obsolete]
-        public void SaveUserSetting()
+        [Conditional("DEBUG")]
+        public void SaveUserSettingV1()
         {
             if (!IsEnableSave) return;
 
@@ -382,7 +438,7 @@ namespace NeeView
             try
             {
                 App.Current.SemaphoreWait();
-                SafetySave(setting.Save, Path.ChangeExtension(App.Current.Option.SettingFilename, ".xml"), Config.Current.System.IsSettingBackup);
+                SafetySave(setting.SaveV1, Path.ChangeExtension(App.Current.Option.SettingFilename, ".xml"), Config.Current.System.IsSettingBackup);
             }
             catch
             {
@@ -406,14 +462,14 @@ namespace NeeView
                 App.Current.SemaphoreWait();
                 if (Config.Current.History.IsSaveHistory)
                 {
-                    var bookHistoryMemento = BookHistoryCollection.Current.CreateMemento(true);
+                    var bookHistoryMemento = BookHistoryCollection.Current.CreateMemento();
 
                     try
                     {
                         var fileInfo = new FileInfo(HistoryFilePath);
                         if (fileInfo.Exists && fileInfo.LastWriteTime > App.Current.StartTime)
                         {
-                            var margeMemento = SafetyLoad(BookHistoryCollection.Memento.Load, HistoryFilePath, Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle);
+                            var margeMemento = SafetyLoad(BookHistoryCollection.Memento.LoadV1, HistoryFilePath, Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle);
                             bookHistoryMemento.Merge(margeMemento);
                         }
                     }
@@ -436,6 +492,32 @@ namespace NeeView
             {
                 App.Current.SemaphoreRelease();
             }
+
+            RemoveLegacyHistory();
+        }
+
+        /// <summary>
+        /// 必要であるならば、古い設定ファイルを削除
+        /// </summary>
+        public void RemoveLegacyHistory()
+        {
+            if (_historyFilenameToDelete == null) return;
+
+            try
+            {
+                App.Current.SemaphoreWait();
+                Debug.WriteLine($"RemoveLegacyHistory: {_historyFilenameToDelete}");
+                FileIO.RemoveFile(_historyFilenameToDelete);
+            }
+            catch
+            {
+            }
+            finally
+            {
+                App.Current.SemaphoreRelease();
+            }
+
+            _historyFilenameToDelete = null;
         }
 
         /// <summary>

@@ -44,7 +44,7 @@ namespace NeeView
 
 
         // ファイルに保存
-        public void Save(string path)
+        public void SaveV1(string path)
         {
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.Encoding = new System.Text.UTF8Encoding(false);
@@ -57,17 +57,17 @@ namespace NeeView
         }
 
         // ファイルから読み込み
-        public static UserSetting Load(string path)
+        public static UserSetting LoadV1(string path)
         {
             using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
                 stream.Seek(0, SeekOrigin.Begin);
-                return Load(stream);
+                return LoadV1(stream);
             }
         }
 
         // ストリームから読み込み
-        public static UserSetting Load(Stream stream)
+        public static UserSetting LoadV1(Stream stream)
         {
             using (XmlReader xr = XmlReader.Create(stream))
             {

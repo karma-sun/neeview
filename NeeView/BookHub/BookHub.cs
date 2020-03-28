@@ -1022,15 +1022,15 @@ namespace NeeView
 
         // ブック設定の作成
         // 開いているブックならばその設定を取得する
-        public Book.Memento CreateBookMemento(string place)
+        public Book.Memento CreateBookMemento(string path)
         {
-            if (place == null) throw new ArgumentNullException();
+            if (path == null) throw new ArgumentNullException();
 
             var memento = CreateBookMemento();
-            if (memento == null || memento.Place != place)
+            if (memento == null || memento.Path != path)
             {
                 memento = BookSettingPresenter.Current.DefaultSetting.ToBookMemento();
-                memento.Place = place;
+                memento.Path = path;
             }
             return memento;
         }
@@ -1038,19 +1038,19 @@ namespace NeeView
         /// <summary>
         /// 最新の設定を取得
         /// </summary>
-        /// <param name="place">場所</param>
+        /// <param name="path">場所</param>
         /// <param name="lastest">現在の情報</param>
-        private Book.Memento CreateLastestBookMemento(string place, Book.Memento lastest)
+        private Book.Memento CreateLastestBookMemento(string path, Book.Memento lastest)
         {
             Book.Memento memento = null;
 
-            if (lastest?.Place == place)
+            if (lastest?.Path == path)
             {
                 memento = lastest.Clone();
             }
             else
             {
-                var unit = BookMementoCollection.Current.GetValid(place);
+                var unit = BookMementoCollection.Current.GetValid(path);
                 if (unit != null)
                 {
                     memento = unit.Memento.Clone();
@@ -1060,10 +1060,10 @@ namespace NeeView
             return memento;
         }
 
-        private Book.Memento CreateOpenBookMemento(string place, Book.Memento lastest, BookLoadOption option)
+        private Book.Memento CreateOpenBookMemento(string path, Book.Memento lastest, BookLoadOption option)
         {
-            var memory = CreateLastestBookMemento(place, lastest);
-            Debug.Assert(memory == null || memory.Place == place);
+            var memory = CreateLastestBookMemento(path, lastest);
+            Debug.Assert(memory == null || memory.Path == path);
 
             if (memory != null && option.HasFlag(BookLoadOption.Resume))
             {
@@ -1095,7 +1095,7 @@ namespace NeeView
             if (memento == null) return;
 
             // 情報更新
-            var unit = BookMementoCollection.Current.Get(memento.Place);
+            var unit = BookMementoCollection.Current.Get(memento.Path);
             if (unit != null)
             {
                 unit.Memento = memento;

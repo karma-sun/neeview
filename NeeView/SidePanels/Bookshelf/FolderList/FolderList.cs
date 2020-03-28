@@ -133,7 +133,7 @@ namespace NeeView
                         default:
                             if (e.Item.Value is Bookmark bookmark)
                             {
-                                _folderListBoxModel.RefreshIcon(new QueryPath(bookmark.Place));
+                                _folderListBoxModel.RefreshIcon(new QueryPath(bookmark.Path));
                             }
                             break;
                     }

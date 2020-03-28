@@ -65,7 +65,7 @@ namespace NeeView
                         if (QueryScheme.Bookmark.IsMatch(Config.Current.StartUp.LastFolderPath))
                         {
                             var node = BookmarkCollection.Current.FindNode(Config.Current.StartUp.LastFolderPath);
-                            if (node != null && node.Select(e => e.Value).OfType<Bookmark>().Any(e => e.Place == path))
+                            if (node != null && node.Select(e => e.Value).OfType<Bookmark>().Any(e => e.Path == path))
                             {
                                 _folderPath = Config.Current.StartUp.LastFolderPath;
                                 _isFolderLink = true;

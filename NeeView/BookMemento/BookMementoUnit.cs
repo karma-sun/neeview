@@ -22,11 +22,11 @@ namespace NeeView
 
         public Book.Memento Memento { get; set; }
 
-        public string Place => Memento?.Place;
+        public string Path => Memento?.Path;
 
         public override string ToString()
         {
-            return Memento?.Place ?? base.ToString();
+            return Memento?.Path ?? base.ToString();
         }
 
         #region for Thumbnail
@@ -42,7 +42,7 @@ namespace NeeView
             {
                 if (_archivePage == null)
                 {
-                    _archivePage = new Page("", new ArchiveContent(Memento.Place));
+                    _archivePage = new Page("", new ArchiveContent(Memento.Path));
                     _archivePage.Thumbnail.IsCacheEnabled = true;
                     _archivePage.Thumbnail.Touched += Thumbnail_Touched;
                 }

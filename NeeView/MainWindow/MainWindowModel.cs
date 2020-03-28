@@ -473,18 +473,6 @@ namespace NeeView
             // TODO: 非同期化できないか？
             SusiePluginManager.Current.Initialize();
 
-            // Chrome反映
-            ////WindowShape.Current.WindowChromeFrame = App.Current.WindowChromeFrame;
-
-            // 設定反映
-            ////SaveData.Current.RestoreSetting(SaveData.Current.UserSettingTemp);
-            // 保持設定破棄
-            ////SaveData.Current.ReleaseUserSettingTemp();
-
-            // 現在セッションでのファイルの保存場所の確定
-            App.Current.UpdateLocation();
-            SaveData.Current.UpdateLocation();
-
             // 履歴読み込み
             SaveData.Current.LoadHistory();
 

@@ -365,7 +365,7 @@ namespace NeeView
             var parentNode = item.BookmarkSource;
 
             // TODO: 重複チェックはBookmarkCollectionで行うようにする
-            var node = parentNode.Children.FirstOrDefault(e => e.Value is Bookmark bookmark && bookmark.Place == address);
+            var node = parentNode.Children.FirstOrDefault(e => e.Value is Bookmark bookmark && bookmark.Path == address);
             if (node == null)
             {
                 var unit = BookMementoCollection.Current.Set(address);

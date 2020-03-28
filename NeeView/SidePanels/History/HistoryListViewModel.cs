@@ -264,7 +264,7 @@ namespace NeeView
             this.ListBoxContent.RestoreFocus();
 
             // 削除
-            BookHistoryCollection.Current.Remove(item.Place);
+            BookHistoryCollection.Current.Remove(item.Path);
         }
 
         /// <summary>

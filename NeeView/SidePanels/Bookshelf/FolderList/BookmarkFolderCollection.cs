@@ -100,7 +100,7 @@ namespace NeeView
                             }
                             else if (e.Item.Value is Bookmark bookmark)
                             {
-                                RenameItem(item, new QueryPath(bookmark.Place));
+                                RenameItem(item, new QueryPath(bookmark.Path));
                             }
                         }
                     }
@@ -184,13 +184,13 @@ namespace NeeView
                 Type = FolderItemType.File,
                 Place = Place,
                 Name = bookmark.Name,
-                TargetPath = new QueryPath(bookmark.Place),
+                TargetPath = new QueryPath(bookmark.Path),
                 Attributes = FolderItemAttribute.Bookmark,
                 EntryTime = bookmark.EntryTime,
                 IsReady = true
             };
 
-            switch (GetFileSystemInfo(bookmark.Place))
+            switch (GetFileSystemInfo(bookmark.Path))
             {
                 case DirectoryInfo directoryInfo:
                     item.Length = -1;

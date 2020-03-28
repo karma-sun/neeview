@@ -68,7 +68,7 @@ namespace NeeView
             // TODO: v.38以後の互換性処理をここで？
         }
 
-        private static JsonSerializerOptions GetSerializerOptions()
+        public static JsonSerializerOptions GetSerializerOptions()
         {
             var options = new JsonSerializerOptions();
 

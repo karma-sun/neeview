@@ -134,9 +134,14 @@ namespace NeeView
                 ? _mode == ExportImageMode.Original ? ExportImageFileNameMode.Original : ExportImageFileNameMode.BookPageNumber
                 : fileNameMode;
 
+            var extension = _mode == ExportImageMode.Original
+                ? LoosePath.GetExtension(_source.Pages[0].EntryLastName).ToLower()
+                : format == ExportImageFormat.Png ? ".png" : ".jpg";
+
             if (nameMode == ExportImageFileNameMode.Original)
             {
-                return LoosePath.ValidFileName(_source.Pages[0].EntryLastName);
+                var filename = LoosePath.ValidFileName(_source.Pages[0].EntryLastName);
+                return System.IO.Path.ChangeExtension(filename, extension);
             }
             else
             {
@@ -145,10 +150,6 @@ namespace NeeView
                 var indexLabel = _mode != ExportImageMode.Original && _source.Pages.Count > 1
                     ? $"{_source.Pages[0].Index:000}-{_source.Pages[1].Index:000}"
                     : $"{_source.Pages[0].Index:000}";
-                
-                var extension = _mode == ExportImageMode.Original
-                    ? LoosePath.GetExtension(_source.Pages[0].EntryLastName).ToLower()
-                    : format == ExportImageFormat.Png ? ".png" : ".jpg";
 
                 return LoosePath.ValidFileName($"{bookName}_{indexLabel}{extension}");
             }

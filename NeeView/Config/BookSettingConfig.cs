@@ -8,7 +8,7 @@ namespace NeeView
     public class BookSettingConfig : BindableBase, ICloneable, IEquatable<BookSettingConfig>
     {
         // ページ
-        [JsonIgnore, PropertyMapIgnore]
+        [JsonIgnore, PropertyMapIgnoreAttribute]
         [PropertyMember("@ParamBookPage")]
         public string Page
         {

@@ -41,7 +41,7 @@ namespace NeeView
         /// カスタムサイズ：横幅
         /// </summary>
         [PropertyRange("@ParamPictureCustomWidth", 16, 4096)]
-        [JsonIgnore, PropertyMapIgnore]
+        [JsonIgnore, PropertyMapIgnoreAttribute]
         public int Width
         {
             get { return (int)_Size.Width; }
@@ -52,7 +52,7 @@ namespace NeeView
         /// カスタムサイズ：縦幅
         /// </summary>
         [PropertyRange("@ParamPictureCustomHeight", 16, 4096)]
-        [JsonIgnore, PropertyMapIgnore]
+        [JsonIgnore, PropertyMapIgnoreAttribute]
         public int Height
         {
             get { return (int)_Size.Height; }

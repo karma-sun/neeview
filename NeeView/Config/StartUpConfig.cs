@@ -46,14 +46,14 @@ namespace NeeView
 
         #region 状態保存用
 
-        [PropertyMapIgnore]
+        [PropertyMapIgnoreAttribute]
         public string LastBookPath
         {
             get { return IsOpenLastBook ? _lastBookPath : null; }
             set { SetProperty(ref _lastBookPath, IsOpenLastBook ? value : null); }
         }
 
-        [PropertyMapIgnore]
+        [PropertyMapIgnoreAttribute]
         public string LastFolderPath
         {
             get { return IsOpenLastFolder ? _lastFolderPath : null; }

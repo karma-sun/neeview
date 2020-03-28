@@ -124,10 +124,10 @@ namespace NeeView
 
         #region 非公開パラメーター
 
-        [PropertyMapIgnore]
+        [PropertyMapIgnoreAttribute]
         public GridLength GridLength0 { get; set; } = new GridLength(1, GridUnitType.Star);
 
-        [PropertyMapIgnore]
+        [PropertyMapIgnoreAttribute]
         public GridLength GridLength2 { get; set; } = new GridLength(1, GridUnitType.Star);
 
         #endregion

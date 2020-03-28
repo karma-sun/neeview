@@ -167,48 +167,48 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
-                FileIOProfile.RestoreConfig(config);
-                JobEngine.RestoreConfig(config);
-                SoundPlayerService.RestoreConfig(config);
-                PictureProfile.RestoreConfig(config);
-                ImageFilter.RestoreConfig(config);
-                ZipArchiverProfile.RestoreConfig(config);
-                SevenZipArchiverProfile.RestoreConfig(config);
-                PdfArchiverProfile.RestoreConfig(config);
-                MediaArchiverProfile.RestoreConfig(config);
-                ThumbnailProfile.RestoreConfig(config);
-                InfoMessage.RestoreConfig(config);
-                BookProfile.RestoreConfig(config);
-                BookHub.RestoreConfig(config);
-                BookOperation.RestoreConfig(config);
-                BookSettingPresenter.RestoreConfig(config);
-                ThemeProfile.RestoreConfig(config);
-                MainWindowModel.RestoreConfig(config);
-                ContentCanvas.RestoreConfig(config);
-                ContentCanvasBrush.RestoreConfig(config);
-                DragTransform.RestoreConfig(config);
-                DragTransformControl.RestoreConfig(config);
-                LoupeTransform.RestoreConfig(config);
-                MouseInput.RestoreConfig(config);
-                TouchInput.RestoreConfig(config);
-                SlideShow.RestoreConfig(config);
-                WindowTitle.RestoreConfig(config);
-                PageSlider.RestoreConfig(config);
-                MediaControl.RestoreConfig(config);
-                ThumbnailList.RestoreConfig(config);
-                MenuBar.RestoreConfig(config);
-                SidePanelProfile.RestoreConfig(config);
-                PageListPlacementService.RestoreConfig(config);
-                FolderPanel.RestoreConfig(config);
-                BookshelfFolderList.RestoreConfig(config);
-                BookmarkFolderList.RestoreConfig(config);
-                PageList.RestoreConfig(config);
-                HistoryList.RestoreConfig(config);
-                PagemarkList.RestoreConfig(config);
-                FileInformation.RestoreConfig(config);
-                ImageEffect.RestoreConfig(config);
-                SidePanel.RestoreConfig(config);
-                PageViewRecorder.RestoreConfig(config);
+                FileIOProfile?.RestoreConfig(config);
+                JobEngine?.RestoreConfig(config);
+                SoundPlayerService?.RestoreConfig(config);
+                PictureProfile?.RestoreConfig(config);
+                ImageFilter?.RestoreConfig(config);
+                ZipArchiverProfile?.RestoreConfig(config);
+                SevenZipArchiverProfile?.RestoreConfig(config);
+                PdfArchiverProfile?.RestoreConfig(config);
+                MediaArchiverProfile?.RestoreConfig(config);
+                ThumbnailProfile?.RestoreConfig(config);
+                InfoMessage?.RestoreConfig(config);
+                BookProfile?.RestoreConfig(config);
+                BookHub?.RestoreConfig(config);
+                BookOperation?.RestoreConfig(config);
+                BookSettingPresenter?.RestoreConfig(config);
+                ThemeProfile?.RestoreConfig(config);
+                MainWindowModel?.RestoreConfig(config);
+                ContentCanvas?.RestoreConfig(config);
+                ContentCanvasBrush?.RestoreConfig(config);
+                DragTransform?.RestoreConfig(config);
+                DragTransformControl?.RestoreConfig(config);
+                LoupeTransform?.RestoreConfig(config);
+                MouseInput?.RestoreConfig(config);
+                TouchInput?.RestoreConfig(config);
+                SlideShow?.RestoreConfig(config);
+                WindowTitle?.RestoreConfig(config);
+                PageSlider?.RestoreConfig(config);
+                MediaControl?.RestoreConfig(config);
+                ThumbnailList?.RestoreConfig(config);
+                MenuBar?.RestoreConfig(config);
+                SidePanelProfile?.RestoreConfig(config);
+                PageListPlacementService?.RestoreConfig(config);
+                FolderPanel?.RestoreConfig(config);
+                BookshelfFolderList?.RestoreConfig(config);
+                BookmarkFolderList?.RestoreConfig(config);
+                PageList?.RestoreConfig(config);
+                HistoryList?.RestoreConfig(config);
+                PagemarkList?.RestoreConfig(config);
+                FileInformation?.RestoreConfig(config);
+                ImageEffect?.RestoreConfig(config);
+                SidePanel?.RestoreConfig(config);
+                PageViewRecorder?.RestoreConfig(config);
             }
         }
 
@@ -261,54 +261,6 @@ namespace NeeView
             memento.SidePanel = SidePanel.Current.CreateMemento();
             memento.PageViewRecorder = PageViewRecorder.Current.CreateMemento();
             return memento;
-        }
-
-        [Obsolete]
-        public void Resore(Memento memento)
-        {
-            if (memento == null) return;
-            ////FileIOProfile.Current.Restore(memento.FileIOProfile);
-            ////JobEngine.Current.Restore(memento.JobEngine);
-            ////SoundPlayerService.Current.Restore(memento.SoundPlayerService);
-            ////PictureProfile.Current.Restore(memento.PictureProfile);
-            ////ImageFilter.Current.Restore(memento.ImageFilter);
-            ////ZipArchiverProfile.Current.Restore(memento.ZipArchiverProfile);
-            ////SevenZipArchiverProfile.Current.Restore(memento.SevenZipArchiverProfile);
-            ////PdfArchiverProfile.Current.Restore(memento.PdfArchiverProfile);
-            ////MediaArchiverProfile.Current.Restore(memento.MediaArchiverProfile);
-            ////ThumbnailProfile.Current.Restore(memento.ThumbnailProfile);
-            ////InfoMessage.Current.Restore(memento.InfoMessage);
-            ////BookProfile.Current.Restore(memento.BookProfile);
-            ////BookHub.Current.Restore(memento.BookHub);
-            ////BookOperation.Current.Restore(memento.BookOperation);
-            ////BookSettingPresenter.Current.Restore(memento.BookSettingPresenter);
-            ////ThemeProfile.Current.Restore(memento.ThemeProfile);
-            ////MainWindowModel.Current.Restore(memento.MainWindowModel);
-            ////ContentCanvas.Current.Restore(memento.ContentCanvas);
-            ////ContentCanvasBrush.Current.Restore(memento.ContentCanvasBrush);
-            ////DragTransform.Current.Restore(memento.DragTransform);
-            ////DragTransformControl.Current.Restore(memento.DragTransformControl);
-            ////LoupeTransform.Current.Restore(memento.LoupeTransform);
-            ////MouseInput.Current.Restore(memento.MouseInput);
-            ////TouchInput.Current.Restore(memento.TouchInput);
-            ////SlideShow.Current.Restore(memento.SlideShow);
-            ////WindowTitle.Current.Restore(memento.WindowTitle);
-            ////PageSlider.Current.Restore(memento.PageSlider);
-            ////MediaControl.Current.Restore(memento.MediaControl);
-            ////ThumbnailList.Current.Restore(memento.ThumbnailList);
-            ////MenuBar.Current.Restore(memento.MenuBar);
-            ////SidePanelProfile.Current.Restore(memento.SidePanelProfile);
-            ////PageListPlacementService.Current.Restore(memento.PageListPlacementService);
-            ////FolderPanelModel.Current.Restore(memento.FolderPanel);
-            ////BookshelfFolderList.Current.Restore(memento.BookshelfFolderList);
-            ////BookmarkFolderList.Current.Restore(memento.BookmarkFolderList);
-            ////PageList.Current.Restore(memento.PageList);
-            ////HistoryList.Current.Restore(memento.HistoryList);
-            ////PagemarkList.Current.Restore(memento.PagemarkList);
-            ////FileInformation.Current.Restore(memento.FileInformation);
-            ////ImageEffect.Current.Restore(memento.ImageEffect);
-            ////SidePanel.Current.Restore(memento.SidePanel);
-            ////PageViewRecorder.Current.Restore(memento.PageViewRecorder);
         }
 
         #endregion

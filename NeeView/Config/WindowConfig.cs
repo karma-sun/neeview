@@ -59,7 +59,7 @@ namespace NeeView
         /// <summary>
         /// ウィンドウ状態
         /// </summary>
-        [PropertyMapReadOnly]
+        [PropertyMapReadOnlyAttribute]
         public WindowStateEx State
         {
             get { return _state; }
@@ -69,16 +69,16 @@ namespace NeeView
         /// <summary>
         /// フルスクリーンから復帰するウィンドウ状態
         /// </summary>
-        [PropertyMapIgnore]
+        [PropertyMapIgnoreAttribute]
         public WindowStateEx LastState { get; set; }
 
-        [PropertyMapIgnore]
+        [PropertyMapIgnoreAttribute]
         public WINDOWPLACEMENT Placement { get; set; }
 
-        [PropertyMapIgnore]
+        [PropertyMapIgnoreAttribute]
         public double Width { get; set; } = 640.0;
         
-        [PropertyMapIgnore]
+        [PropertyMapIgnoreAttribute]
         public double Height { get; set; } = 480.0;
 
         #endregion

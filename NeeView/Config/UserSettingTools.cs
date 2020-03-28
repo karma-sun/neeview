@@ -78,6 +78,7 @@ namespace NeeView
             options.Converters.Add(new JsonEnumFuzzyConverter());
             options.Converters.Add(new JsonColorConverter());
             options.Converters.Add(new JsonSizeConverter());
+            options.Converters.Add(new JsonPointConverter());
             options.Converters.Add(new JsonTimeSpanConverter());
             options.Converters.Add(new JsonGridLengthConverter());
             return options;
@@ -87,7 +88,11 @@ namespace NeeView
         {
             if (setting == null) return;
 
-            ObjectMerge.Merge(Config.Current, setting.Config, options);
+            // コンフィグ反映
+            if (setting.Config != null)
+            {
+                ObjectMerge.Merge(Config.Current, setting.Config, options);
+            }
 
             // コマンド設定反映
             CommandTable.Current.RestoreCommandCollection(setting.Commands);
@@ -119,6 +124,24 @@ namespace NeeView
             writer.WriteStringValue(value.ToString());
         }
     }
+
+
+    /// <summary>
+    /// Pointを文字列に変換する
+    /// </summary>
+    public sealed class JsonPointConverter : JsonConverter<Point>
+    {
+        public override Point Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            return (Point)new PointConverter().ConvertFrom(reader.GetString());
+        }
+
+        public override void Write(Utf8JsonWriter writer, Point value, JsonSerializerOptions options)
+        {
+            writer.WriteStringValue(value.ToString());
+        }
+    }
+
 
     /// <summary>
     /// Colorを文字列に変換する

@@ -141,7 +141,7 @@ namespace NeeView
 
         #region 非公開プロパティ
 
-        [PropertyMapIgnore]
+        [PropertyMapIgnoreAttribute]
         public int ShapeWidth
         {
             get
@@ -156,7 +156,7 @@ namespace NeeView
             }
         }
 
-        [PropertyMapIgnore]
+        [PropertyMapIgnoreAttribute]
         public int ShapeHeight
         {
             get
@@ -171,7 +171,7 @@ namespace NeeView
             }
         }
 
-        [PropertyMapIgnore]
+        [PropertyMapIgnoreAttribute]
         public Rect Viewbox
         {
             get
@@ -186,7 +186,7 @@ namespace NeeView
             }
         }
 
-        [PropertyMapIgnore]
+        [PropertyMapIgnoreAttribute]
         public AlignmentY AlignmentY
         {
             get
@@ -201,7 +201,7 @@ namespace NeeView
             }
         }
 
-        [PropertyMapIgnore]
+        [PropertyMapIgnoreAttribute]
         public Brush Background
         {
             get
@@ -216,7 +216,7 @@ namespace NeeView
             }
         }
 
-        [PropertyMapIgnore]
+        [PropertyMapIgnoreAttribute]
         public Stretch ImageStretch
         {
             get
@@ -231,7 +231,7 @@ namespace NeeView
             }
         }
         
-        [PropertyMapIgnore]
+        [PropertyMapIgnoreAttribute]
         public double TextHeight
         {
             get
@@ -245,7 +245,7 @@ namespace NeeView
             }
         }
 
-        [PropertyMapIgnore]
+        [PropertyMapIgnoreAttribute]
         public Visibility NoteVisibility
         {
             get { return NoteOpacity > 0.0 ? Visibility.Visible : Visibility.Collapsed; }

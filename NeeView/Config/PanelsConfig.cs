@@ -126,7 +126,7 @@ namespace NeeView
 
         private Dictionary<string, PanelDock> _panelDocks = new Dictionary<string, PanelDock>();
 
-        [PropertyMapIgnore]
+        [PropertyMapIgnoreAttribute]
         [ObjectMergeReferenceCopy]
         public Dictionary<string, PanelDock> PanelDocks
         {
@@ -134,19 +134,19 @@ namespace NeeView
             set { SetProperty(ref _panelDocks, value ?? new Dictionary<string, PanelDock>()); }
         } 
 
-        [PropertyMapIgnore]
+        [PropertyMapIgnoreAttribute]
         [ObjectMergeIgnore]
         public string LeftPanelSeleted { get; set; }
 
-        [PropertyMapIgnore]
+        [PropertyMapIgnoreAttribute]
         [ObjectMergeIgnore]
         public double LeftPanelWidth { get; set; } = 300.0;
 
-        [PropertyMapIgnore]
+        [PropertyMapIgnoreAttribute]
         [ObjectMergeIgnore]
         public string RightPanelSeleted { get; set; }
 
-        [PropertyMapIgnore]
+        [PropertyMapIgnoreAttribute]
         [ObjectMergeIgnore]
         public double RightPanelWidth { get; set; } = 300.0;
 

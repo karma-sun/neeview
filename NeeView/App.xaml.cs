@@ -159,7 +159,7 @@ namespace NeeView
             Debug.WriteLine($"App.UserSettingLoaded: {Stopwatch.ElapsedMilliseconds}ms");
 
             // スプラッシュスクリーン
-            ShowSplashScreen(setting.Config);
+            ShowSplashScreen(setting.Config ?? Config.Current);
             
             // 設定の適用
             UserSettingTools.Restore(setting, new ObjectMergeOption() { IsIgnoreEnabled = false });

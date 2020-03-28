@@ -168,7 +168,7 @@ namespace NeeView
             else
             {
                 lefts = _panels.Where(e => e.DefaultPlace == PanelPlace.Left).ToList();
-                rights = _panels.Where(e => e.DefaultPlace == PanelPlace.Left).ToList();
+                rights = _panels.Where(e => e.DefaultPlace == PanelPlace.Right).ToList();
             }
 
             _left.Initialize(lefts, Config.Current.Panels.LeftPanelSeleted, Config.Current.Panels.LeftPanelWidth);

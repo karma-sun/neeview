@@ -33,8 +33,6 @@ namespace NeeView
         private bool _isEnabled;
         private Book _book;
         private ObservableCollection<Page> _pageList;
-        ////private ExternalApplication _ExternalApplication = new ExternalApplication();
-        ////private ClipboardUtility _ClipboardUtility = new ClipboardUtility();
         private ExportImageProceduralDialog _exportImageProceduralDialog;
 
         #endregion
@@ -75,15 +73,6 @@ namespace NeeView
 
         #region Properties
 
-#if false
-        // ページ終端でのアクション
-        [PropertyMember("@ParamBookOperationPageEndAction")]
-        public PageEndAction PageEndAction { get; set; }
-
-        [PropertyMember("@ParamBookOperationNotifyPageLoop")]
-        public bool IsNotifyPageLoop { get; set; }
-#endif
-
         /// <summary>
         /// 操作の有効設定。ロード中は機能を無効にするために使用
         /// </summary>
@@ -121,26 +110,6 @@ namespace NeeView
         {
             get { return _pageList; }
         }
-
-#if false
-        /// <summary>
-        /// 外部アプリ設定
-        /// </summary>
-        public ExternalApplication ExternalApplication
-        {
-            get { return _ExternalApplication; }
-            set { if (_ExternalApplication != value) { _ExternalApplication = value ?? new ExternalApplication(); RaisePropertyChanged(); } }
-        }
-
-        /// <summary>
-        /// クリップボード
-        /// </summary>
-        public ClipboardUtility ClipboardUtility
-        {
-            get { return _ClipboardUtility; }
-            set { if (_ClipboardUtility != value) { _ClipboardUtility = value ?? new ClipboardUtility(); RaisePropertyChanged(); } }
-        }
-#endif
 
         #endregion
 
@@ -1206,15 +1175,6 @@ namespace NeeView
             return memento;
         }
 
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            //this.PageEndAction = memento.PageEndAction;
-            //this.ExternalApplication = memento.ExternalApplication?.Clone();
-            //this.ClipboardUtility = memento.ClipboardUtility?.Clone();
-            //this.IsNotifyPageLoop = memento.IsNotifyPageLoop;
-        }
         #endregion
 
 

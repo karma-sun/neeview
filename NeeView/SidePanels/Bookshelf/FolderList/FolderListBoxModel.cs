@@ -128,13 +128,6 @@ namespace NeeView
                 }
             }
 
-#if false
-            if (pos.TargetPath != null)
-            {
-                return this.FolderCollection.Items.FirstOrDefault(e => e.Path == pos.Path && e.TargetPath == pos.TargetPath) ?? this.FolderCollection.FirstOrDefault();
-            }
-#endif
-
             // アーカイブ内のパスの場合、有効な項目になるまで場所を遡る
             var path = pos.Path;
             do

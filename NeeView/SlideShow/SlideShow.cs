@@ -58,51 +58,6 @@ namespace NeeView
             ApplicationDisposer.Current.Add(this);
         }
 
-#if false
-        /// <summary>
-        /// スライドショーの表示間隔(秒)
-        /// </summary>
-        [PropertyMember("@ParamSlideShowInterval")]
-        public double SlideShowInterval
-        {
-            get { return _SlideShowInterval; }
-            set { if (_SlideShowInterval != value) { _SlideShowInterval = value; RaisePropertyChanged(); } }
-        }
-
-        private double _SlideShowInterval = 5.0;
-
-
-        /// <summary>
-        /// カーソルでスライドを止める.
-        /// </summary>
-        [PropertyMember("@ParamIsCancelSlideByMouseMove", Tips = "@ParamIsCancelSlideByMouseMoveTips")]
-        public bool IsCancelSlideByMouseMove
-        {
-            get { return _IsCancelSlideByMouseMove; }
-            set { if (_IsCancelSlideByMouseMove != value) { _IsCancelSlideByMouseMove = value; RaisePropertyChanged(); } }
-        }
-
-        private bool _IsCancelSlideByMouseMove = true;
-
-        /// <summary>
-        /// ループ再生フラグ
-        /// </summary>
-        [PropertyMember("@ParamIsSlideShowByLoop", Tips = "@ParamIsSlideShowByLoopTips")]
-        public bool IsSlideShowByLoop
-        {
-            get { return _IsSlideShowByLoop; }
-            set { if (_IsSlideShowByLoop != value) { _IsSlideShowByLoop = value; RaisePropertyChanged(); } }
-        }
-
-        private bool _IsSlideShowByLoop = true;
-
-        /// <summary>
-        /// 起動時の自動開始
-        /// </summary>
-        [PropertyMember("@ParamIsAutoPlaySlideShow")]
-        public bool IsAutoPlaySlideShow { get; set; }
-#endif
-
         /// <summary>
         /// スライドショー再生状態
         /// </summary>
@@ -271,16 +226,6 @@ namespace NeeView
             memento.IsSlideShowByLoop = Config.Current.SlideShow.IsSlideShowByLoop;
             memento.IsAutoPlaySlideShow = Config.Current.StartUp.IsAutoPlaySlideShow;
             return memento;
-        }
-
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            //this.SlideShowInterval = memento.SlideShowInterval;
-            //this.IsCancelSlideByMouseMove = memento.IsCancelSlideByMouseMove;
-            //this.IsSlideShowByLoop = memento.IsSlideShowByLoop;
-            ////this.IsAutoPlaySlideShow = memento.IsAutoPlaySlideShow;
         }
 
         #endregion

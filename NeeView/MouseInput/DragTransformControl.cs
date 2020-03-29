@@ -131,42 +131,6 @@ namespace NeeView
 
         #region Properties
 
-#if false
-        // View変換情報表示のスケール表示をオリジナルサイズ基準にする
-        [PropertyMember("@ParamDragTransformIsOriginalScaleShowMessage", Tips = "@ParamDragTransformIsOriginalScaleShowMessageTips")]
-        public bool IsOriginalScaleShowMessage { get; set; }
-#endif
-
-#if false
-        // 回転の中心
-        [PropertyMember("@ParamDragTransformIsControRotatelCenter")]
-        public DragControlCenter DragControlRotateCenter { get; set; }
-
-        // 拡大の中心
-        [PropertyMember("@ParamDragTransformIsControlScaleCenter")]
-        public DragControlCenter DragControlScaleCenter { get; set; }
-
-        // 反転の中心
-        [PropertyMember("@ParamDragTransformIsControlFlipCenter")]
-        public DragControlCenter DragControlFlipCenter { get; set; }
-
-        // 拡大率キープ
-        [PropertyMember("@ParamDragTransformIsKeepScale")]
-        public bool IsKeepScale { get; set; }
-
-        // 回転キープ
-        [PropertyMember("@ParamDragTransformIsKeepAngle", Tips = "@ParamDragTransformIsKeepAngleTips")]
-        public bool IsKeepAngle { get; set; }
-
-        // 反転キープ
-        [PropertyMember("@ParamDragTransformIsKeepFlip")]
-        public bool IsKeepFlip { get; set; }
-
-        // 表示開始時の基準
-        [PropertyMember("@ParamDragTransformIsViewStartPositionCenter", Tips = "@ParamDragTransformIsViewStartPositionCenterTips")]
-        public bool IsViewStartPositionCenter { get; set; }
-#endif
-
         // 開始時の基準
         public DragViewOrigin ViewOrigin { get; set; }
 
@@ -1220,21 +1184,6 @@ namespace NeeView
             memento.IsViewStartPositionCenter = Config.Current.View.IsViewStartPositionCenter;
 
             return memento;
-        }
-
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-
-            ////this.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
-            //this.DragControlRotateCenter = memento.DragControlRotateCenter;
-            //this.DragControlScaleCenter = memento.DragControlScaleCenter;
-            //this.DragControlFlipCenter = memento.DragControlFlipCenter;
-            //this.IsKeepScale = memento.IsKeepScale;
-            //this.IsKeepAngle = memento.IsKeepAngle;
-            //this.IsKeepFlip = memento.IsKeepFlip;
-            //this.IsViewStartPositionCenter = memento.IsViewStartPositionCenter;
         }
 
         #endregion

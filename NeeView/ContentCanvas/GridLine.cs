@@ -20,47 +20,6 @@ namespace NeeView
             };
         }
 
-#if false
-        private bool _isEnabled;
-        public bool IsEnabled
-        {
-            get { return _isEnabled; }
-            set { if (SetProperty(ref _isEnabled, value)) RaisePropertyChanged(nameof(Content)); }
-        }
-
-        private Color _color = Color.FromArgb(0x80, 0x80, 0x80, 0x80);
-        [PropertyMember("@ParamGridLineColor"), DefaultValue(typeof(Color), "#80808080")]
-        public Color Color
-        {
-            get { return _color; }
-            set { if (SetProperty(ref _color, value)) RaisePropertyChanged(nameof(Content)); }
-        }
-
-        private int _divX = 8;
-        [PropertyRange("@ParamGridLineDivX", 1, 50, TickFrequency = 1), DefaultValue(8)]
-        public int DivX
-        {
-            get { return _divX; }
-            set { if (SetProperty(ref _divX, value)) RaisePropertyChanged(nameof(Content)); }
-        }
-
-        private int _divY = 8;
-        [PropertyRange("@ParamGridLineDivY", 1, 50, TickFrequency = 1), DefaultValue(8)]
-        public int DivY
-        {
-            get { return _divY; }
-            set { if (SetProperty(ref _divY, value)) RaisePropertyChanged(nameof(Content)); }
-        }
-
-        private bool _isSquare;
-        [PropertyMember("@ParamGridLineIsSquare"), DefaultValue(false)]
-        public bool IsSquare
-        {
-            get { return _isSquare; }
-            set { if (SetProperty(ref _isSquare, value)) RaisePropertyChanged(nameof(Content)); }
-        }
-#endif
-
         private double _width;
         public double Width
         {
@@ -197,21 +156,6 @@ namespace NeeView
             memento.IsSquare = Config.Current.ImageGrid.IsSquare;
             memento.Color = Config.Current.ImageGrid.Color;
             return memento;
-        }
-
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-
-            // 更新回数を抑えるために設定前に無効にする
-            //this.IsEnabled = false;
-
-            //this.DivX = memento.DivX;
-            //this.DivY = memento.DivY;
-            //this.IsSquare = memento.IsSquare;
-            //this.Color = memento.Color;
-            //this.IsEnabled = memento.IsEnabled;
         }
 
         #endregion

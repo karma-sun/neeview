@@ -23,9 +23,6 @@ namespace NeeView
             ContentCanvas.Current.ContentChanged +=
                 (s, e) => UpdateBackgroundBrush();
 
-            ////this.CustomBackground = new BrushSource();
-
-
             Config.Current.Background.AddPropertyChanged(nameof(BackgroundConfig.CustomBackground), (s, e) =>
             {
                 InitializeCustomBackgroundBrush();
@@ -65,22 +62,6 @@ namespace NeeView
             set { if (_foregroundBrush != value) { _foregroundBrush = value; RaisePropertyChanged(); } }
         }
 
-#if false
-        // ページの背景色。透過画像用
-        private Color _pageBackgroundColor = Colors.Transparent;
-        [PropertyMember("@ParamPageBackgroundColor")]
-        public Color PageBackgroundColor
-        {
-            get { return _pageBackgroundColor; }
-            set
-            {
-                if (SetProperty(ref _pageBackgroundColor, value))
-                {
-                    RaisePropertyChanged(nameof(PageBackgroundBrush));
-                }
-            }
-        }
-#endif
 
         public Brush PageBackgroundBrush
         {
@@ -105,36 +86,6 @@ namespace NeeView
             get { return _BackgroundFrontBrush; }
             set { if (_BackgroundFrontBrush != value) { _BackgroundFrontBrush = value; RaisePropertyChanged(); } }
         }
-
-
-#if false
-        // 背景スタイル
-        private BackgroundStyle _background = BackgroundStyle.Black;
-        public BackgroundStyle Background
-        {
-            get { return _background; }
-            set { _background = value; UpdateBackgroundBrush(); RaisePropertyChanged(); }
-        }
-
-        /// <summary>
-        /// CustomBackground property.
-        /// </summary>
-        private BrushSource _customBackground;
-        [PropertyMember("@ParamCustomBackground", Tips = "@ParamCustomBackgroundTips")]
-        public BrushSource CustomBackground
-        {
-            get { return _customBackground; }
-            set
-            {
-                if (_customBackground != value)
-                {
-                    _customBackground = value ?? new BrushSource();
-                    UpdateCustomBackgroundBrush();
-                    _customBackground.PropertyChanged += (s, e) => UpdateCustomBackgroundBrush();
-                }
-            }
-        }
-#endif
 
         //
         private void UpdateCustomBackgroundBrush()
@@ -321,14 +272,6 @@ namespace NeeView
             return memento;
         }
 
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            ////this.CustomBackground = memento.CustomBackground;
-            ////this.Background = memento.Background;
-            ////this.PageBackgroundColor = memento.PageBackgroundColor;
-        }
         #endregion
 
     }

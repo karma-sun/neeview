@@ -259,25 +259,6 @@ namespace NeeView
             return memento;
         }
 
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-
-            ////base.Restore(memento.FolderList);
-            ////this.IsVisibleHistoryMark = memento.IsVisibleHistoryMark;
-            ////this.IsVisibleBookmarkMark = memento.IsVisibleBookmarkMark;
-            ////this.Home = memento.Home;
-            ////this.IsInsertItem = memento.IsInsertItem;
-            ////this.IsMultipleRarFilterEnabled = memento.IsMultipleRarFilterEnabled;
-            ////this.ExcludePattern = memento.ExcludePattern;
-            ////this.IsCruise = memento.IsCruise;
-            ////this.IsCloseBookWhenMove = memento.IsCloseBookWhenMove;
-            ////this.IsIncrementalSearchEnabled = memento.IsIncrementalSearchEnabled;
-            ////this.IsSearchIncludeSubdirectories = memento.IsSearchIncludeSubdirectories;
-            ////this.IsOpenNextBookWhenRemove = memento.IsOpenNextBookWhenRemove;
-        }
-
         #endregion
     }
 

@@ -36,7 +36,6 @@ namespace NeeView
         public TouchInputGesture(TouchInputContext context) : base(context)
         {
             _gesture = new MouseGestureSequenceTracker();
-            ////_gesture.GestureMinimumDistance = 16.0;
             _gesture.GestureProgressed += (s, e) => GestureProgressed.Invoke(this, new MouseGestureEventArgs(_gesture.Sequence));
         }
 
@@ -53,21 +52,6 @@ namespace NeeView
         /// ジェスチャー確定通知
         /// </summary>
         public event EventHandler<MouseGestureEventArgs> GestureChanged;
-
-        #endregion
-
-        #region Properties
-
-#if false
-        //
-        [PropertyMember("@ParamTouchGestureMinimumDistance", Tips = "@ParamTouchGestureMinimumDistanceTips")]
-        public double GestureMinimumDistance
-        {
-            get { return _gesture.GestureMinimumDistance; }
-            set { _gesture.GestureMinimumDistance = value; }
-        }
-#endif
-
 
         #endregion
 
@@ -180,12 +164,6 @@ namespace NeeView
             return memento;
         }
 
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            //this.GestureMinimumDistance = memento.GestureMinimumDistance;
-        }
         #endregion
     }
 }

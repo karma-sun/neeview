@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
-    //
     public enum InfoMessageType
     {
         Notify,
@@ -46,27 +45,6 @@ namespace NeeView
         {
         }
 
-#if false
-        [PropertyMember("@ParamInfoMessageNoticeShowMessageStyle")]
-        public ShowMessageStyle NoticeShowMessageStyle { get; set; } = ShowMessageStyle.Normal;
-
-        [PropertyMember("@ParamInfoBookNameShowMessageStyle")]
-        public ShowMessageStyle BookNameShowMessageStyle { get; set; } = ShowMessageStyle.Normal;
-
-        [PropertyMember("@ParamInfoMessageCommandShowMessageStyle")]
-        public ShowMessageStyle CommandShowMessageStyle { get; set; } = ShowMessageStyle.Normal;
-
-        [PropertyMember("@ParamInfoMessageGestureShowMessageStyle")]
-        public ShowMessageStyle GestureShowMessageStyle { get; set; } = ShowMessageStyle.Normal;
-
-        [PropertyMember("@ParamInfoMessageNowLoadingShowMessageStyle")]
-        public ShowMessageStyle NowLoadingShowMessageStyle { get; set; } = ShowMessageStyle.Normal;
-
-        [PropertyMember("@ParamInfoMessageViewTransformShowMessageStyle")]
-        public ShowMessageStyle ViewTransformShowMessageStyle { get; set; } = ShowMessageStyle.None;
-#endif
-
-        //
         private ShowMessageStyle GetShowMessageStyle(InfoMessageType type)
         {
             switch (type)
@@ -87,16 +65,10 @@ namespace NeeView
             }
         }
 
-
-
-
-        //
         public NormalInfoMessage NormalInfoMessage { get; } = new NormalInfoMessage();
 
-        //
         public TinyInfoMessage TinyInfoMessage { get; } = new TinyInfoMessage();
 
-        //
         private void SetMessage(ShowMessageStyle style, string message, string tinyMessage = null, double dispTime = 1.0, BookMementoType bookmarkType = BookMementoType.None)
         {
             switch (style)
@@ -110,15 +82,12 @@ namespace NeeView
             }
         }
 
-        //
         public void SetMessage(InfoMessageType type, string message, string tinyMessage = null, double dispTime = 1.0, BookMementoType bookmarkType = BookMementoType.None)
         {
             SetMessage(GetShowMessageStyle(type), message, tinyMessage, dispTime, bookmarkType);
         }
 
-
-
-#region Memento
+        #region Memento
         [DataContract]
         public class Memento : IMemento
         {
@@ -171,19 +140,7 @@ namespace NeeView
             return memento;
         }
 
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-
-            ////this.NoticeShowMessageStyle = memento.NoticeShowMessageStyle;
-            ////this.BookNameShowMessageStyle = memento.BookNameShowMessageStyle;
-            ////this.CommandShowMessageStyle = memento.CommandShowMessageStyle;
-            ////this.GestureShowMessageStyle = memento.GestureShowMessageStyle;
-            ////this.NowLoadingShowMessageStyle = memento.NowLoadingShowMessageStyle;
-            ////this.ViewTransformShowMessageStyle = memento.ViewTransformShowMessageStyle;
-        }
-#endregion
+        #endregion
 
     }
 }

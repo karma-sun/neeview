@@ -88,22 +88,11 @@ namespace NeeView
         /// </summary>
         private WindowStateEx _oldState;
 
-        /// <summary>
-        /// 最後の安定状態。フルスクリーン切り替えで使用される
-        /// </summary>
-        ////private WindowStateEx _lastState;
-
-        ////private WindowChromeFrame _windowChromeFrame = WindowChromeFrame.WindowFrame;
         private Thickness _windowBorderThickness;
-        ////private bool _isCaptionVisible = true;
-        ////private bool _isTopmost;
         private bool _isFullScreen;
-        ////private bool _isFullScreenWithTaskBar;
         private WindowChrome _windowChrome;
-        ////private WindowStateEx _state;
         private bool _IsEnabled;
         private bool _isProcessing;
-        ////private double _maximizeWindowGapWidth = 8.0;
 
         #endregion
 
@@ -170,7 +159,6 @@ namespace NeeView
             }
         }
 
-
         #endregion
 
         #region Events
@@ -184,25 +172,6 @@ namespace NeeView
 
         #region Properties
 
-#if false
-        /// <summary>
-        /// WindowChromeFrame property.
-        /// </summary>
-        [PropertyMember("@ParamWindowShapeChromeFrame")]
-        public WindowChromeFrame WindowChromeFrame
-        {
-            get { return _windowChromeFrame; }
-            set
-            {
-                if (_windowChromeFrame != value)
-                {
-                    _windowChromeFrame = value;
-                    Refresh();
-                }
-            }
-        }
-#endif
-
         /// <summary>
         /// WindowBorderThickness property.
         /// </summary>
@@ -212,40 +181,10 @@ namespace NeeView
             set { if (_windowBorderThickness != value) { _windowBorderThickness = value; RaisePropertyChanged(); } }
         }
 
-#if false
-        /// <summary>
-        /// IsCaptionVisible property.
-        /// </summary>
-        public bool IsCaptionVisible
-        {
-            get { return _isCaptionVisible; }
-            set { if (_isCaptionVisible != value) { _isCaptionVisible = value; Refresh(); } }
-        }
-
-        /// <summary>
-        /// IsTopmost property.
-        /// </summary>
-        public bool IsTopmost
-        {
-            get { return _isTopmost; }
-            set
-            {
-                if (_isTopmost != value)
-                {
-                    _isTopmost = value;
-                    _window.Topmost = _isTopmost;
-                    RaisePropertyChanged();
-                }
-            }
-        }
-#endif
-
         public bool CanCaptionVisible
         {
             get => Config.Current.Window.IsCaptionVisible && !IsFullScreen;
         }
-
-
 
         /// <summary>
         /// IsFullScreen property.
@@ -261,16 +200,6 @@ namespace NeeView
                 }
             }
         }
-
-#if false
-        [PropertyMember("@ParamWindowShapeIsFullScreenWithTaskBar")]
-        public bool IsFullScreenWithTaskBar
-        {
-            get { return _isFullScreenWithTaskBar; }
-            set { SetProperty(ref _isFullScreenWithTaskBar, value); }
-        }
-#endif
-
 
         /// <summary>
         /// 現在のWindowChrome
@@ -289,32 +218,6 @@ namespace NeeView
                 }
             }
         }
-
-#if false
-        /// <summary>
-        /// State property.
-        /// 現在の状態
-        /// </summary>
-        public WindowStateEx State
-        {
-            get { return _state; }
-            private set
-            {
-                if (_state != value)
-                {
-                    _state = value;
-                    this.IsFullScreen = _state == WindowStateEx.FullScreen;
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        public WindowStateEx LastState
-        {
-            get { return _lastState; }
-            set { _lastState = value; }
-        }
-#endif
 
         /// <summary>
         /// 処理中
@@ -340,21 +243,6 @@ namespace NeeView
                 }
             }
         }
-
-#if false
-        [PropertyRange("@ParamWindowShapeMaximizeWindowGapWidth", 0, 16, TickFrequency = 1, IsEditable = true, Tips = "@ParamWindowShapeMaximizeWindowGapWidthTips"), DefaultValue(8.0)]
-        public double MaximizeWindowGapWidth
-        {
-            get { return _maximizeWindowGapWidth; }
-            set
-            {
-                if (SetProperty(ref _maximizeWindowGapWidth, value))
-                {
-                    UpdateWindowBorderThickness();
-                }
-            }
-        }
-#endif
 
         #endregion
 
@@ -811,20 +699,6 @@ namespace NeeView
 
             return memento;
         }
-
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-
-            ////_isTopmost = memento.IsTopMost;
-            ////_isCaptionVisible = memento.IsCaptionVisible;
-            ////_state = memento.State;
-            ////_lastState = memento.LastState;
-            ////_isFullScreenWithTaskBar = memento.IsFullScreenWithTaskBar;
-            ////_maximizeWindowGapWidth = memento.MaximizeWindowGapWidth;
-        }
-
 
         #endregion
     }

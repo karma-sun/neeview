@@ -167,25 +167,6 @@ namespace NeeView
             set { _emptyPageMessage = value; RaisePropertyChanged(); }
         }
 
-#if false
-        // 自動回転左/右
-        private AutoRotateType _autoRotate;
-        public AutoRotateType AutoRotateType
-        {
-            get { return _autoRotate; }
-            set
-            {
-                if (SetProperty(ref _autoRotate, value))
-                {
-                    RaisePropertyChanged(nameof(IsAutoRotateLeft));
-                    RaisePropertyChanged(nameof(IsAutoRotateRight));
-                    UpdateContentSize(GetAutoRotateAngle());
-                    ResetTransform(true);
-                }
-            }
-        }
-#endif
-
         public bool IsAutoRotateLeft
         {
             get { return Config.Current.View.AutoRotate == AutoRotateType.Left; }
@@ -217,72 +198,6 @@ namespace NeeView
                 }
             }
         }
-
-#if false
-        // ドットのまま拡大
-        private bool _isEnabledNearestNeighbor;
-        public bool IsEnabledNearestNeighbor
-        {
-            get { return _isEnabledNearestNeighbor; }
-            set
-            {
-                if (_isEnabledNearestNeighbor != value)
-                {
-                    _isEnabledNearestNeighbor = value;
-                    RaisePropertyChanged();
-                    UpdateContentScalingMode();
-                }
-            }
-        }
-
-        // スケールモード
-        private PageStretchMode _stretchMode = PageStretchMode.Uniform;
-        public PageStretchMode StretchMode
-        {
-            get { return _stretchMode; }
-            set
-            {
-                _stretchModePrev = _stretchMode;
-                _stretchMode = value;
-                RaisePropertyChanged();
-                UpdateContentSize();
-                ResetTransform(true);
-            }
-        }
-
-        // スケールモード・拡大許可
-        private bool _allowEnlarge = true;
-        public bool AllowEnlarge
-        {
-            get { return _allowEnlarge; }
-            set
-            {
-                if (SetProperty(ref _allowEnlarge, value))
-                {
-                    UpdateContentSize();
-                    ResetTransform(true);
-                }
-            }
-        }
-
-        // スケールモード・縮小許可
-        private bool _allowReduce = true;
-        public bool AllowReduce
-        {
-            get { return _allowReduce; }
-            set
-            {
-                if (SetProperty(ref _allowReduce, value))
-                {
-                    UpdateContentSize();
-                    ResetTransform(true);
-                }
-            }
-        }
-#endif
-
-
-
 
         // ビューエリアサイズ
         public Size ViewSize { get; private set; }
@@ -335,18 +250,6 @@ namespace NeeView
             get { return _contentsMargin; }
             set { _contentsMargin = value; RaisePropertyChanged(); }
         }
-
-#if false
-        // 2ページコンテンツの隙間
-        private double _contentSpace = -1.0;
-        [DefaultValue(-1.0)]
-        [PropertyRange("@ParamContentCanvasContentsSpace", -32, 32, TickFrequency = 1, Tips = "@ParamContentCanvasContentsSpaceTips")]
-        public double ContentsSpace
-        {
-            get { return _contentSpace; }
-            set { _contentSpace = value; RaisePropertyChanged(); UpdateContentSize(); }
-        }
-#endif
 
         /// <summary>
         /// 次のページ更新時の表示開始位置
@@ -994,19 +897,6 @@ namespace NeeView
             memento.AutoRotateType = Config.Current.View.AutoRotate;
             memento.GridLine = this.GridLine.CreateMemento();
             return memento;
-        }
-
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            //this.StretchMode = memento.StretchMode;
-            //this.AllowEnlarge = memento.AllowEnlarge;
-            //this.AllowReduce = memento.AllowReduce;
-            //this.AutoRotateType = memento.AutoRotateType;
-            //this.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
-            //this.ContentsSpace = memento.ContentsSpace;
-            //this.GridLine.Restore(memento.GridLine);
         }
 
         #endregion

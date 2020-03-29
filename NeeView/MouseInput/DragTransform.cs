@@ -56,21 +56,6 @@ namespace NeeView
         public TransformGroup TransformCalc { get; private set; }
 
 
-#if false
-        // ウィンドウ枠内の移動に制限するフラグ
-        private bool _isLimitMove = true;
-        [PropertyMember("@ParamDragTransformIsLimitMove")]
-        public bool IsLimitMove
-        {
-            get { return _isLimitMove; }
-            set { if (_isLimitMove != value) { _isLimitMove = value; RaisePropertyChanged(); } }
-        }
-
-        // 回転スナップ。0で無効
-        [PropertyMember("@ParamDragTransformAngleFrequency")]
-        public double AngleFrequency { get; set; } = 0;
-#endif
-
         // 移動アニメーション有効フラグ(内部管理)
         private bool _isEnableTranslateAnimation;
 
@@ -271,15 +256,6 @@ namespace NeeView
             memento.AngleFrequency = Config.Current.View.AngleFrequency;
 
             return memento;
-        }
-
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-
-            //this.IsLimitMove = memento.IsLimitMove;
-            //this.AngleFrequency = memento.AngleFrequency;
         }
 
         #endregion

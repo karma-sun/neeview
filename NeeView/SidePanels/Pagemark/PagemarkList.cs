@@ -26,14 +26,6 @@ namespace NeeView
             Config.Current.Pagemark.AddPropertyChanged(nameof(PagemarkConfig.PagemarkOrder), (s, e) => RaisePropertyChanged(nameof(IsSortPath)));
         }
 
-#if false
-        private PanelListItemStyle _panelListItemStyle;
-        public PanelListItemStyle PanelListItemStyle
-        {
-            get { return _panelListItemStyle; }
-            set { if (_panelListItemStyle != value) { _panelListItemStyle = value; RaisePropertyChanged(); } }
-        }
-#endif
 
         public bool IsThumbnailVisibled
         {
@@ -113,7 +105,7 @@ namespace NeeView
         }
 
 
-#region Memento
+        #region Memento
         [DataContract]
         public class Memento : IMemento
         {
@@ -133,13 +125,6 @@ namespace NeeView
             return memento;
         }
 
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            //if (memento == null) return;
-            //this.PanelListItemStyle = memento.PanelListItemStyle;
-        }
-
-#endregion
+        #endregion
     }
 }

@@ -60,24 +60,6 @@ namespace NeeView
             set { if (_isBusy != value) { _isBusy = value; RaisePropertyChanged(); } }
         }
 
-#if false
-        [PropertyMember("@ParamJobEngineWorkerSize", Tips = "@ParamJobEngineWorkerSizeTips")]
-        public int WorkerSize
-        {
-            get { return _workerSize; }
-            set
-            {
-                var size = MathUtility.Clamp(value, 1, _maxWorkerSize);
-                if (_workerSize != size)
-                {
-                    _workerSize = size;
-                    ChangeWorkerSize(_workerSize);
-                    RaisePropertyChanged();
-                }
-            }
-        }
-#endif
-
         public JobWorker[] Workers { get; set; }
 
 
@@ -205,12 +187,6 @@ namespace NeeView
             return memento;
         }
 
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            ////Config.Current.Performance.JobWorkerSize = memento.WorkerSize;
-        }
         #endregion
     }
 }

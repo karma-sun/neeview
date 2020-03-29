@@ -69,18 +69,6 @@ namespace NeeView.Effects
         /// </summary>
         public Effect Effect => Config.Current.Effect.IsEnabled ? Effects[Config.Current.Effect.EffectType]?.GetEffect() : null;
 
-#if false
-        /// <summary>
-        /// Property: EffectType
-        /// </summary>
-        private EffectType _effectType = EffectType.Level;
-        public EffectType EffectType
-        {
-            get { return _effectType; }
-            set { if (_effectType != value) { _effectType = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(Effect)); UpdateEffectParameters(); } }
-        }
-#endif
-
         /// <summary>
         /// Property: EffectParameters
         /// </summary>
@@ -90,29 +78,6 @@ namespace NeeView.Effects
             get { return _effectParameters; }
             set { if (_effectParameters != value) { _effectParameters = value; RaisePropertyChanged(); } }
         }
-
-#if false
-        /// <summary>
-        /// Property: IsHsvMode
-        /// </summary>
-        private bool _isHsvMode;
-        [PropertyMember("@ParamImageEffectIsHsvMode", Tips = "@ParamImageEffectIsHsvModeTips")]
-        public bool IsHsvMode
-        {
-            get { return _isHsvMode; }
-            set { if (_isHsvMode != value) { _isHsvMode = value; RaisePropertyChanged(); } }
-        }
-
-        /// <summary>
-        /// IsEnabled property.
-        /// </summary>
-        private bool _isEnabled;
-        public bool IsEnabled
-        {
-            get { return _isEnabled; }
-            set { if (_isEnabled != value) { _isEnabled = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(Effect)); } }
-        }
-#endif
 
         #endregion
 
@@ -208,26 +173,6 @@ namespace NeeView.Effects
             return memento;
         }
 
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-
-            ////this.EffectType = memento.EffectType;
-            ////this.IsHsvMode = memento.IsHsvMode;
-            ////this.IsEnabled = memento.IsEnabled;
-
-            //if (memento.Effects != null)
-            //{
-            //    foreach (var effect in memento.Effects)
-            //    {
-            //        if (this.Effects.ContainsKey(effect.Key))
-            //        {
-            //            this.Effects[effect.Key] = (EffectUnit)Json.Deserialize(effect.Value, this.Effects[effect.Key].GetType());
-            //        }
-            //    }
-            //}
-        }
         #endregion
     }
 }

@@ -49,24 +49,6 @@ namespace NeeView
         /// </summary>
         public TransformGroup TransformCalc { get; private set; }
 
-#if false
-        /// <summary>
-        /// 標準スケール
-        /// </summary>
-        ////public double DefaultScale { get; set; } = 2.0;
-
-        /// <summary>
-        /// IsVisibleLoupeInfo property.
-        /// </summary>
-        private bool _IsVisibleLoupeInfo = true;
-        [PropertyMember("@ParamLoupeIsVisibleLoupeInfo", Tips = "@ParamLoupeIsVisibleLoupeInfoTips")]
-        public bool IsVisibleLoupeInfo
-        {
-            get { return _IsVisibleLoupeInfo; }
-            set { if (_IsVisibleLoupeInfo != value) { _IsVisibleLoupeInfo = value; RaisePropertyChanged(); } }
-        }
-#endif
-
         /// <summary>
         /// IsEnabled property.
         /// </summary>
@@ -209,12 +191,6 @@ namespace NeeView
             return memento;
         }
 
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            //this.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
-        }
         #endregion
     }
 }

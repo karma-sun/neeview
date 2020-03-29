@@ -17,11 +17,6 @@ namespace NeeView
         public static FolderPanelModel Current { get; }
 
 
-        ////private bool _isPagelistVisible = false;
-        ////private GridLength _gridLength0 = new GridLength(1, GridUnitType.Star);
-        ////private GridLength _gridLength2 = new GridLength(1, GridUnitType.Star);
-        ////private GridLength _folderListGridLength0 = new GridLength(1, GridUnitType.Star);
-        ////private GridLength _folderListGridLength2 = new GridLength(0);
         private FrameworkElement _visual;
 
 
@@ -48,24 +43,6 @@ namespace NeeView
                     RaisePropertyChanged(nameof(FolderListGridLength0));
                     RaisePropertyChanged(nameof(FolderListGridLength2));
                 }
-
-#if false
-                if (_isPagelistVisible != value)
-                {
-                    _isPagelistVisible = value;
-                    if (_isPagelistVisible)
-                    {
-                        RestoreGridLength();
-                    }
-                    else
-                    {
-                        StoreGridLength();
-                        FolderListGridLength0 = new GridLength(1, GridUnitType.Star);
-                        FolderListGridLength2 = new GridLength(0);
-                    }
-                    RaisePropertyChanged();
-                }
-#endif
             }
         }
 
@@ -114,21 +91,6 @@ namespace NeeView
             Visual = visual;
         }
 
-#if false
-        private void StoreGridLength()
-        {
-            Config.Current.Bookshelf.GridLength0 = FolderListGridLength0;
-            Config.Current.Bookshelf.GridLength2 = FolderListGridLength2;
-        }
-
-        private void RestoreGridLength()
-        {
-            FolderListGridLength0 = Config.Current.Bookshelf.GridLength0;
-            FolderListGridLength2 = Config.Current.Bookshelf.GridLength2;
-        }
-#endif
-
-
         #region Memento
         [DataContract]
         public class Memento : IMemento
@@ -157,24 +119,10 @@ namespace NeeView
             var memento = new Memento();
             memento.IsVisiblePanelList = Config.Current.Bookshelf.IsPageListVisible;
 
-            ////if (this.IsPageListVisible) StoreGridLength();
             memento.GridLength0 = Config.Current.Bookshelf.GridLength0.ToString();
             memento.GridLength2 = Config.Current.Bookshelf.GridLength2.ToString();
 
             return memento;
-        }
-
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-
-            ////this.IsPageListVisible = memento.IsVisiblePanelList;
-
-            //var converter = new GridLengthConverter();
-            //_gridLength0 = (GridLength)converter.ConvertFromString(memento.GridLength0);
-            //_gridLength2 = (GridLength)converter.ConvertFromString(memento.GridLength2);
-            ////if (this.IsPageListVisible) RestoreGridLength();
         }
 
         #endregion

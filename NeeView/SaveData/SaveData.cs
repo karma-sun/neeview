@@ -469,7 +469,7 @@ namespace NeeView
             _settingFilenameToDelete = null;
         }
 
-#if false
+        // UserSettingV1の保存
         [Obsolete]
         [Conditional("DEBUG")]
         public void SaveUserSettingV1()
@@ -499,7 +499,6 @@ namespace NeeView
                 App.Current.SemaphoreRelease();
             }
         }
-#endif
 
         // 履歴をファイルに保存
         public void SaveHistory()
@@ -753,6 +752,6 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
     }
 }

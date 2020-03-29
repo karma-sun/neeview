@@ -33,22 +33,6 @@ namespace NeeView
         }
 
 
-#if false
-        private bool _isPlacedInBookshelf = true;
-        [PropertyMember("@ParamPageListPlacementInBookshelf", Tips = "@ParamPageListPlacementInBookshelfTips")]
-        public bool IsPlacedInBookshelf
-        {
-            get { return _isPlacedInBookshelf; }
-            set
-            {
-                if (SetProperty(ref _isPlacedInBookshelf, value))
-                {
-                    Update();
-                }
-            }
-        }
-#endif
-
         public void Update()
         {
             if (Config.Current.Bookshelf.IsPageListDocked)
@@ -88,14 +72,6 @@ namespace NeeView
             var memento = new Memento();
             memento.IsPlacedInBookshelf = Config.Current.Bookshelf.IsPageListDocked;
             return memento;
-        }
-
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-
-            ////this.IsPlacedInBookshelf = memento.IsPlacedInBookshelf;
         }
 
         #endregion

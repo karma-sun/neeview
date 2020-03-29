@@ -92,28 +92,6 @@ namespace NeeView
 
         #endregion
 
-        #region Properties
-
-#if false
-        //
-        [PropertyMember("@ParamTouchMinimumManipulationRadius", Tips = "@ParamTouchMinimumManipulationRadiusTips")]
-        public double MinimumManipulationRadius { get; set; } = 80.0;
-
-        //
-        [PropertyMember("@ParamTouchMinimumManipulationDistance", Tips = "@ParamTouchMinimumManipulationDistanceTips")]
-        public double MinimumManipulationDistance { get; set; } = 30.0;
-
-        //
-        [PropertyMember("@ParamTouchIsAngleEnabled")]
-        public bool IsAngleEnabled { get; set; } = true;
-
-        //
-        [PropertyMember("@ParamTouchIsScaleEnabled")]
-        public bool IsScaleEnabled { get; set; } = true;
-#endif
-
-        #endregion
-
         #region Methods
 
         /// <summary>
@@ -429,15 +407,6 @@ namespace NeeView
             return memento;
         }
 
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            //this.MinimumManipulationRadius = memento.MinimumManipulationRadius;
-            //this.MinimumManipulationDistance = memento.MinimumManipulationDistance;
-            //this.IsAngleEnabled = memento.IsAngleEnabled;
-            //this.IsScaleEnabled = memento.IsScaleEnabled;
-        }
         #endregion
     }
 }

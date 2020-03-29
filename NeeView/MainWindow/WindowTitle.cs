@@ -44,16 +44,6 @@ namespace NeeView
         // ウィンドウタイトル用キーワード置換
         private ReplaceString _windowTitleFormatter = new ReplaceString();
 
-#if false
-        // ウィンドウタイトルフォーマット
-        private const string WindowTitleFormat1Default = "$Book ($Page / $PageMax) - $FullName";
-        private const string WindowTitleFormat2Default = "$Book ($Page / $PageMax) - $FullNameL | $NameR";
-        private const string WindowTitleFormatMediaDefault = "$Book";
-        private string _windowTitleFormat1;
-        private string _windowTitleFormat2;
-        private string _windowTitleFormatMedia;
-#endif
-
         // ロード中表示用
         private string _loadingPath;
 
@@ -105,57 +95,6 @@ namespace NeeView
             private set { _title = value; RaisePropertyChanged(); }
         }
 
-#if false
-        /// <summary>
-        /// ウィンドウタイトルフォーマット 1P用
-        /// </summary>
-        [PropertyMember("@ParamWindowTitleFormat1")]
-        public string WindowTitleFormat1
-        {
-            get { return _windowTitleFormat1 ?? WindowTitleFormat1Default; }
-            set
-            {
-                if (SetProperty(ref _windowTitleFormat1, CleanUpTitleFormat(value, WindowTitleFormat1Default)))
-                {
-                    UpdateFomatterFilter();
-                    UpdateWindowTitle(WindowTitleMask.None);
-                }
-            }
-        }
-
-        /// <summary>
-        /// ウィンドウタイトルフォーマット 2P用
-        /// </summary>
-        [PropertyMember("@ParamWindowTitleFormat2")]
-        public string WindowTitleFormat2
-        {
-            get { return _windowTitleFormat2 ?? WindowTitleFormat2Default; }
-            set
-            {
-                if (SetProperty(ref _windowTitleFormat2, CleanUpTitleFormat(value, WindowTitleFormat2Default)))
-                {
-                    UpdateFomatterFilter();
-                    UpdateWindowTitle(WindowTitleMask.None);
-                }
-            }
-        }
-
-
-        [PropertyMember("@ParamWindowTitleFormatMedia")]
-        public string WindowTitleFormatMedia
-        {
-            get { return _windowTitleFormatMedia ?? WindowTitleFormatMediaDefault; }
-            set
-            {
-                if (SetProperty(ref _windowTitleFormatMedia, CleanUpTitleFormat(value, WindowTitleFormatMediaDefault)))
-                {
-                    UpdateFomatterFilter();
-                    UpdateWindowTitle(WindowTitleMask.None);
-                }
-            }
-        }
-#endif
-
         /// <summary>
         /// ロード中パス
         /// TODO : 定義位置ここか？
@@ -169,20 +108,6 @@ namespace NeeView
         #endregion
 
         #region Methods
-
-#if false
-        private string CleanUpTitleFormat(string source, string defaultFormat)
-        {
-            if (string.IsNullOrEmpty(source) || source == defaultFormat)
-            {
-                return null;
-            }
-            else
-            {
-                return source;
-            }
-        }
-#endif
 
         // フォーマットの使用キーワード更新
         private void UpdateFomatterFilter()
@@ -399,15 +324,6 @@ namespace NeeView
             memento.WindowTitleFormat2 = Config.Current.WindowTittle.WindowTitleFormat2;
             memento.WindowTitleFormatMedia = Config.Current.WindowTittle.WindowTitleFormatMedia;
             return memento;
-        }
-
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            ////this.WindowTitleFormat1 = memento.WindowTitleFormat1;
-            ////this.WindowTitleFormat2 = memento.WindowTitleFormat2;
-            ////this.WindowTitleFormatMedia = memento.WindowTitleFormatMedia;
         }
 
         #endregion

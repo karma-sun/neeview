@@ -36,16 +36,6 @@ namespace NeeView
             _gesture = gesture;
         }
 
-#if false
-        /// ドラッグアクション
-        [PropertyMember("@ParamTouchDragAction")]
-        public TouchAction DragAction { get; set; } = TouchAction.Gesture;
-
-        /// 長押しドラッグアクション
-        [PropertyMember("@ParamTouchHoldAction")]
-        public TouchAction HoldAction { get; set; } = TouchAction.Drag;
-#endif
-
         /// <summary>
         /// 状態開始
         /// </summary>
@@ -159,7 +149,7 @@ namespace NeeView
             }
         }
 
-#region Memento
+        #region Memento
         [DataContract]
         public class Memento : IMemento
         {
@@ -183,14 +173,7 @@ namespace NeeView
             return memento;
         }
 
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            //this.DragAction = memento.DragAction;
-            //this.HoldAction = memento.HoldAction;
-        }
-#endregion
+        #endregion
 
     }
 

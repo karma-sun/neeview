@@ -17,8 +17,6 @@ namespace NeeView
         public static PageList Current { get; }
 
 
-
-
         private PageList()
         {
             ListBoxModel = new PageListBoxModel();
@@ -30,28 +28,6 @@ namespace NeeView
         public event EventHandler CollectionChanging;
         public event EventHandler CollectionChanged;
 
-#if false
-        private PanelListItemStyle _panelListItemStyle;
-        private PageNameFormat _format = PageNameFormat.Smart;
-
-        /// <summary>
-        /// ページリストのリスト項目表示形式
-        /// </summary>
-        public PanelListItemStyle PanelListItemStyle
-        {
-            get { return _panelListItemStyle; }
-            set { if (_panelListItemStyle != value) { _panelListItemStyle = value; RaisePropertyChanged(); } }
-        }
-
-        /// <summary>
-        /// ページ名表示形式
-        /// </summary>
-        public PageNameFormat Format
-        {
-            get { return _format; }
-            set { _format = value; RaisePropertyChanged(); }
-        }
-#endif
 
         // サムネイル画像が表示される？？
         public bool IsThumbnailVisibled
@@ -110,7 +86,7 @@ namespace NeeView
         }
 
 
-#region Memento
+        #region Memento
         [DataContract]
         public class Memento : IMemento
         {
@@ -135,14 +111,7 @@ namespace NeeView
             return memento;
         }
 
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            //if (memento == null) return;
-            //this.PanelListItemStyle = memento.PanelListItemStyle;
-            //this.Format = memento.Format;
-        }
+        #endregion Memento
     }
 
-#endregion Memento
 }

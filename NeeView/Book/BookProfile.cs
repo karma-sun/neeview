@@ -51,105 +51,6 @@ namespace NeeView
         static BookProfile() => Current = new BookProfile();
         public static BookProfile Current { get; }
 
-        ////private int _cacheMemorySize = 100;
-        ////private int _maxCacheMemorySize;
-
-        #region Constructors
-
-        private BookProfile()
-        {
-            ////_maxCacheMemorySize = GetMaxCacheMemorySize();
-        }
-
-        #endregion
-
-        #region Properties
-
-#if false
-        /// <summary>
-        /// ページ移動優先設定
-        /// </summary>
-        [PropertyMember("@ParamBookIsPrioritizePageMove", Tips = "@ParamBookIsPrioritizePageMoveTips")]
-        public bool IsPrioritizePageMove { get; set; } = true;
-
-        /// <summary>
-        /// ページ移動命令重複許可
-        /// </summary>
-        [PropertyMember("@ParamBookIsMultiplePageMove", Tips = "@ParamBookIsMultiplePageMoveTips")]
-        public bool IsMultiplePageMove { get; set; } = true;
-
-        /// <summary>
-        /// 先読みページ数
-        /// </summary>
-        [PropertyMember("@ParamPreLoadSize", Tips = "@ParamPreLoadSizeTips")]
-        public int PreLoadSize { get; set; } = 2;
-#endif
-
-#if false
-        /// <summary>
-        /// 横長画像判定用比率
-        /// </summary>
-        [PropertyMember("@ParamBookWideRatio", Tips = "@ParamBookWideRatioTips")]
-        public double WideRatio { get; set; } = 1.0;
-
-        /// <summary>
-        /// 除外フォルダー
-        /// </summary>
-        [PropertyMember("@ParamBookExcludes")]
-        public StringCollection Excludes { get; set; } = new StringCollection("__MACOSX;.DS_Store");
-
-        // GIFアニメ有効
-        [PropertyMember("@ParamBookIsEnableAnimatedGif", Tips = "@ParamBookIsEnableAnimatedGifTips")]
-        public bool IsEnableAnimatedGif { get; set; } = true;
-
-        // ページ収集モード
-        [PropertyMember("@ParamBookPageCollectMode", Tips = "@ParamBookPageCollectModeTips")]
-        public BookPageCollectMode BookPageCollectMode { get; set; } = BookPageCollectMode.ImageAndBook;
-
-        // ページ読み込み中表示
-        [PropertyMember("@ParamBookIsLoadingPageVisible", Tips = "@ParamBookIsLoadingPageVisibleTips")]
-        public bool IsLoadingPageVisible { get; set; } = true;
-
-        // サポート外ファイル有効のときに、すべてのファイルを画像とみなす
-        [PropertyMember("@ParamBookIsAllFileAnImage", Tips = "@ParamBookIsAllFileAnImageTips")]
-        public bool IsAllFileAnImage { get; set; }
-
-        // キャッシュメモリサイズ (MB)
-        [PropertyMember("@ParamCacheMemorySize", Tips = "@ParamCacheMemorySizeTips")]
-        public int CacheMemorySize
-        {
-            // 64bit,32bit共用のため、設定時、取得時に最大メモリ制限をしている
-            get { return Math.Min(_cacheMemorySize, _maxCacheMemorySize); }
-            set { SetProperty(ref _cacheMemorySize, Math.Min(value, _maxCacheMemorySize)); }
-        }
-
-        // ファイル並び順、ファイル優先
-        [PropertyMember("@ParamIsSortFileFirst", Tips = "@ParamIsSortFileFirstTips")]
-        public bool IsSortFileFirst { get; set; }
-#endif
-
-        #endregion
-
-#if false
-        /// <summary>
-        /// 最大キャッシュメモリサイズ計算
-        /// </summary>
-        private int GetMaxCacheMemorySize()
-        {
-            int max = (int)(Environment.GetTotalPhysicalMemory() / 1024 / 1024);
-
-            // -2GB or half size
-            max = Math.Max(max - 2 * 1024, max / 2);
-
-            // if 32bit, limit 2GB
-            if (!Environment.IsX64)
-            {
-                max = Math.Min(max, 2 * 1024);
-            }
-
-            return max;
-        }
-#endif
 
         /// <summary>
         /// ページ移動優先設定
@@ -276,22 +177,6 @@ namespace NeeView
             return memento;
         }
 
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            ////this.IsPrioritizePageMove = memento.IsPrioritizePageMove;
-            ////this.IsMultiplePageMove = memento.IsMultiplePageMove;
-            ////this.PreLoadSize = memento.PreLoadSize;
-            ////this.WideRatio = memento.WideRatio;
-            ////this.Excludes.OneLine = memento.ExcludePath;
-            ////this.IsEnableAnimatedGif = memento.IsEnableAnimatedGif;
-            ////this.BookPageCollectMode = memento.BookPageCollectMode;
-            ////this.IsLoadingPageVisible = memento.IsLoadingPageVisible;
-            ////this.IsAllFileAnImage = memento.IsAllFileAnImage;
-            ////this.CacheMemorySize = memento.CacheMemorySize;
-            ////this.IsSortFileFirst = memento.IsSortFileFirst;
-        }
         #endregion
 
     }

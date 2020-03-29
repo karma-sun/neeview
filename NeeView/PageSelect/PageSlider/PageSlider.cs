@@ -43,10 +43,7 @@ namespace NeeView
 
         #region Fields
 
-        ////private SliderIndexLayout _SliderIndexLayout = SliderIndexLayout.Right;
-        ////private SliderDirection _sliderDirection = SliderDirection.SyncBookReadDirection;
         private bool _isSliderDirectionReversed;
-        ////private bool _IsSliderLinkedThumbnailList = true;
 
         #endregion
 
@@ -79,28 +76,6 @@ namespace NeeView
         /// </summary>
         public PageMarkers PageMarkers { get; private set; }
 
-#if false
-        /// <summary>
-        /// ページ数表示位置
-        /// </summary>
-        [PropertyMember("@ParamSliderIndexLayout")]
-        public SliderIndexLayout SliderIndexLayout
-        {
-            get { return _SliderIndexLayout; }
-            set { if (_SliderIndexLayout != value) { _SliderIndexLayout = value; RaisePropertyChanged(); } }
-        }
-
-        /// <summary>
-        /// スライダーの方向定義
-        /// </summary>
-        [PropertyMember("@ParamSliderDirection")]
-        public SliderDirection SliderDirection
-        {
-            get { return _sliderDirection; }
-            set { if (_sliderDirection != value) { _sliderDirection = value; RaisePropertyChanged(); UpdateIsSliderDirectionReversed(); } }
-        }
-#endif
-
         /// <summary>
         /// 実際のスライダー方向
         /// </summary>
@@ -119,20 +94,6 @@ namespace NeeView
             }
         }
 
-#if false
-        /// <summary>
-        /// フィルムストリップとスライダーの連動
-        /// フィルムストリップ表示時に限りフィルムストリップのみに連動し表示は変化しない(マウスを離したときに決定)
-        /// </summary>
-        [PropertyMember("@ParamSliderIsLinkedThumbnailList", Tips = "@ParamSliderIsLinkedThumbnailListTips")]
-        public bool IsSliderLinkedThumbnailList
-        {
-            get { return _IsSliderLinkedThumbnailList; }
-            set { if (_IsSliderLinkedThumbnailList != value) { _IsSliderLinkedThumbnailList = value; RaisePropertyChanged(); } }
-        }
-#endif
-
-        //
         public PageSelector PageSelector => PageSelector.Current;
 
         public int SelectedIndex
@@ -232,15 +193,6 @@ namespace NeeView
             memento.SliderDirection = Config.Current.Slider.SliderDirection;
             memento.IsSliderLinkedThumbnailList = Config.Current.Slider.IsSliderLinkedFilmStrip;
             return memento;
-        }
-
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            ////this.SliderIndexLayout = memento.SliderIndexLayout;
-            ////this.SliderDirection = memento.SliderDirection;
-            ////this.IsSliderLinkedThumbnailList = memento.IsSliderLinkedThumbnailList;
         }
 
         #endregion

@@ -608,7 +608,6 @@ namespace NeeView
         {
             if (memento == null) return;
 
-            ////PagemarkOrder = memento.PagemarkOrder;
             this.Load(PagemarkNodeConverter.ConvertToTreeListNode(memento.Nodes));
         }
 

@@ -13,35 +13,10 @@ namespace NeeView
         public static FileIOProfile Current { get; }
 
 
-
         private FileIOProfile()
         {
         }
 
-
-#if false
-        [PropertyMember("@ParamIsRemoveConfirmed")]
-        public bool IsRemoveConfirmed { get; set; } = true;
-
-        [PropertyMember("@ParamIsRemoveExplorerDialogEnabled", Tips = "@ParamIsRemoveExplorerDialogEnabledTips")]
-        public bool IsRemoveExplorerDialogEnabled { get; set; } = false;
-
-        private bool _isEnabled = true;
-        [PropertyMember("@ParamIsFileOperationEnabled")]
-        public bool IsEnabled
-        {
-            get { return _isEnabled; }
-            set { SetProperty(ref _isEnabled, value); }
-        }
-
-        private bool _isHiddenFileVisibled;
-        [PropertyMember("@ParamIsHiddenFileVisibled")]
-        public bool IsHiddenFileVisibled
-        {
-            get { return _isHiddenFileVisibled; }
-            set { SetProperty(ref _isHiddenFileVisibled, value); }
-        }
-#endif
 
         /// <summary>
         /// ファイルは項目として有効か？
@@ -51,7 +26,7 @@ namespace NeeView
             return Config.Current.System.IsHiddenFileVisibled || (attributes & FileAttributes.Hidden) == 0;
         }
 
-#region Memento
+        #region Memento
         [DataContract]
         public class Memento : IMemento
         {
@@ -98,15 +73,6 @@ namespace NeeView
             return memento;
         }
 
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            ////this.IsRemoveConfirmed = memento.IsRemoveConfirmed;
-            ////this.IsRemoveExplorerDialogEnabled = memento.IsRemoveExplorerDialogEnabled;
-            ////this.IsEnabled = memento.IsEnabled;
-            ////this.IsHiddenFileVisibled = memento.IsHiddenFileVisibled;
-        }
         #endregion
 
     }

@@ -15,44 +15,6 @@ namespace NeeView
         public static PdfArchiverProfile Current { get; }
 
 
-        ////private bool _isEnabled = true;
-        ////private Size _renderSize = new Size(1920, 1080);
-
-
-        //
-        private PdfArchiverProfile()
-        {
-        }
-
-#if false
-        [PropertyMember("@ParamArchiverPdfIsEnabled")]
-        public bool IsEnabled
-        {
-            get { return _isEnabled; }
-            set { if (_isEnabled != value) { _isEnabled = value; RaisePropertyChanged(); } }
-        }
-
-        [PropertyMember("@ParamArchiverPdfSupportFileTypes")]
-        public FileTypeCollection SupportFileTypes { get; set; } = new FileTypeCollection(".pfd");
-
-        [PropertyMember("@ParamArchiverPdfRenderSize", Tips = "@ParamArchiverPdfRenderSizeTips")]
-        public Size RenderSize
-        {
-            get { return _renderSize; }
-            set
-            {
-                if (_renderSize != value)
-                {
-                    _renderSize = new Size(
-                        Math.Max(value.Width, 256),
-                        Math.Max(value.Height, 256));
-                    RaisePropertyChanged();
-                    RaisePropertyChanged(nameof(SizeLimitedRenderSize));
-                }
-            }
-        }
-#endif
-
         // 最大画像サイズで制限したサイズ
         public Size SizeLimitedRenderSize
         {
@@ -134,14 +96,6 @@ namespace NeeView
             return memento;
         }
 
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-
-            ////this.IsEnabled = memento.IsEnabled;
-            ////this.RenderSize = memento.RenderSize;
-        }
         #endregion
     }
 }

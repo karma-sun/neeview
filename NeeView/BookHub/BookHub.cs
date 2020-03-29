@@ -232,7 +232,6 @@ namespace NeeView
 
         private Toast _bookHubToast;
         private bool _isLoading;
-        ////private ArchiveEntryCollectionMode _archiveRecursiveMode = ArchiveEntryCollectionMode.IncludeSubArchives;
         private BookUnit _bookUnit;
         private string _address;
         private BookHubCommandEngine _commandEngine;
@@ -320,55 +319,6 @@ namespace NeeView
         #endregion
 
         #region Properties
-
-#if false
-        // 再帰を確認する
-        [PropertyMember("@ParamIsConfirmRecursive", Tips = "@ParamIsConfirmRecursiveTips")]
-        public bool IsConfirmRecursive { get; set; }
-
-        // 自動再帰
-        private bool _isAutoRecursive = false;
-        [PropertyMember("@ParamIsAutoRecursive")]
-        public bool IsAutoRecursive
-        {
-            get { return _isAutoRecursive; }
-            set { SetProperty(ref _isAutoRecursive, value); }
-        }
-
-        /// <summary>
-        /// アーカイブの展開モード
-        /// </summary>
-        [PropertyMember("@ParamArchiveRecursiveMode", Tips = "@ParamArchiveRecursiveModeTips")]
-        public ArchiveEntryCollectionMode ArchiveRecursiveMode
-        {
-            get { return _archiveRecursiveMode; }
-            set { SetProperty(ref _archiveRecursiveMode, value); }
-        }
-
-        /// <summary>
-        /// アーカイブ内アーカイブの履歴保存
-        /// </summary>
-        [PropertyMember("@ParamIsInnerArchiveHistoryEnabled")]
-        public bool IsInnerArchiveHistoryEnabled { get; set; } = true;
-
-        /// <summary>
-        /// UNCパスの履歴保存
-        /// </summary>
-        [PropertyMember("@ParamIsUncHistoryEnabled", Tips = "@ParamIsUncHistoryEnabledTips")]
-        public bool IsUncHistoryEnabled { get; set; } = true;
-
-        /// <summary>
-        /// 履歴閲覧でも履歴登録日を更新する
-        /// </summary>
-        [PropertyMember("@ParamIsForceUpdateHistory")]
-        public bool IsForceUpdateHistory { get; set; }
-
-        /// <summary>
-        /// 何回ページを切り替えたら履歴登録するか
-        /// </summary>
-        [PropertyMember("@ParamHistoryEntryPageCount", Tips = "@ParamHistoryEntryPageCountTips")]
-        public int HistoryEntryPageCount { get; set; } = 0;
-#endif
 
         /// <summary>
         /// 現在の本
@@ -1296,21 +1246,6 @@ namespace NeeView
             memento.ArchiveRecursveMode = Config.Current.System.ArchiveRecursiveMode;
 
             return memento;
-        }
-
-        // memento反映
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-
-            //IsConfirmRecursive = memento.IsConfirmRecursive;
-            //IsAutoRecursive = memento.IsAutoRecursive;
-            //HistoryEntryPageCount = memento.HistoryEntryPageCount;
-            //IsInnerArchiveHistoryEnabled = memento.IsInnerArchiveHistoryEnabled;
-            //IsUncHistoryEnabled = memento.IsUncHistoryEnabled;
-            //IsForceUpdateHistory = memento.IsForceUpdateHistory;
-            ////this.ArchiveRecursiveMode = memento.ArchiveRecursveMode;
         }
 
         #endregion

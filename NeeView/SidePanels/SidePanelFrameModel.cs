@@ -21,7 +21,6 @@ namespace NeeView
     {
         #region Fields
 
-        ////private bool _IsSideBarVisible = true;
         private bool _isVisibleLocked;
         private SidePanelGroup _left;
         private SidePanelGroup _right;
@@ -61,26 +60,12 @@ namespace NeeView
 
         #region Properties
 
-#if false
-        // サイドバー表示フラグ
-        public bool IsSideBarVisible
-        {
-            get { return _IsSideBarVisible; }
-            set { if (_IsSideBarVisible != value) { _IsSideBarVisible = value; RaisePropertyChanged(); } }
-        }
-#endif
-
         // サイドバー表示ロック。自動非表示にならないようにする
         public bool IsVisibleLocked
         {
             get { return _isVisibleLocked; }
             set { if (_isVisibleLocked != value) { _isVisibleLocked = value; RaisePropertyChanged(); } }
         }
-
-#if false
-        [PropertyMember("@ParamSidePanelIsManipulationBoundaryFeedbackEnabled")]
-        public bool IsManipulationBoundaryFeedbackEnabled { get; set; }
-#endif
 
         // Left Panel
         public SidePanelGroup Left
@@ -99,7 +84,6 @@ namespace NeeView
         #endregion
 
         #region Methods
-
 
         /// <summary>
         /// パネル登録
@@ -452,34 +436,6 @@ namespace NeeView
             memento.Right = Right.CreateMemento();
 
             return memento;
-        }
-
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-
-#if false
-            // パネル収集
-            var panels = _left.Panels.Concat(_right.Panels).ToList();
-            _left.Panels.Clear();
-            _right.Panels.Clear();
-
-            // memento反映
-            ////this.IsSideBarVisible = memento.IsSideBarVisible;
-            ////this.IsManipulationBoundaryFeedbackEnabled = memento.IsManipulationBoundaryFeedbackEnabled;
-            _left.Restore(memento.Left, panels);
-            _right.Restore(memento.Right, panels);
-
-            // 未登録パネルを既定パネルに登録
-            foreach (var panel in panels.Where(e => !_left.Panels.Contains(e) && !_right.Panels.Contains(e)))
-            {
-                (panel.DefaultPlace == PanelPlace.Right ? _right : _left).Panels.Add(panel);
-            }
-
-            // 情報更新
-            SelectedPanelChanged?.Invoke(this, null);
-#endif
         }
 
         #endregion

@@ -137,18 +137,6 @@ namespace NeeView
         /// </summary>
         private TouchInputBase _current;
 
-#if false
-        /// <summary>
-        /// IsEnabled property.
-        /// </summary>
-        private bool _isEnabled = true;
-        [PropertyMember("@ParamTouchIsEnabled", Tips = "@ParamTouchIsEnabledTips")]
-        public bool IsEnabled
-        {
-            get { return _isEnabled; }
-            set { if (_isEnabled != value) { _isEnabled = value; RaisePropertyChanged(); } }
-        }
-#endif
 
         //
         public bool IsCaptured()
@@ -251,7 +239,7 @@ namespace NeeView
 
 
 
-#region Memento
+        #region Memento
         [DataContract]
         public class Memento : IMemento
         {
@@ -301,16 +289,7 @@ namespace NeeView
             return memento;
         }
 
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            //this.IsEnabled = memento.IsEnabled;
-            //this.Normal.Restore(memento.Normal);
-            //this.Gesture.Restore(memento.Gesture);
-            //this.Drag.Restore(memento.Drag);
-        }
-#endregion
+        #endregion
 
 
     }

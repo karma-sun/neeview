@@ -34,15 +34,11 @@ namespace NeeView
         {
             var element = MainWindow.Current.PageContents;
 
-#if false
-            var transform = MainWindow.Current.MainContent.RenderTransform;
-#else
             var rotateTransform = new RotateTransform(DragTransform.Current.Angle);
             var scaleTransform = new ScaleTransform(DragTransform.Current.ScaleX, DragTransform.Current.ScaleY);
             var transform = new TransformGroup();
             transform.Children.Add(scaleTransform);
             transform.Children.Add(rotateTransform);
-#endif
 
             var context = new ExportImageSource();
             context.BookAddress = BookOperation.Current.Address;

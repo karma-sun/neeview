@@ -17,40 +17,17 @@ namespace NeeView
     {
         static SidePanelProfile()
         {
-            /*
-            _defaultNormalItemProfile = new PanelListItemProfile(PanelListItemImageShape.Square, 0, false, true, false, 0.0);
-            _defaultContentItemProfile = new PanelListItemProfile(PanelListItemImageShape.Square, 64, true, true, false, 0.5);
-            _defaultBannerItemProfile = new PanelListItemProfile(PanelListItemImageShape.Banner, 200, false, true, false, 0.0);
-            _defaultThumbnailItemProfile = new PanelListItemProfile(PanelListItemImageShape.Original, 128, false, true, true, 0.0);
-            */
             Current = new SidePanelProfile();
         }
 
         public static SidePanelProfile Current { get; }
 
-        /*
-        private static PanelListItemProfile _defaultNormalItemProfile;
-        private static PanelListItemProfile _defaultContentItemProfile;
-        private static PanelListItemProfile _defaultBannerItemProfile;
-        private static PanelListItemProfile _defaultThumbnailItemProfile;
-        */
-
-        ////private double _opacity = 1.0;
         private SolidColorBrush _backgroundBrush;
         private SolidColorBrush _baseBrush;
         private SolidColorBrush _iconBackgroundBrush;
-        ////private string _fontName = SystemFonts.MessageFontFamily.Source;
-        ////private double _folderTreeFontSize = 12;
-        ////private double _fontSize = 15.0;
-        ////private bool _isDecoratePlace = true;
 
         private SidePanelProfile()
         {
-            ////_normalItemProfile = _defaultNormalItemProfile.Clone();
-            ////Config.Current.Panels.ContentItemProfile = _defaultContentItemProfile.Clone();
-            ////Config.Current.Panels.BannerItemProfile = _defaultBannerItemProfile.Clone();
-            ////Config.Current.Panels.ThumbnailItemProfile = _defaultThumbnailItemProfile.Clone();
-
             SetFontFamilyResource(Config.Current.Panels.FontName);
             SetFontSizeResource(Config.Current.Panels.FontSize);
             SetFolderTreeFontSizeResource(Config.Current.Panels.FolderTreeFontSize);
@@ -91,25 +68,6 @@ namespace NeeView
             RefreshBrushes();
         }
 
-
-#if false
-        [PropertyMember("@ParamSidePanelIsLeftRightKeyEnabled", Tips = "@ParamSidePanelIsLeftRightKeyEnabledTips")]
-        public bool IsLeftRightKeyEnabled { get; set; } = true;
-
-        [PropertyPercent("@ParamSidePanelOpacity", Tips = "@ParamSidePanelOpacityTips")]
-        public double Opacity
-        {
-            get { return _opacity; }
-            set
-            {
-                if (SetProperty(ref _opacity, value))
-                {
-                    RefreshBrushes();
-                }
-            }
-        }
-#endif
-
         public SolidColorBrush BackgroundBrush
         {
             get { return _backgroundBrush; }
@@ -127,109 +85,6 @@ namespace NeeView
             get { return _iconBackgroundBrush; }
             set { SetProperty(ref _iconBackgroundBrush, value); }
         }
-
-
-
-#if false
-        [PropertyMember("@ParamListItemFontName")]
-        public string FontName
-        {
-            get
-            {
-                return _fontName;
-            }
-            set
-            {
-                value = value ?? SystemFonts.MessageFontFamily.Source;
-                if (_fontName != value)
-                {
-                    try
-                    {
-                        _fontName = value;
-                        SetFontFamilyResource(_fontName);
-                        RaisePropertyChanged();
-
-                        Config.Current.Panels.ContentItemProfile.UpdateTextHeight();
-                        Config.Current.Panels.BannerItemProfile.UpdateTextHeight();
-                        Config.Current.Panels.ThumbnailItemProfile.UpdateTextHeight();
-                    }
-                    catch
-                    {
-                        // nop.
-                    }
-                }
-            }
-        }
-
-
-        [PropertyRange("@ParamListItemFontSize", 8, 24, TickFrequency = 0.5, IsEditable = true)]
-        public double FontSize
-        {
-            get { return _fontSize; }
-            set
-            {
-                value = Math.Max(1, value);
-                if (_fontSize != value)
-                {
-                    _fontSize = value;
-                    SetFontSizeResource(_fontSize);
-                    RaisePropertyChanged();
-
-                    Config.Current.Panels.ContentItemProfile.UpdateTextHeight();
-                    Config.Current.Panels.BannerItemProfile.UpdateTextHeight();
-                    Config.Current.Panels.ThumbnailItemProfile.UpdateTextHeight();
-                }
-            }
-        }
-        [PropertyRange("@ParamListItemFolderTreeFontSize", 8, 24, TickFrequency = 0.5, IsEditable = true)]
-        public double FolderTreeFontSize
-        {
-            get { return _folderTreeFontSize; }
-            set
-            {
-                value = Math.Max(1, value);
-                if (_folderTreeFontSize != value)
-                {
-                    _folderTreeFontSize = value;
-                    SetFolderTreeFontSizeResource(_folderTreeFontSize);
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        private PanelListItemProfile _normalItemProfile;
-        public PanelListItemProfile NormalItemProfile
-        {
-            get { return _normalItemProfile; }
-            set { SetProperty(ref _normalItemProfile, value); }
-        }
-
-
-        private PanelListItemProfile Config.Current.Panels.ContentItemProfile;
-        public PanelListItemProfile ContentItemProfile
-        {
-            get { return Config.Current.Panels.ContentItemProfile; }
-            set { SetProperty(ref Config.Current.Panels.ContentItemProfile, value); }
-        }
-
-
-        private PanelListItemProfile Config.Current.Panels.BannerItemProfile;
-        public PanelListItemProfile BannerItemProfile
-        {
-            get { return Config.Current.Panels.BannerItemProfile; }
-            set { SetProperty(ref Config.Current.Panels.BannerItemProfile, value); }
-        }
-
-
-        private PanelListItemProfile Config.Current.Panels.ThumbnailItemProfile;
-        public PanelListItemProfile ThumbnailItemProfile
-        {
-            get { return Config.Current.Panels.ThumbnailItemProfile; }
-            set { SetProperty(ref Config.Current.Panels.ThumbnailItemProfile, value); }
-        }
-#endif
-
-
 
         [PropertyRange("@ParamListItemContentImageWidth", 0, 512, TickFrequency = 8, IsEditable = true, Tips = "@ParamListItemContentImageWidthTips")]
         public int ContentItemImageWidth
@@ -265,16 +120,6 @@ namespace NeeView
             get { return Config.Current.Panels.ContentItemProfile.NoteOpacity; }
             set { Config.Current.Panels.ContentItemProfile.NoteOpacity = value; }
         }
-
-#if false
-        [PropertyMember("@ParamListItemContentIsDecoratePlace", Tips = "@ParamListItemContentIsDecoratePlaceTips")]
-        public bool IsDecoratePlace
-        {
-            get { return _isDecoratePlace; }
-            set { SetProperty(ref _isDecoratePlace, value); }
-        }
-#endif
-
 
         [PropertyRange("@ParamListItemBannerImageWidth", 0, 512, TickFrequency = 8, IsEditable = true, Tips = "@ParamListItemBannerImageWidthTips")]
         public int BannerItemImageWidth
@@ -377,7 +222,7 @@ namespace NeeView
             Config.Current.Panels.ThumbnailItemProfile.UpdateTextHeight();
         }
 
-#region Memento
+        #region Memento
 
         [DataContract]
         public class Memento : IMemento
@@ -427,8 +272,6 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
-                // TODO: PanelListItemProfile
-
                 config.Panels.IsLeftRightKeyEnabled = IsLeftRightKeyEnabled;
                 config.Panels.Opacity = Opacity;
                 config.Panels.FontName = FontName;
@@ -459,25 +302,7 @@ namespace NeeView
             return memento;
         }
 
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-
-            ////this.IsLeftRightKeyEnabled = memento.IsLeftRightKeyEnabled;
-            ////this.Opacity = memento.Opacity;
-            ////this.FontName = memento.FontName;
-            ////this.FontSize = memento.FontSize;
-            ////this.FolderTreeFontSize = memento.FolderTreeFontSize;
-            ////this.ContentItemProfile = memento.ContentItemProfile ?? _defaultContentItemProfile.Clone();
-            ////this.BannerItemProfile = memento.BannerItemProfile ?? _defaultBannerItemProfile.Clone();
-            ////this.ThumbnailItemProfile = memento.ThumbnailItemProfile ?? _defaultThumbnailItemProfile.Clone();
-            ////this.IsDecoratePlace = memento.IsDecoratePlace;
-
-            ValidatePanelListItemProfile();
-        }
-
-#endregion
+        #endregion
     }
 
     // TODO: 定義位置

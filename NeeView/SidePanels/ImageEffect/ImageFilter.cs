@@ -76,11 +76,6 @@ namespace NeeView
             return memento;
         }
 
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-        }
-
         #endregion
     }
 }

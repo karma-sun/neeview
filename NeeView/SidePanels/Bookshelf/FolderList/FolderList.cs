@@ -49,7 +49,6 @@ namespace NeeView
         }
 
         public QueryPath Path { get; private set; }
-        ////public QueryPath TargetPath { get; set; }
         public int Index { get; private set; }
     }
 
@@ -196,15 +195,6 @@ namespace NeeView
 
         public FolderCollectionFactory FolderCollectionFactory { get; }
 
-#if false
-        private PanelListItemStyle _panelListItemStyle;
-        public PanelListItemStyle PanelListItemStyle
-        {
-            get { return _panelListItemStyle; }
-            set { if (_panelListItemStyle != value) { _panelListItemStyle = value; RaisePropertyChanged(); } }
-        }
-#endif
-
         public PanelListItemStyle PanelListItemStyle
         {
             get { return _folderListConfig.PanelListItemStyle; }
@@ -229,106 +219,6 @@ namespace NeeView
                 }
             }
         }
-
-#if false
-        /// <summary>
-        /// IsVisibleHistoryMark property.
-        /// </summary>
-        private bool _isVisibleHistoryMark = true;
-        [PropertyMember("@ParamBookshelfIsVisibleHistoryMark", Tips = "@ParamBookshelfIsVisibleHistoryMarkTips")]
-        public bool IsVisibleHistoryMark
-        {
-            get { return _isVisibleHistoryMark; }
-            set
-            {
-                if (SetProperty(ref _isVisibleHistoryMark, value))
-                {
-                    _folderCollection?.RefreshIcon(null);
-                }
-            }
-        }
-
-        /// <summary>
-        /// IsVisibleBookmarkMark property.
-        /// </summary>
-        private bool _isVisibleBookmarkMark = true;
-        [PropertyMember("@ParamBookshelfIsVisibleBookmarkMark", Tips = "@ParamBookshelfIsVisibleBookmarkMarkTips")]
-        public bool IsVisibleBookmarkMark
-        {
-            get { return _isVisibleBookmarkMark; }
-            set
-            {
-                if (SetProperty(ref _isVisibleBookmarkMark, value))
-                {
-                    _folderCollection?.RefreshIcon(null);
-                }
-            }
-        }
-
-        private string _home;
-        [PropertyPath("@ParamBookshelfHome", FileDialogType = FileDialogType.Directory)]
-        public string Home
-        {
-            get { return _home; }
-            set { if (_home != value) { _home = value; RaisePropertyChanged(); } }
-        }
-
-        /// <summary>
-        /// 追加されたファイルを挿入する？
-        /// OFFにするとリスト末尾に追加する
-        /// </summary>
-        [PropertyMember("@ParamBookshelfIsInsertItem", Tips = "@ParamBookshelfIsInsertItemTips")]
-        public bool IsInsertItem { get; set; } = true;
-
-
-        [PropertyMember("@ParamBookshelfIsMultipleRarFilterEnabled", Tips = "@ParamBookshelfIsMultipleRarFilterEnabledTips")]
-        public bool IsMultipleRarFilterEnabled { get; set; }
-
-
-        [PropertyMember("@ParamBookshelfIsCruise", Tips = "@ParamBookshelfIsCruiseTips")]
-        public bool IsCruise { get; set; }
-
-
-        [PropertyMember("@ParamBookshelfIsCloseBookWhenMove")]
-        public bool IsCloseBookWhenMove { get; set; }
-
-        [PropertyMember("@ParamBookshelfIsOpenNextBookWhenRemove")]
-        public bool IsOpenNextBookWhenRemove { get; set; } = true;
-
-        [PropertyMember("@ParamBookshelfIsSyncFolderTree")]
-        public bool IsSyncFolderTree { get; set; }
-
-        private string _excludePattern;
-        [PropertyMember("@ParamBookshelfExcludePattern", Tips = "@ParamBookshelfExcludePatternTips")]
-        public string ExcludePattern
-        {
-            get { return _excludePattern; }
-            set
-            {
-                if (_excludePattern != value)
-                {
-                    _excludePattern = value;
-
-                    try
-                    {
-                        _excludeRegex = string.IsNullOrWhiteSpace(_excludePattern) ? null : new Regex(_excludePattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine($"FolderList exclute: {ex.Message}");
-                        _excludePattern = null;
-                    }
-
-                    RaisePropertyChanged();
-                    RaisePropertyChanged(nameof(ExcludeRegex));
-                }
-            }
-        }
-
-        // 除外パターンの正規表現
-        private Regex _excludeRegex;
-        public Regex ExcludeRegex => _excludeRegex;
-#endif
 
         /// <summary>
         /// フォルダーコレクション
@@ -401,29 +291,6 @@ namespace NeeView
             }
         }
 
-#if false
-        /// <summary>
-        /// インクリメンタルサーチ有効
-        /// </summary>
-        public bool IsIncrementalSearchEnabled { get; set; } = true;
-
-        /// <summary>
-        /// サブフォルダーを含めた検索を行う
-        /// </summary>
-        public bool IsSearchIncludeSubdirectories
-        {
-            get { return _searchEngine.IncludeSubdirectories; }
-            set
-            {
-                if (_searchEngine.IncludeSubdirectories != value)
-                {
-                    _searchEngine.IncludeSubdirectories = value;
-                    RequestSearchPlace(true);
-                }
-            }
-        }
-#endif
-
         protected virtual bool IsIncrementalSearchEnabled() => false;
         protected virtual bool IsSearchIncludeSubdirectories() => false;
 
@@ -443,33 +310,6 @@ namespace NeeView
             get { return _folderListConfig.IsFolderTreeVisible; }
             set { _folderListConfig.IsFolderTreeVisible = value; }
         }
-#if false
-        /// <summary>
-        /// フォルダーツリーの表示
-        /// </summary>
-        private bool _isFolderTreeVisible = false;
-        public bool IsFolderTreeVisible
-        {
-            get { return _isFolderTreeVisible; }
-            set { SetProperty(ref _isFolderTreeVisible, value); }
-        }
-
-        private FolderTreeLayout _FolderTreeLayout = FolderTreeLayout.Left;
-        [PropertyMember("@ParamFolderTreeLayout")]
-        public FolderTreeLayout FolderTreeLayout
-        {
-            get { return _FolderTreeLayout; }
-            set
-            {
-                if (SetProperty(ref _FolderTreeLayout, value))
-                {
-                    RaisePropertyChanged(nameof(FolderTreeDock));
-                    RaisePropertyChanged(nameof(FolderTreeAreaWidth));
-                    RaisePropertyChanged(nameof(FolderTreeAreaHeight));
-                }
-            }
-        }
-#endif
 
         public FolderTreeLayout FolderTreeLayout
         {
@@ -563,24 +403,6 @@ namespace NeeView
             get { return _IsLocked; }
             set { SetProperty(ref _IsLocked, value && Place != null); }
         }
-
-#if false
-        /// <summary>
-        /// 本の読み込みで本棚の更新を要求する
-        /// </summary>
-        private bool _isSyncBookshelfEnabled;
-        public bool IsSyncBookshelfEnabled
-        {
-            get { return _isSyncBookshelfEnabled; }
-            set
-            {
-                if (SetProperty(ref _isSyncBookshelfEnabled, value) && FolderListBoxModel != null)
-                {
-                    FolderListBoxModel.IsSyncBookshelfEnabled = _isSyncBookshelfEnabled;
-                }
-            }
-        }
-#endif
 
         protected virtual bool IsSyncBookshelfEnabled() => false;
 
@@ -1532,19 +1354,6 @@ namespace NeeView
             memento.IsSyncFolderTree = Config.Current.Bookshelf.IsSyncFolderTree;
 
             return memento;
-        }
-
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-
-            ////this.PanelListItemStyle = memento.PanelListItemStyle;
-            ////this.FolderTreeLayout = memento.FolderTreeLayout;
-            ////this.FolderTreeAreaHeight = memento.FolderTreeAreaHeight;
-            ////this.FolderTreeAreaWidth = memento.FolderTreeAreaWidth;
-            ////this.IsFolderTreeVisible = memento.IsFolderTreeVisible;
-            ////this.IsSyncFolderTree = memento.IsSyncFolderTree;
         }
 
         #endregion

@@ -267,16 +267,6 @@ namespace NeeView
             memento.Generater = (BookSettingPolicyConfig)this.Generater.Clone();
             return memento;
         }
-        
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-
-            ////this.DefaultSetting = (BookSetting)memento.DefaultSetting?.Clone() ?? new BookSetting();
-            ////this.LatestSetting = (BookSetting)memento.LatestSetting?.Clone() ?? new BookSetting();
-            ////this.Generater = memento.Generater?.Clone() ?? new BookSettingGenerater();
-        }
 
         #endregion
 

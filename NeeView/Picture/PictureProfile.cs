@@ -21,18 +21,10 @@ namespace NeeView
         private PictureFileExtension _fileExtension = new PictureFileExtension();
 
         private Size _MaximumSize = new Size(4096, 4096);
-        ////private PictureCustomSize _customSize;
-        ////private bool _isAspectRatioEnabled;
 
 
         private PictureProfile()
         {
-            //_customSize = new PictureCustomSize()
-            //{
-            //    IsEnabled = false,
-            //    IsUniformed = false,
-            //    Size = new Size(256, 256)
-            //};
         }
 
 
@@ -41,53 +33,6 @@ namespace NeeView
 
         [PropertyMember("@ParamPictureProfileSvgExtensions")]
         public FileTypeCollection SvgFileTypes => _fileExtension.SvgExtensions;
-
-#if false
-        // 読み込みデータのサイズ制限適用フラグ
-        [PropertyMember("@ParamPictureProfileIsLimitSourceSize", Tips = "@ParamPictureProfileIsLimitSourceSizeTips")]
-        public bool IsLimitSourceSize { get; set; }
-
-        // 画像処理の最大サイズ
-        // リサイズフィルターで使用される。
-        // IsLimitSourceSize フラグがONのときには、読み込みサイズにもこの制限が適用される
-        [PropertyMember("@ParamPictureProfileMaximumSize", Tips = "@ParamPictureProfileMaximumSizeTips")]
-        public Size MaximumSize
-        {
-            get { return _MaximumSize; }
-            set
-            {
-                var size = new Size(Math.Max(value.Width, 1024), Math.Max(value.Height, 1024));
-                if (_MaximumSize != size) { _MaximumSize = size; RaisePropertyChanged(); }
-            }
-        }
-
-        private bool _isResizeFilterEnabled = false;
-
-        public bool IsResizeFilterEnabled
-        {
-            get { return _isResizeFilterEnabled; }
-            set { if (_isResizeFilterEnabled != value) { _isResizeFilterEnabled = value; RaisePropertyChanged(); } }
-        }
-
-        public PictureCustomSize CustomSize
-        {
-            get { return _customSize; }
-            set { if (_customSize != value) { _customSize = value; RaisePropertyChanged(); } }
-        }
-
-        // 画像の解像度情報を表示に反映する
-        [PropertyMember("@ParamPictureProfileIsAspectRatioEnabled", Tips = "@ParamPictureProfileIsAspectRatioEnabledTips")]
-        public bool IsAspectRatioEnabled
-        {
-            get { return _isAspectRatioEnabled; }
-            set { SetProperty(ref _isAspectRatioEnabled, value); }
-        }
-
-        // support SVG
-        [PropertyMember("@ParamPictureProfileIsSvgEnabled", Tips = "@ParamPictureProfileIsSvgEnabledTips")]
-        public bool IsSvgEnabled { get; set; } = true;
-#endif
-
 
 
         // 対応拡張子判定 (ALL)
@@ -197,18 +142,6 @@ namespace NeeView
             memento.IsAspectRatioEnabled = Config.Current.Image.Standard.IsAspectRatioEnabled;
             memento.IsSvgEnabled = Config.Current.Image.Svg.IsEnabled;
             return memento;
-        }
-
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            ////this.IsLimitSourceSize = memento.IsLimitSourceSize;
-            ////this.MaximumSize = memento.Maximum;
-            ////this.CustomSize.Restore(memento.CustomSize);
-            ////this.IsResizeFilterEnabled = memento.IsResizeFilterEnabled;
-            ////this.IsAspectRatioEnabled = memento.IsAspectRatioEnabled;
-            ////this.IsSvgEnabled = memento.IsSvgEnabled;
         }
         #endregion
 

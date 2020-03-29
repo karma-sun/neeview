@@ -48,13 +48,11 @@ namespace NeeView
 
             Current = this;
 
-            ////var setting = SaveData.Current.UserSettingTemp;
-
             ContextMenuWatcher.Initialize();
 
             // Window状態初期化、復元
-            InitializeWindowShapeSnap(); //// setting.WindowShape);
-            InitializeWindowPlacement(); //// setting.WindowPlacement);
+            InitializeWindowShapeSnap();
+            InitializeWindowPlacement();
 
             // 固定画像初期化
             Thumbnail.InitializeBasicImages();
@@ -93,9 +91,6 @@ namespace NeeView
             MainWindowModel.Current.AddPropertyChanged(nameof(MainWindowModel.CanHidePageSlider),
                 (s, e) => DartyPageSliderLayout());
 
-            ////MainWindowModel.Current.AddPropertyChanged(nameof(MainWindowModel.IsPanelVisibleLocked),
-            ////    (s, e) => UpdateControlsVisibility());
-
             Config.Current.FilmStrip.AddPropertyChanged(nameof(FilmStripConfig.IsEnabled),
                 (s, e) => DartyThumbnailListLayout());
 
@@ -107,9 +102,6 @@ namespace NeeView
 
             ContentCanvas.Current.AddPropertyChanged(nameof(ContentCanvas.IsMediaContent),
                 (s, e) => DartyPageSliderLayout());
-
-            ////this.AddressBar.IsAddressTextBoxFocusedChanged +=
-            ////    (s, e) => UpdateMenuLayerVisibility();
 
             WindowShape.Current.AddPropertyChanged(nameof(WindowShape.IsFullScreen),
                 (s, e) => FullScreenChanged());
@@ -189,15 +181,7 @@ namespace NeeView
             // セカンドプロセスはウィンドウ形状を継承しない
             if (Environment.IsSecondProcess && !Config.Current.StartUp.IsRestoreSecondWindowPlacement) return;
 
-#if false
-            WindowPlacement.Current.IsMaximized = WindowShape.Current.SnapMemento != null
-                ? WindowShape.Current.SnapMemento.State == WindowStateEx.Maximized || WindowShape.Current.SnapMemento.State == WindowStateEx.FullScreen
-                : false;
-#endif
-
             WindowPlacement.Current.IsMaximized = Config.Current.Window.State == WindowStateEx.Maximized || Config.Current.Window.State == WindowStateEx.FullScreen;
-
-            ////WindowPlacement.Current.Restore(memento);
         }
 
         /// <summary>
@@ -206,9 +190,6 @@ namespace NeeView
         /// </summary>
         private void InitializeWindowShapeSnap()
         {
-            ////if (memento == null) return;
-            ////var customMemento = memento.Clone();
-
             var state = Config.Current.Window.State;
 
             if (App.Current.Option.IsResetPlacement == SwitchOption.on)
@@ -239,7 +220,6 @@ namespace NeeView
                 state = WindowStateEx.FullScreen;
             }
 
-            ////WindowShape.Current.SnapMemento = customMemento;
             Config.Current.Window.State = state;
         }
 
@@ -249,9 +229,6 @@ namespace NeeView
         /// </summary>
         private void InitializeWindowShape()
         {
-            ////var windowShape = WindowShape.Current;
-            ////windowShape.WindowChromeFrame = App.Current.WindowChromeFrame;
-            ////windowShape.Restore(windowShape.SnapMemento);
             WindowShape.Current.IsEnabled = true;
         }
 
@@ -590,12 +567,6 @@ namespace NeeView
 
             WindowShape.Current.InitializeStateChangeAction();
 
-            // version information
-            ////if (App.Current.SettingVersion != 0 && App.Current.SettingVersion < Config.Current.ProductVersionNumber && Config.Current.ProductVersionNumber == Config.GenerateProductVersionNumber(32, 0, 0))
-            ////{
-            ////    ToastService.Current.Show(new Toast(Properties.Resources.Ver320Note, Properties.Resources.Ver320, ToastIcon.Information, TimeSpan.FromSeconds(15.0)));
-            ////}
-
             Debug.WriteLine($"App.MainWndow.ContentRendered.Done: {App.Current.Stopwatch.ElapsedMilliseconds}ms");
         }
 
@@ -759,31 +730,11 @@ namespace NeeView
 
             // Window Border
             WindowShape.Current?.UpdateWindowBorderThickness();
-
-#if false
-            // ウィンドウサイズのDPI非追従
-            if (App.Current.IsIgnoreWindowDpi && this.WindowState == WindowState.Normal)
-            {
-                var newWidth = Math.Floor(this.Width * e.OldDpi.DpiScaleX / e.NewDpi.DpiScaleX);
-                var newHeight = Math.Floor(this.Height * e.OldDpi.DpiScaleY / e.NewDpi.DpiScaleY);
-
-                // 反映タイミングをずらす
-                AppDispatcher.BeginInvoke((Action)(() =>
-                {
-                    this.Width = newWidth;
-                    this.Height = newHeight;
-                }));
-            }
-#endif
         }
 
-        //
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             _vm.IsClosing = true;
-
-            // 閉じる前にウィンドウサイズ保存
-            ////WindowShape.Current.CreateSnapMemento();
 
             // 設定ウィンドウの保存動作を無効化
             if (Setting.SettingWindow.Current != null)
@@ -792,7 +743,6 @@ namespace NeeView
             }
         }
 
-        //
         private void MainWindow_Closed(object sender, EventArgs e)
         {
             App.Current.DisableUnhandledException();

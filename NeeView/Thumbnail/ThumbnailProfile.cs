@@ -32,107 +32,6 @@ namespace NeeView
         /// </summary>
         public BitmapCreateMode CreateMode { get; } = BitmapCreateMode.HighQuality;
 
-#if false
-        /// <summary>
-        /// 画像フォーマット
-        /// </summary>
-        [PropertyMember("@ParamThumbnailFormat", Tips = "@ParamThumbnailFormatTips")]
-        public BitmapImageFormat Format { get; set; } = BitmapImageFormat.Jpeg;
-
-        /// <summary>
-        /// 画像品質
-        /// </summary>
-        private int _quality = 80;
-        [PropertyRange("@ParamThumbnailQuality", 5, 100, TickFrequency = 5, Tips = "@ParamThumbnailQualityTips")]
-        public int Quality
-        {
-            get { return _quality; }
-            set { _quality = MathUtility.Clamp(value, 5, 100); }
-        }
-
-        [PropertyMember("@ParamThumbnailIsCacheEnabled", Tips = "@ParamThumbnailIsCacheEnabledTips")]
-        public bool IsCacheEnabled { get; set; } = true;
-
-        [PropertyMember("@ParamThumbnailPageCapacity", Tips = "@ParamThumbnailPageCapacityTips")]
-        public int PageCapacity { get; set; } = 1000;
-
-        [PropertyMember("@ParamThumbnailBookCapacity", Tips = "@ParamThumbnailBookCapacityTips")]
-        public int BookCapacity { get; set; } = 200;
-#endif
-
-#if false
-        private int _bannerWidth = 200;
-        [PropertyRange("@ParamThumbnailBannerWidth", 0, 512, TickFrequency = 8, Tips = "@ParamThumbnailBannerWidthTips")]
-        public int BannerWidth
-        {
-            get { return _bannerWidth; }
-            set
-            {
-                _bannerWidth = MathUtility.Clamp(value, 0, 512);
-                int bannerWidth = _bannerWidth;
-                int bannerHeight = _bannerWidth / 4;
-                App.Current.Resources["BannerWidth"] = (double)bannerWidth;
-                App.Current.Resources["BannerHeight"] = (double)bannerHeight;
-            }
-        }
-
-        /// <summary>
-        /// ThumbnailWidth property.
-        /// </summary>
-        private int _thumbnailWidth = 64;
-        [PropertyRange("@ParamThumbnailThumbnailWidth", 0, 256, TickFrequency = 8, Format = "{0}×{0}", Tips = "@ParamThumbnailThumbnailWidthTips")]
-        public int ThumbnailWidth
-        {
-            get { return _thumbnailWidth; }
-            set
-            {
-                _thumbnailWidth = MathUtility.Clamp(value, 0, 256);
-                int width = _thumbnailWidth;
-                int height = _thumbnailWidth + 10;
-                App.Current.Resources["ThumbnailWidth"] = (double)width;
-                App.Current.Resources["ThumbnailHeight"] = (double)height;
-            }
-        }
-
-
-        private int _tileWidth = 128;
-        [PropertyRange("@ParamThumbnailTileWidth", 64, 256, TickFrequency = 8, Format = "{0}×{0}", Tips = "@ParamThumbnailTileWidthTips")]
-        public int TileWidth
-        {
-            get { return _tileWidth; }
-            set
-            {
-                _tileWidth = MathUtility.Clamp(value, 64, 256);
-                int width = _tileWidth;
-                int height = _tileWidth;
-                App.Current.Resources["TileWidth"] = (double)width;
-                App.Current.Resources["TileHeight"] = (double)height;
-            }
-        }
-
-
-        private bool _IsTileNameVisibled = true;
-        [PropertyMember("@ParamThumbnailIsTileNameVisibled")]
-        public bool IsTileNameVisibled
-        {
-            get { return _IsTileNameVisibled; }
-            set { SetProperty(ref _IsTileNameVisibled, value); }
-        }
-
-
-        /// <summary>
-        /// IsThumbnailPopup property.
-        /// </summary>
-        private bool _IsThumbnailPopup = true;
-        [PropertyMember("@ParamThumbnailIsThumbnailPopup", Tips = "@ParamThumbnailIsThumbnailPopupTips")]
-        public bool IsThumbnailPopup
-        {
-            get { return _IsThumbnailPopup; }
-            set { if (_IsThumbnailPopup != value) { _IsThumbnailPopup = value;  } }
-        }
-#endif
-
-
 
         /// <summary>
         /// サムネイル画像サイズ取得
@@ -229,17 +128,6 @@ namespace NeeView
             memento.PageCapacity = Config.Current.Thumbnail.ThumbnailPageCapacity;
             memento.BookCapacity = Config.Current.Thumbnail.ThumbnailBookCapacity;
             return memento;
-        }
-
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            ////this.Format = memento.Format;
-            ////this.Quality = memento.Quality;
-            ////this.IsCacheEnabled = memento.IsCacheEnabled;
-            ////this.PageCapacity = memento.PageCapacity;
-            ////this.lBookCapacity = memento.BookCapacity;
         }
 
         #endregion

@@ -42,47 +42,6 @@ namespace NeeView
     /// </summary>
     public class MouseInputNormal : MouseInputBase
     {
-#if false
-        private LongButtonDownMode _longButtonDownMode = LongButtonDownMode.Loupe;
-        [PropertyMember("@ParamMouseLongButtonDownMode")]
-        public LongButtonDownMode LongButtonDownMode
-        {
-            get { return _longButtonDownMode; }
-            set { _longButtonDownMode = value; RaisePropertyChanged(); }
-        }
-
-        [PropertyMember("@ParamMouseLongButtonMask")]
-        public LongButtonMask LongButtonMask { get; set; }
-
-        [PropertyRange("@ParamMouseLongButtonDownTime", 0.1, 2.0, TickFrequency = 0.1, Tips = "@ParamMouseLongButtonDownTimeTips")]
-        public double LongButtonDownTime { get; set; } = 1.0;
-
-        [PropertyRange("@ParamMouseLongButtonRepeatTime", 0.01, 1.0, TickFrequency = 0.01, Tips = "@ParamMouseLongButtonRepeatTimeTips")]
-        public double LongButtonRepeatTime { get; set; } = 0.1;
-
-        // マウスジェスチャー有効
-        private bool _isGestureEnabled = true;
-        [PropertyMember("@ParamMouseIsGestureEnabled")]
-        public bool IsGestureEnabled
-        {
-            get { return _isGestureEnabled; }
-            set { SetProperty(ref _isGestureEnabled, value); }
-        }
-
-        // マウスドラッグ有効
-        private bool _isDragEnabled = true;
-        [PropertyMember("@ParamMouseIsDragEnabled")]
-        public bool IsDragEnabled
-        {
-            get { return _isDragEnabled; }
-            set { SetProperty(ref _isDragEnabled, value); }
-        }
-
-        // ドラッグ開始距離
-        [PropertyRange("@ParamMouseMinimumDragDistance", 1.0, 200.0, TickFrequency = 1.0, IsEditable = true, Tips = "@ParamMouseMinimumDragDistanceTips")]
-        public double MinimumDragDistance { get; set; } = 5.0;
-#endif
-
         /// <summary>
         /// ボタン押されている？
         /// </summary>
@@ -297,7 +256,7 @@ namespace NeeView
         }
 
 
-#region Memento
+        #region Memento
         [DataContract]
         public class Memento : IMemento
         {
@@ -354,20 +313,7 @@ namespace NeeView
             return memento;
         }
 
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            //this.LongButtonDownMode = memento.LongButtonDownMode;
-            //this.LongButtonMask = memento.LongButtonMask;
-            //this.LongButtonDownTime = memento.LongButtonDownTime;
-            //this.LongButtonRepeatTime = memento.LongButtonRepeatTime;
-            //this.IsGestureEnabled = memento.IsGestureEnabled;
-            //this.IsDragEnabled = memento.IsDragEnabled;
-            //this.MinimumDragDistance = memento.MinimumDragDistance;
-        }
-#endregion
-
+        #endregion
 
     }
 }

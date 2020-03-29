@@ -546,19 +546,7 @@ namespace NeeView
 
         #endregion MoreMenu
 
-#region Methods
-
-#if false
-        private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case nameof(_model.PanelListItemStyle):
-                    UpdateFolderListBox();
-                    break;
-            }
-        }
-#endif
+        #region Methods
 
         private void Model_CollectionChanged(object sender, EventArgs e)
         {
@@ -613,6 +601,6 @@ namespace NeeView
             }
         }
 
-#endregion Methods
+        #endregion Methods
     }
 }

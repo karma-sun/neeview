@@ -220,13 +220,6 @@ namespace NeeView
 
         #region Properties
 
-#if false
-        public WINDOWPLACEMENT? Placement { get; set; }
-
-        public double Width { get; set; } = 640.0;
-        public double Height { get; set; } = 480.0;
-#endif
-
         public bool IsMaximized { get; set; }
 
         #endregion
@@ -308,15 +301,6 @@ namespace NeeView
             memento.Height = Config.Current.Window.Height;
 
             return memento;
-        }
-
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            ////this.Placement = memento.Placement;
-            ////this.Width = memento.Width;
-            ////this.Height = memento.Height;
         }
 
         #endregion

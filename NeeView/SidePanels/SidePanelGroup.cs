@@ -271,16 +271,6 @@ namespace NeeView
             return memento;
         }
 
-        [Obsolete]
-        public void Restore(Memento memento, List<IPanel> panels)
-        {
-            if (memento == null) return;
-
-            ////Panels = new ObservableCollection<IPanel>(memento.PanelTypeCodes.Select(e => panels.FirstOrDefault(panel => panel.TypeCode == e)).Where(e => e != null));
-            ////SelectedPanel = Panels.FirstOrDefault(e => e.TypeCode == memento.SelectedPanelTypeCode);
-            //Width = memento.Width;
-        }
-
         #endregion
 
     }

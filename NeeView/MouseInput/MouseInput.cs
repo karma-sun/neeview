@@ -142,19 +142,11 @@ namespace NeeView
 
             // initialize event
             // NOTE: 時々操作が奪われしてまう原因の可能性その１
-#if false
-            _sender.PreviewMouseDown += OnMouseButtonDown;
-            _sender.PreviewMouseUp += OnMouseButtonUp;
-            _sender.PreviewMouseWheel += OnMouseWheel;
-            _sender.PreviewMouseMove += OnMouseMove;
-            _sender.PreviewKeyDown += OnKeyDown;
-#else
             _sender.MouseDown += OnMouseButtonDown;
             _sender.MouseUp += OnMouseButtonUp;
             _sender.MouseWheel += OnMouseWheel;
             _sender.MouseMove += OnMouseMove;
             _sender.PreviewKeyDown += OnKeyDown;
-#endif
         }
 
 
@@ -373,14 +365,6 @@ namespace NeeView
             return memento;
         }
 
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            //this.Normal.Restore(memento.Normal);
-            //this.Loupe.Restore(memento.Loupe);
-            //this.Gesture.Restore(memento.Gesture);
-        }
         #endregion
 
     }

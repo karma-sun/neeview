@@ -22,8 +22,6 @@ namespace NeeView
 
         #region Fields
 
-        //private bool _isRecordPageView;
-        //private string _pageViewRecordPath;
         private FileStream _file;
         private StringBuilder _writeBuffer;
         private DateTime _viewedPagesDateTime;
@@ -47,27 +45,6 @@ namespace NeeView
 
         #endregion Constructors
 
-        #region Properties
-
-#if false
-        // 履歴を保存するか
-        [PropertyMember("@ParamIsRecordPageView")]
-        public bool IsRecordPageView
-        {
-            get { return _isRecordPageView; }
-            set { SetProperty(ref _isRecordPageView, value); }
-        }
-
-        // 履歴データの保存場所
-        [PropertyPath("@ParamPageViewRecordPath", FileDialogType = FileDialogType.SaveFile, Filter = "TSV|*.tsv")]
-        public string PageViewRecordPath
-        {
-            get { return _pageViewRecordPath; }
-            set { SetProperty(ref _pageViewRecordPath, value); }
-        }
-#endif
-
-        #endregion Properties
 
         private void WritePageViewedRecord(DateTime now)
         {
@@ -306,17 +283,6 @@ namespace NeeView
             memento.PageViewRecordPath = Config.Current.PageViewRecorder.PageViewRecordFilePath;
 
             return memento;
-        }
-
-        // memento反映
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-
-            //IsRecordPageView = memento.IsRecordPageView;
-            //PageViewRecordPath = memento.PageViewRecordPath;
-
         }
 
         #endregion

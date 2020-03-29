@@ -108,12 +108,6 @@ namespace NeeView
             return memento;
         }
 
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            ////_manipulation.Restore(memento.Manipulation);
-        }
         #endregion
 
     }

@@ -13,39 +13,6 @@ namespace NeeView
         public static SevenZipArchiverProfile Current { get; }
 
 
-        ////private bool _isEnabled = true;
-
-        private SevenZipArchiverProfile()
-        {
-        }
-
-#if false
-        [PropertyMember("@ParamSevenZipArchiverIsEnabled")]
-        public bool IsEnabled
-        {
-            get { return _isEnabled; }
-            set { if (_isEnabled != value) { _isEnabled = value; RaisePropertyChanged(); } }
-        }
-
-        [PropertyPath("@ParamSevenZipArchiverX86DllPath", Tips = "@ParamSevenZipArchiverX86DllPathTips", Filter = "DLL|*.dll", DefaultFileName = "7z.dll")]
-        public string X86DllPath { get; set; } = "";
-
-        [PropertyPath("@ParamSevenZipArchiverX64DllPath", Tips = "@ParamSevenZipArchiverX64DllPathTips", Filter = "DLL|*.dll", DefaultFileName = "7z.dll")]
-        public string X64DllPath { get; set; } = "";
-
-        [PropertyMember("@ParamSevenZipArchiverSupportFileTypes")]
-        public FileTypeCollection SupportFileTypes { get; set; } = new FileTypeCollection(".7z;.cb7;.cbr;.cbz;.lzh;.rar;.zip");
-
-
-        // 事前展開サイズ上限
-        [PropertyMember("@ParamSevenZipArchiverPreExtractSolidSize", Tips = "@ParamSevenZipArchiverPreExtractSolidSizeTips")]
-        public int PreExtractSolidSize { get; set; } = 1000;
-
-        // 事前展開先をメモリにする
-        [PropertyMember("@ParamSevenZipArchiverIsPreExtractToMemory", Tips = "@ParamSevenZipArchiverIsPreExtractToMemoryTips")]
-        public bool IsPreExtractToMemory { get; set; }
-#endif
-
         #region Memento
         [DataContract]
         public class Memento : IMemento
@@ -106,17 +73,6 @@ namespace NeeView
             return memento;
         }
         
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            ////this.IsEnabled = memento.IsEnabled;
-            ////this.X86DllPath = memento.X86DllPath;
-            ////this.X64DllPath = memento.X64DllPath;
-            ////this.SupportFileTypes.OneLine = memento.SupportFileTypes;
-            ////this.PreExtractSolidSize = memento.PreExtractSolidSize;
-            ////this.IsPreExtractToMemory = memento.IsPreExtractToMemory;
-        }
         #endregion
 
     }

@@ -20,20 +20,6 @@ namespace NeeView
         public event EventHandler<MediaPlayerChanged> Changed;
 
 
-#if false
-        public bool IsMuted { get; set; }
-
-        public double Volume { get; set; } = 0.5;
-
-        public bool IsRepeat { get; set; }
-
-        [PropertyMember("@ParamPageSeconds")]
-        public double PageSeconds { get; set; } = 10.0;
-
-        [PropertyMember("@ParamMediaStartDelaySeconds", Tips = "@ParamMediaStartDelaySecondsTips")]
-        public double MediaStartDelaySeconds { get; set; } = 0.5;
-#endif
-
         public void RiaseContentChanged(object sender, MediaPlayerChanged e)
         {
             Changed?.Invoke(sender, e);
@@ -88,18 +74,6 @@ namespace NeeView
             memento.MediaStartDelaySeconds = Config.Current.Archive.Media.MediaStartDelaySeconds;
 
             return memento;
-        }
-
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-
-            //this.IsMuted = memento.IsMuted;
-            //this.Volume = memento.Volume;
-            //this.IsRepeat = memento.IsRepeat;
-            ////this.PageSeconds = memento.PageSeconds;
-            ////this.MediaStartDelaySeconds = memento.MediaStartDelaySeconds;
         }
 
         #endregion

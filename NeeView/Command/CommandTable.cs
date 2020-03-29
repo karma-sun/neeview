@@ -907,31 +907,6 @@ namespace NeeView
             return memento;
         }
 
-        public void Restore(Memento memento, bool onHold)
-        {
-            RestoreInner(memento);
-            Changed?.Invoke(this, new CommandChangedEventArgs(onHold));
-        }
-
-        private void RestoreInner(Memento memento)
-        {
-            if (memento == null) return;
-
-            UpdateScriptCommand();
-
-            foreach (var pair in memento.Elements)
-            {
-                if (_elements.ContainsKey(pair.Key))
-                {
-                    _elements[pair.Key].Restore(pair.Value);
-                }
-                else
-                {
-                    Debug.WriteLine($"Warning: No such command '{pair.Key}'");
-                }
-            }
-        }
-
         #endregion
 
         #region Memento CommandCollection

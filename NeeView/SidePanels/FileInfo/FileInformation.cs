@@ -36,33 +36,6 @@ namespace NeeView
 
         #region Properties
 
-#if false
-        private bool _IsVisibleBitsPerPixel;
-        private bool _IsVisibleLoader;
-        private bool _IsVisibleFilePath;
-
-        [PropertyMember("@ParamFileInformationIsVisibleBitsPerPixel")]
-        public bool IsVisibleBitsPerPixel
-        {
-            get { return _IsVisibleBitsPerPixel; }
-            set { if (_IsVisibleBitsPerPixel != value) { _IsVisibleBitsPerPixel = value; RaisePropertyChanged(); } }
-        }
-
-        [PropertyMember("@ParamFileInformationIsVisibleLoader")]
-        public bool IsVisibleLoader
-        {
-            get { return _IsVisibleLoader; }
-            set { if (_IsVisibleLoader != value) { _IsVisibleLoader = value; RaisePropertyChanged(); } }
-        }
-
-        [PropertyMember("@ParamFileInformationIsVisibleFilePath")]
-        public bool IsVisibleFilePath
-        {
-            get { return _IsVisibleFilePath; }
-            set { if (_IsVisibleFilePath != value) { _IsVisibleFilePath = value; RaisePropertyChanged(); } }
-        }
-#endif
-
         public ViewContent ViewContent
         {
             get { return _viewContent; }
@@ -110,15 +83,6 @@ namespace NeeView
             memento.IsVisibleLoader = Config.Current.Information.IsVisibleLoader;
             memento.IsVisibleFilePath = Config.Current.Information.IsVisibleFilePath;
             return memento;
-        }
-
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            //IsVisibleBitsPerPixel = memento.IsVisibleBitsPerPixel;
-            //IsVisibleLoader = memento.IsVisibleLoader;
-            //IsVisibleFilePath = memento.IsVisibleFilePath;
         }
 
         #endregion

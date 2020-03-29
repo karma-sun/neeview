@@ -40,13 +40,7 @@ namespace NeeView
 
         #region Fields
 
-        //private bool _isEnableThumbnailList;
-        //private bool _isHideThumbnailList;
-        //private double _thumbnailSize = 96.0;
-        //private bool _isVisibleThumbnailNumber;
-        //private bool _isVisibleThumbnailPlate = true;
         private bool _isSliderDirectionReversed;
-        //private bool _isSelectedCenter;
         public ObservableCollection<Page> _items;
         private List<Page> _viewItems = new List<Page>();
         private PageThumbnailJobClient _jobClient;
@@ -103,83 +97,10 @@ namespace NeeView
 
         public bool IsFocusAtOnce { get; set; }
 
-#if false
-        /// <summary>
-        /// フィルムストリップ表示
-        /// </summary>
-        public bool IsEnableThumbnailList
-        {
-            get { return _isEnableThumbnailList; }
-            set
-            {
-                if (SetProperty(ref _isEnableThumbnailList, value))
-                {
-                    RaisePropertyChanged(nameof(CanHideThumbnailList));
-                }
-            }
-        }
-
-        /// <summary>
-        /// サムネイルを自動的に隠す
-        /// </summary>
-        public bool IsHideThumbnailList
-        {
-            get { return _isHideThumbnailList; }
-            set
-            {
-                if (SetProperty(ref _isHideThumbnailList, value))
-                {
-                    RaisePropertyChanged(nameof(CanHideThumbnailList));
-                }
-            }
-        }
-#endif
-
         /// <summary>
         /// サムネイルを隠すことができる
         /// </summary>
         public bool CanHideThumbnailList => Config.Current.FilmStrip.IsEnabled && Config.Current.FilmStrip.IsHideFilmStrip;
-
-#if false
-        /// <summary>
-        /// サムネイルサイズ
-        /// </summary>
-        [PropertyRange("@ParamFilmStripThumbnailSize", 16, 256, TickFrequency = 8, Format = "{0}×{0}")]
-        public double ThumbnailSize
-        {
-            get { return _thumbnailSize; }
-            set
-            {
-                value = MathUtility.Clamp(value, 16, 256);
-                if (_thumbnailSize != value)
-                {
-                    _thumbnailSize = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        /// <summary>
-        /// ページ番号の表示
-        /// </summary>
-        [PropertyMember("@ParamFilmStripIsVisibleThumbnailNumber")]
-        public bool IsVisibleThumbnailNumber
-        {
-            get { return _isVisibleThumbnailNumber; }
-            set { if (_isVisibleThumbnailNumber != value) { _isVisibleThumbnailNumber = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(ThumbnailNumberVisibility)); } }
-        }
-
-        /// <summary>
-        /// サムネイル台紙の表示
-        /// </summary>
-        [PropertyMember("@ParamFilmStripIsVisibleThumbnailPlate", Tips = "@ParamFilmStripIsVisibleThumbnailPlateTips")]
-        public bool IsVisibleThumbnailPlate
-        {
-            get { return _isVisibleThumbnailPlate; }
-            set { if (_isVisibleThumbnailPlate != value) { _isVisibleThumbnailPlate = value; RaisePropertyChanged(); } }
-        }
-#endif
-
 
         /// <summary>
         /// ページ番号の表示状態
@@ -205,24 +126,6 @@ namespace NeeView
 
         //
         public PageSelector PageSelector => PageSelector.Current;
-
-#if false
-        /// <summary>
-        /// スクロールビュータッチ操作の終端挙動
-        /// </summary>
-        [PropertyMember("@ParamFilmStripIsManipulationBoundaryFeedbackEnabled")]
-        public bool IsManipulationBoundaryFeedbackEnabled { get; set; } = true;
-
-        /// <summary>
-        /// 選択した項目が中央に表示されるようにスクロールする
-        /// </summary>
-        [PropertyMember("@ParamFilmStripIsSelectedCenter")]
-        public bool IsSelectedCenter
-        {
-            get { return _isSelectedCenter; }
-            set { if (_isSelectedCenter != value) { _isSelectedCenter = value; RaisePropertyChanged(); } }
-        }
-#endif
 
         public ObservableCollection<Page> Items
         {
@@ -485,19 +388,6 @@ namespace NeeView
             memento.IsManipulationBoundaryFeedbackEnabled = Config.Current.FilmStrip.IsManipulationBoundaryFeedbackEnabled;
             memento.IsSelectedCenter = Config.Current.FilmStrip.IsSelectedCenter;
             return memento;
-        }
-
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            //this.IsEnableThumbnailList = memento.IsEnableThumbnailList;
-            //this.IsHideThumbnailList = memento.IsHideThumbnailList;
-            //this.ThumbnailSize = memento.ThumbnailSize;
-            //this.IsVisibleThumbnailNumber = memento.IsVisibleThumbnailNumber;
-            //this.IsVisibleThumbnailPlate = memento.IsVisibleThumbnailPlate;
-            //this.IsManipulationBoundaryFeedbackEnabled = memento.IsManipulationBoundaryFeedbackEnabled;
-            //this.IsSelectedCenter = memento.IsSelectedCenter;
         }
 
         #endregion

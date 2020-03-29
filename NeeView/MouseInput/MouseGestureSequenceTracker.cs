@@ -74,17 +74,6 @@ namespace NeeView
         /// </summary>
         public MouseGestureSequence Sequence => _sequence;
 
-#if false
-        /// <summary>
-        /// GestureMinimumDistanceX property.
-        /// </summary>
-        private double _gestureMinimumDistance = 30.0;
-        public double GestureMinimumDistance
-        {
-            get { return _gestureMinimumDistance; }
-            set { _gestureMinimumDistance = Math.Max(value, SystemParameters.MinimumHorizontalDragDistance); }
-        }
-#endif
 
         /// <summary>
         /// 初期化

@@ -40,16 +40,6 @@ namespace NeeView
         public event EventHandler<MouseGestureEventArgs> GestureChanged;
 
 
-#if false
-        //
-        [PropertyRange("@ParamMouseGestureMinimumDistance", 5.0, 200.0, TickFrequency = 1.0, IsEditable = true, Tips = "@ParamMouseGestureMinimumDistanceTips")]
-        public double GestureMinimumDistance
-        {
-            get { return _gesture.GestureMinimumDistance; }
-            set { _gesture.GestureMinimumDistance = value; }
-        }
-#endif
-
         //
         public void Reset()
         {
@@ -204,12 +194,6 @@ namespace NeeView
             return memento;
         }
 
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            //this.GestureMinimumDistance = memento.GestureMinimumDistance;
-        }
         #endregion
 
     }

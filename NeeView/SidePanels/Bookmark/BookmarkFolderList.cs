@@ -90,15 +90,6 @@ namespace NeeView
             return memento;
         }
 
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-
-            ////base.Restore(memento.FolderList);
-            ////this.IsSyncBookshelfEnabled = memento.IsSyncBookshelfEnabled;
-        }
-
         #endregion
     }
 

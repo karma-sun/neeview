@@ -19,9 +19,6 @@ namespace NeeView
         static ThemeProfile() => Current = new ThemeProfile();
         public static ThemeProfile Current { get; }
 
-        ////private PanelColor _panelColor = PanelColor.Dark;
-        ////private PanelColor _menuColor = PanelColor.Light;
-
 
         private ThemeProfile()
         {
@@ -35,33 +32,6 @@ namespace NeeView
 
 
         public event EventHandler ThemeColorChanged;
-
-
-#if false
-        // テーマカラー
-        [PropertyMember("@ParamPanelColor")]
-        public PanelColor PanelColor
-        {
-            get { return _panelColor; }
-            set
-            {
-                if (SetProperty(ref _panelColor, value))
-                {
-                    RefreshThemeColor();
-                }
-            }
-        }
-
-        /// <summary>
-        /// テーマカラー：メニュー
-        /// </summary>
-        [PropertyMember("@ParamMenuColor")]
-        public PanelColor MenuColor
-        {
-            get { return _menuColor; }
-            set { SetProperty(ref _menuColor, value); }
-        }
-#endif
 
 
         public void RefreshThemeColor()
@@ -99,8 +69,6 @@ namespace NeeView
                 App.Current.Resources["NVFolderPen"] = new Pen(new SolidColorBrush(Color.FromRgb(0xDE, 0xB9, 0x82)), 1);
             }
 
-            ////RefreshSliderBrushes();
-
             ThemeColorChanged?.Invoke(this, null);
         }
 
@@ -135,14 +103,6 @@ namespace NeeView
             memento.PanelColor = Config.Current.Theme.PanelColor;
             memento.MenuColor = Config.Current.Theme.MenuColor;
             return memento;
-        }
-
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            ////this.PanelColor = memento.PanelColor;
-            ////this.MenuColor = memento.MenuColor;
         }
 
         #endregion

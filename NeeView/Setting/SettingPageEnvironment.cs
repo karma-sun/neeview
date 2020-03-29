@@ -106,7 +106,7 @@ namespace NeeView.Setting
                 {
                     Tips = Properties.Resources.SettingItemRemoveTips,
 #if !DEBUG
-                    Visibility = new VisibilityPropertyValue(Config.Current.IsUseLocalApplicationDataFolder && !Config.Current.IsAppxPackage ? Visibility.Visible : Visibility.Collapsed)
+                    Visibility = new VisibilityPropertyValue(Environment.IsUseLocalApplicationDataFolder && !Environment.IsAppxPackage ? Visibility.Visible : Visibility.Collapsed)
 #endif
                 },
             };

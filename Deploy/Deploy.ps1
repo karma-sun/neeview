@@ -18,7 +18,7 @@ $ErrorActionPreference = "stop"
 #
 $product = 'NeeView'
 $configuration = 'Release'
-$framework = 'net472'
+$framework = 'net48'
 
 #
 $Win10SDK = "C:\Program Files (x86)\Windows Kits\10\bin\10.0.17763.0\x64"
@@ -79,7 +79,7 @@ function Get-GitLog()
 	$date = Invoke-Expression 'git log -1 --pretty=format:"%ad" --date=iso'
 	$result = Invoke-Expression "git log $descrive..head --encoding=Shift_JIS --pretty=format:`"%ae %s`""
 	$result = $result | Where-Object {$_ -match "^nee.laboratory"} | ForEach-Object {$_ -replace "^[\w\.@]+ ",""}
-	$result = $result | Where-Object { -not ($_ -match '^m.rge|^開発用|\(dev\)|^-|^\.\.') } 
+	$result = $result | Where-Object { -not ($_ -match '^m.rge|^開発用|^作業中|\(dev\)|^-|^\.\.') } 
 
     return "[${branch}] $descrive to head", $date, $result
 }

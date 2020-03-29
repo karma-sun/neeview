@@ -27,7 +27,7 @@ namespace NeeView
         }
 
         // ページマークの保存場所
-        [PropertyPath("@ParamPagemarkFilePath", FileDialogType = FileDialogType.SaveFile, Filter = "XML|*.xml")]
+        [PropertyPath("@ParamPagemarkFilePath", FileDialogType = FileDialogType.SaveFile, Filter = "JSON|*.json")]
         public string PagemarkFilePath
         {
             get => _pagemarkFilePath;

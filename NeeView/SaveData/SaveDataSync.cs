@@ -112,7 +112,7 @@ namespace NeeView
             SaveData.Current.SaveUserSetting();
 
             // TODO: 動作検証用に古い形式のデータも保存する
-            SaveData.Current.SaveUserSettingV1();
+            ////SaveData.Current.SaveUserSettingV1();
 
             if (sync)
             {

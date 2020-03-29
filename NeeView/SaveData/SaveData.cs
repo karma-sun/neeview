@@ -38,16 +38,13 @@ namespace NeeView
         public string BookmarkFilePath => Config.Current.Bookmark.BookmarkFilePath ?? DefaultBookmarkFilePath;
         public string PagemarkFilePath => Config.Current.Pagemark.PagemarkFilePath ?? DefaultPagemarkFilePath;
 
-        [Obsolete]
-        public UserSetting UserSettingTemp { get; private set; }
-
         public bool IsEnableSave { get; set; } = true;
 
 
         // アプリ設定作成
-        public UserSetting CreateSetting()
+        public UserSettingV1 CreateSetting()
         {
-            var setting = new UserSetting();
+            var setting = new UserSettingV1();
 
             setting.App = App.Current.CreateMemento();
 
@@ -66,13 +63,15 @@ namespace NeeView
         /// <summary>
         /// 設定の読み込み
         /// </summary>
-        public UserSettingV2 LoadUserSetting()
+        public UserSetting LoadUserSetting()
         {
             if (App.Current.IsMainWindowLoaded)
             {
                 Setting.SettingWindow.Current?.Cancel();
                 MainWindowModel.Current.CloseCommandParameterDialog();
             }
+
+            UserSetting setting;
 
             try
             {
@@ -84,15 +83,13 @@ namespace NeeView
 
                 if (extension == ".json" && File.Exists(filename))
                 {
-                    var setting = SafetyLoad(UserSettingTools.Load, filename, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
+                    setting = SafetyLoad(UserSettingTools.Load, filename, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
                     __TestV1Compatibilty(setting);
-                    return setting;
                 }
-
                 // before v.37
                 else if (File.Exists(filenameV1))
                 {
-                    var settingV1 = SafetyLoad(UserSetting.LoadV1, filenameV1, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
+                    var settingV1 = SafetyLoad(UserSettingV1.LoadV1, filenameV1, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
                     var settingV1Converted = settingV1.ConvertToV2();
 
                     var historyV1FilePath = Path.ChangeExtension(settingV1.App.HistoryFilePath ?? DefaultHistoryFilePath, ".xml");
@@ -104,16 +101,24 @@ namespace NeeView
                     pagemarkV1.RestoreConfig(settingV1Converted.Config);
 
                     _settingFilenameToDelete = filenameV1;
+                    if (Path.GetExtension(App.Current.Option.SettingFilename).ToLower() == ".xml")
+                    {
+                        App.Current.Option.SettingFilename = Path.ChangeExtension(App.Current.Option.SettingFilename, ".json");
+                    }
 
-                    return settingV1Converted;
+                    setting = settingV1Converted;
                 }
-
-                return new UserSettingV2();
+                else
+                {
+                    setting = new UserSetting();
+                }
             }
             finally
             {
                 App.Current.SemaphoreRelease();
             }
+
+            return setting;
         }
 
         /// <summary>
@@ -121,12 +126,12 @@ namespace NeeView
         /// </summary>
         /// <param name="settingV2"></param>
         [Conditional("DEBUG")]
-        private void __TestV1Compatibilty(UserSettingV2 settingV2)
+        private void __TestV1Compatibilty(UserSetting settingV2)
         {
             var v1FileName = Path.ChangeExtension(App.Current.Option.SettingFilename, ".xml");
             if (File.Exists(v1FileName))
             {
-                var settingV1 = SafetyLoad(UserSetting.LoadV1, v1FileName, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
+                var settingV1 = SafetyLoad(UserSettingV1.LoadV1, v1FileName, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
                 var settingV1Converted = settingV1.ConvertToV2();
 
                 var historyV1FilePath = Path.ChangeExtension(settingV1.App.HistoryFilePath ?? DefaultHistoryFilePath, ".xml");
@@ -157,7 +162,7 @@ namespace NeeView
                     settingV1Converted.Config.Pagemark.PagemarkOrder = settingV2.Config.Pagemark.PagemarkOrder;
                 }
 
-                Debug.Assert(CheckValueEquality(settingV1Converted, settingV2, nameof(UserSettingV2)));
+                Debug.Assert(CheckValueEquality(settingV1Converted, settingV2, nameof(UserSetting)));
             }
 
             bool CheckValueEquality(object v1, object v2, string name)
@@ -283,6 +288,10 @@ namespace NeeView
                     BookHistoryCollection.Current.Restore(memento, true);
 
                     _historyFilenameToDelete = filenameV1;
+                    if (Path.GetExtension(HistoryFilePath).ToLower() == ".xml")
+                    {
+                        Config.Current.History.HistoryFilePath = Path.ChangeExtension(HistoryFilePath, ".json");
+                    }
                 }
             }
             finally
@@ -314,6 +323,10 @@ namespace NeeView
                     BookmarkCollection.Current.Restore(memento);
 
                     _bookmarkFilenameToDelete = filenameV1;
+                    if (Path.GetExtension(BookmarkFilePath).ToLower() == ".xml")
+                    {
+                        Config.Current.Bookmark.BookmarkFilePath = Path.ChangeExtension(BookmarkFilePath, ".json");
+                    }
                 }
             }
             finally
@@ -326,17 +339,6 @@ namespace NeeView
         // ページマーク読み込み
         public void LoadPagemark()
         {
-            // 旧ファイル名の変更
-            try
-            {
-                var oldPagemarkFileName = Path.Combine(Environment.LocalApplicationDataPath, "Pagekmark.xml");
-                if (!File.Exists(PagemarkFilePath) && File.Exists(oldPagemarkFileName))
-                {
-                    File.Move(oldPagemarkFileName, PagemarkFilePath);
-                }
-            }
-            catch { }
-
             try
             {
                 App.Current.SemaphoreWait();
@@ -355,6 +357,11 @@ namespace NeeView
                 {
                     PagemarkCollection.Memento memento = SafetyLoad(PagemarkCollection.Memento.LoadV1, filenameV1, Resources.NotifyLoadPagemarkFailed, Resources.NotifyLoadPagemarkFailedTitle);
                     PagemarkCollection.Current.Restore(memento);
+
+                    if (Path.GetExtension(PagemarkFilePath).ToLower() == ".xml")
+                    {
+                        Config.Current.Pagemark.PagemarkFilePath = Path.ChangeExtension(PagemarkFilePath, ".json");
+                    }
 
                     _pagemarkFilenameToDelete = filenameV1;
                 }
@@ -425,7 +432,7 @@ namespace NeeView
             try
             {
                 App.Current.SemaphoreWait();
-                SafetySave(UserSettingTools.Save, Path.ChangeExtension(App.Current.Option.SettingFilename, ".json"), Config.Current.System.IsSettingBackup);
+                SafetySave(UserSettingTools.Save, App.Current.Option.SettingFilename, Config.Current.System.IsSettingBackup);
             }
             catch
             {
@@ -462,6 +469,7 @@ namespace NeeView
             _settingFilenameToDelete = null;
         }
 
+#if false
         [Obsolete]
         [Conditional("DEBUG")]
         public void SaveUserSettingV1()
@@ -491,6 +499,7 @@ namespace NeeView
                 App.Current.SemaphoreRelease();
             }
         }
+#endif
 
         // 履歴をファイルに保存
         public void SaveHistory()
@@ -744,6 +753,6 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
     }
 }

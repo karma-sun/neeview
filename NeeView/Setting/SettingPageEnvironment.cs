@@ -80,13 +80,13 @@ namespace NeeView.Setting
                         IsEnabled = new IsEnabledPropertyValue(Config.Current.History, nameof(HistoryConfig.IsSaveHistory))
                     },
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookmark, nameof(BookmarkConfig.IsSaveBookmark))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookmark, nameof(BookmarkConfig.BookmarkFilePath)))
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookmark, nameof(BookmarkConfig.BookmarkFilePath), SaveData.DefaultBookmarkFilePath))
                     {
                         IsStretch = true,
                         IsEnabled = new IsEnabledPropertyValue(Config.Current.Bookmark, nameof(BookmarkConfig.IsSaveBookmark))
                     },
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Pagemark, nameof(PagemarkConfig.IsSavePagemark))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Pagemark, nameof(PagemarkConfig.PagemarkFilePath)))
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Pagemark, nameof(PagemarkConfig.PagemarkFilePath), SaveData.DefaultPagemarkFilePath))
                     {
                         IsStretch = true,
                         IsEnabled = new IsEnabledPropertyValue(Config.Current.Pagemark, nameof(PagemarkConfig.IsSavePagemark))

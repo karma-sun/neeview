@@ -124,7 +124,7 @@ namespace NeeView
         // バックアップファイル復元
         public void LoadBackupFile(string filename)
         {
-            UserSettingV2 setting = null;
+            UserSetting setting = null;
             BookHistoryCollection.Memento history = null;
             BookmarkCollection.Memento bookmark = null;
             PagemarkCollection.Memento pagemark = null;
@@ -188,7 +188,7 @@ namespace NeeView
                     {
                         using (var stream = settingEntryV1.Open())
                         {
-                            var settingV1 = UserSetting.LoadV1(stream);
+                            var settingV1 = UserSettingV1.LoadV1(stream);
                             setting = settingV1.ConvertToV2();
                         }
                         // 他のファイルの一部設定を反映

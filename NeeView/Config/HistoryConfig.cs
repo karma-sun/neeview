@@ -28,11 +28,11 @@ namespace NeeView
         }
 
         // 履歴データの保存場所
-        [PropertyPath("@ParamHistoryFilePath", FileDialogType = FileDialogType.SaveFile, Filter = "XML|*.xml")]
+        [PropertyPath("@ParamHistoryFilePath", FileDialogType = FileDialogType.SaveFile, Filter = "JSON|*.json")]
         public string HistoryFilePath
         {
             get { return _historyFilePath; }
-            set { _historyFilePath = string.IsNullOrWhiteSpace(value) || value.Trim() == SaveData.DefaultHistoryFilePath ? null : value; }
+            set { _historyFilePath = (string.IsNullOrWhiteSpace(value) || value.Trim() == SaveData.DefaultHistoryFilePath) ? null : value; }
         }
 
 

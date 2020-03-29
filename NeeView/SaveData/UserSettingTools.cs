@@ -17,14 +17,14 @@ namespace NeeView
 {
     public static class UserSettingTools
     {
-        public static UserSettingV2 CreateUserSetting()
+        public static UserSetting CreateUserSetting()
         {
             // 情報の確定
             WindowPlacement.Current.StorePlacement();
 
-            return new UserSettingV2()
+            return new UserSetting()
             {
-                Format = new FormatVersion(Environment.SolutionName, Environment.AssemblyVersion.Major, Environment.AssemblyVersion.Minor, 0),
+                Format = new FormatVersion(Environment.SolutionName),
                 Config = Config.Current,
                 ContextMenu = ContextMenuManager.Current.CreateContextMenuNode(),
                 SusiePlugins = SusiePluginManager.Current.CreateSusiePluginCollection(),
@@ -38,7 +38,7 @@ namespace NeeView
             Save(path, CreateUserSetting());
         }
 
-        public static void Save(string path, UserSettingV2 setting)
+        public static void Save(string path, UserSetting setting)
         {
             var json = JsonSerializer.SerializeToUtf8Bytes(setting, GetSerializerOptions());
             File.WriteAllBytes(path, json);
@@ -46,13 +46,13 @@ namespace NeeView
 
 
 
-        public static UserSettingV2 Load(string path)
+        public static UserSetting Load(string path)
         {
             var json = File.ReadAllBytes(path);
             return Load(new ReadOnlySpan<byte>(json));
         }
 
-        public static UserSettingV2 Load(Stream stream)
+        public static UserSetting Load(Stream stream)
         {
             using (var ms = new MemoryStream())
             {
@@ -61,9 +61,9 @@ namespace NeeView
             }
         }
 
-        public static UserSettingV2 Load(ReadOnlySpan<byte> json)
+        public static UserSetting Load(ReadOnlySpan<byte> json)
         {
-            return JsonSerializer.Deserialize<UserSettingV2>(json, GetSerializerOptions());
+            return JsonSerializer.Deserialize<UserSetting>(json, GetSerializerOptions());
 
             // TODO: v.38以後の互換性処理をここで？
         }
@@ -84,7 +84,7 @@ namespace NeeView
             return options;
         }
 
-        public static void Restore(UserSettingV2 setting, ObjectMergeOption options = null)
+        public static void Restore(UserSetting setting, ObjectMergeOption options = null)
         {
             if (setting == null) return;
 
@@ -235,32 +235,4 @@ namespace NeeView
             writer.WriteStringValue(value.ToString());
         }
     }
-
-
-    /// <summary>
-    /// 設定V1を設定V2に変換
-    /// </summary>
-    public static class UserSettingV1Extensions
-    {
-        public static UserSettingV2 ConvertToV2(this UserSetting setting)
-        {
-            var settingV2 = new UserSettingV2();
-
-            settingV2.Format = new FormatVersion(Environment.SolutionName, 36, 9, 0);
-
-            // restore setting
-            //void RestoreSetting(UserSetting setting)
-            {
-                settingV2.Config = new Config();
-                setting.RestoreConfig(settingV2);
-            }
-
-            return settingV2;
-
-            // 記帳中の設定更新MEMO（同期、インポート等）
-            // - ウィドウ状態等の引き継がない情報をsettingV2で修正
-            // - Current.Configにマージ
-        }
-    }
-
 }

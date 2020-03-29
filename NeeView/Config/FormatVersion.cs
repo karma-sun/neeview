@@ -7,6 +7,14 @@ namespace NeeView
     [JsonConverter(typeof(JsonFormatVersionConverter))]
     public class FormatVersion
     {
+        public FormatVersion(string name)
+        {
+            Name = name;
+            MajorVersion = Environment.AssemblyVersion.Major;
+            MinorVersion = Environment.AssemblyVersion.Minor;
+            BuildVersion = 0;
+        }
+
         public FormatVersion(string name, int majorVersion, int minorVersion, int buildVersion)
         {
             Name = name;

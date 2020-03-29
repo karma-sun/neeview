@@ -574,7 +574,7 @@ namespace NeeView
 
             public void Save(string path)
             {
-                Format = new FormatVersion(Environment.SolutionName + ".Bookmark", Environment.AssemblyVersion.Major, Environment.AssemblyVersion.Minor, 0);
+                Format = new FormatVersion(Environment.SolutionName + ".Bookmark");
 
                 var json = JsonSerializer.SerializeToUtf8Bytes(this, UserSettingTools.GetSerializerOptions());
                 File.WriteAllBytes(path, json);

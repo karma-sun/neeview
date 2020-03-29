@@ -30,7 +30,7 @@ namespace NeeView
         }
 
         // ブックマークの保存場所
-        [PropertyPath("@ParamBookmarkFilePath", FileDialogType = FileDialogType.SaveFile, Filter = "XML|*.xml")]
+        [PropertyPath("@ParamBookmarkFilePath", FileDialogType = FileDialogType.SaveFile, Filter = "JSON|*.json")]
         public string BookmarkFilePath
         {
             get => _bookmarkFilePath;

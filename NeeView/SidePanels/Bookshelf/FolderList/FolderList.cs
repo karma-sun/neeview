@@ -88,6 +88,11 @@ namespace NeeView
 
         private FolderListConfig _folderListConfig;
 
+        private volatile bool _isCollectionCreating;
+        private List<Action> _collectionCreatedCallback = new List<Action>();
+        
+        private object _lock = new object();
+
         #endregion Fields
 
         #region Constructors
@@ -767,50 +772,58 @@ namespace NeeView
             // 更新が必要であれば、新しいFolderListBoxを作成する
             if (CheckFolderListUpdateneNcessary(path, options))
             {
-                _isDarty = false;
-
-                // FolderCollection 更新
-                var collection = await CreateFolderCollectionAsync(path, true);
-                if (collection != null)
+                try
                 {
-                    // NOTE: Focus要求フラグのみ引き継ぐ
-                    bool isFocusAtOnce = this.FolderListBoxModel != null && this.FolderListBoxModel.IsFocusAtOnce;
+                    OnCollectionCreating();
+                    _isDarty = false;
 
-                    this.FolderCollection = collection;
-                    this.FolderListBoxModel = new FolderListBoxModel(this.FolderCollection);
-                    this.FolderListBoxModel.IsSyncBookshelfEnabled = IsSyncBookshelfEnabled();
-                    this.FolderListBoxModel.SetSelectedItem(select, options.HasFlag(FolderSetPlaceOption.Focus));
-                    this.FolderListBoxModel.IsFocusAtOnce = isFocusAtOnce;
-                    if (options.HasFlag(FolderSetPlaceOption.Focus))
+                    // FolderCollection 更新
+                    var collection = await CreateFolderCollectionAsync(path, true);
+                    if (collection != null)
                     {
-                        FocusAtOnce();
-                    }
+                        // NOTE: Focus要求フラグのみ引き継ぐ
+                        bool isFocusAtOnce = this.FolderListBoxModel != null && this.FolderListBoxModel.IsFocusAtOnce;
 
-                    RaiseCollectionChanged();
-
-                    // 最終フォルダー更新
-                    Config.Current.StartUp.LastFolderPath = Place.SimpleQuery;
-
-                    // 履歴追加
-                    if (options.HasFlag(FolderSetPlaceOption.UpdateHistory))
-                    {
-                        var place = Place.ReplaceSearch(null);
-                        if (place != this.History.GetCurrent())
+                        this.FolderCollection = collection;
+                        this.FolderListBoxModel = new FolderListBoxModel(this.FolderCollection);
+                        this.FolderListBoxModel.IsSyncBookshelfEnabled = IsSyncBookshelfEnabled();
+                        this.FolderListBoxModel.SetSelectedItem(select, options.HasFlag(FolderSetPlaceOption.Focus));
+                        this.FolderListBoxModel.IsFocusAtOnce = isFocusAtOnce;
+                        if (options.HasFlag(FolderSetPlaceOption.Focus))
                         {
-                            this.History.Add(place);
+                            FocusAtOnce();
                         }
-                    }
 
-                    // 検索キーワード更新
-                    if (Place.Search != GetFixedSearchKeyword())
-                    {
-                        UpdateSearchHistory();
-                        // 入力文字のみ更新
-                        _inputKeyword = Place.Search;
-                        RaisePropertyChanged(nameof(InputKeyword));
-                    }
+                        RaiseCollectionChanged();
 
-                    PlaceChanged?.Invoke(this, null);
+                        // 最終フォルダー更新
+                        Config.Current.StartUp.LastFolderPath = Place.SimpleQuery;
+
+                        // 履歴追加
+                        if (options.HasFlag(FolderSetPlaceOption.UpdateHistory))
+                        {
+                            var place = Place.ReplaceSearch(null);
+                            if (place != this.History.GetCurrent())
+                            {
+                                this.History.Add(place);
+                            }
+                        }
+
+                        // 検索キーワード更新
+                        if (Place.Search != GetFixedSearchKeyword())
+                        {
+                            UpdateSearchHistory();
+                            // 入力文字のみ更新
+                            _inputKeyword = Place.Search;
+                            RaisePropertyChanged(nameof(InputKeyword));
+                        }
+
+                        PlaceChanged?.Invoke(this, null);
+                    }
+                }
+                finally
+                {
+                    OnCollectionCreated();
                 }
             }
             else
@@ -1332,11 +1345,55 @@ namespace NeeView
         }
 
 
+        #region FolderCollection生成衝突の回避用
+
+        private void AddCollectionCreatedCallback(Action callback)
+        {
+            lock (_lock)
+            {
+                _collectionCreatedCallback.Add(callback);
+            }
+        }
+
+        private void OnCollectionCreating()
+        {
+            lock (_lock)
+            {
+                _isCollectionCreating = true;
+            }
+        }
+
+        private void OnCollectionCreated()
+        {
+            List<Action> collections;
+
+            lock (_lock)
+            {
+                _isCollectionCreating = false;
+                if (_collectionCreatedCallback.Count == 0) return;
+                collections = _collectionCreatedCallback;
+                _collectionCreatedCallback = new List<Action>();
+            }
+
+            foreach (var callback in collections)
+            {
+                callback.Invoke();
+            }
+        }
+
+        #endregion
+
         /// <summary>
         /// ブックマークの変更監視
         /// </summary>
         private void BookmarkCollection_BookmarkChanged(object sender, BookmarkCollectionChangedEventArgs e)
         {
+            if (_isCollectionCreating)
+            {
+                AddCollectionCreatedCallback(() => BookmarkCollection_BookmarkChanged(sender, e));
+                return;
+            }
+
             if (!(FolderCollection is BookmarkFolderCollection folderCollection))
             {
                 return;

@@ -17,6 +17,7 @@ namespace NeeView
 
         private string _settingFilenameToDelete;
         private string _historyFilenameToDelete;
+        private string _bookmarkFilenameToDelete;
 
         private SaveData()
         {
@@ -24,7 +25,7 @@ namespace NeeView
 
         public const string UserSettingFileName = "UserSetting.json";
         public const string HistoryFileName = "History.json";
-        public const string BookmarkFileName = "Bookmark.xml";
+        public const string BookmarkFileName = "Bookmark.json";
         public const string PagemarkFileName = "Pagemark.xml";
 
         public static string DefaultHistoryFilePath => Path.Combine(Environment.LocalApplicationDataPath, HistoryFileName);
@@ -280,10 +281,23 @@ namespace NeeView
             try
             {
                 App.Current.SemaphoreWait();
-                if (File.Exists(BookmarkFilePath))
+
+                var filename = BookmarkFilePath;
+                var extension = Path.GetExtension(filename).ToLower();
+                var filenameV1 = Path.ChangeExtension(filename, ".xml");
+
+                if (extension == ".json" && File.Exists(filename))
                 {
-                    BookmarkCollection.Memento memento = SafetyLoad(BookmarkCollection.Memento.Load, BookmarkFilePath, Resources.NotifyLoadBookmarkFailed, Resources.NotifyLoadBookmarkFailedTitle);
+                    BookmarkCollection.Memento memento = SafetyLoad(BookmarkCollection.Memento.Load, filename, Resources.NotifyLoadBookmarkFailed, Resources.NotifyLoadBookmarkFailedTitle);
                     BookmarkCollection.Current.Restore(memento);
+                }
+                // before v.37
+                else if (File.Exists(filenameV1))
+                {
+                    BookmarkCollection.Memento memento = SafetyLoad(BookmarkCollection.Memento.LoadV1, filenameV1, Resources.NotifyLoadBookmarkFailed, Resources.NotifyLoadBookmarkFailedTitle);
+                    BookmarkCollection.Current.Restore(memento);
+
+                    _bookmarkFilenameToDelete = filenameV1;
                 }
             }
             finally
@@ -541,6 +555,32 @@ namespace NeeView
             {
                 App.Current.SemaphoreRelease();
             }
+
+            RemoveLegacyBookmark();
+        }
+
+        /// <summary>
+        /// 必要であるならば、古い設定ファイルを削除
+        /// </summary>
+        public void RemoveLegacyBookmark()
+        {
+            if (_bookmarkFilenameToDelete == null) return;
+
+            try
+            {
+                App.Current.SemaphoreWait();
+                Debug.WriteLine($"RemoveLegacyBookmark: {_bookmarkFilenameToDelete}");
+                FileIO.RemoveFile(_bookmarkFilenameToDelete);
+            }
+            catch
+            {
+            }
+            finally
+            {
+                App.Current.SemaphoreRelease();
+            }
+
+            _bookmarkFilenameToDelete = null;
         }
 
         /// <summary>

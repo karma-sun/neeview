@@ -139,6 +139,7 @@ namespace NeeView
                 var historyEntry = archiver.GetEntry(SaveData.HistoryFileName);
                 var historyEntryV1 = archiver.GetEntry(Path.ChangeExtension(SaveData.HistoryFileName, ".xml"));
                 var bookmarkEntry = archiver.GetEntry(SaveData.BookmarkFileName);
+                var bookmarkEntryV1 = archiver.GetEntry(Path.ChangeExtension(SaveData.BookmarkFileName, ".xml"));
                 var pagemarkEntry = archiver.GetEntry(SaveData.PagemarkFileName);
 
                 // 選択
@@ -153,7 +154,7 @@ namespace NeeView
                         selector.HistoryCheckBox.IsEnabled = true;
                         selector.HistoryCheckBox.IsChecked = true;
                     }
-                    if (bookmarkEntry != null)
+                    if (bookmarkEntry != null || bookmarkEntryV1 != null)
                     {
                         selector.BookmarkCheckBox.IsEnabled = true;
                         selector.BookmarkCheckBox.IsChecked = true;
@@ -221,9 +222,19 @@ namespace NeeView
 
                 if (selector.BookmarkCheckBox.IsChecked == true)
                 {
-                    using (var stream = bookmarkEntry.Open())
+                    if (bookmarkEntry != null)
                     {
-                        bookmark = BookmarkCollection.Memento.Load(stream);
+                        using (var stream = bookmarkEntry.Open())
+                        {
+                            bookmark = BookmarkCollection.Memento.Load(stream);
+                        }
+                    }
+                    else if (bookmarkEntryV1 != null)
+                    {
+                        using (var stream = bookmarkEntryV1.Open())
+                        {
+                            bookmark = BookmarkCollection.Memento.LoadV1(stream);
+                        }
                     }
                 }
 

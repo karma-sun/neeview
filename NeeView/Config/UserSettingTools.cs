@@ -116,7 +116,7 @@ namespace NeeView
     {
         public override Size Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            return (Size)new SizeConverter().ConvertFrom(reader.GetString());
+            return (Size)new SizeConverter().ConvertFromString(reader.GetString());
         }
 
         public override void Write(Utf8JsonWriter writer, Size value, JsonSerializerOptions options)
@@ -133,7 +133,7 @@ namespace NeeView
     {
         public override Point Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            return (Point)new PointConverter().ConvertFrom(reader.GetString());
+            return (Point)new PointConverter().ConvertFromString(reader.GetString());
         }
 
         public override void Write(Utf8JsonWriter writer, Point value, JsonSerializerOptions options)

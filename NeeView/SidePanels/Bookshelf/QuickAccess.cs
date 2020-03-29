@@ -9,6 +9,10 @@ namespace NeeView
     {
         private string _path;
 
+        public QuickAccess()
+        { 
+        }
+
         public QuickAccess(string path)
         {
             _path = path;
@@ -18,7 +22,7 @@ namespace NeeView
         public string Path
         {
             get { return _path; }
-            private set
+            set
             {
                 if (SetProperty(ref _path, value))
                 {

@@ -8,6 +8,8 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Data;
@@ -479,11 +481,20 @@ namespace NeeView
         [KnownType(typeof(BookmarkFolder))]
         public class Memento
         {
+            [JsonPropertyName("Format")]
+            public FormatVersion Format { get; set; }
+
+            [JsonIgnore]
             [DataMember]
             public int _Version { get; set; } = Environment.ProductVersionNumber;
 
-            [DataMember]
-            public TreeListNode<IBookmarkEntry> Nodes { get; set; }
+            [JsonIgnore]
+            [Obsolete, DataMember(Name = "Nodes", EmitDefaultValue = false)]
+            public TreeListNode<IBookmarkEntry> NodesLegacy { get; set; }
+
+            [DataMember(Name = "NodesV2")]
+            public BookmarkNode Nodes { get; set; }
+
 
             [DataMember(EmitDefaultValue = false)]
             public List<Book.Memento> Books { get; set; }
@@ -491,12 +502,13 @@ namespace NeeView
             [DataMember]
             public QuickAccessCollection.Memento QuickAccess { get; set; }
 
+            [JsonIgnore]
             [Obsolete, DataMember(Name = "Items", EmitDefaultValue = false)]
             public List<Book.Memento> OldBooks { get; set; } // no used (ver.31)
 
             private void Constructor()
             {
-                Nodes = new TreeListNode<IBookmarkEntry>();
+                Nodes = new BookmarkNode();
                 Books = new List<Book.Memento>();
             }
 
@@ -518,10 +530,10 @@ namespace NeeView
 #pragma warning disable CS0612
                 if (_Version < Environment.GenerateProductVersionNumber(31, 0, 0))
                 {
-                    Nodes = new TreeListNode<IBookmarkEntry>();
+                    NodesLegacy = new TreeListNode<IBookmarkEntry>();
                     foreach (var book in OldBooks)
                     {
-                        Nodes.Add(new Bookmark() { Path = book.Path });
+                        NodesLegacy.Add(new Bookmark() { Path = book.Path });
                     }
 
                     Books = OldBooks ?? new List<Book.Memento>();
@@ -550,11 +562,53 @@ namespace NeeView
                         }
                     }
                 }
+
+                if (_Version < Environment.GenerateProductVersionNumber(37, 0, 0))
+                {
+                    if (NodesLegacy != null)
+                    {
+                        Nodes = BookmarkNodeConverter.ConvertFrom(NodesLegacy);
+                        NodesLegacy = null;
+                    }
+                }
 #pragma warning restore CS0612
             }
 
-            // ファイルに保存
+
             public void Save(string path)
+            {
+                Format = new FormatVersion(Environment.SolutionName + ".Bookmark", Environment.AssemblyVersion.Major, Environment.AssemblyVersion.Minor, 0);
+
+                var json = JsonSerializer.SerializeToUtf8Bytes(this, UserSettingTools.GetSerializerOptions());
+                File.WriteAllBytes(path, json);
+            }
+
+            public static Memento Load(string path)
+            {
+                var json = File.ReadAllBytes(path);
+                return Load(new ReadOnlySpan<byte>(json));
+            }
+
+            public static Memento Load(Stream stream)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    stream.CopyTo(ms);
+                    return Load(new ReadOnlySpan<byte>(ms.ToArray()));
+                }
+            }
+
+            public static Memento Load(ReadOnlySpan<byte> json)
+            {
+                return JsonSerializer.Deserialize<Memento>(json, UserSettingTools.GetSerializerOptions());
+
+                // TODO: v.38以後の互換性処理をここで？
+            }
+
+            #region Legacy
+
+            // ファイルに保存
+            public void SaveV1(string path)
             {
                 XmlWriterSettings settings = new XmlWriterSettings();
                 settings.Encoding = new System.Text.UTF8Encoding(false);
@@ -567,16 +621,16 @@ namespace NeeView
             }
 
             // ファイルから読み込み
-            public static Memento Load(string path)
+            public static Memento LoadV1(string path)
             {
                 using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
                 {
-                    return Load(stream);
+                    return LoadV1(stream);
                 }
             }
 
             // ストリームから読み込み
-            public static Memento Load(Stream stream)
+            public static Memento LoadV1(Stream stream)
             {
                 using (XmlReader xr = XmlReader.Create(stream))
                 {
@@ -587,11 +641,13 @@ namespace NeeView
             }
         }
 
+        #endregion
+
         // memento作成
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.Nodes = Items;
+            memento.Nodes = BookmarkNodeConverter.ConvertFrom(Items);
             memento.Books = Items.Select(e => e.Value).OfType<Bookmark>().Select(e => e.Unit.Memento).Distinct().ToList();
 
             // QuickAccess情報もここに保存する
@@ -604,16 +660,80 @@ namespace NeeView
         public void Restore(Memento memento)
         {
             QuickAccessCollection.Current.Restore(memento.QuickAccess);
-
-            if (memento._Version < Environment.GenerateProductVersionNumber(32, 0, 0))
-            {
-                ValidateFolderName(memento.Nodes);
-            }
-
-            this.Load(memento.Nodes, memento.Books);
+            this.Load(BookmarkNodeConverter.ConvertToTreeListNode(memento.Nodes), memento.Books);
         }
 
         #endregion
+    }
+
+
+    public class BookmarkNode
+    {
+        public string Name { get; set; }
+
+        public string Path { get; set; }
+
+        public DateTime EntryTime { get; set; }
+
+        public List<BookmarkNode> Children { get; set; }
+
+        public bool IsFolder => Children != null;
+    }
+
+    public static class BookmarkNodeConverter
+    {
+        public static BookmarkNode ConvertFrom(TreeListNode<IBookmarkEntry> source)
+        {
+            var node = new BookmarkNode();
+
+            if (source.Value is BookmarkFolder folder)
+            {
+                node.Name = folder.Name;
+                node.Children = new List<BookmarkNode>();
+                foreach (var child in source.Children)
+                {
+                    node.Children.Add(ConvertFrom(child));
+                }
+            }
+            else if (source.Value is Bookmark bookmark)
+            {
+                node.Path = bookmark.Path;
+                node.EntryTime = bookmark.EntryTime;
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+
+            return node;
+        }
+
+        public static TreeListNode<IBookmarkEntry> ConvertToTreeListNode(BookmarkNode source)
+        {
+            var node = new TreeListNode<IBookmarkEntry>();
+
+            if (source.IsFolder)
+            {
+                node.Value = new BookmarkFolder()
+                {
+                    Name = source.Name,
+                };
+                foreach (var child in source.Children)
+                {
+                    node.Add(ConvertToTreeListNode(child));
+                }
+            }
+            else
+            {
+                node.Value = new Bookmark()
+                {
+                    Path = source.Path,
+                    EntryTime = source.EntryTime
+                };
+            }
+
+            return node;
+        }
     }
 
     public static class TreeListNodeExtensions

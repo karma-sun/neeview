@@ -9,6 +9,7 @@ namespace NeeView
         private PanelListItemStyle _panelListItemStyle;
         private bool _isSavePagemark = true;
         private string _pagemarkFilePath;
+        private PagemarkOrder _pagemarkOrder;
 
 
         public PanelListItemStyle PanelListItemStyle
@@ -31,6 +32,13 @@ namespace NeeView
         {
             get => _pagemarkFilePath;
             set => _pagemarkFilePath = string.IsNullOrWhiteSpace(value) || value == SaveData.DefaultPagemarkFilePath ? null : value;
+        }
+
+        // ページマークの並び順
+        public PagemarkOrder PagemarkOrder
+        {
+            get { return _pagemarkOrder; }
+            set { SetProperty(ref _pagemarkOrder, value); }
         }
     }
 }

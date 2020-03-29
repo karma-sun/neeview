@@ -565,11 +565,8 @@ namespace NeeView
 
                 if (_Version < Environment.GenerateProductVersionNumber(37, 0, 0))
                 {
-                    if (NodesLegacy != null)
-                    {
-                        Nodes = BookmarkNodeConverter.ConvertFrom(NodesLegacy);
-                        NodesLegacy = null;
-                    }
+                    Nodes = BookmarkNodeConverter.ConvertFrom(NodesLegacy) ?? new BookmarkNode();
+                    NodesLegacy = null;
                 }
 #pragma warning restore CS0612
             }
@@ -684,6 +681,8 @@ namespace NeeView
     {
         public static BookmarkNode ConvertFrom(TreeListNode<IBookmarkEntry> source)
         {
+            if (source == null) return null;
+
             var node = new BookmarkNode();
 
             if (source.Value is BookmarkFolder folder)

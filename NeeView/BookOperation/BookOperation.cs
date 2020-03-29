@@ -938,7 +938,7 @@ namespace NeeView
                         break;
                     case EntryCollectionChangedAction.Add:
                     case EntryCollectionChangedAction.Remove:
-                        if (e.Item.Value is Pagemark pagemark && pagemark.Place == Address)
+                        if (e.Item.Value is Pagemark pagemark && pagemark.Path == Address)
                         {
                             UpdatePagemark();
                         }
@@ -1127,7 +1127,7 @@ namespace NeeView
         {
             if (mark == null) return false;
 
-            if (mark.Place == this.Book?.Address)
+            if (mark.Path == this.Book?.Address)
             {
                 Page page = this.Book.Pages.GetPage(mark.EntryName);
                 if (page != null)

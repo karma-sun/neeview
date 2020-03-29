@@ -90,7 +90,7 @@ namespace NeeView
                     break;
                 case EntryCollectionChangedAction.Add:
                 case EntryCollectionChangedAction.Remove:
-                    if (e.Item.Value is PagemarkFolder folder && folder.Place == BookOperation.Current.Address)
+                    if (e.Item.Value is PagemarkFolder folder && folder.Path == BookOperation.Current.Address)
                     {
                         UpdateItems();
                     }
@@ -110,7 +110,7 @@ namespace NeeView
             if (_pagemarkList.IsCurrentBook)
             {
                 PlaceDispString = LoosePath.GetFileName(BookOperation.Current.Address);
-                var node = PagemarkCollection.Items.Children.FirstOrDefault(e => e.Value is PagemarkFolder folder && folder.Place == BookOperation.Current.Address);
+                var node = PagemarkCollection.Items.Children.FirstOrDefault(e => e.Value is PagemarkFolder folder && folder.Path == BookOperation.Current.Address);
                 if (node != null)
                 {
                     Items = node.Children;
@@ -136,7 +136,7 @@ namespace NeeView
                     if (!isJumped)
                     {
                         var options = pagemark.EntryName != null ? BookLoadOption.IsPage : BookLoadOption.None;
-                        BookHub.Current.RequestLoad(pagemark.Place, pagemark.EntryName, options, true);
+                        BookHub.Current.RequestLoad(pagemark.Path, pagemark.EntryName, options, true);
                     }
                     break;
             }

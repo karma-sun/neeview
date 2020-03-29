@@ -18,6 +18,7 @@ namespace NeeView
         private string _settingFilenameToDelete;
         private string _historyFilenameToDelete;
         private string _bookmarkFilenameToDelete;
+        private string _pagemarkFilenameToDelete;
 
         private SaveData()
         {
@@ -26,7 +27,7 @@ namespace NeeView
         public const string UserSettingFileName = "UserSetting.json";
         public const string HistoryFileName = "History.json";
         public const string BookmarkFileName = "Bookmark.json";
-        public const string PagemarkFileName = "Pagemark.xml";
+        public const string PagemarkFileName = "Pagemark.json";
 
         public static string DefaultHistoryFilePath => Path.Combine(Environment.LocalApplicationDataPath, HistoryFileName);
         public static string DefaultBookmarkFilePath => Path.Combine(Environment.LocalApplicationDataPath, BookmarkFileName);
@@ -98,6 +99,10 @@ namespace NeeView
                     var historyV1 = SafetyLoad(BookHistoryCollection.Memento.LoadV1, historyV1FilePath, Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle); // 一部の履歴設定を反映
                     historyV1.RestoreConfig(settingV1Converted.Config);
 
+                    var pagemarkV1FilePath = Path.ChangeExtension(settingV1.App.PagemarkFilePath ?? DefaultPagemarkFilePath, ".xml");
+                    var pagemarkV1 = SafetyLoad(PagemarkCollection.Memento.LoadV1, pagemarkV1FilePath, Resources.NotifyLoadPagemarkFailed, Resources.NotifyLoadPagemarkFailedTitle); // 一部のページマーク設定を反映
+                    pagemarkV1.RestoreConfig(settingV1Converted.Config);
+
                     _settingFilenameToDelete = filenameV1;
 
                     return settingV1Converted;
@@ -139,6 +144,17 @@ namespace NeeView
                     settingV1Converted.Config.History.IsKeepSearchHistory = settingV2.Config.History.IsKeepSearchHistory;
                     settingV1Converted.Config.History.LimitSize = settingV2.Config.History.LimitSize;
                     settingV1Converted.Config.History.LimitSpan = settingV2.Config.History.LimitSpan;
+                }
+
+                var pagemarkV1FilePath = Path.ChangeExtension(settingV1.App.PagemarkFilePath ?? DefaultPagemarkFilePath, ".xml");
+                if (File.Exists(pagemarkV1FilePath))
+                {
+                    var pagemarkV1 = SafetyLoad(PagemarkCollection.Memento.LoadV1, pagemarkV1FilePath, Resources.NotifyLoadPagemarkFailed, Resources.NotifyLoadPagemarkFailedTitle); // 一部のページマーク設定を反映
+                    pagemarkV1.RestoreConfig(settingV1Converted.Config);
+                }
+                else
+                {
+                    settingV1Converted.Config.Pagemark.PagemarkOrder = settingV2.Config.Pagemark.PagemarkOrder;
                 }
 
                 Debug.Assert(CheckValueEquality(settingV1Converted, settingV2, nameof(UserSettingV2)));
@@ -324,10 +340,23 @@ namespace NeeView
             try
             {
                 App.Current.SemaphoreWait();
-                if (File.Exists(PagemarkFilePath))
+
+                var filename = PagemarkFilePath;
+                var extension = Path.GetExtension(filename).ToLower();
+                var filenameV1 = Path.ChangeExtension(filename, ".xml");
+
+                if (extension == ".json" && File.Exists(filename))
                 {
-                    PagemarkCollection.Memento memento = SafetyLoad(PagemarkCollection.Memento.Load, PagemarkFilePath, Resources.NotifyLoadPagemarkFailed, Resources.NotifyLoadPagemarkFailedTitle);
+                    PagemarkCollection.Memento memento = SafetyLoad(PagemarkCollection.Memento.Load, filename, Resources.NotifyLoadPagemarkFailed, Resources.NotifyLoadPagemarkFailedTitle);
                     PagemarkCollection.Current.Restore(memento);
+                }
+                // before v.37
+                else if (File.Exists(filenameV1))
+                {
+                    PagemarkCollection.Memento memento = SafetyLoad(PagemarkCollection.Memento.LoadV1, filenameV1, Resources.NotifyLoadPagemarkFailed, Resources.NotifyLoadPagemarkFailedTitle);
+                    PagemarkCollection.Current.Restore(memento);
+
+                    _pagemarkFilenameToDelete = filenameV1;
                 }
             }
             finally
@@ -626,6 +655,33 @@ namespace NeeView
             {
                 App.Current.SemaphoreRelease();
             }
+
+            RemoveLegacyPagemark();
+        }
+
+
+        /// <summary>
+        /// 必要であるならば、古い設定ファイルを削除
+        /// </summary>
+        public void RemoveLegacyPagemark()
+        {
+            if (_pagemarkFilenameToDelete == null) return;
+
+            try
+            {
+                App.Current.SemaphoreWait();
+                Debug.WriteLine($"RemoveLegacyPagemark: {_pagemarkFilenameToDelete}");
+                FileIO.RemoveFile(_pagemarkFilenameToDelete);
+            }
+            catch
+            {
+            }
+            finally
+            {
+                App.Current.SemaphoreRelease();
+            }
+
+            _pagemarkFilenameToDelete = null;
         }
 
         /// <summary>

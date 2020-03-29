@@ -17,22 +17,23 @@ namespace NeeView
     [DataContract]
     public class Pagemark : BindableBase, IPagemarkEntry, IVirtualItem, IHasPage
     {
-        private string _place;
+        private string _path;
         private string _entryName;
 
-        public Pagemark(string place, string entryName)
+        public Pagemark(string path, string entryName)
         {
-            Place = place;
+            Path = path;
             EntryName = entryName;
         }
 
-        [DataMember]
-        public string Place
+
+        [DataMember(Name = "Place")]
+        public string Path
         {
-            get { return _place; }
+            get { return _path; }
             set
             {
-                if (SetProperty(ref _place, value))
+                if (SetProperty(ref _path, value))
                 {
                     RaisePropertyChanged(null);
                 }
@@ -58,8 +59,10 @@ namespace NeeView
         public string DispName
         {
             get { return _dispName ?? LoosePath.GetFileName(EntryName); }
-            set { SetProperty(ref _dispName, value); }
+            set { SetProperty(ref _dispName, (string.IsNullOrWhiteSpace(value) || value == LoosePath.GetFileName(EntryName)) ? null : value); }
         }
+
+        public string DispNameRaw => _dispName;
 
 
         [OnDeserialized]
@@ -68,9 +71,9 @@ namespace NeeView
             this.EntryName = LoosePath.NormalizeSeparator(this.EntryName);
         }
 
-        public string FullName => LoosePath.Combine(Place, EntryName);
+        public string FullName => LoosePath.Combine(Path, EntryName);
         public string Name => EntryName;
-        public string Note => LoosePath.GetFileName(Place);
+        public string Note => LoosePath.GetFileName(Path);
         public string Detail => EntryName;
 
         public IThumbnail Thumbnail
@@ -92,7 +95,7 @@ namespace NeeView
             {
                 if (_archivePage == null)
                 {
-                    _archivePage = new Page("", new ArchiveContent(LoosePath.Combine(Place, EntryName)));
+                    _archivePage = new Page("", new ArchiveContent(LoosePath.Combine(Path, EntryName)));
                     _archivePage.Thumbnail.IsCacheEnabled = true;
                     _archivePage.Thumbnail.Touched += Thumbnail_Touched;
                 }
@@ -129,7 +132,7 @@ namespace NeeView
 
         public bool IsEqual(IPagemarkEntry entry)
         {
-            return entry is Pagemark pagemark && this.Name == pagemark.Name && this.Place == pagemark.Place;
+            return entry is Pagemark pagemark && this.Name == pagemark.Name && this.Path == pagemark.Path;
         }
 
         public override string ToString()

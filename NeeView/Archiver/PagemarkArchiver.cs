@@ -82,7 +82,7 @@ namespace NeeView
                 IsValid = true,
                 Archiver = this,
                 Id = id,
-                RawEntryName = LoosePath.Combine(LoosePath.GetFileName(pagemark.Place), pagemark.DispName),
+                RawEntryName = LoosePath.Combine(LoosePath.GetFileName(pagemark.Path), pagemark.DispName),
                 Link = pagemark.FullName,
                 Instance = innerEntry,
                 Length = innerEntry.Length,

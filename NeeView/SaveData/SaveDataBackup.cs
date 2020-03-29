@@ -141,6 +141,7 @@ namespace NeeView
                 var bookmarkEntry = archiver.GetEntry(SaveData.BookmarkFileName);
                 var bookmarkEntryV1 = archiver.GetEntry(Path.ChangeExtension(SaveData.BookmarkFileName, ".xml"));
                 var pagemarkEntry = archiver.GetEntry(SaveData.PagemarkFileName);
+                var pagemarkEntryV1 = archiver.GetEntry(Path.ChangeExtension(SaveData.PagemarkFileName, ".xml"));
 
                 // 選択
                 {
@@ -159,7 +160,7 @@ namespace NeeView
                         selector.BookmarkCheckBox.IsEnabled = true;
                         selector.BookmarkCheckBox.IsChecked = true;
                     }
-                    if (pagemarkEntry != null)
+                    if (pagemarkEntry != null || pagemarkEntryV1 != null)
                     {
                         selector.PagemarkCheckBox.IsEnabled = true;
                         selector.PagemarkCheckBox.IsChecked = true;
@@ -190,13 +191,21 @@ namespace NeeView
                             var settingV1 = UserSetting.LoadV1(stream);
                             setting = settingV1.ConvertToV2();
                         }
-                        // 一部の履歴設定を反映
+                        // 他のファイルの一部設定を反映
                         if (historyEntryV1 != null)
                         {
                             using (var stream = historyEntryV1.Open())
                             {
                                 var historyV1 = BookHistoryCollection.Memento.LoadV1(stream); 
                                 historyV1.RestoreConfig(setting.Config);
+                            }
+                        }
+                        if (pagemarkEntryV1 != null)
+                        {
+                            using (var stream = pagemarkEntryV1.Open())
+                            {
+                                var pagemarkV1 = PagemarkCollection.Memento.LoadV1(stream);
+                                pagemarkV1.RestoreConfig(setting.Config);
                             }
                         }
                     }
@@ -240,9 +249,19 @@ namespace NeeView
 
                 if (selector.PagemarkCheckBox.IsChecked == true)
                 {
-                    using (var stream = pagemarkEntry.Open())
+                    if (pagemarkEntry != null)
                     {
-                        pagemark = PagemarkCollection.Memento.Load(stream);
+                        using (var stream = pagemarkEntry.Open())
+                        {
+                            pagemark = PagemarkCollection.Memento.Load(stream);
+                        }
+                    }
+                    else if (pagemarkEntryV1 != null)
+                    {
+                        using (var stream = pagemarkEntryV1.Open())
+                        {
+                            pagemark = PagemarkCollection.Memento.LoadV1(stream);
+                        }
                     }
                 }
             }

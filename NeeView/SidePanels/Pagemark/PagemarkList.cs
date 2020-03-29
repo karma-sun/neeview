@@ -23,7 +23,7 @@ namespace NeeView
             _listBox = new PagemarkListBoxModel(this);
             _listBox.AddPropertyChanged(nameof(_listBox.PlaceDispString), (s, e) => RaisePropertyChanged(nameof(PlaceDispString)));
 
-            PagemarkCollection.Current.AddPropertyChanged(nameof(PagemarkCollection.PagemarkOrder), (s, e) => RaisePropertyChanged(nameof(IsSortPath)));
+            Config.Current.Pagemark.AddPropertyChanged(nameof(PagemarkConfig.PagemarkOrder), (s, e) => RaisePropertyChanged(nameof(IsSortPath)));
         }
 
 #if false
@@ -73,8 +73,8 @@ namespace NeeView
 
         public bool IsSortPath
         {
-            get { return PagemarkCollection.Current.PagemarkOrder == PagemarkOrder.Path; }
-            set { PagemarkCollection.Current.PagemarkOrder = value ? PagemarkOrder.Path : PagemarkOrder.FileName; }
+            get { return Config.Current.Pagemark.PagemarkOrder == PagemarkOrder.Path; }
+            set { Config.Current.Pagemark.PagemarkOrder = value ? PagemarkOrder.Path : PagemarkOrder.FileName; }
         }
 
         public string PlaceDispString
@@ -103,7 +103,7 @@ namespace NeeView
             var pagemark = BookOperation.Current.SetPagemark(true);
             if (pagemark != null)
             {
-                ListBox.SetSelectedItem(pagemark.Place, pagemark.EntryName);
+                ListBox.SetSelectedItem(pagemark.Path, pagemark.EntryName);
             }
         }
 

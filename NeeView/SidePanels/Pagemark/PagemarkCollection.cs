@@ -14,6 +14,8 @@ using System.IO;
 using System.Threading;
 using NeeView.Collections.Generic;
 using NeeView.Collections;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace NeeView
 {
@@ -34,6 +36,14 @@ namespace NeeView
         private PagemarkCollection()
         {
             Items = CreateRoot();
+
+            Config.Current.Pagemark.AddPropertyChanged(nameof(PagemarkConfig.PagemarkOrder), (s, e) =>
+            {
+                if (Sort())
+                {
+                    PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Replace));
+                }
+            });
         }
 
 
@@ -49,22 +59,6 @@ namespace NeeView
         {
             get { return _items; }
             set { SetProperty(ref _items, value); }
-        }
-
-        private PagemarkOrder _pagemarkOrder;
-        public PagemarkOrder PagemarkOrder
-        {
-            get { return _pagemarkOrder; }
-            set
-            {
-                if (SetProperty(ref _pagemarkOrder, value))
-                {
-                    if (Sort())
-                    {
-                        PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Replace));
-                    }
-                }
-            }
         }
 
         // Methods
@@ -96,7 +90,7 @@ namespace NeeView
             if (place == null) return null;
             if (entryName == null) return null;
 
-            return Items.Select(e => e.Value).OfType<Pagemark>().FirstOrDefault(e => e.Place == place && e.EntryName == entryName);
+            return Items.Select(e => e.Value).OfType<Pagemark>().FirstOrDefault(e => e.Path == place && e.EntryName == entryName);
         }
 
         public TreeListNode<IPagemarkEntry> FindNode(string place, string entryName)
@@ -104,7 +98,7 @@ namespace NeeView
             if (place == null) return null;
             if (entryName == null) return null;
 
-            return Items.FirstOrDefault(e => e.Value is Pagemark pagemark && pagemark.Place == place && pagemark.EntryName == entryName);
+            return Items.FirstOrDefault(e => e.Value is Pagemark pagemark && pagemark.Path == place && pagemark.EntryName == entryName);
         }
 
 
@@ -132,7 +126,7 @@ namespace NeeView
             }
             else if (path.Scheme == QueryScheme.File)
             {
-                return Items.FirstOrDefault(e => e.Value is Pagemark pagemark && pagemark.Place == path.Path);
+                return Items.FirstOrDefault(e => e.Value is Pagemark pagemark && pagemark.Path == path.Path);
             }
             else
             {
@@ -175,7 +169,7 @@ namespace NeeView
 
         public List<Pagemark> Collect(string place)
         {
-            return Items.Select(e => e.Value).OfType<Pagemark>().Where(e => e.Place == place).ToList();
+            return Items.Select(e => e.Value).OfType<Pagemark>().Where(e => e.Path == place).ToList();
         }
 
 
@@ -186,10 +180,10 @@ namespace NeeView
 
             if (node.Value is Pagemark pagemark)
             {
-                var parent = Items.Children.FirstOrDefault(e => e.Value is PagemarkFolder folder && folder.Place == pagemark.Place);
+                var parent = Items.Children.FirstOrDefault(e => e.Value is PagemarkFolder folder && folder.Path == pagemark.Path);
                 if (parent == null)
                 {
-                    parent = new TreeListNode<IPagemarkEntry>(new PagemarkFolder() { Place = pagemark.Place }) { IsExpanded = true };
+                    parent = new TreeListNode<IPagemarkEntry>(new PagemarkFolder() { Path = pagemark.Path }) { IsExpanded = true };
                     Items.Insert(GetInsertIndex(Items, parent), parent);
                     PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Add, parent.Parent, parent));
                 }
@@ -242,7 +236,7 @@ namespace NeeView
         {
             if (_items == null) return false;
 
-            _items.Sort(CreateComparer(_pagemarkOrder));
+            _items.Sort(CreateComparer(Config.Current.Pagemark.PagemarkOrder));
             return true;
         }
 
@@ -293,7 +287,7 @@ namespace NeeView
         /// <returns></returns>
         private int GetInsertIndex(TreeListNode<IPagemarkEntry> parent, TreeListNode<IPagemarkEntry> node)
         {
-            var comparer = CreateComparer(_pagemarkOrder, parent);
+            var comparer = CreateComparer(Config.Current.Pagemark.PagemarkOrder, parent);
             for (int index = 0; index < parent.Children.Count; ++index)
             {
                 var child = parent.Children[index];
@@ -339,7 +333,7 @@ namespace NeeView
             {
                 if (node.Value is PagemarkFolder folder)
                 {
-                    if (!(await ArchiveEntryUtility.ExistsAsync(folder.Place, token)))
+                    if (!(await ArchiveEntryUtility.ExistsAsync(folder.Path, token)))
                     {
                         unlinked.Add(node);
                     }
@@ -380,16 +374,16 @@ namespace NeeView
         {
             foreach (var item in Items)
             {
-                if (item.Value is PagemarkFolder folder && folder.Place == src)
+                if (item.Value is PagemarkFolder folder && folder.Path == src)
                 {
-                    folder.Place = dst;
+                    folder.Path = dst;
                     SortOne(item);
 
                     foreach (var child in item)
                     {
-                        if (child.Value is Pagemark pagemark && pagemark.Place == src)
+                        if (child.Value is Pagemark pagemark && pagemark.Path == src)
                         {
-                            pagemark.Place = dst;
+                            pagemark.Path = dst;
                         }
                     }
 
@@ -408,7 +402,7 @@ namespace NeeView
 
             foreach (var pagemark in source.Select(e => e.Value).OfType<Pagemark>())
             {
-                var place = pagemark.Place;
+                var place = pagemark.Path;
 
                 if (!map.ContainsKey(place))
                 {
@@ -422,7 +416,7 @@ namespace NeeView
 
             foreach (var key in map.Keys.OrderBy(e => LoosePath.GetFileName(e), new NameComparer()))
             {
-                var node = new TreeListNode<IPagemarkEntry>(new PagemarkFolder() { Place = key }) { IsExpanded = true };
+                var node = new TreeListNode<IPagemarkEntry>(new PagemarkFolder() { Path = key }) { IsExpanded = true };
                 items.Add(node);
 
                 foreach (var pagemark in map[key].OrderBy(e => e.DispName, new NameComparer()))
@@ -435,36 +429,48 @@ namespace NeeView
         }
 
 
-        #region Memento
+#region Memento
 
         [DataContract]
         [KnownType(typeof(Pagemark))]
         [KnownType(typeof(PagemarkFolder))]
         public class Memento
         {
+            [JsonPropertyName("Format")]
+            public FormatVersion Format { get; set; }
+
+            [JsonIgnore]
             [DataMember]
             public int _Version { get; set; } = Environment.ProductVersionNumber;
 
-            [DataMember]
-            public TreeListNode<IPagemarkEntry> Nodes { get; set; }
+            [JsonIgnore]
+            [Obsolete, DataMember(Name = "Nodes", EmitDefaultValue = false)]
+            public TreeListNode<IPagemarkEntry> NodesLegacy { get; set; }
 
+            [DataMember(Name = "NodesV2")]
+            public PagemarkNode Nodes { get; set; }
+
+            [JsonIgnore]
             [DataMember]
             public PagemarkOrder PagemarkOrder { get; set; }
 
 
+            [JsonIgnore]
             [Obsolete, DataMember(EmitDefaultValue = false)]
             public List<Book.Memento> Books { get; set; }
 
+            [JsonIgnore]
             [Obsolete, DataMember(EmitDefaultValue = false)]
             public List<Pagemark> Marks { get; set; }
 
+            [JsonIgnore]
             [Obsolete, DataMember(Name = "Items", EmitDefaultValue = false)]
             public List<Book.Memento> OldBooks { get; set; }
 
 
             private void Constructor()
             {
-                Nodes = CreateRoot();
+                Nodes = new PagemarkNode();
             }
 
             public Memento()
@@ -484,10 +490,10 @@ namespace NeeView
 #pragma warning disable CS0612
                 if (_Version < Environment.GenerateProductVersionNumber(31, 0, 0))
                 {
-                    Nodes = new TreeListNode<IPagemarkEntry>();
+                    NodesLegacy = new TreeListNode<IPagemarkEntry>();
                     foreach (var mark in Marks ?? new List<Pagemark>())
                     {
-                        Nodes.Add(mark);
+                        NodesLegacy.Add(mark);
                     }
 
                     Books = OldBooks ?? new List<Book.Memento>();
@@ -499,18 +505,56 @@ namespace NeeView
                     Marks = null;
                     OldBooks = null;
                 }
-#pragma warning restore CS0612
 
                 // 新しいフォーマットに変換
                 if (_Version < Environment.GenerateProductVersionNumber(32, 0, 0))
                 {
-                    Nodes = ConvertToBookUnitFormat(Nodes);
+                    NodesLegacy = ConvertToBookUnitFormat(NodesLegacy);
+                }
+
+                if (_Version < Environment.GenerateProductVersionNumber(37, 0, 0))
+                {
+                    Nodes = PagemarkNodeConverter.ConvertFrom(NodesLegacy) ?? new PagemarkNode();
+                    NodesLegacy = null;
+                }
+#pragma warning restore CS0612
+            }
+
+            public void Save(string path)
+            {
+                Format = new FormatVersion(Environment.SolutionName + ".Pagemark", Environment.AssemblyVersion.Major, Environment.AssemblyVersion.Minor, 0);
+
+                var json = JsonSerializer.SerializeToUtf8Bytes(this, UserSettingTools.GetSerializerOptions());
+                File.WriteAllBytes(path, json);
+            }
+
+            public static Memento Load(string path)
+            {
+                var json = File.ReadAllBytes(path);
+                return Load(new ReadOnlySpan<byte>(json));
+            }
+
+            public static Memento Load(Stream stream)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    stream.CopyTo(ms);
+                    return Load(new ReadOnlySpan<byte>(ms.ToArray()));
                 }
             }
 
+            public static Memento Load(ReadOnlySpan<byte> json)
+            {
+                return JsonSerializer.Deserialize<Memento>(json, UserSettingTools.GetSerializerOptions());
+
+                // TODO: v.38以後の互換性処理をここで？
+            }
+
+
+#region Legacy
 
             // ファイルに保存
-            public void Save(string path)
+            public void SaveV1(string path)
             {
                 XmlWriterSettings settings = new XmlWriterSettings();
                 settings.Encoding = new System.Text.UTF8Encoding(false);
@@ -523,16 +567,16 @@ namespace NeeView
             }
 
             // ファイルから読み込み
-            public static Memento Load(string path)
+            public static Memento LoadV1(string path)
             {
                 using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
                 {
-                    return Load(stream);
+                    return LoadV1(stream);
                 }
             }
 
             // ストリームから読み込み
-            public static Memento Load(Stream stream)
+            public static Memento LoadV1(Stream stream)
             {
                 using (XmlReader xr = XmlReader.Create(stream))
                 {
@@ -541,14 +585,21 @@ namespace NeeView
                     return memento;
                 }
             }
+
+#endregion
+
+            public void RestoreConfig(Config config)
+            {
+                config.Pagemark.PagemarkOrder = PagemarkOrder;
+            }
         }
 
         // memento作成
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.Nodes = Items;
-            memento.PagemarkOrder = PagemarkOrder;
+            memento.Nodes = PagemarkNodeConverter.ConvertFrom(Items);
+            memento.PagemarkOrder = Config.Current.Pagemark.PagemarkOrder;
             return memento;
         }
 
@@ -557,11 +608,83 @@ namespace NeeView
         {
             if (memento == null) return;
 
-            PagemarkOrder = memento.PagemarkOrder;
-            this.Load(memento.Nodes);
+            ////PagemarkOrder = memento.PagemarkOrder;
+            this.Load(PagemarkNodeConverter.ConvertToTreeListNode(memento.Nodes));
         }
 
-        #endregion
+#endregion
     }
 
+
+
+    public class PagemarkNode
+    {
+        public string Path { get; set; }
+
+        public string EntryName { get; set; }
+
+        public string DispName { get; set; }
+
+        public List<PagemarkNode> Children { get; set; }
+
+        public bool IsFolder => Children != null;
+    }
+
+    public static class PagemarkNodeConverter
+    {
+        public static PagemarkNode ConvertFrom(TreeListNode<IPagemarkEntry> source)
+        {
+            if (source == null) return null;
+
+            var node = new PagemarkNode();
+
+            if (source.Value is PagemarkFolder folder)
+            {
+                node.Path = folder.Path;
+                node.Children = new List<PagemarkNode>();
+                foreach (var child in source.Children)
+                {
+                    node.Children.Add(ConvertFrom(child));
+                }
+            }
+            else if (source.Value is Pagemark pagemark)
+            {
+                node.Path = pagemark.Path;
+                node.EntryName = pagemark.EntryName;
+                node.DispName = pagemark.DispNameRaw;
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+
+            return node;
+        }
+
+        public static TreeListNode<IPagemarkEntry> ConvertToTreeListNode(PagemarkNode source)
+        {
+            var node = new TreeListNode<IPagemarkEntry>();
+
+            if (source.IsFolder)
+            {
+                node.Value = new PagemarkFolder()
+                {
+                    Path = source.Path,
+                };
+                foreach (var child in source.Children)
+                {
+                    node.Add(ConvertToTreeListNode(child));
+                }
+            }
+            else
+            {
+                node.Value = new Pagemark(source.Path, source.EntryName)
+                {
+                    DispName = source.DispName,
+                };
+            }
+
+            return node;
+        }
+    }
 }

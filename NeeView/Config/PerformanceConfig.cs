@@ -13,7 +13,11 @@ namespace NeeView
         private int _cacheMemorySize = 100;
         private int _jobWorkerSize = 2;
         private Size _maximumSize = new Size(4096, 4096);
-        ////private int _quality = 80;
+        private int _preLoadSize = 2;
+        private bool _isLimitSourceSize;
+        private bool _isLoadingPageVisible = true;
+        private int _preExtractSolidSize = 1000;
+        private bool _isPreExtractToMemory;
 
 
         /// <summary>
@@ -31,7 +35,11 @@ namespace NeeView
         /// 先読みページ数
         /// </summary>
         [PropertyMember("@ParamPreLoadSize", Tips = "@ParamPreLoadSizeTips")]
-        public int PreLoadSize { get; set; } = 2;
+        public int PreLoadSize
+        {
+            get { return _preLoadSize; }
+            set { SetProperty(ref _preLoadSize, value); }
+        }
 
         /// <summary>
         /// JobWorker数
@@ -55,22 +63,35 @@ namespace NeeView
 
         // 読み込みデータのサイズ制限適用フラグ
         [PropertyMember("@ParamPictureProfileIsLimitSourceSize", Tips = "@ParamPictureProfileIsLimitSourceSizeTips")]
-        public bool IsLimitSourceSize { get; set; }
+        public bool IsLimitSourceSize
+        {
+            get { return _isLimitSourceSize; }
+            set { SetProperty(ref _isLimitSourceSize, value); }
+        }
 
         // ページ読み込み中表示
         [PropertyMember("@ParamBookIsLoadingPageVisible", Tips = "@ParamBookIsLoadingPageVisibleTips")]
-        public bool IsLoadingPageVisible { get; set; } = true;
+        public bool IsLoadingPageVisible
+        {
+            get { return _isLoadingPageVisible; }
+            set { SetProperty(ref _isLoadingPageVisible, value); }
+        }
 
         // 事前展開サイズ上限(MB)
         [PropertyMember("@ParamSevenZipArchiverPreExtractSolidSize", Tips = "@ParamSevenZipArchiverPreExtractSolidSizeTips")]
-        public int PreExtractSolidSize { get; set; } = 1000;
+        public int PreExtractSolidSize
+        {
+            get { return _preExtractSolidSize; }
+            set { SetProperty(ref _preExtractSolidSize, value); }
+        }
 
         // 事前展開先をメモリにする
         [PropertyMember("@ParamSevenZipArchiverIsPreExtractToMemory", Tips = "@ParamSevenZipArchiverIsPreExtractToMemoryTips")]
-        public bool IsPreExtractToMemory { get; set; }
-
-
-
+        public bool IsPreExtractToMemory
+        {
+            get { return _isPreExtractToMemory; }
+            set { SetProperty(ref _isPreExtractToMemory, value); }
+        }
 
 
         /// <summary>

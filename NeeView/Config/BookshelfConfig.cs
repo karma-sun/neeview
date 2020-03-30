@@ -12,6 +12,15 @@ namespace NeeView
         private bool _isPlacedInBookshelf = true;
         private string _excludePattern;
         private bool _isPageListVisible;
+        private bool _isSyncFolderTree;
+        private bool _isCloseBookWhenMove;
+        private bool _isOpenNextBookWhenRemove = true;
+        private bool _isInsertItem = true;
+        private bool _isMultipleRarFilterEnabled;
+        private bool _isCruise;
+        private bool _isIncrementalSearchEnabled = true;
+        private bool _isSearchIncludeSubdirectories = true;
+
 
         /// <summary>
         /// ホームのパス
@@ -47,7 +56,11 @@ namespace NeeView
         /// フォルダーツリーと連動する
         /// </summary>
         [PropertyMember("@ParamBookshelfIsSyncFolderTree")]
-        public bool IsSyncFolderTree { get; set; }
+        public bool IsSyncFolderTree
+        {
+            get { return _isSyncFolderTree; }
+            set { SetProperty(ref _isSyncFolderTree, value); }
+        }
 
         /// <summary>
         /// ページリストをドッキング
@@ -69,32 +82,52 @@ namespace NeeView
         /// 項目移動したら閲覧中のブックを閉じる
         /// </summary>
         [PropertyMember("@ParamBookshelfIsCloseBookWhenMove")]
-        public bool IsCloseBookWhenMove { get; set; }
+        public bool IsCloseBookWhenMove
+        {
+            get { return _isCloseBookWhenMove; }
+            set { SetProperty(ref _isCloseBookWhenMove, value); }
+        }
 
         /// <summary>
         /// 閲覧中のブックを削除したら項目移動
         /// </summary>
         [PropertyMember("@ParamBookshelfIsOpenNextBookWhenRemove")]
-        public bool IsOpenNextBookWhenRemove { get; set; } = true;
+        public bool IsOpenNextBookWhenRemove
+        {
+            get { return _isOpenNextBookWhenRemove; }
+            set { SetProperty(ref _isOpenNextBookWhenRemove, value); }
+        }
 
         /// <summary>
         /// 追加されたファイルを挿入する？
         /// OFFにするとリスト末尾に追加する
         /// </summary>
         [PropertyMember("@ParamBookshelfIsInsertItem", Tips = "@ParamBookshelfIsInsertItemTips")]
-        public bool IsInsertItem { get; set; } = true;
+        public bool IsInsertItem
+        {
+            get { return _isInsertItem; }
+            set { SetProperty(ref _isInsertItem, value); }
+        }
 
         /// <summary>
         /// 分割RARファイルの場合、先頭のファイルのみを表示
         /// </summary>
         [PropertyMember("@ParamBookshelfIsMultipleRarFilterEnabled", Tips = "@ParamBookshelfIsMultipleRarFilterEnabledTips")]
-        public bool IsMultipleRarFilterEnabled { get; set; }
+        public bool IsMultipleRarFilterEnabled
+        {
+            get { return _isMultipleRarFilterEnabled; }
+            set { SetProperty(ref _isMultipleRarFilterEnabled, value); }
+        }
 
         /// <summary>
         /// サブフォルダーを含めた巡回移動
         /// </summary>
         [PropertyMember("@ParamBookshelfIsCruise", Tips = "@ParamBookshelfIsCruiseTips")]
-        public bool IsCruise { get; set; }
+        public bool IsCruise
+        {
+            get { return _isCruise; }
+            set { SetProperty(ref _isCruise, value); }
+        }
 
         /// <summary>
         /// 項目除外パターン
@@ -109,10 +142,12 @@ namespace NeeView
         /// <summary>
         /// インクリメンタルサーチ有効
         /// </summary>
-        public bool IsIncrementalSearchEnabled { get; set; } = true;
+        public bool IsIncrementalSearchEnabled
+        {
+            get { return _isIncrementalSearchEnabled; }
+            set { SetProperty(ref _isIncrementalSearchEnabled, value); }
+        }
 
-        
-        private bool _isSearchIncludeSubdirectories = true;
         /// <summary>
         /// サブフォルダーを含めた検索を行う
         /// </summary>
@@ -124,10 +159,10 @@ namespace NeeView
 
         #region 非公開パラメーター
 
-        [PropertyMapIgnoreAttribute]
+        [PropertyMapIgnore]
         public GridLength GridLength0 { get; set; } = new GridLength(1, GridUnitType.Star);
 
-        [PropertyMapIgnoreAttribute]
+        [PropertyMapIgnore]
         public GridLength GridLength2 { get; set; } = new GridLength(1, GridUnitType.Star);
 
         #endregion

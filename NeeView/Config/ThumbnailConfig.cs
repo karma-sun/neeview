@@ -6,16 +6,29 @@ namespace NeeView
 {
     public class ThumbnailConfig : BindableBase
     {
+        private bool _isCacheEnabled = true;
+        private BitmapImageFormat _format = BitmapImageFormat.Jpeg;
         private int _quality = 80;
+        private int _thumbnailBookCapacity = 200;
+        private int _thumbnailPageCapacity = 100;
+
 
         [PropertyMember("@ParamThumbnailIsCacheEnabled", Tips = "@ParamThumbnailIsCacheEnabledTips")]
-        public bool IsCacheEnabled { get; set; } = true;
+        public bool IsCacheEnabled
+        {
+            get { return _isCacheEnabled; }
+            set { SetProperty(ref _isCacheEnabled, value); }
+        }
 
         /// <summary>
         /// 画像フォーマット
         /// </summary>
         [PropertyMember("@ParamThumbnailFormat", Tips = "@ParamThumbnailFormatTips")]
-        public BitmapImageFormat Format { get; set; } = BitmapImageFormat.Jpeg;
+        public BitmapImageFormat Format
+        {
+            get { return _format; }
+            set { SetProperty(ref _format, value); }
+        }
 
         /// <summary>
         /// 画像品質
@@ -24,13 +37,22 @@ namespace NeeView
         public int Quality
         {
             get { return _quality; }
-            set { _quality = MathUtility.Clamp(value, 5, 100); }
+            set { SetProperty(ref _quality, MathUtility.Clamp(value, 5, 100)); }
         }
 
         [PropertyMember("@ParamThumbnailBookCapacity", Tips = "@ParamThumbnailBookCapacityTips")]
-        public int ThumbnailBookCapacity { get; set; } = 200;
+        public int ThumbnailBookCapacity
+        {
+            get { return _thumbnailBookCapacity; }
+            set { SetProperty(ref _thumbnailBookCapacity, value); }
+        }
 
         [PropertyMember("@ParamThumbnailPageCapacity", Tips = "@ParamThumbnailPageCapacityTips")]
-        public int ThumbnailPageCapacity { get; set; } = 100;
+        public int ThumbnailPageCapacity
+        {
+            get { return _thumbnailPageCapacity; }
+            set { SetProperty(ref _thumbnailPageCapacity, value); }
+        }
+
     }
 }

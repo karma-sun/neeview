@@ -13,21 +13,21 @@ namespace NeeView
         public bool IsVisibleBitsPerPixel
         {
             get { return _isVisibleBitsPerPixel; }
-            set { if (_isVisibleBitsPerPixel != value) { _isVisibleBitsPerPixel = value; RaisePropertyChanged(); } }
+            set { SetProperty(ref _isVisibleBitsPerPixel, value); }
         }
 
         [PropertyMember("@ParamFileInformationIsVisibleLoader")]
         public bool IsVisibleLoader
         {
             get { return _isVisibleLoader; }
-            set { if (_isVisibleLoader != value) { _isVisibleLoader = value; RaisePropertyChanged(); } }
+            set { SetProperty(ref _isVisibleLoader, value); }
         }
 
         [PropertyMember("@ParamFileInformationIsVisibleFilePath")]
         public bool IsVisibleFilePath
         {
             get { return _isVisibleFilePath; }
-            set { if (_isVisibleFilePath != value) { _isVisibleFilePath = value; RaisePropertyChanged(); } }
+            set { SetProperty(ref _isVisibleFilePath, value); }
         }
     }
 }

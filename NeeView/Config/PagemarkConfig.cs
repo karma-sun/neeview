@@ -18,7 +18,6 @@ namespace NeeView
             set { SetProperty(ref _panelListItemStyle, value); }
         }
 
-
         [PropertyMember("@ParamIsSavePagemark")]
         public bool IsSavePagemark
         {
@@ -30,8 +29,8 @@ namespace NeeView
         [PropertyPath("@ParamPagemarkFilePath", FileDialogType = FileDialogType.SaveFile, Filter = "JSON|*.json")]
         public string PagemarkFilePath
         {
-            get => _pagemarkFilePath;
-            set => _pagemarkFilePath = string.IsNullOrWhiteSpace(value) || value == SaveData.DefaultPagemarkFilePath ? null : value;
+            get { return _pagemarkFilePath; }
+            set { SetProperty(ref _pagemarkFilePath, (string.IsNullOrWhiteSpace(value) || value == SaveData.DefaultPagemarkFilePath) ? null : value); }
         }
 
         // ページマークの並び順

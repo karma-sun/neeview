@@ -33,9 +33,6 @@ namespace NeeView
             get { return _isHamburgerMenu; }
             set { SetProperty(ref _isHamburgerMenu, value); }
         }
-
-
-
     }
 }
 

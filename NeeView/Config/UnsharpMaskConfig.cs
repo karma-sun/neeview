@@ -24,7 +24,7 @@ namespace NeeView
         public int Amount
         {
             get { return _amount; }
-            set { if (_amount != value) { _amount = value; RaisePropertyChanged(); } }
+            set { SetProperty(ref _amount, value); }
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace NeeView
         public double Radius
         {
             get { return _radius; }
-            set { if (_radius != value) { _radius = value; RaisePropertyChanged(); } }
+            set { SetProperty(ref _radius, value); }
         }
 
         /// <summary>
@@ -48,8 +48,9 @@ namespace NeeView
         public int Threshold
         {
             get { return _threshold; }
-            set { if (_threshold != value) { _threshold = value; RaisePropertyChanged(); } }
+            set { SetProperty(ref _threshold, value); }
         }
+
 
         public UnsharpMaskSettings CreateUnsharpMaskSetting()
         {

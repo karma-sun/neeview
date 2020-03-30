@@ -16,16 +16,19 @@ namespace NeeView
         private double _fontSize = 15.0;
         private double _folderTreeFontSize = 12.0;
         private bool _isDecoratePlace = true;
+        private bool _isLeftRightKeyEnabled = true;
+        private bool _isManipulationBoundaryFeedbackEnabled;
+        private Dictionary<string, PanelDock> _panelDocks = new Dictionary<string, PanelDock>();
 
 
-
-        // パネルを自動的に隠す
+        /// <summary>
+        /// パネルを自動的に隠す
+        /// </summary>
         public bool IsHidePanel
         {
             get { return _isHidePanel; }
             set { SetProperty(ref _isHidePanel, value); }
         }
-
 
         /// <summary>
         /// サイドバー表示フラグ 
@@ -60,14 +63,21 @@ namespace NeeView
         /// パネルでの左右キー操作有効
         /// </summary>
         [PropertyMember("@ParamSidePanelIsLeftRightKeyEnabled", Tips = "@ParamSidePanelIsLeftRightKeyEnabledTips")]
-        public bool IsLeftRightKeyEnabled { get; set; } = true;
+        public bool IsLeftRightKeyEnabled
+        {
+            get { return _isLeftRightKeyEnabled; }
+            set { SetProperty(ref _isLeftRightKeyEnabled, value); }
+        }
 
         /// <summary>
         /// タッチパ操作でのリストバウンド効果
         /// </summary>
         [PropertyMember("@ParamSidePanelIsManipulationBoundaryFeedbackEnabled")]
-        public bool IsManipulationBoundaryFeedbackEnabled { get; set; }
-
+        public bool IsManipulationBoundaryFeedbackEnabled
+        {
+            get { return _isManipulationBoundaryFeedbackEnabled; }
+            set { SetProperty(ref _isManipulationBoundaryFeedbackEnabled, value); }
+        }
 
         /// <summary>
         /// フォント名
@@ -116,17 +126,10 @@ namespace NeeView
 
         public PanelListItemProfile ThumbnailItemProfile { get; set; } = PanelListItemProfile.DefaultThumbnailItemProfile.Clone();
 
-        /*
-        [PropertyMapIgnore]
-        public SidePanelConfig LeftPanel { get; set; } = new SidePanelConfig();
+
+        #region HiddenParameters
 
         [PropertyMapIgnore]
-        public SidePanelConfig RightPanel { get; set; } = new SidePanelConfig();
-        */
-
-        private Dictionary<string, PanelDock> _panelDocks = new Dictionary<string, PanelDock>();
-
-        [PropertyMapIgnoreAttribute]
         [ObjectMergeReferenceCopy]
         public Dictionary<string, PanelDock> PanelDocks
         {
@@ -134,22 +137,23 @@ namespace NeeView
             set { SetProperty(ref _panelDocks, value ?? new Dictionary<string, PanelDock>()); }
         } 
 
-        [PropertyMapIgnoreAttribute]
+        [PropertyMapIgnore]
         [ObjectMergeIgnore]
         public string LeftPanelSeleted { get; set; }
 
-        [PropertyMapIgnoreAttribute]
+        [PropertyMapIgnore]
         [ObjectMergeIgnore]
         public double LeftPanelWidth { get; set; } = 300.0;
 
-        [PropertyMapIgnoreAttribute]
+        [PropertyMapIgnore]
         [ObjectMergeIgnore]
         public string RightPanelSeleted { get; set; }
 
-        [PropertyMapIgnoreAttribute]
+        [PropertyMapIgnore]
         [ObjectMergeIgnore]
         public double RightPanelWidth { get; set; } = 300.0;
 
+        #endregion HiddenParameters
     }
 
     public enum PanelDock
@@ -157,16 +161,4 @@ namespace NeeView
         Left,
         Right
     }
-
-    /*
-    public class SidePanelConfig : BindableBase
-    {
-        [PropertyMergeReferenceCopy]
-        public List<string> PanelTypeCodes { get; set; }
-
-        public string SelectedPanelTypeCode { get; set; }
-
-        public double Width { get; set; } = 300.0;
-    }
-    */
 }

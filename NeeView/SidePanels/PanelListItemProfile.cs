@@ -34,7 +34,6 @@ namespace NeeView
         public static PanelListItemProfile DefaultBannerItemProfile = new PanelListItemProfile(PanelListItemImageShape.Banner, 200, false, true, false, 0.0);
         public static PanelListItemProfile DefaultThumbnailItemProfile = new PanelListItemProfile(PanelListItemImageShape.Original, 128, false, true, true, 0.0);
 
-
         private static Rect _rectDefault = new Rect(0, 0, 1, 1);
         private static Rect _rectBanner = new Rect(0, 0, 1, 0.6);
         private static SolidColorBrush _brushBanner = new SolidColorBrush(Color.FromArgb(0x20, 0x99, 0x99, 0x99));
@@ -141,7 +140,7 @@ namespace NeeView
 
         #region 非公開プロパティ
 
-        [PropertyMapIgnoreAttribute]
+        [PropertyMapIgnore]
         public int ShapeWidth
         {
             get
@@ -156,7 +155,7 @@ namespace NeeView
             }
         }
 
-        [PropertyMapIgnoreAttribute]
+        [PropertyMapIgnore]
         public int ShapeHeight
         {
             get
@@ -171,7 +170,7 @@ namespace NeeView
             }
         }
 
-        [PropertyMapIgnoreAttribute]
+        [PropertyMapIgnore]
         public Rect Viewbox
         {
             get
@@ -186,7 +185,7 @@ namespace NeeView
             }
         }
 
-        [PropertyMapIgnoreAttribute]
+        [PropertyMapIgnore]
         public AlignmentY AlignmentY
         {
             get
@@ -201,7 +200,7 @@ namespace NeeView
             }
         }
 
-        [PropertyMapIgnoreAttribute]
+        [PropertyMapIgnore]
         public Brush Background
         {
             get
@@ -216,7 +215,7 @@ namespace NeeView
             }
         }
 
-        [PropertyMapIgnoreAttribute]
+        [PropertyMapIgnore]
         public Stretch ImageStretch
         {
             get
@@ -231,7 +230,7 @@ namespace NeeView
             }
         }
         
-        [PropertyMapIgnoreAttribute]
+        [PropertyMapIgnore]
         public double TextHeight
         {
             get
@@ -245,7 +244,7 @@ namespace NeeView
             }
         }
 
-        [PropertyMapIgnoreAttribute]
+        [PropertyMapIgnore]
         public Visibility NoteVisibility
         {
             get { return NoteOpacity > 0.0 ? Visibility.Visible : Visibility.Collapsed; }

@@ -6,32 +6,79 @@ namespace NeeView
 {
     public class BookSettingPolicyConfig : BindableBase, ICloneable
     {
-        [PropertyMember]
-        public BookSettingPageSelectMode Page { get; set; } = BookSettingPageSelectMode.RestoreOrDefault;
+        private BookSettingPageSelectMode _page = BookSettingPageSelectMode.RestoreOrDefault;
+        private BookSettingSelectMode _pageMode = BookSettingSelectMode.RestoreOrDefault;
+        private BookSettingSelectMode _bookReadOrder = BookSettingSelectMode.RestoreOrDefault;
+        private BookSettingSelectMode _isSupportedDividePage = BookSettingSelectMode.RestoreOrDefault;
+        private BookSettingSelectMode _isSupportedSingleFirstPage = BookSettingSelectMode.RestoreOrDefault;
+        private BookSettingSelectMode _isSupportedSingleLastPage = BookSettingSelectMode.RestoreOrDefault;
+        private BookSettingSelectMode _isSupportedWidePage = BookSettingSelectMode.RestoreOrDefault;
+        private BookSettingSelectMode _isRecursiveFolder = BookSettingSelectMode.RestoreOrDefault;
+        private BookSettingSelectMode _sortMode = BookSettingSelectMode.RestoreOrDefault;
+
 
         [PropertyMember]
-        public BookSettingSelectMode PageMode { get; set; } = BookSettingSelectMode.RestoreOrDefault;
+        public BookSettingPageSelectMode Page
+        {
+            get { return _page; }
+            set { SetProperty(ref _page, value); }
+        }
 
         [PropertyMember]
-        public BookSettingSelectMode BookReadOrder { get; set; } = BookSettingSelectMode.RestoreOrDefault;
+        public BookSettingSelectMode PageMode
+        {
+            get { return _pageMode; }
+            set { SetProperty(ref _pageMode, value); }
+        }
 
         [PropertyMember]
-        public BookSettingSelectMode IsSupportedDividePage { get; set; } = BookSettingSelectMode.RestoreOrDefault;
+        public BookSettingSelectMode BookReadOrder
+        {
+            get { return _bookReadOrder; }
+            set { SetProperty(ref _bookReadOrder, value); }
+        }
 
         [PropertyMember]
-        public BookSettingSelectMode IsSupportedSingleFirstPage { get; set; } = BookSettingSelectMode.RestoreOrDefault;
+        public BookSettingSelectMode IsSupportedDividePage
+        {
+            get { return _isSupportedDividePage; }
+            set { SetProperty(ref _isSupportedDividePage, value); }
+        }
 
         [PropertyMember]
-        public BookSettingSelectMode IsSupportedSingleLastPage { get; set; } = BookSettingSelectMode.RestoreOrDefault;
+        public BookSettingSelectMode IsSupportedSingleFirstPage
+        {
+            get { return _isSupportedSingleFirstPage; }
+            set { SetProperty(ref _isSupportedSingleFirstPage, value); }
+        }
 
         [PropertyMember]
-        public BookSettingSelectMode IsSupportedWidePage { get; set; } = BookSettingSelectMode.RestoreOrDefault;
+        public BookSettingSelectMode IsSupportedSingleLastPage
+        {
+            get { return _isSupportedSingleLastPage; }
+            set { SetProperty(ref _isSupportedSingleLastPage, value); }
+        }
 
         [PropertyMember]
-        public BookSettingSelectMode IsRecursiveFolder { get; set; } = BookSettingSelectMode.RestoreOrDefault;
+        public BookSettingSelectMode IsSupportedWidePage
+        {
+            get { return _isSupportedWidePage; }
+            set { SetProperty(ref _isSupportedWidePage, value); }
+        }
 
         [PropertyMember]
-        public BookSettingSelectMode SortMode { get; set; } = BookSettingSelectMode.RestoreOrDefault;
+        public BookSettingSelectMode IsRecursiveFolder
+        {
+            get { return _isRecursiveFolder; }
+            set { SetProperty(ref _isRecursiveFolder, value); }
+        }
+
+        [PropertyMember]
+        public BookSettingSelectMode SortMode
+        {
+            get { return _sortMode; }
+            set { SetProperty(ref _sortMode, value); }
+        }
 
 
         public object Clone()

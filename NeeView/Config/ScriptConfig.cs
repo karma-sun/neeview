@@ -9,8 +9,6 @@ namespace NeeView
         private bool _isScriptFolderEnabled;
         private string _scriptFolder = string.Empty;
 
-        [PropertyMapIgnoreAttribute]
-        public string DefaultScriptFolderName => "Scripts";
 
         [PropertyMember("@ParamIsScriptFolderEnabled")]
         public bool IsScriptFolderEnabled
@@ -23,17 +21,11 @@ namespace NeeView
         public string ScriptFolder
         {
             get { return _scriptFolder; }
-            set
-            {
-                var path = value?.Trim();
-                if (string.IsNullOrEmpty(path) || path == GetDefaultScriptFolder())
-                {
-                    path = string.Empty;
-                }
-                SetProperty(ref _scriptFolder, path);
-            }
+            set { SetProperty(ref _scriptFolder, (string.IsNullOrEmpty(value) || value?.Trim() == GetDefaultScriptFolder()) ? string.Empty : value); }
         }
 
+
+        public string GetDefaultScriptFolderName() => "Scripts";
 
         public string GetCurrentScriptFolder()
         {
@@ -44,11 +36,11 @@ namespace NeeView
         {
             if (Environment.IsZipLikePackage)
             {
-                return Path.Combine(Environment.LocalApplicationDataPath, DefaultScriptFolderName);
+                return Path.Combine(Environment.LocalApplicationDataPath, GetDefaultScriptFolderName());
             }
             else
             {
-                return Path.Combine(Environment.GetMyDocumentPath(false), DefaultScriptFolderName);
+                return Path.Combine(Environment.GetMyDocumentPath(false), GetDefaultScriptFolderName());
             }
         }
     }

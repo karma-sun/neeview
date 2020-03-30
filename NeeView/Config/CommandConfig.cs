@@ -5,24 +5,29 @@ namespace NeeView
 {
     public class CommandConfig : BindableBase
     {
+        private bool _isAccessKeyEnabled = true;
         private bool _isReversePageMove = true;
         private bool _isReversePageMoveWheel;
 
         [PropertyMember("@ParamIsAccessKeyEnabled", Tips = "@ParamIsAccessKeyEnabledTips")]
-        public bool IsAccessKeyEnabled { get; set; } = true;
+        public bool IsAccessKeyEnabled
+        {
+            get { return _isAccessKeyEnabled; }
+            set { SetProperty(ref _isAccessKeyEnabled, value); }
+        }
 
         [PropertyMember("@ParamCommandIsReversePageMove", Tips = "@ParamCommandIsReversePageMoveTips")]
         public bool IsReversePageMove
         {
             get { return _isReversePageMove; }
-            set { if (_isReversePageMove != value) { _isReversePageMove = value; RaisePropertyChanged(); } }
+            set { SetProperty(ref _isReversePageMove, value); }
         }
 
         [PropertyMember("@ParamCommandIsReversePageMoveWheel", Tips = "@ParamCommandIsReversePageMoveWheelTips")]
         public bool IsReversePageMoveWheel
         {
             get { return _isReversePageMoveWheel; }
-            set { if (_isReversePageMoveWheel != value) { _isReversePageMoveWheel = value; RaisePropertyChanged(); } }
+            set { SetProperty(ref _isReversePageMoveWheel, value); }
         }
     }
 }

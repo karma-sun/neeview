@@ -6,15 +6,21 @@ namespace NeeView
     public class ZipArchiveConfig : BindableBase
     {
         private bool _isEnabled = true;
+        private FileTypeCollection _supportFileTypes = new FileTypeCollection(".zip");
 
         [PropertyMember("@ParamZipArchiverIsEnabled")]
         public bool IsEnabled
         {
             get { return _isEnabled; }
-            set { if (_isEnabled != value) { _isEnabled = value; RaisePropertyChanged(); } }
+            set { SetProperty(ref _isEnabled, value); }
         }
 
         [PropertyMember("@ParamZipArchiverSupportFileTypes", Tips = "@ParamZipArchiverSupportFileTypesTips")]
-        public FileTypeCollection SupportFileTypes { get; set; } = new FileTypeCollection(".zip");
+        public FileTypeCollection SupportFileTypes
+        {
+            get { return _supportFileTypes; }
+            set { SetProperty(ref _supportFileTypes, value); }
+        }
+
     }
 }

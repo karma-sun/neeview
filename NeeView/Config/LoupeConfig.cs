@@ -14,6 +14,9 @@ namespace NeeView
         private bool _isResetByRestart = false;
         private bool _isResetByPageChanged = true;
         private bool _isVisibleLoupeInfo = true;
+        private bool _isWheelScalingEnabled = true;
+        private double _speed = 1.0;
+        private bool _isEscapeKeyEnabled = true;
 
 
         [PropertyMember("@ParamLoupeIsLoupeCenter")]
@@ -66,14 +69,25 @@ namespace NeeView
         }
 
         [PropertyMember("@ParamLoupeIsWheelScalingEnabled", Tips = "@ParamLoupeIsWheelScalingEnabledTips")]
-        public bool IsWheelScalingEnabled { get; set; } = true;
+        public bool IsWheelScalingEnabled
+        {
+            get { return _isWheelScalingEnabled; }
+            set { SetProperty(ref _isWheelScalingEnabled, value); }
+        }
 
         [PropertyRange("@ParamLoupeSpeed", 0.0, 10.0, TickFrequency = 0.1, Format = "×{0:0.0}")]
-        public double Speed { get; set; } = 1.0;
+        public double Speed
+        {
+            get { return _speed; }
+            set { SetProperty(ref _speed, value); }
+        }
 
         [PropertyMember("@ParamLoupeIsEscapeKeyEnabled")]
-        public bool IsEscapeKeyEnabled { get; set; } = true;
-
+        public bool IsEscapeKeyEnabled
+        {
+            get { return _isEscapeKeyEnabled; }
+            set { SetProperty(ref _isEscapeKeyEnabled, value); }
+        }
 
         [PropertyMember("@ParamLoupeIsVisibleLoupeInfo", Tips = "@ParamLoupeIsVisibleLoupeInfoTips")]
         public bool IsVisibleLoupeInfo

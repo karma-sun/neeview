@@ -619,7 +619,7 @@ namespace NeeView
                 {
                     // サンプルスクリプトを生成
                     var filename = "Sample.nvjs";
-                    var source = Path.Combine(Environment.AssemblyLocation, Config.Current.Script.DefaultScriptFolderName, filename);
+                    var source = Path.Combine(Environment.AssemblyLocation, Config.Current.Script.GetDefaultScriptFolderName(), filename);
                     File.Copy(source, Path.Combine(path, filename));
                 }
                 catch (Exception ex)

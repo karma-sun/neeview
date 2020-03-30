@@ -8,7 +8,6 @@ namespace NeeView
     {
         private bool _isSaveBookmark = true;
         private string _bookmarkFilePath;
-
         private bool _isSyncBookshelfEnabled = true;
 
 
@@ -33,8 +32,8 @@ namespace NeeView
         [PropertyPath("@ParamBookmarkFilePath", FileDialogType = FileDialogType.SaveFile, Filter = "JSON|*.json")]
         public string BookmarkFilePath
         {
-            get => _bookmarkFilePath;
-            set => _bookmarkFilePath = string.IsNullOrWhiteSpace(value) || value == SaveData.DefaultBookmarkFilePath ? null : value;
+            get { return _bookmarkFilePath; }
+            set { SetProperty(ref _bookmarkFilePath, string.IsNullOrWhiteSpace(value) || value == SaveData.DefaultBookmarkFilePath ? null : value); }
         }
     }
 }

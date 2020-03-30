@@ -16,13 +16,25 @@ namespace NeeView
         private string _cacheDirectory;
         private bool _isHiddenFileVisibled;
         private bool _isFileWriteAccessEnabled = true;
+        private Language _language = LanguageExtensions.GetLanguage(CultureInfo.CurrentCulture.Name);
+        private BookPageCollectMode _bookPageCollectMode = BookPageCollectMode.ImageAndBook;
+        private bool _isRemoveConfirmed = true;
+        private bool _isRemoveExplorerDialogEnabled;
+        private bool _isSyncUserSetting = true;
+        private bool _isIgnoreImageDpi = true;
+        private string _downloadPath = string.Empty;
+        private bool _isOpenbookAtCurrentPlace;
 
 
         /// <summary>
         /// 言語
         /// </summary>
         [PropertyMember("@ParamLanguage", Tips = "@ParamLanguageTips")]
-        public Language Language { get; set; } = LanguageExtensions.GetLanguage(CultureInfo.CurrentCulture.Name);
+        public Language Language
+        {
+            get { return _language; }
+            set { SetProperty(ref _language, value); }
+        }
 
         [PropertyMember("@ParamArchiveRecursiveMode", Tips = "@ParamArchiveRecursiveModeTips")]
         public ArchiveEntryCollectionMode ArchiveRecursiveMode
@@ -33,13 +45,25 @@ namespace NeeView
 
         // ページ収集モード
         [PropertyMember("@ParamBookPageCollectMode", Tips = "@ParamBookPageCollectModeTips")]
-        public BookPageCollectMode BookPageCollectMode { get; set; } = BookPageCollectMode.ImageAndBook;
+        public BookPageCollectMode BookPageCollectMode
+        {
+            get { return _bookPageCollectMode; }
+            set { SetProperty(ref _bookPageCollectMode, value); }
+        }
 
         [PropertyMember("@ParamIsRemoveConfirmed")]
-        public bool IsRemoveConfirmed { get; set; } = true;
+        public bool IsRemoveConfirmed
+        {
+            get { return _isRemoveConfirmed; }
+            set { SetProperty(ref _isRemoveConfirmed, value); }
+        }
 
         [PropertyMember("@ParamIsRemoveExplorerDialogEnabled", Tips = "@ParamIsRemoveExplorerDialogEnabledTips")]
-        public bool IsRemoveExplorerDialogEnabled { get; set; }
+        public bool IsRemoveExplorerDialogEnabled
+        {
+            get { return _isRemoveExplorerDialogEnabled; }
+            set { SetProperty(ref _isRemoveExplorerDialogEnabled, value); }
+        }
 
         // ネットワークアクセス許可
         [PropertyMember("@ParamIsNetworkEnabled", Tips = "@ParamIsNetworkEnabledTips")]
@@ -51,40 +75,52 @@ namespace NeeView
 
         // 設定データの同期
         [PropertyMember("@ParamIsSyncUserSetting", Tips = "@ParamIsSyncUserSettingTips")]
-        public bool IsSyncUserSetting { get; set; } = true;
+        public bool IsSyncUserSetting
+        {
+            get { return _isSyncUserSetting; }
+            set { SetProperty(ref _isSyncUserSetting, value); }
+        }
 
         // 設定データのバックアップ作成
         [PropertyMember("@ParamIsSettingBackup", Tips = "@ParamIsSettingBackupTips")]
         public bool IsSettingBackup
         {
             get { return _isSettingBackup || Environment.IsAppxPackage; }  // Appxは強制ON
-            set { _isSettingBackup = value; }
+            set { SetProperty(ref _isSettingBackup, value); }
         }
 
         // 画像のDPI非対応
         [PropertyMember("@ParamIsIgnoreImageDpi", Tips = "@ParamIsIgnoreImageDpiTips")]
-        public bool IsIgnoreImageDpi { get; set; } = true;
+        public bool IsIgnoreImageDpi
+        {
+            get { return _isIgnoreImageDpi; }
+            set { SetProperty(ref _isIgnoreImageDpi, value); }
+        }
 
         // テンポラリフォルダーの場所
         [PropertyPath("@ParamTemporaryDirectory", Tips = "@ParamTemporaryDirectoryTips", FileDialogType = FileDialogType.Directory)]
         public string TemporaryDirectory
         {
-            get => _temporaryDirectory;
-            set => _temporaryDirectory = string.IsNullOrWhiteSpace(value) || value == Temporary.TempRootPathDefault ? null : value;
+            get { return _temporaryDirectory; }
+            set { SetProperty(ref _temporaryDirectory, (string.IsNullOrWhiteSpace(value) || value?.Trim() == Temporary.TempRootPathDefault) ? null : value); }
         }
 
         // サムネイルキャッシュの場所
         [PropertyPath("@ParamCacheDirectory", Tips = "@ParamCacheDirectoryTips", FileDialogType = FileDialogType.Directory)]
         public string CacheDirectory
         {
-            get => _cacheDirectory;
-            set => _cacheDirectory = string.IsNullOrWhiteSpace(value) || value == ThumbnailCache.CacheFolderPathDefault ? null : value;
+            get { return _cacheDirectory; }
+            set { SetProperty(ref _cacheDirectory, (string.IsNullOrWhiteSpace(value) || value?.Trim() == ThumbnailCache.CacheFolderPathDefault) ? null : value); }
         }
 
         // ダウンロードファイル置き場
         [DefaultValue("")]
         [PropertyPath("@ParamDownloadPath", Tips = "@ParamDownloadPathTips", FileDialogType = FileDialogType.Directory)]
-        public string DownloadPath { get; set; } = "";
+        public string DownloadPath
+        {
+            get { return _downloadPath; }
+            set { SetProperty(ref _downloadPath, value ?? string.Empty); }
+        }
 
         // 隠しファイルを表示する？
         [PropertyMember("@ParamIsHiddenFileVisibled")]
@@ -105,7 +141,12 @@ namespace NeeView
         // 「ブックを開く」ダイアログを現在の場所を基準にして開く
         // TODO: LoadAs のコマンドパラメータにする
         [PropertyMember("@ParamIsOpenbookAtCurrentPlace")]
-        public bool IsOpenbookAtCurrentPlace { get; set; }
+        public bool IsOpenbookAtCurrentPlace
+        {
+            get { return _isOpenbookAtCurrentPlace; }
+            set { SetProperty(ref _isOpenbookAtCurrentPlace, value); }
+        }
+
     }
 
 }

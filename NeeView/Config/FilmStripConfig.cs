@@ -12,6 +12,8 @@ namespace NeeView
         private bool _isVisibleNumber;
         private bool _isVisiblelPlate = true;
         private bool _isSelectedCenter;
+        private bool _isManipulationBoundaryFeedbackEnabled = true;
+
 
         /// <summary>
         /// フィルムストリップ表示
@@ -65,7 +67,11 @@ namespace NeeView
         /// スクロールビュータッチ操作の終端挙動
         /// </summary>
         [PropertyMember("@ParamFilmStripIsManipulationBoundaryFeedbackEnabled")]
-        public bool IsManipulationBoundaryFeedbackEnabled { get; set; } = true;
+        public bool IsManipulationBoundaryFeedbackEnabled
+        {
+            get { return _isManipulationBoundaryFeedbackEnabled; }
+            set { SetProperty(ref _isManipulationBoundaryFeedbackEnabled, value); }
+        }
 
         /// <summary>
         /// 選択した項目が中央に表示されるようにスクロールする

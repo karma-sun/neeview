@@ -13,6 +13,8 @@ namespace NeeView
         private bool _isFullScreenWithTaskBar;
         private double _maximizeWindowGapWidth = 8.0;
         private WindowStateEx _state;
+        private bool _isCaptionEmulateInFullScreen;
+
 
         [PropertyMember("@ParamWindowShapeChromeFrame")]
         public WindowChromeFrame WindowChromeFrame
@@ -33,10 +35,12 @@ namespace NeeView
             set { SetProperty(ref _isTopmost, value); }
         }
 
-
         [PropertyMember("@ParamIsCaptionEmulateInFullScreen", Tips = "@ParamIsCaptionEmulateInFullScreenTips")]
-        public bool IsCaptionEmulateInFullScreen { get; set; }
-
+        public bool IsCaptionEmulateInFullScreen
+        {
+            get { return _isCaptionEmulateInFullScreen; }
+            set { SetProperty(ref _isCaptionEmulateInFullScreen, value); }
+        }
 
         [PropertyMember("@ParamWindowShapeIsFullScreenWithTaskBar")]
         public bool IsFullScreenWithTaskBar
@@ -44,7 +48,6 @@ namespace NeeView
             get { return _isFullScreenWithTaskBar; }
             set { SetProperty(ref _isFullScreenWithTaskBar, value); }
         }
-
 
         [PropertyRange("@ParamWindowShapeMaximizeWindowGapWidth", 0, 16, TickFrequency = 1, IsEditable = true, Tips = "@ParamWindowShapeMaximizeWindowGapWidthTips"), DefaultValue(8.0)]
         public double MaximizeWindowGapWidth
@@ -54,34 +57,34 @@ namespace NeeView
         }
 
 
-        #region Status
-
         /// <summary>
         /// ウィンドウ状態
         /// </summary>
-        [PropertyMapReadOnlyAttribute]
+        [PropertyMapReadOnly]
         public WindowStateEx State
         {
             get { return _state; }
             set { SetProperty(ref _state, value); }
         }
 
+        #region HiddenParameters
+
         /// <summary>
         /// フルスクリーンから復帰するウィンドウ状態
         /// </summary>
-        [PropertyMapIgnoreAttribute]
+        [PropertyMapIgnore]
         public WindowStateEx LastState { get; set; }
 
-        [PropertyMapIgnoreAttribute]
+        [PropertyMapIgnore]
         public WINDOWPLACEMENT Placement { get; set; }
 
-        [PropertyMapIgnoreAttribute]
+        [PropertyMapIgnore]
         public double Width { get; set; } = 640.0;
         
-        [PropertyMapIgnoreAttribute]
+        [PropertyMapIgnore]
         public double Height { get; set; } = 480.0;
 
-        #endregion
+        #endregion HiddenParameters
     }
 
 }

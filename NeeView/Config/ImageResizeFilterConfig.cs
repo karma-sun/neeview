@@ -26,19 +26,19 @@ namespace NeeView
         public bool IsEnabled
         {
             get { return _isResizeFilterEnabled; }
-            set { if (_isResizeFilterEnabled != value) { _isResizeFilterEnabled = value; RaisePropertyChanged(); } }
+            set { SetProperty(ref _isResizeFilterEnabled, value); }
         }
 
         public ResizeInterpolation ResizeInterpolation
         {
             get { return _resizeInterpolation; }
-            set { if (_resizeInterpolation != value) { _resizeInterpolation = value; RaisePropertyChanged(); } }
+            set { SetProperty(ref _resizeInterpolation, value); }
         }
 
         public bool Sharpen
         {
             get { return _sharpen; }
-            set { if (_sharpen != value) { _sharpen = value; RaisePropertyChanged(); } }
+            set { SetProperty(ref _sharpen, value); }
         }
 
         public UnsharpMaskConfig UnsharpMask { get; set; }

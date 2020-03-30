@@ -38,17 +38,21 @@ namespace NeeView
         }
 
 
+        #region HiddenParameters
+
         /// <summary>
         /// フォルダーツリーエリアの幅
         /// </summary>
-        [PropertyMapIgnoreAttribute]
+        [PropertyMapIgnore]
         public double FolderTreeAreaWidth { get; set; } = 128.0;
 
         /// <summary>
         /// フォルダーツリーエリアの高さ
         /// </summary>
-        [PropertyMapIgnoreAttribute]
+        [PropertyMapIgnore]
         public double FolderTreeAreaHeight { get; set; } = 72.0;
+
+        #endregion
     }
 
 }

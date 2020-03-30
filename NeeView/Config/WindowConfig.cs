@@ -60,7 +60,6 @@ namespace NeeView
         /// <summary>
         /// ウィンドウ状態
         /// </summary>
-        [PropertyMapReadOnly]
         public WindowStateEx State
         {
             get { return _state; }

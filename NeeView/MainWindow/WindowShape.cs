@@ -87,11 +87,11 @@ namespace NeeView
         /// 直前の状態
         /// </summary>
         private WindowStateEx _oldState;
-
+        private WindowStateEx _nowState;
         private Thickness _windowBorderThickness;
         private bool _isFullScreen;
         private WindowChrome _windowChrome;
-        private bool _IsEnabled;
+        private bool _isEnabled;
         private bool _isProcessing;
 
         #endregion
@@ -131,7 +131,11 @@ namespace NeeView
 
             Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.State), (s, e) =>
             {
-                this.IsFullScreen = Config.Current.Window.State == WindowStateEx.FullScreen;
+                if (IsEnabled && !IsProcessing)
+                {
+                    Debug.Assert(Config.Current.Window.State != _nowState);
+                    SetWindowState(Config.Current.Window.State);
+                }
             });
 
 
@@ -232,14 +236,12 @@ namespace NeeView
         /// </summary>
         public bool IsEnabled
         {
-            get { return _IsEnabled; }
+            get { return _isEnabled; }
             set
             {
-                if (_IsEnabled != value)
+                if (SetProperty(ref _isEnabled, value))
                 {
-                    _IsEnabled = value;
-                    if (_IsEnabled) Refresh();
-                    RaisePropertyChanged();
+                    Refresh();
                 }
             }
         }
@@ -373,7 +375,9 @@ namespace NeeView
             bool isChanged = Config.Current.Window.State != state;
 
             _oldState = Config.Current.Window.State;
+            _nowState = state;
             Config.Current.Window.State = state;
+            this.IsFullScreen = state == WindowStateEx.FullScreen;
 
             if (state == WindowStateEx.Normal || state == WindowStateEx.Maximized)
             {

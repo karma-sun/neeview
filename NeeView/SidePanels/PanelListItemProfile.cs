@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Property;
 using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -68,6 +69,7 @@ namespace NeeView
         #region 公開プロパティ
 
         [DataMember(EmitDefaultValue = false)]
+        [PropertyMember("@ParamItemProfileImageShape")]
         public PanelListItemImageShape ImageShape
         {
             get { return _imageShape; }
@@ -82,6 +84,7 @@ namespace NeeView
         }
 
         [DataMember(EmitDefaultValue = false)]
+        [PropertyMember("@ParamItemProfileImageWidth")]
         public int ImageWidth
         {
             get { return _imageWidth; }
@@ -96,6 +99,7 @@ namespace NeeView
         }
 
         [DataMember(EmitDefaultValue = false)]
+        [PropertyMember("@ParamItemProfileIsImagePopupEnabled")]
         public bool IsImagePopupEnabled
         {
             get { return _isImagePopupEnabled; }
@@ -103,6 +107,7 @@ namespace NeeView
         }
 
         [DataMember(EmitDefaultValue = false)]
+        [PropertyMember("@ParamItemProfileIsTextVisibled")]
         public bool IsTextVisibled
         {
             get { return _isTextVisibled; }
@@ -110,6 +115,7 @@ namespace NeeView
         }
 
         [DataMember(EmitDefaultValue = false)]
+        [PropertyMember("@ParamItemProfileIsTextWrapped")]
         public bool IsTextWrapped
         {
             get { return _isTextWrapped; }
@@ -123,6 +129,7 @@ namespace NeeView
         }
 
         [DataMember(EmitDefaultValue = false)]
+        [PropertyMember("@ParamItemProfileIsNoteOpacity")]
         public double NoteOpacity
         {
             get { return _noteOpacity; }

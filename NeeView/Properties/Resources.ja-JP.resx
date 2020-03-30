@@ -4962,4 +4962,178 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="WordCommandList" xml:space="preserve">
     <value>コマンド一覧</value>
   </data>
+  <data name="ParamBackgroundType" xml:space="preserve">
+    <value>背景の種類</value>
+  </data>
+  <data name="ParamIsSyncBookshelfEnabled" xml:space="preserve">
+    <value>ブックを開いたときに本棚と同期する</value>
+  </data>
+  <data name="ParamBookPolicyPage" xml:space="preserve">
+    <value>ブックを開いたときの「@ParamBookPage」設定方針</value>
+  </data>
+  <data name="ParamBookPolicyPageMode" xml:space="preserve">
+    <value>ブックを開いたときの「@ParamBookPageMode」設定方針</value>
+  </data>
+  <data name="ParamBookPolicyBookReadOrder" xml:space="preserve">
+    <value>ブックを開いたときの「@ParamBookBookReadOrder」設定方針</value>
+  </data>
+  <data name="ParamBookPolicyIsSupportedDividePage" xml:space="preserve">
+    <value>ブックを開いたときの「@ParamBookIsSupportedDividePage」設定方針</value>
+  </data>
+  <data name="ParamBookPolicyIsSupportedSingleFirstPage" xml:space="preserve">
+    <value>ブックを開いたときの「@ParamBookIsSupportedSingleFirstPage」設定方針</value>
+  </data>
+  <data name="ParamBookPolicyIsSupportedSingleLastPage" xml:space="preserve">
+    <value>ブックを開いたときの「@ParamBookIsSupportedSingleLastPage」設定方針</value>
+  </data>
+  <data name="ParamBookPolicyIsSupportedWidePage" xml:space="preserve">
+    <value>ブックを開いたときの「@ParamBookIsSupportedWidePage」設定方針</value>
+  </data>
+  <data name="ParamBookPolicyIsRecursiveFolder" xml:space="preserve">
+    <value>ブックを開いたときの「@ParamBookIsRecursiveFolder」設定方針</value>
+  </data>
+  <data name="ParamBookPolicySortMode" xml:space="preserve">
+    <value>ブックを開いたときの「@ParamBookSortMode」設定方針</value>
+  </data>
+  <data name="ParamIsIncrementalSearchEnabled" xml:space="preserve">
+    <value>インクリメンタルサーチ有効</value>
+  </data>
+  <data name="ParamIsSearchIncludeSubdirectories" xml:space="preserve">
+    <value>サブフォルダーを含めた検索を行う</value>
+  </data>
+  <data name="ParamFilmStripIsEnabled" xml:space="preserve">
+    <value>フィルムストリップを表示する</value>
+  </data>
+  <data name="ParamFilmStripIsHideFilmStrip" xml:space="preserve">
+    <value>フィルムストリップを自動的に隠す</value>
+  </data>
+  <data name="ParamFolderListItemStyle" xml:space="preserve">
+    <value>リスト項目のスタイル</value>
+  </data>
+  <data name="ParamIsFolderTreeVisible" xml:space="preserve">
+    <value>フォルダーツリーの表示</value>
+  </data>
+  <data name="ParamHistoryListItemStyle" xml:space="preserve">
+    <value>履歴リスト項目スタイル</value>
+  </data>
+  <data name="ParamImageCustomSizeIsEnabled" xml:space="preserve">
+    <value>画像サイズ指定を有効にする</value>
+  </data>
+  <data name="ParamImageCustomSize" xml:space="preserve">
+    <value>画像サイズ指定のサイズ</value>
+  </data>
+  <data name="ParamDotKeepIsEnabled" xml:space="preserve">
+    <value>ドットのまま拡大</value>
+  </data>
+  <data name="ParamImageEffectEnabled" xml:space="preserve">
+    <value>画像エフェクト有効</value>
+  </data>
+  <data name="ParamImageEffectType" xml:space="preserve">
+    <value>画像エフェクトの種類</value>
+  </data>
+  <data name="ParamImageGridIsEnabled" xml:space="preserve">
+    <value>グリッド表示</value>
+  </data>
+  <data name="ParamImageResizeFilterIsEnabled" xml:space="preserve">
+    <value>リサイズフィルター有効</value>
+  </data>
+  <data name="ParamImageResizeFilterResizeInterpolation" xml:space="preserve">
+    <value>リサイズの補間方法</value>
+  </data>
+  <data name="ParamImageResizeFilterSharpen" xml:space="preserve">
+    <value>リサイズ時のアンシャープマスク有効</value>
+  </data>
+  <data name="WordUnsharpMask" xml:space="preserve">
+    <value>アンシャープマスク</value>
+  </data>
+  <data name="ParamMediaIsMuted" xml:space="preserve">
+    <value>動画をミュートする</value>
+  </data>
+  <data name="ParamMediaVolume" xml:space="preserve">
+    <value>動画の音量</value>
+  </data>
+  <data name="ParamMediaIsRepeat" xml:space="preserve">
+    <value>動画のリピート</value>
+  </data>
+  <data name="ParamMenuBarIsAutoHide" xml:space="preserve">
+    <value>メニューを自動的に隠す</value>
+  </data>
+  <data name="ParamMenuBarIsVisibleAddressBar" xml:space="preserve">
+    <value>アドレスバーを表示する</value>
+  </data>
+  <data name="ParamPageListItemStyle" xml:space="preserve">
+    <value>ページリスト項目スタイル</value>
+  </data>
+  <data name="ParamPageListFormat" xml:space="preserve">
+    <value>ページリストのページ名表示形式</value>
+  </data>
+  <data name="ParamPagemarkListItemStyle" xml:space="preserve">
+    <value>ページマークリスト項目スタイル</value>
+  </data>
+  <data name="ParamPagemarkOrder" xml:space="preserve">
+    <value>ページマークの並び順</value>
+  </data>
+  <data name="ParamPanelsIsAutoHide" xml:space="preserve">
+    <value>サイドパネルを自動的に隠す</value>
+  </data>
+  <data name="ParamIsSideBarEnabled" xml:space="preserve">
+    <value>サイドバーを表示する</value>
+  </data>
+  <data name="ParamSliderIsAutoHide" xml:space="preserve">
+    <value>スライダーを自動的に隠す</value>
+  </data>
+  <data name="ParamViewStretchMode" xml:space="preserve">
+    <value>表示スケールモード</value>
+  </data>
+  <data name="ParamViewAllowEnlarge" xml:space="preserve">
+    <value>表示スケールで拡大を許可</value>
+  </data>
+  <data name="ParamViewAllowReduce" xml:space="preserve">
+    <value>表示スケールで縮小を許可</value>
+  </data>
+  <data name="ParmViewAutoRotate" xml:space="preserve">
+    <value>自動回転</value>
+  </data>
+  <data name="ParamWindowIsCaptionVisible" xml:space="preserve">
+    <value>タイトルバーを表示</value>
+  </data>
+  <data name="ParamWindowIsTopmost" xml:space="preserve">
+    <value>ウィンドウを常に手前に表示</value>
+  </data>
+  <data name="ParamWindowState" xml:space="preserve">
+    <value>ウィンドウ状態</value>
+  </data>
+  <data name="ParamBrushSourceType" xml:space="preserve">
+    <value>ブラシの種類</value>
+  </data>
+  <data name="ParamBrushSourceColor" xml:space="preserve">
+    <value>色</value>
+  </data>
+  <data name="ParamBrushSourceImageFile" xml:space="preserve">
+    <value>画像ファイル</value>
+  </data>
+  <data name="WordCustomBackground" xml:space="preserve">
+    <value>カスタム背景</value>
+  </data>
+  <data name="ParamItemProfileImageShape" xml:space="preserve">
+    <value>画像の形</value>
+  </data>
+  <data name="ParamItemProfileImageWidth" xml:space="preserve">
+    <value>画像の大きさ</value>
+  </data>
+  <data name="ParamItemProfileIsImagePopupEnabled" xml:space="preserve">
+    <value>画像ポップアップ</value>
+  </data>
+  <data name="ParamItemProfileIsTextVisibled" xml:space="preserve">
+    <value>テキスト表示</value>
+  </data>
+  <data name="ParamItemProfileIsTextWrapped" xml:space="preserve">
+    <value>テキストの複数行表示</value>
+  </data>
+  <data name="ParamItemProfileIsNoteOpacity" xml:space="preserve">
+    <value>補足テキストの不透明度</value>
+  </data>
+  <data name="ParamBookshelfPageListVisible" xml:space="preserve">
+    <value>ページリストを表示</value>
+  </data>
 </root>

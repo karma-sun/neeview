@@ -4962,4 +4962,178 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="WordCommandList" xml:space="preserve">
     <value>Command list</value>
   </data>
+  <data name="ParamBackgroundType" xml:space="preserve">
+    <value>Background type</value>
+  </data>
+  <data name="ParamIsSyncBookshelfEnabled" xml:space="preserve">
+    <value>Sync bookshelf when book is opened</value>
+  </data>
+  <data name="ParamBookPolicyPage" xml:space="preserve">
+    <value>Setting policy of "@ParamBookPage" when opening a book</value>
+  </data>
+  <data name="ParamBookPolicyPageMode" xml:space="preserve">
+    <value>Setting policy of "@ParamBookPageMode" when opening a book</value>
+  </data>
+  <data name="ParamBookPolicyBookReadOrder" xml:space="preserve">
+    <value>Setting policy of "@ParamBookBookReadOrder" when opening a book</value>
+  </data>
+  <data name="ParamBookPolicyIsSupportedDividePage" xml:space="preserve">
+    <value>Setting policy of "@ParamBookIsSupportedDividePage" when opening a book</value>
+  </data>
+  <data name="ParamBookPolicyIsSupportedSingleFirstPage" xml:space="preserve">
+    <value>Setting policy of "@ParamBookIsSupportedSingleFirstPage" when opening a book</value>
+  </data>
+  <data name="ParamBookPolicyIsSupportedSingleLastPage" xml:space="preserve">
+    <value>Setting policy of "@ParamBookIsSupportedSingleLastPage" when opening a book</value>
+  </data>
+  <data name="ParamBookPolicyIsSupportedWidePage" xml:space="preserve">
+    <value>Setting policy of "@ParamBookIsSupportedWidePage" when opening a book</value>
+  </data>
+  <data name="ParamBookPolicyIsRecursiveFolder" xml:space="preserve">
+    <value>Setting policy of "@ParamBookIsRecursiveFolder" when opening a book</value>
+  </data>
+  <data name="ParamBookPolicySortMode" xml:space="preserve">
+    <value>Setting policy of "@ParamBookSortMode" when opening a book</value>
+  </data>
+  <data name="ParamIsIncrementalSearchEnabled" xml:space="preserve">
+    <value>Incremental search enabled</value>
+  </data>
+  <data name="ParamIsSearchIncludeSubdirectories" xml:space="preserve">
+    <value>Perform a search including subfolders</value>
+  </data>
+  <data name="ParamFilmStripIsEnabled" xml:space="preserve">
+    <value>Show filmstrip</value>
+  </data>
+  <data name="ParamFilmStripIsHideFilmStrip" xml:space="preserve">
+    <value>Automatically hide filmstrip</value>
+  </data>
+  <data name="ParamFolderListItemStyle" xml:space="preserve">
+    <value>List item style</value>
+  </data>
+  <data name="ParamIsFolderTreeVisible" xml:space="preserve">
+    <value>Display folder tree</value>
+  </data>
+  <data name="ParamHistoryListItemStyle" xml:space="preserve">
+    <value>History list item style</value>
+  </data>
+  <data name="ParamImageCustomSizeIsEnabled" xml:space="preserve">
+    <value>Enable custom image size</value>
+  </data>
+  <data name="ParamImageCustomSize" xml:space="preserve">
+    <value>Custom image size</value>
+  </data>
+  <data name="ParamDotKeepIsEnabled" xml:space="preserve">
+    <value>Keep dot</value>
+  </data>
+  <data name="ParamImageEffectEnabled" xml:space="preserve">
+    <value>Enable image effect</value>
+  </data>
+  <data name="ParamImageEffectType" xml:space="preserve">
+    <value>Image effect type</value>
+  </data>
+  <data name="ParamImageGridIsEnabled" xml:space="preserve">
+    <value>Show grid</value>
+  </data>
+  <data name="ParamImageResizeFilterIsEnabled" xml:space="preserve">
+    <value>Enable resize filter</value>
+  </data>
+  <data name="ParamImageResizeFilterResizeInterpolation" xml:space="preserve">
+    <value>Resize interpolation method</value>
+  </data>
+  <data name="ParamImageResizeFilterSharpen" xml:space="preserve">
+    <value>Enable unsharp mask when resizing</value>
+  </data>
+  <data name="WordUnsharpMask" xml:space="preserve">
+    <value>Unsharp mask</value>
+  </data>
+  <data name="ParamMediaIsMuted" xml:space="preserve">
+    <value>Mute video</value>
+  </data>
+  <data name="ParamMediaVolume" xml:space="preserve">
+    <value>Video volume</value>
+  </data>
+  <data name="ParamMediaIsRepeat" xml:space="preserve">
+    <value>Video repeat</value>
+  </data>
+  <data name="ParamMenuBarIsAutoHide" xml:space="preserve">
+    <value>Hide menu automatically</value>
+  </data>
+  <data name="ParamMenuBarIsVisibleAddressBar" xml:space="preserve">
+    <value>Show address bar</value>
+  </data>
+  <data name="ParamPageListItemStyle" xml:space="preserve">
+    <value>Page list item style</value>
+  </data>
+  <data name="ParamPageListFormat" xml:space="preserve">
+    <value>Page name display format of page list</value>
+  </data>
+  <data name="ParamPagemarkListItemStyle" xml:space="preserve">
+    <value>Pagemark list item style</value>
+  </data>
+  <data name="ParamPagemarkOrder" xml:space="preserve">
+    <value>Pagemark order</value>
+  </data>
+  <data name="ParamPanelsIsAutoHide" xml:space="preserve">
+    <value>Hide side panels automatically</value>
+  </data>
+  <data name="ParamIsSideBarEnabled" xml:space="preserve">
+    <value>Show side bar</value>
+  </data>
+  <data name="ParamSliderIsAutoHide" xml:space="preserve">
+    <value>Hide slider automatically</value>
+  </data>
+  <data name="ParamViewStretchMode" xml:space="preserve">
+    <value>Stretch mode</value>
+  </data>
+  <data name="ParamViewAllowEnlarge" xml:space="preserve">
+    <value>Allow enlarge by stretching</value>
+  </data>
+  <data name="ParamViewAllowReduce" xml:space="preserve">
+    <value>Allow reduce by stretching</value>
+  </data>
+  <data name="ParmViewAutoRotate" xml:space="preserve">
+    <value>Automatic rotation</value>
+  </data>
+  <data name="ParamWindowIsCaptionVisible" xml:space="preserve">
+    <value>Show title bar</value>
+  </data>
+  <data name="ParamWindowIsTopmost" xml:space="preserve">
+    <value>Window topmost</value>
+  </data>
+  <data name="ParamWindowState" xml:space="preserve">
+    <value>Window state</value>
+  </data>
+  <data name="ParamBrushSourceType" xml:space="preserve">
+    <value>Brush type</value>
+  </data>
+  <data name="ParamBrushSourceColor" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="ParamBrushSourceImageFile" xml:space="preserve">
+    <value>Image file</value>
+  </data>
+  <data name="WordCustomBackground" xml:space="preserve">
+    <value>Custom background</value>
+  </data>
+  <data name="ParamItemProfileImageShape" xml:space="preserve">
+    <value>Image shape</value>
+  </data>
+  <data name="ParamItemProfileImageWidth" xml:space="preserve">
+    <value>Image size</value>
+  </data>
+  <data name="ParamItemProfileIsImagePopupEnabled" xml:space="preserve">
+    <value>Enable image popup</value>
+  </data>
+  <data name="ParamItemProfileIsTextVisibled" xml:space="preserve">
+    <value>Display text</value>
+  </data>
+  <data name="ParamItemProfileIsTextWrapped" xml:space="preserve">
+    <value>Enable text wrapped</value>
+  </data>
+  <data name="ParamItemProfileIsNoteOpacity" xml:space="preserve">
+    <value>Note opacity</value>
+  </data>
+  <data name="ParamBookshelfPageListVisible" xml:space="preserve">
+    <value>Show page list</value>
+  </data>
 </root>

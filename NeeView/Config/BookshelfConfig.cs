@@ -72,6 +72,7 @@ namespace NeeView
             set { SetProperty(ref _isPlacedInBookshelf, value); }
         }
 
+        [PropertyMember("@ParamBookshelfPageListVisible")]
         public bool IsPageListVisible
         {
             get { return _isPageListVisible; }
@@ -142,6 +143,7 @@ namespace NeeView
         /// <summary>
         /// インクリメンタルサーチ有効
         /// </summary>
+        [PropertyMember("@ParamIsIncrementalSearchEnabled")]
         public bool IsIncrementalSearchEnabled
         {
             get { return _isIncrementalSearchEnabled; }
@@ -151,6 +153,7 @@ namespace NeeView
         /// <summary>
         /// サブフォルダーを含めた検索を行う
         /// </summary>
+        [PropertyMember("@ParamIsSearchIncludeSubdirectories")]
         public bool IsSearchIncludeSubdirectories
         {
             get { return _isSearchIncludeSubdirectories; }

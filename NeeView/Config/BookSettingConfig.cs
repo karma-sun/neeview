@@ -18,7 +18,7 @@ namespace NeeView
 
 
         // ページ
-        [JsonIgnore, PropertyMapIgnoreAttribute]
+        [JsonIgnore, PropertyMapIgnore]
         [PropertyMember("@ParamBookPage")]
         public string Page
         {

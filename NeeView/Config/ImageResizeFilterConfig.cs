@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Property;
 using PhotoSauce.MagicScaler;
 
 namespace NeeView
@@ -23,24 +24,28 @@ namespace NeeView
             this.UnsharpMask.PropertyChanged += (s, e) => RaisePropertyChanged(nameof(UnsharpMask));
         }
 
+        [PropertyMember("@ParamImageResizeFilterIsEnabled")]
         public bool IsEnabled
         {
             get { return _isResizeFilterEnabled; }
             set { SetProperty(ref _isResizeFilterEnabled, value); }
         }
 
+        [PropertyMember("@ParamImageResizeFilterResizeInterpolation")]
         public ResizeInterpolation ResizeInterpolation
         {
             get { return _resizeInterpolation; }
             set { SetProperty(ref _resizeInterpolation, value); }
         }
 
+        [PropertyMember("@ParamImageResizeFilterSharpen")]
         public bool Sharpen
         {
             get { return _sharpen; }
             set { SetProperty(ref _sharpen, value); }
         }
 
+        [PropertyMapLabel("@WordUnsharpMask")]
         public UnsharpMaskConfig UnsharpMask { get; set; }
 
 

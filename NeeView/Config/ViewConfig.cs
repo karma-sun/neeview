@@ -93,6 +93,7 @@ namespace NeeView
         }
 
         // スケールモード
+        [PropertyMember("@ParamViewStretchMode")]
         public PageStretchMode StretchMode
         {
             get { return _stretchMode; }
@@ -100,6 +101,7 @@ namespace NeeView
         }
 
         // スケールモード・拡大許可
+        [PropertyMember("@ParamViewAllowEnlarge")]
         public bool AllowEnlarge
         {
             get { return _allowEnlarge; }
@@ -107,6 +109,7 @@ namespace NeeView
         }
 
         // スケールモード・縮小許可
+        [PropertyMember("@ParamViewAllowReduce")]
         public bool AllowReduce
         {
             get { return _allowReduce; }
@@ -114,6 +117,7 @@ namespace NeeView
         }
 
         // 自動回転左/右
+        [PropertyMember("@ParmViewAutoRotate")]
         public AutoRotateType AutoRotate
         {
             get { return _autoRotate; }

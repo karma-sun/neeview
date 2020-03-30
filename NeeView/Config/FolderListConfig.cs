@@ -12,6 +12,7 @@ namespace NeeView
         /// <summary>
         /// リスト項目のスタイル
         /// </summary>
+        [PropertyMember("@ParamFolderListItemStyle")]
         public PanelListItemStyle PanelListItemStyle
         {
             get { return _panelListItemStyle; }
@@ -31,6 +32,7 @@ namespace NeeView
         /// <summary>
         /// フォルダーツリーの表示
         /// </summary>
+        [PropertyMember("@ParamIsFolderTreeVisible")]
         public bool IsFolderTreeVisible
         {
             get { return _isFolderTreeVisible; }

@@ -19,7 +19,7 @@ namespace NeeView
         private int _limitSize = -1;
         private TimeSpan _limitSpan;
 
-
+        [PropertyMember("@ParamHistoryListItemStyle")]
         public PanelListItemStyle PanelListItemStyle
         {
             get { return _panelListItemStyle; }

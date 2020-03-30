@@ -11,6 +11,7 @@ namespace NeeView
 
 
         // メニューを自動的に隠す
+        [PropertyMember("@ParamMenuBarIsAutoHide")]
         public bool IsHideMenu
         {
             get { return _isHideMenu; }
@@ -18,6 +19,7 @@ namespace NeeView
         }
 
         // アドレスバーON/OFF
+        [PropertyMember("@ParamMenuBarIsVisibleAddressBar")]
         public bool IsVisibleAddressBar
         {
             get { return _isVisibleAddressBar; }

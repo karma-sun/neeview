@@ -8994,6 +8994,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Background type に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBackgroundType {
+            get {
+                return ResourceManager.GetString("ParamBackgroundType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Book Orientation に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamBookBookReadOrder {
@@ -9300,6 +9309,87 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Setting policy of &quot;@ParamBookBookReadOrder&quot; when opening a book に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookPolicyBookReadOrder {
+            get {
+                return ResourceManager.GetString("ParamBookPolicyBookReadOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Setting policy of &quot;@ParamBookIsRecursiveFolder&quot; when opening a book に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookPolicyIsRecursiveFolder {
+            get {
+                return ResourceManager.GetString("ParamBookPolicyIsRecursiveFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Setting policy of &quot;@ParamBookIsSupportedDividePage&quot; when opening a book に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookPolicyIsSupportedDividePage {
+            get {
+                return ResourceManager.GetString("ParamBookPolicyIsSupportedDividePage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Setting policy of &quot;@ParamBookIsSupportedSingleFirstPage&quot; when opening a book に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookPolicyIsSupportedSingleFirstPage {
+            get {
+                return ResourceManager.GetString("ParamBookPolicyIsSupportedSingleFirstPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Setting policy of &quot;@ParamBookIsSupportedSingleLastPage&quot; when opening a book に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookPolicyIsSupportedSingleLastPage {
+            get {
+                return ResourceManager.GetString("ParamBookPolicyIsSupportedSingleLastPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Setting policy of &quot;@ParamBookIsSupportedWidePage&quot; when opening a book に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookPolicyIsSupportedWidePage {
+            get {
+                return ResourceManager.GetString("ParamBookPolicyIsSupportedWidePage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Setting policy of &quot;@ParamBookPage&quot; when opening a book に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookPolicyPage {
+            get {
+                return ResourceManager.GetString("ParamBookPolicyPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Setting policy of &quot;@ParamBookPageMode&quot; when opening a book に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookPolicyPageMode {
+            get {
+                return ResourceManager.GetString("ParamBookPolicyPageMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Setting policy of &quot;@ParamBookSortMode&quot; when opening a book に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookPolicySortMode {
+            get {
+                return ResourceManager.GetString("ParamBookPolicySortMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Filename pattern to exclude from display に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamBookshelfExcludePattern {
@@ -9444,6 +9534,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Show page list に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookshelfPageListVisible {
+            get {
+                return ResourceManager.GetString("ParamBookshelfPageListVisible", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Order of pages に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamBookSortMode {
@@ -9467,6 +9566,33 @@ namespace NeeView.Properties {
         public static string ParamBookWideRatioTips {
             get {
                 return ResourceManager.GetString("ParamBookWideRatioTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Color に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBrushSourceColor {
+            get {
+                return ResourceManager.GetString("ParamBrushSourceColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Image file に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBrushSourceImageFile {
+            get {
+                return ResourceManager.GetString("ParamBrushSourceImageFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Brush type に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBrushSourceType {
+            get {
+                return ResourceManager.GetString("ParamBrushSourceType", resourceCulture);
             }
         }
         
@@ -10011,6 +10137,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Keep dot に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamDotKeepIsEnabled {
+            get {
+                return ResourceManager.GetString("ParamDotKeepIsEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Download folder に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamDownloadPath {
@@ -10380,6 +10515,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Show filmstrip に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamFilmStripIsEnabled {
+            get {
+                return ResourceManager.GetString("ParamFilmStripIsEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Automatically hide filmstrip に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamFilmStripIsHideFilmStrip {
+            get {
+                return ResourceManager.GetString("ParamFilmStripIsHideFilmStrip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Touch scroll termination bound on filmstrip に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamFilmStripIsManipulationBoundaryFeedbackEnabled {
@@ -10430,6 +10583,15 @@ namespace NeeView.Properties {
         public static string ParamFilmStripThumbnailSize {
             get {
                 return ResourceManager.GetString("ParamFilmStripThumbnailSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   List item style に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamFolderListItemStyle {
+            get {
+                return ResourceManager.GetString("ParamFolderListItemStyle", resourceCulture);
             }
         }
         
@@ -10560,6 +10722,42 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   History list item style に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamHistoryListItemStyle {
+            get {
+                return ResourceManager.GetString("ParamHistoryListItemStyle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Custom image size に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamImageCustomSize {
+            get {
+                return ResourceManager.GetString("ParamImageCustomSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Enable custom image size に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamImageCustomSizeIsEnabled {
+            get {
+                return ResourceManager.GetString("ParamImageCustomSizeIsEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Enable image effect に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamImageEffectEnabled {
+            get {
+                return ResourceManager.GetString("ParamImageEffectEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Perform color setting with HSV に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamImageEffectIsHsvMode {
@@ -10574,6 +10772,15 @@ namespace NeeView.Properties {
         public static string ParamImageEffectIsHsvModeTips {
             get {
                 return ResourceManager.GetString("ParamImageEffectIsHsvModeTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Image effect type に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamImageEffectType {
+            get {
+                return ResourceManager.GetString("ParamImageEffectType", resourceCulture);
             }
         }
         
@@ -10601,6 +10808,42 @@ namespace NeeView.Properties {
         public static string ParamImageFilterThreshold {
             get {
                 return ResourceManager.GetString("ParamImageFilterThreshold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Show grid に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamImageGridIsEnabled {
+            get {
+                return ResourceManager.GetString("ParamImageGridIsEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Enable resize filter に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamImageResizeFilterIsEnabled {
+            get {
+                return ResourceManager.GetString("ParamImageResizeFilterIsEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Resize interpolation method に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamImageResizeFilterResizeInterpolation {
+            get {
+                return ResourceManager.GetString("ParamImageResizeFilterResizeInterpolation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Enable unsharp mask when resizing に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamImageResizeFilterSharpen {
+            get {
+                return ResourceManager.GetString("ParamImageResizeFilterSharpen", resourceCulture);
             }
         }
         
@@ -10803,6 +11046,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Display folder tree に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsFolderTreeVisible {
+            get {
+                return ResourceManager.GetString("ParamIsFolderTreeVisible", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Even if you open a book from history, it updates the last browsing date に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsForceUpdateHistory {
@@ -10862,6 +11114,15 @@ namespace NeeView.Properties {
         public static string ParamIsIgnoreImageDpiTips {
             get {
                 return ResourceManager.GetString("ParamIsIgnoreImageDpiTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Incremental search enabled に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsIncrementalSearchEnabled {
+            get {
+                return ResourceManager.GetString("ParamIsIncrementalSearchEnabled", resourceCulture);
             }
         }
         
@@ -11028,6 +11289,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Perform a search including subfolders に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsSearchIncludeSubdirectories {
+            get {
+                return ResourceManager.GetString("ParamIsSearchIncludeSubdirectories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Make a backup of the user setting file に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsSettingBackup {
@@ -11042,6 +11312,15 @@ namespace NeeView.Properties {
         public static string ParamIsSettingBackupTips {
             get {
                 return ResourceManager.GetString("ParamIsSettingBackupTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Show side bar に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsSideBarEnabled {
+            get {
+                return ResourceManager.GetString("ParamIsSideBarEnabled", resourceCulture);
             }
         }
         
@@ -11087,6 +11366,15 @@ namespace NeeView.Properties {
         public static string ParamIsSplashScreenEnabled {
             get {
                 return ResourceManager.GetString("ParamIsSplashScreenEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sync bookshelf when book is opened に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsSyncBookshelfEnabled {
+            get {
+                return ResourceManager.GetString("ParamIsSyncBookshelfEnabled", resourceCulture);
             }
         }
         
@@ -11141,6 +11429,60 @@ namespace NeeView.Properties {
         public static string ParamIsVisibleWindowTitle {
             get {
                 return ResourceManager.GetString("ParamIsVisibleWindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Image shape に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamItemProfileImageShape {
+            get {
+                return ResourceManager.GetString("ParamItemProfileImageShape", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Image size に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamItemProfileImageWidth {
+            get {
+                return ResourceManager.GetString("ParamItemProfileImageWidth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Enable image popup に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamItemProfileIsImagePopupEnabled {
+            get {
+                return ResourceManager.GetString("ParamItemProfileIsImagePopupEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Note opacity に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamItemProfileIsNoteOpacity {
+            get {
+                return ResourceManager.GetString("ParamItemProfileIsNoteOpacity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display text に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamItemProfileIsTextVisibled {
+            get {
+                return ResourceManager.GetString("ParamItemProfileIsTextVisibled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Enable text wrapped に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamItemProfileIsTextWrapped {
+            get {
+                return ResourceManager.GetString("ParamItemProfileIsTextWrapped", resourceCulture);
             }
         }
         
@@ -11496,6 +11838,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Mute video に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamMediaIsMuted {
+            get {
+                return ResourceManager.GetString("ParamMediaIsMuted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Video repeat に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamMediaIsRepeat {
+            get {
+                return ResourceManager.GetString("ParamMediaIsRepeat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Play start delay (seconds) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamMediaStartDelaySeconds {
@@ -11510,6 +11870,33 @@ namespace NeeView.Properties {
         public static string ParamMediaStartDelaySecondsTips {
             get {
                 return ResourceManager.GetString("ParamMediaStartDelaySecondsTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Video volume に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamMediaVolume {
+            get {
+                return ResourceManager.GetString("ParamMediaVolume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Hide menu automatically に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamMenuBarIsAutoHide {
+            get {
+                return ResourceManager.GetString("ParamMenuBarIsAutoHide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Show address bar に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamMenuBarIsVisibleAddressBar {
+            get {
+                return ResourceManager.GetString("ParamMenuBarIsVisibleAddressBar", resourceCulture);
             }
         }
         
@@ -11640,6 +12027,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Page name display format of page list に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamPageListFormat {
+            get {
+                return ResourceManager.GetString("ParamPageListFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Page list item style に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamPageListItemStyle {
+            get {
+                return ResourceManager.GetString("ParamPageListItemStyle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Place page list on bookshelf に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamPageListPlacementInBookshelf {
@@ -11667,6 +12072,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Pagemark list item style に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamPagemarkListItemStyle {
+            get {
+                return ResourceManager.GetString("ParamPagemarkListItemStyle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Pagemark order に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamPagemarkOrder {
+            get {
+                return ResourceManager.GetString("ParamPagemarkOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Change time in page movement (seconds) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamPageSeconds {
@@ -11690,6 +12113,15 @@ namespace NeeView.Properties {
         public static string ParamPanelColor {
             get {
                 return ResourceManager.GetString("ParamPanelColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Hide side panels automatically に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamPanelsIsAutoHide {
+            get {
+                return ResourceManager.GetString("ParamPanelsIsAutoHide", resourceCulture);
             }
         }
         
@@ -12037,6 +12469,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Hide slider automatically に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamSliderIsAutoHide {
+            get {
+                return ResourceManager.GetString("ParamSliderIsAutoHide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Real time change with slider applies only to film strip に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamSliderIsLinkedThumbnailList {
@@ -12379,11 +12820,56 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Allow enlarge by stretching に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamViewAllowEnlarge {
+            get {
+                return ResourceManager.GetString("ParamViewAllowEnlarge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Allow reduce by stretching に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamViewAllowReduce {
+            get {
+                return ResourceManager.GetString("ParamViewAllowReduce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Stretch mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamViewStretchMode {
+            get {
+                return ResourceManager.GetString("ParamViewStretchMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Window frame with title bar hidden に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamWindowChromeFrame {
             get {
                 return ResourceManager.GetString("ParamWindowChromeFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Show title bar に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamWindowIsCaptionVisible {
+            get {
+                return ResourceManager.GetString("ParamWindowIsCaptionVisible", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Window topmost に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamWindowIsTopmost {
+            get {
+                return ResourceManager.GetString("ParamWindowIsTopmost", resourceCulture);
             }
         }
         
@@ -12420,6 +12906,15 @@ namespace NeeView.Properties {
         public static string ParamWindowShapeMaximizeWindowGapWidthTips {
             get {
                 return ResourceManager.GetString("ParamWindowShapeMaximizeWindowGapWidthTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Window state に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamWindowState {
+            get {
+                return ResourceManager.GetString("ParamWindowState", resourceCulture);
             }
         }
         
@@ -12474,6 +12969,15 @@ namespace NeeView.Properties {
         public static string ParamZipArchiverSupportFileTypesTips {
             get {
                 return ResourceManager.GetString("ParamZipArchiverSupportFileTypesTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Automatic rotation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParmViewAutoRotate {
+            get {
+                return ResourceManager.GetString("ParmViewAutoRotate", resourceCulture);
             }
         }
         
@@ -13932,6 +14436,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Custom background に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordCustomBackground {
+            get {
+                return ResourceManager.GetString("WordCustomBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   {0} days ago に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WordDaysAgo {
@@ -14495,6 +15008,15 @@ namespace NeeView.Properties {
         public static string WordType {
             get {
                 return ResourceManager.GetString("WordType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Unsharp mask に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordUnsharpMask {
+            get {
+                return ResourceManager.GetString("WordUnsharpMask", resourceCulture);
             }
         }
         

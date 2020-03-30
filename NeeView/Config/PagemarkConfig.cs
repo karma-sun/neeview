@@ -12,6 +12,7 @@ namespace NeeView
         private PagemarkOrder _pagemarkOrder;
 
 
+        [PropertyMember("@ParamPagemarkListItemStyle")]
         public PanelListItemStyle PanelListItemStyle
         {
             get { return _panelListItemStyle; }
@@ -34,6 +35,7 @@ namespace NeeView
         }
 
         // ページマークの並び順
+        [PropertyMember("@ParamPagemarkOrder")]
         public PagemarkOrder PagemarkOrder
         {
             get { return _pagemarkOrder; }

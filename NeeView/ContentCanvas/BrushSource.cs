@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -53,6 +54,7 @@ namespace NeeView
         public static Dictionary<BrushType, string> BrushTypeList => AliasNameExtensions.GetAliasNameDictionary<BrushType>();
 
         [DataMember]
+        [PropertyMember("@ParamBrushSourceType")]
         public BrushType Type
         {
             get { return _type; }
@@ -60,6 +62,7 @@ namespace NeeView
         }
 
         [DataMember]
+        [PropertyMember("@ParamBrushSourceColor")]
         public Color Color
         {
             get { return _color; }
@@ -67,6 +70,7 @@ namespace NeeView
         }
 
         [DataMember]
+        [PropertyMember("@ParamBrushSourceImageFile")]
         public string ImageFileName
         {
             get { return _imageFileName; }

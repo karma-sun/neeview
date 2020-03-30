@@ -10,7 +10,7 @@ namespace NeeView
         private BrushSource _customBackground = new BrushSource();
         private Color _pageBackgroundColor = Colors.Transparent;
 
-
+        [PropertyMember("@ParamBackgroundType")]
         public BackgroundType BackgroundType
         {
             get { return _backgroundType; }
@@ -18,6 +18,7 @@ namespace NeeView
         }
 
         [PropertyMember("@ParamCustomBackground", Tips = "@ParamCustomBackgroundTips")]
+        [PropertyMapLabel("@WordCustomBackground")]
         public BrushSource CustomBackground
         {
             get { return _customBackground; }

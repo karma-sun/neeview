@@ -13,7 +13,7 @@ namespace NeeView
         private int _divY = 8;
         private bool _isSquare;
 
-
+        [PropertyMember("@ParamImageGridIsEnabled")]
         public bool IsEnabled
         {
             get { return _isEnabled; }

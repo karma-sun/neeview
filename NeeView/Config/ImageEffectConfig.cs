@@ -13,6 +13,7 @@ namespace NeeView
         /// <summary>
         /// エフェクト有効
         /// </summary>
+        [PropertyMember("@ParamImageEffectEnabled")]
         public bool IsEnabled
         {
             get { return _isEnabled; }
@@ -22,6 +23,7 @@ namespace NeeView
         /// <summary>
         /// 適用するエフェクトの種類
         /// </summary>
+        [PropertyMember("@ParamImageEffectType")]
         public EffectType EffectType
         {
             get { return _effectType; }

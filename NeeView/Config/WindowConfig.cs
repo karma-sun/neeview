@@ -23,12 +23,14 @@ namespace NeeView
             set { SetProperty(ref _windowChromeFrame, value); }
         }
 
+        [PropertyMember("@ParamWindowIsCaptionVisible")]
         public bool IsCaptionVisible
         {
             get { return _isCaptionVisible; }
             set { SetProperty(ref _isCaptionVisible, value); }
         }
 
+        [PropertyMember("@ParamWindowIsTopmost")]
         public bool IsTopmost
         {
             get { return _isTopmost; }
@@ -60,6 +62,7 @@ namespace NeeView
         /// <summary>
         /// ウィンドウ状態
         /// </summary>
+        [PropertyMember("@ParamWindowState")]
         public WindowStateEx State
         {
             get { return _state; }

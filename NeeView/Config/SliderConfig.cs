@@ -15,6 +15,7 @@ namespace NeeView
 
 
         // スライダーを自動的に隠す
+        [PropertyMember("@ParamSliderIsAutoHide")]
         public bool IsHidePageSlider
         {
             get { return _isIsHidePageSlider; }

@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Property;
 
 namespace NeeView
 {
@@ -6,6 +7,7 @@ namespace NeeView
     {
         private bool _isEnabled;
 
+        [PropertyMember("@ParamDotKeepIsEnabled")]
         public bool IsEnabled
         {
             get { return _isEnabled; }

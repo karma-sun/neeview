@@ -24,6 +24,7 @@ namespace NeeView
         /// <summary>
         /// パネルを自動的に隠す
         /// </summary>
+        [PropertyMember("@ParamPanelsIsAutoHide")]
         public bool IsHidePanel
         {
             get { return _isHidePanel; }
@@ -33,6 +34,7 @@ namespace NeeView
         /// <summary>
         /// サイドバー表示フラグ 
         /// </summary>
+        [PropertyMember("@ParamIsSideBarEnabled")]
         public bool IsSideBarEnabled
         {
             get { return _isSideBarEnabled; }
@@ -120,10 +122,13 @@ namespace NeeView
         }
 
 
+        [PropertyMapLabel("@WordStyleContent")]
         public PanelListItemProfile ContentItemProfile { get; set; } = PanelListItemProfile.DefaultContentItemProfile.Clone();
 
+        [PropertyMapLabel("@WordStyleBanner")]
         public PanelListItemProfile BannerItemProfile { get; set; } = PanelListItemProfile.DefaultBannerItemProfile.Clone();
 
+        [PropertyMapLabel("@WordStyleThumbnail")]
         public PanelListItemProfile ThumbnailItemProfile { get; set; } = PanelListItemProfile.DefaultThumbnailItemProfile.Clone();
 
 

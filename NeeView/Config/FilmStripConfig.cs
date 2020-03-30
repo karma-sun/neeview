@@ -18,6 +18,7 @@ namespace NeeView
         /// <summary>
         /// フィルムストリップ表示
         /// </summary>
+        [PropertyMember("@ParamFilmStripIsEnabled")]
         public bool IsEnabled
         {
             get { return _isEnabled; }
@@ -25,8 +26,9 @@ namespace NeeView
         }
 
         /// <summary>
-        /// サムネイルを自動的に隠す
+        /// フィルムストリップ自動的に隠す
         /// </summary>
+        [PropertyMember("@ParamFilmStripIsHideFilmStrip")]
         public bool IsHideFilmStrip
         {
             get { return _isHideFilmStrip; }

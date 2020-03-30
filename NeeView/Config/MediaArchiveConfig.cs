@@ -42,19 +42,21 @@ namespace NeeView
             set { SetProperty(ref _mediaStartDelaySeconds, value); }
         }
 
-
+        [PropertyMember("@ParamMediaIsMuted")]
         public bool IsMuted
         {
             get { return _isMuted; }
             set { SetProperty(ref _isMuted, value); }
         }
 
+        [PropertyMember("@ParamMediaVolume")]
         public double Volume
         {
             get { return _volume; }
             set { SetProperty(ref _volume, value); }
         }
 
+        [PropertyMember("@ParamMediaIsRepeat")]
         public bool IsRepeat
         {
             get { return _isRepeat; }

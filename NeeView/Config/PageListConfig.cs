@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Property;
 
 namespace NeeView
 {
@@ -10,6 +11,7 @@ namespace NeeView
         /// <summary>
         /// ページリストのリスト項目表示形式
         /// </summary>
+        [PropertyMember("@ParamPageListItemStyle")]
         public PanelListItemStyle PanelListItemStyle
         {
             get { return _panelListItemStyle; }
@@ -19,6 +21,7 @@ namespace NeeView
         /// <summary>
         /// ページ名表示形式
         /// </summary>
+        [PropertyMember("@ParamPageListFormat")]
         public PageNameFormat Format
         {
             get { return _format; }

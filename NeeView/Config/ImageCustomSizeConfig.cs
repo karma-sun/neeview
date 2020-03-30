@@ -15,6 +15,7 @@ namespace NeeView
         /// <summary>
         /// 指定サイズ有効
         /// </summary>
+        [PropertyMember("@ParamImageCustomSizeIsEnabled")]
         public bool IsEnabled
         {
             get { return _IsEnabled; }
@@ -24,6 +25,7 @@ namespace NeeView
         /// <summary>
         /// カスタムサイズ
         /// </summary>
+        [PropertyMember("@ParamImageCustomSize")]
         public Size Size
         {
             get { return _Size; }

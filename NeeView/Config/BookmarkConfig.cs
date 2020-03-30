@@ -14,6 +14,7 @@ namespace NeeView
         /// <summary>
         /// 本の読み込みで本棚の更新を要求する
         /// </summary>
+        [PropertyMember("@ParamIsSyncBookshelfEnabled")]
         public bool IsSyncBookshelfEnabled
         {
             get { return _isSyncBookshelfEnabled; }

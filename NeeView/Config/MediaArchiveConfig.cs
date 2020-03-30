@@ -43,22 +43,18 @@ namespace NeeView
         }
 
 
-
-        [PropertyMapIgnore]
         public bool IsMuted
         {
             get { return _isMuted; }
             set { SetProperty(ref _isMuted, value); }
         }
 
-        [PropertyMapIgnore]
         public double Volume
         {
             get { return _volume; }
             set { SetProperty(ref _volume, value); }
         }
 
-        [PropertyMapIgnore]
         public bool IsRepeat
         {
             get { return _isRepeat; }

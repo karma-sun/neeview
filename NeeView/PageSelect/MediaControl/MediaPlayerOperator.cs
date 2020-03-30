@@ -61,6 +61,21 @@ namespace NeeView
             _timer.Interval = TimeSpan.FromSeconds(0.1);
             _timer.Tick += DispatcherTimer_Tick;
             _timer.Start();
+
+            Config.Current.Archive.Media.AddPropertyChanged(nameof(MediaArchiveConfig.IsMuted), (s, e) =>
+            {
+                this.IsMuted = Config.Current.Archive.Media.IsMuted;
+            });
+
+            Config.Current.Archive.Media.AddPropertyChanged(nameof(MediaArchiveConfig.Volume), (s, e) =>
+            {
+                this.Volume = Config.Current.Archive.Media.Volume;
+            });
+
+            Config.Current.Archive.Media.AddPropertyChanged(nameof(MediaArchiveConfig.IsRepeat), (s, e) =>
+            {
+                this.IsRepeat = Config.Current.Archive.Media.IsRepeat;
+            });
         }
 
 
@@ -417,7 +432,7 @@ namespace NeeView
             {
                 return true;
             }
-            if (delta >TimeSpan.Zero && t1 > _durationTimeSpan)
+            if (delta > TimeSpan.Zero && t1 > _durationTimeSpan)
             {
                 return true;
             }

@@ -47,6 +47,11 @@ code {
     font-family: Consolas,"メイリオ", Meiryo;
 }
 
+    code.inline {
+        background-color: #EEEEEE;
+        font-family: Consolas,"メイリオ", Meiryo;
+    }
+
 hr {
     margin: 50px 0px;
 }

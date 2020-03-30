@@ -13,7 +13,7 @@ namespace NeeView
         public CommandAccessor(CommandElement command)
         {
             _command = command;
-            Parameter = new PropertyMap(_command.Parameter);
+            Parameter = _command.Parameter != null ? new PropertyMap(_command.Parameter) : null;
         }
 
         public string ShortCutKey

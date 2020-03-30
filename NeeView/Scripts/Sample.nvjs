@@ -1,4 +1,5 @@
-// script sample
+// @name Hello, World!
+// @description This is sample script.
 
 nv.ShowDialog("Hello, World!")
 

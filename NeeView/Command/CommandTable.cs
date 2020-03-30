@@ -664,7 +664,18 @@ namespace NeeView
 
             foreach (var name in newers.Except(oldies))
             {
-                _elements.Add(name, new ScriptCommand(name));
+                var command = new ScriptCommand(name);
+
+                try
+                {
+                    command.LoadDocComment();
+                }
+                catch(Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+
+                _elements.Add(name, command);
             }
 
             return true;

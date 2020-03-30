@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
@@ -34,6 +35,8 @@ namespace NeeView.Effects
         /// for serializer
         /// </summary>
         [DataMember]
+        [JsonIgnore]
+        [PropertyMapIgnore]
         public string ColorCode
         {
             get { return Color.ToString(); }

@@ -46,6 +46,8 @@ namespace NeeView.Windows.Property
 
         private PropertyInfo _info;
 
+        public event EventHandler ValueChanged;
+
         private void Initialize(object source, PropertyInfo info, PropertyMemberAttribute attribute)
         {
             Source = source;
@@ -58,6 +60,17 @@ namespace NeeView.Windows.Property
             this.IsObsolete = GetObsoleteAttribute(info) != null;
 
             _info = info;
+
+            if (source is INotifyPropertyChanged notify)
+            {
+                notify.PropertyChanged += (s, e) =>
+                {
+                    if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == _info.Name)
+                    {
+                        ValueChanged?.Invoke(s, e);
+                    }
+                };
+            }
         }
 
         //

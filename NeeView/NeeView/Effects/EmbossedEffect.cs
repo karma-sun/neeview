@@ -37,6 +37,8 @@ namespace NeeView.Effects
         /// for serializer
         /// </summary>
         [DataMember]
+        [JsonIgnore]
+        [PropertyMapIgnore]
         public string ColorCode
         {
             get { return Color.ToString(); }

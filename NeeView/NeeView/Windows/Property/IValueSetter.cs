@@ -12,7 +12,11 @@ namespace NeeView.Windows.Property
     public interface IValueSetter
     {
         string Name { get; }
+
+        event EventHandler ValueChanged;
+
         object GetValue();
+
         void SetValue(object value);
     }
 }

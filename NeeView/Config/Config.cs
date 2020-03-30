@@ -59,7 +59,7 @@ namespace NeeView
 
         public SlideShowConfig SlideShow { get; set; } = new SlideShowConfig();
 
-        public EffectConfig Effect { get; set; } = new EffectConfig();
+        public ImageEffectConfig ImageEffect { get; set; } = new ImageEffectConfig();
 
         public ImageCustomSizeConfig ImageCustomSize { get; set; } = new ImageCustomSizeConfig();
 

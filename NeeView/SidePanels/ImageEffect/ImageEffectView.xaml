@@ -160,20 +160,20 @@
                 <Separator />
 
                 <DockPanel Margin="0,5">
-                    <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding Source={x:Static local:Config.Current}, Path=Effect.IsEnabled}" VerticalAlignment="Center"/>
+                    <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding Source={x:Static local:Config.Current}, Path=ImageEffect.IsEnabled}" VerticalAlignment="Center"/>
                     <TextBlock Text="{x:Static properties:Resources.EffectEffect}" VerticalAlignment="Center" />
                 </DockPanel>
 
-                <StackPanel Visibility="{Binding Source={x:Static local:Config.Current}, Path=Effect.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StackPanel Visibility="{Binding Source={x:Static local:Config.Current}, Path=ImageEffect.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <DockPanel Margin="0,5">
                         <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding EffectTypeList}" DisplayMemberPath="Value" SelectedValuePath="Key"
-                                SelectedValue="{Binding Source={x:Static local:Config.Current}, Path=Effect.EffectType}"/>
+                                SelectedValue="{Binding Source={x:Static local:Config.Current}, Path=ImageEffect.EffectType}"/>
                         <TextBlock Text="{x:Static properties:Resources.EffectEffectType}" VerticalAlignment="Center" />
                     </DockPanel>
                     <Grid Margin="0,10">
                         <nvp:PropertyInspector x:Name="inspector" Document="{Binding Model.EffectParameters}"
-                                       IsResetButtonVisible="True"
-                                       IsHsvMode="{Binding Source={x:Static local:Config.Current}, Path=Effect.IsHsvMode}">
+                                IsResetButtonVisible="True"
+                                IsHsvMode="{Binding Source={x:Static local:Config.Current}, Path=ImageEffect.IsHsvMode}">
                             <nvp:PropertyInspector.Style>
                                 <Style TargetType="nvp:PropertyInspector">
                                     <Style.Triggers>

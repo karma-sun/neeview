@@ -1,4 +1,5 @@
-﻿using NeeView.Windows.Controls;
+﻿using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +12,7 @@ using System.Windows.Media;
 namespace NeeView.Windows.Property
 {
     //
-    public abstract class PropertyValue
+    public abstract class PropertyValue : BindableBase
     {
         public virtual string GetValueString()
         {
@@ -41,12 +42,13 @@ namespace NeeView.Windows.Property
         public PropertyValue(S setter)
         {
             Setter = setter;
+            Setter.ValueChanged += (s, e) => RaisePropertyChanged(nameof(Value));
         }
 
         public T Value
         {
-            get => GetValue();
-            set => SetValue(value);
+            get { return GetValue(); }
+            set { SetValue(value); }
         }
 
         public virtual T GetValue()
@@ -58,7 +60,7 @@ namespace NeeView.Windows.Property
         {
             Setter.SetValue(value);
         }
-        
+
 
         public override string GetValueString()
         {
@@ -102,7 +104,7 @@ namespace NeeView.Windows.Property
             var value = base.GetValue();
             if (Setter.EmptyValue != null && string.IsNullOrEmpty(value))
             {
-                return Setter.EmptyValue; 
+                return Setter.EmptyValue;
             }
             else
             {

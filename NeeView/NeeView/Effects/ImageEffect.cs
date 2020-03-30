@@ -29,26 +29,26 @@ namespace NeeView.Effects
             Effects = new Dictionary<EffectType, EffectUnit>();
 
             Effects[EffectType.None] = null;
-            Effects[EffectType.Level] = Config.Current.Effect.ImageEffects.Level;
-            Effects[EffectType.Hsv] = Config.Current.Effect.ImageEffects.Hsv;
-            Effects[EffectType.ColorSelect] = Config.Current.Effect.ImageEffects.ColorSelect;
-            Effects[EffectType.Blur] = Config.Current.Effect.ImageEffects.Blur;
-            Effects[EffectType.Bloom] = Config.Current.Effect.ImageEffects.Bloom;
-            Effects[EffectType.Monochrome] = Config.Current.Effect.ImageEffects.Monochrome;
-            Effects[EffectType.ColorTone] = Config.Current.Effect.ImageEffects.ColorTone;
-            Effects[EffectType.Sharpen] = Config.Current.Effect.ImageEffects.Sharpen;
-            Effects[EffectType.Embossed] = Config.Current.Effect.ImageEffects.Embossed;
-            Effects[EffectType.Pixelate] = Config.Current.Effect.ImageEffects.Pixelate;
-            Effects[EffectType.Magnify] = Config.Current.Effect.ImageEffects.Magnify;
-            Effects[EffectType.Ripple] = Config.Current.Effect.ImageEffects.Ripple;
-            Effects[EffectType.Swirl] = Config.Current.Effect.ImageEffects.Swirl;
+            Effects[EffectType.Level] = Config.Current.ImageEffect.LevelEffect;
+            Effects[EffectType.Hsv] = Config.Current.ImageEffect.HsvEffect;
+            Effects[EffectType.ColorSelect] = Config.Current.ImageEffect.ColorSelectEffect;
+            Effects[EffectType.Blur] = Config.Current.ImageEffect.BlurEffect;
+            Effects[EffectType.Bloom] = Config.Current.ImageEffect.BloomEffect;
+            Effects[EffectType.Monochrome] = Config.Current.ImageEffect.MonochromeEffect;
+            Effects[EffectType.ColorTone] = Config.Current.ImageEffect.ColorToneEffect;
+            Effects[EffectType.Sharpen] = Config.Current.ImageEffect.SharpenEffect;
+            Effects[EffectType.Embossed] = Config.Current.ImageEffect.EmbossedEffect;
+            Effects[EffectType.Pixelate] = Config.Current.ImageEffect.PixelateEffect;
+            Effects[EffectType.Magnify] = Config.Current.ImageEffect.MagnifyEffect;
+            Effects[EffectType.Ripple] = Config.Current.ImageEffect.RippleEffect;
+            Effects[EffectType.Swirl] = Config.Current.ImageEffect.SwirlEffect;
 
-            Config.Current.Effect.AddPropertyChanged(nameof(EffectConfig.IsEnabled), (s, e) =>
+            Config.Current.ImageEffect.AddPropertyChanged(nameof(ImageEffectConfig.IsEnabled), (s, e) =>
             {
                 RaisePropertyChanged(nameof(Effect));
             });
 
-            Config.Current.Effect.AddPropertyChanged(nameof(EffectConfig.EffectType), (s, e) =>
+            Config.Current.ImageEffect.AddPropertyChanged(nameof(ImageEffectConfig.EffectType), (s, e) =>
             {
                 RaisePropertyChanged(nameof(Effect));
                 UpdateEffectParameters();
@@ -67,7 +67,7 @@ namespace NeeView.Effects
         /// <summary>
         /// Property: Effect
         /// </summary>
-        public Effect Effect => Config.Current.Effect.IsEnabled ? Effects[Config.Current.Effect.EffectType]?.GetEffect() : null;
+        public Effect Effect => Config.Current.ImageEffect.IsEnabled ? Effects[Config.Current.ImageEffect.EffectType]?.GetEffect() : null;
 
         /// <summary>
         /// Property: EffectParameters
@@ -86,13 +86,13 @@ namespace NeeView.Effects
         //
         private void UpdateEffectParameters()
         {
-            if (Effects[Config.Current.Effect.EffectType] == null)
+            if (Effects[Config.Current.ImageEffect.EffectType] == null)
             {
                 EffectParameters = null;
             }
             else
             {
-                EffectParameters = new PropertyDocument(Effects[Config.Current.Effect.EffectType]);
+                EffectParameters = new PropertyDocument(Effects[Config.Current.ImageEffect.EffectType]);
             }
         }
 
@@ -128,25 +128,25 @@ namespace NeeView.Effects
 
             public void RestoreConfig(Config config)
             {
-                config.Effect.IsEnabled = IsEnabled;
-                config.Effect.EffectType = EffectType;
-                config.Effect.IsHsvMode = IsHsvMode;
+                config.ImageEffect.IsEnabled = IsEnabled;
+                config.ImageEffect.EffectType = EffectType;
+                config.ImageEffect.IsHsvMode = IsHsvMode;
 
                 if (Effects != null)
                 {
-                    MargeEffect(config.Effect.ImageEffects.Level, Effects[EffectType.Level]);
-                    MargeEffect(config.Effect.ImageEffects.Hsv, Effects[EffectType.Hsv]);
-                    MargeEffect(config.Effect.ImageEffects.ColorSelect, Effects[EffectType.ColorSelect]);
-                    MargeEffect(config.Effect.ImageEffects.Blur, Effects[EffectType.Blur]);
-                    MargeEffect(config.Effect.ImageEffects.Bloom, Effects[EffectType.Bloom]);
-                    MargeEffect(config.Effect.ImageEffects.Monochrome, Effects[EffectType.Monochrome]);
-                    MargeEffect(config.Effect.ImageEffects.ColorTone, Effects[EffectType.ColorTone]);
-                    MargeEffect(config.Effect.ImageEffects.Sharpen, Effects[EffectType.Sharpen]);
-                    MargeEffect(config.Effect.ImageEffects.Embossed, Effects[EffectType.Embossed]);
-                    MargeEffect(config.Effect.ImageEffects.Pixelate, Effects[EffectType.Pixelate]);
-                    MargeEffect(config.Effect.ImageEffects.Magnify, Effects[EffectType.Magnify]);
-                    MargeEffect(config.Effect.ImageEffects.Ripple, Effects[EffectType.Ripple]);
-                    MargeEffect(config.Effect.ImageEffects.Swirl, Effects[EffectType.Swirl]);
+                    MargeEffect(config.ImageEffect.LevelEffect, Effects[EffectType.Level]);
+                    MargeEffect(config.ImageEffect.HsvEffect, Effects[EffectType.Hsv]);
+                    MargeEffect(config.ImageEffect.ColorSelectEffect, Effects[EffectType.ColorSelect]);
+                    MargeEffect(config.ImageEffect.BlurEffect, Effects[EffectType.Blur]);
+                    MargeEffect(config.ImageEffect.BloomEffect, Effects[EffectType.Bloom]);
+                    MargeEffect(config.ImageEffect.MonochromeEffect, Effects[EffectType.Monochrome]);
+                    MargeEffect(config.ImageEffect.ColorToneEffect, Effects[EffectType.ColorTone]);
+                    MargeEffect(config.ImageEffect.SharpenEffect, Effects[EffectType.Sharpen]);
+                    MargeEffect(config.ImageEffect.EmbossedEffect, Effects[EffectType.Embossed]);
+                    MargeEffect(config.ImageEffect.PixelateEffect, Effects[EffectType.Pixelate]);
+                    MargeEffect(config.ImageEffect.MagnifyEffect, Effects[EffectType.Magnify]);
+                    MargeEffect(config.ImageEffect.RippleEffect, Effects[EffectType.Ripple]);
+                    MargeEffect(config.ImageEffect.SwirlEffect, Effects[EffectType.Swirl]);
 
                     void MargeEffect(EffectUnit unit, string json) => ObjectMerge.Merge(unit, Json.Deserialize(json, unit.GetType()));
                 }
@@ -157,9 +157,9 @@ namespace NeeView.Effects
         {
             var memento = new Memento();
 
-            memento.EffectType = Config.Current.Effect.EffectType;
-            memento.IsHsvMode = Config.Current.Effect.IsHsvMode;
-            memento.IsEnabled = Config.Current.Effect.IsEnabled;
+            memento.EffectType = Config.Current.ImageEffect.EffectType;
+            memento.IsHsvMode = Config.Current.ImageEffect.IsHsvMode;
+            memento.IsEnabled = Config.Current.ImageEffect.IsEnabled;
 
             memento.Effects = new Dictionary<EffectType, string>();
             foreach (var effect in Effects)

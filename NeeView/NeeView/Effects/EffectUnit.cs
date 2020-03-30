@@ -16,8 +16,9 @@ namespace NeeView.Effects
     {
         public virtual Effect GetEffect() => null;
 
-        protected void RaiseEffectPropertyChanged()
+        protected void RaiseEffectPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = null)
         {
+            RaisePropertyChanged(name);
             RaisePropertyChanged(nameof(Effect));
         }
     }

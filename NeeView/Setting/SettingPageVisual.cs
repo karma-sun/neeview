@@ -318,7 +318,7 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPagePanelEffectVisual,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Effect, nameof(EffectConfig.IsHsvMode)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.ImageEffect, nameof(ImageEffectConfig.IsHsvMode)))),
             };
         }
     }

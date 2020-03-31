@@ -10443,6 +10443,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   $File will be replaced with the file path. $Uri is replaced with the URI escaped file path. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamExternalParameterTips {
+            get {
+                return ResourceManager.GetString("ParamExternalParameterTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Program Type に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamExternalProgramType {
@@ -10457,15 +10466,6 @@ namespace NeeView.Properties {
         public static string ParamExternalProtocol {
             get {
                 return ResourceManager.GetString("ParamExternalProtocol", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   $File will be replaced with the file path. $Uri is replaced with the URI escaped file path. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamExternalProtocolTips {
-            get {
-                return ResourceManager.GetString("ParamExternalProtocolTips", resourceCulture);
             }
         }
         

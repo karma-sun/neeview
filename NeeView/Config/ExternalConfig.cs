@@ -9,26 +9,14 @@ namespace NeeView
         // コマンドパラメータで使用されるキーワード
         public const string KeyFile = "$File";
         public const string KeyUri = "$Uri";
+        public const string DefaultParameter = "\"" + KeyFile + "\"";
 
-        private ExternalProgramType _programType;
-        private ArchiveOptionType _archiveOption = ArchiveOptionType.SendExtractFile;
+        private ArchivePolicy _archivePolicy = ArchivePolicy.SendExtractFile;
         private string _archiveSeparater;
         private string _command;
-        private string _parameter = "\"" + KeyFile + "\"";
-        private string _protocol;
-        private MultiPageOptionType _multiPageOption = MultiPageOptionType.Once;
+        private string _parameter = DefaultParameter;
+        private MultiPagePolicy _multiPagePolicy = MultiPagePolicy.Once;
 
-
-        /// <summary>
-        /// ProgramType property.
-        /// </summary>
-        [DataMember]
-        [PropertyMember("@ParamExternalProgramType")]
-        public ExternalProgramType ProgramType
-        {
-            get { return _programType; }
-            set { SetProperty(ref _programType, value); }
-        }
 
         // コマンド
         [DataMember]
@@ -42,38 +30,29 @@ namespace NeeView
         // コマンドパラメータ
         // $FILE = 渡されるファイルパス
         [DataMember]
-        [PropertyMember("@ParamExternalParameter")]
+        [PropertyMember("@ParamExternalParameter", Tips = "@ParamExternalParameterTips")]
         public string Parameter
         {
             get { return _parameter; }
-            set { SetProperty(ref _parameter, value); }
-        }
-
-        // プロトコル
-        [DataMember]
-        [PropertyMember("@ParamExternalProtocol", Tips = "@ParamExternalProtocolTips")]
-        public string Protocol
-        {
-            get { return _protocol; }
-            set { SetProperty(ref _protocol, value); }
+            set { SetProperty(ref _parameter, string.IsNullOrWhiteSpace(value) ? DefaultParameter : value); }
         }
 
         // 複数ページのときの動作
         [DataMember]
         [PropertyMember("@ParamExternalMultiPageOption")]
-        public MultiPageOptionType MultiPageOption
+        public MultiPagePolicy MultiPagePolicy
         {
-            get { return _multiPageOption; }
-            set { SetProperty(ref _multiPageOption, value); }
+            get { return _multiPagePolicy; }
+            set { SetProperty(ref _multiPagePolicy, value); }
         }
 
         // 圧縮ファイルのときの動作
         [DataMember]
         [PropertyMember("@ParamExternalArchiveOption")]
-        public ArchiveOptionType ArchiveOption
+        public ArchivePolicy ArchivePolicy
         {
-            get { return _archiveOption; }
-            set { SetProperty(ref _archiveOption, value); }
+            get { return _archivePolicy; }
+            set { SetProperty(ref _archivePolicy, value); }
         }
 
         [DataMember(EmitDefaultValue = false)]
@@ -81,7 +60,7 @@ namespace NeeView
         public string ArchiveSeparater
         {
             get { return _archiveSeparater; }
-            set { SetProperty(ref _archiveSeparater, string.IsNullOrEmpty(value) ? null : value); }
+            set { SetProperty(ref _archiveSeparater, string.IsNullOrEmpty(value) ? " " : value); }
         }
     }
 }

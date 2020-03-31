@@ -3419,7 +3419,7 @@ Initialize the temporary location.</value>
   <data name="ParamExternalProtocol" xml:space="preserve">
     <value>Protocol</value>
   </data>
-  <data name="ParamExternalProtocolTips" xml:space="preserve">
+  <data name="ParamExternalParameterTips" xml:space="preserve">
     <value>$File will be replaced with the file path. $Uri is replaced with the URI escaped file path.</value>
   </data>
   <data name="ParamFileInformationIsUseExifDateTime" xml:space="preserve">

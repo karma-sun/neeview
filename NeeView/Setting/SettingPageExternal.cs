@@ -19,12 +19,12 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageExternalGeneralCopyToClipboard,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Clipboard, nameof(ClipboardConfig.MultiPageOption))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Clipboard, nameof(ClipboardConfig.ArchiveOption))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Clipboard, nameof(ClipboardConfig.MultiPagePolicy))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Clipboard, nameof(ClipboardConfig.ArchivePolicy))),
                     new SettingItemGroup(
                         new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Clipboard, nameof(ClipboardConfig.ArchiveSeparater))))
                         {
-                            VisibleTrigger = new DataTriggerSource(Config.Current.Clipboard, nameof(ClipboardConfig.ArchiveOption), ArchiveOptionType.SendArchivePath, true),
+                            VisibleTrigger = new DataTriggerSource(Config.Current.Clipboard, nameof(ClipboardConfig.ArchivePolicy), ArchivePolicy.SendArchivePath, true),
                         }),
 
                 new SettingItemSection(Properties.Resources.SettingPageExternalGeneralFromBrowser,
@@ -40,24 +40,14 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageExternalProgramSetting,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.External, nameof(ExternalConfig.ProgramType))),
-                    new SettingItemGroup(
-                        new SettingItemProperty(PropertyMemberElement.Create(Config.Current.External, nameof(ExternalConfig.Command))) { IsStretch = true },
-                        new SettingItemProperty(PropertyMemberElement.Create(Config.Current.External, nameof(ExternalConfig.Parameter))) { IsStretch = true })
-                    {
-                        VisibleTrigger = new DataTriggerSource(Config.Current.External, nameof(ExternalConfig.ProgramType), ExternalProgramType.Normal, true),
-                    },
-                    new SettingItemGroup(
-                        new SettingItemProperty(PropertyMemberElement.Create(Config.Current.External, nameof(ExternalConfig.Protocol))) { IsStretch = true })
-                    {
-                        VisibleTrigger = new DataTriggerSource(Config.Current.External, nameof(ExternalConfig.ProgramType), ExternalProgramType.Protocol, true),
-                    },
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.External, nameof(ExternalConfig.MultiPageOption))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.External, nameof(ExternalConfig.ArchiveOption))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.External, nameof(ExternalConfig.Command))) { IsStretch = true },
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.External, nameof(ExternalConfig.Parameter))) { IsStretch = true },
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.External, nameof(ExternalConfig.MultiPagePolicy))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.External, nameof(ExternalConfig.ArchivePolicy))),
                     new SettingItemGroup(
                         new SettingItemProperty(PropertyMemberElement.Create(Config.Current.External, nameof(ExternalConfig.ArchiveSeparater))))
                         {
-                            VisibleTrigger = new DataTriggerSource(Config.Current.External, nameof(ExternalConfig.ArchiveOption), ArchiveOptionType.SendArchivePath, true),
+                            VisibleTrigger = new DataTriggerSource(Config.Current.External, nameof(ExternalConfig.ArchivePolicy), ArchivePolicy.SendArchivePath, true),
                         }),
             };
         }

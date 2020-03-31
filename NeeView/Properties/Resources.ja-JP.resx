@@ -3419,7 +3419,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamExternalProtocol" xml:space="preserve">
     <value>プロトコル</value>
   </data>
-  <data name="ParamExternalProtocolTips" xml:space="preserve">
+  <data name="ParamExternalParameterTips" xml:space="preserve">
     <value>$File はファイルパスに置換されます。$Uri はURIエスケープされたファイルパスに置換されます。</value>
   </data>
   <data name="ParamFileInformationIsUseExifDateTime" xml:space="preserve">

@@ -1151,16 +1151,14 @@ namespace NeeView
                 config.Book.PageEndAction = PageEndAction;
                 config.Book.IsNotifyPageLoop = IsNotifyPageLoop;
 
-                config.External.ProgramType = ExternalApplication.ProgramType;
                 config.External.Command = ExternalApplication.Command;
                 config.External.Parameter = ExternalApplication.Parameter;
-                config.External.Protocol = ExternalApplication.Protocol;
-                config.External.MultiPageOption = ExternalApplication.MultiPageOption;
-                config.External.ArchiveOption = ExternalApplication.ArchiveOption;
+                config.External.MultiPagePolicy = ExternalApplication.MultiPageOption;
+                config.External.ArchivePolicy = ExternalApplication.ArchiveOption;
                 config.External.ArchiveSeparater = ExternalApplication.ArchiveSeparater;
 
-                config.Clipboard.MultiPageOption = ClipboardUtility.MultiPageOption;
-                config.Clipboard.ArchiveOption = ClipboardUtility.ArchiveOption;
+                config.Clipboard.MultiPagePolicy = ClipboardUtility.MultiPageOption;
+                config.Clipboard.ArchivePolicy = ClipboardUtility.ArchiveOption;
                 config.Clipboard.ArchiveSeparater = ClipboardUtility.ArchiveSeparater;
             }
         }
@@ -1180,7 +1178,7 @@ namespace NeeView
 
         public class ExternalApplicationMemento
         {
-            [DataMember]
+            [Obsolete, DataMember]
             public ExternalProgramType ProgramType { get; set; }
 
             [DataMember]
@@ -1189,31 +1187,41 @@ namespace NeeView
             [DataMember]
             public string Parameter { get; set; }
 
-            [DataMember]
+            [Obsolete, DataMember]
             public string Protocol { get; set; }
 
             // 複数ページのときの動作
             [PropertyMember("@ParamExternalMultiPageOption")]
-            public MultiPageOptionType MultiPageOption { get; set; }
+            public MultiPagePolicy MultiPageOption { get; set; }
 
             // 圧縮ファイルのときの動作
             [DataMember]
-            public ArchiveOptionType ArchiveOption { get; set; }
+            public ArchivePolicy ArchiveOption { get; set; }
 
             [DataMember]
             public string ArchiveSeparater { get; set; }
 
 
+            [OnDeserialized]
+            private void OnDeserialized(StreamingContext context)
+            {
+#pragma warning disable CS0612 // 型またはメンバーが旧型式です
+                if (ProgramType == ExternalProgramType.Protocol)
+                {
+                    Command = "";
+                    Parameter = Protocol;
+                }
+#pragma warning restore CS0612 // 型またはメンバーが旧型式です
+            }
+
             public static ExternalApplicationMemento CreateMemento()
             {
                 return new ExternalApplicationMemento()
                 {
-                    ProgramType = Config.Current.External.ProgramType,
                     Command = Config.Current.External.Command,
                     Parameter = Config.Current.External.Parameter,
-                    Protocol = Config.Current.External.Protocol,
-                    MultiPageOption = Config.Current.External.MultiPageOption,
-                    ArchiveOption = Config.Current.External.ArchiveOption,
+                    MultiPageOption = Config.Current.External.MultiPagePolicy,
+                    ArchiveOption = Config.Current.External.ArchivePolicy,
                     ArchiveSeparater = Config.Current.External.ArchiveSeparater,
                 };
             }
@@ -1223,9 +1231,9 @@ namespace NeeView
         public class ClipboardUtilityMemento
         {
             [DataMember]
-            public MultiPageOptionType MultiPageOption { get; set; }
+            public MultiPagePolicy MultiPageOption { get; set; }
             [DataMember]
-            public ArchiveOptionType ArchiveOption { get; set; }
+            public ArchivePolicy ArchiveOption { get; set; }
             [DataMember]
             public string ArchiveSeparater { get; set; }
 
@@ -1233,8 +1241,8 @@ namespace NeeView
             {
                 return new ClipboardUtilityMemento()
                 {
-                    MultiPageOption = Config.Current.Clipboard.MultiPageOption,
-                    ArchiveOption = Config.Current.Clipboard.ArchiveOption,
+                    MultiPageOption = Config.Current.Clipboard.MultiPagePolicy,
+                    ArchiveOption = Config.Current.Clipboard.ArchivePolicy,
                     ArchiveSeparater = Config.Current.Clipboard.ArchiveSeparater
                 };
             }

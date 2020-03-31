@@ -25,22 +25,22 @@ namespace NeeView
                 // in archive
                 else
                 {
-                    switch (Config.Current.Clipboard.ArchiveOption)
+                    switch (Config.Current.Clipboard.ArchivePolicy)
                     {
-                        case ArchiveOptionType.None:
+                        case ArchivePolicy.None:
                             break;
-                        case ArchiveOptionType.SendArchiveFile:
+                        case ArchivePolicy.SendArchiveFile:
                             files.Add(page.GetFilePlace());
                             break;
-                        case ArchiveOptionType.SendExtractFile:
+                        case ArchivePolicy.SendExtractFile:
                             files.Add(page.ContentAccessor.CreateTempFile(true).Path);
                             break;
-                        case ArchiveOptionType.SendArchivePath:
+                        case ArchivePolicy.SendArchivePath:
                             files.Add(page.Entry.CreateArchivePath(Config.Current.Clipboard.ArchiveSeparater));
                             break;
                     }
                 }
-                if (Config.Current.Clipboard.MultiPageOption == MultiPageOptionType.Once || Config.Current.Clipboard.ArchiveOption == ArchiveOptionType.SendArchiveFile) break;
+                if (Config.Current.Clipboard.MultiPagePolicy == MultiPagePolicy.Once || Config.Current.Clipboard.ArchivePolicy == ArchivePolicy.SendArchiveFile) break;
             }
 
             if (files.Count > 0)

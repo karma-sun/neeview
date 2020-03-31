@@ -6,27 +6,27 @@ namespace NeeView
 {
     public class ClipboardConfig : BindableBase
     {
-        private ArchiveOptionType _archiveOption = ArchiveOptionType.SendExtractFile;
+        private ArchivePolicy _archivePolicy = ArchivePolicy.SendExtractFile;
         private string _archiveSeparater;
-        private MultiPageOptionType _multiPageOption = MultiPageOptionType.Once;
+        private MultiPagePolicy _multiPagePolicy = MultiPagePolicy.Once;
 
 
         // 複数ページのときの動作
         [DataMember]
         [PropertyMember("@ParamClipboardMultiPageOption")]
-        public MultiPageOptionType MultiPageOption
+        public MultiPagePolicy MultiPagePolicy
         {
-            get { return _multiPageOption; }
-            set { SetProperty(ref _multiPageOption, value); }
+            get { return _multiPagePolicy; }
+            set { SetProperty(ref _multiPagePolicy, value); }
         }
 
         // 圧縮ファイルのときの動作
         [DataMember]
         [PropertyMember("@ParamClipboardArchiveOption")]
-        public ArchiveOptionType ArchiveOption
+        public ArchivePolicy ArchivePolicy
         {
-            get { return _archiveOption; }
-            set { SetProperty(ref _archiveOption, value); }
+            get { return _archivePolicy; }
+            set { SetProperty(ref _archivePolicy, value); }
         }
 
         [DataMember(EmitDefaultValue = false)]

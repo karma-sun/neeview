@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace NeeView
 {
     // プログラムの種類
+    [Obsolete]
     public enum ExternalProgramType
     {
         [AliasName("@EnumExternalProgramTypeNormal")]
@@ -19,7 +20,7 @@ namespace NeeView
     }
 
     // 複数ページのときの動作
-    public enum MultiPageOptionType
+    public enum MultiPagePolicy
     {
         [AliasName("@EnumMultiPageOptionTypeOnce")]
         Once,
@@ -29,7 +30,7 @@ namespace NeeView
     };
 
     // 圧縮ファイルの時の動作
-    public enum ArchiveOptionType
+    public enum ArchivePolicy
     {
         [AliasName("@EnumArchiveOptionTypeNone")]
         None,
@@ -44,6 +45,30 @@ namespace NeeView
         SendExtractFile,
     }
 
+    public class ExternalApplicationParameters
+    {
+        public string Command { get; set; }
+
+        public string Parameter { get; set; }
+
+        public ArchivePolicy ArchivePolicy { get; set; }
+        
+        public string ArchiveSeparater { get; set; }
+
+        public MultiPagePolicy MutiPagePolicy { get; set; }
+
+
+        public static ExternalApplicationParameters CreateDefaultParameters()
+        {
+            var parameters = new ExternalApplicationParameters();
+            parameters.Command = Config.Current.External.Command;
+            parameters.Parameter = Config.Current.External.Parameter;
+            parameters.ArchivePolicy = Config.Current.External.ArchivePolicy;
+            parameters.ArchiveSeparater = Config.Current.External.ArchiveSeparater;
+            parameters.MutiPagePolicy = Config.Current.External.MultiPagePolicy;
+            return parameters;
+        }
+    }
 
     // 外部アプリ起動
     public class ExternalApplicationUtility
@@ -75,14 +100,14 @@ namespace NeeView
                 // in archive
                 else
                 {
-                    switch (Config.Current.External.ArchiveOption)
+                    switch (Config.Current.External.ArchivePolicy)
                     {
-                        case ArchiveOptionType.None:
+                        case ArchivePolicy.None:
                             break;
-                        case ArchiveOptionType.SendArchiveFile:
+                        case ArchivePolicy.SendArchiveFile:
                             CallProcess(page.GetFolderOpenPlace());
                             break;
-                        case ArchiveOptionType.SendExtractFile:
+                        case ArchivePolicy.SendExtractFile:
                             if (page.Entry.IsDirectory)
                             {
                                 throw new ApplicationException(Properties.Resources.ExceptionNotSupportArchiveFolder);
@@ -92,46 +117,33 @@ namespace NeeView
                                 CallProcess(page.ContentAccessor.CreateTempFile(true).Path);
                             }
                             break;
-                        case ArchiveOptionType.SendArchivePath:
+                        case ArchivePolicy.SendArchivePath:
                             CallProcess(page.Entry.CreateArchivePath(Config.Current.External.ArchiveSeparater));
                             break;
                     }
                 }
-                if (Config.Current.External.MultiPageOption == MultiPageOptionType.Once || Config.Current.External.ArchiveOption == ArchiveOptionType.SendArchiveFile) break;
+                if (Config.Current.External.MultiPagePolicy == MultiPagePolicy.Once || Config.Current.External.ArchivePolicy == ArchivePolicy.SendArchiveFile) break;
             }
         }
 
         // 外部アプリの実行(コア)
         private void CallProcess(string fileName)
         {
-            switch (Config.Current.External.ProgramType)
-            {
-                case ExternalProgramType.Normal:
-                    if (string.IsNullOrWhiteSpace(Config.Current.External.Command))
-                    {
-                        this.LastCall = $"\"{fileName}\"";
-                        Debug.WriteLine($"CallProcess: {LastCall}");
-                        System.Diagnostics.Process.Start(fileName);
-                    }
-                    else
-                    {
-                        string param = ReplaceKeyword(Config.Current.External.Parameter, fileName);
-                        this.LastCall = $"\"{Config.Current.External.Command}\" {param}";
-                        Debug.WriteLine($"CallProcess: {LastCall}");
-                        System.Diagnostics.Process.Start(Config.Current.External.Command, param);
-                    }
-                    return;
+            string param = ReplaceKeyword(Config.Current.External.Parameter, fileName);
 
-                case ExternalProgramType.Protocol:
-                    if (!string.IsNullOrWhiteSpace(Config.Current.External.Protocol))
-                    {
-                        string protocol = ReplaceKeyword(Config.Current.External.Protocol, fileName);
-                        this.LastCall = protocol;
-                        Debug.WriteLine($"CallProcess: {LastCall}");
-                        System.Diagnostics.Process.Start(protocol);
-                    }
-                    return;
+            if (string.IsNullOrWhiteSpace(Config.Current.External.Command))
+            {
+                this.LastCall = $"\"{param}\"";
+                Debug.WriteLine($"CallProcess: {LastCall}");
+                System.Diagnostics.Process.Start(param);
             }
+            else
+            {
+                this.LastCall = $"\"{Config.Current.External.Command}\" {param}";
+                Debug.WriteLine($"CallProcess: {LastCall}");
+                System.Diagnostics.Process.Start(Config.Current.External.Command, param);
+            }
+            return;
         }
 
         private static string ReplaceKeyword(string s, string filenName)

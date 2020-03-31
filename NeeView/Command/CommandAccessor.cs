@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace NeeView
 {
@@ -16,18 +18,21 @@ namespace NeeView
             Parameter = _command.Parameter != null ? new PropertyMap(_command.Parameter) : null;
         }
 
+        [WordNodeMember]
         public string ShortCutKey
         {
             get { return _command.ShortCutKey; }
             set { _command.ShortCutKey = value; }
         }
 
+        [WordNodeMember]
         public string TouchGesture
         {
             get { return _command.TouchGesture; }
             set { _command.TouchGesture = value; }
         }
 
+        [WordNodeMember]
         public string MouseGesture
         {
             get { return _command.MouseGesture; }
@@ -37,6 +42,7 @@ namespace NeeView
         public PropertyMap Parameter { get; }
 
 
+        [WordNodeMember]
         public bool Execute(params object[] args)
         {
             var parameter = _command.CreateOverwriteCommandParameter(_patch);
@@ -52,6 +58,7 @@ namespace NeeView
             }
         }
 
+        [WordNodeMember]
         public CommandAccessor Patch(IDictionary<string, object> patch)
         {
             if (_patch == null)
@@ -68,6 +75,38 @@ namespace NeeView
 
             return this;
         }
+
+        internal WordNode CreateWordNode(string commandName)
+        {
+            var node = new WordNode(commandName);
+            node.Children = new List<WordNode>();
+
+            var methods = GetType().GetMethods(BindingFlags.Public | BindingFlags.Instance);
+            foreach (var method in methods)
+            {
+                if (method.GetCustomAttribute<WordNodeMemberAttribute>() != null)
+                {
+                    node.Children.Add(new WordNode(method.Name));
+                }
+            }
+
+            var properties = GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            foreach (var property in properties)
+            {
+                if (property.GetCustomAttribute<WordNodeMemberAttribute>() != null)
+                {
+                    node.Children.Add(new WordNode(property.Name));
+                }
+            }
+
+            if (Parameter != null)
+            {
+                node.Children.Add(Parameter.CreateWordNode(nameof(Parameter)));
+            }
+
+            return node;
+        }
+
     }
 
 }

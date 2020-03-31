@@ -17,7 +17,7 @@
             <TextBox x:Name="OutputBlock" Style="{StaticResource ConsoleTextBoxStyle}" Margin="0,0,0,0" IsReadOnly="True" Background="Black" IsTabStop="False" Visibility="Collapsed" />
             <DockPanel>
                 <TextBlock Text="{Binding Prompt}" Style="{StaticResource ConsoleTextBlockStyle}" Margin="2,0,0,0" />
-                <TextBox x:Name="InputBlock" Text="{Binding ConsoleInput, Mode=TwoWay}" Margin="-2,0,0,0" Style="{StaticResource ConsoleTextBoxStyle}" />
+                <TextBox x:Name="InputBlock" Text="{Binding ConsoleInput, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="-2,0,0,0" Style="{StaticResource ConsoleTextBoxStyle}" />
             </DockPanel>
         </StackPanel>
     </ScrollViewer>

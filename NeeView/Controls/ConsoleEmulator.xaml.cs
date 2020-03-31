@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -46,7 +47,8 @@ namespace NeeView
         private string _consoleInput = string.Empty;
         private List<string> _history = new List<string>();
         private int _historyIndex;
-
+        private List<string> _candidates;
+        private int _candidatesIndex;
 
         public ConsoleEmulator()
         {
@@ -156,6 +158,32 @@ namespace NeeView
 
         private void InputBlock_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            if (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl || e.Key == Key.LeftShift || e.Key == Key.RightShift || e.Key == Key.System)
+            {
+                return;
+            }
+
+            // TAB interpolation
+            if (e.Key == Key.Tab && ConsoleHost.WordTree != null)
+            {
+                if (_candidates == null)
+                {
+                    _candidates = ConsoleHost.WordTree.Interpolate(ConsoleInput).OrderBy(x => x).ToList();
+                    _candidatesIndex = 0;
+                }
+                else
+                {
+                    var direction = Keyboard.Modifiers.HasFlag(ModifierKeys.Shift) ? -1 : 1;
+                    _candidatesIndex = (_candidatesIndex + _candidates.Count + direction) % _candidates.Count;
+                }
+                ConsoleInput = _candidates[_candidatesIndex];
+                FocusToInputBlock();
+                e.Handled = true;
+                return;
+            }
+
+            _candidates = null;
+
             if (e.Key == Key.Enter)
             {
                 ConsoleInput = InputBlock.Text;
@@ -278,6 +306,8 @@ namespace NeeView
     public interface IConsoleHost
     {
         event EventHandler<ConsoleHostOutputEventArgs> Output;
+
+        WordTree WordTree { get; set; }
 
         string Execute(string input);
     }

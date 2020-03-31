@@ -44,9 +44,27 @@ namespace NeeView
             _engine = new JavascriptEngine(host);
             _engine.CurrentPath = Config.Current.Script.GetCurrentScriptFolder();
             _engine.LogAction = e => Output?.Invoke(this, new ConsoleHostOutputEventArgs(ToJavascriptString(e, false)));
+
+            var wordTreeRoot = new WordNode()
+            {
+                Children = new List<WordNode>()
+                {
+                    new WordNode("cls"),
+                    new WordNode("help"),
+                    new WordNode("exit"),
+                    new WordNode("log"),
+                    new WordNode("system"),
+                    new WordNode("include"),
+                    host.CreateWordNode("nv"),
+                },
+            };
+
+            WordTree = new WordTree(wordTreeRoot);
         }
 
         public event EventHandler<ConsoleHostOutputEventArgs> Output;
+
+        public WordTree WordTree { get; set; }
 
         public string Execute(string input)
         {

@@ -113,6 +113,26 @@ namespace NeeView
             _items.Add(memberName ?? propertyName, new PropertyMapSource(source, property, converter, null));
         }
 
+        internal WordNode CreateWordNode(string name)
+        {
+            var node = new WordNode(name);
+            if (_items.Any())
+            {
+                node.Children = new List<WordNode>();
+                foreach (var item in _items)
+                {
+                    if (item.Value is PropertyMap propertyMap)
+                    {
+                        node.Children.Add(propertyMap.CreateWordNode(item.Key));
+                    }
+                    else
+                    {
+                        node.Children.Add(new WordNode(item.Key));
+                    }
+                }
+            }
+            return node;
+        }
 
         internal string CreateHelpHtml(string prefix)
         {

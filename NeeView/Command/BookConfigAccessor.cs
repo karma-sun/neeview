@@ -1,4 +1,8 @@
-﻿namespace NeeView
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+
+namespace NeeView
 {
     public class BookConfigAccessor
     {
@@ -8,7 +12,6 @@
             get { return BookSettingPresenter.Current.LatestSetting.PageMode == PageMode.WidePage ? 2 : 1; }
             set { BookSettingPresenter.Current.SetPageMode(value == 2 ? PageMode.WidePage : PageMode.SinglePage); }
         }
-
 
         // [Parameter(typeof(BookReadOrder))]
         public string BookReadOrder
@@ -53,8 +56,19 @@
             get { return BookSettingPresenter.Current.LatestSetting.SortMode.ToString(); }
             set { BookSettingPresenter.Current.SetSortMode(value.ToEnum<PageSortMode>()); }
         }
+
+        internal WordNode CreateWordNode(string name)
+        {
+            var node = new WordNode(name);
+            node.Children = new List<WordNode>();
+
+            var properties = GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            foreach (var property in properties)
+            {
+                node.Children.Add(new WordNode(property.Name));
+            }
+
+            return node;
+        }
     }
-
-
-
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace NeeView
 {
@@ -29,16 +30,19 @@ namespace NeeView
         public CommandAccessorMap Command { get; }
 
 
+        [WordNodeMember]
         public void ShowMessage(string message)
         {
             InfoMessage.Current.SetMessage(InfoMessageType.Notify, message);
         }
 
+        [WordNodeMember]
         public void ShowToast(string message)
         {
             ToastService.Current.Show(new Toast(message));
         }
 
+        [WordNodeMember]
         public bool ShowDialog(string title, string message = "", int commands = 0)
         {
             var dialog = new MessageDialog(message, title);
@@ -58,5 +62,32 @@ namespace NeeView
             var result = dialog.ShowDialog(App.Current.MainWindow);
             return (result == UICommands.Yes || result == UICommands.OK);
         }
+
+        internal WordNode CreateWordNode(string name)
+        {
+            var node = new WordNode(name);
+            node.Children = new List<WordNode>();
+
+            var methods = this.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public);
+            foreach(var method in methods)
+            {
+                if (method.GetCustomAttribute<WordNodeMemberAttribute>() != null)
+                {
+                    node.Children.Add(new WordNode(method.Name));
+                }
+            }
+
+            node.Children.Add(new WordNode(nameof(Values)));
+            node.Children.Add(Config.CreateWordNode(nameof(Config)));
+
+            node.Children.Add(Book.CreateWordNode(nameof(Book)));
+            node.Children.Add(Command.CreateWordNode(nameof(Command)));
+
+            return node;
+        }
+    }
+
+    public class WordNodeMemberAttribute : Attribute
+    {
     }
 }

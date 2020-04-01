@@ -45,30 +45,7 @@ namespace NeeView
         SendExtractFile,
     }
 
-    public class ExternalApplicationParameters
-    {
-        public string Command { get; set; }
 
-        public string Parameter { get; set; }
-
-        public ArchivePolicy ArchivePolicy { get; set; }
-        
-        public string ArchiveSeparater { get; set; }
-
-        public MultiPagePolicy MutiPagePolicy { get; set; }
-
-
-        public static ExternalApplicationParameters CreateDefaultParameters()
-        {
-            var parameters = new ExternalApplicationParameters();
-            parameters.Command = Config.Current.External.Command;
-            parameters.Parameter = Config.Current.External.Parameter;
-            parameters.ArchivePolicy = Config.Current.External.ArchivePolicy;
-            parameters.ArchiveSeparater = Config.Current.External.ArchiveSeparater;
-            parameters.MutiPagePolicy = Config.Current.External.MultiPagePolicy;
-            return parameters;
-        }
-    }
 
     // 外部アプリ起動
     public class ExternalApplicationUtility
@@ -81,12 +58,12 @@ namespace NeeView
         {
             if (source == null) source = "";
             source = source.Trim();
-            return source.Contains(ExternalConfig.KeyFile) ? source : (source + $" \"{ExternalConfig.KeyFile}\"").Trim();
+            return source.Contains(OpenExternalAppCommandParameter.KeyFile) ? source : (source + $" \"{OpenExternalAppCommandParameter.KeyFile}\"");
         }
 
 
         // 外部アプリの実行
-        public void Call(List<Page> pages)
+        public void Call(List<Page> pages, OpenExternalAppCommandParameter options)
         {
             this.LastCall = null;
 
@@ -95,17 +72,17 @@ namespace NeeView
                 // file
                 if (page.Entry.Archiver is FolderArchive)
                 {
-                    CallProcess(page.GetFilePlace());
+                    CallProcess(page.GetFilePlace(), options);
                 }
                 // in archive
                 else
                 {
-                    switch (Config.Current.External.ArchivePolicy)
+                    switch (options.ArchivePolicy)
                     {
                         case ArchivePolicy.None:
                             break;
                         case ArchivePolicy.SendArchiveFile:
-                            CallProcess(page.GetFolderOpenPlace());
+                            CallProcess(page.GetFolderOpenPlace(), options);
                             break;
                         case ArchivePolicy.SendExtractFile:
                             if (page.Entry.IsDirectory)
@@ -114,24 +91,24 @@ namespace NeeView
                             }
                             else
                             {
-                                CallProcess(page.ContentAccessor.CreateTempFile(true).Path);
+                                CallProcess(page.ContentAccessor.CreateTempFile(true).Path, options);
                             }
                             break;
                         case ArchivePolicy.SendArchivePath:
-                            CallProcess(page.Entry.CreateArchivePath(Config.Current.External.ArchiveSeparater));
+                            CallProcess(page.Entry.CreateArchivePath(options.ArchiveSeparater), options);
                             break;
                     }
                 }
-                if (Config.Current.External.MultiPagePolicy == MultiPagePolicy.Once || Config.Current.External.ArchivePolicy == ArchivePolicy.SendArchiveFile) break;
+                if (options.MultiPagePolicy == MultiPagePolicy.Once || options.ArchivePolicy == ArchivePolicy.SendArchiveFile) break;
             }
         }
 
         // 外部アプリの実行(コア)
-        private void CallProcess(string fileName)
+        private void CallProcess(string fileName, OpenExternalAppCommandParameter options)
         {
-            string param = ReplaceKeyword(Config.Current.External.Parameter, fileName);
+            string param = ReplaceKeyword(ValidateApplicationParam(options.Parameter), fileName);
 
-            if (string.IsNullOrWhiteSpace(Config.Current.External.Command))
+            if (string.IsNullOrWhiteSpace(options.Command))
             {
                 this.LastCall = $"\"{param}\"";
                 Debug.WriteLine($"CallProcess: {LastCall}");
@@ -139,9 +116,9 @@ namespace NeeView
             }
             else
             {
-                this.LastCall = $"\"{Config.Current.External.Command}\" {param}";
+                this.LastCall = $"\"{options.Command}\" {param}";
                 Debug.WriteLine($"CallProcess: {LastCall}");
-                System.Diagnostics.Process.Start(Config.Current.External.Command, param);
+                System.Diagnostics.Process.Start(options.Command, param);
             }
             return;
         }
@@ -150,8 +127,8 @@ namespace NeeView
         {
             var uriData = Uri.EscapeDataString(filenName);
 
-            s = s.Replace(ExternalConfig.KeyUri, uriData);
-            s = s.Replace(ExternalConfig.KeyFile, filenName);
+            s = s.Replace(OpenExternalAppCommandParameter.KeyUri, uriData);
+            s = s.Replace(OpenExternalAppCommandParameter.KeyFile, filenName);
             return s;
         }
     }

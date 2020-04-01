@@ -8,6 +8,8 @@
             this.Text = Properties.Resources.CommandOpenApplication;
             this.Note = Properties.Resources.CommandOpenApplicationNote;
             this.IsShowMessage = false;
+
+            this.ParameterSource = new CommandParameterSource(new OpenExternalAppCommandParameter());
         }
 
         public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)
@@ -17,7 +19,7 @@
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            BookOperation.Current.OpenApplication();
+            BookOperation.Current.OpenApplication((OpenExternalAppCommandParameter)param);
         }
     }
 }

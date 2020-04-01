@@ -87,10 +87,6 @@ namespace NeeView
 
         public BookSettingPolicyConfig BookSettingPolicy { get; set; } = new BookSettingPolicyConfig();
 
-        public ClipboardConfig Clipboard { get; set; } = new ClipboardConfig();
-
-        public ExternalConfig External { get; set; } = new ExternalConfig();
-
         public CommandConfig Command { get; set; } = new CommandConfig();
 
         public ScriptConfig Script { get; set; } = new ScriptConfig();

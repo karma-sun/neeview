@@ -11,7 +11,7 @@ namespace NeeView
     public static class ClipboardUtility
     {
         // クリップボードにコピー
-        public static void Copy(List<Page> pages)
+        public static void Copy(List<Page> pages, CopyFileCommandParameter parameter)
         {
             var files = new List<string>();
 
@@ -25,7 +25,7 @@ namespace NeeView
                 // in archive
                 else
                 {
-                    switch (Config.Current.Clipboard.ArchivePolicy)
+                    switch (parameter.ArchivePolicy)
                     {
                         case ArchivePolicy.None:
                             break;
@@ -36,11 +36,11 @@ namespace NeeView
                             files.Add(page.ContentAccessor.CreateTempFile(true).Path);
                             break;
                         case ArchivePolicy.SendArchivePath:
-                            files.Add(page.Entry.CreateArchivePath(Config.Current.Clipboard.ArchiveSeparater));
+                            files.Add(page.Entry.CreateArchivePath(parameter.ArchiveSeparater));
                             break;
                     }
                 }
-                if (Config.Current.Clipboard.MultiPagePolicy == MultiPagePolicy.Once || Config.Current.Clipboard.ArchivePolicy == ArchivePolicy.SendArchiveFile) break;
+                if (parameter.MultiPagePolicy == MultiPagePolicy.Once || parameter.ArchivePolicy == ArchivePolicy.SendArchiveFile) break;
             }
 
             if (files.Count > 0)

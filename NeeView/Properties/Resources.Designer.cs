@@ -9651,6 +9651,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   This is the setting when &quot;@ParamClipboardArchiveSeparater&quot; is &quot;@EnumArchiveOptionTypeSendArchivePath&quot;. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamClipboardArchiveSeparaterTips {
+            get {
+                return ResourceManager.GetString("ParamClipboardArchiveSeparaterTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   For 2 pages に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamClipboardMultiPageOption {
@@ -10403,6 +10412,15 @@ namespace NeeView.Properties {
         public static string ParamExternalArchiveSeparater {
             get {
                 return ResourceManager.GetString("ParamExternalArchiveSeparater", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   This is the setting when &quot;@ParamExternalArchiveSeparater&quot; is &quot;@EnumArchiveOptionTypeSendArchivePath&quot;. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamExternalArchiveSeparaterTips {
+            get {
+                return ResourceManager.GetString("ParamExternalArchiveSeparaterTips", resourceCulture);
             }
         }
         

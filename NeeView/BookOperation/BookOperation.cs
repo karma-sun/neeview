@@ -325,14 +325,14 @@ namespace NeeView
 
 
         // 外部アプリで開く
-        public void OpenApplication()
+        public void OpenApplication(OpenExternalAppCommandParameter parameter)
         {
             if (CanOpenFilePlace())
             {
                 var external = new ExternalApplicationUtility();
                 try
                 {
-                    external.Call(Book?.Viewer.GetViewPages());
+                    external.Call(Book?.Viewer.GetViewPages(), parameter);
                 }
                 catch (Exception e)
                 {
@@ -350,13 +350,13 @@ namespace NeeView
 
 
         // クリップボードにコピー
-        public void CopyToClipboard()
+        public void CopyToClipboard(CopyFileCommandParameter parameter)
         {
             if (CanOpenFilePlace())
             {
                 try
                 {
-                    ClipboardUtility.Copy(Book?.Viewer.GetViewPages());
+                    ClipboardUtility.Copy(Book?.Viewer.GetViewPages(), parameter);
                 }
                 catch (Exception e)
                 {
@@ -1151,15 +1151,7 @@ namespace NeeView
                 config.Book.PageEndAction = PageEndAction;
                 config.Book.IsNotifyPageLoop = IsNotifyPageLoop;
 
-                config.External.Command = ExternalApplication.Command;
-                config.External.Parameter = ExternalApplication.Parameter;
-                config.External.MultiPagePolicy = ExternalApplication.MultiPageOption;
-                config.External.ArchivePolicy = ExternalApplication.ArchiveOption;
-                config.External.ArchiveSeparater = ExternalApplication.ArchiveSeparater;
-
-                config.Clipboard.MultiPagePolicy = ClipboardUtility.MultiPageOption;
-                config.Clipboard.ArchivePolicy = ClipboardUtility.ArchiveOption;
-                config.Clipboard.ArchiveSeparater = ClipboardUtility.ArchiveSeparater;
+                // NOTE: ExternalApplication と ClipboardUtility は上位で処理されている
             }
         }
 
@@ -1216,13 +1208,14 @@ namespace NeeView
 
             public static ExternalApplicationMemento CreateMemento()
             {
+                var parameter = (OpenExternalAppCommandParameter)CommandTable.Current.GetElement("OpenExternalApp").Parameter;
                 return new ExternalApplicationMemento()
                 {
-                    Command = Config.Current.External.Command,
-                    Parameter = Config.Current.External.Parameter,
-                    MultiPageOption = Config.Current.External.MultiPagePolicy,
-                    ArchiveOption = Config.Current.External.ArchivePolicy,
-                    ArchiveSeparater = Config.Current.External.ArchiveSeparater,
+                    Command = parameter.Command,
+                    Parameter = parameter.Parameter,
+                    MultiPageOption = parameter.MultiPagePolicy,
+                    ArchiveOption = parameter.ArchivePolicy,
+                    ArchiveSeparater = parameter.ArchiveSeparater,
                 };
             }
         }
@@ -1239,11 +1232,12 @@ namespace NeeView
 
             public static ClipboardUtilityMemento CreateMemento()
             {
+                var parameter = (CopyFileCommandParameter)CommandTable.Current.GetElement("CopyFile").Parameter;
                 return new ClipboardUtilityMemento()
                 {
-                    MultiPageOption = Config.Current.Clipboard.MultiPagePolicy,
-                    ArchiveOption = Config.Current.Clipboard.ArchivePolicy,
-                    ArchiveSeparater = Config.Current.Clipboard.ArchiveSeparater
+                    MultiPageOption = parameter.MultiPagePolicy,
+                    ArchiveOption = parameter.ArchivePolicy,
+                    ArchiveSeparater = parameter.ArchiveSeparater
                 };
             }
         }

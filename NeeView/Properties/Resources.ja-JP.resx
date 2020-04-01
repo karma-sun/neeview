@@ -3183,7 +3183,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>圧縮ファイルの場合</value>
   </data>
   <data name="ParamClipboardArchiveSeparater" xml:space="preserve">
-    <value>ファイル名との区切り文字</value>
+    <value>圧縮ファイルとファイル名の間の区切り文字</value>
   </data>
   <data name="ParamClipboardMultiPageOption" xml:space="preserve">
     <value>2ページの場合</value>
@@ -3399,7 +3399,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>圧縮ファイルの場合</value>
   </data>
   <data name="ParamExternalArchiveSeparater" xml:space="preserve">
-    <value>ファイル名との区切り文字</value>
+    <value>圧縮ファイルとファイル名の間の区切り文字</value>
   </data>
   <data name="ParamExternalCommand" xml:space="preserve">
     <value>プログラム</value>
@@ -5135,5 +5135,11 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="ParamBookshelfPageListVisible" xml:space="preserve">
     <value>ページリストを表示</value>
+  </data>
+  <data name="ParamExternalArchiveSeparaterTips" xml:space="preserve">
+    <value>「@ParamExternalArchiveSeparater」が「@EnumArchiveOptionTypeSendArchivePath」の時の設定です。</value>
+  </data>
+  <data name="ParamClipboardArchiveSeparaterTips" xml:space="preserve">
+    <value>「@ParamClipboardArchiveSeparater」が「@EnumArchiveOptionTypeSendArchivePath」の時の設定です。</value>
   </data>
 </root>

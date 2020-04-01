@@ -5136,4 +5136,10 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamBookshelfPageListVisible" xml:space="preserve">
     <value>Show page list</value>
   </data>
+  <data name="ParamExternalArchiveSeparaterTips" xml:space="preserve">
+    <value>This is the setting when "@ParamExternalArchiveSeparater" is "@EnumArchiveOptionTypeSendArchivePath".</value>
+  </data>
+  <data name="ParamClipboardArchiveSeparaterTips" xml:space="preserve">
+    <value>This is the setting when "@ParamClipboardArchiveSeparater" is "@EnumArchiveOptionTypeSendArchivePath".</value>
+  </data>
 </root>

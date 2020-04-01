@@ -10,6 +10,9 @@
             this.Note = Properties.Resources.CommandCopyFileNote;
             this.ShortCutKey = "Ctrl+C";
             this.IsShowMessage = true;
+
+            this.ParameterSource = new CommandParameterSource(new CopyFileCommandParameter());
+
         }
 
         public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)
@@ -19,7 +22,7 @@
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            BookOperation.Current.CopyToClipboard();
+            BookOperation.Current.CopyToClipboard((CopyFileCommandParameter)param);
         }
     }
 }

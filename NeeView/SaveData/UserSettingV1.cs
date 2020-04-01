@@ -91,6 +91,26 @@ namespace NeeView
             setting.SusiePlugins = this.SusieMemento?.CreateSusiePluginCollection() ?? new SusiePluginCollection();
             setting.Commands = this.CommandMememto?.CreateCommandCollection() ?? new CommandCollection();
             setting.DragActions = this.DragActionMemento?.CreateDragActionCollectioin() ?? new DragActionCollection();
+
+            // ver.37
+            if (setting.Commands.TryGetValue("OpenExternalApp", out var openExternalAppCommand))
+            {
+                var parameter = new OpenExternalAppCommandParameter();
+                parameter.Command = this.Memento.BookOperation.ExternalApplication.Command;
+                parameter.Parameter = this.Memento.BookOperation.ExternalApplication.Parameter;
+                parameter.MultiPagePolicy = this.Memento.BookOperation.ExternalApplication.MultiPageOption;
+                parameter.ArchivePolicy = this.Memento.BookOperation.ExternalApplication.ArchiveOption;
+                parameter.ArchiveSeparater = this.Memento.BookOperation.ExternalApplication.ArchiveSeparater;
+                openExternalAppCommand.Parameter = parameter;
+            }
+            if (setting.Commands.TryGetValue("CopyFile", out var copyFileCommand))
+            {
+                var parameter = new OpenExternalAppCommandParameter();
+                parameter.MultiPagePolicy = this.Memento.BookOperation.ClipboardUtility.MultiPageOption;
+                parameter.ArchivePolicy = this.Memento.BookOperation.ClipboardUtility.ArchiveOption;
+                parameter.ArchiveSeparater = this.Memento.BookOperation.ClipboardUtility.ArchiveSeparater;
+                copyFileCommand.Parameter = parameter;
+            }
         }
 
 

@@ -489,7 +489,7 @@ namespace NeeView
         public void OpenScriptHelp()
         {
             Directory.CreateDirectory(Temporary.Current.TempSystemDirectory);
-            string fileName = System.IO.Path.Combine(Temporary.Current.TempSystemDirectory, "CommandList.html");
+            string fileName = System.IO.Path.Combine(Temporary.Current.TempSystemDirectory, "ScriptManual.html");
 
             using (var writer = new System.IO.StreamWriter(fileName, false))
             {

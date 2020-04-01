@@ -9651,7 +9651,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   This is the setting when &quot;@ParamClipboardArchiveSeparater&quot; is &quot;@EnumArchiveOptionTypeSendArchivePath&quot;. に類似しているローカライズされた文字列を検索します。
+        ///   This is the setting when &quot;@ParamClipboardArchiveOption&quot; is &quot;@EnumArchiveOptionTypeSendArchivePath&quot;. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamClipboardArchiveSeparaterTips {
             get {
@@ -10416,7 +10416,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   This is the setting when &quot;@ParamExternalArchiveSeparater&quot; is &quot;@EnumArchiveOptionTypeSendArchivePath&quot;. に類似しているローカライズされた文字列を検索します。
+        ///   This is the setting when &quot;@ParamExternalArchiveOption&quot; is &quot;@EnumArchiveOptionTypeSendArchivePath&quot;. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamExternalArchiveSeparaterTips {
             get {

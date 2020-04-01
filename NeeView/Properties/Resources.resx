@@ -5137,9 +5137,9 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Show page list</value>
   </data>
   <data name="ParamExternalArchiveSeparaterTips" xml:space="preserve">
-    <value>This is the setting when "@ParamExternalArchiveSeparater" is "@EnumArchiveOptionTypeSendArchivePath".</value>
+    <value>This is the setting when "@ParamExternalArchiveOption" is "@EnumArchiveOptionTypeSendArchivePath".</value>
   </data>
   <data name="ParamClipboardArchiveSeparaterTips" xml:space="preserve">
-    <value>This is the setting when "@ParamClipboardArchiveSeparater" is "@EnumArchiveOptionTypeSendArchivePath".</value>
+    <value>This is the setting when "@ParamClipboardArchiveOption" is "@EnumArchiveOptionTypeSendArchivePath".</value>
   </data>
 </root>

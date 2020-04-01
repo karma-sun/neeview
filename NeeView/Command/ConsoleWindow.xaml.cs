@@ -134,10 +134,6 @@ namespace NeeView
             {
                 return "{" + string.Join(", ", dic.Select(e => "\"" + e.Key + "\": " + ToJavascriptString(e.Value, true))) + "}";
             }
-            else if (source is CommandParameter param)
-            {
-                return ToJavascriptString(param.ToDictionary(), true);
-            }
             else
             {
                 return source?.ToString();

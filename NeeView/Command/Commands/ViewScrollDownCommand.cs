@@ -1,4 +1,8 @@
-﻿namespace NeeView
+﻿using NeeLaboratory;
+using NeeView.Windows.Property;
+using System.Runtime.Serialization;
+
+namespace NeeView
 {
     public class ViewScrollDownCommand : CommandElement
     {
@@ -18,4 +22,41 @@
             DragTransformControl.Current.ScrollDown((ViewScrollCommandParameter)param);
         }
     }
+
+
+
+    /// <summary>
+    /// ビュースクロールコマンド用パラメータ
+    /// </summary>
+    [DataContract]
+    public class ViewScrollCommandParameter : CommandParameter
+    {
+        // 属性に説明文
+        [DataMember]
+        [PropertyRange("@ParamCommandParameterScrollAmount", 0, 100, Tips = "@ParamCommandParameterScrollAmountTips")]
+        public int Scroll
+        {
+            get { return _scroll; }
+            set { _scroll = MathUtility.Clamp(value, 0, 100); }
+        }
+        private int _scroll;
+
+        [DataMember]
+        [PropertyMember("@ParamCommandParameterScrollAllowCross", Tips = "@ParamCommandParameterScrollAllowCrossTips")]
+        public bool AllowCrossScroll { get; set; } = true;
+
+        [OnDeserializing]
+        private void OnDeserializing(StreamingContext context)
+        {
+            this.AllowCrossScroll = true;
+        }
+
+        public override bool MemberwiseEquals(CommandParameter other)
+        {
+            var target = other as ViewScrollCommandParameter;
+            if (target == null) return false;
+            return this == target || (this.Scroll == target.Scroll && this.AllowCrossScroll == target.AllowCrossScroll);
+        }
+    }
+
 }

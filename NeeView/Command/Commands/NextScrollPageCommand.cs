@@ -1,4 +1,8 @@
-﻿namespace NeeView
+﻿using NeeLaboratory;
+using NeeView.Windows.Property;
+using System.Runtime.Serialization;
+
+namespace NeeView
 {
     public class NextScrollPageCommand : CommandElement
     {
@@ -25,4 +29,56 @@
             MainWindowModel.Current.NextScrollPage((ScrollPageCommandParameter)param);
         }
     }
+
+
+    /// <summary>
+    /// スクロール＋ページ移動用パラメータ
+    /// </summary>
+    [DataContract]
+    public class ScrollPageCommandParameter : ReversibleCommandParameter
+    {
+        [DataMember]
+        [PropertyMember("@ParamCommandParameterScrollPageN", Tips = "@ParamCommandParameterScrollPageNTips")]
+        public bool IsNScroll { get; set; }
+
+        [DataMember]
+        [PropertyMember("@ParamCommandParameterScrollPageAnimation")]
+        public bool IsAnimation { get; set; }
+
+        [DataMember]
+        [PropertyMember("@ParamCommandParameterScrollPageMargin", Tips = "@ParamCommandParameterScrollPageMarginTips")]
+        public double Margin { get; set; }
+
+        [DataMember]
+        [PropertyRange("@ParamCommandParameterScrollPageAmount", 0, 100, Tips = "@ParamCommandParameterScrollPageAmountTips")]
+        public int Scroll
+        {
+            get { return _scroll; }
+            set { _scroll = MathUtility.Clamp(value, 0, 100); }
+        }
+        private int _scroll;
+
+        [DataMember]
+        [PropertyMember("@ParamCommandParameterScrollPageStop", Tips = "@ParamCommandParameterScrollPageStopTips")]
+        public bool IsStop { get; set; }
+
+
+        [OnDeserializing]
+        private void OnDeserializing(StreamingContext context)
+        {
+            _scroll = 100;
+        }
+
+        public override bool MemberwiseEquals(CommandParameter other)
+        {
+            var target = other as ScrollPageCommandParameter;
+            if (target == null) return false;
+            return this == target || (this.IsNScroll == target.IsNScroll &&
+                this.IsAnimation == target.IsAnimation &&
+                this.Margin == target.Margin &&
+                this.Scroll == target.Scroll &&
+                this.IsStop == target.IsStop);
+        }
+    }
+
 }

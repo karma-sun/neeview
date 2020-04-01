@@ -383,7 +383,7 @@ namespace NeeView
 
         // ファイルに保存する (ダイアログ)
         // TODO: OutOfMemory対策
-        public void ExportDialog(ExportImageDialogCommandParameter parameter)
+        public void ExportDialog(ExportImageAsCommandParameter parameter)
         {
             if (CanExport())
             {
@@ -1048,19 +1048,19 @@ namespace NeeView
         }
 
         //
-        public bool CanPrevPagemarkInPlace(MovePagemarkCommandParameter param)
+        public bool CanPrevPagemarkInPlace(MovePagemarkInBookCommandParameter param)
         {
             return (this.Book?.Marker.Markers != null && Current.Book.Marker.Markers.Count > 0) || param.IsIncludeTerminal;
         }
 
         //
-        public bool CanNextPagemarkInPlace(MovePagemarkCommandParameter param)
+        public bool CanNextPagemarkInPlace(MovePagemarkInBookCommandParameter param)
         {
             return (this.Book?.Marker.Markers != null && Current.Book.Marker.Markers.Count > 0) || param.IsIncludeTerminal;
         }
 
         // ページマークに移動
-        public void PrevPagemarkInPlace(MovePagemarkCommandParameter param)
+        public void PrevPagemarkInPlace(MovePagemarkInBookCommandParameter param)
         {
             if (!_isEnabled || this.Book == null) return;
             var result = this.Book.Control.RequestJumpToMarker(this, -1, param.IsLoop, param.IsIncludeTerminal);
@@ -1076,7 +1076,7 @@ namespace NeeView
         }
 
         // ページマークに移動
-        public void NextPagemarkInPlace(MovePagemarkCommandParameter param)
+        public void NextPagemarkInPlace(MovePagemarkInBookCommandParameter param)
         {
             if (!_isEnabled || this.Book == null) return;
             var result = this.Book.Control.RequestJumpToMarker(this, +1, param.IsLoop, param.IsIncludeTerminal);

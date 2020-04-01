@@ -14,7 +14,7 @@ namespace NeeView
 
         public bool HasBackground { get; set; }
 
-        public void Show(ExportImageDialogCommandParameter parameter)
+        public void Show(ExportImageAsCommandParameter parameter)
         {
             if (!_isInitialized)
             {

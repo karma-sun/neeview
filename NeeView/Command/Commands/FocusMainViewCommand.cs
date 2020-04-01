@@ -1,4 +1,7 @@
-﻿namespace NeeView
+﻿using NeeView.Windows.Property;
+using System.Runtime.Serialization;
+
+namespace NeeView
 {
     public class FocusMainViewCommand : CommandElement
     {
@@ -18,4 +21,21 @@
             MainWindowModel.Current.FocusMainView((FocusMainViewCommandParameter)param, option.HasFlag(CommandOption.ByMenu));
         }
     }
+
+
+    [DataContract]
+    public class FocusMainViewCommandParameter : CommandParameter
+    {
+        [DataMember]
+        [PropertyMember("@ParamCommandParameterFocusMainViewClosePanels")]
+        public bool NeedClosePanels { get; set; }
+
+        public override bool MemberwiseEquals(CommandParameter other)
+        {
+            var target = other as FocusMainViewCommandParameter;
+            if (target == null) return false;
+            return this == target || (this.NeedClosePanels == target.NeedClosePanels);
+        }
+    }
+
 }

@@ -1,4 +1,6 @@
-﻿namespace NeeView
+﻿using NeeView.Windows.Property;
+
+namespace NeeView
 {
     public class NextPagemarkInBookCommand : CommandElement
     {
@@ -10,17 +12,38 @@
             this.IsShowMessage = false;
 
             // PrevPagemarkInBook
-            this.ParameterSource = new CommandParameterSource(new MovePagemarkCommandParameter());
+            this.ParameterSource = new CommandParameterSource(new MovePagemarkInBookCommandParameter());
         }
 
         public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)
         {
-            return BookOperation.Current.CanNextPagemarkInPlace((MovePagemarkCommandParameter)param);
+            return BookOperation.Current.CanNextPagemarkInPlace((MovePagemarkInBookCommandParameter)param);
         }
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            BookOperation.Current.NextPagemarkInPlace((MovePagemarkCommandParameter)param);
+            BookOperation.Current.NextPagemarkInPlace((MovePagemarkInBookCommandParameter)param);
+        }
+    }
+
+
+
+    /// <summary>
+    /// ページマーク移動用パラメータ
+    /// </summary>
+    public class MovePagemarkInBookCommandParameter : CommandParameter
+    {
+        [PropertyMember("@ParamCommandParameterMovePagemarkLoop")]
+        public bool IsLoop { get; set; }
+
+        [PropertyMember("@ParamCommandParameterMovePagemarkIncludeTerminal")]
+        public bool IsIncludeTerminal { get; set; }
+
+        public override bool MemberwiseEquals(CommandParameter other)
+        {
+            var target = other as MovePagemarkInBookCommandParameter;
+            if (target == null) return false;
+            return this == target || (this.IsLoop == target.IsLoop && this.IsIncludeTerminal == target.IsIncludeTerminal);
         }
     }
 }

@@ -9,17 +9,17 @@
             this.Note = Properties.Resources.CommandPrevPagemarkInBookNote;
             this.IsShowMessage = false;
 
-            this.ParameterSource = new CommandParameterSource(new MovePagemarkCommandParameter());
+            this.ParameterSource = new CommandParameterSource(new MovePagemarkInBookCommandParameter());
         }
 
         public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)
         {
-            return BookOperation.Current.CanPrevPagemarkInPlace((MovePagemarkCommandParameter)param);
+            return BookOperation.Current.CanPrevPagemarkInPlace((MovePagemarkInBookCommandParameter)param);
         }
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            BookOperation.Current.PrevPagemarkInPlace((MovePagemarkCommandParameter)param);
+            BookOperation.Current.PrevPagemarkInPlace((MovePagemarkInBookCommandParameter)param);
         }
     }
 }

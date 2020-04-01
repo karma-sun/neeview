@@ -1,6 +1,8 @@
 ﻿using NeeLaboratory.ComponentModel;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Windows.Data;
@@ -222,7 +224,7 @@ namespace NeeView
             return string.Join(",", new string[] { this.Group, this.Text, this.MenuText, this.Note, this.ShortCutKey, this.MouseGesture, new MouseGestureSequence(this.MouseGesture).ToDispString(), this.TouchGesture });
         }
 
-#region Memento
+        #region Memento
 
         [DataContract]
         public class Memento
@@ -278,9 +280,9 @@ namespace NeeView
             ParameterSource?.Restore(memento.Parameter);
         }
 
-#endregion
+        #endregion
 
-#region MementoV2
+        #region MementoV2
 
         /// <summary>
         /// 設定V2用
@@ -311,6 +313,9 @@ namespace NeeView
             memento.MouseGesture = MouseGesture ?? string.Empty;
             memento.IsShowMessage = IsShowMessage;
             memento.Parameter = (CommandParameter)ParameterSource?.GetRaw()?.Clone();
+
+            Debug.Assert(Parameter == null || JsonCommandParameterConverter.KnownTypes.Contains(Parameter.GetType()));
+
             return memento;
         }
 
@@ -325,7 +330,7 @@ namespace NeeView
             ParameterSource?.Set(memento.Parameter);
         }
 
-#endregion
+        #endregion
 
     }
 }

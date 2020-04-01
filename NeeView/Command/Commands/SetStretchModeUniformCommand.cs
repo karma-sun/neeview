@@ -1,4 +1,5 @@
-﻿using System.Windows.Data;
+﻿using NeeView.Windows.Property;
+using System.Windows.Data;
 
 
 namespace NeeView
@@ -33,6 +34,24 @@ namespace NeeView
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
             ContentCanvas.Current.SetStretchMode(PageStretchMode.Uniform, ((StretchModeCommandParameter)param).IsToggle);
+        }
+    }
+
+
+    /// <summary>
+    /// スケールモード用設定
+    /// </summary>
+    public class StretchModeCommandParameter : CommandParameter
+    {
+        // 属性に説明文
+        [PropertyMember("@ParamCommandParameterStretchModeIsToggle", Tips = "@ParamCommandParameterStretchModeIsToggleTips")]
+        public bool IsToggle { get; set; }
+
+        public override bool MemberwiseEquals(CommandParameter other)
+        {
+            var target = other as StretchModeCommandParameter;
+            if (target == null) return false;
+            return this == target || (this.IsToggle == target.IsToggle);
         }
     }
 }

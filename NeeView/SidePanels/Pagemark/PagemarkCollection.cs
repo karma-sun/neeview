@@ -429,7 +429,7 @@ namespace NeeView
         }
 
 
-#region Memento
+        #region Memento
 
         [DataContract]
         [KnownType(typeof(Pagemark))]
@@ -551,7 +551,7 @@ namespace NeeView
             }
 
 
-#region Legacy
+            #region Legacy
 
             // ファイルに保存
             public void SaveV1(string path)
@@ -586,7 +586,7 @@ namespace NeeView
                 }
             }
 
-#endregion
+            #endregion
 
             public void RestoreConfig(Config config)
             {
@@ -611,7 +611,7 @@ namespace NeeView
             this.Load(PagemarkNodeConverter.ConvertToTreeListNode(memento.Nodes));
         }
 
-#endregion
+        #endregion
     }
 
 
@@ -623,6 +623,8 @@ namespace NeeView
         public string EntryName { get; set; }
 
         public string DispName { get; set; }
+
+        public bool IsExpanded { get; set; }
 
         public List<PagemarkNode> Children { get; set; }
 
@@ -640,6 +642,7 @@ namespace NeeView
             if (source.Value is PagemarkFolder folder)
             {
                 node.Path = folder.Path;
+                node.IsExpanded = source.IsExpanded;
                 node.Children = new List<PagemarkNode>();
                 foreach (var child in source.Children)
                 {
@@ -670,6 +673,7 @@ namespace NeeView
                 {
                     Path = source.Path,
                 };
+                node.IsExpanded = source.IsExpanded;
                 foreach (var child in source.Children)
                 {
                     node.Add(ConvertToTreeListNode(child));

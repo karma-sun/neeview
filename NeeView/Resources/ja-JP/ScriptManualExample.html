@@ -1,10 +1,25 @@
-<hr/>
+<hr />
 
 <h2>スクリプトの例</h2>
 
+
+<h3>実行ファイルと引数を一時的に変更して「外部アプリで開く」コマンドを実行する</h3>
+<p>
+    <pre>OpenMsPaint.nvjs<code>
+    // @name MSペイント
+    // @description MSペイントでファイルを開きます。
+
+    param = {
+        "Command": "mspaint.exe",
+        "Parameter": "\"$File\""
+    }
+    nv.Command.OpenExternalApp.Patch(param).Execute()
+    </code></pre>
+</p>
+
 <h3>新しく開いたブックのパスに"English"が含まれていたら左開き、それ以外は右開きにする</h3>
 <p>
-  <pre>OnBookLoaded.nvjs<code>
+    <pre>OnBookLoaded.nvjs<code>
     // @name ブック開始処理
     // @description ブックを開いたときのイベント
 
@@ -21,7 +36,7 @@
 
 <h3>動画ファイルを開いたときに操作方法を変更する</h3>
 <p>
-  <pre>OnBookLoaded.nvjs<code>
+    <pre>OnBookLoaded.nvjs<code>
     // @name ブック開始処理
     // @description ブックを開いたときのイベント
 
@@ -41,7 +56,7 @@
 </p>
 
 <p>
-  <pre>ToggleFullScreenAndMediaPlay.nvjs<code>
+    <pre>ToggleFullScreenAndMediaPlay.nvjs<code>
     // @name フルスクリーン＆動画再生
     // @description フルスクリーンと動画再生を同時に切り替え
 

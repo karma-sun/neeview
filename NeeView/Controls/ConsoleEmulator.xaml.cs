@@ -138,7 +138,10 @@ namespace NeeView
 
         private void OutputBlock_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            FocusToInputBlock();
+            if (Keyboard.Modifiers == ModifierKeys.None)
+            {
+                FocusToInputBlock();
+            }
         }
 
         // NOTE: 未使用

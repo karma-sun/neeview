@@ -56,11 +56,15 @@ namespace NeeView
             this.PagemarkPanel = new PagemarkPanel(PagemarkList.Current);
             rightPanels.Add(this.PagemarkPanel);
 
+            // ページリストパネル。サイドパネル配置もしくは本棚配置
+            PageListPlacementService.Current.Update();
+            if (this.PageListPanel != null)
+            {
+                rightPanels.Add(this.PageListPanel);
+            }
+
             // パネル群を登録
             this.InitializePanels(leftPanels, rightPanels);
-
-            // ページリストパネルの更新
-            PageListPlacementService.Current.Update();
 
             SelectedPanelChanged += SidePanel_SelectedPanelChanged;
 
@@ -269,7 +273,7 @@ namespace NeeView
         /// フォルダーツリー表示状態
         /// </summary>
         public bool IsVisibleFolderTree
-        { 
+        {
             get { return Config.Current.Bookshelf.IsFolderTreeVisible && IsVisibleFolderList; }
             set { SetVisibleFolderTree(false, value); }
         }

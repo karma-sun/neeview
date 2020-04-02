@@ -36,14 +36,14 @@ namespace NeeView
             if (Environment.IsCanaryPackage)
             {
                 this.Watermark.Visibility = Visibility.Visible;
-                this.Watermark.Background = Brushes.Orange;
-                this.WatermarkText.Text = "Canary";
+                this.Watermark.Background = Brushes.DarkOrange;
+                this.WatermarkText.Text = "Canary " + Environment.DateVersion;
             }
             else if (Environment.IsBetaPackage)
             {
                 this.Watermark.Visibility = Visibility.Visible;
                 this.Watermark.Background = Brushes.Purple;
-                this.WatermarkText.Text = "Beta";
+                this.WatermarkText.Text = "Beta " + Environment.DateVersion;
             }
         }
 

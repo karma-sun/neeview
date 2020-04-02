@@ -275,7 +275,9 @@ namespace NeeView
         {
             public int Compare(TreeListNode<IPagemarkEntry> x, TreeListNode<IPagemarkEntry> y)
             {
-                return NativeMethods.StrCmpLogicalW(x.Value.Name, y.Value.Name);
+                var xname = x.Value.Name ?? "";
+                var yname = y.Value.Name ?? "";
+                return NativeMethods.StrCmpLogicalW(xname, yname);
             }
         }
 
@@ -690,4 +692,37 @@ namespace NeeView
             return node;
         }
     }
+
+
+#if false
+    // 未使用
+    public class JsonPagemarkNodeConverter : JsonConverter<PagemarkNode>
+    {
+        public override PagemarkNode Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            return JsonSerializer.Deserialize<PagemarkNode>(ref reader, options);
+        }
+
+        public override void Write(Utf8JsonWriter writer, PagemarkNode value, JsonSerializerOptions options)
+        {
+            writer.WriteStartObject();
+
+            if (value.IsFolder)
+            {
+                writer.WriteString(nameof(value.Path), value.Path);
+                writer.WriteBoolean(nameof(value.IsExpanded), value.IsExpanded);
+                writer.WritePropertyName(nameof(value.Children));
+                JsonSerializer.Serialize(writer, value.Children, options);
+            }
+            else
+            {
+                writer.WriteString(nameof(value.Path), value.Path);
+                writer.WriteString(nameof(value.EntryName), value.EntryName);
+                writer.WriteString(nameof(value.DispName), value.DispName);
+            }
+
+            writer.WriteEndObject();
+        }
+    }
+#endif
 }

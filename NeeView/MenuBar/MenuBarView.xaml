@@ -63,8 +63,8 @@
                     </Style>
                 </local:WindowCaptionButtons.Style>
             </local:WindowCaptionButtons>
-            <Grid x:Name="Watermark" DockPanel.Dock="Right" Background="Orange" Margin="0" VerticalAlignment="Top" Visibility="Collapsed">
-                <TextBlock x:Name="WatermarkText" Foreground="White" Margin="10,2" FontSize="12" FontWeight="Normal" Text="Canary"/>
+            <Grid x:Name="Watermark" DockPanel.Dock="Right" Background="DarkOrange" Height="18" VerticalAlignment="Top" Visibility="Collapsed">
+                    <TextBlock x:Name="WatermarkText" Foreground="White" Margin="10,0" FontSize="14" VerticalAlignment="Center" FontWeight="Normal" Text="Canary 0000"/>
             </Grid>
 
             <DockPanel x:Name="MenuArea" VerticalAlignment="Bottom">

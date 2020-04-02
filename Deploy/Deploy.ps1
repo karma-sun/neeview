@@ -95,7 +95,7 @@ function Get-GitLogMarkdown($title)
 
 	"## $title"
 	"### $header"
-	"($date)"
+	"Rev. $revision / $date"
 	""
 	$logs | ForEach-Object { "- $_" }
 	""
@@ -215,8 +215,8 @@ function New-Readme($packageDir, $culture, $target)
 	$announce = ""
 	if ($target -eq ".canary")
 	{
-		$postfix = "Canary"
-		$announce = Get-Content -Path "$readmeDir/Canary.md" -Raw -Encoding UTF8
+		$postfix = "Canary ${dateVersion}"
+		$announce = "Rev. ${revision}`r`n`r`n" + (Get-Content -Path "$readmeDir/Canary.md" -Raw -Encoding UTF8)
 	}
 
 	# edit README.md
@@ -275,6 +275,12 @@ function New-ConfigForZip($inputDir, $config, $outputDir)
 	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'LibrariesPath' } | Select -First 1
 	$add.value = 'Libraries'
 
+	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'Revision' } | Select -First 1
+	$add.value = $revision
+
+	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'DateVersion' } | Select -First 1
+	$add.value = $dateVersion
+
 	$utf8WithoutBom = New-Object System.Text.UTF8Encoding($false)
 	$outputFile = Join-Path (Convert-Path $outputDir) $config
 
@@ -298,6 +304,12 @@ function New-ConfigForMsi($inputDir, $config, $outputDir)
 
 	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'LibrariesPath' } | Select -First 1
 	$add.value = 'Libraries'
+
+	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'Revision' } | Select -First 1
+	$add.value = $revision
+
+	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'DateVersion' } | Select -First 1
+	$add.value = $dateVersion
 
 	$utf8WithoutBom = New-Object System.Text.UTF8Encoding($false)
 	$outputFile = Join-Path (Convert-Path $outputDir) $config
@@ -323,6 +335,12 @@ function New-ConfigForAppx($inputDir, $config, $outputDir)
 	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'LibrariesPath' } | Select -First 1
 	$add.value = 'Libraries'
 
+	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'Revision' } | Select -First 1
+	$add.value = $revision
+
+	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'DateVersion' } | Select -First 1
+	$add.value = $dateVersion
+
 	$utf8WithoutBom = New-Object System.Text.UTF8Encoding($false)
 	$outputFile = Join-Path (Convert-Path $outputDir) $config
 
@@ -346,6 +364,12 @@ function New-ConfigForDevPackage($inputDir, $config, $target, $outputDir)
 
 	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'LibrariesPath' } | Select -First 1
 	$add.value = 'Libraries'
+
+	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'Revision' } | Select -First 1
+	$add.value = $revision
+
+	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'DateVersion' } | Select -First 1
+	$add.value = $dateVersion
 
 	$utf8WithoutBom = New-Object System.Text.UTF8Encoding($false)
 	$outputFile = Join-Path (Convert-Path $outputDir) $config
@@ -592,13 +616,13 @@ function Remove-BuildObjects
 	{
 		Remove-Item $packageX64Appx
 	}
-	if (Test-Path $packageCanary)
+	if (Test-Path $packageCanaryWild)
 	{
-		Remove-Item $packageCanary
+		Remove-Item $packageCanaryWild
 	}
-	if (Test-Path $packageBeta)
+	if (Test-Path $packageBetaWild)
 	{
-		Remove-Item $packageBeta
+		Remove-Item $packageBetaWild
 	}
 
 	Start-Sleep -m 100
@@ -615,6 +639,8 @@ $version = Get-Version $project
 $buildCount = Get-BuildCount
 $buildVersion = "$version.$buildCount"
 $assemblyVersion = "$version.$buildCount.0"
+$revision = (& git rev-parse --short HEAD).ToString()
+$dateVersion = (Get-Date).ToString("MMdd")
 
 $packageDir = "$product$version"
 $packageAppendDir = $packageDir + ".append"
@@ -627,9 +653,11 @@ $packageAppxProduct = "$packageAppxRoot\PackageFiles\$product"
 $packageX86Appx = "${product}${version}-x86.appx"
 $packageX64Appx = "${product}${version}-x64.appx"
 $packageCanaryDir = "${product}Canary"
-$packageCanary = "${product}Canary.zip"
+$packageCanary = "${product}Canary${dateVersion}.zip"
+$packageCanaryWild = "${product}Canary*.zip"
 $packageBetaDir = "${product}Beta"
-$packageBeta = "${product}Beta.zip"
+$packageBeta = "${product}Beta${dateVersion}.zip"
+$packageBetaWild = "${product}Beta*.zip"
 
 if (-not $continue)
 {

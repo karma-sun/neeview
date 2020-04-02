@@ -22,6 +22,8 @@ namespace NeeView
         private static string _localApplicationDataPath;
         private static string _librariesPath;
         private static string _packageType;
+        private static string _revision;
+        private static string _dateVersion;
         private static bool? _isUseLocalApplicationDataFolder;
 
 
@@ -161,11 +163,11 @@ namespace NeeView
             {
                 if (IsCanaryPackage)
                 {
-                    return "Canary";
+                    return $"Canary {DateVersion} / Rev. {Revision}" ;
                 }
                 else if (IsBetaPackage)
                 {
-                    return ProductVersion + ".Beta";
+                    return ProductVersion + $".Beta {DateVersion} / Rev. {Revision}";
                 }
                 else
                 {
@@ -267,6 +269,30 @@ namespace NeeView
         public static bool IsBetaPackage => PackageType == ".beta";
 
         public static bool IsZipLikePackage => IsZipPackage || IsCanaryPackage || IsBetaPackage;
+
+        public static string Revision
+        {
+            get
+            {
+                if (_revision == null)
+                {
+                    _revision = ConfigurationManager.AppSettings["Revision"];
+                }
+                return _revision;
+            }
+        }
+
+        public static string DateVersion
+        {
+            get
+            {
+                if (_dateVersion == null)
+                {
+                    _dateVersion = ConfigurationManager.AppSettings["DateVersion"];
+                }
+                return _dateVersion;
+            }
+        }
 
 
         // ※ build は未使用

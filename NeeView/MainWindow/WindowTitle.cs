@@ -59,9 +59,6 @@ namespace NeeView
 
             // Window title
             _defaultWindowTitle = $"{Environment.ApplicationName} {Environment.DispVersion}";
-#if DEBUG
-            _defaultWindowTitle += " [Debug]";
-#endif
 
             BookHub.Current.Loading +=
                 (s, e) => this.LoadingPath = e.Path;

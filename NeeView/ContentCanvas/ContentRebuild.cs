@@ -27,6 +27,7 @@ namespace NeeView
         private bool _isUpdateContentSize;
         private bool _isRequested;
         private bool _isBusy;
+        private bool _isKeyUpChance;
 
         #endregion
 
@@ -57,6 +58,8 @@ namespace NeeView
             WindowMessage.Current.ExitSizeMove += (s, e) => _isResizingWindow = false;
 
             _keyPressWatcher = new KeyPressWatcher(MainWindow.Current);
+            _keyPressWatcher.PreviewKeyDown += (s, e) => _isKeyUpChance = false;
+            _keyPressWatcher.PreviewKeyUp += (s, e) => _isKeyUpChance = true;
 
             Start();
 
@@ -110,14 +113,15 @@ namespace NeeView
                 DragTransformControl.Current.SnapView();
             }
 
+            if (!_isKeyUpChance && _keyPressWatcher.IsPressed) return;
+            _isKeyUpChance = false;
+
             var mouseButtonBits = MouseButtonBitsExtensions.Create();
             if (MouseInput.Current.IsLoupeMode && Config.Current.Mouse.LongButtonDownMode == LongButtonDownMode.Loupe)
             {
                 mouseButtonBits = MouseButtonBits.None;
             }
             if (mouseButtonBits != MouseButtonBits.None) return;
-
-            if (_keyPressWatcher.IsPressed) return;
 
             bool isSuccessed = true;
             var dpiScaleX = Environment.RawDpi.DpiScaleX;
@@ -128,6 +132,8 @@ namespace NeeView
             }
 
             this.IsRequested = !isSuccessed;
+
+            Debug.WriteLine($"Rebuild!! {DateTime.Now.Millisecond}");
 
             UpdateStatus();
         }

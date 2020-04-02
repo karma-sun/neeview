@@ -16,6 +16,20 @@ namespace NeeView
         private UIElement _target;
         private LinkedList<Key> _keys;
 
+        public KeyPressWatcher(UIElement target)
+        {
+            _target = target;
+            _keys = new LinkedList<Key>();
+
+            _target.PreviewKeyDown += Target_PreviewKeyDown;
+            _target.PreviewKeyUp += Target_PreviewKeyUp;
+        }
+
+
+        public event EventHandler<KeyEventArgs> PreviewKeyDown;
+        public event EventHandler<KeyEventArgs> PreviewKeyUp;
+
+
         public bool IsPressed
         {
             get
@@ -35,14 +49,6 @@ namespace NeeView
 
         public bool IsModifierKeysPressed => Keyboard.Modifiers != ModifierKeys.None;
 
-        public KeyPressWatcher(UIElement target)
-        {
-            _target = target;
-            _keys = new LinkedList<Key>();
-
-            _target.PreviewKeyDown += Target_PreviewKeyDown;
-            _target.PreviewKeyUp += Target_PreviewKeyUp;
-        }
 
         #region IDisposable Support
         private bool _disposedValue = false;
@@ -69,15 +75,17 @@ namespace NeeView
 
         private void Target_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            KeyDown(e.Key);
+            AddKey(e.Key);
+            PreviewKeyDown?.Invoke(sender, e);
         }
 
         private void Target_PreviewKeyUp(object sender, KeyEventArgs e)
         {
-            KeyUp(e.Key);
+            RemoveKey(e.Key);
+            PreviewKeyUp?.Invoke(sender, e);
         }
 
-        private void KeyDown(Key key)
+        private void AddKey(Key key)
         {
             if (!RoutedCommandTable.Current.IsUsedKey(key)) return;
 
@@ -85,7 +93,7 @@ namespace NeeView
             _keys.AddLast(key);
         }
 
-        private void KeyUp(Key key)
+        private void RemoveKey(Key key)
         {
             _keys.Remove(key);
         }

@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -214,8 +215,7 @@ namespace NeeView
                 Touched?.Invoke(this, null);
                 if (_image == _emptyImage)
                 {
-                    return MainWindow.Current.Resources["thumbnail_default"] as ImageSource;
-                    ////return EmptyBitmapSource;
+                    return EmptyImageSource;
                 }
                 else if (_image == _mediaImage)
                 {
@@ -264,6 +264,9 @@ namespace NeeView
         /// </summary>
         public static void InitializeBasicImages()
         {
+            Debug.Assert(Thread.CurrentThread.GetApartmentState() == ApartmentState.STA);
+
+            var imageN = EmptyImageSource;
             var image0 = EmptyBitmapSource;
             var image1 = MediaBitmapSource;
         }
@@ -272,6 +275,20 @@ namespace NeeView
         /// Empty Image Key
         /// </summary>
         public static byte[] _emptyImage = System.Text.Encoding.ASCII.GetBytes("EMPTY!");
+
+
+        private static ImageSource _emptyImageSource;
+        public static ImageSource EmptyImageSource
+        {
+            get
+            {
+                if (_emptyImageSource == null)
+                {
+                    _emptyImageSource = MainWindow.Current.Resources["thumbnail_default"] as ImageSource;
+                }
+                return _emptyImageSource;
+            }
+        }
 
         /// <summary>
         /// EmptyBitmapSource property.

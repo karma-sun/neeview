@@ -42,10 +42,15 @@ namespace NeeView
 
             if (_content.IsLoaded) return;
 
-            await LoadThumbnailAsync(token);
-
-            RaiseLoaded();
-            _content.UpdateDevStatus();
+            try
+            {
+                await LoadThumbnailAsync(token);
+            }
+            finally
+            {
+                RaiseLoaded();
+                _content.UpdateDevStatus();
+            }
         }
 
 

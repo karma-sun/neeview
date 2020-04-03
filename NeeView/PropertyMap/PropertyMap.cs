@@ -136,7 +136,7 @@ namespace NeeView
 
         internal string CreateHelpHtml(string prefix)
         {
-            string s = string.Empty;
+            string s = "";
 
             foreach (var item in _items)
             {
@@ -147,8 +147,8 @@ namespace NeeView
                 }
                 else
                 {
-                    string type = string.Empty;
-                    string description = string.Empty;
+                    string type = "";
+                    string description = "";
                     if (item.Value is PropertyMapSource valueItem)
                     {
                         (type, description) = valueItem.CreateHelpHtml();

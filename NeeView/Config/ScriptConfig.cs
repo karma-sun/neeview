@@ -7,7 +7,7 @@ namespace NeeView
     public class ScriptConfig : BindableBase
     {
         private bool _isScriptFolderEnabled;
-        private string _scriptFolder = string.Empty;
+        private string _scriptFolder = "";
 
 
         [PropertyMember("@ParamIsScriptFolderEnabled")]
@@ -21,7 +21,7 @@ namespace NeeView
         public string ScriptFolder
         {
             get { return _scriptFolder; }
-            set { SetProperty(ref _scriptFolder, (string.IsNullOrEmpty(value) || value?.Trim() == GetDefaultScriptFolder()) ? string.Empty : value); }
+            set { SetProperty(ref _scriptFolder, (string.IsNullOrEmpty(value) || value?.Trim() == GetDefaultScriptFolder()) ? "" : value); }
         }
 
 

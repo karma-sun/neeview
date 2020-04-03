@@ -50,12 +50,18 @@ namespace NeeView
             }
             catch (Exception ex)
             {
-                commandEngine.Log(ex.Message);
-                ToastService.Current.Show(new Toast(ex.Message, $"Script error in {_scriptName + Extension}", ToastIcon.Error));
+                var message = CreateExceptionRecursiveMessage(ex);
+                commandEngine.Log(message);
+                ToastService.Current.Show(new Toast(message, $"Script error in {_scriptName + Extension}", ToastIcon.Error));
             }
             finally
             {
                 CommandTable.Current.FlushInputGesture();
+            }
+
+            string CreateExceptionRecursiveMessage(Exception ex)
+            {
+                return ex.Message + System.Environment.NewLine + (ex.InnerException != null ? CreateExceptionRecursiveMessage(ex.InnerException) : "");
             }
         }
 

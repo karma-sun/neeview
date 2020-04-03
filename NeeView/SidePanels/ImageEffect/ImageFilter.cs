@@ -58,7 +58,7 @@ namespace NeeView
             public void RestoreConfig(Config config)
             {
                 config.ImageResizeFilter.ResizeInterpolation = ResizeInterpolation;
-                config.ImageResizeFilter.Sharpen = Sharpen;
+                config.ImageResizeFilter.IsUnsharpMaskEnabled = Sharpen;
 
                 config.ImageResizeFilter.UnsharpMask.Amount = UnsharpMaskProfile.Amount;
                 config.ImageResizeFilter.UnsharpMask.Radius = UnsharpMaskProfile.Radius;
@@ -70,7 +70,7 @@ namespace NeeView
         {
             var memento = new Memento();
             memento.ResizeInterpolation = Config.Current.ImageResizeFilter.ResizeInterpolation;
-            memento.Sharpen = Config.Current.ImageResizeFilter.Sharpen;
+            memento.Sharpen = Config.Current.ImageResizeFilter.IsUnsharpMaskEnabled;
             memento.UnsharpMaskProfile = (UnsharpMaskConfig)Config.Current.ImageResizeFilter.UnsharpMask.Clone();
 
             return memento;

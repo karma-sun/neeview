@@ -133,8 +133,6 @@ namespace NeeView
 
             this.IsRequested = !isSuccessed;
 
-            Debug.WriteLine($"Rebuild!! {DateTime.Now.Millisecond}");
-
             UpdateStatus();
         }
 

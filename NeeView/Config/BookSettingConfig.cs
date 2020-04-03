@@ -7,6 +7,7 @@ namespace NeeView
 {
     public class BookSettingConfig : BindableBase, ICloneable, IEquatable<BookSettingConfig>
     {
+        private string _page;
         private PageMode _pageMode = PageMode.SinglePage;
         private PageReadOrder _bookReadOrder = PageReadOrder.RightToLeft;
         private bool _isSupportedDividePage;
@@ -22,8 +23,8 @@ namespace NeeView
         [PropertyMember("@ParamBookPage")]
         public string Page
         {
-            get { return null; }
-            set { }
+            get { return _page; }
+            set { SetProperty(ref _page, value); }
         }
 
         // 1ページ表示 or 2ページ表示

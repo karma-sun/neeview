@@ -347,8 +347,8 @@ namespace NeeView.IO
             lock (_lock)
             {
                 NativeMethods.SHFILEINFO shinfo = new NativeMethods.SHFILEINFO();
-                shinfo.szDisplayName = string.Empty;
-                shinfo.szTypeName = string.Empty;
+                shinfo.szDisplayName = "";
+                shinfo.szTypeName = "";
                 IntPtr hImg = NativeMethods.SHGetFileInfo(filename, attribute, out shinfo, (uint)Marshal.SizeOf(typeof(NativeMethods.SHFILEINFO)), NativeMethods.SHGFI.SHGFI_SYSICONINDEX | flags);
 
                 try

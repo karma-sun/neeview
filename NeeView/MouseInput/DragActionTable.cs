@@ -153,7 +153,7 @@ namespace NeeView
         /// </summary>
         public string GetActionType(DragKey key)
         {
-            if (!key.IsValid) return string.Empty;
+            if (!key.IsValid) return "";
             return _elements.FirstOrDefault(e => e.Value.DragKey == key).Key;
         }
 

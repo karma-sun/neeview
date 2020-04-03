@@ -20,7 +20,7 @@ namespace NeeView
 
         public IEnumerable<string> Interpolate(string source)
         {
-            source = source?.TrimEnd() ?? string.Empty;
+            source = source?.TrimEnd() ?? "";
 
             var tokens = source.Split(' ').Last().Split('.');
 

@@ -11,12 +11,12 @@ namespace NeeView
     {
         private bool _isResizeFilterEnabled = false;
         private ResizeInterpolation _resizeInterpolation = ResizeInterpolation.Lanczos;
-        private bool _sharpen;
+        private bool _isUnsharpMaskEnabled;
 
         public ImageResizeFilterConfig()
         {
             var setting = new ProcessImageSettings(); // default values.
-            _sharpen = setting.Sharpen;
+            _isUnsharpMaskEnabled = setting.Sharpen;
             this.UnsharpMask = new UnsharpMaskConfig();
             this.UnsharpMask.Amount = setting.UnsharpMask.Amount;
             this.UnsharpMask.Radius = setting.UnsharpMask.Radius;
@@ -39,10 +39,10 @@ namespace NeeView
         }
 
         [PropertyMember("@ParamImageResizeFilterSharpen")]
-        public bool Sharpen
+        public bool IsUnsharpMaskEnabled
         {
-            get { return _sharpen; }
-            set { SetProperty(ref _sharpen, value); }
+            get { return _isUnsharpMaskEnabled; }
+            set { SetProperty(ref _isUnsharpMaskEnabled, value); }
         }
 
         [PropertyMapLabel("@WordUnsharpMask")]
@@ -51,14 +51,14 @@ namespace NeeView
 
         public override int GetHashCode()
         {
-            return _resizeInterpolation.GetHashCode() ^ _sharpen.GetHashCode() ^ UnsharpMask.GetHashCode();
+            return _resizeInterpolation.GetHashCode() ^ _isUnsharpMaskEnabled.GetHashCode() ^ UnsharpMask.GetHashCode();
         }
 
         public ProcessImageSettings CreateProcessImageSetting()
         {
             var setting = new ProcessImageSettings();
 
-            setting.Sharpen = this.Sharpen;
+            setting.Sharpen = this.IsUnsharpMaskEnabled;
             setting.UnsharpMask = this.UnsharpMask.CreateUnsharpMaskSetting();
 
             switch (_resizeInterpolation)

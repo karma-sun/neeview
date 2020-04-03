@@ -72,7 +72,7 @@ namespace NeeView
             using (var lockerKey = ContentRebuild.Current.Locker.Lock())
             {
                 Config.Current.ImageResizeFilter.ResizeInterpolation = ResizeInterpolation.Lanczos;
-                Config.Current.ImageResizeFilter.Sharpen = true;
+                Config.Current.ImageResizeFilter.IsUnsharpMaskEnabled = true;
                 this.UnsharpMaskProfile.Reset();
             }
         }

@@ -205,7 +205,7 @@ namespace NeeLaboratory.IO
         {
             var handle = new System.Windows.Interop.WindowInteropHelper(window).Handle;
 
-            if (!NativeMethods.SHObjectProperties(handle, NativeMethods.SHOP_FILEPATH, path, string.Empty))
+            if (!NativeMethods.SHObjectProperties(handle, NativeMethods.SHOP_FILEPATH, path, ""))
             {
                 throw new ApplicationException($"Cannot open file property window. {path}");
             }

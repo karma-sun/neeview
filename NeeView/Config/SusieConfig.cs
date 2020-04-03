@@ -9,7 +9,7 @@ namespace NeeView
         private bool _isEnabled;
         private bool _isFirstOrderSusieImage;
         private bool _isFirstOrderSusieArchive;
-        private string _susiePluginPath = string.Empty;
+        private string _susiePluginPath = "";
 
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace NeeView
         public string SusiePluginPath
         {
             get { return _susiePluginPath; }
-            set { SetProperty(ref _susiePluginPath, value?.Trim() ?? string.Empty); }
+            set { SetProperty(ref _susiePluginPath, value?.Trim() ?? ""); }
         }
 
         // Susie 画像プラグイン 優先フラグ

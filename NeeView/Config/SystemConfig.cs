@@ -22,7 +22,7 @@ namespace NeeView
         private bool _isRemoveExplorerDialogEnabled;
         private bool _isSyncUserSetting = true;
         private bool _isIgnoreImageDpi = true;
-        private string _downloadPath = string.Empty;
+        private string _downloadPath = "";
         private bool _isOpenbookAtCurrentPlace;
 
 
@@ -119,7 +119,7 @@ namespace NeeView
         public string DownloadPath
         {
             get { return _downloadPath; }
-            set { SetProperty(ref _downloadPath, value ?? string.Empty); }
+            set { SetProperty(ref _downloadPath, value ?? ""); }
         }
 
         // 隠しファイルを表示する？

@@ -44,7 +44,7 @@ namespace NeeView
 
         public readonly static RoutedCommand ClearScreenCommand = new RoutedCommand("ClearScreen", typeof(ConsoleEmulator), new InputGestureCollection(new List<InputGesture>() { new KeyGesture(Key.L, ModifierKeys.Control) }));
 
-        private string _consoleInput = string.Empty;
+        private string _consoleInput = "";
         private List<string> _history = new List<string>();
         private int _historyIndex;
         private List<string> _candidates;
@@ -89,7 +89,7 @@ namespace NeeView
 
                 void Log(object sender, ConsoleHostOutputEventArgs args)
                 {
-                    control.WriteLine(args.Output ?? string.Empty);
+                    control.WriteLine(args.Output ?? "");
                 }
             }
         }
@@ -220,7 +220,7 @@ namespace NeeView
         {
             this.OutputBlock.Clear();
             this.OutputBlock.Visibility = Visibility.Collapsed;
-            this.InputBlock.Text = ConsoleInput = string.Empty;
+            this.InputBlock.Text = ConsoleInput = "";
             this.InputBlock.Focus();
         }
 
@@ -271,7 +271,7 @@ namespace NeeView
             var input = ConsoleInput;
 
             WriteLine(Prompt + ConsoleInput);
-            ConsoleInput = string.Empty;
+            ConsoleInput = "";
 
             if (string.IsNullOrWhiteSpace(input))
             {

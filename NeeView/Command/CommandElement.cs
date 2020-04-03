@@ -308,9 +308,9 @@ namespace NeeView
         {
             var memento = new MementoV2();
 
-            memento.ShortCutKey = ShortCutKey ?? string.Empty;
-            memento.TouchGesture = TouchGesture ?? string.Empty;
-            memento.MouseGesture = MouseGesture ?? string.Empty;
+            memento.ShortCutKey = ShortCutKey ?? "";
+            memento.TouchGesture = TouchGesture ?? "";
+            memento.MouseGesture = MouseGesture ?? "";
             memento.IsShowMessage = IsShowMessage;
             memento.Parameter = (CommandParameter)ParameterSource?.GetRaw()?.Clone();
 

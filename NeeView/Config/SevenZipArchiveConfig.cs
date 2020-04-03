@@ -7,8 +7,8 @@ namespace NeeView
     public class SevenZipArchiveConfig : BindableBase
     {
         private bool _isEnabled = true;
-        private string _x86DllPath = string.Empty;
-        private string _x64DllPath = string.Empty;
+        private string _x86DllPath = "";
+        private string _x64DllPath = "";
         private FileTypeCollection _supportFileTypes = new FileTypeCollection(".7z;.cb7;.cbr;.cbz;.lzh;.rar;.zip");
 
 

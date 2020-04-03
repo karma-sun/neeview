@@ -52,7 +52,7 @@ namespace NeeView
         /// <returns></returns>
         public string GetCommand(MouseGestureSequence gesture)
         {
-            if (gesture == null || gesture.Count == 0) return string.Empty;
+            if (gesture == null || gesture.Count == 0) return "";
 
             string key = gesture.ToString();
 
@@ -62,7 +62,7 @@ namespace NeeView
             }
             else
             {
-                return string.Empty;
+                return "";
             }
         }
 

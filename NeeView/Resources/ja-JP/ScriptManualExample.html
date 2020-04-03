@@ -17,6 +17,23 @@
     </code></pre>
 </p>
 
+
+<h3>アンシャープマスクのON/OFF</h3>
+<p>
+    <pre>ToggleUnsharpMask.nvjs<code>
+    // @name アンシャープマスクON/OFF
+    // @description アンシャープマスクの切り替え。リサイズフィルターが有効でないときは警告を表示する
+
+    if (nv.Config.ImageResizeFilter.IsEnabled == true) {
+        nv.Config.ImageResizeFilter.IsUnsharpMaskEnabled = !nv.Config.ImageResizeFilter.IsUnsharpMaskEnabled
+    }
+    else {
+        nv.ShowMessage("ResizeFilter is OFF")
+    }
+    </code></pre>
+</p>
+
+
 <h3>新しく開いたブックのパスに"English"が含まれていたら左開き、それ以外は右開きにする</h3>
 <p>
     <pre>OnBookLoaded.nvjs<code>

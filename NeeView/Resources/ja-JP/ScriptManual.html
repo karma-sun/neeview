@@ -32,7 +32,8 @@
 <p>
     特定の名前のスクリプトファイルは自動的に実行されます。
     <dl>
-        <dt>OnBookLoaded.nvjs</dt><dd>ブックを開いたときに実行されます。</dd>
+        <dt>OnBookLoaded.nvjs</dt>
+        <dd>ブックを開いたときに実行されます。</dd>
     </dl>
 </p>
 
@@ -42,9 +43,12 @@
 </p>
 <h4>コンソール専用コマンド</h4>
 <dl>
-    <dt>cls</dt><dd>画面のクリア(Ctrl+L)</dd>
-    <dt>exit</dt><dd>コンソールを閉じる</dd>
-    <dt>help, ?</dt><dd>スクリプトヘルプを開く</dd>
+    <dt>cls</dt>
+    <dd>画面のクリア(Ctrl+L)</dd>
+    <dt>exit</dt>
+    <dd>コンソールを閉じる</dd>
+    <dt>help, ?</dt>
+    <dd>スクリプトヘルプを開く</dd>
 </dl>
 
 <p>&nbsp;</p>
@@ -61,12 +65,14 @@
 <h4>引数</h4>
 <p>
     <dl>
-        <dt>path: string</dt><dd>スクリプトのパス。相対パスは現在のスクリプトの場所が基準になります。</dd>
+        <dt>path: string</dt>
+        <dd>スクリプトのパス。相対パスは現在のスクリプトの場所が基準になります。</dd>
     </dl>
 </p>
 <h4>戻り値</h4>
 <dl>
-    <dt>object</dt><dd>スクリプトの実行結果</dd>
+    <dt>object</dt>
+    <dd>スクリプトの実行結果</dd>
 </dl>
 <h4>使用例</h4>
 <p>
@@ -83,7 +89,8 @@
 <h4>引数</h4>
 <p>
     <dl>
-        <dt>message: string</dt><dd>出力メッセージ</dd>
+        <dt>message: string</dt>
+        <dd>出力メッセージ</dd>
     </dl>
 </p>
 
@@ -94,38 +101,46 @@
 <h4>引数</h4>
 <p>
     <dl>
-        <dt>filename: string</dt><dd>実行ファイルのパス。URLやファイルパスを指定した場合は関連付けられたアプリが実行されます。</dd>
-        <dt>args: string</dt><dd>実行ファイルの引数 (省略可)</dd>
+        <dt>filename: string</dt>
+        <dd>実行ファイルのパス。URLやファイルパスを指定した場合は関連付けられたアプリが実行されます。</dd>
+        <dt>args: string</dt>
+        <dd>実行ファイルの引数 (省略可)</dd>
     </dl>
 </p>
 
-<hr/>
+<hr />
 
 <h2>nv.ShowMessage(message)</h2>
 画面にメッセージを表示します。
 <h4>引数</h4>
 <dl>
-    <dt>message: string</dt><dd>出力メッセージ</dd>
+    <dt>message: string</dt>
+    <dd>出力メッセージ</dd>
 </dl>
 
 <h2>nv.ShowToast(message)</h2>
 メッセージをトースト表示します。
 <h4>引数</h4>
 <dl>
-    <dt>message: string</dt><dd>出力メッセージ</dd>
+    <dt>message: string</dt>
+    <dd>出力メッセージ</dd>
 </dl>
 
 <h2>nv.ShowDialog(title, message, commands)</h2>
 ダイアログを表示します。
 <h4>引数</h4>
 <dl>
-    <dt>title: string</dt><dd>主文</dd>
-    <dt>message: string</dt><dd>メッセージ (省略可)</dd>
-    <dt>commands: int</dt><dd>0: OK / 1: OKCancel / 2: YesNo<br/>ボタンの種類 (省略可)</dd>
+    <dt>title: string</dt>
+    <dd>主文</dd>
+    <dt>message: string</dt>
+    <dd>メッセージ (省略可)</dd>
+    <dt>commands: int</dt>
+    <dd>0: OK / 1: OKCancel / 2: YesNo<br />ボタンの種類 (省略可)</dd>
 </dl>
 <h4>戻り値</h4>
 <dl>
-    <dt>bool</dt><dd>肯定的選択("OK"もしくは"Yes")の場合はtrue、それ以外はfalseを返す。</dd>
+    <dt>bool</dt>
+    <dd>肯定的選択("OK"もしくは"Yes")の場合はtrue、それ以外はfalseを返す。</dd>
 </dl>
 <h4>例</h4>
 <p>
@@ -137,7 +152,7 @@
     </code></pre>
 </p>
 
-<hr/>
+<hr />
 
 
 <h2>nv.Config</h2>
@@ -170,7 +185,7 @@
     </code></pre>
 </p>
 
-<hr/>
+<hr />
 
 <h2>nv.Book</h2>
 <p>
@@ -178,7 +193,8 @@
 </p>
 <h4>戻り値</h4>
 <dl>
-    <dt>BookAccessor</dt><dd>ブックアクセサ</dd>
+    <dt>BookAccessor</dt>
+    <dd>ブックアクセサ</dd>
 </dl>
 
 <h4>使用例</h4>
@@ -195,19 +211,32 @@
 </p>
 <h4>プロパティ</h4>
 <dl>
-    <dt>Path: string</dt><dd>現在のブックのパス。ブックが開かれていない場合はnull</dd>
-    <dt>IsMedua: bool</dt><dd>現在のブックが動画であるかどうか</dd>
-    <dt>IsNew: bool</dt><dd>現在のブックが履歴のない新しく開かれたブックであるか</dd>
-    <dt>PageSize: int</dt><dd>現在のブックのページ数</dd>
-    <dt>ViewPageSize: int</dt><dd>現在表示されているページ数</dd>
-    <dt>Config.ViewPageSize: int</dt><dd>表示するページ数</dd>
-    <dt>Config.BookReadOrder: string</dt><dd>左開き/右開き [ LeftToRight, RightToLeft ]</dd>
-    <dt>Config.IsSupportedDividePage: bool</dt><dd>横長ページを分割する	</dd>
-    <dt>Config.IsSupportedSingleFirstPage: bool</dt><dd>最初のページを単独表示</dd>
-    <dt>Config.IsSupportedSingleLastPage: bool</dt><dd>最後のページを単独表示</dd>
-    <dt>Config.IsSupportedWidePage: bool</dt><dd>横長ページを2ページとみなす</dd>
-    <dt>Config.IsRecursiveFolder: bool</dt><dd>サブフォルダーを読み込む</dd>
-    <dt>Config.SortMode: string</dt><dd>並び替え順 [ FileName, FileNameDescending, ...]</dd>
+    <dt>Path: string</dt>
+    <dd>現在のブックのパス。ブックが開かれていない場合はnull</dd>
+    <dt>IsMedua: bool</dt>
+    <dd>現在のブックが動画であるかどうか</dd>
+    <dt>IsNew: bool</dt>
+    <dd>現在のブックが履歴のない新しく開かれたブックであるか</dd>
+    <dt>PageSize: int</dt>
+    <dd>現在のブックのページ数</dd>
+    <dt>ViewPageSize: int</dt>
+    <dd>現在表示されているページ数</dd>
+    <dt>Config.ViewPageSize: int</dt>
+    <dd>表示するページ数</dd>
+    <dt>Config.BookReadOrder: string</dt>
+    <dd>左開き/右開き [ LeftToRight, RightToLeft ]</dd>
+    <dt>Config.IsSupportedDividePage: bool</dt>
+    <dd>横長ページを分割する	</dd>
+    <dt>Config.IsSupportedSingleFirstPage: bool</dt>
+    <dd>最初のページを単独表示</dd>
+    <dt>Config.IsSupportedSingleLastPage: bool</dt>
+    <dd>最後のページを単独表示</dd>
+    <dt>Config.IsSupportedWidePage: bool</dt>
+    <dd>横長ページを2ページとみなす</dd>
+    <dt>Config.IsRecursiveFolder: bool</dt>
+    <dd>サブフォルダーを読み込む</dd>
+    <dt>Config.SortMode: string</dt>
+    <dd>並び替え順 [ FileName, FileNameDescending, ...]</dd>
 </dl>
 
 <h3>BookAccessor.Page(number)</h3>
@@ -216,11 +245,13 @@
 </p>
 <h4>引数</h4>
 <dl>
-    <dt>page: int</dt><dd>ページ番号(1-n)。表示に合わせているため、1スタートである点に注意してください。</dd>
+    <dt>page: int</dt>
+    <dd>ページ番号(1-n)。表示に合わせているため、1スタートである点に注意してください。</dd>
 </dl>
 <h4>戻り値</h4>
 <dl>
-    <dt>PageAccessor</dt><dd>ページアクセサ。取得できなかった場合はnullを返す。</dd>
+    <dt>PageAccessor</dt>
+    <dd>ページアクセサ。取得できなかった場合はnullを返す。</dd>
 </dl>
 
 <h3>BookAccessor.ViewPage(index)</h3>
@@ -229,11 +260,13 @@
 </p>
 <h4>引数</h4>
 <dl>
-    <dt>index: int</dt><dd>表示ページID(0-1)</dd>
+    <dt>index: int</dt>
+    <dd>表示ページID(0-1)</dd>
 </dl>
 <h4>戻り値</h4>
 <dl>
-    <dt>PageAccessor</dt><dd>ページアクセサ。取得できなかった場合はnullを返す。</dd>
+    <dt>PageAccessor</dt>
+    <dd>ページアクセサ。取得できなかった場合はnullを返す。</dd>
 </dl>
 
 <h2>[Type] PageAccessor</h2>
@@ -242,9 +275,12 @@
 </p>
 <h4>プロパティ</h4>
 <dl>
-    <dt>Path: string</dt><dd>ページのパス</dd>
-    <dt>Width: double</dt><dd>ページの幅</dd>
-    <dt>Height: double</dt><dd>ページの高さ</dd>
+    <dt>Path: string</dt>
+    <dd>ページのパス</dd>
+    <dt>Width: double</dt>
+    <dd>ページの幅</dd>
+    <dt>Height: double</dt>
+    <dd>ページの高さ</dd>
 </dl>
 
 <h4>使用例</h4>
@@ -255,18 +291,20 @@
     </code></pre>
 </p>
 
-<hr/>
+<hr />
 
 <h2>nv.Command</h2>
 コマンドアクセサの連想配列です。
 コマンドは 設定 > コマンド設定 で表示されるコマンドと同じものです。詳細は後述する「コマンド一覧」を参照してください。
 <h4>キー</h4>
 <dl>
-    <dt>commandName: string</dt><dd>コマンド名</dd>
+    <dt>commandName: string</dt>
+    <dd>コマンド名</dd>
 </dl>
 <h4>戻り値</h4>
 <dl>
-    <dt>CommandAccessor</dt><dd>コマンドアクセサ。コマンドが見つからない場合はnull。</dd>
+    <dt>CommandAccessor</dt>
+    <dd>コマンドアクセサ。コマンドが見つからない場合はnull。</dd>
 </dl>
 <h4>使用例</h4>
 <p>
@@ -283,8 +321,11 @@
     コマンドアクセサ
 </p>
 
-<h3>CommandAccessor.Parameter: json</h3>
-コマンドパラメーターの取得、設定ができます。設定は恒久的なものです。
+<h3>CommandAccessor.Parameter</h3>
+<p>
+    コマンドパラメーターの取得、設定ができます。設定は恒久的なものです。
+    プロパティはコマンドごとに異なります。詳細は後述のコマンド一覧を確認してください。
+</p>
 <h4>使用例</h4>
 <p>
     <pre><code>
@@ -292,9 +333,16 @@
         nv.Command.ViewRotateLeft.Parameter.Angle = 45
     </code></pre>
 </p>
-<h3>CommandAccessor.ShortCutKey: string</h3>
-コマンドのショートカットの取得、設定ができます。
 
+<h3>CommandAccessor.IsShowMessage: bool</h3>
+<p>
+    コマンド実行時にメッセージ表示します。
+</p>
+
+<h3>CommandAccessor.ShortCutKey: string</h3>
+<p>
+    コマンドのショートカットの取得、設定ができます。
+</p>
 <h4>使用例</h4>
 <p>
     <pre><code>
@@ -302,6 +350,7 @@
         nv.Command.ViewRotateLeft.ShourtCutKey = "Ctrl+A"
     </code></pre>
 </p>
+
 <h3>CommandAccessor.MouseGesture: string</h3>
 <p>
     マウスジェスチャーの取得、設定ができます。
@@ -323,6 +372,7 @@
         nv.Command.ViewRotateLeft.MouseGesture = "ULD"
     </code></pre>
 </p>
+
 <h3>CommandAccessor.TouchGesture: string</h3>
 <p>
     タッチ操作の取得、設定ができます。
@@ -334,6 +384,7 @@
         nv.Command.ViewRotateLeft.TouchGesture = "TouchCenter"
     </code></pre>
 </p>
+
 <h3>CommandAccessor.Execute(args...)</h3>
 <p>
     コマンドを実行します。
@@ -341,14 +392,16 @@
 <p>
     引数を指定可能なコマンドがあります。
     これらは通常はダイアログが表示されるコマンドで引数を指定することでユーザーの選択を省略するといった用途に使用できます。
-</p>    
+</p>
 <h4>引数</h4>
 <dl>
-    <dt>args: object[]</dt><dd>コマンド引数。コマンドによって内容は異なります。可変長引数です。(省略可)</dd>
+    <dt>args: object[]</dt>
+    <dd>コマンド引数。コマンドによって内容は異なります。可変長引数です。(省略可)</dd>
 </dl>
 <h4>戻り値</h4>
 <dl>
-    <dt>bool</dt><dd>コマンドが発行できたか。ロード中などにコマンドが発行できないことがある。コマンド自体の成否は判別しない。</dd>
+    <dt>bool</dt>
+    <dd>コマンドが発行できたか。ロード中などにコマンドが発行できないことがある。コマンド自体の成否は判別しない。</dd>
 </dl>
 <h4>使用例</h4>
 <p>
@@ -363,12 +416,14 @@
 </p>
 <h4>引数</h4>
 <dl>
-    <dt>patch: json</dt><dd>一時的に上書きするコマンドパラメーターをJSON形式で指定します。</dd>
+    <dt>patch: json</dt>
+    <dd>一時的に上書きするコマンドパラメーターをJSON形式で指定します。</dd>
 </dl>
 
 <h4>戻り値</h4>
 <dl>
-    <dt>CommandAccessor</dt><dd>自身のコマンドアクセサをそのまま返す</dd>
+    <dt>CommandAccessor</dt>
+    <dd>自身のコマンドアクセサをそのまま返す</dd>
 </dl>
 <h4>使用例</h4>
 <p>

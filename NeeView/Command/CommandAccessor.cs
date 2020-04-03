@@ -19,6 +19,13 @@ namespace NeeView
         }
 
         [WordNodeMember]
+        public bool IsShowMessage
+        {
+            get { return _command.IsShowMessage; }
+            set { _command.IsShowMessage = value; }
+        }
+
+        [WordNodeMember]
         public string ShortCutKey
         {
             get { return _command.ShortCutKey; }

@@ -150,12 +150,16 @@ namespace NeeView
         {
             if (_content.IsLoaded) return;
 
-            _content.SetPicture(LoadPicture(_content.Entry, token));
-
-            append?.Invoke();
-
-            RaiseLoaded();
-            _content.UpdateDevStatus();
+            try
+            {
+                _content.SetPicture(LoadPicture(_content.Entry, token));
+                append?.Invoke();
+            }
+            finally
+            {
+                RaiseLoaded();
+                _content.UpdateDevStatus();
+            }
 
             await Task.CompletedTask;
         }
@@ -208,7 +212,14 @@ namespace NeeView
             }
             else
             {
-                thumbnailRaw = MemoryControl.Current.RetryFuncWithMemoryCleanup(() => source.CreateThumbnail(ThumbnailProfile.Current, token));
+                try
+                {
+                    thumbnailRaw = MemoryControl.Current.RetryFuncWithMemoryCleanup(() => source.CreateThumbnail(ThumbnailProfile.Current, token));
+                }
+                catch
+                {
+                    // NOTE: サムネイル画像取得失敗時はEnptyなサムネイル画像を適用する
+                }
             }
 
             token.ThrowIfCancellationRequested();

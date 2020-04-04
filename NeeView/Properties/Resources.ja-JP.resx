@@ -5142,4 +5142,13 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamClipboardArchiveSeparaterTips" xml:space="preserve">
     <value>「@ParamClipboardArchiveOption」が「@EnumArchiveOptionTypeSendArchivePath」の時の設定です。</value>
   </data>
+  <data name="WordIsPanelVisible" xml:space="preserve">
+    <value>パネル表示状態</value>
+  </data>
+  <data name="WordIsPanelSelected" xml:space="preserve">
+    <value>パネル選択状態</value>
+  </data>
+  <data name="WordReadOnly" xml:space="preserve">
+    <value>読み取り専用</value>
+  </data>
 </root>

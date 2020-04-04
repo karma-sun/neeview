@@ -31,7 +31,7 @@ namespace NeeView
         {
             if (args.Length > 0)
             {
-                SidePanel.Current.IsVisibleEffectInfo = Convert.ToBoolean(args[0]);
+                SidePanel.Current.SetVisibleEffectInfo(Convert.ToBoolean(args[0]), true);
             }
             else
             {

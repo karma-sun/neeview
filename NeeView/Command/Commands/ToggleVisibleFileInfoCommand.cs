@@ -31,7 +31,7 @@ namespace NeeView
         {
             if (args.Length > 0)
             {
-                SidePanel.Current.IsVisibleFileInfo = Convert.ToBoolean(args[0]);
+                SidePanel.Current.SetVisibleFileInfo(Convert.ToBoolean(args[0]), true);
             }
             else
             {

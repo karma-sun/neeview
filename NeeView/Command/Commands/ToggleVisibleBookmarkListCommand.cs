@@ -31,7 +31,7 @@ namespace NeeView
         {
             if (args.Length > 0)
             {
-                SidePanel.Current.IsVisibleBookmarkList = Convert.ToBoolean(args[0]);
+                SidePanel.Current.SetVisibleBookmarkList(Convert.ToBoolean(args[0]), true);
             }
             else
             {

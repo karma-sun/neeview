@@ -1,11 +1,14 @@
 ﻿using NeeView.Windows.Controls;
 using NeeView.Windows.Property;
+using System.Text.Json.Serialization;
 using System.Windows;
 
 namespace NeeView
 {
     public class BookshelfConfig : FolderListConfig
     {
+        private bool _isVisible;
+        private bool _isSelected;
         private string _home;
         private bool _isVisibleHistoryMark = true;
         private bool _isVisibleBookmarkMark = true;
@@ -21,6 +24,26 @@ namespace NeeView
         private bool _isIncrementalSearchEnabled = true;
         private bool _isSearchIncludeSubdirectories = true;
 
+
+        [JsonIgnore]
+        [PropertyMapReadOnly]
+        [PropertyMember("@WordIsPanelVisible")]
+        public bool IsVisible
+        {
+            get { return _isVisible; }
+            set { SetProperty(ref _isVisible, value); }
+        }
+
+        /// <summary>
+        /// パネル表示されているかを示す
+        /// </summary>
+        [JsonIgnore]
+        [PropertyMember("@WordIsPanelSelected")]
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set { SetProperty(ref _isSelected, value); }
+        }
 
         /// <summary>
         /// ホームのパス

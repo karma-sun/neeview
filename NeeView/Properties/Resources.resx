@@ -5142,4 +5142,13 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamClipboardArchiveSeparaterTips" xml:space="preserve">
     <value>This is the setting when "@ParamClipboardArchiveOption" is "@EnumArchiveOptionTypeSendArchivePath".</value>
   </data>
+  <data name="WordIsPanelVisible" xml:space="preserve">
+    <value>Panel visibility</value>
+  </data>
+  <data name="WordIsPanelSelected" xml:space="preserve">
+    <value>Panel selected</value>
+  </data>
+  <data name="WordReadOnly" xml:space="preserve">
+    <value>Read only</value>
+  </data>
 </root>

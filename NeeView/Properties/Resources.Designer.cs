@@ -14634,6 +14634,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Panel selected に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordIsPanelSelected {
+            get {
+                return ResourceManager.GetString("WordIsPanelSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Panel visibility に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordIsPanelVisible {
+            get {
+                return ResourceManager.GetString("WordIsPanelVisible", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Item に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WordItem {
@@ -14837,6 +14855,15 @@ namespace NeeView.Properties {
         public static string WordRamDrive {
             get {
                 return ResourceManager.GetString("WordRamDrive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Read only に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordReadOnly {
+            get {
+                return ResourceManager.GetString("WordReadOnly", resourceCulture);
             }
         }
         

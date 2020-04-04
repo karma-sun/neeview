@@ -59,11 +59,13 @@ namespace NeeView
                 typeString = Converter.GetTypeName(PropertyInfo.PropertyType);
             }
 
+            var readOnly = (PropertyInfo.GetCustomAttribute<PropertyMapReadOnlyAttribute>() != null || !PropertyInfo.CanWrite) ? " (" + ResourceService.GetString("@WordReadOnly") + ")" : "";
+
             var attribute = PropertyInfo.GetCustomAttribute<PropertyMemberAttribute>();
             var description = attribute != null
                     ? ResourceService.GetString(attribute.Name ?? PropertyInfo.Name) + "<br/>" + ResourceService.GetString(attribute.Tips)
                     : "";
-            description = _prefix + new Regex("[\r\n]+").Replace(description, "<br/>");
+            description = _prefix + new Regex("[\r\n]+").Replace(description, "<br/>") + readOnly;
 
             return (typeString, description);
         }

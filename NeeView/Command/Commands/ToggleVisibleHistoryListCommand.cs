@@ -31,7 +31,7 @@ namespace NeeView
         {
             if (args.Length > 0)
             {
-                SidePanel.Current.IsVisibleHistoryList = Convert.ToBoolean(args[0]);
+                SidePanel.Current.SetVisibleHistoryList(Convert.ToBoolean(args[0]), true);
             }
             else
             {

@@ -31,7 +31,7 @@ namespace NeeView
         {
             if (args.Length > 0)
             {
-                SidePanel.Current.IsVisiblePagemarkList = Convert.ToBoolean(args[0]);
+                SidePanel.Current.SetVisiblePagemarkList(Convert.ToBoolean(args[0]), true);
             }
             else
             {

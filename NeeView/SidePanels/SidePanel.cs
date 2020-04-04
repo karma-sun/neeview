@@ -144,6 +144,12 @@ namespace NeeView
             set { SetSelectedPanel(FileInfoPanel, value); RaisePanelPropertyChanged(); }
         }
 
+        public void SetVisibleFileInfo(bool isVisible, bool flush)
+        {
+            SetSelectedPanel(FileInfoPanel, isVisible, flush);
+            RaisePanelPropertyChanged();
+        }
+
         public bool ToggleVisibleFileInfo(bool byMenu)
         {
             ToggleSelectedPanel(FileInfoPanel, byMenu);
@@ -159,6 +165,12 @@ namespace NeeView
             set { SetSelectedPanel(ImageEffectPanel, value); RaisePanelPropertyChanged(); }
         }
 
+        public void SetVisibleEffectInfo(bool isVisible, bool flush)
+        {
+            SetSelectedPanel(ImageEffectPanel, isVisible, flush);
+            RaisePanelPropertyChanged();
+        }
+
         public bool ToggleVisibleEffectInfo(bool byMenu)
         {
             ToggleSelectedPanel(ImageEffectPanel, byMenu);
@@ -172,6 +184,12 @@ namespace NeeView
         {
             get { return IsSelectedPanel(FolderListPanel); }
             set { SetSelectedPanel(FolderListPanel, value); RaisePanelPropertyChanged(); }
+        }
+
+        public void SetVisibleFolderList(bool isVisible, bool flush)
+        {
+            SetSelectedPanel(FolderListPanel, isVisible, flush);
+            RaisePanelPropertyChanged();
         }
 
         public bool ToggleVisibleFolderList(bool byMenu)
@@ -199,10 +217,23 @@ namespace NeeView
                 }
                 else
                 {
-                    FolderPanelModel.Current.IsPageListVisible = true;
+                    FolderPanelModel.Current.IsPageListVisible = value;
                 }
                 RaisePanelPropertyChanged();
             }
+        }
+
+        public void SetVisiblePageList(bool isVisible, bool flush)
+        {
+            if (PageListPanel != null)
+            {
+                SetSelectedPanel(PageListPanel, isVisible, flush);
+            }
+            else
+            {
+                FolderPanelModel.Current.IsPageListVisible = isVisible;
+            }
+            RaisePanelPropertyChanged();
         }
 
         public bool ToggleVisiblePageList(bool byMenu)
@@ -312,6 +343,12 @@ namespace NeeView
             set { SetSelectedPanel(HistoryPanel, value); RaisePanelPropertyChanged(); }
         }
 
+        public void SetVisibleHistoryList(bool isVisible, bool flush)
+        {
+            SetSelectedPanel(HistoryPanel, isVisible, flush);
+            RaisePanelPropertyChanged();
+        }
+
         public bool ToggleVisibleHistoryList(bool byMenu)
         {
             ToggleSelectedPanel(HistoryPanel, byMenu);
@@ -319,11 +356,18 @@ namespace NeeView
             return IsVisibleHistoryList;
         }
 
+
         // ブックマークリスト表示ON/OFF
         public bool IsVisibleBookmarkList
         {
             get { return IsSelectedPanel(BookmarkPanel); }
             set { SetSelectedPanel(BookmarkPanel, value); RaisePanelPropertyChanged(); }
+        }
+
+        public void SetVisibleBookmarkList(bool isVisible, bool flush)
+        {
+            SetSelectedPanel(BookmarkPanel, isVisible, flush);
+            RaisePanelPropertyChanged();
         }
 
         public bool ToggleVisibleBookmarkList(bool byMenu)
@@ -338,6 +382,12 @@ namespace NeeView
         {
             get { return IsSelectedPanel(PagemarkPanel); }
             set { SetSelectedPanel(PagemarkPanel, value); RaisePanelPropertyChanged(); }
+        }
+
+        public void SetVisiblePagemarkList(bool isVisible, bool flush)
+        {
+            SetSelectedPanel(PagemarkPanel, isVisible, flush);
+            RaisePanelPropertyChanged();
         }
 
         public bool ToggleVisiblePagemarkList(bool byMenu)

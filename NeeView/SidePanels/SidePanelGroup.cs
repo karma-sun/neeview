@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows;
@@ -26,8 +27,15 @@ namespace NeeView
     /// </summary>
     public class SidePanelGroup : BindableBase
     {
+        private IPanel _selectedPanel;
+        private IPanel _lastSelectedPane;
+        private double _width = 300.0;
+        private bool _isVisible = true;
+
+
         public SidePanelGroup()
         {
+            Panels.CollectionChanged += Panels_CollectionChanged;
         }
 
 
@@ -36,40 +44,26 @@ namespace NeeView
         /// </summary>
         public event EventHandler<SelectedPanelChangedEventArgs> SelectedPanelChanged;
 
+        /// <summary>
+        /// 管理下のパネル集合
+        /// </summary>
+        public ObservableCollection<IPanel> Panels { get; } = new ObservableCollection<IPanel>();
+
 
         /// <summary>
-        /// Panels property.
+        /// 選択中のパネル
         /// </summary>
-        private ObservableCollection<IPanel> _panels = new ObservableCollection<IPanel>();
-        public ObservableCollection<IPanel> Panels
-        {
-            get { return _panels; }
-            /*
-            set
-            {
-                if (_panels != value)
-                {
-                    _panels = value;
-                    RaisePropertyChanged();
-                }
-            }
-            */
-        }
-
-        /// <summary>
-        /// SelectedPanel property.
-        /// </summary>
-        private IPanel _selectedPanel;
         public IPanel SelectedPanel
         {
             get { return _selectedPanel; }
-            set
+            private set
             {
                 if (_selectedPanel != value)
                 {
                     if (_selectedPanel != null)
                     {
                         _selectedPanel.IsVisibleLockChanged -= SelectedPanel_IsVisibleLockChanged;
+                        _selectedPanel.IsVisible = false;
                     }
 
                     _selectedPanel = value;
@@ -78,9 +72,9 @@ namespace NeeView
                     if (_selectedPanel != null)
                     {
                         _selectedPanel.IsVisibleLockChanged += SelectedPanel_IsVisibleLockChanged;
+                        _selectedPanel.IsVisible = IsVisible;
                         _lastSelectedPane = _selectedPanel;
                     }
-
                 }
                 // 本棚の各要素を表示する用途のため、変更にかかわらず通知
                 SelectedPanelChanged?.Invoke(this, new SelectedPanelChangedEventArgs(_selectedPanel));
@@ -92,21 +86,22 @@ namespace NeeView
             }
         }
 
-        public bool IsVisibleLocked => _selectedPanel?.IsVisibleLock == true;
+        /// <summary>
+        /// パネル表示ロックフラグの参照
+        /// </summary>
+        public bool IsVisibleLocked => SelectedPanel?.IsVisibleLock == true;
 
         /// <summary>
         /// 最新の有効な選択パネル
         /// </summary>
-        private IPanel _lastSelectedPane;
         public IPanel LastSelectedPanel
         {
-            get { return _panels.Contains(_lastSelectedPane) ? _lastSelectedPane : _panels.FirstOrDefault(); }
+            get { return Panels.Contains(_lastSelectedPane) ? _lastSelectedPane : Panels.FirstOrDefault(); }
         }
 
         /// <summary>
         /// Width property.
         /// </summary>
-        private double _width = 300.0;
         public double Width
         {
             get { return _width; }
@@ -116,20 +111,105 @@ namespace NeeView
         /// <summary>
         /// パネル自体の表示状態。自動非表示機能等で変化する
         /// </summary>
-        public bool IsVisible { get; set; } = true;
+        public bool IsVisible
+        {
+            get { return _isVisible; }
+            set
+            {
+                if (SetProperty(ref _isVisible, value))
+                {
+                    if (SelectedPanel != null)
+                    {
+                        SelectedPanel.IsVisible = _isVisible;
+                    }
+                }
+            }
+        }
 
 
+
+        /// <summary>
+        /// 管理パネル初期化
+        /// </summary>
         public void Initialize(IEnumerable<IPanel> panels, string selectedPanelTypeCode, double width)
         {
             Panels.Clear();
-            foreach(var panel in panels)
+            foreach (var panel in panels)
             {
                 Panels.Add(panel);
             }
-            SelectedPanel = Panels.FirstOrDefault(e => e.TypeCode == selectedPanelTypeCode);
+            var selectedPanel = Panels.FirstOrDefault(e => e.TypeCode == selectedPanelTypeCode);
+            if (selectedPanel != null)
+            {
+                selectedPanel.IsSelected = true;
+            }
+
             Width = width;
         }
 
+        /// <summary>
+        /// パネルのIsSelectedプロパティの変更イベント処理
+        /// </summary>
+        public void Panel_IsSelectedChanged(object sender, EventArgs e)
+        {
+            var panel = sender as IPanel;
+            Debug.Assert(panel != null);
+            if (panel == null) return;
+
+            if (Panels.Contains(panel))
+            {
+                if (panel.IsSelected)
+                {
+                    SelectedPanel = panel;
+
+                    foreach (var other in Panels.Where(p => p != panel))
+                    {
+                        other.IsSelected = false;
+                    }
+                }
+                else if (panel == SelectedPanel)
+                {
+                    SelectedPanel = null;
+                }
+            }
+            else
+            {
+                if (SelectedPanel == panel)
+                {
+                    SelectedPanel = null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// パネル集合のコレクション変更イベント処理。追加削除でのパネルの初期化を行う
+        /// </summary>
+        private void Panels_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Move)
+            {
+                return;
+            }
+
+            if (e.OldItems != null)
+            {
+                foreach (IPanel panel in e.OldItems)
+                {
+                    panel.IsSelected = false;
+                    panel.IsVisible = false;
+                    panel.IsSelectedChanged -= Panel_IsSelectedChanged;
+                }
+            }
+            if (e.NewItems != null)
+            {
+                foreach (IPanel panel in e.NewItems)
+                {
+                    panel.IsSelected = false;
+                    panel.IsVisible = false;
+                    panel.IsSelectedChanged += Panel_IsSelectedChanged;
+                }
+            }
+        }
 
         /// <summary>
         /// パネル存在チェック
@@ -138,7 +218,7 @@ namespace NeeView
         /// <returns></returns>
         public bool Contains(IPanel panel)
         {
-            return _panels.Contains(panel);
+            return Panels.Contains(panel);
         }
 
         /// <summary>
@@ -156,9 +236,19 @@ namespace NeeView
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="isSelected"></param>
-        public void SetSelectedPanel(IPanel panel, bool isSelected)
+        public void SetSelectedPanel(IPanel panel, bool isSelected, bool flush)
         {
-            SelectedPanel = isSelected ? panel : SelectedPanel != panel ? SelectedPanel : null;
+            Debug.Assert(Panels.Contains(panel));
+
+            if (panel.IsSelected != isSelected)
+            {
+                panel.IsSelected = isSelected;
+            }
+            else if (flush)
+            {
+                // 選択が変更されたことにして、自動非表示の表示状態更新を要求する
+                SelectedPanelChanged?.Invoke(this, new SelectedPanelChangedEventArgs(SelectedPanel));
+            }
         }
 
         /// <summary>
@@ -169,15 +259,17 @@ namespace NeeView
         /// <param name="force">表示状態にかかわらず切り替える</param>
         public void ToggleSelectedPanel(IPanel panel, bool force)
         {
-            if (force || SelectedPanel != panel)
+            Debug.Assert(Panels.Contains(panel));
+
+            if (force || !panel.IsSelected)
             {
-                SelectedPanel = SelectedPanel != panel ? panel : null;
+                panel.IsSelected = !panel.IsSelected;
             }
             else
             {
                 if (IsVisible)
                 {
-                    SelectedPanel = null;
+                    panel.IsSelected = false;
                 }
                 else
                 {
@@ -191,12 +283,12 @@ namespace NeeView
         /// Toggle.
         /// アイコンボダンによる切り替え
         /// </summary>
-        /// <param name="content"></param>
-        public void Toggle(IPanel content)
+        /// <param name="panel"></param>
+        public void Toggle(IPanel panel)
         {
-            if (content != null && _panels.Contains(content))
+            if (panel != null && Panels.Contains(panel))
             {
-                SelectedPanel = SelectedPanel != content ? content : null;
+                panel.IsSelected = !panel.IsSelected;
             }
         }
 
@@ -206,7 +298,11 @@ namespace NeeView
         /// </summary>
         public void Toggle()
         {
-            SelectedPanel = SelectedPanel == null ? LastSelectedPanel : null;
+            var panel = SelectedPanel ?? LastSelectedPanel;
+            if (panel != null)
+            {
+                panel.IsSelected = !panel.IsSelected;
+            }
         }
 
         /// <summary>
@@ -216,7 +312,6 @@ namespace NeeView
         public void Remove(IPanel panel)
         {
             Panels.Remove(panel);
-            if (SelectedPanel == panel) SelectedPanel = null;
         }
 
         /// <summary>

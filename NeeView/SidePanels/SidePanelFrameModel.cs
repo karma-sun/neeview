@@ -274,7 +274,7 @@ namespace NeeView
         /// </summary>
         /// <param name="panel">パネル</param>
         /// <param name="isSelected">選択</param>
-        public void SetSelectedPanel(IPanel panel, bool isSelected)
+        public void SetSelectedPanel(IPanel panel, bool isSelected, bool flush = false)
         {
             if (panel == null)
             {
@@ -283,11 +283,11 @@ namespace NeeView
 
             if (this.Left.Contains(panel))
             {
-                this.Left.SetSelectedPanel(panel, isSelected);
+                this.Left.SetSelectedPanel(panel, isSelected, flush);
             }
             if (this.Right.Contains(panel))
             {
-                this.Right.SetSelectedPanel(panel, isSelected);
+                this.Right.SetSelectedPanel(panel, isSelected, flush);
             }
         }
 

@@ -31,7 +31,7 @@ namespace NeeView
         {
             if (args.Length > 0)
             {
-                SidePanel.Current.IsVisiblePageList = Convert.ToBoolean(args[0]);
+                SidePanel.Current.SetVisiblePageList(Convert.ToBoolean(args[0]), true);
             }
             else
             {

@@ -27,11 +27,16 @@ namespace NeeView
             Icon = App.Current.MainWindow.Resources["pic_history_24px"] as ImageSource;
             IconMargin = new Thickness(7, 8, 9, 8);
             //IconMargin = new Thickness(8);
+
+            Config.Current.History.AddPropertyChanged(nameof(HistoryConfig.IsSelected), (s, e) => IsSelectedChanged?.Invoke(this, null));
         }
 
 #pragma warning disable CS0067
         public event EventHandler IsVisibleLockChanged;
 #pragma warning restore CS0067
+
+        public event EventHandler IsSelectedChanged;
+
 
         public string TypeCode => nameof(HistoryPanel);
 
@@ -42,6 +47,18 @@ namespace NeeView
         public string IconTips => Properties.Resources.HistoryName;
 
         public FrameworkElement View => _view;
+
+        public bool IsSelected
+        {
+            get { return Config.Current.History.IsSelected; }
+            set { if (Config.Current.History.IsSelected != value) Config.Current.History.IsSelected = value; }
+        }
+
+        public bool IsVisible
+        {
+            get => Config.Current.History.IsVisible;
+            set => Config.Current.History.IsVisible = value;
+        }
 
         public bool IsVisibleLock => false;
 

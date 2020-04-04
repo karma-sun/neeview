@@ -1,16 +1,35 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Controls;
 using NeeView.Windows.Property;
+using System.Text.Json.Serialization;
 
 namespace NeeView
 {
     public class PagemarkConfig : BindableBase
     {
+        private bool _isVisible;
+        private bool _isSelected;
         private PanelListItemStyle _panelListItemStyle;
         private bool _isSavePagemark = true;
         private string _pagemarkFilePath;
         private PagemarkOrder _pagemarkOrder;
 
+        [JsonIgnore]
+        [PropertyMapReadOnly]
+        [PropertyMember("@WordIsPanelVisible")]
+        public bool IsVisible
+        {
+            get { return _isVisible; }
+            set { SetProperty(ref _isVisible, value); }
+        }
+
+        [JsonIgnore]
+        [PropertyMember("@WordIsPanelSelected")]
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set { SetProperty(ref _isSelected, value); }
+        }
 
         [PropertyMember("@ParamPagemarkListItemStyle")]
         public PanelListItemStyle PanelListItemStyle

@@ -2,11 +2,14 @@
 using NeeView.Windows.Controls;
 using NeeView.Windows.Property;
 using System;
+using System.Text.Json.Serialization;
 
 namespace NeeView
 {
     public class HistoryConfig : BindableBase
     {
+        private bool _isVisible;
+        private bool _isSelected;
         private PanelListItemStyle _panelListItemStyle;
         private bool _isSaveHistory = true;
         private string _historyFilePath;
@@ -18,6 +21,23 @@ namespace NeeView
         private int _historyEntryPageCount = 0;
         private int _limitSize = -1;
         private TimeSpan _limitSpan;
+
+        [JsonIgnore]
+        [PropertyMapReadOnly]
+        [PropertyMember("@WordIsPanelVisible")]
+        public bool IsVisible
+        {
+            get { return _isVisible; }
+            set { SetProperty(ref _isVisible, value); }
+        }
+
+        [JsonIgnore]
+        [PropertyMember("@WordIsPanelSelected")]
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set { SetProperty(ref _isSelected, value); }
+        }
 
         [PropertyMember("@ParamHistoryListItemStyle")]
         public PanelListItemStyle PanelListItemStyle

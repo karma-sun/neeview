@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.452
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeeView", "NeeView\NeeView.csproj", "{4F680598-E096-4474-99A7-1747AFD771B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeeView", "NeeView\NeeView.csproj", "{4F680598-E096-4474-99A7-1747AFD771B2}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E551AF04-F038-4CCF-B82B-6015D395CC89} = {E551AF04-F038-4CCF-B82B-6015D395CC89}
 	EndProjectSection
@@ -17,13 +17,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		THIRDPARTY_LICENSES.md = THIRDPARTY_LICENSES.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SevenZip", "SevenZipSharp\SevenZip\SevenZip.csproj", "{4960DD14-3431-47EC-B9D9-9D2730A98DC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SevenZip", "SevenZipSharp\SevenZip\SevenZip.csproj", "{4960DD14-3431-47EC-B9D9-9D2730A98DC3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeeLaboratory.IO.Search", "NeeLaboratory.IO.Search\NeeLaboratory.IO.Search\NeeLaboratory.IO.Search.csproj", "{F8053574-48A7-4D8D-A55E-63C26D01E519}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeeLaboratory.Remote", "NeeLaboratory.Remote\NeeLaboratory.Remote.csproj", "{843632A2-0F10-4B48-9995-3959346BFC04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeeView.Susie.Server", "NeeView.Susie.Server\NeeView.Susie.Server.csproj", "{E551AF04-F038-4CCF-B82B-6015D395CC89}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeeView.Susie.Server", "NeeView.Susie.Server\NeeView.Susie.Server.csproj", "{E551AF04-F038-4CCF-B82B-6015D395CC89}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeeView.Susie", "NeeView.Susie\NeeView.Susie.csproj", "{9523F921-B956-4EB4-B599-1C41B64FFF0D}"
 EndProject
@@ -44,8 +44,8 @@ Global
 		{4F680598-E096-4474-99A7-1747AFD771B2}.Remote|Any CPU.Build.0 = Release|Any CPU
 		{4960DD14-3431-47EC-B9D9-9D2730A98DC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4960DD14-3431-47EC-B9D9-9D2730A98DC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4960DD14-3431-47EC-B9D9-9D2730A98DC3}.Deploy|Any CPU.ActiveCfg = Deploy|Any CPU
-		{4960DD14-3431-47EC-B9D9-9D2730A98DC3}.Deploy|Any CPU.Build.0 = Deploy|Any CPU
+		{4960DD14-3431-47EC-B9D9-9D2730A98DC3}.Deploy|Any CPU.ActiveCfg = Debug|Any CPU
+		{4960DD14-3431-47EC-B9D9-9D2730A98DC3}.Deploy|Any CPU.Build.0 = Debug|Any CPU
 		{4960DD14-3431-47EC-B9D9-9D2730A98DC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4960DD14-3431-47EC-B9D9-9D2730A98DC3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4960DD14-3431-47EC-B9D9-9D2730A98DC3}.Remote|Any CPU.ActiveCfg = Debug|Any CPU

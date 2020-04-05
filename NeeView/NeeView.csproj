@@ -10,6 +10,12 @@
     <Platforms>AnyCPU;x64;x86</Platforms>
   </PropertyGroup>
 
+  <Target Name="MsBuildAL1073WarningWorkaround" BeforeTargets="BeforeBuild" >
+    <PropertyGroup Condition="'$(Platform)' == 'x64'">
+      <TargetFrameworkSDKToolsDirectory>$(TargetFrameworkSDKToolsDirectory)$(Platform)\</TargetFrameworkSDKToolsDirectory>
+    </PropertyGroup>
+  </Target>
+  
   <PropertyGroup>
     <Version>36.9.0</Version>
     <Authors>NeeLaboratory</Authors>

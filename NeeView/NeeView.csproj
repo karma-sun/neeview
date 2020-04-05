@@ -10,7 +10,7 @@
     <Platforms>AnyCPU;x64;x86</Platforms>
   </PropertyGroup>
 
-  <Target Name="MsBuildAL1073WarningWorkaround" BeforeTargets="BeforeBuild" >
+  <Target Name="MsBuildAL1073WarningWorkaround" BeforeTargets="BeforeBuild">
     <PropertyGroup Condition="'$(Platform)' == 'x64'">
       <TargetFrameworkSDKToolsDirectory>$(TargetFrameworkSDKToolsDirectory)$(Platform)\</TargetFrameworkSDKToolsDirectory>
     </PropertyGroup>
@@ -171,7 +171,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy &quot;$(SolutionDir)NeeView.Susie.Server\bin\x86\$(ConfigurationName)\net48\*.*&quot;  &quot;$(OutDir)Susie\&quot;  /d  /y /s /i" />
+    <Exec Command="xcopy ..\NeeView.Susie.Server\bin\x86\$(ConfigurationName)\net48\*.*  $(OutDir)Susie\  /d  /y /s /i" />
   </Target>
   
 </Project>

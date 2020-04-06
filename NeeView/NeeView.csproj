@@ -173,9 +173,5 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy ..\NeeView.Susie.Server\bin\x86\$(ConfigurationName)\net48\*.*  $(OutDir)Susie\  /d  /y /s /i" />
-  </Target>
   
 </Project>

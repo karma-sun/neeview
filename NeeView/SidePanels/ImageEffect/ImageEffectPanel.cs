@@ -26,7 +26,7 @@ namespace NeeView
             Icon = App.Current.MainWindow.Resources["pic_toy_24px"] as ImageSource;
             IconMargin = new Thickness(8);
 
-            Config.Current.Effect.AddPropertyChanged(nameof(EffectConfig.IsVisible), (s, e) => IsSelectedChanged?.Invoke(this, null));
+            Config.Current.Effect.AddPropertyChanged(nameof(EffectConfig.IsSelected), (s, e) => IsSelectedChanged?.Invoke(this, null));
         }
 
 #pragma warning disable CS0067

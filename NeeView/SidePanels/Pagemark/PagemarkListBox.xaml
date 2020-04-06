@@ -81,7 +81,7 @@
 
     </UserControl.Resources>
 
-    <TreeView x:Name="TreeView"
+    <TreeView x:Name="TreeView" FocusVisualStyle="{x:Null}"
               FontFamily="{DynamicResource PanelFontFamily}" FontSize="{DynamicResource PanelFontSize}"
               Foreground="{DynamicResource NVForeground}" Background="Transparent" BorderThickness="0"
               ItemsSource="{Binding Model.Items}"

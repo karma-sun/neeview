@@ -261,14 +261,21 @@ namespace NeeView
                 return _packageType;
             }
         }
-
+        
+        public static bool IsDevPackage => PackageType == ".dev";
         public static bool IsZipPackage => PackageType == ".zip";
         public static bool IsMsiPackage => PackageType == ".msi";
         public static bool IsAppxPackage => PackageType == ".appx";
         public static bool IsCanaryPackage => PackageType == ".canary";
         public static bool IsBetaPackage => PackageType == ".beta";
 
-        public static bool IsZipLikePackage => IsZipPackage || IsCanaryPackage || IsBetaPackage;
+        public static bool IsZipLikePackage => IsZipPackage || IsCanaryPackage || IsBetaPackage || IsDevPackage;
+
+#if DEBUG
+        public static string ConfigType = "Debug";
+#else
+        public static string ConfigType = "Release";
+#endif
 
         public static string Revision
         {

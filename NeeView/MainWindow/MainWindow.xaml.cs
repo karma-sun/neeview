@@ -557,7 +557,7 @@ namespace NeeView
 
             App.Current.IsMainWindowLoaded = true;
 
-            Debug.WriteLine($"App.MainWndow.Loaded.Done: {App.Current.Stopwatch.ElapsedMilliseconds}ms");
+            Trace.WriteLine($"App.MainWndow.Loaded.Done: {App.Current.Stopwatch.ElapsedMilliseconds}ms");
         }
 
         // ウィンドウコンテンツ表示開始

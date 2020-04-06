@@ -43,13 +43,19 @@ namespace NeeView.Susie.Client
             Dispose(true);
         }
         #endregion
-        
+
 
         public void Connect()
         {
             if (_subProcess != null) return;
 
-            var subProcessFileName = System.IO.Path.Combine(Environment.LibrariesPath, "NeeView.Susie.Server.exe");
+            var subProcessFileName = Path.Combine(Environment.LibrariesPath, "Susie\\NeeView.Susie.Server.exe");
+
+            // 開発中は直接プロジェクトを参照する
+            if (Environment.IsDevPackage)
+            {
+                subProcessFileName = Path.GetFullPath(Path.Combine(Environment.AssemblyLocation, @"..\..\..\..\..\NeeView.Susie.Server\bin\x86", Environment.ConfigType, @"net48\NeeView.Susie.Server.exe"));
+            }
 
             if (!File.Exists(subProcessFileName))
             {

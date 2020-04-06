@@ -37,7 +37,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <DefineConstants>TRACE;DEBUG;SUSIE</DefineConstants>
   </PropertyGroup>
-  
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DefineConstants>TRACE;SUSIE</DefineConstants>

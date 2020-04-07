@@ -7,7 +7,9 @@
 
 ### Zip version
 
-  * NeeView<VERSION/>.zip
+  * NeeView<VERSION/>-x64/x86.zip
+
+  Usually use the x64 version. Use the x86 version only if your OS is 32-bit.
   
   Installation is unnecessary. After unpacking the zip, just run `NeeView.exe`.
   User data such as setting files etc. are also saved in the same place.  
@@ -17,7 +19,9 @@
 
 ### Installer version
 
-  * NeeView<VERSION/>.msi
+  * NeeView<VERSION/>-x64/x86.msi
+
+  Usually use the x64 version. Use the x86 version only if your OS is 32-bit.
 
   Installation starts when you run it. Follow the instructions of the installer.  
   Configuration files etc. User data is saved in the application data folder of each user.  

@@ -26,7 +26,7 @@ namespace NeeView
     /// </summary>
     public partial class VersionWindow : Window
     {
-        private VersionWindowVM _VM;
+        private VersionWindowVM _vm;
 
         public VersionWindow()
         {
@@ -34,8 +34,8 @@ namespace NeeView
 
             InitializeComponent();
 
-            _VM = new VersionWindowVM();
-            this.DataContext = _VM;
+            _vm = new VersionWindowVM();
+            this.DataContext = _vm;
         }
 
         // from http://gushwell.ldblog.jp/archives/52279481.html
@@ -58,19 +58,6 @@ namespace NeeView
     /// </summary>
     public class VersionWindowVM : BindableBase
     {
-        public string ApplicationName => Environment.ApplicationName;
-        public string DispVersion => Environment.DispVersion + $" ({(Environment.IsX64 ? "64bit" : "32bit")})";
-        public string LicenseUri { get; private set; }
-        public string ProjectUri => "https://bitbucket.org/neelabo/neeview/";
-        public bool IsNetworkEnabled => Config.Current.System.IsNetworkEnabled;
-        public bool IsCheckerEnabled => Checker.IsEnabled;
-
-        public BitmapFrame Icon { get; set; }
-
-        // バージョンチェッカーは何度もチェックしないようにstaticで確保する
-        public static VersionChecker Checker { get; set; } = new VersionChecker();
-
-        //
         public VersionWindowVM()
         {
             LicenseUri = "file://" + Environment.AssemblyLocation.Replace('\\', '/').TrimEnd('/') + $"/{Properties.Resources.HelpReadMeFile}";
@@ -84,6 +71,19 @@ namespace NeeView
             // チェック開始
             Checker.CheckStart();
         }
+
+
+        public string ApplicationName => Environment.ApplicationName;
+        public string DispVersion => Environment.DispVersion + $" ({(Environment.IsX64 ? "64bit" : "32bit")})";
+        public string LicenseUri { get; private set; }
+        public string ProjectUri => "https://bitbucket.org/neelabo/neeview/";
+        public bool IsNetworkEnabled => Config.Current.System.IsNetworkEnabled;
+        public bool IsCheckerEnabled => Checker.IsEnabled;
+
+        public BitmapFrame Icon { get; set; }
+
+        // バージョンチェッカーは何度もチェックしないようにstaticで確保する
+        public static VersionChecker Checker { get; set; } = new VersionChecker();
     }
 
     /// <summary>
@@ -91,6 +91,22 @@ namespace NeeView
     /// </summary>
     public class VersionChecker : BindableBase
     {
+        private bool _isCheching = false;
+        private bool _isChecked = false;
+        private string _message;
+
+
+        public VersionChecker()
+        {
+            CurrentVersion = new FormatVersion(Environment.SolutionName);
+
+#if DEBUG
+            // for Debug
+            //CurrentVersion = new FormatVersion(Environment.SolutionName, 36, 2, 0);
+#endif
+        }
+
+
 #if DEBUG
         public string DownloadUri => "https://neelabo.bitbucket.io/NeeViewUpdateCheck.html";
 #else
@@ -99,38 +115,18 @@ namespace NeeView
 
         public bool IsEnabled => Config.Current.System.IsNetworkEnabled && !Environment.IsAppxPackage && !Environment.IsCanaryPackage && !Environment.IsBetaPackage;
 
-        public int CurrentVersion { get; set; }
-        public int LastVersion { get; set; }
+        public FormatVersion CurrentVersion { get; set; }
+        public FormatVersion LastVersion { get; set; }
 
         public bool IsExistNewVersion { get; set; }
 
-        #region Property: Message
-        private string _message;
         public string Message
         {
             get { return _message; }
             set { _message = value; RaisePropertyChanged(); }
         }
-        #endregion
 
 
-        private bool _isCheching = false;
-        private bool _isChecked = false;
-
-        //
-        public VersionChecker()
-        {
-            var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            var ver = FileVersionInfo.GetVersionInfo(assembly.Location);
-            CurrentVersion = Environment.GenerateProductVersionNumber(ver.FileMajorPart, ver.FileMinorPart, 0);
-
-#if DEBUG
-            // for Debug
-            //CurrentVersion = 500 + 1;
-#endif
-        }
-
-        //
         public void CheckStart()
         {
             if (_isChecked || _isCheching) return;
@@ -138,12 +134,11 @@ namespace NeeView
             if (IsEnabled)
             {
                 // チェック開始
-                LastVersion = 0; // CurrentVersion;
+                LastVersion = new FormatVersion(Environment.SolutionName, 0, 0, 0);
                 Message = Properties.Resources.ControlAboutChecking;
-                Task.Run(() => CheckVersion(Environment.PackageType));
+                Task.Run(() => CheckVersion(Environment.IsZipLikePackage ? ".zip" : Environment.PackageType));
             }
         }
-
 
         private async Task CheckVersion(string extension)
         {
@@ -161,23 +156,27 @@ namespace NeeView
                     ////extension = ".msi";
 #endif
 
-                    var regex = new Regex(@"NeeView(?<major>\d+)\.(?<minor>\d+)(?<arch>-[^\.]+)?" + extension);
+                    var regex = new Regex(@"NeeView(?<major>\d+)\.(?<minor>\d+)(?<arch>-[^\.]+)?" + Regex.Escape(extension));
                     var matches = regex.Matches(text);
                     if (matches.Count <= 0) throw new ApplicationException(Properties.Resources.ControlAboutWrongFormat);
                     foreach (Match match in matches)
                     {
                         var major = int.Parse(match.Groups["major"].Value);
                         var minor = int.Parse(match.Groups["minor"].Value);
-                        var version = Environment.GenerateProductVersionNumber(major, minor, 0);
+                        var version = new FormatVersion(Environment.SolutionName, major, minor, 0);
+
                         Debug.WriteLine($"NeeView {major}.{minor} - {version:x8}: {match.Groups["arch"]?.Value}");
-                        if (LastVersion < version) LastVersion = version;
+                        if (LastVersion.CompareTo(version) < 0)
+                        {
+                            LastVersion = version;
+                        }
                     }
 
                     if (LastVersion == CurrentVersion)
                     {
                         Message = Properties.Resources.ControlAboutLastest;
                     }
-                    else if (LastVersion < CurrentVersion)
+                    else if (LastVersion.CompareTo(CurrentVersion) < 0)
                     {
                         Message = Properties.Resources.ControlAboutUnknown;
                     }

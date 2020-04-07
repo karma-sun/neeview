@@ -26,9 +26,15 @@ namespace NeeView
     [DataContract]
     public class FocusMainViewCommandParameter : CommandParameter
     {
+        private bool _needClosePanels;
+
         [DataMember]
         [PropertyMember("@ParamCommandParameterFocusMainViewClosePanels")]
-        public bool NeedClosePanels { get; set; }
+        public bool NeedClosePanels
+        {
+            get => _needClosePanels;
+            set => SetProperty(ref _needClosePanels, value);
+        }
 
         public override bool MemberwiseEquals(CommandParameter other)
         {

@@ -26,24 +26,4 @@ namespace NeeView
         }
     }
 
-
-
-    /// <summary>
-    /// ページマーク移動用パラメータ
-    /// </summary>
-    public class MovePagemarkInBookCommandParameter : CommandParameter
-    {
-        [PropertyMember("@ParamCommandParameterMovePagemarkLoop")]
-        public bool IsLoop { get; set; }
-
-        [PropertyMember("@ParamCommandParameterMovePagemarkIncludeTerminal")]
-        public bool IsIncludeTerminal { get; set; }
-
-        public override bool MemberwiseEquals(CommandParameter other)
-        {
-            var target = other as MovePagemarkInBookCommandParameter;
-            if (target == null) return false;
-            return this == target || (this.IsLoop == target.IsLoop && this.IsIncludeTerminal == target.IsIncludeTerminal);
-        }
-    }
 }

@@ -108,7 +108,6 @@ namespace NeeView
         public CommandParameter Parameter
         {
             get => ParameterSource?.Get();
-            set => ParameterSource?.Set(value);
         }
 
         public CommandElement Share { get; private set; }
@@ -327,7 +326,7 @@ namespace NeeView
             TouchGesture = memento.TouchGesture;
             MouseGesture = memento.MouseGesture;
             IsShowMessage = memento.IsShowMessage;
-            ParameterSource?.Set(memento.Parameter);
+            ParameterSource?.Set(memento.Parameter, false);
         }
 
         #endregion

@@ -43,9 +43,15 @@ namespace NeeView
     /// </summary>
     public class StretchModeCommandParameter : CommandParameter
     {
+        private bool _isToggle;
+
         // 属性に説明文
         [PropertyMember("@ParamCommandParameterStretchModeIsToggle", Tips = "@ParamCommandParameterStretchModeIsToggleTips")]
-        public bool IsToggle { get; set; }
+        public bool IsToggle
+        {
+            get => _isToggle;
+            set => SetProperty(ref _isToggle , value);
+        }
 
         public override bool MemberwiseEquals(CommandParameter other)
         {

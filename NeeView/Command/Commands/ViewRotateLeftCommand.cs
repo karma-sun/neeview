@@ -25,21 +25,29 @@ namespace NeeView
     /// <summary>
     /// ビュー回転コマンド用パラメータ
     /// </summary>
-    public class ViewRotateCommandParameter : CommandParameter
+    public class ViewRotateCommandParameter : CommandParameter 
     {
         private int _angle;
+        private bool _isStretch;
+
 
         // 属性に説明文
         [PropertyRange("@ParamCommandParameterRotateAmount", 0, 180, Tips = "@ParamCommandParameterRotateAmountTips")]
         public int Angle
         {
             get { return _angle; }
-            set { _angle = MathUtility.Clamp(value, 0, 180); }
+            set { SetProperty(ref _angle, MathUtility.Clamp(value, 0, 180)); }
         }
 
         // 属性に説明文
         [PropertyMember("@ParamCommandParameterRotateIsStretch", Tips = "@ParamCommandParameterRotateIsStretchTips")]
-        public bool IsStretch { get; set; }
+        public bool IsStretch
+        {
+            get { return _isStretch; }
+            set { SetProperty(ref _isStretch, value); }
+        }
+
+
 
         public override bool MemberwiseEquals(CommandParameter other)
         {

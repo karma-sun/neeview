@@ -57,11 +57,19 @@ namespace NeeView
             }
         }
 
-        public void Set(CommandParameter value)
+        /// <summary>
+        /// パラメーターの設定
+        /// </summary>
+        /// <param name="value">パラメーター</param>
+        /// <param name="includeShare">シェアパラメーターの場合、シェア先のパラメーターを変更する。falseの場合は何もしない</param>
+        public void Set(CommandParameter value, bool includeShare)
         {
             if (_share != null)
             {
-                _share.Set(value);
+                if (includeShare)
+                {
+                    _share.Set(value, includeShare);
+                }
             }
             else
             {

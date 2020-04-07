@@ -1,4 +1,5 @@
-﻿using NeeView.Windows.Controls;
+﻿using NeeLaboratory;
+using NeeView.Windows.Controls;
 using NeeView.Windows.Property;
 using System.Runtime.Serialization;
 
@@ -36,13 +37,24 @@ namespace NeeView
     [DataContract]
     public class ExportImageAsCommandParameter : CommandParameter
     {
+        private string _exportFolder;
+        private int _qualityLevel = 80;
+
         [DataMember]
         [PropertyPath("@ParamCommandParameterExportDefaultFolder", Tips = "@ParamCommandParameterExportDefaultFolderTips", FileDialogType = FileDialogType.Directory)]
-        public string ExportFolder { get; set; }
+        public string ExportFolder
+        {
+            get => _exportFolder;
+            set => SetProperty(ref _exportFolder, value);
+        }
 
         [DataMember]
         [PropertyRange("@ParamCommandParameterExportImageQualityLevel", 5, 100, TickFrequency = 5, Tips = "@ParamCommandParameterExportImageQualityLevelTips")]
-        public int QualityLevel { get; set; } = 80;
+        public int QualityLevel
+        {
+            get => _qualityLevel;
+            set => SetProperty(ref _qualityLevel, MathUtility.Clamp(value, 5, 100));
+        }
 
         public override bool MemberwiseEquals(CommandParameter other)
         {

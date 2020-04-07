@@ -33,29 +33,61 @@ namespace NeeView
     [DataContract]
     public class ExportImageCommandParameter : CommandParameter
     {
+        private ExportImageMode _mode;
+        private bool _hasBackground;
+        private string _exportFolder;
+        private ExportImageFileNameMode _fileNameMode;
+        private ExportImageFormat _fileFormat;
+        private int _qualityLevel = 80;
+
         [DataMember]
         [PropertyMember("@ParamCommandParameterExportMode")]
-        public ExportImageMode Mode { get; set; }
+        public ExportImageMode Mode
+        {
+            get => _mode;
+            set => SetProperty(ref _mode, value);
+        }
 
         [DataMember]
         [PropertyMember("@ParamCommandParameterExportHasBackground")]
-        public bool HasBackground { get; set; }
+        public bool HasBackground
+        {
+            get => _hasBackground;
+            set => SetProperty(ref _hasBackground, value);
+        }
 
         [DataMember]
         [PropertyPath("@ParamCommandParameterExportFolder", FileDialogType = FileDialogType.Directory)]
-        public string ExportFolder { get; set; }
+        public string ExportFolder
+        {
+            get => _exportFolder;
+            set => SetProperty(ref _exportFolder, value);
+        }
 
         [DataMember]
         [PropertyMember("@ParamCommandParameterExportFileNameMode")]
-        public ExportImageFileNameMode FileNameMode { get; set; }
+        public ExportImageFileNameMode FileNameMode
+        {
+            get => _fileNameMode;
+            set => SetProperty(ref _fileNameMode, value);
+        }
 
         [DataMember]
         [PropertyMember("@ParamCommandParameterExportFileFormat", Tips = "@ParamCommandParameterExportFileFormat")]
-        public ExportImageFormat FileFormat { get; set; }
+        public ExportImageFormat FileFormat
+        {
+            get => _fileFormat;
+            set => SetProperty(ref _fileFormat, value);
+        }
 
         [DataMember]
         [PropertyRange("@ParamCommandParameterExportImageQualityLevel", 5, 100, TickFrequency = 5, Tips = "@ParamCommandParameterExportImageQualityLevelTips")]
-        public int QualityLevel { get; set; } = 80;
+        public int QualityLevel
+        {
+            get => _qualityLevel;
+            set => SetProperty(ref _qualityLevel, value);
+        }
+
 
         public override bool MemberwiseEquals(CommandParameter other)
         {

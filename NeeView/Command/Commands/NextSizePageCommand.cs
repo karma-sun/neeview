@@ -28,26 +28,4 @@ namespace NeeView
         }
     }
 
-
-    /// <summary>
-    /// 指定ページ数移動コマンド用パラメータ
-    /// </summary>
-    public class MoveSizePageCommandParameter : ReversibleCommandParameter
-    {
-        private int _size;
-
-        [PropertyMember("@ParamCommandParameterMoveSize")]
-        public int Size
-        {
-            get { return _size; }
-            set { _size = MathUtility.Clamp(value, 0, 1000); }
-        }
-
-        public override bool MemberwiseEquals(CommandParameter other)
-        {
-            var target = other as MoveSizePageCommandParameter;
-            if (target == null) return false;
-            return this == target || (this.Size == target.Size);
-        }
-    }
 }

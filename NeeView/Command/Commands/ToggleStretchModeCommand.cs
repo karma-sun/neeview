@@ -44,12 +44,17 @@ namespace NeeView
     public class ToggleStretchModeCommandParameter : CommandParameter
     {
         private Dictionary<PageStretchMode, bool> _strechModes;
+        private bool _isLoop;
 
 
         // ループ
         [DataMember]
         [PropertyMember("@ParamCommandParameterToggleStretchLoop", Title = "@ParamCommandParameterToggleStretchLoopTitle")]
-        public bool IsLoop { get; set; }
+        public bool IsLoop
+        {
+            get => _isLoop;
+            set => SetProperty(ref _isLoop, value);
+        }
 
         // 表示名
         [DataMember]
@@ -57,7 +62,7 @@ namespace NeeView
         public bool IsEnableNone
         {
             get { return StretchModes[PageStretchMode.None]; }
-            set { StretchModes[PageStretchMode.None] = value; }
+            set { if (StretchModes[PageStretchMode.None] != value) { StretchModes[PageStretchMode.None] = value; RaisePropertyChanged(); } }
         }
 
         [DataMember]
@@ -65,7 +70,7 @@ namespace NeeView
         public bool IsEnableUniform
         {
             get { return StretchModes[PageStretchMode.Uniform]; }
-            set { StretchModes[PageStretchMode.Uniform] = value; }
+            set { if (StretchModes[PageStretchMode.Uniform] != value) { StretchModes[PageStretchMode.Uniform] = value; RaisePropertyChanged(); } }
         }
 
         [DataMember]
@@ -73,7 +78,7 @@ namespace NeeView
         public bool IsEnableUniformToFill
         {
             get { return StretchModes[PageStretchMode.UniformToFill]; }
-            set { StretchModes[PageStretchMode.UniformToFill] = value; }
+            set { if (StretchModes[PageStretchMode.UniformToFill] != value) { StretchModes[PageStretchMode.UniformToFill] = value; RaisePropertyChanged(); } }
         }
 
         [DataMember]
@@ -81,7 +86,7 @@ namespace NeeView
         public bool IsEnableUniformToSize
         {
             get { return StretchModes[PageStretchMode.UniformToSize]; }
-            set { StretchModes[PageStretchMode.UniformToSize] = value; }
+            set { if (StretchModes[PageStretchMode.UniformToSize] != value) { StretchModes[PageStretchMode.UniformToSize] = value; RaisePropertyChanged(); } }
         }
 
         [DataMember]
@@ -89,7 +94,7 @@ namespace NeeView
         public bool IsEnableUniformToVertical
         {
             get { return StretchModes[PageStretchMode.UniformToVertical]; }
-            set { StretchModes[PageStretchMode.UniformToVertical] = value; }
+            set { if (StretchModes[PageStretchMode.UniformToVertical] != value) { StretchModes[PageStretchMode.UniformToVertical] = value; RaisePropertyChanged(); } }
         }
 
         [DataMember]
@@ -97,7 +102,7 @@ namespace NeeView
         public bool IsEnableUniformToHorizontal
         {
             get { return StretchModes[PageStretchMode.UniformToHorizontal]; }
-            set { StretchModes[PageStretchMode.UniformToHorizontal] = value; }
+            set { if (StretchModes[PageStretchMode.UniformToHorizontal] != value) { StretchModes[PageStretchMode.UniformToHorizontal] = value; RaisePropertyChanged(); } }
         }
 
 

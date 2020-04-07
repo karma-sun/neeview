@@ -11,6 +11,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using NeeLaboratory;
+using NeeLaboratory.ComponentModel;
 using NeeView.Data;
 using NeeView.Windows.Controls;
 using NeeView.Windows.Property;
@@ -22,7 +23,7 @@ namespace NeeView
     /// </summary>
     [DataContract]
     [JsonConverter(typeof(JsonCommandParameterConverter))]
-    public abstract class CommandParameter : ICloneable
+    public abstract class CommandParameter : BindableBase, ICloneable
     {
         public object Clone()
         {
@@ -39,9 +40,17 @@ namespace NeeView
     [DataContract]
     public class ReversibleCommandParameter : CommandParameter
     {
+        private bool _isReverse = true;
+
+
         [DataMember]
         [PropertyMember("@ParamCommandParameterIsReverse", Tips = "@ParamCommandParameterIsReverseTips")]
-        public bool IsReverse { get; set; } = true;
+        public bool IsReverse
+        {
+            get => _isReverse;
+            set => SetProperty(ref _isReverse, value);
+        }
+
 
         [OnDeserializing]
         private void OnDeserializing(StreamingContext context)

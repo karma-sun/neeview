@@ -127,7 +127,7 @@ namespace NeeView
                     case nameof(ViewConfig.AllowEnlarge):
                     case nameof(ViewConfig.AllowReduce):
                         UpdateContentSize();
-                        ResetTransform(true);
+                        ResetTransformRaw(true, false, false, 0.0);
                         break;
 
                     case nameof(ViewConfig.AutoRotate):
@@ -466,6 +466,11 @@ namespace NeeView
             }
         }
 
+        public void ResetTransformRaw(bool isResetScale, bool isResetAngle, bool isResetFlip, double angle)
+        {
+            _dragTransformControl.Reset(isResetScale, isResetAngle, isResetFlip, angle);
+        }
+
         /// <summary>
         /// ページ開始時の回転
         /// </summary>
@@ -647,11 +652,12 @@ namespace NeeView
 
         public void ViewRotateLeft(ViewRotateCommandParameter parameter)
         {
-            if (parameter.IsStretch) _dragTransformControl.ResetDefault();
             _dragTransformControl.Rotate(-parameter.Angle);
+
             if (parameter.IsStretch)
             {
-                ContentCanvas.Current.UpdateContentSize(_dragTransform.Angle);
+                _dragTransformControl.Reset(true, false, false, 0.0);
+                UpdateContentSize(_dragTransform.Angle);
                 ContentRebuild.Current.Request();
                 DragTransformControl.Current.SnapView();
             }
@@ -659,11 +665,12 @@ namespace NeeView
 
         public void ViewRotateRight(ViewRotateCommandParameter parameter)
         {
-            if (parameter.IsStretch) _dragTransformControl.ResetDefault();
             _dragTransformControl.Rotate(+parameter.Angle);
+
             if (parameter.IsStretch)
             {
-                ContentCanvas.Current.UpdateContentSize(_dragTransform.Angle);
+                _dragTransformControl.Reset(true, false, false, 0.0);
+                UpdateContentSize(_dragTransform.Angle);
                 ContentRebuild.Current.Request();
                 DragTransformControl.Current.SnapView();
             }

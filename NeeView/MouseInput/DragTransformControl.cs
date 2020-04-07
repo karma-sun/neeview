@@ -334,15 +334,6 @@ namespace NeeView
             return move;
         }
 
-        // 最後にリセットした値に戻す(角度以外)
-        public void ResetDefault()
-        {
-            _transform.SetScale(_defaultScale, TransformActionType.Reset);
-            _transform.Position = _defaultPosition;
-            //_lockMoveX = IsLimitMove;
-            //_lockMoveY = IsLimitMove;
-        }
-
         /// <summary>
         /// 表示コンテンツのエリア情報取得
         /// </summary>

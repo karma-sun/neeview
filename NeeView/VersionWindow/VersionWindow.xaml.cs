@@ -62,11 +62,7 @@ namespace NeeView
         {
             LicenseUri = "file://" + Environment.AssemblyLocation.Replace('\\', '/').TrimEnd('/') + $"/{Properties.Resources.HelpReadMeFile}";
 
-#if NEEVIEW_S
-            this.Icon = ResourceBitmapUtility.GetIconBitmapFrame("/Resources/AppS.ico", 256);
-#else
             this.Icon = ResourceBitmapUtility.GetIconBitmapFrame("/Resources/App.ico", 256);
-#endif
 
             // チェック開始
             Checker.CheckStart();

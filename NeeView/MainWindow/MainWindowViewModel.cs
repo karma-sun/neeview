@@ -122,6 +122,7 @@ namespace NeeView
         private Visibility _busyVisibility = Visibility.Collapsed;
         private bool _isMenuAreaMouseOver;
         private bool _isStatusAreaMouseOver;
+        private Thickness _mainViewMergin;
 
 
         /// <summary>
@@ -138,14 +139,7 @@ namespace NeeView
 
             // mainwindow model
             _model = model;
-
-            ContextMenuManager.Current.AddPropertyChanged(nameof(ContextMenuManager.Current.SourceTree),
-                (s, e) => UpdateContextMenu());
-
-            /*
-            _model.AddPropertyChanged(nameof(_model.ContextMenuSetting),
-                (s, e) => UpdateContextMenu());
-            */
+            _model.PropertyChanged += Model_PropertyChanged;
 
             _model.AddPropertyChanged(nameof(_model.CanHideMenu),
                 (s, e) => UpdateSidePanelMargin());
@@ -161,6 +155,10 @@ namespace NeeView
                 (s, e) => UpdateSidePanelMargin());
 
             _model.FocusMainViewCall += Model_FocusMainViewCall;
+
+
+            ContextMenuManager.Current.AddPropertyChanged(nameof(ContextMenuManager.Current.SourceTree),
+                (s, e) => UpdateContextMenu());
 
             // 初期化
             UpdateContextMenu();
@@ -241,6 +239,16 @@ namespace NeeView
             set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
         }
 
+        /// <summary>
+        /// メインビューのマージン。
+        /// メインビューに恒久的にキャプション表示するときの調整用
+        /// </summary>
+        public Thickness MainViewMergin
+        {
+            get { return _mainViewMergin; }
+            set { SetProperty(ref _mainViewMergin, value); }
+        }
+
         public bool CanHideThumbnailList
         {
             get
@@ -299,6 +307,14 @@ namespace NeeView
         public bool IsFrontAreaMouseOver => IsMenuAreaMouseOver || IsStatusAreaMouseOver;
 
 
+        private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == nameof(MainWindowModel.CanHidePageSlider) || e.PropertyName == nameof(MainWindowModel.CanVisibleWindowTitle))
+            {
+                MainViewMergin = (!_model.CanHidePageSlider && _model.CanVisibleWindowTitle) ? new Thickness(0, 30, 0, 0) : default;
+            }
+        }
+        
         private void Model_FocusMainViewCall(object sender, EventArgs e)
         {
             FocusMainViewCall?.Invoke(sender, e);

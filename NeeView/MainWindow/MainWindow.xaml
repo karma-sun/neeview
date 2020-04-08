@@ -103,7 +103,9 @@
                             <local:MenuBarView x:Name="MenuBar" IsUnactiveEnabled="{Binding WindowShape.CanCaptionVisible, Converter={StaticResource BooleanReverseConverter}}" />
 
                             <!-- アドレスバー -->
-                            <local:AddressBarView x:Name="AddressBar" VerticalAlignment="Top" Visibility="{Binding Source={x:Static local:Config.Current}, Path=MenuBar.IsAddressBarEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" IsTabStop="False" />
+                            <local:AddressBarView x:Name="AddressBar" VerticalAlignment="Top"
+                                    Visibility="{Binding Source={x:Static local:Config.Current}, Path=MenuBar.IsAddressBarEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                    IsTabStop="False" />
 
                         </StackPanel>
                     </Grid>
@@ -142,54 +144,57 @@
                                     Width="{Binding CanvasWidth}" Height="{Binding CanvasHeight}" UseLayoutRounding="True">
 
                                 <!-- メインビュー パネル -->
-                                <Grid x:Name="MainViewPanel" ContextMenu="{Binding ContextMenu}" Background="{Binding ContentCanvasBrush.BackgroundBrush}" Margin="0">
+                                <Grid x:Name="MainViewPanel" ContextMenu="{Binding ContextMenu}" Background="{Binding ContentCanvasBrush.BackgroundBrush}">
                                     <Rectangle x:Name="FrontBackground" Fill="{Binding ContentCanvasBrush.BackgroundFrontBrush}" RenderOptions.BitmapScalingMode="HighQuality" IsHitTestVisible="False"
                                             Visibility="{Binding ContentCanvasBrush.BackgroundFrontBrush, Converter={StaticResource NullableToVisibilityConverter}}" />
 
-                                    <Grid x:Name="MainViewCanvas" Effect="{Binding ImageEffect.Effect}">
+                                    <Grid x:Name="MainViewMargin" Margin="{Binding MainViewMergin}">
+                                        <Grid x:Name="MainViewCanvas" Effect="{Binding ImageEffect.Effect}">
 
-                                        <!-- メインビュー コンテンツ表示領域 -->
-                                        <Grid x:Name="MainView" Background="Transparent" SizeChanged="MainView_SizeChanged" Focusable="True" KeyboardNavigation.IsTabStop="False" FocusVisualStyle="{x:Null}" ClipToBounds="True"
-                                                DataContext="{Binding ContentCanvas}" AllowDrop="True">
-                                            <!-- Pages -->
-                                            <!-- NOTE: 時々操作が奪われしてまう原因の可能性その2 IsHitTestVisible -->
-                                            <Canvas x:Name="PageCanvas" Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
-                                                    HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                <Canvas.Resources>
-                                                    <Style TargetType="TextBlock" x:Key="ContentProperty">
-                                                        <Setter Property="Foreground" Value="White" />
-                                                        <Setter Property="Background" Value="#80000000" />
-                                                        <Setter Property="Padding" Value="10,5" />
-                                                        <Style.Triggers>
-                                                            <Trigger Property="Text" Value="">
-                                                                <Setter Property="Visibility" Value="Collapsed" />
-                                                            </Trigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Canvas.Resources>
-                                                <ContentControl x:Name="MainContent" IsTabStop="False">
-                                                    <Grid>
-                                                        <StackPanel x:Name="PageContents" Orientation="Horizontal">
-                                                            <ContentControl x:Name="Content1" Content="{Binding Contents[1].View}" Width="{Binding Contents[1].Width}"
-                                                                    Height="{Binding Contents[1].Height}" Focusable="False" />
-                                                            <ContentControl x:Name="Content0" Content="{Binding Contents[0].View}" Width="{Binding Contents[0].Width}"
-                                                                    Height="{Binding Contents[0].Height}" Focusable="False" Margin="{Binding ContentsMargin}" />
-                                                        </StackPanel>
-                                                        <ContentControl Content="{Binding GridLine.Content}" Focusable="False"/>
-                                                    </Grid>
-                                                </ContentControl>
-                                            </Canvas>
-                                            <!-- Pages Shadow (表示領域計算用) -->
-                                            <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}" IsHitTestVisible="False"
-                                                    HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                <StackPanel x:Name="MainContentShadow" Orientation="Horizontal">
-                                                    <Rectangle x:Name="Content1Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}" />
-                                                    <Rectangle x:Name="Content0Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}"
-                                                            Margin="{Binding ContentsMargin}" />
-                                                </StackPanel>
-                                            </Canvas>
+                                            <!-- メインビュー コンテンツ表示領域 -->
+                                            <Grid x:Name="MainView" Background="Transparent" SizeChanged="MainView_SizeChanged" Focusable="True" KeyboardNavigation.IsTabStop="False"
+                                                    FocusVisualStyle="{x:Null}" ClipToBounds="True" DataContext="{Binding ContentCanvas}" AllowDrop="True">
+                                                <!-- Pages -->
+                                                <!-- NOTE: 時々操作が奪われしてまう原因の可能性その2 IsHitTestVisible -->
+                                                <Canvas x:Name="PageCanvas" Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
+                                                        HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <Canvas.Resources>
+                                                        <Style TargetType="TextBlock" x:Key="ContentProperty">
+                                                            <Setter Property="Foreground" Value="White" />
+                                                            <Setter Property="Background" Value="#80000000" />
+                                                            <Setter Property="Padding" Value="10,5" />
+                                                            <Style.Triggers>
+                                                                <Trigger Property="Text" Value="">
+                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Canvas.Resources>
+                                                    <ContentControl x:Name="MainContent" IsTabStop="False">
+                                                        <Grid>
+                                                            <StackPanel x:Name="PageContents" Orientation="Horizontal">
+                                                                <ContentControl x:Name="Content1" Content="{Binding Contents[1].View}" Width="{Binding Contents[1].Width}"
+                                                                        Height="{Binding Contents[1].Height}" Focusable="False" />
+                                                                <ContentControl x:Name="Content0" Content="{Binding Contents[0].View}" Width="{Binding Contents[0].Width}"
+                                                                        Height="{Binding Contents[0].Height}" Focusable="False" Margin="{Binding ContentsMargin}" />
+                                                            </StackPanel>
+                                                            <ContentControl Content="{Binding GridLine.Content}" Focusable="False" />
+                                                        </Grid>
+                                                    </ContentControl>
+                                                </Canvas>
+                                                <!-- Pages Shadow (表示領域計算用) -->
+                                                <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
+                                                        IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <StackPanel x:Name="MainContentShadow" Orientation="Horizontal">
+                                                        <Rectangle x:Name="Content1Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[1].Width}"
+                                                                Height="{Binding Contents[1].Height}" />
+                                                        <Rectangle x:Name="Content0Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[0].Width}"
+                                                                Height="{Binding Contents[0].Height}" Margin="{Binding ContentsMargin}" />
+                                                    </StackPanel>
+                                                </Canvas>
+                                            </Grid>
+
                                         </Grid>
-
                                     </Grid>
 
                                     <!-- empty pages message -->
@@ -204,10 +209,10 @@
                                     </Grid>
 
                                     <!-- caption -->
-                                    <TextBlock x:Name="PageCaption" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
-                                            Text="{Binding WindowTitle.Title}" Foreground="{DynamicResource NVForeground}" Padding="20,5" Background="{Binding Model.SliderBackgroundGlass}">
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
+                                    <Grid x:Name="PageCaption" Height="30" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
+                                            Background="{Binding Model.SliderBackgroundGlass}">
+                                        <Grid.Style>
+                                            <Style TargetType="Grid">
                                                 <Setter Property="Visibility" Value="Collapsed" />
                                                 <Style.Triggers>
                                                     <MultiDataTrigger>
@@ -219,15 +224,17 @@
                                                     </MultiDataTrigger>
                                                 </Style.Triggers>
                                             </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
+                                        </Grid.Style>
+                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{Binding WindowTitle.Title}" Foreground="{DynamicResource NVForeground}"
+                                                Padding="20,0" />
+                                    </Grid>
 
                                     <!-- loupe info -->
                                     <Grid Visibility="{Binding Source={x:Static local:Config.Current}, Path=Loupe.IsVisibleLoupeInfo, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                        <Grid x:Name="LoupeInfo" VerticalAlignment="Top" HorizontalAlignment="Right" DataContext="{Binding LoupeTransform}"
+                                        <Grid x:Name="LoupeInfo" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" DataContext="{Binding LoupeTransform}"
                                                 Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
                                                 Background="#88000000">
-                                            <TextBlock Padding="20,5" Foreground="White" Text="{Binding ScaleX, StringFormat={}×{0:.0}}" />
+                                            <TextBlock VerticalAlignment="Center" Padding="20,0" Foreground="White" Text="{Binding ScaleX, StringFormat={}×{0:.0}}" />
                                         </Grid>
                                     </Grid>
 
@@ -255,8 +262,7 @@
                         <local:SidePanelFrameView x:Name="SidePanelFrame" PanelMargin="{Binding SidePanelMargin, Mode=OneWay}" Visibility="Visible" Source="{Binding SidePanel}"
                                 IsAutoHide="{Binding Model.CanHidePanel}" PanelBackground="{DynamicResource NVBackground}" IconBackground="{DynamicResource NVPanelIconBackground}"
                                 CanvasWidth="{Binding CanvasWidth, Mode=OneWayToSource}" CanvasHeight="{Binding CanvasHeight, Mode=OneWayToSource}"
-                                IsAutoHideMouseEnabled="{Binding IsFrontAreaMouseOver, Converter={StaticResource BooleanReverseConverter}}" 
-                                d:IsHidden="True">
+                                IsAutoHideMouseEnabled="{Binding IsFrontAreaMouseOver, Converter={StaticResource BooleanReverseConverter}}" d:IsHidden="True">
                         </local:SidePanelFrameView>
 
                     </Grid>
@@ -281,8 +287,8 @@
                 <behaviors:Interaction.Behaviors>
                     <local:AutoHideBehavior Screen="{Binding ElementName=Root}" Dock="Bottom" IsEnabled="{Binding Model.CanHidePageSlider}" DelayTime="{Binding AutoHideConfig.AutoHideDelayTime}"
                             DelayVisibleTime="{Binding AutoHideConfig.AutoHideDelayVisibleTime}" FocusLockMode="{Binding AutoHideConfig.AutoHideFocusLockMode}"
-                            IsKeyDownDelayEnabled="{Binding AutoHideConfig.IsAutoHideKeyDownDelay}" HitTestMargin="{Binding AutoHideConfig.AutoHideHitTestMargin}" Description="{Binding StatusAutoHideDescrption}"
-                            IsVisibleLocked="{Binding Model.IsPanelVisibleLocked}"/>
+                            IsKeyDownDelayEnabled="{Binding AutoHideConfig.IsAutoHideKeyDownDelay}" HitTestMargin="{Binding AutoHideConfig.AutoHideHitTestMargin}"
+                            Description="{Binding StatusAutoHideDescrption}" IsVisibleLocked="{Binding Model.IsPanelVisibleLocked}" />
                 </behaviors:Interaction.Behaviors>
                 <Grid x:Name="LayerStatusAreaPadding" DockPanel.Dock="Bottom" Height="{Binding ElementName=SliderArea, Path=ActualHeight}" />
                 <Grid DockPanel.Dock="Bottom" Background="{Binding Model.SliderBackground}">

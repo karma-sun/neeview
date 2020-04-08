@@ -18,19 +18,45 @@
 </p>
 
 
+<h3>表示ページを新しいNeeViewで開く</h3>
+<p>
+    <pre>OpenNeeView.nvjs<code>
+    // @name NeeViewで開く
+    // @description 表示ページを新しいNeeViewで開きます。
+
+    nv.Command.SaveSetting.Execute() // 設定を同じにするため保存を実行
+
+    param = {
+        "Command": "NeeView.exe",
+        "Parameter": "-n \"$File\"",
+        "MultiPagePolicy": "Once",
+        "ArchivePolicy": "SendArchivePath",
+        "ArchiveSeparater": "\\"
+    }
+    nv.Command.OpenExternalApp.Patch(param).Execute()
+</code></pre>
+</p>
+
+
 <h3>アンシャープマスクのON/OFF</h3>
 <p>
     <pre>ToggleUnsharpMask.nvjs<code>
     // @name アンシャープマスクON/OFF
     // @description アンシャープマスクの切り替え。リサイズフィルターが有効でないときは警告を表示する
 
-    if (nv.Config.ImageResizeFilter.IsEnabled == true) {
+    if (nv.Config.ImageResizeFilter.IsEnabled) {
         nv.Config.ImageResizeFilter.IsUnsharpMaskEnabled = !nv.Config.ImageResizeFilter.IsUnsharpMaskEnabled
+        if (nv.Config.ImageResizeFilter.IsUnsharpMaskEnabled) {
+            nv.ShowMessage("UnsharpMask ON")
+        }
+        else {
+            nv.ShowMessage("UnsharpMask OFF")
+        }
     }
     else {
-        nv.ShowMessage("ResizeFilter is OFF")
+        nv.ShowMessage("ResizeFilter is not active")
     }
-    </code></pre>
+</code></pre>
 </p>
 
 

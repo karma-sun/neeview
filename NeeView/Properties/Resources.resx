@@ -5151,4 +5151,10 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="WordReadOnly" xml:space="preserve">
     <value>Read only</value>
   </data>
+  <data name="CommandSaveSetting" xml:space="preserve">
+    <value>Save settings</value>
+  </data>
+  <data name="CommandSaveSettingNote" xml:space="preserve">
+    <value>Performs saving the current settings.</value>
+  </data>
 </root>

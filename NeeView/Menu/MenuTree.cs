@@ -585,7 +585,7 @@ namespace NeeView
                     {
                         new MenuTree(MenuElementType.Command) { CommandName = "OpenSettingWindow" },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { CommandName = "ReloadUserSetting" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ReloadSetting" },
                         new MenuTree(MenuElementType.Command) { CommandName = "ExportBackup"},
                         new MenuTree(MenuElementType.Command) { CommandName = "ImportBackup"},
                         new MenuTree(MenuElementType.Command) { CommandName = "OpenSettingFilesFolder" },

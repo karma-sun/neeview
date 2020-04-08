@@ -1,8 +1,8 @@
 ﻿namespace NeeView
 {
-    public class ReloadUserSettingCommand : CommandElement
+    public class ReloadSettingCommand : CommandElement
     {
-        public ReloadUserSettingCommand(string name) : base(name)
+        public ReloadSettingCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupOther;
             this.Text = Properties.Resources.CommandReloadUserSetting;

@@ -762,13 +762,7 @@ namespace NeeView
             _nonActiveTimer.Stop();
 
             // 設定保存
-            SaveDataSync.Current.Flush();
-            SaveDataSync.Current.SaveUserSetting(false);
-            SaveDataSync.Current.SaveHistory();
-            SaveDataSync.Current.SaveBookmark(false);
-            SaveDataSync.Current.SavePagemark(false);
-            SaveDataSync.Current.RemoveBookmarkIfNotSave();
-            SaveDataSync.Current.RemovePagemarkIfNotSave();
+            SaveDataSync.Current.SaveAll(false);
 
             // キャッシュ等の削除
             App.Current.CloseTemporary();

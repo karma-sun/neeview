@@ -5151,4 +5151,10 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="WordReadOnly" xml:space="preserve">
     <value>読み取り専用</value>
   </data>
+  <data name="CommandSaveSetting" xml:space="preserve">
+    <value>設定の保存</value>
+  </data>
+  <data name="CommandSaveSettingNote" xml:space="preserve">
+    <value>現在の設定の保存を実行します。</value>
+  </data>
 </root>

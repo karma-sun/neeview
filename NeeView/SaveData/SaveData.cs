@@ -520,7 +520,7 @@ namespace NeeView
                         var fileInfo = new FileInfo(HistoryFilePath);
                         if (fileInfo.Exists && fileInfo.LastWriteTime > App.Current.StartTime)
                         {
-                            var margeMemento = SafetyLoad(BookHistoryCollection.Memento.LoadV1, HistoryFilePath, Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle);
+                            var margeMemento = SafetyLoad(BookHistoryCollection.Memento.Load, HistoryFilePath, Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle);
                             bookHistoryMemento.Merge(margeMemento);
                         }
                     }

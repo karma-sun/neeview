@@ -285,7 +285,8 @@ namespace NeeView
 
                 new ExportBackupCommand("ExportBackup"),
                 new ImportBackupCommand("ImportBackup"),
-                new ReloadUserSettingCommand("ReloadUserSetting"),
+                new ReloadSettingCommand("ReloadSetting"),
+                new SaveSettingCommand("SaveSetting"),
                 new TouchEmulateCommand("TouchEmulate"),
 
                 new OpenConsoleCommand("OpenConsole"),
@@ -726,6 +727,7 @@ namespace NeeView
                 ["SetFolderOrderBySizeA"] = "SetBookOrderBySizeA",
                 ["SetFolderOrderBySizeD"] = "SetBookOrderBySizeD",
                 ["SetFolderOrderByRandom"] = "SetBookOrderByRandom",
+                ["ReloadUserSetting"] = "ReloadSetting",
             };
 
             [DataMember]

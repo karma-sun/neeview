@@ -155,5 +155,19 @@ namespace NeeView
         {
             SaveData.Current.RemovePagemarkIfNotSave();
         }
+
+        /// <summary>
+        /// すべてのセーブ処理を行う
+        /// </summary>
+        public void SaveAll(bool sync)
+        {
+            Flush();
+            SaveUserSetting(sync);
+            SaveHistory();
+            SaveBookmark(sync);
+            SavePagemark(sync);
+            RemoveBookmarkIfNotSave();
+            RemovePagemarkIfNotSave();
+        }
     }
 }

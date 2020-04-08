@@ -1861,6 +1861,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Save settings に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandSaveSetting {
+            get {
+                return ResourceManager.GetString("CommandSaveSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Performs saving the current settings. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandSaveSettingNote {
+            get {
+                return ResourceManager.GetString("CommandSaveSettingNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Script. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandScriptNote {

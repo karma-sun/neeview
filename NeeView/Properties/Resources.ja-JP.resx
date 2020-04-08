@@ -5158,7 +5158,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>現在の設定の保存を実行します。</value>
   </data>
   <data name="ParamIsNaturalSortEnabled" xml:space="preserve">
-    <value>自然なソート順序</value>
+    <value>自然な名前順</value>
   </data>
   <data name="ParamIsNaturalSortEnabledTips" xml:space="preserve">
     <value>名前での並び替えをより自然な並び順になるようにします。OFFの場合はエクスプローラでの並び順と同等です。</value>

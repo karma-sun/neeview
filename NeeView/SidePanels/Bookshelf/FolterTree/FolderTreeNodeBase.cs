@@ -276,7 +276,7 @@ namespace NeeView
                 var directory = _children[index];
                 if (directory == node) continue;
 
-                if (NativeMethods.StrCmpLogicalW(node.Name, directory.Name) < 0)
+                if (NaturalSort.Compare(node.Name, directory.Name) < 0)
                 {
                     if (oldIndex != index - 1)
                     {

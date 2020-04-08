@@ -24,6 +24,7 @@ namespace NeeView
         private bool _isIgnoreImageDpi = true;
         private string _downloadPath = "";
         private bool _isOpenbookAtCurrentPlace;
+        private bool _isNaturalSortEnabled;
 
 
         /// <summary>
@@ -147,6 +148,13 @@ namespace NeeView
             set { SetProperty(ref _isOpenbookAtCurrentPlace, value); }
         }
 
+        // カスタム自然順ソート
+        [PropertyMember("@ParamIsNaturalSortEnabled", Tips="@ParamIsNaturalSortEnabledTips")]
+        public bool IsNaturalSortEnabled
+        {
+            get { return _isNaturalSortEnabled; }
+            set { SetProperty(ref _isNaturalSortEnabled, value); }
+        }
     }
 
 }

@@ -264,7 +264,7 @@ namespace NeeView
         {
             public int Compare(TreeListNode<IPagemarkEntry> x, TreeListNode<IPagemarkEntry> y)
             {
-                return NativeMethods.StrCmpLogicalW(x.Value.DispName, y.Value.DispName);
+                return NaturalSort.Compare(x.Value.DispName, y.Value.DispName);
             }
         }
 
@@ -277,7 +277,7 @@ namespace NeeView
             {
                 var xname = x.Value.Name ?? "";
                 var yname = y.Value.Name ?? "";
-                return NativeMethods.StrCmpLogicalW(xname, yname);
+                return NaturalSort.Compare(xname, yname);
             }
         }
 

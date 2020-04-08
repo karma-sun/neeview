@@ -240,7 +240,7 @@ namespace NeeView
                         {
                             return (xIsDirectory ? 1 : -1) * _sortFileFirstSign;
                         }
-                        return NativeMethods.StrCmpLogicalW(xName[i], yName[i]);
+                        return NaturalSort.Compare(xName[i], yName[i]);
                     }
                 }
 

@@ -27,16 +27,16 @@ namespace NeeView
             switch (sortMode)
             {
                 case PageSortMode.FileName:
-                    entries.Sort((a, b) => CompareFileNameOrder(a, b, NativeMethods.StrCmpLogicalW));
+                    entries.Sort((a, b) => CompareFileNameOrder(a, b, NaturalSort.Comparer));
                     break;
                 case PageSortMode.FileNameDescending:
-                    entries.Sort((a, b) => CompareFileNameOrder(b, a, NativeMethods.StrCmpLogicalW));
+                    entries.Sort((a, b) => CompareFileNameOrder(b, a, NaturalSort.Comparer));
                     break;
                 case PageSortMode.TimeStamp:
-                    entries.Sort((a, b) => CompareDateTimeOrder(a, b, NativeMethods.StrCmpLogicalW));
+                    entries.Sort((a, b) => CompareDateTimeOrder(a, b, NaturalSort.Comparer));
                     break;
                 case PageSortMode.TimeStampDescending:
-                    entries.Sort((a, b) => CompareDateTimeOrder(b, a, NativeMethods.StrCmpLogicalW));
+                    entries.Sort((a, b) => CompareDateTimeOrder(b, a, NaturalSort.Comparer));
                     break;
                 case PageSortMode.Random:
                     var random = new Random();
@@ -50,10 +50,10 @@ namespace NeeView
         }
 
         // ファイル名, 日付, ID の順で比較
-        private static int CompareFileNameOrder(ArchiveEntry e1, ArchiveEntry e2, Func<string, string, int> compare)
+        private static int CompareFileNameOrder(ArchiveEntry e1, ArchiveEntry e2, IComparer<string> comparer)
         {
             if (e1.EntryName != e2.EntryName)
-                return CompareFileName(e1.EntryName, e2.EntryName, compare);
+                return CompareFileName(e1.EntryName, e2.EntryName, comparer);
             else if (e1.LastWriteTime != e2.LastWriteTime)
                 return CompareDateTime(e1.LastWriteTime, e2.LastWriteTime);
             else
@@ -61,26 +61,26 @@ namespace NeeView
         }
 
         // 日付, ファイル名, ID の順で比較
-        private static int CompareDateTimeOrder(ArchiveEntry e1, ArchiveEntry e2, Func<string, string, int> compare)
+        private static int CompareDateTimeOrder(ArchiveEntry e1, ArchiveEntry e2, IComparer<string> comparer)
         {
             if (e1.LastWriteTime != e2.LastWriteTime)
                 return CompareDateTime(e1.LastWriteTime, e2.LastWriteTime);
             else if (e1.EntryName != e2.EntryName)
-                return CompareFileName(e1.EntryName, e2.EntryName, compare);
+                return CompareFileName(e1.EntryName, e2.EntryName, comparer);
             else
                 return e1.Id - e2.Id;
         }
 
         // ファイル名比較. ディレクトリを優先する
-        private static int CompareFileName(string s1, string s2, Func<string, string, int> compare)
+        private static int CompareFileName(string s1, string s2, IComparer<string> comparer)
         {
             string d1 = LoosePath.GetDirectoryName(s1);
             string d2 = LoosePath.GetDirectoryName(s2);
 
             if (d1 == d2)
-                return compare(s1, s2);
+                return comparer.Compare(s1, s2);
             else
-                return compare(d1, d2);
+                return comparer.Compare(d1, d2);
         }
 
         // 日付比較

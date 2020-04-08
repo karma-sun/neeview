@@ -21,7 +21,7 @@ namespace NeeView.Collections
             }
             else
             {
-                return NativeMethods.StrCmpLogicalW(x.Name, y.Name);
+                return NaturalSort.Compare(x.Name, y.Name);
             }
         }
     }
@@ -40,7 +40,7 @@ namespace NeeView.Collections
             }
             else
             {
-                return NativeMethods.StrCmpLogicalW(x, y);
+                return NaturalSort.Compare(x, y);
             }
         }
     }

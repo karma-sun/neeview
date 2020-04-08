@@ -73,7 +73,7 @@ namespace NeeView
             {
                 Children = new ObservableCollection<FolderTreeNodeBase>(directory.GetDirectories()
                     .Where(e => FileIOProfile.Current.IsFileValid(e.Attributes))
-                    .OrderBy(e => e.Name, new NameComparer())
+                    .OrderBy(e => e.Name, NaturalSort.Comparer)
                     .Select(e => new DirectoryNode(e.Name, this)));
 
                 OnChildrenChanged(this, null);
@@ -91,14 +91,6 @@ namespace NeeView
 
                     Children = new ObservableCollection<FolderTreeNodeBase>();
                 }
-            }
-        }
-
-        private class NameComparer : IComparer<string>
-        {
-            public int Compare(string x, string y)
-            {
-                return NativeMethods.StrCmpLogicalW(x, y);
             }
         }
 

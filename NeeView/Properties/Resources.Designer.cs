@@ -11181,6 +11181,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Natural sort に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsNaturalSortEnabled {
+            get {
+                return ResourceManager.GetString("ParamIsNaturalSortEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Makes sorting by name more natural. When off, same as Explorer. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsNaturalSortEnabledTips {
+            get {
+                return ResourceManager.GetString("ParamIsNaturalSortEnabledTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Allow network access に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsNetworkEnabled {

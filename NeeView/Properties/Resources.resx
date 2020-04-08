@@ -5157,4 +5157,10 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="CommandSaveSettingNote" xml:space="preserve">
     <value>Performs saving the current settings.</value>
   </data>
+  <data name="ParamIsNaturalSortEnabled" xml:space="preserve">
+    <value>Natural sort</value>
+  </data>
+  <data name="ParamIsNaturalSortEnabledTips" xml:space="preserve">
+    <value>Makes sorting by name more natural. When off, same as Explorer.</value>
+  </data>
 </root>

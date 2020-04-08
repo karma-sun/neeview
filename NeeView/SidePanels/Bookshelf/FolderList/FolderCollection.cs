@@ -272,7 +272,7 @@ namespace NeeView
         {
             public int Compare(FolderItem x, FolderItem y)
             {
-                return NativeMethods.StrCmpLogicalW(x.Name, y.Name);
+                return NaturalSort.Compare(x.Name, y.Name);
             }
         }
 
@@ -284,7 +284,7 @@ namespace NeeView
         {
             public int Compare(FolderItem x, FolderItem y)
             {
-                return NativeMethods.StrCmpLogicalW(x.TargetPath.FullPath, y.TargetPath.FullPath);
+                return NaturalSort.Compare(x.TargetPath.FullPath, y.TargetPath.FullPath);
             }
         }
 
@@ -298,22 +298,22 @@ namespace NeeView
                 // ディレクトリは種類判定なし
                 if (x.IsDirectoryMaybe())
                 {
-                    return y.IsDirectoryMaybe() ? NativeMethods.StrCmpLogicalW(x.Name, y.Name) : 1;
+                    return y.IsDirectoryMaybe() ? NaturalSort.Compare(x.Name, y.Name) : 1;
                 }
                 if (y.IsDirectoryMaybe())
                 {
-                    return x.IsDirectoryMaybe() ? NativeMethods.StrCmpLogicalW(x.Name, y.Name) : -1;
+                    return x.IsDirectoryMaybe() ? NaturalSort.Compare(x.Name, y.Name) : -1;
                 }
 
                 var extX = LoosePath.GetExtension(x.Name);
                 var extY = LoosePath.GetExtension(y.Name);
                 if (extX != extY)
                 {
-                    return NativeMethods.StrCmpLogicalW(extX, extY);
+                    return NaturalSort.Compare(extX, extY);
                 }
                 else
                 {
-                    return NativeMethods.StrCmpLogicalW(x.Name, y.Name);
+                    return NaturalSort.Compare(x.Name, y.Name);
                 }
             }
         }

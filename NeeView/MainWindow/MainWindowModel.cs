@@ -276,8 +276,8 @@ namespace NeeView
 
         public bool ToggleVisibleAddressBar()
         {
-            Config.Current.MenuBar.IsVisibleAddressBar = !Config.Current.MenuBar.IsVisibleAddressBar;
-            return Config.Current.MenuBar.IsVisibleAddressBar;
+            Config.Current.MenuBar.IsAddressBarEnabled = !Config.Current.MenuBar.IsAddressBarEnabled;
+            return Config.Current.MenuBar.IsAddressBarEnabled;
         }
 
         // 起動時処理
@@ -650,7 +650,7 @@ namespace NeeView
                 config.MenuBar.IsHideMenu = IsHideMenu;
                 config.Slider.IsHidePageSlider = IsHidePageSlider;
                 config.Panels.IsHidePanel = IsHidePanel;
-                config.MenuBar.IsVisibleAddressBar = IsVisibleAddressBar;
+                config.MenuBar.IsAddressBarEnabled = IsVisibleAddressBar;
                 config.Command.IsAccessKeyEnabled = IsAccessKeyEnabled;
             }
 
@@ -664,7 +664,7 @@ namespace NeeView
 
             memento.IsHideMenu = Config.Current.MenuBar.IsHideMenu;
             memento.IsHidePageSlider = Config.Current.Slider.IsHidePageSlider;
-            memento.IsVisibleAddressBar = Config.Current.MenuBar.IsVisibleAddressBar;
+            memento.IsVisibleAddressBar = Config.Current.MenuBar.IsAddressBarEnabled;
             memento.IsHidePanel = Config.Current.Panels.IsHidePanel;
             memento.IsHidePanelInFullscreen = Config.Current.Panels.IsHidePanelInFullscreen;
             memento.IsVisibleWindowTitle = Config.Current.WindowTittle.IsMainViewDisplayEnabled;

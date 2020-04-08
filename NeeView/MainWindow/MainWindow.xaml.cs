@@ -141,6 +141,11 @@ namespace NeeView
             // timer 
             InitializeNonActiveTimer();
 
+            // watch menu bar visibility
+            this.MenuArea.IsVisibleChanged += (s, e) => Config.Current.MenuBar.IsVisible = this.MenuArea.IsVisible;
+
+            // watchi slider visibility
+            this.SliderArea.IsVisibleChanged += (s, e) => Config.Current.Slider.IsVisible = this.SliderArea.IsVisible;
 
             // moue event for window
             this.PreviewMouseMove += MainWindow_PreviewMouseMove;
@@ -1030,6 +1035,7 @@ namespace NeeView
         }
 
         #endregion
+
     }
 
 }

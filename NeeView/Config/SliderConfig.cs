@@ -1,10 +1,12 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
+using System.Text.Json.Serialization;
 
 namespace NeeView
 {
     public class SliderConfig : BindableBase
     {
+        private bool _isVisible;
         private bool _isIsHidePageSlider;
         private double _sliderOpacity = 1.0;
         private SliderIndexLayout _sliderIndexLayout = SliderIndexLayout.Right;
@@ -13,6 +15,14 @@ namespace NeeView
         private bool _isHidePageSliderInFullscreen = true;
 
 
+        [JsonIgnore]
+        [PropertyMapReadOnly]
+        [PropertyMember("@WordIsPanelVisible")]
+        public bool IsVisible
+        {
+            get { return _isVisible; }
+            set { SetProperty(ref _isVisible, value); }
+        }
 
         // スライダーを自動的に隠す
         [PropertyMember("@ParamSliderIsAutoHide")]

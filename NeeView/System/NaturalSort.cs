@@ -63,8 +63,8 @@ namespace NeeView
         public int Compare(string x, string y)
         {
             if (x == null && y == null) return 0;
-            if (x == null) return 1;
-            if (y == null) return -1;
+            if (x == null) return -1;
+            if (y == null) return 1;
 
             var defaultCompareValue = x.CompareTo(y);
             if (defaultCompareValue == 0) return 0;
@@ -80,7 +80,7 @@ namespace NeeView
                 var cy = ny[i];
 
                 // 数値比較
-                if (char.IsNumber(cx) && char.IsNumber(cy))
+                if (IsDigit(cx) && IsDigit(cy))
                 {
                     var dsx = _regexNum.Match(nx.Substring(i)).Value;
                     var dsy = _regexNum.Match(ny.Substring(i)).Value;
@@ -88,6 +88,7 @@ namespace NeeView
                     var dny = double.Parse(dsy);
                     var numberCompare = dnx.CompareTo(dny);
                     if (numberCompare != 0) return numberCompare;
+                    if (dsx.Length != dsy.Length) return dsx.Length - dsy.Length;
 
                     i += dsx.Length - 1;
                     continue;
@@ -121,6 +122,10 @@ namespace NeeView
             }
         }
 
+        private bool IsDigit(char c)
+        {
+            return ('\u0030' <= c && c <= '\u0039');
+        }
 
         private bool IsKanji(char c)
         {

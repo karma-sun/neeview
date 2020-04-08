@@ -4,8 +4,6 @@ using System.Windows.Data;
 
 namespace NeeView
 {
-    // etc..
-
     public class DoubleOffsetConverter : IValueConverter
     {
         public double Offset { get; set; }

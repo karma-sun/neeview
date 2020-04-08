@@ -42,8 +42,8 @@
 
     <DataTemplate DataType="{x:Type local:PropertyValue_Percent}">
         <DockPanel KeyboardNavigation.TabNavigation="Local">
-            <TextBox DockPanel.Dock="Right" Text="{Binding Percent, StringFormat={}{0}%}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0" TabIndex="2"/>
-            <Slider Value="{Binding Percent}" Minimum="0" Maximum="100" SmallChange="5" LargeChange="20" TickFrequency="1" IsSnapToTickEnabled="True" VerticalAlignment="Center"
+            <TextBox DockPanel.Dock="Right" Text="{Binding Value, StringFormat={}{0:P0}}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0" TabIndex="2"/>
+            <Slider Value="{Binding Value}" Minimum="0" Maximum="1" SmallChange="0.05" LargeChange="0.2" TickFrequency="0.01" IsSnapToTickEnabled="True" VerticalAlignment="Center"
                     FocusVisualStyle="{StaticResource NVSliderFocusVisual}" TabIndex="1" />
         </DockPanel>
     </DataTemplate>

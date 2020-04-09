@@ -47,13 +47,14 @@ namespace NeeView
         }
     }
 
+
     /// <summary>
     /// NeeViewカスタムの自然ソート
     /// </summary>
     public class CustomNaturalComparer : IComparer<string>, IComparer
     {
-        private static Regex _regexNum = new Regex(@"^[0-9]+(\.[0-9]+)?", RegexOptions.Compiled);
-        private static string _kanjiOrderReverseList = "後下中前上萬阡陌拾玖捌漆陸伍肆参弐壱零万千百十九八七六五四三二一〇";
+        private static Regex _regexNum = new Regex(@"^[0-9]+(\.[0-9]+)*", RegexOptions.Compiled);
+        private static string _kanjiOrderReverseList = "後下中前上萬万仟阡千佰陌百什拾十玖九捌八漆七陸六伍五肆四参三弐二壱一零〇";
 
         public int Compare(object x, object y)
         {
@@ -67,58 +68,80 @@ namespace NeeView
             if (y == null) return 1;
 
             var defaultCompareValue = x.CompareTo(y);
-            if (defaultCompareValue == 0) return 0;
+            if (defaultCompareValue == 0)
+            {
+                return 0;
+            }
 
-            var nx = Normalize(x);
-            var ny = Normalize(y);
+            var normalX = Normalize(x);
+            var normalY = Normalize(y);
 
-            var length = Math.Min(nx.Length, ny.Length);
-
+            var length = Math.Min(normalX.Length, normalY.Length);
             for (int i = 0; i < length; ++i)
             {
-                var cx = nx[i];
-                var cy = ny[i];
+                var cx = normalX[i];
+                var cy = normalY[i];
 
                 // 数値比較
+                // ピリオドで区切られた数値をその単位で比較。桁数の揃っていない小数では逆順になるが少数判断できないため許容する
                 if (IsDigit(cx) && IsDigit(cy))
                 {
-                    var dsx = _regexNum.Match(nx.Substring(i)).Value;
-                    var dsy = _regexNum.Match(ny.Substring(i)).Value;
-                    var dnx = double.Parse(dsx);
-                    var dny = double.Parse(dsy);
-                    var numberCompare = dnx.CompareTo(dny);
-                    if (numberCompare != 0) return numberCompare;
-                    if (dsx.Length != dsy.Length) return dsx.Length - dsy.Length;
+                    var numbersX = _regexNum.Match(normalX.Substring(i)).Value;
+                    var numbersY = _regexNum.Match(normalY.Substring(i)).Value;
 
-                    i += dsx.Length - 1;
+                    var numberTokensX = numbersX.Split('.');
+                    var numberTokensY = numbersY.Split('.');
+
+                    for (int n = 0; n < numberTokensX.Length && n < numberTokensY.Length; ++n)
+                    {
+                        var numX = int.Parse(numberTokensX[n]);
+                        var numY = int.Parse(numberTokensY[n]);
+                        if (numX != numY)
+                        {
+                            return numX - numY;
+                        }
+                    }
+
+                    if (numberTokensX.Length != numberTokensY.Length)
+                    {
+                        return numberTokensX.Length - numberTokensY.Length;
+                    }
+
+                    if (numbersX.Length != numbersY.Length)
+                    {
+                        return numbersX.Length - numbersY.Length;
+                    }
+
+                    i += numbersX.Length - 1;
                     continue;
                 }
 
                 if (cx == cy) continue;
 
                 // 漢数字等の簡易比較
+                // テーブルに登録されている漢字の序列を優先する
                 if (IsKanji(cx) && IsKanji(cy))
                 {
-                    var mx = _kanjiOrderReverseList.IndexOf(cx);
-                    var my = _kanjiOrderReverseList.IndexOf(cy);
+                    var indexX = _kanjiOrderReverseList.IndexOf(cx);
+                    var indexY = _kanjiOrderReverseList.IndexOf(cy);
 
-                    if (mx != my)
+                    if (indexX != indexY)
                     {
                         // NOTE: _kanjiOrderReverseList は逆順のため、比較を反転
-                        return my - mx;
+                        return indexY - indexX;
                     }
                 }
 
                 return cx.CompareTo(cy);
             }
 
-            if (nx.Length == ny.Length)
+            if (normalX.Length == normalY.Length)
             {
                 return defaultCompareValue;
             }
             else
             {
-                return nx.Length - ny.Length;
+                return normalX.Length - normalY.Length;
             }
         }
 
@@ -127,9 +150,9 @@ namespace NeeView
             return ('\u0030' <= c && c <= '\u0039');
         }
 
+        // NOTE: サロゲートコード(CJK統合漢字拡張B)には対応していません
         private bool IsKanji(char c)
         {
-            //CJK統合漢字、CJK互換漢字、CJK統合漢字拡張Aの範囲にあるか調べる
             return ('\u4E00' <= c && c <= '\u9FCF') || ('\uF900' <= c && c <= '\uFAFF') || ('\u3400' <= c && c <= '\u4DBF');
         }
 

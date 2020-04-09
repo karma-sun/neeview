@@ -11190,7 +11190,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Makes sorting by name more natural. When off, same as Explorer. に類似しているローカライズされた文字列を検索します。
+        ///   Makes sorting by name, such as numbers separated by periods, kanji numbers, etc. more natural. When off, same as Explorer. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsNaturalSortEnabledTips {
             get {

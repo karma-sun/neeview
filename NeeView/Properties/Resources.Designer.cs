@@ -4804,6 +4804,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   _Copy version info に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlAboutCopy {
+            get {
+                return ResourceManager.GetString("ControlAboutCopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Go to download page に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ControlAboutDownload {

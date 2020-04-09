@@ -42,7 +42,14 @@
             </TextBlock>
         </Grid>
 
-        <DockPanel VerticalAlignment="Center" UseLayoutRounding="True">
+        <DockPanel VerticalAlignment="Center" UseLayoutRounding="True" Background="Transparent">
+
+            <DockPanel.ContextMenu>
+                <ContextMenu x:Name="CopyContextMenu">
+                    <MenuItem Header="{x:Static properties:Resources.ControlAboutCopy}" Command="{x:Static local:VersionWindow.CopyCommand}" />
+                </ContextMenu>
+            </DockPanel.ContextMenu>
+
             <StackPanel DockPanel.Dock="Top" Margin="15" VerticalAlignment="Center">
                 <DockPanel DockPanel.Dock="Top" Margin="0,15">
                     <Image DockPanel.Dock="Left" Margin="40,0"  Width="64" Height="64" Source="{Binding Icon}" UseLayoutRounding="True" VerticalAlignment="Center"/>

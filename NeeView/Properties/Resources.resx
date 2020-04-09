@@ -5163,4 +5163,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamIsNaturalSortEnabledTips" xml:space="preserve">
     <value>Makes sorting by name, such as numbers separated by periods, kanji numbers, etc. more natural. When off, same as Explorer.</value>
   </data>
+  <data name="ControlAboutCopy" xml:space="preserve">
+    <value>_Copy version info</value>
+  </data>
 </root>

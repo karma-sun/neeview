@@ -5163,4 +5163,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamIsNaturalSortEnabledTips" xml:space="preserve">
     <value>ピリオドで区切られた数字、漢数字など、名前での並び替えをより自然な並び順になるようにします。OFFの場合はエクスプローラでの並び順と同等です。</value>
   </data>
+  <data name="ControlAboutCopy" xml:space="preserve">
+    <value>バージョン情報をコピー(_C)</value>
+  </data>
 </root>

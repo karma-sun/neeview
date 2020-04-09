@@ -115,9 +115,14 @@ namespace NeeView
         public static bool IsSecondProcess { get; set; }
 
         /// <summary>
-        /// 
+        /// アセンブリの場所
         /// </summary>
         public static string AssemblyLocation { get; private set; }
+
+        /// <summary>
+        /// アセンブリの場所
+        /// </summary>
+        public static string AssemblyFolder { get; private set; }
 
         /// <summary>
         /// 会社名
@@ -197,7 +202,7 @@ namespace NeeView
                     }
                     else
                     {
-                        _localApplicationDataPath = AssemblyLocation;
+                        _localApplicationDataPath = AssemblyFolder;
                     }
                 }
                 return _localApplicationDataPath;
@@ -213,7 +218,7 @@ namespace NeeView
             {
                 if (_librariesPath == null)
                 {
-                    _librariesPath = Path.GetFullPath(Path.Combine(AssemblyLocation, ConfigurationManager.AppSettings["LibrariesPath"]));
+                    _librariesPath = Path.GetFullPath(Path.Combine(AssemblyFolder, ConfigurationManager.AppSettings["LibrariesPath"]));
                 }
                 return _librariesPath;
             }
@@ -334,7 +339,8 @@ namespace NeeView
         private static void ValidateProductInfo(Assembly asm)
         {
             // パス
-            AssemblyLocation = Path.GetDirectoryName(asm.Location);
+            AssemblyLocation = asm.Location;
+            AssemblyFolder = Path.GetDirectoryName(asm.Location);
 
             // 会社名
             AssemblyCompanyAttribute companyAttribute = Attribute.GetCustomAttribute(asm, typeof(AssemblyCompanyAttribute)) as AssemblyCompanyAttribute;

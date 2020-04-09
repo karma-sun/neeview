@@ -116,9 +116,10 @@ namespace NeeView
             }
             else
             {
-                this.LastCall = $"\"{options.Command}\" {param}";
+                var command = options.Command.Replace("$NeeView", Environment.AssemblyLocation);
+                this.LastCall = $"\"{command}\" {param}";
                 Debug.WriteLine($"CallProcess: {LastCall}");
-                System.Diagnostics.Process.Start(options.Command, param);
+                System.Diagnostics.Process.Start(command, param);
             }
             return;
         }

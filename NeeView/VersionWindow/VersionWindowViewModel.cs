@@ -13,7 +13,7 @@ namespace NeeView
     {
         public VersionWindowViewModel()
         {
-            LicenseUri = "file://" + Environment.AssemblyLocation.Replace('\\', '/').TrimEnd('/') + $"/{Properties.Resources.HelpReadMeFile}";
+            LicenseUri = "file://" + Environment.AssemblyFolder.Replace('\\', '/').TrimEnd('/') + $"/{Properties.Resources.HelpReadMeFile}";
 
             this.Icon = ResourceBitmapUtility.GetIconBitmapFrame("/Resources/App.ico", 256);
 

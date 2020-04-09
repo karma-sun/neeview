@@ -289,13 +289,16 @@ namespace NeeView
                 new SaveSettingCommand("SaveSetting"),
                 new TouchEmulateCommand("TouchEmulate"),
 
+                new FocusPrevAppCommand("FocusPrevAppCommand"),
+                new FocusNextAppCommand("FocusNextAppCommand"),
+
                 new OpenConsoleCommand("OpenConsole"),
             };
 
             // グループで並び替えてから辞書化
             _elements = list
                 .GroupBy(e => e.Group).SelectMany(e => e)
-                .ToDictionary(e => e.Name);
+                    .ToDictionary(e => e.Name);
 
             // share
             _elements["NextPage"].SetShare(_elements["PrevPage"]);
@@ -671,7 +674,7 @@ namespace NeeView
                 {
                     command.LoadDocComment();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Debug.WriteLine(ex.Message);
                 }

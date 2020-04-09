@@ -178,7 +178,7 @@ namespace NeeView
             }
 
             // 多重起動制限になる場合、サーバーにパスを送って終了
-            Trace.WriteLine($"CanStart: {CanStart(Config.Current)}: IsServerExists={_multiBootService.IsServerExists}, IsNewWindow={Option.IsNewWindow}, IsMultiBootEnabled={Config.Current.StartUp.IsMultiBootEnabled}");
+            Debug.WriteLine($"CanStart: {CanStart(Config.Current)}: IsServerExists={_multiBootService.IsServerExists}, IsNewWindow={Option.IsNewWindow}, IsMultiBootEnabled={Config.Current.StartUp.IsMultiBootEnabled}");
             if (!CanStart(Config.Current))
             {
                 await _multiBootService.RemoteLoadAsAsync(Option.Values);

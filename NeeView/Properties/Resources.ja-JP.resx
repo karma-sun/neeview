@@ -5166,4 +5166,22 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ControlAboutCopy" xml:space="preserve">
     <value>バージョン情報をコピー(_C)</value>
   </data>
+  <data name="CommandFocusNextApp" xml:space="preserve">
+    <value>次のNeeViewに進む</value>
+  </data>
+  <data name="CommandFocusNextAppMenu" xml:space="preserve">
+    <value>次のNeeViewに進む</value>
+  </data>
+  <data name="CommandFocusNextAppNote" xml:space="preserve">
+    <value>複数起動時に次のNeeViewに切り替えます。</value>
+  </data>
+  <data name="CommandFocusPrevApp" xml:space="preserve">
+    <value>前のNeeViewに戻る</value>
+  </data>
+  <data name="CommandFocusPrevAppMenu" xml:space="preserve">
+    <value>前のNeeViewに戻る</value>
+  </data>
+  <data name="CommandFocusPrevAppNote" xml:space="preserve">
+    <value>複数起動時に前のNeeViewに切り替えます。</value>
+  </data>
 </root>

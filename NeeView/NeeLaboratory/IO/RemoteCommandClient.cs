@@ -36,21 +36,31 @@ namespace NeeLaboratory.IO
         {
             return await Task.Run(() =>
             {
-                // NOTE: 自プロセスは除外
                 var currentProcess = Process.GetCurrentProcess();
-                var processes = Process.GetProcesses().Where(e => e.ProcessName == _processName && e.Id != currentProcess.Id);
 
-                if (delivery.Type == RemoteCommandDeliveryType.Custom)
+                // collect NeeView processes
+                var processes = Process.GetProcesses().Where(e => e.ProcessName == _processName).ToList();
+
+                // 自身を基準として並び替え。自身は削除する
+                var index = processes.FindIndex(e => e.Id == currentProcess.Id);
+                processes = processes.Skip(index).Concat(processes.Take(index)).Where(e => e.Id != currentProcess.Id).ToList();
+
+                switch (delivery.Type)
                 {
-                    return processes.Where(p => p.Id == delivery.ProcessId).Take(1).ToList();
-                }
-                else if (delivery.Type == RemoteCommandDeliveryType.Lastest)
-                {
-                    return processes.OrderByDescending((p) => p.StartTime).Take(1).ToList();
-                }
-                else
-                {
-                    return processes.ToList();
+                    case RemoteCommandDeliveryType.Custom:
+                        return processes.Where(p => p.Id == delivery.ProcessId).Take(1).ToList();
+
+                    case RemoteCommandDeliveryType.Lastest:
+                        return processes.OrderByDescending((p) => p.StartTime).Take(1).ToList();
+
+                    case RemoteCommandDeliveryType.Previous:
+                        return ((IEnumerable<Process>)processes).Reverse().Take(1).ToList();
+
+                    case RemoteCommandDeliveryType.Next:
+                        return processes.Take(1).ToList();
+
+                    default:
+                        return processes.ToList();
                 }
             });
         }
@@ -74,6 +84,9 @@ namespace NeeLaboratory.IO
     {
         public static RemoteCommandDelivery All { get; } = new RemoteCommandDelivery(RemoteCommandDeliveryType.All);
         public static RemoteCommandDelivery Lastest { get; } = new RemoteCommandDelivery(RemoteCommandDeliveryType.Lastest);
+        public static RemoteCommandDelivery Previous { get; } = new RemoteCommandDelivery(RemoteCommandDeliveryType.Previous);
+        public static RemoteCommandDelivery Next { get; } = new RemoteCommandDelivery(RemoteCommandDeliveryType.Next);
+
 
         public RemoteCommandDelivery(RemoteCommandDeliveryType type)
         {
@@ -109,6 +122,16 @@ namespace NeeLaboratory.IO
         /// 指定のプロセス
         /// </summary>
         Custom,
+
+        /// <summary>
+        /// 前のプロセス
+        /// </summary>
+        Previous,
+
+        /// <summary>
+        /// 次のプロセス
+        /// </summary>
+        Next,
     }
 
 }

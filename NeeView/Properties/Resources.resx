@@ -5166,4 +5166,22 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ControlAboutCopy" xml:space="preserve">
     <value>_Copy version info</value>
   </data>
+  <data name="CommandFocusNextApp" xml:space="preserve">
+    <value>Next NeeView</value>
+  </data>
+  <data name="CommandFocusNextAppMenu" xml:space="preserve">
+    <value>Next NeeView</value>
+  </data>
+  <data name="CommandFocusNextAppNote" xml:space="preserve">
+    <value>Switch to the next NeeView when multiple are started.</value>
+  </data>
+  <data name="CommandFocusPrevApp" xml:space="preserve">
+    <value>Prev NeeView</value>
+  </data>
+  <data name="CommandFocusPrevAppMenu" xml:space="preserve">
+    <value>Prev NeeView</value>
+  </data>
+  <data name="CommandFocusPrevAppNote" xml:space="preserve">
+    <value>Switch to the previous NeeView when multiple are started.</value>
+  </data>
 </root>

@@ -772,6 +772,60 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Next NeeView に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandFocusNextApp {
+            get {
+                return ResourceManager.GetString("CommandFocusNextApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Next NeeView に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandFocusNextAppMenu {
+            get {
+                return ResourceManager.GetString("CommandFocusNextAppMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Switch to the next NeeView when multiple are started. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandFocusNextAppNote {
+            get {
+                return ResourceManager.GetString("CommandFocusNextAppNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Prev NeeView に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandFocusPrevApp {
+            get {
+                return ResourceManager.GetString("CommandFocusPrevApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Prev NeeView に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandFocusPrevAppMenu {
+            get {
+                return ResourceManager.GetString("CommandFocusPrevAppMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Switch to the previous NeeView when multiple are started. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandFocusPrevAppNote {
+            get {
+                return ResourceManager.GetString("CommandFocusPrevAppNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Bookmark に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandGroupBookmark {

@@ -14,17 +14,6 @@ namespace NeeView
 {
     public class MultbootService
     {
-        #region Native
-
-        internal static class NativeMethods
-        {
-            [DllImport("user32.dll")]
-            public static extern bool AllowSetForegroundWindow(int dwProcessId);
-        }
-
-        #endregion
-
-
         private Process _currentProcess;
         private Process _serverProcess;
 
@@ -96,7 +85,7 @@ namespace NeeView
         {
             try
             {
-                NativeMethods.AllowSetForegroundWindow(_serverProcess.Id);
+                ProcessActivator.AppActivate(_serverProcess);
                 await RemoteCommandService.Current.SendAsync(new RemoteCommand("LoadAs", files.ToArray()), new RemoteCommandDelivery(_serverProcess.Id));
             }
             catch (Exception ex)
@@ -112,25 +101,11 @@ namespace NeeView
         {
             try
             {
-                // ウィンドウをアクティブにする (準備)
-                // 最小化されているならば解除する
-                var window = Application.Current.MainWindow;
-                if (window.WindowState == WindowState.Minimized) window.WindowState = WindowState.Normal;
-
-                // ウィンドウをアクティブにする (準備)
-                // 一瞬TOPMOSTにする
-                var temp = window.Topmost;
-                window.Topmost = true;
-                window.Topmost = temp;
-
                 // パスの指定があれば開く
                 if (command.Args != null && command.Args.Length > 0 && command.Args[0] != null)
                 {
                     PlaylistBookLoader.Load(command.Args, true);
                 }
-
-                // ウィンドウをアクティブにする (実行)
-                window.Activate();
             }
             catch { }
         }

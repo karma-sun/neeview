@@ -68,7 +68,7 @@ namespace NeeView
             _vm = new MainWindowViewModel(MainWindowModel.Current);
             this.DataContext = _vm;
 
-            _vm.FocusMainViewCall += (s, e) => this.MainView.Focus();
+            _vm.FocusMainViewCall += (s, e) => FocusMainView();
 
             // コマンド初期化
             InitializeCommand();
@@ -478,6 +478,7 @@ namespace NeeView
         /// <param name="e"></param>
         private void MinimizeWindowCommand_Execute(object sender, ExecutedRoutedEventArgs e)
         {
+            FocusMainView();
             SystemCommands.MinimizeWindow(this);
         }
 
@@ -509,6 +510,14 @@ namespace NeeView
         private void CloseWindowCommand_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             SystemCommands.CloseWindow(this);
+        }
+
+        /// <summary>
+        /// メインビューにフォーカスを移す
+        /// </summary>
+        private void FocusMainView()
+        {
+            this.MainView.Focus();
         }
 
         #endregion
@@ -857,7 +866,7 @@ namespace NeeView
             // フルスクリーン解除でフォーカスが表示されたパネルに移動してしまう現象を回避
             if (!WindowShape.Current.IsFullScreen && Config.Current.Panels.IsHidePanelInFullscreen)
             {
-                this.MainView.Focus();
+                FocusMainView();
             }
         }
 

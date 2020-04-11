@@ -3849,7 +3849,7 @@ Initialize the temporary location.</value>
     <value>Dot-by-dot display of image</value>
   </data>
   <data name="ParamIsIgnoreImageDpiTips" xml:space="preserve">
-    <value>When displaying in original size, make it match with display pixels without depending on DPI.</value>
+    <value>When displaying in original size, make it match with display pixels without depending on dpi.</value>
   </data>
   <data name="ParamIsIncrementalSearchEnabled" xml:space="preserve">
     <value>Incremental search enabled</value>
@@ -4209,7 +4209,7 @@ Initialize the temporary location.</value>
     <value>Apply image resolution information</value>
   </data>
   <data name="ParamPictureProfileIsAspectRatioEnabledTips" xml:space="preserve">
-    <value>Display with the aspect ratio set for the image.</value>
+    <value>Display according to the dpi and aspect ratio set in the image file.</value>
   </data>
   <data name="ParamPictureProfileIsLimitSourceSize" xml:space="preserve">
     <value>Load image size limit</value>

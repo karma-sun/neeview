@@ -3849,7 +3849,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>画像のドットバイドット表示</value>
   </data>
   <data name="ParamIsIgnoreImageDpiTips" xml:space="preserve">
-    <value>オリジナルサイズで表示する場合、DPIに依存せずにディスプレイのピクセルと一致させます。</value>
+    <value>オリジナルサイズで表示する場合、dpiに依存せずにディスプレイのピクセルと一致させます。</value>
   </data>
   <data name="ParamIsIncrementalSearchEnabled" xml:space="preserve">
     <value>インクリメンタルサーチ有効</value>
@@ -4209,7 +4209,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>画像の解像度情報を適用する</value>
   </data>
   <data name="ParamPictureProfileIsAspectRatioEnabledTips" xml:space="preserve">
-    <value>画像に設定されているアスペクト比で表示します。</value>
+    <value>画像ファイルに設定されているdpiとアスペクト比に従って表示します。</value>
   </data>
   <data name="ParamPictureProfileIsLimitSourceSize" xml:space="preserve">
     <value>読み込み画像サイズ制限</value>

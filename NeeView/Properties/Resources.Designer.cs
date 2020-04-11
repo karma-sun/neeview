@@ -11208,7 +11208,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   When displaying in original size, make it match with display pixels without depending on DPI. に類似しているローカライズされた文字列を検索します。
+        ///   When displaying in original size, make it match with display pixels without depending on dpi. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsIgnoreImageDpiTips {
             get {
@@ -12288,7 +12288,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Display with the aspect ratio set for the image. に類似しているローカライズされた文字列を検索します。
+        ///   Display according to the dpi and aspect ratio set in the image file. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamPictureProfileIsAspectRatioEnabledTips {
             get {

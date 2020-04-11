@@ -15,7 +15,7 @@
     </UserControl.Resources>
     <Grid>
         <StackPanel>
-            <ScrollViewer x:Name="ExtensionsView" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" Height="200" >
+            <Grid x:Name="ExtensionsView" Height="256">
                 <ItemsControl ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Collection.Items}" IsTabStop="False">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -23,7 +23,7 @@
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
-            </ScrollViewer>
+            </Grid>
             <TextBlock x:Name="HeifHelp" Margin="0,10">
                 <Run Text="{x:Static properties:Resources.NotifyHeifHelp}"/>
                 <LineBreak/>

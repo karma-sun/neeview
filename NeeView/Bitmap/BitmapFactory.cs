@@ -29,7 +29,10 @@ namespace NeeView
     /// </summary>
     public enum BitmapImageFormat
     {
+        [AliasName("JPEG")]
         Jpeg,
+
+        [AliasName("PNG")]
         Png,
     }
 

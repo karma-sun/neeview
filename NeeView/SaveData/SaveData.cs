@@ -379,7 +379,7 @@ namespace NeeView
         private T SafetyLoad<T>(Func<string, T> load, string path, string failedMessage, string failedTitle)
             where T : new()
         {
-            var old = path + ".old";
+            var old = path + ".bak";
 
             try
             {
@@ -721,7 +721,7 @@ namespace NeeView
         {
             try
             {
-                var oldPath = path + ".old";
+                var oldPath = path + ".bak";
                 var tmpPath = path + ".tmp";
 
                 FileIO.RemoveFile(tmpPath);

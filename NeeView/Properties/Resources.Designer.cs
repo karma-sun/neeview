@@ -11424,7 +11424,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Make a backup of the configuration file and load it instead if the normal configuration file can not be read. The file name is UserSetting.xaml.old. The update timing is when you close the setting window and when you exit the application. に類似しているローカライズされた文字列を検索します。
+        ///   Make a backup of the configuration file and load it instead if the normal configuration file can not be read. The file name is UserSetting.json.bak. The update timing is when you close the setting window and when you exit the application. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsSettingBackupTips {
             get {
@@ -12766,7 +12766,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Png is high quality but consumes more memory than Jpeg. に類似しているローカライズされた文字列を検索します。
+        ///   PNG is high quality but consumes more memory than JPEG. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamThumbnailFormatTips {
             get {
@@ -12820,7 +12820,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Quality when the thumbnail image format is Jpeg. に類似しているローカライズされた文字列を検索します。
+        ///   Quality when the thumbnail image format is JPEG. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamThumbnailQualityTips {
             get {
@@ -13081,7 +13081,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Only zip format is supported. に類似しているローカライズされた文字列を検索します。
+        ///   Only ZIP format is supported. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamZipArchiverSupportFileTypesTips {
             get {

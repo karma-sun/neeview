@@ -1,6 +1,6 @@
 body {
     margin: 5%;
-    font-family: Meiryo, "Yu Gothic" ,sans-serif;
+    font-family: sans-serif;
     background-color: white;
 }
 
@@ -35,21 +35,17 @@ p {
     text-align: left;
 }
 
-pre {
-    font-family: "メイリオ", Meiryo;
-}
-
 code {
     background-color: #EEEEEE;
     padding: 0px 10px;
     display: block;
     border: 1px solid #CCC;
-    font-family: Consolas,"メイリオ", Meiryo;
+    font-family: Consolas, sans-serif;
 }
 
     code.inline {
         background-color: #EEEEEE;
-        font-family: Consolas,"メイリオ", Meiryo;
+        font-family: Consolas, sans-serif;
     }
 
 hr {

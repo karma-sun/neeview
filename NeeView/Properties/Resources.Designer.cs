@@ -772,7 +772,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Next NeeView に類似しているローカライズされた文字列を検索します。
+        ///   Switch next NeeView に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandFocusNextApp {
             get {
@@ -781,7 +781,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Next NeeView に類似しているローカライズされた文字列を検索します。
+        ///   Switch next NeeView に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandFocusNextAppMenu {
             get {
@@ -799,7 +799,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Prev NeeView に類似しているローカライズされた文字列を検索します。
+        ///   Switch prev NeeView に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandFocusPrevApp {
             get {
@@ -808,7 +808,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Prev NeeView に類似しているローカライズされた文字列を検索します。
+        ///   Switch prev NeeView に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandFocusPrevAppMenu {
             get {

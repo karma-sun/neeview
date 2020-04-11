@@ -355,19 +355,19 @@
     <value>Move focus to the main view.</value>
   </data>
   <data name="CommandFocusNextApp" xml:space="preserve">
-    <value>Next NeeView</value>
+    <value>Switch next NeeView</value>
   </data>
   <data name="CommandFocusNextAppMenu" xml:space="preserve">
-    <value>Next NeeView</value>
+    <value>Switch next NeeView</value>
   </data>
   <data name="CommandFocusNextAppNote" xml:space="preserve">
     <value>Switch to the next NeeView when multiple are started.</value>
   </data>
   <data name="CommandFocusPrevApp" xml:space="preserve">
-    <value>Prev NeeView</value>
+    <value>Switch prev NeeView</value>
   </data>
   <data name="CommandFocusPrevAppMenu" xml:space="preserve">
-    <value>Prev NeeView</value>
+    <value>Switch prev NeeView</value>
   </data>
   <data name="CommandFocusPrevAppNote" xml:space="preserve">
     <value>Switch to the previous NeeView when multiple are started.</value>

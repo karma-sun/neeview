@@ -298,7 +298,7 @@ namespace NeeView
             public object Clone()
             {
                 var clone = (MementoV2)MemberwiseClone();
-                clone.Parameter = (CommandParameter)this.Parameter.Clone();
+                clone.Parameter = (CommandParameter)this.Parameter?.Clone();
                 return clone;
             }
         }

@@ -355,19 +355,19 @@
     <value>メインビューにフォーカスを移します。</value>
   </data>
   <data name="CommandFocusNextApp" xml:space="preserve">
-    <value>次のNeeViewに進む</value>
+    <value>次のNeeViewに切り替える</value>
   </data>
   <data name="CommandFocusNextAppMenu" xml:space="preserve">
-    <value>次のNeeViewに進む</value>
+    <value>次のNeeViewに切り替える</value>
   </data>
   <data name="CommandFocusNextAppNote" xml:space="preserve">
     <value>複数起動時に次のNeeViewに切り替えます。</value>
   </data>
   <data name="CommandFocusPrevApp" xml:space="preserve">
-    <value>前のNeeViewに戻る</value>
+    <value>前のNeeViewに切り替える</value>
   </data>
   <data name="CommandFocusPrevAppMenu" xml:space="preserve">
-    <value>前のNeeViewに戻る</value>
+    <value>前のNeeViewに切り替える</value>
   </data>
   <data name="CommandFocusPrevAppNote" xml:space="preserve">
     <value>複数起動時に前のNeeViewに切り替えます。</value>

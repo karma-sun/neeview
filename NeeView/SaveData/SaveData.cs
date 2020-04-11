@@ -452,11 +452,29 @@ namespace NeeView
         {
             if (_settingFilenameToDelete == null) return;
 
+            RemoveLegacyFile(_settingFilenameToDelete);
+            _settingFilenameToDelete = null;
+        }
+
+        /// <summary>
+        /// 古いファイルを削除
+        /// </summary>
+        private void RemoveLegacyFile(string filename)
+        {
             try
             {
                 App.Current.SemaphoreWait();
-                Debug.WriteLine($"RemoveLegacyUserSetting: {_settingFilenameToDelete}");
-                FileIO.RemoveFile(_settingFilenameToDelete);
+
+                Debug.WriteLine($"Remove: {filename}");
+                FileIO.RemoveFile(filename);
+
+                // バックアップファイルも削除
+                var backup = filename + ".old";
+                if (File.Exists(backup))
+                {
+                    Debug.WriteLine($"Remove: {backup}");
+                    FileIO.RemoveFile(backup);
+                }
             }
             catch
             {
@@ -465,9 +483,8 @@ namespace NeeView
             {
                 App.Current.SemaphoreRelease();
             }
-
-            _settingFilenameToDelete = null;
         }
+
 
         // UserSettingV1の保存
         [Obsolete]
@@ -554,20 +571,7 @@ namespace NeeView
         {
             if (_historyFilenameToDelete == null) return;
 
-            try
-            {
-                App.Current.SemaphoreWait();
-                Debug.WriteLine($"RemoveLegacyHistory: {_historyFilenameToDelete}");
-                FileIO.RemoveFile(_historyFilenameToDelete);
-            }
-            catch
-            {
-            }
-            finally
-            {
-                App.Current.SemaphoreRelease();
-            }
-
+            RemoveLegacyFile(_historyFilenameToDelete);
             _historyFilenameToDelete = null;
         }
 
@@ -603,20 +607,7 @@ namespace NeeView
         {
             if (_bookmarkFilenameToDelete == null) return;
 
-            try
-            {
-                App.Current.SemaphoreWait();
-                Debug.WriteLine($"RemoveLegacyBookmark: {_bookmarkFilenameToDelete}");
-                FileIO.RemoveFile(_bookmarkFilenameToDelete);
-            }
-            catch
-            {
-            }
-            finally
-            {
-                App.Current.SemaphoreRelease();
-            }
-
+            RemoveLegacyFile(_bookmarkFilenameToDelete);
             _bookmarkFilenameToDelete = null;
         }
 
@@ -675,20 +666,7 @@ namespace NeeView
         {
             if (_pagemarkFilenameToDelete == null) return;
 
-            try
-            {
-                App.Current.SemaphoreWait();
-                Debug.WriteLine($"RemoveLegacyPagemark: {_pagemarkFilenameToDelete}");
-                FileIO.RemoveFile(_pagemarkFilenameToDelete);
-            }
-            catch
-            {
-            }
-            finally
-            {
-                App.Current.SemaphoreRelease();
-            }
-
+            RemoveLegacyFile(_pagemarkFilenameToDelete);
             _pagemarkFilenameToDelete = null;
         }
 

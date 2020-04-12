@@ -335,16 +335,32 @@ namespace NeeView
         /// <summary>
         /// 先読みページ範囲を求める
         /// </summary>
-        private PageRange CreateAheadPageRange(PageRange source)
+        /// <returns>先読みページ範囲。ブック終端をふまえた2範囲を返す</returns>
+        private List<PageRange> CreateAheadPageRange(PageRange source)
         {
             if (!AllowPreLoad() || Config.Current.Performance.PreLoadSize < 1)
             {
-                return PageRange.Empty;
+                return new List<PageRange>() { PageRange.Empty, PageRange.Empty };
             }
 
-            int index = source.Next().Index;
+            PageRange range0 = CreateAheadPageRange(source, source.Direction, Config.Current.Performance.PreLoadSize);
+
+            PageRange range1 = PageRange.Empty;
+            if (range0.PageSize < Config.Current.Performance.PreLoadSize)
+            {
+                var size = Config.Current.Performance.PreLoadSize - range0.PageSize;
+                range1 = CreateAheadPageRange(source, source.Direction * -1, size);
+            }
+
+            return new List<PageRange>() { range0, range1 };
+
+        }
+
+        private PageRange CreateAheadPageRange(PageRange source, int direction, int size)
+        {
+            int index = source.Next(direction).Index;
             var pos0 = new PagePosition(index, 0);
-            var pos1 = new PagePosition(_book.Pages.ClampPageNumber(index + (Config.Current.Performance.PreLoadSize - 1) * source.Direction), 0);
+            var pos1 = new PagePosition(_book.Pages.ClampPageNumber(index + (size - 1) * direction), 0);
             var range = _book.Pages.IsValidPosition(pos0) ? new PageRange(pos0, pos1) : PageRange.Empty;
 
             return range;
@@ -353,10 +369,17 @@ namespace NeeView
         /// <summary>
         /// ページ範囲からページ列を生成
         /// </summary>
-        /// <param name="range"></param>
+        /// <param name="ranges"></param>
         /// <param name="excepts">除外するページ</param>
         /// <returns></returns>
-        private List<Page> CreatePagesFromRange(PageRange range, List<Page> excepts)
+        private List<Page> CreatePagesFromRange(List<PageRange> ranges, List<Page> excepts)
+        {
+            return ranges.Select(e => CreatePagesFromRange(e, excepts))
+                .SelectMany(e => e)
+                .ToList();
+        }
+
+        List<Page> CreatePagesFromRange(PageRange range, List<Page> excepts)
         {
             if (range.IsEmpty())
             {

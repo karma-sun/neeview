@@ -30,7 +30,7 @@ namespace NeeView
         private bool _isBusy = true;
         private ManualResetEventSlim _visibleEvent = new ManualResetEventSlim();
 
-        public BookPageViewGenerater(BookSource book, BookPageViewSetting setting, object sender, PageRange viewPageRange, PageRange aheadPageRange)
+        public BookPageViewGenerater(BookSource book, BookPageViewSetting setting, object sender, PageRange viewPageRange, List<PageRange> aheadPageRanges)
         {
             _book = book;
             _setting = setting;
@@ -38,7 +38,10 @@ namespace NeeView
             _sender = sender;
             _viewRange = viewPageRange;
             _nextRange = viewPageRange;
-            _contentRange = viewPageRange.Add(aheadPageRange);
+            foreach (var range in aheadPageRanges)
+            {
+                _contentRange = viewPageRange.Add(range);
+            }
             _contentCount = 0;
 
             _cancellationTokenSource = new CancellationTokenSource();

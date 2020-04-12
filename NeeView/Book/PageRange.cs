@@ -176,6 +176,11 @@ namespace NeeView
             return Next(this.Direction);
         }
 
+        public PagePosition Previous()
+        {
+            return Next(this.Direction * -1);
+        }
+
         public PagePosition Next(int direction)
         {
             if (direction != 1 && direction != -1) throw new ArgumentOutOfRangeException(nameof(direction));

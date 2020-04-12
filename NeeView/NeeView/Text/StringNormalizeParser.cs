@@ -74,7 +74,7 @@ namespace NeeView.Text
             c = KanaEmbedded.ToZenkakuKanaChar(c);
             c = KanaEmbedded.ToKatakanaChar(c);
             c = KanaEmbedded.ToHankakuChar(c);
-            c = KanaEmbedded.ToUpper(c);
+            c = CharExtensions.ToUpperFast(c);
             return c;
         }
     }

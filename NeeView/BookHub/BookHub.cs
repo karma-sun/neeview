@@ -994,7 +994,7 @@ namespace NeeView
         {
             Book.Memento memento = null;
 
-            if (lastest?.Path == path)
+            if (path != null && lastest?.Path == path)
             {
                 memento = lastest.Clone();
             }

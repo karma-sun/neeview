@@ -23,11 +23,6 @@ namespace NeeView
         }
 
         /// <summary>
-        /// 画像サイズ
-        /// </summary>
-        public double Size { get; } = 256;
-
-        /// <summary>
         /// BitmapFactoryでの画像生成モード
         /// </summary>
         public BitmapCreateMode CreateMode { get; } = BitmapCreateMode.HighQuality;
@@ -40,13 +35,15 @@ namespace NeeView
         /// <returns></returns>
         public Size GetThumbnailSize(Size size)
         {
-            if (size.IsEmpty) return new Size(Size, Size);
+            var resolution = Config.Current.Thumbnail.Resolution;
 
-            var pixels = Size * Size;
+            if (size.IsEmpty) return new Size(resolution, resolution);
+
+            var pixels = resolution * resolution;
 
             var scale = Math.Sqrt(pixels / (size.Width * size.Height));
 
-            var max = Size * 2;
+            var max = resolution * 2;
             if (size.Width * scale > max) scale = max / size.Width;
             if (size.Height * scale > max) scale = max / size.Height;
             if (scale > 1.0) scale = 1.0;

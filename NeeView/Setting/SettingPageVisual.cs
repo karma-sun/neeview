@@ -1,12 +1,8 @@
 ﻿using NeeLaboratory.Windows.Input;
 using NeeView.Data;
-using NeeView.Effects;
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace NeeView.Setting
@@ -68,9 +64,10 @@ namespace NeeView.Setting
             {
                 new SettingItemSection(Properties.Resources.SettingPageVisualThumbnailCache,
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Thumbnail, nameof(ThumbnailConfig.IsCacheEnabled))),
-                    new SettingItemButton(Properties.Resources.SettingPageVisualThumbnailCacheClear, Properties.Resources.SettingPageVisualThumbnailCacheClearTips,  RemoveCache)),
+                    new SettingItemButton(Properties.Resources.SettingPageVisualThumbnailCacheClear, Properties.Resources.SettingPageVisualThumbnailCacheClearButton,  RemoveCache) {Tips = Properties.Resources.SettingPageVisualThumbnailCacheClearTips }),
 
                new SettingItemSection(Properties.Resources.SettingPageVisualThumbnailAdvance,
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Thumbnail, nameof(ThumbnailConfig.Resolution))),
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Thumbnail, nameof(ThumbnailConfig.Format))),
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Thumbnail, nameof(ThumbnailConfig.Quality)))),
             };

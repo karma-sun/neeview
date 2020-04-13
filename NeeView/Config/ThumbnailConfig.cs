@@ -11,6 +11,7 @@ namespace NeeView
         private int _quality = 80;
         private int _thumbnailBookCapacity = 200;
         private int _thumbnailPageCapacity = 100;
+        private double _resolution = 256.0;
 
 
         [PropertyMember("@ParamThumbnailIsCacheEnabled", Tips = "@ParamThumbnailIsCacheEnabledTips")]
@@ -18,6 +19,16 @@ namespace NeeView
         {
             get { return _isCacheEnabled; }
             set { SetProperty(ref _isCacheEnabled, value); }
+        }
+
+        /// <summary>
+        /// 画像サイズ
+        /// </summary>
+        [PropertyRange("@ParamThumbnailResolution", 64, 1024, TickFrequency = 64, Tips = "@ParamThumbnailResolutionTips")]
+        public double Resolution
+        {
+            get { return _resolution; }
+            set { SetProperty(ref _resolution, MathUtility.Clamp(value, 64, 1024)); }
         }
 
         /// <summary>

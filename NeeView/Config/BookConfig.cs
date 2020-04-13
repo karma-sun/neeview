@@ -1,4 +1,5 @@
-﻿using NeeLaboratory.ComponentModel;
+﻿using NeeLaboratory;
+using NeeLaboratory.ComponentModel;
 using NeeView.Text;
 using NeeView.Windows.Property;
 using System.ComponentModel;
@@ -17,6 +18,7 @@ namespace NeeView
         private string _terminalSound;
         private bool _isAutoRecursive = false;
         private bool _isSortFileFirst;
+        private double _bookPageSize = 300.0;
 
 
         /// <summary>
@@ -108,6 +110,14 @@ namespace NeeView
         {
             get { return _isSortFileFirst; }
             set { SetProperty(ref _isSortFileFirst, value); }
+        }
+
+        // ブックページ画像サイズ
+        [PropertyRange("@ParamBookPageSize", 100, 2000, TickFrequency = 10, IsEditable = true, Tips = "@ParamBookPageSizeTips")]
+        public double BookPageSize
+        {
+            get { return _bookPageSize; }
+            set { SetProperty(ref _bookPageSize, MathUtility.Clamp(value, 100.0, 2000.0)); }
         }
 
     }

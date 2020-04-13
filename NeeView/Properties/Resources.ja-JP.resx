@@ -4887,8 +4887,11 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   <data name="SettingPageVisualThumbnailCacheClear" xml:space="preserve">
     <value>キャッシュ削除</value>
   </data>
-  <data name="SettingPageVisualThumbnailCacheClearTips" xml:space="preserve">
+  <data name="SettingPageVisualThumbnailCacheClearButton" xml:space="preserve">
     <value>サムネイルキャッシュを削除する</value>
+  </data>
+  <data name="SettingPageVisualThumbnailCacheClearTips" xml:space="preserve">
+    <value>サムネイルのパラメーターを変更したらキャッシュを削除してください。</value>
   </data>
   <data name="SettingPageVisualWindowTitile" xml:space="preserve">
     <value>ウィンドウタイトル</value>
@@ -5183,5 +5186,17 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="WordYes" xml:space="preserve">
     <value>はい</value>
+  </data>
+  <data name="ParamBookPageSize" xml:space="preserve">
+    <value>ブックページ画像サイズ</value>
+  </data>
+  <data name="ParamBookPageSizeTips" xml:space="preserve">
+    <value>ブックページとして表示する画像のサイズです。サムネイルを表示しているため、大きい値では低解像度で表示される場合があります。</value>
+  </data>
+  <data name="ParamThumbnailResolution" xml:space="preserve">
+    <value>サムネイル画像解像度</value>
+  </data>
+  <data name="ParamThumbnailResolutionTips" xml:space="preserve">
+    <value>値が大きいほど高解像度になりますがデータサイズも大きくなります。</value>
   </data>
 </root>

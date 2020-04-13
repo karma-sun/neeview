@@ -9390,6 +9390,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Book page image size に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookPageSize {
+            get {
+                return ResourceManager.GetString("ParamBookPageSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The size of the image to display as the book page. Since thumbnails are displayed, large values ​​may be displayed at a lower resolution. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookPageSizeTips {
+            get {
+                return ResourceManager.GetString("ParamBookPageSizeTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Setting policy of &quot;@ParamBookBookReadOrder&quot; when opening a book に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamBookPolicyBookReadOrder {
@@ -12829,6 +12847,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Thumbnail image resolution に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamThumbnailResolution {
+            get {
+                return ResourceManager.GetString("ParamThumbnailResolution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The higher the value, the higher the resolution but the larger the data size. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamThumbnailResolutionTips {
+            get {
+                return ResourceManager.GetString("ParamThumbnailResolutionTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Single touch drag operation に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamTouchDragAction {
@@ -14324,6 +14360,15 @@ namespace NeeView.Properties {
         
         /// <summary>
         ///   Clear thumbnail cache に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageVisualThumbnailCacheClearButton {
+            get {
+                return ResourceManager.GetString("SettingPageVisualThumbnailCacheClearButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   After changing the thumbnail parameters, you need to clear the cache. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageVisualThumbnailCacheClearTips {
             get {

@@ -125,6 +125,24 @@ namespace NeeView
         }
 
         /// <summary>
+        /// DBファイルサイズを取得
+        /// </summary>
+        public long GetCaheDatabaseSize()
+        {
+            if (_filename == null) throw new InvalidOperationException();
+
+            var fileinfo = new FileInfo(_filename);
+            if (fileinfo.Exists)
+            {
+                return fileinfo.Length;
+            }
+            else
+            {
+                return 0L;
+            }
+        }
+
+        /// <summary>
         /// DBを開く
         /// </summary>
         /// <param name="filename"></param>

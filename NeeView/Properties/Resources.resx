@@ -4887,8 +4887,11 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="SettingPageVisualThumbnailCacheClear" xml:space="preserve">
     <value>Clear cache</value>
   </data>
-  <data name="SettingPageVisualThumbnailCacheClearTips" xml:space="preserve">
+  <data name="SettingPageVisualThumbnailCacheClearButton" xml:space="preserve">
     <value>Clear thumbnail cache</value>
+  </data>
+  <data name="SettingPageVisualThumbnailCacheClearTips" xml:space="preserve">
+    <value>After changing the thumbnail parameters, you need to clear the cache.</value>
   </data>
   <data name="SettingPageVisualWindowTitile" xml:space="preserve">
     <value>Window title</value>
@@ -5183,5 +5186,17 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="WordYes" xml:space="preserve">
     <value>Yes</value>
+  </data>
+  <data name="ParamBookPageSize" xml:space="preserve">
+    <value>Book page image size</value>
+  </data>
+  <data name="ParamBookPageSizeTips" xml:space="preserve">
+    <value>The size of the image to display as the book page. Since thumbnails are displayed, large values ​​may be displayed at a lower resolution.</value>
+  </data>
+  <data name="ParamThumbnailResolution" xml:space="preserve">
+    <value>Thumbnail image resolution</value>
+  </data>
+  <data name="ParamThumbnailResolutionTips" xml:space="preserve">
+    <value>The higher the value, the higher the resolution but the larger the data size.</value>
   </data>
 </root>

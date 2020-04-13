@@ -39,7 +39,8 @@ namespace NeeView.Setting
                 new SettingItemSection(Properties.Resources.SettingPageBookVisualVisual,
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Notice, nameof(NoticeConfig.IsBusyMarkEnabled))),
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.IsIgnoreImageDpi))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Book, nameof(BookConfig.ContentsSpace)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Book, nameof(BookConfig.ContentsSpace))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Book, nameof(BookConfig.BookPageSize)))),
             };
         }
     }

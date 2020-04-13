@@ -12153,6 +12153,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Mouse wheel speed rate in thumbnail view に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamMouseWheelSpeedRate {
+            get {
+                return ResourceManager.GetString("ParamMouseWheelSpeedRate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Transparent image background color に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamPageBackgroundColor {
@@ -12784,7 +12793,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   PNG is high quality but consumes more memory than JPEG. に類似しているローカライズされた文字列を検索します。
+        ///   PNG is high quality, but the data size is larger than JPEG. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamThumbnailFormatTips {
             get {

@@ -775,13 +775,27 @@ namespace OpenSourceControls
         }
         #endregion
 
+        #region MouseWheelRate
+        /// <summary>
+        /// マウスホイール速度調整
+        /// </summary>
+        public double MouseWheelRate
+        {
+            get { return (double)GetValue(MouseWheelRateProperty); }
+            set { SetValue(MouseWheelRateProperty, value); }
+        }
+
+        public static readonly DependencyProperty MouseWheelRateProperty =
+            DependencyProperty.Register("MouseWheelRate", typeof(double), typeof(VirtualizingWrapPanel), new PropertyMetadata(1.0));
+        #endregion
+
         #region MouseWheelUp
         /// <summary>
         /// ユーザがマウスのホイールボタンをクリックした後に、コンテンツ内を上にスクロールする。
         /// </summary>
         public void MouseWheelUp()
         {
-            this.SetVerticalOffset(this.VerticalOffset - SystemParameters.ScrollHeight * SystemParameters.WheelScrollLines);
+            this.SetVerticalOffset(this.VerticalOffset - MouseWheelRate * SystemParameters.ScrollHeight * SystemParameters.WheelScrollLines);
         }
         #endregion
 
@@ -791,7 +805,7 @@ namespace OpenSourceControls
         /// </summary>
         public void MouseWheelDown()
         {
-            this.SetVerticalOffset(this.VerticalOffset + SystemParameters.ScrollHeight * SystemParameters.WheelScrollLines);
+            this.SetVerticalOffset(this.VerticalOffset + MouseWheelRate * SystemParameters.ScrollHeight * SystemParameters.WheelScrollLines);
         }
         #endregion
 
@@ -801,7 +815,7 @@ namespace OpenSourceControls
         /// </summary>
         public void MouseWheelLeft()
         {
-            this.SetHorizontalOffset(this.HorizontalOffset - SystemParameters.ScrollWidth * SystemParameters.WheelScrollLines);
+            this.SetHorizontalOffset(this.HorizontalOffset - MouseWheelRate * SystemParameters.ScrollWidth * SystemParameters.WheelScrollLines);
         }
         #endregion
 
@@ -811,7 +825,7 @@ namespace OpenSourceControls
         /// </summary>
         public void MouseWheelRight()
         {
-            this.SetHorizontalOffset(this.HorizontalOffset + SystemParameters.ScrollWidth * SystemParameters.WheelScrollLines);
+            this.SetHorizontalOffset(this.HorizontalOffset + MouseWheelRate * SystemParameters.ScrollWidth * SystemParameters.WheelScrollLines);
         }
         #endregion
 

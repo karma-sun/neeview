@@ -175,7 +175,7 @@
                             <Setter Property="ItemsPanel">
                                 <Setter.Value>
                                     <ItemsPanelTemplate>
-                                        <osc:VirtualizingWrapPanel IsItemsHost="True" />
+                                        <osc:VirtualizingWrapPanel IsItemsHost="True" MouseWheelRate="{Binding Source={x:Static local:Config.Current}, Path=Panels.MouseWheelSpeedRate}"/>
                                     </ItemsPanelTemplate>
                                 </Setter.Value>
                             </Setter>

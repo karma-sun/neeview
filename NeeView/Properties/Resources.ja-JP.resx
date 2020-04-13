@@ -4369,7 +4369,7 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
     <value>サムネイル画像フォーマット</value>
   </data>
   <data name="ParamThumbnailFormatTips" xml:space="preserve">
-    <value>PNGは高品質ですが、JPEGより多くのメモリを消費します。</value>
+    <value>PNGは高品質ですが、JPEGよりもデータサイズが大きくなります。</value>
   </data>
   <data name="ParamThumbnailIsCacheEnabled" xml:space="preserve">
     <value>サムネイルキャッシュを使用する</value>
@@ -5198,5 +5198,8 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="ParamThumbnailResolutionTips" xml:space="preserve">
     <value>値が大きいほど高解像度になりますがデータサイズも大きくなります。</value>
+  </data>
+  <data name="ParamMouseWheelSpeedRate" xml:space="preserve">
+    <value>サムネイル表示でのマウスホイール速度倍率</value>
   </data>
 </root>

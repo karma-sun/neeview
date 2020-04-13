@@ -4369,7 +4369,7 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Thumbnail image format</value>
   </data>
   <data name="ParamThumbnailFormatTips" xml:space="preserve">
-    <value>PNG is high quality but consumes more memory than JPEG.</value>
+    <value>PNG is high quality, but the data size is larger than JPEG.</value>
   </data>
   <data name="ParamThumbnailIsCacheEnabled" xml:space="preserve">
     <value>Use thumbnail cache</value>
@@ -5198,5 +5198,8 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="ParamThumbnailResolutionTips" xml:space="preserve">
     <value>The higher the value, the higher the resolution but the larger the data size.</value>
+  </data>
+  <data name="ParamMouseWheelSpeedRate" xml:space="preserve">
+    <value>Mouse wheel speed rate in thumbnail view</value>
   </data>
 </root>

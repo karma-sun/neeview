@@ -19,6 +19,7 @@ namespace NeeView
         private bool _isLeftRightKeyEnabled = true;
         private bool _isManipulationBoundaryFeedbackEnabled;
         private Dictionary<string, PanelDock> _panelDocks = new Dictionary<string, PanelDock>();
+        private double _mouseWheelSpeedRate = 1.0;
 
 
         /// <summary>
@@ -121,6 +122,16 @@ namespace NeeView
             set { SetProperty(ref _isDecoratePlace, value); }
         }
 
+        /// <summary>
+        /// サムネイルリストのマウスホイール速度倍率
+        /// </summary>
+        [PropertyMember("@ParamMouseWheelSpeedRate")]
+        public double MouseWheelSpeedRate
+        {
+            get { return _mouseWheelSpeedRate; }
+            set { SetProperty(ref _mouseWheelSpeedRate, Math.Max(value, 0.1)); }
+        }
+
 
         [PropertyMapLabel("@WordStyleContent")]
         public PanelListItemProfile ContentItemProfile { get; set; } = PanelListItemProfile.DefaultContentItemProfile.Clone();
@@ -140,7 +151,7 @@ namespace NeeView
         {
             get { return _panelDocks; }
             set { SetProperty(ref _panelDocks, value ?? new Dictionary<string, PanelDock>()); }
-        } 
+        }
 
         [PropertyMapIgnore]
         [ObjectMergeIgnore]

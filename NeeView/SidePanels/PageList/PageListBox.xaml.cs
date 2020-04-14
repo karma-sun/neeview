@@ -50,8 +50,6 @@ namespace NeeView
             // タッチスクロール操作の終端挙動抑制
             this.ListBox.ManipulationBoundaryFeedback += SidePanel.Current.ScrollViewer_ManipulationBoundaryFeedback;
 
-
-
             this.Loaded += PageListBox_Loaded;
             this.Unloaded += PageListBox_Unloaded;
         }
@@ -150,6 +148,8 @@ namespace NeeView
             _thumbnailLoader = new ListBoxThumbnailLoader(this, _jobClient);
             _thumbnailLoader.Load();
 
+            Config.Current.Panels.ThumbnailItemProfile.PropertyChanged += ThumbnailItemProfile_PropertyChanged;
+
             FocusSelectedItem();
         }
 
@@ -158,16 +158,21 @@ namespace NeeView
             _vm.Unloaded();
             _vm.ViewItemsChanged -= ViewModel_ViewItemsChanged;
 
+            Config.Current.Panels.ThumbnailItemProfile.PropertyChanged -= ThumbnailItemProfile_PropertyChanged;
+
             _jobClient?.Dispose();
         }
 
+        private void ThumbnailItemProfile_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            this.ListBox.Items?.Refresh();
+        }
 
         private void ViewModel_ViewItemsChanged(object sender, ViewItemsChangedEventArgs e)
         {
             UpdateViewItems(e.ViewItems, e.Direction);
         }
 
-        //
         private void UpdateViewItems()
         {
             if (_vm.Model.ViewItems == null) return;
@@ -175,7 +180,6 @@ namespace NeeView
             UpdateViewItems(_vm.Model.ViewItems, 0);
         }
 
-        //
         private void UpdateViewItems(List<Page> items, int direction)
         {
             if (!this.ListBox.IsLoaded) return;
@@ -210,7 +214,6 @@ namespace NeeView
             this.ListBox.ScrollIntoView(item);
         }
 
-        //
         public void FocusSelectedItem()
         {
             if (this.ListBox.SelectedIndex < 0) return;

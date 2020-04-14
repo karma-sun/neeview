@@ -78,25 +78,6 @@ namespace NeeView
             }
         }
 
-        private void FolderListBox_Loaded(object sender, RoutedEventArgs e)
-        {
-            _jobClient = new PageThumbnailJobClient("FolderList", JobCategories.BookThumbnailCategory);
-            _thumbnailLoader = new ListBoxThumbnailLoader(this, _jobClient);
-
-            _vm.Loaded();
-            _vm.SelectedChanging += SelectedChanging;
-            _vm.SelectedChanged += SelectedChanged;
-        }
-
-        private void FolderListBox_Unloaded(object sender, RoutedEventArgs e)
-        {
-            _jobClient?.Dispose();
-
-            _vm.Unloaded();
-            _vm.SelectedChanging -= SelectedChanging;
-            _vm.SelectedChanged -= SelectedChanged;
-        }
-
         #endregion
 
         #region Properties
@@ -689,6 +670,37 @@ namespace NeeView
         #endregion
 
         #region Methods
+
+        private void FolderListBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            _jobClient = new PageThumbnailJobClient("FolderList", JobCategories.BookThumbnailCategory);
+            _thumbnailLoader = new ListBoxThumbnailLoader(this, _jobClient);
+
+            _vm.Loaded();
+            _vm.SelectedChanging += SelectedChanging;
+            _vm.SelectedChanged += SelectedChanged;
+
+            Config.Current.Panels.ThumbnailItemProfile.PropertyChanged += ThumbnailItemProfile_PropertyChanged;
+        }
+
+        private void FolderListBox_Unloaded(object sender, RoutedEventArgs e)
+        {
+            _jobClient?.Dispose();
+
+            _vm.Unloaded();
+            _vm.SelectedChanging -= SelectedChanging;
+            _vm.SelectedChanged -= SelectedChanged;
+
+            Config.Current.Panels.ThumbnailItemProfile.PropertyChanged -= ThumbnailItemProfile_PropertyChanged;
+        }
+
+        /// <summary>
+        /// サムネイルパラメーターが変化したらアイテムをリフレッシュする
+        /// </summary>
+        private void ThumbnailItemProfile_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            this.ListBox.Items?.Refresh();
+        }
 
         /// <summary>
         /// フォーカス取得

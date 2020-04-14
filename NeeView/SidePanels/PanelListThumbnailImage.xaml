@@ -1,46 +1,27 @@
 ﻿<UserControl x:Class="NeeView.PanelListThumbnailImage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:NeeView"
-        mc:Ignorable="d"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:NeeView" mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}" d:DesignHeight="100" d:DesignWidth="100">
 
     <UserControl.Resources>
         <local:ImageSourceToThumbnailConverter x:Key="ImageSourceToThumbnailConverter" />
-        <local:BooleanToValueConverter x:Key="BooleanToValueConverter" />
-        <local:BooleanToStretchConverter x:Key="BooleanToStretchConverter" />
-        <local:BrushesSelectConverter x:Key="BrushesSelectConverter" />
+        <local:ThumbnaiBackgroundBrushConverter x:Key="ThumbnaiBackgroundBrushConverter" />
+        <local:BooleanToThumbnailStretchConverter x:Key="BooleanToThumbnailStretchConverter" />
+        <local:BooleanToThumbnailViewboxConverter x:Key="BooleanToThumbnailViewboxConverter" />
+        <local:BooleanToThumbnaiAlignmentYConverter x:Key="BooleanToThumbnaiAlignmentYConverter" />
     </UserControl.Resources>
 
-    <Grid x:Name="Root" Width="{Binding Source={x:Static local:Config.Current}, Path=Panels.ThumbnailItemProfile.ShapeWidth}"
-            Height="{Binding Source={x:Static local:Config.Current}, Path=Panels.ThumbnailItemProfile.ShapeHeight}">
-        <Grid.Background>
-            <MultiBinding Converter="{StaticResource BrushesSelectConverter}">
-                <Binding Path="Thumbnail.Background" />
-                <Binding Source="{x:Static local:Config.Current}" Path="Panels.ThumbnailItemProfile.Background" />
-            </MultiBinding>
-        </Grid.Background>
+    <Grid x:Name="Root" Background="{Binding Thumbnail.Background, Converter={StaticResource ThumbnaiBackgroundBrushConverter}}"
+            Width="{Binding Source={x:Static local:Config.Current}, Path=Panels.ThumbnailItemProfile.ShapeWidth, Mode=OneTime}"
+            Height="{Binding Source={x:Static local:Config.Current}, Path=Panels.ThumbnailItemProfile.ShapeHeight, Mode=OneTime}">
+
         <Rectangle HorizontalAlignment="Center" VerticalAlignment="Bottom" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True"
-                Width="{Binding Source={x:Static local:Config.Current}, Path=Panels.ThumbnailItemProfile.ShapeWidth}"
-                Height="{Binding Source={x:Static local:Config.Current}, Path=Panels.ThumbnailItemProfile.ShapeHeight}">
+                Width="{Binding Source={x:Static local:Config.Current}, Path=Panels.ThumbnailItemProfile.ShapeWidth, Mode=OneTime}"
+                Height="{Binding Source={x:Static local:Config.Current}, Path=Panels.ThumbnailItemProfile.ShapeHeight, Mode=OneTime}">
             <Rectangle.Fill>
-                <ImageBrush ImageSource="{Binding Thumbnail.ImageSource, Converter={StaticResource ImageSourceToThumbnailConverter}}">
-                    <ImageBrush.Stretch>
-                        <MultiBinding Converter="{StaticResource BooleanToStretchConverter}" >
-                            <Binding Path="Thumbnail.IsNormalImage" />
-                            <Binding Source="{x:Static local:Config.Current}" Path="Panels.ThumbnailItemProfile.ImageStretch" />
-                        </MultiBinding>
-                    </ImageBrush.Stretch>
-                    <ImageBrush.Viewbox>
-                        <MultiBinding Converter="{StaticResource BooleanToValueConverter}">
-                            <Binding Path="Thumbnail.IsNormalImage" />
-                            <Binding Source="{x:Static local:Config.Current}" Path="Panels.ThumbnailItemProfile.Viewbox" />
-                        </MultiBinding>
-                    </ImageBrush.Viewbox>
-                    <ImageBrush.AlignmentY>
-                        <MultiBinding Converter="{StaticResource BooleanToValueConverter}">
-                            <Binding Path="Thumbnail.IsNormalImage" />
-                            <Binding Source="{x:Static local:Config.Current}" Path="Panels.ThumbnailItemProfile.AlignmentY" />
-                        </MultiBinding>
-                    </ImageBrush.AlignmentY>
+                <ImageBrush ImageSource="{Binding Thumbnail.ImageSource, Converter={StaticResource ImageSourceToThumbnailConverter}}"
+                        Stretch="{Binding Thumbnail.IsNormalImage, Converter={StaticResource BooleanToThumbnailStretchConverter}}"
+                        Viewbox="{Binding Thumbnail.IsNormalImage,Converter={StaticResource BooleanToThumbnailViewboxConverter}}"
+                        AlignmentY="{Binding Thumbnail.IsNormalImage, Converter={StaticResource BooleanToThumbnaiAlignmentYConverter}}">
                 </ImageBrush>
             </Rectangle.Fill>
         </Rectangle>

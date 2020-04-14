@@ -3996,7 +3996,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>バナーサイズ</value>
   </data>
   <data name="ParamListItemBannerImageWidthTips" xml:space="preserve">
-    <value>バナー表示の画像の横幅です。縦幅は横幅の1/4になります。256を超えると画像が粗くなります。</value>
+    <value>バナー表示の画像の横幅です。縦幅は横幅の1/4になります。サムネイル画像解像度を超えると画像が粗くなります。</value>
   </data>
   <data name="ParamListItemBannerIsTextWrapped" xml:space="preserve">
     <value>バナー表示の名前を折り返して表示する</value>
@@ -4014,7 +4014,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>アイコンサイズ</value>
   </data>
   <data name="ParamListItemContentImageWidthTips" xml:space="preserve">
-    <value>コンテンツ表示の画像サイズです。256を超えると画像が粗くなります。</value>
+    <value>コンテンツ表示の画像サイズです。サムネイル画像解像度を超えると画像が粗くなります。</value>
   </data>
   <data name="ParamListItemContentIsDecoratePlace" xml:space="preserve">
     <value>補足テキストのパス表示を整形する</value>
@@ -4047,7 +4047,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>サムネイルサイズ</value>
   </data>
   <data name="ParamListItemThumbnailImageWidthTips" xml:space="preserve">
-    <value>サムネイル表示の画像サイズです。256を超えると画像が粗くなります。</value>
+    <value>サムネイル表示の画像サイズです。サムネイル画像解像度を超えると画像が粗くなります。</value>
   </data>
   <data name="ParamListItemThumbnailIsTextWrapped" xml:space="preserve">
     <value>サムネイル表示の名前を折り返して表示する</value>

@@ -11667,7 +11667,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   The width of the image in banner style. The vertical width is 1/4 of the horizontal width. If it exceeds 256, the image will be rough. に類似しているローカライズされた文字列を検索します。
+        ///   The width of the image in banner style. The vertical width is 1/4 of the horizontal width. If the thumbnail image resolution is exceeded, the image will be grainy. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamListItemBannerImageWidthTips {
             get {
@@ -11721,7 +11721,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   The width of the image in content style. If it exceeds 256, the image will be rough. に類似しているローカライズされた文字列を検索します。
+        ///   The width of the image in content style. If the thumbnail image resolution is exceeded, the image will be grainy. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamListItemContentImageWidthTips {
             get {
@@ -11820,7 +11820,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   The width of the image in thumbnail style. If it exceeds 256, the image will be rough. に類似しているローカライズされた文字列を検索します。
+        ///   The width of the image in thumbnail style. If the thumbnail image resolution is exceeded, the image will be grainy. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamListItemThumbnailImageWidthTips {
             get {

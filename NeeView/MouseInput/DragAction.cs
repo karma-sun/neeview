@@ -38,6 +38,9 @@ namespace NeeView
         [AliasName("@EnumDragActionTypeScaleSlider")]
         ScaleSlider,
 
+        [AliasName("@EnumDragActionTypeMarqueeZoom")]
+        MarqueeZoom,
+
         [AliasName("@EnumDragActionTypeFlipHorizontal")]
         FlipHorizontal,
 
@@ -61,24 +64,14 @@ namespace NeeView
     {
         public string Note { get; set; }
 
-        /// <summary>
-        /// IsLocked property.
-        /// </summary>
         public bool IsLocked { get; set; }
 
-        /// <summary>
-        /// DragKey property.
-        /// </summary>
         public DragKey DragKey { get; set; } = new DragKey();
 
-        /// <summary>
-        /// Exec property.
-        /// </summary>
         public Action<Point, Point> Exec { get; set; }
 
-        /// <summary>
-        /// DragActionGroup property.
-        /// </summary>
+        public Action<Point, Point> ExecEnd { get; set; }
+
         public DragActionGroup Group { get; set; }
 
         // グループ判定
@@ -86,7 +79,6 @@ namespace NeeView
         {
             return Group != DragActionGroup.None && Group == target.Group;
         }
-
 
         #region Memento
 

@@ -5202,4 +5202,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamMouseWheelSpeedRate" xml:space="preserve">
     <value>Mouse wheel speed rate in thumbnail view</value>
   </data>
+  <data name="EnumDragActionTypeMarqueeZoom" xml:space="preserve">
+    <value>Select area to enlarge</value>
+  </data>
 </root>

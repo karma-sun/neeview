@@ -105,6 +105,8 @@ namespace NeeView
         // Y方向の移動制限フラグ
         private bool _lockMoveY;
 
+        private AreaSelectAdorner _adorner;
+
         #endregion
 
         #region Constructors
@@ -119,6 +121,11 @@ namespace NeeView
 
             _sender.SizeChanged += Sender_SizeChanged;
             Sender_SizeChanged(this, null);
+
+            _sender.Loaded += (s, e) =>
+            {
+                _adorner = _adorner ??  new AreaSelectAdorner(_sender);
+            };
         }
 
         private void Sender_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -147,6 +154,7 @@ namespace NeeView
         {
             _isMouseButtonDown = false;
             _action = null;
+            _adorner.Detach();
         }
 
         /// <summary>
@@ -173,6 +181,8 @@ namespace NeeView
             {
                 InitializeDragParameter(point);
                 _isMouseButtonDown = true;
+
+                StateDrag(buttons, keys, point);
             }
         }
 
@@ -180,6 +190,10 @@ namespace NeeView
         {
             if (buttons == MouseButtonBits.None)
             {
+                // excep end action
+                _endPoint = GetCenterCoordVector(point);
+                _action?.ExecEnd?.Invoke(_startPoint, _endPoint);
+
                 _isMouseButtonDown = false;
                 return;
             }
@@ -194,6 +208,7 @@ namespace NeeView
 
                 if (action != _action && action?.Exec != null)
                 {
+                    _adorner.Detach();
                     _action = action;
                     InitializeDragParameter(point);
                 }
@@ -996,6 +1011,35 @@ namespace NeeView
 
             UnlockMove();
         }
+
+        #endregion
+
+        #region MarqueeZoom
+
+        public void DragMarqueeZoom(Point start, Point end)
+        {
+            _adorner.Start = start + _coordCenter;
+            _adorner.End = end + _coordCenter;
+            _adorner.Attach();
+        }
+
+        public void DragMarqueeZoomEnd(Point start, Point end)
+        {
+            _adorner.Detach();
+
+            var zoomRect = new Rect(start, end);
+            if (zoomRect.Width < 0 || zoomRect.Height < 0) return;
+
+            var area = GetArea();
+            var zoomX = area.View.Width / zoomRect.Width;
+            var zoomY = area.View.Height / zoomRect.Height;
+            var zoom = zoomX < zoomY ? zoomX : zoomY;
+            _transform.SetScale(_transform.Scale * zoom, TransformActionType.Scale);
+
+            var zoomCenter = new Point(zoomRect.X + zoomRect.Width * 0.5, zoomRect.Y + zoomRect.Height * 0.5);
+            _transform.Position = (Point)((_transform.Position - zoomCenter) * zoom);
+        }
+
 
         #endregion
 

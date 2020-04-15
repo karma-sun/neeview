@@ -6686,6 +6686,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Select area to enlarge に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumDragActionTypeMarqueeZoom {
+            get {
+                return ResourceManager.GetString("EnumDragActionTypeMarqueeZoom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Move に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumDragActionTypeMove {

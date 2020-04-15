@@ -51,6 +51,8 @@ namespace NeeView
 
         public override void OnMouseButtonUp(object sender, MouseButtonEventArgs e)
         {
+            OnMouseMove(sender, e);
+
             // ドラッグ解除
             if (CreateMouseButtonBits(e) == MouseButtonBits.None)
             {

@@ -69,6 +69,12 @@ namespace NeeView
                     DragKey = new DragKey("Ctrl+LeftButton"),
                     Exec = (s, e) => _drag.DragScaleSlider(s, e),
                 },
+                ["MarqueeZoom"] = new DragAction
+                {
+                    Note = Properties.Resources.EnumDragActionTypeMarqueeZoom,
+                    Exec = (s, e) => _drag.DragMarqueeZoom(s, e),
+                    ExecEnd = (s, e) => _drag.DragMarqueeZoomEnd(s, e),
+                },
                 ["FlipHorizontal"] = new DragAction
                 {
                     Note = Properties.Resources.EnumDragActionTypeFlipHorizontal,

@@ -155,19 +155,21 @@ namespace NeeView
             
             // 設定の読み込み 
             var setting = SaveData.Current.LoadUserSetting();
+            var config = setting.Config ?? Config.Current;
 
             Debug.WriteLine($"App.UserSettingLoaded: {Stopwatch.ElapsedMilliseconds}ms");
 
+            // 言語適用。初期化に影響するため優先して設定
+            NeeView.Properties.Resources.Culture = CultureInfo.GetCultureInfo(config.System.Language.GetCultureName());
+
             // スプラッシュスクリーン
-            ShowSplashScreen(setting.Config ?? Config.Current);
-            
+            ShowSplashScreen(config);
+
             // 設定の適用
             UserSettingTools.Restore(setting, new ObjectMergeOption() { IsIgnoreEnabled = false });
 
             Debug.WriteLine($"App.RestreSettings: {Stopwatch.ElapsedMilliseconds}ms");
 
-            // 言語適用
-            NeeView.Properties.Resources.Culture = CultureInfo.GetCultureInfo(Config.Current.System.Language.GetCultureName());
 
             // バージョン表示
             if (this.Option.IsVersion)

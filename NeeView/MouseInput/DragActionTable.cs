@@ -18,7 +18,7 @@ namespace NeeView
 
         public const string GestureDragActionName = "Gesture";
         private DragActionCollection _defaultMemento;
-        
+
         private Dictionary<string, DragAction> _elements;
         private DragTransformControl _drag;
 
@@ -106,7 +106,7 @@ namespace NeeView
 
 
         public event EventHandler GestureDragActionChanged;
-        
+
 
         public DragAction this[string key]
         {
@@ -172,7 +172,7 @@ namespace NeeView
         }
 
 
-#region Memento
+        #region Memento
 
         [DataContract]
         public class Memento : IMemento
@@ -214,7 +214,7 @@ namespace NeeView
 #pragma warning restore CS0612
         }
 
-#endregion
+        #endregion
 
 
         public DragActionCollection CreateDragActionCollection()

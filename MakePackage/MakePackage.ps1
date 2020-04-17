@@ -19,6 +19,8 @@ trap { break }
 
 $ErrorActionPreference = "stop"
 
+# MSI作成時にDllComponents.wsxを更新する?
+$isCreateDllComponentsWxs = $false;
 
 #
 $product = 'NeeView'
@@ -467,8 +469,11 @@ function New-Msi($arch, $packageDir, $packageAppendDir, $packageMsi)
 		}
 	}
 
-	### Create DllComponents.wxs
-	#New-DllComponents
+	## Create DllComponents.wxs
+	if ($isCreateDllComponentsWxs)
+	{
+		New-DllComponents
+	}
 
 	New-MsiSub $packageMsi "en-us"
 	New-MsiSub $1041Msi "ja-jp"

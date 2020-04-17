@@ -1,34 +1,28 @@
-﻿namespace NeeView.IO
+﻿using System;
+
+namespace NeeView.IO
 {
     /// <summary>
-    /// Windows の Shell アクセスインターフェイス
+    /// Windows の Shell アクセスインターフェイス (dynamic)
     /// </summary>
     public class WshShell
     {
         public static WshShell Current { get; private set; } = new WshShell();
 
-        #region Fields
+        public WshShell()
+        {
+            var type = Type.GetTypeFromProgID("WScript.Shell");
+            Shell = Activator.CreateInstance(type);
+        }
 
-        private IWshRuntimeLibrary.WshShell _shell = new IWshRuntimeLibrary.WshShell();
-
-        #endregion
-
-        #region Properties
-
-        public IWshRuntimeLibrary.WshShell Shell => _shell;
-
-        #endregion
-
-        #region Methods
+        public dynamic Shell { get; }
 
         ~WshShell()
         {
-            if (_shell != null)
+            if (Shell != null)
             {
-                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(_shell);
+                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(Shell);
             }
         }
-
-        #endregion
     }
 }

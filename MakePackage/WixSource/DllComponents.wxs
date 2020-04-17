@@ -6,9 +6,6 @@
                 <Component Id="cmp87FDDA2C12B2DA20D2EB11C8D910E8B1" Guid="*">
                     <File Id="fil4C0437FF5451D7D7875A8AC703D6D7E5" KeyPath="yes" Source="$(var.LibrariesDir)\Esprima.dll" />
                 </Component>
-                <Component Id="cmp62FFE1C97E2F1B1B5BB7600AD40AC45F" Guid="*">
-                    <File Id="fil6697420C3A3FA3E7B26D723BA7645023" KeyPath="yes" Source="$(var.LibrariesDir)\Interop.IWshRuntimeLibrary.dll" />
-                </Component>
                 <Component Id="cmp55D781A4459ED29F2B613B2B749AA35F" Guid="*">
                     <File Id="filCFE286BFB3B8C5219FD9C039C1806747" KeyPath="yes" Source="$(var.LibrariesDir)\Jint.dll" />
                 </Component>
@@ -149,7 +146,6 @@
     <Fragment>
         <ComponentGroup Id="DllComponents">
             <ComponentRef Id="cmp87FDDA2C12B2DA20D2EB11C8D910E8B1" />
-            <ComponentRef Id="cmp62FFE1C97E2F1B1B5BB7600AD40AC45F" />
             <ComponentRef Id="cmp55D781A4459ED29F2B613B2B749AA35F" />
             <ComponentRef Id="cmpF9EB8C6A750913FB2F0F36260AC2AD17" />
             <ComponentRef Id="cmpB5253615D3A409D93E9B0F5C0792727C" />

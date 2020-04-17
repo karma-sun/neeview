@@ -13,15 +13,10 @@ namespace NeeView.IO
     /// </summary>
     public class FileShortcut
     {
-        #region Fields
-
         private FileInfo _source;
         private FileSystemInfo _target;
-
-        #endregion
-
-        #region Constructors
-
+        
+        
         public FileShortcut(string path)
         {
             Open(new FileInfo(path));
@@ -32,9 +27,6 @@ namespace NeeView.IO
             Open(source);
         }
 
-        #endregion
-
-        #region Properties
 
         // リンク元ファイル
         public FileInfo Source => _source;
@@ -47,9 +39,6 @@ namespace NeeView.IO
         // 有効？
         public bool IsValid => _target != null && _target.Exists;
 
-        #endregion
-
-        #region Methods
 
         public static bool IsShortcut(string path)
         {
@@ -79,10 +68,10 @@ namespace NeeView.IO
 
             _source = source;
 
-            IWshRuntimeLibrary.IWshShortcut shortcut = null;
+            dynamic shortcut = null;
             try
             {
-                shortcut = (IWshRuntimeLibrary.IWshShortcut)WshShell.Current.Shell.CreateShortcut(source.FullName);
+                shortcut = WshShell.Current.Shell.CreateShortcut(source.FullName);
                 if (string.IsNullOrWhiteSpace(shortcut?.TargetPath))
                 {
                     Debug.WriteLine($"Cannot get shortcut target: {source.FullName}");
@@ -114,7 +103,5 @@ namespace NeeView.IO
                 }
             }
         }
-
-        #endregion
     }
 }

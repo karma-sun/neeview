@@ -14,12 +14,13 @@ namespace NeeView.Setting
                 new SettingPageArchiverSevenZip(),
                 new SettingPageArchivePdf(),
                 new SettingPageArchiveMedia(),
-
+                new SettingPageSusie(),
             };
 
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageImageCollection,
+               
                     new SettingItemProperty(PropertyMemberElement.Create(PictureProfile.Current, nameof(PictureProfile.SupportFileTypes)), new SettingItemImageCollection() { Collection = PictureProfile.Current.SupportFileTypes }) { IsStretch = true },
 
                     new SettingItemProperty(PropertyMemberElement.Create(PictureProfile.Current, nameof(PictureProfile.SvgFileTypes)), new SettingItemImageCollection(30.0, false) { Collection = PictureProfile.Current.SvgFileTypes }) { IsStretch = true },
@@ -27,7 +28,8 @@ namespace NeeView.Setting
 
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Image.Standard, nameof(ImageStandardConfig.IsAspectRatioEnabled))),
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Image.Standard, nameof(ImageStandardConfig.IsAnimatedGifEnabled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Image.Standard, nameof(ImageStandardConfig.IsAllFileSupported)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Image.Standard, nameof(ImageStandardConfig.IsAllFileSupported)))
+                )
             };
         }
     }
@@ -39,13 +41,12 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageArchiveZipFeature,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Archive.Zip, nameof(ZipArchiveConfig.IsEnabled)))),
 
-                new SettingItemSection(Properties.Resources.SettingPageArchiveZipAdvance,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Archive.Zip, nameof(ZipArchiveConfig.SupportFileTypes)), new SettingItemCollectionControl() { Collection = Config.Current.Archive.Zip.SupportFileTypes, AddDialogHeader = Properties.Resources.WordExtension }))
-                {
-                    IsEnabled = new IsEnabledPropertyValue(Config.Current.Archive.Zip, nameof(ZipArchiveConfig.IsEnabled)),
-                }
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Archive.Zip, nameof(ZipArchiveConfig.IsEnabled))),
+
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Archive.Zip, nameof(ZipArchiveConfig.SupportFileTypes)),
+                        new SettingItemCollectionControl() { Collection = Config.Current.Archive.Zip.SupportFileTypes, AddDialogHeader = Properties.Resources.WordExtension })
+                )
             };
         }
     }
@@ -57,23 +58,24 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageArchiverSevenZipFeature,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Archive.SevenZip, nameof(SevenZipArchiveConfig.IsEnabled)))),
+                    
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Archive.SevenZip, nameof(SevenZipArchiveConfig.IsEnabled))),
 
-                new SettingItemSection(Properties.Resources.SettingPageArchiverSevenZipAdvance,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Archive.SevenZip, nameof(SevenZipArchiveConfig.SupportFileTypes)), new SettingItemCollectionControl() { Collection = Config.Current.Archive.SevenZip.SupportFileTypes, AddDialogHeader = Properties.Resources.WordExtension }),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Archive.SevenZip, nameof(SevenZipArchiveConfig.SupportFileTypes)),
+                        new SettingItemCollectionControl() { Collection = Config.Current.Archive.SevenZip.SupportFileTypes, AddDialogHeader = Properties.Resources.WordExtension }),
+
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Archive.SevenZip, nameof(SevenZipArchiveConfig.X86DllPath)))
                     {
                         Visibility = new VisibilityPropertyValue(Environment.IsX64 ? Visibility.Collapsed : Visibility.Visible),
                         IsStretch = true,
                     },
+
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Archive.SevenZip, nameof(SevenZipArchiveConfig.X64DllPath)))
                     {
                         Visibility = new VisibilityPropertyValue(Environment.IsX64 ? Visibility.Visible : Visibility.Collapsed),
                         IsStretch = true
-                    })
-                {
-                    IsEnabled = new IsEnabledPropertyValue(Config.Current.Archive.SevenZip, nameof(SevenZipArchiveConfig.IsEnabled)),
-                }
+                    }
+                )
             };
         }
     }
@@ -85,14 +87,14 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageArchivePdfFeature,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Archive.Pdf, nameof(PdfArchiveConfig.IsEnabled)))),
+                    
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Archive.Pdf, nameof(PdfArchiveConfig.IsEnabled))),
 
-                new SettingItemSection(Properties.Resources.SettingPageArchivePdfAdvance,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Archive.Pdf, nameof(PdfArchiveConfig.SupportFileTypes)), new SettingItemCollectionControl() { Collection = Config.Current.Archive.Pdf.SupportFileTypes, AddDialogHeader = Properties.Resources.WordExtension }),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Archive.Pdf, nameof(PdfArchiveConfig.RenderSize))))
-                {
-                    IsEnabled = new IsEnabledPropertyValue(Config.Current.Archive.Pdf, nameof(PdfArchiveConfig.IsEnabled)),
-                }
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Archive.Pdf, nameof(PdfArchiveConfig.SupportFileTypes)),
+                        new SettingItemCollectionControl() { Collection = Config.Current.Archive.Pdf.SupportFileTypes, AddDialogHeader = Properties.Resources.WordExtension }),
+                
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Archive.Pdf, nameof(PdfArchiveConfig.RenderSize)))
+                )
             };
         }
     }
@@ -104,16 +106,13 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageArchiveMediaFeature,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Archive.Media, nameof(MediaArchiveConfig.IsEnabled)))),
 
-                new SettingItemSection(Properties.Resources.SettingPageArchiveMediaAdvance,
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Archive.Media, nameof(MediaArchiveConfig.IsEnabled))),
+
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Archive.Media, nameof(MediaArchiveConfig.SupportFileTypes)), new SettingItemCollectionControl() { Collection = Config.Current.Archive.Media.SupportFileTypes, AddDialogHeader = Properties.Resources.WordExtension }),
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Archive.Media, nameof(MediaArchiveConfig.PageSeconds))),
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Archive.Media, nameof(MediaArchiveConfig.MediaStartDelaySeconds)))
-                    )
-                {
-                    IsEnabled = new IsEnabledPropertyValue(Config.Current.Archive.Media, nameof(MediaArchiveConfig.IsEnabled)),
-                }
+                )
             };
         }
     }

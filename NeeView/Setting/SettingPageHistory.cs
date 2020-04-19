@@ -18,36 +18,27 @@ namespace NeeView.Setting
 
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection(Properties.Resources.SettingPageHistoryGeneralGeneral,
+                new SettingItemSection(Properties.Resources.SettingPageHistoryGeneral,
                     new SettingItemIndexValue<int>(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.HistoryEntryPageCount)), new HistoryEntryPageCount(), true),
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.IsInnerArchiveHistoryEnabled))),
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.IsUncHistoryEnabled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.IsForceUpdateHistory)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.IsForceUpdateHistory))),
+                    new SettingItemButton(Properties.Resources.SettingPageHistoryGeneralDelete, Properties.Resources.SettingPageHistoryGeneralDeleteButton, RemoveHistory)),
 
                 new SettingItemSection(Properties.Resources.SettingPageHistoryGeneralLimit, Properties.Resources.SettingPageHistoryGeneralLimitTips,
                     new SettingItemIndexValue<int>(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.LimitSize)), new HistoryLimitSize(), false),
                     new SettingItemIndexValue<TimeSpan>(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.LimitSpan)), new HistoryLimitSpan(), false)),
-
-                new SettingItemSection(Properties.Resources.SettingPageHistoryGeneralDelete,
-                    new SettingItemGroup(
-                        new SettingItemButton(Properties.Resources.SettingPageHistoryGeneralDeleteButton, RemoveHistory) { IsContentOnly = true })),
             };
         }
 
         #region Commands
 
-        /// <summary>
-        /// RemoveHistory command.
-        /// </summary>
+        private RelayCommand<UIElement> _RemoveHistory;
         public RelayCommand<UIElement> RemoveHistory
         {
             get { return _RemoveHistory = _RemoveHistory ?? new RelayCommand<UIElement>(RemoveHistory_Executed); }
         }
 
-        //
-        private RelayCommand<UIElement> _RemoveHistory;
-
-        //
         private void RemoveHistory_Executed(UIElement element)
         {
             BookHistoryCollection.Current.Clear();

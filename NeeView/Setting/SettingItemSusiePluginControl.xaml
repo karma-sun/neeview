@@ -9,7 +9,7 @@
              xmlns:nw="clr-namespace:NeeView.Windows"
              xmlns:properties="clr-namespace:NeeView.Properties"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             Height="300" d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>

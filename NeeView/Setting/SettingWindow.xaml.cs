@@ -1,6 +1,7 @@
 ﻿using NeeView.Native;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -45,6 +46,8 @@ namespace NeeView.Setting
 
             _vm = new SettingWindowViewModel(model);
             this.DataContext = _vm;
+
+            _vm.AddPropertyChanged(nameof(SettingWindowViewModel.IsSearchPageSelected), UpdateIndexTreeSelected);
         }
 
 
@@ -93,7 +96,18 @@ namespace NeeView.Setting
 
         private void IndexTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            _vm.Model.SetSelectedPage(this.IndexTree.SelectedItem as SettingPage);
+            var settingPage = this.IndexTree.SelectedItem as SettingPage;
+            _vm.SelectedItemChanged(settingPage);
+        }
+
+        private void UpdateIndexTreeSelected(object sender, PropertyChangedEventArgs e)
+        {
+            var settingPage = this.IndexTree.SelectedItem as SettingPage;
+
+            if (_vm.IsSearchPageSelected && settingPage != null)
+            {
+                settingPage.IsSelected = false;
+            }
         }
     }
 

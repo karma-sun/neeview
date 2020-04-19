@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeLaboratory.Windows.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,11 +11,18 @@ namespace NeeView.Setting
     {
         public SettingPageContextMenu() : base(Properties.Resources.SettingPageContextMenu)
         {
-             this.IsScrollEnabled = false;
+            var linkCommand = new RelayCommand(() => this.IsSelected = true);
+
+            this.IsScrollEnabled = false;
 
             this.Items = new List<SettingItem>
             {
-                new SettingItemContextMenu(),
+                new SettingItemSection(Properties.Resources.SettingPageContextMenuEdit,
+                    new SettingItemContextMenu()
+                    {
+                        SearchResultItem = new SettingItemLink(Properties.Resources.SettingPageContextMenuEdit, linkCommand){ IsContentOnly = true }
+                    }
+                )
             };
         }
     }

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Diagnostics;
 
 namespace NeeView.Setting
 {
@@ -17,19 +18,48 @@ namespace NeeView.Setting
     /// </summary>
     public class SettingWindowModel : BindableBase
     {
+        private class SettingItemRecord
+        {
+            public SettingItemRecord(SettingPage page, SettingItemSection section, SettingItem item)
+            {
+                Debug.Assert(page != null && section != null && item != null);
+                Page = page;
+                Section = section;
+                Item = item;
+            }
+
+            public SettingPage Page { get; }
+
+            public SettingItemSection Section { get; }
+
+            public SettingItem Item { get; }
+
+            public string GetSearchText()
+            {
+                return Page.GetSearchText() + " " + Section.GetSearchText() + " " + Item.GetSearchText();
+            }
+        }
+
+
         private static Type _latestSelectedPageType;
 
         private List<SettingPage> _pages;
+        private List<SettingItemRecord> _records;
+
 
         public SettingWindowModel()
         {
             Initialize();
         }
 
+
         public List<SettingPage> Pages
         {
             get { return _pages; }
         }
+
+        public SettingPage SearchPage { get; } = new SettingPage(Properties.Resources.SettingPageSearchResult);
+
 
         private void Initialize()
         {
@@ -37,13 +67,11 @@ namespace NeeView.Setting
 
             _pages.Add(new SettingPageEnvironment());
             _pages.Add(new SettingPageArchiver());
-            _pages.Add(new SettingPageSusie());
             _pages.Add(new SettingPageVisual());
             _pages.Add(new SettingPageManipurate());
             _pages.Add(new SettingPageBook());
             _pages.Add(new SettingPageHistory());
             _pages.Add(new SettingPageCommand());
-            _pages.Add(new SettingPageContextMenu());
 
             _latestSelectedPageType = _latestSelectedPageType ?? typeof(SettingPageEnvironment);
             var page = GetSettingPagesEnumerator(_pages).FirstOrDefault(e => e.GetType() == _latestSelectedPageType);
@@ -51,12 +79,37 @@ namespace NeeView.Setting
             {
                 page.IsSelected = true;
             }
+
+            _records = CreateSettingItemRecordList(_pages);
         }
+
+
+        private List<SettingItemRecord> CreateSettingItemRecordList(IEnumerable<SettingPage> pages)
+        {
+            var list = new List<SettingItemRecord>();
+
+            foreach (var page in GetSettingPagesEnumerator(pages))
+            {
+                foreach (var item in page.Items)
+                {
+                    var section = item as SettingItemSection;
+                    Debug.Assert(section != null);
+
+                    foreach (var child in section.Children)
+                    {
+                        list.Add(new SettingItemRecord(page, section, child));
+                    }
+                }
+            }
+
+            return list;
+        }
+
 
         public void SetSelectedPage(SettingPage page)
         {
             if (page == null) return;
-            _latestSelectedPageType = page.GetType();
+            _latestSelectedPageType = page != SearchPage ? page.GetType() : null;
         }
 
         private IEnumerable<SettingPage> GetSettingPagesEnumerator(IEnumerable<SettingPage> pages)
@@ -73,6 +126,50 @@ namespace NeeView.Setting
                         yield return child;
                     }
                 }
+            }
+        }
+
+        public void UpdateSearchPage(string keyword)
+        {
+            var _searchKeywordTokens = keyword.Split(' ')
+                .Select(e => NeeLaboratory.IO.Search.Node.ToNormalisedWord(e.Trim(), true))
+                .Where(e => !string.IsNullOrEmpty(e))
+                .ToList();
+
+            var items = new List<SettingItem>();
+
+            if (_searchKeywordTokens.Any())
+            {
+                var groups = _records
+                    .Where(e => IsMatch(e, _searchKeywordTokens))
+                    .GroupBy(e => e.Section);
+
+                if (groups.Any())
+                {
+                    items.Add(new SettingItemSection(Properties.Resources.SettingPageSearchResult));
+                    foreach (var group in groups)
+                    {
+                        var section = new SettingItemSection(group.Key.Header, group.Key.Tips, group.Select(e => e.Item.SearchResultItem).ToArray());
+                        items.Add(section);
+                    }
+                }
+                else
+                {
+                    items.Add(new SettingItemSection(Properties.Resources.SettingPageSearchResultNotFound));
+                }
+            }
+            else
+            {
+                items.Add(new SettingItemSection(Properties.Resources.SettingPageSearchResultNotFound));
+            }
+
+            SearchPage.SetItems(items);
+
+
+            bool IsMatch(SettingItemRecord record, List<string> tokens)
+            {
+                var text = NeeLaboratory.IO.Search.Node.ToNormalisedWord(record.GetSearchText(), true);
+                return tokens.All(e => text.IndexOf(e) >= 0);
             }
         }
 

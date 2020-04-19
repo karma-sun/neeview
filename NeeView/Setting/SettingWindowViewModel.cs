@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -15,16 +16,67 @@ namespace NeeView.Setting
     public class SettingWindowViewModel : BindableBase
     {
         private SettingWindowModel _model;
+        private bool _isSearchPageSelected;
+        private string _searchKeyword;
+        private SettingPage _currentPage;
+
 
         public SettingWindowViewModel(SettingWindowModel model)
         {
             _model = model;
         }
-        
+
+
         public SettingWindowModel Model
         {
             get { return _model; }
-            set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
+            set { SetProperty(ref _model, value); }
+        }
+
+        public bool IsSearchPageSelected
+        {
+            get { return _isSearchPageSelected; }
+            set { SetProperty(ref _isSearchPageSelected, value); }
+        }
+
+        public string SearchKeyword
+        {
+            get { return _searchKeyword; }
+            set
+            {
+                if (SetProperty(ref _searchKeyword, value))
+                {
+                    if (!string.IsNullOrWhiteSpace(_searchKeyword) || IsSearchPageSelected)
+                    {
+                        _model.UpdateSearchPage(_searchKeyword);
+                        CurrentPage = _model.SearchPage;
+                        IsSearchPageSelected = true;
+                    }
+                }
+            }
+        }
+
+        public SettingPage CurrentPage
+        {
+            get { return _currentPage; }
+            set
+            {
+                if (SetProperty(ref _currentPage, value))
+                {
+                    _model.SetSelectedPage(_currentPage);
+                }
+            }
+        }
+
+
+        public void SelectedItemChanged(SettingPage settingPage)
+        {
+            if (settingPage != null)
+            {
+                CurrentPage = settingPage;
+                IsSearchPageSelected = false;
+                SearchKeyword = "";
+            }
         }
     }
 }

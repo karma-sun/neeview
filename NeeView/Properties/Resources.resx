@@ -4495,7 +4495,7 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Advanced Setting</value>
   </data>
   <data name="SettingPageArchiveMediaFeature" xml:space="preserve">
-    <value>General</value>
+    <value>Video</value>
   </data>
   <data name="SettingPageArchivePdf" xml:space="preserve">
     <value>PDF</value>
@@ -4504,7 +4504,7 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Advanced Setting</value>
   </data>
   <data name="SettingPageArchivePdfFeature" xml:space="preserve">
-    <value>General</value>
+    <value>PDF</value>
   </data>
   <data name="SettingPageArchiverSevenZip" xml:space="preserve">
     <value>7-Zip</value>
@@ -4513,7 +4513,7 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Advanced Setting</value>
   </data>
   <data name="SettingPageArchiverSevenZipFeature" xml:space="preserve">
-    <value>General</value>
+    <value>7-Zip</value>
   </data>
   <data name="SettingPageArchiveZip" xml:space="preserve">
     <value>ZIP</value>
@@ -4522,16 +4522,16 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Advanced Setting</value>
   </data>
   <data name="SettingPageArchiveZipFeature" xml:space="preserve">
-    <value>General</value>
+    <value>Standard archive</value>
   </data>
   <data name="SettingPageBook" xml:space="preserve">
     <value>Book</value>
   </data>
   <data name="SettingPageBookGeneral" xml:space="preserve">
-    <value>Book General</value>
+    <value>Book</value>
   </data>
   <data name="SettingPageBookGeneralGeneral" xml:space="preserve">
-    <value>General</value>
+    <value>Book</value>
   </data>
   <data name="SettingPageBookMove" xml:space="preserve">
     <value>Move</value>
@@ -4567,7 +4567,7 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Page view</value>
   </data>
   <data name="SettingPageBookVisualVisual" xml:space="preserve">
-    <value>View</value>
+    <value>Page view</value>
   </data>
   <data name="SettingPageCommand" xml:space="preserve">
     <value>Command</value>
@@ -4576,7 +4576,7 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Command General</value>
   </data>
   <data name="SettingPageCommandGeneralAdvance" xml:space="preserve">
-    <value>Advanced Setting</value>
+    <value>Command</value>
   </data>
   <data name="SettingPageCommandMain" xml:space="preserve">
     <value>Edit commands</value>
@@ -4672,7 +4672,7 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>History</value>
   </data>
   <data name="SettingPageHistoryGeneral" xml:space="preserve">
-    <value>History General</value>
+    <value>History</value>
   </data>
   <data name="SettingPageHistoryGeneralAdvance" xml:space="preserve">
     <value>Advanced Setting</value>
@@ -4687,7 +4687,7 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Delete history</value>
   </data>
   <data name="SettingPageHistoryGeneralGeneral" xml:space="preserve">
-    <value>General</value>
+    <value>History</value>
   </data>
   <data name="SettingPageHistoryGeneralLimit" xml:space="preserve">
     <value>Number of records saved limit</value>
@@ -4705,7 +4705,7 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Image</value>
   </data>
   <data name="SettingPageImageCollection" xml:space="preserve">
-    <value>Supported image formats</value>
+    <value>Image formats</value>
   </data>
   <data name="SettingPageManipurate" xml:space="preserve">
     <value>View operation</value>
@@ -4726,7 +4726,7 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Advanced Setting</value>
   </data>
   <data name="SettingPageManipurateLoupeGeneral" xml:space="preserve">
-    <value>General</value>
+    <value>Loupe</value>
   </data>
   <data name="SettingPageManipurateMouse" xml:space="preserve">
     <value>Mouse operation</value>
@@ -4750,7 +4750,7 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Advanced Setting</value>
   </data>
   <data name="SettingPageManipurateTouchGeneral" xml:space="preserve">
-    <value>General</value>
+    <value>Touch operation</value>
   </data>
   <data name="SettingPagePanelBookshelf" xml:space="preserve">
     <value>Bookshelf</value>
@@ -4759,7 +4759,7 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Advanced Setting</value>
   </data>
   <data name="SettingPagePanelBookshelfGeneral" xml:space="preserve">
-    <value>General</value>
+    <value>Bookshelf</value>
   </data>
   <data name="SettingPagePanelBookshelfTree" xml:space="preserve">
     <value>Folder tree</value>
@@ -4774,13 +4774,13 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Advanced Setting</value>
   </data>
   <data name="SettingPagePanelEffectVisual" xml:space="preserve">
-    <value>Display</value>
+    <value>Effect panel</value>
   </data>
   <data name="SettingPagePanelFileInfo" xml:space="preserve">
     <value>File information panel</value>
   </data>
   <data name="SettingPagePanelFileInfoVisual" xml:space="preserve">
-    <value>Display</value>
+    <value>File information panel</value>
   </data>
   <data name="SettingPagePanelGeneral" xml:space="preserve">
     <value>Side panels</value>
@@ -4792,7 +4792,7 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Operation</value>
   </data>
   <data name="SettingPagePanelGeneralVisual" xml:space="preserve">
-    <value>Display</value>
+    <value>Side panels</value>
   </data>
   <data name="SettingPagePanelListItem" xml:space="preserve">
     <value>Panel list item</value>
@@ -4810,7 +4810,7 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Advanced Setting</value>
   </data>
   <data name="SettingPageSusieGeneralGeneral" xml:space="preserve">
-    <value>General</value>
+    <value>Susie plug-in</value>
   </data>
   <data name="SettingPageSusieGeneralGeneralTips" xml:space="preserve">
     <value>It supports Susie plug-in (.spi).</value>
@@ -4843,7 +4843,7 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Visual General</value>
   </data>
   <data name="SettingPageVisualGeneralAdvance" xml:space="preserve">
-    <value>Advanced Setting</value>
+    <value>Visual advanced setting</value>
   </data>
   <data name="SettingPageVisualGeneralAutoHide" xml:space="preserve">
     <value>Auto-hide panel</value>
@@ -4864,25 +4864,25 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Notification display</value>
   </data>
   <data name="SettingPageVisualSlider" xml:space="preserve">
-    <value>Slider</value>
+    <value>Page slider</value>
   </data>
   <data name="SettingPageVisualSliderVisual" xml:space="preserve">
-    <value>Visual</value>
+    <value>Page slider</value>
   </data>
   <data name="SettingPageVisualSlideshow" xml:space="preserve">
     <value>Slideshow</value>
   </data>
   <data name="SettingPageVisualSlideshowGeneral" xml:space="preserve">
-    <value>General</value>
+    <value>Slideshow</value>
   </data>
   <data name="SettingPageVisualThumbnail" xml:space="preserve">
     <value>Thumbnail</value>
   </data>
   <data name="SettingPageVisualThumbnailAdvance" xml:space="preserve">
-    <value>Advanced Setting</value>
+    <value>Thumbnail image settings</value>
   </data>
   <data name="SettingPageVisualThumbnailCache" xml:space="preserve">
-    <value>Cache</value>
+    <value>Thumbnail cache</value>
   </data>
   <data name="SettingPageVisualThumbnailCacheClear" xml:space="preserve">
     <value>Clear cache</value>
@@ -4897,7 +4897,7 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Window title</value>
   </data>
   <data name="SettingPageVisualWindowTitileDisplay" xml:space="preserve">
-    <value>Format</value>
+    <value>Window title</value>
   </data>
   <data name="SettingPageVisualWindowTitileNote" xml:space="preserve">
     <value>Format Description
@@ -5204,5 +5204,20 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="EnumDragActionTypeMarqueeZoom" xml:space="preserve">
     <value>Select area to enlarge</value>
+  </data>
+  <data name="SettingPagePanelStyleBanner" xml:space="preserve">
+    <value>Banner style of panel items</value>
+  </data>
+  <data name="SettingPagePanelStyleContent" xml:space="preserve">
+    <value>Content style of panel items</value>
+  </data>
+  <data name="SettingPagePanelStyleThumbnail" xml:space="preserve">
+    <value>Thumbnail style of panel items</value>
+  </data>
+  <data name="SettingPageSearchResult" xml:space="preserve">
+    <value>Search results</value>
+  </data>
+  <data name="SettingPageSearchResultNotFound" xml:space="preserve">
+    <value>Search results not found</value>
   </data>
 </root>

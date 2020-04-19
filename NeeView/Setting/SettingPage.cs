@@ -31,6 +31,7 @@ namespace NeeView.Setting
             this.Children = children.Where(e => e != null).ToList();
         }
 
+
         /// <summary>
         /// ページ名
         /// </summary>
@@ -71,7 +72,6 @@ namespace NeeView.Setting
         /// </summary>
         public bool IsScrollEnabled { get; set; } = true;
 
-
         /// <summary>
         /// 表示ページ。
         /// コンテンツがない場合、子のページを返す
@@ -81,7 +81,7 @@ namespace NeeView.Setting
             get { return (this.Items != null) ? this : this.Children?.FirstOrDefault(); }
         }
 
-        //
+
         private UIElement CreateContent()
         {
             if (this.Items == null)
@@ -119,6 +119,31 @@ namespace NeeView.Setting
                 dockPanel.Margin = new Thickness(20, 0, 0, 0);
                 return dockPanel;
             }
+        }
+
+        public void SetItems(List<SettingItem> items)
+        {
+            Items = items;
+            _content = null;
+            RaisePropertyChanged(nameof(Content));
+        }
+
+        public IEnumerable<SettingItem> GetItemCollection()
+        {
+            if (Items == null) yield break;
+
+            foreach(var item in Items)
+            {
+                foreach(var subItem in item.GetItemCollection())
+                {
+                    yield return subItem;
+                }
+            }
+        }
+
+        public string GetSearchText()
+        {
+            return Header;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using NeeView.Windows.Property;
+﻿using NeeLaboratory.Windows.Input;
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace NeeView.Setting
             this.Children = new List<SettingPage>
             {
                 new SettingPageCommandMain(),
+                new SettingPageContextMenu(),
             };
 
             this.Items = new List<SettingItem>
@@ -40,11 +42,18 @@ namespace NeeView.Setting
     {
         public SettingPageCommandMain() : base(Properties.Resources.SettingPageCommandMain)
         {
+            var linkCommand = new RelayCommand(() => this.IsSelected = true);
+
             this.IsScrollEnabled = false;
 
             this.Items = new List<SettingItem>
             {
-                new SettingItemCommand(),
+                new SettingItemSection(Properties.Resources.SettingPageCommandMain,
+                    new SettingItemCommand()
+                    {
+                        SearchResultItem = new SettingItemLink(Properties.Resources.SettingPageCommandMain, linkCommand){ IsContentOnly = true }
+                    }
+                )
             };
         }
     }

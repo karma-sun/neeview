@@ -1,6 +1,6 @@
 ﻿<UserControl x:Class="NeeView.Setting.SettingItemCommandControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:NeeView.Setting"
-        xmlns:nv="clr-namespace:NeeView" xmlns:properties="clr-namespace:NeeView.Properties" mc:Ignorable="d" d:DesignHeight="480" d:DesignWidth="640">
+        xmlns:nv="clr-namespace:NeeView" xmlns:nvc="clr-namespace:NeeView.Windows.Controls"  xmlns:properties="clr-namespace:NeeView.Properties" mc:Ignorable="d" d:DesignHeight="480" d:DesignWidth="640">
     <Grid x:Name="Root">
         <Grid.Resources>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -9,25 +9,7 @@
 
         <DockPanel>
 
-            <Grid DockPanel.Dock="Top" HorizontalAlignment="Right" Margin="0,0,5,5">
-                <Grid.Resources>
-                    <Style x:Key="ButtonStyle" TargetType="Button" BasedOn="{StaticResource IconButton}">
-                        <Setter Property="Width" Value="24" />
-                        <Setter Property="Height" Value="24" />
-                        <Setter Property="Margin" Value="0,2" />
-                    </Style>
-                </Grid.Resources>
-                <TextBox x:Name="SearchBox" Width="300" Text="{Binding SearchKeyword, UpdateSourceTrigger=PropertyChanged, Delay=1000}" PreviewKeyDown="SearchBox_PreviewKeyDown" Padding="5,0,55,0"
-                        VerticalContentAlignment="Center" />
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2,0">
-                    <Button x:Name="SearchButton" DockPanel.Dock="Right" VerticalAlignment="Center" Style="{StaticResource ButtonStyle}" Click="SearchButton_Click">
-                        <Image Source="{StaticResource ic_search_24px_b}" Width="16" Height="16" />
-                    </Button>
-                    <Button x:Name="ClearSearchButton" DockPanel.Dock="Right" VerticalAlignment="Center" Style="{StaticResource ButtonStyle}" Click="ClearSearchButton_Click">
-                        <Image Source="{StaticResource ic_clear_24px_b}" Width="12" Height="12" />
-                    </Button>
-                </StackPanel>
-            </Grid>
+            <nvc:SearchBox DockPanel.Dock="Top" HorizontalAlignment="Right" Width="250" Margin="0,0,5,5" SearchKeyword="{Binding SearchKeyword}" />
 
             <DockPanel DockPanel.Dock="Bottom" LastChildFill="False">
                 <Button x:Name="ResetGestureSettingButton" DockPanel.Dock="Right" Content="{x:Static properties:Resources.ControlCommandListResetButton}" MinWidth="100" Margin="0,10,10,10"

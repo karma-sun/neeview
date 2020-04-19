@@ -8,7 +8,7 @@
              Focusable="true" IsTabStop="True" FocusVisualStyle="{StaticResource NVFocusVisual}"
              KeyDown="ToggleSwitch_KeyDown"
              d:DesignHeight="300" d:DesignWidth="300">
-    <Viewbox Stretch="Uniform">
+    <Viewbox Stretch="Uniform" Height="20">
         <!--
         Width="50" Height="30"
         -->
@@ -28,7 +28,7 @@
                     </DoubleAnimationUsingKeyFrames>
                 </Storyboard>
             </Grid.Resources>
-            <Canvas x:Name="canvas" Width="40" Height="20" Margin="5,5">
+            <Canvas x:Name="canvas" Width="40" Height="20" Margin="0">
                 <Rectangle x:Name="rectangle" Width="40" Height="20" RadiusX="9" RadiusY="9" Fill="White" Stroke="Black"  StrokeThickness="2" />
                 <Ellipse x:Name="ellipse" Canvas.Left="5" Canvas.Top="5" Width="10" Height="10" Fill="Black" >
                     <Ellipse.RenderTransform>

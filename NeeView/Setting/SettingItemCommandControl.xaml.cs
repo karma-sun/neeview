@@ -397,31 +397,6 @@ namespace NeeView.Setting
         }
 
 
-        private void SearchBox_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                SearchBox_UpdateSource();
-                e.Handled = true;
-            }
-        }
-
-        private void SearchButton_Click(object sender, RoutedEventArgs e)
-        {
-            SearchBox_UpdateSource();
-        }
-
-        private void ClearSearchButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.SearchKeyword = "";
-        }
-
-        private void SearchBox_UpdateSource()
-        {
-            BindingExpression be = this.SearchBox.GetBindingExpression(TextBox.TextProperty);
-            be.UpdateSource();
-        }
-
         private void Search()
         {
             _searchKeywordTokens = this.SearchKeyword.Split(' ')

@@ -13198,7 +13198,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   General に類似しているローカライズされた文字列を検索します。
+        ///   Video に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageArchiveMediaFeature {
             get {
@@ -13225,7 +13225,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   General に類似しているローカライズされた文字列を検索します。
+        ///   PDF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageArchivePdfFeature {
             get {
@@ -13252,7 +13252,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   General に類似しているローカライズされた文字列を検索します。
+        ///   7-Zip に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageArchiverSevenZipFeature {
             get {
@@ -13279,7 +13279,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   General に類似しているローカライズされた文字列を検索します。
+        ///   Standard archive に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageArchiveZipFeature {
             get {
@@ -13297,7 +13297,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Book General に類似しているローカライズされた文字列を検索します。
+        ///   Book に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageBookGeneral {
             get {
@@ -13306,7 +13306,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   General に類似しているローカライズされた文字列を検索します。
+        ///   Book に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageBookGeneralGeneral {
             get {
@@ -13414,7 +13414,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   View に類似しているローカライズされた文字列を検索します。
+        ///   Page view に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageBookVisualVisual {
             get {
@@ -13441,7 +13441,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Advanced Setting に類似しているローカライズされた文字列を検索します。
+        ///   Command に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageCommandGeneralAdvance {
             get {
@@ -13729,7 +13729,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   History General に類似しているローカライズされた文字列を検索します。
+        ///   History に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageHistoryGeneral {
             get {
@@ -13774,7 +13774,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   General に類似しているローカライズされた文字列を検索します。
+        ///   History に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageHistoryGeneralGeneral {
             get {
@@ -13828,7 +13828,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Supported image formats に類似しているローカライズされた文字列を検索します。
+        ///   Image formats に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageImageCollection {
             get {
@@ -13891,7 +13891,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   General に類似しているローカライズされた文字列を検索します。
+        ///   Loupe に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageManipurateLoupeGeneral {
             get {
@@ -13963,7 +13963,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   General に類似しているローカライズされた文字列を検索します。
+        ///   Touch operation に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageManipurateTouchGeneral {
             get {
@@ -13990,7 +13990,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   General に類似しているローカライズされた文字列を検索します。
+        ///   Bookshelf に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPagePanelBookshelfGeneral {
             get {
@@ -14035,7 +14035,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Display に類似しているローカライズされた文字列を検索します。
+        ///   Effect panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPagePanelEffectVisual {
             get {
@@ -14053,7 +14053,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Display に類似しているローカライズされた文字列を検索します。
+        ///   File information panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPagePanelFileInfoVisual {
             get {
@@ -14089,7 +14089,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Display に類似しているローカライズされた文字列を検索します。
+        ///   Side panels に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPagePanelGeneralVisual {
             get {
@@ -14103,6 +14103,51 @@ namespace NeeView.Properties {
         public static string SettingPagePanelListItem {
             get {
                 return ResourceManager.GetString("SettingPagePanelListItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Banner style of panel items に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPagePanelStyleBanner {
+            get {
+                return ResourceManager.GetString("SettingPagePanelStyleBanner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Content style of panel items に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPagePanelStyleContent {
+            get {
+                return ResourceManager.GetString("SettingPagePanelStyleContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Thumbnail style of panel items に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPagePanelStyleThumbnail {
+            get {
+                return ResourceManager.GetString("SettingPagePanelStyleThumbnail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Search results に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageSearchResult {
+            get {
+                return ResourceManager.GetString("SettingPageSearchResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Search results not found に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageSearchResultNotFound {
+            get {
+                return ResourceManager.GetString("SettingPageSearchResultNotFound", resourceCulture);
             }
         }
         
@@ -14143,7 +14188,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   General に類似しているローカライズされた文字列を検索します。
+        ///   Susie plug-in に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageSusieGeneralGeneral {
             get {
@@ -14242,7 +14287,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Advanced Setting に類似しているローカライズされた文字列を検索します。
+        ///   Visual advanced setting に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageVisualGeneralAdvance {
             get {
@@ -14305,7 +14350,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Slider に類似しているローカライズされた文字列を検索します。
+        ///   Page slider に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageVisualSlider {
             get {
@@ -14314,7 +14359,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Visual に類似しているローカライズされた文字列を検索します。
+        ///   Page slider に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageVisualSliderVisual {
             get {
@@ -14332,7 +14377,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   General に類似しているローカライズされた文字列を検索します。
+        ///   Slideshow に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageVisualSlideshowGeneral {
             get {
@@ -14350,7 +14395,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Advanced Setting に類似しているローカライズされた文字列を検索します。
+        ///   Thumbnail image settings に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageVisualThumbnailAdvance {
             get {
@@ -14359,7 +14404,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Cache に類似しているローカライズされた文字列を検索します。
+        ///   Thumbnail cache に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageVisualThumbnailCache {
             get {
@@ -14404,7 +14449,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Format に類似しているローカライズされた文字列を検索します。
+        ///   Window title に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageVisualWindowTitileDisplay {
             get {

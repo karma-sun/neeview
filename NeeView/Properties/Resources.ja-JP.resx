@@ -4495,7 +4495,7 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
     <value>詳細設定</value>
   </data>
   <data name="SettingPageArchiveMediaFeature" xml:space="preserve">
-    <value>機能</value>
+    <value>動画</value>
   </data>
   <data name="SettingPageArchivePdf" xml:space="preserve">
     <value>PDF</value>
@@ -4504,7 +4504,7 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
     <value>詳細設定</value>
   </data>
   <data name="SettingPageArchivePdfFeature" xml:space="preserve">
-    <value>機能</value>
+    <value>PDF</value>
   </data>
   <data name="SettingPageArchiverSevenZip" xml:space="preserve">
     <value>7-Zip</value>
@@ -4513,7 +4513,7 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
     <value>詳細設定</value>
   </data>
   <data name="SettingPageArchiverSevenZipFeature" xml:space="preserve">
-    <value>機能</value>
+    <value>7-Zip</value>
   </data>
   <data name="SettingPageArchiveZip" xml:space="preserve">
     <value>ZIP</value>
@@ -4522,16 +4522,16 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
     <value>詳細設定</value>
   </data>
   <data name="SettingPageArchiveZipFeature" xml:space="preserve">
-    <value>機能</value>
+    <value>標準圧縮ファイル</value>
   </data>
   <data name="SettingPageBook" xml:space="preserve">
     <value>ブック</value>
   </data>
   <data name="SettingPageBookGeneral" xml:space="preserve">
-    <value>ブック全般</value>
+    <value>ブック</value>
   </data>
   <data name="SettingPageBookGeneralGeneral" xml:space="preserve">
-    <value>全般</value>
+    <value>ブック</value>
   </data>
   <data name="SettingPageBookMove" xml:space="preserve">
     <value>移動</value>
@@ -4567,7 +4567,7 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
     <value>ページ表示</value>
   </data>
   <data name="SettingPageBookVisualVisual" xml:space="preserve">
-    <value>表示</value>
+    <value>ページ表示</value>
   </data>
   <data name="SettingPageCommand" xml:space="preserve">
     <value>コマンド</value>
@@ -4576,7 +4576,7 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
     <value>コマンド全般</value>
   </data>
   <data name="SettingPageCommandGeneralAdvance" xml:space="preserve">
-    <value>詳細設定</value>
+    <value>コマンド</value>
   </data>
   <data name="SettingPageCommandMain" xml:space="preserve">
     <value>コマンド設定</value>
@@ -4672,7 +4672,7 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
     <value>履歴</value>
   </data>
   <data name="SettingPageHistoryGeneral" xml:space="preserve">
-    <value>履歴全般</value>
+    <value>履歴</value>
   </data>
   <data name="SettingPageHistoryGeneralAdvance" xml:space="preserve">
     <value>詳細設定</value>
@@ -4687,7 +4687,7 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
     <value>履歴を削除する</value>
   </data>
   <data name="SettingPageHistoryGeneralGeneral" xml:space="preserve">
-    <value>全般</value>
+    <value>履歴</value>
   </data>
   <data name="SettingPageHistoryGeneralLimit" xml:space="preserve">
     <value>履歴保存数制限</value>
@@ -4705,7 +4705,7 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
     <value>画像</value>
   </data>
   <data name="SettingPageImageCollection" xml:space="preserve">
-    <value>サポートしている画像形式</value>
+    <value>画像形式</value>
   </data>
   <data name="SettingPageManipurate" xml:space="preserve">
     <value>画像操作</value>
@@ -4726,7 +4726,7 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
     <value>詳細設定</value>
   </data>
   <data name="SettingPageManipurateLoupeGeneral" xml:space="preserve">
-    <value>全般</value>
+    <value>ルーペ</value>
   </data>
   <data name="SettingPageManipurateMouse" xml:space="preserve">
     <value>マウス操作</value>
@@ -4750,7 +4750,7 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
     <value>詳細設定</value>
   </data>
   <data name="SettingPageManipurateTouchGeneral" xml:space="preserve">
-    <value>全般</value>
+    <value>タッチ操作</value>
   </data>
   <data name="SettingPagePanelBookshelf" xml:space="preserve">
     <value>本棚</value>
@@ -4759,7 +4759,7 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
     <value>詳細設定</value>
   </data>
   <data name="SettingPagePanelBookshelfGeneral" xml:space="preserve">
-    <value>全般</value>
+    <value>本棚</value>
   </data>
   <data name="SettingPagePanelBookshelfTree" xml:space="preserve">
     <value>フォルダーツリー</value>
@@ -4774,13 +4774,13 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
     <value>詳細設定</value>
   </data>
   <data name="SettingPagePanelEffectVisual" xml:space="preserve">
-    <value>表示</value>
+    <value>エフェクトパネル</value>
   </data>
   <data name="SettingPagePanelFileInfo" xml:space="preserve">
     <value>ファイル情報パネル</value>
   </data>
   <data name="SettingPagePanelFileInfoVisual" xml:space="preserve">
-    <value>表示</value>
+    <value>ファイル情報パネル</value>
   </data>
   <data name="SettingPagePanelGeneral" xml:space="preserve">
     <value>サイドパネル全般</value>
@@ -4792,7 +4792,7 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
     <value>操作</value>
   </data>
   <data name="SettingPagePanelGeneralVisual" xml:space="preserve">
-    <value>表示</value>
+    <value>サイドパネル全般</value>
   </data>
   <data name="SettingPagePanelListItem" xml:space="preserve">
     <value>パネルリスト項目</value>
@@ -4810,7 +4810,7 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
     <value>詳細設定</value>
   </data>
   <data name="SettingPageSusieGeneralGeneral" xml:space="preserve">
-    <value>全般</value>
+    <value>Susieプラグイン</value>
   </data>
   <data name="SettingPageSusieGeneralGeneralTips" xml:space="preserve">
     <value>Susieプラグイン(.spi)に対応しています。</value>
@@ -4843,7 +4843,7 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
     <value>表示全般</value>
   </data>
   <data name="SettingPageVisualGeneralAdvance" xml:space="preserve">
-    <value>詳細設定</value>
+    <value>表示詳細</value>
   </data>
   <data name="SettingPageVisualGeneralAutoHide" xml:space="preserve">
     <value>自動非表示パネル</value>
@@ -4864,25 +4864,25 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
     <value>通知表示</value>
   </data>
   <data name="SettingPageVisualSlider" xml:space="preserve">
-    <value>スライダー</value>
+    <value>ページスライダー</value>
   </data>
   <data name="SettingPageVisualSliderVisual" xml:space="preserve">
-    <value>表示</value>
+    <value>ページスライダー</value>
   </data>
   <data name="SettingPageVisualSlideshow" xml:space="preserve">
     <value>スライドショー</value>
   </data>
   <data name="SettingPageVisualSlideshowGeneral" xml:space="preserve">
-    <value>全般</value>
+    <value>スライドショー</value>
   </data>
   <data name="SettingPageVisualThumbnail" xml:space="preserve">
     <value>サムネイル</value>
   </data>
   <data name="SettingPageVisualThumbnailAdvance" xml:space="preserve">
-    <value>詳細設定</value>
+    <value>サムネイル画像設定</value>
   </data>
   <data name="SettingPageVisualThumbnailCache" xml:space="preserve">
-    <value>キャッシュ</value>
+    <value>サムネイルキャッシュ</value>
   </data>
   <data name="SettingPageVisualThumbnailCacheClear" xml:space="preserve">
     <value>キャッシュ削除</value>
@@ -4897,7 +4897,7 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
     <value>ウィンドウタイトル</value>
   </data>
   <data name="SettingPageVisualWindowTitileDisplay" xml:space="preserve">
-    <value>表示</value>
+    <value>ウィンドウタイトル</value>
   </data>
   <data name="SettingPageVisualWindowTitileNote" xml:space="preserve">
     <value>フォーマットの説明
@@ -5204,5 +5204,20 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="EnumDragActionTypeMarqueeZoom" xml:space="preserve">
     <value>範囲を選択して拡大</value>
+  </data>
+  <data name="SettingPagePanelStyleBanner" xml:space="preserve">
+    <value>パネル項目のバナー表示</value>
+  </data>
+  <data name="SettingPagePanelStyleContent" xml:space="preserve">
+    <value>パネル項目のコンテンツ表示</value>
+  </data>
+  <data name="SettingPagePanelStyleThumbnail" xml:space="preserve">
+    <value>パネル項目のサムネイル表示</value>
+  </data>
+  <data name="SettingPageSearchResult" xml:space="preserve">
+    <value>検索結果</value>
+  </data>
+  <data name="SettingPageSearchResultNotFound" xml:space="preserve">
+    <value>検索結果が見つかりませんでした</value>
   </data>
 </root>

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -16,8 +17,11 @@ namespace NeeView.Setting
     /// <summary>
     /// 設定ウィンドウ項目基底
     /// </summary>
-    public class SettingItem
+    public class SettingItem 
     {
+        private SettingItem _searchResultItem;
+
+
         public SettingItem()
         {
         }
@@ -39,6 +43,16 @@ namespace NeeView.Setting
         public IsEnabledPropertyValue IsEnabled { get; set; }
         public VisibilityPropertyValue Visibility { get; set; }
 
+        /// <summary>
+        /// 検索結果の項目表示用
+        /// </summary>
+        public SettingItem SearchResultItem
+        {
+            get => _searchResultItem ?? this;
+            set => _searchResultItem = value;
+        }
+
+
         public UIElement CreateContent()
         {
             var control = CreateContentInner();
@@ -57,6 +71,16 @@ namespace NeeView.Setting
         protected virtual UIElement CreateContentInner()
         {
             return null;
+        }
+
+        public virtual string GetSearchText()
+        {
+            return Header + " " + Tips;
+        }
+
+        public virtual IEnumerable<SettingItem> GetItemCollection()
+        {
+            yield return this;
         }
     }
 
@@ -87,6 +111,7 @@ namespace NeeView.Setting
 
     /// <summary>
     /// SettingItem を複数まとめたもの
+    /// TODO: 固定変数のあるコンストラクタのparams渡しはよろしくない
     /// </summary>
     public class SettingItemGroup : SettingItem
     {
@@ -117,7 +142,7 @@ namespace NeeView.Setting
             this.Children = children.Where(e => e != null).ToList();
         }
 
-        public List<SettingItem> Children { get; private set; }
+        public List<SettingItem> Children { get; private set; } = new List<SettingItem>();
 
         public DataTriggerSource IsEnabledTrigger { get; set; }
         public DataTriggerSource VisibleTrigger { get; set; }
@@ -188,6 +213,24 @@ namespace NeeView.Setting
             return this.Children != null
                 ? this.Children.Where(e => e != null).Select(e => e.CreateContent())
                 : Enumerable.Empty<UIElement>();
+        }
+
+        public override  IEnumerable<SettingItem> GetItemCollection()
+        {
+            if (Children != null)
+            {
+                foreach (var child in Children)
+                {
+                    foreach(var item in child.GetItemCollection())
+                    {
+                        yield return item;
+                    }
+                }
+            }
+            else
+            {
+                yield return this;
+            }
         }
     }
 
@@ -308,6 +351,11 @@ namespace NeeView.Setting
         {
             return new SettingItemControl(_element.Name, _element.Tips ?? this.Tips, _content ?? _element.TypeValue, this.IsStretch);
         }
+
+        public override string GetSearchText()
+        {
+            return _element.Name + " " + (_element.Tips ?? this.Tips);
+        }
     }
 
     /// <summary>
@@ -335,6 +383,11 @@ namespace NeeView.Setting
             var content2 = Content2 ?? _element2.TypeValue;
             return new SettingItemMultiControl(_element1.Name, _element1.Tips ?? this.Tips, content1, content2);
         }
+
+        public override string GetSearchText()
+        {
+            return _element1.Name + " " + (_element1.Tips ?? this.Tips);
+        }
     }
 
     /// <summary>
@@ -361,6 +414,11 @@ namespace NeeView.Setting
         protected override UIElement CreateContentInner()
         {
             return new SettingItemSubControl(_element.Name, _element.Tips ?? this.Tips, _content ?? _element.TypeValue, this.IsStretch);
+        }
+
+        public override string GetSearchText()
+        {
+            return _element.Name + " " + (_element.Tips ?? this.Tips);
         }
     }
 
@@ -390,6 +448,11 @@ namespace NeeView.Setting
             BindingOperations.SetBinding(comboBox, ComboBox.SelectedItemProperty, binding);
 
             return new SettingItemControl(_element.Name, _element.Tips ?? this.Tips, comboBox, false);
+        }
+
+        public override string GetSearchText()
+        {
+            return _element.Name + " " + (_element.Tips ?? this.Tips);
         }
     }
 
@@ -424,7 +487,13 @@ namespace NeeView.Setting
 
             return new SettingItemControl(_element.Name, _element.Tips ?? this.Tips, content, false);
         }
+
+        public override string GetSearchText()
+        {
+            return _element.Name + " " + (_element.Tips ?? this.Tips);
+        }
     }
+
 
     /// <summary>
     /// ボタンの SettingItem
@@ -479,6 +548,42 @@ namespace NeeView.Setting
 
 
     /// <summary>
+    /// リンクの SettingItem
+    /// </summary>
+    public class SettingItemLink : SettingItem
+    {
+        private ICommand _command;
+
+        public SettingItemLink(string header, ICommand command)
+            : base(header)
+        {
+            _command = command;
+        }
+
+        public bool IsContentOnly { get; set; }
+
+        protected override UIElement CreateContentInner()
+        {
+            var textBlock = new TextBlock();
+            var link = new Hyperlink();
+            link.Inlines.Add(this.Header);
+            link.Command = _command;
+            textBlock.Inlines.Add(link);
+
+            if (this.IsContentOnly)
+            {
+                textBlock.Margin = new Thickness(0, 5, 0, 5);
+                return textBlock;
+            }
+            else
+            {
+                return new SettingItemControl(this.Header, this.Tips, textBlock, true);
+            }
+        }
+    }
+
+
+    /// <summary>
     /// 説明項目
     /// </summary>
     public class SettingItemNote : SettingItem
@@ -501,7 +606,13 @@ namespace NeeView.Setting
             };
             return textBlock;
         }
+
+        public override string GetSearchText()
+        {
+            return "";
+        }
     }
+
 
     /// <summary>
     /// マウスドラッグのキー設定項目
@@ -547,6 +658,16 @@ namespace NeeView.Setting
         protected override UIElement CreateContentInner()
         {
             return new SettingItemCommandControl();
+        }
+
+        public override string GetSearchText()
+        {
+            return string.Join(" ",
+                Properties.Resources.WordCommand,
+                Properties.Resources.ControlEditCommandTabShortcut,
+                Properties.Resources.ControlEditCommandTabGesture,
+                Properties.Resources.ControlEditCommandTabTouch,
+                Properties.Resources.ControlEditCommandTabParameter);
         }
     }
 

@@ -15,15 +15,9 @@ namespace NeeView.Setting
 
             this.IsScrollEnabled = false;
 
-            this.Items = new List<SettingItem>
-            {
-                new SettingItemSection(Properties.Resources.SettingPageContextMenuEdit,
-                    new SettingItemContextMenu()
-                    {
-                        SearchResultItem = new SettingItemLink(Properties.Resources.SettingPageContextMenuEdit, linkCommand){ IsContentOnly = true }
-                    }
-                )
-            };
+            var section = new SettingItemSection(Properties.Resources.SettingPageContextMenuEdit);
+            section.Children.Add(new SettingItemContextMenu() { SearchResultItem = new SettingItemLink(Properties.Resources.SettingPageContextMenuEdit, linkCommand) { IsContentOnly = true } });
+            this.Items = new List<SettingItem>() { section };
         }
     }
 }

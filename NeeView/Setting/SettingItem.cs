@@ -111,7 +111,6 @@ namespace NeeView.Setting
 
     /// <summary>
     /// SettingItem を複数まとめたもの
-    /// TODO: 固定変数のあるコンストラクタのparams渡しはよろしくない
     /// </summary>
     public class SettingItemGroup : SettingItem
     {
@@ -127,31 +126,16 @@ namespace NeeView.Setting
         {
         }
 
-        public SettingItemGroup(params SettingItem[] children) : base()
-        {
-            this.Children = children.Where(e => e != null).ToList();
-        }
-
-        public SettingItemGroup(string header, params SettingItem[] children) : base(header)
-        {
-            this.Children = children.Where(e => e != null).ToList();
-        }
-
-        public SettingItemGroup(string header, string tips, params SettingItem[] children) : base(header, tips)
-        {
-            this.Children = children.Where(e => e != null).ToList();
-        }
 
         public List<SettingItem> Children { get; private set; } = new List<SettingItem>();
 
         public DataTriggerSource IsEnabledTrigger { get; set; }
-        public DataTriggerSource VisibleTrigger { get; set; }
 
         protected override UIElement CreateContentInner()
         {
             var dockPanel = new DockPanel();
 
-            if (IsEnabledTrigger != null || VisibleTrigger != null)
+            if (IsEnabledTrigger != null)
             {
                 var style = new Style(typeof(DockPanel));
 
@@ -171,26 +155,6 @@ namespace NeeView.Setting
                     {
                         Property = UIElement.IsEnabledProperty,
                         Value = IsEnabledTrigger.IsTrue,
-                    });
-                    style.Triggers.Add(dataTrigger);
-                }
-
-                if (VisibleTrigger != null)
-                {
-                    style.Setters.Add(new Setter()
-                    {
-                        Property = UIElement.VisibilityProperty,
-                        Value = VisibleTrigger.IsTrue ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible,
-                    });
-                    var dataTrigger = new DataTrigger()
-                    {
-                        Binding = VisibleTrigger.Binging,
-                        Value = VisibleTrigger.Value,
-                    };
-                    dataTrigger.Setters.Add(new Setter()
-                    {
-                        Property = UIElement.VisibilityProperty,
-                        Value = VisibleTrigger.IsTrue ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed,
                     });
                     style.Triggers.Add(dataTrigger);
                 }
@@ -246,16 +210,6 @@ namespace NeeView.Setting
 
         public SettingItemSection(string header, string tips)
             : base(header, tips)
-        {
-        }
-
-        public SettingItemSection(string header, params SettingItem[] children)
-            : base(header, children)
-        {
-        }
-
-        public SettingItemSection(string header, string tips, params SettingItem[] children)
-            : base(header, tips, children)
         {
         }
 

@@ -12,30 +12,26 @@ namespace NeeView.Setting
     {
         public SettingPageSusie() : base(Properties.Resources.SettingPageSusie)
         {
-            this.Items = new List<SettingItem>
+            this.Items = new List<SettingItem>();
+
+            var section = new SettingItemSection(Properties.Resources.SettingPageSusieGeneralGeneral, Properties.Resources.SettingPageSusieGeneralGeneralTips);
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Susie, nameof(SusieConfig.IsEnabled))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Susie, nameof(SusieConfig.SusiePluginPath)))
             {
-                new SettingItemSection(Properties.Resources.SettingPageSusieGeneralGeneral, Properties.Resources.SettingPageSusieGeneralGeneralTips,
-                
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Susie, nameof(SusieConfig.IsEnabled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Susie, nameof(SusieConfig.SusiePluginPath)))
-                    {
-                        IsStretch = true,
-                        IsEnabled = new IsEnabledPropertyValue(Config.Current.Susie, nameof(SusieConfig.IsEnabled)),
-                    },
+                IsStretch = true,
+                IsEnabled = new IsEnabledPropertyValue(Config.Current.Susie, nameof(SusieConfig.IsEnabled)),
+            });
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Susie, nameof(SusieConfig.IsFirstOrderSusieImage))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Susie, nameof(SusieConfig.IsFirstOrderSusieArchive))));
+            this.Items.Add(section);
 
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Susie, nameof(SusieConfig.IsFirstOrderSusieImage))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Susie, nameof(SusieConfig.IsFirstOrderSusieArchive)))
-                ),
+            section = new SettingItemSection(Properties.Resources.SettingPageSusieImagePlugin);
+            section.Children.Add(new SettingItemSusiePlugin(SusiePluginType.Image));
+            this.Items.Add(section);
 
-                new SettingItemSection(Properties.Resources.SettingPageSusieImagePlugin,
-                    new SettingItemSusiePlugin(SusiePluginType.Image)
-                ),
-
-                new SettingItemSection(Properties.Resources.SettingPageSusieArchivePlugin,
-                    new SettingItemSusiePlugin(SusiePluginType.Archive)
-                ),
-
-            };
+            section = new SettingItemSection(Properties.Resources.SettingPageSusieArchivePlugin);
+            section.Children.Add(new SettingItemSusiePlugin(SusiePluginType.Archive));
+            this.Items.Add(section);
         }
     }
 

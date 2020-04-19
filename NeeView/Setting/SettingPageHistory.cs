@@ -16,19 +16,20 @@ namespace NeeView.Setting
                 new SettingPageHistoryPageView(),
             };
 
-            this.Items = new List<SettingItem>
-            {
-                new SettingItemSection(Properties.Resources.SettingPageHistoryGeneral,
-                    new SettingItemIndexValue<int>(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.HistoryEntryPageCount)), new HistoryEntryPageCount(), true),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.IsInnerArchiveHistoryEnabled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.IsUncHistoryEnabled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.IsForceUpdateHistory))),
-                    new SettingItemButton(Properties.Resources.SettingPageHistoryGeneralDelete, Properties.Resources.SettingPageHistoryGeneralDeleteButton, RemoveHistory)),
+            this.Items = new List<SettingItem>();
 
-                new SettingItemSection(Properties.Resources.SettingPageHistoryGeneralLimit, Properties.Resources.SettingPageHistoryGeneralLimitTips,
-                    new SettingItemIndexValue<int>(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.LimitSize)), new HistoryLimitSize(), false),
-                    new SettingItemIndexValue<TimeSpan>(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.LimitSpan)), new HistoryLimitSpan(), false)),
-            };
+            var section = new SettingItemSection(Properties.Resources.SettingPageHistoryGeneral);
+            section.Children.Add(new SettingItemIndexValue<int>(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.HistoryEntryPageCount)), new HistoryEntryPageCount(), true));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.IsInnerArchiveHistoryEnabled))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.IsUncHistoryEnabled))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.IsForceUpdateHistory))));
+            section.Children.Add(new SettingItemButton(Properties.Resources.SettingPageHistoryGeneralDelete, Properties.Resources.SettingPageHistoryGeneralDeleteButton, RemoveHistory));
+            this.Items.Add(section);
+
+            section = new SettingItemSection(Properties.Resources.SettingPageHistoryGeneralLimit, Properties.Resources.SettingPageHistoryGeneralLimitTips);
+            section.Children.Add(new SettingItemIndexValue<int>(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.LimitSize)), new HistoryLimitSize(), false));
+            section.Children.Add(new SettingItemIndexValue<TimeSpan>(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.LimitSpan)), new HistoryLimitSpan(), false));
+            this.Items.Add(section);
         }
 
         #region Commands
@@ -140,12 +141,11 @@ namespace NeeView.Setting
     {
         public SettingPageHistoryPageView() : base(Properties.Resources.SettingPageHistoryPageViewRecord)
         {
-            this.Items = new List<SettingItem>
-            {
-                new SettingItemSection(Properties.Resources.SettingPageHistoryPageViewRecord,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.PageViewRecorder, nameof(PageViewRecorderConfig.IsSavePageViewRecord))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.PageViewRecorder, nameof(PageViewRecorderConfig.PageViewRecordFilePath)))),
-            };
+            var section = new SettingItemSection(Properties.Resources.SettingPageHistoryPageViewRecord);
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.PageViewRecorder, nameof(PageViewRecorderConfig.IsSavePageViewRecord))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.PageViewRecorder, nameof(PageViewRecorderConfig.PageViewRecordFilePath))));
+
+            this.Items = new List<SettingItem>() { section };
         }
     }
 }

@@ -149,7 +149,8 @@ namespace NeeView.Setting
                     items.Add(new SettingItemSection(Properties.Resources.SettingPageSearchResult));
                     foreach (var group in groups)
                     {
-                        var section = new SettingItemSection(group.Key.Header, group.Key.Tips, group.Select(e => e.Item.SearchResultItem).ToArray());
+                        var section = new SettingItemSection(group.Key.Header, group.Key.Tips);
+                        section.Children.AddRange(group.Select(e => e.Item.SearchResultItem));
                         items.Add(section);
                     }
                 }

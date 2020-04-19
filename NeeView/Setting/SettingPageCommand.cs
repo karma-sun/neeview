@@ -18,23 +18,24 @@ namespace NeeView.Setting
                 new SettingPageContextMenu(),
             };
 
-            this.Items = new List<SettingItem>
+            this.Items = new List<SettingItem>();
+
+            var section = new SettingItemSection(Properties.Resources.SettingPageCommandGeneralAdvance);
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Command, nameof(CommandConfig.IsAccessKeyEnabled))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Command, nameof(CommandConfig.IsReversePageMove))));
+            section.Children.Add(new SettingItemSubProperty(PropertyMemberElement.Create(Config.Current.Command, nameof(CommandConfig.IsReversePageMoveWheel)))
             {
-                new SettingItemSection(Properties.Resources.SettingPageCommandGeneralAdvance,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Command, nameof(CommandConfig.IsAccessKeyEnabled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Command, nameof(CommandConfig.IsReversePageMove))),
-                    new SettingItemSubProperty(PropertyMemberElement.Create(Config.Current.Command, nameof(CommandConfig.IsReversePageMoveWheel)))
-                    {
-                        IsEnabled = new IsEnabledPropertyValue(Config.Current.Command, nameof(CommandConfig.IsReversePageMove)),
-                    }),
-                new SettingItemSection(Properties.Resources.SettingPageCommandScipt,
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Script, nameof(ScriptConfig.IsScriptFolderEnabled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Script, nameof(ScriptConfig.ScriptFolder), Config.Current.Script.GetDefaultScriptFolder()))
-                    {
-                        IsEnabled = new IsEnabledPropertyValue(Config.Current.Script, nameof(ScriptConfig.IsScriptFolderEnabled)),
-                        IsStretch = true,
-                    }),
-            };
+                IsEnabled = new IsEnabledPropertyValue(Config.Current.Command, nameof(CommandConfig.IsReversePageMove)),
+            });
+            this.Items.Add(section);
+
+            section = new SettingItemSection(Properties.Resources.SettingPageCommandScipt);
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Script, nameof(ScriptConfig.IsScriptFolderEnabled))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Script, nameof(ScriptConfig.ScriptFolder), Config.Current.Script.GetDefaultScriptFolder()))
+            {
+                IsStretch = true,
+            });
+            this.Items.Add(section);
         }
     }
 
@@ -46,15 +47,9 @@ namespace NeeView.Setting
 
             this.IsScrollEnabled = false;
 
-            this.Items = new List<SettingItem>
-            {
-                new SettingItemSection(Properties.Resources.SettingPageCommandMain,
-                    new SettingItemCommand()
-                    {
-                        SearchResultItem = new SettingItemLink(Properties.Resources.SettingPageCommandMain, linkCommand){ IsContentOnly = true }
-                    }
-                )
-            };
+            var section = new SettingItemSection(Properties.Resources.SettingPageCommandMain);
+            section.Children.Add(new SettingItemCommand() { SearchResultItem = new SettingItemLink(Properties.Resources.SettingPageCommandMain, linkCommand) { IsContentOnly = true } });
+            this.Items = new List<SettingItem>() { section };
         }
     }
 

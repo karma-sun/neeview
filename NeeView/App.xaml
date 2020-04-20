@@ -122,6 +122,12 @@
                             <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}" Geometry="{StaticResource g_search_24px}"/>
                         </DrawingImage.Drawing>
                     </DrawingImage>
+
+                    <DrawingImage x:Key="ic_search_24px_g">
+                        <DrawingImage.Drawing>
+                            <GeometryDrawing Brush="Gray" Pen="{x:Null}" Geometry="{StaticResource g_search_24px}" />
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
                     <!--#endregion -->
 
                     <!--#region ic_setting_24px -->

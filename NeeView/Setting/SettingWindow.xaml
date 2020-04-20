@@ -101,9 +101,9 @@
 
     <DockPanel UseLayoutRounding="True">
 
-        <DockPanel DockPanel.Dock="Left" MinWidth="250">
+        <DockPanel DockPanel.Dock="Left" Width="250">
 
-            <nvc:SearchBox  DockPanel.Dock="Top" Margin="5" SearchKeyword="{Binding SearchKeyword}"/>
+            <nvc:SearchBox DockPanel.Dock="Top" Margin="5,5,5,0" SearchKeyword="{Binding SearchKeyword}" />
 
             <TreeView x:Name="IndexTree" ItemsSource="{Binding Model.Pages}" BorderThickness="0" Margin="5" ItemContainerStyle="{StaticResource NVTreeViewItemWide}"
                     SelectedItemChanged="IndexTree_SelectedItemChanged">

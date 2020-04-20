@@ -85,6 +85,7 @@
         <local:FolderTreeLayoutToBooleanConverter x:Key="FolderTreeLayoutToBooleanConverter"/>
         <local:PathToPlaceIconConverter x:Key="PathToPlaceIconConverter"/>
         <local:IsNullConverter x:Key="IsNullConverter"/>
+        <local:StringNullOrWhiteSpaceToVisibilityConverter x:Key="StringNullOrWhiteSpaceToVisibilityConverter" True="Collapsed" False="Visible" />
 
         <Style x:Key="FolderListButtonStyle" TargetType="Button" BasedOn="{StaticResource IconButton}">
             <Setter Property="Width" Value="28"/>
@@ -243,18 +244,10 @@
                     </Style>
                 </Border.Style>
                 <DockPanel KeyboardNavigation.TabNavigation="Local">
-                    <Button x:Name="ClearSearchButton" DockPanel.Dock="Right" VerticalAlignment="Center" Style="{StaticResource FolderListButtonStyle}" Width="24" Command="{Binding ClearSearch}" TabIndex="3">
+                    <Image Source="{StaticResource ic_search_24px_g}" Width="14" Height="14" VerticalAlignment="Center" Margin="8,0,0,0" />
+                    <Button x:Name="ClearSearchButton" DockPanel.Dock="Right" VerticalAlignment="Center" Style="{StaticResource FolderListButtonStyle}" Width="24" Command="{Binding ClearSearch}"
+                            TabIndex="3" Visibility="{Binding ElementName=SearchBox, Path=Text, Converter={StaticResource StringNullOrWhiteSpaceToVisibilityConverter}}">
                         <Image Source="{StaticResource ic_clear_24px_b}" Width="12" Height="12"/>
-                    </Button>
-                    <Button x:Name="SearchButton" DockPanel.Dock="Right" VerticalAlignment="Center" Style="{StaticResource FolderListButtonStyle}" Width="24" Command="{Binding Search}" TabIndex="2">
-                        <Image Source="{StaticResource ic_search_24px_b}" Width="16" Height="16"/>
-                        <Button.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="{x:Static properties:Resources.BookshelfMoreMenuSearchIncremental}" IsChecked="{Binding Source={x:Static local:Config.Current}, Path=Bookshelf.IsIncrementalSearchEnabled}" IsCheckable="True"/>
-                                <MenuItem Header="{x:Static properties:Resources.BookshelfMoreMenuSearchIncludeSubdirectories}"
-                                        IsChecked="{Binding Source={x:Static local:Config.Current}, Path=Bookshelf.IsSearchIncludeSubdirectories}" IsCheckable="True"/>
-                            </ContextMenu>
-                        </Button.ContextMenu>
                     </Button>
                     <ComboBox x:Name="SearchBox" Text="{Binding Model.InputKeyword, UpdateSourceTrigger=PropertyChanged}" TabIndex="1"
                               TextBoxBase.TextChanged="SearchBox_TextChanged"

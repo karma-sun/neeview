@@ -229,7 +229,7 @@
                 </Border.Resources>
                 <Border.Style>
                     <Style TargetType="Border">
-                        <Setter Property="Background" Value="{DynamicResource NVBaseBrush}" />
+                        <Setter Property="Background" Value="{DynamicResource NVBackground}" />
                         <Setter Property="BorderBrush" Value="{DynamicResource NVDefaultBrush}"/>
                         <Setter Property="ToolTip" Value="{Binding Model.SearchKeywordErrorMessage, Mode=OneWay}"/>
                         <Style.Triggers>

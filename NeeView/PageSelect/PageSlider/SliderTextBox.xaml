@@ -30,7 +30,8 @@
             <TextBlock x:Name="TextBlock" TextAlignment="Center" VerticalAlignment="Center" Padding="8,0"
                    Text="{Binding DispText}">
             </TextBlock>
-            <TextBox x:Name="TextBox"  TextAlignment="Center" VerticalAlignment="Center"
+            <TextBox x:Name="TextBox"  TextAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Stretch"
+                 Foreground="{DynamicResource NVForeground}" Background="{DynamicResource NVBackground}"
                  Text="{Binding Target.Value, UpdateSourceTrigger=Explicit, Converter={StaticResource SliderValueConverter}}"
                  Visibility="Hidden"
                  MouseWheel="TextBox_MouseWheel"

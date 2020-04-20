@@ -43,7 +43,7 @@
 
         <Style TargetType="TextBox">
             <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
-            <Setter Property="Background" Value="{DynamicResource NVBaseBrush}"/>
+            <Setter Property="Background" Value="{DynamicResource NVBackground}"/>
             <Setter Property="BorderBrush" Value="{DynamicResource NVDefaultBrush}"/>
         </Style>
 

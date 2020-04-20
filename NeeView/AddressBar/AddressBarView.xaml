@@ -141,9 +141,19 @@
                 </Button>
             </Grid>
 
-            <Border x:Name="AddressTextBoxBase" BorderThickness="1" BorderBrush="#6888" MinHeight="26" Margin="10,0" >
+            <Border x:Name="AddressTextBoxBase" BorderThickness="1" MinHeight="26" Margin="10,0" >
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="BorderBrush" Value="#6888" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=AddressTextBox, Path=IsFocused}" Value="True">
+                                <Setter Property="BorderBrush" Value="{StaticResource NVButtonForeground}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
                 <DockPanel>
-                    <Button DockPanel.Dock="Right" Style="{StaticResource AddressIconButton}" Command="{Binding BookCommands[ToggleBookmark]}" TabIndex="13">
+                    <Button DockPanel.Dock="Right" Style="{StaticResource AddressIconButton}" Margin="0" Command="{Binding BookCommands[ToggleBookmark]}" TabIndex="13">
                         <TextBlock FontSize="20" FontFamily="Meyrio">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
@@ -172,17 +182,6 @@
                         <TextBox x:Name="AddressTextBox" Text="{Binding Model.Address}" BorderThickness="0" VerticalAlignment="Center" TabIndex="12"
                                 Background="{Binding Config.Theme.MenuColor, Converter={StaticResource BackgroundSelector}}"
                                 Foreground="{Binding Config.Theme.MenuColor, Converter={StaticResource ForegroundSelector}}" KeyDown="AddressTextBox_KeyDown">
-                            <TextBox.FocusVisualStyle>
-                                <Style>
-                                    <Setter Property="Control.Template">
-                                        <Setter.Value>
-                                            <ControlTemplate>
-                                                <Rectangle Margin="-2" StrokeThickness="1" Stroke="#FF1188DD" SnapsToDevicePixels="true" />
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </TextBox.FocusVisualStyle>
                         </TextBox>
                     </DockPanel>
 

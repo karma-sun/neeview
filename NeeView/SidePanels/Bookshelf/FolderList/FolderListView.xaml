@@ -230,7 +230,7 @@
                         <Setter Property="BorderBrush" Value="{DynamicResource NVDefaultBrush}"/>
                         <Setter Property="ToolTip" Value="{Binding Model.SearchKeywordErrorMessage, Mode=OneWay}"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Model.IsFolderSearchCollection}" Value="True">
+                            <DataTrigger Binding="{Binding ElementName=SearchBox, Path=IsKeyboardFocusWithin}" Value="True">
                                 <Setter Property="BorderBrush" Value="{StaticResource NVButtonForeground}"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Model.SearchKeywordErrorMessage, Converter={StaticResource IsNullConverter}}" Value="False">

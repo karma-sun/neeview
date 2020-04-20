@@ -15,8 +15,7 @@
             <local:SliderTextBox x:Name="PageSliderTextBox" DockPanel.Dock="{Binding SliderIndexDock}" 
                                        Visibility="{Binding IsSliderWithIndex, Converter={StaticResource BooleanToVisibilityConverter}}"
                                        Target="{Binding ElementName=Slider}"
-                                       ValueChanged="PageSliderTextBox_ValueChanged"
-                                       KeyDown="TextBox_KeyDown"
+                                       ValueChanged="PageSliderTextBox_ValueChanged" KeyDown="PageSliderTextBox_KeyDown"
                                        Foreground="{DynamicResource NVForeground}">
             </local:SliderTextBox>
             
@@ -24,6 +23,7 @@
                 <local:VideoSlider x:Name="Slider"
                                    Maximum="{Binding Model.PageSelector.MaxIndex}" Value="{Binding Model.SelectedIndex}"
                                    IsDirectionReversed="{Binding Model.IsSliderDirectionReversed}" Focusable="False"
+                                   PreviewMouseLeftButtonDown="PageSlider_PreviewMouseLeftButtonDown"
                                    PreviewMouseLeftButtonUp="PageSlider_PreviewMouseLeftButtonUp"/>
                 <local:PageMarkersView x:Name="PageMarkersView" IsHitTestVisible="False"/>
             </Grid>

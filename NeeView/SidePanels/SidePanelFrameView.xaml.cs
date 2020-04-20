@@ -319,9 +319,19 @@ namespace NeeView
             }
         }
 
+        private void LeftIconGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ((UIElement)sender).Focus();
+        }
+
         private void LeftIconGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             _vm.Left.Panel.Toggle();
+        }
+
+        private void RightIconGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ((UIElement)sender).Focus();
         }
 
         private void RightIconGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -343,5 +353,6 @@ namespace NeeView
         {
             _vm.DragEnd(sender, e);
         }
+
     }
 }

@@ -68,6 +68,11 @@ namespace NeeView
             _vm.SetScrubbing(false);
         }
 
+        private void VideoSlider_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            MainWindowModel.Current.FocusMainView();
+        }
+
         private void TimeTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _vm.ToggleTimeFormat();

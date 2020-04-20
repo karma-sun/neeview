@@ -96,21 +96,24 @@ namespace NeeView
             _vm.MouseWheel(sender, e);
         }
 
-        //
+        private void PageSlider_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            // 操作するときはメインビューにフォーカスを移動する
+            MainWindowModel.Current.FocusMainView();
+        }
+
         private void PageSlider_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             _vm.Jump(false);
         }
 
-        //
         private void PageSliderTextBox_ValueChanged(object sender, EventArgs e)
         {
             _vm.Jump(true);
         }
 
-
         // テキストボックス入力時に単キーのショートカットを無効にする
-        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        private void PageSliderTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             // 単キーのショートカット無効
             KeyExGesture.AllowSingleKey = false;

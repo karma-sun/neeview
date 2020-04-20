@@ -71,6 +71,7 @@
             <Setter Property="Width" Value="40" />
             <Setter Property="Visibility" Value="{Binding IsSideBarVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Setter Property="UseLayoutRounding" Value="True" />
+            <Setter Property="Focusable" Value="True" />
         </Style>
 
 
@@ -116,7 +117,7 @@
 
             <Grid DockPanel.Dock="Left" Visibility="{Binding VM.IsSideBarVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid x:Name="LeftIconGrid" Style="{StaticResource PanelIconGridStyle}" Visibility="{Binding ElementName=LeftPanelContent, Path=Visibility}" AllowDrop="True"
-                        MouseLeftButtonUp="LeftIconGrid_MouseLeftButtonUp">
+                        MouseLeftButtonDown="LeftIconGrid_MouseLeftButtonDown"  MouseLeftButtonUp="LeftIconGrid_MouseLeftButtonUp">
 
                     <b:Interaction.Behaviors>
                         <nw:DragAcceptBehavior Description="{Binding VM.Left.Description}" />
@@ -132,7 +133,7 @@
 
             <Grid DockPanel.Dock="Right" Visibility="{Binding VM.IsSideBarVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid x:Name="RightIconGrid" Style="{StaticResource PanelIconGridStyle}" Visibility="{Binding ElementName=RightPanelContent, Path=Visibility}" AllowDrop="True"
-                        MouseLeftButtonUp="RightIconGrid_MouseLeftButtonUp">
+                        MouseLeftButtonDown="RightIconGrid_MouseLeftButtonDown" MouseLeftButtonUp="RightIconGrid_MouseLeftButtonUp">
 
                     <b:Interaction.Behaviors>
                         <nw:DragAcceptBehavior Description="{Binding VM.Right.Description}" />

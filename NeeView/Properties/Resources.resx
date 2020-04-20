@@ -628,13 +628,13 @@
     <value>Open the folder where the configuration file setting file is saved.</value>
   </data>
   <data name="CommandOpenSettingWindow" xml:space="preserve">
-    <value>Open setting window</value>
+    <value>Open options window</value>
   </data>
   <data name="CommandOpenSettingWindowMenu" xml:space="preserve">
-    <value>_Setting...</value>
+    <value>_Options...</value>
   </data>
   <data name="CommandOpenSettingWindowNote" xml:space="preserve">
-    <value>Open the setting window.</value>
+    <value>Open the options window.</value>
   </data>
   <data name="CommandOpenVersionWindow" xml:space="preserve">
     <value>Display version information</value>
@@ -3921,7 +3921,7 @@ Initialize the temporary location.</value>
     <value>Make a backup of the user setting file</value>
   </data>
   <data name="ParamIsSettingBackupTips" xml:space="preserve">
-    <value>Make a backup of the configuration file and load it instead if the normal configuration file can not be read. The file name is UserSetting.json.bak. The update timing is when you close the setting window and when you exit the application.</value>
+    <value>Make a backup of the configuration file and load it instead if the normal configuration file can not be read. The file name is UserSetting.json.bak. The update timing is when you close the options window and when you exit the application.</value>
   </data>
   <data name="ParamIsSideBarEnabled" xml:space="preserve">
     <value>Show side bar</value>
@@ -3948,7 +3948,7 @@ Initialize the temporary location.</value>
     <value>Synchronize settings</value>
   </data>
   <data name="ParamIsSyncUserSettingTips" xml:space="preserve">
-    <value>When multi-booting, all NeeView settings are updated when closing the setting window.</value>
+    <value>When multi-booting, all NeeView settings are updated when closing the options window.</value>
   </data>
   <data name="ParamIsUncHistoryEnabled" xml:space="preserve">
     <value>Save UNC path in history</value>
@@ -4224,7 +4224,7 @@ Initialize the temporary location.</value>
     <value>Enable SVG file</value>
   </data>
   <data name="ParamPictureProfileIsSvgEnabledTips" xml:space="preserve">
-    <value>Open an SVG file as a page. Please turn off when you want to display SVG with Susie plug-in.</value>
+    <value>Open an SVG file as a page.</value>
   </data>
   <data name="ParamPictureProfileMaximumSize" xml:space="preserve">
     <value>Maximum image size</value>
@@ -4891,7 +4891,7 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Clear thumbnail cache</value>
   </data>
   <data name="SettingPageVisualThumbnailCacheClearTips" xml:space="preserve">
-    <value>After changing the thumbnail parameters, you need to clear the cache.</value>
+    <value>After changing the thumbnail image settings, you need to clear the cache.</value>
   </data>
   <data name="SettingPageVisualWindowTitile" xml:space="preserve">
     <value>Window title</value>
@@ -4930,7 +4930,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>About</value>
   </data>
   <data name="WindowSettingTitle" xml:space="preserve">
-    <value>Setting</value>
+    <value>Options</value>
   </data>
   <data name="WordAdd" xml:space="preserve">
     <value>Add</value>
@@ -5219,5 +5219,8 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="SettingPageSearchResultNotFound" xml:space="preserve">
     <value>Search results not found</value>
+  </data>
+  <data name="SettingSectionSvg" xml:space="preserve">
+    <value>SVG</value>
   </data>
 </root>

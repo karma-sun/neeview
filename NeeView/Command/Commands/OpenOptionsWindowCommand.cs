@@ -1,8 +1,8 @@
 ﻿namespace NeeView
 {
-    public class OpenSettingWindowCommand : CommandElement
+    public class OpenOptionsWindowCommand : CommandElement
     {
-        public OpenSettingWindowCommand(string name) : base(name)
+        public OpenOptionsWindowCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupOther;
             this.Text = Properties.Resources.CommandOpenSettingWindow;

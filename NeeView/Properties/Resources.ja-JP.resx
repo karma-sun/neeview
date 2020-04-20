@@ -4224,7 +4224,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>SVGファイルを有効にする</value>
   </data>
   <data name="ParamPictureProfileIsSvgEnabledTips" xml:space="preserve">
-    <value>SVGファイルをページとして開きます。SusieプラグインでSVGを表示したいときはオフにしてください。</value>
+    <value>SVGファイルをページとして開きます。</value>
   </data>
   <data name="ParamPictureProfileMaximumSize" xml:space="preserve">
     <value>最大画像サイズ</value>
@@ -4891,7 +4891,7 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
     <value>サムネイルキャッシュを削除する</value>
   </data>
   <data name="SettingPageVisualThumbnailCacheClearTips" xml:space="preserve">
-    <value>サムネイルのパラメーターを変更したらキャッシュを削除してください。</value>
+    <value>サムネイル画像設定を変更したらキャッシュを削除してください。</value>
   </data>
   <data name="SettingPageVisualWindowTitile" xml:space="preserve">
     <value>ウィンドウタイトル</value>
@@ -5219,5 +5219,8 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="SettingPageSearchResultNotFound" xml:space="preserve">
     <value>検索結果が見つかりませんでした</value>
+  </data>
+  <data name="SettingSectionSvg" xml:space="preserve">
+    <value>SVG</value>
   </data>
 </root>

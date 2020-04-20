@@ -583,7 +583,7 @@ namespace NeeView
                     }},
                     new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreeOption, Children = new ObservableCollection<MenuTree>()
                     {
-                        new MenuTree(MenuElementType.Command) { CommandName = "OpenSettingWindow" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "OpenOptionsWindow" },
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { CommandName = "ReloadSetting" },
                         new MenuTree(MenuElementType.Command) { CommandName = "ExportBackup"},

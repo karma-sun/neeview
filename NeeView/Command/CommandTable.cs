@@ -269,7 +269,7 @@ namespace NeeView
                 new LoupeOffCommand("LoupeOff"),
                 new LoupeScaleUpCommand("LoupeScaleUp"),
                 new LoupeScaleDownCommand("LoupeScaleDown"),
-                new OpenSettingWindowCommand("OpenSettingWindow"),
+                new OpenOptionsWindowCommand("OpenOptionsWindow"),
                 new OpenSettingFilesFolderCommand("OpenSettingFilesFolder"),
                 new OpenScriptsFolderCommand("OpenScriptsFolder"),
                 new OpenVersionWindowCommand("OpenVersionWindow"),
@@ -731,6 +731,7 @@ namespace NeeView
                 ["SetFolderOrderBySizeD"] = "SetBookOrderBySizeD",
                 ["SetFolderOrderByRandom"] = "SetBookOrderByRandom",
                 ["ReloadUserSetting"] = "ReloadSetting",
+                ["OpenSettingWindow"] = "OpenOptionsWindow",
             };
 
             [DataMember]

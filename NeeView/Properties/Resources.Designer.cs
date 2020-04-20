@@ -1591,7 +1591,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Open setting window に類似しているローカライズされた文字列を検索します。
+        ///   Open options window に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandOpenSettingWindow {
             get {
@@ -1600,7 +1600,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   _Setting... に類似しているローカライズされた文字列を検索します。
+        ///   _Options... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandOpenSettingWindowMenu {
             get {
@@ -1609,7 +1609,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Open the setting window. に類似しているローカライズされた文字列を検索します。
+        ///   Open the options window. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandOpenSettingWindowNote {
             get {
@@ -11451,7 +11451,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Make a backup of the configuration file and load it instead if the normal configuration file can not be read. The file name is UserSetting.json.bak. The update timing is when you close the setting window and when you exit the application. に類似しているローカライズされた文字列を検索します。
+        ///   Make a backup of the configuration file and load it instead if the normal configuration file can not be read. The file name is UserSetting.json.bak. The update timing is when you close the options window and when you exit the application. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsSettingBackupTips {
             get {
@@ -11532,7 +11532,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   When multi-booting, all NeeView settings are updated when closing the setting window. に類似しているローカライズされた文字列を検索します。
+        ///   When multi-booting, all NeeView settings are updated when closing the options window. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsSyncUserSettingTips {
             get {
@@ -12369,7 +12369,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Open an SVG file as a page. Please turn off when you want to display SVG with Susie plug-in. に類似しているローカライズされた文字列を検索します。
+        ///   Open an SVG file as a page. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamPictureProfileIsSvgEnabledTips {
             get {
@@ -14431,7 +14431,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   After changing the thumbnail parameters, you need to clear the cache. に類似しているローカライズされた文字列を検索します。
+        ///   After changing the thumbnail image settings, you need to clear the cache. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageVisualThumbnailCacheClearTips {
             get {
@@ -14480,6 +14480,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   SVG に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingSectionSvg {
+            get {
+                return ResourceManager.GetString("SettingSectionSvg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   &quot;{0}&quot; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string TokenFormat {
@@ -14517,7 +14526,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Setting に類似しているローカライズされた文字列を検索します。
+        ///   Options に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WindowSettingTitle {
             get {

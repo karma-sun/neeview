@@ -5223,4 +5223,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="SettingSectionSvg" xml:space="preserve">
     <value>SVG</value>
   </data>
+  <data name="BookshelfMoreMenuSearchOptions" xml:space="preserve">
+    <value>検索オプション</value>
+  </data>
 </root>

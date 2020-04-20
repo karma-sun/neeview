@@ -349,6 +349,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Search options に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfMoreMenuSearchOptions {
+            get {
+                return ResourceManager.GetString("BookshelfMoreMenuSearchOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Load subfolders at this location に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookshelfMoreMenuSubfolder {

@@ -463,6 +463,15 @@ namespace NeeView
                     items.Add(CreateCommandMenuItem(Properties.Resources.FolderTreeMenuAddBookmark, AddBookmarkCommand));
                     break;
             }
+
+            if (_model.IsFolderSearchEnabled)
+            {
+                var subItem = new MenuItem() { Header = Properties.Resources.BookshelfMoreMenuSearchOptions };
+                subItem.Items.Add(CreateCheckFlagMenuItem(Properties.Resources.BookshelfMoreMenuSearchIncremental, new Binding(nameof(BookshelfConfig.IsIncrementalSearchEnabled)) { Source = Config.Current.Bookshelf }));
+                subItem.Items.Add(CreateCheckFlagMenuItem(Properties.Resources.BookshelfMoreMenuSearchIncludeSubdirectories, new Binding(nameof(BookshelfConfig.IsSearchIncludeSubdirectories)) { Source = Config.Current.Bookshelf }));
+                items.Add(new Separator());
+                items.Add(subItem);
+            }
         }
 
         //

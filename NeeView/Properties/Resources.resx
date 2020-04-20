@@ -5223,4 +5223,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="SettingSectionSvg" xml:space="preserve">
     <value>SVG</value>
   </data>
+  <data name="BookshelfMoreMenuSearchOptions" xml:space="preserve">
+    <value>Search options</value>
+  </data>
 </root>

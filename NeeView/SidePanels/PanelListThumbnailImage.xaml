@@ -8,6 +8,7 @@
         <local:BooleanToThumbnailStretchConverter x:Key="BooleanToThumbnailStretchConverter" />
         <local:BooleanToThumbnailViewboxConverter x:Key="BooleanToThumbnailViewboxConverter" />
         <local:BooleanToThumbnailAlignmentYConverter x:Key="BooleanToThumbnailAlignmentYConverter" />
+        <local:ThumbnailProfileToolTopEnableConverter x:Key="ThumbnailProfileToolTopEnableConverter" />
     </UserControl.Resources>
 
     <Grid x:Name="Root" Background="{Binding Thumbnail.Background, Converter={StaticResource ThumbnaiBackgroundBrushConverter}}"
@@ -23,6 +24,15 @@
                         AlignmentY="{Binding Thumbnail.IsNormalImage, Converter={StaticResource BooleanToThumbnailAlignmentYConverter}}">
                 </ImageBrush>
             </Rectangle.Fill>
+            
+            <Rectangle.ToolTip>
+                <Image Source="{Binding Thumbnail.ImageSource}" Width="{Binding Thumbnail.ImageSource.Width}" Height="{Binding Thumbnail.ImageSource.Height}" />
+            </Rectangle.ToolTip>
+            <ToolTipService.InitialShowDelay>1000</ToolTipService.InitialShowDelay>
+            <ToolTipService.IsEnabled>
+                <Binding Path="Thumbnail.IsUniqueImage" Converter="{StaticResource ThumbnailProfileToolTopEnableConverter}" />
+            </ToolTipService.IsEnabled>
+
         </Rectangle>
     </Grid>
 </UserControl>

@@ -42,7 +42,7 @@ namespace NeeView
         private PanelListItemImageShape _imageShape;
         private int _imageWidth;
         private bool _isImagePopupEnabled;
-        private bool _isTextVisibled;
+        private bool _isTextVisible;
         private bool _isTextWrapped;
         private double _noteOpacity;
         private bool _isTextheightDarty = true;
@@ -58,7 +58,7 @@ namespace NeeView
             _imageShape = imageShape;
             _imageWidth = imageWidth;
             _isImagePopupEnabled = isImagePopupEnabled;
-            _isTextVisibled = isTextVisibled;
+            _isTextVisible = isTextVisibled;
             _isTextWrapped = isTextWrapped;
             _noteOpacity = noteOpacity;
 
@@ -69,7 +69,7 @@ namespace NeeView
         #region 公開プロパティ
 
         [DataMember(EmitDefaultValue = false)]
-        [PropertyMember("@ParamItemProfileImageShape")]
+        [PropertyMember("@ParamListItemImageShape")]
         public PanelListItemImageShape ImageShape
         {
             get { return _imageShape; }
@@ -84,7 +84,7 @@ namespace NeeView
         }
 
         [DataMember(EmitDefaultValue = false)]
-        [PropertyMember("@ParamItemProfileImageWidth")]
+        [PropertyRange("@ParamListItemImageWidth", 0, 1024, TickFrequency = 8, IsEditable = true, Tips = "@ParamListItemImageWidthTips")]
         public int ImageWidth
         {
             get { return _imageWidth; }
@@ -99,23 +99,23 @@ namespace NeeView
         }
 
         [DataMember(EmitDefaultValue = false)]
-        [PropertyMember("@ParamItemProfileIsImagePopupEnabled")]
+        [PropertyMember("@ParamListItemImagePopup", Tips = "@ParamListItemImagePopupTips")]
         public bool IsImagePopupEnabled
         {
             get { return _isImagePopupEnabled; }
             set { SetProperty(ref _isImagePopupEnabled, value); }
         }
 
-        [DataMember(EmitDefaultValue = false)]
-        [PropertyMember("@ParamItemProfileIsTextVisibled")]
-        public bool IsTextVisibled
+        [DataMember(Name = "IsTextVisibled", EmitDefaultValue = false)]
+        [PropertyMember("@ParamListItemIsTextVisible")]
+        public bool IsTextVisible
         {
-            get { return _isTextVisibled; }
-            set { SetProperty(ref _isTextVisibled, value); }
+            get { return _isTextVisible; }
+            set { SetProperty(ref _isTextVisible, value); }
         }
 
         [DataMember(EmitDefaultValue = false)]
-        [PropertyMember("@ParamItemProfileIsTextWrapped")]
+        [PropertyMember("@ParamListItemIsTextWrapped")]
         public bool IsTextWrapped
         {
             get { return _isTextWrapped; }
@@ -129,7 +129,7 @@ namespace NeeView
         }
 
         [DataMember(EmitDefaultValue = false)]
-        [PropertyMember("@ParamItemProfileIsNoteOpacity")]
+        [PropertyRange("@ParamListItemNoteOpacity", 0.0, 1.0)]
         public double NoteOpacity
         {
             get { return _noteOpacity; }

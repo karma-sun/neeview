@@ -5200,7 +5200,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>The higher the value, the higher the resolution but the larger the data size.</value>
   </data>
   <data name="ParamMouseWheelSpeedRate" xml:space="preserve">
-    <value>Mouse wheel speed rate in thumbnail view</value>
+    <value>Mouse wheel scroll speed rate in thumbnail view</value>
   </data>
   <data name="EnumDragActionTypeMarqueeZoom" xml:space="preserve">
     <value>Select area to enlarge</value>
@@ -5225,5 +5225,29 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="BookshelfMoreMenuSearchOptions" xml:space="preserve">
     <value>Search options</value>
+  </data>
+  <data name="ParamListItemImageShape" xml:space="preserve">
+    <value>Shape of Icon</value>
+  </data>
+  <data name="ParamListItemImageWidth" xml:space="preserve">
+    <value>Icon size</value>
+  </data>
+  <data name="ParamListItemImageWidthTips" xml:space="preserve">
+    <value>The width of the icon image. If the thumbnail image resolution is exceeded, the image will be grainy.</value>
+  </data>
+  <data name="ParamListItemImagePopup" xml:space="preserve">
+    <value>Icon popup</value>
+  </data>
+  <data name="ParamListItemImagePopupTips" xml:space="preserve">
+    <value>When placing the cursor on the icon, a large image will be displayed in the popup.</value>
+  </data>
+  <data name="ParamListItemIsTextVisible" xml:space="preserve">
+    <value>Display the name</value>
+  </data>
+  <data name="ParamListItemIsTextWrapped" xml:space="preserve">
+    <value>Wrap name</value>
+  </data>
+  <data name="ParamListItemNoteOpacity" xml:space="preserve">
+    <value>Supplemental text opacity</value>
   </data>
 </root>

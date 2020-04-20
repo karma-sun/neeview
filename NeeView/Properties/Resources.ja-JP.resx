@@ -5200,7 +5200,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>値が大きいほど高解像度になりますがデータサイズも大きくなります。</value>
   </data>
   <data name="ParamMouseWheelSpeedRate" xml:space="preserve">
-    <value>サムネイル表示でのマウスホイール速度倍率</value>
+    <value>サムネイル表示でのマウスホイールスクロール速度倍率</value>
   </data>
   <data name="EnumDragActionTypeMarqueeZoom" xml:space="preserve">
     <value>範囲を選択して拡大</value>
@@ -5225,5 +5225,29 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="BookshelfMoreMenuSearchOptions" xml:space="preserve">
     <value>検索オプション</value>
+  </data>
+  <data name="ParamListItemImageShape" xml:space="preserve">
+    <value>アイコンの形</value>
+  </data>
+  <data name="ParamListItemImageWidth" xml:space="preserve">
+    <value>アイコンサイズ</value>
+  </data>
+  <data name="ParamListItemImageWidthTips" xml:space="preserve">
+    <value>アイコン画像サイズです。サムネイル画像解像度を超えると画像が粗くなります。</value>
+  </data>
+  <data name="ParamListItemImagePopup" xml:space="preserve">
+    <value>アイコンのポップアップ</value>
+  </data>
+  <data name="ParamListItemImagePopupTips" xml:space="preserve">
+    <value>アイコンにカーソルを合わせるとポップアップで大きめの画像が表示されます。</value>
+  </data>
+  <data name="ParamListItemIsTextVisible" xml:space="preserve">
+    <value>名前を表示する</value>
+  </data>
+  <data name="ParamListItemIsTextWrapped" xml:space="preserve">
+    <value>名前を折り返して表示する</value>
+  </data>
+  <data name="ParamListItemNoteOpacity" xml:space="preserve">
+    <value>補足テキストの不透明度</value>
   </data>
 </root>

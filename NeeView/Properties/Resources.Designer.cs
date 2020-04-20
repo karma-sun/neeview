@@ -11820,6 +11820,78 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Icon popup に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamListItemImagePopup {
+            get {
+                return ResourceManager.GetString("ParamListItemImagePopup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   When placing the cursor on the icon, a large image will be displayed in the popup. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamListItemImagePopupTips {
+            get {
+                return ResourceManager.GetString("ParamListItemImagePopupTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Shape of Icon に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamListItemImageShape {
+            get {
+                return ResourceManager.GetString("ParamListItemImageShape", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Icon size に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamListItemImageWidth {
+            get {
+                return ResourceManager.GetString("ParamListItemImageWidth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The width of the icon image. If the thumbnail image resolution is exceeded, the image will be grainy. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamListItemImageWidthTips {
+            get {
+                return ResourceManager.GetString("ParamListItemImageWidthTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display the name に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamListItemIsTextVisible {
+            get {
+                return ResourceManager.GetString("ParamListItemIsTextVisible", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Wrap name に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamListItemIsTextWrapped {
+            get {
+                return ResourceManager.GetString("ParamListItemIsTextWrapped", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Supplemental text opacity に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamListItemNoteOpacity {
+            get {
+                return ResourceManager.GetString("ParamListItemNoteOpacity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Shape of thumbnail に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamListItemThumbnailImageShape {
@@ -12171,7 +12243,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Mouse wheel speed rate in thumbnail view に類似しているローカライズされた文字列を検索します。
+        ///   Mouse wheel scroll speed rate in thumbnail view に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamMouseWheelSpeedRate {
             get {

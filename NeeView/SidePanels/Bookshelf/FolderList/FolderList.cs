@@ -213,9 +213,9 @@ namespace NeeView
                     case PanelListItemStyle.Thumbnail:
                         return true;
                     case PanelListItemStyle.Content:
-                        return SidePanelProfile.Current.ContentItemImageWidth > 0.0;
+                        return Config.Current.Panels.ContentItemProfile.ImageWidth > 0.0;
                     case PanelListItemStyle.Banner:
-                        return SidePanelProfile.Current.BannerItemImageWidth > 0.0;
+                        return Config.Current.Panels.BannerItemProfile.ImageWidth > 0.0;
                 }
             }
         }

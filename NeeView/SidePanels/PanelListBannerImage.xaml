@@ -30,6 +30,13 @@
                         AlignmentY="{Binding Thumbnail.IsNormalImage, Converter={StaticResource BooleanToBannerAlignmentYConverter}}">
                 </ImageBrush>
             </Rectangle.Fill>
+            <Rectangle.ToolTip>
+                <Image Source="{Binding Thumbnail.ImageSource}" Width="{Binding Thumbnail.ImageSource.Width}" Height="{Binding Thumbnail.ImageSource.Height}" />
+            </Rectangle.ToolTip>
+            <ToolTipService.InitialShowDelay>1000</ToolTipService.InitialShowDelay>
+            <ToolTipService.IsEnabled>
+                <Binding Path="Thumbnail.IsUniqueImage" Converter="{StaticResource BannerProfileToolTopEnableConverter}" />
+            </ToolTipService.IsEnabled>
         </Rectangle>
     </Grid>
 </UserControl>

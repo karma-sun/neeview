@@ -497,10 +497,10 @@
                                               Content="{TemplateBinding SelectionBoxItem}"
                                               ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
                                               ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                                              Margin="8,5,23,5" VerticalAlignment="Stretch" HorizontalAlignment="Left">
+                                              Margin="8,4,23,4" VerticalAlignment="Stretch" HorizontalAlignment="Left">
                         </ContentPresenter>
                         <TextBox x:Name="PART_EditableTextBox" Style="{x:Null}" Template="{StaticResource NVComboBoxTextBox}" HorizontalAlignment="Left"
-                                     VerticalAlignment="Bottom" Margin="8,5,23,5" Focusable="True" Foreground="{TemplateBinding Foreground}" Background="Transparent" Visibility="Hidden" IsReadOnly="{TemplateBinding IsReadOnly}" />
+                                     VerticalAlignment="Bottom" Margin="8,4,23,4" Focusable="True" Foreground="{TemplateBinding Foreground}" Background="Transparent" Visibility="Hidden" IsReadOnly="{TemplateBinding IsReadOnly}" />
                         <Popup x:Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Slide">
                             <Grid x:Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
                                 <Border x:Name="DropDownBorder" BorderThickness="1" BorderBrush="Gray" Background="{DynamicResource NVBackground}">

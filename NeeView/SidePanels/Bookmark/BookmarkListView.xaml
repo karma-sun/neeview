@@ -101,23 +101,25 @@
             </StackPanel>
 
             <DockPanel KeyboardNavigation.TabNavigation="Local">
-                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource FolderListToggleButtonStyle}"  VerticalAlignment="Center" TabIndex="4" Checked="MoreButton_Checked" MouseRightButtonUp="MoreButton_MouseRightButtonUp"
-                              nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}">
-                    <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
-                </ToggleButton>
-                <Button x:Name="FoderTreeButton" DockPanel.Dock="Right" Style="{StaticResource FolderListButtonStyle}"  VerticalAlignment="Center" TabIndex="2"
-                        ToolTip="{x:Static properties:Resources.WordFoldersTree}"
-                        Command="{Binding ToggleVisibleFoldersTree}">
-                    <Image Source="{StaticResource ic_treeview}" Width="16" Height="16"/>
-                    <Button.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="{x:Static properties:Resources.FolderTreeLayoutTop}" IsChecked="{Binding Model.FolderTreeLayout, Converter={StaticResource FolderTreeLayoutToBooleanConverter}, ConverterParameter={x:Static local:FolderTreeLayout.Top}}"
-                                      Command="{Binding SetFolderTreeLayout}" CommandParameter="{x:Static local:FolderTreeLayout.Top}"/>
-                            <MenuItem Header="{x:Static properties:Resources.FolderTreeLayoutLeft}" IsChecked="{Binding Model.FolderTreeLayout, Converter={StaticResource FolderTreeLayoutToBooleanConverter}, ConverterParameter={x:Static local:FolderTreeLayout.Left}}"
-                                      Command="{Binding SetFolderTreeLayout}" CommandParameter="{x:Static local:FolderTreeLayout.Left}"/>
-                        </ContextMenu>
-                    </Button.ContextMenu>
-                </Button>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" VerticalAlignment="Top">
+                    <Button x:Name="FoderTreeButton" Style="{StaticResource FolderListButtonStyle}"  VerticalAlignment="Center" TabIndex="2"
+                            ToolTip="{x:Static properties:Resources.WordFoldersTree}"
+                            Command="{Binding ToggleVisibleFoldersTree}">
+                        <Image Source="{StaticResource ic_treeview}" Width="16" Height="16"/>
+                        <Button.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="{x:Static properties:Resources.FolderTreeLayoutTop}" IsChecked="{Binding Model.FolderTreeLayout, Converter={StaticResource FolderTreeLayoutToBooleanConverter}, ConverterParameter={x:Static local:FolderTreeLayout.Top}}"
+                                          Command="{Binding SetFolderTreeLayout}" CommandParameter="{x:Static local:FolderTreeLayout.Top}"/>
+                                <MenuItem Header="{x:Static properties:Resources.FolderTreeLayoutLeft}" IsChecked="{Binding Model.FolderTreeLayout, Converter={StaticResource FolderTreeLayoutToBooleanConverter}, ConverterParameter={x:Static local:FolderTreeLayout.Left}}"
+                                          Command="{Binding SetFolderTreeLayout}" CommandParameter="{x:Static local:FolderTreeLayout.Left}"/>
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
+                    <ToggleButton x:Name="MoreButton" Style="{StaticResource FolderListToggleButtonStyle}"  VerticalAlignment="Center" TabIndex="4" Checked="MoreButton_Checked" MouseRightButtonUp="MoreButton_MouseRightButtonUp"
+                                  nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}">
+                        <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
+                    </ToggleButton>
+                </StackPanel>
                 <WrapPanel Orientation="Horizontal" MinWidth="90">
                     <Button x:Name="AddPagemark" Style="{StaticResource IconButton}" Height="30" Width="30" Command="{Binding AddBookmarkCommand}" ToolTip="{x:Static properties:Resources.BookmarkListAddTips}" TabIndex="1">
                         <Image Source="{StaticResource ic_add_24px_b}" Width="16" Height="16"/>

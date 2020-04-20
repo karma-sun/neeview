@@ -148,30 +148,32 @@
             </StackPanel>
 
             <DockPanel KeyboardNavigation.TabNavigation="Local">
-                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource FolderListToggleButtonStyle}"  VerticalAlignment="Center" TabIndex="4" Checked="MoreButton_Checked" MouseRightButtonUp="MoreButton_MouseRightButtonUp"
-                              nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}">
-                    <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
-                </ToggleButton>
-                <Button x:Name="PageListButton" DockPanel.Dock="Right" Style="{StaticResource FolderListButtonStyle}"  VerticalAlignment="Center" TabIndex="3"
-                        Visibility="{Binding Source={x:Static local:Config.Current}, Path=Bookshelf.IsPageListDocked, Converter={StaticResource BooleanToVisibilityConverter}}"
-                        ToolTip="{x:Static properties:Resources.WordPageList}"
-                        Command="{Binding ToggleVisiblePageList}">
-                    <Image Source="{StaticResource ic_photo_library_24px}" Width="16" Height="16"/>
-                </Button>
-                <Button x:Name="FoderTreeButton" DockPanel.Dock="Right" Style="{StaticResource FolderListButtonStyle}"  VerticalAlignment="Center" TabIndex="2"
-                        ToolTip="{x:Static properties:Resources.WordFoldersTree}"
-                        Command="{Binding ToggleVisibleFoldersTree}">
-                    <Image Source="{StaticResource ic_treeview}" Width="16" Height="16"/>
-                    <Button.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="{x:Static properties:Resources.FolderTreeLayoutTop}" IsChecked="{Binding Model.FolderTreeLayout, Converter={StaticResource FolderTreeLayoutToBooleanConverter}, ConverterParameter={x:Static local:FolderTreeLayout.Top}}"
-                                      Command="{Binding SetFolderTreeLayout}" CommandParameter="{x:Static local:FolderTreeLayout.Top}"/>
-                            <MenuItem Header="{x:Static properties:Resources.FolderTreeLayoutLeft}" IsChecked="{Binding Model.FolderTreeLayout, Converter={StaticResource FolderTreeLayoutToBooleanConverter}, ConverterParameter={x:Static local:FolderTreeLayout.Left}}"
-                                      Command="{Binding SetFolderTreeLayout}" CommandParameter="{x:Static local:FolderTreeLayout.Left}"/>
-                        </ContextMenu>
-                    </Button.ContextMenu>
-                </Button>
-                <WrapPanel Orientation="Horizontal" MinWidth="90">
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Top">
+                    <Button x:Name="FoderTreeButton" Style="{StaticResource FolderListButtonStyle}" VerticalAlignment="Center" TabIndex="2"
+                            ToolTip="{x:Static properties:Resources.WordFoldersTree}"
+                            Command="{Binding ToggleVisibleFoldersTree}">
+                        <Image Source="{StaticResource ic_treeview}" Width="16" Height="16"/>
+                        <Button.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="{x:Static properties:Resources.FolderTreeLayoutTop}" IsChecked="{Binding Model.FolderTreeLayout, Converter={StaticResource FolderTreeLayoutToBooleanConverter}, ConverterParameter={x:Static local:FolderTreeLayout.Top}}"
+                                          Command="{Binding SetFolderTreeLayout}" CommandParameter="{x:Static local:FolderTreeLayout.Top}"/>
+                                <MenuItem Header="{x:Static properties:Resources.FolderTreeLayoutLeft}" IsChecked="{Binding Model.FolderTreeLayout, Converter={StaticResource FolderTreeLayoutToBooleanConverter}, ConverterParameter={x:Static local:FolderTreeLayout.Left}}"
+                                          Command="{Binding SetFolderTreeLayout}" CommandParameter="{x:Static local:FolderTreeLayout.Left}"/>
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
+                    <Button x:Name="PageListButton" Style="{StaticResource FolderListButtonStyle}" VerticalAlignment="Center" TabIndex="3"
+                            Visibility="{Binding Source={x:Static local:Config.Current}, Path=Bookshelf.IsPageListDocked, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            ToolTip="{x:Static properties:Resources.WordPageList}"
+                            Command="{Binding ToggleVisiblePageList}">
+                        <Image Source="{StaticResource ic_photo_library_24px}" Width="16" Height="16"/>
+                    </Button>
+                    <ToggleButton x:Name="MoreButton" Style="{StaticResource FolderListToggleButtonStyle}"  VerticalAlignment="Center" TabIndex="4" Checked="MoreButton_Checked" MouseRightButtonUp="MoreButton_MouseRightButtonUp"
+                                  nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}">
+                        <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
+                    </ToggleButton>
+                </StackPanel>
+                <WrapPanel Orientation="Horizontal" VerticalAlignment="Top" MinWidth="150">
                     <Button x:Name="FolderHomeButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToHome}" TabIndex="1"
                         ToolTip="{x:Static properties:Resources.BookshelfHomeTips}">
                         <Image Source="{StaticResource ic_home_24px_b}" Width="20" Height="20"/>
@@ -215,7 +217,7 @@
                 </WrapPanel>
             </DockPanel>
 
-            <Border Margin="0,0,0,5" Visibility="{Binding Model.IsFolderSearchBoxVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+            <Border Margin="0,2,0,5" Visibility="{Binding Model.IsFolderSearchBoxVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
                     BorderThickness="1" Background="{DynamicResource NVBaseBrush}">
                 <Border.Resources>
                     <Style TargetType="TextBox">

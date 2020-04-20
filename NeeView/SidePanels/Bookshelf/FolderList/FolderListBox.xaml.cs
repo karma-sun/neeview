@@ -680,7 +680,9 @@ namespace NeeView
             _vm.SelectedChanging += SelectedChanging;
             _vm.SelectedChanged += SelectedChanged;
 
-            Config.Current.Panels.ThumbnailItemProfile.PropertyChanged += ThumbnailItemProfile_PropertyChanged;
+            Config.Current.Panels.ContentItemProfile.PropertyChanged += PanelListtemProfile_PropertyChanged;
+            Config.Current.Panels.BannerItemProfile.PropertyChanged += PanelListtemProfile_PropertyChanged;
+            Config.Current.Panels.ThumbnailItemProfile.PropertyChanged += PanelListtemProfile_PropertyChanged;
         }
 
         private void FolderListBox_Unloaded(object sender, RoutedEventArgs e)
@@ -691,13 +693,15 @@ namespace NeeView
             _vm.SelectedChanging -= SelectedChanging;
             _vm.SelectedChanged -= SelectedChanged;
 
-            Config.Current.Panels.ThumbnailItemProfile.PropertyChanged -= ThumbnailItemProfile_PropertyChanged;
+            Config.Current.Panels.ContentItemProfile.PropertyChanged -= PanelListtemProfile_PropertyChanged;
+            Config.Current.Panels.BannerItemProfile.PropertyChanged -= PanelListtemProfile_PropertyChanged;
+            Config.Current.Panels.ThumbnailItemProfile.PropertyChanged -= PanelListtemProfile_PropertyChanged;
         }
 
         /// <summary>
         /// サムネイルパラメーターが変化したらアイテムをリフレッシュする
         /// </summary>
-        private void ThumbnailItemProfile_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void PanelListtemProfile_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             this.ListBox.Items?.Refresh();
         }

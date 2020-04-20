@@ -7,13 +7,12 @@
         <local:ThumbnaiBackgroundBrushConverter x:Key="ThumbnaiBackgroundBrushConverter" />
         <local:BooleanToThumbnailStretchConverter x:Key="BooleanToThumbnailStretchConverter" />
         <local:BooleanToThumbnailViewboxConverter x:Key="BooleanToThumbnailViewboxConverter" />
-        <local:BooleanToThumbnaiAlignmentYConverter x:Key="BooleanToThumbnaiAlignmentYConverter" />
+        <local:BooleanToThumbnailAlignmentYConverter x:Key="BooleanToThumbnailAlignmentYConverter" />
     </UserControl.Resources>
 
     <Grid x:Name="Root" Background="{Binding Thumbnail.Background, Converter={StaticResource ThumbnaiBackgroundBrushConverter}}"
             Width="{Binding Source={x:Static local:Config.Current}, Path=Panels.ThumbnailItemProfile.ShapeWidth, Mode=OneTime}"
             Height="{Binding Source={x:Static local:Config.Current}, Path=Panels.ThumbnailItemProfile.ShapeHeight, Mode=OneTime}">
-
         <Rectangle HorizontalAlignment="Center" VerticalAlignment="Bottom" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True"
                 Width="{Binding Source={x:Static local:Config.Current}, Path=Panels.ThumbnailItemProfile.ShapeWidth, Mode=OneTime}"
                 Height="{Binding Source={x:Static local:Config.Current}, Path=Panels.ThumbnailItemProfile.ShapeHeight, Mode=OneTime}">
@@ -21,7 +20,7 @@
                 <ImageBrush ImageSource="{Binding Thumbnail.ImageSource, Converter={StaticResource ImageSourceToThumbnailConverter}}"
                         Stretch="{Binding Thumbnail.IsNormalImage, Converter={StaticResource BooleanToThumbnailStretchConverter}}"
                         Viewbox="{Binding Thumbnail.IsNormalImage,Converter={StaticResource BooleanToThumbnailViewboxConverter}}"
-                        AlignmentY="{Binding Thumbnail.IsNormalImage, Converter={StaticResource BooleanToThumbnaiAlignmentYConverter}}">
+                        AlignmentY="{Binding Thumbnail.IsNormalImage, Converter={StaticResource BooleanToThumbnailAlignmentYConverter}}">
                 </ImageBrush>
             </Rectangle.Fill>
         </Rectangle>

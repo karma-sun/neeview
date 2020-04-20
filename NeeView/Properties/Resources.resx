@@ -5206,13 +5206,13 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Select area to enlarge</value>
   </data>
   <data name="SettingPagePanelStyleBanner" xml:space="preserve">
-    <value>Banner style of panel items</value>
+    <value>Banner style of list items</value>
   </data>
   <data name="SettingPagePanelStyleContent" xml:space="preserve">
-    <value>Content style of panel items</value>
+    <value>Content style of list items</value>
   </data>
   <data name="SettingPagePanelStyleThumbnail" xml:space="preserve">
-    <value>Thumbnail style of panel items</value>
+    <value>Thumbnail style of list items</value>
   </data>
   <data name="SettingPageSearchResult" xml:space="preserve">
     <value>Search results</value>

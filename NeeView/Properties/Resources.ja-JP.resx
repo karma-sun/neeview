@@ -5206,13 +5206,13 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>範囲を選択して拡大</value>
   </data>
   <data name="SettingPagePanelStyleBanner" xml:space="preserve">
-    <value>パネル項目のバナー表示</value>
+    <value>リスト項目のバナー表示</value>
   </data>
   <data name="SettingPagePanelStyleContent" xml:space="preserve">
-    <value>パネル項目のコンテンツ表示</value>
+    <value>リスト項目のコンテンツ表示</value>
   </data>
   <data name="SettingPagePanelStyleThumbnail" xml:space="preserve">
-    <value>パネル項目のサムネイル表示</value>
+    <value>リスト項目のサムネイル表示</value>
   </data>
   <data name="SettingPageSearchResult" xml:space="preserve">
     <value>検索結果</value>

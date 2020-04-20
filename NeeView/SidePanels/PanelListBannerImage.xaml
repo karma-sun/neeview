@@ -10,45 +10,24 @@
 
     <UserControl.Resources>
         <local:ImageSourceToThumbnailConverter x:Key="ImageSourceToThumbnailConverter"/>
-        <local:BooleanToValueConverter x:Key="BooleanToValueConverter" />
-        <local:BooleanToStretchConverter x:Key="BooleanToStretchConverter" />
-        <local:BrushesSelectConverter x:Key="BrushesSelectConverter" />
+        <local:BannerBackgroundBrushConverter x:Key="BannerBackgroundBrushConverter" />
+        <local:BooleanToBannerStretchConverter x:Key="BooleanToBannerStretchConverter" />
+        <local:BooleanToBannerViewboxConverter x:Key="BooleanToBannerViewboxConverter" />
+        <local:BooleanToBannerAlignmentYConverter x:Key="BooleanToBannerAlignmentYConverter" />
+        <local:BannerProfileToolTopEnableConverter x:Key="BannerProfileToolTopEnableConverter" />
     </UserControl.Resources>
 
-    <Grid x:Name="Root"
-          Width="{Binding Source={x:Static local:Config.Current}, Path=Panels.BannerItemProfile.ShapeWidth}"
-          Height="{Binding Source={x:Static local:Config.Current}, Path=Panels.BannerItemProfile.ShapeHeight}">
-
-        <Grid.Background>
-            <MultiBinding Converter="{StaticResource BrushesSelectConverter}">
-                <Binding Path="Thumbnail.Background" />
-                <Binding Source="{x:Static local:Config.Current}" Path="Panels.BannerItemProfile.Background" />
-            </MultiBinding>
-        </Grid.Background>
-
+    <Grid x:Name="Root" Background="{Binding Thumbnail.Background, Converter={StaticResource BannerBackgroundBrushConverter}}"
+            Width="{Binding Source={x:Static local:Config.Current}, Path=Panels.BannerItemProfile.ShapeWidth}"
+            Height="{Binding Source={x:Static local:Config.Current}, Path=Panels.BannerItemProfile.ShapeHeight}">
         <Rectangle HorizontalAlignment="Center" VerticalAlignment="Bottom" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True"
                 Width="{Binding Source={x:Static local:Config.Current}, Path=Panels.BannerItemProfile.ShapeWidth}"
                 Height="{Binding Source={x:Static local:Config.Current}, Path=Panels.BannerItemProfile.ShapeHeight}">
             <Rectangle.Fill>
-                <ImageBrush ImageSource="{Binding Thumbnail.ImageSource, Converter={StaticResource ImageSourceToThumbnailConverter}}">
-                    <ImageBrush.Stretch>
-                        <MultiBinding Converter="{StaticResource BooleanToStretchConverter}">
-                            <Binding Path="Thumbnail.IsNormalImage" />
-                            <Binding Source="{x:Static local:Config.Current}" Path="Panels.BannerItemProfile.ImageStretch" />
-                        </MultiBinding>
-                    </ImageBrush.Stretch>
-                    <ImageBrush.Viewbox>
-                        <MultiBinding Converter="{StaticResource BooleanToValueConverter}">
-                            <Binding Path="Thumbnail.IsNormalImage" />
-                            <Binding Source="{x:Static local:Config.Current}" Path="Panels.BannerItemProfile.Viewbox" />
-                        </MultiBinding>
-                    </ImageBrush.Viewbox>
-                    <ImageBrush.AlignmentY>
-                        <MultiBinding Converter="{StaticResource BooleanToValueConverter}">
-                            <Binding Path="Thumbnail.IsNormalImage" />
-                            <Binding Source="{x:Static local:Config.Current}" Path="Panels.BannerItemProfile.AlignmentY" />
-                        </MultiBinding>
-                    </ImageBrush.AlignmentY>
+                <ImageBrush ImageSource="{Binding Thumbnail.ImageSource, Converter={StaticResource ImageSourceToThumbnailConverter}}"
+                        Stretch="{Binding Thumbnail.IsNormalImage, Converter={StaticResource BooleanToBannerStretchConverter}}"
+                        Viewbox="{Binding Thumbnail.IsNormalImage,Converter={StaticResource BooleanToBannerViewboxConverter}}"
+                        AlignmentY="{Binding Thumbnail.IsNormalImage, Converter={StaticResource BooleanToBannerAlignmentYConverter}}">
                 </ImageBrush>
             </Rectangle.Fill>
         </Rectangle>

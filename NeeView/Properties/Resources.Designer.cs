@@ -14116,7 +14116,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Banner style of panel items に類似しているローカライズされた文字列を検索します。
+        ///   Banner style of list items に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPagePanelStyleBanner {
             get {
@@ -14125,7 +14125,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Content style of panel items に類似しているローカライズされた文字列を検索します。
+        ///   Content style of list items に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPagePanelStyleContent {
             get {
@@ -14134,7 +14134,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Thumbnail style of panel items に類似しているローカライズされた文字列を検索します。
+        ///   Thumbnail style of list items に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPagePanelStyleThumbnail {
             get {

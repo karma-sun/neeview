@@ -148,7 +148,9 @@ namespace NeeView
             _thumbnailLoader = new ListBoxThumbnailLoader(this, _jobClient);
             _thumbnailLoader.Load();
 
-            Config.Current.Panels.ThumbnailItemProfile.PropertyChanged += ThumbnailItemProfile_PropertyChanged;
+            Config.Current.Panels.ContentItemProfile.PropertyChanged += PanelListtemProfile_PropertyChanged;
+            Config.Current.Panels.BannerItemProfile.PropertyChanged += PanelListtemProfile_PropertyChanged;
+            Config.Current.Panels.ThumbnailItemProfile.PropertyChanged += PanelListtemProfile_PropertyChanged;
 
             FocusSelectedItem();
         }
@@ -158,12 +160,14 @@ namespace NeeView
             _vm.Unloaded();
             _vm.ViewItemsChanged -= ViewModel_ViewItemsChanged;
 
-            Config.Current.Panels.ThumbnailItemProfile.PropertyChanged -= ThumbnailItemProfile_PropertyChanged;
+            Config.Current.Panels.ContentItemProfile.PropertyChanged -= PanelListtemProfile_PropertyChanged;
+            Config.Current.Panels.BannerItemProfile.PropertyChanged -= PanelListtemProfile_PropertyChanged;
+            Config.Current.Panels.ThumbnailItemProfile.PropertyChanged -= PanelListtemProfile_PropertyChanged;
 
             _jobClient?.Dispose();
         }
 
-        private void ThumbnailItemProfile_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void PanelListtemProfile_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             this.ListBox.Items?.Refresh();
         }

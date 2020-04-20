@@ -130,7 +130,6 @@ namespace NeeView
 
         #region Methods
 
-
         private void VirtualCollection_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             RequestLoadThumbnail();
@@ -286,11 +285,24 @@ namespace NeeView
         private void PagemarkListBox_Loaded(object sender, RoutedEventArgs e)
         {
             _vm.Loaded();
+
+            Config.Current.Panels.ContentItemProfile.PropertyChanged += PanelListtemProfile_PropertyChanged;
+            Config.Current.Panels.BannerItemProfile.PropertyChanged += PanelListtemProfile_PropertyChanged;
+            Config.Current.Panels.ThumbnailItemProfile.PropertyChanged += PanelListtemProfile_PropertyChanged;
         }
 
         private void PagemarkListBox_Unloaded(object sender, RoutedEventArgs e)
         {
+            Config.Current.Panels.ContentItemProfile.PropertyChanged -= PanelListtemProfile_PropertyChanged;
+            Config.Current.Panels.BannerItemProfile.PropertyChanged -= PanelListtemProfile_PropertyChanged;
+            Config.Current.Panels.ThumbnailItemProfile.PropertyChanged -= PanelListtemProfile_PropertyChanged;
+
             _vm.Unloaded();
+        }
+
+        private void PanelListtemProfile_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            this.TreeView.Items?.Refresh();
         }
 
         // 表示/非表示イベント

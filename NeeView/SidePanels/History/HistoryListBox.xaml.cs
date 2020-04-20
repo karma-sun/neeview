@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
@@ -125,11 +126,24 @@ namespace NeeView
         {
             _jobClient = new PageThumbnailJobClient("HistoryList", JobCategories.BookThumbnailCategory);
             _thumbnailLoader = new ListBoxThumbnailLoader(this, _jobClient);
+
+            Config.Current.Panels.ContentItemProfile.PropertyChanged += PanelListtemProfile_PropertyChanged;
+            Config.Current.Panels.BannerItemProfile.PropertyChanged += PanelListtemProfile_PropertyChanged;
+            Config.Current.Panels.ThumbnailItemProfile.PropertyChanged += PanelListtemProfile_PropertyChanged;
         }
 
         private void HistoryListBox_Unloaded(object sender, RoutedEventArgs e)
         {
+            Config.Current.Panels.ContentItemProfile.PropertyChanged -= PanelListtemProfile_PropertyChanged;
+            Config.Current.Panels.BannerItemProfile.PropertyChanged -= PanelListtemProfile_PropertyChanged;
+            Config.Current.Panels.ThumbnailItemProfile.PropertyChanged -= PanelListtemProfile_PropertyChanged;
+
             _jobClient?.Dispose();
+        }
+
+        private void PanelListtemProfile_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            this.ListBox.Items?.Refresh();
         }
 
         /// <summary>

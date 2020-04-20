@@ -73,7 +73,7 @@ namespace NeeView
     }
 
 
-    public class BooleanToThumbnaiAlignmentYConverter : IValueConverter
+    public class BooleanToThumbnailAlignmentYConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

@@ -134,15 +134,12 @@ $projectDir = "$solutionDir\$product"
 $project = "$projectDir\$product.csproj"
 
 
-
 #----------------------
 # build (no used)
-function Build-Project($assemblyVersion, $platform)
+function Build-Project($platform)
 {
-	$vswhere = "$solutionDir\Tools\vswhere.exe"
-
-    $vspath = & $vswhere -property installationPath -latest
-    $msbuild = "$vspath\MSBuild\Current\Bin\MSBuild.exe"
+	$vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+	$msbuild = & $vswhere -latest -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe | select-object -first 1
 
 	"$msbuild $solution /p:Configuration=$configuration /p:Platform=$platform /t:Clean,Build"
 
@@ -656,8 +653,8 @@ if (-not $continue)
 	
 	# build
 	#Write-Host "`n[Build] ...`n" -fore Cyan
-	#Build-Project $assemblyVersion "x64"
-	#Build-Project $assemblyVersion "x86"
+	#Build-Project "x64"
+	#Build-Project "x86"
 
 	#
 	Write-Host "`n[Package] ...`n" -fore Cyan

@@ -31,11 +31,15 @@
             <DataTemplate x:Key="RangeValueDataTemplate">
                 <StackPanel>
                     <StackPanel>
-                        <TextBox Text="{Binding ElementName=RangeSlider, Path=Value}" Visibility="{Binding Range.IsEditable, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <Grid Visibility="{Binding Range.IsEditable, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <nvc:EnterTriggerTextBox Text="{Binding Path=Value}" />
+                            <TextBox Text="{Binding ElementName=RangeSlider, Path=Value}"
+                                    Visibility="{Binding ElementName=RangeSlider, Path=IsMouseCaptureWithin, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        </Grid>
                         <local:FormattedTextBlock Value="{Binding ElementName=RangeSlider, Path=Value}" Format="{Binding Range.Format}"
                                 Visibility="{Binding Range.IsEditable, Converter={StaticResource NotBoolToVisiblityConverter}}" />
                     </StackPanel>
-                    <Slider x:Name="RangeSlider" Value="{Binding Value, Delay=250}" Minimum="{Binding Range.Minimum}" Maximum="{Binding Range.Maximum}" SmallChange="{Binding Range.SmallChange}"
+                    <nvc:DragCompletedTriggerSlider x:Name="RangeSlider" Value="{Binding Value, UpdateSourceTrigger=Explicit}" Minimum="{Binding Range.Minimum}" Maximum="{Binding Range.Maximum}" SmallChange="{Binding Range.SmallChange}"
                             LargeChange="{Binding Range.LargeChange}" TickFrequency="{Binding Range.TickFrequency}" IsSnapToTickEnabled="True" Margin="0,5,0,0"
                             FocusVisualStyle="{StaticResource NVSliderFocusVisual}" />
                 </StackPanel>

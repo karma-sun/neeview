@@ -84,13 +84,13 @@ namespace NeeView
         }
 
         [DataMember(EmitDefaultValue = false)]
-        [PropertyRange("@ParamListItemImageWidth", 0, 1024, TickFrequency = 8, IsEditable = true, Tips = "@ParamListItemImageWidthTips")]
+        [PropertyRange("@ParamListItemImageWidth", 64, 512, TickFrequency = 8, IsEditable = true, Tips = "@ParamListItemImageWidthTips")]
         public int ImageWidth
         {
             get { return _imageWidth; }
             set
             {
-                if (SetProperty(ref _imageWidth, value))
+                if (SetProperty(ref _imageWidth, Math.Max(0, value)))
                 {
                     RaisePropertyChanged(nameof(ShapeWidth));
                     RaisePropertyChanged(nameof(ShapeHeight));

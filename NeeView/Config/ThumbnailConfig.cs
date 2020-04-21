@@ -24,11 +24,11 @@ namespace NeeView
         /// <summary>
         /// 画像サイズ
         /// </summary>
-        [PropertyRange("@ParamThumbnailResolution", 64, 1024, TickFrequency = 64, Tips = "@ParamThumbnailResolutionTips")]
+        [PropertyRange("@ParamThumbnailResolution", 64, 512, TickFrequency = 64, IsEditable = true, Tips = "@ParamThumbnailResolutionTips")]
         public double Resolution
         {
             get { return _resolution; }
-            set { SetProperty(ref _resolution, MathUtility.Clamp(value, 64, 1024)); }
+            set { SetProperty(ref _resolution, MathUtility.Max(value, 64)); }
         }
 
         /// <summary>

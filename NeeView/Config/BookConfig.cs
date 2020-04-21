@@ -2,6 +2,7 @@
 using NeeLaboratory.ComponentModel;
 using NeeView.Text;
 using NeeView.Windows.Property;
+using System;
 using System.ComponentModel;
 
 namespace NeeView
@@ -113,11 +114,11 @@ namespace NeeView
         }
 
         // ブックページ画像サイズ
-        [PropertyRange("@ParamBookPageSize", 100, 2000, TickFrequency = 10, IsEditable = true, Tips = "@ParamBookPageSizeTips")]
+        [PropertyRange("@ParamBookPageSize", 100.0, 600.0, TickFrequency = 10.0, IsEditable = true, Tips = "@ParamBookPageSizeTips")]
         public double BookPageSize
         {
             get { return _bookPageSize; }
-            set { SetProperty(ref _bookPageSize, MathUtility.Clamp(value, 100.0, 2000.0)); }
+            set { SetProperty(ref _bookPageSize, Math.Max(value, 64.0)); }
         }
 
     }

@@ -125,7 +125,7 @@ namespace NeeView
         /// <summary>
         /// サムネイルリストのマウスホイール速度倍率
         /// </summary>
-        [PropertyMember("@ParamMouseWheelSpeedRate")]
+        [PropertyRange("@ParamMouseWheelSpeedRate", 0.1, 2.0, TickFrequency =0.1)]
         public double MouseWheelSpeedRate
         {
             get { return _mouseWheelSpeedRate; }

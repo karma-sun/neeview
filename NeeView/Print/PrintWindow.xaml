@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         xmlns:properties="clr-namespace:NeeView.Properties"
+        xmlns:nvc="clr-namespace:NeeView.Windows.Controls"
         mc:Ignorable="d"
         Style="{StaticResource ToolWindowStyle}"
         Foreground="{DynamicResource NVForeground}"
@@ -46,6 +47,8 @@
             <Setter Property="Background" Value="{DynamicResource NVBackground}"/>
             <Setter Property="BorderBrush" Value="{DynamicResource NVDefaultBrush}"/>
         </Style>
+
+        <Style TargetType="nvc:EnterTriggerTextBox" BasedOn="{StaticResource {x:Type TextBox}}" />
 
         <Style x:Key="BoxHeader" TargetType="TextBlock">
             <Setter Property="MinWidth" Value="40"/>
@@ -123,19 +126,19 @@
                                     <UniformGrid Columns="2" Rows="2" Margin="20,0,0,0">
                                         <DockPanel>
                                             <TextBlock Style="{StaticResource BoxHeader}" Text="{x:Static properties:Resources.WordLeft}"/>
-                                            <TextBox Text="{Binding Model.Margin.Left}" Margin="2" TabIndex="2"/>
+                                            <nvc:EnterTriggerTextBox Text="{Binding Model.Margin.Left}" Margin="2" TabIndex="2"/>
                                         </DockPanel>
                                         <DockPanel>
                                             <TextBlock Style="{StaticResource BoxHeader}" Text="{x:Static properties:Resources.WordRight}"/>
-                                            <TextBox Text="{Binding Model.Margin.Right}" Margin="2" TabIndex="2"/>
+                                            <nvc:EnterTriggerTextBox Text="{Binding Model.Margin.Right}" Margin="2" TabIndex="2"/>
                                         </DockPanel>
                                         <DockPanel>
                                             <TextBlock Style="{StaticResource BoxHeader}" Text="{x:Static properties:Resources.WordUp}"/>
-                                            <TextBox Text="{Binding Model.Margin.Top}" Margin="2" TabIndex="2"/>
+                                            <nvc:EnterTriggerTextBox Text="{Binding Model.Margin.Top}" Margin="2" TabIndex="2"/>
                                         </DockPanel>
                                         <DockPanel>
                                             <TextBlock Style="{StaticResource BoxHeader}" Text="{x:Static properties:Resources.WordDown}"/>
-                                            <TextBox Text="{Binding Model.Margin.Bottom}" Margin="2" TabIndex="2"/>
+                                            <nvc:EnterTriggerTextBox Text="{Binding Model.Margin.Bottom}" Margin="2" TabIndex="2"/>
                                         </DockPanel>
                                     </UniformGrid>
 
@@ -144,11 +147,11 @@
                                         <UniformGrid Columns="2" Margin="20,0,0,0">
                                             <DockPanel>
                                                 <TextBlock Style="{StaticResource BoxHeader}" Text="{x:Static properties:Resources.ControlPrintColumn}"/>
-                                                <TextBox Text="{Binding Model.Columns}" Margin="2" TabIndex="2"/>
+                                                <nvc:EnterTriggerTextBox Text="{Binding Model.Columns}" Margin="2" TabIndex="2"/>
                                             </DockPanel>
                                             <DockPanel>
                                                 <TextBlock Style="{StaticResource BoxHeader}" Text="{x:Static properties:Resources.ControlPrintRow}" />
-                                                <TextBox Text="{Binding Model.Rows}" Margin="2" TabIndex="2"/>
+                                                <nvc:EnterTriggerTextBox Text="{Binding Model.Rows}" Margin="2" TabIndex="2"/>
                                             </DockPanel>
                                         </UniformGrid>
                                     </StackPanel>

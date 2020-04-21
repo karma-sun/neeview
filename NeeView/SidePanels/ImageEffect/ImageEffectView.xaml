@@ -68,6 +68,8 @@
                 <EventSetter Event="KeyDown" Handler="Control_KeyDown_IgnoreSingleKeyGesture"/>
             </Style>
 
+            <Style TargetType="nvc:EnterTriggerTextBox" BasedOn="{StaticResource {x:Type TextBox}}" />
+
             <Style TargetType="ComboBox" BasedOn="{StaticResource NVComboBox}">
                 <Setter Property="Foreground" Value="{StaticResource NVButtonForeground}"/>
                 <Setter Property="Background" Value="{DynamicResource NVBackground}"/>

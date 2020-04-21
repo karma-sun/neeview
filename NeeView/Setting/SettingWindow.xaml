@@ -63,7 +63,7 @@
 
             <DataTemplate DataType="{x:Type nvp:PropertyValue_Color}">
                 <DockPanel>
-                    <TextBox Text="{Binding Value}" MinWidth="100" BorderThickness="1,1,0,1" Padding="0,0,2,0" VerticalContentAlignment="Center" />
+                    <nvc:EnterTriggerTextBox Text="{Binding Value}" MinWidth="100" BorderThickness="1,1,0,1" Padding="0,0,2,0" VerticalContentAlignment="Center" />
                     <osc:ComboColorPicker SelectedColor="{Binding Value, Mode=TwoWay}" />
                 </DockPanel>
             </DataTemplate>
@@ -81,6 +81,8 @@
             <Style TargetType="TextBox">
                 <Setter Property="HorizontalAlignment" Value="Stretch" />
             </Style>
+
+            <Style TargetType="nvc:EnterTriggerTextBox" BasedOn="{StaticResource {x:Type TextBox}}" />
 
             <Style x:Key="ToggleSwitchStyle" TargetType="nvc:ToggleSwitch">
                 <Setter Property="Fill" Value="{DynamicResource NVBackground}" />

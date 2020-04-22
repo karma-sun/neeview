@@ -65,10 +65,10 @@ namespace NeeView
             SetState(TouchInputState.Normal, null);
 
             // initialize event
-            _sender.PreviewStylusDown += OnStylusDown;
-            _sender.PreviewStylusUp += OnStylusUp;
-            _sender.PreviewStylusMove += OnStylusMove;
-            _sender.PreviewStylusSystemGesture += OnStylusSystemGesture;
+            _sender.StylusDown += OnStylusDown;
+            _sender.StylusUp += OnStylusUp;
+            _sender.StylusMove += OnStylusMove;
+            _sender.StylusSystemGesture += OnStylusSystemGesture;
 
             //
             ClearTouchEventHandler();

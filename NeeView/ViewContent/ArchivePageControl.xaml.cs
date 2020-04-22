@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeLaboratory.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -22,28 +23,23 @@ namespace NeeView
     /// </summary>
     public partial class ArchivePageControl : UserControl
     {
-        #region Fields
+        public static readonly RoutedCommand OpenCommand = new RoutedCommand("OpenCommand", typeof(ArchivePageControl));
 
-        public ArchiveContent _content;
+        private ArchivePageViewModel _vm;
+        private readonly Stopwatch _doubleTapStopwatch = new Stopwatch();
+        private Point _lastTapLocation;
 
-        #endregion
-
-        #region Construtors
 
         public ArchivePageControl()
         {
             InitializeComponent();
         }
 
-        #endregion
-
-        #region RoutedCommand
-
-        public static readonly RoutedCommand OpenCommand = new RoutedCommand("OpenCommand", typeof(ArchivePageControl));
-
-        #endregion
-
-        #region DependencyProperties
+        public ArchivePageControl(ArchiveContent content) : this()
+        {
+            _vm = new ArchivePageViewModel(content);
+            this.Root.DataContext = _vm;
+        }
 
 
         public SolidColorBrush DefaultBrush
@@ -52,7 +48,6 @@ namespace NeeView
             set { SetValue(DefaultBrushProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for DefaultBrush.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DefaultBrushProperty =
             DependencyProperty.Register("DefaultBrush", typeof(SolidColorBrush), typeof(ArchivePageControl), new PropertyMetadata(Brushes.White, DefaultBrushChanged));
 
@@ -64,67 +59,86 @@ namespace NeeView
             }
         }
 
-        #endregion
-
-        #region Methods
-
-        public ArchivePageControl(ArchiveContent content) : this()
-        {
-            _content = content;
-
-            this.OpenBookButton.CommandBindings.Add(new CommandBinding(OpenCommand, Open_Executed));
-
-            this.Icon.DataContext = _content.Thumbnail;
-            this.FileNameTextBlock.Text = _content.Entry.EntryName?.TrimEnd('\\').Replace("\\", " > ");
-        }
-
-        private void Open_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            OpenBook();
-        }
 
         private void OpenBookButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
         }
 
-        private void OpenBookButton_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void OpenBookButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            OpenBook();
-            e.Handled = true;
-        }
-
-        private void OpenBookButton_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            (sender as UIElement)?.Focus();
-            e.Handled = true;
+            if (e.StylusDevice == null && e.ClickCount == 2)
+            {
+                _vm.OpenBook();
+                e.Handled = true;
+            }
         }
 
         private void OpenBookButton_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
-            this.OpenBookButton.ContextMenu.PlacementTarget = sender as UIElement;
-            this.OpenBookButton.ContextMenu.IsOpen = true;
             e.Handled = true;
         }
 
-        private void OpenBookButton_PreviewKeyDown(object sender, KeyEventArgs e)
+
+        // from https://stackoverflow.com/questions/27637295/double-click-touch-down-event-in-wpf
+        private bool IsDoubleTap(StylusDownEventArgs e)
         {
-            // NOTE: ページ送りでフォーカスが外れるため、キーボードの対応は保留
-#if false
-            if (e.Key == Key.Enter || e.Key == Key.Space)
+            var points = e.GetStylusPoints(this);
+            if (points.Count != 1)
             {
-                OpenBook();
-                e.Handled = true;
+                return false;
             }
-#endif
+
+            Point currentTapPosition = points.First().ToPoint();
+            bool isTapsAreCloseInDistance = (currentTapPosition - _lastTapLocation).LengthSquared < 40.0 * 40.0;
+            _lastTapLocation = currentTapPosition;
+
+            var elapsedMilliseconds = _doubleTapStopwatch.ElapsedMilliseconds;
+            _doubleTapStopwatch.Restart();
+            bool isTapsAreCloseInTime = (elapsedMilliseconds != 0 && elapsedMilliseconds < System.Windows.Forms.SystemInformation.DoubleClickTime);
+
+            return isTapsAreCloseInDistance && isTapsAreCloseInTime;
         }
 
-        private void OpenBook()
+        private void OpenBookButton_PreviewStylusDown(object sender, StylusDownEventArgs e)
+        {
+            if (IsDoubleTap(e))
+            {
+                _vm.OpenBook();
+                e.Handled = true;
+            }
+        }
+
+        private void OpenBookButton_PreviewStylusUp(object sender, StylusEventArgs e)
+        {
+            e.Handled = true;
+        }
+    }
+
+
+    /// <summary>
+    /// ArchivePageControl ViewModel
+    /// </summary>
+    public class ArchivePageViewModel
+    {
+        private ArchiveContent _content;
+
+
+        public ArchivePageViewModel(ArchiveContent content)
+        {
+            _content = content;
+        }
+
+        
+        public Thumbnail Thumbnail  => _content.Thumbnail;
+
+        public string Name => _content.Entry.EntryName?.TrimEnd('\\').Replace("\\", " > ");
+
+
+        public void OpenBook()
         {
             BookHub.Current.RequestLoad(_content.Entry.SystemPath, null, BookLoadOption.IsBook | BookLoadOption.SkipSamePlace, true);
         }
-
-        #endregion
     }
 
 

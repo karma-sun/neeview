@@ -1,16 +1,11 @@
-﻿<UserControl x:Class="NeeView.ArchivePageControl"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:properties="clr-namespace:NeeView.Properties"
-             xmlns:local="clr-namespace:NeeView"
-             mc:Ignorable="d" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" d:DesignWidth="1000" d:DesignHeight="1000">
+﻿<UserControl x:Class="NeeView.ArchivePageControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:properties="clr-namespace:NeeView.Properties"
+        xmlns:local="clr-namespace:NeeView" mc:Ignorable="d" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" d:DesignWidth="1000" d:DesignHeight="1000">
 
     <UserControl.Resources>
-        <local:ImageSourceToThumbnailConverter x:Key="ImageSourceToThumbnailConverter"/>
-        <local:DoubleToMinusHalf x:Key="DoubleToMinusHalf"/>
-        <SolidColorBrush x:Key="DefaultBrush" Color="White"/>
+        <local:ImageSourceToThumbnailConverter x:Key="ImageSourceToThumbnailConverter" />
+        <local:DoubleToMinusHalf x:Key="DoubleToMinusHalf" />
+        <SolidColorBrush x:Key="DefaultBrush" Color="White" />
         <DrawingImage x:Key="fic_folder">
             <DrawingImage.Drawing>
                 <DrawingGroup Opacity="1">
@@ -20,7 +15,7 @@
                                 <Pen Brush="{DynamicResource DefaultBrush}" Thickness="1.25"></Pen>
                             </GeometryDrawing.Pen>
                             <GeometryDrawing.Geometry>
-                                <PathGeometry FillRule="Nonzero" Figures="M0,0 L14,0 14,10 16,12 16,18, 0,18Z M14,10 L13,12 13,18"/>
+                                <PathGeometry FillRule="Nonzero" Figures="M0,0 L14,0 14,10 16,12 16,18, 0,18Z M14,10 L13,12 13,18" />
                             </GeometryDrawing.Geometry>
                         </GeometryDrawing>
                     </DrawingGroup.Children>
@@ -29,37 +24,35 @@
         </DrawingImage>
     </UserControl.Resources>
 
-    <Canvas x:Name="Root" HorizontalAlignment="Center" VerticalAlignment="Center">
+    <Canvas x:Name="Root" VerticalAlignment="Center" HorizontalAlignment="Center" Width="{Binding ActualWidth, ElementName=Body}" Height="{Binding ActualHeight, ElementName=Body}">
 
-        <Button x:Name="OpenBookButton" Style="{StaticResource NVSelectButton}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20"
-                Canvas.Left="{Binding ActualWidth, RelativeSource={RelativeSource Self}, Converter={StaticResource DoubleToMinusHalf} }"
-                Canvas.Top="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Converter={StaticResource DoubleToMinusHalf} }"
-                PreviewKeyDown="OpenBookButton_PreviewKeyDown"
-                MouseLeftButtonUp="OpenBookButton_MouseLeftButtonUp"
-                MouseDoubleClick="OpenBookButton_MouseDoubleClick"
-                MouseRightButtonDown="OpenBookButton_MouseRightButtonDown"
-                MouseRightButtonUp="OpenBookButton_MouseRightButtonUp">
-            <Button.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="{x:Static properties:Resources.WordOpen}" Command="{x:Static local:ArchivePageControl.OpenCommand}" />
-                </ContextMenu>
-            </Button.ContextMenu>
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20" Width="{Binding Source={x:Static local:Config.Current}, Path=Book.BookPageSize}">
-                <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Width="{Binding Source={x:Static local:Config.Current}, Path=Book.BookPageSize}"
-                        Height="{Binding Source={x:Static local:Config.Current}, Path=Book.BookPageSize}">
-                    <Grid.Effect>
-                        <DropShadowEffect Opacity="0.5" RenderingBias="Quality" ShadowDepth="2"/>
-                    </Grid.Effect>
-                    <Image x:Name="Icon" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="{Binding Source={x:Static local:Config.Current}, Path=Book.BookPageSize}" RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform"
-                           Source="{Binding ImageSource, Converter={StaticResource ImageSourceToThumbnailConverter}, Mode=OneWay}"/>
-                </Grid>
-                <DockPanel Margin="0,10,0,0">
-                    <Image DockPanel.Dock="Right" Source="{StaticResource fic_folder}" Width="20" VerticalAlignment="Top" Margin="2"/>
-                    <TextBlock x:Name="FileNameTextBlock" Text="FileName&#x0a;AAA&#x0a;BBB" HorizontalAlignment="Center" TextWrapping="Wrap" FontSize="20" VerticalAlignment="Top" MinHeight="80"
-                               Foreground="{DynamicResource DefaultBrush}"/>
-                </DockPanel>
-            </StackPanel>
-        </Button>
+        <StackPanel x:Name="Body" VerticalAlignment="Center" HorizontalAlignment="Center" Width="{Binding Source={x:Static local:Config.Current}, Path=Book.BookPageSize}">
+            <Grid Margin="0" Height="{Binding Source={x:Static local:Config.Current}, Path=Book.BookPageSize}">
+                <Border x:Name="OpenBookButton" BorderThickness="4" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" UseLayoutRounding="True" Cursor="Hand"
+                        MouseLeftButtonDown="OpenBookButton_MouseLeftButtonDown" MouseLeftButtonUp="OpenBookButton_MouseLeftButtonUp" MouseRightButtonUp="OpenBookButton_MouseRightButtonUp" 
+                        PreviewStylusDown="OpenBookButton_PreviewStylusDown" PreviewStylusUp="OpenBookButton_PreviewStylusUp">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Background" Value="#1F808080" />
+                            <Setter Property="BorderBrush" Value="#1F808080" />
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#1F26A0DA" />
+                                    <Setter Property="BorderBrush" Value="#A826A0DA" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
 
+                    <Image Source="{Binding Thumbnail.ImageSource, Converter={StaticResource ImageSourceToThumbnailConverter}}" />
+
+                </Border>
+            </Grid>
+            <DockPanel Margin=" 10">
+                <Image DockPanel.Dock=" Right" Source="{StaticResource fic_folder}" Width="20" VerticalAlignment="Top" Margin="2" />
+                <TextBlock x:Name="FileNameTextBlock" Text="{Binding Name}" HorizontalAlignment="Center" TextWrapping="Wrap" FontSize="20" VerticalAlignment="Top" MinHeight="80"
+                        Foreground="{DynamicResource DefaultBrush}" />
+            </DockPanel>
+        </StackPanel>
     </Canvas>
 </UserControl>

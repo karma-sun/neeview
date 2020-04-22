@@ -71,7 +71,7 @@
             <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
                 <Setter Property="Header" Value="{Binding Path=Name}" />
                 <Setter Property="Command" Value="{x:Static local:LoadCommand.Command}" />
-                <Setter Property="CommandParameter" Value="{Binding Path=Place}" />
+                <Setter Property="CommandParameter" Value="{Binding Path=Path}" />
                 <Setter Property="InputGestureText" Value="" />
             </Style>
 

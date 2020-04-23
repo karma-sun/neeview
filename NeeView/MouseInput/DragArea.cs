@@ -75,7 +75,7 @@ namespace NeeView
         /// <returns>補正された中心座標</returns>
         public Vector SnapView(Vector pos)
         {
-            double margin = 1.0;
+            const double margin = 1.0;
 
             // ウィンドウサイズ変更直後はrectのスクリーン座標がおかしい可能性があるのでPositionから計算しなおす
             var rect = new Rect()
@@ -86,9 +86,19 @@ namespace NeeView
                 Height = this.Target.Height,
             };
 
+            var minX = this.View.Width * -0.5 + rect.Width * 0.5;
+            var maxX = minX + this.View.Width - rect.Width;
+
             if (rect.Width <= this.View.Width + margin)
             {
-                pos.X = 0;
+                if (rect.Left < 0)
+                {
+                    pos.X = minX;
+                }
+                else if (rect.Right > this.View.Width)
+                {
+                    pos.X = maxX;
+                }
             }
             else
             {
@@ -102,19 +112,29 @@ namespace NeeView
                 }
             }
 
+            var minY = this.View.Height * -0.5 + rect.Height * 0.5;
+            var maxY = minY + this.View.Height - rect.Height;
+
             if (rect.Height <= this.View.Height + margin)
             {
-                pos.Y = 0;
+                if (rect.Top < 0)
+                {
+                    pos.Y = minY;
+                }
+                else if (rect.Bottom > this.View.Height)
+                {
+                    pos.Y = maxY;
+                }
             }
             else
             {
                 if (rect.Top > 0)
                 {
-                    pos.Y -= rect.Top;
+                    pos.Y = minY;
                 }
                 else if (rect.Bottom < this.View.Height)
                 {
-                    pos.Y += this.View.Height - rect.Bottom;
+                    pos.Y = maxY;
                 }
             }
 

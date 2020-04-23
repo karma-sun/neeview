@@ -88,6 +88,7 @@ namespace NeeView
         /// </summary>
         private WindowStateEx _oldState;
         private WindowStateEx _nowState;
+        private WindowStateEx _nextState;
         private Thickness _windowBorderThickness;
         private bool _isFullScreen;
         private WindowChrome _windowChrome;
@@ -175,6 +176,10 @@ namespace NeeView
         #endregion
 
         #region Properties
+
+        public WindowStateEx OldWindowState => _oldState;
+
+        public WindowStateEx NextWindowState => _nextState;
 
         /// <summary>
         /// WindowBorderThickness property.
@@ -427,6 +432,8 @@ namespace NeeView
         /// </summary>
         private void ToNormal()
         {
+            _nextState = WindowStateEx.Normal;
+
             //Debug.WriteLine("ToNormal");
             BeginEdit();
 
@@ -448,6 +455,8 @@ namespace NeeView
         /// </summary>
         private void ToMinimized()
         {
+            _nextState = WindowStateEx.Minimized;
+
             //Debug.WriteLine("ToMinimimzed");
             BeginEdit();
 
@@ -479,6 +488,8 @@ namespace NeeView
         /// </summary>
         private void ToMaximized()
         {
+            _nextState = WindowStateEx.Maximized;
+
             ////Debug.WriteLine("ToMaximized");
             BeginEdit();
 
@@ -507,6 +518,8 @@ namespace NeeView
         /// </summary>
         private void ToFullScreen()
         {
+            _nextState = WindowStateEx.FullScreen;
+
             ////Debug.WriteLine("ToFullScreen");
             BeginEdit();
 

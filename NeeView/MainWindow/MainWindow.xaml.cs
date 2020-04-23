@@ -630,15 +630,56 @@ namespace NeeView
         }
 
 
+        #region MainWindow_SizeChanged
+
+        private object _windowSizeChangedLock = new object();
+        private Size _oldWindowSize;
+        private Size _newWindowSize;
+
         // ウィンドウサイズが変化したらコンテンツサイズも追従する
         private void MainView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            ContentCanvas.Current.SetViewSize(this.MainView.ActualWidth, this.MainView.ActualHeight);
+            // 最小化では処理しない
+            if (this.WindowState == WindowState.Minimized) return;
 
-            // スナップ
-            DragTransformControl.Current.SnapView();
+            lock (_windowSizeChangedLock)
+            {
+                _newWindowSize = e.NewSize;
+            }
+
+            // 最小化からフルスクリーン復帰時に一時的にサイズ変更されるため、遅延評価する
+            if (WindowShape.Current.NextWindowState == WindowStateEx.FullScreen && WindowShape.Current.OldWindowState == WindowStateEx.Minimized)
+            {
+                AppDispatcher.BeginInvoke(async () =>
+                {
+                    await Task.Delay(100);
+                    SizeChangedCore();
+                });
+            }
+            else
+            {
+                SizeChangedCore();
+            }
         }
 
+        private void SizeChangedCore()
+        {
+            bool sizeChanged = false;
+
+            lock (_windowSizeChangedLock)
+            {
+                sizeChanged = _oldWindowSize != _newWindowSize;
+                _oldWindowSize = _newWindowSize;
+            }
+
+            if (sizeChanged)
+            {
+                ContentCanvas.Current.SetViewSize(this.MainView.ActualWidth, this.MainView.ActualHeight);
+                DragTransformControl.Current.SnapView();
+            }
+        }
+
+        #endregion MainWindow_SizeChanged
 
         // 
         private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)

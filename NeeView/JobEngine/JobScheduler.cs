@@ -132,11 +132,11 @@ namespace NeeView
         /// 次に処理するJOBを取得
         /// </summary>
         /// <returns></returns>
-        public Job FetchNextJob(int minPriority)
+        public Job FetchNextJob(int minPriority, int maxPriority)
         {
             lock (Lock)
             {
-                var source = Queue.FirstOrDefault(e => !e.IsProcessed && minPriority <= e.Category.Priority);
+                var source = Queue.FirstOrDefault(e => !e.IsProcessed && minPriority <= e.Category.Priority && e.Category.Priority <= maxPriority);
                 if (source != null)
                 {
                     source.IsProcessed = true;

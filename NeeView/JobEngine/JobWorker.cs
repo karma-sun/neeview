@@ -18,7 +18,7 @@ namespace NeeView
         public void Log(string message)
         {
             DebugLog = DebugLog ?? new DebugSimpleLog();
-            DebugLog.WriteLine(Thread.CurrentThread.Priority + ": " + message);
+            DebugLog.WriteLine(Thread.CurrentThread.Priority + ": " + $"{_jobPriorityMin}-{_jobPriorityMax}: " + message);
             RaisePropertyChanged(nameof(DebugLog));
         }
 
@@ -36,12 +36,20 @@ namespace NeeView
         // ワーカースレッド
         private Thread _thread;
 
+        private bool _isBusy;
+        private bool _isPrimary;
+        private bool _isLimited;
+        private int _jobPriorityMin;
+        private int _jobPriorityMax;
+
 
         // コンストラクタ
         public JobWorker(JobScheduler scheduler)
         {
             _scheduler = scheduler;
             _scheduler.QueueChanged += Context_JobChanged;
+
+            UpdateJobPriorityRange();
         }
 
 
@@ -51,35 +59,62 @@ namespace NeeView
         /// <summary>
         /// IsBusy property.
         /// </summary>
-        private bool _IsBusy;
         public bool IsBusy
         {
-            get { return _IsBusy; }
-            set { if (_IsBusy != value) { _IsBusy = value; IsBusyChanged?.Invoke(this, null); } }
+            get { return _isBusy; }
+            set { if (_isBusy != value) { _isBusy = value; IsBusyChanged?.Invoke(this, null); } }
         }
 
         /// <summary>
         /// 優先ワーカー.
         /// 現在開いているフォルダーに対してのジョブのみ処理する
         /// </summary>
-        private bool _IsPrimary;
         public bool IsPrimary
         {
-            get { return _IsPrimary; }
+            get { return _isPrimary; }
             set
             {
-                if (SetProperty(ref _IsPrimary, value))
+                if (SetProperty(ref _isPrimary, value))
                 {
                     UpdateThreadPriority();
+                    UpdateJobPriorityRange();
+                }
+            }
+        }
+
+        /// <summary>
+        /// JobWorkerの総数が少ない状態
+        /// </summary>
+        public bool IsLimited
+        {
+            get { return _isLimited; }
+            set
+            {
+                if (SetProperty(ref _isLimited, value))
+                {
+                    UpdateJobPriorityRange();
                 }
             }
         }
 
 
-        //
         private void Context_JobChanged(object sender, EventArgs e)
         {
             _event.Set();
+        }
+
+        private void UpdateJobPriorityRange()
+        {
+            if (IsPrimary)
+            {
+                _jobPriorityMin = 10;
+                _jobPriorityMax = 99;
+            }
+            else
+            {
+                _jobPriorityMin = 0;
+                _jobPriorityMax = IsLimited ? 99 : 9;
+            }
         }
 
         private void UpdateThreadPriority()
@@ -126,6 +161,7 @@ namespace NeeView
             }
         }
 
+
         // ワーカータスクメイン
         private void WorkerExecuteAsyncCore(CancellationToken token)
         {
@@ -139,8 +175,7 @@ namespace NeeView
                     ThrowIfDisposed();
 
                     // ジョブ取り出し
-                    int priority = IsPrimary ? 10 : 0;
-                    job = _scheduler.FetchNextJob(priority);
+                    job = _scheduler.FetchNextJob(_jobPriorityMin, _jobPriorityMax);
 
                     // ジョブが無い場合はイベントリセット
                     if (job == null)

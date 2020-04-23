@@ -82,6 +82,7 @@ namespace NeeView
             Debug.WriteLine("JobEngine: WorkerSize=" + size);
 
             var primaryCount = (size > 2) ? 2 : size - 1;
+            var isLimited = primaryCount <= 1;
 
             for (int i = 0; i < _maxWorkerSize; ++i)
             {
@@ -95,8 +96,8 @@ namespace NeeView
                         Debug.WriteLine($"JobEngine: Create Worker[{i}]");
                     }
 
-                    // 現在のフォルダージョブのみ処理する設定
                     Workers[i].IsPrimary = i < primaryCount;
+                    Workers[i].IsLimited = isLimited;
                 }
                 else
                 {

@@ -11,7 +11,7 @@ namespace NeeView
     public class PerformanceConfig : BindableBase
     {
         private int _cacheMemorySize = 100;
-        private int _jobWorkerSize = 2;
+        private int _jobWorkerSize = 4;
         private Size _maximumSize = new Size(4096, 4096);
         private int _preLoadSize = 2;
         private bool _isLimitSourceSize;

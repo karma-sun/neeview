@@ -5250,4 +5250,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamListItemNoteOpacity" xml:space="preserve">
     <value>Supplemental text opacity</value>
   </data>
+  <data name="ControlSusiePluginListSwitchAll" xml:space="preserve">
+    <value>All On / Off</value>
+  </data>
 </root>

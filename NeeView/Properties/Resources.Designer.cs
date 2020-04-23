@@ -5750,6 +5750,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   All On / Off に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlSusiePluginListSwitchAll {
+            get {
+                return ResourceManager.GetString("ControlSusiePluginListSwitchAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Up に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ControlSusiePluginListUp {

@@ -147,6 +147,26 @@ namespace NeeView.Setting
             }
         }
 
+        private RelayCommand _switchAllCommand;
+        public RelayCommand SwitchAllCommand
+        {
+            get { return _switchAllCommand = _switchAllCommand ?? new RelayCommand(SwitchAllCommand_Executed); }
+        }
+
+        private void SwitchAllCommand_Executed()
+        {
+            var collection = this.PluginList.Tag as ObservableCollection<SusiePluginInfo>;
+            if (collection != null)
+            {
+                var flag = collection.Any(e => !e.IsEnabled);
+                foreach (var plugin in collection)
+                {
+                    plugin.IsEnabled = flag;
+                }
+            }
+            this.PluginList.Items.Refresh();
+        }
+
         #endregion
 
         #region Methods

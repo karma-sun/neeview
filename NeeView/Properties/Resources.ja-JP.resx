@@ -5250,4 +5250,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamListItemNoteOpacity" xml:space="preserve">
     <value>補足テキストの不透明度</value>
   </data>
+  <data name="ControlSusiePluginListSwitchAll" xml:space="preserve">
+    <value>全有効/解除</value>
+  </data>
 </root>

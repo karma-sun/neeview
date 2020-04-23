@@ -65,8 +65,24 @@
         <Style TargetType="Button">
             <Setter Property="Margin" Value="5,2"/>
             <Setter Property="Padding" Value="10,5"/>
-            <Setter Property="Width" Value="80"/>
+            <Setter Property="MinWidth" Value="80"/>
             <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
+        </Style>
+
+        <Style x:Key="SelectedButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=PluginList, Path=SelectedItem}" Value="{x:Null}">
+                    <Setter Property="IsEnabled" Value="False" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="AnyButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=PluginList, Path=Items.Count}" Value="0">
+                    <Setter Property="IsEnabled" Value="False" />
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
 
     </UserControl.Resources>
@@ -74,18 +90,10 @@
     <DockPanel x:Name="Root" Margin="0,0,5,5">
 
         <StackPanel DockPanel.Dock="Right">
-            <StackPanel.Resources>
-                <Style TargetType="StackPanel">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding ElementName=PluginList, Path=SelectedItem}" Value="{x:Null}">
-                            <Setter Property="IsEnabled" Value="False"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </StackPanel.Resources>
-            <Button x:Name="ConfigButton" Content="{x:Static properties:Resources.ControlSusiePluginListConfig}" Command="{Binding ConfigCommand}" TabIndex="2"/>
-            <Button x:Name="UpButton" Content="{x:Static properties:Resources.ControlSusiePluginListUp}" Command="{Binding MoveUpCommand}" TabIndex="3"/>
-            <Button x:Name="DownButton" Content="{x:Static properties:Resources.ControlSusiePluginListDown}" Command="{Binding MoveDownCommand}" TabIndex="4"/>
+            <Button x:Name="ConfigButton" Style="{StaticResource SelectedButtonStyle}" Content="{x:Static properties:Resources.ControlSusiePluginListConfig}" Command="{Binding ConfigCommand}" TabIndex="2"/>
+            <Button x:Name="UpButton" Style="{StaticResource SelectedButtonStyle}" Content="{x:Static properties:Resources.ControlSusiePluginListUp}" Command="{Binding MoveUpCommand}" TabIndex="3"/>
+            <Button x:Name="DownButton" Style="{StaticResource SelectedButtonStyle}" Content="{x:Static properties:Resources.ControlSusiePluginListDown}" Command="{Binding MoveDownCommand}" TabIndex="4" />
+            <Button x:Name="SwitchAllButton" Style="{StaticResource AnyButtonStyle}" Content="{x:Static properties:Resources.ControlSusiePluginListSwitchAll}" Command="{Binding SwitchAllCommand}" TabIndex="4" />
         </StackPanel>
 
         <ListBox x:Name="PluginList" MinHeight="64" MinWidth="64" SelectionChanged="PluginList_SelectionChanged" TabIndex="1">

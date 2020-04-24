@@ -223,7 +223,10 @@ ModelManifest.xml
 /MakePackage/*.appx
 /MakePackage/_*
 /MakePackage/Appx/_*
+!/MakePackage/WixSource/x64
+!/MakePackage/WixSource/x86
 !/NeeView/x64/
 !/NeeView/x86/
+
 Thumbs.db
 launchSettings.json

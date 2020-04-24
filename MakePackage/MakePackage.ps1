@@ -3,11 +3,6 @@
 # 使用ツール：
 #   - Wix Toolset
 #   - pandoc
-#
-# 事前準備： VisualStudioで「公開」を実行し、Publishデータを作成しておく
-#   - NeeView/FolderProfile-x86.pubxml
-#   - NeeView/FolderProfile-x64.pubxml
-#   - NeeView.Susie.Server/FolderProfile.pubxml
 
 Param(
 	[ValidateSet("All", "Zip", "Installer", "Appx", "Canary", "Beta")]$Target = "All",
@@ -132,29 +127,58 @@ $solutionDir = Convert-Path "$scriptPath\.."
 $solution = "$solutionDir\$product.sln"
 $projectDir = "$solutionDir\$product"
 $project = "$projectDir\$product.csproj"
+$projectSusieDir = "$solutionDir\NeeView.Susie.Server"
 
+
+#-----------------------
+# procject output dir
+function Get-ProjectOutputDir($projectDir, $platform)
+{
+	"$projectDir\bin\$platform\$configuration\$framework"
+}
 
 #----------------------
-# build (no used)
+# build
 function Build-Project($platform)
 {
 	$vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
 	$msbuild = & $vswhere -latest -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe | select-object -first 1
 
-	"$msbuild $solution /p:Configuration=$configuration /p:Platform=$platform /t:Clean,Build"
+	$output = Get-ProjectOutputDir $projectDir $platform
+	if (Test-Path $output)
+	{
+		Remove-Item $output -Recurse
+	}
 
-	& $msbuild $solution /p:Configuration=$configuration /p:Platform=$platform /t:Clean,Build
+	$output = Get-ProjectOutputDir $projectSusieDir $platform
+	if (Test-Path $output)
+	{
+		Remove-Item $output -Recurse
+	}
+
+	"$msbuild -restore $solution /p:Configuration=$configuration /p:Platform=$platform /t:Clean,Build"
+
+	& $msbuild -restore $solution /p:Configuration=$configuration /p:Platform=$platform /t:Clean,Build
 	if ($? -ne $true)
 	{
 		throw "build error"
 	}
 }
 
+#----------------------
+# publish
+function Export-Publish($platform, $projectDir, $export)
+{
+	$output = Get-ProjectOutputDir $projectDir $platform
+
+	Copy-Item $output $export -Recurse
+}
+
 
 
 #----------------------
 # package section
-function New-Package($productName, $productDir, $publishSusieDir, $packageDir)
+function New-Package($platform, $productName, $productDir, $publishSusieDir, $packageDir)
 {
 	$packageLibraryDir = $packageDir + "\Libraries"
 	$packageSusieDir = $packageLibraryDir + "\Susie"
@@ -178,11 +202,14 @@ function New-Package($productName, $productDir, $publishSusieDir, $packageDir)
 	Copy-Item "$publishSusieDir\*.dll" $packageSusieDir
 
 	# copy language dll
-	$langs = "ja-JP","x64","x86"
+	$langs = "ja-JP"
 	foreach($lang in $langs)
 	{
 		Copy-Item "$productDir\$lang" $packageLibraryDir -Recurse
 	}
+
+	# copy platform dll
+	Copy-Item "$productDir\$platform" $packageLibraryDir -Recurse -Exclude SQLite.Interop.dll
 
 	# generate README.html
 	New-Readme $packageDir "en-us" ".zip"
@@ -439,7 +466,7 @@ function New-Msi($arch, $packageDir, $packageAppendDir, $packageMsi)
 
 	function New-DllComponents
 	{
-		& $heat dir "$packageDir\Libraries" -cg DllComponents -ag -pog:Binaries -sfrag -sreg -var var.LibrariesDir -dr INSTALLFOLDER -out WixSource\DllComponents.wxs
+		& $heat dir "$packageDir\Libraries" -cg DllComponents -ag -pog:Binaries -sfrag -sreg -var var.LibrariesDir -dr INSTALLFOLDER -out WixSource\$arch\DllComponents.wxs
 		if ($? -ne $true)
 		{
 			throw "heat error"
@@ -453,7 +480,7 @@ function New-Msi($arch, $packageDir, $packageAppendDir, $packageMsi)
 		$wixObjDir = "$packageAppendDir\obj.$culture"
 		New-EmptyFolder $wixObjDir
 
-		& $candle -arch $arch -d"Platform=$arch" -d"BuildVersion=$buildVersion" -d"ProductVersion=$version" -d"ContentDir=$packageDir\\" -d"AppendDir=$packageDir.append\\" -d"LibrariesDir=$packageDir\\Libraries" -d"culture=$culture" -ext WixNetFxExtension -out "$wixObjDir\\"  WixSource\*.wxs
+		& $candle -arch $arch -d"Platform=$arch" -d"BuildVersion=$buildVersion" -d"ProductVersion=$version" -d"ContentDir=$packageDir\\" -d"AppendDir=$packageDir.append\\" -d"LibrariesDir=$packageDir\\Libraries" -d"culture=$culture" -ext WixNetFxExtension -out "$wixObjDir\\"  WixSource\*.wxs .\WixSource\$arch\*.wxs
 		if ($? -ne $true)
 		{
 			throw "candle error"
@@ -588,6 +615,10 @@ function Remove-BuildObjects
 
 	Get-ChildItem -File "$packagePrefix*.*" | Remove-Item
 
+	if (Test-Path $publishDir)
+	{
+		Remove-Item $publishDir -Recurse
+	}
 	if (Test-Path $packageCanaryDir)
 	{
 		Remove-Item $packageCanaryDir -Recurse -Force
@@ -610,6 +641,106 @@ function Remove-BuildObjects
 
 
 
+function Build-PackageSorce
+{
+	# clear
+	Write-Host "`n[Clear] ...`n" -fore Cyan
+	Remove-BuildObjects
+	
+	# build
+	Write-Host "`n[Build] ...`n" -fore Cyan
+	
+	Build-Project "x64"
+	Export-Publish "x64" $projectDir $publishDir_x64
+
+	Build-Project "x86"
+	Export-Publish "x86" $projectDir $publishDir_x86
+	Export-Publish "x86" $projectSusieDir $publishSusieDir
+	
+	# create package source
+	Write-Host "`n[Package] ...`n" -fore Cyan
+	New-Package "x64" $product $publishDir_x64 $publishSusieDir $packageDir_x64
+	New-Package "x86" $product $publishDir_x86 $publishSusieDir $packageDir_x86
+}
+
+
+function Build-Zip
+{
+	Write-Host "`[Zip] ...`n" -fore Cyan
+
+	New-Zip $packageDir_x64 $packageZip_x64
+	Write-Host "`nExport $packageZip_x64 successed.`n" -fore Green
+
+	New-Zip $packageDir_x86 $packageZip_x86
+	Write-Host "`nExport $packageZip_x86 successed.`n" -fore Green
+}
+
+
+function Build-Installer
+{
+	Write-Host "`n[Installer] ...`n" -fore Cyan
+	
+	New-PackageAppend $packageDir_x64 $packageAppendDir_x64
+	New-Msi "x64" $packageDir_x64 $packageAppendDir_x64 $packageMsi_x64
+	Write-Host "`nExport $packageMsi_x64 successed.`n" -fore Green
+
+	New-PackageAppend $packageDir_x86 $packageAppendDir_x86
+	New-Msi "x86" $packageDir_x86 $packageAppendDir_x86 $packageMsi_x86
+	Write-Host "`nExport $packageMsi_x86 successed.`n" -fore Green
+}
+
+
+function Build-Appx
+{
+	Write-Host "`n[Appx] ...`n" -fore Cyan
+
+	if (Test-Path "Appx/_Parameter.ps1")
+	{
+		New-Appx "x64" $packageDir_x64 $packageAppxDir_x64 $packageX64Appx
+		Write-Host "`nExport $packageX64Appx successed.`n" -fore Green
+
+		New-Appx "x86" $packageDir_x86 $packageAppxDir_x86 $packageX86Appx
+		Write-Host "`nExport $packageX86Appx successed.`n" -fore Green
+	}
+	else
+	{
+		Write-Host "`nWarning: not exist make appx envionment. skip!`n" -fore Yellow
+	}
+}
+
+function Build-Canary
+{
+	Write-Host "`n[Canary] ...`n" -fore Cyan
+	New-Canary $packageDir_x64
+	Write-Host "`nExport $packageCanary successed.`n" -fore Green
+}
+
+function Build-Beta
+{
+	Write-Host "`n[Beta] ...`n" -fore Cyan
+	New-Beta $packageDir_x64
+	Write-Host "`nExport $packageBeta successed.`n" -fore Green
+}
+
+
+function Export-Current
+{
+	Write-Host "`n[Current] ...`n" -fore Cyan
+	if (Test-Path $packageDir_x64)
+	{
+		if (-not (Test-Path $product))
+		{
+			New-Item $product -ItemType Directory
+		}
+		Copy-Item "$packageDir_x64\*" "$product\" -Recurse -Force
+	}
+	else
+	{
+		Write-Host "`nWarning: not exist $packageDir_x64. skip!`n" -fore Yellow
+	}
+}
+
+
 #======================
 # main
 #======================
@@ -622,9 +753,10 @@ $assemblyVersion = "$version.$buildCount.0"
 $revision = (& git rev-parse --short HEAD).ToString()
 $dateVersion = (Get-Date).ToString("MMdd")
 
-$publishDir_x64 = "Publish\NeeView-x64"
-$publishDir_x86 = "Publish\NeeView-x86"
-$publisSuseDir = "Publish\NeeView.Susie.Server"
+$publishDir = "Publish"
+$publishDir_x64 = "$publishDir\NeeView-x64"
+$publishDir_x86 = "$publishDir\NeeView-x86"
+$publishSusieDir = "$publishDir\NeeView.Susie.Server"
 $packagePrefix = "$product$version"
 $packageDir_x64 = "$product$version-x64"
 $packageDir_x86 = "$product$version-x86"
@@ -645,95 +777,38 @@ $packageBetaDir = "${product}Beta"
 $packageBeta = "${product}Beta${dateVersion}.zip"
 $packageBetaWild = "${product}Beta*.zip"
 
+
 if (-not $continue)
 {
-	# clear
-	#Write-Host "`n[Clear] ...`n" -fore Cyan
-	Remove-BuildObjects
-	
-	# build
-	#Write-Host "`n[Build] ...`n" -fore Cyan
-	#Build-Project "x64"
-	#Build-Project "x86"
-
-	#
-	Write-Host "`n[Package] ...`n" -fore Cyan
-	New-Package $product $publishDir_x64 $publisSuseDir $packageDir_x64
-	New-Package $product $publishDir_x86 $publisSuseDir $packageDir_x86
+	Build-PackageSorce
 }
 
-
-#
 if (($Target -eq "All") -or ($Target -eq "Zip") -or ($Target -eq "Canary") -or ($Target -eq "Beta"))
 {
-	Write-Host "`[Zip] ...`n" -fore Cyan
-
-	New-Zip $packageDir_x64 $packageZip_x64
-	Write-Host "`nExport $packageZip_x64 successed.`n" -fore Green
-
-	New-Zip $packageDir_x86 $packageZip_x86
-	Write-Host "`nExport $packageZip_x86 successed.`n" -fore Green
+	Build-Zip
 }
 
 if (($Target -eq "All") -or ($Target -eq "Installer"))
 {
-	Write-Host "`n[Installer] ...`n" -fore Cyan
-	
-	New-PackageAppend $packageDir_x64 $packageAppendDir_x64
-	New-Msi "x64" $packageDir_x64 $packageAppendDir_x64 $packageMsi_x64
-	Write-Host "`nExport $packageMsi_x64 successed.`n" -fore Green
-
-	New-PackageAppend $packageDir_x86 $packageAppendDir_x86
-	New-Msi "x86" $packageDir_x86 $packageAppendDir_x86 $packageMsi_x86
-	Write-Host "`nExport $packageMsi_x86 successed.`n" -fore Green
+	Build-Installer
 }
 
 if (($Target -eq "All") -or ($Target -eq "Appx"))
 {
-	Write-Host "`n[Appx] ...`n" -fore Cyan
-
-	if (Test-Path "Appx/_Parameter.ps1")
-	{
-		New-Appx "x64" $packageDir_x64 $packageAppxDir_x64 $packageX64Appx
-		Write-Host "`nExport $packageX64Appx successed.`n" -fore Green
-
-		New-Appx "x86" $packageDir_x86 $packageAppxDir_x86 $packageX86Appx
-		Write-Host "`nExport $packageX86Appx successed.`n" -fore Green
-	}
-	else
-	{
-		Write-Host "`nWarning: not exist make appx envionment. skip!`n" -fore Yellow
-	}
+	Build-Appx
 }
 
 if (($Target -eq "All") -or ($Target -eq "Canary"))
 {
-	Write-Host "`n[Canary] ...`n" -fore Cyan
-	New-Canary $packageDir_x64
-	Write-Host "`nExport $packageCanary successed.`n" -fore Green
+	Build-Canary
 }
 
 if (($Target -eq "All") -or ($Target -eq "Beta"))
 {
-	Write-Host "`n[Beta] ...`n" -fore Cyan
-	New-Beta $packageDir_x64
-	Write-Host "`nExport $packageBeta successed.`n" -fore Green
+	Build-Beta
 }
 
-# current
-Write-Host "`n[Current] ...`n" -fore Cyan
-if (Test-Path $packageDir_x64)
-{
-	if (-not (Test-Path $product))
-	{
-		New-Item $product -ItemType Directory
-	}
-	Copy-Item "$packageDir_x64\*" "$product\" -Recurse -Force
-}
-else
-{
-	Write-Host "`nWarning: not exist $packageDir_x64. skip!`n" -fore Yellow
-}
+Export-Current
 
 #--------------------------
 # saev buid version

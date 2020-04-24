@@ -129,17 +129,6 @@
                         <File Id="fil8DFAB1DF89975F8A14E16D7D66FA5F9F" KeyPath="yes" Source="$(var.LibrariesDir)\x64\pdfium.dll" />
                     </Component>
                 </Directory>
-                <Directory Id="dir49BA1F33E4D4B9114E93FB415B9F85A5" Name="x86">
-                    <Component Id="cmpB5C9C3C36D6C8C2303EEC99AEE09D10D" Guid="*">
-                        <File Id="filE39F6DFACC5CA6C447FAF11DD120BFD8" KeyPath="yes" Source="$(var.LibrariesDir)\x86\7z.dll" />
-                    </Component>
-                    <Component Id="cmp89A427E599C85A19969C844A8D254DE8" Guid="*">
-                        <File Id="fil9DC3DDC391CAD20F4D3A64F833F47906" KeyPath="yes" Source="$(var.LibrariesDir)\x86\NeeView.Interop.dll" />
-                    </Component>
-                    <Component Id="cmpAFD9B88727EF2AE79E3F8AFBC5A376BB" Guid="*">
-                        <File Id="fil4F26D046010EC66BB9B7C7D589AB8C51" KeyPath="yes" Source="$(var.LibrariesDir)\x86\pdfium.dll" />
-                    </Component>
-                </Directory>
             </Directory>
         </DirectoryRef>
     </Fragment>
@@ -185,9 +174,6 @@
             <ComponentRef Id="cmp9D4AE8C031DF1FC733C87DF95334A165" />
             <ComponentRef Id="cmp466461CEC1F96678E1C583154DA61F62" />
             <ComponentRef Id="cmp60F5CE1CFAD8CEB5380872C62BECCD6A" />
-            <ComponentRef Id="cmpB5C9C3C36D6C8C2303EEC99AEE09D10D" />
-            <ComponentRef Id="cmp89A427E599C85A19969C844A8D254DE8" />
-            <ComponentRef Id="cmpAFD9B88727EF2AE79E3F8AFBC5A376BB" />
         </ComponentGroup>
     </Fragment>
 </Wix>

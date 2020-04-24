@@ -12549,6 +12549,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Reset page when shuffle に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamResetPageWhenRandomSort {
+            get {
+                return ResourceManager.GetString("ParamResetPageWhenRandomSort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Scripts folder に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamScriptFolder {

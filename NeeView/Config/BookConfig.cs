@@ -20,6 +20,7 @@ namespace NeeView
         private bool _isAutoRecursive = false;
         private bool _isSortFileFirst;
         private double _bookPageSize = 300.0;
+        private bool _resetPageWhenRandomSort;
 
 
         /// <summary>
@@ -121,5 +122,12 @@ namespace NeeView
             set { SetProperty(ref _bookPageSize, Math.Max(value, 64.0)); }
         }
 
+        // ランダムソートでページをリセット
+        [PropertyMember("@ParamResetPageWhenRandomSort")]
+        public bool ResetPageWhenRandomSort
+        {
+            get { return _resetPageWhenRandomSort; }
+            set { SetProperty(ref _resetPageWhenRandomSort, value); }
+        }
     }
 }

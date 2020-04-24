@@ -199,7 +199,8 @@ namespace NeeView
 
                 _book.Pages.Sort();
 
-                var pagePosition = new PagePosition(_book.Pages.GetIndex(page), 0);
+                var index = (_book.Pages.SortMode == PageSortMode.Random && Config.Current.Book.ResetPageWhenRandomSort) ? 0 : _book.Pages.GetIndex(page);
+                var pagePosition = new PagePosition(index, 0);
                 RequestSetPosition(this, pagePosition, 1);
 
                 await Task.CompletedTask;

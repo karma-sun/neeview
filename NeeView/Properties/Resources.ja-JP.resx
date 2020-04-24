@@ -5265,4 +5265,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="CommandRandomFolderNote" xml:space="preserve">
     <value>本棚上でランダムなブックを読み込みます。</value>
   </data>
+  <data name="ParamResetPageWhenRandomSort" xml:space="preserve">
+    <value>シャッフルしたときにページをリセットする</value>
+  </data>
 </root>

@@ -9,7 +9,7 @@ namespace NeeView
     {
         private bool _isEnabled = true;
         private Size _renderSize = new Size(1920, 1080);
-        private FileTypeCollection _supportFileTypes = new FileTypeCollection(".pfd");
+        private FileTypeCollection _supportFileTypes = new FileTypeCollection(".pdf");
 
 
         [PropertyMember("@ParamArchiverPdfIsEnabled")]

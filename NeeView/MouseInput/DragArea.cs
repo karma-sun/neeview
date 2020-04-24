@@ -65,15 +65,16 @@ namespace NeeView
         // エリアサイズ内に座標を収める
         public Point SnapView(Point pos)
         {
-            return (Point)SnapView((Vector)pos);
+            return (Point)SnapView((Vector)pos, false);
         }
 
         /// <summary>
         ///  エリアサイズ内に座標を収める
         /// </summary>
         /// <param name="pos">コンテンツ中心座標</param>
+        /// <param name="centered">範囲内に収まるときは中央に配置</param>
         /// <returns>補正された中心座標</returns>
-        public Vector SnapView(Vector pos)
+        public Vector SnapView(Vector pos, bool centered)
         {
             const double margin = 1.0;
 
@@ -91,7 +92,11 @@ namespace NeeView
 
             if (rect.Width <= this.View.Width + margin)
             {
-                if (rect.Left < 0)
+                if (centered)
+                {
+                    pos.X = 0.0;
+                }
+                else if (rect.Left < 0)
                 {
                     pos.X = minX;
                 }
@@ -117,7 +122,11 @@ namespace NeeView
 
             if (rect.Height <= this.View.Height + margin)
             {
-                if (rect.Top < 0)
+                if (centered)
+                {
+                    pos.Y = 0.0;
+                }
+                else if (rect.Top < 0)
                 {
                     pos.Y = minY;
                 }

@@ -271,7 +271,7 @@ namespace NeeView
                 _context.Sender.UpdateLayout();
                 var area = _context.GetArea();
 
-                _now.Trans = MathUtility.Lerp(_now.Trans, area.SnapView(_now.Trans), 0.5);
+                _now.Trans = MathUtility.Lerp(_now.Trans, area.SnapView(_now.Trans, true), 0.5);
             }
 
             //
@@ -286,7 +286,7 @@ namespace NeeView
                 if (Config.Current.View.IsLimitMove)
                 {
                     var area = _context.GetArea();
-                    _transform.Position = (Point)area.SnapView(_now.Trans);
+                    _transform.Position = (Point)area.SnapView(_now.Trans, true);
                 }
 
                 StopTicking();

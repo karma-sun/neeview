@@ -198,6 +198,7 @@ namespace NeeView
                 new PrevScrollPageCommand("PrevScrollPage"),
                 new NextScrollPageCommand("NextScrollPage"),
                 new JumpPageCommand("JumpPage"),
+                new JumpRandomPageCommand("JumpRandomPage"),
                 new PrevSizePageCommand("PrevSizePage"),
                 new NextSizePageCommand("NextSizePage"),
 
@@ -207,6 +208,7 @@ namespace NeeView
                 new LastPageCommand("LastPage"),
                 new PrevBookCommand("PrevBook"),
                 new NextBookCommand("NextBook"),
+                new RandomBookCommand("RandomBook"),
                 new PrevHistoryCommand("PrevHistory"),
                 new NextHistoryCommand("NextHistory"),
 

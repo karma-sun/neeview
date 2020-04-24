@@ -719,6 +719,27 @@ namespace NeeView
             if (_isEnabled && page != null) this.Book?.Control.JumpPage(page);
         }
 
+        // ランダムページに移動
+        public void JumpRandomPage()
+        {
+            if (this.Book == null || this.Book.IsMedia) return;
+            if (this.Book.Pages.Count <= 1) return;
+
+            var currentIndex = this.Book.Viewer.GetViewPageIndex();
+
+            var random = new Random();
+            var index = random.Next(this.Book.Pages.Count - 1);
+
+            if (index == currentIndex)
+            {
+                index = this.Book.Pages.Count - 1;
+            }
+
+            var page = this.Book.Pages.GetPage(index);
+            this.Book.Control.JumpPage(page);
+        }
+
+
         // 動画再生中？
         public bool IsMediaPlaying()
         {

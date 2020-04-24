@@ -5253,4 +5253,16 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ControlSusiePluginListSwitchAll" xml:space="preserve">
     <value>全有効/解除</value>
   </data>
+  <data name="CommandJumpRandomPage" xml:space="preserve">
+    <value>ランダムなページに移動</value>
+  </data>
+  <data name="CommandJumpRandomPageNote" xml:space="preserve">
+    <value>ランダムなページに移動します。</value>
+  </data>
+  <data name="CommandRandomFolder" xml:space="preserve">
+    <value>ランダムなブックに移動</value>
+  </data>
+  <data name="CommandRandomFolderNote" xml:space="preserve">
+    <value>本棚上でランダムなブックを読み込みます。</value>
+  </data>
 </root>

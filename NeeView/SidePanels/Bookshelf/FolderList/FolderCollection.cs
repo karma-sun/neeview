@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using NeeView.Collections.Generic;
+using System.Collections;
 
 namespace NeeView
 {
@@ -29,7 +30,7 @@ namespace NeeView
     /// <summary>
     /// FolderItemコレクション
     /// </summary>
-    public abstract class FolderCollection : IDisposable
+    public abstract class FolderCollection : IDisposable, IEnumerable<FolderItem>
     {
         #region Fields
 
@@ -88,6 +89,11 @@ namespace NeeView
         /// Collection本体
         /// </summary>
         public ObservableCollection<FolderItem> Items { get; protected set; }
+
+        /// <summary>
+        /// Collection count
+        /// </summary>
+        public int Count => Items.Count;
 
         /// <summary>
         /// フォルダーの場所(クエリ)
@@ -502,7 +508,22 @@ namespace NeeView
             // このコードを変更しないでください。クリーンアップ コードを上の Dispose(bool disposing) に記述します。
             Dispose(true);
         }
-        #endregion
+
+        #endregion IDisposable Support
+
+        #region IEnumerable Support
+
+        public IEnumerator<FolderItem> GetEnumerator()
+        {
+            return Items.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        #endregion IEnumerable Support
     }
 
 }

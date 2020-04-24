@@ -853,6 +853,13 @@ namespace NeeView
             }
         }
 
+        // ランダムなフォルダーに移動
+        public async Task RandomFolder(BookLoadOption option = BookLoadOption.None)
+        {
+            if (BookHub.Current.IsBusy) return;
+            await MoveRandomFolder(option);
+        }
+
         // 巡回移動できる？
         protected virtual bool IsCruise()
         {
@@ -895,6 +902,32 @@ namespace NeeView
             return true;
         }
 
+        /// <summary>
+        /// ランダムフォルダー移動
+        /// </summary>
+        private async Task<bool> MoveRandomFolder(BookLoadOption options)
+        {
+            var currentBookAddress = BookOperation.Current.Book?.Address;
+
+            var items = _folderCollection.Where(e => !e.IsEmpty() && e.EntityPath.Scheme == QueryScheme.File && e.EntityPath.SimplePath != currentBookAddress);
+            if (!items.Any())
+            {
+                return false;
+            }
+
+            var item = items.ElementAt(new Random().Next(items.Count()));
+            if (item == null)
+            {
+                return false;
+            }
+
+            int index = _folderListBoxModel.GetFolderItemIndex(item);
+
+            await SetPlaceAsync(_folderCollection.Place, new FolderItemPosition(item.TargetPath, index), FolderSetPlaceOption.UpdateHistory);
+            RequestLoad(item, null, options, false);
+
+            return true;
+        }
 
         /// <summary>
         /// 巡回フォルダー移動

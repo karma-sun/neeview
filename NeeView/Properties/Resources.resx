@@ -5253,4 +5253,16 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ControlSusiePluginListSwitchAll" xml:space="preserve">
     <value>All On / Off</value>
   </data>
+  <data name="CommandJumpRandomPage" xml:space="preserve">
+    <value>Jump random page</value>
+  </data>
+  <data name="CommandJumpRandomPageNote" xml:space="preserve">
+    <value>Jump to a random page.</value>
+  </data>
+  <data name="CommandRandomFolder" xml:space="preserve">
+    <value>Random Book</value>
+  </data>
+  <data name="CommandRandomFolderNote" xml:space="preserve">
+    <value>Load the random book on the bookshelf.</value>
+  </data>
 </root>

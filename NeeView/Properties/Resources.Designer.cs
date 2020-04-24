@@ -1141,6 +1141,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Jump random page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandJumpRandomPage {
+            get {
+                return ResourceManager.GetString("CommandJumpRandomPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Jump to a random page. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandJumpRandomPageNote {
+            get {
+                return ResourceManager.GetString("CommandJumpRandomPageNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Last page に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandLastPage {
@@ -1884,6 +1902,24 @@ namespace NeeView.Properties {
         public static string CommandPrintNote {
             get {
                 return ResourceManager.GetString("CommandPrintNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Random Book に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandRandomFolder {
+            get {
+                return ResourceManager.GetString("CommandRandomFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Load the random book on the bookshelf. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandRandomFolderNote {
+            get {
+                return ResourceManager.GetString("CommandRandomFolderNote", resourceCulture);
             }
         }
         

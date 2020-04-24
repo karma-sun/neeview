@@ -142,14 +142,18 @@ namespace NeeView
             set { SetProperty(ref _dispName, value); }
         }
 
-        // 実体へのパス。ショートカットはそのまま
+        /// <summary>
+        /// 実体へのパス。ショートカットはそのまま
+        /// </summary>
         public QueryPath TargetPath
         {
             get { return _targetPath; }
             set { if (_targetPath != value) { _targetPath = value; RaisePropertyChanged(); } }
         }
 
-        // ショートカット先を反映した実体パス
+        /// <summary>
+        /// ショートカット先を反映した実体パス
+        /// </summary>
         public QueryPath EntityPath
         {
             get { return _entityPath ?? (_entityPath = TargetPath?.ToEntityPath()); }

@@ -31,9 +31,6 @@ namespace NeeView
         [PropertyMember("@ParamPictureProfileExtensions")]
         public FileTypeCollection SupportFileTypes => _fileExtension.DefaultExtensions;
 
-        [PropertyMember("@ParamPictureProfileSvgExtensions")]
-        public FileTypeCollection SvgFileTypes => _fileExtension.SvgExtensions;
-
 
         // 対応拡張子判定 (ALL)
         public bool IsSupported(string fileName)
@@ -49,7 +46,7 @@ namespace NeeView
 
             if (Config.Current.Image.Svg.IsEnabled)
             {
-                if (_fileExtension.SvgExtensions.Contains(ext)) return true;
+                if (Config.Current.Image.Svg.SupportFileTypes.Contains(ext)) return true;
             }
 
             return false;
@@ -77,7 +74,7 @@ namespace NeeView
             if (!Config.Current.Image.Svg.IsEnabled) return false;
 
             string ext = LoosePath.GetExtension(fileName);
-            return _fileExtension.SvgExtensions.Contains(ext);
+            return Config.Current.Image.Svg.SupportFileTypes.Contains(ext);
         }
 
 

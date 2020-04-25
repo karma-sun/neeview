@@ -11,7 +11,6 @@ namespace NeeView
         #region Fields
 
         private FileTypeCollection _defaultExtensoins = new FileTypeCollection();
-        private FileTypeCollection _svgExtensions = new FileTypeCollection(".svg");
 
         #endregion
 
@@ -27,9 +26,6 @@ namespace NeeView
         public FileTypeCollection DefaultExtensions => _defaultExtensoins;
 
         public FileTypeCollection SusieExtensions => SusiePluginManager.Current.ImageExtensions;
-
-        public FileTypeCollection SvgExtensions => _svgExtensions;
-
 
         #region Methods
 

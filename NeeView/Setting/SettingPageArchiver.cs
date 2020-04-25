@@ -29,7 +29,8 @@ namespace NeeView.Setting
 
             section = new SettingItemSection(Properties.Resources.SettingSectionSvg);
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Image.Svg, nameof(ImageSvgConfig.IsEnabled))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(PictureProfile.Current, nameof(PictureProfile.SvgFileTypes)), new SettingItemImageCollection(30.0, false) { Collection = PictureProfile.Current.SvgFileTypes }) { IsStretch = true });
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Image.Svg, nameof(ImageSvgConfig.SupportFileTypes)),
+                new SettingItemCollectionControl() { Collection = Config.Current.Image.Svg.SupportFileTypes, AddDialogHeader = Properties.Resources.WordExtension }));
             this.Items.Add(section);
         }
     }

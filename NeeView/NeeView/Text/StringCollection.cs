@@ -13,7 +13,7 @@ namespace NeeView.Text
     /// </summary>
     [DataContract]
     [JsonConverter(typeof(JsonStringCollectionConverter))]
-    public class StringCollection
+    public class StringCollection : ICloneable, IEquatable<StringCollection>
     {
         public StringCollection()
         {
@@ -152,6 +152,24 @@ namespace NeeView.Text
         public static StringCollection Parse(string s)
         {
             return new StringCollection(s);
+        }
+
+        public virtual object Clone()
+        {
+            var clone = (StringCollection)MemberwiseClone();
+            clone.Items = new List<string>(this.Items);
+            return clone;
+        }
+
+        public bool Equals(StringCollection other)
+        {
+            if (other == null) return false;
+            return this.ToString() == other.ToString();
+        }
+
+        public override int GetHashCode()
+        {
+            return this.ToString().GetHashCode();
         }
     }
 

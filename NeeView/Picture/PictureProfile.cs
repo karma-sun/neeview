@@ -17,10 +17,8 @@ namespace NeeView
         public static readonly Uri HEIFImageExtensions = new Uri(@"ms-windows-store://pdp/?ProductId=9pmmsr1cgpwg");
 
 
-        // 有効ファイル拡張子
+        // 標準の画像ファイル拡張子
         private PictureFileExtension _fileExtension = new PictureFileExtension();
-
-        private Size _MaximumSize = new Size(4096, 4096);
 
 
         private PictureProfile()
@@ -29,7 +27,13 @@ namespace NeeView
 
 
         [PropertyMember("@ParamPictureProfileExtensions")]
-        public FileTypeCollection SupportFileTypes => _fileExtension.DefaultExtensions;
+        public FileTypeCollection SupportFileTypes
+        {
+            get { return Config.Current.Image.Standard.SupportFileTypes ?? _fileExtension.DefaultExtensions; }
+            set { Config.Current.Image.Standard.SupportFileTypes = _fileExtension.DefaultExtensions.Equals(value) ? null : value; }
+        }
+
+        public FileTypeCollection DefaultFileTypes => _fileExtension.DefaultExtensions;
 
 
         // 対応拡張子判定 (ALL)
@@ -37,11 +41,11 @@ namespace NeeView
         {
             string ext = LoosePath.GetExtension(fileName);
 
-            if (_fileExtension.DefaultExtensions.Contains(ext)) return true;
+            if (SupportFileTypes.Contains(ext)) return true;
 
             if (Config.Current.Susie.IsEnabled)
             {
-                if (_fileExtension.SusieExtensions.Contains(ext)) return true;
+                if (SusiePluginManager.Current.ImageExtensions.Contains(ext)) return true;
             }
 
             if (Config.Current.Image.Svg.IsEnabled)
@@ -56,7 +60,7 @@ namespace NeeView
         public bool IsDefaultSupported(string fileName)
         {
             string ext = LoosePath.GetExtension(fileName);
-            return _fileExtension.DefaultExtensions.Contains(ext);
+            return SupportFileTypes.Contains(ext);
         }
 
         // 対応拡張子判定 (Susie)
@@ -65,7 +69,7 @@ namespace NeeView
             if (!Config.Current.Susie.IsEnabled) return false;
 
             string ext = LoosePath.GetExtension(fileName);
-            return _fileExtension.SusieExtensions.Contains(ext);
+            return SusiePluginManager.Current.ImageExtensions.Contains(ext);
         }
 
         // 対応拡張子判定 (Svg)

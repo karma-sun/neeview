@@ -47,16 +47,20 @@ namespace NeeView.Setting
 
         #endregion
 
-
         public SettingItemCollectionControl()
         {
             InitializeComponent();
-
             this.Root.DataContext = this;
             this.AddButton.Content = Properties.Resources.WordAdd + "...";
             this.RemoveButton.Content = Properties.Resources.WordRemove;
             this.ResetButton.Content = Properties.Resources.WordReset;
+
+            this.CollectionChanged += SettingItemCollectionControl_CollectionChanged;
         }
+
+
+        public event EventHandler<CollectionChangeEventArgs> CollectionChanged;
+
 
         #region DependencyProperties
 
@@ -67,9 +71,9 @@ namespace NeeView.Setting
         }
 
         public static readonly DependencyProperty CollectionProperty =
-            DependencyProperty.Register("Collection", typeof(StringCollection), typeof(SettingItemCollectionControl), new PropertyMetadata(null, CollectionChanged));
+            DependencyProperty.Register("Collection", typeof(StringCollection), typeof(SettingItemCollectionControl), new PropertyMetadata(null, CollectionPropertyChanged));
 
-        private static void CollectionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void CollectionPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is SettingItemCollectionControl control)
             {
@@ -115,6 +119,14 @@ namespace NeeView.Setting
 
         public List<string> Items => Collection?.Items;
 
+        public bool IsResetEnabled => DefaultCollection != null && !DefaultCollection.Equals(Collection);
+
+
+
+        private void SettingItemCollectionControl_CollectionChanged(object sender, CollectionChangeEventArgs e)
+        {
+            RaisePropertyChanged(nameof(IsResetEnabled));
+        }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
@@ -133,6 +145,8 @@ namespace NeeView.Setting
                 this.CollectionListBox.Items.Refresh();
                 this.CollectionListBox.SelectedItem = input;
                 this.CollectionListBox.ScrollIntoView(input);
+
+                CollectionChanged?.Invoke(this, new CollectionChangeEventArgs(CollectionChangeAction.Add, input));
             }
         }
 
@@ -157,6 +171,8 @@ namespace NeeView.Setting
             {
                 this.CollectionListBox.SelectedIndex = index;
             }
+
+            CollectionChanged?.Invoke(this, new CollectionChangeEventArgs(CollectionChangeAction.Remove, item));
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
@@ -166,6 +182,8 @@ namespace NeeView.Setting
             Collection.Restore(DefaultCollection.Items);
             RaisePropertyChanged(nameof(Items));
             this.CollectionListBox.Items.Refresh();
+
+            CollectionChanged?.Invoke(this, new CollectionChangeEventArgs(CollectionChangeAction.Refresh, null));
         }
 
         private void CollectionListBox_PreviewKeyDown(object sender, KeyEventArgs e)

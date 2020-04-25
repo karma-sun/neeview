@@ -13,7 +13,7 @@ namespace NeeView
     [DataContract]
     [ObjectMergeReferenceCopy]
     [JsonConverter(typeof(JsonFileTypeCollectionConverter))]
-    public class FileTypeCollection : StringCollection
+    public class FileTypeCollection : StringCollection, IEquatable<FileTypeCollection>
     {
         public FileTypeCollection()
         {
@@ -32,15 +32,20 @@ namespace NeeView
             return string.IsNullOrWhiteSpace(item) ? null : "." + item.Trim().TrimStart('.').ToLower();
         }
 
-        public FileTypeCollection Clone()
-        {
-            return (FileTypeCollection)MemberwiseClone();
-        }
-
-
         public new static FileTypeCollection Parse(string s)
         {
             return new FileTypeCollection(s);
+        }
+
+        public bool Equals(FileTypeCollection other)
+        {
+            if (other == null) return false;
+            return this.ToString() == other.ToString();
+        }
+
+        public override int GetHashCode()
+        {
+            return this.ToString().GetHashCode();
         }
     }
 

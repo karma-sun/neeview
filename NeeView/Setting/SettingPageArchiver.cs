@@ -20,7 +20,11 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>();
 
             var section = new SettingItemSection(Properties.Resources.SettingPageImageCollection);
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(PictureProfile.Current, nameof(PictureProfile.SupportFileTypes)), new SettingItemImageCollection() { Collection = PictureProfile.Current.SupportFileTypes }) { IsStretch = true });
+
+            var supportFileTypeEditor = new SettingItemCollectionControl() { Collection = (FileTypeCollection)PictureProfile.Current.SupportFileTypes.Clone(), DefaultCollection = PictureProfile.Current.DefaultFileTypes, AddDialogHeader = Properties.Resources.WordExtension };
+            supportFileTypeEditor.CollectionChanged += SupportFileTypeEditor_CollectionChanged;
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(PictureProfile.Current, nameof(PictureProfile.SupportFileTypes)), supportFileTypeEditor));
+
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Image.Standard, nameof(ImageStandardConfig.IsAspectRatioEnabled))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.IsIgnoreImageDpi))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Image.Standard, nameof(ImageStandardConfig.IsAnimatedGifEnabled))));
@@ -32,6 +36,12 @@ namespace NeeView.Setting
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Image.Svg, nameof(ImageSvgConfig.SupportFileTypes)),
                 new SettingItemCollectionControl() { Collection = Config.Current.Image.Svg.SupportFileTypes, AddDialogHeader = Properties.Resources.WordExtension }));
             this.Items.Add(section);
+        }
+
+        private void SupportFileTypeEditor_CollectionChanged(object sender, System.ComponentModel.CollectionChangeEventArgs e)
+        {
+            var editor = (SettingItemCollectionControl)sender;
+            PictureProfile.Current.SupportFileTypes = (FileTypeCollection)editor.Collection;
         }
     }
 

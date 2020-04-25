@@ -15,8 +15,9 @@
                 <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
             </Style>
         </DockPanel.Resources>
-        <DockPanel DockPanel.Dock="Bottom" LastChildFill="False">
-            <Button x:Name="RemoveButton" DockPanel.Dock="Right" Content="Remove" Click="RemoveButton_Click" TabIndex="4">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button x:Name="AddButton" DockPanel.Dock="Right" Content="Add..." Click="AddButton_Click" TabIndex="2"/>
+            <Button x:Name="RemoveButton" DockPanel.Dock="Right" Content="Remove" Click="RemoveButton_Click" TabIndex="3">
                 <Button.Style>
                     <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
                         <Style.Triggers>
@@ -27,8 +28,7 @@
                     </Style>
                 </Button.Style>
             </Button>
-            <Button x:Name="AddButton" DockPanel.Dock="Right" Content="Add..." Click="AddButton_Click" TabIndex="3"/>
-            <Button x:Name="ResetButton" Content="Reset" Click="ResetButton_Click" TabIndex="2">
+            <Button x:Name="ResetButton" Content="Reset" Click="ResetButton_Click"  IsEnabled="{Binding IsResetEnabled}" TabIndex="4">
                 <Button.Style>
                     <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
                         <Setter Property="Visibility" Value="Visible"/>
@@ -40,7 +40,7 @@
                     </Style>
                 </Button.Style>
             </Button>
-        </DockPanel>
+        </StackPanel>
 
         <ListBox x:Name="CollectionListBox" ItemsSource="{Binding Items}" PreviewKeyDown="CollectionListBox_PreviewKeyDown" TabIndex="1">
             <ListBox.ItemContainerStyle>

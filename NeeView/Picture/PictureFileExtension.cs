@@ -8,26 +8,17 @@ namespace NeeView
     /// </summary>
     public class PictureFileExtension
     {
-        #region Fields
-
         private FileTypeCollection _defaultExtensoins = new FileTypeCollection();
 
-        #endregion
-
-        #region Constructors
 
         public PictureFileExtension()
         {
             UpdateDefaultSupprtedFileTypes();
         }
 
-        #endregion
 
         public FileTypeCollection DefaultExtensions => _defaultExtensoins;
 
-        public FileTypeCollection SusieExtensions => SusiePluginManager.Current.ImageExtensions;
-
-        #region Methods
 
         // デフォルトローダーのサポート拡張子を更新
         private void UpdateDefaultSupprtedFileTypes()
@@ -67,7 +58,5 @@ namespace NeeView
 
             return dictionary;
         }
-
-        #endregion
     }
 }

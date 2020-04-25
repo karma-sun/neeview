@@ -37,8 +37,8 @@ namespace NeeView
             var keyEventArgs = inputEventArgs as KeyEventArgs;
             if (keyEventArgs == null) return false;
 
-            // 入力許可？
-            if (!AllowSingleKey) return false;
+            // 入力許可？ (Escキーは常に受け入れる)
+            if (!AllowSingleKey && keyEventArgs.Key != Key.Escape) return false;
 
             // ALTが押されたときはシステムキーを通常キーとする
             Key key = keyEventArgs.Key;

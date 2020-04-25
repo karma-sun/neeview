@@ -14,9 +14,6 @@ namespace NeeView
         public static PictureProfile Current { get; }
 
 
-        public static readonly Uri HEIFImageExtensions = new Uri(@"ms-windows-store://pdp/?ProductId=9pmmsr1cgpwg");
-
-
         // 標準の画像ファイル拡張子
         private PictureFileExtension _fileExtension = new PictureFileExtension();
 

@@ -56,15 +56,11 @@ namespace NeeView.Setting
 
         #endregion
 
-        ////public App App => App.Current;
         public Config Config => Config.Current;
 
         private void Refresh()
         {
             if (Collection == null) return;
-
-            bool hasHeic = Collection.Contains(".heic");
-            this.HeifHelp.Visibility = _isStoreHelpEnabled && !hasHeic && Environment.IsWindows10 ? Visibility.Visible : Visibility.Collapsed;
         }
 
 

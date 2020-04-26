@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Text.Json;
 
 namespace NeeView
 {
-    [DataContract]
     public class Playlist
     {
         public Playlist()
@@ -19,17 +18,10 @@ namespace NeeView
             Items = new List<string>(items);
         }
 
-        [DataMember]
-        public string Format { get; private set; } = "NeeViewPlaylist.1";
 
-        [DataMember]
-        public List<string> Items { get; private set; }
+        public string Format { get; set; } = "NeeViewPlaylist.1";
 
-        [OnDeserialized]
-        private void Deserialized(StreamingContext c)
-        {
-            Items = Items ?? new List<string>();
-        }
+        public List<string> Items { get; set; }
     }
 
 
@@ -37,36 +29,19 @@ namespace NeeView
     {
         public static void Save(string path, Playlist playlist, bool overwrite)
         {
-            var fileMode = overwrite ? FileMode.Create : FileMode.CreateNew;
-            using (var stream = new FileStream(path, fileMode, FileAccess.Write))
+            if (!overwrite && File.Exists(path))
             {
-                Write(stream, playlist);
+                throw new IOException();
             }
+
+            var json = JsonSerializer.SerializeToUtf8Bytes(playlist, UserSettingTools.GetSerializerOptions());
+            File.WriteAllBytes(path, json);
         }
 
         public static Playlist Load(string path)
         {
-            using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
-            {
-                return Read(stream);
-            }
-        }
-
-
-        public static void Write(Stream stream, Playlist playlist)
-        {
-            using (var writer = JsonReaderWriterFactory.CreateJsonWriter(stream, Encoding.UTF8, false, true, "  "))
-            {
-                var settings = new DataContractJsonSerializerSettings() { UseSimpleDictionaryFormat = true };
-                var serializer = new DataContractJsonSerializer(typeof(Playlist), settings);
-                serializer.WriteObject(writer, playlist);
-            }
-        }
-
-        public static Playlist Read(Stream stream)
-        {
-            var serializer = new DataContractJsonSerializer(typeof(Playlist));
-            return (Playlist)serializer.ReadObject(stream);
+            var json = File.ReadAllBytes(path);
+            return JsonSerializer.Deserialize<Playlist>(json, UserSettingTools.GetSerializerOptions());
         }
     }
 

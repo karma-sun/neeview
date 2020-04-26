@@ -13,6 +13,17 @@ namespace NeeView
         // クリップボードにコピー
         public static void Copy(List<Page> pages, CopyFileCommandParameter parameter)
         {
+            var data = new System.Windows.DataObject();
+
+            if (SetData(data, pages, parameter))
+            {
+                System.Windows.Clipboard.SetDataObject(data); ;
+            }
+        }
+
+
+        public static bool SetData(System.Windows.DataObject data, List<Page>pages, CopyFileCommandParameter parameter)
+        {
             var files = new List<string>();
 
             foreach (var page in pages)
@@ -33,7 +44,10 @@ namespace NeeView
                             files.Add(page.GetFilePlace());
                             break;
                         case ArchivePolicy.SendExtractFile:
-                            files.Add(page.ContentAccessor.CreateTempFile(true).Path);
+                            if (!page.ContentAccessor.Entry.IsArchiveDirectory())
+                            {
+                                files.Add(page.ContentAccessor.CreateTempFile(true).Path);
+                            }
                             break;
                         case ArchivePolicy.SendArchivePath:
                             files.Add(page.Entry.CreateArchivePath(parameter.ArchiveSeparater));
@@ -45,10 +59,13 @@ namespace NeeView
 
             if (files.Count > 0)
             {
-                var data = new System.Windows.DataObject();
                 data.SetData(System.Windows.DataFormats.FileDrop, files.ToArray());
                 data.SetData(System.Windows.DataFormats.UnicodeText, string.Join("\r\n", files));
-                System.Windows.Clipboard.SetDataObject(data);
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 

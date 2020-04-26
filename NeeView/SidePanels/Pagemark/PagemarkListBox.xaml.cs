@@ -42,6 +42,8 @@ namespace NeeView
     /// </summary>
     public partial class PagemarkListBox : UserControl, IDisposable
     {
+        public static string DragDropFormat = $"{Environment.ProcessId}.PagemarkListBox";
+
         #region Fields
 
         private PagemarkListBoxViewModel _vm;
@@ -472,6 +474,41 @@ namespace NeeView
         public void Dispose()
         {
             Dispose(true);
+        }
+
+        #endregion
+
+        #region DragDrop
+
+        private void DragStartBehavior_DragBegin(object sender, Windows.DragStartEventArgs e)
+        {
+            var data = e.Data.GetData(DragDropFormat) as TreeViewItem;
+            if (data == null)
+            {
+                return;
+            }
+
+            var node = data.Header as TreeListNode<IPagemarkEntry>;
+            if (node == null)
+            {
+                return;
+            }
+
+            var pagemark = node.Value as Pagemark;
+            if (pagemark == null)
+            {
+                return;
+            }
+
+            var item = pagemark.GetPage();
+            if (item == null)
+            {
+                return;
+            }
+
+            ClipboardUtility.SetData(e.Data, new List<Page>() { item }, new CopyFileCommandParameter());
+
+            e.AllowedEffects = DragDropEffects.Copy;
         }
 
         #endregion

@@ -285,7 +285,6 @@ namespace NeeView
         // ファイルの場所を取得
         public string GetFilePlace()
         {
-            Debug.Assert(Entry?.Archiver != null);
             return Entry.GetFileSystemPath() ?? Entry.Archiver.GetPlace();
         }
 

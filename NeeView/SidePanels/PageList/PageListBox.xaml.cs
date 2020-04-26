@@ -302,10 +302,6 @@ namespace NeeView
 
         private void DragStartBehavior_DragBegin(object sender, Windows.DragStartEventArgs e)
         {
-            // NOTE: ページリストのドラッグは使用しないので無効にする
-            e.Cancel = true;
-
-#if false
             var data = e.Data.GetData(DragDropFormat) as ListBoxItem;
             if (data == null)
             {
@@ -318,12 +314,8 @@ namespace NeeView
                 return;
             }
 
-            if (item.Entry.Instance is TreeListNode<IPagemarkEntry> pagemarkNode)
-            {
-                e.Data.SetData(pagemarkNode);
-                e.AllowedEffects |= DragDropEffects.Move;
-            }
-#endif
+            ClipboardUtility.SetData(e.Data, new List<Page>() { item }, new CopyFileCommandParameter());
+            e.AllowedEffects = DragDropEffects.Copy;
         }
 
         #endregion

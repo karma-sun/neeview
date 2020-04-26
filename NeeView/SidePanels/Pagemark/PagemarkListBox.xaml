@@ -1,7 +1,8 @@
 ﻿<UserControl x:Class="NeeView.PagemarkListBox"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
@@ -91,6 +92,10 @@
               VirtualizingStackPanel.ScrollUnit="Pixel"
               VirtualizingStackPanel.IsVirtualizing="True"
               VirtualizingStackPanel.VirtualizationMode="Recycling">
+
+        <b:Interaction.Behaviors>
+            <nw:TreeViewDragDropStartBehavior AllowedEffects="Copy, Scroll" DragDropFormat="{x:Static local:PagemarkListBox.DragDropFormat}" DragBegin="DragStartBehavior_DragBegin" />
+        </b:Interaction.Behaviors>
 
         <TreeView.Style>
             <Style TargetType="TreeView" BasedOn="{StaticResource NVTreeView}">

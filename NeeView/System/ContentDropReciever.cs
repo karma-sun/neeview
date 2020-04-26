@@ -110,12 +110,14 @@ namespace NeeView
             }
         }
 
-
         // ドロップ受付判定
         private bool CheckDragContent(object sender, IDataObject data)
         {
+            if (data.GetDataPresent(PageListBox.DragDropFormat) || data.GetDataPresent(PagemarkListBox.DragDropFormat)) return false;
+
             return (data.GetDataPresent(DataFormats.FileDrop, true) || (data.GetDataPresent("FileContents") && data.GetDataPresent("FileGroupDescriptorW")) || data.GetDataPresent(DataFormats.Bitmap) || data.GetDataPresent(typeof(QueryPath)));
         }
+
 
         // ファイラーからのドロップ
         private List<DropReciever> _fileDropRecievers = new List<DropReciever>()

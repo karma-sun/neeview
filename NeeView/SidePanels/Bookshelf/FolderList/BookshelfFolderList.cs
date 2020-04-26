@@ -48,6 +48,9 @@ namespace NeeView
             {
                 RequestSearchPlace(true);
             });
+
+
+            UpdateExcludeRegex();
         }
 
         // 除外パターンの正規表現

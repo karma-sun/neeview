@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Media;
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
@@ -35,13 +36,19 @@ namespace NeeView
 
             Config.Current.Background.AddPropertyChanged(nameof(BackgroundConfig.PageBackgroundColor), (s, e) =>
             {
-                RaisePropertyChanged(nameof(PageBackgroundBrush));
+                UpdatePageBackgroundBrush();
+            });
+
+            Config.Current.Background.AddPropertyChanged(nameof(BackgroundConfig.IsPageBackgroundChecker), (s, e) =>
+            {
+                UpdatePageBackgroundBrush();
             });
 
 
             // Initialize
             InitializeCustomBackgroundBrush();
             UpdateBackgroundBrush();
+            UpdatePageBackgroundBrush();
         }
 
         private void InitializeCustomBackgroundBrush()
@@ -62,10 +69,12 @@ namespace NeeView
             set { if (_foregroundBrush != value) { _foregroundBrush = value; RaisePropertyChanged(); } }
         }
 
-
+        // ページ背景ブラシ
+        private Brush _pageBackgroundBrush = null;
         public Brush PageBackgroundBrush
         {
-            get { return new SolidColorBrush(Config.Current.Background.PageBackgroundColor); }
+            get { return _pageBackgroundBrush; }
+            set { SetProperty(ref _pageBackgroundBrush, value); }
         }
 
 
@@ -87,16 +96,6 @@ namespace NeeView
             set { if (_BackgroundFrontBrush != value) { _BackgroundFrontBrush = value; RaisePropertyChanged(); } }
         }
 
-        //
-        private void UpdateCustomBackgroundBrush()
-        {
-            _customBackgroundBrush = null;
-            _customBackgroundFrontBrush = null;
-            if (Config.Current.Background.BackgroundType == BackgroundType.Custom)
-            {
-                UpdateBackgroundBrush();
-            }
-        }
 
         /// <summary>
         /// カスタム背景
@@ -125,6 +124,49 @@ namespace NeeView
 
 
 
+        public void UpdatePageBackgroundBrush()
+        {
+            PageBackgroundBrush = Config.Current.Background.PageBackgroundColor.A > 0
+                ? Config.Current.Background.IsPageBackgroundChecker ? CreateCheckerBrush(Config.Current.Background.PageBackgroundColor) : new SolidColorBrush(Config.Current.Background.PageBackgroundColor)
+                : null;
+        }
+
+        // from http://msdn.microsoft.com/en-us/library/aa970904.aspx
+        public static Brush CreateCheckerBrush(Color color)
+        {
+            var brush1 = new SolidColorBrush(color);
+
+            var hsv = color.ToHSV();
+            hsv.V = hsv.V + (hsv.V < 0.1 ? 0.1 : -0.1);
+            var brush2 = new SolidColorBrush(hsv.ToARGB());
+
+            DrawingBrush checkerBrush = new DrawingBrush();
+
+            GeometryDrawing backgroundSquare =
+                new GeometryDrawing(
+                    brush1,
+                    null,
+                    new RectangleGeometry(new Rect(0, 0, 8, 8)));
+
+            GeometryGroup aGeometryGroup = new GeometryGroup();
+            aGeometryGroup.Children.Add(new RectangleGeometry(new Rect(0, 0, 4, 4)));
+            aGeometryGroup.Children.Add(new RectangleGeometry(new Rect(4, 4, 4, 4)));
+
+            GeometryDrawing checkers = new GeometryDrawing(brush2, null, aGeometryGroup);
+
+            DrawingGroup checkersDrawingGroup = new DrawingGroup();
+            checkersDrawingGroup.Children.Add(backgroundSquare);
+            checkersDrawingGroup.Children.Add(checkers);
+
+            checkerBrush.Drawing = checkersDrawingGroup;
+            checkerBrush.ViewportUnits = BrushMappingMode.Absolute;
+            checkerBrush.Viewport = new Rect(0, 0, 16, 16);
+            checkerBrush.TileMode = TileMode.Tile;
+
+            return checkerBrush;
+        }
+
+
         // Foregroud Brush 更新
         private void UpdateForegroundBrush()
         {
@@ -150,7 +192,16 @@ namespace NeeView
             BackgroundBrush = CreateBackgroundBrush();
             BackgroundFrontBrush = CreateBackgroundFrontBrush(Environment.Dpi);
         }
-
+        
+        private void UpdateCustomBackgroundBrush()
+        {
+            _customBackgroundBrush = null;
+            _customBackgroundFrontBrush = null;
+            if (Config.Current.Background.BackgroundType == BackgroundType.Custom)
+            {
+                UpdateBackgroundBrush();
+            }
+        }
 
         /// <summary>
         /// 背景ブラシ作成

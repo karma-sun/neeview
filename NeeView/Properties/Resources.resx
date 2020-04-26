@@ -3849,7 +3849,7 @@ Initialize the temporary location.</value>
     <value>Dot-by-dot display of image</value>
   </data>
   <data name="ParamIsIgnoreImageDpiTips" xml:space="preserve">
-    <value>When displaying in original size, make it match with display pixels without depending on dpi.</value>
+    <value>When displaying at the original size, it matches the pixels of the display independently of the display scale of the display.</value>
   </data>
   <data name="ParamIsIncrementalSearchEnabled" xml:space="preserve">
     <value>Incremental search enabled</value>
@@ -5276,5 +5276,11 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="ParamBookmarkFolderOrder" xml:space="preserve">
     <value>Default order of bookmarks</value>
+  </data>
+  <data name="ParamIsPageBackgroundChecker" xml:space="preserve">
+    <value>Checkered background transparent image</value>
+  </data>
+  <data name="ParamIsPageBackgroundCheckerTips" xml:space="preserve">
+    <value>It will be a check pattern of "@ParamPageBackgroundColor".</value>
   </data>
 </root>

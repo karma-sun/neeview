@@ -11307,7 +11307,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   When displaying in original size, make it match with display pixels without depending on dpi. に類似しているローカライズされた文字列を検索します。
+        ///   When displaying at the original size, it matches the pixels of the display independently of the display scale of the display. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsIgnoreImageDpiTips {
             get {
@@ -11393,6 +11393,24 @@ namespace NeeView.Properties {
         public static string ParamIsOpenLastBook {
             get {
                 return ResourceManager.GetString("ParamIsOpenLastBook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Checkered background transparent image に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsPageBackgroundChecker {
+            get {
+                return ResourceManager.GetString("ParamIsPageBackgroundChecker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   It will be a check pattern of &quot;@ParamPageBackgroundColor&quot;. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsPageBackgroundCheckerTips {
+            get {
+                return ResourceManager.GetString("ParamIsPageBackgroundCheckerTips", resourceCulture);
             }
         }
         

@@ -9,6 +9,8 @@ namespace NeeView
         private BackgroundType _backgroundType = BackgroundType.Black;
         private BrushSource _customBackground = new BrushSource();
         private Color _pageBackgroundColor = Colors.Transparent;
+        private bool _isPageBackgroundChecker;
+
 
         [PropertyMember("@ParamBackgroundType")]
         public BackgroundType BackgroundType
@@ -32,5 +34,14 @@ namespace NeeView
             get { return _pageBackgroundColor; }
             set { SetProperty(ref _pageBackgroundColor, value); }
         }
+
+        // ページ背景は格子模様
+        [PropertyMember("@ParamIsPageBackgroundChecker", Tips = "@ParamIsPageBackgroundCheckerTips")]
+        public bool IsPageBackgroundChecker
+        {
+            get { return _isPageBackgroundChecker; }
+            set { SetProperty(ref _isPageBackgroundChecker, value); }
+        }
+
     }
 }

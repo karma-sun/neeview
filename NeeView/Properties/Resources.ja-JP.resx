@@ -3849,7 +3849,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>画像のドットバイドット表示</value>
   </data>
   <data name="ParamIsIgnoreImageDpiTips" xml:space="preserve">
-    <value>オリジナルサイズで表示する場合、dpiに依存せずにディスプレイのピクセルと一致させます。</value>
+    <value>オリジナルサイズで表示する場合、ディスプレイの表示スケールに依存せずにディスプレイのピクセルと一致させます。</value>
   </data>
   <data name="ParamIsIncrementalSearchEnabled" xml:space="preserve">
     <value>インクリメンタルサーチ有効</value>
@@ -5276,5 +5276,11 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="ParamBookmarkFolderOrder" xml:space="preserve">
     <value>ブックマークの既定の並び順</value>
+  </data>
+  <data name="ParamIsPageBackgroundChecker" xml:space="preserve">
+    <value>透過画像の背景をチェック模様にする</value>
+  </data>
+  <data name="ParamIsPageBackgroundCheckerTips" xml:space="preserve">
+    <value>「@ParamPageBackgroundColor」のチェック模様になります。</value>
   </data>
 </root>

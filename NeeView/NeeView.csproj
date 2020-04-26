@@ -164,8 +164,4 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Windows\Property\" />
-  </ItemGroup>
-  
 </Project>

@@ -102,9 +102,9 @@ namespace NeeView.Windows.Property
         public override string GetValue()
         {
             var value = base.GetValue();
-            if (Setter.EmptyValue != null && string.IsNullOrEmpty(value))
+            if (Setter.Options.EmptyValue != null && string.IsNullOrEmpty(value))
             {
-                return Setter.EmptyValue;
+                return Setter.Options.EmptyValue;
             }
             else
             {
@@ -162,7 +162,7 @@ namespace NeeView.Windows.Property
         public PropertyValue_Enum(PropertyMemberElement setter, Type enumType) : base(setter)
         {
             _type = enumType;
-            this.Map = _type.VisibledAliasNameDictionary();
+            this.Map = setter.Options?.EnumMap ?? _type.VisibledAliasNameDictionary();
         }
 
         public override void SetValueFromString(string value)

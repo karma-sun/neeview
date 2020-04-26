@@ -23,6 +23,8 @@ namespace NeeView
         private bool _isCruise;
         private bool _isIncrementalSearchEnabled = true;
         private bool _isSearchIncludeSubdirectories = true;
+        private FolderOrder _defaultFolderOrder;
+        private FolderOrder _playlistFolderOrder;
 
 
         [JsonIgnore]
@@ -182,6 +184,27 @@ namespace NeeView
             get { return _isSearchIncludeSubdirectories; }
             set { SetProperty(ref _isSearchIncludeSubdirectories, value); }
         }
+
+        /// <summary>
+        /// 既定の並び順
+        /// </summary>
+        [PropertyMember("@ParamDefaultFolderOrder")]
+        public FolderOrder DefaultFolderOrder
+        {
+            get { return _defaultFolderOrder; }
+            set { SetProperty(ref _defaultFolderOrder, value); }
+        }
+
+        /// <summary>
+        /// プレイリストの既定の並び順
+        /// </summary>
+        [PropertyMember("@ParamPlaylistFolderOrder")]
+        public FolderOrder PlaylistFolderOrder
+        {
+            get { return _playlistFolderOrder; }
+            set { SetProperty(ref _playlistFolderOrder, value); }
+        }
+
 
         #region 非公開パラメーター
 

@@ -19,11 +19,6 @@ namespace NeeView.Windows.Property
 
         public PropertyMemberAttribute() { }
         public PropertyMemberAttribute(string name) { Name = name; }
-
-        public virtual PropertyMemberElement CreateContent(object source, PropertyInfo info)
-        {
-            return new PropertyMemberElement(source, info, this);
-        }
     }
 
     [AttributeUsage(AttributeTargets.Property)]
@@ -46,11 +41,6 @@ namespace NeeView.Windows.Property
             Minimum = min;
             Maximum = max;
         }
-
-        public override PropertyMemberElement CreateContent(object source, PropertyInfo info)
-        {
-            return new PropertyMemberElement(source, info, this);
-        }
     }
 
     /// <summary>
@@ -61,11 +51,6 @@ namespace NeeView.Windows.Property
     {
         public PropertyPercentAttribute(string name) : base(name)
         {
-        }
-
-        public override PropertyMemberElement CreateContent(object source, PropertyInfo info)
-        {
-            return new PropertyMemberElement(source, info, this);
         }
     }
 
@@ -80,11 +65,6 @@ namespace NeeView.Windows.Property
 
         public PropertyPathAttribute(string name) : base(name)
         {
-        }
-
-        public override PropertyMemberElement CreateContent(object source, PropertyInfo info)
-        {
-            return new PropertyMemberElement(source, info, this);
         }
     }
 }

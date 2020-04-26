@@ -9399,6 +9399,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Default order of bookmarks に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookmarkFolderOrder {
+            get {
+                return ResourceManager.GetString("ParamBookmarkFolderOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Notify page loop に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamBookOperationNotifyPageLoop {
@@ -10304,6 +10313,15 @@ namespace NeeView.Properties {
         public static string ParamCustomBackgroundTips {
             get {
                 return ResourceManager.GetString("ParamCustomBackgroundTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Standard default order に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamDefaultFolderOrder {
+            get {
+                return ResourceManager.GetString("ParamDefaultFolderOrder", resourceCulture);
             }
         }
         
@@ -12527,6 +12545,15 @@ namespace NeeView.Properties {
         public static string ParamPictureProfileSvgExtensions {
             get {
                 return ResourceManager.GetString("ParamPictureProfileSvgExtensions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Default order of playlists に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamPlaylistFolderOrder {
+            get {
+                return ResourceManager.GetString("ParamPlaylistFolderOrder", resourceCulture);
             }
         }
         

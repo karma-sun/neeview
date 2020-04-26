@@ -31,8 +31,8 @@ namespace NeeView.Setting
 
             section = new SettingItemSection(Properties.Resources.SettingPageCommandScipt);
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Script, nameof(ScriptConfig.IsScriptFolderEnabled))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Script, nameof(ScriptConfig.ScriptFolder), Config.Current.Script.GetDefaultScriptFolder()))
-            {
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Script, nameof(ScriptConfig.ScriptFolder), new PropertyMemberElementOptions() { EmptyValue = Config.Current.Script.GetDefaultScriptFolder() })) 
+            { 
                 IsStretch = true,
             });
             this.Items.Add(section);

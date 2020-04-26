@@ -12,6 +12,8 @@ namespace NeeView
         private bool _isSaveBookmark = true;
         private string _bookmarkFilePath;
         private bool _isSyncBookshelfEnabled = true;
+        private FolderOrder _bookmarkFolderOrder;
+
 
         [JsonIgnore]
         [PropertyMapReadOnly]
@@ -55,6 +57,15 @@ namespace NeeView
             get { return _bookmarkFilePath; }
             set { SetProperty(ref _bookmarkFilePath, string.IsNullOrWhiteSpace(value) || value == SaveData.DefaultBookmarkFilePath ? null : value); }
         }
+
+        // ブックマークの既定の並び順
+        [PropertyMember("@ParamBookmarkFolderOrder")]
+        public FolderOrder BookmarkFolderOrder
+        {
+            get { return _bookmarkFolderOrder; }
+            set { SetProperty(ref _bookmarkFolderOrder, value); }
+        }
+
     }
 }
 

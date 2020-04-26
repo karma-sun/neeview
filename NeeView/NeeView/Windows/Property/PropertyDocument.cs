@@ -114,7 +114,7 @@ namespace NeeView.Windows.Property
                         list.Add(new PropertyTitleElement(ResourceService.GetString(attribute.Title)));
                     }
 
-                    var element = attribute.CreateContent(source, info);
+                    var element = new PropertyMemberElement(source, info, attribute, PropertyMemberElementOptions.Default);
                     if (element.IsVisible)
                     {
                         list.Add(element);

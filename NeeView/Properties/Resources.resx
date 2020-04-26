@@ -5268,4 +5268,13 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamResetPageWhenRandomSort" xml:space="preserve">
     <value>Reset page when shuffle</value>
   </data>
+  <data name="ParamDefaultFolderOrder" xml:space="preserve">
+    <value>Standard default order</value>
+  </data>
+  <data name="ParamPlaylistFolderOrder" xml:space="preserve">
+    <value>Default order of playlists</value>
+  </data>
+  <data name="ParamBookmarkFolderOrder" xml:space="preserve">
+    <value>Default order of bookmarks</value>
+  </data>
 </root>

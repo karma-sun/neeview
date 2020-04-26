@@ -88,7 +88,7 @@ namespace NeeView
         #region Memento
 
         [DataContract]
-        public class Memento : IMemento
+        public class Memento : IMemento, IEquatable<Memento>
         {
             [DataMember(Name = "FolderOrderV2")]
             public FolderOrder FolderOrder { get; set; }
@@ -96,14 +96,37 @@ namespace NeeView
             [DataMember]
             public bool IsFolderRecursive { get; set; }
 
-            public static Memento Default = new Memento();
-
-            public bool IsDefault => (FolderOrder == Default.FolderOrder && IsFolderRecursive == Default.IsFolderRecursive);
-
-
-            [OnDeserialized]
-            private void OnDeserialized(StreamingContext context)
+            public bool IsDefault(string path)
             {
+                return this.Equals(GetDefault(path));
+            }
+
+            public static Memento GetDefault(string path)
+            {
+                var memento = new Memento();
+
+                if (QueryScheme.Bookmark.IsMatch(path))
+                {
+                    memento.FolderOrder = Config.Current.Bookmark.BookmarkFolderOrder;
+                }
+                else if (PlaylistArchive.IsSupportExtension(path))
+                {
+                    memento.FolderOrder = Config.Current.Bookshelf.PlaylistFolderOrder;
+                }
+                else
+                {
+                    memento.FolderOrder = Config.Current.Bookshelf.DefaultFolderOrder;
+                }
+
+                return memento;
+            }
+
+            public bool Equals(Memento other)
+            {
+                if (other == null) return false;
+
+                return (FolderOrder == other.FolderOrder &&
+                    IsFolderRecursive == other.IsFolderRecursive);
             }
         }
 

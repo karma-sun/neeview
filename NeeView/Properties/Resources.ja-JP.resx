@@ -5268,4 +5268,13 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamResetPageWhenRandomSort" xml:space="preserve">
     <value>シャッフルしたときにページをリセットする</value>
   </data>
+  <data name="ParamDefaultFolderOrder" xml:space="preserve">
+    <value>標準の既定の並び順</value>
+  </data>
+  <data name="ParamPlaylistFolderOrder" xml:space="preserve">
+    <value>プレイリストの既定の並び順</value>
+  </data>
+  <data name="ParamBookmarkFolderOrder" xml:space="preserve">
+    <value>ブックマークの既定の並び順</value>
+  </data>
 </root>

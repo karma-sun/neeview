@@ -75,7 +75,7 @@ namespace NeeView
             path = path ?? "<<root>>";
 
             // 標準設定は記憶しない
-            if (memento.IsDefault)
+            if (memento.IsDefault(path))
             {
                 _folders.Remove(path);
             }
@@ -92,7 +92,7 @@ namespace NeeView
 
             FolderParameter.Memento memento;
             _folders.TryGetValue(path, out memento);
-            return memento ?? FolderParameter.Memento.Default;
+            return memento ?? FolderParameter.Memento.GetDefault(path);
         }
 
         /// <summary>

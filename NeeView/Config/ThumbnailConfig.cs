@@ -65,5 +65,19 @@ namespace NeeView
             set { SetProperty(ref _thumbnailPageCapacity, value); }
         }
 
+
+        /// <summary>
+        /// サムネイル画像生成パラメータのハッシュ値
+        /// </summary>
+        public int GetThumbnailImageGenerateHash()
+        {
+            int hash = (int)Resolution;
+            if (Format == BitmapImageFormat.Jpeg)
+            {
+                hash |= 0x40000000;
+                hash |= Quality << 16;
+            }
+            return hash;
+        }
     }
 }

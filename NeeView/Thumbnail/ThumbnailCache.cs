@@ -17,43 +17,49 @@ namespace NeeView
     /// </summary>
     public class ThumbnailCacheHeader
     {
-        /// <summary>
-        /// キーとなるハッシュ値
-        /// </summary>
-        public string Hash { get; private set; }
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="length"></param>
-        /// <param name="lastUpdateTime"></param>
-        /// <param name="appendix"></param>
-        public ThumbnailCacheHeader(string name, long length, DateTime lastUpdateTime, string appendix)
+        public ThumbnailCacheHeader(string name, long length, string appendix, int generateHasn)
         {
-            string source = $"thumb://{name}:{length}:{lastUpdateTime}:{appendix}";
-            ////Debug.WriteLine($"Cache: {source}");
-            this.Hash = GetSha256(source);
+            Key = appendix != null ? name + ":" + appendix : name;
+            Size = length;
+            AccessTime = DateTime.Now;
+            GenerateHash = generateHasn;
         }
 
         /// <summary>
-        /// 文字列から SHA256 のハッシュ値を取得
+        /// キャッシュのキー(ファイルパス)
         /// </summary>
-        private string GetSha256(string target)
+        public string Key { get; private set; }
+
+        /// <summary>
+        /// ファイルサイズ
+        /// </summary>
+        public long Size { get; private set; }
+
+        /// <summary>
+        /// アクセス日付
+        /// </summary>
+        public DateTime AccessTime { get; private set; }
+
+        /// <summary>
+        /// サムネイル画像生成パラメータ一致チェック用ハッシュ
+        /// </summary>
+        public int GenerateHash { get; private set; }
+    }
+
+
+    /// <summary>
+    /// 保存キュー用
+    /// </summary>
+    public class ThumbnailCacheItem
+    {
+        public ThumbnailCacheItem(ThumbnailCacheHeader header, byte[] body)
         {
-            SHA256 mySHA256 = SHA256Managed.Create();
-            byte[] byteValue = Encoding.UTF8.GetBytes(target);
-            byte[] hash = mySHA256.ComputeHash(byteValue);
-
-            StringBuilder buf = new StringBuilder();
-
-            for (int i = 0; i < hash.Length; i++)
-            {
-                buf.AppendFormat("{0:x2}", hash[i]);
-            }
-
-            return buf.ToString();
+            Header = header;
+            Body = body;
         }
+
+        public ThumbnailCacheHeader Header { get; set; }
+        public byte[] Body { get; set; }
     }
 
 
@@ -63,7 +69,7 @@ namespace NeeView
     /// </summary>
     public class ThumbnailCache : IDisposable
     {
-        public const string _format = "1.20";
+        public const string _format = "2.0";
 
         static ThumbnailCache() => Current = new ThumbnailCache();
         public static ThumbnailCache Current { get; }
@@ -74,14 +80,16 @@ namespace NeeView
         private SQLiteConnection _connection;
         private object _lock = new object();
 
-        private Dictionary<string, byte[]> _saveQueue;
+        private Dictionary<string, ThumbnailCacheItem> _saveQueue;
+        private Dictionary<string, ThumbnailCacheHeader> _updateQueue;
         private DelayAction _delaySaveQueue;
         private object _lockSaveQueue = new object();
 
 
         private ThumbnailCache()
         {
-            _saveQueue = new Dictionary<string, byte[]>();
+            _saveQueue = new Dictionary<string, ThumbnailCacheItem>();
+            _updateQueue = new Dictionary<string, ThumbnailCacheHeader>();
             _delaySaveQueue = new DelayAction(App.Current.Dispatcher, TimeSpan.FromSeconds(0.5), SaveQueue, TimeSpan.FromSeconds(2.0));
         }
 
@@ -152,10 +160,27 @@ namespace NeeView
             {
                 if (_connection != null) return;
 
+                OpenInner();
+
+                // if wrong format, then recreate
+                if (!IsSupportFormat())
+                {
+                    Debug.WriteLine($"ThumbnailCache.ReCreate!!");
+                    Remove();
+                    OpenInner();
+                }
+
+                CreateThumbsTable();
+            }
+
+            void OpenInner()
+            {
+                if (_connection != null) return;
+
                 _connection = new SQLiteConnection($"Data Source={_filename}");
                 _connection.Open();
 
-                CreateTable();
+                CreatePropertyTable();
             }
         }
 
@@ -175,12 +200,24 @@ namespace NeeView
             }
         }
 
+        /// <summary>
+        /// フォーマットチェック
+        /// </summary>
+        private bool IsSupportFormat()
+        {
+            var format = LoadProperty("format");
+
+            var result = format == null || format == _format;
+            Debug.WriteLine($"ThumbnailCache.Format: {format}: {result}");
+
+            return result;
+        }
 
 
         /// <summary>
-        /// 初期化：テーブルの作成
+        /// 初期化：プロパティテーブルの作成
         /// </summary>
-        private void CreateTable()
+        private void CreatePropertyTable()
         {
             using (SQLiteCommand command = _connection.CreateCommand())
             {
@@ -193,16 +230,27 @@ namespace NeeView
 
                 // property.format
                 SavePropertyIfNotExist("format", _format);
+            }
+        }
 
+        /// <summary>
+        /// 初期化：データテーブルの作成
+        /// </summary>
+        private void CreateThumbsTable()
+        {
+            using (SQLiteCommand command = _connection.CreateCommand())
+            {
                 // thumbnails 
                 command.CommandText = "CREATE TABLE IF NOT EXISTS thumbs ("
                             + "key TEXT NOT NULL PRIMARY KEY,"
+                            + "size INTEGER,"
+                            + "date DATETIME,"
+                            + "ghash INTEGER,"
                             + "value BLOB"
                             + ")";
                 command.ExecuteNonQuery();
             }
         }
-
 
 
         /// <summary>
@@ -255,16 +303,16 @@ namespace NeeView
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        internal async Task<string> LoadPropertyAsync(string key)
+        internal string LoadProperty(string key)
         {
             using (SQLiteCommand command = _connection.CreateCommand())
             {
                 command.CommandText = $"SELECT value FROM property WHERE key = @key";
                 command.Parameters.Add(new SQLiteParameter("@key", key));
 
-                using (var reader = await command.ExecuteReaderAsync())
+                using (var reader = command.ExecuteReader())
                 {
-                    while (await reader.ReadAsync())
+                    while (reader.Read())
                     {
                         return reader.GetString(0);
                     }
@@ -287,12 +335,41 @@ namespace NeeView
 
             using (SQLiteCommand command = _connection.CreateCommand())
             {
-                command.CommandText = $"REPLACE INTO thumbs (key, value) VALUES (@key, @value)";
-                command.Parameters.Add(new SQLiteParameter("@key", header.Hash));
-                command.Parameters.Add(new SQLiteParameter("@value", data));
-                command.ExecuteNonQuery();
+                Save(command, header, data);
             }
         }
+
+
+        /// <summary>
+        /// サムネイルの保存
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="header"></param>
+        /// <param name="data"></param>
+        private void Save(SQLiteCommand command, ThumbnailCacheHeader header, byte[] data)
+        {
+            command.CommandText = $"REPLACE INTO thumbs (key, size, date, ghash, value) VALUES (@key, @size, @date, @ghash, @value)";
+            command.Parameters.Add(new SQLiteParameter("@key", header.Key));
+            command.Parameters.Add(new SQLiteParameter("@size", header.Size));
+            command.Parameters.Add(new SQLiteParameter("@date", header.AccessTime));
+            command.Parameters.Add(new SQLiteParameter("@ghash", header.GenerateHash));
+            command.Parameters.Add(new SQLiteParameter("@value", data));
+            command.ExecuteNonQuery();
+        }
+
+        /// <summary>
+        /// アクセス日時を更新
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="header"></param>
+        private void UpdateDate(SQLiteCommand command, ThumbnailCacheHeader header)
+        {
+            command.CommandText = $"UPDATE thumbs SET date = @date WHERE key = @key";
+            command.Parameters.Add(new SQLiteParameter("@key", header.Key));
+            command.Parameters.Add(new SQLiteParameter("@date", header.AccessTime));
+            command.ExecuteNonQuery();
+        }
+
 
         /// <summary>
         /// サムネイルの読込
@@ -305,17 +382,30 @@ namespace NeeView
 
             Open();
 
-            var key = header.Hash;
+            var key = header.Key;
+            var size = header.Size;
+            var ghash = header.GenerateHash;
 
             using (SQLiteCommand command = _connection.CreateCommand())
             {
-                command.CommandText = $"SELECT value FROM thumbs WHERE key = @key";
+                command.CommandText = $"SELECT value, date FROM thumbs WHERE key = @key AND size = @size AND ghash = @ghash";
                 command.Parameters.Add(new SQLiteParameter("@key", key));
+                command.Parameters.Add(new SQLiteParameter("@size", size));
+                command.Parameters.Add(new SQLiteParameter("@ghash", ghash));
 
                 using (var reader = command.ExecuteReader())
                 {
                     if (reader.Read())
                     {
+                        if (reader["date"] is DateTime date)
+                        {
+                            // 1日以上古い場合は更新する
+                            if ((header.AccessTime - date).TotalDays > 1.0)
+                            {
+                                EntryUpdateQueue(header);
+                            }
+                        }
+
                         return reader["value"] as byte[];
                     }
                 }
@@ -324,9 +414,9 @@ namespace NeeView
             // SaveQueueからも探す
             lock (_lockSaveQueue)
             {
-                if (_saveQueue.TryGetValue(key, out byte[] data))
+                if (_saveQueue.TryGetValue(key, out ThumbnailCacheItem item))
                 {
-                    return data;
+                    return item.Body;
                 }
             }
 
@@ -344,7 +434,23 @@ namespace NeeView
 
             lock (_lockSaveQueue)
             {
-                _saveQueue[header.Hash] = data;
+                _saveQueue[header.Key] = new ThumbnailCacheItem(header, data);
+            }
+
+            _delaySaveQueue.Request();
+        }
+
+        /// <summary>
+        /// 日付更新の予約
+        /// </summary>
+        /// <param name="header"></param>
+        internal void EntryUpdateQueue(ThumbnailCacheHeader header)
+        {
+            if (!IsEnabled) return;
+
+            lock (_lockSaveQueue)
+            {
+                _updateQueue[header.Key] = header;
             }
 
             _delaySaveQueue.Request();
@@ -357,13 +463,15 @@ namespace NeeView
         {
             if (!IsEnabled) return;
 
-            var queue = _saveQueue;
+            var saveQueue = _saveQueue;
+            var updateQueue = _updateQueue;
             lock (_lockSaveQueue)
             {
-                _saveQueue = new Dictionary<string, byte[]>();
+                _saveQueue = new Dictionary<string, ThumbnailCacheItem>();
+                _updateQueue = new Dictionary<string, ThumbnailCacheHeader>();
             }
 
-            Debug.WriteLine($"ThumbnailCache.SaveQueue({queue.Count})..");
+            Debug.WriteLine($"ThumbnailCache.Save: {saveQueue.Count},{updateQueue.Count} ..");
 
             Open();
 
@@ -371,20 +479,24 @@ namespace NeeView
             {
                 using (SQLiteCommand command = _connection.CreateCommand())
                 {
-                    foreach (var item in queue)
+                    foreach (var item in saveQueue.Values)
                     {
-                        ////Debug.WriteLine($"ThumbnailCache.Save: {item.Key.Substring(0, 8)}");
-                        command.CommandText = $"REPLACE INTO thumbs (key, value) VALUES (@key, @value)";
-                        command.Parameters.Add(new SQLiteParameter("@key", item.Key));
-                        command.Parameters.Add(new SQLiteParameter("@value", item.Value));
-                        command.ExecuteNonQuery();
+                        ////Debug.WriteLine($"ThumbnailCache.Save: {item.Header.Key}");
+                        Save(command, item.Header, item.Body);
+                    }
+
+                    foreach (var item in updateQueue.Values)
+                    {
+                        ////Debug.WriteLine($"ThumbnailCache.Update: {item.Key}");
+                        UpdateDate(command, item);
                     }
                 }
                 transaction.Commit();
             }
         }
 
-#region IDisposable Support
+
+        #region IDisposable Support
         private bool _disposedValue = false;
 
         protected virtual void Dispose(bool disposing)
@@ -409,6 +521,6 @@ namespace NeeView
         {
             Dispose(true);
         }
-#endregion
+        #endregion
     }
 }

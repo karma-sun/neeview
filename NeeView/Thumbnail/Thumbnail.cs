@@ -132,8 +132,8 @@ namespace NeeView
                 return;
             }
 #endif
-
-            _header = new ThumbnailCacheHeader(entry.SystemPath, entry.Length, entry.LastWriteTime, appendix);
+            
+            _header = new ThumbnailCacheHeader(entry.SystemPath, entry.Length, appendix, Config.Current.Thumbnail.GetThumbnailImageGenerateHash());
             var image = ThumbnailCache.Current.Load(_header);
             ////Debug.WriteLine($"ThumbnailCache.Load: {_header.Hash.Substring(0, 8)} {(image == null ? "Miss" : "Hit!")}: {entry.SystemPath}");
             Image = image;

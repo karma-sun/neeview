@@ -39,30 +39,7 @@ namespace NeeView
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            var commandHost = new CommandHost(CommandTable.Current, ConfigMap.Current);
-            var commandEngine = new JavascriptEngine(commandHost);
-            commandEngine.LogAction = e => Debug.WriteLine(e);
-
-            try
-            {
-                var path = Path.Combine(GetScriptFileName());
-                commandEngine.ExecureFile(path);
-            }
-            catch (Exception ex)
-            {
-                var message = CreateExceptionRecursiveMessage(ex);
-                commandEngine.Log(message);
-                ToastService.Current.Show(new Toast(message, $"Script error in {_scriptName + Extension}", ToastIcon.Error));
-            }
-            finally
-            {
-                CommandTable.Current.FlushInputGesture();
-            }
-
-            string CreateExceptionRecursiveMessage(Exception ex)
-            {
-                return ex.Message + System.Environment.NewLine + (ex.InnerException != null ? CreateExceptionRecursiveMessage(ex.InnerException) : "");
-            }
+            CommandTable.Current.ExecuteScript(Path.Combine(GetScriptFileName()));
         }
 
         public string GetScriptFileName()

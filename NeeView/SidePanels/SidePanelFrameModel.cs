@@ -355,8 +355,8 @@ namespace NeeView
 
         public void CloseAllPanels()
         {
-            this.Left.ToggleSelectedPanel(null, true);
-            this.Right.ToggleSelectedPanel(null, true);
+            this.Left.CloseAllPanels();
+            this.Right.CloseAllPanels();
         }
 
         #endregion

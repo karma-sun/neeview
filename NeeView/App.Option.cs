@@ -45,6 +45,9 @@ namespace NeeView
         [OptionMember("o", "folderlist", HasParameter = true, RequireParameter = true, HelpText = "@OptionFolderList")]
         public string FolderList { get; set; }
 
+        [OptionMember(null, "script", HasParameter = true, RequireParameter = true, HelpText = "@OptionScriptFile")]
+        public string ScriptFile { get; set; }
+
 
         [OptionValues]
         public List<string> Values { get; set; }

@@ -701,7 +701,37 @@ namespace NeeView
             _isScriptFolderDarty = true;
         }
 
-        #endregion
+        /// <summary>
+        /// スクリプト実行
+        /// </summary>
+        public void ExecuteScript(string path)
+        {
+            var commandHost = new CommandHost(this, ConfigMap.Current);
+            var commandEngine = new JavascriptEngine(commandHost);
+            commandEngine.LogAction = e => Debug.WriteLine(e);
+
+            try
+            {
+                commandEngine.ExecureFile(path);
+            }
+            catch (Exception ex)
+            {
+                var message = CreateExceptionRecursiveMessage(ex);
+                commandEngine.Log(message);
+                ToastService.Current.Show(new Toast(message, $"Script error in {Path.GetFileName(path)}", ToastIcon.Error));
+            }
+            finally
+            {
+                FlushInputGesture();
+            }
+
+            string CreateExceptionRecursiveMessage(Exception ex)
+            {
+                return ex.Message + System.Environment.NewLine + (ex.InnerException != null ? CreateExceptionRecursiveMessage(ex.InnerException) : "");
+            }
+        }
+
+        #endregion Scripts
 
         #region Memento
 

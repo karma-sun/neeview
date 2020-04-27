@@ -280,6 +280,17 @@ namespace NeeView
         }
 
         /// <summary>
+        /// すべてのパネルを閉じる
+        /// </summary>
+        public void CloseAllPanels()
+        {
+            foreach(var panel in Panels)
+            {
+                panel.IsSelected = false;
+            }
+        }
+
+        /// <summary>
         /// Toggle.
         /// アイコンボダンによる切り替え
         /// </summary>

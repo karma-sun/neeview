@@ -13000,6 +13000,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Thumbnail cache retention period に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamThumbnailCacheLimitSpan {
+            get {
+                return ResourceManager.GetString("ParamThumbnailCacheLimitSpan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Thumbnail image format に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamThumbnailFormat {
@@ -14620,7 +14629,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Clear cache に類似しているローカライズされた文字列を検索します。
+        ///   Clear thumbnail cache に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageVisualThumbnailCacheClear {
             get {

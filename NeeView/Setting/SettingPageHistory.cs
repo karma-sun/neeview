@@ -119,6 +119,7 @@ namespace NeeView.Setting
                 TimeSpan.FromDays(15),
                 TimeSpan.FromDays(30),
                 TimeSpan.FromDays(100),
+                TimeSpan.FromDays(365),
                 default(TimeSpan),
             };
 

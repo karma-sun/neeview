@@ -16,6 +16,7 @@ namespace NeeView
     {
         public static async Task ExecuteTestAsync()
         {
+            var sw = Stopwatch.StartNew();
             Debug.WriteLine("\n[DebugTest]...");
             await Task.CompletedTask;
 
@@ -42,6 +43,9 @@ namespace NeeView
                 ////ページマーク多数登録テスト
                 ////Models.Current.BookOperation.Test_MakeManyPagemark();
 
+                // キャッシュ削除
+                ThumbnailCache.Current.Delete(TimeSpan.FromMinutes(10));
+
 
                 //Config.Current.RemoveApplicationData();
             }
@@ -51,11 +55,14 @@ namespace NeeView
                 Debugger.Break();
             }
 
+            sw.Stop();
+
             // done.
             GCSettings.LargeObjectHeapCompactionMode = GCLargeObjectHeapCompactionMode.CompactOnce;
             GC.Collect();
             GC.WaitForPendingFinalizers();
-            Debug.WriteLine("[DebugTest] done.");
+
+            Debug.WriteLine($"[DebugTest] done: {sw.ElapsedMilliseconds:#,0}ms");
             ////Debugger.Break();
         }
 

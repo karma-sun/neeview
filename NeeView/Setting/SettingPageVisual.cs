@@ -69,6 +69,8 @@ namespace NeeView.Setting
 
             var section = new SettingItemSection(Properties.Resources.SettingPageVisualThumbnailCache);
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Thumbnail, nameof(ThumbnailConfig.IsCacheEnabled))));
+            section.Children.Add(new SettingItemIndexValue<TimeSpan>(PropertyMemberElement.Create(Config.Current.Thumbnail, nameof(ThumbnailConfig.CacheLimitSpan)), new CacheLimitSpan(), false));
+
             section.Children.Add(new SettingItemButton(Properties.Resources.SettingPageVisualThumbnailCacheClear, Properties.Resources.SettingPageVisualThumbnailCacheClearButton, RemoveCache) { Tips = Properties.Resources.SettingPageVisualThumbnailCacheClearTips });
             this.Items.Add(section);
 
@@ -112,6 +114,35 @@ namespace NeeView.Setting
         }
 
         #endregion
+
+        /// <summary>
+        /// 履歴期限テーブル
+        /// </summary>
+        public class CacheLimitSpan : IndexTimeSpanValue
+        {
+            private static List<TimeSpan> _values = new List<TimeSpan>() {
+                TimeSpan.FromDays(2),
+                TimeSpan.FromDays(3),
+                TimeSpan.FromDays(7),
+                TimeSpan.FromDays(15),
+                TimeSpan.FromDays(30),
+                TimeSpan.FromDays(100),
+                TimeSpan.FromDays(365),
+                default(TimeSpan),
+            };
+
+            public CacheLimitSpan() : base(_values)
+            {
+            }
+
+            public CacheLimitSpan(TimeSpan value) : base(_values)
+            {
+                Value = value;
+            }
+
+            public override string ValueString => Value == default(TimeSpan) ? Properties.Resources.WordNoLimit : string.Format(Properties.Resources.WordDaysAgo, Value.Days);
+        }
+
     }
 
 

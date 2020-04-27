@@ -4885,7 +4885,7 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Thumbnail cache</value>
   </data>
   <data name="SettingPageVisualThumbnailCacheClear" xml:space="preserve">
-    <value>Clear cache</value>
+    <value>Clear thumbnail cache</value>
   </data>
   <data name="SettingPageVisualThumbnailCacheClearButton" xml:space="preserve">
     <value>Clear thumbnail cache</value>
@@ -5291,5 +5291,8 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="ParamIsEmptyMessageEnabled" xml:space="preserve">
     <value>Show message when there are no pages in the book</value>
+  </data>
+  <data name="ParamThumbnailCacheLimitSpan" xml:space="preserve">
+    <value>Thumbnail cache retention period</value>
   </data>
 </root>

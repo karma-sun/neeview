@@ -1,12 +1,14 @@
 ﻿using NeeLaboratory;
 using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
+using System;
 
 namespace NeeView
 {
     public class ThumbnailConfig : BindableBase
     {
         private bool _isCacheEnabled = true;
+        private TimeSpan _cacheLimitSpan;
         private BitmapImageFormat _format = BitmapImageFormat.Jpeg;
         private int _quality = 80;
         private int _thumbnailBookCapacity = 200;
@@ -19,6 +21,16 @@ namespace NeeView
         {
             get { return _isCacheEnabled; }
             set { SetProperty(ref _isCacheEnabled, value); }
+        }
+
+        /// <summary>
+        /// キャッシュ制限(時間)
+        /// </summary>
+        [PropertyMember("@ParamThumbnailCacheLimitSpan")]
+        public TimeSpan CacheLimitSpan
+        {
+            get { return _cacheLimitSpan; }
+            set { SetProperty(ref _cacheLimitSpan, value); }
         }
 
         /// <summary>
@@ -64,6 +76,8 @@ namespace NeeView
             get { return _thumbnailPageCapacity; }
             set { SetProperty(ref _thumbnailPageCapacity, value); }
         }
+
+
 
 
         /// <summary>

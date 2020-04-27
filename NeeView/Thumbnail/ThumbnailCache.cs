@@ -307,7 +307,7 @@ namespace NeeView
         {
             using (SQLiteCommand command = _connection.CreateCommand())
             {
-                command.CommandText = $"SELECT value FROM property WHERE key = @key";
+                command.CommandText = "SELECT value FROM property WHERE key = @key";
                 command.Parameters.Add(new SQLiteParameter("@key", key));
 
                 using (var reader = command.ExecuteReader())
@@ -321,6 +321,36 @@ namespace NeeView
 
             return null;
         }
+
+
+        /// <summary>
+        /// 古いサムネイルを削除
+        /// </summary>
+        /// <param name=""></param>
+        internal void Delete(TimeSpan limitTime)
+        {
+            if (!IsEnabled) return;
+
+            Open();
+
+            var limitDateTime = DateTime.Now - limitTime;
+            Debug.WriteLine($"ThumbnailCache.Delete: before {limitDateTime}");
+
+            using (SQLiteCommand command = _connection.CreateCommand())
+            {
+                command.CommandText = "DELETE FROM thumbs WHERE date < @date";
+                command.Parameters.Add(new SQLiteParameter("@date", limitDateTime));
+                int count = command.ExecuteNonQuery();
+
+                Debug.WriteLine($"ThumbnailCache.Delete: {count}");
+                if (count > 0)
+                {
+                    command.CommandText = "VACUUM";
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
 
         /// <summary>
         /// サムネイルの保存
@@ -348,7 +378,7 @@ namespace NeeView
         /// <param name="data"></param>
         private void Save(SQLiteCommand command, ThumbnailCacheHeader header, byte[] data)
         {
-            command.CommandText = $"REPLACE INTO thumbs (key, size, date, ghash, value) VALUES (@key, @size, @date, @ghash, @value)";
+            command.CommandText = "REPLACE INTO thumbs (key, size, date, ghash, value) VALUES (@key, @size, @date, @ghash, @value)";
             command.Parameters.Add(new SQLiteParameter("@key", header.Key));
             command.Parameters.Add(new SQLiteParameter("@size", header.Size));
             command.Parameters.Add(new SQLiteParameter("@date", header.AccessTime));
@@ -364,7 +394,7 @@ namespace NeeView
         /// <param name="header"></param>
         private void UpdateDate(SQLiteCommand command, ThumbnailCacheHeader header)
         {
-            command.CommandText = $"UPDATE thumbs SET date = @date WHERE key = @key";
+            command.CommandText = "UPDATE thumbs SET date = @date WHERE key = @key";
             command.Parameters.Add(new SQLiteParameter("@key", header.Key));
             command.Parameters.Add(new SQLiteParameter("@date", header.AccessTime));
             command.ExecuteNonQuery();
@@ -388,7 +418,7 @@ namespace NeeView
 
             using (SQLiteCommand command = _connection.CreateCommand())
             {
-                command.CommandText = $"SELECT value, date FROM thumbs WHERE key = @key AND size = @size AND ghash = @ghash";
+                command.CommandText = "SELECT value, date FROM thumbs WHERE key = @key AND size = @size AND ghash = @ghash";
                 command.Parameters.Add(new SQLiteParameter("@key", key));
                 command.Parameters.Add(new SQLiteParameter("@size", size));
                 command.Parameters.Add(new SQLiteParameter("@ghash", ghash));
@@ -507,6 +537,11 @@ namespace NeeView
                 {
                     _delaySaveQueue.Flush();
                     _delaySaveQueue.Dispose();
+
+                    if (Config.Current.Thumbnail.CacheLimitSpan != default)
+                    {
+                        Delete(Config.Current.Thumbnail.CacheLimitSpan);
+                    }
 
                     Close();
                     _connection?.Dispose();

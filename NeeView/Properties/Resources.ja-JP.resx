@@ -4885,7 +4885,7 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
     <value>サムネイルキャッシュ</value>
   </data>
   <data name="SettingPageVisualThumbnailCacheClear" xml:space="preserve">
-    <value>キャッシュ削除</value>
+    <value>サムネイルキャッシュ削除</value>
   </data>
   <data name="SettingPageVisualThumbnailCacheClearButton" xml:space="preserve">
     <value>サムネイルキャッシュを削除する</value>
@@ -5291,5 +5291,8 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="ParamIsEmptyMessageEnabled" xml:space="preserve">
     <value>ブックにページがない場合にメッセージを表示する</value>
+  </data>
+  <data name="ParamThumbnailCacheLimitSpan" xml:space="preserve">
+    <value>サムネイルキャッシュの保存期間</value>
   </data>
 </root>

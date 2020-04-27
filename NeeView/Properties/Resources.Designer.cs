@@ -11235,6 +11235,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Show message when there are no pages in the book に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsEmptyMessageEnabled {
+            get {
+                return ResourceManager.GetString("ParamIsEmptyMessageEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Register in the Explorer context menu. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsExplorerContextMenuEnabled {

@@ -5289,4 +5289,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="OptionWindowState" xml:space="preserve">
     <value>Start with the specified window state</value>
   </data>
+  <data name="ParamIsEmptyMessageEnabled" xml:space="preserve">
+    <value>Show message when there are no pages in the book</value>
+  </data>
 </root>

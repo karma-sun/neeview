@@ -5289,4 +5289,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="OptionWindowState" xml:space="preserve">
     <value>指定されたウィンドウ状態で起動します</value>
   </data>
+  <data name="ParamIsEmptyMessageEnabled" xml:space="preserve">
+    <value>ブックにページがない場合にメッセージを表示する</value>
+  </data>
 </root>

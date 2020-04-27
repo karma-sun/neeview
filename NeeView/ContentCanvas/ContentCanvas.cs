@@ -156,7 +156,7 @@ namespace NeeView
         public bool IsVisibleEmptyPageMessage
         {
             get { return _isVisibleEmptyPageMessage; }
-            set { if (_isVisibleEmptyPageMessage != value) { _isVisibleEmptyPageMessage = value; RaisePropertyChanged(); } }
+            set { SetProperty(ref _isVisibleEmptyPageMessage, value && Config.Current.Notice.IsEmptyMessageEnabled); }
         }
 
         // 空フォルダー通知表示の詳細テキスト

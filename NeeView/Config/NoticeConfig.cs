@@ -13,6 +13,7 @@ namespace NeeView
         private ShowMessageStyle _viewTransformShowMessageStyle = ShowMessageStyle.None;
         private bool _isOriginalScaleShowMessage;
         private bool _isBusyMarkEnabled = true;
+        private bool _isEmptyMessageEnabled = true;
 
 
         [PropertyMember("@ParamInfoMessageNoticeShowMessageStyle")]
@@ -75,6 +76,15 @@ namespace NeeView
             set { SetProperty(ref _isBusyMarkEnabled, value); }
         }
 
+        /// <summary>
+        /// ページがないメッセージの表示
+        /// </summary>
+        [PropertyMember("@ParamIsEmptyMessageEnabled")]
+        public bool IsEmptyMessageEnabled
+        {
+            get { return _isEmptyMessageEnabled; }
+            set { SetProperty(ref _isEmptyMessageEnabled, value); }
+        }
     }
 }
 

@@ -70,8 +70,7 @@ namespace NeeView.Setting
             var section = new SettingItemSection(Properties.Resources.SettingPageVisualThumbnailCache);
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Thumbnail, nameof(ThumbnailConfig.IsCacheEnabled))));
             section.Children.Add(new SettingItemIndexValue<TimeSpan>(PropertyMemberElement.Create(Config.Current.Thumbnail, nameof(ThumbnailConfig.CacheLimitSpan)), new CacheLimitSpan(), false));
-
-            section.Children.Add(new SettingItemButton(Properties.Resources.SettingPageVisualThumbnailCacheClear, Properties.Resources.SettingPageVisualThumbnailCacheClearButton, RemoveCache) { Tips = Properties.Resources.SettingPageVisualThumbnailCacheClearTips });
+            section.Children.Add(new SettingItemButton(Properties.Resources.SettingPageVisualThumbnailCacheClear, Properties.Resources.SettingPageVisualThumbnailCacheClearButton, RemoveCache));
             this.Items.Add(section);
 
             section = new SettingItemSection(Properties.Resources.SettingPageVisualThumbnailAdvance);

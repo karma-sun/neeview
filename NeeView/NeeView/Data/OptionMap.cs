@@ -73,6 +73,18 @@ namespace NeeView.Data
             }
         }
 
+
+        public string GetCommandLineHelpText()
+        {
+            return "Usage: NeeView.exe NeeView.exe [Options...] [File or Folder...]\n\n"
+                + GetHelpText() + "\n"
+                + "Example:\n"
+                + "    NeeView.exe -s E:\\Pictures\n"
+                + "    NeeView.exe -o \"E:\\Pictures?search=foobar\"\n"
+                + "    NeeView.exe --window=full\n"
+                + "    NeeView.exe --setting=\"C:\\MySetting.json\" --new-window=off";
+        }
+
         //
         public string GetHelpText()
         {
@@ -138,7 +150,11 @@ namespace NeeView.Data
                         bool isLast = keys.Last() == key;
 
                         var element = GetElement(key);
-                        if (element == null) throw new ArgumentException(string.Format(Properties.Resources.OptionErrorArgumentUnknown, key));
+                        if (element == null)
+                        {
+                            var message = string.Format(Properties.Resources.OptionErrorArgumentUnknown, key) + "\n\n" + GetCommandLineHelpText();
+                            throw new ArgumentException(message);
+                        }
 
                         if (!isLast)
                         {
@@ -214,7 +230,7 @@ namespace NeeView.Data
                 }
             }
 
-            foreach(var value in values)
+            foreach (var value in values)
             {
                 Debug.WriteLine($"Value: {value}");
             }

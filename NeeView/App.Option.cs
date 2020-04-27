@@ -16,6 +16,30 @@ namespace NeeView
         on,
     }
 
+    public enum WindowStateOption
+    {
+        normal,
+        min,
+        max,
+        full
+    }
+
+    public static class WindowStateOptionExtensions
+    {
+        public static WindowStateEx ToWindowStateEx(this WindowStateOption? option)
+        {
+            switch (option)
+            {
+                default: return WindowStateEx.None;
+                case WindowStateOption.normal: return WindowStateEx.Normal;
+                case WindowStateOption.min: return WindowStateEx.Minimized;
+                case WindowStateOption.max: return WindowStateEx.Maximized;
+                case WindowStateOption.full: return WindowStateEx.FullScreen;
+            }
+        }
+
+    }
+
     public class CommandLineOption
     {
         [OptionMember("h", "help", Default = "true", HelpText = "@OptionIsHelp")]
@@ -26,9 +50,6 @@ namespace NeeView
 
         [OptionMember("x", "setting", HasParameter = true, RequireParameter = true, HelpText = "@OptionSettingFilename")]
         public string SettingFilename { get; set; }
-
-        [OptionMember("f", "fullscreen", Default = "on", HasParameter = true, HelpText = "@OptionIsFullScreen")]
-        public SwitchOption? IsFullScreen { get; set; }
 
         [OptionMember("b", "blank", Default = "on", HelpText = "@OptionIsBlank")]
         public SwitchOption IsBlank { get; set; }
@@ -44,6 +65,9 @@ namespace NeeView
 
         [OptionMember("o", "folderlist", HasParameter = true, RequireParameter = true, HelpText = "@OptionFolderList")]
         public string FolderList { get; set; }
+
+        [OptionMember(null, "window", HasParameter = true, RequireParameter = true, HelpText = "@OptionWindowState")]
+        public WindowStateOption? WindowState { get; set; }
 
         [OptionMember(null, "script", HasParameter = true, RequireParameter = true, HelpText = "@OptionScriptFile")]
         public string ScriptFile { get; set; }
@@ -117,28 +141,13 @@ namespace NeeView
 
             if (option.IsHelp)
             {
-                new MessageDialog(GetCommandLineHelp(optionMap), NeeView.Properties.Resources.DialogBootOptionTitle).ShowDialog();
+                var dialog = new MessageDialog(optionMap.GetCommandLineHelpText(), NeeView.Properties.Resources.DialogBootOptionTitle);
+                dialog.SizeToContent = SizeToContent.WidthAndHeight;
+                dialog.ShowDialog();
                 throw new OperationCanceledException("Disp CommandLine Help");
             }
 
             return option;
         }
-
-        public string GetCommandLineHelp(OptionMap<CommandLineOption> optionMap)
-        {
-            return "Usage: NeeView.exe NeeView.exe [Options...] [File or Folder...]\n\n"
-                + optionMap.GetHelpText() + "\n"
-                + "Example:\n"
-                + "                NeeView.exe -f\n"
-                + "                NeeView.exe -fs E:\\Pictures\n"
-                + "                NeeView.exe -o \"E:\\Pictures?search=foobar\"\n"
-                + "                NeeView.exe --setting=\"C:\\Sample\\CustomUserSetting.xml\" --new-window=off";
-        }
-
-        public string GetCommandLineHelp()
-        {
-            return GetCommandLineHelp(new OptionMap<CommandLineOption>());
-        }
-
     }
 }

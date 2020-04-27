@@ -3066,7 +3066,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>バージョン情報を表示します</value>
   </data>
   <data name="OptionSettingFilename" xml:space="preserve">
-    <value>設定ファイル(UserSetting.xml)のパスを指定します</value>
+    <value>設定ファイル(UserSetting.json)のパスを指定します</value>
   </data>
   <data name="OptionTerminater" xml:space="preserve">
     <value>オプションリストの終りを示す。これ以後の引数はファイル名とみなされます</value>
@@ -5282,5 +5282,11 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="ParamIsPageBackgroundCheckerTips" xml:space="preserve">
     <value>「@ParamPageBackgroundColor」のチェック模様になります。</value>
+  </data>
+  <data name="OptionScriptFile" xml:space="preserve">
+    <value>指定されたスクリプトファイルを起動時に実行します</value>
+  </data>
+  <data name="OptionWindowState" xml:space="preserve">
+    <value>指定されたウィンドウ状態で起動します</value>
   </data>
 </root>

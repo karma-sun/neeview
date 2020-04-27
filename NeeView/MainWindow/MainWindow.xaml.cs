@@ -220,9 +220,9 @@ namespace NeeView
                 state = WindowStateEx.Normal;
             }
 
-            if (App.Current.Option.IsFullScreen == SwitchOption.on)
+            if (App.Current.Option.WindowState.HasValue)
             {
-                state = WindowStateEx.FullScreen;
+                state = App.Current.Option.WindowState.ToWindowStateEx();
             }
 
             Config.Current.Window.State = state;

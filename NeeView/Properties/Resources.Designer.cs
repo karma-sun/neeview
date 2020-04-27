@@ -8922,7 +8922,16 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Specify the path of the setting file (UserSetting.xml) に類似しているローカライズされた文字列を検索します。
+        ///   Executes the specified script file at startup に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OptionScriptFile {
+            get {
+                return ResourceManager.GetString("OptionScriptFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Specify the path of the setting file (UserSetting.json) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string OptionSettingFilename {
             get {
@@ -8936,6 +8945,15 @@ namespace NeeView.Properties {
         public static string OptionTerminater {
             get {
                 return ResourceManager.GetString("OptionTerminater", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Start with the specified window state に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OptionWindowState {
+            get {
+                return ResourceManager.GetString("OptionWindowState", resourceCulture);
             }
         }
         

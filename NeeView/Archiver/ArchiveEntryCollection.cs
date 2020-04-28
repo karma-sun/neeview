@@ -149,9 +149,17 @@ namespace NeeView
                         continue;
                     }
 
-                    var subArchive = await ArchiverManager.Current.CreateArchiverAsync(entry, _ignoreCache, token);
-                    var subEntries = await subArchive.GetEntriesAsync(token);
-                    result.AddRange(await GetSubArchivesEntriesAsync(subEntries, token));
+                    try
+                    {
+                        var subArchive = await ArchiverManager.Current.CreateArchiverAsync(entry, _ignoreCache, token);
+                        var subEntries = await subArchive.GetEntriesAsync(token);
+                        result.AddRange(await GetSubArchivesEntriesAsync(subEntries, token));
+                    }
+                    catch(Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
+                        Debug.WriteLine($"ArchiveEntryCollection.Skip: {entry.EntryName}");
+                    }
                 }
             }
 

@@ -607,12 +607,6 @@ namespace NeeView
                 }
             };
 
-            // Appxは設定ファイル閲覧が無意味
-            if (Environment.IsAppxPackage)
-            {
-                tree.RemoveCommand("OpenSettingFilesFolder");
-            }
-
             CheckCommandEntry(tree);
 
             return tree;
@@ -621,9 +615,9 @@ namespace NeeView
         [Conditional("DEBUG")]
         private static void CheckCommandEntry(MenuTree tree)
         {
-            foreach(var node in tree)
+            foreach (var node in tree)
             {
-                if( node.MenuElementType == MenuElementType.Command)
+                if (node.MenuElementType == MenuElementType.Command)
                 {
                     Debug.Assert(CommandTable.Current.ContainsKey(node.CommandName));
                 }

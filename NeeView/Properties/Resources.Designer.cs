@@ -2941,6 +2941,51 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Force auto rotation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleForceAutoRotate {
+            get {
+                return ResourceManager.GetString("CommandToggleForceAutoRotate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Force auto rotation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleForceAutoRotateMenu {
+            get {
+                return ResourceManager.GetString("CommandToggleForceAutoRotateMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Automatic rotation is applied regardless of the aspect ratio of the image. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleForceAutoRotateNote {
+            get {
+                return ResourceManager.GetString("CommandToggleForceAutoRotateNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Force auto rotation OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleForceAutoRotateOff {
+            get {
+                return ResourceManager.GetString("CommandToggleForceAutoRotateOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Force auto rotation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleForceAutoRotateOn {
+            get {
+                return ResourceManager.GetString("CommandToggleForceAutoRotateOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle full screen に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleFullScreen {
@@ -13392,6 +13437,15 @@ namespace NeeView.Properties {
         public static string ParmViewAutoRotate {
             get {
                 return ResourceManager.GetString("ParmViewAutoRotate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Force auto rotation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParmViewForceAutoRotate {
+            get {
+                return ResourceManager.GetString("ParmViewForceAutoRotate", resourceCulture);
             }
         }
         

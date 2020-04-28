@@ -131,6 +131,7 @@ namespace NeeView
                         break;
 
                     case nameof(ViewConfig.AutoRotate):
+                    case nameof(ViewConfig.ForceAutoRotate):
                         RaisePropertyChanged(nameof(IsAutoRotateLeft));
                         RaisePropertyChanged(nameof(IsAutoRotateRight));
                         UpdateContentSize(GetAutoRotateAngle());

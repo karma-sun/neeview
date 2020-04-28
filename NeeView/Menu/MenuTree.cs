@@ -523,6 +523,7 @@ namespace NeeView
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { CommandName = "ToggleIsAutoRotateLeft" },
                         new MenuTree(MenuElementType.Command) { CommandName = "ToggleIsAutoRotateRight" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleForceAutoRotate" },
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { CommandName = "SetBackgroundBlack" },
                         new MenuTree(MenuElementType.Command) { CommandName = "SetBackgroundWhite" },

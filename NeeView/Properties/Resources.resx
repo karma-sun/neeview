@@ -5304,4 +5304,22 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamCommandParameterScrollDuration" xml:space="preserve">
     <value>Scroll time (sec)</value>
   </data>
+  <data name="CommandToggleForceAutoRotate" xml:space="preserve">
+    <value>Force auto rotation</value>
+  </data>
+  <data name="CommandToggleForceAutoRotateMenu" xml:space="preserve">
+    <value>Force auto rotation</value>
+  </data>
+  <data name="CommandToggleForceAutoRotateNote" xml:space="preserve">
+    <value>Automatic rotation is applied regardless of the aspect ratio of the image.</value>
+  </data>
+  <data name="CommandToggleForceAutoRotateOff" xml:space="preserve">
+    <value>Force auto rotation OFF</value>
+  </data>
+  <data name="CommandToggleForceAutoRotateOn" xml:space="preserve">
+    <value>Force auto rotation</value>
+  </data>
+  <data name="ParmViewForceAutoRotate" xml:space="preserve">
+    <value>Force auto rotation</value>
+  </data>
 </root>

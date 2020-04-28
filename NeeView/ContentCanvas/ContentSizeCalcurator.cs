@@ -102,6 +102,8 @@ namespace NeeView
         {
             if (AutoRotateType == AutoRotateType.None) return false;
 
+            if (Config.Current.View.ForceAutoRotate) return true;
+
             var margin = 0.1;
             var viewRatio = GetViewAreaAspectRatio();
             var contentRatio = GetContentAspectRatio(source);

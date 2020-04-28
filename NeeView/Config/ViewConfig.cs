@@ -18,6 +18,7 @@ namespace NeeView
         private bool _isKeepFlip;
         private bool _isViewStartPositionCenter;
         private double _angleFrequency = 0;
+        private bool _forceAutoRotate;
 
 
         // 回転の中心
@@ -123,6 +124,15 @@ namespace NeeView
             get { return _autoRotate; }
             set { SetProperty(ref _autoRotate, value); }
         }
+
+        // 自動回転の強制
+        [PropertyMember("@ParmViewForceAutoRotate")]
+        public bool ForceAutoRotate
+        {
+            get { return _forceAutoRotate; }
+            set { SetProperty(ref _forceAutoRotate, value); }
+        }
+
     }
 
 }

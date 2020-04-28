@@ -5304,4 +5304,22 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamCommandParameterScrollDuration" xml:space="preserve">
     <value>スクロール時間 (秒)</value>
   </data>
+  <data name="CommandToggleForceAutoRotate" xml:space="preserve">
+    <value>自動回転を強制</value>
+  </data>
+  <data name="CommandToggleForceAutoRotateMenu" xml:space="preserve">
+    <value>自動回転を強制</value>
+  </data>
+  <data name="CommandToggleForceAutoRotateNote" xml:space="preserve">
+    <value>画像の縦横比に関わらず自動回転を適用します。</value>
+  </data>
+  <data name="CommandToggleForceAutoRotateOff" xml:space="preserve">
+    <value>自動回転の強制を解除</value>
+  </data>
+  <data name="CommandToggleForceAutoRotateOn" xml:space="preserve">
+    <value>自動回転を強制する</value>
+  </data>
+  <data name="ParmViewForceAutoRotate" xml:space="preserve">
+    <value>自動回転を強制</value>
+  </data>
 </root>

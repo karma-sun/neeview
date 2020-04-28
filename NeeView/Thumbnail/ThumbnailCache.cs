@@ -74,12 +74,12 @@ namespace NeeView
         static ThumbnailCache() => Current = new ThumbnailCache();
         public static ThumbnailCache Current { get; }
 
+        public static string ThumbnailCacheFileName => "Cache.db";
+        public static string DefaultThumbnailCacheFilePath => Path.Combine(Environment.LocalApplicationDataPath, ThumbnailCacheFileName);
 
-        private const string FileName = "Cache.db";
-        private string _filename;
+
         private SQLiteConnection _connection;
         private object _lock = new object();
-
         private Dictionary<string, ThumbnailCacheItem> _saveQueue;
         private Dictionary<string, ThumbnailCacheHeader> _updateQueue;
         private DelayAction _delaySaveQueue;
@@ -95,51 +95,24 @@ namespace NeeView
 
 
         /// <summary>
+        /// キャッシュDBのパス
+        /// </summary>
+        public string DatabasePath => Config.Current.Thumbnail.ThumbnailCacheFilePath ?? DefaultThumbnailCacheFilePath;
+
+        /// <summary>
         /// キャッシュ有効フラグ
         /// </summary>
         public bool IsEnabled => Config.Current.Thumbnail.IsCacheEnabled;
 
-        /// <summary>
-        /// キャッシュファイルの場所
-        /// </summary>
-        public string CacheFolderPath { get; private set; }
-
-        /// <summary>
-        /// キャッシュファイルの場所(既定)
-        /// </summary>
-        public static string CacheFolderPathDefault => Environment.LocalApplicationDataPath;
-
-
-        /// <summary>
-        /// キャッシュファイルの場所の指定
-        /// </summary>
-        /// <param name="path"></param>
-        public string SetDirectory(string path)
-        {
-            CacheFolderPath = path ?? CacheFolderPathDefault;
-
-            if (CacheFolderPath != CacheFolderPathDefault)
-            {
-                if (!Directory.Exists(CacheFolderPath))
-                {
-                    ToastService.Current.Show(new Toast(string.Format(Properties.Resources.NotifyCacheErrorDirectoryNotFound, CacheFolderPath), Properties.Resources.NotifyCacheErrorTitle, ToastIcon.Error));
-                    CacheFolderPath = CacheFolderPathDefault;
-                }
-            }
-
-            _filename = Path.Combine(CacheFolderPath, FileName);
-
-            return CacheFolderPath;
-        }
 
         /// <summary>
         /// DBファイルサイズを取得
         /// </summary>
         public long GetCaheDatabaseSize()
         {
-            if (_filename == null) throw new InvalidOperationException();
+            if (DatabasePath == null) throw new InvalidOperationException();
 
-            var fileinfo = new FileInfo(_filename);
+            var fileinfo = new FileInfo(DatabasePath);
             if (fileinfo.Exists)
             {
                 return fileinfo.Length;
@@ -177,7 +150,7 @@ namespace NeeView
             {
                 if (_connection != null) return;
 
-                _connection = new SQLiteConnection($"Data Source={_filename}");
+                _connection = new SQLiteConnection($"Data Source={DatabasePath}");
                 _connection.Open();
 
                 InitializePragma();
@@ -273,9 +246,10 @@ namespace NeeView
         {
             Close();
 
-            if (System.IO.File.Exists(_filename))
+            var fileInfo = new FileInfo(DatabasePath);
+            if (fileInfo.Exists)
             {
-                System.IO.File.Delete(_filename);
+                fileInfo.Delete();
             }
         }
 

@@ -5295,4 +5295,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamThumbnailCacheLimitSpan" xml:space="preserve">
     <value>Thumbnail cache retention period</value>
   </data>
+  <data name="ParamThumbnailCacheFilePath" xml:space="preserve">
+    <value>Thumbnail cache file location</value>
+  </data>
 </root>

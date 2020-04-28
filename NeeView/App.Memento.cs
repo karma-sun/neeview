@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -204,7 +205,7 @@ namespace NeeView
                 config.System.IsSettingBackup = IsSettingBackup;
                 config.System.IsSyncUserSetting = IsSyncUserSetting;
                 config.System.TemporaryDirectory = TemporaryDirectory;
-                config.System.CacheDirectory = CacheDirectory;
+                config.Thumbnail.ThumbnailCacheFilePath = CacheDirectory != null ? Path.Combine(CacheDirectory, ThumbnailCache.ThumbnailCacheFileName) : null;
                 ////config.System.CacheDirectoryOld = CacheDirectoryOld;
                 config.Window.WindowChromeFrame = WindowChromeFrame;
                 config.System.IsIgnoreImageDpi = IsIgnoreImageDpi;
@@ -242,8 +243,8 @@ namespace NeeView
             memento.IsSplashScreenEnabled = Config.Current.StartUp.IsSplashScreenEnabled;
             memento.IsSyncUserSetting = Config.Current.System.IsSyncUserSetting;
             memento.TemporaryDirectory = Config.Current.System.TemporaryDirectory;
-            memento.CacheDirectory = Config.Current.System.CacheDirectory;
-            memento.CacheDirectoryOld = Config.Current.System.CacheDirectory; //// CacheDirectoryOld廃止(ver.37)
+            memento.CacheDirectory = Config.Current.Thumbnail.ThumbnailCacheFilePath != null ? Path.GetDirectoryName(Config.Current.Thumbnail.ThumbnailCacheFilePath) : null;
+            memento.CacheDirectoryOld = memento.CacheDirectory; //// CacheDirectoryOld廃止(ver.37)
             memento.AutoHideFocusLockMode = Config.Current.AutoHide.AutoHideFocusLockMode;
             memento.IsAutoHideKeyDownDelay = Config.Current.AutoHide.IsAutoHideKeyDownDelay;
             memento.AutoHideHitTestMargin = Config.Current.AutoHide.AutoHideHitTestMargin;

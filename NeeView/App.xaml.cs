@@ -189,9 +189,6 @@ namespace NeeView
 
             // テンポラリーの場所
             Config.Current.System.TemporaryDirectory = Temporary.Current.SetDirectory(Config.Current.System.TemporaryDirectory);
-
-            // キャッシュの場所
-            Config.Current.System.CacheDirectory = ThumbnailCache.Current.SetDirectory(Config.Current.System.CacheDirectory);
         }
 
 

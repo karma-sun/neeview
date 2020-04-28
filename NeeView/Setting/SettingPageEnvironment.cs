@@ -93,8 +93,9 @@ namespace NeeView.Setting
                 section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.IsSettingBackup))));
             }
 
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Thumbnail, nameof(ThumbnailConfig.ThumbnailCacheFilePath), new PropertyMemberElementOptions() { EmptyValue = ThumbnailCache.DefaultThumbnailCacheFilePath })) { IsStretch = true });
+
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.TemporaryDirectory), new PropertyMemberElementOptions() { EmptyValue = Temporary.TempRootPathDefault })) { IsStretch = true });
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.CacheDirectory), new PropertyMemberElementOptions() { EmptyValue = ThumbnailCache.CacheFolderPathDefault })) { IsStretch = true });
 
             if (Environment.ConfigType == "Debug" || (Environment.IsUseLocalApplicationDataFolder && !Environment.IsAppxPackage))
             {

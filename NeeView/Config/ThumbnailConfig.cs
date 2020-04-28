@@ -1,5 +1,6 @@
 ﻿using NeeLaboratory;
 using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Controls;
 using NeeView.Windows.Property;
 using System;
 
@@ -14,6 +15,7 @@ namespace NeeView
         private int _thumbnailBookCapacity = 200;
         private int _thumbnailPageCapacity = 100;
         private double _resolution = 256.0;
+        private string _thumbnailCacheFilePath;
 
 
         [PropertyMember("@ParamThumbnailIsCacheEnabled", Tips = "@ParamThumbnailIsCacheEnabledTips")]
@@ -21,6 +23,14 @@ namespace NeeView
         {
             get { return _isCacheEnabled; }
             set { SetProperty(ref _isCacheEnabled, value); }
+        }
+
+        // キャッシュの保存場所
+        [PropertyPath("@ParamThumbnailCacheFilePath", FileDialogType = FileDialogType.SaveFile, Filter = "DB|*.db")]
+        public string ThumbnailCacheFilePath
+        {
+            get { return _thumbnailCacheFilePath; }
+            set { SetProperty(ref _thumbnailCacheFilePath, string.IsNullOrWhiteSpace(value) || value == ThumbnailCache.DefaultThumbnailCacheFilePath ? null : value); }
         }
 
         /// <summary>

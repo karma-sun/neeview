@@ -13000,6 +13000,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Thumbnail cache file location に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamThumbnailCacheFilePath {
+            get {
+                return ResourceManager.GetString("ParamThumbnailCacheFilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Thumbnail cache retention period に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamThumbnailCacheLimitSpan {

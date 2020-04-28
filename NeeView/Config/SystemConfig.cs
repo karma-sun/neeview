@@ -13,7 +13,6 @@ namespace NeeView
         private bool _isNetworkEnalbe = true;
         private bool _isSettingBackup;
         private string _temporaryDirectory;
-        private string _cacheDirectory;
         private bool _isHiddenFileVisibled;
         private bool _isFileWriteAccessEnabled = true;
         private Language _language = LanguageExtensions.GetLanguage(CultureInfo.CurrentCulture.Name);
@@ -104,14 +103,6 @@ namespace NeeView
         {
             get { return _temporaryDirectory; }
             set { SetProperty(ref _temporaryDirectory, (string.IsNullOrWhiteSpace(value) || value?.Trim() == Temporary.TempRootPathDefault) ? null : value); }
-        }
-
-        // サムネイルキャッシュの場所
-        [PropertyPath("@ParamCacheDirectory", Tips = "@ParamCacheDirectoryTips", FileDialogType = FileDialogType.Directory)]
-        public string CacheDirectory
-        {
-            get { return _cacheDirectory; }
-            set { SetProperty(ref _cacheDirectory, (string.IsNullOrWhiteSpace(value) || value?.Trim() == ThumbnailCache.CacheFolderPathDefault) ? null : value); }
         }
 
         // ダウンロードファイル置き場

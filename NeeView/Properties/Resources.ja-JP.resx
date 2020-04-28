@@ -5295,4 +5295,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamThumbnailCacheLimitSpan" xml:space="preserve">
     <value>サムネイルキャッシュの保存期間</value>
   </data>
+  <data name="ParamThumbnailCacheFilePath" xml:space="preserve">
+    <value>サムネイルキャッシュの保存場所</value>
+  </data>
 </root>

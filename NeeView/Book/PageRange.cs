@@ -171,6 +171,20 @@ namespace NeeView
             return new PageRange(points, this.Direction);
         }
 
+        public PageRange Add(IEnumerable<PageRange> others)
+        {
+            var points = new List<PagePosition> { this.Min, this.Max };
+
+            foreach(var other in others.Where(e => !e.IsEmpty()))
+            {
+                points.Add(other.Min);
+                points.Add(other.Max);
+            }
+
+            return new PageRange(points, this.Direction);
+        }
+
+
         public PagePosition Next()
         {
             return Next(this.Direction);

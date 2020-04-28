@@ -38,10 +38,7 @@ namespace NeeView
             _sender = sender;
             _viewRange = viewPageRange;
             _nextRange = viewPageRange;
-            foreach (var range in aheadPageRanges)
-            {
-                _contentRange = viewPageRange.Add(range);
-            }
+            _contentRange = viewPageRange.Add(aheadPageRanges);
             _contentCount = 0;
 
             _cancellationTokenSource = new CancellationTokenSource();

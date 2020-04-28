@@ -180,6 +180,7 @@ namespace NeeView
                 _connection = new SQLiteConnection($"Data Source={_filename}");
                 _connection.Open();
 
+                InitializePragma();
                 CreatePropertyTable();
             }
         }
@@ -213,6 +214,18 @@ namespace NeeView
             return result;
         }
 
+
+        /// <summary>
+        /// 初期化：PRAGMA設定
+        /// </summary>
+        private void InitializePragma()
+        {
+            using (SQLiteCommand command = _connection.CreateCommand())
+            {
+                command.CommandText = "PRAGMA auto_vacuum = full";
+                command.ExecuteNonQuery();
+            }
+        }
 
         /// <summary>
         /// 初期化：プロパティテーブルの作成
@@ -343,11 +356,6 @@ namespace NeeView
                 int count = command.ExecuteNonQuery();
 
                 Debug.WriteLine($"ThumbnailCache.Delete: {count}");
-                if (count > 0)
-                {
-                    command.CommandText = "VACUUM";
-                    command.ExecuteNonQuery();
-                }
             }
         }
 

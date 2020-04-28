@@ -43,8 +43,8 @@ namespace NeeView
                 ////ページマーク多数登録テスト
                 ////Models.Current.BookOperation.Test_MakeManyPagemark();
 
-                // キャッシュ削除
-                ThumbnailCache.Current.Delete(TimeSpan.FromMinutes(10));
+                // キャッシュ削除(1分前)
+                ThumbnailCache.Current.Delete(TimeSpan.FromMinutes(1));
 
 
                 //Config.Current.RemoveApplicationData();

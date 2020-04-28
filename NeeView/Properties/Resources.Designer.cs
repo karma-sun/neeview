@@ -9138,7 +9138,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Time to hide auto-hide panel (seconds) に類似しているローカライズされた文字列を検索します。
+        ///   Time to hide auto-hide panel (sec) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamAutoHideDelayTime {
             get {
@@ -9147,7 +9147,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Time to display auto-hide panel (seconds) に類似しているローカライズされた文字列を検索します。
+        ///   Time to display auto-hide panel (sec) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamAutoHideDelayVisibleTime {
             get {
@@ -10146,6 +10146,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Scroll time (sec) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterScrollDuration {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterScrollDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Amount of movement(%) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamCommandParameterScrollPageAmount {
@@ -10169,6 +10178,15 @@ namespace NeeView.Properties {
         public static string ParamCommandParameterScrollPageAnimation {
             get {
                 return ResourceManager.GetString("ParamCommandParameterScrollPageAnimation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scroll time (sec) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterScrollPageDuration {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterScrollPageDuration", resourceCulture);
             }
         }
         
@@ -12189,7 +12207,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Play start delay (seconds) に類似しているローカライズされた文字列を検索します。
+        ///   Play start delay (sec) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamMediaStartDelaySeconds {
             get {
@@ -12432,7 +12450,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Change time in page movement (seconds) に類似しているローカライズされた文字列を検索します。
+        ///   Change time in page movement (sec) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamPageSeconds {
             get {

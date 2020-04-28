@@ -1,5 +1,6 @@
 ﻿using NeeLaboratory;
 using NeeView.Windows.Property;
+using System;
 using System.Runtime.Serialization;
 
 namespace NeeView
@@ -13,7 +14,7 @@ namespace NeeView
             this.Note = Properties.Resources.CommandViewScrollUpNote;
             this.IsShowMessage = false;
 
-            this.ParameterSource = new CommandParameterSource(new ViewScrollCommandParameter() { Scroll = 25, AllowCrossScroll = true });
+            this.ParameterSource = new CommandParameterSource(new ViewScrollCommandParameter());
         }
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
@@ -28,8 +29,9 @@ namespace NeeView
     [DataContract]
     public class ViewScrollCommandParameter : CommandParameter
     {
-        private int _scroll;
+        private int _scroll = 25;
         private bool _allowCrossScroll = true;
+        private double _scrollDuration = 0.1;
 
         // 属性に説明文
         [DataMember]
@@ -38,6 +40,15 @@ namespace NeeView
         {
             get { return _scroll; }
             set { SetProperty(ref _scroll, MathUtility.Clamp(value, 0, 100)); }
+        }
+
+        // スクロール速度(秒)
+        [DataMember]
+        [PropertyMember("@ParamCommandParameterScrollDuration")]
+        public double ScrollDuration
+        {
+            get { return _scrollDuration; }
+            set { SetProperty(ref _scrollDuration, Math.Max(value, 0.0)); }
         }
 
         [DataMember]
@@ -59,7 +70,11 @@ namespace NeeView
         {
             var target = other as ViewScrollCommandParameter;
             if (target == null) return false;
-            return this == target || (this.Scroll == target.Scroll && this.AllowCrossScroll == target.AllowCrossScroll);
+
+            return this == target || (
+                this.Scroll == target.Scroll &&
+                this.ScrollDuration == target.ScrollDuration &&
+                this.AllowCrossScroll == target.AllowCrossScroll);
         }
     }
 

@@ -1,5 +1,4 @@
 ﻿using NeeLaboratory.ComponentModel;
-using NeeView.Windows.Property;
 using System;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -7,9 +6,6 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-
-// TODO: 整備
-// TODO: 関数が大きすぎる？細分化を検討
 
 namespace NeeView
 {
@@ -22,14 +18,18 @@ namespace NeeView
         public static DragTransform Current { get; }
 
 
-        #region Fields
-
         // コンテンツの平行移動行列。アニメーション用。
         private TranslateTransform _translateTransform;
 
-        #endregion
+        // 移動アニメーション中フラグ(内部管理)
+        private bool _isTranslateAnimated;
 
-        #region Constructors
+        private Point _position;
+        private double _angle;
+        private double _scale = 1.0;
+        private bool _isFlipHorizontal;
+        private bool _isFlipVertical;
+
 
         private DragTransform()
         {
@@ -39,111 +39,49 @@ namespace NeeView
             _translateTransform = this.TransformView.Children.OfType<TranslateTransform>().First();
         }
 
-        #endregion
-
-        #region Events
 
         /// <summary>
         /// 表示コンテンツのトランスフォーム変更イベント
         /// </summary>
         public event EventHandler<TransformEventArgs> TransformChanged;
 
-        #endregion
-
-        #region Properties
 
         public TransformGroup TransformView { get; private set; }
         public TransformGroup TransformCalc { get; private set; }
 
-
-        // 移動アニメーション有効フラグ(内部管理)
-        private bool _isEnableTranslateAnimation;
-
-        // 移動アニメーション中フラグ(内部管理)
-        private bool _isTranslateAnimated;
-
-        //
-        public bool IsEnableTranslateAnimation
-        {
-            get { return _isEnableTranslateAnimation; }
-            set { _isEnableTranslateAnimation = value; }
-        }
-
-
-        // コンテンツの座標 (アニメーション対応)
-        private Point _position;
+        // コンテンツの座標
         public Point Position
         {
             get { return _position; }
-            set
+            private set
             {
-                ////Debug.WriteLine($"Pos: {value}");
-
-                if (_isEnableTranslateAnimation)
-                {
-                    Duration duration = TimeSpan.FromMilliseconds(100); // 100msアニメ
-
-                    if (!_isTranslateAnimated)
-                    {
-                        // 開始
-                        _isTranslateAnimated = true;
-                        _translateTransform.BeginAnimation(TranslateTransform.XProperty,
-                            new DoubleAnimation(_position.X, value.X, duration), HandoffBehavior.SnapshotAndReplace);
-                        _translateTransform.BeginAnimation(TranslateTransform.YProperty,
-                            new DoubleAnimation(_position.Y, value.Y, duration), HandoffBehavior.SnapshotAndReplace);
-                    }
-                    else
-                    {
-                        // 継続
-                        _translateTransform.BeginAnimation(TranslateTransform.XProperty,
-                            new DoubleAnimation(value.X, duration), HandoffBehavior.Compose);
-                        _translateTransform.BeginAnimation(TranslateTransform.YProperty,
-                            new DoubleAnimation(value.Y, duration), HandoffBehavior.Compose);
-                    }
-                }
-                else
-                {
-                    if (_isTranslateAnimated)
-                    {
-                        // 解除
-                        _translateTransform.ApplyAnimationClock(TranslateTransform.XProperty, null);
-                        _translateTransform.ApplyAnimationClock(TranslateTransform.YProperty, null);
-                        _isTranslateAnimated = false;
-                    }
-                }
-
-                _position = value;
-                RaisePropertyChanged();
+                SetProperty(ref _position, value);
             }
         }
 
         // コンテンツの角度
-        private double _angle;
         public double Angle
         {
             get { return _angle; }
             set
             {
-                _angle = value;
-                RaisePropertyChanged();
+                SetProperty(ref _angle, value);
             }
         }
 
-
         // コンテンツの拡大率
-        private double _scale = 1.0;
         public double Scale
         {
             get { return _scale; }
             set
             {
-                _scale = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(ScaleX));
-                RaisePropertyChanged(nameof(ScaleY));
+                if (SetProperty(ref _scale, value))
+                {
+                    RaisePropertyChanged(nameof(ScaleX));
+                    RaisePropertyChanged(nameof(ScaleY));
+                }
             }
         }
-
 
         // コンテンツのScaleX
         public double ScaleX
@@ -158,40 +96,31 @@ namespace NeeView
         }
 
         // 左右反転
-        private bool _isFlipHorizontal;
         public bool IsFlipHorizontal
         {
             get { return _isFlipHorizontal; }
             set
             {
-                if (_isFlipHorizontal != value)
+                if (SetProperty(ref _isFlipHorizontal, value))
                 {
-                    _isFlipHorizontal = value;
-                    RaisePropertyChanged();
                     RaisePropertyChanged(nameof(ScaleX));
                 }
             }
         }
 
         // 上下反転
-        private bool _isFlipVertical;
         public bool IsFlipVertical
         {
             get { return _isFlipVertical; }
             set
             {
-                if (_isFlipVertical != value)
+                if (SetProperty(ref _isFlipVertical, value))
                 {
-                    _isFlipVertical = value;
-                    RaisePropertyChanged();
                     RaisePropertyChanged(nameof(ScaleY));
                 }
             }
         }
 
-        #endregion
-
-        #region Methods
 
         // パラメータとトランスフォームを対応させる
         private TransformGroup CreateTransformGroup()
@@ -215,21 +144,67 @@ namespace NeeView
             return transformGroup;
         }
 
-        //
+        public void SetPosition(Point value)
+        {
+            SetPosition(value, default);
+        }
+
+        public void SetPosition(Point value, TimeSpan span)
+        {
+            if (span.TotalMilliseconds > 0)
+            {
+                Duration duration = span;
+
+                if (!_isTranslateAnimated)
+                {
+                    // 開始
+                    _isTranslateAnimated = true;
+                    _translateTransform.BeginAnimation(TranslateTransform.XProperty,
+                        DecorateDoubleAnimation(new DoubleAnimation(_position.X, value.X, duration)), HandoffBehavior.SnapshotAndReplace);
+                    _translateTransform.BeginAnimation(TranslateTransform.YProperty,
+                        DecorateDoubleAnimation(new DoubleAnimation(_position.Y, value.Y, duration)), HandoffBehavior.SnapshotAndReplace);
+                }
+                else
+                {
+                    // 継続
+                    _translateTransform.BeginAnimation(TranslateTransform.XProperty,
+                        DecorateDoubleAnimation(new DoubleAnimation(value.X, duration)), HandoffBehavior.Compose);
+                    _translateTransform.BeginAnimation(TranslateTransform.YProperty,
+                        DecorateDoubleAnimation(new DoubleAnimation(value.Y, duration)), HandoffBehavior.Compose);
+                }
+            }
+            else
+            {
+                if (_isTranslateAnimated)
+                {
+                    // 解除
+                    _translateTransform.ApplyAnimationClock(TranslateTransform.XProperty, null);
+                    _translateTransform.ApplyAnimationClock(TranslateTransform.YProperty, null);
+                    _isTranslateAnimated = false;
+                }
+            }
+
+            Position = value;
+
+            DoubleAnimation DecorateDoubleAnimation(DoubleAnimation source)
+            {
+                source.AccelerationRatio = 0.4;
+                source.DecelerationRatio = 0.4;
+                return source;
+            }
+        }
+
         public void SetAngle(double angle, TransformActionType actionType)
         {
             this.Angle = angle;
             TransformChanged?.Invoke(this, new TransformEventArgs(actionType));
         }
 
-        //
         public void SetScale(double scale, TransformActionType actionType)
         {
             this.Scale = scale;
             TransformChanged?.Invoke(this, new TransformEventArgs(actionType));
         }
-
-        #endregion
 
         #region Memento
 

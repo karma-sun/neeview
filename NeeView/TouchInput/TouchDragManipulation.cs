@@ -211,7 +211,7 @@ namespace NeeView
 
             _now = TouchDragTransform.Lerp(_now, _goal, 0.5);
 
-            _transform.Position = (Point)_now.Trans;
+            _transform.SetPosition((Point)_now.Trans);
             _transform.Angle = _now.Angle;
             _transform.Scale = _now.Scale;
 
@@ -275,7 +275,7 @@ namespace NeeView
             }
 
             //
-            _transform.Position = (Point)_now.Trans;
+            _transform.SetPosition((Point)_now.Trans);
             _transform.Angle = _now.Angle;
 
             // 終了チェック
@@ -286,7 +286,7 @@ namespace NeeView
                 if (Config.Current.View.IsLimitMove)
                 {
                     var area = _context.GetArea();
-                    _transform.Position = (Point)area.SnapView(_now.Trans, true);
+                    _transform.SetPosition((Point)area.SnapView(_now.Trans, true));
                 }
 
                 StopTicking();

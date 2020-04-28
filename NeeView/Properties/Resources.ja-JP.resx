@@ -4137,7 +4137,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>長押しモード</value>
   </data>
   <data name="ParamMouseLongButtonDownTime" xml:space="preserve">
-    <value>長押し判定時間(秒)</value>
+    <value>長押し判定時間 (秒)</value>
   </data>
   <data name="ParamMouseLongButtonDownTimeTips" xml:space="preserve">
     <value>長押しと判定される時間です。</value>
@@ -4146,7 +4146,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>長押しボタン</value>
   </data>
   <data name="ParamMouseLongButtonRepeatTime" xml:space="preserve">
-    <value>リピート間隔(秒)</value>
+    <value>リピート間隔 (秒)</value>
   </data>
   <data name="ParamMouseLongButtonRepeatTimeTips" xml:space="preserve">
     <value>リピート入力でのリピート時間です。</value>
@@ -4182,7 +4182,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>ページマークの並び順</value>
   </data>
   <data name="ParamPageSeconds" xml:space="preserve">
-    <value>ページ移動での変化時間(秒)</value>
+    <value>ページ移動での変化時間 (秒)</value>
   </data>
   <data name="ParamPageViewRecordPath" xml:space="preserve">
     <value>ページ表示履歴保存場所</value>
@@ -5297,5 +5297,11 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="ParamThumbnailCacheFilePath" xml:space="preserve">
     <value>サムネイルキャッシュの保存場所</value>
+  </data>
+  <data name="ParamCommandParameterScrollPageDuration" xml:space="preserve">
+    <value>スクロール時間 (秒)</value>
+  </data>
+  <data name="ParamCommandParameterScrollDuration" xml:space="preserve">
+    <value>スクロール時間 (秒)</value>
   </data>
 </root>

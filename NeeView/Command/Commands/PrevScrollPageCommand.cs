@@ -1,5 +1,6 @@
 ﻿using NeeLaboratory;
 using NeeView.Windows.Property;
+using System;
 using System.Runtime.Serialization;
 
 namespace NeeView
@@ -15,7 +16,7 @@ namespace NeeView
             this.IsShowMessage = false;
             this.PairPartner = "NextScrollPage";
 
-            this.ParameterSource = new CommandParameterSource(new ScrollPageCommandParameter() { IsNScroll = true, IsAnimation = true, Margin = 50, Scroll = 100 });
+            this.ParameterSource = new CommandParameterSource(new ScrollPageCommandParameter());
         }
 
         public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)
@@ -37,10 +38,10 @@ namespace NeeView
     public class ScrollPageCommandParameter : ReversibleCommandParameter
     {
         private int _scroll = 100;
-        private bool _isNScroll;
-        private bool _isAnimation;
-        private double _margin;
+        private bool _isNScroll = true;
+        private double _margin = 50;
         private bool _isStop;
+        private double _scrollDuration = 0.1;
 
 
         [DataMember]
@@ -49,14 +50,6 @@ namespace NeeView
         {
             get => _isNScroll;
             set => SetProperty(ref _isNScroll, value);
-        }
-
-        [DataMember]
-        [PropertyMember("@ParamCommandParameterScrollPageAnimation")]
-        public bool IsAnimation
-        {
-            get => _isAnimation;
-            set => SetProperty(ref _isAnimation, value);
         }
 
         [DataMember]
@@ -73,6 +66,14 @@ namespace NeeView
         {
             get => _scroll;
             set => SetProperty(ref _scroll, MathUtility.Clamp(value, 0, 100));
+        }
+
+        [DataMember]
+        [PropertyMember("@ParamCommandParameterScrollPageDuration")]
+        public double ScrollDuration
+        {
+            get { return _scrollDuration; }
+            set { SetProperty(ref _scrollDuration, Math.Max(value, 0.0)); }
         }
 
         [DataMember]
@@ -95,9 +96,9 @@ namespace NeeView
             var target = other as ScrollPageCommandParameter;
             if (target == null) return false;
             return this == target || (this.IsNScroll == target.IsNScroll &&
-                this.IsAnimation == target.IsAnimation &&
                 this.Margin == target.Margin &&
                 this.Scroll == target.Scroll &&
+                this.ScrollDuration == target.ScrollDuration &&
                 this.IsStop == target.IsStop);
         }
     }

@@ -16,7 +16,7 @@ namespace NeeView
             this.PairPartner = "PrevScrollPage";
 
             // PrevScrollPage
-            this.ParameterSource = new CommandParameterSource(new ScrollPageCommandParameter() { IsNScroll = true, IsAnimation = true, Margin = 50, Scroll = 100 });
+            this.ParameterSource = new CommandParameterSource(new ScrollPageCommandParameter());
         }
 
         public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)

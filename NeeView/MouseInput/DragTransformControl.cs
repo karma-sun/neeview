@@ -124,7 +124,7 @@ namespace NeeView
 
             _sender.Loaded += (s, e) =>
             {
-                _adorner = _adorner ??  new AreaSelectAdorner(_sender);
+                _adorner = _adorner ?? new AreaSelectAdorner(_sender);
             };
         }
 
@@ -284,12 +284,12 @@ namespace NeeView
 
             if (ViewOrigin == DragViewOrigin.Center)
             {
-                _transform.Position = new Point(0, 0);
+                _transform.SetPosition(new Point(0, 0));
             }
             else
             {
                 // レイアウト更新
-                _transform.Position = new Point(0, 0);
+                _transform.SetPosition(new Point(0, 0));
 
                 _sender.UpdateLayout();
                 var area = GetArea();
@@ -309,7 +309,7 @@ namespace NeeView
                 if (move.X != 0 || move.Y != 0)
                 {
                     var limitedPos = pos + GetLimitMove(area, move);
-                    _transform.Position = limitedPos;
+                    _transform.SetPosition(limitedPos);
                 }
             }
 
@@ -367,7 +367,7 @@ namespace NeeView
             _sender.UpdateLayout();
 
             var area = GetArea();
-            _transform.Position = area.SnapView(_transform.Position);
+            _transform.SetPosition(area.SnapView(_transform.Position));
         }
 
         #endregion
@@ -379,20 +379,17 @@ namespace NeeView
         public void ScrollUp(ViewScrollCommandParameter parameter)
         {
             var rate = parameter.Scroll / 100.0;
-
-            _transform.IsEnableTranslateAnimation = true;
+            var span = TimeSpan.FromSeconds(parameter.ScrollDuration);
 
             UpdateLock();
             if (!_lockMoveY)
             {
-                DoMove(new Vector(0, _sender.ActualHeight * rate));
+                DoMove(new Vector(0, _sender.ActualHeight * rate), span);
             }
             else if (parameter.AllowCrossScroll)
             {
-                DoMove(new Vector(_sender.ActualWidth * rate * ViewHorizontalDirection, 0));
+                DoMove(new Vector(_sender.ActualWidth * rate * ViewHorizontalDirection, 0), span);
             }
-
-            _transform.IsEnableTranslateAnimation = false;
         }
 
         // スクロール↓コマンド
@@ -400,20 +397,17 @@ namespace NeeView
         public void ScrollDown(ViewScrollCommandParameter parameter)
         {
             var rate = parameter.Scroll / 100.0;
-
-            _transform.IsEnableTranslateAnimation = true;
+            var span = TimeSpan.FromSeconds(parameter.ScrollDuration);
 
             UpdateLock();
             if (!_lockMoveY)
             {
-                DoMove(new Vector(0, _sender.ActualHeight * -rate));
+                DoMove(new Vector(0, _sender.ActualHeight * -rate), span);
             }
             else if (parameter.AllowCrossScroll)
             {
-                DoMove(new Vector(_sender.ActualWidth * -rate * ViewHorizontalDirection, 0));
+                DoMove(new Vector(_sender.ActualWidth * -rate * ViewHorizontalDirection, 0), span);
             }
-
-            _transform.IsEnableTranslateAnimation = false;
         }
 
         // スクロール←コマンド
@@ -421,21 +415,17 @@ namespace NeeView
         public void ScrollLeft(ViewScrollCommandParameter parameter)
         {
             var rate = parameter.Scroll / 100.0;
-
-            _transform.IsEnableTranslateAnimation = true;
+            var span = TimeSpan.FromSeconds(parameter.ScrollDuration);
 
             UpdateLock();
-
             if (!_lockMoveX)
             {
-                DoMove(new Vector(_sender.ActualWidth * rate, 0));
+                DoMove(new Vector(_sender.ActualWidth * rate, 0), span);
             }
             else if (parameter.AllowCrossScroll)
             {
-                DoMove(new Vector(0, _sender.ActualHeight * rate * ViewHorizontalDirection));
+                DoMove(new Vector(0, _sender.ActualHeight * rate * ViewHorizontalDirection), span);
             }
-
-            _transform.IsEnableTranslateAnimation = false;
         }
 
         // スクロール→コマンド
@@ -443,21 +433,17 @@ namespace NeeView
         public void ScrollRight(ViewScrollCommandParameter parameter)
         {
             var rate = parameter.Scroll / 100.0;
-
-            _transform.IsEnableTranslateAnimation = true;
+            var span = TimeSpan.FromSeconds(parameter.ScrollDuration);
 
             UpdateLock();
-
             if (!_lockMoveX)
             {
-                DoMove(new Vector(_sender.ActualWidth * -rate, 0));
+                DoMove(new Vector(_sender.ActualWidth * -rate, 0), span);
             }
             else if (parameter.AllowCrossScroll)
             {
-                DoMove(new Vector(0, _sender.ActualHeight * -rate * ViewHorizontalDirection));
+                DoMove(new Vector(0, _sender.ActualHeight * -rate * ViewHorizontalDirection), span);
             }
-
-            _transform.IsEnableTranslateAnimation = false;
         }
 
 
@@ -466,23 +452,33 @@ namespace NeeView
         /// </summary>
         /// <param name="direction">次方向:+1 / 前方向:-1</param>
         /// <param name="bookReadDirection">右開き:+1 / 左開き:-1</param>
+        /// <param name="parameter">N字スクロールコマンドパラメータ</param>
+        /// <returns>スクロールしたか</returns>
+        public bool ScrollN(int direction, int bookReadDirection, ScrollPageCommandParameter parameter)
+        {
+            return ScrollN(direction, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.Scroll / 100.0, parameter.ScrollDuration);
+        }
+
+        /// <summary>
+        /// N字スクロール
+        /// </summary>
+        /// <param name="direction">次方向:+1 / 前方向:-1</param>
+        /// <param name="bookReadDirection">右開き:+1 / 左開き:-1</param>
         /// <param name="allowVerticalScroll">縦方向スクロール許可</param>
         /// <param name="margin">最小移動距離</param>
-        /// <param name="isAnimate">スクロールアニメ</param>
+        /// <param name="rate">移動距離の割合</param>
+        /// <param name="sec">移動時間。アニメーション時間</param>
         /// <returns>スクロールしたか</returns>
-        public bool ScrollN(int direction, int bookReadDirection, bool allowVerticalScroll, double margin, bool isAnimate, double rate)
+        public bool ScrollN(int direction, int bookReadDirection, bool allowVerticalScroll, double margin, double rate, double sec)
         {
             var delta = GetNScrollDelta(direction, bookReadDirection, allowVerticalScroll, margin, rate);
+            var span = TimeSpan.FromSeconds(sec);
 
             if (delta.X != 0.0 || delta.Y != 0.0)
             {
                 ////Debug.WriteLine(delta);
                 UpdateLock();
-
-                if (isAnimate) _transform.IsEnableTranslateAnimation = true;
-                DoMove(new Vector(delta.X, delta.Y));
-                if (isAnimate) _transform.IsEnableTranslateAnimation = false;
-
+                DoMove(new Vector(delta.X, delta.Y), span);
                 return true;
             }
             else
@@ -844,7 +840,7 @@ namespace NeeView
         // 移動
         public void DragMove(Point start, Point end)
         {
-            DragMoveEx(start, end, 1.0);
+            DragMoveEx(start, end, 1.0, default);
         }
 
         // 移動(速度スケール依存)
@@ -856,21 +852,21 @@ namespace NeeView
             var scale = scaleX > scaleY ? scaleX : scaleY;
             scale = scale < 1.0 ? 1.0 : scale;
 
-            DragMoveEx(start, end, scale);
+            DragMoveEx(start, end, scale, default);
         }
 
-        private void DragMoveEx(Point start, Point end, double scale)
+        private void DragMoveEx(Point start, Point end, double scale, TimeSpan span)
         {
             var pos0 = _transform.Position;
             var pos1 = (end - start) * scale + _basePosition;
             var move = pos1 - pos0;
 
-            DoMove(move);
+            DoMove(move, span);
         }
 
 
         // 移動実行
-        private void DoMove(Vector move)
+        private void DoMove(Vector move, TimeSpan span)
         {
             var area = GetArea();
             var pos0 = _transform.Position;
@@ -892,7 +888,7 @@ namespace NeeView
                 _basePosition += move - moveExpectation;
             }
 
-            _transform.Position = pos0 + move;
+            _transform.SetPosition(pos0 + move, span);
         }
 
         #endregion
@@ -937,7 +933,7 @@ namespace NeeView
             _transform.SetAngle(angle, TransformActionType.Angle);
 
             RotateTransform m = new RotateTransform(_transform.Angle - _baseAngle);
-            _transform.Position = _rotateCenter + (Vector)m.Transform((Point)(_basePosition - _rotateCenter));
+            _transform.SetPosition(_rotateCenter + (Vector)m.Transform((Point)(_basePosition - _rotateCenter)));
 
             UnlockMove();
         }
@@ -1007,7 +1003,7 @@ namespace NeeView
 
             var pos0 = _scaleCenter;
             var rate = _transform.Scale / _baseScale;
-            _transform.Position = pos0 + (_basePosition - pos0) * rate;
+            _transform.SetPosition(pos0 + (_basePosition - pos0) * rate);
 
             UnlockMove();
         }
@@ -1037,7 +1033,7 @@ namespace NeeView
             _transform.SetScale(_transform.Scale * zoom, TransformActionType.Scale);
 
             var zoomCenter = new Point(zoomRect.X + zoomRect.Width * 0.5, zoomRect.Y + zoomRect.Height * 0.5);
-            _transform.Position = (Point)((_transform.Position - zoomCenter) * zoom);
+            _transform.SetPosition((Point)((_transform.Position - zoomCenter) * zoom));
         }
 
 
@@ -1075,7 +1071,7 @@ namespace NeeView
                 _transform.SetAngle(angle, TransformActionType.FlipHorizontal);
 
                 // 座標を反転
-                _transform.Position = new Point(_flipCenter.X * 2.0 - _transform.Position.X, _transform.Position.Y);
+                _transform.SetPosition(new Point(_flipCenter.X * 2.0 - _transform.Position.X, _transform.Position.Y));
 
                 UnlockMove();
             }
@@ -1111,7 +1107,7 @@ namespace NeeView
                 _transform.SetAngle(angle, TransformActionType.FlipVertical);
 
                 // 座標を反転
-                _transform.Position = new Point(_transform.Position.X, _flipCenter.Y * 2.0 - _transform.Position.Y);
+                _transform.SetPosition(new Point(_transform.Position.X, _flipCenter.Y * 2.0 - _transform.Position.Y));
             }
         }
 

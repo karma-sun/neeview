@@ -3132,10 +3132,10 @@ Initialize the temporary location.</value>
     <value>PDF file extension</value>
   </data>
   <data name="ParamAutoHideDelayTime" xml:space="preserve">
-    <value>Time to hide auto-hide panel (seconds)</value>
+    <value>Time to hide auto-hide panel (sec)</value>
   </data>
   <data name="ParamAutoHideDelayVisibleTime" xml:space="preserve">
-    <value>Time to display auto-hide panel (seconds)</value>
+    <value>Time to display auto-hide panel (sec)</value>
   </data>
   <data name="ParamBackgroundType" xml:space="preserve">
     <value>Background type</value>
@@ -4104,7 +4104,7 @@ Initialize the temporary location.</value>
     <value>Video repeat</value>
   </data>
   <data name="ParamMediaStartDelaySeconds" xml:space="preserve">
-    <value>Play start delay (seconds)</value>
+    <value>Play start delay (sec)</value>
   </data>
   <data name="ParamMediaStartDelaySecondsTips" xml:space="preserve">
     <value>If 0 is specified, the contents may flicker.</value>
@@ -4182,7 +4182,7 @@ Initialize the temporary location.</value>
     <value>Pagemark order</value>
   </data>
   <data name="ParamPageSeconds" xml:space="preserve">
-    <value>Change time in page movement (seconds)</value>
+    <value>Change time in page movement (sec)</value>
   </data>
   <data name="ParamPageViewRecordPath" xml:space="preserve">
     <value>Page view recording path</value>
@@ -5297,5 +5297,11 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="ParamThumbnailCacheFilePath" xml:space="preserve">
     <value>Thumbnail cache file location</value>
+  </data>
+  <data name="ParamCommandParameterScrollPageDuration" xml:space="preserve">
+    <value>Scroll time (sec)</value>
+  </data>
+  <data name="ParamCommandParameterScrollDuration" xml:space="preserve">
+    <value>Scroll time (sec)</value>
   </data>
 </root>

@@ -10,7 +10,7 @@
             this.IsShowMessage = false;
             
             // ViewScrollUp
-            this.ParameterSource = new CommandParameterSource(new ViewScrollCommandParameter() { Scroll = 25, AllowCrossScroll = true });
+            this.ParameterSource = new CommandParameterSource(new ViewScrollCommandParameter());
         }
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)

@@ -106,6 +106,7 @@ namespace NeeView.Setting
         public SettingPageManipurateLoupe() : base(Properties.Resources.SettingPageManipurateLoupe)
         {
             var section = new SettingItemSection(Properties.Resources.SettingPageManipurateLoupeGeneral);
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Loupe, nameof(LoupeConfig.IsLoupeCenter))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Loupe, nameof(LoupeConfig.IsResetByRestart))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Loupe, nameof(LoupeConfig.IsVisibleLoupeInfo))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Loupe, nameof(LoupeConfig.IsResetByPageChanged))));

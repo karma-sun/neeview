@@ -5322,4 +5322,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParmViewForceAutoRotate" xml:space="preserve">
     <value>自動回転を強制</value>
   </data>
+  <data name="EnumDragActionTypeScaleSliderCentered" xml:space="preserve">
+    <value>拡大縮小(スライド式、中央寄せ)</value>
+  </data>
 </root>

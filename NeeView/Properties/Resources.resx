@@ -5322,4 +5322,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParmViewForceAutoRotate" xml:space="preserve">
     <value>Force auto rotation</value>
   </data>
+  <data name="EnumDragActionTypeScaleSliderCentered" xml:space="preserve">
+    <value>Scaling (horizontal slide, centered)</value>
+  </data>
 </root>

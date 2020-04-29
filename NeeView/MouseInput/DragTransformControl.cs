@@ -984,15 +984,35 @@ namespace NeeView
             DoScale(scale1);
         }
 
-        // 拡縮
+        // 拡縮 (スライダー)
         public void DragScaleSlider(Point start, Point end)
         {
             var scale1 = System.Math.Pow(2, (end.X - start.X) * 0.01) * _baseScale;
             DoScale(scale1);
         }
 
+        // 拡縮 (スライダー、中央寄せ)
+        public void DragScaleSliderCentered(Point start, Point end)
+        {
+            var scale1 = System.Math.Pow(2, (end.X - start.X) * 0.01) * _baseScale;
+            DoScale(scale1, false);
+
+            var len0 = Math.Abs(end.X - start.X);
+            var len1 = 200.0;
+            var rate = Math.Min(len0 / len1, 1.0);
+
+            var p0 = _scaleCenter;
+            var p1 = _basePosition + (p0 - _basePosition) * (_transform.Scale / _baseScale);
+            var pa = (Vector)p0 * (1.0 - rate);
+
+            var pos = (Point)(pa + (_basePosition - p1));
+            _transform.SetPosition(pos);
+
+            UnlockMove();
+        }
+
         // 拡縮実行
-        private void DoScale(double scale)
+        private void DoScale(double scale, bool withTransform = true)
         {
             if (SnapScale > 0)
             {
@@ -1001,11 +1021,14 @@ namespace NeeView
 
             _transform.SetScale(scale, TransformActionType.Scale);
 
-            var pos0 = _scaleCenter;
-            var rate = _transform.Scale / _baseScale;
-            _transform.SetPosition(pos0 + (_basePosition - pos0) * rate);
+            if (withTransform)
+            {
+                var pos0 = _scaleCenter;
+                var rate = _transform.Scale / _baseScale;
+                _transform.SetPosition(pos0 + (_basePosition - pos0) * rate);
 
-            UnlockMove();
+                UnlockMove();
+            }
         }
 
         #endregion

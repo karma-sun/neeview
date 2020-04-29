@@ -38,6 +38,9 @@ namespace NeeView
         [AliasName("@EnumDragActionTypeScaleSlider")]
         ScaleSlider,
 
+        [AliasName("@EnumDragActionTypeScaleSliderCentered")]
+        ScaleSliderCentered,
+
         [AliasName("@EnumDragActionTypeMarqueeZoom")]
         MarqueeZoom,
 

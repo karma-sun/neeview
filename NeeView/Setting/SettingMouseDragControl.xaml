@@ -40,7 +40,7 @@
                     <ListView.View>
                         <GridView>
 
-                            <GridViewColumn Header="{x:Static properties:Resources.ControlEditMouseDragListHeaderCommand}" Width="200" >
+                            <GridViewColumn Header="{x:Static properties:Resources.ControlEditMouseDragListHeaderCommand}" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Header}" TextTrimming="CharacterEllipsis" ToolTipService.ShowOnDisabled="True"/>

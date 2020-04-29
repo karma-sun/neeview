@@ -5325,4 +5325,10 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="EnumDragActionTypeScaleSliderCentered" xml:space="preserve">
     <value>Scaling (horizontal slide, centered)</value>
   </data>
+  <data name="ParamDotKeepThreshold" xml:space="preserve">
+    <value>Scale threshold for "@ParamDotKeepIsEnabled"</value>
+  </data>
+  <data name="ParamDotKeepThresholdTips" xml:space="preserve">
+    <value>Only applicable if the scale is larger than this.</value>
+  </data>
 </root>

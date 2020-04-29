@@ -2216,7 +2216,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>グリッド</value>
   </data>
   <data name="EffectKeepDot" xml:space="preserve">
-    <value>ドットのまま拡大する</value>
+    <value>ドットのまま拡大</value>
   </data>
   <data name="EffectName" xml:space="preserve">
     <value>エフェクト</value>
@@ -5324,5 +5324,11 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="EnumDragActionTypeScaleSliderCentered" xml:space="preserve">
     <value>拡大縮小(スライド式、中央寄せ)</value>
+  </data>
+  <data name="ParamDotKeepThreshold" xml:space="preserve">
+    <value>「@ParamDotKeepIsEnabled」を適用する拡大率</value>
+  </data>
+  <data name="ParamDotKeepThresholdTips" xml:space="preserve">
+    <value>この拡大率より拡大される場合にのみ適用します。</value>
   </data>
 </root>

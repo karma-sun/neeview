@@ -10425,6 +10425,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Scale threshold for &quot;@ParamDotKeepIsEnabled&quot; に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamDotKeepThreshold {
+            get {
+                return ResourceManager.GetString("ParamDotKeepThreshold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Only applicable if the scale is larger than this. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamDotKeepThresholdTips {
+            get {
+                return ResourceManager.GetString("ParamDotKeepThresholdTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Download folder に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamDownloadPath {

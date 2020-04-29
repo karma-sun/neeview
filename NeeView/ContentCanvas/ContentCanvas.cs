@@ -573,7 +573,8 @@ namespace NeeView
                     }
                     else
                     {
-                        content.BitmapScalingMode = (Config.Current.ImageDotKeep.IsEnabled && pixelHeight < viewHeight && pixelWidth < viewWidth) ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
+                        var isImageDotKeep = Config.Current.ImageDotKeep.IsImgeDotKeep(new Size(viewWidth, viewHeight), new Size(pixelWidth, pixelHeight));
+                        content.BitmapScalingMode = isImageDotKeep ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
                         content.SetViewMode(ContentViewMode.Scale, finalScale);
                     }
 

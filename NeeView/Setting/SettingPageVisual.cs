@@ -342,6 +342,7 @@ namespace NeeView.Setting
         public SettingPagePanelEffect() : base(Properties.Resources.SettingPagePanelEffect)
         {
             var section = new SettingItemSection(Properties.Resources.SettingPagePanelEffectVisual);
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.ImageDotKeep, nameof(ImageDotKeepConfig.Threshold))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.ImageEffect, nameof(ImageEffectConfig.IsHsvMode))));
 
             this.Items = new List<SettingItem>() { section };

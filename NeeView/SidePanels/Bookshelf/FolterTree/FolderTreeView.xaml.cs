@@ -421,6 +421,7 @@ namespace NeeView
 
         private void TreeView_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
+            if (App.Current == null) return;
             ((MainWindow)App.Current.MainWindow).RenameManager.Stop();
         }
 

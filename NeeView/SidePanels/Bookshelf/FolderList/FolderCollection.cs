@@ -74,6 +74,10 @@ namespace NeeView
             private set { Items[index] = value; }
         }
 
+        /// <summary>
+        /// 検索可能？
+        /// </summary>
+        public virtual bool IsSearchEnabled => false; 
 
         /// <summary>
         /// ソート適用の種類

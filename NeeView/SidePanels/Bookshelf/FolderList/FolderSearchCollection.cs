@@ -16,14 +16,10 @@ namespace NeeView
     /// </summary>
     public class FolderSearchCollection : FolderCollection, IDisposable
     {
-        // Fields
-
         private NeeLaboratory.IO.Search.SearchResultWatcher _searchResult;
         private FolderCollectionEngine _engine;
         private bool _isWatchSearchResult;
 
-
-        // Constructors
 
         public FolderSearchCollection(QueryPath path, NeeLaboratory.IO.Search.SearchResultWatcher searchResult, bool isWatchSearchResult, bool isOverlayEnabled) : base(path, isOverlayEnabled)
         {
@@ -38,11 +34,18 @@ namespace NeeView
                 _engine = new FolderCollectionEngine(this);
             }
         }
+
+
+        public override bool IsSearchEnabled => true;
+
+        public override FolderOrderClass FolderOrderClass => FolderOrderClass.WithPath;
+
+
+
         public override async Task InitializeItemsAsync(CancellationToken token)
         {
             await Task.Run(() => InitializeItems(token));
         }
-
 
         public void InitializeItems(CancellationToken token)
         {
@@ -67,11 +70,6 @@ namespace NeeView
             }
         }
 
-
-        public override FolderOrderClass FolderOrderClass => FolderOrderClass.WithPath;
-
-
-        #region Methods
 
         public override void RequestCreate(QueryPath path)
         {
@@ -170,7 +168,6 @@ namespace NeeView
             return null;
         }
 
-        #endregion
 
         #region IDisposable Support
 

@@ -17,15 +17,10 @@ namespace NeeView
     /// </summary>
     public class FolderEntryCollection : FolderCollection, IDisposable
     {
-        #region Fields
-
         private FileSystemWatcher _fileSystemWatcher;
         private FolderCollectionEngine _engine;
         private bool _isWatchFileSystem;
 
-        #endregion
-
-        #region Constructors
 
         public FolderEntryCollection(QueryPath path, bool isWatchFileSystem, bool isOverlayEnabled) : base(path, isOverlayEnabled)
         {
@@ -36,6 +31,12 @@ namespace NeeView
                 _engine = new FolderCollectionEngine(this);
             }
         }
+
+
+        public override bool IsSearchEnabled => true;
+
+        public override FolderOrderClass FolderOrderClass => FolderOrderClass.Normal;
+
 
         public override async Task InitializeItemsAsync(CancellationToken token)
         {
@@ -117,15 +118,6 @@ namespace NeeView
             }
         }
 
-        #endregion
-
-        #region Properties
-
-        public override FolderOrderClass FolderOrderClass => FolderOrderClass.Normal;
-
-        #endregion Properties
-
-        #region Methods
 
         // 分割アーカイブフィルタ用
         private class MultipleArchive
@@ -262,7 +254,6 @@ namespace NeeView
             RequestRename(new QueryPath(e.OldFullPath), new QueryPath(e.FullPath));
         }
 
-        #endregion
 
         #region IDisposable Support
 

@@ -253,7 +253,7 @@ namespace NeeView
         /// <summary>
         /// 検索許可？
         /// </summary>
-        public bool IsFolderSearchEnabled => Place?.Path != null && !(FolderCollection is FolderArchiveCollection) && !(FolderCollection is BookmarkFolderCollection);
+        public bool IsFolderSearchEnabled => Place?.Path != null && FolderCollection.IsSearchEnabled;
 
         /// <summary>
         /// 現在のフォルダー

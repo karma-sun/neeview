@@ -85,10 +85,18 @@ namespace NeeView
         {
             // ウィンドウメッセージ
             public const int WM_SIZE = 0x0005;
+            public const int WM_MOUSEACTIVATE = 0x0021;
             public const int WM_ENTERSIZEMOVE = 0x0231;
             public const int WM_EXITSIZEMOVE = 0x0232;
             public const int WM_DEVICECHANGE = 0x0219;
             public const int WM_SHNOTIFY = 0x0401;
+
+            // マウスアクティブ
+            public const int MA_ACTIVATE = 1;
+            public const int MA_ACTIVATEANDEAT = 2;
+            public const int MA_NOACTIVATE = 3;
+            public const int MA_NOACTIVATEANDEAT = 4;
+
 
             // Win32API の PostMessage 関数のインポート
             [DllImport("user32.dll", CharSet = CharSet.Unicode)]
@@ -259,6 +267,8 @@ namespace NeeView
                     case NativeMethods.WM_SHNOTIFY:
                         OnSHNotify(wParam, lParam);
                         break;
+                    case NativeMethods.WM_MOUSEACTIVATE:
+                        return OnMouseActive(ref handled);
                 }
             }
             catch (Exception ex)
@@ -270,7 +280,20 @@ namespace NeeView
         }
 
 
-        //
+        /// <summary>
+        /// マウスボタンを押すことでウィンドウをアクティブ化するメッセージ処理
+        /// </summary>
+        private IntPtr OnMouseActive(ref bool handled)
+        {
+            if (Config.Current.Window.MouseActivateAndEat)
+            {
+                handled = true;
+                return (IntPtr)NativeMethods.MA_ACTIVATEANDEAT;
+            }
+
+            return IntPtr.Zero;
+        }
+
         private void OnDeviceChange(IntPtr wParam, IntPtr lParam)
         {
             if (lParam == IntPtr.Zero)
@@ -300,7 +323,7 @@ namespace NeeView
 
         private string UnitMaskToDriveName(uint unitmask)
         {
-            for(int i=0; i<32; ++i)
+            for (int i = 0; i < 32; ++i)
             {
                 if ((unitmask >> i & 1) == 1)
                 {

@@ -5355,4 +5355,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="CommandViewScrollNTypeDownNote" xml:space="preserve">
     <value>If you can scroll vertically and horizontally, scroll to draw N characters.</value>
   </data>
+  <data name="ParamWindowMouseActivateAndEat" xml:space="preserve">
+    <value>Disable mouse data when activating window with mouse</value>
+  </data>
 </root>

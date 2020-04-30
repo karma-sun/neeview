@@ -13414,6 +13414,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Disable mouse data when activating window with mouse に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamWindowMouseActivateAndEat {
+            get {
+                return ResourceManager.GetString("ParamWindowMouseActivateAndEat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Window frame with title bar hidden に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamWindowShapeChromeFrame {

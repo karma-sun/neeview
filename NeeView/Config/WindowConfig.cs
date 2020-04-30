@@ -14,6 +14,7 @@ namespace NeeView
         private double _maximizeWindowGapWidth = 8.0;
         private WindowStateEx _state;
         private bool _isCaptionEmulateInFullScreen;
+        private bool _mouseActivateAndEat;
 
 
         [PropertyMember("@ParamWindowShapeChromeFrame")]
@@ -58,6 +59,12 @@ namespace NeeView
             set { SetProperty(ref _maximizeWindowGapWidth, value); }
         }
 
+        [PropertyMember("@ParamWindowMouseActivateAndEat")]
+        public bool MouseActivateAndEat
+        {
+            get { return _mouseActivateAndEat; }
+            set { SetProperty(ref _mouseActivateAndEat, value); }
+        }
 
         /// <summary>
         /// ウィンドウ状態

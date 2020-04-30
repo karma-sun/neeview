@@ -180,9 +180,10 @@ namespace NeeView
         //
         private void OnStylusDown(object sender, StylusDownEventArgs e)
         {
-            if (!Config.Current.Touch.IsEnabled) return;
             if (sender != _sender) return;
-
+            if (!Config.Current.Touch.IsEnabled) return;
+            if (MainWindow.Current.IsMouseActivate) return;
+            
             ////Debug.WriteLine($"TouchDown: {e.StylusDevice.Id}");
 
             CleanupTouchMap();

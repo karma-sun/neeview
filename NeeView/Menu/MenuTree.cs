@@ -169,10 +169,12 @@ namespace NeeView
                 {
                     if (child.MenuElementType == MenuElementType.None)
                     {
+                        Debug.WriteLine($"MenuTree.Validate: Remove EmptyNode");
                         removes.Add(child);
                     }
                     else if (child.MenuElementType == MenuElementType.Command && !CommandTable.Current.ContainsKey(child.CommandName))
                     {
+                        Debug.WriteLine($"MenuTree.Validate: Remove CommandNode=\"{child.CommandName}\"");
                         removes.Add(child);
                     }
                     else

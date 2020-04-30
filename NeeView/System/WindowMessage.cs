@@ -287,8 +287,7 @@ namespace NeeView
         {
             if (Config.Current.Window.MouseActivateAndEat)
             {
-                handled = true;
-                return (IntPtr)NativeMethods.MA_ACTIVATEANDEAT;
+                MainWindow.Current.SetMouseActivage();
             }
 
             return IntPtr.Zero;

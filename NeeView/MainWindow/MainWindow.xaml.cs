@@ -154,6 +154,9 @@ namespace NeeView
             this.PreviewMouseWheel += MainWindow_PreviewMouseWheel;
             this.PreviewStylusDown += MainWindow_PreviewStylusDown;
 
+            // mouse acticate
+            this.MouseDown += MainWindow_MouseDown;
+
             // key event for window
             this.PreviewKeyDown += MainWindow_PreviewKeyDown;
             this.PreviewKeyUp += MainWindow_PreviewKeyUp;
@@ -465,6 +468,32 @@ namespace NeeView
         private bool IsCursurVisibled()
         {
             return this.MainView.Cursor != Cursors.None || MouseInput.Current.IsLoupeMode;
+        }
+
+        #endregion
+
+        #region マウスによるウィンドウアクティブ監視
+
+        public bool IsMouseActivate { get; private set; }
+
+        public void SetMouseActivage()
+        {
+            if (!IsActive)
+            {
+                IsMouseActivate = true;
+                var async = ResetMouseActivateAsync(100);
+            }
+        }
+
+        private async Task ResetMouseActivateAsync(int milliseconds)
+        {
+            await Task.Delay(milliseconds);
+            IsMouseActivate = false;
+        }
+
+        private void MainWindow_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            IsMouseActivate = false;
         }
 
         #endregion

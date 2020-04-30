@@ -226,6 +226,7 @@ namespace NeeView
         {
             if (sender != _sender) return;
             if (IsStylusDevice(e)) return;
+            if (MainWindow.Current.IsMouseActivate) return;
 
             _current.OnMouseButtonDown(_sender, e);
         }

@@ -34,6 +34,7 @@ namespace NeeView
         internal void Resotre(MenuNode contextMenuNode)
         {
             SourceTree = contextMenuNode != null ? MenuTree.CreateMenuTree(contextMenuNode) : null;
+            SourceTree?.Validate();
         }
     }
 

@@ -45,6 +45,8 @@ namespace NeeView
 
         public override bool MemberwiseEquals(CommandParameter other)
         {
+            if (!base.MemberwiseEquals(other)) return false;
+
             var target = other as MoveSizePageCommandParameter;
             if (target == null) return false;
             return this == target || (this.Size == target.Size);

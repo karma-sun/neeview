@@ -5331,4 +5331,10 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamDotKeepThresholdTips" xml:space="preserve">
     <value>この拡大率より拡大される場合にのみ適用します。</value>
   </data>
+  <data name="SettingPagePanels" xml:space="preserve">
+    <value>パネル</value>
+  </data>
+  <data name="SettingPageWindow" xml:space="preserve">
+    <value>ウィンドウ</value>
+  </data>
 </root>

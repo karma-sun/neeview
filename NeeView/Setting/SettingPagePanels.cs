@@ -8,43 +8,24 @@ using System.Windows;
 
 namespace NeeView.Setting
 {
-    public class SettingPageVisual : SettingPage
+    public class SettingPagePanels : SettingPage
     {
-        public SettingPageVisual() : base(Properties.Resources.SettingPageVisual)
+        public SettingPagePanels() : base(Properties.Resources.SettingPagePanels)
         {
             this.Children = new List<SettingPage>
             {
-                new SettingPageVisualNotify(),
-                new SettingPageVisualWindowTitile(),
-                new SettingPageVisualFilmstrip(),
-                new SettingPageVisualSlider(),
-                new SettingPagePanelGeneral(),
                 new SettingPagePanelItem(),
                 new SettingPagePanelFolderList(),
                 new SettingPagePanelFileInfo(),
                 new SettingPagePanelEffect(),
-                new SettingPageVisualSlideshow(),
-                new SettingPageVisualThumbnail(),
+                new SettingPageVisualFilmstrip(),
+                new SettingPageVisualSlider(),
             };
+
 
             this.Items = new List<SettingItem>();
 
-            var section = new SettingItemSection(Properties.Resources.SettingPageVisualGeneralTheme);
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Theme, nameof(ThemeConfig.PanelColor))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Theme, nameof(ThemeConfig.MenuColor))));
-            this.Items.Add(section);
-
-            section = new SettingItemSection(Properties.Resources.SettingPageVisualGeneralOpacity);
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels, nameof(PanelsConfig.Opacity))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Slider, nameof(SliderConfig.Opacity))));
-            this.Items.Add(section);
-
-            section = new SettingItemSection(Properties.Resources.SettingPageVisualGeneralBackground);
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Background, nameof(BackgroundConfig.CustomBackground)),
-                new BackgroundSettingControl(Config.Current.Background.CustomBackground)));
-            this.Items.Add(section);
-
-            section = new SettingItemSection(Properties.Resources.SettingPageVisualGeneralAutoHide);
+            var section = new SettingItemSection(Properties.Resources.SettingPageVisualGeneralAutoHide);
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.AutoHide, nameof(AutoHideConfig.AutoHideFocusLockMode))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.AutoHide, nameof(AutoHideConfig.IsAutoHideKeyDownDelay))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.AutoHide, nameof(AutoHideConfig.AutoHideDelayVisibleTime))));
@@ -52,96 +33,14 @@ namespace NeeView.Setting
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.AutoHide, nameof(AutoHideConfig.AutoHideHitTestMargin))));
             this.Items.Add(section);
 
-            section = new SettingItemSection(Properties.Resources.SettingPageVisualGeneralAdvance);
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.MenuBar, nameof(MenuBarConfig.IsHamburgerMenu))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Window, nameof(WindowConfig.IsFullScreenWithTaskBar))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Window, nameof(WindowConfig.WindowChromeFrame))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Window, nameof(WindowConfig.MaximizeWindowGapWidth))));
-            this.Items.Add(section);
-        }
-    }
-
-    public class SettingPageVisualThumbnail : SettingPage
-    {
-        public SettingPageVisualThumbnail() : base(Properties.Resources.SettingPageVisualThumbnail)
-        {
-            this.Items = new List<SettingItem>();
-
-            var section = new SettingItemSection(Properties.Resources.SettingPageVisualThumbnailCache);
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Thumbnail, nameof(ThumbnailConfig.IsCacheEnabled))));
-            section.Children.Add(new SettingItemIndexValue<TimeSpan>(PropertyMemberElement.Create(Config.Current.Thumbnail, nameof(ThumbnailConfig.CacheLimitSpan)), new CacheLimitSpan(), false));
-            section.Children.Add(new SettingItemButton(Properties.Resources.SettingPageVisualThumbnailCacheClear, Properties.Resources.SettingPageVisualThumbnailCacheClearButton, RemoveCache));
+            section = new SettingItemSection(Properties.Resources.SettingPagePanelGeneralVisual);
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels, nameof(PanelsConfig.Opacity))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels, nameof(PanelsConfig.IsHidePanelInFullscreen))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels, nameof(PanelsConfig.IsLeftRightKeyEnabled))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels, nameof(PanelsConfig.IsManipulationBoundaryFeedbackEnabled))));
             this.Items.Add(section);
 
-            section = new SettingItemSection(Properties.Resources.SettingPageVisualThumbnailAdvance);
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Thumbnail, nameof(ThumbnailConfig.Resolution))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Thumbnail, nameof(ThumbnailConfig.Format))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Thumbnail, nameof(ThumbnailConfig.Quality))));
-            this.Items.Add(section);
         }
-
-        #region Commands
-
-        private RelayCommand<UIElement> _RemoveCache;
-        public RelayCommand<UIElement> RemoveCache
-        {
-            get { return _RemoveCache = _RemoveCache ?? new RelayCommand<UIElement>(RemoveCache_Executed); }
-        }
-
-        private void RemoveCache_Executed(UIElement element)
-        {
-            try
-            {
-                ThumbnailCache.Current.Remove();
-
-                var dialog = new MessageDialog("", Properties.Resources.DialogCacheDeletedTitle);
-                if (element != null)
-                {
-                    dialog.Owner = Window.GetWindow(element);
-                }
-                dialog.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                var dialog = new MessageDialog(ex.Message, Properties.Resources.DialogCacheDeletedFailedTitle);
-                if (element != null)
-                {
-                    dialog.Owner = Window.GetWindow(element);
-                }
-                dialog.ShowDialog();
-            }
-        }
-
-        #endregion
-
-        /// <summary>
-        /// 履歴期限テーブル
-        /// </summary>
-        public class CacheLimitSpan : IndexTimeSpanValue
-        {
-            private static List<TimeSpan> _values = new List<TimeSpan>() {
-                TimeSpan.FromDays(2),
-                TimeSpan.FromDays(3),
-                TimeSpan.FromDays(7),
-                TimeSpan.FromDays(15),
-                TimeSpan.FromDays(30),
-                TimeSpan.FromDays(100),
-                TimeSpan.FromDays(365),
-                default(TimeSpan),
-            };
-
-            public CacheLimitSpan() : base(_values)
-            {
-            }
-
-            public CacheLimitSpan(TimeSpan value) : base(_values)
-            {
-                Value = value;
-            }
-
-            public override string ValueString => Value == default(TimeSpan) ? Properties.Resources.WordNoLimit : string.Format(Properties.Resources.WordDaysAgo, Value.Days);
-        }
-
     }
 
 
@@ -195,45 +94,14 @@ namespace NeeView.Setting
         #endregion
     }
 
-    public class SettingPageVisualNotify : SettingPage
-    {
-        public SettingPageVisualNotify() : base(Properties.Resources.SettingPageVisualNotify)
-        {
-            var section = new SettingItemSection(Properties.Resources.SettingPageVisualNotifyDisplay);
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Notice, nameof(NoticeConfig.NoticeShowMessageStyle))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Notice, nameof(NoticeConfig.BookNameShowMessageStyle))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Notice, nameof(NoticeConfig.CommandShowMessageStyle))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Notice, nameof(NoticeConfig.GestureShowMessageStyle))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Notice, nameof(NoticeConfig.NowLoadingShowMessageStyle))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Notice, nameof(NoticeConfig.ViewTransformShowMessageStyle))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Notice, nameof(NoticeConfig.IsOriginalScaleShowMessage))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Notice, nameof(NoticeConfig.IsEmptyMessageEnabled))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Notice, nameof(NoticeConfig.IsBusyMarkEnabled))));
 
-            this.Items = new List<SettingItem>() { section };
-        }
-    }
-
-    public class SettingPageVisualWindowTitile : SettingPage
-    {
-        public SettingPageVisualWindowTitile() : base(Properties.Resources.SettingPageVisualWindowTitile)
-        {
-            var section = new SettingItemSection(Properties.Resources.SettingPageVisualWindowTitileDisplay);
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.WindowTittle, nameof(WindowTitleConfig.WindowTitleFormat1))) { IsStretch = true });
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.WindowTittle, nameof(WindowTitleConfig.WindowTitleFormat2))) { IsStretch = true });
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.WindowTittle, nameof(WindowTitleConfig.WindowTitleFormatMedia))) { IsStretch = true });
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.WindowTittle, nameof(WindowTitleConfig.IsMainViewDisplayEnabled))));
-            section.Children.Add(new SettingItemNote(Properties.Resources.SettingPageVisualWindowTitileNote));
-
-            this.Items = new List<SettingItem>() { section };
-        }
-    }
 
     public class SettingPageVisualSlider : SettingPage
     {
         public SettingPageVisualSlider() : base(Properties.Resources.SettingPageVisualSlider)
         {
             var section = new SettingItemSection(Properties.Resources.SettingPageVisualSliderVisual);
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Slider, nameof(SliderConfig.Opacity))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Slider, nameof(SliderConfig.IsHidePageSliderInFullscreen))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Slider, nameof(SliderConfig.SliderDirection))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Slider, nameof(SliderConfig.SliderIndexLayout))));
@@ -242,18 +110,6 @@ namespace NeeView.Setting
         }
     }
 
-    public class SettingPagePanelGeneral : SettingPage
-    {
-        public SettingPagePanelGeneral() : base(Properties.Resources.SettingPagePanelGeneral)
-        {
-            var section = new SettingItemSection(Properties.Resources.SettingPagePanelGeneralVisual);
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels, nameof(PanelsConfig.IsHidePanelInFullscreen))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels, nameof(PanelsConfig.IsLeftRightKeyEnabled))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels, nameof(PanelsConfig.IsManipulationBoundaryFeedbackEnabled))));
-
-            this.Items = new List<SettingItem>() { section };
-        }
-    }
 
     public class SettingPagePanelItem : SettingPage
     {
@@ -347,47 +203,5 @@ namespace NeeView.Setting
 
             this.Items = new List<SettingItem>() { section };
         }
-    }
-
-    public class SettingPageVisualSlideshow : SettingPage
-    {
-        public SettingPageVisualSlideshow() : base(Properties.Resources.SettingPageVisualSlideshow)
-        {
-            var section = new SettingItemSection(Properties.Resources.SettingPageVisualSlideshowGeneral);
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.SlideShow, nameof(SlideShowConfig.IsSlideShowByLoop))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.SlideShow, nameof(SlideShowConfig.IsCancelSlideByMouseMove))));
-            section.Children.Add(new SettingItemIndexValue<double>(PropertyMemberElement.Create(Config.Current.SlideShow, nameof(SlideShowConfig.SlideShowInterval)), new SlideShowInterval(), true));
-
-            this.Items = new List<SettingItem>() { section };
-        }
-
-
-        #region IndexValue
-
-        /// <summary>
-        /// スライドショー インターバルテーブル
-        /// </summary>
-        public class SlideShowInterval : IndexDoubleValue
-        {
-            private static List<double> _values = new List<double>
-            {
-                1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 30, 45, 60, 90, 120, 180, 240, 300
-            };
-
-            public SlideShowInterval() : base(_values)
-            {
-                IsValueSyncIndex = false;
-            }
-
-            public SlideShowInterval(double value) : base(_values)
-            {
-                IsValueSyncIndex = false;
-                Value = value;
-            }
-
-            public override string ValueString => $"{Value}{Properties.Resources.WordSec}";
-        }
-
-        #endregion
     }
 }

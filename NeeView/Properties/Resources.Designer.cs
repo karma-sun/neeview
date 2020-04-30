@@ -14431,6 +14431,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Panels に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPagePanels {
+            get {
+                return ResourceManager.GetString("SettingPagePanels", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Banner style of list items に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPagePanelStyleBanner {
@@ -14800,6 +14809,15 @@ namespace NeeView.Properties {
         public static string SettingPageVisualWindowTitileNote {
             get {
                 return ResourceManager.GetString("SettingPageVisualWindowTitileNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Window に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageWindow {
+            get {
+                return ResourceManager.GetString("SettingPageWindow", resourceCulture);
             }
         }
         

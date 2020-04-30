@@ -5331,4 +5331,10 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamDotKeepThresholdTips" xml:space="preserve">
     <value>Only applicable if the scale is larger than this.</value>
   </data>
+  <data name="SettingPagePanels" xml:space="preserve">
+    <value>Panels</value>
+  </data>
+  <data name="SettingPageWindow" xml:space="preserve">
+    <value>Window</value>
+  </data>
 </root>

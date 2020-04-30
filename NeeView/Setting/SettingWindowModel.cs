@@ -67,7 +67,9 @@ namespace NeeView.Setting
 
             _pages.Add(new SettingPageEnvironment());
             _pages.Add(new SettingPageArchiver());
-            _pages.Add(new SettingPageVisual());
+            _pages.Add(new SettingPageWindow());
+            _pages.Add(new SettingPagePanels());
+            _pages.Add(new SettingPageSlideshow());
             _pages.Add(new SettingPageManipurate());
             _pages.Add(new SettingPageBook());
             _pages.Add(new SettingPageHistory());

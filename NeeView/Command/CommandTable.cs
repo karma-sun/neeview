@@ -554,7 +554,7 @@ namespace NeeView
                         foreach (PropertyInfo info in type.GetProperties())
                         {
                             var attribute = (PropertyMemberAttribute)Attribute.GetCustomAttributes(info, typeof(PropertyMemberAttribute)).FirstOrDefault();
-                            if (attribute != null)
+                            if (attribute != null && attribute.IsVisible)
                             {
                                 if (attribute.Title != null)
                                 {

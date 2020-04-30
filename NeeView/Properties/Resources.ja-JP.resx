@@ -5337,4 +5337,10 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="SettingPageWindow" xml:space="preserve">
     <value>ウィンドウ</value>
   </data>
+  <data name="ParamCommandParameterScrollPageMoveMargin" xml:space="preserve">
+    <value>ページ移動猶予 (秒)</value>
+  </data>
+  <data name="ParamCommandParameterScrollPageMoveMarginTips" xml:space="preserve">
+    <value>すぐにページ移動させないための判定時間です。</value>
+  </data>
 </root>

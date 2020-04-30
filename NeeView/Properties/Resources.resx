@@ -5337,4 +5337,10 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="SettingPageWindow" xml:space="preserve">
     <value>Window</value>
   </data>
+  <data name="ParamCommandParameterScrollPageMoveMargin" xml:space="preserve">
+    <value>Page move margin (sec)</value>
+  </data>
+  <data name="ParamCommandParameterScrollPageMoveMarginTips" xml:space="preserve">
+    <value>Judgment time for not moving the page immediately.</value>
+  </data>
 </root>

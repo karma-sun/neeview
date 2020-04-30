@@ -10263,6 +10263,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Page move margin (sec) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterScrollPageMoveMargin {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterScrollPageMoveMargin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Judgment time for not moving the page immediately. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterScrollPageMoveMarginTips {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterScrollPageMoveMarginTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   N-type scroll に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamCommandParameterScrollPageN {

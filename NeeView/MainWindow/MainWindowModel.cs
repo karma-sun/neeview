@@ -65,7 +65,6 @@ namespace NeeView
         private bool _canHidePanel;
 
         private DateTime _scrollPageTime;
-        private const double _scrollPageMargin = 100.0;
 
         private SolidColorBrush _sliderBackground;
         private SolidColorBrush _sliderBackgroundGlass;
@@ -365,8 +364,9 @@ namespace NeeView
 
             if (!isScrolled)
             {
+                var margin = TimeSpan.FromSeconds(parameter.PageMoveMargin);
                 var span = DateTime.Now - _scrollPageTime;
-                if (!parameter.IsStop || _scrollPageMargin < span.TotalMilliseconds)
+                if (margin <= span)
                 {
                     ContentCanvas.Current.NextViewOrigin = (BookSettingPresenter.Current.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightBottom : DragViewOrigin.LeftBottom;
                     BookOperation.Current.PrevPage();
@@ -388,8 +388,9 @@ namespace NeeView
 
             if (!isScrolled)
             {
+                var margin = TimeSpan.FromSeconds(parameter.PageMoveMargin);
                 var span = DateTime.Now - _scrollPageTime;
-                if (!parameter.IsStop || _scrollPageMargin < span.TotalMilliseconds)
+                if (margin <= span)
                 {
                     ContentCanvas.Current.NextViewOrigin = (BookSettingPresenter.Current.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightTop : DragViewOrigin.LeftTop;
                     BookOperation.Current.NextPage();

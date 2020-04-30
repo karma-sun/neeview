@@ -474,7 +474,7 @@ namespace NeeView
             var delta = GetNScrollDelta(direction, bookReadDirection, allowVerticalScroll, margin, rate);
             var span = TimeSpan.FromSeconds(sec);
 
-            if (delta.X != 0.0 || delta.Y != 0.0)
+            if (Math.Abs(delta.X) > 0.1 || Math.Abs(delta.Y) > 0.1)
             {
                 ////Debug.WriteLine(delta);
                 UpdateLock();

@@ -386,7 +386,7 @@ namespace NeeView
             {
                 var margin = TimeSpan.FromSeconds(parameter.PageMoveMargin);
                 var span = DateTime.Now - _scrollPageTime;
-                if (margin <= span)
+                if (margin <= TimeSpan.Zero || margin <= span)
                 {
                     ContentCanvas.Current.NextViewOrigin = (BookSettingPresenter.Current.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightBottom : DragViewOrigin.LeftBottom;
                     BookOperation.Current.PrevPage();
@@ -410,7 +410,7 @@ namespace NeeView
             {
                 var margin = TimeSpan.FromSeconds(parameter.PageMoveMargin);
                 var span = DateTime.Now - _scrollPageTime;
-                if (margin <= span)
+                if (margin <= TimeSpan.Zero || margin <= span)
                 {
                     ContentCanvas.Current.NextViewOrigin = (BookSettingPresenter.Current.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightTop : DragViewOrigin.LeftTop;
                     BookOperation.Current.NextPage();

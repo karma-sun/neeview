@@ -7,6 +7,9 @@ using System.Windows;
 
 namespace NeeView.Setting
 {
+    /// <summary>
+    /// Setting: History
+    /// </summary>
     public class SettingPageHistory : SettingPage
     {
         public SettingPageHistory() : base(Properties.Resources.SettingPageHistory)
@@ -138,6 +141,10 @@ namespace NeeView.Setting
         #endregion
     }
 
+
+    /// <summary>
+    /// Setting: HistoryPageView
+    /// </summary>
     public class SettingPageHistoryPageView : SettingPage
     {
         public SettingPageHistoryPageView() : base(Properties.Resources.SettingPageHistoryPageViewRecord)

@@ -8,13 +8,16 @@ using System.Threading.Tasks;
 
 namespace NeeView.Setting
 {
+    /// <summary>
+    /// SettingPage: Command
+    /// </summary>
     class SettingPageCommand : SettingPage
     {
         public SettingPageCommand() : base(Properties.Resources.SettingPageCommand)
         {
             this.Children = new List<SettingPage>
             {
-                new SettingPageCommandMain(),
+                new SettingPageCommandList(),
                 new SettingPageContextMenu(),
             };
 
@@ -39,9 +42,13 @@ namespace NeeView.Setting
         }
     }
 
-    class SettingPageCommandMain : SettingPage
+
+    /// <summary>
+    /// SettingPage: CommandList
+    /// </summary>
+    class SettingPageCommandList : SettingPage
     {
-        public SettingPageCommandMain() : base(Properties.Resources.SettingPageCommandMain)
+        public SettingPageCommandList() : base(Properties.Resources.SettingPageCommandMain)
         {
             var linkCommand = new RelayCommand(() => this.IsSelected = true);
 
@@ -53,4 +60,20 @@ namespace NeeView.Setting
         }
     }
 
+    /// <summary>
+    /// SettingPage: ContextMenu
+    /// </summary>
+    class SettingPageContextMenu : SettingPage
+    {
+        public SettingPageContextMenu() : base(Properties.Resources.SettingPageContextMenu)
+        {
+            var linkCommand = new RelayCommand(() => this.IsSelected = true);
+
+            this.IsScrollEnabled = false;
+
+            var section = new SettingItemSection(Properties.Resources.SettingPageContextMenuEdit);
+            section.Children.Add(new SettingItemContextMenu() { SearchResultItem = new SettingItemLink(Properties.Resources.SettingPageContextMenuEdit, linkCommand) { IsContentOnly = true } });
+            this.Items = new List<SettingItem>() { section };
+        }
+    }
 }

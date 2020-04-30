@@ -65,8 +65,8 @@ namespace NeeView.Setting
         {
             _pages = new List<SettingPage>();
 
-            _pages.Add(new SettingPageEnvironment());
-            _pages.Add(new SettingPageArchiver());
+            _pages.Add(new SettingPageGeneral());
+            _pages.Add(new SettingPageFileTypes());
             _pages.Add(new SettingPageWindow());
             _pages.Add(new SettingPagePanels());
             _pages.Add(new SettingPageSlideshow());
@@ -75,7 +75,7 @@ namespace NeeView.Setting
             _pages.Add(new SettingPageHistory());
             _pages.Add(new SettingPageCommand());
 
-            _latestSelectedPageType = _latestSelectedPageType ?? typeof(SettingPageEnvironment);
+            _latestSelectedPageType = _latestSelectedPageType ?? typeof(SettingPageGeneral);
             var page = GetSettingPagesEnumerator(_pages).FirstOrDefault(e => e.GetType() == _latestSelectedPageType);
             if (page != null)
             {

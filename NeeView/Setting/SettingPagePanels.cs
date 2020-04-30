@@ -10,18 +10,20 @@ namespace NeeView.Setting
 {
     public class SettingPagePanels : SettingPage
     {
+        /// <summary>
+        /// Setting: Panels
+        /// </summary>
         public SettingPagePanels() : base(Properties.Resources.SettingPagePanels)
         {
             this.Children = new List<SettingPage>
             {
-                new SettingPagePanelItem(),
-                new SettingPagePanelFolderList(),
-                new SettingPagePanelFileInfo(),
-                new SettingPagePanelEffect(),
-                new SettingPageVisualFilmstrip(),
-                new SettingPageVisualSlider(),
+                new SettingPagePanelItems(),
+                new SettingPageBookshelf(),
+                new SettingPageFileInfo(),
+                new SettingPageEffect(),
+                new SettingPageFilmstrip(),
+                new SettingPageSlider(),
             };
-
 
             this.Items = new List<SettingItem>();
 
@@ -44,9 +46,122 @@ namespace NeeView.Setting
     }
 
 
-    public class SettingPageVisualFilmstrip : SettingPage
+    /// <summary>
+    /// Setting: PanelItems
+    /// </summary>
+    public class SettingPagePanelItems : SettingPage
     {
-        public SettingPageVisualFilmstrip() : base(Properties.Resources.SettingPageVisualFilmstrip)
+        public SettingPagePanelItems() : base(Properties.Resources.SettingPagePanelListItem)
+        {
+            this.Items = new List<SettingItem>();
+
+            var section = new SettingItemSection(Properties.Resources.SettingPageVisualFontPanel);
+            section.Children.Add(new SettingItemPropertyFont(PropertyMemberElement.Create(Config.Current.Panels, nameof(PanelsConfig.FontName))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels, nameof(PanelsConfig.FontSize))));
+            this.Items.Add(section);
+
+            section = new SettingItemSection(Properties.Resources.SettingPagePanelStyleContent);
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels.ContentItemProfile, nameof(PanelListItemProfile.ImageWidth))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels.ContentItemProfile, nameof(PanelListItemProfile.ImageShape))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels.ContentItemProfile, nameof(PanelListItemProfile.IsImagePopupEnabled))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels.ContentItemProfile, nameof(PanelListItemProfile.IsTextWrapped))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels.ContentItemProfile, nameof(PanelListItemProfile.NoteOpacity))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels, nameof(PanelsConfig.IsDecoratePlace))));
+            this.Items.Add(section);
+
+            section = new SettingItemSection(Properties.Resources.SettingPagePanelStyleBanner);
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels.BannerItemProfile, nameof(PanelListItemProfile.ImageWidth))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels.BannerItemProfile, nameof(PanelListItemProfile.IsImagePopupEnabled))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels.BannerItemProfile, nameof(PanelListItemProfile.IsTextWrapped))));
+            this.Items.Add(section);
+
+            section = new SettingItemSection(Properties.Resources.SettingPagePanelStyleThumbnail);
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels.ThumbnailItemProfile, nameof(PanelListItemProfile.ImageWidth))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels.ThumbnailItemProfile, nameof(PanelListItemProfile.ImageShape))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels.ThumbnailItemProfile, nameof(PanelListItemProfile.IsImagePopupEnabled))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels.ThumbnailItemProfile, nameof(PanelListItemProfile.IsTextVisible))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels.ThumbnailItemProfile, nameof(PanelListItemProfile.IsTextWrapped))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels, nameof(PanelsConfig.MouseWheelSpeedRate))));
+            this.Items.Add(section);
+        }
+    }
+
+
+    /// <summary>
+    /// Setting: Bookshelf
+    /// </summary>
+    public class SettingPageBookshelf : SettingPage
+    {
+        public SettingPageBookshelf() : base(Properties.Resources.SettingPagePanelBookshelf)
+        {
+            this.Items = new List<SettingItem>();
+
+            var section = new SettingItemSection(Properties.Resources.SettingPagePanelBookshelfGeneral);
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.Home))) { IsStretch = true });
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.IsBookmarkMark))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.IsHistoryMark))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.IsKeepFolderStatus))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.IsKeepSearchHistory))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.IsPageListDocked))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.IsCloseBookWhenMove))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.IsOpenNextBookWhenRemove))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.IsInsertItem))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.IsHiddenFileVisibled))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.IsMultipleRarFilterEnabled))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.ExcludePattern))) { IsStretch = true });
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.DefaultFolderOrder), new PropertyMemberElementOptions() { EnumMap = FolderOrderClass.Normal.GetFolderOrderMap().ToDictionary(e => (Enum)e.Key, e => e.Value) })));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.PlaylistFolderOrder), new PropertyMemberElementOptions() { EnumMap = FolderOrderClass.Full.GetFolderOrderMap().ToDictionary(e => (Enum)e.Key, e => e.Value) })));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookmark, nameof(BookmarkConfig.BookmarkFolderOrder), new PropertyMemberElementOptions() { EnumMap = FolderOrderClass.Full.GetFolderOrderMap().ToDictionary(e => (Enum)e.Key, e => e.Value) })));
+            this.Items.Add(section);
+
+            section = new SettingItemSection(Properties.Resources.SettingPagePanelBookshelfTree);
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.FolderTreeLayout))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels, nameof(PanelsConfig.FolderTreeFontSize))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.IsSyncFolderTree))));
+            this.Items.Add(section);
+        }
+    }
+
+
+    /// <summary>
+    /// Setting: FileInfo
+    /// </summary>
+    public class SettingPageFileInfo : SettingPage
+    {
+        public SettingPageFileInfo() : base(Properties.Resources.SettingPagePanelFileInfo)
+        {
+            var section = new SettingItemSection(Properties.Resources.SettingPagePanelFileInfoVisual);
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Information, nameof(InformationConfig.IsVisibleFilePath))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Information, nameof(InformationConfig.IsVisibleBitsPerPixel))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Information, nameof(InformationConfig.IsVisibleLoader))));
+
+            this.Items = new List<SettingItem>() { section };
+        }
+    }
+
+
+    /// <summary>
+    /// Setting: Effect
+    /// </summary>
+    public class SettingPageEffect : SettingPage
+    {
+        public SettingPageEffect() : base(Properties.Resources.SettingPagePanelEffect)
+        {
+            var section = new SettingItemSection(Properties.Resources.SettingPagePanelEffectVisual);
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.ImageDotKeep, nameof(ImageDotKeepConfig.Threshold))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.ImageEffect, nameof(ImageEffectConfig.IsHsvMode))));
+
+            this.Items = new List<SettingItem>() { section };
+        }
+    }
+
+
+    /// <summary>
+    /// Setting: Filmstrip
+    /// </summary>
+    public class SettingPageFilmstrip : SettingPage
+    {
+        public SettingPageFilmstrip() : base(Properties.Resources.SettingPageVisualFilmstrip)
         {
             var section = new SettingItemSection(Properties.Resources.SettingPageVisualFilmstripFilmstrip);
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.FilmStrip, nameof(FilmStripConfig.ThumbnailSize))));
@@ -95,111 +210,18 @@ namespace NeeView.Setting
     }
 
 
-
-    public class SettingPageVisualSlider : SettingPage
+    /// <summary>
+    /// Setting: Slider
+    /// </summary>
+    public class SettingPageSlider : SettingPage
     {
-        public SettingPageVisualSlider() : base(Properties.Resources.SettingPageVisualSlider)
+        public SettingPageSlider() : base(Properties.Resources.SettingPageVisualSlider)
         {
             var section = new SettingItemSection(Properties.Resources.SettingPageVisualSliderVisual);
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Slider, nameof(SliderConfig.Opacity))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Slider, nameof(SliderConfig.IsHidePageSliderInFullscreen))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Slider, nameof(SliderConfig.SliderDirection))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Slider, nameof(SliderConfig.SliderIndexLayout))));
-
-            this.Items = new List<SettingItem>() { section };
-        }
-    }
-
-
-    public class SettingPagePanelItem : SettingPage
-    {
-        public SettingPagePanelItem() : base(Properties.Resources.SettingPagePanelListItem)
-        {
-            this.Items = new List<SettingItem>();
-
-            var section = new SettingItemSection(Properties.Resources.SettingPageVisualFontPanel);
-            section.Children.Add(new SettingItemPropertyFont(PropertyMemberElement.Create(Config.Current.Panels, nameof(PanelsConfig.FontName))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels, nameof(PanelsConfig.FontSize))));
-            this.Items.Add(section);
-
-            section = new SettingItemSection(Properties.Resources.SettingPagePanelStyleContent);
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels.ContentItemProfile, nameof(PanelListItemProfile.ImageWidth))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels.ContentItemProfile, nameof(PanelListItemProfile.ImageShape))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels.ContentItemProfile, nameof(PanelListItemProfile.IsImagePopupEnabled))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels.ContentItemProfile, nameof(PanelListItemProfile.IsTextWrapped))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels.ContentItemProfile, nameof(PanelListItemProfile.NoteOpacity))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels, nameof(PanelsConfig.IsDecoratePlace))));
-            this.Items.Add(section);
-
-            section = new SettingItemSection(Properties.Resources.SettingPagePanelStyleBanner);
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels.BannerItemProfile, nameof(PanelListItemProfile.ImageWidth))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels.BannerItemProfile, nameof(PanelListItemProfile.IsImagePopupEnabled))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels.BannerItemProfile, nameof(PanelListItemProfile.IsTextWrapped))));
-            this.Items.Add(section);
-
-            section = new SettingItemSection(Properties.Resources.SettingPagePanelStyleThumbnail);
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels.ThumbnailItemProfile, nameof(PanelListItemProfile.ImageWidth))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels.ThumbnailItemProfile, nameof(PanelListItemProfile.ImageShape))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels.ThumbnailItemProfile, nameof(PanelListItemProfile.IsImagePopupEnabled))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels.ThumbnailItemProfile, nameof(PanelListItemProfile.IsTextVisible))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels.ThumbnailItemProfile, nameof(PanelListItemProfile.IsTextWrapped))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels, nameof(PanelsConfig.MouseWheelSpeedRate))));
-            this.Items.Add(section);
-        }
-    }
-
-    public class SettingPagePanelFolderList : SettingPage
-    {
-        public SettingPagePanelFolderList() : base(Properties.Resources.SettingPagePanelBookshelf)
-        {
-            this.Items = new List<SettingItem>();
-
-            var section = new SettingItemSection(Properties.Resources.SettingPagePanelBookshelfGeneral);
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.Home))) { IsStretch = true });
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.IsBookmarkMark))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.IsHistoryMark))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.IsKeepFolderStatus))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.IsKeepSearchHistory))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.IsPageListDocked))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.IsCloseBookWhenMove))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.IsOpenNextBookWhenRemove))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.IsInsertItem))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.IsHiddenFileVisibled))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.IsMultipleRarFilterEnabled))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.ExcludePattern))) { IsStretch = true });
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.DefaultFolderOrder), new PropertyMemberElementOptions() { EnumMap = FolderOrderClass.Normal.GetFolderOrderMap().ToDictionary(e => (Enum)e.Key, e => e.Value) })));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.PlaylistFolderOrder), new PropertyMemberElementOptions() { EnumMap = FolderOrderClass.Full.GetFolderOrderMap().ToDictionary(e => (Enum)e.Key, e => e.Value) })));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookmark, nameof(BookmarkConfig.BookmarkFolderOrder), new PropertyMemberElementOptions() { EnumMap = FolderOrderClass.Full.GetFolderOrderMap().ToDictionary(e => (Enum)e.Key, e => e.Value) })));
-            this.Items.Add(section);
-
-            section = new SettingItemSection(Properties.Resources.SettingPagePanelBookshelfTree);
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.FolderTreeLayout))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Panels, nameof(PanelsConfig.FolderTreeFontSize))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookshelf, nameof(BookshelfConfig.IsSyncFolderTree))));
-            this.Items.Add(section);
-        }
-    }
-
-    public class SettingPagePanelFileInfo : SettingPage
-    {
-        public SettingPagePanelFileInfo() : base(Properties.Resources.SettingPagePanelFileInfo)
-        {
-            var section = new SettingItemSection(Properties.Resources.SettingPagePanelFileInfoVisual);
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Information, nameof(InformationConfig.IsVisibleFilePath))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Information, nameof(InformationConfig.IsVisibleBitsPerPixel))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Information, nameof(InformationConfig.IsVisibleLoader))));
-
-            this.Items = new List<SettingItem>() { section };
-        }
-    }
-
-    public class SettingPagePanelEffect : SettingPage
-    {
-        public SettingPagePanelEffect() : base(Properties.Resources.SettingPagePanelEffect)
-        {
-            var section = new SettingItemSection(Properties.Resources.SettingPagePanelEffectVisual);
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.ImageDotKeep, nameof(ImageDotKeepConfig.Threshold))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.ImageEffect, nameof(ImageEffectConfig.IsHsvMode))));
 
             this.Items = new List<SettingItem>() { section };
         }

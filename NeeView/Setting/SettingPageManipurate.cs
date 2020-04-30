@@ -8,15 +8,18 @@ using System.Threading.Tasks;
 
 namespace NeeView.Setting
 {
+    /// <summary>
+    /// Setting: Manipurate
+    /// </summary>
     public class SettingPageManipurate : SettingPage
     {
         public SettingPageManipurate() : base(Properties.Resources.SettingPageManipurate)
         {
             this.Children = new List<SettingPage>
             {
-                new SettingPageManipurateMouse(),
-                new SettingPageManipurateTouch(),
-                new SettingPageManipurateLoupe(),
+                new SettingPageMouse(),
+                new SettingPageTouch(),
+                new SettingPageLoupe(),
             };
 
             var section = new SettingItemSection(Properties.Resources.SettingPageManipurateGeneralViewOperation);
@@ -53,9 +56,12 @@ namespace NeeView.Setting
         }
     }
 
-    public class SettingPageManipurateMouse : SettingPage
+    /// <summary>
+    /// Setting: Mouse
+    /// </summary>
+    public class SettingPageMouse : SettingPage
     {
-        public SettingPageManipurateMouse() : base(Properties.Resources.SettingPageManipurateMouse)
+        public SettingPageMouse() : base(Properties.Resources.SettingPageManipurateMouse)
         {
             this.Items = new List<SettingItem>();
 
@@ -83,9 +89,12 @@ namespace NeeView.Setting
         }
     }
 
-    public class SettingPageManipurateTouch : SettingPage
+    /// <summary>
+    /// Setting: Touch
+    /// </summary>
+    public class SettingPageTouch : SettingPage
     {
-        public SettingPageManipurateTouch() : base(Properties.Resources.SettingPageManipurateTouch)
+        public SettingPageTouch() : base(Properties.Resources.SettingPageManipurateTouch)
         {
             var section = new SettingItemSection(Properties.Resources.SettingPageManipurateTouchGeneral);
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Touch, nameof(TouchConfig.IsEnabled))));
@@ -101,9 +110,12 @@ namespace NeeView.Setting
         }
     }
 
-    public class SettingPageManipurateLoupe : SettingPage
+    /// <summary>
+    /// Setting: Loupte
+    /// </summary>
+    public class SettingPageLoupe : SettingPage
     {
-        public SettingPageManipurateLoupe() : base(Properties.Resources.SettingPageManipurateLoupe)
+        public SettingPageLoupe() : base(Properties.Resources.SettingPageManipurateLoupe)
         {
             var section = new SettingItemSection(Properties.Resources.SettingPageManipurateLoupeGeneral);
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Loupe, nameof(LoupeConfig.IsLoupeCenter))));

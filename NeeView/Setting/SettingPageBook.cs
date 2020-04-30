@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace NeeView.Setting
 {
+    /// <summary>
+    /// Setting: Book
+    /// </summary>
     public class SettingPageBook : SettingPage
     {
         public SettingPageBook() : base(Properties.Resources.SettingPageBook)
@@ -30,6 +33,9 @@ namespace NeeView.Setting
         }
     }
 
+    /// <summary>
+    /// SettingPage: BookMove
+    /// </summary>
     public class SettingPageBookMove : SettingPage
     {
         public SettingPageBookMove() : base(Properties.Resources.SettingPageBookMove)
@@ -50,6 +56,9 @@ namespace NeeView.Setting
         }
     }
 
+    /// <summary>
+    /// SettingPage: BookPageSetting
+    /// </summary>
     public class SettingPageBookPageSetting : SettingPage
     {
         public SettingPageBookPageSetting() : base(Properties.Resources.SettingPageBookPageSetting)

@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace NeeView.Setting
 {
+    /// <summary>
+    /// Setting: Slideshow
+    /// </summary>
     public class SettingPageSlideshow : SettingPage
     {
         public SettingPageSlideshow() : base(Properties.Resources.SettingPageVisualSlideshow)
@@ -15,7 +18,6 @@ namespace NeeView.Setting
 
             this.Items = new List<SettingItem>() { section };
         }
-
 
         #region IndexValue
 

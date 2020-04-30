@@ -1,12 +1,16 @@
-﻿using NeeView.Windows.Property;
+﻿using NeeView.Susie;
+using NeeView.Windows.Property;
 using System.Collections.Generic;
 using System.Windows;
 
 namespace NeeView.Setting
 {
-    public class SettingPageArchiver : SettingPage
+    /// <summary>
+    /// Setting: FileTypes
+    /// </summary>
+    public class SettingPageFileTypes : SettingPage
     {
-        public SettingPageArchiver() : base(Properties.Resources.SettingPageArchive)
+        public SettingPageFileTypes() : base(Properties.Resources.SettingPageArchive)
         {
             this.Children = new List<SettingPage>
             {
@@ -47,6 +51,10 @@ namespace NeeView.Setting
         }
     }
 
+
+    /// <summary>
+    /// SettingPage: Archive ZIP
+    /// </summary>
     public class SettingPageArchiverZip : SettingPage
     {
         public SettingPageArchiverZip() : base(Properties.Resources.SettingPageArchiveZip)
@@ -61,6 +69,10 @@ namespace NeeView.Setting
         }
     }
 
+
+    /// <summary>
+    /// SettingPage: Archive 7-Zip
+    /// </summary>
     public class SettingPageArchiverSevenZip : SettingPage
     {
         public SettingPageArchiverSevenZip() : base(Properties.Resources.SettingPageArchiverSevenZip)
@@ -85,6 +97,10 @@ namespace NeeView.Setting
         }
     }
 
+
+    /// <summary>
+    /// SettingPage: Archive PDF
+    /// </summary>
     public class SettingPageArchivePdf : SettingPage
     {
         public SettingPageArchivePdf() : base(Properties.Resources.SettingPageArchivePdf)
@@ -101,6 +117,10 @@ namespace NeeView.Setting
         }
     }
 
+
+    /// <summary>
+    /// SettingPage: Archive Media
+    /// </summary>
     public class SettingPageArchiveMedia : SettingPage
     {
         public SettingPageArchiveMedia() : base(Properties.Resources.SettingPageArchiveMedia)
@@ -118,5 +138,34 @@ namespace NeeView.Setting
     }
 
 
+    /// <summary>
+    /// Setting: Susie
+    /// </summary>
+    public class SettingPageSusie : SettingPage
+    {
+        public SettingPageSusie() : base(Properties.Resources.SettingPageSusie)
+        {
+            this.Items = new List<SettingItem>();
+
+            var section = new SettingItemSection(Properties.Resources.SettingPageSusieGeneralGeneral, Properties.Resources.SettingPageSusieGeneralGeneralTips);
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Susie, nameof(SusieConfig.IsEnabled))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Susie, nameof(SusieConfig.SusiePluginPath)))
+            {
+                IsStretch = true,
+                IsEnabled = new IsEnabledPropertyValue(Config.Current.Susie, nameof(SusieConfig.IsEnabled)),
+            });
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Susie, nameof(SusieConfig.IsFirstOrderSusieImage))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Susie, nameof(SusieConfig.IsFirstOrderSusieArchive))));
+            this.Items.Add(section);
+
+            section = new SettingItemSection(Properties.Resources.SettingPageSusieImagePlugin);
+            section.Children.Add(new SettingItemSusiePlugin(SusiePluginType.Image));
+            this.Items.Add(section);
+
+            section = new SettingItemSection(Properties.Resources.SettingPageSusieArchivePlugin);
+            section.Children.Add(new SettingItemSusiePlugin(SusiePluginType.Archive));
+            this.Items.Add(section);
+        }
+    }
 
 }

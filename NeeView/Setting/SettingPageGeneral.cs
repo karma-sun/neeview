@@ -10,15 +10,18 @@ using System.Windows;
 
 namespace NeeView.Setting
 {
-    public class SettingPageEnvironment : SettingPage
+    /// <summary>
+    /// Setting: General
+    /// </summary>
+    public class SettingPageGeneral : SettingPage
     {
-        public SettingPageEnvironment() : base(Properties.Resources.SettingPageGeneral)
+        public SettingPageGeneral() : base(Properties.Resources.SettingPageGeneral)
         {
             this.Children = new List<SettingPage>
             {
-                new SettingPageEnvironmentSetup(),
-                new SettingPageEnvironmentSaveData(),
-                new SettingPageEnvironmentMemoryAndPerformance(),
+                new SettingPageStartUp(),
+                new SettingPageSaveData(),
+                new SettingPageMemoryAndPerformance(),
                 new SettingPageThumbnail(),
                 new SettingPageNotify(),
             };
@@ -47,9 +50,12 @@ namespace NeeView.Setting
     }
 
 
-    public class SettingPageEnvironmentSetup : SettingPage
+    /// <summary>
+    /// Setting: StartUp
+    /// </summary>
+    public class SettingPageStartUp : SettingPage
     {
-        public SettingPageEnvironmentSetup() : base(Properties.Resources.SettingPageGeneralBoot)
+        public SettingPageStartUp() : base(Properties.Resources.SettingPageGeneralBoot)
         {
             var section = new SettingItemSection(Properties.Resources.SettingPageGeneralBoot, Properties.Resources.SettingPageGeneralBootBootTips);
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.StartUp, nameof(StartUpConfig.IsSplashScreenEnabled))));
@@ -66,9 +72,12 @@ namespace NeeView.Setting
     }
 
 
-    public class SettingPageEnvironmentSaveData : SettingPage
+    /// <summary>
+    /// Setting: SaveData
+    /// </summary>
+    public class SettingPageSaveData : SettingPage
     {
-        public SettingPageEnvironmentSaveData() : base(Properties.Resources.SettingPageGeneralSaveData)
+        public SettingPageSaveData() : base(Properties.Resources.SettingPageGeneralSaveData)
         {
             var section = new SettingItemSection(Properties.Resources.SettingPageGeneralSaveDataTypes, Properties.Resources.SettingPageGeneralSaveDataTypesTips);
 
@@ -127,9 +136,12 @@ namespace NeeView.Setting
     }
 
 
-    public class SettingPageEnvironmentMemoryAndPerformance : SettingPage
+    /// <summary>
+    /// Setting: MemoryAndPerformance
+    /// </summary>
+    public class SettingPageMemoryAndPerformance : SettingPage
     {
-        public SettingPageEnvironmentMemoryAndPerformance() : base(Properties.Resources.SettingPageEnvironmentMemoryAndPerformance)
+        public SettingPageMemoryAndPerformance() : base(Properties.Resources.SettingPageEnvironmentMemoryAndPerformance)
         {
             var section = new SettingItemSection(Properties.Resources.SettingPageEnvironmentMemoryAndPerformance);
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Performance, nameof(PerformanceConfig.CacheMemorySize))));
@@ -148,6 +160,9 @@ namespace NeeView.Setting
     }
 
 
+    /// <summary>
+    /// Setting: Thumbnail
+    /// </summary>
     public class SettingPageThumbnail : SettingPage
     {
         public SettingPageThumbnail() : base(Properties.Resources.SettingPageVisualThumbnail)
@@ -231,6 +246,9 @@ namespace NeeView.Setting
     }
 
 
+    /// <summary>
+    /// Setting: Notify
+    /// </summary>
     public class SettingPageNotify : SettingPage
     {
         public SettingPageNotify() : base(Properties.Resources.SettingPageVisualNotify)

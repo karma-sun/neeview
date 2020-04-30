@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace NeeView.Setting
 {
+    /// <summary>
+    /// Setting: Window
+    /// </summary>
     public class SettingPageWindow : SettingPage
     {
         public SettingPageWindow() : base(Properties.Resources.SettingPageWindow)
@@ -34,6 +37,10 @@ namespace NeeView.Setting
         }
     }
 
+
+    /// <summary>
+    /// Setting: WindowTitle
+    /// </summary>
     public class SettingPageWindowTitile : SettingPage
     {
         public SettingPageWindowTitile() : base(Properties.Resources.SettingPageVisualWindowTitile)

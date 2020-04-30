@@ -36,11 +36,11 @@ namespace NeeView
     /// スクロール＋ページ移動用パラメータ
     /// </summary>
     [DataContract]
-    public class ScrollPageCommandParameter : ReversibleCommandParameter
+    public class ScrollPageCommandParameter : ReversibleCommandParameter, IScrollNType
     {
-        private int _scroll = 100;
         private bool _isNScroll = true;
-        private double _margin = 50;
+        private int _scroll = 100;
+        private double _margin = 0;
         private double _scrollDuration = 0.1;
         private double _pageMoveMargin;
 
@@ -111,14 +111,16 @@ namespace NeeView
         [OnDeserializing]
         private void OnDeserializing(StreamingContext context)
         {
-            _scroll = 100;
             _isNScroll = true;
+            _scroll = 100;
             _margin = 50;
             _scrollDuration = 0.1;
         }
 
         public override bool MemberwiseEquals(CommandParameter other)
         {
+            if (!base.MemberwiseEquals(other)) return false;
+
             var target = other as ScrollPageCommandParameter;
             if (target == null) return false;
             return this == target || (this.IsNScroll == target.IsNScroll &&

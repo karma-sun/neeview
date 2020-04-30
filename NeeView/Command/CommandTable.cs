@@ -171,6 +171,8 @@ namespace NeeView
                 new ShowHiddenPanelsCommand("ShowHiddenPanels"),
 
                 new ToggleSlideShowCommand("ToggleSlideShow"),
+                new ViewScrollNTypeUpCommand("ViewScrollNTypeUp"),
+                new ViewScrollNTypeDownCommand("ViewScrollNTypeDown"),
                 new ViewScrollUpCommand("ViewScrollUp"),
                 new ViewScrollDownCommand("ViewScrollDown"),
                 new ViewScrollLeftCommand("ViewScrollLeft"),
@@ -316,6 +318,7 @@ namespace NeeView
             _elements["SetStretchModeUniformToVertical"].SetShare(_elements["SetStretchModeUniform"]);
             _elements["SetStretchModeUniformToHorizontal"].SetShare(_elements["SetStretchModeUniform"]);
             _elements["NextPagemarkInBook"].SetShare(_elements["PrevPagemarkInBook"]);
+            _elements["ViewScrollNTypeDown"].SetShare(_elements["ViewScrollNTypeUp"]);
             _elements["ViewScrollDown"].SetShare(_elements["ViewScrollUp"]);
             _elements["ViewScrollLeft"].SetShare(_elements["ViewScrollUp"]);
             _elements["ViewScrollRight"].SetShare(_elements["ViewScrollUp"]);

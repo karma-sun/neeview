@@ -354,13 +354,33 @@ namespace NeeView
 
 
         /// <summary>
+        /// N字スクロール↑
+        /// </summary>
+        /// <param name="parameter"></param>
+        public void ScrollNTypeUp(ViewScrollNTypeCommandParameter parameter)
+        {
+            int bookReadDirection = (BookSettingPresenter.Current.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
+            bool isScrolled = MouseInput.Current.IsLoupeMode ? false : DragTransformControl.Current.ScrollN(-1, bookReadDirection, true, parameter);
+        }
+
+        /// <summary>
+        /// N字スクロール↓
+        /// </summary>
+        /// <param name="parameter"></param>
+        public void ScrollNTypeDown(ViewScrollNTypeCommandParameter parameter)
+        {
+            int bookReadDirection = (BookSettingPresenter.Current.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
+            bool isScrolled = MouseInput.Current.IsLoupeMode ? false : DragTransformControl.Current.ScrollN(+1, bookReadDirection, true, parameter);
+        }
+
+        /// <summary>
         /// スクロール＋前のページに戻る。
         /// ルーペ使用時はページ移動のみ行う。
         /// </summary>
         public void PrevScrollPage(ScrollPageCommandParameter parameter)
         {
             int bookReadDirection = (BookSettingPresenter.Current.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
-            bool isScrolled = MouseInput.Current.IsLoupeMode ? false : DragTransformControl.Current.ScrollN(-1, bookReadDirection, parameter);
+            bool isScrolled = MouseInput.Current.IsLoupeMode ? false : DragTransformControl.Current.ScrollN(-1, bookReadDirection, parameter.IsNScroll, parameter);
 
             if (!isScrolled)
             {
@@ -384,7 +404,7 @@ namespace NeeView
         public void NextScrollPage(ScrollPageCommandParameter parameter)
         {
             int bookReadDirection = (BookSettingPresenter.Current.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
-            bool isScrolled = MouseInput.Current.IsLoupeMode ? false : DragTransformControl.Current.ScrollN(+1, bookReadDirection, parameter);
+            bool isScrolled = MouseInput.Current.IsLoupeMode ? false : DragTransformControl.Current.ScrollN(+1, bookReadDirection, parameter.IsNScroll, parameter);
 
             if (!isScrolled)
             {

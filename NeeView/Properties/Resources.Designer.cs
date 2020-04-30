@@ -4894,6 +4894,42 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   N-type scroll ↓ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandViewScrollNTypeDown {
+            get {
+                return ResourceManager.GetString("CommandViewScrollNTypeDown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   If you can scroll vertically and horizontally, scroll to draw N characters. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandViewScrollNTypeDownNote {
+            get {
+                return ResourceManager.GetString("CommandViewScrollNTypeDownNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   N-type scroll ↑ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandViewScrollNTypeUp {
+            get {
+                return ResourceManager.GetString("CommandViewScrollNTypeUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   If you can scroll vertically and horizontally, scroll to draw N characters. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandViewScrollNTypeUpNote {
+            get {
+                return ResourceManager.GetString("CommandViewScrollNTypeUpNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Scroll → に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandViewScrollRight {

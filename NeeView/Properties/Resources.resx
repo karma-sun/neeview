@@ -5343,4 +5343,16 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamCommandParameterScrollPageMoveMarginTips" xml:space="preserve">
     <value>Judgment time for not moving the page immediately.</value>
   </data>
+  <data name="CommandViewScrollNTypeUp" xml:space="preserve">
+    <value>N-type scroll ↑</value>
+  </data>
+  <data name="CommandViewScrollNTypeUpNote" xml:space="preserve">
+    <value>If you can scroll vertically and horizontally, scroll to draw N characters.</value>
+  </data>
+  <data name="CommandViewScrollNTypeDown" xml:space="preserve">
+    <value>N-type scroll ↓</value>
+  </data>
+  <data name="CommandViewScrollNTypeDownNote" xml:space="preserve">
+    <value>If you can scroll vertically and horizontally, scroll to draw N characters.</value>
+  </data>
 </root>

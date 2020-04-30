@@ -90,6 +90,7 @@ namespace NeeView
             typeof(ExportImageCommandParameter),
             typeof(OpenExternalAppCommandParameter),
             typeof(CopyFileCommandParameter),
+            typeof(ViewScrollNTypeCommandParameter),
         };
 
         public static JsonSerializerOptions GetSerializerOptions()

@@ -454,9 +454,9 @@ namespace NeeView
         /// <param name="bookReadDirection">右開き:+1 / 左開き:-1</param>
         /// <param name="parameter">N字スクロールコマンドパラメータ</param>
         /// <returns>スクロールしたか</returns>
-        public bool ScrollN(int direction, int bookReadDirection, ScrollPageCommandParameter parameter)
+        public bool ScrollN(int direction, int bookReadDirection, bool isNScroll, IScrollNType parameter)
         {
-            return ScrollN(direction, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.Scroll / 100.0, parameter.ScrollDuration);
+            return ScrollN(direction, bookReadDirection, isNScroll, parameter.Margin, parameter.Scroll / 100.0, parameter.ScrollDuration);
         }
 
         /// <summary>

@@ -6,8 +6,6 @@ namespace NeeView
 {
     public class ViewContentSourceCollection
     {
-        #region Constructors
-
         public ViewContentSourceCollection()
         {
             Range = new PageRange();
@@ -20,15 +18,11 @@ namespace NeeView
             Collection = collection;
         }
 
-        #endregion
-
-        #region Properties
 
         public PageRange Range { get; }
+
         public List<ViewContentSource> Collection { get; }
 
-        internal bool IsValid => Collection.Count > 0 && Collection.All(e => e.IsValid);
-
-        #endregion
+        public bool IsValid => Collection.Count > 0 && Collection.All(e => e.IsValid);
     }
 }

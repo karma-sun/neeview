@@ -281,6 +281,27 @@ namespace NeeView
                 infos.Reverse();
             }
 
+            // ダミーページ挿入
+            if (Config.Current.Book.IsInsertDummyPage && list.Count == 1 && _setting.PageMode == PageMode.WidePage)
+            {
+                var mainSource = list[0];
+                bool isSoloPage = IsSoloPage(mainSource.Page.Index);
+                bool isFirstPage = mainSource.Page == _book.Pages.FirstOrDefault();
+                bool isLastPage = mainSource.Page == _book.Pages.LastOrDefault();
+
+                if (isSoloPage || (isFirstPage && isLastPage))
+                {
+                }
+                else if (isFirstPage)
+                {
+                    list.Insert(0, new ViewContentSource(mainSource.Page, mainSource.PagePart, true));
+                }
+                else if (isLastPage)
+                {
+                    list.Add(new ViewContentSource(mainSource.Page, mainSource.PagePart, true));
+                }
+            }
+
             // 左開き
             if (_setting.BookReadOrder == PageReadOrder.LeftToRight)
             {

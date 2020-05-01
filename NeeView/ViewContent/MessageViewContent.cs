@@ -8,15 +8,13 @@ namespace NeeView
     /// </summary>
     public class MessageViewContent : ViewContent
     {
-        #region Constructors
-
         public MessageViewContent(ViewContentSource source) : base(source)
         {
         }
 
-        #endregion
 
-        #region Methods
+        public override bool IsBitmapScalingModeSupported => false;
+
 
         public void Initialize()
         {
@@ -30,7 +28,6 @@ namespace NeeView
             this.Size = new Size(480, 480);
         }
 
-        //
         private FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter)
         {
             if (Content.PageMessage == null)
@@ -51,12 +48,6 @@ namespace NeeView
             return control;
         }
 
-        //
-        public override bool IsBitmapScalingModeSupported() => false;
-
-        #endregion
-    
-        #region Static Methods
 
         public static MessageViewContent Create(ViewContentSource source)
         {
@@ -64,7 +55,5 @@ namespace NeeView
             viewContent.Initialize();
             return viewContent;
         }
-
-        #endregion
     }
 }

@@ -11,10 +11,13 @@ namespace NeeView
     {
         public static ViewContent Create(ViewContentSource source, ViewContent oldViewContent)
         {
-            ViewContent viewContent = null;
+            ViewContent viewContent;
 
             switch (source.GetContentType())
             {
+                case ViewContentType.Dummy:
+                    viewContent = DummyViewContent.Create(source);
+                    break;
                 case ViewContentType.Message:
                     viewContent = MessageViewContent.Create(source);
                     break;

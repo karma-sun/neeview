@@ -21,6 +21,7 @@ namespace NeeView
         private bool _isSortFileFirst;
         private double _bookPageSize = 300.0;
         private bool _resetPageWhenRandomSort;
+        private bool _isInsertDummyPage;
 
 
         /// <summary>
@@ -129,5 +130,14 @@ namespace NeeView
             get { return _resetPageWhenRandomSort; }
             set { SetProperty(ref _resetPageWhenRandomSort, value); }
         }
+
+        // ダミーページの挿入
+        [PropertyMember("@ParamIsInsertDummyPage", Tips = "@ParamIsInsertDummyPageTips")]
+        public bool IsInsertDummyPage
+        {
+            get { return _isInsertDummyPage; }
+            set { SetProperty(ref _isInsertDummyPage, value); }
+        }
+
     }
 }

@@ -13,24 +13,16 @@ namespace NeeView
 {
     public class MediaViewContent : BitmapViewContent
     {
-        #region Fields
-
         private static ObjectPool<MediaPlayer> _mediaPlayerPool = new ObjectPool<MediaPlayer>();
 
         private MediaPlayer _player;
         private TextBlock _errorMessageTextBlock;
 
-        #endregion
-
-        #region Constructors
 
         public MediaViewContent(ViewContentSource source) : base(source)
         {
         }
 
-        #endregion
-
-        #region Methods
 
         public new void Initialize()
         {
@@ -45,7 +37,6 @@ namespace NeeView
             this.Color = animatedContent.Color;
             this.FileProxy = animatedContent.FileProxy;
         }
-
 
         /// <summary>
         /// アニメーションビュー生成
@@ -148,7 +139,6 @@ namespace NeeView
             return true;
         }
 
-        #endregion
 
         #region IDisposable Support
 
@@ -165,7 +155,6 @@ namespace NeeView
 
         #endregion
 
-        #region Static Methods
 
         public new static MediaViewContent Create(ViewContentSource source)
         {
@@ -173,7 +162,5 @@ namespace NeeView
             viewContent.Initialize();
             return viewContent;
         }
-
-        #endregion
     }
 }

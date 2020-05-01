@@ -5358,4 +5358,10 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamWindowMouseActivateAndEat" xml:space="preserve">
     <value>Disable mouse data when activating window with mouse</value>
   </data>
+  <data name="ParamIsInsertDummyPage" xml:space="preserve">
+    <value>Insert a dummy page</value>
+  </data>
+  <data name="ParamIsInsertDummyPageTips" xml:space="preserve">
+    <value>Insert a dummy page when there are not enough pages at the end of two-page mode.</value>
+  </data>
 </root>

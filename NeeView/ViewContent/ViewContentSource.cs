@@ -18,23 +18,21 @@ namespace NeeView
     // 表示コンテンツソース 1ページ分
     public class ViewContentSource
     {
-        #region Constructors
-
         // コンストラクタ
         // Pageから作成
         public ViewContentSource(Page page, PagePart pagePart)
         {
             Page = page;
+            PagePart = pagePart;
+
             Content = page.GetContentClone();
-
             IsValid = Content.IsLoaded;
-
-            this.PagePart = pagePart;
         }
 
-        #endregion
-
-        #region Properties
+        public ViewContentSource(Page page, PagePart pagePart, bool isDummy) : this(page, pagePart)
+        {
+            IsDummy = isDummy;
+        }
 
         // ページ
         // TODO: 不要にしたいが。難しいか。
@@ -63,9 +61,7 @@ namespace NeeView
         /// </summary>
         public bool IsLastStart => Content is MediaContent content ? content.IsLastStart : false;
 
-        #endregion
-
-        #region Methods
+        public bool IsDummy { get; }
 
         /// <summary>
         /// TODO: PageContentで実装すべきか
@@ -73,8 +69,13 @@ namespace NeeView
         /// <returns></returns>
         public ViewContentType GetContentType()
         {
+            // ダミー
+            if (IsDummy)
+            {
+                return ViewContentType.Dummy;
+            }
             // テキスト表示
-            if (Content.PageMessage != null)
+            else if (Content.PageMessage != null)
             {
                 return ViewContentType.Message;
             }
@@ -198,8 +199,6 @@ namespace NeeView
                 return new SolidColorBrush(Color.FromRgb(0xAA, 0xAA, 0xAA));
             }
         }
-
-        #endregion
     }
 
     /// <summary>
@@ -208,6 +207,7 @@ namespace NeeView
     public enum ViewContentType
     {
         None,
+        Dummy,
         Message,
         Bitmap,
         Anime,

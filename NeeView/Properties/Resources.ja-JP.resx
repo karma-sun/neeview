@@ -5358,4 +5358,10 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamWindowMouseActivateAndEat" xml:space="preserve">
     <value>マウスでウィンドウをアクティブ化したときのマウス操作を無効にする</value>
   </data>
+  <data name="ParamIsInsertDummyPage" xml:space="preserve">
+    <value>ダミーページを挿入する</value>
+  </data>
+  <data name="ParamIsInsertDummyPageTips" xml:space="preserve">
+    <value>2ページモードの終端で十分なページがない場合にダミーページを挿入します。</value>
+  </data>
 </root>

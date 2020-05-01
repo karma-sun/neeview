@@ -330,11 +330,14 @@ namespace NeeView
             IsVisibleEmptyPageMessage = e?.ViewPageCollection != null && contents.Count == 0;
 
             // メインとなるコンテンツを指定
-            MainContent = contents.Count > 0 ? (contents.First().Position < contents.Last().Position ? contents.First() : contents.Last()) : null;
+            var validContents = contents.Where(x => !x.IsDummy).ToList();
+            var mainContent = validContents.Count > 0 ? (validContents.First().Position < validContents.Last().Position ? validContents.First() : validContents.Last()) : null;
 
             // ViewModelプロパティに反映
             lock (_lock)
             {
+                MainContent = mainContent;
+
                 for (int index = 0; index < 2; ++index)
                 {
                     Contents[index] = index < contents.Count ? contents[index] : new ViewContent();
@@ -551,7 +554,7 @@ namespace NeeView
             {
                 if (target != null && target != content) continue;
 
-                if (content.View != null && content.IsBitmapScalingModeSupported())
+                if (content.View != null && content.IsBitmapScalingModeSupported)
                 {
                     var bitmapContent = content as BitmapViewContent;
                     if (bitmapContent == null) continue;

@@ -17,26 +17,19 @@ namespace NeeView
     /// </summary>
     public class BitmapViewContent : ViewContent
     {
-        #region Fields
-
         private Rectangle _scaleRectangle;
         private Rectangle _pixeledRectangle;
-
         private ImageSource _viewImage;
 
-        #endregion
-
-        #region Constructors
 
         public BitmapViewContent(ViewContentSource source) : base(source)
         {
         }
 
-        #endregion
+        
+        public override bool IsBitmapScalingModeSupported => true;
 
-        #region Medhots
 
-        //
         public void Initialize()
         {
             Debug.Assert(this.Content is BitmapContent bitmapContent_ && bitmapContent_.ImageSource != null);
@@ -52,13 +45,11 @@ namespace NeeView
             this.Color = bitmapContent.Color;
         }
 
-        //
         protected FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter)
         {
             return CreateView(source, parameter, GetPicture()?.ImageSource);
         }
 
-        //
         protected FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter, ImageSource image)
         {
             if (image == null)
@@ -137,31 +128,22 @@ namespace NeeView
             }
         }
 
-        //
-        public override bool IsBitmapScalingModeSupported() => true;
-
-
-        //
         public Picture GetPicture()
         {
             return ((BitmapContent)this.Content)?.Picture;
         }
 
-        //
         public ImageSource GetViewImage()
         {
             return _viewImage;
         }
 
-        //
         public bool IsDarty()
         {
             var image = GetPicture()?.ImageSource;
             return _viewImage != image;
         }
 
-
-        //
         public override bool Rebuild(double scale)
         {
             var size = Config.Current.ImageResizeFilter.IsEnabled ? GetScaledSize(scale) : Size.Empty;
@@ -175,13 +157,11 @@ namespace NeeView
             return Rebuild(size);
         }
 
-        //
         protected Size GetScaledSize(double scale)
         {
             return new Size(this.Width * scale * (this.IsHalf ? 2 : 1), this.Height * scale);
         }
 
-        //
         protected bool Rebuild(Size size)
         {
             if (this.IsResizing) return false;
@@ -222,9 +202,6 @@ namespace NeeView
             return true;
         }
 
-        #endregion
-
-        #region Static Methods
 
         public static BitmapViewContent Create(ViewContentSource source)
         {
@@ -232,7 +209,5 @@ namespace NeeView
             viewContent.Initialize();
             return viewContent;
         }
-
-        #endregion
     }
 }

@@ -11,17 +11,15 @@ namespace NeeView
     /// </summary>
     public class ReserveViewContent : ViewContent
     {
-        #region Constructors
-
         public ReserveViewContent(ViewContentSource source, ViewContent old) : base(source)
         {
             this.Size = new Size(480, 680);
             this.Color = old != null ? old.Color : Colors.Black;
         }
 
-        #endregion
 
-        #region Methods
+        public override bool IsBitmapScalingModeSupported => false;
+
 
         public void Initialize()
         {
@@ -43,11 +41,6 @@ namespace NeeView
             return rectangle;
         }
 
-        public override bool IsBitmapScalingModeSupported() => false;
-
-        #endregion
-
-        #region Static Methods
 
         public static ViewContent Create(ViewContentSource source, ViewContent oldViewContent)
         {
@@ -62,7 +55,5 @@ namespace NeeView
             viewContent.View.SetMessage(LoosePath.GetFileName(source.Page.EntryFullName));
             return viewContent;
         }
-
-        #endregion
     }
 }

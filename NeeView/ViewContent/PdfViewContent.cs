@@ -11,15 +11,10 @@ namespace NeeView
     /// </summary>
     public class PdfViewContent : BitmapViewContent
     {
-        #region Constructors
-
         public PdfViewContent(ViewContentSource source) : base(source)
         {
         }
 
-        #endregion
-
-        #region Medhots
 
         public new void Initialize()
         {
@@ -34,16 +29,12 @@ namespace NeeView
             this.Color = bitmapContent.Color;
         }
 
-        //
         public override bool Rebuild(double scale)
         {
             var size = GetScaledSize(scale);
             return Rebuild(size);
         }
 
-        #endregion
-
-        #region Static Methods
 
         public new static PdfViewContent Create(ViewContentSource source)
         {
@@ -51,7 +42,5 @@ namespace NeeView
             viewContent.Initialize();
             return viewContent;
         }
-
-        #endregion
     }
 }

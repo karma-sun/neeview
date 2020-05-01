@@ -4,15 +4,13 @@ namespace NeeView
 {
     public class ArchiveViewContent : ViewContent
     {
-        #region Constructors
-
         public ArchiveViewContent(ViewContentSource source) : base(source)
         {
         }
 
-        #endregion
 
-        #region Methods
+        public override bool IsBitmapScalingModeSupported => false;
+
 
         public void Initialize()
         {
@@ -33,11 +31,6 @@ namespace NeeView
             return control;
         }
 
-        public override bool IsBitmapScalingModeSupported() => false;
-
-        #endregion
-
-        #region Utility
 
         public static ArchiveViewContent Create(ViewContentSource source)
         {
@@ -45,8 +38,6 @@ namespace NeeView
             viewContent.Initialize();
             return viewContent;
         }
-
-        #endregion
     }
 
 }

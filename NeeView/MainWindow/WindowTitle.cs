@@ -160,15 +160,17 @@ namespace NeeView
         /// <returns></returns>
         private string CreateWindowTitle(WindowTitleMask mask)
         {
-            var MainContent = ContentCanvas.Current.MainContent;
-            var Contents = ContentCanvas.Current.CloneContents;
-            var _viewScale = DragTransform.Current.Scale;
+            var contents = ContentCanvas.Current.CloneContents;
+            var mainContent = ContentCanvas.Current.MainContent;
+            var subContent = contents.First(e => e != mainContent);
+            var viewScale = DragTransform.Current.Scale;
 
-            string format = MainContent is MediaViewContent
+
+            string format = mainContent is MediaViewContent
                 ? Config.Current.WindowTittle.WindowTitleFormatMedia
-                : Contents[1].IsValid ? Config.Current.WindowTittle.WindowTitleFormat2 : Config.Current.WindowTittle.WindowTitleFormat1;
+                : subContent.IsValid && !subContent.IsDummy ? Config.Current.WindowTittle.WindowTitleFormat2 : Config.Current.WindowTittle.WindowTitleFormat1;
 
-            bool isMainContent0 = MainContent == Contents[0];
+            bool isMainContent0 = mainContent == contents[0];
 
             if ((mask & WindowTitleMask.Book) != 0)
             {
@@ -180,8 +182,8 @@ namespace NeeView
             {
                 _windowTitleFormatter.Set("$PageMax", (BookOperation.Current.GetMaxPageIndex() + 1).ToString());
 
-                string pageNum0 = GetPageNum(Contents[0]);
-                string pageNum1 = GetPageNum(Contents[1]);
+                string pageNum0 = GetPageNum(contents[0]);
+                string pageNum1 = GetPageNum(contents[1]);
                 _windowTitleFormatter.Set("$Page", isMainContent0 ? pageNum0 : pageNum1);
                 _windowTitleFormatter.Set("$PageL", pageNum1);
                 _windowTitleFormatter.Set("$PageR", pageNum0);
@@ -191,8 +193,8 @@ namespace NeeView
                     return content.IsValid ? (content.Source.PagePart.PartSize == 2) ? (content.Position.Index + 1).ToString() : (content.Position.Index + 1).ToString() + (content.Position.Part == 1 ? ".5" : ".0") : "";
                 }
 
-                string path0 = GetFullName(Contents[0]);
-                string path1 = GetFullName(Contents[1]);
+                string path0 = GetFullName(contents[0]);
+                string path1 = GetFullName(contents[1]);
                 _windowTitleFormatter.Set("$FullName", isMainContent0 ? path0 : path1);
                 _windowTitleFormatter.Set("$FullNameL", path1);
                 _windowTitleFormatter.Set("$FullNameR", path0);
@@ -202,8 +204,8 @@ namespace NeeView
                     return content.IsValid ? content.FullPath.Replace("/", " > ").Replace("\\", " > ") + content.GetPartString() : "";
                 }
 
-                string name0 = GetName(Contents[0]);
-                string name1 = GetName(Contents[1]);
+                string name0 = GetName(contents[0]);
+                string name1 = GetName(contents[1]);
                 _windowTitleFormatter.Set("$Name", isMainContent0 ? name0 : name1);
                 _windowTitleFormatter.Set("$NameL", name1);
                 _windowTitleFormatter.Set("$NameR", name0);
@@ -213,8 +215,8 @@ namespace NeeView
                     return content.IsValid ? LoosePath.GetFileName(content.FullPath) + content.GetPartString() : "";
                 }
 
-                var bitmapContent0 = Contents[0].Content as BitmapContent;
-                var bitmapContent1 = Contents[1].Content as BitmapContent;
+                var bitmapContent0 = contents[0].Content as BitmapContent;
+                var bitmapContent1 = contents[1].Content as BitmapContent;
 
                 var pictureInfo0 = bitmapContent0?.PictureInfo;
                 var pictureInfo1 = bitmapContent1?.PictureInfo;
@@ -244,15 +246,15 @@ namespace NeeView
 
             if ((mask & WindowTitleMask.View) != 0)
             {
-                _windowTitleFormatter.Set("$ViewScale", $"{(int)(_viewScale * 100 + 0.1)}%");
+                _windowTitleFormatter.Set("$ViewScale", $"{(int)(viewScale * 100 + 0.1)}%");
             }
 
             if ((mask & (WindowTitleMask.Page | WindowTitleMask.View)) != 0)
             {
                 var _Dpi = Environment.Dpi;
 
-                string scale0 = Contents[0].IsValid ? $"{(int)(_viewScale * Contents[0].Scale * _Dpi.DpiScaleX * 100 + 0.1)}%" : "";
-                string scale1 = Contents[1].IsValid ? $"{(int)(_viewScale * Contents[1].Scale * _Dpi.DpiScaleX * 100 + 0.1)}%" : "";
+                string scale0 = contents[0].IsValid ? $"{(int)(viewScale * contents[0].Scale * _Dpi.DpiScaleX * 100 + 0.1)}%" : "";
+                string scale1 = contents[1].IsValid ? $"{(int)(viewScale * contents[1].Scale * _Dpi.DpiScaleX * 100 + 0.1)}%" : "";
                 _windowTitleFormatter.Set("$Scale", isMainContent0 ? scale0 : scale1);
                 _windowTitleFormatter.Set("$ScaleL", scale1);
                 _windowTitleFormatter.Set("$ScaleR", scale0);

@@ -11505,6 +11505,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Insert a dummy page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsInsertDummyPage {
+            get {
+                return ResourceManager.GetString("ParamIsInsertDummyPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Insert a dummy page when there are not enough pages at the end of two-page mode. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsInsertDummyPageTips {
+            get {
+                return ResourceManager.GetString("ParamIsInsertDummyPageTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Allow multiple activations に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsMultiBootEnabled {

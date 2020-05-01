@@ -15,11 +15,15 @@ namespace NeeView
     /// </summary>
     public class ViewContent : BindableBase, IDisposable
     {
-        #region Constructors
+        private ViewContentControl _view;
+        private double _width;
+        private double _height;
+        private Size _size;
+        private BitmapScalingMode _bitmapScalingMode = BitmapScalingMode.HighQuality;
+        private Visibility _AnimationImageVisibility = Visibility.Collapsed;
+        private Visibility _AnimationPlayerVisibility = Visibility.Visible;
 
-        /// <summary>
-        /// コンストラクター
-        /// </summary>
+
         public ViewContent()
         {
         }
@@ -31,9 +35,6 @@ namespace NeeView
             this.Color = Colors.Black;
         }
 
-        #endregion
-
-        #region Properties, Fields
 
         /// <summary>
         /// ViewContentSource
@@ -51,10 +52,6 @@ namespace NeeView
         /// </summary>
         public PageContent Content => Source?.Content;
 
-        /// <summary>
-        /// Property: View.
-        /// </summary>
-        private ViewContentControl _view;
         public ViewContentControl View
         {
             get { return _view; }
@@ -65,7 +62,6 @@ namespace NeeView
         /// コンテンツの幅 (with DPI).
         /// 表示の基準となるコンテンツサイズ。表示スケール(マウスやルーペ)を除外した値？
         /// </summary>
-        private double _width;
         public double Width
         {
             get { return _width; }
@@ -73,7 +69,6 @@ namespace NeeView
         }
 
         // コンテンツの高さ (with DPI)
-        private double _height;
         public double Height
         {
             get { return _height; }
@@ -84,7 +79,6 @@ namespace NeeView
         public bool IsHalf => this.Source != null && this.Source.PagePart.PartSize == 1;
 
         // コンテンツのオリジナルサイズ
-        private Size _size;
         public Size Size
         {
             get { return IsValid ? _size : SizeExtensions.Zero; }
@@ -113,27 +107,18 @@ namespace NeeView
 
 
         // スケールモード
-        private BitmapScalingMode _bitmapScalingMode = BitmapScalingMode.HighQuality;
         public BitmapScalingMode BitmapScalingMode
         {
             get { return _bitmapScalingMode; }
             set { _bitmapScalingMode = value; RaisePropertyChanged(); }
         }
 
-        /// <summary>
-        /// AnimationImageVisibility property.
-        /// </summary>
-        private Visibility _AnimationImageVisibility = Visibility.Collapsed;
         public Visibility AnimationImageVisibility
         {
             get { return _AnimationImageVisibility; }
             set { if (_AnimationImageVisibility != value) { _AnimationImageVisibility = value; RaisePropertyChanged(); } }
         }
 
-        /// <summary>
-        /// AnimationPlayerVisibility property.
-        /// </summary>
-        private Visibility _AnimationPlayerVisibility = Visibility.Visible;
         public Visibility AnimationPlayerVisibility
         {
             get { return _AnimationPlayerVisibility; }
@@ -146,17 +131,14 @@ namespace NeeView
         // 表示スケール
         public double Scale => Source != null ? Width / Source.Size.Width : 1.0;
 
-        //
         public bool IgnoreReserver { get; set; }
 
-        /// <summary>
-        /// IsResizing property.
-        /// </summary>
         public bool IsResizing { get; protected set; }
 
-        #endregion
+        public bool IsDummy => Source == null || Source.IsDummy;
 
-        #region Methods
+        public virtual bool IsBitmapScalingModeSupported => false;
+
 
         // ページパーツ文字
         public string GetPartString()
@@ -186,8 +168,6 @@ namespace NeeView
             return parameter;
         }
 
-        //
-        public virtual bool IsBitmapScalingModeSupported() => false;
 
         public virtual bool Rebuild(double scale)
         {
@@ -203,7 +183,6 @@ namespace NeeView
         /// <param name="viewScale"></param>
         public virtual void SetViewMode(ContentViewMode mode, double viewScale) { }
 
-        #endregion
 
         #region IDisposable Support
 

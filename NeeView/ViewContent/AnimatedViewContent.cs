@@ -19,15 +19,11 @@ namespace NeeView
 
         private TextBlock _errorMessageTextBlock;
 
-        #region Constructors
 
         public AnimatedViewContent(ViewContentSource source) : base(source)
         {
         }
 
-        #endregion
-
-        #region Methods
 
         public new void Initialize()
         {
@@ -42,7 +38,6 @@ namespace NeeView
             this.Color = animatedContent.Color;
             this.FileProxy = animatedContent.FileProxy;
         }
-
 
         /// <summary>
         /// アニメーションビュー生成
@@ -112,7 +107,6 @@ namespace NeeView
             return grid;
         }
 
-
         private MediaElement CreateMediaElement(Uri uri, Binding bitmapScalingMode)
         {
             var media = _mediaElementPool.Allocate();
@@ -159,16 +153,11 @@ namespace NeeView
             _errorMessageTextBlock.Visibility = Visibility.Visible;
         }
 
-
-        //
         public override bool Rebuild(double scale)
         {
             return true;
         }
 
-        #endregion
-
-        #region Static Methods
 
         public new static AnimatedViewContent Create(ViewContentSource source)
         {
@@ -177,6 +166,5 @@ namespace NeeView
             return viewContent;
         }
 
-        #endregion
     }
 }

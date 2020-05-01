@@ -478,8 +478,8 @@ namespace NeeView
             {
                 ////Debug.WriteLine(delta);
                 UpdateLock();
-                DoMove(new Vector(delta.X, delta.Y), span);
-                return true;
+                var moved = DoMove(new Vector(delta.X, delta.Y), span);
+                return moved;
             }
             else
             {
@@ -866,7 +866,7 @@ namespace NeeView
 
 
         // 移動実行
-        private void DoMove(Vector move, TimeSpan span)
+        private bool DoMove(Vector move, TimeSpan span)
         {
             var area = GetArea();
             var pos0 = _transform.Position;
@@ -889,6 +889,8 @@ namespace NeeView
             }
 
             _transform.SetPosition(pos0 + move, span);
+
+            return move.X != 0.0 || move.Y != 0.0;
         }
 
         #endregion

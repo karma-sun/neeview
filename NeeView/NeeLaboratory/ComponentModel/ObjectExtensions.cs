@@ -84,8 +84,6 @@ namespace NeeLaboratory.ComponentModel
                 if (property.GetCustomAttribute(typeof(EqualsIgnoreAttribute)) != null)
                     continue;
 
-                Debug.WriteLine($"MakeEqualMethod: {type.Name}.{property.Name}");
-
                 BinaryExpression equals = Expression.Equal(
                     Expression.Property(pCastThis, property),
                     Expression.Property(pCastThat, property)

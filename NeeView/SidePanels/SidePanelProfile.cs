@@ -227,18 +227,4 @@ namespace NeeView
         #endregion
     }
 
-    // TODO: 定義位置
-    public static class ObjectExtensions
-    {
-        public static T DeepCopy<T>(T source)
-        {
-            var serializer = new DataContractSerializer(typeof(T));
-            using (var mem = new MemoryStream())
-            {
-                serializer.WriteObject(mem, source);
-                mem.Position = 0;
-                return (T)serializer.ReadObject(mem);
-            }
-        }
-    }
 }

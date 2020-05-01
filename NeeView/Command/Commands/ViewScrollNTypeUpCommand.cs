@@ -61,19 +61,6 @@ namespace NeeView
             get { return _scrollDuration; }
             set { SetProperty(ref _scrollDuration, Math.Max(value, 0.0)); }
         }
-
-
-        public override bool MemberwiseEquals(CommandParameter other)
-        {
-            if (!base.MemberwiseEquals(other)) return false;
-
-            var target = other as ViewScrollNTypeCommandParameter;
-            if (target == null) return false;
-            return this == target || (
-                this.Margin == target.Margin &&
-                this.Scroll == target.Scroll &&
-                this.ScrollDuration == target.ScrollDuration);
-        }
     }
 
 }

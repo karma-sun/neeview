@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory;
+using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
 using System;
 using System.Runtime.Serialization;
@@ -87,7 +88,7 @@ namespace NeeView
 
         #region Obsolete
 
-        [Obsolete, JsonIgnore, DataMember(EmitDefaultValue = false)] // ver.37
+        [Obsolete, JsonIgnore, EqualsIgnore, DataMember(EmitDefaultValue = false)] // ver.37
         [PropertyMapIgnore]
         [PropertyMember("@ParamCommandParameterScrollPageAnimation", IsVisible = false)]
         public bool IsAnimation
@@ -96,7 +97,7 @@ namespace NeeView
             set => ScrollDuration = value ? 0.1 : 0.0;
         }
 
-        [Obsolete, JsonIgnore, DataMember(EmitDefaultValue = false)] // ver.37
+        [Obsolete, JsonIgnore, EqualsIgnore, DataMember(EmitDefaultValue = false)] // ver.37
         [PropertyMapIgnore]
         [PropertyMember("@ParamCommandParameterScrollPageStop", Tips = "@ParamCommandParameterScrollPageStopTips", IsVisible = false)]
         public bool IsStop
@@ -115,19 +116,6 @@ namespace NeeView
             _scroll = 100;
             _margin = 50;
             _scrollDuration = 0.1;
-        }
-
-        public override bool MemberwiseEquals(CommandParameter other)
-        {
-            if (!base.MemberwiseEquals(other)) return false;
-
-            var target = other as ScrollPageCommandParameter;
-            if (target == null) return false;
-            return this == target || (this.IsNScroll == target.IsNScroll &&
-                this.Margin == target.Margin &&
-                this.Scroll == target.Scroll &&
-                this.ScrollDuration == target.ScrollDuration &&
-                this.PageMoveMargin == target.PageMoveMargin);
         }
     }
 }

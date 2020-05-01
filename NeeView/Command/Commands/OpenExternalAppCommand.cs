@@ -86,18 +86,6 @@ namespace NeeView
             get { return _archiveSeparater; }
             set { SetProperty(ref _archiveSeparater, string.IsNullOrEmpty(value) ? "\\" : value); }
         }
-
-
-        public override bool MemberwiseEquals(CommandParameter other)
-        {
-            var target = other as OpenExternalAppCommandParameter;
-            if (target == null) return false;
-            return this == target || (this.Command == target.Command &&
-                this.Parameter == target.Parameter &&
-                this.MultiPagePolicy == target.MultiPagePolicy &&
-                this.ArchivePolicy == target.ArchivePolicy &&
-                this.ArchiveSeparater == target.ArchiveSeparater);
-        }
     }
 
 }

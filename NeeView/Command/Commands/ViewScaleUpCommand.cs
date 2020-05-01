@@ -58,12 +58,5 @@ namespace NeeView
         {
             this.IsSnapDefaultScale = true;
         }
-
-        public override bool MemberwiseEquals(CommandParameter other)
-        {
-            var target = other as ViewScaleCommandParameter;
-            if (target == null) return false;
-            return this == target || (this.Scale == target.Scale && this.IsSnapDefaultScale == target.IsSnapDefaultScale);
-        }
     }
 }

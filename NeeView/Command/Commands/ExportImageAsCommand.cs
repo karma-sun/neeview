@@ -55,12 +55,5 @@ namespace NeeView
             get => _qualityLevel;
             set => SetProperty(ref _qualityLevel, MathUtility.Clamp(value, 5, 100));
         }
-
-        public override bool MemberwiseEquals(CommandParameter other)
-        {
-            var target = other as ExportImageAsCommandParameter;
-            if (target == null) return false;
-            return this == target || (this.ExportFolder == target.ExportFolder && this.QualityLevel == target.QualityLevel);
-        }
     }
 }

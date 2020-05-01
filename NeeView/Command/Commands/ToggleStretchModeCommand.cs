@@ -1,4 +1,5 @@
-﻿using NeeView.Windows.Property;
+﻿using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -106,7 +107,7 @@ namespace NeeView
         }
 
 
-        [JsonIgnore]
+        [JsonIgnore, EqualsIgnore]
         public Dictionary<PageStretchMode, bool> StretchModes
         {
             get
@@ -117,19 +118,6 @@ namespace NeeView
                 }
                 return _strechModes;
             }
-        }
-
-        public override bool MemberwiseEquals(CommandParameter other)
-        {
-            var target = other as ToggleStretchModeCommandParameter;
-            if (target == null) return false;
-            return this == target || (this.IsLoop == target.IsLoop &&
-                this.IsEnableNone == target.IsEnableNone &&
-                this.IsEnableUniform == target.IsEnableUniform &&
-                this.IsEnableUniformToFill == target.IsEnableUniformToFill &&
-                this.IsEnableUniformToSize == target.IsEnableUniformToSize &&
-                this.IsEnableUniformToVertical == target.IsEnableUniformToVertical &&
-                this.IsEnableUniformToHorizontal == target.IsEnableUniformToHorizontal);
         }
     }
 

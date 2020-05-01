@@ -52,12 +52,5 @@ namespace NeeView
             get => _isToggle;
             set => SetProperty(ref _isToggle , value);
         }
-
-        public override bool MemberwiseEquals(CommandParameter other)
-        {
-            var target = other as StretchModeCommandParameter;
-            if (target == null) return false;
-            return this == target || (this.IsToggle == target.IsToggle);
-        }
     }
 }

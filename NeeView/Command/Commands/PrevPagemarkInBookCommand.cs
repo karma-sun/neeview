@@ -47,12 +47,5 @@ namespace NeeView
             get => _isIncludeTerminal;
             set => SetProperty(ref _isIncludeTerminal, value);
         }
-
-        public override bool MemberwiseEquals(CommandParameter other)
-        {
-            var target = other as MovePagemarkInBookCommandParameter;
-            if (target == null) return false;
-            return this == target || (this.IsLoop == target.IsLoop && this.IsIncludeTerminal == target.IsIncludeTerminal);
-        }
     }
 }

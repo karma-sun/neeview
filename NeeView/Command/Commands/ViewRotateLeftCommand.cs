@@ -46,14 +46,5 @@ namespace NeeView
             get { return _isStretch; }
             set { SetProperty(ref _isStretch, value); }
         }
-
-
-
-        public override bool MemberwiseEquals(CommandParameter other)
-        {
-            var target = other as ViewRotateCommandParameter;
-            if (target == null) return false;
-            return this == target || (this.Angle == target.Angle && this.IsStretch == target.IsStretch);
-        }
     }
 }

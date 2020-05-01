@@ -35,13 +35,6 @@ namespace NeeView
             get => _needClosePanels;
             set => SetProperty(ref _needClosePanels, value);
         }
-
-        public override bool MemberwiseEquals(CommandParameter other)
-        {
-            var target = other as FocusMainViewCommandParameter;
-            if (target == null) return false;
-            return this == target || (this.NeedClosePanels == target.NeedClosePanels);
-        }
     }
 
 }

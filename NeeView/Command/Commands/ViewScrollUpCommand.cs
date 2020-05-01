@@ -66,16 +66,6 @@ namespace NeeView
             this.AllowCrossScroll = true;
         }
 
-        public override bool MemberwiseEquals(CommandParameter other)
-        {
-            var target = other as ViewScrollCommandParameter;
-            if (target == null) return false;
-
-            return this == target || (
-                this.Scroll == target.Scroll &&
-                this.ScrollDuration == target.ScrollDuration &&
-                this.AllowCrossScroll == target.AllowCrossScroll);
-        }
     }
 
 }

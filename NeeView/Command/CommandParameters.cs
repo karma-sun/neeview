@@ -25,12 +25,22 @@ namespace NeeView
     [JsonConverter(typeof(JsonCommandParameterConverter))]
     public abstract class CommandParameter : BindableBase, ICloneable
     {
+        private Func<object, object, bool> _equals;
+
+        public CommandParameter()
+        {
+            _equals = ObjectExtensions.MakeEqualsMethod(this.GetType());
+        }
+
         public object Clone()
         {
             return MemberwiseClone();
         }
 
-        public abstract bool MemberwiseEquals(CommandParameter other);
+        public bool MemberwiseEquals(CommandParameter other)
+        {
+            return _equals(this, other);
+        }
     }
 
 
@@ -56,13 +66,6 @@ namespace NeeView
         private void OnDeserializing(StreamingContext context)
         {
             IsReverse = true;
-        }
-
-        public override bool MemberwiseEquals(CommandParameter other)
-        {
-            var target = other as ReversibleCommandParameter;
-            if (target == null) return false;
-            return this == target || (this.IsReverse == target.IsReverse);
         }
     }
 

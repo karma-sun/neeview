@@ -87,18 +87,5 @@ namespace NeeView
             get => _qualityLevel;
             set => SetProperty(ref _qualityLevel, value);
         }
-
-
-        public override bool MemberwiseEquals(CommandParameter other)
-        {
-            var target = other as ExportImageCommandParameter;
-            if (target == null) return false;
-            return this == target || (this.Mode == target.Mode &&
-                this.HasBackground == target.HasBackground &&
-                this.ExportFolder == target.ExportFolder &&
-                this.FileNameMode == target.FileNameMode &&
-                this.FileFormat == target.FileFormat &&
-                this.QualityLevel == target.QualityLevel);
-        }
     }
 }

@@ -806,7 +806,7 @@ namespace NeeView
         {
             var area = GetArea();
 
-            double margin = 0.1;
+            double margin = 1.1;
 
             if (_lockMoveX)
             {

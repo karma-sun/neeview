@@ -34,8 +34,6 @@ namespace NeeView
 
             var pictureInfo = new PictureInfo(ArchiveEntry);
 
-            _streamSource.Initialize(token);
-
             using (var stream = _streamSource.CreateStream(token))
             {
                 stream.Seek(0, SeekOrigin.Begin);

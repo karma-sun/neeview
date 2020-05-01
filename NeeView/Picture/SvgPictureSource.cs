@@ -39,8 +39,6 @@ namespace NeeView
 
             token.ThrowIfCancellationRequested();
 
-            _streamSource.Initialize(token);
-
             using (var stream = _streamSource.CreateStream(token))
             {
                 var settings = new WpfDrawingSettings();
@@ -113,6 +111,8 @@ namespace NeeView
 
         public override byte[] CreateThumbnail(ThumbnailProfile profile, CancellationToken token)
         {
+            token.ThrowIfCancellationRequested();
+
             Size size;
             if (PictureInfo != null)
             {
@@ -123,8 +123,6 @@ namespace NeeView
                 Initialize(token);
                 size = new Size(_imageSource.Width, _imageSource.Height);
             }
-
-            token.ThrowIfCancellationRequested();
 
             size = profile.GetThumbnailSize(size);
             var setting = profile.CreateBitmapCreateSetting();

@@ -38,45 +38,24 @@ namespace NeeView
 
             using (var stream = _streamSource.CreateStream(token))
             {
-                token.ThrowIfCancellationRequested();
+                stream.Seek(0, SeekOrigin.Begin);
+                var bitmapInfo = BitmapInfo.Create(stream);
+                pictureInfo.BitmapInfo = bitmapInfo;
+                var originalSize = bitmapInfo.IsTranspose ? bitmapInfo.GetPixelSize().Transpose() : bitmapInfo.GetPixelSize();
+                pictureInfo.OriginalSize = originalSize;
 
-                var streamCanceller = new StreamCanceller(stream, token);
-                try
-                {
-                    stream.Seek(0, SeekOrigin.Begin);
-                    var bitmapInfo = BitmapInfo.Create(stream);
-                    pictureInfo.BitmapInfo = bitmapInfo;
-                    var originalSize = bitmapInfo.IsTranspose ? bitmapInfo.GetPixelSize().Transpose() : bitmapInfo.GetPixelSize();
-                    pictureInfo.OriginalSize = originalSize;
+                var maxSize = bitmapInfo.IsTranspose ? Config.Current.Performance.MaximumSize.Transpose() : Config.Current.Performance.MaximumSize;
+                var size = (Config.Current.Performance.IsLimitSourceSize && !maxSize.IsContains(originalSize)) ? originalSize.Uniformed(maxSize) : Size.Empty;
+                pictureInfo.Size = size.IsEmpty ? originalSize : size;
 
-                    var maxSize = bitmapInfo.IsTranspose ? Config.Current.Performance.MaximumSize.Transpose() : Config.Current.Performance.MaximumSize;
-                    var size = (Config.Current.Performance.IsLimitSourceSize && !maxSize.IsContains(originalSize)) ? originalSize.Uniformed(maxSize) : Size.Empty;
-                    pictureInfo.Size = size.IsEmpty ? originalSize : size;
+                pictureInfo.Decoder = _streamSource.Decoder ?? ".Net BitmapImage";
+                pictureInfo.BitsPerPixel = bitmapInfo.BitsPerPixel;
+                pictureInfo.Exif = bitmapInfo.Exif;
+                pictureInfo.AspectRatio = bitmapInfo.AspectRatio;
+                pictureInfo.AspectSize = new Size(bitmapInfo.AspectWidth, bitmapInfo.AspectHeight);
 
-                    pictureInfo.Decoder = _streamSource.Decoder ?? ".Net BitmapImage";
-                    pictureInfo.BitsPerPixel = bitmapInfo.BitsPerPixel;
-                    pictureInfo.Exif = bitmapInfo.Exif;
-                    pictureInfo.AspectRatio = bitmapInfo.AspectRatio;
-                    pictureInfo.AspectSize = new Size(bitmapInfo.AspectWidth, bitmapInfo.AspectHeight);
-
-                    this.PictureInfo = pictureInfo;
-                }
-                catch (OperationCanceledException)
-                {
-                    throw;
-                }
-                catch
-                {
-                    token.ThrowIfCancellationRequested();
-                    throw;
-                }
-                finally
-                {
-                    streamCanceller.Dispose();
-                }
+                this.PictureInfo = pictureInfo;
             }
-
-            token.ThrowIfCancellationRequested();
 
             return this.PictureInfo;
         }
@@ -84,36 +63,21 @@ namespace NeeView
         [SuppressMessage("Microsoft.Usage", "CA2202:DoNotDisposeObjectsMultipleTimes")]
         public override ImageSource CreateImageSource(Size size, BitmapCreateSetting setting, CancellationToken token)
         {
+            token.ThrowIfCancellationRequested();
+
             using (var stream = _streamSource.CreateStream(token))
             {
-                var streamCanceller = new StreamCanceller(stream, token);
-                try
+                if (setting.IsKeepAspectRatio && !size.IsEmpty)
                 {
-                    if (setting.IsKeepAspectRatio && !size.IsEmpty)
-                    {
-                        size = new Size(0, size.Height);
-                    }
+                    size = new Size(0, size.Height);
+                }
 
-                    var bitmapSource = _bitmapFactory.CreateBitmapSource(stream, PictureInfo?.BitmapInfo, size, setting, token);
+                var bitmapSource = _bitmapFactory.CreateBitmapSource(stream, PictureInfo?.BitmapInfo, size, setting, token);
 
-                    // 色情報とBPP設定。
-                    this.PictureInfo.SetPixelInfo(bitmapSource);
+                // 色情報とBPP設定。
+                this.PictureInfo.SetPixelInfo(bitmapSource);
 
-                    return bitmapSource;
-                }
-                catch (OperationCanceledException)
-                {
-                    throw;
-                }
-                catch
-                {
-                    token.ThrowIfCancellationRequested();
-                    throw;
-                }
-                finally
-                {
-                    streamCanceller.Dispose();
-                }
+                return bitmapSource;
             }
         }
 
@@ -121,29 +85,14 @@ namespace NeeView
         [SuppressMessage("Microsoft.Usage", "CA2202:DoNotDisposeObjectsMultipleTimes")]
         public override byte[] CreateImage(Size size, BitmapCreateSetting setting, BitmapImageFormat format, int quality, CancellationToken token)
         {
+            token.ThrowIfCancellationRequested();
+
             using (var stream = _streamSource.CreateStream(token))
             {
-                var streamCanceller = new StreamCanceller(stream, token);
-                try
+                using (var outStream = new MemoryStream())
                 {
-                    using (var outStream = new MemoryStream())
-                    {
-                        _bitmapFactory.CreateImage(stream, PictureInfo?.BitmapInfo, outStream, size, format, quality, setting, token);
-                        return outStream.ToArray();
-                    }
-                }
-                catch (OperationCanceledException)
-                {
-                    throw;
-                }
-                catch
-                {
-                    token.ThrowIfCancellationRequested();
-                    throw;
-                }
-                finally
-                {
-                    streamCanceller.Dispose();
+                    _bitmapFactory.CreateImage(stream, PictureInfo?.BitmapInfo, outStream, size, format, quality, setting, token);
+                    return outStream.ToArray();
                 }
             }
         }
@@ -152,6 +101,8 @@ namespace NeeView
         public override byte[] CreateThumbnail(ThumbnailProfile profile, CancellationToken token)
         {
             ////Debug.WriteLine($"## CreateThumbnail: {this.ArchiveEntry}");
+
+            token.ThrowIfCancellationRequested();
 
             Size size;
             if (PictureInfo != null)
@@ -166,8 +117,6 @@ namespace NeeView
                     size = bitmapInfo.IsTranspose ? bitmapInfo.GetPixelSize().Transpose() : bitmapInfo.GetPixelSize();
                 }
             }
-
-            token.ThrowIfCancellationRequested();
 
             size = profile.GetThumbnailSize(size);
             var setting = profile.CreateBitmapCreateSetting();

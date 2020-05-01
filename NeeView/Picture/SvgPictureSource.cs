@@ -37,44 +37,29 @@ namespace NeeView
         {
             if (_imageSource != null) return;
 
+            token.ThrowIfCancellationRequested();
+
             _streamSource.Initialize(token);
 
             using (var stream = _streamSource.CreateStream(token))
             {
-                var streamCanceller = new StreamCanceller(stream, token);
-                try
-                {
-                    var settings = new WpfDrawingSettings();
-                    settings.IncludeRuntime = false;
-                    settings.TextAsGeometry = true;
+                var settings = new WpfDrawingSettings();
+                settings.IncludeRuntime = false;
+                settings.TextAsGeometry = true;
 
-                    DrawingGroup drawing;
-                    lock (_lock)
-                    {
-                        var reader = new FileSvgReader(settings);
-                        drawing = reader.Read(stream);
-                    }
-                    drawing.Freeze();
+                DrawingGroup drawing;
+                lock (_lock)
+                {
+                    var reader = new FileSvgReader(settings);
+                    drawing = reader.Read(stream);
+                }
+                drawing.Freeze();
 
-                    var image = new DrawingImage();
-                    image.Drawing = drawing;
-                    image.Freeze();
+                var image = new DrawingImage();
+                image.Drawing = drawing;
+                image.Freeze();
 
-                    _imageSource = image;
-                }
-                catch (OperationCanceledException)
-                {
-                    throw;
-                }
-                catch
-                {
-                    token.ThrowIfCancellationRequested();
-                    throw;
-                }
-                finally
-                {
-                    streamCanceller.Dispose();
-                }
+                _imageSource = image;
             }
         }
 

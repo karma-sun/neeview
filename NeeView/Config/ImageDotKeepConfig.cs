@@ -16,7 +16,7 @@ namespace NeeView
             set { SetProperty(ref _isEnabled, value); }
         }
 
-        [PropertyRange("@ParamDotKeepThreshold", 0.0, 5.0, TickFrequency = 0.1, IsEditable = true, Tips = "@ParamDotKeepThresholdTips")]
+        [PropertyPercent("@ParamDotKeepThreshold", 0.0, 5.0, TickFrequency = 0.1, IsEditable = true, Tips = "@ParamDotKeepThresholdTips")]
         public double Threshold
         {
             get { return _threshold; }

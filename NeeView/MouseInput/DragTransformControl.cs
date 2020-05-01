@@ -378,7 +378,7 @@ namespace NeeView
         // 縦方向にスクロールできない場合、横方向にスクロールする
         public void ScrollUp(ViewScrollCommandParameter parameter)
         {
-            var rate = parameter.Scroll / 100.0;
+            var rate = parameter.Scroll;
             var span = TimeSpan.FromSeconds(parameter.ScrollDuration);
 
             UpdateLock();
@@ -396,7 +396,7 @@ namespace NeeView
         // 縦方向にスクロールできない場合、横方向にスクロールする
         public void ScrollDown(ViewScrollCommandParameter parameter)
         {
-            var rate = parameter.Scroll / 100.0;
+            var rate = parameter.Scroll;
             var span = TimeSpan.FromSeconds(parameter.ScrollDuration);
 
             UpdateLock();
@@ -414,7 +414,7 @@ namespace NeeView
         // 横方向にスクロールできない場合、縦方向にスクロールする
         public void ScrollLeft(ViewScrollCommandParameter parameter)
         {
-            var rate = parameter.Scroll / 100.0;
+            var rate = parameter.Scroll;
             var span = TimeSpan.FromSeconds(parameter.ScrollDuration);
 
             UpdateLock();
@@ -432,7 +432,7 @@ namespace NeeView
         // 横方向にスクロールできない場合、縦方向にスクロールする
         public void ScrollRight(ViewScrollCommandParameter parameter)
         {
-            var rate = parameter.Scroll / 100.0;
+            var rate = parameter.Scroll;
             var span = TimeSpan.FromSeconds(parameter.ScrollDuration);
 
             UpdateLock();
@@ -454,9 +454,9 @@ namespace NeeView
         /// <param name="bookReadDirection">右開き:+1 / 左開き:-1</param>
         /// <param name="parameter">N字スクロールコマンドパラメータ</param>
         /// <returns>スクロールしたか</returns>
-        public bool ScrollN(int direction, int bookReadDirection, bool isNScroll, IScrollNType parameter)
+        public bool ScrollN(int direction, int bookReadDirection, bool isNScroll, IScrollNTypeParameter parameter)
         {
-            return ScrollN(direction, bookReadDirection, isNScroll, parameter.Margin, parameter.Scroll / 100.0, parameter.ScrollDuration);
+            return ScrollN(direction, bookReadDirection, isNScroll, parameter.Margin, parameter.Scroll, parameter.ScrollDuration);
         }
 
         /// <summary>
@@ -1243,4 +1243,27 @@ namespace NeeView
         #endregion
 
     }
+
+
+    /// <summary>
+    /// N字スクロールパラメータ
+    /// </summary>
+    public interface IScrollNTypeParameter
+    {
+        /// <summary>
+        /// 最低スクロール距離。この値未満の場合はスクロールしない
+        /// </summary>
+        double Margin { get; set; }
+
+        /// <summary>
+        /// スクロール移動量の割合
+        /// </summary>
+        double Scroll { get; set; }
+
+        /// <summary>
+        /// スクロール時間
+        /// </summary>
+        double ScrollDuration { get; set; }
+    }
+
 }

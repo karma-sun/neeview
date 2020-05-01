@@ -333,8 +333,11 @@ namespace NeeView.Windows.Property
     //
     public class PropertyValue_Percent : PropertyValue_Double
     {
-        public PropertyValue_Percent(PropertyMemberElement setter) : base(setter)
+        public RangeProfile Range { get; private set; }
+
+        public PropertyValue_Percent(PropertyMemberElement setter, RangeProfile range) : base(setter)
         {
+            this.Range = range;
         }
     }
 

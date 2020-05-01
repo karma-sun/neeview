@@ -1,7 +1,10 @@
 ﻿using NeeLaboratory;
+using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
+using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace NeeView
 {
@@ -14,13 +17,13 @@ namespace NeeView
             this.Note = Properties.Resources.CommandViewScaleUpNote;
             this.ShortCutKey = "RightButton+WheelUp";
             this.IsShowMessage = false;
-            this.ParameterSource = new CommandParameterSource(new ViewScaleCommandParameter() { Scale = 20, IsSnapDefaultScale = true });
+            this.ParameterSource = new CommandParameterSource(new ViewScaleCommandParameter());
         }
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
             var parameter = (ViewScaleCommandParameter)param;
-            DragTransformControl.Current.ScaleUp(parameter.Scale / 100.0, parameter.IsSnapDefaultScale, ContentCanvas.Current.MainContentScale);
+            DragTransformControl.Current.ScaleUp(parameter.Scale, parameter.IsSnapDefaultScale, ContentCanvas.Current.MainContentScale);
         }
     }
 
@@ -31,16 +34,15 @@ namespace NeeView
     [DataContract]
     public class ViewScaleCommandParameter : CommandParameter
     {
-        private int _scale;
+        private double _scale = 0.2;
         private bool _isSnapDefaultScale = true;
 
-        // 属性に説明文
-        [DataMember]
-        [PropertyRange("@ParamCommandParameterScaleAmount", 0, 100, Tips = "@ParamCommandParameterScaleAmountTips")]
-        public int Scale
+        [DataMember(Name = "ScaleV2")]
+        [PropertyPercent("@ParamCommandParameterScaleAmount", Tips = "@ParamCommandParameterScaleAmountTips")]
+        public double Scale
         {
             get { return _scale; }
-            set { SetProperty(ref _scale, MathUtility.Clamp(value, 0, 100)); }
+            set { SetProperty(ref _scale, MathUtility.Clamp(value, 0.0, 1.0)); }
         }
 
         [DataMember]
@@ -53,9 +55,21 @@ namespace NeeView
         }
 
 
+        #region Obsolete
+        [Obsolete, JsonIgnore, EqualsIgnore, DataMember(Name = "Scale", EmitDefaultValue = false)] // ver.37
+        [PropertyMapIgnore]
+        public int ScaleV1
+        {
+            get => 0;
+            set => Scale = value / 100.0;
+        }
+        #endregion
+
+
         [OnDeserializing]
         private void OnDeserializing(StreamingContext context)
         {
+            this.Scale = 0.2;
             this.IsSnapDefaultScale = true;
         }
     }

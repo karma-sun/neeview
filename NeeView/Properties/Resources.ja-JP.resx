@@ -3435,10 +3435,10 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>回転後に表示サイズを再適用します。</value>
   </data>
   <data name="ParamCommandParameterScaleAmount" xml:space="preserve">
-    <value>拡大率(%)</value>
+    <value>拡大率</value>
   </data>
   <data name="ParamCommandParameterScaleAmountTips" xml:space="preserve">
-    <value>一度の操作で拡大する割合です。(0-100)</value>
+    <value>一度の操作で拡大する割合です。</value>
   </data>
   <data name="ParamCommandParameterScaleSnapDefault" xml:space="preserve">
     <value>100%スナップ</value>
@@ -3453,16 +3453,16 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>軸方向にスクロールできない場合は軸に垂直な方向へスクロースを行います。</value>
   </data>
   <data name="ParamCommandParameterScrollAmount" xml:space="preserve">
-    <value>移動量(%)</value>
+    <value>移動量</value>
   </data>
   <data name="ParamCommandParameterScrollAmountTips" xml:space="preserve">
-    <value>一度の操作でスクロールするする画面に対する割合(0-100)です。</value>
+    <value>一度の操作でスクロールするする画面に対する割合です。</value>
   </data>
   <data name="ParamCommandParameterScrollPageAmount" xml:space="preserve">
-    <value>移動量(%)</value>
+    <value>移動量</value>
   </data>
   <data name="ParamCommandParameterScrollPageAmountTips" xml:space="preserve">
-    <value>一度の操作でスクロールするする画面に対する割合です。(0-100)</value>
+    <value>一度の操作でスクロールするする画面に対する割合です。</value>
   </data>
   <data name="ParamCommandParameterScrollPageAnimation" xml:space="preserve">
     <value>滑らかスクロール</value>

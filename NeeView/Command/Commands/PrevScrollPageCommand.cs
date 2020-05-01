@@ -37,10 +37,10 @@ namespace NeeView
     /// スクロール＋ページ移動用パラメータ
     /// </summary>
     [DataContract]
-    public class ScrollPageCommandParameter : ReversibleCommandParameter, IScrollNType
+    public class ScrollPageCommandParameter : ReversibleCommandParameter, IScrollNTypeParameter
     {
         private bool _isNScroll = true;
-        private int _scroll = 100;
+        private double _scroll = 1.0;
         private double _margin = 0;
         private double _scrollDuration = 0.1;
         private double _pageMoveMargin;
@@ -62,12 +62,12 @@ namespace NeeView
             set => SetProperty(ref _margin, value);
         }
 
-        [DataMember]
-        [PropertyRange("@ParamCommandParameterScrollPageAmount", 0, 100, Tips = "@ParamCommandParameterScrollPageAmountTips")]
-        public int Scroll
+        [DataMember(Name = "ScrollV2")]
+        [PropertyPercent("@ParamCommandParameterScrollPageAmount", Tips = "@ParamCommandParameterScrollPageAmountTips")]
+        public double Scroll
         {
             get => _scroll;
-            set => SetProperty(ref _scroll, MathUtility.Clamp(value, 0, 100));
+            set => SetProperty(ref _scroll, MathUtility.Clamp(value, 0.0, 1.0));
         }
 
         [DataMember]
@@ -88,9 +88,16 @@ namespace NeeView
 
         #region Obsolete
 
+        [Obsolete, JsonIgnore, EqualsIgnore, DataMember(Name = "Scroll", EmitDefaultValue = false)] // ver.37
+        [PropertyMapIgnore]
+        public int ScrollV1
+        {
+            get => 0;
+            set => Scroll = value / 100.0;
+        }
+
         [Obsolete, JsonIgnore, EqualsIgnore, DataMember(EmitDefaultValue = false)] // ver.37
         [PropertyMapIgnore]
-        [PropertyMember("@ParamCommandParameterScrollPageAnimation", IsVisible = false)]
         public bool IsAnimation
         {
             get => false;
@@ -99,7 +106,6 @@ namespace NeeView
 
         [Obsolete, JsonIgnore, EqualsIgnore, DataMember(EmitDefaultValue = false)] // ver.37
         [PropertyMapIgnore]
-        [PropertyMember("@ParamCommandParameterScrollPageStop", Tips = "@ParamCommandParameterScrollPageStopTips", IsVisible = false)]
         public bool IsStop
         {
             get => false;
@@ -113,7 +119,7 @@ namespace NeeView
         private void OnDeserializing(StreamingContext context)
         {
             _isNScroll = true;
-            _scroll = 100;
+            _scroll = 1.0;
             _margin = 50;
             _scrollDuration = 0.1;
         }

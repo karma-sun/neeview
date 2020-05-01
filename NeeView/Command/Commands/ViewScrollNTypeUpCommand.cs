@@ -24,20 +24,12 @@ namespace NeeView
     }
 
 
-    public interface IScrollNType
-    {
-        double Margin { get; set; }
-        int Scroll { get; set; }
-        double ScrollDuration { get; set; }
-    }
-
-
     /// <summary>
     /// N字スクロール
     /// </summary>
-    public class ViewScrollNTypeCommandParameter : ReversibleCommandParameter, IScrollNType
+    public class ViewScrollNTypeCommandParameter : ReversibleCommandParameter, IScrollNTypeParameter
     {
-        private int _scroll = 100;
+        private double _scroll = 1.0;
         private double _margin = 0;
         private double _scrollDuration = 0.1;
 
@@ -48,11 +40,11 @@ namespace NeeView
             set => SetProperty(ref _margin, value);
         }
 
-        [PropertyRange("@ParamCommandParameterScrollPageAmount", 0, 100, Tips = "@ParamCommandParameterScrollPageAmountTips")]
-        public int Scroll
+        [PropertyPercent("@ParamCommandParameterScrollPageAmount", Tips = "@ParamCommandParameterScrollPageAmountTips")]
+        public double Scroll
         {
             get => _scroll;
-            set => SetProperty(ref _scroll, MathUtility.Clamp(value, 0, 100));
+            set => SetProperty(ref _scroll, MathUtility.Clamp(value, 0.0, 1.0));
         }
 
         [PropertyRange("@ParamCommandParameterScrollPageDuration", 0.0, 1.0, TickFrequency = 0.1, IsEditable = true)]

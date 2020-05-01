@@ -10164,7 +10164,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Scale rate (%) に類似しているローカライズされた文字列を検索します。
+        ///   Scale rate に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamCommandParameterScaleAmount {
             get {
@@ -10173,7 +10173,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   It is the rate of change by one operation. (0-100) に類似しているローカライズされた文字列を検索します。
+        ///   It is the rate of change by one operation. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamCommandParameterScaleAmountTips {
             get {
@@ -10218,7 +10218,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Amount of movement(%) に類似しているローカライズされた文字列を検索します。
+        ///   Amount of movement に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamCommandParameterScrollAmount {
             get {
@@ -10227,7 +10227,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   The ratio (0-100) of the screen to scroll in one operation. に類似しているローカライズされた文字列を検索します。
+        ///   The ratio of the screen to scroll in one operation. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamCommandParameterScrollAmountTips {
             get {
@@ -10245,7 +10245,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Amount of movement(%) に類似しているローカライズされた文字列を検索します。
+        ///   Amount of movement に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamCommandParameterScrollPageAmount {
             get {
@@ -10254,7 +10254,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   The ratio to the screen to scroll in one operation. (0-100) に類似しているローカライズされた文字列を検索します。
+        ///   The ratio to the screen to scroll in one operation. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamCommandParameterScrollPageAmountTips {
             get {

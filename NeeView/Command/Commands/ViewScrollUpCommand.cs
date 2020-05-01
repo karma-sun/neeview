@@ -1,7 +1,9 @@
 ﻿using NeeLaboratory;
+using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
 using System;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace NeeView
 {
@@ -29,17 +31,17 @@ namespace NeeView
     [DataContract]
     public class ViewScrollCommandParameter : CommandParameter
     {
-        private int _scroll = 25;
+        private double _scroll = 0.25;
         private bool _allowCrossScroll = true;
         private double _scrollDuration = 0.1;
 
         // 属性に説明文
-        [DataMember]
-        [PropertyRange("@ParamCommandParameterScrollAmount", 0, 100, Tips = "@ParamCommandParameterScrollAmountTips")]
-        public int Scroll
+        [DataMember(Name = "ScrollV2")]
+        [PropertyPercent("@ParamCommandParameterScrollAmount", Tips = "@ParamCommandParameterScrollAmountTips")]
+        public double Scroll
         {
             get { return _scroll; }
-            set { SetProperty(ref _scroll, MathUtility.Clamp(value, 0, 100)); }
+            set { SetProperty(ref _scroll, MathUtility.Clamp(value, 0.0, 1.0)); }
         }
 
         // スクロール速度(秒)
@@ -60,10 +62,23 @@ namespace NeeView
         }
 
 
+        #region Obsolete
+        [Obsolete, JsonIgnore, EqualsIgnore, DataMember(Name = "Scroll", EmitDefaultValue = false)] // ver.37
+        [PropertyMapIgnore]
+        public int ScrollV1
+        {
+            get => 0;
+            set => Scroll = value / 100.0;
+        }
+        #endregion
+
+
         [OnDeserializing]
         private void OnDeserializing(StreamingContext context)
         {
+            this.Scroll = 0.25;
             this.AllowCrossScroll = true;
+            this.ScrollDuration = 0.1;
         }
 
     }

@@ -16,13 +16,13 @@ namespace NeeView
             this.IsShowMessage = false;
 
             // ViewScaleUp
-            this.ParameterSource = new CommandParameterSource(new ViewScaleCommandParameter() { Scale = 20, IsSnapDefaultScale = true });
+            this.ParameterSource = new CommandParameterSource(new ViewScaleCommandParameter());
         }
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
             var parameter = (ViewScaleCommandParameter)param;
-            DragTransformControl.Current.ScaleDown(parameter.Scale / 100.0, parameter.IsSnapDefaultScale, ContentCanvas.Current.MainContentScale);
+            DragTransformControl.Current.ScaleDown(parameter.Scale, parameter.IsSnapDefaultScale, ContentCanvas.Current.MainContentScale);
         }
     }
 

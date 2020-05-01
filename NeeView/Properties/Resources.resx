@@ -3435,10 +3435,10 @@ Initialize the temporary location.</value>
     <value>Re-apply image stretch after rotation.</value>
   </data>
   <data name="ParamCommandParameterScaleAmount" xml:space="preserve">
-    <value>Scale rate (%)</value>
+    <value>Scale rate</value>
   </data>
   <data name="ParamCommandParameterScaleAmountTips" xml:space="preserve">
-    <value>It is the rate of change by one operation. (0-100)</value>
+    <value>It is the rate of change by one operation.</value>
   </data>
   <data name="ParamCommandParameterScaleSnapDefault" xml:space="preserve">
     <value>100% snap</value>
@@ -3453,16 +3453,16 @@ Initialize the temporary location.</value>
     <value>If you can not scroll in the axial direction, sucrose in the direction perpendicular to the axis.</value>
   </data>
   <data name="ParamCommandParameterScrollAmount" xml:space="preserve">
-    <value>Amount of movement(%)</value>
+    <value>Amount of movement</value>
   </data>
   <data name="ParamCommandParameterScrollAmountTips" xml:space="preserve">
-    <value>The ratio (0-100) of the screen to scroll in one operation.</value>
+    <value>The ratio of the screen to scroll in one operation.</value>
   </data>
   <data name="ParamCommandParameterScrollPageAmount" xml:space="preserve">
-    <value>Amount of movement(%)</value>
+    <value>Amount of movement</value>
   </data>
   <data name="ParamCommandParameterScrollPageAmountTips" xml:space="preserve">
-    <value>The ratio to the screen to scroll in one operation. (0-100)</value>
+    <value>The ratio to the screen to scroll in one operation.</value>
   </data>
   <data name="ParamCommandParameterScrollPageAnimation" xml:space="preserve">
     <value>Smooth scroll</value>

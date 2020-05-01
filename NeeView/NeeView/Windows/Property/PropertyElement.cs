@@ -44,12 +44,12 @@ namespace NeeView.Windows.Property
 
             switch (attribute)
             {
-                case PropertyRangeAttribute rangeAttribute:
-                    InitializeByRangeAttribute(rangeAttribute);
-                    break;
-
                 case PropertyPercentAttribute percentAttribute:
                     InitializeByPercentAttribute(percentAttribute);
+                    break;
+
+                case PropertyRangeAttribute rangeAttribute:
+                    InitializeByRangeAttribute(rangeAttribute);
                     break;
 
                 case PropertyPathAttribute pathAttribute:
@@ -170,7 +170,7 @@ namespace NeeView.Windows.Property
             switch (typeCode)
             {
                 case TypeCode.Double:
-                    this.TypeValue = new PropertyValue_Percent(this);
+                    this.TypeValue = new PropertyValue_Percent(this, new RangeProfile(false, attribute.Minimum, attribute.Maximum, attribute.TickFrequency, attribute.IsEditable, attribute.Format));
                     break;
                 default:
                     throw new NotSupportedException();

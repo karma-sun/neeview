@@ -44,12 +44,16 @@ namespace NeeView.Windows.Property
     }
 
     /// <summary>
-    /// double range: 0.0 - 1.0
+    /// double range: percent format
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
-    public class PropertyPercentAttribute : PropertyMemberAttribute
+    public class PropertyPercentAttribute : PropertyRangeAttribute
     {
-        public PropertyPercentAttribute(string name) : base(name)
+        public PropertyPercentAttribute(string name) : base(name, 0.0, 1.0)
+        {
+        }
+
+        public PropertyPercentAttribute(string name, double min, double max) : base(name, min, max)
         {
         }
     }

@@ -85,24 +85,17 @@ namespace NeeView
             {
                 if (disposing)
                 {
+                    Close(true);
+                    _stream = null;
                 }
-
-                Close(true);
-                _stream = null;
 
                 disposedValue = true;
             }
         }
 
-        ~SevenZipSource()
-        {
-            Dispose(false);
-        }
-
         public void Dispose()
         {
             Dispose(true);
-            GC.SuppressFinalize(this);
         }
         #endregion
     }
@@ -431,7 +424,10 @@ namespace NeeView
             {
                 if (disposing)
                 {
-                    _source.Dispose();
+                    lock (_lock)
+                    {
+                        _source.Dispose();
+                    }
                 }
 
                 _disposedValue = true;

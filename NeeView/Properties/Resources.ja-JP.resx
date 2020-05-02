@@ -4843,7 +4843,7 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
     <value>表示全般</value>
   </data>
   <data name="SettingPageVisualGeneralAdvance" xml:space="preserve">
-    <value>表示詳細</value>
+    <value>ウィンドウ詳細</value>
   </data>
   <data name="SettingPageVisualGeneralAutoHide" xml:space="preserve">
     <value>自動非表示パネル</value>

@@ -4843,7 +4843,7 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Visual General</value>
   </data>
   <data name="SettingPageVisualGeneralAdvance" xml:space="preserve">
-    <value>Visual advanced setting</value>
+    <value>Window advanced setting</value>
   </data>
   <data name="SettingPageVisualGeneralAutoHide" xml:space="preserve">
     <value>Auto-hide panel</value>

@@ -14746,7 +14746,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Visual advanced setting に類似しているローカライズされた文字列を検索します。
+        ///   Window advanced setting に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageVisualGeneralAdvance {
             get {

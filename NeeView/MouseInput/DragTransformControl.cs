@@ -474,10 +474,9 @@ namespace NeeView
             var delta = GetNScrollDelta(direction, bookReadDirection, allowVerticalScroll, margin, rate);
             var span = TimeSpan.FromSeconds(sec);
 
-            if (Math.Abs(delta.X) > 0.1 || Math.Abs(delta.Y) > 0.1)
+            if (delta.X != 0.0 || delta.Y != 0.0)
             {
                 ////Debug.WriteLine(delta);
-                UpdateLock();
                 var moved = DoMove(new Vector(delta.X, delta.Y), span);
                 return moved;
             }
@@ -506,8 +505,11 @@ namespace NeeView
                     delta.Y = GetNScrollVerticalToTop(area, margin, rate);
                 }
 
-                if (delta.Y == 0.0)
+                UpdateLock();
+
+                if (_lockMoveY || delta.Y == 0.0)
                 {
+                    delta.Y = 0.0;
                     var canVerticalScroll = area.Over.Height > 0.0;
                     var rateX = canVerticalScroll ? 1.0 : rate;
                     if (direction * bookReadDirection > 0)
@@ -561,10 +563,14 @@ namespace NeeView
         // N字スクロール：上方向スクロール距離取得
         private double GetNScrollVerticalToTop(DragArea area, double margin, double rate)
         {
-            if (area.Over.Top < -margin)
+            if (area.Over.Top < 0.0)
             {
                 double dy = Math.Abs(area.Over.Top);
-                if (dy > area.View.Height * rate) dy = area.View.Height * rate;
+                var n = (int)(dy / (area.View.Height * rate)) + 1;
+                if (n > 1)
+                {
+                    dy = Math.Min(Math.Max(dy / n, margin), dy);
+                }
                 return dy;
             }
             else
@@ -576,10 +582,14 @@ namespace NeeView
         // N字スクロール：下方向スクロール距離取得
         private double GetNScrollVerticalToBottom(DragArea area, double margin, double rate)
         {
-            if (area.Over.Bottom > margin)
+            if (area.Over.Bottom > 0.0)
             {
                 double dy = Math.Abs(area.Over.Bottom);
-                if (dy > area.View.Height * rate) dy = area.View.Height * rate;
+                var n = (int)(dy / (area.View.Height * rate)) + 1;
+                if (n > 1)
+                {
+                    dy = Math.Min(Math.Max(dy / n, margin), dy);
+                }
                 return -dy;
             }
             else
@@ -603,10 +613,14 @@ namespace NeeView
         // N字スクロール：左方向スクロール距離取得
         private double GetNScrollHorizontalToLeft(DragArea area, double margin, double rate)
         {
-            if (area.Over.Left < -margin)
+            if (area.Over.Left < 0.0)
             {
                 double dx = Math.Abs(area.Over.Left);
-                if (dx > area.View.Width * rate) dx = area.View.Width * rate;
+                var n = (int)(dx / (area.View.Width * rate)) + 1;
+                if (n > 1)
+                {
+                    dx = Math.Min(Math.Max(dx / n, margin), dx);
+                }
                 return dx;
             }
             else
@@ -618,10 +632,14 @@ namespace NeeView
         // N字スクロール：右方向スクロール距離取得
         private double GetNScrollHorizontalToRight(DragArea area, double margin, double rate)
         {
-            if (area.Over.Right > margin)
+            if (area.Over.Right > 0.0)
             {
                 double dx = Math.Abs(area.Over.Right);
-                if (dx > area.View.Width * rate) dx = area.View.Width * rate;
+                var n = (int)(dx / (area.View.Width * rate)) + 1;
+                if (n > 1)
+                {
+                    dx = Math.Min(Math.Max(dx / n, margin), dx);
+                }
                 return -dx;
             }
             else
@@ -870,6 +888,7 @@ namespace NeeView
         {
             var area = GetArea();
             var pos0 = _transform.Position;
+
             UpdateLock();
 
             if (_lockMoveX)

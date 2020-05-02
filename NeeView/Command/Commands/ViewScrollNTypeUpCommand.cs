@@ -30,14 +30,14 @@ namespace NeeView
     public class ViewScrollNTypeCommandParameter : ReversibleCommandParameter, IScrollNTypeParameter
     {
         private double _scroll = 1.0;
-        private double _margin = 0;
+        private double _margin = 50;
         private double _scrollDuration = 0.1;
 
         [PropertyMember("@ParamCommandParameterScrollPageMargin", Tips = "@ParamCommandParameterScrollPageMarginTips")]
         public double Margin
         {
             get => _margin;
-            set => SetProperty(ref _margin, value);
+            set => SetProperty(ref _margin, Math.Max(value, 10));
         }
 
         [PropertyPercent("@ParamCommandParameterScrollPageAmount", Tips = "@ParamCommandParameterScrollPageAmountTips")]

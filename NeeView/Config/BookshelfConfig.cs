@@ -25,6 +25,7 @@ namespace NeeView
         private bool _isSearchIncludeSubdirectories = true;
         private FolderOrder _defaultFolderOrder;
         private FolderOrder _playlistFolderOrder;
+        private bool _isOrderWithoutFileType;
 
 
         [JsonIgnore]
@@ -204,6 +205,17 @@ namespace NeeView
             get { return _playlistFolderOrder; }
             set { SetProperty(ref _playlistFolderOrder, value); }
         }
+
+        /// <summary>
+        /// ファイルタイプを考慮しない並び替え
+        /// </summary>
+        [PropertyMember("@ParamIsOrderWithoutFileType")]
+        public bool IsOrderWithoutFileType
+        {
+            get { return _isOrderWithoutFileType; }
+            set { SetProperty(ref _isOrderWithoutFileType, value); }
+        }
+
 
 
         #region 非公開パラメーター

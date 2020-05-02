@@ -5379,4 +5379,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="EffectBaseScale" xml:space="preserve">
     <value>基底スケール</value>
   </data>
+  <data name="ParamIsOrderWithoutFileType" xml:space="preserve">
+    <value>ファイルの種類を区別しない並び替え</value>
+  </data>
 </root>

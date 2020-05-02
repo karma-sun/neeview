@@ -5379,4 +5379,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="EffectBaseScale" xml:space="preserve">
     <value>Base scale</value>
   </data>
+  <data name="ParamIsOrderWithoutFileType" xml:space="preserve">
+    <value>Sort without file type</value>
+  </data>
 </root>

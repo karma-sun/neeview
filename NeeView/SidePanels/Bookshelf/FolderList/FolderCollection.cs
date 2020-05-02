@@ -242,36 +242,48 @@ namespace NeeView
         /// <returns></returns>
         protected IEnumerable<FolderItem> Sort(IEnumerable<FolderItem> source)
         {
+            IOrderedEnumerable<FolderItem> orderSource;
+            
+            if (Config.Current.Bookshelf.IsOrderWithoutFileType)
+            {
+                // NOTE: 並び順を変えないOrderBy
+                orderSource = source.OrderBy(e => 0);
+            }
+            else
+            {
+                orderSource = source.OrderBy(e => e.Type);
+            }
+
             switch (FolderOrder)
             {
                 default:
                 case FolderOrder.FileName:
-                    return source.OrderBy(e => e.Type).ThenBy(e => e, new ComparerFileName());
+                    return orderSource.ThenBy(e => e, new ComparerFileName());
                 case FolderOrder.FileNameDescending:
-                    return source.OrderBy(e => e.Type).ThenByDescending(e => e, new ComparerFileName());
+                    return orderSource.ThenByDescending(e => e, new ComparerFileName());
                 case FolderOrder.Path:
-                    return source.OrderBy(e => e.Type).ThenBy(e => e, new ComparerFullPath());
+                    return orderSource.ThenBy(e => e, new ComparerFullPath());
                 case FolderOrder.PathDescending:
-                    return source.OrderBy(e => e.Type).ThenByDescending(e => e, new ComparerFullPath());
+                    return orderSource.ThenByDescending(e => e, new ComparerFullPath());
                 case FolderOrder.FileType:
-                    return source.OrderBy(e => e.Type).ThenBy(e => e, new ComparerFileType());
+                    return orderSource.ThenBy(e => e, new ComparerFileType());
                 case FolderOrder.FileTypeDescending:
-                    return source.OrderBy(e => e.Type).ThenByDescending(e => e, new ComparerFileType());
+                    return orderSource.ThenByDescending(e => e, new ComparerFileType());
                 case FolderOrder.TimeStamp:
-                    return source.OrderBy(e => e.Type).ThenBy(e => e.LastWriteTime).ThenBy(e => e, new ComparerFileName());
+                    return orderSource.ThenBy(e => e.LastWriteTime).ThenBy(e => e, new ComparerFileName());
                 case FolderOrder.TimeStampDescending:
-                    return source.OrderBy(e => e.Type).ThenByDescending(e => e.LastWriteTime).ThenBy(e => e, new ComparerFileName());
+                    return orderSource.ThenByDescending(e => e.LastWriteTime).ThenBy(e => e, new ComparerFileName());
                 case FolderOrder.EntryTime:
-                    return source.OrderBy(e => e.Type).ThenBy(e => e.EntryTime).ThenBy(e => e, new ComparerFileName());
+                    return orderSource.ThenBy(e => e.EntryTime).ThenBy(e => e, new ComparerFileName());
                 case FolderOrder.EntryTimeDescending:
-                    return source.OrderBy(e => e.Type).ThenByDescending(e => e.EntryTime).ThenBy(e => e, new ComparerFileName());
+                    return orderSource.ThenByDescending(e => e.EntryTime).ThenBy(e => e, new ComparerFileName());
                 case FolderOrder.Size:
-                    return source.OrderBy(e => e.Type).ThenBy(e => e.Length).ThenBy(e => e, new ComparerFileName());
+                    return orderSource.ThenBy(e => e.Length).ThenBy(e => e, new ComparerFileName());
                 case FolderOrder.SizeDescending:
-                    return source.OrderBy(e => e.Type).ThenByDescending(e => e.Length).ThenBy(e => e, new ComparerFileName());
+                    return orderSource.ThenByDescending(e => e.Length).ThenBy(e => e, new ComparerFileName());
                 case FolderOrder.Random:
                     var random = new Random(RandomSeed);
-                    return source.OrderBy(e => e.Type).ThenBy(e => random.Next());
+                    return orderSource.ThenBy(e => random.Next());
             }
         }
 

@@ -11595,6 +11595,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Sort without file type に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsOrderWithoutFileType {
+            get {
+                return ResourceManager.GetString("ParamIsOrderWithoutFileType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Checkered background transparent image に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsPageBackgroundChecker {

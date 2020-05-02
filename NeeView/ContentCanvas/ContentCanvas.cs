@@ -537,8 +537,16 @@ namespace NeeView
 
             for (int i = 0; i < 2; ++i)
             {
-                Contents[i].Width = result.ContentSizeList[i].Width;
-                Contents[i].Height = result.ContentSizeList[i].Height;
+                if (Contents[i] is ArchiveViewContent)
+                {
+                    Contents[i].Width = 64;
+                    Contents[i].Height = 64;
+                }
+                else
+                {
+                    Contents[i].Width = result.ContentSizeList[i].Width;
+                    Contents[i].Height = result.ContentSizeList[i].Height;
+                }
             }
 
             UpdateContentScalingMode();

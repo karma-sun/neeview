@@ -388,7 +388,7 @@
     <value>Filmstrip</value>
   </data>
   <data name="CommandGroupImageScale" xml:space="preserve">
-    <value>View stretch</value>
+    <value>Stretch</value>
   </data>
   <data name="CommandGroupMove" xml:space="preserve">
     <value>Move</value>
@@ -1372,25 +1372,25 @@
     <value>Allow enlarge</value>
   </data>
   <data name="CommandToggleStretchAllowEnlargeNote" xml:space="preserve">
-    <value>Allow enlarge on view stretch.</value>
+    <value>Allow enlarge on stretch.</value>
   </data>
   <data name="CommandToggleStretchAllowReduce" xml:space="preserve">
     <value>Allow reduce</value>
   </data>
   <data name="CommandToggleStretchAllowReduceNote" xml:space="preserve">
-    <value>Allow reduce on view stretch.</value>
+    <value>Allow reduce on stretch.</value>
   </data>
   <data name="CommandToggleStretchMode" xml:space="preserve">
-    <value>Switch view stretch</value>
+    <value>Switch stretch</value>
   </data>
   <data name="CommandToggleStretchModeNote" xml:space="preserve">
-    <value>Switch the view stretch in order.</value>
+    <value>Switch the stretch in order.</value>
   </data>
   <data name="CommandToggleStretchModeReverse" xml:space="preserve">
-    <value>Switch view stretch (reverse)</value>
+    <value>Switch stretch (reverse)</value>
   </data>
   <data name="CommandToggleStretchModeReverseNote" xml:space="preserve">
-    <value>Switch the image stretch in order (reverse).</value>
+    <value>Switch the stretch in order (reverse).</value>
   </data>
   <data name="CommandToggleTopmost" xml:space="preserve">
     <value>Toggle topmost</value>
@@ -3492,7 +3492,7 @@ Initialize the temporary location.</value>
     <value>Switching to original size</value>
   </data>
   <data name="ParamCommandParameterStretchModeIsToggleTips" xml:space="preserve">
-    <value>If the scale mode is already specified, it will be the original size</value>
+    <value>If the stretch mode is already specified, it will be the original size</value>
   </data>
   <data name="ParamCommandParameterThumbnailListFocus" xml:space="preserve">
     <value>Get focus when displaying panel</value>
@@ -5363,5 +5363,20 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="ParamIsInsertDummyPageTips" xml:space="preserve">
     <value>Insert a dummy page when there are not enough pages at the end of two-page mode.</value>
+  </data>
+  <data name="ParamViewIsBaseScaleEnabled" xml:space="preserve">
+    <value>Enable base scale</value>
+  </data>
+  <data name="ParamViewIsBaseScaleEnabledTips" xml:space="preserve">
+    <value>Enable base scale.</value>
+  </data>
+  <data name="ParamViewBaseScale" xml:space="preserve">
+    <value>Base scale</value>
+  </data>
+  <data name="ParamViewBaseScaleTips" xml:space="preserve">
+    <value>After applying the stretch, apply this scale value.</value>
+  </data>
+  <data name="EffectBaseScale" xml:space="preserve">
+    <value>Base scale</value>
   </data>
 </root>

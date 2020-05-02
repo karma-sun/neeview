@@ -168,8 +168,23 @@ namespace NeeView
             }
         }
 
-        // ストレッチモードに合わせて各コンテンツのスケールを計算する
+        // ストレッチモードに合わせて各コンテンツのスケールを計算する。BaseScaleを適用
         private Size[] CalcContentSize(List<Size> source, double width, double height, double angle)
+        {
+            var sizes = CalcContentSizeBase(source, width, height, angle);
+
+            if (Config.Current.View.IsBaseScaleEnabled)
+            {
+                return sizes.Select(e => e.Multi(Config.Current.View.BaseScale)).ToArray();
+            }
+            else
+            {
+                return sizes;
+            }
+        }
+
+        // ストレッチモードに合わせて各コンテンツのスケールを計算する
+        private Size[] CalcContentSizeBase(List<Size> source, double width, double height, double angle)
         {
             if (width < 1.0) width = 1.0;
             if (height < 1.0) height = 1.0;

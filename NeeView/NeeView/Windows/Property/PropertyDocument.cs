@@ -66,6 +66,7 @@ namespace NeeView.Windows.Property
         //
         public PropertyDocument()
         {
+            this.Elements = new List<PropertyDrawElement>();
         }
 
         //
@@ -85,7 +86,7 @@ namespace NeeView.Windows.Property
 
         public void SetVisualType<T>(string visualType)
         {
-            foreach(var proertyValue in  this.PropertyMembers.Select(e => e.TypeValue).Where(e => e is T))
+            foreach (var proertyValue in this.PropertyMembers.Select(e => e.TypeValue).Where(e => e is T))
             {
                 proertyValue.VisualType = visualType;
             }
@@ -128,35 +129,37 @@ namespace NeeView.Windows.Property
             return list;
         }
 
+        public void AddProperty(object source, string propertyName)
+        {
+            var element = CreatePropertyMemberElement(source, propertyName);
+            Debug.Assert(element != null);
+            if (element != null)
+            {
+                this.Elements.Add(element);
+            }
+        }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="info"></param>
-        /// <returns></returns>
+        private PropertyMemberElement CreatePropertyMemberElement(object source, string propertyName)
+        {
+            var type = source.GetType();
+            var info = type.GetProperty(propertyName);
+            if (info == null) return null;
+
+            var attribute = GetPropertyMemberAttribute(info);
+            return new PropertyMemberElement(source, info, attribute, PropertyMemberElementOptions.Default);
+        }
+
+
         private static PropertyMemberAttribute GetPropertyMemberAttribute(MemberInfo info)
         {
             return (PropertyMemberAttribute)Attribute.GetCustomAttributes(info, typeof(PropertyMemberAttribute)).FirstOrDefault();
         }
 
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="info"></param>
-        /// <returns></returns>
         private static DefaultValueAttribute GetDefaultValueAttribute(MemberInfo info)
         {
             return (DefaultValueAttribute)Attribute.GetCustomAttributes(info, typeof(DefaultValueAttribute)).FirstOrDefault();
         }
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="info"></param>
-        /// <returns></returns>
         private static ObsoleteAttribute GetObsoleteValueAttribute(MemberInfo info)
         {
             return (ObsoleteAttribute)Attribute.GetCustomAttributes(info, typeof(ObsoleteAttribute)).FirstOrDefault();

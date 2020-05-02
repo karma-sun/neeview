@@ -388,7 +388,7 @@
     <value>フィルムストリップ</value>
   </data>
   <data name="CommandGroupImageScale" xml:space="preserve">
-    <value>表示サイズ</value>
+    <value>ストレッチ</value>
   </data>
   <data name="CommandGroupMove" xml:space="preserve">
     <value>移動</value>
@@ -1372,25 +1372,25 @@
     <value>拡大を許可</value>
   </data>
   <data name="CommandToggleStretchAllowEnlargeNote" xml:space="preserve">
-    <value>表示サイズの適用で拡大を許可</value>
+    <value>ストレッチの適用で拡大を許可</value>
   </data>
   <data name="CommandToggleStretchAllowReduce" xml:space="preserve">
     <value>縮小を許可</value>
   </data>
   <data name="CommandToggleStretchAllowReduceNote" xml:space="preserve">
-    <value>表示サイズの適用で縮小を許可</value>
+    <value>ストレッチの適用で縮小を許可</value>
   </data>
   <data name="CommandToggleStretchMode" xml:space="preserve">
-    <value>表示サイズを切り替える</value>
+    <value>ストレッチを切り替える</value>
   </data>
   <data name="CommandToggleStretchModeNote" xml:space="preserve">
-    <value>画像の表示サイズを順番に切り替えます。</value>
+    <value>画像のストレッチを順番に切り替えます。</value>
   </data>
   <data name="CommandToggleStretchModeReverse" xml:space="preserve">
-    <value>表示サイズを切り替える(逆順)</value>
+    <value>ストレッチを切り替える(逆順)</value>
   </data>
   <data name="CommandToggleStretchModeReverseNote" xml:space="preserve">
-    <value>画像の表示サイズを順番に切り替えます(逆順)。</value>
+    <value>画像のストレッチを順番に切り替えます(逆順)。</value>
   </data>
   <data name="CommandToggleTopmost" xml:space="preserve">
     <value>常に手前に表示の有効/無効</value>
@@ -3429,10 +3429,10 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>一度の操作で回転する角度です。(0-180)</value>
   </data>
   <data name="ParamCommandParameterRotateIsStretch" xml:space="preserve">
-    <value>表示サイズ適用</value>
+    <value>ストレッチ適用</value>
   </data>
   <data name="ParamCommandParameterRotateIsStretchTips" xml:space="preserve">
-    <value>回転後に表示サイズを再適用します。</value>
+    <value>回転後にストレッチを再適用します。</value>
   </data>
   <data name="ParamCommandParameterScaleAmount" xml:space="preserve">
     <value>拡大率</value>
@@ -3492,7 +3492,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>オリジナルサイズとの切り替え</value>
   </data>
   <data name="ParamCommandParameterStretchModeIsToggleTips" xml:space="preserve">
-    <value>既に指定のスケールモードの場合はオリジナルサイズにします</value>
+    <value>既に指定のストレッチモードの場合はオリジナルサイズにします</value>
   </data>
   <data name="ParamCommandParameterThumbnailListFocus" xml:space="preserve">
     <value>パネルを表示するときにフォーカスを取得する</value>
@@ -4426,13 +4426,13 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
     <value>タッチ操作での回転、拡大縮小と判定される最小の２タッチ間の距離です。</value>
   </data>
   <data name="ParamViewAllowEnlarge" xml:space="preserve">
-    <value>表示スケールで拡大を許可</value>
+    <value>ストレッチで拡大を許可</value>
   </data>
   <data name="ParamViewAllowReduce" xml:space="preserve">
-    <value>表示スケールで縮小を許可</value>
+    <value>ストレッチで縮小を許可</value>
   </data>
   <data name="ParamViewStretchMode" xml:space="preserve">
-    <value>表示スケールモード</value>
+    <value>ストレッチモード</value>
   </data>
   <data name="ParamWindowChromeFrame" xml:space="preserve">
     <value>タイトルバー非表示でのウィンドウ枠</value>
@@ -5363,5 +5363,20 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="ParamIsInsertDummyPageTips" xml:space="preserve">
     <value>2ページモードの終端で十分なページがない場合にダミーページを挿入します。</value>
+  </data>
+  <data name="ParamViewIsBaseScaleEnabled" xml:space="preserve">
+    <value>基底スケール有効</value>
+  </data>
+  <data name="ParamViewIsBaseScaleEnabledTips" xml:space="preserve">
+    <value>基底スケールを有効にします。</value>
+  </data>
+  <data name="ParamViewBaseScale" xml:space="preserve">
+    <value>基底スケール</value>
+  </data>
+  <data name="ParamViewBaseScaleTips" xml:space="preserve">
+    <value>ストレッチ適用後このスケール値を適用します。</value>
+  </data>
+  <data name="EffectBaseScale" xml:space="preserve">
+    <value>基底スケール</value>
   </data>
 </root>

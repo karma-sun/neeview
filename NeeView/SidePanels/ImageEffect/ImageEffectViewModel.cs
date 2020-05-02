@@ -22,6 +22,9 @@ namespace NeeView
             this.CustomSizeProfile = new PropertyDocument(Config.Current.ImageCustomSize);
             this.CustomSizeProfile.SetVisualType<PropertyValue_Boolean>(PropertyVisualType.ToggleSwitch);
 
+            this.BaseScaleProfile = new PropertyDocument();
+            this.BaseScaleProfile.AddProperty(Config.Current.View, nameof(ViewConfig.BaseScale));
+
             this.GridLineProfile = new PropertyDocument(Config.Current.ImageGrid);
             this.GridLineProfile.SetVisualType<PropertyValue_Boolean>(PropertyVisualType.ToggleSwitch);
             this.GridLineProfile.SetVisualType<PropertyValue_Color>(PropertyVisualType.ComboColorPicker);
@@ -54,17 +57,16 @@ namespace NeeView
         // ContentCanvs
         public ContentCanvas ContentCanvas => ContentCanvas.Current;
 
-        //
         public PropertyDocument UnsharpMaskProfile { get; set; }
 
-        //
         public PropertyDocument CustomSizeProfile { get; set; }
 
-        //
+        public PropertyDocument BaseScaleProfile { get; set; }
+
         public PropertyDocument GridLineProfile { get; set; }
 
-        //
         public Dictionary<EffectType, string> EffectTypeList { get; } = AliasNameExtensions.GetAliasNameDictionary<EffectType>();
+
 
         // TODO: これモデルじゃね？
         public void ResetValue()

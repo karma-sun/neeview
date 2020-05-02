@@ -126,6 +126,8 @@ namespace NeeView
                     case nameof(ViewConfig.StretchMode):
                     case nameof(ViewConfig.AllowEnlarge):
                     case nameof(ViewConfig.AllowReduce):
+                    case nameof(ViewConfig.IsBaseScaleEnabled):
+                    case nameof(ViewConfig.BaseScale):
                         UpdateContentSize();
                         ResetTransformRaw(true, false, false, 0.0);
                         break;

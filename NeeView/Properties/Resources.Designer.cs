@@ -880,7 +880,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   View stretch に類似しているローカライズされた文字列を検索します。
+        ///   Stretch に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandGroupImageScale {
             get {
@@ -3913,7 +3913,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Allow enlarge on view stretch. に類似しているローカライズされた文字列を検索します。
+        ///   Allow enlarge on stretch. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleStretchAllowEnlargeNote {
             get {
@@ -3931,7 +3931,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Allow reduce on view stretch. に類似しているローカライズされた文字列を検索します。
+        ///   Allow reduce on stretch. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleStretchAllowReduceNote {
             get {
@@ -3940,7 +3940,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Switch view stretch に類似しているローカライズされた文字列を検索します。
+        ///   Switch stretch に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleStretchMode {
             get {
@@ -3949,7 +3949,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Switch the view stretch in order. に類似しているローカライズされた文字列を検索します。
+        ///   Switch the stretch in order. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleStretchModeNote {
             get {
@@ -3958,7 +3958,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Switch view stretch (reverse) に類似しているローカライズされた文字列を検索します。
+        ///   Switch stretch (reverse) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleStretchModeReverse {
             get {
@@ -3967,7 +3967,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Switch the image stretch in order (reverse). に類似しているローカライズされた文字列を検索します。
+        ///   Switch the stretch in order (reverse). に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleStretchModeReverseNote {
             get {
@@ -6412,6 +6412,15 @@ namespace NeeView.Properties {
         public static string DialogSusieConnectError {
             get {
                 return ResourceManager.GetString("DialogSusieConnectError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Base scale に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EffectBaseScale {
+            get {
+                return ResourceManager.GetString("EffectBaseScale", resourceCulture);
             }
         }
         
@@ -10371,7 +10380,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   If the scale mode is already specified, it will be the original size に類似しているローカライズされた文字列を検索します。
+        ///   If the stretch mode is already specified, it will be the original size に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamCommandParameterStretchModeIsToggleTips {
             get {
@@ -13392,6 +13401,42 @@ namespace NeeView.Properties {
         public static string ParamViewAllowReduce {
             get {
                 return ResourceManager.GetString("ParamViewAllowReduce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Base scale に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamViewBaseScale {
+            get {
+                return ResourceManager.GetString("ParamViewBaseScale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   After applying the stretch, apply this scale value. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamViewBaseScaleTips {
+            get {
+                return ResourceManager.GetString("ParamViewBaseScaleTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Enable base scale に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamViewIsBaseScaleEnabled {
+            get {
+                return ResourceManager.GetString("ParamViewIsBaseScaleEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Enable base scale. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamViewIsBaseScaleEnabledTips {
+            get {
+                return ResourceManager.GetString("ParamViewIsBaseScaleEnabledTips", resourceCulture);
             }
         }
         

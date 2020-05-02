@@ -374,6 +374,8 @@ namespace NeeView
 
         #region Scroll method
 
+        private const double _nscrollCountThreshold = 0.9;
+
         // スクロール↑コマンド
         // 縦方向にスクロールできない場合、横方向にスクロールする
         public void ScrollUp(ViewScrollCommandParameter parameter)
@@ -566,7 +568,7 @@ namespace NeeView
             if (area.Over.Top < 0.0)
             {
                 double dy = Math.Abs(area.Over.Top);
-                var n = (int)(dy / (area.View.Height * rate)) + 1;
+                var n = (int)(dy / (area.View.Height * rate) + _nscrollCountThreshold);
                 if (n > 1)
                 {
                     dy = Math.Min(Math.Max(dy / n, margin), dy);
@@ -585,7 +587,7 @@ namespace NeeView
             if (area.Over.Bottom > 0.0)
             {
                 double dy = Math.Abs(area.Over.Bottom);
-                var n = (int)(dy / (area.View.Height * rate)) + 1;
+                var n = (int)(dy / (area.View.Height * rate) + _nscrollCountThreshold);
                 if (n > 1)
                 {
                     dy = Math.Min(Math.Max(dy / n, margin), dy);
@@ -616,7 +618,7 @@ namespace NeeView
             if (area.Over.Left < 0.0)
             {
                 double dx = Math.Abs(area.Over.Left);
-                var n = (int)(dx / (area.View.Width * rate)) + 1;
+                var n = (int)(dx / (area.View.Width * rate) + _nscrollCountThreshold);
                 if (n > 1)
                 {
                     dx = Math.Min(Math.Max(dx / n, margin), dx);
@@ -635,7 +637,7 @@ namespace NeeView
             if (area.Over.Right > 0.0)
             {
                 double dx = Math.Abs(area.Over.Right);
-                var n = (int)(dx / (area.View.Width * rate)) + 1;
+                var n = (int)(dx / (area.View.Width * rate) + _nscrollCountThreshold);
                 if (n > 1)
                 {
                     dx = Math.Min(Math.Max(dx / n, margin), dx);

@@ -19,7 +19,8 @@ namespace NeeView
         private bool _isViewStartPositionCenter;
         private double _angleFrequency = 0;
         private bool _forceAutoRotate;
-
+        private bool _isBaseScaleEnabled;
+        private double _baseScale = 1.0;
 
         // 回転の中心
         [PropertyMember("@ParamDragTransformIsControRotatelCenter")]
@@ -115,6 +116,22 @@ namespace NeeView
         {
             get { return _allowReduce; }
             set { SetProperty(ref _allowReduce, value); }
+        }
+
+        // 基底スケール有効
+        [PropertyMember("@ParamViewIsBaseScaleEnabled", Tips = "@ParamViewIsBaseScaleEnabledTips")]
+        public bool IsBaseScaleEnabled
+        {
+            get { return _isBaseScaleEnabled; }
+            set { SetProperty(ref _isBaseScaleEnabled, value); }
+        }
+
+        // 基底スケール
+        [PropertyPercent("@ParamViewBaseScale", 0.1, 2.0, TickFrequency =0.1, Tips = "@ParamViewBaseScaleTips")]
+        public double BaseScale
+        {
+            get { return _baseScale; }
+            set { SetProperty(ref _baseScale, value); }
         }
 
         // 自動回転左/右

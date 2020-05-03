@@ -30,7 +30,7 @@ namespace NeeView
                 lock (_lock)
                 {
                     _count++;
-                    Debug.WriteLine($"SevenZipSource.Increment: [{_count}]: {Thread.CurrentThread.GetApartmentState()}: {Thread.CurrentThread.ManagedThreadId}: {name}");
+                    //Debug.WriteLine($"SevenZipSource.Increment: [{_count}]: {Thread.CurrentThread.GetApartmentState()}: {Thread.CurrentThread.ManagedThreadId}: {name}");
                 }
             }
 
@@ -40,7 +40,7 @@ namespace NeeView
                 lock (_lock)
                 {
                     _count--;
-                    Debug.WriteLine($"SevenZipSource.Decrement: [{_count}]: {Thread.CurrentThread.GetApartmentState()}: {Thread.CurrentThread.ManagedThreadId}: {name}");
+                    //Debug.WriteLine($"SevenZipSource.Decrement: [{_count}]: {Thread.CurrentThread.GetApartmentState()}: {Thread.CurrentThread.ManagedThreadId}: {name}");
                 }
             }
         }

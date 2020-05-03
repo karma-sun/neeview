@@ -17,23 +17,54 @@ namespace NeeView
     /// </summary>
     public class SevenZipSource : IDisposable
     {
+        #region Develop
+
+        private static class Dev
+        {
+            private static object _lock = new object();
+            private static volatile int _count;
+
+            [Conditional("DEBUG")]
+            internal static void Inclement(string name)
+            {
+                lock (_lock)
+                {
+                    _count++;
+                    Debug.WriteLine($"SevenZipSource.Increment: [{_count}]: {Thread.CurrentThread.GetApartmentState()}: {Thread.CurrentThread.ManagedThreadId}: {name}");
+                }
+            }
+
+            [Conditional("DEBUG")]
+            internal static void Decrement(string name)
+            {
+                lock (_lock)
+                {
+                    _count--;
+                    Debug.WriteLine($"SevenZipSource.Decrement: [{_count}]: {Thread.CurrentThread.GetApartmentState()}: {Thread.CurrentThread.ManagedThreadId}: {name}");
+                }
+            }
+        }
+
+        #endregion
+
         #region Fields
 
         private SevenZipExtractor _extractor;
         private string _fileName;
         private Stream _stream;
+        private object _lock = new object();
 
         #endregion
 
         #region Constructors
 
-        public SevenZipSource(string fileName, object lockObject)
+        public SevenZipSource(string fileName)
         {
             _fileName = fileName;
             Initialize();
         }
 
-        public SevenZipSource(Stream stream, object lockObject)
+        public SevenZipSource(Stream stream)
         {
             _stream = stream;
             Initialize();
@@ -45,6 +76,8 @@ namespace NeeView
 
         public bool IsStream => _stream != null;
 
+        public object Lock => _lock;
+
         #endregion
 
         #region Methods
@@ -55,22 +88,30 @@ namespace NeeView
 
         public SevenZipExtractor Open()
         {
-            if (_extractor == null)
+            lock (_lock)
             {
-                _extractor = IsStream ? new SevenZipExtractor(_stream) : new SevenZipExtractor(_fileName);
-            }
+                if (_extractor == null)
+                {
+                    _extractor = IsStream ? new SevenZipExtractor(_stream) : new SevenZipExtractor(_fileName);
+                    Dev.Inclement(_fileName);
+                }
 
-            return _extractor;
+                return _extractor;
+            }
         }
 
         public void Close(bool isForce = false)
         {
-            if (_extractor == null) return;
-
-            if (isForce)
+            lock (_lock)
             {
-                _extractor.Dispose();
-                _extractor = null;
+                if (_extractor == null) return;
+
+                if (isForce)
+                {
+                    _extractor.Dispose();
+                    _extractor = null;
+                    Dev.Decrement(_fileName);
+                }
             }
         }
 
@@ -85,17 +126,24 @@ namespace NeeView
             {
                 if (disposing)
                 {
-                    Close(true);
-                    _stream = null;
                 }
+
+                Close(true);
+                _stream = null;
 
                 disposedValue = true;
             }
         }
 
+        ~SevenZipSource()
+        {
+            Dispose(false);
+        }
+
         public void Dispose()
         {
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
         #endregion
     }
@@ -188,7 +236,6 @@ namespace NeeView
 
         #region Fields
 
-        private object _lock = new object();
         private SevenZipSource _source;
 
         #endregion
@@ -199,7 +246,7 @@ namespace NeeView
         {
             InitializeLibrary();
 
-            _source = new SevenZipSource(Path, _lock);
+            _source = new SevenZipSource(Path);
         }
 
         #endregion
@@ -216,7 +263,7 @@ namespace NeeView
             // 直接の圧縮ファイルである場合のみアンロック
             if (this.Parent == null || this.Parent is FolderArchive)
             {
-                lock (_lock)
+                lock (_source.Lock)
                 {
                     _source.Close(true);
                 }
@@ -233,7 +280,7 @@ namespace NeeView
         // Solid archive ?
         private bool IsSolid()
         {
-            lock (_lock)
+            lock (_source.Lock)
             {
                 if (_disposedValue) throw new ApplicationException("Archive already colosed.");
 
@@ -252,7 +299,7 @@ namespace NeeView
             var list = new List<ArchiveEntry>();
             var directories = new List<ArchiveEntry>();
 
-            lock (_lock)
+            lock (_source.Lock)
             {
                 if (_disposedValue) throw new ApplicationException("Archive already colosed.");
 
@@ -308,7 +355,7 @@ namespace NeeView
         {
             if (entry.Id < 0) throw new ApplicationException("Cannot open this entry: " + entry.EntryName);
 
-            lock (_lock)
+            lock (_source.Lock)
             {
                 if (_disposedValue) throw new ApplicationException("Archive already colosed.");
 
@@ -334,7 +381,7 @@ namespace NeeView
         {
             if (entry.Id < 0) throw new ApplicationException("Cannot open this entry: " + entry.EntryName);
 
-            lock (_lock)
+            lock (_source.Lock)
             {
                 using (var extractor = new SevenZipExtractor(Path)) // 専用extractor
                 using (Stream fs = new FileStream(exportFileName, FileMode.Create, FileAccess.Write))
@@ -415,6 +462,8 @@ namespace NeeView
             }
         }
 
+        #endregion
+
         #region IDisposable Support
         private bool _disposedValue = false;
 
@@ -424,7 +473,7 @@ namespace NeeView
             {
                 if (disposing)
                 {
-                    lock (_lock)
+                    lock (_source.Lock)
                     {
                         _source.Dispose();
                     }
@@ -439,8 +488,6 @@ namespace NeeView
             Dispose(true);
         }
         #endregion
-
-        #endregion
-
     }
+
 }

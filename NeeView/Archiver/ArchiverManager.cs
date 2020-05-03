@@ -445,9 +445,17 @@ namespace NeeView
         /// <summary>
         /// すべてのアーカイブのファイルロック解除
         /// </summary>
-        public void UnlockAllArchives()
+        public async Task UnlockAllArchivesAsync()
         {
-            _cache.Unlock();
+            // NOTE: MTAスレッドで実行。SevenZipSharpのCOM例外対策
+            if (Thread.CurrentThread.GetApartmentState() == ApartmentState.STA)
+            {
+                await Task.Run(() => _cache.Unlock());
+            }
+            else
+            {
+                _cache.Unlock();
+            }
         }
 
         #endregion

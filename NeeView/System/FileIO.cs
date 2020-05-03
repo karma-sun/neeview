@@ -184,7 +184,7 @@ namespace NeeView
                 if (_bookHub.Address == path)
                 {
                     await _bookHub.RequestUnload(true).WaitAsync();
-                    ArchiverManager.Current.UnlockAllArchives();
+                    await ArchiverManager.Current.UnlockAllArchivesAsync();
                 }
 
                 var dialogOption = Config.Current.System.IsRemoveExplorerDialogEnabled ? Microsoft.VisualBasic.FileIO.UIOption.AllDialogs : Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs;
@@ -356,7 +356,7 @@ namespace NeeView
                 }
 
                 // 開いている本のロックをはずす
-                ArchiverManager.Current.UnlockAllArchives();
+                await ArchiverManager.Current.UnlockAllArchivesAsync();
 
                 // rename
                 try

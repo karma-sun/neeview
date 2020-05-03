@@ -352,18 +352,8 @@ namespace NeeView
         public void Deactivated()
         {
             if (IsClosing) return;
-
-            // NOTE: MTAスレッドで実行。SevenZipSharpのCOM例外対策
-            Task.Run(() =>
-            {
-                try
-                {
-                    ArchiverManager.Current.UnlockAllArchives();
-                }
-                catch
-                {
-                }
-            });
+            
+            var async = ArchiverManager.Current.UnlockAllArchivesAsync();
         }
     }
 }

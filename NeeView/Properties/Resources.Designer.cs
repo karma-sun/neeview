@@ -11046,6 +11046,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Automatic deletion of invalid history に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamHistoryIsAutoCleanupEnabled {
+            get {
+                return ResourceManager.GetString("ParamHistoryIsAutoCleanupEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete invalid history on startup. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamHistoryIsAutoCleanupEnabledTips {
+            get {
+                return ResourceManager.GetString("ParamHistoryIsAutoCleanupEnabledTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Current folder only に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamHistoryIsCurrentFolder {

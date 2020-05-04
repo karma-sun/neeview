@@ -5394,4 +5394,10 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="WordAllHistory" xml:space="preserve">
     <value>すべての履歴</value>
   </data>
+  <data name="ParamHistoryIsAutoCleanupEnabled" xml:space="preserve">
+    <value>無効な履歴を自動削除</value>
+  </data>
+  <data name="ParamHistoryIsAutoCleanupEnabledTips" xml:space="preserve">
+    <value>起動時に無効な履歴を削除します。</value>
+  </data>
 </root>

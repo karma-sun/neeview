@@ -26,6 +26,7 @@ namespace NeeView.Setting
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.IsInnerArchiveHistoryEnabled))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.IsUncHistoryEnabled))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.IsForceUpdateHistory))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.IsAutoCleanupEnabled))));
             section.Children.Add(new SettingItemButton(Properties.Resources.SettingPageHistoryGeneralDelete, Properties.Resources.SettingPageHistoryGeneralDeleteButton, RemoveHistory));
             this.Items.Add(section);
 

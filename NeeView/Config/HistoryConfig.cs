@@ -22,6 +22,7 @@ namespace NeeView
         private int _limitSize = -1;
         private TimeSpan _limitSpan;
         private bool _isCurrentFolder;
+        private bool _isAutoCleanupEnabled;
 
 
         [JsonIgnore]
@@ -143,6 +144,15 @@ namespace NeeView
             get { return _isCurrentFolder; }
             set { SetProperty(ref _isCurrentFolder, value); }
         }
+
+        // 履歴の自動削除
+        [PropertyMember("@ParamHistoryIsAutoCleanupEnabled", Tips = "@ParamHistoryIsAutoCleanupEnabledTips")]
+        public bool IsAutoCleanupEnabled
+        {
+            get { return _isAutoCleanupEnabled; }
+            set { SetProperty(ref _isAutoCleanupEnabled, value); }
+        }
+
 
     }
 }

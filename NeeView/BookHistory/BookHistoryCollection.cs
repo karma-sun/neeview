@@ -21,28 +21,19 @@ namespace NeeView
         static BookHistoryCollection() => Current = new BookHistoryCollection();
         public static BookHistoryCollection Current { get; }
 
-        #region Fields
 
         private Dictionary<string, FolderParameter.Memento> _folders = new Dictionary<string, FolderParameter.Memento>();
+        private object _lock = new object();
 
-        #endregion
-
-        #region Constructors
 
         private BookHistoryCollection()
         {
             HistoryChanged += (s, e) => RaisePropertyChanged(nameof(Count));
         }
 
-        #endregion
-
-        #region Events
 
         public event EventHandler<BookMementoCollectionChangedArgs> HistoryChanged;
 
-        #endregion
-
-        #region Prperties
 
         // 履歴コレクション
         public LinkedDicionary<string, BookHistory> Items { get; set; } = new LinkedDicionary<string, BookHistory>();
@@ -53,9 +44,259 @@ namespace NeeView
         // 先頭の要素
         public LinkedListNode<BookHistory> First => Items.First;
 
-        #endregion
 
-        #region Poperties for Folders
+
+        // 履歴クリア
+        public void Clear()
+        {
+            lock (_lock)
+            {
+                Items.Clear();
+                BookMementoCollection.Current.CleanUp();
+                HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Clear, null));
+            }
+        }
+
+        public void Load(IEnumerable<BookHistory> items, IEnumerable<Book.Memento> books)
+        {
+            lock (_lock)
+            {
+                Items.Clear();
+                BookMementoCollection.Current.CleanUp();
+
+                foreach (var book in books)
+                {
+                    BookMementoCollection.Current.Set(book);
+                }
+
+                foreach (var item in items)
+                {
+                    try
+                    {
+                        var newItem = new BookHistory() { Path = item.Path, LastAccessTime = item.LastAccessTime };
+                        Items.AddLastRaw(newItem.Path, newItem);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
+                    }
+                }
+
+                HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Load, null));
+            }
+
+            if (Config.Current.History.IsAutoCleanupEnabled)
+            {
+                var async = RemoveUnlinkedAsync(CancellationToken.None);
+            }
+        }
+
+
+        public bool Contains(string place)
+        {
+            if (place == null) return false;
+
+            lock (_lock)
+            {
+                return Items.ContainsKey(place);
+            }
+        }
+
+
+        // 履歴検索
+        public LinkedListNode<BookHistory> FindNode(string place)
+        {
+            if (place == null) return null;
+
+            lock (_lock)
+            {
+                return Items.Find(place);
+            }
+        }
+
+        public BookHistory Find(string place)
+        {
+            return FindNode(place)?.Value;
+        }
+
+        public BookMementoUnit FindUnit(string place)
+        {
+            return Find(place)?.Unit;
+        }
+
+        // 履歴追加
+        public void Add(Book.Memento memento, bool isKeepOrder)
+        {
+            if (memento == null) return;
+
+            try
+            {
+                lock (_lock)
+                {
+                    var node = FindNode(memento.Path);
+                    if (node != null && isKeepOrder)
+                    {
+                        node.Value.Unit.Memento = memento;
+                        HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Update, memento.Path));
+                    }
+                    else
+                    {
+                        node = node ?? new LinkedListNode<BookHistory>(new BookHistory(BookMementoCollection.Current.Set(memento), DateTime.Now));
+                        node.Value.Unit.Memento = memento;
+                        node.Value.LastAccessTime = DateTime.Now;
+
+                        if (node == Items.First)
+                        {
+                            HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Update, memento.Path));
+                        }
+                        else
+                        {
+                            Items.AddFirst(node.Value.Path, node.Value);
+                            HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Add, memento.Path));
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+        }
+
+        // 履歴削除
+        public void Remove(string place)
+        {
+            lock (_lock)
+            {
+                var node = FindNode(place);
+                if (node != null)
+                {
+                    Items.Remove(place);
+                    HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, place));
+                }
+            }
+        }
+
+        // まとめて履歴削除
+        public void Remove(IEnumerable<string> places)
+        {
+            if (places == null) return;
+
+            lock (_lock)
+            {
+                var unlinked = places.Where(e => FindNode(e) != null);
+
+                if (unlinked.Any())
+                {
+                    foreach (var place in unlinked)
+                    {
+                        Debug.WriteLine($"HistoryRemove: {place}");
+                        Items.Remove(place);
+                    }
+
+                    HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, null));
+                }
+            }
+        }
+
+        // 無効な履歴削除
+        public async Task RemoveUnlinkedAsync(CancellationToken token)
+        {
+            Debug.WriteLine($"BookHistory: RemoveUnlinked...");
+
+            List<BookHistory> items;
+            lock (_lock)
+            {
+                items =  this.Items.ToList();
+            }
+
+            var unlinked = new List<BookHistory>();
+            foreach(var item in items)
+            {
+                if (!await ArchiveEntryUtility.ExistsAsync(item.Path, token))
+                {
+                    unlinked.Add(item);
+                }
+            }
+
+            if (unlinked.Any())
+            {
+                lock (_lock)
+                {
+                    foreach (var item in unlinked)
+                    {
+                        Debug.WriteLine($"HistoryRemove: {item.Path}");
+                        Items.Remove(item.Path);
+                    }
+
+                    HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, null));
+                }
+            }
+
+            Debug.WriteLine($"BookHistory: RemoveUnlinked done.");
+        }
+
+
+        // 最近使った履歴のリストアップ
+        public List<BookHistory> ListUp(int size)
+        {
+            lock (_lock)
+            {
+                return Items.Take(size).ToList();
+            }
+        }
+
+        /// <summary>
+        /// 範囲指定して履歴をリストアップ
+        /// </summary>
+        /// <param name="current">基準位置</param>
+        /// <param name="direction">方向</param>
+        /// <param name="size">取得サイズ</param>
+        /// <returns></returns>
+        internal List<BookHistory> ListUp(string current, int direction, int size)
+        {
+            lock (_lock)
+            {
+                var list = new List<BookHistory>();
+
+                var now = FindNode(current);
+                var node = now ?? Items.First;
+
+                if (now == null && node != null && direction < 0)
+                {
+                    list.Add(node.Value);
+                }
+
+                for (int i = 0; i < size; i++)
+                {
+                    node = direction < 0 ? node?.Next : node?.Previous; // リストと履歴の方向は逆
+
+                    if (node == null) break;
+                    list.Add(node.Value);
+                }
+
+                return list;
+            }
+        }
+
+
+        public void Rename(string src, string dst)
+        {
+            lock (_lock)
+            {
+                var item = Items.Find(src);
+                if (item != null)
+                {
+                    Items.Remove(dst);
+                    Items.Remap(src, dst);
+                    item.Value.Path = dst;
+                    HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Add, dst));
+                }
+            }
+        }
+
+
+        #region for Folders
 
         // 検索履歴
         private ObservableCollection<string> _searchHistory = new ObservableCollection<string>();
@@ -64,10 +305,6 @@ namespace NeeView
             get { return _searchHistory; }
             set { SetProperty(ref _searchHistory, value); }
         }
-
-        #endregion
-
-        #region Methods for Folders
 
         // フォルダー設定
         public void SetFolderMemento(string path, FolderParameter.Memento memento)
@@ -125,222 +362,7 @@ namespace NeeView
             }
         }
 
-        #endregion
-
-        #region Methods
-
-        //
-        public IEnumerable<BookMementoUnit> CreateBookMementoUnitList()
-        {
-            return Items.Select(e => e.Unit);
-        }
-
-        // 履歴クリア
-        public void Clear()
-        {
-            Items.Clear();
-            BookMementoCollection.Current.CleanUp();
-            HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Clear, null));
-        }
-
-        //
-        public void Load(IEnumerable<BookHistory> items, IEnumerable<Book.Memento> books)
-        {
-            Items.Clear();
-            BookMementoCollection.Current.CleanUp();
-
-            foreach (var book in books)
-            {
-                BookMementoCollection.Current.Set(book);
-            }
-
-            foreach (var item in items)
-            {
-                try
-                {
-                    var newItem = new BookHistory() { Path = item.Path, LastAccessTime = item.LastAccessTime };
-                    Items.AddLastRaw(newItem.Path, newItem);
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message);
-                }
-            }
-
-            HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Load, null));
-        }
-
-
-        //
-        public bool Contains(string place)
-        {
-            if (place == null) return false;
-
-            return Items.ContainsKey(place);
-        }
-
-
-        // 履歴検索
-        public LinkedListNode<BookHistory> FindNode(string place)
-        {
-            if (place == null) return null;
-
-            return Items.Find(place);
-        }
-
-        public BookHistory Find(string place)
-        {
-            return FindNode(place)?.Value;
-        }
-
-        public BookMementoUnit FindUnit(string place)
-        {
-            return Find(place)?.Unit;
-        }
-
-        // 履歴追加
-        public void Add(Book.Memento memento, bool isKeepOrder)
-        {
-            if (memento == null) return;
-
-            try
-            {
-                var node = FindNode(memento.Path);
-                if (node != null && isKeepOrder)
-                {
-                    node.Value.Unit.Memento = memento;
-                    HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Update, memento.Path));
-                }
-                else
-                {
-                    node = node ?? new LinkedListNode<BookHistory>(new BookHistory(BookMementoCollection.Current.Set(memento), DateTime.Now));
-                    node.Value.Unit.Memento = memento;
-                    node.Value.LastAccessTime = DateTime.Now;
-
-                    if (node == Items.First)
-                    {
-                        HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Update, memento.Path));
-                    }
-                    else
-                    {
-                        Items.AddFirst(node.Value.Path, node.Value);
-                        HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Add, memento.Path));
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message);
-            }
-        }
-
-        // 履歴削除
-        public void Remove(string place)
-        {
-            var node = FindNode(place);
-            if (node != null)
-            {
-                Items.Remove(place);
-                HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, place));
-            }
-        }
-
-        // まとめて履歴削除
-        public void Remove(IEnumerable<string> places)
-        {
-            if (places == null) return;
-
-            var unlinked = places.Where(e => FindNode(e) != null);
-
-            if (unlinked.Any())
-            {
-                foreach (var place in unlinked)
-                {
-                    Debug.WriteLine($"HistoryRemove: {place}");
-                    Items.Remove(place);
-                }
-
-                HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, null));
-            }
-        }
-
-        // 無効な履歴削除
-        public async Task RemoveUnlinkedAsync(CancellationToken token)
-        {
-            // 削除項目収集
-            var unlinked = new List<LinkedListNode<BookHistory>>();
-            for (var node = this.Items.First; node != null; node = node.Next)
-            {
-                if (!await ArchiveEntryUtility.ExistsAsync(node.Value.Path, token))
-                {
-                    unlinked.Add(node);
-                }
-            }
-
-            if (unlinked.Any())
-            {
-                foreach (var node in unlinked)
-                {
-                    Debug.WriteLine($"HistoryRemove: {node.Value.Path}");
-                    Items.Remove(node.Value.Path);
-                }
-
-                HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, null));
-            }
-        }
-
-
-        // 最近使った履歴のリストアップ
-        public List<BookHistory> ListUp(int size)
-        {
-            return Items.Take(size).ToList();
-        }
-
-        /// <summary>
-        /// 範囲指定して履歴をリストアップ
-        /// </summary>
-        /// <param name="current">基準位置</param>
-        /// <param name="direction">方向</param>
-        /// <param name="size">取得サイズ</param>
-        /// <returns></returns>
-        internal List<BookHistory> ListUp(string current, int direction, int size)
-        {
-            var list = new List<BookHistory>();
-
-            var now = FindNode(current);
-            var node = now ?? Items.First;
-
-            if (now == null && node != null && direction < 0)
-            {
-                list.Add(node.Value);
-            }
-
-            for (int i = 0; i < size; i++)
-            {
-                node = direction < 0 ? node?.Next : node?.Previous; // リストと履歴の方向は逆
-
-                if (node == null) break;
-                list.Add(node.Value);
-            }
-
-            return list;
-        }
-
-
-        public void Rename(string src, string dst)
-        {
-            var item = Items.Find(src);
-            if (item != null)
-            {
-                Items.Remove(dst);
-                Items.Remap(src, dst);
-                item.Value.Path = dst;
-                HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Add, dst));
-            }
-        }
-
-        #endregion
-
+        #endregion for Folders
 
         #region Memento
 

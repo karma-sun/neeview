@@ -5394,4 +5394,10 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="WordAllHistory" xml:space="preserve">
     <value>All history</value>
   </data>
+  <data name="ParamHistoryIsAutoCleanupEnabled" xml:space="preserve">
+    <value>Automatic deletion of invalid history</value>
+  </data>
+  <data name="ParamHistoryIsAutoCleanupEnabledTips" xml:space="preserve">
+    <value>Delete invalid history on startup.</value>
+  </data>
 </root>

@@ -19,10 +19,12 @@ namespace NeeView
     public class HistoryPanel : BindableBase, IPanel
     {
         private HistoryListView _view;
+        private HistoryListPresenter _presenter;
 
         public HistoryPanel(HistoryList model)
         {
             _view = new HistoryListView(model);
+            _presenter = new HistoryListPresenter(_view, model);
 
             Icon = App.Current.MainWindow.Resources["pic_history_24px"] as ImageSource;
             IconMargin = new Thickness(7, 8, 9, 8);
@@ -67,12 +69,12 @@ namespace NeeView
 
         public void Refresh()
         {
-            _view.Refresh();
+            _presenter.Refresh();
         }
 
         public void Focus()
         {
-            _view.FocusAtOnce();
+            _presenter.FocusAtOnce();
         }
     }
 

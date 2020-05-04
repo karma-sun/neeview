@@ -21,55 +21,27 @@ namespace NeeView
     /// </summary>
     public class HistoryListViewModel : BindableBase
     {
-        //
-        private CancellationTokenSource _removeUnlinkedCommandCancellationToken;
+        private HistoryList _model;
 
-        #region Property: Items
-        private ObservableCollection<BookHistory> _items;
-        public ObservableCollection<BookHistory> Items
+
+        public HistoryListViewModel(HistoryList model)
         {
-            get { return _items; }
-            set { _items = value; RaisePropertyChanged(); }
+            _model = model;
+            InitializeMoreMenu();
         }
-        #endregion
-
-
-        #region Property: SelectedItem
-        private BookHistory _selectedItem;
-        public BookHistory SelectedItem
-        {
-            get { return _selectedItem; }
-            set { _selectedItem = value; RaisePropertyChanged(); }
-        }
-        #endregion
-
-
-        #region Property: Visibility
-        private Visibility _visibility = Visibility.Hidden;
-        public Visibility Visibility
-        {
-            get { return _visibility; }
-            set { _visibility = value; RaisePropertyChanged(); }
-        }
-        #endregion
 
 
         #region MoreMenu
 
-        /// <summary>
-        /// MoreMenu property.
-        /// </summary>
+        private ContextMenu _moreMenu;
+        private PanelListItemStyleToBooleanConverter _panelListItemStyleToBooleanConverter = new PanelListItemStyleToBooleanConverter();
+
         public ContextMenu MoreMenu
         {
-            get { return _MoreMenu; }
-            set { if (_MoreMenu != value) { _MoreMenu = value; RaisePropertyChanged(); } }
+            get { return _moreMenu; }
+            set { if (_moreMenu != value) { _moreMenu = value; RaisePropertyChanged(); } }
         }
 
-        //
-        private ContextMenu _MoreMenu;
-
-
-        //
         private void InitializeMoreMenu()
         {
             var menu = new ContextMenu();
@@ -82,7 +54,6 @@ namespace NeeView
             this.MoreMenu = menu;
         }
 
-        //
         private MenuItem CreateCommandMenuItem(string header, ICommand command)
         {
             var item = new MenuItem();
@@ -91,8 +62,6 @@ namespace NeeView
             return item;
         }
 
-
-        //
         private MenuItem CreateCommandMenuItem(string header, string command, object source)
         {
             var item = new MenuItem();
@@ -109,7 +78,6 @@ namespace NeeView
             return item;
         }
 
-        //
         private MenuItem CreateListItemStyleMenuItem(string header, PanelListItemStyle style)
         {
             var item = new MenuItem();
@@ -118,7 +86,7 @@ namespace NeeView
             item.CommandParameter = style;
             var binding = new Binding(nameof(HistoryConfig.PanelListItemStyle))
             {
-                Converter = _PanelListItemStyleToBooleanConverter,
+                Converter = _panelListItemStyleToBooleanConverter,
                 ConverterParameter = style,
                 Source = Config.Current.History
             };
@@ -127,144 +95,26 @@ namespace NeeView
             return item;
         }
 
+        #endregion
 
-        private PanelListItemStyleToBooleanConverter _PanelListItemStyleToBooleanConverter = new PanelListItemStyleToBooleanConverter();
+        #region Commands
 
+        private CancellationTokenSource _removeUnlinkedCommandCancellationToken;
+        private RelayCommand<PanelListItemStyle> _setListItemStyle;
+        private RelayCommand _removeAllCommand;
+        private RelayCommand _removeUnlinkedCommand;
 
         /// <summary>
         /// SetListItemStyle command.
         /// </summary>
         public RelayCommand<PanelListItemStyle> SetListItemStyle
         {
-            get { return _SetListItemStyle = _SetListItemStyle ?? new RelayCommand<PanelListItemStyle>(SetListItemStyle_Executed); }
+            get { return _setListItemStyle = _setListItemStyle ?? new RelayCommand<PanelListItemStyle>(SetListItemStyle_Executed); }
         }
 
-        //
-        private RelayCommand<PanelListItemStyle> _SetListItemStyle;
-
-        //
         private void SetListItemStyle_Executed(PanelListItemStyle style)
         {
             Config.Current.History.PanelListItemStyle = style;
-        }
-
-        #endregion
-
-
-        private bool _isDarty;
-
-        /// <summary>
-        /// Model property.
-        /// </summary>
-        public HistoryList Model
-        {
-            get { return _model; }
-            set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
-        }
-
-        //
-        private HistoryList _model;
-
-
-        /// <summary>
-        /// constructor
-        /// </summary>
-        /// <param name="model"></param>
-        public HistoryListViewModel(HistoryList model)
-        {
-            _model = model;
-            
-            Config.Current.History.AddPropertyChanged(nameof(HistoryConfig.PanelListItemStyle), (s, e) => UpdateListBoxContent());
-
-            _isDarty = true;
-
-            BookHub.Current.HistoryChanged += BookHub_HistoryChanged;
-            BookHub.Current.HistoryListSync += BookHub_HistoryListSync;
-
-            InitializeMoreMenu();
-
-            UpdateListBoxContent();
-            UpdateItems();
-        }
-
-
-        //
-        private void BookHub_HistoryListSync(object sender, BookHubPathEventArgs e)
-        {
-            this.ListBoxContent.StoreFocus();
-            SelectedItem = BookHistoryCollection.Current.Find(e.Path);
-            this.ListBoxContent.RestoreFocus();
-        }
-
-        //
-        private void BookHub_HistoryChanged(object sender, BookMementoCollectionChangedArgs e)
-        {
-            _isDarty = _isDarty || e.HistoryChangedType != BookMementoCollectionChangedType.Update;
-            if (_isDarty && Visibility == Visibility.Visible)
-            {
-                UpdateItems();
-            }
-        }
-
-        //
-        public void UpdateItems()
-        {
-            if (_isDarty)
-            {
-                _isDarty = false;
-
-                AppDispatcher.Invoke(() => this.ListBoxContent.StoreFocus());
-
-                var item = SelectedItem;
-                Items = new ObservableCollection<BookHistory>(BookHistoryCollection.Current.Items);
-                SelectedItem = Items.Count > 0 ? item : null;
-
-                AppDispatcher.Invoke(() => this.ListBoxContent.RestoreFocus());
-            }
-        }
-
-        //
-        public void Load(string path)
-        {
-            if (path == null) return;
-            BookHub.Current?.RequestLoad(path, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SkipSamePlace | BookLoadOption.IsBook, true);
-        }
-
-
-        // となりを取得
-        public BookHistory GetNeighbor(BookHistory item)
-        {
-            if (Items == null || Items.Count <= 0) return null;
-
-            int index = Items.IndexOf(item);
-            if (index < 0) return Items[0];
-
-            if (index + 1 < Items.Count)
-            {
-                return Items[index + 1];
-            }
-            else if (index > 0)
-            {
-                return Items[index - 1];
-            }
-            else
-            {
-                return item;
-            }
-        }
-
-        //
-        public void Remove(BookHistory item)
-        {
-            if (item == null) return;
-
-            // 位置ずらし
-            this.ListBoxContent.StoreFocus();
-            SelectedItem = GetNeighbor(item);
-            this.ListBoxContent.RestoreFocus();
-
-            // 削除
-            BookHistoryCollection.Current.Remove(item.Path);
         }
 
         /// <summary>
@@ -274,8 +124,6 @@ namespace NeeView
         {
             get { return _removeAllCommand = _removeAllCommand ?? new RelayCommand(RemoveAll_Executed); }
         }
-
-        private RelayCommand _removeAllCommand;
 
         private void RemoveAll_Executed()
         {
@@ -291,7 +139,6 @@ namespace NeeView
             BookHistoryCollection.Current.Clear();
         }
 
-
         /// <summary>
         /// RemoveUnlinkedCommand command.
         /// </summary>
@@ -300,10 +147,6 @@ namespace NeeView
             get { return _removeUnlinkedCommand = _removeUnlinkedCommand ?? new RelayCommand(RemoveUnlinkedCommand_Executed); }
         }
 
-        //
-        private RelayCommand _removeUnlinkedCommand;
-
-        //
         private async void RemoveUnlinkedCommand_Executed()
         {
             // 直前の命令はキャンセル
@@ -312,25 +155,6 @@ namespace NeeView
             await BookHistoryCollection.Current.RemoveUnlinkedAsync(_removeUnlinkedCommandCancellationToken.Token);
         }
 
-
-
-        /// <summary>
-        /// ListBoxContent property.
-        /// </summary>
-        public HistoryListBox ListBoxContent
-        {
-            get { return _listBoxContent; }
-            set { if (_listBoxContent != value) { _listBoxContent = value; RaisePropertyChanged(); } }
-        }
-
-        //
-        private HistoryListBox _listBoxContent;
-
-        //
-        private void UpdateListBoxContent()
-        {
-            ListBoxContent = new HistoryListBox(this);
-        }
-
+        #endregion
     }
 }

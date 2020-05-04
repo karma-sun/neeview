@@ -46,16 +46,6 @@ namespace NeeView
         {
             ContextMenuWatcher.SetTargetElement((UIElement)sender);
         }
-
-        public void Refresh()
-        {
-            _vm.ListBoxContent?.Refresh();
-        }
-
-        public void FocusAtOnce()
-        {
-            _vm.ListBoxContent?.FocusAtOnce();
-        }
     }
 
 }

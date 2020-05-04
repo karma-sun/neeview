@@ -23,17 +23,13 @@ namespace NeeView
     /// </summary>
     public partial class HistoryListBox : UserControl, IPageListPanel, IDisposable
     {
-        #region Fields
-
-        private HistoryListViewModel _vm;
+        private HistoryListBoxViewModel _vm;
         private ListBoxThumbnailLoader _thumbnailLoader;
         private bool _storeFocus;
         private PageThumbnailJobClient _jobClient;
         private bool _focusRequest;
 
-        #endregion
 
-        #region Constructors
 
         static HistoryListBox()
         {
@@ -45,7 +41,7 @@ namespace NeeView
             InitializeComponent();
         }
 
-        public HistoryListBox(HistoryListViewModel vm) : this()
+        public HistoryListBox(HistoryListBoxViewModel vm) : this()
         {
             _vm = vm;
             this.DataContext = vm;
@@ -59,7 +55,6 @@ namespace NeeView
             this.Unloaded += HistoryListBox_Unloaded;
         }
 
-        #endregion
 
         #region IDisposable Support
         private bool _disposedValue = false;
@@ -89,7 +84,7 @@ namespace NeeView
 
         public ListBox PageCollectionListBox => this.ListBox;
 
-        public bool IsThumbnailVisibled => _vm.Model.IsThumbnailVisibled;
+        public bool IsThumbnailVisibled => _vm.IsThumbnailVisibled;
 
         public IEnumerable<IHasPage> CollectPageList(IEnumerable<object> objs) => objs.OfType<IHasPage>();
 
@@ -120,25 +115,42 @@ namespace NeeView
 
         #endregion
 
-        #region Methods
 
         private void HistoryListBox_Loaded(object sender, RoutedEventArgs e)
         {
             _jobClient = new PageThumbnailJobClient("HistoryList", JobCategories.BookThumbnailCategory);
             _thumbnailLoader = new ListBoxThumbnailLoader(this, _jobClient);
 
+            _vm.SelectedItemChanging += ViewModel_SelectedItemChanging;
+            _vm.SelectedItemChanged += ViewModel_SelectedItemChanged;
+
             Config.Current.Panels.ContentItemProfile.PropertyChanged += PanelListtemProfile_PropertyChanged;
             Config.Current.Panels.BannerItemProfile.PropertyChanged += PanelListtemProfile_PropertyChanged;
             Config.Current.Panels.ThumbnailItemProfile.PropertyChanged += PanelListtemProfile_PropertyChanged;
         }
 
+
         private void HistoryListBox_Unloaded(object sender, RoutedEventArgs e)
         {
+            _vm.SelectedItemChanging -= ViewModel_SelectedItemChanging;
+            _vm.SelectedItemChanged -= ViewModel_SelectedItemChanged;
+
             Config.Current.Panels.ContentItemProfile.PropertyChanged -= PanelListtemProfile_PropertyChanged;
             Config.Current.Panels.BannerItemProfile.PropertyChanged -= PanelListtemProfile_PropertyChanged;
             Config.Current.Panels.ThumbnailItemProfile.PropertyChanged -= PanelListtemProfile_PropertyChanged;
 
             _jobClient?.Dispose();
+        }
+
+
+        private void ViewModel_SelectedItemChanged(object sender, EventArgs e)
+        {
+            RestoreFocus();
+        }
+
+        private void ViewModel_SelectedItemChanging(object sender, EventArgs e)
+        {
+            StoreFocus();
         }
 
         private void PanelListtemProfile_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -208,13 +220,8 @@ namespace NeeView
             }
         }
 
-        #endregion
-
-        #region Event Methods
 
         // 履歴項目決定
-
-
         private void HistoryListItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var item = ((sender as ListBoxItem)?.Content as BookHistory);
@@ -277,9 +284,6 @@ namespace NeeView
         {
             AppDispatcher.BeginInvoke(() => _thumbnailLoader?.Load());
         }
-
-        #endregion
-
     }
 
     public class ArchiveEntryToDecoratePlaceNameConverter : IValueConverter

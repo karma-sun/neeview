@@ -44,7 +44,7 @@
             </DockPanel>
         </StackPanel>
 
-        <ContentControl Content="{Binding ListBoxContent}" Focusable="False" Margin="0,0,0,5"/>
+        <ContentControl x:Name="ListBoxContent" Focusable="False" Margin="0,0,0,5"/>
 
     </DockPanel>
 </UserControl>

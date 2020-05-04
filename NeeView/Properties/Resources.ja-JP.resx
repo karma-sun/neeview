@@ -5382,4 +5382,16 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamIsOrderWithoutFileType" xml:space="preserve">
     <value>ファイルの種類を区別しない並び替え</value>
   </data>
+  <data name="HistoryItemMenuIsCurrentFolder" xml:space="preserve">
+    <value>現在のフォルダーのみ</value>
+  </data>
+  <data name="ParamHistoryIsCurrentFolder" xml:space="preserve">
+    <value>現在のフォルダーのみ</value>
+  </data>
+  <data name="ParamHistoryIsCurrentFolderTips" xml:space="preserve">
+    <value>現在開いているブックのフォルダーのみの履歴を表示します。</value>
+  </data>
+  <data name="WordAllHistory" xml:space="preserve">
+    <value>すべての履歴</value>
+  </data>
 </root>

@@ -1,6 +1,10 @@
 ﻿using NeeLaboratory.ComponentModel;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Windows;
 
 namespace NeeView
@@ -8,7 +12,6 @@ namespace NeeView
     public class HistoryListBoxViewModel : BindableBase
     {
         private HistoryList _model;
-        private ObservableCollection<BookHistory> _items;
         private BookHistory _selectedItem;
         private Visibility _visibility = Visibility.Hidden;
         private bool _isDarty = true;
@@ -17,6 +20,8 @@ namespace NeeView
         public HistoryListBoxViewModel(HistoryList model)
         {
             _model = model;
+            _model.AddPropertyChanged(nameof(HistoryList.FilterPath), HistoryList_FilterPathChanged);
+            _model.AddPropertyChanged(nameof(HistoryList.Items), (s, e) => RaisePropertyChanged(nameof(Items)));
 
             BookHub.Current.HistoryChanged += BookHub_HistoryChanged;
             BookHub.Current.HistoryListSync += BookHub_HistoryListSync;
@@ -31,11 +36,7 @@ namespace NeeView
 
         public bool IsThumbnailVisibled => _model.IsThumbnailVisibled;
 
-        public ObservableCollection<BookHistory> Items
-        {
-            get { return _items; }
-            set { _items = value; RaisePropertyChanged(); }
-        }
+        public List<BookHistory> Items => _model.Items;
 
         public BookHistory SelectedItem
         {
@@ -49,6 +50,12 @@ namespace NeeView
             set { _visibility = value; RaisePropertyChanged(); }
         }
 
+
+        private void HistoryList_FilterPathChanged(object sender, PropertyChangedEventArgs e)
+        {
+            _isDarty = true;
+            UpdateItems();
+        }
 
         private void BookHub_HistoryListSync(object sender, BookHubPathEventArgs e)
         {
@@ -76,7 +83,7 @@ namespace NeeView
                 AppDispatcher.Invoke(() => SelectedItemChanging?.Invoke(this, null));
 
                 var item = SelectedItem;
-                Items = new ObservableCollection<BookHistory>(BookHistoryCollection.Current.Items);
+                _model.UpdateItems();
                 SelectedItem = Items.Count > 0 ? item : null;
 
                 AppDispatcher.Invoke(() => SelectedItemChanged?.Invoke(this, null));

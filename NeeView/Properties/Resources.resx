@@ -5382,4 +5382,16 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamIsOrderWithoutFileType" xml:space="preserve">
     <value>Sort without file type</value>
   </data>
+  <data name="HistoryItemMenuIsCurrentFolder" xml:space="preserve">
+    <value>Current folder only</value>
+  </data>
+  <data name="ParamHistoryIsCurrentFolder" xml:space="preserve">
+    <value>Current folder only</value>
+  </data>
+  <data name="ParamHistoryIsCurrentFolderTips" xml:space="preserve">
+    <value>Shows the history of only the folders of the currently open book.</value>
+  </data>
+  <data name="WordAllHistory" xml:space="preserve">
+    <value>All history</value>
+  </data>
 </root>

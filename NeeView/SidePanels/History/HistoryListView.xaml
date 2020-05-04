@@ -36,6 +36,9 @@
                 <Image Source="{StaticResource ic_history_24px}" Width="18" Height="18" VerticalAlignment="Center" Margin="0,0,2,0"/>
                 <TextBlock Text="{x:Static properties:Resources.HistoryName}" Foreground="Gray" VerticalAlignment="Center" />
             </StackPanel>
+            <DockPanel LastChildFill="False" Margin="0">
+                <TextBlock Text="{Binding FilterPath}" ToolTip="{Binding FilterPath}" Margin="5,0" HorizontalAlignment="Right" VerticalAlignment="Center" />
+            </DockPanel>
             <DockPanel LastChildFill="False">
                 <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Height ="30" Width="30" MouseRightButtonUp="MoreButton_MouseRightButtonUp" Checked="MoreButton_Checked"
                               nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}">

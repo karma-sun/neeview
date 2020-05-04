@@ -27,8 +27,13 @@ namespace NeeView
         public HistoryListViewModel(HistoryList model)
         {
             _model = model;
+            _model.AddPropertyChanged(nameof(HistoryList.FilterPath), (s, e) => RaisePropertyChanged(nameof(FilterPath)));
+
             InitializeMoreMenu();
         }
+
+
+        public string FilterPath => string.IsNullOrEmpty(_model.FilterPath) ? Properties.Resources.WordAllHistory : _model.FilterPath;
 
 
         #region MoreMenu
@@ -49,9 +54,20 @@ namespace NeeView
             menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleContent, PanelListItemStyle.Content));
             menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleBanner, PanelListItemStyle.Banner));
             menu.Items.Add(new Separator());
+            menu.Items.Add(CreateCheckMenuItem(Properties.Resources.HistoryItemMenuIsCurrentFolder, new Binding(nameof(HistoryConfig.IsCurrentFolder)) { Source = Config.Current.History }));
+            menu.Items.Add(new Separator());
             menu.Items.Add(CreateCommandMenuItem(Properties.Resources.HistoryMenuDeleteInvalid, RemoveUnlinkedCommand));
             menu.Items.Add(CreateCommandMenuItem(Properties.Resources.HistoryMenuDeleteAll, RemoveAllCommand));
             this.MoreMenu = menu;
+        }
+
+        private MenuItem CreateCheckMenuItem(string header, Binding binding)
+        {
+            var item = new MenuItem();
+            item.Header = header;
+            item.IsCheckable = true;
+            item.SetBinding(MenuItem.IsCheckedProperty, binding);
+            return item;
         }
 
         private MenuItem CreateCommandMenuItem(string header, ICommand command)

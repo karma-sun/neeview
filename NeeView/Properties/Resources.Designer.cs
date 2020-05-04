@@ -8307,6 +8307,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Current folder only に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string HistoryItemMenuIsCurrentFolder {
+            get {
+                return ResourceManager.GetString("HistoryItemMenuIsCurrentFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Delete all に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string HistoryMenuDeleteAll {
@@ -11033,6 +11042,24 @@ namespace NeeView.Properties {
         public static string ParamHistoryFilePath {
             get {
                 return ResourceManager.GetString("ParamHistoryFilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Current folder only に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamHistoryIsCurrentFolder {
+            get {
+                return ResourceManager.GetString("ParamHistoryIsCurrentFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Shows the history of only the folders of the currently open book. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamHistoryIsCurrentFolderTips {
+            get {
+                return ResourceManager.GetString("ParamHistoryIsCurrentFolderTips", resourceCulture);
             }
         }
         
@@ -15017,6 +15044,15 @@ namespace NeeView.Properties {
         public static string WordAdd {
             get {
                 return ResourceManager.GetString("WordAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   All history に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordAllHistory {
+            get {
+                return ResourceManager.GetString("WordAllHistory", resourceCulture);
             }
         }
         

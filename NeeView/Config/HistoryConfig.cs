@@ -21,6 +21,8 @@ namespace NeeView
         private int _historyEntryPageCount = 0;
         private int _limitSize = -1;
         private TimeSpan _limitSpan;
+        private bool _isCurrentFolder;
+
 
         [JsonIgnore]
         [PropertyMapReadOnly]
@@ -132,6 +134,14 @@ namespace NeeView
         {
             get { return _limitSpan; }
             set { SetProperty(ref _limitSpan, value); }
+        }
+
+        // ブックのあるフォルダーのみ
+        [PropertyMember("@ParamHistoryIsCurrentFolder", Tips = "@ParamHistoryIsCurrentFolderTips")]
+        public bool IsCurrentFolder
+        {
+            get { return _isCurrentFolder; }
+            set { SetProperty(ref _isCurrentFolder, value); }
         }
 
     }

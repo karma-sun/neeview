@@ -13,12 +13,12 @@
 
         public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)
         {
-            return BookHistoryCommand.Current.CanPrevHistory();
+            return HistoryList.Current.CanPrevHistory();
         }
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            BookHistoryCommand.Current.PrevHistory();
+            HistoryList.Current.PrevHistory();
         }
     }
 }

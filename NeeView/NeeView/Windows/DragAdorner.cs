@@ -1,6 +1,7 @@
 ﻿// from https://github.com/takanemu/WPFDragAndDropSample
 
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -20,7 +21,7 @@ namespace NeeView.Windows
 
         private double _leftOffset;
         private double _topOffset;
-        
+
         /// <summary>
         /// Left offset
         /// </summary>
@@ -60,7 +61,7 @@ namespace NeeView.Windows
         /// <param name="adornElement"></param>
         /// <param name="opacity"></param>
         /// <param name="dragPos"></param>
-        public DragAdorner(UIElement owner, UIElement adornElement, double opacity, Point dragPos)
+        public DragAdorner(UIElement owner, UIElement adornElement, double opacity, int count, Point dragPos)
             : base(owner)
         {
             _centerX = dragPos.X;
@@ -78,6 +79,35 @@ namespace NeeView.Windows
             {
                 adornElement.Opacity = opacity;
                 _child = adornElement;
+            }
+
+            if (count > 1)
+            {
+                var subGrid = new Border()
+                {
+                    MinWidth = 20,
+                    MinHeight = 20,
+                    BorderThickness = new Thickness(1.0),
+                    BorderBrush = Brushes.White,
+                    Background = Brushes.RoyalBlue,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Child = new TextBlock()
+                    {
+                        Text = count.ToString(),
+                        Foreground = Brushes.White,
+                        FontSize = 12,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center,
+                        Margin = new Thickness(4.0, 2.0, 4.0, 2.0),
+                    },
+                };
+
+                var grid = new Grid();
+                grid.Children.Add(_child);
+                grid.Children.Add(subGrid);
+
+                _child = grid;
             }
         }
 

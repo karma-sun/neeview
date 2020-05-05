@@ -41,6 +41,15 @@ namespace NeeView.Windows
         /// </summary>
         public event EventHandler DragEnd;
 
+        /// <summary>
+        /// ドラッグ中アイテム
+        /// </summary>
+        public TItem DragItem => _dragItem;
+
+        /// <summary>
+        /// 複数ドラッグ時の数
+        /// </summary>
+        protected int DragCount { get; set; }
 
         /// <summary>
         /// DoDragDropのフック
@@ -101,7 +110,7 @@ namespace NeeView.Windows
         public static readonly DependencyProperty IsAutoScrollProperty =
             DependencyProperty.Register("IsAutoScroll", typeof(bool), typeof(ContainerDragStartBehavior<TItem>), new PropertyMetadata(false));
 
-        
+
 
         /// <summary>
         /// 初期化
@@ -130,7 +139,7 @@ namespace NeeView.Windows
         /// <summary>
         /// マウスボタン押下処理
         /// </summary>
-        private void PreviewMouseDownHandler(object sender, MouseButtonEventArgs e)
+        protected virtual void PreviewMouseDownHandler(object sender, MouseButtonEventArgs e)
         {
             if (!this.IsDragEnable)
             {
@@ -139,6 +148,7 @@ namespace NeeView.Windows
 
             _origin = e.GetPosition(this.AssociatedObject);
             _isButtonDown = true;
+            DragCount = 0;
 
             if (sender is UIElement element)
             {
@@ -150,6 +160,10 @@ namespace NeeView.Windows
                     _adornerVisual = GetAdornerVisual(_dragItem) ?? _dragItem;
                     _dragStartPos = e.GetPosition(_adornerVisual);
                 }
+            }
+            else
+            {
+                _dragItem = null;
             }
         }
 
@@ -185,7 +199,7 @@ namespace NeeView.Windows
                 {
                     var root = window.Content as UIElement;
                     var layer = AdornerLayer.GetAdornerLayer(root);
-                    _dragGhost = new DragAdorner(root, _adornerVisual, 0.5, _dragStartPos);
+                    _dragGhost = new DragAdorner(root, _adornerVisual, 0.5, DragCount, _dragStartPos);
                     layer.Add(_dragGhost);
 
                     DragDropHook?.BeginDragDrop(sender, this.AssociatedObject, args.Data, args.AllowedEffects);
@@ -212,7 +226,7 @@ namespace NeeView.Windows
         /// <summary>
         /// マウスボタンリリース処理
         /// </summary>
-        private void PreviewMouseUpHandler(object sender, MouseButtonEventArgs e)
+        protected virtual void PreviewMouseUpHandler(object sender, MouseButtonEventArgs e)
         {
             _isButtonDown = false;
         }
@@ -337,5 +351,45 @@ namespace NeeView.Windows
         {
             return VisualTreeUtility.FindVisualChild<ContentPresenter>(dragItem);
         }
+    }
+
+    public class ListBoxMultiDragDropStartBehavior : ListBoxDragDropStartBehavior
+    {
+        private bool _delaySelect;
+
+        protected override void PreviewMouseDownHandler(object sender, MouseButtonEventArgs e)
+        {
+            base.PreviewMouseDownHandler(sender, e);
+
+            var listBox = (ListBox)this.AssociatedObject;
+
+            _delaySelect = false;
+            this.DragCount = 0;
+            if (listBox.SelectedItems.Count > 1 && this.DragItem != null)
+            {
+                if (listBox.SelectedItems.Contains(this.DragItem.DataContext))
+                {
+                    this.DragCount = listBox.SelectedItems.Count;
+                    _delaySelect = true;
+                    e.Handled = true;
+                }
+            }
+        }
+
+        protected override void PreviewMouseUpHandler(object sender, MouseButtonEventArgs e)
+        {
+            base.PreviewMouseUpHandler(sender, e);
+
+            var listBox = (ListBox)this.AssociatedObject;
+
+            if (_delaySelect && this.DragItem != null)
+            {
+                listBox.SelectedItem = null;
+                listBox.SelectedItem = this.DragItem.DataContext;
+            }
+
+            _delaySelect = false;
+        }
+
     }
 }

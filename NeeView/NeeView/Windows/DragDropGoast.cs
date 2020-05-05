@@ -42,7 +42,7 @@ namespace NeeView.Windows
             var window = Application.Current.Windows.OfType<Window>().FirstOrDefault(w => w.IsActive);
             var root = window.Content as UIElement;
             _layer = AdornerLayer.GetAdornerLayer(root);
-            _goast = new DragAdorner(root, visual, 1.0, pos);
+            _goast = new DragAdorner(root, visual, 1.0, 0, pos);
 
             _layer.Add(_goast);
         }
@@ -63,7 +63,7 @@ namespace NeeView.Windows
             var window = Window.GetWindow(_element) ?? App.Current.MainWindow;
             var root = window.Content as UIElement;
             _layer = AdornerLayer.GetAdornerLayer(root);
-            _goast = new DragAdorner(root, _element, 0.5, pos);
+            _goast = new DragAdorner(root, _element, 0.5, 0, pos);
 
             _layer.Add(_goast);
         }

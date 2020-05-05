@@ -201,7 +201,7 @@ namespace NeeView.Windows
                     {
                         var root = window.Content as UIElement;
                         var layer = AdornerLayer.GetAdornerLayer(root);
-                        _dragGhost = new DragAdorner(root, (UIElement)sender, 0.5, _dragStartPos);
+                        _dragGhost = new DragAdorner(root, (UIElement)sender, 0.5, 0, _dragStartPos);
                         layer.Add(_dragGhost);
 
                         DragDropHook?.BeginDragDrop(sender, this.AssociatedObject, args.Data, args.AllowedEffects);

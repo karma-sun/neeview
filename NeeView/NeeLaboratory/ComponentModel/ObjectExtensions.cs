@@ -62,9 +62,52 @@ namespace NeeLaboratory.ComponentModel
             }
         }
 
+
+        /// <summary>
+        /// Creates the GetHashCode() method. public properties only.
+        /// from https://www.brad-smith.info/blog/archives/385
+        /// NOTE: Simple. IEnumerable not supported.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static Func<object, int> MakeGetHashCodeMethod(Type type)
+        {
+            ParameterExpression pThis = Expression.Parameter(typeof(object), "x");
+            UnaryExpression pCastThis = Expression.Convert(pThis, type);
+
+            Expression last = null;
+            foreach (PropertyInfo property in type.GetProperties())
+            {
+                MemberExpression thisProperty = Expression.Property(pCastThis, property);
+                MethodCallExpression getHashCode = Expression.Call(thisProperty, "GetHashCode", Type.EmptyTypes);
+                Expression hash;
+
+                if (property.PropertyType.IsClass)
+                {
+                    // if null, magic number 17
+                    BinaryExpression test = Expression.Equal(thisProperty, Expression.Constant(null, property.PropertyType));
+                    ConstantExpression ifTrue = Expression.Constant(17, typeof(int));
+                    MethodCallExpression ifFalse = getHashCode;
+                    hash = Expression.Condition(test, ifTrue, ifFalse);
+                }
+                else
+                {
+                    hash = getHashCode;
+                }
+
+                if (last == null)
+                    last = hash;
+                else
+                    last = Expression.ExclusiveOr(last, hash);
+            }
+
+            return Expression.Lambda<Func<object, int>>(last, pThis).Compile();
+        }
+
         /// <summary>
         /// Creates the Equals() method. public properties only.
         /// from https://www.brad-smith.info/blog/archives/385
+        /// NOTE: Simple. not completed.
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>

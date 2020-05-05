@@ -84,11 +84,6 @@ namespace NeeView
 
                 HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Load, null));
             }
-
-            if (Config.Current.History.IsAutoCleanupEnabled)
-            {
-                var async = RemoveUnlinkedAsync(CancellationToken.None);
-            }
         }
 
 
@@ -296,7 +291,7 @@ namespace NeeView
         }
 
 
-        #region for Folders
+#region for Folders
 
         // 検索履歴
         private ObservableCollection<string> _searchHistory = new ObservableCollection<string>();
@@ -362,9 +357,9 @@ namespace NeeView
             }
         }
 
-        #endregion for Folders
+#endregion for Folders
 
-        #region Memento
+#region Memento
 
         /// <summary>
         /// 履歴Memento
@@ -509,7 +504,7 @@ namespace NeeView
                 // TODO: v.38以後の互換性処理をここで？
             }
 
-            #region Legacy
+#region Legacy
 
             // ファイルに保存
             [Obsolete]
@@ -545,7 +540,7 @@ namespace NeeView
                 }
             }
 
-            #endregion Legacy
+#endregion Legacy
 
             // 合成
             public void Merge(Memento memento)
@@ -652,6 +647,6 @@ namespace NeeView
             return collection;
         }
 
-        #endregion
+#endregion
     }
 }

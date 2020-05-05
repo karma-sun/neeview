@@ -610,6 +610,8 @@ namespace NeeView
 
             WindowShape.Current.InitializeStateChangeAction();
 
+            _vm.ContentRendered();
+
             Debug.WriteLine($"App.MainWndow.ContentRendered.Done: {App.Current.Stopwatch.ElapsedMilliseconds}ms");
         }
 

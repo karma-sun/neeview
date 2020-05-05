@@ -62,11 +62,10 @@ namespace NeeLaboratory.ComponentModel
             }
         }
 
-
         /// <summary>
         /// Creates the GetHashCode() method. public properties only.
         /// from https://www.brad-smith.info/blog/archives/385
-        /// NOTE: Simple. IEnumerable not supported.
+        /// NOTE: Simple. not completed.
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>

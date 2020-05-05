@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -320,6 +321,13 @@ namespace NeeView
             }
         }
 
+        public void ContentRendered()
+        {
+            if (Config.Current.History.IsAutoCleanupEnabled)
+            {
+                Task.Run(() => BookHistoryCollection.Current.RemoveUnlinkedAsync(CancellationToken.None));
+            }
+        }
 
         // ダイアログでファイル選択して画像を読み込む
         public void LoadAs()

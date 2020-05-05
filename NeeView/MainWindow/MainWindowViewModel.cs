@@ -335,6 +335,11 @@ namespace NeeView
             _model.Loaded();
         }
 
+        public void ContentRendered()
+        {
+            _model.ContentRendered();
+        }
+
         /// <summary>
         /// ウィンドウがアクティブ化したときの処理
         /// </summary>

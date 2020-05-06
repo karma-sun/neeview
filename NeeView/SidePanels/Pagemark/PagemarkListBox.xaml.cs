@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -480,7 +481,7 @@ namespace NeeView
 
         #region DragDrop
 
-        private void DragStartBehavior_DragBegin(object sender, Windows.DragStartEventArgs e)
+        private async Task DragStartBehavior_DragBeginAsync(object sender, Windows.DragStartEventArgs e, CancellationToken token)
         {
             var data = e.Data.GetData(DragDropFormat) as TreeViewItem;
             if (data == null)
@@ -506,9 +507,11 @@ namespace NeeView
                 return;
             }
 
-            ClipboardUtility.SetData(e.Data, new List<Page>() { item }, new CopyFileCommandParameter());
+            ClipboardUtility.SetData(e.Data, new List<Page>() { item }, new CopyFileCommandParameter(), token);
 
             e.AllowedEffects = DragDropEffects.Copy;
+
+            await Task.CompletedTask;
         }
 
         #endregion

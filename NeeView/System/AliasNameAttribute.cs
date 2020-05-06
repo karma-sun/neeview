@@ -92,6 +92,7 @@ namespace NeeView
 
             return Enum.GetValues(type)
                 .Cast<Enum>()
+                .Distinct()
                 .ToDictionary(e => e, e => e.ToAliasName());
         }
 
@@ -101,6 +102,7 @@ namespace NeeView
 
             return Enum.GetValues(type)
                 .Cast<Enum>()
+                .Distinct()
                 .Select(e => (Key: e, Attribute: e.ToAliasNameAttribute()))
                 .Where(e => e.Attribute == null || e.Attribute.IsVisibled)
                 .ToDictionary(e => e.Key, e => ResourceService.GetString(e.Attribute?.AliasName) ?? e.Key.ToString());

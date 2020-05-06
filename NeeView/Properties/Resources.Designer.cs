@@ -6126,6 +6126,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Do you want to move this {1} {0} to Recycle Bin? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogFileDeleteMulti {
+            get {
+                return ResourceManager.GetString("DialogFileDeleteMulti", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Some files could not be deleted. Would you like to try again? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogFileDeleteMultiError {
+            get {
+                return ResourceManager.GetString("DialogFileDeleteMultiError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Delete page に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string DialogFileDeletePageTitle {
@@ -7375,6 +7393,15 @@ namespace NeeView.Properties {
         public static string EnumMenuElementTypeSeparator {
             get {
                 return ResourceManager.GetString("EnumMenuElementTypeSeparator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Run all pages に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumMultiPageOptionTypeAll {
+            get {
+                return ResourceManager.GetString("EnumMultiPageOptionTypeAll", resourceCulture);
             }
         }
         
@@ -9062,6 +9089,15 @@ namespace NeeView.Properties {
         public static string OptionWindowState {
             get {
                 return ResourceManager.GetString("OptionWindowState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _Copy に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PageListItemMenuCopy {
+            get {
+                return ResourceManager.GetString("PageListItemMenuCopy", resourceCulture);
             }
         }
         
@@ -15309,6 +15345,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Files に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordFiles {
+            get {
+                return ResourceManager.GetString("WordFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   First page に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WordFirstPage {
@@ -15332,6 +15377,15 @@ namespace NeeView.Properties {
         public static string WordFolder {
             get {
                 return ResourceManager.GetString("WordFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Folders に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordFolders {
+            get {
+                return ResourceManager.GetString("WordFolders", resourceCulture);
             }
         }
         

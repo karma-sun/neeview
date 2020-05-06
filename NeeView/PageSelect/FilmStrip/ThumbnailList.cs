@@ -140,7 +140,13 @@ namespace NeeView
         public int SelectedIndex
         {
             get { return GetIndexWithDirectionReverse(PageSelector.Current.SelectedIndex); }
-            set { PageSelector.Current.SetSelectedIndex(this, GetIndexWithDirectionReverse(value), true); }
+            set            
+            {
+                if (value >= 0)
+                {
+                    PageSelector.Current.SetSelectedIndex(this, GetIndexWithDirectionReverse(value), true);
+                }
+            }
         }
 
         public List<Page> ViewItems

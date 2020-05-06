@@ -184,7 +184,7 @@
 
     </UserControl.Resources>
 
-    <ListBox x:Name="ListBox" Focusable="True"
+    <nw:ListBoxExteded x:Name="ListBox" Focusable="True"
                  FontFamily="{DynamicResource PanelFontFamily}" FontSize="{DynamicResource PanelFontSize}"
                  Background="Transparent"
                  Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
@@ -197,12 +197,13 @@
                  KeyDown="PageList_KeyDown"
                  IsVisibleChanged="PaegList_IsVisibleChanged"
                  TargetUpdated="PageList_TargetUpdated"
+                 SelectionMode="Extended"
                  VirtualizingPanel.IsVirtualizing="True"
                  VirtualizingPanel.ScrollUnit="{StaticResource PanelScrollUnit}"
                  VirtualizingPanel.VirtualizationMode="Recycling">
 
         <b:Interaction.Behaviors>
-            <nw:ListBoxDragDropStartBehavior AllowedEffects="Copy, Scroll" DragDropFormat="{x:Static local:PageListBox.DragDropFormat}" DragBegin="DragStartBehavior_DragBegin"/>
+            <nw:ListBoxExtendedDragDropStartBehavior AllowedEffects="Copy, Scroll" DragDropFormat="{x:Static local:PageListBox.DragDropFormat}" DragBeginAsync="DragStartBehavior_DragBeginAsync" />
         </b:Interaction.Behaviors>
 
         <ListBox.Style>
@@ -243,13 +244,14 @@
                         <ContextMenu>
                             <MenuItem Header="{x:Static properties:Resources.WordOpen}" Command="{x:Static local:PageListBox.OpenCommand}"/>
                             <Separator/>
-                            <MenuItem Header="{x:Static properties:Resources.PageListItemMenuDelete}" Command="{x:Static local:PageListBox.RemoveCommand}"/>
+                            <MenuItem Header="{x:Static properties:Resources.PageListItemMenuCopy}" Command="{x:Static local:PageListBox.CopyCommand}" />
+                            <MenuItem Header="{x:Static properties:Resources.PageListItemMenuDelete}" Command="{x:Static local:PageListBox.RemoveCommand}" />
                         </ContextMenu>
                     </Setter.Value>
                 </Setter>
             </Style>
         </ListBox.ItemContainerStyle>
 
-    </ListBox>
+    </nw:ListBoxExteded>
 
 </UserControl>

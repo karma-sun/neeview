@@ -14,6 +14,7 @@ namespace NeeView
     public class PageListBoxModel : BindableBase
     {
         private Page _selectedItem;
+        private List<Page> _selectedItems;
         private List<Page> _viewItems;
 
 
@@ -38,6 +39,12 @@ namespace NeeView
         {
             get { return _selectedItem; }
             set { SetProperty(ref _selectedItem, value); }
+        }
+
+        public List<Page> SelectedItems
+        {
+            get { return _selectedItems; }
+            set { SetProperty(ref _selectedItems, value); }
         }
 
         public List<Page> ViewItems
@@ -86,7 +93,13 @@ namespace NeeView
 
             var viewPages = pages.Where(i => i != null).OrderBy(i => i.Index).ToList();
 
-            this.SelectedItem = viewPages.FirstOrDefault();
+            //this.SelectedItem = viewPages.FirstOrDefault();
+            var page = viewPages.FirstOrDefault();
+            if (SelectedItems == null || SelectedItems.Count <= 1 || !SelectedItems.Contains(page))
+            {
+                this.SelectedItem = page;
+            }
+
             this.ViewItems = viewPages;
         }
 
@@ -104,6 +117,16 @@ namespace NeeView
         public async Task RemoveAsync(Page page)
         {
             await BookOperation.Current.DeleteFileAsync(page);
+        }
+
+        public async Task RemoveAsync(List<Page> pages)
+        {
+            await BookOperation.Current.DeleteFileAsync(pages);
+        }
+
+        public void Copy(List<Page> pages)
+        {
+            ClipboardUtility.Copy(pages, new CopyFileCommandParameter() { MultiPagePolicy = MultiPagePolicy.All });
         }
     }
 }

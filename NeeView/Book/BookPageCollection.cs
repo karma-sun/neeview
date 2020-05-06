@@ -33,7 +33,7 @@ namespace NeeView
         public event EventHandler PagesSorted;
 
         // ファイル削除された
-        public event EventHandler<PageChangedEventArgs> PageRemoved;
+        public event EventHandler<PageRemovedEventArgs> PageRemoved;
 
 
 
@@ -253,18 +253,30 @@ namespace NeeView
         #region ページの削除
 
         // ページの削除
-        public void Remove(Page page)
+        public void Remove(List<Page> pages)
         {
             if (Pages.Count <= 0) return;
+            if (pages == null) return;
 
-            int index = Pages.IndexOf(page);
-            if (index < 0) return;
+            var removes = pages.Where(e => Pages.Contains(e)).ToList();
+            if (removes.Count <= 0) return;
 
-            Pages.RemoveAt(index);
+            foreach (var page in removes)
+            {
+                Pages.Remove(page);
+            }
 
             PagesNumbering();
 
-            PageRemoved?.Invoke(this, new PageChangedEventArgs(page));
+            AppDispatcher.Invoke(() => PageRemoved?.Invoke(this, new PageRemovedEventArgs(removes)));
+        }
+
+        // 近くの有効なページを取得
+        public Page GetValidPage(Page page)
+        {
+            var index = page != null ? page.Index : 0;
+            var answer = Pages.Skip(index).Concat(Pages.Take(index).Reverse()).FirstOrDefault(e => !e.IsDeleted);
+            return answer;
         }
 
         #endregion

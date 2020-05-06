@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -93,18 +94,22 @@ namespace NeeView
         #region Commands
 
         public static readonly RoutedCommand OpenCommand = new RoutedCommand("OpenCommand", typeof(PageListBox));
+        public static readonly RoutedCommand CopyCommand = new RoutedCommand("CopyCommand", typeof(PageListBox));
         public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(PageListBox));
 
         private static void InitializeCommandStatic()
         {
+            CopyCommand.InputGestures.Add(new KeyGesture(Key.C, ModifierKeys.Control));
             RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
         }
 
         private void InitializeCommand()
         {
             this.ListBox.CommandBindings.Add(new CommandBinding(OpenCommand, Open_Exec, Open_CanExec));
+            this.ListBox.CommandBindings.Add(new CommandBinding(CopyCommand, Copy_Exec, Copy_CanExec));
             this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec, Remove_CanExec));
         }
+
 
         private void Open_CanExec(object sender, CanExecuteRoutedEventArgs e)
         {
@@ -121,18 +126,56 @@ namespace NeeView
             }
         }
 
+        private void Copy_CanExec(object sender, CanExecuteRoutedEventArgs e)
+        {
+            var listBox = (ListBox)sender;
+            if (listBox.SelectedItems == null)
+            {
+                e.CanExecute = false;
+            }
+            else
+            {
+                e.CanExecute = listBox.SelectedItems.Count > 0;
+            }
+        }
+
+        private void Copy_Exec(object sender, ExecutedRoutedEventArgs e)
+        {
+            var listBox = (ListBox)sender;
+            if (listBox.SelectedItems != null && listBox.SelectedItems.Count > 0)
+            {
+                try
+                {
+                    App.Current.MainWindow.Cursor = Cursors.Wait;
+                    _vm.Model.Copy(listBox.SelectedItems.Cast<Page>().ToList());
+                }
+                finally
+                {
+                    App.Current.MainWindow.Cursor = null;
+                }
+            }
+        }
+
+
         private void Remove_CanExec(object sender, CanExecuteRoutedEventArgs e)
         {
-            var item = (sender as ListBox)?.SelectedItem as Page;
-            e.CanExecute = item != null && _vm.Model.CanRemove(item);
+            var listBox = (ListBox)sender;
+            if (listBox.SelectedItems == null)
+            {
+                e.CanExecute = false;
+            }
+            else
+            {
+                e.CanExecute = listBox.SelectedItems.Cast<Page>().All(x => _vm.Model.CanRemove(x));
+            }
         }
 
         private async void Remove_Exec(object sender, ExecutedRoutedEventArgs e)
         {
-            var item = (sender as ListBox)?.SelectedItem as Page;
-            if (item != null)
+            var listBox = (ListBox)sender;
+            if (listBox.SelectedItems != null && listBox.SelectedItems.Count > 0)
             {
-                await _vm.Model.RemoveAsync(item);
+                await _vm.Model.RemoveAsync(listBox.SelectedItems.Cast<Page>().ToList());
             }
         }
 
@@ -235,6 +278,7 @@ namespace NeeView
         // 選択項目変更
         private void PageList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            _vm.Model.SelectedItems = this.ListBox.SelectedItems.Cast<Page>().ToList();
         }
 
         // 項目決定
@@ -300,7 +344,7 @@ namespace NeeView
 
         #region DragDrop
 
-        private void DragStartBehavior_DragBegin(object sender, Windows.DragStartEventArgs e)
+        private async Task DragStartBehavior_DragBeginAsync(object sender, Windows.DragStartEventArgs e, CancellationToken token)
         {
             var data = e.Data.GetData(DragDropFormat) as ListBoxItem;
             if (data == null)
@@ -314,8 +358,15 @@ namespace NeeView
                 return;
             }
 
-            ClipboardUtility.SetData(e.Data, new List<Page>() { item }, new CopyFileCommandParameter());
-            e.AllowedEffects = DragDropEffects.Copy;
+            var pages = this.ListBox.SelectedItems.Cast<Page>().ToList();
+            if (!pages.Any())
+            {
+                return;
+            }
+
+            await Task.Run(() => ClipboardUtility.SetData(e.Data, pages, new CopyFileCommandParameter() { MultiPagePolicy = MultiPagePolicy.All }, token));
+
+            e.AllowedEffects = DragDropEffects.Copy | DragDropEffects.Scroll;
         }
 
         #endregion

@@ -155,7 +155,7 @@
                 VirtualizingPanel.VirtualizationMode="Recycling">
 
             <b:Interaction.Behaviors>
-                <nw:ListBoxDragDropStartBehavior AllowedEffects="Copy, Scroll" DragDropFormat="{x:Static local:FolderListBox.DragDropFormat}" DragBegin="DragStartBehavior_DragBegin" DragDropHook="{x:Static local:DragDropWatcher.DragDropHook}"/>
+                <nw:ListBoxDragDropStartBehavior AllowedEffects="Copy, Scroll" DragDropFormat="{x:Static local:FolderListBox.DragDropFormat}" DragBeginAsync="DragStartBehavior_DragBeginAsync" DragDropHook="{x:Static local:DragDropWatcher.DragDropHook}"/>
             </b:Interaction.Behaviors>
 
             <ListBox.Style>

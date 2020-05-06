@@ -2096,11 +2096,17 @@ The following data will be deleted
   <data name="DialogFileDelete" xml:space="preserve">
     <value>Do you want to move this {0} to Recycle Bin?</value>
   </data>
+  <data name="DialogFileDeleteMulti" xml:space="preserve">
+    <value>Do you want to move this {1} {0} to Recycle Bin?</value>
+  </data>
   <data name="DialogFileDeleteBookTitle" xml:space="preserve">
     <value>Delete book</value>
   </data>
   <data name="DialogFileDeleteError" xml:space="preserve">
     <value>Delete failed. Would you like to try again?</value>
+  </data>
+  <data name="DialogFileDeleteMultiError" xml:space="preserve">
+    <value>Some files could not be deleted. Would you like to try again?</value>
   </data>
   <data name="DialogFileDeleteErrorTitle" xml:space="preserve">
     <value>Delete failed. Would you like to retry?</value>
@@ -2520,6 +2526,9 @@ Is it OK? </value>
   </data>
   <data name="EnumMultiPageOptionTypeTwice" xml:space="preserve">
     <value>Run both pages</value>
+  </data>
+  <data name="EnumMultiPageOptionTypeAll" xml:space="preserve">
+    <value>Run all pages</value>
   </data>
   <data name="EnumPageEndActionLoop" xml:space="preserve">
     <value>Loop</value>
@@ -3073,6 +3082,9 @@ Initialize the temporary location.</value>
   </data>
   <data name="PageListItemMenuDelete" xml:space="preserve">
     <value>_Delete</value>
+  </data>
+  <data name="PageListItemMenuCopy" xml:space="preserve">
+    <value>_Copy</value>
   </data>
   <data name="PageListName" xml:space="preserve">
     <value>Page list</value>
@@ -5013,6 +5025,9 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="WordFile" xml:space="preserve">
     <value>File</value>
   </data>
+  <data name="WordFiles" xml:space="preserve">
+    <value>Files</value>
+  </data>
   <data name="WordFirstPage" xml:space="preserve">
     <value>First page</value>
   </data>
@@ -5021,6 +5036,9 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="WordFolder" xml:space="preserve">
     <value>Folder</value>
+  </data>
+  <data name="WordFolders" xml:space="preserve">
+    <value>Folders</value>
   </data>
   <data name="WordFoldersTree" xml:space="preserve">
     <value>Folders tree</value>

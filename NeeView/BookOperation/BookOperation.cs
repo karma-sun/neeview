@@ -67,7 +67,7 @@ namespace NeeView
         public event EventHandler PageListChanged;
 
         // ページが削除された
-        public event EventHandler<PageChangedEventArgs> PageRemoved;
+        public event EventHandler<PageRemovedEventArgs> PageRemoved;
 
         #endregion
 
@@ -273,6 +273,23 @@ namespace NeeView
             }
         }
 
+        // 指定ページのファイルを削除する
+        public async Task DeleteFileAsync(List<Page> pages)
+        {
+            var removes = pages.Where(e => CanDeleteFile(e)).ToList();
+            if (removes.Any())
+            {
+                if (removes.Count == 1)
+                {
+                    await DeleteFileAsync(removes.First());
+                    return;
+                }
+
+                await FileIO.Current.RemovePageAsync(removes);
+                Book.Control.RequestRemove(this, removes.Where(e => FileIO.Current.IsPageRemoved(e)).ToList());
+            }
+        }
+
         #endregion
 
         #region BookCommand : ブック削除
@@ -295,7 +312,7 @@ namespace NeeView
                 }
                 else
                 {
-                    await FileIO.Current.RemoveAsync(Book.SourceAddress, Resources.DialogFileDeleteBookTitle);
+                    await FileIO.Current.RemoveFileAsync(Book.SourceAddress, Resources.DialogFileDeleteBookTitle, null);
                 }
             }
         }
@@ -487,10 +504,13 @@ namespace NeeView
 
 
         // ページ削除時の処理
-        private void Book_PageRemoved(object sender, PageChangedEventArgs e)
+        private void Book_PageRemoved(object sender, PageRemovedEventArgs e)
         {
             // ページマーカーから削除
-            RemovePagemark(this.Book.Address, e.Page.EntryFullName);
+            foreach (var page in e.Pages)
+            {
+                RemovePagemark(this.Book.Address, page.EntryFullName);
+            }
 
             UpdatePageList(true);
             PageRemoved?.Invoke(sender, e);

@@ -83,7 +83,7 @@ namespace NeeView.Windows
 
             if (count > 1)
             {
-                var subGrid = new Border()
+                var border = new Border()
                 {
                     MinWidth = 20,
                     MinHeight = 20,
@@ -103,11 +103,14 @@ namespace NeeView.Windows
                     },
                 };
 
-                var grid = new Grid();
-                grid.Children.Add(_child);
-                grid.Children.Add(subGrid);
+                var canvas = new Canvas();
+                canvas.Children.Add(_child);
+                canvas.Children.Add(border);
 
-                _child = grid;
+                Canvas.SetLeft(border, _centerX - 30.0);
+                Canvas.SetTop(border, _centerY - 30.0);
+
+                _child = canvas;
             }
         }
 

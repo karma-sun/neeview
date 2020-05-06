@@ -1,5 +1,6 @@
 ﻿using NeeView.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -210,15 +211,34 @@ namespace NeeView
         // ページ削除
         public void RequestRemove(object sender, Page page)
         {
+            RequestRemove(sender, new List<Page>() { page });
+        }
+
+        // ページ削除
+        public void RequestRemove(object sender, List<Page> pages)
+        {
+            if (pages == null) return;
+            if (pages.Count == 0) return;
+
             var command = new BookCommandAction(sender, Execute, 3);
             _commandEngine.Enqueue(command);
 
             async Task Execute(object s, CancellationToken token)
             {
-                __CommandWriteLine($"Remove: {page.Index}");
-                var index = _book.Pages.ClampPageNumber(page.Index);
-                _book.Pages.Remove(page);
+                __CommandWriteLine($"Remove: Count={pages.Count}");
+
+                foreach (var page in pages)
+                {
+                    page.IsDeleted = true;
+                }
+
+                var next = _book.Pages.GetValidPage(_viewer.GetViewPage());
+
+                _book.Pages.Remove(pages);
+
+                var index = next != null ? next.Index : 0;
                 RequestSetPosition(this, new PagePosition(index, 0), 1);
+
                 await Task.CompletedTask;
             }
         }

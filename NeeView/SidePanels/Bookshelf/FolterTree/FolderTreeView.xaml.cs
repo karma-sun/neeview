@@ -591,7 +591,7 @@ namespace NeeView
 
         #region DragDrop
 
-        private void DragStartBehavior_DragBegin(object sender, DragStartEventArgs e)
+        private async Task DragStartBehavior_DragBeginAsync(object sender, DragStartEventArgs e, CancellationToken token)
         {
             var data = e.Data.GetData(DragDropFormat) as TreeViewItem;
             if (data == null)
@@ -623,6 +623,8 @@ namespace NeeView
                     e.Cancel = true;
                     break;
             }
+
+            await Task.CompletedTask;
         }
 
         private void TreeView_DragEnter(object sender, DragEventArgs e)

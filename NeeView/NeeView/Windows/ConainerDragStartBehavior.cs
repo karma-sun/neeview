@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,6 +18,9 @@ using System.Windows.Media;
 
 namespace NeeView.Windows
 {
+
+    public delegate Task DragBeginAsync(object sender, DragStartEventArgs args, CancellationToken token);
+
     /// <summary>
     /// TreeViewやListBoxに特化した<see cref="DragStartBehavior"/>
     /// </summary>
@@ -29,22 +33,18 @@ namespace NeeView.Windows
         private UIElement _adornerVisual;
         private Point _dragStartPos;
         private DragAdorner _dragGhost;
+        private CancellationTokenSource _cancellationTokenSource;
 
-
-        /// <summary>
-        /// ドラッグ開始イベント
-        /// </summary>
-        public event EventHandler<DragStartEventArgs> DragBegin;
-
-        /// <summary>
-        /// ドラッグ終了イベント
-        /// </summary>
-        public event EventHandler DragEnd;
 
         /// <summary>
         /// ドラッグ中アイテム
         /// </summary>
         public TItem DragItem => _dragItem;
+
+        /// <summary>
+        /// ドラッグしたか
+        /// </summary>
+        public bool Dragged { get; private set; }
 
         /// <summary>
         /// 複数ドラッグ時の数
@@ -61,6 +61,19 @@ namespace NeeView.Windows
 
 
         /// <summary>
+        /// ドラッグ開始フック
+        /// </summary>
+        public DragBeginAsync DragBeginAsync
+        {
+            get { return (DragBeginAsync)GetValue(DragBeginAsyncProperty); }
+            set { SetValue(DragBeginAsyncProperty, value); }
+        }
+
+        public static readonly DependencyProperty DragBeginAsyncProperty =
+            DependencyProperty.Register("DragBeginAsync", typeof(DragBeginAsync), typeof(ContainerDragStartBehavior<TItem>), new PropertyMetadata(null));
+
+
+        /// <summary>
         /// ドラッグアンドドロップ操作の効果
         /// </summary>
         public DragDropEffects AllowedEffects
@@ -71,6 +84,7 @@ namespace NeeView.Windows
 
         public static readonly DependencyProperty AllowedEffectsProperty =
             DependencyProperty.Register("AllowedEffects", typeof(DragDropEffects), typeof(ContainerDragStartBehavior<TItem>), new UIPropertyMetadata(DragDropEffects.All));
+
 
         /// <summary>
         /// ドラッグされるデータを識別する文字列(任意)
@@ -136,6 +150,7 @@ namespace NeeView.Windows
             base.OnDetaching();
         }
 
+
         /// <summary>
         /// マウスボタン押下処理
         /// </summary>
@@ -148,7 +163,8 @@ namespace NeeView.Windows
 
             _origin = e.GetPosition(this.AssociatedObject);
             _isButtonDown = true;
-            DragCount = 0;
+            this.DragCount = 0;
+            this.Dragged = false;
 
             if (sender is UIElement element)
             {
@@ -180,21 +196,49 @@ namespace NeeView.Windows
             {
                 return;
             }
+
             var point = e.GetPosition(this.AssociatedObject);
 
-            if (CheckDistance(point, _origin) && _dragGhost == null)
+            if (CheckDistance(point, _origin) && _cancellationTokenSource == null)
             {
-                var window = Application.Current.Windows.OfType<Window>().FirstOrDefault(w => w.IsActive);
+                this.Dragged = true;
+                _cancellationTokenSource = new CancellationTokenSource();
+                var async = BeginDragAsync(sender, e, _cancellationTokenSource.Token);
+            }
+        }
 
-                var dataObject = this.DragDropFormat != null ? new DataObject(this.DragDropFormat, _dragItem) : new DataObject(_dragItem);
-                var args = new DragStartEventArgs(dataObject, this.AllowedEffects, e);
+        /// <summary>
+        /// ドラッグ開始処理
+        /// </summary>
+        private async Task BeginDragAsync(object sender, MouseEventArgs e, CancellationToken token)
+        {
+            var window = Application.Current.Windows.OfType<Window>().FirstOrDefault(w => w.IsActive);
 
-                DragBegin?.Invoke(sender, args);
-                if (args.Cancel)
+            var dataObject = this.DragDropFormat != null ? new DataObject(this.DragDropFormat, _dragItem) : new DataObject(_dragItem);
+            var args = new DragStartEventArgs(dataObject, this.AllowedEffects, e);
+
+            if (DragBeginAsync != null)
+            {
+                var control = (FrameworkElement)sender;
+                try
                 {
-                    return;
+                    control.Cursor = Cursors.Wait;
+                    control.CaptureMouse();
+                    await DragBeginAsync(sender, args, token);
                 }
+                catch (OperationCanceledException)
+                {
+                    args.Cancel = true;
+                }
+                finally
+                {
+                    control.Cursor = null;
+                    control.ReleaseMouseCapture();
+                }
+            }
 
+            if (!args.Cancel)
+            {
                 if (window != null)
                 {
                     var root = window.Content as UIElement;
@@ -214,14 +258,14 @@ namespace NeeView.Windows
                     DragDrop.DoDragDrop(this.AssociatedObject, args.Data, args.AllowedEffects);
                     DragDropHook?.EndDragDrop(sender, this.AssociatedObject, args.Data, args.AllowedEffects);
                 }
-                _isButtonDown = false;
-                e.Handled = true;
                 _dragGhost = null;
-                _dragItem = null;
-
-                DragEnd?.Invoke(sender, null);
             }
+
+            _isButtonDown = false;
+            _dragItem = null;
+            _cancellationTokenSource = null;
         }
+
 
         /// <summary>
         /// マウスボタンリリース処理
@@ -229,6 +273,9 @@ namespace NeeView.Windows
         protected virtual void PreviewMouseUpHandler(object sender, MouseButtonEventArgs e)
         {
             _isButtonDown = false;
+
+            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource = null;
         }
 
 
@@ -353,9 +400,12 @@ namespace NeeView.Windows
         }
     }
 
-    public class ListBoxMultiDragDropStartBehavior : ListBoxDragDropStartBehavior
+    /// <summary>
+    /// ListBox.Extended DragDropStartBehavior
+    /// </summary>
+    public class ListBoxExtendedDragDropStartBehavior : ListBoxDragDropStartBehavior
     {
-        private bool _delaySelect;
+        private object _selectedItem;
 
         protected override void PreviewMouseDownHandler(object sender, MouseButtonEventArgs e)
         {
@@ -363,14 +413,14 @@ namespace NeeView.Windows
 
             var listBox = (ListBox)this.AssociatedObject;
 
-            _delaySelect = false;
+            _selectedItem = null;
             this.DragCount = 0;
             if (listBox.SelectedItems.Count > 1 && this.DragItem != null)
             {
                 if (listBox.SelectedItems.Contains(this.DragItem.DataContext))
                 {
                     this.DragCount = listBox.SelectedItems.Count;
-                    _delaySelect = true;
+                    _selectedItem = this.DragItem.DataContext;
                     e.Handled = true;
                 }
             }
@@ -382,14 +432,38 @@ namespace NeeView.Windows
 
             var listBox = (ListBox)this.AssociatedObject;
 
-            if (_delaySelect && this.DragItem != null)
+            if (e.ChangedButton == MouseButton.Right)
             {
-                listBox.SelectedItem = null;
-                listBox.SelectedItem = this.DragItem.DataContext;
+                return;
             }
 
-            _delaySelect = false;
+            if (_selectedItem != null && !this.Dragged)
+            {
+                listBox.SelectedItem = null;
+                listBox.SelectedItem = _selectedItem;
+
+                if (listBox is ListBoxExteded listBoxEx)
+                {
+                    listBoxEx.SetAnchorItem(_selectedItem);
+                }
+            }
+
+            _selectedItem = null;
         }
 
     }
+
+    public class ListBoxExteded : ListBox
+    {
+        public ListBoxExteded()
+        {
+            SelectionMode = SelectionMode.Extended;
+        }
+
+        public void SetAnchorItem(object anchor)
+        {
+            this.AnchorItem = anchor;
+        }
+    }
+
 }

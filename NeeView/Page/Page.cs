@@ -176,6 +176,11 @@ namespace NeeView
             set { _content.State = value; }
         }
 
+        /// <summary>
+        /// 削除準備フラグ
+        /// </summary>
+        public bool IsDeleted { get; set; }
+
 
         #region IDisposable Support
         private bool _disposedValue = false;

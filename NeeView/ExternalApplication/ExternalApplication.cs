@@ -25,8 +25,12 @@ namespace NeeView
         [AliasName("@EnumMultiPageOptionTypeOnce")]
         Once,
 
-        [AliasName("@EnumMultiPageOptionTypeTwice")]
-        Twice,
+        [AliasName("@EnumMultiPageOptionTypeAll")]
+        All,
+
+        [Obsolete] // ver.37
+        [AliasName("@EnumMultiPageOptionTypeTwice", IsVisibled = false)]
+        Twice = All,
     };
 
     // 圧縮ファイルの時の動作

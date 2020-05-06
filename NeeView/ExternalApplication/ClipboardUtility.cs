@@ -3,6 +3,7 @@ using NeeView.Windows.Property;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.Serialization;
+using System.Threading;
 
 namespace NeeView
 {
@@ -15,19 +16,21 @@ namespace NeeView
         {
             var data = new System.Windows.DataObject();
 
-            if (SetData(data, pages, parameter))
+            if (SetData(data, pages, parameter, CancellationToken.None))
             {
                 System.Windows.Clipboard.SetDataObject(data); ;
             }
         }
 
 
-        public static bool SetData(System.Windows.DataObject data, List<Page>pages, CopyFileCommandParameter parameter)
+        public static bool SetData(System.Windows.DataObject data, List<Page>pages, CopyFileCommandParameter parameter, CancellationToken token)
         {
             var files = new List<string>();
 
             foreach (var page in pages)
             {
+                token.ThrowIfCancellationRequested();
+
                 // file
                 if (page.Entry.IsFileSystem)
                 {

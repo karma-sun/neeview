@@ -129,11 +129,14 @@ namespace NeeView
             return target;
         }
 
-        private void Pages_PageRemoved(object sender, PageChangedEventArgs e)
+        private void Pages_PageRemoved(object sender, PageRemovedEventArgs e)
         {
-            if (_pageMap.TryGetValue(e.Page.EntryFullName, out Page target) && e.Page == target)
+            foreach (var page in e.Pages)
             {
-                _pageMap.Remove(e.Page.EntryFullName);
+                if (_pageMap.TryGetValue(page.EntryFullName, out Page target) && page == target)
+                {
+                    _pageMap.Remove(page.EntryFullName);
+                }
             }
         }
 

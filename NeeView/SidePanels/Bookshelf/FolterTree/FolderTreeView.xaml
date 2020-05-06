@@ -46,7 +46,7 @@
                   VirtualizingStackPanel.VirtualizationMode="Recycling">
 
             <b:Interaction.Behaviors>
-                <nw:TreeViewDragDropStartBehavior AllowedEffects="Copy,Move,Scroll" DragDropFormat="{x:Static local:FolderTreeView.DragDropFormat}" DragBegin="DragStartBehavior_DragBegin"
+                <nw:TreeViewDragDropStartBehavior AllowedEffects="Copy,Move,Scroll" DragDropFormat="{x:Static local:FolderTreeView.DragDropFormat}" DragBeginAsync="DragStartBehavior_DragBeginAsync"
                         DragDropHook="{x:Static local:DragDropWatcher.DragDropHook}" />
             </b:Interaction.Behaviors>
 

@@ -448,7 +448,7 @@ namespace NeeView
             }
             else if (item.IsFileSystem())
             {
-                var removed = await FileIO.Current.RemoveAsync(item.TargetPath.SimplePath, Properties.Resources.DialogFileDeleteBookTitle);
+                var removed = await FileIO.Current.RemoveFileAsync(item.TargetPath.SimplePath, Properties.Resources.DialogFileDeleteBookTitle, null);
                 if (removed)
                 {
                     FolderCollection?.RequestDelete(item.TargetPath);

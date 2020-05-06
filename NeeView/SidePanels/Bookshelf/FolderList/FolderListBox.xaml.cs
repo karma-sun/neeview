@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -473,7 +474,7 @@ namespace NeeView
 
         #region DragDrop
 
-        private void DragStartBehavior_DragBegin(object sender, Windows.DragStartEventArgs e)
+        private async Task DragStartBehavior_DragBeginAsync(object sender, DragStartEventArgs e, CancellationToken token)
         {
             var data = e.Data.GetData(DragDropFormat) as ListBoxItem;
             if (data == null)
@@ -515,6 +516,8 @@ namespace NeeView
                 }
                 return;
             }
+
+            await Task.CompletedTask;
         }
 
         private void FolderList_DragEnter(object sender, DragEventArgs e)

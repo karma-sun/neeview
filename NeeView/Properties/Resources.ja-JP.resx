@@ -2096,11 +2096,17 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="DialogFileDelete" xml:space="preserve">
     <value>この{0}をごみ箱に移動しますか？</value>
   </data>
+  <data name="DialogFileDeleteMulti" xml:space="preserve">
+    <value>この {1} つの{0}をごみ箱に移動しますか？</value>
+  </data>
   <data name="DialogFileDeleteBookTitle" xml:space="preserve">
     <value>ブックを削除します</value>
   </data>
   <data name="DialogFileDeleteError" xml:space="preserve">
     <value>削除できませんでした。もう一度実行しますか？</value>
+  </data>
+  <data name="DialogFileDeleteMultiError" xml:space="preserve">
+    <value>一部のファイルを削除できませんでした。もう一度実行しますか？</value>
   </data>
   <data name="DialogFileDeleteErrorTitle" xml:space="preserve">
     <value>削除できませんでした。リトライしますか？</value>
@@ -2520,6 +2526,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="EnumMultiPageOptionTypeTwice" xml:space="preserve">
     <value>2ページとも実行する</value>
+  </data>
+  <data name="EnumMultiPageOptionTypeAll" xml:space="preserve">
+    <value>全てのページを実行する</value>
   </data>
   <data name="EnumPageEndActionLoop" xml:space="preserve">
     <value>ループする</value>
@@ -3073,6 +3082,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="PageListItemMenuDelete" xml:space="preserve">
     <value>削除(_D)</value>
+  </data>
+  <data name="PageListItemMenuCopy" xml:space="preserve">
+    <value>コピー(_C)</value>
   </data>
   <data name="PageListName" xml:space="preserve">
     <value>ページリスト</value>
@@ -5013,6 +5025,9 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="WordFile" xml:space="preserve">
     <value>ファイル</value>
   </data>
+  <data name="WordFiles" xml:space="preserve">
+    <value>ファイル</value>
+  </data>
   <data name="WordFirstPage" xml:space="preserve">
     <value>最初のページ</value>
   </data>
@@ -5020,6 +5035,9 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>ローカルディスク</value>
   </data>
   <data name="WordFolder" xml:space="preserve">
+    <value>フォルダー</value>
+  </data>
+  <data name="WordFolders" xml:space="preserve">
     <value>フォルダー</value>
   </data>
   <data name="WordFoldersTree" xml:space="preserve">

@@ -94,7 +94,7 @@
               VirtualizingStackPanel.VirtualizationMode="Recycling">
 
         <b:Interaction.Behaviors>
-            <nw:TreeViewDragDropStartBehavior AllowedEffects="Copy, Scroll" DragDropFormat="{x:Static local:PagemarkListBox.DragDropFormat}" DragBegin="DragStartBehavior_DragBegin" />
+            <nw:TreeViewDragDropStartBehavior AllowedEffects="Copy, Scroll" DragDropFormat="{x:Static local:PagemarkListBox.DragDropFormat}" DragBeginAsync="DragStartBehavior_DragBeginAsync" />
         </b:Interaction.Behaviors>
 
         <TreeView.Style>

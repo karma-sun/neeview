@@ -57,7 +57,7 @@ namespace NeeView
             public void RestoreConfig(Config config)
             {
                 config.System.IsRemoveConfirmed = IsRemoveConfirmed;
-                config.System.IsRemoveExplorerDialogEnabled = IsRemoveExplorerDialogEnabled;
+                config.System.IsRemoveWantNukeWarning = IsRemoveExplorerDialogEnabled;
                 config.System.IsFileWriteAccessEnabled = IsEnabled;
                 config.System.IsHiddenFileVisibled = IsHiddenFileVisibled;
             }
@@ -67,7 +67,7 @@ namespace NeeView
         {
             var memento = new Memento();
             memento.IsRemoveConfirmed = Config.Current.System.IsRemoveConfirmed;
-            memento.IsRemoveExplorerDialogEnabled = Config.Current.System.IsRemoveExplorerDialogEnabled;
+            memento.IsRemoveExplorerDialogEnabled = Config.Current.System.IsRemoveWantNukeWarning;
             memento.IsEnabled = Config.Current.System.IsFileWriteAccessEnabled;
             memento.IsHiddenFileVisibled = Config.Current.System.IsHiddenFileVisibled;
             return memento;

@@ -1,4 +1,5 @@
-﻿using NeeView.Properties;
+﻿using NeeView.IO;
+using NeeView.Properties;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -60,7 +61,7 @@ namespace NeeView
 
 
         #region Remove
-        
+
         /// <summary>
         /// ページ削除済？
         /// </summary>
@@ -135,14 +136,13 @@ namespace NeeView
             var content = CreateRemoveDialogContent(path, thumbnail);
             if (ConfirmRemove(content, title ?? GetRemoveDialogTitle(path)))
             {
-                return await RemoveFileRetry(path);
+                return await RemoveCoreAsync(new List<string>() { path });
             }
             else
             {
                 return false;
             }
         }
-
 
         /// <summary>
         /// ファイル削除
@@ -152,14 +152,13 @@ namespace NeeView
             var content = CreateRemoveDialogContent(paths);
             if (ConfirmRemove(content, title ?? GetRemoveDialogTitle(paths)))
             {
-                return await RemoveFileRetry(paths);
+                return await RemoveCoreAsync(paths);
             }
             else
             {
                 return false;
             }
         }
-
 
         /// <summary>
         /// ページからダイアログ用サムネイル作成
@@ -176,14 +175,14 @@ namespace NeeView
                 ShadowDepth = 2,
                 RenderingBias = RenderingBias.Quality
             };
-            image.MaxWidth = 64;
-            image.MaxHeight = 64;
+            image.MaxWidth = 96;
+            image.MaxHeight = 96;
 
             return image;
         }
 
         /// <summary>
-        /// ファイルからダイアログ用サムネイル咲く税
+        /// ファイルからダイアログ用サムネイル作成
         /// </summary>
         private Image CreateFileVisual(string path)
         {
@@ -192,7 +191,7 @@ namespace NeeView
                 SnapsToDevicePixels = true,
                 Source = NeeLaboratory.IO.FileSystem.GetTypeIconSource(path, NeeLaboratory.IO.FileSystem.IconSize.Normal),
                 Width = 32,
-                Height = 32
+                Height = 32,
             };
         }
 
@@ -260,14 +259,16 @@ namespace NeeView
         private FrameworkElement CreateRemoveDialogContent(List<string> paths)
         {
             var message = new TextBlock();
-            message.Text = string.Format(Resources.DialogFileDeleteMulti, GetRemoveFilesTypeName(paths), paths.Count);
+            message.Text = string.Format(Resources.DialogFileDeleteMulti, paths.Count);
             message.Margin = new Thickness(0, 10, 0, 10);
             DockPanel.SetDock(message, Dock.Top);
 
             return message;
         }
 
-
+        /// <summary>
+        /// 削除確認
+        /// </summary>
         private bool ConfirmRemove(FrameworkElement content, string title)
         {
             var dialog = new MessageDialog(content, title);
@@ -278,27 +279,21 @@ namespace NeeView
             return (answer == UICommands.Delete);
         }
 
-
-        private async Task<bool> RemoveFileRetry(string path)
+        /// <summary>
+        /// 削除メイン
+        /// </summary>
+        private async Task<bool> RemoveCoreAsync(List<string> paths)
         {
-            return await RetryAction(() => RemoveCore(path, Config.Current.System.IsRemoveExplorerDialogEnabled), Resources.DialogFileDeleteMultiError);
-        }
-
-        private async Task<bool> RemoveFileRetry(List<string> paths)
-        {
-            return await RetryAction(() => RemoveCore(paths), Resources.DialogFileDeleteMultiError);
-        }
-
-
-        private async Task<bool> RetryAction(Func<Task> function, string retryMessage)
-        {
-            int retryCount = 1;
-
-        RETRY:
-
             try
             {
-                await function();
+                // 開いている本であるならば閉じる
+                if (paths.Contains(BookHub.Current.Address))
+                {
+                    await BookHub.Current.RequestUnload(true).WaitAsync();
+                    await ArchiverManager.Current.UnlockAllArchivesAsync();
+                }
+
+                ShellFileOperation.Delete(Application.Current.MainWindow, paths, Config.Current.System.IsRemoveWantNukeWarning);
                 return true;
             }
             catch (OperationCanceledException)
@@ -307,80 +302,9 @@ namespace NeeView
             }
             catch (Exception ex)
             {
-                if (retryCount > 0)
-                {
-                    await Task.Delay(1000);
-                    retryCount--;
-                    goto RETRY;
-                }
-                else
-                {
-                    var dialog = new MessageDialog($"{Resources.DialogFileDeleteMultiError}\n\n{Resources.WordCause}: {ex.Message}", Resources.DialogFileDeleteErrorTitle);
-                    dialog.Commands.Add(UICommands.Retry);
-                    dialog.Commands.Add(UICommands.Cancel);
-                    var confirm = dialog.ShowDialog();
-                    if (confirm == UICommands.Retry)
-                    {
-                        retryCount = 1;
-                        goto RETRY;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-            }
-        }
-
-        private async Task RemoveCore(List<string> paths)
-        {
-            var exceptions = new List<Exception>();
-
-            foreach (var path in paths)
-            {
-                try
-                {
-                    if (Directory.Exists(path) || File.Exists(path))
-                    {
-                        await RemoveCore(path, false);
-                    }
-                }
-                catch (OperationCanceledException)
-                {
-                    throw;
-                }
-                catch (Exception ex)
-                {
-                    exceptions.Add(ex);
-                }
-            }
-
-            if (exceptions.Any())
-            {
-                throw new AggregateException(exceptions.First().Message, exceptions);
-            }
-        }
-
-        private async Task RemoveCore(string path, bool showExplorerUI)
-        {
-            // 開いている本であるならば閉じる
-            if (BookHub.Current.Address == path)
-            {
-                await BookHub.Current.RequestUnload(true).WaitAsync();
-                await ArchiverManager.Current.UnlockAllArchivesAsync();
-            }
-
-            var dialogOption = showExplorerUI ? Microsoft.VisualBasic.FileIO.UIOption.AllDialogs : Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs;
-
-            // ゴミ箱に捨てる
-            bool isDirectory = System.IO.Directory.Exists(path);
-            if (isDirectory)
-            {
-                Microsoft.VisualBasic.FileIO.FileSystem.DeleteDirectory(path, dialogOption, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
-            }
-            else
-            {
-                Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(path, dialogOption, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+                var dialog = new MessageDialog($"{Resources.WordCause}: {ex.Message}", Resources.DialogFileDeleteFailed);
+                dialog.ShowDialog();
+                return false;
             }
         }
 

@@ -18,7 +18,7 @@ namespace NeeView
         private Language _language = LanguageExtensions.GetLanguage(CultureInfo.CurrentCulture.Name);
         private BookPageCollectMode _bookPageCollectMode = BookPageCollectMode.ImageAndBook;
         private bool _isRemoveConfirmed = true;
-        private bool _isRemoveExplorerDialogEnabled;
+        private bool _isRemoveWantNukeWarning;
         private bool _isSyncUserSetting = true;
         private bool _isIgnoreImageDpi = true;
         private string _downloadPath = "";
@@ -58,11 +58,11 @@ namespace NeeView
             set { SetProperty(ref _isRemoveConfirmed, value); }
         }
 
-        [PropertyMember("@ParamIsRemoveExplorerDialogEnabled", Tips = "@ParamIsRemoveExplorerDialogEnabledTips")]
-        public bool IsRemoveExplorerDialogEnabled
+        [PropertyMember("@ParamIsRemoveWantNukeWarning")]
+        public bool IsRemoveWantNukeWarning
         {
-            get { return _isRemoveExplorerDialogEnabled; }
-            set { SetProperty(ref _isRemoveExplorerDialogEnabled, value); }
+            get { return _isRemoveWantNukeWarning; }
+            set { SetProperty(ref _isRemoveWantNukeWarning, value); }
         }
 
         // ネットワークアクセス許可

@@ -6090,7 +6090,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Do you want to move this {0} to Recycle Bin? に類似しているローカライズされた文字列を検索します。
+        ///   Do you want to delete this {0}? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string DialogFileDelete {
             get {
@@ -6126,7 +6126,16 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Do you want to move this {1} {0} to Recycle Bin? に類似しているローカライズされた文字列を検索します。
+        ///   Delete failed. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogFileDeleteFailed {
+            get {
+                return ResourceManager.GetString("DialogFileDeleteFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Do you want to delete these {0} items? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string DialogFileDeleteMulti {
             get {
@@ -11721,20 +11730,11 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Show Explorer confirmation dialog when deleting files に類似しているローカライズされた文字列を検索します。
+        ///   Show confirmation dialog when deleting files that don&apos;t fit in the Recycle Bin に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ParamIsRemoveExplorerDialogEnabled {
+        public static string ParamIsRemoveWantNukeWarning {
             get {
-                return ResourceManager.GetString("ParamIsRemoveExplorerDialogEnabled", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   The behavior is the same as when deleted from Explorer. If you delete a file that does not fit in the Recycle Bin, a confirmation dialog will appear. However, if you turn on &quot;Display delete confirmation dialog&quot; in the Recycle Bin properties, an additional dialog will appear. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamIsRemoveExplorerDialogEnabledTips {
-            get {
-                return ResourceManager.GetString("ParamIsRemoveExplorerDialogEnabledTips", resourceCulture);
+                return ResourceManager.GetString("ParamIsRemoveWantNukeWarning", resourceCulture);
             }
         }
         

@@ -2094,13 +2094,16 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>全設定をエクスポート</value>
   </data>
   <data name="DialogFileDelete" xml:space="preserve">
-    <value>この{0}をごみ箱に移動しますか？</value>
+    <value>この{0}を削除しますか？</value>
   </data>
   <data name="DialogFileDeleteMulti" xml:space="preserve">
-    <value>この {1} つの{0}をごみ箱に移動しますか？</value>
+    <value>これら {0} つの項目を削除しますか？</value>
   </data>
   <data name="DialogFileDeleteBookTitle" xml:space="preserve">
     <value>ブックを削除します</value>
+  </data>
+  <data name="DialogFileDeleteFailed" xml:space="preserve">
+    <value>削除できませんでした。</value>
   </data>
   <data name="DialogFileDeleteError" xml:space="preserve">
     <value>削除できませんでした。もう一度実行しますか？</value>
@@ -3896,11 +3899,8 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamIsRemoveConfirmed" xml:space="preserve">
     <value>ファイル削除時に確認ダイアログを表示する</value>
   </data>
-  <data name="ParamIsRemoveExplorerDialogEnabled" xml:space="preserve">
-    <value>ファイル削除時にエクスプローラーの確認ダイアログを表示する</value>
-  </data>
-  <data name="ParamIsRemoveExplorerDialogEnabledTips" xml:space="preserve">
-    <value>エクスプローラーから削除したときと同じ挙動になります。ごみ箱に入らないファイルを削除するときに確認ダイアログが表示されますが、ごみ箱のプロパティの「削除の確認メッセージを表示する」がチェックされている場合は余計にダイアログが表示されることになります。</value>
+  <data name="ParamIsRemoveWantNukeWarning" xml:space="preserve">
+    <value>ごみ箱に入らないサイズのファイルを削除するときに確認ダイアログを表示する</value>
   </data>
   <data name="ParamIsRestoreSecondWindow" xml:space="preserve">
     <value>2つめのウィンドウ座標の復元</value>

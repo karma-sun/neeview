@@ -42,6 +42,11 @@ namespace NeeView
             new FileInfo(filename).Delete();
         }
 
+        // ファイルかディレクトリの存在チェック
+        public bool Exists(string path)
+        {
+            return File.Exists(path) || Directory.Exists(path);
+        }
 
         /// <summary>
         /// クリップボードにコピー
@@ -59,6 +64,25 @@ namespace NeeView
             Clipboard.SetDataObject(data);
         }
 
+        public void CopyToClipboard(IEnumerable<FolderItem> infos)
+        {
+            var collection = new System.Collections.Specialized.StringCollection();
+            foreach (var item in infos.Where(e => !e.IsEmpty()).Select(e => e.EntityPath.SimplePath))
+            {
+                collection.Add(item);
+            }
+
+            if (collection.Count == 0)
+            {
+                return;
+            }
+
+            var data = new DataObject();
+            data.SetFileDropList(collection);
+            data.SetData(DataFormats.UnicodeText, string.Join("\r\n", collection));
+            Clipboard.SetDataObject(data);
+        }
+
 
         #region Remove
 
@@ -73,6 +97,7 @@ namespace NeeView
             var path = page.GetFilePlace();
             return !(File.Exists(path) || Directory.Exists(path));
         }
+
 
         /// <summary>
         /// ページ削除可能？
@@ -149,14 +174,26 @@ namespace NeeView
         /// </summary>
         public async Task<bool> RemoveFileAsync(List<string> paths, string title)
         {
-            var content = CreateRemoveDialogContent(paths);
-            if (ConfirmRemove(content, title ?? GetRemoveDialogTitle(paths)))
+            if (paths != null && !paths.Any())
             {
-                return await RemoveCoreAsync(paths);
+                return false;
+            }
+
+            if (paths.Count == 1)
+            {
+                return await RemoveFileAsync(paths.First(), title, null);
             }
             else
             {
-                return false;
+                var content = CreateRemoveDialogContent(paths);
+                if (ConfirmRemove(content, title ?? GetRemoveDialogTitle(paths)))
+                {
+                    return await RemoveCoreAsync(paths);
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
 

@@ -19,6 +19,10 @@ using System.Windows.Media;
 namespace NeeView.Windows
 {
 
+    /// <summary>
+    /// ドラッグ開始処理。
+    /// データ作成に時間がかかる場合があるため非同期化した。
+    /// </summary>
     public delegate Task DragBeginAsync(object sender, DragStartEventArgs args, CancellationToken token);
 
     /// <summary>
@@ -87,7 +91,7 @@ namespace NeeView.Windows
 
 
         /// <summary>
-        /// ドラッグされるデータを識別する文字列(任意)
+        /// ドラッグされるデータを識別する文字列。設定されている場合のみ既定でドラッグコントロールをDataObjectに追加する。
         /// </summary>
         public string DragDropFormat
         {
@@ -214,8 +218,13 @@ namespace NeeView.Windows
         {
             var window = Application.Current.Windows.OfType<Window>().FirstOrDefault(w => w.IsActive);
 
-            var dataObject = this.DragDropFormat != null ? new DataObject(this.DragDropFormat, _dragItem) : new DataObject(_dragItem);
-            var args = new DragStartEventArgs(dataObject, this.AllowedEffects, e);
+            var dataObject = new DataObject();
+            if (this.DragDropFormat != null)
+            {
+                dataObject.SetData(this.DragDropFormat, _dragItem);
+            }
+
+            var args = new DragStartEventArgs(_dragItem, dataObject, this.AllowedEffects, e);
 
             if (DragBeginAsync != null)
             {
@@ -401,17 +410,23 @@ namespace NeeView.Windows
     }
 
     /// <summary>
-    /// ListBox.Extended DragDropStartBehavior
+    /// ListBoxExtended DragDropStartBehavior
     /// </summary>
     public class ListBoxExtendedDragDropStartBehavior : ListBoxDragDropStartBehavior
     {
         private object _selectedItem;
 
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Debug.Assert(this.AssociatedObject is ListBoxExteded);
+        }
+
         protected override void PreviewMouseDownHandler(object sender, MouseButtonEventArgs e)
         {
             base.PreviewMouseDownHandler(sender, e);
 
-            var listBox = (ListBox)this.AssociatedObject;
+            var listBox = (ListBoxExteded)this.AssociatedObject;
 
             _selectedItem = null;
             this.DragCount = 0;
@@ -430,7 +445,7 @@ namespace NeeView.Windows
         {
             base.PreviewMouseUpHandler(sender, e);
 
-            var listBox = (ListBox)this.AssociatedObject;
+            var listBox = (ListBoxExteded)this.AssociatedObject;
 
             if (e.ChangedButton == MouseButton.Right)
             {
@@ -441,11 +456,7 @@ namespace NeeView.Windows
             {
                 listBox.SelectedItem = null;
                 listBox.SelectedItem = _selectedItem;
-
-                if (listBox is ListBoxExteded listBoxEx)
-                {
-                    listBoxEx.SetAnchorItem(_selectedItem);
-                }
+                listBox.SetAnchorItem(_selectedItem);
             }
 
             _selectedItem = null;
@@ -453,6 +464,9 @@ namespace NeeView.Windows
 
     }
 
+    /// <summary>
+    /// 複数選択専用ListBix
+    /// </summary>
     public class ListBoxExteded : ListBox
     {
         public ListBoxExteded()

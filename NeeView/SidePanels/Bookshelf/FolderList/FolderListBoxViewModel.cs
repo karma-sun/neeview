@@ -143,11 +143,11 @@ namespace NeeView
             _folderList.IsVisibleChanged(isVisible);
         }
 
-        public async Task RemoveAsync(FolderItem item)
+        public async Task RemoveAsync(IEnumerable<FolderItem> items)
         {
-            if (item == null) return;
+            if (items == null) return;
 
-            await Model.RemoveAsync(item);
+            await Model.RemoveAsync(items);
         }
     }
 }

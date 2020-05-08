@@ -288,7 +288,8 @@ namespace NeeView
                     return;
                 }
 
-                var data = new DataObject(_vm.Model.Place);
+                var data = new DataObject();
+                data.SetData(new QueryPathCollection() { _vm.Model.Place });
 
                 _goast.Attach(this.PlaceBar, new Point(24, 24));
                 DragDrop.DoDragDrop(element, data, DragDropEffects.Copy);

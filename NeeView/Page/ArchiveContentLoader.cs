@@ -5,7 +5,12 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
-    public class ArchiveContentLoader : BitmapContentLoader
+    public interface IHasInitializeEntry
+    {
+        Task InitializeEntryAsync(CancellationToken token);
+    }
+
+    public class ArchiveContentLoader : BitmapContentLoader, IHasInitializeEntry
     {
         private ArchiveContent _content;
 
@@ -14,7 +19,7 @@ namespace NeeView
             _content = content;
         }
 
-        private async Task InitializeEntryAsync(CancellationToken token)
+        public async Task InitializeEntryAsync(CancellationToken token)
         {
             if (_content.Entry == null)
             {

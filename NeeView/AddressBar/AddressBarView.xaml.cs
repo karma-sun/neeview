@@ -180,7 +180,8 @@ namespace NeeView
                     return;
                 }
 
-                var data = new DataObject(new QueryPath(_vm.Model.Address));
+                var data = new DataObject();
+                data.SetData(new QueryPathCollection() { new QueryPath(_vm.Model.Address) });
 
                 _goast.Attach(element, new Point(24, 24));
                 DragDropWatcher.SetDragElement(sender, element);

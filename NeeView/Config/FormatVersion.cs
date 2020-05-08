@@ -38,6 +38,11 @@ namespace NeeView
             return $"{Name}/{MajorVersion}.{MinorVersion}.{BuildVersion}";
         }
 
+        public static string CreateFormatName(params string[] names)
+        {
+            return Environment.ApplicationName + "." + string.Join(".", names);
+        }
+
         public static FormatVersion Parse(string s)
         {
             var tokens = s.Trim().Split('/');

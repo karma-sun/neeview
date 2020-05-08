@@ -400,32 +400,47 @@ namespace NeeView
             return true;
         }
 
-        public bool RemoveBookmark(FolderItem item)
+        public bool RemoveBookmark(IEnumerable<FolderItem> items)
         {
-            var node = item.Source as TreeListNode<IBookmarkEntry>;
-            if (node == null)
+            var nodes = items.Select(e => e.Source as TreeListNode<IBookmarkEntry>).Where(e => e != null).Reverse().ToList();
+            if (!nodes.Any())
             {
                 return false;
             }
 
-            var memento = new TreeListNodeMemento<IBookmarkEntry>(node);
+            var mementos = new List<TreeListNodeMemento<IBookmarkEntry>>();
+            int count = 0;
 
-            bool isRemoved = BookmarkCollection.Current.Remove(node);
-            if (isRemoved)
+            foreach (var node in nodes)
             {
-                if (node.Value is BookmarkFolder)
+                var memento = new TreeListNodeMemento<IBookmarkEntry>(node);
+
+                bool isRemoved = BookmarkCollection.Current.Remove(node);
+                if (isRemoved)
                 {
-                    var count = node.Count(e => e.Value is Bookmark);
-                    if (count > 0)
+                    mementos.Add(memento);
+
+                    if (node.Value is BookmarkFolder)
                     {
-                        var toast = new Toast(string.Format(Properties.Resources.DialogPagemarkFolderDelete, count), null, ToastIcon.Information, Properties.Resources.WordRestore, () => BookmarkCollection.Current.Restore(memento));
-                        ToastService.Current.Show("BookmarkList", toast);
+                        count += node.Count(e => e.Value is Bookmark);
+                    }
+                    else
+                    {
+                        count++;
                     }
                 }
             }
 
-            return isRemoved;
+            if (count >= 2)
+            {
+                var toast = new Toast(string.Format(Properties.Resources.DialogPagemarkFolderDelete, count), null, ToastIcon.Information, Properties.Resources.WordRestore,
+                    () => { foreach (var memento in mementos) BookmarkCollection.Current.Restore(memento); });
+                ToastService.Current.Show("BookmarkList", toast);
+            }
+
+            return (count > 0);
         }
+
 
         public FolderItem FindFolderItem(string address)
         {
@@ -437,30 +452,59 @@ namespace NeeView
 
         public async Task RemoveAsync(FolderItem item)
         {
-            if (item == null) return;
+            await RemoveAsync(new FolderItem[] { item });
+        }
 
-            var index = item == SelectedItem ? GetFolderItemIndex(item) : -1;
-            bool isCurrentBook = BookHub.Current.Address == item.TargetPath.SimplePath;
+        public async Task RemoveAsync(IEnumerable<FolderItem> items)
+        {
+            if (items == null) return;
 
-            if (item.Attributes.HasFlag(FolderItemAttribute.Bookmark))
+            var bookmarks = items.Where(e => e.Attributes.HasFlag(FolderItemAttribute.Bookmark)).ToList();
+            var files = items.Where(e => e.IsFileSystem()).ToList();
+
+            if (bookmarks.Any())
             {
-                RemoveBookmark(item);
+                RemoveBookmark(bookmarks);
             }
-            else if (item.IsFileSystem())
+            else if (files.Any())
             {
-                var removed = await FileIO.Current.RemoveFileAsync(item.TargetPath.SimplePath, Properties.Resources.DialogFileDeleteBookTitle, null);
-                if (removed)
+                await RemoveFilesAsync(files);
+            }
+        }
+
+        private async Task RemoveFilesAsync(IEnumerable<FolderItem> items)
+        {
+            if (!items.Any()) return;
+
+            FolderItem next = null;
+            FolderItem currentBook = items.FirstOrDefault(e => e.TargetPath.SimplePath == BookHub.Current.Address);
+
+            if (Config.Current.Bookshelf.IsOpenNextBookWhenRemove && currentBook != null)
+            {
+                var index = GetFolderItemIndex(currentBook);
+                if (index >= 0)
+                {
+                    next = FolderCollection
+                        .Skip(index)
+                        .Concat(FolderCollection.Take(index).Reverse())
+                        .Where(e => !items.Contains(e))
+                        .FirstOrDefault();
+                }
+            }
+
+            var removed = await FileIO.Current.RemoveFileAsync(items.Select(e => e.TargetPath.SimplePath).ToList(), Properties.Resources.DialogFileDeleteBookTitle);
+            if (removed)
+            {
+                var removes = items.Where(e => !FileIO.Current.Exists(e.TargetPath.SimplePath)).ToList();
+                foreach (var item in removes)
                 {
                     FolderCollection?.RequestDelete(item.TargetPath);
-                    if (isCurrentBook && Config.Current.Bookshelf.IsOpenNextBookWhenRemove)
-                    {
-                        var next = NeeLaboratory.MathUtility.Clamp(index, -1, this.FolderCollection.Items.Count - 1);
-                        if (!FolderCollection.IsEmpty() && next >= 0)
-                        {
-                            SelectedItem = this.FolderCollection[next];
-                            LoadBook(SelectedItem);
-                        }
-                    }
+                }
+
+                if (next != null && !FolderCollection.IsEmpty())
+                {
+                    SelectedItem = next;
+                    LoadBook(SelectedItem);
                 }
             }
         }

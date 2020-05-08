@@ -9,14 +9,17 @@ namespace NeeView.Windows
     {
         private MouseEventArgs _mouseEventArgs;
 
-        public DragStartEventArgs(DataObject data, DragDropEffects allowedEffects, MouseEventArgs mouseEventArgs)
+        public DragStartEventArgs(object dragItem, DataObject data, DragDropEffects allowedEffects, MouseEventArgs mouseEventArgs)
         {
             _mouseEventArgs = mouseEventArgs;
+            this.DragItem = dragItem;
             this.Data = data;
             this.AllowedEffects = allowedEffects;
         }
 
         public bool Cancel { get; set; }
+
+        public object DragItem { get; set; }
 
         public DataObject Data { get; set; }
 

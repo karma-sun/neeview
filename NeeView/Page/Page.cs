@@ -328,6 +328,13 @@ namespace NeeView
             return _content.Clone();
         }
 
+        public async Task InitializeEntryAsync(CancellationToken token)
+        {
+            if (_contentLoader is IHasInitializeEntry initializer)
+            {
+                await initializer.InitializeEntryAsync(token);
+            }
+        }
     }
 
 }

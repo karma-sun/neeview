@@ -131,7 +131,7 @@
 
     <Grid x:Name="Root">
 
-        <ListBox x:Name="ListBox" Focusable="False"
+        <nw:ListBoxExteded x:Name="ListBox" Focusable="False"
                 MinHeight="0"
                 FontFamily="{DynamicResource PanelFontFamily}" FontSize="{DynamicResource PanelFontSize}"
                 Background="Transparent"
@@ -155,7 +155,7 @@
                 VirtualizingPanel.VirtualizationMode="Recycling">
 
             <b:Interaction.Behaviors>
-                <nw:ListBoxDragDropStartBehavior AllowedEffects="Copy, Scroll" DragDropFormat="{x:Static local:FolderListBox.DragDropFormat}" DragBeginAsync="DragStartBehavior_DragBeginAsync" DragDropHook="{x:Static local:DragDropWatcher.DragDropHook}"/>
+                <nw:ListBoxExtendedDragDropStartBehavior AllowedEffects="Copy, Scroll" DragBeginAsync="DragStartBehavior_DragBeginAsync" DragDropHook="{x:Static local:DragDropWatcher.DragDropHook}"/>
             </b:Interaction.Behaviors>
 
             <ListBox.Style>
@@ -206,7 +206,7 @@
                 </Style>
             </ListBox.ItemContainerStyle>
 
-        </ListBox>
+        </nw:ListBoxExteded>
 
     </Grid>
 

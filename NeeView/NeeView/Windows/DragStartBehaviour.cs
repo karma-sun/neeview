@@ -191,8 +191,20 @@ namespace NeeView.Windows
                 // アクティブWindowの直下のContentに対して、Adornerを付加する
                 var window = Application.Current.Windows.OfType<Window>().FirstOrDefault(w => w.IsActive);
 
-                var dataObject = this.DragDropFormat != null ? new DataObject(this.DragDropFormat, this.DragDropData) : new DataObject(this.DragDropData);
-                var args = new DragStartEventArgs(dataObject, this.AllowedEffects, e);
+                var dataObject = new DataObject();
+                if (this.DragDropData != null)
+                {
+                    if (this.DragDropFormat != null)
+                    {
+                        dataObject.SetData(this.DragDropFormat, this.DragDropData);
+                    }
+                    else
+                    {
+                        dataObject.SetData(this.DragDropData);
+                    }
+                }
+
+                var args = new DragStartEventArgs(_dragItem, dataObject, this.AllowedEffects, e);
 
                 DragBegin?.Invoke(sender, args);
                 if (!args.Cancel)

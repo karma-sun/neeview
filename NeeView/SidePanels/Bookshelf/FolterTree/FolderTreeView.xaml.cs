@@ -29,8 +29,6 @@ namespace NeeView
     /// </summary>
     public partial class FolderTreeView : UserControl
     {
-        public static string DragDropFormat = $"{Environment.ProcessId}.TreeViewItem";
-
         private CancellationTokenSource _removeUnlinkedCommandCancellationTokenSource;
         private FolderTreeViewModel _vm;
 
@@ -593,29 +591,31 @@ namespace NeeView
 
         private async Task DragStartBehavior_DragBeginAsync(object sender, DragStartEventArgs e, CancellationToken token)
         {
-            var data = e.Data.GetData(DragDropFormat) as TreeViewItem;
+            var data = e.DragItem as TreeViewItem;
             if (data == null)
             {
+                e.Cancel = true;
                 return;
             }
 
             switch (data.DataContext)
             {
                 case QuickAccessNode quickAccess:
+                    e.Data.SetData(quickAccess);
                     e.AllowedEffects = DragDropEffects.Copy | DragDropEffects.Move;
-                    ////e.Data.SetData(quickAccess);
                     break;
 
                 case DirectoryNode direcory:
-                    e.AllowedEffects = DragDropEffects.Copy;
                     e.Data.SetFileDropList(new System.Collections.Specialized.StringCollection() { direcory.Path });
+                    e.AllowedEffects = DragDropEffects.Copy;
                     break;
 
                 //case RootBookmarkFolderNode rootBookmarkFolder:
                 //    break;
 
                 case BookmarkFolderNode bookmarkFolder:
-                    e.Data.SetData(bookmarkFolder.Source);
+                    var bookmarkNodeCollection = new BookmarkNodeCollection() { (TreeListNode<IBookmarkEntry>)bookmarkFolder.Source };
+                    e.Data.SetData(bookmarkNodeCollection);
                     e.AllowedEffects = DragDropEffects.Copy | DragDropEffects.Move;
                     break;
 
@@ -655,22 +655,17 @@ namespace NeeView
             var treeViewItem = PointToViewItem(this.TreeView, e.GetPosition(this.TreeView));
             if (treeViewItem != null)
             {
-                var dragData = e.Data.GetData<TreeViewItem>(DragDropFormat);
-                if (dragData == treeViewItem)
-                {
-                    e.Effects = DragDropEffects.None;
-                    e.Handled = true;
-                    return;
-                }
-
                 switch (treeViewItem.DataContext)
                 {
                     case RootQuickAccessNode rootQuickAccessNode:
                         {
-                            DropToQuickAccess(sender, e, isDrop, null, e.Data.GetData<TreeListNode<IBookmarkEntry>>());
+                            DropToQuickAccess(sender, e, isDrop, null, e.Data.GetData<QuickAccessNode>());
                             if (e.Handled) return;
 
-                            DropToQuickAccess(sender, e, isDrop, null, e.Data.GetData<QueryPath>());
+                            DropToQuickAccess(sender, e, isDrop, null, e.Data.GetData<BookmarkNodeCollection>());
+                            if (e.Handled) return;
+
+                            DropToQuickAccess(sender, e, isDrop, null, e.Data.GetData<QueryPathCollection>());
                             if (e.Handled) return;
 
                             DropToQuickAccess(sender, e, isDrop, null, e.Data.GetFileDrop());
@@ -680,13 +675,13 @@ namespace NeeView
 
                     case QuickAccessNode quickAccessTarget:
                         {
-                            DropToQuickAccess(sender, e, isDrop, quickAccessTarget, dragData?.DataContext as QuickAccessNode);
+                            DropToQuickAccess(sender, e, isDrop, quickAccessTarget, e.Data.GetData<QuickAccessNode>());
                             if (e.Handled) return;
 
-                            DropToQuickAccess(sender, e, isDrop, quickAccessTarget, e.Data.GetData<TreeListNode<IBookmarkEntry>>());
+                            DropToQuickAccess(sender, e, isDrop, quickAccessTarget, e.Data.GetData<BookmarkNodeCollection>());
                             if (e.Handled) return;
 
-                            DropToQuickAccess(sender, e, isDrop, quickAccessTarget, e.Data.GetData<QueryPath>());
+                            DropToQuickAccess(sender, e, isDrop, quickAccessTarget, e.Data.GetData<QueryPathCollection>());
                             if (e.Handled) return;
 
                             DropToQuickAccess(sender, e, isDrop, quickAccessTarget, e.Data.GetFileDrop());
@@ -696,13 +691,10 @@ namespace NeeView
 
                     case BookmarkFolderNode bookmarkFolderTarget:
                         {
-                            DropToBookmark(sender, e, isDrop, bookmarkFolderTarget, dragData?.DataContext as BookmarkFolderNode);
+                            DropToBookmark(sender, e, isDrop, bookmarkFolderTarget, e.Data.GetData<BookmarkNodeCollection>());
                             if (e.Handled) return;
 
-                            DropToBookmark(sender, e, isDrop, bookmarkFolderTarget, e.Data.GetData<TreeListNode<IBookmarkEntry>>());
-                            if (e.Handled) return;
-
-                            DropToBookmark(sender, e, isDrop, bookmarkFolderTarget, e.Data.GetData<QueryPath>());
+                            DropToBookmark(sender, e, isDrop, bookmarkFolderTarget, e.Data.GetData<QueryPathCollection>());
                             if (e.Handled) return;
 
                             DropToBookmark(sender, e, isDrop, bookmarkFolderTarget, e.Data.GetFileDrop());
@@ -716,9 +708,10 @@ namespace NeeView
             e.Handled = true;
         }
 
+
         private void DropToQuickAccess(object sender, DragEventArgs e, bool isDrop, QuickAccessNode quickAccessTarget, QuickAccessNode quickAccess)
         {
-            if (quickAccess == null)
+            if (quickAccessTarget == null || quickAccess == null)
             {
                 return;
             }
@@ -733,6 +726,13 @@ namespace NeeView
                 e.Handled = true;
             }
         }
+
+        private void DropToQuickAccess(object sender, DragEventArgs e, bool isDrop, QuickAccessNode quickAccessTarget, IEnumerable<TreeListNode<IBookmarkEntry>> bookmarkEntries)
+        {
+            // QuickAccessは大量操作できないので先頭１項目だけ処理する
+            DropToQuickAccess(sender, e, isDrop, quickAccessTarget, bookmarkEntries?.FirstOrDefault());
+        }
+
 
         private void DropToQuickAccess(object sender, DragEventArgs e, bool isDrop, QuickAccessNode quickAccessTarget, TreeListNode<IBookmarkEntry> bookmarkEntry)
         {
@@ -751,6 +751,13 @@ namespace NeeView
                 e.Effects = DragDropEffects.Copy;
                 e.Handled = true;
             }
+        }
+
+
+        private void DropToQuickAccess(object sender, DragEventArgs e, bool isDrop, QuickAccessNode quickAccessTarget, IEnumerable<QueryPath> queries)
+        {
+            // QuickAccessは大量操作できないので先頭１項目だけ処理する
+            DropToQuickAccess(sender, e, isDrop, quickAccessTarget, queries?.FirstOrDefault());
         }
 
         private void DropToQuickAccess(object sender, DragEventArgs e, bool isDrop, QuickAccessNode quickAccessTarget, QueryPath query)
@@ -821,6 +828,45 @@ namespace NeeView
             }
         }
 
+        private void DropToBookmark(object sender, DragEventArgs e, bool isDrop, BookmarkFolderNode bookmarkFolderTarget, IEnumerable<TreeListNode<IBookmarkEntry>> bookmarkEntries)
+        {
+            if (bookmarkEntries == null || !bookmarkEntries.Any())
+            {
+                return;
+            }
+
+
+            e.Effects = bookmarkEntries.All(x => CanDropToBookmark(bookmarkFolderTarget, x)) ? DragDropEffects.Move : DragDropEffects.None;
+            e.Handled = true;
+
+            if (isDrop && e.Effects == DragDropEffects.Move)
+            {
+                foreach (var bookmarkEntry in bookmarkEntries)
+                {
+                    DropToBookmarkExecute(bookmarkFolderTarget, bookmarkEntry);
+                }
+            }
+        }
+
+
+        private bool CanDropToBookmark(BookmarkFolderNode bookmarkFolderTarget, TreeListNode<IBookmarkEntry> bookmarkEntry)
+        {
+            if (bookmarkEntry.Value is BookmarkFolder)
+            {
+                var node = bookmarkFolderTarget.BookmarkSource;
+                return !node.Children.Contains(bookmarkEntry) && !node.ParentContains(bookmarkEntry) && node != bookmarkEntry;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        private void DropToBookmarkExecute(BookmarkFolderNode bookmarkFolderTarget, TreeListNode<IBookmarkEntry> bookmarkEntry)
+        {
+            BookmarkCollection.Current.MoveToChild(bookmarkEntry, bookmarkFolderTarget.BookmarkSource);
+        }
+
         public void DropToBookmark(object sender, DragEventArgs e, bool isDrop, BookmarkFolderNode bookmarkFolderTarget, TreeListNode<IBookmarkEntry> bookmarkEntry)
         {
             if (bookmarkEntry == null)
@@ -828,26 +874,25 @@ namespace NeeView
                 return;
             }
 
-            if (bookmarkEntry.Value is BookmarkFolder)
+            e.Effects = CanDropToBookmark(bookmarkFolderTarget, bookmarkEntry) ? DragDropEffects.Move : DragDropEffects.None;
+            e.Handled = true;
+
+            if (isDrop && e.Effects == DragDropEffects.Move)
             {
-                if (bookmarkFolderTarget.Source != bookmarkEntry && !bookmarkFolderTarget.BookmarkSource.ParentContains(bookmarkEntry))
-                {
-                    if (isDrop)
-                    {
-                        BookmarkCollection.Current.MoveToChild(bookmarkEntry, bookmarkFolderTarget.BookmarkSource);
-                    }
-                    e.Effects = DragDropEffects.Move;
-                    e.Handled = true;
-                }
+                DropToBookmarkExecute(bookmarkFolderTarget, bookmarkEntry);
             }
-            else if (bookmarkEntry.Value is Bookmark)
+        }
+
+        private void DropToBookmark(object sender, DragEventArgs e, bool isDrop, BookmarkFolderNode bookmarkFolderTarget, IEnumerable<QueryPath> queries)
+        {
+            if (queries == null || !queries.Any())
             {
-                if (isDrop)
-                {
-                    BookmarkCollection.Current.MoveToChild(bookmarkEntry, bookmarkFolderTarget.BookmarkSource);
-                }
-                e.Effects = DragDropEffects.Move;
-                e.Handled = true;
+                return;
+            }
+
+            foreach (var query in queries)
+            {
+                DropToBookmark(sender, e, isDrop, bookmarkFolderTarget, query);
             }
         }
 
@@ -921,13 +966,27 @@ namespace NeeView
         public static T GetData<T>(this IDataObject data)
             where T : class
         {
-            return data.GetData(typeof(T)) as T;
+            try
+            {
+                return data.GetData(typeof(T)) as T;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public static T GetData<T>(this IDataObject data, string format)
             where T : class
         {
-            return data.GetData(format) as T;
+            try
+            {
+                return data.GetData(format) as T;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public static string[] GetFileDrop(this IDataObject data)

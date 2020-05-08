@@ -43,7 +43,8 @@ namespace NeeView
     /// </summary>
     public partial class PagemarkListBox : UserControl, IDisposable
     {
-        public static string DragDropFormat = $"{Environment.ProcessId}.PagemarkListBox";
+        public static readonly string DragDropFormat = FormatVersion.CreateFormatName(Environment.ProcessId.ToString(), nameof(PagemarkListBox));
+
 
         #region Fields
 
@@ -481,37 +482,41 @@ namespace NeeView
 
         #region DragDrop
 
-        private async Task DragStartBehavior_DragBeginAsync(object sender, Windows.DragStartEventArgs e, CancellationToken token)
+        private async Task DragStartBehavior_DragBeginAsync(object sender, DragStartEventArgs e, CancellationToken token)
         {
-            var data = e.Data.GetData(DragDropFormat) as TreeViewItem;
+            var data = e.DragItem as TreeViewItem;
             if (data == null)
             {
+                e.Cancel = true;
                 return;
             }
 
             var node = data.Header as TreeListNode<IPagemarkEntry>;
             if (node == null)
             {
+                e.Cancel = true;
                 return;
             }
 
             var pagemark = node.Value as Pagemark;
             if (pagemark == null)
             {
+                e.Cancel = true;
                 return;
             }
 
             var item = pagemark.GetPage();
             if (item == null)
             {
+                e.Cancel = true;
                 return;
             }
 
-            ClipboardUtility.SetData(e.Data, new List<Page>() { item }, new CopyFileCommandParameter(), token);
+            await item.InitializeEntryAsync(token);
 
-            e.AllowedEffects = DragDropEffects.Copy;
+            await Task.Run(() => ClipboardUtility.SetData(e.Data, new List<Page>() { item }, new CopyFileCommandParameter(), token));
 
-            await Task.CompletedTask;
+            e.AllowedEffects = DragDropEffects.Copy | DragDropEffects.Scroll;
         }
 
         #endregion

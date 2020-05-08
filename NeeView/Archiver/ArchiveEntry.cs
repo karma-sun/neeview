@@ -83,7 +83,8 @@ namespace NeeView
         public string EntryName { get; private set; }
 
         /// <summary>
-        /// ショートカットの場合のリンク先パス
+        /// ショートカットの場合のリンク先パス。<br/>
+        /// ページマークの場合の参照先パスにもなる(アーカイブパスの可能性あり)
         /// </summary>
         public string Link { get; set; }
 
@@ -161,7 +162,7 @@ namespace NeeView
         /// <summary>
         /// ファイルシステム所属判定
         /// </summary>
-        public bool IsFileSystem => Archiver == null || Archiver.IsFileSystem || Link != null;
+        public bool IsFileSystem => Archiver == null || Archiver.IsFileSystem || Link != null; // ## [BUG] PagemarkArchive
 
         /// <summary>
         /// 拡張子による画像ファイル判定無効

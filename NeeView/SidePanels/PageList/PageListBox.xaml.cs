@@ -25,7 +25,7 @@ namespace NeeView
     /// </summary>
     public partial class PageListBox : UserControl, IPageListPanel, IDisposable
     {
-        public static string DragDropFormat = $"{Environment.ProcessId}.PageListBox";
+        public static string DragDropFormat = FormatVersion.CreateFormatName(Environment.ProcessId.ToString(), nameof(PageListBox));
 
         private PageListBoxViewModel _vm;
         private ListBoxThumbnailLoader _thumbnailLoader;
@@ -346,21 +346,10 @@ namespace NeeView
 
         private async Task DragStartBehavior_DragBeginAsync(object sender, Windows.DragStartEventArgs e, CancellationToken token)
         {
-            var data = e.Data.GetData(DragDropFormat) as ListBoxItem;
-            if (data == null)
-            {
-                return;
-            }
-
-            var item = data.Content as Page;
-            if (item == null)
-            {
-                return;
-            }
-
             var pages = this.ListBox.SelectedItems.Cast<Page>().ToList();
             if (!pages.Any())
             {
+                e.Cancel = true;
                 return;
             }
 

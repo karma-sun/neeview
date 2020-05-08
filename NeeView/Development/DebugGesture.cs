@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -26,6 +27,25 @@ namespace NeeView
                     e.Handled = true;
                 }
             };
+        }
+
+        [Conditional("DEBUG")]
+        public static void RegistFocusChanged()
+        {
+            EventManager.RegisterClassHandler(
+                typeof(UIElement),
+                Keyboard.PreviewGotKeyboardFocusEvent,
+                (KeyboardFocusChangedEventHandler)OnPreviewGotKeyboardFocus);
+
+            void OnPreviewGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+            {
+                var element = FocusManager.GetFocusedElement(App.Current.MainWindow) as Visual;
+                if (element == null)
+                {
+                    Debug.WriteLine($">> FocusLost:");
+                    CheckFocus();
+                }
+            }
         }
 
         // 現在のフォーカスを取得

@@ -456,7 +456,7 @@ namespace NeeView.Windows
             {
                 listBox.SelectedItem = null;
                 listBox.SelectedItem = _selectedItem;
-                listBox.SetAnchorItem(_selectedItem);
+                listBox.SetAnchorItem(null);
             }
 
             _selectedItem = null;

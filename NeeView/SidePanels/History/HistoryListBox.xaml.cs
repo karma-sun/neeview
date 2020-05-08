@@ -106,11 +106,11 @@ namespace NeeView
 
         public void Remove_Exec(object sender, ExecutedRoutedEventArgs e)
         {
-            var item = (sender as ListBox)?.SelectedItem as BookHistory;
-            if (item != null)
-            {
-                _vm.Remove(item);
-            }
+            var items = this.ListBox.SelectedItems?.Cast<BookHistory>().ToList();
+            if (items == null || !items.Any()) return;
+
+            _vm.Remove(items);
+            FocusSelectedItem(true);
         }
 
         #endregion
@@ -145,6 +145,7 @@ namespace NeeView
 
         private void ViewModel_SelectedItemChanged(object sender, EventArgs e)
         {
+            this.ListBox.SetAnchorItem(null);
             RestoreFocus();
         }
 
@@ -261,9 +262,9 @@ namespace NeeView
             {
                 _vm.UpdateItems();
                 this.ListBox.UpdateLayout();
-                
+
                 await Task.Yield();
-                
+
                 if (this.ListBox.SelectedIndex < 0) this.ListBox.SelectedIndex = 0;
                 FocusSelectedItem(_focusRequest);
                 _focusRequest = false;

@@ -388,7 +388,13 @@ namespace NeeView
             }
         }
 
-#endregion
+        // エントリー実体のファイルシステム判定
+        public virtual bool IsFileSystemEntry(ArchiveEntry entry)
+        {
+            return IsFileSystem || entry.Link != null;
+        }
+
+        #endregion
     }
 
     /// <summary>

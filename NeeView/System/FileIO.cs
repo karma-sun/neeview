@@ -67,7 +67,7 @@ namespace NeeView
         public void CopyToClipboard(IEnumerable<FolderItem> infos)
         {
             var collection = new System.Collections.Specialized.StringCollection();
-            foreach (var item in infos.Where(e => !e.IsEmpty()).Select(e => e.EntityPath.SimplePath))
+            foreach (var item in infos.Where(e => !e.IsEmpty()).Select(e => e.EntityPath.SimplePath).Where(e => new QueryPath(e).Scheme == QueryScheme.File))
             {
                 collection.Add(item);
             }

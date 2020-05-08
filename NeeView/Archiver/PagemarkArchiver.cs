@@ -108,5 +108,11 @@ namespace NeeView
         {
             ((ArchiveEntry)entry.Instance).ExtractToFile(exportFileName, isOverwrite);
         }
+
+        // エントリー実体のファイルシステム判定
+        public override bool IsFileSystemEntry(ArchiveEntry entry)
+        {
+            return ((ArchiveEntry)entry.Instance).IsFileSystem;
+        }
     }
 }

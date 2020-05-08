@@ -90,6 +90,18 @@ namespace NeeView
             }
         }
 
+        public void Remove(IEnumerable<BookHistory> items)
+        {
+            if (items == null) return;
+
+            // 位置ずらし
+            SelectedItemChanging?.Invoke(this, null);
+            SelectedItem = GetNeighbor(SelectedItem, items);
+            SelectedItemChanged?.Invoke(this, null);
+
+            BookHistoryCollection.Current.Remove(items.Select(e => e.Path));
+        }
+
         public void Remove(BookHistory item)
         {
             if (item == null) return;
@@ -104,25 +116,20 @@ namespace NeeView
         }
 
         // となりを取得
-        private BookHistory GetNeighbor(BookHistory item)
+        private BookHistory GetNeighbor(BookHistory item, IEnumerable<BookHistory> excludes = null)
         {
             if (Items == null || Items.Count <= 0) return null;
 
             int index = Items.IndexOf(item);
             if (index < 0) return Items[0];
 
-            if (index + 1 < Items.Count)
+            var items = Items.Skip(index).Concat(Items.Take(index));
+            if (excludes != null)
             {
-                return Items[index + 1];
+                items = items.Where(e => !excludes.Contains(e));
             }
-            else if (index > 0)
-            {
-                return Items[index - 1];
-            }
-            else
-            {
-                return item;
-            }
+
+            return items.FirstOrDefault();
         }
 
         public void Load(string path)

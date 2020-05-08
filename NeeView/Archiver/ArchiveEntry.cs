@@ -162,7 +162,7 @@ namespace NeeView
         /// <summary>
         /// ファイルシステム所属判定
         /// </summary>
-        public bool IsFileSystem => Archiver == null || Archiver.IsFileSystem || Link != null; // ## [BUG] PagemarkArchive
+        public bool IsFileSystem => Archiver == null || Archiver.IsFileSystemEntry(this);
 
         /// <summary>
         /// 拡張子による画像ファイル判定無効

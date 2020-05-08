@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
+             xmlns:nw="clr-namespace:NeeView.Windows"
              xmlns:properties="clr-namespace:NeeView.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
@@ -83,7 +84,7 @@
     </UserControl.Resources>
 
 
-    <ListBox x:Name="ListBox" Focusable="False"
+    <nw:ListBoxExteded x:Name="ListBox" Focusable="False"
                  FontFamily="{DynamicResource PanelFontFamily}" FontSize="{DynamicResource PanelFontSize}"
                  Background="Transparent"
                  Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
@@ -132,6 +133,6 @@
             </Style>
         </ListBox.ItemContainerStyle>
 
-    </ListBox>
+    </nw:ListBoxExteded>
 
 </UserControl>

@@ -2201,7 +2201,7 @@ Is it OK? </value>
     <value>Temporary folders can not be pagemarked</value>
   </data>
   <data name="DialogPagemarkFolderDelete" xml:space="preserve">
-    <value>The {0} pagemarks included are also deleted.</value>
+    <value>Removed {5} pagemarks.</value>
   </data>
   <data name="DialogPageViewRecordWriteError" xml:space="preserve">
     <value>Could not write Page view record</value>

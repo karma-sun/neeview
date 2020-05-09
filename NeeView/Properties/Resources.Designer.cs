@@ -6407,7 +6407,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   The {0} pagemarks included are also deleted. に類似しているローカライズされた文字列を検索します。
+        ///   Removed {5} pagemarks. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string DialogPagemarkFolderDelete {
             get {

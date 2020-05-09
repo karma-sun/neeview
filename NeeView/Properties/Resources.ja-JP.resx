@@ -2201,7 +2201,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>一時フォルダーはページマークできません</value>
   </data>
   <data name="DialogPagemarkFolderDelete" xml:space="preserve">
-    <value>含まれる {0} 個のページマークを削除しました。</value>
+    <value>{0} 個のページマークを削除しました。</value>
   </data>
   <data name="DialogPageViewRecordWriteError" xml:space="preserve">
     <value>ページ表示履歴を書き込めませんでした</value>

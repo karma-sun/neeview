@@ -169,7 +169,7 @@ namespace NeeView
 
             this.IsResizing = true;
 
-            Debug.WriteLine($"BitmapViewContent: {size}");
+            ////Debug.WriteLine($"BitmapViewContent: Size={size}");
 
             Task.Run(() =>
             {

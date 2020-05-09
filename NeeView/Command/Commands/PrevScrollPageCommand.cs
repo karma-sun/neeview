@@ -42,7 +42,7 @@ namespace NeeView
         private bool _isNScroll = true;
         private double _scroll = 1.0;
         private double _margin = 50.0;
-        private double _scrollDuration = 0.1;
+        private double _scrollDuration = 0.2;
         private double _pageMoveMargin;
 
 

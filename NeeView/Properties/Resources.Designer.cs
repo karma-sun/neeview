@@ -6542,6 +6542,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Trim に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EffectTrim {
+            get {
+                return ResourceManager.GetString("EffectTrim", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Expand for each directory に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumArchiveEntryCollectionModeCurrentDirectory {
@@ -11303,6 +11312,51 @@ namespace NeeView.Properties {
         public static string ParamImageResizeFilterSharpen {
             get {
                 return ResourceManager.GetString("ParamImageResizeFilterSharpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Bottom に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamImageTrimBottom {
+            get {
+                return ResourceManager.GetString("ParamImageTrimBottom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Enable trim に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamImageTrimIsEnabled {
+            get {
+                return ResourceManager.GetString("ParamImageTrimIsEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Left に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamImageTrimLeft {
+            get {
+                return ResourceManager.GetString("ParamImageTrimLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Right に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamImageTrimRight {
+            get {
+                return ResourceManager.GetString("ParamImageTrimRight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Top に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamImageTrimTop {
+            get {
+                return ResourceManager.GetString("ParamImageTrimTop", resourceCulture);
             }
         }
         

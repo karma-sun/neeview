@@ -5418,4 +5418,22 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamHistoryIsAutoCleanupEnabledTips" xml:space="preserve">
     <value>Delete invalid history on startup.</value>
   </data>
+  <data name="EffectTrim" xml:space="preserve">
+    <value>Trim</value>
+  </data>
+  <data name="ParamImageTrimIsEnabled" xml:space="preserve">
+    <value>Enable trim</value>
+  </data>
+  <data name="ParamImageTrimTop" xml:space="preserve">
+    <value>Top</value>
+  </data>
+  <data name="ParamImageTrimBottom" xml:space="preserve">
+    <value>Bottom</value>
+  </data>
+  <data name="ParamImageTrimLeft" xml:space="preserve">
+    <value>Left</value>
+  </data>
+  <data name="ParamImageTrimRight" xml:space="preserve">
+    <value>Right</value>
+  </data>
 </root>

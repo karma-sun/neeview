@@ -20,7 +20,14 @@ namespace NeeView
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var valueWithoutPercentage = ((string)value).TrimEnd(' ', '%');
-            return double.Parse(valueWithoutPercentage) / 100.0;
+            if (double.TryParse(valueWithoutPercentage, out double x))
+            {
+                return x / 100.0;
+            }
+            else
+            {
+                return value;
+            }
         }
     }
 }

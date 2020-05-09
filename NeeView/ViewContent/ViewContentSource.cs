@@ -45,7 +45,7 @@ namespace NeeView
         public PageContent Content { get; }
 
         // コンテンツサイズ 
-        public Size Size => PagePart.PartSize == 2 ? Page.Size : new Size(Math.Floor(Page.Width * 0.5 + 0.4), Page.Height);
+        public Size Size => GetSize();
 
         // ページパーツ
         public PagePart PagePart { get; }
@@ -116,6 +116,32 @@ namespace NeeView
         }
 
         /// <summary>
+        /// 表示サイズ取得
+        /// </summary>
+        public Size GetSize()
+        {
+            var size = Page.Size;
+
+            var trim = Config.Current.ImageTrim;
+            if (trim.IsEnabled)
+            {
+                var width = Math.Max(size.Width - size.Width * (trim.Left + trim.Right), 0.0);
+                var height = Math.Max(size.Height - size.Height * (trim.Top + trim.Bottom), 0.0);
+                size = new Size(width, height);
+            }
+
+            switch (PagePart.PartSize)
+            {
+                case 0:
+                    return new Size(0.0, size.Height);
+                case 1:
+                    return new Size(Math.Floor(size.Width * 0.5 + 0.4), size.Height);
+                default:
+                    return size;
+            }
+        }
+
+        /// <summary>
         /// ViewBox取得.
         /// ページ分割対応.
         /// ポリゴン表示誤吸収のための補正付き
@@ -123,15 +149,47 @@ namespace NeeView
         /// <returns></returns>
         public Rect GetViewBox()
         {
-            if (PagePart.PartSize == 0) return new Rect(0, -0.00001, 0, 0.99999);
-            if (PagePart.PartSize == 2) return new Rect(-0.00001, -0.00001, 0.99999, 0.99999);
+            var crop = new Rect(0.0, 0.0, 1.0, 1.0);
 
-            bool isRightPart = PagePart.Position.Part == 0;
-            if (PagePart.PartOrder == PageReadOrder.LeftToRight) isRightPart = !isRightPart;
+            // トリミング
+            var trim = Config.Current.ImageTrim;
+            if (trim.IsEnabled)
+            {
+                var x = crop.X + trim.Left;
+                var width = Math.Max(crop.Width - (trim.Left + trim.Right), 0.0);
+                var y = crop.Y + trim.Top;
+                var height = Math.Max(crop.Height - (trim.Top + trim.Bottom), 0.0);
+                crop = new Rect(x, y, width, height);
+            }
 
-            double half = Size.Width / Page.Width;
-            return isRightPart ? new Rect(0.99999 - half, -0.00001, half - 0.00001, 0.99999) : new Rect(-0.00001, -0.00001, half - 0.00001, 0.99999);
+            // ページパートで領域分割
+            crop = CropByPagePart(crop);
+
+            // NOTE: ポリゴンの歪み補正
+            crop.Offset(new Vector(-0.00001, -0.00001));
+
+            return crop;
         }
+
+        private Rect CropByPagePart(Rect rect)
+        {
+            switch (PagePart.PartSize)
+            {
+                case 0:
+                    return new Rect(rect.X, rect.Y, 0.0, rect.Height);
+
+                case 1:
+                    bool isRightPart = PagePart.Position.Part == 0;
+                    if (PagePart.PartOrder == PageReadOrder.LeftToRight) isRightPart = !isRightPart;
+                    double half = rect.Width * 0.5;
+                    double left = isRightPart ? rect.X + half : rect.X;
+                    return new Rect(left, rect.Y, half, rect.Height);
+
+                default:
+                    return rect;
+            }
+        }
+
 
         /// <summary>
         /// ViewBoxを適用したBitmapのサイズを取得.

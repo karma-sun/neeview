@@ -22,6 +22,9 @@ namespace NeeView
             this.CustomSizeProfile = new PropertyDocument(Config.Current.ImageCustomSize);
             this.CustomSizeProfile.SetVisualType<PropertyValue_Boolean>(PropertyVisualType.ToggleSwitch);
 
+            this.TrimProfile = new PropertyDocument(Config.Current.ImageTrim);
+            this.TrimProfile.SetVisualType<PropertyValue_Boolean>(PropertyVisualType.ToggleSwitch);
+
             this.BaseScaleProfile = new PropertyDocument();
             this.BaseScaleProfile.AddProperty(Config.Current.View, nameof(ViewConfig.BaseScale));
 
@@ -60,6 +63,8 @@ namespace NeeView
         public PropertyDocument UnsharpMaskProfile { get; set; }
 
         public PropertyDocument CustomSizeProfile { get; set; }
+
+        public PropertyDocument TrimProfile { get; set; }
 
         public PropertyDocument BaseScaleProfile { get; set; }
 

@@ -25,6 +25,7 @@ namespace NeeView
         private KeyPressWatcher _keyPressWatcher;
         private bool _isResizingWindow;
         private bool _isUpdateContentSize;
+        private bool _isUpdateContentViewBox;
         private bool _isRequested;
         private bool _isBusy;
         private bool _isKeyUpChance;
@@ -53,6 +54,7 @@ namespace NeeView
 
             // サイズ指定状態監視
             Config.Current.ImageCustomSize.PropertyChanged += (s, e) => RequestWithResize();
+            Config.Current.ImageTrim.PropertyChanged += (s, e) => RequestWithTrim();
 
             WindowMessage.Current.EnterSizeMove += (s, e) => _isResizingWindow = true;
             WindowMessage.Current.ExitSizeMove += (s, e) => _isResizingWindow = false;
@@ -113,6 +115,16 @@ namespace NeeView
                 DragTransformControl.Current.SnapView();
             }
 
+            // トリミングによる更新
+            if (_isUpdateContentViewBox)
+            {
+                _isUpdateContentSize = false;
+                foreach (var viewConent in ContentCanvas.Current.CloneContents.Where(e => e.IsValid))
+                {
+                    viewConent.UpdateViewBox();
+                }
+            }
+
             if (!_isKeyUpChance && _keyPressWatcher.IsPressed) return;
             _isKeyUpChance = false;
 
@@ -146,6 +158,14 @@ namespace NeeView
         public void RequestWithResize()
         {
             _isUpdateContentSize = true;
+            this.IsRequested = true;
+        }
+
+        // トリミング更新要求
+        public void RequestWithTrim()
+        {
+            _isUpdateContentSize = true;
+            _isUpdateContentViewBox = true;
             this.IsRequested = true;
         }
 

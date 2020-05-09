@@ -17,7 +17,7 @@ namespace NeeView
 
         private MediaPlayer _player;
         private TextBlock _errorMessageTextBlock;
-
+        private DrawingBrush _brush;
 
         public MediaViewContent(ViewContentSource source) : base(source)
         {
@@ -50,17 +50,22 @@ namespace NeeView
             {
                 Rect = new Rect(this.Content.Size),
             };
+            
             var brush = new DrawingBrush()
             {
                 Drawing = videoDrawing,
                 Stretch = Stretch.Fill,
                 Viewbox = source.GetViewBox()
             };
+
+            _brush = brush;
+            
             var rectangle = new Rectangle()
             {
                 Fill = brush
             };
             rectangle.SetBinding(RenderOptions.BitmapScalingModeProperty, parameter.BitmapScalingMode); // 効果なし
+
 
             rectangle.Loaded += (s, e) =>
             {
@@ -123,6 +128,7 @@ namespace NeeView
             content.SetSize(size);
 
             ContentCanvas.Current.UpdateContentSize();
+            ContentCanvas.Current.ResetTransformRaw(true, false, false, 0.0);
             DragTransformControl.Current.SnapView();
             FileInformation.Current.Flush();
         }
@@ -137,6 +143,14 @@ namespace NeeView
         public override bool Rebuild(double scale)
         {
             return true;
+        }
+
+        public override void UpdateViewBox()
+        {
+            if (_brush != null)
+            {
+                _brush.Viewbox = Source.GetViewBox();
+            }
         }
 
 

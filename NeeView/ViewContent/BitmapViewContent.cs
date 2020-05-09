@@ -159,7 +159,8 @@ namespace NeeView
 
         protected Size GetScaledSize(double scale)
         {
-            return new Size(this.Width * scale * (this.IsHalf ? 2 : 1), this.Height * scale);
+            var size = GetSourceSize();
+            return new Size(size.Width * scale, size.Height * scale);
         }
 
         protected bool Rebuild(Size size)
@@ -167,6 +168,8 @@ namespace NeeView
             if (this.IsResizing) return false;
 
             this.IsResizing = true;
+
+            Debug.WriteLine($"BitmapViewContent: {size}");
 
             Task.Run(() =>
             {
@@ -202,6 +205,21 @@ namespace NeeView
             return true;
         }
 
+
+        public override void UpdateViewBox()
+        {
+            if (_viewImage == null) return;
+
+            if (_scaleRectangle != null)
+            {
+                _scaleRectangle.Fill = Source.CreatePageImageBrush(_viewImage, true);
+            }
+
+            if (_pixeledRectangle != null)
+            {
+                _pixeledRectangle.Fill = Source.CreatePageImageBrush(_viewImage, true);
+            }
+        }
 
         public static BitmapViewContent Create(ViewContentSource source)
         {

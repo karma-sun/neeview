@@ -5418,4 +5418,22 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamHistoryIsAutoCleanupEnabledTips" xml:space="preserve">
     <value>起動時に無効な履歴を削除します。</value>
   </data>
+  <data name="EffectTrim" xml:space="preserve">
+    <value>トリミング</value>
+  </data>
+  <data name="ParamImageTrimIsEnabled" xml:space="preserve">
+    <value>トリミングを有効にする</value>
+  </data>
+  <data name="ParamImageTrimTop" xml:space="preserve">
+    <value>上</value>
+  </data>
+  <data name="ParamImageTrimBottom" xml:space="preserve">
+    <value>下</value>
+  </data>
+  <data name="ParamImageTrimLeft" xml:space="preserve">
+    <value>左</value>
+  </data>
+  <data name="ParamImageTrimRight" xml:space="preserve">
+    <value>右</value>
+  </data>
 </root>

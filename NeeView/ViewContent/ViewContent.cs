@@ -140,6 +140,38 @@ namespace NeeView
         public virtual bool IsBitmapScalingModeSupported => false;
 
 
+
+        /// <summary>
+        /// ページ分割、トリミングを排除したサイズ
+        /// </summary>
+        public Size GetSourceSize()
+        {
+            var width = this.Width;
+            var height = this.Height;
+
+            // ページ分割逆補正
+            if (this.IsHalf)
+            {
+                width = width * 2.0;
+            }
+
+            // トリミング逆補正
+            var trim = Config.Current.ImageTrim;
+            if (trim.IsEnabled)
+            {
+                var wrate = Math.Max(1.0 - (trim.Left + trim.Right), 0.0);
+                var hrate = Math.Max(1.0 - (trim.Top + trim.Bottom), 0.0);
+
+                if (wrate > 0.0 && hrate > 0.0)
+                {
+                    width = width / wrate;
+                    height = height / hrate;
+                }
+            }
+
+            return new Size(width, height);
+        }
+
         // ページパーツ文字
         public string GetPartString()
         {
@@ -182,6 +214,11 @@ namespace NeeView
         /// <param name="mode"></param>
         /// <param name="viewScale"></param>
         public virtual void SetViewMode(ContentViewMode mode, double viewScale) { }
+
+        /// <summary>
+        /// トリミング更新
+        /// </summary>
+        public virtual void UpdateViewBox() { }
 
 
         #region IDisposable Support

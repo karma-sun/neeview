@@ -129,6 +129,7 @@ namespace NeeView
                     case nameof(ViewConfig.IsBaseScaleEnabled):
                     case nameof(ViewConfig.BaseScale):
                         UpdateContentSize();
+                        ContentRebuild.Current.Request();
                         ResetTransformRaw(true, false, false, 0.0);
                         break;
 
@@ -137,6 +138,7 @@ namespace NeeView
                         RaisePropertyChanged(nameof(IsAutoRotateLeft));
                         RaisePropertyChanged(nameof(IsAutoRotateRight));
                         UpdateContentSize(GetAutoRotateAngle());
+                        ContentRebuild.Current.Request();
                         ResetTransform(true);
                         break;
                 }
@@ -579,7 +581,7 @@ namespace NeeView
 
                     var diff = Math.Abs(pixelHeight - viewHeight) + Math.Abs(pixelWidth - viewWidth);
                     var diffAngle = Math.Abs(_dragTransform.Angle % 90.0);
-                    if (Environment.IsDpiSquare && diff < 2.2 && diffAngle < 0.1)
+                    if (Environment.IsDpiSquare && diff < 2.2 && diffAngle < 0.1 && !Config.Current.ImageTrim.IsEnabled)
                     {
                         content.BitmapScalingMode = BitmapScalingMode.NearestNeighbor;
                         content.SetViewMode(ContentViewMode.Pixeled, finalScale);

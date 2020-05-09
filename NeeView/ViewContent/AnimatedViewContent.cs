@@ -18,6 +18,7 @@ namespace NeeView
         private static ObjectPool<MediaElement> _mediaElementPool = new ObjectPool<MediaElement>(2);
 
         private TextBlock _errorMessageTextBlock;
+        private VisualBrush _brush;
 
 
         public AnimatedViewContent(ViewContentSource source) : base(source)
@@ -51,6 +52,7 @@ namespace NeeView
             var brush = new VisualBrush();
             brush.Stretch = Stretch.Fill;
             brush.Viewbox = source.GetViewBox();
+            _brush = brush;
 
             var rectangle = new Rectangle();
             rectangle.Fill = brush;
@@ -156,6 +158,14 @@ namespace NeeView
         public override bool Rebuild(double scale)
         {
             return true;
+        }
+
+        public override void UpdateViewBox()
+        {
+            if (_brush != null)
+            {
+                _brush.Viewbox = Source.GetViewBox();
+            }
         }
 
 

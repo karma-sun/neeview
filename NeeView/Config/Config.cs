@@ -67,6 +67,8 @@ namespace NeeView
 
         public ImageCustomSizeConfig ImageCustomSize { get; set; } = new ImageCustomSizeConfig();
 
+        public ImageTrimConfig ImageTrim { get; set; } = new ImageTrimConfig();
+
         public ImageDotKeepConfig ImageDotKeep { get; set; } = new ImageDotKeepConfig();
 
         public ImageGridConfig ImageGrid { get; set; } = new ImageGridConfig();

@@ -118,6 +118,7 @@ namespace NeeView
 
         public static readonly RoutedCommand LoadWithRecursiveCommand = new RoutedCommand("LoadWithRecursiveCommand", typeof(FolderListBox));
         public static readonly RoutedCommand OpenCommand = new RoutedCommand("OpenCommand", typeof(FolderListBox));
+        public static readonly RoutedCommand OpenBookCommand = new RoutedCommand("OpenBookCommand", typeof(FolderListBox));
         public static readonly RoutedCommand OpenExplorerCommand = new RoutedCommand("OpenExplorerCommand", typeof(FolderListBox));
         public static readonly RoutedCommand CopyCommand = new RoutedCommand("CopyCommand", typeof(FolderListBox));
         public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(FolderListBox));
@@ -127,6 +128,8 @@ namespace NeeView
 
         private static void InitialieCommandStatic()
         {
+            OpenCommand.InputGestures.Add(new KeyGesture(Key.Down, ModifierKeys.Alt));
+            OpenBookCommand.InputGestures.Add(new KeyGesture(Key.Enter));
             CopyCommand.InputGestures.Add(new KeyGesture(Key.C, ModifierKeys.Control));
             RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
             RenameCommand.InputGestures.Add(new KeyGesture(Key.F2));
@@ -137,6 +140,7 @@ namespace NeeView
         {
             this.ListBox.CommandBindings.Add(new CommandBinding(LoadWithRecursiveCommand, LoadWithRecursive_Executed, LoadWithRecursive_CanExecute));
             this.ListBox.CommandBindings.Add(new CommandBinding(OpenCommand, Open_Executed));
+            this.ListBox.CommandBindings.Add(new CommandBinding(OpenBookCommand, OpenBook_Executed));
             this.ListBox.CommandBindings.Add(new CommandBinding(OpenExplorerCommand, OpenExplorer_Executed));
             this.ListBox.CommandBindings.Add(new CommandBinding(CopyCommand, Copy_Executed, Copy_CanExecute));
             this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Executed, Remove_CanExecute));
@@ -431,6 +435,15 @@ namespace NeeView
             if (item != null)
             {
                 _vm.MoveToSafety(item);
+            }
+        }
+
+        public void OpenBook_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var item = (sender as ListBox)?.SelectedItem as FolderItem;
+            if (item != null && !item.IsEmpty())
+            {
+                _vm.Model.LoadBook(item);
             }
         }
 
@@ -982,15 +995,19 @@ namespace NeeView
             {
                 if (item.IsDirectory)
                 {
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuOpen, Command = OpenCommand });
+                    contextMenu.Items.Add(new Separator());
                     contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuDelete, Command = RemoveCommand });
                     contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuRename, Command = RenameCommand });
                 }
                 else
                 {
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuDeleteBookmark, Command = RemoveCommand });
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuOpenBook, Command = OpenBookCommand });
                     contextMenu.Items.Add(new Separator());
                     contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuExplorer, Command = OpenExplorerCommand });
                     contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuCopy, Command = CopyCommand });
+                    contextMenu.Items.Add(new Separator());
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuDeleteBookmark, Command = RemoveCommand });
                     ////contextMenu.Items.Add(new Separator());
                     ////contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuDelete, Command = RemoveCommand });
                     ////contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuRename, Command = RenameCommand });
@@ -1004,6 +1021,12 @@ namespace NeeView
             }
             else if (item.IsFileSystem())
             {
+                if (item.IsDirectory || Config.Current.System.ArchiveRecursiveMode != ArchiveEntryCollectionMode.IncludeSubArchives)
+                {
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuOpen, Command = OpenCommand });
+                    contextMenu.Items.Add(new Separator());
+                }
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuOpenBook, Command = OpenBookCommand });
                 contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuSubfolder, Command = LoadWithRecursiveCommand, IsChecked = item.IsRecursived });
                 contextMenu.Items.Add(new Separator());
                 contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.WordBookmark, Command = ToggleBookmarkCommand, IsChecked = BookmarkCollection.Current.Contains(item.EntityPath.SimplePath) });

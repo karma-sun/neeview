@@ -92,16 +92,28 @@ namespace NeeView
 
         #region Commands
 
+        public static readonly RoutedCommand OpenBookCommand = new RoutedCommand("OpenBookCommand", typeof(HistoryListBox));
         public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(HistoryListBox));
 
         public static void InitializeCommandStatic()
         {
+            OpenBookCommand.InputGestures.Add(new KeyGesture(Key.Enter));
             RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
         }
 
         public void InitializeCommand()
         {
+            this.ListBox.CommandBindings.Add(new CommandBinding(OpenBookCommand, OpenBook_Exec));
             this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec));
+        }
+
+        public void OpenBook_Exec(object sender, ExecutedRoutedEventArgs e)
+        {
+            var item = this.ListBox.SelectedItem as BookHistory;
+            if (item == null) return;
+
+            _vm.Load(item?.Path);
+            e.Handled = true;
         }
 
         public void Remove_Exec(object sender, ExecutedRoutedEventArgs e)

@@ -190,7 +190,7 @@
     <value>Open in explorer</value>
   </data>
   <data name="BookshelfItemMenuOpen" xml:space="preserve">
-    <value>Open</value>
+    <value>Move to _subfolder</value>
   </data>
   <data name="BookshelfItemMenuRename" xml:space="preserve">
     <value>Rena_me</value>
@@ -229,7 +229,7 @@
     <value>Move to current book place</value>
   </data>
   <data name="BookshelfUpTips" xml:space="preserve">
-    <value>Up (Alt+Up)</value>
+    <value>Up (Alt+Up,Back)</value>
   </data>
   <data name="CommandCancelFullScreen" xml:space="preserve">
     <value>Full screen OFF</value>
@@ -5441,5 +5441,17 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="ParamSidePanelOpenWithDoubleClickTips" xml:space="preserve">
     <value>Effective on bookshelf, bookmark panel, and history panel.</value>
+  </data>
+  <data name="BookshelfItemMenuOpenBook" xml:space="preserve">
+    <value>_Open</value>
+  </data>
+  <data name="HistoryItemMenuOpenBook" xml:space="preserve">
+    <value>_Open</value>
+  </data>
+  <data name="PagemarkItemMenuOpen" xml:space="preserve">
+    <value>_Open</value>
+  </data>
+  <data name="PagelistItemMenuOpen" xml:space="preserve">
+    <value>_Open</value>
   </data>
 </root>

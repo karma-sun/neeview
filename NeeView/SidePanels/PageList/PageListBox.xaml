@@ -242,7 +242,7 @@
                 <Setter Property="ContextMenu">
                     <Setter.Value>
                         <ContextMenu>
-                            <MenuItem Header="{x:Static properties:Resources.WordOpen}" Command="{x:Static local:PageListBox.OpenCommand}"/>
+                            <MenuItem Header="{x:Static properties:Resources.PagelistItemMenuOpen}" Command="{x:Static local:PageListBox.OpenCommand}"/>
                             <Separator/>
                             <MenuItem Header="{x:Static properties:Resources.PageListItemMenuCopy}" Command="{x:Static local:PageListBox.CopyCommand}" />
                             <MenuItem Header="{x:Static properties:Resources.PageListItemMenuDelete}" Command="{x:Static local:PageListBox.RemoveCommand}" />

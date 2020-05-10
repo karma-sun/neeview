@@ -190,7 +190,7 @@
     <value>エクスプローラーで開く</value>
   </data>
   <data name="BookshelfItemMenuOpen" xml:space="preserve">
-    <value>開く</value>
+    <value>サブフォルダーに移動(_S)</value>
   </data>
   <data name="BookshelfItemMenuRename" xml:space="preserve">
     <value>名前の変更(_M)</value>
@@ -229,7 +229,7 @@
     <value>表示中のブックのある場所に移動</value>
   </data>
   <data name="BookshelfUpTips" xml:space="preserve">
-    <value>上に移動 (Alt+Up)</value>
+    <value>上に移動 (Alt+Up,Back)</value>
   </data>
   <data name="CommandCancelFullScreen" xml:space="preserve">
     <value>フルスクリーン解除</value>
@@ -5441,5 +5441,17 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="ParamSidePanelOpenWithDoubleClickTips" xml:space="preserve">
     <value>本棚、ブックマークパネル、履歴パネルで有効です。</value>
+  </data>
+  <data name="BookshelfItemMenuOpenBook" xml:space="preserve">
+    <value>開く(_O)</value>
+  </data>
+  <data name="HistoryItemMenuOpenBook" xml:space="preserve">
+    <value>開く(_O)</value>
+  </data>
+  <data name="PagemarkItemMenuOpen" xml:space="preserve">
+    <value>開く(_O)</value>
+  </data>
+  <data name="PagelistItemMenuOpen" xml:space="preserve">
+    <value>開く(_O)</value>
   </data>
 </root>

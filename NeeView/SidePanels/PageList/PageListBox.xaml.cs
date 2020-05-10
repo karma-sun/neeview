@@ -99,6 +99,7 @@ namespace NeeView
 
         private static void InitializeCommandStatic()
         {
+            OpenCommand.InputGestures.Add(new KeyGesture(Key.Return));
             CopyCommand.InputGestures.Add(new KeyGesture(Key.C, ModifierKeys.Control));
             RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
         }
@@ -114,15 +115,21 @@ namespace NeeView
         private void Open_CanExec(object sender, CanExecuteRoutedEventArgs e)
         {
             var page = (sender as ListBox)?.SelectedItem as Page;
-            e.CanExecute = page != null && page.PageType == PageType.Folder;
+            e.CanExecute = page != null;
         }
 
         private void Open_Exec(object sender, ExecutedRoutedEventArgs e)
         {
             var page = (sender as ListBox)?.SelectedItem as Page;
-            if (page != null && page.PageType == PageType.Folder)
+            if (page == null) return;
+                
+            if (page.PageType == PageType.Folder)
             {
                 BookHub.Current.RequestLoad(page.Entry.SystemPath, null, BookLoadOption.IsBook | BookLoadOption.SkipSamePlace, true);
+            }
+            else
+            {
+                _vm.Model.Jump(page);
             }
         }
 

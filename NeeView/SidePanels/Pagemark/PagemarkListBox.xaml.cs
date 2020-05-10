@@ -98,19 +98,40 @@ namespace NeeView
 
         #region Commands
 
+        public static readonly RoutedCommand OpenCommand = new RoutedCommand("OpenCommand", typeof(PagemarkListBox));
+        public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(PagemarkListBox));
+        public static readonly RoutedCommand RenameCommand = new RoutedCommand("RenameCommand", typeof(PagemarkListBox));
+
         private static void InitializeCommandStatic()
         {
+            OpenCommand.InputGestures.Add(new KeyGesture(Key.Enter));
             RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
             RenameCommand.InputGestures.Add(new KeyGesture(Key.F2));
         }
 
         public void InitializeCommand()
         {
+            this.TreeView.CommandBindings.Add(new CommandBinding(OpenCommand, Open_Exec));
             this.TreeView.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec));
             this.TreeView.CommandBindings.Add(new CommandBinding(RenameCommand, Rename_Executed));
         }
 
-        public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(PagemarkListBox));
+
+        public void Open_Exec(object sender, ExecutedRoutedEventArgs e)
+        {
+            var item = (sender as TreeView)?.SelectedItem as TreeListNode<IPagemarkEntry>;
+            if (item != null)
+            {
+                if (item.Value is PagemarkFolder)
+                {
+                    item.IsExpanded = !item.IsExpanded;
+                }
+                else
+                {
+                    _vm.Decide(item, true);
+                }
+            }
+        }
 
         public void Remove_Exec(object sender, ExecutedRoutedEventArgs e)
         {
@@ -120,9 +141,6 @@ namespace NeeView
                 _vm.Remove(item);
             }
         }
-
-
-        public static readonly RoutedCommand RenameCommand = new RoutedCommand("RenameCommand", typeof(PagemarkListBox));
 
         public void Rename_Executed(object sender, ExecutedRoutedEventArgs e)
         {
@@ -397,11 +415,15 @@ namespace NeeView
             switch (item.Value)
             {
                 case Pagemark pagemark:
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagemarkItemMenuOpen, Command = OpenCommand });
+                    contextMenu.Items.Add(new Separator());
                     contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagemarkItemMenuDelete, Command = RemoveCommand });
                     contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagemarkItemMenuRename, Command = RenameCommand });
                     break;
 
                 case PagemarkFolder folder:
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagemarkItemMenuOpen, Command = OpenCommand });
+                    contextMenu.Items.Add(new Separator());
                     contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagemarkItemMenuDeleteFolder, Command = RemoveCommand });
                     break;
             }
@@ -441,7 +463,14 @@ namespace NeeView
             {
                 if (e.Key == Key.Return)
                 {
-                    _vm.Decide(item, true);
+                    if (item.Value is PagemarkFolder)
+                    {
+                        item.IsExpanded = !item.IsExpanded;
+                    }
+                    else
+                    {
+                        _vm.Decide(item, true);
+                    }
                     e.Handled = true;
                 }
             }
@@ -574,4 +603,5 @@ namespace NeeView
             throw new NotImplementedException();
         }
     }
+
 }

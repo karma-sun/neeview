@@ -277,11 +277,20 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Open に類似しているローカライズされた文字列を検索します。
+        ///   Move to _subfolder に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookshelfItemMenuOpen {
             get {
                 return ResourceManager.GetString("BookshelfItemMenuOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _Open に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfItemMenuOpenBook {
+            get {
+                return ResourceManager.GetString("BookshelfItemMenuOpenBook", resourceCulture);
             }
         }
         
@@ -403,7 +412,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Up (Alt+Up) に類似しているローカライズされた文字列を検索します。
+        ///   Up (Alt+Up,Back) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookshelfUpTips {
             get {
@@ -8361,6 +8370,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   _Open に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string HistoryItemMenuOpenBook {
+            get {
+                return ResourceManager.GetString("HistoryItemMenuOpenBook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Delete all に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string HistoryMenuDeleteAll {
@@ -9129,6 +9147,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   _Open に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PagelistItemMenuOpen {
+            get {
+                return ResourceManager.GetString("PagelistItemMenuOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Page list に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string PageListName {
@@ -9152,6 +9179,15 @@ namespace NeeView.Properties {
         public static string PagemarkItemMenuDeleteFolder {
             get {
                 return ResourceManager.GetString("PagemarkItemMenuDeleteFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _Open に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PagemarkItemMenuOpen {
+            get {
+                return ResourceManager.GetString("PagemarkItemMenuOpen", resourceCulture);
             }
         }
         

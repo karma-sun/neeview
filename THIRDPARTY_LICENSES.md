@@ -100,7 +100,7 @@ Code-in:
 
 DLL: Microsoft.Xaml.Behaviors.dll
 
-* Copyright (c) 2010 - 2018, Elinam LLC All rights reserved.
+* Copyright (c) 2015 Microsoft
 * URL: [XamlBehaviors for WPF](https://github.com/Microsoft/XamlBehaviorsWpf)
 * License: [MIT License](https://github.com/microsoft/XamlBehaviorsWpf/blob/master/LICENSE)
 
@@ -117,3 +117,4 @@ DLL: Esprima.dll
 * Copyright (c) Sebastien Ros. All rights reserved.
 * URL: [Esprima .NET](https://github.com/sebastienros/esprima-dotnet)
 * License: [BSD 3-Clause License](https://github.com/sebastienros/esprima-dotnet/blob/dev/LICENSE.txt)
+

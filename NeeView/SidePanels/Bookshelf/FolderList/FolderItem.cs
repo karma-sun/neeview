@@ -255,9 +255,9 @@ namespace NeeView
             {
                 if (IsDisable())
                     _iconOverlay = FolderItemIconOverlay.Disable;
-                else if (Config.Current.Bookshelf.IsBookmarkMark && BookmarkCollection.Current.Contains(EntityPath.SimplePath))
+                else if (Config.Current.Bookshelf.IsVisibleBookmarkMark && BookmarkCollection.Current.Contains(EntityPath.SimplePath))
                     _iconOverlay = FolderItemIconOverlay.Star;
-                else if (Config.Current.Bookshelf.IsHistoryMark && BookHistoryCollection.Current.Contains(EntityPath.SimplePath))
+                else if (Config.Current.Bookshelf.IsVisibleHistoryMark && BookHistoryCollection.Current.Contains(EntityPath.SimplePath))
                     _iconOverlay = FolderItemIconOverlay.Checked;
                 else
                     _iconOverlay = FolderItemIconOverlay.None;

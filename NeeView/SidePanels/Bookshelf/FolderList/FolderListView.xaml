@@ -127,11 +127,10 @@
                 </StackPanel>
                 <Grid x:Name="PlaceGrid">
                     <DockPanel>
-                        <!--
-                        <ToggleButton DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Width="28" Height="28" VerticalAlignment="Center" IsChecked="{Binding Model.IsLocked}">
-                            <Image Source="{StaticResource ic_pushpin_b}" Width="16" Height="16" />
-                        </ToggleButton>
-                        -->
+
+                        <TextBlock DockPanel.Dock="Right" Text="{Binding FolderCollection.ValidCount, StringFormat={}{0}}" Foreground="Gray" Margin="5,0"
+                                Visibility="{Binding Source={x:Static local:Config.Current}, Path=Bookshelf.IsVisibleItemsCount, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
                         <DockPanel x:Name="PlaceBar" HorizontalAlignment="Left">
                             <Image x:Name="PlaceIcon" DockPanel.Dock="Left" Source="{Binding FolderCollection.Place, Converter={StaticResource PathToPlaceIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"
                                    PreviewMouseLeftButtonDown="PlaceIcon_MouseLeftButtonDown"

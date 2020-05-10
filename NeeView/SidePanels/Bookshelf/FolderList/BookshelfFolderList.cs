@@ -29,12 +29,12 @@ namespace NeeView
                 await RefreshAsync(true, true);
             });
 
-            Config.Current.Bookshelf.AddPropertyChanged(nameof(BookshelfConfig.IsHistoryMark), (s, e) =>
+            Config.Current.Bookshelf.AddPropertyChanged(nameof(BookshelfConfig.IsVisibleHistoryMark), (s, e) =>
             {
                 FolderCollection?.RefreshIcon(null);
             });
 
-            Config.Current.Bookshelf.AddPropertyChanged(nameof(BookshelfConfig.IsBookmarkMark), (s, e) =>
+            Config.Current.Bookshelf.AddPropertyChanged(nameof(BookshelfConfig.IsVisibleBookmarkMark), (s, e) =>
             {
                 FolderCollection?.RefreshIcon(null);
             });
@@ -228,8 +228,8 @@ namespace NeeView
                 FolderList.RestoreConfig(config.Bookshelf);
 
                 config.Bookshelf.Home = Home;
-                config.Bookshelf.IsHistoryMark = IsVisibleHistoryMark;
-                config.Bookshelf.IsBookmarkMark = IsVisibleBookmarkMark;
+                config.Bookshelf.IsVisibleHistoryMark = IsVisibleHistoryMark;
+                config.Bookshelf.IsVisibleBookmarkMark = IsVisibleBookmarkMark;
                 config.Bookshelf.IsSyncFolderTree = FolderList.IsSyncFolderTree;
                 config.Bookshelf.IsCloseBookWhenMove = IsCloseBookWhenMove;
                 config.Bookshelf.IsOpenNextBookWhenRemove = IsOpenNextBookWhenRemove;
@@ -247,8 +247,8 @@ namespace NeeView
             var memento = new Memento();
 
             memento.FolderList = base.CreateMemento();
-            memento.IsVisibleHistoryMark = Config.Current.Bookshelf.IsHistoryMark;
-            memento.IsVisibleBookmarkMark = Config.Current.Bookshelf.IsBookmarkMark;
+            memento.IsVisibleHistoryMark = Config.Current.Bookshelf.IsVisibleHistoryMark;
+            memento.IsVisibleBookmarkMark = Config.Current.Bookshelf.IsVisibleBookmarkMark;
             memento.Home = Config.Current.Bookshelf.Home;
             memento.IsInsertItem = Config.Current.Bookshelf.IsInsertItem;
             memento.IsMultipleRarFilterEnabled = Config.Current.Bookshelf.IsMultipleRarFilterEnabled;

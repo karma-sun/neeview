@@ -5454,4 +5454,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="PagelistItemMenuOpen" xml:space="preserve">
     <value>_Open</value>
   </data>
+  <data name="ParamBookshelfIsVisibleItemsCount" xml:space="preserve">
+    <value>Show number of items</value>
+  </data>
 </root>

@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using NeeView.Collections.Generic;
 using System.Collections;
+using NeeLaboratory.ComponentModel;
 
 namespace NeeView
 {
@@ -30,10 +31,11 @@ namespace NeeView
     /// <summary>
     /// FolderItemコレクション
     /// </summary>
-    public abstract class FolderCollection : IDisposable, IEnumerable<FolderItem>
+    public abstract class FolderCollection : BindableBase, IDisposable, IEnumerable<FolderItem>
     {
         #region Fields
 
+        private ObservableCollection<FolderItem> _items;
         protected FolderItemFactory _folderItemFactory;
         protected bool _isOverlayEnabled;
         private object _lock = new object();
@@ -92,12 +94,37 @@ namespace NeeView
         /// <summary>
         /// Collection本体
         /// </summary>
-        public ObservableCollection<FolderItem> Items { get; protected set; }
+        public ObservableCollection<FolderItem> Items
+        {
+            get { return _items; }
+            protected set
+            {
+                if (_items != value)
+                {
+                    if (_items != null)
+                    {
+                        _items.CollectionChanged -= Items_CollectionChanged;
+                    }
+                    _items = value;
+                    if (_items != null)
+                    {
+                        _items.CollectionChanged += Items_CollectionChanged;
+                    }
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
 
         /// <summary>
         /// Collection count
         /// </summary>
         public int Count => Items.Count;
+
+        /// <summary>
+        /// Valid collection count
+        /// </summary>
+        public int ValidCount => IsEmpty() ? 0 : Items.Count;
 
         /// <summary>
         /// フォルダーの場所(クエリ)
@@ -132,6 +159,12 @@ namespace NeeView
         #endregion Properties
 
         #region Methods
+
+        private void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            RaisePropertyChanged(nameof(ValidCount));
+        }
+
 
         public virtual async Task InitializeItemsAsync(CancellationToken token)
         {

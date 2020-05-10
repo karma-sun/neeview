@@ -10,6 +10,7 @@ namespace NeeView
         private bool _isVisible;
         private bool _isSelected;
         private string _home;
+        private bool _IsVisibleItemsCount;
         private bool _isVisibleHistoryMark = true;
         private bool _isVisibleBookmarkMark = true;
         private bool _isPlacedInBookshelf = true;
@@ -59,10 +60,20 @@ namespace NeeView
         }
 
         /// <summary>
+        /// コレクションアイテム数の表示
+        /// </summary>
+        [PropertyMember("@ParamBookshelfIsVisibleItemsCount")]
+        public bool IsVisibleItemsCount
+        {
+            get { return _IsVisibleItemsCount; }
+            set { SetProperty(ref _IsVisibleItemsCount, value); }
+        }
+
+        /// <summary>
         /// 項目に履歴記号を表示する
         /// </summary>
         [PropertyMember("@ParamBookshelfIsVisibleHistoryMark", Tips = "@ParamBookshelfIsVisibleHistoryMarkTips")]
-        public bool IsHistoryMark
+        public bool IsVisibleHistoryMark
         {
             get { return _isVisibleHistoryMark; }
             set { SetProperty(ref _isVisibleHistoryMark, value); }
@@ -72,7 +83,7 @@ namespace NeeView
         /// 項目にブックマーク記号を表示する
         /// </summary>
         [PropertyMember("@ParamBookshelfIsVisibleBookmarkMark", Tips = "@ParamBookshelfIsVisibleBookmarkMarkTips")]
-        public bool IsBookmarkMark
+        public bool IsVisibleBookmarkMark
         {
             get { return _isVisibleBookmarkMark; }
             set { SetProperty(ref _isVisibleBookmarkMark, value); }

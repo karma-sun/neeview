@@ -9921,6 +9921,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Show number of items に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookshelfIsVisibleItemsCount {
+            get {
+                return ResourceManager.GetString("ParamBookshelfIsVisibleItemsCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Show page list に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamBookshelfPageListVisible {

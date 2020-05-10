@@ -26,9 +26,9 @@ namespace NeeView
         {
         }
 
-        public void Decide(TreeListNode<IPagemarkEntry> item)
+        public void Decide(TreeListNode<IPagemarkEntry> item, bool allowChangeBook)
         {
-            Model.Decide(item);
+            Model.Decide(item, allowChangeBook);
         }
 
         public void Expand(TreeListNode<IPagemarkEntry> item, bool isExpanded)

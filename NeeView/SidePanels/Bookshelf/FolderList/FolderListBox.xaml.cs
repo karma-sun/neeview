@@ -868,7 +868,7 @@ namespace NeeView
         private void FolderListItem_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             var item = (sender as ListBoxItem)?.Content as FolderItem;
-            if (item != null && !item.IsEmpty())
+            if (!Config.Current.Panels.OpenWithDoubleClick && item != null && !item.IsEmpty())
             {
                 _vm.Model.LoadBook(item);
             }
@@ -878,6 +878,11 @@ namespace NeeView
         private void FolderListItem_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             var item = (sender as ListBoxItem)?.Content as FolderItem;
+            if (Config.Current.Panels.OpenWithDoubleClick && item != null && !item.IsEmpty())
+            {
+                _vm.Model.LoadBook(item);
+            }
+
             _vm.MoveToSafety(item);
 
             e.Handled = true;

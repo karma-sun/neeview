@@ -121,6 +121,7 @@
         <ListBox.ItemContainerStyle>
             <Style TargetType="ListBoxItem" BasedOn="{StaticResource NVListBoxItem}">
                 <EventSetter Event="PreviewMouseLeftButtonDown" Handler="HistoryListItem_MouseLeftButtonDown"/>
+                <EventSetter Event="PreviewMouseDoubleClick" Handler="HistoryListItem_MouseDoubleClick" />
                 <EventSetter Event="KeyDown" Handler="HistoryListItem_KeyDown"/>
                 <Setter Property="FocusVisualStyle" Value="{StaticResource NVListItemFocusVisual}"/>
                 <Setter Property="ContextMenu">

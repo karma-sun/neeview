@@ -13126,6 +13126,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Double click to open book に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamSidePanelOpenWithDoubleClick {
+            get {
+                return ResourceManager.GetString("ParamSidePanelOpenWithDoubleClick", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Effective on bookshelf, bookmark panel, and history panel. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamSidePanelOpenWithDoubleClickTips {
+            get {
+                return ResourceManager.GetString("ParamSidePanelOpenWithDoubleClickTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Slider Direction に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamSliderDirection {

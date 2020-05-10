@@ -424,9 +424,15 @@ namespace NeeView
             var item = (sender as TreeViewItem)?.DataContext as TreeListNode<IPagemarkEntry>;
             if (item != null)
             {
-                _vm.Decide(item);
+                _vm.Decide(item, true);
             }
         }
+
+        private void TreeViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            // nop.
+        }
+
 
         // 履歴項目決定(キー)
         private void TreeViewItem_KeyDown(object sender, KeyEventArgs e)
@@ -435,7 +441,7 @@ namespace NeeView
             {
                 if (e.Key == Key.Return)
                 {
-                    _vm.Decide(item);
+                    _vm.Decide(item, true);
                     e.Handled = true;
                 }
             }

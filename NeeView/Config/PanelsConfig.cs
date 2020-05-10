@@ -16,7 +16,8 @@ namespace NeeView
         private double _fontSize = 15.0;
         private double _folderTreeFontSize = 12.0;
         private bool _isDecoratePlace = true;
-        private bool _isLeftRightKeyEnabled = false;
+        private bool _openWithDoubleClick;
+        private bool _isLeftRightKeyEnabled;
         private bool _isManipulationBoundaryFeedbackEnabled;
         private Dictionary<string, PanelDock> _panelDocks = new Dictionary<string, PanelDock>();
         private double _mouseWheelSpeedRate = 1.0;
@@ -60,6 +61,16 @@ namespace NeeView
         {
             get { return _isHidePanelInFullscreen; }
             set { SetProperty(ref _isHidePanelInFullscreen, value); }
+        }
+
+        /// <summary>
+        /// ダブルクリックでブックを開く
+        /// </summary>
+        [PropertyMember("@ParamSidePanelOpenWithDoubleClick", Tips = "@ParamSidePanelOpenWithDoubleClickTips")]
+        public bool OpenWithDoubleClick
+        {
+            get { return _openWithDoubleClick; }
+            set { SetProperty(ref _openWithDoubleClick, value); }
         }
 
         /// <summary>

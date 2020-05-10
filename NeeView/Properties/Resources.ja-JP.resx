@@ -5436,4 +5436,10 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamImageTrimRight" xml:space="preserve">
     <value>右</value>
   </data>
+  <data name="ParamSidePanelOpenWithDoubleClick" xml:space="preserve">
+    <value>ダブルクリックでブックを開く</value>
+  </data>
+  <data name="ParamSidePanelOpenWithDoubleClickTips" xml:space="preserve">
+    <value>本棚、ブックマークパネル、履歴パネルで有効です。</value>
+  </data>
 </root>

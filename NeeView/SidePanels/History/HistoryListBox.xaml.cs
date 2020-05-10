@@ -226,8 +226,22 @@ namespace NeeView
         private void HistoryListItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var item = ((sender as ListBoxItem)?.Content as BookHistory);
-            _vm.Load(item?.Path);
+            if (!Config.Current.Panels.OpenWithDoubleClick)
+            {
+                _vm.Load(item?.Path);
+            }
         }
+
+        private void HistoryListItem_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var item = ((sender as ListBoxItem)?.Content as BookHistory);
+            if (Config.Current.Panels.OpenWithDoubleClick)
+            {
+                _vm.Load(item?.Path);
+            }
+        }
+
+
 
         // 履歴項目決定(キー)
         private void HistoryListItem_KeyDown(object sender, KeyEventArgs e)

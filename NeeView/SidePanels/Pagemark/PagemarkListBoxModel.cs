@@ -127,18 +127,16 @@ namespace NeeView
             }
         }
 
-        public void Decide(TreeListNode<IPagemarkEntry> item)
+        public void Decide(TreeListNode<IPagemarkEntry> item, bool allowChangeBook)
         {
-            switch (item.Value)
+            if (item.Value is Pagemark pagemark)
             {
-                case Pagemark pagemark:
-                    bool isJumped = BookOperation.Current.JumpPagemarkInPlace(pagemark);
-                    if (!isJumped)
-                    {
-                        var options = pagemark.EntryName != null ? BookLoadOption.IsPage : BookLoadOption.None;
-                        BookHub.Current.RequestLoad(pagemark.Path, pagemark.EntryName, options, true);
-                    }
-                    break;
+                bool isJumped = BookOperation.Current.JumpPagemarkInPlace(pagemark);
+                if (!isJumped && allowChangeBook)
+                {
+                    var options = pagemark.EntryName != null ? BookLoadOption.IsPage : BookLoadOption.None;
+                    BookHub.Current.RequestLoad(pagemark.Path, pagemark.EntryName, options, true);
+                }
             }
         }
 
@@ -237,7 +235,7 @@ namespace NeeView
 
                 if (node.Value is Pagemark)
                 {
-                    Decide(node);
+                    Decide(node, true);
                 }
 
                 SelectedItemChanged?.Invoke(this, null);
@@ -260,7 +258,7 @@ namespace NeeView
 
                 if (node.Value is Pagemark)
                 {
-                    Decide(node);
+                    Decide(node, true);
                 }
 
                 SelectedItemChanged?.Invoke(this, null);

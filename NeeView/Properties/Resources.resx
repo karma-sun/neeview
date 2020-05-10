@@ -5436,4 +5436,10 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamImageTrimRight" xml:space="preserve">
     <value>Right</value>
   </data>
+  <data name="ParamSidePanelOpenWithDoubleClick" xml:space="preserve">
+    <value>Double click to open book</value>
+  </data>
+  <data name="ParamSidePanelOpenWithDoubleClickTips" xml:space="preserve">
+    <value>Effective on bookshelf, bookmark panel, and history panel.</value>
+  </data>
 </root>

@@ -166,13 +166,13 @@
     <value>ブックマーク</value>
   </data>
   <data name="BookshelfBackTips" xml:space="preserve">
-    <value>戻る</value>
+    <value>戻る (Alt+Left)</value>
   </data>
   <data name="BookshelfHomeMenuSet" xml:space="preserve">
     <value>この場所をホームに設定する</value>
   </data>
   <data name="BookshelfHomeTips" xml:space="preserve">
-    <value>ホームに移動</value>
+    <value>ホームに移動 (Alt+Home)</value>
   </data>
   <data name="BookshelfItemMenuCopy" xml:space="preserve">
     <value>コピー(_C)</value>
@@ -220,7 +220,7 @@
     <value>本棚</value>
   </data>
   <data name="BookshelfNextTips" xml:space="preserve">
-    <value>進む</value>
+    <value>進む (Alt+Right)</value>
   </data>
   <data name="BookshelfSubFolderTips" xml:space="preserve">
     <value>サブフォルダーを読み込む</value>
@@ -229,7 +229,7 @@
     <value>表示中のブックのある場所に移動</value>
   </data>
   <data name="BookshelfUpTips" xml:space="preserve">
-    <value>上に移動</value>
+    <value>上に移動 (Alt+Up)</value>
   </data>
   <data name="CommandCancelFullScreen" xml:space="preserve">
     <value>フルスクリーン解除</value>

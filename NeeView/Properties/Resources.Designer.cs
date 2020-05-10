@@ -205,7 +205,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Back に類似しているローカライズされた文字列を検索します。
+        ///   Back  (Alt+Left) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookshelfBackTips {
             get {
@@ -223,7 +223,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Go to Home に類似しているローカライズされた文字列を検索します。
+        ///   Go to Home (Alt+Home) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookshelfHomeTips {
             get {
@@ -376,7 +376,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   PC に類似しているローカライズされた文字列を検索します。
+        ///   Next (Alt+Right) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookshelfNextTips {
             get {
@@ -403,7 +403,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Up に類似しているローカライズされた文字列を検索します。
+        ///   Up (Alt+Up) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookshelfUpTips {
             get {

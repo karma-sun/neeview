@@ -166,13 +166,13 @@
     <value>Bookmark</value>
   </data>
   <data name="BookshelfBackTips" xml:space="preserve">
-    <value>Back</value>
+    <value>Back  (Alt+Left)</value>
   </data>
   <data name="BookshelfHomeMenuSet" xml:space="preserve">
     <value>Set this place home</value>
   </data>
   <data name="BookshelfHomeTips" xml:space="preserve">
-    <value>Go to Home</value>
+    <value>Go to Home (Alt+Home)</value>
   </data>
   <data name="BookshelfItemMenuCopy" xml:space="preserve">
     <value>_Copy</value>
@@ -220,7 +220,7 @@
     <value>Bookshelf</value>
   </data>
   <data name="BookshelfNextTips" xml:space="preserve">
-    <value>PC</value>
+    <value>Next (Alt+Right)</value>
   </data>
   <data name="BookshelfSubFolderTips" xml:space="preserve">
     <value>Load subfolder</value>
@@ -229,7 +229,7 @@
     <value>Move to current book place</value>
   </data>
   <data name="BookshelfUpTips" xml:space="preserve">
-    <value>Up</value>
+    <value>Up (Alt+Up)</value>
   </data>
   <data name="CommandCancelFullScreen" xml:space="preserve">
     <value>Full screen OFF</value>

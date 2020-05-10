@@ -16,7 +16,7 @@ namespace NeeView
         private double _fontSize = 15.0;
         private double _folderTreeFontSize = 12.0;
         private bool _isDecoratePlace = true;
-        private bool _isLeftRightKeyEnabled = true;
+        private bool _isLeftRightKeyEnabled = false;
         private bool _isManipulationBoundaryFeedbackEnabled;
         private Dictionary<string, PanelDock> _panelDocks = new Dictionary<string, PanelDock>();
         private double _mouseWheelSpeedRate = 1.0;

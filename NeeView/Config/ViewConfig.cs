@@ -127,7 +127,7 @@ namespace NeeView
         }
 
         // 基底スケール
-        [PropertyPercent("@ParamViewBaseScale", 0.1, 2.0, TickFrequency =0.1, Tips = "@ParamViewBaseScaleTips")]
+        [PropertyPercent("@ParamViewBaseScale", 0.1, 2.0, TickFrequency = 0.01, Tips = "@ParamViewBaseScaleTips")]
         public double BaseScale
         {
             get { return _baseScale; }

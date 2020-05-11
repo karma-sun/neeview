@@ -46,6 +46,8 @@ namespace NeeView
             InitializeCommand();
 
             _vm = vm;
+            _vm.CollectionChanged += ViewModel_CollectionChanged;
+
             this.DataContext = _vm;
 
             // タッチスクロール操作の終端挙動抑制
@@ -53,6 +55,16 @@ namespace NeeView
 
             this.Loaded += PageListBox_Loaded;
             this.Unloaded += PageListBox_Unloaded;
+        }
+
+        private void ViewModel_CollectionChanged(object sender, EventArgs e)
+        {
+            _thumbnailLoader?.Load();
+
+            if (this.ListBox.IsFocused)
+            {
+                FocusSelectedItem(true);
+            }
         }
 
         #region IDisposable Support
@@ -202,7 +214,7 @@ namespace NeeView
             Config.Current.Panels.BannerItemProfile.PropertyChanged += PanelListtemProfile_PropertyChanged;
             Config.Current.Panels.ThumbnailItemProfile.PropertyChanged += PanelListtemProfile_PropertyChanged;
 
-            FocusSelectedItem();
+            FocusSelectedItem(false);
         }
 
         private void PageListBox_Unloaded(object sender, RoutedEventArgs e)
@@ -268,15 +280,15 @@ namespace NeeView
             this.ListBox.ScrollIntoView(item);
         }
 
-        public void FocusSelectedItem()
+        public void FocusSelectedItem(bool isForce)
         {
             if (this.ListBox.SelectedIndex < 0) return;
 
             UpdateViewItems();
 
-            if (_vm.Model.FocusAtOnce)
+            if (isForce || _vm.FocusAtOnce)
             {
-                _vm.Model.FocusAtOnce = false;
+                _vm.FocusAtOnce = false;
                 ListBoxItem lbi = (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(this.ListBox.SelectedIndex));
                 lbi?.Focus();
             }
@@ -339,7 +351,7 @@ namespace NeeView
             if ((bool)e.NewValue)
             {
                 await Task.Yield();
-                FocusSelectedItem();
+                FocusSelectedItem(false);
             }
         }
 

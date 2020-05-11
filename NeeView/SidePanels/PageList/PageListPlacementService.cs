@@ -47,6 +47,11 @@ namespace NeeView
             }
         }
 
+        public void Focus()
+        {
+            Panel.Focus();
+        }
+
         #region Memento
 
         [DataContract]

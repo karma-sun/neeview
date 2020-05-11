@@ -17,16 +17,28 @@ namespace NeeView
         public static PageList Current { get; }
 
 
+        private PageSortMode _pageSortMode;
+        private Page _selectedItem;
+        private List<Page> _selectedItems;
+        private List<Page> _viewItems = new List<Page>();
+
+
         private PageList()
         {
-            ListBoxModel = new PageListBoxModel();
-
             BookOperation.Current.AddPropertyChanged(nameof(BookOperation.PageList), BookOperation_PageListChanged);
         }
 
 
+        /// <summary>
+        /// ページコレクションの変更通知
+        /// </summary>
         public event EventHandler CollectionChanging;
         public event EventHandler CollectionChanged;
+
+        /// <summary>
+        ///  表示ページの変更通知
+        /// </summary>
+        public event EventHandler<ViewItemsChangedEventArgs> ViewItemsChanged;
 
 
         // サムネイル画像が表示される？？
@@ -48,11 +60,6 @@ namespace NeeView
             }
         }
 
-        /// <summary>
-        /// ListBox の Model
-        /// </summary>
-        public PageListBoxModel ListBoxModel { get; set; }
-
 
         /// <summary>
         /// 配置
@@ -67,22 +74,139 @@ namespace NeeView
             get { return LoosePath.GetFileName(BookOperation.Current.Address); }
         }
 
+        /// <summary>
+        /// 並び順
+        /// </summary>
+        public PageSortMode PageSortMode
+        {
+            get { return _pageSortMode; }
+            set { _pageSortMode = value; BookSettingPresenter.Current.SetSortMode(value); }
+        }
 
 
+        // ページリスト(表示部用)
+        public ObservableCollection<Page> PageCollection => BookOperation.Current.PageList;
+
+
+        public Page SelectedItem
+        {
+            get { return _selectedItem; }
+            set { SetProperty(ref _selectedItem, value); }
+        }
+
+        public List<Page> SelectedItems
+        {
+            get { return _selectedItems; }
+            set { SetProperty(ref _selectedItems, value); }
+        }
+
+        public List<Page> ViewItems
+        {
+            get { return _viewItems; }
+            set
+            {
+                if (_viewItems.SequenceEqual(value)) return;
+
+                var removes = _viewItems.Where(e => !value.Contains(e));
+                var direction = removes.Any() && value.Any() ? removes.First().Index < value.First().Index ? +1 : -1 : 0;
+
+                _viewItems = value;
+
+                ViewItemsChanged?.Invoke(this, new ViewItemsChangedEventArgs(_viewItems, direction));
+            }
+        }
+
+
+        public void Loaded()
+        {
+            BookOperation.Current.ViewContentsChanged += BookOperation_ViewContentsChanged;
+            RefreshSelectedItem();
+        }
+
+        public void Unloaded()
+        {
+            BookOperation.Current.ViewContentsChanged -= BookOperation_ViewContentsChanged;
+        }
+
+        /// <summary>
+        /// ブックが変更された時の処理
+        /// </summary>
         private void BookOperation_PageListChanged(object sender, PropertyChangedEventArgs e)
+        {
+            RefreshCollection();
+        }
+
+        /// <summary>
+        /// ブックのページが切り替わったときの処理
+        /// </summary>
+        private void BookOperation_ViewContentsChanged(object sender, ViewContentSourceCollectionChangedEventArgs e)
+        {
+            RefreshSelectedItem();
+        }
+
+
+        /// <summary>
+        /// ページコレクション更新
+        /// </summary>
+        private void RefreshCollection()
         {
             CollectionChanging?.Invoke(this, null);
 
-            ListBoxModel?.Unloaded();
-            ListBoxModel = new PageListBoxModel();
+            RaisePropertyChanged(nameof(PageCollection));
+            RaisePropertyChanged(nameof(PlaceDispString));
+
+            _pageSortMode = BookSettingPresenter.Current.LatestSetting.SortMode;
+            RaisePropertyChanged(nameof(PageSortMode));
+
+            RefreshSelectedItem();
 
             CollectionChanged?.Invoke(this, null);
-            RaisePropertyChanged(nameof(PlaceDispString));
         }
 
-        public void FocusAtOnce()
+        /// <summary>
+        /// 表示マークと選択項目をブックにあわせる
+        /// </summary>
+        private void RefreshSelectedItem()
         {
-            ListBoxModel.FocusAtOnce = true;
+            var pages = BookOperation.Current.Book?.Viewer.GetViewPages();
+            if (pages == null) return;
+
+            var viewPages = pages.Where(i => i != null).OrderBy(i => i.Index).ToList();
+
+            //this.SelectedItem = viewPages.FirstOrDefault();
+            var page = viewPages.FirstOrDefault();
+            if (SelectedItems == null || SelectedItems.Count <= 1 || !SelectedItems.Contains(page))
+            {
+                this.SelectedItem = page;
+            }
+
+            this.ViewItems = viewPages;
+        }
+
+
+        public void Jump(Page page)
+        {
+            BookOperation.Current.JumpPage(page);
+        }
+
+        public bool CanRemove(Page page)
+        {
+            return BookOperation.Current.CanDeleteFile(page);
+        }
+
+        public async Task RemoveAsync(Page page)
+        {
+            await BookOperation.Current.DeleteFileAsync(page);
+        }
+
+        public async Task RemoveAsync(List<Page> pages)
+        {
+            await BookOperation.Current.DeleteFileAsync(pages);
+        }
+
+        public void Copy(List<Page> pages)
+        {
+            ClipboardUtility.Copy(pages, new CopyFileCommandParameter() { MultiPagePolicy = MultiPagePolicy.All });
         }
 
 
@@ -113,5 +237,4 @@ namespace NeeView
 
         #endregion Memento
     }
-
 }

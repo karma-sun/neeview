@@ -10,23 +10,31 @@ namespace NeeView
 {
     public class PageListBoxViewModel : BindableBase
     {
-        private PageListBoxModel _model;
+        private PageList _model;
 
 
-        public PageListBoxViewModel(PageListBoxModel model)
+        public PageListBoxViewModel(PageList model)
         {
             _model = model;
+            _model.CollectionChanged += (s, e) => CollectionChanged?.Invoke(s, e);
         }
 
+
+        public event EventHandler CollectionChanged;
 
         public event EventHandler<ViewItemsChangedEventArgs> ViewItemsChanged;
 
 
-        public PageListBoxModel Model
+        public PageList Model
         {
             get { return _model; }
             set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
         }
+
+        /// <summary>
+        /// 一度だけフォーカスするフラグ
+        /// </summary>
+        public bool FocusAtOnce { get; set; }
 
 
         public void Loaded()

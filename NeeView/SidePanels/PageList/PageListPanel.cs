@@ -19,10 +19,12 @@ namespace NeeView
     public class PageListPanel : BindableBase, IPanel
     {
         private PageListView _view;
+        private PageListPresenter _presenter;
 
         public PageListPanel(PageList model)
         {
             _view = new PageListView(model);
+            _presenter = new PageListPresenter(_view, model);
 
             Icon = App.Current.MainWindow.Resources["pic_photo_library_24px"] as ImageSource;
             IconMargin = new Thickness(9);
@@ -71,7 +73,7 @@ namespace NeeView
 
         public void Focus()
         {
-            _view.FocusAtOnce();
+            _presenter.FocusAtOnce();
         }
     }
 

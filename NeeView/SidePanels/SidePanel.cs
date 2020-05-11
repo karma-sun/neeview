@@ -260,7 +260,7 @@ namespace NeeView
 
                 if (model.IsPageListVisible)
                 {
-                    PageList.Current.FocusAtOnce();
+                    PageListPlacementService.Current.Focus();
                 }
 
                 return model.IsPageListVisible;

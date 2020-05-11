@@ -236,17 +236,12 @@
             <Style TargetType="ListBoxItem" BasedOn="{StaticResource NVListBoxItem}">
                 <EventSetter Event="PreviewMouseLeftButtonDown" Handler="PageListItem_MouseLeftButtonDown"/>
                 <EventSetter Event="MouseDoubleClick" Handler="PageListItem_MouseDoubleClick"/>
-                <EventSetter Event="KeyDown" Handler="PageListItem_KeyDown"/>
+                <EventSetter Event="ContextMenuOpening" Handler="PageListItem_ContextMenuOpening" />
                 <Setter Property="Padding" Value="2,0"/>
                 <Setter Property="FocusVisualStyle" Value="{StaticResource NVListItemFocusVisual}"/>
                 <Setter Property="ContextMenu">
                     <Setter.Value>
-                        <ContextMenu>
-                            <MenuItem Header="{x:Static properties:Resources.PagelistItemMenuOpen}" Command="{x:Static local:PageListBox.OpenCommand}"/>
-                            <Separator/>
-                            <MenuItem Header="{x:Static properties:Resources.PageListItemMenuCopy}" Command="{x:Static local:PageListBox.CopyCommand}" />
-                            <MenuItem Header="{x:Static properties:Resources.PageListItemMenuDelete}" Command="{x:Static local:PageListBox.RemoveCommand}" />
-                        </ContextMenu>
+                        <ContextMenu />
                     </Setter.Value>
                 </Setter>
             </Style>

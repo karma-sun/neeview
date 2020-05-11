@@ -106,12 +106,14 @@ namespace NeeView
         #region Commands
 
         public static readonly RoutedCommand OpenCommand = new RoutedCommand("OpenCommand", typeof(PageListBox));
+        public static readonly RoutedCommand OpenBookCommand = new RoutedCommand("OpenBookCommand", typeof(PageListBox));
         public static readonly RoutedCommand CopyCommand = new RoutedCommand("CopyCommand", typeof(PageListBox));
         public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(PageListBox));
 
         private static void InitializeCommandStatic()
         {
             OpenCommand.InputGestures.Add(new KeyGesture(Key.Return));
+            OpenBookCommand.InputGestures.Add(new KeyGesture(Key.Down, ModifierKeys.Alt));
             CopyCommand.InputGestures.Add(new KeyGesture(Key.C, ModifierKeys.Control));
             RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
         }
@@ -119,6 +121,7 @@ namespace NeeView
         private void InitializeCommand()
         {
             this.ListBox.CommandBindings.Add(new CommandBinding(OpenCommand, Open_Exec, Open_CanExec));
+            this.ListBox.CommandBindings.Add(new CommandBinding(OpenBookCommand, OpenBook_Exec, OpenBook_CanExec));
             this.ListBox.CommandBindings.Add(new CommandBinding(CopyCommand, Copy_Exec, Copy_CanExec));
             this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec, Remove_CanExec));
         }
@@ -134,16 +137,27 @@ namespace NeeView
         {
             var page = (sender as ListBox)?.SelectedItem as Page;
             if (page == null) return;
-                
+
+            _vm.Model.Jump(page);
+        }
+
+        private void OpenBook_CanExec(object sender, CanExecuteRoutedEventArgs e)
+        {
+            var page = (sender as ListBox)?.SelectedItem as Page;
+            e.CanExecute = page != null && page.PageType == PageType.Folder;
+        }
+
+        private void OpenBook_Exec(object sender, ExecutedRoutedEventArgs e)
+        {
+            var page = (sender as ListBox)?.SelectedItem as Page;
+            if (page == null) return;
+
             if (page.PageType == PageType.Folder)
             {
                 BookHub.Current.RequestLoad(page.Entry.SystemPath, null, BookLoadOption.IsBook | BookLoadOption.SkipSamePlace, true);
             }
-            else
-            {
-                _vm.Model.Jump(page);
-            }
         }
+
 
         private void Copy_CanExec(object sender, CanExecuteRoutedEventArgs e)
         {
@@ -300,44 +314,51 @@ namespace NeeView
             _vm.Model.SelectedItems = this.ListBox.SelectedItems.Cast<Page>().ToList();
         }
 
-        // 項目決定
-        private void PageListItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            var page = (sender as ListBoxItem)?.Content as Page;
-            if (page != null)
-            {
-                _vm.Model.Jump(page);
-            }
-        }
-
-        // 項目を開く
-        private void PageListItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            var page = (sender as ListBoxItem)?.Content as Page;
-            if (page != null && page.PageType == PageType.Folder)
-            {
-                BookHub.Current.RequestLoad(page.Entry.SystemPath, null, BookLoadOption.IsBook | BookLoadOption.SkipSamePlace, true);
-                e.Handled = true;
-            }
-        }
-
-        // 履歴項目決定(キー)
-        private void PageListItem_KeyDown(object sender, KeyEventArgs e)
-        {
-            var page = (sender as ListBoxItem)?.Content as Page;
-            {
-                if (e.Key == Key.Return)
-                {
-                    _vm.Model.Jump(page);
-                    e.Handled = true;
-                }
-            }
-        }
-
         // リストのキ入力
         private void PageList_KeyDown(object sender, KeyEventArgs e)
         {
-            bool isLRKeyEnabled = Config.Current.Panels.IsLeftRightKeyEnabled;
+            var page = this.ListBox.SelectedItem as Page;
+            var isLRKeyEnabled = Config.Current.Panels.IsLeftRightKeyEnabled;
+
+            if (Keyboard.Modifiers == ModifierKeys.Alt)
+            {
+                Key key = e.Key == Key.System ? e.SystemKey : e.Key;
+
+                if (key == Key.Up)
+                {
+                    // 現在ブックの上の階層に移動
+                    BookHub.Current.RequestLoadParent();
+                    e.Handled = true;
+                }
+                else if (key == Key.Down)
+                {
+                    // 選択ブックに移動
+                    if (page != null && page.PageType == PageType.Folder)
+                    {
+                        BookHub.Current.RequestLoad(page.Entry.SystemPath, null, BookLoadOption.IsBook | BookLoadOption.SkipSamePlace, true);
+                    }
+                    e.Handled = true;
+                }
+                else if (key == Key.Left)
+                {
+                    // 直前のブックに移動
+                    BookHubHistory.Current.MoveToPrevious();
+                    e.Handled = true;
+                }
+                else if (key == Key.Right)
+                {
+                    // 直後のブックに移動
+                    BookHubHistory.Current.MoveToNext();
+                    e.Handled = true;
+                }
+            }
+
+            // 項目決定
+            if (e.Key == Key.Return)
+            {
+                _vm.Model.Jump(page);
+                e.Handled = true;
+            }
 
             // このパネルで使用するキーのイベントを止める
             if (e.Key == Key.Up || e.Key == Key.Down || (isLRKeyEnabled && (e.Key == Key.Left || e.Key == Key.Right)) || e.Key == Key.Return || e.Key == Key.Delete)
@@ -361,6 +382,63 @@ namespace NeeView
         }
 
 
+        // 項目クリック
+        private void PageListItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var page = (sender as ListBoxItem)?.Content as Page;
+            if (page != null)
+            {
+                _vm.Model.Jump(page);
+            }
+        }
+
+        // 項目ダブルクリック
+        private void PageListItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var page = (sender as ListBoxItem)?.Content as Page;
+            if (page != null && page.PageType == PageType.Folder)
+            {
+                BookHub.Current.RequestLoad(page.Entry.SystemPath, null, BookLoadOption.IsBook | BookLoadOption.SkipSamePlace, true);
+                e.Handled = true;
+            }
+        }
+
+
+        private void PageListItem_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            var container = sender as ListBoxItem;
+            if (container == null)
+            {
+                return;
+            }
+
+            var item = container.Content as Page;
+            if (item == null)
+            {
+                return;
+            }
+
+            var contextMenu = container.ContextMenu;
+            if (contextMenu == null)
+            {
+                return;
+            }
+
+            contextMenu.Items.Clear();
+
+            if (item.PageType == PageType.Folder)
+            {
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagelistItemMenuOpenBook, Command = OpenBookCommand });
+                contextMenu.Items.Add(new Separator());
+            }
+
+            contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagelistItemMenuOpen, Command = OpenCommand });
+            contextMenu.Items.Add(new Separator());
+            contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PageListItemMenuCopy, Command = CopyCommand });
+            contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PageListItemMenuDelete, Command = RemoveCommand });
+        }
+
+
         #region DragDrop
 
         private async Task DragStartBehavior_DragBeginAsync(object sender, Windows.DragStartEventArgs e, CancellationToken token)
@@ -378,6 +456,7 @@ namespace NeeView
         }
 
         #endregion
+
     }
 
 

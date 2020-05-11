@@ -9156,6 +9156,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   _Open book に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PagelistItemMenuOpenBook {
+            get {
+                return ResourceManager.GetString("PagelistItemMenuOpenBook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Page list に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string PageListName {

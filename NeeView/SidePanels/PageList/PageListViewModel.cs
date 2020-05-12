@@ -31,6 +31,13 @@ namespace NeeView
             _model = model;
             _model.AddPropertyChanged(nameof(PageList.PageSortMode), (s, e) => RaisePropertyChanged(nameof(PageSortMode)));
 
+                _model.PageHistoryChanged += 
+                (s, e) => UpdateMoveToHistoryCommandCanExecute();
+
+            _model.CollectionChanged +=
+                (s, e) => UpdateMoveToUpCommandCanExecute();
+
+            InitializeCommands();
             InitializeMoreMenu();
         }
 
@@ -50,6 +57,23 @@ namespace NeeView
             set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
         }
 
+
+        #region Commands
+
+        public RelayCommand MoveToPreviousCommand { get; private set; }
+        public RelayCommand MoveToNextCommand { get; private set; }
+        public RelayCommand<KeyValuePair<int, PageHistoryUnit>> MoveToHistoryCommand { get; private set; }
+        public RelayCommand MoveToUpCommand { get; private set; }
+
+        private void InitializeCommands()
+        {
+            MoveToPreviousCommand = new RelayCommand(_model.MoveToPrevious, _model.CanMoveToPrevious);
+            MoveToNextCommand = new RelayCommand(_model.MoveToNext, _model.CanMoveToNext);
+            MoveToHistoryCommand = new RelayCommand<KeyValuePair<int, PageHistoryUnit>>(_model.MoveToHistory);
+            MoveToUpCommand = new RelayCommand(_model.MoveToParent, _model.CanMoveToParent);
+        }
+
+        #endregion Commands
 
         #region MoreMenu
 
@@ -102,5 +126,24 @@ namespace NeeView
         }
 
         #endregion
+
+        public List<KeyValuePair<int, PageHistoryUnit>> GetHistory(int direction, int size)
+        {
+            return _model.GetHistory(direction, size);
+        }
+
+        /// <summary>
+        /// コマンド実行可能状態を更新
+        /// </summary>
+        private void UpdateMoveToHistoryCommandCanExecute()
+        {
+            this.MoveToPreviousCommand.RaiseCanExecuteChanged();
+            this.MoveToNextCommand.RaiseCanExecuteChanged();
+        }
+
+        private void UpdateMoveToUpCommandCanExecute()
+        { 
+            this.MoveToUpCommand.RaiseCanExecuteChanged();
+        }
     }
 }

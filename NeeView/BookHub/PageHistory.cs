@@ -67,6 +67,15 @@ namespace NeeView
         private readonly HistoryLimitedCollection<PageHistoryUnit> _history = new HistoryLimitedCollection<PageHistoryUnit>(_historyCapacity);
 
 
+        public PageHistory()
+        {
+            _history.Changed += (s, e) => Changed?.Invoke(s, e);
+        }
+
+
+        public event EventHandler Changed;
+      
+
         public void Add(PageHistoryUnit query)
         {
             if (query.IsEmpty()) return;

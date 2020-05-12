@@ -47,6 +47,30 @@ namespace NeeView
         {
             ContextMenuWatcher.SetTargetElement((UIElement)sender);
         }
+
+        /// <summary>
+        /// 履歴戻るボタンコンテキストメニュー開く 前処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PrevButton_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            var menu = (sender as FrameworkElement)?.ContextMenu;
+            if (menu == null) return;
+            menu.ItemsSource = _vm.GetHistory(-1, 10);
+        }
+
+        /// <summary>
+        /// 履歴進むボタンコンテキストメニュー開く 前処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NextButton_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            var menu = (sender as FrameworkElement)?.ContextMenu;
+            if (menu == null) return;
+            menu.ItemsSource = _vm.GetHistory(+1, 10);
+        }
     }
 
     public enum PageNameFormat

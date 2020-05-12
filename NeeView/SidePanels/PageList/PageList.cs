@@ -26,6 +26,8 @@ namespace NeeView
         private PageList()
         {
             BookOperation.Current.AddPropertyChanged(nameof(BookOperation.PageList), BookOperation_PageListChanged);
+
+            PageHistory.Current.Changed += (s, e) => PageHistoryChanged?.Invoke(s, e);
         }
 
 
@@ -34,6 +36,8 @@ namespace NeeView
         /// </summary>
         public event EventHandler CollectionChanging;
         public event EventHandler CollectionChanged;
+
+        public event EventHandler PageHistoryChanged;
 
         /// <summary>
         ///  表示ページの変更通知
@@ -209,6 +213,48 @@ namespace NeeView
             ClipboardUtility.Copy(pages, new CopyFileCommandParameter() { MultiPagePolicy = MultiPagePolicy.All });
         }
 
+        /// <summary>
+        /// 履歴取得
+        /// </summary>
+        public List<KeyValuePair<int, PageHistoryUnit>> GetHistory(int direction, int size)
+        {
+            return PageHistory.Current.GetHistory(direction, size);
+        }
+
+        public bool CanMoveToPrevious()
+        {
+            return PageHistory.Current.CanMoveToPrevious();
+        }
+
+        public void MoveToPrevious()
+        {
+            PageHistory.Current.MoveToPrevious();
+        }
+
+        public bool CanMoveToNext()
+        {
+            return PageHistory.Current.CanMoveToNext();
+        }
+
+        public void MoveToNext()
+        {
+            PageHistory.Current.MoveToNext();
+        }
+
+        public void MoveToHistory(KeyValuePair<int, PageHistoryUnit> item)
+        {
+            PageHistory.Current.MoveToHistory(item);
+        }
+
+        public bool CanMoveToParent()
+        {
+            return BookHub.Current.CanLoadParent();
+        }
+
+        public void MoveToParent()
+        {
+            BookHub.Current.RequestLoadParent();
+        }
 
         #region Memento
         [DataContract]

@@ -339,27 +339,33 @@ namespace NeeView
                     }
                     e.Handled = true;
                 }
-#if false
                 else if (key == Key.Left)
                 {
-                    // 直前のブックに移動
-                    BookHubHistory.Current.MoveToPrevious();
+                    // 直前のページに移動
+                    PageHistory.Current.MoveToPrevious();
                     e.Handled = true;
                 }
                 else if (key == Key.Right)
                 {
-                    // 直後のブックに移動
-                    BookHubHistory.Current.MoveToNext();
+                    // 直後のページに移動
+                    PageHistory.Current.MoveToNext();
                     e.Handled = true;
                 }
-#endif
             }
-
-            // 項目決定
-            if (e.Key == Key.Return)
+            else if (Keyboard.Modifiers == ModifierKeys.None)
             {
-                _vm.Model.Jump(page);
-                e.Handled = true;
+                if (e.Key == Key.Return)
+                {
+                    // 項目決定
+                    _vm.Model.Jump(page);
+                    e.Handled = true;
+                }
+                if (e.Key == Key.Back)
+                {
+                    // 直前のページに移動
+                    PageHistory.Current.MoveToPrevious();
+                    e.Handled = true;
+                }
             }
 
             // このパネルで使用するキーのイベントを止める
@@ -441,7 +447,7 @@ namespace NeeView
         }
 
 
-#region DragDrop
+        #region DragDrop
 
         private async Task DragStartBehavior_DragBeginAsync(object sender, Windows.DragStartEventArgs e, CancellationToken token)
         {
@@ -457,7 +463,7 @@ namespace NeeView
             e.AllowedEffects = DragDropEffects.Copy | DragDropEffects.Scroll;
         }
 
-#endregion
+        #endregion
 
     }
 

@@ -800,12 +800,20 @@ namespace NeeView
                     e.Handled = true;
                 }
             }
+            else if (Keyboard.Modifiers == ModifierKeys.None)
+            {
+                if (e.Key == Key.Back)
+                {
+                    _vm.MoveToPrevious();
+                    e.Handled = true;
+                }
+            }
         }
 
         private void FolderList_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             bool isLRKeyEnabled = _vm.IsLRKeyEnabled();
-            if ((isLRKeyEnabled && e.Key == Key.Left) || e.Key == Key.Back) // ←, Backspace
+            if (isLRKeyEnabled && e.Key == Key.Left) // ←
             {
                 _vm.MoveToUp();
                 e.Handled = true;

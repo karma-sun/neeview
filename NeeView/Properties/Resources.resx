@@ -166,7 +166,7 @@
     <value>Bookmark</value>
   </data>
   <data name="BookshelfBackTips" xml:space="preserve">
-    <value>Back  (Alt+Left)</value>
+    <value>Back (Alt+Left,Back)</value>
   </data>
   <data name="BookshelfHomeMenuSet" xml:space="preserve">
     <value>Set this place home</value>
@@ -229,7 +229,7 @@
     <value>Move to current book place</value>
   </data>
   <data name="BookshelfUpTips" xml:space="preserve">
-    <value>Up (Alt+Up,Back)</value>
+    <value>Up (Alt+Up)</value>
   </data>
   <data name="CommandCancelFullScreen" xml:space="preserve">
     <value>Full screen OFF</value>

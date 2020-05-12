@@ -205,7 +205,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Back  (Alt+Left) に類似しているローカライズされた文字列を検索します。
+        ///   Back (Alt+Left,Back) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookshelfBackTips {
             get {
@@ -412,7 +412,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Up (Alt+Up,Back) に類似しているローカライズされた文字列を検索します。
+        ///   Up (Alt+Up) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookshelfUpTips {
             get {

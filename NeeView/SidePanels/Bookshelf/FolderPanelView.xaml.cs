@@ -23,6 +23,8 @@ namespace NeeView
         private FolderPanelViewModel _vm;
         private FolderListView _folderListView;
 
+        private BookshelfFolderListPresenter _folderListPresenter;
+
 
         public FolderPanelView()
         {
@@ -36,6 +38,8 @@ namespace NeeView
 
             _folderListView = new FolderListView(folderList);
             this.FolderList.Content = _folderListView;
+
+            _folderListPresenter = new BookshelfFolderListPresenter(_folderListView, folderList);
 
             PageListPlacementService.Current.Update();
         }
@@ -53,12 +57,12 @@ namespace NeeView
 
         public void Refresh()
         {
-            _folderListView.Refresh();
+            _folderListPresenter.Refresh();
         }
 
         public void FocusAtOnce()
         {
-            _folderListView.FocusAtOnce();
+            _folderListPresenter.FocusAtOnce();
         }
 
     }

@@ -161,16 +161,16 @@
             <ListBox.Style>
                 <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding FolderList.PanelListItemStyle}" Value="Normal">
+                        <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Normal">
                             <Setter Property="ItemTemplate" Value="{StaticResource NormalTemplate}"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding FolderList.PanelListItemStyle}" Value="Content">
+                        <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Content">
                             <Setter Property="ItemTemplate" Value="{StaticResource ContentTemplate}"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding FolderList.PanelListItemStyle}" Value="Banner">
+                        <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Banner">
                             <Setter Property="ItemTemplate" Value="{StaticResource BannerTemplate}"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding FolderList.PanelListItemStyle}" Value="Thumbnail">
+                        <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Thumbnail">
                             <Setter Property="ItemTemplate" Value="{StaticResource ThumbnailTemplate}"/>
                             <Setter Property="ItemsPanel">
                                 <Setter.Value>
@@ -208,6 +208,8 @@
 
         </nw:ListBoxExteded>
 
+        <ContentControl x:Name="BusyFadeContent" Focusable="False" />
+        
     </Grid>
 
 </UserControl>

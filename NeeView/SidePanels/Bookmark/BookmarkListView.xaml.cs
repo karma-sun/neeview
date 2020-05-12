@@ -15,16 +15,10 @@ using NeeView.Windows;
 
 namespace NeeView
 {
-    public partial class BookmarkListView : UserControl
+    public partial class BookmarkListView : UserControl, IHasFolderListBox
     {
-        #region Fields
-
         private BookmarkListViewModel _vm;
-        private int _busyCounter;
 
-        #endregion
-
-        #region Constructors
 
         public BookmarkListView()
         {
@@ -39,10 +33,7 @@ namespace NeeView
             this.DockPanel.DataContext = _vm;
 
             model.FolderTreeFocus += FolderList_FolderTreeFocus;
-            model.BusyChanged += FolderList_BusyChanged;
         }
-
-        #endregion
 
 
         /// <summary>
@@ -53,30 +44,6 @@ namespace NeeView
             if (!_vm.Model.FolderListConfig.IsFolderTreeVisible) return;
 
             this.FolderTree.FocusSelectedItem();
-        }
-
-        /// <summary>
-        /// リスト更新中
-        /// </summary>
-        private void FolderList_BusyChanged(object sender, BusyChangedEventArgs e)
-        {
-            _busyCounter += e.IsBusy ? +1 : -1;
-            if (_busyCounter <= 0)
-            {
-                this.FolderListBox.IsHitTestVisible = true;
-                this.FolderListBox.BeginAnimation(UIElement.OpacityProperty, null);
-                this.FolderListBox.Opacity = 1.0;
-
-                this.BusyFadeContent.Content = null;
-                _busyCounter = 0;
-            }
-            else if (_busyCounter > 0 && this.BusyFadeContent.Content == null)
-            {
-                this.FolderListBox.IsHitTestVisible = false;
-                this.FolderListBox.BeginAnimation(UIElement.OpacityProperty, new DoubleAnimation(0.0, TimeSpan.FromSeconds(0.5)) { BeginTime = TimeSpan.FromSeconds(1.0) });
-
-                this.BusyFadeContent.Content = new BusyFadeView();
-            }
         }
 
         private void BookmarkListView_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -117,14 +84,9 @@ namespace NeeView
             e.Handled = true;
         }
 
-        public void Refresh()
+        public void SetFolderListBoxContent(FolderListBox content)
         {
-            _vm.FolderListBox?.Refresh();
-        }
-
-        public void FocusAtOnce()
-        {
-            _vm.Model.FocusAtOnce();
+            this.ListBoxContent.Content = content;
         }
     }
 }

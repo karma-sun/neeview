@@ -305,10 +305,10 @@ namespace NeeView
         {
             if (CanDeleteBook())
             {
-                var item = BookshelfFolderList.Current.FolderListBoxModel.FindFolderItem(Book.SourceAddress);
+                var item = BookshelfFolderList.Current.FindFolderItem(Book.SourceAddress);
                 if (item != null)
                 {
-                    await BookshelfFolderList.Current.FolderListBoxModel.RemoveAsync(item);
+                    await BookshelfFolderList.Current.RemoveAsync(item);
                 }
                 else
                 {

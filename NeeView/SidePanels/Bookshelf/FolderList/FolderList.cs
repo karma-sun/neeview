@@ -24,42 +24,11 @@ using System.Windows.Data;
 
 namespace NeeView
 {
-    public class BusyChangedEventArgs : EventArgs
-    {
-        public bool IsBusy { get; set; }
-
-        public BusyChangedEventArgs(bool isBusy)
-        {
-            this.IsBusy = isBusy;
-        }
-    }
-
-    public class FolderItemPosition
-    {
-        public FolderItemPosition(QueryPath path)
-        {
-            this.Path = path;
-            this.Index = -1;
-        }
-
-        public FolderItemPosition(QueryPath path, int index)
-        {
-            this.Path = path;
-            this.Index = index;
-        }
-
-        public QueryPath Path { get; private set; }
-        public int Index { get; private set; }
-    }
-
-
     /// <summary>
     /// FolderList Model
     /// </summary>
     public abstract class FolderList : BindableBase, IDisposable
     {
-        #region Fields
-
         private static SearchKeyAnalyzer _searchKeyAnalyzer = new SearchKeyAnalyzer();
 
         /// <summary>
@@ -89,17 +58,26 @@ namespace NeeView
 
         private volatile bool _isCollectionCreating;
         private List<Action> _collectionCreatedCallback = new List<Action>();
-        
+
+        private int _busyCount;
+
+        private FolderCollection _folderCollection;
+        private FolderItem _selectedItem;
+
+        private string _inputKeyword;
+        private string _searchKeywordErrorMessage;
+
         private object _lock = new object();
 
-        #endregion Fields
+        private double _areaWidth = double.PositiveInfinity;
+        private double _areaHeight = double.PositiveInfinity;
+        private bool _IsLocked;
 
-        #region Constructors
+
 
         protected FolderList(bool isSyncBookHub, bool isOverlayEnabled, FolderListConfig folderListConfig)
         {
             _folderListConfig = folderListConfig;
-            _folderListBoxModel = new FolderListBoxModel(null);
 
             _searchEngine = new FolderSearchEngine();
             FolderCollectionFactory = new FolderCollectionFactory(_searchEngine, isOverlayEnabled);
@@ -120,7 +98,7 @@ namespace NeeView
             if (isSyncBookHub)
             {
                 BookHub.Current.FolderListSync += async (s, e) => await SyncWeak(e);
-                BookHub.Current.HistoryChanged += (s, e) => _folderListBoxModel.RefreshIcon(new QueryPath(e.Key));
+                BookHub.Current.HistoryChanged += (s, e) => RefreshIcon(new QueryPath(e.Key));
                 BookHub.Current.LoadRequested += (s, e) => CancelMoveCruiseFolder();
             }
 
@@ -132,12 +110,12 @@ namespace NeeView
                     {
                         case EntryCollectionChangedAction.Reset:
                         case EntryCollectionChangedAction.Replace:
-                            _folderListBoxModel.RefreshIcon(null);
+                            RefreshIcon(null);
                             break;
                         default:
                             if (e.Item.Value is Bookmark bookmark)
                             {
-                                _folderListBoxModel.RefreshIcon(new QueryPath(bookmark.Path));
+                                RefreshIcon(new QueryPath(bookmark.Path));
                             }
                             break;
                     }
@@ -170,9 +148,7 @@ namespace NeeView
             });
         }
 
-        #endregion Constructors
 
-        #region Events
 
         public event EventHandler PlaceChanged;
 
@@ -185,11 +161,37 @@ namespace NeeView
         public event ErrorEventHandler FolderTreeFocus;
 
         // リスト更新処理中イベント
-        public event EventHandler<BusyChangedEventArgs> BusyChanged;
+        public event EventHandler<FolderListBusyChangedEventArgs> BusyChanged;
 
-        #endregion
+        public event EventHandler<FolderListSelectedChangedEventArgs> SelectedChanging;
+        public event EventHandler<FolderListSelectedChangedEventArgs> SelectedChanged;
 
-        #region Properties
+
+
+        public FolderItem SelectedItem
+        {
+            get { return _selectedItem; }
+            set { SetProperty(ref _selectedItem, value); }
+        }
+
+        /// <summary>
+        /// リスト自体のコンテキストメニュー表示が有効？
+        /// </summary>
+        public bool IsContextMenuEnabled => FolderCollection is BookmarkFolderCollection;
+
+        /// <summary>
+        /// フォーカス要求
+        /// </summary>
+        public bool IsFocusAtOnce { get; set; }
+
+        /// <summary>
+        /// 本を読み込むときに本棚の更新を要求する
+        /// </summary>
+        public virtual bool IsSyncBookshelfEnabled
+        {
+            get { return false; }
+            set { }
+        }
 
         public FolderListConfig FolderListConfig => _folderListConfig;
 
@@ -223,7 +225,6 @@ namespace NeeView
         /// <summary>
         /// フォルダーコレクション
         /// </summary>
-        private FolderCollection _folderCollection;
         public FolderCollection FolderCollection
         {
             get { return _folderCollection; }
@@ -235,14 +236,6 @@ namespace NeeView
                     _folderCollection = value;
                 }
             }
-        }
-
-
-        private FolderListBoxModel _folderListBoxModel;
-        public FolderListBoxModel FolderListBoxModel
-        {
-            get { return _folderListBoxModel; }
-            private set { SetProperty(ref _folderListBoxModel, value); }
         }
 
         /// <summary>
@@ -278,7 +271,6 @@ namespace NeeView
         /// <summary>
         /// 入力キーワード
         /// </summary>
-        private string _inputKeyword;
         public string InputKeyword
         {
             get { return _inputKeyword; }
@@ -291,14 +283,9 @@ namespace NeeView
             }
         }
 
-        protected virtual bool IsIncrementalSearchEnabled() => false;
-        protected virtual bool IsSearchIncludeSubdirectories() => false;
-
-
         /// <summary>
         /// 検索キーワードエラーメッセージ
         /// </summary>
-        private string _searchKeywordErrorMessage;
         public string SearchKeywordErrorMessage
         {
             get { return _searchKeywordErrorMessage; }
@@ -343,7 +330,6 @@ namespace NeeView
         /// フォルダーリストエリアの幅
         /// クイックアクセスエリアの幅計算用
         /// </summary>
-        private double _areaWidth = double.PositiveInfinity;
         public double AreaWidth
         {
             get { return _areaWidth; }
@@ -356,7 +342,6 @@ namespace NeeView
                 }
             }
         }
-
 
         /// <summary>
         /// フォルダーツリーエリアの高さ
@@ -379,7 +364,6 @@ namespace NeeView
         /// フォルダーリストエリアの高さ
         /// クイックアクセスエリアの高さ計算用
         /// </summary>
-        private double _areaHeight = double.PositiveInfinity;
         public double AreaHeight
         {
             get { return _areaHeight; }
@@ -393,24 +377,23 @@ namespace NeeView
             }
         }
 
-
         /// <summary>
         /// 外部の変化によるフォルダーリストの変更を禁止
         /// </summary>
-        private bool _IsLocked;
         public bool IsLocked
         {
             get { return _IsLocked; }
             set { SetProperty(ref _IsLocked, value && Place != null); }
         }
 
-        protected virtual bool IsSyncBookshelfEnabled() => false;
-
         public PageListPlacementService PageListPlacementService => PageListPlacementService.Current;
 
-        #endregion
 
-        #region Methods
+
+        protected virtual bool IsIncrementalSearchEnabled() => false;
+
+        protected virtual bool IsSearchIncludeSubdirectories() => false;
+
 
         // 検索キーワード即時反映
         public void SetSearchKeyword(string keyword)
@@ -458,7 +441,7 @@ namespace NeeView
         /// </summary>
         public void FocusAtOnce()
         {
-            this.FolderListBoxModel.IsFocusAtOnce = true;
+            this.IsFocusAtOnce = true;
         }
 
         /// <summary>
@@ -574,10 +557,7 @@ namespace NeeView
             path = path.ToEntityPath();
 
             // 現在フォルダーの情報を記憶
-            if (_folderListBoxModel != null)
-            {
-                SavePlace(Place, _folderListBoxModel.SelectedItem, _folderListBoxModel.GetFolderItemIndex(_folderListBoxModel.SelectedItem));
-            }
+            SavePlace(Place, SelectedItem, GetFolderItemIndex(SelectedItem));
 
             // 初期項目
             if (select == null)
@@ -603,20 +583,17 @@ namespace NeeView
                     var collection = await CreateFolderCollectionAsync(path, true);
                     if (collection != null)
                     {
-                        // NOTE: Focus要求フラグのみ引き継ぐ
-                        bool isFocusAtOnce = this.FolderListBoxModel != null && this.FolderListBoxModel.IsFocusAtOnce;
-
                         this.FolderCollection = collection;
-                        this.FolderListBoxModel = new FolderListBoxModel(this.FolderCollection);
-                        this.FolderListBoxModel.IsSyncBookshelfEnabled = IsSyncBookshelfEnabled();
-                        this.FolderListBoxModel.SetSelectedItem(select, options.HasFlag(FolderSetPlaceOption.Focus));
-                        this.FolderListBoxModel.IsFocusAtOnce = isFocusAtOnce;
+                        this.FolderCollection.CollectionChanging += FolderCollection_CollectionChanging;
+                        this.FolderCollection.CollectionChanged += FolderCollection_CollectionChanged;
+                        RaiseCollectionChanged();
+
+                        this.SetSelectedItem(select, options.HasFlag(FolderSetPlaceOption.Focus));
+
                         if (options.HasFlag(FolderSetPlaceOption.Focus))
                         {
                             FocusAtOnce();
                         }
-
-                        RaiseCollectionChanged();
 
                         // 最終フォルダー更新
                         Config.Current.StartUp.LastFolderPath = Place.SimpleQuery;
@@ -651,7 +628,7 @@ namespace NeeView
             else
             {
                 // 選択項目のみ変更
-                _folderListBoxModel.SetSelectedItem(select, false);
+                SetSelectedItem(select, false);
                 PlaceChanged?.Invoke(this, null);
             }
         }
@@ -749,39 +726,6 @@ namespace NeeView
         }
 
         /// <summary>
-        /// フォルダーの並びを設定
-        /// </summary>
-        public void SetFolderOrder(FolderOrder folderOrder)
-        {
-            _folderListBoxModel.SetFolderOrder(folderOrder);
-        }
-
-        /// <summary>
-        /// フォルダーの並びを取得
-        /// </summary>
-        public FolderOrder GetFolderOrder()
-        {
-            return _folderListBoxModel.GetFolderOrder();
-        }
-
-        /// <summary>
-        /// フォルダーの並びを順番に切り替える
-        /// </summary>
-        public void ToggleFolderOrder()
-        {
-            _folderListBoxModel.ToggleFolderOrder();
-        }
-
-        /// <summary>
-        /// フォルダーの次の並び順を取得
-        /// </summary>
-        public FolderOrder GetNextFolderOrder()
-        {
-            return _folderListBoxModel.GetNextFolderOrder();
-        }
-
-
-        /// <summary>
         /// 検索ボックスにフォーカス要求
         /// </summary>
         public void RaiseSearchBoxFocus()
@@ -822,10 +766,9 @@ namespace NeeView
             var items = _folderCollection?.Items.Select(e => e.TargetPath.SimplePath).Where(e => e != null);
             BookHistoryCollection.Current.Remove(items);
 
-            _folderListBoxModel.RefreshIcon(null);
+            RefreshIcon(null);
         }
 
-        #endregion Methods
 
         #region MoveFolder
 
@@ -888,13 +831,13 @@ namespace NeeView
         /// </summary>
         private async Task<bool> MoveNextFolder(int direction, BookLoadOption options)
         {
-            var item = _folderListBoxModel.GetFolderItem(_folderListBoxModel.SelectedItem, direction);
+            var item = GetFolderItem(SelectedItem, direction);
             if (item == null)
             {
                 return false;
             }
 
-            int index = _folderListBoxModel.GetFolderItemIndex(item);
+            int index = GetFolderItemIndex(item);
 
             await SetPlaceAsync(_folderCollection.Place, new FolderItemPosition(item.TargetPath, index), FolderSetPlaceOption.UpdateHistory);
             RequestLoad(item, null, options, false);
@@ -921,7 +864,7 @@ namespace NeeView
                 return false;
             }
 
-            int index = _folderListBoxModel.GetFolderItemIndex(item);
+            int index = GetFolderItemIndex(item);
 
             await SetPlaceAsync(_folderCollection.Place, new FolderItemPosition(item.TargetPath, index), FolderSetPlaceOption.UpdateHistory);
             RequestLoad(item, null, options, false);
@@ -936,7 +879,7 @@ namespace NeeView
         {
             // TODO: NowLoad表示をどうしよう。BookHubに処理を移してそこで行う？
 
-            var item = _folderListBoxModel.SelectedItem;
+            var item = SelectedItem;
             if (item == null) return false;
 
             _cruiseFolderCancellationTokenSource?.Cancel();
@@ -984,6 +927,24 @@ namespace NeeView
 
         #region CreateFolderCollection
 
+        public void IncrementBusy()
+        {
+            var count = Interlocked.Increment(ref _busyCount);
+            if (count == 1)
+            {
+                BusyChanged?.Invoke(this, new FolderListBusyChangedEventArgs(true));
+            }
+        }
+
+        public void DecrementBusy()
+        {
+            var count = Interlocked.Decrement(ref _busyCount);
+            if (count == 0)
+            {
+                BusyChanged?.Invoke(this, new FolderListBusyChangedEventArgs(false));
+            }
+        }
+
         /// <summary>
         /// コレクション作成
         /// </summary>
@@ -991,7 +952,7 @@ namespace NeeView
         {
             try
             {
-                BusyChanged?.Invoke(this, new BusyChangedEventArgs(true));
+                IncrementBusy();
 
                 _updateFolderCancellationTokenSource?.Cancel();
                 _updateFolderCancellationTokenSource?.Dispose();
@@ -1018,7 +979,7 @@ namespace NeeView
             }
             finally
             {
-                BusyChanged?.Invoke(this, new BusyChangedEventArgs(false));
+                DecrementBusy();
             }
 
             return null;
@@ -1029,8 +990,6 @@ namespace NeeView
         /// </summary>
         private async Task<FolderCollection> CreateFolderCollectionAsync(QueryPath path, bool isForce, CancellationToken token)
         {
-            ////var factory = FolderCollectionFactory.Current;
-
             if (!isForce && _folderCollection.Place.Equals(path))
             {
                 return null;
@@ -1165,40 +1124,12 @@ namespace NeeView
 
         public void ToggleFolderRecursive()
         {
-            _folderListBoxModel.ToggleFolderRecursive_Executed();
+            ToggleFolderRecursive_Executed();
         }
 
         protected virtual void CloseBookIfNecessary()
         {
         }
-
-
-        public void NewFolder()
-        {
-            _folderListBoxModel.NewFolder();
-        }
-
-        public void SelectBookmark(TreeListNode<IBookmarkEntry> node, bool isFocus)
-        {
-            _folderListBoxModel.SelectBookmark(node, isFocus);
-        }
-
-        public bool AddBookmark()
-        {
-            var place = BookHub.Current.Book?.Address;
-            if (place == null)
-            {
-                return false;
-            }
-
-            return AddBookmark(new QueryPath(place), true);
-        }
-
-        public bool AddBookmark(QueryPath path, bool isFocus)
-        {
-            return _folderListBoxModel.AddBookmark(path, isFocus);
-        }
-
 
         #region FolderCollection生成衝突の回避用
 
@@ -1306,7 +1237,7 @@ namespace NeeView
             RequestPlace(query, null, FolderSetPlaceOption.UpdateHistory | FolderSetPlaceOption.ResetKeyword | FolderSetPlaceOption.Refresh);
         }
 
-        #endregion
+        #endregion Commands
 
         #region IDisposable Support
         private bool _disposedValue = false;
@@ -1337,7 +1268,425 @@ namespace NeeView
         }
         #endregion
 
-        #region Memento
+
+        public void SetSelectedItem(FolderItemPosition select, bool isFocus)
+        {
+            RaiseSelectedItemChanging();
+            this.SelectedItem = FixedItem(select);
+            RaiseSelectedItemChanged(isFocus);
+        }
+
+
+        /// <summary>
+        /// ふさわしい選択項目インデックスを取得
+        /// </summary>
+        /// <param name="path">選択したいパス</param>
+        /// <returns></returns>
+        internal int FixedIndexOfPath(QueryPath path)
+        {
+            var index = this.FolderCollection.IndexOfPath(path);
+            return index < 0 ? 0 : index;
+        }
+
+        /// <summary>
+        /// 選択項目の復元
+        /// </summary>
+        internal FolderItem FixedItem(FolderItemPosition pos)
+        {
+            if (pos == null)
+            {
+                return this.FolderCollection.FirstOrDefault();
+            }
+
+            if (pos.Index >= 0)
+            {
+                var item = this.FolderCollection.Items.ElementAtOrDefault(pos.Index);
+                if (item != null && item.TargetPath == pos.Path)
+                {
+                    return item;
+                }
+            }
+
+            // アーカイブ内のパスの場合、有効な項目になるまで場所を遡る
+            var path = pos.Path;
+            do
+            {
+                var select = this.FolderCollection.Items.FirstOrDefault(e => e.TargetPath == path);
+                if (select != null)
+                {
+                    return select;
+                }
+                path = path.GetParent();
+            }
+            while (path != null && path.FullPath.Length > this.FolderCollection.Place.FullPath.Length);
+            return this.FolderCollection.FirstOrDefault();
+        }
+
+        /// <summary>
+        /// 項目変更前通知
+        /// </summary>
+        public void RaiseSelectedItemChanging()
+        {
+            SelectedChanging?.Invoke(this, null);
+        }
+
+        /// <summary>
+        /// 項目変更後通知
+        /// </summary>
+        /// <param name="isFocus"></param>
+        public void RaiseSelectedItemChanged(bool isFocus = false)
+        {
+            SelectedChanged?.Invoke(this, new FolderListSelectedChangedEventArgs() { IsFocus = isFocus });
+        }
+
+
+        // となりを取得
+        public FolderItem GetNeighbor(FolderItem item)
+        {
+            var items = this.FolderCollection?.Items;
+            if (items == null || items.Count <= 0) return null;
+
+            int index = items.IndexOf(item);
+            if (index < 0) return items[0];
+
+            if (index + 1 < items.Count)
+            {
+                return items[index + 1];
+            }
+            else if (index > 0)
+            {
+                return items[index - 1];
+            }
+            else
+            {
+                return item;
+            }
+        }
+
+        private void FolderCollection_CollectionChanging(object sender, FolderCollectionChangedEventArgs e)
+        {
+            if (e.Action == CollectionChangeAction.Remove)
+            {
+                SelectedChanging?.Invoke(this, new FolderListSelectedChangedEventArgs());
+                if (SelectedItem == e.Item)
+                {
+                    SelectedItem = GetNeighbor(SelectedItem);
+                }
+            }
+        }
+
+        private void FolderCollection_CollectionChanged(object sender, FolderCollectionChangedEventArgs e)
+        {
+            if (e.Action == CollectionChangeAction.Remove)
+            {
+                if (SelectedItem == null)
+                {
+                    SelectedItem = FolderCollection.Items?.FirstOrDefault();
+                }
+                SelectedChanged?.Invoke(this, new FolderListSelectedChangedEventArgs());
+            }
+        }
+
+        /// <summary>
+        /// 選択項目を基準とした項目取得
+        /// </summary>
+        /// <param name="offset">選択項目から前後した項目を指定</param>
+        /// <returns></returns>
+        internal FolderItem GetFolderItem(FolderItem item, int offset)
+        {
+            if (this.FolderCollection?.Items == null) return null;
+
+            int index = this.FolderCollection.Items.IndexOf(item);
+            if (index < 0) return null;
+
+            int next = (this.FolderCollection.FolderParameter.FolderOrder == FolderOrder.Random)
+                ? (index + this.FolderCollection.Items.Count + offset) % this.FolderCollection.Items.Count
+                : index + offset;
+
+            if (next < 0 || next >= this.FolderCollection.Items.Count) return null;
+
+            return this.FolderCollection[next];
+        }
+
+        internal int GetFolderItemIndex(FolderItem item)
+        {
+            if (this.FolderCollection?.Items == null) return -1;
+
+            return this.FolderCollection.Items.IndexOf(item);
+        }
+
+
+        /// <summary>
+        /// フォルダーアイコンの表示更新
+        /// </summary>
+        /// <param name="path">更新するパス。nullならば全て更新</param>
+        public void RefreshIcon(QueryPath path)
+        {
+            this.FolderCollection?.RefreshIcon(path);
+        }
+
+        // ブックの読み込み
+        public void LoadBook(FolderItem item)
+        {
+            if (item == null) return;
+
+            BookLoadOption option = BookLoadOption.SkipSamePlace | (this.FolderCollection.FolderParameter.IsFolderRecursive ? BookLoadOption.DefaultRecursive : BookLoadOption.None);
+            LoadBook(item, option);
+        }
+
+        // ブックの読み込み
+        public void LoadBook(FolderItem item, BookLoadOption option)
+        {
+            if (item.Attributes.HasFlag(FolderItemAttribute.System))
+            {
+                return;
+            }
+
+            // ブックマークフォルダーは本として開けないようにする
+            if (item.Attributes.HasFlag(FolderItemAttribute.Directory | FolderItemAttribute.Bookmark))
+            {
+                return;
+            }
+
+            var query = item.TargetPath;
+            if (query.Scheme != QueryScheme.Pagemark && query.Path == null)
+            {
+                return;
+            }
+
+            var additionalOption = BookLoadOption.IsBook | (item.CanRemove() ? BookLoadOption.None : BookLoadOption.Undeliteable);
+            BookHub.Current.RequestLoad(query.SimplePath, null, option | additionalOption, IsSyncBookshelfEnabled);
+        }
+
+        /// <summary>
+        /// フォルダーの並びを設定
+        /// </summary>
+        public void SetFolderOrder(FolderOrder folderOrder)
+        {
+            if (FolderCollection == null) return;
+            if (!FolderCollection.FolderOrderClass.GetFolderOrderMap().ContainsKey(folderOrder)) return;
+
+            this.FolderCollection.FolderParameter.FolderOrder = folderOrder;
+            RaisePropertyChanged(nameof(FolderOrder));
+        }
+
+        /// <summary>
+        /// フォルダーの並びを取得
+        /// </summary>
+        public FolderOrder GetFolderOrder()
+        {
+            if (this.FolderCollection == null) return default(FolderOrder);
+            return this.FolderCollection.FolderParameter.FolderOrder;
+        }
+
+        /// <summary>
+        /// フォルダーの並びを順番に切り替える
+        /// </summary>
+        public void ToggleFolderOrder()
+        {
+            if (this.FolderCollection == null) return;
+            SetFolderOrder(GetNextFolderOrder());
+            RaisePropertyChanged(nameof(FolderOrder));
+        }
+
+        public FolderOrder GetNextFolderOrder()
+        {
+            if (this.FolderCollection == null) return default;
+
+            var orders = FolderCollection.FolderOrderClass.GetFolderOrderMap().Keys;
+            var now = this.FolderCollection.FolderParameter.FolderOrder;
+            var index = orders.IndexOf(now);
+            return orders.ElementAt((index + 1) % orders.Count);
+        }
+
+        public void ToggleFolderRecursive_Executed()
+        {
+            this.FolderCollection.FolderParameter.IsFolderRecursive = !this.FolderCollection.FolderParameter.IsFolderRecursive;
+        }
+
+        public void NewFolder()
+        {
+            if (FolderCollection is BookmarkFolderCollection)
+            {
+                NewBookmarkFolder();
+            }
+        }
+
+        public void NewBookmarkFolder()
+        {
+            if (FolderCollection is BookmarkFolderCollection bookmarkFolderCollection)
+            {
+                var node = BookmarkCollection.Current.AddNewFolder(bookmarkFolderCollection.BookmarkPlace);
+
+                var item = bookmarkFolderCollection.FirstOrDefault(e => e.Attributes.HasFlag(FolderItemAttribute.Directory) && e.Name == node.Value.Name);
+
+                if (item != null)
+                {
+                    SelectedItem = item;
+                    SelectedChanged?.Invoke(this, new FolderListSelectedChangedEventArgs() { IsFocus = true, IsNewFolder = true });
+                }
+            }
+        }
+
+        public void SelectBookmark(TreeListNode<IBookmarkEntry> node, bool isFocus)
+        {
+            if (!(FolderCollection is BookmarkFolderCollection bookmarkFolderCollection))
+            {
+                return;
+            }
+
+            var item = bookmarkFolderCollection.FirstOrDefault(e => node == (e.Source as TreeListNode<IBookmarkEntry>));
+            if (item != null)
+            {
+                SelectedItem = item;
+                SelectedChanged?.Invoke(this, new FolderListSelectedChangedEventArgs() { IsFocus = isFocus });
+            }
+        }
+
+        public bool AddBookmark()
+        {
+            var address = BookHub.Current.Book?.Address;
+            if (address == null)
+            {
+                return false;
+            }
+
+            return AddBookmark(new QueryPath(address), true);
+        }
+
+        public bool AddBookmark(QueryPath path, bool isFocus)
+        {
+            if (!(FolderCollection is BookmarkFolderCollection bookmarkFolderCollection))
+            {
+                return false;
+            }
+
+            var node = BookmarkCollectionService.AddToChild(bookmarkFolderCollection.BookmarkPlace, path);
+            if (node != null)
+            {
+                var item = bookmarkFolderCollection.FirstOrDefault(e => node == (e.Source as TreeListNode<IBookmarkEntry>));
+                if (item != null)
+                {
+                    SelectedItem = item;
+                    SelectedChanged?.Invoke(this, new FolderListSelectedChangedEventArgs() { IsFocus = isFocus });
+                }
+            }
+
+            return true;
+        }
+
+        public bool RemoveBookmark(IEnumerable<FolderItem> items)
+        {
+            var nodes = items.Select(e => e.Source as TreeListNode<IBookmarkEntry>).Where(e => e != null).Reverse().ToList();
+            if (!nodes.Any())
+            {
+                return false;
+            }
+
+            var mementos = new List<TreeListNodeMemento<IBookmarkEntry>>();
+            int count = 0;
+
+            foreach (var node in nodes)
+            {
+                var memento = new TreeListNodeMemento<IBookmarkEntry>(node);
+
+                bool isRemoved = BookmarkCollection.Current.Remove(node);
+                if (isRemoved)
+                {
+                    mementos.Add(memento);
+
+                    if (node.Value is BookmarkFolder)
+                    {
+                        count += node.Count(e => e.Value is Bookmark);
+                    }
+                    else
+                    {
+                        count++;
+                    }
+                }
+            }
+
+            if (count >= 2)
+            {
+                var toast = new Toast(string.Format(Properties.Resources.DialogPagemarkFolderDelete, count), null, ToastIcon.Information, Properties.Resources.WordRestore,
+                    () => { foreach (var memento in mementos) BookmarkCollection.Current.Restore(memento); });
+                ToastService.Current.Show("BookmarkList", toast);
+            }
+
+            return (count > 0);
+        }
+
+
+        public FolderItem FindFolderItem(string address)
+        {
+            var path = new QueryPath(address);
+            var select = this.FolderCollection.Items.FirstOrDefault(e => e.TargetPath == path);
+
+            return select;
+        }
+
+        public async Task RemoveAsync(FolderItem item)
+        {
+            await RemoveAsync(new FolderItem[] { item });
+        }
+
+        public async Task RemoveAsync(IEnumerable<FolderItem> items)
+        {
+            if (items == null) return;
+
+            var bookmarks = items.Where(e => e.Attributes.HasFlag(FolderItemAttribute.Bookmark)).ToList();
+            var files = items.Where(e => e.IsFileSystem()).ToList();
+
+            if (bookmarks.Any())
+            {
+                RemoveBookmark(bookmarks);
+            }
+            else if (files.Any())
+            {
+                await RemoveFilesAsync(files);
+            }
+        }
+
+        private async Task RemoveFilesAsync(IEnumerable<FolderItem> items)
+        {
+            if (!items.Any()) return;
+
+            FolderItem next = null;
+            FolderItem currentBook = items.FirstOrDefault(e => e.TargetPath.SimplePath == BookHub.Current.Address);
+
+            if (Config.Current.Bookshelf.IsOpenNextBookWhenRemove && currentBook != null)
+            {
+                var index = GetFolderItemIndex(currentBook);
+                if (index >= 0)
+                {
+                    next = FolderCollection
+                        .Skip(index)
+                        .Concat(FolderCollection.Take(index).Reverse())
+                        .Where(e => !items.Contains(e))
+                        .FirstOrDefault();
+                }
+            }
+
+            var removed = await FileIO.Current.RemoveFileAsync(items.Select(e => e.TargetPath.SimplePath).ToList(), Properties.Resources.DialogFileDeleteBookTitle);
+            if (removed)
+            {
+                var removes = items.Where(e => !FileIO.Current.Exists(e.TargetPath.SimplePath)).ToList();
+                foreach (var item in removes)
+                {
+                    FolderCollection?.RequestDelete(item.TargetPath);
+                }
+
+                if (next != null && !FolderCollection.IsEmpty())
+                {
+                    SelectedItem = next;
+                    LoadBook(SelectedItem);
+                }
+            }
+        }
+
+
+
+#region Memento
 
         [DataContract]
         public class Memento : IMemento
@@ -1389,7 +1738,7 @@ namespace NeeView
             return memento;
         }
 
-        #endregion
+#endregion
     }
 
 }

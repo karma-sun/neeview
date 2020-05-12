@@ -13,25 +13,29 @@ using System.Globalization;
 using System.Windows.Media;
 using NeeView.Windows;
 using System.Threading;
+using NeeView.Data;
 
 namespace NeeView
 {
+    public class FocusChangedEventArgs : EventArgs
+    {
+        public FocusChangedEventArgs(bool isFocused)
+        {
+            IsFocused = isFocused;
+        }
+
+        public bool IsFocused { get; set; }
+    }
+
+
     /// <summary>
     /// FolderListControl.xaml の相互作用ロジック
     /// </summary>
-    public partial class FolderListView : UserControl
+    public partial class FolderListView : UserControl, IHasFolderListBox
     {
-        #region Fields
-
+        private FolderListViewModel _vm;
         private int _requestSearchBoxFocusValue;
 
-        private FolderListViewModel _vm;
-
-        private int _busyCounter;
-
-        #endregion
-
-        #region Constructors
 
         public FolderListView()
         {
@@ -47,10 +51,11 @@ namespace NeeView
 
             model.SearchBoxFocus += FolderList_SearchBoxFocus;
             model.FolderTreeFocus += FolderList_FolderTreeFocus;
-            model.BusyChanged += FolderList_BusyChanged;
         }
 
-        #endregion
+
+        public event EventHandler<FocusChangedEventArgs> SearchBoxFocusChanged;
+
 
         /// <summary>
         /// フォルダーツリーへのフォーカス要求
@@ -64,7 +69,6 @@ namespace NeeView
             this.FolderTree.FocusSelectedItem();
         }
 
-
         /// <summary>
         /// 検索ボックスのフォーカス要求処理
         /// </summary>
@@ -77,31 +81,6 @@ namespace NeeView
             if (Interlocked.Exchange(ref _requestSearchBoxFocusValue, 1) == 0)
             {
                 var task = FocustSearchBoxAsync(); // 非同期
-            }
-        }
-
-
-        /// <summary>
-        /// リスト更新中
-        /// </summary>
-        private void FolderList_BusyChanged(object sender, BusyChangedEventArgs e)
-        {
-            _busyCounter += e.IsBusy ? +1 : -1;
-            if (_busyCounter <= 0)
-            {
-                this.FolderListBox.IsHitTestVisible = true;
-                this.FolderListBox.BeginAnimation(UIElement.OpacityProperty, null);
-                this.FolderListBox.Opacity = 1.0;
-
-                this.BusyFadeContent.Content = null;
-                _busyCounter = 0;
-            }
-            else if (_busyCounter > 0 && this.BusyFadeContent.Content == null)
-            {
-                this.FolderListBox.IsHitTestVisible = false;
-                this.FolderListBox.BeginAnimation(UIElement.OpacityProperty, new DoubleAnimation(0.0, TimeSpan.FromSeconds(0.5)) { BeginTime = TimeSpan.FromSeconds(1.0) });
-
-                this.BusyFadeContent.Content = new BusyFadeView();
             }
         }
 
@@ -131,7 +110,6 @@ namespace NeeView
             //Debug.WriteLine($"Focus: done.");
         }
 
-
         /// <summary>
         /// 履歴戻るボタンコンテキストメニュー開く 前処理
         /// </summary>
@@ -156,7 +134,6 @@ namespace NeeView
             menu.ItemsSource = _vm.GetHistory(+1, 10);
         }
 
-        //
         private void FolderListView_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
         }
@@ -186,7 +163,6 @@ namespace NeeView
             }
         }
 
-
         /// <summary>
         /// SearchBox: キーボードフォーカス変更イベント
         /// </summary>
@@ -197,7 +173,7 @@ namespace NeeView
             //Debug.WriteLine($"SBF.K: {this.SearchBox.IsKeyboardFocusWithin}");
 
             // リストのフォーカス更新を停止
-            _vm.SetListFocusEnabled(!this.SearchBox.IsKeyboardFocusWithin);
+            SearchBoxFocusChanged?.Invoke(this, new FocusChangedEventArgs(this.SearchBox.IsKeyboardFocusWithin));
 
             // フォーカス解除で履歴登録
             if (!this.SearchBox.IsKeyboardFocusWithin)
@@ -228,16 +204,6 @@ namespace NeeView
         {
             MoreButton.IsChecked = !MoreButton.IsChecked;
             e.Handled = true;
-        }
-
-        public void Refresh()
-        {
-            _vm.FolderListBox?.Refresh();
-        }
-
-        public void FocusAtOnce()
-        {
-            _vm.Model.FocusAtOnce();
         }
 
 
@@ -311,6 +277,12 @@ namespace NeeView
                 _vm.Model.SetSearchKeywordDelay(textBox.Text);
             }
         }
+
+        public void SetFolderListBoxContent(FolderListBox content)
+        {
+            this.ListBoxContent.Content = content;
+        }
+
     }
 
 

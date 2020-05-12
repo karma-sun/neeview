@@ -188,7 +188,7 @@
                  FontFamily="{DynamicResource PanelFontFamily}" FontSize="{DynamicResource PanelFontSize}"
                  Background="Transparent"
                  Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                 FocusVisualStyle="{StaticResource NVFocusVisual}"
+                 FocusVisualStyle="{x:Null}"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  HorizontalContentAlignment="Stretch"
                  ItemsSource="{Binding Model.PageCollection, NotifyOnTargetUpdated=True}"

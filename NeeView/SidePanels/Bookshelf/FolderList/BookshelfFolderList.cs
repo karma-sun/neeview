@@ -121,14 +121,14 @@ namespace NeeView
                 SetDarty(); // 強制更新
                 await SetPlaceAsync(parent, new FolderItemPosition(path), FolderSetPlaceOption.Focus | FolderSetPlaceOption.UpdateHistory | FolderSetPlaceOption.ResetKeyword | FolderSetPlaceOption.FileSystem);
 
-                this.FolderListBoxModel.RaiseSelectedItemChanged(true);
+                RaiseSelectedItemChanged(true);
             }
             else if (Place != null)
             {
                 SetDarty(); // 強制更新
                 await SetPlaceAsync(Place, null, FolderSetPlaceOption.Focus | FolderSetPlaceOption.FileSystem);
 
-                this.FolderListBoxModel.RaiseSelectedItemChanged(true);
+                RaiseSelectedItemChanged(true);
             }
 
             if (Config.Current.Bookshelf.IsSyncFolderTree && Place != null)

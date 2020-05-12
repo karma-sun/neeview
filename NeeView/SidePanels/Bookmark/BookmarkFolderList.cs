@@ -19,12 +19,17 @@ namespace NeeView
 
             Config.Current.Bookmark.AddPropertyChanged(nameof(BookmarkConfig.IsSyncBookshelfEnabled), (s, e) =>
             {
-                if (FolderListBoxModel != null)
-                {
-                    FolderListBoxModel.IsSyncBookshelfEnabled = Config.Current.Bookmark.IsSyncBookshelfEnabled;
-                }
+                RaisePropertyChanged(nameof(IsSyncBookshelfEnabled));
             });
         }
+
+
+        public override bool IsSyncBookshelfEnabled
+        {
+            get => Config.Current.Bookmark.IsSyncBookshelfEnabled;
+            set => Config.Current.Bookmark.IsSyncBookshelfEnabled = value;
+        }
+
 
         public override void IsVisibleChanged(bool isVisible)
         {
@@ -48,11 +53,6 @@ namespace NeeView
         public override QueryPath GetFixedHome()
         {
             return new QueryPath(QueryScheme.Bookmark, null, null);
-        }
-
-        protected override bool IsSyncBookshelfEnabled()
-        {
-            return Config.Current.Bookmark.IsSyncBookshelfEnabled;
         }
 
 

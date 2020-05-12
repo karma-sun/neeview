@@ -156,10 +156,8 @@
 
             <osc:DockPanelSplitter x:Name="LeftPanelSplitter" DockPanel.Dock="{Binding Model.FolderTreeDock}" Style="{StaticResource NVHorizontalBevelGrip}" ProportionalResize="False" UseLayoutRounding="True" IsTabStop="False"
                                    Visibility="{Binding Model.IsFolderTreeVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-            <Grid>
-                <ContentControl x:Name="FolderListBox" Content="{Binding FolderListBox}" Focusable="False"/>
-                <ContentControl x:Name="BusyFadeContent" Focusable="False"/>
-            </Grid>
+
+            <ContentControl x:Name="ListBoxContent" Focusable="False" />
         </DockPanel>
 
     </DockPanel>

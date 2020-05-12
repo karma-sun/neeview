@@ -12,10 +12,12 @@ namespace NeeView
     public class BookmarkPanel : BindableBase, IPanel
     {
         private BookmarkListView _view;
+        private BookmarkFolderListPresenter _presenter;
 
         public BookmarkPanel(FolderList folderList)
         {
             _view = new BookmarkListView(folderList);
+            _presenter = new BookmarkFolderListPresenter(_view, folderList);
 
             Icon = App.Current.MainWindow.Resources["pic_star_24px"] as DrawingImage;
             IconMargin = new Thickness(9);
@@ -59,12 +61,12 @@ namespace NeeView
 
         public void Refresh()
         {
-            _view.Refresh();
+            _presenter.Refresh();
         }
 
         public void Focus()
         {
-            _view.FocusAtOnce();
+            _presenter.FocusAtOnce();
         }
     }
 

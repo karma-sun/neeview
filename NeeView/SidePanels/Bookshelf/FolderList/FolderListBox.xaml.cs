@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 
 namespace NeeView
 {
@@ -20,30 +21,22 @@ namespace NeeView
     /// </summary>
     public partial class FolderListBox : UserControl, IPageListPanel, IDisposable
     {
-        #region Fields
-
         private FolderListBoxViewModel _vm;
         private ListBoxThumbnailLoader _thumbnailLoader;
         private bool _storeFocus;
         private PageThumbnailJobClient _jobClient;
 
-        #endregion
 
-        #region Constructors
-
-        // static construcotr
         static FolderListBox()
         {
             InitialieCommandStatic();
         }
 
-        //
         public FolderListBox()
         {
             InitializeComponent();
         }
 
-        //
         public FolderListBox(FolderListBoxViewModel vm) : this()
         {
             _vm = vm;
@@ -69,14 +62,10 @@ namespace NeeView
             }
         }
 
-        #endregion
-
-        #region Properties
 
         // フォーカス可能フラグ
         public bool IsFocusEnabled { get; set; } = true;
 
-        #endregion
 
         #region IDisposable Support
         private bool _disposedValue = false;
@@ -683,16 +672,15 @@ namespace NeeView
 
         #endregion
 
-        #region Methods
 
         private void FolderListBox_Loaded(object sender, RoutedEventArgs e)
         {
             _jobClient = new PageThumbnailJobClient("FolderList", JobCategories.BookThumbnailCategory);
             _thumbnailLoader = new ListBoxThumbnailLoader(this, _jobClient);
 
-            _vm.Loaded();
             _vm.SelectedChanging += SelectedChanging;
             _vm.SelectedChanged += SelectedChanged;
+            _vm.BusyChanged += BusyChanged;
 
             Config.Current.Panels.ContentItemProfile.PropertyChanged += PanelListtemProfile_PropertyChanged;
             Config.Current.Panels.BannerItemProfile.PropertyChanged += PanelListtemProfile_PropertyChanged;
@@ -703,9 +691,9 @@ namespace NeeView
         {
             _jobClient?.Dispose();
 
-            _vm.Unloaded();
             _vm.SelectedChanging -= SelectedChanging;
             _vm.SelectedChanged -= SelectedChanged;
+            _vm.BusyChanged -= BusyChanged;
 
             Config.Current.Panels.ContentItemProfile.PropertyChanged -= PanelListtemProfile_PropertyChanged;
             Config.Current.Panels.BannerItemProfile.PropertyChanged -= PanelListtemProfile_PropertyChanged;
@@ -741,13 +729,13 @@ namespace NeeView
         }
 
         //
-        public void SelectedChanging(object sender, SelectedChangedEventArgs e)
+        public void SelectedChanging(object sender, FolderListSelectedChangedEventArgs e)
         {
             StoreFocus();
         }
 
         //
-        public void SelectedChanged(object sender, SelectedChangedEventArgs e)
+        public void SelectedChanged(object sender, FolderListSelectedChangedEventArgs e)
         {
             if (e.IsFocus)
             {
@@ -928,28 +916,18 @@ namespace NeeView
         }
 
 
-        //
         private void FolderListItem_MouseDown(object sender, MouseButtonEventArgs e)
         {
             var folderInfo = (sender as ListBoxItem)?.Content as FolderItem;
             if (folderInfo == null) return;
-
-            // 一時的にドラッグ禁止
-            ////_vm.Drag_MouseDown(sender, e, folderInfo);
         }
 
-        //
         private void FolderListItem_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            // 一時的にドラッグ禁止
-            ////_vm.Drag_MouseUp(sender, e);
         }
 
-        //
         private void FolderListItem_MouseMove(object sender, MouseEventArgs e)
         {
-            // 一時的にドラッグ禁止
-            ////_vm.Drag_MouseMove(sender, e);
         }
 
 
@@ -1008,9 +986,6 @@ namespace NeeView
                     contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuCopy, Command = CopyCommand });
                     contextMenu.Items.Add(new Separator());
                     contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuDeleteBookmark, Command = RemoveCommand });
-                    ////contextMenu.Items.Add(new Separator());
-                    ////contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuDelete, Command = RemoveCommand });
-                    ////contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuRename, Command = RenameCommand });
                 }
             }
             else if (item.Attributes.HasFlag(FolderItemAttribute.Empty))
@@ -1040,12 +1015,35 @@ namespace NeeView
             }
         }
 
+        /// <summary>
+        /// リスト更新中
+        /// </summary>
+        private void BusyChanged(object sender, FolderListBusyChangedEventArgs e)
+        {
+            if (e.IsBusy)
+            {
+                this.IsHitTestVisible = false;
+                
+                this.ListBox.BeginAnimation(UIElement.OpacityProperty, new DoubleAnimation(0.0, TimeSpan.FromSeconds(0.5)) { BeginTime = TimeSpan.FromSeconds(1.0) });
+
+                this.BusyFadeContent.Content = new BusyFadeView();
+            }
+            else
+            {
+                this.IsHitTestVisible = true;
+
+                this.ListBox.BeginAnimation(UIElement.OpacityProperty, null);
+                this.ListBox.Opacity = 1.0;
+
+                this.BusyFadeContent.Content = null;
+            }
+        }
+
+
         public void Refresh()
         {
             this.ListBox.Items.Refresh();
         }
-
-        #endregion
     }
 
 

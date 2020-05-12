@@ -26,7 +26,6 @@ namespace NeeView
     {
         #region Fields
 
-        private FolderListBox _folderListBox;
         private PanelListItemStyleToBooleanConverter _panelListItemStyleToBooleanConverter = new PanelListItemStyleToBooleanConverter();
         private CancellationTokenSource _removeUnlinkedCommandCancellationTokenSource;
 
@@ -38,39 +37,18 @@ namespace NeeView
         {
             _model = model;
 
-            _model.PropertyChanged +=
-                Model_PropertyChanged;
-
             _model.PlaceChanged +=
                 (s, e) => MoveToUp.RaiseCanExecuteChanged();
 
             _model.CollectionChanged +=
-                Model_CollectionChanged;
+                (s, e) => RaisePropertyChanged(nameof(FolderCollection));
 
             InitializeMoreMenu();
-
-            UpdateFolderListBox();
         }
 
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// ListBoxコントロール。
-        /// コレクションやレイアウトの変更の都度再生成する
-        /// </summary>
-        public FolderListBox FolderListBox
-        {
-            get { return _folderListBox; }
-            private set
-            {
-                if (SetProperty(ref _folderListBox, value))
-                {
-                    RaisePropertyChanged(nameof(FolderCollection));
-                }
-            }
-        }
 
         public FolderCollection FolderCollection => _model.FolderCollection;
 
@@ -278,28 +256,6 @@ namespace NeeView
 
         #region Methods
 
-        private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case nameof(_model.FolderListConfig.PanelListItemStyle):
-                    UpdateFolderListBox();
-                    break;
-            }
-        }
-
-        private void Model_CollectionChanged(object sender, EventArgs e)
-        {
-            UpdateFolderListBox();
-        }
-
-        public void UpdateFolderListBox()
-        {
-            var vm = new FolderListBoxViewModel(_model, _model.FolderListBoxModel);
-            FolderListBox = new FolderListBox(vm);
-
-            SidePanel.Current.RaiseContentChanged();
-        }
 
         #endregion Methods
     }

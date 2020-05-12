@@ -131,7 +131,7 @@
 
     <Grid x:Name="Root">
 
-        <nw:ListBoxExteded x:Name="ListBox" Focusable="False"
+        <nw:ListBoxExteded x:Name="ListBox" Focusable="True"
                 MinHeight="0"
                 FontFamily="{DynamicResource PanelFontFamily}" FontSize="{DynamicResource PanelFontSize}"
                 Background="Transparent"

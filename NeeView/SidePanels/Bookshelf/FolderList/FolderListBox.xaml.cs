@@ -23,7 +23,6 @@ namespace NeeView
     {
         private FolderListBoxViewModel _vm;
         private ListBoxThumbnailLoader _thumbnailLoader;
-        private bool _storeFocus;
         private PageThumbnailJobClient _jobClient;
 
 
@@ -678,7 +677,6 @@ namespace NeeView
             _jobClient = new PageThumbnailJobClient("FolderList", JobCategories.BookThumbnailCategory);
             _thumbnailLoader = new ListBoxThumbnailLoader(this, _jobClient);
 
-            _vm.SelectedChanging += SelectedChanging;
             _vm.SelectedChanged += SelectedChanged;
             _vm.BusyChanged += BusyChanged;
 
@@ -691,7 +689,6 @@ namespace NeeView
         {
             _jobClient?.Dispose();
 
-            _vm.SelectedChanging -= SelectedChanging;
             _vm.SelectedChanged -= SelectedChanged;
             _vm.BusyChanged -= BusyChanged;
 
@@ -728,22 +725,11 @@ namespace NeeView
             }
         }
 
-        //
-        public void SelectedChanging(object sender, FolderListSelectedChangedEventArgs e)
-        {
-            StoreFocus();
-        }
-
-        //
         public void SelectedChanged(object sender, FolderListSelectedChangedEventArgs e)
         {
-            if (e.IsFocus)
+            if (this.ListBox.IsFocused)
             {
                 FocusSelectedItem(true);
-            }
-            else
-            {
-                RestoreFocus();
             }
 
             _thumbnailLoader.Load();
@@ -751,35 +737,6 @@ namespace NeeView
             if (e.IsNewFolder)
             {
                 Rename();
-            }
-        }
-
-        /// <summary>
-        /// 選択項目フォーカス状態を取得
-        /// リスト項目変更前処理。
-        /// </summary>
-        public void StoreFocus()
-        {
-            var index = this.ListBox.SelectedIndex;
-
-            ListBoxItem lbi = index >= 0 ? (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(index)) : null;
-            _storeFocus = lbi != null ? lbi.IsFocused : false;
-        }
-
-        /// <summary>
-        /// 選択項目フォーカス反映
-        /// リスト変更後処理。
-        /// </summary>
-        /// <param name="isFocused"></param>
-        public void RestoreFocus()
-        {
-            if (_storeFocus)
-            {
-                this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
-
-                var index = this.ListBox.SelectedIndex;
-                var lbi = index >= 0 ? (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(index)) : null;
-                var isSuccess = lbi?.Focus();
             }
         }
 
@@ -1023,7 +980,7 @@ namespace NeeView
             if (e.IsBusy)
             {
                 this.IsHitTestVisible = false;
-                
+
                 this.ListBox.BeginAnimation(UIElement.OpacityProperty, new DoubleAnimation(0.0, TimeSpan.FromSeconds(0.5)) { BeginTime = TimeSpan.FromSeconds(1.0) });
 
                 this.BusyFadeContent.Content = new BusyFadeView();

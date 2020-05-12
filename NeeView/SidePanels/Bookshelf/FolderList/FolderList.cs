@@ -590,11 +590,6 @@ namespace NeeView
 
                         this.SetSelectedItem(select, options.HasFlag(FolderSetPlaceOption.Focus));
 
-                        if (options.HasFlag(FolderSetPlaceOption.Focus))
-                        {
-                            FocusAtOnce();
-                        }
-
                         // 最終フォルダー更新
                         Config.Current.StartUp.LastFolderPath = Place.SimpleQuery;
 
@@ -1686,7 +1681,7 @@ namespace NeeView
 
 
 
-#region Memento
+        #region Memento
 
         [DataContract]
         public class Memento : IMemento
@@ -1738,7 +1733,7 @@ namespace NeeView
             return memento;
         }
 
-#endregion
+        #endregion
     }
 
 }

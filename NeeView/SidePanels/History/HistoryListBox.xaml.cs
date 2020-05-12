@@ -133,7 +133,6 @@ namespace NeeView
             _jobClient = new PageThumbnailJobClient("HistoryList", JobCategories.BookThumbnailCategory);
             _thumbnailLoader = new ListBoxThumbnailLoader(this, _jobClient);
 
-            _vm.SelectedItemChanging += ViewModel_SelectedItemChanging;
             _vm.SelectedItemChanged += ViewModel_SelectedItemChanged;
 
             Config.Current.Panels.ContentItemProfile.PropertyChanged += PanelListtemProfile_PropertyChanged;
@@ -144,7 +143,6 @@ namespace NeeView
 
         private void HistoryListBox_Unloaded(object sender, RoutedEventArgs e)
         {
-            _vm.SelectedItemChanging -= ViewModel_SelectedItemChanging;
             _vm.SelectedItemChanged -= ViewModel_SelectedItemChanged;
 
             Config.Current.Panels.ContentItemProfile.PropertyChanged -= PanelListtemProfile_PropertyChanged;
@@ -158,47 +156,16 @@ namespace NeeView
         private void ViewModel_SelectedItemChanged(object sender, EventArgs e)
         {
             this.ListBox.SetAnchorItem(null);
-            RestoreFocus();
-        }
 
-        private void ViewModel_SelectedItemChanging(object sender, EventArgs e)
-        {
-            StoreFocus();
+            if (this.ListBox.IsFocused)
+            {
+                FocusSelectedItem(true);
+            }
         }
 
         private void PanelListtemProfile_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             this.ListBox.Items?.Refresh();
-        }
-
-        /// <summary>
-        /// 選択項目フォーカス状態を取得
-        /// リスト項目変更前処理。
-        /// </summary>
-        /// <returns></returns>
-        public void StoreFocus()
-        {
-            var index = this.ListBox.SelectedIndex;
-
-            ListBoxItem lbi = index >= 0 ? (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(index)) : null;
-            _storeFocus = lbi != null ? lbi.IsFocused : false;
-        }
-
-        /// <summary>
-        /// 選択項目フォーカス反映
-        /// リスト変更後処理。
-        /// </summary>
-        /// <param name="isFocused"></param>
-        public void RestoreFocus()
-        {
-            if (_storeFocus)
-            {
-                this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
-
-                var index = this.ListBox.SelectedIndex;
-                var lbi = index >= 0 ? (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(index)) : null;
-                lbi?.Focus();
-            }
         }
 
         // フォーカス

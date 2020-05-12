@@ -79,7 +79,7 @@
     </UserControl.Resources>
 
 
-    <nw:ListBoxExteded x:Name="ListBox" Focusable="False" FontFamily="{DynamicResource PanelFontFamily}" FontSize="{DynamicResource PanelFontSize}" Background="Transparent"
+    <nw:ListBoxExteded x:Name="ListBox" Focusable="True" FontFamily="{DynamicResource PanelFontFamily}" FontSize="{DynamicResource PanelFontSize}" Background="Transparent"
             Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}" FocusVisualStyle="{StaticResource NVFocusVisual}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch" ItemsSource="{Binding Items, NotifyOnTargetUpdated=True}" SelectedItem="{Binding SelectedItem}"
             TargetUpdated="HistoryListBox_TargetUpdated" KeyDown="HistoryListBox_KeyDown" SelectionChanged="HistoryListBox_SelectionChanged" IsVisibleChanged="HistoryListBox_IsVisibleChanged"

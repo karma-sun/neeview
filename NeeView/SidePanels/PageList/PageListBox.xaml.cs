@@ -339,6 +339,7 @@ namespace NeeView
                     }
                     e.Handled = true;
                 }
+#if false
                 else if (key == Key.Left)
                 {
                     // 直前のブックに移動
@@ -351,6 +352,7 @@ namespace NeeView
                     BookHubHistory.Current.MoveToNext();
                     e.Handled = true;
                 }
+#endif
             }
 
             // 項目決定
@@ -439,7 +441,7 @@ namespace NeeView
         }
 
 
-        #region DragDrop
+#region DragDrop
 
         private async Task DragStartBehavior_DragBeginAsync(object sender, Windows.DragStartEventArgs e, CancellationToken token)
         {
@@ -455,7 +457,7 @@ namespace NeeView
             e.AllowedEffects = DragDropEffects.Copy | DragDropEffects.Scroll;
         }
 
-        #endregion
+#endregion
 
     }
 

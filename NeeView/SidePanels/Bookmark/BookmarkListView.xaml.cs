@@ -30,7 +30,7 @@ namespace NeeView
             this.FolderTree.Model = new FolderTreeModel(model, FolderTreeCategory.BookmarkFolder);
 
             _vm = new BookmarkListViewModel(model);
-            this.DockPanel.DataContext = _vm;
+            this.Root.DataContext = _vm;
 
             model.FolderTreeFocus += FolderList_FolderTreeFocus;
         }
@@ -50,14 +50,18 @@ namespace NeeView
         {
         }
 
-        /// <summary>
-        /// 単キーのショートカット無効
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Control_KeyDown_IgnoreSingleKeyGesture(object sender, KeyEventArgs e)
+        private void Root_KeyDown(object sender, KeyEventArgs e)
         {
-            KeyExGesture.AllowSingleKey = false;
+            bool isLRKeyEnabled = Config.Current.Panels.IsLeftRightKeyEnabled;
+
+            // このパネルで使用するキーのイベントを止める
+            if (Keyboard.Modifiers == ModifierKeys.None)
+            {
+                if (e.Key == Key.Up || e.Key == Key.Down || (isLRKeyEnabled && (e.Key == Key.Left || e.Key == Key.Right)) || e.Key == Key.Return || e.Key == Key.Delete)
+                {
+                    e.Handled = true;
+                }
+            }
         }
 
         private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)

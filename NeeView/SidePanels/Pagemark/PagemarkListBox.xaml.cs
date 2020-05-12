@@ -377,9 +377,12 @@ namespace NeeView
             bool isLRKeyEnabled = Config.Current.Panels.IsLeftRightKeyEnabled;
 
             // このパネルで使用するキーのイベントを止める
-            if (e.Key == Key.Up || e.Key == Key.Down || (isLRKeyEnabled && (e.Key == Key.Left || e.Key == Key.Right)) || e.Key == Key.Return || e.Key == Key.Delete)
+            if (Keyboard.Modifiers == ModifierKeys.None)
             {
-                e.Handled = true;
+                if (e.Key == Key.Up || e.Key == Key.Down || (isLRKeyEnabled && (e.Key == Key.Left || e.Key == Key.Right)) || e.Key == Key.Return || e.Key == Key.Delete)
+                {
+                    e.Handled = true;
+                }
             }
         }
 
@@ -460,6 +463,8 @@ namespace NeeView
         private void TreeViewItem_KeyDown(object sender, KeyEventArgs e)
         {
             var item = (sender as TreeViewItem)?.DataContext as TreeListNode<IPagemarkEntry>;
+
+            if (Keyboard.Modifiers == ModifierKeys.None)
             {
                 if (e.Key == Key.Return)
                 {

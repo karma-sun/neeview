@@ -318,7 +318,6 @@ namespace NeeView
         private void PageList_KeyDown(object sender, KeyEventArgs e)
         {
             var page = this.ListBox.SelectedItem as Page;
-            var isLRKeyEnabled = Config.Current.Panels.IsLeftRightKeyEnabled;
 
             if (Keyboard.Modifiers == ModifierKeys.Alt)
             {
@@ -368,10 +367,15 @@ namespace NeeView
                 }
             }
 
+            var isLRKeyEnabled = Config.Current.Panels.IsLeftRightKeyEnabled;
+
             // このパネルで使用するキーのイベントを止める
-            if (e.Key == Key.Up || e.Key == Key.Down || (isLRKeyEnabled && (e.Key == Key.Left || e.Key == Key.Right)) || e.Key == Key.Return || e.Key == Key.Delete)
+            if (Keyboard.Modifiers == ModifierKeys.None)
             {
-                e.Handled = true;
+                if (e.Key == Key.Up || e.Key == Key.Down || (isLRKeyEnabled && (e.Key == Key.Left || e.Key == Key.Right)) || e.Key == Key.Return || e.Key == Key.Delete)
+                {
+                    e.Handled = true;
+                }
             }
         }
 

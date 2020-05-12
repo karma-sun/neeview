@@ -226,10 +226,13 @@ namespace NeeView
         {
             var item = ((sender as ListBoxItem)?.Content as BookHistory);
 
-            if (e.Key == Key.Return)
+            if (Keyboard.Modifiers == ModifierKeys.None)
             {
-                _vm.Load(item?.Path);
-                e.Handled = true;
+                if (e.Key == Key.Return)
+                {
+                    _vm.Load(item?.Path);
+                    e.Handled = true;
+                }
             }
         }
 
@@ -239,9 +242,12 @@ namespace NeeView
             bool isLRKeyEnabled = Config.Current.Panels.IsLeftRightKeyEnabled;
 
             // このパネルで使用するキーのイベントを止める
-            if (e.Key == Key.Up || e.Key == Key.Down || (isLRKeyEnabled && (e.Key == Key.Left || e.Key == Key.Right)) || e.Key == Key.Return || e.Key == Key.Delete)
+            if (Keyboard.Modifiers == ModifierKeys.None)
             {
-                e.Handled = true;
+                if (e.Key == Key.Up || e.Key == Key.Down || (isLRKeyEnabled && (e.Key == Key.Left || e.Key == Key.Right)) || e.Key == Key.Return || e.Key == Key.Delete)
+                {
+                    e.Handled = true;
+                }
             }
         }
 

@@ -46,6 +46,16 @@ namespace NeeView
             return parentQuery.Scheme == QueryScheme.Bookmark;
         }
 
+        public override bool CanMoveToPrevious()
+        {
+            return false;
+        }
+
+        public override bool CanMoveToNext()
+        {
+            return false;
+        }
+
         public override void Sync()
         {
         }

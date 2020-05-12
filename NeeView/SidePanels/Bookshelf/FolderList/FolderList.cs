@@ -1054,14 +1054,14 @@ namespace NeeView
             CloseBookIfNecessary();
         }
 
-        public bool CanMoveToPrevious()
+        public virtual bool CanMoveToPrevious()
         {
             return this.History.CanPrevious();
         }
 
         public async void MoveToPrevious()
         {
-            if (!this.History.CanPrevious()) return;
+            if (!CanMoveToPrevious()) return;
 
             var place = this.History.GetPrevious();
             await SetPlaceAsync(place, null, FolderSetPlaceOption.Focus);
@@ -1070,14 +1070,14 @@ namespace NeeView
             CloseBookIfNecessary();
         }
 
-        public bool CanMoveToNext()
+        public virtual bool CanMoveToNext()
         {
             return this.History.CanNext();
         }
 
         public async void MoveToNext()
         {
-            if (!this.History.CanNext()) return;
+            if (!CanMoveToNext()) return;
 
             var place = this.History.GetNext();
             await SetPlaceAsync(place, null, FolderSetPlaceOption.Focus);

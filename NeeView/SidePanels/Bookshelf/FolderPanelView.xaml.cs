@@ -49,9 +49,13 @@ namespace NeeView
         {
             bool isLRKeyEnabled = Config.Current.Panels.IsLeftRightKeyEnabled;
 
-            if (e.Key == Key.Up || e.Key == Key.Down || (isLRKeyEnabled && (e.Key == Key.Left || e.Key == Key.Right)) || e.Key == Key.Return || e.Key == Key.Delete)
+            // このパネルで使用するキーのイベントを止める
+            if (Keyboard.Modifiers == ModifierKeys.None)
             {
-                e.Handled = true;
+                if (e.Key == Key.Up || e.Key == Key.Down || (isLRKeyEnabled && (e.Key == Key.Left || e.Key == Key.Right)) || e.Key == Key.Return || e.Key == Key.Delete)
+                {
+                    e.Handled = true;
+                }
             }
         }
 

@@ -82,7 +82,7 @@
 
     </UserControl.Resources>
 
-    <DockPanel x:Name="DockPanel" IsVisibleChanged="BookmarkListView_IsVisibleChanged" Background="Transparent">
+    <DockPanel x:Name="Root" IsVisibleChanged="BookmarkListView_IsVisibleChanged" Background="Transparent" KeyDown="Root_KeyDown">
 
         <StackPanel DockPanel.Dock="Top" Margin="5,10,5,5">
 

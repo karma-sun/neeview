@@ -860,23 +860,26 @@ namespace NeeView
             bool isLRKeyEnabled = _vm.IsLRKeyEnabled();
             var item = (sender as ListBoxItem)?.Content as FolderItem;
 
-            if (e.Key == Key.Return)
+            if (Keyboard.Modifiers == ModifierKeys.None)
             {
-                _vm.Model.LoadBook(item);
-                e.Handled = true;
-            }
-            else if (isLRKeyEnabled && e.Key == Key.Right) // →
-            {
-                _vm.MoveToSafety(item);
-                e.Handled = true;
-            }
-            else if ((isLRKeyEnabled && e.Key == Key.Left) || e.Key == Key.Back) // ←, Backspace
-            {
-                if (item != null)
+                if (e.Key == Key.Return)
                 {
-                    _vm.MoveToUp();
+                    _vm.Model.LoadBook(item);
+                    e.Handled = true;
                 }
-                e.Handled = true;
+                else if (isLRKeyEnabled && e.Key == Key.Right) // →
+                {
+                    _vm.MoveToSafety(item);
+                    e.Handled = true;
+                }
+                else if (isLRKeyEnabled && e.Key == Key.Left) // ←
+                {
+                    if (item != null)
+                    {
+                        _vm.MoveToUp();
+                    }
+                    e.Handled = true;
+                }
             }
         }
 

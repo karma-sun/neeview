@@ -4,7 +4,7 @@
     {
         public RandomBookCommand(string name) : base(name)
         {
-            this.Group = Properties.Resources.CommandGroupMove;
+            this.Group = Properties.Resources.CommandGroupBookMove;
             this.Text = Properties.Resources.CommandRandomFolder;
             this.Note = Properties.Resources.CommandRandomFolderNote;
             this.IsShowMessage = false;

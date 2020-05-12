@@ -4,7 +4,7 @@
     {
         public PrevHistoryCommand(string name) : base(name)
         {
-            this.Group = Properties.Resources.CommandGroupMove;
+            this.Group = Properties.Resources.CommandGroupBookMove;
             this.Text = Properties.Resources.CommandPrevHistory;
             this.Note = Properties.Resources.CommandPrevHistoryNote;
             this.ShortCutKey = "Back";

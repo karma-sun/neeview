@@ -29,6 +29,8 @@ namespace NeeView
     /// </summary>
     public abstract class FolderList : BindableBase, IDisposable
     {
+        private const int _historyCapacity = 100;
+
         private static SearchKeyAnalyzer _searchKeyAnalyzer = new SearchKeyAnalyzer();
 
         /// <summary>
@@ -261,7 +263,7 @@ namespace NeeView
         /// <summary>
         /// フォルダー履歴
         /// </summary>
-        public HistoryCollection<QueryPath> History { get; private set; } = new HistoryCollection<QueryPath>();
+        public HistoryLimitedCollection<QueryPath> History { get; private set; } = new HistoryLimitedCollection<QueryPath>(_historyCapacity);
 
         /// <summary>
         /// 検索BOXの表示

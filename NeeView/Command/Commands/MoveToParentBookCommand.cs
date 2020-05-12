@@ -4,7 +4,7 @@
     {
         public MoveToParentBookCommand(string name) : base(name)
         {
-            this.Group = Properties.Resources.CommandGroupMove;
+            this.Group = Properties.Resources.CommandGroupBookMove;
             this.Text = Properties.Resources.CommandMoveToParentBook;
             this.Note = Properties.Resources.CommandMoveToParentBookNote;
             this.ShortCutKey = "Alt+Up";

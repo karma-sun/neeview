@@ -391,7 +391,7 @@
     <value>ストレッチ</value>
   </data>
   <data name="CommandGroupMove" xml:space="preserve">
-    <value>移動</value>
+    <value>ページ移動</value>
   </data>
   <data name="CommandGroupOther" xml:space="preserve">
     <value>その他</value>
@@ -529,7 +529,7 @@
     <value>上の階層をブックとして開きます。</value>
   </data>
   <data name="CommandNextBookHistory" xml:space="preserve">
-    <value>次のブックに進む</value>
+    <value>次の表示ブックに進む</value>
   </data>
   <data name="CommandNextBookHistoryNote" xml:space="preserve">
     <value>次に開いていたブックを開きます。</value>
@@ -655,7 +655,7 @@
     <value>クリップボードのファイルや画像を貼り付けます。</value>
   </data>
   <data name="CommandPrevBookHistory" xml:space="preserve">
-    <value>前のブックに戻る</value>
+    <value>前の表示ブックに戻る</value>
   </data>
   <data name="CommandPrevBookHistoryNote" xml:space="preserve">
     <value>前に開いていたブックを開きます。</value>
@@ -5459,5 +5459,20 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="PagelistItemMenuOpenBook" xml:space="preserve">
     <value>ブックを開く(_O)</value>
+  </data>
+  <data name="CommandPrevPageHistory" xml:space="preserve">
+    <value>前の表示ページに戻る</value>
+  </data>
+  <data name="CommandPrevPageHistoryNote" xml:space="preserve">
+    <value>前に開いていたページに移動します。</value>
+  </data>
+  <data name="CommandNextPageHistory" xml:space="preserve">
+    <value>次の表示ページに進む</value>
+  </data>
+  <data name="CommandNextPageHistoryNote" xml:space="preserve">
+    <value>次に開いていたページに移動します。</value>
+  </data>
+  <data name="CommandGroupBookMove" xml:space="preserve">
+    <value>ブック移動</value>
   </data>
 </root>

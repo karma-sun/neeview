@@ -450,14 +450,27 @@ namespace NeeView
                     BookHistoryCollection.Current.Add(Book?.CreateMemento(), false);
                 }
 
+                PageHistoryUnit pageHistoryUnit;
                 lock (_lock)
                 {
                     if (BookUnit == null) return;
                     var viewPages = e?.ViewPageCollection?.Collection.Where(x => x != null).Select(x => x.Page).ToList() ?? new List<Page>();
                     BookUnit.Book.Pages.SetViewPageFlag(viewPages);
+
+                    if (viewPages.Count > 0)
+                    {
+                        var page = viewPages.Select(p => (p.Index, p)).Min().Item2;
+                        pageHistoryUnit = new PageHistoryUnit(BookUnit.Book.Address, page.EntryFullName);
+                    }
+                    else
+                    {
+                        pageHistoryUnit = PageHistoryUnit.Empty;
+                    }
                 }
 
                 ViewContentsChanged?.Invoke(sender, e);
+
+                PageHistory.Current.Add(pageHistoryUnit);
             });
         }
 

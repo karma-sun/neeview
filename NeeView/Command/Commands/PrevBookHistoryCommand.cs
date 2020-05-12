@@ -4,7 +4,7 @@
     {
         public PrevBookHistoryCommand(string name) : base(name)
         {
-            this.Group = Properties.Resources.CommandGroupMove;
+            this.Group = Properties.Resources.CommandGroupBookMove;
             this.Text = Properties.Resources.CommandPrevBookHistory;
             this.Note = Properties.Resources.CommandPrevBookHistoryNote;
             this.ShortCutKey = "Alt+Left";

@@ -391,7 +391,7 @@
     <value>Stretch</value>
   </data>
   <data name="CommandGroupMove" xml:space="preserve">
-    <value>Move</value>
+    <value>Page move</value>
   </data>
   <data name="CommandGroupOther" xml:space="preserve">
     <value>Other</value>
@@ -5459,5 +5459,20 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="PagelistItemMenuOpenBook" xml:space="preserve">
     <value>_Open book</value>
+  </data>
+  <data name="CommandPrevPageHistory" xml:space="preserve">
+    <value>Go back view page</value>
+  </data>
+  <data name="CommandPrevPageHistoryNote" xml:space="preserve">
+    <value>Move to previously view page.</value>
+  </data>
+  <data name="CommandNextPageHistory" xml:space="preserve">
+    <value>Go next view page</value>
+  </data>
+  <data name="CommandNextPageHistoryNote" xml:space="preserve">
+    <value>Move to next view page.</value>
+  </data>
+  <data name="CommandGroupBookMove" xml:space="preserve">
+    <value>Book move</value>
   </data>
 </root>

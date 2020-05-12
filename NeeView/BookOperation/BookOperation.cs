@@ -708,6 +708,15 @@ namespace NeeView
             this.Book.Control.JumpPage(page);
         }
 
+        // ページ名を指定して移動
+        public void JumpPage(string name)
+        {
+            if (this.Book == null || this.Book.IsMedia) return;
+
+            var page = this.Book.Pages.GetPage(name);
+            this.Book.Control.JumpPage(page);
+        }
+
         // ページを指定して移動
         public void JumpPage()
         {

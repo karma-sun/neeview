@@ -204,11 +204,13 @@ namespace NeeView
                 new JumpRandomPageCommand("JumpRandomPage"),
                 new PrevSizePageCommand("PrevSizePage"),
                 new NextSizePageCommand("NextSizePage"),
-
                 new PrevFolderPageCommand("PrevFolderPage"),
                 new NextFolderPageCommand("NextFolderPage"),
                 new FirstPageCommand("FirstPage"),
                 new LastPageCommand("LastPage"),
+                new PrevHistoryPageCommand("PrevHistoryPage"),
+                new NextHistoryPageCommand("NextHistoryPage"),
+
                 new PrevBookCommand("PrevBook"),
                 new NextBookCommand("NextBook"),
                 new RandomBookCommand("RandomBook"),

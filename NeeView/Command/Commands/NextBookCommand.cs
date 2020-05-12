@@ -4,7 +4,7 @@
     {
         public NextBookCommand(string name) : base(name)
         {
-            this.Group = Properties.Resources.CommandGroupMove;
+            this.Group = Properties.Resources.CommandGroupBookMove;
             this.Text = Properties.Resources.CommandNextFolder;
             this.Note = Properties.Resources.CommandNextFolderNote;
             this.ShortCutKey = "Down";

@@ -25,7 +25,6 @@ namespace NeeView
     {
         private HistoryListBoxViewModel _vm;
         private ListBoxThumbnailLoader _thumbnailLoader;
-        private bool _storeFocus;
         private PageThumbnailJobClient _jobClient;
         private bool _focusRequest;
 

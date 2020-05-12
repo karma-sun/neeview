@@ -12,7 +12,9 @@ namespace NeeView
         static BookHubHistory() => Current = new BookHubHistory();
         public static BookHubHistory Current { get; }
 
-        private readonly HistoryCollection<QueryPath> _history = new HistoryCollection<QueryPath>();
+        private const int _historyCapacity = 100;
+        private readonly HistoryLimitedCollection<QueryPath> _history = new HistoryLimitedCollection<QueryPath>(_historyCapacity);
+
 
         public void Add(QueryPath query)
         {

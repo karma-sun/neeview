@@ -853,6 +853,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Book move に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandGroupBookMove {
+            get {
+                return ResourceManager.GetString("CommandGroupBookMove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Book order に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandGroupBookOrder {
@@ -898,7 +907,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Move に類似しているローカライズされた文字列を検索します。
+        ///   Page move に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandGroupMove {
             get {
@@ -1429,6 +1438,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Go next view page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandNextPageHistory {
+            get {
+                return ResourceManager.GetString("CommandNextPageHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move to next view page. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandNextPageHistoryNote {
+            get {
+                return ResourceManager.GetString("CommandNextPageHistoryNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Next pagemark に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandNextPagemark {
@@ -1803,6 +1830,24 @@ namespace NeeView.Properties {
         public static string CommandPrevPage {
             get {
                 return ResourceManager.GetString("CommandPrevPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Go back view page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandPrevPageHistory {
+            get {
+                return ResourceManager.GetString("CommandPrevPageHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move to previously view page. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandPrevPageHistoryNote {
+            get {
+                return ResourceManager.GetString("CommandPrevPageHistoryNote", resourceCulture);
             }
         }
         

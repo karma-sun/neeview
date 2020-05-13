@@ -101,7 +101,7 @@ namespace NeeView
 
         public void OpenAsBook()
         {
-            BookHub.Current.RequestLoad(QueryScheme.Pagemark.ToSchemeString(), null, BookLoadOption.IsBook, true);
+            BookHub.Current.RequestLoad(this, QueryScheme.Pagemark.ToSchemeString(), null, BookLoadOption.IsBook, true);
         }
 
 

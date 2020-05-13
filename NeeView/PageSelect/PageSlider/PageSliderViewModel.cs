@@ -70,11 +70,11 @@ namespace NeeView
             {
                 if (turn < 0)
                 {
-                    BookOperation.Current.NextPage();
+                    BookOperation.Current.NextPage(this);
                 }
                 else
                 {
-                    BookOperation.Current.PrevPage();
+                    BookOperation.Current.PrevPage(this);
                 }
             }
         }

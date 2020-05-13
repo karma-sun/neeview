@@ -141,7 +141,7 @@ namespace NeeView
         {
             if (Config.Current.Bookshelf.IsCloseBookWhenMove)
             {
-                BookHub.Current.RequestUnload(true);
+                BookHub.Current.RequestUnload(this, true);
             }
         }
 

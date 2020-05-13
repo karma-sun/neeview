@@ -170,9 +170,9 @@ namespace NeeView
         }
 
         // 動画用：外部から終端イベントを発行
-        public void RaisePageTerminatedEvent(int direction)
+        public void RaisePageTerminatedEvent(object sender, int direction)
         {
-            PageTerminated?.Invoke(this, new PageTerminatedEventArgs(direction));
+            PageTerminated?.Invoke(sender, new PageTerminatedEventArgs(direction));
         }
 
         // 表示ページ番号
@@ -225,19 +225,19 @@ namespace NeeView
             // ページ終端を越えたか判定
             if (viewPageRange.Position < _book.Pages.FirstPosition())
             {
-                PageTerminated?.Invoke(this, new PageTerminatedEventArgs(-1));
+                PageTerminated?.Invoke(sender, new PageTerminatedEventArgs(-1));
                 return;
             }
             else if (viewPageRange.Position > _book.Pages.LastPosition())
             {
-                PageTerminated?.Invoke(this, new PageTerminatedEventArgs(+1));
+                PageTerminated?.Invoke(sender, new PageTerminatedEventArgs(+1));
                 return;
             }
 
             // ページ数０の場合は表示コンテンツなし
             if (_book.Pages.Count == 0)
             {
-                ViewContentsChanged?.Invoke(this, new ViewContentSourceCollectionChangedEventArgs(new ViewContentSourceCollection()));
+                ViewContentsChanged?.Invoke(sender, new ViewContentSourceCollectionChangedEventArgs(_book.Address, new ViewContentSourceCollection()));
                 return;
             }
 

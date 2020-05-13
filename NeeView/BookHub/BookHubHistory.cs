@@ -16,8 +16,11 @@ namespace NeeView
         private readonly HistoryLimitedCollection<QueryPath> _history = new HistoryLimitedCollection<QueryPath>(_historyCapacity);
 
 
-        public void Add(QueryPath query)
+        public void Add(object sender, QueryPath query)
         {
+            // NOTE: 履歴操からの操作では履歴を変更しない
+            if (sender == this) return;
+
             _history.TrimEnd(null);
 
             if (query != _history.GetCurrent())
@@ -64,8 +67,8 @@ namespace NeeView
         private void LoadBook(QueryPath query)
         {
             if (query == null) return;
-            var option = BookLoadOption.IsBook | BookLoadOption.SkipSamePlace;
-            BookHub.Current.RequestLoad(query.SimplePath, null, option, true);
+            var option = BookLoadOption.IsBook | BookLoadOption.SkipSamePlace | BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe;
+            BookHub.Current.RequestLoad(this, query.SimplePath, null, option, true);
         }
 
         internal List<KeyValuePair<int, QueryPath>> GetHistory(int direction, int size)

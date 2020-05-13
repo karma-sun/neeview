@@ -137,7 +137,7 @@ namespace NeeView
 
         public void OpenBook()
         {
-            BookHub.Current.RequestLoad(_content.Entry.SystemPath, null, BookLoadOption.IsBook | BookLoadOption.SkipSamePlace, true);
+            BookHub.Current.RequestLoad(this, _content.Entry.SystemPath, null, BookLoadOption.IsBook | BookLoadOption.SkipSamePlace, true);
         }
     }
 

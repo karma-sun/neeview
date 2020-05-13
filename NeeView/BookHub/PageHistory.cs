@@ -1,6 +1,8 @@
 ﻿using NeeView.Collections;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace NeeView
 {
@@ -70,21 +72,44 @@ namespace NeeView
         public PageHistory()
         {
             _history.Changed += (s, e) => Changed?.Invoke(s, e);
+
+            BookHub.Current.ViewContentsChanged += BookHub_ViewContentsChanged;
+        }
+
+        
+        public event EventHandler Changed;
+
+
+        private void BookHub_ViewContentsChanged(object sender, ViewContentSourceCollectionChangedEventArgs e)
+        {
+            var viewPages = e?.ViewPageCollection?.Collection.Where(x => x != null).Select(x => x.Page).ToList();
+
+            PageHistoryUnit pageHistoryUnit;
+            if (viewPages != null && viewPages.Count > 0)
+            {
+                var page = viewPages.Select(p => (p.Index, p)).Min().Item2;
+                pageHistoryUnit = new PageHistoryUnit(e.BookAddress, page.EntryFullName);
+            }
+            else
+            {
+                // NOTE: 空白ページを登録することで直前ページを正常に参照できるようにする
+                pageHistoryUnit = PageHistoryUnit.Empty;
+            }
+
+            Add(sender, pageHistoryUnit);
         }
 
 
-        public event EventHandler Changed;
-      
-
-        public void Add(PageHistoryUnit query)
+        public void Add(object sender, PageHistoryUnit unit)
         {
-            if (query.IsEmpty()) return;
+            // NOTE: 履歴操からの操作では履歴を変更しない
+            if (sender == this) return;
 
             _history.TrimEnd(PageHistoryUnit.Empty);
 
-            if (query != _history.GetCurrent())
+            if (unit != _history.GetCurrent())
             {
-                _history.Add(query);
+                _history.Add(unit);
             }
         }
 
@@ -129,12 +154,12 @@ namespace NeeView
 
             if (BookOperation.Current.Address == unit.BookAddress)
             {
-                BookOperation.Current.JumpPage(unit.PageName);
+                BookOperation.Current.JumpPage(this, unit.PageName);
             }
             else
             {
-                var option = BookLoadOption.SkipSamePlace;
-                BookHub.Current.RequestLoad(unit.BookAddress, unit.PageName, option, true);
+                var option = BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe;
+                BookHub.Current.RequestLoad(this, unit.BookAddress, unit.PageName, option, true);
             }
         }
 

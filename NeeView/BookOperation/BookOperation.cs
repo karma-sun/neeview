@@ -445,18 +445,18 @@ namespace NeeView
             // TODO ここでSlideShowを参照しているが、引数で渡すべきでは？
             if (SlideShow.Current.IsPlayingSlideShow && Config.Current.SlideShow.IsSlideShowByLoop)
             {
-                FirstPage();
+                FirstPage(sender);
             }
 
             else if (Config.Current.Book.PageEndAction == PageEndAction.Loop)
             {
                 if (e.Direction < 0)
                 {
-                    LastPage();
+                    LastPage(sender);
                 }
                 else
                 {
-                    FirstPage();
+                    FirstPage(sender);
                 }
                 if (Config.Current.Book.IsNotifyPageLoop)
                 {
@@ -517,7 +517,7 @@ namespace NeeView
         }
 
         // ページ移動量をメディアの時間移動量に変換して移動
-        private void MoveMediaPage(int delta)
+        private void MoveMediaPage(object sender, int delta)
         {
             if (MediaPlayerOperator.Current == null) return;
 
@@ -525,103 +525,103 @@ namespace NeeView
 
             if (isTerminated)
             {
-                this.Book?.Viewer.RaisePageTerminatedEvent(delta < 0 ? -1 : 1);
+                this.Book?.Viewer.RaisePageTerminatedEvent(sender, delta < 0 ? -1 : 1);
             }
         }
 
         // 前のページに移動
-        public void PrevPage()
+        public void PrevPage(object sender)
         {
             if (this.Book == null) return;
 
             if (this.Book.IsMedia)
             {
-                MoveMediaPage(-1);
+                MoveMediaPage(sender, -1);
             }
             else
             {
-                this.Book.Control.PrevPage();
+                this.Book.Control.PrevPage(sender, 0);
             }
         }
 
         // 次のページに移動
-        public void NextPage()
+        public void NextPage(object sender)
         {
             if (this.Book == null) return;
 
             if (this.Book.IsMedia)
             {
-                MoveMediaPage(+1);
+                MoveMediaPage(sender, +1);
             }
             else
             {
-                this.Book.Control.NextPage();
+                this.Book.Control.NextPage(sender, 0);
             }
         }
 
         // 1ページ前に移動
-        public void PrevOnePage()
+        public void PrevOnePage(object sender)
         {
             if (this.Book == null) return;
 
             if (this.Book.IsMedia)
             {
-                MoveMediaPage(-1);
+                MoveMediaPage(sender, -1);
             }
             else
             {
-                this.Book.Control.PrevPage(1);
+                this.Book.Control.PrevPage(sender, 1);
             }
         }
 
         // 1ページ後に移動
-        public void NextOnePage()
+        public void NextOnePage(object sender)
         {
             if (this.Book == null) return;
 
             if (this.Book.IsMedia)
             {
-                MoveMediaPage(+1);
+                MoveMediaPage(sender, +1);
             }
             else
             {
-                this.Book?.Control.NextPage(1);
+                this.Book?.Control.NextPage(sender, 1);
             }
         }
 
         // 指定ページ数前に移動
-        public void PrevSizePage(int size)
+        public void PrevSizePage(object sender, int size)
         {
             if (this.Book == null) return;
 
             if (this.Book.IsMedia)
             {
-                MoveMediaPage(-size);
+                MoveMediaPage(sender, -size);
             }
             else
             {
-                this.Book.Control.PrevPage(size);
+                this.Book.Control.PrevPage(sender, size);
             }
         }
 
         // 指定ページ数後に移動
-        public void NextSizePage(int size)
+        public void NextSizePage(object sender, int size)
         {
             if (this.Book == null) return;
 
             if (this.Book.IsMedia)
             {
-                MoveMediaPage(+size);
+                MoveMediaPage(sender, +size);
             }
             else
             {
-                this.Book.Control.NextPage(size);
+                this.Book.Control.NextPage(sender, size);
             }
         }
 
 
         // 最初のページに移動
-        public void FirstPage()
+        public void FirstPage(object sender)
         {
             if (this.Book == null) return;
 
@@ -631,12 +631,12 @@ namespace NeeView
             }
             else
             {
-                this.Book.Control.FirstPage();
+                this.Book.Control.FirstPage(sender);
             }
         }
 
         // 最後のページに移動
-        public void LastPage()
+        public void LastPage(object sender)
         {
             if (this.Book == null) return;
 
@@ -646,13 +646,13 @@ namespace NeeView
             }
             else
             {
-                this.Book.Control.LastPage();
+                this.Book.Control.LastPage(sender);
             }
         }
 
 
         // 前のフォルダーに移動
-        public void PrevFolderPage(bool isShowMessage)
+        public void PrevFolderPage(object sender, bool isShowMessage)
         {
             if (this.Book == null) return;
 
@@ -661,13 +661,13 @@ namespace NeeView
             }
             else
             {
-                var index = this.Book.Control.PrevFolderPage();
+                var index = this.Book.Control.PrevFolderPage(sender);
                 ShowMoveFolderPageMessage(index, Properties.Resources.NotifyFirstFolderPage, isShowMessage);
             }
         }
 
         // 次のフォルダーに移動
-        public void NextFolderPage(bool isShowMessage)
+        public void NextFolderPage(object sender, bool isShowMessage)
         {
             if (this.Book == null) return;
 
@@ -676,7 +676,7 @@ namespace NeeView
             }
             else
             {
-                var index = this.Book.Control.NextFolderPage();
+                var index = this.Book.Control.NextFolderPage(sender);
                 ShowMoveFolderPageMessage(index, Properties.Resources.NotifyLastFolderPage, isShowMessage);
             }
         }
@@ -700,25 +700,25 @@ namespace NeeView
 
 
         // ページを指定して移動
-        public void JumpPage(int number)
+        public void JumpPage(object sender, int number)
         {
             if (this.Book == null || this.Book.IsMedia) return;
 
             var page = this.Book.Pages.GetPage(number - 1);
-            this.Book.Control.JumpPage(page);
+            this.Book.Control.JumpPage(sender, page);
         }
 
         // ページ名を指定して移動
-        public void JumpPage(string name)
+        public void JumpPage(object sender, string name)
         {
             if (this.Book == null || this.Book.IsMedia) return;
 
             var page = this.Book.Pages.GetPage(name);
-            this.Book.Control.JumpPage(page);
+            this.Book.Control.JumpPage(sender, page);
         }
 
         // ページを指定して移動
-        public void JumpPage()
+        public void JumpPageAs(object sender)
         {
             if (this.Book == null || this.Book.IsMedia) return;
 
@@ -738,18 +738,18 @@ namespace NeeView
             if (result == true)
             {
                 var page = this.Book.Pages.GetPage(dialogModel.Value - 1);
-                this.Book.Control.JumpPage(page);
+                this.Book.Control.JumpPage(sender, page);
             }
         }
 
         // 指定ページに移動
-        public void JumpPage(Page page)
+        public void JumpPage(object sender, Page page)
         {
-            if (_isEnabled && page != null) this.Book?.Control.JumpPage(page);
+            if (_isEnabled && page != null) this.Book?.Control.JumpPage(sender, page);
         }
 
         // ランダムページに移動
-        public void JumpRandomPage()
+        public void JumpRandomPage(object sender)
         {
             if (this.Book == null || this.Book.IsMedia) return;
             if (this.Book.Pages.Count <= 1) return;
@@ -765,7 +765,7 @@ namespace NeeView
             }
 
             var page = this.Book.Pages.GetPage(index);
-            this.Book.Control.JumpPage(page);
+            this.Book.Control.JumpPage(sender, page);
         }
 
 
@@ -804,9 +804,12 @@ namespace NeeView
         }
 
         // スライドショー用：次のページへ移動
-        public void NextSlide()
+        public void NextSlide(object sender)
         {
-            if (SlideShow.Current.IsPlayingSlideShow) NextPage();
+            if (SlideShow.Current.IsPlayingSlideShow)
+            {
+                NextPage(sender);
+            }
         }
 
         #endregion
@@ -886,7 +889,7 @@ namespace NeeView
                 {
                     case EntryCollectionChangedAction.Replace:
                     case EntryCollectionChangedAction.Reset:
-                        BookHub.Current.RequestUnload(true);
+                        BookHub.Current.RequestUnload(sender, true);
                         break;
                     case EntryCollectionChangedAction.Add:
                         {
@@ -895,7 +898,7 @@ namespace NeeView
                             if (Book.Source.IsRecursiveFolder && placeQuery.Include(query) || query.GetParent().Equals(placeQuery))
                             {
                                 Debug.WriteLine($"BookOperation: Add pagemarks: {e.Item.Value.Name}");
-                                BookHub.Current.RequestReLoad();
+                                BookHub.Current.RequestReLoad(sender);
                             }
                         }
                         break;
@@ -916,12 +919,12 @@ namespace NeeView
                             else if (PagemarkCollection.Current.FindNode(placeQuery) == null) // 親が削除されていたら見つからない
                             {
                                 Debug.WriteLine($"BookOperation: Remove parent pagemark: {e.Item.Value.Name}");
-                                BookHub.Current.RequestUnload(true);
+                                BookHub.Current.RequestUnload(sender, true);
                             }
                             else if (e.Item.Value is PagemarkFolder && Book.Source.IsRecursiveFolder && placeQuery.Include(parentQuery))
                             {
                                 Debug.WriteLine($"BookOperation: Remove pagemarks: {e.Item.Value.Name}");
-                                BookHub.Current.RequestReLoad();
+                                BookHub.Current.RequestReLoad(sender);
                             }
                         }
                         break;
@@ -935,12 +938,12 @@ namespace NeeView
                             if (PagemarkCollection.Current.FindNode(placeQuery) == null) // 自身もしくは親の名前が変わっていたら見つからない
                             {
                                 Debug.WriteLine($"BookOperation: Rename parent pagemark: {e.Item.Value.Name}");
-                                BookHub.Current.RequestUnload(true);
+                                BookHub.Current.RequestUnload(sender, true);
                             }
                             else if (e.Item.Value is PagemarkFolder && Book.Source.IsRecursiveFolder && placeQuery.Include(parentQuery))
                             {
                                 Debug.WriteLine($"BookOperation: Rename pagemarks: {e.Item.Value.Name}");
-                                BookHub.Current.RequestReLoad();
+                                BookHub.Current.RequestReLoad(sender);
                             }
                         }
                         break;
@@ -1142,7 +1145,7 @@ namespace NeeView
         }
 
         // ページマークに移動
-        public bool JumpPagemarkInPlace(Pagemark mark)
+        public bool JumpPagemarkInPlace(object sender, Pagemark mark)
         {
             if (mark == null) return false;
 
@@ -1151,7 +1154,7 @@ namespace NeeView
                 Page page = this.Book.Pages.GetPage(mark.EntryName);
                 if (page != null)
                 {
-                    JumpPage(page);
+                    JumpPage(sender, page);
                     return true;
                 }
             }
@@ -1169,12 +1172,12 @@ namespace NeeView
             return page != null && page.PageType == PageType.Folder;
         }
 
-        public void MoveToChildBook()
+        public void MoveToChildBook(object sender)
         {
             var page = Book?.Viewer.GetViewPage();
             if (page != null && page.PageType == PageType.Folder)
             {
-                BookHub.Current.RequestLoad(page.Entry.SystemPath, null, BookLoadOption.IsBook | BookLoadOption.SkipSamePlace, true);
+                BookHub.Current.RequestLoad(sender, page.Entry.SystemPath, null, BookLoadOption.IsBook | BookLoadOption.SkipSamePlace, true);
             }
         }
 

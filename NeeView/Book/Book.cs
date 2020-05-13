@@ -89,7 +89,7 @@ namespace NeeView
 
         #region Methods
 
-        public void SetStartPage(BookStartPage startPage)
+        public void SetStartPage(object sender, BookStartPage startPage)
         {
             // スタートページ取得
             PagePosition position = _source.Pages.FirstPosition();
@@ -119,7 +119,7 @@ namespace NeeView
             this.StartEntry = _source.Pages.Count > 0 ? _source.Pages[position.Index].EntryFullName : null;
 
             // 初期ページ設定 
-            _controller.RequestSetPosition(this, position, direction);
+            _controller.RequestSetPosition(sender, position, direction);
         }
 
         public void Start()
@@ -232,7 +232,7 @@ namespace NeeView
 
     public static class BookFactory
     {
-        public static async Task<Book> CreateAsync(QueryPath address, QueryPath sourceAddress, BookCreateSetting setting, Book.Memento memento, CancellationToken token)
+        public static async Task<Book> CreateAsync(object sender, QueryPath address, QueryPath sourceAddress, BookCreateSetting setting, Book.Memento memento, CancellationToken token)
         {
             var factory = new BookSourceFactory();
             var bookSource = await factory.CreateAsync(address, setting, token);
@@ -247,8 +247,8 @@ namespace NeeView
 
             var book = new Book(bookSource, sourceAddress, memento, setting.LoadOption);
 
-            // ## Start() で行いたい
-            book.SetStartPage(setting.StartPage);
+            // HACK: Start() で行いたい
+            book.SetStartPage(sender, setting.StartPage);
 
             return book;
         }

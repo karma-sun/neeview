@@ -23,7 +23,7 @@
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            BookOperation.Current.LastPage();
+            BookOperation.Current.LastPage(this);
         }
     }
 }

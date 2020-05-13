@@ -18,7 +18,7 @@
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            BookHub.Current.RequestUnload(true);
+            BookHub.Current.RequestUnload(this, true);
         }
     }
 }

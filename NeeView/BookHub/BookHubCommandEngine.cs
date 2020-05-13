@@ -38,6 +38,7 @@ namespace NeeView
     /// </summary>
     public class BookHubCommandLoadArgs : BookHubCommandArgs
     {
+        public object Sender { get; set; }
         public string Path { get; set; }
         public string SourcePath { get; set; }
         public string StartEntry { get; set; }
@@ -71,6 +72,7 @@ namespace NeeView
     /// </summary>
     public class BookHubCommandUnloadArgs : BookHubCommandArgs
     {
+        public object Sender { get; set; }
         public bool IsClearViewContent { get; set; }
         public string Message { get; set; }
     }
@@ -95,7 +97,7 @@ namespace NeeView
             _bookHub.Unload(_param);
 
             // ブックを閉じたときの移動履歴を表示するためにnullを履歴に登録
-            BookHubHistory.Current.Add(null);
+            BookHubHistory.Current.Add(_param.Sender, null);
 
             await Task.CompletedTask;
         }

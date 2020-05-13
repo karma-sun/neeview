@@ -25,7 +25,7 @@
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            BookOperation.Current.PrevFolderPage(this.IsShowMessage);
+            BookOperation.Current.PrevFolderPage(this, this.IsShowMessage);
         }
     }
 }

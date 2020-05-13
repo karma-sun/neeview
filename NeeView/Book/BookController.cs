@@ -63,57 +63,57 @@ namespace NeeView
         }
 
         // 前のページに戻る
-        public void PrevPage(int step = 0)
+        public void PrevPage(object sender, int step)
         {
             var s = (step == 0) ? _viewer.PageMode.Size() : step;
-            RequestMovePosition(this, -s);
+            RequestMovePosition(sender, -s);
         }
 
         // 次のページへ進む
-        public void NextPage(int step = 0)
+        public void NextPage(object sender, int step)
         {
             var s = (step == 0) ? _viewer.PageMode.Size() : step;
-            RequestMovePosition(this, +s);
+            RequestMovePosition(sender, +s);
         }
 
         // 前のフォルダーに戻る
-        public int PrevFolderPage()
+        public int PrevFolderPage(object sender)
         {
             var index = _book.Pages.GetPrevFolderIndex(_viewer.GetViewPageIndex());
             if (index < 0) return -1;
-            RequestSetPosition(this, new PagePosition(index, 0), 1);
+            RequestSetPosition(sender, new PagePosition(index, 0), 1);
             return index;
         }
 
         // 前のフォルダーへ進む
-        public int NextFolderPage()
+        public int NextFolderPage(object sender)
         {
             var index = _book.Pages.GetNextFolderIndex(_viewer.GetViewPageIndex());
             if (index < 0) return -1;
-            RequestSetPosition(this, new PagePosition(index, 0), 1);
+            RequestSetPosition(sender, new PagePosition(index, 0), 1);
             return index;
         }
 
         // 最初のページに移動
-        public void FirstPage()
+        public void FirstPage(object sender)
         {
-            RequestSetPosition(this, _book.Pages.FirstPosition(), 1);
+            RequestSetPosition(sender, _book.Pages.FirstPosition(), 1);
         }
 
         // 最後のページに移動
-        public void LastPage()
+        public void LastPage(object sender)
         {
-            RequestSetPosition(this, _book.Pages.LastPosition(), -1);
+            RequestSetPosition(sender, _book.Pages.LastPosition(), -1);
         }
 
         // 指定ページに移動
-        public void JumpPage(Page page)
+        public void JumpPage(object sender, Page page)
         {
             int index = _book.Pages.IndexOf(page);
             if (index >= 0)
             {
                 var position = new PagePosition(index, 0);
-                RequestSetPosition(this, position, 1);
+                RequestSetPosition(sender, position, 1);
             }
         }
 
@@ -237,7 +237,7 @@ namespace NeeView
                 _book.Pages.Remove(pages);
 
                 var index = next != null ? next.Index : 0;
-                RequestSetPosition(this, new PagePosition(index, 0), 1);
+                RequestSetPosition(sender, new PagePosition(index, 0), 1);
 
                 await Task.CompletedTask;
             }

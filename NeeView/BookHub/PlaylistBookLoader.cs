@@ -12,25 +12,25 @@ namespace NeeView
     /// </summary>
     public static class PlaylistBookLoader
     {
-        public static void Load(string path, bool isRefreshFolderList)
+        public static void Load(object sender, string path, bool isRefreshFolderList)
         {
             if (path is null) return;
 
             if (PlaylistArchive.IsSupportExtension(path))
             {
-                LoadPlaylist(path, isRefreshFolderList);
+                LoadPlaylist(sender, path, isRefreshFolderList);
             }
             else
             {
-                BookHub.Current.RequestLoad(path, null, BookLoadOption.None, isRefreshFolderList);
+                BookHub.Current.RequestLoad(sender, path, null, BookLoadOption.None, isRefreshFolderList);
             }
         }
 
 
-        public static string Load(IEnumerable<string> files, bool isRefreshFolderList)
+        public static string Load(object sender, IEnumerable<string> files, bool isRefreshFolderList)
         {
             var path = CreateLoadPath(files);
-            Load(path, isRefreshFolderList);
+            Load(sender, path, isRefreshFolderList);
             return path;
         }
 
@@ -63,11 +63,11 @@ namespace NeeView
             return null;
         }
 
-        public static void LoadPlaylist(string playlistFile, bool isRefreshFolderList)
+        public static void LoadPlaylist(object sender, string playlistFile, bool isRefreshFolderList)
         {
             Debug.Assert(PlaylistArchive.IsSupportExtension(playlistFile));
 
-            BookHub.Current.RequestLoad(playlistFile, null, BookLoadOption.None, false);
+            BookHub.Current.RequestLoad(sender, playlistFile, null, BookLoadOption.None, false);
             if (isRefreshFolderList)
             {
                 BookshelfFolderList.Current.RequestPlace(new QueryPath(playlistFile), null, FolderSetPlaceOption.UpdateHistory);

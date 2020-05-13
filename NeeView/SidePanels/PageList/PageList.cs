@@ -190,7 +190,7 @@ namespace NeeView
 
         public void Jump(Page page)
         {
-            BookOperation.Current.JumpPage(page);
+            BookOperation.Current.JumpPage(this, page);
         }
 
         public bool CanRemove(Page page)
@@ -253,7 +253,7 @@ namespace NeeView
 
         public void MoveToParent()
         {
-            BookHub.Current.RequestLoadParent();
+            BookHub.Current.RequestLoadParent(this);
         }
 
         #region Memento

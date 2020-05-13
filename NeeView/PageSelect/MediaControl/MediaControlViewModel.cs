@@ -44,7 +44,7 @@ namespace NeeView
 
         private void Operator_MediaEnded(object sender, System.EventArgs e)
         {
-            BookOperation.Current.Book?.Viewer.RaisePageTerminatedEvent(1);
+            BookOperation.Current.Book?.Viewer.RaisePageTerminatedEvent(this, 1);
         }
 
         public void SetScrubbing(bool isScrubbing)
@@ -76,11 +76,11 @@ namespace NeeView
             {
                 if (turn < 0)
                 {
-                    BookOperation.Current.NextPage();
+                    BookOperation.Current.NextPage(this);
                 }
                 else
                 {
-                    BookOperation.Current.PrevPage();
+                    BookOperation.Current.PrevPage(this);
                 }
             }
         }

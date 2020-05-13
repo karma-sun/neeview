@@ -101,11 +101,11 @@ namespace NeeView
             {
                 var downloadPath = string.IsNullOrWhiteSpace(Config.Current.System.DownloadPath) ? Temporary.Current.TempDownloadDirectory : Config.Current.System.DownloadPath;
                 string path = await DropAsync(this, data, downloadPath, (string message) => NeeView.NowLoading.Current.SetLoading(message));
-                PlaylistBookLoader.Load(path, true);
+                PlaylistBookLoader.Load(this, path, true);
             }
             catch (Exception ex)
             {
-                BookHub.Current.RequestUnload(true, ex.Message ?? Properties.Resources.NotifyContentFailed);
+                BookHub.Current.RequestUnload(this, true, ex.Message ?? Properties.Resources.NotifyContentFailed);
                 NeeView.NowLoading.Current.ResetLoading();
             }
         }

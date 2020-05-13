@@ -154,7 +154,7 @@ namespace NeeView
 
             if (page.PageType == PageType.Folder)
             {
-                BookHub.Current.RequestLoad(page.Entry.SystemPath, null, BookLoadOption.IsBook | BookLoadOption.SkipSamePlace, true);
+                BookHub.Current.RequestLoad(this, page.Entry.SystemPath, null, BookLoadOption.IsBook | BookLoadOption.SkipSamePlace, true);
             }
         }
 
@@ -326,7 +326,7 @@ namespace NeeView
                 if (key == Key.Up)
                 {
                     // 現在ブックの上の階層に移動
-                    BookHub.Current.RequestLoadParent();
+                    BookHub.Current.RequestLoadParent(this);
                     e.Handled = true;
                 }
                 else if (key == Key.Down)
@@ -334,7 +334,7 @@ namespace NeeView
                     // 選択ブックに移動
                     if (page != null && page.PageType == PageType.Folder)
                     {
-                        BookHub.Current.RequestLoad(page.Entry.SystemPath, null, BookLoadOption.IsBook | BookLoadOption.SkipSamePlace, true);
+                        BookHub.Current.RequestLoad(this, page.Entry.SystemPath, null, BookLoadOption.IsBook | BookLoadOption.SkipSamePlace, true);
                     }
                     e.Handled = true;
                 }
@@ -410,7 +410,7 @@ namespace NeeView
             var page = (sender as ListBoxItem)?.Content as Page;
             if (page != null && page.PageType == PageType.Folder)
             {
-                BookHub.Current.RequestLoad(page.Entry.SystemPath, null, BookLoadOption.IsBook | BookLoadOption.SkipSamePlace, true);
+                BookHub.Current.RequestLoad(this, page.Entry.SystemPath, null, BookLoadOption.IsBook | BookLoadOption.SkipSamePlace, true);
                 e.Handled = true;
             }
         }

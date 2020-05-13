@@ -23,7 +23,7 @@ namespace NeeView
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            BookOperation.Current.PrevSizePage(((MoveSizePageCommandParameter)param).Size);
+            BookOperation.Current.PrevSizePage(this, ((MoveSizePageCommandParameter)param).Size);
         }
     }
 

@@ -357,16 +357,19 @@ namespace NeeView
         // リストボックスのカーソルキーによる不意のスクロール抑制
         private void ThumbnailListBoxPanel_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            // 決定
-            if (e.Key == Key.Return)
-                BookOperation.Current.JumpPage(this.ThumbnailListBox.SelectedItem as Page);
-            // 左右スクロールは自前で実装
-            else if (e.Key == Key.Right)
-                MoveSelectedIndex(+1);
-            else if (e.Key == Key.Left)
-                MoveSelectedIndex(-1);
+            if (Keyboard.Modifiers == ModifierKeys.None)
+            {
+                // 決定
+                if (e.Key == Key.Return)
+                    BookOperation.Current.JumpPage(this, ThumbnailListBox.SelectedItem as Page);
+                // 左右スクロールは自前で実装
+                else if (e.Key == Key.Right)
+                    MoveSelectedIndex(+1);
+                else if (e.Key == Key.Left)
+                    MoveSelectedIndex(-1);
 
-            e.Handled = (e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Return);
+                e.Handled = (e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Return);
+            }
         }
 
 
@@ -435,7 +438,7 @@ namespace NeeView
             var page = (sender as ListBoxItem)?.Content as Page;
             if (page != null)
             {
-                BookOperation.Current.JumpPage(page);
+                BookOperation.Current.JumpPage(this, page);
             }
         }
 

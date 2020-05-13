@@ -36,7 +36,7 @@ namespace NeeView
         {
             var path = parameter as string;
             if (parameter == null) return;
-            BookHub.Current.RequestLoad(path, null, BookLoadOption.None, true);
+            BookHub.Current.RequestLoad(this, path, null, BookLoadOption.None, true);
         }
 
         public void RaiseCanExecuteChanged()
@@ -343,7 +343,7 @@ namespace NeeView
 
         public void LoadAs(string path)
         {
-            BookHub.Current.RequestLoad(path, null, BookLoadOption.None, true);
+            BookHub.Current.RequestLoad(this, path, null, BookLoadOption.None, true);
         }
 
         // ファイルを開く基準となるフォルダーを取得
@@ -385,7 +385,7 @@ namespace NeeView
         /// スクロール＋前のページに戻る。
         /// ルーペ使用時はページ移動のみ行う。
         /// </summary>
-        public void PrevScrollPage(ScrollPageCommandParameter parameter)
+        public void PrevScrollPage(object sender, ScrollPageCommandParameter parameter)
         {
             int bookReadDirection = (BookSettingPresenter.Current.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
             bool isScrolled = MouseInput.Current.IsLoupeMode ? false : DragTransformControl.Current.ScrollN(-1, bookReadDirection, parameter.IsNScroll, parameter);
@@ -397,7 +397,7 @@ namespace NeeView
                 if (margin <= TimeSpan.Zero || margin <= span)
                 {
                     ContentCanvas.Current.NextViewOrigin = (BookSettingPresenter.Current.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightBottom : DragViewOrigin.LeftBottom;
-                    BookOperation.Current.PrevPage();
+                    BookOperation.Current.PrevPage(sender);
                     return;
                 }
             }
@@ -409,7 +409,7 @@ namespace NeeView
         /// スクロール＋次のページに進む。
         /// ルーペ使用時はページ移動のみ行う。
         /// </summary>
-        public void NextScrollPage(ScrollPageCommandParameter parameter)
+        public void NextScrollPage(object sender, ScrollPageCommandParameter parameter)
         {
             int bookReadDirection = (BookSettingPresenter.Current.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
             bool isScrolled = MouseInput.Current.IsLoupeMode ? false : DragTransformControl.Current.ScrollN(+1, bookReadDirection, parameter.IsNScroll, parameter);
@@ -421,7 +421,7 @@ namespace NeeView
                 if (margin <= TimeSpan.Zero || margin <= span)
                 {
                     ContentCanvas.Current.NextViewOrigin = (BookSettingPresenter.Current.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightTop : DragViewOrigin.LeftTop;
-                    BookOperation.Current.NextPage();
+                    BookOperation.Current.NextPage(sender);
                     return;
                 }
             }

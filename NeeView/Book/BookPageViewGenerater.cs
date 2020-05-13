@@ -150,7 +150,7 @@ namespace NeeView
                     }
 
                     token.ThrowIfCancellationRequested();
-                    NextContentsChanged?.Invoke(_sender, new ViewContentSourceCollectionChangedEventArgs(collection) { IsForceResize = (_contentCount == 0), CancellationToken = token });
+                    NextContentsChanged?.Invoke(_sender, new ViewContentSourceCollectionChangedEventArgs(_book.Address, collection) { IsForceResize = (_contentCount == 0), CancellationToken = token });
 
                     Interlocked.Increment(ref _contentCount);
 
@@ -186,7 +186,7 @@ namespace NeeView
             ////var source = collection.Collection[0];
             ////Debug.WriteLine($"UpdateViewContentsInner: Name={source.Page.EntryName}, Type={source.GetContentType()}");
 
-            var args = new ViewContentSourceCollectionChangedEventArgs(collection) { IsForceResize = true, CancellationToken = token };
+            var args = new ViewContentSourceCollectionChangedEventArgs(_book.Address, collection) { IsForceResize = true, CancellationToken = token };
             ViewContentsChanged?.Invoke(sender, args);
 
             _visibleEvent.Set();

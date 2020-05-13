@@ -131,11 +131,11 @@ namespace NeeView
         {
             if (item.Value is Pagemark pagemark)
             {
-                bool isJumped = BookOperation.Current.JumpPagemarkInPlace(pagemark);
+                bool isJumped = BookOperation.Current.JumpPagemarkInPlace(this, pagemark);
                 if (!isJumped && allowChangeBook)
                 {
                     var options = pagemark.EntryName != null ? BookLoadOption.IsPage : BookLoadOption.None;
-                    BookHub.Current.RequestLoad(pagemark.Path, pagemark.EntryName, options, true);
+                    BookHub.Current.RequestLoad(this, pagemark.Path, pagemark.EntryName, options, true);
                 }
             }
         }

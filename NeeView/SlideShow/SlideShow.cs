@@ -114,7 +114,7 @@ namespace NeeView
         /// </summary>
         public void NextSlide()
         {
-            BookOperation.Current.NextSlide();
+            BookOperation.Current.NextSlide(this);
         }
 
         /// <summary>

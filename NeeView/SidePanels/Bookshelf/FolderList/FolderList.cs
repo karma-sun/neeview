@@ -917,7 +917,7 @@ namespace NeeView
         private void RequestLoad(FolderItem item, string start, BookLoadOption option, bool isRefreshFolderList)
         {
             var additionalOption = BookLoadOption.IsBook | (item.CanRemove() ? BookLoadOption.None : BookLoadOption.Undeliteable);
-            BookHub.Current.RequestLoad(item.TargetPath.SimplePath, start, option | additionalOption, isRefreshFolderList);
+            BookHub.Current.RequestLoad(this, item.TargetPath.SimplePath, start, option | additionalOption, isRefreshFolderList);
         }
 
         #endregion MoveFolder
@@ -1452,7 +1452,7 @@ namespace NeeView
             }
 
             var additionalOption = BookLoadOption.IsBook | (item.CanRemove() ? BookLoadOption.None : BookLoadOption.Undeliteable);
-            BookHub.Current.RequestLoad(query.SimplePath, null, option | additionalOption, IsSyncBookshelfEnabled);
+            BookHub.Current.RequestLoad(this, query.SimplePath, null, option | additionalOption, IsSyncBookshelfEnabled);
         }
 
         /// <summary>

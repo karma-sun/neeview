@@ -103,7 +103,7 @@ namespace NeeView
 
             if (prev != null)
             {
-                BookHub.Current.RequestLoad(prev.Path, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe | BookLoadOption.IsBook, true);
+                BookHub.Current.RequestLoad(this, prev.Path, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe | BookLoadOption.IsBook, true);
             }
             else
             {
@@ -127,7 +127,7 @@ namespace NeeView
             if (index > 0)
             {
                 var next = Items[index - 1];
-                BookHub.Current.RequestLoad(next.Path, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe | BookLoadOption.IsBook, true);
+                BookHub.Current.RequestLoad(this, next.Path, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe | BookLoadOption.IsBook, true);
             }
             else
             {

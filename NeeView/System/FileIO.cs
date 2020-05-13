@@ -326,7 +326,7 @@ namespace NeeView
                 // 開いている本であるならば閉じる
                 if (paths.Contains(BookHub.Current.Address))
                 {
-                    await BookHub.Current.RequestUnload(true).WaitAsync();
+                    await BookHub.Current.RequestUnload(this, true).WaitAsync();
                     await ArchiverManager.Current.UnlockAllArchivesAsync();
                 }
 
@@ -463,7 +463,7 @@ namespace NeeView
                 if (_bookHub.Address == src)
                 {
                     isContinue = true;
-                    await _bookHub.RequestUnload(false).WaitAsync();
+                    await _bookHub.RequestUnload(this, false).WaitAsync();
                 }
 
                 // 開いている本のロックをはずす
@@ -498,7 +498,7 @@ namespace NeeView
                     if (isContinue && requestLoadCount == _bookHub.RequestLoadCount)
                     {
                         RenameHistory(src, dst);
-                        _bookHub.RequestLoad(dst, null, BookLoadOption.Resume | BookLoadOption.IsBook, false);
+                        _bookHub.RequestLoad(this, dst, null, BookLoadOption.Resume | BookLoadOption.IsBook, false);
                     }
                 }
                 catch (Exception ex)

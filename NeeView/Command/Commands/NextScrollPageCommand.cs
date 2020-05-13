@@ -26,7 +26,7 @@ namespace NeeView
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            MainWindowModel.Current.NextScrollPage((ScrollPageCommandParameter)param);
+            MainWindowModel.Current.NextScrollPage(this, (ScrollPageCommandParameter)param);
         }
     }
 

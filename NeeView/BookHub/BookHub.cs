@@ -450,27 +450,14 @@ namespace NeeView
                     BookHistoryCollection.Current.Add(Book?.CreateMemento(), false);
                 }
 
-                PageHistoryUnit pageHistoryUnit;
                 lock (_lock)
                 {
                     if (BookUnit == null) return;
                     var viewPages = e?.ViewPageCollection?.Collection.Where(x => x != null).Select(x => x.Page).ToList() ?? new List<Page>();
                     BookUnit.Book.Pages.SetViewPageFlag(viewPages);
-
-                    if (viewPages.Count > 0)
-                    {
-                        var page = viewPages.Select(p => (p.Index, p)).Min().Item2;
-                        pageHistoryUnit = new PageHistoryUnit(BookUnit.Book.Address, page.EntryFullName);
-                    }
-                    else
-                    {
-                        pageHistoryUnit = PageHistoryUnit.Empty;
-                    }
                 }
 
                 ViewContentsChanged?.Invoke(sender, e);
-
-                PageHistory.Current.Add(pageHistoryUnit);
             });
         }
 
@@ -492,7 +479,7 @@ namespace NeeView
         /// <param name="option"></param>
         /// <param name="isRefreshFolderList">フォルダーリストを同期する？</param>
         /// <returns></returns>
-        public BookHubCommandLoad RequestLoad(string path, string start, BookLoadOption option, bool isRefreshFolderList)
+        public BookHubCommandLoad RequestLoad(object sender, string path, string start, BookLoadOption option, bool isRefreshFolderList)
         {
             if (!this.IsEnabled) return null;
 
@@ -523,6 +510,7 @@ namespace NeeView
 
             var command = new BookHubCommandLoad(this, new BookHubCommandLoadArgs()
             {
+                Sender = sender,
                 Path = path,
                 SourcePath = sourcePath,
                 StartEntry = start,
@@ -547,10 +535,11 @@ namespace NeeView
         /// </summary>
         /// <param name="isClearViewContent"></param>
         /// <returns></returns>
-        public BookHubCommandUnload RequestUnload(bool isClearViewContent, string message = null)
+        public BookHubCommandUnload RequestUnload(object sender, bool isClearViewContent, string message = null)
         {
             var command = new BookHubCommandUnload(this, new BookHubCommandUnloadArgs()
             {
+                Sender = sender,
                 IsClearViewContent = isClearViewContent,
                 Message = message
             });
@@ -576,7 +565,7 @@ namespace NeeView
         /// <summary>
         /// リクエスト：再読込
         /// </summary>
-        public void RequestReLoad()
+        public void RequestReLoad(object sender)
         {
             if (_isLoading || Address == null) return;
 
@@ -585,7 +574,7 @@ namespace NeeView
             {
                 options = BookUnit != null ? (BookUnit.LoadOptions & BookLoadOption.KeepHistoryOrder) | BookLoadOption.Resume : BookLoadOption.None;
             }
-            RequestLoad(Address, null, options | BookLoadOption.IsBook | BookLoadOption.IgnoreCache, true);
+            RequestLoad(sender, Address, null, options | BookLoadOption.IsBook | BookLoadOption.IgnoreCache, true);
         }
 
         // 上の階層に移動可能？
@@ -598,13 +587,13 @@ namespace NeeView
         /// <summary>
         /// リクエスト：上の階層に移動
         /// </summary>
-        public void RequestLoadParent()
+        public void RequestLoadParent(object sender)
         {
             var parent = BookUnit?.BookAddress?.Place;
             if (parent?.Path != null && parent.Scheme == QueryScheme.File)
             {
                 var option = BookLoadOption.IsBook | BookLoadOption.SkipSamePlace;
-                RequestLoad(parent.SimplePath, null, option, true);
+                RequestLoad(sender, parent.SimplePath, null, option, true);
             }
         }
 
@@ -643,7 +632,7 @@ namespace NeeView
             var lastBookMemento = this.Book?.Address != null ? this.Book.CreateMemento() : null;
 
             // 現在の本を開放
-            Unload(new BookHubCommandUnloadArgs() { IsClearViewContent = false });
+            Unload(new BookHubCommandUnloadArgs() { Sender = args.Sender, IsClearViewContent = false });
 
             string place = args.Path;
 
@@ -676,7 +665,7 @@ namespace NeeView
                 place = address.SystemPath;
 
                 // 移動履歴登録
-                BookHubHistory.Current.Add(address.Address);
+                BookHubHistory.Current.Add(args.Sender, address.Address);
 
                 // フォルダーリスト更新
                 if (args.IsRefreshFolderList)
@@ -687,7 +676,7 @@ namespace NeeView
                 isNew = BookMementoCollection.Current.GetValid(address.Address.SimplePath) == null;
 
                 // Load本体
-                await LoadAsyncCore(address, args.Option, setting, token);
+                await LoadAsyncCore(args.Sender, address, args.Option, setting, token);
 
                 ////DebugTimer.Check("LoadCore");
 
@@ -720,7 +709,7 @@ namespace NeeView
 
                         if (Config.Current.Book.IsConfirmRecursive && (args.Option & BookLoadOption.ReLoad) == 0 && !Book.Source.IsRecursiveFolder && Book.Source.SubFolderCount > 0)
                         {
-                            ConfirmRecursive(token);
+                            ConfirmRecursive(args.Sender, token);
                         }
                     });
                 }
@@ -745,7 +734,7 @@ namespace NeeView
                 AppDispatcher.Invoke(() =>
                 {
                     // 現在表示されているコンテンツを無効
-                    ViewContentsChanged?.Invoke(this, new ViewContentSourceCollectionChangedEventArgs(new ViewContentSourceCollection()));
+                    ViewContentsChanged?.Invoke(this, new ViewContentSourceCollectionChangedEventArgs(null, new ViewContentSourceCollection()));
 
                     // 本の変更通知
                     BookChanged?.Invoke(this, new BookChangedEventArgs(BookMementoType.None));
@@ -779,7 +768,7 @@ namespace NeeView
 
 
         // 再帰読み込み確認
-        private void ConfirmRecursive(CancellationToken token)
+        private void ConfirmRecursive(object sender, CancellationToken token)
         {
             var dialog = new MessageDialog(string.Format(Properties.Resources.DialogConfirmRecursive, Book.Address), Properties.Resources.DialogConfirmRecursiveTitle);
             dialog.Commands.Add(UICommands.Yes);
@@ -792,15 +781,15 @@ namespace NeeView
 
                 if (result == UICommands.Yes)
                 {
-                    RequestReloadRecursive(Book);
+                    RequestReloadRecursive(sender, Book);
                 }
             }
         }
 
-        private void RequestReloadRecursive(Book book)
+        private void RequestReloadRecursive(object sender, Book book)
         {
             // TODO: BookAddressそのまま渡せばよいと思う
-            RequestLoad(book.Address, book.StartEntry, BookLoadOption.Recursive | BookLoadOption.ReLoad, true);
+            RequestLoad(sender, book.Address, book.StartEntry, BookLoadOption.Recursive | BookLoadOption.ReLoad, true);
         }
 
 
@@ -810,7 +799,7 @@ namespace NeeView
         /// <param name="path">本のパス</param>
         /// <param name="startEntry">開始エントリ</param>
         /// <param name="option">読み込みオプション</param>
-        private async Task LoadAsyncCore(BookAddress address, BookLoadOption option, Book.Memento setting, CancellationToken token)
+        private async Task LoadAsyncCore(object sender, BookAddress address, BookLoadOption option, Book.Memento setting, CancellationToken token)
         {
             try
             {
@@ -827,13 +816,13 @@ namespace NeeView
                     LoadOption = option,
                 };
 
-                var book = await BookFactory.CreateAsync(address.Address, address.SourceAddress, bookSetting, memento, token);
+                var book = await BookFactory.CreateAsync(sender, address.Address, address.SourceAddress, bookSetting, memento, token);
 
                 // auto recursive
                 if (Config.Current.Book.IsAutoRecursive && !book.Source.IsRecursiveFolder && book.Source.SubFolderCount == 1)
                 {
                     bookSetting.IsRecursiveFolder = true;
-                    book = await BookFactory.CreateAsync(address.Address, address.SourceAddress, bookSetting, memento, token);
+                    book = await BookFactory.CreateAsync(sender, address.Address, address.SourceAddress, bookSetting, memento, token);
                 }
 
                 _historyEntry = false;
@@ -850,7 +839,7 @@ namespace NeeView
                 // イベント設定
                 book.Viewer.ViewContentsChanged += OnViewContentsChanged;
                 book.Viewer.NextContentsChanged += OnNextContentsChanged;
-                book.Source.DartyBook += (s, e) => RequestLoad(Address, null, BookLoadOption.ReLoad | BookLoadOption.IsBook, false);
+                book.Source.DartyBook += (s, e) => RequestLoad(this, Address, null, BookLoadOption.ReLoad | BookLoadOption.IsBook, false);
 
                 var tcs = new TaskCompletionSource<bool>();
                 book.Viewer.ViewContentsChanged += OnViewContentsChangedInner;
@@ -870,7 +859,7 @@ namespace NeeView
                 book.Viewer.ViewContentsChanged -= OnViewContentsChangedInner;
 
                 //// inner callback function define.
-                void OnViewContentsChangedInner(object sender, ViewContentSourceCollectionChangedEventArgs e)
+                void OnViewContentsChangedInner(object s, ViewContentSourceCollectionChangedEventArgs e)
                 {
                     if (e.ViewPageCollection.Collection.All(e_ => e_.Content.IsViewReady))
                     {
@@ -935,10 +924,10 @@ namespace NeeView
                 AppDispatcher.Invoke(() =>
                 {
                     // 現在表示されているコンテンツを無効
-                    ViewContentsChanged?.Invoke(this, null);
+                    ViewContentsChanged?.Invoke(param.Sender, null);
 
                     // 本の変更通知
-                    BookChanged?.Invoke(this, new BookChangedEventArgs(BookMementoType.None));
+                    BookChanged?.Invoke(param.Sender, new BookChangedEventArgs(BookMementoType.None));
                 });
             }
 

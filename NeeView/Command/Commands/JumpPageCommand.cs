@@ -23,11 +23,11 @@ namespace NeeView
             if (args.Length > 0)
             {
                 var number = Convert.ToInt32(args[0]);
-                BookOperation.Current.JumpPage(number);
+                BookOperation.Current.JumpPage(this, number);
             }
             else
             {
-                BookOperation.Current.JumpPage();
+                BookOperation.Current.JumpPageAs(this);
             }
         }
     }

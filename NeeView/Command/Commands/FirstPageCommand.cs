@@ -22,7 +22,7 @@
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            BookOperation.Current.FirstPage();
+            BookOperation.Current.FirstPage(this);
         }
     }
 }

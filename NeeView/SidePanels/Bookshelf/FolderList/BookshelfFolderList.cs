@@ -1,10 +1,12 @@
 ﻿using NeeLaboratory.ComponentModel;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace NeeView
 {
@@ -22,12 +24,14 @@ namespace NeeView
 
         private BookshelfFolderList() : base(true, true, Config.Current.Bookshelf)
         {
+            History = new BookshelfFolderHistory(this);
+
             ApplicationDisposer.Current.Add(this);
 
             Config.Current.System.AddPropertyChanged(nameof(SystemConfig.IsHiddenFileVisibled), async (s, e) =>
-            {
-                await RefreshAsync(true, true);
-            });
+                {
+                    await RefreshAsync(true, true);
+                });
 
             Config.Current.Bookshelf.AddPropertyChanged(nameof(BookshelfConfig.IsVisibleHistoryMark), (s, e) =>
             {
@@ -52,6 +56,10 @@ namespace NeeView
 
             UpdateExcludeRegex();
         }
+
+
+        // フォルダー履歴
+        public BookshelfFolderHistory History { get; }
 
         // 除外パターンの正規表現
         public Regex ExcludeRegex
@@ -174,6 +182,53 @@ namespace NeeView
             return Config.Current.Bookshelf.IsSearchIncludeSubdirectories;
         }
 
+        protected override void OnPlaceChanged(object sender, FolderSetPlaceOption options)
+        {
+            base.OnPlaceChanged(sender, options);
+
+            if (options.HasFlag(FolderSetPlaceOption.UpdateHistory))
+            {
+                var place = Place.ReplaceSearch(null);
+                this.History?.Add(place);
+            }
+        }
+
+        #region FolderHistory
+
+
+        public bool CanMoveToPrevious()
+        {
+            return this.History.CanMoveToPrevious();
+        }
+
+        public override async void MoveToPrevious()
+        {
+            await this.History.MoveToPreviousAsync();
+        }
+
+        public bool CanMoveToNext()
+        {
+            return this.History.CanMoveToNext();
+        }
+
+        public override async void MoveToNext()
+        {
+            await this.History.MoveToNextAsync();
+        }
+
+        public async void MoveToHistory(KeyValuePair<int, QueryPath> item)
+        {
+            await this.History.MoveToHistoryAsync(item);
+        }
+
+        // NOTE: Historyから呼ばれる
+        public async Task MoveToHistoryAsync(QueryPath path)
+        {
+            await SetPlaceAsync(path, null, FolderSetPlaceOption.Focus);
+            CloseBookIfNecessary();
+        }
+
+        #endregion FolderHistory
 
 
         #region Memento

@@ -42,7 +42,7 @@ namespace NeeView
             InitializeComponent();
         }
 
-        public FolderListView(FolderList model) : this()
+        public FolderListView(BookshelfFolderList model) : this()
         {
             this.FolderTree.Model = new BookshelfFolderTreeModel(model);
 

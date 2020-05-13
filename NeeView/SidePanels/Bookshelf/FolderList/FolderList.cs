@@ -1,6 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeLaboratory.IO.Search;
-using NeeView.Collections;
 using NeeView.Collections.Generic;
 using NeeView.Windows.Controls;
 using NeeView.Windows.Data;
@@ -29,8 +28,6 @@ namespace NeeView
     /// </summary>
     public abstract class FolderList : BindableBase, IDisposable
     {
-        private const int _historyCapacity = 100;
-
         private static SearchKeyAnalyzer _searchKeyAnalyzer = new SearchKeyAnalyzer();
 
         /// <summary>
@@ -259,11 +256,6 @@ namespace NeeView
         /// 現在のフォルダーが有効？
         /// </summary>
         public bool IsPlaceValid => Place != null;
-
-        /// <summary>
-        /// フォルダー履歴
-        /// </summary>
-        public HistoryLimitedCollection<QueryPath> History { get; private set; } = new HistoryLimitedCollection<QueryPath>(_historyCapacity);
 
         /// <summary>
         /// 検索BOXの表示
@@ -595,16 +587,6 @@ namespace NeeView
                         // 最終フォルダー更新
                         Config.Current.StartUp.LastFolderPath = Place.SimpleQuery;
 
-                        // 履歴追加
-                        if (options.HasFlag(FolderSetPlaceOption.UpdateHistory))
-                        {
-                            var place = Place.ReplaceSearch(null);
-                            if (place != this.History.GetCurrent())
-                            {
-                                this.History.Add(place);
-                            }
-                        }
-
                         // 検索キーワード更新
                         if (Place.Search != GetFixedSearchKeyword())
                         {
@@ -613,6 +595,8 @@ namespace NeeView
                             _inputKeyword = Place.Search;
                             RaisePropertyChanged(nameof(InputKeyword));
                         }
+
+                        OnPlaceChanged(this, options);
 
                         PlaceChanged?.Invoke(this, null);
                     }
@@ -628,6 +612,13 @@ namespace NeeView
                 SetSelectedItem(select, false);
                 PlaceChanged?.Invoke(this, null);
             }
+        }
+
+        /// <summary>
+        /// PlaceChanged
+        /// </summary>
+        protected virtual void OnPlaceChanged(object sender, FolderSetPlaceOption options)
+        {
         }
 
         /// <summary>
@@ -1054,45 +1045,13 @@ namespace NeeView
             CloseBookIfNecessary();
         }
 
-        public virtual bool CanMoveToPrevious()
+
+        public virtual void MoveToPrevious()
         {
-            return this.History.CanPrevious();
         }
 
-        public async void MoveToPrevious()
+        public virtual void MoveToNext()
         {
-            if (!CanMoveToPrevious()) return;
-
-            var place = this.History.GetPrevious();
-            await SetPlaceAsync(place, null, FolderSetPlaceOption.Focus);
-            this.History.Move(-1);
-
-            CloseBookIfNecessary();
-        }
-
-        public virtual bool CanMoveToNext()
-        {
-            return this.History.CanNext();
-        }
-
-        public async void MoveToNext()
-        {
-            if (!CanMoveToNext()) return;
-
-            var place = this.History.GetNext();
-            await SetPlaceAsync(place, null, FolderSetPlaceOption.Focus);
-            this.History.Move(+1);
-
-            CloseBookIfNecessary();
-        }
-
-        public async void MoveToHistory(KeyValuePair<int, QueryPath> item)
-        {
-            var place = this.History.GetHistory(item.Key);
-            await SetPlaceAsync(place, null, FolderSetPlaceOption.Focus);
-            this.History.SetCurrent(item.Key + 1);
-
-            CloseBookIfNecessary();
         }
 
         public virtual bool CanMoveToParent()

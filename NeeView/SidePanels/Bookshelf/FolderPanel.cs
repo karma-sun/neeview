@@ -13,7 +13,7 @@ namespace NeeView
     {
         private FolderPanelView _view;
 
-        public FolderPanel(FolderPanelModel folderPanel, FolderList folderList, PageList pageList)
+        public FolderPanel(FolderPanelModel folderPanel, BookshelfFolderList folderList, PageList pageList)
         {
             _view = new FolderPanelView(folderPanel, folderList, pageList);
 

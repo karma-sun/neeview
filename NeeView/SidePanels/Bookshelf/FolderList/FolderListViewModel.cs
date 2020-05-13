@@ -25,11 +25,11 @@ namespace NeeView
     public class FolderListViewModel : BindableBase
     {
         private PanelListItemStyleToBooleanConverter _panelListItemStyleToBooleanConverter = new PanelListItemStyleToBooleanConverter();
-        private FolderList _model;
+        private BookshelfFolderList _model;
         private Dictionary<FolderOrder, string> _folderOrderList = AliasNameExtensions.GetAliasNameDictionary<FolderOrder>();
 
 
-        public FolderListViewModel(FolderList model)
+        public FolderListViewModel(BookshelfFolderList model)
         {
             _model = model;
 
@@ -50,7 +50,7 @@ namespace NeeView
         public FolderCollection FolderCollection => _model.FolderCollection;
 
 
-        public FolderList Model
+        public BookshelfFolderList Model
         {
             get { return _model; }
             set { if (_model != value) { _model = value; RaisePropertyChanged(); } }

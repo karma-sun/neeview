@@ -31,7 +31,7 @@ namespace NeeView
             InitializeComponent();
         }
 
-        public FolderPanelView(FolderPanelModel model, FolderList folderList, PageList pageList) : this()
+        public FolderPanelView(FolderPanelModel model, BookshelfFolderList folderList, PageList pageList) : this()
         {
             _vm = new FolderPanelViewModel(model);
             this.Root.DataContext = _vm;

@@ -19,6 +19,7 @@ namespace NeeView.Setting
             {
                 new SettingPageCommandList(),
                 new SettingPageContextMenu(),
+                new SettingPageScript(),
             };
 
             this.Items = new List<SettingItem>();
@@ -31,17 +32,28 @@ namespace NeeView.Setting
                 IsEnabled = new IsEnabledPropertyValue(Config.Current.Command, nameof(CommandConfig.IsReversePageMove)),
             });
             this.Items.Add(section);
-
-            section = new SettingItemSection(Properties.Resources.SettingPageCommandScipt);
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Script, nameof(ScriptConfig.IsScriptFolderEnabled))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Script, nameof(ScriptConfig.ScriptFolder), new PropertyMemberElementOptions() { EmptyValue = Config.Current.Script.GetDefaultScriptFolder() })) 
-            { 
-                IsStretch = true,
-            });
-            this.Items.Add(section);
         }
     }
 
+    /// <summary>
+    /// SettingPage: Script
+    /// </summary>
+    class SettingPageScript : SettingPage
+    {
+        public SettingPageScript() : base(Properties.Resources.SettingPageScript)
+        {
+            this.Items = new List<SettingItem>();
+
+            var section = new SettingItemSection(Properties.Resources.SettingPageCommandScipt);
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Script, nameof(ScriptConfig.IsScriptFolderEnabled))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Script, nameof(ScriptConfig.ScriptFolder), new PropertyMemberElementOptions() { EmptyValue = Config.Current.Script.GetDefaultScriptFolder() }))
+            {
+                IsStretch = true,
+            });
+
+            this.Items.Add(section);
+        }
+    }
 
     /// <summary>
     /// SettingPage: CommandList

@@ -5475,4 +5475,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="CommandGroupBookMove" xml:space="preserve">
     <value>Book move</value>
   </data>
+  <data name="SettingPageScript" xml:space="preserve">
+    <value>Script</value>
+  </data>
 </root>

@@ -5475,4 +5475,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="CommandGroupBookMove" xml:space="preserve">
     <value>ブック移動</value>
   </data>
+  <data name="SettingPageScript" xml:space="preserve">
+    <value>スクリプト</value>
+  </data>
 </root>

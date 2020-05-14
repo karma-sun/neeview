@@ -14854,6 +14854,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Script に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageScript {
+            get {
+                return ResourceManager.GetString("SettingPageScript", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Search results に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageSearchResult {

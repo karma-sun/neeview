@@ -166,7 +166,7 @@
     <value>ブックマーク</value>
   </data>
   <data name="BookshelfBackTips" xml:space="preserve">
-    <value>戻る (Alt+Left,Back)</value>
+    <value>戻る (Alt+Left)</value>
   </data>
   <data name="BookshelfHomeMenuSet" xml:space="preserve">
     <value>この場所をホームに設定する</value>

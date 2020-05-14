@@ -800,14 +800,6 @@ namespace NeeView
                     e.Handled = true;
                 }
             }
-            else if (Keyboard.Modifiers == ModifierKeys.None)
-            {
-                if (e.Key == Key.Back)
-                {
-                    _vm.MoveToPrevious();
-                    e.Handled = true;
-                }
-            }
         }
 
         private void FolderList_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)

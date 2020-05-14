@@ -359,12 +359,6 @@ namespace NeeView
                     _vm.Model.Jump(page);
                     e.Handled = true;
                 }
-                if (e.Key == Key.Back)
-                {
-                    // 直前のページに移動
-                    PageHistory.Current.MoveToPrevious();
-                    e.Handled = true;
-                }
             }
 
             var isLRKeyEnabled = Config.Current.Panels.IsLeftRightKeyEnabled;

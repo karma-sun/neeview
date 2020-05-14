@@ -166,7 +166,7 @@
     <value>Bookmark</value>
   </data>
   <data name="BookshelfBackTips" xml:space="preserve">
-    <value>Back (Alt+Left,Back)</value>
+    <value>Back (Alt+Left)</value>
   </data>
   <data name="BookshelfHomeMenuSet" xml:space="preserve">
     <value>Set this place home</value>

@@ -749,7 +749,7 @@ namespace NeeView
                 AppDispatcher.Invoke(() =>
                 {
                     // 現在表示されているコンテンツを無効
-                    ViewContentsChanged?.Invoke(this, new ViewContentSourceCollectionChangedEventArgs(null, new ViewContentSourceCollection()));
+                    ViewContentsChanged?.Invoke(args.Sender, new ViewContentSourceCollectionChangedEventArgs(null, new ViewContentSourceCollection()));
 
                     // 本の変更通知
                     BookChanged?.Invoke(this, new BookChangedEventArgs(Address, BookMementoType.None));

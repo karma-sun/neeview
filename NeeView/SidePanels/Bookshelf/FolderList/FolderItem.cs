@@ -90,6 +90,7 @@ namespace NeeView
         private bool _isReady;
         private bool _isRecursived;
         private FolderItemIconOverlay _iconOverlay = FolderItemIconOverlay.Uninitialized;
+        private bool _isVisibled;
 
 
         public FolderItem(bool isOverlayEnabled)
@@ -217,6 +218,15 @@ namespace NeeView
         public virtual string Detail => Name;
 
         public abstract IThumbnail Thumbnail { get; }
+
+        /// <summary>
+        /// 現在ブック表示用
+        /// </summary>
+        public bool IsVisibled
+        {
+            get { return _isVisibled; }
+            set { SetProperty(ref _isVisibled, value); }
+        }
 
         #endregion Properties
 

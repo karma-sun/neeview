@@ -91,13 +91,27 @@ namespace NeeView
         public bool isKeepPlace { get; set; }
     }
 
+
+    public class BookChangingEventArgs : EventArgs
+    {
+        public BookChangingEventArgs(string address)
+        {
+            Address = address;
+        }
+
+        public string Address { get; set; }
+    }
+
+
     public class BookChangedEventArgs : EventArgs
     {
-        public BookChangedEventArgs(BookMementoType type)
+        public BookChangedEventArgs(string address, BookMementoType type)
         {
+            Address = address;
             BookMementoType = type;
         }
 
+        public string Address { get; set; }
         public BookMementoType BookMementoType { get; set; }
     }
 
@@ -283,7 +297,7 @@ namespace NeeView
         #region Events
 
         // 本の変更通知
-        public event EventHandler BookChanging;
+        public event EventHandler<BookChangingEventArgs> BookChanging;
         public event EventHandler<BookChangedEventArgs> BookChanged;
 
         // 新しいロードリクエスト
@@ -625,7 +639,8 @@ namespace NeeView
                 MediaPlayerOperator.Current?.Pause();
 
                 // 本の変更開始通知
-                BookChanging?.Invoke(this, null);
+                // NOTE: パスはまだページの可能性があるので不完全
+                BookChanging?.Invoke(this, new BookChangingEventArgs(args.Path));
             });
 
             // 現在の設定を記憶
@@ -693,7 +708,7 @@ namespace NeeView
                     {
                         if (BookUnit != null)
                         {
-                            BookChanged?.Invoke(this, new BookChangedEventArgs(BookUnit.GetBookMementoType()));
+                            BookChanged?.Invoke(this, new BookChangedEventArgs(BookUnit.Book?.Address, BookUnit.GetBookMementoType()));
                         }
                     }
                 });
@@ -737,7 +752,7 @@ namespace NeeView
                     ViewContentsChanged?.Invoke(this, new ViewContentSourceCollectionChangedEventArgs(null, new ViewContentSourceCollection()));
 
                     // 本の変更通知
-                    BookChanged?.Invoke(this, new BookChangedEventArgs(BookMementoType.None));
+                    BookChanged?.Invoke(this, new BookChangedEventArgs(Address, BookMementoType.None));
 
                     // 履歴リスト更新
                     if ((args.Option & BookLoadOption.SelectHistoryMaybe) != 0)
@@ -927,7 +942,7 @@ namespace NeeView
                     ViewContentsChanged?.Invoke(param.Sender, null);
 
                     // 本の変更通知
-                    BookChanged?.Invoke(param.Sender, new BookChangedEventArgs(BookMementoType.None));
+                    BookChanged?.Invoke(param.Sender, new BookChangedEventArgs(Address, BookMementoType.None));
                 });
             }
 

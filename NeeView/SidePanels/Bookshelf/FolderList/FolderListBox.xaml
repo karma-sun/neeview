@@ -18,7 +18,7 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <local:BooleanToTextWrappingConverter x:Key="BooleanToTextWrappingConverter"/>
         <local:FolderItemToNoteConverter x:Key="FolderItemToNoteConverter"/>
-
+        <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityHiddenConverter" False="Hidden" />
 
         <Style x:Key="NameStyleBase" TargetType="TextBlock" >
             <Setter Property="Text" Value="{Binding DispName}"/>
@@ -78,48 +78,70 @@
             </Style.Triggers>
         </Style>
 
+        <Style x:Key="VerticalSelectedStyle" TargetType="Rectangle">
+            <Setter Property="Width" Value="4" />
+            <Setter Property="Margin" Value="-1,-1,0,-1" />
+            <Setter Property="Fill" Value="{StaticResource NVSelectedMarkBrush}" />
+            <Setter Property="Visibility" Value="{Binding IsVisibled, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
+        </Style>
+
+        <Style x:Key="HorizontalSelectedStyle" TargetType="Rectangle">
+            <Setter Property="Height" Value="4" />
+            <Setter Property="Margin" Value="-1,0,-1,-1" />
+            <Setter Property="Fill" Value="{StaticResource NVSelectedMarkBrush}" />
+            <Setter Property="Visibility" Value="{Binding IsVisibled, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
+        </Style>
+
         <DataTemplate x:Key="NormalTemplate">
             <DockPanel LastChildFill="False" MinHeight="20">
+                <Rectangle Style="{StaticResource VerticalSelectedStyle}"/>
                 <local:FolderListIcon DockPanel.Dock="Right"/>
                 <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource NormalNameStyle}"/>
             </DockPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="ContentTemplate">
-            <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
-                <DockPanel LastChildFill="False" Margin="2">
-                    <local:FolderListIcon DockPanel.Dock="Right" />
-                    <local:PanelListContentImage Thumbnail="{Binding Thumbnail}"/>
-                    <StackPanel VerticalAlignment="Center">
-                        <TextBlock Style="{StaticResource NoteTextStyle}">
-                            <TextBlock.Text>
-                                <MultiBinding Converter="{StaticResource FolderItemToNoteConverter}">
-                                    <Binding />
-                                    <Binding Path="DataContext.FolderOrder" RelativeSource="{RelativeSource FindAncestor, AncestorType=ListBox}"/>
-                                </MultiBinding>
-                            </TextBlock.Text>
-                        </TextBlock>
-                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource ContentNameStyle}"/>
-                    </StackPanel>
-                </DockPanel>
-            </Border>
+            <DockPanel>
+                <Rectangle Style="{StaticResource VerticalSelectedStyle}" />
+                <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
+                    <DockPanel LastChildFill="False" Margin="2">
+                        <local:FolderListIcon DockPanel.Dock="Right" />
+                        <local:PanelListContentImage Thumbnail="{Binding Thumbnail}"/>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource NoteTextStyle}">
+                                <TextBlock.Text>
+                                    <MultiBinding Converter="{StaticResource FolderItemToNoteConverter}">
+                                        <Binding />
+                                        <Binding Path="DataContext.FolderOrder" RelativeSource="{RelativeSource FindAncestor, AncestorType=ListBox}"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource ContentNameStyle}"/>
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+            </DockPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="BannerTemplate">
-            <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
-                <DockPanel Margin="0" HorizontalAlignment="Stretch" LastChildFill="False">
-                    <DockPanel DockPanel.Dock="Bottom" Margin="2" >
-                        <local:FolderListIcon DockPanel.Dock="Right"/>
-                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource BannerNameStyle}" Margin="0" />
+            <DockPanel>
+                <Rectangle Style="{StaticResource VerticalSelectedStyle}" />
+                <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
+                    <DockPanel Margin="0" HorizontalAlignment="Stretch" LastChildFill="False">
+                        <DockPanel DockPanel.Dock="Bottom" Margin="2">
+                            <local:FolderListIcon DockPanel.Dock="Right" />
+                            <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource BannerNameStyle}" Margin="0" />
+                        </DockPanel>
+                        <local:PanelListBannerImage Thumbnail="{Binding Thumbnail}" />
                     </DockPanel>
-                    <local:PanelListBannerImage Thumbnail="{Binding Thumbnail}"/>
-                </DockPanel>
-            </Border>
+                </Border>
+            </DockPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="ThumbnailTemplate">
             <StackPanel Margin="0,5" Width="{Binding Source={x:Static local:Config.Current}, Path=Panels.ThumbnailItemProfile.ShapeWidth}" Style="{StaticResource ThumbnailStackPanelStyle}">
                 <local:PanelListThumbnailImage Thumbnail="{Binding Thumbnail}"/>
+                <Rectangle DockPanel.Dock="Bottom" Style="{StaticResource HorizontalSelectedStyle}" />
                 <DockPanel>
                     <local:FolderListIcon DockPanel.Dock="Right" VerticalAlignment="Top" IsKeepArea="False" />
                     <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource ThumbnailNameStyle}"/>

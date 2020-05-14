@@ -52,7 +52,7 @@ namespace NeeView
         #region Events
 
         // ブックが変更される
-        public event EventHandler BookChanging;
+        public event EventHandler<BookChangingEventArgs> BookChanging;
 
         // ブックが変更された
         public event EventHandler<BookChangedEventArgs> BookChanged;
@@ -116,7 +116,7 @@ namespace NeeView
         #region Methods
 
 
-        private void BookHub_BookChanging(object sender, EventArgs e)
+        private void BookHub_BookChanging(object sender, BookChangingEventArgs e)
         {
             // ブック操作無効
             IsEnabled = false;

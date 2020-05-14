@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ namespace NeeView
         public static BookshelfFolderList Current { get; }
 
 
+        private FolderItem _visibledItem;
         private Regex _excludeRegex;
 
 
@@ -29,9 +31,9 @@ namespace NeeView
             ApplicationDisposer.Current.Add(this);
 
             Config.Current.System.AddPropertyChanged(nameof(SystemConfig.IsHiddenFileVisibled), async (s, e) =>
-                {
-                    await RefreshAsync(true, true);
-                });
+            {
+                await RefreshAsync(true, true);
+            });
 
             Config.Current.Bookshelf.AddPropertyChanged(nameof(BookshelfConfig.IsVisibleHistoryMark), (s, e) =>
             {
@@ -54,6 +56,22 @@ namespace NeeView
             });
 
 
+            BookOperation.Current.BookChanging += (s, e) =>
+            {
+                UpdateVisibledItem(e.Address, false);
+            };
+
+            BookOperation.Current.BookChanged += (s, e) =>
+            {
+                UpdateVisibledItem(BookOperation.Current.Address, false);
+            };
+
+            this.CollectionChanged += (s, e) =>
+            {
+                UpdateVisibledItem(BookOperation.Current.Address, true);
+            };
+
+
             UpdateExcludeRegex();
         }
 
@@ -68,6 +86,37 @@ namespace NeeView
             set { SetProperty(ref _excludeRegex, value); }
         }
 
+        /// <summary>
+        /// 現在ブックマーク更新
+        /// </summary>
+        private void UpdateVisibledItem(string path, bool force)
+        {
+            if (force && _visibledItem != null)
+            {
+                _visibledItem.IsVisibled = false;
+                _visibledItem = null;
+            }
+
+            if (_visibledItem != null && _visibledItem.EntityPath.SimplePath == path)
+            {
+                return;
+            }
+
+            var item = FolderCollection?.Items.FirstOrDefault(x => x.EntityPath.SimplePath == path);
+
+            if (_visibledItem != item)
+            {
+                if (_visibledItem != null)
+                {
+                    _visibledItem.IsVisibled = false;
+                }
+                _visibledItem = item;
+                if (_visibledItem != null)
+                {
+                    _visibledItem.IsVisibled = true;
+                }
+            }
+        }
 
         public override QueryPath GetFixedHome()
         {

@@ -495,6 +495,12 @@ namespace NeeView
                 if (collection.Count > 0)
                 {
                     e.Data.SetFileDropList(collection);
+
+                    // 右クリックドラッグは移動を許可
+                    if (Config.Current.System.IsFileWriteAccessEnabled && e.MouseEventArgs.RightButton == MouseButtonState.Pressed)
+                    { 
+                        e.AllowedEffects |= DragDropEffects.Move;
+                    }
                 }
             }
 

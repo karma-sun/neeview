@@ -204,7 +204,7 @@ namespace NeeView.Windows
                     }
                 }
 
-                var args = new DragStartEventArgs(_dragItem, dataObject, this.AllowedEffects, e);
+                var args = new DragStartEventArgs(e, _dragItem, dataObject, this.AllowedEffects);
 
                 DragBegin?.Invoke(sender, args);
                 if (!args.Cancel)

@@ -286,9 +286,16 @@ namespace NeeView
                 }
 
                 await FileIO.Current.RemovePageAsync(removes);
-                Book.Control.RequestRemove(this, removes.Where(e => FileIO.Current.IsPageRemoved(e)).ToList());
+                ValidateRemoveFile(removes);
             }
         }
+
+        // 消えたファイルのページを削除
+        public void ValidateRemoveFile(IEnumerable<Page> pages)
+        {
+            Book.Control.RequestRemove(this, pages.Where(e => FileIO.Current.IsPageRemoved(e)).ToList());
+        }               
+
 
         #endregion
 

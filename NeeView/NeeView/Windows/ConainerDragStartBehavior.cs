@@ -91,6 +91,19 @@ namespace NeeView.Windows
 
 
         /// <summary>
+        /// 右ボタンドラッグを許可
+        /// </summary>
+        public bool AllowRightButtonDrag
+        {
+            get { return (bool)GetValue(AllowRightButtonDragProperty); }
+            set { SetValue(AllowRightButtonDragProperty, value); }
+        }
+
+        public static readonly DependencyProperty AllowRightButtonDragProperty =
+            DependencyProperty.Register("AllowRightButtonDrag", typeof(bool), typeof(ContainerDragStartBehavior<TItem>), new PropertyMetadata(false));
+
+
+        /// <summary>
         /// ドラッグされるデータを識別する文字列。設定されている場合のみ既定でドラッグコントロールをDataObjectに追加する。
         /// </summary>
         public string DragDropFormat
@@ -196,7 +209,9 @@ namespace NeeView.Windows
             {
                 return;
             }
-            if (e.LeftButton != MouseButtonState.Pressed || !_isButtonDown || _dragItem == null)
+
+            bool released = AllowRightButtonDrag ? (e.LeftButton == MouseButtonState.Released && e.RightButton == MouseButtonState.Released) : e.LeftButton == MouseButtonState.Released;
+            if (released || !_isButtonDown || _dragItem == null)
             {
                 return;
             }
@@ -224,7 +239,7 @@ namespace NeeView.Windows
                 dataObject.SetData(this.DragDropFormat, _dragItem);
             }
 
-            var args = new DragStartEventArgs(_dragItem, dataObject, this.AllowedEffects, e);
+            var args = new DragStartEventArgs(e, _dragItem, dataObject, this.AllowedEffects);
 
             if (DragBeginAsync != null)
             {
@@ -248,25 +263,22 @@ namespace NeeView.Windows
 
             if (!args.Cancel)
             {
+                AdornerLayer layer = null;
+
                 if (window != null)
                 {
                     var root = window.Content as UIElement;
-                    var layer = AdornerLayer.GetAdornerLayer(root);
+                    layer = AdornerLayer.GetAdornerLayer(root);
                     _dragGhost = new DragAdorner(root, _adornerVisual, 0.5, DragCount, _dragStartPos);
                     layer.Add(_dragGhost);
-
-                    DragDropHook?.BeginDragDrop(sender, this.AssociatedObject, args.Data, args.AllowedEffects);
-                    DragDrop.DoDragDrop(this.AssociatedObject, args.Data, args.AllowedEffects);
-                    DragDropHook?.EndDragDrop(sender, this.AssociatedObject, args.Data, args.AllowedEffects);
-
-                    layer.Remove(_dragGhost);
                 }
-                else
-                {
-                    DragDropHook?.BeginDragDrop(sender, this.AssociatedObject, args.Data, args.AllowedEffects);
-                    DragDrop.DoDragDrop(this.AssociatedObject, args.Data, args.AllowedEffects);
-                    DragDropHook?.EndDragDrop(sender, this.AssociatedObject, args.Data, args.AllowedEffects);
-                }
+
+                DragDropHook?.BeginDragDrop(sender, this.AssociatedObject, args.Data, args.AllowedEffects);
+                DragDrop.DoDragDrop(this.AssociatedObject, args.Data, args.AllowedEffects);
+                args.DragEndAction?.Invoke();
+                DragDropHook?.EndDragDrop(sender, this.AssociatedObject, args.Data, args.AllowedEffects);
+
+                layer?.Remove(_dragGhost);
                 _dragGhost = null;
             }
 

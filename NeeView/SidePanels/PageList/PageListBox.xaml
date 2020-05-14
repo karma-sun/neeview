@@ -203,7 +203,7 @@
                  VirtualizingPanel.VirtualizationMode="Recycling">
 
         <b:Interaction.Behaviors>
-            <nw:ListBoxExtendedDragDropStartBehavior AllowedEffects="Copy, Scroll" DragDropFormat="{x:Static local:PageListBox.DragDropFormat}" DragBeginAsync="DragStartBehavior_DragBeginAsync" />
+            <nw:ListBoxExtendedDragDropStartBehavior AllowedEffects="Copy, Scroll" AllowRightButtonDrag="True" DragDropFormat="{x:Static local:PageListBox.DragDropFormat}" DragBeginAsync="DragStartBehavior_DragBeginAsync" />
         </b:Interaction.Behaviors>
 
         <ListBox.Style>

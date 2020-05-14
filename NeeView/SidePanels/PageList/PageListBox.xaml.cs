@@ -458,7 +458,21 @@ namespace NeeView
 
             await Task.Run(() => ClipboardUtility.SetData(e.Data, pages, new CopyFileCommandParameter() { MultiPagePolicy = MultiPagePolicy.All }, token));
 
-            e.AllowedEffects = DragDropEffects.Copy | DragDropEffects.Scroll;
+            // 全てのファイルがファイルシステムであった場合のみ
+            if (pages.All(p => p.Entry.IsFileSystem))
+            {
+                // 右クリックドラッグでファイル移動を許可
+                if (Config.Current.System.IsFileWriteAccessEnabled && e.MouseEventArgs.RightButton == MouseButtonState.Pressed)
+                {
+                    e.AllowedEffects |= DragDropEffects.Move;
+                }
+
+                // TODO: ドラッグ終了時にファイル移動の整合性を取る必要がある。
+                // しっかり実装するならページのファイルシステムの監視が必要になる。ファイルの追加削除が自動的にページに反映するように。
+
+                // ひとまずドラッグ完了後のページ削除を限定的に行う。
+                e.DragEndAction = () => BookOperation.Current.ValidateRemoveFile(pages);
+            }
         }
 
         #endregion

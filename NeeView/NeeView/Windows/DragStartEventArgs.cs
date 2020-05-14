@@ -7,15 +7,15 @@ namespace NeeView.Windows
 {
     public class DragStartEventArgs : EventArgs
     {
-        private MouseEventArgs _mouseEventArgs;
-
-        public DragStartEventArgs(object dragItem, DataObject data, DragDropEffects allowedEffects, MouseEventArgs mouseEventArgs)
+        public DragStartEventArgs(MouseEventArgs mouseEventArgs, object dragItem, DataObject data, DragDropEffects allowedEffects)
         {
-            _mouseEventArgs = mouseEventArgs;
+            this.MouseEventArgs = mouseEventArgs;
             this.DragItem = dragItem;
             this.Data = data;
             this.AllowedEffects = allowedEffects;
         }
+
+        public MouseEventArgs MouseEventArgs { get; set; }
 
         public bool Cancel { get; set; }
 
@@ -25,9 +25,12 @@ namespace NeeView.Windows
 
         public DragDropEffects AllowedEffects { get; set; }
 
+        public Action DragEndAction { get; set; }
+
+
         public Point GetPosition(IInputElement relativeTo)
         {
-            return _mouseEventArgs.GetPosition(relativeTo);
+            return MouseEventArgs.GetPosition(relativeTo);
         }
     }
 }

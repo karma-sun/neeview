@@ -875,6 +875,17 @@ namespace NeeView
                     {
                         Rename(pair.Key, pair.Value);
                     }
+
+                    if (Elements["PrevHistory"].ShortCutKey == "Back")
+                    {
+                        Elements["PrevHistory"].ShortCutKey = "";
+                    }
+                    if (Elements["NextHistory"].ShortCutKey == "Shift+Back")
+                    {
+                        Elements["NextHistory"].ShortCutKey = "";
+                    }
+
+
                 }
 
                 // コマンド名変更

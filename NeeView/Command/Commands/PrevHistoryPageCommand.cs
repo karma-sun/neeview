@@ -7,6 +7,7 @@
             this.Group = Properties.Resources.CommandGroupMove;
             this.Text = Properties.Resources.CommandPrevPageHistory;
             this.Note = Properties.Resources.CommandPrevPageHistoryNote;
+            this.ShortCutKey = "Back";
             this.IsShowMessage = false;
         }
 

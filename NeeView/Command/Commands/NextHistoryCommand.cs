@@ -7,7 +7,6 @@
             this.Group = Properties.Resources.CommandGroupBookMove;
             this.Text = Properties.Resources.CommandNextHistory;
             this.Note = Properties.Resources.CommandNextHistoryNote;
-            this.ShortCutKey = "Shift+Back";
             this.IsShowMessage = false;
         }
 

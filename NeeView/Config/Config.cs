@@ -63,6 +63,8 @@ namespace NeeView
 
         public EffectConfig Effect { get; set; } = new EffectConfig();
 
+        public ControlConfig Control { get; set; } = new ControlConfig();
+
         public ImageEffectConfig ImageEffect { get; set; } = new ImageEffectConfig();
 
         public ImageCustomSizeConfig ImageCustomSize { get; set; } = new ImageCustomSizeConfig();

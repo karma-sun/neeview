@@ -8,19 +8,19 @@ namespace NeeView.Setting
     /// Binding値がないときには実値を適用する。
     /// </summary>
     /// <typeparam name="T">値の型</typeparam>
-    public class PropertyValue<T>
+    public class SettingPropertyValue<T>
     {
         private DependencyProperty _dependencyProperty;
         private T _value;
         private BindingBase _binding;
 
-        public PropertyValue(DependencyProperty dp, T value)
+        public SettingPropertyValue(DependencyProperty dp, T value)
         {
             _value = value;
             _dependencyProperty = dp;
         }
 
-        public PropertyValue(DependencyProperty dp, BindingBase binding)
+        public SettingPropertyValue(DependencyProperty dp, BindingBase binding)
         {
             _binding = binding;
             _dependencyProperty = dp;
@@ -43,7 +43,7 @@ namespace NeeView.Setting
     /// <summary>
     /// IsEnabledProperty の PropertyValue
     /// </summary>
-    public class IsEnabledPropertyValue : PropertyValue<bool>
+    public class IsEnabledPropertyValue : SettingPropertyValue<bool>
     {
         public IsEnabledPropertyValue(bool value)
             : base(UIElement.IsEnabledProperty, value)
@@ -64,7 +64,7 @@ namespace NeeView.Setting
     /// <summary>
     /// VisibilityProperty の PropertyValue
     /// </summary>
-    public class VisibilityPropertyValue : PropertyValue<Visibility>
+    public class VisibilityPropertyValue : SettingPropertyValue<Visibility>
     {
         public VisibilityPropertyValue(Visibility value)
             : base(UIElement.VisibilityProperty, value)

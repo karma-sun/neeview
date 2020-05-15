@@ -962,7 +962,7 @@ namespace NeeView
         }
 
         // 角度の正規化
-        private double NormalizeLoopRange(double val, double min, double max)
+        public static double NormalizeLoopRange(double val, double min, double max)
         {
             if (min >= max) throw new ArgumentException("need min < max");
 

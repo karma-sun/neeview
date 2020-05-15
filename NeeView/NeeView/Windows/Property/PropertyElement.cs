@@ -28,6 +28,52 @@ namespace NeeView.Windows.Property
         }
     }
 
+
+    public class PropertyValueSource : IValueSetter
+    {
+        private object _source;
+        private PropertyInfo _info;
+
+        public PropertyValueSource(object source, PropertyInfo info)
+        {
+            _source = source;
+            _info = info;
+
+            if (source is INotifyPropertyChanged notify)
+            {
+                notify.PropertyChanged += (s, e) =>
+                {
+                    if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == _info.Name)
+                    {
+                        ValueChanged?.Invoke(s, e);
+                    }
+                };
+            }
+        }
+
+        public PropertyValueSource(object source, string propertyName) : this(source, source.GetType().GetProperty(propertyName))
+        {
+        }
+
+
+        public string Name => _info.Name;
+
+
+        public event EventHandler ValueChanged;
+
+
+        public void SetValue(object value)
+        {
+            _info.SetValue(_source, value);
+        }
+
+        public object GetValue()
+        {
+            return _info.GetValue(_source);
+        }
+    }
+
+
     /// <summary>
     /// プロパティ項目表示編集
     /// </summary>
@@ -101,7 +147,7 @@ namespace NeeView.Windows.Property
         }
 
         private void InitializeByDefaultAttribute(PropertyMemberAttribute attribute)
-        { 
+        {
             if (_info.PropertyType.IsEnum)
             {
                 this.TypeValue = new PropertyValue_Enum(this, _info.PropertyType);
@@ -150,14 +196,16 @@ namespace NeeView.Windows.Property
 
         private void InitializeByRangeAttribute(PropertyRangeAttribute attribute)
         {
+            IValueSetter value = attribute.RangeProperty != null ? (IValueSetter)new PropertyValueSource(this.Source, attribute.RangeProperty) : this;
+
             TypeCode typeCode = Type.GetTypeCode(_info.PropertyType);
             switch (typeCode)
             {
                 case TypeCode.Int32:
-                    this.TypeValue = new PropertyValue_IntegerRange(this, new RangeProfile(true, attribute.Minimum, attribute.Maximum, attribute.TickFrequency, attribute.IsEditable, attribute.Format));
+                    this.TypeValue = new PropertyValue_IntegerRange(this, new RangeProfile_Integer(value, true, attribute.Minimum, attribute.Maximum, attribute.TickFrequency, attribute.IsEditable, attribute.Format));
                     break;
                 case TypeCode.Double:
-                    this.TypeValue = new PropertyValue_DoubleRange(this, new RangeProfile(false, attribute.Minimum, attribute.Maximum, attribute.TickFrequency, attribute.IsEditable, attribute.Format));
+                    this.TypeValue = new PropertyValue_DoubleRange(this, new RangeProfile_Double(value, false, attribute.Minimum, attribute.Maximum, attribute.TickFrequency, attribute.IsEditable, attribute.Format));
                     break;
                 default:
                     throw new NotSupportedException();
@@ -166,11 +214,13 @@ namespace NeeView.Windows.Property
 
         private void InitializeByPercentAttribute(PropertyPercentAttribute attribute)
         {
+            IValueSetter value = attribute.RangeProperty != null ? (IValueSetter)new PropertyValueSource(this.Source, attribute.RangeProperty) : this;
+
             TypeCode typeCode = Type.GetTypeCode(_info.PropertyType);
             switch (typeCode)
             {
                 case TypeCode.Double:
-                    this.TypeValue = new PropertyValue_Percent(this, new RangeProfile(false, attribute.Minimum, attribute.Maximum, attribute.TickFrequency, attribute.IsEditable, attribute.Format));
+                    this.TypeValue = new PropertyValue_Percent(this, new RangeProfile_Double(value, false, attribute.Minimum, attribute.Maximum, attribute.TickFrequency, attribute.IsEditable, attribute.Format));
                     break;
                 default:
                     throw new NotSupportedException();

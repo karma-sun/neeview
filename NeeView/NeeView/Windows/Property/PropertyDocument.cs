@@ -15,6 +15,23 @@ namespace NeeView.Windows.Property
     /// </summary>
     public class PropertyDocument
     {
+        public PropertyDocument()
+        {
+            this.Elements = new List<PropertyDrawElement>();
+        }
+
+        public PropertyDocument(object source)
+        {
+            this.Source = source;
+            this.Elements = CreateProperyContentList(source);
+        }
+
+        public PropertyDocument(IEnumerable<object> sources)
+        {
+            this.Elements = sources.Select(e => CreateProperyContentList(e)).SelectMany(e => e).ToList();
+        }
+
+
         // name
         public string Name { get; set; }
 
@@ -27,13 +44,16 @@ namespace NeeView.Windows.Property
         // properties (member only)
         public List<PropertyMemberElement> PropertyMembers => Elements.OfType<PropertyMemberElement>().ToList();
 
+        public PropertyDrawElement this[string key]
+        {
+            get => GetPropertyMember(key);
+        }
 
-        //
+
         public PropertyMemberElement GetPropertyMember(string path)
         {
             return Elements.OfType<PropertyMemberElement>().FirstOrDefault(e => e.Path == path);
         }
-
 
         /// <summary>
         /// 上書き
@@ -63,26 +83,6 @@ namespace NeeView.Windows.Property
             }
         }
 
-        //
-        public PropertyDocument()
-        {
-            this.Elements = new List<PropertyDrawElement>();
-        }
-
-        //
-        public PropertyDocument(object source)
-        {
-            this.Source = source;
-            this.Elements = CreateProperyContentList(source);
-        }
-
-        //
-        public PropertyDocument(IEnumerable<object> sources)
-        {
-            ////this.Source = source;
-            this.Elements = sources.Select(e => CreateProperyContentList(e)).SelectMany(e => e).ToList();
-        }
-
 
         public void SetVisualType<T>(string visualType)
         {
@@ -93,12 +93,6 @@ namespace NeeView.Windows.Property
         }
 
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
         private List<PropertyDrawElement> CreateProperyContentList(object source)
         {
             var type = source.GetType();
@@ -148,7 +142,6 @@ namespace NeeView.Windows.Property
             var attribute = GetPropertyMemberAttribute(info);
             return new PropertyMemberElement(source, info, attribute, PropertyMemberElementOptions.Default);
         }
-
 
         private static PropertyMemberAttribute GetPropertyMemberAttribute(MemberInfo info)
         {

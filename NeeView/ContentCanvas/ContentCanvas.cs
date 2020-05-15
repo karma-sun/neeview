@@ -24,8 +24,13 @@ namespace NeeView
     // 自動回転タイプ
     public enum AutoRotateType
     {
+        [AliasName("@EnumAutoRotateNone")]
         None,
+
+        [AliasName("@EnumAutoRotateLeft")]
         Left,
+
+        [AliasName("@EnumAutoRotateRight")]
         Right,
     }
 
@@ -673,10 +678,7 @@ namespace NeeView
 
             if (parameter.IsStretch)
             {
-                _dragTransformControl.Reset(true, false, false, 0.0);
-                UpdateContentSize(_dragTransform.Angle);
-                ContentRebuild.Current.Request();
-                DragTransformControl.Current.SnapView();
+                Stretch();
             }
         }
 
@@ -686,11 +688,16 @@ namespace NeeView
 
             if (parameter.IsStretch)
             {
-                _dragTransformControl.Reset(true, false, false, 0.0);
-                UpdateContentSize(_dragTransform.Angle);
-                ContentRebuild.Current.Request();
-                DragTransformControl.Current.SnapView();
+                Stretch();
             }
+        }
+
+        public void Stretch()
+        {
+            _dragTransformControl.Reset(true, false, false, 0.0);
+            UpdateContentSize(_dragTransform.Angle);
+            ContentRebuild.Current.Request();
+            DragTransformControl.Current.SnapView();
         }
 
         #endregion

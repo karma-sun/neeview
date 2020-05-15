@@ -32,14 +32,13 @@ namespace NeeView.Windows.Property
 
 
     //
-    public class PropertyValue<T, S> : PropertyValue
-        where S : IValueSetter
+    public class PropertyValue<T> : PropertyValue
     {
-        public S Setter { get; set; }
+        public IValueSetter Setter { get; set; }
 
         public string Name => Setter.Name;
 
-        public PropertyValue(S setter)
+        public PropertyValue(IValueSetter setter)
         {
             Setter = setter;
             Setter.ValueChanged += (s, e) => RaisePropertyChanged(nameof(Value));
@@ -69,7 +68,7 @@ namespace NeeView.Windows.Property
     }
 
     //
-    public class PropertyValue_Object : PropertyValue<object, PropertyMemberElement>
+    public class PropertyValue_Object : PropertyValue<object>
     {
         public PropertyValue_Object(PropertyMemberElement setter) : base(setter)
         {
@@ -77,7 +76,7 @@ namespace NeeView.Windows.Property
     }
 
     //
-    public class PropertyValue_Boolean : PropertyValue<bool, PropertyMemberElement>
+    public class PropertyValue_Boolean : PropertyValue<bool>
     {
         public PropertyValue_Boolean(PropertyMemberElement setter) : base(setter)
         {
@@ -90,21 +89,24 @@ namespace NeeView.Windows.Property
     }
 
     //
-    public class PropertyValue_String : PropertyValue<string, PropertyMemberElement>
+    public class PropertyValue_String : PropertyValue<string>
     {
+        private PropertyMemberElement _setter;
+
         public string EmptyMessage { get; private set; }
 
         public PropertyValue_String(PropertyMemberElement setter) : base(setter)
         {
+            _setter = setter;
             EmptyMessage = setter.EmptyMessage;
         }
 
         public override string GetValue()
         {
             var value = base.GetValue();
-            if (Setter.Options.EmptyValue != null && string.IsNullOrEmpty(value))
+            if (_setter.Options.EmptyValue != null && string.IsNullOrEmpty(value))
             {
-                return Setter.Options.EmptyValue;
+                return _setter.Options.EmptyValue;
             }
             else
             {
@@ -119,7 +121,7 @@ namespace NeeView.Windows.Property
     }
 
     //
-    public class PropertyValue_Integer : PropertyValue<int, PropertyMemberElement>
+    public class PropertyValue_Integer : PropertyValue<int>
     {
         public PropertyValue_Integer(PropertyMemberElement setter) : base(setter)
         {
@@ -132,7 +134,7 @@ namespace NeeView.Windows.Property
     }
 
     //
-    public class PropertyValue_Double : PropertyValue<double, PropertyMemberElement>
+    public class PropertyValue_Double : PropertyValue<double>
     {
         public PropertyValue_Double(PropertyMemberElement setter) : base(setter)
         {
@@ -147,7 +149,7 @@ namespace NeeView.Windows.Property
 
 
     //
-    public class PropertyValue_Enum : PropertyValue<object, PropertyMemberElement>
+    public class PropertyValue_Enum : PropertyValue<object>
     {
         private Type _type;
 
@@ -173,7 +175,7 @@ namespace NeeView.Windows.Property
 
 
     //
-    public class PropertyValue_Point : PropertyValue<Point, PropertyMemberElement>
+    public class PropertyValue_Point : PropertyValue<Point>
     {
         public PropertyValue_Point(PropertyMemberElement setter) : base(setter)
         {
@@ -186,7 +188,7 @@ namespace NeeView.Windows.Property
     }
 
     //
-    public class PropertyValue_Color : PropertyValue<Color, PropertyMemberElement>
+    public class PropertyValue_Color : PropertyValue<Color>
     {
         public PropertyValue_Color(PropertyMemberElement setter) : base(setter)
         {
@@ -199,7 +201,7 @@ namespace NeeView.Windows.Property
     }
 
     //
-    public class PropertyValue_Size : PropertyValue<Size, PropertyMemberElement>
+    public class PropertyValue_Size : PropertyValue<Size>
     {
         public PropertyValue_Size(PropertyMemberElement setter) : base(setter)
         {
@@ -217,7 +219,7 @@ namespace NeeView.Windows.Property
     }
 
     //
-    public class PropertyValue_TimeSpan : PropertyValue<TimeSpan, PropertyMemberElement>
+    public class PropertyValue_TimeSpan : PropertyValue<TimeSpan>
     {
         public PropertyValue_TimeSpan(PropertyMemberElement setter) : base(setter)
         {
@@ -233,7 +235,7 @@ namespace NeeView.Windows.Property
     /// <summary>
     /// スライダー用パラメータ
     /// </summary>
-    public class RangeProfile
+    public class RangeProfile<T> : PropertyValue<T>
     {
         #region Fields
 
@@ -243,14 +245,7 @@ namespace NeeView.Windows.Property
 
         #region Constructors
 
-        public RangeProfile(bool isInteger, double min, double max)
-        {
-            _isInteger = isInteger;
-            this.Minimum = min;
-            this.Maximum = max;
-        }
-
-        public RangeProfile(bool isInteger, double min, double max, double tickFrequency, bool isEditable, string format)
+        public RangeProfile(IValueSetter setter, bool isInteger, double min, double max, double tickFrequency, bool isEditable, string format) : base(setter)
         {
             _isInteger = isInteger;
             this.Minimum = min;
@@ -308,12 +303,26 @@ namespace NeeView.Windows.Property
         #endregion
     }
 
+    public class RangeProfile_Double : RangeProfile<double>
+    {
+        public RangeProfile_Double(IValueSetter setter, bool isInteger, double min, double max, double tickFrequency, bool isEditable, string format) : base(setter, isInteger, min, max, tickFrequency, isEditable, format)
+        {
+        }
+    }
+
+    public class RangeProfile_Integer : RangeProfile<int>
+    {
+        public RangeProfile_Integer(IValueSetter setter, bool isInteger, double min, double max, double tickFrequency, bool isEditable, string format) : base(setter, isInteger, min, max, tickFrequency, isEditable, format)
+        {
+        }
+    }
+
     //
     public class PropertyValue_IntegerRange : PropertyValue_Integer
     {
-        public RangeProfile Range { get; private set; }
+        public RangeProfile_Integer Range { get; private set; }
 
-        public PropertyValue_IntegerRange(PropertyMemberElement setter, RangeProfile range) : base(setter)
+        public PropertyValue_IntegerRange(PropertyMemberElement setter, RangeProfile_Integer range) : base(setter)
         {
             this.Range = range;
         }
@@ -322,9 +331,9 @@ namespace NeeView.Windows.Property
     //
     public class PropertyValue_DoubleRange : PropertyValue_Double
     {
-        public RangeProfile Range { get; private set; }
+        public RangeProfile_Double Range { get; private set; }
 
-        public PropertyValue_DoubleRange(PropertyMemberElement setter, RangeProfile range) : base(setter)
+        public PropertyValue_DoubleRange(PropertyMemberElement setter, RangeProfile_Double range) : base(setter)
         {
             this.Range = range;
         }
@@ -333,9 +342,9 @@ namespace NeeView.Windows.Property
     //
     public class PropertyValue_Percent : PropertyValue_Double
     {
-        public RangeProfile Range { get; private set; }
+        public RangeProfile_Double Range { get; private set; }
 
-        public PropertyValue_Percent(PropertyMemberElement setter, RangeProfile range) : base(setter)
+        public PropertyValue_Percent(PropertyMemberElement setter, RangeProfile_Double range) : base(setter)
         {
             this.Range = range;
         }

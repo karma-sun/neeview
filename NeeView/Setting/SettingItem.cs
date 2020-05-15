@@ -428,7 +428,7 @@ namespace NeeView.Setting
             _indexValue = indexValue;
             _isEditable = isEditable;
 
-            _indexValue.Property = (PropertyValue<T, PropertyMemberElement>)_element.TypeValue;
+            _indexValue.Property = (PropertyValue<T>)_element.TypeValue;
         }
 
         protected override UIElement CreateContentInner()

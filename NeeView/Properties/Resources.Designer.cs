@@ -6713,6 +6713,33 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Left に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumAutoRotateLeft {
+            get {
+                return ResourceManager.GetString("EnumAutoRotateLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   None に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumAutoRotateNone {
+            get {
+                return ResourceManager.GetString("EnumAutoRotateNone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Right に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumAutoRotateRight {
+            get {
+                return ResourceManager.GetString("EnumAutoRotateRight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Image colored background に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumBackgroundStyleAuto {
@@ -8600,6 +8627,15 @@ namespace NeeView.Properties {
         public static string MenuTreeView {
             get {
                 return ResourceManager.GetString("MenuTreeView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Navigate に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NavigateName {
+            get {
+                return ResourceManager.GetString("NavigateName", resourceCulture);
             }
         }
         
@@ -12770,6 +12806,51 @@ namespace NeeView.Properties {
         public static string ParamMouseWheelSpeedRate {
             get {
                 return ResourceManager.GetString("ParamMouseWheelSpeedRate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Angle に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamNavigateAngle {
+            get {
+                return ResourceManager.GetString("ParamNavigateAngle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Auto rotate に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamNavigateAutoRotate {
+            get {
+                return ResourceManager.GetString("ParamNavigateAutoRotate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flip horizontal に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamNavigateIsFlipHorizontal {
+            get {
+                return ResourceManager.GetString("ParamNavigateIsFlipHorizontal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flip vertical に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamNavigateIsFlipVertical {
+            get {
+                return ResourceManager.GetString("ParamNavigateIsFlipVertical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scale に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamNavigateScale {
+            get {
+                return ResourceManager.GetString("ParamNavigateScale", resourceCulture);
             }
         }
         

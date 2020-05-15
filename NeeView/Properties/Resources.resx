@@ -5478,4 +5478,31 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="SettingPageScript" xml:space="preserve">
     <value>Script</value>
   </data>
+  <data name="NavigateName" xml:space="preserve">
+    <value>Navigate</value>
+  </data>
+  <data name="ParamNavigateAngle" xml:space="preserve">
+    <value>Angle</value>
+  </data>
+  <data name="ParamNavigateScale" xml:space="preserve">
+    <value>Scale</value>
+  </data>
+  <data name="ParamNavigateIsFlipHorizontal" xml:space="preserve">
+    <value>Flip horizontal</value>
+  </data>
+  <data name="ParamNavigateIsFlipVertical" xml:space="preserve">
+    <value>Flip vertical</value>
+  </data>
+  <data name="ParamNavigateAutoRotate" xml:space="preserve">
+    <value>Auto rotate</value>
+  </data>
+  <data name="EnumAutoRotateNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="EnumAutoRotateLeft" xml:space="preserve">
+    <value>Left</value>
+  </data>
+  <data name="EnumAutoRotateRight" xml:space="preserve">
+    <value>Right</value>
+  </data>
 </root>

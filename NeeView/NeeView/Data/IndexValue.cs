@@ -98,8 +98,8 @@ namespace NeeView.Data
         /// <summary>
         /// 値に関連させるPropertyValue
         /// </summary>
-        public PropertyValue<T, PropertyMemberElement> _property;
-        public PropertyValue<T, PropertyMemberElement> Property
+        public PropertyValue<T> _property;
+        public PropertyValue<T> Property
         {
             get { return _property; }
             set

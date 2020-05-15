@@ -29,6 +29,7 @@ namespace NeeView.Windows.Property
         public double TickFrequency;
         public bool IsEditable;
         public string Format;
+        public string RangeProperty;
 
         public PropertyRangeAttribute(double min, double max)
         {

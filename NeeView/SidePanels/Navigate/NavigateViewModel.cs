@@ -19,8 +19,12 @@ namespace NeeView
         public NavigateViewModel(NavigateModel model)
         {
             _model = model;
-
             _model.PropertyChanged += Model_PropertyChanged;
+
+            DragTransform.Current.PropertyChanged += DragTransform_PropertyChanged;
+
+            Config.Current.View.AddPropertyChanged(nameof(ViewConfig.AutoRotate), (s, e) => RaisePropertyChanged(nameof(AutoRotate)));
+            Config.Current.View.AddPropertyChanged(nameof(ViewConfig.StretchMode), (s, e) => RaisePropertyChanged(nameof(StretchMode)));
 
             this.NavigateProfile = new PropertyDocument(_model);
             this.NavigateProfile.SetVisualType<PropertyValue_Boolean>(PropertyVisualType.ToggleSwitch);
@@ -44,12 +48,11 @@ namespace NeeView
                 case "":
                     RaisePropertyChanged("");
                     break;
-                case nameof(NavigateModel.IsFlipHorizontal):
-                    RaisePropertyChanged(nameof(IsFlipHorizontal));
+
+                case nameof(NavigateModel.Angle):
+                    RaisePropertyChanged(nameof(Angle));
                     break;
-                case nameof(NavigateModel.IsFlipVertical):
-                    RaisePropertyChanged(nameof(IsFlipVertical));
-                    break;
+
                 case nameof(NavigateModel.IsStretchEnabled):
                     RaisePropertyChanged(nameof(IsStretchEnabled));
                     break;
@@ -67,18 +70,55 @@ namespace NeeView
 
         public PropertyDocument NavigateProfile { get; set; }
 
+        public double Angle
+        {
+            get => _model.Angle;
+            set => _model.Angle = value;
+        }
+
+        public AutoRotateType AutoRotate
+        {
+            get => Config.Current.View.AutoRotate;
+            set => Config.Current.View.AutoRotate = value;
+        }
+
+        public Dictionary<AutoRotateType, string> AutoRotateTypeList { get; } = AliasNameExtensions.GetAliasNameDictionary<AutoRotateType>();
+
+
+        public double Scale
+        {
+            get { return Math.Truncate(DragTransform.Current.Scale * 100.0); }
+            set { DragTransform.Current.Scale = value / 100.0; }
+        }
+
+        public double ScaleLog
+        {
+            get { return DragTransform.Current.Scale > 0.0 ? Math.Log(DragTransform.Current.Scale, 2.0) : -5.0; }
+            set { DragTransform.Current.Scale = Math.Pow(2, value); }
+        }
+
 
         public bool IsFlipHorizontal
         {
-            get => _model.IsFlipHorizontal;
-            set => _model.IsFlipHorizontal = value;
+            get => DragTransform.Current.IsFlipHorizontal;
+            set => DragTransform.Current.IsFlipHorizontal = value;
         }
 
         public bool IsFlipVertical
         {
-            get => _model.IsFlipVertical;
-            set => _model.IsFlipVertical = value;
+            get => DragTransform.Current.IsFlipVertical;
+            set => DragTransform.Current.IsFlipVertical = value;
         }
+
+
+        public PageStretchMode StretchMode
+        {
+            get => Config.Current.View.StretchMode;
+            set => Config.Current.View.StretchMode = value;
+        }
+
+        public Dictionary<PageStretchMode, string> StretchModeList { get; } = AliasNameExtensions.GetAliasNameDictionary<PageStretchMode>();
+
 
         public bool IsStretchEnabled
         {
@@ -114,5 +154,36 @@ namespace NeeView
         public RelayCommand ScaleResetCommand { get; private set; }
 
         public RelayCommand StretchCommand { get; private set; }
+
+
+        private void DragTransform_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case null:
+                case "":
+                    RaisePropertyChanged("");
+                    break;
+
+#if false
+                case nameof(DragTransform.Angle):
+                    RaisePropertyChanged(nameof(Angle));
+                    break;
+
+#endif
+                case nameof(DragTransform.Scale):
+                    RaisePropertyChanged(nameof(Scale));
+                    RaisePropertyChanged(nameof(ScaleLog));
+                    break;
+
+                case nameof(DragTransform.IsFlipHorizontal):
+                    RaisePropertyChanged(nameof(IsFlipHorizontal));
+                    break;
+
+                case nameof(DragTransform.IsFlipVertical):
+                    RaisePropertyChanged(nameof(IsFlipVertical));
+                    break;
+            }
+        }
     }
 }

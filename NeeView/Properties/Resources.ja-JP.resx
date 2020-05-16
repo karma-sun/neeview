@@ -5479,7 +5479,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>スクリプト</value>
   </data>
   <data name="NavigateName" xml:space="preserve">
-    <value>操作</value>
+    <value>ナビゲート</value>
   </data>
   <data name="ParamNavigateAngle" xml:space="preserve">
     <value>回転</value>
@@ -5497,12 +5497,12 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>自動回転</value>
   </data>
   <data name="EnumAutoRotateNone" xml:space="preserve">
-    <value>なし</value>
+    <value>標準</value>
   </data>
   <data name="EnumAutoRotateLeft" xml:space="preserve">
-    <value>左回転</value>
+    <value>自動左回転</value>
   </data>
   <data name="EnumAutoRotateRight" xml:space="preserve">
-    <value>右回転</value>
+    <value>自動右回転</value>
   </data>
 </root>

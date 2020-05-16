@@ -46,6 +46,7 @@ namespace NeeView
             set { DragTransform.Current.Angle = value; }
         }
 
+        /*
         [PropertyMember("@ParamNavigateAutoRotate")]
         public AutoRotateType AutoRotate
         {
@@ -67,7 +68,6 @@ namespace NeeView
             set { DragTransform.Current.Scale = Math.Pow(2, value); }
         }
 
-
         [PropertyMember("@ParamNavigateIsFlipHorizontal")]
         public bool IsFlipHorizontal
         {
@@ -81,7 +81,7 @@ namespace NeeView
             get => DragTransform.Current.IsFlipVertical;
             set => DragTransform.Current.IsFlipVertical = value;
         }
-
+        */
 
         private bool _IsStretchEnabled;
         public bool IsStretchEnabled
@@ -132,6 +132,7 @@ namespace NeeView
                     RaisePropertyChanged(nameof(Angle));
                     break;
 
+                    /*
                 case nameof(DragTransform.Scale):
                     RaisePropertyChanged(nameof(Scale));
                     RaisePropertyChanged(nameof(ScaleSlider));
@@ -144,6 +145,7 @@ namespace NeeView
                 case nameof(DragTransform.IsFlipVertical):
                     RaisePropertyChanged(nameof(IsFlipVertical));
                     break;
+                    */
             }
         }
 
@@ -177,6 +179,11 @@ namespace NeeView
         public void RotateReset()
         {
             DragTransform.Current.Angle = 0.0;
+
+            if (IsStretchEnabled)
+            {
+                Stretch();
+            }
         }
 
         public void ScaleDown()

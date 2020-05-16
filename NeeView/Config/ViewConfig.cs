@@ -1,5 +1,6 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
+using System;
 
 namespace NeeView
 {
@@ -144,6 +145,7 @@ namespace NeeView
 
         // 自動回転の強制
         [PropertyMember("@ParmViewForceAutoRotate")]
+        [Obsolete]
         public bool ForceAutoRotate
         {
             get { return _forceAutoRotate; }

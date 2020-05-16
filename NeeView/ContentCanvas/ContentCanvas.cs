@@ -474,7 +474,7 @@ namespace NeeView
                 _dragTransformControl.SetMouseDragSetting(pageDirection, viewOrigin, BookSettingPresenter.Current.LatestSetting.BookReadOrder);
 
                 // リセット
-                var angle = Config.Current.View.AutoRotate != AutoRotateType.None ? GetAutoRotateAngle() : double.NaN;
+                var angle = (!Config.Current.View.IsKeepAngle && Config.Current.View.AutoRotate != AutoRotateType.None) ? GetAutoRotateAngle() : double.NaN;
                 _dragTransformControl.Reset(isForce, angle);
             }
         }
@@ -490,7 +490,11 @@ namespace NeeView
         /// <returns></returns>
         public double GetAutoRotateAngle()
         {
-            if (MainContent is MediaViewContent)
+            if (Config.Current.View.IsKeepAngle)
+            {
+                return DragTransform.Current.Angle;
+            }
+            else if (MainContent is MediaViewContent)
             {
                 return 0.0;
             }

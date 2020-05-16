@@ -5497,12 +5497,12 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Auto rotate</value>
   </data>
   <data name="EnumAutoRotateNone" xml:space="preserve">
-    <value>None</value>
+    <value>Default</value>
   </data>
   <data name="EnumAutoRotateLeft" xml:space="preserve">
-    <value>Left</value>
+    <value>Auto left rotate</value>
   </data>
   <data name="EnumAutoRotateRight" xml:space="preserve">
-    <value>Right</value>
+    <value>Auto right rotate</value>
   </data>
 </root>

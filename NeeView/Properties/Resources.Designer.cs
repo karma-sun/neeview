@@ -6713,7 +6713,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Left に類似しているローカライズされた文字列を検索します。
+        ///   Auto left rotate に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumAutoRotateLeft {
             get {
@@ -6722,7 +6722,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   None に類似しているローカライズされた文字列を検索します。
+        ///   Default に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumAutoRotateNone {
             get {
@@ -6731,7 +6731,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Right に類似しているローカライズされた文字列を検索します。
+        ///   Auto right rotate に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumAutoRotateRight {
             get {

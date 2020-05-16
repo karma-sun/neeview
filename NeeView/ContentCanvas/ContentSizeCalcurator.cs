@@ -101,6 +101,7 @@ namespace NeeView
         private bool IsAutoRotateCondition(List<Size> source)
         {
             if (AutoRotateType == AutoRotateType.None) return false;
+            if (Config.Current.View.IsKeepAngle) return false;
 
             if (Config.Current.View.ForceAutoRotate) return true;
 

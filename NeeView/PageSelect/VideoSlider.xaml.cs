@@ -54,6 +54,18 @@ namespace NeeView
         public static readonly DependencyProperty MaximumProperty =
             DependencyProperty.Register("Maximum", typeof(double), typeof(VideoSlider), new PropertyMetadata(1.0, OnParameterChanged));
 
+
+        public double TickFrequency
+        {
+            get { return (double)GetValue(TickFrequencyProperty); }
+            set { SetValue(TickFrequencyProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for TickFrequency.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TickFrequencyProperty =
+            DependencyProperty.Register("TickFrequency", typeof(double), typeof(VideoSlider), new PropertyMetadata(0.0, OnParameterChanged));
+
+
         //
         private static void OnParameterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -80,7 +92,13 @@ namespace NeeView
             var control = d as VideoSlider;
             if (control != null)
             {
-                return NeeLaboratory.MathUtility.Clamp((double)baseValue, control.Minimum, control.Maximum);
+                var value = (double)baseValue;
+                if (control.TickFrequency > 0.0)
+                {
+                    value = Math.Floor(value / control.TickFrequency) * control.TickFrequency;
+                }
+
+                return NeeLaboratory.MathUtility.Clamp(value, control.Minimum, control.Maximum);
             }
             else
             {
@@ -360,7 +378,7 @@ namespace NeeView
             double max = this.Root.ActualWidth - this.ThumbSize;
 
             var x = Maximum > Minimum
-                ? GetReversedValue(value) * (max - min) / (Maximum - Minimum) + min
+                ? (GetReversedValue(value) - Minimum) * (max - min) / (Maximum - Minimum) + min
                 : min;
 
             x = Math.Max(x, 0);

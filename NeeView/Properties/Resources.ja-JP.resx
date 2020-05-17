@@ -5479,7 +5479,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>スクリプト</value>
   </data>
   <data name="NavigateName" xml:space="preserve">
-    <value>ナビゲート</value>
+    <value>ナビゲーター</value>
   </data>
   <data name="ParamNavigateAngle" xml:space="preserve">
     <value>回転</value>
@@ -5504,5 +5504,20 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="EnumAutoRotateRight" xml:space="preserve">
     <value>自動右回転</value>
+  </data>
+  <data name="CommandToggleVisibleNavigator" xml:space="preserve">
+    <value>ナビゲーターの表示/非表示</value>
+  </data>
+  <data name="CommandToggleVisibleNavigatorMenu" xml:space="preserve">
+    <value>ナビゲーター</value>
+  </data>
+  <data name="CommandToggleVisibleNavigatorNote" xml:space="preserve">
+    <value>ナビゲーターの表示/非表示を切り替えます。</value>
+  </data>
+  <data name="CommandToggleVisibleNavigatorOff" xml:space="preserve">
+    <value>ナビゲーターを消す</value>
+  </data>
+  <data name="CommandToggleVisibleNavigatorOn" xml:space="preserve">
+    <value>ナビゲーターを表示する</value>
   </data>
 </root>

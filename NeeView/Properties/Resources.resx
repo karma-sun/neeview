@@ -5479,7 +5479,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Script</value>
   </data>
   <data name="NavigateName" xml:space="preserve">
-    <value>Navigate</value>
+    <value>Navigator</value>
   </data>
   <data name="ParamNavigateAngle" xml:space="preserve">
     <value>Angle</value>
@@ -5504,5 +5504,20 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="EnumAutoRotateRight" xml:space="preserve">
     <value>Auto right rotate</value>
+  </data>
+  <data name="CommandToggleVisibleNavigator" xml:space="preserve">
+    <value>Toggle navigator</value>
+  </data>
+  <data name="CommandToggleVisibleNavigatorMenu" xml:space="preserve">
+    <value>Navigator</value>
+  </data>
+  <data name="CommandToggleVisibleNavigatorNote" xml:space="preserve">
+    <value>Toggle visible / hide of the navigator</value>
+  </data>
+  <data name="CommandToggleVisibleNavigatorOff" xml:space="preserve">
+    <value>Navigator OFF</value>
+  </data>
+  <data name="CommandToggleVisibleNavigatorOn" xml:space="preserve">
+    <value>Navigator</value>
   </data>
 </root>

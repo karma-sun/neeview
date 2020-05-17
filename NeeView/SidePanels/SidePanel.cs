@@ -44,13 +44,13 @@ namespace NeeView
             this.FileInfoPanel = new FileInformationPanel(FileInformation.Current);
             rightPanels.Add(this.FileInfoPanel);
 
-            // エフェクト
-            this.ImageEffectPanel = new ImageEffectPanel(ImageEffect.Current, ImageFilter.Current);
-            rightPanels.Add(this.ImageEffectPanel);
-
             // ナビゲート
             this.NavigatePanel = new NavigatePanel(NavigateModel.Current);
             rightPanels.Add(this.NavigatePanel);
+
+            // エフェクト
+            this.ImageEffectPanel = new ImageEffectPanel(ImageEffect.Current, ImageFilter.Current);
+            rightPanels.Add(this.ImageEffectPanel);
 
             // ブックマーク
             this.BookmarkPanel = new BookmarkPanel(BookmarkFolderList.Current);
@@ -140,7 +140,7 @@ namespace NeeView
             RaisePropertyChanged(nameof(IsVisiblePageList));
             RaisePropertyChanged(nameof(IsVisibleFileInfo));
             RaisePropertyChanged(nameof(IsVisibleEffectInfo));
-            RaisePropertyChanged(nameof(IsVisibleNavigatePanel));
+            RaisePropertyChanged(nameof(IsVisibleNavigator));
         }
 
         // ファイル情報表示ON/OFF
@@ -187,23 +187,23 @@ namespace NeeView
 
 
         // ナビゲートパネル情報表示ON/OFF
-        public bool IsVisibleNavigatePanel
+        public bool IsVisibleNavigator
         {
             get { return IsSelectedPanel(NavigatePanel); }
             set { SetSelectedPanel(NavigatePanel, value); RaisePanelPropertyChanged(); }
         }
 
-        public void SetVisibleNavigatePanel(bool isVisible, bool flush)
+        public void SetVisibleNavigator(bool isVisible, bool flush)
         {
             SetSelectedPanel(NavigatePanel, isVisible, flush);
             RaisePanelPropertyChanged();
         }
 
-        public bool ToggleVisibleNavigatePanel(bool byMenu)
+        public bool ToggleVisibleNavigator(bool byMenu)
         {
             ToggleSelectedPanel(NavigatePanel, byMenu);
             RaisePanelPropertyChanged();
-            return IsVisibleNavigatePanel;
+            return IsVisibleNavigator;
         }
 
         // フォルダーリスト表示ON/OFF

@@ -12,6 +12,14 @@
                 <ResourceDictionary Source="/SidePanels/PanelIconDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
+            <DrawingImage x:Key="ic_navigate_g">
+                <DrawingImage.Drawing>
+                    <DrawingGroup Transform="1,0,0,-1,0,0">
+                            <GeometryDrawing Brush="Gray" Geometry="{StaticResource g_nagivate}" />
+                    </DrawingGroup>
+                </DrawingImage.Drawing>
+            </DrawingImage>
+
             <RectangleGeometry x:Key="g_rect20x20" Rect="2,2,20,20" />
             <RectangleGeometry x:Key="g_rect24x24" Rect="0,0,24,24" />
 
@@ -225,9 +233,7 @@
             <StackPanel Margin="5,10,0,10">
 
                 <StackPanel Margin="0,5,0,10" Orientation="Horizontal">
-                    <!--
-                    <Image Source="{StaticResource pic_navigate}" Width="16" Height="16" Margin="2" VerticalAlignment="Center" />
-                    -->
+                    <Image Source="{StaticResource ic_navigate_g}" Width="16" Height="16" Margin="2,2,2,0" VerticalAlignment="Center" />
                     <TextBlock Text="{x:Static properties:Resources.NavigateName}" Foreground="Gray" VerticalAlignment="Center" />
                 </StackPanel>
 
@@ -240,12 +246,14 @@
                                 SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding AutoRotate}">
                             <ComboBox.Style>
                                 <Style TargetType="ComboBox" BasedOn="{StaticResource NVComboBox}">
+                                    <!--
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsKeepAngle}" Value="True">
                                             <Setter Property="Opacity" Value="0.5" />
                                             <Setter Property="IsEnabled" Value="False" />
                                         </DataTrigger>
                                     </Style.Triggers>
+                                    -->
                                 </Style>
                             </ComboBox.Style>
                         </ComboBox>

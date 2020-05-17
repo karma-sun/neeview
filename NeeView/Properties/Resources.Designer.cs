@@ -4426,6 +4426,51 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Toggle navigator に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleVisibleNavigator {
+            get {
+                return ResourceManager.GetString("CommandToggleVisibleNavigator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Navigator に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleVisibleNavigatorMenu {
+            get {
+                return ResourceManager.GetString("CommandToggleVisibleNavigatorMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle visible / hide of the navigator に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleVisibleNavigatorNote {
+            get {
+                return ResourceManager.GetString("CommandToggleVisibleNavigatorNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Navigator OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleVisibleNavigatorOff {
+            get {
+                return ResourceManager.GetString("CommandToggleVisibleNavigatorOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Navigator に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleVisibleNavigatorOn {
+            get {
+                return ResourceManager.GetString("CommandToggleVisibleNavigatorOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle page list に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisiblePageList {
@@ -8631,7 +8676,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Navigate に類似しているローカライズされた文字列を検索します。
+        ///   Navigator に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string NavigateName {
             get {

@@ -14,7 +14,9 @@ namespace NeeView
     /// </summary>
     public class TabletModeWatcher
     {
-        public static TabletModeWatcher Current { get; } = new TabletModeWatcher();
+        static TabletModeWatcher() => Current = new TabletModeWatcher();
+        public static TabletModeWatcher Current { get; }
+
 
         private const int WM_SETTINGCHANGE = 0x001A;
 

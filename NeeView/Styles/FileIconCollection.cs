@@ -13,7 +13,8 @@ namespace NeeView
 {
     public class FileIconCollection
     {
-        public static FileIconCollection Current { get; } = new FileIconCollection();
+        static FileIconCollection() => Current = new FileIconCollection();
+        public static FileIconCollection Current { get; }
 
         private struct Key : IEquatable<Key>
         {

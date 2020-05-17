@@ -6,7 +6,8 @@ namespace NeeView
 {
     public class Config : BindableBase
     {
-        public static Config Current { get; } = new Config();
+        static Config() => Current = new Config();
+        public static Config Current { get; }
 
 
         public SystemConfig System { get; set; } = new SystemConfig();

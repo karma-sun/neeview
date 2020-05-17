@@ -12,7 +12,8 @@ namespace NeeView
 {
     public class QuickAccessCollection : BindableBase
     {
-        public static QuickAccessCollection Current { get; } = new QuickAccessCollection();
+        static QuickAccessCollection() => Current = new QuickAccessCollection();
+        public static QuickAccessCollection Current { get; }
 
 
         public event CollectionChangeEventHandler CollectionChanged;

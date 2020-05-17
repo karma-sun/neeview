@@ -9,7 +9,8 @@ namespace NeeView
     /// </summary>
     public class TempFileCache
     {
-        public static TempFileCache Current { get; } = new TempFileCache();
+        static TempFileCache() => Current = new TempFileCache();
+        public static TempFileCache Current { get; }
 
         #region Fields
 

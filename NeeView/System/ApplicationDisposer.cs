@@ -9,7 +9,9 @@ namespace NeeView
     /// </summary>
     public class ApplicationDisposer : IDisposable
     {
-        public static ApplicationDisposer Current { get; } = new ApplicationDisposer();
+        static ApplicationDisposer() => Current = new ApplicationDisposer();
+        public static ApplicationDisposer Current { get; }
+
 
         private List<IDisposable> _disposables = new List<IDisposable>();
 

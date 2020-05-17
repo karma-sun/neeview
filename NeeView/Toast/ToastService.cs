@@ -7,7 +7,9 @@ namespace NeeView
 {
     public class ToastService : BindableBase
     {
-        public static ToastService Current { get; } = new ToastService();
+        static ToastService() => Current = new ToastService();
+        public static ToastService Current { get; }
+
 
         private Queue<Toast> _queue;
         private ToastCard _toastCard;

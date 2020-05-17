@@ -16,7 +16,9 @@ namespace NeeView
     /// </summary>
     public class RemoteCommandService : IDisposable
     {
-        public static RemoteCommandService Current { get; } = new RemoteCommandService();
+        static RemoteCommandService() => Current = new RemoteCommandService();
+        public static RemoteCommandService Current { get; }
+
 
         private RemoteCommandServer _server;
         private RemoteCommandClient _client;

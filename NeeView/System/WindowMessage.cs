@@ -214,7 +214,9 @@ namespace NeeView
 
         #endregion
 
-        public static WindowMessage Current { get; } = new WindowMessage();
+        static WindowMessage() => Current = new WindowMessage();
+        public static WindowMessage Current { get; }
+
 
         private Window _window;
 

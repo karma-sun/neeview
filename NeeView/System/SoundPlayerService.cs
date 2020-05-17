@@ -8,7 +8,9 @@ namespace NeeView
 {
     public class SoundPlayerService
     {
-        public static SoundPlayerService Current { get; } = new SoundPlayerService();
+        static SoundPlayerService() => Current = new SoundPlayerService();
+        public static SoundPlayerService Current { get; }
+
 
         private DateTime _lastTime;
 

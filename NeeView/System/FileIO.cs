@@ -29,7 +29,9 @@ namespace NeeView
             public static extern bool MoveFile(string lpExistingFileName, string lpNewFileName);
         }
 
-        public static FileIO Current { get; } = new FileIO();
+        static FileIO() => Current = new FileIO();
+        public static FileIO Current { get; }
+
 
         //
         public FileIO()

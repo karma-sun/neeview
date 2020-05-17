@@ -24,8 +24,10 @@ namespace NeeView
 
     public class ContextMenuManager : ContextMenuSetting
     {
-        public static ContextMenuManager Current { get; } = new ContextMenuManager();
+        static ContextMenuManager() => Current = new ContextMenuManager();
+        public static ContextMenuManager Current { get; }
      
+
         public MenuNode CreateContextMenuNode()
         {
             return SourceTreeRaw?.CreateMenuNode();

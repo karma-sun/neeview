@@ -15,7 +15,8 @@ namespace NeeView
     /// </summary>
     public class ArchiveEntryExtractorService
     {
-        public static ArchiveEntryExtractorService Current { get; } = new ArchiveEntryExtractorService();
+        static ArchiveEntryExtractorService() => Current = new ArchiveEntryExtractorService();
+        public static ArchiveEntryExtractorService Current { get; }
 
         #region Fields
 

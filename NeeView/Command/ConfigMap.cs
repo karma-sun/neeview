@@ -2,7 +2,8 @@
 {
     public class ConfigMap
     {
-        public static ConfigMap Current { get; } = new ConfigMap();
+        static ConfigMap() => Current = new ConfigMap();
+        public static ConfigMap Current { get; }
 
 
         public ConfigMap()

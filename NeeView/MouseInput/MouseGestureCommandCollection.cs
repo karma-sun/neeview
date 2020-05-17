@@ -12,7 +12,8 @@ namespace NeeView
     /// </summary>
     public class MouseGestureCommandCollection
     {
-        public static MouseGestureCommandCollection Current { get; } = new MouseGestureCommandCollection();
+        static MouseGestureCommandCollection() => Current = new MouseGestureCommandCollection();
+        public static MouseGestureCommandCollection Current { get; }
 
         /// <summary>
         /// シーケンスとコマンドの対応辞書

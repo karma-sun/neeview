@@ -8,7 +8,8 @@ namespace NeeView
 {
     public class BookMementoCollection
     {
-        public static BookMementoCollection Current { get; } = new BookMementoCollection();
+        static BookMementoCollection() => Current = new BookMementoCollection();
+        public static BookMementoCollection Current { get; }
 
         public Dictionary<string, BookMementoUnit> Items { get; private set; } = new Dictionary<string, BookMementoUnit>();
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeLaboratory;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -324,8 +325,8 @@ namespace NeeView
         /// <param name="e"></param>
         private void Thumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
-            _dragPointX += e.HorizontalChange;
-            ////Debug.WriteLine($"Thumb: {_dragPointX} (offset={e.HorizontalChange})");
+            _dragPointX = ClampPosition(_dragPointX + e.HorizontalChange);
+            //Debug.WriteLine($"Thumb: {_dragPointX} (offset={e.HorizontalChange})");
 
             SetValuePosition(_dragPointX);
 
@@ -385,6 +386,14 @@ namespace NeeView
 
             Canvas.SetLeft(this.Thumb, x);
             this.LeftTracColumn.Width = new GridLength(x);
+        }
+
+        private double ClampPosition(double x)
+        {
+            double min = 0.0;
+            double max = this.Root.ActualWidth - this.ThumbSize;
+
+            return MathUtility.Clamp(x, min, max);
         }
 
         // 座標から値を計算

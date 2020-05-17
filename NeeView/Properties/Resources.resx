@@ -5481,11 +5481,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="NavigateName" xml:space="preserve">
     <value>Navigator</value>
   </data>
-  <data name="ParamNavigateAngle" xml:space="preserve">
+  <data name="NavigateAngle" xml:space="preserve">
     <value>Angle</value>
   </data>
-  <data name="ParamNavigateScale" xml:space="preserve">
+  <data name="NavigateScale" xml:space="preserve">
     <value>Scale</value>
+  </data>
+  <data name="NavigateFlip" xml:space="preserve">
+    <value>Flip</value>
   </data>
   <data name="ParamNavigateIsFlipHorizontal" xml:space="preserve">
     <value>Flip horizontal</value>
@@ -5519,5 +5522,47 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="CommandToggleVisibleNavigatorOn" xml:space="preserve">
     <value>Navigator</value>
+  </data>
+  <data name="ParamViewIsRotateStretchEnabled" xml:space="preserve">
+    <value>Apply stretch to navigator rotation buttons</value>
+  </data>
+  <data name="NavigateRotateLeft" xml:space="preserve">
+    <value>Rotate left</value>
+  </data>
+  <data name="NavigateRotateRight" xml:space="preserve">
+    <value>Rotate right</value>
+  </data>
+  <data name="NavigateRotateRerset" xml:space="preserve">
+    <value>Reset angle</value>
+  </data>
+  <data name="NavigateRotateStretch" xml:space="preserve">
+    <value>Apply stretch to rotate button</value>
+  </data>
+  <data name="NavigateIsKeepAngle" xml:space="preserve">
+    <value>Keep angle</value>
+  </data>
+  <data name="NavigateScaleDown" xml:space="preserve">
+    <value>Scale down</value>
+  </data>
+  <data name="NavigateScaleUp" xml:space="preserve">
+    <value>Scale up</value>
+  </data>
+  <data name="NavigateScaleReset" xml:space="preserve">
+    <value>Reset scale</value>
+  </data>
+  <data name="NavigateStretch" xml:space="preserve">
+    <value>Stretch</value>
+  </data>
+  <data name="NavigateIsKeepScale" xml:space="preserve">
+    <value>Keep scale</value>
+  </data>
+  <data name="NavigateFlipHorizontal" xml:space="preserve">
+    <value>Flip horizontal</value>
+  </data>
+  <data name="NavigateFlipVertical" xml:space="preserve">
+    <value>Flip vertical</value>
+  </data>
+  <data name="NavigateIsKeepFlip" xml:space="preserve">
+    <value>Keep flip</value>
   </data>
 </root>

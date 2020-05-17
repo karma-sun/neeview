@@ -787,10 +787,9 @@ namespace NeeView
 
         public void Stretch()
         {
-            _dragTransformControl.Reset(true, false, false, 0.0);
             UpdateContentSize(_dragTransform.Angle);
             ContentRebuild.Current.Request();
-            DragTransformControl.Current.SnapView();
+            ResetTransformRaw(true, false, false, 0.0);
         }
 
         #endregion

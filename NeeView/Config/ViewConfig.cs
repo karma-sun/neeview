@@ -19,9 +19,10 @@ namespace NeeView
         private bool _isKeepFlip;
         private bool _isViewStartPositionCenter;
         private double _angleFrequency = 0;
-        private bool _forceAutoRotate;
         private bool _isBaseScaleEnabled;
         private double _baseScale = 1.0;
+        private bool _isRotateStretchEnabled;
+
 
         // 回転の中心
         [PropertyMember("@ParamDragTransformIsControRotatelCenter")]
@@ -70,6 +71,7 @@ namespace NeeView
             get { return _isKeepFlip; }
             set { SetProperty(ref _isKeepFlip, value); }
         }
+
 
         // 表示開始時の基準
         [PropertyMember("@ParamDragTransformIsViewStartPositionCenter", Tips = "@ParamDragTransformIsViewStartPositionCenterTips")]
@@ -142,6 +144,15 @@ namespace NeeView
             get { return _autoRotate; }
             set { SetProperty(ref _autoRotate, value); }
         }
+
+        // ナビゲーターボタンによる回転にストレッチを適用
+        [PropertyMember("@ParamViewIsRotateStretchEnabled")]
+        public bool IsRotateStretchEnabled
+        {
+            get { return _isRotateStretchEnabled; }
+            set { SetProperty(ref _isRotateStretchEnabled, value); }
+        }
+
     }
 
 }

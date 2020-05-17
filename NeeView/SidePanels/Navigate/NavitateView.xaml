@@ -12,10 +12,12 @@
                 <ResourceDictionary Source="/SidePanels/PanelIconDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
+            <!--#region  image sources -->
+
             <DrawingImage x:Key="ic_navigate_g">
                 <DrawingImage.Drawing>
                     <DrawingGroup Transform="1,0,0,-1,0,0">
-                            <GeometryDrawing Brush="Gray" Geometry="{StaticResource g_nagivate}" />
+                        <GeometryDrawing Brush="Gray" Geometry="{StaticResource g_nagivate}" />
                     </DrawingGroup>
                 </DrawingImage.Drawing>
             </DrawingImage>
@@ -128,43 +130,27 @@
             </DrawingImage>
 
             <!-- https://www.onlinewebfonts.com/icon/425378 -->
+            <PathGeometry x:Key="g_pushpin" FillRule="Nonzero"
+                    Figures="M10,-30L175.8,198.7 426.5,450.2 255,623.3 500,623.3 718,851.2 689.4,880.6C681.2,888.2 677.1,897.8 677.1,909.2 677.1,920.6 681.2,930.2 689.4,937.8 697.6,946 707.1,950.1 718,950.1 729.4,950.1 739,946 746.6,937.8L977.7,707.5C985.9,699.3 990,689.5 990,678.1 990,667.2 985.9,657.7 977.7,649.5 970.1,641.3 960.5,637.2 949.1,637.2 937.7,637.2 928.1,641.3 920.5,649.5L891.2,678 663.3,460 663.3,215 490.2,386.5 238.7,135.8 10,-30z" />
+
             <DrawingImage x:Key="ic_pushpin_b">
                 <DrawingImage.Drawing>
-                    <DrawingGroup x:Name="DrawingLayer">
+                    <DrawingGroup>
                         <DrawingGroup>
-                            <DrawingGroup>
-                                <GeometryDrawing Brush="Transparent">
-                                    <GeometryDrawing.Geometry>
-                                        <RectangleGeometry Rect="-200,-200,1400,1400" />
-                                    </GeometryDrawing.Geometry>
-                                </GeometryDrawing>
-                            </DrawingGroup>
-                            <DrawingGroup Transform="1,0,0,-1,0,960">
-                                <GeometryDrawing Brush="{StaticResource NVButtonForeground}">
-                                    <GeometryDrawing.Geometry>
-                                        <PathGeometry FillRule="Nonzero"
-                                                Figures="M10,-30L175.8,198.7 426.5,450.2 255,623.3 500,623.3 718,851.2 689.4,880.6C681.2,888.2 677.1,897.8 677.1,909.2 677.1,920.6 681.2,930.2 689.4,937.8 697.6,946 707.1,950.1 718,950.1 729.4,950.1 739,946 746.6,937.8L977.7,707.5C985.9,699.3 990,689.5 990,678.1 990,667.2 985.9,657.7 977.7,649.5 970.1,641.3 960.5,637.2 949.1,637.2 937.7,637.2 928.1,641.3 920.5,649.5L891.2,678 663.3,460 663.3,215 490.2,386.5 238.7,135.8 10,-30z" />
-                                    </GeometryDrawing.Geometry>
-                                </GeometryDrawing>
-                            </DrawingGroup>
+                            <GeometryDrawing Brush="Transparent">
+                                <GeometryDrawing.Geometry>
+                                    <RectangleGeometry Rect="-200,-200,1400,1400" />
+                                </GeometryDrawing.Geometry>
+                            </GeometryDrawing>
+                        </DrawingGroup>
+                        <DrawingGroup Transform="1,0,0,-1,0,960">
+                            <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Geometry="{StaticResource g_pushpin}" />
                         </DrawingGroup>
                     </DrawingGroup>
                 </DrawingImage.Drawing>
             </DrawingImage>
 
-
-
-            <DataTemplate DataType="{x:Type nvp:PropertyTitleElement}">
-                <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" FontWeight="Bold" Margin="0,10,0,5" />
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type nvp:PropertyMemberElement}">
-                <nvp:PropertyControl Header="{Binding Name}" Value="{Binding TypeValue}" Tips="{Binding Tips}" />
-                <!--
-                        ColumnRate="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=ColumnRate}" />
-                -->
-            </DataTemplate>
-
+            <!--#endregion image sources-->
 
 
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -241,143 +227,100 @@
 
                 <StackPanel>
                     <DockPanel Margin="0,5" LastChildFill="False">
-                        <TextBlock Text="回転" VerticalAlignment="Center" />
-                        <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding AutoRotateTypeList}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}"
-                                SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding AutoRotate}">
-                            <ComboBox.Style>
-                                <Style TargetType="ComboBox" BasedOn="{StaticResource NVComboBox}">
-                                    <!--
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsKeepAngle}" Value="True">
-                                            <Setter Property="Opacity" Value="0.5" />
-                                            <Setter Property="IsEnabled" Value="False" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                    -->
-                                </Style>
-                            </ComboBox.Style>
-                        </ComboBox>
+                        <TextBlock Text="{x:Static properties:Resources.NavigateAngle}" VerticalAlignment="Center" />
+                        <ComboBox DockPanel.Dock="Right" Style="{StaticResource NVComboBox}" ItemsSource="{Binding AutoRotateTypeList}" Foreground="{StaticResource NVButtonForeground}"
+                                Background="{DynamicResource NVBackground}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding AutoRotate}" />
                     </DockPanel>
-
                     <StackPanel Margin="10,5,0,5">
-
                         <DockPanel Margin="0,2">
                             <nvc:EnterTriggerTextBox DockPanel.Dock="Right" Text="{Binding Angle, StringFormat={}{0:F0}}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0" />
-                            <local:VideoSlider Value="{Binding Angle}" Minimum="-180.0" Maximum="180.0" TickFrequency="1.0"  VerticalAlignment="Center" />
+                            <local:VideoSlider Value="{Binding Angle}" Minimum="-180.0" Maximum="180.0" TickFrequency="1.0" VerticalAlignment="Center" />
                         </DockPanel>
-
                         <DockPanel Margin="0,2" LastChildFill="False">
                             <StackPanel Orientation="Horizontal">
-                                <Button Style="{StaticResource NavigateButtonStyle}" Command="{Binding RotateLeftCommand}" ToolTip="@RotateLeft">
+                                <Button Style="{StaticResource NavigateButtonStyle}" Command="{Binding RotateLeftCommand}" ToolTip="{x:Static properties:Resources.NavigateRotateLeft}">
                                     <Image Source="{StaticResource ic_rotate_left_90_24px_b}" />
                                 </Button>
-                                <Button Style="{StaticResource NavigateButtonStyle}" Command="{Binding RotateRightCommand}" ToolTip="@RotateRight">
+                                <Button Style="{StaticResource NavigateButtonStyle}" Command="{Binding RotateRightCommand}" ToolTip="{x:Static properties:Resources.NavigateRotateRight}">
                                     <Image Source="{StaticResource ic_rotate_right_90_24px_b}" />
                                 </Button>
-                                <Button Style="{StaticResource NavigateButtonStyle}" Command="{Binding RotateResetCommand}" ToolTip="@RotateRerset">
+                                <Button Style="{StaticResource NavigateButtonStyle}" Command="{Binding RotateResetCommand}" ToolTip="{x:Static properties:Resources.NavigateRotateRerset}">
                                     <Image Source="{StaticResource ic_clear_24px_b2}" />
                                 </Button>
-                                <ToggleButton Style="{StaticResource NavigateToggleButtonStyle}" IsChecked="{Binding IsStretchEnabled}" ToolTip="@Stretch">
+                                <ToggleButton Style="{StaticResource NavigateToggleButtonStyle}" IsChecked="{Binding IsRotateStretchEnabled}"
+                                        ToolTip="{x:Static properties:Resources.NavigateRotateStretch}">
                                     <Image Source="{StaticResource ic_center_focus_strong_24px}" />
                                 </ToggleButton>
                             </StackPanel>
                             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-
-
-                                
-
-                                <ToggleButton Style="{StaticResource NavigateToggleButtonStyle}" IsChecked="{Binding IsKeepAngle}" ToolTip="@IsKeepAngle">
+                                <ToggleButton Style="{StaticResource NavigateToggleButtonStyle}" IsChecked="{Binding IsKeepAngle}" ToolTip="{x:Static properties:Resources.NavigateIsKeepAngle}">
                                     <Image Source="{StaticResource ic_pushpin_b}" />
                                 </ToggleButton>
                             </StackPanel>
-
                         </DockPanel>
-
-                        <!--
-                        <DockPanel Margin="0,5" LastChildFill="False">
-                            <ComboBox DockPanel.Dock="Right" Style="{StaticResource NVComboBox}" />
-                            <TextBlock Text="自動回転" VerticalAlignment="Center" />
-                        </DockPanel>
-                        -->
-
                     </StackPanel>
-
                 </StackPanel>
 
                 <Separator />
 
                 <StackPanel>
-
                     <DockPanel LastChildFill="False" Margin="0,5">
-                        <TextBlock Text="スケール" VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Static properties:Resources.NavigateScale}" VerticalAlignment="Center" />
                         <ComboBox DockPanel.Dock="Right" Style="{StaticResource NVComboBox}" ItemsSource="{Binding StretchModeList}" Foreground="{StaticResource NVButtonForeground}"
                                 Background="{DynamicResource NVBackground}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding StretchMode}">
                         </ComboBox>
                     </DockPanel>
-                    
                     <StackPanel Margin="10,5,0,5">
-
                         <DockPanel Margin="0,2">
                             <nvc:EnterTriggerTextBox DockPanel.Dock="Right" Text="{Binding Scale, StringFormat={}{0:F0}}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0" />
                             <local:VideoSlider Value="{Binding ScaleLog}" Minimum="-5.0" Maximum="5.0" VerticalAlignment="Center" />
                         </DockPanel>
-
                         <DockPanel LastChildFill="False">
-
                             <StackPanel Orientation="Horizontal">
-                                <Button Style="{StaticResource NavigateButtonStyle}" Command="{Binding ScaleDownCommand}" ToolTip="@ScaleDown">
+                                <Button Style="{StaticResource NavigateButtonStyle}" Command="{Binding ScaleDownCommand}" ToolTip="{x:Static properties:Resources.NavigateScaleDown}">
                                     <Image Source="{StaticResource ic_remove_circle_24px}" />
                                 </Button>
-                                <Button Style="{StaticResource NavigateButtonStyle}" Command="{Binding ScaleUpCommand}" ToolTip="@ScaleUp">
+                                <Button Style="{StaticResource NavigateButtonStyle}" Command="{Binding ScaleUpCommand}" ToolTip="{x:Static properties:Resources.NavigateScaleUp}">
                                     <Image Source="{StaticResource ic_add_circle_24px}" />
                                 </Button>
-                                <Button Style="{StaticResource NavigateButtonStyle}" Command="{Binding ScaleResetCommand}" ToolTip="@ScaleReset">
+                                <Button Style="{StaticResource NavigateButtonStyle}" Command="{Binding ScaleResetCommand}" ToolTip="{x:Static properties:Resources.NavigateScaleReset}">
                                     <Image Source="{StaticResource ic_clear_24px_b2}" />
                                 </Button>
-                                <Button Style="{StaticResource NavigateButtonStyle}" Command="{Binding StretchCommand}" ToolTip="@Stretch">
+                                <Button Style="{StaticResource NavigateButtonStyle}" Command="{Binding StretchCommand}" ToolTip="{x:Static properties:Resources.NavigateStretch}">
                                     <Image Source="{StaticResource ic_center_focus_strong_24px}" />
                                 </Button>
                             </StackPanel>
                             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-  
-                                <ToggleButton Style="{StaticResource NavigateToggleButtonStyle}" IsChecked="{Binding IsKeepScale}" ToolTip="@IsKeepScale">
+                                <ToggleButton Style="{StaticResource NavigateToggleButtonStyle}" IsChecked="{Binding IsKeepScale}" ToolTip="{x:Static properties:Resources.NavigateIsKeepScale}">
                                     <Image Source="{StaticResource ic_pushpin_b}" />
                                 </ToggleButton>
                             </StackPanel>
                         </DockPanel>
-
                     </StackPanel>
                 </StackPanel>
 
-
                 <Separator />
 
-
                 <StackPanel>
-                    <TextBlock Text="反転" Margin="0,5" />
-
+                    <TextBlock Text="{x:Static properties:Resources.NavigateFlip}" Margin="0,5" />
                     <StackPanel Margin="10,5,0,5">
-
                         <DockPanel LastChildFill="False">
-
                             <StackPanel Orientation="Horizontal">
-                                <ToggleButton Style="{StaticResource NavigateToggleButtonStyle}" IsChecked="{Binding IsFlipHorizontal}" ToolTip="@FlipHorizontal">
+                                <ToggleButton Style="{StaticResource NavigateToggleButtonStyle}" IsChecked="{Binding IsFlipHorizontal}" ToolTip="{x:Static properties:Resources.NavigateFlipHorizontal}">
                                     <Image Source="{StaticResource ic_flip_24px_b}" />
                                 </ToggleButton>
-                                <ToggleButton Style="{StaticResource NavigateToggleButtonStyle}" IsChecked="{Binding IsFlipVertical}" ToolTip="@FlipVertical">
+                                <ToggleButton Style="{StaticResource NavigateToggleButtonStyle}" IsChecked="{Binding IsFlipVertical}" ToolTip="{x:Static properties:Resources.NavigateFlipVertical}">
                                     <Image Source="{StaticResource ic_flip_vertical_24px_b}" />
                                 </ToggleButton>
                             </StackPanel>
                             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                                <ToggleButton Style="{StaticResource NavigateToggleButtonStyle}" IsChecked="{Binding IsKeepFlip}" ToolTip="@IsKeepFlip">
+                                <ToggleButton Style="{StaticResource NavigateToggleButtonStyle}" IsChecked="{Binding IsKeepFlip}" ToolTip="{x:Static properties:Resources.NavigateIsKeepFlip}">
                                     <Image Source="{StaticResource ic_pushpin_b}" />
                                 </ToggleButton>
                             </StackPanel>
                         </DockPanel>
-
                     </StackPanel>
                 </StackPanel>
-
 
                 <Separator />
 
@@ -385,6 +328,5 @@
 
         </ScrollViewer>
     </Grid>
-
 
 </UserControl>

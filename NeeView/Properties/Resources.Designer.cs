@@ -8676,11 +8676,155 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Angle に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NavigateAngle {
+            get {
+                return ResourceManager.GetString("NavigateAngle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flip に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NavigateFlip {
+            get {
+                return ResourceManager.GetString("NavigateFlip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flip horizontal に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NavigateFlipHorizontal {
+            get {
+                return ResourceManager.GetString("NavigateFlipHorizontal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flip vertical に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NavigateFlipVertical {
+            get {
+                return ResourceManager.GetString("NavigateFlipVertical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Keep angle に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NavigateIsKeepAngle {
+            get {
+                return ResourceManager.GetString("NavigateIsKeepAngle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Keep flip に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NavigateIsKeepFlip {
+            get {
+                return ResourceManager.GetString("NavigateIsKeepFlip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Keep scale に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NavigateIsKeepScale {
+            get {
+                return ResourceManager.GetString("NavigateIsKeepScale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Navigator に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string NavigateName {
             get {
                 return ResourceManager.GetString("NavigateName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Rotate left に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NavigateRotateLeft {
+            get {
+                return ResourceManager.GetString("NavigateRotateLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Reset angle に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NavigateRotateRerset {
+            get {
+                return ResourceManager.GetString("NavigateRotateRerset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Rotate right に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NavigateRotateRight {
+            get {
+                return ResourceManager.GetString("NavigateRotateRight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Apply stretch to rotate button に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NavigateRotateStretch {
+            get {
+                return ResourceManager.GetString("NavigateRotateStretch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scale に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NavigateScale {
+            get {
+                return ResourceManager.GetString("NavigateScale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scale down に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NavigateScaleDown {
+            get {
+                return ResourceManager.GetString("NavigateScaleDown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Reset scale に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NavigateScaleReset {
+            get {
+                return ResourceManager.GetString("NavigateScaleReset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scale up に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NavigateScaleUp {
+            get {
+                return ResourceManager.GetString("NavigateScaleUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Stretch に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NavigateStretch {
+            get {
+                return ResourceManager.GetString("NavigateStretch", resourceCulture);
             }
         }
         
@@ -12855,15 +12999,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Angle に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamNavigateAngle {
-            get {
-                return ResourceManager.GetString("ParamNavigateAngle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Auto rotate に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamNavigateAutoRotate {
@@ -12887,15 +13022,6 @@ namespace NeeView.Properties {
         public static string ParamNavigateIsFlipVertical {
             get {
                 return ResourceManager.GetString("ParamNavigateIsFlipVertical", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Scale に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamNavigateScale {
-            get {
-                return ResourceManager.GetString("ParamNavigateScale", resourceCulture);
             }
         }
         
@@ -13824,6 +13950,15 @@ namespace NeeView.Properties {
         public static string ParamViewIsBaseScaleEnabledTips {
             get {
                 return ResourceManager.GetString("ParamViewIsBaseScaleEnabledTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Apply stretch to navigator rotation buttons に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamViewIsRotateStretchEnabled {
+            get {
+                return ResourceManager.GetString("ParamViewIsRotateStretchEnabled", resourceCulture);
             }
         }
         

@@ -30,75 +30,18 @@ namespace NeeView
             0.01, 0.1, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 2.0, 4.0, 8.0, 16.0, 32.0
         };
 
+
         public NavigateModel()
         {
-            DragTransform.Current.PropertyChanged += DragTransform_PropertyChanged;
-            Config.Current.View.AddPropertyChanged(nameof(ViewConfig.IsKeepAngle), (s, e) => RaisePropertyChanged(nameof(IsKeepAngle)));
-            Config.Current.View.AddPropertyChanged(nameof(ViewConfig.IsKeepScale), (s, e) => RaisePropertyChanged(nameof(IsKeepScale)));
-            Config.Current.View.AddPropertyChanged(nameof(ViewConfig.IsKeepFlip), (s, e) => RaisePropertyChanged(nameof(IsKeepFlip)));
+            Config.Current.View.PropertyChanged += ViewConfig_PropertyChanged;
         }
 
 
-        [PropertyRange("@ParamNavigateAngle", -180.0, 180.0, TickFrequency = 1.0)]
-        public double Angle
+        public bool IsRotateStretchEnabled
         {
-            get { return Math.Truncate(DragTransform.Current.Angle); }
-            set { DragTransform.Current.Angle = value; }
+            get => Config.Current.View.IsRotateStretchEnabled;
+            set => Config.Current.View.IsRotateStretchEnabled = value;
         }
-
-        /*
-        [PropertyMember("@ParamNavigateAutoRotate")]
-        public AutoRotateType AutoRotate
-        {
-            get => Config.Current.View.AutoRotate;
-            set => Config.Current.View.AutoRotate = value;
-        }
-
-
-        [PropertyRange("@ParamNavigateScale", -5.0, 5.0, TickFrequency = 0.01, RangeProperty = nameof(ScaleSlider))]
-        public double Scale
-        {
-            get { return Math.Truncate(DragTransform.Current.Scale * 100.0); }
-            set { DragTransform.Current.Scale = value / 100.0; }
-        }
-
-        public double ScaleSlider
-        {
-            get { return DragTransform.Current.Scale > 0.0 ? Math.Log(DragTransform.Current.Scale, 2.0) : -5.0; }
-            set { DragTransform.Current.Scale = Math.Pow(2, value); }
-        }
-
-        [PropertyMember("@ParamNavigateIsFlipHorizontal")]
-        public bool IsFlipHorizontal
-        {
-            get => DragTransform.Current.IsFlipHorizontal;
-            set => DragTransform.Current.IsFlipHorizontal = value;
-        }
-
-        [PropertyMember("@ParamNavigateIsFlipVertical")]
-        public bool IsFlipVertical
-        {
-            get => DragTransform.Current.IsFlipVertical;
-            set => DragTransform.Current.IsFlipVertical = value;
-        }
-        */
-
-        private bool _IsStretchEnabled;
-        public bool IsStretchEnabled
-        {
-            get { return _IsStretchEnabled; }
-            set
-            {
-                if (SetProperty(ref _IsStretchEnabled, value))
-                {
-                    if (_IsStretchEnabled)
-                    {
-                        Stretch();
-                    }
-                }
-            }
-        }
-
 
         public bool IsKeepAngle
         {
@@ -119,7 +62,7 @@ namespace NeeView
         }
 
 
-        private void DragTransform_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void ViewConfig_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -128,27 +71,20 @@ namespace NeeView
                     RaisePropertyChanged("");
                     break;
 
-                case nameof(DragTransform.Angle):
-                    RaisePropertyChanged(nameof(Angle));
+                case nameof(ViewConfig.IsKeepAngle):
+                    RaisePropertyChanged(nameof(IsKeepAngle));
                     break;
-
-                    /*
-                case nameof(DragTransform.Scale):
-                    RaisePropertyChanged(nameof(Scale));
-                    RaisePropertyChanged(nameof(ScaleSlider));
+                case nameof(ViewConfig.IsKeepScale):
+                    RaisePropertyChanged(nameof(IsKeepScale));
                     break;
-
-                case nameof(DragTransform.IsFlipHorizontal):
-                    RaisePropertyChanged(nameof(IsFlipHorizontal));
+                case nameof(ViewConfig.IsKeepFlip):
+                    RaisePropertyChanged(nameof(IsKeepFlip));
                     break;
-
-                case nameof(DragTransform.IsFlipVertical):
-                    RaisePropertyChanged(nameof(IsFlipVertical));
+                case nameof(ViewConfig.IsRotateStretchEnabled):
+                    RaisePropertyChanged(nameof(IsRotateStretchEnabled));
                     break;
-                    */
             }
         }
-
 
         public void RotateLeft()
         {
@@ -157,7 +93,7 @@ namespace NeeView
 
             DragTransform.Current.Angle = angle;
 
-            if (IsStretchEnabled)
+            if (IsRotateStretchEnabled)
             {
                 Stretch();
             }
@@ -170,7 +106,7 @@ namespace NeeView
 
             DragTransform.Current.Angle = angle;
 
-            if (IsStretchEnabled)
+            if (IsRotateStretchEnabled)
             {
                 Stretch();
             }
@@ -180,7 +116,7 @@ namespace NeeView
         {
             DragTransform.Current.Angle = 0.0;
 
-            if (IsStretchEnabled)
+            if (IsRotateStretchEnabled)
             {
                 Stretch();
             }

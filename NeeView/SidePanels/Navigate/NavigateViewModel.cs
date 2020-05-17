@@ -26,54 +26,20 @@ namespace NeeView
             Config.Current.View.AddPropertyChanged(nameof(ViewConfig.AutoRotate), (s, e) => RaisePropertyChanged(nameof(AutoRotate)));
             Config.Current.View.AddPropertyChanged(nameof(ViewConfig.StretchMode), (s, e) => RaisePropertyChanged(nameof(StretchMode)));
 
-            this.NavigateProfile = new PropertyDocument(_model);
-            this.NavigateProfile.SetVisualType<PropertyValue_Boolean>(PropertyVisualType.ToggleSwitch);
-
             RotateLeftCommand = new RelayCommand(_model.RotateLeft);
             RotateRightCommand = new RelayCommand(_model.RotateRight);
             RotateResetCommand = new RelayCommand(_model.RotateReset);
-
             ScaleDownCommand = new RelayCommand(_model.ScaleDown);
             ScaleUpCommand = new RelayCommand(_model.ScaleUp);
             ScaleResetCommand = new RelayCommand(_model.ScaleReset);
-
             StretchCommand = new RelayCommand(_model.Stretch);
         }
 
-        private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case null:
-                case "":
-                    RaisePropertyChanged("");
-                    break;
-
-                case nameof(NavigateModel.Angle):
-                    RaisePropertyChanged(nameof(Angle));
-                    break;
-
-                case nameof(NavigateModel.IsStretchEnabled):
-                    RaisePropertyChanged(nameof(IsStretchEnabled));
-                    break;
-                case nameof(NavigateModel.IsKeepAngle):
-                    RaisePropertyChanged(nameof(IsKeepAngle));
-                    break;
-                case nameof(NavigateModel.IsKeepScale):
-                    RaisePropertyChanged(nameof(IsKeepScale));
-                    break;
-                case nameof(NavigateModel.IsKeepFlip):
-                    RaisePropertyChanged(nameof(IsKeepScale));
-                    break;
-            }
-        }
-
-        public PropertyDocument NavigateProfile { get; set; }
 
         public double Angle
         {
-            get => _model.Angle;
-            set => _model.Angle = value;
+            get { return Math.Truncate(DragTransform.Current.Angle); }
+            set { DragTransform.Current.Angle = value; }
         }
 
         public AutoRotateType AutoRotate
@@ -120,10 +86,10 @@ namespace NeeView
         public Dictionary<PageStretchMode, string> StretchModeList { get; } = AliasNameExtensions.GetAliasNameDictionary<PageStretchMode>();
 
 
-        public bool IsStretchEnabled
+        public bool IsRotateStretchEnabled
         {
-            get { return _model.IsStretchEnabled; }
-            set { _model.IsStretchEnabled = value; }
+            get { return _model.IsRotateStretchEnabled; }
+            set { _model.IsRotateStretchEnabled = value; }
         }
 
         public bool IsKeepAngle
@@ -148,13 +114,36 @@ namespace NeeView
         public RelayCommand RotateLeftCommand { get; private set; }
         public RelayCommand RotateRightCommand { get; private set; }
         public RelayCommand RotateResetCommand { get; private set; }
-
         public RelayCommand ScaleDownCommand { get; private set; }
         public RelayCommand ScaleUpCommand { get; private set; }
         public RelayCommand ScaleResetCommand { get; private set; }
-
         public RelayCommand StretchCommand { get; private set; }
 
+
+
+        private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case null:
+                case "":
+                    RaisePropertyChanged("");
+                    break;
+
+                case nameof(NavigateModel.IsRotateStretchEnabled):
+                    RaisePropertyChanged(nameof(IsRotateStretchEnabled));
+                    break;
+                case nameof(NavigateModel.IsKeepAngle):
+                    RaisePropertyChanged(nameof(IsKeepAngle));
+                    break;
+                case nameof(NavigateModel.IsKeepScale):
+                    RaisePropertyChanged(nameof(IsKeepScale));
+                    break;
+                case nameof(NavigateModel.IsKeepFlip):
+                    RaisePropertyChanged(nameof(IsKeepScale));
+                    break;
+            }
+        }
 
         private void DragTransform_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -165,12 +154,10 @@ namespace NeeView
                     RaisePropertyChanged("");
                     break;
 
-#if false
                 case nameof(DragTransform.Angle):
                     RaisePropertyChanged(nameof(Angle));
                     break;
 
-#endif
                 case nameof(DragTransform.Scale):
                     RaisePropertyChanged(nameof(Scale));
                     RaisePropertyChanged(nameof(ScaleLog));

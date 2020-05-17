@@ -5481,11 +5481,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="NavigateName" xml:space="preserve">
     <value>ナビゲーター</value>
   </data>
-  <data name="ParamNavigateAngle" xml:space="preserve">
+  <data name="NavigateAngle" xml:space="preserve">
     <value>回転</value>
   </data>
-  <data name="ParamNavigateScale" xml:space="preserve">
+  <data name="NavigateScale" xml:space="preserve">
     <value>スケール</value>
+  </data>
+  <data name="NavigateFlip" xml:space="preserve">
+    <value>反転</value>
   </data>
   <data name="ParamNavigateIsFlipHorizontal" xml:space="preserve">
     <value>左右反転</value>
@@ -5519,5 +5522,47 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="CommandToggleVisibleNavigatorOn" xml:space="preserve">
     <value>ナビゲーターを表示する</value>
+  </data>
+  <data name="ParamViewIsRotateStretchEnabled" xml:space="preserve">
+    <value>ナビゲーターの回転ボタンにストレッチを適用する</value>
+  </data>
+  <data name="NavigateRotateLeft" xml:space="preserve">
+    <value>左回転</value>
+  </data>
+  <data name="NavigateRotateRight" xml:space="preserve">
+    <value>右回転</value>
+  </data>
+  <data name="NavigateRotateRerset" xml:space="preserve">
+    <value>角度をリセット</value>
+  </data>
+  <data name="NavigateRotateStretch" xml:space="preserve">
+    <value>回転ボタンにストレッチを適用</value>
+  </data>
+  <data name="NavigateIsKeepAngle" xml:space="preserve">
+    <value>角度を維持</value>
+  </data>
+  <data name="NavigateScaleDown" xml:space="preserve">
+    <value>縮小</value>
+  </data>
+  <data name="NavigateScaleUp" xml:space="preserve">
+    <value>拡大</value>
+  </data>
+  <data name="NavigateScaleReset" xml:space="preserve">
+    <value>スケールをリセット</value>
+  </data>
+  <data name="NavigateStretch" xml:space="preserve">
+    <value>ストレッチ</value>
+  </data>
+  <data name="NavigateIsKeepScale" xml:space="preserve">
+    <value>スケールを維持</value>
+  </data>
+  <data name="NavigateFlipHorizontal" xml:space="preserve">
+    <value>左右反転</value>
+  </data>
+  <data name="NavigateFlipVertical" xml:space="preserve">
+    <value>上下反転</value>
+  </data>
+  <data name="NavigateIsKeepFlip" xml:space="preserve">
+    <value>反転を維持</value>
   </data>
 </root>

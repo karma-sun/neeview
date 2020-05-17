@@ -5565,4 +5565,13 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="NavigateIsKeepFlip" xml:space="preserve">
     <value>反転を維持</value>
   </data>
+  <data name="NavigateStretchScale" xml:space="preserve">
+    <value>基底スケール</value>
+  </data>
+  <data name="NavitageStretchAllowEnlarge" xml:space="preserve">
+    <value>拡大を許可</value>
+  </data>
+  <data name="NavigateStretchAllowReduce" xml:space="preserve">
+    <value>縮小を許可</value>
+  </data>
 </root>

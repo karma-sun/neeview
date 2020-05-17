@@ -11,7 +11,6 @@ namespace NeeView
     /// </summary>
     public class ImageEffectViewModel : BindableBase
     {
-        //
         public ImageEffectViewModel(ImageEffect model, ImageFilter imageFilter)
         {
             _model = model;
@@ -24,9 +23,6 @@ namespace NeeView
 
             this.TrimProfile = new PropertyDocument(Config.Current.ImageTrim);
             this.TrimProfile.SetVisualType<PropertyValue_Boolean>(PropertyVisualType.ToggleSwitch);
-
-            this.BaseScaleProfile = new PropertyDocument();
-            this.BaseScaleProfile.AddProperty(Config.Current.View, nameof(ViewConfig.BaseScale));
 
             this.GridLineProfile = new PropertyDocument(Config.Current.ImageGrid);
             this.GridLineProfile.SetVisualType<PropertyValue_Boolean>(PropertyVisualType.ToggleSwitch);
@@ -65,8 +61,6 @@ namespace NeeView
         public PropertyDocument CustomSizeProfile { get; set; }
 
         public PropertyDocument TrimProfile { get; set; }
-
-        public PropertyDocument BaseScaleProfile { get; set; }
 
         public PropertyDocument GridLineProfile { get; set; }
 

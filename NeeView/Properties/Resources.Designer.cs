@@ -8829,6 +8829,33 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Allow reduce に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NavigateStretchAllowReduce {
+            get {
+                return ResourceManager.GetString("NavigateStretchAllowReduce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Base scale に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NavigateStretchScale {
+            get {
+                return ResourceManager.GetString("NavigateStretchScale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Allow enlarge に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NavitageStretchAllowEnlarge {
+            get {
+                return ResourceManager.GetString("NavitageStretchAllowEnlarge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   No next book に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string NotifyBookNextFailed {

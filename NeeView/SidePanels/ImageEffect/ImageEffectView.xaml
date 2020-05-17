@@ -122,18 +122,6 @@
                 <Separator />
 
                 <DockPanel Margin="0,5">
-                    <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding Source={x:Static local:Config.Current}, Path=View.IsBaseScaleEnabled}"
-                            VerticalAlignment="Center" />
-                    <TextBlock Text="{x:Static properties:Resources.EffectBaseScale}" VerticalAlignment="Center" />
-                </DockPanel>
-
-                <StackPanel Margin="10,0,0,5" Visibility="{Binding Source={x:Static local:Config.Current}, Path=View.IsBaseScaleEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <nvp:PropertyInspector Document="{Binding BaseScaleProfile}" IsResetButtonVisible="False" />
-                </StackPanel>
-
-                <Separator />
-
-                <DockPanel Margin="0,5">
                     <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding Source={x:Static local:Config.Current}, Path=ImageDotKeep.IsEnabled}" VerticalAlignment="Center"/>
                     <TextBlock Text="{x:Static properties:Resources.EffectKeepDot}" VerticalAlignment="Center" />
                 </DockPanel>

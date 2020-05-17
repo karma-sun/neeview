@@ -5565,4 +5565,13 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="NavigateIsKeepFlip" xml:space="preserve">
     <value>Keep flip</value>
   </data>
+  <data name="NavigateStretchScale" xml:space="preserve">
+    <value>Base scale</value>
+  </data>
+  <data name="NavitageStretchAllowEnlarge" xml:space="preserve">
+    <value>Allow enlarge</value>
+  </data>
+  <data name="NavigateStretchAllowReduce" xml:space="preserve">
+    <value>Allow reduce</value>
+  </data>
 </root>

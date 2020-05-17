@@ -23,8 +23,7 @@ namespace NeeView
 
             DragTransform.Current.PropertyChanged += DragTransform_PropertyChanged;
 
-            Config.Current.View.AddPropertyChanged(nameof(ViewConfig.AutoRotate), (s, e) => RaisePropertyChanged(nameof(AutoRotate)));
-            Config.Current.View.AddPropertyChanged(nameof(ViewConfig.StretchMode), (s, e) => RaisePropertyChanged(nameof(StretchMode)));
+            Config.Current.View.PropertyChanged += ViewConfig_PropertyChanged;
 
             RotateLeftCommand = new RelayCommand(_model.RotateLeft);
             RotateRightCommand = new RelayCommand(_model.RotateRight);
@@ -53,7 +52,7 @@ namespace NeeView
 
         public double Scale
         {
-            get { return Math.Truncate(DragTransform.Current.Scale * 100.0); }
+            get { return DragTransform.Current.Scale * 100.0; }
             set { DragTransform.Current.Scale = value / 100.0; }
         }
 
@@ -110,6 +109,31 @@ namespace NeeView
             set => _model.IsKeepFlip = value;
         }
 
+        public bool AllowEnlarge
+        {
+            get => Config.Current.View.AllowEnlarge;
+            set => Config.Current.View.AllowEnlarge = value;
+        }
+
+        public bool AllowReduce
+        {
+            get => Config.Current.View.AllowReduce;
+            set => Config.Current.View.AllowReduce = value;
+        }
+
+        public bool IsBaseScaleEnabled
+        {
+            get => Config.Current.View.IsBaseScaleEnabled;
+            set => Config.Current.View.IsBaseScaleEnabled = value;
+        }
+
+        public double BaseScale
+        {
+            get => Config.Current.View.BaseScale * 100.0;
+            set => Config.Current.View.BaseScale = value / 100.0;
+        }
+
+
 
         public RelayCommand RotateLeftCommand { get; private set; }
         public RelayCommand RotateRightCommand { get; private set; }
@@ -141,6 +165,41 @@ namespace NeeView
                     break;
                 case nameof(NavigateModel.IsKeepFlip):
                     RaisePropertyChanged(nameof(IsKeepScale));
+                    break;
+            }
+        }
+
+        private void ViewConfig_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case null:
+                case "":
+                    RaisePropertyChanged("");
+                    break;
+
+                case nameof(ViewConfig.AutoRotate):
+                    RaisePropertyChanged(nameof(AutoRotate));
+                    break;
+
+                case nameof(ViewConfig.StretchMode):
+                    RaisePropertyChanged(nameof(StretchMode));
+                    break;
+
+                case nameof(ViewConfig.AllowEnlarge):
+                    RaisePropertyChanged(nameof(AllowEnlarge));
+                    break;
+
+                case nameof(ViewConfig.AllowReduce):
+                    RaisePropertyChanged(nameof(AllowReduce));
+                    break;
+
+                case nameof(ViewConfig.IsBaseScaleEnabled):
+                    RaisePropertyChanged(nameof(IsBaseScaleEnabled));
+                    break;
+
+                case nameof(ViewConfig.BaseScale):
+                    RaisePropertyChanged(nameof(BaseScale));
                     break;
             }
         }

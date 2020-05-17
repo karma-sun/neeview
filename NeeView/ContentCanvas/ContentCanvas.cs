@@ -18,8 +18,30 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
+
+
 namespace NeeView
 {
+    /// <summary>
+    /// 回転の初期化モード
+    /// </summary>
+    public enum AngleResetMode
+    {
+        /// <summary>
+        /// 現在の角度を維持
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// 通常。AutoRotateするかを判定し角度を求める
+        /// </summary>
+        Normal,
+
+        /// <summary>
+        /// AutoRotateの角度を強制適用する
+        /// </summary>
+        ForceAutoRotate,
+    }
 
     // 自動回転タイプ
     public enum AutoRotateType
@@ -133,18 +155,13 @@ namespace NeeView
                     case nameof(ViewConfig.AllowReduce):
                     case nameof(ViewConfig.IsBaseScaleEnabled):
                     case nameof(ViewConfig.BaseScale):
-                        UpdateContentSize();
-                        ContentRebuild.Current.Request();
-                        ResetTransformRaw(true, false, false, 0.0);
+                        ResetContentSize();
                         break;
 
                     case nameof(ViewConfig.AutoRotate):
-                    case nameof(ViewConfig.ForceAutoRotate):
                         RaisePropertyChanged(nameof(IsAutoRotateLeft));
                         RaisePropertyChanged(nameof(IsAutoRotateRight));
-                        UpdateContentSize(GetAutoRotateAngle());
-                        ContentRebuild.Current.Request();
-                        ResetTransform(true);
+                        ResetContentSizeAndTransform();
                         break;
                 }
             };
@@ -287,6 +304,38 @@ namespace NeeView
 
         #region Methods
 
+        /// <summary>
+        /// 角度設定モードを取得
+        /// </summary>
+        /// <param name="precedeAutoRotate">AutoRotate設定を優先する</param>
+        /// <returns></returns>
+        private AngleResetMode GetAngleResetMode(bool precedeAutoRotate)
+        {
+            if (Config.Current.View.IsKeepAngle)
+            {
+                if (precedeAutoRotate)
+                {
+                    if (Config.Current.View.AutoRotate != AutoRotateType.None)
+                    {
+                        return AngleResetMode.ForceAutoRotate;
+                    }
+                    else
+                    {
+                        return AngleResetMode.Normal;
+                    }
+                }
+                else
+                {
+                    return AngleResetMode.None;
+                }
+            }
+            else
+            {
+                return AngleResetMode.Normal;
+            }
+        }
+
+
         // トランスフォーム変更イベント処理
         private void Transform_TransformChanged(object sender, TransformEventArgs e)
         {
@@ -353,21 +402,31 @@ namespace NeeView
                 }
             }
 
-            // コンテンツサイズ更新
-            UpdateContentSize(GetAutoRotateAngle());
-
             // ルーペ解除
             if (Config.Current.Loupe.IsResetByPageChanged)
             {
                 MouseInput.Current.IsLoupeMode = false;
             }
 
-            // リザーブコンテンツでなければ座標初期化
-            bool isReserveContent = e?.ViewPageCollection?.Collection?.Any(x => x.GetContentType() == ViewContentType.Reserve) ?? false;
-            if (!isReserveContent)
+            if (e.IsFirst)
             {
-                ResetTransform(false, e != null ? e.ViewPageCollection.Range.Direction : 0, NextViewOrigin);
-                NextViewOrigin = DragViewOrigin.None;
+                // コンテンツサイズ更新
+                // ブック最初のページであればビューも初期化
+                ResetContentSizeAndTransform();
+            }
+            else
+            {
+                // コンテンツサイズ更新
+                UpdateContentSize(GetAutoRotateAngle(GetAngleResetMode(e.IsFirst)));
+
+                // リザーブコンテンツでなければ座標初期化
+                // HACK: ルーペ時の挙動があやしい
+                bool isReserveContent = e?.ViewPageCollection?.Collection?.Any(x => x.GetContentType() == ViewContentType.Reserve) ?? false;
+                if (!isReserveContent)
+                {
+                    ResetTransform(false, e != null ? e.ViewPageCollection.Range.Direction : 0, NextViewOrigin, GetAngleResetMode(e.IsFirst));
+                    NextViewOrigin = DragViewOrigin.None;
+                }
             }
 
             ContentChanged?.Invoke(this, null);
@@ -413,7 +472,7 @@ namespace NeeView
             // 表示サイズ計算
             var result = MainContent is MediaViewContent
                 ? _contentSizeCalcurator.GetFixedContentSize(sizes, 0.0)
-                : _contentSizeCalcurator.GetFixedContentSize(sizes);
+                : _contentSizeCalcurator.GetFixedContentSize(sizes, GetAngleResetMode(false));
 
             // スケール維持？
             var scale = Config.Current.View.IsKeepScale ? _dragTransform.Scale : 1.0;
@@ -458,15 +517,37 @@ namespace NeeView
             }
         }
 
-        //
-        public void ResetTransform(bool isForce)
+        /// <summary>
+        /// コンテンツサイズを初期化
+        /// </summary>
+        public void ResetContentSize()
         {
-            ResetTransform(isForce, 0, DragViewOrigin.None);
+            UpdateContentSize();
+            ContentRebuild.Current.Request();
+            ResetTransformRaw(true, false, false, 0.0);
+        }
+
+        /// <summary>
+        /// コンテンツサイズと座標系を初期化
+        /// </summary>
+        public void ResetContentSizeAndTransform()
+        {
+            var angleResetMode = GetAngleResetMode(true);
+          
+            UpdateContentSize(GetAutoRotateAngle(angleResetMode));
+            ContentRebuild.Current.Request();
+            ResetTransform(true, angleResetMode);
+        }
+
+        // TODO: 関数の目的が中途半端なので整備する
+        public void ResetTransform(bool isForce, AngleResetMode angleResetMode)
+        {
+            ResetTransform(isForce, 0, DragViewOrigin.None, angleResetMode);
         }
 
         // 座標系初期化
         // TODO: ルーペ操作との関係
-        public void ResetTransform(bool isForce, int pageDirection, DragViewOrigin viewOrigin)
+        public void ResetTransform(bool isForce, int pageDirection, DragViewOrigin viewOrigin, AngleResetMode angleResetMode)
         {
             // ルーペでない場合は初期化
             if (!MouseInput.Current.IsLoupeMode)
@@ -474,11 +555,19 @@ namespace NeeView
                 _dragTransformControl.SetMouseDragSetting(pageDirection, viewOrigin, BookSettingPresenter.Current.LatestSetting.BookReadOrder);
 
                 // リセット
-                var angle = (!Config.Current.View.IsKeepAngle && Config.Current.View.AutoRotate != AutoRotateType.None) ? GetAutoRotateAngle() : double.NaN;
+                var angle = (angleResetMode != AngleResetMode.None) ? GetAutoRotateAngle(angleResetMode) : double.NaN;
                 _dragTransformControl.Reset(isForce, angle);
             }
         }
 
+        /// <summary>
+        /// 座標系の初期化。
+        /// フラグに関係なく移動は初期化される
+        /// </summary>
+        /// <param name="isResetScale">スケールを初期化する</param>
+        /// <param name="isResetAngle">角度をangleで初期化する</param>
+        /// <param name="isResetFlip">反転を初期化する</param>
+        /// <param name="angle">角度初期化の値</param>
         public void ResetTransformRaw(bool isResetScale, bool isResetAngle, bool isResetFlip, double angle)
         {
             _dragTransformControl.Reset(isResetScale, isResetAngle, isResetFlip, angle);
@@ -488,9 +577,9 @@ namespace NeeView
         /// ページ開始時の回転
         /// </summary>
         /// <returns></returns>
-        public double GetAutoRotateAngle()
+        public double GetAutoRotateAngle(AngleResetMode angleResetMode)
         {
-            if (Config.Current.View.IsKeepAngle)
+            if (angleResetMode == AngleResetMode.None)
             {
                 return DragTransform.Current.Angle;
             }
@@ -500,7 +589,7 @@ namespace NeeView
             }
             else
             {
-                return _contentSizeCalcurator.GetAutoRotateAngle(GetContentSizeList());
+                return _contentSizeCalcurator.GetAutoRotateAngle(GetContentSizeList(), angleResetMode);
             }
         }
 

@@ -12,7 +12,7 @@
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            ContentCanvas.Current.ResetTransform(true);
+            ContentCanvas.Current.ResetContentSizeAndTransform();
         }
     }
 }

@@ -142,16 +142,6 @@ namespace NeeView
             get { return _autoRotate; }
             set { SetProperty(ref _autoRotate, value); }
         }
-
-        // 自動回転の強制
-        [PropertyMember("@ParmViewForceAutoRotate")]
-        [Obsolete]
-        public bool ForceAutoRotate
-        {
-            get { return _forceAutoRotate; }
-            set { SetProperty(ref _forceAutoRotate, value); }
-        }
-
     }
 
 }

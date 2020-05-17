@@ -14,6 +14,7 @@ namespace NeeView
         public string BookAddress { get; set; }
         public ViewContentSourceCollection ViewPageCollection { get; set; }
         public bool IsForceResize { get; set; }
+        public bool IsFirst { get; set; }
         public CancellationToken CancellationToken { get; set; }
     }
 

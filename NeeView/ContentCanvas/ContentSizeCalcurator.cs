@@ -59,9 +59,9 @@ namespace NeeView
         /// </summary>
         /// <param name="source">元のコンテンツサイズ</param>
         /// <returns></returns>
-        public FixedContentSize GetFixedContentSize(List<Size> source)
+        public FixedContentSize GetFixedContentSize(List<Size> source, AngleResetMode angleResetMode)
         {
-            return GetFixedContentSize(source, GetAutoRotateAngle(source));
+            return GetFixedContentSize(source, GetAutoRotateAngle(source, angleResetMode));
         }
 
         /// <summary>
@@ -92,23 +92,37 @@ namespace NeeView
         /// </summary>
         /// <param name="source">元のコンテンツサイズ</param>
         /// <returns></returns>
-        public double GetAutoRotateAngle(List<Size> source)
+        public double GetAutoRotateAngle(List<Size> source, AngleResetMode angleResetMode)
         {
-            return this.IsAutoRotateCondition(source) ? AutoRotateType.ToAngle() : 0.0;
+            return this.IsAutoRotateCondition(source, angleResetMode) ? this.AutoRotateType.ToAngle() : 0.0;
         }
 
-        //
-        private bool IsAutoRotateCondition(List<Size> source)
+        // TODO: GetAutoRotateAngle と一体化できないか
+        // TODO: this.AutoRotateType は冗長ではなかろうか
+        private bool IsAutoRotateCondition(List<Size> source, AngleResetMode angleResetMode)
         {
-            if (AutoRotateType == AutoRotateType.None) return false;
-            if (Config.Current.View.IsKeepAngle) return false;
+            switch (angleResetMode)
+            {
+                case AngleResetMode.None:
+                    return false;
 
-            if (Config.Current.View.ForceAutoRotate) return true;
+                case AngleResetMode.ForceAutoRotate:
+                    return true;
 
-            var margin = 0.1;
-            var viewRatio = GetViewAreaAspectRatio();
-            var contentRatio = GetContentAspectRatio(source);
-            return viewRatio >= 1.0 ? contentRatio < (1.0 - margin) : contentRatio > (1.0 + margin);
+                default:
+                case AngleResetMode.Normal:
+                    if (this.AutoRotateType == AutoRotateType.None)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        var margin = 0.1;
+                        var viewRatio = GetViewAreaAspectRatio();
+                        var contentRatio = GetContentAspectRatio(source);
+                        return viewRatio >= 1.0 ? contentRatio < (1.0 - margin) : contentRatio > (1.0 + margin);
+                    }
+            }
         }
 
         //

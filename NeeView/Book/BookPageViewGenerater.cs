@@ -29,11 +29,13 @@ namespace NeeView
         private SemaphoreSlim _semaphore;
         private bool _isBusy = true;
         private ManualResetEventSlim _visibleEvent = new ManualResetEventSlim();
+        private BookPageCounter _viewCounter;
 
-        public BookPageViewGenerater(BookSource book, BookPageViewSetting setting, object sender, PageRange viewPageRange, List<PageRange> aheadPageRanges)
+        public BookPageViewGenerater(BookSource book, BookPageViewSetting setting, object sender, PageRange viewPageRange, List<PageRange> aheadPageRanges, BookPageCounter viewCounter)
         {
             _book = book;
             _setting = setting;
+            _viewCounter = viewCounter;
 
             _sender = sender;
             _viewRange = viewPageRange;
@@ -152,13 +154,11 @@ namespace NeeView
                     token.ThrowIfCancellationRequested();
                     NextContentsChanged?.Invoke(_sender, new ViewContentSourceCollectionChangedEventArgs(_book.Address, collection) { IsForceResize = (_contentCount == 0), CancellationToken = token });
 
-                    Interlocked.Increment(ref _contentCount);
-
-                    if (_contentCount == 1)
+                    if (Interlocked.Increment(ref _contentCount) == 1)
                     {
                         ////Debug.WriteLine($"UpdateNextContentsInner: ViewContentChanged");
                         token.ThrowIfCancellationRequested();
-                        UpdateViewContentsInner(_sender, collection, token);
+                        UpdateViewContentsInner(_sender, collection, _viewCounter.Increment() == 1, token);
                     }
                 }
             }
@@ -178,15 +178,20 @@ namespace NeeView
             }
 
             ////Debug.WriteLine($"UpdateViewContents: ViewContentChanged");
-            UpdateViewContentsInner(_sender, collection, token);
+            UpdateViewContentsInner(_sender, collection, false, token);
         }
 
-        private void UpdateViewContentsInner(object sender, ViewContentSourceCollection collection, CancellationToken token)
+        private void UpdateViewContentsInner(object sender, ViewContentSourceCollection collection, bool isFirst, CancellationToken token)
         {
             ////var source = collection.Collection[0];
             ////Debug.WriteLine($"UpdateViewContentsInner: Name={source.Page.EntryName}, Type={source.GetContentType()}");
 
-            var args = new ViewContentSourceCollectionChangedEventArgs(_book.Address, collection) { IsForceResize = true, CancellationToken = token };
+            var args = new ViewContentSourceCollectionChangedEventArgs(_book.Address, collection)
+            {
+                IsForceResize = true,
+                IsFirst = isFirst,
+                CancellationToken = token
+            };
             ViewContentsChanged?.Invoke(sender, args);
 
             _visibleEvent.Set();

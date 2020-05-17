@@ -35,6 +35,9 @@ namespace NeeView
         // 処理中フラグ
         private bool _isBusy;
 
+        // ブックのビュー更新カウンター
+        private BookPageCounter _viewCounter = new BookPageCounter();
+
 
         public BookPageViewer(BookSource book, BookMemoryService memoryService, BookPageViewSetting setting)
         {
@@ -277,7 +280,7 @@ namespace NeeView
 
 
             _contentGenerater?.Dispose();
-            _contentGenerater = new BookPageViewGenerater(_book, _setting, sender, viewPageRange, aheadPageRange);
+            _contentGenerater = new BookPageViewGenerater(_book, _setting, sender, viewPageRange, aheadPageRange, _viewCounter);
             _contentGenerater.ViewContentsChanged += (s, e) =>
             {
                 Interlocked.Exchange(ref _viewPageCollection, e.ViewPageCollection);

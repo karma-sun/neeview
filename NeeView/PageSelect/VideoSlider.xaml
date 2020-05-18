@@ -8,22 +8,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
-    <Grid x:Name="Root" Background="Transparent"
+    <Grid x:Name="Root" Background="Transparent" UseLayoutRounding="True"
           SizeChanged="Root_SizeChanged"
           MouseLeftButtonDown="Root_MouseLeftButtonDown">
 
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="LeftTracColumn" Width="50"/>
-                <ColumnDefinition x:Name="ThumbColumn" Width="25"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-
-            <Rectangle x:Name="LeftTrac" Grid.Column="0" Height="3" Fill="SteelBlue" Margin="12.5,0,-1,0" SnapsToDevicePixels="True"/>
-            <Rectangle x:Name="RightTrack" Grid.Column="2" Height="3" Fill="#8888" Margin="-1,0,12.5,0" SnapsToDevicePixels="True" />
-        </Grid>
-        
         <Canvas x:Name="RootCanvas" VerticalAlignment="Center" Height="25">
+            <Rectangle x:Name="LeftTrack" Canvas.Top="12" Canvas.Left="12.5" Width="40" Height="3" Fill="#8888" />
+            <Rectangle x:Name="RightTrack" Canvas.Top="12" Canvas.Left="75" Width="100" Height="3" Fill="#8888" />
             <Thumb x:Name="Thumb" Canvas.Left="50" Canvas.Top="0" Height="25"  Width="25" Background="Transparent" Foreground="SteelBlue"
                DragCompleted="Thumb_DragCompleted"
                DragStarted="Thumb_DragStarted"

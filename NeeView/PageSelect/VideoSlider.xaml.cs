@@ -144,6 +144,25 @@ namespace NeeView
         }
 
 
+        public bool IsDirectionEnabled
+        {
+            get { return (bool)GetValue(IsDirectionEnabledProperty); }
+            set { SetValue(IsDirectionEnabledProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsDirectionEnabled.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsDirectionEnabledProperty =
+            DependencyProperty.Register("IsDirectionEnabled", typeof(bool), typeof(VideoSlider), new PropertyMetadata(true, OnIsDirectionEnabledChanged));
+
+        private static void OnIsDirectionEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is VideoSlider control)
+            {
+                control.UpdateSliderLayout();
+            }
+        }
+
+
         public double ThumbSize
         {
             get { return (double)GetValue(ThumbSizeProperty); }
@@ -207,6 +226,8 @@ namespace NeeView
         public VideoSlider()
         {
             InitializeComponent();
+
+            UpdateSliderLayout();
         }
 
         #endregion
@@ -377,15 +398,24 @@ namespace NeeView
         {
             double min = 0.0;
             double max = this.Root.ActualWidth - this.ThumbSize;
+            double thumbHalf = Math.Truncate(this.ThumbSize * 0.5);
 
             var x = Maximum > Minimum
                 ? (GetReversedValue(value) - Minimum) * (max - min) / (Maximum - Minimum) + min
                 : min;
 
-            x = Math.Max(x, 0);
-
+            x = Math.Max(Math.Truncate(x), 0);
             Canvas.SetLeft(this.Thumb, x);
-            this.LeftTracColumn.Width = new GridLength(x);
+
+            var x0 = thumbHalf;
+            var w0 = Math.Max(x - x0 + 1.0, 0.0);
+            Canvas.SetLeft(this.LeftTrack, x0);
+            this.LeftTrack.Width = w0;
+
+            var x1 = x + this.ThumbSize - 1.0;
+            var w1 = Math.Max(this.Root.ActualWidth - x1 - thumbHalf, 0.0);
+            Canvas.SetLeft(this.RightTrack, x1);
+            this.RightTrack.Width = w1;
         }
 
         private double ClampPosition(double x)
@@ -413,17 +443,20 @@ namespace NeeView
         // 表示の更新
         private void UpdateSliderLayout()
         {
-            this.LeftTrac.Fill = this.IsDirectionReversed ? _grayTruchBrush : this.SliderBrush;
-            this.RightTrack.Fill = this.IsDirectionReversed ? this.SliderBrush : _grayTruchBrush;
-
-            this.LeftTrac.Margin = new Thickness(this.ThumbSize * 0.5, 0, -1, 0);
-            this.RightTrack.Margin = new Thickness(-1, 0, this.ThumbSize * 0.5, 0);
+            var thumbHalf = Math.Truncate(this.ThumbSize * 0.5);
 
             this.Thumb.Foreground = this.SliderBrush;
             this.Thumb.Width = this.ThumbSize;
             this.Thumb.Height = this.ThumbSize;
-            this.ThumbColumn.Width = new GridLength(this.ThumbSize);
             this.RootCanvas.Height = this.ThumbSize;
+
+            Canvas.SetTop(this.LeftTrack, thumbHalf - 1.0);
+            this.LeftTrack.Height = 3.0;
+            this.LeftTrack.Fill = IsDirectionEnabled ? this.IsDirectionReversed ? _grayTruchBrush : this.SliderBrush : _grayTruchBrush;
+
+            Canvas.SetTop(this.RightTrack, thumbHalf - 1.0);
+            this.RightTrack.Height = 3.0;
+            this.RightTrack.Fill = IsDirectionEnabled ? this.IsDirectionReversed ? this.SliderBrush : _grayTruchBrush : _grayTruchBrush;
 
             UpdateThumbPosition();
         }

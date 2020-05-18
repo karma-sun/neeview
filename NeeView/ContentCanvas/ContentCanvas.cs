@@ -405,7 +405,7 @@ namespace NeeView
                 MouseInput.Current.IsLoupeMode = false;
             }
 
-            if (e.IsFirst)
+            if (e == null || e.IsFirst)
             {
                 // コンテンツサイズ更新
                 // ブック最初のページであればビューも初期化

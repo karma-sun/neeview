@@ -13,11 +13,11 @@ namespace NeeView
         private int _divY = 8;
         private bool _isSquare;
 
-        [PropertyMember("@ParamImageGridIsEnabled")]
+        [PropertyMember("@ParamImageGridIsEnabled", IsVisible = false)]
         public bool IsEnabled
         {
             get { return _isEnabled; }
-            set { SetProperty(ref _isEnabled, value);  }
+            set { SetProperty(ref _isEnabled, value); }
         }
 
         [PropertyMember("@ParamGridLineColor"), DefaultValue(typeof(Color), "#80808080")]

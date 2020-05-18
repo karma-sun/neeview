@@ -16,12 +16,12 @@ namespace NeeView
 
         public override Binding CreateIsCheckedBinding()
         {
-            return new Binding(nameof(ViewConfig.AllowReduce)) { Source = Config.Current.View };
+            return new Binding(nameof(ViewConfig.AllowStretchScaleDown)) { Source = Config.Current.View };
         }
 
         public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
         {
-            return this.Text + (Config.Current.View.AllowReduce ? " OFF" : "");
+            return this.Text + (Config.Current.View.AllowStretchScaleDown ? " OFF" : "");
         }
 
         public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)
@@ -34,11 +34,11 @@ namespace NeeView
         {
             if (args.Length > 0)
             {
-                Config.Current.View.AllowReduce = Convert.ToBoolean(args[0]);
+                Config.Current.View.AllowStretchScaleDown = Convert.ToBoolean(args[0]);
             }
             else
             {
-                Config.Current.View.AllowReduce = !Config.Current.View.AllowReduce;
+                Config.Current.View.AllowStretchScaleDown = !Config.Current.View.AllowStretchScaleDown;
             }
         }
     }

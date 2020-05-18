@@ -7,8 +7,8 @@ namespace NeeView
     public class ViewConfig : BindableBaseFull
     {
         private PageStretchMode _stretchMode = PageStretchMode.Uniform;
-        private bool _allowEnlarge = true;
-        private bool _allowReduce = true;
+        private bool _allowStretchScaleUp = true;
+        private bool _allowStretchScaleDown = true;
         private AutoRotateType _autoRotate;
         private bool _isLimitMove = true;
         private DragControlCenter _rotateCenter;
@@ -21,7 +21,7 @@ namespace NeeView
         private double _angleFrequency = 0;
         private bool _isBaseScaleEnabled;
         private double _baseScale = 1.0;
-        private bool _isRotateStretchEnabled;
+        private bool _isRotateStretchEnabled = true;
 
 
         // 回転の中心
@@ -106,19 +106,19 @@ namespace NeeView
         }
 
         // スケールモード・拡大許可
-        [PropertyMember("@ParamViewAllowEnlarge")]
-        public bool AllowEnlarge
+        [PropertyMember("@ParamViewAllowStretchScaleUp")]
+        public bool AllowStretchScaleUp
         {
-            get { return _allowEnlarge; }
-            set { SetProperty(ref _allowEnlarge, value); }
+            get { return _allowStretchScaleUp; }
+            set { SetProperty(ref _allowStretchScaleUp, value); }
         }
 
         // スケールモード・縮小許可
-        [PropertyMember("@ParamViewAllowReduce")]
-        public bool AllowReduce
+        [PropertyMember("@ParamViewAllowStretchScaleDown")]
+        public bool AllowStretchScaleDown
         {
-            get { return _allowReduce; }
-            set { SetProperty(ref _allowReduce, value); }
+            get { return _allowStretchScaleDown; }
+            set { SetProperty(ref _allowStretchScaleDown, value); }
         }
 
         // 基底スケール有効
@@ -134,7 +134,7 @@ namespace NeeView
         public double BaseScale
         {
             get { return _baseScale; }
-            set { SetProperty(ref _baseScale, value); }
+            set { SetProperty(ref _baseScale, Math.Max(value, 0.0)); }
         }
 
         // 自動回転左/右

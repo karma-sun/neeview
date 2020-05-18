@@ -3958,7 +3958,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Allow enlarge に類似しているローカライズされた文字列を検索します。
+        ///   Allow stretch scale up に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleStretchAllowEnlarge {
             get {
@@ -3967,7 +3967,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Allow enlarge on stretch. に類似しているローカライズされた文字列を検索します。
+        ///   Allow scale up on stretch. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleStretchAllowEnlargeNote {
             get {
@@ -3976,7 +3976,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Allow reduce に類似しているローカライズされた文字列を検索します。
+        ///   Allow stretch scale down に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleStretchAllowReduce {
             get {
@@ -3985,7 +3985,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Allow reduce on stretch. に類似しているローカライズされた文字列を検索します。
+        ///   Allow scale down on stretch. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleStretchAllowReduceNote {
             get {
@@ -8829,11 +8829,11 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Allow reduce に類似しているローカライズされた文字列を検索します。
+        ///   Allow stretch scale down に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string NavigateStretchAllowReduce {
+        public static string NavigateStretchAllowScaleDown {
             get {
-                return ResourceManager.GetString("NavigateStretchAllowReduce", resourceCulture);
+                return ResourceManager.GetString("NavigateStretchAllowScaleDown", resourceCulture);
             }
         }
         
@@ -8847,11 +8847,11 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Allow enlarge に類似しているローカライズされた文字列を検索します。
+        ///   Allow stretch scale up に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string NavitageStretchAllowEnlarge {
+        public static string NavitageStretchAllowScaleUp {
             get {
-                return ResourceManager.GetString("NavitageStretchAllowEnlarge", resourceCulture);
+                return ResourceManager.GetString("NavitageStretchAllowScaleUp", resourceCulture);
             }
         }
         
@@ -13927,20 +13927,20 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Allow enlarge by stretching に類似しているローカライズされた文字列を検索します。
+        ///   Allow scale down by stretching に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ParamViewAllowEnlarge {
+        public static string ParamViewAllowStretchScaleDown {
             get {
-                return ResourceManager.GetString("ParamViewAllowEnlarge", resourceCulture);
+                return ResourceManager.GetString("ParamViewAllowStretchScaleDown", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Allow reduce by stretching に類似しているローカライズされた文字列を検索します。
+        ///   Allow scale up by stretching に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ParamViewAllowReduce {
+        public static string ParamViewAllowStretchScaleUp {
             get {
-                return ResourceManager.GetString("ParamViewAllowReduce", resourceCulture);
+                return ResourceManager.GetString("ParamViewAllowStretchScaleUp", resourceCulture);
             }
         }
         

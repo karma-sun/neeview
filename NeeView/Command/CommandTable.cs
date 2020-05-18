@@ -130,8 +130,8 @@ namespace NeeView
                 new SetStretchModeUniformToSizeCommand("SetStretchModeUniformToSize"),
                 new SetStretchModeUniformToVerticalCommand("SetStretchModeUniformToVertical"),
                 new SetStretchModeUniformToHorizontalCommand("SetStretchModeUniformToHorizontal"),
-                new ToggleStretchAllowEnlargeCommand("ToggleStretchAllowEnlarge"),
-                new ToggleStretchAllowReduceCommand("ToggleStretchAllowReduce"),
+                new ToggleStretchAllowEnlargeCommand("ToggleStretchAllowScaleUp"),
+                new ToggleStretchAllowReduceCommand("ToggleStretchAllowScaleDown"),
                 new ToggleNearestNeighborCommand("ToggleNearestNeighbor"),
                 new ToggleBackgroundCommand("ToggleBackground"),
                 new SetBackgroundBlackCommand("SetBackgroundBlack"),
@@ -770,6 +770,8 @@ namespace NeeView
                 ["SetFolderOrderByRandom"] = "SetBookOrderByRandom",
                 ["ReloadUserSetting"] = "ReloadSetting",
                 ["OpenSettingWindow"] = "OpenOptionsWindow",
+                ["ToggleStretchAllowEnlarge"] = "ToggleStretchAllowScaleUp",
+                ["ToggleStretchAllowReduce"] = "ToggleStretchAllowScaleDown",
             };
 
             [DataMember]

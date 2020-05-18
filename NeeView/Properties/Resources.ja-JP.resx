@@ -4437,10 +4437,10 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   <data name="ParamTouchMinimumManipulationRadiusTips" xml:space="preserve">
     <value>タッチ操作での回転、拡大縮小と判定される最小の２タッチ間の距離です。</value>
   </data>
-  <data name="ParamViewAllowEnlarge" xml:space="preserve">
+  <data name="ParamViewAllowStretchScaleUp" xml:space="preserve">
     <value>ストレッチで拡大を許可</value>
   </data>
-  <data name="ParamViewAllowReduce" xml:space="preserve">
+  <data name="ParamViewAllowStretchScaleDown" xml:space="preserve">
     <value>ストレッチで縮小を許可</value>
   </data>
   <data name="ParamViewStretchMode" xml:space="preserve">
@@ -5568,10 +5568,10 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="NavigateStretchScale" xml:space="preserve">
     <value>基底スケール</value>
   </data>
-  <data name="NavitageStretchAllowEnlarge" xml:space="preserve">
+  <data name="NavitageStretchAllowScaleUp" xml:space="preserve">
     <value>拡大を許可</value>
   </data>
-  <data name="NavigateStretchAllowReduce" xml:space="preserve">
+  <data name="NavigateStretchAllowScaleDown" xml:space="preserve">
     <value>縮小を許可</value>
   </data>
 </root>

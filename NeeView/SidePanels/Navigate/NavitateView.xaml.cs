@@ -1,4 +1,5 @@
 ﻿using NeeView.Effects;
+using NeeView.Windows.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -56,6 +57,21 @@ namespace NeeView
             }
         }
 
+        private void BaseScale_ValueDelta(object sender, ValueDeltaEventArgs e)
+        {
+            _vm.AddBaseScaleTick(e.Delta);
+        }
+
+        private void Scale_ValueDelta(object sender, ValueDeltaEventArgs e)
+        {
+            _vm.AddScaleTick(e.Delta);
+        }
+
+        private void Angle_ValueDelta(object sender, ValueDeltaEventArgs e)
+        {
+            _vm.AddAngleTick(e.Delta);
+        }
+
 
         public void FocusAtOnce()
         {
@@ -65,5 +81,6 @@ namespace NeeView
                 _isFocusRequest = true;
             }
         }
+
     }
 }

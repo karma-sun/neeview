@@ -1,4 +1,5 @@
-﻿using NeeLaboratory.ComponentModel;
+﻿using NeeLaboratory;
+using NeeLaboratory.ComponentModel;
 using NeeLaboratory.Windows.Input;
 using NeeView.Effects;
 using NeeView.Windows.Property;
@@ -109,16 +110,16 @@ namespace NeeView
             set => _model.IsKeepFlip = value;
         }
 
-        public bool AllowEnlarge
+        public bool AllowStretchScaleUp
         {
-            get => Config.Current.View.AllowEnlarge;
-            set => Config.Current.View.AllowEnlarge = value;
+            get => Config.Current.View.AllowStretchScaleUp;
+            set => Config.Current.View.AllowStretchScaleUp = value;
         }
 
-        public bool AllowReduce
+        public bool AllowStretchScaleDown
         {
-            get => Config.Current.View.AllowReduce;
-            set => Config.Current.View.AllowReduce = value;
+            get => Config.Current.View.AllowStretchScaleDown;
+            set => Config.Current.View.AllowStretchScaleDown = value;
         }
 
         public bool IsBaseScaleEnabled
@@ -186,12 +187,12 @@ namespace NeeView
                     RaisePropertyChanged(nameof(StretchMode));
                     break;
 
-                case nameof(ViewConfig.AllowEnlarge):
-                    RaisePropertyChanged(nameof(AllowEnlarge));
+                case nameof(ViewConfig.AllowStretchScaleUp):
+                    RaisePropertyChanged(nameof(AllowStretchScaleUp));
                     break;
 
-                case nameof(ViewConfig.AllowReduce):
-                    RaisePropertyChanged(nameof(AllowReduce));
+                case nameof(ViewConfig.AllowStretchScaleDown):
+                    RaisePropertyChanged(nameof(AllowStretchScaleDown));
                     break;
 
                 case nameof(ViewConfig.IsBaseScaleEnabled):
@@ -231,5 +232,24 @@ namespace NeeView
                     break;
             }
         }
+
+        public void AddBaseScaleTick(int delta)
+        {
+            var tick = 5.0;
+            BaseScale = MathUtility.Snap(BaseScale + delta * tick, tick);
+        }
+
+        public void AddScaleTick(int delta)
+        {
+            var tick = 5.0;
+            Scale = MathUtility.Snap(Scale + delta * tick, tick);
+        }
+
+        public void AddAngleTick(int delta)
+        {
+            var tick = 5.0;
+            Angle = MathUtility.Snap(Angle + delta * tick, tick);
+        }
+
     }
 }

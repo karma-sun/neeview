@@ -1369,16 +1369,16 @@
     <value>Switch the order of the pages in order.</value>
   </data>
   <data name="CommandToggleStretchAllowEnlarge" xml:space="preserve">
-    <value>Allow enlarge</value>
+    <value>Allow stretch scale up</value>
   </data>
   <data name="CommandToggleStretchAllowEnlargeNote" xml:space="preserve">
-    <value>Allow enlarge on stretch.</value>
+    <value>Allow scale up on stretch.</value>
   </data>
   <data name="CommandToggleStretchAllowReduce" xml:space="preserve">
-    <value>Allow reduce</value>
+    <value>Allow stretch scale down</value>
   </data>
   <data name="CommandToggleStretchAllowReduceNote" xml:space="preserve">
-    <value>Allow reduce on stretch.</value>
+    <value>Allow scale down on stretch.</value>
   </data>
   <data name="CommandToggleStretchMode" xml:space="preserve">
     <value>Switch stretch</value>
@@ -4437,11 +4437,11 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="ParamTouchMinimumManipulationRadiusTips" xml:space="preserve">
     <value>It is the distance between the minimum of 2 touches judged as rotation by touch operation, enlargement / reduction.</value>
   </data>
-  <data name="ParamViewAllowEnlarge" xml:space="preserve">
-    <value>Allow enlarge by stretching</value>
+  <data name="ParamViewAllowStretchScaleUp" xml:space="preserve">
+    <value>Allow scale up by stretching</value>
   </data>
-  <data name="ParamViewAllowReduce" xml:space="preserve">
-    <value>Allow reduce by stretching</value>
+  <data name="ParamViewAllowStretchScaleDown" xml:space="preserve">
+    <value>Allow scale down by stretching</value>
   </data>
   <data name="ParamViewStretchMode" xml:space="preserve">
     <value>Stretch mode</value>
@@ -5568,10 +5568,10 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="NavigateStretchScale" xml:space="preserve">
     <value>Base scale</value>
   </data>
-  <data name="NavitageStretchAllowEnlarge" xml:space="preserve">
-    <value>Allow enlarge</value>
+  <data name="NavitageStretchAllowScaleUp" xml:space="preserve">
+    <value>Allow stretch scale up</value>
   </data>
-  <data name="NavigateStretchAllowReduce" xml:space="preserve">
-    <value>Allow reduce</value>
+  <data name="NavigateStretchAllowScaleDown" xml:space="preserve">
+    <value>Allow stretch scale down</value>
   </data>
 </root>

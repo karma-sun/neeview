@@ -46,8 +46,8 @@ namespace NeeView
         private double ContentsSpace => Config.Current.Book.ContentsSpace;
         private AutoRotateType AutoRotateType => Config.Current.View.AutoRotate;
         private Size ViewSize => _contentCanvas.ViewSize;
-        private bool AllowEnlarge => Config.Current.View.AllowEnlarge;
-        private bool AllowReduce => Config.Current.View.AllowReduce;
+        private bool AllowEnlarge => Config.Current.View.AllowStretchScaleUp;
+        private bool AllowReduce => Config.Current.View.AllowStretchScaleDown;
 
         #endregion
 

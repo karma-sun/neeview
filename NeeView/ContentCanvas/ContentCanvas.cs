@@ -151,8 +151,8 @@ namespace NeeView
                 switch (e.PropertyName)
                 {
                     case nameof(ViewConfig.StretchMode):
-                    case nameof(ViewConfig.AllowEnlarge):
-                    case nameof(ViewConfig.AllowReduce):
+                    case nameof(ViewConfig.AllowStretchScaleUp):
+                    case nameof(ViewConfig.AllowStretchScaleDown):
                     case nameof(ViewConfig.IsBaseScaleEnabled):
                     case nameof(ViewConfig.BaseScale):
                         ResetContentSize();
@@ -1001,8 +1001,8 @@ namespace NeeView
                 config.Book.ContentsSpace = ContentsSpace;
 
                 config.View.StretchMode = StretchMode;
-                config.View.AllowEnlarge = AllowEnlarge;
-                config.View.AllowReduce = AllowReduce;
+                config.View.AllowStretchScaleUp = AllowEnlarge;
+                config.View.AllowStretchScaleDown = AllowReduce;
                 config.View.AutoRotate = AutoRotateType;
 
                 this.GridLine.RestoreConfig(config);
@@ -1013,8 +1013,8 @@ namespace NeeView
         {
             var memento = new Memento();
             memento.StretchMode = Config.Current.View.StretchMode;
-            memento.AllowEnlarge = Config.Current.View.AllowEnlarge;
-            memento.AllowReduce = Config.Current.View.AllowReduce;
+            memento.AllowEnlarge = Config.Current.View.AllowStretchScaleUp;
+            memento.AllowReduce = Config.Current.View.AllowStretchScaleDown;
             memento.IsEnabledNearestNeighbor = Config.Current.ImageDotKeep.IsEnabled;
             memento.ContentsSpace = Config.Current.Book.ContentsSpace;
             memento.AutoRotateType = Config.Current.View.AutoRotate;

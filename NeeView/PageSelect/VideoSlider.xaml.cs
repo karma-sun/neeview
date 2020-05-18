@@ -404,7 +404,7 @@ namespace NeeView
                 ? (GetReversedValue(value) - Minimum) * (max - min) / (Maximum - Minimum) + min
                 : min;
 
-            x = Math.Max(Math.Truncate(x), 0);
+            x = Math.Max(Math.Truncate(x + 0.5), 0);
             Canvas.SetLeft(this.Thumb, x);
 
             var x0 = thumbHalf;

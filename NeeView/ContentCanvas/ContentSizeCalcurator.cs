@@ -94,33 +94,27 @@ namespace NeeView
         /// <returns></returns>
         public double GetAutoRotateAngle(List<Size> source, AngleResetMode angleResetMode)
         {
-            return this.IsAutoRotateCondition(source, angleResetMode) ? this.AutoRotateType.ToAngle() : 0.0;
-        }
-
-        // TODO: GetAutoRotateAngle と一体化できないか
-        // TODO: this.AutoRotateType は冗長ではなかろうか
-        private bool IsAutoRotateCondition(List<Size> source, AngleResetMode angleResetMode)
-        {
             switch (angleResetMode)
             {
                 case AngleResetMode.None:
-                    return false;
+                    return DragTransform.Current.Angle;
 
                 case AngleResetMode.ForceAutoRotate:
-                    return true;
+                    return this.AutoRotateType.ToAngle();
 
                 default:
                 case AngleResetMode.Normal:
                     if (this.AutoRotateType == AutoRotateType.None)
                     {
-                        return false;
+                        return 0.0;
                     }
                     else
                     {
                         var margin = 0.1;
                         var viewRatio = GetViewAreaAspectRatio();
                         var contentRatio = GetContentAspectRatio(source);
-                        return viewRatio >= 1.0 ? contentRatio < (1.0 - margin) : contentRatio > (1.0 + margin);
+                        var isAutoRotated = viewRatio >= 1.0 ? contentRatio < (1.0 - margin) : contentRatio > (1.0 + margin);
+                        return isAutoRotated ? this.AutoRotateType.ToAngle() : 0.0;
                     }
             }
         }
@@ -333,6 +327,6 @@ namespace NeeView
             return new Size[] { s0, s1 };
         }
 
-        #endregion
+#endregion
     }
 }

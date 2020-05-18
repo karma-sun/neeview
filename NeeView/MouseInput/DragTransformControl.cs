@@ -245,22 +245,6 @@ namespace NeeView
             }
         }
 
-        /// <summary>
-        /// トランスフォーム初期化
-        /// </summary>
-        /// <param name="forceReset">すべての項目を初期化</param>
-        /// <param name="angle">Nanでない場合はこの角度で初期化する</param>
-        public void Reset(bool forceReset, double angle)
-        {
-            bool isResetScale = forceReset || !Config.Current.View.IsKeepScale;
-            bool isResetAngle = forceReset || !Config.Current.View.IsKeepAngle || !double.IsNaN(angle);
-            bool isResetFlip = forceReset || !Config.Current.View.IsKeepFlip;
-
-            Reset(isResetScale, isResetAngle, isResetFlip, double.IsNaN(angle) ? 0.0 : angle); // DefaultViewAngle(isResetAngle));
-        }
-
-
-
         // 初期化
         // コンテンツ切り替わり時等
         public void Reset(bool isResetScale, bool isResetAngle, bool isResetFlip, double angle)
@@ -370,9 +354,9 @@ namespace NeeView
             _transform.SetPosition(area.SnapView(_transform.Position));
         }
 
-        #endregion
+#endregion
 
-        #region Scroll method
+#region Scroll method
 
         private const double _nscrollCountThreshold = 0.9;
 
@@ -500,11 +484,11 @@ namespace NeeView
             {
                 if (direction > 0)
                 {
-                    delta.Y = GetNScrollVerticalToBottom(area, margin, rate);
+                    delta.Y = SnapZero(GetNScrollVerticalToBottom(area, margin, rate));
                 }
                 else
                 {
-                    delta.Y = GetNScrollVerticalToTop(area, margin, rate);
+                    delta.Y = SnapZero(GetNScrollVerticalToTop(area, margin, rate));
                 }
 
                 UpdateLock();
@@ -516,22 +500,22 @@ namespace NeeView
                     var rateX = canVerticalScroll ? 1.0 : rate;
                     if (direction * bookReadDirection > 0)
                     {
-                        delta.X = GetNScrollHorizontalToLeft(area, margin, rateX);
+                        delta.X = SnapZero(GetNScrollHorizontalToLeft(area, margin, rateX));
                     }
                     else
                     {
-                        delta.X = GetNScrollHorizontalToRight(area, margin, rateX);
+                        delta.X = SnapZero(GetNScrollHorizontalToRight(area, margin, rateX));
                     }
 
                     if (delta.X != 0.0)
                     {
                         if (direction > 0)
                         {
-                            delta.Y = GetNScrollVerticalMoveToTop(area);
+                            delta.Y = SnapZero(GetNScrollVerticalMoveToTop(area));
                         }
                         else
                         {
-                            delta.Y = GetNScrollVerticalMoveToBottom(area);
+                            delta.Y = SnapZero(GetNScrollVerticalMoveToBottom(area));
                         }
                     }
                 }
@@ -542,25 +526,36 @@ namespace NeeView
             {
                 if (direction * bookReadDirection > 0)
                 {
-                    delta.X = GetNScrollHorizontalToLeft(area, margin, rate);
+                    delta.X = SnapZero(GetNScrollHorizontalToLeft(area, margin, rate));
                 }
                 else
                 {
-                    delta.X = GetNScrollHorizontalToRight(area, margin, rate);
+                    delta.X = SnapZero(GetNScrollHorizontalToRight(area, margin, rate));
                 }
 
                 if (direction > 0)
                 {
-                    delta.Y = GetNScrollVerticalToBottom(area, margin, rate);
+                    delta.Y = SnapZero(GetNScrollVerticalToBottom(area, margin, rate));
                 }
                 else
                 {
-                    delta.Y = GetNScrollVerticalToTop(area, margin, rate);
+                    delta.Y = SnapZero(GetNScrollVerticalToTop(area, margin, rate));
                 }
             }
 
             return delta;
         }
+
+        /// <summary>
+        /// Snap zero.
+        /// if abs(x) < 1.0, then 0.0
+        /// </summary>
+        private double SnapZero(double value)
+        {
+            const double margin = 1.0;
+            return (-margin < value && value < margin) ? 0.0 : value;
+        }
+
 
         // N字スクロール：上方向スクロール距離取得
         private double GetNScrollVerticalToTop(DragArea area, double margin, double rate)
@@ -650,9 +645,9 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
-        #region Scale method
+#region Scale method
         // 拡大コマンド
         public void ScaleUp(double scaleDelta, bool isSnap, double originalScale)
         {
@@ -712,9 +707,9 @@ namespace NeeView
 
             DoScale(scale);
         }
-        #endregion
+#endregion
 
-        #region Rotate method
+#region Rotate method
         // 回転コマンド
         public void Rotate(double angle)
         {
@@ -727,9 +722,9 @@ namespace NeeView
             InitializeDragParameter(Mouse.GetPosition(_sender));
             DoRotate(NormalizeLoopRange(_baseAngle + angle, -180, 180));
         }
-        #endregion
+#endregion
 
-        #region Flip method
+#region Flip method
         // 反転コマンド
         public void ToggleFlipHorizontal()
         {
@@ -757,9 +752,9 @@ namespace NeeView
             InitializeDragParameter(Mouse.GetPosition(_sender));
             DoFlipVertical(isFlip);
         }
-        #endregion
+#endregion
 
-        #region Actions
+#region Actions
 
         // Sender座標系でのCenter座標系の基準位置
         private Vector _coordCenter;
@@ -851,9 +846,9 @@ namespace NeeView
             _lockMoveY = false;
         }
 
-        #endregion
+#endregion
 
-        #region Drag Move
+#region Drag Move
 
         private Point _basePosition;
 
@@ -914,9 +909,9 @@ namespace NeeView
             return move.X != 0.0 || move.Y != 0.0;
         }
 
-        #endregion
+#endregion
 
-        #region Drag Angle
+#region Drag Angle
 
         private double _baseAngle;
 
@@ -980,9 +975,9 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
-        #region Drag Scale
+#region Drag Scale
 
         private double _baseScale;
 
@@ -1054,9 +1049,9 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
-        #region MarqueeZoom
+#region MarqueeZoom
 
         public void DragMarqueeZoom(Point start, Point end)
         {
@@ -1083,9 +1078,9 @@ namespace NeeView
         }
 
 
-        #endregion
+#endregion
 
-        #region Drag Flip
+#region Drag Flip
 
         // 左右反転
         public void DragFlipHorizontal(Point start, Point end)
@@ -1157,9 +1152,9 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
-        #region Drag Window
+#region Drag Window
 
         private Point _startPointFromWindow;
 
@@ -1187,9 +1182,9 @@ namespace NeeView
             return pos;
         }
 
-        #endregion
+#endregion
 
-        #region Memento
+#region Memento
 
         [DataContract]
         public class Memento : IMemento
@@ -1263,7 +1258,7 @@ namespace NeeView
             return memento;
         }
 
-        #endregion
+#endregion
 
     }
 

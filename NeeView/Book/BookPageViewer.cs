@@ -278,6 +278,8 @@ namespace NeeView
             this.PageChangeCount++;
             this.IsPageTerminated = viewPageRange.Max >= _book.Pages.LastPosition();
 
+            // wait load time (max 5sec.)
+            var timeout = (BookProfile.Current.CanPrioritizePageMove() && _viewCounter.Counter != 0) ? 100 : 5000;
 
             _contentGenerater?.Dispose();
             _contentGenerater = new BookPageViewGenerater(_book, _setting, sender, viewPageRange, aheadPageRange, _viewCounter);
@@ -303,7 +305,6 @@ namespace NeeView
             using (var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token, loadWaitCancellation.Token))
             {
                 // wait load (max 5sec.)
-                var timeout = BookProfile.Current.CanPrioritizePageMove() ? 100 : 5000;
                 await _contentGenerater.WaitVisibleAsync(timeout, linkedTokenSource.Token);
 
                 loadWaitCancellation.Cancel();

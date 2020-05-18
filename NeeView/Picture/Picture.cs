@@ -132,7 +132,7 @@ namespace NeeView
 
             ////var nowSize = new Size(this.BitmapSource.PixelWidth, this.BitmapSource.PixelHeight);
             ////Debug.WriteLine($"Resize: {isDartyResizeParameter}: {nowSize.Truncate()} -> {size.Truncate()}");
-            ////Debug.WriteLine($"BMP: {this.PictureInfo.Size} -> {size}");
+            ////Debug.WriteLine($"BMP: {this.PictureSource.ArchiveEntry.EntryName}: {this.PictureInfo.Size} -> {size}");
 
             var image = CreateImageSource(size, keepAspectRatio, token);
             if (image == null)

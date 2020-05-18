@@ -365,9 +365,6 @@ namespace NeeView
         /// <param name="e"></param>
         private void OnViewContentsChanged(object sender, ViewContentSourceCollectionChangedEventArgs e)
         {
-            // 画像リサイズ
-            ////ResizeConten(e?.ViewPageCollection);
-
             var contents = new List<ViewContent>();
 
             // ViewContent作成
@@ -417,7 +414,7 @@ namespace NeeView
             else
             {
                 // コンテンツサイズ更新
-                UpdateContentSize(GetAutoRotateAngle(GetAngleResetMode(e.IsFirst)));
+                UpdateContentSize(GetAutoRotateAngle(GetAngleResetMode(e.IsFirst || Config.Current.View.IsKeepScale)));
 
                 // リザーブコンテンツでなければ座標初期化
                 // HACK: ルーペ時の挙動があやしい
@@ -443,20 +440,15 @@ namespace NeeView
         {
             if (source?.ViewPageCollection?.Collection == null) return;
 
-            if (!source.IsForceResize)
-            {
-                // ルーペモードでかつ継続される設定の場合、先読みではリサイズしない
-                if (LoupeTransform.Current.IsEnabled && !Config.Current.Loupe.IsResetByPageChanged) return;
-            }
-
-            ResizeConten(source.ViewPageCollection, source.CancellationToken);
+            bool includeLoupeScale = LoupeTransform.Current.IsEnabled && !Config.Current.Loupe.IsResetByPageChanged;
+            ResizeConten(source.ViewPageCollection, includeLoupeScale, source.CancellationToken);
         }
 
 
         /// <summary>
         /// コンテンツリサイズ
         /// </summary>
-        private void ResizeConten(ViewContentSourceCollection viewPageCollection, CancellationToken token)
+        private void ResizeConten(ViewContentSourceCollection viewPageCollection, bool includeLoupeScale, CancellationToken token)
         {
             if (viewPageCollection?.Collection == null) return;
 
@@ -472,10 +464,10 @@ namespace NeeView
             // 表示サイズ計算
             var result = MainContent is MediaViewContent
                 ? _contentSizeCalcurator.GetFixedContentSize(sizes, 0.0)
-                : _contentSizeCalcurator.GetFixedContentSize(sizes, GetAngleResetMode(false));
+                : _contentSizeCalcurator.GetFixedContentSize(sizes, GetAngleResetMode(false || Config.Current.View.IsKeepScale));
 
-            // スケール維持？
-            var scale = Config.Current.View.IsKeepScale ? _dragTransform.Scale : 1.0;
+            // 表示スケール推定
+            var scale = (Config.Current.View.IsKeepScale ? _dragTransform.Scale : 1.0) * (includeLoupeScale ? LoupeTransform.Current.FixedScale : 1.0) * Environment.RawDpi.DpiScaleX;
 
             // リサイズ
             for (int i = 0; i < 2; ++i)
@@ -496,8 +488,7 @@ namespace NeeView
                 {
                     if (content.PageMessage == null && content.CanResize && content is BitmapContent bitmapContent)
                     {
-                        var dpiScaleX = Environment.RawDpi.DpiScaleX;
-                        var dispSize = new Size(size1.Width * dpiScaleX, size1.Height * dpiScaleX);
+                        var dispSize = new Size(size1.Width, size1.Height);
                         var resized = bitmapContent.Picture?.CreateImageSource(bitmapContent.GetRenderSize(dispSize), token);
                         if (resized == true)
                         {
@@ -533,31 +524,25 @@ namespace NeeView
         public void ResetContentSizeAndTransform()
         {
             var angleResetMode = GetAngleResetMode(true);
-          
+
             UpdateContentSize(GetAutoRotateAngle(angleResetMode));
             ContentRebuild.Current.Request();
-            ResetTransform(true, angleResetMode);
-        }
-
-        // TODO: 関数の目的が中途半端なので整備する
-        public void ResetTransform(bool isForce, AngleResetMode angleResetMode)
-        {
-            ResetTransform(isForce, 0, DragViewOrigin.None, angleResetMode);
+            ResetTransform(true, 0, DragViewOrigin.None, angleResetMode);
         }
 
         // 座標系初期化
-        // TODO: ルーペ操作との関係
         public void ResetTransform(bool isForce, int pageDirection, DragViewOrigin viewOrigin, AngleResetMode angleResetMode)
         {
-            // ルーペでない場合は初期化
-            if (!MouseInput.Current.IsLoupeMode)
-            {
-                _dragTransformControl.SetMouseDragSetting(pageDirection, viewOrigin, BookSettingPresenter.Current.LatestSetting.BookReadOrder);
+            // NOTE: ルーペモードのときは初期化しない
+            if (MouseInput.Current.IsLoupeMode) return;
 
-                // リセット
-                var angle = (angleResetMode != AngleResetMode.None) ? GetAutoRotateAngle(angleResetMode) : double.NaN;
-                _dragTransformControl.Reset(isForce, angle);
-            }
+            _dragTransformControl.SetMouseDragSetting(pageDirection, viewOrigin, BookSettingPresenter.Current.LatestSetting.BookReadOrder);
+
+            bool isResetScale = isForce || !Config.Current.View.IsKeepScale;
+            bool isResetAngle = isForce || !Config.Current.View.IsKeepAngle || angleResetMode != AngleResetMode.None;
+            bool isResetFlip = isForce || !Config.Current.View.IsKeepFlip;
+
+            ResetTransformRaw(isResetScale, isResetAngle, isResetFlip, GetAutoRotateAngle(angleResetMode));
         }
 
         /// <summary>

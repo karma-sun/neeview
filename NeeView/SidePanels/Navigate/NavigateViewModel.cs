@@ -38,8 +38,8 @@ namespace NeeView
 
         public double Angle
         {
-            get { return Math.Truncate(DragTransform.Current.Angle); }
-            set { DragTransform.Current.Angle = value; }
+            get => DragTransform.Current.Angle;
+            set => DragTransform.Current.Angle = value;
         }
 
         public AutoRotateType AutoRotate

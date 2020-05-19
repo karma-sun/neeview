@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interop;
 using System.Windows.Media.Effects;
 
 // TODO: 要整備。表示やフロー等も含まれてしまっている。依存関係が強すぎる
@@ -33,6 +34,8 @@ namespace NeeView
         public static FileIO Current { get; }
 
 
+
+
         //
         public FileIO()
         {
@@ -45,7 +48,7 @@ namespace NeeView
         }
 
         // ファイルかディレクトリの存在チェック
-        public bool Exists(string path)
+        public static bool Exists(string path)
         {
             return File.Exists(path) || Directory.Exists(path);
         }
@@ -66,6 +69,9 @@ namespace NeeView
             Clipboard.SetDataObject(data);
         }
 
+        /// <summary>
+        /// クリップボードにコピー
+        /// </summary>
         public void CopyToClipboard(IEnumerable<FolderItem> infos)
         {
             var collection = new System.Collections.Specialized.StringCollection();
@@ -85,6 +91,114 @@ namespace NeeView
             Clipboard.SetDataObject(data);
         }
 
+
+        /// <summary>
+        /// パスの衝突を連番をつけて回避
+        /// </summary>
+        public static string CreateUniquePath(string path)
+        {
+            if (!Exists(path))
+            {
+                return path;
+            }
+
+            bool isFile = File.Exists(path);
+            string dir = Path.GetDirectoryName(path);
+            string name = isFile ? Path.GetFileNameWithoutExtension(path) : Path.GetFileName(path);
+            string ext = isFile ? Path.GetExtension(path) : "";
+
+            string dst;
+            int count = 1;
+
+            var regex = new Regex(@"^(.+)\((\d+)\)$");
+            var match = regex.Match(name);
+            if (match.Success)
+            {
+                name = match.Groups[1].Value.Trim();
+                count = int.Parse(match.Groups[2].Value);
+            }
+
+            do
+            {
+                dst = Path.Combine(dir, $"{name} ({++count}){ext}");
+            }
+            while (Exists(dst));
+
+            return dst;
+        }
+
+        /// <summary>
+        /// ディレクトリが親子関係にあるかをチェック
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsSubDirectoryRelationship(DirectoryInfo dir1, DirectoryInfo dir2)
+        {
+            if (dir1 == dir2) return true;
+
+            var path1 = LoosePath.TrimDirectoryEnd(LoosePath.NormalizeSeparator(dir1.FullName)).ToUpperInvariant();
+            var path2 = LoosePath.TrimDirectoryEnd(LoosePath.NormalizeSeparator(dir2.FullName)).ToUpperInvariant();
+            if (path1.Length < path2.Length)
+            {
+                return path2.StartsWith(path1);
+            }
+            else
+            {
+                return path1.StartsWith(path2);
+            }
+        }
+
+        /// <summary>
+        /// DirectoryInfoの等価判定
+        /// </summary>
+        public static bool DirectoryEquals(DirectoryInfo dir1, DirectoryInfo dir2)
+        {
+            if (dir1 == null && dir2 == null) return true;
+            if (dir1 == null || dir2 == null) return false;
+
+            var path1 = LoosePath.NormalizeSeparator(dir1.FullName).TrimEnd(LoosePath.Separator).ToUpperInvariant();
+            var path2 = LoosePath.NormalizeSeparator(dir2.FullName).TrimEnd(LoosePath.Separator).ToUpperInvariant();
+            return path1 == path2;
+        }
+
+        #region Copy
+
+        /// <summary>
+        /// ファイル、ディレクトリーを指定のフォルダーにコピーする
+        /// </summary>
+        public static void CopyToFolder(IEnumerable<string> froms, string toDirectory)
+        {
+            var toDirPath = LoosePath.TrimDirectoryEnd(toDirectory);
+
+            var dir = new DirectoryInfo(toDirPath);
+            if (!dir.Exists)
+            {
+                dir.Create();
+            }
+
+            ShellFileOperation.Copy(App.Current.MainWindow, froms, toDirPath);
+        }
+
+        #endregion Copy
+
+        #region Move
+
+        /// <summary>
+        /// ファイル、ディレクトリーを指定のフォルダーに移動する
+        /// </summary>
+        public static void MoveToFolder(IEnumerable<string> froms, string toDirectory)
+        {
+            var toDirPath = LoosePath.TrimDirectoryEnd(toDirectory);
+
+            var dir = new DirectoryInfo(toDirPath);
+            if (!dir.Exists)
+            {
+                dir.Create();
+            }
+
+            ShellFileOperation.Move(App.Current.MainWindow, froms, toDirPath);
+        }
+
+        #endregion Move
 
         #region Remove
 
@@ -448,6 +562,7 @@ namespace NeeView
             return result ? dst : null;
         }
 
+
         // ファイル名前変更 コア
         private async Task<bool> RenameAsyncInner(string src, string dst)
         {
@@ -544,5 +659,35 @@ namespace NeeView
 
         #endregion
 
+
+        #region Dialogs
+
+        private class Win32Window : System.Windows.Forms.IWin32Window
+        {
+            public IntPtr Handle { get; private set; }
+
+            public Win32Window(Window window)
+            {
+                this.Handle = new WindowInteropHelper(window).Handle;
+            }
+        }
+
+        public static string OpenFolderBrowserDialog(Window owner, string description)
+        {
+            var dialog = new System.Windows.Forms.FolderBrowserDialog();
+            dialog.Description = description;
+
+            var result = dialog.ShowDialog(new Win32Window(owner));
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                return dialog.SelectedPath;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        #endregion Dialogs
     }
 }

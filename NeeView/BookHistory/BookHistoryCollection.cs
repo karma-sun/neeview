@@ -53,8 +53,9 @@ namespace NeeView
             {
                 Items.Clear();
                 BookMementoCollection.Current.CleanUp();
-                HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Clear, null));
             }
+
+            HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Clear, null));
         }
 
         public void Load(IEnumerable<BookHistory> items, IEnumerable<Book.Memento> books)
@@ -81,9 +82,9 @@ namespace NeeView
                         Debug.WriteLine(ex.Message);
                     }
                 }
-
-                HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Load, null));
             }
+
+            HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Load, null));
         }
 
 
@@ -124,6 +125,8 @@ namespace NeeView
         {
             if (memento == null) return;
 
+            var changeType = BookMementoCollectionChangedType.None;
+
             try
             {
                 lock (_lock)
@@ -132,7 +135,7 @@ namespace NeeView
                     if (node != null && isKeepOrder)
                     {
                         node.Value.Unit.Memento = memento;
-                        HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Update, memento.Path));
+                        changeType = BookMementoCollectionChangedType.Update;
                     }
                     else
                     {
@@ -142,14 +145,19 @@ namespace NeeView
 
                         if (node == Items.First)
                         {
-                            HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Update, memento.Path));
+                            changeType = BookMementoCollectionChangedType.Update;
                         }
                         else
                         {
                             Items.AddFirst(node.Value.Path, node.Value);
-                            HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Add, memento.Path));
+                            changeType = BookMementoCollectionChangedType.Add;
                         }
                     }
+                }
+
+                if (changeType != BookMementoCollectionChangedType.None)
+                {
+                    HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(changeType, memento.Path));
                 }
             }
             catch (Exception e)
@@ -161,14 +169,21 @@ namespace NeeView
         // 履歴削除
         public void Remove(string place)
         {
+            bool isRemoved = false;
+
             lock (_lock)
             {
                 var node = FindNode(place);
                 if (node != null)
                 {
                     Items.Remove(place);
-                    HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, place));
+                    isRemoved = true;
                 }
+            }
+
+            if (isRemoved)
+            {
+                HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, place));
             }
         }
 
@@ -176,6 +191,8 @@ namespace NeeView
         public void Remove(IEnumerable<string> places)
         {
             if (places == null) return;
+
+            bool isRemoved = false;
 
             lock (_lock)
             {
@@ -187,10 +204,14 @@ namespace NeeView
                     {
                         Debug.WriteLine($"HistoryRemove: {place}");
                         Items.Remove(place);
+                        isRemoved = true;
                     }
-
-                    HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, null));
                 }
+            }
+
+            if (isRemoved)
+            {
+                HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, null));
             }
         }
 
@@ -202,11 +223,11 @@ namespace NeeView
             List<BookHistory> items;
             lock (_lock)
             {
-                items =  this.Items.ToList();
+                items = this.Items.ToList();
             }
 
             var unlinked = new List<BookHistory>();
-            foreach(var item in items)
+            foreach (var item in items)
             {
                 if (!await ArchiveEntryUtility.ExistsAsync(item.Path, token))
                 {
@@ -223,9 +244,9 @@ namespace NeeView
                         Debug.WriteLine($"HistoryRemove: {item.Path}");
                         Items.Remove(item.Path);
                     }
-
-                    HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, null));
                 }
+
+                HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, null));
             }
 
             Debug.WriteLine($"BookHistory: RemoveUnlinked done.");
@@ -277,6 +298,8 @@ namespace NeeView
 
         public void Rename(string src, string dst)
         {
+            bool isRenamed = false;
+
             lock (_lock)
             {
                 var item = Items.Find(src);
@@ -285,13 +308,18 @@ namespace NeeView
                     Items.Remove(dst);
                     Items.Remap(src, dst);
                     item.Value.Path = dst;
-                    HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Add, dst));
+                    isRenamed = true;
                 }
+            }
+
+            if (isRenamed)
+            {
+                HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Add, dst));
             }
         }
 
 
-#region for Folders
+        #region for Folders
 
         // 検索履歴
         private ObservableCollection<string> _searchHistory = new ObservableCollection<string>();
@@ -357,9 +385,9 @@ namespace NeeView
             }
         }
 
-#endregion for Folders
+        #endregion for Folders
 
-#region Memento
+        #region Memento
 
         /// <summary>
         /// 履歴Memento
@@ -504,7 +532,7 @@ namespace NeeView
                 // TODO: v.38以後の互換性処理をここで？
             }
 
-#region Legacy
+            #region Legacy
 
             // ファイルに保存
             [Obsolete]
@@ -540,7 +568,7 @@ namespace NeeView
                 }
             }
 
-#endregion Legacy
+            #endregion Legacy
 
             // 合成
             public void Merge(Memento memento)
@@ -647,6 +675,6 @@ namespace NeeView
             return collection;
         }
 
-#endregion
+        #endregion
     }
 }

@@ -100,33 +100,11 @@ namespace NeeView.IO
         }
 
 
-        public static void Delete(Window owner, IEnumerable<string> paths, bool wantNukeWarning)
+        private static void SHFileOperation(ref NativeMethods.SHFILEOPSTRUCT lpFileOp)
         {
-            if (paths == null || !paths.Any()) throw new ArgumentException("Empty paths");
+            var result = NativeMethods.SHFileOperation(ref lpFileOp);
 
-            var hwnd = owner != null
-                ? new System.Windows.Interop.WindowInteropHelper(owner).Handle
-                : IntPtr.Zero;
-
-            var flags = NativeMethods.FILEOP_FLAGS.FOF_ALLOWUNDO | NativeMethods.FILEOP_FLAGS.FOF_NOCONFIRMATION;
-            if (wantNukeWarning)
-            {
-                flags |= NativeMethods.FILEOP_FLAGS.FOF_WANTNUKEWARNING;
-            }
-
-            NativeMethods.SHFILEOPSTRUCT shfos;
-            shfos.hwnd = hwnd;
-            shfos.wFunc = NativeMethods.FileFuncFlags.FO_DELETE;
-            shfos.pFrom = string.Join("\0", paths) + "\0\0";
-            shfos.pTo = null;
-            shfos.fFlags = flags;
-            shfos.fAnyOperationsAborted = true;
-            shfos.hNameMappings = IntPtr.Zero;
-            shfos.lpszProgressTitle = null;
-
-            var result = NativeMethods.SHFileOperation(ref shfos);
-
-            Debug.WriteLine($"DeleteFile: Code=0x{result:x4}");
+            Debug.WriteLine($"SHFileOperation: Code=0x{result:x4}");
 
             switch (result)
             {
@@ -174,6 +152,75 @@ namespace NeeView.IO
                         throw new IOException($"Code=0x{result:x4}");
                     }
             }
+        }
+
+        private static IntPtr GetHWnd(Window window)
+        {
+            return window != null
+              ? new System.Windows.Interop.WindowInteropHelper(window).Handle
+              : IntPtr.Zero;
+        }
+
+
+        public static void Copy(Window owner, IEnumerable<string> paths, string dest)
+        {
+            if (paths == null || !paths.Any()) throw new ArgumentException("Empty paths");
+            if (dest == null) throw new ArgumentNullException(nameof(dest));
+
+            NativeMethods.SHFILEOPSTRUCT shfos;
+            shfos.hwnd = GetHWnd(owner);
+            shfos.wFunc = NativeMethods.FileFuncFlags.FO_COPY;
+            shfos.pFrom = string.Join("\0", paths) + "\0\0";
+            shfos.pTo = dest + "\0\0";
+            shfos.fFlags = NativeMethods.FILEOP_FLAGS.FOF_ALLOWUNDO;
+            shfos.fAnyOperationsAborted = true;
+            shfos.hNameMappings = IntPtr.Zero;
+            shfos.lpszProgressTitle = null;
+
+            SHFileOperation(ref shfos);
+        }
+
+
+        public static void Move(Window owner, IEnumerable<string> paths, string dest)
+        {
+            if (paths == null || !paths.Any()) throw new ArgumentException("Empty paths");
+            if (dest == null) throw new ArgumentNullException(nameof(dest));
+
+            NativeMethods.SHFILEOPSTRUCT shfos;
+            shfos.hwnd = GetHWnd(owner);
+            shfos.wFunc = NativeMethods.FileFuncFlags.FO_MOVE;
+            shfos.pFrom = string.Join("\0", paths) + "\0\0";
+            shfos.pTo = dest + "\0\0";
+            shfos.fFlags = NativeMethods.FILEOP_FLAGS.FOF_ALLOWUNDO;
+            shfos.fAnyOperationsAborted = true;
+            shfos.hNameMappings = IntPtr.Zero;
+            shfos.lpszProgressTitle = null;
+
+            SHFileOperation(ref shfos);
+        }
+
+
+        public static void Delete(Window owner, IEnumerable<string> paths, bool wantNukeWarning)
+        {
+            if (paths == null || !paths.Any()) throw new ArgumentException("Empty paths");
+
+            var flags = NativeMethods.FILEOP_FLAGS.FOF_ALLOWUNDO | NativeMethods.FILEOP_FLAGS.FOF_NOCONFIRMATION;
+            if (wantNukeWarning)
+            {
+                flags |= NativeMethods.FILEOP_FLAGS.FOF_WANTNUKEWARNING;
+            }
+
+            NativeMethods.SHFILEOPSTRUCT shfos;
+            shfos.hwnd = GetHWnd(owner);
+            shfos.wFunc = NativeMethods.FileFuncFlags.FO_DELETE;
+            shfos.pFrom = string.Join("\0", paths) + "\0\0";
+            shfos.pTo = null;
+            shfos.fFlags = flags;
+            shfos.fAnyOperationsAborted = true;
+            shfos.hNameMappings = IntPtr.Zero;
+            shfos.lpszProgressTitle = null;
+
+            NativeMethods.SHFileOperation(ref shfos);
         }
     }
 

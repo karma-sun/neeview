@@ -5574,4 +5574,55 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="NavigateStretchAllowScaleDown" xml:space="preserve">
     <value>縮小を許可</value>
   </data>
+  <data name="WordEdit" xml:space="preserve">
+    <value>編集</value>
+  </data>
+  <data name="WordClose" xml:space="preserve">
+    <value>閉じる</value>
+  </data>
+  <data name="DestinationFoldersDialogTitle" xml:space="preserve">
+    <value>出力先フォルダーリスト</value>
+  </data>
+  <data name="DestinationFolderEditDialogTitle" xml:space="preserve">
+    <value>フォルダー設定</value>
+  </data>
+  <data name="WordPath" xml:space="preserve">
+    <value>パス</value>
+  </data>
+  <data name="DestinationFolderPathTips" xml:space="preserve">
+    <value>出力先フォルダーのパス</value>
+  </data>
+  <data name="BookshelfItemMenuCopyToFolder" xml:space="preserve">
+    <value>フォルダーにコピー(_Y)</value>
+  </data>
+  <data name="BookshelfItemMenuMoveToFolder" xml:space="preserve">
+    <value>フォルダーに移動(_E)</value>
+  </data>
+  <data name="BookshelfItemMenuDestinationFolderOption" xml:space="preserve">
+    <value>設定(_O)...</value>
+  </data>
+  <data name="BookshelfItemMenuDestinationFolderSelect" xml:space="preserve">
+    <value>フォルダーを選択(_S)...</value>
+  </data>
+  <data name="BookshelfCopyToFolderSelect" xml:space="preserve">
+    <value>コピー先フォルダーを選択</value>
+  </data>
+  <data name="BookshelfMoveToFolderSelect" xml:space="preserve">
+    <value>移動先フォルダーを選択</value>
+  </data>
+  <data name="BookshelfCopyToFolderSuccess" xml:space="preserve">
+    <value>{0} 個のアイテムをコピーしました</value>
+  </data>
+  <data name="BookshelfCopyToFolderFailed" xml:space="preserve">
+    <value>コピーに失敗しました</value>
+  </data>
+  <data name="BookshelfMoveToFolderSuccess" xml:space="preserve">
+    <value>{0} 個のアイテムを移動しました</value>
+  </data>
+  <data name="BookshelfMoveToFolderFailed" xml:space="preserve">
+    <value>移動に失敗しました</value>
+  </data>
+  <data name="ParamDestinationFolderCollection" xml:space="preserve">
+    <value>移動先フォルダーリスト</value>
+  </data>
 </root>

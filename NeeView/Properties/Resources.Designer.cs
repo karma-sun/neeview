@@ -214,6 +214,33 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Copy failed に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfCopyToFolderFailed {
+            get {
+                return ResourceManager.GetString("BookshelfCopyToFolderFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Select copy destination folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfCopyToFolderSelect {
+            get {
+                return ResourceManager.GetString("BookshelfCopyToFolderSelect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Copied {0} items に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfCopyToFolderSuccess {
+            get {
+                return ResourceManager.GetString("BookshelfCopyToFolderSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Set this place home に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookshelfHomeMenuSet {
@@ -237,6 +264,15 @@ namespace NeeView.Properties {
         public static string BookshelfItemMenuCopy {
             get {
                 return ResourceManager.GetString("BookshelfItemMenuCopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cop_y to folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfItemMenuCopyToFolder {
+            get {
+                return ResourceManager.GetString("BookshelfItemMenuCopyToFolder", resourceCulture);
             }
         }
         
@@ -268,11 +304,38 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   _Option... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfItemMenuDestinationFolderOption {
+            get {
+                return ResourceManager.GetString("BookshelfItemMenuDestinationFolderOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _Select folder... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfItemMenuDestinationFolderSelect {
+            get {
+                return ResourceManager.GetString("BookshelfItemMenuDestinationFolderSelect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Open in explorer に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookshelfItemMenuExplorer {
             get {
                 return ResourceManager.GetString("BookshelfItemMenuExplorer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Mov_e to folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfItemMenuMoveToFolder {
+            get {
+                return ResourceManager.GetString("BookshelfItemMenuMoveToFolder", resourceCulture);
             }
         }
         
@@ -372,6 +435,33 @@ namespace NeeView.Properties {
         public static string BookshelfMoreMenuSubfolder {
             get {
                 return ResourceManager.GetString("BookshelfMoreMenuSubfolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move failed に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfMoveToFolderFailed {
+            get {
+                return ResourceManager.GetString("BookshelfMoveToFolderFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Select move destination folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfMoveToFolderSelect {
+            get {
+                return ResourceManager.GetString("BookshelfMoveToFolderSelect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Moved {0} items に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfMoveToFolderSuccess {
+            get {
+                return ResourceManager.GetString("BookshelfMoveToFolderSuccess", resourceCulture);
             }
         }
         
@@ -5984,6 +6074,33 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Folder settings に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DestinationFolderEditDialogTitle {
+            get {
+                return ResourceManager.GetString("DestinationFolderEditDialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Destination folder path に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DestinationFolderPathTips {
+            get {
+                return ResourceManager.GetString("DestinationFolderPathTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Destination folders に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DestinationFoldersDialogTitle {
+            get {
+                return ResourceManager.GetString("DestinationFoldersDialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Add item に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string DialogAddParameterTile {
@@ -10893,6 +11010,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Destination folders に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamDestinationFolderCollection {
+            get {
+                return ResourceManager.GetString("ParamDestinationFolderCollection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Keep dot に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamDotKeepIsEnabled {
@@ -15651,6 +15777,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Close に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordClose {
+            get {
+                return ResourceManager.GetString("WordClose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Command に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WordCommand {
@@ -15764,6 +15899,15 @@ namespace NeeView.Properties {
         public static string WordDown {
             get {
                 return ResourceManager.GetString("WordDown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Edit に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordEdit {
+            get {
+                return ResourceManager.GetString("WordEdit", resourceCulture);
             }
         }
         
@@ -16079,6 +16223,15 @@ namespace NeeView.Properties {
         public static string WordPagemark {
             get {
                 return ResourceManager.GetString("WordPagemark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Path に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordPath {
+            get {
+                return ResourceManager.GetString("WordPath", resourceCulture);
             }
         }
         

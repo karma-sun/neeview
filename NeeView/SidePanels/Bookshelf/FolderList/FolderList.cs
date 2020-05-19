@@ -1626,7 +1626,7 @@ namespace NeeView
             var removed = await FileIO.Current.RemoveFileAsync(items.Select(e => e.TargetPath.SimplePath).ToList(), Properties.Resources.DialogFileDeleteBookTitle);
             if (removed)
             {
-                var removes = items.Where(e => !FileIO.Current.Exists(e.TargetPath.SimplePath)).ToList();
+                var removes = items.Where(e => !FileIO.Exists(e.TargetPath.SimplePath)).ToList();
                 foreach (var item in removes)
                 {
                     FolderCollection?.RequestDelete(item.TargetPath);

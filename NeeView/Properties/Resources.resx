@@ -5574,4 +5574,55 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="NavigateStretchAllowScaleDown" xml:space="preserve">
     <value>Allow stretch scale down</value>
   </data>
+  <data name="WordEdit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="WordClose" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="DestinationFoldersDialogTitle" xml:space="preserve">
+    <value>Destination folders</value>
+  </data>
+  <data name="DestinationFolderEditDialogTitle" xml:space="preserve">
+    <value>Folder settings</value>
+  </data>
+  <data name="WordPath" xml:space="preserve">
+    <value>Path</value>
+  </data>
+  <data name="DestinationFolderPathTips" xml:space="preserve">
+    <value>Destination folder path</value>
+  </data>
+  <data name="BookshelfItemMenuCopyToFolder" xml:space="preserve">
+    <value>Cop_y to folder</value>
+  </data>
+  <data name="BookshelfItemMenuMoveToFolder" xml:space="preserve">
+    <value>Mov_e to folder</value>
+  </data>
+  <data name="BookshelfItemMenuDestinationFolderOption" xml:space="preserve">
+    <value>_Option...</value>
+  </data>
+  <data name="BookshelfItemMenuDestinationFolderSelect" xml:space="preserve">
+    <value>_Select folder...</value>
+  </data>
+  <data name="BookshelfCopyToFolderSelect" xml:space="preserve">
+    <value>Select copy destination folder</value>
+  </data>
+  <data name="BookshelfMoveToFolderSelect" xml:space="preserve">
+    <value>Select move destination folder</value>
+  </data>
+  <data name="BookshelfCopyToFolderSuccess" xml:space="preserve">
+    <value>Copied {0} items</value>
+  </data>
+  <data name="BookshelfCopyToFolderFailed" xml:space="preserve">
+    <value>Copy failed</value>
+  </data>
+  <data name="BookshelfMoveToFolderSuccess" xml:space="preserve">
+    <value>Moved {0} items</value>
+  </data>
+  <data name="BookshelfMoveToFolderFailed" xml:space="preserve">
+    <value>Move failed</value>
+  </data>
+  <data name="ParamDestinationFolderCollection" xml:space="preserve">
+    <value>Destination folders</value>
+  </data>
 </root>

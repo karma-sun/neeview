@@ -5,6 +5,8 @@ namespace NeeView
     // BookMementoCollectionChangedイベントの種類
     public enum BookMementoCollectionChangedType
     {
+        None = 0,
+
         Load,
         Clear,
         Add,

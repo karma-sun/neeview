@@ -1,6 +1,7 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Controls;
 using NeeView.Windows.Property;
+using System;
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.Serialization;
@@ -24,6 +25,7 @@ namespace NeeView
         private string _downloadPath = "";
         private bool _isOpenbookAtCurrentPlace;
         private bool _isNaturalSortEnabled;
+        private DestinationFolderCollection _destinationFolderCollection = new DestinationFolderCollection();
 
 
         /// <summary>
@@ -140,12 +142,23 @@ namespace NeeView
         }
 
         // カスタム自然順ソート
-        [PropertyMember("@ParamIsNaturalSortEnabled", Tips="@ParamIsNaturalSortEnabledTips")]
+        [PropertyMember("@ParamIsNaturalSortEnabled", Tips = "@ParamIsNaturalSortEnabledTips")]
         public bool IsNaturalSortEnabled
         {
             get { return _isNaturalSortEnabled; }
             set { SetProperty(ref _isNaturalSortEnabled, value); }
         }
+
+        // コピーまたは移動先フォルダーのリスト
+        [PropertyMember("@ParamDestinationFolderCollection")]
+        [PropertyMapIgnore]
+        [ObjectMergeReferenceCopy]
+        public DestinationFolderCollection DestinationFodlerCollection
+        {
+            get { return _destinationFolderCollection; }
+            set { SetProperty(ref _destinationFolderCollection, value); }
+        }
+
     }
 
 }

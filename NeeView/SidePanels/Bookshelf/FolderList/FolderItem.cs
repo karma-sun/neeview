@@ -149,7 +149,15 @@ namespace NeeView
         public QueryPath TargetPath
         {
             get { return _targetPath; }
-            set { if (_targetPath != value) { _targetPath = value; RaisePropertyChanged(); } }
+            set
+            {
+                if (_targetPath != value)
+                {
+                    _targetPath = value;
+                    _entityPath = _targetPath?.ToEntityPath();
+                    RaisePropertyChanged();
+                }
+            }
         }
 
         /// <summary>
@@ -157,7 +165,7 @@ namespace NeeView
         /// </summary>
         public QueryPath EntityPath
         {
-            get { return _entityPath ?? (_entityPath = TargetPath?.ToEntityPath()); }
+            get { return _entityPath; }
         }
 
 

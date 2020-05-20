@@ -5002,7 +5002,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>度</value>
   </data>
   <data name="WordDelete" xml:space="preserve">
-    <value>削除する</value>
+    <value>削除</value>
   </data>
   <data name="WordDescription" xml:space="preserve">
     <value>説明</value>
@@ -5581,7 +5581,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>閉じる</value>
   </data>
   <data name="DestinationFoldersDialogTitle" xml:space="preserve">
-    <value>出力先フォルダーリスト</value>
+    <value>登録されているフォルダー</value>
   </data>
   <data name="DestinationFolderEditDialogTitle" xml:space="preserve">
     <value>フォルダー設定</value>
@@ -5599,7 +5599,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>フォルダーに移動(_E)</value>
   </data>
   <data name="BookshelfItemMenuDestinationFolderOption" xml:space="preserve">
-    <value>設定(_O)...</value>
+    <value>フォルダーを追加(_A)...</value>
   </data>
   <data name="BookshelfItemMenuDestinationFolderSelect" xml:space="preserve">
     <value>フォルダーを選択(_S)...</value>
@@ -5624,5 +5624,11 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="ParamDestinationFolderCollection" xml:space="preserve">
     <value>移動先フォルダーリスト</value>
+  </data>
+  <data name="WordNone" xml:space="preserve">
+    <value>なし</value>
+  </data>
+  <data name="WordItemNone" xml:space="preserve">
+    <value>(なし)</value>
   </data>
 </root>

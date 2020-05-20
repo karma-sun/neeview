@@ -5584,13 +5584,13 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Destination folders</value>
   </data>
   <data name="DestinationFolderEditDialogTitle" xml:space="preserve">
-    <value>Folder settings</value>
+    <value>Folder parameters</value>
   </data>
   <data name="WordPath" xml:space="preserve">
     <value>Path</value>
   </data>
   <data name="DestinationFolderPathTips" xml:space="preserve">
-    <value>Destination folder path</value>
+    <value>folder path</value>
   </data>
   <data name="BookshelfItemMenuCopyToFolder" xml:space="preserve">
     <value>Cop_y to folder</value>
@@ -5599,7 +5599,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Mov_e to folder</value>
   </data>
   <data name="BookshelfItemMenuDestinationFolderOption" xml:space="preserve">
-    <value>_Option...</value>
+    <value>_Add folders...</value>
   </data>
   <data name="BookshelfItemMenuDestinationFolderSelect" xml:space="preserve">
     <value>_Select folder...</value>
@@ -5624,5 +5624,11 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="ParamDestinationFolderCollection" xml:space="preserve">
     <value>Destination folders</value>
+  </data>
+  <data name="WordNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="WordItemNone" xml:space="preserve">
+    <value>(None)</value>
   </data>
 </root>

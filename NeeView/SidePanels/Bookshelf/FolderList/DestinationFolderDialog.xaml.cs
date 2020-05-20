@@ -4,6 +4,7 @@ using NeeLaboratory.Windows.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,13 +51,50 @@ namespace NeeView
         {
             _vm.EditCommand.Execute(null);
         }
+
+        private void ItemsListView_PreviewDragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop, true))
+            {
+                e.Effects = e.Data.GetFileDrop().Any(x => Directory.Exists(x)) ? DragDropEffects.Copy : DragDropEffects.None;
+            }
+            else
+            {
+                e.Effects = DragDropEffects.None;
+            }
+
+            e.Handled = true;
+        }
+
+        private void ItemsListView_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop, true))
+            {
+                foreach (var path in e.Data.GetFileDrop().Where(x => Directory.Exists(x)))
+                {
+                    _vm.Add(path);
+                }
+                e.Handled = true;
+            }
+        }
+
+        private void ItemsListView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.Modifiers == ModifierKeys.None)
+            {
+                if (e.Key == Key.Delete)
+                {
+                    _vm.DeleteCommand.Execute(null);
+                }
+            }
+        }
     }
 
 
     public class DestinationFolderDialogViewModel : BindableBase
     {
         public ObservableCollection<DestinationFolder> _items;
-        private int _selectedIndex;
+        private int _selectedIndex = -1;
 
 
         public DestinationFolderDialogViewModel()
@@ -112,7 +150,7 @@ namespace NeeView
 
         private bool SelectedItemCommand_CanExecute()
         {
-            return _selectedIndex >= 0;
+            return Items.Any() && _selectedIndex >= 0;
         }
 
         private void EditCommand_Execute()
@@ -143,6 +181,11 @@ namespace NeeView
                     Items.Add(item);
                 }
             }
+        }
+
+        public void Add(string path)
+        {
+            Items.Add(new DestinationFolder("", path));
         }
 
         private void DeleteCommand_Execute()

@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 
@@ -280,13 +281,7 @@ namespace NeeView
         public void CopyToFolder_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             var folder = e.Parameter as DestinationFolder;
-            if (folder == null)
-            {
-                var path = FileIO.OpenFolderBrowserDialog(Window.GetWindow(this), Properties.Resources.BookshelfCopyToFolderSelect);
-                if (path == null) return;
-
-                folder = new DestinationFolder("", path);
-            }
+            if (folder == null) return;
 
             try
             {
@@ -328,13 +323,7 @@ namespace NeeView
         public void MoveToFolder_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             var folder = e.Parameter as DestinationFolder;
-            if (folder == null)
-            {
-                var path = FileIO.OpenFolderBrowserDialog(Window.GetWindow(this), Properties.Resources.BookshelfMoveToFolderSelect);
-                if (path == null) return;
-
-                folder = new DestinationFolder("", path);
-            }
+            if (folder == null) return;
 
             try
             {
@@ -1107,17 +1096,18 @@ namespace NeeView
 
             if (Config.Current.System.DestinationFodlerCollection.Any())
             {
-                subItem.Items.Add(new Separator());
                 for (int i = 0; i < Config.Current.System.DestinationFodlerCollection.Count; ++i)
                 {
                     var folder = Config.Current.System.DestinationFodlerCollection[i];
-                    var header = (i < 9 ? "_" : "") + $"{i + 1}: {folder.Name}";
+                    var header = new TextBlock(new Run(folder.Name));
                     subItem.Items.Add(new MenuItem() { Header = header, ToolTip = folder.Path, Command = command, CommandParameter = folder });
                 }
-                subItem.Items.Add(new Separator());
+            }
+            else
+            {
+                subItem.Items.Add(new MenuItem() { Header = Properties.Resources.WordItemNone, IsEnabled = false });
             }
 
-            subItem.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuDestinationFolderSelect, Command = command });
             subItem.Items.Add(new Separator());
             subItem.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuDestinationFolderOption, Command = OpenDestinationFolderCommand });
 

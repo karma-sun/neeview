@@ -24,7 +24,13 @@
         </Style>
 
         <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
-            <Setter Property="Header" Value="{Binding Path=Value.PageName}" />
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=Value.PageName}" />
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
             <Setter Property="Command" Value="{Binding DataContext.MoveToHistoryCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=ContextMenu}}" />
             <Setter Property="CommandParameter" Value="{Binding}" />
         </Style>

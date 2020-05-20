@@ -304,7 +304,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   _Option... に類似しているローカライズされた文字列を検索します。
+        ///   _Add folders... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookshelfItemMenuDestinationFolderOption {
             get {
@@ -6074,7 +6074,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Folder settings に類似しているローカライズされた文字列を検索します。
+        ///   Folder parameters に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string DestinationFolderEditDialogTitle {
             get {
@@ -6083,7 +6083,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Destination folder path に類似しているローカライズされた文字列を検索します。
+        ///   folder path に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string DestinationFolderPathTips {
             get {
@@ -16074,6 +16074,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   (None) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordItemNone {
+            get {
+                return ResourceManager.GetString("WordItemNone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Jump に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WordJump {
@@ -16142,6 +16151,15 @@ namespace NeeView.Properties {
         public static string WordNoLimit {
             get {
                 return ResourceManager.GetString("WordNoLimit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   None に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordNone {
+            get {
+                return ResourceManager.GetString("WordNone", resourceCulture);
             }
         }
         

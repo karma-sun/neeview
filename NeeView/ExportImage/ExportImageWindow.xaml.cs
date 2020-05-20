@@ -64,5 +64,11 @@ namespace NeeView
         {
             this.Close();
         }
+
+        private void DestinationFolderOptionButton_Click(object sender, RoutedEventArgs e)
+        {
+            DestinationFolderDialog.ShowDialog(this);
+            _vm.UpdateDestinationFolderList();
+        }
     }
 }

@@ -14,11 +14,11 @@
             <Setter Property="Foreground" Value="{StaticResource NVDialogButtonForeground}" />
             <Setter Property="Background" Value="{StaticResource NVDialogButtonBackground}" />
         </Style>
-        
+
         <Style x:Key="ItemStack" TargetType="StackPanel">
             <Setter Property="Margin" Value="0,5" />
         </Style>
-        
+
         <Style x:Key="Header" TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="TextTrimming" Value="CharacterEllipsis" />
@@ -47,7 +47,7 @@
                 <Button x:Name="SaveButton" Style="{StaticResource TextButtonMain}" Content="{x:Static properties:Resources.ControlSaveSaveAs}" Click="SaveButton_Click" />
                 <Button x:Name="CancelButton" Style="{StaticResource TextButton}" Content="{x:Static properties:Resources.WordCancel}" Click="CancelButton_Click" />
             </StackPanel>
-            <StackPanel Margin="10">
+            <StackPanel DockPanel.Dock="Top" Margin="10">
                 <StackPanel Style="{StaticResource ItemStack}">
                     <TextBlock Style="{StaticResource Header}" Text="{x:Static properties:Resources.ControlSaveExportMode}" />
                     <ComboBox Style="{StaticResource BodyComboBox}" ItemsSource="{Binding ExportImageModeList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Mode}"
@@ -66,6 +66,21 @@
                         </CheckBox.Style>
                     </CheckBox>
                 </StackPanel>
+            </StackPanel>
+
+            <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="10,0">
+
+                <StackPanel Style="{StaticResource ItemStack}">
+                        <TextBlock Style="{StaticResource Header}" Text="{x:Static properties:Resources.ControlSaveExportFolder}" />
+                    <DockPanel>
+                        <Button x:Name="DestinationFolderOptionButton" DockPanel.Dock="Right" Style="{StaticResource IconButton}" Click="DestinationFolderOptionButton_Click" TabIndex="102">
+                            <Image Source="{StaticResource ic_setting_24px_b}" Width="16" Height="16" />
+                        </Button>
+                    <ComboBox Style="{StaticResource BodyComboBox}" ItemsSource="{Binding DestinationFolderList}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDestinationFolder}"
+                            TabIndex="101"/>
+                    </DockPanel>
+                </StackPanel>
+
             </StackPanel>
         </DockPanel>
 

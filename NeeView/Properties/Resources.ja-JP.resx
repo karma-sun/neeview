@@ -5631,4 +5631,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="WordItemNone" xml:space="preserve">
     <value>(なし)</value>
   </data>
+  <data name="ControlSaveExportFolder" xml:space="preserve">
+    <value>既定の出力先フォルダー</value>
+  </data>
 </root>

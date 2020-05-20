@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 namespace NeeView
 {
     [JsonConverter(typeof(DestinationFolderConverter))]
-    public class DestinationFolder : ICloneable
+    public class DestinationFolder : ICloneable, IEquatable<DestinationFolder>
     {
         private string _name = "";
         private string _path = "";
@@ -69,6 +69,27 @@ namespace NeeView
         public object Clone()
         {
             return MemberwiseClone();
+        }
+
+        public bool Equals(DestinationFolder other)
+        {
+            if (other == null)
+                return false;
+
+            if (this.Name == other.Name && this.Path == other.Path)
+                return true;
+            else
+                return false;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as DestinationFolder);
+        }
+
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode() ^ Path.GetHashCode();
         }
     }
 

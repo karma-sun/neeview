@@ -5984,6 +5984,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Default destination folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlSaveExportFolder {
+            get {
+                return ResourceManager.GetString("ControlSaveExportFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Output image type に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ControlSaveExportMode {

@@ -235,19 +235,19 @@ namespace NeeView
 
         public void AddBaseScaleTick(int delta)
         {
-            var tick = 5.0;
+            var tick = 1.0;
             BaseScale = MathUtility.Snap(BaseScale + delta * tick, tick);
         }
 
         public void AddScaleTick(int delta)
         {
-            var tick = 5.0;
+            var tick = 1.0;
             Scale = MathUtility.Snap(Scale + delta * tick, tick);
         }
 
         public void AddAngleTick(int delta)
         {
-            var tick = 5.0;
+            var tick = 1.0;
             Angle = MathUtility.Snap(Angle + delta * tick, tick);
         }
 

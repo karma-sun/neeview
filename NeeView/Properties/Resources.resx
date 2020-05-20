@@ -5631,4 +5631,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="WordItemNone" xml:space="preserve">
     <value>(None)</value>
   </data>
+  <data name="ControlSaveExportFolder" xml:space="preserve">
+    <value>Default destination folder</value>
+  </data>
 </root>

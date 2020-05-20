@@ -101,6 +101,8 @@
 
                     <!--#region Icons -->
 
+                    <RectangleGeometry x:Key="g_rect24x24" Rect="0,0,24,24" />
+
                     <!-- Material design icons by Google -->
                     <!-- http://www.google.com/design/spec/style/icons.html#icons-system-icons -->
 
@@ -136,6 +138,15 @@
                     <DrawingImage x:Key="ic_setting_24px">
                         <DrawingImage.Drawing>
                             <GeometryDrawing Brush="{StaticResource NVIconBrushLight}" Pen="{x:Null}" Geometry="{StaticResource g_setting_24px}"/>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+
+                    <DrawingImage x:Key="ic_setting_24px_b">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup>
+                                <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
+                                <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}" Geometry="{StaticResource g_setting_24px}" />
+                            </DrawingGroup>
                         </DrawingImage.Drawing>
                     </DrawingImage>
                     <!--#endregion -->

@@ -23,7 +23,7 @@ namespace NeeView
         }
 
 
-        public static bool SetData(System.Windows.DataObject data, List<Page>pages, CopyFileCommandParameter parameter, CancellationToken token)
+        public static bool SetData(System.Windows.DataObject data, List<Page> pages, CopyFileCommandParameter parameter, CancellationToken token)
         {
             var files = new List<string>();
 

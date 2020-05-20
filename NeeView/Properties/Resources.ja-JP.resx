@@ -5599,7 +5599,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>フォルダーに移動(_E)</value>
   </data>
   <data name="BookshelfItemMenuDestinationFolderOption" xml:space="preserve">
-    <value>フォルダーを追加(_A)...</value>
+    <value>フォルダーを編集(_E)...</value>
   </data>
   <data name="BookshelfItemMenuDestinationFolderSelect" xml:space="preserve">
     <value>フォルダーを選択(_S)...</value>

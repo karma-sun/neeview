@@ -37,6 +37,16 @@ namespace NeeView
             this.Closed += DestinationFolderDialog_Closed;
         }
 
+
+        public static void ShowDialog(Window owner)
+        {
+            var dialog = new DestinationFolderDialog();
+            dialog.Owner = owner;
+            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            dialog.ShowDialog();
+        }
+
+
         private void DestinationFolderDialog_Closed(object sender, EventArgs e)
         {
             _vm.Decide();

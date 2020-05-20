@@ -320,7 +320,7 @@ namespace NeeView
             return Config.Current.System.IsFileWriteAccessEnabled && items != null && items.All(x => x.IsEditable);
         }
 
-        public void MoveToFolder_Execute(object sender, ExecutedRoutedEventArgs e)
+        public async void MoveToFolder_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             var folder = e.Parameter as DestinationFolder;
             if (folder == null) return;
@@ -335,6 +335,13 @@ namespace NeeView
                 var items = this.ListBox.SelectedItems.Cast<FolderItem>();
                 if (items != null && items.Any())
                 {
+                    // 開いている本であるならば閉じる
+                    if (items.Any(x => x.TargetPath.SimplePath == BookHub.Current.Address))
+                    {
+                        await BookHub.Current.RequestUnload(this, true).WaitAsync();
+                        await ArchiverManager.Current.UnlockAllArchivesAsync();
+                    }
+
                     ////Debug.WriteLine($"MoveToFolder: to {folder.Path}");
                     FileIO.MoveToFolder(items.Select(x => x.TargetPath.SimplePath), folder.Path);
                 }
@@ -531,10 +538,7 @@ namespace NeeView
 
         private void OpenDestinationFolderDialog_Execute(object sender, ExecutedRoutedEventArgs e)
         {
-            var dialog = new DestinationFolderDialog();
-            dialog.Owner = Window.GetWindow(this);
-            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            dialog.ShowDialog();
+            DestinationFolderDialog.ShowDialog(Window.GetWindow(this));
         }
 
 
@@ -1079,39 +1083,12 @@ namespace NeeView
                 contextMenu.Items.Add(new Separator());
                 contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuExplorer, Command = OpenExplorerCommand });
                 contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuCopy, Command = CopyCommand });
-                contextMenu.Items.Add(CreateDestinationFolderItem(Properties.Resources.BookshelfItemMenuCopyToFolder, CopyToFolder_CanExecute, CopyToFolderCommand));
-                contextMenu.Items.Add(CreateDestinationFolderItem(Properties.Resources.BookshelfItemMenuMoveToFolder, MoveToFolder_CanExecute, MoveToFolderCommand));
+                contextMenu.Items.Add(DestinationFolderCollectionUtility.CreateDestinationFolderItem(Properties.Resources.BookshelfItemMenuCopyToFolder, CopyToFolder_CanExecute(), CopyToFolderCommand, OpenDestinationFolderCommand));
+                contextMenu.Items.Add(DestinationFolderCollectionUtility.CreateDestinationFolderItem(Properties.Resources.BookshelfItemMenuMoveToFolder, MoveToFolder_CanExecute(), MoveToFolderCommand, OpenDestinationFolderCommand));
                 contextMenu.Items.Add(new Separator());
                 contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuDelete, Command = RemoveCommand });
                 contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuRename, Command = RenameCommand });
             }
-        }
-
-        /// <summary>
-        /// 「フォルダーにコピー」「フォルダーに移動」メニュー作成
-        /// </summary>
-        private MenuItem CreateDestinationFolderItem(string title, Func<bool> canExecute, ICommand command)
-        {
-            MenuItem subItem = new MenuItem() { Header = title, IsEnabled = canExecute() };
-
-            if (Config.Current.System.DestinationFodlerCollection.Any())
-            {
-                for (int i = 0; i < Config.Current.System.DestinationFodlerCollection.Count; ++i)
-                {
-                    var folder = Config.Current.System.DestinationFodlerCollection[i];
-                    var header = new TextBlock(new Run(folder.Name));
-                    subItem.Items.Add(new MenuItem() { Header = header, ToolTip = folder.Path, Command = command, CommandParameter = folder });
-                }
-            }
-            else
-            {
-                subItem.Items.Add(new MenuItem() { Header = Properties.Resources.WordItemNone, IsEnabled = false });
-            }
-
-            subItem.Items.Add(new Separator());
-            subItem.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuDestinationFolderOption, Command = OpenDestinationFolderCommand });
-
-            return subItem;
         }
 
 

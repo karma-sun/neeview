@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -108,7 +109,10 @@ namespace NeeView
         public static readonly RoutedCommand OpenCommand = new RoutedCommand("OpenCommand", typeof(PageListBox));
         public static readonly RoutedCommand OpenBookCommand = new RoutedCommand("OpenBookCommand", typeof(PageListBox));
         public static readonly RoutedCommand CopyCommand = new RoutedCommand("CopyCommand", typeof(PageListBox));
+        public static readonly RoutedCommand CopyToFolderCommand = new RoutedCommand("CopyToFolderCommand", typeof(FolderListBox));
+        public static readonly RoutedCommand MoveToFolderCommand = new RoutedCommand("MoveToFolderCommand", typeof(FolderListBox));
         public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(PageListBox));
+        public static readonly RoutedCommand OpenDestinationFolderCommand = new RoutedCommand("OpenDestinationFolderCommand", typeof(FolderListBox));
 
         private static void InitializeCommandStatic()
         {
@@ -123,7 +127,10 @@ namespace NeeView
             this.ListBox.CommandBindings.Add(new CommandBinding(OpenCommand, Open_Exec, Open_CanExec));
             this.ListBox.CommandBindings.Add(new CommandBinding(OpenBookCommand, OpenBook_Exec, OpenBook_CanExec));
             this.ListBox.CommandBindings.Add(new CommandBinding(CopyCommand, Copy_Exec, Copy_CanExec));
+            this.ListBox.CommandBindings.Add(new CommandBinding(CopyToFolderCommand, CopyToFolder_Execute, CopyToFolder_CanExecute));
+            this.ListBox.CommandBindings.Add(new CommandBinding(MoveToFolderCommand, MoveToFolder_Execute, MoveToFolder_CanExecute));
             this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec, Remove_CanExec));
+            this.ListBox.CommandBindings.Add(new CommandBinding(OpenDestinationFolderCommand, OpenDestinationFolderDialog_Execute));
         }
 
 
@@ -190,6 +197,90 @@ namespace NeeView
         }
 
 
+        /// <summary>
+        /// フォルダーにコピーコマンド用
+        /// </summary>
+        private void CopyToFolder_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = CopyToFolder_CanExecute();
+        }
+
+        private bool CopyToFolder_CanExecute()
+        {
+            var items = this.ListBox.SelectedItems.Cast<Page>();
+            return items != null && items.Any() && _vm.Model.CanCopyToFolder(items);
+        }
+
+        public void CopyToFolder_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            var folder = e.Parameter as DestinationFolder;
+            if (folder == null) return;
+
+            try
+            {
+                if (!Directory.Exists(folder.Path))
+                {
+                    throw new DirectoryNotFoundException();
+                }
+
+                var items = this.ListBox.SelectedItems.Cast<Page>();
+                if (items != null && items.Any())
+                {
+                    ////Debug.WriteLine($"CopyToFolder: to {folder.Path}");
+                    _vm.Model.CopyToFolder(items, folder.Path);
+                }
+            }
+            catch (OperationCanceledException)
+            {
+            }
+            catch (Exception ex)
+            {
+                ToastService.Current.Show(new Toast(ex.Message, Properties.Resources.BookshelfCopyToFolderFailed, ToastIcon.Error));
+            }
+        }
+
+        /// <summary>
+        /// フォルダーに移動コマンド用
+        /// </summary>
+        private void MoveToFolder_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = MoveToFolder_CanExecute();
+        }
+
+        private bool MoveToFolder_CanExecute()
+        {
+            var items = this.ListBox.SelectedItems.Cast<Page>();
+            return Config.Current.System.IsFileWriteAccessEnabled && items != null && items.Any() && _vm.Model.CanMoveToFolder(items);
+        }
+
+        public void MoveToFolder_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            var folder = e.Parameter as DestinationFolder;
+            if (folder == null) return;
+
+            try
+            {
+                if (!Directory.Exists(folder.Path))
+                {
+                    throw new DirectoryNotFoundException();
+                }
+
+                var items = this.ListBox.SelectedItems.Cast<Page>();
+                if (items != null && items.Any())
+                {
+                    ////Debug.WriteLine($"MoveToFolder: to {folder.Path}");
+                    _vm.Model.MoveToFolder(items, folder.Path);
+                }
+            }
+            catch (OperationCanceledException)
+            {
+            }
+            catch (Exception ex)
+            {
+                ToastService.Current.Show(new Toast(ex.Message, Properties.Resources.BookshelfMoveToFolderFailed, ToastIcon.Error));
+            }
+        }
+
         private void Remove_CanExec(object sender, CanExecuteRoutedEventArgs e)
         {
             var listBox = (ListBox)sender;
@@ -210,6 +301,11 @@ namespace NeeView
             {
                 await _vm.Model.RemoveAsync(listBox.SelectedItems.Cast<Page>().ToList());
             }
+        }
+
+        private void OpenDestinationFolderDialog_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            DestinationFolderDialog.ShowDialog(Window.GetWindow(this));
         }
 
         #endregion
@@ -441,6 +537,9 @@ namespace NeeView
             contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagelistItemMenuOpen, Command = OpenCommand });
             contextMenu.Items.Add(new Separator());
             contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PageListItemMenuCopy, Command = CopyCommand });
+            contextMenu.Items.Add(DestinationFolderCollectionUtility.CreateDestinationFolderItem(Properties.Resources.BookshelfItemMenuCopyToFolder, CopyToFolder_CanExecute(), CopyToFolderCommand, OpenDestinationFolderCommand));
+            contextMenu.Items.Add(DestinationFolderCollectionUtility.CreateDestinationFolderItem(Properties.Resources.BookshelfItemMenuMoveToFolder, MoveToFolder_CanExecute(), MoveToFolderCommand, OpenDestinationFolderCommand));
+            contextMenu.Items.Add(new Separator());
             contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PageListItemMenuDelete, Command = RemoveCommand });
         }
 

@@ -187,6 +187,7 @@ namespace NeeView
         /// </summary>
         public static void MoveToFolder(IEnumerable<string> froms, string toDirectory)
         {
+
             var toDirPath = LoosePath.TrimDirectoryEnd(toDirectory);
 
             var dir = new DirectoryInfo(toDirPath);

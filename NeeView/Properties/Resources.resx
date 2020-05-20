@@ -5599,7 +5599,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Mov_e to folder</value>
   </data>
   <data name="BookshelfItemMenuDestinationFolderOption" xml:space="preserve">
-    <value>_Add folders...</value>
+    <value>_Edit folders...</value>
   </data>
   <data name="BookshelfItemMenuDestinationFolderSelect" xml:space="preserve">
     <value>_Select folder...</value>

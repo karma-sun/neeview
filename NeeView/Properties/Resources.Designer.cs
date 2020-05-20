@@ -304,7 +304,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   _Add folders... に類似しているローカライズされた文字列を検索します。
+        ///   _Edit folders... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookshelfItemMenuDestinationFolderOption {
             get {

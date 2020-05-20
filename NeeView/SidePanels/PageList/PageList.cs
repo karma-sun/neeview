@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NeeView
@@ -212,6 +213,34 @@ namespace NeeView
         {
             ClipboardUtility.Copy(pages, new CopyFileCommandParameter() { MultiPagePolicy = MultiPagePolicy.All });
         }
+
+        public bool CanCopyToFolder(IEnumerable<Page> pages)
+        {
+            return PageUtility.CanCreateRealizedFilePathList(pages);
+        }
+
+        public void CopyToFolder(IEnumerable<Page> pages, string destDirPath)
+        {
+            var paths = PageUtility.CreateRealizedFilePathList(pages, CancellationToken.None);
+            FileIO.CopyToFolder(paths, destDirPath);
+        }
+
+        public bool CanMoveToFolder(IEnumerable<Page> pages)
+        {
+            return pages.All(e => e.Entry.IsFileSystem);
+        }
+
+        public void MoveToFolder(IEnumerable<Page> pages, string destDirPath)
+        {
+            var movePages = pages.Where(e => e.Entry.IsFileSystem).ToList();
+            var paths = movePages.Select(e => e.GetFilePlace()).ToList();
+            FileIO.MoveToFolder(paths, destDirPath);
+
+            // 移動後のブックページ整合性処理
+            // TODO: しっかり実装するならページのファイルシステムの監視が必要になる。ファイルの追加削除が自動的にページに反映するように。
+            BookOperation.Current.ValidateRemoveFile(movePages);
+        }
+
 
         /// <summary>
         /// 履歴取得

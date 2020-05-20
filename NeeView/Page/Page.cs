@@ -299,7 +299,14 @@ namespace NeeView
             Debug.Assert(Entry?.Archiver != null);
             if (Entry.Archiver is PagemarkArchiver)
             {
-                return Entry.GetFileSystemPath();
+                if (Entry.Instance is ArchiveEntry archiveEntry)
+                {
+                    return archiveEntry.Archiver.GetSourceFileSystemPath();
+                }
+                else
+                {
+                    return Entry.GetFileSystemPath();
+                }
             }
             else if (Entry.Archiver is FolderArchive)
             {

@@ -108,11 +108,14 @@ namespace NeeView
 
         public static readonly RoutedCommand OpenCommand = new RoutedCommand("OpenCommand", typeof(PageListBox));
         public static readonly RoutedCommand OpenBookCommand = new RoutedCommand("OpenBookCommand", typeof(PageListBox));
+        public static readonly RoutedCommand OpenExplorerCommand = new RoutedCommand("OpenExplorerCommand", typeof(FolderListBox));
+        public static readonly RoutedCommand OpenExternalAppCommand = new RoutedCommand("OpenExternalAppCommand", typeof(FolderListBox));
         public static readonly RoutedCommand CopyCommand = new RoutedCommand("CopyCommand", typeof(PageListBox));
         public static readonly RoutedCommand CopyToFolderCommand = new RoutedCommand("CopyToFolderCommand", typeof(FolderListBox));
         public static readonly RoutedCommand MoveToFolderCommand = new RoutedCommand("MoveToFolderCommand", typeof(FolderListBox));
         public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(PageListBox));
         public static readonly RoutedCommand OpenDestinationFolderCommand = new RoutedCommand("OpenDestinationFolderCommand", typeof(FolderListBox));
+        public static readonly RoutedCommand OpenExternalAppDialogCommand = new RoutedCommand("OpenExternalAppDialogCommand", typeof(FolderListBox));
 
         private static void InitializeCommandStatic()
         {
@@ -126,11 +129,14 @@ namespace NeeView
         {
             this.ListBox.CommandBindings.Add(new CommandBinding(OpenCommand, Open_Exec, Open_CanExec));
             this.ListBox.CommandBindings.Add(new CommandBinding(OpenBookCommand, OpenBook_Exec, OpenBook_CanExec));
+            this.ListBox.CommandBindings.Add(new CommandBinding(OpenExplorerCommand, OpenExplorer_Executed, OpenExplorer_CanExecute));
+            this.ListBox.CommandBindings.Add(new CommandBinding(OpenExternalAppCommand, OpenExternalApp_Executed, OpenExternalApp_CanExecute));
             this.ListBox.CommandBindings.Add(new CommandBinding(CopyCommand, Copy_Exec, Copy_CanExec));
             this.ListBox.CommandBindings.Add(new CommandBinding(CopyToFolderCommand, CopyToFolder_Execute, CopyToFolder_CanExecute));
             this.ListBox.CommandBindings.Add(new CommandBinding(MoveToFolderCommand, MoveToFolder_Execute, MoveToFolder_CanExecute));
             this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec, Remove_CanExec));
             this.ListBox.CommandBindings.Add(new CommandBinding(OpenDestinationFolderCommand, OpenDestinationFolderDialog_Execute));
+            this.ListBox.CommandBindings.Add(new CommandBinding(OpenExternalAppDialogCommand, OpenExternalAppDialog_Execute));
         }
 
 
@@ -166,17 +172,57 @@ namespace NeeView
         }
 
 
+        /// <summary>
+        /// エクスプローラーで開くコマンド実行
+        /// </summary>
+        private void OpenExplorer_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            var item = (sender as ListBox)?.SelectedItem as Page;
+            e.CanExecute = item != null;
+        }
+
+        public void OpenExplorer_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var item = (sender as ListBox)?.SelectedItem as Page;
+            if (item != null)
+            {
+                var path = item.SystemPath;
+                System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + path + "\"");
+            }
+        }
+
+        /// <summary>
+        /// 外部アプリで開く
+        /// </summary>
+
+        private void OpenExternalApp_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = CopyToFolder_CanExecute();
+        }
+
+        private bool OpenExternalApp_CanExecute()
+        {
+            var items = this.ListBox.SelectedItems.Cast<Page>();
+            return items != null && items.Any() && _vm.Model.CanCopyToFolder(items);
+        }
+
+        public void OpenExternalApp_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var externalApp = e.Parameter as ExternalApp;
+            if (externalApp == null) return;
+
+            var items = this.ListBox.SelectedItems.Cast<Page>();
+            if (items != null && items.Any())
+            {
+                externalApp.Execute(items);
+            }
+        }
+
+
         private void Copy_CanExec(object sender, CanExecuteRoutedEventArgs e)
         {
-            var listBox = (ListBox)sender;
-            if (listBox.SelectedItems == null)
-            {
-                e.CanExecute = false;
-            }
-            else
-            {
-                e.CanExecute = listBox.SelectedItems.Count > 0;
-            }
+            var items = this.ListBox.SelectedItems.Cast<Page>();
+            e.CanExecute = items != null && items.Any() && _vm.Model.CanCopyToFolder(items);
         }
 
         private void Copy_Exec(object sender, ExecutedRoutedEventArgs e)
@@ -306,6 +352,11 @@ namespace NeeView
         private void OpenDestinationFolderDialog_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             DestinationFolderDialog.ShowDialog(Window.GetWindow(this));
+        }
+
+        private void OpenExternalAppDialog_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            ExternalAppDialog.ShowDialog(Window.GetWindow(this));
         }
 
         #endregion
@@ -536,6 +587,8 @@ namespace NeeView
 
             contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagelistItemMenuOpen, Command = OpenCommand });
             contextMenu.Items.Add(new Separator());
+            contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuExplorer, Command = OpenExplorerCommand });
+            contextMenu.Items.Add(ExternalAppCollectionUtility.CreateExternalAppItem(OpenExternalApp_CanExecute(), OpenExternalAppCommand, OpenExternalAppDialogCommand));
             contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PageListItemMenuCopy, Command = CopyCommand });
             contextMenu.Items.Add(DestinationFolderCollectionUtility.CreateDestinationFolderItem(Properties.Resources.BookshelfItemMenuCopyToFolder, CopyToFolder_CanExecute(), CopyToFolderCommand, OpenDestinationFolderCommand));
             contextMenu.Items.Add(DestinationFolderCollectionUtility.CreateDestinationFolderItem(Properties.Resources.BookshelfItemMenuMoveToFolder, MoveToFolder_CanExecute(), MoveToFolderCommand, OpenDestinationFolderCommand));

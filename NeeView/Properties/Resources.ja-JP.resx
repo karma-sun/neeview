@@ -2255,13 +2255,13 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>実行しない</value>
   </data>
   <data name="EnumArchiveOptionTypeSendArchiveFile" xml:space="preserve">
-    <value>圧縮ファイルを渡す</value>
+    <value>圧縮ファイルパス</value>
   </data>
   <data name="EnumArchiveOptionTypeSendArchivePath" xml:space="preserve">
     <value>圧縮ファイル＋ファイル名</value>
   </data>
   <data name="EnumArchiveOptionTypeSendExtractFile" xml:space="preserve">
-    <value>出力したファイルを渡す(一時ファイル)</value>
+    <value>出力したファイルのパス(一時ファイル)</value>
   </data>
   <data name="EnumAutoHideFocusLockModeFocusLock" xml:space="preserve">
     <value>ウィンドウとパネル</value>
@@ -5581,7 +5581,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>閉じる</value>
   </data>
   <data name="DestinationFoldersDialogTitle" xml:space="preserve">
-    <value>登録されているフォルダー</value>
+    <value>登録フォルダー一覧</value>
   </data>
   <data name="DestinationFolderEditDialogTitle" xml:space="preserve">
     <value>フォルダー設定</value>
@@ -5599,7 +5599,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>フォルダーに移動(_E)</value>
   </data>
   <data name="BookshelfItemMenuDestinationFolderOption" xml:space="preserve">
-    <value>フォルダーを編集(_E)...</value>
+    <value>フォルダーの登録(_A)...</value>
   </data>
   <data name="BookshelfItemMenuDestinationFolderSelect" xml:space="preserve">
     <value>フォルダーを選択(_S)...</value>
@@ -5633,5 +5633,23 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="ControlSaveExportFolder" xml:space="preserve">
     <value>既定の出力先フォルダー</value>
+  </data>
+  <data name="ExternalAppDialogTitle" xml:space="preserve">
+    <value>外部アプリ一覧</value>
+  </data>
+  <data name="ExternalAppEditDialogTitle" xml:space="preserve">
+    <value>外部アプリ設定</value>
+  </data>
+  <data name="BookshelfItemExternalAppOption" xml:space="preserve">
+    <value>外部アプリの登録(_A)...</value>
+  </data>
+  <data name="BookshelfItemOpenExternalApp" xml:space="preserve">
+    <value>外部アプリで開く</value>
+  </data>
+  <data name="WordParameter" xml:space="preserve">
+    <value>パラメーター</value>
+  </data>
+  <data name="WordDefaultApp" xml:space="preserve">
+    <value>既定のアプリ</value>
   </data>
 </root>

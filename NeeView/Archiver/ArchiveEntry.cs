@@ -194,26 +194,6 @@ namespace NeeView
         }
 
         /// <summary>
-        /// 外部連携用アーカイブパスの生成
-        /// </summary>
-        /// <param name="separater">エントリー名とのセパレーター</param>
-        /// <returns></returns>
-        public string CreateArchivePath(string separater = null)
-        {
-            separater = separater ?? "\\";
-
-            string path = null;
-            if (RootArchiver != null)
-            {
-                path = RootArchiver.SystemPath + separater;
-            }
-            // Rawなエントリー名を接続
-            path += RawEntryName;
-
-            return path;
-        }
-
-        /// <summary>
         /// ストリームを開く
         /// </summary>
         /// <returns>Stream</returns>
@@ -333,9 +313,9 @@ namespace NeeView
             return EntryName ?? base.ToString();
         }
 
-        #endregion
+#endregion
 
-        #region Utility
+#region Utility
 
         /// <summary>
         /// ArchiveEntry生成。
@@ -421,7 +401,7 @@ namespace NeeView
             return entry;
         }
 
-        #endregion
+#endregion
     }
 }
 

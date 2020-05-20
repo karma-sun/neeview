@@ -100,7 +100,6 @@ namespace NeeView
                 parameter.Parameter = this.Memento.BookOperation.ExternalApplication.Parameter;
                 parameter.MultiPagePolicy = this.Memento.BookOperation.ExternalApplication.MultiPageOption;
                 parameter.ArchivePolicy = this.Memento.BookOperation.ExternalApplication.ArchiveOption;
-                parameter.ArchiveSeparater = this.Memento.BookOperation.ExternalApplication.ArchiveSeparater;
                 openExternalAppCommand.Parameter = parameter;
             }
             if (setting.Commands.TryGetValue("CopyFile", out var copyFileCommand))
@@ -108,7 +107,6 @@ namespace NeeView
                 var parameter = new OpenExternalAppCommandParameter();
                 parameter.MultiPagePolicy = this.Memento.BookOperation.ClipboardUtility.MultiPageOption;
                 parameter.ArchivePolicy = this.Memento.BookOperation.ClipboardUtility.ArchiveOption;
-                parameter.ArchiveSeparater = this.Memento.BookOperation.ClipboardUtility.ArchiveSeparater;
                 copyFileCommand.Parameter = parameter;
             }
         }

@@ -36,6 +36,10 @@ namespace NeeView
                 {
                     files.Add(page.GetFilePlace());
                 }
+                else if (page.Entry.Instance is ArchiveEntry archiveEntry && archiveEntry.IsFileSystem)
+                {
+                    files.Add(archiveEntry.SystemPath);
+                }
                 // in archive
                 else
                 {
@@ -53,7 +57,7 @@ namespace NeeView
                             }
                             break;
                         case ArchivePolicy.SendArchivePath:
-                            files.Add(page.Entry.CreateArchivePath(parameter.ArchiveSeparater));
+                            files.Add(page.Entry.SystemPath);
                             break;
                     }
                 }

@@ -26,6 +26,7 @@ namespace NeeView
         private bool _isOpenbookAtCurrentPlace;
         private bool _isNaturalSortEnabled;
         private DestinationFolderCollection _destinationFolderCollection = new DestinationFolderCollection();
+        private ExternalAppCollection _externalAppCollection = new ExternalAppCollection() { new ExternalApp() };
 
 
         /// <summary>
@@ -157,6 +158,16 @@ namespace NeeView
         {
             get { return _destinationFolderCollection; }
             set { SetProperty(ref _destinationFolderCollection, value); }
+        }
+
+        // 外部実行アプリ設定のリスト
+        [PropertyMember("@ParamExternalAppCollection")]
+        [PropertyMapIgnore]
+        [ObjectMergeReferenceCopy]
+        public ExternalAppCollection ExternalAppCollection
+        {
+            get { return _externalAppCollection; }
+            set { SetProperty(ref _externalAppCollection, value); }
         }
 
     }

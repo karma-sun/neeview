@@ -111,6 +111,7 @@ namespace NeeView
         public static readonly RoutedCommand OpenCommand = new RoutedCommand("OpenCommand", typeof(FolderListBox));
         public static readonly RoutedCommand OpenBookCommand = new RoutedCommand("OpenBookCommand", typeof(FolderListBox));
         public static readonly RoutedCommand OpenExplorerCommand = new RoutedCommand("OpenExplorerCommand", typeof(FolderListBox));
+        public static readonly RoutedCommand OpenExternalAppCommand = new RoutedCommand("OpenExternalAppCommand", typeof(FolderListBox));
         public static readonly RoutedCommand CopyCommand = new RoutedCommand("CopyCommand", typeof(FolderListBox));
         public static readonly RoutedCommand CopyToFolderCommand = new RoutedCommand("CopyToFolderCommand", typeof(FolderListBox));
         public static readonly RoutedCommand MoveToFolderCommand = new RoutedCommand("MoveToFolderCommand", typeof(FolderListBox));
@@ -119,6 +120,7 @@ namespace NeeView
         public static readonly RoutedCommand RemoveHistoryCommand = new RoutedCommand("RemoveHistoryCommand", typeof(FolderListBox));
         public static readonly RoutedCommand ToggleBookmarkCommand = new RoutedCommand("ToggleBookmarkCommand", typeof(FolderListBox));
         public static readonly RoutedCommand OpenDestinationFolderCommand = new RoutedCommand("OpenDestinationFolderCommand", typeof(FolderListBox));
+        public static readonly RoutedCommand OpenExternalAppDialogCommand = new RoutedCommand("OpenExternalAppDialogCommand", typeof(FolderListBox));
 
         private static void InitialieCommandStatic()
         {
@@ -135,7 +137,8 @@ namespace NeeView
             this.ListBox.CommandBindings.Add(new CommandBinding(LoadWithRecursiveCommand, LoadWithRecursive_Executed, LoadWithRecursive_CanExecute));
             this.ListBox.CommandBindings.Add(new CommandBinding(OpenCommand, Open_Executed));
             this.ListBox.CommandBindings.Add(new CommandBinding(OpenBookCommand, OpenBook_Executed));
-            this.ListBox.CommandBindings.Add(new CommandBinding(OpenExplorerCommand, OpenExplorer_Executed));
+            this.ListBox.CommandBindings.Add(new CommandBinding(OpenExplorerCommand, OpenExplorer_Executed, OpenExplorer_CanExecute));
+            this.ListBox.CommandBindings.Add(new CommandBinding(OpenExternalAppCommand, OpenExternalApp_Executed, OpenExternalApp_CanExecute));
             this.ListBox.CommandBindings.Add(new CommandBinding(CopyCommand, Copy_Executed, Copy_CanExecute));
             this.ListBox.CommandBindings.Add(new CommandBinding(CopyToFolderCommand, CopyToFolder_Execute, CopyToFolder_CanExecute));
             this.ListBox.CommandBindings.Add(new CommandBinding(MoveToFolderCommand, MoveToFolder_Execute, MoveToFolder_CanExecute));
@@ -144,6 +147,7 @@ namespace NeeView
             this.ListBox.CommandBindings.Add(new CommandBinding(RemoveHistoryCommand, RemoveHistory_Executed, RemoveHistory_CanExecute));
             this.ListBox.CommandBindings.Add(new CommandBinding(ToggleBookmarkCommand, ToggleBookmark_Executed, ToggleBookmark_CanExecute));
             this.ListBox.CommandBindings.Add(new CommandBinding(OpenDestinationFolderCommand, OpenDestinationFolderDialog_Execute));
+            this.ListBox.CommandBindings.Add(new CommandBinding(OpenExternalAppDialogCommand, OpenExternalAppDialog_Execute));
         }
 
         /// <summary>
@@ -503,10 +507,14 @@ namespace NeeView
         }
 
         /// <summary>
-        /// エクスプローラーで開くコマンド実行
+        /// エクスプローラーで開くコマンド
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        private void OpenExplorer_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            var item = (sender as ListBox)?.SelectedItem as FolderItem;
+            e.CanExecute = item != null && !item.IsPagemark();
+        }
+
         public void OpenExplorer_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
@@ -516,6 +524,39 @@ namespace NeeView
                 path = item.Attributes.AnyFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.ArchiveEntry | FolderItemAttribute.Empty) ? ArchiverManager.Current.GetExistPathName(path) : path;
                 System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + path + "\"");
             }
+        }
+
+        /// <summary>
+        /// 外部アプリで開く
+        /// </summary>
+        private void OpenExternalApp_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = CopyToFolder_CanExecute();
+        }
+
+        private bool OpenExternalApp_CanExecute()
+        {
+            var items = this.ListBox.SelectedItems.Cast<FolderItem>();
+            return items != null && items.All(x => x.IsEditable);
+        }
+
+        public void OpenExternalApp_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var externalApp = e.Parameter as ExternalApp;
+            if (externalApp == null) return;
+
+            var items = this.ListBox.SelectedItems.Cast<FolderItem>();
+            if (items != null && items.Any())
+            {
+                var paths = items.Select(x => x.TargetPath.SimplePath).ToList();
+                externalApp.Execute(paths);
+            }
+        }
+
+        private string GetExistPathName(FolderItem item)
+        {
+            var path = item.TargetPath.SimplePath;
+            return item.Attributes.AnyFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.ArchiveEntry | FolderItemAttribute.Empty) ? ArchiverManager.Current.GetExistPathName(path) : path;
         }
 
         public void Open_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -541,6 +582,10 @@ namespace NeeView
             DestinationFolderDialog.ShowDialog(Window.GetWindow(this));
         }
 
+        private void OpenExternalAppDialog_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            ExternalAppDialog.ShowDialog(Window.GetWindow(this));
+        }
 
 
         private RelayCommand _NewFolderCommand;
@@ -1057,7 +1102,10 @@ namespace NeeView
                     contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuOpenBook, Command = OpenBookCommand });
                     contextMenu.Items.Add(new Separator());
                     contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuExplorer, Command = OpenExplorerCommand });
+                    contextMenu.Items.Add(ExternalAppCollectionUtility.CreateExternalAppItem(OpenExternalApp_CanExecute(), OpenExternalAppCommand, OpenExternalAppDialogCommand));
                     contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuCopy, Command = CopyCommand });
+                    contextMenu.Items.Add(DestinationFolderCollectionUtility.CreateDestinationFolderItem(Properties.Resources.BookshelfItemMenuCopyToFolder, CopyToFolder_CanExecute(), CopyToFolderCommand, OpenDestinationFolderCommand));
+                    contextMenu.Items.Add(DestinationFolderCollectionUtility.CreateDestinationFolderItem(Properties.Resources.BookshelfItemMenuMoveToFolder, false, MoveToFolderCommand, OpenDestinationFolderCommand));
                     contextMenu.Items.Add(new Separator());
                     contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuDeleteBookmark, Command = RemoveCommand });
                 }
@@ -1082,6 +1130,7 @@ namespace NeeView
                 contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuDeleteHistory, Command = RemoveHistoryCommand });
                 contextMenu.Items.Add(new Separator());
                 contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuExplorer, Command = OpenExplorerCommand });
+                contextMenu.Items.Add(ExternalAppCollectionUtility.CreateExternalAppItem(OpenExternalApp_CanExecute(), OpenExternalAppCommand, OpenExternalAppDialogCommand));
                 contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuCopy, Command = CopyCommand });
                 contextMenu.Items.Add(DestinationFolderCollectionUtility.CreateDestinationFolderItem(Properties.Resources.BookshelfItemMenuCopyToFolder, CopyToFolder_CanExecute(), CopyToFolderCommand, OpenDestinationFolderCommand));
                 contextMenu.Items.Add(DestinationFolderCollectionUtility.CreateDestinationFolderItem(Properties.Resources.BookshelfItemMenuMoveToFolder, MoveToFolder_CanExecute(), MoveToFolderCommand, OpenDestinationFolderCommand));

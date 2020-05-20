@@ -1,0 +1,61 @@
+﻿<Window x:Class="NeeView.ExternalAppEditDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NeeView"
+        xmlns:nvc="clr-namespace:NeeView.Windows.Controls" xmlns:properties="clr-namespace:NeeView.Properties" mc:Ignorable="d" Title="{x:Static properties:Resources.ExternalAppEditDialogTitle}"
+        Height="320" Width="600" WindowStyle="ToolWindow" Style="{StaticResource ToolWindowStyle}">
+
+    
+    <Window.Resources>
+
+        <local:ArchivePolicyToSampleStringConverter x:Key="ArchivePolicyToSampleStringConverter" />
+
+        <Style x:Key="HeaderStyle" TargetType="TextBlock">
+            <Setter Property="Width" Value="160" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="ButtonStyle" TargetType="Button" BasedOn="{StaticResource NVDialogButtonStyle}" />
+
+    </Window.Resources>
+
+    <DockPanel Margin="5" >
+
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+            <Button x:Name="OKButton" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.WordOK}" Click="OKButton_Click" />
+            <Button x:Name="CancelButton" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.WordCancel}" Click="CancelButton_Click" />
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Top" Margin="10">
+
+            <DockPanel Margin="10">
+                <TextBlock Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.WordName}" />
+                <TextBox VerticalAlignment="Center" Text="{Binding Name}" />
+            </DockPanel>
+
+            <DockPanel Margin="10" ToolTip="{x:Static properties:Resources.ParamExternalCommandTips}">
+                <TextBlock Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.ParamExternalCommand}" />
+                <nvc:FileNameBox VerticalAlignment="Center" Text="{Binding Command, Mode=TwoWay}" FileDialogType="OpenFile" 
+                        Filter="EXE|*.exe|All|*.*" />
+            </DockPanel>
+
+            <DockPanel Margin="10" ToolTip="{x:Static properties:Resources.ParamExternalParameterTips}">
+                <TextBlock Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.ParamExternalParameter}"/>
+                <TextBox VerticalAlignment="Center" Text="{Binding Model.Parameter}" />
+            </DockPanel>
+
+            <DockPanel Margin="10,10,10,0">
+                <TextBlock Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.ParamExternalArchiveOption}"/>
+                <ComboBox ItemsSource="{Binding ArchivePolicyList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.ArchivePolicy}" />
+            </DockPanel>
+            <DockPanel Margin="10,0,10,10">
+                <TextBlock Style="{StaticResource HeaderStyle}" Text="" />
+                <TextBlock Text="{Binding Model.ArchivePolicy, Converter={StaticResource ArchivePolicyToSampleStringConverter}}" Foreground="Gray" Padding="2" />
+            </DockPanel>
+
+        </StackPanel>
+        
+    </DockPanel>
+</Window>

@@ -589,7 +589,7 @@
     <value>Move to the next direction by the set number of pages.</value>
   </data>
   <data name="CommandOpenApplication" xml:space="preserve">
-    <value>External</value>
+    <value>External app</value>
   </data>
   <data name="CommandOpenApplicationNote" xml:space="preserve">
     <value>Open the displayed image with an external application. </value>
@@ -2186,7 +2186,7 @@ Is it OK? </value>
     <value>Do you want to merge folders?</value>
   </data>
   <data name="DialogOpenApplicationErrorTitle" xml:space="preserve">
-    <value>External application execution failed</value>
+    <value>External app execution failed</value>
   </data>
   <data name="DialogOpenScriptsFolderErrorTitle" xml:space="preserve">
     <value>Cannot open scripts folder</value>
@@ -2255,13 +2255,13 @@ Is it OK? </value>
     <value>Do not execute</value>
   </data>
   <data name="EnumArchiveOptionTypeSendArchiveFile" xml:space="preserve">
-    <value>Pass the compressed file</value>
+    <value>Compressed file path</value>
   </data>
   <data name="EnumArchiveOptionTypeSendArchivePath" xml:space="preserve">
     <value>Compressed file + filename</value>
   </data>
   <data name="EnumArchiveOptionTypeSendExtractFile" xml:space="preserve">
-    <value>Pass the output file (temporary file)</value>
+    <value>Extract file path (temporary file)</value>
   </data>
   <data name="EnumAutoHideFocusLockModeFocusLock" xml:space="preserve">
     <value>Window and Panel</value>
@@ -3621,7 +3621,7 @@ Initialize the temporary location.</value>
     <value>It is used only when conversion is required.</value>
   </data>
   <data name="ParamExternalArchiveOption" xml:space="preserve">
-    <value>For compressed files</value>
+    <value>Compressed file policy</value>
   </data>
   <data name="ParamExternalArchiveSeparater" xml:space="preserve">
     <value>Delimiter between compressed file and filename</value>
@@ -4624,10 +4624,10 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>This is the setting of the command to save the image</value>
   </data>
   <data name="SettingPageExternalProgram" xml:space="preserve">
-    <value>External application</value>
+    <value>External app</value>
   </data>
   <data name="SettingPageExternalProgramSetting" xml:space="preserve">
-    <value>External application</value>
+    <value>External app</value>
   </data>
   <data name="SettingPageGeneral" xml:space="preserve">
     <value>General</value>
@@ -5599,7 +5599,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Mov_e to folder</value>
   </data>
   <data name="BookshelfItemMenuDestinationFolderOption" xml:space="preserve">
-    <value>_Edit folders...</value>
+    <value>_Add folders...</value>
   </data>
   <data name="BookshelfItemMenuDestinationFolderSelect" xml:space="preserve">
     <value>_Select folder...</value>
@@ -5633,5 +5633,23 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="ControlSaveExportFolder" xml:space="preserve">
     <value>Default destination folder</value>
+  </data>
+  <data name="ExternalAppDialogTitle" xml:space="preserve">
+    <value>External apps</value>
+  </data>
+  <data name="ExternalAppEditDialogTitle" xml:space="preserve">
+    <value>External app parameters</value>
+  </data>
+  <data name="BookshelfItemExternalAppOption" xml:space="preserve">
+    <value>_Add External apps...</value>
+  </data>
+  <data name="BookshelfItemOpenExternalApp" xml:space="preserve">
+    <value>Open in external app</value>
+  </data>
+  <data name="WordParameter" xml:space="preserve">
+    <value>Parameter</value>
+  </data>
+  <data name="WordDefaultApp" xml:space="preserve">
+    <value>Default app</value>
   </data>
 </root>

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NeeView
@@ -48,15 +49,31 @@ namespace NeeView
         [AliasName("@EnumArchiveOptionTypeSendExtractFile")]
         SendExtractFile,
     }
-
+    
+    public static class ArchivePolicyExtensions
+    {
+        public static string ToSampleText(this ArchivePolicy self)
+        {
+            switch(self)
+            {
+                case ArchivePolicy.None:
+                    return @"not run.";
+                case ArchivePolicy.SendArchiveFile:
+                    return @"C:\Archive.zip";
+                case ArchivePolicy.SendArchivePath:
+                    return @"C:\Archive.zip\File.jpg";
+                case ArchivePolicy.SendExtractFile:
+                    return @"ExtractToTempFolder\File.jpg";
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+    }
 
 
     // 外部アプリ起動
     public class ExternalApplicationUtility
     {
-        // 最後に実行したコマンド
-        public string LastCall { get; set; }
-
         // コマンドパラメータ文字列のバリデート
         public static string ValidateApplicationParam(string source)
         {
@@ -65,18 +82,28 @@ namespace NeeView
             return source.Contains(OpenExternalAppCommandParameter.KeyFile) ? source : (source + $" \"{OpenExternalAppCommandParameter.KeyFile}\"");
         }
 
-
-        // 外部アプリの実行
-        public void Call(List<Page> pages, OpenExternalAppCommandParameter options)
+        /// <summary>
+        /// 外部アプリ実行
+        /// </summary>
+        /// <param name="pages">実行するページ群</param>
+        /// <param name="options">実行オプション</param>
+        /// <param name="token">キャンセルトークン</param>
+        public void Call(IEnumerable<Page> pages, OpenExternalAppCommandParameter options, CancellationToken token)
         {
-            this.LastCall = null;
+            var files = new List<string>();
 
             foreach (var page in pages)
             {
+                token.ThrowIfCancellationRequested();
+
                 // file
-                if (page.Entry.Archiver is FolderArchive)
+                if (page.Entry.IsFileSystem)
                 {
-                    CallProcess(page.GetFilePlace(), options);
+                    files.Add(page.GetFilePlace());
+                }
+                else if (page.Entry.Instance is ArchiveEntry archiveEntry && archiveEntry.IsFileSystem)
+                {
+                    files.Add(archiveEntry.SystemPath);
                 }
                 // in archive
                 else
@@ -86,7 +113,7 @@ namespace NeeView
                         case ArchivePolicy.None:
                             break;
                         case ArchivePolicy.SendArchiveFile:
-                            CallProcess(page.GetFolderOpenPlace(), options);
+                            files.Add(page.GetFolderOpenPlace());
                             break;
                         case ArchivePolicy.SendExtractFile:
                             if (page.Entry.IsDirectory)
@@ -95,17 +122,36 @@ namespace NeeView
                             }
                             else
                             {
-                                CallProcess(page.ContentAccessor.CreateTempFile(true).Path, options);
+                                files.Add(page.ContentAccessor.CreateTempFile(true).Path);
                             }
                             break;
                         case ArchivePolicy.SendArchivePath:
-                            CallProcess(page.Entry.CreateArchivePath(options.ArchiveSeparater), options);
+                            files.Add(page.Entry.SystemPath);
                             break;
                     }
                 }
-                if (options.MultiPagePolicy == MultiPagePolicy.Once || options.ArchivePolicy == ArchivePolicy.SendArchiveFile) break;
+                if (options.MultiPagePolicy == MultiPagePolicy.Once) break;
+            }
+
+            Call(files, options);
+        }
+
+        /// <summary>
+        /// 外部アプリ実行
+        /// </summary>
+        /// <param name="paths">実行するファイルパス群</param>
+        /// <param name="options">実行オプション</param>
+        /// <param name="token">キャンセルトークン</param>
+        public void Call(IEnumerable<string> paths, OpenExternalAppCommandParameter options)
+        {
+            foreach (var path in paths.Distinct())
+            {
+                CallProcess(path, options);
+
+                if (options.MultiPagePolicy == MultiPagePolicy.Once) break;
             }
         }
+
 
         // 外部アプリの実行(コア)
         private void CallProcess(string fileName, OpenExternalAppCommandParameter options)
@@ -114,16 +160,32 @@ namespace NeeView
 
             if (string.IsNullOrWhiteSpace(options.Command))
             {
-                this.LastCall = $"\"{param}\"";
-                Debug.WriteLine($"CallProcess: {LastCall}");
-                System.Diagnostics.Process.Start(param);
+                var sentence = $"\"{param}\"";
+                Debug.WriteLine($"CallProcess: {sentence}");
+                try
+                {
+                    System.Diagnostics.Process.Start(param);
+                }
+                catch (Exception ex)
+                {
+                    var message = $"{ex.Message}: {sentence}";
+                    throw new InvalidOperationException(message, ex);
+                }
             }
             else
             {
                 var command = options.Command.Replace("$NeeView", Environment.AssemblyLocation);
-                this.LastCall = $"\"{command}\" {param}";
-                Debug.WriteLine($"CallProcess: {LastCall}");
-                System.Diagnostics.Process.Start(command, param);
+                var sentence = $"\"{command}\" {param}";
+                Debug.WriteLine($"CallProcess: {sentence}");
+                try
+                {
+                    System.Diagnostics.Process.Start(command, param);
+                }
+                catch (Exception ex)
+                {
+                    var message = $"{ex.Message}: {sentence}";
+                    throw new InvalidOperationException(message, ex);
+                }
             }
             return;
         }

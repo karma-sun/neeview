@@ -181,7 +181,7 @@ namespace NeeView
         /// <summary>
         /// 編集可能
         /// </summary>
-        public bool IsEditable => (this.Attributes & (FolderItemAttribute.Empty | FolderItemAttribute.Drive | FolderItemAttribute.ArchiveEntry | FolderItemAttribute.ReadOnly | FolderItemAttribute.System)) == 0;
+        public bool IsEditable => (this.Attributes & (FolderItemAttribute.Empty | FolderItemAttribute.Drive | FolderItemAttribute.ArchiveEntry | FolderItemAttribute.ReadOnly | FolderItemAttribute.System)) == 0 && !IsPagemark();
 
         /// <summary>
         /// アクセス可能？(ドライブの準備ができているか)
@@ -247,6 +247,7 @@ namespace NeeView
         public bool IsDisable() => IsDirectory && !IsReady;
         public bool IsBookmark() => (Attributes & FolderItemAttribute.Bookmark) == FolderItemAttribute.Bookmark;
         public bool IsFileSystem() => (Attributes & (FolderItemAttribute.System | FolderItemAttribute.Bookmark | FolderItemAttribute.QuickAccess | FolderItemAttribute.Empty | FolderItemAttribute.None)) == 0;
+        public bool IsPagemark() => TargetPath.Scheme == QueryScheme.Pagemark;
 
         // FolderCollection上のパス
         public QueryPath GetFolderCollectionPath() => _place.ReplacePath(LoosePath.Combine(_place.Path, _name));

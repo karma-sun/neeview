@@ -36,7 +36,6 @@ namespace NeeView
         public const string DefaultParameter = "\"" + KeyFile + "\"";
 
         private ArchivePolicy _archivePolicy = ArchivePolicy.SendExtractFile;
-        private string _archiveSeparater = "\\";
         private string _command;
         private string _parameter = DefaultParameter;
         private MultiPagePolicy _multiPagePolicy = MultiPagePolicy.Once;
@@ -77,14 +76,6 @@ namespace NeeView
         {
             get { return _archivePolicy; }
             set { SetProperty(ref _archivePolicy, value); }
-        }
-
-        [DataMember(EmitDefaultValue = false)]
-        [PropertyMember("@ParamExternalArchiveSeparater", Tips = "@ParamExternalArchiveSeparaterTips", EmptyMessage = "\\")]
-        public string ArchiveSeparater
-        {
-            get { return _archiveSeparater; }
-            set { SetProperty(ref _archiveSeparater, string.IsNullOrEmpty(value) ? "\\" : value); }
         }
     }
 

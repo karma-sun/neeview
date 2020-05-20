@@ -259,6 +259,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   _Add External apps... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfItemExternalAppOption {
+            get {
+                return ResourceManager.GetString("BookshelfItemExternalAppOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   _Copy に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookshelfItemMenuCopy {
@@ -304,7 +313,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   _Edit folders... に類似しているローカライズされた文字列を検索します。
+        ///   _Add folders... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookshelfItemMenuDestinationFolderOption {
             get {
@@ -372,6 +381,15 @@ namespace NeeView.Properties {
         public static string BookshelfItemMenuSubfolder {
             get {
                 return ResourceManager.GetString("BookshelfItemMenuSubfolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open in external app に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfItemOpenExternalApp {
+            get {
+                return ResourceManager.GetString("BookshelfItemOpenExternalApp", resourceCulture);
             }
         }
         
@@ -1627,7 +1645,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   External に類似しているローカライズされた文字列を検索します。
+        ///   External app に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandOpenApplication {
             get {
@@ -6587,7 +6605,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   External application execution failed に類似しているローカライズされた文字列を検索します。
+        ///   External app execution failed に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string DialogOpenApplicationErrorTitle {
             get {
@@ -6812,7 +6830,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Pass the compressed file に類似しているローカライズされた文字列を検索します。
+        ///   Compressed file path に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumArchiveOptionTypeSendArchiveFile {
             get {
@@ -6830,7 +6848,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Pass the output file (temporary file) に類似しているローカライズされた文字列を検索します。
+        ///   Extract file path (temporary file) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumArchiveOptionTypeSendExtractFile {
             get {
@@ -8330,6 +8348,24 @@ namespace NeeView.Properties {
         public static string ExceptionSusieLoadFailed {
             get {
                 return ResourceManager.GetString("ExceptionSusieLoadFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   External apps に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExternalAppDialogTitle {
+            get {
+                return ResourceManager.GetString("ExternalAppDialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   External app parameters に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExternalAppEditDialogTitle {
+            get {
+                return ResourceManager.GetString("ExternalAppEditDialogTitle", resourceCulture);
             }
         }
         
@@ -11298,7 +11334,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   For compressed files に類似しているローカライズされた文字列を検索します。
+        ///   Compressed file policy に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamExternalArchiveOption {
             get {
@@ -14683,7 +14719,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   External application に類似しているローカライズされた文字列を検索します。
+        ///   External app に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageExternalProgram {
             get {
@@ -14692,7 +14728,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   External application に類似しているローカライズされた文字列を検索します。
+        ///   External app に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageExternalProgramSetting {
             get {
@@ -15867,6 +15903,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Default app に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordDefaultApp {
+            get {
+                return ResourceManager.GetString("WordDefaultApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Default pagemark に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WordDefaultPagemark {
@@ -16250,6 +16295,15 @@ namespace NeeView.Properties {
         public static string WordPagemark {
             get {
                 return ResourceManager.GetString("WordPagemark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Parameter に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordParameter {
+            get {
+                return ResourceManager.GetString("WordParameter", resourceCulture);
             }
         }
         

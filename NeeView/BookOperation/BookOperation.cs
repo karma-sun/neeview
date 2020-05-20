@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -356,18 +357,14 @@ namespace NeeView
                 var external = new ExternalApplicationUtility();
                 try
                 {
-                    external.Call(Book?.Viewer.GetViewPages(), parameter);
+                    external.Call(Book?.Viewer.GetViewPages(), parameter, CancellationToken.None);
                 }
-                catch (Exception e)
+                catch (OperationCanceledException)
                 {
-                    var message = "";
-                    if (external.LastCall != null)
-                    {
-                        message += $"{Resources.WordCommand}: {external.LastCall}\n";
-                    }
-                    message += $"{Resources.WordCause}: {e.Message}";
-
-                    new MessageDialog(message, Resources.DialogOpenApplicationErrorTitle).ShowDialog();
+                }
+                catch (Exception ex)
+                {
+                    new MessageDialog(ex.Message, Properties.Resources.DialogOpenApplicationErrorTitle).ShowDialog();
                 }
             }
         }
@@ -1275,7 +1272,6 @@ namespace NeeView
                     Parameter = parameter.Parameter,
                     MultiPageOption = parameter.MultiPagePolicy,
                     ArchiveOption = parameter.ArchivePolicy,
-                    ArchiveSeparater = parameter.ArchiveSeparater,
                 };
             }
         }

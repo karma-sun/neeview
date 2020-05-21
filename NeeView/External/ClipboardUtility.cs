@@ -20,7 +20,7 @@ namespace NeeView
 
             if (SetData(data, pages, parameter, CancellationToken.None))
             {
-                System.Windows.Clipboard.SetDataObject(data); ;
+                System.Windows.Clipboard.SetDataObject(data);
             }
         }
 

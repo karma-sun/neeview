@@ -54,7 +54,7 @@ namespace NeeView
         {
             if (value is ArchivePolicy policy)
             {
-                return "Sample: " + policy.ToSampleText();
+                return Properties.Resources.WordExample + ", " + policy.ToSampleText();
             }
 
             return value;

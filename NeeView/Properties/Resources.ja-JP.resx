@@ -5664,4 +5664,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="EnumPageEndActionDialog" xml:space="preserve">
     <value>ダイアログで選択</value>
   </data>
+  <data name="WordExample" xml:space="preserve">
+    <value>例</value>
+  </data>
 </root>

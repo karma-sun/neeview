@@ -5,6 +5,8 @@
 
     <Window.Resources>
 
+        <local:ArchivePolicyToStringConverter x:Key="ArchivePolicyToStringConverter" />
+
         <Style TargetType="Button" BasedOn="{StaticResource NVDialogButtonStyle}">
             <Setter Property="Margin" Value="5,0" />
         </Style>
@@ -47,6 +49,13 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Parameter}" TextTrimming="CharacterEllipsis" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{x:Static properties:Resources.ParamExternalArchiveOption}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ArchivePolicy, Converter={StaticResource ArchivePolicyToStringConverter}}" TextTrimming="CharacterEllipsis" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

@@ -5664,4 +5664,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="EnumPageEndActionDialog" xml:space="preserve">
     <value>Select in dialog</value>
   </data>
+  <data name="WordExample" xml:space="preserve">
+    <value>e.g.</value>
+  </data>
 </root>

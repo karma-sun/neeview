@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace NeeView
 {
-    public class ExternalApp : BindableBase
+    public class ExternalApp : BindableBase, ICloneable
     {
         private string _name;
         private string _command;
@@ -93,6 +93,11 @@ namespace NeeView
             {
                 new MessageDialog(ex.Message, Properties.Resources.DialogOpenApplicationErrorTitle).ShowDialog();
             }
+        }
+
+        public object Clone()
+        {
+            return MemberwiseClone();
         }
     }
 

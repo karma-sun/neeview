@@ -4,6 +4,7 @@ using NeeLaboratory.Windows.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -173,8 +174,10 @@ namespace NeeView
             CallEditDialog(index, item);
         }
 
-        private void CallEditDialog(int index, ExternalApp item)
+        private void CallEditDialog(int index, ExternalApp source)
         {
+            var item = (ExternalApp)source.Clone();
+
             var dialog = new ExternalAppEditDialog(item);
             dialog.Owner = Owner;
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
@@ -235,6 +238,24 @@ namespace NeeView
         public void Decide()
         {
             Config.Current.System.ExternalAppCollection = new ExternalAppCollection(_items);
+        }
+    }
+
+    public class ArchivePolicyToStringConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is ArchivePolicy policy)
+            {
+                return policy.ToAliasName();
+            }
+
+            return value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }

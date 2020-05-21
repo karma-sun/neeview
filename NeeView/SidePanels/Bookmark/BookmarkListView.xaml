@@ -20,26 +20,18 @@
             <DrawingImage.Drawing>
                 <DrawingGroup Opacity="1">
                     <DrawingGroup.Children>
-                        <GeometryDrawing Brush="{DynamicResource NVStarMarkBrush}" Pen="{x:Null}">
-                            <GeometryDrawing.Geometry>
-                                <PathGeometry FillRule="Nonzero" Figures="M12,1.99999988079071L14.8100004196167,8.63000011444092 22,9.23999977111816 16.5400009155273,13.9700002670288 18.1800003051758,21 12,17.2700004577637 5.82000017166138,21 7.46000003814697,13.9700002670288 2,9.23999977111816 9.1899995803833,8.63000011444092 12,1.99999988079071z" />
-                            </GeometryDrawing.Geometry>
-                        </GeometryDrawing>
+                        <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
+                        <GeometryDrawing Brush="Gray" Pen="{x:Null}" Geometry="{StaticResource g_star_border_24px}" />
                     </DrawingGroup.Children>
                 </DrawingGroup>
             </DrawingImage.Drawing>
         </DrawingImage>
 
-        <!-- https://www.onlinewebfonts.com/icon/67491 -->
-        <DrawingImage x:Key="ic_treeview">
+        <DrawingImage x:Key="ic_treeview_b">
             <DrawingImage.Drawing>
                 <DrawingGroup Opacity="1">
                     <DrawingGroup.Children>
-                        <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}">
-                            <GeometryDrawing.Geometry>
-                                <PathGeometry FillRule="Nonzero" Figures="M990,379.4L990,21.1L631.8,21.1L631.8,186.4L368.2,348.6L368.2,293.1L10,293.1L10,651.4L368.2,651.4L368.2,585.3L631.8,781L631.8,978.9L990,978.9L990,620.6L631.8,620.6L631.8,702.3L368.2,506.5L368.2,422.8L631.8,260.7L631.8,379.4z" />
-                            </GeometryDrawing.Geometry>
-                        </GeometryDrawing>
+                        <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}" Geometry="{StaticResource g_treeview}" />
                     </DrawingGroup.Children>
                 </DrawingGroup>
             </DrawingImage.Drawing>
@@ -87,14 +79,14 @@
         <StackPanel DockPanel.Dock="Top" Margin="5,10,5,5">
 
             <StackPanel Margin="0" HorizontalAlignment="Stretch">
-                <StackPanel Orientation="Horizontal" Margin="5">
-                    <Image Source="{StaticResource ic_star_24px}" Width="16" Height="16" VerticalAlignment="Center" Margin="0,0,2,0"/>
-                    <TextBlock Foreground="Gray" Text="{x:Static properties:Resources.WordBookmark}" VerticalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" Margin="0,5">
+                    <Image Style="{StaticResource PanelTitleIconStyle}" Source="{StaticResource ic_star_24px}" />
+                    <TextBlock Style="{StaticResource PanelTitleTextStyle}" Text="{x:Static properties:Resources.WordBookmark}" />
                 </StackPanel>
-                <Grid x:Name="PlaceGrid">
+                <Grid x:Name="PlaceGrid" Margin="0,2">
                     <DockPanel>
                         <DockPanel x:Name="PlaceBar" HorizontalAlignment="Left">
-                            <TextBlock Text="{Binding FolderCollection.Place.Path}" ToolTip="{Binding FolderCollection.Place.Path}" Margin="5,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding FolderCollection.Place.Path}" ToolTip="{Binding FolderCollection.Place.Path}" Margin="2,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                         </DockPanel>
                     </DockPanel>
                 </Grid>
@@ -105,7 +97,7 @@
                     <Button x:Name="FoderTreeButton" Style="{StaticResource FolderListButtonStyle}"  VerticalAlignment="Center" TabIndex="2"
                             ToolTip="{x:Static properties:Resources.WordFoldersTree}"
                             Command="{Binding ToggleVisibleFoldersTree}">
-                        <Image Source="{StaticResource ic_treeview}" Width="16" Height="16"/>
+                        <Image Source="{StaticResource ic_treeview_b}" Width="16" Height="16"/>
                         <Button.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="{x:Static properties:Resources.FolderTreeLayoutTop}" IsChecked="{Binding Model.FolderTreeLayout, Converter={StaticResource FolderTreeLayoutToBooleanConverter}, ConverterParameter={x:Static local:FolderTreeLayout.Top}}"

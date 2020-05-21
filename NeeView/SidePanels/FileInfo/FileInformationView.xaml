@@ -13,6 +13,17 @@
 
     <UserControl.Resources>
 
+        <DrawingImage x:Key="ic_info_24px">
+            <DrawingImage.Drawing>
+                <DrawingGroup>
+                    <DrawingGroup.Children>
+                        <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
+                        <GeometryDrawing Brush="Gray" Pen="{x:Null}" Geometry="{StaticResource g_info_outline_24px}" />
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
     </UserControl.Resources>
@@ -25,6 +36,11 @@
                         <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
                     </Style>
                 </StackPanel.Resources>
+
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,10">
+                    <Image Style="{StaticResource PanelTitleIconStyle}" Source="{StaticResource ic_info_24px}" />
+                    <TextBlock Style="{StaticResource PanelTitleTextStyle}" Text="{x:Static properties:Resources.FileInfoName}" />
+                </StackPanel>
 
                 <!-- Thumbnail -->
                 <Grid x:Name="GroupThumbnail" Width="96" Height="96" HorizontalAlignment="Left">

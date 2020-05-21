@@ -18,11 +18,8 @@
             <DrawingImage.Drawing>
                 <DrawingGroup Opacity="1">
                     <DrawingGroup.Children>
-                        <GeometryDrawing Brush="{DynamicResource NVStarMarkBrush}" Pen="{x:Null}">
-                            <GeometryDrawing.Geometry>
-                                <PathGeometry FillRule="Nonzero" Figures="M7,3.00000023841858L17,3.00000023841858C18.1000003814697,3,19,3.90000009536743,19,5L19,21 12,18 5,21 5.01000022888184,5C5.01000022888184,3.90000009536743,5.90000009536743,3,7,3.00000023841858z" />
-                            </GeometryDrawing.Geometry>
-                        </GeometryDrawing>
+                        <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
+                        <GeometryDrawing Brush="Gray" Pen="{x:Null}" Geometry="{StaticResource g_bookmark_border_24px}" />
                     </DrawingGroup.Children>
                 </DrawingGroup>
             </DrawingImage.Drawing>
@@ -34,12 +31,12 @@
     <DockPanel x:Name="DockPanel" Background="Transparent">
 
         <StackPanel DockPanel.Dock="Top" Margin="5,10,5,5">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <Image Source="{StaticResource ic_bookmark_24px}" Width="14" Height="14" VerticalAlignment="Center" Margin="0,0,2,0"/>
-                <TextBlock Text="{x:Static properties:Resources.PagemarkName}" Foreground="Gray" VerticalAlignment="Center"/>
+            <StackPanel Margin="0,5" Orientation="Horizontal">
+                <Image Style="{StaticResource PanelTitleIconStyle}" Source="{StaticResource ic_bookmark_24px}" />
+                <TextBlock Style="{StaticResource PanelTitleTextStyle}" Text="{x:Static properties:Resources.PagemarkName}" />
             </StackPanel>
-            <DockPanel LastChildFill="False" Margin="0">
-                <TextBlock Text="{Binding Model.PlaceDispString}" ToolTip="{Binding Model.PlaceDispString}" Margin="5,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <DockPanel LastChildFill="False" Margin="0,2">
+                <TextBlock Text="{Binding Model.PlaceDispString}" ToolTip="{Binding Model.PlaceDispString}" Margin="2,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
             </DockPanel>
             <DockPanel LastChildFill="False" KeyboardNavigation.TabNavigation="Local">
                 <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Height ="30" Width="30" MouseRightButtonUp="MoreButton_MouseRightButtonUp" Checked="MoreButton_Checked"

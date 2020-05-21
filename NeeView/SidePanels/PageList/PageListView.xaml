@@ -11,6 +11,19 @@
              Foreground="{DynamicResource NVForeground}">
 
     <UserControl.Resources>
+
+        <DrawingImage x:Key="ic_photo_library_24px">
+            <DrawingImage.Drawing>
+                <DrawingGroup>
+                    <DrawingGroup.Children>
+                        <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
+                        <GeometryDrawing Brush="Gray" Pen="{x:Null}" Geometry="{StaticResource g_photo_library_24px}" />
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+
         <local:BooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" True="Collapsed" False="Visible"/>
 
         <Style x:Key="FolderListButtonStyle" TargetType="Button" BasedOn="{StaticResource IconButton}">
@@ -42,8 +55,13 @@
 
             <StackPanel Margin="0,10,0,0"
                     Visibility="{Binding Source={x:Static local:Config.Current}, Path=Bookshelf.IsPageListDocked, Converter={StaticResource InverseBooleanToVisibilityConverter}}" >
-                <TextBlock Text="{x:Static properties:Resources.PageListName}" Foreground="Gray" VerticalAlignment="Top" Margin="2,0"/>
-                <DockPanel LastChildFill="False">
+
+                <StackPanel Margin="0,5" Orientation="Horizontal">
+                    <Image Style="{StaticResource PanelTitleIconStyle}" Source="{StaticResource ic_photo_library_24px}" />
+                    <TextBlock Style="{StaticResource PanelTitleTextStyle}" Text="{x:Static properties:Resources.PageListName}" />
+                </StackPanel>
+                
+                <DockPanel LastChildFill="False" Margin="0,2">
                     <TextBlock Text="{Binding Model.PlaceDispString}" ToolTip="{Binding Model.PlaceDispString}" Margin="2,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                 </DockPanel>
             </StackPanel>

@@ -2,26 +2,12 @@
 
     <!--#region Icons -->
 
-    <!-- https://www.onlinewebfonts.com/icon/97722 -->
     <DrawingImage x:Key="pic_bookshelf">
         <DrawingImage.Drawing>
-            <DrawingGroup Opacity="1">
-                <DrawingGroup.Children>
-                    <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}">
-                        <GeometryDrawing.Geometry>
-                            <PathGeometry FillRule="Nonzero"
-                                    Figures="M213.3,949.9C213.3,969.1,197.7,984.7,178.5,984.7L44.8,984.7C25.6,984.7,10,969.1,10,949.9L10,251.9C10,232.7,25.6,217.1,44.8,217.1L178.5,217.1C197.7,217.1,213.3,232.7,213.3,251.9L213.3,949.9 213.3,949.9z M479.5,949.9C479.5,969.1,463.9,984.7,444.7,984.7L294.1,984.7C274.9,984.7,259.3,969.1,259.3,949.9L259.3,50.1C259.3,30.9,274.9,15.3,294.1,15.3L444.7,15.3C463.9,15.3,479.5,30.9,479.5,50.1L479.5,949.9z M987.9,894.9C994.5,912.9,985.2,932.9,967.2,939.5L849.3,982.6C831.3,989.2,811.3,979.9,804.7,961.9L526,199C519.4,181,528.7,161,546.7,154.4L664.6,111.3C682.6,104.7,702.6,114,709.2,132L987.9,894.9z" />
-                        </GeometryDrawing.Geometry>
-                    </GeometryDrawing>
-                </DrawingGroup.Children>
-            </DrawingGroup>
+            <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}" Geometry="{StaticResource g_bookshelf}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
-    <PathGeometry x:Key="g_nagivate" FillRule="Nonzero"
-            Figures="M8675,4348.6C7197.3,3669.5 2470.9,1501.2 1257.5,945.6 169.5,447.8 100,409.3 100,301.2 100,227.9 150.2,146.9 210,123.7 238.9,112.1 1205.4,-53.8 2357.1,-246.7 3508.8,-437.7 4457.9,-597.8 4469.5,-601.7 4479.1,-603.6 4598.8,-1518 4733.8,-2631.2L4978.8,-4654.9 5038.6,-4707C5106.1,-4768.7 5198.7,-4778.4 5268.2,-4730.2 5295.2,-4709 5461.1,-4396.4 5723.5,-3865.9 5949.2,-3408.7 6981.3,-1325.2 8017.2,762.1 9384.9,3520.9 9900,4578.1 9900,4624.4 9900,4711.2 9832.5,4786.4 9745.7,4799.9 9687.8,4807.7 9533.5,4742.1 8675,4348.6z" />
-
-    <!-- https://www.onlinewebfonts.com/icon/446769 -->
     <DrawingImage x:Key="pic_navigate">
         <DrawingImage.Drawing>
             <DrawingGroup Transform="0.1,0,0,-0.1,0,502">
@@ -30,96 +16,39 @@
         </DrawingImage.Drawing>
     </DrawingImage>
 
-    <!-- Material design icons by Google -->
-    <!-- http://www.google.com/design/spec/style/icons.html#icons-system-icons -->
-
     <DrawingImage x:Key="pic_history_24px">
         <DrawingImage.Drawing>
-            <DrawingGroup Opacity="1">
-                <DrawingGroup.Children>
-                    <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}">
-                        <GeometryDrawing.Geometry>
-                            <PathGeometry FillRule="Nonzero"
-                                    Figures="M12,8L13.5,8 13.5,12.25 17,14.3299999237061 16.2800006866455,15.539999961853 12,13 12,8z M13,3C17.9699993133545,3 22,7.03000020980835 22,12 22,16.9699993133545 17.9699993133545,21 13,21 10.5100002288818,21 8.27000045776367,19.9899997711182 6.6399998664856,18.3600006103516L8.0600004196167,16.9400005340576C9.31999969482422,18.2099990844727 11.0699996948242,19 13,19 16.8700008392334,19 20,15.8699998855591 20,12 20,8.13000011444092 16.8700008392334,5 13,5 9.13000011444092,5 6,8.13000011444092 6,12L9,12 4.96000003814697,16.0300006866455 4.8899998664856,15.8900003433228 1,12 4,12C4,7.03000020980835,8.02999973297119,3,13,3z" />
-                        </GeometryDrawing.Geometry>
-                    </GeometryDrawing>
-                </DrawingGroup.Children>
-            </DrawingGroup>
+            <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}" Geometry="{StaticResource g_history_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="pic_info_24px">
         <DrawingImage.Drawing>
-            <DrawingGroup Opacity="1">
-                <DrawingGroup.Children>
-                    <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}">
-                        <GeometryDrawing.Geometry>
-                            <PathGeometry FillRule="Nonzero"
-                                    Figures="M11,11L11,17 13,17 13,11 11,11z M11,7L11,9 13,9 13,7 11,7z M12,2C17.5200004577637,2 22,6.48000001907349 22,12 22,17.5200004577637 17.5200004577637,22 12,22 6.48000001907349,22 2,17.5200004577637 2,12 2,6.48000001907349 6.48000001907349,2 12,2z" />
-                        </GeometryDrawing.Geometry>
-                    </GeometryDrawing>
-                </DrawingGroup.Children>
-            </DrawingGroup>
+            <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}" Geometry="{StaticResource g_info_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="pic_bookmark_24px">
         <DrawingImage.Drawing>
-            <DrawingGroup Opacity="1">
-                <DrawingGroup.Children>
-                    <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}">
-                        <GeometryDrawing.Geometry>
-                            <PathGeometry FillRule="Nonzero"
-                                    Figures="M7,3.00000023841858L17,3.00000023841858C18.1000003814697,3,19,3.90000009536743,19,5L19,21 12,18 5,21 5.01000022888184,5C5.01000022888184,3.90000009536743,5.90000009536743,3,7,3.00000023841858z" />
-                        </GeometryDrawing.Geometry>
-                    </GeometryDrawing>
-                </DrawingGroup.Children>
-            </DrawingGroup>
+            <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}" Geometry="{StaticResource g_bookmark_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="pic_toy_24px">
         <DrawingImage.Drawing>
-            <DrawingGroup Opacity="1">
-                <DrawingGroup.Children>
-                    <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}">
-                        <GeometryDrawing.Geometry>
-                            <PathGeometry FillRule="Nonzero"
-                                    Figures="M12,12C15,12 17.5,14.5 17.5,17.5 17.5,20.5 15,23 12,23L12,12z M1.00000011920929,12L12,12C12,15 9.5,17.5 6.5,17.5 3.5,17.5 1,15 1.00000011920929,12z M17.5,6.5C20.5,6.5,23,9,23,12L12,12C12,9,14.5,6.5,17.5,6.5z M12,1.00000011920929L12,12C9,12 6.5,9.5 6.5,6.5 6.5,3.5 9,1 12,1.00000011920929z" />
-                        </GeometryDrawing.Geometry>
-                    </GeometryDrawing>
-                </DrawingGroup.Children>
-            </DrawingGroup>
+            <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}" Geometry="{StaticResource g_toy_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="pic_photo_library_24px">
         <DrawingImage.Drawing>
-            <DrawingGroup Opacity="1">
-                <DrawingGroup.Children>
-                    <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}">
-                        <GeometryDrawing.Geometry>
-                            <PathGeometry FillRule="Nonzero"
-                                    Figures="M22,16L22,4C22,2.9,21.1,2,20,2L8,2C6.9,2,6,2.9,6,4L6,16C6,17.1,6.9,18,8,18L20,18C21.1,18,22,17.1,22,16z M11,12L13.03,14.71 16,11 20,16 8,16 11,12z M2,6L2,20C2,21.1,2.9,22,4,22L18,22 18,20 4,20 4,6 2,6z" />
-                        </GeometryDrawing.Geometry>
-                    </GeometryDrawing>
-                </DrawingGroup.Children>
-            </DrawingGroup>
+            <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}" Geometry="{StaticResource g_photo_library_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="pic_star_24px">
         <DrawingImage.Drawing>
-            <DrawingGroup Opacity="1">
-                <DrawingGroup.Children>
-                    <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}">
-                        <GeometryDrawing.Geometry>
-                            <PathGeometry FillRule="Nonzero"
-                                    Figures="M12,1.99999988079071L14.8100004196167,8.63000011444092 22,9.23999977111816 16.5400009155273,13.9700002670288 18.1800003051758,21 12,17.2700004577637 5.82000017166138,21 7.46000003814697,13.9700002670288 2,9.23999977111816 9.1899995803833,8.63000011444092 12,1.99999988079071z" />
-                        </GeometryDrawing.Geometry>
-                    </GeometryDrawing>
-                </DrawingGroup.Children>
-            </DrawingGroup>
+            <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}" Geometry="{StaticResource g_star_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 

@@ -1,78 +1,63 @@
-﻿<UserControl x:Class="NeeView.ImageEffectView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:NeeView"
-             xmlns:nvp="clr-namespace:NeeView.Windows.Property"
-             xmlns:nvc="clr-namespace:NeeView.Windows.Controls"
-             xmlns:properties="clr-namespace:NeeView.Properties"
-             mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="300" MinWidth="200" 
-             Focusable="True"
-             FocusVisualStyle="{x:Null}"
-             Foreground="{DynamicResource NVForeground}">
+﻿<UserControl x:Class="NeeView.ImageEffectView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:NeeView"
+        xmlns:nvp="clr-namespace:NeeView.Windows.Property" xmlns:nvc="clr-namespace:NeeView.Windows.Controls" xmlns:properties="clr-namespace:NeeView.Properties" mc:Ignorable="d" d:DesignHeight="800"
+        d:DesignWidth="300" MinWidth="200" Focusable="True" FocusVisualStyle="{x:Null}" Foreground="{DynamicResource NVForeground}">
 
     <UserControl.Resources>
 
         <ResourceDictionary>
 
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/NeeView/Windows/Property/PropertyValueTemplateDictionary.xaml"/>
+                <ResourceDictionary Source="/NeeView/Windows/Property/PropertyValueTemplateDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <DrawingImage x:Key="ic_toy_24px">
                 <DrawingImage.Drawing>
-                    <DrawingGroup Opacity="1">
-                        <DrawingGroup.Children>
-                            <GeometryDrawing Brush="Gray" Pen="{x:Null}">
-                                <GeometryDrawing.Geometry>
-                                    <PathGeometry FillRule="Nonzero" Figures="M12,12C15,12 17.5,14.5 17.5,17.5 17.5,20.5 15,23 12,23L12,12z M1.00000011920929,12L12,12C12,15 9.5,17.5 6.5,17.5 3.5,17.5 1,15 1.00000011920929,12z M17.5,6.5C20.5,6.5,23,9,23,12L12,12C12,9,14.5,6.5,17.5,6.5z M12,1.00000011920929L12,12C9,12 6.5,9.5 6.5,6.5 6.5,3.5 9,1 12,1.00000011920929z" />
-                                </GeometryDrawing.Geometry>
-                            </GeometryDrawing>
-                        </DrawingGroup.Children>
+                    <DrawingGroup>
+                        <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
+                        <GeometryDrawing Brush="Gray" Pen="{x:Null}" Geometry="{StaticResource g_toy_24px}" />
                     </DrawingGroup>
                 </DrawingImage.Drawing>
             </DrawingImage>
 
-            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
             <DataTemplate DataType="{x:Type nvp:PropertyValue_Boolean}">
                 <CheckBox IsChecked="{Binding Value}" Content="{Binding Value}" />
             </DataTemplate>
 
             <Style x:Key="BlackStyle" TargetType="UserControl">
-                <Setter Property="Background" Value="#FF101010"/>
-                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Background" Value="#FF101010" />
+                <Setter Property="Foreground" Value="White" />
             </Style>
             <Style x:Key="WhiteStyle" TargetType="UserControl">
-                <Setter Property="Background" Value="#FFF8F8F8"/>
-                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="Background" Value="#FFF8F8F8" />
+                <Setter Property="Foreground" Value="Black" />
             </Style>
 
             <Style x:Key="ToggleSwitchStyle" TargetType="nvc:ToggleSwitch">
-                <Setter Property="Fill" Value="{DynamicResource NVBackground}"/>
-                <Setter Property="Stroke" Value="{DynamicResource NVForeground}"/>
-                <Setter Property="CheckedBrush" Value="{DynamicResource NVButtonForeground}"/>
-                <Setter Property="Margin" Value="10,0"/>
-                <Setter Property="Height" Value="30"/>
+                <Setter Property="Fill" Value="{DynamicResource NVBackground}" />
+                <Setter Property="Stroke" Value="{DynamicResource NVForeground}" />
+                <Setter Property="CheckedBrush" Value="{DynamicResource NVButtonForeground}" />
+                <Setter Property="Margin" Value="10,0" />
+                <Setter Property="Height" Value="30" />
             </Style>
 
             <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
             </Style>
 
             <Style TargetType="TextBox">
-                <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
-                <Setter Property="Background" Value="{DynamicResource NVBackground}"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource NVDefaultBrush}"/>
-                <EventSetter Event="KeyDown" Handler="Control_KeyDown_IgnoreSingleKeyGesture"/>
+                <Setter Property="Foreground" Value="{DynamicResource NVForeground}" />
+                <Setter Property="Background" Value="{DynamicResource NVBackground}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource NVDefaultBrush}" />
+                <EventSetter Event="KeyDown" Handler="Control_KeyDown_IgnoreSingleKeyGesture" />
             </Style>
 
             <Style TargetType="nvc:EnterTriggerTextBox" BasedOn="{StaticResource {x:Type TextBox}}" />
 
             <Style TargetType="ComboBox" BasedOn="{StaticResource NVComboBox}">
-                <Setter Property="Foreground" Value="{StaticResource NVButtonForeground}"/>
-                <Setter Property="Background" Value="{DynamicResource NVBackground}"/>
+                <Setter Property="Foreground" Value="{StaticResource NVButtonForeground}" />
+                <Setter Property="Background" Value="{DynamicResource NVBackground}" />
             </Style>
 
             <Style TargetType="Separator">
@@ -85,26 +70,26 @@
     </UserControl.Resources>
 
     <Grid Background="Transparent">
-        <ScrollViewer x:Name="ScrollView" Style="{StaticResource DarkScrollViewer}" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" Focusable="False" CanContentScroll="False">
+        <ScrollViewer x:Name="ScrollView" Style="{StaticResource DarkScrollViewer}" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" Focusable="False"
+                CanContentScroll="False">
 
-            <StackPanel Margin="5,10,0,10" >
+            <StackPanel Margin="5,10,0,10">
 
                 <StackPanel Margin="0,5,0,10" Orientation="Horizontal">
-                    <!--
-                    <Image Source="{StaticResource ic_toy_24px}" Width="16" Height="16" VerticalAlignment="Center" Margin="0,0,2,0"/>
-                    -->
-                    <TextBlock Text="{x:Static properties:Resources.EffectName}" Foreground="Gray" VerticalAlignment="Center" />
+                    <Image Style="{StaticResource PanelTitleIconStyle}" Source="{StaticResource ic_toy_24px}" />
+                    <TextBlock Style="{StaticResource PanelTitleTextStyle}" Text="{x:Static properties:Resources.EffectName}" />
                 </StackPanel>
 
                 <Separator />
 
                 <DockPanel Margin="0,5">
-                    <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding Source={x:Static local:Config.Current}, Path=ImageCustomSize.IsEnabled}" VerticalAlignment="Center"/>
+                    <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding Source={x:Static local:Config.Current}, Path=ImageCustomSize.IsEnabled}"
+                            VerticalAlignment="Center" />
                     <TextBlock Text="{x:Static properties:Resources.EffectCustomSize}" VerticalAlignment="Center" />
                 </DockPanel>
 
                 <StackPanel Margin="10,0,0,5" Visibility="{Binding Source={x:Static local:Config.Current}, Path=ImageCustomSize.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <nvp:PropertyInspector Document="{Binding CustomSizeProfile}" IsResetButtonVisible="False"/>
+                    <nvp:PropertyInspector Document="{Binding CustomSizeProfile}" IsResetButtonVisible="False" />
                 </StackPanel>
 
                 <Separator />
@@ -122,14 +107,16 @@
                 <Separator />
 
                 <DockPanel Margin="0,5">
-                    <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding Source={x:Static local:Config.Current}, Path=ImageDotKeep.IsEnabled}" VerticalAlignment="Center"/>
+                    <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding Source={x:Static local:Config.Current}, Path=ImageDotKeep.IsEnabled}"
+                            VerticalAlignment="Center" />
                     <TextBlock Text="{x:Static properties:Resources.EffectKeepDot}" VerticalAlignment="Center" />
                 </DockPanel>
 
                 <Separator />
 
                 <DockPanel Margin="0,5">
-                    <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding Source={x:Static local:Config.Current}, Path=ImageResizeFilter.IsEnabled}" VerticalAlignment="Center" />
+                    <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding Source={x:Static local:Config.Current}, Path=ImageResizeFilter.IsEnabled}"
+                            VerticalAlignment="Center" />
                     <TextBlock Text="{x:Static properties:Resources.EffectResizeFilter}" VerticalAlignment="Center" />
                 </DockPanel>
 
@@ -140,22 +127,23 @@
                         <ComboBox  DockPanel.Dock="Right" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}"  Background="{DynamicResource NVBackground}"
                         -->
                         <ComboBox DockPanel.Dock="Right" ItemsSource="{x:Static local:ResizeInterpolationExtensions.ResizeInterpolationList}"
-                                SelectedValue="{Binding Source={x:Static local:Config.Current}, Path=ImageResizeFilter.ResizeInterpolation}"/>
+                                SelectedValue="{Binding Source={x:Static local:Config.Current}, Path=ImageResizeFilter.ResizeInterpolation}" />
                         <TextBlock Text="{x:Static properties:Resources.EffectResizeInterpolation}" VerticalAlignment="Center" />
                     </DockPanel>
 
                     <DockPanel Margin="0,5">
-                        <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding Source={x:Static local:Config.Current}, Path=ImageResizeFilter.IsUnsharpMaskEnabled}" VerticalAlignment="Center" />
-                        <TextBlock Text="{x:Static properties:Resources.EffectResizeUnsharp}" VerticalAlignment="Center"/>
+                        <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}"
+                                IsChecked="{Binding Source={x:Static local:Config.Current}, Path=ImageResizeFilter.IsUnsharpMaskEnabled}" VerticalAlignment="Center" />
+                        <TextBlock Text="{x:Static properties:Resources.EffectResizeUnsharp}" VerticalAlignment="Center" />
                     </DockPanel>
 
                     <Grid Margin="10,0,0,10"
                             Visibility="{Binding Source={x:Static local:Config.Current}, Path=ImageResizeFilter.IsUnsharpMaskEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <nvp:PropertyInspector x:Name="inspectorF" Document="{Binding UnsharpMaskProfile}" IsResetButtonVisible="False"/>
+                        <nvp:PropertyInspector x:Name="inspectorF" Document="{Binding UnsharpMaskProfile}" IsResetButtonVisible="False" />
                     </Grid>
 
                     <Button x:Name="ResetButton" Style="{StaticResource IconButton}" HorizontalAlignment="Right" Margin="5" Click="Reset">
-                        <TextBlock Margin="5" Text="{x:Static properties:Resources.EffectResizeReset}" Foreground="{StaticResource NVButtonForeground}"/>
+                        <TextBlock Margin="5" Text="{x:Static properties:Resources.EffectResizeReset}" Foreground="{StaticResource NVButtonForeground}" />
                     </Button>
                 </StackPanel>
 
@@ -163,36 +151,37 @@
                 <Separator />
 
                 <DockPanel Margin="0,5">
-                    <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding Source={x:Static local:Config.Current}, Path=ImageGrid.IsEnabled}" VerticalAlignment="Center"/>
+                    <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding Source={x:Static local:Config.Current}, Path=ImageGrid.IsEnabled}"
+                            VerticalAlignment="Center" />
                     <TextBlock Text="{x:Static properties:Resources.EffectGrid}" VerticalAlignment="Center" />
                 </DockPanel>
 
                 <StackPanel Margin="10,0,0,5" Visibility="{Binding Source={x:Static local:Config.Current}, Path=ImageGrid.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <nvp:PropertyInspector Document="{Binding GridLineProfile}" IsResetButtonVisible="True"/>
+                    <nvp:PropertyInspector Document="{Binding GridLineProfile}" IsResetButtonVisible="True" />
                 </StackPanel>
 
                 <Separator />
 
                 <DockPanel Margin="0,5">
-                    <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding Source={x:Static local:Config.Current}, Path=ImageEffect.IsEnabled}" VerticalAlignment="Center"/>
+                    <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding Source={x:Static local:Config.Current}, Path=ImageEffect.IsEnabled}"
+                            VerticalAlignment="Center" />
                     <TextBlock Text="{x:Static properties:Resources.EffectEffect}" VerticalAlignment="Center" />
                 </DockPanel>
 
                 <StackPanel Visibility="{Binding Source={x:Static local:Config.Current}, Path=ImageEffect.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <DockPanel Margin="0,5">
                         <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding EffectTypeList}" DisplayMemberPath="Value" SelectedValuePath="Key"
-                                SelectedValue="{Binding Source={x:Static local:Config.Current}, Path=ImageEffect.EffectType}"/>
+                                SelectedValue="{Binding Source={x:Static local:Config.Current}, Path=ImageEffect.EffectType}" />
                         <TextBlock Text="{x:Static properties:Resources.EffectEffectType}" VerticalAlignment="Center" />
                     </DockPanel>
                     <Grid Margin="0,10">
-                        <nvp:PropertyInspector x:Name="inspector" Document="{Binding Model.EffectParameters}"
-                                IsResetButtonVisible="True"
+                        <nvp:PropertyInspector x:Name="inspector" Document="{Binding Model.EffectParameters}" IsResetButtonVisible="True"
                                 IsHsvMode="{Binding Source={x:Static local:Config.Current}, Path=ImageEffect.IsHsvMode}">
                             <nvp:PropertyInspector.Style>
                                 <Style TargetType="nvp:PropertyInspector">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Model.EffectParameters}" Value="{x:Null}">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Setter Property="Visibility" Value="Collapsed" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>

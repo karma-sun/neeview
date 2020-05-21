@@ -20,59 +20,10 @@ namespace NeeView
         Protocol,
     }
 
-    // 複数ページのときの動作
-    public enum MultiPagePolicy
-    {
-        [AliasName("@EnumMultiPageOptionTypeOnce")]
-        Once,
-
-        [AliasName("@EnumMultiPageOptionTypeAll")]
-        All,
-
-        [Obsolete] // ver.37
-        [AliasName("@EnumMultiPageOptionTypeTwice", IsVisibled = false)]
-        Twice = All,
-    };
-
-    // 圧縮ファイルの時の動作
-    public enum ArchivePolicy
-    {
-        [AliasName("@EnumArchiveOptionTypeNone")]
-        None,
-
-        [AliasName("@EnumArchiveOptionTypeSendArchiveFile")]
-        SendArchiveFile,
-
-        [AliasName("@EnumArchiveOptionTypeSendArchivePath")]
-        SendArchivePath, // ver 33.0
-
-        [AliasName("@EnumArchiveOptionTypeSendExtractFile")]
-        SendExtractFile,
-    }
-    
-    public static class ArchivePolicyExtensions
-    {
-        public static string ToSampleText(this ArchivePolicy self)
-        {
-            switch(self)
-            {
-                case ArchivePolicy.None:
-                    return @"not run.";
-                case ArchivePolicy.SendArchiveFile:
-                    return @"C:\Archive.zip";
-                case ArchivePolicy.SendArchivePath:
-                    return @"C:\Archive.zip\File.jpg";
-                case ArchivePolicy.SendExtractFile:
-                    return @"ExtractToTempFolder\File.jpg";
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-    }
 
 
     // 外部アプリ起動
-    public class ExternalApplicationUtility
+    public class ExternalAppUtility
     {
         // コマンドパラメータ文字列のバリデート
         public static string ValidateApplicationParam(string source)
@@ -90,48 +41,7 @@ namespace NeeView
         /// <param name="token">キャンセルトークン</param>
         public void Call(IEnumerable<Page> pages, OpenExternalAppCommandParameter options, CancellationToken token)
         {
-            var files = new List<string>();
-
-            foreach (var page in pages)
-            {
-                token.ThrowIfCancellationRequested();
-
-                // file
-                if (page.Entry.IsFileSystem)
-                {
-                    files.Add(page.GetFilePlace());
-                }
-                else if (page.Entry.Instance is ArchiveEntry archiveEntry && archiveEntry.IsFileSystem)
-                {
-                    files.Add(archiveEntry.SystemPath);
-                }
-                // in archive
-                else
-                {
-                    switch (options.ArchivePolicy)
-                    {
-                        case ArchivePolicy.None:
-                            break;
-                        case ArchivePolicy.SendArchiveFile:
-                            files.Add(page.GetFolderOpenPlace());
-                            break;
-                        case ArchivePolicy.SendExtractFile:
-                            if (page.Entry.IsDirectory)
-                            {
-                                throw new ApplicationException(Properties.Resources.ExceptionNotSupportArchiveFolder);
-                            }
-                            else
-                            {
-                                files.Add(page.ContentAccessor.CreateTempFile(true).Path);
-                            }
-                            break;
-                        case ArchivePolicy.SendArchivePath:
-                            files.Add(page.Entry.SystemPath);
-                            break;
-                    }
-                }
-                if (options.MultiPagePolicy == MultiPagePolicy.Once) break;
-            }
+            var files = PageUtility.CreateFilePathList(pages, options.MultiPagePolicy, options.ArchivePolicy, token);
 
             Call(files, options);
         }

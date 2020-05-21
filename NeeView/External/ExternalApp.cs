@@ -65,7 +65,7 @@ namespace NeeView
 
         public void Execute(IEnumerable<Page> pages)
         {
-            var external = new ExternalApplicationUtility();
+            var external = new ExternalAppUtility();
             try
             {
                 external.Call(pages, CreateCommandParameter(), CancellationToken.None);
@@ -81,7 +81,7 @@ namespace NeeView
 
         public void Execute(IEnumerable<string> files)
         {
-            var external = new ExternalApplicationUtility();
+            var external = new ExternalAppUtility();
             try
             {
                 external.Call(files, CreateCommandParameter());

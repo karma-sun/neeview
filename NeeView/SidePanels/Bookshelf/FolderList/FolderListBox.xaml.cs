@@ -263,10 +263,31 @@ namespace NeeView
             var items = this.ListBox.SelectedItems.Cast<FolderItem>();
             if (items != null && items.Any())
             {
-                FileIO.Current.CopyToClipboard(items);
+                CopyToClipboard(items);
             }
         }
 
+        /// <summary>
+        /// クリップボードにコピー
+        /// </summary>
+        private void CopyToClipboard(IEnumerable<FolderItem> infos)
+        {
+            var collection = new System.Collections.Specialized.StringCollection();
+            foreach (var item in infos.Where(e => !e.IsEmpty()).Select(e => e.EntityPath.SimplePath).Where(e => new QueryPath(e).Scheme == QueryScheme.File))
+            {
+                collection.Add(item);
+            }
+
+            if (collection.Count == 0)
+            {
+                return;
+            }
+
+            var data = new DataObject();
+            data.SetFileDropList(collection);
+            data.SetData(DataFormats.UnicodeText, string.Join("\r\n", collection));
+            Clipboard.SetDataObject(data);
+        }
 
         /// <summary>
         /// フォルダーにコピーコマンド用

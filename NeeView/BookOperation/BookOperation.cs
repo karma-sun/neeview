@@ -355,7 +355,7 @@ namespace NeeView
         {
             if (CanOpenFilePlace())
             {
-                var external = new ExternalApplicationUtility();
+                var external = new ExternalAppUtility();
                 try
                 {
                     external.Call(Book?.Viewer.GetViewPages(), parameter, CancellationToken.None);

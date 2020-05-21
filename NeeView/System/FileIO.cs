@@ -36,59 +36,10 @@ namespace NeeView
 
 
 
-        //
-        public FileIO()
-        {
-        }
-
-        // ファイル削除
-        public static void RemoveFile(string filename)
-        {
-            new FileInfo(filename).Delete();
-        }
-
         // ファイルかディレクトリの存在チェック
         public static bool Exists(string path)
         {
             return File.Exists(path) || Directory.Exists(path);
-        }
-
-        /// <summary>
-        /// クリップボードにコピー
-        /// </summary>
-        /// <param name="info"></param>
-        public void CopyToClipboard(FolderItem info)
-        {
-            if (info.IsEmpty()) return;
-
-            var files = new List<string>();
-            files.Add(info.EntityPath.SimplePath);
-            var data = new DataObject();
-            data.SetData(DataFormats.FileDrop, files.ToArray());
-            data.SetData(DataFormats.UnicodeText, string.Join("\r\n", files));
-            Clipboard.SetDataObject(data);
-        }
-
-        /// <summary>
-        /// クリップボードにコピー
-        /// </summary>
-        public void CopyToClipboard(IEnumerable<FolderItem> infos)
-        {
-            var collection = new System.Collections.Specialized.StringCollection();
-            foreach (var item in infos.Where(e => !e.IsEmpty()).Select(e => e.EntityPath.SimplePath).Where(e => new QueryPath(e).Scheme == QueryScheme.File))
-            {
-                collection.Add(item);
-            }
-
-            if (collection.Count == 0)
-            {
-                return;
-            }
-
-            var data = new DataObject();
-            data.SetFileDropList(collection);
-            data.SetData(DataFormats.UnicodeText, string.Join("\r\n", collection));
-            Clipboard.SetDataObject(data);
         }
 
 
@@ -202,6 +153,13 @@ namespace NeeView
         #endregion Move
 
         #region Remove
+
+        // ファイル削除 (Direct)
+        public static void RemoveFile(string filename)
+        {
+            new FileInfo(filename).Delete();
+        }
+
 
         /// <summary>
         /// ページ削除済？
@@ -663,7 +621,7 @@ namespace NeeView
 
         #region Dialogs
 
-        private class Win32Window : System.Windows.Forms.IWin32Window
+        public class Win32Window : System.Windows.Forms.IWin32Window
         {
             public IntPtr Handle { get; private set; }
 
@@ -673,6 +631,10 @@ namespace NeeView
             }
         }
 
+
+        /// <summary>
+        /// フォルダー選択ダイアログ
+        /// </summary>
         public static string OpenFolderBrowserDialog(Window owner, string description)
         {
             var dialog = new System.Windows.Forms.FolderBrowserDialog();

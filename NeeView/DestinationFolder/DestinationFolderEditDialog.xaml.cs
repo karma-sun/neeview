@@ -1,5 +1,4 @@
-﻿using NeeLaboratory.ComponentModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -43,35 +42,6 @@ namespace NeeView
         {
             this.DialogResult = false;
             this.Close();
-        }
-    }
-
-
-    public class DestinationFolderEditDialogViewMdoel : BindableBase
-    {
-        private DestinationFolder _model;
-
-
-        public DestinationFolderEditDialogViewMdoel(DestinationFolder model)
-        {
-            _model = model;
-        }
-
-
-        public string Name
-        {
-            get => _model.Name;
-            set => _model.Name = value;
-        }
-
-        public string Path
-        {
-            get => _model.Path;
-            set
-            {
-                _model.Path = value;
-                RaisePropertyChanged(nameof(Name));
-            }
         }
     }
 }

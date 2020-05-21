@@ -1,7 +1,9 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Collections.Generic;
 using NeeView.Windows.Property;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
 
@@ -25,44 +27,7 @@ namespace NeeView
 
         public static bool SetData(System.Windows.DataObject data, List<Page> pages, CopyFileCommandParameter parameter, CancellationToken token)
         {
-            var files = new List<string>();
-
-            foreach (var page in pages)
-            {
-                token.ThrowIfCancellationRequested();
-
-                // file
-                if (page.Entry.IsFileSystem)
-                {
-                    files.Add(page.GetFilePlace());
-                }
-                else if (page.Entry.Instance is ArchiveEntry archiveEntry && archiveEntry.IsFileSystem)
-                {
-                    files.Add(archiveEntry.SystemPath);
-                }
-                // in archive
-                else
-                {
-                    switch (parameter.ArchivePolicy)
-                    {
-                        case ArchivePolicy.None:
-                            break;
-                        case ArchivePolicy.SendArchiveFile:
-                            files.Add(page.GetFilePlace());
-                            break;
-                        case ArchivePolicy.SendExtractFile:
-                            if (!page.ContentAccessor.Entry.IsArchiveDirectory())
-                            {
-                                files.Add(page.ContentAccessor.CreateTempFile(true).Path);
-                            }
-                            break;
-                        case ArchivePolicy.SendArchivePath:
-                            files.Add(page.Entry.SystemPath);
-                            break;
-                    }
-                }
-                if (parameter.MultiPagePolicy == MultiPagePolicy.Once || parameter.ArchivePolicy == ArchivePolicy.SendArchiveFile) break;
-            }
+            var files = PageUtility.CreateFilePathList(pages, parameter.MultiPagePolicy, parameter.ArchivePolicy, token);
 
             if (files.Count > 0)
             {

@@ -608,7 +608,12 @@ namespace NeeView
                 return;
             }
 
-            await Task.Run(() => ClipboardUtility.SetData(e.Data, pages, new CopyFileCommandParameter() { MultiPagePolicy = MultiPagePolicy.All }, token));
+            var isSuccess = await Task.Run(() => ClipboardUtility.SetData(e.Data, pages, new CopyFileCommandParameter() { MultiPagePolicy = MultiPagePolicy.All }, token));
+            if (!isSuccess)
+            {
+                e.Cancel = true;
+                return;
+            }
 
             // 全てのファイルがファイルシステムであった場合のみ
             if (pages.All(p => p.Entry.IsFileSystem))

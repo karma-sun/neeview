@@ -195,17 +195,7 @@ namespace NeeView.Windows.Controls
             }
         }
 
-        public class Wpf32Window : System.Windows.Forms.IWin32Window
-        {
-            public IntPtr Handle { get; private set; }
 
-            public Wpf32Window(Window window)
-            {
-                this.Handle = new WindowInteropHelper(window).Handle;
-            }
-        }
-
-        //
         public FileNameBox()
         {
             InitializeComponent();
@@ -218,10 +208,10 @@ namespace NeeView.Windows.Controls
             get => Note ?? (FileDialogType == FileDialogType.Directory ? Properties.Resources.ControlFileNameBoxDirectoryNote : Properties.Resources.ControlFileNameBoxFileNote);
         }
 
-        //
+
         private void ButtonOpenDialog_Click(object sender, RoutedEventArgs e)
         {
-            var owner = new Wpf32Window(Window.GetWindow(this));
+            var owner = new FileIO.Win32Window(Window.GetWindow(this));
 
             if (FileDialogType == FileDialogType.Directory)
             {

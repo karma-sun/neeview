@@ -508,7 +508,7 @@ namespace NeeView
                 writer.WriteLine(HtmlHelpUtility.CraeteHeader("NeeView Script Manual"));
                 writer.WriteLine($"<body>");
 
-                WriteResource(writer, "/Resources/ja-JP/ScriptManual.html");
+                WriteResource(writer, $"/Resources/{Config.Current.System.Language.GetCultureName()}/ScriptManual.html");
 
                 var executeMethodArgTypes = new Type[] { typeof(CommandParameter), typeof(object[]), typeof(CommandOption) };
 
@@ -589,7 +589,7 @@ namespace NeeView
 
 
 
-                WriteResource(writer, "/Resources/ja-JP/ScriptManualExample.html");
+                WriteResource(writer, $"/Resources/{Config.Current.System.Language.GetCultureName()}/ScriptManualExample.html");
 
                 writer.WriteLine("</body>");
 

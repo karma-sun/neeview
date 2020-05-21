@@ -57,8 +57,6 @@
     <None Remove="NeeView\Effects\Shaders\ColorSelectEffect.ps" />
     <None Remove="NeeView\Effects\Shaders\HsvEffect.ps" />
     <None Remove="NeeView\Effects\Shaders\LevelEffect.ps" />
-    <None Remove="Resources\ja-JP\ScriptManual.html" />
-    <None Remove="Resources\ja-JP\ScriptManualExample.html" />
   </ItemGroup>
 
   <ItemGroup>
@@ -122,14 +120,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\App.ico" />
+    <Resource Include="Resources\en-US\ScriptManual.html" />
+    <Resource Include="Resources\en-US\SearchOptions.html" />
+    <Resource Include="Resources\en-US\ScriptManualExample.html" />
     <Resource Include="Resources\ja-JP\ScriptManualExample.html" />
     <Resource Include="Resources\ja-JP\ScriptManual.html" />
+    <Resource Include="Resources\ja-JP\SearchOptions.html" />
+    <Resource Include="Resources\App.ico" />
     <Resource Include="Resources\Style.css" />
     <Resource Include="Resources\Play.ico" />
     <Resource Include="Resources\SplashScreen.png" />
-    <Resource Include="Resources\en-US\SearchOptions.html" />
-    <Resource Include="Resources\ja-JP\SearchOptions.html" />
     <Resource Include="Resources\Media.png" />
     <Resource Include="Resources\Empty.png" />
   </ItemGroup>

@@ -1,0 +1,440 @@
+
+<h1>NeeView Script Manual</h1>
+
+<h2> Overview </h2>
+<p>
+    Extend the command with a script. You can execute multiple commands at once or as separate commands with modified command parameters.
+</p>
+<p>
+    Scripting is disabled by default. Set and enable on the Scripts page of Options.
+
+    <ul>
+        <li>The script grammar is Javascript (ECMA 5.1).</li>
+        <li><a href="https://github.com/sebastienros/jint">Jint</a> is used for the script engine.</li>
+        <li>The file extension is .nvjs.</li>
+        <li>The character code is UTF8. No BOM is recommended.</li>
+        <li>You can qualify the command description with the dock comments "@name" and "@descripton" at the top of the file.</li>
+    </ul>
+</p>
+
+<h2>Command script</h2>
+<p>
+    If the script file is placed in the script folder, it can be used as a command. One file is one command.
+
+    <ul>
+        <li>Shortcuts can be set in the "Command settings" of the Options like normal commands. </li>
+        <li>The file name becomes the command name.</li>
+    </ul>
+</p>
+
+<h2>Event script</h2>
+<p>
+    A specially named script file will be executed automatically.
+    <dl>
+        <dt>OnBookLoaded.nvjs</dt>
+        <dd>Runs when you open the book.</dd>
+    </dl>
+</p>
+
+<h2>Console</h2>
+<p>
+    A console for testing scripts. To open it, select "Options > Open console" from the menu.
+</p>
+<h4>Console-only command</h4>
+<dl>
+    <dt>cls</dt>
+    <dd>Clear screen (Ctrl+L)</dd>
+    <dt>exit</dt>
+    <dd>Close console</dd>
+    <dt>help, ?</dt>
+    <dd>Open this script help</dd>
+</dl>
+
+<p>&nbsp;</p>
+
+<h1> Script reference </h1>
+<p>
+    This section explains how to use NeeView-specific commands.
+</p>
+
+<h2>include(path)</h2>
+<p>
+    Load and execute the script.
+</p>
+<h4>Argument</h4>
+<p>
+    <dl>
+        <dt>path: string</dt>
+        <dd>Script path. Relative paths are relative to the current script location.</dd>
+    </dl>
+</p>
+<h4>Return value</h4>
+<dl>
+    <dt>object</dt>
+    <dd>Script execution result</dd>
+</dl>
+<h4>e.g.</h4>
+<p>
+    <pre><code>
+        // Load and run Sample.nvjs
+        include("Sample.nvjs")
+    </code></pre>
+</p>
+
+<h2>log(message)</h2>
+<p>
+    Print a message to the console. It only works when you run the script from the console. For script testing.
+</p>
+<h4>Argument</h4>
+<p>
+    <dl>
+        <dt>message: string</dt>
+        <dd>Output message</dd>
+    </dl>
+</p>
+
+<h2>system(filename, args)</h2>
+<p>
+    Run the external app.
+</p>
+<h4>Argument</h4>
+<p>
+    <dl>
+        <dt>filename: string</dt>
+        <dd>Executable path. If you specify a URL or file path, the associated app will be executed.</dd>
+        <dt>args: string</dt>
+        <dd>App arguments (optional)</dd>
+    </dl>
+</p>
+
+<hr />
+
+<h2>nv.ShowMessage(message)</h2>
+<p>
+    Display a message on the screen.
+</p>
+<h4>Argument</h4>
+<dl>
+    <dt>message: string</dt>
+    <dd>Output message</dd>
+</dl>
+
+<h2>nv.ShowToast(message)</h2>
+<p>
+    Display the message as a toast.
+</p>
+<h4>Argument</h4>
+<dl>
+    <dt>message: string</dt>
+    <dd>Output message</dd>
+</dl>
+
+<h2>nv.ShowDialog(title, message, commands)</h2>
+<p>
+    Display the dialog.
+</p>
+<h4>Argument</h4>
+<dl>
+    <dt>title: string</dt>
+    <dd>Main text</dd>
+    <dt>message: string</dt>
+    <dd>Message (optional)</dd>
+    <dt>commands: int</dt>
+    <dd>0: OK / 1: OKCancel / 2: YesNo<br />Button types (optional)</dd>
+</dl>
+<h4>Return value</h4>
+<dl>
+    <dt>bool</dt>
+    <dd>Returns true if positive selection ("OK" or "Yes"), false otherwise.</dd>
+</dl>
+<h4>e.g.</h4>
+<p>
+    <pre><code>
+        isYes = nv.ShowDialog("Is this a pen?", "I think it's a pen, really?", 2)
+        if (isYes) {
+            nv.ShowDialog("Good.")
+        }
+    </code></pre>
+</p>
+
+<hr />
+
+
+<h2>nv.Config</h2>
+<p>
+    An associative array of application settings. Refers to and changes the set value. For the types of set values, refer to "Config list" below.
+</p>
+
+<h4>e.g.</h4>
+<p>
+    <pre><code>
+        // Change the theme color to dark
+        nv.Config.Theme.PanelColor = "Dark"
+        nv.Config.Theme.MenuColor = "Dark"
+    </code></pre>
+</p>
+
+<h2>nv.Values</h2>
+<p>
+    An associative array for storing values. The value saved in this object will be retained during app execution.
+</p>
+
+<h4>e.g.</h4>
+<p>
+    <pre><code>
+        // Store value
+        nv.Values["Test"] = "Hello!"
+        // As well
+        nv.Values.Test = "Hello!"
+    </code></pre>
+</p>
+
+<hr />
+
+<h2>nv.Book</h2>
+<p>
+    Get accessor to book information
+</p>
+<h4>Return value</h4>
+<dl>
+    <dt>BookAccessor</dt>
+    <dd>Book accessor</dd>
+</dl>
+
+<h4>e.g.</h4>
+<p>
+    <pre><code>
+        // Show the path of the book you are reading in a dialog
+        nv.ShowDialog(nv.Book.Path)
+    </code></pre>
+</p>
+
+<h2>[Type] BookAccessor</h2>
+<p>
+    Book accessor
+</p>
+<h4>Property</h4>
+<dl>
+    <dt>Path: string</dt>
+    <dd>Current book path. Null if no book is open</dd>
+    <dt>IsMedua: bool</dt>
+    <dd>Whether the current book is a video</dd>
+    <dt>IsNew: bool</dt>
+    <dd>Whether the current book is a newly opened book with no history</dd>
+    <dt>PageSize: int</dt>
+    <dd>Number of pages in current book</dd>
+    <dt>ViewPageSize: int</dt>
+    <dd>Number of pages currently displayed</dd>
+    <dt>Config.ViewPageSize: int</dt>
+    <dd>Number of pages to display</dd>
+    <dt>Config.BookReadOrder: string</dt>
+    <dd>Left Open / Right Open [ LeftToRight, RightToLeft ]</dd>
+    <dt>Config.IsSupportedDividePage: bool</dt>
+    <dd>Split landscape page</dd>
+    <dt>Config.IsSupportedSingleFirstPage: bool</dt>
+    <dd>Show first page alone</dd>
+    <dt>Config.IsSupportedSingleLastPage: bool</dt>
+    <dd>Show last page alone</dd>
+    <dt>Config.IsSupportedWidePage: bool</dt>
+    <dd>Consider landscape pages as two pages</dd>
+    <dt>Config.IsRecursiveFolder: bool</dt>
+    <dd>Load subfolder</dd>
+    <dt>Config.SortMode: string</dt>
+    <dd>Sort order [ FileName, FileNameDescending, ...]</dd>
+</dl>
+
+<h3>BookAccessor.Page(number)</h3>
+<p>
+    Get display page
+</p>
+<h4>Argument</h4>
+<dl>
+    <dt>page: int</dt>
+    <dd>Page number (1-n). Please note that this is a 1-start, as it is aligned with the display.
+    </dd>
+</dl>
+<h4>Return value</h4>
+<dl>
+    <dt>PageAccessor</dt>
+    <dd>Page accessor. If it cannot be obtained, it returns null.</dd>
+</dl>
+
+<h3>BookAccessor.ViewPage(index)</h3>
+<p>
+    Get display page
+</p>
+<h4>引数</h4>
+<dl>
+    <dt>index: int</dt>
+    <dd>Display page ID (0-1)</dd>
+</dl>
+<h4>戻り値</h4>
+<dl>
+    <dt>PageAccessor</dt>
+    <dd>Page accessor. If it cannot be obtained, it returns null.</dd>
+</dl>
+
+<h2>[Type] PageAccessor</h2>
+<p>
+    Page accessor. Holds page information as a property.
+</p>
+<h4>Property</h4>
+<dl>
+    <dt>Path: string</dt>
+    <dd>Page path</dd>
+    <dt>Width: double</dt>
+    <dd>Page width</dd>
+    <dt>Height: double</dt>
+    <dd>Page height</dd>
+</dl>
+
+<h4>e.g.</h4>
+<p>
+    <pre><code>
+        // Display page name with toast
+        nv.ShowToast(nv.Book.ViewPage(0).Path)
+    </code></pre>
+</p>
+
+<hr />
+
+<h2>nv.Command</h2>
+<p>
+    An associative array of command accessors. The commands are the same as those displayed under Options > Command Settings. For details, refer to "Command list" described later.
+</p>
+<h4>Key</h4>
+<dl>
+    <dt>commandName: string</dt>
+    <dd>Command name</dd>
+</dl>
+<h4>Return value</h4>
+<dl>
+    <dt>CommandAccessor</dt>
+    <dd>Command accessor. Null if the command cannot be found.</dd>
+</dl>
+<h4>e.g.</h4>
+<p>
+    <pre><code>
+        // Execute "NextPage" command
+        nv.Command["NextPage"].Execute()
+        // As well
+        nv.Command.NextPage.Execute()
+    </code></pre>
+</p>
+
+<h2>[Type] CommandAccessor</h2>
+<p>
+    Command accessor
+</p>
+
+<h3>CommandAccessor.Parameter</h3>
+<p>
+    You can get and set command parameters. The settings are permanent. The properties differ for each command. For details, see the command list below.
+</p>
+<h4>e.g.</h4>
+<p>
+    <pre><code>
+        // Change the rotation amount of "ViewRotateLeft" command to 45 degrees
+        nv.Command.ViewRotateLeft.Parameter.Angle = 45
+    </code></pre>
+</p>
+
+<h3>CommandAccessor.IsShowMessage: bool</h3>
+<p>
+    A message is displayed when the command is executed.
+</p>
+
+<h3>CommandAccessor.ShortCutKey: string</h3>
+<p>
+    You can get and set command shortcuts.
+</p>
+<h4>e.g.</h4>
+<p>
+    <pre><code>
+        // Set "Ctrl+A" as shortcut for ViewRotateLeft command
+        nv.Command.ViewRotateLeft.ShourtCutKey = "Ctrl+A"
+    </code></pre>
+</p>
+
+<h3>CommandAccessor.MouseGesture: string</h3>
+<p>
+    You can get and set mouse gestures.
+</p>
+<p>
+    Gesture keys are specified in the alphabet as follows.
+    <ul>
+        <li>← ... L</li>
+        <li>↑ ... U</li>
+        <li>→ ... R</li>
+        <li>↓ ... D</li>
+        <li>Click ... C</li>
+    </ul>
+</p>
+<h4>e.g.</h4>
+<p>
+    <pre><code>
+        // Set "↑←↓" to the mouse gesture of ViewRotateLeft command
+        nv.Command.ViewRotateLeft.MouseGesture = "ULD"
+    </code></pre>
+</p>
+
+<h3>CommandAccessor.TouchGesture: string</h3>
+<p>
+    You can get and set the touch operation.
+</p>
+<h4>e.g.</h4>
+<p>
+    <pre><code>
+        // Set "TouchCenter" for touch operation of ViewRotateLeft command
+        nv.Command.ViewRotateLeft.TouchGesture = "TouchCenter"
+    </code></pre>
+</p>
+
+<h3>CommandAccessor.Execute(args...)</h3>
+<p>
+    Execute the command.
+</p>
+<p>
+    Some commands allow you to specify arguments.These can be used for the purpose of omitting the user's selection by specifying the argument in the command that normally displays the dialog.
+</p>
+<h4>Argument</h4>
+<dl>
+    <dt>args: object[]</dt>
+    <dd>Command argument. The contents vary depending on the command. It is a variable length argument. (Optional)</dd>
+</dl>
+<h4>Return value</h4>
+<dl>
+    <dt>bool</dt>
+    <dd>Success or failure of command issuance. Commands may not be issued during loading. The success or failure of the command itself is not determined.</dd>
+</dl>
+<h4>e.g.</h4>
+<p>
+    <pre><code>
+        // open C:\\Foo\\Bar.zip
+        nv.Command.LoadAs.Execute("C:\\Foo\\Bar.zip")
+    </code></pre>
+</p>
+<h3>CommandAccessor.Patch(patch)</h3>
+<p>
+    Temporarily change the command parameter.
+</p>
+<h4>Argument</h4>
+<dl>
+    <dt>patch: json</dt>
+    <dd>Specify the command parameter to be overwritten temporarily in JSON format.</dd>
+</dl>
+
+<h4>Return value</h4>
+<dl>
+    <dt>CommandAccessor</dt>
+    <dd>Returns its own command accessors as is.</dd>
+</dl>
+<h4>e.g.</h4>
+<p>
+    <pre><code>
+        // Rotate counterclockwise by specifying 5 degrees
+        nv.Command.ViewRotateLeft.Patch({"Angle": 5}).Execute()
+    </code></pre>
+</p>
+
+

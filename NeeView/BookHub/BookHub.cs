@@ -43,6 +43,9 @@ namespace NeeView
 
         [AliasName("@EnumPageEndActionLoop")]
         Loop,
+
+        [AliasName("@EnumPageEndActionDialog")]
+        Dialog,
     }
 
 

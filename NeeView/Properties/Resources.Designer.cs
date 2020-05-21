@@ -331,7 +331,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Open in explorer に類似しているローカライズされた文字列を検索します。
+        ///   Open in e_xplorer に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookshelfItemMenuExplorer {
             get {
@@ -385,7 +385,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Open in external app に類似しているローカライズされた文字列を検索します。
+        ///   Open in external _app に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookshelfItemOpenExternalApp {
             get {
@@ -6641,6 +6641,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Please select an action. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogPageEnd {
+            get {
+                return ResourceManager.GetString("DialogPageEnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   End of page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogPageEndTitle {
+            get {
+                return ResourceManager.GetString("DialogPageEndTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Temporary folders can not be pagemarked に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string DialogPagemarkError {
@@ -7708,6 +7726,15 @@ namespace NeeView.Properties {
         public static string EnumMultiPageOptionTypeTwice {
             get {
                 return ResourceManager.GetString("EnumMultiPageOptionTypeTwice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Select in dialog に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumPageEndActionDialog {
+            get {
+                return ResourceManager.GetString("EnumPageEndActionDialog", resourceCulture);
             }
         }
         
@@ -16151,6 +16178,15 @@ namespace NeeView.Properties {
         public static string WordLeft {
             get {
                 return ResourceManager.GetString("WordLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Loop に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordLoop {
+            get {
+                return ResourceManager.GetString("WordLoop", resourceCulture);
             }
         }
         

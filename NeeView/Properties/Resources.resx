@@ -187,7 +187,7 @@
     <value>Remove history</value>
   </data>
   <data name="BookshelfItemMenuExplorer" xml:space="preserve">
-    <value>Open in explorer</value>
+    <value>Open in e_xplorer</value>
   </data>
   <data name="BookshelfItemMenuOpen" xml:space="preserve">
     <value>Move to _subfolder</value>
@@ -5644,12 +5644,24 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>_Add External apps...</value>
   </data>
   <data name="BookshelfItemOpenExternalApp" xml:space="preserve">
-    <value>Open in external app</value>
+    <value>Open in external _app</value>
   </data>
   <data name="WordParameter" xml:space="preserve">
     <value>Parameter</value>
   </data>
   <data name="WordDefaultApp" xml:space="preserve">
     <value>Default app</value>
+  </data>
+  <data name="WordLoop" xml:space="preserve">
+    <value>Loop</value>
+  </data>
+  <data name="DialogPageEnd" xml:space="preserve">
+    <value>Please select an action.</value>
+  </data>
+  <data name="DialogPageEndTitle" xml:space="preserve">
+    <value>End of page</value>
+  </data>
+  <data name="EnumPageEndActionDialog" xml:space="preserve">
+    <value>Select in dialog</value>
   </data>
 </root>

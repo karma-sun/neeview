@@ -35,6 +35,7 @@ namespace NeeView
         private Book _book;
         private ObservableCollection<Page> _pageList;
         private ExportImageProceduralDialog _exportImageProceduralDialog;
+        private int _pageTerminating;
 
         #endregion
 
@@ -295,7 +296,7 @@ namespace NeeView
         public void ValidateRemoveFile(IEnumerable<Page> pages)
         {
             Book.Control.RequestRemove(this, pages.Where(e => FileIO.Current.IsPageRemoved(e)).ToList());
-        }               
+        }
 
 
         #endregion
@@ -446,63 +447,131 @@ namespace NeeView
         // ページ終端を超えて移動しようとするときの処理
         private void Book_PageTerminated(object sender, PageTerminatedEventArgs e)
         {
+            if (_pageTerminating > 0) return;
+
             // TODO ここでSlideShowを参照しているが、引数で渡すべきでは？
             if (SlideShow.Current.IsPlayingSlideShow && Config.Current.SlideShow.IsSlideShowByLoop)
             {
                 FirstPage(sender);
             }
-
-            else if (Config.Current.Book.PageEndAction == PageEndAction.Loop)
+            else
             {
-                if (e.Direction < 0)
+                switch (Config.Current.Book.PageEndAction)
                 {
-                    LastPage(sender);
-                }
-                else
-                {
-                    FirstPage(sender);
-                }
-                if (Config.Current.Book.IsNotifyPageLoop)
-                {
-                    InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyBookOperationPageLoop);
+                    case PageEndAction.Loop:
+                        PageEndAction_Loop(sender, e);
+                        break;
+
+                    case PageEndAction.NextFolder:
+                        PageEndAction_NextFolder(sender, e);
+                        break;
+
+                    case PageEndAction.Dialog:
+                        PageEndAction_Dialog(sender, e);
+                        break;
+
+                    default:
+                        PageEndAction_None(sender, e, true);
+                        break;
                 }
             }
-            else if (Config.Current.Book.PageEndAction == PageEndAction.NextFolder)
+        }
+
+        private void PageEndAction_Loop(object sender, PageTerminatedEventArgs e)
+        {
+            if (e.Direction < 0)
             {
-                AppDispatcher.Invoke(async () =>
-                {
-                    if (e.Direction < 0)
-                    {
-                        await BookshelfFolderList.Current.PrevFolder(BookLoadOption.LastPage);
-                    }
-                    else
-                    {
-                        await BookshelfFolderList.Current.NextFolder(BookLoadOption.FirstPage);
-                    }
-                });
+                LastPage(sender);
             }
             else
             {
-                if (SlideShow.Current.IsPlayingSlideShow)
-                {
-                    // スライドショー解除
-                    SlideShow.Current.IsPlayingSlideShow = false;
-                }
+                FirstPage(sender);
+            }
+            if (Config.Current.Book.IsNotifyPageLoop)
+            {
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyBookOperationPageLoop);
+            }
+        }
 
-                // 本の場合のみ処理。メディアでは不要
-                else if (this.Book != null && !this.Book.IsMedia)
+        private void PageEndAction_NextFolder(object sender, PageTerminatedEventArgs e)
+        {
+            AppDispatcher.Invoke(async () =>
+            {
+                if (e.Direction < 0)
                 {
-                    if (e.Direction < 0)
-                    {
-                        SoundPlayerService.Current.PlaySeCannotMove();
-                        InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyFirstPage);
-                    }
-                    else
-                    {
-                        SoundPlayerService.Current.PlaySeCannotMove();
-                        InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyLastPage);
-                    }
+                    await BookshelfFolderList.Current.PrevFolder(BookLoadOption.LastPage);
                 }
+                else
+                {
+                    await BookshelfFolderList.Current.NextFolder(BookLoadOption.FirstPage);
+                }
+            });
+        }
+
+        private void PageEndAction_None(object sender, PageTerminatedEventArgs e, bool notify)
+        {
+            if (SlideShow.Current.IsPlayingSlideShow)
+            {
+                // スライドショー解除
+                SlideShow.Current.IsPlayingSlideShow = false;
+            }
+
+            // 通知。本の場合のみ処理。メディアでは不要
+            else if (notify && this.Book != null && !this.Book.IsMedia)
+            {
+                if (e.Direction < 0)
+                {
+                    SoundPlayerService.Current.PlaySeCannotMove();
+                    InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyFirstPage);
+                }
+                else
+                {
+                    SoundPlayerService.Current.PlaySeCannotMove();
+                    InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyLastPage);
+                }
+            }
+        }
+
+        private void PageEndAction_Dialog(object sender, PageTerminatedEventArgs e)
+        {
+            Interlocked.Increment(ref _pageTerminating);
+
+            AppDispatcher.BeginInvoke(() =>
+            {
+                try
+                {
+                    PageEndAction_DialogCore(sender, e);
+                }
+                finally
+                {
+                    Interlocked.Decrement(ref _pageTerminating);
+                }
+            });
+        }
+
+        private void PageEndAction_DialogCore(object sender, PageTerminatedEventArgs e)
+        {
+            var title = (e.Direction < 0) ? Resources.NotifyFirstPage : Resources.NotifyLastPage;
+            var dialog = new MessageDialog(Resources.DialogPageEnd, title);
+            var nextCommand = new UICommand(Properties.Resources.EnumPageEndActionNextFolder);
+            var loopCommand = new UICommand(Properties.Resources.EnumPageEndActionLoop);
+            var noneCommand = new UICommand(Properties.Resources.EnumPageEndActionNone);
+            dialog.Commands.Add(nextCommand);
+            dialog.Commands.Add(loopCommand);
+            dialog.Commands.Add(noneCommand);
+            var result = dialog.ShowDialog(App.Current.MainWindow);
+
+            if (result == nextCommand)
+            {
+                PageEndAction_NextFolder(sender, e);
+            }
+            else if (result == loopCommand)
+            {
+                PageEndAction_Loop(sender, e);
+            }
+            else
+            {
+                PageEndAction_None(sender, e, false);
             }
         }
 

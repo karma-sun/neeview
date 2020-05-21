@@ -187,7 +187,7 @@
     <value>履歴から削除</value>
   </data>
   <data name="BookshelfItemMenuExplorer" xml:space="preserve">
-    <value>エクスプローラーで開く</value>
+    <value>エクスプローラーで開く(_X)</value>
   </data>
   <data name="BookshelfItemMenuOpen" xml:space="preserve">
     <value>サブフォルダーに移動(_S)</value>
@@ -5644,12 +5644,24 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>外部アプリの登録(_A)...</value>
   </data>
   <data name="BookshelfItemOpenExternalApp" xml:space="preserve">
-    <value>外部アプリで開く</value>
+    <value>外部アプリで開く(_A)</value>
   </data>
   <data name="WordParameter" xml:space="preserve">
     <value>パラメーター</value>
   </data>
   <data name="WordDefaultApp" xml:space="preserve">
     <value>既定のアプリ</value>
+  </data>
+  <data name="WordLoop" xml:space="preserve">
+    <value>ループ</value>
+  </data>
+  <data name="DialogPageEnd" xml:space="preserve">
+    <value>行動を選択してください。</value>
+  </data>
+  <data name="DialogPageEndTitle" xml:space="preserve">
+    <value>ページの終端</value>
+  </data>
+  <data name="EnumPageEndActionDialog" xml:space="preserve">
+    <value>ダイアログで選択</value>
   </data>
 </root>

@@ -17,7 +17,7 @@
   </Target>
   
   <PropertyGroup>
-    <Version>36.9.0</Version>
+    <Version>37.0.0</Version>
     <Authors>NeeLaboratory</Authors>
     <Copyright>Copyright © 2016-2020 Ito Mitsuhiro (nee)</Copyright>
     <Description>Image viewer</Description>
@@ -83,7 +83,7 @@
       <Version>2018.4.8.256</Version>
     </PackageReference>
     <PackageReference Include="PhotoSauce.MagicScaler">
-      <Version>0.10.1</Version>
+      <Version>0.10.3</Version>
     </PackageReference>
     <PackageReference Include="SharpVectors.Reloaded">
       <Version>1.5.0</Version>

@@ -41,7 +41,7 @@ namespace NeeView
             else
             {
                 filename = LoosePath.Combine(exporter.ExportFolder, filename);
-                filename = PathUtility.CreateUniquePath(filename);
+                filename = FileIO.CreateUniquePath(filename);
                 isOverweite = false;
             }
 

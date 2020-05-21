@@ -77,7 +77,7 @@ namespace NeeView
         private static string CreateTempPlaylist(string outputDirectory, IEnumerable<string> files)
         {
             string name = DateTime.Now.ToString("yyyyMMddHHmmss") + PlaylistArchive.Extension;
-            string path = PathUtility.CreateUniquePath(System.IO.Path.Combine(outputDirectory, name));
+            string path = FileIO.CreateUniquePath(System.IO.Path.Combine(outputDirectory, name));
             PlaylistFile.Save(path, new Playlist(files), true);
             return path;
         }

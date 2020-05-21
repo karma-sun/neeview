@@ -266,7 +266,7 @@ namespace NeeView
             }
 
             // ユニークなパスを作成
-            string fileName = PathUtility.CreateUniquePath(System.IO.Path.Combine(downloadPath, name));
+            string fileName = FileIO.CreateUniquePath(System.IO.Path.Combine(downloadPath, name));
 
             try
             {
@@ -512,7 +512,7 @@ namespace NeeView
                     var name = DateTime.Now.ToString("yyyyMMddHHmmss") + ".png";
 
                     // ユニークなパスを作成
-                    string fileName = PathUtility.CreateUniquePath(System.IO.Path.Combine(downloadPath, name));
+                    string fileName = FileIO.CreateUniquePath(System.IO.Path.Combine(downloadPath, name));
 
                     // アルファ無効
                     var fixedBitmap = new FormatConvertedBitmap(bitmap, System.Windows.Media.PixelFormats.Bgr32, null, 0);

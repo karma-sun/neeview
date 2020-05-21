@@ -95,36 +95,36 @@ namespace NeeView
         /// <summary>
         /// パスの衝突を連番をつけて回避
         /// </summary>
-        public static string CreateUniquePath(string path)
+        public static string CreateUniquePath(string source)
         {
-            if (!Exists(path))
+            if (!Exists(source))
             {
-                return path;
+                return source;
             }
 
-            bool isFile = File.Exists(path);
-            string dir = Path.GetDirectoryName(path);
-            string name = isFile ? Path.GetFileNameWithoutExtension(path) : Path.GetFileName(path);
-            string ext = isFile ? Path.GetExtension(path) : "";
+            var path = source;
 
-            string dst;
+            bool isFile = File.Exists(path);
+            var directory = Path.GetDirectoryName(path);
+            var filename = isFile ? Path.GetFileNameWithoutExtension(path) : Path.GetFileName(path);
+            var extension = isFile ? Path.GetExtension(path) : "";
             int count = 1;
 
             var regex = new Regex(@"^(.+)\((\d+)\)$");
-            var match = regex.Match(name);
+            var match = regex.Match(filename);
             if (match.Success)
             {
-                name = match.Groups[1].Value.Trim();
+                filename = match.Groups[1].Value.Trim();
                 count = int.Parse(match.Groups[2].Value);
             }
 
             do
             {
-                dst = Path.Combine(dir, $"{name} ({++count}){ext}");
+                path = Path.Combine(directory, $"{filename} ({++count}){extension}");
             }
-            while (Exists(dst));
+            while (Exists(path));
 
-            return dst;
+            return path;
         }
 
         /// <summary>

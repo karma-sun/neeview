@@ -1361,8 +1361,7 @@ namespace NeeView
                 return new ClipboardUtilityMemento()
                 {
                     MultiPageOption = parameter.MultiPagePolicy,
-                    ArchiveOption = parameter.ArchivePolicy,
-                    ArchiveSeparater = parameter.ArchiveSeparater
+                    ArchiveOption = parameter.ArchivePolicy
                 };
             }
         }

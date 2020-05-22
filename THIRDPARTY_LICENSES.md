@@ -109,7 +109,7 @@ DLL: Microsoft.Xaml.Behaviors.dll
 DLL: Jint.dll
 
 * Copyright (c) 2013, Sebastien Ros All rights reserved.
-* URL: [Jint]https://github.com/sebastienros/jint
+* URL: [Jint](https://github.com/sebastienros/jint)
 * License: [BSD 2-Clause License](https://github.com/sebastienros/jint/blob/dev/LICENSE.txt)
 
 DLL: Esprima.dll

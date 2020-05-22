@@ -5272,7 +5272,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>All On / Off</value>
   </data>
   <data name="CommandJumpRandomPage" xml:space="preserve">
-    <value>Jump random page</value>
+    <value>Random page</value>
   </data>
   <data name="CommandJumpRandomPageNote" xml:space="preserve">
     <value>Jump to a random page.</value>

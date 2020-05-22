@@ -1,7 +1,7 @@
 ## 動作環境
 
   * Windows 7 SP1, Windows 8.1, Windows 10
-  * .NET Framework 4.8 が必要です。起動しない場合は [Microsoft .NET](https://dotnet.microsoft.com/download/dotnet-framework-runtime) から入手してインストールしてください。
+  * .NET Framework 4.8 が必要です。起動しない場合は [Microsoft .NET](https://dotnet.microsoft.com/download/dotnet-framework/net48) からRuntimeを入手してインストールしてください。
 
 ## インストール・アンインストール方法
 

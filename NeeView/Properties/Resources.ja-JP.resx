@@ -295,10 +295,10 @@
     <value>ファイルを削除します。圧縮ファイルの場合は削除できません。 </value>
   </data>
   <data name="CommandExportBackup" xml:space="preserve">
-    <value>全設定をエクスポート</value>
+    <value>設定をエクスポート</value>
   </data>
   <data name="CommandExportBackupMenu" xml:space="preserve">
-    <value>全設定をエクスポート...</value>
+    <value>設定をエクスポート...</value>
   </data>
   <data name="CommandExportBackupNote" xml:space="preserve">
     <value>設定、履歴、ブックマーク、ページマークのバックアップを作成します。サムネイルキャッシュはバックアップされません。</value>
@@ -457,10 +457,10 @@
     <value>検索オプションのヘルプをブラウザーで開きます。</value>
   </data>
   <data name="CommandImportBackup" xml:space="preserve">
-    <value>全設定をインポート</value>
+    <value>設定をインポート</value>
   </data>
   <data name="CommandImportBackupMenu" xml:space="preserve">
-    <value>全設定をインポート...</value>
+    <value>設定をインポート...</value>
   </data>
   <data name="CommandImportBackupNote" xml:space="preserve">
     <value>バックアップファイルから復元項目を選んで復元します。</value>

@@ -1,7 +1,7 @@
 ## Environment
 
   * Windows 7 SP1, Windows 8.1, Windows 10
-  * .NET Framework 4.8 is required. If you do not start it please get it from [Microsoft .NET](https://dotnet.microsoft.com/download/dotnet-framework-runtime) and install it.
+  * .NET Framework 4.8 is required. If it does not start, obtain Runtime from [Microsoft .NET](https://dotnet.microsoft.com/download/dotnet-framework/net48) and install it.
 
 ## How to install / uninstall
 

@@ -102,7 +102,9 @@ namespace NeeView
                 return;
             }
 
-            var item = FolderCollection?.Items.FirstOrDefault(x => x.EntityPath.SimplePath == path);
+            var item = FolderCollection != null
+                ? FolderCollection.Items.FirstOrDefault(x => x.TargetPath.SimplePath == path) ?? FolderCollection.Items.FirstOrDefault(x => x.EntityPath.SimplePath == path)
+                : null;
 
             if (_visibledItem != item)
             {

@@ -462,8 +462,8 @@ namespace NeeView
                         PageEndAction_Loop(sender, e);
                         break;
 
-                    case PageEndAction.NextFolder:
-                        PageEndAction_NextFolder(sender, e);
+                    case PageEndAction.NextBook:
+                        PageEndAction_NextBook(sender, e);
                         break;
 
                     case PageEndAction.Dialog:
@@ -493,7 +493,7 @@ namespace NeeView
             }
         }
 
-        private void PageEndAction_NextFolder(object sender, PageTerminatedEventArgs e)
+        private void PageEndAction_NextBook(object sender, PageTerminatedEventArgs e)
         {
             AppDispatcher.Invoke(async () =>
             {
@@ -563,7 +563,7 @@ namespace NeeView
 
             if (result == nextCommand)
             {
-                PageEndAction_NextFolder(sender, e);
+                PageEndAction_NextBook(sender, e);
             }
             else if (result == loopCommand)
             {

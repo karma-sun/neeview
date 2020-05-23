@@ -93,7 +93,7 @@
 - Book page: Change the operation feeling. Gestures are enabled on the book page image, and the book can be opened by double touch.
 - Book page: Layout change. Removed the folder icon display.
 - Book page: Added image size setting. (Options> Book> Book page image size)
-- Susie: Enabled to access "C: \ Windows \ System32" by Susie plug-in in 64bitOS environment.
+- Susie: Enabled to access "C:\\Windows\\System32" by Susie plug-in in 64bitOS environment.
 - Startup option: Removed the full screen option "-f".
 - Options: Merged page display settings with book settings, moved dip-related settings to image format settings.
 - Options: Reorganization of settings page. "Visual" items have been reorganized into groups such as "Window" and "Panels".

@@ -33,17 +33,22 @@ namespace NeeView
     /// <summary>
     /// ページが終わったときのアクション
     /// </summary>
+    [DataContract]
     public enum PageEndAction
     {
+        [EnumMember]
         [AliasName("@EnumPageEndActionNone")]
         None,
 
+        [EnumMember(Value = "NextFolder")]
         [AliasName("@EnumPageEndActionNextFolder")]
-        NextFolder,
+        NextBook,
 
+        [EnumMember]
         [AliasName("@EnumPageEndActionLoop")]
         Loop,
 
+        [EnumMember]
         [AliasName("@EnumPageEndActionDialog")]
         Dialog,
     }

@@ -2094,7 +2094,7 @@ The following data will be deleted
     <value>Export all settings</value>
   </data>
   <data name="DialogFileDelete" xml:space="preserve">
-    <value>Do you want to delete this {0}?</value>
+    <value>Do you want to delete this {0} ?</value>
   </data>
   <data name="DialogFileDeleteMulti" xml:space="preserve">
     <value>Do you want to delete these {0} items?</value>

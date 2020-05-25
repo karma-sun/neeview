@@ -2094,10 +2094,10 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>全設定をエクスポート</value>
   </data>
   <data name="DialogFileDelete" xml:space="preserve">
-    <value>この{0}を削除しますか？</value>
+    <value>この {0} を削除しますか？</value>
   </data>
   <data name="DialogFileDeleteMulti" xml:space="preserve">
-    <value>これら {0} つの項目を削除しますか？</value>
+    <value>これら {0} 個の項目を削除しますか？</value>
   </data>
   <data name="DialogFileDeleteBookTitle" xml:space="preserve">
     <value>ブックを削除します</value>
@@ -2118,7 +2118,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>ページを削除します</value>
   </data>
   <data name="DialogFileDeleteTitle" xml:space="preserve">
-    <value>{0}を削除します</value>
+    <value>{0} を削除します</value>
   </data>
   <data name="DialogFileRenameConfrict" xml:space="preserve">
     <value>{0} は既に存在しています。

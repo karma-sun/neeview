@@ -6333,7 +6333,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Do you want to delete this {0}? に類似しているローカライズされた文字列を検索します。
+        ///   Do you want to delete this {0} ? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string DialogFileDelete {
             get {

@@ -44,7 +44,7 @@ namespace NeeView
             switch (e.Action)
             {
                 case CollectionChangeAction.Refresh:
-                    RefreshChildren();
+                    RefreshChildren(isExpanded: true);
                     break;
 
                 case CollectionChangeAction.Add:

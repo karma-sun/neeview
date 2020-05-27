@@ -54,11 +54,6 @@ namespace NeeView
         /// <param name="isForce">falseの場合、生成失敗ののときはExpandされるまで遅延させる</param>
         public abstract void CreateChildren(bool isForce);
 
-        public override void RefreshChildren()
-        {
-            base.RefreshChildren();
-        }
-
         protected override void RealizeChildren()
         {
             CreateChildren(true);

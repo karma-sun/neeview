@@ -127,9 +127,9 @@ namespace NeeView
             RaisePropertyChanged(nameof(Icon));
         }
 
-        public virtual void RefreshChildren()
+        public void RefreshChildren(bool isExpanded = false)
         {
-            IsExpanded = false;
+            IsExpanded = isExpanded;
 
             if (_children != null)
             {

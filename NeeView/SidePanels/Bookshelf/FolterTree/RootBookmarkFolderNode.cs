@@ -28,7 +28,7 @@ namespace NeeView
                 case EntryCollectionChangedAction.Reset:
                 case EntryCollectionChangedAction.Replace:
                     Source = BookmarkCollection.Current.Items;
-                    RefreshChildren();
+                    RefreshChildren(isExpanded: true);
                     RaisePropertyChanged(nameof(Children));
                     break;
 

@@ -523,6 +523,12 @@ namespace NeeView
         // 設定ファイルの場所を開く
         public void OpenSettingFilesFolder()
         {
+            if (Environment.IsAppxPackage)
+            {
+                new MessageDialog(Resources.DialogOpenSettingFolderError, Resources.DialogOpenSettingFolderErrorTitle).ShowDialog();
+                return;
+            }
+
             Process.Start("explorer.exe", $"\"{Environment.LocalApplicationDataPath}\"");
         }
 

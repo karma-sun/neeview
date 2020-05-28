@@ -71,7 +71,6 @@
 - Options: Search box added to the list of command settings.
 - Options: added the SVG extension. (Options> File types> SVG file extensions)
 - Options: "All enable / disable" button added to Susie plugin settings.
-- Store app: The "Open the location of the setting file" menu and the setting "Delete data" are enabled as in the installer version.
 
 #### Change
 

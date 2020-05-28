@@ -609,6 +609,12 @@ namespace NeeView
                 }
             };
 
+            // Appxは設定ファイル閲覧が無意味
+            if (Environment.IsAppxPackage)
+            {
+                tree.RemoveCommand("OpenSettingFilesFolder");
+            }
+
             CheckCommandEntry(tree);
 
             return tree;

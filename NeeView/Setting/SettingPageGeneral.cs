@@ -110,7 +110,7 @@ namespace NeeView.Setting
 
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.TemporaryDirectory), new PropertyMemberElementOptions() { EmptyValue = Temporary.TempRootPathDefault })) { IsStretch = true });
 
-            if (Environment.ConfigType == "Debug" || Environment.IsUseLocalApplicationDataFolder)
+            if (Environment.ConfigType == "Debug" || (Environment.IsUseLocalApplicationDataFolder && !Environment.IsAppxPackage))
             {
                 section.Children.Add(new SettingItemButton(Properties.Resources.SettingPageGeneralSaveDataRemove, Properties.Resources.SettingItemRemove, RemoveAllData) { Tips = Properties.Resources.SettingItemRemoveTips, });
             }

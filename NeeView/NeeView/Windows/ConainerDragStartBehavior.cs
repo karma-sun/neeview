@@ -274,7 +274,17 @@ namespace NeeView.Windows
                 }
 
                 DragDropHook?.BeginDragDrop(sender, this.AssociatedObject, args.Data, args.AllowedEffects);
-                DragDrop.DoDragDrop(this.AssociatedObject, args.Data, args.AllowedEffects);
+
+                try
+                {
+                    DragDrop.DoDragDrop(this.AssociatedObject, args.Data, args.AllowedEffects);
+                }
+                catch (Exception ex)
+                {
+                    // ドラッグ先のアプリで発生した例外が戻されることがあるので、ここで握りつぶす。...いいのか？
+                    Debug.WriteLine(ex.Message);
+                }
+
                 args.DragEndAction?.Invoke();
                 DragDropHook?.EndDragDrop(sender, this.AssociatedObject, args.Data, args.AllowedEffects);
 

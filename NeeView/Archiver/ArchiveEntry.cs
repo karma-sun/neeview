@@ -269,9 +269,9 @@ namespace NeeView
         /// </summary>
         public bool IsArchive()
         {
-            if (this.IsFileSystem && this.IsDirectory)
+            if (this.IsDirectory)
             {
-                return true;
+                return this.IsFileSystem; // アーカイブディレクトリは除外
             }
 
             if (Instance is TreeListNode<IPagemarkEntry> node && node.Value is PagemarkFolder)

@@ -25,7 +25,7 @@ namespace NeeView
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            Config.Current.View.StretchMode = PageStretchMode.None;
+            ContentCanvas.Current.SetStretchMode(PageStretchMode.None, false);
         }
     }
 }

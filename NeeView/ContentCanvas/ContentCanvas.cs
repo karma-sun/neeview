@@ -151,6 +151,9 @@ namespace NeeView
                 switch (e.PropertyName)
                 {
                     case nameof(ViewConfig.StretchMode):
+                        Stretch();
+                        break;
+
                     case nameof(ViewConfig.AllowStretchScaleUp):
                     case nameof(ViewConfig.AllowStretchScaleDown):
                     case nameof(ViewConfig.IsBaseScaleEnabled):
@@ -727,6 +730,7 @@ namespace NeeView
         public void SetStretchMode(PageStretchMode mode, bool isToggle)
         {
             Config.Current.View.StretchMode = GetFixedStretchMode(mode, isToggle);
+            Stretch();
         }
 
         public bool TestStretchMode(PageStretchMode mode, bool isToggle)

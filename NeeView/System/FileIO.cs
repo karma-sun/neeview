@@ -233,15 +233,16 @@ namespace NeeView
         /// </summary>
         public async Task<bool> RemoveFileAsync(string path, string title, FrameworkElement thumbnail)
         {
-            var content = CreateRemoveDialogContent(path, thumbnail);
-            if (ConfirmRemove(content, title ?? GetRemoveDialogTitle(path)))
+            if (Config.Current.System.IsRemoveConfirmed)
             {
-                return await RemoveCoreAsync(new List<string>() { path });
+                var content = CreateRemoveDialogContent(path, thumbnail);
+                if (!ConfirmRemove(content, title ?? GetRemoveDialogTitle(path)))
+                {
+                    return false;
+                }
             }
-            else
-            {
-                return false;
-            }
+
+            return await RemoveCoreAsync(new List<string>() { path });
         }
 
         /// <summary>
@@ -253,23 +254,20 @@ namespace NeeView
             {
                 return false;
             }
-
             if (paths.Count == 1)
             {
                 return await RemoveFileAsync(paths.First(), title, null);
             }
-            else
+            if (Config.Current.System.IsRemoveConfirmed)
             {
                 var content = CreateRemoveDialogContent(paths);
-                if (ConfirmRemove(content, title ?? GetRemoveDialogTitle(paths)))
-                {
-                    return await RemoveCoreAsync(paths);
-                }
-                else
+                if (!ConfirmRemove(content, title ?? GetRemoveDialogTitle(paths)))
                 {
                     return false;
                 }
             }
+
+            return await RemoveCoreAsync(paths);
         }
 
         /// <summary>

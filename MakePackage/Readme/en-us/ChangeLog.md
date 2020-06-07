@@ -2,14 +2,15 @@
 
 
 ### 37.1
-(2020-06-12)
+(2020-06-08)
 
-#### ??
+#### Changed
 
 - When changing the stretch, the stretch is applied without changing the current angle.
 
-#### ??
+#### Fixed
 
+- Fixed a bug that an incorrect setting file may be output depending on the combination of system region and language.
 - Fixed a bug that the file deletion confirmation setting did not work.
 - Fixed a bug that the same stretch is not applied when the same stretch is selected from the menu or command.
 - Fixed a bug that could not read compressed files that contained folders with names like "x.zip".
@@ -89,7 +90,7 @@
 - Options: added the SVG extension. (Options> File types> SVG file extensions)
 - Options: "All enable / disable" button added to Susie plugin settings.
 
-#### Change
+#### Changed
 
 - Command: Change shortcut "Back", "Shift+Back" to page history operation command.
 - Command: Improve the behavior of N-type scroll of "Scroll + Prev" and "Scroll + Next" command. Equalized transfer rate.
@@ -120,7 +121,7 @@
 - Others: Various library updates.
 - Others: Minor layout correction.
 
-#### fix
+#### Fixed
 
 - Fixed a bug that may crash when thumbnail image creation fails.
 - Fixed a bug that crashes when searching playlists. The playlist does not support search, so it was disabled.

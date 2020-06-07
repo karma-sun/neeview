@@ -1,5 +1,21 @@
 ## ChangeLog
 
+
+### 37.1
+(2020-06-12)
+
+#### ??
+
+- When changing the stretch, the stretch is applied without changing the current angle.
+
+#### ??
+
+- Fixed a bug that the file deletion confirmation setting did not work.
+- Fixed a bug that the same stretch is not applied when the same stretch is selected from the menu or command.
+- Fixed a bug that could not read compressed files that contained folders with names like "x.zip".
+
+----
+
 ### 37.0 
 (2020-05-29) 
 
@@ -9,6 +25,7 @@
     - Usually use the x64 version. Use the x86 version only if your OS is 32-bit.
     - We strongly recommend that you install the installer version after uninstalling the previous version.
         - The x86 version and the x64 version are treated as separate apps, and although it makes no sense, they can be installed at the same time. The x86 version overwrites the previous version.
+    - Both versions support only the 32-bit Susie plugin (.spi).
 
 - .NET framework 4.8
     - Changed the supported framework to .NET framework 4.8 . [If it doesn't start, please install ".NET Framework 4.8 Runtime" from here.](https://dotnet.microsoft.com/download/dotnet-framework/net48)

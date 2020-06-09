@@ -242,8 +242,8 @@ namespace NeeView
             var c1 = source[1];
 
             var dpiRate = 1.0 / Environment.Dpi.DpiScaleX;
-            var d0 = c0.Multi(dpiRate);
-            var d1 = c1.Multi(dpiRate);
+            var d0 = c0.IsEmpty ? c0 : c0.Multi(dpiRate);
+            var d1 = c1.IsEmpty ? c1 : c1.Multi(dpiRate);
             var originalSize = new Size[] { d0, d1 };
 
             // オリジナルサイズ

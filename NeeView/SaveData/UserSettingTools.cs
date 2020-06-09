@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -116,12 +117,12 @@ namespace NeeView
     {
         public override Size Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            return (Size)new SizeConverter().ConvertFromString(reader.GetString());
+            return (Size)new SizeConverter().ConvertFromInvariantString(reader.GetString());
         }
 
         public override void Write(Utf8JsonWriter writer, Size value, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(value.ToString());
+            writer.WriteStringValue(value.ToString(CultureInfo.InvariantCulture));
         }
     }
 
@@ -133,12 +134,12 @@ namespace NeeView
     {
         public override Point Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            return (Point)new PointConverter().ConvertFromString(reader.GetString());
+            return (Point)new PointConverter().ConvertFromInvariantString(reader.GetString());
         }
 
         public override void Write(Utf8JsonWriter writer, Point value, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(value.ToString());
+            writer.WriteStringValue(value.ToString(CultureInfo.InvariantCulture));
         }
     }
 
@@ -155,7 +156,7 @@ namespace NeeView
 
         public override void Write(Utf8JsonWriter writer, Color value, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(value.ToString());
+            writer.WriteStringValue(value.ToString(CultureInfo.InvariantCulture));
         }
     }
 
@@ -211,7 +212,7 @@ namespace NeeView
     {
         public override GridLength Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            return (GridLength)new GridLengthConverter().ConvertFromString(reader.GetString());
+            return (GridLength)new GridLengthConverter().ConvertFromInvariantString(reader.GetString());
         }
 
         public override void Write(Utf8JsonWriter writer, GridLength value, JsonSerializerOptions options)

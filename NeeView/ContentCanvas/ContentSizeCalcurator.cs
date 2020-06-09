@@ -12,12 +12,51 @@ namespace NeeView
     /// </summary>
     public class FixedContentSize
     {
+        /// <summary>
+        /// コンテンツのオリジナルサイズ
+        /// </summary>
+        public List<Size> SourceSizeList { get; set; }
+
+        /// <summary>
+        /// 表示コンテンツサイズ
+        /// </summary>
         public List<Size> ContentSizeList { get; set; }
+
+        /// <summary>
+        /// 表示コンテンツ角度
+        /// </summary>
         public double ContentAngle { get; set; }
+
+        /// <summary>
+        /// 表示コンテンツの間隔
+        /// </summary>
         public Thickness ContentsMargin { get; set; }
 
+        /// <summary>
+        /// コンテンツ全体の幅
+        /// </summary>
         public double Width => ContentSizeList[0].Width + ContentSizeList[1].Width + ContentsMargin.Left;
+
+        /// <summary>
+        /// コンテンツ全体の高さ
+        /// </summary>
         public double Height => Math.Max(ContentSizeList[0].Height, ContentSizeList[1].Height);
+
+
+        /// <summary>
+        /// 表示コンテンツサイズのオリジナル基準スケールを得る。
+        /// 複数コンテンツの場合は拡大率が小さいものを基準にする。
+        /// </summary>
+        /// <returns>倍率</returns>
+        public double GetScale()
+        {
+            var scale0 = (ContentSizeList[0].Width != 0.0) ? ContentSizeList[0].Width / SourceSizeList[0].Width : 0.0;
+            var scale1 = (ContentSizeList[1].Width != 0.0) ? ContentSizeList[1].Width / SourceSizeList[1].Width : 0.0;
+
+            if (scale0 == 0.0) return scale1;
+            if (scale1 == 0.0) return scale0;
+            return Math.Min(scale0, scale1);
+        }
     }
 
     /// <summary>
@@ -81,6 +120,7 @@ namespace NeeView
             var sizes = CalcContentSize(source, ViewSize.Width * dpi.DpiScaleX - offsetWidth, ViewSize.Height * dpi.DpiScaleY, angle);
 
             var result = new FixedContentSize();
+            result.SourceSizeList = source;
             result.ContentAngle = angle;
             result.ContentsMargin = new Thickness(offsetWidth, 0, 0, 0);
             result.ContentSizeList = sizes.Select(e => e.IsEmpty ? SizeExtensions.Zero : new Size(e.Width / dpi.DpiScaleX, e.Height / dpi.DpiScaleY)).ToList();
@@ -327,6 +367,6 @@ namespace NeeView
             return new Size[] { s0, s1 };
         }
 
-#endregion
+        #endregion
     }
 }

@@ -81,21 +81,16 @@ namespace NeeView
         static ContentCanvas() => Current = new ContentCanvas();
         public static ContentCanvas Current { get; }
 
-        #region Fields
-
-        // コンテンツサイズ計算機
-        private ContentSizeCalcurator _contentSizeCalcurator;
-
-        private DragTransform _dragTransform;
-        private DragTransformControl _dragTransformControl;
-
-        private PageStretchMode _stretchModePrev = PageStretchMode.Uniform;
 
         private object _lock = new object();
+        private ContentSizeCalcurator _contentSizeCalcurator;
+        private DragTransform _dragTransform;
+        private DragTransformControl _dragTransformControl;
+        private PageStretchMode _stretchModePrev = PageStretchMode.Uniform;
+        private double _baseScale;
+        private double _lastScale;
 
-        #endregion
 
-        #region Constructors
 
         private ContentCanvas()
         {
@@ -170,16 +165,11 @@ namespace NeeView
             };
         }
 
-        #endregion
 
-        #region Events
 
-        //
         public event EventHandler ContentChanged;
 
-        #endregion
 
-        #region Properties
 
         // 空フォルダー通知表示のON/OFF
         private bool _isVisibleEmptyPageMessage = false;
@@ -300,12 +290,13 @@ namespace NeeView
         // メインコンテンツのオリジナル表示スケール
         public double MainContentScale => MainContent != null ? MainContent.Scale * Environment.Dpi.DpiScaleX : 0.0;
 
+        // コンテンツ(代表)のオリジナル表示スケール
+        public double ContentScale => _baseScale * Environment.Dpi.DpiScaleX;
+
         //
         public GridLine GridLine { get; private set; } = new GridLine();
 
-        #endregion
 
-        #region Methods
 
         /// <summary>
         /// 角度設定モードを取得
@@ -344,6 +335,12 @@ namespace NeeView
         {
             UpdateContentScalingMode();
             MouseInput.Current.ShowMessage(e.ActionType, MainContent);
+
+            if (e.ActionType == TransformActionType.Angle)
+            {
+                var result = _contentSizeCalcurator.GetFixedContentSize(GetContentSizeList(), _dragTransform.Angle);
+                _lastScale = result.GetScale();
+            }
         }
 
         // コンテンツカラー
@@ -416,8 +413,15 @@ namespace NeeView
             }
             else
             {
+                // 回転後のページ移動のスケール維持補正
+                if (Config.Current.View.IsKeepScale && _baseScale != _lastScale)
+                {
+                    var scaleRate = _baseScale / _lastScale;
+                    _dragTransform.SetScale(_dragTransform.Scale * scaleRate, TransformActionType.None);
+                }
+
                 // コンテンツサイズ更新
-                UpdateContentSize(GetAutoRotateAngle(GetAngleResetMode(e.IsFirst || Config.Current.View.IsKeepScale)));
+                UpdateContentSize(GetAutoRotateAngle(GetAngleResetMode(e.IsFirst)));
 
                 // リザーブコンテンツでなければ座標初期化
                 // HACK: ルーペ時の挙動があやしい
@@ -622,6 +626,7 @@ namespace NeeView
             var result = _contentSizeCalcurator.GetFixedContentSize(GetContentSizeList(), this.ContentAngle);
 
             this.ContentsMargin = result.ContentsMargin;
+            _lastScale = _baseScale = result.GetScale();
 
             for (int i = 0; i < 2; ++i)
             {
@@ -890,7 +895,6 @@ namespace NeeView
 
         #endregion
 
-        #endregion
 
         #region IDisposable Support
 

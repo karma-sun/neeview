@@ -55,7 +55,7 @@ namespace NeeView
 
             if (scale0 == 0.0) return scale1;
             if (scale1 == 0.0) return scale0;
-            return Math.Min(scale0, scale1);
+             return Math.Min(scale0, scale1);
         }
     }
 
@@ -114,16 +114,16 @@ namespace NeeView
             var dpi = Environment.Dpi;
 
             // 2ページ表示時は重なり補正を行う
-            double offsetWidth = (source[0].Width > 0.5 && source[1].Width > 0.5) ? ContentsSpace / dpi.DpiScaleX : 0.0;
+            double offsetWidth = (source[0].Width > 0.5 && source[1].Width > 0.5) ? ContentsSpace : 0.0;
 
             // Viewにあわせたコンテンツサイズ
-            var sizes = CalcContentSize(source, ViewSize.Width * dpi.DpiScaleX - offsetWidth, ViewSize.Height * dpi.DpiScaleY, angle);
+            var sizes = CalcContentSize(source, ViewSize.Width, ViewSize.Height, offsetWidth, angle);
 
             var result = new FixedContentSize();
             result.SourceSizeList = source;
             result.ContentAngle = angle;
             result.ContentsMargin = new Thickness(offsetWidth, 0, 0, 0);
-            result.ContentSizeList = sizes.Select(e => e.IsEmpty ? SizeExtensions.Zero : new Size(e.Width / dpi.DpiScaleX, e.Height / dpi.DpiScaleY)).ToList();
+            result.ContentSizeList = sizes.Select(e => e.IsEmpty ? SizeExtensions.Zero : new Size(e.Width, e.Height)).ToList();
             return result;
         }
 
@@ -218,9 +218,9 @@ namespace NeeView
         }
 
         // ストレッチモードに合わせて各コンテンツのスケールを計算する。BaseScaleを適用
-        private Size[] CalcContentSize(List<Size> source, double width, double height, double angle)
+        private Size[] CalcContentSize(List<Size> source, double width, double height, double margin, double angle)
         {
-            var sizes = CalcContentSizeBase(source, width, height, angle);
+            var sizes = CalcContentSizeBase(source, width, height, margin, angle);
 
             if (Config.Current.View.IsBaseScaleEnabled)
             {
@@ -233,7 +233,7 @@ namespace NeeView
         }
 
         // ストレッチモードに合わせて各コンテンツのスケールを計算する
-        private Size[] CalcContentSizeBase(List<Size> source, double width, double height, double angle)
+        private Size[] CalcContentSizeBase(List<Size> source, double width, double height, double margin, double angle)
         {
             if (width < 1.0) width = 1.0;
             if (height < 1.0) height = 1.0;
@@ -241,10 +241,15 @@ namespace NeeView
             var c0 = source[0];
             var c1 = source[1];
 
+            var dpiRate = 1.0 / Environment.Dpi.DpiScaleX;
+            var d0 = c0.Multi(dpiRate);
+            var d1 = c1.Multi(dpiRate);
+            var originalSize = new Size[] { d0, d1 };
+
             // オリジナルサイズ
             if (this.StretchMode == PageStretchMode.None)
             {
-                return new Size[] { c0, c1 };
+                return originalSize;
             }
 
             double rate0 = 1.0;
@@ -256,7 +261,7 @@ namespace NeeView
             // どちらもImageでない
             if (c0.Width < 0.1 && c1.Width < 0.1)
             {
-                return new Size[] { c0, c1 };
+                return originalSize;
             }
             else if (c1.IsZero())
             {
@@ -281,21 +286,26 @@ namespace NeeView
                 content = new Size(c0.Width * rate0 + c1.Width * rate1, c0.Height * rate0);
             }
 
+            var marginSign = margin < 0.0 ? -1.0 : 1.0;
+            var marginSize = new Size(margin * marginSign, 0.0);
+
             // 回転反映
             {
-                //var angle = 45.0;
+                var rotate = new Matrix();
+                rotate.Rotate(angle);
+                
                 var rect = new Rect(content);
-                var m = new Matrix();
-                m.Rotate(angle);
-                rect.Transform(m);
-
+                rect.Transform(rotate);
                 content = new Size(rect.Width, rect.Height);
+                
+                var marginRect = new Rect(marginSize);
+                marginRect.Transform(rotate);
+                marginSize = new Size(marginRect.Width, marginRect.Height);
             }
 
-
             // ビューエリアサイズに合わせる場合のスケール
-            double rateW = width / content.Width;
-            double rateH = height / content.Height;
+            double rateW = (width - marginSize.Width * marginSign) / content.Width;
+            double rateH = (height - marginSize.Height * marginSign) / content.Height;
 
             // 拡大制限
             if (!AllowEnlarge)

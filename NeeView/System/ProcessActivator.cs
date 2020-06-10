@@ -31,7 +31,7 @@ namespace NeeView
             var currentProcess = Process.GetCurrentProcess();
 
             // collect NeeView processes
-            var processes = Process.GetProcesses().Where(e => e.ProcessName == currentProcess.ProcessName).ToList();
+            var processes = Process.GetProcesses().Where(e => e.ProcessName == currentProcess.ProcessName).OrderBy(e => e.StartTime).ToList();
 
             // 自身を基準として並び替え。自身は削除する
             var index = processes.FindIndex(e => e.Id == currentProcess.Id);

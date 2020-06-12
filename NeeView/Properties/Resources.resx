@@ -2996,10 +2996,13 @@ Initialize the cache location.</value>
     <value>Failed to load pagemark</value>
   </data>
   <data name="NotifyLoadSettingFailed" xml:space="preserve">
-    <value>Failed to load settings. It starts up with the default setting.</value>
+    <value>Failed to load settings.</value>
   </data>
   <data name="NotifyLoadSettingFailedTitle" xml:space="preserve">
     <value>Failed to load setting</value>
+  </data>
+  <data name="NotifyLoadSettingFailedButtonQuit" xml:space="preserve">
+    <value>Quit app</value>
   </data>
   <data name="NotifyNoFiles" xml:space="preserve">
     <value>No files</value>

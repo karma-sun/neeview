@@ -88,12 +88,10 @@ namespace NeeView
         public static void Restore(UserSetting setting, ObjectMergeOption options = null)
         {
             if (setting == null) return;
+            if (setting.Config == null) return;
 
             // コンフィグ反映
-            if (setting.Config != null)
-            {
-                ObjectMerge.Merge(Config.Current, setting.Config, options);
-            }
+            ObjectMerge.Merge(Config.Current, setting.Config, options);
 
             // コマンド設定反映
             CommandTable.Current.RestoreCommandCollection(setting.Commands);

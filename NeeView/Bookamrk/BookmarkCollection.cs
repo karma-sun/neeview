@@ -656,6 +656,8 @@ namespace NeeView
         // memento適用
         public void Restore(Memento memento)
         {
+            if (memento == null) return;
+
             QuickAccessCollection.Current.Restore(memento.QuickAccess);
             this.Load(BookmarkNodeConverter.ConvertToTreeListNode(memento.Nodes), memento.Books);
         }

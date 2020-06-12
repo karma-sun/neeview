@@ -586,6 +586,8 @@ namespace NeeView
         {
             Debug.WriteLine($"App.MainWndow.Loaded: {App.Current.Stopwatch.ElapsedMilliseconds}ms");
 
+            App.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
+
             // 一瞬手前に表示
             WindowShape.Current.OneTopmost();
 
@@ -836,20 +838,12 @@ namespace NeeView
             ContentCanvas.Current.Dispose();
             ApplicationDisposer.Current.Dispose();
 
-            //
             CompositionTarget.Rendering -= OnRendering;
 
             // タイマー停止
             _nonActiveTimer.Stop();
 
-            // 設定保存
-            SaveDataSync.Current.SaveAll(false);
-
-            // キャッシュ等の削除
-            App.Current.CloseTemporary();
-
             Debug.WriteLine("Window.Closed done.");
-            //Environment.Exit(0);
         }
 
         #endregion

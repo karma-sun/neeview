@@ -71,8 +71,8 @@ namespace NeeView
                     writer.WriteLine("OS Version: " + System.Environment.OSVersion + (Environment.IsX64 ? " (64bit)" : " (32bit)"));
                     writer.WriteLine("NeeView Version: " + Environment.DispVersion + $" ({Environment.PackageType})");
                     writer.WriteLine("");
-
-                    WriteException(exception, writer);
+                    writer.WriteLine(exception.ToStackString());
+                    
                     errorLog = writer.ToString();
                 }
 
@@ -100,19 +100,6 @@ namespace NeeView
                         MessageBox.Show(errorLog, "Abort", MessageBoxButton.OK, MessageBoxImage.Hand);
                     }
                 }
-            }
-
-            void WriteException(Exception ex, TextWriter writer)
-            {
-                if (ex == null) return;
-
-                if (ex.InnerException != null)
-                {
-                    WriteException(ex.InnerException, writer);
-                }
-
-                writer.WriteLine("{0}: {1}", ex.GetType(), ex.Message);
-                writer.WriteLine(ex.StackTrace);
             }
         }
     }

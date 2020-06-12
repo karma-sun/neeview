@@ -9,7 +9,7 @@
             this.Note = Properties.Resources.CommandReloadUserSettingNote;
             this.IsShowMessage = false;
         }
-        
+
         public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)
         {
             return !NowLoading.Current.IsDispNowLoading;
@@ -17,7 +17,7 @@
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            var setting = SaveData.Current.LoadUserSetting();
+            var setting = SaveData.Current.LoadUserSetting(false);
             UserSettingTools.Restore(setting);
         }
     }

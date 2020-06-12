@@ -40,6 +40,8 @@ namespace NeeView
         private const string _semaphoreLabel = "NeeView.s0001";
         private Semaphore _semaphore;
 
+        private bool _isTerminated;
+
 
         #region Properties
 
@@ -95,6 +97,17 @@ namespace NeeView
             Trace.WriteLine($"Trace: Start ({nowTime})");
 #endif
 
+            // [開発用] ログ出力設定
+            if (!string.IsNullOrEmpty(Environment.LogFilename))
+            {
+                var twtl = new TextWriterTraceListener(Environment.LogFilename, "TraceLog");
+                Trace.Listeners.Add(twtl);
+                Trace.AutoFlush = true;
+                Trace.WriteLine(System.Environment.NewLine + new string('=', 80));
+            }
+
+            Trace.WriteLine($"App.Startup: {DateTime.Now}");
+
             // 未処理例外ハンドル
             InitializeUnhandledException();
 
@@ -105,7 +118,7 @@ namespace NeeView
             catch (OperationCanceledException ex)
             {
                 Trace.WriteLine("InitializeCancelException: " + ex.Message);
-                Shutdown();
+                ShutdownWithoutSave();
                 return;
             }
 
@@ -119,7 +132,6 @@ namespace NeeView
             mainWindow.Show();
 
             MessageDialog.IsShowInTaskBar = false;
-            this.ShutdownMode = ShutdownMode.OnMainWindowClose;
         }
 
 
@@ -152,9 +164,9 @@ namespace NeeView
             Environment.IsSecondProcess = _multiBootService.IsServerExists;
 
             Debug.WriteLine($"App.UserSettingLoading: {Stopwatch.ElapsedMilliseconds}ms");
-            
+
             // 設定の読み込み 
-            var setting = SaveData.Current.LoadUserSetting();
+            var setting = SaveData.Current.LoadUserSetting(true);
             var config = setting.Config ?? Config.Current;
 
             Debug.WriteLine($"App.UserSettingLoaded: {Stopwatch.ElapsedMilliseconds}ms");
@@ -239,14 +251,12 @@ namespace NeeView
         /// <param name="e"></param>
         private void Application_Exit(object sender, ExitEventArgs e)
         {
-            DisableExceptionDialog();
-
-            ApplicationDisposer.Current.Dispose();
+            Terminate();
 
             // プロセスを確実に終了させるための保険
             Task.Run(() =>
             {
-                System.Threading.Thread.Sleep(5000);
+                Thread.Sleep(5000);
                 Debug.WriteLine("Environment_Exit");
                 lock (this.Lock)
                 {
@@ -254,38 +264,60 @@ namespace NeeView
                 }
             });
 
-            Debug.WriteLine("Application_Exit");
+            Trace.WriteLine("App.Exit: done.");
         }
 
         /// <summary>
-        /// シャットダウン時に呼ばれる
+        /// PCシャットダウン時に呼ばれる
         /// </summary>
         private void Application_SessionEnding(object sender, SessionEndingCancelEventArgs e)
         {
-            DisableUnhandledException();
-            DisableExceptionDialog();
-
-            ApplicationDisposer.Current.Dispose();
-
-            // 設定保存
-            SaveDataSync.Current.SaveAll(false);
-
-            // キャッシュ等削除
-            CloseTemporary();
+            Trace.WriteLine($"App.SessionEnding: {e.ReasonSessionEnding}");
+            Terminate();
         }
+
 
         /// <summary>
-        /// テンポラリ削除
+        /// 終了時処理。設定の保存等
         /// </summary>
-        public void CloseTemporary()
+        private void Terminate()
         {
-            // テンポラリファイル破棄
-            Temporary.Current.RemoveTempFolder();
+            if (_isTerminated) return;
+            _isTerminated = true;
 
-            // キャッシュDBを閉じる
-            ThumbnailCache.Current.Dispose();
+            try
+            {
+                DisableUnhandledException();
+                DisableExceptionDialog();
+
+                ApplicationDisposer.Current.Dispose();
+
+                // 設定保存
+                SaveDataSync.Current.SaveAll(false);
+
+                // テンポラリファイル破棄
+                Temporary.Current.RemoveTempFolder();
+
+                // キャッシュDBを閉じる
+                ThumbnailCache.Current.Dispose();
+
+                Trace.WriteLine($"App.Terminate: {DateTime.Now}: Terminated.");
+            }
+            catch (Exception ex)
+            {
+                Trace.Fail($"App.Terminate: {DateTime.Now}: {ex.ToStackString()}");
+            }
         }
 
+
+        /// <summary>
+        /// 保存しないでアプリをシャットダウン
+        /// </summary>
+        public void ShutdownWithoutSave()
+        {
+            SaveData.Current.IsEnableSave = false;
+            Shutdown();
+        }
         #endregion
     }
 }

@@ -20,6 +20,9 @@ namespace NeeView
             Debug.WriteLine("\n[DebugTest]...");
             await Task.CompletedTask;
 
+            // 致命的エラーのテスト
+            InnerExcepionTest.Execute();
+
             try
             {
                 // Archvierのキャッシュ一覧
@@ -34,8 +37,7 @@ namespace NeeView
                 // ブックサムネイル作成テスト
                 //await DebugCreateBookThumbnail.TestAsync();
 
-                // 致命的エラーのテスト
-                ////InnerExcepionTest.Execute();
+
 
                 // アーカイブのアンロック
                 ////await Task.Run(() => BookOperation.Current.Unlock());
@@ -71,7 +73,7 @@ namespace NeeView
         {
             public static void Execute()
             {
-                throw new ApplicationException("Exception test");
+                throw new ApplicationException("Exception test", new OperationCanceledException());
             }
         }
 

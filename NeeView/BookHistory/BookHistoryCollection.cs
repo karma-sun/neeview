@@ -573,6 +573,8 @@ namespace NeeView
             // 合成
             public void Merge(Memento memento)
             {
+                if (memento == null) return;
+
                 Debug.WriteLine("HistoryMerge...");
 
                 if (_Version != memento._Version)

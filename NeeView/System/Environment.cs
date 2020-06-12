@@ -306,6 +306,12 @@ namespace NeeView
             }
         }
 
+        public static string LogFilename
+        {
+            get => ConfigurationManager.AppSettings["LogFilename"];
+        }
+
+
 
         // ※ build は未使用
         public static int GenerateProductVersionNumber(int major, int minor, int build)

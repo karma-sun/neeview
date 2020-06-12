@@ -18,11 +18,22 @@ using System.Windows.Shapes;
 namespace NeeView
 {
     /// <summary>
+    /// ダイアログボタン配置
+    /// </summary>
+    public enum UICommandAlignment
+    {
+        Right,
+        Left
+    }
+
+    /// <summary>
     /// UWP の UICommandモドキ。MessageDialog用
     /// </summary>
     public class UICommand
     {
         public string Label { get; set; }
+
+        public UICommandAlignment Alignment { get; set; }
 
         public UICommand(string label)
         {
@@ -143,6 +154,7 @@ namespace NeeView
         private void InitializeButtons()
         {
             this.ButtonPanel.Children.Clear();
+            this.SubButtonPanel.Children.Clear();
 
             if (Commands.Any())
             {
@@ -151,7 +163,14 @@ namespace NeeView
                 foreach (var command in Commands)
                 {
                     var button = CreateButton(command, command == defaultComamnd);
-                    this.ButtonPanel.Children.Add(button);
+                    if (command.Alignment == UICommandAlignment.Left)
+                    {
+                        this.SubButtonPanel.Children.Add(button);
+                    }
+                    else
+                    {
+                        this.ButtonPanel.Children.Add(button);
+                    }
                 }
             }
             else

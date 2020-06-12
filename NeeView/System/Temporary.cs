@@ -141,7 +141,7 @@ namespace NeeView
         /// </summary>
         public void RemoveTempFolder()
         {
-            Debug.Assert(TempDirectory != null, "Need SetDirectory()");
+            if (TempDirectory == null) return;
 
             GC.Collect();
             GC.WaitForPendingFinalizers();

@@ -9335,11 +9335,20 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Failed to load settings. It starts up with the default setting. に類似しているローカライズされた文字列を検索します。
+        ///   Failed to load settings. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string NotifyLoadSettingFailed {
             get {
                 return ResourceManager.GetString("NotifyLoadSettingFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Quit app に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyLoadSettingFailedButtonQuit {
+            get {
+                return ResourceManager.GetString("NotifyLoadSettingFailedButtonQuit", resourceCulture);
             }
         }
         

@@ -11,9 +11,13 @@
         Title="MessageDialog" ResizeMode="NoResize" SizeToContent="Height" Width="600" WindowStyle="ToolWindow">
 
     <DockPanel Margin="30,20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-        <StackPanel x:Name="ButtonPanel" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,20,0,0">
-            <Button Style="{StaticResource NVDialogButtonStyle}"  Content="OK" Foreground="{StaticResource NVDialogButtonForeground}" Background="{StaticResource NVDialogButtonBackground}"/>
-        </StackPanel>
+        <DockPanel DockPanel.Dock="Bottom" Margin="0,20,0,0">
+            <StackPanel x:Name="ButtonPanel" DockPanel.Dock="Right" Orientation="Horizontal">
+                <Button Style="{StaticResource NVDialogButtonStyle}" Content="OK" Foreground="{StaticResource NVDialogButtonForeground}" Background="{StaticResource NVDialogButtonBackground}" />
+            </StackPanel>
+            <StackPanel x:Name="SubButtonPanel" Orientation="Horizontal" Margin="-20,0,0,0">
+            </StackPanel>
+        </DockPanel>
         <TextBlock x:Name="Caption" DockPanel.Dock="Top" Text="Title" TextWrapping="Wrap" FontSize="24" Margin="0,5"/>
         <ContentControl x:Name="Message" Margin="0,5" IsTabStop="False" Content="Content"/>
     </DockPanel>

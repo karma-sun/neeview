@@ -2996,10 +2996,13 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>ページマークの読み込みに失敗しました</value>
   </data>
   <data name="NotifyLoadSettingFailed" xml:space="preserve">
-    <value>設定の読み込みに失敗しました。初期設定で起動します。</value>
+    <value>設定の読み込みに失敗しました。</value>
   </data>
   <data name="NotifyLoadSettingFailedTitle" xml:space="preserve">
     <value>設定の読み込みに失敗しました</value>
+  </data>
+  <data name="NotifyLoadSettingFailedButtonQuit" xml:space="preserve">
+    <value>アプリを終了</value>
   </data>
   <data name="NotifyNoFiles" xml:space="preserve">
     <value>表示できるファイルはありません</value>

@@ -83,7 +83,7 @@ namespace NeeView
         private void LoadUserSetting(RemoteCommand command)
         {
             Debug.WriteLine($"{SaveData.UserSettingFileName} is updated by other process.");
-            var setting = SaveData.Current.LoadUserSetting();
+            var setting = SaveData.Current.LoadUserSetting(false);
             UserSettingTools.Restore(setting);
         }
 
@@ -108,7 +108,7 @@ namespace NeeView
         public void SaveUserSetting(bool sync)
         {
             Debug.WriteLine($"Save UserSetting");
-            
+
             SaveData.Current.SaveUserSetting();
 
             // TODO: 動作検証用に古い形式のデータも保存する

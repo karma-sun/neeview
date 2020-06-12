@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
+
 namespace NeeView
 {
     public class SaveData
@@ -63,7 +64,7 @@ namespace NeeView
         /// <summary>
         /// 設定の読み込み
         /// </summary>
-        public UserSetting LoadUserSetting()
+        public UserSetting LoadUserSetting(bool cancellable)
         {
             if (App.Current.IsMainWindowLoaded)
             {
@@ -81,24 +82,29 @@ namespace NeeView
                 var extension = Path.GetExtension(filename).ToLower();
                 var filenameV1 = Path.ChangeExtension(filename, ".xml");
 
+                var failedDialog = new LoadFailedDialog(Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
+                if (cancellable)
+                {
+                    failedDialog.CancelCommand = new UICommand(Resources.NotifyLoadSettingFailedButtonQuit) { Alignment = UICommandAlignment.Left };
+                }
+
                 if (extension == ".json" && File.Exists(filename))
                 {
-                    setting = SafetyLoad(UserSettingTools.Load, filename, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
-                    __TestV1Compatibilty(setting);
+                    setting = SafetyLoad(UserSettingTools.Load, filename, failedDialog, true);
                 }
                 // before v.37
                 else if (File.Exists(filenameV1))
                 {
-                    var settingV1 = SafetyLoad(UserSettingV1.LoadV1, filenameV1, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
+                    var settingV1 = SafetyLoad(UserSettingV1.LoadV1, filenameV1, failedDialog, true);
                     var settingV1Converted = settingV1.ConvertToV2();
 
                     var historyV1FilePath = Path.ChangeExtension(settingV1.App.HistoryFilePath ?? DefaultHistoryFilePath, ".xml");
-                    var historyV1 = SafetyLoad(BookHistoryCollection.Memento.LoadV1, historyV1FilePath, Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle); // 一部の履歴設定を反映
-                    historyV1.RestoreConfig(settingV1Converted.Config);
+                    var historyV1 = SafetyLoad(BookHistoryCollection.Memento.LoadV1, historyV1FilePath, null); // 一部の履歴設定を反映
+                    historyV1?.RestoreConfig(settingV1Converted.Config);
 
                     var pagemarkV1FilePath = Path.ChangeExtension(settingV1.App.PagemarkFilePath ?? DefaultPagemarkFilePath, ".xml");
-                    var pagemarkV1 = SafetyLoad(PagemarkCollection.Memento.LoadV1, pagemarkV1FilePath, Resources.NotifyLoadPagemarkFailed, Resources.NotifyLoadPagemarkFailedTitle); // 一部のページマーク設定を反映
-                    pagemarkV1.RestoreConfig(settingV1Converted.Config);
+                    var pagemarkV1 = SafetyLoad(PagemarkCollection.Memento.LoadV1, pagemarkV1FilePath, null); // 一部のページマーク設定を反映
+                    pagemarkV1?.RestoreConfig(settingV1Converted.Config);
 
                     _settingFilenameToDelete = filenameV1;
                     if (Path.GetExtension(App.Current.Option.SettingFilename).ToLower() == ".xml")
@@ -121,149 +127,6 @@ namespace NeeView
             return setting;
         }
 
-        /// <summary>
-        /// 設定V1とのデータ互換性チェック
-        /// </summary>
-        /// <param name="settingV2"></param>
-        [Conditional("DEBUG")]
-        private void __TestV1Compatibilty(UserSetting settingV2)
-        {
-            var v1FileName = Path.ChangeExtension(App.Current.Option.SettingFilename, ".xml");
-            if (File.Exists(v1FileName))
-            {
-                var settingV1 = SafetyLoad(UserSettingV1.LoadV1, v1FileName, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
-                var settingV1Converted = settingV1.ConvertToV2();
-
-                var historyV1FilePath = Path.ChangeExtension(settingV1.App.HistoryFilePath ?? DefaultHistoryFilePath, ".xml");
-                if (File.Exists(historyV1FilePath))
-                {
-                    var historyV1 = SafetyLoad(BookHistoryCollection.Memento.LoadV1, historyV1FilePath, Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle); // 一部の履歴設定を反映
-                    historyV1.RestoreConfig(settingV1Converted.Config);
-                }
-                else
-                {
-                    settingV1Converted.Config.StartUp.IsOpenLastFolder = settingV2.Config.StartUp.IsOpenLastFolder;
-                    settingV1Converted.Config.StartUp.LastFolderPath = settingV2.Config.StartUp.LastFolderPath;
-                    settingV1Converted.Config.StartUp.LastBookPath = settingV2.Config.StartUp.LastBookPath;
-                    settingV1Converted.Config.History.IsKeepFolderStatus = settingV2.Config.History.IsKeepFolderStatus;
-                    settingV1Converted.Config.History.IsKeepSearchHistory = settingV2.Config.History.IsKeepSearchHistory;
-                    settingV1Converted.Config.History.LimitSize = settingV2.Config.History.LimitSize;
-                    settingV1Converted.Config.History.LimitSpan = settingV2.Config.History.LimitSpan;
-                }
-
-                var pagemarkV1FilePath = Path.ChangeExtension(settingV1.App.PagemarkFilePath ?? DefaultPagemarkFilePath, ".xml");
-                if (File.Exists(pagemarkV1FilePath))
-                {
-                    var pagemarkV1 = SafetyLoad(PagemarkCollection.Memento.LoadV1, pagemarkV1FilePath, Resources.NotifyLoadPagemarkFailed, Resources.NotifyLoadPagemarkFailedTitle); // 一部のページマーク設定を反映
-                    pagemarkV1.RestoreConfig(settingV1Converted.Config);
-                }
-                else
-                {
-                    settingV1Converted.Config.Pagemark.PagemarkOrder = settingV2.Config.Pagemark.PagemarkOrder;
-                }
-
-                Debug.Assert(CheckValueEquality(settingV1Converted, settingV2, nameof(UserSetting)));
-            }
-
-            bool CheckValueEquality(object v1, object v2, string name)
-            {
-                if (v1 == null && v2 == null) return true;
-                if (v1 == null || v2 == null)
-                {
-                    Debug.WriteLine($"!!!! {name}: {v1} != {v2}");
-                    return false;
-                }
-
-                var type = v1.GetType();
-                if (type != v2.GetType()) throw new InvalidOperationException();
-
-                if (type.IsValueType || type == typeof(string))
-                {
-                    if (!Equals(v1, v2))
-                    {
-                        Debug.WriteLine($"!!!! {name}: {v1} != {v2}");
-                        return false;
-                    }
-                }
-                else if (type.GetInterfaces().Contains(typeof(System.Collections.IDictionary)))
-                {
-                    var c1 = (System.Collections.IDictionary)v1;
-                    var c2 = (System.Collections.IDictionary)v2;
-                    if (c1.Count != c2.Count)
-                    {
-                        Debug.WriteLine($"!!!! {v1}.Count != {v2}.Count");
-                        return false;
-                    }
-                    else
-                    {
-                        bool result = true;
-                        foreach (var key in c1.Keys)
-                        {
-                            var a1 = c1[key];
-                            var a2 = c2[key];
-                            result = CheckValueEquality(a1, a2, name + $"[{key}]") && result;
-                        }
-                        return result;
-                    }
-                }
-                else if (type.GetInterfaces().Contains(typeof(System.Collections.ICollection)))
-                {
-                    var c1 = (System.Collections.ICollection)v1;
-                    var c2 = (System.Collections.ICollection)v2;
-                    if (c1.Count != c2.Count)
-                    {
-                        Debug.WriteLine($"!!!! {v1}.Count != {v2}.Count");
-                        return false;
-                    }
-                    else
-                    {
-                        bool result = true;
-                        var e1 = c1.GetEnumerator();
-                        var e2 = c2.GetEnumerator();
-
-                        for (int i = 0; i < c1.Count; ++i)
-                        {
-                            e1.MoveNext();
-                            e2.MoveNext();
-                            var a1 = e1.Current;
-                            var a2 = e2.Current;
-                            result = CheckValueEquality(a1, a2, name + $"[{i}]") && result;
-                        }
-                        return result;
-                    }
-                }
-                else if (type.IsClass)
-                {
-                    bool result = true;
-                    var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-                    foreach (var property in properties)
-                    {
-                        if (property.GetSetMethod(false) == null)
-                        {
-                            continue;
-                        }
-
-                        try
-                        {
-                            result = CheckValueEquality(property.GetValue(v1), property.GetValue(v2), name + $".{property.Name}") && result;
-                        }
-                        catch (Exception ex)
-                        {
-                            Debug.WriteLine(ex.Message);
-                        }
-                    }
-                    return result;
-                }
-                else
-                {
-                    throw new InvalidOperationException();
-                }
-
-                return true;
-            }
-
-        }
-
 
         // 履歴読み込み
         public void LoadHistory()
@@ -275,16 +138,17 @@ namespace NeeView
                 var filename = HistoryFilePath;
                 var extension = Path.GetExtension(filename).ToLower();
                 var filenameV1 = Path.ChangeExtension(filename, ".xml");
+                var failedDialog = new LoadFailedDialog(Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle);
 
                 if (extension == ".json" && File.Exists(filename))
                 {
-                    BookHistoryCollection.Memento memento = SafetyLoad(BookHistoryCollection.Memento.Load, HistoryFilePath, Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle);
+                    BookHistoryCollection.Memento memento = SafetyLoad(BookHistoryCollection.Memento.Load, HistoryFilePath, failedDialog);
                     BookHistoryCollection.Current.Restore(memento, true);
                 }
                 // before v.37
                 else if (File.Exists(filenameV1))
                 {
-                    BookHistoryCollection.Memento memento = SafetyLoad(BookHistoryCollection.Memento.LoadV1, filenameV1, Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle);
+                    BookHistoryCollection.Memento memento = SafetyLoad(BookHistoryCollection.Memento.LoadV1, filenameV1, failedDialog);
                     BookHistoryCollection.Current.Restore(memento, true);
 
                     _historyFilenameToDelete = filenameV1;
@@ -310,16 +174,17 @@ namespace NeeView
                 var filename = BookmarkFilePath;
                 var extension = Path.GetExtension(filename).ToLower();
                 var filenameV1 = Path.ChangeExtension(filename, ".xml");
+                var failedDialog = new LoadFailedDialog(Resources.NotifyLoadBookmarkFailed, Resources.NotifyLoadBookmarkFailedTitle);
 
                 if (extension == ".json" && File.Exists(filename))
                 {
-                    BookmarkCollection.Memento memento = SafetyLoad(BookmarkCollection.Memento.Load, filename, Resources.NotifyLoadBookmarkFailed, Resources.NotifyLoadBookmarkFailedTitle);
+                    BookmarkCollection.Memento memento = SafetyLoad(BookmarkCollection.Memento.Load, filename, failedDialog);
                     BookmarkCollection.Current.Restore(memento);
                 }
                 // before v.37
                 else if (File.Exists(filenameV1))
                 {
-                    BookmarkCollection.Memento memento = SafetyLoad(BookmarkCollection.Memento.LoadV1, filenameV1, Resources.NotifyLoadBookmarkFailed, Resources.NotifyLoadBookmarkFailedTitle);
+                    BookmarkCollection.Memento memento = SafetyLoad(BookmarkCollection.Memento.LoadV1, filenameV1, failedDialog);
                     BookmarkCollection.Current.Restore(memento);
 
                     _bookmarkFilenameToDelete = filenameV1;
@@ -346,16 +211,17 @@ namespace NeeView
                 var filename = PagemarkFilePath;
                 var extension = Path.GetExtension(filename).ToLower();
                 var filenameV1 = Path.ChangeExtension(filename, ".xml");
+                var failedDialog = new LoadFailedDialog(Resources.NotifyLoadPagemarkFailed, Resources.NotifyLoadPagemarkFailedTitle);
 
                 if (extension == ".json" && File.Exists(filename))
                 {
-                    PagemarkCollection.Memento memento = SafetyLoad(PagemarkCollection.Memento.Load, filename, Resources.NotifyLoadPagemarkFailed, Resources.NotifyLoadPagemarkFailedTitle);
+                    PagemarkCollection.Memento memento = SafetyLoad(PagemarkCollection.Memento.Load, filename, failedDialog);
                     PagemarkCollection.Current.Restore(memento);
                 }
                 // before v.37
                 else if (File.Exists(filenameV1))
                 {
-                    PagemarkCollection.Memento memento = SafetyLoad(PagemarkCollection.Memento.LoadV1, filenameV1, Resources.NotifyLoadPagemarkFailed, Resources.NotifyLoadPagemarkFailedTitle);
+                    PagemarkCollection.Memento memento = SafetyLoad(PagemarkCollection.Memento.LoadV1, filenameV1, failedDialog);
                     PagemarkCollection.Current.Restore(memento);
 
                     if (Path.GetExtension(PagemarkFilePath).ToLower() == ".xml")
@@ -374,47 +240,67 @@ namespace NeeView
 
 
         /// <summary>
-        /// 正規ファイルの読み込みに失敗したらバックアップからの復元を試みる
+        /// 正規ファイルの読み込みに失敗したらバックアップからの復元を試みる。
+        /// エラー時にはダイアログ表示。選択によってはOperationCancelExceptionを発生させる。
         /// </summary>
-        private T SafetyLoad<T>(Func<string, T> load, string path, string failedMessage, string failedTitle)
-            where T : new()
+        /// <param name="useDefault">データが読み込めなかった場合に初期化されたインスタンスを返す。falseの場合はnullを返す</param>
+        private T SafetyLoad<T>(Func<string, T> load, string path, LoadFailedDialog loadFailedDialog, bool useDefault = false)
+            where T : class, new()
         {
-            var old = path + ".bak";
-
             try
             {
-                if (File.Exists(path))
-                {
-                    try
-                    {
-                        return load(path);
-                    }
-                    catch
-                    {
-                        if (File.Exists(old))
-                        {
-                            return load(old);
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
-                }
-                else if (File.Exists(old))
-                {
-                    return load(old);
-                }
-                else
-                {
-                    return new T();
-                }
+                var instance = SafetyLoad(load, path);
+                return (instance is null && useDefault) ? new T() : instance;
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
-                new MessageDialog(failedMessage, failedTitle).ShowDialog();
-                return new T();
+                if (loadFailedDialog != null)
+                {
+                    var result = loadFailedDialog.ShowDialog(ex);
+                    if (result != true)
+                    {
+                        throw new OperationCanceledException();
+                    }
+                }
+
+                return useDefault ? new T() : null;
+            }
+        }
+
+
+        /// <summary>
+        /// 正規ファイルの読み込みに失敗したらバックアップからの復元を試みる
+        /// </summary>
+        private T SafetyLoad<T>(Func<string, T> load, string path)
+            where T : class, new()
+        {
+            var old = path + ".bak";
+
+            if (File.Exists(path))
+            {
+                try
+                {
+                    return load(path);
+                }
+                catch
+                {
+                    if (File.Exists(old))
+                    {
+                        return load(old);
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+            else if (File.Exists(old))
+            {
+                return load(old);
+            }
+            else
+            {
+                return null;
             }
         }
 
@@ -537,7 +423,8 @@ namespace NeeView
                         var fileInfo = new FileInfo(HistoryFilePath);
                         if (fileInfo.Exists && fileInfo.LastWriteTime > App.Current.StartTime)
                         {
-                            var margeMemento = SafetyLoad(BookHistoryCollection.Memento.Load, HistoryFilePath, Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle);
+                            var failedDialog = new LoadFailedDialog(Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle);
+                            var margeMemento = SafetyLoad(BookHistoryCollection.Memento.Load, HistoryFilePath, failedDialog);
                             bookHistoryMemento.Merge(margeMemento);
                         }
                     }
@@ -731,5 +618,48 @@ namespace NeeView
         }
 
         #endregion
+    }
+
+
+    /// <summary>
+    /// データロードエラーダイアログ
+    /// </summary>
+    public class LoadFailedDialog
+    {
+        public LoadFailedDialog(string title, string message)
+        {
+            Title = title;
+            Message = message;
+        }
+
+        public string Title { get; set; }
+        public string Message { get; set; }
+        public UICommand OKCommand { get; set; } = UICommands.OK;
+        public UICommand CancelCommand { get; set; }
+
+
+        public bool ShowDialog(Exception ex)
+        {
+            var textBox = new System.Windows.Controls.TextBox()
+            {
+                IsReadOnly = true,
+                Text = Message + System.Environment.NewLine + ex.Message,
+                VerticalScrollBarVisibility = System.Windows.Controls.ScrollBarVisibility.Auto,
+                HorizontalScrollBarVisibility = System.Windows.Controls.ScrollBarVisibility.Auto,
+            };
+
+            var dialog = new MessageDialog(textBox, Title);
+            dialog.SizeToContent = System.Windows.SizeToContent.Manual;
+            dialog.Height = 320.0;
+            dialog.ResizeMode = System.Windows.ResizeMode.CanResize;
+            dialog.Commands.Add(OKCommand);
+            if (CancelCommand != null)
+            {
+                dialog.Commands.Add(CancelCommand);
+            }
+
+            var result = dialog.ShowDialog();
+            return result == OKCommand || CancelCommand == null;
+        }
     }
 }

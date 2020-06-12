@@ -854,6 +854,8 @@ namespace NeeView
 
         private void FolderListBox_Loaded(object sender, RoutedEventArgs e)
         {
+            SetBusy(false);
+
             _jobClient = new PageThumbnailJobClient("FolderList", JobCategories.BookThumbnailCategory);
             _thumbnailLoader = new ListBoxThumbnailLoader(this, _jobClient);
 
@@ -1167,7 +1169,12 @@ namespace NeeView
         /// </summary>
         private void BusyChanged(object sender, FolderListBusyChangedEventArgs e)
         {
-            if (e.IsBusy)
+            SetBusy(e.IsBusy);
+        }
+
+        private void SetBusy(bool isBusy)
+        {
+            if (isBusy)
             {
                 this.IsHitTestVisible = false;
 

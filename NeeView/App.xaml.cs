@@ -98,9 +98,9 @@ namespace NeeView
 #endif
 
             // [開発用] ログ出力設定
-            if (!string.IsNullOrEmpty(Environment.LogFilename))
+            if (!string.IsNullOrEmpty(Environment.LogFile))
             {
-                var twtl = new TextWriterTraceListener(Environment.LogFilename, "TraceLog");
+                var twtl = new TextWriterTraceListener(Environment.LogFile, "TraceLog");
                 Trace.Listeners.Add(twtl);
                 Trace.AutoFlush = true;
                 Trace.WriteLine(System.Environment.NewLine + new string('=', 80));

@@ -306,9 +306,10 @@ namespace NeeView
             }
         }
 
-        public static string LogFilename
+        // [開発用] 出力用ログファイル名
+        public static string LogFile
         {
-            get => ConfigurationManager.AppSettings["LogFilename"];
+            get => ConfigurationManager.AppSettings["LogFile"];
         }
 
 

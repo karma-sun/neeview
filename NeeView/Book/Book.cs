@@ -113,6 +113,14 @@ namespace NeeView
                 }
                 position = index >= 0 ? new PagePosition(index, 0) : _source.Pages.FirstPosition();
                 direction = 1;
+
+                // 最終ページリセット
+                // NOTE: ワイドページ判定は行わないため、2ページモードの場合に不正確な場合がある
+                int lastPageOffset = (_viewer.PageMode == PageMode.WidePage && !_viewer.IsSupportedSingleLastPage) ? 1 : 0;
+                if (startPage.IsResetLastPage && index >= _source.Pages.LastPosition().Index - lastPageOffset)
+                {
+                    position = _source.Pages.FirstPosition();
+                }
             }
 
             // 開始ページ記憶

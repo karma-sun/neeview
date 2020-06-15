@@ -2317,6 +2317,9 @@ Is it OK? </value>
   <data name="EnumBookSettingSelectModeRestoreOrDefault" xml:space="preserve">
     <value>Restore, else default</value>
   </data>
+  <data name="EnumBookSettingSelectModeRestoreOrDefaultReset" xml:space="preserve">
+    <value>Restore, else default, reset last page</value>
+  </data>
   <data name="EnumBrushTypeImageFill" xml:space="preserve">
     <value>Enlarge and display the image</value>
   </data>

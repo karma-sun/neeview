@@ -7064,6 +7064,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Restore, else default, reset last page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumBookSettingSelectModeRestoreOrDefaultReset {
+            get {
+                return ResourceManager.GetString("EnumBookSettingSelectModeRestoreOrDefaultReset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Enlarge and display the image に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumBrushTypeImageFill {

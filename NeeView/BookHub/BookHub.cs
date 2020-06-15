@@ -684,6 +684,9 @@ namespace NeeView
                 // 本の設定
                 var setting = CreateOpenBookMemento(address.Address.SimplePath, lastBookMemento, args.Option);
 
+                // 最終ページなら初期化？
+                bool isResetLastPage = address.EntryName == null && Config.Current.BookSettingPolicy.Page == BookSettingPageSelectMode.RestoreOrDefaultReset;
+
                 address.EntryName = address.EntryName ?? LoosePath.NormalizeSeparator(setting.Page);
                 place = address.SystemPath;
 
@@ -699,7 +702,8 @@ namespace NeeView
                 isNew = BookMementoCollection.Current.GetValid(address.Address.SimplePath) == null;
 
                 // Load本体
-                await LoadAsyncCore(args.Sender, address, args.Option, setting, token);
+                var loadOption = args.Option | (isResetLastPage ? BookLoadOption.ResetLastPage : BookLoadOption.None);
+                await LoadAsyncCore(args.Sender, address, loadOption, setting, token);
 
                 ////DebugTimer.Check("LoadCore");
 

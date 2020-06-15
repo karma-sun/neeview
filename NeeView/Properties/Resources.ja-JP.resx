@@ -2317,6 +2317,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="EnumBookSettingSelectModeRestoreOrDefault" xml:space="preserve">
     <value>復元、できなければ既定</value>
   </data>
+  <data name="EnumBookSettingSelectModeRestoreOrDefaultReset" xml:space="preserve">
+    <value>復元、できなければ既定、最終ページ初期化</value>
+  </data>
   <data name="EnumBrushTypeImageFill" xml:space="preserve">
     <value>画像を拡大して表示</value>
   </data>

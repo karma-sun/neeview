@@ -80,6 +80,11 @@ namespace NeeView
         /// 削除不可
         /// </summary>
         Undeliteable = 0x2000,
+
+        /// <summary>
+        /// 最終ページならばリセット
+        /// </summary>
+        ResetLastPage = 0x4000,
     };
 
 
@@ -98,15 +103,17 @@ namespace NeeView
             StartPageType = startPageType;
         }
 
-        public BookStartPage(string pageName)
+        public BookStartPage(string pageName, bool isResetLastPage)
         {
             Debug.Assert(!string.IsNullOrEmpty(pageName));
             StartPageType = BookStartPageType.Custom;
             PageName = pageName;
+            IsResetLastPage = isResetLastPage;
         }
 
         public BookStartPageType StartPageType { get; private set; }
         public string PageName { get; private set; }
+        public bool IsResetLastPage { get; private set; }
     }
 
     public static class BookLoadOptionHelper
@@ -132,19 +139,19 @@ namespace NeeView
             }
         }
 
-        public static BookStartPage CreateBookStartPage(string entry, BookLoadOption optios)
+        public static BookStartPage CreateBookStartPage(string entry, BookLoadOption options)
         {
-            if ((optios & BookLoadOption.FirstPage) == BookLoadOption.FirstPage)
+            if ((options & BookLoadOption.FirstPage) == BookLoadOption.FirstPage)
             {
                 return new BookStartPage(BookStartPageType.FirstPage);
             }
-            else if ((optios & BookLoadOption.LastPage) == BookLoadOption.LastPage)
+            else if ((options & BookLoadOption.LastPage) == BookLoadOption.LastPage)
             {
                 return new BookStartPage(BookStartPageType.LastPage);
             }
             else if (!string.IsNullOrEmpty(entry))
             {
-                return new BookStartPage(entry);
+                return new BookStartPage(entry, options.HasFlag(BookLoadOption.ResetLastPage));
             }
             else
             {

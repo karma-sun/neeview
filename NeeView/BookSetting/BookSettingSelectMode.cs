@@ -13,6 +13,9 @@
 
         [AliasName("@EnumBookSettingSelectModeRestoreOrContinue")]
         RestoreOrContinue,
+
+        [AliasName("@EnumBookSettingSelectModeRestoreOrDefaultReset", IsVisibled = false)]
+        RestoreOrDefaultReset,
     }
 
     public enum BookSettingPageSelectMode
@@ -22,6 +25,9 @@
 
         [AliasName("@EnumBookSettingSelectModeRestoreOrDefault")]
         RestoreOrDefault,
+
+        [AliasName("@EnumBookSettingSelectModeRestoreOrDefaultReset")]
+        RestoreOrDefaultReset,
     }
 
     public static class BookSettingSelectorForPageExtensions
@@ -30,6 +36,8 @@
         {
             switch (self)
             {
+                case BookSettingSelectMode.RestoreOrDefaultReset:
+                    return BookSettingPageSelectMode.RestoreOrDefaultReset;
                 case BookSettingSelectMode.RestoreOrDefault:
                 case BookSettingSelectMode.RestoreOrContinue:
                     return BookSettingPageSelectMode.RestoreOrDefault;
@@ -40,7 +48,15 @@
 
         public static BookSettingSelectMode ToNormalSelectMode(this BookSettingPageSelectMode self)
         {
-            return self == BookSettingPageSelectMode.Default ? BookSettingSelectMode.Default : BookSettingSelectMode.RestoreOrDefault;
+            switch(self)
+            {
+                case BookSettingPageSelectMode.RestoreOrDefaultReset:
+                    return BookSettingSelectMode.RestoreOrDefaultReset;
+                case BookSettingPageSelectMode.RestoreOrDefault:
+                    return BookSettingSelectMode.RestoreOrDefault;
+                default:
+                    return BookSettingSelectMode.Default;
+            }
         }
     }
 

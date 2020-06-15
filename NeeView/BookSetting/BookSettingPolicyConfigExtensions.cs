@@ -33,6 +33,7 @@ namespace NeeView
                         break;
 
                     case BookSettingSelectMode.RestoreOrDefault:
+                    case BookSettingSelectMode.RestoreOrDefaultReset:
                         paramMap[key] = restore != null ? restoretMap[key] : defMap[key];
                         break;
 

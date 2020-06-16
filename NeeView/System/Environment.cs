@@ -25,7 +25,7 @@ namespace NeeView
         private static string _revision;
         private static string _dateVersion;
         private static bool? _isUseLocalApplicationDataFolder;
-
+        private static string _logFile;
 
         static Environment()
         {
@@ -306,10 +306,30 @@ namespace NeeView
             }
         }
 
+
         // [開発用] 出力用ログファイル名
         public static string LogFile
         {
-            get => ConfigurationManager.AppSettings["LogFile"];
+            get
+            {
+                if (_logFile == null)
+                {
+                    var logFile = ConfigurationManager.AppSettings["LogFile"];
+                    if (string.IsNullOrEmpty(logFile))
+                    {
+                        _logFile = "";
+                    }
+                    else if (Path.IsPathRooted(logFile))
+                    {
+                        _logFile = logFile;
+                    }
+                    else
+                    {
+                        _logFile = Path.Combine(LocalApplicationDataPath, logFile);
+                    }
+                }
+                return _logFile;
+            }
         }
 
 

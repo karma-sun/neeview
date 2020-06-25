@@ -899,9 +899,9 @@ namespace NeeView
             // 選択項目が表示されるようにスクロール
             this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
 
-            if (this.ListBox.IsLoaded && ((isFocus && this.IsFocusEnabled) || _vm.Model.IsFocusAtOnce))
+            if (this.ListBox.IsLoaded && ((isFocus && this.IsFocusEnabled) || _vm.IsFocusAtOnce))
             {
-                _vm.Model.IsFocusAtOnce = false;
+                _vm.IsFocusAtOnce = false;
                 ListBoxItem lbi = (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(this.ListBox.SelectedIndex));
                 lbi?.Focus();
             }

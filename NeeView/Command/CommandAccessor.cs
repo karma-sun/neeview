@@ -10,12 +10,14 @@ namespace NeeView
     public class CommandAccessor
     {
         private CommandElement _command;
+        private CommandParameterPropertyMapSource _propertyMapSource;
         private IDictionary<string, object> _patch;
 
         public CommandAccessor(CommandElement command)
         {
             _command = command;
-            Parameter = _command.Parameter != null ? new PropertyMap(_command.Parameter) : null;
+            _propertyMapSource = new CommandParameterPropertyMapSource(_command);
+            Parameter = _propertyMapSource.PropertyMap;
         }
 
         [WordNodeMember]

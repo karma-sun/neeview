@@ -893,19 +893,36 @@ namespace NeeView
         /// <param name="isFocus"></param>
         public void FocusSelectedItem(bool isFocus)
         {
-            if (this.ListBox.SelectedIndex < 0) this.ListBox.SelectedIndex = 0;
-            if (this.ListBox.SelectedIndex < 0) return;
+            if (!this.ListBox.IsVisible)
+            {
+                return;
+            }
+
+            if (this.ListBox.SelectedIndex < 0)
+            {
+                this.ListBox.SelectedIndex = 0;
+            }
+            
+            var needToFocus = (isFocus && this.IsFocusEnabled) || _vm.IsFocusAtOnce;
+
+            if (this.ListBox.SelectedIndex < 0 && needToFocus)
+            {
+                _vm.IsFocusAtOnce = false;
+                this.ListBox.Focus();
+                return;
+            }
 
             // 選択項目が表示されるようにスクロール
             this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
 
-            if (this.ListBox.IsLoaded && ((isFocus && this.IsFocusEnabled) || _vm.IsFocusAtOnce))
+            if (needToFocus)
             {
                 _vm.IsFocusAtOnce = false;
                 ListBoxItem lbi = (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(this.ListBox.SelectedIndex));
                 lbi?.Focus();
             }
         }
+
 
         public void SelectedChanged(object sender, FolderListSelectedChangedEventArgs e)
         {

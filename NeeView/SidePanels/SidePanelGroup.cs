@@ -244,7 +244,7 @@ namespace NeeView
             {
                 panel.IsSelected = isSelected;
             }
-            else if (flush)
+            else if (flush && isSelected)
             {
                 // 選択が変更されたことにして、自動非表示の表示状態更新を要求する
                 SelectedPanelChanged?.Invoke(this, new SelectedPanelChangedEventArgs(SelectedPanel));
@@ -284,7 +284,7 @@ namespace NeeView
         /// </summary>
         public void CloseAllPanels()
         {
-            foreach(var panel in Panels)
+            foreach (var panel in Panels)
             {
                 panel.IsSelected = false;
             }

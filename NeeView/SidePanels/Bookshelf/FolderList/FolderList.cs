@@ -71,6 +71,7 @@ namespace NeeView
         private double _areaWidth = double.PositiveInfinity;
         private double _areaHeight = double.PositiveInfinity;
         private bool _IsLocked;
+        private bool _isFocusAtOnce;
 
 
 
@@ -181,7 +182,11 @@ namespace NeeView
         /// <summary>
         /// フォーカス要求
         /// </summary>
-        public bool IsFocusAtOnce { get; set; }
+        public bool IsFocusAtOnce
+        {
+            get { return _isFocusAtOnce; }
+            set { SetProperty(ref _isFocusAtOnce, value); }
+        }
 
         /// <summary>
         /// 本を読み込むときに本棚の更新を要求する

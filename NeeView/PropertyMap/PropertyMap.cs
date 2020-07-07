@@ -1,17 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization;
 
 namespace NeeView
 {
     /// <summary>
     /// プロパティで構成されたアクセスマップ
     /// </summary>
-    public class PropertyMap : PropertyMapNode
+    public class PropertyMap : PropertyMapNode, INotifyPropertyChanged
     {
+        #region INotifyPropertyChanged Support
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected bool SetProperty<T>(ref T storage, T value, [System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        {
+            if (object.Equals(storage, value)) return false;
+            storage = value;
+            this.RaisePropertyChanged(propertyName);
+            return true;
+        }
+
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        public void AddPropertyChanged(string propertyName, PropertyChangedEventHandler handler)
+        {
+            PropertyChanged += (s, e) => { if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == propertyName) handler?.Invoke(s, e); };
+        }
+
+        #endregion
+
+
         private static PropertyMapConverter _defaultConverter;
         private static PropertyMapOptions _defaultOptions;
 
@@ -85,6 +110,7 @@ namespace NeeView
                 if (_items[key] is PropertyMapSource item)
                 {
                     item.Write(value, _options);
+                    RaisePropertyChanged(key);
                 }
                 else
                 {

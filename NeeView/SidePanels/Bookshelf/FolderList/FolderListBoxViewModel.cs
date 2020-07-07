@@ -37,6 +37,12 @@ namespace NeeView
 
         public FolderOrder FolderOrder => _model.FolderCollection.FolderOrder;
 
+        public bool IsFocusAtOnce
+        {
+            get => _model.IsFocusAtOnce;
+            set => _model.IsFocusAtOnce = value;
+        }
+
         public FolderList Model
         {
             get { return _model; }
@@ -93,6 +99,10 @@ namespace NeeView
                 case nameof(FolderList.FolderCollection):
                     RaisePropertyChanged(nameof(FolderCollection));
                     RaisePropertyChanged(nameof(FolderOrder));
+                    break;
+
+                case nameof(FolderList.IsFocusAtOnce):
+                    RaisePropertyChanged(nameof(IsFocusAtOnce));
                     break;
             }
         }

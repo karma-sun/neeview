@@ -49,6 +49,7 @@ namespace NeeView
         public void FocusAtOnce()
         {
             _folderList.FocusAtOnce();
+            _folderListBox?.FocusSelectedItem(false);
         }
     }
 }

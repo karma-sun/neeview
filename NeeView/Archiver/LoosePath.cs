@@ -53,7 +53,15 @@ namespace NeeView
         public static string[] Split(string s)
         {
             if (string.IsNullOrEmpty(s)) return new string[0];
-            return s.Split(Separator, StringSplitOptions.RemoveEmptyEntries);
+            var parts = s.Split(Separator, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length > 0 && (s.StartsWith("\\\\") || s.StartsWith("//")))
+            {
+                return parts.Skip(1).Prepend("\\\\" + parts.First()).ToArray();
+            }
+            else
+            {
+                return parts;
+            }
         }
 
         //

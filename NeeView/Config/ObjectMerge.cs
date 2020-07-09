@@ -62,7 +62,14 @@ namespace NeeView
                         v1 = Activator.CreateInstance(property.PropertyType);
                         property.SetValue(a1, v1);
                     }
-                    Merge(v1, v2, options);
+                    if (v2 == null)
+                    {
+                        property.SetValue(a1, v2);
+                    }
+                    else
+                    {
+                        Merge(v1, v2, options);
+                    }
                 }
             }
         }

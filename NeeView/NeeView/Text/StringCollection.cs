@@ -48,7 +48,7 @@ namespace NeeView.Text
         [DataMember(EmitDefaultValue = false)]
         public string OneLine
         {
-            get { return Items.Count > 0 ? string.Join(";", Items) : null; }
+            get { return Items.Count > 0 ? string.Join(";", Items) : ""; }
             set { Restore(value); }
         }
 

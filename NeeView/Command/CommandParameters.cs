@@ -158,15 +158,25 @@ namespace NeeView
 
         public override void Write(Utf8JsonWriter writer, CommandParameter value, JsonSerializerOptions options)
         {
-            writer.WriteStartObject();
 
             var type = value.GetType();
             Debug.Assert(KnownTypes.Contains(type));
-            writer.WriteString("Type", type.Name);
-            writer.WritePropertyName("Value");
-            JsonSerializer.Serialize(writer, value, type, options);
 
-            writer.WriteEndObject();
+            var def = (CommandParameter)Activator.CreateInstance(type);
+            if (value.MemberwiseEquals(def))
+            {
+                Debug.WriteLine($"{type} is default.");
+                writer.WriteNullValue();
+            }
+            else
+            {
+                writer.WriteStartObject();
+                writer.WriteString("Type", type.Name);
+                writer.WritePropertyName("Value");
+                JsonSerializer.Serialize(writer, value, type, options);
+                writer.WriteEndObject();
+            }
+
         }
     }
 }

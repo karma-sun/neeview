@@ -11,7 +11,7 @@ namespace NeeView
             this.Text = Properties.Resources.CommandViewRotateLeft;
             this.Note = Properties.Resources.CommandViewRotateLeftNote;
             this.IsShowMessage = false;
-            this.ParameterSource = new CommandParameterSource(new ViewRotateCommandParameter() { Angle = 45 });
+            this.ParameterSource = new CommandParameterSource(new ViewRotateCommandParameter());
         }
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
@@ -27,7 +27,7 @@ namespace NeeView
     /// </summary>
     public class ViewRotateCommandParameter : CommandParameter 
     {
-        private int _angle;
+        private int _angle = 45;
         private bool _isStretch;
 
 

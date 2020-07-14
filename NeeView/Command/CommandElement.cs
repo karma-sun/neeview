@@ -110,12 +110,14 @@ namespace NeeView
             get => ParameterSource?.Get();
         }
 
+
         public CommandElement Share { get; private set; }
 
         public CommandElement SetShare(CommandElement share)
         {
             Share = share;
             ParameterSource = new CommandParameterSource(share.ParameterSource);
+            //ParameterSource = share.ParameterSource;
             return this;
         }
 
@@ -311,7 +313,8 @@ namespace NeeView
             memento.TouchGesture = TouchGesture ?? "";
             memento.MouseGesture = MouseGesture ?? "";
             memento.IsShowMessage = IsShowMessage;
-            memento.Parameter = (CommandParameter)ParameterSource?.GetRaw()?.Clone();
+            ////memento.Parameter = (CommandParameter)ParameterSource?.GetRaw()?.Clone();
+            memento.Parameter = (CommandParameter)Parameter?.Clone();
 
             Debug.Assert(Parameter == null || JsonCommandParameterConverter.KnownTypes.Contains(Parameter.GetType()));
 

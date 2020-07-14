@@ -11,7 +11,7 @@
             this.IsShowMessage = true;
 
             // "ToggleStretchMode"
-            this.ParameterSource = new CommandParameterSource(new ToggleStretchModeCommandParameter() { IsLoop = true });
+            this.ParameterSource = new CommandParameterSource(new ToggleStretchModeCommandParameter());
         }
 
         public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)

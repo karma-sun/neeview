@@ -13,7 +13,7 @@ namespace NeeView
             this.IsShowMessage = false;
             this.PairPartner = "NextSizePage";
 
-            this.ParameterSource = new CommandParameterSource(new MoveSizePageCommandParameter() { Size = 10 });
+            this.ParameterSource = new CommandParameterSource(new MoveSizePageCommandParameter());
         }
 
         public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)
@@ -34,7 +34,7 @@ namespace NeeView
     /// </summary>
     public class MoveSizePageCommandParameter : ReversibleCommandParameter
     {
-        private int _size;
+        private int _size = 10;
 
         [PropertyMember("@ParamCommandParameterMoveSize")]
         public int Size

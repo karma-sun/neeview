@@ -1,4 +1,5 @@
 ﻿using NeeView.Data;
+using System;
 using System.Runtime.Serialization;
 
 namespace NeeView
@@ -9,6 +10,7 @@ namespace NeeView
         public CommandParameterSource _share;
         private CommandParameter _defaultParameter;
         private CommandParameter _parameter;
+        private Type _type;
 
         public CommandParameterSource()
         {
@@ -17,6 +19,7 @@ namespace NeeView
         public CommandParameterSource(CommandParameter defaultParameter)
         {
             _defaultParameter = defaultParameter;
+            _type = defaultParameter.GetType();
         }
 
         public CommandParameterSource(CommandParameterSource share)

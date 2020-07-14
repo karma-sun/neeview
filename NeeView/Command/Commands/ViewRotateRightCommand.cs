@@ -10,7 +10,7 @@
             this.IsShowMessage = false;
             
             // ViewRotateLeft
-            this.ParameterSource = new CommandParameterSource(new ViewRotateCommandParameter() { Angle = 45 });
+            this.ParameterSource = new CommandParameterSource(new ViewRotateCommandParameter());
         }
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)

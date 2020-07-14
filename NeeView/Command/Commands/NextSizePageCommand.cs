@@ -14,7 +14,7 @@ namespace NeeView
             this.PairPartner = "PrevSizePage";
 
             // PrevSizePage
-            this.ParameterSource = new CommandParameterSource(new MoveSizePageCommandParameter() { Size = 10 });
+            this.ParameterSource = new CommandParameterSource(new MoveSizePageCommandParameter());
         }
 
         public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)

@@ -27,7 +27,7 @@
 
         private void PropertyMap_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            _command.ParameterSource.Set(_parameter, true);
+            _command.ParameterSource.Set(_parameter);
         }
     }
 

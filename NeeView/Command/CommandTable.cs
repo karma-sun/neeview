@@ -958,6 +958,7 @@ namespace NeeView
             }
         }
 
+        [Obsolete]
         public Memento CreateMemento()
         {
             var memento = new Memento();

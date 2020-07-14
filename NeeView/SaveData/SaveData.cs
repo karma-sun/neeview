@@ -43,6 +43,7 @@ namespace NeeView
 
 
         // アプリ設定作成
+        [Obsolete]
         public UserSettingV1 CreateSetting()
         {
             var setting = new UserSettingV1();

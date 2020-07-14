@@ -7,28 +7,21 @@ namespace NeeView
     [DataContract]
     public class CommandParameterSource
     {
-        public CommandParameterSource _share;
-        private CommandParameter _defaultParameter;
         private CommandParameter _parameter;
         private Type _type;
+
 
         public CommandParameterSource()
         {
         }
 
+        // TODO: 型を直接指定するように
         public CommandParameterSource(CommandParameter defaultParameter)
         {
-            _defaultParameter = defaultParameter;
-            _type = defaultParameter.GetType();
-        }
+            if (defaultParameter == null) throw new ArgumentNullException(nameof(defaultParameter));
 
-        public CommandParameterSource(CommandParameterSource share)
-        {
-            _share = share;
+            _type = defaultParameter.GetType(); // ##
         }
-
-        
-        public CommandParameterSource Share => _share;
 
 
         public CommandParameter GetRaw()
@@ -38,76 +31,51 @@ namespace NeeView
 
         public CommandParameter GetDefault()
         {
-            if (_share != null)
-            {
-                return _share.GetDefault();
-            }
-            else
-            {
-                return _defaultParameter;
-            }
+            return (CommandParameter)Activator.CreateInstance(_type);
         }
 
         public CommandParameter Get()
         {
-            if (_share != null)
+            if (_parameter is null)
             {
-                return _share.Get();
+                _parameter = GetDefault();
             }
-            else
-            {
-                return _parameter ?? _defaultParameter;
-            }
+
+            return _parameter;
         }
 
-        /// <summary>
-        /// パラメーターの設定
-        /// </summary>
-        /// <param name="value">パラメーター</param>
-        /// <param name="includeShare">シェアパラメーターの場合、シェア先のパラメーターを変更する。falseの場合は何もしない</param>
-        public void Set(CommandParameter value, bool includeShare)
+        public void Set(CommandParameter value)
         {
-            if (_share != null)
+            if (value != null && value.GetType() != _type)
             {
-                if (includeShare)
-                {
-                    _share.Set(value, includeShare);
-                }
+                throw new ArgumentException($"{_type} is required: not {value.GetType()}");
             }
-            else
-            {
-                if (_defaultParameter == null || value == null || value.GetType() != _defaultParameter.GetType())
-                {
-                    _parameter = null;
-                }
-                else
-                {
-                    _parameter = _defaultParameter.MemberwiseEquals(value) ? null : value;
-                }
-            }
+
+            _parameter = value;
         }
 
+        public bool EqualsDefault()
+        {
+            return GetDefault().MemberwiseEquals(_parameter);
+        }
+
+
+        [Obsolete]
         public string Store()
         {
-            if (_defaultParameter != null && _parameter != null)
-            {
-                return Json.Serialize(_parameter, _defaultParameter.GetType());
-            }
-            else
-            {
-                return null;
-            }
+            return Json.Serialize(_parameter, _type);
         }
 
+        [Obsolete]
         public void Restore(string json)
         {
-            if (_defaultParameter != null && !string.IsNullOrWhiteSpace(json))
-            {
-                _parameter = (CommandParameter)Json.Deserialize(json, _defaultParameter.GetType());
-            }
-            else
+            if (string.IsNullOrWhiteSpace(json))
             {
                 _parameter = null;
+            }
+            else
+            { 
+                _parameter = (CommandParameter)Json.Deserialize(json, _type);
             }
         }
     }

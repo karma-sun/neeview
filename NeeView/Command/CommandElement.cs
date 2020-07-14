@@ -108,6 +108,7 @@ namespace NeeView
         public CommandParameter Parameter
         {
             get => ParameterSource?.Get();
+            set => ParameterSource?.Set(value);
         }
 
 
@@ -116,8 +117,7 @@ namespace NeeView
         public CommandElement SetShare(CommandElement share)
         {
             Share = share;
-            ParameterSource = new CommandParameterSource(share.ParameterSource);
-            //ParameterSource = share.ParameterSource;
+            ParameterSource = share.ParameterSource;
             return this;
         }
 
@@ -255,6 +255,7 @@ namespace NeeView
             }
         }
 
+        [Obsolete]
         public Memento CreateMemento()
         {
             var memento = new Memento();
@@ -269,6 +270,7 @@ namespace NeeView
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
@@ -329,7 +331,7 @@ namespace NeeView
             TouchGesture = memento.TouchGesture;
             MouseGesture = memento.MouseGesture;
             IsShowMessage = memento.IsShowMessage;
-            ParameterSource?.Set(memento.Parameter, false);
+            ParameterSource?.Set(memento.Parameter);
         }
 
         #endregion

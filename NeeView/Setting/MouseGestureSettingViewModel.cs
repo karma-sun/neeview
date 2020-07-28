@@ -11,7 +11,7 @@ namespace NeeView.Setting
     /// </summary>
     public class MouseGestureSettingViewModel : BindableBase
     {
-        private Dictionary<string, CommandElement.MementoV2> _sources;
+        private IDictionary<string, CommandElement> _commandMap;
         private string _key;
 
         private TouchInputForGestureEditor _touchGesture;
@@ -49,9 +49,9 @@ namespace NeeView.Setting
         /// </summary>
         /// <param name="context"></param>
         /// <param name="gestureSender"></param>
-        public MouseGestureSettingViewModel(CommandCollection memento, string key, FrameworkElement gestureSender)
+        public MouseGestureSettingViewModel(IDictionary<string, CommandElement> commandMap, string key, FrameworkElement gestureSender)
         {
-            _sources = memento;
+            _commandMap = commandMap;
             _key = key;
 
             _touchGesture = new TouchInputForGestureEditor(gestureSender);
@@ -60,7 +60,7 @@ namespace NeeView.Setting
             _mouseGesture = new MouseInputForGestureEditor(gestureSender);
             _mouseGesture.Gesture.GestureProgressed += Gesture_MouseGestureProgressed;
 
-            OriginalGesture = NewGesture = _sources[_key].MouseGesture;
+            OriginalGesture = NewGesture = _commandMap[_key].MouseGesture;
             UpdateGestureToken(NewGesture);
         }
 
@@ -88,7 +88,7 @@ namespace NeeView.Setting
 
             if (!string.IsNullOrEmpty(token.Gesture))
             {
-                token.Conflicts = _sources
+                token.Conflicts = _commandMap
                     .Where(i => i.Key != _key && i.Value.MouseGesture == token.Gesture)
                     .Select(i => i.Key)
                     .ToList();
@@ -108,7 +108,7 @@ namespace NeeView.Setting
         /// </summary>
         public void Flush()
         {
-            _sources[_key].MouseGesture = NewGesture;
+            _commandMap[_key].MouseGesture = NewGesture;
         }
 
 
@@ -123,7 +123,7 @@ namespace NeeView.Setting
 
         private void ClearCommand_Executed()
         {
-            _sources[_key].MouseGesture = null;
+            _commandMap[_key].MouseGesture = null;
             _mouseGesture.Gesture.Reset();
         }
     }

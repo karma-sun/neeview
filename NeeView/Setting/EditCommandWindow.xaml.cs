@@ -56,7 +56,9 @@ namespace NeeView.Setting
             this.DataContext = this;
 
             this.Loaded += EditCommandWindow_Loaded;
+            this.Closed += EditCommandWindow_Closed;
         }
+
 
         private bool _isShowMessage;
         public bool IsShowMessage
@@ -74,20 +76,34 @@ namespace NeeView.Setting
             tabItem?.Focus();
         }
 
+        private void EditCommandWindow_Closed(object sender, EventArgs e)
+        {
+            if (this.DialogResult == true)
+            {
+                Flush();
+            }
+            else
+            {
+                CommandTable.Current.RestoreCommandCollection(_memento);
+            }
+        }
+
         public void Initialize(string key, EditCommandWindowTab start = EditCommandWindowTab.Default)
         {
             _memento = CommandTable.Current.CreateCommandCollectionMemento();
             _key = key;
 
-            this.Title = $"{CommandTable.Current.GetElement(key).Text} - {Properties.Resources.ControlEditCommandTitle}";
+            var commandMap = CommandTable.Current;
 
-            this.Note = CommandTable.Current.GetElement(key).Note;
-            this.IsShowMessage = _memento[key].IsShowMessage;
+            this.Title = $"{commandMap[key].Text} - {Properties.Resources.ControlEditCommandTitle}";
 
-            this.InputGesture.Initialize(_memento, key);
-            this.MouseGesture.Initialize(_memento, key);
-            this.InputTouch.Initialize(_memento, key);
-            this.Parameter.Initialize(_memento, key);
+            this.Note = commandMap[key].Note;
+            this.IsShowMessage = commandMap[key].IsShowMessage;
+
+            this.InputGesture.Initialize(commandMap, key);
+            this.MouseGesture.Initialize(commandMap, key);
+            this.InputTouch.Initialize(commandMap, key);
+            this.Parameter.Initialize(commandMap, key);
 
             switch (start)
             {
@@ -114,14 +130,6 @@ namespace NeeView.Setting
 
         private void ButtonOk_Click(object sender, RoutedEventArgs e)
         {
-            this.InputGesture.Flush();
-            this.MouseGesture.Flush();
-            this.InputTouch.Flush();
-            this.Parameter.Flush();
-            _memento[_key].IsShowMessage = this.IsShowMessage;
-
-            CommandTable.Current.RestoreCommandCollection(_memento);
-
             this.DialogResult = true;
             Close();
         }
@@ -129,6 +137,17 @@ namespace NeeView.Setting
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void Flush()
+        {
+            this.InputGesture.Flush();
+            this.MouseGesture.Flush();
+            this.InputTouch.Flush();
+            this.Parameter.Flush();
+
+            CommandTable.Current.GetElement(_key).IsShowMessage = this.IsShowMessage;
+            CommandTable.Current.RaiseChanged();
         }
 
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
@@ -24,9 +25,9 @@ namespace NeeView.Setting
             InitializeComponent();
         }
 
-        public void Initialize(CommandCollection memento, string key)
+        public void Initialize(IDictionary<string, CommandElement> commandMap, string key)
         {
-            _vm = new MouseGestureSettingViewModel(memento, key, this.GestureBox);
+            _vm = new MouseGestureSettingViewModel(commandMap, key, this.GestureBox);
             this.DataContext = _vm;
         }
 

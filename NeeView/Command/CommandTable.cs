@@ -43,7 +43,7 @@ namespace NeeView
     /// <summary>
     /// コマンド設定テーブル
     /// </summary>
-    public class CommandTable : BindableBase, IEnumerable<KeyValuePair<string, CommandElement>>
+    public class CommandTable : BindableBase, IDictionary<string, CommandElement>
     {
         static CommandTable() => Current = new CommandTable();
         public static CommandTable Current { get; }
@@ -75,23 +75,76 @@ namespace NeeView
 
         public int ChangeCount { get; private set; }
 
-        // NODE: 応急処置
-        public IEnumerable<string> Keys => _elements.Keys;
 
+        #region IDictionary Support
 
-        #region IEnumerable Support
+        public ICollection<string> Keys => ((IDictionary<string, CommandElement>)_elements).Keys;
+
+        public ICollection<CommandElement> Values => ((IDictionary<string, CommandElement>)_elements).Values;
+
+        public int Count => ((ICollection<KeyValuePair<string, CommandElement>>)_elements).Count;
+
+        public bool IsReadOnly => ((ICollection<KeyValuePair<string, CommandElement>>)_elements).IsReadOnly;
+
+        public CommandElement this[string key]
+        {
+            get => ((IDictionary<string, CommandElement>)_elements)[key];
+            set => ((IDictionary<string, CommandElement>)_elements)[key] = value;
+        }
+
+        public void Add(string key, CommandElement value)
+        {
+            ((IDictionary<string, CommandElement>)_elements).Add(key, value);
+        }
+
+        public bool Remove(string key)
+        {
+            return ((IDictionary<string, CommandElement>)_elements).Remove(key);
+        }
+
+        public void Add(KeyValuePair<string, CommandElement> item)
+        {
+            ((ICollection<KeyValuePair<string, CommandElement>>)_elements).Add(item);
+        }
+
+        public void Clear()
+        {
+            ((ICollection<KeyValuePair<string, CommandElement>>)_elements).Clear();
+        }
+
+        public bool Contains(KeyValuePair<string, CommandElement> item)
+        {
+            return ((ICollection<KeyValuePair<string, CommandElement>>)_elements).Contains(item);
+        }
+        
+        public bool ContainsKey(string key)
+        {
+            return key != null && _elements.ContainsKey(key);
+        }
+
+        public bool TryGetValue(string key, out CommandElement value)
+        {
+            return ((IDictionary<string, CommandElement>)_elements).TryGetValue(key, out value);
+        }
+
+        public void CopyTo(KeyValuePair<string, CommandElement>[] array, int arrayIndex)
+        {
+            ((ICollection<KeyValuePair<string, CommandElement>>)_elements).CopyTo(array, arrayIndex);
+        }
+
+        public bool Remove(KeyValuePair<string, CommandElement> item)
+        {
+            return ((ICollection<KeyValuePair<string, CommandElement>>)_elements).Remove(item);
+        }
 
         public IEnumerator<KeyValuePair<string, CommandElement>> GetEnumerator()
         {
-            foreach (var pair in _elements)
-            {
-                yield return pair;
-            }
+            return ((IEnumerable<KeyValuePair<string, CommandElement>>)_elements).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.GetEnumerator();
+            return ((IEnumerable)_elements).GetEnumerator();
         }
 
         #endregion
@@ -337,17 +390,6 @@ namespace NeeView
 
         #region Methods
 
-        // NODE: 応急処置
-        public bool ContainsKey(string key)
-        {
-            return key != null && _elements.ContainsKey(key);
-        }
-
-        public bool TryGetValue(string key, out CommandElement command)
-        {
-            return _elements.TryGetValue(key, out command);
-        }
-
         public CommandElement GetElement(string key)
         {
             if (TryGetValue(key, out CommandElement command))
@@ -360,12 +402,19 @@ namespace NeeView
             }
         }
 
+        /// <summary>
+        /// テーブル更新イベントを発行
+        /// </summary>
+        public void RaiseChanged()
+        {
+            Changed?.Invoke(this, new CommandChangedEventArgs(false));
+        }
+
         private void CommandTable_Changed(object sender, CommandChangedEventArgs e)
         {
             ChangeCount++;
             ClearInputGestureDarty();
         }
-
 
         /// <summary>
         /// 初期設定生成
@@ -402,13 +451,6 @@ namespace NeeView
 
             return memento;
         }
-
-        // .. あまりかわらん
-        public T Parameter<T>(string commandName) where T : class
-        {
-            return _elements[commandName].Parameter as T;
-        }
-
 
         public bool TryExecute(string commandName, object[] args, CommandOption option)
         {

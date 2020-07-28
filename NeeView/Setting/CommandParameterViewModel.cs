@@ -7,7 +7,7 @@ namespace NeeView.Setting
 {
     public class CommandParameterViewModel : BindableBase
     {
-        private Dictionary<string, CommandElement.MementoV2> _sources;
+        private IDictionary<string, CommandElement> _commandMap;
         private string _key;
 
         private CommandParameter _defaultParameter;
@@ -24,9 +24,9 @@ namespace NeeView.Setting
 
 
 
-        public CommandParameterViewModel(CommandCollection memento, string key)
+        public CommandParameterViewModel(IDictionary<string, CommandElement> commandMap, string key)
         {
-            _sources = memento;
+            _commandMap = commandMap;
             _key = key;
 
             if (CommandTable.Current.GetElement(_key).Share != null)
@@ -41,10 +41,7 @@ namespace NeeView.Setting
                 return;
             }
 
-            ////var parameter = _sources[_key].Parameter != null
-            ////    ? (CommandParameter)Json.Deserialize(_sources[_key].Parameter, _defaultParameter.GetType())
-            ////    : _defaultParameter.Clone();
-            var parameter = (CommandParameter)(_sources[_key].Parameter ?? _defaultParameter)?.Clone();
+            var parameter = (CommandParameter)(_commandMap[_key].Parameter ?? _defaultParameter)?.Clone();
 
             _propertyDocument = new PropertyDocument(parameter);
         }
@@ -53,8 +50,7 @@ namespace NeeView.Setting
         {
             if (_propertyDocument != null)
             {
-                ////_sources[_key].Parameter = Json.Serialize(_propertyDocument.Source, _propertyDocument.Source.GetType());
-                _sources[_key].Parameter = (CommandParameter)_propertyDocument.Source;
+                _commandMap[_key].Parameter = (CommandParameter)_propertyDocument.Source;
             }
         }
 

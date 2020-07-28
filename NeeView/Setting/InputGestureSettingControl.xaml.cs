@@ -29,9 +29,9 @@ namespace NeeView.Setting
         }
 
         //
-        public void Initialize(CommandCollection memento, string key)
+        public void Initialize(IDictionary<string, CommandElement> commandMap, string key)
         {
-            _vm = new InputGestureSettingViewModel(memento, key);
+            _vm = new InputGestureSettingViewModel(commandMap, key);
             this.DataContext = _vm;
         }
 

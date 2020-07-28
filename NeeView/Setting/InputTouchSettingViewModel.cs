@@ -13,7 +13,7 @@ namespace NeeView.Setting
     /// </summary>
     public class InputTouchSettingViewModel : BindableBase
     {
-        private Dictionary<string, CommandElement.MementoV2> _sources;
+        private IDictionary<string, CommandElement> _commandMap;
         private string _key;
 
         /// <summary>
@@ -47,12 +47,12 @@ namespace NeeView.Setting
         /// </summary>
         /// <param name="context"></param>
         /// <param name="gestureSender"></param>
-        public InputTouchSettingViewModel(CommandCollection memento, string key, FrameworkElement gestureSender)
+        public InputTouchSettingViewModel(IDictionary<string, CommandElement> commandMap, string key, FrameworkElement gestureSender)
         {
-            _sources = memento;
+            _commandMap = commandMap;
             _key = key;
 
-            this.TouchAreaMap = new TouchAreaMap(_sources[_key].TouchGesture);
+            this.TouchAreaMap = new TouchAreaMap(_commandMap[_key].TouchGesture);
             UpdateGestureToken(this.TouchAreaMap);
         }
 
@@ -82,7 +82,7 @@ namespace NeeView.Setting
                 var shortcuts = new ObservableCollection<GestureElement>();
                 foreach (var key in gestures.Split(','))
                 {
-                    var overlaps = _sources
+                    var overlaps = _commandMap
                         .Where(i => i.Key != _key && i.Value.TouchGesture.Split(',').Contains(key))
                         .Select(e => CommandTable.Current.GetElement(e.Key).LongText)
                         .ToList();
@@ -120,7 +120,7 @@ namespace NeeView.Setting
         /// </summary>
         public void Flush()
         {
-            _sources[_key].TouchGesture = this.TouchAreaMap.ToString();
+            _commandMap[_key].TouchGesture = this.TouchAreaMap.ToString();
         }
     }
 

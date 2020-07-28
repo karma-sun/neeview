@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,11 +40,11 @@ namespace NeeView.Setting
             InitializeComponent();
         }
 
-        public void Initialize(CommandCollection memento, string key)
+        public void Initialize(IDictionary<string, CommandElement> commandMap, string key)
         {
             InitializeComponent();
 
-            _vm = new CommandParameterViewModel(memento, key);
+            _vm = new CommandParameterViewModel(commandMap, key);
             this.DataContext = _vm;
 
             this.IsAny = _vm.PropertyDocument != null;

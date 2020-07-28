@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,13 +26,13 @@ namespace NeeView.Setting
             InitializeComponent();
         }
 
-        public void Initialize(CommandCollection memento, string key)
+        public void Initialize(IDictionary<string, CommandElement> commandMap, string key)
         {
             InitializeComponent();
 
             this.GestureBox.PreviewMouseLeftButtonUp += GestureBox_PreviewMouseLeftButtonUp;
 
-            _vm = new InputTouchSettingViewModel(memento, key, this.GestureBox);
+            _vm = new InputTouchSettingViewModel(commandMap, key, this.GestureBox);
             DataContext = _vm;
         }
 

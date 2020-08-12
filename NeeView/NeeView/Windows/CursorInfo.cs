@@ -74,11 +74,11 @@ namespace NeeView.Windows
         /// 現在のマウスカーソルのスクリーン座標を取得
         /// </summary>
         /// <returns></returns>
-        public static Point GetNowScreenPosition()
+        public static Point GetNowScreenPosition(Window window)
         {
             NativeMethods.GetCursorPos(out NativeMethods.POINT point);
 
-            var dpiScaleFactor = GetDpiScaleFactor(App.Current.MainWindow);
+            var dpiScaleFactor = GetDpiScaleFactor(window);
             return new Point(point.X / dpiScaleFactor.X, point.Y / dpiScaleFactor.Y);
         }
 

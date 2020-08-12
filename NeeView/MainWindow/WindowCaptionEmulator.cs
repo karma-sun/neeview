@@ -155,7 +155,7 @@ namespace NeeView
                 double percentHorizontal = e.GetPosition(_window).X / _window.ActualWidth;
                 double targetHorizontal = _window.RestoreBounds.Width * percentHorizontal;
 
-                var cursor = Windows.CursorInfo.GetNowScreenPosition();
+                var cursor = Windows.CursorInfo.GetNowScreenPosition(_window);
                 _window.Left = cursor.X - targetHorizontal;
                 _window.Top = cursor.Y - 8;
 

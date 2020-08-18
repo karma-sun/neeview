@@ -709,7 +709,7 @@ namespace NeeView
                 var next = (int)mode + 1;
                 if (!param.IsLoop && next >= length) return Config.Current.View.StretchMode;
                 mode = (PageStretchMode)(next % length);
-                if (param.StretchModes[mode]) return mode;
+                if (param.GetStretchModeDictionary()[mode]) return mode;
             }
             while (count++ < length);
             return Config.Current.View.StretchMode;
@@ -726,7 +726,7 @@ namespace NeeView
                 var prev = (int)mode - 1;
                 if (!param.IsLoop && prev < 0) return Config.Current.View.StretchMode;
                 mode = (PageStretchMode)((prev + length) % length);
-                if (param.StretchModes[mode]) return mode;
+                if (param.GetStretchModeDictionary()[mode]) return mode;
             }
             while (count++ < length);
             return Config.Current.View.StretchMode;

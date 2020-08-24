@@ -139,7 +139,7 @@ namespace NeeView
                 case Key.D7:
                 case Key.D8:
                 case Key.D9:
-                    text += "+" + keyExGesture.Key.ToString().TrimStart('D');
+                    text += "+" + keyExGesture.Key.ToUniqueString().TrimStart('D');
                     break;
                 case Key.Escape:
                     text += "+" + "Esc";
@@ -151,7 +151,7 @@ namespace NeeView
                     text += "+" + "PageDown";
                     break;
                 default:
-                    text += "+" + keyExGesture.Key.ToString();
+                    text += "+" + keyExGesture.Key.ToUniqueString();
                     break;
             }
 

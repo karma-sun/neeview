@@ -95,6 +95,7 @@ namespace NeeView
             style.Triggers.Add(dataTrigger);
 
             this.MainMenu = CreateMainMenu(style);
+            this.MainMenu.UpdateInputGestureText();
 
             BindingOperations.SetBinding(MainMenu, Menu.BackgroundProperty, new Binding(nameof(Menu.Background)) { ElementName = "MainMenuJoint" });
             BindingOperations.SetBinding(MainMenu, Menu.ForegroundProperty, new Binding(nameof(Menu.Foreground)) { ElementName = "MainMenuJoint" });

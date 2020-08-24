@@ -658,12 +658,16 @@ namespace NeeView
         private void ScriptConfigChanged(object sender, PropertyChangedEventArgs e)
         {
             _isScriptFolderDarty = true;
+            CreateDefaultScriptFolder();
             UpdateScriptCommand();
             Changed?.Invoke(this, new CommandChangedEventArgs(false));
         }
 
         public void CreateDefaultScriptFolder()
         {
+            if (!Config.Current.Script.IsScriptFolderEnabled) return;
+            if (!string.IsNullOrEmpty(Config.Current.Script.ScriptFolder)) return;
+
             var path = Config.Current.Script.GetDefaultScriptFolder();
             if (!Directory.Exists(path))
             {

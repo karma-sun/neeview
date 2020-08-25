@@ -64,9 +64,7 @@ namespace NeeView
 
         public static UserSetting Load(ReadOnlySpan<byte> json)
         {
-            return JsonSerializer.Deserialize<UserSetting>(json, GetSerializerOptions());
-
-            // TODO: v.38以後の互換性処理をここで？
+            return JsonSerializer.Deserialize<UserSetting>(json, GetSerializerOptions()).Validate();
         }
 
         public static JsonSerializerOptions GetSerializerOptions()
@@ -104,6 +102,29 @@ namespace NeeView
 
             // SusiePlugins反映
             SusiePluginManager.Current.RestoreSusiePluginCollection(setting.SusiePlugins);
+        }
+    }
+
+
+    public static class UserSettingExcentions
+    {
+        // 互換性処理
+        public static UserSetting Validate(this UserSetting self)
+        {
+            if (self is null) throw new ArgumentNullException();
+
+            // ver.38
+            if (self.Format.CompareTo(new FormatVersion(Environment.SolutionName, 38, 0, 0)) < 0)
+            {
+                Debug.WriteLine($"ValidateShortCutKey...");
+                foreach (var command in self.Commands.Values)
+                {
+                    command.ValidateShortCutKey();
+                }
+                Debug.WriteLine($"ValidateShortCutKey done.");
+            }
+
+            return self;
         }
     }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,13 @@ namespace NeeView
     /// </summary>
     public static class InputGestureConverter
     {
+        private static KeyGestureConverter _keyGestureConverter = new KeyGestureConverter();
+        private static KeyExGestureConverter _keyExGestureConverter = new KeyExGestureConverter();
+        private static MouseGestureConverter _mouseGestureConverter = new MouseGestureConverter();
+        private static MouseExGestureConverter _mouseExGestureConverter = new MouseExGestureConverter();
+        private static MouseWheelGestureConverter _mouseWheelGestureConverter = new MouseWheelGestureConverter();
+
+
         private enum ConverterType
         {
             Key, Mouse, MouseWheel
@@ -145,6 +153,34 @@ namespace NeeView
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// InputGestureを文字列にする
+        /// </summary>
+        public static string ConvertToString(InputGesture gesture)
+        {
+            switch (gesture)
+            {
+                case KeyGesture e:
+                    return _keyGestureConverter.ConvertToString(e);
+
+                case KeyExGesture e:
+                    return _keyExGestureConverter.ConvertToString(e);
+
+                case MouseGesture e:
+                    return _mouseGestureConverter.ConvertToString(e);
+
+                case MouseExGesture e:
+                    return _mouseExGestureConverter.ConvertToString(e);
+
+                case MouseWheelGesture e:
+                    return _mouseWheelGestureConverter.ConvertToString(e);
+
+                default:
+                    throw new NotSupportedException($"Not supported gesture type: {gesture.GetType()}");
+            }
+
         }
     }
 }

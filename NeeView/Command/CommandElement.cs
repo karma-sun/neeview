@@ -305,6 +305,20 @@ namespace NeeView
                 clone.Parameter = (CommandParameter)this.Parameter?.Clone();
                 return clone;
             }
+
+            // ショートカットキーの補正
+            public void ValidateShortCutKey()
+            {
+                if (string.IsNullOrWhiteSpace(ShortCutKey)) return;
+
+                var gestures = ShortCutKey.Split(',').Select(e => InputGestureConverter.ConvertFromString(e)).Where(e => e != null).ToList();
+                var validShortCutKey = string.Join(",", gestures.Select(e => InputGestureConverter.ConvertToString(e)));
+                if (validShortCutKey != ShortCutKey)
+                {
+                    Debug.WriteLine($"ValidateShortCutKey: {ShortCutKey} => {validShortCutKey}");
+                    ShortCutKey = validShortCutKey;
+                }
+            }
         }
 
         public MementoV2 CreateMementoV2()

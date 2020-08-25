@@ -81,7 +81,7 @@ namespace NeeView.Setting
 
             if (keyExGesture != null)
             {
-                var converter = new KeyGestureExConverter();
+                var converter = new KeyExGestureConverter();
                 this.KeyGestureText.Text = ValidateKeyGestureText(converter.ConvertToString(keyExGesture));
             }
             else
@@ -176,7 +176,7 @@ namespace NeeView.Setting
 
                 if (mouseGesture != null)
                 {
-                    var converter = new MouseGestureExConverter();
+                    var converter = new MouseExGestureConverter();
                     this.MouseGestureText.Text = converter.ConvertToString(mouseGesture);
                 }
                 else

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Jint.Runtime;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,7 @@ namespace NeeView
             if (control == null) return;
 
             KeyGestureConverter kgc = new KeyGestureConverter();
-            KeyGestureExConverter kgxc = new KeyGestureExConverter();
+            KeyExGestureConverter kgxc = new KeyExGestureConverter();
             foreach (var item in control.Items.OfType<MenuItem>())
             {
                 var command = item.Command as RoutedCommand;

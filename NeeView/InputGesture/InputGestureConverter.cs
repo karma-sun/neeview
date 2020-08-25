@@ -13,13 +13,12 @@ namespace NeeView
     /// </summary>
     public static class InputGestureConverter
     {
-        //
         private enum ConverterType
         {
             Key, Mouse, MouseWheel
         }
 
-        //
+
         private static readonly Dictionary<ConverterType, Func<string, InputGesture>> _converter = new Dictionary<ConverterType, Func<string, InputGesture>>
         {
             [ConverterType.Key] = ConvertFromKeyGestureString,
@@ -27,7 +26,7 @@ namespace NeeView
             [ConverterType.MouseWheel] = ConvertFromMouseWheelGestureString,
         };
 
-        //
+
         private static InputGesture ConvertFromStringByOrder(string source, ConverterType type)
         {
             List<ConverterType> order = null;
@@ -87,7 +86,7 @@ namespace NeeView
         {
             try
             {
-                KeyGestureExConverter converter = new KeyGestureExConverter();
+                KeyExGestureConverter converter = new KeyExGestureConverter();
                 return (InputGesture)converter.ConvertFromString(source);
             }
             catch (Exception e)
@@ -117,7 +116,7 @@ namespace NeeView
 
             try
             {
-                MouseGestureExConverter converter = new MouseGestureExConverter();
+                MouseExGestureConverter converter = new MouseExGestureConverter();
                 return (InputGesture)converter.ConvertFromString(source);
             }
             catch (Exception e)

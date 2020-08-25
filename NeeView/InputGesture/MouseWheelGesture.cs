@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,26 +6,6 @@ using System.Windows.Input;
 
 namespace NeeView
 {
-    // ホイールアクション
-    public enum MouseWheelAction
-    {
-        None,
-        WheelUp,
-        WheelDown,
-    }
-
-    // 修飾マウスボタン
-    [Flags]
-    public enum ModifierMouseButtons
-    {
-        None = 0,
-        LeftButton = (1 << 0),
-        MiddleButton = (1 << 1),
-        RightButton = (1 << 2),
-        XButton1 = (1 << 3),
-        XButton2 = (1 << 4),
-    }
-
     /// <summary>
     /// マウスホイールアクション
     /// </summary>
@@ -82,81 +61,4 @@ namespace NeeView
         }
     }
 
-    /// <summary>
-    /// マウスホイールアクション コンバータ
-    /// </summary>
-    public class MouseWheelGestureConverter
-    {
-        /// <summary>
-        ///  文字列からマウスホイールアクションに変換する
-        /// </summary>
-        /// <param name="source">ジェスチャ文字列</param>
-        /// <returns>MouseWheelGesture。変換に失敗したときは NotSupportedException 例外が発生</returns>
-        public MouseWheelGesture ConvertFromString(string source)
-        {
-            var keys = source.Split('+');
-
-            MouseWheelAction action = MouseWheelAction.None;
-            ModifierKeys modifierKeys = ModifierKeys.None;
-            ModifierMouseButtons modifierMouseButtons = ModifierMouseButtons.None;
-
-            if (!Enum.TryParse(keys.Last(), out action))
-            {
-                throw new NotSupportedException(string.Format(Properties.Resources.ExceptionNotSupportedKey, source, "MouseWheelGesture"));
-            }
-
-            for (int i = 0; i < keys.Length - 1; ++i)
-            {
-                var key = keys[i];
-                if (key == "Ctrl") key = "Control";
-
-                ModifierKeys modifierKeysOne;
-                if (Enum.TryParse<ModifierKeys>(key, out modifierKeysOne))
-                {
-                    modifierKeys |= modifierKeysOne;
-                    continue;
-                }
-
-                ModifierMouseButtons modifierMouseButtonsOne;
-                if (Enum.TryParse<ModifierMouseButtons>(key, out modifierMouseButtonsOne))
-                {
-                    modifierMouseButtons |= modifierMouseButtonsOne;
-                    continue;
-                }
-
-                throw new NotSupportedException(string.Format(Properties.Resources.ExceptionNotSupportedKey, source, "MouseWheelGesture"));
-            }
-
-            return new MouseWheelGesture(action, modifierKeys, modifierMouseButtons);
-        }
-
-
-        /// <summary>
-        ///  マウスホイールアクションから文字列に変換する
-        /// </summary>
-        public string ConvertToString(MouseWheelGesture gesture)
-        {
-            string text = "";
-
-            foreach (ModifierKeys key in Enum.GetValues(typeof(ModifierKeys)))
-            {
-                if ((gesture.ModifierKeys & key) != ModifierKeys.None)
-                {
-                    text += "+" + ((key == ModifierKeys.Control) ? "Ctrl" : key.ToString());
-                }
-            }
-
-            foreach (ModifierMouseButtons button in Enum.GetValues(typeof(ModifierMouseButtons)))
-            {
-                if ((gesture.ModifierMouseButtons & button) != ModifierMouseButtons.None)
-                {
-                    text += "+" + button.ToString();
-                }
-            }
-
-            text += "+" + gesture.MouseWheelAction;
-
-            return text.TrimStart('+');
-        }
-    }
 }

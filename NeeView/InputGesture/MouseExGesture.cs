@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,22 +6,6 @@ using System.Windows.Input;
 
 namespace NeeView
 {
-    // 拡張マウスアクション
-    public enum MouseExAction
-    {
-        None,
-        LeftClick,
-        RightClick,
-        MiddleClick,
-        WheelClick,
-        LeftDoubleClick,
-        RightDoubleClick,
-        MiddleDoubleClick,
-        XButton1Click,
-        XButton1DoubleClick,
-        XButton2Click,
-        XButton2DoubleClick,
-    }
 
     /// <summary>
     /// 拡張マウスアクション
@@ -60,15 +43,19 @@ namespace NeeView
                 case MouseButton.Left:
                     action = mouseEventArgs.ClickCount >= 2 ? MouseExAction.LeftDoubleClick : MouseExAction.LeftClick;
                     break;
+
                 case MouseButton.Right:
                     action = mouseEventArgs.ClickCount >= 2 ? MouseExAction.RightDoubleClick : MouseExAction.RightClick;
                     break;
+
                 case MouseButton.Middle:
                     action = mouseEventArgs.ClickCount >= 2 ? MouseExAction.MiddleDoubleClick : MouseExAction.MiddleClick;
                     break;
+
                 case MouseButton.XButton1:
                     action = mouseEventArgs.ClickCount >= 2 ? MouseExAction.XButton1DoubleClick : MouseExAction.XButton1Click;
                     break;
+
                 case MouseButton.XButton2:
                     action = mouseEventArgs.ClickCount >= 2 ? MouseExAction.XButton2DoubleClick : MouseExAction.XButton2Click;
                     break;
@@ -89,85 +76,6 @@ namespace NeeView
                 modifierMouseButtons |= ModifierMouseButtons.XButton2;
 
             return this.MouseExAction == action && this.ModifierMouseButtons == modifierMouseButtons && ModifierKeys == Keyboard.Modifiers;
-        }
-    }
-
-
-    /// <summary>
-    /// 拡張マウスアクション コンバータ
-    /// </summary>
-    public class MouseGestureExConverter
-    {
-        /// <summary>
-        ///  文字列から拡張マウスアクションに変換する
-        /// </summary>
-        /// <param name="source">ジェスチャ文字列</param>
-        /// <returns>MouseExGesture。変換に失敗したときは NotSupportedException 例外が発生</returns>
-        public MouseExGesture ConvertFromString(string source)
-        {
-            var keys = source.Split('+');
-
-            MouseExAction action = MouseExAction.None;
-            ModifierKeys modifierKeys = ModifierKeys.None;
-            ModifierMouseButtons modifierMouseButtons = ModifierMouseButtons.None;
-
-            if (!Enum.TryParse(keys.Last(), out action))
-            {
-                throw new NotSupportedException(string.Format(Properties.Resources.ExceptionNotSupportedKey, source, "MouseExGesture"));
-            }
-
-            for (int i = 0; i < keys.Length - 1; ++i)
-            {
-                var key = keys[i];
-                if (key == "Ctrl") key = "Control";
-
-                ModifierKeys modifierKeysOne;
-                if (Enum.TryParse<ModifierKeys>(key, out modifierKeysOne))
-                {
-                    modifierKeys |= modifierKeysOne;
-                    continue;
-                }
-
-                ModifierMouseButtons modifierMouseButtonsOne;
-                if (Enum.TryParse<ModifierMouseButtons>(key, out modifierMouseButtonsOne))
-                {
-                    modifierMouseButtons |= modifierMouseButtonsOne;
-                    continue;
-                }
-
-                throw new NotSupportedException(string.Format(Properties.Resources.ExceptionNotSupportedKey, source, "MouseExGesture"));
-            }
-
-            return new MouseExGesture(action, modifierKeys, modifierMouseButtons);
-        }
-
-
-        /// <summary>
-        ///  拡張マウスアクションから文字列に変換する
-        /// </summary>
-        public string ConvertToString(MouseExGesture gesture)
-        {
-            string text = "";
-
-            foreach (ModifierKeys key in Enum.GetValues(typeof(ModifierKeys)))
-            {
-                if ((gesture.ModifierKeys & key) != ModifierKeys.None)
-                {
-                    text += "+" + ((key == ModifierKeys.Control) ? "Ctrl" : key.ToString());
-                }
-            }
-
-            foreach (ModifierMouseButtons button in Enum.GetValues(typeof(ModifierMouseButtons)))
-            {
-                if ((gesture.ModifierMouseButtons & button) != ModifierMouseButtons.None)
-                {
-                    text += "+" + button.ToString();
-                }
-            }
-
-            text += "+" + gesture.MouseExAction;
-
-            return text.TrimStart('+');
         }
     }
 }

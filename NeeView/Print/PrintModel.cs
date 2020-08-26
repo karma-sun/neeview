@@ -224,7 +224,7 @@ namespace NeeView
         /// Print Dialog
         /// </summary>
         private PrintDialog _printDialog;
-        
+
         /// <summary>
         /// 印刷領域サイズ
         /// </summary>
@@ -286,6 +286,7 @@ namespace NeeView
             PageOrientation = _printDialog.PrintTicket.PageOrientation ?? PageOrientation.Unknown;
 
             // 用紙の印刷可能領域
+            // NOTE: ドライバによってはnullになる可能性がある
             _area = _printDialog.PrintQueue.GetPrintCapabilities().PageImageableArea;
             ////Debug.WriteLine($"Origin: {_area.OriginWidth}x{_area.OriginHeight}");
             ////Debug.WriteLine($"Extent: {_area.ExtentWidth}x{_area.ExtentHeight}");
@@ -351,21 +352,25 @@ namespace NeeView
         /// </summary>
         private void UpdateImageableArea()
         {
-            bool isLandspace = PageOrientation == PageOrientation.Landscape;
-            double originWidth = isLandspace ? _area.OriginHeight : _area.OriginWidth;
-            double originHeight = isLandspace ? _area.OriginWidth : _area.OriginHeight;
-            double extentWidth = isLandspace ? _area.ExtentHeight : _area.ExtentWidth;
-            double extentHeight = isLandspace ? _area.ExtentWidth : _area.ExtentHeight;
-
-            double printWidth = extentWidth * Columns;
-            double printHeight = extentHeight * Rows;
-
-            // 既定の余白
             var margin = new Margin();
-            margin.Left = originWidth;
-            margin.Right = _printableAreaWidth - extentWidth - originWidth;
-            margin.Top = originHeight;
-            margin.Bottom = _printableAreaHeight - extentHeight - originHeight;
+
+            if (_area != null)
+            {
+                bool isLandspace = PageOrientation == PageOrientation.Landscape;
+                double originWidth = isLandspace ? _area.OriginHeight : _area.OriginWidth;
+                double originHeight = isLandspace ? _area.OriginWidth : _area.OriginHeight;
+                double extentWidth = isLandspace ? _area.ExtentHeight : _area.ExtentWidth;
+                double extentHeight = isLandspace ? _area.ExtentWidth : _area.ExtentHeight;
+
+                double printWidth = extentWidth * Columns;
+                double printHeight = extentHeight * Rows;
+
+                // 既定の余白
+                margin.Left = originWidth;
+                margin.Right = _printableAreaWidth - extentWidth - originWidth;
+                margin.Top = originHeight;
+                margin.Bottom = _printableAreaHeight - extentHeight - originHeight;
+            }
 
             // 余白補正
             margin.Left = Math.Max(0, margin.Left + MillimeterToPixel(Margin.Left));

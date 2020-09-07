@@ -13,31 +13,25 @@ namespace NeeView
         static PageSelector() => Current = new PageSelector();
         public static PageSelector Current { get; }
 
-        #region Fields
 
         private int _selectedIndex;
 
-        #endregion
-
-        #region Constructors
 
         private PageSelector()
         {
+            BookOperation.Current.BookChanging += BookOperation_BookChanging;
+            BookOperation.Current.BookChanged += BookOperation_BookChanged;
             BookOperation.Current.PageListChanged += BookOperation_PageListChanged;
             BookOperation.Current.ViewContentsChanged += BookOperation_ViewContentsChanged;
         }
 
-        #endregion
 
-        #region Events
-
+        // NOTE: ChangingとChangedは必ずしもペアではない
+        public event EventHandler CollectionChanging;
+        public event EventHandler CollectionChanged;
         public event EventHandler SelectionChanged;
-
         public event EventHandler<ViewContentsChangedEventArgs> ViewContentsChanged;
 
-        #endregion
-
-        #region Properties
 
         public int MaxIndex => BookOperation.Current.GetMaxPageIndex();
 
@@ -55,9 +49,6 @@ namespace NeeView
             }
         }
 
-        #endregion
-
-        #region Methods
 
         internal void FlushSelectedIndex(object sender)
         {
@@ -89,8 +80,19 @@ namespace NeeView
             BookOperation.Current.RequestPageIndex(sender, _selectedIndex);
         }
 
+        private void BookOperation_BookChanging(object sender, BookChangingEventArgs e)
+        {
+            CollectionChanging?.Invoke(this, null);
+        }
+
+        private void BookOperation_BookChanged(object sender, BookChangedEventArgs e)
+        {
+            // NOTE: PageListChangedイベントで処理
+        }
+
         private void BookOperation_PageListChanged(object sender, EventArgs e)
         {
+            CollectionChanged?.Invoke(this, null);
             RaisePropertyChanged(nameof(MaxIndex));
             RaiseViewContentsChanged(sender, BookOperation.Current.Book?.Viewer.ViewPageCollection, true);
         }
@@ -114,8 +116,6 @@ namespace NeeView
                 SelectionChanged?.Invoke(sender, null);
             }
         }
-
-        #endregion
     }
 
 

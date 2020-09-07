@@ -77,8 +77,9 @@ namespace NeeView
             this.Source.VisibleElement = this;
 
             _vm = new ThumbnailListViewModel(this.Source);
-            _vm.Model.BookChanging += ThumbnailList_BookChanging;
-            _vm.Model.BookChanged += ThumbnailList_BookChanged;
+
+            _vm.Model.CollectionChanging += ThumbnailList_CollectionChanging;
+            _vm.Model.CollectionChanged += ThumbnailList_CollectionChanged;
             _vm.Model.ViewItemsChanged += ViewModel_ViewItemsChanged;
             _vm.Model.AddPropertyChanged(nameof(_vm.Model.SelectedIndex), ViewModel_SelectedIdexChanged);
 
@@ -87,12 +88,12 @@ namespace NeeView
             this.Root.DataContext = _vm;
         }
 
-        private void ThumbnailList_BookChanging(object sender, EventArgs e)
+        private void ThumbnailList_CollectionChanging(object sender, EventArgs e)
         {
             _isFreezed = true;
         }
 
-        private void ThumbnailList_BookChanged(object sender, BookChangedEventArgs e)
+        private void ThumbnailList_CollectionChanged(object sender, EventArgs e)
         {
             // NOTE: 変更が ThumbnailListBox に反映されるまで遅延
             // HACK: Control.UpdateLayout()で即時確定させる？
@@ -375,18 +376,12 @@ namespace NeeView
 
         private async void ThumbnailListBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            ////if (!(bool)e.NewValue) return;
             LoadThumbnailList(+1);
 
             if ((bool)e.NewValue == true)
             {
                 await Task.Yield();
-
-                if (_vm.Model.IsFocusAtOnce)
-                {
-                    _vm.Model.IsFocusAtOnce = false;
-                    FocusSelectedItem();
-                }
+                FocusSelectedItem();
             }
         }
 
@@ -398,10 +393,12 @@ namespace NeeView
             // 選択項目が表示されるようにスクロール
             this.ThumbnailListBox.ScrollIntoView(this.ThumbnailListBox.SelectedItem);
 
-            if (this.ThumbnailListBox.IsLoaded)
+            // フォーカスを移動
+            if (_vm.Model.IsFocusAtOnce && this.ThumbnailListBox.IsLoaded)
             {
-                ListBoxItem lbi = (ListBoxItem)(this.ThumbnailListBox.ItemContainerGenerator.ContainerFromIndex(this.ThumbnailListBox.SelectedIndex));
-                lbi?.Focus();
+                var listBoxItem = (ListBoxItem)(this.ThumbnailListBox.ItemContainerGenerator.ContainerFromIndex(this.ThumbnailListBox.SelectedIndex));
+                var isFocused = listBoxItem?.Focus();
+                _vm.Model.IsFocusAtOnce = isFocused != true;
             }
         }
 
@@ -442,10 +439,6 @@ namespace NeeView
             }
         }
 
-
-
         #endregion
-
     }
-
 }

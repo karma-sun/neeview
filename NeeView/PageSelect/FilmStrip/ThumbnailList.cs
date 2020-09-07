@@ -38,28 +38,22 @@ namespace NeeView
         static ThumbnailList() => Current = new ThumbnailList();
         public static ThumbnailList Current { get; }
 
-        #region Fields
 
         private bool _isSliderDirectionReversed;
-        public ObservableCollection<Page> _items;
+        private ObservableCollection<Page> _items;
+        private int _selectedIndex;
         private List<Page> _viewItems = new List<Page>();
         private PageThumbnailJobClient _jobClient;
 
-        #endregion
-
-        #region Constructors 
 
         private ThumbnailList()
         {
             _jobClient = new PageThumbnailJobClient("FilmStrip", JobCategories.PageThumbnailCategory);
 
-            BookOperation.Current.BookChanging += BookOperator_BookChanging;
-            BookOperation.Current.BookChanged += BookOperator_BookChanged;
-            BookOperation.Current.PageListChanged += BookOperation_PageListChanged;
-
+            PageSelector.Current.CollectionChanging += PageSelector_CollectionChanging;
+            PageSelector.Current.CollectionChanged += PageSelector_CollectionChanged;
             PageSelector.Current.SelectionChanged += PageSelector_SelectionChanged;
             PageSelector.Current.ViewContentsChanged += PageSelector_ViewContentsChanged;
-
 
             Config.Current.FilmStrip.PropertyChanged += (s, e) =>
             {
@@ -78,18 +72,13 @@ namespace NeeView
             UpdateItems();
         }
 
-        #endregion
 
-        #region Events
-
-        public event EventHandler BookChanging;
-        public event EventHandler<BookChangedEventArgs> BookChanged;
+        public event EventHandler CollectionChanging;
+        public event EventHandler CollectionChanged;
         public event EventHandler<ViewItemsChangedEventArgs> ViewItemsChanged;
         public event EventHandler<VisibleEventArgs> VisibleEvent;
 
-        #endregion
 
-        #region Properties
 
         public IVisibleElement VisibleElement { get; set; }
 
@@ -124,13 +113,21 @@ namespace NeeView
             set { if (_isSliderDirectionReversed != value) { _isSliderDirectionReversed = value; RaisePropertyChanged(); UpdateItems(); } }
         }
 
-        //
         public PageSelector PageSelector => PageSelector.Current;
 
         public ObservableCollection<Page> Items
         {
             get { return _items; }
-            set { if (_items != value) { _items = value; IsItemsDarty = true; RaisePropertyChanged(); } }
+            set
+            {
+                if (_items != value)
+                {
+                    _items = value;
+                    IsItemsDarty = true;
+                    RaisePropertyChanged();
+                    CollectionChanged?.Invoke(this, null);
+                }
+            }
         }
 
         // コレクション切り替え直後はListBoxに反映されない。
@@ -139,12 +136,20 @@ namespace NeeView
 
         public int SelectedIndex
         {
-            get { return GetIndexWithDirectionReverse(PageSelector.Current.SelectedIndex); }
-            set            
+            get
             {
-                if (value >= 0)
+                return _selectedIndex;
+            }
+            set
+            {
+                if (_selectedIndex != value)
                 {
-                    PageSelector.Current.SetSelectedIndex(this, GetIndexWithDirectionReverse(value), true);
+                    _selectedIndex = value;
+                    if (_selectedIndex >= 0)
+                    {
+                        PageSelector.Current.SetSelectedIndex(this, GetIndexWithDirectionReverse(_selectedIndex), true);
+                    }
+                    RaisePropertyChanged();
                 }
             }
         }
@@ -165,7 +170,6 @@ namespace NeeView
             }
         }
 
-        #endregion
 
         #region IDisposable Support
         private bool _disposedValue = false;
@@ -189,12 +193,26 @@ namespace NeeView
         }
         #endregion
 
-        #region Methods
+
+        private void PageSelector_CollectionChanging(object sender, EventArgs e)
+        {
+            // 未処理のサムネイル要求を解除
+            _jobClient.CancelOrder();
+
+            IsItemsDarty = true;
+            CollectionChanging?.Invoke(sender, e);
+        }
+
+        private void PageSelector_CollectionChanged(object sender, EventArgs e)
+        {
+            UpdateItems();
+            RaisePropertyChanged(nameof(ThumbnailListVisibility));
+        }
 
         private void PageSelector_SelectionChanged(object sender, EventArgs e)
         {
             if (sender == this) return;
-            RaisePropertyChanged(nameof(SelectedIndex));
+            UpdateSelectedIndex();
         }
 
         private void PageSelector_ViewContentsChanged(object sender, ViewContentsChangedEventArgs e)
@@ -210,8 +228,7 @@ namespace NeeView
             return Math.Max(-1, IsSliderDirectionReversed ? PageSelector.Current.MaxIndex - value : value);
         }
 
-        //
-        public void UpdateItems()
+        private void UpdateItems()
         {
             if (IsSliderDirectionReversed)
             {
@@ -225,7 +242,12 @@ namespace NeeView
             }
         }
 
-        //
+        // PageSelecterの値でSelectedIndexを更新
+        private void UpdateSelectedIndex()
+        {
+            SelectedIndex = GetIndexWithDirectionReverse(PageSelector.Current.SelectedIndex);
+        }
+
         public void MoveSelectedIndex(int delta)
         {
             int index = SelectedIndex + delta;
@@ -235,13 +257,12 @@ namespace NeeView
                 index = this.Items.Count - 1;
 
             SelectedIndex = index;
-            RaisePropertyChanged(nameof(SelectedIndex));
         }
 
         public void FlushSelectedIndex()
         {
             PageSelector.Current.FlushSelectedIndex(this);
-            RaisePropertyChanged(nameof(SelectedIndex));
+            UpdateSelectedIndex();
         }
 
         public bool SetVisibleThumbnailList(bool isVisible)
@@ -265,27 +286,6 @@ namespace NeeView
         public bool ToggleHideThumbnailList()
         {
             return Config.Current.FilmStrip.IsHideFilmStrip = !Config.Current.FilmStrip.IsHideFilmStrip;
-        }
-
-        // 本が変更される
-        private void BookOperator_BookChanging(object sender, EventArgs e)
-        {
-            // 未処理のサムネイル要求を解除
-            _jobClient.CancelOrder();
-            IsItemsDarty = true;
-            BookChanging?.Invoke(sender, e);
-        }
-
-        // 本が変更された
-        private void BookOperator_BookChanged(object sender, BookChangedEventArgs e)
-        {
-            BookChanged?.Invoke(sender, e);
-        }
-
-        private void BookOperation_PageListChanged(object sender, EventArgs e)
-        {
-            UpdateItems();
-            RaisePropertyChanged(nameof(ThumbnailListVisibility));
         }
 
         // サムネイル要求
@@ -343,7 +343,6 @@ namespace NeeView
             IsFocusAtOnce = true;
         }
 
-        #endregion
 
         #region Memento
         [DataContract]

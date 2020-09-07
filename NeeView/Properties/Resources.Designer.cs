@@ -12225,6 +12225,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Enable IME outside the text box に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsInputMethodEnabled {
+            get {
+                return ResourceManager.GetString("ParamIsInputMethodEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   * It is applied from the next startup. Always valid for text boxes. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsInputMethodEnabledTips {
+            get {
+                return ResourceManager.GetString("ParamIsInputMethodEnabledTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Insert a dummy page に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsInsertDummyPage {

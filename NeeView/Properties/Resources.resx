@@ -5673,4 +5673,10 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="WordExample" xml:space="preserve">
     <value>e.g.</value>
   </data>
+  <data name="ParamIsInputMethodEnabled" xml:space="preserve">
+    <value>Enable IME outside the text box</value>
+  </data>
+  <data name="ParamIsInputMethodEnabledTips" xml:space="preserve">
+    <value>* It is applied from the next startup. Always valid for text boxes.</value>
+  </data>
 </root>

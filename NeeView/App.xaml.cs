@@ -135,7 +135,7 @@ namespace NeeView
         }
 
 
-        /// <summary>
+        /// <summary> 
         /// 初期化 
         /// </summary>
         private async Task InitializeAsync(StartupEventArgs e)
@@ -201,6 +201,13 @@ namespace NeeView
 
             // テンポラリーの場所
             Config.Current.System.TemporaryDirectory = Temporary.Current.SetDirectory(Config.Current.System.TemporaryDirectory);
+
+            // TextBox以外のコントロールのIMEを無効にする
+            if (!Config.Current.System.IsInputMethodEnabled)
+            {
+                InputMethod.IsInputMethodEnabledProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(false));
+                InputMethod.IsInputMethodEnabledProperty.OverrideMetadata(typeof(System.Windows.Controls.TextBox), new FrameworkPropertyMetadata(true));
+            }
         }
 
 

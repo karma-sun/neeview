@@ -25,6 +25,7 @@ namespace NeeView
         private string _downloadPath = "";
         private bool _isOpenbookAtCurrentPlace;
         private bool _isNaturalSortEnabled;
+        private bool _isInputMehotdEnabled;
         private DestinationFolderCollection _destinationFolderCollection = new DestinationFolderCollection();
         private ExternalAppCollection _externalAppCollection = new ExternalAppCollection() { new ExternalApp() };
 
@@ -150,6 +151,15 @@ namespace NeeView
             set { SetProperty(ref _isNaturalSortEnabled, value); }
         }
 
+        // テキストボックス以外でのIME有効 (現状では非公開)
+        [PropertyMember("@ParamIsInputMethodEnabled", Tips = "@ParamIsInputMethodEnabledTips")]
+        public bool IsInputMethodEnabled
+        {
+            get { return _isInputMehotdEnabled; }
+            set { SetProperty(ref _isInputMehotdEnabled, value); }
+        }
+
+
         // コピーまたは移動先フォルダーのリスト
         [PropertyMember("@ParamDestinationFolderCollection")]
         [PropertyMapIgnore]
@@ -169,7 +179,5 @@ namespace NeeView
             get { return _externalAppCollection; }
             set { SetProperty(ref _externalAppCollection, value); }
         }
-
     }
-
 }

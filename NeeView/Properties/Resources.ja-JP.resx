@@ -5673,4 +5673,10 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="WordExample" xml:space="preserve">
     <value>例</value>
   </data>
+  <data name="ParamIsInputMethodEnabled" xml:space="preserve">
+    <value>テキストボックス以外でのIMEを有効にする</value>
+  </data>
+  <data name="ParamIsInputMethodEnabledTips" xml:space="preserve">
+    <value>※次の起動から適用されます。テキストボックスでは常に有効です。</value>
+  </data>
 </root>

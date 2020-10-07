@@ -390,6 +390,12 @@ namespace NeeView
 
             _player.Volume = 0.0;
             _player.Open(uri);
+
+            // NOTE: MP3等、映像がない場合はOpenedイベントが発生しないため、すぐに再生する。
+            if (_player.HasAudio && !_player.HasVideo)
+            {
+                _player.Play();
+            }
         }
 
         public void Play()

@@ -16,6 +16,138 @@ using System.Windows.Interop;
 
 namespace NeeView
 {
+
+    public class WindowPlacement
+    {
+        static WindowPlacement() => Current = new WindowPlacement();
+        public static WindowPlacement Current { get; }
+
+        #region NativeApi
+
+        internal static class NativeMethods
+        {
+            [DllImport("user32.dll")]
+            public static extern bool SetWindowPlacement(IntPtr hWnd, [In] ref WINDOWPLACEMENT lpwndpl);
+
+            [DllImport("user32.dll")]
+            public static extern bool GetWindowPlacement(IntPtr hWnd, out WINDOWPLACEMENT lpwndpl);
+
+            [DllImport("user32.dll", SetLastError = true)]
+            public static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);
+        }
+
+        #endregion
+
+
+        private Window _window;
+
+
+        private WindowPlacement()
+        {
+            _window = MainWindow.Current;
+            _window.SourceInitialized += Window_SourceInitialized;
+            _window.Closing += Window_Closing;
+        }
+
+
+        public bool IsMaximized { get; set; }
+
+
+        private void Window_SourceInitialized(object sender, EventArgs e)
+        {
+            SetPlacement();
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            StorePlacement();
+        }
+
+        private void SetPlacement()
+        {
+            if (Config.Current.Window.Placement.IsValid())
+            {
+                var hwnd = new WindowInteropHelper(_window).Handle;
+                var placement = Config.Current.Window.Placement;
+                placement.Length = Marshal.SizeOf(typeof(WINDOWPLACEMENT));
+                placement.Flags = 0;
+                placement.ShowCmd = IsMaximized ? SW.SHOWMAXIMIZED : SW.SHOWNORMAL;
+
+                placement.normalPosition.Right = placement.normalPosition.Left + (int)(Config.Current.Window.Width * Environment.Dpi.DpiScaleX + 0.5);
+                placement.normalPosition.Bottom = placement.normalPosition.Top + (int)(Config.Current.Window.Height * Environment.Dpi.DpiScaleY + 0.5);
+                ////Debug.WriteLine($">>>> Restore.WIDTH: {placement.normalPosition.Right - placement.normalPosition.Left}, DPI: {Config.Current.Dpi.DpiScaleX}");
+
+                NativeMethods.SetWindowPlacement(hwnd, ref placement);
+            }
+        }
+
+        public void StorePlacement()
+        {
+            var hwnd = new WindowInteropHelper(_window).Handle;
+            if (hwnd == IntPtr.Zero) return;
+
+            NativeMethods.GetWindowPlacement(hwnd, out WINDOWPLACEMENT placement);
+            ////Debug.WriteLine($">>> WindowPlacement: {placement}");
+
+#if false // AeroSnapの座標保存
+            
+            NativeMethods.GetWindowRect(hwnd, out RECT rect);
+            ////Debug.WriteLine($">>> WindowRect: {rect}");
+
+            if (placement.ShowCmd == SW.SHOWNORMAL && !placement.NormalPosition.Equals(rect))
+            {
+                Debug.WriteLine(">>> Window snapped, maybe.");
+                placement.NormalPosition = rect;
+            }
+#endif
+
+            Config.Current.Window.Width = (placement.normalPosition.Right - placement.normalPosition.Left) / Environment.Dpi.DpiScaleX;
+            Config.Current.Window.Height = (placement.normalPosition.Bottom - placement.normalPosition.Top) / Environment.Dpi.DpiScaleY;
+            ////Debug.WriteLine($">>>> Store.WIDTH: {placement.normalPosition.Right - placement.normalPosition.Left}, DPI: {Config.Current.Dpi.DpiScaleX}");
+
+
+            Config.Current.Window.Placement = placement;
+        }
+
+
+        #region Memento
+
+        [DataContract]
+        public class Memento : IMemento
+        {
+            [DataMember]
+            public WINDOWPLACEMENT? Placement { get; set; }
+
+            [DataMember]
+            public double Width { get; set; }
+            [DataMember]
+            public double Height { get; set; }
+
+            public void RestoreConfig(Config config)
+            {
+                config.Window.Placement = Placement ?? default;
+                config.Window.Width = Width;
+                config.Window.Height = Height;
+            }
+        }
+
+        public Memento CreateMemento()
+        {
+            StorePlacement();
+
+            var memento = new Memento();
+            memento.Placement = Config.Current.Window.Placement;
+            memento.Width = Config.Current.Window.Width;
+            memento.Height = Config.Current.Window.Height;
+
+            return memento;
+        }
+
+        #endregion
+    }
+
+
+
     #region Native
 
     [Serializable]
@@ -68,7 +200,30 @@ namespace NeeView
         }
 
         public bool IsValid() => length == Marshal.SizeOf(typeof(WINDOWPLACEMENT));
+
+        public override string ToString()
+        {
+            return $"{ShowCmd},{MinPosition.X},{MinPosition.Y},{MaxPosition.X},{MaxPosition.Y},{NormalPosition.Left},{NormalPosition.Top},{NormalPosition.Right},{NormalPosition.Bottom}";
+        }
+
+        public static WINDOWPLACEMENT Parse(string s)
+        {
+            if (string.IsNullOrWhiteSpace(s)) throw new InvalidCastException();
+
+            var tokens = s.Split(',');
+            if (tokens.Length != 9) throw new InvalidCastException();
+
+            var placement = new WINDOWPLACEMENT();
+            placement.Length = Marshal.SizeOf(typeof(WINDOWPLACEMENT));
+            placement.Flags = 0;
+            placement.ShowCmd = (SW)(Enum.Parse(typeof(SW), tokens[0]));
+            placement.MinPosition = new POINT(int.Parse(tokens[1]), int.Parse(tokens[2]));
+            placement.MaxPosition = new POINT(int.Parse(tokens[3]), int.Parse(tokens[4]));
+            placement.NormalPosition = new RECT(int.Parse(tokens[5]), int.Parse(tokens[6]), int.Parse(tokens[7]), int.Parse(tokens[8]));
+            return placement;
+        }
     }
+
 
     [Serializable]
     [DataContract]
@@ -178,131 +333,5 @@ namespace NeeView
         SHOWDEFAULT = 10,
     }
 
-    #endregion
-
-    /// <summary>
-    /// Window Placement
-    /// </summary>
-    public class WindowPlacement
-    {
-        static WindowPlacement() => Current = new WindowPlacement();
-        public static WindowPlacement Current { get; }
-
-        #region NativeApi
-
-        internal static class NativeMethods
-        {
-            [DllImport("user32.dll")]
-            public static extern bool SetWindowPlacement(IntPtr hWnd, [In] ref WINDOWPLACEMENT lpwndpl);
-
-            [DllImport("user32.dll")]
-            public static extern bool GetWindowPlacement(IntPtr hWnd, out WINDOWPLACEMENT lpwndpl);
-        }
-
-        #endregion
-
-        #region Fields
-
-        private Window _window;
-
-        #endregion
-
-        #region Constructors
-
-        private WindowPlacement()
-        {
-            _window = MainWindow.Current;
-            _window.SourceInitialized += Window_SourceInitialized;
-            _window.Closing += Window_Closing;
-        }
-
-        #endregion
-
-        #region Properties
-
-        public bool IsMaximized { get; set; }
-
-        #endregion
-
-        #region Methods
-
-        private void Window_SourceInitialized(object sender, EventArgs e)
-        {
-            SetPlacement();
-        }
-
-        private void Window_Closing(object sender, CancelEventArgs e)
-        {
-            StorePlacement();
-        }
-
-        private void SetPlacement()
-        {
-            if (Config.Current.Window.Placement.IsValid())
-            {
-                var hwnd = new WindowInteropHelper(_window).Handle;
-                var placement = Config.Current.Window.Placement;
-                placement.Length = Marshal.SizeOf(typeof(WINDOWPLACEMENT));
-                placement.Flags = 0;
-                placement.ShowCmd = IsMaximized ? SW.SHOWMAXIMIZED : SW.SHOWNORMAL;
-
-                placement.normalPosition.Right = placement.normalPosition.Left + (int)(Config.Current.Window.Width * Environment.Dpi.DpiScaleX + 0.5);
-                placement.normalPosition.Bottom = placement.normalPosition.Top + (int)(Config.Current.Window.Height * Environment.Dpi.DpiScaleY + 0.5);
-                //Debug.WriteLine($">>>> Restore.WIDTH: {placement.normalPosition.Right - placement.normalPosition.Left}, DPI: {Config.Current.Dpi.DpiScaleX}");
-
-                NativeMethods.SetWindowPlacement(hwnd, ref placement);
-            }
-        }
-
-        public void StorePlacement()
-        {
-            var hwnd = new WindowInteropHelper(_window).Handle;
-            if (hwnd == IntPtr.Zero) return;
-
-            NativeMethods.GetWindowPlacement(hwnd, out WINDOWPLACEMENT placement);
-
-            Config.Current.Window.Width = (placement.normalPosition.Right - placement.normalPosition.Left) / Environment.Dpi.DpiScaleX;
-            Config.Current.Window.Height = (placement.normalPosition.Bottom - placement.normalPosition.Top) / Environment.Dpi.DpiScaleY;
-            //Debug.WriteLine($">>>> Store.WIDTH: {placement.normalPosition.Right - placement.normalPosition.Left}, DPI: {Config.Current.Dpi.DpiScaleX}");
-
-            Config.Current.Window.Placement = placement;
-        }
-
-        #endregion
-
-        #region Memento
-
-        [DataContract]
-        public class Memento : IMemento
-        {
-            [DataMember]
-            public WINDOWPLACEMENT? Placement { get; set; }
-
-            [DataMember]
-            public double Width { get; set; }
-            [DataMember]
-            public double Height { get; set; }
-
-            public void RestoreConfig(Config config)
-            {
-                config.Window.Placement = Placement ?? default;
-                config.Window.Width = Width;
-                config.Window.Height = Height;
-            }
-        }
-
-        public Memento CreateMemento()
-        {
-            StorePlacement();
-
-            var memento = new Memento();
-            memento.Placement = Config.Current.Window.Placement;
-            memento.Width = Config.Current.Window.Width;
-            memento.Height = Config.Current.Window.Height;
-
-            return memento;
-        }
-
-        #endregion
-    }
+    #endregion Native
 }

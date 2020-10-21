@@ -17,7 +17,7 @@ namespace NeeView.Text
 
         static NaturalComparer()
         {
-             var kanjiOrder = "〇零一壱二弐三参四肆五伍六陸七漆八捌九玖十拾什上前中下後";
+            var kanjiOrder = "〇零一壱二弐三参四肆五伍六陸七漆八捌九玖十拾什上前中下後";
             _kanjiOrderMap = kanjiOrder.Select((e, index) => (e, index)).ToDictionary(e => e.e, e => e.index);
         }
 
@@ -67,9 +67,9 @@ namespace NeeView.Text
                         // 漢数字等を踏まえた漢字の簡易比較
                         if (KanaEmbedded.IsKanji(cx) && KanaEmbedded.IsKanji(cy))
                         {
-                            var kx = _kanjiOrderMap.TryGetValue(cx, out var indexX) ? indexX : cx;
-                            var ky = _kanjiOrderMap.TryGetValue(cy, out var indexY) ? indexY : cy;
-                            return kx - ky;
+                            var kx = _kanjiOrderMap.TryGetValue(cx, out var indexX) ? (char)('あ' + indexX) : cx;
+                            var ky = _kanjiOrderMap.TryGetValue(cy, out var indexY) ? (char)('あ' + indexY) : cy;
+                            return string.Compare(kx.ToString(), ky.ToString());
                         }
 
                         return cx - cy;
@@ -87,7 +87,7 @@ namespace NeeView.Text
             if (yresult) return -1;
 
             Debug.Assert(xresult == false && yresult == false);
-            return string.Compare(x, y, StringComparison.Ordinal);
+            return string.Compare(x, y);
         }
     }
 

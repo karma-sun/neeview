@@ -15,45 +15,40 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NeeView
+namespace NeeView.Windows.Controls
 {
-    /// <summary>
-    /// WindowCaptionボタン
-    /// </summary>
-    public partial class WindowCaptionButtons : UserControl, INotifyPropertyChanged
+    public partial class WindowCaptionButtons : UserControl //, INotifyPropertyChanged
     {
-        /// <summary>
-        /// PropertyChanged event. 
-        /// </summary>
+        /*
+        #region INotifyPropertyChanged Support
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        //
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected bool SetProperty<T>(ref T storage, T value, [System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        {
+            if (object.Equals(storage, value)) return false;
+            storage = value;
+            this.RaisePropertyChanged(propertyName);
+            return true;
+        }
+
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-
-        /// <summary>
-        /// StrokeThickness property.
-        /// </summary>
-        public double StrokeThickness
+        public void AddPropertyChanged(string propertyName, PropertyChangedEventHandler handler)
         {
-            get { return _strokeThickness; }
-            private set { if (_strokeThickness != value) { _strokeThickness = value; RaisePropertyChanged(); } }
+            PropertyChanged += (s, e) => { if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == propertyName) handler?.Invoke(s, e); };
         }
 
-        //
-        private double _strokeThickness = 1;
+        #endregion
+        */
 
-        /// <summary>
-        /// ターゲットWINDOW
-        /// </summary>
         private Window _window;
+        //private double _strokeThickness = 1;
 
-        /// <summary>
-        /// コンストラクター
-        /// </summary>
+
         public WindowCaptionButtons()
         {
             InitializeComponent();
@@ -61,10 +56,37 @@ namespace NeeView
             this.Root.DataContext = this;
         }
 
-        /// <summary>
-        /// 初期化：ウィンドウ状態変化イベントに登録
-        /// </summary>
-        /// <param name="window"></param>
+
+        public bool IsMinimizeEnabled
+        {
+            get { return (bool)GetValue(IsMinimizeEnabledProperty); }
+            set { SetValue(IsMinimizeEnabledProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsMinimizeEnabledProperty =
+            DependencyProperty.Register("IsMinimizeEnabled", typeof(bool), typeof(WindowCaptionButtons), new PropertyMetadata(true));
+
+
+
+        public double StrokeThickness
+        {
+            get { return (double)GetValue(StrokeThicknessProperty); }
+            set { SetValue(StrokeThicknessProperty, value); }
+        }
+
+        public static readonly DependencyProperty StrokeThicknessProperty =
+            DependencyProperty.Register("StrokeThickness", typeof(double), typeof(WindowCaptionButtons), new PropertyMetadata(1.0));
+
+
+#if false
+        public double StrokeThickness
+        {
+            get { return _strokeThickness; }
+            private set { if (_strokeThickness != value) { _strokeThickness = value; /*RaisePropertyChanged();*/ } }
+        }
+#endif
+
+
         public void InitializeWindow(Window window)
         {
             if (window == null) return;
@@ -80,32 +102,18 @@ namespace NeeView
             Window_StateChanged(this, null);
         }
 
-        /// <summary>
-        /// DPI変更処理
-        /// </summary>
-        /// <param name="oldDpi"></param>
-        /// <param name="newDpi"></param>
+
         protected override void OnDpiChanged(DpiScale oldDpi, DpiScale newDpi)
         {
             base.OnDpiChanged(oldDpi, newDpi);
             UpdateStrokeThickness(newDpi);
         }
 
-        /// <summary>
-        /// DPIをStrokeThicknessに反映
-        /// </summary>
-        /// <param name="dpi"></param>
         public void UpdateStrokeThickness(DpiScale dpi)
         {
             StrokeThickness = 1.0 / dpi.DpiScaleX;
         }
 
-        /// <summary>
-        /// ウィンドウ状態変化処理。
-        /// ボタンを変化させる
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void Window_StateChanged(object sender, EventArgs e)
         {
             if (_window == null) return;
@@ -123,5 +131,8 @@ namespace NeeView
                 this.CaptionMaximizeButton.Visibility = Visibility.Visible;
             }
         }
+
+
+
     }
 }

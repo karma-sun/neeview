@@ -109,6 +109,8 @@
   <ItemGroup>
     <ProjectReference Include="..\NeeLaboratory.IO.Search\NeeLaboratory.IO.Search\NeeLaboratory.IO.Search.csproj" />
     <ProjectReference Include="..\NeeLaboratory.Remote\NeeLaboratory.Remote.csproj" />
+    <ProjectReference Include="..\NeeLaboratory.Runtime\NeeLaboratory.Runtime.csproj" />
+    <ProjectReference Include="..\NeeView.Runtime\NeeView.Runtime.csproj" />
     <ProjectReference Include="..\NeeView.Susie\NeeView.Susie.csproj" />
     <ProjectReference Include="..\SevenZipSharp\SevenZip\SevenZip.csproj" />
   </ItemGroup>

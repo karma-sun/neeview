@@ -2,7 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:nwc="clr-namespace:NeeView.Windows.Controls;assembly=NeeView.Runtime"
              xmlns:local="clr-namespace:NeeView"
              mc:Ignorable="d" 
         d:DesignHeight="50" d:DesignWidth="300">
@@ -47,13 +48,13 @@
         </ContentControl>
 
         <DockPanel x:Name="MenuBarArea" LastChildFill="True" Margin="0,0,0,2">
-            <local:WindowCaptionButtons x:Name="WindowCaptionButtons" VerticalAlignment="Top" DockPanel.Dock="Right" WindowChrome.IsHitTestVisibleInChrome="False"
+            <nwc:WindowCaptionButtons x:Name="WindowCaptionButtons" VerticalAlignment="Top" DockPanel.Dock="Right" WindowChrome.IsHitTestVisibleInChrome="False"
                     Foreground="{Binding Foreground, ElementName=ForegroundColorResource}">
-                <local:WindowCaptionButtons.Style>
-                    <Style TargetType="local:WindowCaptionButtons">
+                <nwc:WindowCaptionButtons.Style>
+                    <Style TargetType="nwc:WindowCaptionButtons">
                         <Setter Property="Height" Value="28"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding WindowCaptionEmulator.IsEnabled}" Value="False">
+                            <DataTrigger Binding="{Binding IsCaptionEnabled}" Value="False">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Window.WindowState}" Value="Maximized">
@@ -61,8 +62,8 @@
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
-                </local:WindowCaptionButtons.Style>
-            </local:WindowCaptionButtons>
+                </nwc:WindowCaptionButtons.Style>
+            </nwc:WindowCaptionButtons>
             <Grid x:Name="Watermark" DockPanel.Dock="Right" Background="DarkOrange" Height="18" VerticalAlignment="Top" Visibility="Collapsed">
                     <TextBlock x:Name="WatermarkText" Foreground="White" Margin="10,0" FontSize="14" VerticalAlignment="Center" FontWeight="Normal" Text="Canary 0000"/>
             </Grid>
@@ -72,8 +73,7 @@
                         Foreground="{Binding Foreground, ElementName=ForegroundColorResource}">
                 </ContentControl>
                 <TextBlock x:Name="MenuTitle" Text="{Binding WindowTitle.Title}" VerticalAlignment="Center" HorizontalAlignment="Left" TextTrimming="CharacterEllipsis" Margin="5,0"
-                        FontSize="{x:Static SystemFonts.MessageFontSize}"
-                        Visibility="{Binding WindowCaptionEmulator.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        FontSize="{x:Static SystemFonts.MessageFontSize}" Visibility="{Binding IsCaptionEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
                         Foreground="{Binding Foreground, ElementName=ForegroundColorResource}">
                 </TextBlock>
             </DockPanel>

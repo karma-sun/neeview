@@ -16,7 +16,7 @@ namespace NeeView
     {
         private MenuBar _model;
         private Menu _mainMenu;
-        private WindowCaptionEmulator _windowCaptionEmulator;
+        private MainWindowCaptionEmulator _windowCaptionEmulator;
         private bool _isHighContrast = SystemParameters.HighContrast;
 
 #if DEBUG
@@ -55,11 +55,6 @@ namespace NeeView
         }
 
         public Window Window { get; private set; }
-        public WindowCaptionEmulator WindowCaptionEmulator
-        {
-            get { return _windowCaptionEmulator; }
-            set { if (_windowCaptionEmulator != value) { _windowCaptionEmulator = value; RaisePropertyChanged(); } }
-        }
 
         public Config Config => Config.Current;
 
@@ -74,17 +69,41 @@ namespace NeeView
         }
 
 
+        public bool IsCaptionEnabled
+        {
+            get { return _windowCaptionEmulator.IsEnabled; }
+            set
+            {
+                if (_windowCaptionEmulator.IsEnabled != value)
+                {
+                    _windowCaptionEmulator.IsEnabled = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        private void UpdateCaptionEnabled()
+        {
+            IsCaptionEnabled = !Config.Current.Window.IsCaptionVisible || WindowShape.Current.IsFullScreen;
+        }
+
+
         private void InitializeWindowCaptionEmulator(FrameworkElement control)
         {
             this.Window = System.Windows.Window.GetWindow(control);
 
-            // window caption emulatr
-            this.WindowCaptionEmulator = new WindowCaptionEmulator(Window, control);
-            this.WindowCaptionEmulator.IsEnabled = !Config.Current.Window.IsCaptionVisible || WindowShape.Current.IsFullScreen;
+            _windowCaptionEmulator = new MainWindowCaptionEmulator(Window, control);
+            UpdateCaptionEnabled();
 
-            // IsCaptionVisible か IsFullScreen の変更を監視すべきだが、処理が軽いためプロパティ名の判定をしない
-            WindowShape.Current.PropertyChanged +=
-                (s, e) => this.WindowCaptionEmulator.IsEnabled = !Config.Current.Window.IsCaptionVisible || WindowShape.Current.IsFullScreen;
+            WindowShape.Current.PropertyChanged += WindowShape_PropertyChanged;
+        }
+
+        private void WindowShape_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == nameof(WindowShape.IsFullScreen))
+            {
+                UpdateCaptionEnabled();
+            }
         }
 
         private void InitializeMainMenu()

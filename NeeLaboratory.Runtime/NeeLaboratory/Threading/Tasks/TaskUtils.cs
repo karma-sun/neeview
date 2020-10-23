@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NeeView.Threading.Tasks
+namespace NeeLaboratory.Threading.Tasks
 {
     public static class TaskUtils
     {

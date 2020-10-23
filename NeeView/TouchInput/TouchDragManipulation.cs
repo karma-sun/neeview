@@ -221,7 +221,7 @@ namespace NeeView
             if (deltaAngle > 1.0) speed = speed * 0.0;
             var deltaScale = Math.Abs(_now.Scale - old.Scale);
             if (deltaScale > 0.1) speed = speed * 0.0;
-            _speed = MathUtility.Lerp(_speed, speed * 1.25, 0.25);
+            _speed = VectorExtensions.Lerp(_speed, speed * 1.25, 0.25);
         }
 
 
@@ -271,7 +271,7 @@ namespace NeeView
                 _context.Sender.UpdateLayout();
                 var area = _context.GetArea();
 
-                _now.Trans = MathUtility.Lerp(_now.Trans, area.SnapView(_now.Trans, true), 0.5);
+                _now.Trans = VectorExtensions.Lerp(_now.Trans, area.SnapView(_now.Trans, true), 0.5);
             }
 
             //
@@ -409,4 +409,13 @@ namespace NeeView
 
         #endregion
     }
+
+    public static class VectorExtensions
+    {
+        public static Vector Lerp(Vector v0, Vector v1, double rate)
+        {
+            return v0 + (v1 - v0) * rate;
+        }
+    }
+
 }

@@ -24,6 +24,12 @@
                 <Component Id="cmp05B3CA9AD0E9753C701E1E7030975200" Guid="*">
                     <File Id="fil64F231A6BAB7FE53952BC4E95E2D069E" KeyPath="yes" Source="$(var.LibrariesDir)\NeeLaboratory.Remote.dll" />
                 </Component>
+                <Component Id="cmpE45C2CC38559A91127CB3618B7B66551" Guid="*">
+                    <File Id="fil6F01C0C7FEF38368FCC58DF91E80B165" KeyPath="yes" Source="$(var.LibrariesDir)\NeeLaboratory.Runtime.dll" />
+                </Component>
+                <Component Id="cmpD8855F999F4E0A8D95AB1BA21CBA157E" Guid="*">
+                    <File Id="fil02A137956C7FC2DBCE76F2E0BFE9349C" KeyPath="yes" Source="$(var.LibrariesDir)\NeeView.Runtime.dll" />
+                </Component>
                 <Component Id="cmp13285942DBE347DFB93EF31D850FD9FB" Guid="*">
                     <File Id="filC7975CFA1BA190CB0E0E8D221E30E530" KeyPath="yes" Source="$(var.LibrariesDir)\NeeView.Susie.dll" />
                 </Component>
@@ -141,6 +147,8 @@
             <ComponentRef Id="cmpE97A5E87B83AFC450723829E6A99CE36" />
             <ComponentRef Id="cmp87D07992B45DF95EF217072DE38194C1" />
             <ComponentRef Id="cmp05B3CA9AD0E9753C701E1E7030975200" />
+            <ComponentRef Id="cmpE45C2CC38559A91127CB3618B7B66551" />
+            <ComponentRef Id="cmpD8855F999F4E0A8D95AB1BA21CBA157E" />
             <ComponentRef Id="cmp13285942DBE347DFB93EF31D850FD9FB" />
             <ComponentRef Id="cmpF4ED074744A7D85B596FAD97C2A1E278" />
             <ComponentRef Id="cmp82078E57D47AAEC0771A6750ECCC33BC" />

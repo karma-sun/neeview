@@ -17,37 +17,9 @@ using System.Windows.Shapes;
 
 namespace NeeView.Windows.Controls
 {
-    public partial class WindowCaptionButtons : UserControl //, INotifyPropertyChanged
+    public partial class WindowCaptionButtons : UserControl
     {
-        /*
-        #region INotifyPropertyChanged Support
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected bool SetProperty<T>(ref T storage, T value, [System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
-        {
-            if (object.Equals(storage, value)) return false;
-            storage = value;
-            this.RaisePropertyChanged(propertyName);
-            return true;
-        }
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-        public void AddPropertyChanged(string propertyName, PropertyChangedEventHandler handler)
-        {
-            PropertyChanged += (s, e) => { if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == propertyName) handler?.Invoke(s, e); };
-        }
-
-        #endregion
-        */
-
         private Window _window;
-        //private double _strokeThickness = 1;
-
 
         public WindowCaptionButtons()
         {
@@ -77,14 +49,6 @@ namespace NeeView.Windows.Controls
         public static readonly DependencyProperty StrokeThicknessProperty =
             DependencyProperty.Register("StrokeThickness", typeof(double), typeof(WindowCaptionButtons), new PropertyMetadata(1.0));
 
-
-#if false
-        public double StrokeThickness
-        {
-            get { return _strokeThickness; }
-            private set { if (_strokeThickness != value) { _strokeThickness = value; /*RaisePropertyChanged();*/ } }
-        }
-#endif
 
 
         public void InitializeWindow(Window window)

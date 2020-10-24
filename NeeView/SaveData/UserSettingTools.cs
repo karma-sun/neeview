@@ -21,7 +21,7 @@ namespace NeeView
         public static UserSetting CreateUserSetting()
         {
             // 情報の確定
-            WindowPlacement.Current.StorePlacement();
+            MainWindow.Current.StoreWindowPlacement();
 
             return new UserSetting()
             {

@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Windows;
 
-namespace NeeView.Runtime
+namespace NeeView.Windows
 {
     public static class WindowTools
     {

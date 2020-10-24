@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Windows;
 using NeeView.Windows.Property;
 using System.ComponentModel;
 using System.Windows;
@@ -84,14 +85,12 @@ namespace NeeView
         [PropertyMapIgnore]
         public WindowStateEx LastState { get; set; }
 
+        /// <summary>
+        /// 復元ウィンドウ座標
+        /// </summary>
         [PropertyMapIgnore]
-        public WINDOWPLACEMENT Placement { get; set; }
-
-        [PropertyMapIgnore]
-        public double Width { get; set; } = 640.0;
-        
-        [PropertyMapIgnore]
-        public double Height { get; set; } = 480.0;
+        [ObjectMergeReferenceCopy]
+        public WindowPlacement WindowPlacement { get; set; }
 
         #endregion HiddenParameters
     }

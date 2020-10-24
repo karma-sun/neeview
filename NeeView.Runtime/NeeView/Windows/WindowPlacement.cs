@@ -6,13 +6,13 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Windows;
 
-namespace NeeView.Runtime
+namespace NeeView.Windows
 {
     [ImmutableObject(true)]
     [JsonConverter(typeof(JsonWindowPlaceConverter))]
     public class WindowPlacement
     {
-        public static WindowPlacement Empty { get; } = new WindowPlacement();
+        public static WindowPlacement None { get; } = new WindowPlacement();
 
         public WindowPlacement()
         {
@@ -50,13 +50,13 @@ namespace NeeView.Runtime
 
         public static WindowPlacement Parse(string s)
         {
-            if (string.IsNullOrWhiteSpace(s)) return WindowPlacement.Empty;
+            if (string.IsNullOrWhiteSpace(s)) return WindowPlacement.None;
 
             var tokens = s.Split(',');
             if (tokens.Length != 5)
             {
                 Debug.WriteLine($"WindowPlacement.Parse(): InvalidCast: {s}");
-                return WindowPlacement.Empty;
+                return WindowPlacement.None;
             }
 
             var placement = new WindowPlacement(

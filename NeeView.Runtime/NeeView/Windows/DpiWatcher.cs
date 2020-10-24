@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Windows;
 
-namespace NeeView.Runtime
+namespace NeeView.Windows
 {
     public class DpiWatcher
     {

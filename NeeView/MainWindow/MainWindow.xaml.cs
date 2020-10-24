@@ -1,6 +1,7 @@
 ﻿using NeeView.Data;
 using NeeView.Native;
 using NeeView.Threading;
+using NeeView.Windows;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,7 +21,7 @@ namespace NeeView
     /// <summary>
     /// MainWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IDpiProvider
     {
         public static MainWindow Current { get; private set; }
 
@@ -50,9 +51,8 @@ namespace NeeView
 
             ContextMenuWatcher.Initialize();
 
-            // Window状態初期化、復元
+            // Window状態初期化
             InitializeWindowShapeSnap();
-            InitializeWindowPlacement();
 
             // 固定画像初期化
             Thumbnail.InitializeBasicImages();
@@ -176,21 +176,6 @@ namespace NeeView
             Debug.WriteLine($"App.MainWndow.Initialize.Done: {App.Current.Stopwatch.ElapsedMilliseconds}ms");
         }
 
-
-
-        /// <summary>
-        /// Window座標初期化
-        /// </summary>
-        private void InitializeWindowPlacement()
-        {
-            // 座標を復元しない
-            if (App.Current.Option.IsResetPlacement == SwitchOption.on || !Config.Current.StartUp.IsRestoreWindowPlacement) return;
-
-            // セカンドプロセスはウィンドウ形状を継承しない
-            if (Environment.IsSecondProcess && !Config.Current.StartUp.IsRestoreSecondWindowPlacement) return;
-
-            WindowPlacement.Current.IsMaximized = Config.Current.Window.State == WindowStateEx.Maximized || Config.Current.Window.State == WindowStateEx.FullScreen;
-        }
 
         /// <summary>
         /// Window状態初期設定 
@@ -551,8 +536,45 @@ namespace NeeView
 
         #endregion
 
-        #region ウィンドウイベント処理
+        #region ウィンドウ座標保存
 
+        // ウィンドウ座標保存
+        public void StoreWindowPlacement()
+        {
+            var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
+            if (hwnd == IntPtr.Zero) return;
+
+            try
+            {
+                Config.Current.Window.WindowPlacement = WindowPlacementTools.StoreWindowPlacement(this, true);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        // ウィンドウ座標復元
+        public void RestoreWindowPlacement()
+        {
+            // 座標を復元しない
+            if (App.Current.Option.IsResetPlacement == SwitchOption.on || !Config.Current.StartUp.IsRestoreWindowPlacement) return;
+
+            // セカンドプロセスはウィンドウ形状を継承しない
+            if (Environment.IsSecondProcess && !Config.Current.StartUp.IsRestoreSecondWindowPlacement) return;
+
+            var placement = Config.Current.Window.WindowPlacement;
+            if (placement == null || !placement.IsValid()) return;
+
+            var windowState = (Config.Current.Window.State == WindowStateEx.Maximized || Config.Current.Window.State == WindowStateEx.FullScreen) ? WindowState.Maximized : WindowState.Normal;
+            var newPlacement = new WindowPlacement(windowState, placement.Left, placement.Top, placement.Width, placement.Height);
+
+            WindowPlacementTools.RestoreWindowPlacement(this, newPlacement);
+        }
+
+        #endregion
+
+        #region ウィンドウイベント処理
 
         /// <summary>
         /// マウスボタンUPイベントキャンセル
@@ -577,6 +599,9 @@ namespace NeeView
 
             // NOTE: Chromeの変更を行った場合、Loadedイベントが発生する。WindowPlacementの処理順番に注意
             InitializeWindowShape();
+
+            // ウィンドウ座標の復元
+            RestoreWindowPlacement();
 
             Debug.WriteLine($"App.MainWndow.SourceInitialized.Done: {App.Current.Stopwatch.ElapsedMilliseconds}ms");
         }
@@ -829,6 +854,9 @@ namespace NeeView
             {
                 Setting.SettingWindow.Current.AllowSave = false;
             }
+
+            // ウィンドウ座標の保存
+            StoreWindowPlacement();
         }
 
         private void MainWindow_Closed(object sender, EventArgs e)
@@ -1090,7 +1118,11 @@ namespace NeeView
 
         #endregion
 
+        #region IDpiProvider support
 
+        public DpiScale Dpi => Environment.RawDpi;
+
+        #endregion
 
         #region [開発用]
 

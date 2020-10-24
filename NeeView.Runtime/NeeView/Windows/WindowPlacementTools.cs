@@ -10,7 +10,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 
-namespace NeeView.Runtime
+namespace NeeView.Windows
 {
     // TODO: AeroSnap保存ON/OFFフラグ。WindowPlacementOptionフラグ？
     public static class WindowPlacementTools
@@ -179,37 +179,37 @@ namespace NeeView.Runtime
         #endregion Native
 
 
-        public static WindowPlacement StoreWindowPlacement(Window window)
+        public static WindowPlacement StoreWindowPlacement(Window window, bool withAeroSnap)
         {
             var hwnd = new WindowInteropHelper(window).Handle;
             if (hwnd == IntPtr.Zero) throw new InvalidOperationException();
 
+            if (!(window is IDpiProvider dpiProvider)) throw new ArgumentException($"need window has IDpiProvider.");
+
             NativeMethods.GetWindowPlacement(hwnd, out NativeMethods.WINDOWPLACEMENT raw);
             ////Debug.WriteLine($"> Native.WindowPlacement: {raw}");
 
-#if true 
-            // AeroSnapの座標保存
-            // NOTE: スナップ状態の復元方法が不明なため、現在のウィンドウサイズを通常ウィンドウサイズとして上書きする。
-            NativeMethods.GetWindowRect(hwnd, out NativeMethods.RECT rect);
-            Debug.WriteLine($"> Native.WindowRect: {rect}");
-
-            if (raw.ShowCmd == NativeMethods.SW.SHOWNORMAL && !raw.NormalPosition.Equals(rect))
+            if (withAeroSnap)
             {
-                Debug.WriteLine("> Window snapped, maybe.");
-                raw.NormalPosition = rect;
+                // AeroSnapの座標保存
+                // NOTE: スナップ状態の復元方法が不明なため、現在のウィンドウサイズを通常ウィンドウサイズとして上書きする。
+                NativeMethods.GetWindowRect(hwnd, out NativeMethods.RECT rect);
+                Debug.WriteLine($"> Native.WindowRect: {rect}");
+
+                if (raw.ShowCmd == NativeMethods.SW.SHOWNORMAL && !raw.NormalPosition.Equals(rect))
+                {
+                    Debug.WriteLine("> Window snapped, maybe.");
+                    raw.NormalPosition = rect;
+                }
             }
-#endif
 
             // DPI補正
-            // NOTE: 復元時にWPFがDPIを加味してしまうようで、同じサイズにならない。このため、保存値からDPI要素を取り除いておく。
-            // NOTE: 保存時に計算するのは、復元時にWindowのDPIが取得できていないであることが予想されるため。
-            if (window is IDpiProvider dpiProvider)
-            {
-                var dpi = dpiProvider.Dpi;
-                raw.normalPosition.Right = raw.normalPosition.Left + (int)(raw.normalPosition.Width / dpi.DpiScaleX + 0.5);
-                raw.normalPosition.Bottom = raw.normalPosition.Top + (int)(raw.normalPosition.Height / dpi.DpiScaleY + 0.5);
-                Debug.WriteLine($"> Store.WIDTH: {raw.normalPosition.Width}, DPI: {dpi.DpiScaleX}");
-            }
+            // NOTE: WPFが復元時にDPIを加味してしまうようで、同じサイズにならない。このため、保存値からDPI要素を取り除いておく。
+            // NOTE: 保存時に計算するのは、復元時ではWindowのDPIが取得できていないであることが予想されるため。
+            var dpi = dpiProvider.Dpi;
+            raw.normalPosition.Right = raw.normalPosition.Left + (int)(raw.normalPosition.Width / dpi.DpiScaleX + 0.5);
+            raw.normalPosition.Bottom = raw.normalPosition.Top + (int)(raw.normalPosition.Height / dpi.DpiScaleY + 0.5);
+            Debug.WriteLine($"> Store.WIDTH: {raw.normalPosition.Width}, DPI: {dpi.DpiScaleX}");
 
             return ConvertToWindowPlacement(raw);
         }

@@ -36,8 +36,9 @@ namespace NeeView
         [DataMember]
         public WindowShape.Memento WindowShape { get; set; }
 
-        [DataMember]
-        public WindowPlacement.Memento WindowPlacement { get; set; }
+        // NOTE: 旧WindowPlacementは非互換 (ver38.0)
+        //[DataMember]
+        //public WindowPlacement.Memento WindowPlacement { get; set; }
 
         [DataMember]
         public App.Memento App { get; set; }
@@ -80,7 +81,7 @@ namespace NeeView
         public void RestoreConfig(UserSetting setting)
         {
             App?.RestoreConfig(setting.Config);
-            WindowPlacement?.RestoreConfig(setting.Config);
+            //WindowPlacement?.RestoreConfig(setting.Config);
             WindowShape?.RestoreConfig(setting.Config);
             Memento?.RestoreConfig(setting.Config);
             SusieMemento?.RestoreConfig(setting.Config);

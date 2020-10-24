@@ -387,7 +387,7 @@ namespace NeeView
             setting.WindowShape = WindowShape.Current.CreateMemento();
 
             // ウィンドウ座標保存
-            setting.WindowPlacement = WindowPlacement.Current.CreateMemento();
+            //setting.WindowPlacement = WindowPlacement.Current.CreateMemento();
 
             // 設定をファイルに保存
             try

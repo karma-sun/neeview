@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace NeeView.Runtime
+namespace NeeView.Windows
 {
     public interface IDpiProvider
     {

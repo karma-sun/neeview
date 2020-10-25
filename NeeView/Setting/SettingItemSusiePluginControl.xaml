@@ -6,7 +6,7 @@
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:NeeView.Setting"
              xmlns:susie="clr-namespace:NeeView.Susie;assembly=NeeView.Susie"
-             xmlns:nw="clr-namespace:NeeView.Windows"
+             xmlns:nw="clr-namespace:NeeView.Windows;assembly=NeeView.Runtime"
              xmlns:properties="clr-namespace:NeeView.Properties"
              mc:Ignorable="d" 
              Height="300" d:DesignHeight="300" d:DesignWidth="300">

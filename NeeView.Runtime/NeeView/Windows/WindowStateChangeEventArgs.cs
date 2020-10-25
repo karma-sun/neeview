@@ -9,12 +9,14 @@ namespace NeeView.Windows
         {
         }
 
-        public WindowStateChangeEventArgs(WindowState oldState, WindowState newState)
+        public WindowStateChangeEventArgs(Window window, WindowState oldState, WindowState newState)
         {
+            Window = window;
             OldState = oldState;
             NewState = newState;
         }
 
+        public Window Window { get; set; }
         public WindowState OldState { get; set; }
         public WindowState NewState { get; set; }
     }

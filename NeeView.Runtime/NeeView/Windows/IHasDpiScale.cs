@@ -2,9 +2,9 @@
 
 namespace NeeView.Windows
 {
-    public interface IDpiProvider
+    public interface IHasDpiScale
     {
-        DpiScale Dpi { get; }
+        DpiScale GetDpiScale();
     }
 
 }

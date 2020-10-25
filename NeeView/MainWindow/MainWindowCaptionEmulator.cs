@@ -19,7 +19,6 @@ namespace NeeView
             base.OnMouseLeftButtonDown(sender, e);
         }
 
-
         protected override void OnWindowStateChange(object sender, WindowStateChangeEventArgs e)
         {
             // NOTE: 瞬時に切り替わるようにするため一時的に変更。WindowShapeSelectorで修正される

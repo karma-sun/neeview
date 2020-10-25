@@ -9,7 +9,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
 
-namespace NeeLaboratory.Windows.Media
+namespace NeeView.Windows.Media
 {
     /// <summary>
     /// VisualTreeのユーティリティ

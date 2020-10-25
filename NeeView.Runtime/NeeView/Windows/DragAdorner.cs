@@ -12,7 +12,7 @@ namespace NeeView.Windows
     /// <summary>
     /// ドラッグアドナー
     /// </summary>
-    internal class DragAdorner : Adorner
+    public class DragAdorner : Adorner
     {
         protected UIElement _child;
 

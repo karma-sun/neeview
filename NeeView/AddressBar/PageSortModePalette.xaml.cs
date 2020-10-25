@@ -1,5 +1,4 @@
 ﻿using NeeLaboratory.ComponentModel;
-using NeeLaboratory.Windows.Media;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

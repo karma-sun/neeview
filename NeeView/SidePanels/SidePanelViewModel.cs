@@ -8,9 +8,9 @@ using System.Windows.Threading;
 
 using NeeView.Windows;
 using NeeView.Windows.Data;
+using NeeView.Windows.Media;
 using NeeLaboratory.Windows.Input;
 using NeeLaboratory.ComponentModel;
-using NeeLaboratory.Windows.Media;
 
 namespace NeeView
 {

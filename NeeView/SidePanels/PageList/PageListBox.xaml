@@ -6,7 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
              xmlns:properties="clr-namespace:NeeView.Properties"
-             xmlns:nw="clr-namespace:NeeView.Windows"
+             xmlns:nw="clr-namespace:NeeView.Windows;assembly=NeeView.Runtime"
              xmlns:osc="clr-namespace:OpenSourceControls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"

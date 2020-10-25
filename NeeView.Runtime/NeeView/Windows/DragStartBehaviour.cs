@@ -1,7 +1,7 @@
 ﻿// from https://github.com/takanemu/WPFDragAndDropSample
 
 using Microsoft.Xaml.Behaviors;
-using NeeLaboratory.Windows.Media;
+using NeeView.Windows.Media;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -213,7 +213,21 @@ namespace NeeView.Windows
                     {
                         var root = window.Content as UIElement;
                         var layer = AdornerLayer.GetAdornerLayer(root);
-                        _dragGhost = new DragAdorner(root, (UIElement)sender, 0.5, 0, _dragStartPos);
+
+                        var ghost = (FrameworkElement)sender;
+                        var dragStartPos = _dragStartPos;
+                        if (this.DragDropData is IHasDragGhost hasDragGhost && hasDragGhost.GetDragGhost() != null)
+                        {
+                            ghost = hasDragGhost.GetDragGhost();
+                            var size = new Size(ghost.Width, ghost.Height);
+                            ghost.Measure(size);
+                            ghost.Arrange(new Rect(size));
+                            ghost.UpdateLayout();
+                            var bounds = VisualTreeHelper.GetDescendantBounds(ghost);
+                            dragStartPos = new Point(bounds.Width * 0.5, bounds.Height * 0.5);
+                        }
+
+                        _dragGhost = new DragAdorner(root, ghost, 0.5, 0, dragStartPos);
                         layer.Add(_dragGhost);
 
                         DragDropHook?.BeginDragDrop(sender, this.AssociatedObject, args.Data, args.AllowedEffects);

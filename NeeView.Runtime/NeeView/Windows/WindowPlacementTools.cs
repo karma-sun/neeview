@@ -184,7 +184,7 @@ namespace NeeView.Windows
             var hwnd = new WindowInteropHelper(window).Handle;
             if (hwnd == IntPtr.Zero) throw new InvalidOperationException();
 
-            if (!(window is IDpiProvider dpiProvider)) throw new ArgumentException($"need window has IDpiProvider.");
+            if (!(window is IHasDpiScale dpiProvider)) throw new ArgumentException($"need window has IDpiProvider.");
 
             NativeMethods.GetWindowPlacement(hwnd, out NativeMethods.WINDOWPLACEMENT raw);
             ////Debug.WriteLine($"> Native.WindowPlacement: {raw}");
@@ -206,7 +206,7 @@ namespace NeeView.Windows
             // DPI補正
             // NOTE: WPFが復元時にDPIを加味してしまうようで、同じサイズにならない。このため、保存値からDPI要素を取り除いておく。
             // NOTE: 保存時に計算するのは、復元時ではWindowのDPIが取得できていないであることが予想されるため。
-            var dpi = dpiProvider.Dpi;
+            var dpi = dpiProvider.GetDpiScale();
             raw.normalPosition.Right = raw.normalPosition.Left + (int)(raw.normalPosition.Width / dpi.DpiScaleX + 0.5);
             raw.normalPosition.Bottom = raw.normalPosition.Top + (int)(raw.normalPosition.Height / dpi.DpiScaleY + 0.5);
             Debug.WriteLine($"> Store.WIDTH: {raw.normalPosition.Width}, DPI: {dpi.DpiScaleX}");

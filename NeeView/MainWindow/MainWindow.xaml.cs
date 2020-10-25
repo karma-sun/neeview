@@ -21,7 +21,7 @@ namespace NeeView
     /// <summary>
     /// MainWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class MainWindow : Window, IDpiProvider
+    public partial class MainWindow : Window, IHasDpiScale
     {
         public static MainWindow Current { get; private set; }
 
@@ -1118,9 +1118,12 @@ namespace NeeView
 
         #endregion
 
-        #region IDpiProvider support
+        #region IHasDpiScale support
 
-        public DpiScale Dpi => Environment.RawDpi;
+        public DpiScale GetDpiScale()
+        {
+            return Environment.RawDpi;
+        }
 
         #endregion
 

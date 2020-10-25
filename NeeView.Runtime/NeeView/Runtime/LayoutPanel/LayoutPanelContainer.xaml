@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="NeeView.Runtime.LayoutPanel.LayoutPanelContainer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:nw="clr-namespace:NeeView.Windows"
+             xmlns:local="clr-namespace:NeeView.Runtime.LayoutPanel"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="#1111">
+        <Grid.Resources>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="24" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <DockPanel x:Name="Caption" Grid.Row="0" Background="Transparent" Cursor="Hand">
+            <b:Interaction.Behaviors>
+                <nw:DragStartBehavior AllowedEffects="Move" DragDropData="{Binding LayoutPanel}" />
+            </b:Interaction.Behaviors>
+            <DockPanel.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="F_loating" Command="{Binding OpenPanelWindowCommand}" />
+                    <MenuItem Header="Dock_ing" IsEnabled="False" />
+                    <Separator />
+                    <MenuItem Header="C_lose" Command="{Binding ClosePanelCommand}"/>
+                </ContextMenu>
+            </DockPanel.ContextMenu>
+            <Button DockPanel.Dock="Right" Width="24" Height="24" Command="{Binding ClosePanelCommand}" Cursor="Arrow" BorderThickness="0" Background="Transparent"
+                    Visibility="{Binding ElementName=Caption, Path=IsMouseOver, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Path UseLayoutRounding="True" StrokeThickness="1" Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        Data="M 0,0 L 10,10 M 0,10 L 10,0" Margin="0,0,1,0" />
+            </Button>
+            <TextBlock Text="{Binding LayoutPanel.Title}" FontSize="16" VerticalAlignment="Center" Margin="5,0"/>
+        </DockPanel>
+        <UserControl Grid.Row="1" Content="{Binding LayoutPanel.Content}" />
+    </Grid>
+</UserControl>

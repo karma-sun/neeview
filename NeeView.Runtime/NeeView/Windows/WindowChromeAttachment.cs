@@ -121,7 +121,7 @@ namespace NeeView.Windows
         public void UpdateWindowBorderThickness()
         {
             var chrome = WindowChrome.GetWindowChrome(_window);
-            var dpi = (_window is IDpiProvider dpiProvider) ? dpiProvider.Dpi : default;
+            var dpi = (_window is IHasDpiScale dpiProvider) ? dpiProvider.GetDpiScale() : default;
 
             // TODO: Wndows7 support
 #if false

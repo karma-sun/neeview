@@ -1,6 +1,6 @@
 ﻿// from https://github.com/takanemu/WPFDragAndDropSample
 
-using NeeLaboratory.Windows.Media;
+using NeeView.Windows.Media;
 using System;
 using System.Diagnostics;
 using System.Windows;

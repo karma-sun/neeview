@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
-namespace NeeView.Windows.Controls
+namespace NeeView.Windows
 {
     /// <summary>
     /// ウィンドウキャプションのマウス操作エミュレート
@@ -100,10 +100,10 @@ namespace NeeView.Windows.Controls
                 _window.Left = cursor.X - targetHorizontal;
                 _window.Top = cursor.Y - 8;
 
-                var args = new WindowStateChangeEventArgs(_window.WindowState, WindowState.Normal);
-                OnWindowStateChange(sender, args);
+                var args = new WindowStateChangeEventArgs(_window, _window.WindowState, WindowState.Normal);
+                OnWindowStateChange(this, args);
                 _window.WindowState = WindowState.Normal;
-                OnWindowStateChanged(sender, args);
+                OnWindowStateChanged(this, args);
 
                 if (Mouse.LeftButton == MouseButtonState.Pressed) _window.DragMove();
             }

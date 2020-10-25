@@ -1,6 +1,6 @@
 ﻿// from https://github.com/takanemu/WPFDragAndDropSample
 
-using NeeLaboratory.Windows.Media;
+using NeeView.Windows.Media;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -60,7 +60,7 @@ namespace NeeView.Windows
             }
 
             _element = element;
-            var window = Window.GetWindow(_element) ?? App.Current.MainWindow;
+            var window = Window.GetWindow(_element) ?? Application.Current.MainWindow;
             var root = window.Content as UIElement;
             _layer = AdornerLayer.GetAdornerLayer(root);
             _goast = new DragAdorner(root, _element, 0.5, 0, pos);

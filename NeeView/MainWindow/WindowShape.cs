@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Windows;
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
@@ -71,44 +72,23 @@ namespace NeeView
 
         #endregion
 
-        #region Fields
 
-        /// <summary>
-        /// 管理するWindow
-        /// </summary>
         private Window _window;
-
-        /// <summary>
-        /// 枠なしChrome
-        /// </summary>
-        private WindowChrome _chrome;
-
-        /// <summary>
-        /// 直前の状態
-        /// </summary>
         private WindowStateEx _oldState;
         private WindowStateEx _nowState;
         private WindowStateEx _nextState;
         private Thickness _windowBorderThickness;
         private bool _isFullScreen;
-        private WindowChrome _windowChrome;
         private bool _isEnabled;
         private bool _isProcessing;
+        private MainWindowChromeAccessor _windowChromeAccessor;
 
-        #endregion
-
-        #region Constructors
 
         private WindowShape()
         {
             _window = MainWindow.Current;
 
-            // キャプション非表示時に適用するChrome
-            _chrome = new WindowChrome();
-            _chrome.CornerRadius = new CornerRadius();
-            _chrome.UseAeroCaptionButtons = false;
-            _chrome.CaptionHeight = 0;
-            _chrome.GlassFrameThickness = new Thickness(1);
+            _windowChromeAccessor = new MainWindowChromeAccessor(_window);
 
             Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.WindowChromeFrame), (s, e) =>
             {
@@ -123,11 +103,6 @@ namespace NeeView
             Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.IsTopmost), (s, e) =>
             {
                 _window.Topmost = Config.Current.Window.IsTopmost;
-            });
-
-            Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.MaximizeWindowGapWidth), (s, e) =>
-            {
-                UpdateWindowBorderThickness();
             });
 
             Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.State), (s, e) =>
@@ -164,26 +139,16 @@ namespace NeeView
             }
         }
 
-        #endregion
 
-        #region Events
 
-        /// <summary>
-        /// 状態変更イベント
-        /// </summary>
         public event EventHandler StateChanged;
 
-        #endregion
 
-        #region Properties
 
         public WindowStateEx OldWindowState => _oldState;
 
         public WindowStateEx NextWindowState => _nextState;
 
-        /// <summary>
-        /// WindowBorderThickness property.
-        /// </summary>
         public Thickness WindowBorderThickness
         {
             get { return _windowBorderThickness; }
@@ -195,9 +160,6 @@ namespace NeeView
             get => Config.Current.Window.IsCaptionVisible && !IsFullScreen;
         }
 
-        /// <summary>
-        /// IsFullScreen property.
-        /// </summary>
         public bool IsFullScreen
         {
             get { return _isFullScreen; }
@@ -210,35 +172,11 @@ namespace NeeView
             }
         }
 
-        /// <summary>
-        /// 現在のWindowChrome
-        /// </summary>
-        public WindowChrome WindowChrome
-        {
-            get { return _windowChrome; }
-            private set
-            {
-                if (_windowChrome != value)
-                {
-                    _windowChrome = value;
-                    WindowChrome.SetWindowChrome(_window, _windowChrome);
-                    SetHook();
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        /// <summary>
-        /// 処理中
-        /// </summary>
         public bool IsProcessing
         {
             get { return _isProcessing; }
         }
 
-        /// <summary>
-        /// IsEnabled property.
-        /// </summary>
         public bool IsEnabled
         {
             get { return _isEnabled; }
@@ -251,9 +189,7 @@ namespace NeeView
             }
         }
 
-        #endregion
 
-        #region Methods
 
         /// <summary>
         /// ウィンドウ状態イベントの初期設定
@@ -266,8 +202,6 @@ namespace NeeView
         /// <summary>
         /// ウィンドウ状態イベント処理
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void Window_StateChanged(object sender, EventArgs e)
         {
             if (!this.IsEnabled) return;
@@ -292,46 +226,35 @@ namespace NeeView
             }
         }
 
-        //
         public void UpdateWindowBorderThickness()
         {
-            if (Environment.IsWindows7 && Config.Current.Window.WindowChromeFrame == WindowChromeFrame.WindowFrame && this.WindowChrome != null && _window.WindowState != WindowState.Maximized)
+            // NOTE: Windows7 only
+            if (!Environment.IsWindows7) return;
+            var dipScale = (_window is IHasDpiScale hasDpiScale) ? hasDpiScale.GetDpiScale() : new DpiScale(1.0, 1.0);
+
+            if (_windowChromeAccessor.IsEnabled && _window.WindowState != WindowState.Maximized && Config.Current.Window.WindowChromeFrame == WindowChromeFrame.WindowFrame)
             {
-                var x = 1.0 / Environment.RawDpi.DpiScaleX;
-                var y = 1.0 / Environment.RawDpi.DpiScaleY;
+                var x = 1.0 / dipScale.DpiScaleX;
+                var y = 1.0 / dipScale.DpiScaleY;
                 this.WindowBorderThickness = new Thickness(x, y, x, y);
             }
             else
             {
                 this.WindowBorderThickness = default;
             }
-
-            if (_windowChrome != null && _window.WindowState == WindowState.Maximized)
-            {
-                var x = Config.Current.Window.MaximizeWindowGapWidth / Environment.RawDpi.DpiScaleX;
-                var y = Config.Current.Window.MaximizeWindowGapWidth / Environment.RawDpi.DpiScaleY;
-                _window.BorderThickness = new Thickness(x, y, x, y);
-            }
-            else
-            {
-                _window.BorderThickness = default;
-            }
         }
 
-        //
         public void ToggleCaptionVisible()
         {
             Config.Current.Window.IsCaptionVisible = !Config.Current.Window.IsCaptionVisible;
         }
 
-        //
         public bool ToggleTopmost()
         {
             Config.Current.Window.IsTopmost = !Config.Current.Window.IsTopmost;
             return Config.Current.Window.IsTopmost;
         }
 
-        //
         public void ToggleFullScreen()
         {
             SetFullScreen(!IsFullScreen);
@@ -587,20 +510,12 @@ namespace NeeView
         {
             if (Config.Current.Window.IsCaptionVisible)
             {
-                this.WindowChrome = null;
+                _windowChromeAccessor.IsEnabled = false;
             }
             else
             {
-                if (isGlassFrameEnabled && Config.Current.Window.WindowChromeFrame != WindowChromeFrame.None)
-                {
-                    _chrome.GlassFrameThickness = new Thickness(1);
-                }
-                else
-                {
-                    _chrome.GlassFrameThickness = new Thickness(0);
-                }
-
-                this.WindowChrome = _chrome;
+                _windowChromeAccessor.UpdateGlassFrameThickness(isGlassFrameEnabled);
+                _windowChromeAccessor.IsEnabled = true;
             }
         }
 
@@ -609,7 +524,7 @@ namespace NeeView
         /// </summary>
         private void ResetWindowChrome()
         {
-            this.WindowChrome = null;
+            _windowChromeAccessor.IsEnabled = false;
         }
 
         /// <summary>
@@ -628,35 +543,6 @@ namespace NeeView
             RaisePropertyChanged(null);
         }
 
-        public void SetHook()
-        {
-            HwndSource hwnd = (HwndSource)PresentationSource.FromVisual(_window);
-            if (hwnd == null) return;
-            Debug.WriteLine($"SetHook {hwnd.Handle}");
-            hwnd.RemoveHook(HookProc);
-            hwnd.AddHook(HookProc);
-        }
-
-        private IntPtr HookProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
-        {
-            if (msg == 0x0084 /*WM_NCHITTEST*/ )
-            {
-                // This prevents a crash in WindowChromeWorker._HandleNCHitTest
-                try
-                {
-                    var x = lParam.ToInt32();
-                    ////DebugInfo.Current?.SetMessage($"WM_NCHITTEST.LPARAM: {x:#,0}");
-                    ////Debug.WriteLine($"{x:#,0}");
-                }
-                catch (OverflowException)
-                {
-                    handled = true;
-                }
-            }
-            return IntPtr.Zero;
-        }
-
-        #endregion
 
         #region Memento
         [DataContract]
@@ -719,5 +605,4 @@ namespace NeeView
 
         #endregion
     }
-
 }

@@ -595,8 +595,6 @@ namespace NeeView
         {
             Debug.WriteLine($"App.MainWndow.SourceInitialized: {App.Current.Stopwatch.ElapsedMilliseconds}ms");
 
-            WindowShape.Current.SetHook();
-
             // NOTE: Chromeの変更を行った場合、Loadedイベントが発生する。WindowPlacementの処理順番に注意
             InitializeWindowShape();
 

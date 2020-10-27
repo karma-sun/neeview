@@ -8,7 +8,7 @@ using System.Windows.Shell;
 
 namespace NeeView.Windows
 {
-    public class WindowChromeAttachment : INotifyPropertyChanged
+    public class WindowChromeAccessor : INotifyPropertyChanged
     {
         #region INotifyPropertyChanged Support
 
@@ -40,7 +40,7 @@ namespace NeeView.Windows
         private bool _isEnabled;
 
 
-        public WindowChromeAttachment(Window window)
+        public WindowChromeAccessor(Window window)
         {
             _window = window;
 
@@ -50,21 +50,21 @@ namespace NeeView.Windows
             _windowChrome.CaptionHeight = 0;
             _windowChrome.GlassFrameThickness = new Thickness(1);
 
-            // TODO: Config.Current.Window.WindowChromeFrame によるGlassFrameThicknessの変化
-#if false
-                if (isGlassFrameEnabled && Config.Current.Window.WindowChromeFrame != WindowChromeFrame.None)
-                {
-                    _chrome.GlassFrameThickness = new Thickness(1);
-                }
-                else
-                {
-                    _chrome.GlassFrameThickness = new Thickness(0);
-                }
-#endif
-
             _window.StateChanged += Window_StateChanged;
+
+            /*
+            if (GetHwndSource() != null)
+            {
+                AttachWindowChromeExceptionGuard();
+            }
+            else
+            {
+                _window.SourceInitialized += (s, e) => AttachWindowChromeExceptionGuard();
+            }
+            */
         }
 
+        public Window Window => _window;
 
         public WindowChrome WindowChrome => _windowChrome;
 
@@ -78,7 +78,7 @@ namespace NeeView.Windows
                 {
                     WindowChrome.SetWindowChrome(_window, _isEnabled ? _windowChrome : null);
                     UpdateWindowBorderThickness();
-                    UpdateWindowChromeExceptionGuard();
+                    AttachWindowChromeExceptionGuard();
                 }
             }
         }
@@ -123,9 +123,9 @@ namespace NeeView.Windows
             var chrome = WindowChrome.GetWindowChrome(_window);
             var dpi = (_window is IHasDpiScale dpiProvider) ? dpiProvider.GetDpiScale() : default;
 
-            // TODO: Wndows7 support
 #if false
-            if (Environment.IsWindows7 && Config.Current.Window.WindowChromeFrame == WindowChromeFrame.WindowFrame && _windowChrome != null && _window.WindowState != WindowState.Maximized)
+            // TODO: Wndows7 support
+            if (_isEnabled && _window.WindowState != WindowState.Maximized && Environment.IsWindows7 && Config.Current.Window.WindowChromeFrame == WindowChromeFrame.WindowFrame)
             {
                 var x = 1.0 / dpi.DpiScaleX;
                 var y = 1.0 / dpi.DpiScaleY;
@@ -136,9 +136,6 @@ namespace NeeView.Windows
                 this.WindowBorderThickness = default;
             }
 #endif
-
-
-
 
             if (_isEnabled && _window.WindowState == WindowState.Maximized)
             {
@@ -154,13 +151,18 @@ namespace NeeView.Windows
 
 
 
-        #region Hotfix: Overflow exception in WindowChrome
+#region Hotfix: Overflow exception in WindowChrome
 
         // https://developercommunity.visualstudio.com/content/problem/167357/overflow-exception-in-windowchrome.html?childToView=1209945#comment-1209945 
 
-        private void UpdateWindowChromeExceptionGuard()
+        private HwndSource GetHwndSource()
         {
-            HwndSource hwnd = (HwndSource)PresentationSource.FromVisual(_window);
+            return (HwndSource)PresentationSource.FromVisual(_window);
+        }
+
+        private void AttachWindowChromeExceptionGuard()
+        {
+            HwndSource hwnd = GetHwndSource();
             if (hwnd == null) return;
             Debug.WriteLine($"SetHook {hwnd.Handle}");
             hwnd.RemoveHook(HookProc);
@@ -186,7 +188,7 @@ namespace NeeView.Windows
             return IntPtr.Zero;
         }
 
-        #endregion
+#endregion
     }
 
 

@@ -1,10 +1,11 @@
-﻿using NeeView.Data;
+﻿using NeeView.Runtime.LayoutPanel;
 using NeeView.Text.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
@@ -23,6 +24,7 @@ namespace NeeView
         {
             // 情報の確定
             MainWindow.Current.StoreWindowPlacement();
+            MainLayoutPanelManager.Current.Store();
 
             return new UserSetting()
             {
@@ -109,6 +111,7 @@ namespace NeeView
 
     public static class UserSettingExcentions
     {
+#pragma warning disable CS0612 // 型またはメンバーが旧型式です
         // 互換性処理
         public static UserSetting Validate(this UserSetting self)
         {
@@ -123,10 +126,61 @@ namespace NeeView
                     command.ValidateShortCutKey();
                 }
                 Debug.WriteLine($"ValidateShortCutKey done.");
+
+                Debug.WriteLine($"PanelLayout...");
+                if (self.Config.Panels.PanelDocks != null)
+                {
+
+                    var layout = new LayoutPanelManager.Memento();
+                    layout.Panels = self.Config.Panels.PanelDocks.Keys.ToDictionary(e => e, e => LayoutPanel.Memento.Default);
+
+                    layout.Docks = new Dictionary<string, LayoutDockPanelContent.Memento>();
+                    layout.Docks.Add("Left", new LayoutDockPanelContent.Memento()
+                    {
+                        Panels = self.Config.Panels.PanelDocks.Where(e => e.Value == PanelDock.Left).Select(e => e.Key).Select(e => new List<string> { e }).ToList(),
+                        SelectedItem = self.Config.Panels.LeftPanelSeleted,
+                    });
+                    layout.Docks.Add("Right", new LayoutDockPanelContent.Memento()
+                    {
+                        Panels = self.Config.Panels.PanelDocks.Where(e => e.Value == PanelDock.Right).Select(e => e.Key).Select(e => new List<string> { e }).ToList(),
+                        SelectedItem = self.Config.Panels.RightPanelSeleted,
+                    });
+
+#if false // ページリストの本棚一体化設定は継承しない
+                    const string pageListPanelName = "PageListPanel";
+                    const string folderPanelName = "FolderPanel";
+
+                    if (self.Config.Bookshelf.IsPageListDocked)
+                    {
+                        foreach (var dock in layout.Docks.Values)
+                        {
+                            dock.Panels.RemoveAll(e => e.First() == pageListPanelName);
+
+                            var bookshelf = dock.Panels.FirstOrDefault(e => e.First() == folderPanelName);
+                            bookshelf?.Add(pageListPanelName);
+                        }
+
+                        var folderListPane = layout.Panels.FirstOrDefault(e => e.Key == folderPanelName);
+                        if (folderListPane.Key != null)
+                        {
+                            folderListPane.Value.GridLength = self.Config.Bookshelf.GridLength0;
+                        }
+
+                        var pageListPanel = layout.Panels.FirstOrDefault(e => e.Key == pageListPanelName);
+                        if (pageListPanel.Key != null)
+                        {
+                            pageListPanel.Value.GridLength = self.Config.Bookshelf.GridLength2;
+                        }
+                    }
+#endif
+                    self.Config.Panels.Layout = layout;
+                }
+                Debug.WriteLine($"PanelLayout done");
             }
 
             return self;
         }
+#pragma warning restore CS0612 // 型またはメンバーが旧型式です
     }
 
 

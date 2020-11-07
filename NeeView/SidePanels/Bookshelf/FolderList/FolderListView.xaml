@@ -112,15 +112,17 @@
     </UserControl.Resources>
 
 
-    <DockPanel x:Name="DockPanel" Margin="0,5,0,0" IsVisibleChanged="FolderListView_IsVisibleChanged">
+    <DockPanel x:Name="DockPanel" Margin="0,0,0,0" IsVisibleChanged="FolderListView_IsVisibleChanged" Background="Transparent" KeyDown="Root_KeyDown">
 
-        <StackPanel DockPanel.Dock="Top" Margin="5">
+        <StackPanel DockPanel.Dock="Top">
 
             <StackPanel Margin="0" HorizontalAlignment="Stretch">
+                <!--
                 <StackPanel Orientation="Horizontal" Margin="0,5">
                     <Image Style="{StaticResource PanelTitleIconStyle}" Source="{StaticResource ic_bookshelf}" Width="12" Height="12" VerticalAlignment="Center" Margin="2,2,4,2" />
                     <TextBlock Style="{StaticResource PanelTitleTextStyle}" Text="{x:Static properties:Resources.WordBookshelf}" />
                 </StackPanel>
+                -->
                 <Grid x:Name="PlaceGrid">
                     <DockPanel>
 

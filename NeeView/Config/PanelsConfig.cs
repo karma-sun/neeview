@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Runtime.LayoutPanel;
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
@@ -156,6 +157,7 @@ namespace NeeView
 
         #region HiddenParameters
 
+        [Obsolete]
         [PropertyMapIgnore]
         [ObjectMergeReferenceCopy]
         public Dictionary<string, PanelDock> PanelDocks
@@ -164,6 +166,7 @@ namespace NeeView
             set { SetProperty(ref _panelDocks, value ?? new Dictionary<string, PanelDock>()); }
         }
 
+        [Obsolete]
         [PropertyMapIgnore]
         [ObjectMergeIgnore]
         public string LeftPanelSeleted { get; set; }
@@ -172,6 +175,7 @@ namespace NeeView
         [ObjectMergeIgnore]
         public double LeftPanelWidth { get; set; } = 300.0;
 
+        [Obsolete]
         [PropertyMapIgnore]
         [ObjectMergeIgnore]
         public string RightPanelSeleted { get; set; }
@@ -179,6 +183,12 @@ namespace NeeView
         [PropertyMapIgnore]
         [ObjectMergeIgnore]
         public double RightPanelWidth { get; set; } = 300.0;
+
+
+        // ver 38
+        [PropertyMapIgnore]
+        [ObjectMergeReferenceCopy]
+        public LayoutPanelManager.Memento Layout { get; set; }
 
         #endregion HiddenParameters
     }

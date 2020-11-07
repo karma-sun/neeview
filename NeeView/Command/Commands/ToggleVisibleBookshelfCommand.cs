@@ -18,12 +18,12 @@ namespace NeeView
 
         public override Binding CreateIsCheckedBinding()
         {
-            return new Binding(nameof(SidePanel.IsVisibleFolderList)) { Source = SidePanel.Current };
+            return new Binding(nameof(SidePanelFrame.IsVisibleFolderList)) { Source = SidePanelFrame.Current };
         }
 
         public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
         {
-            return SidePanel.Current.IsVisibleFolderList ? Properties.Resources.CommandToggleVisibleBookshelfOff : Properties.Resources.CommandToggleVisibleBookshelfOn;
+            return SidePanelFrame.Current.IsVisibleFolderList ? Properties.Resources.CommandToggleVisibleBookshelfOff : Properties.Resources.CommandToggleVisibleBookshelfOn;
         }
 
         [MethodArgument("@CommandToggleArgument")]
@@ -31,11 +31,11 @@ namespace NeeView
         {
             if (args.Length > 0)
             {
-                SidePanel.Current.SetVisibleFolderList(Convert.ToBoolean(args[0]), true);
+                SidePanelFrame.Current.SetVisibleFolderList(Convert.ToBoolean(args[0]), true);
             }
             else
             {
-                SidePanel.Current.ToggleVisibleFolderList(option.HasFlag(CommandOption.ByMenu));
+                SidePanelFrame.Current.ToggleVisibleFolderList(option.HasFlag(CommandOption.ByMenu));
             }
         }
     }

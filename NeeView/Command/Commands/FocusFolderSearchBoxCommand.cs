@@ -13,7 +13,7 @@
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            SidePanel.Current.FocusFolderSearchBox(option.HasFlag(CommandOption.ByMenu));
+            SidePanelFrame.Current.FocusFolderSearchBox(option.HasFlag(CommandOption.ByMenu));
         }
     }
 }

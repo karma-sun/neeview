@@ -18,12 +18,12 @@ namespace NeeView
 
         public override Binding CreateIsCheckedBinding()
         {
-            return new Binding(nameof(SidePanel.IsVisibleBookmarkList)) { Source = SidePanel.Current };
+            return new Binding(nameof(SidePanelFrame.IsVisibleBookmarkList)) { Source = SidePanelFrame.Current };
         }
 
         public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
         {
-            return SidePanel.Current.IsVisibleBookmarkList ? Properties.Resources.CommandToggleVisibleBookmarkListOff : Properties.Resources.CommandToggleVisibleBookmarkListOn;
+            return SidePanelFrame.Current.IsVisibleBookmarkList ? Properties.Resources.CommandToggleVisibleBookmarkListOff : Properties.Resources.CommandToggleVisibleBookmarkListOn;
         }
 
         [MethodArgument("@CommandToggleArgument")]
@@ -31,11 +31,11 @@ namespace NeeView
         {
             if (args.Length > 0)
             {
-                SidePanel.Current.SetVisibleBookmarkList(Convert.ToBoolean(args[0]), true);
+                SidePanelFrame.Current.SetVisibleBookmarkList(Convert.ToBoolean(args[0]), true);
             }
             else
             {
-                SidePanel.Current.ToggleVisibleBookmarkList(option.HasFlag(CommandOption.ByMenu));
+                SidePanelFrame.Current.ToggleVisibleBookmarkList(option.HasFlag(CommandOption.ByMenu));
             }
         }
     }

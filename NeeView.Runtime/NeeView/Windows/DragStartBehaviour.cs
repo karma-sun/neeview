@@ -219,10 +219,12 @@ namespace NeeView.Windows
                         if (this.DragDropData is IHasDragGhost hasDragGhost && hasDragGhost.GetDragGhost() != null)
                         {
                             ghost = hasDragGhost.GetDragGhost();
+                            /*
                             var size = new Size(ghost.Width, ghost.Height);
                             ghost.Measure(size);
                             ghost.Arrange(new Rect(size));
                             ghost.UpdateLayout();
+                            */
                             var bounds = VisualTreeHelper.GetDescendantBounds(ghost);
                             dragStartPos = new Point(bounds.Width * 0.5, bounds.Height * 0.5);
                         }

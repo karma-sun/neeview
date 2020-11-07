@@ -1,8 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
 using NeeLaboratory.ComponentModel;
 using NeeView.Windows;
@@ -14,29 +11,43 @@ namespace NeeView
     /// </summary>
     public class SidePanelFrameViewModel : BindableBase
     {
-        public SidePanelFrameViewModel(SidePanelFrameModel model, ItemsControl leftItemsControl, ItemsControl rightItemsControl)
+        private double _width;
+        private bool _isAutoHide;
+        private SidePanelFrame _model;
+
+
+        public SidePanelFrameViewModel(SidePanelFrame model, ItemsControl leftItemsControl, ItemsControl rightItemsControl)
         {
             if (model == null) return;
 
             _model = model;
 
-            Left = new SidePanelViewModel(_model.Left, leftItemsControl);
-            Left.PropertyChanged += Left_PropertyChanged;
-            Left.PanelDroped += Left_PanelDroped;
+            MainLayoutPanelManager = MainLayoutPanelManager.Current;
+            MainLayoutPanelManager.Restore();
 
-            Right = new SidePanelViewModel(_model.Right, rightItemsControl);
+            Left = new LeftPanelViewModel(leftItemsControl, MainLayoutPanelManager.LeftDock);
+            Left.PropertyChanged += Left_PropertyChanged;
+
+            Right = new RightPanelViewModel(rightItemsControl, MainLayoutPanelManager.RightDock);
             Right.PropertyChanged += Right_PropertyChanged;
-            Right.PanelDroped += Right_PanelDroped;
 
             Config.Current.Panels.AddPropertyChanged(nameof(PanelsConfig.IsSideBarEnabled), (s, e) =>
             {
                 RaisePropertyChanged(nameof(IsSideBarVisible));
             });
+
+            MainLayoutPanelManager.DragBegin += (s, e) => DragBegin(this, null);
+            MainLayoutPanelManager.DragEnd += (s, e) => DragEnd(this, null);
+            
+
+            SidePanelIconDescriptor = new SidePanelIconDescriptor(this);
         }
-        
+
 
         public event EventHandler PanelVisibilityChanged;
 
+
+        public SidePanelIconDescriptor SidePanelIconDescriptor { get; }
 
         public bool IsSideBarVisible
         {
@@ -44,7 +55,6 @@ namespace NeeView
             set => Config.Current.Panels.IsSideBarEnabled = value;
         }
 
-        private double _width;
         public double Width
         {
             get { return _width; }
@@ -75,8 +85,7 @@ namespace NeeView
         {
             Right.MaxWidth = _width - Left.Width;
         }
-        
-        private bool _isAutoHide;
+
         public bool IsAutoHide
         {
             get { return _isAutoHide; }
@@ -93,8 +102,7 @@ namespace NeeView
             }
         }
 
-        private SidePanelFrameModel _model;
-        public SidePanelFrameModel Model
+        public SidePanelFrame Model
         {
             get { return _model; }
             set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
@@ -109,6 +117,8 @@ namespace NeeView
         public AutoHideConfig AutoHideConfig => Config.Current.AutoHide;
 
 
+
+        public MainLayoutPanelManager MainLayoutPanelManager { get; private set; }
 
         /// <summary>
         /// ドラッグ開始イベント処理.
@@ -129,35 +139,6 @@ namespace NeeView
             Right.IsDragged = false;
         }
 
-        /// <summary>
-        /// 左パネルへのパネル移動処理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Left_PanelDroped(object sender, PanelDropedEventArgs e)
-        {
-            if (Right.Panel.Panels.Contains(e.Panel))
-            {
-                Right.Panel.Remove(e.Panel);
-            }
-
-            Left.Panel.Add(e.Panel, e.Index);
-        }
-
-        /// <summary>
-        /// 右パネルへのパネル移動処理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Right_PanelDroped(object sender, PanelDropedEventArgs e)
-        {
-            if (Left.Panel.Panels.Contains(e.Panel))
-            {
-                Left.Panel.Remove(e.Panel);
-            }
-
-            Right.Panel.Add(e.Panel, e.Index);
-        }
 
         /// <summary>
         /// 右パネルのプロパティ変更イベント処理

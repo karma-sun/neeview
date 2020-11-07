@@ -52,7 +52,7 @@ namespace NeeView
             this.DataContext = _vm;
 
             // タッチスクロール操作の終端挙動抑制
-            this.ListBox.ManipulationBoundaryFeedback += SidePanel.Current.ScrollViewer_ManipulationBoundaryFeedback;
+            this.ListBox.ManipulationBoundaryFeedback += SidePanelFrame.Current.ScrollViewer_ManipulationBoundaryFeedback;
 
             this.Loaded += PageListBox_Loaded;
             this.Unloaded += PageListBox_Unloaded;

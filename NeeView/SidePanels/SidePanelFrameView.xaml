@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="NeeView.SidePanelFrameView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:NeeView" xmlns:osc="clr-namespace:OpenSourceControls" xmlns:nw="clr-namespace:NeeView.Windows;assembly=NeeView.Runtime" xmlns:nwd="clr-namespace:NeeView.Windows.Data"
+             xmlns:nrlp="clr-namespace:NeeView.Runtime.LayoutPanel;assembly=NeeView.Runtime"
         xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors" mc:Ignorable="d" d:DesignHeight="480" d:DesignWidth="640">
 
     <UserControl.Resources>
@@ -9,61 +10,12 @@
         <nwd:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter" />
         <local:MultiBooleanOrConverter x:Key="MultiBooleanOrConverter" />
 
-        <Style x:Key="PanelIconButtonStyle" TargetType="{x:Type Button}">
-            <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}" />
-            <Setter Property="Width" Value="36" />
-            <Setter Property="Height" Value="36" />
-            <Setter Property="Margin" Value="2" />
-            <Setter Property="HorizontalAlignment" Value="Stretch" />
-            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="ToolTip" Value="{Binding IconTips}" />
-            <Setter Property="ToolTipService.ShowDuration" Value="1000" />
-            <Setter Property="ToolTipService.Placement" Value="Bottom" />
-
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Grid>
-                            <Rectangle x:Name="baseRectangle" RadiusY="0" RadiusX="0" StrokeThickness="1" Fill="{x:Null}" />
-                            <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True"
-                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Opacity="0.5" />
-                        </Grid>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Opacity" TargetName="contentPresenter" Value="1.0" />
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Opacity" TargetName="contentPresenter" Value="0.25" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-
         <DataTemplate x:Key="LeftPanelIconTemplate">
-            <Button Style="{StaticResource PanelIconButtonStyle}" Command="{Binding ElementName=Root, Path=DataContext.VM.Left.PanelIconClicked}" CommandParameter="{Binding}">
-                <Grid Background="Transparent">
-                    <Image Source="{Binding Icon}" Margin="{Binding IconMargin}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                </Grid>
-                <b:Interaction.Behaviors>
-                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:SidePanelViewModel.DragDropFormat}" DragDropData="{Binding}" DragBegin="DragStartBehavior_DragBegin"
-                            DragEnd="DragStartBehavior_DragEnd" />
-                </b:Interaction.Behaviors>
-            </Button>
+            <local:SidePanelIcon Descriptor="{Binding Path=DataContext.VM.SidePanelIconDescriptor, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}" />
         </DataTemplate>
 
         <DataTemplate x:Key="RightPanelIconTemplate">
-            <Button Style="{StaticResource PanelIconButtonStyle}" Command="{Binding ElementName=Root, Path=DataContext.VM.Right.PanelIconClicked}" CommandParameter="{Binding}">
-                <Grid Background="Transparent">
-                    <Image Source="{Binding Icon}" Margin="{Binding IconMargin}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                </Grid>
-                <b:Interaction.Behaviors>
-                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:SidePanelViewModel.DragDropFormat}" DragDropData="{Binding}" DragBegin="DragStartBehavior_DragBegin"
-                            DragEnd="DragStartBehavior_DragEnd" />
-                </b:Interaction.Behaviors>
-            </Button>
+            <local:SidePanelIcon Descriptor="{Binding Path=DataContext.VM.SidePanelIconDescriptor, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}" />
         </DataTemplate>
 
         <Style x:Key="PanelIconGridStyle" TargetType="Grid">
@@ -126,7 +78,7 @@
 
                     <Grid Margin="0,32,0,0">
                         <ItemsControl x:Name="LeftIconList" Style="{StaticResource PanelIconItemsControlStyle}" Margin="{Binding PanelMargin}" ItemTemplate="{StaticResource LeftPanelIconTemplate}"
-                                ItemsSource="{Binding VM.Left.Panel.Panels}">
+                                      ItemsSource="{Binding VM.MainLayoutPanelManager.LeftDock.LeaderPanels}">
                         </ItemsControl>
                     </Grid>
                 </Grid>
@@ -142,7 +94,7 @@
 
                     <Grid Margin="0,32,0,0">
                         <ItemsControl x:Name="RightIconList" Style="{StaticResource PanelIconItemsControlStyle}" Margin="{Binding PanelMargin}" ItemTemplate="{StaticResource RightPanelIconTemplate}"
-                                ItemsSource="{Binding VM.Right.Panel.Panels}">
+                                ItemsSource="{Binding VM.MainLayoutPanelManager.RightDock.LeaderPanels}">
                         </ItemsControl>
                     </Grid>
                 </Grid>
@@ -152,7 +104,9 @@
 
                 <Grid x:Name="LeftPanel" Style="{StaticResource PanelGridStyle}" DockPanel.Dock="Left" UseLayoutRounding="True" Width="{Binding VM.Left.Width, Mode=TwoWay}"
                         Visibility="{Binding VM.Left.PanelVisibility}">
-                    <ContentControl x:Name="LeftPanelContent" Content="{Binding VM.Left.Panel.SelectedPanel.View}" Margin="{Binding PanelMargin}" IsTabStop="False" Focusable="False">
+                    <nrlp:LayoutDockPanel x:Name="LeftPanelContent" Margin="{Binding PanelMargin}" Manager="{Binding VM.MainLayoutPanelManager}"
+                            ItemsSource="{Binding VM.MainLayoutPanelManager.LeftDock.SelectedItem}" Background="{Binding Profile.BackgroundBrush}" BorderBrush="{Binding Profile.IconBackgroundBrush}"
+                            TextBlock.Foreground="Gray">
                         <behaviors:Interaction.Behaviors>
                             <local:AutoHideBehavior Name="LeftPanel" Screen="{Binding ElementName=Screen}" SubTarget="{Binding ElementName=LeftPanelSplitter}" Dock="Left"
                                     IsEnabled="{Binding VM.Left.IsAutoHide}" DelayTime="{Binding VM.AutoHideConfig.AutoHideDelayTime}"
@@ -167,7 +121,7 @@
                                 </local:AutoHideBehavior.IsVisibleLocked>
                             </local:AutoHideBehavior>
                         </behaviors:Interaction.Behaviors>
-                    </ContentControl>
+                    </nrlp:LayoutDockPanel>
                 </Grid>
 
                 <osc:DockPanelSplitter x:Name="LeftPanelSplitter" DockPanel.Dock="Left" Style="{StaticResource NVVerticalBevelGrip}" ProportionalResize="False" UseLayoutRounding="True"
@@ -175,7 +129,9 @@
 
                 <Grid x:Name="RightPanel" DockPanel.Dock="Right" Style="{StaticResource PanelGridStyle}" Width="{Binding VM.Right.Width, Mode=TwoWay}" UseLayoutRounding="True"
                         Visibility="{Binding VM.Right.PanelVisibility}">
-                    <ContentControl x:Name="RightPanelContent" Content="{Binding VM.Right.Panel.SelectedPanel.View}" Margin="{Binding PanelMargin}" IsTabStop="False" Focusable="False">
+                    <nrlp:LayoutDockPanel x:Name="RightPanelContent" Margin="{Binding PanelMargin}" Manager="{Binding VM.MainLayoutPanelManager}"
+                            ItemsSource="{Binding VM.MainLayoutPanelManager.RightDock.SelectedItem}" Background="{Binding Profile.BackgroundBrush}" BorderBrush="{Binding Profile.IconBackgroundBrush}"
+                            TextBlock.Foreground="Gray">
                         <behaviors:Interaction.Behaviors>
                             <local:AutoHideBehavior Name="RightPanel" Screen="{Binding ElementName=Screen}" SubTarget="{Binding ElementName=RightPanelSplitter}" Dock="Right"
                                     IsEnabled="{Binding VM.Right.IsAutoHide}" DelayTime="{Binding VM.AutoHideConfig.AutoHideDelayTime}"
@@ -191,7 +147,7 @@
                                 </local:AutoHideBehavior.IsVisibleLocked>
                             </local:AutoHideBehavior>
                         </behaviors:Interaction.Behaviors>
-                    </ContentControl>
+                    </nrlp:LayoutDockPanel>
                 </Grid>
 
                 <osc:DockPanelSplitter x:Name="RightPanelSplitter" DockPanel.Dock="Right" Style="{StaticResource NVVerticalBevelGrip}" ProportionalResize="False" UseLayoutRounding="True"

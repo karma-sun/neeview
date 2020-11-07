@@ -11,11 +11,13 @@ namespace NeeView
 {
     public class FolderPanel : BindableBase, IPanel
     {
-        private FolderPanelView _view;
+        private FolderListView _view;
+        private BookshelfFolderListPresenter _folderListPresenter;
 
-        public FolderPanel(FolderPanelModel folderPanel, BookshelfFolderList folderList, PageList pageList)
+        public FolderPanel(BookshelfFolderList folderList)
         {
-            _view = new FolderPanelView(folderPanel, folderList, pageList);
+            _view = new FolderListView(folderList);
+            _folderListPresenter = new BookshelfFolderListPresenter(_view, folderList);
 
             Icon = App.Current.MainWindow.Resources["pic_bookshelf"] as DrawingImage;
             IconMargin = new Thickness(9);
@@ -59,12 +61,12 @@ namespace NeeView
 
         public void Refresh()
         {
-            _view.Refresh();
+            _folderListPresenter.Refresh();
         }
 
         public void Focus()
         {
-            _view.FocusAtOnce();
+            _folderListPresenter.FocusAtOnce();
         }
     }
 

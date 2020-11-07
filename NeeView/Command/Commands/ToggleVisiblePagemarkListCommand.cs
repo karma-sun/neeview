@@ -18,12 +18,12 @@ namespace NeeView
 
         public override Binding CreateIsCheckedBinding()
         {
-            return new Binding(nameof(SidePanel.IsVisiblePagemarkList)) { Source = SidePanel.Current };
+            return new Binding(nameof(SidePanelFrame.IsVisiblePagemarkList)) { Source = SidePanelFrame.Current };
         }
 
         public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
         {
-            return SidePanel.Current.IsVisiblePagemarkList ? Properties.Resources.CommandToggleVisiblePagemarkListOff : Properties.Resources.CommandToggleVisiblePagemarkListOn;
+            return SidePanelFrame.Current.IsVisiblePagemarkList ? Properties.Resources.CommandToggleVisiblePagemarkListOff : Properties.Resources.CommandToggleVisiblePagemarkListOn;
         }
 
         [MethodArgument("@CommandToggleArgument")]
@@ -31,11 +31,11 @@ namespace NeeView
         {
             if (args.Length > 0)
             {
-                SidePanel.Current.SetVisiblePagemarkList(Convert.ToBoolean(args[0]), true);
+                SidePanelFrame.Current.SetVisiblePagemarkList(Convert.ToBoolean(args[0]), true);
             }
             else
             {
-                SidePanel.Current.ToggleVisiblePagemarkList(option.HasFlag(CommandOption.ByMenu));
+                SidePanelFrame.Current.ToggleVisiblePagemarkList(option.HasFlag(CommandOption.ByMenu));
             }
         }
     }

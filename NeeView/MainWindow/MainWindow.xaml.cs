@@ -58,8 +58,8 @@ namespace NeeView
             Thumbnail.InitializeBasicImages();
             FileIconCollection.Current.InitializeAsync();
 
-            // サイドパネルの初期化
-            SidePanel.Current.Initialize();
+            // FpReset 念のため
+            Interop.NVFpReset();
 
             // Drag&Drop設定
             ContentDropManager.Current.SetDragDropEvent(MainView);
@@ -852,6 +852,10 @@ namespace NeeView
             {
                 Setting.SettingWindow.Current.AllowSave = false;
             }
+
+            // パネルレイアウトの保存
+            MainLayoutPanelManager.Current?.Store();
+            MainLayoutPanelManager.Current?.SetIsStoreEnabled(false);
 
             // ウィンドウ座標の保存
             StoreWindowPlacement();

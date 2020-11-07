@@ -18,12 +18,12 @@ namespace NeeView
 
         public override Binding CreateIsCheckedBinding()
         {
-            return new Binding(nameof(SidePanel.IsVisibleNavigator)) { Source = SidePanel.Current };
+            return new Binding(nameof(SidePanelFrame.IsVisibleNavigator)) { Source = SidePanelFrame.Current };
         }
 
         public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
         {
-            return SidePanel.Current.IsVisibleNavigator ? Properties.Resources.CommandToggleVisibleNavigatorOff : Properties.Resources.CommandToggleVisibleNavigatorOn;
+            return SidePanelFrame.Current.IsVisibleNavigator ? Properties.Resources.CommandToggleVisibleNavigatorOff : Properties.Resources.CommandToggleVisibleNavigatorOn;
         }
 
         [MethodArgument("@CommandToggleArgument")]
@@ -31,11 +31,11 @@ namespace NeeView
         {
             if (args.Length > 0)
             {
-                SidePanel.Current.SetVisibleNavigator(Convert.ToBoolean(args[0]), true);
+                SidePanelFrame.Current.SetVisibleNavigator(Convert.ToBoolean(args[0]), true);
             }
             else
             {
-                SidePanel.Current.ToggleVisibleNavigator(option.HasFlag(CommandOption.ByMenu));
+                SidePanelFrame.Current.ToggleVisibleNavigator(option.HasFlag(CommandOption.ByMenu));
             }
         }
     }

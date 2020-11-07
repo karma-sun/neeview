@@ -69,6 +69,11 @@ namespace NeeView.Windows.Data
 
         #region Methods
 
+        public void SetValue(T value)
+        {
+            SetValue(value, 0.0);
+        }
+
         /// <summary>
         /// 遅延値設定
         /// </summary>

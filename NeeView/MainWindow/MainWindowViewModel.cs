@@ -225,7 +225,7 @@ namespace NeeView
         public ImageEffect ImageEffect => ImageEffect.Current;
         public MouseInput MouseInput => NeeView.MouseInput.Current;
         public InfoMessage InfoMessage => InfoMessage.Current;
-        public SidePanel SidePanel => SidePanel.Current;
+        public SidePanelFrame SidePanel => SidePanelFrame.Current;
         public ContentCanvas ContentCanvas => ContentCanvas.Current;
         public LoupeTransform LoupeTransform => LoupeTransform.Current;
         public ToastService ToastService => ToastService.Current;

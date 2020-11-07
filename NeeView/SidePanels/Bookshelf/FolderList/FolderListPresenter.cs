@@ -38,7 +38,7 @@ namespace NeeView
             _folderListBox = new FolderListBox(_folderListBoxViewModel);
             _folderListView.SetFolderListBoxContent(_folderListBox);
 
-            SidePanel.Current.RaiseContentChanged();
+            SidePanelFrame.Current.RaiseContentChanged();
         }
 
         public void Refresh()

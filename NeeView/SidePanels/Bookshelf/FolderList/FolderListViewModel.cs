@@ -238,7 +238,7 @@ namespace NeeView
                 void Execute(FolderTreeLayout layout)
                 {
                     _model.FolderListConfig.FolderTreeLayout = layout;
-                    SidePanel.Current.SetVisibleFolderTree(true, true);
+                    SidePanelFrame.Current.SetVisibleFolderTree(true, true);
                 }
             }
         }
@@ -325,7 +325,7 @@ namespace NeeView
             items.Add(new Separator());
             items.Add(CreateCommandMenuItem(Properties.Resources.BookshelfMoreMenuExportPlaylist, ExportPlaylist));
             items.Add(CreateCommandMenuItem(Properties.Resources.BookshelfMoreMenuAddQuickAccess, AddQuickAccess));
-            items.Add(CreateCommandMenuItem(Properties.Resources.BookshelfMoreMenuClearHistory, "ClearHistoryInPlace", FolderPanelModel.Current));
+            items.Add(CreateCommandMenuItem(Properties.Resources.BookshelfMoreMenuClearHistory, "ClearHistoryInPlace"));
 
             switch (_model.FolderCollection)
             {
@@ -383,7 +383,7 @@ namespace NeeView
             return item;
         }
 
-        private MenuItem CreateCommandMenuItem(string header, string command, FolderPanelModel source)
+        private MenuItem CreateCommandMenuItem(string header, string command)
         {
             var item = new MenuItem();
             item.Header = header;
@@ -427,7 +427,7 @@ namespace NeeView
 
             RaisePropertyChanged(nameof(FolderCollection));
 
-            SidePanel.Current.RaiseContentChanged();
+            SidePanelFrame.Current.RaiseContentChanged();
         }
 
         /// <summary>

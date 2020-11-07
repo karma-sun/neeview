@@ -5,12 +5,12 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
-
 using NeeView.Windows;
 using NeeView.Windows.Data;
 using NeeView.Windows.Media;
 using NeeLaboratory.Windows.Input;
 using NeeLaboratory.ComponentModel;
+using NeeView.Runtime.LayoutPanel;
 
 namespace NeeView
 {
@@ -22,23 +22,28 @@ namespace NeeView
     {
         public static string DragDropFormat = $"{Environment.ProcessId}.PanelContent";
 
+        private LayoutDockPanelContent _dock;
+        private SidePanelDropAcceptor _dropAcceptor;
+        private double _width = 300.0;
+        private double _maxWidth;
+        private bool _isDragged;
+        private bool _isAutoHide;
+        private Visibility _visibility;
 
-        public SidePanelViewModel(SidePanelGroup panel, ItemsControl itemsControl)
+
+        public SidePanelViewModel(ItemsControl itemsControl, LayoutDockPanelContent dock)
         {
-            InitializeDropAccept(itemsControl);
+            _dock = dock;
+            _dropAcceptor = new SidePanelDropAcceptor(itemsControl, dock);
 
-            Panel = panel;
-            Panel.PropertyChanged += Panel_PropertyChanged;
-
-            Panel.SelectedPanelChanged += (s, e) =>
+            _dock.AddPropertyChanged(nameof(_dock.SelectedItem), (s, e) =>
             {
                 RaisePropertyChanged(nameof(PanelVisibility));
-                if (e.SelectedPanel != null)
+                if (_dock.SelectedItem != null)
                 {
                     AutoHideDescription.VisibleOnce();
                 }
-                SelectedPanelChanged?.Invoke(s, e);
-            };
+            });
 
             AutoHideDescription = new SidePanelAutoHideDescription(this);
             AutoHideDescription.VisibilityChanged += (s, e) =>
@@ -48,31 +53,22 @@ namespace NeeView
         }
 
 
-        public event EventHandler<SelectedPanelChangedEventArgs> SelectedPanelChanged;
-
+        public DropAcceptDescription Description => _dropAcceptor.Description;
 
         public SidePanelAutoHideDescription AutoHideDescription { get; }
 
-        public double Width
+        public virtual double Width
         {
-            get { return Panel.Width; }
-            set
-            {
-                if (Panel.Width != value)
-                {
-                    Panel.Width = Math.Min(value, MaxWidth);
-                }
-            }
+            get { return _width; }
+            set { SetProperty(ref _width, Math.Min(value, MaxWidth)); }
         }
 
-        private double _maxWidth;
         public double MaxWidth
         {
             get { return _maxWidth; }
             set { if (_maxWidth != value) { _maxWidth = value; RaisePropertyChanged(); } }
         }
 
-        private bool _isDragged;
         public bool IsDragged
         {
             get { return _isDragged; }
@@ -85,7 +81,6 @@ namespace NeeView
             }
         }
 
-        private bool _isAutoHide;
         public bool IsAutoHide
         {
             get { return _isAutoHide; }
@@ -99,14 +94,21 @@ namespace NeeView
         {
             get
             {
-                return IsDragged || Panel.IsVisibleLocked;
+                if (IsDragged) return true;
+
+                if (_dock.SelectedItem != null)
+                {
+                    var layoutPanelManager = (MainLayoutPanelManager)_dock.LayoutPanelManager;
+                    return _dock.SelectedItem.Any(e => layoutPanelManager.PanelsSource[e.Key].IsVisibleLock);
+                }
+
+                return false;
             }
         }
 
         /// <summary>
         /// パネルの表示状態。自動非表示機能により変化
         /// </summary>
-        private Visibility _visibility;
         public Visibility Visibility
         {
             get { return _visibility; }
@@ -117,7 +119,8 @@ namespace NeeView
                     RaisePropertyChanged(nameof(PanelVisibility));
                 }
 
-                Panel.IsVisible = Visibility == Visibility.Visible;
+                //// TODO: これは??
+                ////Panel.IsVisible = Visibility == Visibility.Visible;
             }
         }
 
@@ -128,156 +131,19 @@ namespace NeeView
         {
             get
             {
-                return Visibility == Visibility.Visible && this.Panel.SelectedPanel != null ? Visibility.Visible : Visibility.Collapsed;
-            }
-        }
-
-        // Model
-        public SidePanelGroup Panel { get; private set; }
-
-
-
-        /// <summary>
-        /// モデルのプロパティ変更イベント処理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Panel_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case nameof(Panel.SelectedPanel):
-                    RaisePropertyChanged(nameof(PanelVisibility));
-                    break;
-                case nameof(Panel.Width):
-                    RaisePropertyChanged(nameof(Width));
-                    break;
-                case nameof(Panel.IsVisibleLocked):
-                    RaisePropertyChanged(nameof(IsVisibleLocked));
-                    break;
-            }
-        }
-
-        #region Commands
-
-        private RelayCommand<IPanel> _panelIconClicked;
-        public RelayCommand<IPanel> PanelIconClicked
-        {
-            get { return _panelIconClicked = _panelIconClicked ?? new RelayCommand<IPanel>(PanelIconClicked_Executed); }
-        }
-
-        private void PanelIconClicked_Executed(IPanel content)
-        {
-            Panel.Toggle(content);
-        }
-
-        #endregion
-
-        #region DropAccept
-
-        /// <summary>
-        /// ドロップイベント
-        /// </summary>
-        public EventHandler<PanelDropedEventArgs> PanelDroped;
-
-        /// <summary>
-        /// ドロップ受け入れ先コントロール.
-        /// ドロップイベント受信コントロールとは異なるために用意した.
-        /// </summary>
-        private ItemsControl _itemsControl;
-
-        /// <summary>
-        /// ドロップ処理設定プロパティ
-        /// </summary>
-        public DropAcceptDescription Description
-        {
-            get { return _description; }
-            set { if (_description != value) { _description = value; RaisePropertyChanged(); } }
-        }
-
-        private DropAcceptDescription _description;
-
-        /// <summary>
-        /// ドロップ処理初期化
-        /// </summary>
-        /// <param name="itemsControl">受け入れ先コントロール</param>
-        public void InitializeDropAccept(ItemsControl itemsControl)
-        {
-            _itemsControl = itemsControl;
-
-            this.Description = new DropAcceptDescription();
-            this.Description.DragOver += Description_DragOver;
-            this.Description.DragDrop += Description_DragDrop;
-        }
-
-
-        /// <summary>
-        /// ドロップ処理
-        /// </summary>
-        /// <param name="e"></param>
-        private void Description_DragDrop(object sender, DragEventArgs e)
-        {
-            try
-            {
-                var panel = e.Data.GetData(DragDropFormat) as IPanel;
-                if (panel == null) return;
-
-                var index = GetItemInsertIndex(e);
-                PanelDroped?.Invoke(this, new PanelDropedEventArgs(panel, index));
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Drop failed: {ex.Message}");
+                return Visibility == Visibility.Visible && _dock.SelectedItem != null ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
 
         /// <summary>
-        /// カーソルからリストの挿入位置を求める
+        /// パネルの表示/非表示トグル
         /// </summary>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        private int GetItemInsertIndex(DragEventArgs args)
+        public void Toggle()
         {
-            if (_itemsControl == null) return -1;
-
-            var cursor = args.GetPosition(_itemsControl);
-            //Debug.WriteLine($"cursor: {cursor}");
-
-            var count = _itemsControl.Items.Count;
-            for (int index = 0; index < count; ++index)
-            {
-                var item = _itemsControl.ItemContainerGenerator.ContainerFromIndex(index) as ContentPresenter;
-                var center = item.TranslatePoint(new Point(0, item.ActualHeight), _itemsControl);
-
-                //Debug.WriteLine($"{i}: {pos}: {item.ActualWidth}x{item.ActualHeight}");
-                if (cursor.Y < center.Y)
-                {
-                    return index;
-                }
-            }
-
-            return Math.Max(count, 0);
+            _dock.ToggleSelectedItem();
         }
 
-        /// <summary>
-        /// ドロップ受け入れ判定
-        /// </summary>
-        /// <param name="e"></param>
-        private void Description_DragOver(object sender, DragEventArgs e)
-        {
-            if (e.AllowedEffects.HasFlag(DragDropEffects.Move))
-            {
-                if (e.Data.GetDataPresent(DragDropFormat))
-                {
-                    e.Effects = DragDropEffects.Move;
-                    return;
-                }
-            }
-            e.Effects = DragDropEffects.None;
-        }
-
-        #endregion
     }
 
 
@@ -317,6 +183,8 @@ namespace NeeView
 
         public override bool IsVisibleLocked()
         {
+            // TODO: ひとまず無効にしておく。あとで精査せよ
+#if false
             var targetElement = ContextMenuWatcher.TargetElement;
             if (targetElement != null)
             {
@@ -334,9 +202,56 @@ namespace NeeView
             {
                 return VisualTreeUtility.HasParentElement(renameElement, _self.Panel.SelectedPanel?.View);
             }
+#endif
 
             return false;
         }
     }
 
+
+    /// <summary>
+    /// LeftPanel ViewModel
+    /// </summary>
+    public class LeftPanelViewModel : SidePanelViewModel
+    {
+        public LeftPanelViewModel(ItemsControl itemsControl, LayoutDockPanelContent dock) : base(itemsControl, dock)
+        {
+        }
+
+        public override double Width
+        {
+            get { return Config.Current.Panels.LeftPanelWidth; }
+            set
+            {
+                if (Config.Current.Panels.LeftPanelWidth != value)
+                {
+                    Config.Current.Panels.LeftPanelWidth = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// RightPanel ViewModel
+    /// </summary>
+    public class RightPanelViewModel : SidePanelViewModel
+    {
+        public RightPanelViewModel(ItemsControl itemsControl, LayoutDockPanelContent dock) : base(itemsControl, dock)
+        {
+        }
+
+        public override double Width
+        {
+            get { return Config.Current.Panels.RightPanelWidth; }
+            set
+            {
+                if (Config.Current.Panels.RightPanelWidth != value)
+                {
+                    Config.Current.Panels.RightPanelWidth = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    }
 }

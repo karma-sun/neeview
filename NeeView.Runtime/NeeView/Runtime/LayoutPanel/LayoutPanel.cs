@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Automation;
 using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Xml.XPath;
@@ -46,6 +47,8 @@ namespace NeeView.Runtime.LayoutPanel
 
         public class Memento
         {
+            public static Memento Default { get; } = new Memento() { GridLength = new GridLength(1, GridUnitType.Star), WindowPlacement = WindowPlacement.None };
+
             public GridLength GridLength { get; set; }
             public WindowPlacement WindowPlacement { get; set; }
         }

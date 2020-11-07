@@ -283,6 +283,20 @@ namespace NeeView
             this.ListBoxContent.Content = content;
         }
 
+        // TODO: 共通化
+        private void Root_KeyDown(object sender, KeyEventArgs e)
+        {
+            bool isLRKeyEnabled = Config.Current.Panels.IsLeftRightKeyEnabled;
+
+            // このパネルで使用するキーのイベントを止める
+            if (Keyboard.Modifiers == ModifierKeys.None)
+            {
+                if (e.Key == Key.Up || e.Key == Key.Down || (isLRKeyEnabled && (e.Key == Key.Left || e.Key == Key.Right)) || e.Key == Key.Return || e.Key == Key.Delete)
+                {
+                    e.Handled = true;
+                }
+            }
+        }
     }
 
 

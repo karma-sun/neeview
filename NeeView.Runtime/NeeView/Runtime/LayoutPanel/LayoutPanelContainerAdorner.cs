@@ -40,8 +40,8 @@ namespace NeeView.Runtime.LayoutPanel
             //var renderBrush = new SolidColorBrush(Color.FromArgb(0x3D, 0x26, 0xA0, 0xDA));
             //var renderPen = new Pen(new SolidColorBrush(Color.FromArgb(0xFF, 0x26, 0xA0, 0xDA)), 1.0);
 
-            var renderBrush = new SolidColorBrush(Color.FromArgb(0xAA, 0x26, 0xA0, 0xDA));
-            var renderPen = new Pen(new SolidColorBrush(Colors.LightGray), 8.0);
+            var renderBrush = new SolidColorBrush(Color.FromArgb(0x80, 0x80, 0x80, 0x80));
+            var renderPen = new Pen(new SolidColorBrush(Colors.LightGray), 0.0);
 
             var rect = new Rect(Start, End);
             drawingContext.DrawRectangle(renderBrush, renderPen, rect);

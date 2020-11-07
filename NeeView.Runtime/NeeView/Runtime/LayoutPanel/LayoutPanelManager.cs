@@ -25,7 +25,11 @@ namespace NeeView.Runtime.LayoutPanel
         }
 
 
-        public (LayoutDockPanelContent collection, LayoutPanelCollection list) FindPanelContains(LayoutPanel panel)
+        public event EventHandler DragBegin;
+        public event EventHandler DragEnd;
+
+
+        public (LayoutDockPanelContent dock, LayoutPanelCollection collection) FindPanelContains(LayoutPanel panel)
         {
             foreach (var dock in Docks.Values)
             {
@@ -39,9 +43,9 @@ namespace NeeView.Runtime.LayoutPanel
             return (null, null);
         }
 
-        public LayoutDockPanelContent FindPanelListCollection(LayoutPanelCollection list)
+        public LayoutDockPanelContent FindPanelListCollection(LayoutPanelCollection collection)
         {
-            return Docks.Values.FirstOrDefault(e => e.Contains(list));
+            return Docks.Values.FirstOrDefault(e => e.Contains(collection));
             //return _docks.Find(e => e.Contains(list));
         }
 
@@ -156,6 +160,16 @@ namespace NeeView.Runtime.LayoutPanel
             collection.Insert(collection.IndexOf(list) + 1, new LayoutPanelCollection() { panel });
         }
 
+        public void RaiseDragBegin()
+        {
+            DragBegin?.Invoke(this, null);
+        }
+
+        public void RaiseDragEnd()
+        {
+            DragEnd?.Invoke(this, null);
+        }
+
 
         #region Memento
 
@@ -164,10 +178,7 @@ namespace NeeView.Runtime.LayoutPanel
             public Dictionary<string, LayoutPanel.Memento> Panels { get; set; }
 
             public Dictionary<string, LayoutDockPanelContent.Memento> Docks { get; set; }
-            /*
-            public LayoutPanelListCollection.Memento LeftDock { get; set; }
-            public LayoutPanelListCollection.Memento RightDock { get; set; }
-            */
+
             public LayoutPanelWindowManager.Memento Windows { get; set; }
         }
 
@@ -179,8 +190,6 @@ namespace NeeView.Runtime.LayoutPanel
             var memento = new Memento();
             memento.Panels = this.Panels.ToDictionary(e => e.Key, e => e.Value.CreateMemento());
             memento.Docks = Docks.ToDictionary(e => e.Key, e => e.Value.CreateMemento());
-            //memento.LeftDock = this.LeftDock.CreateMemento();
-            //memento.RightDock = this.RightDock.CreateMemento();
             memento.Windows = this.Windows.CreateMemento();
             return memento;
         }

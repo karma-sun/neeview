@@ -10,47 +10,12 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
+    // [Obsolete] V1 compatible
     public class PageListPlacementService : BindableBase
     {
         static PageListPlacementService() => Current = new PageListPlacementService();
         public static PageListPlacementService Current { get; }
 
-
-        private PageListPanel _panel;
-
-        private PageListPlacementService()
-        {
-            Config.Current.Bookshelf.AddPropertyChanged(nameof(BookshelfConfig.IsPageListDocked), (s, e) =>
-            {
-                Update();
-            });
-        }
-
-
-        public PageListPanel Panel
-        {
-            get { return _panel = _panel ?? new PageListPanel(PageList.Current); }
-        }
-
-
-        public void Update()
-        {
-            if (Config.Current.Bookshelf.IsPageListDocked)
-            {
-                SidePanel.Current?.DetachPageListPanel();
-                FolderPanelModel.Current?.SetVisual(Panel.View);
-            }
-            else
-            {
-                FolderPanelModel.Current?.SetVisual(null);
-                SidePanel.Current?.AttachPageListPanel(Panel);
-            }
-        }
-
-        public void Focus()
-        {
-            Panel.Focus();
-        }
 
         #region Memento
 

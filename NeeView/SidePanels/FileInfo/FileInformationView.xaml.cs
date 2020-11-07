@@ -37,7 +37,7 @@ namespace NeeView
             this.IsVisibleChanged += FileInformationView_IsVisibleChanged;
 
             // タッチスクロール操作の終端挙動抑制
-            this.ScrollView.ManipulationBoundaryFeedback += SidePanel.Current.ScrollViewer_ManipulationBoundaryFeedback;
+            this.ScrollView.ManipulationBoundaryFeedback += SidePanelFrame.Current.ScrollViewer_ManipulationBoundaryFeedback;
         }
 
 

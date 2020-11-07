@@ -105,7 +105,7 @@ namespace NeeView
             }
             if (setting.Commands.TryGetValue("CopyFile", out var copyFileCommand))
             {
-                var parameter = new OpenExternalAppCommandParameter();
+                var parameter = new CopyFileCommandParameter();
                 parameter.MultiPagePolicy = this.Memento.BookOperation.ClipboardUtility.MultiPageOption;
                 parameter.ArchivePolicy = this.Memento.BookOperation.ClipboardUtility.ArchiveOption;
                 copyFileCommand.Parameter = parameter;
@@ -123,6 +123,7 @@ namespace NeeView
             setting.Format = new FormatVersion(Environment.SolutionName, 36, 9, 0);
             setting.Config = new Config();
             this.RestoreConfig(setting);
+            setting.Validate();
 
             return setting;
         }

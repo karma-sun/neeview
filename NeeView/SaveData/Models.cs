@@ -106,7 +106,7 @@ namespace NeeView
             [DataMember]
             public ImageEffect.Memento ImageEffect { get; set; }
             [DataMember]
-            public SidePanelFrameModel.Memento SidePanel { get; set; }
+            public SidePanelFrame.Memento SidePanel { get; set; }
             [DataMember]
             public PageViewRecorder.Memento PageViewRecorder { get; set; }
 
@@ -212,6 +212,7 @@ namespace NeeView
             }
         }
 
+        [Obsolete]
         public Memento CreateMemento()
         {
             var memento = new Memento();
@@ -258,7 +259,7 @@ namespace NeeView
             memento.PagemarkList = PagemarkList.Current.CreateMemento();
             memento.FileInformation = FileInformation.Current.CreateMemento();
             memento.ImageEffect = ImageEffect.Current.CreateMemento();
-            memento.SidePanel = SidePanel.Current.CreateMemento();
+            memento.SidePanel = SidePanelFrame.Current.CreateMemento();
             memento.PageViewRecorder = PageViewRecorder.Current.CreateMemento();
             return memento;
         }

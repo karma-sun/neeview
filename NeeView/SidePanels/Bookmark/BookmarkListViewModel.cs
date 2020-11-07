@@ -107,7 +107,7 @@ namespace NeeView
                 void Execute(FolderTreeLayout layout)
                 {
                     _model.FolderListConfig.FolderTreeLayout = layout;
-                    SidePanel.Current.SetVisibleFolderTree(true, true);
+                    SidePanelFrame.Current.SetVisibleFolderTree(true, true);
                 }
             }
         }
@@ -206,7 +206,7 @@ namespace NeeView
             return item;
         }
 
-        private MenuItem CreateCommandMenuItem(string header, string command, FolderPanelModel source)
+        private MenuItem CreateCommandMenuItem(string header, string command)
         {
             var item = new MenuItem();
             item.Header = header;

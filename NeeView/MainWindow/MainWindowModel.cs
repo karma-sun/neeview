@@ -213,7 +213,7 @@ namespace NeeView
                 {
                     _isPanelVisibleLocked = value;
                     RaisePropertyChanged();
-                    SidePanel.Current.IsVisibleLocked = _isPanelVisibleLocked;
+                    SidePanelFrame.Current.IsVisibleLocked = _isPanelVisibleLocked;
                 }
             }
         }
@@ -305,7 +305,7 @@ namespace NeeView
             // オプション指定があればフォルダーリスト表示
             if (App.Current.Option.FolderList != null)
             {
-                SidePanel.Current.IsVisibleFolderList = true;
+                SidePanelFrame.Current.IsVisibleFolderList = true;
             }
 
             // スライドショーの自動再生
@@ -604,7 +604,9 @@ namespace NeeView
         {
             if (parameter.NeedClosePanels)
             {
-                SidePanel.Current.CloseAllPanels();
+                MainLayoutPanelManager.Current.LeftDock.SelectedItem = null;
+                MainLayoutPanelManager.Current.RightDock.SelectedItem = null;
+                ////SidePanel.Current.CloseAllPanels();
             }
 
             FocusMainViewCall?.Invoke(this, null);

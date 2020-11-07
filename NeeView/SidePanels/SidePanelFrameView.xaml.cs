@@ -139,14 +139,14 @@ namespace NeeView
         /// SidePanelFrameModel を Sourceとして指定する。
         /// 指定することで初めてViewModelが生成される
         /// </summary>
-        public SidePanelFrameModel Source
+        public SidePanelFrame Source
         {
-            get { return (SidePanelFrameModel)GetValue(SourceProperty); }
+            get { return (SidePanelFrame)GetValue(SourceProperty); }
             set { SetValue(SourceProperty, value); }
         }
 
         public static readonly DependencyProperty SourceProperty =
-            DependencyProperty.Register("Source", typeof(SidePanelFrameModel), typeof(SidePanelFrameView), new PropertyMetadata(null, SourcePropertyChanged));
+            DependencyProperty.Register("Source", typeof(SidePanelFrame), typeof(SidePanelFrameView), new PropertyMetadata(null, SourcePropertyChanged));
 
         private static void SourcePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -246,7 +246,7 @@ namespace NeeView
         }
 
 
-        private void InitializeViewModel(SidePanelFrameModel model)
+        private void InitializeViewModel(SidePanelFrame model)
         {
             if (model == null) return;
 
@@ -326,7 +326,7 @@ namespace NeeView
 
         private void LeftIconGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            _vm.Left.Panel.Toggle();
+            _vm.Left.Toggle();
         }
 
         private void RightIconGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -336,7 +336,7 @@ namespace NeeView
 
         private void RightIconGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            _vm.Right.Panel.Toggle();
+            _vm.Right.Toggle();
         }
 
         private void PanelIconItemsControl_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)

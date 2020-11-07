@@ -81,7 +81,7 @@ namespace NeeView
             _virtualCollection.CollectionChanged += VirtualCollection_CollectionChanged;
 
             // タッチスクロール操作の終端挙動抑制
-            this.TreeView.ManipulationBoundaryFeedback += SidePanel.Current.ScrollViewer_ManipulationBoundaryFeedback;
+            this.TreeView.ManipulationBoundaryFeedback += SidePanelFrame.Current.ScrollViewer_ManipulationBoundaryFeedback;
 
             this.TreeView.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(TreeView_ScrollChanged));
 

@@ -35,7 +35,7 @@ namespace NeeView
         /// パネル内容更新イベント.
         /// 自動非表示時間のリセットに使用される.
         /// </summary>
-        public event EventHandler ContentChanged;
+        public event EventHandler<SidePanelContentChangedEventArgs> ContentChanged;
 
 
         // サイドバー表示ロック。自動非表示にならないようにする
@@ -49,9 +49,9 @@ namespace NeeView
         /// <summary>
         /// コンテンツ変更通知
         /// </summary>
-        public void RaiseContentChanged()
+        public void RaiseContentChanged(string key)
         {
-            ContentChanged?.Invoke(this, null);
+            ContentChanged?.Invoke(this, new SidePanelContentChangedEventArgs(key));
         }
 
 
@@ -93,11 +93,16 @@ namespace NeeView
             RaisePanelPropertyChanged();
         }
 
-        // TODO: byMenu
         private bool ToggleVisiblePanel(string key, bool byMenu)
         {
-            bool isVisible = !_layoutPanelManager.IsPanelSelected(key);
+            bool isVisible = !_layoutPanelManager.IsPanelSelected(key) || (!byMenu && !_layoutPanelManager.IsPanelVisible(key));
             SetVisiblePanel(key, isVisible);
+
+            if (isVisible)
+            {
+                RaiseContentChanged(key);
+            }
+
             return isVisible;
         }
 

@@ -66,7 +66,7 @@ namespace NeeView
 
 
 
-        internal void SelectPanel(string key, bool isSelected)
+        public void SelectPanel(string key, bool isSelected)
         {
             var panel = this.Panels[key];
             if (isSelected)
@@ -82,11 +82,15 @@ namespace NeeView
             }
         }
 
-        internal bool IsPanelSelected(string key)
+        public bool IsPanelSelected(string key)
+        {
+            return IsPanelSelected(this.Panels[key]);
+        }
+
+        public bool IsPanelVisible(string key)
         {
             return IsPanelVisible(this.Panels[key]);
         }
-
 
         public void SetIsStoreEnabled(bool allow)
         {

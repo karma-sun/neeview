@@ -424,10 +424,7 @@ namespace NeeView
         private void Model_CollectionChanged(object sender, EventArgs e)
         {
             UpdateFolderOrerList();
-
             RaisePropertyChanged(nameof(FolderCollection));
-
-            SidePanelFrame.Current.RaiseContentChanged();
         }
 
         /// <summary>

@@ -29,9 +29,9 @@ namespace NeeView
         private bool _isDragged;
         private bool _isAutoHide;
         private Visibility _visibility;
+        private Func<DependencyObject, bool> _elementContainsFunc;
 
-
-        public SidePanelViewModel(ItemsControl itemsControl, LayoutDockPanelContent dock)
+        public SidePanelViewModel(ItemsControl itemsControl, LayoutDockPanelContent dock, Func<DependencyObject, bool> elementContainsFunc)
         {
             _dock = dock;
             _dropAcceptor = new SidePanelDropAcceptor(itemsControl, dock);
@@ -45,6 +45,8 @@ namespace NeeView
                 }
             });
 
+            _elementContainsFunc = elementContainsFunc;
+
             AutoHideDescription = new SidePanelAutoHideDescription(this);
             AutoHideDescription.VisibilityChanged += (s, e) =>
             {
@@ -54,6 +56,8 @@ namespace NeeView
 
 
         public DropAcceptDescription Description => _dropAcceptor.Description;
+
+        public Func<DependencyObject, bool> ElementContainsFunc => _elementContainsFunc;
 
         public SidePanelAutoHideDescription AutoHideDescription { get; }
 
@@ -144,6 +148,27 @@ namespace NeeView
             _dock.ToggleSelectedItem();
         }
 
+
+        /// <summary>
+        /// 表示中パネル判定
+        /// </summary>
+        public bool SelectedItemContains(string key)
+        {
+            if (_dock.SelectedItem != null)
+            {
+                return _dock.SelectedItem.Any(e => e.Key == key);
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 自動非表示機能に対し一時的な表示リクエスト
+        /// </summary>
+        public void VisibleOnce()
+        {
+            AutoHideDescription.VisibleOnce();
+        }
     }
 
 
@@ -183,26 +208,23 @@ namespace NeeView
 
         public override bool IsVisibleLocked()
         {
-            // TODO: ひとまず無効にしておく。あとで精査せよ
-#if false
             var targetElement = ContextMenuWatcher.TargetElement;
             if (targetElement != null)
             {
-                return VisualTreeUtility.HasParentElement(targetElement, _self.Panel.SelectedPanel?.View);
+                return _self.ElementContainsFunc(targetElement);
             }
 
             var dragElement = DragDropWatcher.DragElement;
             if (dragElement != null)
             {
-                return VisualTreeUtility.HasParentElement(dragElement, _self.Panel.SelectedPanel?.View);
+                return _self.ElementContainsFunc(dragElement);
             }
 
             var renameElement = RenameManager.Current.RenameElement;
             if (renameElement != null)
             {
-                return VisualTreeUtility.HasParentElement(renameElement, _self.Panel.SelectedPanel?.View);
+                return _self.ElementContainsFunc(renameElement);
             }
-#endif
 
             return false;
         }
@@ -214,7 +236,7 @@ namespace NeeView
     /// </summary>
     public class LeftPanelViewModel : SidePanelViewModel
     {
-        public LeftPanelViewModel(ItemsControl itemsControl, LayoutDockPanelContent dock) : base(itemsControl, dock)
+        public LeftPanelViewModel(ItemsControl itemsControl, LayoutDockPanelContent dock, Func<DependencyObject, bool> elementContainsFunc) : base(itemsControl, dock, elementContainsFunc)
         {
         }
 
@@ -237,7 +259,7 @@ namespace NeeView
     /// </summary>
     public class RightPanelViewModel : SidePanelViewModel
     {
-        public RightPanelViewModel(ItemsControl itemsControl, LayoutDockPanelContent dock) : base(itemsControl, dock)
+        public RightPanelViewModel(ItemsControl itemsControl, LayoutDockPanelContent dock, Func<DependencyObject, bool> elementContainsFunc) : base(itemsControl, dock,elementContainsFunc)
         {
         }
 

@@ -51,7 +51,7 @@ namespace NeeView.Runtime.LayoutPanel
 
         public void Toggle(LayoutPanel panel)
         {
-            if (IsPanelVisible(panel))
+            if (IsPanelSelected(panel))
             {
                 Close(panel);
             }
@@ -61,7 +61,7 @@ namespace NeeView.Runtime.LayoutPanel
             }
         }
 
-        public bool IsPanelVisible(LayoutPanel panel)
+        public bool IsPanelSelected(LayoutPanel panel)
         {
             if (Windows.Contains(panel)) return true;
 
@@ -76,6 +76,10 @@ namespace NeeView.Runtime.LayoutPanel
             return false;
         }
 
+        public bool IsPanelVisible(LayoutPanel panel)
+        {
+            return (panel?.Content as UIElement)?.IsVisible == true;
+        }
 
         public void Open(LayoutPanel panel)
         {

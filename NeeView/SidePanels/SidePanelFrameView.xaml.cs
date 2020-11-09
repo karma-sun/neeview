@@ -1,4 +1,5 @@
 ﻿using NeeView.Windows;
+using NeeView.Windows.Media;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -250,10 +251,28 @@ namespace NeeView
         {
             if (model == null) return;
 
-            this.VM = new SidePanelFrameViewModel(model, this.LeftIconList, this.RightIconList);
+            var leftPanelViewModel = new LeftPanelViewModel(this.LeftIconList, MainLayoutPanelManager.Current.LeftDock, LeftPanelElementContains);
+            var rightPanelViewModel = new RightPanelViewModel(this.RightIconList, MainLayoutPanelManager.Current.RightDock, RightPanelElementContains);
+            this.VM = new SidePanelFrameViewModel(model, leftPanelViewModel, rightPanelViewModel);
             this.VM.PanelVisibilityChanged += (s, e) => UpdateCanvas();
             UpdateWidth();
             UpdateAutoHide();
+        }
+
+        /// <summary>
+        /// 左パネルに含まれる要素判定
+        /// </summary>
+        private bool LeftPanelElementContains(DependencyObject element)
+        {
+            return VisualTreeUtility.HasParentElement(element, this.LeftPanel);
+        }
+
+        /// <summary>
+        /// 右パネルに含まれる要素判定
+        /// </summary>
+        private bool RightPanelElementContains(DependencyObject element)
+        {
+            return VisualTreeUtility.HasParentElement(element, this.RightPanel);
         }
 
         /// <summary>

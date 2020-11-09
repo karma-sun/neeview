@@ -16,19 +16,20 @@ namespace NeeView
         private SidePanelFrame _model;
 
 
-        public SidePanelFrameViewModel(SidePanelFrame model, ItemsControl leftItemsControl, ItemsControl rightItemsControl)
+        public SidePanelFrameViewModel(SidePanelFrame model, LeftPanelViewModel left, RightPanelViewModel right)
         {
             if (model == null) return;
 
             _model = model;
+            _model.ContentChanged += Model_ContentChanged;
 
             MainLayoutPanelManager = MainLayoutPanelManager.Current;
             MainLayoutPanelManager.Restore();
 
-            Left = new LeftPanelViewModel(leftItemsControl, MainLayoutPanelManager.LeftDock);
+            Left = left;
             Left.PropertyChanged += Left_PropertyChanged;
 
-            Right = new RightPanelViewModel(rightItemsControl, MainLayoutPanelManager.RightDock);
+            Right = right;
             Right.PropertyChanged += Right_PropertyChanged;
 
             Config.Current.Panels.AddPropertyChanged(nameof(PanelsConfig.IsSideBarEnabled), (s, e) =>
@@ -38,7 +39,7 @@ namespace NeeView
 
             MainLayoutPanelManager.DragBegin += (s, e) => DragBegin(this, null);
             MainLayoutPanelManager.DragEnd += (s, e) => DragEnd(this, null);
-            
+
 
             SidePanelIconDescriptor = new SidePanelIconDescriptor(this);
         }
@@ -67,6 +68,21 @@ namespace NeeView
                     UpdateRightMaxWidth();
                     RaisePropertyChanged();
                 }
+            }
+        }
+
+        /// <summary>
+        /// パネルコンテンツ変更通知処理
+        /// </summary>
+        private void Model_ContentChanged(object sender, SidePanelContentChangedEventArgs e)
+        {
+            if (Left.SelectedItemContains(e.Key))
+            {
+                Left.VisibleOnce();
+            }
+            else if (Right.SelectedItemContains(e.Key))
+            {
+                Right.VisibleOnce();
             }
         }
 

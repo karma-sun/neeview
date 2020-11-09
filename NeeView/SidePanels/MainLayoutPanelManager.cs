@@ -2,9 +2,11 @@
 using NeeView.Runtime.LayoutPanel;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace NeeView
 {
@@ -66,13 +68,17 @@ namespace NeeView
 
         internal void SelectPanel(string key, bool isSelected)
         {
+            var panel = this.Panels[key];
             if (isSelected)
             {
-                Open(this.Panels[key]);
+                Open(panel);
+
+                var source = PanelsSource[key];
+                source.Focus();
             }
             else
             {
-                Close(this.Panels[key]);
+                Close(panel);
             }
         }
 

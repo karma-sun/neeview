@@ -213,7 +213,6 @@ namespace NeeView
                 new FocusFolderSearchBoxCommand("FocusFolderSearchBox"),
                 new FocusBookmarkListCommand("FocusBookmarkList"),
                 new FocusMainViewCommand("FocusMainView"),
-                new TogglePageListPlacementCommand("TogglePageListPlacement"),
                 new ToggleVisibleThumbnailListCommand("ToggleVisibleThumbnailList"),
                 new ToggleHideThumbnailListCommand("ToggleHideThumbnailList"),
 

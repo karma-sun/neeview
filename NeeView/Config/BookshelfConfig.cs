@@ -1,5 +1,6 @@
 ﻿using NeeView.Windows.Controls;
 using NeeView.Windows.Property;
+using System;
 using System.Text.Json.Serialization;
 using System.Windows;
 
@@ -102,6 +103,7 @@ namespace NeeView
         /// <summary>
         /// ページリストをドッキング
         /// </summary>
+        [Obsolete] // ver.38
         [PropertyMember("@ParamPageListPlacementInBookshelf", Tips = "@ParamPageListPlacementInBookshelfTips")]
         public bool IsPageListDocked
         {
@@ -109,6 +111,7 @@ namespace NeeView
             set { SetProperty(ref _isPlacedInBookshelf, value); }
         }
 
+        [Obsolete] // ver.38
         [PropertyMember("@ParamBookshelfPageListVisible")]
         public bool IsPageListVisible
         {
@@ -231,9 +234,11 @@ namespace NeeView
 
         #region 非公開パラメーター
 
+        [Obsolete] // ver.38
         [PropertyMapIgnore]
         public GridLength GridLength0 { get; set; } = new GridLength(1, GridUnitType.Star);
 
+        [Obsolete] // ver.38
         [PropertyMapIgnore]
         public GridLength GridLength2 { get; set; } = new GridLength(1, GridUnitType.Star);
 

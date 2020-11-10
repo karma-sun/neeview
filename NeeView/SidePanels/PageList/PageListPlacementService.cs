@@ -33,14 +33,12 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
-                config.Bookshelf.IsPageListDocked = IsPlacedInBookshelf;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.IsPlacedInBookshelf = Config.Current.Bookshelf.IsPageListDocked;
             return memento;
         }
 

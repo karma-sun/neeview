@@ -20,7 +20,7 @@ namespace NeeView
         private bool _openWithDoubleClick;
         private bool _isLeftRightKeyEnabled;
         private bool _isManipulationBoundaryFeedbackEnabled;
-        private Dictionary<string, PanelDock> _panelDocks = new Dictionary<string, PanelDock>();
+        private Dictionary<string, PanelDock> _panelDocks;
         private double _mouseWheelSpeedRate = 1.0;
 
 
@@ -157,16 +157,16 @@ namespace NeeView
 
         #region HiddenParameters
 
-        [Obsolete]
+        [Obsolete] // ver.38
         [PropertyMapIgnore]
         [ObjectMergeReferenceCopy]
         public Dictionary<string, PanelDock> PanelDocks
         {
             get { return _panelDocks; }
-            set { SetProperty(ref _panelDocks, value ?? new Dictionary<string, PanelDock>()); }
+            set { SetProperty(ref _panelDocks, value); }
         }
 
-        [Obsolete]
+        [Obsolete] // ver.38
         [PropertyMapIgnore]
         [ObjectMergeIgnore]
         public string LeftPanelSeleted { get; set; }
@@ -175,7 +175,7 @@ namespace NeeView
         [ObjectMergeIgnore]
         public double LeftPanelWidth { get; set; } = 300.0;
 
-        [Obsolete]
+        [Obsolete] // ver.38
         [PropertyMapIgnore]
         [ObjectMergeIgnore]
         public string RightPanelSeleted { get; set; }

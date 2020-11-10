@@ -32,22 +32,12 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
-                config.Bookshelf.IsPageListVisible = IsVisiblePanelList;
-
-                var converter = new GridLengthConverter();
-                config.Bookshelf.GridLength0 = (GridLength)converter.ConvertFromString(GridLength0);
-                config.Bookshelf.GridLength2 = (GridLength)converter.ConvertFromString(GridLength2);
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.IsVisiblePanelList = Config.Current.Bookshelf.IsPageListVisible;
-
-            memento.GridLength0 = Config.Current.Bookshelf.GridLength0.ToString();
-            memento.GridLength2 = Config.Current.Bookshelf.GridLength2.ToString();
-
             return memento;
         }
 

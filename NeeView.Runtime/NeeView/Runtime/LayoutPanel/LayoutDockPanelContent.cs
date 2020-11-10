@@ -186,10 +186,9 @@ namespace NeeView.Runtime.LayoutPanel
         {
             var newIndexFixed = NeeLaboratory.MathUtility.Clamp(newIndex, 0, Items.Count - 1);
 
-            var removedItem = Items[oldIndex];
-
-            Remove(removedItem);
-            Insert(newIndexFixed, removedItem);
+            var item = Items[oldIndex];
+            Items.Remove(item);
+            Items.Insert(newIndexFixed, item);
         }
 
         public bool ContainsPanel(LayoutPanel panel)

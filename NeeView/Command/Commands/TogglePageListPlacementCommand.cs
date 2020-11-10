@@ -4,6 +4,7 @@ using System.Windows.Data;
 
 namespace NeeView
 {
+#if false // TogglePageListPlacementCommand の廃止
     public class TogglePageListPlacementCommand : CommandElement
     {
         public TogglePageListPlacementCommand(string name) : base(name)
@@ -38,4 +39,5 @@ namespace NeeView
             }
         }
     }
+#endif
 }

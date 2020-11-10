@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Windows.Data;
 using System.Windows.Media;
 
@@ -67,19 +68,34 @@ namespace NeeView
 
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values[0] is PanelColor panelColor && values[1] is bool isActive && values[2] is bool isEnabled)
+            if (!(values[0] is PanelColor panelColor))
             {
-                if (panelColor == PanelColor.Dark)
-                {
-                    return isActive || !isEnabled ? _dark : _halfDark;
-                }
-                else
-                {
-                    return isActive || !isEnabled ? _light : _halfLight;
-                }
+                return _light;
             }
 
-            return _light;
+            if (values.Length <= 1 || !(values[1] is bool isActive))
+            {
+                return ToBrush(panelColor, true);
+            }
+
+            if (values.Length <= 2 || !(values[2] is bool isEnabled))
+            {
+                return ToBrush(panelColor, isActive);
+            }
+
+            return ToBrush(panelColor, isActive || !isEnabled);
+        }
+
+        private SolidColorBrush ToBrush(PanelColor color, bool isActive)
+        {
+            if (color == PanelColor.Dark)
+            {
+                return isActive ? _dark : _halfDark;
+            }
+            else
+            {
+                return isActive ? _light : _halfLight;
+            }
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

@@ -23,6 +23,7 @@ namespace NeeView
         public static SidePanelProfile Current { get; }
 
         private SolidColorBrush _backgroundBrush;
+        private SolidColorBrush _backgroundBrushRaw;
         private SolidColorBrush _baseBrush;
         private SolidColorBrush _iconBackgroundBrush;
 
@@ -68,6 +69,12 @@ namespace NeeView
             RefreshBrushes();
         }
 
+        public SolidColorBrush BackgroundBrushRaw
+        {
+            get { return _backgroundBrushRaw; }
+            set { SetProperty(ref _backgroundBrushRaw, value); }
+        }
+
         public SolidColorBrush BackgroundBrush
         {
             get { return _backgroundBrush; }
@@ -97,7 +104,8 @@ namespace NeeView
         {
             var opacity = MainWindowModel.Current.CanHidePanel ? Config.Current.Panels.Opacity : 1.0;
 
-            BackgroundBrush = CreatePanelBrush((SolidColorBrush)App.Current.Resources["NVBackground"], opacity);
+            BackgroundBrushRaw = (SolidColorBrush)App.Current.Resources["NVBackground"];
+            BackgroundBrush = CreatePanelBrush(BackgroundBrushRaw, opacity);
             BaseBrush = CreatePanelBrush((SolidColorBrush)App.Current.Resources["NVBaseBrush"], opacity);
             IconBackgroundBrush = CreatePanelBrush((SolidColorBrush)App.Current.Resources["NVPanelIconBackground"], opacity);
         }

@@ -24,6 +24,8 @@ namespace NeeView.Runtime.LayoutPanel
             ["Close"] = "_Close",
         };
 
+        public ILayoutPanelWindowDecorater WindowDecorater { get; set; }
+
         public LayoutPanelManager()
         {
             Windows = new LayoutPanelWindowManager(this);

@@ -38,7 +38,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <DockPanel x:Name="CaptionBar" Grid.Row="0" Background="#444" Height="{Binding WindowChrome.CaptionHeight}">
+        <DockPanel x:Name="CaptionBar" Grid.Row="0" Background="{Binding CaptionBackground}" Height="{Binding WindowChrome.CaptionHeight}">
             <DockPanel.ContextMenu>
                 <ContextMenu>
                     <MenuItem x:Name="FloatingMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="Floating" IsEnabled="False" />
@@ -47,8 +47,8 @@
                     <MenuItem x:Name="CloseMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="Close" Command="{x:Static SystemCommands.CloseWindowCommand}" />
                 </ContextMenu>
             </DockPanel.ContextMenu>
-            <nvc:WindowCaptionButtons DockPanel.Dock="Right" Foreground="White" IsEnabled="True" IsMinimizeEnabled="False" WindowChrome.IsHitTestVisibleInChrome="False" />
-            <TextBlock Text="{Binding Path=Title}" VerticalAlignment="Center" Margin="16,0" Foreground="White" />
+            <nvc:WindowCaptionButtons DockPanel.Dock="Right" Foreground="{Binding CaptionForeground}" IsEnabled="True" IsMinimizeEnabled="False" WindowChrome.IsHitTestVisibleInChrome="False" />
+            <TextBlock Text="{Binding Path=Title}" VerticalAlignment="Center" Margin="16,0" Foreground="{Binding CaptionForeground}" />
         </DockPanel>
 
         <UserControl x:Name="MainContent" Grid.Row="1" Content="{Binding LayoutPanel.Content}" />

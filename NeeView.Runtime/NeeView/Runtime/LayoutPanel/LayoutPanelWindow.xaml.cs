@@ -78,6 +78,25 @@ namespace NeeView.Runtime.LayoutPanel
             DependencyProperty.Register("LayoutPanel", typeof(LayoutPanel), typeof(LayoutPanelWindow), new PropertyMetadata(null));
 
 
+        public Brush CaptionBackground
+        {
+            get { return (Brush)GetValue(CaptionBackgroundProperty); }
+            set { SetValue(CaptionBackgroundProperty, value); }
+        }
+
+        public static readonly DependencyProperty CaptionBackgroundProperty =
+            DependencyProperty.Register("CaptionBackground", typeof(Brush), typeof(LayoutPanelWindow), new PropertyMetadata(Brushes.DarkGray));
+
+
+        public Brush CaptionForeground
+        {
+            get { return (Brush)GetValue(CaptionForegroundProperty); }
+            set { SetValue(CaptionForegroundProperty, value); }
+        }
+
+        public static readonly DependencyProperty CaptionForegroundProperty =
+            DependencyProperty.Register("CaptionForeground", typeof(Brush), typeof(LayoutPanelWindow), new PropertyMetadata(Brushes.White));
+
 
         public WindowChromeAccessor WindowChrome => _windowChrome;
 
@@ -138,7 +157,12 @@ namespace NeeView.Runtime.LayoutPanel
         }
 
         #endregion Window state commands
-
-
     }
+
+
+    public interface ILayoutPanelWindowDecorater
+    {
+        void Decorate(LayoutPanelWindow window);
+    }
+
 }

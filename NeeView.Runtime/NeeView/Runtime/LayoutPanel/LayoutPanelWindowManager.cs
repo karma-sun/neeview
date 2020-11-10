@@ -36,6 +36,7 @@ namespace NeeView.Runtime.LayoutPanel
             {
                 window = new LayoutPanelWindow(this, panel, placement);
                 window.Owner = Owner;
+                _layoutPanelManager.WindowDecorater?.Decorate(window);
                 window.Show();
                 _windows.Add(window);
             }

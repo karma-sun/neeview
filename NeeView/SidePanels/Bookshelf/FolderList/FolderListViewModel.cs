@@ -92,7 +92,6 @@ namespace NeeView
         private RelayCommand _addBookmarkCommand;
         private RelayCommand<PanelListItemStyle> _setListItemStyle;
 
-        public ICommand ToggleVisiblePageList => RoutedCommandTable.Current.Commands["ToggleVisiblePageList"];
         public ICommand ToggleVisibleFoldersTree => RoutedCommandTable.Current.Commands["ToggleVisibleFoldersTree"];
 
 

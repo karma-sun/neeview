@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Windows;
+using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Threading;
 
@@ -35,6 +37,8 @@ namespace NeeView
             Resources["Floating"] = Properties.Resources.LayoutPanelMenuFloating;
             Resources["Docking"] = Properties.Resources.LayoutPanelMenuDocking;
             Resources["Close"] = Properties.Resources.LayoutPanelMenuClose;
+
+            WindowDecorater = new LayoutWindowDecorater();
 
             var panelKyes = new[] {
                 nameof(FolderPanel),
@@ -76,6 +80,7 @@ namespace NeeView
         public LayoutDockPanelContent LeftDock { get; private set; }
         public LayoutDockPanelContent RightDock { get; private set; }
 
+        public bool IsEnabled => true;
 
 
         public void SelectPanel(string key, bool isSelected)
@@ -125,5 +130,48 @@ namespace NeeView
             }
         }
 
+
+        /// <summary>
+        /// LayoutWindow装飾
+        /// </summary>
+        class LayoutWindowDecorater : ILayoutPanelWindowDecorater
+        {
+            public static PanelColorToBrushConverter _captionBackgroundConverter;
+            public static PanelColorTobrushMultiConverter _captionForegroundConverter;
+
+            static LayoutWindowDecorater()
+            {
+                _captionBackgroundConverter = new PanelColorToBrushConverter()
+                {
+                    Dark = (SolidColorBrush)App.Current.Resources["NVMenuBackgroundDark"],
+                    Light = (SolidColorBrush)App.Current.Resources["NVMenuBackgroundLight"],
+                };
+
+                _captionForegroundConverter = new PanelColorTobrushMultiConverter()
+                {
+                    Dark = (SolidColorBrush)App.Current.Resources["NVMenuForegroundDark"],
+                    Light = (SolidColorBrush)App.Current.Resources["NVMenuForegroundLight"],
+                };
+            }
+
+
+            public void Decorate(LayoutPanelWindow window)
+            {
+                var background = new Binding(nameof(SidePanelProfile.BackgroundBrushRaw)) { Source = SidePanelProfile.Current };
+                window.SetBinding(LayoutPanelWindow.BackgroundProperty, background);
+
+                var captionBackground = new Binding(nameof(ThemeConfig.MenuColor))
+                {
+                    Source = Config.Current.Theme,
+                    Converter = _captionBackgroundConverter,
+                };
+                window.SetBinding(LayoutPanelWindow.CaptionBackgroundProperty, captionBackground);
+
+                var captionForeground = new MultiBinding() { Converter = _captionForegroundConverter };
+                captionForeground.Bindings.Add(new Binding(nameof(ThemeConfig.MenuColor)) { Source = Config.Current.Theme });
+                captionForeground.Bindings.Add(new Binding(nameof(LayoutPanelWindow.IsActive)) { Source = window });
+                window.SetBinding(LayoutPanelWindow.CaptionForegroundProperty, captionForeground);
+            }
+        }
     }
 }

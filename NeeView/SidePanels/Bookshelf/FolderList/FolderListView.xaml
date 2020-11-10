@@ -159,12 +159,6 @@
                             </ContextMenu>
                         </Button.ContextMenu>
                     </Button>
-                    <Button x:Name="PageListButton" Style="{StaticResource FolderListButtonStyle}" VerticalAlignment="Center" TabIndex="3"
-                            Visibility="{Binding Source={x:Static local:Config.Current}, Path=Bookshelf.IsPageListDocked, Converter={StaticResource BooleanToVisibilityConverter}}"
-                            ToolTip="{x:Static properties:Resources.WordPageList}"
-                            Command="{Binding ToggleVisiblePageList}">
-                        <Image Source="{StaticResource ic_photo_library_24px}" Width="16" Height="16"/>
-                    </Button>
                     <ToggleButton x:Name="MoreButton" Style="{StaticResource FolderListToggleButtonStyle}"  VerticalAlignment="Center" TabIndex="4" Checked="MoreButton_Checked" MouseRightButtonUp="MoreButton_MouseRightButtonUp"
                                   nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}">
                         <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>

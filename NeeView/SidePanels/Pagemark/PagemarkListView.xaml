@@ -30,11 +30,13 @@
 
     <DockPanel x:Name="DockPanel" Background="Transparent">
 
-        <StackPanel DockPanel.Dock="Top" Margin="5,10,5,5">
+        <StackPanel DockPanel.Dock="Top" Margin="5,0,5,5">
+            <!--
             <StackPanel Margin="0,5" Orientation="Horizontal">
                 <Image Style="{StaticResource PanelTitleIconStyle}" Source="{StaticResource ic_bookmark_24px}" />
                 <TextBlock Style="{StaticResource PanelTitleTextStyle}" Text="{x:Static properties:Resources.PagemarkName}" />
             </StackPanel>
+            -->
             <DockPanel LastChildFill="False" Margin="0,2">
                 <TextBlock Text="{Binding Model.PlaceDispString}" ToolTip="{Binding Model.PlaceDispString}" Margin="2,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
             </DockPanel>

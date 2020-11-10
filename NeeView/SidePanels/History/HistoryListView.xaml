@@ -29,14 +29,12 @@
     <DockPanel x:Name="DockPanel" Background="Transparent">
 
         <StackPanel DockPanel.Dock="Top">
-            
             <!--
             <StackPanel Margin="0,5" Orientation="Horizontal">
                 <Image Style="{StaticResource PanelTitleIconStyle}" Source="{StaticResource ic_history_24px}" />
                 <TextBlock Style="{StaticResource PanelTitleTextStyle}" Text="{x:Static properties:Resources.HistoryName}" />
             </StackPanel>
             -->
-            
             <DockPanel LastChildFill="False" Margin="0">
                 <TextBlock Text="{Binding FilterPath}" ToolTip="{Binding FilterPath}" Margin="0,0" HorizontalAlignment="Right" VerticalAlignment="Center" />
             </DockPanel>

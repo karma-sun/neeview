@@ -3,11 +3,21 @@
         xmlns:local="clr-namespace:NeeView.Runtime.LayoutPanel" xmlns:nvc="clr-namespace:NeeView.Windows.Controls" mc:Ignorable="d" x:Name="RootWindow" Title="LayoutPanelWindow"
         Height="450" Width="800">
 
+    <Window.Resources>
+
+        <Style x:Key="ContextMenuItemStyle" TargetType="MenuItem">
+            <Setter Property="CommandTarget" Value="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+        </Style>
+        
+        <RoutedCommand x:Key="OpenDockCommand" />
+    </Window.Resources>
+    
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static SystemCommands.CloseWindowCommand}" Executed="CloseWindowCommand_Execute" />
         <CommandBinding Command="{x:Static SystemCommands.RestoreWindowCommand}" Executed="RestoreWindowCommand_Execute" />
         <CommandBinding Command="{x:Static SystemCommands.MaximizeWindowCommand}" Executed="MaximizeWindowCommand_Execute" />
         <CommandBinding Command="{x:Static SystemCommands.MinimizeWindowCommand}" Executed="MinimizeWindowCommand_Execute" />
+        <CommandBinding Command="{StaticResource OpenDockCommand}" Executed="OpenDockCommand_Execute" />
     </Window.CommandBindings>
 
     <!--
@@ -31,10 +41,10 @@
         <DockPanel x:Name="CaptionBar" Grid.Row="0" Background="#444" Height="{Binding WindowChrome.CaptionHeight}">
             <DockPanel.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="F_loating" IsEnabled="False" />
-                    <MenuItem Header="Dock_ing" Command="{Binding DockingCommand}" />
+                    <MenuItem x:Name="FloatingMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="Floating" IsEnabled="False" />
+                    <MenuItem x:Name="DockingMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="Docking" Command="{StaticResource OpenDockCommand}" />
                     <Separator />
-                    <MenuItem Header="C_lose" Command="{x:Static SystemCommands.CloseWindowCommand}" />
+                    <MenuItem x:Name="CloseMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="Close" Command="{x:Static SystemCommands.CloseWindowCommand}" />
                 </ContextMenu>
             </DockPanel.ContextMenu>
             <nvc:WindowCaptionButtons DockPanel.Dock="Right" Foreground="White" IsEnabled="True" IsMinimizeEnabled="False" WindowChrome.IsHitTestVisibleInChrome="False" />

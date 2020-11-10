@@ -102,6 +102,7 @@
                     <!--#region Icons -->
 
                     <RectangleGeometry x:Key="g_rect24x24" Rect="0,0,24,24" />
+                    <RectangleGeometry x:Key="g_rect1000x1000" Rect="-100,-100,1200,1200" />
 
                     <!-- Material design icons by Google -->
                     <!-- http://www.google.com/design/spec/style/icons.html#icons-system-icons -->

@@ -5679,4 +5679,13 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamIsInputMethodEnabledTips" xml:space="preserve">
     <value>※次の起動から適用されます。テキストボックスでは常に有効です。</value>
   </data>
+  <data name="LayoutPanelMenuFloating" xml:space="preserve">
+    <value>フローティング(_F)</value>
+  </data>
+  <data name="LayoutPanelMenuDocking" xml:space="preserve">
+    <value>ドッキング(_K)</value>
+  </data>
+  <data name="LayoutPanelMenuClose" xml:space="preserve">
+    <value>閉じる(_C)</value>
+  </data>
 </root>

@@ -265,7 +265,7 @@ namespace NeeView
         /// </summary>
         private bool LeftPanelElementContains(DependencyObject element)
         {
-            return VisualTreeUtility.HasParentElement(element, this.LeftPanel);
+            return VisualTreeUtility.HasParentElement(element, this.LeftIconGrid) ||  VisualTreeUtility.HasParentElement(element, this.LeftPanel);
         }
 
         /// <summary>
@@ -273,7 +273,7 @@ namespace NeeView
         /// </summary>
         private bool RightPanelElementContains(DependencyObject element)
         {
-            return VisualTreeUtility.HasParentElement(element, this.RightPanel);
+            return VisualTreeUtility.HasParentElement(element, this.RightIconGrid) || VisualTreeUtility.HasParentElement(element, this.RightPanel);
         }
 
         /// <summary>

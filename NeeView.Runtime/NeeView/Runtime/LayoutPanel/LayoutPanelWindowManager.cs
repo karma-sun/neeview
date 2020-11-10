@@ -18,6 +18,8 @@ namespace NeeView.Runtime.LayoutPanel
 
         public LayoutPanelManager LayoutPanelManager => _layoutPanelManager;
 
+        public Dictionary<string, string> Resources => _layoutPanelManager.Resources;
+
         public Window Owner { get; set; }
 
 

@@ -24,7 +24,6 @@ namespace NeeView
             _view = new NavitateView(model);
 
             Icon = App.Current.MainWindow.Resources["pic_navigate"] as ImageSource;
-            IconMargin = new Thickness(9);
 
             Config.Current.Control.AddPropertyChanged(nameof(ControlConfig.IsSelected), (s, e) => IsSelectedChanged?.Invoke(this, null));
         }
@@ -39,8 +38,6 @@ namespace NeeView
         public string TypeCode => nameof(NavigatePanel);
 
         public ImageSource Icon { get; private set; }
-
-        public Thickness IconMargin { get; private set; }
 
         public string IconTips => Properties.Resources.NavigateName;
 

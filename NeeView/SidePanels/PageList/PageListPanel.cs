@@ -27,7 +27,6 @@ namespace NeeView
             _presenter = new PageListPresenter(_view, model);
 
             Icon = App.Current.MainWindow.Resources["pic_photo_library_24px"] as ImageSource;
-            IconMargin = new Thickness(9);
 
             Config.Current.PageList.AddPropertyChanged(nameof(PageListConfig.IsSelected), (s, e) => IsSelectedChanged?.Invoke(this, null));
         }
@@ -42,8 +41,6 @@ namespace NeeView
         public string TypeCode => nameof(PageListPanel);
 
         public ImageSource Icon { get; private set; }
-
-        public Thickness IconMargin { get; private set; }
 
         public string IconTips => Properties.Resources.PageListName;
 

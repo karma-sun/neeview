@@ -36,11 +36,6 @@ namespace NeeView
         ImageSource Icon { get; }
 
         /// <summary>
-        /// アイコンレイアウト
-        /// </summary>
-        Thickness IconMargin { get; }
-
-        /// <summary>
         /// アイコン説明
         /// </summary>
         string IconTips { get; }

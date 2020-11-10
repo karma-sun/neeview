@@ -4,51 +4,76 @@
 
     <DrawingImage x:Key="pic_bookshelf">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}" Geometry="{StaticResource g_bookshelf}" />
+            <DrawingGroup>
+                <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect1000x1000}" />
+                <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}" Geometry="{StaticResource g_bookshelf}" />
+            </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="pic_navigate">
         <DrawingImage.Drawing>
-            <DrawingGroup Transform="0.1,0,0,-0.1,0,502">
-                <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Geometry="{StaticResource g_nagivate}" />
+            <DrawingGroup>
+                <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect1000x1000}" />
+                <DrawingGroup Transform="0.1,0,0,-0.1,0,502">
+                    <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Geometry="{StaticResource g_nagivate}" />
+                </DrawingGroup>
             </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="pic_history_24px">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}" Geometry="{StaticResource g_history_24px}" />
+            <DrawingGroup>
+                <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
+                <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}" Geometry="{StaticResource g_history_24px}" />
+            </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>
 
+
     <DrawingImage x:Key="pic_info_24px">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}" Geometry="{StaticResource g_info_24px}" />
+            <DrawingGroup>
+                <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
+                <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}" Geometry="{StaticResource g_info_24px}" />
+            </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="pic_bookmark_24px">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}" Geometry="{StaticResource g_bookmark_24px}" />
+            <DrawingGroup>
+                <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
+                <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}" Geometry="{StaticResource g_bookmark_24px}" />
+            </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="pic_toy_24px">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}" Geometry="{StaticResource g_toy_24px}" />
+            <DrawingGroup>
+                <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
+                <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}" Geometry="{StaticResource g_toy_24px}" />
+            </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="pic_photo_library_24px">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}" Geometry="{StaticResource g_photo_library_24px}" />
+            <DrawingGroup>
+                <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
+                <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}" Geometry="{StaticResource g_photo_library_24px}" />
+            </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="pic_star_24px">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}" Geometry="{StaticResource g_star_24px}" />
+            <DrawingGroup>
+                <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
+                <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}" Geometry="{StaticResource g_star_24px}" />
+            </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>
 

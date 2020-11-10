@@ -8,6 +8,20 @@
              xmlns:local="clr-namespace:NeeView.Runtime.LayoutPanel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <Style x:Key="ContextMenuItemStyle" TargetType="MenuItem">
+            <Setter Property="CommandTarget" Value="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+        </Style>
+
+        <RoutedCommand x:Key="OpenWindowCommand" />
+        <RoutedCommand x:Key="ClosePanelCommand" />
+    </UserControl.Resources>
+
+    <UserControl.CommandBindings>
+        <CommandBinding x:Name="OpenWindow" Command="{StaticResource OpenWindowCommand}" Executed="OpenWindowCommand_Execute" />
+        <CommandBinding x:Name="ClosePanel" Command="{StaticResource ClosePanelCommand}" Executed="ClosePanelCommand_Execute" />
+    </UserControl.CommandBindings>
     
     <Grid Background="#1111" Margin="0">
         <Grid.Resources>
@@ -23,10 +37,10 @@
             </b:Interaction.Behaviors>
             <DockPanel.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="F_loating" Command="{Binding OpenPanelWindowCommand}" />
-                    <MenuItem Header="Dock_ing" IsEnabled="False" />
+                    <MenuItem x:Name="FloatingMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="Floating" Command="{StaticResource OpenWindowCommand}" />
+                    <MenuItem x:Name="DockingMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="Docking" IsEnabled="False" />
                     <Separator />
-                    <MenuItem Header="C_lose" Command="{Binding ClosePanelCommand}"/>
+                    <MenuItem x:Name="CloseMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="Close" Command="{StaticResource ClosePanelCommand}"/>
                 </ContextMenu>
             </DockPanel.ContextMenu>
             <Button DockPanel.Dock="Right" Width="24" Height="24" Command="{Binding ClosePanelCommand}" Cursor="Arrow" BorderThickness="0" Background="Transparent"

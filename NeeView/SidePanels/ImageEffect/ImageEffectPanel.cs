@@ -24,7 +24,6 @@ namespace NeeView
             _view = new ImageEffectView(model, imageFilter);
 
             Icon = App.Current.MainWindow.Resources["pic_toy_24px"] as ImageSource;
-            IconMargin = new Thickness(8);
 
             Config.Current.Effect.AddPropertyChanged(nameof(EffectConfig.IsSelected), (s, e) => IsSelectedChanged?.Invoke(this, null));
         }
@@ -39,8 +38,6 @@ namespace NeeView
         public string TypeCode => nameof(ImageEffectPanel);
 
         public ImageSource Icon { get; private set; }
-
-        public Thickness IconMargin { get; private set; }
 
         public string IconTips => Properties.Resources.EffectName;
 

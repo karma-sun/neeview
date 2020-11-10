@@ -8739,6 +8739,33 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   _Close に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LayoutPanelMenuClose {
+            get {
+                return ResourceManager.GetString("LayoutPanelMenuClose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Doc_king に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LayoutPanelMenuDocking {
+            get {
+                return ResourceManager.GetString("LayoutPanelMenuDocking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _Floating に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LayoutPanelMenuFloating {
+            get {
+                return ResourceManager.GetString("LayoutPanelMenuFloating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Loupe に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string LongButtonDownModeLoupe {

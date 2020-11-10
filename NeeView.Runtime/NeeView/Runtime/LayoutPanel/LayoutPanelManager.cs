@@ -17,7 +17,12 @@ namespace NeeView.Runtime.LayoutPanel
 
         public LayoutPanelWindowManager Windows { get; protected set; }
 
-
+        public Dictionary<string, string> Resources { get; private set; } = new Dictionary<string, string>()
+        {
+            ["Floating"] = "_Floating",
+            ["Docking"] = "Doc_king",
+            ["Close"] = "_Close",
+        };
 
         public LayoutPanelManager()
         {
@@ -226,4 +231,6 @@ namespace NeeView.Runtime.LayoutPanel
 
         #endregion
     }
+
+
 }

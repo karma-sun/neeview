@@ -38,6 +38,11 @@ namespace NeeView.Runtime.LayoutPanel
         {
             _manager = manager;
             LayoutPanel = layoutPanel;
+
+            this.FloatingMenuItem.Header = manager.Resources["Floating"];
+            this.DockingMenuItem.Header = manager.Resources["Docking"];
+            this.CloseMenuItem.Header = manager.Resources["Close"];
+
             this.Loaded += LayoutPanelContainer_Loaded;
         }
 
@@ -94,36 +99,18 @@ namespace NeeView.Runtime.LayoutPanel
         }
 
 
-        #region Commands
-
-        private RelayCommand _closePanelCommand;
-        public RelayCommand ClosePanelCommand
+        private void OpenWindowCommand_Execute(object sender, ExecutedRoutedEventArgs e)
         {
-            get { return _closePanelCommand = _closePanelCommand ?? new RelayCommand(ClosePanelCommand_Executed); }
+            var owner = Window.GetWindow(this);
+            var point = this.PointToScreen(new Point(0.0, 0.0));
+            _manager.OpenWindow(LayoutPanel, new WindowPlacement(WindowState.Normal, (int)point.X + 32, (int)point.Y + 32, (int)ActualWidth, (int)ActualHeight));
         }
 
-        private void ClosePanelCommand_Executed()
+        private void ClosePanelCommand_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             _manager.StandAlone(LayoutPanel);
             _manager.Close(LayoutPanel);
         }
-
-
-        private RelayCommand _openPanelWindowCommand;
-        public RelayCommand OpenPanelWindowCommand
-        {
-            get { return _openPanelWindowCommand = _openPanelWindowCommand ?? new RelayCommand(OpenPanelWindowCommand_Executed); }
-        }
-
-        private void OpenPanelWindowCommand_Executed()
-        {
-            var owner = Window.GetWindow(this);
-            var point = this.PointToScreen(new Point(0.0, 0.0));
-
-            _manager.OpenWindow(LayoutPanel, new WindowPlacement(WindowState.Normal, (int)point.X + 32, (int)point.Y + 32, (int)ActualWidth, (int)ActualHeight));
-        }
-
-        #endregion Commands
 
         #region DragDrop
 
@@ -213,7 +200,7 @@ namespace NeeView.Runtime.LayoutPanel
         {
             var content = (LayoutPanel)e.Data.GetData(typeof(LayoutPanel));
             if (content is null) return;
-            
+
             e.Handled = true;
 
             if (content == this.LayoutPanel)

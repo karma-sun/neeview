@@ -53,6 +53,10 @@ namespace NeeView.Runtime.LayoutPanel
             LayoutPanel = layoutPanel;
             Title = layoutPanel.Title;
 
+            this.FloatingMenuItem.Header = manager.Resources["Floating"];
+            this.DockingMenuItem.Header = manager.Resources["Docking"];
+            this.CloseMenuItem.Header = manager.Resources["Close"];
+
             if (placement.IsValid())
             {
                 LayoutPanel.WindowPlacement = placement;
@@ -105,36 +109,11 @@ namespace NeeView.Runtime.LayoutPanel
             base.OnClosed(e);
         }
 
-        #region Commands
 
-        private RelayCommand _CloseCommand;
-        public RelayCommand CloseCommand
-        {
-            get { return _CloseCommand = _CloseCommand ?? new RelayCommand(CloseCommand_Executed); }
-        }
-
-        private void CloseCommand_Executed()
-        {
-            this.Close();
-        }
-
-        private RelayCommand _DockingCommand;
-        public RelayCommand DockingCommand
-        {
-            get { return _DockingCommand = _DockingCommand ?? new RelayCommand(DockingCommand_Executed); }
-        }
-
-        private void DockingCommand_Executed()
+        private void OpenDockCommand_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             _layoutPanelWindowManager.LayoutPanelManager.OpenDock(LayoutPanel);
         }
-
-
-        #endregion Commands
-
-
-
-
 
         #region Window state commands
 
@@ -159,5 +138,7 @@ namespace NeeView.Runtime.LayoutPanel
         }
 
         #endregion Window state commands
+
+
     }
 }

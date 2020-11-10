@@ -60,7 +60,8 @@ namespace NeeView
             }
         }
 
-        private void OpenPanelCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+
+        private void TogglePanelCommand_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             if (this.DataContext is LayoutPanel layoutPanel)
             {
@@ -68,7 +69,22 @@ namespace NeeView
             }
         }
 
-        // TODO: 強制的にパネル表示させる
+        private void OpenDockCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (this.DataContext is LayoutPanel layoutPanel)
+            {
+                MainLayoutPanelManager.Current.OpenDock(layoutPanel);
+            }
+        }
+
+        private void OpenWindowCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (this.DataContext is LayoutPanel layoutPanel)
+            {
+                MainLayoutPanelManager.Current.OpenWindow(layoutPanel, WindowPlacement.None);
+            }
+        }
+
         private void DragStartBehavior_DragBegin(object sender, DragStartEventArgs e)
         {
             Descriptor?.DragBegin();

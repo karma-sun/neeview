@@ -20,7 +20,6 @@ namespace NeeView
             _folderListPresenter = new BookshelfFolderListPresenter(_view, folderList);
 
             Icon = App.Current.MainWindow.Resources["pic_bookshelf"] as DrawingImage;
-            IconMargin = new Thickness(9);
 
             Config.Current.Bookshelf.AddPropertyChanged(nameof(BookshelfConfig.IsSelected), (s, e) => IsSelectedChanged?.Invoke(this, null));
         }
@@ -35,8 +34,6 @@ namespace NeeView
         public string TypeCode => nameof(FolderPanel);
 
         public ImageSource Icon { get; private set; }
-
-        public Thickness IconMargin { get; private set; }
 
         public string IconTips => Properties.Resources.BookshelfName;
 

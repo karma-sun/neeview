@@ -21,7 +21,6 @@ namespace NeeView
             _view = new PagemarkListView(model);
 
             Icon = App.Current.MainWindow.Resources["pic_bookmark_24px"] as ImageSource;
-            IconMargin = new Thickness(10);
 
             Config.Current.Pagemark.AddPropertyChanged(nameof(PagemarkConfig.IsSelected), (s, e) => IsSelectedChanged?.Invoke(this, null));
         }
@@ -36,8 +35,6 @@ namespace NeeView
         public string TypeCode => nameof(PagemarkPanel);
 
         public ImageSource Icon { get; private set; }
-
-        public Thickness IconMargin { get; private set; }
 
         public string IconTips => Properties.Resources.PagemarkName;
 

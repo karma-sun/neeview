@@ -5679,4 +5679,13 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamIsInputMethodEnabledTips" xml:space="preserve">
     <value>* It is applied from the next startup. Always valid for text boxes.</value>
   </data>
+  <data name="LayoutPanelMenuFloating" xml:space="preserve">
+    <value>_Floating</value>
+  </data>
+  <data name="LayoutPanelMenuDocking" xml:space="preserve">
+    <value>Doc_king</value>
+  </data>
+  <data name="LayoutPanelMenuClose" xml:space="preserve">
+    <value>_Close</value>
+  </data>
 </root>

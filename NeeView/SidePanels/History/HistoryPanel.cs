@@ -27,8 +27,6 @@ namespace NeeView
             _presenter = new HistoryListPresenter(_view, model);
 
             Icon = App.Current.MainWindow.Resources["pic_history_24px"] as ImageSource;
-            IconMargin = new Thickness(7, 8, 9, 8);
-            //IconMargin = new Thickness(8);
 
             Config.Current.History.AddPropertyChanged(nameof(HistoryConfig.IsSelected), (s, e) => IsSelectedChanged?.Invoke(this, null));
         }
@@ -43,8 +41,6 @@ namespace NeeView
         public string TypeCode => nameof(HistoryPanel);
 
         public ImageSource Icon { get; private set; }
-
-        public Thickness IconMargin { get; private set; }
 
         public string IconTips => Properties.Resources.HistoryName;
 

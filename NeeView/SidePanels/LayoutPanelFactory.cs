@@ -20,12 +20,15 @@ namespace NeeView
         {
             var ghost = new Border()
             {
-                Width = 32,
-                Height = 32,
+                Width = 28,
+                Height = 28,
                 Child = new Image()
                 {
+                    Width=28,
+                    Height=28,
+                    HorizontalAlignment = HorizontalAlignment.Right,
+                    VerticalAlignment = VerticalAlignment.Bottom,
                     Source = panel.Icon,
-                    Margin = panel.IconMargin,
                 }
             };
             var size = new Size(ghost.Width, ghost.Height);

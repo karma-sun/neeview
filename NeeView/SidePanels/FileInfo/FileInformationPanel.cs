@@ -20,7 +20,6 @@ namespace NeeView
             _view = new FileInformationView(model);
 
             Icon = App.Current.MainWindow.Resources["pic_info_24px"] as ImageSource;
-            IconMargin = new Thickness(9);
 
             Config.Current.Information.AddPropertyChanged(nameof(InformationConfig.IsSelected), (s, e) => IsSelectedChanged?.Invoke(this, null));
         }
@@ -35,8 +34,6 @@ namespace NeeView
         public string TypeCode => nameof(FileInformationPanel);
 
         public ImageSource Icon { get; private set; }
-
-        public Thickness IconMargin { get; private set; }
 
         public string IconTips => Properties.Resources.FileInfoName;
 

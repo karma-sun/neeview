@@ -238,19 +238,13 @@ namespace NeeView
     {
         public LeftPanelViewModel(ItemsControl itemsControl, LayoutDockPanelContent dock, Func<DependencyObject, bool> elementContainsFunc) : base(itemsControl, dock, elementContainsFunc)
         {
+            Config.Current.Panels.AddPropertyChanged(nameof(PanelsConfig.LeftPanelWidth), (s, e) => RaisePropertyChanged(nameof(Width)));
         }
 
         public override double Width
         {
             get { return Config.Current.Panels.LeftPanelWidth; }
-            set
-            {
-                if (Config.Current.Panels.LeftPanelWidth != value)
-                {
-                    Config.Current.Panels.LeftPanelWidth = value;
-                    RaisePropertyChanged();
-                }
-            }
+            set { Config.Current.Panels.LeftPanelWidth = value; }
         }
     }
 
@@ -261,19 +255,13 @@ namespace NeeView
     {
         public RightPanelViewModel(ItemsControl itemsControl, LayoutDockPanelContent dock, Func<DependencyObject, bool> elementContainsFunc) : base(itemsControl, dock,elementContainsFunc)
         {
+            Config.Current.Panels.AddPropertyChanged(nameof(PanelsConfig.RightPanelWidth), (s, e) => RaisePropertyChanged(nameof(Width)));
         }
 
         public override double Width
         {
             get { return Config.Current.Panels.RightPanelWidth; }
-            set
-            {
-                if (Config.Current.Panels.RightPanelWidth != value)
-                {
-                    Config.Current.Panels.RightPanelWidth = value;
-                    RaisePropertyChanged();
-                }
-            }
+            set { Config.Current.Panels.RightPanelWidth = value; }
         }
     }
 }

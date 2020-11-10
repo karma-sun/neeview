@@ -12,17 +12,22 @@ namespace NeeView
 {
     public class MainLayoutPanelManager : LayoutPanelManager
     {
-        private static MainLayoutPanelManager _instance;
-        public static MainLayoutPanelManager Current => _instance ?? (_instance = new MainLayoutPanelManager());
+        public static MainLayoutPanelManager Current { get; }
+        static MainLayoutPanelManager() => Current = new MainLayoutPanelManager();
 
 
+        private bool _initialized;
         private bool _isStoreEnabled = true;
 
-        // TODO: Initializeを分け、Restore()メソッドがいつ呼ばれても良いようにする
+
         private MainLayoutPanelManager()
         {
-            if (_instance != null) throw new InvalidOperationException();
-            _instance = this;
+        }
+
+        public void Initialize()
+        {
+            if (_initialized) return;
+            _initialized = true;
 
             // NOTE: To be on the safe side, initialize the floating point processor.
             Interop.NVFpReset();
@@ -57,10 +62,13 @@ namespace NeeView
             };
 
             Windows.Owner = App.Current.MainWindow;
+
+            // 設定の反映
+            Restore();
         }
 
 
-        public  Dictionary<string, IPanel> PanelsSource { get; private set; }
+        public Dictionary<string, IPanel> PanelsSource { get; private set; }
         public LayoutDockPanelContent LeftDock { get; private set; }
         public LayoutDockPanelContent RightDock { get; private set; }
 
@@ -99,7 +107,7 @@ namespace NeeView
 
         public void Store()
         {
-            if (_isStoreEnabled)
+            if (_initialized && _isStoreEnabled)
             {
                 Config.Current.Panels.Layout = CreateMemento();
             }
@@ -107,7 +115,10 @@ namespace NeeView
 
         public void Restore()
         {
-            Restore(Config.Current.Panels.Layout);
+            if (_initialized)
+            {
+                Restore(Config.Current.Panels.Layout);
+            }
         }
 
     }

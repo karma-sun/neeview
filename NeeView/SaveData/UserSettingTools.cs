@@ -90,6 +90,9 @@ namespace NeeView
             // コンフィグ反映
             ObjectMerge.Merge(Config.Current, setting.Config, options);
 
+            // レイアウト反映
+            MainLayoutPanelManager.Current.Restore();
+
             // コマンド設定反映
             CommandTable.Current.RestoreCommandCollection(setting.Commands);
 

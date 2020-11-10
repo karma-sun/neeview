@@ -22,7 +22,8 @@ namespace NeeView
         private bool _isManipulationBoundaryFeedbackEnabled;
         private Dictionary<string, PanelDock> _panelDocks;
         private double _mouseWheelSpeedRate = 1.0;
-
+        private double _leftPanelWidth = 300.0;
+        private double _rightPanelWidth = 300.0;
 
         /// <summary>
         /// パネルを自動的に隠す
@@ -171,10 +172,6 @@ namespace NeeView
         [ObjectMergeIgnore]
         public string LeftPanelSeleted { get; set; }
 
-        [PropertyMapIgnore]
-        [ObjectMergeIgnore]
-        public double LeftPanelWidth { get; set; } = 300.0;
-
         [Obsolete] // ver.38
         [PropertyMapIgnore]
         [ObjectMergeIgnore]
@@ -182,8 +179,19 @@ namespace NeeView
 
         [PropertyMapIgnore]
         [ObjectMergeIgnore]
-        public double RightPanelWidth { get; set; } = 300.0;
+        public double LeftPanelWidth
+        {
+            get { return _leftPanelWidth; }
+            set { SetProperty(ref _leftPanelWidth, value); }
+        }
 
+        [PropertyMapIgnore]
+        [ObjectMergeIgnore]
+        public double RightPanelWidth
+        {
+            get { return _rightPanelWidth; }
+            set { SetProperty(ref _rightPanelWidth, value); }
+        }
 
         // ver 38
         [PropertyMapIgnore]

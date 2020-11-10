@@ -383,7 +383,7 @@ namespace NeeView
 #pragma warning disable CS0612 // 型またはメンバーが旧型式です
                 config.Panels.IsSideBarEnabled = IsSideBarVisible;
                 config.Panels.IsManipulationBoundaryFeedbackEnabled = IsManipulationBoundaryFeedbackEnabled;
-                config.Panels.PanelDocks.Clear();
+                config.Panels.PanelDocks = new Dictionary<string, PanelDock>();
                 foreach (var panelTypeCode in Left.PanelTypeCodes)
                 {
                     config.Panels.PanelDocks.Add(panelTypeCode, PanelDock.Left);

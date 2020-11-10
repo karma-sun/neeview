@@ -204,7 +204,6 @@ namespace NeeView.Runtime.LayoutPanel
 
             this.Windows.CloseAll();
 
-            // TODO：すべてのパネル登録を保証する・１
             foreach (var item in memento.Panels.Where(e => Panels.ContainsKey(e.Key)))
             {
                 Panels[item.Key].Restore(item.Value);
@@ -215,11 +214,11 @@ namespace NeeView.Runtime.LayoutPanel
                 Docks[dock.Key].Restore(dock.Value);
             }
 
-            // すべてのパネル登録を保証する・２
+            // すべてのパネル登録を保証する
             var excepts = Panels.Keys.Except(Docks.Values.SelectMany(e => e.Items).SelectMany(e => e).Select(e => e.Key)).ToList();
             foreach (var except in excepts)
             {
-                Docks.First().Value.AddPanel(Panels[except]);
+                Docks.Last().Value.AddPanel(Panels[except]);
             }
 
             this.Windows.Restore(memento.Windows);

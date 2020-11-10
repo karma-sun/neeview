@@ -271,9 +271,6 @@ namespace NeeView
 
                 setting.Config.Window.State = Config.Current.Window.State; // ウィンドウ状態は維持する
                 UserSettingTools.Restore(setting);
-
-                // TODO: UserSettingTools.Restore()で実行されるようにする
-                MainLayoutPanelManager.Current.Restore();
             }
 
             // 履歴読み込み

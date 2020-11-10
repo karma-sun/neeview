@@ -24,7 +24,6 @@ namespace NeeView
             _model.ContentChanged += Model_ContentChanged;
 
             MainLayoutPanelManager = MainLayoutPanelManager.Current;
-            MainLayoutPanelManager.Restore();
 
             Left = left;
             Left.PropertyChanged += Left_PropertyChanged;

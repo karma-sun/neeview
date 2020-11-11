@@ -37,7 +37,6 @@ namespace NeeView.Runtime.LayoutPanel
             _dpiWatcher = new DpiWatcher(this);
 
             _windowChrome = new WindowChromeAccessor(this);
-            //_windowChromeBehavior.WindowChrome.CaptionHeight = 32;
             _windowChrome.IsEnabled = true;
 
             _windowCaptionEmulator = new LayoutPanelWindowCaptionEmulator(this, this.CaptionBar);
@@ -61,8 +60,6 @@ namespace NeeView.Runtime.LayoutPanel
             {
                 LayoutPanel.WindowPlacement = placement;
             }
-
-            //Content = layoutPanel.Content;
 
             this.SourceInitialized += LayoutPanelWindow_SourceInitialized;
         }

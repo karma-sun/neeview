@@ -14,16 +14,6 @@ namespace NeeView
         public static WindowActivator Current { get; }
         static WindowActivator() => Current = new WindowActivator();
 
-        private WindowActivator()
-        {
-            RemoteCommandService.Current.AddReciever("ActivateMainWindow", ActivateMainWindow);
-        }
-
-        private void ActivateMainWindow(RemoteCommand command)
-        {
-            Application.Current.MainWindow.Activate();
-        }
-
 
         public void NextActivate(int direction)
         {
@@ -31,11 +21,7 @@ namespace NeeView
             if (changed) return;
 
             var process = ProcessActivator.NextActivate(direction);
-            if (process != null)
-            {
-                RemoteCommandService.Current.Send(new RemoteCommand("ActivateMainWindow"), new RemoteCommandDelivery(process.Id));
-                return;
-            }
+            if (process != null) return;
 
             if (GetSubWindows().Any())
             {

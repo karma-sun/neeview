@@ -55,7 +55,6 @@ namespace NeeView.Runtime.LayoutPanel
         public LayoutDockPanelContent FindPanelListCollection(LayoutPanelCollection collection)
         {
             return Docks.Values.FirstOrDefault(e => e.Contains(collection));
-            //return _docks.Find(e => e.Contains(list));
         }
 
         public void Toggle(LayoutPanel panel)
@@ -95,7 +94,6 @@ namespace NeeView.Runtime.LayoutPanel
             if (panel is null) throw new ArgumentNullException(nameof(panel));
 
             if (panel.WindowPlacement.IsValid() || Windows.Contains(panel))
-            //if (Windows.Contains(panel))
             {
                 OpenWindow(panel);
             }

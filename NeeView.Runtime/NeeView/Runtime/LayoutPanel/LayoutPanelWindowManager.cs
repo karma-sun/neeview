@@ -113,9 +113,5 @@ namespace NeeView.Runtime.LayoutPanel
         }
 
         #endregion
-
     }
-
-
-
 }

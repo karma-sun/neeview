@@ -22,7 +22,7 @@ namespace NeeView.Windows
 
         private void Window_DpiChanged(object sender, DpiChangedEventArgs e)
         {
-            Debug.WriteLine($"DPI: {e.NewDpi.DpiScaleX}");
+            ////Debug.WriteLine($"DPI: {e.NewDpi.DpiScaleX}");
 
             Dpi = e.NewDpi;
             DpiChanged?.Invoke(sender, e);

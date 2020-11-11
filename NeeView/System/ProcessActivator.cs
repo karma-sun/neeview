@@ -25,6 +25,13 @@ namespace NeeView
             [DllImport("user32.dll")]
             [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool IsIconic(IntPtr hWnd);
+
+            [DllImport("user32.dll", SetLastError = true)]
+            public static extern IntPtr SetActiveWindow(IntPtr hWnd);
+
+            [DllImport("user32.dll")]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool SetForegroundWindow(IntPtr hWnd);
         }
 
         public static Process NextActivate(int direction)
@@ -46,11 +53,12 @@ namespace NeeView
         {
             if (process == null) return;
 
+            var hWnd = process.MainWindowHandle;
+            
             // アクティブにする
-            Microsoft.VisualBasic.Interaction.AppActivate(process.Id);
+            NativeMethods.SetForegroundWindow(hWnd);
 
             // ウィンドウが最小化されている場合は元に戻す
-            var hWnd = process.MainWindowHandle;
             if (NativeMethods.IsIconic(hWnd))
             {
                 NativeMethods.ShowWindowAsync(hWnd, NativeMethods.SW_RESTORE);

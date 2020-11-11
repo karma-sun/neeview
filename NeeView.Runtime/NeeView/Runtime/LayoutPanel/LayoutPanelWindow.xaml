@@ -20,18 +20,6 @@
         <CommandBinding Command="{StaticResource OpenDockCommand}" Executed="OpenDockCommand_Execute" />
     </Window.CommandBindings>
 
-    <!--
-    <Window.Style>
-        <Style TargetType="{x:Type Window}">
-            <Setter Property="WindowChrome.WindowChrome">
-                <Setter.Value>
-                    <WindowChrome CornerRadius="3" GlassFrameThickness="0" ResizeBorderThickness="20" UseAeroCaptionButtons="False" CaptionHeight="32" />
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Style>
-    -->
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

@@ -37,9 +37,6 @@ namespace NeeView.Runtime.LayoutPanel
 
         protected override void OnRender(DrawingContext drawingContext)
         {
-            //var renderBrush = new SolidColorBrush(Color.FromArgb(0x3D, 0x26, 0xA0, 0xDA));
-            //var renderPen = new Pen(new SolidColorBrush(Color.FromArgb(0xFF, 0x26, 0xA0, 0xDA)), 1.0);
-
             var renderBrush = new SolidColorBrush(Color.FromArgb(0x80, 0x80, 0x80, 0x80));
             var renderPen = new Pen(new SolidColorBrush(Colors.LightGray), 0.0);
 

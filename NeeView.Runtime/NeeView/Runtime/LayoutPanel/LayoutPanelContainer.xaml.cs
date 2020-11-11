@@ -74,22 +74,13 @@ namespace NeeView.Runtime.LayoutPanel
         {
             _adorner = _adorner ?? new LayoutPanelContainerAdorner(this);
 
-            InitializeDrop();
-            //this.PreviewDragOver += LayoutPanelContainer_PreviewDragOver;
             this.PreviewDragOver += LayoutPanelContainer_DragOver;
             this.PreviewDragEnter += LayoutPanelContainer_DragEnter;
-            //this.PreviewDragLeave += LayoutPanelContainer_PreviewDragLeave;
             this.PreviewDragLeave += LayoutPanelContainer_DragLeave;
             this.PreviewDrop += LayoutPanelContainer_Drop;
             this.AllowDrop = true;
-            //this.PreviewMouseMove += LayoutPanelContainer_PreviewMouseMove;
         }
 
-
-        private void LayoutPanelContainer_PreviewMouseMove(object sender, MouseEventArgs e)
-        {
-            ///Debug.WriteLine($"PMV: {e.GetPosition(this)}");
-        }
 
         public void Snap()
         {
@@ -123,32 +114,9 @@ namespace NeeView.Runtime.LayoutPanel
             _manager.RaiseDragEnd();
         }
 
-        //private DelayValue<bool> _isGhostVisible;
-
-        private void InitializeDrop()
-        {
-            //_isGhostVisible = new DelayValue<bool>(false);
-            //_isGhostVisible.ValueChanged += IsGhostVisible_ValueChanged;
-        }
-
-#if false
-        private void IsGhostVisible_ValueChanged(object sender, EventArgs e)
-        {
-            if (_isGhostVisible.Value)
-            {
-                _adorner.Attach();
-            }
-            else
-            {
-                _adorner.Detach();
-            }
-        }
-#endif
-
         private void LayoutPanelContainer_Drop(object sender, DragEventArgs e)
         {
             _adorner.Detach();
-            ////isGhostVisible.SetValue(false, 0.0);
 
             var content = (LayoutPanel)e.Data.GetData(typeof(LayoutPanel));
             if (content is null) return;
@@ -226,74 +194,23 @@ namespace NeeView.Runtime.LayoutPanel
             }
 
             _adorner.Attach();
-            ////_isGhostVisible.SetValue(true);
 
             e.Effects = DragDropEffects.Move;
-
-            __DumpDragEvent(sender, e);
         }
 
-
-
-        private void LayoutPanelContainer_PreviewDragOver(object sender, DragEventArgs e)
-        {
-            //__DumpDragEvent(sender, e);
-        }
-
-        private void LayoutPanelContainer_PreviewDragLeave(object sender, DragEventArgs e)
-        {
-            //__DumpDragEvent(sender, e);
-        }
 
         private void LayoutPanelContainer_DragLeave(object sender, DragEventArgs e)
         {
             var content = (LayoutPanel)e.Data.GetData(typeof(LayoutPanel));
             if (content is null) return;
 
-            __DumpDragEvent(sender, e);
-
-#if false
-            var element = (FrameworkElement)e.OriginalSource;
-
-            while (element != null)
-            {
-                Debug.WriteLine($":: {element}");
-                element = element.Parent as FrameworkElement;
-            }
-#endif
-
-#if false
-            var pos = e.GetPosition(this);
-            Debug.WriteLine($"{pos}");
-            if (pos.X < 0 || pos.Y < 0 || pos.X >= this.ActualWidth || pos.Y >= this.ActualHeight)
-            {
-                Debug.WriteLine($"{pos}: Detach");
-            }
-#endif
             _adorner.Detach();
-            ////_isGhostVisible.SetValue(false, 0.0);
             e.Handled = true;
         }
 
         private void LayoutPanelContainer_DragEnter(object sender, DragEventArgs e)
         {
             LayoutPanelContainer_DragOver(sender, e);
-
-            /*
-            __DumpDragEvent(sender, e);
-            _isGhostVisible.SetValue(true);
-            */
-        }
-
-        private void __DumpDragEvent(object sender, DragEventArgs e)
-        {
-#if false
-            const int callerFrameIndex = 1;
-            System.Diagnostics.StackFrame callerFrame = new System.Diagnostics.StackFrame(callerFrameIndex);
-            System.Reflection.MethodBase callerMethod = callerFrame.GetMethod();
-
-            Debug.WriteLine($"{callerMethod.Name}: {e.OriginalSource},{e.OriginalSource.GetHashCode()}");
-#endif
         }
 
         private static Dock GetLayoutDockFromPosY(double y, double height)

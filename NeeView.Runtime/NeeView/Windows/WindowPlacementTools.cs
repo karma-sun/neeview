@@ -194,11 +194,11 @@ namespace NeeView.Windows
                 // AeroSnapの座標保存
                 // NOTE: スナップ状態の復元方法が不明なため、現在のウィンドウサイズを通常ウィンドウサイズとして上書きする。
                 NativeMethods.GetWindowRect(hwnd, out NativeMethods.RECT rect);
-                Debug.WriteLine($"> Native.WindowRect: {rect}");
+                ////Debug.WriteLine($"> Native.WindowRect: {rect}");
 
                 if (raw.ShowCmd == NativeMethods.SW.SHOWNORMAL && !raw.NormalPosition.Equals(rect))
                 {
-                    Debug.WriteLine("> Window snapped, maybe.");
+                    ////Debug.WriteLine("> Window snapped, maybe.");
                     raw.NormalPosition = rect;
                 }
             }
@@ -209,7 +209,7 @@ namespace NeeView.Windows
             var dpi = dpiProvider.GetDpiScale();
             raw.normalPosition.Right = raw.normalPosition.Left + (int)(raw.normalPosition.Width / dpi.DpiScaleX + 0.5);
             raw.normalPosition.Bottom = raw.normalPosition.Top + (int)(raw.normalPosition.Height / dpi.DpiScaleY + 0.5);
-            Debug.WriteLine($"> Store.WIDTH: {raw.normalPosition.Width}, DPI: {dpi.DpiScaleX}");
+            ////Debug.WriteLine($"> Store.WIDTH: {raw.normalPosition.Width}, DPI: {dpi.DpiScaleX}");
 
             return ConvertToWindowPlacement(raw);
         }

@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Windows.Interop;
 
 namespace NeeView
 {
@@ -26,7 +27,7 @@ namespace NeeView
             public static extern bool IsIconic(IntPtr hWnd);
         }
 
-        public static void NextActivate(int direction)
+        public static Process NextActivate(int direction)
         {
             var currentProcess = Process.GetCurrentProcess();
 
@@ -36,9 +37,9 @@ namespace NeeView
             // 自身を基準として並び替え。自身は削除する
             var index = processes.FindIndex(e => e.Id == currentProcess.Id);
             processes = processes.Skip(index).Concat(processes.Take(index)).Where(e => e.Id != currentProcess.Id).ToList();
-
             var process = (direction > 0) ? processes.FirstOrDefault() : processes.LastOrDefault();
             AppActivate(process);
+            return process;
         }
 
         public static void AppActivate(Process process)

@@ -14,7 +14,7 @@
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            ProcessActivator.NextActivate(+1);
+            WindowActivator.Current.NextActivate(+1);
         }
     }
 

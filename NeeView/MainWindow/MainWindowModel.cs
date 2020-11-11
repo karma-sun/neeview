@@ -283,6 +283,8 @@ namespace NeeView
         // 起動時処理
         public void Loaded()
         {
+            MainLayoutPanelManager.Current.Restore();
+
             // Susie起動
             // TODO: 非同期化できないか？
             SusiePluginManager.Current.Initialize();

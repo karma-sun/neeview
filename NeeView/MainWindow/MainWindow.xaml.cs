@@ -26,6 +26,7 @@ namespace NeeView
         public static MainWindow Current { get; private set; }
 
         private MainWindowViewModel _vm;
+        private RoutedCommandBinding _routedCommandBinding;
 
 
         #region コンストラクターと初期化処理
@@ -71,8 +72,7 @@ namespace NeeView
             _vm.FocusMainViewCall += (s, e) => FocusMainView();
 
             // コマンド初期化
-            InitializeCommand();
-            InitializeCommandBindings();
+            _routedCommandBinding = new RoutedCommandBinding(this, RoutedCommandTable.Current);
 
             // サイドパネル初期化
             MainLayoutPanelManager.Current.Initialize();
@@ -230,51 +230,12 @@ namespace NeeView
 
         #endregion
 
-        #region コマンドバインディング
+        #region コマンド
 
-        private Dictionary<string, CommandBinding> _commandBindings;
-
+        // 印刷
         public void Print()
         {
             ContentCanvas.Current.Print(this, this.PageContents, this.MainContent.RenderTransform, this.MainView.ActualWidth, this.MainView.ActualHeight);
-        }
-
-        // MainWindow依存コマンド登録
-        public void InitializeCommand()
-        {
-            //  コマンド実行後処理
-            RoutedCommandTable.Current.CommandExecuted += RoutedCommand_CommandExecuted;
-        }
-
-
-        // コマンド実行後処理
-        private void RoutedCommand_CommandExecuted(object sender, CommandExecutedEventArgs e)
-        {
-            // ダブルクリックでコマンド実行後のMouseButtonUpイベントをキャンセルする
-            if (e.Gesture is MouseGesture mouse)
-            {
-                switch (mouse.MouseAction)
-                {
-                    case MouseAction.LeftDoubleClick:
-                    case MouseAction.RightDoubleClick:
-                    case MouseAction.MiddleDoubleClick:
-                        _skipMouseButtonUp = true;
-                        break;
-                }
-            }
-            else if (e.Gesture is MouseExGesture mouseEx)
-            {
-                switch (mouseEx.MouseExAction)
-                {
-                    case MouseExAction.LeftDoubleClick:
-                    case MouseExAction.RightDoubleClick:
-                    case MouseExAction.MiddleDoubleClick:
-                    case MouseExAction.XButton1DoubleClick:
-                    case MouseExAction.XButton2DoubleClick:
-                        _skipMouseButtonUp = true;
-                        break;
-                }
-            }
         }
 
         // コマンド：コンテキストメニューを開く
@@ -286,55 +247,6 @@ namespace NeeView
                 this.MainViewPanel.ContextMenu.PlacementTarget = this.MainViewPanel;
                 this.MainViewPanel.ContextMenu.Placement = PlacementMode.MousePoint;
                 this.MainViewPanel.ContextMenu.IsOpen = true;
-            }
-        }
-
-        // RoutedCommand バインディング
-        public void InitializeCommandBindings()
-        {
-            _commandBindings = new Dictionary<string, CommandBinding>();
-
-            foreach (var name in CommandTable.Current.Keys)
-            {
-                var binding = CreateCommandBinding(name);
-                _commandBindings.Add(name, binding);
-                this.CommandBindings.Add(binding);
-            }
-
-            RoutedCommandTable.Current.Changed += RefresuCommandBindings;
-        }
-
-        private CommandBinding CreateCommandBinding(string commandName)
-        {
-            var binding = new CommandBinding(RoutedCommandTable.Current.Commands[commandName],
-                (sender, e) => RoutedCommandTable.Current.Execute(commandName, e.Parameter),
-                (sender, e) => e.CanExecute = CommandTable.Current.GetElement(commandName).CanExecute(CommandElement.EmptyArgs, CommandOption.None));
-
-            return binding;
-        }
-
-        private void RefresuCommandBindings(object sender, EventArgs _)
-        {
-            var oldies = _commandBindings.Keys
-                .Where(e => e.StartsWith(ScriptCommand.Prefix))
-                .ToList();
-
-            var newers = CommandTable.Current.Keys
-                .Where(e => e.StartsWith(ScriptCommand.Prefix))
-                .ToList();
-
-            foreach (var name in oldies.Except(newers))
-            {
-                var binding = _commandBindings[name];
-                _commandBindings.Remove(name);
-                this.CommandBindings.Remove(binding);
-            }
-
-            foreach (var name in newers.Except(oldies))
-            {
-                var binding = CreateCommandBinding(name);
-                _commandBindings.Add(name, binding);
-                this.CommandBindings.Add(binding);
             }
         }
 
@@ -580,11 +492,6 @@ namespace NeeView
         #region ウィンドウイベント処理
 
         /// <summary>
-        /// マウスボタンUPイベントキャンセル
-        /// </summary>
-        private bool _skipMouseButtonUp;
-
-        /// <summary>
         /// フレーム処理
         /// </summary>
         private void OnRendering(object sender, EventArgs e)
@@ -740,24 +647,12 @@ namespace NeeView
 
         #endregion MainWindow_SizeChanged
 
-        // 
         private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            // 単キーのショートカットを有効にする。
-            // TextBoxなどのイベント処理でこのフラグをfalseにすることで短キーのショートカットを無効にして入力を優先させる
-            KeyExGesture.AllowSingleKey = true;
-
             // 自動非表示ロック解除
             _vm.Model.LeaveVisibleLocked();
-
-            // 一部 IMEKey のっとり
-            if (e.Key == Key.ImeProcessed && e.ImeProcessedKey.IsImeKey())
-            {
-                RoutedCommandTable.Current.ExecuteImeKeyGestureCommand(sender, e);
-            }
         }
 
-        // 
         private void MainWindow_PreviewKeyUp(object sender, KeyEventArgs e)
         {
         }
@@ -772,34 +667,21 @@ namespace NeeView
             }
         }
 
-
-        //
         private void MainWindow_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            // ダブルクリック後のイベントキャンセル
-            if (_skipMouseButtonUp)
-            {
-                ///Debug.WriteLine("Skip MuseUpEvent");
-                _skipMouseButtonUp = false;
-                e.Handled = true;
-            }
         }
 
-
-        //
         private void MainWindow_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             // 自動非表示ロック解除
             _vm.Model.LeaveVisibleLocked();
         }
 
-        //
         private void MainWindow_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             // 自動非表示ロック解除
             _vm.Model.LeaveVisibleLocked();
         }
-
 
         private void MainWindow_PreviewStylusDown(object sender, StylusDownEventArgs e)
         {
@@ -807,8 +689,6 @@ namespace NeeView
             _vm.Model.LeaveVisibleLocked();
         }
 
-
-        //
         private void MainWindow_PreviewMouseMove(object sender, MouseEventArgs e)
         {
             // DragMove終了直後のマウス座標が不正(0,0)になるのようなので、この場合は無効にする
@@ -820,7 +700,6 @@ namespace NeeView
             }
         }
 
-        //
         private void MainWindow_MouseLeave(object sender, MouseEventArgs e)
         {
         }

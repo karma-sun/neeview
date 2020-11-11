@@ -22,6 +22,7 @@ namespace NeeView.Runtime.LayoutPanel
 
         public Window Owner { get; set; }
 
+        public List<LayoutPanelWindow> Windows => _windows;
 
 
         public bool Contains(LayoutPanel panel)

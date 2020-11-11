@@ -73,9 +73,6 @@ namespace NeeView
             };
 
             Windows.Owner = App.Current.MainWindow;
-
-            // 設定の反映
-            Restore();
         }
 
 
@@ -188,6 +185,9 @@ namespace NeeView
                 captionForeground.Bindings.Add(new Binding(nameof(ThemeConfig.MenuColor)) { Source = Config.Current.Theme });
                 captionForeground.Bindings.Add(new Binding(nameof(LayoutPanelWindow.IsActive)) { Source = window });
                 window.SetBinding(LayoutPanelWindow.CaptionForegroundProperty, captionForeground);
+
+                // NOTE: Tagにインスタンスを保持して消えないようにする
+                window.Tag = new RoutedCommandBinding(window, RoutedCommandTable.Current);
             }
         }
     }

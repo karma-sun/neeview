@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -22,9 +23,10 @@ namespace NeeView
         private bool _isStoreEnabled = true;
 
 
-        private MainLayoutPanelManager()
-        {
-        }
+        public Dictionary<string, IPanel> PanelsSource { get; private set; }
+        public LayoutDockPanelContent LeftDock { get; private set; }
+        public LayoutDockPanelContent RightDock { get; private set; }
+
 
         public void Initialize()
         {
@@ -38,7 +40,8 @@ namespace NeeView
             Resources["Docking"] = Properties.Resources.LayoutPanelMenuDocking;
             Resources["Close"] = Properties.Resources.LayoutPanelMenuClose;
 
-            WindowDecorater = new LayoutWindowDecorater();
+            ContainerDecorator = new LayoutPanelContainerDecorator();
+            WindowDecorator = new LayoutWindowDecorator();
 
             var panelKyes = new[] {
                 nameof(FolderPanel),
@@ -76,15 +79,10 @@ namespace NeeView
         }
 
 
-        public Dictionary<string, IPanel> PanelsSource { get; private set; }
-        public LayoutDockPanelContent LeftDock { get; private set; }
-        public LayoutDockPanelContent RightDock { get; private set; }
-
-        public bool IsEnabled => true;
-
-
         public void SelectPanel(string key, bool isSelected)
         {
+            if (!_initialized) throw new InvalidOperationException();
+
             var panel = this.Panels[key];
             if (isSelected)
             {
@@ -101,16 +99,22 @@ namespace NeeView
 
         public bool IsPanelSelected(string key)
         {
+            if (!_initialized) throw new InvalidOperationException();
+
             return IsPanelSelected(this.Panels[key]);
         }
 
         public bool IsPanelVisible(string key)
         {
+            if (!_initialized) throw new InvalidOperationException();
+
             return IsPanelVisible(this.Panels[key]);
         }
 
         public void SetIsStoreEnabled(bool allow)
         {
+            if (!_initialized) throw new InvalidOperationException();
+
             _isStoreEnabled = allow;
         }
 
@@ -132,14 +136,25 @@ namespace NeeView
 
 
         /// <summary>
+        /// LayoutContainer装飾
+        /// </summary>
+        class LayoutPanelContainerDecorator : ILayoutPanelContainerDecorator
+        {
+            public void Decorate(LayoutPanelContainer container, Button closeButton)
+            {
+                closeButton.Style = (Style)App.Current.Resources["IconButton"];
+            }
+        }
+
+        /// <summary>
         /// LayoutWindow装飾
         /// </summary>
-        class LayoutWindowDecorater : ILayoutPanelWindowDecorater
+        class LayoutWindowDecorator : ILayoutPanelWindowDecorator
         {
             public static PanelColorToBrushConverter _captionBackgroundConverter;
             public static PanelColorTobrushMultiConverter _captionForegroundConverter;
 
-            static LayoutWindowDecorater()
+            static LayoutWindowDecorator()
             {
                 _captionBackgroundConverter = new PanelColorToBrushConverter()
                 {
@@ -157,6 +172,8 @@ namespace NeeView
 
             public void Decorate(LayoutPanelWindow window)
             {
+                window.Style = (Style)App.Current.Resources["DefaultWindowStyle"];
+
                 var background = new Binding(nameof(SidePanelProfile.BackgroundBrushRaw)) { Source = SidePanelProfile.Current };
                 window.SetBinding(LayoutPanelWindow.BackgroundProperty, background);
 

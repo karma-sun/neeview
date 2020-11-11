@@ -91,9 +91,12 @@ namespace NeeView
         private RelayCommand _newFolderCommand;
         private RelayCommand _addBookmarkCommand;
         private RelayCommand<PanelListItemStyle> _setListItemStyle;
+        private RelayCommand _toggleVisibleFoldersTree;
 
-        public ICommand ToggleVisibleFoldersTree => RoutedCommandTable.Current.Commands["ToggleVisibleFoldersTree"];
-
+        public RelayCommand ToggleVisibleFoldersTree
+        {
+            get { return _toggleVisibleFoldersTree = _toggleVisibleFoldersTree ?? new RelayCommand(_model.ToggleVisibleFoldersTree); }
+        }
 
         public RelayCommand SetHome
         {

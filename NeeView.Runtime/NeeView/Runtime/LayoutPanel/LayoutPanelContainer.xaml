@@ -43,7 +43,7 @@
                     <MenuItem x:Name="CloseMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="Close" Command="{StaticResource ClosePanelCommand}"/>
                 </ContextMenu>
             </DockPanel.ContextMenu>
-            <Button DockPanel.Dock="Right" Width="24" Height="24" Command="{Binding ClosePanelCommand}" Cursor="Arrow" BorderThickness="0" Background="Transparent"
+            <Button x:Name="CloseButton" DockPanel.Dock="Right" Width="24" Height="24" Command="{StaticResource ClosePanelCommand}" Cursor="Arrow" BorderThickness="0" Background="Transparent"
                     Visibility="{Binding ElementName=Caption, Path=IsMouseOver, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Path UseLayoutRounding="True" StrokeThickness="1" Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
                         Data="M 0,0 L 10,10 M 0,10 L 10,0" Margin="0,0,1,0" />

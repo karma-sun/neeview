@@ -43,6 +43,8 @@ namespace NeeView.Runtime.LayoutPanel
             this.DockingMenuItem.Header = manager.Resources["Docking"];
             this.CloseMenuItem.Header = manager.Resources["Close"];
 
+            manager.ContainerDecorator?.Decorate(this, this.CloseButton);
+
             this.Loaded += LayoutPanelContainer_Loaded;
         }
 
@@ -66,9 +68,6 @@ namespace NeeView.Runtime.LayoutPanel
 
         public static readonly DependencyProperty DescriptorProperty =
             DependencyProperty.Register("Descriptor", typeof(IDragDropDescriptor), typeof(LayoutPanelContainer), new PropertyMetadata(null));
-
-
-
 
 
         private void LayoutPanelContainer_Loaded(object sender, RoutedEventArgs e)
@@ -310,5 +309,10 @@ namespace NeeView.Runtime.LayoutPanel
     {
         void DragBegin();
         void DragEnd();
+    }
+
+    public interface ILayoutPanelContainerDecorator
+    {
+        void Decorate(LayoutPanelContainer container, Button closeButton);
     }
 }

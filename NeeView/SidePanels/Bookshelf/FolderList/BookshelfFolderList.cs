@@ -120,6 +120,15 @@ namespace NeeView
             }
         }
 
+        internal void ToggleVisibleFoldersTree()
+        {
+            var command = CommandTable.Current.GetElement("ToggleVisibleFoldersTree");
+            if (command.CanExecute(CommandElement.EmptyArgs, CommandOption.None))
+            {
+                command.Execute(CommandElement.EmptyArgs, CommandOption.None);
+            }
+        }
+
         public override QueryPath GetFixedHome()
         {
             var path = new QueryPath(Config.Current.Bookshelf.Home);

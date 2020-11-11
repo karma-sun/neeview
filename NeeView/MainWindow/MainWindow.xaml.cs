@@ -74,6 +74,9 @@ namespace NeeView
             InitializeCommand();
             InitializeCommandBindings();
 
+            // サイドパネル初期化
+            MainLayoutPanelManager.Current.Initialize();
+
             // 各コントロールとモデルを関連付け
             this.PageSliderView.Source = PageSlider.Current;
             this.PageSliderView.FocusTo = this.MainView;

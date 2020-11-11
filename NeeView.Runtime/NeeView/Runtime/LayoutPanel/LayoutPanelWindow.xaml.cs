@@ -160,7 +160,7 @@ namespace NeeView.Runtime.LayoutPanel
     }
 
 
-    public interface ILayoutPanelWindowDecorater
+    public interface ILayoutPanelWindowDecorator
     {
         void Decorate(LayoutPanelWindow window);
     }

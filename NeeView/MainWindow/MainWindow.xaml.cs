@@ -86,8 +86,6 @@ namespace NeeView
             this.MenuBar.Source = NeeView.MenuBar.Current;
             this.NowLoadingView.Source = NowLoading.Current;
 
-
-            //
             Config.Current.MenuBar.AddPropertyChanged(nameof(MenuBarConfig.IsHideMenu),
                 (s, e) => DartyMenuAreaLayout());
 

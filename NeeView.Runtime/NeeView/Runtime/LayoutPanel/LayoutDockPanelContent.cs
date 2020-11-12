@@ -41,6 +41,7 @@ namespace NeeView.Runtime.LayoutPanel
             Items.CollectionChanged += Items_CollectionChanged;
         }
 
+        public event EventHandler CollectionChanged;
 
         private void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
@@ -50,6 +51,7 @@ namespace NeeView.Runtime.LayoutPanel
         private void UpdateLeaderPanels()
         { 
             LeaderPanels = Items.Select(x => x.First()).ToList();
+            CollectionChanged?.Invoke(this, null);
         }
 
         public LayoutPanelManager LayoutPanelManager { get; set; }

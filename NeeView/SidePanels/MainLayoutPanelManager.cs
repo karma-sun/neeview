@@ -23,6 +23,9 @@ namespace NeeView
         private bool _isStoreEnabled = true;
 
 
+        public event EventHandler CollectionChanged;
+
+
         public Dictionary<string, IPanel> PanelsSource { get; private set; }
         public LayoutDockPanelContent LeftDock { get; private set; }
         public LayoutDockPanelContent RightDock { get; private set; }
@@ -73,6 +76,16 @@ namespace NeeView
             };
 
             Windows.Owner = App.Current.MainWindow;
+
+            LeftDock.CollectionChanged += (s, e) => RaiseCollectionChanged(s, e);
+            RightDock.CollectionChanged += (s, e) => RaiseCollectionChanged(s, e);
+            Windows.CollectionChanged += (s, e) => RaiseCollectionChanged(s, e);
+        }
+
+
+        private void RaiseCollectionChanged(object sender, EventArgs e)
+        {
+            CollectionChanged?.Invoke(sender, e);
         }
 
 

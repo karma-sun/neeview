@@ -33,7 +33,6 @@ namespace NeeView.Runtime.LayoutPanel
             Windows = new LayoutPanelWindowManager(this);
         }
 
-
         public event EventHandler DragBegin;
         public event EventHandler DragEnd;
 

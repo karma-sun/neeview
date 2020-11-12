@@ -1,5 +1,7 @@
 ﻿using NeeView.Windows;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 
@@ -8,13 +10,18 @@ namespace NeeView.Runtime.LayoutPanel
     public class LayoutPanelWindowManager
     {
         private LayoutPanelManager _layoutPanelManager;
-        private List<LayoutPanelWindow> _windows { get; set; } = new List<LayoutPanelWindow>();
+        private ObservableCollection<LayoutPanelWindow> _windows { get; set; } = new ObservableCollection<LayoutPanelWindow>();
 
 
         public LayoutPanelWindowManager(LayoutPanelManager manager)
         {
             _layoutPanelManager = manager;
+            _windows.CollectionChanged += (s, e) => CollectionChanged?.Invoke(this, null);
         }
+
+
+        public event EventHandler CollectionChanged;
+
 
         public LayoutPanelManager LayoutPanelManager => _layoutPanelManager;
 
@@ -22,7 +29,7 @@ namespace NeeView.Runtime.LayoutPanel
 
         public Window Owner { get; set; }
 
-        public List<LayoutPanelWindow> Windows => _windows;
+        public ObservableCollection<LayoutPanelWindow> Windows => _windows;
 
 
         public bool Contains(LayoutPanel panel)

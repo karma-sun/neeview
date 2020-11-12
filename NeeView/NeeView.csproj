@@ -89,7 +89,7 @@
     <PackageReference Include="System.Data.SQLite.Core">
       <Version>1.0.112.2</Version>
     </PackageReference>
-    <PackageReference Include="System.Text.Json" Version="4.7.2" />
+    <PackageReference Include="System.Text.Json" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>

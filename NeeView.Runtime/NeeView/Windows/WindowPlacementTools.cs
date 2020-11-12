@@ -187,29 +187,26 @@ namespace NeeView.Windows
             if (!(window is IHasDpiScale dpiProvider)) throw new ArgumentException($"need window has IDpiProvider.");
 
             NativeMethods.GetWindowPlacement(hwnd, out NativeMethods.WINDOWPLACEMENT raw);
-            ////Debug.WriteLine($"> Native.WindowPlacement: {raw}");
+            ////Debug.WriteLine($"WindowPlacement.Store: Native.WindowPlacement: {raw}");
 
             if (withAeroSnap)
             {
                 // AeroSnapの座標保存
                 // NOTE: スナップ状態の復元方法が不明なため、現在のウィンドウサイズを通常ウィンドウサイズとして上書きする。
                 NativeMethods.GetWindowRect(hwnd, out NativeMethods.RECT rect);
-                ////Debug.WriteLine($"> Native.WindowRect: {rect}");
 
                 if (raw.ShowCmd == NativeMethods.SW.SHOWNORMAL && !raw.NormalPosition.Equals(rect))
                 {
-                    ////Debug.WriteLine("> Window snapped, maybe.");
+                    ////Debug.WriteLine("WindowPlacement.Store: Window snapped, maybe: {rect}");
                     raw.NormalPosition = rect;
                 }
             }
 
             // DPI補正
-            // NOTE: WPFが復元時にDPIを加味してしまうようで、同じサイズにならない。このため、保存値からDPI要素を取り除いておく。
-            // NOTE: 保存時に計算するのは、復元時ではWindowのDPIが取得できていないであることが予想されるため。
             var dpi = dpiProvider.GetDpiScale();
-            raw.normalPosition.Right = raw.normalPosition.Left + (int)(raw.normalPosition.Width / dpi.DpiScaleX + 0.5);
-            raw.normalPosition.Bottom = raw.normalPosition.Top + (int)(raw.normalPosition.Height / dpi.DpiScaleY + 0.5);
-            ////Debug.WriteLine($"> Store.WIDTH: {raw.normalPosition.Width}, DPI: {dpi.DpiScaleX}");
+            raw.normalPosition.Width = (int)(raw.normalPosition.Width / dpi.DpiScaleX);
+            raw.normalPosition.Height = (int)(raw.normalPosition.Height / dpi.DpiScaleY);
+            ////Debug.WriteLine($"WindowPlacement.Restore: WIDTH: {raw.normalPosition.Width}, DPI: {dpi.DpiScaleX}");
 
             return ConvertToWindowPlacement(raw);
         }
@@ -219,8 +216,16 @@ namespace NeeView.Windows
         {
             if (placement == null || !placement.IsValid()) return;
 
+            if (!(window is IHasDpiScale dpiProvider)) throw new ArgumentException($"need window has IDpiProvider.");
+
             var hwnd = new WindowInteropHelper(window).Handle;
             var raw = ConvertToNativeWindowPlacement(placement);
+
+            // DPI補正
+            var dpi = dpiProvider.GetDpiScale();
+            raw.normalPosition.Width = (int)(raw.normalPosition.Width * dpi.DpiScaleX + 0.5);
+            raw.normalPosition.Height = (int)(raw.normalPosition.Height * dpi.DpiScaleY + 0.5);
+            ////Debug.WriteLine($"WindowPlacement.Restore: WIDTH: {raw.normalPosition.Width}, DPI: {dpi.DpiScaleX}");
 
             NativeMethods.SetWindowPlacement(hwnd, ref raw);
         }

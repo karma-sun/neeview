@@ -81,7 +81,7 @@
       <Version>2018.4.8.256</Version>
     </PackageReference>
     <PackageReference Include="PhotoSauce.MagicScaler">
-      <Version>0.10.3</Version>
+      <Version>0.11.2</Version>
     </PackageReference>
     <PackageReference Include="SharpVectors.Reloaded">
       <Version>1.6.0</Version>

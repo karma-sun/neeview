@@ -66,9 +66,6 @@
                 <Component Id="cmpE473ED87055187ABAC9B0465FBBE823A" Guid="*">
                     <File Id="fil8AD33A60155C43C6BFF1F0FD5124273C" KeyPath="yes" Source="$(var.LibrariesDir)\SharpVectors.Runtime.Wpf.dll" />
                 </Component>
-                <Component Id="cmp02712E092935559F3828A2E97F23B6B4" Guid="*">
-                    <File Id="filEE11C4E90233F7904AC9B5AF24129BF5" KeyPath="yes" Source="$(var.LibrariesDir)\SQLite.Interop.dll" />
-                </Component>
                 <Component Id="cmpB71736D52F6C6C28DC09A1D54BF9C7BA" Guid="*">
                     <File Id="fil5614F01B74C840F8D8A0B4AD0D0533AD" KeyPath="yes" Source="$(var.LibrariesDir)\System.Buffers.dll" />
                 </Component>
@@ -134,6 +131,9 @@
                     <Component Id="cmpAFD9B88727EF2AE79E3F8AFBC5A376BB" Guid="*">
                         <File Id="fil4F26D046010EC66BB9B7C7D589AB8C51" KeyPath="yes" Source="$(var.LibrariesDir)\x86\pdfium.dll" />
                     </Component>
+                    <Component Id="cmp3AE14885B4F257F53834F4FFB0C5D35F" Guid="*">
+                        <File Id="fil11ADBC8FCB3B631BAFACEAF9EF53EBD7" KeyPath="yes" Source="$(var.LibrariesDir)\x86\SQLite.Interop.dll" />
+                    </Component>
                 </Directory>
             </Directory>
         </DirectoryRef>
@@ -161,7 +161,6 @@
             <ComponentRef Id="cmpB92EA2DE6C479A54825275447DFBB98E" />
             <ComponentRef Id="cmp502D7244065F45E37F677A30D29A4D26" />
             <ComponentRef Id="cmpE473ED87055187ABAC9B0465FBBE823A" />
-            <ComponentRef Id="cmp02712E092935559F3828A2E97F23B6B4" />
             <ComponentRef Id="cmpB71736D52F6C6C28DC09A1D54BF9C7BA" />
             <ComponentRef Id="cmp3DCCEA2975E18FD4C2DA5E81BF1C60B0" />
             <ComponentRef Id="cmp6201B94C484932AF1231EF41617BC1F9" />
@@ -182,6 +181,7 @@
             <ComponentRef Id="cmpB5C9C3C36D6C8C2303EEC99AEE09D10D" />
             <ComponentRef Id="cmp89A427E599C85A19969C844A8D254DE8" />
             <ComponentRef Id="cmpAFD9B88727EF2AE79E3F8AFBC5A376BB" />
+            <ComponentRef Id="cmp3AE14885B4F257F53834F4FFB0C5D35F" />
         </ComponentGroup>
     </Fragment>
 </Wix>

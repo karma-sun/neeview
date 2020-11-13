@@ -17,6 +17,9 @@ $ErrorActionPreference = "stop"
 # MSI作成時にDllComponents.wsxを更新する?
 $isCreateDllComponentsWxs = $false;
 
+# AnyCPU版ZIPを作成する？
+$isAnyCPU = $false;
+
 #
 $product = 'NeeView'
 $configuration = 'Release'
@@ -134,7 +137,14 @@ $projectSusieDir = "$solutionDir\NeeView.Susie.Server"
 # procject output dir
 function Get-ProjectOutputDir($projectDir, $platform)
 {
-	"$projectDir\bin\$platform\$configuration\$framework"
+	if ($platform -eq "AnyCPU")
+	{
+		"$projectDir\bin\$configuration\$framework"
+	}
+	else
+	{
+		"$projectDir\bin\$platform\$configuration\$framework"
+	}
 }
 
 #----------------------
@@ -156,9 +166,15 @@ function Build-Project($platform)
 		Remove-Item $output -Recurse
 	}
 
-	"$msbuild -restore $solution /p:Configuration=$configuration /p:Platform=$platform /t:Clean,Build"
+	$msPlatform = $platform
+	if ($platform -eq "AnyCPU")
+	{
+		$msPlatform = "Any CPU"
+	}
 
-	& $msbuild -restore $solution /p:Configuration=$configuration /p:Platform=$platform /t:Clean,Build
+	"$msbuild -restore $solution /p:Configuration=$configuration /p:Platform=""$msPlatform"" /t:Clean,Build"
+
+	& $msbuild -restore $solution /p:Configuration=$configuration /p:Platform="$msPlatform" /t:Clean,Build
 	if ($? -ne $true)
 	{
 		throw "build error"
@@ -209,7 +225,15 @@ function New-Package($platform, $productName, $productDir, $publishSusieDir, $pa
 	}
 
 	# copy platform dll
-	Copy-Item "$productDir\$platform" $packageLibraryDir -Recurse -Exclude SQLite.Interop.dll
+	if ($platform -eq "AnyCPU")
+	{
+		Copy-Item "$productDir\x86" $packageLibraryDir -Recurse
+		Copy-Item "$productDir\x64" $packageLibraryDir -Recurse
+	}
+	else
+	{
+		Copy-Item "$productDir\$platform" $packageLibraryDir -Recurse
+	}
 
 	# generate README.html
 	New-Readme $packageDir "en-us" ".zip"
@@ -583,6 +607,11 @@ function New-Canary($packageDir)
 	New-DevPackage $packageDir $packageCanaryDir $packageCanary ".canary"
 }
 
+function New-CanaryAnyCPU($packageDir)
+{
+	New-DevPackage $packageDir $packageCanaryDir_AnyCPU $packageCanary_AnyCPU ".canary"
+}
+
 #--------------------------
 # archive to Beta.ZIP
 function New-Beta($packageDir)
@@ -649,18 +678,31 @@ function Build-PackageSorce
 	
 	# build
 	Write-Host "`n[Build] ...`n" -fore Cyan
-	
+
+
 	Build-Project "x64"
 	Export-Publish "x64" $projectDir $publishDir_x64
-
+	
 	Build-Project "x86"
 	Export-Publish "x86" $projectDir $publishDir_x86
 	Export-Publish "x86" $projectSusieDir $publishSusieDir
+
+	if ($isAnyCPU)
+	{
+		Build-Project "AnyCPU"
+		Export-Publish "AnyCPU" $projectDir $publishDir_AnyCPU
+		Export-Publish "AnyCPU" $projectSusieDir $publishSusieDir_AnyCPU
+	}
 	
 	# create package source
 	Write-Host "`n[Package] ...`n" -fore Cyan
 	New-Package "x64" $product $publishDir_x64 $publishSusieDir $packageDir_x64
 	New-Package "x86" $product $publishDir_x86 $publishSusieDir $packageDir_x86
+
+	if ($isAnyCPU)
+	{
+		New-Package "AnyCPU" $product $publishDir_AnyCPU $publishSusieDir_AnyCPU $packageDir_AnyCPU
+	}
 }
 
 
@@ -673,6 +715,12 @@ function Build-Zip
 
 	New-Zip $packageDir_x86 $packageZip_x86
 	Write-Host "`nExport $packageZip_x86 successed.`n" -fore Green
+	
+	if ($isAnyCPU)
+	{
+		New-Zip $packageDir_AnyCPU $packageZip_AnyCPU
+		Write-Host "`nExport $packageZip_AnyCPU successed.`n" -fore Green
+	}
 }
 
 
@@ -713,6 +761,12 @@ function Build-Canary
 	Write-Host "`n[Canary] ...`n" -fore Cyan
 	New-Canary $packageDir_x64
 	Write-Host "`nExport $packageCanary successed.`n" -fore Green
+
+	if ($isAnyCPU)
+	{
+		New-CanaryAnyCPU $packageDir_AnyCPU
+		Write-Host "`nExport $packageCanary successed.`n" -fore Green
+	}
 }
 
 function Build-Beta
@@ -754,14 +808,18 @@ $revision = (& git rev-parse --short HEAD).ToString()
 $dateVersion = (Get-Date).ToString("MMdd")
 
 $publishDir = "Publish"
+$publishDir_AnyCPU = "$publishDir\NeeView-AnyCPU"
 $publishDir_x64 = "$publishDir\NeeView-x64"
 $publishDir_x86 = "$publishDir\NeeView-x86"
 $publishSusieDir = "$publishDir\NeeView.Susie.Server"
+$publishSusieDir_AnyCPU = "$publishDir\NeeView.Susie.Server-AnyCPU"
 $packagePrefix = "$product$version"
+$packageDir_AnyCPU = "$product$version-AnyCPU"
 $packageDir_x64 = "$product$version-x64"
 $packageDir_x86 = "$product$version-x86"
 $packageAppendDir_x64 = "$packageDir_x64.append"
 $packageAppendDir_x86 = "$packageDir_x86.append"
+$packageZip_AnyCPU = "${product}${version}-AnyCPU.zip"
 $packageZip_x64 = "${product}${version}-x64.zip"
 $packageZip_x86 = "${product}${version}-x86.zip"
 $packageMsi_x64 = "${product}${version}-x64.msi"
@@ -771,7 +829,9 @@ $packageAppxDir_x86 = "${product}${version}-appx-x84"
 $packageX86Appx = "${product}${version}-x86.appx"
 $packageX64Appx = "${product}${version}-x64.appx"
 $packageCanaryDir = "${product}Canary"
+$packageCanaryDir_AnyCPU = "${product}Canary-AnyCPU"
 $packageCanary = "${product}Canary${dateVersion}.zip"
+$packageCanary_AnyCPU = "${product}Canary${dateVersion}_AnyCPU.zip"
 $packageCanaryWild = "${product}Canary*.zip"
 $packageBetaDir = "${product}Beta"
 $packageBeta = "${product}Beta${dateVersion}.zip"

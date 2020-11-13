@@ -13,7 +13,7 @@
 
     <Grid x:Name="Root" Background="{Binding Thumbnail.Background, Converter={StaticResource ContentBackgroundBrushConverter}}"
             Width="{Binding Source={x:Static local:Config.Current}, Path=Panels.ContentItemProfile.ShapeWidth}"
-            Height="{Binding Source={x:Static local:Config.Current}, Path=Panels.ContentItemProfile.ShapeHeight}" Margin="5,0">
+            Height="{Binding Source={x:Static local:Config.Current}, Path=Panels.ContentItemProfile.ShapeHeight}" Margin="0,0">
         <Rectangle HorizontalAlignment="Center" VerticalAlignment="Bottom" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True"
                 Width="{Binding Source={x:Static local:Config.Current}, Path=Panels.ContentItemProfile.ShapeWidth}"
                 Height="{Binding Source={x:Static local:Config.Current}, Path=Panels.ContentItemProfile.ShapeHeight}">

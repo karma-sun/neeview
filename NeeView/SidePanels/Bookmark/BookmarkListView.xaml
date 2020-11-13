@@ -74,17 +74,12 @@
 
     </UserControl.Resources>
 
-    <DockPanel x:Name="Root" IsVisibleChanged="BookmarkListView_IsVisibleChanged" Background="Transparent" KeyDown="Root_KeyDown">
+    <DockPanel x:Name="Root" Margin="2" IsVisibleChanged="BookmarkListView_IsVisibleChanged" Background="Transparent" KeyDown="Root_KeyDown">
 
-        <StackPanel DockPanel.Dock="Top" Margin="5,0,5,5">
+        <StackPanel DockPanel.Dock="Top">
 
-            <StackPanel Margin="0" HorizontalAlignment="Stretch">
-                <!--
-                <StackPanel Orientation="Horizontal" Margin="0,5">
-                    <Image Style="{StaticResource PanelTitleIconStyle}" Source="{StaticResource ic_star_24px}" />
-                    <TextBlock Style="{StaticResource PanelTitleTextStyle}" Text="{x:Static properties:Resources.WordBookmark}" />
-                </StackPanel>
-                -->
+            <StackPanel HorizontalAlignment="Stretch">
+
                 <Grid x:Name="PlaceGrid" Margin="0,2">
                     <DockPanel>
                         <DockPanel x:Name="PlaceBar" HorizontalAlignment="Left">

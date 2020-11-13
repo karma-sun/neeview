@@ -24,6 +24,10 @@ namespace NeeView
     {
         public static SidePanelFrameView Current { get; private set; }
 
+
+        private const double _splitterWidth = 8.0;
+
+
         #region INotifyPropertyChanged Support
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -235,7 +239,9 @@ namespace NeeView
         /// <summary>
         /// スプリッターの幅
         /// </summary>
-        public double SplitterWidth => 8.0;
+        public double SplitterWidth => _splitterWidth;
+
+        public Thickness ViewpoartMargin { get; } = new Thickness(-_splitterWidth, 0.0, -_splitterWidth, 0.0);
 
         public SidePanelProfile Profile => SidePanelProfile.Current;
 
@@ -265,7 +271,7 @@ namespace NeeView
         /// </summary>
         private bool LeftPanelElementContains(DependencyObject element)
         {
-            return VisualTreeUtility.HasParentElement(element, this.LeftIconGrid) ||  VisualTreeUtility.HasParentElement(element, this.LeftPanel);
+            return VisualTreeUtility.HasParentElement(element, this.LeftIconGrid) || VisualTreeUtility.HasParentElement(element, this.LeftPanel);
         }
 
         /// <summary>
@@ -309,6 +315,16 @@ namespace NeeView
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Viewport_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            UpdateCanvas();
+        }
+
+        private void LeftPanel_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            UpdateCanvas();
+        }
+
+        private void RightPanel_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             UpdateCanvas();
         }

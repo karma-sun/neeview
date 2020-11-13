@@ -52,7 +52,10 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type osc:DockPanelSplitter}">
+                        <!--
                         <Grid SnapsToDevicePixels="True" Background="{Binding Profile.BackgroundBrush}" />
+                        -->
+                        <Grid SnapsToDevicePixels="True" Background="#0800" />
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -103,7 +106,7 @@
             <DockPanel x:Name="Screen">
 
                 <Grid x:Name="LeftPanel" Style="{StaticResource PanelGridStyle}" DockPanel.Dock="Left" UseLayoutRounding="True" Width="{Binding VM.Left.Width, Mode=TwoWay}"
-                        Visibility="{Binding VM.Left.PanelVisibility}">
+                        Visibility="{Binding VM.Left.PanelVisibility}" SizeChanged="LeftPanel_SizeChanged">
                     <nrlp:LayoutDockPanel x:Name="LeftPanelContent" Margin="{Binding PanelMargin}" Manager="{Binding VM.MainLayoutPanelManager}"
                             ItemsSource="{Binding VM.MainLayoutPanelManager.LeftDock.SelectedItem}" Background="{Binding Profile.BackgroundBrush}" BorderBrush="{Binding Profile.IconBackgroundBrush}"
                             TextBlock.Foreground="Gray">
@@ -128,7 +131,7 @@
                         Visibility="{Binding VM.Left.PanelVisibility}" IsTabStop="False" />
 
                 <Grid x:Name="RightPanel" DockPanel.Dock="Right" Style="{StaticResource PanelGridStyle}" Width="{Binding VM.Right.Width, Mode=TwoWay}" UseLayoutRounding="True"
-                        Visibility="{Binding VM.Right.PanelVisibility}">
+                        Visibility="{Binding VM.Right.PanelVisibility}" SizeChanged="RightPanel_SizeChanged">
                     <nrlp:LayoutDockPanel x:Name="RightPanelContent" Margin="{Binding PanelMargin}" Manager="{Binding VM.MainLayoutPanelManager}"
                             ItemsSource="{Binding VM.MainLayoutPanelManager.RightDock.SelectedItem}" Background="{Binding Profile.BackgroundBrush}" BorderBrush="{Binding Profile.IconBackgroundBrush}"
                             TextBlock.Foreground="Gray">
@@ -153,7 +156,7 @@
                 <osc:DockPanelSplitter x:Name="RightPanelSplitter" DockPanel.Dock="Right" Style="{StaticResource NVVerticalBevelGrip}" ProportionalResize="False" UseLayoutRounding="True"
                         Visibility="{Binding VM.Right.PanelVisibility}" IsTabStop="False" />
 
-                <Grid x:Name="Viewport" Grid.Column="1" SizeChanged="Viewport_SizeChanged">
+                <Grid x:Name="Viewport" Grid.Column="1" SizeChanged="Viewport_SizeChanged" Margin="{Binding ViewpoartMargin}">
                     <!--
                     <ContentControl x:Name="ViewportEntryPoint" Panel.ZIndex="-1" IsTabStop="False"/>
                     <Border BorderBrush="Yellow" BorderThickness="5"/>

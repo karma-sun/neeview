@@ -48,7 +48,7 @@
                 <Path UseLayoutRounding="True" StrokeThickness="1" Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
                         Data="M 0,0 L 10,10 M 0,10 L 10,0" Margin="0,0,1,0" />
             </Button>
-            <TextBlock Text="{Binding LayoutPanel.Title}" VerticalAlignment="Center" Margin="5"/>
+            <TextBlock Text="{Binding LayoutPanel.Title}" VerticalAlignment="Center" Margin="2"/>
         </DockPanel>
         <UserControl Grid.Row="1" Content="{Binding LayoutPanel.Content}" />
     </Grid>

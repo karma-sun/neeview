@@ -122,7 +122,7 @@
                         <TextBlock DockPanel.Dock="Right" Text="{Binding FolderCollection.ValidCount, StringFormat={}{0}}" Foreground="Gray" Margin="5,0"
                                 Visibility="{Binding Source={x:Static local:Config.Current}, Path=Bookshelf.IsVisibleItemsCount, Converter={StaticResource BooleanToVisibilityConverter}}" />
                         <DockPanel x:Name="PlaceBar" HorizontalAlignment="Left">
-                            <Image x:Name="PlaceIcon" DockPanel.Dock="Left" Source="{Binding FolderCollection.Place, Converter={StaticResource PathToPlaceIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"
+                            <Image x:Name="PlaceIcon" DockPanel.Dock="Left" Source="{Binding FolderCollection.Place, Converter={StaticResource PathToPlaceIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" Margin="0,0,0,0"
                                    PreviewMouseLeftButtonDown="PlaceIcon_MouseLeftButtonDown"
                                    PreviewMouseLeftButtonUp="PlaceIcon_MouseLeftButtonUp"
                                    PreviewMouseMove="PlaceIcon_MouseMove"

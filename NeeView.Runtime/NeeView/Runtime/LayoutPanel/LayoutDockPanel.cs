@@ -85,7 +85,7 @@ namespace NeeView.Runtime.LayoutPanel
             if (Manager is null) throw new InvalidOperationException("need Provider");
 
             const double minLength = 40.0;
-            const double splitterHeight = 5.0;
+            const double splitterHeight = 8.0;
 
             _containers = ItemsSource != null ? ItemsSource.Select(e => new LayoutPanelContainer(Manager, e)).ToList() : new List<LayoutPanelContainer>();
 
@@ -119,7 +119,8 @@ namespace NeeView.Runtime.LayoutPanel
                         var splitter = new GridSplitter()
                         {
                             HorizontalAlignment = HorizontalAlignment.Stretch,
-                            Height = splitterHeight,
+                            VerticalAlignment = VerticalAlignment.Center,
+                            Height = splitterHeight - 2.0,
                         };
                         splitter.SetBinding(GridSplitter.BackgroundProperty, new Binding(nameof(BorderBrush)) { Source = this });
                         Grid.SetRow(splitter, this.RowDefinitions.Count - 1);

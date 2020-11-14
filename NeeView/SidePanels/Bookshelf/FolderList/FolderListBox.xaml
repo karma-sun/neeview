@@ -170,7 +170,7 @@
                 UseLayoutRounding="True"
                 AllowDrop="True"
                 DragEnter="FolderList_DragEnter"
-                PreviewDragOver="FolderList_PreviewDragOver"
+                DragOver="FolderList_DragOver"
                 Drop="FolderList_Drop"
                 VirtualizingPanel.IsVirtualizing="True"
                 VirtualizingPanel.ScrollUnit="{StaticResource PanelScrollUnit}"

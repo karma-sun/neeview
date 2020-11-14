@@ -687,7 +687,7 @@ namespace NeeView
             DragDropHelper.AutoScroll(sender, e);
         }
 
-        private void FolderList_PreviewDragOver(object sender, DragEventArgs e)
+        private void FolderList_DragOver(object sender, DragEventArgs e)
         {
             FolderList_DragDrop(sender, e, false);
             DragDropHelper.AutoScroll(sender, e);

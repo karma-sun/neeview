@@ -637,7 +637,7 @@ namespace NeeView
         {
         }
 
-        private void TreeView_PreviewDragOver(object sender, DragEventArgs e)
+        private void TreeView_DragOver(object sender, DragEventArgs e)
         {
             TreeView_DragDrop(sender, e, false);
             DragDropHelper.AutoScroll(sender, e);

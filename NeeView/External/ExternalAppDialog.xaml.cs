@@ -59,7 +59,7 @@ namespace NeeView
             _vm.EditCommand.Execute(null);
         }
 
-        private void ItemsListView_PreviewDragOver(object sender, DragEventArgs e)
+        private void ItemsListView_DragOver(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop, true))
             {

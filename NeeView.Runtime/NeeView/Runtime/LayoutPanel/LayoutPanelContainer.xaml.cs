@@ -74,10 +74,10 @@ namespace NeeView.Runtime.LayoutPanel
         {
             _adorner = _adorner ?? new LayoutPanelContainerAdorner(this);
 
-            this.PreviewDragOver += LayoutPanelContainer_DragOver;
-            this.PreviewDragEnter += LayoutPanelContainer_DragEnter;
-            this.PreviewDragLeave += LayoutPanelContainer_DragLeave;
-            this.PreviewDrop += LayoutPanelContainer_Drop;
+            this.DragOver += LayoutPanelContainer_DragOver;
+            this.DragEnter += LayoutPanelContainer_DragEnter;
+            this.DragLeave += LayoutPanelContainer_DragLeave;
+            this.Drop += LayoutPanelContainer_Drop;
             this.AllowDrop = true;
         }
 
@@ -166,13 +166,10 @@ namespace NeeView.Runtime.LayoutPanel
         private void LayoutPanelContainer_DragOver(object sender, DragEventArgs e)
         {
             var content = (LayoutPanel)e.Data.GetData(typeof(LayoutPanel));
-            if (content is null) return;
-
-            e.Handled = true;
-
-            if (content == this.LayoutPanel)
+            if (content is null || content == this.LayoutPanel)
             {
                 e.Effects = DragDropEffects.None;
+                e.Handled = true;
                 return;
             }
 
@@ -195,14 +192,24 @@ namespace NeeView.Runtime.LayoutPanel
 
             _adorner.Attach();
 
+            Debug.WriteLine($"AllowDrag:Move");
+
             e.Effects = DragDropEffects.Move;
+            e.Handled = true;
         }
 
 
         private void LayoutPanelContainer_DragLeave(object sender, DragEventArgs e)
         {
             var content = (LayoutPanel)e.Data.GetData(typeof(LayoutPanel));
-            if (content is null) return;
+            if (content is null || content == this.LayoutPanel)
+            {
+                e.Effects = DragDropEffects.None;
+            }
+            else
+            {
+                e.Effects = DragDropEffects.Move;
+            }
 
             _adorner.Detach();
             e.Handled = true;

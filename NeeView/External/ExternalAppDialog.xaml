@@ -28,7 +28,7 @@
             </StackPanel>
         </DockPanel>
 
-        <ListView x:Name="ItemsListView" Margin="5" ItemsSource="{Binding Items}" SelectedIndex="{Binding SelectedIndex}" AllowDrop="True" PreviewDragOver="ItemsListView_PreviewDragOver" Drop="ItemsListView_Drop" KeyDown="ItemsListView_KeyDown">
+        <ListView x:Name="ItemsListView" Margin="5" ItemsSource="{Binding Items}" SelectedIndex="{Binding SelectedIndex}" AllowDrop="True" DragOver="ItemsListView_DragOver" Drop="ItemsListView_Drop" KeyDown="ItemsListView_KeyDown">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="{x:Static properties:Resources.WordName}" Width="150">

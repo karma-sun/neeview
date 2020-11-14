@@ -172,9 +172,9 @@ namespace NeeView.Setting
         #region Methods
 
         // プラグインリスト：ドロップ受付判定
-        private void PluginListView_PreviewDragOver(object sender, DragEventArgs e)
+        private void PluginListView_DragOver(object sender, DragEventArgs e)
         {
-            ListBoxDragSortExtension.PreviewDragOver(sender, e, "SusiePlugin");
+            ListBoxDragSortExtension.DragOver(sender, e, "SusiePlugin");
         }
 
         // プラグインリスト：ドロップ

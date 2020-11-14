@@ -22,7 +22,7 @@ namespace NeeView.Windows
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// <param name="format">データフォーマット</param>
-        public static void PreviewDragOver(object sender, DragEventArgs e, string format)
+        public static void DragOver(object sender, DragEventArgs e, string format)
         {
             if (e.Data.GetDataPresent(format))
             {

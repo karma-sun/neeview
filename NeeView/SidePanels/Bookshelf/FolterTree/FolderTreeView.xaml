@@ -39,7 +39,7 @@
                   AllowDrop="True"
                   DragEnter="TreeView_DragEnter"
                   DragLeave="TreeView_DragLeave"
-                  PreviewDragOver="TreeView_PreviewDragOver"
+                  DragOver="TreeView_DragOver"
                   Drop="TreeView_Drop"
                   VirtualizingStackPanel.ScrollUnit="Item"
                   VirtualizingStackPanel.IsVirtualizing="True"

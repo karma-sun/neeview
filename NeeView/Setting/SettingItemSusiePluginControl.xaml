@@ -53,7 +53,7 @@
             <Setter Property="ItemTemplate" Value="{StaticResource SusiePlugin}"/>
             <Setter Property="Margin" Value="0,2"/>
             <Setter Property="AllowDrop" Value="True"/>
-            <EventSetter Event="PreviewDragOver"  Handler="PluginListView_PreviewDragOver"/>
+            <EventSetter Event="DragOver"  Handler="PluginListView_DragOver"/>
             <EventSetter Event="Drop" Handler="PluginListView_Drop"/>
         </Style>
 

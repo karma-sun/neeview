@@ -53,8 +53,8 @@ namespace NeeView
 
         public void SetDragDropEvent(FrameworkElement sender)
         {
-            sender.PreviewDragEnter += Element_DragOver;
-            sender.PreviewDragOver += Element_DragOver;
+            sender.DragEnter += Element_DragOver;
+            sender.DragOver += Element_DragOver;
             sender.Drop += Element_Drop;
         }
 

@@ -263,7 +263,7 @@ namespace NeeView.Windows.Controls
         }
 
         //
-        private void PathTextBox_PreviewDragOver(object sender, DragEventArgs e)
+        private void PathTextBox_DragOver(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(System.Windows.DataFormats.FileDrop, true))
             {

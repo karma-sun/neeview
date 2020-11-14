@@ -88,6 +88,9 @@ namespace NeeView
             // DLL 検索パスから現在の作業ディレクトリ (CWD) を削除
             NativeMethods.SetDllDirectory("");
 
+            // カレントディレクトリ設定
+            System.IO.Directory.SetCurrentDirectory(Environment.AssemblyFolder);
+
 #if TRACE_LOG
             var nowTime = DateTime.Now;
             var traceLogFilename = $"Trace{nowTime.ToString("yyMMdHHmmss")}.log";

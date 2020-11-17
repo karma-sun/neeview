@@ -45,10 +45,17 @@ namespace NeeView
         [WordNodeMember]
         public bool ShowDialog(string title, string message = "", int commands = 0)
         {
-            var dialog = new MessageDialog(message, title);
+            return AppDispatcher.Invoke(() => ShowDialogIneer(title, message, commands));
+        }
 
+        private bool ShowDialogIneer(string title, string message, int commands)
+        {
+            var dialog = new MessageDialog(message, title);
             switch (commands)
             {
+                default:
+                    dialog.Commands.Add(UICommands.OK);
+                    break;
                 case 1:
                     dialog.Commands.Add(UICommands.OK);
                     dialog.Commands.Add(UICommands.Cancel);
@@ -58,7 +65,6 @@ namespace NeeView
                     dialog.Commands.Add(UICommands.No);
                     break;
             }
-
             var result = dialog.ShowDialog(App.Current.MainWindow);
             return (result == UICommands.Yes || result == UICommands.OK);
         }
@@ -69,7 +75,7 @@ namespace NeeView
             node.Children = new List<WordNode>();
 
             var methods = this.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public);
-            foreach(var method in methods)
+            foreach (var method in methods)
             {
                 if (method.GetCustomAttribute<WordNodeMemberAttribute>() != null)
                 {

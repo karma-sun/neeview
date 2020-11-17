@@ -11,12 +11,13 @@
             <Setter Property="Foreground" Value="#EEE" />
             <Setter Property="BorderThickness" Value="0" />
         </Style>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
     <ScrollViewer x:Name="Scroller" Margin="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Visible">
         <StackPanel x:Name="RootPanel" Background="Black">
             <TextBox x:Name="OutputBlock" Style="{StaticResource ConsoleTextBoxStyle}" Margin="0,0,0,0" IsReadOnly="True" Background="Black" IsTabStop="False" Visibility="Collapsed" />
             <DockPanel>
-                <TextBlock Text="{Binding Prompt}" Style="{StaticResource ConsoleTextBlockStyle}" Margin="2,0,0,0" />
+                <TextBlock Text="{Binding Prompt}" Style="{StaticResource ConsoleTextBlockStyle}" Margin="2,0,0,0" Visibility="{Binding IsPromptEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 <TextBox x:Name="InputBlock" Text="{Binding ConsoleInput, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="-2,0,0,0" Style="{StaticResource ConsoleTextBoxStyle}" />
             </DockPanel>
         </StackPanel>

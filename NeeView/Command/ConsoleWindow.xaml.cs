@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -66,7 +67,7 @@ namespace NeeView
 
         public WordTree WordTree { get; set; }
 
-        public string Execute(string input)
+        public string Execute(string input, CancellationToken token)
         {
             switch (input.Trim())
             {
@@ -82,7 +83,7 @@ namespace NeeView
                 default:
                     try
                     {
-                        var result = _engine.Execute(input);
+                        var result = _engine.Execute(input, token);
                         return ToJavascriptString(result, false);
                     }
                     catch (Exception ex)

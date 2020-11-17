@@ -56,7 +56,7 @@ namespace NeeView
             var arguments = args ?? CommandElement.EmptyArgs;
             if (_command.CanExecute(parameter, arguments, CommandOption.None))
             {
-                _command.Execute(parameter, arguments, CommandOption.None);
+                AppDispatcher.Invoke(() => _command.Execute(parameter, arguments, CommandOption.None));
                 return true;
             }
             else

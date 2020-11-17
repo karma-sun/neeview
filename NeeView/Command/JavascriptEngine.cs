@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading;
 
 namespace NeeView
 {
@@ -10,12 +11,15 @@ namespace NeeView
     {
         private Jint.Engine _engine;
         private CommandHost _commandHost;
+        private CancellationToken _cancellationToken;
+
 
         public JavascriptEngine(CommandHost commandHost)
         {
             _commandHost = commandHost;
 
             _engine = new Jint.Engine(config => config.AllowClr());
+            _engine.SetValue("sleep", (Action<int>)Sleep);
             _engine.SetValue("log", (Action<object>)Log);
             _engine.SetValue("system", (Action<string, string>)SystemCall);
             _engine.SetValue("include", (Func<string, object>)ExecureFile);
@@ -27,12 +31,20 @@ namespace NeeView
         public Action<object> LogAction { get; set; } = Console.WriteLine;
 
 
+        private void Sleep(int millisecond)
+        {
+            if (_cancellationToken.WaitHandle.WaitOne(millisecond))
+            {
+                throw new OperationCanceledException();
+            }
+        }
+
         public void Log(object log)
         {
             LogAction?.Invoke(log);
         }
 
-        public void SystemCall(string filename, string args = null)
+        private void SystemCall(string filename, string args = null)
         {
             var startInfo = new ProcessStartInfo();
             startInfo.UseShellExecute = true;
@@ -41,13 +53,12 @@ namespace NeeView
             Process.Start(startInfo);
         }
 
-        public object Execute(string script)
+        private object ExecureFile(string path)
         {
-            var result = _engine.Execute(script).GetCompletionValue();
-            return result?.ToObject();
+            return ExecureFile(path, _cancellationToken);
         }
 
-        public object ExecureFile(string path)
+        public object ExecureFile(string path, CancellationToken token)
         {
             var fullpath = GetFullPath(path);
             string script = File.ReadAllText(fullpath, Encoding.UTF8);
@@ -56,12 +67,21 @@ namespace NeeView
             try
             {
                 CurrentPath = Path.GetDirectoryName(fullpath);
-                return Execute(script);
+                return Execute(script, token);
             }
             finally
             {
                 CurrentPath = oldPath;
             }
+        }
+
+
+        public object Execute(string script, CancellationToken token)
+        {
+            _cancellationToken = token;
+
+            var result = _engine.Execute(script).GetCompletionValue();
+            return result?.ToObject();
         }
 
         public void SetValue(string name, object value)

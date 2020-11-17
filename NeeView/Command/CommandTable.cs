@@ -43,7 +43,7 @@ namespace NeeView
     /// <summary>
     /// コマンド設定テーブル
     /// </summary>
-    public class CommandTable : BindableBase, IDictionary<string, CommandElement>
+    public partial class CommandTable : BindableBase, IDictionary<string, CommandElement>
     {
         static CommandTable() => Current = new CommandTable();
         public static CommandTable Current { get; }
@@ -51,6 +51,8 @@ namespace NeeView
 
         private Dictionary<string, CommandElement> _elements;
         private bool _isScriptFolderDarty = true;
+
+        private ScriptUnitManager _scriptUnitManager = new ScriptUnitManager();
 
 
         private CommandTable()
@@ -116,7 +118,7 @@ namespace NeeView
         {
             return ((ICollection<KeyValuePair<string, CommandElement>>)_elements).Contains(item);
         }
-        
+
         public bool ContainsKey(string key)
         {
             return key != null && _elements.ContainsKey(key);
@@ -352,6 +354,8 @@ namespace NeeView
                 new FocusNextAppCommand("FocusNextAppCommand"),
 
                 new OpenConsoleCommand("OpenConsole"),
+
+                new CancelScriptCommand("CancelScript")
             };
 
             // グループで並び替えてから辞書化
@@ -472,7 +476,7 @@ namespace NeeView
         {
             if (_elements.Values.Any(e => e.IsInputGestureDarty))
             {
-                Changed?.Invoke(this, new CommandChangedEventArgs(false));
+                AppDispatcher.Invoke(() => Changed?.Invoke(this, new CommandChangedEventArgs(false)));
             }
         }
 
@@ -752,34 +756,15 @@ namespace NeeView
             _isScriptFolderDarty = true;
         }
 
-        /// <summary>
-        /// スクリプト実行
-        /// </summary>
+
         public void ExecuteScript(string path)
         {
-            var commandHost = new CommandHost(this, ConfigMap.Current);
-            var commandEngine = new JavascriptEngine(commandHost);
-            commandEngine.LogAction = e => Debug.WriteLine(e);
+            _scriptUnitManager.Run(path);
+        }
 
-            try
-            {
-                commandEngine.ExecureFile(path);
-            }
-            catch (Exception ex)
-            {
-                var message = CreateExceptionRecursiveMessage(ex);
-                commandEngine.Log(message);
-                ToastService.Current.Show(new Toast(message, $"Script error in {Path.GetFileName(path)}", ToastIcon.Error));
-            }
-            finally
-            {
-                FlushInputGesture();
-            }
-
-            string CreateExceptionRecursiveMessage(Exception ex)
-            {
-                return ex.Message + System.Environment.NewLine + (ex.InnerException != null ? CreateExceptionRecursiveMessage(ex.InnerException) : "");
-            }
+        public void CancelScript()
+        {
+            _scriptUnitManager.CancelAll();
         }
 
         #endregion Scripts

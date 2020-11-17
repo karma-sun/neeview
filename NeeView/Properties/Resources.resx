@@ -744,6 +744,12 @@
   <data name="CommandScriptNote" xml:space="preserve">
     <value>Script.</value>
   </data>
+  <data name="CommandCancelScript" xml:space="preserve">
+    <value>Cancel script</value>
+  </data>
+  <data name="CommandCancelScriptNote" xml:space="preserve">
+    <value>Stops a running script that has a "sleep" instruction.</value>
+  </data>
   <data name="CommandScriptOnBookLoadedNote" xml:space="preserve">
     <value>Scrpit. Executes when the book is opened.</value>
   </data>

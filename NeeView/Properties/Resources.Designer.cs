@@ -547,6 +547,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Cancel script に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandCancelScript {
+            get {
+                return ResourceManager.GetString("CommandCancelScript", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Stops a running script that has a &quot;sleep&quot; instruction. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandCancelScriptNote {
+            get {
+                return ResourceManager.GetString("CommandCancelScriptNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Clear history に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandClearHistory {

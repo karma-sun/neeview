@@ -26,6 +26,13 @@ namespace NeeView
 #endif
         }
 
+        public static TResult Invoke<TResult>(Func<TResult> callback)
+        {
+            if (Application.Current == null) throw new InvalidOperationException();
+
+            return App.Current.Dispatcher.Invoke(callback);
+        }
+
         public static async Task InvokeAsync(Action action)
         {
             if (Application.Current == null) return;

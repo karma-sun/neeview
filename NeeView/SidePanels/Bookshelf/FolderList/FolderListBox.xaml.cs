@@ -727,9 +727,6 @@ namespace NeeView
                     if (e.Handled) return;
                 }
             }
-
-            e.Effects = DragDropEffects.None;
-            e.Handled = true;
         }
 
         private void DropToBookmark(object sender, DragEventArgs e, bool isDrop, TreeListNode<IBookmarkEntry> node, IEnumerable<TreeListNode<IBookmarkEntry>> bookmarkEntries)

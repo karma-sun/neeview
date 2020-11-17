@@ -2,8 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -49,6 +52,9 @@ namespace NeeView
         private int _historyIndex;
         private List<string> _candidates;
         private int _candidatesIndex;
+        private bool _isPromptEnabled = true;
+        private bool _isInputEnabled = true;
+        private CancellationTokenSource _cancellationTokenSource;
 
         public ConsoleEmulator()
         {
@@ -114,6 +120,13 @@ namespace NeeView
             DependencyProperty.Register("FirstMessage", typeof(string), typeof(ConsoleEmulator), new PropertyMetadata(null));
 
 
+
+        public bool IsPromptEnabled
+        {
+            get { return _isPromptEnabled; }
+            set { SetProperty(ref _isPromptEnabled, value); }
+        }
+
         public string ConsoleInput
         {
             get => _consoleInput;
@@ -142,6 +155,11 @@ namespace NeeView
             {
                 FocusToInputBlock();
             }
+
+            if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.V)
+            {
+                FocusToInputBlock();
+            }
         }
 
         // NOTE: 未使用
@@ -161,6 +179,18 @@ namespace NeeView
 
         private void InputBlock_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            // Ctrl+C
+            if (e.Key == Key.C && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                CancelScript();
+            }
+
+            if (!_isInputEnabled)
+            {
+                e.Handled = true;
+                return;
+            }
+
             if (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl || e.Key == Key.LeftShift || e.Key == Key.RightShift || e.Key == Key.System)
             {
                 return;
@@ -211,9 +241,14 @@ namespace NeeView
         private void FocusToInputBlock()
         {
             this.InputBlock.Focus();
+            ScrollToBottom();
+            this.InputBlock.Select(InputBlock.Text.Length, 0);
+        }
+
+        private void ScrollToBottom()
+        {
             this.Scroller.ScrollToBottom();
             this.Scroller.ScrollToLeftEnd();
-            this.InputBlock.Select(InputBlock.Text.Length, 0);
         }
 
         private void ClearScreen(object sender, ExecutedRoutedEventArgs e)
@@ -228,16 +263,20 @@ namespace NeeView
         {
             //if (string.IsNullOrEmpty(text)) return;
 
-            if (string.IsNullOrEmpty(this.OutputBlock.Text))
+            this.Dispatcher.BeginInvoke((Action)(() =>
             {
-                this.OutputBlock.AppendText(text);
-            }
-            else
-            {
-                this.OutputBlock.AppendText("\r\n" + text);
-            }
+                if (string.IsNullOrEmpty(this.OutputBlock.Text))
+                {
+                    this.OutputBlock.AppendText(text);
+                }
+                else
+                {
+                    this.OutputBlock.AppendText("\r\n" + text);
+                }
 
-            this.OutputBlock.Visibility = Visibility.Visible;
+                this.OutputBlock.Visibility = Visibility.Visible;
+                ScrollToBottom();
+            }));
         }
 
         private void PreviewHistory()
@@ -285,15 +324,56 @@ namespace NeeView
                     break;
 
                 default:
-                    var result = ConsoleHost?.Execute(input);
-                    WriteLine(result);
+                    RunScript(input);
                     break;
             }
 
             _history.Add(input);
             _historyIndex = _history.Count;
         }
+
+        private void RunScript(string input)
+        {
+            var consoleHost = ConsoleHost;
+            if (consoleHost is null) return;
+
+            DisableInput();
+            _cancellationTokenSource = new CancellationTokenSource();
+
+            Task.Run(() =>
+            {
+                try
+                {
+                    var result = consoleHost.Execute(input, _cancellationTokenSource.Token);
+                    WriteLine(result);
+                }
+                finally
+                {
+                    EnableInput();
+                }
+            });
+        }
+
+        private void CancelScript()
+        {
+            ////Debug.WriteLine($"CancelScript");
+            _cancellationTokenSource?.Cancel();
+        }
+
+
+        private void EnableInput()
+        {
+            _isInputEnabled = true;
+            IsPromptEnabled = true;
+        }
+
+        private void DisableInput()
+        {
+            _isInputEnabled = false;
+            IsPromptEnabled = false;
+        }
     }
+
 
 
     public class ConsoleHostOutputEventArgs : EventArgs
@@ -312,6 +392,6 @@ namespace NeeView
 
         WordTree WordTree { get; set; }
 
-        string Execute(string input);
+        string Execute(string input, CancellationToken token);
     }
 }

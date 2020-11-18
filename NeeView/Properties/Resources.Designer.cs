@@ -13566,6 +13566,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Use WIC information に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamPictureProfileUseWicInformation {
+            get {
+                return ResourceManager.GetString("ParamPictureProfileUseWicInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Get the image extension from WIC. If off, only the default extension is available. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamPictureProfileUseWicInformationNote {
+            get {
+                return ResourceManager.GetString("ParamPictureProfileUseWicInformationNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Default order of playlists に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamPlaylistFolderOrder {

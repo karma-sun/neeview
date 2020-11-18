@@ -25,10 +25,11 @@ namespace NeeView.Setting
 
             var section = new SettingItemSection(Properties.Resources.SettingPageImageCollection);
 
-            var supportFileTypeEditor = new SettingItemCollectionControl() { Collection = (FileTypeCollection)PictureProfile.Current.SupportFileTypes.Clone(), DefaultCollection = PictureProfile.Current.DefaultFileTypes, AddDialogHeader = Properties.Resources.WordExtension };
+            var supportFileTypeEditor = new SettingItemCollectionControl() { Collection = (FileTypeCollection)PictureProfile.Current.SupportFileTypes.Clone(), DefaultCollection = PictureProfile.Current.DefaultFileTypes, AddDialogHeader = Properties.Resources.WordExtension, IsAlwaysResetEnabled = true };
             supportFileTypeEditor.CollectionChanged += SupportFileTypeEditor_CollectionChanged;
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(PictureProfile.Current, nameof(PictureProfile.SupportFileTypes)), supportFileTypeEditor));
 
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Image.Standard, nameof(ImageStandardConfig.UseWicInformation))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Image.Standard, nameof(ImageStandardConfig.IsAllFileSupported))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Image.Standard, nameof(ImageStandardConfig.IsAnimatedGifEnabled))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Image.Standard, nameof(ImageStandardConfig.IsAspectRatioEnabled))));

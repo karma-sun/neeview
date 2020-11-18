@@ -5,13 +5,21 @@ namespace NeeView
 {
     public class ImageStandardConfig: BindableBase
     {
+        private bool _useWicInformation = true;
         private bool _isAspectRatioEnabled;
         private bool _isAnimatedGifEnabled = true;
         private bool _isAllFileSupported;
         private FileTypeCollection _supportFileTypes = null;
 
+        // 既定の画像拡張子をWICから取得する
+        [PropertyMember("@ParamPictureProfileUseWicInformation", Tips = "@ParamPictureProfileUseWicInformationNote")]
+        public bool UseWicInformation
+        {
+            get { return _useWicInformation; }
+            set { SetProperty(ref _useWicInformation, value); }
+        }
 
-        // サポートする画像ファイルの拡張子。nullの場合は標準設定が適用される
+        // サポートする画像ファイルの拡張子。nullの場合は既定の画像拡張子が適用される
         [PropertyMember("@ParamPictureProfileSupportFileTypes")]
         public FileTypeCollection SupportFileTypes
         {

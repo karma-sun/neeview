@@ -20,23 +20,29 @@ namespace NeeView
         {
             var collection = new Dictionary<string, string>();
 
-            var friendlyName = new StringBuilder(1024);
-            var fileExtensions = new StringBuilder(1024);
-            for (uint i = 0; Interop.NVGetImageCodecInfo(i, friendlyName, fileExtensions); ++i)
+            try
             {
-                ////Debug.WriteLine($"{friendryName}: {fileExtensions}");
-                var key = friendlyName.ToString();
-                if (collection.ContainsKey(key))
+                var friendlyName = new StringBuilder(2048);
+                var fileExtensions = new StringBuilder(2048);
+                for (uint i = 0; Interop.NVGetImageCodecInfo(i, friendlyName, fileExtensions); ++i)
                 {
-                    collection[key] = collection[key].TrimEnd(',') + ',' + fileExtensions.ToString().ToLower();
+                    ////Debug.WriteLine($"{friendryName}: {fileExtensions}");
+                    var key = friendlyName.ToString();
+                    if (collection.ContainsKey(key))
+                    {
+                        collection[key] = collection[key].TrimEnd(',') + ',' + fileExtensions.ToString().ToLower();
+                    }
+                    else
+                    {
+                        collection.Add(key, fileExtensions.ToString().ToLower());
+                    }
                 }
-                else
-                {
-                    collection.Add(key, fileExtensions.ToString().ToLower());
-                }
+                Interop.NVCloseImageCodecInfo();
             }
-            Interop.NVCloseImageCodecInfo();
-            Interop.NVFpReset();
+            finally
+            {
+                Interop.NVFpReset();
+            }
 
             return collection;
         }

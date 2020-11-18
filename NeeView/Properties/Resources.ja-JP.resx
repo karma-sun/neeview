@@ -5694,4 +5694,10 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="LayoutPanelMenuClose" xml:space="preserve">
     <value>閉じる(_C)</value>
   </data>
+  <data name="ParamPictureProfileUseWicInformation" xml:space="preserve">
+    <value>WIC情報を使用する</value>
+  </data>
+  <data name="ParamPictureProfileUseWicInformationNote" xml:space="preserve">
+    <value>WICから画像拡張子を取得します。OFFの場合は既定の拡張子のみとなります。</value>
+  </data>
 </root>

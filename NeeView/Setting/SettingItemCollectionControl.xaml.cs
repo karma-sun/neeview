@@ -109,8 +109,25 @@ namespace NeeView.Setting
             }
         }
 
-        #endregion DependencyProperties
 
+        public bool IsAlwaysResetEnabled
+        {
+            get { return (bool)GetValue(IsAlwaysResetEnabledProperty); }
+            set { SetValue(IsAlwaysResetEnabledProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsAlwaysResetEnabledProperty =
+            DependencyProperty.Register("IsAlwaysResetEnabled", typeof(bool), typeof(SettingItemCollectionControl), new PropertyMetadata(false, IsAlwaysRsetEnabledChanged));
+
+        private static void IsAlwaysRsetEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is SettingItemCollectionControl control)
+            {
+                control.RaisePropertyChanged(nameof(IsResetEnabled));
+            }
+        }
+
+        #endregion DependencyProperties
 
 
         public string AddDialogTitle { get; set; }
@@ -119,7 +136,7 @@ namespace NeeView.Setting
 
         public List<string> Items => Collection?.Items;
 
-        public bool IsResetEnabled => DefaultCollection != null && !DefaultCollection.Equals(Collection);
+        public bool IsResetEnabled => DefaultCollection != null && (IsAlwaysResetEnabled || !DefaultCollection.Equals(Collection));
 
 
 

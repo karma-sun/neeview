@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace NeeView
@@ -14,6 +15,8 @@ namespace NeeView
         public PictureFileExtension()
         {
             UpdateDefaultSupprtedFileTypes();
+
+            Config.Current.Image.Standard.AddPropertyChanged(nameof(ImageStandardConfig.UseWicInformation), (s, e) => UpdateDefaultSupprtedFileTypes());
         }
 
 
@@ -25,37 +28,48 @@ namespace NeeView
         {
             var list = new List<string>();
 
-            foreach (var pair in GetDefaultExtensions())
+            var collection = AppDispatcher.Invoke(() => CreateSystemExtensions());
+            foreach (var pair in collection)
             {
                 list.AddRange(pair.Value.Split(','));
             }
 
             _defaultExtensoins.Restore(list);
+
+            Debug.WriteLine($"DefaultExtensions: {_defaultExtensoins}");
         }
 
         // 標準対応拡張子取得
-        private Dictionary<string, string> GetDefaultExtensions()
+        private Dictionary<string, string> CreateSystemExtensions()
         {
-            Dictionary<string, string> dictionary;
-
-            try
+            if (Config.Current.Image.Standard.UseWicInformation)
             {
-                dictionary = WicDecoders.ListUp();
+                try
+                {
+                    return WicDecoders.ListUp();
+                }
+                catch
+                {
+                    return CreateDefaultExtensions();
+                }
             }
-            catch
+            else
             {
-                // 失敗した場合は標準設定にする
-                dictionary = new Dictionary<string, string>();
-                dictionary.Add("BMP Decoder", ".bmp,.dib,.rle");
-                dictionary.Add("GIF Decoder", ".gif");
-                dictionary.Add("ICO Decoder", ".ico,.icon");
-                dictionary.Add("JPEG Decoder", ".jpeg,.jpe,.jpg,.jfif,.exif");
-                dictionary.Add("PNG Decoder", ".png");
-                dictionary.Add("TIFF Decoder", ".tiff,.tif");
-                dictionary.Add("WMPhoto Decoder", ".wdp,.jxr");
-                dictionary.Add("DDS Decoder", ".dds");
+                return CreateDefaultExtensions();
             }
+        }
 
+        private Dictionary<string, string> CreateDefaultExtensions()
+        {
+            var dictionary = new Dictionary<string, string>();
+            dictionary.Add("BMP Decoder", ".bmp,.dib,.rle");
+            dictionary.Add("GIF Decoder", ".gif");
+            dictionary.Add("ICO Decoder", ".ico,.icon");
+            dictionary.Add("JPEG Decoder", ".jpeg,.jpe,.jpg,.jfif,.exif");
+            dictionary.Add("PNG Decoder", ".png");
+            dictionary.Add("TIFF Decoder", ".tiff,.tif");
+            dictionary.Add("WMPhoto Decoder", ".wdp,.jxr");
+            dictionary.Add("DDS Decoder", ".dds");
             return dictionary;
         }
     }

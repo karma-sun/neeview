@@ -5694,4 +5694,10 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="LayoutPanelMenuClose" xml:space="preserve">
     <value>_Close</value>
   </data>
+  <data name="ParamPictureProfileUseWicInformation" xml:space="preserve">
+    <value>Use WIC information</value>
+  </data>
+  <data name="ParamPictureProfileUseWicInformationNote" xml:space="preserve">
+    <value>Get the image extension from WIC. If off, only the default extension is available.</value>
+  </data>
 </root>

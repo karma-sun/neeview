@@ -459,7 +459,7 @@ namespace NeeView
 
             try
             {
-                Config.Current.Window.WindowPlacement = WindowPlacementTools.StoreWindowPlacement(this, true);
+                Config.Current.Window.WindowPlacement = WindowPlacementTools.StoreWindowPlacement(this, Config.Current.Window.IsRestoreAeroSnapPlacement);
             }
             catch (Exception ex)
             {

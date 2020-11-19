@@ -16,6 +16,7 @@ namespace NeeView
         private WindowStateEx _state;
         private bool _isCaptionEmulateInFullScreen;
         private bool _mouseActivateAndEat;
+        private bool _isAeroSnapPlacementEnabled = true;
 
 
         [PropertyMember("@ParamWindowShapeChromeFrame")]
@@ -75,6 +76,16 @@ namespace NeeView
         {
             get { return _state; }
             set { SetProperty(ref _state, value); }
+        }
+
+        /// <summary>
+        /// エアロスナップのウィンドウ座標を保存
+        /// </summary>
+        [PropertyMember("@ParamIsRestoreAeroSnapPlacement")]
+        public bool IsRestoreAeroSnapPlacement 
+        {
+            get { return _isAeroSnapPlacementEnabled; }
+            set { SetProperty(ref _isAeroSnapPlacementEnabled, value); }
         }
 
         #region HiddenParameters

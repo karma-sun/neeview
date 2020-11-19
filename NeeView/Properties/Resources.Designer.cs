@@ -12423,6 +12423,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Restore AeroSnap window placement に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsRestoreAeroSnapPlacement {
+            get {
+                return ResourceManager.GetString("ParamIsRestoreAeroSnapPlacement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Restore the second window coordinates に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsRestoreSecondWindow {

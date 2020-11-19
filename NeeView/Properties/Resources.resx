@@ -5700,4 +5700,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamPictureProfileUseWicInformationNote" xml:space="preserve">
     <value>Obtains the image file extension from WIC at initialization. If off, only the default extension is available.</value>
   </data>
+  <data name="ParamIsRestoreAeroSnapPlacement" xml:space="preserve">
+    <value>Restore AeroSnap window placement</value>
+  </data>
 </root>

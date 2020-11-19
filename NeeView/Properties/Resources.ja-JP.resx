@@ -5700,4 +5700,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamPictureProfileUseWicInformationNote" xml:space="preserve">
     <value>初期化時にWICから画像ファイル拡張子を取得します。OFFの場合は既定の拡張子のみとなります。</value>
   </data>
+  <data name="ParamIsRestoreAeroSnapPlacement" xml:space="preserve">
+    <value>AeroSnapのウィンドウ座標を復元</value>
+  </data>
 </root>

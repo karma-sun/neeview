@@ -183,8 +183,13 @@ namespace NeeView
             // 設定の適用
             UserSettingTools.Restore(setting, new ObjectMergeOption() { IsIgnoreEnabled = false });
 
-            Debug.WriteLine($"App.RestreSettings: {Stopwatch.ElapsedMilliseconds}ms");
+            // 画像拡張子初期化
+            if (Config.Current.Image.Standard.SupportFileTypes is null)
+            {
+                Config.Current.Image.Standard.SupportFileTypes = PictureFileExtensionTools.CreateDefaultSupprtedFileTypes(Config.Current.Image.Standard.UseWicInformation);
+            }
 
+            Debug.WriteLine($"App.RestreSettings: {Stopwatch.ElapsedMilliseconds}ms");
 
             // バージョン表示
             if (this.Option.IsVersion)

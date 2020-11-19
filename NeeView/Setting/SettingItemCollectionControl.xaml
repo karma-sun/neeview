@@ -33,7 +33,7 @@
                     <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
                         <Setter Property="Visibility" Value="Visible"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding DefaultCollection}" Value="{x:Null}">
+                            <DataTrigger Binding="{Binding IsResetVisible}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
                         </Style.Triggers>

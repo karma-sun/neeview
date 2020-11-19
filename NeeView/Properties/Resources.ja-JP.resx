@@ -5698,6 +5698,6 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>WIC情報を使用する</value>
   </data>
   <data name="ParamPictureProfileUseWicInformationNote" xml:space="preserve">
-    <value>WICから画像拡張子を取得します。OFFの場合は既定の拡張子のみとなります。</value>
+    <value>初期化時にWICから画像ファイル拡張子を取得します。OFFの場合は既定の拡張子のみとなります。</value>
   </data>
 </root>

@@ -14,10 +14,6 @@ namespace NeeView
         public static PictureProfile Current { get; }
 
 
-        // 標準の画像ファイル拡張子
-        private PictureFileExtension _fileExtension = new PictureFileExtension();
-
-
         private PictureProfile()
         {
         }
@@ -26,11 +22,17 @@ namespace NeeView
         [PropertyMember("@ParamPictureProfileExtensions")]
         public FileTypeCollection SupportFileTypes
         {
-            get { return Config.Current.Image.Standard.SupportFileTypes ?? _fileExtension.DefaultExtensions; }
-            set { Config.Current.Image.Standard.SupportFileTypes = _fileExtension.DefaultExtensions.Equals(value) ? null : value; }
+            get
+            {
+                if (Config.Current.Image.Standard.SupportFileTypes is null)
+                {
+                    // NOTE: fallthrough. don't come here!
+                    Config.Current.Image.Standard.SupportFileTypes = PictureFileExtensionTools.CreateDefaultSupprtedFileTypes(Config.Current.Image.Standard.UseWicInformation);
+                }
+                return Config.Current.Image.Standard.SupportFileTypes;
+            }
+            set { Config.Current.Image.Standard.SupportFileTypes = value; }
         }
-
-        public FileTypeCollection DefaultFileTypes => _fileExtension.DefaultExtensions;
 
 
         // 対応拡張子判定 (ALL)

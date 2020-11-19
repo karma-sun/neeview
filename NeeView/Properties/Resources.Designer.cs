@@ -13575,7 +13575,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Get the image extension from WIC. If off, only the default extension is available. に類似しているローカライズされた文字列を検索します。
+        ///   Obtains the image file extension from WIC at initialization. If off, only the default extension is available. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamPictureProfileUseWicInformationNote {
             get {

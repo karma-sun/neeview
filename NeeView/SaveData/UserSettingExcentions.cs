@@ -14,6 +14,12 @@ namespace NeeView
 #pragma warning disable CS0612 // 型またはメンバーが旧型式です
             if (self is null) throw new ArgumentNullException();
 
+            // 画像拡張子初期化
+            if (self.Config.Image.Standard.SupportFileTypes is null)
+            {
+                self.Config.Image.Standard.SupportFileTypes = PictureFileExtensionTools.CreateDefaultSupprtedFileTypes(self.Config.Image.Standard.UseWicInformation);
+            }
+
             // ver.38
             if (self.Format.CompareTo(new FormatVersion(Environment.SolutionName, 38, 0, 0)) < 0)
             {

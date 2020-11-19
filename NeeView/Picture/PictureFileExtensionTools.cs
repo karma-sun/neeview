@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
@@ -7,59 +8,47 @@ namespace NeeView
     /// <summary>
     /// 画像ファイル拡張子
     /// </summary>
-    public class PictureFileExtension
+    public static class PictureFileExtensionTools
     {
-        private FileTypeCollection _defaultExtensoins = new FileTypeCollection();
-
-
-        public PictureFileExtension()
-        {
-            UpdateDefaultSupprtedFileTypes();
-
-            Config.Current.Image.Standard.AddPropertyChanged(nameof(ImageStandardConfig.UseWicInformation), (s, e) => UpdateDefaultSupprtedFileTypes());
-        }
-
-
-        public FileTypeCollection DefaultExtensions => _defaultExtensoins;
-
-
         // デフォルトローダーのサポート拡張子を更新
-        private void UpdateDefaultSupprtedFileTypes()
+        public static FileTypeCollection CreateDefaultSupprtedFileTypes(bool useWic)
         {
-            var list = new List<string>();
+            var collection = (System.Threading.Thread.CurrentThread.GetApartmentState() == System.Threading.ApartmentState.STA)
+                ? CreateSystemExtensions(useWic)
+                : AppDispatcher.Invoke(() => CreateSystemExtensions(useWic));
 
-            var collection = AppDispatcher.Invoke(() => CreateSystemExtensions());
+            var list = new List<string>();
             foreach (var pair in collection)
             {
                 list.AddRange(pair.Value.Split(','));
             }
 
-            _defaultExtensoins.Restore(list);
+            var defaultExtensions = new FileTypeCollection();
+            defaultExtensions.Restore(list);
+            Debug.WriteLine($"DefaultExtensions: {defaultExtensions}");
 
-            Debug.WriteLine($"DefaultExtensions: {_defaultExtensoins}");
+            return defaultExtensions;
         }
 
         // 標準対応拡張子取得
-        private Dictionary<string, string> CreateSystemExtensions()
+        private static Dictionary<string, string> CreateSystemExtensions(bool useWic)
         {
-            if (Config.Current.Image.Standard.UseWicInformation)
+            if (useWic)
             {
                 try
                 {
                     return WicDecoders.ListUp();
                 }
-                catch
+                catch (Exception ex)
                 {
-                    return CreateDefaultExtensions();
+                    Debug.WriteLine($"WicDecoders.ListUp failed: {ex.Message}");
                 }
             }
-            else
-            {
-                return CreateDefaultExtensions();
-            }
+
+            return CreateDefaultExtensions();
         }
 
-        private Dictionary<string, string> CreateDefaultExtensions()
+        private static Dictionary<string, string> CreateDefaultExtensions()
         {
             var dictionary = new Dictionary<string, string>();
             dictionary.Add("BMP Decoder", ".bmp,.dib,.rle");

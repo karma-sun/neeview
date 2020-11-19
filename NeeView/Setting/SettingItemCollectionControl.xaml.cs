@@ -127,6 +127,16 @@ namespace NeeView.Setting
             }
         }
 
+
+        public ISettingItemCollectionDescription Description
+        {
+            get { return (ISettingItemCollectionDescription)GetValue(DescriptionProperty); }
+            set { SetValue(DescriptionProperty, value); }
+        }
+
+        public static readonly DependencyProperty DescriptionProperty =
+            DependencyProperty.Register("Description", typeof(ISettingItemCollectionDescription), typeof(SettingItemCollectionControl), new PropertyMetadata(null));
+
         #endregion DependencyProperties
 
 
@@ -136,8 +146,9 @@ namespace NeeView.Setting
 
         public List<string> Items => Collection?.Items;
 
-        public bool IsResetEnabled => DefaultCollection != null && (IsAlwaysResetEnabled || !DefaultCollection.Equals(Collection));
+        public bool IsResetEnabled => IsAlwaysResetEnabled || (DefaultCollection != null && !DefaultCollection.Equals(Collection));
 
+        public bool IsResetVisible => IsAlwaysResetEnabled || DefaultCollection != null;
 
 
         private void SettingItemCollectionControl_CollectionChanged(object sender, CollectionChangeEventArgs e)
@@ -194,9 +205,11 @@ namespace NeeView.Setting
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
         {
-            if (Collection == null || DefaultCollection == null) return;
+            var defaultCollection = DefaultCollection ?? Description?.GetDefaultCollection();
 
-            Collection.Restore(DefaultCollection.Items);
+            if (Collection == null || defaultCollection == null) return;
+
+            Collection.Restore(defaultCollection.Items);
             RaisePropertyChanged(nameof(Items));
             this.CollectionListBox.Items.Refresh();
 
@@ -211,5 +224,10 @@ namespace NeeView.Setting
                 e.Handled = true;
             }
         }
+    }
+
+    public interface ISettingItemCollectionDescription
+    {
+        StringCollection GetDefaultCollection();
     }
 }

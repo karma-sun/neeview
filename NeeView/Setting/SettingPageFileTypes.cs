@@ -1,4 +1,5 @@
 ﻿using NeeView.Susie;
+using NeeView.Text;
 using NeeView.Windows.Property;
 using System.Collections.Generic;
 using System.Windows;
@@ -10,6 +11,14 @@ namespace NeeView.Setting
     /// </summary>
     public class SettingPageFileTypes : SettingPage
     {
+        private class SettingItemCollectionDescription : ISettingItemCollectionDescription
+        {
+            public StringCollection GetDefaultCollection()
+            {
+                return PictureFileExtensionTools.CreateDefaultSupprtedFileTypes(Config.Current.Image.Standard.UseWicInformation);
+            }
+        }
+
         public SettingPageFileTypes() : base(Properties.Resources.SettingPageArchive)
         {
             this.Children = new List<SettingPage>
@@ -25,7 +34,7 @@ namespace NeeView.Setting
 
             var section = new SettingItemSection(Properties.Resources.SettingPageImageCollection);
 
-            var supportFileTypeEditor = new SettingItemCollectionControl() { Collection = (FileTypeCollection)PictureProfile.Current.SupportFileTypes.Clone(), DefaultCollection = PictureProfile.Current.DefaultFileTypes, AddDialogHeader = Properties.Resources.WordExtension, IsAlwaysResetEnabled = true };
+            var supportFileTypeEditor = new SettingItemCollectionControl() { Collection = (FileTypeCollection)PictureProfile.Current.SupportFileTypes.Clone(), AddDialogHeader = Properties.Resources.WordExtension, IsAlwaysResetEnabled = true, Description = new SettingItemCollectionDescription() };
             supportFileTypeEditor.CollectionChanged += SupportFileTypeEditor_CollectionChanged;
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(PictureProfile.Current, nameof(PictureProfile.SupportFileTypes)), supportFileTypeEditor));
 

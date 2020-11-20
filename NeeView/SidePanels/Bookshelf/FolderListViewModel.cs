@@ -240,7 +240,7 @@ namespace NeeView
                 void Execute(FolderTreeLayout layout)
                 {
                     _model.FolderListConfig.FolderTreeLayout = layout;
-                    SidePanelFrame.Current.SetVisibleFolderTree(true, true);
+                    SidePanelFrame.Current.SetVisibleBookshelfFolderTree(true, true);
                 }
             }
         }

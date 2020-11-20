@@ -27,7 +27,7 @@ namespace NeeView
 
         public BookmarkListView(FolderList model) : this()
         {
-            this.FolderTree.Model = new FolderTreeModel(model, FolderTreeCategory.BookmarkFolder);
+            this.FolderTree.Model = new BookmarkFolderTreeModel(model);
 
             _vm = new BookmarkListViewModel(model);
             this.Root.DataContext = _vm;

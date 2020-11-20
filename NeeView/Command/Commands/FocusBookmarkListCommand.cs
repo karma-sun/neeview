@@ -12,7 +12,7 @@
         }
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            SidePanelFrame.Current.FocusBookmarkList(option.HasFlag(CommandOption.ByMenu));
+            SidePanelFrame.Current.FocusBookshelfBookmarkList(option.HasFlag(CommandOption.ByMenu));
         }
     }
 }

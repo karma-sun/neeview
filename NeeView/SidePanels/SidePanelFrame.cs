@@ -201,83 +201,6 @@ namespace NeeView
         }
 
 
-        #region Bookshelf parts
-
-        // TODO: これ使ってる？
-        public bool FocusBookmarkList(bool byMenu)
-        {
-            // フォルダーツリーは「ブックマークリスト」を選択した状態にする
-            BookshelfFolderTreeModel.Current.SelectRootBookmarkFolder();
-            BookshelfFolderList.Current.RequestPlace(new QueryPath(QueryScheme.Bookmark, null), null, FolderSetPlaceOption.UpdateHistory | FolderSetPlaceOption.Refresh);
-
-            // フォルダーリスト選択
-            ////SetSelectedPanel(FolderListPanel, true);
-            SetVisiblePanel(nameof(FolderPanel), true);
-            RaisePanelPropertyChanged();
-
-            // フォルダーリストにフォーカスをあわせる
-            if (!byMenu && IsVisibleFolderList)
-            {
-                BookshelfFolderList.Current.FocusAtOnce();
-            }
-
-            return IsVisibleFolderList;
-        }
-
-        /// <summary>
-        /// 検索ボックス表示状態
-        /// </summary>
-        public bool IsVisibleFolderSearchBox => BookshelfFolderList.Current.IsFolderSearchBoxVisible && IsVisibleFolderList;
-
-
-        public void FocusFolderSearchBox(bool byMenu)
-        {
-            ////SetSelectedPanel(FolderListPanel, true);
-
-            SetVisibleFolderList(true, true);
-            BookshelfFolderList.Current.RaiseSearchBoxFocus();
-        }
-
-        /// <summary>
-        /// フォルダーツリー表示状態
-        /// </summary>
-        public bool IsVisibleFolderTree
-        {
-            get { return Config.Current.Bookshelf.IsFolderTreeVisible && IsVisibleFolderList; }
-            set { SetVisibleFolderTree(false, value); }
-        }
-
-        /// <summary>
-        /// フォルダーツリー表示状態切替
-        /// </summary>
-        public bool ToggleVisibleFolderTree(bool byMenu)
-        {
-            return SetVisibleFolderTree(byMenu, !IsVisibleFolderTree || !IsVisiblePanel(nameof(FolderPanel)));
-        }
-
-        public bool SetVisibleFolderTree(bool byMenu, bool isVisible)
-        {
-            Debug.WriteLine($"{isVisible}, {IsVisiblePanel(nameof(FolderPanel))}");
-
-            // フォーカス要求。表示前に要求する
-            if (!byMenu && isVisible)
-            {
-                BookshelfFolderTreeModel.Current.FocusAtOnce();
-            }
-
-            Config.Current.Bookshelf.IsFolderTreeVisible = isVisible;
-
-            ////SetSelectedPanel(FolderListPanel, true);
-            SetVisiblePanel(nameof(FolderPanel), true);
-            RaisePanelPropertyChanged();
-
-            return Config.Current.Bookshelf.IsFolderTreeVisible;
-        }
-
-        #endregion Bookshelf parts
-
-
-
         // 履歴リスト表示ON/OFF
         public bool IsVisibleHistoryList
         {
@@ -331,7 +254,112 @@ namespace NeeView
             return ToggleVisiblePanel(nameof(PagemarkPanel), byMenu);
         }
 
+        #endregion Panels Visibility
+
+        #region Bookshelf parts
+
+        /// <summary>
+        /// 本棚のブックマークグループを表示
+        /// </summary>
+        public bool FocusBookshelfBookmarkList(bool byMenu)
+        {
+            // フォルダーツリーは「ブックマークリスト」を選択した状態にする
+            BookshelfFolderTreeModel.Current.SelectRootBookmarkFolder();
+            BookshelfFolderList.Current.RequestPlace(new QueryPath(QueryScheme.Bookmark, null), null, FolderSetPlaceOption.UpdateHistory | FolderSetPlaceOption.Refresh);
+
+            // フォルダーリスト選択
+            SetVisiblePanel(nameof(FolderPanel), true);
+            RaisePanelPropertyChanged();
+
+            // フォルダーリストにフォーカスをあわせる
+            if (!byMenu && IsVisibleFolderList)
+            {
+                BookshelfFolderList.Current.FocusAtOnce();
+            }
+
+            return IsVisibleFolderList;
+        }
+
+        /// <summary>
+        /// 検索ボックス表示状態
+        /// </summary>
+        public bool IsVisibleBookshelfSearchBox => BookshelfFolderList.Current.IsFolderSearchBoxVisible && IsVisibleFolderList;
+
+        /// <summary>
+        /// 検索ボックスにフォーカスを移す
+        /// </summary>
+        public void FocusBookshelfSearchBox(bool byMenu)
+        {
+            SetVisibleFolderList(true, true);
+            BookshelfFolderList.Current.RaiseSearchBoxFocus();
+        }
+
+        /// <summary>
+        /// フォルダーツリー表示状態
+        /// </summary>
+        public bool IsVisibleBookshelfFolderTree
+        {
+            get { return Config.Current.Bookshelf.IsFolderTreeVisible && IsVisibleFolderList; }
+            set { SetVisibleBookshelfFolderTree(false, value); }
+        }
+
+        /// <summary>
+        /// フォルダーツリー表示状態切替
+        /// </summary>
+        public bool ToggleVisibleBookshelfFolderTree(bool byMenu)
+        {
+            return SetVisibleBookshelfFolderTree(byMenu, !IsVisibleBookshelfFolderTree || !IsVisiblePanel(nameof(FolderPanel)));
+        }
+
+        /// <summary>
+        /// フォルダーツリー表示状設定
+        /// </summary>
+        public bool SetVisibleBookshelfFolderTree(bool byMenu, bool isVisible)
+        {
+            Debug.WriteLine($"{isVisible}, {IsVisiblePanel(nameof(FolderPanel))}");
+
+            // フォーカス要求。表示前に要求する
+            if (!byMenu && isVisible)
+            {
+                BookshelfFolderTreeModel.Current.FocusAtOnce();
+            }
+
+            Config.Current.Bookshelf.IsFolderTreeVisible = isVisible;
+
+            SetVisiblePanel(nameof(FolderPanel), true);
+            RaisePanelPropertyChanged();
+
+            return Config.Current.Bookshelf.IsFolderTreeVisible;
+        }
+
+        #endregion Bookshelf parts
+
+        #region Bookmark parts
+
+
+        /// <summary>
+        /// フォルダーツリー表示状設定
+        /// </summary>
+        public bool SetVisibleBookmarkFolderTree(bool byMenu, bool isVisible)
+        {
+            Debug.WriteLine($"{isVisible}, {IsVisiblePanel(nameof(BookmarkPanel))}");
+
+            // フォーカス要求。表示前に要求する
+            if (!byMenu && isVisible)
+            {
+                BookmarkFolderTreeModel.Current.FocusAtOnce();
+            }
+
+            Config.Current.Bookmark.IsFolderTreeVisible = isVisible;
+
+            SetVisiblePanel(nameof(BookmarkPanel), true);
+            RaisePanelPropertyChanged();
+
+            return Config.Current.Bookmark.IsFolderTreeVisible;
+        }
+
         #endregion
+
 
 
         #region Memento

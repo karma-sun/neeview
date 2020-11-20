@@ -22,7 +22,7 @@ namespace NeeView
 
         public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
         {
-            return SidePanelFrame.Current.IsVisibleFolderTree ? Properties.Resources.CommandToggleVisibleFoldersTreeOff : Properties.Resources.CommandToggleVisibleFoldersTreeOn;
+            return SidePanelFrame.Current.IsVisibleBookshelfFolderTree ? Properties.Resources.CommandToggleVisibleFoldersTreeOff : Properties.Resources.CommandToggleVisibleFoldersTreeOn;
         }
 
         [MethodArgument("@CommandToggleArgument")]
@@ -30,11 +30,11 @@ namespace NeeView
         {
             if (args.Length > 0)
             {
-                SidePanelFrame.Current.IsVisibleFolderTree = Convert.ToBoolean(args[0]);
+                SidePanelFrame.Current.IsVisibleBookshelfFolderTree = Convert.ToBoolean(args[0]);
             }
             else
             {
-                SidePanelFrame.Current.ToggleVisibleFolderTree(option.HasFlag(CommandOption.ByMenu));
+                SidePanelFrame.Current.ToggleVisibleBookshelfFolderTree(option.HasFlag(CommandOption.ByMenu));
             }
         }
     }

@@ -197,6 +197,11 @@ namespace NeeView
         public virtual void OnKeyDown(object sender, KeyEventArgs e) { }
 
         /// <summary>
+        /// 入力をキャンセル
+        /// </summary>
+        public virtual void Cancel() { }
+
+        /// <summary>
         /// 専有判定
         /// </summary>
         /// <returns></returns>

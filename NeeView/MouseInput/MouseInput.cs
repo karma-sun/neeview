@@ -297,6 +297,14 @@ namespace NeeView
             _current.OnKeyDown(_sender, e);
         }
 
+        /// <summary>
+        /// Cancel input
+        /// </summary>
+        public void Cancel()
+        {
+            _current.Cancel();
+        }
+
 
         // メッセージとして状態表示
         public void ShowMessage(TransformActionType ActionType, ViewContent mainContent)

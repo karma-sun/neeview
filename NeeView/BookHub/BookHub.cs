@@ -717,6 +717,7 @@ namespace NeeView
                     {
                         if (BookUnit != null)
                         {
+                            MouseInput.Current.Cancel();
                             BookChanged?.Invoke(this, new BookChangedEventArgs(BookUnit.Book?.Address, BookUnit.GetBookMementoType()));
                         }
                     }

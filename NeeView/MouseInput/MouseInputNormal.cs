@@ -128,8 +128,7 @@ namespace NeeView
         /// <param name="sender"></param>
         public override void OnClosed(FrameworkElement sender)
         {
-            _timer.Stop();
-            _timerRepeat.Stop();
+            Cancel();
         }
 
 
@@ -162,12 +161,7 @@ namespace NeeView
                 MouseButtonChanged?.Invoke(sender, e);
                 if (e.Handled)
                 {
-                    // その後の操作は全て無効
-                    _isButtonDown = false;
-
-                    _timer.Stop();
-                    _timerRepeat.Stop();
-
+                    Cancel();
                     return;
                 }
             }
@@ -215,10 +209,7 @@ namespace NeeView
             MouseWheelChanged?.Invoke(sender, e);
 
             // その後の操作は全て無効
-            _isButtonDown = false;
-
-            _timer.Stop();
-            _timerRepeat.Stop();
+            Cancel();
         }
 
 
@@ -253,6 +244,16 @@ namespace NeeView
                     SetState(MouseInputState.Drag, e);
                 }
             }
+        }
+
+        /// <summary>
+        /// 入力をキャンセル
+        /// </summary>
+        public override void Cancel()
+        {
+            _isButtonDown = false;
+            _timer.Stop();
+            _timerRepeat.Stop();
         }
 
 

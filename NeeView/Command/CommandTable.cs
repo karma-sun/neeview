@@ -671,22 +671,23 @@ namespace NeeView
             if (!Config.Current.Script.IsScriptFolderEnabled) return;
             if (!string.IsNullOrEmpty(Config.Current.Script.ScriptFolder)) return;
 
-            var path = Config.Current.Script.GetDefaultScriptFolder();
-            if (!Directory.Exists(path))
+            try
             {
-                Directory.CreateDirectory(path);
-
-                try
+                var path = Config.Current.Script.GetDefaultScriptFolder();
+                if (!Directory.Exists(path))
                 {
+                    Directory.CreateDirectory(path);
+
                     // サンプルスクリプトを生成
                     var filename = "Sample.nvjs";
                     var source = Path.Combine(Environment.AssemblyFolder, Config.Current.Script.GetDefaultScriptFolderName(), filename);
                     File.Copy(source, Path.Combine(path, filename));
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message);
-                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                ToastService.Current.Show(new Toast(ex.Message, "Warning", ToastIcon.Warning));
             }
         }
 

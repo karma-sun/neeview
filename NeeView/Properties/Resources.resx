@@ -5703,4 +5703,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamIsRestoreAeroSnapPlacement" xml:space="preserve">
     <value>Restore AeroSnap window placement</value>
   </data>
+  <data name="ParamSliderIsSyncPageMode" xml:space="preserve">
+    <value>Synchronize the amount of change to the number of displayed pages</value>
+  </data>
 </root>

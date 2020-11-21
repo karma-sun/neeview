@@ -1,5 +1,6 @@
 ﻿using NeeLaboratory.ComponentModel;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
@@ -32,6 +33,14 @@ namespace NeeView
         public event EventHandler SelectionChanged;
         public event EventHandler<ViewContentsChangedEventArgs> ViewContentsChanged;
 
+
+        public PageMode PageMode => BookOperation.Current.Book?.Viewer.PageMode ?? PageMode.SinglePage;
+
+        public bool IsSupportedSingleFirstPage => BookOperation.Current.Book?.Viewer.IsSupportedSingleFirstPage ?? false;
+        
+        public bool IsSupportedSingleLastPage => BookOperation.Current.Book?.Viewer.IsSupportedSingleLastPage ?? false;
+
+        public int ViewPageCount => BookOperation.Current.Book?.Viewer.GetViewPages()?.Count ?? 0;
 
         public int MaxIndex => BookOperation.Current.GetMaxPageIndex();
 

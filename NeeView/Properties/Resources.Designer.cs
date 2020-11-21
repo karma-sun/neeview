@@ -13873,6 +13873,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Synchronize the amount of change to the number of displayed pages に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamSliderIsSyncPageMode {
+            get {
+                return ResourceManager.GetString("ParamSliderIsSyncPageMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Slider opacity に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamSliderOpacity {

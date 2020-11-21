@@ -32,7 +32,7 @@
             </TextBlock>
             <TextBox x:Name="TextBox"  TextAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Stretch"
                  Foreground="{DynamicResource NVForeground}" Background="{DynamicResource NVBackground}"
-                 Text="{Binding Target.Value, UpdateSourceTrigger=Explicit, Converter={StaticResource SliderValueConverter}}"
+                 Text="{Binding Value, UpdateSourceTrigger=Explicit, Converter={StaticResource SliderValueConverter}}"
                  Visibility="Hidden"
                  MouseWheel="TextBox_MouseWheel"
                  KeyDown="TextBox_PreviewKeyDown"

@@ -13,6 +13,7 @@ namespace NeeView
         private SliderDirection _sliderDirection = SliderDirection.SyncBookReadDirection;
         private bool _isSliderLinkedFilmStrip = true;
         private bool _isHidePageSliderInFullscreen = true;
+        private bool _isSyncPageMode;
 
 
         [JsonIgnore]
@@ -80,5 +81,16 @@ namespace NeeView
             get { return _isHidePageSliderInFullscreen; }
             set { SetProperty(ref _isHidePageSliderInFullscreen, value); }
         }
+
+        /// <summary>
+        /// スライダーの移動量をページモードに従う
+        /// </summary>
+        [PropertyMember("@ParamSliderIsSyncPageMode")]
+        public bool IsSyncPageMode
+        {
+            get { return _isSyncPageMode; }
+            set { SetProperty(ref _isSyncPageMode, value); }
+        }
+
     }
 }

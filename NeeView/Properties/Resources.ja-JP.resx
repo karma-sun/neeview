@@ -5703,4 +5703,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamIsRestoreAeroSnapPlacement" xml:space="preserve">
     <value>AeroSnapのウィンドウ座標を復元</value>
   </data>
+  <data name="ParamSliderIsSyncPageMode" xml:space="preserve">
+    <value>変更量を表示ページ数に同期</value>
+  </data>
 </root>

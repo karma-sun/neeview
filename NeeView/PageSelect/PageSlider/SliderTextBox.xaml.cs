@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
+using NeeLaboratory;
 
 namespace NeeView
 {
@@ -63,18 +64,52 @@ namespace NeeView
 
         #region DependencyProperties
 
-        public VideoSlider Target
+        public double Minimum
         {
-            get { return (VideoSlider)GetValue(TargetProperty); }
-            set { SetValue(TargetProperty, value); }
+            get { return (double)GetValue(MinimumProperty); }
+            set { SetValue(MinimumProperty, value); }
         }
 
-        public static readonly DependencyProperty TargetProperty =
-            DependencyProperty.Register("Target", typeof(VideoSlider), typeof(SliderTextBox), new PropertyMetadata(null, TargetPropertyChanged));
+        public static readonly DependencyProperty MinimumProperty =
+            DependencyProperty.Register("Minimum", typeof(double), typeof(SliderTextBox), new PropertyMetadata(0.0));
 
-        private static void TargetPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+
+        public double Maximum
         {
-            (d as SliderTextBox)?.UpdateTarget();
+            get { return (double)GetValue(MaximumProperty); }
+            set { SetValue(MaximumProperty, value); }
+        }
+
+        public static readonly DependencyProperty MaximumProperty =
+            DependencyProperty.Register("Maximum", typeof(double), typeof(SliderTextBox), new PropertyMetadata(1.0, MaximumPropertyChanged));
+
+        private static void MaximumPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as SliderTextBox)?.Update();
+        }
+
+        public double Value
+        {
+            get { return (double)GetValue(ValueProperty); }
+            set { SetValue(ValueProperty, value); }
+        }
+
+        public static readonly DependencyProperty ValueProperty =
+            DependencyProperty.Register("Value", typeof(double), typeof(SliderTextBox), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, ValuePropertyChanged, CoerceValueProperty));
+
+        private static object CoerceValueProperty(DependencyObject d, object baseValue)
+        {
+            if (d is SliderTextBox control)
+            {
+                return MathUtility.Clamp((double)baseValue, control.Minimum, control.Maximum);
+            }
+
+            return baseValue;
+        }
+
+        private static void ValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as SliderTextBox)?.UpdateValue();
         }
 
         #endregion
@@ -99,26 +134,13 @@ namespace NeeView
             }
         }
 
-        private void UpdateTarget()
-        {
-            if (Target == null) return;
-
-            // 注意：リークします
-            DependencyPropertyDescriptor.FromProperty(VideoSlider.MaximumProperty, typeof(VideoSlider))
-                .AddValueChanged(this.Target, (s, e) => Update());
-            DependencyPropertyDescriptor.FromProperty(VideoSlider.ValueProperty, typeof(VideoSlider))
-                .AddValueChanged(Target, (s, e) => UpdateDispText());
-
-            Update();
-        }
-
         private void Update()
         {
-            int length = (int)Math.Log10(this.Target.Maximum) + 1;
+            int length = (int)Math.Log10(this.Maximum) + 1;
             var width = (length * 2 + 1) * 7 + 20;
             SetWidth(width);
 
-            UpdateDispText();
+            UpdateValue();
         }
 
         private void SetWidth(double width)
@@ -128,9 +150,9 @@ namespace NeeView
         }
 
 
-        private void UpdateDispText()
+        private void UpdateValue()
         {
-            this.DispText = Target != null ? $"{Target.Value + 1} / {Target.Maximum + 1}" : "";
+            this.DispText = $"{Value + 1} / {Maximum + 1}";
         }
 
 
@@ -190,7 +212,7 @@ namespace NeeView
             int turn = _mouseWheelDelta.NotchCount(e);
             if (turn != 0)
             {
-                this.Target.Value = this.Target.Value - turn;
+                this.Value = this.Value - turn;
                 ValueChanged?.Invoke(this, null);
                 this.TextBox.SelectAll();
             }

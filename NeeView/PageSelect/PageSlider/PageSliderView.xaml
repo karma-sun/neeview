@@ -14,7 +14,7 @@
         <DockPanel Visibility="{Binding PageSliderVisibility}">
             <local:SliderTextBox x:Name="PageSliderTextBox" DockPanel.Dock="{Binding SliderIndexDock}" 
                                        Visibility="{Binding IsSliderWithIndex, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                       Target="{Binding ElementName=Slider}"
+                                       Maximum="{Binding Model.PageSelector.MaxIndex}" Value="{Binding Model.SelectedIndexRaw}"
                                        ValueChanged="PageSliderTextBox_ValueChanged" KeyDown="PageSliderTextBox_KeyDown"
                                        Foreground="{DynamicResource NVForeground}">
             </local:SliderTextBox>

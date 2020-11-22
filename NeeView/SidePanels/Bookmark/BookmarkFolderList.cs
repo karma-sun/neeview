@@ -80,16 +80,6 @@ namespace NeeView
             }
         }
 
-        public new Memento CreateMemento()
-        {
-            var memento = new Memento();
-
-            memento.FolderList = base.CreateMemento();
-            memento.IsSyncBookshelfEnabled = Config.Current.Bookmark.IsSyncBookshelfEnabled;
-
-            return memento;
-        }
-
         #endregion
     }
 

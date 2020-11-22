@@ -989,24 +989,6 @@ namespace NeeView
             }
         }
 
-        [Obsolete]
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-
-            foreach (var pair in _elements)
-            {
-                memento.Elements.Add(pair.Key, pair.Value.CreateMemento());
-            }
-
-            memento.IsReversePageMove = Config.Current.Command.IsReversePageMove;
-            memento.IsReversePageMoveWheel = Config.Current.Command.IsReversePageMoveWheel;
-            memento.IsScriptFolderEnabled = Config.Current.Script.IsScriptFolderEnabled;
-            memento.ScriptFolder = Config.Current.Script.ScriptFolder;
-
-            return memento;
-        }
-
         #endregion
 
         #region Memento CommandCollection

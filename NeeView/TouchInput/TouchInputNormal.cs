@@ -165,14 +165,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.DragAction = Config.Current.Touch.DragAction;
-            memento.HoldAction = Config.Current.Touch.HoldAction;
-            return memento;
-        }
-
         #endregion
 
     }

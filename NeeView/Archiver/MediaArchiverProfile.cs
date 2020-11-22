@@ -29,16 +29,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-
-            memento.IsEnabled = Config.Current.Archive.Media.IsEnabled;
-            memento.SupportFileTypes = Config.Current.Archive.Media.SupportFileTypes.OneLine;
-
-            return memento;
-        }
-
         #endregion
 
     }

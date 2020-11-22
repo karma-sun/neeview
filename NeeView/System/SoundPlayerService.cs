@@ -56,13 +56,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.SeCannotMove = Config.Current.Book.TerminalSound;
-            return memento;
-        }
-
         #endregion
 
     }

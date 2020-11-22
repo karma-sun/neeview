@@ -29,13 +29,6 @@ namespace NeeView
             public double Width { get; set; }
         }
 
-        [Obsolete]
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            return memento;
-        }
-
         #endregion
 
     }

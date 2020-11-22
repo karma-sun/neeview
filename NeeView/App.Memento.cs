@@ -218,39 +218,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.IsMultiBootEnabled = Config.Current.StartUp.IsMultiBootEnabled;
-            memento.IsSaveFullScreen = Config.Current.StartUp.IsRestoreFullScreen;
-            memento.IsSaveWindowPlacement = Config.Current.StartUp.IsRestoreWindowPlacement;
-            memento.IsNetworkEnabled = Config.Current.System.IsNetworkEnabled;
-            memento.IsIgnoreImageDpi = Config.Current.System.IsIgnoreImageDpi;
-            memento.IsSaveHistory = Config.Current.History.IsSaveHistory;
-            memento.HistoryFilePath = Config.Current.History.HistoryFilePath;
-            memento.IsSaveBookmark = Config.Current.Bookmark.IsSaveBookmark;
-            memento.BookmarkFilePath = Config.Current.Bookmark.BookmarkFilePath;
-            memento.IsSavePagemark = Config.Current.Pagemark.IsSavePagemark;
-            memento.PagemarkFilePath = Config.Current.Pagemark.PagemarkFilePath;
-            memento.AutoHideDelayTime = Config.Current.AutoHide.AutoHideDelayTime;
-            memento.AutoHideDelayVisibleTime = Config.Current.AutoHide.AutoHideDelayVisibleTime;
-            memento.WindowChromeFrame = Config.Current.Window.WindowChromeFrame;
-            memento.IsOpenLastBook = Config.Current.StartUp.IsOpenLastBook;
-            memento.DownloadPath = Config.Current.System.DownloadPath;
-            memento.IsRestoreSecondWindow = Config.Current.StartUp.IsRestoreSecondWindowPlacement;
-            memento.IsSettingBackup = Config.Current.System.IsSettingBackup;
-            memento.Language = Config.Current.System.Language;
-            memento.IsSplashScreenEnabled = Config.Current.StartUp.IsSplashScreenEnabled;
-            memento.IsSyncUserSetting = Config.Current.System.IsSyncUserSetting;
-            memento.TemporaryDirectory = Config.Current.System.TemporaryDirectory;
-            memento.CacheDirectory = Config.Current.Thumbnail.ThumbnailCacheFilePath != null ? Path.GetDirectoryName(Config.Current.Thumbnail.ThumbnailCacheFilePath) : null;
-            memento.CacheDirectoryOld = memento.CacheDirectory; //// CacheDirectoryOld廃止(ver.37)
-            memento.AutoHideFocusLockMode = Config.Current.AutoHide.AutoHideFocusLockMode;
-            memento.IsAutoHideKeyDownDelay = Config.Current.AutoHide.IsAutoHideKeyDownDelay;
-            memento.AutoHideHitTestMargin = Config.Current.AutoHide.AutoHideHitTestMargin;
-            return memento;
-        }
-
         #endregion
 
     }

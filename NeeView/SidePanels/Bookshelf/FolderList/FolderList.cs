@@ -1686,19 +1686,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.PanelListItemStyle = _folderListConfig.PanelListItemStyle;
-            memento.FolderTreeLayout = _folderListConfig.FolderTreeLayout;
-            memento.FolderTreeAreaHeight = _folderListConfig.FolderTreeAreaHeight;
-            memento.FolderTreeAreaWidth = _folderListConfig.FolderTreeAreaWidth;
-            memento.IsFolderTreeVisible = _folderListConfig.IsFolderTreeVisible;
-            memento.IsSyncFolderTree = Config.Current.Bookshelf.IsSyncFolderTree;
-
-            return memento;
-        }
-
         #endregion
     }
 

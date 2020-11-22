@@ -1281,16 +1281,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.PageEndAction = Config.Current.Book.PageEndAction;
-            memento.ExternalApplication = ExternalApplicationMemento.CreateMemento();
-            memento.ClipboardUtility = ClipboardUtilityMemento.CreateMemento();
-            memento.IsNotifyPageLoop = Config.Current.Book.IsNotifyPageLoop;
-            return memento;
-        }
-
         #endregion
 
 
@@ -1331,18 +1321,6 @@ namespace NeeView
                 }
 #pragma warning restore CS0612 // 型またはメンバーが旧型式です
             }
-
-            public static ExternalApplicationMemento CreateMemento()
-            {
-                var parameter = (OpenExternalAppCommandParameter)CommandTable.Current.GetElement("OpenExternalApp").Parameter;
-                return new ExternalApplicationMemento()
-                {
-                    Command = parameter.Command,
-                    Parameter = parameter.Parameter,
-                    MultiPageOption = parameter.MultiPagePolicy,
-                    ArchiveOption = parameter.ArchivePolicy,
-                };
-            }
         }
 
         [DataContract]
@@ -1354,16 +1332,6 @@ namespace NeeView
             public ArchivePolicy ArchiveOption { get; set; }
             [DataMember]
             public string ArchiveSeparater { get; set; }
-
-            public static ClipboardUtilityMemento CreateMemento()
-            {
-                var parameter = (CopyFileCommandParameter)CommandTable.Current.GetElement("CopyFile").Parameter;
-                return new ClipboardUtilityMemento()
-                {
-                    MultiPageOption = parameter.MultiPagePolicy,
-                    ArchiveOption = parameter.ArchivePolicy
-                };
-            }
         }
     }
 

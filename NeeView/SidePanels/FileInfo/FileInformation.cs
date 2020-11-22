@@ -76,15 +76,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.IsVisibleBitsPerPixel = Config.Current.Information.IsVisibleBitsPerPixel;
-            memento.IsVisibleLoader = Config.Current.Information.IsVisibleLoader;
-            memento.IsVisibleFilePath = Config.Current.Information.IsVisibleFilePath;
-            return memento;
-        }
-
         #endregion
     }
 

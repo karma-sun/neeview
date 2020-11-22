@@ -215,23 +215,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-
-            memento.IsLeftRightKeyEnabled = Config.Current.Panels.IsLeftRightKeyEnabled;
-            memento.Opacity = Config.Current.Panels.Opacity;
-            memento.FontName = Config.Current.Panels.FontName;
-            memento.FontSize = Config.Current.Panels.FontSize;
-            memento.FolderTreeFontSize = Config.Current.Panels.FolderTreeFontSize;
-            memento.ContentItemProfile = Config.Current.Panels.ContentItemProfile.Clone();
-            memento.BannerItemProfile = Config.Current.Panels.BannerItemProfile.Clone();
-            memento.ThumbnailItemProfile = Config.Current.Panels.ThumbnailItemProfile.Clone();
-            memento.IsDecoratePlace = Config.Current.Panels.IsDecoratePlace;
-
-            return memento;
-        }
-
         #endregion
     }
 

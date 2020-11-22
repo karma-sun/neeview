@@ -66,16 +66,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.ResizeInterpolation = Config.Current.ImageResizeFilter.ResizeInterpolation;
-            memento.Sharpen = Config.Current.ImageResizeFilter.IsUnsharpMaskEnabled;
-            memento.UnsharpMaskProfile = (UnsharpMaskConfig)Config.Current.ImageResizeFilter.UnsharpMask.Clone();
-
-            return memento;
-        }
-
         #endregion
     }
 }

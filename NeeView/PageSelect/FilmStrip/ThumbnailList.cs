@@ -382,19 +382,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.IsEnableThumbnailList = Config.Current.FilmStrip.IsEnabled;
-            memento.IsHideThumbnailList = Config.Current.FilmStrip.IsHideFilmStrip;
-            memento.ThumbnailSize = Config.Current.FilmStrip.ThumbnailSize;
-            memento.IsVisibleThumbnailNumber = Config.Current.FilmStrip.IsVisibleNumber;
-            memento.IsVisibleThumbnailPlate = Config.Current.FilmStrip.IsVisiblePlate;
-            memento.IsManipulationBoundaryFeedbackEnabled = Config.Current.FilmStrip.IsManipulationBoundaryFeedbackEnabled;
-            memento.IsSelectedCenter = Config.Current.FilmStrip.IsSelectedCenter;
-            return memento;
-        }
-
         #endregion
 
     }

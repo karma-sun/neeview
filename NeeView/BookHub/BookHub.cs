@@ -1247,24 +1247,6 @@ namespace NeeView
             }
         }
 
-        // memento作成
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-
-            memento._Version = Environment.ProductVersionNumber;
-
-            memento.IsConfirmRecursive = Config.Current.Book.IsConfirmRecursive;
-            memento.IsAutoRecursive = Config.Current.Book.IsAutoRecursive;
-            memento.HistoryEntryPageCount = Config.Current.History.HistoryEntryPageCount;
-            memento.IsInnerArchiveHistoryEnabled = Config.Current.History.IsInnerArchiveHistoryEnabled;
-            memento.IsUncHistoryEnabled = Config.Current.History.IsUncHistoryEnabled;
-            memento.IsForceUpdateHistory = Config.Current.History.IsForceUpdateHistory;
-            memento.ArchiveRecursveMode = Config.Current.System.ArchiveRecursiveMode;
-
-            return memento;
-        }
-
         #endregion
     }
 }

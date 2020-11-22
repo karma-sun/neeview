@@ -316,15 +316,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.WindowTitleFormat1 = Config.Current.WindowTittle.WindowTitleFormat1;
-            memento.WindowTitleFormat2 = Config.Current.WindowTittle.WindowTitleFormat2;
-            memento.WindowTitleFormatMedia = Config.Current.WindowTittle.WindowTitleFormatMedia;
-            return memento;
-        }
-
         #endregion
     }
 }

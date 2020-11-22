@@ -160,23 +160,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.IsPrioritizePageMove = Config.Current.Book.IsPrioritizePageMove;
-            memento.IsMultiplePageMove = Config.Current.Book.IsMultiplePageMove;
-            memento.PreLoadSize = Config.Current.Performance.PreLoadSize;
-            memento.WideRatio = Config.Current.Book.WideRatio;
-            memento.ExcludePath = Config.Current.Book.Excludes.OneLine;
-            memento.IsEnableAnimatedGif = Config.Current.Image.Standard.IsAnimatedGifEnabled;
-            memento.BookPageCollectMode = Config.Current.System.BookPageCollectMode;
-            memento.IsLoadingPageVisible = Config.Current.Performance.IsLoadingPageVisible;
-            memento.IsAllFileAnImage = Config.Current.Image.Standard.IsAllFileSupported;
-            memento.CacheMemorySize = Config.Current.Performance.CacheMemorySize;
-            memento.IsSortFileFirst = Config.Current.Book.IsSortFileFirst;
-            return memento;
-        }
-
         #endregion
 
     }

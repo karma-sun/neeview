@@ -313,16 +313,6 @@ namespace NeeView
             }
         }
 
-
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.CustomBackground = Config.Current.Background.CustomBackground;
-            memento.Background = Config.Current.Background.BackgroundType;
-            memento.PageBackgroundColor = Config.Current.Background.PageBackgroundColor;
-            return memento;
-        }
-
         #endregion
 
     }

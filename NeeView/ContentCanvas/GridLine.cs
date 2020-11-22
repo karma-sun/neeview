@@ -146,18 +146,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-
-            memento.IsEnabled = Config.Current.ImageGrid.IsEnabled;
-            memento.DivX = Config.Current.ImageGrid.DivX;
-            memento.DivY = Config.Current.ImageGrid.DivY;
-            memento.IsSquare = Config.Current.ImageGrid.IsSquare;
-            memento.Color = Config.Current.ImageGrid.Color;
-            return memento;
-        }
-
         #endregion
 
     }

@@ -301,19 +301,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.LongButtonDownMode = Config.Current.Mouse.LongButtonDownMode;
-            memento.LongButtonMask = Config.Current.Mouse.LongButtonMask;
-            memento.LongButtonDownTime = Config.Current.Mouse.LongButtonDownTime;
-            memento.LongButtonRepeatTime = Config.Current.Mouse.LongButtonRepeatTime;
-            memento.IsGestureEnabled = Config.Current.Mouse.IsGestureEnabled;
-            memento.IsDragEnabled = Config.Current.Mouse.IsDragEnabled;
-            memento.MinimumDragDistance = Config.Current.Mouse.MinimumDragDistance;
-            return memento;
-        }
-
         #endregion
 
     }

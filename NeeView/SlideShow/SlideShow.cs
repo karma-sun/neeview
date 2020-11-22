@@ -218,16 +218,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.SlideShowInterval = Config.Current.SlideShow.SlideShowInterval;
-            memento.IsCancelSlideByMouseMove = Config.Current.SlideShow.IsCancelSlideByMouseMove;
-            memento.IsSlideShowByLoop = Config.Current.SlideShow.IsSlideShowByLoop;
-            memento.IsAutoPlaySlideShow = Config.Current.StartUp.IsAutoPlaySlideShow;
-            return memento;
-        }
-
         #endregion
 
     }

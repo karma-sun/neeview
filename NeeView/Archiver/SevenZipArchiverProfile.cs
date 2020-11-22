@@ -60,18 +60,6 @@ namespace NeeView
                 config.Archive.SevenZip.SupportFileTypes.OneLine = SupportFileTypes;
             }
         }
-
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.IsEnabled = Config.Current.Archive.SevenZip.IsEnabled;
-            memento.X86DllPath = Config.Current.Archive.SevenZip.X86DllPath;
-            memento.X64DllPath = Config.Current.Archive.SevenZip.X64DllPath;
-            memento.SupportFileTypes = Config.Current.Archive.SevenZip.SupportFileTypes.OneLine;
-            memento.PreExtractSolidSize = Config.Current.Performance.PreExtractSolidSize;
-            memento.IsPreExtractToMemory = Config.Current.Performance.IsPreExtractToMemory;
-            return memento;
-        }
         
         #endregion
 

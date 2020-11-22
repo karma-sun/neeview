@@ -1002,19 +1002,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.StretchMode = Config.Current.View.StretchMode;
-            memento.AllowEnlarge = Config.Current.View.AllowStretchScaleUp;
-            memento.AllowReduce = Config.Current.View.AllowStretchScaleDown;
-            memento.IsEnabledNearestNeighbor = Config.Current.ImageDotKeep.IsEnabled;
-            memento.ContentsSpace = Config.Current.Book.ContentsSpace;
-            memento.AutoRotateType = Config.Current.View.AutoRotate;
-            memento.GridLine = this.GridLine.CreateMemento();
-            return memento;
-        }
-
         #endregion
     }
 }

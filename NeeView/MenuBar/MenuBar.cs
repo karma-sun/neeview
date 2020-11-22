@@ -145,14 +145,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.CaptionEmulateInFullScreen = Config.Current.Window.IsCaptionEmulateInFullScreen;
-            memento.IsHamburgerMenu = Config.Current.MenuBar.IsHamburgerMenu;
-            return memento;
-        }
-
         #endregion
 
     }

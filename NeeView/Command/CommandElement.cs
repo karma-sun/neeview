@@ -255,34 +255,6 @@ namespace NeeView
             }
         }
 
-        [Obsolete]
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-
-            memento.ShortCutKey = ShortCutKey ?? "";
-            memento.TouchGesture = TouchGesture ?? "";
-            memento.MouseGesture = MouseGesture ?? "";
-            memento.IsShowMessage = IsShowMessage;
-
-            memento.Parameter = ParameterSource?.Store();
-
-            return memento;
-        }
-
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-
-            ShortCutKey = memento.ShortCutKey?.TrimStart(',');
-            TouchGesture = memento.TouchGesture ?? this.TouchGesture; // compatible before ver.24
-            MouseGesture = memento.MouseGesture;
-            IsShowMessage = memento.IsShowMessage;
-
-            ParameterSource?.Restore(memento.Parameter);
-        }
-
         #endregion
 
         #region MementoV2

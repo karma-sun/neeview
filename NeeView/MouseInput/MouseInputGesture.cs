@@ -187,13 +187,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.GestureMinimumDistance = Config.Current.Mouse.GestureMinimumDistance;
-            return memento;
-        }
-
         #endregion
 
     }

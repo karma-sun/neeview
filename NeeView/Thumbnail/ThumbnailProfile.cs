@@ -116,17 +116,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.Format = Config.Current.Thumbnail.Format;
-            memento.Quality = Config.Current.Thumbnail.Quality;
-            memento.IsCacheEnabled = Config.Current.Thumbnail.IsCacheEnabled;
-            memento.PageCapacity = Config.Current.Thumbnail.ThumbnailPageCapacity;
-            memento.BookCapacity = Config.Current.Thumbnail.ThumbnailBookCapacity;
-            return memento;
-        }
-
         #endregion
 
     }

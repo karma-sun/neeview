@@ -354,9 +354,9 @@ namespace NeeView
             _transform.SetPosition(area.SnapView(_transform.Position));
         }
 
-#endregion
+        #endregion
 
-#region Scroll method
+        #region Scroll method
 
         private const double _nscrollCountThreshold = 0.9;
 
@@ -645,9 +645,9 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
-#region Scale method
+        #region Scale method
         // 拡大コマンド
         public void ScaleUp(double scaleDelta, bool isSnap, double originalScale)
         {
@@ -707,9 +707,9 @@ namespace NeeView
 
             DoScale(scale);
         }
-#endregion
+        #endregion
 
-#region Rotate method
+        #region Rotate method
         // 回転コマンド
         public void Rotate(double angle)
         {
@@ -722,9 +722,9 @@ namespace NeeView
             InitializeDragParameter(Mouse.GetPosition(_sender));
             DoRotate(NormalizeLoopRange(_baseAngle + angle, -180, 180));
         }
-#endregion
+        #endregion
 
-#region Flip method
+        #region Flip method
         // 反転コマンド
         public void ToggleFlipHorizontal()
         {
@@ -752,9 +752,9 @@ namespace NeeView
             InitializeDragParameter(Mouse.GetPosition(_sender));
             DoFlipVertical(isFlip);
         }
-#endregion
+        #endregion
 
-#region Actions
+        #region Actions
 
         // Sender座標系でのCenter座標系の基準位置
         private Vector _coordCenter;
@@ -846,9 +846,9 @@ namespace NeeView
             _lockMoveY = false;
         }
 
-#endregion
+        #endregion
 
-#region Drag Move
+        #region Drag Move
 
         private Point _basePosition;
 
@@ -909,9 +909,9 @@ namespace NeeView
             return move.X != 0.0 || move.Y != 0.0;
         }
 
-#endregion
+        #endregion
 
-#region Drag Angle
+        #region Drag Angle
 
         private double _baseAngle;
 
@@ -975,9 +975,9 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
-#region Drag Scale
+        #region Drag Scale
 
         private double _baseScale;
 
@@ -1049,9 +1049,9 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
-#region MarqueeZoom
+        #region MarqueeZoom
 
         public void DragMarqueeZoom(Point start, Point end)
         {
@@ -1078,9 +1078,9 @@ namespace NeeView
         }
 
 
-#endregion
+        #endregion
 
-#region Drag Flip
+        #region Drag Flip
 
         // 左右反転
         public void DragFlipHorizontal(Point start, Point end)
@@ -1152,9 +1152,9 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
-#region Drag Window
+        #region Drag Window
 
         private Point _startPointFromWindow;
 
@@ -1182,9 +1182,9 @@ namespace NeeView
             return pos;
         }
 
-#endregion
+        #endregion
 
-#region Memento
+        #region Memento
 
         [DataContract]
         public class Memento : IMemento
@@ -1242,23 +1242,7 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-
-            memento.IsOriginalScaleShowMessage = Config.Current.Notice.IsOriginalScaleShowMessage;
-            memento.DragControlRotateCenter = Config.Current.View.RotateCenter;
-            memento.DragControlScaleCenter = Config.Current.View.ScaleCenter;
-            memento.DragControlFlipCenter = Config.Current.View.FlipCenter;
-            memento.IsKeepScale = Config.Current.View.IsKeepScale;
-            memento.IsKeepAngle = Config.Current.View.IsKeepAngle;
-            memento.IsKeepFlip = Config.Current.View.IsKeepFlip;
-            memento.IsViewStartPositionCenter = Config.Current.View.IsViewStartPositionCenter;
-
-            return memento;
-        }
-
-#endregion
+        #endregion
 
     }
 

@@ -212,58 +212,6 @@ namespace NeeView
             }
         }
 
-        [Obsolete]
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-
-            memento._Version = Environment.ProductVersionNumber;
-
-            memento.FileIOProfile = FileIOProfile.Current.CreateMemento();
-            memento.JobEngine = JobEngine.Current.CreateMemento();
-            memento.SoundPlayerService = SoundPlayerService.Current.CreateMemento();
-            memento.PictureProfile = PictureProfile.Current.CreateMemento();
-            memento.ImageFilter = ImageFilter.Current.CreateMemento();
-            memento.ZipArchiverProfile = ZipArchiverProfile.Current.CreateMemento();
-            memento.SevenZipArchiverProfile = SevenZipArchiverProfile.Current.CreateMemento();
-            memento.PdfArchiverProfile = PdfArchiverProfile.Current.CreateMemento();
-            memento.MediaArchiverProfile = MediaArchiverProfile.Current.CreateMemento();
-            memento.ThumbnailProfile = ThumbnailProfile.Current.CreateMemento();
-            memento.InfoMessage = InfoMessage.Current.CreateMemento();
-            memento.BookProfile = BookProfile.Current.CreateMemento();
-            memento.BookHub = BookHub.Current.CreateMemento();
-            memento.BookOperation = BookOperation.Current.CreateMemento();
-            memento.BookSettingPresenter = BookSettingPresenter.Current.CreateMemento();
-            memento.ThemeProfile = ThemeProfile.Current.CreateMemento();
-            memento.MainWindowModel = MainWindowModel.Current.CreateMemento();
-            memento.ContentCanvas = ContentCanvas.Current.CreateMemento();
-            memento.ContentCanvasBrush = ContentCanvasBrush.Current.CreateMemento();
-            memento.DragTransform = DragTransform.Current.CreateMemento();
-            memento.DragTransformControl = DragTransformControl.Current.CreateMemento();
-            memento.LoupeTransform = LoupeTransform.Current.CreateMemento();
-            memento.MouseInput = MouseInput.Current.CreateMemento();
-            memento.TouchInput = TouchInput.Current.CreateMemento();
-            memento.SlideShow = SlideShow.Current.CreateMemento();
-            memento.WindowTitle = WindowTitle.Current.CreateMemento();
-            memento.PageSlider = PageSlider.Current.CreateMemento();
-            memento.MediaControl = MediaControl.Current.CreateMemento();
-            memento.ThumbnailList = ThumbnailList.Current.CreateMemento();
-            memento.MenuBar = MenuBar.Current.CreateMemento();
-            memento.SidePanelProfile = SidePanelProfile.Current.CreateMemento();
-            memento.PageListPlacementService = PageListPlacementService.Current.CreateMemento();
-            memento.FolderPanel = FolderPanelModel.Current.CreateMemento();
-            memento.BookshelfFolderList = BookshelfFolderList.Current.CreateMemento();
-            memento.BookmarkFolderList = BookmarkFolderList.Current.CreateMemento();
-            memento.PageList = PageList.Current.CreateMemento();
-            memento.HistoryList = HistoryList.Current.CreateMemento();
-            memento.PagemarkList = PagemarkList.Current.CreateMemento();
-            memento.FileInformation = FileInformation.Current.CreateMemento();
-            memento.ImageEffect = ImageEffect.Current.CreateMemento();
-            memento.SidePanel = SidePanelFrame.Current.CreateMemento();
-            memento.PageViewRecorder = PageViewRecorder.Current.CreateMemento();
-            return memento;
-        }
-
         #endregion
     }
 }

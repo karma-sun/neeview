@@ -132,17 +132,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.IsLimitSourceSize = Config.Current.Performance.IsLimitSourceSize;
-            memento.Maximum = Config.Current.Performance.MaximumSize;
-            memento.IsResizeFilterEnabled = Config.Current.ImageResizeFilter.IsEnabled;
-            memento.CustomSize = new PictureCustomSize().CreateMemento();
-            memento.IsAspectRatioEnabled = Config.Current.Image.Standard.IsAspectRatioEnabled;
-            memento.IsSvgEnabled = Config.Current.Image.Svg.IsEnabled;
-            return memento;
-        }
         #endregion
 
     }

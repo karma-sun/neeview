@@ -204,21 +204,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-#pragma warning disable CS0612
-            var memento = new Memento();
-            foreach (var pair in _elements)
-            {
-                if (Enum.TryParse<DragActionType>(pair.Key, out var actionType))
-                {
-                    memento.Elements.Add(actionType, pair.Value.CreateMemento());
-                }
-            }
-            return memento;
-#pragma warning restore CS0612
-        }
-
         #endregion
 
 

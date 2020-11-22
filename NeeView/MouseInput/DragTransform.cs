@@ -223,16 +223,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-
-            memento.IsLimitMove = Config.Current.View.IsLimitMove;
-            memento.AngleFrequency = Config.Current.View.AngleFrequency;
-
-            return memento;
-        }
-
         #endregion
 
     }

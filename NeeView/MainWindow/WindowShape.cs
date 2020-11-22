@@ -589,20 +589,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-
-            memento.State = Config.Current.Window.State;
-            memento.LastState = Config.Current.Window.LastState;
-            memento.IsCaptionVisible = Config.Current.Window.IsCaptionVisible;
-            memento.IsTopMost = Config.Current.Window.IsTopmost;
-            memento.IsFullScreenWithTaskBar = Config.Current.Window.IsFullScreenWithTaskBar;
-            memento.MaximizeWindowGapWidth = Config.Current.Window.MaximizeWindowGapWidth;
-
-            return memento;
-        }
-
         #endregion
     }
 }

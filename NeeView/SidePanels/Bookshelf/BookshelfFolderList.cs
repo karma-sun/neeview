@@ -357,26 +357,6 @@ namespace NeeView
             }
         }
 
-        public new Memento CreateMemento()
-        {
-            var memento = new Memento();
-
-            memento.FolderList = base.CreateMemento();
-            memento.IsVisibleHistoryMark = Config.Current.Bookshelf.IsVisibleHistoryMark;
-            memento.IsVisibleBookmarkMark = Config.Current.Bookshelf.IsVisibleBookmarkMark;
-            memento.Home = Config.Current.Bookshelf.Home;
-            memento.IsInsertItem = Config.Current.Bookshelf.IsInsertItem;
-            memento.IsMultipleRarFilterEnabled = Config.Current.Bookshelf.IsMultipleRarFilterEnabled;
-            memento.ExcludePattern = Config.Current.Bookshelf.ExcludePattern;
-            memento.IsCruise = Config.Current.Bookshelf.IsCruise;
-            memento.IsCloseBookWhenMove = Config.Current.Bookshelf.IsCloseBookWhenMove;
-            memento.IsIncrementalSearchEnabled = Config.Current.Bookshelf.IsIncrementalSearchEnabled;
-            memento.IsSearchIncludeSubdirectories = Config.Current.Bookshelf.IsSearchIncludeSubdirectories;
-            memento.IsOpenNextBookWhenRemove = Config.Current.Bookshelf.IsOpenNextBookWhenRemove;
-
-            return memento;
-        }
-
         #endregion
     }
 

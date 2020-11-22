@@ -42,25 +42,7 @@ namespace NeeView
         public bool IsEnableSave { get; set; } = true;
 
 
-        // アプリ設定作成
-        [Obsolete]
-        public UserSettingV1 CreateSetting()
-        {
-            var setting = new UserSettingV1();
-
-            setting.App = App.Current.CreateMemento();
-
-            setting.SusieMemento = SusiePluginManager.Current.CreateMemento();
-            setting.CommandMememto = CommandTable.Current.CreateMemento();
-            setting.DragActionMemento = DragActionTable.Current.CreateMemento();
-
-            setting.Memento = new Models().CreateMemento();
-
-            return setting;
-        }
-
         #region Load
-
 
         /// <summary>
         /// 設定の読み込み
@@ -362,38 +344,6 @@ namespace NeeView
                     Debug.WriteLine($"Remove: {backup}");
                     FileIO.RemoveFile(backup);
                 }
-            }
-            catch
-            {
-            }
-            finally
-            {
-                App.Current.SemaphoreRelease();
-            }
-        }
-
-
-        // UserSettingV1の保存
-        [Obsolete]
-        [Conditional("DEBUG")]
-        public void SaveUserSettingV1()
-        {
-            if (!IsEnableSave) return;
-
-            // 設定
-            var setting = CreateSetting();
-
-            // ウィンドウ状態保存
-            setting.WindowShape = WindowShape.Current.CreateMemento();
-
-            // ウィンドウ座標保存
-            //setting.WindowPlacement = WindowPlacement.Current.CreateMemento();
-
-            // 設定をファイルに保存
-            try
-            {
-                App.Current.SemaphoreWait();
-                SafetySave(setting.SaveV1, Path.ChangeExtension(App.Current.Option.SettingFilename, ".xml"), Config.Current.System.IsSettingBackup);
             }
             catch
             {

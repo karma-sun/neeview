@@ -692,32 +692,6 @@ namespace NeeView
                 config.MenuBar.IsAddressBarEnabled = IsVisibleAddressBar;
                 config.Command.IsAccessKeyEnabled = IsAccessKeyEnabled;
             }
-
-        }
-
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-
-            memento.ContextMenuSetting = ContextMenuManager.Current.Clone();
-
-            memento.IsHideMenu = Config.Current.MenuBar.IsHideMenu;
-            memento.IsHidePageSlider = Config.Current.Slider.IsHidePageSlider;
-            memento.IsVisibleAddressBar = Config.Current.MenuBar.IsAddressBarEnabled;
-            memento.IsHidePanel = Config.Current.Panels.IsHidePanel;
-            memento.IsHidePanelInFullscreen = Config.Current.Panels.IsHidePanelInFullscreen;
-            memento.IsVisibleWindowTitle = Config.Current.WindowTittle.IsMainViewDisplayEnabled;
-            memento.IsVisibleBusy = Config.Current.Notice.IsBusyMarkEnabled;
-            memento.IsOpenbookAtCurrentPlace = Config.Current.System.IsOpenbookAtCurrentPlace;
-            memento.IsAccessKeyEnabled = Config.Current.Command.IsAccessKeyEnabled;
-            memento.SliderOpacity = Config.Current.Slider.Opacity;
-            memento.IsHidePageSliderInFullscreen = Config.Current.Slider.IsHidePageSliderInFullscreen;
-            memento.IsCursorHideEnabled = Config.Current.Mouse.IsCursorHideEnabled;
-            memento.CursorHideTime = Config.Current.Mouse.CursorHideTime;
-            memento.IsCursorHideReleaseAction = Config.Current.Mouse.IsCursorHideReleaseAction;
-            memento.CursorHideReleaseDistance = Config.Current.Mouse.CursorHideReleaseDistance;
-
-            return memento;
         }
 
         #endregion

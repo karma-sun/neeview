@@ -259,15 +259,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.DefaultSetting = (BookSettingConfig)this.DefaultSetting.Clone();
-            memento.LatestSetting = (BookSettingConfig)this.LatestSetting.Clone();
-            memento.Generater = (BookSettingPolicyConfig)this.Generater.Clone();
-            return memento;
-        }
-
         #endregion
 
     }

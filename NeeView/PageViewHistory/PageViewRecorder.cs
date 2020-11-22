@@ -272,19 +272,6 @@ namespace NeeView
             }
         }
 
-        // memento作成
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-
-            memento._Version = Environment.ProductVersionNumber;
-
-            memento.IsRecordPageView = Config.Current.PageViewRecorder.IsSavePageViewRecord;
-            memento.PageViewRecordPath = Config.Current.PageViewRecorder.PageViewRecordFilePath;
-
-            return memento;
-        }
-
         #endregion
     }
 }

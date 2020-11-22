@@ -184,13 +184,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.IsVisibleLoupeInfo = Config.Current.Loupe.IsVisibleLoupeInfo;
-            return memento;
-        }
-
         #endregion
     }
 }

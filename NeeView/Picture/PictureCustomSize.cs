@@ -32,17 +32,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-
-            memento.IsEnabled = Config.Current.ImageCustomSize.IsEnabled;
-            memento.IsUniformed = Config.Current.ImageCustomSize.IsUniformed;
-            memento.Size = Config.Current.ImageCustomSize.Size;
-
-            return memento;
-        }
-
         #endregion
     }
 }

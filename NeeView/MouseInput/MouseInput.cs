@@ -365,15 +365,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.Normal = this.Normal.CreateMemento();
-            memento.Loupe = this.Loupe.CreateMemento();
-            memento.Gesture = this.Gesture.CreateMemento();
-            return memento;
-        }
-
         #endregion
 
     }

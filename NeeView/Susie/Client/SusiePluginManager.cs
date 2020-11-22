@@ -358,17 +358,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.IsEnableSusie = Config.Current.Susie.IsEnabled;
-            memento.IsFirstOrderSusieImage = Config.Current.Susie.IsFirstOrderSusieImage;
-            memento.IsFirstOrderSusieArchive = Config.Current.Susie.IsFirstOrderSusieArchive;
-            memento.SusiePluginPath = Config.Current.Susie.SusiePluginPath;
-            memento.Plugins = this.Plugins.Select(e => e.ToSusiePluginSetting()).ToList();
-            return memento;
-        }
-
         #endregion
 
         #region MementoV2

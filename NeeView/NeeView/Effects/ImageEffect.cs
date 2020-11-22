@@ -153,26 +153,6 @@ namespace NeeView.Effects
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-
-            memento.EffectType = Config.Current.ImageEffect.EffectType;
-            memento.IsHsvMode = Config.Current.ImageEffect.IsHsvMode;
-            memento.IsEnabled = Config.Current.ImageEffect.IsEnabled;
-
-            memento.Effects = new Dictionary<EffectType, string>();
-            foreach (var effect in Effects)
-            {
-                if (effect.Value != null)
-                {
-                    memento.Effects.Add(effect.Key, Json.Serialize(effect.Value, this.Effects[effect.Key].GetType()));
-                }
-            }
-
-            return memento;
-        }
-
         #endregion
     }
 }

@@ -88,14 +88,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.IsEnabled = Config.Current.Archive.Pdf.IsEnabled;
-            memento.RenderSize = Config.Current.Archive.Pdf.RenderSize;
-            return memento;
-        }
-
         #endregion
     }
 }

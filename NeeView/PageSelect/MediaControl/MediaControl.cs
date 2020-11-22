@@ -63,19 +63,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-
-            memento.IsMuted = Config.Current.Archive.Media.IsMuted;
-            memento.Volume = Config.Current.Archive.Media.Volume;
-            memento.IsRepeat = Config.Current.Archive.Media.IsRepeat;
-            memento.PageSeconds = Config.Current.Archive.Media.PageSeconds;
-            memento.MediaStartDelaySeconds = Config.Current.Archive.Media.MediaStartDelaySeconds;
-
-            return memento;
-        }
-
         #endregion
     }
 

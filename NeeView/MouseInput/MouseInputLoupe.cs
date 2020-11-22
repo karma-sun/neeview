@@ -285,23 +285,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.IsLoupeCenter = Config.Current.Loupe.IsLoupeCenter;
-            memento.DefaultScale = Config.Current.Loupe.DefaultScale;
-            memento.MinimumScale = Config.Current.Loupe.MinimumScale;
-            memento.MaximumScale = Config.Current.Loupe.MaximumScale;
-            memento.ScaleStep = Config.Current.Loupe.ScaleStep;
-            memento.IsResetByRestart = Config.Current.Loupe.IsResetByRestart;
-            memento.IsResetByPageChanged = Config.Current.Loupe.IsResetByPageChanged;
-            memento.IsWheelScalingEnabled = Config.Current.Loupe.IsWheelScalingEnabled;
-            memento.Speed = Config.Current.Loupe.Speed;
-            memento.IsEscapeKeyEnabled = Config.Current.Loupe.IsEscapeKeyEnabled;
-
-            return memento;
-        }
-
         #endregion
     }
 }

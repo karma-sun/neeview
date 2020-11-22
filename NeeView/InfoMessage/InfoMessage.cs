@@ -126,20 +126,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-
-            memento.NoticeShowMessageStyle = Config.Current.Notice.NoticeShowMessageStyle;
-            memento.BookNameShowMessageStyle = Config.Current.Notice.BookNameShowMessageStyle;
-            memento.CommandShowMessageStyle = Config.Current.Notice.CommandShowMessageStyle;
-            memento.GestureShowMessageStyle = Config.Current.Notice.GestureShowMessageStyle;
-            memento.NowLoadingShowMessageStyle = Config.Current.Notice.NowLoadingShowMessageStyle;
-            memento.ViewTransformShowMessageStyle = Config.Current.Notice.ViewTransformShowMessageStyle;
-
-            return memento;
-        }
-
         #endregion
 
     }

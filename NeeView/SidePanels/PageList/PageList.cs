@@ -302,14 +302,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.PanelListItemStyle = Config.Current.PageList.PanelListItemStyle;
-            memento.Format = Config.Current.PageList.Format;
-            return memento;
-        }
-
         #endregion Memento
     }
 }

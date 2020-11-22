@@ -397,16 +397,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.MinimumManipulationRadius = Config.Current.Touch.MinimumManipulationRadius;
-            memento.MinimumManipulationDistance = Config.Current.Touch.MinimumManipulationDistance;
-            memento.IsAngleEnabled = Config.Current.Touch.IsAngleEnabled;
-            memento.IsScaleEnabled = Config.Current.Touch.IsScaleEnabled;
-            return memento;
-        }
-
         #endregion
     }
 

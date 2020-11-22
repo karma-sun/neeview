@@ -97,14 +97,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.PanelColor = Config.Current.Theme.PanelColor;
-            memento.MenuColor = Config.Current.Theme.MenuColor;
-            return memento;
-        }
-
         #endregion
 
     }

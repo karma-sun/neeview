@@ -257,15 +257,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.SliderIndexLayout = Config.Current.Slider.SliderIndexLayout;
-            memento.SliderDirection = Config.Current.Slider.SliderDirection;
-            memento.IsSliderLinkedThumbnailList = Config.Current.Slider.IsSliderLinkedFilmStrip;
-            return memento;
-        }
-
         #endregion
     }
 }

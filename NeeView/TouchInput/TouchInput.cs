@@ -280,16 +280,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.IsEnabled = Config.Current.Touch.IsEnabled;
-            memento.Normal = this.Normal.CreateMemento();
-            memento.Gesture = this.Gesture.CreateMemento();
-            memento.Drag = this.Drag.CreateMemento();
-            return memento;
-        }
-
         #endregion
 
 

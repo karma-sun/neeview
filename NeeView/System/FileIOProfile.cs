@@ -63,16 +63,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.IsRemoveConfirmed = Config.Current.System.IsRemoveConfirmed;
-            memento.IsRemoveExplorerDialogEnabled = Config.Current.System.IsRemoveWantNukeWarning;
-            memento.IsEnabled = Config.Current.System.IsFileWriteAccessEnabled;
-            memento.IsHiddenFileVisibled = Config.Current.System.IsHiddenFileVisibled;
-            return memento;
-        }
-
         #endregion
 
     }

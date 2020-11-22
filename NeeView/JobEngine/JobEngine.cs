@@ -181,13 +181,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.WorkerSize = Config.Current.Performance.JobWorkerSize;
-            return memento;
-        }
-
         #endregion
     }
 }

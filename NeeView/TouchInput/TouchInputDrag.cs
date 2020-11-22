@@ -101,13 +101,6 @@ namespace NeeView
             }
         }
 
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.Manipulation = _manipulation.CreateMemento();
-            return memento;
-        }
-
         #endregion
 
     }

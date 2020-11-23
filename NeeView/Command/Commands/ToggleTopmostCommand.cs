@@ -19,12 +19,12 @@ namespace NeeView
             return new Binding(nameof(WindowConfig.IsTopmost)) { Source = Config.Current.Window, Mode = BindingMode.OneWay };
         }
 
-        public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
+        public override string ExecuteMessage(object sender, CommandContext e)
         {
             return Config.Current.Window.IsTopmost ? Properties.Resources.CommandToggleTopmostOff : Properties.Resources.CommandToggleTopmostOn;
         }
 
-        public override void Execute(CommandParameter param, object[] args, CommandOption option)
+        public override void Execute(object sender, CommandContext e)
         {
             WindowShape.Current.ToggleTopmost();
         }

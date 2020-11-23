@@ -20,22 +20,22 @@ namespace NeeView
             return new Binding(nameof(BookOperation.Current.IsBookmark)) { Source = BookOperation.Current, Mode = BindingMode.OneWay };
         }
 
-        public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
+        public override string ExecuteMessage(object sender, CommandContext e)
         {
             return BookOperation.Current.IsBookmark ? Properties.Resources.CommandToggleBookmarkOff : Properties.Resources.CommandToggleBookmarkOn;
         }
 
-        public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)
+        public override bool CanExecute(object sender, CommandContext e)
         {
             return BookOperation.Current.CanBookmark();
         }
         
         [MethodArgument("@CommandToggleArgument")]
-        public override void Execute(CommandParameter param, object[] args, CommandOption option)
+        public override void Execute(object sender, CommandContext e)
         {
-            if (args.Length > 0)
+            if (e.Args.Length > 0)
             {
-                BookOperation.Current.SetBookmark(Convert.ToBoolean(args[0]));
+                BookOperation.Current.SetBookmark(Convert.ToBoolean(e.Args[0]));
             }
             else
             {

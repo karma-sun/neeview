@@ -21,19 +21,19 @@ namespace NeeView
             this.ParameterSource = new CommandParameterSource(new ToggleStretchModeCommandParameter());
         }
 
-        public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
+        public override string ExecuteMessage(object sender, CommandContext e)
         {
-            return ContentCanvas.Current.GetToggleStretchMode((ToggleStretchModeCommandParameter)param).ToAliasName();
+            return ContentCanvas.Current.GetToggleStretchMode((ToggleStretchModeCommandParameter)e.Parameter).ToAliasName();
         }
 
-        public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)
+        public override bool CanExecute(object sender, CommandContext e)
         {
             return !NowLoading.Current.IsDispNowLoading;
         }
 
-        public override void Execute(CommandParameter param, object[] args, CommandOption option)
+        public override void Execute(object sender, CommandContext e)
         {
-            Config.Current.View.StretchMode = ContentCanvas.Current.GetToggleStretchMode((ToggleStretchModeCommandParameter)param);
+            Config.Current.View.StretchMode = ContentCanvas.Current.GetToggleStretchMode((ToggleStretchModeCommandParameter)e.Parameter);
         }
     }
 

@@ -10,15 +10,17 @@ namespace NeeView
     {
         private static Dictionary<string, object> _values = new Dictionary<string, object>();
 
+        private object _sender;
         private CommandTable _commandTable;
         private ConfigMap _configMap;
 
-        public CommandHost(CommandTable commandTable, ConfigMap configMap)
+        public CommandHost(object sender, CommandTable commandTable, ConfigMap configMap)
         {
+            _sender = sender;
             _commandTable = commandTable;
             _configMap = configMap;
             Book = new BookAccessor();
-            Command = new CommandAccessorMap(_commandTable);
+            Command = new CommandAccessorMap(_sender, _commandTable);
         }
 
         public Dictionary<string, object> Values => _values;

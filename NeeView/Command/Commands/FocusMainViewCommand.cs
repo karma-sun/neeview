@@ -16,9 +16,9 @@ namespace NeeView
             this.ParameterSource = new CommandParameterSource(new FocusMainViewCommandParameter() { NeedClosePanels = false });
         }
 
-        public override void Execute(CommandParameter param, object[] args, CommandOption option)
+        public override void Execute(object sender, CommandContext e)
         {
-            MainWindowModel.Current.FocusMainView((FocusMainViewCommandParameter)param, option.HasFlag(CommandOption.ByMenu));
+            MainWindowModel.Current.FocusMainView((FocusMainViewCommandParameter)e.Parameter, e.Options.HasFlag(CommandOption.ByMenu));
         }
     }
 

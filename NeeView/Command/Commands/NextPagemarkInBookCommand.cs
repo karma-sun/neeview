@@ -15,14 +15,14 @@ namespace NeeView
             this.ParameterSource = new CommandParameterSource(new MovePagemarkInBookCommandParameter());
         }
 
-        public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)
+        public override bool CanExecute(object sender, CommandContext e)
         {
-            return BookOperation.Current.CanNextPagemarkInPlace((MovePagemarkInBookCommandParameter)param);
+            return BookOperation.Current.CanNextPagemarkInPlace((MovePagemarkInBookCommandParameter)e.Parameter);
         }
 
-        public override void Execute(CommandParameter param, object[] args, CommandOption option)
+        public override void Execute(object sender, CommandContext e)
         {
-            BookOperation.Current.NextPagemarkInPlace((MovePagemarkInBookCommandParameter)param);
+            BookOperation.Current.NextPagemarkInPlace((MovePagemarkInBookCommandParameter)e.Parameter);
         }
     }
 

@@ -78,8 +78,8 @@ namespace NeeView
         private CommandBinding CreateCommandBinding(string commandName)
         {
             var binding = new CommandBinding(_routedCommandTable.Commands[commandName],
-                (sender, e) => _routedCommandTable.Execute(commandName, e.Parameter),
-                (sender, e) => e.CanExecute = CommandTable.Current.GetElement(commandName).CanExecute(CommandElement.EmptyArgs, CommandOption.None));
+                (sender, e) => _routedCommandTable.Execute(sender, commandName, e.Parameter),
+                (sender, e) => e.CanExecute = CommandTable.Current.GetElement(commandName).CanExecute(sender, CommandArgs.Empty));
 
             return binding;
         }

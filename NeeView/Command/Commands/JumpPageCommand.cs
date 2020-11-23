@@ -12,17 +12,17 @@ namespace NeeView
             this.IsShowMessage = false;
         }
 
-        public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)
+        public override bool CanExecute(object sender, CommandContext e)
         {
             return !NowLoading.Current.IsDispNowLoading;
         }
 
         [MethodArgument("@CommandJumpPageArgument")]
-        public override void Execute(CommandParameter param, object[] args, CommandOption option)
+        public override void Execute(object sender, CommandContext e)
         {
-            if (args.Length > 0)
+            if (e.Args.Length > 0)
             {
-                var number = Convert.ToInt32(args[0]);
+                var number = Convert.ToInt32(e.Args[0]);
                 BookOperation.Current.JumpPage(this, number);
             }
             else

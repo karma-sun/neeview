@@ -21,22 +21,22 @@ namespace NeeView
             return new Binding(nameof(BookOperation.Current.IsPagemark)) { Source = BookOperation.Current, Mode = BindingMode.OneWay };
         }
 
-        public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
+        public override string ExecuteMessage(object sender, CommandContext e)
         {
             return BookOperation.Current.IsMarked() ? Properties.Resources.CommandTogglePagemarkOff : Properties.Resources.CommandTogglePagemarkOn;
         }
 
-        public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)
+        public override bool CanExecute(object sender, CommandContext e)
         {
             return BookOperation.Current.CanPagemark();
         }
 
         [MethodArgument("@CommandToggleArgument")]
-        public override void Execute(CommandParameter param, object[] args, CommandOption option)
+        public override void Execute(object sender, CommandContext e)
         {
-            if (args.Length > 0)
+            if (e.Args.Length > 0)
             {
-                BookOperation.Current.SetPagemark(Convert.ToBoolean(args[0]));
+                BookOperation.Current.SetPagemark(Convert.ToBoolean(e.Args[0]));
             }
             else
             {

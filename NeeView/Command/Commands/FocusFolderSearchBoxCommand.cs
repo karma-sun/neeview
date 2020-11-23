@@ -11,9 +11,9 @@
             this.IsShowMessage = false;
         }
 
-        public override void Execute(CommandParameter param, object[] args, CommandOption option)
+        public override void Execute(object sender, CommandContext e)
         {
-            SidePanelFrame.Current.FocusBookshelfSearchBox(option.HasFlag(CommandOption.ByMenu));
+            SidePanelFrame.Current.FocusBookshelfSearchBox(e.Options.HasFlag(CommandOption.ByMenu));
         }
     }
 }

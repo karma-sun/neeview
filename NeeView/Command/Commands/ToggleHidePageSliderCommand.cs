@@ -19,12 +19,12 @@ namespace NeeView
             return new Binding(nameof(SliderConfig.IsHidePageSlider)) { Source = Config.Current.Slider };
         }
 
-        public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
+        public override string ExecuteMessage(object sender, CommandContext e)
         {
             return Config.Current.Slider.IsHidePageSlider ? Properties.Resources.CommandToggleHidePageSliderOff : Properties.Resources.CommandToggleHidePageSliderOn;
         }
 
-        public override void Execute(CommandParameter param, object[] args, CommandOption option)
+        public override void Execute(object sender, CommandContext e)
         {
             MainWindowModel.Current.ToggleHidePageSlider();
         }

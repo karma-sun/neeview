@@ -13,9 +13,9 @@
             this.ParameterSource = new CommandParameterSource(new ViewScrollNTypeCommandParameter());
         }
 
-        public override void Execute(CommandParameter param, object[] args, CommandOption option)
+        public override void Execute(object sender, CommandContext e)
         {
-            MainWindowModel.Current.ScrollNTypeDown((ViewScrollNTypeCommandParameter)param);
+            MainWindowModel.Current.ScrollNTypeDown((ViewScrollNTypeCommandParameter)e.Parameter);
         }
     }
 

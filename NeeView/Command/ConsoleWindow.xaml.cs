@@ -40,7 +40,7 @@ namespace NeeView
         {
             _owner = owner;
 
-            var host = new CommandHost(CommandTable.Current, ConfigMap.Current);
+            var host = new CommandHost(this, CommandTable.Current, ConfigMap.Current);
 
             _engine = new JavascriptEngine(host);
             _engine.CurrentPath = Config.Current.Script.GetCurrentScriptFolder();

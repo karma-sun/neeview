@@ -20,9 +20,9 @@ namespace NeeView
             this.ParameterSource = new CommandParameterSource(new ViewScaleCommandParameter());
         }
 
-        public override void Execute(CommandParameter param, object[] args, CommandOption option)
+        public override void Execute(object sender, CommandContext e)
         {
-            var parameter = (ViewScaleCommandParameter)param;
+            var parameter = (ViewScaleCommandParameter)e.Parameter;
             DragTransformControl.Current.ScaleUp(parameter.Scale, parameter.IsSnapDefaultScale, ContentCanvas.Current.MainContentScale);
         }
     }

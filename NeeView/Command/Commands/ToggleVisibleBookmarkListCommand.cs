@@ -21,21 +21,21 @@ namespace NeeView
             return new Binding(nameof(SidePanelFrame.IsVisibleBookmarkList)) { Source = SidePanelFrame.Current };
         }
 
-        public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
+        public override string ExecuteMessage(object sender, CommandContext e)
         {
             return SidePanelFrame.Current.IsVisibleBookmarkList ? Properties.Resources.CommandToggleVisibleBookmarkListOff : Properties.Resources.CommandToggleVisibleBookmarkListOn;
         }
 
         [MethodArgument("@CommandToggleArgument")]
-        public override void Execute(CommandParameter param, object[] args, CommandOption option)
+        public override void Execute(object sender, CommandContext e)
         {
-            if (args.Length > 0)
+            if (e.Args.Length > 0)
             {
-                SidePanelFrame.Current.SetVisibleBookmarkList(Convert.ToBoolean(args[0]), true);
+                SidePanelFrame.Current.SetVisibleBookmarkList(Convert.ToBoolean(e.Args[0]), true);
             }
             else
             {
-                SidePanelFrame.Current.ToggleVisibleBookmarkList(option.HasFlag(CommandOption.ByMenu));
+                SidePanelFrame.Current.ToggleVisibleBookmarkList(e.Options.HasFlag(CommandOption.ByMenu));
             }
         }
     }

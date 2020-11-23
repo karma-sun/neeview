@@ -455,14 +455,14 @@ namespace NeeView
             return memento;
         }
 
-        public bool TryExecute(string commandName, object[] args, CommandOption option)
+        public bool TryExecute(object sender, string commandName, object[] args, CommandOption option)
         {
             if (TryGetValue(commandName, out CommandElement command))
             {
-                args = args ?? CommandElement.EmptyArgs;
-                if (command.CanExecute(args, option))
+                var arguments = new CommandArgs(args, option);
+                if (command.CanExecute(sender, arguments))
                 {
-                    command.Execute(args, option);
+                    command.Execute(sender, arguments);
                 }
             }
 
@@ -758,9 +758,9 @@ namespace NeeView
         }
 
 
-        public void ExecuteScript(string path)
+        public void ExecuteScript(object sender, string path)
         {
-            _scriptUnitManager.Run(path);
+            _scriptUnitManager.Run(sender, path);
         }
 
         public void CancelScript()

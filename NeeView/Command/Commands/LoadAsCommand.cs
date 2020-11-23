@@ -15,9 +15,9 @@ namespace NeeView
         }
 
         [MethodArgument("@CommandLoadAsArgument")]
-        public override void Execute(CommandParameter param, object[] args, CommandOption option)
+        public override void Execute(object sender, CommandContext e)
         {
-            var path = args.Length > 0 ? args[0] as string : null;
+            var path = e.Args.Length > 0 ? e.Args[0] as string : null;
             if (string.IsNullOrWhiteSpace(path))
             {
                 MainWindowModel.Current.LoadAs();

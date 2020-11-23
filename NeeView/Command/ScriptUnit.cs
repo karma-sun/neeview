@@ -20,19 +20,19 @@ namespace NeeView
             _manager = manager;
         }
 
-        public void Execute(string path)
+        public void Execute(object sender, string path)
         {
-            _task = Task.Run(() => ExecuteInner(path));
+            _task = Task.Run(() => ExecuteInner(sender, path));
         }
 
-        private void ExecuteInner(string path)
+        private void ExecuteInner(object sender, string path)
         {
             JavascriptEngine commandEngine = null;
 
             try
             {
                 ////Debug.WriteLine($"Script.{path} ...");
-                var commandHost = new CommandHost(CommandTable.Current, ConfigMap.Current);
+                var commandHost = new CommandHost(sender, CommandTable.Current, ConfigMap.Current);
                 commandEngine = new JavascriptEngine(commandHost);
                 commandEngine.LogAction = e => Debug.WriteLine(e);
                 commandEngine.ExecureFile(path, _cancellationTokenSource.Token);

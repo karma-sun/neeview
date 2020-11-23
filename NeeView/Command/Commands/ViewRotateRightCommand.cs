@@ -13,9 +13,9 @@
             this.ParameterSource = new CommandParameterSource(new ViewRotateCommandParameter());
         }
 
-        public override void Execute(CommandParameter param, object[] args, CommandOption option)
+        public override void Execute(object sender, CommandContext e)
         {
-            ContentCanvas.Current.ViewRotateRight((ViewRotateCommandParameter)param);
+            ContentCanvas.Current.ViewRotateRight((ViewRotateCommandParameter)e.Parameter);
         }
     }
 }

@@ -8,11 +8,11 @@ namespace NeeView
         private List<ScriptUnit> _units = new List<ScriptUnit>();
         private object _lock = new object();
 
-        public ScriptUnit Run(string script)
+        public ScriptUnit Run(object sender, string script)
         {
             var unit = new ScriptUnit(this);
             Add(unit);
-            unit.Execute(script);
+            unit.Execute(sender, script);
             return unit;
         }
 

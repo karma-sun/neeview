@@ -18,14 +18,14 @@ namespace NeeView
             this.ParameterSource = new CommandParameterSource(new ExportImageCommandParameter());
         }
 
-        public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)
+        public override bool CanExecute(object sender, CommandContext e)
         {
             return BookOperation.Current.CanExport();
         }
 
-        public override void Execute(CommandParameter param, object[] args, CommandOption option)
+        public override void Execute(object sender, CommandContext e)
         {
-            BookOperation.Current.Export((ExportImageCommandParameter)param);
+            BookOperation.Current.Export((ExportImageCommandParameter)e.Parameter);
         }
     }
 

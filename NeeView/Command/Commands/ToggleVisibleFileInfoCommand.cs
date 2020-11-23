@@ -21,21 +21,21 @@ namespace NeeView
             return new Binding(nameof(SidePanelFrame.IsVisibleFileInfo)) { Source = SidePanelFrame.Current };
         }
 
-        public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
+        public override string ExecuteMessage(object sender, CommandContext e)
         {
             return SidePanelFrame.Current.IsVisibleFileInfo ? Properties.Resources.CommandToggleVisibleFileInfoOff : Properties.Resources.CommandToggleVisibleFileInfoOn;
         }
 
         [MethodArgument("@CommandToggleArgument")]
-        public override void Execute(CommandParameter param, object[] args, CommandOption option)
+        public override void Execute(object sender, CommandContext e)
         {
-            if (args.Length > 0)
+            if (e.Args.Length > 0)
             {
-                SidePanelFrame.Current.SetVisibleFileInfo(Convert.ToBoolean(args[0]), true);
+                SidePanelFrame.Current.SetVisibleFileInfo(Convert.ToBoolean(e.Args[0]), true);
             }
             else
             {
-                SidePanelFrame.Current.ToggleVisibleFileInfo(option.HasFlag(CommandOption.ByMenu));
+                SidePanelFrame.Current.ToggleVisibleFileInfo(e.Options.HasFlag(CommandOption.ByMenu));
             }
         }
     }

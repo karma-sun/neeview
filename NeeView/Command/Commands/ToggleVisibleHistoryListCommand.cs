@@ -21,21 +21,21 @@ namespace NeeView
             return new Binding(nameof(SidePanelFrame.IsVisibleHistoryList)) { Source = SidePanelFrame.Current };
         }
 
-        public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
+        public override string ExecuteMessage(object sender, CommandContext e)
         {
             return SidePanelFrame.Current.IsVisibleHistoryList ? Properties.Resources.CommandToggleVisibleHistoryListOff : Properties.Resources.CommandToggleVisibleHistoryListOn;
         }
 
         [MethodArgument("@CommandToggleArgument")]
-        public override void Execute(CommandParameter param, object[] args, CommandOption option)
+        public override void Execute(object sender, CommandContext e)
         {
-            if (args.Length > 0)
+            if (e.Args.Length > 0)
             {
-                SidePanelFrame.Current.SetVisibleHistoryList(Convert.ToBoolean(args[0]), true);
+                SidePanelFrame.Current.SetVisibleHistoryList(Convert.ToBoolean(e.Args[0]), true);
             }
             else
             {
-                SidePanelFrame.Current.ToggleVisibleHistoryList(option.HasFlag(CommandOption.ByMenu));
+                SidePanelFrame.Current.ToggleVisibleHistoryList(e.Options.HasFlag(CommandOption.ByMenu));
             }
         }
     }

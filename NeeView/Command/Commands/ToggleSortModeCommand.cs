@@ -9,17 +9,17 @@
             this.Note = Properties.Resources.CommandToggleSortModeNote;
             this.IsShowMessage = true;
         }
-        public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
+        public override string ExecuteMessage(object sender, CommandContext e)
         {
             return BookSettingPresenter.Current.LatestSetting.SortMode.GetToggle().ToAliasName();
         }
 
-        public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)
+        public override bool CanExecute(object sender, CommandContext e)
         {
             return !NowLoading.Current.IsDispNowLoading;
         }
 
-        public override void Execute(CommandParameter param, object[] args, CommandOption option)
+        public override void Execute(object sender, CommandContext e)
         {
             BookSettingPresenter.Current.ToggleSortMode();
         }

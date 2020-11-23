@@ -123,9 +123,9 @@ namespace NeeView
         internal void ToggleVisibleFoldersTree()
         {
             var command = CommandTable.Current.GetElement("ToggleVisibleFoldersTree");
-            if (command.CanExecute(CommandElement.EmptyArgs, CommandOption.None))
+            if (command.CanExecute(this, CommandArgs.Empty))
             {
-                command.Execute(CommandElement.EmptyArgs, CommandOption.None);
+                command.Execute(this, CommandArgs.Empty);
             }
         }
 

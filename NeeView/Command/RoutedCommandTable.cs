@@ -278,7 +278,7 @@ namespace NeeView
 
         // コマンド実行 
         // CommandTableを純粋なコマンド定義のみにするため、コマンド実行に伴う処理はここで定義している
-        public void Execute(string name, object parameter)
+        public void Execute(object sender, string name, object parameter)
         {
             bool allowFlip = (parameter is CommandParameterArgs args)
                 ? args.AllowFlip
@@ -289,7 +289,7 @@ namespace NeeView
             // 通知
             if (command.IsShowMessage)
             {
-                string message = command.ExecuteMessage(CommandElement.EmptyArgs, CommandOption.None);
+                string message = command.ExecuteMessage(sender, CommandArgs.Empty);
                 if (message != null)
                 {
                     InfoMessage.Current.SetMessage(InfoMessageType.Command, message);
@@ -298,7 +298,7 @@ namespace NeeView
 
             // 実行
             var option = (parameter is MenuCommandTag) ? CommandOption.ByMenu : CommandOption.None;
-            command.Execute(CommandElement.EmptyArgs, option);
+            command.Execute(sender, new CommandArgs(null, option));
         }
 
         // スライダー方向によって移動コマンドを入れ替える

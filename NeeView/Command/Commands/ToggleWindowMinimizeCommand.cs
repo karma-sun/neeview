@@ -11,7 +11,7 @@
             this.IsShowMessage = false;
         }
 
-        public override void Execute(CommandParameter param, object[] args, CommandOption option)
+        public override void Execute(object sender, CommandContext e)
         {
             MainWindow.Current.MainWindow_Minimize();
         }

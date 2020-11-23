@@ -21,21 +21,21 @@ namespace NeeView
             return new Binding(nameof(SidePanelFrame.IsVisibleNavigator)) { Source = SidePanelFrame.Current };
         }
 
-        public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
+        public override string ExecuteMessage(object sender, CommandContext e)
         {
             return SidePanelFrame.Current.IsVisibleNavigator ? Properties.Resources.CommandToggleVisibleNavigatorOff : Properties.Resources.CommandToggleVisibleNavigatorOn;
         }
 
         [MethodArgument("@CommandToggleArgument")]
-        public override void Execute(CommandParameter param, object[] args, CommandOption option)
+        public override void Execute(object sender, CommandContext e)
         {
-            if (args.Length > 0)
+            if (e.Args.Length > 0)
             {
-                SidePanelFrame.Current.SetVisibleNavigator(Convert.ToBoolean(args[0]), true);
+                SidePanelFrame.Current.SetVisibleNavigator(Convert.ToBoolean(e.Args[0]), true);
             }
             else
             {
-                SidePanelFrame.Current.ToggleVisibleNavigator(option.HasFlag(CommandOption.ByMenu));
+                SidePanelFrame.Current.ToggleVisibleNavigator(e.Options.HasFlag(CommandOption.ByMenu));
             }
         }
     }

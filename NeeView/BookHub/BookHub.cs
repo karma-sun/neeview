@@ -786,7 +786,7 @@ namespace NeeView
                 var commandName = ScriptCommand.Prefix + ScriptCommand.EventOnBookLoaded;
                 if (CommandTable.Current.ContainsKey(commandName))
                 {
-                    AppDispatcher.Invoke(() => CommandTable.Current.TryExecute(commandName, null, CommandOption.None));
+                    AppDispatcher.Invoke(() => CommandTable.Current.TryExecute(this, commandName, null, CommandOption.None));
                 }
             }
         }

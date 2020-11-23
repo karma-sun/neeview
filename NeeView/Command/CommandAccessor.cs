@@ -9,11 +9,13 @@ namespace NeeView
     /// </summary>
     public class CommandAccessor
     {
+        private object _sender;
         private CommandElement _command;
         private IDictionary<string, object> _patch;
 
-        public CommandAccessor(CommandElement command)
+        public CommandAccessor(object sender, CommandElement command)
         {
+            _sender = sender;
             _command = command;
             Parameter = _command.Parameter != null ? new PropertyMap(_command.Parameter) : null;
         }
@@ -53,10 +55,10 @@ namespace NeeView
         public bool Execute(params object[] args)
         {
             var parameter = _command.CreateOverwriteCommandParameter(_patch);
-            var arguments = args ?? CommandElement.EmptyArgs;
-            if (_command.CanExecute(parameter, arguments, CommandOption.None))
+            var context = new CommandContext(parameter, args, CommandOption.None);
+            if (_command.CanExecute(_sender, context))
             {
-                AppDispatcher.Invoke(() => _command.Execute(parameter, arguments, CommandOption.None));
+                AppDispatcher.Invoke(() => _command.Execute(_sender, context));
                 return true;
             }
             else

@@ -18,7 +18,7 @@ namespace NeeView
             return BindingGenerator.FolderOrder(FolderOrder.FileType);
         }
 
-        public override void Execute(CommandParameter param, object[] args, CommandOption option)
+        public override void Execute(object sender, CommandContext e)
         {
             BookshelfFolderList.Current.SetFolderOrder(FolderOrder.FileType);
         }

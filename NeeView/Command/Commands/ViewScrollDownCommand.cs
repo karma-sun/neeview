@@ -17,9 +17,9 @@ namespace NeeView
             this.ParameterSource = new CommandParameterSource(new ViewScrollCommandParameter());
         }
 
-        public override void Execute(CommandParameter param, object[] args, CommandOption option)
+        public override void Execute(object sender, CommandContext e)
         {
-            DragTransformControl.Current.ScrollDown((ViewScrollCommandParameter)param);
+            DragTransformControl.Current.ScrollDown((ViewScrollCommandParameter)e.Parameter);
         }
     }
 

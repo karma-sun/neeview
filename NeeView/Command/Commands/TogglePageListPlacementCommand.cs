@@ -21,13 +21,13 @@ namespace NeeView
             return new Binding(nameof(BookshelfConfig.IsPageListDocked)) { Source = Config.Current.Bookshelf };
         }
 
-        public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
+        public override string ExecuteMessage(object sender, CommandArgs e)
         {
             return Config.Current.Bookshelf.IsPageListDocked ? Properties.Resources.CommandTogglePageListPlacementPanel : Properties.Resources.CommandTogglePageListPlacementBookshelf;
         }
 
         [MethodArgument("@CommandToggleArgument")]
-        public override void Execute(CommandParameter param, object[] args, CommandOption option)
+        public override void Execute(object sender, CommandArgs e)
         {
             if (args.Length > 0)
             {

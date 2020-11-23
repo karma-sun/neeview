@@ -19,12 +19,12 @@ namespace NeeView
             return new Binding(nameof(WindowConfig.IsCaptionVisible)) { Source = Config.Current.Window, Mode = BindingMode.OneWay };
         }
 
-        public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
+        public override string ExecuteMessage(object sender, CommandContext e)
         {
             return Config.Current.Window.IsCaptionVisible ? Properties.Resources.CommandToggleVisibleTitleBarOff : Properties.Resources.CommandToggleVisibleTitleBarOn;
         }
 
-        public override void Execute(CommandParameter param, object[] args, CommandOption option)
+        public override void Execute(object sender, CommandContext e)
         {
             WindowShape.Current.ToggleCaptionVisible();
         }

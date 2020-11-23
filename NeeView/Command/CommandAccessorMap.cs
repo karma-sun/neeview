@@ -5,10 +5,12 @@ namespace NeeView
 {
     public class CommandAccessorMap
     {
+        private object _sender;
         private CommandTable _commandTable;
 
-        public CommandAccessorMap(CommandTable commandTable)
+        public CommandAccessorMap(object sender, CommandTable commandTable)
         {
+            _sender = sender;
             _commandTable = commandTable;
         }
 
@@ -18,7 +20,7 @@ namespace NeeView
             {
                 if (_commandTable.TryGetValue(name, out CommandElement command))
                 {
-                    return new CommandAccessor(command);
+                    return new CommandAccessor(_sender, command);
                 }
                 else
                 {

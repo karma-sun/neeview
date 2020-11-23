@@ -20,11 +20,11 @@ namespace NeeView
         }
 
         [MethodArgument("@CommandToggleArgument")]
-        public override void Execute(CommandParameter param, object[] args, CommandOption option)
+        public override void Execute(object sender, CommandContext e)
         {
-            if (args.Length > 0)
+            if (e.Args.Length > 0)
             {
-                DragTransformControl.Current.FlipHorizontal(Convert.ToBoolean(args[0]));
+                DragTransformControl.Current.FlipHorizontal(Convert.ToBoolean(e.Args[0]));
             }
             else
             {

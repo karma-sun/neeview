@@ -319,7 +319,7 @@ namespace NeeView
             // 起動時スクリプトの実行
             if (!string.IsNullOrWhiteSpace(App.Current.Option.ScriptFile))
             {
-                CommandTable.Current.ExecuteScript(App.Current.Option.ScriptFile);
+                CommandTable.Current.ExecuteScript(this, App.Current.Option.ScriptFile);
             }
         }
 

@@ -10,6 +10,40 @@ using System.Windows.Input;
 
 namespace NeeView
 {
+    public class CommandArgs
+    {
+        public static CommandArgs Empty { get; } = new CommandArgs(null, CommandOption.None);
+
+        public CommandArgs(object[] args, CommandOption options)
+        {
+            this.Args = args ?? CommandElement.EmptyArgs;
+            this.Options = options;
+        }
+
+        public object[] Args { get; private set; }
+        public CommandOption Options { get; private set; }
+    }
+
+    public class CommandContext
+    {
+        public CommandContext(CommandParameter parameter, object[] args, CommandOption options)
+        {
+            this.Parameter = parameter;
+            this.Args = args ?? CommandElement.EmptyArgs;
+            this.Options = options;
+        }
+
+        public CommandContext(CommandParameter parameter, CommandArgs args) : this(parameter, args.Args, args.Options)
+        {
+        }
+
+        public CommandParameter Parameter { get; private set; }
+        public object[] Args { get; private set; }
+        public CommandOption Options { get; private set; }
+    }
+
+
+
     [DataContract]
     public abstract class CommandElement
     {
@@ -129,37 +163,58 @@ namespace NeeView
         }
 
         // コマンド実行時表示デリゲート
-        public virtual string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
+        public virtual string ExecuteMessage(object sender, CommandContext e)
         {
             return Text;
         }
 
-        public string ExecuteMessage(object[] args, CommandOption option)
+        public string ExecuteMessage(object sender, CommandArgs args)
         {
-            if (args == null) throw new ArgumentNullException(nameof(args));
-            return ExecuteMessage(this.Parameter, args, option);
+            return ExecuteMessage(sender, new CommandContext(this.Parameter, args));
         }
 
+        /*
+        public string ExecuteMessage(object sender, object[] args, CommandOption option)
+        {
+            if (args == null) throw new ArgumentNullException(nameof(args));
+            return ExecuteMessage(sender, new CommandArgs(this.Parameter, args, option));
+        }
+        */
+
         // コマンド実行可能判定
-        public virtual bool CanExecute(CommandParameter param, object[] args, CommandOption option)
+        public virtual bool CanExecute(object sender, CommandContext e)
         {
             return true;
         }
 
-        public bool CanExecute(object[] args, CommandOption option)
+        public bool CanExecute(object sender, CommandArgs args)
+        {
+            return CanExecute(sender, new CommandContext(this.Parameter, args));
+        }
+
+        /*
+        public bool CanExecute(object sender, object[] args, CommandOption option)
         {
             if (args == null) throw new ArgumentNullException(nameof(args));
-            return CanExecute(this.Parameter, args, option);
+            return CanExecute(sender, new CommandArgs(this.Parameter, args, option));
         }
+        */
 
         // コマンド実行
-        public abstract void Execute(CommandParameter param, object[] args, CommandOption option);
+        public abstract void Execute(object sender, CommandContext args);
 
-        public void Execute(object[] args, CommandOption option)
+        public void Execute(object sender, CommandArgs args)
+        {
+            Execute(sender, new CommandContext(this.Parameter, args));
+        }
+
+        /*
+        public void Execute(object sender, object[] args, CommandOption option)
         {
             if (args == null) throw new ArgumentNullException(nameof(args));
-            Execute(this.Parameter, args, option);
+            Execute(sender, new CommandArgs(this.Parameter, args, option));
         }
+        */
 
         public CommandParameter CreateOverwriteCommandParameter(IDictionary<string, object> args)
         {

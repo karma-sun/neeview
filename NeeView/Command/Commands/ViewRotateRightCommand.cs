@@ -15,7 +15,7 @@
 
         public override void Execute(object sender, CommandContext e)
         {
-            ContentCanvas.Current.ViewRotateRight((ViewRotateCommandParameter)e.Parameter);
+            ViewControlMediator.Current.ViewRotateRight(sender, (ViewRotateCommandParameter)e.Parameter);
         }
     }
 }

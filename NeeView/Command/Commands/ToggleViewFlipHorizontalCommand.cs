@@ -24,11 +24,11 @@ namespace NeeView
         {
             if (e.Args.Length > 0)
             {
-                DragTransformControl.Current.FlipHorizontal(Convert.ToBoolean(e.Args[0]));
+                ViewControlMediator.Current.FlipHorizontal(sender, Convert.ToBoolean(e.Args[0]));
             }
             else
             {
-                DragTransformControl.Current.ToggleFlipHorizontal();
+                ViewControlMediator.Current.ToggleFlipHorizontal(sender);
             }
         }
     }

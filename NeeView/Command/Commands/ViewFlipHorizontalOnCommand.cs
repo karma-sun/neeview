@@ -12,7 +12,7 @@
 
         public override void Execute(object sender, CommandContext e)
         {
-            DragTransformControl.Current.FlipHorizontal(true);
+            ViewControlMediator.Current.FlipHorizontal(sender, true);
         }
     }
 }

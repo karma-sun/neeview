@@ -15,7 +15,7 @@
 
         public override void Execute(object sender, CommandContext e)
         {
-            DragTransformControl.Current.ScrollLeft((ViewScrollCommandParameter)e.Parameter);
+            ViewControlMediator.Current.ScrollLeft(sender, (ViewScrollCommandParameter)e.Parameter);
         }
     }
 }

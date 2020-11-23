@@ -21,8 +21,7 @@ namespace NeeView
 
         public override void Execute(object sender, CommandContext e)
         {
-            var parameter = (ViewScaleCommandParameter)e.Parameter;
-            DragTransformControl.Current.ScaleDown(parameter.Scale, parameter.IsSnapDefaultScale, ContentCanvas.Current.MainContentScale);
+            ViewControlMediator.Current.ScaleDown(sender, (ViewScaleCommandParameter)e.Parameter);
         }
     }
 

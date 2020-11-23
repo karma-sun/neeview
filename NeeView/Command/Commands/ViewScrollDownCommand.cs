@@ -19,7 +19,7 @@ namespace NeeView
 
         public override void Execute(object sender, CommandContext e)
         {
-            DragTransformControl.Current.ScrollDown((ViewScrollCommandParameter)e.Parameter);
+            ViewControlMediator.Current.ScrollDown(sender, (ViewScrollCommandParameter)e.Parameter);
         }
     }
 

@@ -15,7 +15,7 @@
 
         public override void Execute(object sender, CommandContext e)
         {
-            MainWindowModel.Current.ScrollNTypeDown((ViewScrollNTypeCommandParameter)e.Parameter);
+            ViewControlMediator.Current.ScrollNTypeDown(sender, (ViewScrollNTypeCommandParameter)e.Parameter);
         }
     }
 

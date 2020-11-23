@@ -157,6 +157,10 @@ namespace NeeView
             _model.FocusMainViewCall += Model_FocusMainViewCall;
 
 
+            // ViewController 初期化
+            ViewControlMediator.Current.Initialize();
+
+
             ContextMenuManager.Current.AddPropertyChanged(nameof(ContextMenuManager.Current.SourceTree),
                 (s, e) => UpdateContextMenu());
 

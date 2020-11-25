@@ -16,7 +16,7 @@ namespace NeeView
 
         public override void Execute(object sender, CommandContext e)
         {
-            ViewControlMediator.Current.ViewRotateLeft(sender, (ViewRotateCommandParameter)e.Parameter);
+            ViewComponentProvider.Current.GetViewController(sender).ViewRotateLeft((ViewRotateCommandParameter)e.Parameter);
         }
     }
 

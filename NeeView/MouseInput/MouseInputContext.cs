@@ -6,22 +6,17 @@ using System.Windows.Input;
 
 namespace NeeView
 {
-    /// <summary>
-    /// MouseInputContext
-    /// </summary>
     public class MouseInputContext : BindableBase
     {
-        #region Constructors
-
-        public MouseInputContext(FrameworkElement sender, MouseGestureCommandCollection gestureCommandCollection)
+        public MouseInputContext(FrameworkElement sender, MouseGestureCommandCollection gestureCommandCollection, DragTransformControl dragTransformControl, DragTransform dragTransform, LoupeTransform loupeTransform)
         {
             this.Sender = sender;
             this.GestureCommandCollection = gestureCommandCollection;
+            this.DragTransformControl = dragTransformControl;
+            this.DragTransform = dragTransform;
+            this.LoupeTransform = loupeTransform;
         }
 
-        #endregion
-
-        #region Properties
 
         /// <summary>
         /// イベント受取エレメント
@@ -33,12 +28,16 @@ namespace NeeView
         /// </summary>
         public MouseGestureCommandCollection GestureCommandCollection { get; set; }
 
+        public DragTransformControl DragTransformControl { get; set; }
+            
+        public DragTransform DragTransform { get; set; }
+            
+        public LoupeTransform LoupeTransform { get; set; }
+
         /// <summary>
         /// ドラッグ開始座標
         /// </summary>
         public Point StartPoint { get; set; }
-
-        #endregion
     }
 
 }

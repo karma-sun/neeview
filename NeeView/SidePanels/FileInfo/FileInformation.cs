@@ -28,8 +28,10 @@ namespace NeeView
 
         private FileInformation()
         {
-            ContentCanvas.Current.AddPropertyChanged(nameof(ContentCanvas.Current.MainContent),
-                (s, e) => ViewContent = ContentCanvas.Current.MainContent);
+            var viewComponent = ViewComponentProvider.Current.GetViewComponent();
+
+            viewComponent.ContentCanvas.AddPropertyChanged(nameof(ContentCanvas.MainContent),
+                (s, e) => ViewContent = viewComponent.ContentCanvas.MainContent);
         }
 
         #endregion

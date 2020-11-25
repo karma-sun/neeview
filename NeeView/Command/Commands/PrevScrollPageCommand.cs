@@ -28,7 +28,7 @@ namespace NeeView
 
         public override void Execute(object sender, CommandContext e)
         {
-            MainWindowModel.Current.PrevScrollPage(this, (ScrollPageCommandParameter)e.Parameter);
+            ViewComponentProvider.Current.GetViewController(sender).PrevScrollPage(sender, (ScrollPageCommandParameter)e.Parameter);
         }
     }
 

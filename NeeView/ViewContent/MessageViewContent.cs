@@ -8,7 +8,7 @@ namespace NeeView
     /// </summary>
     public class MessageViewContent : ViewContent
     {
-        public MessageViewContent(ViewContentSource source) : base(source)
+        public MessageViewContent(ViewComponent viewComponent, ViewContentSource source) : base(viewComponent, source)
         {
         }
 
@@ -49,9 +49,9 @@ namespace NeeView
         }
 
 
-        public static MessageViewContent Create(ViewContentSource source)
+        public static MessageViewContent Create(ViewComponent viewComponent, ViewContentSource source)
         {
-            var viewContent = new MessageViewContent(source);
+            var viewContent = new MessageViewContent(viewComponent, source);
             viewContent.Initialize();
             return viewContent;
         }

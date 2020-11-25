@@ -32,22 +32,24 @@ namespace NeeView
 
         public static ExportImageSource Create()
         {
+            var viewComponent = ViewComponentProvider.Current.GetViewComponent();
+
             var element = MainWindow.Current.PageContents;
 
-            var rotateTransform = new RotateTransform(DragTransform.Current.Angle);
-            var scaleTransform = new ScaleTransform(DragTransform.Current.ScaleX, DragTransform.Current.ScaleY);
+            var rotateTransform = new RotateTransform(viewComponent.DragTransform.Angle);
+            var scaleTransform = new ScaleTransform(viewComponent.DragTransform.ScaleX, viewComponent.DragTransform.ScaleY);
             var transform = new TransformGroup();
             transform.Children.Add(scaleTransform);
             transform.Children.Add(rotateTransform);
 
             var context = new ExportImageSource();
             context.BookAddress = BookOperation.Current.Address;
-            context.Pages = ContentCanvas.Current.CloneContents.Where(e => e?.Page != null).Select(e => e.Page).ToList();
+            context.Pages = viewComponent.ContentCanvas.CloneContents.Where(e => e?.Page != null).Select(e => e.Page).ToList();
             context.View = element;
             context.ViewTransform = transform;
             context.ViewEffect = ImageEffect.Current.Effect;
-            context.Background = ContentCanvasBrush.Current.CreateBackgroundBrush();
-            context.BackgroundFront = ContentCanvasBrush.Current.CreateBackgroundFrontBrush(new DpiScale(1, 1));
+            context.Background = viewComponent.ContentCanvasBrush.CreateBackgroundBrush();
+            context.BackgroundFront = viewComponent.ContentCanvasBrush.CreateBackgroundFrontBrush(new DpiScale(1, 1));
 
             return context;
         }

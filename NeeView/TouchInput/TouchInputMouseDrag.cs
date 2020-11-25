@@ -24,7 +24,7 @@ namespace NeeView
         /// <param name="context"></param>
         public TouchInputMouseDrag(TouchInputContext context) : base(context)
         {
-            _drag = DragTransformControl.Current; // ##
+            _drag = context.DragTransformControl; // ##
         }
 
 

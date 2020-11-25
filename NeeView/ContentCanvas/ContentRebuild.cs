@@ -17,11 +17,7 @@ namespace NeeView
     /// </summary>
     public class ContentRebuild : BindableBase, IDisposable
     {
-        static ContentRebuild() => Current = new ContentRebuild();
-        public static ContentRebuild Current { get; }
-
-        #region Fields
-
+        private ViewComponent _viewComponent;
         private KeyPressWatcher _keyPressWatcher;
         private bool _isResizingWindow;
         private bool _isUpdateContentSize;
@@ -30,20 +26,23 @@ namespace NeeView
         private bool _isBusy;
         private bool _isKeyUpChance;
 
-        #endregion
+
 
         #region Constructors
 
-        private ContentRebuild()
+        public ContentRebuild(ViewComponent viewComponent)
         {
+            _viewComponent = viewComponent;
+
             // コンテンツ変更監視
-            ContentCanvas.Current.ContentChanged += (s, e) => Request();
+            _viewComponent.ContentCanvas.ContentChanged += (s, e) => Request();
+            _viewComponent.ContentCanvas.ContentSizeChanged += (s, e) => Request();
 
             // スケール変化に追従
-            DragTransform.Current.AddPropertyChanged(nameof(DragTransform.Scale), (s, e) => Request());
+            _viewComponent.DragTransform.AddPropertyChanged(nameof(DragTransform.Scale), (s, e) => Request());
 
             // ルーペ状態に追従
-            LoupeTransform.Current.AddPropertyChanged(nameof(LoupeTransform.FixedScale), (s, e) => Request());
+            _viewComponent.LoupeTransform.AddPropertyChanged(nameof(LoupeTransform.FixedScale), (s, e) => Request());
 
             // リサイズフィルター状態監視
             ////Config.Current.ImageResizeFilter.AddPropertyChanged(nameof(ImageResizeFilterConfig.IsEnabled), (s, e) => Request());
@@ -111,15 +110,15 @@ namespace NeeView
             if (_isUpdateContentSize)
             {
                 _isUpdateContentSize = false;
-                ContentCanvas.Current.UpdateContentSize();
-                DragTransformControl.Current.SnapView();
+                _viewComponent.ContentCanvas.UpdateContentSize();
+                _viewComponent.DragTransformControl.SnapView();
             }
 
             // トリミングによる更新
             if (_isUpdateContentViewBox)
             {
                 _isUpdateContentSize = false;
-                foreach (var viewConent in ContentCanvas.Current.CloneContents.Where(e => e.IsValid))
+                foreach (var viewConent in _viewComponent.ContentCanvas.CloneContents.Where(e => e.IsValid))
                 {
                     viewConent.UpdateViewBox();
                 }
@@ -129,7 +128,7 @@ namespace NeeView
             _isKeyUpChance = false;
 
             var mouseButtonBits = MouseButtonBitsExtensions.Create();
-            if (MouseInput.Current.IsLoupeMode && Config.Current.Mouse.LongButtonDownMode == LongButtonDownMode.Loupe)
+            if (_viewComponent.MouseInput.IsLoupeMode && Config.Current.Mouse.LongButtonDownMode == LongButtonDownMode.Loupe)
             {
                 mouseButtonBits = MouseButtonBits.None;
             }
@@ -137,8 +136,8 @@ namespace NeeView
 
             bool isSuccessed = true;
             var dpiScaleX = Environment.RawDpi.DpiScaleX;
-            var scale = DragTransform.Current.Scale * LoupeTransform.Current.FixedScale * dpiScaleX;
-            foreach (var viewConent in ContentCanvas.Current.CloneContents.Where(e => e.IsValid))
+            var scale = _viewComponent.DragTransform.Scale * _viewComponent.LoupeTransform.FixedScale * dpiScaleX;
+            foreach (var viewConent in _viewComponent.ContentCanvas.CloneContents.Where(e => e.IsValid))
             {
                 isSuccessed = viewConent.Rebuild(scale) && isSuccessed;
             }
@@ -171,17 +170,17 @@ namespace NeeView
 
         public void UpdateStatus()
         {
-            this.IsBusy = ContentCanvas.Current.CloneContents.Where(e => e.IsValid).Any(e => e.IsResizing);
+            this.IsBusy = _viewComponent.ContentCanvas.CloneContents.Where(e => e.IsValid).Any(e => e.IsResizing);
         }
 
         private void Start()
         {
-            MainWindowModel.Current.Rendering += OnRendering;
+            CompositionTarget.Rendering += OnRendering;
         }
 
         private void Stop()
         {
-            MainWindowModel.Current.Rendering -= OnRendering;
+            CompositionTarget.Rendering -= OnRendering;
         }
         #endregion
 

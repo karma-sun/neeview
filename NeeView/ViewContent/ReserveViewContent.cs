@@ -11,7 +11,7 @@ namespace NeeView
     /// </summary>
     public class ReserveViewContent : ViewContent
     {
-        public ReserveViewContent(ViewContentSource source, ViewContent old) : base(source)
+        public ReserveViewContent(ViewComponent viewComponent, ViewContentSource source, ViewContent old) : base(viewComponent, source)
         {
             this.Size = new Size(480, 680);
             this.Color = old != null ? old.Color : Colors.Black;
@@ -42,12 +42,12 @@ namespace NeeView
         }
 
 
-        public static ViewContent Create(ViewContentSource source, ViewContent oldViewContent)
+        public static ViewContent Create(ViewComponent viewComponent, ViewContentSource source, ViewContent oldViewContent)
         {
             ViewContent viewContent = oldViewContent;
             if (!Config.Current.Performance.IsLoadingPageVisible || oldViewContent?.View is null)
             {
-                 var newViewContent = new ReserveViewContent(source, oldViewContent);
+                 var newViewContent = new ReserveViewContent(viewComponent, source, oldViewContent);
                 newViewContent.Initialize();
                 viewContent = newViewContent;
             }

@@ -22,7 +22,7 @@ namespace NeeView
             _model = model;
             _model.PropertyChanged += Model_PropertyChanged;
 
-            DragTransform.Current.PropertyChanged += DragTransform_PropertyChanged;
+            _model.DragTransform.PropertyChanged += DragTransform_PropertyChanged;
 
             Config.Current.View.PropertyChanged += ViewConfig_PropertyChanged;
 
@@ -38,8 +38,8 @@ namespace NeeView
 
         public double Angle
         {
-            get => DragTransform.Current.Angle;
-            set => DragTransform.Current.Angle = value;
+            get => _model.DragTransform.Angle;
+            set => _model.DragTransform.Angle = value;
         }
 
         public AutoRotateType AutoRotate
@@ -53,27 +53,27 @@ namespace NeeView
 
         public double Scale
         {
-            get { return DragTransform.Current.Scale * 100.0; }
-            set { DragTransform.Current.Scale = value / 100.0; }
+            get { return _model.DragTransform.Scale * 100.0; }
+            set { _model.DragTransform.Scale = value / 100.0; }
         }
 
         public double ScaleLog
         {
-            get { return DragTransform.Current.Scale > 0.0 ? Math.Log(DragTransform.Current.Scale, 2.0) : -5.0; }
-            set { DragTransform.Current.Scale = Math.Pow(2, value); }
+            get { return _model.DragTransform.Scale > 0.0 ? Math.Log(_model.DragTransform.Scale, 2.0) : -5.0; }
+            set { _model.DragTransform.Scale = Math.Pow(2, value); }
         }
 
 
         public bool IsFlipHorizontal
         {
-            get => DragTransform.Current.IsFlipHorizontal;
-            set => DragTransform.Current.IsFlipHorizontal = value;
+            get => _model.DragTransform.IsFlipHorizontal;
+            set => _model.DragTransform.IsFlipHorizontal = value;
         }
 
         public bool IsFlipVertical
         {
-            get => DragTransform.Current.IsFlipVertical;
-            set => DragTransform.Current.IsFlipVertical = value;
+            get => _model.DragTransform.IsFlipVertical;
+            set => _model.DragTransform.IsFlipVertical = value;
         }
 
 

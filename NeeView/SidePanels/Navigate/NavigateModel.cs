@@ -31,11 +31,19 @@ namespace NeeView
         };
 
 
+        private DragTransform _dragTransform;
+        private ContentCanvas _contentCanvas;
+
         public NavigateModel()
         {
+            _dragTransform = ViewComponentProvider.Current.GetViewComponent().DragTransform;
+            _contentCanvas = ViewComponentProvider.Current.GetViewComponent().ContentCanvas;
+
             Config.Current.View.PropertyChanged += ViewConfig_PropertyChanged;
         }
 
+
+        public DragTransform DragTransform => _dragTransform;
 
         public bool IsRotateStretchEnabled
         {
@@ -88,10 +96,10 @@ namespace NeeView
 
         public void RotateLeft()
         {
-            var angle = DragTransformControl.NormalizeLoopRange(DragTransform.Current.Angle - 90.0, -180.0, 180.0);
+            var angle = DragTransformControl.NormalizeLoopRange(_dragTransform.Angle - 90.0, -180.0, 180.0);
             angle = Math.Truncate((angle + 180.0) / 90.0) * 90.0 - 180.0;
 
-            DragTransform.Current.Angle = angle;
+            _dragTransform.Angle = angle;
 
             if (IsRotateStretchEnabled)
             {
@@ -101,10 +109,10 @@ namespace NeeView
 
         public void RotateRight()
         {
-            var angle = DragTransformControl.NormalizeLoopRange(DragTransform.Current.Angle + 90.0, -180.0, 180.0);
+            var angle = DragTransformControl.NormalizeLoopRange(_dragTransform.Angle + 90.0, -180.0, 180.0);
             angle = Math.Truncate((angle + 180.0) / 90.0) * 90.0 - 180.0;
 
-            DragTransform.Current.Angle = angle;
+            _dragTransform.Angle = angle;
 
             if (IsRotateStretchEnabled)
             {
@@ -114,7 +122,7 @@ namespace NeeView
 
         public void RotateReset()
         {
-            DragTransform.Current.Angle = 0.0;
+            _dragTransform.Angle = 0.0;
 
             if (IsRotateStretchEnabled)
             {
@@ -124,7 +132,7 @@ namespace NeeView
 
         public void ScaleDown()
         {
-            var scale = DragTransform.Current.Scale - 0.01;
+            var scale = _dragTransform.Scale - 0.01;
             var index = _scaleSnaps.FindIndex(e => scale < e);
             if (0 < index)
             {
@@ -135,12 +143,12 @@ namespace NeeView
                 scale = _scaleSnaps.First();
             }
 
-            DragTransform.Current.Scale = scale;
+            _dragTransform.Scale = scale;
         }
 
         public void ScaleUp()
         {
-            var scale = DragTransform.Current.Scale + 0.01;
+            var scale = _dragTransform.Scale + 0.01;
             var index = _scaleSnaps.FindIndex(e => scale < e);
             if (0 <= index)
             {
@@ -151,17 +159,17 @@ namespace NeeView
                 scale = _scaleSnaps.Last();
             }
 
-            DragTransform.Current.Scale = scale;
+            _dragTransform.Scale = scale;
         }
 
         public void ScaleReset()
         {
-            DragTransform.Current.Scale = 1.0;
+            _dragTransform.Scale = 1.0;
         }
 
         public void Stretch()
         {
-            ContentCanvas.Current.Stretch();
+            _contentCanvas.Stretch();
         }
     }
 

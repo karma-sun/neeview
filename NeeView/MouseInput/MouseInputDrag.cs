@@ -14,11 +14,11 @@ namespace NeeView
     /// </summary>
     public class MouseInputDrag : MouseInputBase
     {
-        DragTransformControl _drag;
+        DragTransformControl _dragTransformControl;
 
         public MouseInputDrag(MouseInputContext context) : base(context)
         {
-            _drag = DragTransformControl.Current; // ##
+            _dragTransformControl = context.DragTransformControl;
         }
 
 
@@ -26,8 +26,8 @@ namespace NeeView
         {
             sender.Cursor = Cursors.Hand;
 
-            _drag.ResetState();
-            _drag.UpdateState(CreateMouseButtonBits(), Keyboard.Modifiers, _context.StartPoint);
+            _dragTransformControl.ResetState();
+            _dragTransformControl.UpdateState(CreateMouseButtonBits(), Keyboard.Modifiers, _context.StartPoint);
         }
 
         public override void OnClosed(FrameworkElement sender)
@@ -74,7 +74,7 @@ namespace NeeView
 
         public override void OnMouseMove(object sender, MouseEventArgs e)
         {
-            _drag.UpdateState(CreateMouseButtonBits(e), Keyboard.Modifiers, e.GetPosition(_context.Sender));
+            _dragTransformControl.UpdateState(CreateMouseButtonBits(e), Keyboard.Modifiers, e.GetPosition(_context.Sender));
         }
 
 

@@ -64,22 +64,16 @@ namespace NeeView
     /// </summary>
     public class ContentSizeCalcurator
     {
-        #region Fields
-
         private ContentCanvas _contentCanvas;
 
-        #endregion
 
-        #region Constructors
-
+        // TODO: ViewSizeの伝達方法見直し。ContentCanvas渡しを不要にする
         public ContentSizeCalcurator(ContentCanvas contentCanvas)
         {
             _contentCanvas = contentCanvas;
         }
 
-        #endregion
 
-        #region Properties
 
         private PageStretchMode StretchMode => Config.Current.View.StretchMode;
         private double ContentsSpace => Config.Current.Book.ContentsSpace;
@@ -88,9 +82,7 @@ namespace NeeView
         private bool AllowEnlarge => Config.Current.View.AllowStretchScaleUp;
         private bool AllowReduce => Config.Current.View.AllowStretchScaleDown;
 
-        #endregion
 
-        #region Methods
 
         /// <summary>
         /// コンテンツ表示サイズを計算。
@@ -98,9 +90,9 @@ namespace NeeView
         /// </summary>
         /// <param name="source">元のコンテンツサイズ</param>
         /// <returns></returns>
-        public FixedContentSize GetFixedContentSize(List<Size> source, AngleResetMode angleResetMode)
+        public FixedContentSize GetFixedContentSize(List<Size> source, AngleResetMode angleResetMode, double defaultAngle)
         {
-            return GetFixedContentSize(source, GetAutoRotateAngle(source, angleResetMode));
+            return GetFixedContentSize(source, GetAutoRotateAngle(source, angleResetMode, defaultAngle));
         }
 
         /// <summary>
@@ -132,12 +124,12 @@ namespace NeeView
         /// </summary>
         /// <param name="source">元のコンテンツサイズ</param>
         /// <returns></returns>
-        public double GetAutoRotateAngle(List<Size> source, AngleResetMode angleResetMode)
+        public double GetAutoRotateAngle(List<Size> source, AngleResetMode angleResetMode, double defaultAngle)
         {
             switch (angleResetMode)
             {
                 case AngleResetMode.None:
-                    return DragTransform.Current.Angle;
+                    return defaultAngle;
 
                 case AngleResetMode.ForceAutoRotate:
                     return this.AutoRotateType.ToAngle();
@@ -376,7 +368,5 @@ namespace NeeView
             var s1 = new Size(c1.Width * rate1, c1.Height * rate1);
             return new Size[] { s0, s1 };
         }
-
-        #endregion
     }
 }

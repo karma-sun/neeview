@@ -143,7 +143,6 @@ namespace NeeView
         public string Message { get; set; }
     }
 
-
     #endregion EventArgs
 
     /// <summary>
@@ -323,6 +322,9 @@ namespace NeeView
         // 空ページメッセージ
         public event EventHandler<BookHubMessageEventArgs> EmptyMessage;
 
+        // 空ページメッセージ その２
+        public event EventHandler<BookHubMessageEventArgs> EmptyPageMessage;
+
         // フォルダー列更新要求
         public event EventHandler<FolderListSyncEventArgs> FolderListSync;
 
@@ -412,6 +414,7 @@ namespace NeeView
                     this.ViewContentsChanged = null;
                     this.NextContentsChanged = null;
                     this.EmptyMessage = null;
+                    this.EmptyPageMessage = null;
                     this.FolderListSync = null;
                     this.HistoryListSync = null;
                     this.HistoryChanged = null;
@@ -568,12 +571,6 @@ namespace NeeView
 
             _commandEngine.Enqueue(command);
 
-            // ルーペモードは解除
-            if (MouseInput.Current.IsLoupeMode)
-            {
-                MouseInput.Current.IsLoupeMode = false;
-            }
-
             return command;
         }
 
@@ -717,7 +714,6 @@ namespace NeeView
                     {
                         if (BookUnit != null)
                         {
-                            MouseInput.Current.Cancel();
                             BookChanged?.Invoke(this, new BookChangedEventArgs(BookUnit.Book?.Address, BookUnit.GetBookMementoType()));
                         }
                     }
@@ -958,9 +954,7 @@ namespace NeeView
 
             if (param.Message != null)
             {
-                // TODO: 参照方向がおかしい
-                ContentCanvas.Current.EmptyPageMessage = param.Message;
-                ContentCanvas.Current.IsVisibleEmptyPageMessage = true;
+                EmptyPageMessage?.Invoke(this, new BookHubMessageEventArgs(param.Message));
             }
         }
 

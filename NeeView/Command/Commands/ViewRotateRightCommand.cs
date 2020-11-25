@@ -15,7 +15,7 @@
 
         public override void Execute(object sender, CommandContext e)
         {
-            ViewControlMediator.Current.ViewRotateRight(sender, (ViewRotateCommandParameter)e.Parameter);
+            ViewComponentProvider.Current.GetViewController(sender).ViewRotateRight((ViewRotateCommandParameter)e.Parameter);
         }
     }
 }

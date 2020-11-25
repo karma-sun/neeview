@@ -29,10 +29,6 @@ namespace NeeView
     /// </summary>
     public class MouseInput : BindableBase
     {
-        static MouseInput() => Current = new MouseInput();
-        public static MouseInput Current { get; }
-
-        //
         private FrameworkElement _sender;
 
         /// <summary>
@@ -84,7 +80,7 @@ namespace NeeView
         /// <summary>
         /// 一定距離カーソルが移動したイベント
         /// </summary>
-        public event EventHandler MouseMoved;
+        public event EventHandler<MouseEventArgs> MouseMoved;
 
 
         /// <summary>
@@ -105,9 +101,9 @@ namespace NeeView
         /// <summary>
         /// コンストラクター
         /// </summary>
-        private MouseInput()
+        public MouseInput(MouseInputContext context )
         {
-            _context = new MouseInputContext(MainWindow.Current.MainView, MouseGestureCommandCollection.Current);
+            _context = context;
             _sender = _context.Sender;
 
             this.Normal = new MouseInputNormal(_context);
@@ -281,7 +277,7 @@ namespace NeeView
             var nowPoint = e.GetPosition(_sender);
             if (Math.Abs(nowPoint.X - _lastActionPoint.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(nowPoint.Y - _lastActionPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
             {
-                MouseMoved?.Invoke(this, null);
+                MouseMoved?.Invoke(this, e);
                 _lastActionPoint = nowPoint;
             }
         }
@@ -309,32 +305,33 @@ namespace NeeView
         // メッセージとして状態表示
         public void ShowMessage(TransformActionType ActionType, ViewContent mainContent)
         {
-            var infoMessage = InfoMessage.Current;
+            var infoMessage = InfoMessage.Current; // TODO: not singleton
             if (Config.Current.Notice.ViewTransformShowMessageStyle == ShowMessageStyle.None) return;
 
-            var transform = DragTransform.Current;
+            var dragTransform = _context.DragTransform;
+            var loupeTransform = _context.LoupeTransform;
 
             switch (ActionType)
             {
                 case TransformActionType.Scale:
                     string scaleText = Config.Current.Notice.IsOriginalScaleShowMessage && mainContent != null && mainContent.IsValid
-                        ? $"{(int)(transform.Scale * mainContent.Scale * Environment.Dpi.DpiScaleX * 100 + 0.1)}%"
-                        : $"{(int)(transform.Scale * 100.0 + 0.1)}%";
+                        ? $"{(int)(dragTransform.Scale * mainContent.Scale * Environment.Dpi.DpiScaleX * 100 + 0.1)}%"
+                        : $"{(int)(dragTransform.Scale * 100.0 + 0.1)}%";
                     infoMessage.SetMessage(InfoMessageType.ViewTransform, scaleText);
                     break;
                 case TransformActionType.Angle:
-                    infoMessage.SetMessage(InfoMessageType.ViewTransform, $"{(int)(transform.Angle)}°");
+                    infoMessage.SetMessage(InfoMessageType.ViewTransform, $"{(int)(dragTransform.Angle)}°");
                     break;
                 case TransformActionType.FlipHorizontal:
-                    infoMessage.SetMessage(InfoMessageType.ViewTransform, Properties.Resources.NotifyFlipHorizontal + " " + (transform.IsFlipHorizontal ? "ON" : "OFF"));
+                    infoMessage.SetMessage(InfoMessageType.ViewTransform, Properties.Resources.NotifyFlipHorizontal + " " + (dragTransform.IsFlipHorizontal ? "ON" : "OFF"));
                     break;
                 case TransformActionType.FlipVertical:
-                    infoMessage.SetMessage(InfoMessageType.ViewTransform, Properties.Resources.NotifyFlipVertical + " " + (transform.IsFlipVertical ? "ON" : "OFF"));
+                    infoMessage.SetMessage(InfoMessageType.ViewTransform, Properties.Resources.NotifyFlipVertical + " " + (dragTransform.IsFlipVertical ? "ON" : "OFF"));
                     break;
                 case TransformActionType.LoupeScale:
-                    if (LoupeTransform.Current.Scale != 1.0)
+                    if (loupeTransform.Scale != 1.0)
                     {
-                        infoMessage.SetMessage(InfoMessageType.ViewTransform, $"×{LoupeTransform.Current.Scale:0.0}");
+                        infoMessage.SetMessage(InfoMessageType.ViewTransform, $"×{loupeTransform.Scale:0.0}");
                     }
                     break;
             }

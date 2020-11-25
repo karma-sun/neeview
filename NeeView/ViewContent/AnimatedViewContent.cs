@@ -21,7 +21,7 @@ namespace NeeView
         private VisualBrush _brush;
 
 
-        public AnimatedViewContent(ViewContentSource source) : base(source)
+        public AnimatedViewContent(ViewComponent viewComponent, ViewContentSource source) : base(viewComponent, source)
         {
         }
 
@@ -131,12 +131,12 @@ namespace NeeView
 
             // NOTE: 一瞬黒い画像が表示されるのを防ぐために開放タイミングをずらす
             int count = 0;
-            MainWindowModel.Current.Rendering += OnRendering;
+            CompositionTarget.Rendering += OnRendering;
             void OnRendering(object sender, EventArgs e)
             {
                 if (++count >= 3)
                 {
-                    MainWindowModel.Current.Rendering -= OnRendering;
+                    CompositionTarget.Rendering -= OnRendering;
                     media.Close();
                     _mediaElementPool.Release(media);
                 }
@@ -169,9 +169,9 @@ namespace NeeView
         }
 
 
-        public new static AnimatedViewContent Create(ViewContentSource source)
+        public new static AnimatedViewContent Create(ViewComponent viewComponent, ViewContentSource source)
         {
-            var viewContent = new AnimatedViewContent(source);
+            var viewContent = new AnimatedViewContent(viewComponent, source);
             viewContent.Initialize();
             return viewContent;
         }

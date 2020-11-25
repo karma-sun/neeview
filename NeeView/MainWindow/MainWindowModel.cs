@@ -65,12 +65,12 @@ namespace NeeView
         private bool _canHidePageSlider;
         private bool _canHidePanel;
 
-        private DateTime _scrollPageTime;
-
         private SolidColorBrush _sliderBackground;
         private SolidColorBrush _sliderBackgroundGlass;
 
         private volatile EditCommandWindow _editCommandWindow;
+
+        private ViewComponent _viewComponent;
 
         #endregion
 
@@ -78,6 +78,8 @@ namespace NeeView
 
         private MainWindowModel()
         {
+            _viewComponent = ViewComponentProvider.Current.GetViewComponent();
+
             WindowShape.Current.AddPropertyChanged(nameof(WindowShape.IsFullScreen),
                 (s, e) =>
                 {
@@ -137,8 +139,6 @@ namespace NeeView
             RefreshCanHidePageSlider();
 
             RefreshSliderBrushes();
-
-            CompositionTarget.Rendering += (s, e) => Rendering?.Invoke(s, e);
         }
 
         #endregion
@@ -146,8 +146,6 @@ namespace NeeView
         #region Events
 
         public event EventHandler CanHidePanelChanged;
-
-        public event EventHandler Rendering;
 
         public event EventHandler FocusMainViewCall;
 
@@ -363,75 +361,6 @@ namespace NeeView
         }
 
 
-        /// <summary>
-        /// N字スクロール↑
-        /// </summary>
-        /// <param name="parameter"></param>
-        public void ScrollNTypeUp(ViewScrollNTypeCommandParameter parameter)
-        {
-            int bookReadDirection = (BookSettingPresenter.Current.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
-            bool isScrolled = MouseInput.Current.IsLoupeMode ? false : DragTransformControl.Current.ScrollN(-1, bookReadDirection, true, parameter);
-        }
-
-        /// <summary>
-        /// N字スクロール↓
-        /// </summary>
-        /// <param name="parameter"></param>
-        public void ScrollNTypeDown(ViewScrollNTypeCommandParameter parameter)
-        {
-            int bookReadDirection = (BookSettingPresenter.Current.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
-            bool isScrolled = MouseInput.Current.IsLoupeMode ? false : DragTransformControl.Current.ScrollN(+1, bookReadDirection, true, parameter);
-        }
-
-        /// <summary>
-        /// スクロール＋前のページに戻る。
-        /// ルーペ使用時はページ移動のみ行う。
-        /// </summary>
-        public void PrevScrollPage(object sender, ScrollPageCommandParameter parameter)
-        {
-            int bookReadDirection = (BookSettingPresenter.Current.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
-            bool isScrolled = MouseInput.Current.IsLoupeMode ? false : DragTransformControl.Current.ScrollN(-1, bookReadDirection, parameter.IsNScroll, parameter);
-
-            if (!isScrolled)
-            {
-                var margin = TimeSpan.FromSeconds(parameter.PageMoveMargin);
-                var span = DateTime.Now - _scrollPageTime;
-                if (margin <= TimeSpan.Zero || margin <= span)
-                {
-                    ContentCanvas.Current.NextViewOrigin = (BookSettingPresenter.Current.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightBottom : DragViewOrigin.LeftBottom;
-                    BookOperation.Current.PrevPage(sender);
-                    return;
-                }
-            }
-
-            _scrollPageTime = DateTime.Now;
-        }
-
-        /// <summary>
-        /// スクロール＋次のページに進む。
-        /// ルーペ使用時はページ移動のみ行う。
-        /// </summary>
-        public void NextScrollPage(object sender, ScrollPageCommandParameter parameter)
-        {
-            int bookReadDirection = (BookSettingPresenter.Current.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
-            bool isScrolled = MouseInput.Current.IsLoupeMode ? false : DragTransformControl.Current.ScrollN(+1, bookReadDirection, parameter.IsNScroll, parameter);
-
-            if (!isScrolled)
-            {
-                var margin = TimeSpan.FromSeconds(parameter.PageMoveMargin);
-                var span = DateTime.Now - _scrollPageTime;
-                if (margin <= TimeSpan.Zero || margin <= span)
-                {
-                    ContentCanvas.Current.NextViewOrigin = (BookSettingPresenter.Current.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightTop : DragViewOrigin.LeftTop;
-                    BookOperation.Current.NextPage(sender);
-                    return;
-                }
-            }
-
-            _scrollPageTime = DateTime.Now;
-        }
-
-
         // 設定ウィンドウを開く
         public void OpenSettingWindow()
         {
@@ -589,7 +518,7 @@ namespace NeeView
         /// <returns></returns>
         public bool IsLeftToRightSlider()
         {
-            if (ContentCanvas.Current.IsMediaContent)
+            if (_viewComponent.ContentCanvas.IsMediaContent)
             {
                 return true;
             }
@@ -622,9 +551,9 @@ namespace NeeView
             FocusMainViewCall?.Invoke(this, null);
         }
 
-        #endregion
+#endregion
 
-        #region Memento
+#region Memento
 
         [DataContract]
         public class Memento : IMemento
@@ -694,7 +623,7 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
     }
 
 }

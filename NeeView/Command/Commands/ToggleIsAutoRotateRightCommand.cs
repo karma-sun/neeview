@@ -17,12 +17,12 @@ namespace NeeView
 
         public override Binding CreateIsCheckedBinding()
         {
-            return new Binding(nameof(ContentCanvas.IsAutoRotateRight)) { Source = ContentCanvas.Current };
+            return new Binding(nameof(ContentCanvas.IsAutoRotateRight)) { Source = ViewComponentProvider.Current.GetViewComponent().ContentCanvas };
         }
 
         public override string ExecuteMessage(object sender, CommandContext e)
         {
-            return ContentCanvas.Current.IsAutoRotateRight ? Properties.Resources.CommandToggleIsAutoRotateRightOff : Properties.Resources.CommandToggleIsAutoRotateRightOn;
+            return ViewComponentProvider.Current.GetViewController(sender).GetAutoRotateRight() ? Properties.Resources.CommandToggleIsAutoRotateRightOff : Properties.Resources.CommandToggleIsAutoRotateRightOn;
         }
         
         public override bool CanExecute(object sender, CommandContext e)
@@ -35,11 +35,11 @@ namespace NeeView
         {
             if (e.Args.Length > 0)
             {
-                ContentCanvas.Current.IsAutoRotateRight = Convert.ToBoolean(e.Args[0]);
+                ViewComponentProvider.Current.GetViewController(sender).SetAutoRotateRight(Convert.ToBoolean(e.Args[0]));
             }
             else
             {
-                ContentCanvas.Current.IsAutoRotateRight = !ContentCanvas.Current.IsAutoRotateRight;
+                ViewComponentProvider.Current.GetViewController(sender).ToggleAutoRotateRight();
             }
         }
     }

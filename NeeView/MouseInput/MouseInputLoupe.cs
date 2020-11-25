@@ -28,7 +28,7 @@ namespace NeeView
 
         public MouseInputLoupe(MouseInputContext context) : base(context)
         {
-            _loupe = LoupeTransform.Current;
+            _loupe = context.LoupeTransform;
         }
 
         #endregion

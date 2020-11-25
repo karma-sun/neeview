@@ -15,13 +15,13 @@ namespace NeeView
 {
     public class ContentCanvasBrush : BindableBase
     {
-        static ContentCanvasBrush() => Current = new ContentCanvasBrush();
-        public static ContentCanvasBrush Current { get; }
+        private ContentCanvas _contentCanvas;
 
-
-        private ContentCanvasBrush()
+        public ContentCanvasBrush(ContentCanvas contentCanvas)
         {
-            ContentCanvas.Current.ContentChanged +=
+            _contentCanvas = contentCanvas;
+
+            _contentCanvas.ContentChanged +=
                 (s, e) => UpdateBackgroundBrush();
 
             Config.Current.Background.AddPropertyChanged(nameof(BackgroundConfig.CustomBackground), (s, e) =>
@@ -217,7 +217,7 @@ namespace NeeView
                 case BackgroundType.White:
                     return Brushes.White;
                 case BackgroundType.Auto:
-                    return new SolidColorBrush(ContentCanvas.Current.GetContentColor());
+                    return new SolidColorBrush(_contentCanvas.GetContentColor());
                 case BackgroundType.Check:
                     return null;
                 case BackgroundType.Custom:

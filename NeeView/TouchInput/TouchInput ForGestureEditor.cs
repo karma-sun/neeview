@@ -16,7 +16,7 @@ namespace NeeView
     {
         public TouchInputForGestureEditor(FrameworkElement sender)
         {
-            _context = new TouchInputContext(sender, null, null);
+            _context = new TouchInputContext(sender, null, null, null, null);
             _sender = sender;
 
             this.Gesture = new TouchInputGesture(_context);

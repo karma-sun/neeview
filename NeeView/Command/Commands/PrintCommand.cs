@@ -14,13 +14,12 @@
 
         public override bool CanExecute(object sender, CommandContext e)
         {
-            return ContentCanvas.Current.CanPrint();
+            return ViewComponentProvider.Current.GetViewController(sender).CanPrint();
         }
 
         public override void Execute(object sender, CommandContext e)
         {
-            // TODO: Viewを直接呼び出さないようにする
-            MainWindow.Current.Print();
+            ViewComponentProvider.Current.GetViewController(sender).Print();
         }
     }
 }

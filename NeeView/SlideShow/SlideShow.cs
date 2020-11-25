@@ -51,7 +51,7 @@ namespace NeeView
             MainWindow.Current.PreviewKeyDown +=
                 (s, e) => ResetTimer();
 
-            MouseInput.Current.MouseMoved +=
+            ViewComponentProvider.Current.MouseMoved +=
                 (s, e) => { if (Config.Current.SlideShow.IsCancelSlideByMouseMove) ResetTimer(); };
 
             // アプリ終了前の開放予約

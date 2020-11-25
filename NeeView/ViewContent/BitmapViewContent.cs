@@ -22,7 +22,7 @@ namespace NeeView
         private ImageSource _viewImage;
 
 
-        public BitmapViewContent(ViewContentSource source) : base(source)
+        public BitmapViewContent(ViewComponent viewComponent, ViewContentSource source) : base(viewComponent, source)
         {
         }
 
@@ -187,7 +187,7 @@ namespace NeeView
                         if (content != null)
                         {
                             this.View.SetContent(content);
-                            ContentCanvas.Current.UpdateContentScalingMode(this);
+                            this.ViewComponent.ContentCanvas.UpdateContentScalingMode(this);
                         }
                     });
                 }
@@ -198,7 +198,7 @@ namespace NeeView
                 finally
                 {
                     this.IsResizing = false;
-                    ContentRebuild.Current.UpdateStatus();
+                    this.ViewComponent.ContentRebuild.UpdateStatus();
                 }
             });
 
@@ -221,9 +221,9 @@ namespace NeeView
             }
         }
 
-        public static BitmapViewContent Create(ViewContentSource source)
+        public static BitmapViewContent Create(ViewComponent viewComponent, ViewContentSource source)
         {
-            var viewContent = new BitmapViewContent(source);
+            var viewContent = new BitmapViewContent(viewComponent, source);
             viewContent.Initialize();
             return viewContent;
         }

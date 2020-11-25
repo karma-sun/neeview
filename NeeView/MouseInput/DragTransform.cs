@@ -14,10 +14,6 @@ namespace NeeView
     /// </summary>
     public class DragTransform : BindableBase
     {
-        static DragTransform() => Current = new DragTransform();
-        public static DragTransform Current { get; }
-
-
         // コンテンツの平行移動行列。アニメーション用。
         private TranslateTransform _translateTransform;
 
@@ -31,7 +27,7 @@ namespace NeeView
         private bool _isFlipVertical;
 
 
-        private DragTransform()
+        public DragTransform()
         {
             this.TransformView = CreateTransformGroup();
             this.TransformCalc = CreateTransformGroup();

@@ -12,7 +12,7 @@
 
         public override void Execute(object sender, CommandContext e)
         {
-            MouseInput.Current.IsLoupeMode = true;
+            ViewComponentProvider.Current.GetViewController(sender).SetLoupeMode(true);
         }
     }
 }

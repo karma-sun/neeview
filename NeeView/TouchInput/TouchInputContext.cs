@@ -7,11 +7,13 @@ namespace NeeView
     //
     public class TouchInputContext
     {
-        public TouchInputContext(FrameworkElement sender, FrameworkElement target, MouseGestureCommandCollection gestureCommandCollection)
+        public TouchInputContext(FrameworkElement sender, FrameworkElement target, MouseGestureCommandCollection gestureCommandCollection, DragTransform dragTransform, DragTransformControl dragTransformControl)
         {
             this.Sender = sender;
             this.Target = target;
             this.GestureCommandCollection = gestureCommandCollection;
+            this.DragTransform = dragTransform;
+            this.DragTransformControl = dragTransformControl;
         }
 
         /// <summary>
@@ -26,12 +28,17 @@ namespace NeeView
         /// </summary>
         public FrameworkElement Target { get; set; }
 
-
         /// <summary>
         /// ジェスチャーコマンドテーブル
         /// </summary>
         public MouseGestureCommandCollection GestureCommandCollection { get; set; }
 
+        /// <summary>
+        /// 操作する座標系
+        /// </summary>
+        public DragTransform DragTransform { get; set; }
+
+        public DragTransformControl DragTransformControl { get; set; }
 
         /// <summary>
         /// 有効なタッチデバイス情報

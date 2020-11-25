@@ -12,7 +12,7 @@
 
         public override void Execute(object sender, CommandContext e)
         {
-            ViewControlMediator.Current.ResetContentSizeAndTransform(sender);
+            ViewComponentProvider.Current.GetViewController(sender).ResetContentSizeAndTransform();
         }
     }
 }

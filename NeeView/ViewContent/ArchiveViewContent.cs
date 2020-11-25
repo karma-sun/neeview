@@ -4,7 +4,7 @@ namespace NeeView
 {
     public class ArchiveViewContent : ViewContent
     {
-        public ArchiveViewContent(ViewContentSource source) : base(source)
+        public ArchiveViewContent(ViewComponent viewComponent, ViewContentSource source) : base(viewComponent, source)
         {
         }
 
@@ -32,9 +32,9 @@ namespace NeeView
         }
 
 
-        public static ArchiveViewContent Create(ViewContentSource source)
+        public static ArchiveViewContent Create(ViewComponent viewComponent, ViewContentSource source)
         {
-            var viewContent = new ArchiveViewContent(source);
+            var viewContent = new ArchiveViewContent(viewComponent, source);
             viewContent.Initialize();
             return viewContent;
         }

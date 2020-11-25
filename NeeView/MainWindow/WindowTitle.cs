@@ -47,15 +47,19 @@ namespace NeeView
         // ロード中表示用
         private string _loadingPath;
 
+        private ViewComponent _viewComponent;
+
         #endregion
 
         #region Constructors
 
         private WindowTitle()
         {
-            ContentCanvas.Current.ContentChanged += ContentCanvas_ContentChanged;
+            _viewComponent = ViewComponentProvider.Current.GetViewComponent();
 
-            DragTransform.Current.AddPropertyChanged(nameof(DragTransform.Scale), DragTransform_ScaleChanged);
+            _viewComponent.ContentCanvas.ContentChanged += ContentCanvas_ContentChanged;
+
+            _viewComponent.DragTransform.AddPropertyChanged(nameof(DragTransform.Scale), DragTransform_ScaleChanged);
 
             // Window title
             _defaultWindowTitle = $"{Environment.ApplicationName} {Environment.DispVersion}";
@@ -146,7 +150,7 @@ namespace NeeView
             else if (address == null)
                 Title = _defaultWindowTitle;
 
-            else if (ContentCanvas.Current.MainContent?.Source == null)
+            else if (_viewComponent.ContentCanvas.MainContent?.Source == null)
                 Title = LoosePath.GetDispName(address);
 
             else
@@ -160,10 +164,10 @@ namespace NeeView
         /// <returns></returns>
         private string CreateWindowTitle(WindowTitleMask mask)
         {
-            var contents = ContentCanvas.Current.CloneContents;
-            var mainContent = ContentCanvas.Current.MainContent;
+            var contents = _viewComponent.ContentCanvas.CloneContents;
+            var mainContent = _viewComponent.ContentCanvas.MainContent;
             var subContent = contents.First(e => e != mainContent);
-            var viewScale = DragTransform.Current.Scale;
+            var viewScale = _viewComponent.DragTransform.Scale;
 
 
             string format = mainContent is MediaViewContent

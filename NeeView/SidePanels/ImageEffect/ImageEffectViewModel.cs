@@ -54,7 +54,7 @@ namespace NeeView
         public PictureProfile PictureProfile => PictureProfile.Current;
 
         // ContentCanvs
-        public ContentCanvas ContentCanvas => ContentCanvas.Current;
+        public ContentCanvas ContentCanvas => ViewComponentProvider.Current.GetViewComponent().ContentCanvas;
 
         public PropertyDocument UnsharpMaskProfile { get; set; }
 
@@ -70,7 +70,9 @@ namespace NeeView
         // TODO: これモデルじゃね？
         public void ResetValue()
         {
-            using (var lockerKey = ContentRebuild.Current.Locker.Lock())
+            var viewComponent = ViewComponentProvider.Current.GetViewComponent();
+
+            using (var lockerKey = viewComponent.ContentRebuild.Locker.Lock())
             {
                 Config.Current.ImageResizeFilter.ResizeInterpolation = ResizeInterpolation.Lanczos;
                 Config.Current.ImageResizeFilter.IsUnsharpMaskEnabled = true;

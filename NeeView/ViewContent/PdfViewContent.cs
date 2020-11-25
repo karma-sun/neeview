@@ -11,7 +11,7 @@ namespace NeeView
     /// </summary>
     public class PdfViewContent : BitmapViewContent
     {
-        public PdfViewContent(ViewContentSource source) : base(source)
+        public PdfViewContent(ViewComponent viewComponent, ViewContentSource source) : base(viewComponent, source)
         {
         }
 
@@ -36,9 +36,9 @@ namespace NeeView
         }
 
 
-        public new static PdfViewContent Create(ViewContentSource source)
+        public new static PdfViewContent Create(ViewComponent viewComponent, ViewContentSource source)
         {
-            var viewContent = new PdfViewContent(source);
+            var viewContent = new PdfViewContent(viewComponent, source);
             viewContent.Initialize();
             return viewContent;
         }

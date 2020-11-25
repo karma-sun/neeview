@@ -12,7 +12,7 @@
 
         public override void Execute(object sender, CommandContext e)
         {
-            ViewControlMediator.Current.FlipHorizontal(sender, true);
+            ViewComponentProvider.Current.GetViewController(sender).FlipHorizontal(true);
         }
     }
 }

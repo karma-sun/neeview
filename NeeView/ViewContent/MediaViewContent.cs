@@ -19,7 +19,7 @@ namespace NeeView
         private TextBlock _errorMessageTextBlock;
         private DrawingBrush _brush;
 
-        public MediaViewContent(ViewContentSource source) : base(source)
+        public MediaViewContent(ViewComponent viewComponent, ViewContentSource source) : base(viewComponent, source)
         {
         }
 
@@ -127,9 +127,9 @@ namespace NeeView
             Size = size;
             content.SetSize(size);
 
-            ContentCanvas.Current.UpdateContentSize();
-            ContentCanvas.Current.ResetTransformRaw(true, false, false, 0.0);
-            DragTransformControl.Current.SnapView();
+            this.ViewComponent.ContentCanvas.UpdateContentSize();
+            this.ViewComponent.ContentCanvas.ResetTransformRaw(true, false, false, 0.0);
+            this.ViewComponent.DragTransformControl.SnapView();
             FileInformation.Current.Flush();
         }
 
@@ -170,9 +170,9 @@ namespace NeeView
         #endregion
 
 
-        public new static MediaViewContent Create(ViewContentSource source)
+        public new static MediaViewContent Create(ViewComponent viewComponent, ViewContentSource source)
         {
-            var viewContent = new MediaViewContent(source);
+            var viewContent = new MediaViewContent(viewComponent, source);
             viewContent.Initialize();
             return viewContent;
         }

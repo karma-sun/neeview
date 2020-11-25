@@ -16,7 +16,7 @@ namespace NeeView
 
         public override Binding CreateIsCheckedBinding()
         {
-            return new Binding(nameof(DragTransform.IsFlipVertical)) { Source = DragTransform.Current, Mode = BindingMode.OneWay };
+            return new Binding(nameof(DragTransform.IsFlipVertical)) { Source = ViewComponentProvider.Current.GetViewComponent().DragTransform, Mode = BindingMode.OneWay };
         }
 
         [MethodArgument("@CommandToggleArgument")]
@@ -24,11 +24,11 @@ namespace NeeView
         {
             if (e.Args.Length > 0)
             {
-                ViewControlMediator.Current.FlipVertical(sender, Convert.ToBoolean(e.Args[0]));
+                ViewComponentProvider.Current.GetViewController(sender).FlipVertical(Convert.ToBoolean(e.Args[0]));
             }
             else
             {
-                ViewControlMediator.Current.ToggleFlipVertical(sender);
+                ViewComponentProvider.Current.GetViewController(sender).ToggleFlipVertical();
             }
         }
     }

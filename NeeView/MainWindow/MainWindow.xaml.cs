@@ -27,6 +27,7 @@ namespace NeeView
 
         private MainWindowViewModel _vm;
         private RoutedCommandBinding _routedCommandBinding;
+        private ViewComponent _viewComponent;
 
 
         #region コンストラクターと初期化処理
@@ -65,6 +66,11 @@ namespace NeeView
             // Drag&Drop設定
             ContentDropManager.Current.SetDragDropEvent(MainView);
 
+
+            // ViewComponent
+            _viewComponent = new ViewComponent(this);
+            ViewComponentProvider.Current.Add(this, _viewComponent);
+
             // MainWindow : ViewModel
             _vm = new MainWindowViewModel(MainWindowModel.Current);
             this.DataContext = _vm;
@@ -101,30 +107,27 @@ namespace NeeView
             ThumbnailList.Current.VisibleEvent +=
                 ThumbnailList_Visible;
 
-            ContentCanvas.Current.AddPropertyChanged(nameof(ContentCanvas.IsMediaContent),
+            _viewComponent.ContentCanvas.AddPropertyChanged(nameof(ContentCanvas.IsMediaContent),
                 (s, e) => DartyPageSliderLayout());
 
             WindowShape.Current.AddPropertyChanged(nameof(WindowShape.IsFullScreen),
                 (s, e) => FullScreenChanged());
 
 
-            // mouse input
-            var mouse = MouseInput.Current;
-
             // mouse drag
-            DragActionTable.Current.SetTarget(DragTransformControl.Current);
+            DragActionTable.Current.SetTarget(_viewComponent.DragTransformControl);
 
 
             // render transform
             var transformView = new TransformGroup();
-            transformView.Children.Add(DragTransform.Current.TransformView);
-            transformView.Children.Add(LoupeTransform.Current.TransformView);
+            transformView.Children.Add(_viewComponent.DragTransform.TransformView);
+            transformView.Children.Add(_viewComponent.LoupeTransform.TransformView);
             this.MainContent.RenderTransform = transformView;
             this.MainContent.RenderTransformOrigin = new Point(0.5, 0.5);
 
             var transformCalc = new TransformGroup();
-            transformCalc.Children.Add(DragTransform.Current.TransformCalc);
-            transformCalc.Children.Add(LoupeTransform.Current.TransformCalc);
+            transformCalc.Children.Add(_viewComponent.DragTransform.TransformCalc);
+            transformCalc.Children.Add(_viewComponent.LoupeTransform.TransformCalc);
             this.MainContentShadow.RenderTransform = transformCalc;
             this.MainContentShadow.RenderTransformOrigin = new Point(0.5, 0.5);
 
@@ -229,12 +232,6 @@ namespace NeeView
         #endregion
 
         #region コマンド
-
-        // 印刷
-        public void Print()
-        {
-            ContentCanvas.Current.Print(this, this.PageContents, this.MainContent.RenderTransform, this.MainView.ActualWidth, this.MainView.ActualHeight);
-        }
 
         // コマンド：コンテキストメニューを開く
         public void OpenContextMenu()
@@ -346,7 +343,7 @@ namespace NeeView
             isVisible = isVisible | !Config.Current.Mouse.IsCursorHideEnabled;
             if (isVisible)
             {
-                if (this.MainView.Cursor == Cursors.None && !MouseInput.Current.IsLoupeMode)
+                if (this.MainView.Cursor == Cursors.None && !_viewComponent.MouseInput.IsLoupeMode)
                 {
                     this.MainView.Cursor = null;
                 }
@@ -365,7 +362,7 @@ namespace NeeView
         /// </summary>
         private bool IsCursurVisibled()
         {
-            return this.MainView.Cursor != Cursors.None || MouseInput.Current.IsLoupeMode;
+            return this.MainView.Cursor != Cursors.None || _viewComponent.MouseInput.IsLoupeMode;
         }
 
         #endregion
@@ -590,7 +587,8 @@ namespace NeeView
         private void MainWindow_StateChanged(object sender, EventArgs e)
         {
             // ルーペ解除
-            MouseInput.Current.IsLoupeMode = false;
+            // TODO: これはViewComponentで完結すべき
+            _viewComponent.MouseInput.IsLoupeMode = false;
         }
 
 
@@ -638,8 +636,8 @@ namespace NeeView
 
             if (sizeChanged)
             {
-                ContentCanvas.Current.SetViewSize(this.MainView.ActualWidth, this.MainView.ActualHeight);
-                DragTransformControl.Current.SnapView();
+                _viewComponent.ContentCanvas.SetViewSize(this.MainView.ActualWidth, this.MainView.ActualHeight);
+                _viewComponent.DragTransformControl.SnapView();
             }
         }
 
@@ -717,7 +715,7 @@ namespace NeeView
             this.MenuBar.WindowCaptionButtons.UpdateStrokeThickness(e.NewDpi);
 
             // 背景更新
-            ContentCanvasBrush.Current.UpdateBackgroundBrush();
+            _viewComponent.ContentCanvasBrush.UpdateBackgroundBrush();
 
             // Window Border
             WindowShape.Current?.UpdateWindowBorderThickness();
@@ -745,7 +743,6 @@ namespace NeeView
         {
             App.Current.DisableUnhandledException();
 
-            ContentCanvas.Current.Dispose();
             ApplicationDisposer.Current.Dispose();
 
             CompositionTarget.Rendering -= OnRendering;
@@ -948,7 +945,7 @@ namespace NeeView
             }
 
             // visibility
-            if (ContentCanvas.Current.IsMediaContent)
+            if (_viewComponent.ContentCanvas.IsMediaContent)
             {
                 this.MediaControlView.Visibility = Visibility.Visible;
                 this.PageSliderView.Visibility = Visibility.Collapsed;
@@ -983,7 +980,7 @@ namespace NeeView
             }
 
             // フィルムストリップ
-            this.ThumbnailListArea.Visibility = Config.Current.FilmStrip.IsEnabled && !ContentCanvas.Current.IsMediaContent ? Visibility.Visible : Visibility.Collapsed;
+            this.ThumbnailListArea.Visibility = Config.Current.FilmStrip.IsEnabled && !_viewComponent.ContentCanvas.IsMediaContent ? Visibility.Visible : Visibility.Collapsed;
             this.ThumbnailListArea.DartyThumbnailList();
         }
 

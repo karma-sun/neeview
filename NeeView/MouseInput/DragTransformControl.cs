@@ -67,9 +67,6 @@ namespace NeeView
     /// </summary>
     public class DragTransformControl
     {
-        static DragTransformControl() => Current = new DragTransformControl();
-        public static DragTransformControl Current { get; }
-
         #region Fields
 
         /// <summary>
@@ -111,13 +108,12 @@ namespace NeeView
 
         #region Constructors
 
-        private DragTransformControl()
+        public DragTransformControl(DragTransform transform, FrameworkElement sender, FrameworkElement target)
         {
-            // TODO: 初期化関数に分離？
-            _window = MainWindow.Current;
-            _sender = MainWindow.Current.MainView;
-            _target = MainWindow.Current.MainContentShadow;
-            _transform = DragTransform.Current;
+            _window = Window.GetWindow(sender);
+            _sender = sender;
+            _target = target;
+            _transform = transform;
 
             _sender.SizeChanged += Sender_SizeChanged;
             Sender_SizeChanged(this, null);

@@ -15,7 +15,7 @@
 
         public override void Execute(object sender, CommandContext e)
         {
-            ViewControlMediator.Current.ScrollRight(sender, (ViewScrollCommandParameter)e.Parameter);
+            ViewComponentProvider.Current.GetViewController(sender).ScrollRight((ViewScrollCommandParameter)e.Parameter);
         }
     }
 }

@@ -125,7 +125,7 @@ namespace NeeView
             UpdateRoutedCommand();
 
             // Touch
-            var touch = TouchInput.Current;
+            var touch = ViewComponentProvider.Current.GetViewComponent().TouchInput;
 
             touch.ClearTouchEventHandler();
 
@@ -148,7 +148,7 @@ namespace NeeView
             }
 
             // Mouse / Keyboard
-            var mouse = MouseInput.Current;
+            var mouse = ViewComponentProvider.Current.GetViewComponent().MouseInput;
 
             mouse.ClearMouseEventHandler();
 

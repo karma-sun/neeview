@@ -28,13 +28,15 @@ namespace NeeView
         {
         }
 
-        public ViewContent(ViewContentSource source)
+        public ViewContent(ViewComponent viewComponent, ViewContentSource source)
         {
+            this.ViewComponent = viewComponent;
             this.Source = source;
             this.Size = source.Size;
             this.Color = Colors.Black;
         }
 
+        public ViewComponent ViewComponent { get; private set; }
 
         /// <summary>
         /// ViewContentSource
@@ -190,8 +192,8 @@ namespace NeeView
         {
             var parameter = new ViewContentParameters()
             {
-                ForegroundBrush = new Binding(nameof(ContentCanvasBrush.ForegroundBrush)) { Source = ContentCanvasBrush.Current },
-                PageBackgroundBrush = new Binding(nameof(ContentCanvasBrush.PageBackgroundBrush)) { Source = ContentCanvasBrush.Current },
+                ForegroundBrush = new Binding(nameof(ContentCanvasBrush.ForegroundBrush)) { Source = this.ViewComponent.ContentCanvasBrush },
+                PageBackgroundBrush = new Binding(nameof(ContentCanvasBrush.PageBackgroundBrush)) { Source = this.ViewComponent.ContentCanvasBrush },
                 BitmapScalingMode = new Binding(nameof(BitmapScalingMode)) { Source = this },
                 AnimationImageVisibility = new Binding(nameof(AnimationImageVisibility)) { Source = this },
                 AnimationPlayerVisibility = new Binding(nameof(AnimationPlayerVisibility)) { Source = this },

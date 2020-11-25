@@ -124,12 +124,15 @@ namespace NeeView
         private bool _isStatusAreaMouseOver;
         private Thickness _mainViewMergin;
 
+        private ViewComponent _viewComponent;
 
         /// <summary>
         /// コンストラクター
         /// </summary>
         public MainWindowViewModel(MainWindowModel model)
         {
+            _viewComponent = ViewComponentProvider.Current.GetViewComponent();
+
             MenuAutoHideDescription = new BasicAutoHideDescription(MainWindow.Current.LayerMenuSocket);
             StatusAutoHideDescrption = new BasicAutoHideDescription(MainWindow.Current.LayerStatusArea);
             ThumbnailListusAutoHideDescrption = new BasicAutoHideDescription(MainWindow.Current.LayerThumbnailListSocket);
@@ -157,9 +160,6 @@ namespace NeeView
             _model.FocusMainViewCall += Model_FocusMainViewCall;
 
 
-            // ViewController 初期化
-            ViewControlMediator.Current.Initialize();
-
 
             ContextMenuManager.Current.AddPropertyChanged(nameof(ContextMenuManager.Current.SourceTree),
                 (s, e) => UpdateContextMenu());
@@ -172,7 +172,7 @@ namespace NeeView
             SlideShow.Current.AddPropertyChanged(nameof(SlideShow.IsPlayingSlideShow),
                 (s, e) => RaisePropertyChanged(nameof(WindowIcon)));
 
-            ContentRebuild.Current.AddPropertyChanged(nameof(ContentRebuild.IsBusy),
+            _viewComponent.ContentRebuild.AddPropertyChanged(nameof(ContentRebuild.IsBusy),
                 (s, e) => UpdateBusyVisibility());
 
             BookOperation.Current.AddPropertyChanged(nameof(BookOperation.IsBusy),
@@ -225,13 +225,13 @@ namespace NeeView
         public WindowShape WindowShape => WindowShape.Current;
         public WindowTitle WindowTitle => WindowTitle.Current;
         public ThumbnailList ThumbnailList => ThumbnailList.Current;
-        public ContentCanvasBrush ContentCanvasBrush => ContentCanvasBrush.Current;
+        public ContentCanvasBrush ContentCanvasBrush => _viewComponent.ContentCanvasBrush;
         public ImageEffect ImageEffect => ImageEffect.Current;
-        public MouseInput MouseInput => NeeView.MouseInput.Current;
+        public MouseInput MouseInput => _viewComponent.MouseInput;
         public InfoMessage InfoMessage => InfoMessage.Current;
         public SidePanelFrame SidePanel => SidePanelFrame.Current;
-        public ContentCanvas ContentCanvas => ContentCanvas.Current;
-        public LoupeTransform LoupeTransform => LoupeTransform.Current;
+        public ContentCanvas ContentCanvas => _viewComponent.ContentCanvas;
+        public LoupeTransform LoupeTransform => _viewComponent.LoupeTransform;
         public ToastService ToastService => ToastService.Current;
         public App App => App.Current;
         public AutoHideConfig AutoHideConfig => Config.Current.AutoHide;
@@ -328,7 +328,7 @@ namespace NeeView
         private void UpdateBusyVisibility()
         {
             ////Debug.WriteLine($"IsBusy: {BookHub.Current.IsLoading}, {BookOperation.Current.IsBusy}, {ContentRebuild.Current.IsBusy}");
-            this.BusyVisibility = Config.Current.Notice.IsBusyMarkEnabled && (BookHub.Current.IsLoading || BookOperation.Current.IsBusy || ContentRebuild.Current.IsBusy) && !SlideShow.Current.IsPlayingSlideShow ? Visibility.Visible : Visibility.Collapsed;
+            this.BusyVisibility = Config.Current.Notice.IsBusyMarkEnabled && (BookHub.Current.IsLoading || BookOperation.Current.IsBusy || _viewComponent.ContentRebuild.IsBusy) && !SlideShow.Current.IsPlayingSlideShow ? Visibility.Visible : Visibility.Collapsed;
         }
 
         /// <summary>

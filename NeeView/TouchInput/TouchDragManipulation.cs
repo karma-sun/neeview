@@ -85,7 +85,7 @@ namespace NeeView
         public TouchDragManipulation(TouchInputContext context)
         {
             _context = context;
-            _transform = DragTransform.Current;
+            _transform = context.DragTransform;
 
             _stateMachine = new StateMachine(this);
         }

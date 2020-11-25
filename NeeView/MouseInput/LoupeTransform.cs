@@ -13,12 +13,13 @@ namespace NeeView
     /// </summary>
     public class LoupeTransform : BindableBase
     {
-        static LoupeTransform() => Current = new LoupeTransform();
-        public static LoupeTransform Current { get; }
+        private bool _isEnabled;
+        private Point _position;
+        private double _scale = double.NaN;
+        private double _fixedScale;
 
-        #region Constructors
 
-        private LoupeTransform()
+        public LoupeTransform()
         {
             this.TransformView = CreateTransformGroup();
             this.TransformCalc = CreateTransformGroup();
@@ -26,18 +27,12 @@ namespace NeeView
             FlushFixedLoupeScale();
         }
 
-        #endregion
-
-        #region Events
 
         /// <summary>
         /// 角度、スケール変更イベント
         /// </summary>
         public event EventHandler<TransformEventArgs> TransformChanged;
 
-        #endregion
-
-        #region Properties
 
         /// <summary>
         /// 表示コンテンツ用トランスフォーム
@@ -49,10 +44,6 @@ namespace NeeView
         /// </summary>
         public TransformGroup TransformCalc { get; private set; }
 
-        /// <summary>
-        /// IsEnabled property.
-        /// </summary>
-        private bool _isEnabled;
         public bool IsEnabled
         {
             get { return _isEnabled; }
@@ -70,7 +61,6 @@ namespace NeeView
         /// <summary>
         /// ルーペ座標
         /// </summary>
-        private Point _position;
         public Point Position
         {
             get { return _position; }
@@ -90,7 +80,6 @@ namespace NeeView
         /// <summary>
         /// ルーペ倍率
         /// </summary>
-        private double _scale = double.NaN;
         public double Scale
         {
             get
@@ -109,11 +98,6 @@ namespace NeeView
             }
         }
 
-
-        /// <summary>
-        /// FixedLoupeScale property.
-        /// </summary>
-        private double _fixedScale;
         public double FixedScale
         {
             get { return _fixedScale; }
@@ -134,9 +118,7 @@ namespace NeeView
         public double ScaleX => FixedScale;
         public double ScaleY => FixedScale;
 
-        #endregion
 
-        #region Methods
 
         /// <summary>
         /// パラメータとトランスフォームを関連付ける
@@ -168,7 +150,7 @@ namespace NeeView
             FixedScale = _isEnabled ? Scale : 1.0;
         }
 
-        #endregion
+
 
         #region Memento
         [DataContract]

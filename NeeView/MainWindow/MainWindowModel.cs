@@ -78,7 +78,7 @@ namespace NeeView
 
         private MainWindowModel()
         {
-            _viewComponent = ViewComponentProvider.Current.GetViewComponent();
+            _viewComponent = ViewComponent.Current;
 
             WindowShape.Current.AddPropertyChanged(nameof(WindowShape.IsFullScreen),
                 (s, e) =>

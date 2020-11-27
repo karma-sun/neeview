@@ -32,9 +32,9 @@ namespace NeeView
 
         public static ExportImageSource Create()
         {
-            var viewComponent = ViewComponentProvider.Current.GetViewComponent();
+            var viewComponent = ViewComponent.Current;
 
-            var element = MainWindow.Current.PageContents;
+            var element = viewComponent.MainView.PageContents;
 
             var rotateTransform = new RotateTransform(viewComponent.DragTransform.Angle);
             var scaleTransform = new ScaleTransform(viewComponent.DragTransform.ScaleX, viewComponent.DragTransform.ScaleY);

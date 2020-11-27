@@ -88,38 +88,7 @@ namespace NeeView
 
         #endregion
 
-        #region コンテキストメニュー
-
-        //
-        private ContextMenu _contextMenu;
-        public ContextMenu ContextMenu
-        {
-            get
-            {
-                if (ContextMenuManager.Current.IsDarty)
-                {
-                    Debug.WriteLine($"new ContextMenu.");
-                    _contextMenu = ContextMenuManager.Current.ContextMenu;
-                    _contextMenu?.UpdateInputGestureText();
-                }
-                return _contextMenu;
-            }
-        }
-
-        public void UpdateContextMenu()
-        {
-            if (ContextMenuManager.Current.IsDarty)
-            {
-                RaisePropertyChanged(nameof(ContextMenu));
-            }
-        }
-
-
-        #endregion
-
-
         private MainWindowModel _model;
-        private Visibility _busyVisibility = Visibility.Collapsed;
         private bool _isMenuAreaMouseOver;
         private bool _isStatusAreaMouseOver;
         private Thickness _mainViewMergin;
@@ -131,7 +100,7 @@ namespace NeeView
         /// </summary>
         public MainWindowViewModel(MainWindowModel model)
         {
-            _viewComponent = ViewComponentProvider.Current.GetViewComponent();
+            _viewComponent = ViewComponent.Current;
 
             MenuAutoHideDescription = new BasicAutoHideDescription(MainWindow.Current.LayerMenuSocket);
             StatusAutoHideDescrption = new BasicAutoHideDescription(MainWindow.Current.LayerStatusArea);
@@ -160,26 +129,9 @@ namespace NeeView
             _model.FocusMainViewCall += Model_FocusMainViewCall;
 
 
-
-            ContextMenuManager.Current.AddPropertyChanged(nameof(ContextMenuManager.Current.SourceTree),
-                (s, e) => UpdateContextMenu());
-
-            // 初期化
-            UpdateContextMenu();
-
-
             // SlideShow link to WindowIcon
             SlideShow.Current.AddPropertyChanged(nameof(SlideShow.IsPlayingSlideShow),
                 (s, e) => RaisePropertyChanged(nameof(WindowIcon)));
-
-            _viewComponent.ContentRebuild.AddPropertyChanged(nameof(ContentRebuild.IsBusy),
-                (s, e) => UpdateBusyVisibility());
-
-            BookOperation.Current.AddPropertyChanged(nameof(BookOperation.IsBusy),
-                (s, e) => UpdateBusyVisibility());
-
-            BookHub.Current.AddPropertyChanged(nameof(BookHub.IsLoading),
-                (s, e) => UpdateBusyVisibility());
 
             ThumbnailList.Current.AddPropertyChanged(nameof(CanHideThumbnailList),
                 (s, e) => RaisePropertyChanged(nameof(CanHideThumbnailList)));
@@ -209,16 +161,6 @@ namespace NeeView
 
 
         public bool IsClosing { get; set; }
-
-        /// <summary>
-        /// BusyVisibility property.
-        /// アクセス中マーク表示用
-        /// </summary>
-        public Visibility BusyVisibility
-        {
-            get { return _busyVisibility; }
-            set { if (_busyVisibility != value) { _busyVisibility = value; RaisePropertyChanged(); } }
-        }
 
 
         // for Binding
@@ -318,17 +260,10 @@ namespace NeeView
                 MainViewMergin = (!_model.CanHidePageSlider && _model.CanVisibleWindowTitle) ? new Thickness(0, 30, 0, 0) : default;
             }
         }
-        
+
         private void Model_FocusMainViewCall(object sender, EventArgs e)
         {
             FocusMainViewCall?.Invoke(sender, e);
-        }
-
-        // 処理中表示の更新
-        private void UpdateBusyVisibility()
-        {
-            ////Debug.WriteLine($"IsBusy: {BookHub.Current.IsLoading}, {BookOperation.Current.IsBusy}, {ContentRebuild.Current.IsBusy}");
-            this.BusyVisibility = Config.Current.Notice.IsBusyMarkEnabled && (BookHub.Current.IsLoading || BookOperation.Current.IsBusy || _viewComponent.ContentRebuild.IsBusy) && !SlideShow.Current.IsPlayingSlideShow ? Visibility.Visible : Visibility.Collapsed;
         }
 
         /// <summary>
@@ -351,8 +286,8 @@ namespace NeeView
         {
             if (IsClosing) return;
 
-            RoutedCommandTable.Current.InitializeInputGestures();
-            UpdateContextMenu();
+            // TODO: MainViewWindowや他のサブウィンドウの場合も対処
+            RoutedCommandTable.Current.UpdateInputGestures();
         }
 
         /// <summary>
@@ -361,7 +296,7 @@ namespace NeeView
         public void Deactivated()
         {
             if (IsClosing) return;
-            
+
             var async = ArchiverManager.Current.UnlockAllArchivesAsync();
         }
     }

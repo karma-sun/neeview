@@ -505,6 +505,8 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { CommandName = "ToggleHideMenu" },
                         new MenuTree(MenuElementType.Command) { CommandName = "ToggleHidePageSlider" },
                         new MenuTree(MenuElementType.Separator),
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleMainViewFloating" },
+                        new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { CommandName = "ToggleTopmost" },
                         new MenuTree(MenuElementType.Command) { CommandName = "ToggleFullScreen" },
                         new MenuTree(MenuElementType.Separator),

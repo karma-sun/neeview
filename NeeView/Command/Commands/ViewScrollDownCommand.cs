@@ -19,7 +19,7 @@ namespace NeeView
 
         public override void Execute(object sender, CommandContext e)
         {
-            ViewComponentProvider.Current.GetViewController(sender).ScrollDown((ViewScrollCommandParameter)e.Parameter);
+            ViewComponent.Current.ViewController.ScrollDown((ViewScrollCommandParameter)e.Parameter);
         }
     }
 

@@ -49,6 +49,8 @@ namespace NeeView
 
         public FilmStripConfig FilmStrip { get; set; } = new FilmStripConfig();
 
+        public MainViewConfig MainView { get; set; } = new MainViewConfig();
+
         public PanelsConfig Panels { get; set; } = new PanelsConfig();
 
         [PropertyMapLabel("@WordBookshelf")]

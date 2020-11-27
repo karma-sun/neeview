@@ -5706,4 +5706,22 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamSliderIsSyncPageMode" xml:space="preserve">
     <value>Synchronize the amount of change to the number of displayed pages</value>
   </data>
+  <data name="CommandToggleMainViewFloating" xml:space="preserve">
+    <value>Toggle MainView floating</value>
+  </data>
+  <data name="CommandToggleMainViewFloatingMenu" xml:space="preserve">
+    <value>MainView floating</value>
+  </data>
+  <data name="CommandToggleMainViewFloatingNote" xml:space="preserve">
+    <value>Make the MainView a subwindow.</value>
+  </data>
+  <data name="ToggleMainViewFloatingOff" xml:space="preserve">
+    <value>MainView docking</value>
+  </data>
+  <data name="ToggleMainViewFloatingOn" xml:space="preserve">
+    <value>MainView floating</value>
+  </data>
+  <data name="ParamMainViewIsFloating" xml:space="preserve">
+    <value>MainView floating</value>
+  </data>
 </root>

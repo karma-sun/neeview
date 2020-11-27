@@ -70,11 +70,6 @@ namespace NeeView
         #region Fields
 
         /// <summary>
-        /// ウィンドウ
-        /// </summary>
-        private Window _window;
-
-        /// <summary>
         /// 操作領域
         /// </summary>
         private FrameworkElement _sender;
@@ -110,7 +105,6 @@ namespace NeeView
 
         public DragTransformControl(DragTransform transform, FrameworkElement sender, FrameworkElement target)
         {
-            _window = Window.GetWindow(sender);
             _sender = sender;
             _target = target;
             _transform = transform;
@@ -792,8 +786,11 @@ namespace NeeView
 
         private void InitializeWindowDragPosition()
         {
-            var windowDiff = PointToLogicalScreen(_window, new Point(0, 0)) - new Point(_window.Left, _window.Top);
-            _startPointFromWindow = _sender.TranslatePoint(_startPoint, _window) + windowDiff;
+            var window = Window.GetWindow(_sender);
+            if (window is null) return;
+
+            var windowDiff = PointToLogicalScreen(window, new Point(0, 0)) - new Point(window.Left, window.Top);
+            _startPointFromWindow = _sender.TranslatePoint(_startPoint, window) + windowDiff;
         }
 
         private Point GetCenterPosition(DragControlCenter dragControlCenter)
@@ -1157,11 +1154,14 @@ namespace NeeView
         // ウィンドウ移動
         public void DragWindowMove(Point start, Point end)
         {
-            if (_window.WindowState == WindowState.Normal)
+            var window = Window.GetWindow(_sender);
+            if (window is null) return;
+
+            if (window.WindowState == WindowState.Normal)
             {
                 var pos = PointToLogicalScreen(_sender, end) - _startPointFromWindow;
-                _window.Left = pos.X;
-                _window.Top = pos.Y;
+                window.Left = pos.X;
+                window.Top = pos.Y;
             }
         }
 

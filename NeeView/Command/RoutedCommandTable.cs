@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace NeeView
@@ -45,7 +46,7 @@ namespace NeeView
             // コマンド変更でショートカット変更
             CommandTable.Current.Changed += CommandTable_Changed;
 
-            InitializeInputGestures();
+            UpdateInputGestures();
         }
 
         #endregion
@@ -82,7 +83,7 @@ namespace NeeView
 
             if (!e.OnHold)
             {
-                InitializeInputGestures();
+                UpdateInputGestures();
             }
         }
 
@@ -116,17 +117,74 @@ namespace NeeView
             }
         }
 
+
+        private List<TouchInput> _touchInputCollection = new List<TouchInput>();
+        private List<MouseInput> _mouseInputCollection = new List<MouseInput>();
+
+        public void AddTouchInput(TouchInput touchInput)
+        {
+            _touchInputCollection.Add(touchInput);
+            UpdateTouchInputGestures(touchInput);
+        }
+
+        public void AddMouseInput(MouseInput mouseInput)
+        {
+            _mouseInputCollection.Add(mouseInput);
+            UpdateMouseInputGestures(mouseInput);
+        }
+
+
         // InputGesture設定
-        public void InitializeInputGestures()
+        public void UpdateInputGestures()
         {
             if (!_isDarty) return;
             _isDarty = false;
 
             UpdateRoutedCommand();
+            ClearRoutedCommandInputGestures();
 
-            // Touch
-            var touch = ViewComponentProvider.Current.GetViewComponent().TouchInput;
+            UpdateMouseDragGestures();
 
+            foreach (var touchInput in _touchInputCollection)
+            {
+                UpdateTouchInputGestures(touchInput);
+            }
+
+            foreach (var mouseInput in _mouseInputCollection)
+            {
+                UpdateMouseInputGestures(mouseInput);
+            }
+
+            UpdateKeyInputGestures();
+
+            Changed?.Invoke(this, null);
+        }
+
+
+        private void ClearRoutedCommandInputGestures()
+        {
+            foreach (var command in this.Commands)
+            {
+                command.Value.InputGestures.Clear();
+            }
+        }
+
+        private void UpdateMouseDragGestures()
+        {
+            MouseGestureCommandCollection.Current.Clear();
+
+            foreach (var command in this.Commands)
+            {
+                var mouseGesture = CommandTable.Current.GetElement(command.Key).MouseGesture;
+                if (mouseGesture != null)
+                {
+                    MouseGestureCommandCollection.Current.Add(mouseGesture, command.Key);
+                }
+            }
+        }
+
+        private void UpdateTouchInputGestures(TouchInput touch)
+        {
             touch.ClearTouchEventHandler();
 
             foreach (var command in this.Commands)
@@ -140,27 +198,23 @@ namespace NeeView
 
                         if (!x.Handled && x.Gesture == gesture)
                         {
-                            command.Value.Execute(null, MainWindow.Current);
+                            command.Value.Execute(null, (s as IInputElement) ?? MainWindow.Current);
                             x.Handled = true;
                         }
                     };
                 }
             }
+        }
 
-            // Mouse / Keyboard
-            var mouse = ViewComponentProvider.Current.GetViewComponent().MouseInput;
-
+        private void UpdateMouseInputGestures(MouseInput mouse)
+        {
             mouse.ClearMouseEventHandler();
 
-            MouseGestureCommandCollection.Current.Clear();
-
-            var imeKeyHandlers = new List<EventHandler<KeyEventArgs>>();
             var mouseNormalHandlers = new List<EventHandler<MouseButtonEventArgs>>();
             var mouseExtraHndlers = new List<EventHandler<MouseButtonEventArgs>>();
 
             foreach (var command in this.Commands)
             {
-                command.Value.InputGestures.Clear();
                 var inputGestures = CommandTable.Current.GetElement(command.Key).GetInputGestureCollection();
                 foreach (var gesture in inputGestures)
                 {
@@ -174,41 +228,47 @@ namespace NeeView
                     }
                     else if (gesture is MouseWheelGesture)
                     {
-                        mouse.MouseWheelChanged += (s, x) => { if (!x.Handled && gesture.Matches(this, x)) { WheelCommandExecute(command.Value, x); } };
-                    }
-                    else
-                    {
-                        if (gesture.HasImeKey())
-                        {
-                            imeKeyHandlers.Add((s, x) => InputGestureCommandExecute(s, x, gesture, command.Value));
-                        }
-                        command.Value.InputGestures.Add(gesture);
+                        mouse.MouseWheelChanged += (s, x) => { if (!x.Handled && gesture.Matches(this, x)) { WheelCommandExecute(s, x, command.Value); } };
                     }
                 }
+            }
 
-                // mouse gesture
-                var mouseGesture = CommandTable.Current.GetElement(command.Key).MouseGesture;
-                if (mouseGesture != null)
+            // NOTE: 拡張マウス入力から先に処理を行う
+            foreach (var lambda in mouseExtraHndlers.Concat(mouseNormalHandlers))
+            {
+                mouse.MouseButtonChanged += lambda;
+            }
+        }
+
+
+        /// <summary>
+        /// Initialize KeyInuput gestures
+        /// </summary>
+        private void UpdateKeyInputGestures()
+        {
+            var imeKeyHandlers = new List<EventHandler<KeyEventArgs>>();
+
+            foreach (var command in this.Commands)
+            {
+                var inputGestures = CommandTable.Current.GetElement(command.Key).GetInputGestureCollection();
+                foreach (var gesture in inputGestures.Where(e => e is KeyGesture || e is KeyExGesture))
                 {
-                    MouseGestureCommandCollection.Current.Add(mouseGesture, command.Key);
+                    if (gesture.HasImeKey())
+                    {
+                        imeKeyHandlers.Add((s, x) => InputGestureCommandExecute(s, x, gesture, command.Value));
+                    }
+                    command.Value.InputGestures.Add(gesture);
                 }
             }
 
             _imeKeyHandlers = imeKeyHandlers;
 
-            // 拡張マウス入力から先に処理を行う
-            foreach (var lambda in mouseExtraHndlers.Concat(mouseNormalHandlers))
-            {
-                mouse.MouseButtonChanged += lambda;
-            }
-
-            InitialzeUsedKeyMap();
-
-            Changed?.Invoke(this, null);
+            UpdateUsedKeyMap();
         }
 
+
         // コマンドで使用されているキーマップ生成
-        private void InitialzeUsedKeyMap()
+        private void UpdateUsedKeyMap()
         {
             var map = Enum.GetValues(typeof(Key)).Cast<Key>().Distinct().ToDictionary(e => e, e => false);
 
@@ -253,7 +313,7 @@ namespace NeeView
         {
             if (!x.Handled && gesture.Matches(this, x))
             {
-                command.Execute(null, MainWindow.Current);
+                command.Execute(null, (sender as IInputElement) ?? MainWindow.Current);
                 CommandExecuted?.Invoke(this, new CommandExecutedEventArgs() { Gesture = gesture });
                 if (x.RoutedEvent != null)
                 {
@@ -263,7 +323,7 @@ namespace NeeView
         }
 
         // ホイールの回転数に応じたコマンド実行
-        private void WheelCommandExecute(RoutedUICommand command, MouseWheelEventArgs arg)
+        private void WheelCommandExecute(object sender, MouseWheelEventArgs arg, RoutedUICommand command)
         {
             int turn = Math.Abs(_mouseWheelDelta.NotchCount(arg));
             if (turn == 0) return;
@@ -272,7 +332,7 @@ namespace NeeView
             var param = new CommandParameterArgs(null, Config.Current.Command.IsReversePageMoveWheel);
             for (int i = 0; i < turn; i++)
             {
-                command.Execute(param, MainWindow.Current);
+                command.Execute(param, (sender as IInputElement) ?? MainWindow.Current);
             }
         }
 
@@ -341,7 +401,7 @@ namespace NeeView
             return command;
         }
 
-        #endregion
+#endregion
     }
 
     /// <summary>

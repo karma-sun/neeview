@@ -101,7 +101,7 @@ namespace NeeView
         /// <summary>
         /// コンストラクター
         /// </summary>
-        public MouseInput(MouseInputContext context )
+        public MouseInput(MouseInputContext context)
         {
             _context = context;
             _sender = _context.Sender;
@@ -111,15 +111,21 @@ namespace NeeView
             this.Normal.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(_sender, e);
             this.Normal.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(_sender, e);
 
-            this.Loupe = new MouseInputLoupe(_context);
-            this.Loupe.StateChanged += StateChanged;
-            this.Loupe.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(_sender, e);
-            this.Loupe.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(_sender, e);
+            if (context.LoupeTransform != null)
+            {
+                this.Loupe = new MouseInputLoupe(_context);
+                this.Loupe.StateChanged += StateChanged;
+                this.Loupe.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(_sender, e);
+                this.Loupe.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(_sender, e);
+            }
 
-            this.Drag = new MouseInputDrag(_context);
-            this.Drag.StateChanged += StateChanged;
-            this.Drag.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(_sender, e);
-            this.Drag.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(_sender, e);
+            if (context.DragTransform != null)
+            {
+                this.Drag = new MouseInputDrag(_context);
+                this.Drag.StateChanged += StateChanged;
+                this.Drag.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(_sender, e);
+                this.Drag.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(_sender, e);
+            }
 
             this.Gesture = new MouseInputGesture(_context);
             this.Gesture.StateChanged += StateChanged;
@@ -145,6 +151,8 @@ namespace NeeView
             _sender.PreviewKeyDown += OnKeyDown;
         }
 
+
+        public FrameworkElement Sender => _sender;
 
 
         //
@@ -172,10 +180,16 @@ namespace NeeView
         public void SetState(MouseInputState state, object parameter, bool force = false)
         {
             if (!force && state == _state) return;
-            ////Debug.WriteLine($"#MouseState: {state}");
+            //Debug.WriteLine($"#MouseState: {state}");
 
             var inputOld = _current;
             var inputNew = _mouseInputCollection[state];
+
+            if (inputNew is null)
+            {
+                //Debug.WriteLine($"MouseInput: Not support state: {inputNew}");
+                return;
+            }
 
             inputOld?.OnClosed(_sender);
             _state = state;
@@ -365,5 +379,4 @@ namespace NeeView
         #endregion
 
     }
-
 }

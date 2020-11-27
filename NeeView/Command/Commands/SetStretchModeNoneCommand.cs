@@ -25,7 +25,7 @@ namespace NeeView
 
         public override void Execute(object sender, CommandContext e)
         {
-            ViewComponentProvider.Current.GetViewController(sender).SetStretchMode(PageStretchMode.None, false);
+            ViewComponent.Current.ViewController.SetStretchMode(PageStretchMode.None, false);
         }
     }
 }

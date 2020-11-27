@@ -24,7 +24,9 @@ namespace NeeView
         /// <param name="context"></param>
         public TouchInputMouseDrag(TouchInputContext context) : base(context)
         {
-            _drag = context.DragTransformControl; // ##
+            if (context?.DragTransformControl is null) throw new ArgumentException();
+
+            _drag = context.DragTransformControl;
         }
 
 

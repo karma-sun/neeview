@@ -64,18 +64,22 @@ namespace NeeView
             Interop.NVFpReset();
 
             // Drag&Drop設定
-            ContentDropManager.Current.SetDragDropEvent(MainView);
-
+            //ContentDropManager.Current.SetDragDropEvent(MainView);
 
             // ViewComponent
-            _viewComponent = new ViewComponent(this);
-            ViewComponentProvider.Current.Add(this, _viewComponent);
+            _viewComponent = ViewComponent.Current;
+            _viewComponent.Initialize();
+
+            RoutedCommandTable.Current.AddMouseInput(_viewComponent.MouseInput);
+            RoutedCommandTable.Current.AddTouchInput(_viewComponent.TouchInput);
+
+            MainViewManager.Current.Initialize(_viewComponent, this.MainViewSocket);
 
             // MainWindow : ViewModel
             _vm = new MainWindowViewModel(MainWindowModel.Current);
             this.DataContext = _vm;
 
-            _vm.FocusMainViewCall += (s, e) => FocusMainView();
+            _vm.FocusMainViewCall += (s, e) => _viewComponent.RaiseFocusMainViewRequest();
 
             // コマンド初期化
             _routedCommandBinding = new RoutedCommandBinding(this, RoutedCommandTable.Current);
@@ -83,14 +87,13 @@ namespace NeeView
             // サイドパネル初期化
             MainLayoutPanelManager.Current.Initialize();
 
+
             // 各コントロールとモデルを関連付け
             this.PageSliderView.Source = PageSlider.Current;
-            this.PageSliderView.FocusTo = this.MainView;
             this.MediaControlView.Source = MediaControl.Current;
             this.ThumbnailListArea.Source = ThumbnailList.Current;
             this.AddressBar.Source = NeeView.AddressBar.Current;
             this.MenuBar.Source = NeeView.MenuBar.Current;
-            this.NowLoadingView.Source = NowLoading.Current;
 
             Config.Current.MenuBar.AddPropertyChanged(nameof(MenuBarConfig.IsHideMenu),
                 (s, e) => DartyMenuAreaLayout());
@@ -117,33 +120,8 @@ namespace NeeView
             // mouse drag
             DragActionTable.Current.SetTarget(_viewComponent.DragTransformControl);
 
-
-            // render transform
-            var transformView = new TransformGroup();
-            transformView.Children.Add(_viewComponent.DragTransform.TransformView);
-            transformView.Children.Add(_viewComponent.LoupeTransform.TransformView);
-            this.MainContent.RenderTransform = transformView;
-            this.MainContent.RenderTransformOrigin = new Point(0.5, 0.5);
-
-            var transformCalc = new TransformGroup();
-            transformCalc.Children.Add(_viewComponent.DragTransform.TransformCalc);
-            transformCalc.Children.Add(_viewComponent.LoupeTransform.TransformCalc);
-            this.MainContentShadow.RenderTransform = transformCalc;
-            this.MainContentShadow.RenderTransformOrigin = new Point(0.5, 0.5);
-
-
             // initialize routed commands
-            RoutedCommandTable.Current.InitializeInputGestures();
-
-            // mouse event capture for active check
-            this.MainView.PreviewMouseMove += MainView_PreviewMouseMove;
-            this.MainView.PreviewMouseDown += MainView_PreviewMouseAction;
-            this.MainView.PreviewMouseUp += MainView_PreviewMouseAction;
-            this.MainView.PreviewMouseWheel += MainView_PreviewMouseAction;
-            this.MainView.MouseEnter += MainView_MouseEnter;
-
-            // timer 
-            InitializeNonActiveTimer();
+            RoutedCommandTable.Current.UpdateInputGestures();
 
             // watch menu bar visibility
             this.MenuArea.IsVisibleChanged += (s, e) => Config.Current.MenuBar.IsVisible = this.MenuArea.IsVisible;
@@ -231,141 +209,6 @@ namespace NeeView
 
         #endregion
 
-        #region コマンド
-
-        // コマンド：コンテキストメニューを開く
-        public void OpenContextMenu()
-        {
-            if (this.MainViewPanel.ContextMenu != null)
-            {
-                this.MainViewPanel.ContextMenu.DataContext = _vm;
-                this.MainViewPanel.ContextMenu.PlacementTarget = this.MainViewPanel;
-                this.MainViewPanel.ContextMenu.Placement = PlacementMode.MousePoint;
-                this.MainViewPanel.ContextMenu.IsOpen = true;
-            }
-        }
-
-        #endregion
-
-        #region タイマーによる非アクティブ監視
-
-        // タイマーディスパッチ
-        private DispatcherTimer _nonActiveTimer;
-
-        // 非アクティブ時間チェック用
-        private DateTime _lastActionTime;
-        private Point _lastActionPoint;
-        private double _cursorMoveDistance;
-
-        // 一定時間操作がなければカーソルを非表示にする仕組み
-        // 初期化
-        private void InitializeNonActiveTimer()
-        {
-            _nonActiveTimer = new DispatcherTimer(DispatcherPriority.Normal, this.Dispatcher);
-            _nonActiveTimer.Interval = TimeSpan.FromSeconds(0.2);
-            _nonActiveTimer.Tick += new EventHandler(DispatcherTimer_Tick);
-
-            Config.Current.Mouse.AddPropertyChanged(nameof(MouseConfig.IsCursorHideEnabled), (s, e) => UpdateNonActiveTimerActivity());
-            UpdateNonActiveTimerActivity();
-        }
-
-        private void UpdateNonActiveTimerActivity()
-        {
-            if (Config.Current.Mouse.IsCursorHideEnabled)
-            {
-                _nonActiveTimer.Start();
-            }
-            else
-            {
-                _nonActiveTimer.Stop();
-            }
-
-            SetCursorVisible(true);
-        }
-
-        // タイマー処理
-        private void DispatcherTimer_Tick(object sender, EventArgs e)
-        {
-            // 非アクティブ時間が続いたらマウスカーソルを非表示にする
-            if (IsCursurVisibled() && (DateTime.Now - _lastActionTime).TotalSeconds > Config.Current.Mouse.CursorHideTime)
-            {
-                SetCursorVisible(false);
-            }
-        }
-
-        // マウス移動
-        private void MainView_PreviewMouseMove(object sender, MouseEventArgs e)
-        {
-            var nowPoint = e.GetPosition(this.MainView);
-
-            if (IsCursurVisibled())
-            {
-                _cursorMoveDistance = 0.0;
-            }
-            else
-            {
-                _cursorMoveDistance += Math.Abs(nowPoint.X - _lastActionPoint.X) + Math.Abs(nowPoint.Y - _lastActionPoint.Y);
-                if (_cursorMoveDistance > Config.Current.Mouse.CursorHideReleaseDistance)
-                {
-                    SetCursorVisible(true);
-                }
-            }
-
-            _lastActionPoint = nowPoint;
-            _lastActionTime = DateTime.Now;
-        }
-
-        // マウスアクション
-        private void MainView_PreviewMouseAction(object sender, MouseEventArgs e)
-        {
-            if (Config.Current.Mouse.IsCursorHideReleaseAction)
-            {
-                SetCursorVisible(true);
-            }
-
-            _cursorMoveDistance = 0.0;
-            _lastActionTime = DateTime.Now;
-        }
-
-        // 表示領域にマウスが入った
-        private void MainView_MouseEnter(object sender, MouseEventArgs e)
-        {
-            SetCursorVisible(true);
-        }
-
-        // マウスカーソル表示ON/OFF
-        private void SetCursorVisible(bool isVisible)
-        {
-            ////Debug.WriteLine($"Cursur: {isVisible}");
-            _cursorMoveDistance = 0.0;
-            _lastActionTime = DateTime.Now;
-
-            isVisible = isVisible | !Config.Current.Mouse.IsCursorHideEnabled;
-            if (isVisible)
-            {
-                if (this.MainView.Cursor == Cursors.None && !_viewComponent.MouseInput.IsLoupeMode)
-                {
-                    this.MainView.Cursor = null;
-                }
-            }
-            else
-            {
-                if (this.MainView.Cursor == null && this.IsActive)
-                {
-                    this.MainView.Cursor = Cursors.None;
-                }
-            }
-        }
-
-        /// <summary>
-        /// カーソル表示判定
-        /// </summary>
-        private bool IsCursurVisibled()
-        {
-            return this.MainView.Cursor != Cursors.None || _viewComponent.MouseInput.IsLoupeMode;
-        }
-
-        #endregion
 
         #region マウスによるウィンドウアクティブ監視
 
@@ -402,7 +245,8 @@ namespace NeeView
         /// <param name="e"></param>
         private void MinimizeWindowCommand_Execute(object sender, ExecutedRoutedEventArgs e)
         {
-            FocusMainView();
+            ////FocusMainView();
+            _viewComponent.RaiseFocusMainViewRequest();
             SystemCommands.MinimizeWindow(this);
         }
 
@@ -434,14 +278,6 @@ namespace NeeView
         private void CloseWindowCommand_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             SystemCommands.CloseWindow(this);
-        }
-
-        /// <summary>
-        /// メインビューにフォーカスを移す
-        /// </summary>
-        private void FocusMainView()
-        {
-            this.MainView.Focus();
         }
 
         #endregion
@@ -516,6 +352,8 @@ namespace NeeView
 
             App.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
 
+            MainViewManager.Current.Update();
+
             // 一瞬手前に表示
             WindowShape.Current.OneTopmost();
 
@@ -548,14 +386,14 @@ namespace NeeView
         // ウィンドウアクティブ
         private void MainWindow_Activated(object sender, EventArgs e)
         {
-            SetCursorVisible(true);
+            ////SetCursorVisible(true);
             _vm.Activated();
         }
 
         // ウィンドウ非アクティブ
         private void MainWindow_Deactivated(object sender, EventArgs e)
         {
-            SetCursorVisible(true);
+            ////SetCursorVisible(true);
             _vm.Deactivated();
         }
 
@@ -590,58 +428,6 @@ namespace NeeView
             // TODO: これはViewComponentで完結すべき
             _viewComponent.MouseInput.IsLoupeMode = false;
         }
-
-
-        #region MainWindow_SizeChanged
-
-        private object _windowSizeChangedLock = new object();
-        private Size _oldWindowSize;
-        private Size _newWindowSize;
-
-        // ウィンドウサイズが変化したらコンテンツサイズも追従する
-        private void MainView_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            // 最小化では処理しない
-            if (this.WindowState == WindowState.Minimized) return;
-
-            lock (_windowSizeChangedLock)
-            {
-                _newWindowSize = e.NewSize;
-            }
-
-            // 最小化からフルスクリーン復帰時に一時的にサイズ変更されるため、遅延評価する
-            if (WindowShape.Current.NextWindowState == WindowStateEx.FullScreen && WindowShape.Current.OldWindowState == WindowStateEx.Minimized)
-            {
-                AppDispatcher.BeginInvoke(async () =>
-                {
-                    await Task.Delay(100);
-                    SizeChangedCore();
-                });
-            }
-            else
-            {
-                SizeChangedCore();
-            }
-        }
-
-        private void SizeChangedCore()
-        {
-            bool sizeChanged = false;
-
-            lock (_windowSizeChangedLock)
-            {
-                sizeChanged = _oldWindowSize != _newWindowSize;
-                _oldWindowSize = _newWindowSize;
-            }
-
-            if (sizeChanged)
-            {
-                _viewComponent.ContentCanvas.SetViewSize(this.MainView.ActualWidth, this.MainView.ActualHeight);
-                _viewComponent.DragTransformControl.SnapView();
-            }
-        }
-
-        #endregion MainWindow_SizeChanged
 
         private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -748,7 +534,7 @@ namespace NeeView
             CompositionTarget.Rendering -= OnRendering;
 
             // タイマー停止
-            _nonActiveTimer.Stop();
+            ////_nonActiveTimer.Stop();
 
             Debug.WriteLine("Window.Closed done.");
         }
@@ -839,7 +625,7 @@ namespace NeeView
             // フルスクリーン解除でフォーカスが表示されたパネルに移動してしまう現象を回避
             if (!WindowShape.Current.IsFullScreen && Config.Current.Panels.IsHidePanelInFullscreen)
             {
-                FocusMainView();
+                _viewComponent.RaiseFocusMainViewRequest();
             }
         }
 

@@ -21,7 +21,7 @@ namespace NeeView
 
         public override void Execute(object sender, CommandContext e)
         {
-            ViewComponentProvider.Current.GetViewController(sender).ScaleDown((ViewScaleCommandParameter)e.Parameter);
+            ViewComponent.Current.ViewController.ScaleDown((ViewScaleCommandParameter)e.Parameter);
         }
     }
 

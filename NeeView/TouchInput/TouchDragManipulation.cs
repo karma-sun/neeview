@@ -84,6 +84,10 @@ namespace NeeView
         //
         public TouchDragManipulation(TouchInputContext context)
         {
+            if (context is null) throw new ArgumentNullException();
+            if (context.Target is null) throw new ArgumentException();
+            if (context.DragTransform is null) throw new ArgumentException();
+
             _context = context;
             _transform = context.DragTransform;
 

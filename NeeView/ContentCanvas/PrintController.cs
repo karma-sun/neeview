@@ -9,12 +9,12 @@ namespace NeeView
     public class PrintController
     {
         private ViewComponent _viewComponent;
-        private MainWindow _mainWondow;
+        private MainView _mainView;
 
-        public PrintController(ViewComponent viewComponent, MainWindow mainWondow)
+        public PrintController(ViewComponent viewComponent, MainView mainView)
         {
             _viewComponent = viewComponent;
-            _mainWondow = mainWondow;
+            _mainView = mainView;
         }
 
         public bool CanPrint()
@@ -25,7 +25,7 @@ namespace NeeView
 
         public void Print()
         {
-            Print(_mainWondow, _mainWondow.PageContents, _mainWondow.MainContent.RenderTransform, _mainWondow.MainView.ActualWidth, _mainWondow.MainView.ActualHeight);
+            Print(Window.GetWindow(_mainView), _mainView.PageContents, _mainView.MainContent.RenderTransform, _mainView.View.ActualWidth, _mainView.View.ActualHeight);
         }
 
 

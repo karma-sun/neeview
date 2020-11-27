@@ -14,12 +14,12 @@
 
         public override bool CanExecute(object sender, CommandContext e)
         {
-            return ViewComponentProvider.Current.GetViewController(sender).CanPrint();
+            return ViewComponent.Current.ViewController.CanPrint();
         }
 
         public override void Execute(object sender, CommandContext e)
         {
-            ViewComponentProvider.Current.GetViewController(sender).Print();
+            ViewComponent.Current.ViewController.Print();
         }
     }
 }

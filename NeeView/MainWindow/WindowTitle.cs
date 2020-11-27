@@ -55,7 +55,7 @@ namespace NeeView
 
         private WindowTitle()
         {
-            _viewComponent = ViewComponentProvider.Current.GetViewComponent();
+            _viewComponent = ViewComponent.Current;
 
             _viewComponent.ContentCanvas.ContentChanged += ContentCanvas_ContentChanged;
 

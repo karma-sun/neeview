@@ -28,7 +28,7 @@ namespace NeeView
 
         private FileInformation()
         {
-            var viewComponent = ViewComponentProvider.Current.GetViewComponent();
+            var viewComponent = ViewComponent.Current;
 
             viewComponent.ContentCanvas.AddPropertyChanged(nameof(ContentCanvas.MainContent),
                 (s, e) => ViewContent = viewComponent.ContentCanvas.MainContent);

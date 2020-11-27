@@ -3805,6 +3805,33 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Toggle MainView floating に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleMainViewFloating {
+            get {
+                return ResourceManager.GetString("CommandToggleMainViewFloating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   MainView floating に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleMainViewFloatingMenu {
+            get {
+                return ResourceManager.GetString("CommandToggleMainViewFloatingMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Make the MainView a subwindow. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleMainViewFloatingNote {
+            get {
+                return ResourceManager.GetString("CommandToggleMainViewFloatingNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Play/Stop に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleMediaPlay {
@@ -13125,6 +13152,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   MainView floating に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamMainViewIsFloating {
+            get {
+                return ResourceManager.GetString("ParamMainViewIsFloating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Mute video に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamMediaIsMuted {
@@ -15826,6 +15862,24 @@ namespace NeeView.Properties {
         public static string SettingSectionSvg {
             get {
                 return ResourceManager.GetString("SettingSectionSvg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   MainView docking に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleMainViewFloatingOff {
+            get {
+                return ResourceManager.GetString("ToggleMainViewFloatingOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   MainView floating に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleMainViewFloatingOn {
+            get {
+                return ResourceManager.GetString("ToggleMainViewFloatingOn", resourceCulture);
             }
         }
         

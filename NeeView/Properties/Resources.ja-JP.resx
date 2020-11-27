@@ -5706,4 +5706,22 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamSliderIsSyncPageMode" xml:space="preserve">
     <value>変更量を表示ページ数に同期</value>
   </data>
+  <data name="CommandToggleMainViewFloating" xml:space="preserve">
+    <value>メインビューのフローティング/解除</value>
+  </data>
+  <data name="CommandToggleMainViewFloatingMenu" xml:space="preserve">
+    <value>メインビューのフローティング</value>
+  </data>
+  <data name="CommandToggleMainViewFloatingNote" xml:space="preserve">
+    <value>メインビューをサブウィンドウ化します。</value>
+  </data>
+  <data name="ToggleMainViewFloatingOff" xml:space="preserve">
+    <value>メインビューのドッキング</value>
+  </data>
+  <data name="ToggleMainViewFloatingOn" xml:space="preserve">
+    <value>メインビューのフローティング</value>
+  </data>
+  <data name="ParamMainViewIsFloating" xml:space="preserve">
+    <value>メインビューのフローティング</value>
+  </data>
 </root>

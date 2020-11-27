@@ -39,18 +39,8 @@ namespace NeeView
             }
         }
 
-        public UIElement FocusTo
-        {
-            get { return (UIElement)GetValue(FocusToProperty); }
-            set { SetValue(FocusToProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for FocusTo.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty FocusToProperty =
-            DependencyProperty.Register("FocusTo", typeof(UIElement), typeof(PageSliderView), new PropertyMetadata(null));
 
 
-        // 
         private PageSliderViewModel _vm;
 
 

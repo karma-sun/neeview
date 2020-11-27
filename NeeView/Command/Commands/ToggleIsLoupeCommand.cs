@@ -16,12 +16,12 @@ namespace NeeView
         }
         public override Binding CreateIsCheckedBinding()
         {
-            return new Binding(nameof(MouseInput.IsLoupeMode)) { Mode = BindingMode.OneWay, Source = ViewComponentProvider.Current.GetViewComponent().MouseInput };
+            return new Binding(nameof(MouseInput.IsLoupeMode)) { Mode = BindingMode.OneWay, Source = ViewComponent.Current.MouseInput };
         }
 
         public override string ExecuteMessage(object sender, CommandContext e)
         {
-            return ViewComponentProvider.Current.GetViewController(sender).GetLoupeMode() ? Properties.Resources.CommandToggleIsLoupeOff : Properties.Resources.CommandToggleIsLoupeOn;
+            return ViewComponent.Current.ViewController.GetLoupeMode() ? Properties.Resources.CommandToggleIsLoupeOff : Properties.Resources.CommandToggleIsLoupeOn;
         }
 
         [MethodArgument("@CommandToggleArgument")]
@@ -29,11 +29,11 @@ namespace NeeView
         {
             if (e.Args.Length > 0)
             {
-                ViewComponentProvider.Current.GetViewController(sender).SetLoupeMode(Convert.ToBoolean(e.Args[0]));
+                ViewComponent.Current.ViewController.SetLoupeMode(Convert.ToBoolean(e.Args[0]));
             }
             else
             {
-                ViewComponentProvider.Current.GetViewController(sender).ToggleLoupeMode();
+                ViewComponent.Current.ViewController.ToggleLoupeMode();
             }
         }
     }

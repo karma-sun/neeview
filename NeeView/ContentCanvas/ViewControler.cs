@@ -7,12 +7,14 @@ namespace NeeView
         private ViewComponent _viewComponent;
         private ScrollPageController _scrollPageControl;
         private PrintController _printControl;
+        private TouchEmurlateController _touchEmurlateMediator;
 
         public ViewController(ViewComponent viewContent, ScrollPageController scrollPageControl, PrintController printControl)
         {
             _viewComponent = viewContent;
             _scrollPageControl = scrollPageControl;
             _printControl = printControl;
+            _touchEmurlateMediator = new TouchEmurlateController();
         }
 
         public void FlipHorizontal(bool isFlip)
@@ -197,9 +199,14 @@ namespace NeeView
             _printControl.Print();
         }
 
-        public void TouchInputEmutrate()
+        public void TouchInputEmutrate(object sender)
         {
-            _viewComponent.TouchInput.Emulator.Execute();
+            _touchEmurlateMediator.Execute(sender);
+        }
+
+        public void OpenContextMenu()
+        {
+            _viewComponent.RaiseOpenContextMenuRequest();
         }
 
     }

@@ -29,21 +29,27 @@ namespace NeeView
     // タッチ処理
     public class TouchInput : BindableBase
     {
-        public  TouchInput(TouchInputContext context)
+        public TouchInput(TouchInputContext context)
         {
             _context = context;
             _sender = _context.Sender;
 
-            this.Drag = new TouchInputDrag(_context);
-            this.Drag.StateChanged += StateChanged;
+            if (_context.DragTransform != null)
+            {
+                this.Drag = new TouchInputDrag(_context);
+                this.Drag.StateChanged += StateChanged;
+            }
 
             this.Gesture = new TouchInputGesture(_context);
             this.Gesture.StateChanged += StateChanged;
             this.Gesture.GestureChanged += (s, e) => _context.GestureCommandCollection.Execute(e.Sequence);
             this.Gesture.GestureProgressed += (s, e) => _context.GestureCommandCollection.ShowProgressed(e.Sequence);
 
-            this.MouseDrag = new TouchInputMouseDrag(_context);
-            this.MouseDrag.StateChanged += StateChanged;
+            if (_context.DragTransform != null)
+            {
+                this.MouseDrag = new TouchInputMouseDrag(_context);
+                this.MouseDrag.StateChanged += StateChanged;
+            }
 
             this.Normal = new TouchInputNormal(_context, this.Gesture);
             this.Normal.StateChanged += StateChanged;
@@ -90,6 +96,8 @@ namespace NeeView
         private TouchInputContext _context;
         private FrameworkElement _sender;
 
+
+        public FrameworkElement Sender => _sender;
 
         /// <summary>
         /// 状態：既定
@@ -159,13 +167,21 @@ namespace NeeView
         public void SetState(TouchInputState state, object parameter)
         {
             if (state == _state) return;
-
             ////Debug.WriteLine($"#TouchState: {state}");
+                       
+            var inputOld = _current;
+            var inputNew = _touchInputCollection[state];
 
-            _current?.OnClosed(_sender);
+            if (inputNew is null)
+            {
+                Debug.WriteLine($"MouseInput: Not support state: {inputNew}");
+                return;
+            }
+
+            inputOld?.OnClosed(_sender);
             _state = state;
-            _current = _touchInputCollection[_state];
-            _current.OnOpened(_sender, parameter);
+            _current = inputNew;
+            inputNew?.OnOpened(_sender, parameter);
         }
 
         // 非アクティブなデバイスを削除
@@ -180,7 +196,7 @@ namespace NeeView
             if (sender != _sender) return;
             if (!Config.Current.Touch.IsEnabled) return;
             if (MainWindow.Current.IsMouseActivate) return;
-            
+
             ////Debug.WriteLine($"TouchDown: {e.StylusDevice.Id}");
 
             CleanupTouchMap();

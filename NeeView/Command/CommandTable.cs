@@ -217,6 +217,7 @@ namespace NeeView
                 new FocusMainViewCommand("FocusMainView"),
                 new ToggleVisibleThumbnailListCommand("ToggleVisibleThumbnailList"),
                 new ToggleHideThumbnailListCommand("ToggleHideThumbnailList"),
+                new ToggleMainViewFloatingCommand("ToggleMainViewFloating"),
 
                 new ToggleFullScreenCommand("ToggleFullScreen"),
                 new SetFullScreenCommand("SetFullScreen"),

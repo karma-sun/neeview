@@ -12,7 +12,7 @@
 
         public override void Execute(object sender, CommandContext e)
         {
-            MainWindow.Current.OpenContextMenu();
+            ViewComponent.Current.ViewController.OpenContextMenu();
         }
     }
 }

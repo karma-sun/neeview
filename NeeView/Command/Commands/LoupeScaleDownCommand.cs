@@ -12,12 +12,12 @@
 
         public override bool CanExecute(object sender, CommandContext e)
         {
-            return ViewComponentProvider.Current.GetViewController(sender).GetLoupeMode();
+            return ViewComponent.Current.ViewController.GetLoupeMode();
         }
 
         public override void Execute(object sender, CommandContext e)
         {
-            ViewComponentProvider.Current.GetViewController(sender).LoupeZoomOut();
+            ViewComponent.Current.ViewController.LoupeZoomOut();
         }
     }
 }

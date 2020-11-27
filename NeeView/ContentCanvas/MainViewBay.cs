@@ -45,6 +45,10 @@ namespace NeeView
             _touchInput = new TouchInput(new TouchInputContext(this, null, mouseGestureCommandCollection, null, null));
             RoutedCommandTable.Current.AddMouseInput(_mouseInput);
             RoutedCommandTable.Current.AddTouchInput(_touchInput);
+
+            // Drag&Drop設定
+            this.AllowDrop = true;
+            ContentDropManager.Current.SetDragDropEvent(this);
         }
     }
 }

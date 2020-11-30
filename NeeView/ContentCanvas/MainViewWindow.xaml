@@ -4,8 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:nwc="clr-namespace:NeeView.Windows.Controls;assembly=NeeView.Runtime"
+        xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
+        Style="{StaticResource DefaultWindowStyle}"
         Title="MainViewWindow" Height="450" Width="800">
 
     <Window.CommandBindings>
@@ -18,13 +20,15 @@
         -->
     </Window.CommandBindings>
 
-    <Grid>
+    <Grid x:Name="Root">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <DockPanel x:Name="CaptionBar" Grid.Row="0" Background="{Binding CaptionBackground}" Height="{Binding WindowChrome.CaptionHeight}">
+        <UserControl x:Name="MainViewSocket" Grid.Row="1" Content="{Binding LayoutPanel.Content}" />
+        
+        <DockPanel x:Name="CaptionBar" Grid.Row="0" Background="{Binding CaptionBackground}" Height="{Binding WindowChrome.CaptionHeight}" VerticalAlignment="Top">
             <!--
             <DockPanel.ContextMenu>
                 <ContextMenu>
@@ -35,11 +39,20 @@
                 </ContextMenu>
             </DockPanel.ContextMenu>
             -->
-            <nwc:WindowCaptionButtons DockPanel.Dock="Right" Foreground="{Binding CaptionForeground}" IsEnabled="True" IsMinimizeEnabled="False" WindowChrome.IsHitTestVisibleInChrome="False" />
+
+            <behaviors:Interaction.Behaviors>
+                <local:AutoHideBehavior Name="AutoHider" Screen="{Binding ElementName=Root}" Dock="Top" IsEnabled="{Binding CanHideMenu}" DelayTime="{Binding AutoHideConfig.AutoHideDelayTime}"
+                        DelayVisibleTime="{Binding AutoHideConfig.AutoHideDelayVisibleTime}" FocusLockMode="{Binding AutoHideConfig.AutoHideFocusLockMode}"
+                        IsVisibleLocked="{Binding IsPanelVisibleLocked}" IsKeyDownDelayEnabled="{Binding AutoHideConfig.IsAutoHideKeyDownDelay}"
+                        HitTestMargin="{Binding AutoHideConfig.AutoHideHitTestMargin}" Description="{Binding MenuAutoHideDescription}" />
+            </behaviors:Interaction.Behaviors>
+            
+            <nwc:WindowCaptionButtons DockPanel.Dock="Right" Foreground="{Binding CaptionForeground}" IsEnabled="True" IsMinimizeEnabled="True" WindowChrome.IsHitTestVisibleInChrome="False" />
             <TextBlock Text="{Binding Path=Title}" VerticalAlignment="Center" Margin="16,0" Foreground="{Binding CaptionForeground}" />
         </DockPanel>
 
-        <UserControl x:Name="MainViewSocket" Grid.Row="1" Content="{Binding LayoutPanel.Content}" />
+        <local:NormalInfoMessageView Grid.Row="1" Source="{Binding InfoMessage.NormalInfoMessage}" />
+
     </Grid>
     
 </Window>

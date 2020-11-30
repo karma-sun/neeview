@@ -65,7 +65,7 @@
             <local:BooleanReverseConverter x:Key="BooleanReverseConverter" />
             <local:DoubleOffsetConverter x:Key="AutoHideMarginOffsetConverter" Offset="16" />
             <local:DoubleSumConverter x:Key="DoubleSumConverter" />
-
+            <local:TypeToVisibilityConverter x:Key="MainViewToVisibilityConverter" Type="{x:Type local:MainView}" />
 
             <!-- MenuItem History -->
             <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
@@ -144,8 +144,35 @@
                                     Width="{Binding CanvasWidth}" Height="{Binding CanvasHeight}" UseLayoutRounding="True">
 
                                 <!-- メインビュー パネル -->
-                                <ContentControl x:Name="MainViewSocket" />
-
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                
+                                    <ContentControl Grid.Row="1" x:Name="MainViewSocket" />
+                                    
+                                    <Grid x:Name="PageCaption" Grid.Row="1" Height="30" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
+                                            Background="{Binding Model.SliderBackgroundGlass}">
+                                        <Grid.Style>
+                                            <Style TargetType="Grid">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding Model.CanVisibleWindowTitle}" Value="True" />
+                                                            <Condition Binding="{Binding ElementName=LayerStatusArea, Path=Visibility}" Value="Visible" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                    </MultiDataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Grid.Style>
+                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{Binding WindowTitle.Title}" Foreground="{DynamicResource NVForeground}" Padding="20,0" />
+                                    </Grid>
+                                
+                                </Grid>
+                                
                                 <!--
                                 <Border BorderBrush="Red" BorderThickness="2"/>
                                 -->
@@ -218,7 +245,7 @@
             </DockPanel>
 
             <!-- Message Layer -->
-            <DockPanel d:IsHidden="True">
+            <DockPanel x:Name="MessageLayer" d:IsHidden="True" Visibility="{Binding ElementName=MainViewSocket, Path=Content, Converter={StaticResource MainViewToVisibilityConverter}}">
                 <Grid DockPanel.Dock="Bottom" Height="{Binding ElementName=DockStatusArea, Path=ActualHeight}" />
                 <local:NormalInfoMessageView Source="{Binding InfoMessage.NormalInfoMessage}" />
             </DockPanel>

@@ -76,13 +76,12 @@ namespace NeeView
 
             _window = new MainViewWindow();
             _window.MainViewSocket.Content = _mainView;
-            _window.Owner = Application.Current.MainWindow;
+            //_window.Owner = Application.Current.MainWindow;
 
             // NOTE: Tagにインスタンスを保持して消えないようにする
             _window.Tag = new RoutedCommandBinding(_window, RoutedCommandTable.Current);
 
             _window.Closed += (s, e) => SetFloating(false);
-
 
             _window.Show();
         }

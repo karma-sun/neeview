@@ -75,6 +75,7 @@
         </Grid>
 
         <!-- caption -->
+        <!--
         <Grid x:Name="PageCaption" Height="30" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
                 Background="{Binding Model.SliderBackgroundGlass}">
             <Grid.Style>
@@ -93,6 +94,7 @@
             </Grid.Style>
             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{Binding WindowTitle.Title}" Foreground="{DynamicResource NVForeground}" Padding="20,0" />
         </Grid>
+        -->
 
         <!-- loupe info -->
         <Grid Visibility="{Binding Source={x:Static local:Config.Current}, Path=Loupe.IsVisibleLoupeInfo, Converter={StaticResource BooleanToVisibilityConverter}}">

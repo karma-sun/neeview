@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Interop;
+using System.Windows.Media;
 using System.Windows.Shell;
 
 namespace NeeView.Windows
@@ -38,6 +39,8 @@ namespace NeeView.Windows
         private Window _window;
         private WindowChrome _windowChrome;
         private bool _isEnabled;
+        private bool _isSuspended;
+        private double _maximizeWindowGapWidth = 8.0;
 
 
         public WindowChromeAccessor(Window window)
@@ -51,18 +54,8 @@ namespace NeeView.Windows
             _windowChrome.GlassFrameThickness = new Thickness(1);
 
             _window.StateChanged += Window_StateChanged;
-
-            /*
-            if (GetHwndSource() != null)
-            {
-                AttachWindowChromeExceptionGuard();
-            }
-            else
-            {
-                _window.SourceInitialized += (s, e) => AttachWindowChromeExceptionGuard();
-            }
-            */
         }
+
 
         public Window Window => _window;
 
@@ -76,12 +69,25 @@ namespace NeeView.Windows
             {
                 if (SetProperty(ref _isEnabled, value))
                 {
-                    WindowChrome.SetWindowChrome(_window, _isEnabled ? _windowChrome : null);
-                    UpdateWindowBorderThickness();
-                    AttachWindowChromeExceptionGuard();
+                    Update();
                 }
             }
         }
+
+        public bool IsSuspended
+        {
+            get { return _isSuspended; }
+            set
+            {
+                if (SetProperty(ref _isSuspended, value))
+                {
+                    Update();
+                }
+            }
+        }
+
+        public bool IsActive => _isEnabled && !_isSuspended;
+
 
 
         public double CaptionHeight
@@ -89,8 +95,6 @@ namespace NeeView.Windows
             get { return _window.WindowState == WindowState.Maximized ? 24.0 : 28.0; }
         }
 
-
-        private double _maximizeWindowGapWidth = 8.0;
         public double MaximizeWindowGapWidth
         {
             get { return _maximizeWindowGapWidth; }
@@ -104,43 +108,28 @@ namespace NeeView.Windows
         }
 
 
-        private Thickness _windowBorderThickness;
-        public Thickness WindowBorderThickness
-        {
-            get { return _windowBorderThickness; }
-            set { SetProperty(ref _windowBorderThickness, value); }
-        }
-
         private void Window_StateChanged(object sender, EventArgs e)
         {
             RaisePropertyChanged(nameof(CaptionHeight));
             UpdateWindowBorderThickness();
         }
 
-
-        public void UpdateWindowBorderThickness()
+        private void Update()
         {
-            var chrome = WindowChrome.GetWindowChrome(_window);
-            var dpi = (_window is IHasDpiScale dpiProvider) ? dpiProvider.GetDpiScale() : default;
+            WindowChrome.SetWindowChrome(_window, IsActive ? _windowChrome : null);
+            UpdateWindowBorderThickness();
+            AttachWindowChromeExceptionGuard();
+        }
 
-#if false
-            // TODO: Wndows7 support
-            if (_isEnabled && _window.WindowState != WindowState.Maximized && Environment.IsWindows7 && Config.Current.Window.WindowChromeFrame == WindowChromeFrame.WindowFrame)
-            {
-                var x = 1.0 / dpi.DpiScaleX;
-                var y = 1.0 / dpi.DpiScaleY;
-                this.WindowBorderThickness = new Thickness(x, y, x, y);
-            }
-            else
-            {
-                this.WindowBorderThickness = default;
-            }
-#endif
+        public virtual void UpdateWindowBorderThickness()
+        {
+            var dpi = (_window is IHasDpiScale dpiProvider) ? dpiProvider.GetDpiScale() : new DpiScale(1.0, 1.0);
 
-            if (_isEnabled && _window.WindowState == WindowState.Maximized)
+            if (IsActive && _window.WindowState == WindowState.Maximized)
             {
                 var x = MaximizeWindowGapWidth / dpi.DpiScaleX;
                 var y = MaximizeWindowGapWidth / dpi.DpiScaleY;
+                _window.BorderBrush = Brushes.Black;
                 _window.BorderThickness = new Thickness(x, y, x, y);
             }
             else
@@ -149,9 +138,7 @@ namespace NeeView.Windows
             }
         }
 
-
-
-#region Hotfix: Overflow exception in WindowChrome
+        #region Hotfix: Overflow exception in WindowChrome
 
         // https://developercommunity.visualstudio.com/content/problem/167357/overflow-exception-in-windowchrome.html?childToView=1209945#comment-1209945 
 
@@ -188,79 +175,7 @@ namespace NeeView.Windows
             return IntPtr.Zero;
         }
 
-#endregion
+        #endregion
     }
-
-
-
-#if false
-    public class WindowBorderAdjuster : BindableBase
-    {
-        private Window _window;
-
-        public WindowBorderAdjuster(Window window)
-        {
-            if (!(window is IDpiProvider)) throw new ArgumentException($"need windows has IDpiProvider.");
-
-            _window = window;
-        }
-
-        private double _maximizeWindowGapWidth = 8.0;
-        public double MaximizeWindowGapWidth
-        {
-            get { return _maximizeWindowGapWidth; }
-            set
-            {
-                if (SetProperty(ref _maximizeWindowGapWidth, Math.Max(value, 1.0)))
-                {
-                    UpdateWindowBorderThickness();
-                }
-            }
-        }
-
-#if false
-        private Thickness _windowBorderThickness;
-        public Thickness WindowBorderThickness
-        {
-            get { return _windowBorderThickness; }
-            set { SetProperty(ref _windowBorderThickness, value); }
-        }
-#endif
-
-
-        public void UpdateWindowBorderThickness()
-        {
-            var chrome = WindowChrome.GetWindowChrome(_window);
-            var dpi = (_window is IDpiProvider dpiProvider) ? dpiProvider.Dpi : default;
-
-            // TODO: Wndows7 support
-#if false
-            if (Environment.IsWindows7 && Config.Current.Window.WindowChromeFrame == WindowChromeFrame.WindowFrame && _windowChrome != null && _window.WindowState != WindowState.Maximized)
-            {
-                var x = 1.0 / dpi.DpiScaleX;
-                var y = 1.0 / dpi.DpiScaleY;
-                this.WindowBorderThickness = new Thickness(x, y, x, y);
-            }
-            else
-            {
-                this.WindowBorderThickness = default;
-            }
-#endif
-
-
-            if (chrome != null && _window.WindowState == WindowState.Maximized)
-            {
-                var x = MaximizeWindowGapWidth / dpi.DpiScaleX;
-                var y = MaximizeWindowGapWidth / dpi.DpiScaleY;
-                _window.BorderThickness = new Thickness(x, y, x, y);
-            }
-            else
-            {
-                _window.BorderThickness = default;
-            }
-        }
-
-    }
-#endif
 
 }

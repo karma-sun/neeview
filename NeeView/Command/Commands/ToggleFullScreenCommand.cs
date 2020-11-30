@@ -28,7 +28,7 @@ namespace NeeView
 
         public override void Execute(object sender, CommandContext e)
         {
-            WindowShape.Current.ToggleFullScreen();
+            ViewComponent.Current.ViewController.ToggleWindowFullScreen(sender);
         }
     }
 }

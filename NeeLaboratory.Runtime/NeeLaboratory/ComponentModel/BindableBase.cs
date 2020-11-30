@@ -149,4 +149,26 @@ namespace NeeLaboratory.ComponentModel
             this.PropertyChanging = null;
         }
     }
+
+
+    public static class PropertyChangedTools
+    {
+        /// <summary>
+        /// 特定のプロパティ名に対応した受信ハンドルを作る
+        /// </summary>
+        public static PropertyChangedEventHandler CreateReciever(string propertyName, PropertyChangedEventHandler handler)
+        {
+            if (handler is null) throw new ArgumentNullException(nameof(handler));
+
+            return new PropertyChangedEventHandler((s, e) =>
+            {
+                // NOTE: propertyNameが空の場合も実行
+                if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == propertyName)
+                {
+                    handler.Invoke(s, e);
+                }
+            });
+        }
+    }
+
 }

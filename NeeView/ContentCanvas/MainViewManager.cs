@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace NeeView
@@ -10,8 +11,8 @@ namespace NeeView
         static MainViewManager() => Current = new MainViewManager();
         public static MainViewManager Current { get; }
 
-        
-        private Window _window;
+
+        private MainViewWindow _window;
 
         private ViewComponent _viewComponent;
 
@@ -22,7 +23,7 @@ namespace NeeView
 
 
 
-        public Window Window => _window;
+        public MainViewWindow Window => _window;
         public MainView MainView => _mainView;
         public MainViewBay MainViewBay => _mainViewBay;
 
@@ -73,9 +74,9 @@ namespace NeeView
 
             _defaultSocket.Content = _mainViewBay;
 
-            _window = new Window();
-            _window.Content = _mainView;
-            _window.Owner = Window.GetWindow(_defaultSocket);
+            _window = new MainViewWindow();
+            _window.MainViewSocket.Content = _mainView;
+            _window.Owner = Application.Current.MainWindow;
 
             // NOTE: Tagにインスタンスを保持して消えないようにする
             _window.Tag = new RoutedCommandBinding(_window, RoutedCommandTable.Current);
@@ -96,6 +97,8 @@ namespace NeeView
 
             _defaultSocket.Content = _mainView;
         }
-
     }
+
+
+
 }

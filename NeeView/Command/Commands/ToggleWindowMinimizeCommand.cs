@@ -13,7 +13,7 @@
 
         public override void Execute(object sender, CommandContext e)
         {
-            MainWindow.Current.MainWindow_Minimize();
+            ViewComponent.Current.ViewController.ToggleWindowMinimize(sender);
         }
     }
 }

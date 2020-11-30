@@ -161,46 +161,26 @@ namespace NeeView
         /// </summary>
         class LayoutWindowDecorator : ILayoutPanelWindowDecorator
         {
-            public static PanelColorToBrushConverter _captionBackgroundConverter;
-            public static PanelColorTobrushMultiConverter _captionForegroundConverter;
-
-            static LayoutWindowDecorator()
-            {
-                _captionBackgroundConverter = new PanelColorToBrushConverter()
-                {
-                    Dark = (SolidColorBrush)App.Current.Resources["NVMenuBackgroundDark"],
-                    Light = (SolidColorBrush)App.Current.Resources["NVMenuBackgroundLight"],
-                };
-
-                _captionForegroundConverter = new PanelColorTobrushMultiConverter()
-                {
-                    Dark = (SolidColorBrush)App.Current.Resources["NVMenuForegroundDark"],
-                    Light = (SolidColorBrush)App.Current.Resources["NVMenuForegroundLight"],
-                };
-            }
-
-
             public void Decorate(LayoutPanelWindow window)
             {
                 window.Style = (Style)App.Current.Resources["DefaultWindowStyle"];
 
-                var background = new Binding(nameof(SidePanelProfile.BackgroundBrushRaw)) { Source = SidePanelProfile.Current };
-                window.SetBinding(LayoutPanelWindow.BackgroundProperty, background);
+                var binding = new ThemeBrushBinding(window);
+                binding.SetPanelBackgroundBinding(LayoutPanelWindow.BackgroundProperty);
+                binding.SetMenuBackgroundBinding(LayoutPanelWindow.CaptionBackgroundProperty);
+                binding.SetMenuForegroundBinding(LayoutPanelWindow.CaptionForegroundProperty);
 
-                var captionBackground = new Binding(nameof(ThemeConfig.MenuColor))
-                {
-                    Source = Config.Current.Theme,
-                    Converter = _captionBackgroundConverter,
-                };
-                window.SetBinding(LayoutPanelWindow.CaptionBackgroundProperty, captionBackground);
 
-                var captionForeground = new MultiBinding() { Converter = _captionForegroundConverter };
-                captionForeground.Bindings.Add(new Binding(nameof(ThemeConfig.MenuColor)) { Source = Config.Current.Theme });
-                captionForeground.Bindings.Add(new Binding(nameof(LayoutPanelWindow.IsActive)) { Source = window });
-                window.SetBinding(LayoutPanelWindow.CaptionForegroundProperty, captionForeground);
+                Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.MaximizeWindowGapWidth), (s, e) => UpdateMaximizeWindowGapWidth());
+                UpdateMaximizeWindowGapWidth();
 
                 // NOTE: Tagにインスタンスを保持して消えないようにする
                 window.Tag = new RoutedCommandBinding(window, RoutedCommandTable.Current);
+
+                void UpdateMaximizeWindowGapWidth()
+                {
+                    window.WindowChrome.MaximizeWindowGapWidth = Config.Current.Window.MaximizeWindowGapWidth;
+                }
             }
         }
     }

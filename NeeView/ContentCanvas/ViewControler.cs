@@ -7,14 +7,16 @@ namespace NeeView
         private ViewComponent _viewComponent;
         private ScrollPageController _scrollPageControl;
         private PrintController _printControl;
-        private TouchEmurlateController _touchEmurlateMediator;
+        private TouchEmurlateController _touchEmurlateController;
+        private WindowStateController _windowStateController;
 
         public ViewController(ViewComponent viewContent, ScrollPageController scrollPageControl, PrintController printControl)
         {
             _viewComponent = viewContent;
             _scrollPageControl = scrollPageControl;
             _printControl = printControl;
-            _touchEmurlateMediator = new TouchEmurlateController();
+            _touchEmurlateController = new TouchEmurlateController();
+            _windowStateController = new WindowStateController(MainWindow.Current);
         }
 
         public void FlipHorizontal(bool isFlip)
@@ -201,7 +203,7 @@ namespace NeeView
 
         public void TouchInputEmutrate(object sender)
         {
-            _touchEmurlateMediator.Execute(sender);
+            _touchEmurlateController.Execute(sender);
         }
 
         public void OpenContextMenu()
@@ -209,6 +211,20 @@ namespace NeeView
             _viewComponent.RaiseOpenContextMenuRequest();
         }
 
+        public void ToggleWindowMinimize(object sender)
+        {
+            _windowStateController.ToggleMinimize(sender);
+        }
+
+        public void ToggleWindowMaximize(object sender)
+        {
+            _windowStateController.ToggleMaximize(sender);
+        }
+
+        public void ToggleWindowFullScreen(object sender)
+        {
+            _windowStateController.ToggleFullScreen(sender);
+        }
     }
 
 }

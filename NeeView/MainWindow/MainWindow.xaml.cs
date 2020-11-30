@@ -21,7 +21,7 @@ namespace NeeView
     /// <summary>
     /// MainWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class MainWindow : Window, IHasDpiScale
+    public partial class MainWindow : Window, IHasDpiScale, IWindowStateControllable
     {
         public static MainWindow Current { get; private set; }
 
@@ -400,20 +400,13 @@ namespace NeeView
         // ウィンドウ最大化(Toggle)
         public void MainWindow_Maximize()
         {
-            if (this.WindowState != WindowState.Maximized)
-            {
-                SystemCommands.MaximizeWindow(this);
-            }
-            else
-            {
-                SystemCommands.RestoreWindow(this);
-            }
+            ToggleMaximize();
         }
 
         // ウィンドウ最小化
         public void MainWindow_Minimize()
         {
-            SystemCommands.MinimizeWindow(this);
+            ToggleMinimize();
         }
 
 
@@ -792,6 +785,32 @@ namespace NeeView
 
         #endregion
 
+        #region IWindowStateControllable
+
+        public void ToggleMinimize()
+        {
+            SystemCommands.MinimizeWindow(this);
+        }
+
+        public void ToggleMaximize()
+        {
+            if (this.WindowState != WindowState.Maximized)
+            {
+                SystemCommands.MaximizeWindow(this);
+            }
+            else
+            {
+                SystemCommands.RestoreWindow(this);
+            }
+        }
+
+        public void ToggleFullScreen()
+        {
+            WindowShape.Current.ToggleFullScreen();
+        }
+
+        #endregion IWindowStateControllable
+
         #region [開発用]
 
         public MainWindowViewModel ViewModel => _vm;
@@ -802,6 +821,7 @@ namespace NeeView
         {
             DebugGesture.Initialize();
         }
+
 
         #endregion
 

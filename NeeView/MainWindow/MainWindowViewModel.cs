@@ -253,11 +253,20 @@ namespace NeeView
         public bool IsFrontAreaMouseOver => IsMenuAreaMouseOver || IsStatusAreaMouseOver;
 
 
+
+        private int _PageCaptionGridRow;
+        public int PageCaptionGridRow
+        {
+            get { return _PageCaptionGridRow; }
+            set { SetProperty(ref _PageCaptionGridRow, value); }
+        }
+
+
         private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == nameof(MainWindowModel.CanHidePageSlider) || e.PropertyName == nameof(MainWindowModel.CanVisibleWindowTitle))
             {
-                MainViewMergin = (!_model.CanHidePageSlider && _model.CanVisibleWindowTitle) ? new Thickness(0, 30, 0, 0) : default;
+                PageCaptionGridRow = (!_model.CanHidePageSlider && _model.CanVisibleWindowTitle) ? 0 : 1;
             }
         }
 

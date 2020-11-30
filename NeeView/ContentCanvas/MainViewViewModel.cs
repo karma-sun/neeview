@@ -9,7 +9,6 @@ namespace NeeView
     public class MainViewViewModel : BindableBase
     {
         private ViewComponent _viewComponent;
-        private MainWindowModel _model;
         private Thickness _mainViewMergin;
 
 
@@ -17,17 +16,10 @@ namespace NeeView
         {
             _viewComponent = viewComponent;
 
-            // TODO:
-            _model = MainWindowModel.Current;
-
-            _model.PropertyChanged += Model_PropertyChanged;
-
             InitializeContextMenu();
             InitializeBusyVisibility();
         }
 
-
-        public MainWindowModel Model => _model;
 
         public ViewComponent ViewComponent => _viewComponent;
 
@@ -126,14 +118,6 @@ namespace NeeView
 
         #endregion ContextMenu
 
-
-        private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == nameof(MainWindowModel.CanHidePageSlider) || e.PropertyName == nameof(MainWindowModel.CanVisibleWindowTitle))
-            {
-                MainViewMergin = (!_model.CanHidePageSlider && _model.CanVisibleWindowTitle) ? new Thickness(0, 30, 0, 0) : default;
-            }
-        }
 
         public void SetViewSize(double width, double height)
         {

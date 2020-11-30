@@ -17,52 +17,49 @@
         <Rectangle x:Name="FrontBackground" Fill="{Binding ContentCanvasBrush.BackgroundFrontBrush}" RenderOptions.BitmapScalingMode="HighQuality" IsHitTestVisible="False"
                 Visibility="{Binding ContentCanvasBrush.BackgroundFrontBrush, Converter={StaticResource NullableToVisibilityConverter}}" />
 
-        <Grid x:Name="MainViewMargin" Margin="{Binding MainViewMergin}">
-            <Grid x:Name="MainViewCanvas" Effect="{Binding ImageEffect.Effect}">
+        <Grid x:Name="MainViewCanvas" Effect="{Binding ImageEffect.Effect}">
 
-                <!-- メインビュー コンテンツ表示領域 -->
-                <Grid x:Name="View" Background="Transparent" SizeChanged="MainView_SizeChanged" Focusable="True" KeyboardNavigation.IsTabStop="False" FocusVisualStyle="{x:Null}"
-                        ClipToBounds="True" DataContext="{Binding ContentCanvas}" AllowDrop="True">
-                    <!-- Pages -->
-                    <!-- NOTE: 時々操作が奪われしてまう原因の可能性その2 IsHitTestVisible -->
-                    <Canvas x:Name="PageCanvas" Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}" HorizontalAlignment="Center"
-                            VerticalAlignment="Center">
-                        <Canvas.Resources>
-                            <Style TargetType="TextBlock" x:Key="ContentProperty">
-                                <Setter Property="Foreground" Value="White" />
-                                <Setter Property="Background" Value="#80000000" />
-                                <Setter Property="Padding" Value="10,5" />
-                                <Style.Triggers>
-                                    <Trigger Property="Text" Value="">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Canvas.Resources>
-                        <ContentControl x:Name="MainContent" IsTabStop="False">
-                            <Grid>
-                                <StackPanel x:Name="PageContents" Orientation="Horizontal">
-                                    <ContentControl x:Name="Content1" Content="{Binding Contents[1].View}" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}" Focusable="False" />
-                                    <ContentControl x:Name="Content0" Content="{Binding Contents[0].View}" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" Focusable="False"
-                                            Margin="{Binding ContentsMargin}" />
-                                </StackPanel>
-                                <ContentControl Content="{Binding GridLine.Content}" Focusable="False" />
-                            </Grid>
-                        </ContentControl>
-                    </Canvas>
-                    <!-- Pages Shadow (表示領域計算用) -->
-                    <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}" IsHitTestVisible="False"
-                            HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <StackPanel x:Name="MainContentShadow" Orientation="Horizontal">
-                            <Rectangle x:Name="Content1Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}" />
-                            <Rectangle x:Name="Content0Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}"
-                                    Margin="{Binding ContentsMargin}" />
-                        </StackPanel>
-                    </Canvas>
-                </Grid>
-
+            <!-- メインビュー コンテンツ表示領域 -->
+            <Grid x:Name="View" Background="Transparent" SizeChanged="MainView_SizeChanged" Focusable="True" KeyboardNavigation.IsTabStop="False" FocusVisualStyle="{x:Null}"
+                    ClipToBounds="True" DataContext="{Binding ContentCanvas}" AllowDrop="True">
+                <!-- Pages -->
+                <!-- NOTE: 時々操作が奪われしてまう原因の可能性その2 IsHitTestVisible -->
+                <Canvas x:Name="PageCanvas" Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}" HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                    <Canvas.Resources>
+                        <Style TargetType="TextBlock" x:Key="ContentProperty">
+                            <Setter Property="Foreground" Value="White" />
+                            <Setter Property="Background" Value="#80000000" />
+                            <Setter Property="Padding" Value="10,5" />
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Canvas.Resources>
+                    <ContentControl x:Name="MainContent" IsTabStop="False">
+                        <Grid>
+                            <StackPanel x:Name="PageContents" Orientation="Horizontal">
+                                <ContentControl x:Name="Content1" Content="{Binding Contents[1].View}" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}" Focusable="False" />
+                                <ContentControl x:Name="Content0" Content="{Binding Contents[0].View}" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" Focusable="False"
+                                        Margin="{Binding ContentsMargin}" />
+                            </StackPanel>
+                            <ContentControl Content="{Binding GridLine.Content}" Focusable="False" />
+                        </Grid>
+                    </ContentControl>
+                </Canvas>
+                <!-- Pages Shadow (表示領域計算用) -->
+                <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}" IsHitTestVisible="False"
+                        HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel x:Name="MainContentShadow" Orientation="Horizontal">
+                        <Rectangle x:Name="Content1Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}" />
+                        <Rectangle x:Name="Content0Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}"
+                                Margin="{Binding ContentsMargin}" />
+                    </StackPanel>
+                </Canvas>
             </Grid>
-        </Grid>
+         </Grid>
 
         <!-- empty pages message -->
         <Grid Visibility="{Binding ContentCanvas.IsVisibleEmptyPageMessage, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True" IsHitTestVisible="False">
@@ -73,28 +70,6 @@
                         MinHeight="50" TextWrapping="Wrap" />
             </StackPanel>
         </Grid>
-
-        <!-- caption -->
-        <!--
-        <Grid x:Name="PageCaption" Height="30" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
-                Background="{Binding Model.SliderBackgroundGlass}">
-            <Grid.Style>
-                <Style TargetType="Grid">
-                    <Setter Property="Visibility" Value="Collapsed" />
-                    <Style.Triggers>
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding Model.CanVisibleWindowTitle}" Value="True" />
-                                <Condition Binding="{Binding ElementName=LayerStatusArea, Path=Visibility}" Value="Visible" />
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="Visibility" Value="Visible" />
-                        </MultiDataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Grid.Style>
-            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{Binding WindowTitle.Title}" Foreground="{DynamicResource NVForeground}" Padding="20,0" />
-        </Grid>
-        -->
 
         <!-- loupe info -->
         <Grid Visibility="{Binding Source={x:Static local:Config.Current}, Path=Loupe.IsVisibleLoupeInfo, Converter={StaticResource BooleanToVisibilityConverter}}">

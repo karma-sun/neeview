@@ -151,8 +151,8 @@
                                     </Grid.RowDefinitions>
                                 
                                     <ContentControl Grid.Row="1" x:Name="MainViewSocket" />
-                                    
-                                    <Grid x:Name="PageCaption" Grid.Row="1" Height="30" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
+
+                                    <Grid x:Name="PageCaption" Grid.Row="{Binding PageCaptionGridRow}" Height="30" VerticalAlignment="Top" HorizontalAlignment="Stretch"
                                             Background="{Binding Model.SliderBackgroundGlass}">
                                         <Grid.Style>
                                             <Style TargetType="Grid">

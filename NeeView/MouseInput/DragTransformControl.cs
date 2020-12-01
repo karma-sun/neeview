@@ -1,4 +1,5 @@
-﻿using NeeView.Windows.Property;
+﻿using NeeView.Windows;
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -1172,9 +1173,12 @@ namespace NeeView
         {
             var pos = visual.PointToScreen(point); // デバイス座標
 
-            var dpi = Environment.Dpi;
-            pos.X = pos.X / dpi.DpiScaleX;
-            pos.Y = pos.Y / dpi.DpiScaleY;
+            if (Window.GetWindow(visual) is IHasDpiScale hasDpiScale)
+            {
+                var dpi = hasDpiScale.GetDpiScale();
+                pos.X = pos.X / dpi.DpiScaleX;
+                pos.Y = pos.Y / dpi.DpiScaleY;
+            }
             return pos;
         }
 

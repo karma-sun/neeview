@@ -38,6 +38,9 @@ namespace NeeView
             _viewComponent.ContentCanvas.ContentChanged += (s, e) => Request();
             _viewComponent.ContentCanvas.ContentSizeChanged += (s, e) => Request();
 
+            // DPI変化に追従
+            _viewComponent.MainView.DpiProvider.DpiChanged += (s, e) => RequestWithResize();
+
             // スケール変化に追従
             _viewComponent.DragTransform.AddPropertyChanged(nameof(DragTransform.Scale), (s, e) => Request());
 
@@ -135,7 +138,7 @@ namespace NeeView
             if (mouseButtonBits != MouseButtonBits.None) return;
 
             bool isSuccessed = true;
-            var dpiScaleX = Environment.RawDpi.DpiScaleX;
+            var dpiScaleX = _viewComponent.MainView.DpiProvider.RawDpi.DpiScaleX;
             var scale = _viewComponent.DragTransform.Scale * _viewComponent.LoupeTransform.FixedScale * dpiScaleX;
             foreach (var viewConent in _viewComponent.ContentCanvas.CloneContents.Where(e => e.IsValid))
             {

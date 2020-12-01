@@ -68,9 +68,8 @@ namespace NeeView
                 _root.Children.Add(_rootBookmarkFolder);
             }
 
-            ////_rootPagemarkFolder = new RootPagemarkFolderNode(_root);
-
-            Environment.DpiChanged += Config_DpiChanged;
+#warning TODO: DPI変更によるファイルアイコンの反映
+            ////Environment.DpiChanged += Config_DpiChanged;
         }
 
 
@@ -148,15 +147,15 @@ namespace NeeView
             }
         }
 
-        private void Config_DpiChanged(object sender, EventArgs e)
-        {
-            RaisePropertyChanged(nameof(FolderIcon));
-
-            foreach (var item in GetNodeWalker(_root.Children))
-            {
-                item.RefreshIcon();
-            }
-        }
+        //private void Config_DpiChanged(object sender, EventArgs e)
+        //{
+        //    RaisePropertyChanged(nameof(FolderIcon));
+        //
+        //    foreach (var item in GetNodeWalker(_root.Children))
+        //    {
+        //        item.RefreshIcon();
+        //    }
+        //}
 
         public void ExpandRoot()
         {

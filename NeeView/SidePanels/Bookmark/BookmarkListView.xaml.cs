@@ -36,6 +36,12 @@ namespace NeeView
         }
 
 
+        protected override void OnDpiChanged(DpiScale oldDpi, DpiScale newDpi)
+        {
+            base.OnDpiChanged(oldDpi, newDpi);
+            _vm.SetDpiScale(newDpi);
+        }
+
         /// <summary>
         /// フォルダーツリーへのフォーカス要求
         /// </summary>

@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Windows;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -317,6 +318,7 @@ namespace NeeView
 
 
         // メッセージとして状態表示
+        // TODO: 外部への依存が強すぎるので、定義場所を別にする？
         public void ShowMessage(TransformActionType ActionType, ViewContent mainContent)
         {
             var infoMessage = InfoMessage.Current; // TODO: not singleton
@@ -328,8 +330,9 @@ namespace NeeView
             switch (ActionType)
             {
                 case TransformActionType.Scale:
+                    var dpi = (Window.GetWindow(_sender) is IHasDpiScale hasDpiScale) ? hasDpiScale.GetDpiScale().DpiScaleX : 1.0;
                     string scaleText = Config.Current.Notice.IsOriginalScaleShowMessage && mainContent != null && mainContent.IsValid
-                        ? $"{(int)(dragTransform.Scale * mainContent.Scale * Environment.Dpi.DpiScaleX * 100 + 0.1)}%"
+                        ? $"{(int)(dragTransform.Scale * mainContent.Scale * dpi * 100 + 0.1)}%"
                         : $"{(int)(dragTransform.Scale * 100.0 + 0.1)}%";
                     infoMessage.SetMessage(InfoMessageType.ViewTransform, scaleText);
                     break;

@@ -19,21 +19,19 @@ namespace NeeView
     /// <summary>
     /// コマンド集 ： RoutedCommand
     /// </summary>
-    public class RoutedCommandTable
+    public class RoutedCommandTable : IDisposable
     {
         static RoutedCommandTable() => Current = new RoutedCommandTable();
         public static RoutedCommandTable Current { get; }
 
-        #region Fields
 
         private Dictionary<Key, bool> _usedKeyMap;
         private bool _isDarty = true;
         private List<EventHandler<KeyEventArgs>> _imeKeyHandlers = new List<EventHandler<KeyEventArgs>>();
         private MouseWheelDelta _mouseWheelDelta = new MouseWheelDelta();
-
-        #endregion
-
-        #region Constructors
+        private List<TouchInput> _touchInputCollection = new List<TouchInput>();
+        private List<MouseInput> _mouseInputCollection = new List<MouseInput>();
+        private bool _disposedValue;
 
         private RoutedCommandTable()
         {
@@ -49,9 +47,6 @@ namespace NeeView
             UpdateInputGestures();
         }
 
-        #endregion
-
-        #region Events
 
         /// <summary>
         /// コマンドテーブルが更新されたときのイベント
@@ -63,20 +58,13 @@ namespace NeeView
         /// </summary>
         public event EventHandler<CommandExecutedEventArgs> CommandExecuted;
 
-        #endregion
-
-        #region Properties
-
         /// <summary>
         /// コマンド辞書
         /// </summary>
         public Dictionary<string, RoutedUICommand> Commands { get; set; } = new Dictionary<string, RoutedUICommand>();
 
-        #endregion
 
-        #region Methods
 
-        //
         private void CommandTable_Changed(object sender, CommandChangedEventArgs e)
         {
             _isDarty = true;
@@ -87,7 +75,6 @@ namespace NeeView
             }
         }
 
-        //
         public void SetDarty()
         {
             _isDarty = true;
@@ -118,8 +105,7 @@ namespace NeeView
         }
 
 
-        private List<TouchInput> _touchInputCollection = new List<TouchInput>();
-        private List<MouseInput> _mouseInputCollection = new List<MouseInput>();
+
 
         public void AddTouchInput(TouchInput touchInput)
         {
@@ -139,6 +125,8 @@ namespace NeeView
         {
             if (!_isDarty) return;
             _isDarty = false;
+
+            if (_disposedValue) return;
 
             UpdateRoutedCommand();
             ClearRoutedCommandInputGestures();
@@ -401,7 +389,24 @@ namespace NeeView
             return command;
         }
 
-#endregion
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
     }
 
     /// <summary>

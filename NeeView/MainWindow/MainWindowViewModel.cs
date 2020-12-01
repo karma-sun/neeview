@@ -295,7 +295,6 @@ namespace NeeView
         {
             if (IsClosing) return;
 
-            // TODO: MainViewWindowや他のサブウィンドウの場合も対処
             RoutedCommandTable.Current.UpdateInputGestures();
         }
 

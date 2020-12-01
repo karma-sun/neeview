@@ -24,6 +24,9 @@ namespace NeeView
             _contentCanvas.ContentChanged +=
                 (s, e) => UpdateBackgroundBrush();
 
+            _contentCanvas.DpiChanged +=
+                (s, e) => UpdateBackgroundBrush();
+
             Config.Current.Background.AddPropertyChanged(nameof(BackgroundConfig.CustomBackground), (s, e) =>
             {
                 InitializeCustomBackgroundBrush();
@@ -190,7 +193,7 @@ namespace NeeView
         public void UpdateBackgroundBrush()
         {
             BackgroundBrush = CreateBackgroundBrush();
-            BackgroundFrontBrush = CreateBackgroundFrontBrush(Environment.Dpi);
+            BackgroundFrontBrush = CreateBackgroundFrontBrush(_contentCanvas.Dpi);
         }
         
         private void UpdateCustomBackgroundBrush()

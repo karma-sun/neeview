@@ -255,7 +255,7 @@ namespace NeeView
 
             if ((mask & (WindowTitleMask.Page | WindowTitleMask.View)) != 0)
             {
-                var _Dpi = Environment.Dpi;
+                var _Dpi = _viewComponent.ContentCanvas.Dpi;
 
                 string scale0 = contents[0].IsValid ? $"{(int)(viewScale * contents[0].Scale * _Dpi.DpiScaleX * 100 + 0.1)}%" : "";
                 string scale1 = contents[1].IsValid ? $"{(int)(viewScale * contents[1].Scale * _Dpi.DpiScaleX * 100 + 0.1)}%" : "";

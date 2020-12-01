@@ -28,6 +28,7 @@ namespace NeeView
 
         private PanelListItemStyleToBooleanConverter _panelListItemStyleToBooleanConverter = new PanelListItemStyleToBooleanConverter();
         private CancellationTokenSource _removeUnlinkedCommandCancellationTokenSource;
+        private DpiProvider _dpiProvider = new DpiProvider();
 
         #endregion
 
@@ -42,6 +43,9 @@ namespace NeeView
 
             _model.CollectionChanged +=
                 (s, e) => RaisePropertyChanged(nameof(FolderCollection));
+
+            _dpiProvider.DpiChanged +=
+                (s, e) => RaisePropertyChanged(nameof(DpiScale));
 
             InitializeMoreMenu();
         }
@@ -74,6 +78,8 @@ namespace NeeView
             get { return _MoreMenu; }
             set { if (_MoreMenu != value) { _MoreMenu = value; RaisePropertyChanged(); } }
         }
+
+        public DpiScale DpiScale => _dpiProvider.RawDpi;
 
         #endregion Properties
 
@@ -256,6 +262,10 @@ namespace NeeView
 
         #region Methods
 
+        public void SetDpiScale(DpiScale dpiScale)
+        {
+            _dpiProvider.SetDip(dpiScale);
+        }
 
         #endregion Methods
     }

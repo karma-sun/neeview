@@ -77,6 +77,13 @@ namespace NeeView
             _windowStateManager.StateChanged += WindowStateManager_StateChanged;
 
             MenuAutoHideDescription = new BasicAutoHideDescription(this.CaptionBar);
+
+            this.Activated += MainViewWindow_Activated;
+        }
+
+        private void MainViewWindow_Activated(object sender, EventArgs e)
+        {
+            RoutedCommandTable.Current.UpdateInputGestures();
         }
 
         private void WindowStateManager_StateChanged(object sender, EventArgs e)

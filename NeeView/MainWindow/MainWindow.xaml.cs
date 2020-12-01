@@ -28,6 +28,7 @@ namespace NeeView
         private MainWindowViewModel _vm;
         private RoutedCommandBinding _routedCommandBinding;
         private ViewComponent _viewComponent;
+        private DpiProvider _dpiProvider = new DpiProvider();
 
 
         #region コンストラクターと初期化処理
@@ -487,14 +488,11 @@ namespace NeeView
         /// <param name="e"></param>
         private void MainWindow_DpiChanged(object sender, DpiChangedEventArgs e)
         {
-            var isChanged = Environment.SetDip(e.NewDpi);
+            var isChanged = _dpiProvider.SetDip(e.NewDpi);
             if (!isChanged) return;
 
             //
             this.MenuBar.WindowCaptionButtons.UpdateStrokeThickness(e.NewDpi);
-
-            // 背景更新
-            _viewComponent.ContentCanvasBrush.UpdateBackgroundBrush();
 
             // Window Border
             WindowShape.Current?.UpdateWindowBorderThickness();
@@ -503,6 +501,8 @@ namespace NeeView
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             _vm.IsClosing = true;
+
+            RoutedCommandTable.Current.Dispose();
 
             // 設定ウィンドウの保存動作を無効化
             if (Setting.SettingWindow.Current != null)
@@ -780,7 +780,7 @@ namespace NeeView
 
         public DpiScale GetDpiScale()
         {
-            return Environment.RawDpi;
+            return _dpiProvider.RawDpi;
         }
 
         #endregion

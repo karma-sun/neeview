@@ -170,17 +170,23 @@ namespace NeeView
                 binding.SetMenuBackgroundBinding(LayoutPanelWindow.CaptionBackgroundProperty);
                 binding.SetMenuForegroundBinding(LayoutPanelWindow.CaptionForegroundProperty);
 
-
-                Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.MaximizeWindowGapWidth), (s, e) => UpdateMaximizeWindowGapWidth());
-                UpdateMaximizeWindowGapWidth();
+                Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.MaximizeWindowGapWidth), (s, e) => UpdateMaximizeWindowGapWidth(window));
+                UpdateMaximizeWindowGapWidth(window);
 
                 // NOTE: Tagにインスタンスを保持して消えないようにする
                 window.Tag = new RoutedCommandBinding(window, RoutedCommandTable.Current);
 
-                void UpdateMaximizeWindowGapWidth()
-                {
-                    window.WindowChrome.MaximizeWindowGapWidth = Config.Current.Window.MaximizeWindowGapWidth;
-                }
+                window.Activated += Window_Activated;
+            }
+
+            private static void Window_Activated(object sender, EventArgs e)
+            {
+                RoutedCommandTable.Current.UpdateInputGestures();
+            }
+
+            private static void UpdateMaximizeWindowGapWidth(LayoutPanelWindow window)
+            {
+                window.WindowChrome.MaximizeWindowGapWidth = Config.Current.Window.MaximizeWindowGapWidth;
             }
         }
     }

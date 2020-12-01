@@ -94,10 +94,11 @@ namespace NeeView
             return CreateFileIcon("__dummy__", FileIconType.DirectoryType, width, true, true);
         }
 
+        // TODO: DPI反映のためにBitmapFrameで複数画像を返す
         public BitmapSource CreateFileIcon(string filename, FileIconType iconType, double width, bool allowJumbo, bool useCache)
         {
             var collection = CreateFileIconCollection(filename, iconType, allowJumbo, useCache);
-            return collection?.GetBitmapSource(width * Environment.RawDpi.DpiScaleX);
+            return collection?.GetBitmapSource(width);
         }
 
 

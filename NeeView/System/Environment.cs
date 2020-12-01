@@ -42,47 +42,8 @@ namespace NeeView
         }
 
 
-        public static event EventHandler DpiChanged;
         public static event EventHandler LocalApplicationDataRemoved;
 
-
-        /// <summary>
-        /// DPI(アプリ値)
-        /// </summary>
-        public static DpiScale Dpi => Config.Current.System.IsIgnoreImageDpi ? RawDpi : OneDpi;
-
-        /// <summary>
-        /// DPI(システム値)
-        /// </summary>
-        public static DpiScale RawDpi { get; private set; } = new DpiScale(1, 1);
-
-        /// <summary>
-        /// 等倍DPI値
-        /// </summary>
-        public static DpiScale OneDpi { get; private set; } = new DpiScale(1, 1);
-
-        /// <summary>
-        /// DPIのXY比率が等しい？
-        /// </summary>
-        public static bool IsDpiSquare => Dpi.DpiScaleX == Dpi.DpiScaleY;
-
-        /// <summary>
-        /// DPI設定
-        /// </summary>
-        /// <param name="dpi"></param>
-        public static bool SetDip(DpiScale dpi)
-        {
-            if (RawDpi.DpiScaleX != dpi.DpiScaleX || RawDpi.DpiScaleY != dpi.DpiScaleY)
-            {
-                RawDpi = dpi;
-                DpiChanged?.Invoke(null, null);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
         // Windows7?
         public static bool IsWindows7

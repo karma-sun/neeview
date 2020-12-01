@@ -85,12 +85,18 @@ namespace NeeView
         private PageStretchMode _stretchModePrev = PageStretchMode.Uniform;
         private double _baseScale;
         private double _lastScale;
+        private DpiProvider _dpiProvider;
 
 
 
         public ContentCanvas(ViewComponent viewComponent, BookHub bookHub)
         {
+            if (viewComponent is null) throw new ArgumentNullException();
+            if (viewComponent.MainView?.DpiProvider is null) throw new ArgumentException();
+
             _viewComponent = viewComponent;
+            _dpiProvider = viewComponent.MainView.DpiProvider;
+            _dpiProvider.DpiChanged += (s, e) => DpiChanged?.Invoke(s, e);
 
             _contentSizeCalcurator = new ContentSizeCalcurator(this);
 
@@ -175,6 +181,8 @@ namespace NeeView
         public event EventHandler ContentChanged;
 
         public event EventHandler ContentSizeChanged;
+
+        public event EventHandler DpiChanged;
 
 
         // 空フォルダー通知表示のON/OFF
@@ -294,14 +302,14 @@ namespace NeeView
         }
 
         // メインコンテンツのオリジナル表示スケール
-        public double MainContentScale => MainContent != null ? MainContent.Scale * Environment.Dpi.DpiScaleX : 0.0;
+        public double MainContentScale => MainContent != null ? MainContent.Scale * _dpiProvider.Dpi.DpiScaleX : 0.0;
 
         // コンテンツ(代表)のオリジナル表示スケール
-        public double ContentScale => _baseScale * Environment.Dpi.DpiScaleX;
+        public double ContentScale => _baseScale * _dpiProvider.Dpi.DpiScaleX;
 
-        //
         public GridLine GridLine { get; private set; } = new GridLine();
 
+        public DpiScale Dpi => _dpiProvider.Dpi;
 
 
         /// <summary>
@@ -480,7 +488,7 @@ namespace NeeView
                 : _contentSizeCalcurator.GetFixedContentSize(sizes, GetAngleResetMode(false || Config.Current.View.IsKeepScale), _viewComponent.DragTransform.Angle);
 
             // 表示スケール推定
-            var scale = (Config.Current.View.IsKeepScale ? _viewComponent.DragTransform.Scale : 1.0) * (includeLoupeScale ? _viewComponent.LoupeTransform.FixedScale : 1.0) * Environment.RawDpi.DpiScaleX;
+            var scale = (Config.Current.View.IsKeepScale ? _viewComponent.DragTransform.Scale : 1.0) * (includeLoupeScale ? _viewComponent.LoupeTransform.FixedScale : 1.0) * _dpiProvider.RawDpi.DpiScaleX;
 
             // リサイズ
             for (int i = 0; i < 2; ++i)
@@ -657,7 +665,7 @@ namespace NeeView
         // コンテンツスケーリングモードを更新
         public void UpdateContentScalingMode(ViewContent target = null)
         {
-            double finalScale = _viewComponent.DragTransform.Scale * _viewComponent.LoupeTransform.FixedScale * Environment.RawDpi.DpiScaleX;
+            double finalScale = _viewComponent.DragTransform.Scale * _viewComponent.LoupeTransform.FixedScale * _dpiProvider.RawDpi.DpiScaleX;
 
             foreach (var content in CloneContents)
             {
@@ -678,7 +686,7 @@ namespace NeeView
 
                     var diff = Math.Abs(pixelHeight - viewHeight) + Math.Abs(pixelWidth - viewWidth);
                     var diffAngle = Math.Abs(_viewComponent.DragTransform.Angle % 90.0);
-                    if (Environment.IsDpiSquare && diff < 2.2 && diffAngle < 0.1 && !Config.Current.ImageTrim.IsEnabled)
+                    if (_dpiProvider.IsDpiSquare && diff < 2.2 && diffAngle < 0.1 && !Config.Current.ImageTrim.IsEnabled)
                     {
                         content.BitmapScalingMode = BitmapScalingMode.NearestNeighbor;
                         content.SetViewMode(ContentViewMode.Pixeled, finalScale);

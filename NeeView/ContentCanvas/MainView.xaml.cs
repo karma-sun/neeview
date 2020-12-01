@@ -24,6 +24,7 @@ namespace NeeView
     {
         private MainViewViewModel _vm;
         private Window _owner;
+        private DpiProvider _dpiProvider = new DpiProvider();
 
         public MainView()
         {
@@ -37,6 +38,8 @@ namespace NeeView
         public MouseInput MouseInput => _vm?.MouseInput;
 
         public TouchInput TouchInput => _vm?.TouchInput;
+
+        public DpiProvider DpiProvider => _dpiProvider;
 
 
         public void Initialize()
@@ -110,6 +113,15 @@ namespace NeeView
         {
             SetCursorVisible(true);
         }
+
+
+        protected override void OnDpiChanged(DpiScale oldDpi, DpiScale newDpi)
+        {
+            base.OnDpiChanged(oldDpi, newDpi);
+
+            _dpiProvider.SetDip(newDpi);
+        }
+
 
         private void FocusMainView()
         {

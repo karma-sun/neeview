@@ -12,6 +12,6 @@
         <Grid Width="6" Background="{Binding ThemeBrush.IconBackgroundBrush}" HorizontalAlignment="Left" />
         <Grid Width="6" Background="{Binding ThemeBrush.IconBackgroundBrush}" HorizontalAlignment="Right" />
         -->
-        <TextBlock Margin="10" Text="Windowed" Foreground="Gray" />
+        <TextBlock Margin="10" Text="Window mode" Foreground="Gray" />
     </Grid>
 </UserControl>

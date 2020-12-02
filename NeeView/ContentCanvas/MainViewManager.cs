@@ -91,21 +91,10 @@ namespace NeeView
             // NOTE: Tagにインスタンスを保持して消えないようにする
             _window.Tag = new RoutedCommandBinding(_window, RoutedCommandTable.Current);
 
-            _window.SourceInitialized += MainViewWindow_SourceInitialized;
-            _window.Closing += MainViewWindow_Closing;
+            _window.Closing += (s, e) => Store();
             _window.Closed += (s, e) => SetFloating(false);
 
             _window.Show();
-        }
-
-        private void MainViewWindow_Closing(object sender, CancelEventArgs e)
-        {
-            Store();
-        }
-
-        private void MainViewWindow_SourceInitialized(object sender, EventArgs e)
-        {
-            WindowPlacementTools.RestoreWindowPlacement((Window)sender, Config.Current.MainView.WindowPlacement);
         }
 
 
@@ -133,7 +122,7 @@ namespace NeeView
 
             if (_window != null)
             {
-                Config.Current.MainView.WindowPlacement = WindowPlacementTools.StoreWindowPlacement(_window, true);
+                Config.Current.MainView.WindowPlacement = _window.StoreWindowPlacement();
             }
         }
     }

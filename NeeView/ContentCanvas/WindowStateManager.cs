@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Windows;
+using System;
 using System.ComponentModel;
 using System.Windows;
 
@@ -40,7 +41,7 @@ namespace NeeView
 
         public WindowState WindowState => _window.WindowState;
 
-        public bool IsFullScreen => _isFullScreen;
+        public bool IsFullScreen => _isFullScreen && _window.WindowState == WindowState.Maximized;
 
         public double MaximizedChromeBorderThickness { get; set; } = 8.0;
 
@@ -192,6 +193,29 @@ namespace NeeView
             {
                 _dependency.ResumeWindowChrome();
             }
+        }
+
+
+        public WindowPlacement StoreWindowPlacement()
+        {
+            var placement = WindowPlacementTools.StoreWindowPlacement(_window, true);
+
+            if (this.WindowState == WindowState.Maximized && _isFullScreen)
+            {
+                placement = placement.WithIsFullScreeen(true);
+            }
+
+            return placement;
+        }
+
+        public void RestoreWindowPlacement(WindowPlacement placement)
+        {
+            if (placement.IsFullScreen)
+            {
+                ToFullScreen();
+            }
+
+            WindowPlacementTools.RestoreWindowPlacement(_window, placement);
         }
     }
 }

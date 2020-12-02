@@ -27,12 +27,24 @@ namespace NeeView.Windows
             Height = height;
         }
 
+        public WindowPlacement(WindowState windowState, int left, int top, int width, int height, bool isFullScreen) : this(windowState, left, top, width, height)
+        {
+            IsFullScreen = isFullScreen;
+
+            if (isFullScreen)
+            {
+                WindowState = WindowState.Maximized;
+            }
+        }
+
 
         public WindowState WindowState { get; private set; }
         public int Left { get; private set; }
         public int Top { get; private set; }
         public int Width { get; private set; }
         public int Height { get; private set; }
+
+        public bool IsFullScreen { get; private set; }
 
         public int Right => Left + Width;
         public int Bottom => Top + Height;
@@ -43,9 +55,15 @@ namespace NeeView.Windows
             return Width > 0 || Height > 0;
         }
 
+        public WindowPlacement WithIsFullScreeen(bool isFullScreen)
+        {
+            return new WindowPlacement(this.WindowState, this.Left, this.Top, this.Width, this.Height, isFullScreen);
+        }
+
         public override string ToString()
         {
-            return $"{WindowState},{Left},{Top},{Width},{Height}";
+            var state = IsFullScreen ? "FullScreen" : WindowState.ToString();
+            return $"{state},{Left},{Top},{Width},{Height}";
         }
 
         public static WindowPlacement Parse(string s)
@@ -59,12 +77,26 @@ namespace NeeView.Windows
                 return WindowPlacement.None;
             }
 
+            bool isFullScreen;
+            WindowState windowState;
+            if (tokens[0] == "FullScreen")
+            {
+                windowState = WindowState.Maximized;
+                isFullScreen = true;
+            }
+            else
+            {
+                windowState = (WindowState)(Enum.Parse(typeof(WindowState), tokens[0]));
+                isFullScreen = false;
+            }
+
             var placement = new WindowPlacement(
-                (WindowState)(Enum.Parse(typeof(WindowState), tokens[0])),
+                windowState,
                 int.Parse(tokens[1]),
                 int.Parse(tokens[2]),
                 int.Parse(tokens[3]),
-                int.Parse(tokens[4]));
+                int.Parse(tokens[4]),
+                isFullScreen);
 
             return placement;
         }

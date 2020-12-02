@@ -51,7 +51,7 @@
             <behaviors:Interaction.Behaviors>
                 <local:AutoHideBehavior Name="AutoHider" Screen="{Binding ElementName=Root}" Dock="Top" IsEnabled="{Binding CanHideMenu}" DelayTime="{Binding AutoHideConfig.AutoHideDelayTime}"
                         DelayVisibleTime="{Binding AutoHideConfig.AutoHideDelayVisibleTime}" FocusLockMode="{Binding AutoHideConfig.AutoHideFocusLockMode}"
-                        IsVisibleLocked="{Binding IsPanelVisibleLocked}" IsKeyDownDelayEnabled="{Binding AutoHideConfig.IsAutoHideKeyDownDelay}"
+                        IsKeyDownDelayEnabled="{Binding AutoHideConfig.IsAutoHideKeyDownDelay}"
                         HitTestMargin="{Binding AutoHideConfig.AutoHideHitTestMargin}" Description="{Binding MenuAutoHideDescription}" />
             </behaviors:Interaction.Behaviors>
             

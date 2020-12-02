@@ -92,35 +92,12 @@ namespace NeeView
 
             MenuAutoHideDescription = new BasicAutoHideDescription(this.CaptionBar);
 
+            this.SourceInitialized += MainViewWindow_SourceInitialized;
             this.Activated += MainViewWindow_Activated;
 
             UpdateCaptionBar();
         }
 
-
-        private void MainViewWindow_Activated(object sender, EventArgs e)
-        {
-            RoutedCommandTable.Current.UpdateInputGestures();
-        }
-
-        private void WindowStateManager_StateChanged(object sender, EventArgs e)
-        {
-            UpdateCaptionBar();
-        }
-
-        private void UpdateCaptionBar()
-        {
-            if (Config.Current.MainView.IsAutoHide || (this.WindowState == WindowState.Maximized && _windowStateManager.IsFullScreen))
-            {
-                this.CanHideMenu = true;
-                Grid.SetRow(this.CaptionBar, 1);
-            }
-            else
-            {
-                this.CanHideMenu = false;
-                Grid.SetRow(this.CaptionBar, 0);
-            }
-        }
 
         public Brush CaptionBackground
         {
@@ -150,10 +127,6 @@ namespace NeeView
 
         public BasicAutoHideDescription MenuAutoHideDescription { get; private set; }
 
-
-        public bool IsPanelVisibleLocked => false;
-
-
         public bool IsTopmost
         {
             get { return Config.Current.MainView.IsTopmost; }
@@ -166,7 +139,6 @@ namespace NeeView
             set { Config.Current.MainView.IsAutoHide = value; }
         }
 
-
         public bool CanHideMenu
         {
             get { return _canHideMenu; }
@@ -175,9 +147,48 @@ namespace NeeView
 
 
 
+        private void MainViewWindow_SourceInitialized(object sender, EventArgs e)
+        {
+            RestoreWindowPlacement(Config.Current.MainView.WindowPlacement);
+        }
+
+        private void MainViewWindow_Activated(object sender, EventArgs e)
+        {
+            RoutedCommandTable.Current.UpdateInputGestures();
+        }
+
+        private void WindowStateManager_StateChanged(object sender, EventArgs e)
+        {
+            UpdateCaptionBar();
+        }
+
+        private void UpdateCaptionBar()
+        {
+            if (Config.Current.MainView.IsAutoHide || _windowStateManager.IsFullScreen)
+            {
+                this.CanHideMenu = true;
+                Grid.SetRow(this.CaptionBar, 1);
+            }
+            else
+            {
+                this.CanHideMenu = false;
+                Grid.SetRow(this.CaptionBar, 0);
+            }
+        }
+
         public DpiScale GetDpiScale()
         {
             return _dpiWatcher.Dpi;
+        }
+
+        public WindowPlacement StoreWindowPlacement()
+        {
+            return _windowStateManager.StoreWindowPlacement();
+        }
+
+        public void RestoreWindowPlacement(WindowPlacement placement)
+        {
+            _windowStateManager.RestoreWindowPlacement(placement);
         }
 
 

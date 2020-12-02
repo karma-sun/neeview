@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -127,6 +128,48 @@ namespace NeeView
         {
             this.View.Focus();
         }
+
+        public void StretchWindow()
+        {
+            var window = Window.GetWindow(this);
+            if (window is null) return;
+
+            window.WindowState = WindowState.Normal;
+
+            var frameWidth = window.ActualWidth - this.ActualWidth;
+            var frameHeight = window.ActualHeight - this.ActualHeight;
+
+            var contentSize = this.GetContentRenderSize();
+            var limitSize = new Size(SystemParameters.VirtualScreenWidth - frameWidth, SystemParameters.VirtualScreenHeight - frameHeight);
+
+            if (contentSize.IsEmptyOrZero()) return;
+
+            Size canvasSize;
+            switch (_vm.GetStretchMode())
+            {
+                case PageStretchMode.Uniform:
+                case PageStretchMode.UniformToSize:
+                    canvasSize = contentSize.Limit(limitSize);
+                    break;
+                default:
+                    canvasSize = contentSize.Clamp(limitSize);
+                    break;
+            }
+
+            window.Width = canvasSize.Width + frameWidth;
+            window.Height = canvasSize.Height + frameHeight;
+
+            _vm.Stretch();
+        }
+
+        private Size GetContentRenderSize()
+        {
+            var rect = new Rect(new Size(this.MainContentShadow.ActualWidth, this.MainContentShadow.ActualHeight));
+            return this.MainContentShadow.RenderTransform.TransformBounds(rect).Size;
+        }
+
+
+
 
         #region タイマーによる非アクティブ監視
 

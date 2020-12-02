@@ -50,7 +50,7 @@
                     </ContentControl>
                 </Canvas>
                 <!-- Pages Shadow (表示領域計算用) -->
-                <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}" IsHitTestVisible="False"
+                <Canvas x:Name="PageCanvasShadow" Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}" IsHitTestVisible="False"
                         HorizontalAlignment="Center" VerticalAlignment="Center">
                     <StackPanel x:Name="MainContentShadow" Orientation="Horizontal">
                         <Rectangle x:Name="Content1Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}" />

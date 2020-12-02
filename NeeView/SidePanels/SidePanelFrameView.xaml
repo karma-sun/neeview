@@ -19,7 +19,7 @@
         </DataTemplate>
 
         <Style x:Key="PanelIconGridStyle" TargetType="Grid">
-            <Setter Property="Background" Value="{Binding Profile.IconBackgroundBrush}" />
+            <Setter Property="Background" Value="{Binding ThemeBrush.IconBackgroundBrush}" />
             <Setter Property="Width" Value="40" />
             <Setter Property="Visibility" Value="{Binding IsSideBarVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Setter Property="UseLayoutRounding" Value="True" />
@@ -39,12 +39,12 @@
         </Style>
 
         <Style x:Key="PanelGridStyle" TargetType="Grid">
-            <Setter Property="Background" Value="{Binding Profile.BackgroundBrush}" />
+            <Setter Property="Background" Value="{Binding ThemeBrush.BackgroundBrush}" />
         </Style>
 
         <Style x:Key="PanelGridSplitterStyle" TargetType="GridSplitter">
             <Setter Property="Width" Value="{Binding PanelIconGridWidth}" />
-            <Setter Property="Background" Value="{Binding Profile.BackgroundBrush}" />
+            <Setter Property="Background" Value="{Binding ThemeBrush.BackgroundBrush}" />
         </Style>
 
         <Style x:Key="NVVerticalBevelGrip" TargetType="{x:Type osc:DockPanelSplitter}">
@@ -53,7 +53,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type osc:DockPanelSplitter}">
                         <!--
-                        <Grid SnapsToDevicePixels="True" Background="{Binding Profile.BackgroundBrush}" />
+                        <Grid SnapsToDevicePixels="True" Background="{Binding ThemeBrush.BackgroundBrush}" />
                         -->
                         <Grid SnapsToDevicePixels="True" Background="#0800" />
                     </ControlTemplate>
@@ -108,7 +108,8 @@
                 <Grid x:Name="LeftPanel" Style="{StaticResource PanelGridStyle}" DockPanel.Dock="Left" UseLayoutRounding="True" Width="{Binding VM.Left.Width, Mode=TwoWay}"
                         Visibility="{Binding VM.Left.PanelVisibility}" SizeChanged="LeftPanel_SizeChanged">
                     <nrlp:LayoutDockPanel x:Name="LeftPanelContent" Margin="{Binding PanelMargin}" Manager="{Binding VM.MainLayoutPanelManager}"
-                            ItemsSource="{Binding VM.MainLayoutPanelManager.LeftDock.SelectedItem}" Background="{Binding Profile.BackgroundBrush}" BorderBrush="{Binding Profile.IconBackgroundBrush}"
+                            ItemsSource="{Binding VM.MainLayoutPanelManager.LeftDock.SelectedItem}" Background="{Binding ThemeBrush.BackgroundBrush}"
+                            BorderBrush="{Binding ThemeBrush.IconBackgroundBrush}"
                             TextBlock.Foreground="Gray">
                         <behaviors:Interaction.Behaviors>
                             <local:AutoHideBehavior Name="LeftPanel" Screen="{Binding ElementName=Screen}" SubTarget="{Binding ElementName=LeftPanelSplitter}" Dock="Left"
@@ -133,7 +134,8 @@
                 <Grid x:Name="RightPanel" DockPanel.Dock="Right" Style="{StaticResource PanelGridStyle}" Width="{Binding VM.Right.Width, Mode=TwoWay}" UseLayoutRounding="True"
                         Visibility="{Binding VM.Right.PanelVisibility}" SizeChanged="RightPanel_SizeChanged">
                     <nrlp:LayoutDockPanel x:Name="RightPanelContent" Margin="{Binding PanelMargin}" Manager="{Binding VM.MainLayoutPanelManager}"
-                            ItemsSource="{Binding VM.MainLayoutPanelManager.RightDock.SelectedItem}" Background="{Binding Profile.BackgroundBrush}" BorderBrush="{Binding Profile.IconBackgroundBrush}"
+                            ItemsSource="{Binding VM.MainLayoutPanelManager.RightDock.SelectedItem}" Background="{Binding ThemeBrush.BackgroundBrush}"
+                            BorderBrush="{Binding ThemeBrush.IconBackgroundBrush}"
                             TextBlock.Foreground="Gray">
                         <behaviors:Interaction.Behaviors>
                             <local:AutoHideBehavior Name="RightPanel" Screen="{Binding ElementName=Screen}" SubTarget="{Binding ElementName=RightPanelSplitter}" Dock="Right"

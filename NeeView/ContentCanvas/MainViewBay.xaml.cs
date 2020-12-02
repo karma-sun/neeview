@@ -1,9 +1,24 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
 namespace NeeView
 {
-    public class MainViewBay : Grid, IHasDeviceInput
+    /// <summary>
+    /// ManViewBay.xaml の相互作用ロジック
+    /// </summary>
+    public partial class MainViewBay : UserControl, IHasDeviceInput
     {
         private MouseInput _mouseInput;
         private TouchInput _touchInput;
@@ -12,32 +27,13 @@ namespace NeeView
         public MouseInput MouseInput => _mouseInput;
         public TouchInput TouchInput => _touchInput;
 
+        public ThemeBrushProvider ThemeBrush => ThemeBrushProvider.Current;
 
         public MainViewBay()
         {
-            this.Name = "MainViewBase";
-            this.Background = Brushes.Gray;
-            this.IsHitTestVisible = true;
+            InitializeComponent();
 
-#if false
-            var visualBrush = new VisualBrush()
-            {
-                Visual = _mainView,
-                Stretch = Stretch.Uniform,
-            };
-
-            var rectangle = new Rectangle()
-            {
-                Width = 256,
-                Height = 256,
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Top,
-                Margin = new Thickness(0, 50, 0, 0),
-                Fill = visualBrush,
-            };
-
-            this.Children.Add(rectangle);
-#endif
+            this.DataContext = this;
 
             // mouse / touch command gesture binding
             var mouseGestureCommandCollection = MouseGestureCommandCollection.Current;

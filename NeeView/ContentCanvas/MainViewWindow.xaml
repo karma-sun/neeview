@@ -5,40 +5,48 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:nwc="clr-namespace:NeeView.Windows.Controls;assembly=NeeView.Runtime"
         xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:properties="clr-namespace:NeeView.Properties"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
         Style="{StaticResource DefaultWindowStyle}"
+        Topmost="{Binding IsTopmost}"
         Title="MainViewWindow" Height="450" Width="800">
 
+    <Window.Resources>
+        <Style x:Key="ContextMenuItemStyle" TargetType="MenuItem">
+            <Setter Property="CommandTarget" Value="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+        </Style>
+
+        <RoutedCommand x:Key="StretchWindowCommand" />
+    </Window.Resources>
+    
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static SystemCommands.CloseWindowCommand}" Executed="CloseWindowCommand_Execute" />
         <CommandBinding Command="{x:Static SystemCommands.RestoreWindowCommand}" Executed="RestoreWindowCommand_Execute" />
         <CommandBinding Command="{x:Static SystemCommands.MaximizeWindowCommand}" Executed="MaximizeWindowCommand_Execute" />
         <CommandBinding Command="{x:Static SystemCommands.MinimizeWindowCommand}" Executed="MinimizeWindowCommand_Execute" />
-        <!--
-        <CommandBinding Command="{StaticResource OpenDockCommand}" Executed="OpenDockCommand_Execute" />
-        -->
+        <CommandBinding Command="{StaticResource StretchWindowCommand}" Executed="StretchWindowCommand_Execute" />
     </Window.CommandBindings>
 
     <Grid x:Name="Root">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
+            <RowDefinition x:Name="Row0" Height="Auto" />
+            <RowDefinition x:Name="Row1"/>
         </Grid.RowDefinitions>
 
         <UserControl x:Name="MainViewSocket" Grid.Row="1" Content="{Binding LayoutPanel.Content}" />
         
         <DockPanel x:Name="CaptionBar" Grid.Row="0" Background="{Binding CaptionBackground}" Height="{Binding WindowChrome.CaptionHeight}" VerticalAlignment="Top">
-            <!--
             <DockPanel.ContextMenu>
                 <ContextMenu>
-                    <MenuItem x:Name="FloatingMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="Floating" IsEnabled="False" />
-                    <MenuItem x:Name="DockingMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="Docking" Command="{StaticResource OpenDockCommand}" />
+                    <MenuItem x:Name="StretchWindowMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.CommandStretchWindowMenu}" Command="{StaticResource StretchWindowCommand}" />
                     <Separator />
-                    <MenuItem x:Name="CloseMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="Close" Command="{x:Static SystemCommands.CloseWindowCommand}" />
+                    <MenuItem x:Name="IsAutoHideMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.WordAutoHideTitleBar}" IsCheckable="True" IsChecked="{Binding IsAutoHide}" />
+                    <MenuItem x:Name="IsTopmostMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.WordTopmost}" IsCheckable="True" IsChecked="{Binding IsTopmost}" />
+                    <Separator />
+                    <MenuItem x:Name="CloseMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.WordClose}" Command="{x:Static SystemCommands.CloseWindowCommand}" />
                 </ContextMenu>
             </DockPanel.ContextMenu>
-            -->
 
             <behaviors:Interaction.Behaviors>
                 <local:AutoHideBehavior Name="AutoHider" Screen="{Binding ElementName=Root}" Dock="Top" IsEnabled="{Binding CanHideMenu}" DelayTime="{Binding AutoHideConfig.AutoHideDelayTime}"

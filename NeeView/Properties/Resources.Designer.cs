@@ -2923,6 +2923,33 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Stretch window に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandStretchWindow {
+            get {
+                return ResourceManager.GetString("CommandStretchWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Stretch window に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandStretchWindowMenu {
+            get {
+                return ResourceManager.GetString("CommandStretchWindowMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Fit the window to the MainView content size. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandStretchWindowNote {
+            get {
+                return ResourceManager.GetString("CommandStretchWindowNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   switch: bool|ON/OFF. Toggle if omitted. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleArgument {
@@ -3805,7 +3832,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Toggle MainView floating に類似しているローカライズされた文字列を検索します。
+        ///   Toggle MainView window に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleMainViewFloating {
             get {
@@ -3814,7 +3841,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   MainView floating に類似しているローカライズされた文字列を検索します。
+        ///   MainView window に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleMainViewFloatingMenu {
             get {
@@ -3823,7 +3850,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Make the MainView a subwindow. に類似しているローカライズされた文字列を検索します。
+        ///   Make the MainView a window. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleMainViewFloatingNote {
             get {
@@ -13152,11 +13179,29 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Automatically hide MainView window title bar に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamMainViewIsAutoHide {
+            get {
+                return ResourceManager.GetString("ParamMainViewIsAutoHide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   MainView floating に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamMainViewIsFloating {
             get {
                 return ResourceManager.GetString("ParamMainViewIsFloating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   MainView window is topmost に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamMainViewIsTopmost {
+            get {
+                return ResourceManager.GetString("ParamMainViewIsTopmost", resourceCulture);
             }
         }
         
@@ -15966,6 +16011,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Auto-hide title bar に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordAutoHideTitleBar {
+            get {
+                return ResourceManager.GetString("WordAutoHideTitleBar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Bookmark に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WordBookmark {
@@ -16745,6 +16799,15 @@ namespace NeeView.Properties {
         public static string WordToDown {
             get {
                 return ResourceManager.GetString("WordToDown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Topmost に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordTopmost {
+            get {
+                return ResourceManager.GetString("WordTopmost", resourceCulture);
             }
         }
         

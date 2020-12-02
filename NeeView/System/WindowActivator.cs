@@ -31,7 +31,10 @@ namespace NeeView
 
         public IEnumerable<Window> GetSubWindows()
         {
-            return MainLayoutPanelManager.Current.Windows.Windows.Cast<Window>();
+            var viewWindow = MainViewManager.Current.Window;
+            var layoutPanelWindows = MainLayoutPanelManager.Current.Windows.Windows.Cast<Window>();
+
+            return viewWindow != null ? layoutPanelWindows.Prepend(viewWindow) : layoutPanelWindows;
         }
 
         public bool NextSubWindow(int direction, bool loopable)

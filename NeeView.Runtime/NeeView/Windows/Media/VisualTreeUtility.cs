@@ -271,10 +271,13 @@ namespace NeeView.Windows.Media
         /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
         /// <param name="target"></param>
+        /// <param name="includeSelf">検索対象に自身を含めるか</param>
         /// <returns></returns>
-        public static bool HasParentElement(DependencyObject obj, DependencyObject target)
+        public static bool HasParentElement(DependencyObject obj, DependencyObject target, bool includeSelf = false)
         {
             if (target == null) return false;
+
+            if (includeSelf && target == obj) return true;
 
             var element = obj;
             while (element != null)
@@ -298,7 +301,7 @@ namespace NeeView.Windows.Media
         /// <param name="name"></param>
         /// <returns></returns>
         public static T GetChildElement<T>(DependencyObject item, string name = null)
-            where T : FrameworkElement
+        where T : FrameworkElement
         {
             if (item == null)
             {

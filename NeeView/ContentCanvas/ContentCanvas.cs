@@ -746,6 +746,11 @@ namespace NeeView
             return Config.Current.View.StretchMode;
         }
 
+        public PageStretchMode GetStretchMode()
+        {
+            return Config.Current.View.StretchMode;
+        }
+
         public void SetStretchMode(PageStretchMode mode, bool isToggle)
         {
             Config.Current.View.StretchMode = GetFixedStretchMode(mode, isToggle);

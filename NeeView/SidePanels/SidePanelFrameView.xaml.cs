@@ -243,7 +243,7 @@ namespace NeeView
 
         public Thickness ViewpoartMargin { get; } = new Thickness(-_splitterWidth, 0.0, -_splitterWidth, 0.0);
 
-        public SidePanelProfile Profile => SidePanelProfile.Current;
+        public ThemeBrushProvider ThemeBrush => ThemeBrushProvider.Current;
 
         private SidePanelFrameViewModel _vm;
         public SidePanelFrameViewModel VM

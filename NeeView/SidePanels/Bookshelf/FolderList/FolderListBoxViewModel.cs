@@ -31,8 +31,6 @@ namespace NeeView
         public event EventHandler<FolderListSelectedChangedEventArgs> SelectedChanged;
 
 
-        public SidePanelProfile Profile => SidePanelProfile.Current;
-
         public FolderCollection FolderCollection => _model.FolderCollection;
 
         public FolderOrder FolderOrder => _model.FolderCollection.FolderOrder;

@@ -5707,13 +5707,13 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Synchronize the amount of change to the number of displayed pages</value>
   </data>
   <data name="CommandToggleMainViewFloating" xml:space="preserve">
-    <value>Toggle MainView floating</value>
+    <value>Toggle MainView window</value>
   </data>
   <data name="CommandToggleMainViewFloatingMenu" xml:space="preserve">
-    <value>MainView floating</value>
+    <value>MainView window</value>
   </data>
   <data name="CommandToggleMainViewFloatingNote" xml:space="preserve">
-    <value>Make the MainView a subwindow.</value>
+    <value>Make the MainView a window.</value>
   </data>
   <data name="ToggleMainViewFloatingOff" xml:space="preserve">
     <value>MainView docking</value>
@@ -5723,5 +5723,26 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="ParamMainViewIsFloating" xml:space="preserve">
     <value>MainView floating</value>
+  </data>
+  <data name="CommandStretchWindow" xml:space="preserve">
+    <value>Stretch window</value>
+  </data>
+  <data name="CommandStretchWindowMenu" xml:space="preserve">
+    <value>Stretch window</value>
+  </data>
+  <data name="CommandStretchWindowNote" xml:space="preserve">
+    <value>Fit the window to the MainView content size.</value>
+  </data>
+  <data name="ParamMainViewIsTopmost" xml:space="preserve">
+    <value>MainView window is topmost</value>
+  </data>
+  <data name="ParamMainViewIsAutoHide" xml:space="preserve">
+    <value>Automatically hide MainView window title bar</value>
+  </data>
+  <data name="WordTopmost" xml:space="preserve">
+    <value>Topmost</value>
+  </data>
+  <data name="WordAutoHideTitleBar" xml:space="preserve">
+    <value>Auto-hide title bar</value>
   </data>
 </root>

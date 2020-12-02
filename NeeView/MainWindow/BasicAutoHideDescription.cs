@@ -21,19 +21,19 @@ namespace NeeView
             var targetElement = ContextMenuWatcher.TargetElement;
             if (targetElement != null)
             {
-                return VisualTreeUtility.HasParentElement(targetElement, _target);
+                return VisualTreeUtility.HasParentElement(targetElement, _target, true);
             }
 
             var dragElement = DragDropWatcher.DragElement;
             if (dragElement != null)
             {
-                return VisualTreeUtility.HasParentElement(dragElement, _target);
+                return VisualTreeUtility.HasParentElement(dragElement, _target, true);
             }
 
             var popupElement = PopupWatcher.PopupElement;
             if (popupElement != null)
             {
-                return VisualTreeUtility.HasParentElement(popupElement, _target);
+                return VisualTreeUtility.HasParentElement(popupElement, _target, true);
             }
 
             return false;

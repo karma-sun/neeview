@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace NeeView
 {
@@ -224,6 +225,11 @@ namespace NeeView
         public void ToggleWindowFullScreen(object sender)
         {
             _windowStateController.ToggleFullScreen(sender);
+        }
+
+        public void StretchWindow()
+        {
+            _viewComponent.MainView.StretchWindow();
         }
     }
 

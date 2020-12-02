@@ -125,5 +125,14 @@ namespace NeeView
             _viewComponent.DragTransformControl.SnapView();
         }
 
+        public void Stretch()
+        {
+            _viewComponent.ContentCanvas.Stretch();
+        }
+
+        public PageStretchMode GetStretchMode()
+        {
+            return _viewComponent.ContentCanvas.GetStretchMode();
+        }
     }
 }

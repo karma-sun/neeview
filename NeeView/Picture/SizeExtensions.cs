@@ -62,6 +62,15 @@ namespace NeeView
             return Uniformed(self, target);
         }
 
+        // 指定サイズで切り取る
+        public static Size Clamp(this Size self, Size limit)
+        {
+            if (self.IsEmpty || limit.IsEmpty || limit.IsContains(self)) return self;
+
+            return new Size(Math.Min(self.Width, limit.Width), Math.Min(self.Height, limit.Height));
+        }
+
+
         // ほぼ同じサイズ？
         public static bool IsEqualMaybe(this Size self, Size target)
         {

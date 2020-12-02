@@ -414,13 +414,8 @@ namespace NeeView
         /// <summary>
         /// ウィンドウ状態変更イベント処理
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void MainWindow_StateChanged(object sender, EventArgs e)
         {
-            // ルーペ解除
-            // TODO: これはViewComponentで完結すべき
-            _viewComponent.MouseInput.IsLoupeMode = false;
         }
 
         private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -433,7 +428,6 @@ namespace NeeView
         {
         }
 
-        // 
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
             // ALTキーのメニュー操作無効 (Alt+F4は常に有効)
@@ -513,6 +507,10 @@ namespace NeeView
             // パネルレイアウトの保存
             MainLayoutPanelManager.Current?.Store();
             MainLayoutPanelManager.Current?.SetIsStoreEnabled(false);
+
+            // メインビューの保存
+            MainViewManager.Current?.Store();
+            MainViewManager.Current?.SetIsStoreEnabled(false);
 
             // ウィンドウ座標の保存
             StoreWindowPlacement();

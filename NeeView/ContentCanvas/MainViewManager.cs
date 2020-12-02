@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NeeView.Windows;
+using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -21,6 +23,7 @@ namespace NeeView
 
         private ContentControl _defaultSocket;
 
+        private bool _isStoreEnabled = true;
 
 
         public MainViewWindow Window => _window;
@@ -49,6 +52,8 @@ namespace NeeView
 
         public void SetFloating(bool isFloating)
         {
+            if (!_isStoreEnabled) return;
+
             Config.Current.MainView.IsFloating = isFloating;
         }
 
@@ -72,19 +77,37 @@ namespace NeeView
                 return;
             }
 
+            if (!Config.Current.MainView.WindowPlacement.IsValid())
+            {
+                var point = _mainView.PointToScreen(new Point(0.0, 0.0));
+                Config.Current.MainView.WindowPlacement = new WindowPlacement(WindowState.Normal, (int)point.X + 32, (int)point.Y + 32, (int)_mainView.ActualWidth, (int)_mainView.ActualHeight);
+            }
+
             _defaultSocket.Content = _mainViewBay;
 
             _window = new MainViewWindow();
             _window.MainViewSocket.Content = _mainView;
-            //_window.Owner = Application.Current.MainWindow;
 
             // NOTE: Tagにインスタンスを保持して消えないようにする
             _window.Tag = new RoutedCommandBinding(_window, RoutedCommandTable.Current);
 
+            _window.SourceInitialized += MainViewWindow_SourceInitialized;
+            _window.Closing += MainViewWindow_Closing;
             _window.Closed += (s, e) => SetFloating(false);
 
             _window.Show();
         }
+
+        private void MainViewWindow_Closing(object sender, CancelEventArgs e)
+        {
+            Store();
+        }
+
+        private void MainViewWindow_SourceInitialized(object sender, EventArgs e)
+        {
+            WindowPlacementTools.RestoreWindowPlacement((Window)sender, Config.Current.MainView.WindowPlacement);
+        }
+
 
         private void Docking()
         {
@@ -95,6 +118,23 @@ namespace NeeView
             _window = null;
 
             _defaultSocket.Content = _mainView;
+        }
+
+
+
+        public void SetIsStoreEnabled(bool allow)
+        {
+            _isStoreEnabled = allow;
+        }
+
+        public void Store()
+        {
+            if (!_isStoreEnabled) return;
+
+            if (_window != null)
+            {
+                Config.Current.MainView.WindowPlacement = WindowPlacementTools.StoreWindowPlacement(_window, true);
+            }
         }
     }
 

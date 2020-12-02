@@ -5707,13 +5707,13 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>変更量を表示ページ数に同期</value>
   </data>
   <data name="CommandToggleMainViewFloating" xml:space="preserve">
-    <value>メインビューのフローティング/解除</value>
+    <value>メインビューウィンドウ/解除</value>
   </data>
   <data name="CommandToggleMainViewFloatingMenu" xml:space="preserve">
-    <value>メインビューのフローティング</value>
+    <value>メインビューウィンドウ</value>
   </data>
   <data name="CommandToggleMainViewFloatingNote" xml:space="preserve">
-    <value>メインビューをサブウィンドウ化します。</value>
+    <value>メインビューをウィンドウにします。</value>
   </data>
   <data name="ToggleMainViewFloatingOff" xml:space="preserve">
     <value>メインビューのドッキング</value>
@@ -5723,5 +5723,26 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="ParamMainViewIsFloating" xml:space="preserve">
     <value>メインビューのフローティング</value>
+  </data>
+  <data name="CommandStretchWindow" xml:space="preserve">
+    <value>ウィンドウサイズ調整</value>
+  </data>
+  <data name="CommandStretchWindowMenu" xml:space="preserve">
+    <value>ウィンドウサイズ調整</value>
+  </data>
+  <data name="CommandStretchWindowNote" xml:space="preserve">
+    <value>メインビューのコンテンツサイズにウィンドウを合わせます。</value>
+  </data>
+  <data name="ParamMainViewIsTopmost" xml:space="preserve">
+    <value>メインビューウィンドウを常に手前に表示</value>
+  </data>
+  <data name="ParamMainViewIsAutoHide" xml:space="preserve">
+    <value>メインビューウィンドウタイトルの自動非表示</value>
+  </data>
+  <data name="WordTopmost" xml:space="preserve">
+    <value>常に手前に表示</value>
+  </data>
+  <data name="WordAutoHideTitleBar" xml:space="preserve">
+    <value>タイトルバーを自動的に隠す</value>
   </data>
 </root>

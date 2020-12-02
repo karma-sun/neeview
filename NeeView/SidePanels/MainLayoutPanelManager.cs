@@ -166,9 +166,9 @@ namespace NeeView
                 window.Style = (Style)App.Current.Resources["DefaultWindowStyle"];
 
                 var binding = new ThemeBrushBinding(window);
-                binding.SetPanelBackgroundBinding(LayoutPanelWindow.BackgroundProperty);
                 binding.SetMenuBackgroundBinding(LayoutPanelWindow.CaptionBackgroundProperty);
                 binding.SetMenuForegroundBinding(LayoutPanelWindow.CaptionForegroundProperty);
+                window.SetBinding(LayoutPanelWindow.BackgroundProperty, new Binding(nameof(ThemeBrushProvider.BackgroundBrushRaw)) { Source = ThemeBrushProvider.Current });
 
                 Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.MaximizeWindowGapWidth), (s, e) => UpdateMaximizeWindowGapWidth(window));
                 UpdateMaximizeWindowGapWidth(window);

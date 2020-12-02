@@ -354,6 +354,8 @@ namespace NeeView
                 new FocusPrevAppCommand("FocusPrevAppCommand"),
                 new FocusNextAppCommand("FocusNextAppCommand"),
 
+                new StretchWindowCommand("StretchWindow"),
+
                 new OpenConsoleCommand("OpenConsole"),
 
                 new CancelScriptCommand("CancelScript")

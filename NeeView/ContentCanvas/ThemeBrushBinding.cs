@@ -51,10 +51,5 @@ namespace NeeView
             _element.SetBinding(property, multiBinding);
         }
 
-        public void SetPanelBackgroundBinding(DependencyProperty property)
-        {
-            var background = new Binding(nameof(SidePanelProfile.BackgroundBrushRaw)) { Source = SidePanelProfile.Current };
-            _element.SetBinding(property, background);
-        }
     }
 }

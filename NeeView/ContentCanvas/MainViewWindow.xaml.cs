@@ -3,6 +3,7 @@ using NeeView.Windows;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,18 +53,20 @@ namespace NeeView
         private WindowChromeAccessor _windowChrome;
         private LayoutPanelWindowCaptionEmulator _windowCaptionEmulator;
         private WindowStateManager _windowStateManager;
+        private bool _canHideMenu;
+
 
         public MainViewWindow()
         {
             InitializeComponent();
+
+            this.DataContext = this;
 
             var binding = new ThemeBrushBinding(this);
             binding.SetMenuBackgroundBinding(MainViewWindow.CaptionBackgroundProperty);
             binding.SetMenuForegroundBinding(MainViewWindow.CaptionForegroundProperty);
 
             this.SetBinding(MainViewWindow.TitleProperty, new Binding(nameof(WindowTitle.Title)) { Source = WindowTitle.Current });
-
-            this.DataContext = this;
 
             _dpiWatcher = new DpiWatcher(this);
 
@@ -76,10 +79,24 @@ namespace NeeView
             _windowStateManager = new WindowStateManager(this, new WindowStateManagerDependency(_windowChrome, TabletModeWatcher.Current));
             _windowStateManager.StateChanged += WindowStateManager_StateChanged;
 
+            Config.Current.MainView.AddPropertyChanged(nameof(MainViewConfig.IsAutoHide), (s, e) =>
+            {
+                RaisePropertyChanged(nameof(IsAutoHide));
+                UpdateCaptionBar();
+            });
+
+            Config.Current.MainView.AddPropertyChanged(nameof(MainViewConfig.IsTopmost), (s, e) =>
+            {
+                RaisePropertyChanged(nameof(IsTopmost));
+            });
+
             MenuAutoHideDescription = new BasicAutoHideDescription(this.CaptionBar);
 
             this.Activated += MainViewWindow_Activated;
+
+            UpdateCaptionBar();
         }
+
 
         private void MainViewWindow_Activated(object sender, EventArgs e)
         {
@@ -88,7 +105,12 @@ namespace NeeView
 
         private void WindowStateManager_StateChanged(object sender, EventArgs e)
         {
-            if (this.WindowState == WindowState.Maximized && _windowStateManager.IsFullScreen)
+            UpdateCaptionBar();
+        }
+
+        private void UpdateCaptionBar()
+        {
+            if (Config.Current.MainView.IsAutoHide || (this.WindowState == WindowState.Maximized && _windowStateManager.IsFullScreen))
             {
                 this.CanHideMenu = true;
                 Grid.SetRow(this.CaptionBar, 1);
@@ -132,13 +154,24 @@ namespace NeeView
         public bool IsPanelVisibleLocked => false;
 
 
-        private bool _CanHideMenu;
-        public bool CanHideMenu
+        public bool IsTopmost
         {
-            get { return _CanHideMenu; }
-            set { SetProperty(ref _CanHideMenu, value); }
+            get { return Config.Current.MainView.IsTopmost; }
+            set { Config.Current.MainView.IsTopmost = value; }
         }
 
+        public bool IsAutoHide
+        {
+            get { return Config.Current.MainView.IsAutoHide; }
+            set { Config.Current.MainView.IsAutoHide = value; }
+        }
+
+
+        public bool CanHideMenu
+        {
+            get { return _canHideMenu; }
+            set { SetProperty(ref _canHideMenu, value); }
+        }
 
 
 
@@ -197,5 +230,14 @@ namespace NeeView
         }
 
         #endregion Window state commands
+
+        private void StretchWindowCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (this.MainViewSocket.Content is MainView mainView)
+            {
+                mainView.StretchWindow();
+            }
+        }
+
     }
 }

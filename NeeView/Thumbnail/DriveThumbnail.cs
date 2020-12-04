@@ -35,10 +35,10 @@ namespace NeeView
             if (!_initialized)
             {
                 _initialized = true;
-                DriveIconUtility.CreateDriveIconAsync(_path, 256.0,
+                DriveIconUtility.CreateDriveIconAsync(_path,
                     image =>
                     {
-                        _bitmapSource = image;
+                        _bitmapSource = image.GetBitmapSource(256.0);
                         DriveIconUtility.SetDriveIconCache(_path, _bitmapSource);
                         RaisePropertyChanged("");
                     });
@@ -58,9 +58,8 @@ namespace NeeView
         /// 非同期のドライブアイコン画像生成
         /// </summary>
         /// <param name="path">ドライブパス</param>
-        /// <param name="width">アイコンサイズ</param>
         /// <param name="callback">画像生成後のコールバック</param>
-        public static void CreateDriveIconAsync(string path, double width, Action<ImageSource> callback)
+        public static void CreateDriveIconAsync(string path, Action<BitmapSourceCollection> callback)
         {
             var task = new Task(async () =>
             {
@@ -68,7 +67,7 @@ namespace NeeView
                 {
                     try
                     {
-                        var bitmapSource = FileIconCollection.Current.CreateFileIcon(path, IO.FileIconType.Drive, width, true, false);
+                        var bitmapSource = FileIconCollection.Current.CreateFileIcon(path, IO.FileIconType.Drive, true, false);
                         if (bitmapSource != null)
                         {
                             bitmapSource.Freeze();
@@ -101,7 +100,7 @@ namespace NeeView
             }
             else
             {
-                return FileIconCollection.Current.CreateDefaultFolderIcon(256.0);
+                return FileIconCollection.Current.CreateDefaultFolderIcon().GetBitmapSource(256.0);
             }
         }
     }

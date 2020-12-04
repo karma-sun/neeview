@@ -36,7 +36,7 @@ namespace NeeView
 
         public override string DispName { get => Name; set { } }
 
-        public override ImageSource Icon => FileIconCollection.Current.CreateFileIcon(Path, IO.FileIconType.Directory, 16.0, false, false);
+        public override IImageSourceCollection Icon => FileIconCollection.Current.CreateFileIcon(Path, IO.FileIconType.Directory,  false, false);
 
         public virtual string Path => Parent is DirectoryNode parent ? LoosePath.Combine(parent.Path, Name) : Name;
 

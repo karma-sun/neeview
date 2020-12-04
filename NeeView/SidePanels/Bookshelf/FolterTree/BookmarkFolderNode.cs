@@ -25,7 +25,7 @@ namespace NeeView
 
         public override string DispName { get => Name; set { } }
 
-        public override ImageSource Icon => FileIconCollection.Current.CreateDefaultFolderIcon(16.0);
+        public override IImageSourceCollection Icon => FileIconCollection.Current.CreateDefaultFolderIcon();
 
         public string Path => Parent is BookmarkFolderNode parent ? LoosePath.Combine(parent.Path, Name) : Name;
 

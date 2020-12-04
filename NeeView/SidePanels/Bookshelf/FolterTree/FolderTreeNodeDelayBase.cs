@@ -74,7 +74,7 @@ namespace NeeView
         public override string Name { get => null; set { } }
         public override string DispName { get => null; set { } }
 
-        public override ImageSource Icon => null;
+        public override IImageSourceCollection Icon => null;
     }
 }
 

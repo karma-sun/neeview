@@ -20,7 +20,7 @@ namespace NeeView
 
         public override string DispName { get => Properties.Resources.WordQuickAccess; set { } }
 
-        public override ImageSource Icon => MainWindow.Current.Resources["ic_lightning"] as ImageSource;
+        public override IImageSourceCollection Icon => new SingleImageSourceCollection(MainWindow.Current.Resources["ic_lightning"] as ImageSource);
 
         public override ObservableCollection<FolderTreeNodeBase> Children
         {

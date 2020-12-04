@@ -23,7 +23,7 @@ namespace NeeView
 
         public override string DispName { get => "PC"; set { } }
 
-        public override ImageSource Icon => MainWindow.Current.Resources["ic_desktop_windows_24px"] as ImageSource;
+        public override IImageSourceCollection Icon => new SingleImageSourceCollection(MainWindow.Current.Resources["ic_desktop_windows_24px"] as ImageSource);
 
 
         public void Refresh()

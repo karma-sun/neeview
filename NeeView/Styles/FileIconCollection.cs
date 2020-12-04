@@ -6,8 +6,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media.Imaging;
 
 namespace NeeView
 {
@@ -65,14 +63,14 @@ namespace NeeView
 
         private Dictionary<Key, BitmapSourceCollection> _caches = new Dictionary<Key, BitmapSourceCollection>();
 
- 
+
         public Task InitializeAsync()
         {
             var task = new Task(() =>
             {
-                CreateDefaultFolderIcon(256.0);
-                // 標準ファイルアイコンは未使用なので、ここでは読み込まない.
-                //CreateDefaultFileIcon(256.0);
+                CreateDefaultFolderIcon();
+                // NOTE: 標準ファイルアイコンは未使用なので、ここでは読み込まない.
+                //CreateDefaultFileIcon();
             });
             task.Start(SingleThreadedApartment.TaskScheduler); // STA
             return task;
@@ -84,21 +82,19 @@ namespace NeeView
             _caches.Clear();
         }
 
-        public BitmapSource CreateDefaultFileIcon(double width)
+        public BitmapSourceCollection CreateDefaultFileIcon()
         {
-            return CreateFileIcon("a.__dummy__", FileIconType.FileType, width, true, true);
+            return CreateFileIcon("a.__dummy__", FileIconType.FileType, true, true);
         }
 
-        public BitmapSource CreateDefaultFolderIcon(double width)
+        public BitmapSourceCollection CreateDefaultFolderIcon()
         {
-            return CreateFileIcon("__dummy__", FileIconType.DirectoryType, width, true, true);
+            return CreateFileIcon("__dummy__", FileIconType.DirectoryType, true, true);
         }
 
-        // TODO: DPI反映のためにBitmapFrameで複数画像を返す
-        public BitmapSource CreateFileIcon(string filename, FileIconType iconType, double width, bool allowJumbo, bool useCache)
+        public BitmapSourceCollection CreateFileIcon(string filename, FileIconType iconType, bool allowJumbo, bool useCache)
         {
-            var collection = CreateFileIconCollection(filename, iconType, allowJumbo, useCache);
-            return collection?.GetBitmapSource(width);
+            return CreateFileIconCollection(filename, iconType, allowJumbo, useCache);
         }
 
 
@@ -139,62 +135,6 @@ namespace NeeView
                 ////Debug.WriteLine($"FileIcon: {filename}: {sw.ElapsedMilliseconds}ms");
             }
 
-        }
-
-    }
-
-    /// <summary>
-    /// 指定サイズにもっとも適したBitmapSourceを返す
-    /// アイコン用
-    /// </summary>
-    public class BitmapSourceCollection
-    {
-        public BitmapSourceCollection()
-        {
-        }
-
-        public BitmapSourceCollection(List<BitmapSource> bitmaps)
-        {
-            if (bitmaps == null) return;
-
-            foreach (var bitmap in bitmaps)
-            {
-                Add(bitmap);
-            }
-        }
-
-
-        public List<BitmapSource> Frames { get; private set; } = new List<BitmapSource>();
-
-        public bool Any()
-        {
-            return Frames.Any();
-        }
-
-        public void Add(BitmapSource source)
-        {
-            if (source == null) return;
-
-            Frames.Add(source);
-            Frames.Sort((x, y) => x.PixelWidth - y.PixelWidth);
-        }
-
-        public BitmapSource GetBitmapSource()
-        {
-            return Frames.LastOrDefault();
-        }
-
-        public BitmapSource GetBitmapSource(double width)
-        {
-            foreach (var frame in Frames)
-            {
-                if (width <= frame.PixelWidth)
-                {
-                    return frame;
-                }
-            }
-
-            return Frames.LastOrDefault();
         }
     }
 }

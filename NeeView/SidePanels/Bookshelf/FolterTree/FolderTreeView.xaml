@@ -27,6 +27,8 @@
             <Setter Property="FontSize" Value="{DynamicResource FolderTreeFontSize}"/>
         </Style>
 
+        <local:ImageSourceCollectionToImageSourceConverter x:Key="ImageSourceCollectionToImageSourceConverter" Width="16.0" />
+
     </UserControl.Resources>
 
     <Grid x:Name="Root">
@@ -71,7 +73,14 @@
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                     <DockPanel>
-                        <Image Style="{StaticResource IconImageStyle}" Source="{Binding Icon}"/>
+                        <Image Style="{StaticResource IconImageStyle}">
+                            <Image.Source>
+                                <MultiBinding Converter="{StaticResource ImageSourceCollectionToImageSourceConverter}">
+                                    <Binding Path="Icon" />
+                                    <Binding Path="DataContext.DpiScale" ElementName="Root" />
+                                </MultiBinding>
+                            </Image.Source> 
+                        </Image>
                         <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource NodeTextBlockStyle}" Text="{Binding DispName}"/>
                     </DockPanel>
                 </HierarchicalDataTemplate>

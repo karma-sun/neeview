@@ -348,7 +348,7 @@ namespace NeeView
             {
                 if (_folderBitmapSource == null)
                 {
-                    _folderBitmapSource = FileIconCollection.Current.CreateDefaultFolderIcon(256);
+                    _folderBitmapSource = FileIconCollection.Current.CreateDefaultFolderIcon().GetBitmapSource(256.0);
                 }
                 return _folderBitmapSource;
             }

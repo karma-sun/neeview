@@ -1,6 +1,7 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Windows;
 using System;
+using System.Windows;
 using System.Windows.Media.Imaging;
 
 namespace NeeView
@@ -40,6 +41,20 @@ namespace NeeView
         }
 
         public bool IsValid => _model != null;
+
+
+        private double _dpiScale = 1.0;
+        public double DpiScale
+        {
+            get { return _dpiScale; }
+            set { SetProperty(ref _dpiScale, value); }
+        }
+
+
+        internal void DpiChanged(DpiScale oldDpi, DpiScale newDpi)
+        {
+            DpiScale = newDpi.DpiScaleX;
+        }
 
         private void Model_SelectedItemChanged(object sender, EventArgs e)
         {

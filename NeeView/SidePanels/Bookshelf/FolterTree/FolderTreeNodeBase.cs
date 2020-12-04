@@ -49,7 +49,7 @@ namespace NeeView
 
         public abstract string DispName { get; set; }
 
-        public abstract ImageSource Icon { get; }
+        public abstract IImageSourceCollection Icon { get; }
 
         public object Source { get; protected set; }
 

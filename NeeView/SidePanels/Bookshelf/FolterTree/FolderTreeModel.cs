@@ -16,7 +16,7 @@ namespace NeeView
         public override string Name { get => null; set { } }
         public override string DispName { get => "@Bookshelf"; set { } }
 
-        public override ImageSource Icon => null;
+        public override IImageSourceCollection Icon => null;
     }
 
     [Flags]
@@ -67,9 +67,6 @@ namespace NeeView
                 _rootBookmarkFolder = new RootBookmarkFolderNode(_root);
                 _root.Children.Add(_rootBookmarkFolder);
             }
-
-#warning TODO: DPI変更によるファイルアイコンの反映
-            ////Environment.DpiChanged += Config_DpiChanged;
         }
 
 
@@ -96,8 +93,6 @@ namespace NeeView
                 }
             }
         }
-
-        public BitmapSource FolderIcon => FileIconCollection.Current.CreateDefaultFolderIcon(16.0);
 
         public bool IsFocusAtOnce { get; set; }
 

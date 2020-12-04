@@ -87,7 +87,7 @@ namespace NeeView
     {
         public FolderThumbnail()
         {
-            _create = () => FileIconCollection.Current.CreateDefaultFolderIcon(256.0);
+            _create = () => FileIconCollection.Current.CreateDefaultFolderIcon().GetBitmapSource(256.0);
         }
     }
 

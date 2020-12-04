@@ -309,33 +309,33 @@ namespace NeeView
             return Convert(value as QueryPath);
         }
 
-        public static ImageSource Convert(QueryPath path)
+        public static IImageSourceCollection Convert(QueryPath path)
         {
             if (path != null)
             {
                 if (path.Path == null)
                 {
-                    return path.Scheme.ToImage();
+                    return new SingleImageSourceCollection(path.Scheme.ToImage());
                 }
                 else if (path.Scheme == QueryScheme.Bookmark)
                 {
-                    return path.Scheme.ToImage();
+                    return new SingleImageSourceCollection(path.Scheme.ToImage());
                 }
                 else if (path.Scheme == QueryScheme.Pagemark)
                 {
-                    return path.Scheme.ToImage();
+                    return new SingleImageSourceCollection(path.Scheme.ToImage());
                 }
                 else if (path.Search != null)
                 {
-                    return MainWindow.Current.Resources["ic_search_24px"] as ImageSource;
+                    return new SingleImageSourceCollection(MainWindow.Current.Resources["ic_search_24px"] as ImageSource);
                 }
                 else if (path.Scheme == QueryScheme.File && PlaylistArchive.IsSupportExtension(path.SimplePath))
                 {
-                    return MainWindow.Current.Resources["ic_playlist"] as ImageSource;
+                    return new SingleImageSourceCollection(MainWindow.Current.Resources["ic_playlist"] as ImageSource);
                 }
             }
 
-            return FileIconCollection.Current.CreateDefaultFolderIcon(16.0);
+            return FileIconCollection.Current.CreateDefaultFolderIcon();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

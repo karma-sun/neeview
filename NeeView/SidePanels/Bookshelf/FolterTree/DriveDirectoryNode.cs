@@ -33,15 +33,15 @@ namespace NeeView
         }
 
 
-        public ImageSource _icon;
-        public override ImageSource Icon
+        public IImageSourceCollection _icon;
+        public override IImageSourceCollection Icon
         {
             get
             {
                 if (!_iconInitialized)
                 {
                     _iconInitialized = true;
-                    DriveIconUtility.CreateDriveIconAsync(Path, 16.0,
+                    DriveIconUtility.CreateDriveIconAsync(Path,
                         image =>
                         {
                             _icon = image;
@@ -49,7 +49,7 @@ namespace NeeView
                         });
                 }
 
-                return _icon ?? FileIconCollection.Current.CreateDefaultFolderIcon(16.0);
+                return _icon ?? FileIconCollection.Current.CreateDefaultFolderIcon();
             }
         }
 

@@ -18,6 +18,6 @@ namespace NeeView
 
         public override string DispName { get => Name; set { } }
 
-        public override ImageSource Icon => PathToPlaceIconConverter.Convert(new QueryPath(QuickAccessSource.Path));
+        public override IImageSourceCollection Icon => PathToPlaceIconConverter.Convert(new QueryPath(QuickAccessSource.Path));
     }
 }

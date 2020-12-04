@@ -72,9 +72,6 @@ namespace NeeView
 
         #endregion
 
-        #region Properties
-
-        #endregion Properties
 
         #region Commands
 
@@ -239,6 +236,13 @@ namespace NeeView
 
         #endregion
 
+
+        protected override void OnDpiChanged(DpiScale oldDpi, DpiScale newDpi)
+        {
+            base.OnDpiChanged(oldDpi, newDpi);
+
+            _vm.DpiChanged(oldDpi, newDpi);
+        }
 
         private void UpdateModel()
         {

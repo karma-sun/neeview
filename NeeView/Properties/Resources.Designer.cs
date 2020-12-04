@@ -4921,7 +4921,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Minimize the window. に類似しているローカライズされた文字列を検索します。
+        ///   Minimize the window. If it has already been minimized, restore it to its original size. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleWindowMinimizeNote {
             get {
@@ -8879,6 +8879,15 @@ namespace NeeView.Properties {
         public static string LongButtonDownModeRepeatTips {
             get {
                 return ResourceManager.GetString("LongButtonDownModeRepeatTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Auto-hide title bar に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MenuAutoHideTitleBar {
+            get {
+                return ResourceManager.GetString("MenuAutoHideTitleBar", resourceCulture);
             }
         }
         
@@ -13179,20 +13188,20 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Automatically hide MainView window title bar に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamMainViewIsAutoHide {
-            get {
-                return ResourceManager.GetString("ParamMainViewIsAutoHide", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   MainView floating に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamMainViewIsFloating {
             get {
                 return ResourceManager.GetString("ParamMainViewIsFloating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Automatically hide MainView window title bar に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamMainViewIsHideTitleBar {
+            get {
+                return ResourceManager.GetString("ParamMainViewIsHideTitleBar", resourceCulture);
             }
         }
         
@@ -16011,15 +16020,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Auto-hide title bar に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string WordAutoHideTitleBar {
-            get {
-                return ResourceManager.GetString("WordAutoHideTitleBar", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Bookmark に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WordBookmark {
@@ -16322,6 +16322,15 @@ namespace NeeView.Properties {
         public static string WordFoldersTree {
             get {
                 return ResourceManager.GetString("WordFoldersTree", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Full screen に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordFullScreen {
+            get {
+                return ResourceManager.GetString("WordFullScreen", resourceCulture);
             }
         }
         

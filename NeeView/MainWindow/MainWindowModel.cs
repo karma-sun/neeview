@@ -53,7 +53,6 @@ namespace NeeView
         static MainWindowModel() => Current = new MainWindowModel();
         public static MainWindowModel Current { get; }
 
-        #region Fields
 
         // パネル表示ロック
         private bool _isPanelVisibleLocked;
@@ -72,26 +71,110 @@ namespace NeeView
 
         private ViewComponent _viewComponent;
 
-        #endregion
+        private WindowShape _windowShape;
+        private WindowStateManager _windowStateManamger;
 
-        #region Constructors
+
 
         private MainWindowModel()
         {
-            _viewComponent = ViewComponent.Current;
+        }
 
-            WindowShape.Current.AddPropertyChanged(nameof(WindowShape.IsFullScreen),
+
+        public event EventHandler CanHidePanelChanged;
+
+        public event EventHandler FocusMainViewCall;
+
+
+
+        public WindowShape WindowShape => _windowShape;
+
+
+        // スライダー背景ブラシ
+        public SolidColorBrush SliderBackground
+        {
+            get { return _sliderBackground; }
+            private set { SetProperty(ref _sliderBackground, value); }
+        }
+
+        // スライダー背景ブラス(常に不透明度適用)
+        public SolidColorBrush SliderBackgroundGlass
+        {
+            get { return _sliderBackgroundGlass; }
+            set { SetProperty(ref _sliderBackgroundGlass, value); }
+        }
+
+        public bool CanHideMenu => Config.Current.MenuBar.IsHideMenu || _windowStateManamger.IsFullScreen;
+
+        public bool CanHidePageSlider
+        {
+            get { return _canHidePageSlider; }
+            set
+            {
+                if (SetProperty(ref _canHidePageSlider, value))
+                {
+                    RefreshSliderBrushes();
+                }
+            }
+        }
+
+        // パネルを自動的に隠せるか
+        public bool CanHidePanel
+        {
+            get { return _canHidePanel; }
+            private set
+            {
+                if (SetProperty(ref _canHidePanel, value))
+                {
+                    CanHidePanelChanged?.Invoke(this, null);
+                }
+            }
+        }
+
+        public bool CanVisibleWindowTitle
+        {
+            get => Config.Current.WindowTittle.IsMainViewDisplayEnabled && CanHideMenu && !_windowShape.CanCaptionVisible;
+        }
+
+        /// <summary>
+        /// パネル表示状態をロックする
+        /// </summary>
+        public bool IsPanelVisibleLocked
+        {
+            get { return _isPanelVisibleLocked; }
+            set
+            {
+                if (_isPanelVisibleLocked != value)
+                {
+                    _isPanelVisibleLocked = value;
+                    RaisePropertyChanged();
+                    SidePanelFrame.Current.IsVisibleLocked = _isPanelVisibleLocked;
+                }
+            }
+        }
+
+
+
+        public void Initialize(WindowShape windowShape, WindowStateManager windowStateManamger)
+        {
+            _windowShape = windowShape;
+            _windowStateManamger = windowStateManamger;
+
+            _windowStateManamger.AddPropertyChanged(nameof(WindowStateManager.IsFullScreen),
                 (s, e) =>
                 {
                     RefreshCanHidePanel();
                     RefreshCanHidePageSlider();
                     RaisePropertyChanged(nameof(CanHideMenu));
                 });
-            WindowShape.Current.AddPropertyChanged(nameof(WindowShape.CanCaptionVisible),
+
+            _windowShape.AddPropertyChanged(nameof(WindowShape.CanCaptionVisible),
                 (s, e) =>
                 {
                     RaisePropertyChanged(nameof(CanVisibleWindowTitle));
                 });
+
+            _viewComponent = ViewComponent.Current;
 
             ThemeProfile.Current.ThemeColorChanged += (s, e) => RefreshSliderBrushes();
 
@@ -131,94 +214,12 @@ namespace NeeView
                 RefreshCanHidePanel();
             });
 
-
-
-            //--
-
             RefreshCanHidePanel();
             RefreshCanHidePageSlider();
 
             RefreshSliderBrushes();
         }
 
-        #endregion
-
-        #region Events
-
-        public event EventHandler CanHidePanelChanged;
-
-        public event EventHandler FocusMainViewCall;
-
-        #endregion
-
-        #region Properties
-
-        // スライダー背景ブラシ
-        public SolidColorBrush SliderBackground
-        {
-            get { return _sliderBackground; }
-            private set { SetProperty(ref _sliderBackground, value); }
-        }
-
-        // スライダー背景ブラス(常に不透明度適用)
-        public SolidColorBrush SliderBackgroundGlass
-        {
-            get { return _sliderBackgroundGlass; }
-            set { SetProperty(ref _sliderBackgroundGlass, value); }
-        }
-
-        public bool CanHideMenu => Config.Current.MenuBar.IsHideMenu || WindowShape.Current.IsFullScreen;
-
-        public bool CanHidePageSlider
-        {
-            get { return _canHidePageSlider; }
-            set
-            {
-                if (SetProperty(ref _canHidePageSlider, value))
-                {
-                    RefreshSliderBrushes();
-                }
-            }
-        }
-
-        // パネルを自動的に隠せるか
-        public bool CanHidePanel
-        {
-            get { return _canHidePanel; }
-            private set
-            {
-                if (SetProperty(ref _canHidePanel, value))
-                {
-                    CanHidePanelChanged?.Invoke(this, null);
-                }
-            }
-        }
-
-        public bool CanVisibleWindowTitle
-        {
-            get => Config.Current.WindowTittle.IsMainViewDisplayEnabled && CanHideMenu && !WindowShape.Current.CanCaptionVisible;
-        }
-
-        /// <summary>
-        /// パネル表示状態をロックする
-        /// </summary>
-        public bool IsPanelVisibleLocked
-        {
-            get { return _isPanelVisibleLocked; }
-            set
-            {
-                if (_isPanelVisibleLocked != value)
-                {
-                    _isPanelVisibleLocked = value;
-                    RaisePropertyChanged();
-                    SidePanelFrame.Current.IsVisibleLocked = _isPanelVisibleLocked;
-                }
-            }
-        }
-
-        #endregion
-
-        #region Methods
 
         private void RefreshSliderBrushes()
         {
@@ -246,12 +247,12 @@ namespace NeeView
 
         private void RefreshCanHidePageSlider()
         {
-            CanHidePageSlider = Config.Current.Slider.IsHidePageSlider || (Config.Current.Slider.IsHidePageSliderInFullscreen && WindowShape.Current.IsFullScreen);
+            CanHidePageSlider = Config.Current.Slider.IsHidePageSlider || (Config.Current.Slider.IsHidePageSliderInFullscreen && _windowStateManamger.IsFullScreen);
         }
 
         public void RefreshCanHidePanel()
         {
-            CanHidePanel = Config.Current.Panels.IsHidePanel || (Config.Current.Panels.IsHidePanelInFullscreen && WindowShape.Current.IsFullScreen);
+            CanHidePanel = Config.Current.Panels.IsHidePanel || (Config.Current.Panels.IsHidePanelInFullscreen && _windowStateManamger.IsFullScreen);
         }
 
         public bool ToggleHideMenu()
@@ -551,9 +552,8 @@ namespace NeeView
             FocusMainViewCall?.Invoke(this, null);
         }
 
-#endregion
 
-#region Memento
+        #region Memento
 
         [DataContract]
         public class Memento : IMemento
@@ -623,7 +623,7 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
     }
 
 }

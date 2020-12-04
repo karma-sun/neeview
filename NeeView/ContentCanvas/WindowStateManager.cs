@@ -1,4 +1,5 @@
-﻿using NeeView.Windows;
+﻿using NeeLaboratory.ComponentModel;
+using NeeView.Windows;
 using System;
 using System.ComponentModel;
 using System.Windows;
@@ -7,20 +8,35 @@ namespace NeeView
 {
     public interface IWindowStateManagerDependency
     {
-        bool IsWindows7 { get; }
         bool IsTabletMode { get; }
         double MaximizedWindowThickness { get; }
 
         void SuspendWindowChrome();
         void ResumeWindowChrome();
     }
-    
 
-    public class WindowStateManager
+
+    public class WindowStateChangedEventArgs : EventArgs
+    {
+        public WindowStateChangedEventArgs(WindowStateEx oldState, WindowStateEx newtate)
+        {
+            OldState = oldState;
+            NewState = newtate;
+        }
+
+        public WindowStateEx OldState { get; set; }
+        public WindowStateEx NewState { get; set; }
+    }
+
+
+    public class WindowStateManager : BindableBase
     {
         private Window _window;
+        private WindowStateEx _previousState;
+        private WindowStateEx _currentState;
+        private WindowStateEx _resumeState;
+        private bool _isFullScreenMode;
         private bool _isFullScreen;
-        private WindowState _resumeState;
         private bool _isProgress;
 
         private IWindowStateManagerDependency _dependency;
@@ -32,20 +48,40 @@ namespace NeeView
             _dependency = dependency;
 
             _window.StateChanged += Window_StateChanged;
+
             Update();
         }
 
 
-        public event EventHandler StateChanged;
+        public event EventHandler<WindowStateChangedEventArgs> StateChanged;
 
 
-        public WindowState WindowState => _window.WindowState;
+        public WindowStateEx CurrentState => _currentState;
+        public WindowStateEx PreviousState => _previousState;
 
-        public bool IsFullScreen => _isFullScreen && _window.WindowState == WindowState.Maximized;
+        public WindowStateEx ResumeState
+        {
+            get => _resumeState;
+            set => _resumeState = value;
+        }
 
-        public double MaximizedChromeBorderThickness { get; set; } = 8.0;
+        public bool IsFullScreen
+        {
+            get { return _isFullScreen; }
+            private set { SetProperty(ref _isFullScreen, value); }
+        }
 
 
+        private void UpdateIsFullScreen()
+        {
+            IsFullScreen = _isFullScreenMode && _window.WindowState == WindowState.Maximized;
+        }
+
+        private void SetFullScreenMode(bool isEnabled)
+        {
+            _isFullScreenMode = isEnabled;
+            UpdateIsFullScreen();
+        }
 
         private void Window_StateChanged(object sender, EventArgs e)
         {
@@ -56,6 +92,8 @@ namespace NeeView
 
         public void Update()
         {
+            UpdateIsFullScreen();
+
             switch (_window.WindowState)
             {
                 case WindowState.Minimized:
@@ -70,6 +108,52 @@ namespace NeeView
             }
         }
 
+        public WindowStateEx GetWindowState()
+        {
+            if (IsFullScreen)
+            {
+                return WindowStateEx.FullScreen;
+            }
+            else
+            {
+                switch (_window.WindowState)
+                {
+                    case WindowState.Minimized:
+                        return WindowStateEx.Minimized;
+                    case WindowState.Maximized:
+                        return WindowStateEx.Maximized;
+                    case WindowState.Normal:
+                        return WindowStateEx.Normal;
+                    default:
+                        throw new NotSupportedException();
+                }
+            }
+        }
+
+        public void SetWindowState(WindowStateEx state)
+        {
+            if (_isProgress) return;
+
+            switch (state)
+            {
+                default:
+                case WindowStateEx.Normal:
+                    ToNormalize();
+                    break;
+                case WindowStateEx.Minimized:
+                    ToMinimize();
+                    break;
+                case WindowStateEx.Maximized:
+                    ToMaximize();
+                    break;
+                case WindowStateEx.FullScreen:
+                    ToFullScreen();
+                    break;
+            }
+        }
+
+
+
         private void BeginEdit()
         {
             _isProgress = true;
@@ -77,34 +161,43 @@ namespace NeeView
 
         private void EndEdit()
         {
+            _previousState = _currentState;
+            _currentState = GetWindowState();
+            
             _isProgress = false;
-            StateChanged?.Invoke(this, null);
+
+            if (_currentState != _previousState)
+            {
+                StateChanged?.Invoke(this, new WindowStateChangedEventArgs(_previousState, _currentState));
+            }
         }
 
 
         public void ToMinimize()
         {
+            if (_isProgress) return;
+
             BeginEdit();
 
             _window.ResizeMode = ResizeMode.CanResize;
             _window.WindowState = WindowState.Minimized;
-
-            UpdateWindowChrome();
 
             EndEdit();
         }
 
         public void ToNormalize()
         {
+            if (_isProgress) return;
+
             BeginEdit();
 
-            _isFullScreen = false;
-            _resumeState = WindowState.Normal;
+            SetFullScreenMode(false);
+            _resumeState = WindowStateEx.Normal;
 
             _window.ResizeMode = ResizeMode.CanResize;
             _window.WindowStyle = WindowStyle.SingleBorderWindow;
             _window.WindowState = WindowState.Normal;
-
+            
             UpdateWindowChrome();
 
             Windows7Tools.RecoveryTaskBar(_window);
@@ -114,7 +207,7 @@ namespace NeeView
 
         public void ToMximizeMaybe()
         {
-            if (_isFullScreen)
+            if (_isFullScreenMode)
             {
                 ToFullScreen();
             }
@@ -126,10 +219,12 @@ namespace NeeView
 
         public void ToMaximize()
         {
+            if (_isProgress) return;
+
             BeginEdit();
 
-            _isFullScreen = false;
-            _resumeState = WindowState.Maximized;
+            SetFullScreenMode(false);
+            _resumeState = WindowStateEx.Maximized;
 
             _window.ResizeMode = ResizeMode.CanResize;
             _window.WindowStyle = WindowStyle.SingleBorderWindow;
@@ -142,39 +237,61 @@ namespace NeeView
 
         public void ToFullScreen()
         {
+            if (_isProgress) return;
+
             BeginEdit();
 
-            _isFullScreen = true;
-
             // NOTE: Windowsショートカットによる移動ができなくなるので、Windows7とタブレットに限定する
-            if (_dependency.IsWindows7 || _dependency.IsTabletMode)
+            if (Windows7Tools.IsWindows7 || _dependency.IsTabletMode)
             {
                 _window.ResizeMode = ResizeMode.CanMinimize;
             }
 
-            if (_window.WindowState == WindowState.Maximized) _window.WindowState = WindowState.Normal;
-            _window.WindowStyle = WindowStyle.None;
+            if (_window.WindowState == WindowState.Maximized && !_isFullScreenMode)
+            {
+                _window.WindowState = WindowState.Normal;
+            }
 
+            _window.WindowStyle = WindowStyle.None;
             _window.WindowState = WindowState.Maximized;
 
+            SetFullScreenMode(true);
+            
             UpdateWindowChrome();
 
             EndEdit();
         }
 
 
+        public void ToggleMinimize()
+        {
+            if (_window.WindowState != WindowState.Minimized)
+            {
+                SystemCommands.MinimizeWindow(_window);
+            }
+            else
+            {
+                SystemCommands.RestoreWindow(_window);
+            }
+        }
+
+        public void ToggleMaximize()
+        {
+            if (_window.WindowState != WindowState.Maximized)
+            {
+                SystemCommands.MaximizeWindow(_window);
+            }
+            else
+            {
+                SystemCommands.RestoreWindow(_window);
+            }
+        }
+
         public void ToggleFullScreen()
         {
-            if (_window.WindowState == WindowState.Maximized && _isFullScreen)
+            if (IsFullScreen)
             {
-                if (_resumeState == WindowState.Maximized)
-                {
-                    ToMaximize();
-                }
-                else
-                {
-                    ToNormalize();
-                }
+                ReleaseFullScreen();
             }
             else
             {
@@ -182,10 +299,36 @@ namespace NeeView
             }
         }
 
+        public void ReleaseFullScreen()
+        {
+            if (!IsFullScreen) return;
+
+            if (_resumeState == WindowStateEx.Maximized)
+            {
+                ToMaximize();
+            }
+            else
+            {
+                ToNormalize();
+            }
+        }
+
+        public void SetFullScreen(bool isFullScreen)
+        {
+            if (isFullScreen)
+            {
+                ToFullScreen();
+            }
+            else
+            {
+                ReleaseFullScreen();
+            }
+        }
+
 
         private void UpdateWindowChrome()
         {
-            if (_window.WindowState == WindowState.Maximized && _isFullScreen)
+            if (IsFullScreen)
             {
                 _dependency.SuspendWindowChrome();
             }
@@ -198,14 +341,7 @@ namespace NeeView
 
         public WindowPlacement StoreWindowPlacement()
         {
-            var placement = WindowPlacementTools.StoreWindowPlacement(_window, true);
-
-            if (this.WindowState == WindowState.Maximized && _isFullScreen)
-            {
-                placement = placement.WithIsFullScreeen(true);
-            }
-
-            return placement;
+            return WindowPlacementTools.StoreWindowPlacement(_window, IsFullScreen);
         }
 
         public void RestoreWindowPlacement(WindowPlacement placement)

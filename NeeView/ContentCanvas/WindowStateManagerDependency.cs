@@ -21,8 +21,6 @@ namespace NeeView
 
         public bool IsTabletMode => _tabletModeWatcher.IsTabletMode;
 
-        public bool IsWindows7 => Environment.IsWindows7;
-
         public double MaximizedWindowThickness => Config.Current.Window.MaximizeWindowGapWidth;
 
 

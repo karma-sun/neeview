@@ -1621,7 +1621,7 @@
     <value>Minimize</value>
   </data>
   <data name="CommandToggleWindowMinimizeNote" xml:space="preserve">
-    <value>Minimize the window.</value>
+    <value>Minimize the window. If it has already been minimized, restore it to its original size.</value>
   </data>
   <data name="CommandTouchEmulate" xml:space="preserve">
     <value>Touch emulate</value>
@@ -5736,13 +5736,16 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamMainViewIsTopmost" xml:space="preserve">
     <value>MainView window is topmost</value>
   </data>
-  <data name="ParamMainViewIsAutoHide" xml:space="preserve">
+  <data name="ParamMainViewIsHideTitleBar" xml:space="preserve">
     <value>Automatically hide MainView window title bar</value>
   </data>
   <data name="WordTopmost" xml:space="preserve">
     <value>Topmost</value>
   </data>
-  <data name="WordAutoHideTitleBar" xml:space="preserve">
+  <data name="MenuAutoHideTitleBar" xml:space="preserve">
     <value>Auto-hide title bar</value>
+  </data>
+  <data name="WordFullScreen" xml:space="preserve">
+    <value>Full screen</value>
   </data>
 </root>

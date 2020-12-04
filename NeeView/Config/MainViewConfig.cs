@@ -8,7 +8,7 @@ namespace NeeView
     {
         private bool _isFloating;
         private bool _isTopmost;
-        private bool _isAutoHide;
+        private bool _isHideTitleBar;
 
 
         [PropertyMember("@ParamMainViewIsFloating")]
@@ -25,11 +25,11 @@ namespace NeeView
             set { SetProperty(ref _isTopmost, value); }
         }
 
-        [PropertyMember("@ParamMainViewIsAutoHide")]
-        public bool IsAutoHide
+        [PropertyMember("@ParamMainViewIsHideTitleBar")]
+        public bool IsHideTitleBar
         {
-            get { return _isAutoHide; }
-            set { SetProperty(ref _isAutoHide, value); }
+            get { return _isHideTitleBar; }
+            set { SetProperty(ref _isHideTitleBar, value); }
         }
 
 

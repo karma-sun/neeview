@@ -48,19 +48,29 @@ namespace NeeView
             var activeWindow = windows.FirstOrDefault(e => e.IsActive);
             if (activeWindow is null)
             {
-                var isActived = windows.First().Activate();
+                var isActived = ActivateSubWindow(windows.First());
                 //Debug.WriteLine($"Activate: {isActived}: {windows.First().Title}");
             }
             else
             {
                 var index = (windows.IndexOf(activeWindow) + 1) % windows.Count;
-                var isActived = windows[index].Activate();
+                var isActived = ActivateSubWindow(windows[index]);
                 //Debug.WriteLine($"Activate: {isActived}: {windows[index].Title}");
             }
 
             return true;
         }
 
+
+        private bool ActivateSubWindow(Window window)
+        {
+            if (window.WindowState == WindowState.Minimized)
+            {
+                SystemCommands.RestoreWindow(window);
+            }
+
+            return window.Activate();
+        }
 
 
     }

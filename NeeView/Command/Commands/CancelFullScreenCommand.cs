@@ -12,7 +12,7 @@
 
         public override void Execute(object sender, CommandContext e)
         {
-            WindowShape.Current.SetFullScreen(false);
+            ViewComponent.Current.ViewController.SetFullScreen(sender, false);
         }
     }
 }

@@ -322,6 +322,9 @@ namespace NeeView
         private void MainView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             var window = Window.GetWindow(this);
+            var windowStateManager = (window as IHasWindowController)?.WindowController.WindowStateManager;
+
+            if (windowStateManager is null) throw new InvalidOperationException();
 
             // 最小化では処理しない
             if (window.WindowState == WindowState.Minimized) return;
@@ -332,8 +335,9 @@ namespace NeeView
             }
 
             // 最小化からフルスクリーン復帰時に一時的にサイズ変更されるため、遅延評価する
-            if (WindowShape.Current.NextWindowState == WindowStateEx.FullScreen && WindowShape.Current.OldWindowState == WindowStateEx.Minimized)
+            if (windowStateManager.CurrentState == WindowStateEx.FullScreen && windowStateManager.PreviousState == WindowStateEx.Minimized)
             {
+                ////Debug.WriteLine($"ViewSizeChange.Delay: {windowStateManager.CurrentState} ");
                 AppDispatcher.BeginInvoke(async () =>
                 {
                     await Task.Delay(100);
@@ -342,6 +346,7 @@ namespace NeeView
             }
             else
             {
+                ////Debug.WriteLine($"ViewSizeChange: {windowStateManager.CurrentState} ");
                 SizeChangedCore();
             }
         }
@@ -362,6 +367,6 @@ namespace NeeView
             }
         }
 
-        #endregion SizeChanged
+#endregion SizeChanged
     }
 }

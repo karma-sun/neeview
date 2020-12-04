@@ -26,7 +26,7 @@ namespace NeeView
 
         public override void Execute(object sender, CommandContext e)
         {
-            WindowShape.Current.ToggleCaptionVisible();
+            MainWindow.Current.ToggleCaptionVisible();
         }
     }
 }

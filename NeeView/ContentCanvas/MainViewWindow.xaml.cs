@@ -22,7 +22,7 @@ namespace NeeView
     /// <summary>
     /// MainViewWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class MainViewWindow : Window, IHasDpiScale, IWindowStateControllable, INotifyPropertyChanged
+    public partial class MainViewWindow : Window, INotifyPropertyChanged, IHasDpiScale, IHasWindowController, ITopmostControllable
     {
         #region INotifyPropertyChanged Support
 
@@ -51,9 +51,11 @@ namespace NeeView
         private DpiWatcher _dpiWatcher;
 
         private WindowChromeAccessor _windowChrome;
-        private LayoutPanelWindowCaptionEmulator _windowCaptionEmulator;
+        private WindowCaptionEmulator _windowCaptionEmulator;
         private WindowStateManager _windowStateManager;
         private bool _canHideMenu;
+
+        private WindowController _windowController;
 
 
         public MainViewWindow()
@@ -73,13 +75,15 @@ namespace NeeView
             _windowChrome = new WindowChromeAccessor(this);
             _windowChrome.IsEnabled = true;
 
-            _windowCaptionEmulator = new LayoutPanelWindowCaptionEmulator(this, this.CaptionBar);
-            _windowCaptionEmulator.IsEnabled = true;
-
             _windowStateManager = new WindowStateManager(this, new WindowStateManagerDependency(_windowChrome, TabletModeWatcher.Current));
             _windowStateManager.StateChanged += WindowStateManager_StateChanged;
 
-            Config.Current.MainView.AddPropertyChanged(nameof(MainViewConfig.IsAutoHide), (s, e) =>
+            _windowCaptionEmulator = new MainWindowCaptionEmulator(this, this.CaptionBar, _windowStateManager);
+            _windowCaptionEmulator.IsEnabled = true;
+
+            _windowController = new WindowController(_windowStateManager, this);
+
+            Config.Current.MainView.AddPropertyChanged(nameof(MainViewConfig.IsHideTitleBar), (s, e) =>
             {
                 RaisePropertyChanged(nameof(IsAutoHide));
                 UpdateCaptionBar();
@@ -119,6 +123,9 @@ namespace NeeView
             DependencyProperty.Register("CaptionForeground", typeof(Brush), typeof(MainViewWindow), new PropertyMetadata(Brushes.White));
 
 
+
+        public WindowController WindowController => _windowController;
+
         public WindowChromeAccessor WindowChrome => _windowChrome;
 
         public AutoHideConfig AutoHideConfig => Config.Current.AutoHide;
@@ -126,6 +133,7 @@ namespace NeeView
         public InfoMessage InfoMessage => InfoMessage.Current;
 
         public BasicAutoHideDescription MenuAutoHideDescription { get; private set; }
+
 
         public bool IsTopmost
         {
@@ -135,8 +143,8 @@ namespace NeeView
 
         public bool IsAutoHide
         {
-            get { return Config.Current.MainView.IsAutoHide; }
-            set { Config.Current.MainView.IsAutoHide = value; }
+            get { return Config.Current.MainView.IsHideTitleBar; }
+            set { Config.Current.MainView.IsHideTitleBar = value; }
         }
 
         public bool CanHideMenu
@@ -145,6 +153,11 @@ namespace NeeView
             set { SetProperty(ref _canHideMenu, value); }
         }
 
+        public bool IsFullScreen
+        {
+            get { return _windowStateManager.IsFullScreen; }
+            set { _windowStateManager.SetFullScreen(value); }
+        }
 
 
         private void MainViewWindow_SourceInitialized(object sender, EventArgs e)
@@ -160,11 +173,12 @@ namespace NeeView
         private void WindowStateManager_StateChanged(object sender, EventArgs e)
         {
             UpdateCaptionBar();
+            RaisePropertyChanged(nameof(IsFullScreen));
         }
 
         private void UpdateCaptionBar()
         {
-            if (Config.Current.MainView.IsAutoHide || _windowStateManager.IsFullScreen)
+            if (Config.Current.MainView.IsHideTitleBar || _windowStateManager.IsFullScreen)
             {
                 this.CanHideMenu = true;
                 Grid.SetRow(this.CaptionBar, 1);
@@ -191,32 +205,10 @@ namespace NeeView
             _windowStateManager.RestoreWindowPlacement(placement);
         }
 
-
-        #region IWindowStateControllable
-
-        public void ToggleMinimize()
+        public void ToggleTopmost()
         {
-            SystemCommands.MinimizeWindow(Application.Current.MainWindow);
+            Config.Current.MainView.IsTopmost = !Config.Current.MainView.IsTopmost;
         }
-
-        public void ToggleMaximize()
-        {
-            if (this.WindowState != WindowState.Maximized)
-            {
-                SystemCommands.MaximizeWindow(this);
-            }
-            else
-            {
-                SystemCommands.RestoreWindow(this);
-            }
-        }
-
-        public void ToggleFullScreen()
-        {
-            _windowStateManager.ToggleFullScreen();
-        }
-
-        #endregion IWindowStateControllable
 
         #region Window state commands
 

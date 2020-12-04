@@ -30,7 +30,7 @@ namespace NeeView
             Config.Current.MenuBar.AddPropertyChanged(nameof(MenuBarConfig.IsHamburgerMenu), (s, e) => InitializeMainMenu());
 
             InitializeMainMenu();
-            InitializeWindowCaptionEmulator(control);
+            InitializeWindowCaptionEmulator(control, model.WindowStateManager);
 
             SystemParameters.StaticPropertyChanged += (s, e) =>
             {
@@ -84,26 +84,19 @@ namespace NeeView
 
         private void UpdateCaptionEnabled()
         {
-            IsCaptionEnabled = !Config.Current.Window.IsCaptionVisible || WindowShape.Current.IsFullScreen;
+            IsCaptionEnabled = !Config.Current.Window.IsCaptionVisible || Model.WindowStateManager.IsFullScreen;
         }
 
 
-        private void InitializeWindowCaptionEmulator(FrameworkElement control)
+        private void InitializeWindowCaptionEmulator(FrameworkElement control, WindowStateManager windowStateManamger)
         {
             this.Window = System.Windows.Window.GetWindow(control);
 
-            _windowCaptionEmulator = new MainWindowCaptionEmulator(Window, control);
+            _windowCaptionEmulator = new MainWindowCaptionEmulator(Window, control, windowStateManamger);
             UpdateCaptionEnabled();
 
-            WindowShape.Current.PropertyChanged += WindowShape_PropertyChanged;
-        }
-
-        private void WindowShape_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == nameof(WindowShape.IsFullScreen))
-            {
-                UpdateCaptionEnabled();
-            }
+            Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.IsCaptionVisible), (s, e) => UpdateCaptionEnabled());
+            Model.WindowStateManager.AddPropertyChanged(nameof(WindowStateManager.IsFullScreen), (s, e) => UpdateCaptionEnabled());
         }
 
         private void InitializeMainMenu()

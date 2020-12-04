@@ -34,7 +34,7 @@ namespace NeeView
         {
             if (IsReadOnly) return;
 
-            Converter.Write(this, value, options);
+            AppDispatcher.Invoke(() => Converter.Write(this, value, options));
         }
 
         public object GetValue()

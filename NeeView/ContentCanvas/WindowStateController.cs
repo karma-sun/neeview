@@ -4,46 +4,49 @@ using System.Windows;
 
 namespace NeeView
 {
-
-    public interface IWindowStateControllable
-    {
-        void ToggleMinimize();
-        void ToggleMaximize();
-        void ToggleFullScreen();
-    }
-
     public class WindowStateController
     {
-        public IWindowStateControllable _defaultWindow;
+        public IHasWindowController _defaultController;
 
-        public WindowStateController(IWindowStateControllable defaultWindow)
+        public WindowStateController(IHasWindowController defaultController)
         {
-            if (defaultWindow is null) throw new ArgumentNullException();
+            if (defaultController is null) throw new ArgumentNullException();
 
-            _defaultWindow = defaultWindow;
+            _defaultController = defaultController;
         }
 
         public void ToggleMinimize(object sender)
         {
-            GetWindow(sender)?.ToggleMinimize();
+            GetWindowController(sender)?.ToggleMinimize();
         }
 
         public void ToggleMaximize(object sender)
         {
-            GetWindow(sender)?.ToggleMaximize();
+            GetWindowController(sender)?.ToggleMaximize();
         }
 
         public void ToggleFullScreen(object sender)
         {
-            GetWindow(sender)?.ToggleFullScreen();
+            GetWindowController(sender)?.ToggleFullScreen();
         }
+
+        public void SetFullScreen(object sender, bool isFullScreen)
+        {
+            GetWindowController(sender).SetFullScreen(isFullScreen);
+        }
+
+        public void ToggleTopmost(object sender)
+        {
+            GetWindowController(sender).ToggleTopmost();
+        }
+
 
         // NOTE: no use sender
-        private IWindowStateControllable GetWindow(object sender)
+        private WindowController GetWindowController(object sender)
         {
-            var window = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive) as IWindowStateControllable;
-            return window ?? _defaultWindow;
+            var window = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive) as IHasWindowController;
+            return (window ?? _defaultController).WindowController;
         }
-
     }
+
 }

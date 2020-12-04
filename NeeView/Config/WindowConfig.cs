@@ -11,7 +11,6 @@ namespace NeeView
         private WindowChromeFrame _windowChromeFrame = WindowChromeFrame.WindowFrame;
         private bool _isCaptionVisible = true;
         private bool _isTopmost = false;
-        private bool _isFullScreenWithTaskBar;
         private double _maximizeWindowGapWidth = 8.0;
         private WindowStateEx _state;
         private bool _isCaptionEmulateInFullScreen;
@@ -47,13 +46,6 @@ namespace NeeView
             set { SetProperty(ref _isCaptionEmulateInFullScreen, value); }
         }
 
-        [PropertyMember("@ParamWindowShapeIsFullScreenWithTaskBar")]
-        public bool IsFullScreenWithTaskBar
-        {
-            get { return _isFullScreenWithTaskBar; }
-            set { SetProperty(ref _isFullScreenWithTaskBar, value); }
-        }
-
         [PropertyRange("@ParamWindowShapeMaximizeWindowGapWidth", 0, 16, TickFrequency = 1, IsEditable = true, Tips = "@ParamWindowShapeMaximizeWindowGapWidthTips"), DefaultValue(8.0)]
         public double MaximizeWindowGapWidth
         {
@@ -82,7 +74,7 @@ namespace NeeView
         /// エアロスナップのウィンドウ座標を保存
         /// </summary>
         [PropertyMember("@ParamIsRestoreAeroSnapPlacement")]
-        public bool IsRestoreAeroSnapPlacement 
+        public bool IsRestoreAeroSnapPlacement
         {
             get { return _isAeroSnapPlacementEnabled; }
             set { SetProperty(ref _isAeroSnapPlacementEnabled, value); }

@@ -18,12 +18,14 @@ namespace NeeView
 
         public override Binding CreateIsCheckedBinding()
         {
-            return new Binding(nameof(WindowShape.Current.IsFullScreen)) { Source = WindowShape.Current, Mode = BindingMode.OneWay };
+            var windowStateManager =  MainWindow.Current.WindowStateManager;
+            return new Binding(nameof(windowStateManager.IsFullScreen)) { Source = windowStateManager, Mode = BindingMode.OneWay };
         }
 
         public override string ExecuteMessage(object sender, CommandContext e)
         {
-            return WindowShape.Current.IsFullScreen ? Properties.Resources.CommandToggleFullScreenOff : Properties.Resources.CommandToggleFullScreenOn;
+            var windowStateManager = MainWindow.Current.WindowStateManager;
+            return windowStateManager.IsFullScreen ? Properties.Resources.CommandToggleFullScreenOff : Properties.Resources.CommandToggleFullScreenOn;
         }
 
         public override void Execute(object sender, CommandContext e)

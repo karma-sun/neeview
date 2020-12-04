@@ -60,6 +60,12 @@ namespace NeeView.Windows
             return new WindowPlacement(this.WindowState, this.Left, this.Top, this.Width, this.Height, isFullScreen);
         }
 
+        public WindowPlacement WithState(WindowState state)
+        {
+            var isFullScreen = state == WindowState.Maximized ? this.IsFullScreen : false;
+            return new WindowPlacement(state, this.Left, this.Top, this.Width, this.Height, isFullScreen);
+        }
+
         public override string ToString()
         {
             var state = IsFullScreen ? "FullScreen" : WindowState.ToString();

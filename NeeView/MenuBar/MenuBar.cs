@@ -18,9 +18,17 @@ namespace NeeView
         public static MenuBar Current { get; }
 
 
+        private WindowStateManager _windowStateManager;
+
+
         private MenuBar()
         {
             MainMenuSource = MenuTree.CreateDefault();
+        }
+
+        public void Initialize(WindowStateManager windowStateManager)
+        {
+            _windowStateManager = windowStateManager;
 
             BookHub.Current.BookChanged +=
                 (s, e) => UpdateLastFiles();
@@ -44,6 +52,8 @@ namespace NeeView
 
         public event EventHandler CommandGestureChanged;
 
+
+        public WindowStateManager WindowStateManager => _windowStateManager;
 
         public MenuTree MainMenuSource { get; set; }
 

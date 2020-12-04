@@ -1621,7 +1621,7 @@
     <value>ウィンドウ最小化</value>
   </data>
   <data name="CommandToggleWindowMinimizeNote" xml:space="preserve">
-    <value>ウィンドウを最小化します。</value>
+    <value>ウィンドウを最小化します。既に最小化されている場合は元のサイズに戻します。</value>
   </data>
   <data name="CommandTouchEmulate" xml:space="preserve">
     <value>タッチエミュレート</value>
@@ -5736,13 +5736,16 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamMainViewIsTopmost" xml:space="preserve">
     <value>メインビューウィンドウを常に手前に表示</value>
   </data>
-  <data name="ParamMainViewIsAutoHide" xml:space="preserve">
+  <data name="ParamMainViewIsHideTitleBar" xml:space="preserve">
     <value>メインビューウィンドウタイトルの自動非表示</value>
   </data>
   <data name="WordTopmost" xml:space="preserve">
     <value>常に手前に表示</value>
   </data>
-  <data name="WordAutoHideTitleBar" xml:space="preserve">
+  <data name="MenuAutoHideTitleBar" xml:space="preserve">
     <value>タイトルバーを自動的に隠す</value>
+  </data>
+  <data name="WordFullScreen" xml:space="preserve">
+    <value>フルスクリーン</value>
   </data>
 </root>

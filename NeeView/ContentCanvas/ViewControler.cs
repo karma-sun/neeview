@@ -212,6 +212,11 @@ namespace NeeView
             _viewComponent.RaiseOpenContextMenuRequest();
         }
 
+        public void ToggleTopmost(object sender)
+        {
+            _windowStateController.ToggleTopmost(sender);
+        }
+
         public void ToggleWindowMinimize(object sender)
         {
             _windowStateController.ToggleMinimize(sender);
@@ -225,6 +230,11 @@ namespace NeeView
         public void ToggleWindowFullScreen(object sender)
         {
             _windowStateController.ToggleFullScreen(sender);
+        }
+
+        public void SetFullScreen(object sender, bool isFullScreen)
+        {
+            _windowStateController.SetFullScreen(sender, isFullScreen);
         }
 
         public void StretchWindow()

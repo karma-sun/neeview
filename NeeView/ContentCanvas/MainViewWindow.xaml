@@ -41,8 +41,11 @@
                 <ContextMenu>
                     <MenuItem x:Name="StretchWindowMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.CommandStretchWindowMenu}" Command="{StaticResource StretchWindowCommand}" />
                     <Separator />
-                    <MenuItem x:Name="IsAutoHideMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.WordAutoHideTitleBar}" IsCheckable="True" IsChecked="{Binding IsAutoHide}" />
-                    <MenuItem x:Name="IsTopmostMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.WordTopmost}" IsCheckable="True" IsChecked="{Binding IsTopmost}" />
+                    <MenuItem x:Name="IsAutoHideMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.MenuAutoHideTitleBar}" IsCheckable="True" IsChecked="{Binding IsAutoHide}" />
+                    <MenuItem x:Name="IsTopmostMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.WordTopmost}" IsCheckable="True"
+                            IsChecked="{Binding IsTopmost}" />
+                    <MenuItem x:Name="IsFullScreenMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.WordFullScreen}" IsCheckable="True"
+                            IsChecked="{Binding IsFullScreen}" />
                     <Separator />
                     <MenuItem x:Name="CloseMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.WordClose}" Command="{x:Static SystemCommands.CloseWindowCommand}" />
                 </ContextMenu>

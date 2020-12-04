@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -21,7 +22,7 @@ namespace NeeView
     /// <summary>
     /// MainWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class MainWindow : Window, IHasDpiScale, IWindowStateControllable
+    public partial class MainWindow : Window, IHasDpiScale, IHasWindowController
     {
         public static MainWindow Current { get; private set; }
 
@@ -29,6 +30,15 @@ namespace NeeView
         private RoutedCommandBinding _routedCommandBinding;
         private ViewComponent _viewComponent;
         private DpiProvider _dpiProvider = new DpiProvider();
+
+        private MainWindowChromeAccessor _windowChromeAccessor;
+        private WindowStateManager _windowStateManager;
+        private WindowShape _windowShape;
+        private WindowController _windowController;
+
+
+        public WindowStateManager WindowStateManager => _windowStateManager;
+        public WindowController WindowController => _windowController;
 
 
         #region コンストラクターと初期化処理
@@ -51,6 +61,11 @@ namespace NeeView
             Debug.WriteLine($"App.MainWndow.Initialize: {App.Current.Stopwatch.ElapsedMilliseconds}ms");
 
             Current = this;
+
+            _windowChromeAccessor = new MainWindowChromeAccessor(this);
+            _windowStateManager = new WindowStateManager(this, new WindowStateManagerDependency(_windowChromeAccessor, TabletModeWatcher.Current));
+            _windowShape = new WindowShape(_windowStateManager, _windowChromeAccessor);
+            _windowController = new WindowController(_windowStateManager, _windowShape);
 
             ContextMenuWatcher.Initialize();
 
@@ -76,6 +91,8 @@ namespace NeeView
 
             MainViewManager.Current.Initialize(_viewComponent, this.MainViewSocket);
 
+            MainWindowModel.Current.Initialize(_windowShape, _windowStateManager);
+
             // MainWindow : ViewModel
             _vm = new MainWindowViewModel(MainWindowModel.Current);
             this.DataContext = _vm;
@@ -94,6 +111,8 @@ namespace NeeView
             this.MediaControlView.Source = MediaControl.Current;
             this.ThumbnailListArea.Source = ThumbnailList.Current;
             this.AddressBar.Source = NeeView.AddressBar.Current;
+
+            NeeView.MenuBar.Current.Initialize(_windowStateManager);
             this.MenuBar.Source = NeeView.MenuBar.Current;
 
             Config.Current.MenuBar.AddPropertyChanged(nameof(MenuBarConfig.IsHideMenu),
@@ -114,7 +133,7 @@ namespace NeeView
             _viewComponent.ContentCanvas.AddPropertyChanged(nameof(ContentCanvas.IsMediaContent),
                 (s, e) => DartyPageSliderLayout());
 
-            WindowShape.Current.AddPropertyChanged(nameof(WindowShape.IsFullScreen),
+            _windowStateManager.AddPropertyChanged(nameof(WindowStateManager.IsFullScreen),
                 (s, e) => FullScreenChanged());
 
 
@@ -205,7 +224,7 @@ namespace NeeView
         /// </summary>
         private void InitializeWindowShape()
         {
-            WindowShape.Current.IsEnabled = true;
+            _windowShape.IsEnabled = true;
         }
 
         #endregion
@@ -293,7 +312,8 @@ namespace NeeView
 
             try
             {
-                Config.Current.Window.WindowPlacement = WindowPlacementTools.StoreWindowPlacement(this, Config.Current.Window.IsRestoreAeroSnapPlacement);
+                Config.Current.Window.LastState = _windowStateManager.ResumeState;
+                Config.Current.Window.WindowPlacement = _windowStateManager.StoreWindowPlacement();
             }
             catch (Exception ex)
             {
@@ -313,10 +333,13 @@ namespace NeeView
             var placement = Config.Current.Window.WindowPlacement;
             if (placement == null || !placement.IsValid()) return;
 
-            var windowState = (Config.Current.Window.State == WindowStateEx.Maximized || Config.Current.Window.State == WindowStateEx.FullScreen) ? WindowState.Maximized : WindowState.Normal;
-            var newPlacement = new WindowPlacement(windowState, placement.Left, placement.Top, placement.Width, placement.Height);
+            if (placement.WindowState == WindowState.Minimized)
+            {
+                placement = placement.WithState(WindowState.Normal);
+            }
 
-            WindowPlacementTools.RestoreWindowPlacement(this, newPlacement);
+            _windowStateManager.ResumeState = Config.Current.Window.LastState;
+            _windowStateManager.RestoreWindowPlacement(placement);
         }
 
         #endregion
@@ -355,8 +378,9 @@ namespace NeeView
 
             MainViewManager.Current.Update();
 
-            // 一瞬手前に表示
-            WindowShape.Current.OneTopmost();
+            // 一瞬手前に表示してから表示優先度適用
+            this.Topmost = true;
+            this.SetBinding(Window.TopmostProperty, new Binding(nameof(WindowShape.IsTopmost)) { Source = _windowShape });
 
             // レイアウト更新
             DartyWindowLayout();
@@ -377,8 +401,6 @@ namespace NeeView
         {
             Debug.WriteLine($"App.MainWndow.ContentRendered: {App.Current.Stopwatch.ElapsedMilliseconds}ms");
 
-            WindowShape.Current.InitializeStateChangeAction();
-
             _vm.ContentRendered();
 
             Debug.WriteLine($"App.MainWndow.ContentRendered.Done: {App.Current.Stopwatch.ElapsedMilliseconds}ms");
@@ -397,19 +419,6 @@ namespace NeeView
             ////SetCursorVisible(true);
             _vm.Deactivated();
         }
-
-        // ウィンドウ最大化(Toggle)
-        public void MainWindow_Maximize()
-        {
-            ToggleMaximize();
-        }
-
-        // ウィンドウ最小化
-        public void MainWindow_Minimize()
-        {
-            ToggleMinimize();
-        }
-
 
         /// <summary>
         /// ウィンドウ状態変更イベント処理
@@ -489,7 +498,7 @@ namespace NeeView
             this.MenuBar.WindowCaptionButtons.UpdateStrokeThickness(e.NewDpi);
 
             // Window Border
-            WindowShape.Current?.UpdateWindowBorderThickness();
+            _windowShape.UpdateWindowBorderThickness();
         }
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -614,7 +623,7 @@ namespace NeeView
             DartyWindowLayout();
 
             // フルスクリーン解除でフォーカスが表示されたパネルに移動してしまう現象を回避
-            if (!WindowShape.Current.IsFullScreen && Config.Current.Panels.IsHidePanelInFullscreen)
+            if (!_windowStateManager.IsFullScreen && Config.Current.Panels.IsHidePanelInFullscreen)
             {
                 _viewComponent.RaiseFocusMainViewRequest();
             }
@@ -674,7 +683,7 @@ namespace NeeView
             _isDartyMenuAreaLayout = false;
 
             // menu hide
-            bool isMenuDock = !Config.Current.MenuBar.IsHideMenu && !WindowShape.Current.IsFullScreen;
+            bool isMenuDock = !Config.Current.MenuBar.IsHideMenu && !_windowStateManager.IsFullScreen;
 
             if (isMenuDock)
             {
@@ -742,7 +751,7 @@ namespace NeeView
             if (!_isDartyThumbnailListLayout) return;
             _isDartyThumbnailListLayout = false;
 
-            bool isPageSliderDock = !Config.Current.Slider.IsHidePageSlider && !WindowShape.Current.IsFullScreen;
+            bool isPageSliderDock = !Config.Current.Slider.IsHidePageSlider && !_windowStateManager.IsFullScreen;
             bool isThimbnailListDock = !Config.Current.FilmStrip.IsHideFilmStrip && isPageSliderDock;
 
             if (isThimbnailListDock)
@@ -772,6 +781,11 @@ namespace NeeView
             }
         }
 
+        public void ToggleCaptionVisible()
+        {
+            _windowShape.ToggleCaptionVisible();
+        }
+
         #endregion
 
         #region IHasDpiScale support
@@ -782,32 +796,6 @@ namespace NeeView
         }
 
         #endregion
-
-        #region IWindowStateControllable
-
-        public void ToggleMinimize()
-        {
-            SystemCommands.MinimizeWindow(this);
-        }
-
-        public void ToggleMaximize()
-        {
-            if (this.WindowState != WindowState.Maximized)
-            {
-                SystemCommands.MaximizeWindow(this);
-            }
-            else
-            {
-                SystemCommands.RestoreWindow(this);
-            }
-        }
-
-        public void ToggleFullScreen()
-        {
-            WindowShape.Current.ToggleFullScreen();
-        }
-
-        #endregion IWindowStateControllable
 
         #region [開発用]
 

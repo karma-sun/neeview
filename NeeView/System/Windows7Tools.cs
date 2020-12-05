@@ -4,6 +4,9 @@ using System.Windows;
 
 namespace NeeView
 {
+    /// <summary>
+    /// Windows7専用
+    /// </summary>
     public static class Windows7Tools
     {
         #region NativeApi

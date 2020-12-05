@@ -18,12 +18,12 @@ namespace NeeView
 
         public override bool CanExecute(object sender, CommandContext e)
         {
-            return ViewComponent.Current.ViewController.CanCopyImageToClipboard();
+            return MainViewComponent.Current.ViewController.CanCopyImageToClipboard();
         }
 
         public override void Execute(object sender, CommandContext e)
         {
-            ViewComponent.Current.ViewController.CopyImageToClipboard();
+            MainViewComponent.Current.ViewController.CopyImageToClipboard();
         }
     }
 

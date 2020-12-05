@@ -22,7 +22,7 @@ namespace NeeView
 
         public override void Execute(object sender, CommandContext e)
         {
-            ViewComponent.Current.ViewController.ScaleUp((ViewScaleCommandParameter)e.Parameter);
+            MainViewComponent.Current.ViewController.ScaleUp((ViewScaleCommandParameter)e.Parameter);
         }
     }
 

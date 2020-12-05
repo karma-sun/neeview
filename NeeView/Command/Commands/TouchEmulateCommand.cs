@@ -12,7 +12,7 @@
 
         public override void Execute(object sender, CommandContext e)
         {
-            ViewComponent.Current.ViewController.TouchInputEmutrate(sender);
+            MainViewComponent.Current.ViewController.TouchInputEmutrate(sender);
         }
     }
 }

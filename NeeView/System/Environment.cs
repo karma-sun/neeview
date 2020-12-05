@@ -35,7 +35,7 @@ namespace NeeView
             ValidateProductInfo(assembly);
 
             // Windows7では標準でTLS1.1,TLS1.2に対応していないので対応させる。バージョンチェック通信用。
-            if (IsWindows7)
+            if (Windows7Tools.IsWindows7)
             {
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
             }
@@ -44,26 +44,6 @@ namespace NeeView
 
         public static event EventHandler LocalApplicationDataRemoved;
 
-
-        // Windows7?
-        public static bool IsWindows7
-        {
-            get
-            {
-                var os = System.Environment.OSVersion;
-                return os.Version.Major < 6 || (os.Version.Major == 6 && os.Version.Minor <= 1); // Windows7 = 6.1
-            }
-        }
-
-        // Windows10?
-        public static bool IsWindows10
-        {
-            get
-            {
-                var os = System.Environment.OSVersion;
-                return os.Version.Major == 10;
-            }
-        }
 
         /// <summary>
         /// プロセスID

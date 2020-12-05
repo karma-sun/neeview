@@ -32,7 +32,7 @@ namespace NeeView
 
         public static ExportImageSource Create()
         {
-            var viewComponent = ViewComponent.Current;
+            var viewComponent = MainViewComponent.Current;
 
             var element = viewComponent.MainView.PageContents;
 

@@ -4,12 +4,12 @@ namespace NeeView
 {
     public class ScrollPageController
     {
-        private ViewComponent _viewContent;
+        private MainViewComponent _viewContent;
         private BookSettingPresenter _bookSettingPresenter;
         private BookOperation _bookOperation;
         private DateTime _scrollPageTime;
 
-        public ScrollPageController(ViewComponent viewContent, BookSettingPresenter bookSettingPresenter, BookOperation bookOperation)
+        public ScrollPageController(MainViewComponent viewContent, BookSettingPresenter bookSettingPresenter, BookOperation bookOperation)
         {
             _viewContent = viewContent;
             _bookSettingPresenter = bookSettingPresenter;

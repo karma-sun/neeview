@@ -6,7 +6,7 @@ namespace NeeView
 {
     public class DummyViewContent : ViewContent
     {
-        public DummyViewContent(ViewComponent viewComponent, ViewContentSource source) : base(viewComponent, source)
+        public DummyViewContent(MainViewComponent viewComponent, ViewContentSource source) : base(viewComponent, source)
         {
         }
 
@@ -24,7 +24,7 @@ namespace NeeView
             return new Grid() { Background = new SolidColorBrush(Color.FromArgb(0x20, 0x80, 0x80, 0x80)) };
         }
 
-        public static DummyViewContent Create(ViewComponent viewComponent, ViewContentSource source)
+        public static DummyViewContent Create(MainViewComponent viewComponent, ViewContentSource source)
         {
             var viewContent = new DummyViewContent(viewComponent, source);
             viewContent.Initialize();

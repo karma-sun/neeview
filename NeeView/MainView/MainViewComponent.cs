@@ -7,10 +7,10 @@ using System.Windows;
 
 namespace NeeView
 {
-    public class ViewComponent : IDisposable
+    public class MainViewComponent : IDisposable
     {
-        static ViewComponent() => Current = new ViewComponent();
-        public static ViewComponent Current { get; }
+        static MainViewComponent() => Current = new MainViewComponent();
+        public static MainViewComponent Current { get; }
 
 
         private MainView _mainView;

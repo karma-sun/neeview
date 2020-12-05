@@ -164,7 +164,7 @@ namespace NeeView
         public void UpdateWindowBorderThickness()
         {
             // NOTE: Windows7 only
-            if (!Environment.IsWindows7) return;
+            if (!Windows7Tools.IsWindows7) return;
 
             var dipScale = (_window is IDpiScaleProvider dipProvider) ? dipProvider.GetDpiScale() : new DpiScale(1.0, 1.0);
 

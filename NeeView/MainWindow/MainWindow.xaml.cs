@@ -28,7 +28,7 @@ namespace NeeView
 
         private MainWindowViewModel _vm;
         private RoutedCommandBinding _routedCommandBinding;
-        private ViewComponent _viewComponent;
+        private MainViewComponent _viewComponent;
         private DpiScaleProvider _dpiProvider = new DpiScaleProvider();
 
         private MainWindowChromeAccessor _windowChromeAccessor;
@@ -83,7 +83,7 @@ namespace NeeView
             //ContentDropManager.Current.SetDragDropEvent(MainView);
 
             // ViewComponent
-            _viewComponent = ViewComponent.Current;
+            _viewComponent = MainViewComponent.Current;
             _viewComponent.Initialize();
 
             RoutedCommandTable.Current.AddMouseInput(_viewComponent.MouseInput);

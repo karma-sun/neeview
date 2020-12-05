@@ -86,10 +86,10 @@ namespace NeeView
 
 
         public JobEngine JobEngine => JobEngine.Current;
-        public DragTransform DragTransform => ViewComponent.Current.DragTransform;
+        public DragTransform DragTransform => MainViewComponent.Current.DragTransform;
         public BookOperation BookOperation => BookOperation.Current;
         public BookHub BookHub => BookHub.Current;
-        public ContentRebuild ContentRebuild => ViewComponent.Current.ContentRebuild;
+        public ContentRebuild ContentRebuild => MainViewComponent.Current.ContentRebuild;
 
 
         // 開発用：コンテンツ座標
@@ -103,7 +103,7 @@ namespace NeeView
         // 開発用：コンテンツ座標情報更新
         public void UpdateContentPosition()
         {
-            ContentPosition = ViewComponent.Current.ContentCanvas.MainContent.View.PointToScreen(new Point(0, 0));
+            ContentPosition = MainViewComponent.Current.ContentCanvas.MainContent.View.PointToScreen(new Point(0, 0));
         }
 
         /// <summary>

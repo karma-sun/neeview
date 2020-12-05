@@ -85,7 +85,7 @@ namespace NeeView
             Config.Current.Panels.ThumbnailItemProfile.UpdateTextHeight();
         }
 
-#region Memento
+        #region Memento
 
         [DataContract]
         public class Memento : IMemento
@@ -148,7 +148,7 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
     }
 
 }

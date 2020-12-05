@@ -22,7 +22,7 @@ namespace NeeView
         private ImageSource _viewImage;
 
 
-        public BitmapViewContent(ViewComponent viewComponent, ViewContentSource source) : base(viewComponent, source)
+        public BitmapViewContent(MainViewComponent viewComponent, ViewContentSource source) : base(viewComponent, source)
         {
         }
 
@@ -221,7 +221,7 @@ namespace NeeView
             }
         }
 
-        public static BitmapViewContent Create(ViewComponent viewComponent, ViewContentSource source)
+        public static BitmapViewContent Create(MainViewComponent viewComponent, ViewContentSource source)
         {
             var viewContent = new BitmapViewContent(viewComponent, source);
             viewContent.Initialize();

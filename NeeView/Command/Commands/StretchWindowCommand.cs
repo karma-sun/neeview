@@ -13,7 +13,7 @@
 
         public override void Execute(object sender, CommandContext e)
         {
-            ViewComponent.Current.ViewController.StretchWindow();
+            MainViewComponent.Current.ViewController.StretchWindow();
         }
     }
 }

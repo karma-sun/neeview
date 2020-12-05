@@ -28,7 +28,7 @@ namespace NeeView
         {
         }
 
-        public ViewContent(ViewComponent viewComponent, ViewContentSource source)
+        public ViewContent(MainViewComponent viewComponent, ViewContentSource source)
         {
             this.ViewComponent = viewComponent;
             this.Source = source;
@@ -36,7 +36,7 @@ namespace NeeView
             this.Color = Colors.Black;
         }
 
-        public ViewComponent ViewComponent { get; private set; }
+        public MainViewComponent ViewComponent { get; private set; }
 
         /// <summary>
         /// ViewContentSource

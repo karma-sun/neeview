@@ -23,7 +23,7 @@ namespace NeeView
 
         public override string ExecuteMessage(object sender, CommandContext e)
         {
-            return this.Text + (ViewComponent.Current.ViewController.TestStretchMode(PageStretchMode.Uniform, ((StretchModeCommandParameter)e.Parameter).IsToggle) ? "" : " OFF");
+            return this.Text + (MainViewComponent.Current.ViewController.TestStretchMode(PageStretchMode.Uniform, ((StretchModeCommandParameter)e.Parameter).IsToggle) ? "" : " OFF");
         }
 
         public override bool CanExecute(object sender, CommandContext e)
@@ -33,7 +33,7 @@ namespace NeeView
 
         public override void Execute(object sender, CommandContext e)
         {
-            ViewComponent.Current.ViewController.SetStretchMode(PageStretchMode.Uniform, ((StretchModeCommandParameter)e.Parameter).IsToggle);
+            MainViewComponent.Current.ViewController.SetStretchMode(PageStretchMode.Uniform, ((StretchModeCommandParameter)e.Parameter).IsToggle);
         }
     }
 

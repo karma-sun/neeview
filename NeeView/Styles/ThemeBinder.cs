@@ -5,12 +5,13 @@ using System.Windows.Media;
 
 namespace NeeView
 {
-    public class ThemeBrushBinding
+    public class ThemeBinder
     {
         public static PanelColorToBrushConverter _captionBackgroundConverter;
         public static PanelColorTobrushMultiConverter _captionForegroundConverter;
+        public static PanelColorToImageSourceConverter _menuIconConverter;
 
-        static ThemeBrushBinding()
+        static ThemeBinder()
         {
             _captionBackgroundConverter = new PanelColorToBrushConverter()
             {
@@ -23,11 +24,19 @@ namespace NeeView
                 Dark = (SolidColorBrush)App.Current.Resources["NVMenuForegroundDark"],
                 Light = (SolidColorBrush)App.Current.Resources["NVMenuForegroundLight"],
             };
+
+            _menuIconConverter = new PanelColorToImageSourceConverter()
+            {
+                Dark = App.Current.Resources["ic_menu_24px_dark"] as ImageSource,
+                Light = App.Current.Resources["ic_menu_24px_light"] as ImageSource,
+            };
+
         }
 
         private FrameworkElement _element;
 
-        public ThemeBrushBinding(FrameworkElement element)
+
+        public ThemeBinder(FrameworkElement element)
         {
             _element = element;
         }
@@ -35,11 +44,7 @@ namespace NeeView
 
         public void SetMenuBackgroundBinding(DependencyProperty property)
         {
-            var binding = new Binding(nameof(ThemeConfig.MenuColor))
-            {
-                Source = Config.Current.Theme,
-                Converter = _captionBackgroundConverter,
-            };
+            var binding = new Binding(nameof(ThemeConfig.MenuColor)) { Source = Config.Current.Theme, Converter = _captionBackgroundConverter, };
             _element.SetBinding(property, binding);
         }
 
@@ -51,5 +56,18 @@ namespace NeeView
             _element.SetBinding(property, multiBinding);
         }
 
+        public void SetMenuIconBinding(DependencyProperty property)
+        {
+            _element.SetBinding(property, new Binding(nameof(ThemeConfig.MenuColor)) { Source = Config.Current.Theme, Converter = _menuIconConverter });
+        }
+    }
+
+
+    public static class FrameworkElementExtensions
+    {
+        public static ThemeBinder GetThemeBinder(this FrameworkElement self)
+        {
+            return new ThemeBinder(self);
+        }
     }
 }

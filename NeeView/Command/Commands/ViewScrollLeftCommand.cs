@@ -15,7 +15,7 @@
 
         public override void Execute(object sender, CommandContext e)
         {
-            ViewComponent.Current.ViewController.ScrollLeft((ViewScrollCommandParameter)e.Parameter);
+            MainViewComponent.Current.ViewController.ScrollLeft((ViewScrollCommandParameter)e.Parameter);
         }
     }
 }

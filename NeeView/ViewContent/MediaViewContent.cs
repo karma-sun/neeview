@@ -19,7 +19,7 @@ namespace NeeView
         private TextBlock _errorMessageTextBlock;
         private DrawingBrush _brush;
 
-        public MediaViewContent(ViewComponent viewComponent, ViewContentSource source) : base(viewComponent, source)
+        public MediaViewContent(MainViewComponent viewComponent, ViewContentSource source) : base(viewComponent, source)
         {
         }
 
@@ -170,7 +170,7 @@ namespace NeeView
         #endregion
 
 
-        public new static MediaViewContent Create(ViewComponent viewComponent, ViewContentSource source)
+        public new static MediaViewContent Create(MainViewComponent viewComponent, ViewContentSource source)
         {
             var viewContent = new MediaViewContent(viewComponent, source);
             viewContent.Initialize();

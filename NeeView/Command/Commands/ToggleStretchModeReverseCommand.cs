@@ -16,7 +16,7 @@
 
         public override string ExecuteMessage(object sender, CommandContext e)
         {
-            return ViewComponent.Current.ViewController.GetToggleStretchModeReverse((ToggleStretchModeCommandParameter)e.Parameter).ToAliasName();
+            return MainViewComponent.Current.ViewController.GetToggleStretchModeReverse((ToggleStretchModeCommandParameter)e.Parameter).ToAliasName();
         }
 
         public override bool CanExecute(object sender, CommandContext e)
@@ -26,7 +26,7 @@
 
         public override void Execute(object sender, CommandContext e)
         {
-            Config.Current.View.StretchMode = ViewComponent.Current.ViewController.GetToggleStretchModeReverse((ToggleStretchModeCommandParameter)e.Parameter);
+            Config.Current.View.StretchMode = MainViewComponent.Current.ViewController.GetToggleStretchModeReverse((ToggleStretchModeCommandParameter)e.Parameter);
         }
     }
 }

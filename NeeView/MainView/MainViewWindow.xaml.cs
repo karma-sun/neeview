@@ -64,7 +64,7 @@ namespace NeeView
 
             this.DataContext = this;
 
-            var binding = new ThemeBrushBinding(this);
+            var binding = new ThemeBinder(this);
             binding.SetMenuBackgroundBinding(MainViewWindow.CaptionBackgroundProperty);
             binding.SetMenuForegroundBinding(MainViewWindow.CaptionForegroundProperty);
 

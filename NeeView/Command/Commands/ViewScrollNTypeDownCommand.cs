@@ -15,7 +15,7 @@
 
         public override void Execute(object sender, CommandContext e)
         {
-            ViewComponent.Current.ViewController.ScrollNTypeDown((ViewScrollNTypeCommandParameter)e.Parameter);
+            MainViewComponent.Current.ViewController.ScrollNTypeDown((ViewScrollNTypeCommandParameter)e.Parameter);
         }
     }
 

@@ -165,7 +165,7 @@ namespace NeeView
             {
                 window.Style = (Style)App.Current.Resources["DefaultWindowStyle"];
 
-                var binding = new ThemeBrushBinding(window);
+                var binding = new ThemeBinder(window);
                 binding.SetMenuBackgroundBinding(LayoutPanelWindow.CaptionBackgroundProperty);
                 binding.SetMenuForegroundBinding(LayoutPanelWindow.CaptionForegroundProperty);
                 window.SetBinding(LayoutPanelWindow.BackgroundProperty, new Binding(nameof(ThemeBrushProvider.BackgroundBrushRaw)) { Source = ThemeBrushProvider.Current });

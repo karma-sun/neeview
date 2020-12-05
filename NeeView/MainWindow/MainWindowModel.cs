@@ -69,7 +69,7 @@ namespace NeeView
 
         private volatile EditCommandWindow _editCommandWindow;
 
-        private ViewComponent _viewComponent;
+        private MainViewComponent _viewComponent;
 
         private WindowShape _windowShape;
         private WindowStateManager _windowStateManamger;
@@ -174,7 +174,7 @@ namespace NeeView
                     RaisePropertyChanged(nameof(CanVisibleWindowTitle));
                 });
 
-            _viewComponent = ViewComponent.Current;
+            _viewComponent = MainViewComponent.Current;
 
             ThemeProfile.Current.ThemeColorChanged += (s, e) => RefreshSliderBrushes();
 

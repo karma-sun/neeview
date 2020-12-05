@@ -47,7 +47,7 @@ namespace NeeView
         // ロード中表示用
         private string _loadingPath;
 
-        private ViewComponent _viewComponent;
+        private MainViewComponent _viewComponent;
 
         #endregion
 
@@ -55,7 +55,7 @@ namespace NeeView
 
         private WindowTitle()
         {
-            _viewComponent = ViewComponent.Current;
+            _viewComponent = MainViewComponent.Current;
 
             _viewComponent.ContentCanvas.ContentChanged += ContentCanvas_ContentChanged;
 

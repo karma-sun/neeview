@@ -8,11 +8,11 @@ namespace NeeView
 {
     public class MainViewViewModel : BindableBase
     {
-        private ViewComponent _viewComponent;
+        private MainViewComponent _viewComponent;
         private Thickness _mainViewMergin;
 
 
-        public MainViewViewModel(ViewComponent viewComponent)
+        public MainViewViewModel(MainViewComponent viewComponent)
         {
             _viewComponent = viewComponent;
 
@@ -21,7 +21,7 @@ namespace NeeView
         }
 
 
-        public ViewComponent ViewComponent => _viewComponent;
+        public MainViewComponent ViewComponent => _viewComponent;
 
         public ContentCanvas ContentCanvas => _viewComponent.ContentCanvas;
 

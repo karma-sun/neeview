@@ -8,10 +8,10 @@ namespace NeeView
 {
     public class PrintController
     {
-        private ViewComponent _viewComponent;
+        private MainViewComponent _viewComponent;
         private MainView _mainView;
 
-        public PrintController(ViewComponent viewComponent, MainView mainView)
+        public PrintController(MainViewComponent viewComponent, MainView mainView)
         {
             _viewComponent = viewComponent;
             _mainView = mainView;

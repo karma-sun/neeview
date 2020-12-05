@@ -54,7 +54,7 @@ namespace NeeView
         public PictureProfile PictureProfile => PictureProfile.Current;
 
         // ContentCanvs
-        public ContentCanvas ContentCanvas => ViewComponent.Current.ContentCanvas;
+        public ContentCanvas ContentCanvas => MainViewComponent.Current.ContentCanvas;
 
         public PropertyDocument UnsharpMaskProfile { get; set; }
 
@@ -70,7 +70,7 @@ namespace NeeView
         // TODO: これモデルじゃね？
         public void ResetValue()
         {
-            var viewComponent = ViewComponent.Current;
+            var viewComponent = MainViewComponent.Current;
 
             using (var lockerKey = viewComponent.ContentRebuild.Locker.Lock())
             {

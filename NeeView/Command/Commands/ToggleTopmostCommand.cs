@@ -26,7 +26,7 @@ namespace NeeView
 
         public override void Execute(object sender, CommandContext e)
         {
-            ViewComponent.Current.ViewController.ToggleTopmost(sender);
+            MainViewComponent.Current.ViewController.ToggleTopmost(sender);
         }
     }
 }

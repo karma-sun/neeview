@@ -81,7 +81,7 @@ namespace NeeView
     {
 
         private object _lock = new object();
-        private ViewComponent _viewComponent;
+        private MainViewComponent _viewComponent;
         private ContentSizeCalcurator _contentSizeCalcurator;
         private PageStretchMode _stretchModePrev = PageStretchMode.Uniform;
         private double _baseScale;
@@ -90,7 +90,7 @@ namespace NeeView
 
 
 
-        public ContentCanvas(ViewComponent viewComponent, BookHub bookHub)
+        public ContentCanvas(MainViewComponent viewComponent, BookHub bookHub)
         {
             if (viewComponent is null) throw new ArgumentNullException();
             if (viewComponent.MainView?.DpiProvider is null) throw new ArgumentException();

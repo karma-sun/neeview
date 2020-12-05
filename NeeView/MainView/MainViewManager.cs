@@ -16,7 +16,7 @@ namespace NeeView
 
         private MainViewWindow _window;
 
-        private ViewComponent _viewComponent;
+        private MainViewComponent _viewComponent;
 
         private MainView _mainView;
         private MainViewBay _mainViewBay;
@@ -32,7 +32,7 @@ namespace NeeView
 
 
 
-        public void Initialize(ViewComponent viewComponent, ContentControl defaultSocket)
+        public void Initialize(MainViewComponent viewComponent, ContentControl defaultSocket)
         {
             _viewComponent = viewComponent;
 

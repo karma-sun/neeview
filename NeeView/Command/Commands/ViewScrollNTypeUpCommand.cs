@@ -19,7 +19,7 @@ namespace NeeView
 
         public override void Execute(object sender, CommandContext e)
         {
-            ViewComponent.Current.ViewController.ScrollNTypeUp((ViewScrollNTypeCommandParameter)e.Parameter);
+            MainViewComponent.Current.ViewController.ScrollNTypeUp((ViewScrollNTypeCommandParameter)e.Parameter);
         }
     }
 

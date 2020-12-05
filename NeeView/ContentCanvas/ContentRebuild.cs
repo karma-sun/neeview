@@ -17,7 +17,7 @@ namespace NeeView
     /// </summary>
     public class ContentRebuild : BindableBase, IDisposable
     {
-        private ViewComponent _viewComponent;
+        private MainViewComponent _viewComponent;
         private KeyPressWatcher _keyPressWatcher;
         private bool _isResizingWindow;
         private bool _isUpdateContentSize;
@@ -30,7 +30,7 @@ namespace NeeView
 
         #region Constructors
 
-        public ContentRebuild(ViewComponent viewComponent)
+        public ContentRebuild(MainViewComponent viewComponent)
         {
             _viewComponent = viewComponent;
 

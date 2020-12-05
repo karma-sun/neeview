@@ -93,14 +93,14 @@ namespace NeeView
         private bool _isStatusAreaMouseOver;
         private Thickness _mainViewMergin;
 
-        private ViewComponent _viewComponent;
+        private MainViewComponent _viewComponent;
 
         /// <summary>
         /// コンストラクター
         /// </summary>
         public MainWindowViewModel(MainWindowModel model)
         {
-            _viewComponent = ViewComponent.Current;
+            _viewComponent = MainViewComponent.Current;
 
             MenuAutoHideDescription = new BasicAutoHideDescription(MainWindow.Current.LayerMenuSocket);
             StatusAutoHideDescrption = new BasicAutoHideDescription(MainWindow.Current.LayerStatusArea);

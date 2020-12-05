@@ -21,7 +21,7 @@ namespace NeeView
         private VisualBrush _brush;
 
 
-        public AnimatedViewContent(ViewComponent viewComponent, ViewContentSource source) : base(viewComponent, source)
+        public AnimatedViewContent(MainViewComponent viewComponent, ViewContentSource source) : base(viewComponent, source)
         {
         }
 
@@ -169,7 +169,7 @@ namespace NeeView
         }
 
 
-        public new static AnimatedViewContent Create(ViewComponent viewComponent, ViewContentSource source)
+        public new static AnimatedViewContent Create(MainViewComponent viewComponent, ViewContentSource source)
         {
             var viewContent = new AnimatedViewContent(viewComponent, source);
             viewContent.Initialize();

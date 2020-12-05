@@ -9,7 +9,7 @@ namespace NeeView
     /// </summary>
     public class ViewContentFactory
     {
-        public static ViewContent Create(ViewComponent viewComponent, ViewContentSource source, ViewContent oldViewContent)
+        public static ViewContent Create(MainViewComponent viewComponent, ViewContentSource source, ViewContent oldViewContent)
         {
             ViewContent viewContent;
 

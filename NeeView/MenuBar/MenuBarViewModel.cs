@@ -123,18 +123,13 @@ namespace NeeView
             var menu = new Menu();
             if (Config.Current.MenuBar.IsHamburgerMenu)
             {
-                var converter = new PanelColorToImageSourceConverter()
-                {
-                    Dark = App.Current.Resources["ic_menu_24px_dark"] as ImageSource,
-                    Light = App.Current.Resources["ic_menu_24px_light"] as ImageSource,
-                };
-
                 var image = new Image();
                 image.Width = 18;
                 image.Height = 18;
                 image.Margin = new Thickness(4, 2, 4, 2);
-                image.SetBinding(Image.SourceProperty, new Binding(nameof(ThemeConfig.MenuColor)) { Source = Config.Current.Theme, Converter = converter });
+                image.GetThemeBinder().SetMenuIconBinding(Image.SourceProperty);
                 image.SetBinding(Image.OpacityProperty, new Binding(nameof(Window.IsActive)) { Source = MainWindow.Current, Converter = new BooleanToOpacityConverter() });
+
 
                 var topMenu = new MenuItem();
                 topMenu.Header = image;

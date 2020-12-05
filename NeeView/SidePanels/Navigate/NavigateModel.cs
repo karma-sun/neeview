@@ -36,8 +36,8 @@ namespace NeeView
 
         public NavigateModel()
         {
-            _dragTransform = ViewComponent.Current.DragTransform;
-            _contentCanvas = ViewComponent.Current.ContentCanvas;
+            _dragTransform = MainViewComponent.Current.DragTransform;
+            _contentCanvas = MainViewComponent.Current.ContentCanvas;
 
             Config.Current.View.PropertyChanged += ViewConfig_PropertyChanged;
         }

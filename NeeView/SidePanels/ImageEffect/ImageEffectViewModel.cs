@@ -67,7 +67,6 @@ namespace NeeView
         public Dictionary<EffectType, string> EffectTypeList { get; } = AliasNameExtensions.GetAliasNameDictionary<EffectType>();
 
 
-        // TODO: これモデルじゃね？
         public void ResetValue()
         {
             var viewComponent = MainViewComponent.Current;

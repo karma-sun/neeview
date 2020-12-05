@@ -22,7 +22,7 @@ namespace NeeView
     /// <summary>
     /// MainViewWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class MainViewWindow : Window, INotifyPropertyChanged, IHasDpiScale, IHasWindowController, ITopmostControllable
+    public partial class MainViewWindow : Window, INotifyPropertyChanged, IDpiScaleProvider, IHasWindowController, ITopmostControllable
     {
         #region INotifyPropertyChanged Support
 
@@ -48,7 +48,7 @@ namespace NeeView
 
         #endregion
 
-        private DpiWatcher _dpiWatcher;
+        private DpiScaleProvider _dpiProvider;
 
         private WindowChromeAccessor _windowChrome;
         private WindowCaptionEmulator _windowCaptionEmulator;
@@ -70,7 +70,8 @@ namespace NeeView
 
             this.SetBinding(MainViewWindow.TitleProperty, new Binding(nameof(WindowTitle.Title)) { Source = WindowTitle.Current });
 
-            _dpiWatcher = new DpiWatcher(this);
+            _dpiProvider = new DpiScaleProvider();
+            this.DpiChanged += (s, e) => _dpiProvider.SetDipScale(e.NewDpi);
 
             _windowChrome = new WindowChromeAccessor(this);
             _windowChrome.IsEnabled = true;
@@ -192,7 +193,7 @@ namespace NeeView
 
         public DpiScale GetDpiScale()
         {
-            return _dpiWatcher.Dpi;
+            return _dpiProvider.DpiScale;
         }
 
         public WindowPlacement StoreWindowPlacement()

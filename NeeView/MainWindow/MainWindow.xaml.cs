@@ -22,14 +22,14 @@ namespace NeeView
     /// <summary>
     /// MainWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class MainWindow : Window, IHasDpiScale, IHasWindowController
+    public partial class MainWindow : Window, IDpiScaleProvider, IHasWindowController
     {
         public static MainWindow Current { get; private set; }
 
         private MainWindowViewModel _vm;
         private RoutedCommandBinding _routedCommandBinding;
         private ViewComponent _viewComponent;
-        private DpiProvider _dpiProvider = new DpiProvider();
+        private DpiScaleProvider _dpiProvider = new DpiScaleProvider();
 
         private MainWindowChromeAccessor _windowChromeAccessor;
         private WindowStateManager _windowStateManager;
@@ -491,7 +491,7 @@ namespace NeeView
         /// <param name="e"></param>
         private void MainWindow_DpiChanged(object sender, DpiChangedEventArgs e)
         {
-            var isChanged = _dpiProvider.SetDip(e.NewDpi);
+            var isChanged = _dpiProvider.SetDipScale(e.NewDpi);
             if (!isChanged) return;
 
             //
@@ -792,7 +792,7 @@ namespace NeeView
 
         public DpiScale GetDpiScale()
         {
-            return _dpiProvider.RawDpi;
+            return _dpiProvider.DpiScale;
         }
 
         #endregion

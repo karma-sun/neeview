@@ -138,7 +138,7 @@ namespace NeeView
             if (mouseButtonBits != MouseButtonBits.None) return;
 
             bool isSuccessed = true;
-            var dpiScaleX = _viewComponent.MainView.DpiProvider.RawDpi.DpiScaleX;
+            var dpiScaleX = _viewComponent.MainView.DpiProvider.DpiScale.DpiScaleX;
             var scale = _viewComponent.DragTransform.Scale * _viewComponent.LoupeTransform.FixedScale * dpiScaleX;
             foreach (var viewConent in _viewComponent.ContentCanvas.CloneContents.Where(e => e.IsValid))
             {

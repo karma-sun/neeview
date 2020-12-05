@@ -330,7 +330,7 @@ namespace NeeView
             switch (ActionType)
             {
                 case TransformActionType.Scale:
-                    var dpi = (Window.GetWindow(_sender) is IHasDpiScale hasDpiScale) ? hasDpiScale.GetDpiScale().DpiScaleX : 1.0;
+                    var dpi = (Window.GetWindow(_sender) is IDpiScaleProvider dpiProvider) ? dpiProvider.GetDpiScale().ToFixedScale().DpiScaleX : 1.0;
                     string scaleText = Config.Current.Notice.IsOriginalScaleShowMessage && mainContent != null && mainContent.IsValid
                         ? $"{(int)(dragTransform.Scale * mainContent.Scale * dpi * 100 + 0.1)}%"
                         : $"{(int)(dragTransform.Scale * 100.0 + 0.1)}%";

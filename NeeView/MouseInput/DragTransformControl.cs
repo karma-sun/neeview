@@ -1173,9 +1173,9 @@ namespace NeeView
         {
             var pos = visual.PointToScreen(point); // デバイス座標
 
-            if (Window.GetWindow(visual) is IHasDpiScale hasDpiScale)
+            if (Window.GetWindow(visual) is IDpiScaleProvider dpiProvider)
             {
-                var dpi = hasDpiScale.GetDpiScale();
+                var dpi = dpiProvider.GetDpiScale();
                 pos.X = pos.X / dpi.DpiScaleX;
                 pos.Y = pos.Y / dpi.DpiScaleY;
             }

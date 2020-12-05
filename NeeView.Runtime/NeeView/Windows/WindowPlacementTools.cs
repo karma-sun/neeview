@@ -184,7 +184,7 @@ namespace NeeView.Windows
             var hwnd = new WindowInteropHelper(window).Handle;
             if (hwnd == IntPtr.Zero) throw new InvalidOperationException();
 
-            if (!(window is IHasDpiScale dpiProvider)) throw new ArgumentException($"need window has IDpiProvider.");
+            if (!(window is IDpiScaleProvider dpiProvider)) throw new ArgumentException($"need window has IDpiProvider.");
 
             NativeMethods.GetWindowPlacement(hwnd, out NativeMethods.WINDOWPLACEMENT raw);
             ////Debug.WriteLine($"WindowPlacement.Store: Native.WindowPlacement: {raw}");
@@ -216,7 +216,7 @@ namespace NeeView.Windows
         {
             if (placement == null || !placement.IsValid()) return;
 
-            if (!(window is IHasDpiScale dpiProvider)) throw new ArgumentException($"need window has IDpiProvider.");
+            if (!(window is IDpiScaleProvider dpiProvider)) throw new ArgumentException($"need window has IDpiProvider.");
 
             var hwnd = new WindowInteropHelper(window).Handle;
             var raw = ConvertToNativeWindowPlacement(placement);

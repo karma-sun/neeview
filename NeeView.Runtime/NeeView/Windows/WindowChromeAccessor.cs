@@ -124,7 +124,7 @@ namespace NeeView.Windows
 
         public virtual void UpdateWindowBorderThickness()
         {
-            var dpi = (_window is IHasDpiScale dpiProvider) ? dpiProvider.GetDpiScale() : new DpiScale(1.0, 1.0);
+            var dpi = (_window is IDpiScaleProvider dpiProvider) ? dpiProvider.GetDpiScale() : new DpiScale(1.0, 1.0);
 
             if (IsActive && _window.WindowState == WindowState.Maximized)
             {

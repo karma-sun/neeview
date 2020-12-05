@@ -166,7 +166,7 @@ namespace NeeView
             // NOTE: Windows7 only
             if (!Environment.IsWindows7) return;
 
-            var dipScale = (_window is IHasDpiScale hasDpiScale) ? hasDpiScale.GetDpiScale() : new DpiScale(1.0, 1.0);
+            var dipScale = (_window is IDpiScaleProvider dipProvider) ? dipProvider.GetDpiScale() : new DpiScale(1.0, 1.0);
 
             if (_windowChromeAccessor.IsEnabled && _window.WindowState != System.Windows.WindowState.Maximized && Config.Current.Window.WindowChromeFrame == WindowChromeFrame.WindowFrame)
             {

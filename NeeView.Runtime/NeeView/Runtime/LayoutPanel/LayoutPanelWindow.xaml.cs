@@ -21,10 +21,10 @@ namespace NeeView.Runtime.LayoutPanel
     /// <summary>
     /// LayoutPanelWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class LayoutPanelWindow : Window, IHasDpiScale
+    public partial class LayoutPanelWindow : Window, IDpiScaleProvider
     {
         private LayoutPanelWindowManager _layoutPanelWindowManager;
-        private DpiWatcher _dpiWatcher;
+        private DpiScaleProvider _dpiProvider;
 
         private WindowChromeAccessor _windowChrome;
         private LayoutPanelWindowCaptionEmulator _windowCaptionEmulator;
@@ -34,7 +34,8 @@ namespace NeeView.Runtime.LayoutPanel
             InitializeComponent();
             this.DataContext = this;
 
-            _dpiWatcher = new DpiWatcher(this);
+            _dpiProvider = new DpiScaleProvider();
+            this.DpiChanged += (s, e) => _dpiProvider.SetDipScale(e.NewDpi);
 
             _windowChrome = new WindowChromeAccessor(this);
             _windowChrome.IsEnabled = true;
@@ -100,7 +101,7 @@ namespace NeeView.Runtime.LayoutPanel
 
         public DpiScale GetDpiScale()
         {
-            return _dpiWatcher.Dpi;
+            return _dpiProvider.DpiScale;
         }
 
         private void LayoutPanelWindow_SourceInitialized(object sender, EventArgs e)

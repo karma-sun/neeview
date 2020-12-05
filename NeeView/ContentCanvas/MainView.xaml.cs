@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Windows;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace NeeView
     {
         private MainViewViewModel _vm;
         private Window _owner;
-        private DpiProvider _dpiProvider = new DpiProvider();
+        private DpiScaleProvider _dpiProvider = new DpiScaleProvider();
 
         public MainView()
         {
@@ -40,7 +41,7 @@ namespace NeeView
 
         public TouchInput TouchInput => _vm?.TouchInput;
 
-        public DpiProvider DpiProvider => _dpiProvider;
+        public DpiScaleProvider DpiProvider => _dpiProvider;
 
 
         public void Initialize()
@@ -120,7 +121,7 @@ namespace NeeView
         {
             base.OnDpiChanged(oldDpi, newDpi);
 
-            _dpiProvider.SetDip(newDpi);
+            _dpiProvider.SetDipScale(newDpi);
         }
 
 

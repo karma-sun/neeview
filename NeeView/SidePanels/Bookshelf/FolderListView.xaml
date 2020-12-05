@@ -122,11 +122,16 @@
                         <TextBlock DockPanel.Dock="Right" Text="{Binding FolderCollection.ValidCount, StringFormat={}{0}}" Foreground="Gray" Margin="5,0"
                                 Visibility="{Binding Source={x:Static local:Config.Current}, Path=Bookshelf.IsVisibleItemsCount, Converter={StaticResource BooleanToVisibilityConverter}}" />
                         <DockPanel x:Name="PlaceBar" HorizontalAlignment="Left">
-                            <Image x:Name="PlaceIcon" DockPanel.Dock="Left" Source="{Binding FolderCollection.Place, Converter={StaticResource PathToPlaceIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" Margin="0,0,0,0"
-                                   PreviewMouseLeftButtonDown="PlaceIcon_MouseLeftButtonDown"
-                                   PreviewMouseLeftButtonUp="PlaceIcon_MouseLeftButtonUp"
-                                   PreviewMouseMove="PlaceIcon_MouseMove"
-                                   QueryContinueDrag="PlaceIcon_QueryContinueDrag"/>
+                            <Image x:Name="PlaceIcon" DockPanel.Dock="Left" Width="16" Height="16"
+                                    VerticalAlignment="Center" Margin="0,0,0,0" PreviewMouseLeftButtonDown="PlaceIcon_MouseLeftButtonDown" PreviewMouseLeftButtonUp="PlaceIcon_MouseLeftButtonUp"
+                                    PreviewMouseMove="PlaceIcon_MouseMove" QueryContinueDrag="PlaceIcon_QueryContinueDrag">
+                                <Image.Source>
+                                    <MultiBinding Converter="{StaticResource PathToPlaceIconConverter}">
+                                        <Binding Path="FolderCollection.Place" />
+                                        <Binding Path="Dpi" />
+                                    </MultiBinding>
+                                </Image.Source>
+                            </Image>
                             <Image DockPanel.Dock="Right" Source="{StaticResource fic_recursive_folder_24px}" Width="12" Height="12" VerticalAlignment="Center" Margin="0,2,0,0"
                                    ToolTip="{x:Static properties:Resources.BookshelfSubFolderTips}"
                                    Visibility="{Binding FolderCollection, Converter={StaticResource FolderCollectionToFolderRecursiveVisibilityConverter}}"/>

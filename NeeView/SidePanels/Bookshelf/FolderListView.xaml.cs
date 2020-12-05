@@ -8,9 +8,6 @@ using System.Windows.Controls;
 using System.Diagnostics;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
-using System.Windows.Data;
-using System.Globalization;
-using System.Windows.Media;
 using NeeView.Windows;
 using System.Threading;
 using NeeView.Data;
@@ -56,6 +53,12 @@ namespace NeeView
 
         public event EventHandler<FocusChangedEventArgs> SearchBoxFocusChanged;
 
+
+        protected override void OnDpiChanged(DpiScale oldDpi, DpiScale newDpi)
+        {
+            base.OnDpiChanged(oldDpi, newDpi);
+            _vm.Dpi = newDpi.DpiScaleX;
+        }
 
         /// <summary>
         /// フォルダーツリーへのフォーカス要求
@@ -299,69 +302,4 @@ namespace NeeView
         }
     }
 
-
-    #region Converters
-
-    public class PathToPlaceIconConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return Convert(value as QueryPath);
-        }
-
-        public static IImageSourceCollection Convert(QueryPath path)
-        {
-            if (path != null)
-            {
-                if (path.Path == null)
-                {
-                    return new SingleImageSourceCollection(path.Scheme.ToImage());
-                }
-                else if (path.Scheme == QueryScheme.Bookmark)
-                {
-                    return new SingleImageSourceCollection(path.Scheme.ToImage());
-                }
-                else if (path.Scheme == QueryScheme.Pagemark)
-                {
-                    return new SingleImageSourceCollection(path.Scheme.ToImage());
-                }
-                else if (path.Search != null)
-                {
-                    return new SingleImageSourceCollection(MainWindow.Current.Resources["ic_search_24px"] as ImageSource);
-                }
-                else if (path.Scheme == QueryScheme.File && PlaylistArchive.IsSupportExtension(path.SimplePath))
-                {
-                    return new SingleImageSourceCollection(MainWindow.Current.Resources["ic_playlist"] as ImageSource);
-                }
-            }
-
-            return FileIconCollection.Current.CreateDefaultFolderIcon();
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    [ValueConversion(typeof(FolderCollection), typeof(Visibility))]
-    public class FolderCollectionToFolderRecursiveVisibilityConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is FolderCollection collection)
-            {
-                return (collection.FolderParameter.IsFolderRecursive == true) ? Visibility.Visible : Visibility.Collapsed;
-            }
-
-            return Visibility.Collapsed;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    #endregion Converters
 }

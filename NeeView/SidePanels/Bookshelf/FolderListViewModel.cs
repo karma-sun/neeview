@@ -27,6 +27,7 @@ namespace NeeView
         private PanelListItemStyleToBooleanConverter _panelListItemStyleToBooleanConverter = new PanelListItemStyleToBooleanConverter();
         private BookshelfFolderList _model;
         private Dictionary<FolderOrder, string> _folderOrderList = AliasNameExtensions.GetAliasNameDictionary<FolderOrder>();
+        private double _dpi = 1.0;
 
 
         public FolderListViewModel(BookshelfFolderList model)
@@ -69,6 +70,12 @@ namespace NeeView
         {
             get { return FolderCollection != null ? FolderCollection.FolderParameter.FolderOrder : default; }
             set { if (FolderCollection != null) { FolderCollection.FolderParameter.FolderOrder = value; } }
+        }
+
+        public double Dpi
+        {
+            get { return _dpi; }
+            set { SetProperty(ref _dpi, value); }
         }
 
 

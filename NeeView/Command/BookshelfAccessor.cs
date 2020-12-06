@@ -16,7 +16,7 @@ namespace NeeView
         public string Path
         {
             get { return _bookshelf.Place.SimplePath; }
-            set { _bookshelf.RequestPlace(new QueryPath(value), null, FolderSetPlaceOption.UpdateHistory); }
+            set { AppDispatcher.Invoke(() => _bookshelf.RequestPlace(new QueryPath(value), null, FolderSetPlaceOption.UpdateHistory)); }
         }
 
 

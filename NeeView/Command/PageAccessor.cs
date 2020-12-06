@@ -14,7 +14,4 @@
         public double Width => _page.Size.Width;
         public double Height => _page.Size.Height;
     }
-
-
-
 }

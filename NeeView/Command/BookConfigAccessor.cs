@@ -7,55 +7,64 @@ namespace NeeView
     public class BookConfigAccessor
     {
         // PageMode
+        [WordNodeMember]
         public int ViewPageSize
         {
             get { return BookSettingPresenter.Current.LatestSetting.PageMode == PageMode.WidePage ? 2 : 1; }
-            set { BookSettingPresenter.Current.SetPageMode(value == 2 ? PageMode.WidePage : PageMode.SinglePage); }
+            set { AppDispatcher.Invoke(() => BookSettingPresenter.Current.SetPageMode(value == 2 ? PageMode.WidePage : PageMode.SinglePage)); }
         }
 
         // [Parameter(typeof(BookReadOrder))]
+        [WordNodeMember]
         public string BookReadOrder
         {
             get { return BookSettingPresenter.Current.LatestSetting.BookReadOrder.ToString(); }
-            set { BookSettingPresenter.Current.SetBookReadOrder(value.ToEnum<PageReadOrder>()); }
+            set { AppDispatcher.Invoke(() => BookSettingPresenter.Current.SetBookReadOrder(value.ToEnum<PageReadOrder>())); }
         }
 
+        [WordNodeMember]
         public bool IsSupportedDividePage
         {
             get { return BookSettingPresenter.Current.LatestSetting.IsSupportedDividePage; }
-            set { BookSettingPresenter.Current.SetIsSupportedDividePage(value); }
+            set { AppDispatcher.Invoke(() => BookSettingPresenter.Current.SetIsSupportedDividePage(value)); }
         }
 
+        [WordNodeMember]
         public bool IsSupportedSingleFirstPage
         {
             get { return BookSettingPresenter.Current.LatestSetting.IsSupportedSingleFirstPage; }
-            set { BookSettingPresenter.Current.SetIsSupportedSingleFirstPage(value); }
+            set { AppDispatcher.Invoke(() => BookSettingPresenter.Current.SetIsSupportedSingleFirstPage(value)); }
         }
 
+        [WordNodeMember]
         public bool IsSupportedSingleLastPage
         {
             get { return BookSettingPresenter.Current.LatestSetting.IsSupportedSingleLastPage; }
-            set { BookSettingPresenter.Current.SetIsSupportedSingleLastPage(value); }
+            set { AppDispatcher.Invoke(() => BookSettingPresenter.Current.SetIsSupportedSingleLastPage(value)); }
         }
 
+        [WordNodeMember]
         public bool IsSupportedWidePage
         {
             get { return BookSettingPresenter.Current.LatestSetting.IsSupportedWidePage; }
-            set { BookSettingPresenter.Current.SetIsSupportedWidePage(value); }
+            set { AppDispatcher.Invoke(() => BookSettingPresenter.Current.SetIsSupportedWidePage(value)); }
         }
 
+        [WordNodeMember]
         public bool IsRecursiveFolder
         {
             get { return BookSettingPresenter.Current.LatestSetting.IsRecursiveFolder; }
-            set { BookSettingPresenter.Current.SetIsRecursiveFolder(value); }
+            set { AppDispatcher.Invoke(() => BookSettingPresenter.Current.SetIsRecursiveFolder(value)); }
         }
 
         // [Parameter(typeof(PageSortMode))]
+        [WordNodeMember]
         public string SortMode
         {
             get { return BookSettingPresenter.Current.LatestSetting.SortMode.ToString(); }
-            set { BookSettingPresenter.Current.SetSortMode(value.ToEnum<PageSortMode>()); }
+            set { AppDispatcher.Invoke(() => BookSettingPresenter.Current.SetSortMode(value.ToEnum<PageSortMode>())); }
         }
+
 
         internal WordNode CreateWordNode(string name)
         {

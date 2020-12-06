@@ -558,7 +558,7 @@ namespace NeeView
 
                 WriteResource(writer, $"/Resources/{Config.Current.System.Language.GetCultureName()}/ScriptManual.html");
 
-                var executeMethodArgTypes = new Type[] { typeof(CommandParameter), typeof(object[]), typeof(CommandOption) };
+                var executeMethodArgTypes = new Type[] { typeof(object), typeof(CommandContext) };
 
                 // 設定値一覧
                 writer.WriteLine($"<h2>{Properties.Resources.WordConfigList}</h2>");

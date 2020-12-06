@@ -173,6 +173,9 @@ namespace NeeView
                 Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.MaximizeWindowGapWidth), (s, e) => UpdateMaximizeWindowGapWidth(window));
                 UpdateMaximizeWindowGapWidth(window);
 
+                var windowBorder = new WindowBorder(window, window.WindowChrome);
+                ((FrameworkElement)window.FindName("WindowBorder")).SetBinding(Border.BorderThicknessProperty, new Binding(nameof(WindowBorder.Thickness)) { Source = windowBorder });
+
                 // NOTE: Tagにインスタンスを保持して消えないようにする
                 window.Tag = new RoutedCommandBinding(window, RoutedCommandTable.Current);
 

@@ -28,42 +28,47 @@
         <CommandBinding Command="{StaticResource StretchWindowCommand}" Executed="StretchWindowCommand_Execute" />
     </Window.CommandBindings>
 
-    <Grid x:Name="Root">
-        <Grid.RowDefinitions>
-            <RowDefinition x:Name="Row0" Height="Auto" />
-            <RowDefinition x:Name="Row1"/>
-        </Grid.RowDefinitions>
+    <Border BorderThickness="{Binding WindowBorder.Thickness}" BorderBrush="Gray">
+        <Grid x:Name="Root">
+            <Grid.RowDefinitions>
+                <RowDefinition x:Name="Row0" Height="Auto" />
+                <RowDefinition x:Name="Row1" />
+            </Grid.RowDefinitions>
 
-        <UserControl x:Name="MainViewSocket" Grid.Row="1" Content="{Binding LayoutPanel.Content}" />
-        
-        <DockPanel x:Name="CaptionBar" Grid.Row="0" Background="{Binding CaptionBackground}" Height="{Binding WindowChrome.CaptionHeight}" VerticalAlignment="Top">
-            <DockPanel.ContextMenu>
-                <ContextMenu>
-                    <MenuItem x:Name="StretchWindowMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.CommandStretchWindowMenu}" Command="{StaticResource StretchWindowCommand}" />
-                    <Separator />
-                    <MenuItem x:Name="IsAutoHideMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.MenuAutoHideTitleBar}" IsCheckable="True" IsChecked="{Binding IsAutoHide}" />
-                    <MenuItem x:Name="IsTopmostMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.WordTopmost}" IsCheckable="True"
-                            IsChecked="{Binding IsTopmost}" />
-                    <MenuItem x:Name="IsFullScreenMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.WordFullScreen}" IsCheckable="True"
-                            IsChecked="{Binding IsFullScreen}" />
-                    <Separator />
-                    <MenuItem x:Name="CloseMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.WordClose}" Command="{x:Static SystemCommands.CloseWindowCommand}" />
-                </ContextMenu>
-            </DockPanel.ContextMenu>
+            <UserControl x:Name="MainViewSocket" Grid.Row="1" Content="{Binding LayoutPanel.Content}" />
 
-            <behaviors:Interaction.Behaviors>
-                <local:AutoHideBehavior Name="AutoHider" Screen="{Binding ElementName=Root}" Dock="Top" IsEnabled="{Binding CanHideMenu}" DelayTime="{Binding AutoHideConfig.AutoHideDelayTime}"
-                        DelayVisibleTime="{Binding AutoHideConfig.AutoHideDelayVisibleTime}" FocusLockMode="{Binding AutoHideConfig.AutoHideFocusLockMode}"
-                        IsKeyDownDelayEnabled="{Binding AutoHideConfig.IsAutoHideKeyDownDelay}"
-                        HitTestMargin="{Binding AutoHideConfig.AutoHideHitTestMargin}" Description="{Binding MenuAutoHideDescription}" />
-            </behaviors:Interaction.Behaviors>
-            
-            <nwc:WindowCaptionButtons DockPanel.Dock="Right" Foreground="{Binding CaptionForeground}" IsEnabled="True" IsMinimizeEnabled="True" WindowChrome.IsHitTestVisibleInChrome="False" />
-            <TextBlock Text="{Binding Path=Title}" VerticalAlignment="Center" Margin="16,0" Foreground="{Binding CaptionForeground}" />
-        </DockPanel>
+            <DockPanel x:Name="CaptionBar" Grid.Row="0" Background="{Binding CaptionBackground}" Height="{Binding WindowChrome.CaptionHeight}" VerticalAlignment="Top">
+                <DockPanel.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem x:Name="StretchWindowMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.CommandStretchWindowMenu}"
+                                Command="{StaticResource StretchWindowCommand}" />
+                        <Separator />
+                        <MenuItem x:Name="IsAutoHideMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.MenuAutoHideTitleBar}" IsCheckable="True"
+                                IsChecked="{Binding IsAutoHide}" />
+                        <MenuItem x:Name="IsTopmostMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.WordTopmost}" IsCheckable="True"
+                                IsChecked="{Binding IsTopmost}" />
+                        <MenuItem x:Name="IsFullScreenMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.WordFullScreen}" IsCheckable="True"
+                                IsChecked="{Binding IsFullScreen}" />
+                        <Separator />
+                        <MenuItem x:Name="CloseMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.WordClose}"
+                                Command="{x:Static SystemCommands.CloseWindowCommand}" />
+                    </ContextMenu>
+                </DockPanel.ContextMenu>
 
-        <local:NormalInfoMessageView Grid.Row="1" Source="{Binding InfoMessage.NormalInfoMessage}" />
+                <behaviors:Interaction.Behaviors>
+                    <local:AutoHideBehavior Name="AutoHider" Screen="{Binding ElementName=Root}" Dock="Top" IsEnabled="{Binding CanHideMenu}" DelayTime="{Binding AutoHideConfig.AutoHideDelayTime}"
+                            DelayVisibleTime="{Binding AutoHideConfig.AutoHideDelayVisibleTime}" FocusLockMode="{Binding AutoHideConfig.AutoHideFocusLockMode}"
+                            IsKeyDownDelayEnabled="{Binding AutoHideConfig.IsAutoHideKeyDownDelay}" HitTestMargin="{Binding AutoHideConfig.AutoHideHitTestMargin}"
+                            Description="{Binding MenuAutoHideDescription}" />
+                </behaviors:Interaction.Behaviors>
 
-    </Grid>
-    
+                <nwc:WindowCaptionButtons DockPanel.Dock="Right" Foreground="{Binding CaptionForeground}" IsEnabled="True" IsMinimizeEnabled="True" WindowChrome.IsHitTestVisibleInChrome="False" />
+                <TextBlock Text="{Binding Path=Title}" VerticalAlignment="Center" Margin="16,0" Foreground="{Binding CaptionForeground}" />
+            </DockPanel>
+
+            <local:NormalInfoMessageView Grid.Row="1" Source="{Binding InfoMessage.NormalInfoMessage}" />
+
+        </Grid>
+    </Border>
+
 </Window>

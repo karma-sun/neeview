@@ -1,5 +1,4 @@
 ﻿using NeeLaboratory.ComponentModel;
-using NeeView.Windows;
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
@@ -63,52 +62,34 @@ namespace NeeView
     public class WindowShape : BindableBase, ITopmostControllable
     {
         private Window _window;
-
-        private Thickness _windowBorderThickness;
         private bool _isEnabled;
-
         private MainWindowChromeAccessor _windowChromeAccessor;
-
         private WindowStateManager _manager;
+        private WindowBorder _windowBorder;
 
 
         public WindowShape(WindowStateManager manager, MainWindowChromeAccessor windowChromeAccessor)
         {
             _window = MainWindow.Current;
-
             _windowChromeAccessor = windowChromeAccessor;
-            _manager = manager;
 
+            _manager = manager;
             _manager.StateChanged += WindowStateManager_StateChanged;
 
-            Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.WindowChromeFrame), (s, e) =>
-            {
-                Refresh();
-            });
+            _windowBorder = new WindowBorder(_window, _windowChromeAccessor);
 
-            Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.IsCaptionVisible), (s, e) =>
-            {
-                Refresh();
-            });
+            Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.IsCaptionVisible),
+                (s, e) => Refresh());
 
-            Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.IsTopmost), (s, e) =>
-            {
-                RaisePropertyChanged(nameof(IsTopmost));
-            });
+            Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.IsTopmost),
+                (s, e) => RaisePropertyChanged(nameof(IsTopmost)));
 
-            Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.State), (s, e) =>
-            {
-                _manager.SetWindowState(Config.Current.Window.State);
-            });
+            Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.State),
+                (s, e) => _manager.SetWindowState(Config.Current.Window.State));
         }
 
 
-
-        public Thickness WindowBorderThickness
-        {
-            get { return _windowBorderThickness; }
-            set { SetProperty(ref _windowBorderThickness, value); }
-        }
+        public WindowBorder WindowBorder => _windowBorder;
 
         public bool CanCaptionVisible
         {
@@ -137,9 +118,6 @@ namespace NeeView
         private void WindowStateManager_StateChanged(object sender, WindowStateChangedEventArgs e)
         {
             Config.Current.Window.State = e.NewState;
-
-            UpdateWindowBorderThickness();
-
             RaisePropertyChanged(nameof(CanCaptionVisible));
         }
 
@@ -158,25 +136,6 @@ namespace NeeView
                 case System.Windows.WindowState.Maximized:
                     Config.Current.Window.State = WindowStateEx.Maximized;
                     break;
-            }
-        }
-
-        public void UpdateWindowBorderThickness()
-        {
-            // NOTE: Windows7 only
-            if (!Windows7Tools.IsWindows7) return;
-
-            var dipScale = (_window is IDpiScaleProvider dipProvider) ? dipProvider.GetDpiScale() : new DpiScale(1.0, 1.0);
-
-            if (_windowChromeAccessor.IsEnabled && _window.WindowState != System.Windows.WindowState.Maximized && Config.Current.Window.WindowChromeFrame == WindowChromeFrame.WindowFrame)
-            {
-                var x = 1.0 / dipScale.DpiScaleX;
-                var y = 1.0 / dipScale.DpiScaleY;
-                this.WindowBorderThickness = new Thickness(x, y, x, y);
-            }
-            else
-            {
-                this.WindowBorderThickness = default;
             }
         }
 
@@ -205,7 +164,7 @@ namespace NeeView
             ValidateWindowState();
             UpdateWindowChrome();
             _manager.SetWindowState(Config.Current.Window.State);
-            UpdateWindowBorderThickness();
+            _windowBorder.Update();
             RaisePropertyChanged(null);
         }
 

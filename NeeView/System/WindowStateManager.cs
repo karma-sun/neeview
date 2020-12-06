@@ -161,13 +161,13 @@ namespace NeeView
 
         private void EndEdit()
         {
-            _previousState = _currentState;
-            _currentState = GetWindowState();
-            
             _isProgress = false;
 
-            if (_currentState != _previousState)
+            var nowState = GetWindowState();
+            if (nowState != _currentState)
             {
+                _previousState = _currentState;
+                _currentState = nowState;
                 StateChanged?.Invoke(this, new WindowStateChangedEventArgs(_previousState, _currentState));
             }
         }

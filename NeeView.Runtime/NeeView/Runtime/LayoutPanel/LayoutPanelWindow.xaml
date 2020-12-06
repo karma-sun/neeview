@@ -20,25 +20,27 @@
         <CommandBinding Command="{StaticResource OpenDockCommand}" Executed="OpenDockCommand_Execute" />
     </Window.CommandBindings>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition />
-        </Grid.RowDefinitions>
+    <Border x:Name="WindowBorder" BorderBrush="Gray">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
 
-        <DockPanel x:Name="CaptionBar" Grid.Row="0" Background="{Binding CaptionBackground}" Height="{Binding WindowChrome.CaptionHeight}">
-            <DockPanel.ContextMenu>
-                <ContextMenu>
-                    <MenuItem x:Name="FloatingMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="Floating" IsEnabled="False" />
-                    <MenuItem x:Name="DockingMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="Docking" Command="{StaticResource OpenDockCommand}" />
-                    <Separator />
-                    <MenuItem x:Name="CloseMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="Close" Command="{x:Static SystemCommands.CloseWindowCommand}" />
-                </ContextMenu>
-            </DockPanel.ContextMenu>
-            <nvc:WindowCaptionButtons DockPanel.Dock="Right" Foreground="{Binding CaptionForeground}" IsEnabled="True" IsMinimizeEnabled="False" WindowChrome.IsHitTestVisibleInChrome="False" />
-            <TextBlock Text="{Binding Path=Title}" VerticalAlignment="Center" Margin="16,0" Foreground="{Binding CaptionForeground}" />
-        </DockPanel>
+            <DockPanel x:Name="CaptionBar" Grid.Row="0" Background="{Binding CaptionBackground}" Height="{Binding WindowChrome.CaptionHeight}">
+                <DockPanel.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem x:Name="FloatingMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="Floating" IsEnabled="False" />
+                        <MenuItem x:Name="DockingMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="Docking" Command="{StaticResource OpenDockCommand}" />
+                        <Separator />
+                        <MenuItem x:Name="CloseMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="Close" Command="{x:Static SystemCommands.CloseWindowCommand}" />
+                    </ContextMenu>
+                </DockPanel.ContextMenu>
+                <nvc:WindowCaptionButtons DockPanel.Dock="Right" Foreground="{Binding CaptionForeground}" IsEnabled="True" IsMinimizeEnabled="False" WindowChrome.IsHitTestVisibleInChrome="False" />
+                <TextBlock Text="{Binding Path=Title}" VerticalAlignment="Center" Margin="16,0" Foreground="{Binding CaptionForeground}" />
+            </DockPanel>
 
-        <UserControl x:Name="MainContent" Grid.Row="1" Content="{Binding LayoutPanel.Content}" />
-    </Grid>
+            <UserControl x:Name="MainContent" Grid.Row="1" Content="{Binding LayoutPanel.Content}" />
+        </Grid>
+    </Border>
 </Window>

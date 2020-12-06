@@ -86,7 +86,7 @@
         <CommandBinding Command="{x:Static SystemCommands.MinimizeWindowCommand}" Executed="MinimizeWindowCommand_Execute" />
     </Window.CommandBindings>
 
-    <Border BorderThickness="{Binding WindowShape.WindowBorderThickness}" BorderBrush="Gray">
+    <Border BorderThickness="{Binding WindowShape.WindowBorder.Thickness}" BorderBrush="Gray">
 
         <!-- 製品表示領域 -->
         <Grid x:Name="Root" UseLayoutRounding="True" WindowChrome.IsHitTestVisibleInChrome="False">

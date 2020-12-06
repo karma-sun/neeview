@@ -494,11 +494,7 @@ namespace NeeView
             var isChanged = _dpiProvider.SetDipScale(e.NewDpi);
             if (!isChanged) return;
 
-            //
             this.MenuBar.WindowCaptionButtons.UpdateStrokeThickness(e.NewDpi);
-
-            // Window Border
-            _windowShape.UpdateWindowBorderThickness();
         }
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)

@@ -53,6 +53,7 @@ namespace NeeView
         private WindowChromeAccessor _windowChrome;
         private WindowCaptionEmulator _windowCaptionEmulator;
         private WindowStateManager _windowStateManager;
+        private WindowBorder _windowBorder;
         private bool _canHideMenu;
 
         private WindowController _windowController;
@@ -81,6 +82,8 @@ namespace NeeView
 
             _windowCaptionEmulator = new MainWindowCaptionEmulator(this, this.CaptionBar, _windowStateManager);
             _windowCaptionEmulator.IsEnabled = true;
+
+            _windowBorder = new WindowBorder(this, _windowChrome);
 
             _windowController = new WindowController(_windowStateManager, this);
 
@@ -128,6 +131,8 @@ namespace NeeView
         public WindowController WindowController => _windowController;
 
         public WindowChromeAccessor WindowChrome => _windowChrome;
+
+        public WindowBorder WindowBorder => _windowBorder;
 
         public AutoHideConfig AutoHideConfig => Config.Current.AutoHide;
 

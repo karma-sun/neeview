@@ -21,6 +21,7 @@ namespace NeeView
             _configMap = configMap;
             Book = new BookAccessor();
             Command = new CommandAccessorMap(_sender, _commandTable);
+            Bookshelf = new BookshelfAccessor(BookshelfFolderList.Current);
         }
 
         public Dictionary<string, object> Values => _values;
@@ -30,6 +31,8 @@ namespace NeeView
         public BookAccessor Book { get; }
 
         public CommandAccessorMap Command { get; }
+
+        public BookshelfAccessor Bookshelf { get; }
 
 
         [WordNodeMember]
@@ -90,6 +93,7 @@ namespace NeeView
 
             node.Children.Add(Book.CreateWordNode(nameof(Book)));
             node.Children.Add(Command.CreateWordNode(nameof(Command)));
+            node.Children.Add(Bookshelf.CreateWordNode(nameof(Bookshelf)));
 
             return node;
         }

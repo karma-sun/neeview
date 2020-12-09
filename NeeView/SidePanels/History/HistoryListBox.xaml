@@ -87,10 +87,8 @@
 
         <ListBox.Style>
             <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">
+                <Setter Property="ItemTemplate" Value="{StaticResource NormalTemplate}" />
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding Source={x:Static local:Config.Current}, Path=History.PanelListItemStyle}" Value="Normal">
-                        <Setter Property="ItemTemplate" Value="{StaticResource NormalTemplate}" />
-                    </DataTrigger>
                     <DataTrigger Binding="{Binding Source={x:Static local:Config.Current}, Path=History.PanelListItemStyle}" Value="Content">
                         <Setter Property="ItemTemplate" Value="{StaticResource ContentTemplace}" />
                     </DataTrigger>

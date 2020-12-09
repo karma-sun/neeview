@@ -23,6 +23,13 @@ namespace NeeView
         }
 
 
+        public PageList PageList => _pageList;
+
+        public PageListView PageListView => _pageListView;
+
+        public PageListBox PageListBox => _pageListBox;
+
+
         private void UpdateListBoxContent()
         {
             _pageListBox = new PageListBox(_listBoxViewModel);
@@ -33,5 +40,6 @@ namespace NeeView
         {
             _listBoxViewModel.FocusAtOnce = true;
         }
+
     }
 }

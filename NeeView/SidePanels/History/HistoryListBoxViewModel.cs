@@ -25,8 +25,6 @@ namespace NeeView
 
             BookHub.Current.HistoryChanged += BookHub_HistoryChanged;
             BookHub.Current.HistoryListSync += BookHub_HistoryListSync;
-
-            UpdateItems();
         }
 
 

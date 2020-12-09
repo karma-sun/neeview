@@ -13,10 +13,6 @@ namespace NeeView
     // [Obsolete] V1 compatible
     public class PageListPlacementService : BindableBase
     {
-        static PageListPlacementService() => Current = new PageListPlacementService();
-        public static PageListPlacementService Current { get; }
-
-
         #region Memento
 
         [DataContract]

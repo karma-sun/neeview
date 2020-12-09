@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -44,7 +42,7 @@ namespace NeeView
 
             _engine = new JavascriptEngine(host);
             _engine.CurrentPath = Config.Current.Script.GetCurrentScriptFolder();
-            _engine.LogAction = e => Output?.Invoke(this, new ConsoleHostOutputEventArgs(ToJavascriptString(e, false)));
+            _engine.LogAction = e => Output?.Invoke(this, new ConsoleHostOutputEventArgs(ToJavascriptString(e)));
 
             var wordTreeRoot = new WordNode()
             {
@@ -84,7 +82,7 @@ namespace NeeView
                     try
                     {
                         var result = _engine.Execute(input, token);
-                        return ToJavascriptString(result, false);
+                        return ToJavascriptString(result);
                     }
                     catch (Exception ex)
                     {
@@ -109,36 +107,10 @@ namespace NeeView
             }
         }
 
-        private static string ToJavascriptString(object source, bool isNest)
+        private static string ToJavascriptString(object source)
         {
-            if (source is null)
-            {
-                return "null";
-            }
-            else if (source is Enum enm)
-            {
-                return Convert.ToInt32(enm).ToString();
-            }
-            else if (source is bool boolean)
-            {
-                return boolean ? "true" : "false";
-            }
-            else if (source is string str)
-            {
-                return isNest ? "\"" + str + "\"" : str;
-            }
-            else if (source is object[] objects)
-            {
-                return "[" + string.Join(", ", objects.Select(e => ToJavascriptString(e, true))) + "]";
-            }
-            else if (source is IDictionary<string, object> dic)
-            {
-                return "{" + string.Join(", ", dic.Select(e => "\"" + e.Key + "\": " + ToJavascriptString(e.Value, true))) + "}";
-            }
-            else
-            {
-                return source?.ToString();
-            }
+            var builder = new JsonStringBulder();
+            return builder.AppendObject(source).ToString();
         }
     }
 }

@@ -14,7 +14,7 @@ namespace NeeView
         private BookmarkListView _view;
         private BookmarkFolderListPresenter _presenter;
 
-        public BookmarkPanel(FolderList folderList)
+        public BookmarkPanel(BookmarkFolderList folderList)
         {
             _view = new BookmarkListView(folderList);
             _presenter = new BookmarkFolderListPresenter(_view, folderList);
@@ -54,6 +54,8 @@ namespace NeeView
         public bool IsVisibleLock => false;
 
         public PanelPlace DefaultPlace => PanelPlace.Right;
+
+        public BookmarkFolderListPresenter Presenter => _presenter;
 
 
         public void Refresh()

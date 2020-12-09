@@ -1,7 +1,10 @@
 ﻿using NeeLaboratory.ComponentModel;
 using System;
 using System.ComponentModel;
+using System.Globalization;
 using System.Runtime.Serialization;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace NeeView
 {
@@ -30,8 +33,7 @@ namespace NeeView
             set => Config.Current.Bookmark.IsSyncBookshelfEnabled = value;
         }
 
-
-        public override void IsVisibleChanged(bool isVisible)
+        public void UpdateItems()
         {
             if (FolderCollection == null)
             {
@@ -53,6 +55,12 @@ namespace NeeView
         public override QueryPath GetFixedHome()
         {
             return new QueryPath(QueryScheme.Bookmark, null, null);
+        }
+
+        protected override bool CheckScheme(QueryPath query)
+        {
+            if (query.Scheme != QueryScheme.Bookmark) throw new NotSupportedException($"need scheme \"{QueryScheme.Bookmark.ToSchemeString()}\"");
+            return true;
         }
 
 
@@ -83,4 +91,28 @@ namespace NeeView
         #endregion
     }
 
+
+    // from https://stackoverflow.com/questions/9343594/how-to-call-asynchronous-method-from-synchronous-method-in-c
+    internal static class AsyncHelper
+    {
+        private static readonly TaskFactory _myTaskFactory = new TaskFactory(CancellationToken.None, TaskCreationOptions.None, TaskContinuationOptions.None, TaskScheduler.Default);
+
+        public static TResult RunSync<TResult>(Func<Task<TResult>> func)
+        {
+            return AsyncHelper._myTaskFactory
+              .StartNew<Task<TResult>>(func)
+              .Unwrap<TResult>()
+              .GetAwaiter()
+              .GetResult();
+        }
+
+        public static void RunSync(Func<Task> func)
+        {
+            AsyncHelper._myTaskFactory
+              .StartNew<Task>(func)
+              .Unwrap()
+              .GetAwaiter()
+              .GetResult();
+        }
+    }
 }

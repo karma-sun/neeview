@@ -88,6 +88,10 @@ namespace NeeView
             CollectionChanged?.Invoke(sender, e);
         }
 
+        public IPanel GetPanel(string key)
+        {
+            return PanelsSource[key];
+        }
 
         public void SelectPanel(string key, bool isSelected)
         {

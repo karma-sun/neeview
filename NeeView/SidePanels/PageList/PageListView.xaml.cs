@@ -21,21 +21,20 @@ namespace NeeView
     /// </summary>
     public partial class PageListView : UserControl
     {
-        //
         private PageListViewModel _vm;
 
-        //
+
         public PageListView()
         {
             InitializeComponent();
         }
 
-        // constructor
         public PageListView(PageList model) : this()
         {
             _vm = new PageListViewModel(model);
             this.DockPanel.DataContext = _vm;
         }
+
 
         private void MoreButton_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
@@ -71,6 +70,30 @@ namespace NeeView
             if (menu == null) return;
             menu.ItemsSource = _vm.GetHistory(+1, 10);
         }
+
+        #region UI Accessor
+
+        public PageSortMode GetSortMode()
+        {
+            return (this.PageSortComboBox.SelectedValue is PageSortMode sortMode) ? sortMode : default;
+        }
+
+        public void SetSortMode(PageSortMode sortMode)
+        {
+            this.PageSortComboBox.SetCurrentValue(ComboBox.SelectedValueProperty, sortMode);
+        }
+
+        public PageNameFormat GetFormat()
+        {
+            return (this.FormatComboBox.SelectedValue is PageNameFormat format) ? format : default;
+        }
+
+        public void SetFormat(PageNameFormat format)
+        {
+            this.FormatComboBox.SetCurrentValue(ComboBox.SelectedValueProperty, format);
+        }
+
+        #endregion UI Accessor
     }
 
     public enum PageNameFormat

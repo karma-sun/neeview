@@ -62,6 +62,8 @@ namespace NeeView
 
         public PanelPlace DefaultPlace => PanelPlace.Left;
 
+        public HistoryListPresenter Presenter => _presenter;
+
 
         public void Refresh()
         {

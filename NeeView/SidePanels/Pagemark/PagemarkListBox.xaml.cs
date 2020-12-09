@@ -560,7 +560,75 @@ namespace NeeView
         }
 
         #endregion
+
+
+        #region UI Accessor
+
+        public List<TreeListNode<IPagemarkEntry>> GetItems()
+        {
+            return GetItemsEnumerator().ToList();
+        }
+
+        public List<TreeListNode<IPagemarkEntry>> GetExpandedItems()
+        {
+            return GetExpandedItemsEnumerator().ToList();
+        }
+
+
+        public List<TreeListNode<IPagemarkEntry>> GetSelectedItems()
+        {
+            return GetExpandedItemsEnumerator().Where(e => e.IsSelected).ToList();
+        }
+
+        public void SetSelectedItems(IEnumerable<TreeListNode<IPagemarkEntry>> selectedItems)
+        {
+            foreach (var item in GetExpandedItemsEnumerator())
+            {
+                item.IsSelected = false;
+            }
+
+            if (selectedItems == null) return;
+
+            foreach (var item in selectedItems.Intersect(GetExpandedItems()))
+            {
+                item.IsSelected = true;
+            }
+        }
+
+        private IEnumerable<TreeListNode<IPagemarkEntry>> GetItemsEnumerator()
+        {
+            var nodes = this.TreeView.Items?.Cast<TreeListNode<IPagemarkEntry>>();
+
+            foreach (var node in nodes)
+            {
+                yield return node;
+                foreach (var child in node)
+                {
+                    yield return child;
+                }
+            }
+        }
+
+        private IEnumerable<TreeListNode<IPagemarkEntry>> GetExpandedItemsEnumerator()
+        {
+            var nodes = this.TreeView.Items?.Cast<TreeListNode<IPagemarkEntry>>();
+
+            foreach (var node in nodes)
+            {
+                yield return node;
+                if (node.IsExpanded)
+                {
+                    foreach (var child in node.GetExpandedCollection())
+                    {
+                        yield return child;
+                    }
+                }
+            }
+        }
+
+        #endregion UI Accessor
     }
+
 
 
     public class DepthToWidthConverter : IValueConverter

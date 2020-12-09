@@ -283,6 +283,33 @@ namespace NeeView
         {
             AppDispatcher.BeginInvoke(() => _thumbnailLoader?.Load());
         }
+
+        #region UI Accessor
+
+        public List<BookHistory> GetItems()
+        {
+            _vm.UpdateItems();
+            return this.ListBox.Items?.Cast<BookHistory>().ToList();
+        }
+
+        public List<BookHistory> GetSelectedItems()
+        {
+            return this.ListBox.SelectedItems.Cast<BookHistory>().ToList();
+        }
+
+        public void SetSelectedItems(IEnumerable<BookHistory> selectedItems)
+        {
+            this.ListBox.SelectedItems.Clear();
+
+            if (selectedItems == null) return;
+
+            foreach (var item in selectedItems.Intersect(GetItems()))
+            {
+                this.ListBox.SelectedItems.Add(item);
+            }
+        }
+
+        #endregion UI Accessor
     }
 
     public class ArchiveEntryToDecoratePlaceNameConverter : IValueConverter

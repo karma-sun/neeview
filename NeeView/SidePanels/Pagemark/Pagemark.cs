@@ -11,6 +11,7 @@ namespace NeeView
 {
     public interface IPagemarkEntry : IHasName
     {
+        string Path { get; }
         string DispName { get; }
     }
 

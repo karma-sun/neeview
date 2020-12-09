@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Windows;
 
@@ -23,77 +24,54 @@ namespace NeeView
         public BookConfigAccessor Config { get; } = new BookConfigAccessor();
 
         [WordNodeMember]
+        public PageAccessor[] Pages
+        {
+            get
+            {
+                return BookOperation.Current.Book?.Pages.Select(e => new PageAccessor(e)).ToArray() ?? new PageAccessor[] { };
+            }
+        }
+
+        [WordNodeMember]
+        public ViewPageAccessor[] ViewPages
+        {
+            get
+            {
+                return BookOperation.Current.Book?.Viewer.ViewPageCollection.Collection.Select(e => new ViewPageAccessor(e.Page)).ToArray() ?? new ViewPageAccessor[] { };
+            }
+        }
+
+        #region Obsolete
+
+        [Obsolete] // ver.38
         public int PageSize
         {
-            get
-            {
-                var book = BookOperation.Current.Book;
-                return (book != null) ? book.Pages.Count : 0;
-            }
+            get => throw new NotSupportedException("Script: PageSize is obsolete. please use ViewPages.length");
         }
 
-        [WordNodeMember]
+        [Obsolete] // ver.38
         public int ViewPageSize
         {
-            get
-            {
-                var book = BookOperation.Current.Book;
-                return (book != null) ? book.Viewer.ViewPageCollection.Collection.Count : 0;
-            }
+            get => throw new NotSupportedException("Script: ViewPageSize is obsolete. please use Pages.length");
         }
 
-        // NOTE: index is 1 start
-        [WordNodeMember]
+        [Obsolete] // ver.38
         public PageAccessor Page(int index)
         {
-            var book = BookOperation.Current.Book;
-            if (book != null)
-            {
-                var id = book.Pages.ClampPageNumber(index - 1);
-                if (id == index - 1)
-                {
-                    return new PageAccessor(book.Pages[id]);
-                }
-            }
-            return null;
+            throw new NotSupportedException("Script: Page() is obsolete. please use Pages[].");
         }
 
-        [WordNodeMember]
+        [Obsolete] // ver.38
         public PageAccessor ViewPage(int index)
         {
-            var book = BookOperation.Current.Book;
-            if (book != null)
-            {
-                if (index >= 0 && index < book.Viewer.ViewPageCollection.Collection.Count)
-                {
-                    return new PageAccessor(book.Viewer.ViewPageCollection.Collection[index].Page);
-                }
-            }
-            return null;
+            throw new NotSupportedException("Script: ViewPage() is obsolete. please use ViewPages[].");
         }
+
+        #endregion Obsoletet
 
         internal WordNode CreateWordNode(string name)
         {
-            var node = new WordNode(name);
-            node.Children = new List<WordNode>();
-
-            var methods = GetType().GetMethods(BindingFlags.Public | BindingFlags.Instance);
-            foreach (var method in methods)
-            {
-                if (method.GetCustomAttribute<WordNodeMemberAttribute>() != null)
-                {
-                    node.Children.Add(new WordNode(method.Name));
-                }
-            }
-
-            var properties = GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            foreach (var property in properties)
-            {
-                if (property.GetCustomAttribute<WordNodeMemberAttribute>() != null)
-                {
-                    node.Children.Add(new WordNode(property.Name));
-                }
-            }
+            var node = WordNodeHelper.CreateClassWordNode(name, this.GetType());
 
             node.Children.Add(Config.CreateWordNode(nameof(Config)));
 

@@ -55,6 +55,7 @@ namespace NeeView
 
         public PanelPlace DefaultPlace => PanelPlace.Left;
 
+        public BookshelfFolderListPresenter Presenter => _folderListPresenter;
 
         public void Refresh()
         {

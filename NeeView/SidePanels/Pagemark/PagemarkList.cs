@@ -43,6 +43,12 @@ namespace NeeView
             }
         }
 
+        public PanelListItemStyle PanelListItemStyle
+        {
+            get => Config.Current.Pagemark.PanelListItemStyle;
+            set => Config.Current.Pagemark.PanelListItemStyle = value;
+        }
+
         public PagemarkListBoxModel ListBox
         {
             get { return _listBox; }

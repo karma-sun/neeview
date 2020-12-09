@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -10,7 +11,7 @@ namespace NeeView
     /// <summary>
     /// プロパティで構成されたアクセスマップ
     /// </summary>
-    public class PropertyMap : PropertyMapNode, INotifyPropertyChanged
+    public class PropertyMap : PropertyMapNode, INotifyPropertyChanged, IEnumerable<KeyValuePair<string, PropertyMapNode>>
     {
         #region INotifyPropertyChanged Support
 
@@ -94,35 +95,37 @@ namespace NeeView
 
         public object this[string key]
         {
-            get
-            {
-                if (_items[key] is PropertyMapSource item)
-                {
-                    return item.Read(_options);
-                }
-                else
-                {
-                    return _items[key];
-                }
-            }
-            set
-            {
-                if (_items[key] is PropertyMapSource item)
-                {
-                    item.Write(value, _options);
-                    RaisePropertyChanged(key);
-                }
-                else
-                {
-                    throw new InvalidOperationException();
-                }
-            }
+            get { return GetValue(_items[key]); }
+            set { SetValue(_items[key], value); RaisePropertyChanged(key); }
         }
-
 
         internal bool ContainsKey(string key)
         {
             return _items.ContainsKey(key);
+        }
+
+        internal object GetValue(PropertyMapNode node)
+        {
+            if (node is PropertyMapSource source)
+            {
+                return AppDispatcher.Invoke(() => source.Read(_options));
+            }
+            else
+            {
+                return node;
+            }
+        }
+
+        internal void SetValue(PropertyMapNode node, object value)
+        {
+            if (node is PropertyMapSource source)
+            {
+                AppDispatcher.Invoke(() => source.Write(value, _options));
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
         }
 
 
@@ -184,6 +187,16 @@ namespace NeeView
             }
 
             return s;
+        }
+
+        public IEnumerator<KeyValuePair<string, PropertyMapNode>> GetEnumerator()
+        {
+            return _items.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

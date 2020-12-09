@@ -21,6 +21,11 @@
         }
 
 
+        public HistoryListView HistoryListView => _historyListView;
+        public HistoryListBox HistoryListBox => _historyListBox;
+        public HistoryList HistoryList => _historyList;
+
+
         private void UpdateListBoxContent()
         {
             _historyListBox = new HistoryListBox(_historyListBoxViewModel);

@@ -68,14 +68,7 @@ namespace NeeView
 
         internal WordNode CreateWordNode(string name)
         {
-            var node = new WordNode(name);
-            node.Children = new List<WordNode>();
-
-            var properties = GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            foreach (var property in properties)
-            {
-                node.Children.Add(new WordNode(property.Name));
-            }
+            var node = WordNodeHelper.CreateClassWordNode(name, this.GetType());
 
             return node;
         }

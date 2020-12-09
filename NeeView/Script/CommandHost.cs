@@ -20,19 +20,26 @@ namespace NeeView
             _commandTable = commandTable;
             _configMap = configMap;
             Book = new BookAccessor();
-            Command = new CommandAccessorMap(_sender, _commandTable);
-            Bookshelf = new BookshelfAccessor(BookshelfFolderList.Current);
+            Command = new CommandAccessorMap(sender, commandTable);
+            Bookshelf = new BookshelfPanelAccessor();
+            PageList = new PageListPanelAccessor();
+            Bookmark = new BookmarkPanelAccessor();
+            Pagemark = new PagemarPanelAccessor();
+            History = new HistoryPanelAccessor();
         }
 
         public Dictionary<string, object> Values => _values;
 
         public PropertyMap Config => _configMap.Map;
 
-        public BookAccessor Book { get; }
-
         public CommandAccessorMap Command { get; }
 
-        public BookshelfAccessor Bookshelf { get; }
+        public BookAccessor Book { get; }
+        public BookshelfPanelAccessor Bookshelf { get; }
+        public PageListPanelAccessor PageList { get; }
+        public BookmarkPanelAccessor Bookmark { get; }
+        public  PagemarPanelAccessor Pagemark { get; }
+        public HistoryPanelAccessor History { get; }
 
 
         [WordNodeMember]
@@ -76,30 +83,21 @@ namespace NeeView
 
         internal WordNode CreateWordNode(string name)
         {
-            var node = new WordNode(name);
-            node.Children = new List<WordNode>();
-
-            var methods = this.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public);
-            foreach (var method in methods)
-            {
-                if (method.GetCustomAttribute<WordNodeMemberAttribute>() != null)
-                {
-                    node.Children.Add(new WordNode(method.Name));
-                }
-            }
+            var node = WordNodeHelper.CreateClassWordNode(name, this.GetType());
 
             node.Children.Add(new WordNode(nameof(Values)));
             node.Children.Add(Config.CreateWordNode(nameof(Config)));
-
             node.Children.Add(Book.CreateWordNode(nameof(Book)));
             node.Children.Add(Command.CreateWordNode(nameof(Command)));
             node.Children.Add(Bookshelf.CreateWordNode(nameof(Bookshelf)));
+            node.Children.Add(PageList.CreateWordNode(nameof(PageList)));
+            node.Children.Add(Bookmark.CreateWordNode(nameof(Bookmark)));
+            node.Children.Add(Pagemark.CreateWordNode(nameof(Pagemark)));
+            node.Children.Add(History.CreateWordNode(nameof(History)));
+            
 
             return node;
         }
     }
 
-    public class WordNodeMemberAttribute : Attribute
-    {
-    }
 }

@@ -9,9 +9,24 @@
             _page = page;
         }
 
+        internal Page Source => _page;
+
         public string Path => _page.SystemPath;
 
-        public double Width => _page.Size.Width;
-        public double Height => _page.Size.Height;
+        public long Size => _page.Length;
+
+        public string LastWriteTime => _page.LastWriteTime.ToString();
+    }
+
+
+    public class ViewPageAccessor : PageAccessor
+    {
+        public ViewPageAccessor(Page page) : base(page)
+        {
+        }
+      
+        public double Width => this.Source.Size.Width;
+        
+        public double Height => this.Source.Size.Height;
     }
 }

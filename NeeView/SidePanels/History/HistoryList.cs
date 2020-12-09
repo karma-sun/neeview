@@ -45,6 +45,12 @@ namespace NeeView
             }
         }
 
+        public PanelListItemStyle PanelListItemStyle
+        {
+            get => Config.Current.History.PanelListItemStyle;
+            set => Config.Current.History.PanelListItemStyle = value;
+        }
+
         public string FilterPath
         {
             get { return _filterPath; }

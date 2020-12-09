@@ -899,7 +899,7 @@ namespace NeeView
             {
                 this.ListBox.SelectedIndex = 0;
             }
-            
+
             var needToFocus = (isFocus && this.IsFocusEnabled) || _vm.IsFocusAtOnce;
 
             if (this.ListBox.SelectedIndex < 0 && needToFocus)
@@ -1212,6 +1212,33 @@ namespace NeeView
         {
             this.ListBox.Items.Refresh();
         }
+
+
+        #region UI Accessor
+
+        public List<FolderItem> GetItems()
+        {
+            return this.ListBox.Items?.Cast<FolderItem>().ToList();
+        }
+
+        public List<FolderItem> GetSelectedItems()
+        {
+            return this.ListBox.SelectedItems.Cast<FolderItem>().ToList();
+        }
+
+        public void SetSelectedItems(IEnumerable<FolderItem> selectedItems)
+        {
+            this.ListBox.SelectedItems.Clear();
+
+            if (selectedItems == null) return;
+
+            foreach (var item in selectedItems.Intersect(GetItems()))
+            {
+                this.ListBox.SelectedItems.Add(item);
+            }
+        }
+
+        #endregion UI Accessor
     }
 
 

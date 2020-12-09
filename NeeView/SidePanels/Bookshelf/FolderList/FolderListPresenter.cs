@@ -30,7 +30,7 @@ namespace NeeView
         }
 
 
-        protected FolderListBox FolderListBox => _folderListBox;
+        public FolderListBox FolderListBox => _folderListBox;
 
 
         public void UpdateFolderListBox()

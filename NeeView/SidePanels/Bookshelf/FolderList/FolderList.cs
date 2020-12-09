@@ -70,9 +70,7 @@ namespace NeeView
 
         private double _areaWidth = double.PositiveInfinity;
         private double _areaHeight = double.PositiveInfinity;
-        private bool _IsLocked;
         private bool _isFocusAtOnce;
-
 
 
         protected FolderList(bool isSyncBookHub, bool isOverlayEnabled, FolderListConfig folderListConfig)
@@ -376,18 +374,6 @@ namespace NeeView
             }
         }
 
-        /// <summary>
-        /// 外部の変化によるフォルダーリストの変更を禁止
-        /// </summary>
-        public bool IsLocked
-        {
-            get { return _IsLocked; }
-            set { SetProperty(ref _IsLocked, value && Place != null); }
-        }
-
-        public PageListPlacementService PageListPlacementService => PageListPlacementService.Current;
-
-
 
         protected virtual bool IsIncrementalSearchEnabled() => false;
 
@@ -515,11 +501,9 @@ namespace NeeView
                 return;
             }
 
-            // 検索パス作成
-            var path = Place.ReplaceSearch(GetFixedSearchKeyword());
-
+            var query = Place.ReplaceSearch(GetFixedSearchKeyword());
             var option = isForce ? FolderSetPlaceOption.Refresh : FolderSetPlaceOption.None;
-            var task = SetPlaceAsync(path, null, option);
+            RequestPlace(query, null, option);
         }
 
         /// <summary>
@@ -527,12 +511,20 @@ namespace NeeView
         /// </summary>
         public void RequestPlace(QueryPath path, FolderItemPosition select, FolderSetPlaceOption options)
         {
-            if (IsLocked)
+            if (!CheckScheme(path))
             {
                 return;
             }
 
             var task = SetPlaceAsync(path, select, options);
+        }
+
+        /// <summary>
+        /// パスがサポートしているスキームであるか判定
+        /// </summary>
+        protected virtual bool CheckScheme(QueryPath query)
+        {
+            return true;
         }
 
 
@@ -602,7 +594,6 @@ namespace NeeView
                         }
 
                         OnPlaceChanged(this, options);
-
                         PlaceChanged?.Invoke(this, null);
                     }
                 }
@@ -662,10 +653,12 @@ namespace NeeView
         /// </summary>
         public async Task SyncWeak(FolderListSyncEventArgs e)
         {
+#if false
             if (IsLocked)
             {
                 return;
             }
+#endif
 
             // TODO: 
             var parent = new QueryPath(e.Parent);
@@ -741,6 +734,12 @@ namespace NeeView
         {
             return _searchKeyword.Value?.Trim();
         }
+
+        public string GetSearchKeyword()
+        {
+            return _searchKeyword.Value;
+        }
+
 
         /// <summary>
         /// 検索履歴更新

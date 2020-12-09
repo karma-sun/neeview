@@ -3,8 +3,4 @@
     public abstract class PropertyMapNode
     {
     }
-
-
-
-
 }

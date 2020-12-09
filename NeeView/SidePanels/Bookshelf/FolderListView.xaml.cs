@@ -300,6 +300,23 @@ namespace NeeView
                 }
             }
         }
+
+
+        #region UI Accessor
+
+        public void SetSearchBoxText(string text)
+        {
+            this.SearchBox.SetCurrentValue(ComboBox.TextProperty, text);
+            _vm.Model.SetSearchKeywordAndSearch(this.SearchBox.Text); // 即時検索
+        }
+
+        public string GetSearchBoxText()
+        {
+            return this.SearchBox.Text;
+        }
+
+
+        #endregion UI Accessor
     }
 
 }

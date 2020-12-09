@@ -65,11 +65,11 @@ namespace NeeView
             }
         }
 
-
-        /// <summary>
-        /// 配置
-        /// </summary>
-        public PageListPlacementService PageListPlacementService => PageListPlacementService.Current;
+        public PanelListItemStyle PanelListItemStyle
+        {
+            get => Config.Current.PageList.PanelListItemStyle;
+            set => Config.Current.PageList.PanelListItemStyle = value;
+        }
 
         /// <summary>
         /// サイドパネルでの場所表示用
@@ -77,6 +77,14 @@ namespace NeeView
         public string PlaceDispString
         {
             get { return LoosePath.GetFileName(BookOperation.Current.Address); }
+        }
+
+        /// <summary>
+        /// ブックのパス
+        /// </summary>
+        public string Path
+        {
+            get { return BookOperation.Current.Address; }
         }
 
         /// <summary>
@@ -92,6 +100,10 @@ namespace NeeView
         // ページリスト(表示部用)
         public ObservableCollection<Page> PageCollection => BookOperation.Current.PageList;
 
+        public List<Page> Items
+        {
+            get { return PageCollection.ToList(); }
+        }
 
         public Page SelectedItem
         {

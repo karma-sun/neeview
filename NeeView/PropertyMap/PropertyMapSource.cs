@@ -33,8 +33,7 @@ namespace NeeView
         public void Write(object value, PropertyMapOptions options)
         {
             if (IsReadOnly) return;
-
-            AppDispatcher.Invoke(() => Converter.Write(this, value, options));
+            Converter.Write(this, value, options);
         }
 
         public object GetValue()

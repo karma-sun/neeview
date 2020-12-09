@@ -56,6 +56,8 @@ namespace NeeView
 
         public PanelPlace DefaultPlace => PanelPlace.Right;
 
+        public PagemarkListView PagemarkListView => _view;
+
 
         #region IDisposable Support
         private bool _disposedValue = false;

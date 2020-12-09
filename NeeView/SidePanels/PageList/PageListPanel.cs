@@ -62,6 +62,8 @@ namespace NeeView
 
         public PanelPlace DefaultPlace { get; set; } = PanelPlace.Right;
 
+        public PageListPresenter Presenter => _presenter;
+
 
         public void Refresh()
         {

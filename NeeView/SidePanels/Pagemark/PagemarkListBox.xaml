@@ -99,10 +99,8 @@
 
         <TreeView.Style>
             <Style TargetType="TreeView" BasedOn="{StaticResource NVTreeView}">
+                <Setter Property="ItemTemplate" Value="{StaticResource NormalTemplate}"/>
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding Source={x:Static local:Config.Current}, Path=Pagemark.PanelListItemStyle, Mode=OneTime}" Value="Normal">
-                        <Setter Property="ItemTemplate" Value="{StaticResource NormalTemplate}"/>
-                    </DataTrigger>
                     <DataTrigger Binding="{Binding Source={x:Static local:Config.Current}, Path=Pagemark.PanelListItemStyle, Mode=OneTime}" Value="Content">
                         <Setter Property="ItemTemplate" Value="{StaticResource ContentTemplate}"/>
                     </DataTrigger>

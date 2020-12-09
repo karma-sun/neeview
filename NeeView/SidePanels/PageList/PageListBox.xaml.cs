@@ -634,6 +634,30 @@ namespace NeeView
 
         #endregion
 
+        #region UI Accessor
+        public List<Page> GetItems()
+        {
+            return this.ListBox.Items?.Cast<Page>().ToList();
+        }
+
+        public List<Page> GetSelectedItems()
+        {
+            return this.ListBox.SelectedItems.Cast<Page>().ToList();
+        }
+
+        public void SetSelectedItems(IEnumerable<Page> selectedItems)
+        {
+            this.ListBox.SelectedItems.Clear();
+
+            if (selectedItems == null) return;
+
+            foreach (var item in selectedItems.Intersect(GetItems()))
+            {
+                this.ListBox.SelectedItems.Add(item);
+            }
+        }
+
+        #endregion UI Accessor
     }
 
 

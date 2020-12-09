@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Collections.Generic;
 
 namespace NeeView
 {
@@ -87,26 +85,7 @@ namespace NeeView
 
         internal WordNode CreateWordNode(string commandName)
         {
-            var node = new WordNode(commandName);
-            node.Children = new List<WordNode>();
-
-            var methods = GetType().GetMethods(BindingFlags.Public | BindingFlags.Instance);
-            foreach (var method in methods)
-            {
-                if (method.GetCustomAttribute<WordNodeMemberAttribute>() != null)
-                {
-                    node.Children.Add(new WordNode(method.Name));
-                }
-            }
-
-            var properties = GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            foreach (var property in properties)
-            {
-                if (property.GetCustomAttribute<WordNodeMemberAttribute>() != null)
-                {
-                    node.Children.Add(new WordNode(property.Name));
-                }
-            }
+            var node = WordNodeHelper.CreateClassWordNode(commandName, this.GetType());
 
             if (Parameter != null)
             {
@@ -117,5 +96,4 @@ namespace NeeView
         }
 
     }
-
 }

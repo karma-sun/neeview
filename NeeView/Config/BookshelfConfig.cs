@@ -8,8 +8,6 @@ namespace NeeView
 {
     public class BookshelfConfig : FolderListConfig
     {
-        private bool _isVisible;
-        private bool _isSelected;
         private string _home;
         private bool _IsVisibleItemsCount;
         private bool _isVisibleHistoryMark = true;
@@ -29,26 +27,6 @@ namespace NeeView
         private FolderOrder _playlistFolderOrder;
         private bool _isOrderWithoutFileType;
 
-
-        [JsonIgnore]
-        [PropertyMapReadOnly]
-        [PropertyMember("@WordIsPanelVisible")]
-        public bool IsVisible
-        {
-            get { return _isVisible; }
-            set { SetProperty(ref _isVisible, value); }
-        }
-
-        /// <summary>
-        /// パネル表示されているかを示す
-        /// </summary>
-        [JsonIgnore]
-        [PropertyMember("@WordIsPanelSelected")]
-        public bool IsSelected
-        {
-            get { return _isSelected; }
-            set { SetProperty(ref _isSelected, value); }
-        }
 
         /// <summary>
         /// ホームのパス
@@ -232,7 +210,7 @@ namespace NeeView
 
 
 
-        #region 非公開パラメーター
+#region 非公開パラメーター
 
         [Obsolete] // ver.38
         [PropertyMapIgnore]
@@ -242,7 +220,7 @@ namespace NeeView
         [PropertyMapIgnore]
         public GridLength GridLength2 { get; set; } = new GridLength(1, GridUnitType.Star);
 
-        #endregion
+#endregion
 
     }
 

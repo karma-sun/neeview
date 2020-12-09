@@ -21,7 +21,7 @@ namespace NeeView
             if (model == null) return;
 
             _model = model;
-            _model.ContentChanged += Model_ContentChanged;
+            _model.VisibleAtOnceRequest += Model_VisibleAtOnceRequest;
 
             MainLayoutPanelManager = MainLayoutPanelManager.Current;
 
@@ -70,16 +70,25 @@ namespace NeeView
             }
         }
 
+
         /// <summary>
-        /// パネルコンテンツ変更通知処理
+        /// パネル表示リクエスト
         /// </summary>
-        private void Model_ContentChanged(object sender, SidePanelContentChangedEventArgs e)
+        private void Model_VisibleAtOnceRequest(object sender, VisibleAtOnceRequestEventArgs e)
         {
-            if (Left.SelectedItemContains(e.Key))
+            VisibleAtOnce(e.Key);
+        }
+
+        /// <summary>
+        /// パネルを一度だけ表示
+        /// </summary>
+        public void VisibleAtOnce(string key)
+        { 
+            if (Left.SelectedItemContains(key))
             {
                 Left.VisibleOnce();
             }
-            else if (Right.SelectedItemContains(e.Key))
+            else if (Right.SelectedItemContains(key))
             {
                 Right.VisibleOnce();
             }

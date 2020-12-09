@@ -4,13 +4,13 @@ using System.Linq;
 
 namespace NeeView
 {
-    public class BookmarkPanelAccessor
+    public class BookmarkPanelAccessor : LayoutPanelAccessor
     {
         private BookmarkPanel _panel;
         private BookmarkFolderList _model;
 
 
-        public BookmarkPanelAccessor()
+        public BookmarkPanelAccessor() : base(nameof(BookmarkPanel))
         {
             _panel = (BookmarkPanel)MainLayoutPanelManager.Current.GetPanel(nameof(BookmarkPanel));
             _model = _panel.Presenter.BookmarkFolderList;

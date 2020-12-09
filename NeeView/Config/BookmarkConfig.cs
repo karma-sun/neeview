@@ -7,30 +7,11 @@ namespace NeeView
 {
     public class BookmarkConfig : FolderListConfig
     {
-        private bool _isVisible;
-        private bool _isSelected;
         private bool _isSaveBookmark = true;
         private string _bookmarkFilePath;
         private bool _isSyncBookshelfEnabled = true;
         private FolderOrder _bookmarkFolderOrder;
 
-
-        [JsonIgnore]
-        [PropertyMapReadOnly]
-        [PropertyMember("@WordIsPanelVisible")]
-        public bool IsVisible
-        {
-            get { return _isVisible; }
-            set { SetProperty(ref _isVisible, value); }
-        }
-
-        [JsonIgnore]
-        [PropertyMember("@WordIsPanelSelected")]
-        public bool IsSelected
-        {
-            get { return _isSelected; }
-            set { SetProperty(ref _isSelected, value); }
-        }
 
         /// <summary>
         /// 本の読み込みで本棚の更新を要求する

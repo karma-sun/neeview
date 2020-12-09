@@ -4471,7 +4471,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Toggle file information に類似しているローカライズされた文字列を検索します。
+        ///   Toggle information に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleFileInfo {
             get {
@@ -4480,7 +4480,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   File information に類似しているローカライズされた文字列を検索します。
+        ///   Information に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleFileInfoMenu {
             get {
@@ -4489,7 +4489,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Toggle visible / hide of the file information panel. に類似しているローカライズされた文字列を検索します。
+        ///   Toggle visible / hide of the information panel. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleFileInfoNote {
             get {
@@ -4498,7 +4498,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   File information OFF に類似しているローカライズされた文字列を検索します。
+        ///   Information OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleFileInfoOff {
             get {
@@ -4507,7 +4507,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   File information に類似しているローカライズされた文字列を検索します。
+        ///   Information に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleFileInfoOn {
             get {
@@ -8478,7 +8478,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   File info に類似しているローカライズされた文字列を検索します。
+        ///   Information に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FileInfoName {
             get {
@@ -11586,7 +11586,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   It is limited to display on the file information panel. It does not affect sorting by date. に類似しているローカライズされた文字列を検索します。
+        ///   It is limited to display on the information panel. It does not affect sorting by date. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamFileInformationIsUseExifDateTimeTips {
             get {
@@ -13602,7 +13602,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Reduce the imported image with &quot;@ParamPictureProfileMaximumSize&quot; as the upper limit. It is setting for speed and memory saving. When this restriction is applied, &quot;*&quot; will be displayed in the size field of the file information if it is the loaded image. に類似しているローカライズされた文字列を検索します。
+        ///   Reduce the imported image with &quot;@ParamPictureProfileMaximumSize&quot; as the upper limit. It is setting for speed and memory saving. When this restriction is applied, &quot;*&quot; will be displayed in the size field of the information if it is the loaded image. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamPictureProfileIsLimitSourceSizeTips {
             get {
@@ -15448,7 +15448,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   File information panel に類似しているローカライズされた文字列を検索します。
+        ///   Information panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPagePanelFileInfo {
             get {
@@ -15457,7 +15457,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   File information panel に類似しているローカライズされた文字列を検索します。
+        ///   Information panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPagePanelFileInfoVisual {
             get {

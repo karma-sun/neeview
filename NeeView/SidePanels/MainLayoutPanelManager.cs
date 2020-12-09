@@ -97,18 +97,52 @@ namespace NeeView
         {
             if (!_initialized) throw new InvalidOperationException();
 
-            var panel = this.Panels[key];
             if (isSelected)
             {
-                Open(panel);
-
-                var source = PanelsSource[key];
-                source.Focus();
+                Open(key, true);
             }
             else
             {
-                Close(panel);
+                Close(key);
             }
+        }
+
+        public void Open(string key, bool isFocus)
+        {
+            Open(Panels[key]);
+            if (isFocus)
+            {
+                Focus(key);
+            }
+        }
+
+        public void OpenDock(string key, bool isFocus)
+        {
+            OpenDock(Panels[key]);
+            if (isFocus)
+            {
+                Focus(key);
+            }
+        }
+
+        public void OpenWindow(string key, bool isFocus)
+        {
+            OpenWindow(Panels[key]);
+            if (isFocus)
+            {
+                Focus(key);
+            }
+        }
+
+        public void Close(string key)
+        {
+            Close(Panels[key]);
+        }
+
+        public void Focus(string key)
+        {
+            PanelsSource[key].Focus();
+            SidePanelFrame.Current.VisibleAtOnce(key);
         }
 
         public bool IsPanelSelected(string key)
@@ -123,6 +157,13 @@ namespace NeeView
             if (!_initialized) throw new InvalidOperationException();
 
             return IsPanelVisible(this.Panels[key]);
+        }
+
+        public bool IsPanelFloating(string key)
+        {
+            if (!_initialized) throw new InvalidOperationException();
+
+            return IsPanelFloating(this.Panels[key]);
         }
 
         public void SetIsStoreEnabled(bool allow)

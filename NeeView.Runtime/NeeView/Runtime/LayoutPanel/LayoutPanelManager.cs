@@ -88,6 +88,11 @@ namespace NeeView.Runtime.LayoutPanel
             return (panel?.Content as UIElement)?.IsVisible == true;
         }
 
+        public bool IsPanelFloating(LayoutPanel panel)
+        {
+            return panel.WindowPlacement.IsValid() || Windows.Contains(panel);
+        }
+
         public void Open(LayoutPanel panel)
         {
             if (panel is null) throw new ArgumentNullException(nameof(panel));

@@ -26,6 +26,9 @@ namespace NeeView
             Bookmark = new BookmarkPanelAccessor();
             Pagemark = new PagemarPanelAccessor();
             History = new HistoryPanelAccessor();
+            Information = new InformationPanelAccessor();
+            Effect = new EffectPanelAccessor();
+            Navigator = new NavigatorPanelAccessor();
         }
 
         public Dictionary<string, object> Values => _values;
@@ -38,8 +41,11 @@ namespace NeeView
         public BookshelfPanelAccessor Bookshelf { get; }
         public PageListPanelAccessor PageList { get; }
         public BookmarkPanelAccessor Bookmark { get; }
-        public  PagemarPanelAccessor Pagemark { get; }
+        public PagemarPanelAccessor Pagemark { get; }
         public HistoryPanelAccessor History { get; }
+        public InformationPanelAccessor Information { get; }
+        public EffectPanelAccessor Effect { get; }
+        public NavigatorPanelAccessor Navigator { get; }
 
 
         [WordNodeMember]
@@ -94,7 +100,9 @@ namespace NeeView
             node.Children.Add(Bookmark.CreateWordNode(nameof(Bookmark)));
             node.Children.Add(Pagemark.CreateWordNode(nameof(Pagemark)));
             node.Children.Add(History.CreateWordNode(nameof(History)));
-            
+            node.Children.Add(Information.CreateWordNode(nameof(Information)));
+            node.Children.Add(Effect.CreateWordNode(nameof(Effect)));
+            node.Children.Add(Navigator.CreateWordNode(nameof(Navigator)));
 
             return node;
         }

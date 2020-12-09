@@ -5,13 +5,13 @@ using System.Linq;
 
 namespace NeeView
 {
-    public class PagemarPanelAccessor
+    public class PagemarPanelAccessor : LayoutPanelAccessor
     {
         private PagemarkPanel _panel;
         private PagemarkList _model;
 
 
-        public PagemarPanelAccessor()
+        public PagemarPanelAccessor() : base(nameof(PagemarkPanel))
         {
             _panel = (PagemarkPanel)MainLayoutPanelManager.Current.GetPanel(nameof(PagemarkPanel));
             _model = _panel.PagemarkListView.PagemarkList;

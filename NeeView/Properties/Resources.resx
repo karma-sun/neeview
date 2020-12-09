@@ -1486,19 +1486,19 @@
     <value>Effect panel</value>
   </data>
   <data name="CommandToggleVisibleFileInfo" xml:space="preserve">
-    <value>Toggle file information</value>
+    <value>Toggle information</value>
   </data>
   <data name="CommandToggleVisibleFileInfoMenu" xml:space="preserve">
-    <value>File information</value>
+    <value>Information</value>
   </data>
   <data name="CommandToggleVisibleFileInfoNote" xml:space="preserve">
-    <value>Toggle visible / hide of the file information panel.</value>
+    <value>Toggle visible / hide of the information panel.</value>
   </data>
   <data name="CommandToggleVisibleFileInfoOff" xml:space="preserve">
-    <value>File information OFF</value>
+    <value>Information OFF</value>
   </data>
   <data name="CommandToggleVisibleFileInfoOn" xml:space="preserve">
-    <value>File information</value>
+    <value>Information</value>
   </data>
   <data name="CommandToggleVisibleFoldersTree" xml:space="preserve">
     <value>Toggle Folders tree</value>
@@ -2757,7 +2757,7 @@ Is it OK? </value>
     <value>Failed to load image at Susie.</value>
   </data>
   <data name="FileInfoName" xml:space="preserve">
-    <value>File info</value>
+    <value>Information</value>
   </data>
   <data name="FolderInfoArchiver" xml:space="preserve">
     <value>Archiver</value>
@@ -3666,7 +3666,7 @@ Initialize the temporary location.</value>
     <value>Use EXIF ​​date and time</value>
   </data>
   <data name="ParamFileInformationIsUseExifDateTimeTips" xml:space="preserve">
-    <value>It is limited to display on the file information panel. It does not affect sorting by date.</value>
+    <value>It is limited to display on the information panel. It does not affect sorting by date.</value>
   </data>
   <data name="ParamFileInformationIsVisibleBitsPerPixel" xml:space="preserve">
     <value>Display the number of bits per pixel in image size</value>
@@ -4239,7 +4239,7 @@ Initialize the temporary location.</value>
     <value>Load image size limit</value>
   </data>
   <data name="ParamPictureProfileIsLimitSourceSizeTips" xml:space="preserve">
-    <value>Reduce the imported image with "@ParamPictureProfileMaximumSize" as the upper limit. It is setting for speed and memory saving. When this restriction is applied, "*" will be displayed in the size field of the file information if it is the loaded image.</value>
+    <value>Reduce the imported image with "@ParamPictureProfileMaximumSize" as the upper limit. It is setting for speed and memory saving. When this restriction is applied, "*" will be displayed in the size field of the information if it is the loaded image.</value>
   </data>
   <data name="ParamPictureProfileIsMagicScaleSimdEnabled" xml:space="preserve">
     <value>Use SIMD for resize filtering</value>
@@ -4801,10 +4801,10 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Effect panel</value>
   </data>
   <data name="SettingPagePanelFileInfo" xml:space="preserve">
-    <value>File information panel</value>
+    <value>Information panel</value>
   </data>
   <data name="SettingPagePanelFileInfoVisual" xml:space="preserve">
-    <value>File information panel</value>
+    <value>Information panel</value>
   </data>
   <data name="SettingPagePanelGeneral" xml:space="preserve">
     <value>Side panels</value>

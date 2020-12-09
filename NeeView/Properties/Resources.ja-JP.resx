@@ -1486,19 +1486,19 @@
     <value>エフェクトパネルを表示する</value>
   </data>
   <data name="CommandToggleVisibleFileInfo" xml:space="preserve">
-    <value>ファイル情報の表示/非表示</value>
+    <value>情報の表示/非表示</value>
   </data>
   <data name="CommandToggleVisibleFileInfoMenu" xml:space="preserve">
-    <value>ファイル情報</value>
+    <value>情報</value>
   </data>
   <data name="CommandToggleVisibleFileInfoNote" xml:space="preserve">
-    <value>ファイル情報パネルの表示/非表示を切り替えます。</value>
+    <value>情報パネルの表示/非表示を切り替えます。</value>
   </data>
   <data name="CommandToggleVisibleFileInfoOff" xml:space="preserve">
-    <value>ファイル情報を消す</value>
+    <value>情報を消す</value>
   </data>
   <data name="CommandToggleVisibleFileInfoOn" xml:space="preserve">
-    <value>ファイル情報を表示する</value>
+    <value>情報を表示する</value>
   </data>
   <data name="CommandToggleVisibleFoldersTree" xml:space="preserve">
     <value>フォルダーツリーの表示/非表示</value>
@@ -2757,7 +2757,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>Susieでの画像取得に失敗しました。</value>
   </data>
   <data name="FileInfoName" xml:space="preserve">
-    <value>ファイル情報</value>
+    <value>情報</value>
   </data>
   <data name="FolderInfoArchiver" xml:space="preserve">
     <value>アーカイバー</value>
@@ -3666,7 +3666,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>EXIFの日時を使用する</value>
   </data>
   <data name="ParamFileInformationIsUseExifDateTimeTips" xml:space="preserve">
-    <value>ファイル情報パネルでの表示に限ります。日付順ソートには影響しません。</value>
+    <value>情報パネルでの表示に限ります。日付順ソートには影響しません。</value>
   </data>
   <data name="ParamFileInformationIsVisibleBitsPerPixel" xml:space="preserve">
     <value>画像サイズにピクセルあたりのビット数を表示する</value>
@@ -4239,7 +4239,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>読み込み画像サイズ制限</value>
   </data>
   <data name="ParamPictureProfileIsLimitSourceSizeTips" xml:space="preserve">
-    <value>「@ParamPictureProfileMaximumSize」を上限として読み込み画像を縮小します。速度、メモリ節約用の設定です。この制限を適用して読み込まれた画像である場合、ファイル情報のサイズ欄に「*」が表示されます。</value>
+    <value>「@ParamPictureProfileMaximumSize」を上限として読み込み画像を縮小します。速度、メモリ節約用の設定です。この制限を適用して読み込まれた画像である場合、情報のサイズ欄に「*」が表示されます。</value>
   </data>
   <data name="ParamPictureProfileIsMagicScaleSimdEnabled" xml:space="preserve">
     <value>リサイズフィルター処理にSIMDを使用する</value>
@@ -4801,10 +4801,10 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
     <value>エフェクトパネル</value>
   </data>
   <data name="SettingPagePanelFileInfo" xml:space="preserve">
-    <value>ファイル情報パネル</value>
+    <value>情報パネル</value>
   </data>
   <data name="SettingPagePanelFileInfoVisual" xml:space="preserve">
-    <value>ファイル情報パネル</value>
+    <value>情報パネル</value>
   </data>
   <data name="SettingPagePanelGeneral" xml:space="preserve">
     <value>サイドパネル全般</value>

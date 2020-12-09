@@ -14,21 +14,19 @@ namespace NeeView
     public class FileInformationPanel : BindableBase, IPanel
     {
         private FileInformationView _view;
+        private FileInformation _model;
 
         public FileInformationPanel(FileInformation model)
         {
             _view = new FileInformationView(model);
+            _model = model;
 
             Icon = App.Current.MainWindow.Resources["pic_info_24px"] as ImageSource;
-
-            Config.Current.Information.AddPropertyChanged(nameof(InformationConfig.IsSelected), (s, e) => IsSelectedChanged?.Invoke(this, null));
         }
 
 #pragma warning disable CS0067
         public event EventHandler IsVisibleLockChanged;
 #pragma warning restore CS0067
-
-        public event EventHandler IsSelectedChanged;
 
 
         public string TypeCode => nameof(FileInformationPanel);
@@ -39,17 +37,7 @@ namespace NeeView
 
         public FrameworkElement View => _view;
 
-        public bool IsSelected
-        {
-            get { return Config.Current.Information.IsSelected; }
-            set { if (Config.Current.Information.IsSelected != value) Config.Current.Information.IsSelected = value; }
-        }
-
-        public bool IsVisible
-        {
-            get => Config.Current.Information.IsVisible;
-            set => Config.Current.Information.IsVisible = value;
-        }
+        public FileInformation FileInformation => _model;
 
         public bool IsVisibleLock => false;
 

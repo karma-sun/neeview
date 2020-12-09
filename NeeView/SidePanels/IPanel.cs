@@ -16,11 +16,6 @@ namespace NeeView
     public interface IPanel
     {
         /// <summary>
-        /// IsSelected変更イベント
-        /// </summary>
-        event EventHandler IsSelectedChanged;
-
-        /// <summary>
         /// VisibleLock変更イベント
         /// </summary>
         event EventHandler IsVisibleLockChanged;
@@ -44,16 +39,6 @@ namespace NeeView
         /// パネル実体
         /// </summary>
         FrameworkElement View { get; }
-
-        /// <summary>
-        /// パネルが選択されているか
-        /// </summary>
-        bool IsSelected { get; set; }
-
-        /// <summary>
-        /// 表示状態フラグ
-        /// </summary>
-        bool IsVisible { get; set; }
 
         /// <summary>
         /// 表示固定フラグ

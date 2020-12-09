@@ -4,13 +4,13 @@ using System.Linq;
 
 namespace NeeView
 {
-    public class HistoryPanelAccessor
+    public class HistoryPanelAccessor : LayoutPanelAccessor
     {
         private HistoryPanel _panel;
         private HistoryList _model;
 
 
-        public HistoryPanelAccessor()
+        public HistoryPanelAccessor() : base(nameof(HistoryPanel))
         {
             _panel = (HistoryPanel)MainLayoutPanelManager.Current.GetPanel(nameof(HistoryPanel));
             _model = _panel.Presenter.HistoryList;

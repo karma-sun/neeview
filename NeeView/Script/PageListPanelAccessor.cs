@@ -4,13 +4,13 @@ using System.Linq;
 
 namespace NeeView
 {
-    public class PageListPanelAccessor
+    public class PageListPanelAccessor : LayoutPanelAccessor
     {
         private PageListPanel _panel;
         private PageList _model;
 
 
-        public PageListPanelAccessor()
+        public PageListPanelAccessor() : base(nameof(PageListPanel))
         {
             _panel = (PageListPanel)MainLayoutPanelManager.Current.GetPanel(nameof(PageListPanel));
             _model = _panel.Presenter.PageList;

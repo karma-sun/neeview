@@ -5,17 +5,17 @@ using System.Reflection;
 
 namespace NeeView
 {
-    public class BookshelfPanelAccessor
+    public class BookshelfPanelAccessor : LayoutPanelAccessor
     {
         private FolderPanel _panel;
         private BookshelfFolderList _model;
 
-
-        public BookshelfPanelAccessor()
+        public BookshelfPanelAccessor() : base(nameof(FolderPanel))
         {
             _panel = (FolderPanel)MainLayoutPanelManager.Current.GetPanel(nameof(FolderPanel));
             _model = _panel.Presenter.FolderList;
         }
+
 
         [WordNodeMember]
         public string Path
@@ -83,9 +83,8 @@ namespace NeeView
 
         internal WordNode CreateWordNode(string name)
         {
-            var node = WordNodeHelper.CreateClassWordNode(name, this.GetType());
-
-            return node;
+            return WordNodeHelper.CreateClassWordNode(name, this.GetType());
         }
     }
+
 }

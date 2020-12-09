@@ -14,6 +14,16 @@ using System.Windows.Input;
 
 namespace NeeView
 {
+    public class VisibleAtOnceRequestEventArgs : EventArgs
+    {
+        public VisibleAtOnceRequestEventArgs(string key)
+        {
+            Key = key;
+        }
+
+        public string Key { get; set; }
+    }
+
     /// <summary>
     /// NeeView用 サイドパネル管理
     /// </summary>
@@ -31,11 +41,10 @@ namespace NeeView
             MainLayoutPanelManager.Current.CollectionChanged += (s, e) => RaisePanelPropertyChanged();
         }
 
-        /// <summary>
-        /// パネル内容更新イベント.
-        /// 自動非表示時間のリセットに使用される.
-        /// </summary>
-        public event EventHandler<SidePanelContentChangedEventArgs> ContentChanged;
+
+
+        // パネル表示要求
+        public event EventHandler<VisibleAtOnceRequestEventArgs> VisibleAtOnceRequest;
 
 
         // サイドバー表示ロック。自動非表示にならないようにする
@@ -43,15 +52,6 @@ namespace NeeView
         {
             get { return _isVisibleLocked; }
             set { if (_isVisibleLocked != value) { _isVisibleLocked = value; RaisePropertyChanged(); } }
-        }
-
-
-        /// <summary>
-        /// コンテンツ変更通知
-        /// </summary>
-        public void RaiseContentChanged(string key)
-        {
-            ContentChanged?.Invoke(this, new SidePanelContentChangedEventArgs(key));
         }
 
 
@@ -82,6 +82,12 @@ namespace NeeView
         }
 
 
+        public void VisibleAtOnce(string key)
+        {
+            VisibleAtOnceRequest?.Invoke(this, new VisibleAtOnceRequestEventArgs(key));
+        }
+
+
         private bool IsVisiblePanel(string key)
         {
             return MainLayoutPanelManager.Current.IsPanelSelected(key);
@@ -97,12 +103,6 @@ namespace NeeView
         {
             bool isVisible = !MainLayoutPanelManager.Current.IsPanelSelected(key) || (!byMenu && !MainLayoutPanelManager.Current.IsPanelVisible(key));
             SetVisiblePanel(key, isVisible);
-
-            if (isVisible)
-            {
-                RaiseContentChanged(key);
-            }
-
             return isVisible;
         }
 

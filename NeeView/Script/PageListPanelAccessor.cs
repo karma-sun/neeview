@@ -22,21 +22,21 @@ namespace NeeView
             get { return _panel.Presenter.PageList.Path; }
         }
 
-        [WordNodeMember]
+        [WordNodeMember(DocumentType = typeof(PanelListItemStyle))]
         public string Style
         {
             get { return _model.PanelListItemStyle.ToString(); }
             set { AppDispatcher.Invoke(() => _model.PanelListItemStyle = (PanelListItemStyle)Enum.Parse(typeof(PanelListItemStyle), value)); }
         }
 
-        [WordNodeMember]
+        [WordNodeMember(DocumentType = typeof(PageNameFormat))]
         public string Format
         {
             get { return AppDispatcher.Invoke(() => _panel.Presenter.PageListView.GetFormat().ToString()); }
             set { AppDispatcher.Invoke(() => _panel.Presenter.PageListView.SetFormat((PageNameFormat)Enum.Parse(typeof(PageNameFormat), value))); }
         }
 
-        [WordNodeMember]
+        [WordNodeMember(DocumentType = typeof(PageSortMode))]
         public string SortMode
         {
             get { return AppDispatcher.Invoke(() => _panel.Presenter.PageListView.GetSortMode().ToString()); }

@@ -10,9 +10,15 @@ h1 {
     background-color: #002244;
     font-size: 2.0em;
     color: #ffffff;
+    margin: 40px 0px;
     padding-top: 10px;
     padding-bottom: 10px;
     min-width: 800px;
+}
+
+h1.sub
+{
+    margin-top: 60px;
 }
 
 h2 {
@@ -35,6 +41,10 @@ p {
     text-align: left;
 }
 
+pre {
+    font-family: auto;
+}
+
 code {
     background-color: #EEEEEE;
     padding: 0px 10px;
@@ -43,16 +53,20 @@ code {
     font-family: Consolas, sans-serif;
 }
 
-    code.inline {
-        background-color: #EEEEEE;
-        font-family: Consolas, sans-serif;
-    }
+code.inline {
+    background-color: #EEEEEE;
+    font-family: Consolas, sans-serif;
+}
+
+code.example {
+    padding: 15px 60px;
+}
 
 hr {
     margin: 50px 0px;
 }
 
-table {
+.table-normal {
     width: 100%;
     margin: 20px 0 50px;
     border-top: 1px solid #CCC;
@@ -60,7 +74,11 @@ table {
     border-spacing: 0;
 }
 
-table tr th, table tr td {
+.table-normal th {
+    background: #EEE;
+}
+
+.table-normal th, .table-normal td {
     font-size: 14px;
     font-family: Consolas;
     border-bottom: 1px solid #CCC;
@@ -68,6 +86,32 @@ table tr th, table tr td {
     padding: 7px;
 }
 
-table tr th {
-    background: #EEE;
+.table-none {
+    border-collapse: collapse;
+}
+
+.table-none td, .table-none th {
+    text-align: left;
+    padding: 10px 20px;
+}
+
+.table-slim {
+    border-collapse: collapse;
+}
+
+.table-slim tr {
+    border-bottom: 1px solid #CCC;
+}
+
+.table-slim tr:nth-child(1) {
+    border-top: 1px solid #CCC;
+}
+
+.table-slim td, .table-slim th {
+    text-align: left;
+    padding: 10px 20px;
+}
+
+.table-topless tr:nth-child(1) {
+    border-top: 0px;
 }

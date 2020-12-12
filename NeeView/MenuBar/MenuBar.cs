@@ -107,8 +107,7 @@ namespace NeeView
                 foreach (var pair in groups)
                 {
                     writer.WriteLine($"<h3>{pair.Key.Replace("_", "")}</h3>");
-                    writer.WriteLine("<table>");
-                    writer.WriteLine($"<th>{Properties.Resources.WordItem}<th>{Properties.Resources.WordDescription}<tr>");
+                    writer.WriteLine("<table class=\"table-slim\">");
                     foreach (var item in pair.Value)
                     {
                         string name = string.Concat(Enumerable.Repeat("&nbsp;", item.Depth * 2)) + item.Element.DispLabel;

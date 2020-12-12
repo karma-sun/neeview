@@ -21,6 +21,7 @@ namespace NeeView
         [WordNodeMember]
         public bool IsNew => BookOperation.Current.Book?.IsNew == true;
 
+        [WordNodeMember(IsAutoCollect = false)]
         public BookConfigAccessor Config { get; } = new BookConfigAccessor();
 
         [WordNodeMember]

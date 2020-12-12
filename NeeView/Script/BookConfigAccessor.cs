@@ -15,7 +15,7 @@ namespace NeeView
         }
 
         // [Parameter(typeof(BookReadOrder))]
-        [WordNodeMember]
+        [WordNodeMember(DocumentType = typeof(PageReadOrder))]
         public string BookReadOrder
         {
             get { return BookSettingPresenter.Current.LatestSetting.BookReadOrder.ToString(); }
@@ -58,7 +58,7 @@ namespace NeeView
         }
 
         // [Parameter(typeof(PageSortMode))]
-        [WordNodeMember]
+        [WordNodeMember(DocumentType = typeof(PageSortMode))]
         public string SortMode
         {
             get { return BookSettingPresenter.Current.LatestSetting.SortMode.ToString(); }

@@ -13,16 +13,20 @@ namespace NeeView
 
         internal TreeListNode<IPagemarkEntry> Source => _source;
 
+        [WordNodeMember]
         public bool IsExpanded
         {
             get { return _source.IsExpanded; }
             set { _source.IsExpanded = value; }
         }
 
+        [WordNodeMember]
         public string Name => _source.Value.DispName;
-      
+
+        [WordNodeMember]
         public string Path => _source.Value.Path;
 
+        [WordNodeMember]
         public string Type
         {
             get

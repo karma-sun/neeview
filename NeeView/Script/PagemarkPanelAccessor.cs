@@ -5,19 +5,19 @@ using System.Linq;
 
 namespace NeeView
 {
-    public class PagemarPanelAccessor : LayoutPanelAccessor
+    public class PagemarkPanelAccessor : LayoutPanelAccessor
     {
         private PagemarkPanel _panel;
         private PagemarkList _model;
 
 
-        public PagemarPanelAccessor() : base(nameof(PagemarkPanel))
+        public PagemarkPanelAccessor() : base(nameof(PagemarkPanel))
         {
             _panel = (PagemarkPanel)MainLayoutPanelManager.Current.GetPanel(nameof(PagemarkPanel));
             _model = _panel.PagemarkListView.PagemarkList;
         }
 
-        [WordNodeMember]
+        [WordNodeMember(DocumentType = typeof(PanelListItemStyle))]
         public string Style
         {
             get { return _model.PanelListItemStyle.ToString(); }

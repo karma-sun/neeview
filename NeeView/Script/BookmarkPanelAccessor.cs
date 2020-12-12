@@ -16,7 +16,6 @@ namespace NeeView
             _model = _panel.Presenter.BookmarkFolderList;
         }
 
-
         [WordNodeMember]
         public string Path
         {
@@ -24,14 +23,14 @@ namespace NeeView
             set { AppDispatcher.Invoke(() => _model.RequestPlace(new QueryPath(value), null, FolderSetPlaceOption.UpdateHistory)); }
         }
 
-        [WordNodeMember]
+        [WordNodeMember(DocumentType = typeof(PanelListItemStyle))]
         public string Style
         {
             get { return _model.FolderListConfig.PanelListItemStyle.ToString(); }
             set { AppDispatcher.Invoke(() => _model.FolderListConfig.PanelListItemStyle = (PanelListItemStyle)Enum.Parse(typeof(PanelListItemStyle), value)); }
         }
 
-        [WordNodeMember]
+        [WordNodeMember(DocumentType = typeof(FolderOrder))]
         public string FolderOrder
         {
             get { return _model.GetFolderOrder().ToString(); }

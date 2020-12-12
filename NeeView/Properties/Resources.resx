@@ -5748,4 +5748,476 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="WordFullScreen" xml:space="preserve">
     <value>Full screen</value>
   </data>
+  <data name="BookshelfPanelAccessor" xml:space="preserve">
+    <value>Bookshelf panel accessor</value>
+  </data>
+  <data name="BookshelfPanelAccessor.Path" xml:space="preserve">
+    <value>Current bookshelf path</value>
+  </data>
+  <data name="BookshelfPanelAccessor.SearchWord" xml:space="preserve">
+    <value>Search box text</value>
+  </data>
+  <data name="BookshelfPanelAccessor.Style" xml:space="preserve">
+    <value>List item style</value>
+  </data>
+  <data name="BookshelfPanelAccessor.FolderOrder" xml:space="preserve">
+    <value>List item order</value>
+  </data>
+  <data name="BookshelfPanelAccessor.Items" xml:space="preserve">
+    <value>List items</value>
+  </data>
+  <data name="BookshelfPanelAccessor.SelectedItems" xml:space="preserve">
+    <value>Selected items</value>
+  </data>
+  <data name="BookshelfPanelAccessor#Example" xml:space="preserve">
+    <value>// Example: Select an item that starts with "A"
+nv.Bookshelf.SelectedItems = nv.Bookshelf.Items.filter(e =&gt; e.Name.startsWith('A'))</value>
+  </data>
+  <data name="LayoutPanelAccessor.IsSelected" xml:space="preserve">
+    <value>Panel is selected</value>
+  </data>
+  <data name="LayoutPanelAccessor.IsVisible" xml:space="preserve">
+    <value>Panel is visible</value>
+  </data>
+  <data name="LayoutPanelAccessor.IsFloating" xml:space="preserve">
+    <value>Panel is floating</value>
+  </data>
+  <data name="LayoutPanelAccessor.Open" xml:space="preserve">
+    <value>Open panel</value>
+  </data>
+  <data name="LayoutPanelAccessor.OpenDock" xml:space="preserve">
+    <value>Open panel in docking mode</value>
+  </data>
+  <data name="LayoutPanelAccessor.OpenFloat" xml:space="preserve">
+    <value>Open panel in floating mode</value>
+  </data>
+  <data name="LayoutPanelAccessor.Close" xml:space="preserve">
+    <value>Close panel</value>
+  </data>
+  <data name="BookshelfItemAccessor" xml:space="preserve">
+    <value>Bookshelf item accessor</value>
+  </data>
+  <data name="BookshelfItemAccessor.Name" xml:space="preserve">
+    <value>Item name</value>
+  </data>
+  <data name="BookshelfItemAccessor.Path" xml:space="preserve">
+    <value>The path corresponding to the item</value>
+  </data>
+  <data name="BookmarkPanelAccessor" xml:space="preserve">
+    <value>Bookmark panel accessor</value>
+  </data>
+  <data name="BookmarkPanelAccessor.Path" xml:space="preserve">
+    <value>Current bookmark folder path</value>
+  </data>
+  <data name="BookmarkPanelAccessor.Style" xml:space="preserve">
+    <value>List item style</value>
+  </data>
+  <data name="BookmarkPanelAccessor.FolderOrder" xml:space="preserve">
+    <value>List item order</value>
+  </data>
+  <data name="BookmarkPanelAccessor.Items" xml:space="preserve">
+    <value>List items</value>
+  </data>
+  <data name="BookmarkPanelAccessor.SelectedItems" xml:space="preserve">
+    <value>Selected items</value>
+  </data>
+  <data name="BookmarkItemAccessor" xml:space="preserve">
+    <value>Bookmark item accessor</value>
+  </data>
+  <data name="BookmarkItemAccessor.Name" xml:space="preserve">
+    <value>Item name</value>
+  </data>
+  <data name="BookmarkItemAccessor.Path" xml:space="preserve">
+    <value>The path corresponding to the item</value>
+  </data>
+  <data name="Word.Properties" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+  <data name="Word.Methods" xml:space="preserve">
+    <value>Methods</value>
+  </data>
+  <data name="Word.Returns" xml:space="preserve">
+    <value>Returns</value>
+  </data>
+  <data name="Word.Example" xml:space="preserve">
+    <value>Example</value>
+  </data>
+  <data name="Word.Parameters" xml:space="preserve">
+    <value>Parameters</value>
+  </data>
+  <data name="FolderOrder" xml:space="preserve">
+    <value>List item order</value>
+  </data>
+  <data name="PanelListItemStyle" xml:space="preserve">
+    <value>List item style</value>
+  </data>
+  <data name="Word.Fields" xml:space="preserve">
+    <value>Fields</value>
+  </data>
+  <data name="Word.Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Word.Summary" xml:space="preserve">
+    <value>Summary</value>
+  </data>
+  <data name="CommandAccessor" xml:space="preserve">
+    <value>Command accessor</value>
+  </data>
+  <data name="CommandAccessor.IsShowMessage" xml:space="preserve">
+    <value>Display a message when executing a command</value>
+  </data>
+  <data name="CommandAccessor.ShortCutKey" xml:space="preserve">
+    <value>Shortcuts</value>
+  </data>
+  <data name="CommandAccessor.ShortCutKey#Example" xml:space="preserve">
+    <value>// Set "Ctrl+A" as shortcut for ViewRotateLeft command
+nv.Command.ViewRotateLeft.ShourtCutKey = "Ctrl+A"</value>
+  </data>
+  <data name="CommandAccessor.TouchGesture" xml:space="preserve">
+    <value>Touch operation</value>
+  </data>
+  <data name="CommandAccessor.TouchGesture#Example" xml:space="preserve">
+    <value>// Set "TouchCenter" for touch operation of ViewRotateLeft command
+nv.Command.ViewRotateLeft.TouchGesture = "TouchCenter"</value>
+  </data>
+  <data name="CommandAccessor.MouseGesture" xml:space="preserve">
+    <value>Mouse gestures</value>
+  </data>
+  <data name="CommandAccessor.MouseGesture#Example" xml:space="preserve">
+    <value>// Set "↑←↓" to the mouse gesture of ViewRotateLeft command
+nv.Command.ViewRotateLeft.MouseGesture = "ULD"</value>
+  </data>
+  <data name="CommandAccessor.Execute" xml:space="preserve">
+    <value>Execute the command.</value>
+  </data>
+  <data name="CommandAccessor.Execute#Remarks" xml:space="preserve">
+    <value>Some commands allow you to specify arguments.These can be used for the purpose of omitting the user's selection by specifying the argument in the command that normally displays the dialog.</value>
+  </data>
+  <data name="CommandAccessor.Execute.args" xml:space="preserve">
+    <value>Command argument. The contents vary depending on the command. It is a variable length argument. (Optional)</value>
+  </data>
+  <data name="CommandAccessor.Execute#Returns" xml:space="preserve">
+    <value>Success or failure of command issuance. Commands may not be issued during loading. The success or failure of the command itself is not determined.</value>
+  </data>
+  <data name="CommandAccessor.Execute#Example" xml:space="preserve">
+    <value>// open C:\Foo\Bar.zip
+nv.Command.LoadAs.Execute("C:\\Foo\\Bar.zip")</value>
+  </data>
+  <data name="CommandAccessor.Patch" xml:space="preserve">
+    <value>Temporarily change the command parameter.</value>
+  </data>
+  <data name="CommandAccessor.Patch.patch" xml:space="preserve">
+    <value>Specify the command parameter to be overwritten temporarily in JSON format.</value>
+  </data>
+  <data name="CommandAccessor.Patch#Returns" xml:space="preserve">
+    <value>Returns its own command accessors as is.</value>
+  </data>
+  <data name="CommandAccessor.Patch#Example" xml:space="preserve">
+    <value>// Rotate counterclockwise by specifying 5 degrees
+nv.Command.ViewRotateLeft.Patch({"Angle": 5}).Execute()</value>
+  </data>
+  <data name="CommandAccessor.Parameter" xml:space="preserve">
+    <value>You can get and set command parameters. The settings are permanent. The properties differ for each command. For details, see the command list below.</value>
+  </data>
+  <data name="CommandAccessor.Parameter#Example" xml:space="preserve">
+    <value>// Change the rotation amount of "ViewRotateLeft" command to 45 degrees
+nv.Command.ViewRotateLeft.Parameter.Angle = 45</value>
+  </data>
+  <data name="CommandHost" xml:space="preserve">
+    <value>Provides app-specific features.</value>
+  </data>
+  <data name="CommandHost.Values" xml:space="preserve">
+    <value>An associative array for storing values. The value saved in this object will be retained during app execution.</value>
+  </data>
+  <data name="CommandHost.Values#Example" xml:space="preserve">
+    <value>// Store value
+nv.Values["Test"] = "Hello!"
+// As well
+nv.Values.Test = "Hello!"   </value>
+  </data>
+  <data name="CommandHost.Config" xml:space="preserve">
+    <value>An associative array of application settings. Refers to and changes the set value. For the types of set values, refer to &lt;a href="#ConfigList"&gt;Config list&lt;/a&gt;.</value>
+  </data>
+  <data name="CommandHost.Config#Example" xml:space="preserve">
+    <value>// Change the theme color to dark
+nv.Config.Theme.PanelColor = "Dark"
+nv.Config.Theme.MenuColor = "Dark"</value>
+  </data>
+  <data name="CommandHost.Command" xml:space="preserve">
+    <value>An associative array of command accessors. The commands are the same as those displayed under Options &gt; Command Settings. For details, refer to &lt;a href="#CommandList"/&gt;Command list&lt;/a&gt;.</value>
+  </data>
+  <data name="CommandHost.Command#Example" xml:space="preserve">
+    <value>// Execute "NextPage" command
+nv.Command["NextPage"].Execute()
+// As well
+nv.Command.NextPage.Execute()</value>
+  </data>
+  <data name="CommandHost.Book" xml:space="preserve">
+    <value>Current book accessor</value>
+  </data>
+  <data name="CommandHost.Bookshelf" xml:space="preserve">
+    <value>Bookshelf panel accessor</value>
+  </data>
+  <data name="CommandHost.PageList" xml:space="preserve">
+    <value>PageList panel accessor</value>
+  </data>
+  <data name="CommandHost.Bookmark" xml:space="preserve">
+    <value>Bookmark panel accessor</value>
+  </data>
+  <data name="CommandHost.Pagemark" xml:space="preserve">
+    <value>Pagemark panel accessor</value>
+  </data>
+  <data name="CommandHost.History" xml:space="preserve">
+    <value>History panel accessor</value>
+  </data>
+  <data name="CommandHost.Information" xml:space="preserve">
+    <value>Information panel accessor</value>
+  </data>
+  <data name="CommandHost.Effect" xml:space="preserve">
+    <value>Effect panel accessor</value>
+  </data>
+  <data name="CommandHost.Navigator" xml:space="preserve">
+    <value>Navigator panel accessor</value>
+  </data>
+  <data name="CommandHost.ShowMessage" xml:space="preserve">
+    <value>Display a message on the screen.</value>
+  </data>
+  <data name="CommandHost.ShowMessage.message" xml:space="preserve">
+    <value>Output message</value>
+  </data>
+  <data name="CommandHost.ShowToast" xml:space="preserve">
+    <value>Display the message as a toast.</value>
+  </data>
+  <data name="CommandHost.ShowToast.message" xml:space="preserve">
+    <value>Output message</value>
+  </data>
+  <data name="CommandHost.ShowDialog" xml:space="preserve">
+    <value>Display the dialog.</value>
+  </data>
+  <data name="CommandHost.ShowDialog.title" xml:space="preserve">
+    <value>Main text</value>
+  </data>
+  <data name="CommandHost.ShowDialog.message" xml:space="preserve">
+    <value>Message (optional)</value>
+  </data>
+  <data name="CommandHost.ShowDialog.commands" xml:space="preserve">
+    <value>0: OK / 1: OKCancel / 2: YesNo
+Button types (optional)</value>
+  </data>
+  <data name="CommandHost.ShowDialog#Returns" xml:space="preserve">
+    <value>Returns true if positive selection ("OK" or "Yes"), false otherwise.</value>
+  </data>
+  <data name="CommandHost.ShowDialog#Example" xml:space="preserve">
+    <value>isYes = nv.ShowDialog("Is this a pen?", "I think it's a pen, really?", 2)
+if (isYes) {
+    nv.ShowDialog("Good.")
+}</value>
+  </data>
+  <data name="BookAccessor" xml:space="preserve">
+    <value>Book accessor</value>
+  </data>
+  <data name="BookAccessor.Path" xml:space="preserve">
+    <value>Book path. Null if no book is open</value>
+  </data>
+  <data name="BookAccessor.IsMedia" xml:space="preserve">
+    <value>Whether the book is a video</value>
+  </data>
+  <data name="BookAccessor.IsNew" xml:space="preserve">
+    <value>Whether the book is a newly opened book with no history</value>
+  </data>
+  <data name="BookAccessor.Config" xml:space="preserve">
+    <value>Book config</value>
+  </data>
+  <data name="BookAccessor.Pages" xml:space="preserve">
+    <value>Pages that make up the book</value>
+  </data>
+  <data name="BookAccessor.ViewPages" xml:space="preserve">
+    <value>Displaying pages</value>
+  </data>
+  <data name="BookConfigAccessor" xml:space="preserve">
+    <value>Book config accessor</value>
+  </data>
+  <data name="BookConfigAccessor.ViewPageSize" xml:space="preserve">
+    <value>Number of pages to display</value>
+  </data>
+  <data name="BookConfigAccessor.BookReadOrder" xml:space="preserve">
+    <value>Left Open / Right Open</value>
+  </data>
+  <data name="BookConfigAccessor.IsSupportedDividePage" xml:space="preserve">
+    <value>Split landscape page</value>
+  </data>
+  <data name="BookConfigAccessor.IsSupportedSingleFirstPage" xml:space="preserve">
+    <value>Show first page alone</value>
+  </data>
+  <data name="BookConfigAccessor.IsSupportedSingleLastPage" xml:space="preserve">
+    <value>Show last page alone</value>
+  </data>
+  <data name="BookConfigAccessor.IsSupportedWidePage" xml:space="preserve">
+    <value>Consider landscape pages as two pages</value>
+  </data>
+  <data name="BookConfigAccessor.IsRecursiveFolder" xml:space="preserve">
+    <value>Load subfolder</value>
+  </data>
+  <data name="BookConfigAccessor.SortMode" xml:space="preserve">
+    <value>Sort order</value>
+  </data>
+  <data name="PageAccessor" xml:space="preserve">
+    <value>Page accessor</value>
+  </data>
+  <data name="PageAccessor.Path" xml:space="preserve">
+    <value>Page path</value>
+  </data>
+  <data name="PageAccessor.Size" xml:space="preserve">
+    <value>File size (Byte)</value>
+  </data>
+  <data name="PageAccessor.LastWriteTime" xml:space="preserve">
+    <value>Last write time of the file</value>
+  </data>
+  <data name="PageAccessor#Example" xml:space="preserve">
+    <value>// Display the first page name with toast
+nv.ShowToast(nv.Book.Pages[0].Path)</value>
+  </data>
+  <data name="ViewPageAccessor" xml:space="preserve">
+    <value>ViewPage accessor</value>
+  </data>
+  <data name="ViewPageAccessor.Width" xml:space="preserve">
+    <value>Page width</value>
+  </data>
+  <data name="ViewPageAccessor.Height" xml:space="preserve">
+    <value>Page height</value>
+  </data>
+  <data name="ViewPageAccessor#Example" xml:space="preserve">
+    <value>//  Display the view page name with toast
+nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
+  </data>
+  <data name="PageReadOrder" xml:space="preserve">
+    <value>Page read order</value>
+  </data>
+  <data name="PageSortMode" xml:space="preserve">
+    <value>Page sort mode</value>
+  </data>
+  <data name="JavascriptEngine.Sleep" xml:space="preserve">
+    <value>Suspends the script for the specified amount of time.</value>
+  </data>
+  <data name="JavascriptEngine.Sleep.millisecond" xml:space="preserve">
+    <value>Pause time (milliseconds)</value>
+  </data>
+  <data name="JavascriptEngine.Log" xml:space="preserve">
+    <value>Print a message to the console. It only works when you run the script from the console. For script testing.</value>
+  </data>
+  <data name="JavascriptEngine.Log.log" xml:space="preserve">
+    <value>Output message</value>
+  </data>
+  <data name="JavascriptEngine.SystemCall" xml:space="preserve">
+    <value>Run the external app.</value>
+  </data>
+  <data name="JavascriptEngine.SystemCall.filename" xml:space="preserve">
+    <value>Executable path. If you specify a URL or file path, the associated app will be executed.</value>
+  </data>
+  <data name="JavascriptEngine.SystemCall.args" xml:space="preserve">
+    <value>App arguments (optional)</value>
+  </data>
+  <data name="JavascriptEngine.ExecureFile" xml:space="preserve">
+    <value>Load and execute the script.</value>
+  </data>
+  <data name="JavascriptEngine.ExecureFile.path" xml:space="preserve">
+    <value>Script path. Relative paths are relative to the current script location.</value>
+  </data>
+  <data name="JavascriptEngine.ExecureFile#Returns" xml:space="preserve">
+    <value>Script execution result</value>
+  </data>
+  <data name="JavascriptEngine.ExecureFile#Example" xml:space="preserve">
+    <value>// Load and run Sample.nvjs
+include("Sample.nvjs")</value>
+  </data>
+  <data name="PageListPanelAccessor" xml:space="preserve">
+    <value>PageList panel accessor</value>
+  </data>
+  <data name="PageListPanelAccessor.Path" xml:space="preserve">
+    <value>Current book path</value>
+  </data>
+  <data name="PageListPanelAccessor.Style" xml:space="preserve">
+    <value>List item stye</value>
+  </data>
+  <data name="PageListPanelAccessor.Format" xml:space="preserve">
+    <value>Item name format</value>
+  </data>
+  <data name="PageListPanelAccessor.SortMode" xml:space="preserve">
+    <value>Page sort mode</value>
+  </data>
+  <data name="PageListPanelAccessor.Items" xml:space="preserve">
+    <value>List items</value>
+  </data>
+  <data name="PageListPanelAccessor.SelectedItems" xml:space="preserve">
+    <value>Selected items</value>
+  </data>
+  <data name="PagemarkPanelAccessor" xml:space="preserve">
+    <value>Pagemark panel accessor</value>
+  </data>
+  <data name="PagemarkPanelAccessor.Style" xml:space="preserve">
+    <value>List item stye</value>
+  </data>
+  <data name="PagemarkPanelAccessor.Items" xml:space="preserve">
+    <value>List items</value>
+  </data>
+  <data name="PagemarkPanelAccessor.SelectedItems" xml:space="preserve">
+    <value>Selected items</value>
+  </data>
+  <data name="PagemarkItemAccessor" xml:space="preserve">
+    <value>Pagemark item accessor</value>
+  </data>
+  <data name="PagemarkItemAccessor.IsExpanded" xml:space="preserve">
+    <value>Item is expanded</value>
+  </data>
+  <data name="PagemarkItemAccessor.Name" xml:space="preserve">
+    <value>Item name</value>
+  </data>
+  <data name="PagemarkItemAccessor.Path" xml:space="preserve">
+    <value>The path corresponding to the item</value>
+  </data>
+  <data name="PagemarkItemAccessor.Type" xml:space="preserve">
+    <value>Item type</value>
+  </data>
+  <data name="HistoryPanelAccessor" xml:space="preserve">
+    <value>History panel accessor</value>
+  </data>
+  <data name="HistoryPanelAccessor.Style" xml:space="preserve">
+    <value>List item stye</value>
+  </data>
+  <data name="HistoryPanelAccessor.Items" xml:space="preserve">
+    <value>List items</value>
+  </data>
+  <data name="HistoryPanelAccessor.SelectedItems" xml:space="preserve">
+    <value>Selected items</value>
+  </data>
+  <data name="HistoryItemAccessor" xml:space="preserve">
+    <value>History item accessor</value>
+  </data>
+  <data name="HistoryItemAccessor.Name" xml:space="preserve">
+    <value>Item name</value>
+  </data>
+  <data name="HistoryItemAccessor.Path" xml:space="preserve">
+    <value>The path corresponding to the item</value>
+  </data>
+  <data name="HistoryItemAccessor.LastAccessTime" xml:space="preserve">
+    <value>Last access time</value>
+  </data>
+  <data name="InformationPanelAccessor" xml:space="preserve">
+    <value>Information panel accessor</value>
+  </data>
+  <data name="EffectPanelAccessor" xml:space="preserve">
+    <value>Effect panel accessor</value>
+  </data>
+  <data name="NavigatorPanelAccessor" xml:space="preserve">
+    <value>Navigator panel accessor</value>
+  </data>
+  <data name="PageNameFormat" xml:space="preserve">
+    <value>Item name format in PageList</value>
+  </data>
+  <data name="ScriptReference#Name" xml:space="preserve">
+    <value>Script reference</value>
+  </data>
+  <data name="ScriptReference" xml:space="preserve">
+    <value>This section explains how to use NeeView-specific commands.</value>
+  </data>
 </root>

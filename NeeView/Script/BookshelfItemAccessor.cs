@@ -11,8 +11,10 @@
 
         internal FolderItem Source => _source;
 
+        [WordNodeMember]
         public string Name => _source.DispName;
 
+        [WordNodeMember]
         public string Path => _source.TargetPath.SimplePath;
     }
 }

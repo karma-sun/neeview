@@ -71,7 +71,7 @@ namespace NeeView
             {
                 case "?":
                 case "help":
-                    CommandTable.Current.OpenScriptHelp();
+                    new ScriptManual().OpenScriptManual();
                     return null;
 
                 case "exit":

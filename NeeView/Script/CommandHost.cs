@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 
 namespace NeeView
 {
@@ -24,27 +22,47 @@ namespace NeeView
             Bookshelf = new BookshelfPanelAccessor();
             PageList = new PageListPanelAccessor();
             Bookmark = new BookmarkPanelAccessor();
-            Pagemark = new PagemarPanelAccessor();
+            Pagemark = new PagemarkPanelAccessor();
             History = new HistoryPanelAccessor();
             Information = new InformationPanelAccessor();
             Effect = new EffectPanelAccessor();
             Navigator = new NavigatorPanelAccessor();
         }
 
+        [WordNodeMember(IsAutoCollect = false)]
         public Dictionary<string, object> Values => _values;
 
+        [WordNodeMember(IsAutoCollect = false)]
         public PropertyMap Config => _configMap.Map;
 
+        [WordNodeMember(IsAutoCollect = false)]
         public CommandAccessorMap Command { get; }
 
+        [WordNodeMember(IsAutoCollect = false)]
         public BookAccessor Book { get; }
+
+        [WordNodeMember(IsAutoCollect = false)]
         public BookshelfPanelAccessor Bookshelf { get; }
+
+        [WordNodeMember(IsAutoCollect = false)]
         public PageListPanelAccessor PageList { get; }
+
+        [WordNodeMember(IsAutoCollect = false)]
         public BookmarkPanelAccessor Bookmark { get; }
-        public PagemarPanelAccessor Pagemark { get; }
+
+        [WordNodeMember(IsAutoCollect = false)]
+        public PagemarkPanelAccessor Pagemark { get; }
+
+        [WordNodeMember(IsAutoCollect = false)]
         public HistoryPanelAccessor History { get; }
+
+        [WordNodeMember(IsAutoCollect = false)]
         public InformationPanelAccessor Information { get; }
+
+        [WordNodeMember(IsAutoCollect = false)]
         public EffectPanelAccessor Effect { get; }
+
+        [WordNodeMember(IsAutoCollect = false)]
         public NavigatorPanelAccessor Navigator { get; }
 
 
@@ -107,5 +125,4 @@ namespace NeeView
             return node;
         }
     }
-
 }

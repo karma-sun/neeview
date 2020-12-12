@@ -46,6 +46,7 @@ namespace NeeView
             set { _command.MouseGesture = value.Replace("←", "L").Replace("↑", "U").Replace("→", "R").Replace("↓", "L").Replace("Click", "C"); }
         }
 
+        [WordNodeMember(IsAutoCollect = false)]
         public PropertyMap Parameter { get; }
 
 

@@ -17,7 +17,7 @@ namespace NeeView
         }
 
 
-        [WordNodeMember]
+        [WordNodeMember(DocumentType = typeof(PanelListItemStyle))]
         public string Style
         {
             get { return _model.PanelListItemStyle.ToString(); }

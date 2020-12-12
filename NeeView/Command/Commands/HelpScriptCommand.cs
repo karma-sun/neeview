@@ -13,7 +13,7 @@
 
         public override void Execute(object sender, CommandContext e)
         {
-            CommandTable.Current.OpenScriptHelp();
+            new ScriptManual().OpenScriptManual();
         }
     }
 }

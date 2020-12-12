@@ -6,6 +6,11 @@ namespace NeeView
     {
         public static string ToManualString(this Type type)
         {
+            if (type == typeof(void))
+            {
+                return "void";
+            }
+
             if (type.IsEnum)
             {
                 return "enum";
@@ -22,7 +27,7 @@ namespace NeeView
                 case TypeCode.String:
                     return "string";
             }
-
+            
             return type.ToString();
         }
     }

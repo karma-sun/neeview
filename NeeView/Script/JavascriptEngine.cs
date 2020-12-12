@@ -31,29 +31,8 @@ namespace NeeView
         public Action<object> LogAction { get; set; } = Console.WriteLine;
 
 
-        private void Sleep(int millisecond)
-        {
-            if (_cancellationToken.WaitHandle.WaitOne(millisecond))
-            {
-                throw new OperationCanceledException();
-            }
-        }
-
-        public void Log(object log)
-        {
-            LogAction?.Invoke(log);
-        }
-
-        private void SystemCall(string filename, string args = null)
-        {
-            var startInfo = new ProcessStartInfo();
-            startInfo.UseShellExecute = true;
-            startInfo.FileName = filename;
-            startInfo.Arguments = args;
-            Process.Start(startInfo);
-        }
-
-        private object ExecureFile(string path)
+        [Documentable(Name = "include")]
+        public object ExecureFile(string path)
         {
             return ExecureFile(path, _cancellationToken);
         }
@@ -75,7 +54,6 @@ namespace NeeView
             }
         }
 
-
         public object Execute(string script, CancellationToken token)
         {
             _cancellationToken = token;
@@ -83,6 +61,32 @@ namespace NeeView
             var result = _engine.Execute(script).GetCompletionValue();
             return result?.ToObject();
         }
+
+        [Documentable(Name = "log")]
+        public void Log(object log)
+        {
+            LogAction?.Invoke(log);
+        }
+
+        [Documentable(Name = "sleep")]
+        public void Sleep(int millisecond)
+        {
+            if (_cancellationToken.WaitHandle.WaitOne(millisecond))
+            {
+                throw new OperationCanceledException();
+            }
+        }
+
+        [Documentable(Name = "system")]
+        public void SystemCall(string filename, string args = null)
+        {
+            var startInfo = new ProcessStartInfo();
+            startInfo.UseShellExecute = true;
+            startInfo.FileName = filename;
+            startInfo.Arguments = args;
+            Process.Start(startInfo);
+        }
+
 
         public void SetValue(string name, object value)
         {

@@ -763,7 +763,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   // Example: Select an item that starts with &quot;A&quot;
+        ///   // Example: Select items that starts with &quot;A&quot;
         ///nv.Bookshelf.SelectedItems = nv.Bookshelf.Items.filter(e =&gt; e.Name.startsWith(&apos;A&apos;)) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookshelfPanelAccessor_Example {
@@ -1918,6 +1918,42 @@ namespace NeeView.Properties {
         public static string CommandHost_ShowDialog_title {
             get {
                 return ResourceManager.GetString("CommandHost.ShowDialog.title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display the input dialog. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandHost_ShowInputDialog {
+            get {
+                return ResourceManager.GetString("CommandHost.ShowInputDialog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Input text. Null when canceled に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandHost_ShowInputDialog_Returns {
+            get {
+                return ResourceManager.GetString("CommandHost.ShowInputDialog#Returns", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Default text (optional) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandHost_ShowInputDialog_text {
+            get {
+                return ResourceManager.GetString("CommandHost.ShowInputDialog.text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Main text に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandHost_ShowInputDialog_title {
+            get {
+                return ResourceManager.GetString("CommandHost.ShowInputDialog.title", resourceCulture);
             }
         }
         

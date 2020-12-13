@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace NeeView
 {
@@ -102,8 +105,25 @@ namespace NeeView
                     break;
             }
             var result = dialog.ShowDialog(App.Current.MainWindow);
-            return (result == UICommands.Yes || result == UICommands.OK);
+            return result?.IsPositibe == true;
         }
+
+        [WordNodeMember]
+        public string ShowInputDialog(string title, string text = null)
+        {
+            return AppDispatcher.Invoke(() => ShowInputDialogIneer(title, text));
+        }
+
+        private string ShowInputDialogIneer(string title, string text)
+        {
+            var component = new InputDialogComponent(text);
+            var dialog = new MessageDialog(component, title);
+            dialog.Commands.Add(UICommands.OK);
+            dialog.Commands.Add(UICommands.Cancel);
+            var result = dialog.ShowDialog(App.Current.MainWindow);
+            return result?.IsPositibe == true ? component.Text : null;
+        }
+
 
         internal WordNode CreateWordNode(string name)
         {
@@ -123,6 +143,38 @@ namespace NeeView
             node.Children.Add(Navigator.CreateWordNode(nameof(Navigator)));
 
             return node;
+        }
+
+        
+        private class InputDialogComponent : IMessageDialogContentComponent
+        {
+            private TextBox _textBox;
+
+            public InputDialogComponent(string text)
+            {
+                _textBox = new TextBox() { Text = text ?? "", Padding = new Thickness(5.0) };
+                _textBox.PreviewKeyDown += TextBox_PreviewKeyDown;
+            }
+
+            private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+            {
+                if (e.Key == Key.Return)
+                {
+                    Decide?.Invoke(this, null);
+                }
+            }
+
+            public event EventHandler Decide;
+
+            public object Content => _textBox;
+
+            public string Text => _textBox.Text;
+
+            public void OnLoaded(object sender, RoutedEventArgs e)
+            {
+                _textBox.Focus();
+                _textBox.SelectAll();
+            }
         }
     }
 }

@@ -5770,7 +5770,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Selected items</value>
   </data>
   <data name="BookshelfPanelAccessor#Example" xml:space="preserve">
-    <value>// Example: Select an item that starts with "A"
+    <value>// Example: Select items that starts with "A"
 nv.Bookshelf.SelectedItems = nv.Bookshelf.Items.filter(e =&gt; e.Name.startsWith('A'))</value>
   </data>
   <data name="LayoutPanelAccessor.IsSelected" xml:space="preserve">
@@ -6219,5 +6219,17 @@ include("Sample.nvjs")</value>
   </data>
   <data name="ScriptReference" xml:space="preserve">
     <value>This section explains how to use NeeView-specific commands.</value>
+  </data>
+  <data name="CommandHost.ShowInputDialog" xml:space="preserve">
+    <value>Display the input dialog.</value>
+  </data>
+  <data name="CommandHost.ShowInputDialog.title" xml:space="preserve">
+    <value>Main text</value>
+  </data>
+  <data name="CommandHost.ShowInputDialog.text" xml:space="preserve">
+    <value>Default text (optional)</value>
+  </data>
+  <data name="CommandHost.ShowInputDialog#Returns" xml:space="preserve">
+    <value>Input text. Null when canceled</value>
   </data>
 </root>

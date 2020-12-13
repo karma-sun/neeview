@@ -35,6 +35,8 @@ namespace NeeView
 
         public UICommandAlignment Alignment { get; set; }
 
+        public bool IsPositibe { get; set; }
+
         public UICommand(string label)
         {
             this.Label = label;
@@ -46,8 +48,8 @@ namespace NeeView
     /// </summary>
     public static class UICommands
     {
-        public static UICommand OK { get; } = new UICommand(Properties.Resources.WordOK);
-        public static UICommand Yes { get; } = new UICommand(Properties.Resources.WordYes);
+        public static UICommand OK { get; } = new UICommand(Properties.Resources.WordOK) { IsPositibe = true };
+        public static UICommand Yes { get; } = new UICommand(Properties.Resources.WordYes) { IsPositibe = true };
         public static UICommand No { get; } = new UICommand(Properties.Resources.WordNo);
         public static UICommand Cancel { get; } = new UICommand(Properties.Resources.WordCancel);
         public static UICommand Delete { get; } = new UICommand(Properties.Resources.WordDelete);
@@ -58,32 +60,51 @@ namespace NeeView
         public static List<UICommand> OKCancel = new List<UICommand>() { OK, Cancel };
     }
 
+    /// <summary>
+    /// ContentのDI
+    /// </summary>
+    public interface IMessageDialogContentComponent
+    {
+        event EventHandler Decide;
+
+        object Content { get; }
+
+        void OnLoaded(object sender, RoutedEventArgs e);
+    }
 
     /// <summary>
     /// UWP の MessageDialogモドキ
     /// </summary>
     public partial class MessageDialog : Window, INotifyPropertyChanged
     {
-        // PropertyChanged
+        #region INotifyPropertyChanged Support
+
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
-        //
-        public List<UICommand> Commands { get; private set; } = new List<UICommand>();
+        protected bool SetProperty<T>(ref T storage, T value, [System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        {
+            if (object.Equals(storage, value)) return false;
+            storage = value;
+            this.RaisePropertyChanged(propertyName);
+            return true;
+        }
 
-        //
-        public int DefaultCommandIndex { get; set; }
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
 
-        //
-        public int CancelCommandIndex { get; set; } = -1;
+        public void AddPropertyChanged(string propertyName, PropertyChangedEventHandler handler)
+        {
+            PropertyChanged += (s, e) => { if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == propertyName) handler?.Invoke(s, e); };
+        }
 
-        //
+        #endregion
+
+
         private UICommand _resultCommand;
 
-        //
-        public static bool IsShowInTaskBar { get; set; } = true;
 
-        //
         public MessageDialog()
         {
             InitializeComponent();
@@ -95,7 +116,6 @@ namespace NeeView
             this.ShowInTaskbar = IsShowInTaskBar;
         }
 
-        //
         public MessageDialog(string message, string title) : this()
         {
             this.Title = title;
@@ -103,7 +123,6 @@ namespace NeeView
             this.Message.Content = CreateTextContent(message);
         }
 
-        //
         public MessageDialog(FrameworkElement content, string title) : this()
         {
             this.Title = title;
@@ -111,7 +130,26 @@ namespace NeeView
             this.Message.Content = content;
         }
 
-        //
+        public MessageDialog(IMessageDialogContentComponent component, string title) : this()
+        {
+            this.Title = title;
+            this.Caption.Text = title;
+            this.Message.Content = component.Content;
+
+            component.Decide += (s, e) => Decide();
+            this.Loaded += (s, e) => component.OnLoaded(s, e);
+        }
+
+
+        public List<UICommand> Commands { get; private set; } = new List<UICommand>();
+
+        public int DefaultCommandIndex { get; set; }
+
+        public int CancelCommandIndex { get; set; } = -1;
+
+        public static bool IsShowInTaskBar { get; set; } = true;
+
+
         private FrameworkElement CreateTextContent(string content)
         {
             return new TextBlock()
@@ -121,13 +159,11 @@ namespace NeeView
             };
         }
 
-        //
         private UICommand GetDefaultCommand()
         {
             return (DefaultCommandIndex >= 0 && DefaultCommandIndex < Commands.Count) ? Commands[DefaultCommandIndex] : null;
         }
 
-        //
         public UICommand ShowDialog(Window owner)
         {
             _resultCommand = null;
@@ -144,13 +180,18 @@ namespace NeeView
                 : (CancelCommandIndex >= 0 && CancelCommandIndex < Commands.Count) ? Commands[CancelCommandIndex] : null;
         }
 
-        //
+        private void Decide()
+        {
+            _resultCommand = Commands.FirstOrDefault(e => e.IsPositibe);
+            this.DialogResult = true;
+            this.Close();
+        }
+
         public new UICommand ShowDialog()
         {
             return ShowDialog(null);
         }
 
-        //
         private void InitializeButtons()
         {
             this.ButtonPanel.Children.Clear();
@@ -187,7 +228,6 @@ namespace NeeView
             }
         }
 
-        //
         private Button CreateButton(UICommand command, bool isDefault)
         {
             var button = new Button()
@@ -207,7 +247,6 @@ namespace NeeView
             return button;
         }
 
-        //
         private void MesageDialog_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)

@@ -6223,4 +6223,16 @@ include("Sample.nvjs")</value>
   <data name="ScriptReference" xml:space="preserve">
     <value>NeeView専用のスクリプト命令の使用方法を説明します。</value>
   </data>
+  <data name="CommandHost.ShowInputDialog" xml:space="preserve">
+    <value>入力ダイアログを表示します。</value>
+  </data>
+  <data name="CommandHost.ShowInputDialog.title" xml:space="preserve">
+    <value>主文</value>
+  </data>
+  <data name="CommandHost.ShowInputDialog.text" xml:space="preserve">
+    <value>既定のテキスト (省略可)</value>
+  </data>
+  <data name="CommandHost.ShowInputDialog#Returns" xml:space="preserve">
+    <value>入力されたテキスト。キャンセルされたときはnull</value>
+  </data>
 </root>

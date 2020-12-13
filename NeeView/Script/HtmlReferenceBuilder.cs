@@ -305,7 +305,7 @@ namespace NeeView
                 var name = property.DeclaringType.Name + "." + property.Name;
                 var attribute = property.GetCustomAttribute<DocumentableAttribute>();
                 var typeString = TypeToString(property.PropertyType) + (attribute.DocumentType != null ? $" ({TypeToString(attribute.DocumentType)})" : "");
-                var rw = property.CanWrite ? "RW" : "R";
+                var rw = (property.CanRead ? "r" : "") + (property.CanWrite ? "w" : "");
                 var summary = GetHtmlDocument(name, "");
 
                 dataTable.Rows.Add(property.Name, typeString, rw, summary);

@@ -111,15 +111,21 @@ namespace NeeView
         /// <param name="e"></param>
         private void Description_DragOver(object sender, DragEventArgs e)
         {
+            if (!e.Data.GetDataPresent(typeof(LayoutPanel)))
+            {
+                return;
+            }
+
             if (e.AllowedEffects.HasFlag(DragDropEffects.Move))
             {
-                if (e.Data.GetDataPresent(typeof(LayoutPanel)))
-                {
-                    e.Effects = DragDropEffects.Move;
-                    return;
-                }
+                e.Effects = DragDropEffects.Move;
+                e.Handled = true;
             }
-            e.Effects = DragDropEffects.None;
+            else
+            {
+                e.Effects = DragDropEffects.None;
+                e.Handled = true;
+            }
         }
     }
 }

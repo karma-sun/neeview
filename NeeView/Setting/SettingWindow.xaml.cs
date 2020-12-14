@@ -1,4 +1,5 @@
 ﻿using NeeView.Native;
+using NeeView.Windows;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -40,6 +41,9 @@ namespace NeeView.Setting
             InitializeComponent();
 
             Current = this;
+
+            DragDropHelper.AttachDragOverTerminator(this);
+
             this.Closing += SettingWindow_Closing;
             this.Closed += (s, e) => Current = null;
             this.KeyDown += SettingWindow_KeyDown;

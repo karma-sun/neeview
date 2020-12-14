@@ -62,6 +62,8 @@ namespace NeeView
 
             Current = this;
 
+            DragDropHelper.AttachDragOverTerminator(this);
+
             _windowChromeAccessor = new MainWindowChromeAccessor(this);
             _windowStateManager = new WindowStateManager(this, new WindowStateManagerDependency(_windowChromeAccessor, TabletModeWatcher.Current));
             _windowShape = new WindowShape(_windowStateManager, _windowChromeAccessor);

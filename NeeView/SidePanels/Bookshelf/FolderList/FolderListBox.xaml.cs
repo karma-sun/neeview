@@ -681,13 +681,12 @@ namespace NeeView
             await Task.CompletedTask;
         }
 
-        private void FolderList_DragEnter(object sender, DragEventArgs e)
+        private void FolderList_PreviewDragEnter(object sender, DragEventArgs e)
         {
-            FolderList_DragDrop(sender, e, false);
-            DragDropHelper.AutoScroll(sender, e);
+            FolderList_PreviewDragOver(sender, e);
         }
 
-        private void FolderList_DragOver(object sender, DragEventArgs e)
+        private void FolderList_PreviewDragOver(object sender, DragEventArgs e)
         {
             FolderList_DragDrop(sender, e, false);
             DragDropHelper.AutoScroll(sender, e);

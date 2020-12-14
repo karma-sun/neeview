@@ -631,17 +631,16 @@ namespace NeeView
             await Task.CompletedTask;
         }
 
-        private void TreeView_DragEnter(object sender, DragEventArgs e)
+        private void TreeView_PreviewDragEnter(object sender, DragEventArgs e)
         {
-            TreeView_DragDrop(sender, e, false);
-            DragDropHelper.AutoScroll(sender, e);
+            TreeView_PreviewDragOver(sender, e);
         }
 
-        private void TreeView_DragLeave(object sender, DragEventArgs e)
+        private void TreeView_PreviewDragLeave(object sender, DragEventArgs e)
         {
         }
 
-        private void TreeView_DragOver(object sender, DragEventArgs e)
+        private void TreeView_PreviewDragOver(object sender, DragEventArgs e)
         {
             TreeView_DragDrop(sender, e, false);
             DragDropHelper.AutoScroll(sender, e);
@@ -707,9 +706,6 @@ namespace NeeView
                         break;
                 }
             }
-
-            e.Effects = DragDropEffects.None;
-            e.Handled = true;
         }
 
 

@@ -25,7 +25,7 @@
         <DataTemplate DataType="{x:Type susie:SusiePluginInfo}" x:Key="SusiePlugin">
             <StackPanel Orientation="Horizontal">
                 <b:Interaction.Behaviors>
-                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="SusiePlugin" DragDropData="{Binding}" Target="{Binding ElementName=PluginList}" />
+                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{Binding Path=DataContext.DragDataFormat, ElementName=Root}" DragDropData="{Binding}" Target="{Binding ElementName=PluginList}" />
                 </b:Interaction.Behaviors>
                 <CheckBox VerticalAlignment="Center" IsChecked="{Binding IsEnabled}" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
                 <Grid Width="20" VerticalAlignment="Center" Margin="2">
@@ -53,8 +53,9 @@
             <Setter Property="ItemTemplate" Value="{StaticResource SusiePlugin}"/>
             <Setter Property="Margin" Value="0,2"/>
             <Setter Property="AllowDrop" Value="True"/>
-            <EventSetter Event="DragOver"  Handler="PluginListView_DragOver"/>
-            <EventSetter Event="Drop" Handler="PluginListView_Drop"/>
+            <EventSetter Event="PreviewDragOver" Handler="PluginListView_PreviewDragOver" />
+            <EventSetter Event="PreviewDragEnter" Handler="PluginListView_PreviewDragEnter" />
+            <EventSetter Event="Drop" Handler="PluginListView_Drop" />
         </Style>
 
 

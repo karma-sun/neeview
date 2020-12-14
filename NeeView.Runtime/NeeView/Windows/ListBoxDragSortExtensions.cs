@@ -22,18 +22,13 @@ namespace NeeView.Windows
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// <param name="format">データフォーマット</param>
-        public static void DragOver(object sender, DragEventArgs e, string format)
+        public static void PreviewDragOver(object sender, DragEventArgs e, string format)
         {
             if (e.Data.GetDataPresent(format))
             {
                 e.Effects = DragDropEffects.Move;
+                e.Handled = true;
             }
-            else
-            {
-                e.Effects = DragDropEffects.None;
-            }
-
-            e.Handled = true;
         }
 
 
@@ -74,6 +69,8 @@ namespace NeeView.Windows
             }
 
             items.Move(oldIndex, newIndex);
+
+            e.Handled = true;
         }
 
 
@@ -107,5 +104,4 @@ namespace NeeView.Windows
             return new DropInfo<T>(item, items.Last(), 1.0);
         }
     }
-
 }

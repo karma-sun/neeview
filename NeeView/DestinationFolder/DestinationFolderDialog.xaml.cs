@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Windows;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -30,6 +31,8 @@ namespace NeeView
             _vm.Owner = this;
             this.DataContext = _vm;
 
+            DragDropHelper.AttachDragOverTerminator(this);
+
             this.Closed += DestinationFolderDialog_Closed;
         }
 
@@ -58,18 +61,13 @@ namespace NeeView
             _vm.EditCommand.Execute(null);
         }
 
-        private void ItemsListView_DragOver(object sender, DragEventArgs e)
+        private void ItemsListView_PreviewDragOver(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop, true))
             {
                 e.Effects = e.Data.GetFileDrop().Any(x => Directory.Exists(x)) ? DragDropEffects.Copy : DragDropEffects.None;
+                e.Handled = true;
             }
-            else
-            {
-                e.Effects = DragDropEffects.None;
-            }
-
-            e.Handled = true;
         }
 
         private void ItemsListView_Drop(object sender, DragEventArgs e)

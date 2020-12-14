@@ -42,6 +42,8 @@ namespace NeeView.Runtime.LayoutPanel
 
             _windowCaptionEmulator = new LayoutPanelWindowCaptionEmulator(this, this.CaptionBar);
             _windowCaptionEmulator.IsEnabled = true;
+
+            DragDropHelper.AttachDragOverTerminator(this);
         }
 
         public LayoutPanelWindow(LayoutPanelWindowManager manager, LayoutPanel layoutPanel, WindowPlacement placement) : this()

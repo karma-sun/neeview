@@ -67,6 +67,8 @@ namespace NeeView.Setting
         {
             InitializeComponent();
 
+            this.DragDataFormat = "SusiePlugin." + pluginType.ToString();
+
             this.Root.DataContext = this;
 
             _pluginType = pluginType;
@@ -75,6 +77,12 @@ namespace NeeView.Setting
             this.PluginList.SetBinding(ListBox.ItemsSourceProperty, binding);
             this.PluginList.SetBinding(ListBox.TagProperty, binding);
         }
+
+        #endregion
+
+        #region Properties
+
+        public string DragDataFormat { get; private set; }
 
         #endregion
 
@@ -172,9 +180,14 @@ namespace NeeView.Setting
         #region Methods
 
         // プラグインリスト：ドロップ受付判定
-        private void PluginListView_DragOver(object sender, DragEventArgs e)
+        private void PluginListView_PreviewDragOver(object sender, DragEventArgs e)
         {
-            ListBoxDragSortExtension.DragOver(sender, e, "SusiePlugin");
+            ListBoxDragSortExtension.PreviewDragOver(sender, e, DragDataFormat);
+        }
+
+        private void PluginListView_PreviewDragEnter(object sender, DragEventArgs e)
+        {
+            PluginListView_PreviewDragOver(sender, e);
         }
 
         // プラグインリスト：ドロップ
@@ -183,7 +196,7 @@ namespace NeeView.Setting
             var list = (sender as ListBox).Tag as ObservableCollection<SusiePluginInfo>;
             if (list != null)
             {
-                ListBoxDragSortExtension.Drop<SusiePluginInfo>(sender, e, "SusiePlugin", list);
+                ListBoxDragSortExtension.Drop<SusiePluginInfo>(sender, e, DragDataFormat, list);
             }
         }
 

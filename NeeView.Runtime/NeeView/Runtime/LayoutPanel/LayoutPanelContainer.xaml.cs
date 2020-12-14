@@ -74,9 +74,9 @@ namespace NeeView.Runtime.LayoutPanel
         {
             _adorner = _adorner ?? new LayoutPanelContainerAdorner(this);
 
-            this.DragOver += LayoutPanelContainer_DragOver;
-            this.DragEnter += LayoutPanelContainer_DragEnter;
-            this.DragLeave += LayoutPanelContainer_DragLeave;
+            this.PreviewDragOver += LayoutPanelContainer_PreviewDragOver;
+            this.PreviewDragEnter += LayoutPanelContainer_PreviewDragEnter;
+            this.PreviewDragLeave += LayoutPanelContainer_PreviewDragLeave;
             this.Drop += LayoutPanelContainer_Drop;
             this.AllowDrop = true;
         }
@@ -119,7 +119,10 @@ namespace NeeView.Runtime.LayoutPanel
             _adorner.Detach();
 
             var content = (LayoutPanel)e.Data.GetData(typeof(LayoutPanel));
-            if (content is null) return;
+            if (content is null)
+            {
+                return;
+            }
 
             e.Handled = true;
 
@@ -163,10 +166,15 @@ namespace NeeView.Runtime.LayoutPanel
         }
 
 
-        private void LayoutPanelContainer_DragOver(object sender, DragEventArgs e)
+        private void LayoutPanelContainer_PreviewDragOver(object sender, DragEventArgs e)
         {
             var content = (LayoutPanel)e.Data.GetData(typeof(LayoutPanel));
-            if (content is null || content == this.LayoutPanel)
+            if (content is null)
+            {
+                return;
+            }
+                
+            if (content == this.LayoutPanel)
             {
                 e.Effects = DragDropEffects.None;
                 e.Handled = true;
@@ -192,17 +200,22 @@ namespace NeeView.Runtime.LayoutPanel
 
             _adorner.Attach();
 
-            Debug.WriteLine($"AllowDrag:Move");
+            ////Debug.WriteLine($"AllowDrag:Move");
 
             e.Effects = DragDropEffects.Move;
             e.Handled = true;
         }
 
 
-        private void LayoutPanelContainer_DragLeave(object sender, DragEventArgs e)
+        private void LayoutPanelContainer_PreviewDragLeave(object sender, DragEventArgs e)
         {
             var content = (LayoutPanel)e.Data.GetData(typeof(LayoutPanel));
-            if (content is null || content == this.LayoutPanel)
+            if (content is null)
+            {
+                return;
+            }
+
+            if (content == this.LayoutPanel)
             {
                 e.Effects = DragDropEffects.None;
             }
@@ -215,9 +228,9 @@ namespace NeeView.Runtime.LayoutPanel
             e.Handled = true;
         }
 
-        private void LayoutPanelContainer_DragEnter(object sender, DragEventArgs e)
+        private void LayoutPanelContainer_PreviewDragEnter(object sender, DragEventArgs e)
         {
-            LayoutPanelContainer_DragOver(sender, e);
+            LayoutPanelContainer_PreviewDragOver(sender, e);
         }
 
         private static Dock GetLayoutDockFromPosY(double y, double height)

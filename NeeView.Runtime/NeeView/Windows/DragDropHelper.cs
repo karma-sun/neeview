@@ -59,5 +59,22 @@ namespace NeeView.Windows
                 scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset + offset);
             }
         }
+
+        /// <summary>
+        /// DragOver,DragEnterを無効にする終端処理を設定
+        /// </summary>
+        /// <param name="element"></param>
+        public static void AttachDragOverTerminator(FrameworkElement element)
+        {
+            element.AllowDrop = true;
+            element.DragOver += Element_DragOverTerminator;
+            element.DragEnter += Element_DragOverTerminator;
+
+            void Element_DragOverTerminator(object sender, DragEventArgs e)
+            {
+                e.Effects = DragDropEffects.None;
+                e.Handled = true;
+            }
+        }
     }
 }

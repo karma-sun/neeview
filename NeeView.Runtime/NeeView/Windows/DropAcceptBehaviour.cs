@@ -70,8 +70,8 @@ namespace NeeView.Windows
         /// </summary>
         protected override void OnAttached()
         {
-            this.AssociatedObject.DragEnter += DragOverHandler;
-            this.AssociatedObject.DragOver += DragOverHandler;
+            this.AssociatedObject.PreviewDragEnter += DragOverHandler;
+            this.AssociatedObject.PreviewDragOver += DragOverHandler;
             this.AssociatedObject.Drop += DropHandler;
             base.OnAttached();
         }
@@ -81,8 +81,8 @@ namespace NeeView.Windows
         /// </summary>
         protected override void OnDetaching()
         {
-            this.AssociatedObject.DragEnter -= DragOverHandler;
-            this.AssociatedObject.DragOver -= DragOverHandler;
+            this.AssociatedObject.PreviewDragEnter -= DragOverHandler;
+            this.AssociatedObject.PreviewDragOver -= DragOverHandler;
             this.AssociatedObject.Drop -= DropHandler;
             base.OnDetaching();
         }
@@ -97,12 +97,9 @@ namespace NeeView.Windows
             var desc = this.Description;
             if (desc == null)
             {
-                e.Effects = DragDropEffects.None;
-                e.Handled = true;
                 return;
             }
             desc.OnDragOver(e);
-            e.Handled = true;
         }
 
         /// <summary>
@@ -113,12 +110,9 @@ namespace NeeView.Windows
             var desc = this.Description;
             if (desc == null)
             {
-                e.Effects = DragDropEffects.None;
-                e.Handled = true;
                 return;
             }
             desc.OnDrop(e);
-            e.Handled = true;
         }
     }
 }

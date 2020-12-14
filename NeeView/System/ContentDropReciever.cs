@@ -53,23 +53,19 @@ namespace NeeView
 
         public void SetDragDropEvent(FrameworkElement sender)
         {
-            sender.DragEnter += Element_DragOver;
-            sender.DragOver += Element_DragOver;
+            sender.PreviewDragEnter += Element_PreviewDragOver;
+            sender.PreviewDragOver += Element_PreviewDragOver;
             sender.Drop += Element_Drop;
         }
 
         // ドラッグ＆ドロップ前処理
-        private void Element_DragOver(object sender, DragEventArgs e)
+        private void Element_PreviewDragOver(object sender, DragEventArgs e)
         {
-            if (!NowLoading.Current.IsDispNowLoading && CheckDragContent(sender, e.Data))
+            if (CheckDragContent(sender, e.Data))
             {
-                e.Effects = DragDropEffects.Copy;
+                e.Effects = NowLoading.Current.IsDispNowLoading ? DragDropEffects.None : DragDropEffects.Copy;
+                e.Handled = true;
             }
-            else
-            {
-                e.Effects = DragDropEffects.None;
-            }
-            e.Handled = true;
         }
 
         // ドラッグ＆ドロップで処理を開始する

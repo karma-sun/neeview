@@ -28,6 +28,9 @@ $framework = 'net48'
 #
 $Win10SDK = "C:\Program Files (x86)\Windows Kits\10\bin\10.0.17763.0\x64"
 
+#
+$cersPath = "$env:USERPROFILE\source\cers"
+
 
 #---------------------
 # get fileversion
@@ -555,6 +558,8 @@ function New-Msi($arch, $packageDir, $packageAppendDir, $packageMsi)
 # Appx 
 function New-Appx($arch, $packageDir, $packageAppendDir, $appx)
 {
+
+
 	$packgaeFilesDir = "$packageAppendDir/PackageFiles"
 	$contentDir = "$packgaeFilesDir/NeeView"
 
@@ -570,7 +575,7 @@ function New-Appx($arch, $packageDir, $packageAppendDir, $appx)
 	New-Readme $contentDir "ja-jp" ".appx"
 
 
-	. Appx/_Parameter.ps1
+	. $cersPath/_Parameter.ps1
 	$param = Get-AppxParameter
 	$appxName = $param.name
 	$appxPublisher = $param.publisher
@@ -592,7 +597,7 @@ function New-Appx($arch, $packageDir, $packageAppendDir, $appx)
 	}
 
 	# signing
-	& "$Win10SDK\signtool.exe" sign -f "Appx/_neeview.pfx" -fd SHA256 -v "$appx"
+	& "$Win10SDK\signtool.exe" sign -f "$cersPath/_neeview.pfx" -fd SHA256 -v "$appx"
 	if ($? -ne $true)
 	{
 		throw "signtool.exe error"
@@ -742,7 +747,7 @@ function Build-Appx
 {
 	Write-Host "`n[Appx] ...`n" -fore Cyan
 
-	if (Test-Path "Appx/_Parameter.ps1")
+	if (Test-Path "$cersPath\_Parameter.ps1")
 	{
 		New-Appx "x64" $packageDir_x64 $packageAppxDir_x64 $packageX64Appx
 		Write-Host "`nExport $packageX64Appx successed.`n" -fore Green

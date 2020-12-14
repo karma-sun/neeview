@@ -109,7 +109,7 @@ namespace NeeView
             {
                 if (IsCanaryPackage)
                 {
-                    return $"Canary {DateVersion} / Rev. {Revision}" ;
+                    return $"Canary {DateVersion} / Rev. {Revision}";
                 }
                 else if (IsBetaPackage)
                 {
@@ -139,7 +139,8 @@ namespace NeeView
                     // configファイルの設定で LocalApplicationData を使用するかを判定。インストール版用
                     if (IsUseLocalApplicationDataFolder)
                     {
-                        _localApplicationDataPath = GetFileSystemPath(System.Environment.SpecialFolder.LocalApplicationData, true);
+                        _localApplicationDataPath = GetLocalAppDataPath();
+                        CreateFolder(_localApplicationDataPath);
                     }
                     else
                     {
@@ -207,7 +208,7 @@ namespace NeeView
                 return _packageType;
             }
         }
-        
+
         public static bool IsDevPackage => PackageType == ".dev";
         public static bool IsZipPackage => PackageType == ".zip";
         public static bool IsMsiPackage => PackageType == ".msi";
@@ -344,35 +345,49 @@ namespace NeeView
             return path;
         }
 
+
         /// <summary>
-        /// フォルダーパス生成(特殊フォルダー用)
+        /// フォルダー生成
         /// </summary>
-        /// <param name="folder"></param>
-        /// <returns></returns>
-        public static string GetFileSystemPath(System.Environment.SpecialFolder folder, bool createFolder)
+        private static void CreateFolder(string path)
         {
-            string path = System.IO.Path.Combine(System.Environment.GetFolderPath(folder), CompanyName, SolutionName);
-
-            if (IsAppxPackage)
-            {
-                path += ".a"; // 既存の設定を一切引き継がない
-            }
-
-            if (createFolder && !Directory.Exists(path))
+            if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
             }
-            return path;
         }
 
-        private static string GetFileSystemCompanyPath(System.Environment.SpecialFolder folder, bool createFolder)
+        /// <summary>
+        /// AppDataのアプリ用ローカルフォルダーのパスを取得
+        /// </summary>
+        public static string GetLocalAppDataPath()
         {
-            string path = System.IO.Path.Combine(System.Environment.GetFolderPath(folder), CompanyName);
-            if (createFolder && !Directory.Exists(path))
+            if (IsAppxPackage)
             {
-                Directory.CreateDirectory(path);
+                return System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), CompanyName + "-" + SolutionName);
             }
-            return path;
+            else
+            {
+                return System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), CompanyName, SolutionName);
+            }
+        }
+
+        /// <summary>
+        /// AppDataのカンパニーフォルダーのパスを取得
+        /// </summary>
+        /// <remarks>
+        /// Appxではカンパニーフォルダーは存在しないのでnullになる
+        /// </remarks>
+        private static string GetLocalAppDataCompanyPath()
+        {
+            if (IsAppxPackage)
+            {
+                return null;
+            }
+            else
+            {
+                return System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), CompanyName);
+            }
         }
 
         // 全ユーザデータ削除
@@ -412,18 +427,57 @@ namespace NeeView
 
             Debug.WriteLine("RemoveAllApplicationData ...");
 
-            var productFolder = GetFileSystemPath(System.Environment.SpecialFolder.LocalApplicationData, false);
-            Directory.Delete(LocalApplicationDataPath, true);
+            var productFolder = GetLocalAppDataPath();
+            Directory.Delete(productFolder, true);
             System.Threading.Thread.Sleep(500);
 
-            var companyFolder = GetFileSystemCompanyPath(System.Environment.SpecialFolder.LocalApplicationData, false);
-            if (Directory.GetFileSystemEntries(companyFolder).Length == 0)
+            var companyFolder = GetLocalAppDataCompanyPath();
+            if (companyFolder != null)
             {
-                Directory.Delete(companyFolder);
+                if (Directory.GetFileSystemEntries(companyFolder).Length == 0)
+                {
+                    Directory.Delete(companyFolder);
+                }
             }
 
             Debug.WriteLine("RemoveAllApplicationData done.");
             return true;
+        }
+
+
+        /// <summary>
+        /// APPXデータフォルダー移動 (ver.38)
+        /// </summary>
+        /// <remarks>
+        /// これまでの NeeLaboratory\NeeView.a では NeeLaboratory フォルダーがインストール前に存在していると NeeView.a がアンインストールでも消えないため、
+        /// ver.38からの専用のフォルダー NeeLaboratory-NeeView に移動させる。
+        /// アプリ専用の仮想フォルダとして生成されるため、アンインストールで自動削除される
+        /// </remarks>
+        public static void CoorectLocalAppDataFolder()
+        {
+            // this function is spoort Appx only.
+            if (!IsAppxPackage) return;
+            if (!IsUseLocalApplicationDataFolder) return;
+
+            try
+            {
+                string oldPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), CompanyName, SolutionName) + ".a";
+                string newPath = GetLocalAppDataPath();
+
+                // if already exist new path, exit.
+                if (Directory.Exists(newPath)) return;
+
+                // if old path not exist, exit
+                var directory = new DirectoryInfo(oldPath);
+                if (!directory.Exists) return;
+
+                // move ... OK?
+                directory.MoveTo(newPath);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(nameof(CoorectLocalAppDataFolder) +" failed: " + ex.Message);
+            }
         }
     }
 }

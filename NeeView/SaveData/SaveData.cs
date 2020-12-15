@@ -21,6 +21,10 @@ namespace NeeView
         private string _bookmarkFilenameToDelete;
         private string _pagemarkFilenameToDelete;
 
+        // 設定のバックアップを１起動に付き１回に制限するフラグ
+        private bool _keepBackup = false;
+
+
         private SaveData()
         {
         }
@@ -73,7 +77,7 @@ namespace NeeView
 
                 if (extension == ".json" && File.Exists(filename))
                 {
-                    setting = SafetyLoad(UserSettingTools.Load, filename, failedDialog, true);
+                    setting = SafetyLoad(UserSettingTools.Load, filename, failedDialog, true, LoadUserSettingBackupCallback);
                 }
                 // before v.37
                 else if (File.Exists(filenameV1))
@@ -108,6 +112,11 @@ namespace NeeView
             }
 
             return setting;
+        }
+
+        private void LoadUserSettingBackupCallback()
+        {
+            _keepBackup = true;
         }
 
 
@@ -227,12 +236,12 @@ namespace NeeView
         /// エラー時にはダイアログ表示。選択によってはOperationCancelExceptionを発生させる。
         /// </summary>
         /// <param name="useDefault">データが読み込めなかった場合に初期化されたインスタンスを返す。falseの場合はnullを返す</param>
-        private T SafetyLoad<T>(Func<string, T> load, string path, LoadFailedDialog loadFailedDialog, bool useDefault = false)
+        private T SafetyLoad<T>(Func<string, T> load, string path, LoadFailedDialog loadFailedDialog, bool useDefault = false, Action loadBackupCallback = null)
             where T : class, new()
         {
             try
             {
-                var instance = SafetyLoad(load, path);
+                var instance = SafetyLoad(load, path, loadBackupCallback);
                 return (instance is null && useDefault) ? new T() : instance;
             }
             catch (Exception ex)
@@ -254,7 +263,7 @@ namespace NeeView
         /// <summary>
         /// 正規ファイルの読み込みに失敗したらバックアップからの復元を試みる
         /// </summary>
-        private T SafetyLoad<T>(Func<string, T> load, string path)
+        private T SafetyLoad<T>(Func<string, T> load, string path, Action loadBackupCallback)
             where T : class, new()
         {
             var old = path + ".bak";
@@ -269,6 +278,7 @@ namespace NeeView
                 {
                     if (File.Exists(old))
                     {
+                        loadBackupCallback?.Invoke();
                         return load(old);
                     }
                     else
@@ -301,13 +311,14 @@ namespace NeeView
             try
             {
                 App.Current.SemaphoreWait();
-                SafetySave(UserSettingTools.Save, App.Current.Option.SettingFilename, Config.Current.System.IsSettingBackup);
+                SafetySave(UserSettingTools.Save, App.Current.Option.SettingFilename, Config.Current.System.IsSettingBackup, _keepBackup);
             }
             catch
             {
             }
             finally
             {
+                _keepBackup = true;
                 App.Current.SemaphoreRelease();
             }
 
@@ -384,7 +395,7 @@ namespace NeeView
                         Debug.WriteLine(ex.Message);
                     }
 
-                    SafetySave(bookHistoryMemento.Save, HistoryFilePath, false);
+                    SafetySave(bookHistoryMemento.Save, HistoryFilePath, false, false);
                 }
                 else
                 {
@@ -425,7 +436,7 @@ namespace NeeView
             {
                 App.Current.SemaphoreWait();
                 var bookmarkMemento = BookmarkCollection.Current.CreateMemento();
-                SafetySave(bookmarkMemento.Save, BookmarkFilePath, false);
+                SafetySave(bookmarkMemento.Save, BookmarkFilePath, false, false);
             }
             catch
             {
@@ -483,7 +494,7 @@ namespace NeeView
             {
                 App.Current.SemaphoreWait();
                 var pagemarkMemento = PagemarkCollection.Current.CreateMemento();
-                SafetySave(pagemarkMemento.Save, PagemarkFilePath, false);
+                SafetySave(pagemarkMemento.Save, PagemarkFilePath, false, false);
             }
             catch
             {
@@ -533,11 +544,15 @@ namespace NeeView
         /// <summary>
         /// アプリ強制終了でもファイルがなるべく破壊されないような保存
         /// </summary>
-        private void SafetySave(Action<string> save, string path, bool isBackup)
+        /// <param name="save">SAVE関数</param>
+        /// <param name="path">保存ファイル名</param>
+        /// <param name="isBackup">バックアップを作る。falseの場合はバックアップファイル削除</param>
+        /// <param name="keepBackup">バックアップファイルは変更しない</param>
+        private void SafetySave(Action<string> save, string path, bool isBackup, bool keepBackup)
         {
             try
             {
-                var oldPath = path + ".bak";
+                var backupPath = path + ".bak";
                 var tmpPath = path + ".tmp";
 
                 FileIO.RemoveFile(tmpPath);
@@ -550,15 +565,22 @@ namespace NeeView
 
                     if (oldFile.Exists)
                     {
-                        FileIO.RemoveFile(oldPath);
-                        oldFile.MoveTo(oldPath);
+                        if (keepBackup)
+                        {
+                            oldFile.Delete();
+                        }
+                        else
+                        {
+                            FileIO.RemoveFile(backupPath);
+                            oldFile.MoveTo(backupPath);
+                        }
                     }
 
                     newFile.MoveTo(path);
 
                     if (!isBackup)
                     {
-                        FileIO.RemoveFile(oldPath);
+                        FileIO.RemoveFile(backupPath);
                     }
                 }
             }

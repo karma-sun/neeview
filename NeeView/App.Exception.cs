@@ -65,6 +65,8 @@ namespace NeeView
                     return;
                 }
 
+                SaveData.Current.IsEnableSave = false; // 保存禁止
+
                 string errorLog;
                 using (var writer = new StringWriter())
                 {

@@ -17,8 +17,8 @@ namespace NeeView
         private bool _mouseActivateAndEat;
         private bool _isAeroSnapPlacementEnabled = true;
         private bool _isAutoHideInNormal = false;
-        private bool _isAutoHideInMaximized = true;
-        private bool _IsAutoHideInFullScreen = false;
+        private bool _isAutoHideInMaximized = false;
+        private bool _IsAutoHideInFullScreen = true;
 
 
         [PropertyMember("@ParamWindowShapeChromeFrame")]

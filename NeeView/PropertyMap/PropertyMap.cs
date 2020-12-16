@@ -75,6 +75,7 @@ namespace NeeView
             foreach (var property in type.GetProperties(BindingFlags.Public | BindingFlags.Instance).OrderBy(e => e.Name))
             {
                 if (property.GetCustomAttribute(typeof(PropertyMapIgnoreAttribute)) != null) continue;
+                if (property.GetCustomAttribute(typeof(ObsoleteAttribute)) != null) continue;
 
                 var nameAttribute = (PropertyMapNameAttribute)property.GetCustomAttribute(typeof(PropertyMapNameAttribute));
                 var key = nameAttribute?.Name ?? property.Name;

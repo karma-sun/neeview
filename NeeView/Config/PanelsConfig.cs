@@ -3,6 +3,7 @@ using NeeView.Runtime.LayoutPanel;
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using System.Windows;
 
 namespace NeeView
@@ -12,7 +13,7 @@ namespace NeeView
         private bool _isHidePanel;
         private bool _isSideBarEnabled = true;
         private double _opacity = 1.0;
-        private bool _isHidePanelInFullscreen = true;
+        private bool _isHidePanelInAutoHideMode = true;
         private string _fontName = SystemFonts.MessageFontFamily.Source;
         private double _fontSize = 15.0;
         private double _folderTreeFontSize = 12.0;
@@ -20,7 +21,6 @@ namespace NeeView
         private bool _openWithDoubleClick;
         private bool _isLeftRightKeyEnabled;
         private bool _isManipulationBoundaryFeedbackEnabled;
-        private Dictionary<string, PanelDock> _panelDocks;
         private double _mouseWheelSpeedRate = 1.0;
         private double _leftPanelWidth = 300.0;
         private double _rightPanelWidth = 300.0;
@@ -33,6 +33,16 @@ namespace NeeView
         {
             get { return _isHidePanel; }
             set { SetProperty(ref _isHidePanel, value); }
+        }
+
+        /// <summary>
+        /// パネルを自動的に隠す(自動非表示モード)
+        /// </summary>
+        [PropertyMember("@PanelsConfig.IsHidePanelInAutoHideMode")]
+        public bool IsHidePanelInAutoHideMode
+        {
+            get { return _isHidePanelInAutoHideMode; }
+            set { SetProperty(ref _isHidePanelInAutoHideMode, value); }
         }
 
         /// <summary>
@@ -53,16 +63,6 @@ namespace NeeView
         {
             get { return _opacity; }
             set { SetProperty(ref _opacity, value); }
-        }
-
-        /// <summary>
-        /// フルスクリーン時にパネルを隠す
-        /// </summary>
-        [PropertyMember("@ParamIsHidePanelInFullscreen")]
-        public bool IsHidePanelInFullscreen
-        {
-            get { return _isHidePanelInFullscreen; }
-            set { SetProperty(ref _isHidePanelInFullscreen, value); }
         }
 
         /// <summary>
@@ -158,25 +158,6 @@ namespace NeeView
 
         #region HiddenParameters
 
-        [Obsolete] // ver.38
-        [PropertyMapIgnore]
-        [ObjectMergeReferenceCopy]
-        public Dictionary<string, PanelDock> PanelDocks
-        {
-            get { return _panelDocks; }
-            set { SetProperty(ref _panelDocks, value); }
-        }
-
-        [Obsolete] // ver.38
-        [PropertyMapIgnore]
-        [ObjectMergeIgnore]
-        public string LeftPanelSeleted { get; set; }
-
-        [Obsolete] // ver.38
-        [PropertyMapIgnore]
-        [ObjectMergeIgnore]
-        public string RightPanelSeleted { get; set; }
-
         [PropertyMapIgnore]
         [ObjectMergeIgnore]
         public double LeftPanelWidth
@@ -199,6 +180,32 @@ namespace NeeView
         public LayoutPanelManager.Memento Layout { get; set; }
 
         #endregion HiddenParameters
+
+
+        #region Obsolete
+
+        [Obsolete] // ver.38
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public bool IsHidePanelInFullscreen
+        {
+            get { return default; }
+            set { IsHidePanelInAutoHideMode = value; }
+        }
+
+        [Obsolete] // ver.38
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public Dictionary<string, PanelDock> PanelDocks { get; set; }
+
+        [Obsolete] // ver.38
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string LeftPanelSeleted { get; set; }
+
+        [Obsolete] // ver.38
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string RightPanelSeleted { get; set; }
+
+        #endregion Obsolete
+
     }
 
     public enum PanelDock

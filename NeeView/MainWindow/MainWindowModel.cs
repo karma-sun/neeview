@@ -212,17 +212,17 @@ namespace NeeView
                 RefreshCanVisibleWindowTitle();
             });
 
-            Config.Current.Slider.AddPropertyChanged(nameof(SliderConfig.IsHidePageSliderInFullscreen), (s, e) =>
+            Config.Current.Slider.AddPropertyChanged(nameof(SliderConfig.IsHidePageSliderInAutoHideMode), (s, e) =>
             {
                 RefreshCanHidePageSlider();
             });
 
-            Config.Current.Panels.AddPropertyChanged(nameof(PanelsConfig.IsHidePanelInFullscreen), (s, e) =>
+            Config.Current.Panels.AddPropertyChanged(nameof(PanelsConfig.IsHidePanelInAutoHideMode), (s, e) =>
             {
                 RefreshCanHidePanel();
             });
 
-            Config.Current.MenuBar.AddPropertyChanged(nameof(MenuBarConfig.IsHideMenuInFullscreen), (s, e) =>
+            Config.Current.MenuBar.AddPropertyChanged(nameof(MenuBarConfig.IsHideMenuInAutoHideMode), (s, e) =>
             {
                 RefreshCanHideMenu();
             });
@@ -279,17 +279,17 @@ namespace NeeView
 
         private void RefreshCanHideMenu()
         {
-            CanHideMenu = Config.Current.MenuBar.IsHideMenu || (Config.Current.MenuBar.IsHideMenuInFullscreen && _windowShape.AutoHideMode);
+            CanHideMenu = Config.Current.MenuBar.IsHideMenu || (Config.Current.MenuBar.IsHideMenuInAutoHideMode && _windowShape.AutoHideMode);
         }
 
         private void RefreshCanHidePageSlider()
         {
-            CanHidePageSlider = Config.Current.Slider.IsHidePageSlider || (Config.Current.Slider.IsHidePageSliderInFullscreen && _windowShape.AutoHideMode);
+            CanHidePageSlider = Config.Current.Slider.IsHidePageSlider || (Config.Current.Slider.IsHidePageSliderInAutoHideMode && _windowShape.AutoHideMode);
         }
 
         public void RefreshCanHidePanel()
         {
-            CanHidePanel = Config.Current.Panels.IsHidePanel || (Config.Current.Panels.IsHidePanelInFullscreen && _windowShape.AutoHideMode);
+            CanHidePanel = Config.Current.Panels.IsHidePanel || (Config.Current.Panels.IsHidePanelInAutoHideMode && _windowShape.AutoHideMode);
         }
 
         public bool ToggleHideMenu()
@@ -646,9 +646,9 @@ namespace NeeView
                 // ContextMenuの復元は上位階層で行っている
 
                 config.Slider.Opacity = SliderOpacity;
-                config.Slider.IsHidePageSliderInFullscreen = IsHidePageSliderInFullscreen;
+                config.Slider.IsHidePageSliderInAutoHideMode = IsHidePageSliderInFullscreen;
                 config.WindowTittle.IsMainViewDisplayEnabled = IsVisibleWindowTitle;
-                config.Panels.IsHidePanelInFullscreen = IsHidePanelInFullscreen;
+                config.Panels.IsHidePanelInAutoHideMode = IsHidePanelInFullscreen;
                 config.Mouse.IsCursorHideEnabled = IsCursorHideEnabled;
                 config.Mouse.CursorHideTime = CursorHideTime;
                 config.Mouse.IsCursorHideReleaseAction = IsCursorHideReleaseAction;

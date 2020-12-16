@@ -12,9 +12,7 @@ namespace NeeView
         private bool _IsVisibleItemsCount;
         private bool _isVisibleHistoryMark = true;
         private bool _isVisibleBookmarkMark = true;
-        private bool _isPlacedInBookshelf = true;
         private string _excludePattern;
-        private bool _isPageListVisible;
         private bool _isSyncFolderTree;
         private bool _isCloseBookWhenMove;
         private bool _isOpenNextBookWhenRemove = true;
@@ -76,25 +74,6 @@ namespace NeeView
         {
             get { return _isSyncFolderTree; }
             set { SetProperty(ref _isSyncFolderTree, value); }
-        }
-
-        /// <summary>
-        /// ページリストをドッキング
-        /// </summary>
-        [Obsolete] // ver.38
-        [PropertyMember("@ParamPageListPlacementInBookshelf", Tips = "@ParamPageListPlacementInBookshelfTips")]
-        public bool IsPageListDocked
-        {
-            get { return _isPlacedInBookshelf; }
-            set { SetProperty(ref _isPlacedInBookshelf, value); }
-        }
-
-        [Obsolete] // ver.38
-        [PropertyMember("@ParamBookshelfPageListVisible")]
-        public bool IsPageListVisible
-        {
-            get { return _isPageListVisible; }
-            set { SetProperty(ref _isPageListVisible, value); }
         }
 
         /// <summary>
@@ -210,17 +189,39 @@ namespace NeeView
 
 
 
-#region 非公開パラメーター
+        #region 非公開パラメーター
+
+
+#if false
+        /// <summary>
+        /// ページリストをドッキング
+        /// </summary>
+        [Obsolete] // ver.38
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public bool IsPageListDocked
+        {
+            get { return _isPlacedInBookshelf; }
+            set { SetProperty(ref _isPlacedInBookshelf, value); }
+        }
 
         [Obsolete] // ver.38
-        [PropertyMapIgnore]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public bool IsPageListVisible
+        {
+            get { return _isPageListVisible; }
+            set { SetProperty(ref _isPageListVisible, value); }
+        }
+
+        [Obsolete] // ver.38
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public GridLength GridLength0 { get; set; } = new GridLength(1, GridUnitType.Star);
 
         [Obsolete] // ver.38
-        [PropertyMapIgnore]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public GridLength GridLength2 { get; set; } = new GridLength(1, GridUnitType.Star);
+#endif
 
-#endregion
+        #endregion
 
     }
 

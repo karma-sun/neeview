@@ -1,5 +1,6 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
+using System;
 using System.Text.Json.Serialization;
 
 namespace NeeView
@@ -12,7 +13,7 @@ namespace NeeView
         private SliderIndexLayout _sliderIndexLayout = SliderIndexLayout.Right;
         private SliderDirection _sliderDirection = SliderDirection.SyncBookReadDirection;
         private bool _isSliderLinkedFilmStrip = true;
-        private bool _isHidePageSliderInFullscreen = true;
+        private bool _isHidePageSliderInAutoHideMode = true;
         private bool _isSyncPageMode;
 
 
@@ -31,6 +32,16 @@ namespace NeeView
         {
             get { return _isIsHidePageSlider; }
             set { SetProperty(ref _isIsHidePageSlider, value); }
+        }
+
+        /// <summary>
+        /// スライダーを自動的に隠す(自動非表示モード)
+        /// </summary>
+        [PropertyMember("@SliderConfig.IsHidePageSliderInAutoHideMode")]
+        public bool IsHidePageSliderInAutoHideMode
+        {
+            get { return _isHidePageSliderInAutoHideMode; }
+            set { SetProperty(ref _isHidePageSliderInAutoHideMode, value); }
         }
 
         // スライダー透明度
@@ -73,16 +84,6 @@ namespace NeeView
         }
 
         /// <summary>
-        /// フルスクリーン時にスライダーを隠す
-        /// </summary>
-        [PropertyMember("@ParamIsHidePageSliderInFullscreen")]
-        public bool IsHidePageSliderInFullscreen
-        {
-            get { return _isHidePageSliderInFullscreen; }
-            set { SetProperty(ref _isHidePageSliderInFullscreen, value); }
-        }
-
-        /// <summary>
         /// スライダーの移動量をページモードに従う
         /// </summary>
         [PropertyMember("@ParamSliderIsSyncPageMode")]
@@ -92,5 +93,17 @@ namespace NeeView
             set { SetProperty(ref _isSyncPageMode, value); }
         }
 
+
+        #region Obsolete
+
+        [Obsolete] // ver.38
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public bool IsHidePageSliderInFullscreen
+        {
+            get { return default; }
+            set { IsHidePageSliderInAutoHideMode = value; }
+        }
+
+        #endregion Obsoletet
     }
 }

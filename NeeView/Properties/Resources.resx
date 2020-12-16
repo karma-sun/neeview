@@ -3866,12 +3866,6 @@ Initialize the temporary location.</value>
   <data name="ParamIsHiddenFileVisibled" xml:space="preserve">
     <value>Show hidden files</value>
   </data>
-  <data name="ParamIsHidePageSliderInFullscreen" xml:space="preserve">
-    <value>Automatically hide the slider when it is auto-hide mode</value>
-  </data>
-  <data name="ParamIsHidePanelInFullscreen" xml:space="preserve">
-    <value>Automatically hide the side panel when it is auto-hide mode</value>
-  </data>
   <data name="ParamIsIgnoreImageDpi" xml:space="preserve">
     <value>Dot-by-dot display of image</value>
   </data>
@@ -6232,7 +6226,7 @@ include("Sample.nvjs")</value>
   <data name="CommandHost.ShowInputDialog#Returns" xml:space="preserve">
     <value>Input text. Null when canceled</value>
   </data>
-  <data name="MenuBarConfig.IsHideMenuInFullscreen" xml:space="preserve">
+  <data name="MenuBarConfig.IsHideMenuInAutoHideMode" xml:space="preserve">
     <value>Automatically hide the menu when it is auto-hide mode</value>
   </data>
   <data name="WindowStateEx.None" xml:space="preserve">
@@ -6264,5 +6258,11 @@ include("Sample.nvjs")</value>
   </data>
   <data name="WindowConfig.IsAutoHideInFullScreen" xml:space="preserve">
     <value>Apply auto-hide mode in full screen</value>
+  </data>
+  <data name="PanelsConfig.IsHidePanelInAutoHideMode" xml:space="preserve">
+    <value>Automatically hide the side panel when it is auto-hide mode</value>
+  </data>
+  <data name="SliderConfig.IsHidePageSliderInAutoHideMode" xml:space="preserve">
+    <value>Automatically hide the slider when it is auto-hide mode</value>
   </data>
 </root>

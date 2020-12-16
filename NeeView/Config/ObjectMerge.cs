@@ -35,6 +35,10 @@ namespace NeeView
                 if (v1 == null && v2 == null)
                 {
                 }
+                else if (property.GetCustomAttribute(typeof(ObsoleteAttribute)) != null)
+                {
+                    Debug.WriteLine($"Merge: {property.Name} is obsolete");
+                }
                 else if (options.IsIgnoreEnabled && property.GetCustomAttribute(typeof(ObjectMergeIgnoreAttribute)) != null)
                 {
                     Debug.WriteLine($"Merge: {property.Name} is ignore");

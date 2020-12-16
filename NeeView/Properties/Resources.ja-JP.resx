@@ -3866,12 +3866,6 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamIsHiddenFileVisibled" xml:space="preserve">
     <value>隠しファイルを表示する</value>
   </data>
-  <data name="ParamIsHidePageSliderInFullscreen" xml:space="preserve">
-    <value>自動非表示モードのときにスライダーを自動的に隠す</value>
-  </data>
-  <data name="ParamIsHidePanelInFullscreen" xml:space="preserve">
-    <value>自動非表示モードのときにサイドパネルを自動的に隠す</value>
-  </data>
   <data name="ParamIsIgnoreImageDpi" xml:space="preserve">
     <value>画像のドットバイドット表示</value>
   </data>
@@ -6235,7 +6229,7 @@ include("Sample.nvjs")</value>
   <data name="CommandHost.ShowInputDialog#Returns" xml:space="preserve">
     <value>入力されたテキスト。キャンセルされたときはnull</value>
   </data>
-  <data name="MenuBarConfig.IsHideMenuInFullscreen" xml:space="preserve">
+  <data name="MenuBarConfig.IsHideMenuInAutoHideMode" xml:space="preserve">
     <value>自動非表示モードのときにメニューを自動的に隠す</value>
   </data>
   <data name="WindowStateEx.None" xml:space="preserve">
@@ -6267,5 +6261,11 @@ include("Sample.nvjs")</value>
   </data>
   <data name="WindowConfig.IsAutoHideInFullScreen" xml:space="preserve">
     <value>フルスクリーンで自動非表示モードを適用する</value>
+  </data>
+  <data name="PanelsConfig.IsHidePanelInAutoHideMode" xml:space="preserve">
+    <value>自動非表示モードのときにサイドパネルを自動的に隠す</value>
+  </data>
+  <data name="SliderConfig.IsHidePageSliderInAutoHideMode" xml:space="preserve">
+    <value>自動非表示モードのときにスライダーを自動的に隠す</value>
   </data>
 </root>

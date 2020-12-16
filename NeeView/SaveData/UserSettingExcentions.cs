@@ -48,43 +48,12 @@ namespace NeeView
                         SelectedItem = self.Config.Panels.RightPanelSeleted,
                     });
 
-#if false // ページリストの本棚一体化設定は継承しない
-                    const string pageListPanelName = "PageListPanel";
-                    const string folderPanelName = "FolderPanel";
-
-                    if (self.Config.Bookshelf.IsPageListDocked)
-                    {
-                        foreach (var dock in layout.Docks.Values)
-                        {
-                            dock.Panels.RemoveAll(e => e.First() == pageListPanelName);
-
-                            var bookshelf = dock.Panels.FirstOrDefault(e => e.First() == folderPanelName);
-                            bookshelf?.Add(pageListPanelName);
-                        }
-
-                        var folderListPane = layout.Panels.FirstOrDefault(e => e.Key == folderPanelName);
-                        if (folderListPane.Key != null)
-                        {
-                            folderListPane.Value.GridLength = self.Config.Bookshelf.GridLength0;
-                        }
-
-                        var pageListPanel = layout.Panels.FirstOrDefault(e => e.Key == pageListPanelName);
-                        if (pageListPanel.Key != null)
-                        {
-                            pageListPanel.Value.GridLength = self.Config.Bookshelf.GridLength2;
-                        }
-                    }
-#endif
                     self.Config.Panels.Layout = layout;
 
                     // 古い設定を無効化
                     self.Config.Panels.PanelDocks = null;
                     self.Config.Panels.LeftPanelSeleted = null;
                     self.Config.Panels.RightPanelSeleted = null;
-                    self.Config.Bookshelf.IsPageListDocked = false;
-                    self.Config.Bookshelf.IsPageListVisible = false;
-                    self.Config.Bookshelf.GridLength0 = default;
-                    self.Config.Bookshelf.GridLength2 = default;
                 }
                 Debug.WriteLine($"PanelLayout done");
             }

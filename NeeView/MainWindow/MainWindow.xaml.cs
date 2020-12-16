@@ -624,7 +624,7 @@ namespace NeeView
             DartyWindowLayout();
 
             // 解除でフォーカスが表示されたパネルに移動してしまう現象を回避
-            if (!_windowShape.AutoHideMode && Config.Current.Panels.IsHidePanelInFullscreen)
+            if (!_windowShape.AutoHideMode && Config.Current.Panels.IsHidePanelInAutoHideMode)
             {
                 _viewComponent.RaiseFocusMainViewRequest();
             }

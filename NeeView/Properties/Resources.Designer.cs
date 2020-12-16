@@ -9940,9 +9940,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Automatically hide the menu when it is auto-hide mode に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string MenuBarConfig_IsHideMenuInFullscreen {
+        public static string MenuBarConfig_IsHideMenuInAutoHideMode {
             get {
-                return ResourceManager.GetString("MenuBarConfig.IsHideMenuInFullscreen", resourceCulture);
+                return ResourceManager.GetString("MenuBarConfig.IsHideMenuInAutoHideMode", resourceCulture);
             }
         }
         
@@ -11162,6 +11162,15 @@ namespace NeeView.Properties {
         public static string PanelListItemStyle {
             get {
                 return ResourceManager.GetString("PanelListItemStyle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Automatically hide the side panel when it is auto-hide mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PanelsConfig_IsHidePanelInAutoHideMode {
+            get {
+                return ResourceManager.GetString("PanelsConfig.IsHidePanelInAutoHideMode", resourceCulture);
             }
         }
         
@@ -13565,24 +13574,6 @@ namespace NeeView.Properties {
         public static string ParamIsHiddenFileVisibled {
             get {
                 return ResourceManager.GetString("ParamIsHiddenFileVisibled", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Automatically hide the slider when it is auto-hide mode に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamIsHidePageSliderInFullscreen {
-            get {
-                return ResourceManager.GetString("ParamIsHidePageSliderInFullscreen", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Automatically hide the side panel when it is auto-hide mode に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamIsHidePanelInFullscreen {
-            get {
-                return ResourceManager.GetString("ParamIsHidePanelInFullscreen", resourceCulture);
             }
         }
         
@@ -17242,6 +17233,15 @@ namespace NeeView.Properties {
         public static string SettingSectionSvg {
             get {
                 return ResourceManager.GetString("SettingSectionSvg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Automatically hide the slider when it is auto-hide mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SliderConfig_IsHidePageSliderInAutoHideMode {
+            get {
+                return ResourceManager.GetString("SliderConfig.IsHidePageSliderInAutoHideMode", resourceCulture);
             }
         }
         

@@ -63,6 +63,8 @@ namespace NeeView
         private ContextMenuSetting _contextMenuSetting = new ContextMenuSetting();
         private bool _canHidePageSlider;
         private bool _canHidePanel;
+        private bool _canHideMenu;
+        private bool _canVisibleWindowTitle;
 
         private SolidColorBrush _sliderBackground;
         private SolidColorBrush _sliderBackgroundGlass;
@@ -104,8 +106,24 @@ namespace NeeView
             set { SetProperty(ref _sliderBackgroundGlass, value); }
         }
 
-        public bool CanHideMenu => Config.Current.MenuBar.IsHideMenu || _windowStateManamger.IsFullScreen;
+        /// <summary>
+        /// メニューを自動非表示するか
+        /// </summary>
+        public bool CanHideMenu
+        {
+            get { return _canHideMenu; }
+            set
+            {
+                if (SetProperty(ref _canHideMenu, value))
+                {
+                    RefreshCanVisibleWindowTitle();
+                }
+            }
+        }
 
+        /// <summary>
+        /// スライダーを自動非表示するか
+        /// </summary>
         public bool CanHidePageSlider
         {
             get { return _canHidePageSlider; }
@@ -118,7 +136,9 @@ namespace NeeView
             }
         }
 
-        // パネルを自動的に隠せるか
+        /// <summary>
+        /// パネルを自動非表示するか
+        /// </summary>
         public bool CanHidePanel
         {
             get { return _canHidePanel; }
@@ -131,9 +151,13 @@ namespace NeeView
             }
         }
 
+        /// <summary>
+        /// メインビューにタイトルを表示するか
+        /// </summary>
         public bool CanVisibleWindowTitle
         {
-            get => Config.Current.WindowTittle.IsMainViewDisplayEnabled && CanHideMenu && !_windowShape.CanCaptionVisible;
+            get { return _canVisibleWindowTitle; }
+            set { SetProperty(ref _canVisibleWindowTitle, value); }
         }
 
         /// <summary>
@@ -160,18 +184,18 @@ namespace NeeView
             _windowShape = windowShape;
             _windowStateManamger = windowStateManamger;
 
-            _windowStateManamger.AddPropertyChanged(nameof(WindowStateManager.IsFullScreen),
+            _windowShape.AddPropertyChanged(nameof(WindowShape.AutoHideMode),
                 (s, e) =>
                 {
                     RefreshCanHidePanel();
                     RefreshCanHidePageSlider();
-                    RaisePropertyChanged(nameof(CanHideMenu));
+                    RefreshCanHideMenu();
                 });
 
             _windowShape.AddPropertyChanged(nameof(WindowShape.CanCaptionVisible),
                 (s, e) =>
                 {
-                    RaisePropertyChanged(nameof(CanVisibleWindowTitle));
+                    RefreshCanVisibleWindowTitle();
                 });
 
             _viewComponent = MainViewComponent.Current;
@@ -185,7 +209,7 @@ namespace NeeView
 
             Config.Current.WindowTittle.AddPropertyChanged(nameof(WindowTitleConfig.IsMainViewDisplayEnabled), (s, e) =>
             {
-                RaisePropertyChanged(nameof(CanVisibleWindowTitle));
+                RefreshCanVisibleWindowTitle();
             });
 
             Config.Current.Slider.AddPropertyChanged(nameof(SliderConfig.IsHidePageSliderInFullscreen), (s, e) =>
@@ -198,10 +222,14 @@ namespace NeeView
                 RefreshCanHidePanel();
             });
 
+            Config.Current.MenuBar.AddPropertyChanged(nameof(MenuBarConfig.IsHideMenuInFullscreen), (s, e) =>
+            {
+                RefreshCanHideMenu();
+            });
+
             Config.Current.MenuBar.AddPropertyChanged(nameof(MenuBarConfig.IsHideMenu), (s, e) =>
             {
-                RaisePropertyChanged(nameof(CanHideMenu));
-                RaisePropertyChanged(nameof(CanVisibleWindowTitle));
+                RefreshCanHideMenu();
             });
 
             Config.Current.Slider.AddPropertyChanged(nameof(SliderConfig.IsHidePageSlider), (s, e) =>
@@ -244,15 +272,24 @@ namespace NeeView
             }
         }
 
+        public void RefreshCanVisibleWindowTitle()
+        {
+            CanVisibleWindowTitle = Config.Current.WindowTittle.IsMainViewDisplayEnabled && CanHideMenu && !_windowShape.CanCaptionVisible;
+        }
+
+        private void RefreshCanHideMenu()
+        {
+            CanHideMenu = Config.Current.MenuBar.IsHideMenu || (Config.Current.MenuBar.IsHideMenuInFullscreen && _windowShape.AutoHideMode);
+        }
 
         private void RefreshCanHidePageSlider()
         {
-            CanHidePageSlider = Config.Current.Slider.IsHidePageSlider || (Config.Current.Slider.IsHidePageSliderInFullscreen && _windowStateManamger.IsFullScreen);
+            CanHidePageSlider = Config.Current.Slider.IsHidePageSlider || (Config.Current.Slider.IsHidePageSliderInFullscreen && _windowShape.AutoHideMode);
         }
 
         public void RefreshCanHidePanel()
         {
-            CanHidePanel = Config.Current.Panels.IsHidePanel || (Config.Current.Panels.IsHidePanelInFullscreen && _windowStateManamger.IsFullScreen);
+            CanHidePanel = Config.Current.Panels.IsHidePanel || (Config.Current.Panels.IsHidePanelInFullscreen && _windowShape.AutoHideMode);
         }
 
         public bool ToggleHideMenu()

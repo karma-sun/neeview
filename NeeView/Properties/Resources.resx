@@ -3867,10 +3867,10 @@ Initialize the temporary location.</value>
     <value>Show hidden files</value>
   </data>
   <data name="ParamIsHidePageSliderInFullscreen" xml:space="preserve">
-    <value>Automatically hide the slider when it is full screen</value>
+    <value>Automatically hide the slider when it is auto-hide mode</value>
   </data>
   <data name="ParamIsHidePanelInFullscreen" xml:space="preserve">
-    <value>Automatically hide the side panel when it is full screen</value>
+    <value>Automatically hide the side panel when it is auto-hide mode</value>
   </data>
   <data name="ParamIsIgnoreImageDpi" xml:space="preserve">
     <value>Dot-by-dot display of image</value>
@@ -6231,5 +6231,38 @@ include("Sample.nvjs")</value>
   </data>
   <data name="CommandHost.ShowInputDialog#Returns" xml:space="preserve">
     <value>Input text. Null when canceled</value>
+  </data>
+  <data name="MenuBarConfig.IsHideMenuInFullscreen" xml:space="preserve">
+    <value>Automatically hide the menu when it is auto-hide mode</value>
+  </data>
+  <data name="WindowStateEx.None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="WindowStateEx.Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="WindowStateEx.Minimized" xml:space="preserve">
+    <value>Minimized</value>
+  </data>
+  <data name="WindowStateEx.Maximized" xml:space="preserve">
+    <value>Maximized</value>
+  </data>
+  <data name="WindowStateEx.FullScreen" xml:space="preserve">
+    <value>FullScreen</value>
+  </data>
+  <data name="SettingPagePanels.AutoHideMode" xml:space="preserve">
+    <value>Auto-hide mode</value>
+  </data>
+  <data name="SettingPagePanels.AutoHideMode.WindowState" xml:space="preserve">
+    <value>Window state to apply auto-hide mode</value>
+  </data>
+  <data name="WindowConfig.IsAutoHideInNormal" xml:space="preserve">
+    <value>Apply auto-hide mode in normal window</value>
+  </data>
+  <data name="WindowConfig.IsAutoHidInMaximized" xml:space="preserve">
+    <value>Apply auto-hide mode in maximized window</value>
+  </data>
+  <data name="WindowConfig.IsAutoHideInFullScreen" xml:space="preserve">
+    <value>Apply auto-hide mode in full screen</value>
   </data>
 </root>

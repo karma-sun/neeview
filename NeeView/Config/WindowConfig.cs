@@ -16,6 +16,9 @@ namespace NeeView
         private bool _isCaptionEmulateInFullScreen;
         private bool _mouseActivateAndEat;
         private bool _isAeroSnapPlacementEnabled = true;
+        private bool _isAutoHideInNormal = false;
+        private bool _isAutoHideInMaximized = true;
+        private bool _IsAutoHideInFullScreen = false;
 
 
         [PropertyMember("@ParamWindowShapeChromeFrame")]
@@ -79,6 +82,28 @@ namespace NeeView
             get { return _isAeroSnapPlacementEnabled; }
             set { SetProperty(ref _isAeroSnapPlacementEnabled, value); }
         }
+
+        [PropertyMember("@WindowConfig.IsAutoHideInNormal")]
+        public bool IsAutoHideInNormal
+        {
+            get { return _isAutoHideInNormal; }
+            set { SetProperty(ref _isAutoHideInNormal, value); }
+        }
+
+        [PropertyMember("@WindowConfig.IsAutoHidInMaximized")]
+        public bool IsAutoHidInMaximized
+        {
+            get { return _isAutoHideInMaximized; }
+            set { SetProperty(ref _isAutoHideInMaximized, value); }
+        }
+
+        [PropertyMember("@WindowConfig.IsAutoHideInFullScreen")]
+        public bool IsAutoHideInFullScreen
+        {
+            get { return _IsAutoHideInFullScreen; }
+            set { SetProperty(ref _IsAutoHideInFullScreen, value); }
+        }
+
 
         #region HiddenParameters
 

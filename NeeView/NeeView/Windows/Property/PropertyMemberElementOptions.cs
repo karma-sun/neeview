@@ -7,6 +7,14 @@ namespace NeeView.Windows.Property
     {
         public static PropertyMemberElementOptions Default { get; } = new PropertyMemberElementOptions();
 
+        /// <summary>
+        /// 名前(上書き用)
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// 空欄時に表示する文字列
+        /// </summary>
         public string EmptyValue { get; set; }
 
         /// <summary>

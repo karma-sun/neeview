@@ -288,10 +288,11 @@ namespace NeeView.Setting
         private PropertyMemberElement _element;
         private object _content;
 
-        public SettingItemProperty(PropertyMemberElement element) : base(element?.ToString())
+        public SettingItemProperty(PropertyMemberElement element) : base(element.Name)
         {
             Debug.Assert(element != null);
             _element = element;
+            this.Tips = _element.Tips;
         }
 
         public SettingItemProperty(PropertyMemberElement element, object content) : this(element)
@@ -303,12 +304,30 @@ namespace NeeView.Setting
 
         protected override UIElement CreateContentInner()
         {
-            return new SettingItemControl(_element.Name, _element.Tips ?? this.Tips, _content ?? _element.TypeValue, this.IsStretch);
+            return new SettingItemControl(this.Header, this.Tips, _content ?? _element.TypeValue, this.IsStretch);
         }
 
         public override string GetSearchText()
         {
-            return _element.Name + " " + (_element.Tips ?? this.Tips);
+            return this.Header + " " + this.Tips;
+        }
+    }
+
+
+    public class SettingItemHeader : SettingItem
+    {
+        public SettingItemHeader(string header) : base(header)
+        {
+        }
+
+        protected override UIElement CreateContentInner()
+        {
+            return new SettingItemControl(this.Header, this.Tips, null, false);
+        }
+
+        public override string GetSearchText()
+        {
+            return this.Header + " " + this.Tips;
         }
     }
 
@@ -352,10 +371,11 @@ namespace NeeView.Setting
         private PropertyMemberElement _element;
         private object _content;
 
-        public SettingItemSubProperty(PropertyMemberElement element) : base(element?.ToString())
+        public SettingItemSubProperty(PropertyMemberElement element) : base(element.Name)
         {
             Debug.Assert(element != null);
             _element = element;
+            this.Tips = element.Tips;
         }
 
         public SettingItemSubProperty(PropertyMemberElement element, object content) : this(element)
@@ -367,12 +387,12 @@ namespace NeeView.Setting
 
         protected override UIElement CreateContentInner()
         {
-            return new SettingItemSubControl(_element.Name, _element.Tips ?? this.Tips, _content ?? _element.TypeValue, this.IsStretch);
+            return new SettingItemSubControl(this.Header, this.Tips, _content ?? _element.TypeValue, this.IsStretch);
         }
 
         public override string GetSearchText()
         {
-            return _element.Name + " " + (_element.Tips ?? this.Tips);
+            return this.Header + " " + this.Tips;
         }
     }
 

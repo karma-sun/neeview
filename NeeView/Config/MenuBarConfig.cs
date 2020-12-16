@@ -10,6 +10,7 @@ namespace NeeView
         private bool _isHideMenu;
         private bool _isAddressBarEnabled = true;
         private bool _isHamburgerMenu;
+        private bool _isHideMenuInFullscreen = true;
 
 
         [JsonIgnore]
@@ -28,6 +29,14 @@ namespace NeeView
         {
             get { return _isHideMenu; }
             set { SetProperty(ref _isHideMenu, value); }
+        }
+
+        // メニューを自動的に隠す(フルスクリーン)
+        [PropertyMember("@MenuBarConfig.IsHideMenuInFullscreen")]
+        public bool IsHideMenuInFullscreen
+        {
+            get { return _isHideMenuInFullscreen; }
+            set { SetProperty(ref _isHideMenuInFullscreen, value); }
         }
 
         // アドレスバーON/OFF

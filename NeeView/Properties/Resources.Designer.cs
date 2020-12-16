@@ -9938,6 +9938,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Automatically hide the menu when it is auto-hide mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MenuBarConfig_IsHideMenuInFullscreen {
+            get {
+                return ResourceManager.GetString("MenuBarConfig.IsHideMenuInFullscreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   _Bookmark に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string MenuTreeBookmark {
@@ -13560,7 +13569,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Automatically hide the slider when it is full screen に類似しているローカライズされた文字列を検索します。
+        ///   Automatically hide the slider when it is auto-hide mode に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsHidePageSliderInFullscreen {
             get {
@@ -13569,7 +13578,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Automatically hide the side panel when it is full screen に類似しているローカライズされた文字列を検索します。
+        ///   Automatically hide the side panel when it is auto-hide mode に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsHidePanelInFullscreen {
             get {
@@ -16819,6 +16828,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Auto-hide mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPagePanels_AutoHideMode {
+            get {
+                return ResourceManager.GetString("SettingPagePanels.AutoHideMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Window state to apply auto-hide mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPagePanels_AutoHideMode_WindowState {
+            get {
+                return ResourceManager.GetString("SettingPagePanels.AutoHideMode.WindowState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Banner style of list items に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPagePanelStyleBanner {
@@ -17311,11 +17338,83 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Apply auto-hide mode in full screen に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WindowConfig_IsAutoHideInFullScreen {
+            get {
+                return ResourceManager.GetString("WindowConfig.IsAutoHideInFullScreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Apply auto-hide mode in normal window に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WindowConfig_IsAutoHideInNormal {
+            get {
+                return ResourceManager.GetString("WindowConfig.IsAutoHideInNormal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Apply auto-hide mode in maximized window に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WindowConfig_IsAutoHidInMaximized {
+            get {
+                return ResourceManager.GetString("WindowConfig.IsAutoHidInMaximized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Options に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WindowSettingTitle {
             get {
                 return ResourceManager.GetString("WindowSettingTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   FullScreen に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WindowStateEx_FullScreen {
+            get {
+                return ResourceManager.GetString("WindowStateEx.FullScreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Maximized に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WindowStateEx_Maximized {
+            get {
+                return ResourceManager.GetString("WindowStateEx.Maximized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Minimized に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WindowStateEx_Minimized {
+            get {
+                return ResourceManager.GetString("WindowStateEx.Minimized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   None に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WindowStateEx_None {
+            get {
+                return ResourceManager.GetString("WindowStateEx.None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Normal に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WindowStateEx_Normal {
+            get {
+                return ResourceManager.GetString("WindowStateEx.Normal", resourceCulture);
             }
         }
         

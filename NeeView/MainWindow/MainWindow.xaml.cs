@@ -120,6 +120,9 @@ namespace NeeView
             Config.Current.MenuBar.AddPropertyChanged(nameof(MenuBarConfig.IsHideMenu),
                 (s, e) => DartyMenuAreaLayout());
 
+            MainWindowModel.Current.AddPropertyChanged(nameof(MainWindowModel.CanHideMenu),
+                (s, e) => DartyMenuAreaLayout());
+
             MainWindowModel.Current.AddPropertyChanged(nameof(MainWindowModel.CanHidePageSlider),
                 (s, e) => DartyPageSliderLayout());
 
@@ -135,8 +138,8 @@ namespace NeeView
             _viewComponent.ContentCanvas.AddPropertyChanged(nameof(ContentCanvas.IsMediaContent),
                 (s, e) => DartyPageSliderLayout());
 
-            _windowStateManager.AddPropertyChanged(nameof(WindowStateManager.IsFullScreen),
-                (s, e) => FullScreenChanged());
+            _windowShape.AddPropertyChanged(nameof(WindowShape.AutoHideMode),
+                (s, e) => AutoHideModeChanged());
 
 
             // mouse drag
@@ -614,14 +617,14 @@ namespace NeeView
         private bool _isDartyThumbnailListLayout;
 
         /// <summary>
-        /// フルスクリーン状態が変更されたときの処理
+        /// 自動非表示モードが変更されたときの処理
         /// </summary>
-        private void FullScreenChanged()
+        private void AutoHideModeChanged()
         {
             DartyWindowLayout();
 
-            // フルスクリーン解除でフォーカスが表示されたパネルに移動してしまう現象を回避
-            if (!_windowStateManager.IsFullScreen && Config.Current.Panels.IsHidePanelInFullscreen)
+            // 解除でフォーカスが表示されたパネルに移動してしまう現象を回避
+            if (!_windowShape.AutoHideMode && Config.Current.Panels.IsHidePanelInFullscreen)
             {
                 _viewComponent.RaiseFocusMainViewRequest();
             }
@@ -681,7 +684,7 @@ namespace NeeView
             _isDartyMenuAreaLayout = false;
 
             // menu hide
-            bool isMenuDock = !Config.Current.MenuBar.IsHideMenu && !_windowStateManager.IsFullScreen;
+            bool isMenuDock = !MainWindowModel.Current.CanHideMenu;
 
             if (isMenuDock)
             {
@@ -749,7 +752,7 @@ namespace NeeView
             if (!_isDartyThumbnailListLayout) return;
             _isDartyThumbnailListLayout = false;
 
-            bool isPageSliderDock = !Config.Current.Slider.IsHidePageSlider && !_windowStateManager.IsFullScreen;
+            bool isPageSliderDock = !MainWindowModel.Current.CanHidePageSlider;
             bool isThimbnailListDock = !Config.Current.FilmStrip.IsHideFilmStrip && isPageSliderDock;
 
             if (isThimbnailListDock)

@@ -32,6 +32,11 @@ namespace NeeView.Setting
             this.Header.Text = header;
             this.ContentValue.Content = content;
 
+            if (content is null)
+            {
+                this.ContentValue.Visibility = Visibility.Collapsed;
+            }
+
             if (!string.IsNullOrWhiteSpace(tips))
             {
                 this.Note.Text = tips;

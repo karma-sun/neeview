@@ -123,7 +123,7 @@ namespace NeeView.Windows.Property
         private void InitializeCommon(object source, PropertyInfo info, PropertyMemberAttribute attribute, PropertyMemberElementOptions options)
         {
             Source = source;
-            Name = ResourceService.GetString(attribute?.Name) ?? info.Name;
+            Name = options.Name ?? ResourceService.GetString(attribute?.Name) ?? info.Name;
             Tips = ResourceService.GetString(attribute?.Tips);
             IsVisible = attribute != null ? attribute.IsVisible : true;
             EmptyMessage = attribute?.EmptyMessage;

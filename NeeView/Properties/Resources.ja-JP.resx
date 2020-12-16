@@ -3867,10 +3867,10 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>隠しファイルを表示する</value>
   </data>
   <data name="ParamIsHidePageSliderInFullscreen" xml:space="preserve">
-    <value>フルスクリーンのときにスライダーを自動的に隠す</value>
+    <value>自動非表示モードのときにスライダーを自動的に隠す</value>
   </data>
   <data name="ParamIsHidePanelInFullscreen" xml:space="preserve">
-    <value>フルスクリーンのときにサイドパネルを自動的に隠す</value>
+    <value>自動非表示モードのときにサイドパネルを自動的に隠す</value>
   </data>
   <data name="ParamIsIgnoreImageDpi" xml:space="preserve">
     <value>画像のドットバイドット表示</value>
@@ -6234,5 +6234,38 @@ include("Sample.nvjs")</value>
   </data>
   <data name="CommandHost.ShowInputDialog#Returns" xml:space="preserve">
     <value>入力されたテキスト。キャンセルされたときはnull</value>
+  </data>
+  <data name="MenuBarConfig.IsHideMenuInFullscreen" xml:space="preserve">
+    <value>自動非表示モードのときにメニューを自動的に隠す</value>
+  </data>
+  <data name="WindowStateEx.None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="WindowStateEx.Normal" xml:space="preserve">
+    <value>通常</value>
+  </data>
+  <data name="WindowStateEx.Minimized" xml:space="preserve">
+    <value>最小化</value>
+  </data>
+  <data name="WindowStateEx.Maximized" xml:space="preserve">
+    <value>最大化</value>
+  </data>
+  <data name="WindowStateEx.FullScreen" xml:space="preserve">
+    <value>フルスクリーン</value>
+  </data>
+  <data name="SettingPagePanels.AutoHideMode" xml:space="preserve">
+    <value>自動非表示モード</value>
+  </data>
+  <data name="SettingPagePanels.AutoHideMode.WindowState" xml:space="preserve">
+    <value>自動非表示モードを適用するウィンドウ状態</value>
+  </data>
+  <data name="WindowConfig.IsAutoHideInNormal" xml:space="preserve">
+    <value>通常ウィンドウで自動非表示モードを適用する</value>
+  </data>
+  <data name="WindowConfig.IsAutoHidInMaximized" xml:space="preserve">
+    <value>最大化ウィンドウで自動非表示モードを適用する</value>
+  </data>
+  <data name="WindowConfig.IsAutoHideInFullScreen" xml:space="preserve">
+    <value>フルスクリーンで自動非表示モードを適用する</value>
   </data>
 </root>

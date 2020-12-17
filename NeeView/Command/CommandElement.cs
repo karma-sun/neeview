@@ -52,15 +52,18 @@ namespace NeeView
         public static object[] EmptyArgs { get; } = new object[] { };
 
         private string _menuText;
-        private string _shortCutKey;
-        private string _touchGesture;
-        private string _mouseGesture;
+        private string _shortCutKey = "";
+        private string _touchGesture = "";
+        private string _mouseGesture = "";
 
 
         public CommandElement(string name)
         {
             Name = name;
         }
+
+        // コマンドの並び優先度
+        public int Order { get; set; }
 
         public string Name { get; private set; }
 

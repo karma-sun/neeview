@@ -13,8 +13,19 @@
         <li>スクリプトエンジンに <a href="https://github.com/sebastienros/jint">Jint</a> を使用しています。</li>
         <li>ファイル拡張子は .nvjs です。</li>
         <li>文字コードはUTF8です。BOM無しを推奨します。</li>
-        <li>ファイル先頭のドックコメント "@name" と "@descripton" でコマンド説明を修飾できます。</li>
     </ul>
+</p>
+<p>
+    ファイル先頭のドックコメントでコマンドを修飾できます。キーは大文字小文字を区別しません。
+
+    <table class="table-slim table-topless">
+        <tr><th>キー</th><th>概要</th></tr>
+        <tr><td>@Name</td><td>コマンド名</td></tr>
+        <tr><td>@Description</td><td>コマンド説明</td></tr>
+        <tr><td>@ShortCutKey</td><td>既定のショートカット</td></tr>
+        <tr><td>@MouseGesture</td><td>既定のマウスジェスチャー</td></tr>
+        <tr><td>@TouchGesture</td><td>既定のタッチ操作</td></tr>
+    </table>
 </p>
 
 <h2>コマンドスクリプト</h2>
@@ -31,10 +42,10 @@
 <h2>イベントスクリプト</h2>
 <p>
     特定の名前のスクリプトファイルは自動的に実行されます。
-    <dl>
-        <dt>OnBookLoaded.nvjs</dt>
-        <dd>ブックを開いたときに実行されます。</dd>
-    </dl>
+
+    <table class="table-slim">
+        <tr><td>OnBookLoaded.nvjs</td><td>ブックを開いたときに実行されます。</td></tr>
+    </table>
 </p>
 
 <h2>コンソール</h2>

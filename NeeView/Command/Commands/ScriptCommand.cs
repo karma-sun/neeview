@@ -12,8 +12,8 @@ namespace NeeView
         public static string Extension => ".nvjs";
         public static string EventOnBookLoaded => "OnBookLoaded";
 
-        private static Regex _regexDocName = new Regex(@"^/+\s*@name(.+)$", RegexOptions.Compiled);
-        private static Regex _regexDocDescription = new Regex(@"^/+\s*@description(.+)$", RegexOptions.Compiled);
+        private static Regex _regexCommentLine = new Regex(@"^\s*/{2,}");
+        private static Regex _regexDocComment = new Regex(@"^\s*/{2,}\s*(@\w+)\s+(.+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
 
         private string _scriptName;
@@ -53,30 +53,37 @@ namespace NeeView
             {
                 bool isComment = false;
                 string line;
-                while ((line = reader.ReadLine()?.Trim()) != null)
+                while ((line = reader.ReadLine()) != null)
                 {
-                    if (line.StartsWith("//"))
+                    if (_regexCommentLine.IsMatch(line))
                     {
                         isComment = true;
-                        var matchName = _regexDocName.Match(line);
-                        if (matchName.Success)
+                        var match = _regexDocComment.Match(line);
+                        if (match.Success)
                         {
-                            Text = matchName.Groups[1].Value.Trim();
-                            continue;
-                        }
-
-                        var matchDescription = _regexDocDescription.Match(line);
-                        if (matchDescription.Success)
-                        {
-                            Note = matchDescription.Groups[1].Value.Trim();
-                            continue;
+                            var key = match.Groups[1].Value.ToLower();
+                            var value = match.Groups[2].Value.Trim();
+                            switch (key)
+                            {
+                                case "@name":
+                                    Text = value;
+                                    break;
+                                case "@description":
+                                    Note = value;
+                                    break;
+                                case "@shortcutkey":
+                                    ShortCutKey = value;
+                                    break;
+                                case "@mousegesture":
+                                    MouseGesture = value;
+                                    break;
+                                case "@touchgesture":
+                                    TouchGesture = value;
+                                    break;
+                            }
                         }
                     }
-                    if (string.IsNullOrWhiteSpace(line) && !isComment)
-                    {
-                        continue;
-                    }
-                    else
+                    else if (isComment && !string.IsNullOrWhiteSpace(line))
                     {
                         break;
                     }

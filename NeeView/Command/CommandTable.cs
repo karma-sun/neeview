@@ -77,6 +77,7 @@ namespace NeeView
 
         public int ChangeCount { get; private set; }
 
+        public Dictionary<string, CommandElement> Elements => _elements;
 
         #region IDictionary Support
 
@@ -361,10 +362,14 @@ namespace NeeView
                 new CancelScriptCommand("CancelScript")
             };
 
-            // グループで並び替えてから辞書化
-            _elements = list
-                .GroupBy(e => e.Group).SelectMany(e => e)
-                    .ToDictionary(e => e.Name);
+            // command list order
+            foreach (var item in list.GroupBy(e => e.Group).SelectMany(e => e).Select((e, index) => (e, index)))
+            {
+                item.e.Order = item.index;
+            }
+
+            // to dictionary
+            _elements = list.ToDictionary(e => e.Name);
 
             // share
             _elements["NextPage"].SetShare(_elements["PrevPage"]);
@@ -530,7 +535,7 @@ namespace NeeView
                 writer.WriteLine($"<p>{Properties.Resources.HelpCommandMessage}</p>");
                 writer.WriteLine("<table class=\"table-slim table-topless\">");
                 writer.WriteLine($"<tr><th>{Properties.Resources.WordGroup}</th><th>{Properties.Resources.WordCommand}</th><th>{Properties.Resources.WordShortcut}</th><th>{Properties.Resources.WordGesture}</th><th>{Properties.Resources.WordTouch}</th><th>{Properties.Resources.Word_Summary}</th></tr>");
-                foreach (var command in _elements.Values)
+                foreach (var command in _elements.Values.OrderBy(e => e.Order))
                 {
                     writer.WriteLine($"<tr><td>{command.Group}</td><td>{command.Text}</td><td>{command.ShortCutKey}</td><td>{new MouseGestureSequence(command.MouseGesture).ToDispString()}</td><td>{command.TouchGesture}</td><td>{command.Note}</td></tr>");
                 }
@@ -593,6 +598,7 @@ namespace NeeView
 
             var oldies = _elements.Keys
                 .Where(e => e.StartsWith(ScriptCommand.Prefix))
+                .Reverse()
                 .ToList();
 
             var newers = new List<string>();
@@ -629,6 +635,16 @@ namespace NeeView
                 _elements.Add(name, command);
             }
 
+            // re order
+            var scripts = _elements.Where(e => e.Key.StartsWith(ScriptCommand.Prefix)).Select(e => e.Value);
+            var offset = _elements.Count - scripts.Count();
+            foreach(var item in scripts.Select((e, i) => (e, i)))
+            {
+                item.e.Order = offset + item.i;
+            }
+
+            Debug.Assert(_elements.Values.GroupBy(e => e.Order).All(e => e.Count() == 1));
+
             return true;
         }
 
@@ -636,6 +652,7 @@ namespace NeeView
         {
             var oldies = _elements.Keys
                 .Where(e => e.StartsWith(ScriptCommand.Prefix))
+                .Reverse()
                 .ToList();
 
             foreach (var name in oldies)

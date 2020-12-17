@@ -13,9 +13,21 @@
         <li><a href="https://github.com/sebastienros/jint">Jint</a> is used for the script engine.</li>
         <li>The file extension is .nvjs.</li>
         <li>The character code is UTF8. No BOM is recommended.</li>
-        <li>You can qualify the command description with the dock comments "@name" and "@descripton" at the top of the file.</li>
     </ul>
 </p>
+<p>
+    You can qualify the command with the dock comments at the top of the file. The keys are not case sensitive.
+
+    <table class="table-slim table-topless">
+        <tr><th>Key</th><th>Summary</th></tr>
+        <tr><td>@Name</td><td>Command name</td></tr>
+        <tr><td>@Description</td><td>Command description</td></tr>
+        <tr><td>@ShortCutKey</td><td>Default shotcuts</td></tr>
+        <tr><td>@MouseGesture</td><td>Default mouse gestures</td></tr>
+        <tr><td>@TouchGesture</td><td>Default touch operation</td></tr>
+    </table>
+</p>
+
 
 <h2>Command script</h2>
 <p>
@@ -30,10 +42,10 @@
 <h2>Event script</h2>
 <p>
     A specially named script file will be executed automatically.
-    <dl>
-        <dt>OnBookLoaded.nvjs</dt>
-        <dd>Runs when you open the book.</dd>
-    </dl>
+
+    <table class="table-slim">
+        <tr><td>OnBookLoaded.nvjs</td><td>Runs when you open the book.</td></tr>
+    </table>
 </p>
 
 <h2>Console</h2>

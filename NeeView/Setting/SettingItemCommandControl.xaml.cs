@@ -162,7 +162,7 @@ namespace NeeView.Setting
             _commandTableChangeCount = CommandTable.Current.ChangeCount;
 
             _commandItems.Clear();
-            foreach (var element in CommandTable.Current)
+            foreach (var element in CommandTable.Current.Elements.OrderBy(e => e.Value.Order))
             {
                 var command = element.Value;
 

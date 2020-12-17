@@ -117,7 +117,7 @@ namespace NeeView
             builder.Append($"<h1 class=\"sub\" id=\"CommandList\">{Properties.Resources.WordCommandList}</h1>");
             builder.Append("<table class=\"table-slim table-topless\">");
             builder.Append($"<tr><th>{Properties.Resources.WordGroup}</th><th>{Properties.Resources.WordCommand}</th><th>{Properties.Resources.WordCommandName}</th><th>{Properties.Resources.WordArgument}</th><th>{Properties.Resources.WordCommandParameter}</th><th>{Properties.Resources.Word_Summary}</th></tr>");
-            foreach (var command in CommandTable.Current.Values)
+            foreach (var command in CommandTable.Current.Values.OrderBy(e => e.Order))
             {
                 string argument = "";
                 {

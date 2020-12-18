@@ -42,7 +42,15 @@ namespace NeeView
 
             _defaultSocket.Content = _mainView;
 
+            BookHub.Current.BookChanging += BookHub_BookChanging;
+
             Config.Current.MainView.AddPropertyChanged(nameof(MainViewConfig.IsFloating), (s, e) => Update());
+        }
+
+        private void BookHub_BookChanging(object sender, BookChangingEventArgs e)
+        {
+            _mainView.MouseInput.Cancel();
+            _mainViewBay.MouseInput.Cancel();
         }
 
         public bool IsFloating()

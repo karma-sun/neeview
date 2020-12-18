@@ -35,23 +35,34 @@ namespace NeeView
             [QueryScheme.QuickAccess] = "quickaccess:",
         };
 
-        static readonly Dictionary<QueryScheme, ImageSource> _imageMap = new Dictionary<QueryScheme, ImageSource>()
-        {
-            [QueryScheme.File] = MainWindow.Current.Resources["ic_desktop_windows_24px"] as ImageSource,
-            [QueryScheme.Root] = MainWindow.Current.Resources["ic_bookshelf"] as ImageSource,
-            [QueryScheme.Bookmark] = MainWindow.Current.Resources["ic_grade_24px"] as ImageSource,
-            [QueryScheme.Pagemark] = MainWindow.Current.Resources["ic_bookmark_24px"] as ImageSource,
-            [QueryScheme.QuickAccess] = MainWindow.Current.Resources["ic_lightning"] as ImageSource,
-        };
+        static Dictionary<QueryScheme, ImageSource> _imageMap;
 
-        static readonly Dictionary<QueryScheme, ImageSource> _thumbnailImageMap = new Dictionary<QueryScheme, ImageSource>()
+        static Dictionary<QueryScheme, ImageSource> _thumbnailImageMap;
+
+
+        private static void InitializeImageMap()
         {
-            [QueryScheme.File] = MainWindow.Current.Resources["ic_desktop_windows_24px_t"] as ImageSource,
-            [QueryScheme.Root] = MainWindow.Current.Resources["ic_bookshelf"] as ImageSource,
-            [QueryScheme.Bookmark] = MainWindow.Current.Resources["ic_grade_24px_t"] as ImageSource,
-            [QueryScheme.Pagemark] = MainWindow.Current.Resources["ic_bookmark_24px_t"] as ImageSource,
-            [QueryScheme.QuickAccess] = MainWindow.Current.Resources["ic_lightning"] as ImageSource,
-        };
+            if (_imageMap != null) return;
+
+            _imageMap = new Dictionary<QueryScheme, ImageSource>()
+            {
+                [QueryScheme.File] = MainWindow.Current.Resources["ic_desktop_windows_24px"] as ImageSource,
+                [QueryScheme.Root] = MainWindow.Current.Resources["ic_bookshelf"] as ImageSource,
+                [QueryScheme.Bookmark] = MainWindow.Current.Resources["ic_grade_24px"] as ImageSource,
+                [QueryScheme.Pagemark] = MainWindow.Current.Resources["ic_bookmark_24px"] as ImageSource,
+                [QueryScheme.QuickAccess] = MainWindow.Current.Resources["ic_lightning"] as ImageSource,
+            };
+
+            _thumbnailImageMap = new Dictionary<QueryScheme, ImageSource>()
+            {
+                [QueryScheme.File] = MainWindow.Current.Resources["ic_desktop_windows_24px_t"] as ImageSource,
+                [QueryScheme.Root] = MainWindow.Current.Resources["ic_bookshelf"] as ImageSource,
+                [QueryScheme.Bookmark] = MainWindow.Current.Resources["ic_grade_24px_t"] as ImageSource,
+                [QueryScheme.Pagemark] = MainWindow.Current.Resources["ic_bookmark_24px_t"] as ImageSource,
+                [QueryScheme.QuickAccess] = MainWindow.Current.Resources["ic_lightning"] as ImageSource,
+            };
+
+        }
 
         public static string ToSchemeString(this QueryScheme scheme)
         {
@@ -65,11 +76,13 @@ namespace NeeView
 
         public static ImageSource ToImage(this QueryScheme scheme)
         {
+            InitializeImageMap();
             return _imageMap[scheme];
         }
 
         public static ImageSource ToThumbnailImage(this QueryScheme scheme)
         {
+            InitializeImageMap();
             return _thumbnailImageMap[scheme];
         }
 
@@ -359,7 +372,7 @@ namespace NeeView
         public static QueryPath ToEntityPath(this QueryPath source)
         {
             if (source.Scheme == QueryScheme.File && FileShortcut.IsShortcut(source.SimplePath))
-            { 
+            {
                 var shortcut = new FileShortcut(source.SimplePath);
                 if (shortcut.IsValid)
                 {

@@ -88,9 +88,6 @@ namespace NeeView
             // DLL 検索パスから現在の作業ディレクトリ (CWD) を削除
             NativeMethods.SetDllDirectory("");
 
-            // カレントディレクトリ設定
-            System.IO.Directory.SetCurrentDirectory(Environment.AssemblyFolder);
-
 #if TRACE_LOG
             var nowTime = DateTime.Now;
             var traceLogFilename = $"Trace{nowTime.ToString("yyMMdHHmmss")}.log";
@@ -153,6 +150,9 @@ namespace NeeView
             // コマンドライン引数処理
             this.Option = ParseArguments(e.Args);
             this.Option.Validate();
+
+            // カレントディレクトリを実行ファイルの場所に変更。ファイルロック回避のため
+            System.IO.Directory.SetCurrentDirectory(Environment.AssemblyFolder);
 
             // シフトキー起動は新しいウィンドウで
             if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))

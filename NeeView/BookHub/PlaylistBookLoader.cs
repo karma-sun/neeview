@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace NeeView
 {
@@ -36,31 +37,19 @@ namespace NeeView
 
         public static string CreateLoadPath(IEnumerable<string> files)
         {
-            if (files is null) return null;
-
-            List<string> paths = new List<string>();
-            foreach (var file in files)
+            if (files is null || !files.Any())
             {
-                try
-                {
-                    paths.Add(Path.GetFullPath(file));
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine($"{ex.GetType()}: {file}: {ex.Message}");
-                }
+                return null;
             }
 
-            if (paths.Count == 1)
+            if (files.Count() == 1)
             {
-                return paths[0];
+                return files.First();
             }
-            else if (paths.Count >= 2)
+            else
             {
-                return CreateTempPlaylist(Temporary.Current.TempDownloadDirectory, paths);
+                return CreateTempPlaylist(Temporary.Current.TempDownloadDirectory, files);
             }
-
-            return null;
         }
 
         public static void LoadPlaylist(object sender, string playlistFile, bool isRefreshFolderList)

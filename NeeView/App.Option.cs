@@ -81,18 +81,18 @@ namespace NeeView
         {
             try
             {
+                Values = Values.Select(e => GetFullPath(e)).ToList();
+
+                FolderList = GetFullQueryPath(FolderList)?.SimpleQuery;
+                ScriptFile = GetFullPath(ScriptFile);
+
                 if (this.SettingFilename != null)
                 {
-                    var filename = this.SettingFilename;
-                    if (File.Exists(filename))
-                    {
-                        // 念のためフルパス変換
-                        this.SettingFilename = Path.GetFullPath(filename);
-                    }
-                    else
+                    if (!File.Exists(this.SettingFilename))
                     {
                         throw new ArgumentException($"{Properties.Resources.OptionErrorFileNotFound}: {this.SettingFilename}");
                     }
+                    this.SettingFilename = Path.GetFullPath(this.SettingFilename);
                 }
                 else
                 {
@@ -104,7 +104,64 @@ namespace NeeView
                 new MessageDialog(ex.Message, Properties.Resources.DialogBootErrorTitle).ShowDialog();
                 throw new OperationCanceledException("Wrong startup parameter");
             }
+        }
 
+
+        private QueryPath GetFullQueryPath(string src)
+        {
+            if (src is null) return null;
+
+            var query = new QueryPath(src);
+            if (query.Scheme != QueryScheme.File)
+            {
+                return query;
+            }
+
+            return query.ReplacePath(GetFullPath(query.Path));
+        }
+
+        private string GetFullPath(string src)
+        {
+            if (src is null) return null;
+
+            var path = src.Replace('/', '\\');
+
+            if (Directory.Exists(path))
+            {
+                return System.IO.Path.GetFullPath(path);
+            }
+
+            try
+            {
+                return GetFullArchivePath(path);
+            }
+            catch (FileNotFoundException)
+            {
+                return src;
+            }
+        }
+
+        private string GetFullArchivePath(string path)
+        {
+            if (path is null) return null;
+
+            if (File.Exists(path))
+            {
+                return System.IO.Path.GetFullPath(path);
+            }
+
+            var index = path.LastIndexOf('\\');
+            if (index < 0)
+            {
+                throw new FileNotFoundException();
+            }
+
+            var directory = path.Substring(0, index);
+            var filename = path.Substring(index);
+
+            directory = GetFullArchivePath(directory);
+
+            return LoosePath.Combine(directory, filename);
         }
     }
 

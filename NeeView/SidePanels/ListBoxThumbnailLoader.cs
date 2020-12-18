@@ -24,7 +24,7 @@ namespace NeeView
             _jobClient = jobClient;
 
             _panel.PageCollectionListBox.Loaded += ListBox_Loaded; ;
-            _panel.PageCollectionListBox.IsVisibleChanged += ListBox_IsVisibleChanged; ;
+            _panel.PageCollectionListBox.IsVisibleChanged += ListBox_IsVisibleChanged;
             _panel.PageCollectionListBox.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(ListBox_ScrollChanged));
         }
 

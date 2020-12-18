@@ -131,6 +131,7 @@ namespace NeeView
         {
             _jobClient = new PageThumbnailJobClient("HistoryList", JobCategories.BookThumbnailCategory);
             _thumbnailLoader = new ListBoxThumbnailLoader(this, _jobClient);
+            _thumbnailLoader.Load();
 
             _vm.SelectedItemChanged += ViewModel_SelectedItemChanged;
 

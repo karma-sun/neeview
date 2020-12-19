@@ -5,14 +5,14 @@ namespace NeeView
     // 複数ページのときの動作
     public enum MultiPagePolicy
     {
-        [AliasName("@EnumMultiPageOptionTypeOnce")]
+        [AliasName]
         Once,
 
-        [AliasName("@EnumMultiPageOptionTypeAll")]
+        [AliasName]
         All,
 
         [Obsolete] // ver.37
-        [AliasName("@EnumMultiPageOptionTypeTwice", IsVisibled = false)]
+        [AliasName(IsVisibled = false)]
         Twice = All,
     };
 }

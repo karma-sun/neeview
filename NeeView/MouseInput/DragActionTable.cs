@@ -29,72 +29,72 @@ namespace NeeView
             {
                 [GestureDragActionName] = new DragAction
                 {
-                    Note = Properties.Resources.EnumDragActionTypeGesture,
+                    Note = Properties.Resources.DragActionType_Gesture,
                     IsLocked = true,
                     DragKey = new DragKey("RightButton"),
                 },
 
                 ["Move"] = new DragAction
                 {
-                    Note = Properties.Resources.EnumDragActionTypeMove,
+                    Note = Properties.Resources.DragActionType_Move,
                     DragKey = new DragKey("LeftButton"),
                     Exec = (s, e) => _drag.DragMove(s, e),
                     Group = DragActionGroup.Move,
                 },
                 ["MoveScale"] = new DragAction
                 {
-                    Note = Properties.Resources.EnumDragActionTypeMoveScale,
+                    Note = Properties.Resources.DragActionType_MoveScale,
                     Exec = (s, e) => _drag.DragMoveScale(s, e),
                     Group = DragActionGroup.Move,
                 },
                 ["Angle"] = new DragAction
                 {
-                    Note = Properties.Resources.EnumDragActionTypeAngle,
+                    Note = Properties.Resources.DragActionType_Angle,
                     DragKey = new DragKey("Shift+LeftButton"),
                     Exec = (s, e) => _drag.DragAngle(s, e),
                 },
                 ["AngleSlider"] = new DragAction
                 {
-                    Note = Properties.Resources.EnumDragActionTypeAngleSlider,
+                    Note = Properties.Resources.DragActionType_AngleSlider,
                     Exec = (s, e) => _drag.DragAngleSlider(s, e),
                 },
                 ["Scale"] = new DragAction
                 {
-                    Note = Properties.Resources.EnumDragActionTypeScale,
+                    Note = Properties.Resources.DragActionType_Scale,
                     Exec = (s, e) => _drag.DragScale(s, e),
                 },
                 ["ScaleSlider"] = new DragAction
                 {
-                    Note = Properties.Resources.EnumDragActionTypeScaleSlider,
+                    Note = Properties.Resources.DragActionType_ScaleSlider,
                     DragKey = new DragKey("Ctrl+LeftButton"),
                     Exec = (s, e) => _drag.DragScaleSlider(s, e),
                 },
                 ["ScaleSliderCentered"] = new DragAction
                 {
-                    Note = Properties.Resources.EnumDragActionTypeScaleSliderCentered,
+                    Note = Properties.Resources.DragActionType_ScaleSliderCentered,
                     Exec = (s, e) => _drag.DragScaleSliderCentered(s, e),
                 },
                 ["MarqueeZoom"] = new DragAction
                 {
-                    Note = Properties.Resources.EnumDragActionTypeMarqueeZoom,
+                    Note = Properties.Resources.DragActionType_MarqueeZoom,
                     Exec = (s, e) => _drag.DragMarqueeZoom(s, e),
                     ExecEnd = (s, e) => _drag.DragMarqueeZoomEnd(s, e),
                 },
                 ["FlipHorizontal"] = new DragAction
                 {
-                    Note = Properties.Resources.EnumDragActionTypeFlipHorizontal,
+                    Note = Properties.Resources.DragActionType_FlipHorizontal,
                     DragKey = new DragKey("Alt+LeftButton"),
                     Exec = (s, e) => _drag.DragFlipHorizontal(s, e),
                 },
                 ["FlipVertical"] = new DragAction
                 {
-                    Note = Properties.Resources.EnumDragActionTypeFlipVertical,
+                    Note = Properties.Resources.DragActionType_FlipVertical,
                     Exec = (s, e) => _drag.DragFlipVertical(s, e),
                 },
 
                 ["WindowMove"] = new DragAction
                 {
-                    Note = Properties.Resources.EnumDragActionTypeWindowMove,
+                    Note = Properties.Resources.DragActionType_WindowMove,
                     DragKey = new DragKey("RightButton+LeftButton"),
                     Exec = (s, e) => _drag.DragWindowMove(s, e),
                 },

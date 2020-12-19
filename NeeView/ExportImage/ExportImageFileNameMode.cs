@@ -4,13 +4,13 @@ namespace NeeView
 {
     public enum ExportImageFileNameMode
     {
-        [AliasName("@EnumExportImageFileNameModeOriginal")]
+        [AliasName]
         Original,
 
-        [AliasName("@EnumExportImageFileNameModeBookPageNumber")]
+        [AliasName]
         BookPageNumber,
 
-        [AliasName("@EnumExportImageFileNameModeDeault", IsVisibled = false)]
+        [AliasName(IsVisibled = false)]
         Default,
     }
 }

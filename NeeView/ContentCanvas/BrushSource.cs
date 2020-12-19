@@ -16,19 +16,19 @@ namespace NeeView
     /// </summary>
     public enum BrushType
     {
-        [AliasName("@EnumBrushTypeSolidColor")]
+        [AliasName]
         SolidColor,
 
-        [AliasName("@EnumBrushTypeImageTile")]
+        [AliasName]
         ImageTile,
 
-        [AliasName("@EnumBrushTypeImageFill")]
+        [AliasName]
         ImageFill,
 
-        [AliasName("@EnumBrushTypeImageUniform")]
+        [AliasName]
         ImageUniform,
 
-        [AliasName("@EnumBrushTypeImageUniformToFill")]
+        [AliasName]
         ImageUniformToFill,
     }
 

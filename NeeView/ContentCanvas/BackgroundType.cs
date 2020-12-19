@@ -22,22 +22,22 @@ namespace NeeView
     /// </summary>
     public enum BackgroundType
     {
-        [AliasName("@EnumBackgroundStyleBlack")]
+        [AliasName]
         Black,
 
-        [AliasName("@EnumBackgroundStyleWhite")]
+        [AliasName]
         White,
 
-        [AliasName("@EnumBackgroundStyleAuto")]
+        [AliasName]
         Auto,
 
-        [AliasName("@EnumBackgroundStyleCheck")]
+        [AliasName]
         Check,
 
-        [AliasName("@EnumBackgroundStyleCheckDark")]
+        [AliasName]
         CheckDark,
 
-        [AliasName("@EnumBackgroundStyleCustom")]
+        [AliasName]
         Custom
     };
 

@@ -7,16 +7,16 @@ namespace NeeView
     // 圧縮ファイルの時の動作
     public enum ArchivePolicy
     {
-        [AliasName("@EnumArchiveOptionTypeNone")]
+        [AliasName]
         None,
 
-        [AliasName("@EnumArchiveOptionTypeSendArchiveFile")]
+        [AliasName]
         SendArchiveFile,
 
-        [AliasName("@EnumArchiveOptionTypeSendArchivePath")]
+        [AliasName]
         SendArchivePath, // ver 33.0
 
-        [AliasName("@EnumArchiveOptionTypeSendExtractFile")]
+        [AliasName]
         SendExtractFile,
     }
 

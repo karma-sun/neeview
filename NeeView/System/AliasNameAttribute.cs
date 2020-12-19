@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace NeeView
@@ -11,6 +12,10 @@ namespace NeeView
         public string Tips;
         public bool IsVisibled = true;
 
+        public AliasNameAttribute()
+        {
+        }
+
         public AliasNameAttribute(string aliasName)
         {
             AliasName = aliasName;
@@ -21,8 +26,7 @@ namespace NeeView
     {
         #region Generics
 
-        public static AliasNameAttribute GetAliasNameAttribute<T>(T value)
-            where T : struct
+        private static AliasNameAttribute GetAliasNameAttribute<T>(T value)
         {
             return value.GetType()
                 .GetField(value.ToString())
@@ -31,17 +35,47 @@ namespace NeeView
                 .FirstOrDefault();
         }
 
-        public static string GetAliasName<T>(T value)
-            where T : struct
+        private static string GetResourceKey<T>(T value, string postfix = null)
         {
-            var raw = GetAliasNameAttribute(value)?.AliasName;
-            return ResourceService.GetString(raw) ?? value.ToString();
+            return $"@{value.GetType().Name}.{value}{postfix}";
+        }
+
+        private static string GetAliasName<T>(T value, AliasNameAttribute attribute)
+        {
+            var resourceKey = (attribute != null) ? attribute.AliasName ?? GetResourceKey(value) : null;
+            var resourceString = ResourceService.GetString(resourceKey);
+
+#if DEBUG
+            if (resourceKey != null && resourceString is null)
+            {
+                Debug.WriteLine($"Error: AliasName not found: {resourceKey}");
+            }
+#endif
+
+            return resourceString ?? value.ToString();
+        }
+
+        public static string GetAliasName<T>(T value)
+        {
+            return GetAliasName(value, GetAliasNameAttribute(value));
+        }
+
+        private static string GetTips<T>(T value, AliasNameAttribute attribute)
+        {
+            var raw = (attribute != null) ? attribute.Tips ?? GetResourceKey(value, "#Tips") : null;
+            return ResourceService.GetResourceString(raw);
+        }
+
+        public static string GetTips<T>(T value)
+        {
+            return GetTips(value, GetAliasNameAttribute(value));
         }
 
 
         public static Dictionary<T, string> GetAliasNameDictionary<T>()
-            where T : struct
         {
+            Debug.Assert(typeof(T).IsEnum);
+
             var type = typeof(T);
 
             return Enum.GetValues(type)
@@ -50,26 +84,22 @@ namespace NeeView
         }
 
         public static Dictionary<T, string> GetVisibledAliasNameDictionary<T>()
-            where T : struct
         {
+            Debug.Assert(typeof(T).IsEnum);
+
             var type = typeof(T);
 
             return Enum.GetValues(type)
                 .Cast<T>()
                 .Select(e => (Key: e, Attribute: GetAliasNameAttribute(e)))
                 .Where(e => e.Attribute == null || e.Attribute.IsVisibled)
-                .ToDictionary(e => e.Key, e => ResourceService.GetString(e.Attribute?.AliasName) ?? e.Key.ToString());
+                .ToDictionary(e => e.Key, e => GetAliasName(e.Key, e.Attribute));
         }
 
-        public static string GetTips<T>(T value)
-            where T : struct
-        {
-            return GetAliasNameAttribute(value)?.Tips;
-        }
 
-        #endregion
+#endregion
 
-        #region Extension Methods
+#region Extension Methods
 
         public static AliasNameAttribute ToAliasNameAttribute(this Enum value)
         {
@@ -82,8 +112,7 @@ namespace NeeView
 
         public static string ToAliasName(this Enum value)
         {
-            var raw = value.ToAliasNameAttribute()?.AliasName;
-            return ResourceService.GetString(raw) ?? value.ToString();
+            return GetAliasName(value);
         }
 
         public static Dictionary<Enum, string> AliasNameDictionary(this Type type)
@@ -105,10 +134,10 @@ namespace NeeView
                 .Distinct()
                 .Select(e => (Key: e, Attribute: e.ToAliasNameAttribute()))
                 .Where(e => e.Attribute == null || e.Attribute.IsVisibled)
-                .ToDictionary(e => e.Key, e => ResourceService.GetString(e.Attribute?.AliasName) ?? e.Key.ToString());
+                .ToDictionary(e => e.Key, e => GetAliasName(e.Key, e.Attribute));
         }
 
-        #endregion
+#endregion
     }
 }
 

@@ -1,13 +1,11 @@
-﻿//using System.Drawing;
-
-namespace NeeView
+﻿namespace NeeView
 {
     public enum ExportImageMode
     {
-        [AliasName("@EnumExportImageModeOrigin")]
+        [AliasName]
         Original,
 
-        [AliasName("@EnumExportImageModeView")]
+        [AliasName]
         View,
     }
 }

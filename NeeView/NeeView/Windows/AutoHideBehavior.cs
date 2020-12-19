@@ -18,19 +18,19 @@ namespace NeeView
     /// </summary>
     public enum AutoHideFocusLockMode
     {
-        [AliasName("@EnumAutoHideFocusLockModeNone")]
+        [AliasName]
         None,
 
-        [AliasName("@EnumAutoHideFocusLockModeLogicalFocusLock")]
+        [AliasName]
         LogicalFocusLock,
 
-        [AliasName("@EnumAutoHideFocusLockModeLogicalTextBoxFocusLock")]
+        [AliasName]
         LogicalTextBoxFocusLock,
 
-        [AliasName("@EnumAutoHideFocusLockModeFocusLock")]
+        [AliasName]
         FocusLock,
 
-        [AliasName("@EnumAutoHideFocusLockModeTextBxFocusLock")]
+        [AliasName]
         TextBoxFocusLock,
     }
 

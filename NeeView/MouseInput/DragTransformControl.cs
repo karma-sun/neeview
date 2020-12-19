@@ -26,13 +26,13 @@ namespace NeeView
     // 回転、拡大操作の中心
     public enum DragControlCenter
     {
-        [AliasName("@EnumDragControlCenterView")]
+        [AliasName]
         View,
 
-        [AliasName("@EnumDragControlCenterTarget")]
+        [AliasName]
         Target,
 
-        [AliasName("@EnumDragControlCenterCursor")]
+        [AliasName]
         Cursor,
     }
 

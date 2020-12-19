@@ -37,19 +37,19 @@ namespace NeeView
     public enum PageEndAction
     {
         [EnumMember]
-        [AliasName("@EnumPageEndActionNone")]
+        [AliasName]
         None,
 
         [EnumMember(Value = "NextFolder")]
-        [AliasName("@EnumPageEndActionNextFolder")]
+        [AliasName]
         NextBook,
 
         [EnumMember]
-        [AliasName("@EnumPageEndActionLoop")]
+        [AliasName]
         Loop,
 
         [EnumMember]
-        [AliasName("@EnumPageEndActionDialog")]
+        [AliasName]
         Dialog,
     }
 
@@ -60,16 +60,9 @@ namespace NeeView
     [Obsolete]
     public enum PreLoadMode
     {
-        [AliasName("@EnumPreLoadModeNone")]
         None,
-
-        [AliasName("@EnumPreLoadModeAutoPreLoad")]
         AutoPreLoad,
-
-        [AliasName("@EnumPreLoadModePreLoad")]
         PreLoad,
-
-        [AliasName("@EnumPreLoadModePreLoadNoUnload")]
         PreLoadNoUnload,
     }
 

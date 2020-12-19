@@ -63,7 +63,7 @@ namespace NeeView
 
         // 表示名
         [DataMember]
-        [PropertyMember("@EnumPageStretchModeNone", Title = "@ParamCommandParameterToggleStretchAllowTitle")]
+        [PropertyMember("@PageStretchMode.None", Title = "@ParamCommandParameterToggleStretchAllowTitle")]
         public bool IsEnableNone
         {
             get => _isEnableNone;
@@ -71,7 +71,7 @@ namespace NeeView
         }
 
         [DataMember]
-        [PropertyMember("@EnumPageStretchModeUniform")]
+        [PropertyMember("@PageStretchMode.Uniform")]
         public bool IsEnableUniform
         {
             get => _isEnableUniform;
@@ -79,7 +79,7 @@ namespace NeeView
         }
 
         [DataMember]
-        [PropertyMember("@EnumPageStretchModeUniformToFill")]
+        [PropertyMember("@PageStretchMode.UniformToFill")]
         public bool IsEnableUniformToFill
         {
             get => _isEnableUniformToFill;
@@ -87,7 +87,7 @@ namespace NeeView
         }
 
         [DataMember]
-        [PropertyMember("@EnumPageStretchModeUniformToSize")]
+        [PropertyMember("@PageStretchMode.UniformToSize")]
         public bool IsEnableUniformToSize
         {
             get => _isEnableUniformToSize;
@@ -95,7 +95,7 @@ namespace NeeView
         }
 
         [DataMember]
-        [PropertyMember("@EnumPageStretchModeUniformToVertical")]
+        [PropertyMember("@PageStretchMode.UniformToVertical")]
         public bool IsEnableUniformToVertical
         {
             get => _isEnableUniformToVertical;
@@ -103,7 +103,7 @@ namespace NeeView
         }
 
         [DataMember]
-        [PropertyMember("@EnumPageStretchModeUniformToHorizontal")]
+        [PropertyMember("@PageStretchMode.UniformToHorizontal")]
         public bool IsEnableUniformToHorizontal
         {
             get => _isEnableUniformToHorizontal;

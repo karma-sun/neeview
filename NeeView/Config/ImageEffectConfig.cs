@@ -40,43 +40,43 @@ namespace NeeView
             set { SetProperty(ref _isHsvMode, value); }
         }
 
-        [PropertyMapLabel("@EnumEffectTypeLevel")]
+        [PropertyMapLabel("@EffectType.Level")]
         public LevelEffectUnit LevelEffect { get; set; } = new LevelEffectUnit();
 
-        [PropertyMapLabel("@EnumEffectTypeHsv")]
+        [PropertyMapLabel("@EffectType.Hsv")]
         public HsvEffectUnit HsvEffect { get; set; } = new HsvEffectUnit();
 
-        [PropertyMapLabel("@EnumEffectTypeColorSelect")]
+        [PropertyMapLabel("@EffectType.ColorSelect")]
         public ColorSelectEffectUnit ColorSelectEffect { get; set; } = new ColorSelectEffectUnit();
 
-        [PropertyMapLabel("@EnumEffectTypeBlur")]
+        [PropertyMapLabel("@EffectType.Blur")]
         public BlurEffectUnit BlurEffect { get; set; } = new BlurEffectUnit();
 
-        [PropertyMapLabel("@EnumEffectTypeBloom")]
+        [PropertyMapLabel("@EffectType.Bloom")]
         public BloomEffectUnit BloomEffect { get; set; } = new BloomEffectUnit();
 
-        [PropertyMapLabel("@EnumEffectTypeMonochrome")]
+        [PropertyMapLabel("@EffectType.Monochrome")]
         public MonochromeEffectUnit MonochromeEffect { get; set; } = new MonochromeEffectUnit();
 
-        [PropertyMapLabel("@EnumEffectTypeColorTone")]
+        [PropertyMapLabel("@EffectType.ColorTone")]
         public ColorToneEffectUnit ColorToneEffect { get; set; } = new ColorToneEffectUnit();
 
-        [PropertyMapLabel("@EnumEffectTypeSharpen")]
+        [PropertyMapLabel("@EffectType.Sharpen")]
         public SharpenEffectUnit SharpenEffect { get; set; } = new SharpenEffectUnit();
 
-        [PropertyMapLabel("@EnumEffectTypeEmbossed")]
+        [PropertyMapLabel("@EffectType.Embossed")]
         public EmbossedEffectUnit EmbossedEffect { get; set; } = new EmbossedEffectUnit();
 
-        [PropertyMapLabel("@EnumEffectTypePixelate")]
+        [PropertyMapLabel("@EffectType.Pixelate")]
         public PixelateEffectUnit PixelateEffect { get; set; } = new PixelateEffectUnit();
 
-        [PropertyMapLabel("@EnumEffectTypeMagnify")]
+        [PropertyMapLabel("@EffectType.Magnify")]
         public MagnifyEffectUnit MagnifyEffect { get; set; } = new MagnifyEffectUnit();
 
-        [PropertyMapLabel("@EnumEffectTypeRipple")]
+        [PropertyMapLabel("@EffectType.Ripple")]
         public RippleEffectUnit RippleEffect { get; set; } = new RippleEffectUnit();
 
-        [PropertyMapLabel("@EnumEffectTypeSwirl")]
+        [PropertyMapLabel("@EffectType.Swirl")]
         public SwirlEffectUnit SwirlEffect { get; set; } = new SwirlEffectUnit();
     }
 }

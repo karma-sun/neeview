@@ -15,46 +15,46 @@ namespace NeeView.Effects
     //
     public enum EffectType
     {
-        [AliasName("@EnumEffectTypeNone")]
+        [AliasName]
         None,
 
-        [AliasName("@EnumEffectTypeLevel")]
+        [AliasName]
         Level,
 
-        [AliasName("@EnumEffectTypeHsv")]
+        [AliasName]
         Hsv,
 
-        [AliasName("@EnumEffectTypeColorSelect")]
+        [AliasName]
         ColorSelect,
 
-        [AliasName("@EnumEffectTypeBlur")]
+        [AliasName]
         Blur,
 
-        [AliasName("@EnumEffectTypeBloom")]
+        [AliasName]
         Bloom,
 
-        [AliasName("@EnumEffectTypeMonochrome")]
+        [AliasName]
         Monochrome,
 
-        [AliasName("@EnumEffectTypeColorTone")]
+        [AliasName]
         ColorTone,
 
-        [AliasName("@EnumEffectTypeSharpen")]
+        [AliasName]
         Sharpen,
 
-        [AliasName("@EnumEffectTypeEmbossed")]
+        [AliasName]
         Embossed,
 
-        [AliasName("@EnumEffectTypePixelate")]
+        [AliasName]
         Pixelate,
 
-        [AliasName("@EnumEffectTypeMagnify")]
+        [AliasName]
         Magnify,
 
-        [AliasName("@EnumEffectTypeRipple")]
+        [AliasName]
         Ripple,
 
-        [AliasName("@EnumEffectTypeSwirl")]
+        [AliasName]
         Swirl,
     }
 }

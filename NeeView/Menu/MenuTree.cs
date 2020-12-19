@@ -17,19 +17,19 @@ namespace NeeView
 {
     public enum MenuElementType
     {
-        [AliasName("@EnumMenuElementTypeNone")]
+        [AliasName]
         None,
 
-        [AliasName("@EnumMenuElementTypeGroup")]
+        [AliasName]
         Group,
 
-        [AliasName("@EnumMenuElementTypeCommand")]
+        [AliasName]
         Command,
 
-        [AliasName("@EnumMenuElementTypeHistory")]
+        [AliasName]
         History,
 
-        [AliasName("@EnumMenuElementTypeSeparator")]
+        [AliasName]
         Separator,
     }
 

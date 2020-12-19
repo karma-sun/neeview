@@ -8,7 +8,7 @@ namespace NeeView
 {
     internal static class ResourceService
     {
-        private static Regex _regexKey = new Regex(@"@\w+");
+        private static Regex _regexKey = new Regex(@"@[a-zA-Z0-9_\.#]+");
 
         /// <summary>
         /// @で始まる文字列はリソースキーとしてその値を返す。

@@ -20,19 +20,19 @@ namespace NeeView
     /// </summary>
     public enum WindowStateEx
     {
-        [AliasName("@WindowStateEx.None")]
+        [AliasName]
         None, // 未設定
 
-        [AliasName("@WindowStateEx.Normal")]
+        [AliasName]
         Normal,
 
-        [AliasName("@WindowStateEx.Minimized")]
+        [AliasName]
         Minimized,
 
-        [AliasName("@WindowStateEx.Maximized")]
+        [AliasName]
         Maximized,
 
-        [AliasName("@WindowStateEx.FullScreen")]
+        [AliasName]
         FullScreen,
     }
 
@@ -50,10 +50,10 @@ namespace NeeView
     /// </summary>
     public enum WindowChromeFrame
     {
-        [AliasName("@EnumWindowChromeFrameNone")]
+        [AliasName]
         None,
 
-        [AliasName("@EnumWindowChromeFrameWindowFrame")]
+        [AliasName]
         WindowFrame,
     }
 

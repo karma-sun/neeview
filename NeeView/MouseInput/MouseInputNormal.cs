@@ -12,11 +12,11 @@ namespace NeeView
 {
     public enum LongButtonMask
     {
-        [AliasName("@EnumLongButtonMaskLeft")]
+        [AliasName]
         Left,
-        [AliasName("@EnumLongButtonMaskRight")]
+        [AliasName]
         Right,
-        [AliasName("@EnumLongButtonMaskAll")]
+        [AliasName]
         All,
     }
 

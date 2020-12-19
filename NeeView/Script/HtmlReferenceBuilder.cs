@@ -273,9 +273,9 @@ namespace NeeView
         private DataTable ParametersToDataTable(MethodInfo method, IEnumerable<ParameterInfo> parameters)
         {
             var dataTable = new DataTable("Parameters");
-            dataTable.Columns.Add(new DataColumn("name", typeof(string)) { Caption = ResourceService.GetString("@Word.Name") });
-            dataTable.Columns.Add(new DataColumn("type", typeof(string)) { Caption = ResourceService.GetString("@Word.Type") });
-            dataTable.Columns.Add(new DataColumn("summary", typeof(string)) { Caption = ResourceService.GetString("@Word.Summary") });
+            dataTable.Columns.Add(new DataColumn("name", typeof(string)));
+            dataTable.Columns.Add(new DataColumn("type", typeof(string)));
+            dataTable.Columns.Add(new DataColumn("summary", typeof(string)));
 
             foreach (var parameter in parameters)
             {
@@ -295,10 +295,10 @@ namespace NeeView
         private DataTable PropertiesToDataTable(IEnumerable<PropertyInfo> properties)
         {
             var dataTable = new DataTable("Properties");
-            dataTable.Columns.Add(new DataColumn("name", typeof(string)) { Caption = ResourceService.GetString("@Word.Name") });
-            dataTable.Columns.Add(new DataColumn("type", typeof(string)) { Caption = ResourceService.GetString("@Word.Type") });
-            dataTable.Columns.Add(new DataColumn("rw", typeof(string)) { Caption = ResourceService.GetString("@Word.ReadWrite") });
-            dataTable.Columns.Add(new DataColumn("summary", typeof(string)) { Caption = ResourceService.GetString("@Word.Summary") });
+            dataTable.Columns.Add(new DataColumn("name", typeof(string)));
+            dataTable.Columns.Add(new DataColumn("type", typeof(string)));
+            dataTable.Columns.Add(new DataColumn("rw", typeof(string)));
+            dataTable.Columns.Add(new DataColumn("summary", typeof(string)));
 
             foreach (var property in properties)
             {

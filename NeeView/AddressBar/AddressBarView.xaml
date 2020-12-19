@@ -62,11 +62,11 @@
                         <Image.Style>
                             <Style TargetType="Image">
                                 <Setter Property="Source" Value="{Binding Config.Theme.MenuColor, Converter={StaticResource IconLooksOneSelector}}"/>
-                                <Setter Property="ToolTip" Value="{x:Static properties:Resources.EnumPageModeSinglePage}"/>
+                                <Setter Property="ToolTip" Value="{x:Static properties:Resources.PageMode_SinglePage}"/>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding BookSetting.PageMode}"  Value="WidePage">
                                         <Setter Property="Source" Value="{Binding Config.Theme.MenuColor, Converter={StaticResource IconLooksTwoSelector}}"/>
-                                        <Setter Property="ToolTip" Value="{x:Static properties:Resources.EnumPageModeWidePage}"/>
+                                        <Setter Property="ToolTip" Value="{x:Static properties:Resources.PageMode_WidePage}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -80,11 +80,11 @@
                             <Image.Style>
                                 <Style TargetType="Image">
                                     <Setter Property="Source" Value="{Binding Config.Theme.MenuColor, Converter={StaticResource IconLeftToRightSelector}}"/>
-                                    <Setter Property="ToolTip" Value="{x:Static properties:Resources.EnumPageReadOrderLeftToRight}"/>
+                                    <Setter Property="ToolTip" Value="{x:Static properties:Resources.PageReadOrder_LeftToRight}"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding BookSetting.BookReadOrder}"  Value="RightToLeft">
                                             <Setter Property="Source" Value="{Binding Config.Theme.MenuColor, Converter={StaticResource IconRightToLeftSelector}}"/>
-                                            <Setter Property="ToolTip" Value="{x:Static properties:Resources.EnumPageReadOrderRightToLeft}"/>
+                                            <Setter Property="ToolTip" Value="{x:Static properties:Resources.PageReadOrder_RightToLeft}"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>

@@ -47,13 +47,13 @@ namespace NeeView
     // 自動回転タイプ
     public enum AutoRotateType
     {
-        [AliasName("@EnumAutoRotateNone")]
+        [AliasName]
         None,
 
-        [AliasName("@EnumAutoRotateLeft")]
+        [AliasName]
         Left,
 
-        [AliasName("@EnumAutoRotateRight")]
+        [AliasName]
         Right,
     }
 

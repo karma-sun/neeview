@@ -6,10 +6,10 @@ namespace NeeView
 {
     public enum Language
     {
-        [AliasName("@EnumLanguageEnglish")]
+        [AliasName]
         English,
 
-        [AliasName("@EnumLanguageJapanese")]
+        [AliasName]
         Japanese,
     }
 

@@ -30,55 +30,55 @@ namespace NeeView
     public enum FolderOrder
     {
         [EnumMember]
-        [AliasName("@EnumFolderOrderFileName")]
+        [AliasName]
         FileName,
 
         [EnumMember]
-        [AliasName("@EnumFolderOrderFileNameDescending")]
+        [AliasName]
         FileNameDescending,
 
         [EnumMember]
-        [AliasName("@EnumFolderOrderPath")]
+        [AliasName]
         Path,
 
         [EnumMember]
-        [AliasName("@EnumFolderOrderPathDescending")]
+        [AliasName]
         PathDescending,
 
         [EnumMember]
-        [AliasName("@EnumFolderOrderFileType")]
+        [AliasName]
         FileType,
 
         [EnumMember]
-        [AliasName("@EnumFolderOrderFileTypeDescending")]
+        [AliasName]
         FileTypeDescending,
 
         [EnumMember]
-        [AliasName("@EnumFolderOrderTimeStamp")]
+        [AliasName]
         TimeStamp,
 
         [EnumMember]
-        [AliasName("@EnumFolderOrderTimeStampDescending")]
+        [AliasName]
         TimeStampDescending,
 
         [EnumMember]
-        [AliasName("@EnumFolderOrderEntryTime")]
+        [AliasName]
         EntryTime,
 
         [EnumMember]
-        [AliasName("@EnumFolderOrderEntryTimeDescending")]
+        [AliasName]
         EntryTimeDescending,
 
         [EnumMember]
-        [AliasName("@EnumFolderOrderSize")]
+        [AliasName]
         Size,
 
         [EnumMember]
-        [AliasName("@EnumFolderOrderSizeDescending")]
+        [AliasName]
         SizeDescending,
 
         [EnumMember]
-        [AliasName("@EnumFolderOrderRandom")]
+        [AliasName]
         Random,
     }
 

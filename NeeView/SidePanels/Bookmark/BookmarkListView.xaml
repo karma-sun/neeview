@@ -97,9 +97,9 @@
                         <Image Source="{StaticResource ic_treeview_b}" Width="16" Height="16"/>
                         <Button.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="{x:Static properties:Resources.FolderTreeLayoutTop}" IsChecked="{Binding Model.FolderTreeLayout, Converter={StaticResource FolderTreeLayoutToBooleanConverter}, ConverterParameter={x:Static local:FolderTreeLayout.Top}}"
+                                <MenuItem Header="{x:Static properties:Resources.FolderTreeLayout_Top}" IsChecked="{Binding Model.FolderTreeLayout, Converter={StaticResource FolderTreeLayoutToBooleanConverter}, ConverterParameter={x:Static local:FolderTreeLayout.Top}}"
                                           Command="{Binding SetFolderTreeLayout}" CommandParameter="{x:Static local:FolderTreeLayout.Top}"/>
-                                <MenuItem Header="{x:Static properties:Resources.FolderTreeLayoutLeft}" IsChecked="{Binding Model.FolderTreeLayout, Converter={StaticResource FolderTreeLayoutToBooleanConverter}, ConverterParameter={x:Static local:FolderTreeLayout.Left}}"
+                                <MenuItem Header="{x:Static properties:Resources.FolderTreeLayout_Left}" IsChecked="{Binding Model.FolderTreeLayout, Converter={StaticResource FolderTreeLayoutToBooleanConverter}, ConverterParameter={x:Static local:FolderTreeLayout.Left}}"
                                           Command="{Binding SetFolderTreeLayout}" CommandParameter="{x:Static local:FolderTreeLayout.Left}"/>
                             </ContextMenu>
                         </Button.ContextMenu>

@@ -14,43 +14,43 @@ namespace NeeView
     [Obsolete]
     public enum DragActionType
     {
-        [AliasName("@EnumDragActionTypeNone")]
+        [AliasName]
         None,
 
-        [AliasName("@EnumDragActionTypeGesture")]
+        [AliasName]
         Gesture,
 
-        [AliasName("@EnumDragActionTypeMove")]
+        [AliasName]
         Move,
 
-        [AliasName("@EnumDragActionTypeMoveScale")]
+        [AliasName]
         MoveScale,
 
-        [AliasName("@EnumDragActionTypeAngle")]
+        [AliasName]
         Angle,
 
-        [AliasName("@EnumDragActionTypeAngleSlider")]
+        [AliasName]
         AngleSlider,
 
-        [AliasName("@EnumDragActionTypeScale")]
+        [AliasName]
         Scale,
 
-        [AliasName("@EnumDragActionTypeScaleSlider")]
+        [AliasName]
         ScaleSlider,
 
-        [AliasName("@EnumDragActionTypeScaleSliderCentered")]
+        [AliasName]
         ScaleSliderCentered,
 
-        [AliasName("@EnumDragActionTypeMarqueeZoom")]
+        [AliasName]
         MarqueeZoom,
 
-        [AliasName("@EnumDragActionTypeFlipHorizontal")]
+        [AliasName]
         FlipHorizontal,
 
-        [AliasName("@EnumDragActionTypeFlipVertical")]
+        [AliasName]
         FlipVertical,
 
-        [AliasName("@EnumDragActionTypeWindowMove")]
+        [AliasName]
         WindowMove,
     }
 

@@ -11,16 +11,16 @@ namespace NeeView
 {
     public enum PanelListItemImageShape
     {
-        [AliasName("@EnumPanelListItemImageShapeOriginal")]
+        [AliasName]
         Original,
 
-        [AliasName("@EnumPanelListItemImageShapeSquare")]
+        [AliasName]
         Square,
 
-        [AliasName("@EnumPanelListItemImageShapeBookShape")]
+        [AliasName]
         BookShape,
 
-        [AliasName("@EnumPanelListItemImageShapeBanner")]
+        [AliasName]
         Banner,
     }
 

@@ -23,13 +23,13 @@ namespace NeeView
     // 通知表示の種類
     public enum ShowMessageStyle
     {
-        [AliasName("@EnumShowMessageStyleNone")]
+        [AliasName]
         None,
 
-        [AliasName("@EnumShowMessageStyleNormal")]
+        [AliasName]
         Normal,
 
-        [AliasName("@EnumShowMessageStyleTiny")]
+        [AliasName]
         Tiny,
     }
 

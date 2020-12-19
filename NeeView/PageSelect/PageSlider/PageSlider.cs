@@ -9,26 +9,26 @@ namespace NeeView
     // スライダーの方向
     public enum SliderDirection
     {
-        [AliasName("@EnumSliderDirectionLeftToRight")]
+        [AliasName]
         LeftToRight,
 
-        [AliasName("@EnumSliderDirectionRightToLeft")]
+        [AliasName]
         RightToLeft,
 
-        [AliasName("@EnumSliderDirectionSyncBookReadDirection")]
+        [AliasName]
         SyncBookReadDirection,
     }
 
     // スライダー数値表示の配置
     public enum SliderIndexLayout
     {
-        [AliasName("@EnumSliderIndexLayoutNone")]
+        [AliasName]
         None,
 
-        [AliasName("@EnumSliderIndexLayoutLeft")]
+        [AliasName]
         Left,
 
-        [AliasName("@EnumSliderIndexLayoutRight")]
+        [AliasName]
         Right,
     }
 

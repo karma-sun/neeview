@@ -2,31 +2,31 @@
 {
     public enum BookSettingSelectMode
     {
-        [AliasName("@EnumBookSettingSelectModeDefault")]
+        [AliasName]
         Default,
 
-        [AliasName("@EnumBookSettingSelectModeContinue")]
+        [AliasName]
         Continue,
 
-        [AliasName("@EnumBookSettingSelectModeRestoreOrDefault")]
+        [AliasName]
         RestoreOrDefault,
 
-        [AliasName("@EnumBookSettingSelectModeRestoreOrContinue")]
+        [AliasName]
         RestoreOrContinue,
 
-        [AliasName("@EnumBookSettingSelectModeRestoreOrDefaultReset", IsVisibled = false)]
+        [AliasName(IsVisibled = false)]
         RestoreOrDefaultReset,
     }
 
     public enum BookSettingPageSelectMode
     {
-        [AliasName("@EnumBookSettingSelectModeDefault")]
+        [AliasName]
         Default,
 
-        [AliasName("@EnumBookSettingSelectModeRestoreOrDefault")]
+        [AliasName]
         RestoreOrDefault,
 
-        [AliasName("@EnumBookSettingSelectModeRestoreOrDefaultReset")]
+        [AliasName]
         RestoreOrDefaultReset,
     }
 

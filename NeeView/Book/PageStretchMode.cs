@@ -9,22 +9,22 @@ namespace NeeView
     // 画像のストレッチモード
     public enum PageStretchMode
     {
-        [AliasName("@EnumPageStretchModeNone")]
+        [AliasName]
         None,
 
-        [AliasName("@EnumPageStretchModeUniform")]
+        [AliasName]
         Uniform,
 
-        [AliasName("@EnumPageStretchModeUniformToFill")]
+        [AliasName]
         UniformToFill,
 
-        [AliasName("@EnumPageStretchModeUniformToSize")]
+        [AliasName]
         UniformToSize,
 
-        [AliasName("@EnumPageStretchModeUniformToVertical")]
+        [AliasName]
         UniformToVertical,
 
-        [AliasName("@EnumPageStretchModeUniformToHorizontal")]
+        [AliasName]
         UniformToHorizontal,
     }
     

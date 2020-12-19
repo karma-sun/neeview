@@ -6,9 +6,9 @@ namespace NeeView
 {
     public enum FolderTreeLayout
     {
-        [AliasName("@FolderTreeLayoutTop")]
+        [AliasName]
         Top,
-        [AliasName("@FolderTreeLayoutLeft")]
+        [AliasName]
         Left,
     };
 

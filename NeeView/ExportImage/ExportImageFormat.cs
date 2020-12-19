@@ -1,13 +1,12 @@
-﻿//using System.Drawing;
-
-namespace NeeView
+﻿namespace NeeView
 {
+    // TODO: BitmapImageFormat と統合できる？
     public enum ExportImageFormat
     {
-        [AliasName("PNG")]
+        [AliasName]
         Png,
 
-        [AliasName("JPEG")]
+        [AliasName]
         Jpeg,
     }
 }

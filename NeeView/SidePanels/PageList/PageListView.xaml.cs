@@ -98,13 +98,13 @@ namespace NeeView
 
     public enum PageNameFormat
     {
-        [AliasName("@EnumPageNameFormatSmart")]
+        [AliasName]
         Smart,
 
-        [AliasName("@EnumPageNameFormatNameOnly")]
+        [AliasName]
         NameOnly,
 
-        [AliasName("@EnumPageNameFormatRaw")]
+        [AliasName]
         Raw,
     }
 

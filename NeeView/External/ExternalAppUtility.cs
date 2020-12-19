@@ -13,10 +13,10 @@ namespace NeeView
     [Obsolete]
     public enum ExternalProgramType
     {
-        [AliasName("@EnumExternalProgramTypeNormal")]
+        [AliasName]
         Normal,
 
-        [AliasName("@EnumExternalProgramTypeProtocol")]
+        [AliasName]
         Protocol,
     }
 

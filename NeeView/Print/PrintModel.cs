@@ -22,16 +22,16 @@ namespace NeeView
     /// </summary>
     public enum PrintMode
     {
-        [AliasName("@EnumPrintModeRawImage")]
+        [AliasName]
         RawImage,
 
-        [AliasName("@EnumPrintModeView")]
+        [AliasName]
         View,
 
-        [AliasName("@EnumPrintModeViewFill")]
+        [AliasName]
         ViewFill,
 
-        [AliasName("@EnumPrintModeViewStretch")]
+        [AliasName]
         ViewStretch,
     }
 
@@ -72,8 +72,8 @@ namespace NeeView
         //
         public static Dictionary<PageOrientation, string> PageOrientationList { get; } = new Dictionary<PageOrientation, string>()
         {
-            [PageOrientation.Portrait] = Properties.Resources.EnumPageOperationPortrait,
-            [PageOrientation.Landscape] = Properties.Resources.EnumPageOperationLandscape,
+            [PageOrientation.Portrait] = Properties.Resources.PageOperation_Portrait,
+            [PageOrientation.Landscape] = Properties.Resources.PageOperation_Landscape,
         };
 
         //
@@ -170,9 +170,9 @@ namespace NeeView
 
         public Dictionary<HorizontalAlignment, string> HorizontalAlignmentList { get; } = new Dictionary<HorizontalAlignment, string>()
         {
-            [HorizontalAlignment.Left] = Properties.Resources.EnumHorizontalAlignmentLeft,
-            [HorizontalAlignment.Center] = Properties.Resources.EnumHorizontalAlignmentCenter,
-            [HorizontalAlignment.Right] = Properties.Resources.EnumHorizontalAlignmentRight,
+            [HorizontalAlignment.Left] = Properties.Resources.HorizontalAlignment_Left,
+            [HorizontalAlignment.Center] = Properties.Resources.HorizontalAlignment_Center,
+            [HorizontalAlignment.Right] = Properties.Resources.HorizontalAlignment_Right,
         };
 
         /// <summary>
@@ -188,9 +188,9 @@ namespace NeeView
 
         public Dictionary<VerticalAlignment, string> VerticalAlignmentList { get; } = new Dictionary<VerticalAlignment, string>()
         {
-            [VerticalAlignment.Top] = Properties.Resources.EnumVerticalAlignmentTop,
-            [VerticalAlignment.Center] = Properties.Resources.EnumVerticalAlignmentCenter,
-            [VerticalAlignment.Bottom] = Properties.Resources.EnumVerticalAlignmentBottom,
+            [VerticalAlignment.Top] = Properties.Resources.VerticalAlignment_Top,
+            [VerticalAlignment.Center] = Properties.Resources.VerticalAlignment_Center,
+            [VerticalAlignment.Bottom] = Properties.Resources.VerticalAlignment_Bottom,
         };
 
         /// <summary>

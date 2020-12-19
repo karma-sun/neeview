@@ -16,13 +16,13 @@ namespace NeeView
     [Obsolete]
     public enum LoadingPageView
     {
-        [AliasName("@EnumLoadingPageViewNone")]
+        [AliasName]
         None,
 
-        [AliasName("@EnumLoadingPageViewPreThumbnail")]
+        [AliasName]
         PreThumbnail,
 
-        [AliasName("@EnumLoadingPageViewPreImage")]
+        [AliasName]
         PreImage,
     }
 
@@ -32,13 +32,13 @@ namespace NeeView
     /// </summary>
     public enum BookPageCollectMode
     {
-        [AliasName("@EnumBookPageCollectModeImage")]
+        [AliasName]
         Image,
 
-        [AliasName("@EnumBookPageCollectModeImageAndBook")]
+        [AliasName]
         ImageAndBook,
 
-        [AliasName("@EnumBookPageCollectModeAll")]
+        [AliasName]
         All,
     }
 

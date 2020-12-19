@@ -27,19 +27,19 @@ namespace NeeView
         /// <summary>
         /// 指定ディレクトリのみ
         /// </summary>
-        [AliasName("@EnumArchiveEntryCollectionModeCurrentDirectory")]
+        [AliasName]
         CurrentDirectory,
 
         /// <summary>
         /// 指定ディレクトリを含む現在のアーカイブの範囲
         /// </summary>
-        [AliasName("@EnumArchiveEntryCollectionModeIncludeSubDirectories")]
+        [AliasName]
         IncludeSubDirectories,
 
         /// <summary>
         /// 指定ディレクトリ以下サブアーカイブ含むすべて
         /// </summary>
-        [AliasName("@EnumArchiveEntryCollectionModeIncludeSubArchives")]
+        [AliasName]
         IncludeSubArchives,
     }
 

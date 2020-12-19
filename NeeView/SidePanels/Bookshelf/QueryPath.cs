@@ -8,19 +8,19 @@ namespace NeeView
 {
     public enum QueryScheme
     {
-        [AliasName("PC")]
+        [AliasName]
         File = 0,
 
-        [AliasName("@WordBookshelf")]
+        [AliasName]
         Root,
 
-        [AliasName("@WordBookmark")]
+        [AliasName]
         Bookmark,
 
-        [AliasName("@WordPagemark")]
+        [AliasName]
         Pagemark,
 
-        [AliasName("@WordQuickAccess")]
+        [AliasName]
         QuickAccess,
     }
 

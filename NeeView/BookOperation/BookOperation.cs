@@ -553,9 +553,9 @@ namespace NeeView
         {
             var title = (e.Direction < 0) ? Resources.NotifyFirstPage : Resources.NotifyLastPage;
             var dialog = new MessageDialog(Resources.DialogPageEnd, title);
-            var nextCommand = new UICommand(Properties.Resources.EnumPageEndActionNextFolder);
-            var loopCommand = new UICommand(Properties.Resources.EnumPageEndActionLoop);
-            var noneCommand = new UICommand(Properties.Resources.EnumPageEndActionNone);
+            var nextCommand = new UICommand(Properties.Resources.PageEndAction_NextBook);
+            var loopCommand = new UICommand(Properties.Resources.PageEndAction_Loop);
+            var noneCommand = new UICommand(Properties.Resources.PageEndAction_None);
             dialog.Commands.Add(nextCommand);
             dialog.Commands.Add(loopCommand);
             dialog.Commands.Add(noneCommand);

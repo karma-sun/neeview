@@ -41,7 +41,7 @@ namespace NeeView
         /// <summary>
         /// Explorer ContextMenu 登録状態。セーブデータには保存されない。
         /// </summary>
-        [PropertyMember("@ParamIsExplorerContextMenuEnabled", Tips = "@ParamIsExplorerContextMenuEnabledTips")]
+        [PropertyMember]
         public bool IsEnabled
         {
             get

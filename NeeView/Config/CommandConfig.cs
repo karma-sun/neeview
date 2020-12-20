@@ -9,21 +9,21 @@ namespace NeeView
         private bool _isReversePageMove = true;
         private bool _isReversePageMoveWheel;
 
-        [PropertyMember("@ParamIsAccessKeyEnabled", Tips = "@ParamIsAccessKeyEnabledTips")]
+        [PropertyMember]
         public bool IsAccessKeyEnabled
         {
             get { return _isAccessKeyEnabled; }
             set { SetProperty(ref _isAccessKeyEnabled, value); }
         }
 
-        [PropertyMember("@ParamCommandIsReversePageMove", Tips = "@ParamCommandIsReversePageMoveTips")]
+        [PropertyMember]
         public bool IsReversePageMove
         {
             get { return _isReversePageMove; }
             set { SetProperty(ref _isReversePageMove, value); }
         }
 
-        [PropertyMember("@ParamCommandIsReversePageMoveWheel", Tips = "@ParamCommandIsReversePageMoveWheelTips")]
+        [PropertyMember]
         public bool IsReversePageMoveWheel
         {
             get { return _isReversePageMoveWheel; }

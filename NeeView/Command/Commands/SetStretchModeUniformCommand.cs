@@ -46,7 +46,7 @@ namespace NeeView
         private bool _isToggle;
 
         // 属性に説明文
-        [PropertyMember("@ParamCommandParameterStretchModeIsToggle", Tips = "@ParamCommandParameterStretchModeIsToggleTips")]
+        [PropertyMember]
         public bool IsToggle
         {
             get => _isToggle;

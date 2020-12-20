@@ -104,9 +104,10 @@ namespace NeeView.Windows.Property
                 var attribute = GetPropertyMemberAttribute(info);
                 if (attribute != null)
                 {
-                    if (attribute.Title != null)
+                    var title = PropertyMemberAttributeExtensions.GetPropertyTitle(info, attribute);
+                    if (title != null)
                     {
-                        list.Add(new PropertyTitleElement(ResourceService.GetString(attribute.Title)));
+                        list.Add(new PropertyTitleElement(title));
                     }
 
                     var element = new PropertyMemberElement(source, info, attribute, PropertyMemberElementOptions.Default);

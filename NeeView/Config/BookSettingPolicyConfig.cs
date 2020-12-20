@@ -17,63 +17,63 @@ namespace NeeView
         private BookSettingSelectMode _sortMode = BookSettingSelectMode.RestoreOrDefault;
 
 
-        [PropertyMember("@ParamBookPolicyPage")]
+        [PropertyMember]
         public BookSettingPageSelectMode Page
         {
             get { return _page; }
             set { SetProperty(ref _page, value); }
         }
 
-        [PropertyMember("@ParamBookPolicyPageMode")]
+        [PropertyMember]
         public BookSettingSelectMode PageMode
         {
             get { return _pageMode; }
             set { SetProperty(ref _pageMode, value); }
         }
 
-        [PropertyMember("@ParamBookPolicyBookReadOrder")]
+        [PropertyMember]
         public BookSettingSelectMode BookReadOrder
         {
             get { return _bookReadOrder; }
             set { SetProperty(ref _bookReadOrder, value); }
         }
 
-        [PropertyMember("@ParamBookPolicyIsSupportedDividePage")]
+        [PropertyMember]
         public BookSettingSelectMode IsSupportedDividePage
         {
             get { return _isSupportedDividePage; }
             set { SetProperty(ref _isSupportedDividePage, value); }
         }
 
-        [PropertyMember("@ParamBookPolicyIsSupportedSingleFirstPage")]
+        [PropertyMember]
         public BookSettingSelectMode IsSupportedSingleFirstPage
         {
             get { return _isSupportedSingleFirstPage; }
             set { SetProperty(ref _isSupportedSingleFirstPage, value); }
         }
 
-        [PropertyMember("@ParamBookPolicyIsSupportedSingleLastPage")]
+        [PropertyMember]
         public BookSettingSelectMode IsSupportedSingleLastPage
         {
             get { return _isSupportedSingleLastPage; }
             set { SetProperty(ref _isSupportedSingleLastPage, value); }
         }
 
-        [PropertyMember("@ParamBookPolicyIsSupportedWidePage")]
+        [PropertyMember]
         public BookSettingSelectMode IsSupportedWidePage
         {
             get { return _isSupportedWidePage; }
             set { SetProperty(ref _isSupportedWidePage, value); }
         }
 
-        [PropertyMember("@ParamBookPolicyIsRecursiveFolder")]
+        [PropertyMember]
         public BookSettingSelectMode IsRecursiveFolder
         {
             get { return _isRecursiveFolder; }
             set { SetProperty(ref _isRecursiveFolder, value); }
         }
 
-        [PropertyMember("@ParamBookPolicySortMode")]
+        [PropertyMember]
         public BookSettingSelectMode SortMode
         {
             get { return _sortMode; }

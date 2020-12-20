@@ -52,7 +52,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{x:Static properties:Resources.ParamExternalArchiveOption}">
+                    <GridViewColumn Header="{x:Static properties:Resources.OpenExternalAppCommandParameter_ArchivePolicy}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding ArchivePolicy, Converter={StaticResource ArchivePolicyToStringConverter}}" TextTrimming="CharacterEllipsis" />

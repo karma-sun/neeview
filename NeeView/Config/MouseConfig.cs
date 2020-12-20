@@ -22,7 +22,7 @@ namespace NeeView
 
 
         // マウスジェスチャー有効
-        [PropertyMember("@ParamMouseIsGestureEnabled")]
+        [PropertyMember]
         public bool IsGestureEnabled
         {
             get { return _isGestureEnabled; }
@@ -30,7 +30,7 @@ namespace NeeView
         }
 
         // マウスドラッグ有効
-        [PropertyMember("@ParamMouseIsDragEnabled")]
+        [PropertyMember]
         public bool IsDragEnabled
         {
             get { return _isDragEnabled; }
@@ -38,42 +38,42 @@ namespace NeeView
         }
 
         // ドラッグ開始距離
-        [PropertyRange("@ParamMouseMinimumDragDistance", 1.0, 200.0, TickFrequency = 1.0, IsEditable = true, Tips = "@ParamMouseMinimumDragDistanceTips")]
+        [PropertyRange(1.0, 200.0, TickFrequency = 1.0, IsEditable = true)]
         public double MinimumDragDistance
         {
             get { return _minimumDragDistance; }
             set { SetProperty(ref _minimumDragDistance, value); }
         }
 
-        [PropertyRange("@ParamMouseGestureMinimumDistance", 5.0, 200.0, TickFrequency = 1.0, IsEditable = true, Tips = "@ParamMouseGestureMinimumDistanceTips")]
+        [PropertyRange(5.0, 200.0, TickFrequency = 1.0, IsEditable = true)]
         public double GestureMinimumDistance
         {
             get { return _gestureMinimumDistance; }
             set { SetProperty(ref _gestureMinimumDistance, Math.Max(value, SystemParameters.MinimumHorizontalDragDistance)); }
         }
 
-        [PropertyMember("@ParamMouseLongButtonDownMode")]
+        [PropertyMember]
         public LongButtonDownMode LongButtonDownMode
         {
             get { return _longButtonDownMode; }
             set { SetProperty(ref _longButtonDownMode, value); }
         }
 
-        [PropertyMember("@ParamMouseLongButtonMask")]
+        [PropertyMember]
         public LongButtonMask LongButtonMask
         {
             get { return _longButtonMask; }
             set { SetProperty(ref _longButtonMask, value); }
         }
 
-        [PropertyRange("@ParamMouseLongButtonDownTime", 0.1, 2.0, TickFrequency = 0.1, Tips = "@ParamMouseLongButtonDownTimeTips")]
+        [PropertyRange(0.1, 2.0, TickFrequency = 0.1)]
         public double LongButtonDownTime
         {
             get { return _longButtonDownTime; }
             set { SetProperty(ref _longButtonDownTime, value); }
         }
 
-        [PropertyRange("@ParamMouseLongButtonRepeatTime", 0.01, 1.0, TickFrequency = 0.01, Tips = "@ParamMouseLongButtonRepeatTimeTips")]
+        [PropertyRange(0.01, 1.0, TickFrequency = 0.01)]
         public double LongButtonRepeatTime
         {
             get { return _longButtonRepeatTime; }
@@ -83,28 +83,28 @@ namespace NeeView
         /// <summary>
         /// カーソルの自動非表示
         /// </summary>
-        [PropertyMember("@ParamIsCursorHideEnabled")]
+        [PropertyMember]
         public bool IsCursorHideEnabled
         {
             get { return _isCursorHideEnabled; }
             set { SetProperty(ref _isCursorHideEnabled, value); }
         }
 
-        [PropertyRange("@ParameterCursorHideTime", 1.0, 10.0, TickFrequency = 0.2, IsEditable = true)]
+        [PropertyRange(1.0, 10.0, TickFrequency = 0.2, IsEditable = true)]
         public double CursorHideTime
         {
             get { return _cursorHideTime; }
             set { SetProperty(ref _cursorHideTime, Math.Max(1.0, value)); }
         }
 
-        [PropertyMember("@ParameterIsCursorHideReleaseAction")]
+        [PropertyMember]
         public bool IsCursorHideReleaseAction
         {
             get { return _isCursorHideReleaseAction; }
             set { SetProperty(ref _isCursorHideReleaseAction, value); }
         }
 
-        [PropertyRange("@ParameterCursorHideReleaseDistance", 0.0, 1000.0, TickFrequency = 1.0, IsEditable = true)]
+        [PropertyRange(0.0, 1000.0, TickFrequency = 1.0, IsEditable = true)]
         public double CursorHideReleaseDistance
         {
             get { return _cursorHideReleaseDistance; }

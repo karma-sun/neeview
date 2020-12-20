@@ -25,7 +25,7 @@ namespace NeeView
                 return DependencyProperty.UnsetValue;
             }
 
-            return Convert(path).GetImageSource(Width * dpiScale);
+            return Convert(path)?.GetImageSource(Width * dpiScale);
         }
 
         public static IImageSourceCollection Convert(QueryPath path)

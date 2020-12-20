@@ -20,7 +20,7 @@ namespace NeeView
 
         // ページ
         [JsonIgnore, PropertyMapIgnore]
-        [PropertyMember("@ParamBookPage")]
+        [PropertyMember]
         public string Page
         {
             get { return _page; }
@@ -28,7 +28,7 @@ namespace NeeView
         }
 
         // 1ページ表示 or 2ページ表示
-        [PropertyMember("@ParamBookPageMode")]
+        [PropertyMember]
         public PageMode PageMode
         {
             get { return _pageMode; }
@@ -36,7 +36,7 @@ namespace NeeView
         }
 
         // 右開き or 左開き
-        [PropertyMember("@ParamBookBookReadOrder")]
+        [PropertyMember]
         public PageReadOrder BookReadOrder
         {
             get { return _bookReadOrder; }
@@ -44,7 +44,7 @@ namespace NeeView
         }
 
         // 横長ページ分割 (1ページモード)
-        [PropertyMember("@ParamBookIsSupportedDividePage")]
+        [PropertyMember]
         public bool IsSupportedDividePage
         {
             get { return _isSupportedDividePage; }
@@ -52,7 +52,7 @@ namespace NeeView
         }
 
         // 最初のページを単独表示 
-        [PropertyMember("@ParamBookIsSupportedSingleFirstPage")]
+        [PropertyMember]
         public bool IsSupportedSingleFirstPage
         {
             get { return _isSupportedSingleFirstPage; }
@@ -60,7 +60,7 @@ namespace NeeView
         }
 
         // 最後のページを単独表示
-        [PropertyMember("@ParamBookIsSupportedSingleLastPage")]
+        [PropertyMember]
         public bool IsSupportedSingleLastPage
         {
             get { return _isSupportedSingleLastPage; }
@@ -68,7 +68,7 @@ namespace NeeView
         }
 
         // 横長ページを2ページ分とみなす(2ページモード)
-        [PropertyMember("@ParamBookIsSupportedWidePage")]
+        [PropertyMember]
         public bool IsSupportedWidePage
         {
             get { return _isSupportedWidePage; }
@@ -76,7 +76,7 @@ namespace NeeView
         }
 
         // フォルダーの再帰
-        [PropertyMember("@ParamBookIsRecursiveFolder", Tips = "@ParamBookIsRecursiveFolderTips")]
+        [PropertyMember]
         public bool IsRecursiveFolder
         {
             get { return _isRecursiveFolder; }
@@ -84,7 +84,7 @@ namespace NeeView
         }
 
         // ページ並び順
-        [PropertyMember("@ParamBookSortMode")]
+        [PropertyMember]
         public PageSortMode SortMode
         {
             get { return _sortMode; }

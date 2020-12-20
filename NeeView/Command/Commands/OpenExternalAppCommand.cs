@@ -43,7 +43,7 @@ namespace NeeView
 
         // コマンド
         [DataMember]
-        [PropertyPath("@ParamExternalCommand", Tips = "@ParamExternalCommandTips", Filter = "EXE|*.exe|All|*.*")]
+        [PropertyPath(Filter = "EXE|*.exe|All|*.*")]
         public string Command
         {
             get { return _command; }
@@ -53,7 +53,7 @@ namespace NeeView
         // コマンドパラメータ
         // $FILE = 渡されるファイルパス
         [DataMember]
-        [PropertyMember("@ParamExternalParameter", Tips = "@ParamExternalParameterTips")]
+        [PropertyMember]
         public string Parameter
         {
             get { return _parameter; }
@@ -62,7 +62,7 @@ namespace NeeView
 
         // 複数ページのときの動作
         [DataMember]
-        [PropertyMember("@ParamExternalMultiPageOption")]
+        [PropertyMember]
         public MultiPagePolicy MultiPagePolicy
         {
             get { return _multiPagePolicy; }
@@ -71,7 +71,7 @@ namespace NeeView
 
         // 圧縮ファイルのときの動作
         [DataMember]
-        [PropertyMember("@ParamExternalArchiveOption")]
+        [PropertyMember]
         public ArchivePolicy ArchivePolicy
         {
             get { return _archivePolicy; }

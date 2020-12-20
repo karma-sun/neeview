@@ -18,7 +18,7 @@ namespace NeeView
         /// <summary>
         /// フィルムストリップ表示
         /// </summary>
-        [PropertyMember("@ParamFilmStripIsEnabled")]
+        [PropertyMember]
         public bool IsEnabled
         {
             get { return _isEnabled; }
@@ -28,7 +28,7 @@ namespace NeeView
         /// <summary>
         /// フィルムストリップ自動的に隠す
         /// </summary>
-        [PropertyMember("@ParamFilmStripIsHideFilmStrip")]
+        [PropertyMember]
         public bool IsHideFilmStrip
         {
             get { return _isHideFilmStrip; }
@@ -38,7 +38,7 @@ namespace NeeView
         /// <summary>
         /// サムネイルサイズ
         /// </summary>
-        [PropertyRange("@ParamFilmStripThumbnailSize", 16, 256, TickFrequency = 8, Format = "{0}×{0}")]
+        [PropertyRange(16, 256, TickFrequency = 8, Format = "{0}×{0}")]
         public double ThumbnailSize
         {
             get { return _thumbnailSize; }
@@ -48,7 +48,7 @@ namespace NeeView
         /// <summary>
         /// ページ番号の表示
         /// </summary>
-        [PropertyMember("@ParamFilmStripIsVisibleThumbnailNumber")]
+        [PropertyMember]
         public bool IsVisibleNumber
         {
             get { return _isVisibleNumber; }
@@ -58,7 +58,7 @@ namespace NeeView
         /// <summary>
         /// サムネイル台紙の表示
         /// </summary>
-        [PropertyMember("@ParamFilmStripIsVisibleThumbnailPlate", Tips = "@ParamFilmStripIsVisibleThumbnailPlateTips")]
+        [PropertyMember]
         public bool IsVisiblePlate
         {
             get { return _isVisiblelPlate; }
@@ -68,7 +68,7 @@ namespace NeeView
         /// <summary>
         /// スクロールビュータッチ操作の終端挙動
         /// </summary>
-        [PropertyMember("@ParamFilmStripIsManipulationBoundaryFeedbackEnabled")]
+        [PropertyMember]
         public bool IsManipulationBoundaryFeedbackEnabled
         {
             get { return _isManipulationBoundaryFeedbackEnabled; }
@@ -78,7 +78,7 @@ namespace NeeView
         /// <summary>
         /// 選択した項目が中央に表示されるようにスクロールする
         /// </summary>
-        [PropertyMember("@ParamFilmStripIsSelectedCenter")]
+        [PropertyMember]
         public bool IsSelectedCenter
         {
             get { return _isSelectedCenter; }

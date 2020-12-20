@@ -155,9 +155,10 @@ namespace NeeView
                         var attribute = (PropertyMemberAttribute)Attribute.GetCustomAttributes(info, typeof(PropertyMemberAttribute)).FirstOrDefault();
                         if (attribute != null && attribute.IsVisible)
                         {
-                            if (attribute.Title != null)
+                            var titleString = PropertyMemberAttributeExtensions.GetPropertyTitle(info, attribute);
+                            if (titleString != null)
                             {
-                                title = ResourceService.GetString(attribute.Title) + " / ";
+                                title = titleString + " / ";
                             }
 
                             var enums = "";
@@ -166,7 +167,14 @@ namespace NeeView
                                 enums = string.Join(" / ", info.PropertyType.VisibledAliasNameDictionary().Select(e => $"\"{e.Key}\": {e.Value}")) + "<br/>";
                             }
 
-                            var text = title + ResourceService.GetString(attribute.Name).TrimEnd(Properties.Resources.WordPeriod.ToArray()) + Properties.Resources.WordPeriod + (attribute.Tips != null ? " " + ResourceService.GetString(attribute.Tips) : "");
+                            var propertyName = PropertyMemberAttributeExtensions.GetPropertyName(info, attribute).TrimEnd(Properties.Resources.WordPeriod.ToArray()) + Properties.Resources.WordPeriod;
+                            var text = title + propertyName;
+
+                            var propertyTips = PropertyMemberAttributeExtensions.GetPropertyTips(info, attribute);
+                            if (propertyTips != null)
+                            {
+                                text = text + " " + propertyTips;
+                            }
 
                             properties = properties + $"<dt><b>{info.Name}</b>: {info.PropertyType.ToManualString()}</dt><dd>{enums + text}<dd/>";
                         }

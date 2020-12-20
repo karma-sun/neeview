@@ -54,7 +54,7 @@ namespace NeeView
 
 
         [DataMember]
-        [PropertyMember("@ParamCommandParameterIsReverse", Tips = "@ParamCommandParameterIsReverseTips")]
+        [PropertyMember]
         public bool IsReverse
         {
             get => _isReverse;

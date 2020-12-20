@@ -11,7 +11,7 @@ namespace NeeView
 
         [JsonIgnore]
         [PropertyMapReadOnly]
-        [PropertyMember("@WordIsPanelVisible")]
+        [PropertyMember]
         public bool IsVisible
         {
             get { return _isVisible; }
@@ -19,7 +19,7 @@ namespace NeeView
         }
 
         [JsonIgnore]
-        [PropertyMember("@WordIsPanelSelected")]
+        [PropertyMember]
         public bool IsSelected
         {
             get { return _isSelected; }

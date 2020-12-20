@@ -20,7 +20,7 @@ namespace NeeView
 
 
         // スプラッシュスクリーン
-        [PropertyMember("@ParamIsSplashScreenEnabled")]
+        [PropertyMember]
         public bool IsSplashScreenEnabled
         {
             get { return _isSplashScreenEnabled; }
@@ -28,7 +28,7 @@ namespace NeeView
         }
 
         // 多重起動を許可する
-        [PropertyMember("@ParamIsMultiBootEnabled")]
+        [PropertyMember]
         public bool IsMultiBootEnabled
         {
             get { return _isMultiBootEnabled; }
@@ -36,7 +36,7 @@ namespace NeeView
         }
 
         // ウィンドウ座標を復元する
-        [PropertyMember("@ParamIsSaveWindowPlacement")]
+        [PropertyMember]
         public bool IsRestoreWindowPlacement
         {
             get { return _isRestoreWindowPlacement; }
@@ -44,7 +44,7 @@ namespace NeeView
         }
 
         // 複数ウィンドウの座標復元
-        [PropertyMember("@ParamIsRestoreSecondWindow", Tips = "@ParamIsRestoreSecondWindowTips")]
+        [PropertyMember]
         public bool IsRestoreSecondWindowPlacement
         {
             get { return _isRestoreSecondWindowPlacement; }
@@ -52,7 +52,7 @@ namespace NeeView
         }
 
         // フルスクリーン状態を復元する
-        [PropertyMember("@ParamIsSaveFullScreen")]
+        [PropertyMember]
         public bool IsRestoreFullScreen
         {
             get { return _isRestoreFullScreen; }
@@ -60,7 +60,7 @@ namespace NeeView
         }
 
         // 前回開いていたブックを開く
-        [PropertyMember("@ParamIsOpenLastBook")]
+        [PropertyMember]
         public bool IsOpenLastBook
         {
             get { return _isOpenLastBook; }
@@ -68,7 +68,7 @@ namespace NeeView
         }
 
         // 前回開いていた本棚を復元
-        [PropertyMember("@ParamHistoryIsKeepLastFolder", Tips = "@ParamHistoryIsKeepLastFolderTips")]
+        [PropertyMember]
         public bool IsOpenLastFolder
         {
             get { return _isOpenLastFolder; }
@@ -78,7 +78,7 @@ namespace NeeView
         /// <summary>
         /// 起動時にスライドショーを開始する
         /// </summary>
-        [PropertyMember("@ParamIsAutoPlaySlideShow")]
+        [PropertyMember]
         public bool IsAutoPlaySlideShow
         {
             get { return _isAutoPlaySlideShow; }

@@ -16,42 +16,42 @@ namespace NeeView
         private bool _isEmptyMessageEnabled = true;
 
 
-        [PropertyMember("@ParamInfoMessageNoticeShowMessageStyle")]
+        [PropertyMember]
         public ShowMessageStyle NoticeShowMessageStyle
         {
             get { return _noticeShowMessageStyle; }
             set { SetProperty(ref _noticeShowMessageStyle, value); }
         }
 
-        [PropertyMember("@ParamInfoBookNameShowMessageStyle")]
+        [PropertyMember]
         public ShowMessageStyle BookNameShowMessageStyle
         {
             get { return _bookNameShowMessageStyle; }
             set { SetProperty(ref _bookNameShowMessageStyle, value); }
         }
 
-        [PropertyMember("@ParamInfoMessageCommandShowMessageStyle")]
+        [PropertyMember]
         public ShowMessageStyle CommandShowMessageStyle
         {
             get { return _commandShowMessageStyle; }
             set { SetProperty(ref _commandShowMessageStyle, value); }
         }
 
-        [PropertyMember("@ParamInfoMessageGestureShowMessageStyle")]
+        [PropertyMember]
         public ShowMessageStyle GestureShowMessageStyle
         {
             get { return _gestureShowMessageStyle; }
             set { SetProperty(ref _gestureShowMessageStyle, value); }
         }
 
-        [PropertyMember("@ParamInfoMessageNowLoadingShowMessageStyle")]
+        [PropertyMember]
         public ShowMessageStyle NowLoadingShowMessageStyle
         {
             get { return _nowLoadingShowMessageStyle; }
             set { SetProperty(ref _nowLoadingShowMessageStyle, value); }
         }
 
-        [PropertyMember("@ParamInfoMessageViewTransformShowMessageStyle")]
+        [PropertyMember]
         public ShowMessageStyle ViewTransformShowMessageStyle
         {
             get { return _viewTransformShowMessageStyle; }
@@ -59,7 +59,7 @@ namespace NeeView
         }
 
         // View変換情報表示のスケール表示をオリジナルサイズ基準にする
-        [PropertyMember("@ParamDragTransformIsOriginalScaleShowMessage", Tips = "@ParamDragTransformIsOriginalScaleShowMessageTips")]
+        [PropertyMember]
         public bool IsOriginalScaleShowMessage
         {
             get { return _isOriginalScaleShowMessage; }
@@ -69,7 +69,7 @@ namespace NeeView
         /// <summary>
         /// 非同期のページ読込処理中のマークを表示する
         /// </summary>
-        [PropertyMember("@ParamIsVisibleBusy")]
+        [PropertyMember]
         public bool IsBusyMarkEnabled
         {
             get { return _isBusyMarkEnabled; }
@@ -79,7 +79,7 @@ namespace NeeView
         /// <summary>
         /// ページがないメッセージの表示
         /// </summary>
-        [PropertyMember("@ParamIsEmptyMessageEnabled")]
+        [PropertyMember]
         public bool IsEmptyMessageEnabled
         {
             get { return _isEmptyMessageEnabled; }

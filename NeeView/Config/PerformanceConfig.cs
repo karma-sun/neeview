@@ -23,7 +23,7 @@ namespace NeeView
         /// <summary>
         /// キャッシュメモリサイズ (MB)
         /// </summary>
-        [PropertyMember("@ParamCacheMemorySize", Tips = "@ParamCacheMemorySizeTips")]
+        [PropertyMember]
         public int CacheMemorySize
         {
             // 64bit,32bit共用のため、設定時、取得時に最大メモリ制限をしている
@@ -34,7 +34,7 @@ namespace NeeView
         /// <summary>
         /// 先読みページ数
         /// </summary>
-        [PropertyMember("@ParamPreLoadSize", Tips = "@ParamPreLoadSizeTips")]
+        [PropertyMember]
         public int PreLoadSize
         {
             get { return _preLoadSize; }
@@ -44,7 +44,7 @@ namespace NeeView
         /// <summary>
         /// JobWorker数
         /// </summary>
-        [PropertyMember("@ParamJobEngineWorkerSize", Tips = "@ParamJobEngineWorkerSizeTips")]
+        [PropertyMember]
         public int JobWorkerSize
         {
             get { return _jobWorkerSize; }
@@ -54,7 +54,7 @@ namespace NeeView
         // 画像処理の最大サイズ
         // リサイズフィルターで使用される。
         // IsLimitSourceSize フラグがONのときには、読み込みサイズにもこの制限が適用される
-        [PropertyMember("@ParamPictureProfileMaximumSize", Tips = "@ParamPictureProfileMaximumSizeTips")]
+        [PropertyMember]
         public Size MaximumSize
         {
             get { return _maximumSize; }
@@ -62,7 +62,7 @@ namespace NeeView
         }
 
         // 読み込みデータのサイズ制限適用フラグ
-        [PropertyMember("@ParamPictureProfileIsLimitSourceSize", Tips = "@ParamPictureProfileIsLimitSourceSizeTips")]
+        [PropertyMember]
         public bool IsLimitSourceSize
         {
             get { return _isLimitSourceSize; }
@@ -70,7 +70,7 @@ namespace NeeView
         }
 
         // ページ読み込み中表示
-        [PropertyMember("@ParamBookIsLoadingPageVisible", Tips = "@ParamBookIsLoadingPageVisibleTips")]
+        [PropertyMember]
         public bool IsLoadingPageVisible
         {
             get { return _isLoadingPageVisible; }
@@ -78,7 +78,7 @@ namespace NeeView
         }
 
         // 事前展開サイズ上限(MB)
-        [PropertyMember("@ParamSevenZipArchiverPreExtractSolidSize", Tips = "@ParamSevenZipArchiverPreExtractSolidSizeTips")]
+        [PropertyMember]
         public int PreExtractSolidSize
         {
             get { return _preExtractSolidSize; }
@@ -86,7 +86,7 @@ namespace NeeView
         }
 
         // 事前展開先をメモリにする
-        [PropertyMember("@ParamSevenZipArchiverIsPreExtractToMemory", Tips = "@ParamSevenZipArchiverIsPreExtractToMemoryTips")]
+        [PropertyMember]
         public bool IsPreExtractToMemory
         {
             get { return _isPreExtractToMemory; }

@@ -12,7 +12,7 @@ namespace NeeView
         /// <summary>
         /// テーマカラー：パネル
         /// </summary>
-        [PropertyMember("@ParamPanelColor")]
+        [PropertyMember]
         public PanelColor PanelColor
         {
             get { return _panelColor; }
@@ -22,7 +22,7 @@ namespace NeeView
         /// <summary>
         /// テーマカラー：メニュー
         /// </summary>
-        [PropertyMember("@ParamMenuColor")]
+        [PropertyMember]
         public PanelColor MenuColor
         {
             get { return _menuColor; }

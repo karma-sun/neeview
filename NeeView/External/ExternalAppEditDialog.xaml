@@ -35,19 +35,19 @@
                 <TextBox VerticalAlignment="Center" Text="{Binding Name}" />
             </DockPanel>
 
-            <DockPanel Margin="10" ToolTip="{x:Static properties:Resources.ParamExternalCommandTips}">
-                <TextBlock Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.ParamExternalCommand}" />
+            <DockPanel Margin="10" ToolTip="{x:Static properties:Resources.OpenExternalAppCommandParameter_Command_Tips}">
+                <TextBlock Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.OpenExternalAppCommandParameter_Command}" />
                 <nvc:FileNameBox VerticalAlignment="Center" Text="{Binding Command, Mode=TwoWay}" FileDialogType="OpenFile" 
                         Filter="EXE|*.exe|All|*.*" />
             </DockPanel>
 
-            <DockPanel Margin="10" ToolTip="{x:Static properties:Resources.ParamExternalParameterTips}">
-                <TextBlock Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.ParamExternalParameter}"/>
+            <DockPanel Margin="10" ToolTip="{x:Static properties:Resources.OpenExternalAppCommandParameter_Parameter_Tips}">
+                <TextBlock Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.OpenExternalAppCommandParameter_Parameter}"/>
                 <TextBox VerticalAlignment="Center" Text="{Binding Model.Parameter}" />
             </DockPanel>
 
             <DockPanel Margin="10,10,10,0">
-                <TextBlock Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.ParamExternalArchiveOption}"/>
+                <TextBlock Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.OpenExternalAppCommandParameter_ArchivePolicy}"/>
                 <ComboBox ItemsSource="{Binding ArchivePolicyList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.ArchivePolicy}" />
             </DockPanel>
             <DockPanel Margin="10,0,10,10">

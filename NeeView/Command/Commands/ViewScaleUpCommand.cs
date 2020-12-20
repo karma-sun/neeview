@@ -37,7 +37,7 @@ namespace NeeView
         private bool _isSnapDefaultScale = true;
 
         [DataMember(Name = "ScaleV2")]
-        [PropertyPercent("@ParamCommandParameterScaleAmount", Tips = "@ParamCommandParameterScaleAmountTips")]
+        [PropertyPercent]
         public double Scale
         {
             get { return _scale; }
@@ -46,7 +46,7 @@ namespace NeeView
 
         [DataMember]
         [DefaultValue(true)]
-        [PropertyMember("@ParamCommandParameterScaleSnapDefault", Tips = "@ParamCommandParameterScaleSnapDefaultTips")]
+        [PropertyMember]
         public bool IsSnapDefaultScale
         {
             get => _isSnapDefaultScale;

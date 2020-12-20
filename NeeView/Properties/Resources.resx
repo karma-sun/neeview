@@ -159,7 +159,7 @@
   <data name="ArchivePolicy.SendExtractFile" xml:space="preserve">
     <value>Extract file path (temporary file)</value>
   </data>
-  <data name="AutoHideFocusLockMode" xml:space="preserve">
+  <data name="AutoHideConfig.AutoHideFocusLockMode" xml:space="preserve">
     <value>Auto-hide panel focus mode</value>
   </data>
   <data name="AutoHideFocusLockMode.FocusLock" xml:space="preserve">
@@ -177,7 +177,7 @@
   <data name="AutoHideFocusLockMode.TextBoxFocusLock" xml:space="preserve">
     <value>Window and TextBox</value>
   </data>
-  <data name="AutoHideFocusLockModeTips" xml:space="preserve">
+  <data name="AutoHideConfig.AutoHideFocusLockMode#Tips" xml:space="preserve">
     <value>It is not hidden when it has focus.</value>
   </data>
   <data name="AutoRotateType.Left" xml:space="preserve">
@@ -2888,30 +2888,6 @@ Is it OK? </value>
   <data name="EffectType.Swirl" xml:space="preserve">
     <value>Swirl</value>
   </data>
-  <data name="HorizontalAlignment.Center" xml:space="preserve">
-    <value>Center</value>
-  </data>
-  <data name="HorizontalAlignment.Left" xml:space="preserve">
-    <value>Left</value>
-  </data>
-  <data name="HorizontalAlignment.Right" xml:space="preserve">
-    <value>Right</value>
-  </data>
-  <data name="PageOperation_Landscape" xml:space="preserve">
-    <value>Landscape</value>
-  </data>
-  <data name="PageOperation_Portrait" xml:space="preserve">
-    <value>Portrait</value>
-  </data>
-  <data name="VerticalAlignment_Bottom" xml:space="preserve">
-    <value>Bottom</value>
-  </data>
-  <data name="VerticalAlignment_Center" xml:space="preserve">
-    <value>Center</value>
-  </data>
-  <data name="VerticalAlignment_Top" xml:space="preserve">
-    <value>Top</value>
-  </data>
   <data name="ExceptionCannotDeleteData" xml:space="preserve">
     <value>It is not an AppData folder, so it will not be deleted.</value>
   </data>
@@ -3159,13 +3135,22 @@ Is it OK? </value>
   <data name="HistoryPanelAccessor.Style" xml:space="preserve">
     <value>List item stye</value>
   </data>
+  <data name="HorizontalAlignment.Center" xml:space="preserve">
+    <value>Center</value>
+  </data>
+  <data name="HorizontalAlignment.Left" xml:space="preserve">
+    <value>Left</value>
+  </data>
+  <data name="HorizontalAlignment.Right" xml:space="preserve">
+    <value>Right</value>
+  </data>
   <data name="InformationPanelAccessor" xml:space="preserve">
     <value>Information panel accessor</value>
   </data>
-  <data name="IsAutoHideKeyDownDelay" xml:space="preserve">
+  <data name="AutoHideConfig.IsAutoHideKeyDownDelay" xml:space="preserve">
     <value>Auto-hide panel key input display continued</value>
   </data>
-  <data name="IsAutoHideKeyDownDelayTips" xml:space="preserve">
+  <data name="AutoHideConfig.IsAutoHideKeyDownDelay#Tips" xml:space="preserve">
     <value>Postpone the action to hide when key input.</value>
   </data>
   <data name="JavascriptEngine.ExecureFile" xml:space="preserve">
@@ -3722,6 +3707,12 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="PageNameFormat.Smart" xml:space="preserve">
     <value>Smart</value>
   </data>
+  <data name="PageOperation_Landscape" xml:space="preserve">
+    <value>Landscape</value>
+  </data>
+  <data name="PageOperation_Portrait" xml:space="preserve">
+    <value>Portrait</value>
+  </data>
   <data name="PageReadOrder" xml:space="preserve">
     <value>Page read order</value>
   </data>
@@ -3791,241 +3782,241 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="PanelsConfig.IsHidePanelInAutoHideMode" xml:space="preserve">
     <value>Automatically hide the side panel when it is auto-hide mode</value>
   </data>
-  <data name="ParamArchiveRecursiveMode" xml:space="preserve">
+  <data name="SystemConfig.ArchiveRecursiveMode" xml:space="preserve">
     <value>Compressed file handling</value>
   </data>
-  <data name="ParamArchiveRecursiveModeTips" xml:space="preserve">
+  <data name="SystemConfig.ArchiveRecursiveMode#Tips" xml:space="preserve">
     <value>Extended range when opening compressed file</value>
   </data>
-  <data name="ParamArchiverMediaIsEnabled" xml:space="preserve">
+  <data name="MediaArchiveConfig.IsEnabled" xml:space="preserve">
     <value>Use video</value>
   </data>
-  <data name="ParamArchiverMediaSupportFileTypes" xml:space="preserve">
+  <data name="MediaArchiveConfig.SupportFileTypes" xml:space="preserve">
     <value>Video file extension</value>
   </data>
-  <data name="ParamArchiverMediaSupportFileTypesTips" xml:space="preserve">
+  <data name="MediaArchiveConfig.SupportFileTypes#Tips" xml:space="preserve">
     <value>Probably what you can play with Windows Media Player is playable.</value>
   </data>
-  <data name="ParamArchiverPdfIsEnabled" xml:space="preserve">
+  <data name="PdfArchiveConfig.IsEnabled" xml:space="preserve">
     <value>Use PDF</value>
   </data>
-  <data name="ParamArchiverPdfRenderSize" xml:space="preserve">
+  <data name="PdfArchiveConfig.RenderSize" xml:space="preserve">
     <value>PDF page standard size</value>
   </data>
-  <data name="ParamArchiverPdfRenderSizeTips" xml:space="preserve">
+  <data name="PdfArchiveConfig.RenderSize#Tips" xml:space="preserve">
     <value>Normally we will render according to the display size, but the lower limit will be this standard size. If it becomes smaller, it is reduced and displayed.</value>
   </data>
-  <data name="ParamArchiverPdfSupportFileTypes" xml:space="preserve">
+  <data name="PdfArchiveConfig.SupportFileTypes" xml:space="preserve">
     <value>PDF file extension</value>
   </data>
-  <data name="ParamAutoHideDelayTime" xml:space="preserve">
+  <data name="AutoHideConfig.AutoHideDelayTime" xml:space="preserve">
     <value>Time to hide auto-hide panel (sec)</value>
   </data>
-  <data name="ParamAutoHideDelayVisibleTime" xml:space="preserve">
+  <data name="AutoHideConfig.AutoHideDelayVisibleTime" xml:space="preserve">
     <value>Time to display auto-hide panel (sec)</value>
   </data>
-  <data name="ParamBackgroundType" xml:space="preserve">
+  <data name="BackgroundConfig.BackgroundType" xml:space="preserve">
     <value>Background type</value>
   </data>
-  <data name="ParamBookBookReadOrder" xml:space="preserve">
+  <data name="BookSettingConfig.BookReadOrder" xml:space="preserve">
     <value>Book Orientation</value>
   </data>
-  <data name="ParamBookExcludes" xml:space="preserve">
+  <data name="BookConfig.Excludes" xml:space="preserve">
     <value>Excluded folders</value>
   </data>
-  <data name="ParamBookFilterBookReadOrder" xml:space="preserve">
+  <data name="BookMementoFilter.BookReadOrder" xml:space="preserve">
     <value>Book Orientation</value>
   </data>
-  <data name="ParamBookFilterIsRecursiveFolder" xml:space="preserve">
+  <data name="BookMementoFilter.IsRecursiveFolder" xml:space="preserve">
     <value>Load subfolder</value>
   </data>
-  <data name="ParamBookFilterIsSupportedDividePage" xml:space="preserve">
+  <data name="BookMementoFilter.IsSupportedDividePage" xml:space="preserve">
     <value>Split horizontally long page</value>
   </data>
-  <data name="ParamBookFilterIsSupportedSingleFirstPage" xml:space="preserve">
+  <data name="BookMementoFilter.IsSupportedSingleFirstPage" xml:space="preserve">
     <value>The first page alone</value>
   </data>
-  <data name="ParamBookFilterIsSupportedSingleLastPage" xml:space="preserve">
+  <data name="BookMementoFilter.IsSupportedSingleLastPage" xml:space="preserve">
     <value>The last page alone</value>
   </data>
-  <data name="ParamBookFilterIsSupportedWidePage" xml:space="preserve">
+  <data name="BookMementoFilter.IsSupportedWidePage" xml:space="preserve">
     <value>Landscape page is regarded as 2 pages</value>
   </data>
-  <data name="ParamBookFilterPage" xml:space="preserve">
+  <data name="BookMementoFilter.Page" xml:space="preserve">
     <value>Page position</value>
   </data>
-  <data name="ParamBookFilterPageMode" xml:space="preserve">
+  <data name="BookMementoFilter.PageMode" xml:space="preserve">
     <value>Page Size Mode</value>
   </data>
-  <data name="ParamBookFilterSortMode" xml:space="preserve">
+  <data name="BookMementoFilter.SortMode" xml:space="preserve">
     <value>Order of pages</value>
   </data>
-  <data name="ParamBookIsAllFileAnImage" xml:space="preserve">
+  <data name="ImageStandardConfig.IsAllFileSupported" xml:space="preserve">
     <value>A file whose extension is unknown is regarded as an image file</value>
   </data>
-  <data name="ParamBookIsAllFileAnImageTips" xml:space="preserve">
-    <value>This function works when "@ParamBookPageCollectMode" is "@EnumBookPageCollectModeAll".</value>
+  <data name="ImageStandardConfig.IsAllFileSupported#Tips" xml:space="preserve">
+    <value>This function works when "@SystemConfig.BookPageCollectMode" is "@EnumBookPageCollectModeAll".</value>
   </data>
-  <data name="ParamBookIsEnableAnimatedGif" xml:space="preserve">
+  <data name="ImageStandardConfig.IsAnimatedGifEnabled" xml:space="preserve">
     <value>Play animated GIF</value>
   </data>
-  <data name="ParamBookIsEnableAnimatedGifTips" xml:space="preserve">
+  <data name="ImageStandardConfig.IsAnimatedGifEnabled#Tips" xml:space="preserve">
     <value>Perform animated GIF playback. Memory consumption problems may occur with long GIFs.</value>
   </data>
-  <data name="ParamBookIsLoadingPageVisible" xml:space="preserve">
+  <data name="PerformanceConfig.IsLoadingPageVisible" xml:space="preserve">
     <value>Display the current page until the next page loads</value>
   </data>
-  <data name="ParamBookIsLoadingPageVisibleTips" xml:space="preserve">
+  <data name="PerformanceConfig.IsLoadingPageVisible#Tips" xml:space="preserve">
     <value>You can save memory by turning it off.</value>
   </data>
-  <data name="ParamBookIsMultiplePageMove" xml:space="preserve">
+  <data name="BookConfig.IsMultiplePageMove" xml:space="preserve">
     <value>Accept duplication of page movement commands</value>
   </data>
-  <data name="ParamBookIsMultiplePageMoveTips" xml:space="preserve">
+  <data name="BookConfig.IsMultiplePageMove#Tips" xml:space="preserve">
     <value>Execute all requested page move commands. If it is set to OFF, duplicate page move commands are canceled.</value>
   </data>
-  <data name="ParamBookIsPrioritizePageMove" xml:space="preserve">
+  <data name="BookConfig.IsPrioritizePageMove" xml:space="preserve">
     <value>Page movement priority</value>
   </data>
-  <data name="ParamBookIsPrioritizePageMoveTips" xml:space="preserve">
+  <data name="BookConfig.IsPrioritizePageMove#Tips" xml:space="preserve">
     <value>Perform page movement without waiting for page display.</value>
   </data>
-  <data name="ParamBookIsRecursiveFolder" xml:space="preserve">
+  <data name="BookSettingConfig.IsRecursiveFolder" xml:space="preserve">
     <value>Load subfolder</value>
   </data>
-  <data name="ParamBookIsRecursiveFolderTips" xml:space="preserve">
+  <data name="BookSettingConfig.IsRecursiveFolder#Tips" xml:space="preserve">
     <value>Because it searches all open folders and below, the processing becomes heavy depending on the location of the folder.</value>
   </data>
-  <data name="ParamBookIsSupportedDividePage" xml:space="preserve">
+  <data name="BookSettingConfig.IsSupportedDividePage" xml:space="preserve">
     <value>Split horizontally long page</value>
   </data>
-  <data name="ParamBookIsSupportedSingleFirstPage" xml:space="preserve">
+  <data name="BookSettingConfig.IsSupportedSingleFirstPage" xml:space="preserve">
     <value>The first page alone</value>
   </data>
-  <data name="ParamBookIsSupportedSingleLastPage" xml:space="preserve">
+  <data name="BookSettingConfig.IsSupportedSingleLastPage" xml:space="preserve">
     <value>The last page alone</value>
   </data>
-  <data name="ParamBookIsSupportedWidePage" xml:space="preserve">
+  <data name="BookSettingConfig.IsSupportedWidePage" xml:space="preserve">
     <value>Landscape page is regarded as 2 pages</value>
   </data>
-  <data name="ParamBookmarkFilePath" xml:space="preserve">
+  <data name="BookmarkConfig.BookmarkFilePath" xml:space="preserve">
     <value>Bookmark list file location</value>
   </data>
-  <data name="ParamBookmarkFolderOrder" xml:space="preserve">
+  <data name="BookmarkConfig.BookmarkFolderOrder" xml:space="preserve">
     <value>Default order of bookmarks</value>
   </data>
-  <data name="ParamBookOperationNotifyPageLoop" xml:space="preserve">
+  <data name="BookConfig.IsNotifyPageLoop" xml:space="preserve">
     <value>Notify page loop</value>
   </data>
-  <data name="ParamBookOperationPageEndAction" xml:space="preserve">
+  <data name="BookConfig.PageEndAction" xml:space="preserve">
     <value>Behavior when trying to move past the end of the page</value>
   </data>
-  <data name="ParamBookPage" xml:space="preserve">
+  <data name="BookSettingConfig.Page" xml:space="preserve">
     <value>Page position</value>
   </data>
-  <data name="ParamBookPageCollectMode" xml:space="preserve">
+  <data name="SystemConfig.BookPageCollectMode" xml:space="preserve">
     <value>File type to be page</value>
   </data>
-  <data name="ParamBookPageCollectModeTips" xml:space="preserve">
+  <data name="SystemConfig.BookPageCollectMode#Tips" xml:space="preserve">
     <value>If you make a folder a page, you can open the folder from that page.</value>
   </data>
-  <data name="ParamBookPageMode" xml:space="preserve">
+  <data name="BookSettingConfig.PageMode" xml:space="preserve">
     <value>Page Size Mode</value>
   </data>
-  <data name="ParamBookPageSize" xml:space="preserve">
+  <data name="BookConfig.BookPageSize" xml:space="preserve">
     <value>Book page image size</value>
   </data>
-  <data name="ParamBookPageSizeTips" xml:space="preserve">
+  <data name="BookConfig.BookPageSize#Tips" xml:space="preserve">
     <value>The size of the image to display as the book page. Since thumbnails are displayed, large values ​​may be displayed at a lower resolution.</value>
   </data>
-  <data name="ParamBookPolicyBookReadOrder" xml:space="preserve">
-    <value>Setting policy of "@ParamBookBookReadOrder" when opening a book</value>
+  <data name="BookSettingPolicyConfig.BookReadOrder" xml:space="preserve">
+    <value>Setting policy of "@BookSettingConfig.BookReadOrder" when opening a book</value>
   </data>
-  <data name="ParamBookPolicyIsRecursiveFolder" xml:space="preserve">
-    <value>Setting policy of "@ParamBookIsRecursiveFolder" when opening a book</value>
+  <data name="BookSettingPolicyConfig.IsRecursiveFolder" xml:space="preserve">
+    <value>Setting policy of "@BookSettingConfig.IsRecursiveFolder" when opening a book</value>
   </data>
-  <data name="ParamBookPolicyIsSupportedDividePage" xml:space="preserve">
-    <value>Setting policy of "@ParamBookIsSupportedDividePage" when opening a book</value>
+  <data name="BookSettingPolicyConfig.IsSupportedDividePage" xml:space="preserve">
+    <value>Setting policy of "@BookSettingConfig.IsSupportedDividePage" when opening a book</value>
   </data>
-  <data name="ParamBookPolicyIsSupportedSingleFirstPage" xml:space="preserve">
-    <value>Setting policy of "@ParamBookIsSupportedSingleFirstPage" when opening a book</value>
+  <data name="BookSettingPolicyConfig.IsSupportedSingleFirstPage" xml:space="preserve">
+    <value>Setting policy of "@BookSettingConfig.IsSupportedSingleFirstPage" when opening a book</value>
   </data>
-  <data name="ParamBookPolicyIsSupportedSingleLastPage" xml:space="preserve">
-    <value>Setting policy of "@ParamBookIsSupportedSingleLastPage" when opening a book</value>
+  <data name="BookSettingPolicyConfig.IsSupportedSingleLastPage" xml:space="preserve">
+    <value>Setting policy of "@BookSettingConfig.IsSupportedSingleLastPage" when opening a book</value>
   </data>
-  <data name="ParamBookPolicyIsSupportedWidePage" xml:space="preserve">
-    <value>Setting policy of "@ParamBookIsSupportedWidePage" when opening a book</value>
+  <data name="BookSettingPolicyConfig.IsSupportedWidePage" xml:space="preserve">
+    <value>Setting policy of "@BookSettingConfig.IsSupportedWidePage" when opening a book</value>
   </data>
-  <data name="ParamBookPolicyPage" xml:space="preserve">
-    <value>Setting policy of "@ParamBookPage" when opening a book</value>
+  <data name="BookSettingPolicyConfig.Page" xml:space="preserve">
+    <value>Setting policy of "@BookSettingConfig.Page" when opening a book</value>
   </data>
-  <data name="ParamBookPolicyPageMode" xml:space="preserve">
-    <value>Setting policy of "@ParamBookPageMode" when opening a book</value>
+  <data name="BookSettingPolicyConfig.PageMode" xml:space="preserve">
+    <value>Setting policy of "@BookSettingConfig.PageMode" when opening a book</value>
   </data>
-  <data name="ParamBookPolicySortMode" xml:space="preserve">
-    <value>Setting policy of "@ParamBookSortMode" when opening a book</value>
+  <data name="BookSettingPolicyConfig.SortMode" xml:space="preserve">
+    <value>Setting policy of "@BookSettingConfig.SortMode" when opening a book</value>
   </data>
-  <data name="ParamBookshelfExcludePattern" xml:space="preserve">
+  <data name="BookshelfConfig.ExcludePattern" xml:space="preserve">
     <value>Filename pattern to exclude from display</value>
   </data>
-  <data name="ParamBookshelfExcludePatternTips" xml:space="preserve">
+  <data name="BookshelfConfig.ExcludePattern#Tips" xml:space="preserve">
     <value>It is specified with .NET regular expression. Capital letters and lower case letters are not distinguished.</value>
   </data>
-  <data name="ParamBookshelfHome" xml:space="preserve">
+  <data name="BookshelfConfig.Home" xml:space="preserve">
     <value>Home location</value>
   </data>
-  <data name="ParamBookshelfIsCloseBookWhenMove" xml:space="preserve">
+  <data name="BookshelfConfig.IsCloseBookWhenMove" xml:space="preserve">
     <value>Close the book when changing the location</value>
   </data>
-  <data name="ParamBookshelfIsCruise" xml:space="preserve">
+  <data name="BookshelfConfig.IsCruise" xml:space="preserve">
     <value>Enable Folder Cruise</value>
   </data>
-  <data name="ParamBookshelfIsCruiseTips" xml:space="preserve">
+  <data name="BookshelfConfig.IsCruise#Tips" xml:space="preserve">
     <value>Move the folder including the parent and child of the folder. It does not apply when the bookshelf is a search result.</value>
   </data>
-  <data name="ParamBookshelfIsInsertItem" xml:space="preserve">
+  <data name="BookshelfConfig.IsInsertItem" xml:space="preserve">
     <value>Insert additional file at sort position</value>
   </data>
-  <data name="ParamBookshelfIsInsertItemTips" xml:space="preserve">
+  <data name="BookshelfConfig.IsInsertItem#Tips" xml:space="preserve">
     <value>The bookshelf reflects information in real time. If this setting is ON, inserts the added file in the current sort order position. When set to OFF, it is added to the end of the list.</value>
   </data>
-  <data name="ParamBookshelfIsMultipleRarFilterEnabled" xml:space="preserve">
+  <data name="BookshelfConfig.IsMultipleRarFilterEnabled" xml:space="preserve">
     <value>Filter RAR split files from display</value>
   </data>
-  <data name="ParamBookshelfIsMultipleRarFilterEnabledTips" xml:space="preserve">
+  <data name="BookshelfConfig.IsMultipleRarFilterEnabled#Tips" xml:space="preserve">
     <value>For an RAR split file called .part[number].rar, only the file with the smallest number is displayed in the list.</value>
   </data>
-  <data name="ParamBookshelfIsOpenNextBookWhenRemove" xml:space="preserve">
+  <data name="BookshelfConfig.IsOpenNextBookWhenRemove" xml:space="preserve">
     <value>After deleting the viewing book, open the next book</value>
   </data>
-  <data name="ParamBookshelfIsSyncFolderTree" xml:space="preserve">
+  <data name="BookshelfConfig.IsSyncFolderTree" xml:space="preserve">
     <value>Synchronize Folders tree with sync button</value>
   </data>
-  <data name="ParamBookshelfIsVisibleBookmarkMark" xml:space="preserve">
+  <data name="BookshelfConfig.IsVisibleBookmarkMark" xml:space="preserve">
     <value>Display bookmark symbols</value>
   </data>
-  <data name="ParamBookshelfIsVisibleBookmarkMarkTips" xml:space="preserve">
+  <data name="BookshelfConfig.IsVisibleBookmarkMark#Tips" xml:space="preserve">
     <value>★ mark is displayed in the bookmarked book.</value>
   </data>
-  <data name="ParamBookshelfIsVisibleHistoryMark" xml:space="preserve">
+  <data name="BookshelfConfig.IsVisibleHistoryMark" xml:space="preserve">
     <value>Display history symbol</value>
   </data>
-  <data name="ParamBookshelfIsVisibleHistoryMarkTips" xml:space="preserve">
+  <data name="BookshelfConfig.IsVisibleHistoryMark#Tips" xml:space="preserve">
     <value>A check mark is displayed in the book remaining in the history.</value>
   </data>
-  <data name="ParamBookshelfIsVisibleItemsCount" xml:space="preserve">
+  <data name="BookshelfConfig.IsVisibleItemsCount" xml:space="preserve">
     <value>Show number of items</value>
   </data>
   <data name="ParamBookshelfPageListVisible" xml:space="preserve">
     <value>Show page list</value>
   </data>
-  <data name="ParamBookSortMode" xml:space="preserve">
+  <data name="BookSettingConfig.SortMode" xml:space="preserve">
     <value>Order of pages</value>
   </data>
-  <data name="ParamBookWideRatio" xml:space="preserve">
+  <data name="BookConfig.WideRatio" xml:space="preserve">
     <value>Aspect ratio for determining horizontally long image (horizontal / vertical)</value>
   </data>
-  <data name="ParamBookWideRatioTips" xml:space="preserve">
+  <data name="BookConfig.WideRatio#Tips" xml:space="preserve">
     <value>It is used in "Split landscape page".</value>
   </data>
   <data name="ParamBrushSourceColor" xml:space="preserve">
@@ -4043,152 +4034,173 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParamCacheDirectoryTips" xml:space="preserve">
     <value>This is the storage location of the thumbnail cache (Cache.db).</value>
   </data>
-  <data name="ParamCacheMemorySize" xml:space="preserve">
+  <data name="PerformanceConfig.CacheMemorySize" xml:space="preserve">
     <value>Book cache memory size (MB)</value>
   </data>
-  <data name="ParamCacheMemorySizeTips" xml:space="preserve">
+  <data name="PerformanceConfig.CacheMemorySize#Tips" xml:space="preserve">
     <value>Once the page has been read, it is stored in memory to speed up redisplay. This value is a guideline, and memory may be used beyond this value. Note that too large a value can make the system unstable.</value>
   </data>
-  <data name="ParamClipboardArchiveOption" xml:space="preserve">
+  <data name="CopyFileCommandParameter.ArchivePolicy" xml:space="preserve">
     <value>For compressed files</value>
   </data>
   <data name="ParamClipboardArchiveSeparater" xml:space="preserve">
     <value>Delimiter between compressed file and filename</value>
   </data>
   <data name="ParamClipboardArchiveSeparaterTips" xml:space="preserve">
-    <value>This is the setting when "@ParamClipboardArchiveOption" is "@EnumArchiveOptionTypeSendArchivePath".</value>
+    <value>This is the setting when "@CopyFileCommandParameter.ArchivePolicy" is "@ArchivePolicy.SendArchivePath".</value>
   </data>
-  <data name="ParamClipboardMultiPageOption" xml:space="preserve">
+  <data name="CopyFileCommandParameter.MultiPagePolicy" xml:space="preserve">
     <value>For 2 pages</value>
   </data>
-  <data name="ParamCommandIsReversePageMove" xml:space="preserve">
+  <data name="CommandConfig.IsReversePageMove" xml:space="preserve">
     <value>Swap movement direction of page movement command according to slider direction</value>
   </data>
-  <data name="ParamCommandIsReversePageMoveTips" xml:space="preserve">
+  <data name="CommandConfig.IsReversePageMove#Tipd" xml:space="preserve">
     <value>When the slider is from left to right, reverse the page moving direction. The setting of the command to work is set by "@ParamCommandParameterIsReverse" of the command parameter.</value>
   </data>
-  <data name="ParamCommandIsReversePageMoveWheel" xml:space="preserve">
+  <data name="CommandConfig.IsReversePageMoveWheel" xml:space="preserve">
     <value>Replace when operating wheel</value>
   </data>
-  <data name="ParamCommandIsReversePageMoveWheelTips" xml:space="preserve">
+  <data name="CommandConfig.IsReversePageMoveWheel#Tips" xml:space="preserve">
     <value>You can select correspondence only for wheel operation.</value>
   </data>
-  <data name="ParamCommandParameterExportDefaultFolder" xml:space="preserve">
+  <data name="ExportImageAsCommandParameter.ExportFolder" xml:space="preserve">
     <value>Default output folder</value>
   </data>
-  <data name="ParamCommandParameterExportDefaultFolderTips" xml:space="preserve">
+  <data name="ExportImageAsCommandParameter.ExportFolder#Tips" xml:space="preserve">
     <value>Output folder at startup. During startup, it follows the changed storage location.</value>
   </data>
-  <data name="ParamCommandParameterExportFileFormat" xml:space="preserve">
-    <value>Output file format</value>
-  </data>
-  <data name="ParamCommandParameterExportFileFormatTips" xml:space="preserve">
-    <value>Used when "@ParamCommandParameterExportMode" is "@EnumExportImageModeView".</value>
-  </data>
-  <data name="ParamCommandParameterExportFileNameMode" xml:space="preserve">
-    <value>Output file name</value>
-  </data>
-  <data name="ParamCommandParameterExportFolder" xml:space="preserve">
-    <value>Output folder</value>
-  </data>
-  <data name="ParamCommandParameterExportHasBackground" xml:space="preserve">
-    <value>Include background</value>
-  </data>
-  <data name="ParamCommandParameterExportImageQualityLevel" xml:space="preserve">
+  <data name="ExportImageAsCommandParameter.QualityLevel" xml:space="preserve">
     <value>JPEG quality</value>
   </data>
-  <data name="ParamCommandParameterExportImageQualityLevelTips" xml:space="preserve">
+  <data name="ExportImageAsCommandParameter.QualityLevel#Tips" xml:space="preserve">
     <value>It is used only when conversion is required.</value>
   </data>
-  <data name="ParamCommandParameterExportMode" xml:space="preserve">
+  <data name="ExportImageCommandParameter.FileFormat" xml:space="preserve">
+    <value>Output file format</value>
+  </data>
+  <data name="ExportImageCommandParameter.FileFormat#Tips" xml:space="preserve">
+    <value>Used when "@ExportImageCommandParameter.Mode" is "@ExportImageMode.View".</value>
+  </data>
+  <data name="ExportImageCommandParameter.FileNameMode" xml:space="preserve">
+    <value>Output file name</value>
+  </data>
+  <data name="ExportImageCommandParameter.ExportFolder" xml:space="preserve">
+    <value>Output folder</value>
+  </data>
+  <data name="ExportImageCommandParameter.HasBackground" xml:space="preserve">
+    <value>Include background</value>
+  </data>
+  <data name="ExportImageCommandParameter.QualityLevel" xml:space="preserve">
+    <value>JPEG quality</value>
+  </data>
+  <data name="ExportImageCommandParameter.QualityLevel#Tips" xml:space="preserve">
+    <value>It is used only when conversion is required.</value>
+  </data>
+  <data name="ExportImageCommandParameter.Mode" xml:space="preserve">
     <value>Output image type</value>
   </data>
-  <data name="ParamCommandParameterFocusMainViewClosePanels" xml:space="preserve">
+  <data name="FocusMainViewCommandParameter.NeedClosePanels" xml:space="preserve">
     <value>Close all panels</value>
   </data>
-  <data name="ParamCommandParameterIsReverse" xml:space="preserve">
+  <data name="ReversibleCommandParameter.IsReverse" xml:space="preserve">
     <value>Enable operation swap by slider direction</value>
   </data>
-  <data name="ParamCommandParameterIsReverseTips" xml:space="preserve">
+  <data name="ReversibleCommandParameter.IsReverse#Tips" xml:space="preserve">
     <value>Allows the operation replacement by changing the slider direction.</value>
   </data>
-  <data name="ParamCommandParameterMovePagemarkIncludeTerminal" xml:space="preserve">
+  <data name="MovePagemarkInBookCommandParameter.IsIncludeTerminal" xml:space="preserve">
     <value>Include the first and last pages</value>
   </data>
-  <data name="ParamCommandParameterMovePagemarkLoop" xml:space="preserve">
+  <data name="MovePagemarkInBookCommandParameter.IsLoop" xml:space="preserve">
     <value>Loop</value>
   </data>
-  <data name="ParamCommandParameterMoveSize" xml:space="preserve">
+  <data name="MoveSizePageCommandParameter.Size" xml:space="preserve">
     <value>Number of moved pages</value>
   </data>
-  <data name="ParamCommandParameterRotateAmount" xml:space="preserve">
+  <data name="ViewRotateCommandParameter.Angle" xml:space="preserve">
     <value>Rotation angle</value>
   </data>
-  <data name="ParamCommandParameterRotateAmountTips" xml:space="preserve">
+  <data name="ViewRotateCommandParameter.Angle#Tips" xml:space="preserve">
     <value>It is an angle which rotates by one operation. (0-180)</value>
   </data>
-  <data name="ParamCommandParameterRotateIsStretch" xml:space="preserve">
+  <data name="ViewRotateCommandParameter.IsStretch" xml:space="preserve">
     <value>Apply image stretch</value>
   </data>
-  <data name="ParamCommandParameterRotateIsStretchTips" xml:space="preserve">
+  <data name="ViewRotateCommandParameter.IsStretch#Tips" xml:space="preserve">
     <value>Re-apply image stretch after rotation.</value>
   </data>
-  <data name="ParamCommandParameterScaleAmount" xml:space="preserve">
+  <data name="ViewScaleCommandParameter.Scale" xml:space="preserve">
     <value>Scale rate</value>
   </data>
-  <data name="ParamCommandParameterScaleAmountTips" xml:space="preserve">
+  <data name="ViewScaleCommandParameter.Scale#Tips" xml:space="preserve">
     <value>It is the rate of change by one operation.</value>
   </data>
-  <data name="ParamCommandParameterScaleSnapDefault" xml:space="preserve">
+  <data name="ViewScaleCommandParameter.IsSnapDefaultScale" xml:space="preserve">
     <value>100% snap</value>
   </data>
-  <data name="ParamCommandParameterScaleSnapDefaultTips" xml:space="preserve">
+  <data name="ViewScaleCommandParameter.IsSnapDefaultScale#Tips" xml:space="preserve">
     <value>Make sure to zoom in and out by 100%.</value>
   </data>
-  <data name="ParamCommandParameterScrollAllowCross" xml:space="preserve">
+  <data name="ViewScrollCommandParameter.AllowCrossScroll" xml:space="preserve">
     <value>Allow vertical scroll</value>
   </data>
-  <data name="ParamCommandParameterScrollAllowCrossTips" xml:space="preserve">
+  <data name="ViewScrollCommandParameter.AllowCrossScroll#Tips" xml:space="preserve">
     <value>If you can not scroll in the axial direction, sucrose in the direction perpendicular to the axis.</value>
   </data>
-  <data name="ParamCommandParameterScrollAmount" xml:space="preserve">
+  <data name="ViewScrollCommandParameter.Scroll" xml:space="preserve">
     <value>Amount of movement</value>
   </data>
-  <data name="ParamCommandParameterScrollAmountTips" xml:space="preserve">
+  <data name="ViewScrollCommandParameter.Scroll#Tips" xml:space="preserve">
     <value>The ratio of the screen to scroll in one operation.</value>
   </data>
-  <data name="ParamCommandParameterScrollDuration" xml:space="preserve">
+  <data name="ViewScrollCommandParameter.ScrollDuration" xml:space="preserve">
     <value>Scroll time (sec)</value>
   </data>
-  <data name="ParamCommandParameterScrollPageAmount" xml:space="preserve">
+  <data name="ScrollPageCommandParameter.Scroll" xml:space="preserve">
     <value>Amount of movement</value>
   </data>
-  <data name="ParamCommandParameterScrollPageAmountTips" xml:space="preserve">
+  <data name="ScrollPageCommandParameter.Scroll#Tips" xml:space="preserve">
     <value>The ratio to the screen to scroll in one operation.</value>
   </data>
   <data name="ParamCommandParameterScrollPageAnimation" xml:space="preserve">
     <value>Smooth scroll</value>
   </data>
-  <data name="ParamCommandParameterScrollPageDuration" xml:space="preserve">
+  <data name="ScrollPageCommandParameter.ScrollDuration" xml:space="preserve">
     <value>Scroll time (sec)</value>
   </data>
-  <data name="ParamCommandParameterScrollPageMargin" xml:space="preserve">
+  <data name="ScrollPageCommandParameter.Margin" xml:space="preserve">
     <value>Minimum scrolling distance</value>
   </data>
-  <data name="ParamCommandParameterScrollPageMarginTips" xml:space="preserve">
+  <data name="ScrollPageCommandParameter.Margin#Tips" xml:space="preserve">
     <value>Scroll only if you can scroll above this pixel width.</value>
   </data>
-  <data name="ParamCommandParameterScrollPageMoveMargin" xml:space="preserve">
+  <data name="ScrollPageCommandParameter.PageMoveMargin" xml:space="preserve">
     <value>Page move margin (sec)</value>
   </data>
-  <data name="ParamCommandParameterScrollPageMoveMarginTips" xml:space="preserve">
+  <data name="ScrollPageCommandParameter.PageMoveMargin#Tips" xml:space="preserve">
     <value>Judgment time for not moving the page immediately.</value>
   </data>
-  <data name="ParamCommandParameterScrollPageN" xml:space="preserve">
+  <data name="ScrollPageCommandParameter.IsNScroll" xml:space="preserve">
     <value>N-type scroll</value>
   </data>
-  <data name="ParamCommandParameterScrollPageNTips" xml:space="preserve">
+  <data name="ScrollPageCommandParameter.IsNScroll#Tips" xml:space="preserve">
     <value>If vertically scrollable, scroll vertically as well. If you can scroll vertically and horizontally, scroll to draw N characters.</value>
+  </data>
+  <data name="ViewScrollNTypeCommandParameter.Margin" xml:space="preserve">
+    <value>Minimum scrolling distance</value>
+  </data>
+  <data name="ViewScrollNTypeCommandParameter.Margin#Tips" xml:space="preserve">
+    <value>Scroll only if you can scroll above this pixel width.</value>
+  </data>
+  <data name="ViewScrollNTypeCommandParameter.Scroll" xml:space="preserve">
+    <value>Amount of movement</value>
+  </data>
+  <data name="ViewScrollNTypeCommandParameter.Scroll#Tips" xml:space="preserve">
+    <value>The ratio to the screen to scroll in one operation.</value>
+  </data>
+  <data name="ViewScrollNTypeCommandParameter.ScrollDuration" xml:space="preserve">
+    <value>Scroll time (sec)</value>
   </data>
   <data name="ParamCommandParameterScrollPageStop" xml:space="preserve">
     <value>Scroll stop</value>
@@ -4199,100 +4211,118 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParamCommandParameterShare" xml:space="preserve">
     <value>Parameter sharing</value>
   </data>
-  <data name="ParamCommandParameterStretchModeIsToggle" xml:space="preserve">
+  <data name="StretchModeCommandParameter.IsToggle" xml:space="preserve">
     <value>Switching to original size</value>
   </data>
-  <data name="ParamCommandParameterStretchModeIsToggleTips" xml:space="preserve">
+  <data name="StretchModeCommandParameter.IsToggle#Tips" xml:space="preserve">
     <value>If the stretch mode is already specified, it will be the original size</value>
   </data>
   <data name="ParamCommandParameterThumbnailListFocus" xml:space="preserve">
     <value>Get focus when displaying panel</value>
   </data>
-  <data name="ParamCommandParameterToggleStretchAllowTitle" xml:space="preserve">
+  <data name="ToggleStretchModeCommandParameter.IsEnableNone#Title" xml:space="preserve">
     <value>Switchable mode</value>
   </data>
-  <data name="ParamCommandParameterToggleStretchLoop" xml:space="preserve">
+  <data name="ToggleStretchModeCommandParameter.IsLoop" xml:space="preserve">
     <value>Loop</value>
   </data>
-  <data name="ParamCommandParameterToggleStretchLoopTitle" xml:space="preserve">
+  <data name="ToggleStretchModeCommandParameter.IsLoop#Title" xml:space="preserve">
     <value>Loop setting</value>
+  </data>
+  <data name="ToggleStretchModeCommandParameter.IsEnableNone" xml:space="preserve">
+    <value>@PageStretchMode.None</value>
+  </data>
+  <data name="ToggleStretchModeCommandParameter.IsEnableUniform" xml:space="preserve">
+    <value>@PageStretchMode.Uniform</value>
+  </data>
+  <data name="ToggleStretchModeCommandParameter.IsEnableUniformToFill" xml:space="preserve">
+    <value>@PageStretchMode.UniformToFill</value>
+  </data>
+  <data name="ToggleStretchModeCommandParameter.IsEnableUniformToSize" xml:space="preserve">
+    <value>@PageStretchMode.UniformToSize</value>
+  </data>
+  <data name="ToggleStretchModeCommandParameter.IsEnableUniformToVertical" xml:space="preserve">
+    <value>@PageStretchMode.UniformToVertical</value>
+  </data>
+  <data name="ToggleStretchModeCommandParameter.IsEnableUniformToHorizontal" xml:space="preserve">
+    <value>@PageStretchMode.UniformToHorizontal</value>
   </data>
   <data name="ParamCommandShare" xml:space="preserve">
     <value>Parameters to share with "{0}"</value>
   </data>
-  <data name="ParamContentCanvasContentsSpace" xml:space="preserve">
+  <data name="BookConfig.ContentsSpace" xml:space="preserve">
     <value>Distance between two pages</value>
   </data>
-  <data name="ParamContentCanvasContentsSpaceTips" xml:space="preserve">
+  <data name="BookConfig.ContentsSpace#Tips" xml:space="preserve">
     <value>Sets the gap between page and page. Negative values ​​mean overlapping. Because each page is scaled, it is rare that there will be no gap just at 0.</value>
   </data>
-  <data name="ParamCustomBackground" xml:space="preserve">
+  <data name="BackgroundConfig.CustomBackground" xml:space="preserve">
     <value>Custom background</value>
   </data>
-  <data name="ParamCustomBackgroundTips" xml:space="preserve">
+  <data name="BackgroundConfig.CustomBackground#Tips" xml:space="preserve">
     <value>This setting is applied when the background is set to "custom background".</value>
   </data>
-  <data name="ParamDefaultFolderOrder" xml:space="preserve">
+  <data name="BookshelfConfig.DefaultFolderOrder" xml:space="preserve">
     <value>Standard default order</value>
   </data>
-  <data name="ParamDestinationFolderCollection" xml:space="preserve">
+  <data name="SystemConfig.DestinationFodlerCollection" xml:space="preserve">
     <value>Destination folders</value>
   </data>
-  <data name="ParamDotKeepIsEnabled" xml:space="preserve">
+  <data name="ImageDotKeepConfig.IsEnabled" xml:space="preserve">
     <value>Keep dot</value>
   </data>
-  <data name="ParamDotKeepThreshold" xml:space="preserve">
-    <value>Scale threshold for "@ParamDotKeepIsEnabled"</value>
+  <data name="ImageDotKeepConfig.Threshold" xml:space="preserve">
+    <value>Scale threshold for "@ImageDotKeepConfig.IsEnabled"</value>
   </data>
-  <data name="ParamDotKeepThresholdTips" xml:space="preserve">
+  <data name="ImageDotKeepConfig.Threshold#Tips" xml:space="preserve">
     <value>Only applicable if the scale is larger than this.</value>
   </data>
-  <data name="ParamDownloadPath" xml:space="preserve">
+  <data name="SystemConfig.DownloadPath" xml:space="preserve">
     <value>Download folder</value>
   </data>
-  <data name="ParamDownloadPathTips" xml:space="preserve">
+  <data name="SystemConfig.DownloadPath#Tips" xml:space="preserve">
     <value>It is a storage place of the image dropped by the browser etc. If not specified, temporary folder is used.</value>
   </data>
   <data name="ParamDragActionElements" xml:space="preserve">
     <value>Drag action settings</value>
   </data>
-  <data name="ParamDragTransformAngleFrequency" xml:space="preserve">
+  <data name="ViewConfig.AngleFrequency" xml:space="preserve">
     <value>Rotating Snap</value>
   </data>
-  <data name="ParamDragTransformIsControlFlipCenter" xml:space="preserve">
+  <data name="ViewConfig.FlipCenter" xml:space="preserve">
     <value>Center of flip</value>
   </data>
-  <data name="ParamDragTransformIsControlScaleCenter" xml:space="preserve">
+  <data name="ViewConfig.ScaleCenter" xml:space="preserve">
     <value>Center of scaling</value>
   </data>
-  <data name="ParamDragTransformIsControRotatelCenter" xml:space="preserve">
+  <data name="ViewConfig.RotateCenter" xml:space="preserve">
     <value>Center of rotation</value>
   </data>
-  <data name="ParamDragTransformIsKeepAngle" xml:space="preserve">
+  <data name="ViewConfig.IsKeepAngle" xml:space="preserve">
     <value>Keeping rotation even if you change the page</value>
   </data>
-  <data name="ParamDragTransformIsKeepAngleTips" xml:space="preserve">
+  <data name="ViewConfig.IsKeepAngle#Tips" xml:space="preserve">
     <value>This setting does not work when automatic rotation is enabled.</value>
   </data>
-  <data name="ParamDragTransformIsKeepFlip" xml:space="preserve">
+  <data name="ViewConfig.IsKeepFlip" xml:space="preserve">
     <value>Maintain reversal even when changing page</value>
   </data>
-  <data name="ParamDragTransformIsKeepScale" xml:space="preserve">
+  <data name="ViewConfig.IsKeepScale" xml:space="preserve">
     <value>Maintain scaling even when changing pages</value>
   </data>
-  <data name="ParamDragTransformIsLimitMove" xml:space="preserve">
+  <data name="ViewConfig.IsLimitMove" xml:space="preserve">
     <value>Move inside the window</value>
   </data>
-  <data name="ParamDragTransformIsOriginalScaleShowMessage" xml:space="preserve">
+  <data name="NoticeConfig.IsOriginalScaleShowMessage" xml:space="preserve">
     <value>Make the scale display of the view operation the original image size standard</value>
   </data>
-  <data name="ParamDragTransformIsOriginalScaleShowMessageTips" xml:space="preserve">
+  <data name="NoticeConfig.IsOriginalScaleShowMessage#Tips" xml:space="preserve">
     <value>In case of 2 page display, we refer to the page with the younger number.</value>
   </data>
-  <data name="ParamDragTransformIsViewStartPositionCenter" xml:space="preserve">
+  <data name="ViewConfig.IsViewStartPositionCenter" xml:space="preserve">
     <value>Use the display start position as the center of the image</value>
   </data>
-  <data name="ParamDragTransformIsViewStartPositionCenterTips" xml:space="preserve">
+  <data name="ViewConfig.IsViewStartPositionCenter#Tips" xml:space="preserve">
     <value>When set to OFF, it becomes the upper right reference and the upper left reference depending on the spreading direction.</value>
   </data>
   <data name="ParamEffectBrightness" xml:space="preserve">
@@ -4310,13 +4340,13 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParamEffectSaturation" xml:space="preserve">
     <value>Saturation</value>
   </data>
-  <data name="ParameterCursorHideReleaseDistance" xml:space="preserve">
+  <data name="MouseConfig.CursorHideReleaseDistance" xml:space="preserve">
     <value>Move distance to redisplay</value>
   </data>
-  <data name="ParameterCursorHideTime" xml:space="preserve">
+  <data name="MouseConfig.CursorHideTime" xml:space="preserve">
     <value>Hide time (sec)</value>
   </data>
-  <data name="ParameterIsCursorHideReleaseAction" xml:space="preserve">
+  <data name="MouseConfig.IsCursorHideReleaseAction" xml:space="preserve">
     <value>Redisplay with mouse button operation</value>
   </data>
   <data name="ParamExportImageIsEnableExportFolder" xml:space="preserve">
@@ -4328,7 +4358,7 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParamExportImageQualityLevelTips" xml:space="preserve">
     <value>It is used only when conversion is required.</value>
   </data>
-  <data name="ParamExternalArchiveOption" xml:space="preserve">
+  <data name="OpenExternalAppCommandParameter.ArchivePolicy" xml:space="preserve">
     <value>Compressed file policy</value>
   </data>
   <data name="ParamExternalArchiveSeparater" xml:space="preserve">
@@ -4337,19 +4367,19 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParamExternalArchiveSeparaterTips" xml:space="preserve">
     <value>This is the setting when "@ParamExternalArchiveOption" is "@EnumArchiveOptionTypeSendArchivePath".</value>
   </data>
-  <data name="ParamExternalCommand" xml:space="preserve">
+  <data name="OpenExternalAppCommandParameter.Command" xml:space="preserve">
     <value>Program</value>
   </data>
-  <data name="ParamExternalCommandTips" xml:space="preserve">
+  <data name="OpenExternalAppCommandParameter.Command#Tips" xml:space="preserve">
     <value>If not specified, launch the application associated with the extension.</value>
   </data>
-  <data name="ParamExternalMultiPageOption" xml:space="preserve">
+  <data name="OpenExternalAppCommandParameter.MultiPagePolicy" xml:space="preserve">
     <value>For 2 pages</value>
   </data>
-  <data name="ParamExternalParameter" xml:space="preserve">
+  <data name="OpenExternalAppCommandParameter.Parameter" xml:space="preserve">
     <value>Parameter</value>
   </data>
-  <data name="ParamExternalParameterTips" xml:space="preserve">
+  <data name="OpenExternalAppCommandParameter.Parameter#Tips" xml:space="preserve">
     <value>$File will be replaced with the file path. $Uri is replaced with the URI escaped file path.</value>
   </data>
   <data name="ParamExternalProgramType" xml:space="preserve">
@@ -4364,115 +4394,115 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParamFileInformationIsUseExifDateTimeTips" xml:space="preserve">
     <value>It is limited to display on the information panel. It does not affect sorting by date.</value>
   </data>
-  <data name="ParamFileInformationIsVisibleBitsPerPixel" xml:space="preserve">
+  <data name="InformationConfig.IsVisibleBitsPerPixel" xml:space="preserve">
     <value>Display the number of bits per pixel in image size</value>
   </data>
-  <data name="ParamFileInformationIsVisibleFilePath" xml:space="preserve">
+  <data name="InformationConfig.IsVisibleFilePath" xml:space="preserve">
     <value>Display the file path in the compressed file</value>
   </data>
-  <data name="ParamFileInformationIsVisibleLoader" xml:space="preserve">
+  <data name="InformationConfig.IsVisibleLoader" xml:space="preserve">
     <value>Display used archiver, image decoder name</value>
   </data>
-  <data name="ParamFilmStripIsEnabled" xml:space="preserve">
+  <data name="FilmStripConfig.IsEnabled" xml:space="preserve">
     <value>Show filmstrip</value>
   </data>
-  <data name="ParamFilmStripIsHideFilmStrip" xml:space="preserve">
+  <data name="FilmStripConfig.IsHideFilmStrip" xml:space="preserve">
     <value>Automatically hide filmstrip</value>
   </data>
-  <data name="ParamFilmStripIsManipulationBoundaryFeedbackEnabled" xml:space="preserve">
+  <data name="FilmStripConfig.IsManipulationBoundaryFeedbackEnabled" xml:space="preserve">
     <value>Touch scroll termination bound on filmstrip</value>
   </data>
-  <data name="ParamFilmStripIsSelectedCenter" xml:space="preserve">
+  <data name="FilmStripConfig.IsSelectedCenter" xml:space="preserve">
     <value>Scroll so that the selected item appears in the center</value>
   </data>
-  <data name="ParamFilmStripIsVisibleThumbnailNumber" xml:space="preserve">
+  <data name="FilmStripConfig.IsVisibleNumber" xml:space="preserve">
     <value>Display page number</value>
   </data>
-  <data name="ParamFilmStripIsVisibleThumbnailPlate" xml:space="preserve">
+  <data name="FilmStripConfig.IsVisiblePlate" xml:space="preserve">
     <value>Display background</value>
   </data>
-  <data name="ParamFilmStripIsVisibleThumbnailPlateTips" xml:space="preserve">
+  <data name="FilmStripConfig.IsVisiblePlate#Tips" xml:space="preserve">
     <value>Display the background of the filmstrip in the case of automatically hidden settings</value>
   </data>
-  <data name="ParamFilmStripThumbnailSize" xml:space="preserve">
+  <data name="FilmStripConfig.ThumbnailSize" xml:space="preserve">
     <value>Page thumbnail size</value>
   </data>
-  <data name="ParamFolderListItemStyle" xml:space="preserve">
+  <data name="FolderListConfig.PanelListItemStyle" xml:space="preserve">
     <value>List item style</value>
   </data>
-  <data name="ParamFolderTreeLayout" xml:space="preserve">
+  <data name="FolderListConfig.FolderTreeLayout" xml:space="preserve">
     <value>Folder tree layout</value>
   </data>
-  <data name="ParamGridLineColor" xml:space="preserve">
+  <data name="ImageGridConfig.Color" xml:space="preserve">
     <value>Color</value>
   </data>
-  <data name="ParamGridLineDivX" xml:space="preserve">
+  <data name="ImageGridConfig.DivX" xml:space="preserve">
     <value>Column</value>
   </data>
-  <data name="ParamGridLineDivY" xml:space="preserve">
+  <data name="ImageGridConfig.DivY" xml:space="preserve">
     <value>Row</value>
   </data>
-  <data name="ParamGridLineIsSquare" xml:space="preserve">
+  <data name="ImageGridConfig.IsSquare" xml:space="preserve">
     <value>Square</value>
   </data>
-  <data name="ParamHistoryEntryPageCount" xml:space="preserve">
+  <data name="HistoryConfig.HistoryEntryPageCount" xml:space="preserve">
     <value>Number of page operations to start history registration</value>
   </data>
-  <data name="ParamHistoryEntryPageCountTips" xml:space="preserve">
+  <data name="HistoryConfig.HistoryEntryPageCount#Tips" xml:space="preserve">
     <value>Register in history with page movement operation more than this count or last page display.</value>
   </data>
-  <data name="ParamHistoryFilePath" xml:space="preserve">
+  <data name="HistoryConfig.HistoryFilePath" xml:space="preserve">
     <value>History list file location</value>
   </data>
-  <data name="ParamHistoryIsAutoCleanupEnabled" xml:space="preserve">
+  <data name="HistoryConfig.IsAutoCleanupEnabled" xml:space="preserve">
     <value>Automatic deletion of invalid history</value>
   </data>
-  <data name="ParamHistoryIsAutoCleanupEnabledTips" xml:space="preserve">
+  <data name="HistoryConfig.IsAutoCleanupEnabled#Tips" xml:space="preserve">
     <value>Delete invalid history on startup.</value>
   </data>
-  <data name="ParamHistoryIsCurrentFolder" xml:space="preserve">
+  <data name="HistoryConfig.IsCurrentFolder" xml:space="preserve">
     <value>Current folder only</value>
   </data>
-  <data name="ParamHistoryIsCurrentFolderTips" xml:space="preserve">
+  <data name="HistoryConfig.IsCurrentFolder#Tips" xml:space="preserve">
     <value>Shows the history of only the folders of the currently open book.</value>
   </data>
-  <data name="ParamHistoryIsKeepFolderStatus" xml:space="preserve">
+  <data name="HistoryConfig.IsKeepFolderStatus" xml:space="preserve">
     <value>Save folder state</value>
   </data>
-  <data name="ParamHistoryIsKeepLastFolder" xml:space="preserve">
+  <data name="StartUpConfig.IsOpenLastFolder" xml:space="preserve">
     <value>Restore bookshelf location</value>
   </data>
-  <data name="ParamHistoryIsKeepLastFolderTips" xml:space="preserve">
+  <data name="StartUpConfig.IsOpenLastFolder#Tips" xml:space="preserve">
     <value>The location of the bookshelf if you do not open the book at startup.</value>
   </data>
-  <data name="ParamHistoryIsKeepSearchHistory" xml:space="preserve">
+  <data name="HistoryConfig.IsKeepSearchHistory" xml:space="preserve">
     <value>Save search history</value>
   </data>
-  <data name="ParamHistoryLimitSize" xml:space="preserve">
+  <data name="HistoryConfig.LimitSize" xml:space="preserve">
     <value>Size limit</value>
   </data>
-  <data name="ParamHistoryLimitSpan" xml:space="preserve">
+  <data name="HistoryConfig.LimitSpan" xml:space="preserve">
     <value>Retention period</value>
   </data>
-  <data name="ParamHistoryListItemStyle" xml:space="preserve">
+  <data name="HistoryConfig.PanelListItemStyle" xml:space="preserve">
     <value>History list item style</value>
   </data>
-  <data name="ParamImageCustomSize" xml:space="preserve">
+  <data name="ImageCustomSizeConfig.Size" xml:space="preserve">
     <value>Custom image size</value>
   </data>
-  <data name="ParamImageCustomSizeIsEnabled" xml:space="preserve">
+  <data name="ImageCustomSizeConfig.IsEnabled" xml:space="preserve">
     <value>Enable custom image size</value>
   </data>
-  <data name="ParamImageEffectEnabled" xml:space="preserve">
+  <data name="ImageEffectConfig.IsEnabled" xml:space="preserve">
     <value>Enable image effect</value>
   </data>
-  <data name="ParamImageEffectIsHsvMode" xml:space="preserve">
+  <data name="ImageEffectConfig.IsHsvMode" xml:space="preserve">
     <value>Perform color setting with HSV</value>
   </data>
-  <data name="ParamImageEffectIsHsvModeTips" xml:space="preserve">
+  <data name="ImageEffectConfig.IsHsvMode#Tips" xml:space="preserve">
     <value>Set the color parameter with HSV (Hue, Saturation, Brightness). When set to OFF, it becomes the setting with RGB.</value>
   </data>
-  <data name="ParamImageEffectType" xml:space="preserve">
+  <data name="ImageEffectConfig.EffectType" xml:space="preserve">
     <value>Image effect type</value>
   </data>
   <data name="ParamImageFilterAmount" xml:space="preserve">
@@ -4484,73 +4514,73 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParamImageFilterThreshold" xml:space="preserve">
     <value>Threshold</value>
   </data>
-  <data name="ParamImageGridIsEnabled" xml:space="preserve">
+  <data name="ImageGridConfig.IsEnabled" xml:space="preserve">
     <value>Show grid</value>
   </data>
-  <data name="ParamImageResizeFilterIsEnabled" xml:space="preserve">
+  <data name="ImageResizeFilterConfig.IsEnabled" xml:space="preserve">
     <value>Enable resize filter</value>
   </data>
-  <data name="ParamImageResizeFilterResizeInterpolation" xml:space="preserve">
+  <data name="ImageResizeFilterConfig.ResizeInterpolation" xml:space="preserve">
     <value>Resize interpolation method</value>
   </data>
-  <data name="ParamImageResizeFilterSharpen" xml:space="preserve">
+  <data name="ImageResizeFilterConfig.IsUnsharpMaskEnabled" xml:space="preserve">
     <value>Enable unsharp mask when resizing</value>
   </data>
-  <data name="ParamImageTrimBottom" xml:space="preserve">
+  <data name="ImageTrimConfig.Bottom" xml:space="preserve">
     <value>Bottom</value>
   </data>
-  <data name="ParamImageTrimIsEnabled" xml:space="preserve">
+  <data name="ImageTrimConfig.IsEnabled" xml:space="preserve">
     <value>Enable trim</value>
   </data>
-  <data name="ParamImageTrimLeft" xml:space="preserve">
+  <data name="ImageTrimConfig.Left" xml:space="preserve">
     <value>Left</value>
   </data>
-  <data name="ParamImageTrimRight" xml:space="preserve">
+  <data name="ImageTrimConfig.Right" xml:space="preserve">
     <value>Right</value>
   </data>
-  <data name="ParamImageTrimTop" xml:space="preserve">
+  <data name="ImageTrimConfig.Top" xml:space="preserve">
     <value>Top</value>
   </data>
-  <data name="ParamInfoBookNameShowMessageStyle" xml:space="preserve">
+  <data name="NoticeConfig.BookNameShowMessageStyle" xml:space="preserve">
     <value>Show open book name</value>
   </data>
-  <data name="ParamInfoMessageCommandShowMessageStyle" xml:space="preserve">
+  <data name="NoticeConfig.CommandShowMessageStyle" xml:space="preserve">
     <value>Show command execution message</value>
   </data>
-  <data name="ParamInfoMessageGestureShowMessageStyle" xml:space="preserve">
+  <data name="NoticeConfig.GestureShowMessageStyle" xml:space="preserve">
     <value>Show gesture status</value>
   </data>
-  <data name="ParamInfoMessageNoticeShowMessageStyle" xml:space="preserve">
+  <data name="NoticeConfig.NoticeShowMessageStyle" xml:space="preserve">
     <value>General information</value>
   </data>
-  <data name="ParamInfoMessageNowLoadingShowMessageStyle" xml:space="preserve">
+  <data name="NoticeConfig.NowLoadingShowMessageStyle" xml:space="preserve">
     <value>Show Now Loading</value>
   </data>
-  <data name="ParamInfoMessageViewTransformShowMessageStyle" xml:space="preserve">
+  <data name="NoticeConfig.ViewTransformShowMessageStyle" xml:space="preserve">
     <value>Sbow status change by drag operation</value>
   </data>
-  <data name="ParamIsAccessKeyEnabled" xml:space="preserve">
+  <data name="CommandConfig.IsAccessKeyEnabled" xml:space="preserve">
     <value>Allow access key</value>
   </data>
-  <data name="ParamIsAccessKeyEnabledTips" xml:space="preserve">
+  <data name="CommandConfig.IsAccessKeyEnabled#Tips" xml:space="preserve">
     <value>If it is set to OFF, system operation by Alt key will be invalid and malfunction will be eliminated when used with command shortcut. However Alt+F4 is always active.</value>
   </data>
-  <data name="ParamIsAutoGC" xml:space="preserve">
+  <data name="MemoryControl.IsAutoGC" xml:space="preserve">
     <value>System manages memory</value>
   </data>
-  <data name="ParamIsAutoGCTips" xml:space="preserve">
+  <data name="MemoryControl.IsAutoGC#Tips" xml:space="preserve">
     <value>When it is OFF, memory is released every time page is switched</value>
   </data>
-  <data name="ParamIsAutoPlaySlideShow" xml:space="preserve">
+  <data name="StartUpConfig.IsAutoPlaySlideShow" xml:space="preserve">
     <value>Start playing slideshow</value>
   </data>
-  <data name="ParamIsAutoRecursive" xml:space="preserve">
+  <data name="BookConfig.IsAutoRecursive" xml:space="preserve">
     <value>Automatically load subfolder when there is no page and only one subfolder exists</value>
   </data>
-  <data name="ParamIsCancelSlideByMouseMove" xml:space="preserve">
+  <data name="SlideShowConfig.IsCancelSlideByMouseMove" xml:space="preserve">
     <value>Reset display interval with mouse move</value>
   </data>
-  <data name="ParamIsCancelSlideByMouseMoveTips" xml:space="preserve">
+  <data name="SlideShowConfig.IsCancelSlideByMouseMove#Tips" xml:space="preserve">
     <value>When set to OFF, it will only be reset by clear action such as clicking.</value>
   </data>
   <data name="ParamIsCaptionEmulateInFullScreen" xml:space="preserve">
@@ -4559,172 +4589,172 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParamIsCaptionEmulateInFullScreenTips" xml:space="preserve">
     <value>Enable the title bar operation (double click and drag) on ​​the menu at full screen.</value>
   </data>
-  <data name="ParamIsConfirmRecursive" xml:space="preserve">
+  <data name="BookConfig.IsConfirmRecursive" xml:space="preserve">
     <value>If there is no page, inquire whether to read the subfolder</value>
   </data>
-  <data name="ParamIsConfirmRecursiveTips" xml:space="preserve">
+  <data name="BookConfig.IsConfirmRecursive#Tips" xml:space="preserve">
     <value>If there is no page that can be displayed when the book is opened, and a subfolder exists, a dialog is displayed asking whether to load the subfolder.</value>
   </data>
-  <data name="ParamIsCursorHideEnabled" xml:space="preserve">
+  <data name="MouseConfig.IsCursorHideEnabled" xml:space="preserve">
     <value>Enable auto hide</value>
   </data>
-  <data name="ParamIsEmptyMessageEnabled" xml:space="preserve">
+  <data name="NoticeConfig.IsEmptyMessageEnabled" xml:space="preserve">
     <value>Show message when there are no pages in the book</value>
   </data>
-  <data name="ParamIsExplorerContextMenuEnabled" xml:space="preserve">
+  <data name="ExplorerContextMenu.IsEnabled" xml:space="preserve">
     <value>Register in the Explorer context menu.</value>
   </data>
-  <data name="ParamIsExplorerContextMenuEnabledTips" xml:space="preserve">
+  <data name="ExplorerContextMenu.IsEnabled#Tips" xml:space="preserve">
     <value>Add "Open in NeeView" to the Explorer context menu. This feature uses the registry.</value>
   </data>
-  <data name="ParamIsFileOperationEnabled" xml:space="preserve">
+  <data name="SystemConfig.IsFileWriteAccessEnabled" xml:space="preserve">
     <value>File operation enabled</value>
   </data>
-  <data name="ParamIsFolderTreeVisible" xml:space="preserve">
+  <data name="FolderListConfig.IsFolderTreeVisible" xml:space="preserve">
     <value>Display folder tree</value>
   </data>
-  <data name="ParamIsForceUpdateHistory" xml:space="preserve">
+  <data name="HistoryConfig.IsForceUpdateHistory" xml:space="preserve">
     <value>Even if you open a book from history, it updates the last browsing date</value>
   </data>
-  <data name="ParamIsHamburgerMenu" xml:space="preserve">
+  <data name="MenuBarConfig.IsHamburgerMenu" xml:space="preserve">
     <value>Use the hamburger menu</value>
   </data>
-  <data name="ParamIsHiddenFileVisibled" xml:space="preserve">
+  <data name="SystemConfig.IsHiddenFileVisibled" xml:space="preserve">
     <value>Show hidden files</value>
   </data>
-  <data name="ParamIsIgnoreImageDpi" xml:space="preserve">
+  <data name="SystemConfig.IsIgnoreImageDpi" xml:space="preserve">
     <value>Dot-by-dot display of image</value>
   </data>
-  <data name="ParamIsIgnoreImageDpiTips" xml:space="preserve">
+  <data name="SystemConfig.IsIgnoreImageDpi#Tips" xml:space="preserve">
     <value>When displaying at the original size, it matches the pixels of the display independently of the display scale of the display.</value>
   </data>
-  <data name="ParamIsIncrementalSearchEnabled" xml:space="preserve">
+  <data name="BookshelfConfig.IsIncrementalSearchEnabled" xml:space="preserve">
     <value>Incremental search enabled</value>
   </data>
-  <data name="ParamIsInnerArchiveHistoryEnabled" xml:space="preserve">
+  <data name="HistoryConfig.IsInnerArchiveHistoryEnabled" xml:space="preserve">
     <value>Save recursive compressed file in history</value>
   </data>
-  <data name="ParamIsInputMethodEnabled" xml:space="preserve">
+  <data name="SystemConfig.IsInputMethodEnabled" xml:space="preserve">
     <value>Enable IME outside the text box</value>
   </data>
-  <data name="ParamIsInputMethodEnabledTips" xml:space="preserve">
+  <data name="SystemConfig.IsInputMethodEnabled#Tips" xml:space="preserve">
     <value>* It is applied from the next startup. Always valid for text boxes.</value>
   </data>
-  <data name="ParamIsInsertDummyPage" xml:space="preserve">
+  <data name="BookConfig.IsInsertDummyPage" xml:space="preserve">
     <value>Insert a dummy page</value>
   </data>
-  <data name="ParamIsInsertDummyPageTips" xml:space="preserve">
+  <data name="BookConfig.IsInsertDummyPage#Tips" xml:space="preserve">
     <value>Insert a dummy page when there are not enough pages at the end of two-page mode.</value>
   </data>
-  <data name="ParamIsMultiBootEnabled" xml:space="preserve">
+  <data name="StartUpConfig.IsMultiBootEnabled" xml:space="preserve">
     <value>Allow multiple activations</value>
   </data>
-  <data name="ParamIsNaturalSortEnabled" xml:space="preserve">
+  <data name="SystemConfig.IsNaturalSortEnabled" xml:space="preserve">
     <value>Natural sort</value>
   </data>
-  <data name="ParamIsNaturalSortEnabledTips" xml:space="preserve">
+  <data name="SystemConfig.IsNaturalSortEnabled#Tips" xml:space="preserve">
     <value>Makes sorting by name, such as numbers separated by periods, kanji numbers, etc. more natural. When off, same as Explorer.</value>
   </data>
-  <data name="ParamIsNetworkEnabled" xml:space="preserve">
+  <data name="SystemConfig.IsNetworkEnabled" xml:space="preserve">
     <value>Allow network access</value>
   </data>
-  <data name="ParamIsNetworkEnabledTips" xml:space="preserve">
+  <data name="SystemConfig.IsNetworkEnabled#Tips" xml:space="preserve">
     <value>In this application, we will use the network only for WEB links such as version update confirmation and online help from "About" dialog.</value>
   </data>
-  <data name="ParamIsOpenbookAtCurrentPlace" xml:space="preserve">
+  <data name="SystemConfig.IsOpenbookAtCurrentPlace" xml:space="preserve">
     <value>Make the start position of the file selection dialog in "@CommandLoadAs" the location of the currently opened book</value>
   </data>
-  <data name="ParamIsOpenLastBook" xml:space="preserve">
+  <data name="StartUpConfig.IsOpenLastBook" xml:space="preserve">
     <value>Restore an open book</value>
   </data>
-  <data name="ParamIsOrderWithoutFileType" xml:space="preserve">
+  <data name="BookshelfConfig.IsOrderWithoutFileType" xml:space="preserve">
     <value>Sort without file type</value>
   </data>
-  <data name="ParamIsPageBackgroundChecker" xml:space="preserve">
+  <data name="BackgroundConfig.IsPageBackgroundChecker" xml:space="preserve">
     <value>Checkered background transparent image</value>
   </data>
-  <data name="ParamIsPageBackgroundCheckerTips" xml:space="preserve">
-    <value>It will be a check pattern of "@ParamPageBackgroundColor".</value>
+  <data name="BackgroundConfig.IsPageBackgroundChecker#Tips" xml:space="preserve">
+    <value>It will be a check pattern of "@BackgroundConfig.PageBackgroundColor".</value>
   </data>
-  <data name="ParamIsRecordPageView" xml:space="preserve">
+  <data name="PageViewRecorderConfig.IsSavePageViewRecord" xml:space="preserve">
     <value>Save page view recods</value>
   </data>
-  <data name="ParamIsRemoveConfirmed" xml:space="preserve">
+  <data name="SystemConfig.IsRemoveConfirmed" xml:space="preserve">
     <value>Show confirmation dialog when deleting files</value>
   </data>
-  <data name="ParamIsRemoveWantNukeWarning" xml:space="preserve">
+  <data name="SystemConfig.IsRemoveWantNukeWarning" xml:space="preserve">
     <value>Show confirmation dialog when deleting files that don't fit in the Recycle Bin</value>
   </data>
   <data name="ParamIsRestoreAeroSnapPlacement" xml:space="preserve">
     <value>Restore AeroSnap window placement</value>
   </data>
-  <data name="ParamIsRestoreSecondWindow" xml:space="preserve">
+  <data name="StartUpConfig.IsRestoreSecondWindowPlacement" xml:space="preserve">
     <value>Restore the second window coordinates</value>
   </data>
-  <data name="ParamIsRestoreSecondWindowTips" xml:space="preserve">
+  <data name="StartUpConfig.IsRestoreSecondWindowPlacement#Tips" xml:space="preserve">
     <value>Also restore window coordinates when duplicates are activated. When set to OFF, it is displayed in the initial coordinates.</value>
   </data>
-  <data name="ParamIsSaveBookmark" xml:space="preserve">
+  <data name="BookmarkConfig.IsSaveBookmark" xml:space="preserve">
     <value>Save bookmark list</value>
   </data>
-  <data name="ParamIsSaveFullScreen" xml:space="preserve">
+  <data name="StartUpConfig.IsRestoreFullScreen" xml:space="preserve">
     <value>Restore full screen state</value>
   </data>
-  <data name="ParamIsSaveHistory" xml:space="preserve">
+  <data name="HistoryConfig.IsSaveHistory" xml:space="preserve">
     <value>Save history list</value>
   </data>
-  <data name="ParamIsSavePagemark" xml:space="preserve">
+  <data name="PagemarkConfig.IsSavePagemark" xml:space="preserve">
     <value>Save pagemark list</value>
   </data>
-  <data name="ParamIsSaveWindowPlacement" xml:space="preserve">
+  <data name="StartUpConfig.IsRestoreWindowPlacement" xml:space="preserve">
     <value>Restore window coordinates</value>
   </data>
-  <data name="ParamIsScriptFolderEnabled" xml:space="preserve">
+  <data name="ScriptConfig.IsScriptFolderEnabled" xml:space="preserve">
     <value>Use scripts</value>
   </data>
-  <data name="ParamIsSearchIncludeSubdirectories" xml:space="preserve">
+  <data name="BookshelfConfig.IsSearchIncludeSubdirectories" xml:space="preserve">
     <value>Perform a search including subfolders</value>
   </data>
-  <data name="ParamIsSettingBackup" xml:space="preserve">
+  <data name="SystemConfig.IsSettingBackup" xml:space="preserve">
     <value>Make a backup of the user setting file</value>
   </data>
-  <data name="ParamIsSettingBackupTips" xml:space="preserve">
+  <data name="SystemConfig.IsSettingBackup#Tips" xml:space="preserve">
     <value>Make a backup of the configuration file and load it instead if the normal configuration file can not be read. The file name is UserSetting.json.bak. The update timing is when you close the options window and when you exit the application.</value>
   </data>
-  <data name="ParamIsSideBarEnabled" xml:space="preserve">
+  <data name="PanelsConfig.IsSideBarEnabled" xml:space="preserve">
     <value>Show side bar</value>
   </data>
-  <data name="ParamIsSlideShowByLoop" xml:space="preserve">
+  <data name="SlideShowConfig.IsSlideShowByLoop" xml:space="preserve">
     <value>Loop play</value>
   </data>
-  <data name="ParamIsSlideShowByLoopTips" xml:space="preserve">
+  <data name="SlideShowConfig.IsSlideShowByLoop#Tips" xml:space="preserve">
     <value>After playing to the last page, it will return to the first page.</value>
   </data>
-  <data name="ParamIsSortFileFirst" xml:space="preserve">
+  <data name="BookConfig.IsSortFileFirst" xml:space="preserve">
     <value>Sort pages by file first</value>
   </data>
-  <data name="ParamIsSortFileFirstTips" xml:space="preserve">
+  <data name="BookConfig.IsSortFileFirst#Tips" xml:space="preserve">
     <value>Arrange files before folders.</value>
   </data>
-  <data name="ParamIsSplashScreenEnabled" xml:space="preserve">
+  <data name="StartUpConfig.IsSplashScreenEnabled" xml:space="preserve">
     <value>Splash screen</value>
   </data>
-  <data name="ParamIsSyncBookshelfEnabled" xml:space="preserve">
+  <data name="BookmarkConfig.IsSyncBookshelfEnabled" xml:space="preserve">
     <value>Sync bookshelf when book is opened</value>
   </data>
-  <data name="ParamIsSyncUserSetting" xml:space="preserve">
+  <data name="SystemConfig.IsSyncUserSetting" xml:space="preserve">
     <value>Synchronize settings</value>
   </data>
-  <data name="ParamIsSyncUserSettingTips" xml:space="preserve">
+  <data name="SystemConfig.IsSyncUserSetting#Tips" xml:space="preserve">
     <value>When multi-booting, all NeeView settings are updated when closing the options window.</value>
   </data>
-  <data name="ParamIsUncHistoryEnabled" xml:space="preserve">
+  <data name="HistoryConfig.IsUncHistoryEnabled" xml:space="preserve">
     <value>Save UNC path in history</value>
   </data>
-  <data name="ParamIsUncHistoryEnabledTips" xml:space="preserve">
+  <data name="HistoryConfig.IsUncHistoryEnabled#Tips" xml:space="preserve">
     <value>Save the path on the network like "\\computer\~" in the history.</value>
   </data>
-  <data name="ParamIsVisibleBusy" xml:space="preserve">
+  <data name="NoticeConfig.IsBusyMarkEnabled" xml:space="preserve">
     <value>The image reading processing in progress mark is displayed on the upper left of the screen</value>
   </data>
   <data name="ParamIsVisibleWindowTitle" xml:space="preserve">
@@ -4748,16 +4778,16 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParamItemProfileIsTextWrapped" xml:space="preserve">
     <value>Enable text wrapped</value>
   </data>
-  <data name="ParamJobEngineWorkerSize" xml:space="preserve">
+  <data name="PerformanceConfig.JobWorkerSize" xml:space="preserve">
     <value>Number of threads used for image loading</value>
   </data>
-  <data name="ParamJobEngineWorkerSizeTips" xml:space="preserve">
+  <data name="PerformanceConfig.JobWorkerSize#Tips" xml:space="preserve">
     <value>The recommended value is 2 to 4</value>
   </data>
-  <data name="ParamLanguage" xml:space="preserve">
+  <data name="SystemConfig.Language" xml:space="preserve">
     <value>Language</value>
   </data>
-  <data name="ParamLanguageTips" xml:space="preserve">
+  <data name="SystemConfig.Language#Tips" xml:space="preserve">
     <value>* It is applied from the next startup.</value>
   </data>
   <data name="ParamListItemBannerImageWidth" xml:space="preserve">
@@ -4784,10 +4814,10 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParamListItemContentImageWidthTips" xml:space="preserve">
     <value>The width of the image in content style. If the thumbnail image resolution is exceeded, the image will be grainy.</value>
   </data>
-  <data name="ParamListItemContentIsDecoratePlace" xml:space="preserve">
+  <data name="PanelsConfig.IsDecoratePlace" xml:space="preserve">
     <value>Format path display of supplemental text</value>
   </data>
-  <data name="ParamListItemContentIsDecoratePlaceTips" xml:space="preserve">
+  <data name="PanelsConfig.IsDecoratePlace#Tips" xml:space="preserve">
     <value>Format as "AAA (C:\BBB\CCC)".</value>
   </data>
   <data name="ParamListItemContentIsTextWrapped" xml:space="preserve">
@@ -4799,13 +4829,13 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParamListItemContentNoteOpacityTips" xml:space="preserve">
     <value>Transparency of supplemental text in content style.</value>
   </data>
-  <data name="ParamListItemFolderTreeFontSize" xml:space="preserve">
+  <data name="PanelsConfig.FolderTreeFontSize" xml:space="preserve">
     <value>Font size of folder tree</value>
   </data>
-  <data name="ParamListItemFontName" xml:space="preserve">
+  <data name="PanelsConfig.FontName" xml:space="preserve">
     <value>List item font</value>
   </data>
-  <data name="ParamListItemFontSize" xml:space="preserve">
+  <data name="PanelsConfig.FontSize" xml:space="preserve">
     <value>Font size of list items</value>
   </data>
   <data name="ParamListItemImagePopup" xml:space="preserve">
@@ -4847,118 +4877,118 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParamListItemThumbnailNameVisibled" xml:space="preserve">
     <value>Display the name when thumbnail style.</value>
   </data>
-  <data name="ParamLoupeDefaultScale" xml:space="preserve">
+  <data name="LoupeConfig.DefaultScale" xml:space="preserve">
     <value>Loupe standard magnification</value>
   </data>
-  <data name="ParamLoupeIsEscapeKeyEnabled" xml:space="preserve">
+  <data name="LoupeConfig.IsEscapeKeyEnabled" xml:space="preserve">
     <value>Use the Esc key to release the loupe</value>
   </data>
-  <data name="ParamLoupeIsLoupeCenter" xml:space="preserve">
+  <data name="LoupeConfig.IsLoupeCenter" xml:space="preserve">
     <value>At the start, move the cursor position to the screen center</value>
   </data>
-  <data name="ParamLoupeIsResetByPageChanged" xml:space="preserve">
+  <data name="LoupeConfig.IsResetByPageChanged" xml:space="preserve">
     <value>Release the loupe after moving the page</value>
   </data>
-  <data name="ParamLoupeIsResetByRestart" xml:space="preserve">
+  <data name="LoupeConfig.IsResetByRestart" xml:space="preserve">
     <value>Start loupe at standard magnification</value>
   </data>
-  <data name="ParamLoupeIsResetByRestartTips" xml:space="preserve">
+  <data name="LoupeConfig.IsResetByRestart#Tips" xml:space="preserve">
     <value>When set to OFF, the previous magnification will be inherited.</value>
   </data>
-  <data name="ParamLoupeIsVisibleLoupeInfo" xml:space="preserve">
+  <data name="LoupeConfig.IsVisibleLoupeInfo" xml:space="preserve">
     <value>Display the magnification of loupe</value>
   </data>
-  <data name="ParamLoupeIsVisibleLoupeInfoTips" xml:space="preserve">
+  <data name="LoupeConfig.IsVisibleLoupeInfo#Tips" xml:space="preserve">
     <value>The magnification will be displayed on the upper right of the screen during loupe.</value>
   </data>
-  <data name="ParamLoupeIsWheelScalingEnabled" xml:space="preserve">
+  <data name="LoupeConfig.IsWheelScalingEnabled" xml:space="preserve">
     <value>When using a loupe, change the magnifying power by wheel operation</value>
   </data>
-  <data name="ParamLoupeIsWheelScalingEnabledTips" xml:space="preserve">
+  <data name="LoupeConfig.IsWheelScalingEnabled#Tips" xml:space="preserve">
     <value>Commands to which wheel operation is assigned are invalid.</value>
   </data>
-  <data name="ParamLoupeMaximumScale" xml:space="preserve">
+  <data name="LoupeConfig.MaximumScale" xml:space="preserve">
     <value>Loupe maximum magnification</value>
   </data>
-  <data name="ParamLoupeMinimumScale" xml:space="preserve">
+  <data name="LoupeConfig.MinimumScale" xml:space="preserve">
     <value>Loupe minimum magnification</value>
   </data>
-  <data name="ParamLoupeScaleStep" xml:space="preserve">
+  <data name="LoupeConfig.ScaleStep" xml:space="preserve">
     <value>Loupe magnification change unit</value>
   </data>
-  <data name="ParamLoupeSpeed" xml:space="preserve">
+  <data name="LoupeConfig.Speed" xml:space="preserve">
     <value>Loupe Speed</value>
   </data>
-  <data name="ParamMainViewIsFloating" xml:space="preserve">
+  <data name="MainViewConfig.IsFloating" xml:space="preserve">
     <value>MainView floating</value>
   </data>
-  <data name="ParamMainViewIsHideTitleBar" xml:space="preserve">
+  <data name="MainViewConfig.IsHideTitleBar" xml:space="preserve">
     <value>Automatically hide MainView window title bar</value>
   </data>
-  <data name="ParamMainViewIsTopmost" xml:space="preserve">
+  <data name="MainViewConfig.IsTopmost" xml:space="preserve">
     <value>MainView window is topmost</value>
   </data>
-  <data name="ParamMediaIsMuted" xml:space="preserve">
+  <data name="MediaArchiveConfig.IsMuted" xml:space="preserve">
     <value>Mute video</value>
   </data>
-  <data name="ParamMediaIsRepeat" xml:space="preserve">
+  <data name="MediaArchiveConfig.IsRepeat" xml:space="preserve">
     <value>Video repeat</value>
   </data>
-  <data name="ParamMediaStartDelaySeconds" xml:space="preserve">
+  <data name="MediaArchiveConfig.MediaStartDelaySeconds" xml:space="preserve">
     <value>Play start delay (sec)</value>
   </data>
-  <data name="ParamMediaStartDelaySecondsTips" xml:space="preserve">
+  <data name="MediaArchiveConfig.MediaStartDelaySeconds#Tips" xml:space="preserve">
     <value>If 0 is specified, the contents may flicker.</value>
   </data>
-  <data name="ParamMediaVolume" xml:space="preserve">
+  <data name="MediaArchiveConfig.Volume" xml:space="preserve">
     <value>Video volume</value>
   </data>
-  <data name="ParamMenuBarIsAutoHide" xml:space="preserve">
+  <data name="MenuBarConfig.IsHideMenu" xml:space="preserve">
     <value>Hide menu automatically</value>
   </data>
-  <data name="ParamMenuBarIsVisibleAddressBar" xml:space="preserve">
+  <data name="MenuBarConfig.IsAddressBarEnabled" xml:space="preserve">
     <value>Show address bar</value>
   </data>
-  <data name="ParamMenuColor" xml:space="preserve">
+  <data name="ThemeConfig.MenuColor" xml:space="preserve">
     <value>Menu color</value>
   </data>
-  <data name="ParamMouseGestureMinimumDistance" xml:space="preserve">
+  <data name="MouseConfig.GestureMinimumDistance" xml:space="preserve">
     <value>Mouse gesture stroke (pixel)</value>
   </data>
-  <data name="ParamMouseGestureMinimumDistanceTips" xml:space="preserve">
+  <data name="MouseConfig.GestureMinimumDistance#Tips" xml:space="preserve">
     <value>By moving this distance, it is judged as a gesture stroke.</value>
   </data>
-  <data name="ParamMouseIsDragEnabled" xml:space="preserve">
+  <data name="MouseConfig.IsDragEnabled" xml:space="preserve">
     <value>Use mouse drag</value>
   </data>
-  <data name="ParamMouseIsGestureEnabled" xml:space="preserve">
+  <data name="MouseConfig.IsGestureEnabled" xml:space="preserve">
     <value>Use mouse gesture</value>
   </data>
-  <data name="ParamMouseLongButtonDownMode" xml:space="preserve">
+  <data name="MouseConfig.LongButtonDownMode" xml:space="preserve">
     <value>Long press mode</value>
   </data>
-  <data name="ParamMouseLongButtonDownTime" xml:space="preserve">
+  <data name="MouseConfig.LongButtonDownTime" xml:space="preserve">
     <value>Long press decision time (sec)</value>
   </data>
-  <data name="ParamMouseLongButtonDownTimeTips" xml:space="preserve">
+  <data name="MouseConfig.LongButtonDownTime#Tips" xml:space="preserve">
     <value>It is time to be judged to be long pressed.</value>
   </data>
-  <data name="ParamMouseLongButtonMask" xml:space="preserve">
+  <data name="MouseConfig.LongButtonMask" xml:space="preserve">
     <value>Long press button</value>
   </data>
-  <data name="ParamMouseLongButtonRepeatTime" xml:space="preserve">
+  <data name="MouseConfig.LongButtonRepeatTime" xml:space="preserve">
     <value>Repeat interval (sec)</value>
   </data>
-  <data name="ParamMouseLongButtonRepeatTimeTips" xml:space="preserve">
+  <data name="MouseConfig.LongButtonRepeatTime#Tips" xml:space="preserve">
     <value>Repeat time with repeat input.</value>
   </data>
-  <data name="ParamMouseMinimumDragDistance" xml:space="preserve">
+  <data name="MouseConfig.MinimumDragDistance" xml:space="preserve">
     <value>Drag starting distance (pixel)</value>
   </data>
-  <data name="ParamMouseMinimumDragDistanceTips" xml:space="preserve">
+  <data name="MouseConfig.MinimumDragDistance#Tips" xml:space="preserve">
     <value>First moving distance to become a drag or gesture</value>
   </data>
-  <data name="ParamMouseWheelSpeedRate" xml:space="preserve">
+  <data name="PanelsConfig.MouseWheelSpeedRate" xml:space="preserve">
     <value>Mouse wheel scroll speed rate in thumbnail view</value>
   </data>
   <data name="ParamNavigateAutoRotate" xml:space="preserve">
@@ -4970,13 +5000,13 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParamNavigateIsFlipVertical" xml:space="preserve">
     <value>Flip vertical</value>
   </data>
-  <data name="ParamPageBackgroundColor" xml:space="preserve">
+  <data name="BackgroundConfig.PageBackgroundColor" xml:space="preserve">
     <value>Transparent image background color</value>
   </data>
-  <data name="ParamPageListFormat" xml:space="preserve">
+  <data name="PageListConfig.Format" xml:space="preserve">
     <value>Page name display format of page list</value>
   </data>
-  <data name="ParamPageListItemStyle" xml:space="preserve">
+  <data name="PageListConfig.PanelListItemStyle" xml:space="preserve">
     <value>Page list item style</value>
   </data>
   <data name="ParamPageListPlacementInBookshelf" xml:space="preserve">
@@ -4985,191 +5015,191 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParamPageListPlacementInBookshelfTips" xml:space="preserve">
     <value>When turned OFF, it becomes a side panel.</value>
   </data>
-  <data name="ParamPagemarkFilePath" xml:space="preserve">
+  <data name="PagemarkConfig.PagemarkFilePath" xml:space="preserve">
     <value>Pagemark list file location</value>
   </data>
-  <data name="ParamPagemarkListItemStyle" xml:space="preserve">
+  <data name="PagemarkConfig.PanelListItemStyle" xml:space="preserve">
     <value>Pagemark list item style</value>
   </data>
-  <data name="ParamPagemarkOrder" xml:space="preserve">
+  <data name="PagemarkConfig.PagemarkOrder" xml:space="preserve">
     <value>Pagemark order</value>
   </data>
-  <data name="ParamPageSeconds" xml:space="preserve">
+  <data name="MediaArchiveConfig.PageSeconds" xml:space="preserve">
     <value>Change time in page movement (sec)</value>
   </data>
-  <data name="ParamPageViewRecordPath" xml:space="preserve">
+  <data name="PageViewRecorderConfig.PageViewRecordFilePath" xml:space="preserve">
     <value>Page view recording path</value>
   </data>
-  <data name="ParamPanelColor" xml:space="preserve">
+  <data name="ThemeConfig.PanelColor" xml:space="preserve">
     <value>Theme color</value>
   </data>
-  <data name="ParamPanelsIsAutoHide" xml:space="preserve">
+  <data name="PanelsConfig.IsHidePanel" xml:space="preserve">
     <value>Hide side panels automatically</value>
   </data>
-  <data name="ParamPictureCustomHeight" xml:space="preserve">
+  <data name="ImageCustomSizeConfig.Height" xml:space="preserve">
     <value>Height</value>
   </data>
-  <data name="ParamPictureCustomLockAspect" xml:space="preserve">
+  <data name="ImageCustomSizeConfig.IsUniformed" xml:space="preserve">
     <value>Lock aspect</value>
   </data>
-  <data name="ParamPictureCustomWidth" xml:space="preserve">
+  <data name="ImageCustomSizeConfig.Width" xml:space="preserve">
     <value>Width</value>
   </data>
   <data name="ParamPictureProfileExtensions" xml:space="preserve">
     <value>Image file extensions</value>
   </data>
-  <data name="ParamPictureProfileIsAspectRatioEnabled" xml:space="preserve">
+  <data name="ImageStandardConfig.IsAspectRatioEnabled" xml:space="preserve">
     <value>Apply image resolution information</value>
   </data>
-  <data name="ParamPictureProfileIsAspectRatioEnabledTips" xml:space="preserve">
+  <data name="ImageStandardConfig.IsAspectRatioEnabled#Tips" xml:space="preserve">
     <value>Display according to the dpi and aspect ratio set in the image file.</value>
   </data>
-  <data name="ParamPictureProfileIsLimitSourceSize" xml:space="preserve">
+  <data name="PerformanceConfig.IsLimitSourceSize" xml:space="preserve">
     <value>Load image size limit</value>
   </data>
-  <data name="ParamPictureProfileIsLimitSourceSizeTips" xml:space="preserve">
-    <value>Reduce the imported image with "@ParamPictureProfileMaximumSize" as the upper limit. It is setting for speed and memory saving. When this restriction is applied, "*" will be displayed in the size field of the information if it is the loaded image.</value>
+  <data name="PerformanceConfig.IsLimitSourceSize#Tips" xml:space="preserve">
+    <value>Reduce the imported image with "@PerformanceConfig.MaximumSize" as the upper limit. It is setting for speed and memory saving. When this restriction is applied, "*" will be displayed in the size field of the information if it is the loaded image.</value>
   </data>
   <data name="ParamPictureProfileIsMagicScaleSimdEnabled" xml:space="preserve">
     <value>Use SIMD for resize filtering</value>
   </data>
-  <data name="ParamPictureProfileIsSvgEnabled" xml:space="preserve">
+  <data name="ImageSvgConfig.IsEnabled" xml:space="preserve">
     <value>Enable SVG file</value>
   </data>
-  <data name="ParamPictureProfileIsSvgEnabledTips" xml:space="preserve">
+  <data name="ImageSvgConfig.IsEnabled#Tips" xml:space="preserve">
     <value>Open an SVG file as a page.</value>
   </data>
-  <data name="ParamPictureProfileMaximumSize" xml:space="preserve">
+  <data name="PerformanceConfig.MaximumSize" xml:space="preserve">
     <value>Maximum image size</value>
   </data>
-  <data name="ParamPictureProfileMaximumSizeTips" xml:space="preserve">
+  <data name="PerformanceConfig.MaximumSize#Tips" xml:space="preserve">
     <value>This is the maximum image size enlarged by the resize filter.</value>
   </data>
-  <data name="ParamPictureProfileSupportFileTypes" xml:space="preserve">
+  <data name="ImageStandardConfig.SupportFileTypes" xml:space="preserve">
     <value>Image file extensions</value>
   </data>
-  <data name="ParamPictureProfileSvgExtensions" xml:space="preserve">
+  <data name="ImageSvgConfig.SupportFileTypes" xml:space="preserve">
     <value>SVG file extensions</value>
   </data>
-  <data name="ParamPictureProfileUseWicInformation" xml:space="preserve">
+  <data name="ImageStandardConfig.UseWicInformation" xml:space="preserve">
     <value>Use WIC information</value>
   </data>
-  <data name="ParamPictureProfileUseWicInformationNote" xml:space="preserve">
+  <data name="ImageStandardConfig.UseWicInformation#Tips" xml:space="preserve">
     <value>Obtains the image file extension from WIC at initialization. If off, only the default extension is available.</value>
   </data>
-  <data name="ParamPlaylistFolderOrder" xml:space="preserve">
+  <data name="BookshelfConfig.PlaylistFolderOrder" xml:space="preserve">
     <value>Default order of playlists</value>
   </data>
-  <data name="ParamPreLoadSize" xml:space="preserve">
+  <data name="PerformanceConfig.PreLoadSize" xml:space="preserve">
     <value>Read ahead page size</value>
   </data>
-  <data name="ParamPreLoadSizeTips" xml:space="preserve">
+  <data name="PerformanceConfig.PreLoadSize#Tips" xml:space="preserve">
     <value>Read ahead within the cache memory size.</value>
   </data>
-  <data name="ParamResetPageWhenRandomSort" xml:space="preserve">
+  <data name="BookConfig.ResetPageWhenRandomSort" xml:space="preserve">
     <value>Reset page when shuffle</value>
   </data>
-  <data name="ParamScriptFolder" xml:space="preserve">
+  <data name="ScriptConfig.ScriptFolder" xml:space="preserve">
     <value>Scripts folder</value>
   </data>
-  <data name="ParamScriptFolderTips" xml:space="preserve">
+  <data name="ScriptConfig.ScriptFolder#Tips" xml:space="preserve">
     <value>Use the scripts in this folder.</value>
   </data>
-  <data name="ParamSeCannotMove" xml:space="preserve">
+  <data name="BookConfig.TerminalSound" xml:space="preserve">
     <value>Sound when not able to move</value>
   </data>
-  <data name="ParamSevenZipArchiverIsEnabled" xml:space="preserve">
+  <data name="SevenZipArchiveConfig.IsEnabled" xml:space="preserve">
     <value>Use compressed file expansion with 7-Zip</value>
   </data>
   <data name="ParamSevenZipArchiverIsPreExtract" xml:space="preserve">
     <value>Pre Extract</value>
   </data>
-  <data name="ParamSevenZipArchiverIsPreExtractToMemory" xml:space="preserve">
+  <data name="PerformanceConfig.IsPreExtractToMemory" xml:space="preserve">
     <value>In the case of a solid compressed file, expand it in memory in advance</value>
   </data>
-  <data name="ParamSevenZipArchiverIsPreExtractToMemoryTips" xml:space="preserve">
+  <data name="PerformanceConfig.IsPreExtractToMemory#Tips" xml:space="preserve">
     <value>It speeds up by expanding not in temporary files but in memory. The memory consumed is secured separately from the book cache memory.</value>
   </data>
-  <data name="ParamSevenZipArchiverPreExtractSolidSize" xml:space="preserve">
+  <data name="PerformanceConfig.PreExtractSolidSize" xml:space="preserve">
     <value>Maximum solid compressed file extraction size to be extracted in advance (MB)</value>
   </data>
-  <data name="ParamSevenZipArchiverPreExtractSolidSizeTips" xml:space="preserve">
+  <data name="PerformanceConfig.PreExtractSolidSize#Tips" xml:space="preserve">
     <value>Compressed files exceeding this extraction size will not be pre-extracted. Set 0 to prohibit all pre-extraction.
 The Susie archive does not determine this size, but only pre-extraction in the plug-in settings.</value>
   </data>
-  <data name="ParamSevenZipArchiverSupportFileTypes" xml:space="preserve">
+  <data name="SevenZipArchiveConfig.SupportFileTypes" xml:space="preserve">
     <value>Compressed file extension</value>
   </data>
-  <data name="ParamSevenZipArchiverX64DllPath" xml:space="preserve">
+  <data name="SevenZipArchiveConfig.X64DllPath" xml:space="preserve">
     <value>Location of 7z.dll (64 bit)</value>
   </data>
-  <data name="ParamSevenZipArchiverX64DllPathTips" xml:space="preserve">
+  <data name="SevenZipArchiveConfig.X64DllPath#Tips" xml:space="preserve">
     <value>Set this if you want to use another 7z.dll. To reflect, you need to reopen the application.</value>
   </data>
-  <data name="ParamSevenZipArchiverX86DllPath" xml:space="preserve">
+  <data name="SevenZipArchiveConfig.X86DllPath" xml:space="preserve">
     <value>Location of 7z.dll (32bit)</value>
   </data>
-  <data name="ParamSevenZipArchiverX86DllPathTips" xml:space="preserve">
+  <data name="SevenZipArchiveConfig.X86DllPath#Tips" xml:space="preserve">
     <value>Set this if you want to use another 7z.dll. To reflect, you need to reopen the application.</value>
   </data>
-  <data name="ParamSidePanelHitTestMargin" xml:space="preserve">
+  <data name="AutoHideConfig.AutoHideHitTestMargin" xml:space="preserve">
     <value>Area width of automatic panel display judgment</value>
   </data>
-  <data name="ParamSidePanelIsLeftRightKeyEnabled" xml:space="preserve">
+  <data name="PanelsConfig.IsLeftRightKeyEnabled" xml:space="preserve">
     <value>The left and right key input of the side panel is valid</value>
   </data>
-  <data name="ParamSidePanelIsLeftRightKeyEnabledTips" xml:space="preserve">
+  <data name="PanelsConfig.IsLeftRightKeyEnabled#Tips" xml:space="preserve">
     <value>Activate left / right key operation on the side panel. In the bookshelf, move the folder hierarchically.</value>
   </data>
-  <data name="ParamSidePanelIsManipulationBoundaryFeedbackEnabled" xml:space="preserve">
+  <data name="PanelsConfig.IsManipulationBoundaryFeedbackEnabled" xml:space="preserve">
     <value>Touch scroll termination bound on side panel</value>
   </data>
-  <data name="ParamSidePanelOpacity" xml:space="preserve">
+  <data name="PanelsConfig.Opacity" xml:space="preserve">
     <value>Panel opacity</value>
   </data>
-  <data name="ParamSidePanelOpacityTips" xml:space="preserve">
+  <data name="PanelsConfig.Opacity#Tips" xml:space="preserve">
     <value>It is effective in auto-hide mode.</value>
   </data>
-  <data name="ParamSidePanelOpenWithDoubleClick" xml:space="preserve">
+  <data name="PanelsConfig.OpenWithDoubleClick" xml:space="preserve">
     <value>Double click to open book</value>
   </data>
-  <data name="ParamSidePanelOpenWithDoubleClickTips" xml:space="preserve">
+  <data name="PanelsConfig.OpenWithDoubleClick#Tips" xml:space="preserve">
     <value>Effective on bookshelf, bookmark panel, and history panel.</value>
   </data>
-  <data name="ParamSliderDirection" xml:space="preserve">
+  <data name="SliderConfig.SliderDirection" xml:space="preserve">
     <value>Slider Direction</value>
   </data>
-  <data name="ParamSliderIndexLayout" xml:space="preserve">
+  <data name="SliderConfig.SliderIndexLayout" xml:space="preserve">
     <value>Page number display position</value>
   </data>
-  <data name="ParamSliderIsAutoHide" xml:space="preserve">
+  <data name="SliderConfig.IsHidePageSlider" xml:space="preserve">
     <value>Hide slider automatically</value>
   </data>
-  <data name="ParamSliderIsLinkedThumbnailList" xml:space="preserve">
+  <data name="SliderConfig.IsSliderLinkedFilmStrip" xml:space="preserve">
     <value>Real time change with slider applies only to film strip</value>
   </data>
-  <data name="ParamSliderIsLinkedThumbnailListTips" xml:space="preserve">
+  <data name="SliderConfig.IsSliderLinkedFilmStrip#Tips" xml:space="preserve">
     <value>Switch pages when decided.</value>
   </data>
-  <data name="ParamSliderIsSyncPageMode" xml:space="preserve">
+  <data name="SliderConfig.IsSyncPageMode" xml:space="preserve">
     <value>Synchronize the amount of change to the number of displayed pages</value>
   </data>
-  <data name="ParamSliderOpacity" xml:space="preserve">
+  <data name="SliderConfig.Opacity" xml:space="preserve">
     <value>Slider opacity</value>
   </data>
-  <data name="ParamSliderOpacityTips" xml:space="preserve">
+  <data name="SliderConfig.Opacity#Tips" xml:space="preserve">
     <value>It is effective in auto-hide mode.</value>
   </data>
-  <data name="ParamSlideShowInterval" xml:space="preserve">
+  <data name="SlideShowConfig.SlideShowInterval" xml:space="preserve">
     <value>Display interval (sec)</value>
   </data>
-  <data name="ParamSusieIsEnabled" xml:space="preserve">
+  <data name="SusieConfig.IsEnabled" xml:space="preserve">
     <value>Use the Susie plugin</value>
   </data>
-  <data name="ParamSusieIsFirstOrderSusieArchive" xml:space="preserve">
+  <data name="SusieConfig.IsFirstOrderSusieArchive" xml:space="preserve">
     <value>Prioritize Susie plugin in compressed file expansion</value>
   </data>
-  <data name="ParamSusieIsFirstOrderSusieImage" xml:space="preserve">
+  <data name="SusieConfig.IsFirstOrderSusieImage" xml:space="preserve">
     <value>Prioritize Susie plugin in image display</value>
   </data>
   <data name="ParamSusieIsPluginCacheEnabled" xml:space="preserve">
@@ -5187,115 +5217,115 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="ParamSusiePluginIsPreExtract" xml:space="preserve">
     <value>Pre extract</value>
   </data>
-  <data name="ParamSusiePluginPath" xml:space="preserve">
+  <data name="SusieConfig.SusiePluginPath" xml:space="preserve">
     <value>Plugin folder</value>
   </data>
-  <data name="ParamTemporaryDirectory" xml:space="preserve">
+  <data name="SystemConfig.TemporaryDirectory" xml:space="preserve">
     <value>Temporary location</value>
   </data>
-  <data name="ParamTemporaryDirectoryTips" xml:space="preserve">
+  <data name="SystemConfig.TemporaryDirectory#Tips" xml:space="preserve">
     <value>It is used for pre-extraction and recursive compression files.</value>
   </data>
-  <data name="ParamThumbnailBookCapacity" xml:space="preserve">
+  <data name="ThumbnailConfig.ThumbnailBookCapacity" xml:space="preserve">
     <value>Book Thumbnail Capacity</value>
   </data>
-  <data name="ParamThumbnailBookCapacityTips" xml:space="preserve">
+  <data name="ThumbnailConfig.ThumbnailBookCapacity#Tips" xml:space="preserve">
     <value>The number of book thumbnails held in memory.</value>
   </data>
-  <data name="ParamThumbnailCacheFilePath" xml:space="preserve">
+  <data name="ThumbnailConfig.ThumbnailCacheFilePath" xml:space="preserve">
     <value>Thumbnail cache file location</value>
   </data>
-  <data name="ParamThumbnailCacheLimitSpan" xml:space="preserve">
+  <data name="ThumbnailConfig.CacheLimitSpan" xml:space="preserve">
     <value>Thumbnail cache retention period</value>
   </data>
-  <data name="ParamThumbnailFormat" xml:space="preserve">
+  <data name="ThumbnailConfig.Format" xml:space="preserve">
     <value>Thumbnail image format</value>
   </data>
-  <data name="ParamThumbnailFormatTips" xml:space="preserve">
+  <data name="ThumbnailConfig.Format#Tips" xml:space="preserve">
     <value>PNG is high quality, but the data size is larger than JPEG.</value>
   </data>
-  <data name="ParamThumbnailIsCacheEnabled" xml:space="preserve">
+  <data name="ThumbnailConfig.IsCacheEnabled" xml:space="preserve">
     <value>Use thumbnail cache</value>
   </data>
-  <data name="ParamThumbnailIsCacheEnabledTips" xml:space="preserve">
+  <data name="ThumbnailConfig.IsCacheEnabled#Tips" xml:space="preserve">
     <value>Cache the book thumbnail.</value>
   </data>
-  <data name="ParamThumbnailPageCapacity" xml:space="preserve">
+  <data name="ThumbnailConfig.ThumbnailPageCapacity" xml:space="preserve">
     <value>Page Thumbnail Capacity</value>
   </data>
-  <data name="ParamThumbnailPageCapacityTips" xml:space="preserve">
+  <data name="ThumbnailConfig.ThumbnailPageCapacity#Tips" xml:space="preserve">
     <value>The number of page thumbnails held in memory. When the book is closed everything is destroyed.</value>
   </data>
-  <data name="ParamThumbnailQuality" xml:space="preserve">
+  <data name="ThumbnailConfig.Quality" xml:space="preserve">
     <value>Thumbnail quality</value>
   </data>
-  <data name="ParamThumbnailQualityTips" xml:space="preserve">
+  <data name="ThumbnailConfig.Quality#Tips" xml:space="preserve">
     <value>Quality when the thumbnail image format is JPEG.</value>
   </data>
-  <data name="ParamThumbnailResolution" xml:space="preserve">
+  <data name="ThumbnailConfig.Resolution" xml:space="preserve">
     <value>Thumbnail image resolution</value>
   </data>
-  <data name="ParamThumbnailResolutionTips" xml:space="preserve">
+  <data name="ThumbnailConfig.Resolution#Tips" xml:space="preserve">
     <value>The higher the value, the higher the resolution but the larger the data size.</value>
   </data>
-  <data name="ParamTouchDragAction" xml:space="preserve">
+  <data name="TouchConfig.DragAction" xml:space="preserve">
     <value>Single touch drag operation</value>
   </data>
-  <data name="ParamTouchGestureMinimumDistance" xml:space="preserve">
+  <data name="TouchConfig.GestureMinimumDistance" xml:space="preserve">
     <value>Minimum movement distance for touch drag judgment</value>
   </data>
-  <data name="ParamTouchGestureMinimumDistanceTips" xml:space="preserve">
+  <data name="TouchConfig.GestureMinimumDistance#Tips" xml:space="preserve">
     <value>Dragging is judged to start for the first time by moving this distance.</value>
   </data>
-  <data name="ParamTouchHoldAction" xml:space="preserve">
+  <data name="TouchConfig.HoldAction" xml:space="preserve">
     <value>Long press Touch drag operation</value>
   </data>
-  <data name="ParamTouchIsAngleEnabled" xml:space="preserve">
+  <data name="TouchConfig.IsAngleEnabled" xml:space="preserve">
     <value>Enable rotation operation with multi-touch</value>
   </data>
   <data name="ParamTouchIsEnabled" xml:space="preserve">
     <value>Enable touch operation</value>
   </data>
-  <data name="ParamTouchIsEnabledTips" xml:space="preserve">
+  <data name="TouchConfig.IsEnabled" xml:space="preserve">
     <value>When set to OFF, it functions as standard mouse operation.</value>
   </data>
-  <data name="ParamTouchIsScaleEnabled" xml:space="preserve">
+  <data name="TouchConfig.IsScaleEnabled" xml:space="preserve">
     <value>Enable sizing operation with pinch in and pinch out</value>
   </data>
-  <data name="ParamTouchMinimumManipulationDistance" xml:space="preserve">
+  <data name="TouchConfig.MinimumManipulationDistance" xml:space="preserve">
     <value>Touch operation pinch minimum change distance</value>
   </data>
-  <data name="ParamTouchMinimumManipulationDistanceTips" xml:space="preserve">
+  <data name="TouchConfig.MinimumManipulationDistance#Tips" xml:space="preserve">
     <value>This is the minimum operating distance at which rotation and enlargement / reduction by touch operation are effective.</value>
   </data>
-  <data name="ParamTouchMinimumManipulationRadius" xml:space="preserve">
+  <data name="TouchConfig.MinimumManipulationRadius" xml:space="preserve">
     <value>Touch operation pinch minimum determination distance</value>
   </data>
-  <data name="ParamTouchMinimumManipulationRadiusTips" xml:space="preserve">
+  <data name="TouchConfig.MinimumManipulationRadius#Tips" xml:space="preserve">
     <value>It is the distance between the minimum of 2 touches judged as rotation by touch operation, enlargement / reduction.</value>
   </data>
-  <data name="ParamViewAllowStretchScaleDown" xml:space="preserve">
+  <data name="ViewConfig.AllowStretchScaleDown" xml:space="preserve">
     <value>Allow scale down by stretching</value>
   </data>
-  <data name="ParamViewAllowStretchScaleUp" xml:space="preserve">
+  <data name="ViewConfig.AllowStretchScaleUp" xml:space="preserve">
     <value>Allow scale up by stretching</value>
   </data>
-  <data name="ParamViewBaseScale" xml:space="preserve">
+  <data name="ViewConfig.BaseScale" xml:space="preserve">
     <value>Base scale</value>
   </data>
-  <data name="ParamViewBaseScaleTips" xml:space="preserve">
+  <data name="ViewConfig.BaseScale#Tips" xml:space="preserve">
     <value>After applying the stretch, apply this scale value.</value>
   </data>
-  <data name="ParamViewIsBaseScaleEnabled" xml:space="preserve">
+  <data name="ViewConfig.IsBaseScaleEnabled" xml:space="preserve">
     <value>Enable base scale</value>
   </data>
-  <data name="ParamViewIsBaseScaleEnabledTips" xml:space="preserve">
+  <data name="ViewConfig.IsBaseScaleEnabled#Tips" xml:space="preserve">
     <value>Enable base scale.</value>
   </data>
-  <data name="ParamViewIsRotateStretchEnabled" xml:space="preserve">
+  <data name="ViewConfig.IsRotateStretchEnabled" xml:space="preserve">
     <value>Apply stretch to navigator rotation buttons</value>
   </data>
-  <data name="ParamViewStretchMode" xml:space="preserve">
+  <data name="ViewConfig.StretchMode" xml:space="preserve">
     <value>Stretch mode</value>
   </data>
   <data name="ParamWindowChromeFrame" xml:space="preserve">
@@ -5343,7 +5373,7 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="ParamZipArchiverSupportFileTypesTips" xml:space="preserve">
     <value>Only ZIP format is supported.</value>
   </data>
-  <data name="ParmViewAutoRotate" xml:space="preserve">
+  <data name="ViewConfig.AutoRotate" xml:space="preserve">
     <value>Automatic rotation</value>
   </data>
   <data name="ParmViewForceAutoRotate" xml:space="preserve">
@@ -5910,6 +5940,15 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>· The bookmark list was integrated with the folder list and it became a bookshelf.
 · The folder of the pagemark list is now automatically created.</value>
   </data>
+  <data name="VerticalAlignment_Bottom" xml:space="preserve">
+    <value>Bottom</value>
+  </data>
+  <data name="VerticalAlignment_Center" xml:space="preserve">
+    <value>Center</value>
+  </data>
+  <data name="VerticalAlignment_Top" xml:space="preserve">
+    <value>Top</value>
+  </data>
   <data name="ViewPageAccessor" xml:space="preserve">
     <value>ViewPage accessor</value>
   </data>
@@ -6279,5 +6318,116 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="WordYes" xml:space="preserve">
     <value>Yes</value>
+  </data>
+  <data name="BloomEffectUnit.BaseIntensity" xml:space="preserve">
+    <value>Base intensity</value>
+  </data>
+  <data name="BloomEffectUnit.BaseSaturation" xml:space="preserve">
+    <value>Base saturation</value>
+  </data>
+  <data name="BloomEffectUnit.BloomIntensity" xml:space="preserve">
+    <value>Bloom intensity</value>
+  </data>
+  <data name="BloomEffectUnit.BloomSaturation" xml:space="preserve">
+    <value>Bloom saturation</value>
+  </data>
+  <data name="BloomEffectUnit.Threshold" xml:space="preserve">
+    <value>Threshold</value>
+  </data>
+  <data name="BlurEffectUnit.Radius" xml:space="preserve">
+    <value>Radius</value>
+  </data>
+  <data name="ColorToneEffectUnit.DarkColor" xml:space="preserve">
+    <value>Dark color</value>
+  </data>
+  <data name="ColorToneEffectUnit.Desaturation" xml:space="preserve">
+    <value>Desaturation</value>
+  </data>
+  <data name="ColorToneEffectUnit.LightColor" xml:space="preserve">
+    <value>Light color</value>
+  </data>
+  <data name="ColorToneEffectUnit.ToneAmount" xml:space="preserve">
+    <value>Tone amount</value>
+  </data>
+  <data name="EmbossedEffectUnit.Amount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="EmbossedEffectUnit.Color" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="EmbossedEffectUnit.Height" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="LevelEffectUnit.Center" xml:space="preserve">
+    <value>Center</value>
+  </data>
+  <data name="MagnifyEffectUnit.Amount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="MagnifyEffectUnit.Center" xml:space="preserve">
+    <value>Center</value>
+  </data>
+  <data name="MagnifyEffectUnit.InnerRadius" xml:space="preserve">
+    <value>Inner radius</value>
+  </data>
+  <data name="MagnifyEffectUnit.OuterRadius" xml:space="preserve">
+    <value>Outer radius</value>
+  </data>
+  <data name="MonochromeEffectUnit.Color" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="PixelateEffectUnit.Pixelation" xml:space="preserve">
+    <value>Pixelation</value>
+  </data>
+  <data name="RippleEffectUnit.Center" xml:space="preserve">
+    <value>Center</value>
+  </data>
+  <data name="RippleEffectUnit.Frequency" xml:space="preserve">
+    <value>Frequency</value>
+  </data>
+  <data name="RippleEffectUnit.Magnitude" xml:space="preserve">
+    <value>Magnitude</value>
+  </data>
+  <data name="RippleEffectUnit.Phase" xml:space="preserve">
+    <value>Phase</value>
+  </data>
+  <data name="SharpenEffectUnit.Amount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="SharpenEffectUnit.Height" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="SwirlEffectUnit.Center" xml:space="preserve">
+    <value>Center</value>
+  </data>
+  <data name="SwirlEffectUnit.TwistAmount" xml:space="preserve">
+    <value>Twist amount</value>
+  </data>
+  <data name="LevelEffectUnit.Black" xml:space="preserve">
+    <value>Black</value>
+  </data>
+  <data name="LevelEffectUnit.White" xml:space="preserve">
+    <value>White</value>
+  </data>
+  <data name="LevelEffectUnit.Minimum" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="LevelEffectUnit.Maximum" xml:space="preserve">
+    <value>Max</value>
+  </data>
+  <data name="ControlConfig.IsVisible" xml:space="preserve">
+    <value>Panel visibility</value>
+  </data>
+  <data name="ControlConfig.IsSelected" xml:space="preserve">
+    <value>Panel selected</value>
+  </data>
+  <data name="MenuBarConfig.IsVisible" xml:space="preserve">
+    <value>Menu visibility</value>
+  </data>
+  <data name="SliderConfig.IsVisible" xml:space="preserve">
+    <value>Slider visibility</value>
+  </data>
+  <data name="SystemConfig.ExternalAppCollection" xml:space="preserve">
+    <value>External applications</value>
   </data>
 </root>

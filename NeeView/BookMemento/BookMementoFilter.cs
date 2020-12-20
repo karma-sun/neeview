@@ -49,63 +49,63 @@ namespace NeeView
         public Dictionary<BookMementoBit, bool> Flags { get; set; }
 
 
-        [PropertyMember("@ParamBookFilterPage")]
+        [PropertyMember]
         public bool Page
         {
             get { return Flags[BookMementoBit.Page]; }
             set { Flags[BookMementoBit.Page] = value; }
         }
 
-        [PropertyMember("@ParamBookFilterPageMode")]
+        [PropertyMember]
         public bool PageMode
         {
             get { return Flags[BookMementoBit.PageMode]; }
             set { Flags[BookMementoBit.PageMode] = value; }
         }
 
-        [PropertyMember("@ParamBookFilterBookReadOrder")]
+        [PropertyMember]
         public bool BookReadOrder
         {
             get { return Flags[BookMementoBit.BookReadOrder]; }
             set { Flags[BookMementoBit.BookReadOrder] = value; }
         }
 
-        [PropertyMember("@ParamBookFilterIsSupportedDividePage")]
+        [PropertyMember]
         public bool IsSupportedDividePage
         {
             get { return Flags[BookMementoBit.IsSupportedDividePage]; }
             set { Flags[BookMementoBit.IsSupportedDividePage] = value; }
         }
 
-        [PropertyMember("@ParamBookFilterIsSupportedSingleFirstPage")]
+        [PropertyMember]
         public bool IsSupportedSingleFirstPage
         {
             get { return Flags[BookMementoBit.IsSupportedSingleFirstPage]; }
             set { Flags[BookMementoBit.IsSupportedSingleFirstPage] = value; }
         }
 
-        [PropertyMember("@ParamBookFilterIsSupportedSingleLastPage")]
+        [PropertyMember]
         public bool IsSupportedSingleLastPage
         {
             get { return Flags[BookMementoBit.IsSupportedSingleLastPage]; }
             set { Flags[BookMementoBit.IsSupportedSingleLastPage] = value; }
         }
 
-        [PropertyMember("@ParamBookFilterIsSupportedWidePage")]
+        [PropertyMember]
         public bool IsSupportedWidePage
         {
             get { return Flags[BookMementoBit.IsSupportedWidePage]; }
             set { Flags[BookMementoBit.IsSupportedWidePage] = value; }
         }
 
-        [PropertyMember("@ParamBookFilterIsRecursiveFolder")]
+        [PropertyMember]
         public bool IsRecursiveFolder
         {
             get { return Flags[BookMementoBit.IsRecursiveFolder]; }
             set { Flags[BookMementoBit.IsRecursiveFolder] = value; }
         }
 
-        [PropertyMember("@ParamBookFilterSortMode")]
+        [PropertyMember]
         public bool SortMode
         {
             get { return Flags[BookMementoBit.SortMode]; }

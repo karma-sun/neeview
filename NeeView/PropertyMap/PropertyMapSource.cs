@@ -62,7 +62,7 @@ namespace NeeView
 
             var attribute = PropertyInfo.GetCustomAttribute<PropertyMemberAttribute>();
             var description = attribute != null
-                    ? ResourceService.GetString(attribute.Name ?? PropertyInfo.Name) + "<br/>" + ResourceService.GetString(attribute.Tips)
+                    ? PropertyMemberAttributeExtensions.GetPropertyName(PropertyInfo, attribute) + "<br/>" + PropertyMemberAttributeExtensions.GetPropertyTips(PropertyInfo, attribute)
                     : "";
             description = _prefix + new Regex("[\r\n]+").Replace(description, "<br/>") + readOnly;
 

@@ -16,7 +16,7 @@ namespace NeeView
         /// <summary>
         /// 本の読み込みで本棚の更新を要求する
         /// </summary>
-        [PropertyMember("@ParamIsSyncBookshelfEnabled")]
+        [PropertyMember]
         public bool IsSyncBookshelfEnabled
         {
             get { return _isSyncBookshelfEnabled; }
@@ -24,7 +24,7 @@ namespace NeeView
         }
 
         // ブックマークの保存
-        [PropertyMember("@ParamIsSaveBookmark")]
+        [PropertyMember]
         public bool IsSaveBookmark
         {
             get { return _isSaveBookmark; }
@@ -32,7 +32,7 @@ namespace NeeView
         }
 
         // ブックマークの保存場所
-        [PropertyPath("@ParamBookmarkFilePath", FileDialogType = FileDialogType.SaveFile, Filter = "JSON|*.json")]
+        [PropertyPath(FileDialogType = FileDialogType.SaveFile, Filter = "JSON|*.json")]
         public string BookmarkFilePath
         {
             get { return _bookmarkFilePath; }
@@ -40,7 +40,7 @@ namespace NeeView
         }
 
         // ブックマークの既定の並び順
-        [PropertyMember("@ParamBookmarkFolderOrder")]
+        [PropertyMember]
         public FolderOrder BookmarkFolderOrder
         {
             get { return _bookmarkFolderOrder; }

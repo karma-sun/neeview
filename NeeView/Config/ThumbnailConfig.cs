@@ -18,7 +18,7 @@ namespace NeeView
         private string _thumbnailCacheFilePath;
 
 
-        [PropertyMember("@ParamThumbnailIsCacheEnabled", Tips = "@ParamThumbnailIsCacheEnabledTips")]
+        [PropertyMember]
         public bool IsCacheEnabled
         {
             get { return _isCacheEnabled; }
@@ -26,7 +26,7 @@ namespace NeeView
         }
 
         // キャッシュの保存場所
-        [PropertyPath("@ParamThumbnailCacheFilePath", FileDialogType = FileDialogType.SaveFile, Filter = "DB|*.db")]
+        [PropertyPath(FileDialogType = FileDialogType.SaveFile, Filter = "DB|*.db")]
         public string ThumbnailCacheFilePath
         {
             get { return _thumbnailCacheFilePath; }
@@ -36,7 +36,7 @@ namespace NeeView
         /// <summary>
         /// キャッシュ制限(時間)
         /// </summary>
-        [PropertyMember("@ParamThumbnailCacheLimitSpan")]
+        [PropertyMember]
         public TimeSpan CacheLimitSpan
         {
             get { return _cacheLimitSpan; }
@@ -46,7 +46,7 @@ namespace NeeView
         /// <summary>
         /// 画像サイズ
         /// </summary>
-        [PropertyRange("@ParamThumbnailResolution", 64, 512, TickFrequency = 64, IsEditable = true, Tips = "@ParamThumbnailResolutionTips")]
+        [PropertyRange(64, 512, TickFrequency = 64, IsEditable = true)]
         public double Resolution
         {
             get { return _resolution; }
@@ -56,7 +56,7 @@ namespace NeeView
         /// <summary>
         /// 画像フォーマット
         /// </summary>
-        [PropertyMember("@ParamThumbnailFormat", Tips = "@ParamThumbnailFormatTips")]
+        [PropertyMember]
         public BitmapImageFormat Format
         {
             get { return _format; }
@@ -66,21 +66,21 @@ namespace NeeView
         /// <summary>
         /// 画像品質
         /// </summary>
-        [PropertyRange("@ParamThumbnailQuality", 5, 100, TickFrequency = 5, Tips = "@ParamThumbnailQualityTips")]
+        [PropertyRange(5, 100, TickFrequency = 5)]
         public int Quality
         {
             get { return _quality; }
             set { SetProperty(ref _quality, MathUtility.Clamp(value, 5, 100)); }
         }
 
-        [PropertyMember("@ParamThumbnailBookCapacity", Tips = "@ParamThumbnailBookCapacityTips")]
+        [PropertyMember]
         public int ThumbnailBookCapacity
         {
             get { return _thumbnailBookCapacity; }
             set { SetProperty(ref _thumbnailBookCapacity, value); }
         }
 
-        [PropertyMember("@ParamThumbnailPageCapacity", Tips = "@ParamThumbnailPageCapacityTips")]
+        [PropertyMember]
         public int ThumbnailPageCapacity
         {
             get { return _thumbnailPageCapacity; }

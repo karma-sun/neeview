@@ -10,7 +10,7 @@ namespace NeeView
         private string _pageViewRecordFilePath;
         
         // 履歴を保存するか
-        [PropertyMember("@ParamIsRecordPageView")]
+        [PropertyMember]
         public bool IsSavePageViewRecord
         {
             get { return _isSavePageViewRecord; }
@@ -18,7 +18,7 @@ namespace NeeView
         }
 
         // 履歴データの保存場所
-        [PropertyPath("@ParamPageViewRecordPath", FileDialogType = FileDialogType.SaveFile, Filter = "TSV|*.tsv")]
+        [PropertyPath(FileDialogType = FileDialogType.SaveFile, Filter = "TSV|*.tsv")]
         public string PageViewRecordFilePath
         {
             get { return _pageViewRecordFilePath; }

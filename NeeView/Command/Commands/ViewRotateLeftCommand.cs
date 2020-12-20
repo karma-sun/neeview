@@ -32,7 +32,7 @@ namespace NeeView
 
 
         // 属性に説明文
-        [PropertyRange("@ParamCommandParameterRotateAmount", 0, 180, Tips = "@ParamCommandParameterRotateAmountTips")]
+        [PropertyRange(0, 180)]
         public int Angle
         {
             get { return _angle; }
@@ -40,7 +40,7 @@ namespace NeeView
         }
 
         // 属性に説明文
-        [PropertyMember("@ParamCommandParameterRotateIsStretch", Tips = "@ParamCommandParameterRotateIsStretchTips")]
+        [PropertyMember]
         public bool IsStretch
         {
             get { return _isStretch; }

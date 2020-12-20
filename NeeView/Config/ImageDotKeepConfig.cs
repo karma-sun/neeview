@@ -9,14 +9,14 @@ namespace NeeView
         private bool _isEnabled;
         private double _threshold = 1.0;
 
-        [PropertyMember("@ParamDotKeepIsEnabled")]
+        [PropertyMember]
         public bool IsEnabled
         {
             get { return _isEnabled; }
             set { SetProperty(ref _isEnabled, value); }
         }
 
-        [PropertyPercent("@ParamDotKeepThreshold", 0.0, 5.0, TickFrequency = 0.1, IsEditable = true, Tips = "@ParamDotKeepThresholdTips")]
+        [PropertyPercent(0.0, 5.0, TickFrequency = 0.1, IsEditable = true)]
         public double Threshold
         {
             get { return _threshold; }

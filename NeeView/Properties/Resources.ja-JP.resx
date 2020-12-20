@@ -159,7 +159,7 @@
   <data name="ArchivePolicy.SendExtractFile" xml:space="preserve">
     <value>出力したファイルのパス(一時ファイル)</value>
   </data>
-  <data name="AutoHideFocusLockMode" xml:space="preserve">
+  <data name="AutoHideConfig.AutoHideFocusLockMode" xml:space="preserve">
     <value>自動非表示パネルのフォーカスモード</value>
   </data>
   <data name="AutoHideFocusLockMode.FocusLock" xml:space="preserve">
@@ -177,7 +177,7 @@
   <data name="AutoHideFocusLockMode.TextBoxFocusLock" xml:space="preserve">
     <value>ウィンドウとテキストボックス</value>
   </data>
-  <data name="AutoHideFocusLockModeTips" xml:space="preserve">
+  <data name="AutoHideConfig.AutoHideFocusLockMode#Tips" xml:space="preserve">
     <value>フォーカスがあるときには非表示になりません。</value>
   </data>
   <data name="AutoRotateType.Left" xml:space="preserve">
@@ -2891,30 +2891,6 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="EffectType.Swirl" xml:space="preserve">
     <value>渦巻き</value>
   </data>
-  <data name="HorizontalAlignment.Center" xml:space="preserve">
-    <value>中央</value>
-  </data>
-  <data name="HorizontalAlignment.Left" xml:space="preserve">
-    <value>左詰め</value>
-  </data>
-  <data name="HorizontalAlignment.Right" xml:space="preserve">
-    <value>右詰め</value>
-  </data>
-  <data name="PageOperation_Landscape" xml:space="preserve">
-    <value>横</value>
-  </data>
-  <data name="PageOperation_Portrait" xml:space="preserve">
-    <value>縦</value>
-  </data>
-  <data name="VerticalAlignment_Bottom" xml:space="preserve">
-    <value>下詰め</value>
-  </data>
-  <data name="VerticalAlignment_Center" xml:space="preserve">
-    <value>中央</value>
-  </data>
-  <data name="VerticalAlignment_Top" xml:space="preserve">
-    <value>上詰め</value>
-  </data>
   <data name="ExceptionCannotDeleteData" xml:space="preserve">
     <value>AppDataフォルダではないため、削除を行いません。</value>
   </data>
@@ -3162,13 +3138,22 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="HistoryPanelAccessor.Style" xml:space="preserve">
     <value>リスト項目表示形式</value>
   </data>
+  <data name="HorizontalAlignment.Center" xml:space="preserve">
+    <value>中央</value>
+  </data>
+  <data name="HorizontalAlignment.Left" xml:space="preserve">
+    <value>左詰め</value>
+  </data>
+  <data name="HorizontalAlignment.Right" xml:space="preserve">
+    <value>右詰め</value>
+  </data>
   <data name="InformationPanelAccessor" xml:space="preserve">
     <value>情報パネルのアクセサ</value>
   </data>
-  <data name="IsAutoHideKeyDownDelay" xml:space="preserve">
+  <data name="AutoHideConfig.IsAutoHideKeyDownDelay" xml:space="preserve">
     <value>自動非表示パネルのキー入力表示継続</value>
   </data>
-  <data name="IsAutoHideKeyDownDelayTips" xml:space="preserve">
+  <data name="AutoHideConfig.IsAutoHideKeyDownDelay#Tips" xml:space="preserve">
     <value>キー入力されたら非表示にする動作を延期します。</value>
   </data>
   <data name="JavascriptEngine.ExecureFile" xml:space="preserve">
@@ -3725,6 +3710,12 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="PageNameFormat.Smart" xml:space="preserve">
     <value>標準表示</value>
   </data>
+  <data name="PageOperation_Landscape" xml:space="preserve">
+    <value>横</value>
+  </data>
+  <data name="PageOperation_Portrait" xml:space="preserve">
+    <value>縦</value>
+  </data>
   <data name="PageReadOrder" xml:space="preserve">
     <value>本を開く方向</value>
   </data>
@@ -3794,241 +3785,241 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="PanelsConfig.IsHidePanelInAutoHideMode" xml:space="preserve">
     <value>自動非表示モードのときにサイドパネルを自動的に隠す</value>
   </data>
-  <data name="ParamArchiveRecursiveMode" xml:space="preserve">
+  <data name="SystemConfig.ArchiveRecursiveMode" xml:space="preserve">
     <value>圧縮ファイルの扱い</value>
   </data>
-  <data name="ParamArchiveRecursiveModeTips" xml:space="preserve">
+  <data name="SystemConfig.ArchiveRecursiveMode#Tips" xml:space="preserve">
     <value>圧縮ファイルをブックとして開くときの展開範囲</value>
   </data>
-  <data name="ParamArchiverMediaIsEnabled" xml:space="preserve">
+  <data name="MediaArchiveConfig.IsEnabled" xml:space="preserve">
     <value>動画を使用する</value>
   </data>
-  <data name="ParamArchiverMediaSupportFileTypes" xml:space="preserve">
+  <data name="MediaArchiveConfig.SupportFileTypes" xml:space="preserve">
     <value>動画ファイルの拡張子</value>
   </data>
-  <data name="ParamArchiverMediaSupportFileTypesTips" xml:space="preserve">
+  <data name="MediaArchiveConfig.SupportFileTypes#Tips" xml:space="preserve">
     <value>Windows Media Player で再生できるものが、おおよそ再生可能です。</value>
   </data>
-  <data name="ParamArchiverPdfIsEnabled" xml:space="preserve">
+  <data name="PdfArchiveConfig.IsEnabled" xml:space="preserve">
     <value>PDFを使用する</value>
   </data>
-  <data name="ParamArchiverPdfRenderSize" xml:space="preserve">
+  <data name="PdfArchiveConfig.RenderSize" xml:space="preserve">
     <value>PDFページ標準サイズ</value>
   </data>
-  <data name="ParamArchiverPdfRenderSizeTips" xml:space="preserve">
+  <data name="PdfArchiveConfig.RenderSize#Tips" xml:space="preserve">
     <value>通常は表示サイズにあわせてレンダリングしますが、下限はこの標準サイズになります。 より小さくなる場合には縮小して表示します。</value>
   </data>
-  <data name="ParamArchiverPdfSupportFileTypes" xml:space="preserve">
+  <data name="PdfArchiveConfig.SupportFileTypes" xml:space="preserve">
     <value>PDFファイルの拡張子</value>
   </data>
-  <data name="ParamAutoHideDelayTime" xml:space="preserve">
+  <data name="AutoHideConfig.AutoHideDelayTime" xml:space="preserve">
     <value>自動非表示パネルを隠すまでの時間（秒）</value>
   </data>
-  <data name="ParamAutoHideDelayVisibleTime" xml:space="preserve">
+  <data name="AutoHideConfig.AutoHideDelayVisibleTime" xml:space="preserve">
     <value>自動非表示パネルを表示するまでの時間（秒）</value>
   </data>
-  <data name="ParamBackgroundType" xml:space="preserve">
+  <data name="BackgroundConfig.BackgroundType" xml:space="preserve">
     <value>背景の種類</value>
   </data>
-  <data name="ParamBookBookReadOrder" xml:space="preserve">
+  <data name="BookSettingConfig.BookReadOrder" xml:space="preserve">
     <value>本を開く方向</value>
   </data>
-  <data name="ParamBookExcludes" xml:space="preserve">
+  <data name="BookConfig.Excludes" xml:space="preserve">
     <value>除外フォルダー</value>
   </data>
-  <data name="ParamBookFilterBookReadOrder" xml:space="preserve">
+  <data name="BookMementoFilter.BookReadOrder" xml:space="preserve">
     <value>右開き/左開き</value>
   </data>
-  <data name="ParamBookFilterIsRecursiveFolder" xml:space="preserve">
+  <data name="BookMementoFilter.IsRecursiveFolder" xml:space="preserve">
     <value>サブフォルダーを読み込む</value>
   </data>
-  <data name="ParamBookFilterIsSupportedDividePage" xml:space="preserve">
+  <data name="BookMementoFilter.IsSupportedDividePage" xml:space="preserve">
     <value>横長ページを分割する</value>
   </data>
-  <data name="ParamBookFilterIsSupportedSingleFirstPage" xml:space="preserve">
+  <data name="BookMementoFilter.IsSupportedSingleFirstPage" xml:space="preserve">
     <value>最初のページを単独表示</value>
   </data>
-  <data name="ParamBookFilterIsSupportedSingleLastPage" xml:space="preserve">
+  <data name="BookMementoFilter.IsSupportedSingleLastPage" xml:space="preserve">
     <value>最後のページを単独表示</value>
   </data>
-  <data name="ParamBookFilterIsSupportedWidePage" xml:space="preserve">
+  <data name="BookMementoFilter.IsSupportedWidePage" xml:space="preserve">
     <value>横長ページを2ページとみなす</value>
   </data>
-  <data name="ParamBookFilterPage" xml:space="preserve">
+  <data name="BookMementoFilter.Page" xml:space="preserve">
     <value>ページ位置</value>
   </data>
-  <data name="ParamBookFilterPageMode" xml:space="preserve">
+  <data name="BookMementoFilter.PageMode" xml:space="preserve">
     <value>1ページ表示/2ページ表示</value>
   </data>
-  <data name="ParamBookFilterSortMode" xml:space="preserve">
+  <data name="BookMementoFilter.SortMode" xml:space="preserve">
     <value>ページの並び順</value>
   </data>
-  <data name="ParamBookIsAllFileAnImage" xml:space="preserve">
+  <data name="ImageStandardConfig.IsAllFileSupported" xml:space="preserve">
     <value>拡張子が不明なファイルを画像ファイルとみなす</value>
   </data>
-  <data name="ParamBookIsAllFileAnImageTips" xml:space="preserve">
-    <value>「@ParamBookPageCollectMode」が「@EnumBookPageCollectModeAll」のときに機能します。</value>
+  <data name="ImageStandardConfig.IsAllFileSupported#Tips" xml:space="preserve">
+    <value>「@SystemConfig.BookPageCollectMode」が「@EnumBookPageCollectModeAll」のときに機能します。</value>
   </data>
-  <data name="ParamBookIsEnableAnimatedGif" xml:space="preserve">
+  <data name="ImageStandardConfig.IsAnimatedGifEnabled" xml:space="preserve">
     <value>アニメーションGIFを再生する</value>
   </data>
-  <data name="ParamBookIsEnableAnimatedGifTips" xml:space="preserve">
+  <data name="ImageStandardConfig.IsAnimatedGifEnabled#Tips" xml:space="preserve">
     <value>アニメーションGIF再生を行います。長時間のGIFでメモリ消費の問題が発生する可能性があります。</value>
   </data>
-  <data name="ParamBookIsLoadingPageVisible" xml:space="preserve">
+  <data name="PerformanceConfig.IsLoadingPageVisible" xml:space="preserve">
     <value>次のページ読み込み完了まで現在のページを表示する</value>
   </data>
-  <data name="ParamBookIsLoadingPageVisibleTips" xml:space="preserve">
+  <data name="PerformanceConfig.IsLoadingPageVisible#Tips" xml:space="preserve">
     <value>オフにすることでメモリ節約になります。</value>
   </data>
-  <data name="ParamBookIsMultiplePageMove" xml:space="preserve">
+  <data name="BookConfig.IsMultiplePageMove" xml:space="preserve">
     <value>ページ移動コマンドの重複許可</value>
   </data>
-  <data name="ParamBookIsMultiplePageMoveTips" xml:space="preserve">
+  <data name="BookConfig.IsMultiplePageMove#Tips" xml:space="preserve">
     <value>要求されたページ移動コマンドを全て実行します。オフにすると重複したページ移動コマンドはキャンセルされます。</value>
   </data>
-  <data name="ParamBookIsPrioritizePageMove" xml:space="preserve">
+  <data name="BookConfig.IsPrioritizePageMove" xml:space="preserve">
     <value>ページ移動優先</value>
   </data>
-  <data name="ParamBookIsPrioritizePageMoveTips" xml:space="preserve">
+  <data name="BookConfig.IsPrioritizePageMove#Tips" xml:space="preserve">
     <value>ページの表示を待たずにページ移動を実行します。</value>
   </data>
-  <data name="ParamBookIsRecursiveFolder" xml:space="preserve">
+  <data name="BookSettingConfig.IsRecursiveFolder" xml:space="preserve">
     <value>サブフォルダーを読み込む</value>
   </data>
-  <data name="ParamBookIsRecursiveFolderTips" xml:space="preserve">
+  <data name="BookSettingConfig.IsRecursiveFolder#Tips" xml:space="preserve">
     <value>開くフォルダー以下を全て検索するため、フォルダーの場所によっては処理が重くなります。</value>
   </data>
-  <data name="ParamBookIsSupportedDividePage" xml:space="preserve">
+  <data name="BookSettingConfig.IsSupportedDividePage" xml:space="preserve">
     <value>横長ページを分割する</value>
   </data>
-  <data name="ParamBookIsSupportedSingleFirstPage" xml:space="preserve">
+  <data name="BookSettingConfig.IsSupportedSingleFirstPage" xml:space="preserve">
     <value>最初のページを単独表示</value>
   </data>
-  <data name="ParamBookIsSupportedSingleLastPage" xml:space="preserve">
+  <data name="BookSettingConfig.IsSupportedSingleLastPage" xml:space="preserve">
     <value>最後のページを単独表示</value>
   </data>
-  <data name="ParamBookIsSupportedWidePage" xml:space="preserve">
+  <data name="BookSettingConfig.IsSupportedWidePage" xml:space="preserve">
     <value>横長ページを2ページとみなす</value>
   </data>
-  <data name="ParamBookmarkFilePath" xml:space="preserve">
+  <data name="BookmarkConfig.BookmarkFilePath" xml:space="preserve">
     <value>ブックマークリストの保存場所</value>
   </data>
-  <data name="ParamBookmarkFolderOrder" xml:space="preserve">
+  <data name="BookmarkConfig.BookmarkFolderOrder" xml:space="preserve">
     <value>ブックマークの既定の並び順</value>
   </data>
-  <data name="ParamBookOperationNotifyPageLoop" xml:space="preserve">
+  <data name="BookConfig.IsNotifyPageLoop" xml:space="preserve">
     <value>ページのループを通知する</value>
   </data>
-  <data name="ParamBookOperationPageEndAction" xml:space="preserve">
+  <data name="BookConfig.PageEndAction" xml:space="preserve">
     <value>ページの終端を超えて移動しようとした時の挙動</value>
   </data>
-  <data name="ParamBookPage" xml:space="preserve">
+  <data name="BookSettingConfig.Page" xml:space="preserve">
     <value>ページ位置</value>
   </data>
-  <data name="ParamBookPageCollectMode" xml:space="preserve">
+  <data name="SystemConfig.BookPageCollectMode" xml:space="preserve">
     <value>ページになるファイルの種類</value>
   </data>
-  <data name="ParamBookPageCollectModeTips" xml:space="preserve">
+  <data name="SystemConfig.BookPageCollectMode#Tips" xml:space="preserve">
     <value>フォルダーをページにすると、そのページからフォルダーを開くことができるようになります。</value>
   </data>
-  <data name="ParamBookPageMode" xml:space="preserve">
+  <data name="BookSettingConfig.PageMode" xml:space="preserve">
     <value>ページ表示</value>
   </data>
-  <data name="ParamBookPageSize" xml:space="preserve">
+  <data name="BookConfig.BookPageSize" xml:space="preserve">
     <value>ブックページ画像サイズ</value>
   </data>
-  <data name="ParamBookPageSizeTips" xml:space="preserve">
+  <data name="BookConfig.BookPageSize#Tips" xml:space="preserve">
     <value>ブックページとして表示する画像のサイズです。サムネイルを表示しているため、大きい値では低解像度で表示される場合があります。</value>
   </data>
-  <data name="ParamBookPolicyBookReadOrder" xml:space="preserve">
-    <value>ブックを開いたときの「@ParamBookBookReadOrder」設定方針</value>
+  <data name="BookSettingPolicyConfig.BookReadOrder" xml:space="preserve">
+    <value>ブックを開いたときの「@BookSettingConfig.ReadOrder」設定方針</value>
   </data>
-  <data name="ParamBookPolicyIsRecursiveFolder" xml:space="preserve">
-    <value>ブックを開いたときの「@ParamBookIsRecursiveFolder」設定方針</value>
+  <data name="BookSettingPolicyConfig.IsRecursiveFolder" xml:space="preserve">
+    <value>ブックを開いたときの「@BookSettingConfig.IsRecursiveFolder」設定方針</value>
   </data>
-  <data name="ParamBookPolicyIsSupportedDividePage" xml:space="preserve">
-    <value>ブックを開いたときの「@ParamBookIsSupportedDividePage」設定方針</value>
+  <data name="BookSettingPolicyConfig.IsSupportedDividePage" xml:space="preserve">
+    <value>ブックを開いたときの「@BookSettingConfig.IsSupportedDividePage」設定方針</value>
   </data>
-  <data name="ParamBookPolicyIsSupportedSingleFirstPage" xml:space="preserve">
-    <value>ブックを開いたときの「@ParamBookIsSupportedSingleFirstPage」設定方針</value>
+  <data name="BookSettingPolicyConfig.IsSupportedSingleFirstPage" xml:space="preserve">
+    <value>ブックを開いたときの「@BookSettingConfig.IsSupportedSingleFirstPage」設定方針</value>
   </data>
-  <data name="ParamBookPolicyIsSupportedSingleLastPage" xml:space="preserve">
-    <value>ブックを開いたときの「@ParamBookIsSupportedSingleLastPage」設定方針</value>
+  <data name="BookSettingPolicyConfig.IsSupportedSingleLastPage" xml:space="preserve">
+    <value>ブックを開いたときの「@BookSettingConfig.IsSupportedSingleLastPage」設定方針</value>
   </data>
-  <data name="ParamBookPolicyIsSupportedWidePage" xml:space="preserve">
-    <value>ブックを開いたときの「@ParamBookIsSupportedWidePage」設定方針</value>
+  <data name="BookSettingPolicyConfig.IsSupportedWidePage" xml:space="preserve">
+    <value>ブックを開いたときの「@BookSettingConfig.IsSupportedWidePage」設定方針</value>
   </data>
-  <data name="ParamBookPolicyPage" xml:space="preserve">
-    <value>ブックを開いたときの「@ParamBookPage」設定方針</value>
+  <data name="BookSettingPolicyConfig.Page" xml:space="preserve">
+    <value>ブックを開いたときの「@BookSettingConfig.Page」設定方針</value>
   </data>
-  <data name="ParamBookPolicyPageMode" xml:space="preserve">
-    <value>ブックを開いたときの「@ParamBookPageMode」設定方針</value>
+  <data name="BookSettingPolicyConfig.PageMode" xml:space="preserve">
+    <value>ブックを開いたときの「@BookSettingConfig.PageMode」設定方針</value>
   </data>
-  <data name="ParamBookPolicySortMode" xml:space="preserve">
-    <value>ブックを開いたときの「@ParamBookSortMode」設定方針</value>
+  <data name="BookSettingPolicyConfig.SortMode" xml:space="preserve">
+    <value>ブックを開いたときの「@BookSettingConfig.SortMode」設定方針</value>
   </data>
-  <data name="ParamBookshelfExcludePattern" xml:space="preserve">
+  <data name="BookshelfConfig.ExcludePattern" xml:space="preserve">
     <value>表示から除外するファイル名のパターン</value>
   </data>
-  <data name="ParamBookshelfExcludePatternTips" xml:space="preserve">
+  <data name="BookshelfConfig.ExcludePattern#Tips" xml:space="preserve">
     <value>.NETの正規表現で指定します。大文字小文字は区別されません。</value>
   </data>
-  <data name="ParamBookshelfHome" xml:space="preserve">
+  <data name="BookshelfConfig.Home" xml:space="preserve">
     <value>ホームの場所</value>
   </data>
-  <data name="ParamBookshelfIsCloseBookWhenMove" xml:space="preserve">
+  <data name="BookshelfConfig.IsCloseBookWhenMove" xml:space="preserve">
     <value>場所を変更したときにブックを閉じる</value>
   </data>
-  <data name="ParamBookshelfIsCruise" xml:space="preserve">
+  <data name="BookshelfConfig.IsCruise" xml:space="preserve">
     <value>ブック移動を巡回移動にする</value>
   </data>
-  <data name="ParamBookshelfIsCruiseTips" xml:space="preserve">
+  <data name="BookshelfConfig.IsCruise#Tips" xml:space="preserve">
     <value>フォルダーの親子を含めた移動を行います。本棚が検索結果である場合には適用されません。</value>
   </data>
-  <data name="ParamBookshelfIsInsertItem" xml:space="preserve">
+  <data name="BookshelfConfig.IsInsertItem" xml:space="preserve">
     <value>追加ファイルはソート位置に挿入する</value>
   </data>
-  <data name="ParamBookshelfIsInsertItemTips" xml:space="preserve">
+  <data name="BookshelfConfig.IsInsertItem#Tips" xml:space="preserve">
     <value>本棚はリアルタイムに情報を反映します。この設定がオンの場合、追加されたファイルを現在のソート順位置に挿入します。オフにするとリストの終端に追加します。</value>
   </data>
-  <data name="ParamBookshelfIsMultipleRarFilterEnabled" xml:space="preserve">
+  <data name="BookshelfConfig.IsMultipleRarFilterEnabled" xml:space="preserve">
     <value>表示からRAR分割ファイルをフィルター</value>
   </data>
-  <data name="ParamBookshelfIsMultipleRarFilterEnabledTips" xml:space="preserve">
+  <data name="BookshelfConfig.IsMultipleRarFilterEnabled#Tips" xml:space="preserve">
     <value>.part[数字].rar というRAR分割ファイルの場合に、数字が一番小さいファイルのみをリストに表示します。</value>
   </data>
-  <data name="ParamBookshelfIsOpenNextBookWhenRemove" xml:space="preserve">
+  <data name="BookshelfConfig.IsOpenNextBookWhenRemove" xml:space="preserve">
     <value>閲覧中のブックを削除したときに次のブックを開く</value>
   </data>
-  <data name="ParamBookshelfIsSyncFolderTree" xml:space="preserve">
+  <data name="BookshelfConfig.IsSyncFolderTree" xml:space="preserve">
     <value>同期ボタンでフォルダーツリーを同期する</value>
   </data>
-  <data name="ParamBookshelfIsVisibleBookmarkMark" xml:space="preserve">
+  <data name="BookshelfConfig.IsVisibleBookmarkMark" xml:space="preserve">
     <value>ブックマーク記号を表示する</value>
   </data>
-  <data name="ParamBookshelfIsVisibleBookmarkMarkTips" xml:space="preserve">
+  <data name="BookshelfConfig.IsVisibleBookmarkMark#Tips" xml:space="preserve">
     <value>ブックマークされているブックに★マークを表示します。</value>
   </data>
-  <data name="ParamBookshelfIsVisibleHistoryMark" xml:space="preserve">
+  <data name="BookshelfConfig.IsVisibleHistoryMark" xml:space="preserve">
     <value>履歴記号を表示する</value>
   </data>
-  <data name="ParamBookshelfIsVisibleHistoryMarkTips" xml:space="preserve">
+  <data name="BookshelfConfig.IsVisibleHistoryMark#Tips" xml:space="preserve">
     <value>履歴に残っているブックにチェックマークを表示します。</value>
   </data>
-  <data name="ParamBookshelfIsVisibleItemsCount" xml:space="preserve">
+  <data name="BookshelfConfig.IsVisibleItemsCount" xml:space="preserve">
     <value>項目数を表示</value>
   </data>
   <data name="ParamBookshelfPageListVisible" xml:space="preserve">
     <value>ページリストを表示</value>
   </data>
-  <data name="ParamBookSortMode" xml:space="preserve">
+  <data name="BookSettingConfig.SortMode" xml:space="preserve">
     <value>ページの並び順</value>
   </data>
-  <data name="ParamBookWideRatio" xml:space="preserve">
+  <data name="BookConfig.WideRatio" xml:space="preserve">
     <value>横長画像を判定するための縦横比(横 / 縦)</value>
   </data>
-  <data name="ParamBookWideRatioTips" xml:space="preserve">
+  <data name="BookConfig.WideRatio#Tips" xml:space="preserve">
     <value>「横長ページを分割する」で使用されます。</value>
   </data>
   <data name="ParamBrushSourceColor" xml:space="preserve">
@@ -4046,152 +4037,173 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParamCacheDirectoryTips" xml:space="preserve">
     <value>サムネイルキャッシュ(Cache.db)の保存場所です。</value>
   </data>
-  <data name="ParamCacheMemorySize" xml:space="preserve">
+  <data name="PerformanceConfig.CacheMemorySize" xml:space="preserve">
     <value>ブックのキャッシュメモリサイズ(MB)</value>
   </data>
-  <data name="ParamCacheMemorySizeTips" xml:space="preserve">
+  <data name="PerformanceConfig.CacheMemorySize#Tips" xml:space="preserve">
     <value>一度読み込んだページをメモリに保持して再表示時を高速化します。この値は目安であり、この値を超えてメモリが使用されることがあります。大きすぎる値はシステムを不安定にする可能性があるので注意してください。</value>
   </data>
-  <data name="ParamClipboardArchiveOption" xml:space="preserve">
+  <data name="CopyFileCommandParameter.ArchivePolicy" xml:space="preserve">
     <value>圧縮ファイルの場合</value>
   </data>
   <data name="ParamClipboardArchiveSeparater" xml:space="preserve">
     <value>圧縮ファイルとファイル名の間の区切り文字</value>
   </data>
   <data name="ParamClipboardArchiveSeparaterTips" xml:space="preserve">
-    <value>「@ParamClipboardArchiveOption」が「@EnumArchiveOptionTypeSendArchivePath」の時の設定です。</value>
+    <value>「@CopyFileCommandParameter.ArchivePolicy」が「@ArchivePolicy.SendArchivePath」の時の設定です。</value>
   </data>
-  <data name="ParamClipboardMultiPageOption" xml:space="preserve">
+  <data name="CopyFileCommandParameter.MultiPagePolicy" xml:space="preserve">
     <value>2ページの場合</value>
   </data>
-  <data name="ParamCommandIsReversePageMove" xml:space="preserve">
+  <data name="CommandConfig.IsReversePageMove" xml:space="preserve">
     <value>スライダー方向によってページ移動コマンドの移動方向を入れ替える</value>
   </data>
-  <data name="ParamCommandIsReversePageMoveTips" xml:space="preserve">
+  <data name="CommandConfig.IsReversePageMove#Tipd" xml:space="preserve">
     <value>スライダーが左から右方向のときにページ移動方向を逆にします。機能するコマンドの設定はコマンドパラメーターの「@ParamCommandParameterIsReverse」で設定します。</value>
   </data>
-  <data name="ParamCommandIsReversePageMoveWheel" xml:space="preserve">
+  <data name="CommandConfig.IsReversePageMoveWheel" xml:space="preserve">
     <value>ホイール操作のときに入れ替える</value>
   </data>
-  <data name="ParamCommandIsReversePageMoveWheelTips" xml:space="preserve">
+  <data name="CommandConfig.IsReversePageMoveWheel#Tips" xml:space="preserve">
     <value>ホイール操作のみ対応の選択ができます。</value>
   </data>
-  <data name="ParamCommandParameterExportDefaultFolder" xml:space="preserve">
+  <data name="ExportImageAsCommandParameter.ExportFolder" xml:space="preserve">
     <value>既定の出力フォルダー</value>
   </data>
-  <data name="ParamCommandParameterExportDefaultFolderTips" xml:space="preserve">
+  <data name="ExportImageAsCommandParameter.ExportFolder#Tips" xml:space="preserve">
     <value>起動時の出力フォルダーです。起動中は変更された保存先に追従します。</value>
   </data>
-  <data name="ParamCommandParameterExportFileFormat" xml:space="preserve">
-    <value>出力ファイルフォーマット</value>
-  </data>
-  <data name="ParamCommandParameterExportFileFormatTips" xml:space="preserve">
-    <value>「@ParamCommandParameterExportMode」が「@EnumExportImageModeView」の場合に使用されます。</value>
-  </data>
-  <data name="ParamCommandParameterExportFileNameMode" xml:space="preserve">
-    <value>出力ファイル名</value>
-  </data>
-  <data name="ParamCommandParameterExportFolder" xml:space="preserve">
-    <value>出力フォルダー</value>
-  </data>
-  <data name="ParamCommandParameterExportHasBackground" xml:space="preserve">
-    <value>背景を含める</value>
-  </data>
-  <data name="ParamCommandParameterExportImageQualityLevel" xml:space="preserve">
+  <data name="ExportImageAsCommandParameter.QualityLevel" xml:space="preserve">
     <value>JPEG品質</value>
   </data>
-  <data name="ParamCommandParameterExportImageQualityLevelTips" xml:space="preserve">
+  <data name="ExportImageAsCommandParameter.QualityLevel#Tips" xml:space="preserve">
     <value>変換が必要な場合にのみ使用されます。</value>
   </data>
-  <data name="ParamCommandParameterExportMode" xml:space="preserve">
+  <data name="ExportImageCommandParameter.FileFormat" xml:space="preserve">
+    <value>出力ファイルフォーマット</value>
+  </data>
+  <data name="ExportImageCommandParameter.FileFormat#Tips" xml:space="preserve">
+    <value>「@ExportImageCommandParameter.Mode」が「@ExportImageMode.View」の場合に使用されます。</value>
+  </data>
+  <data name="ExportImageCommandParameter.FileNameMode" xml:space="preserve">
+    <value>出力ファイル名</value>
+  </data>
+  <data name="ExportImageCommandParameter.ExportFolder" xml:space="preserve">
+    <value>出力フォルダー</value>
+  </data>
+  <data name="ExportImageCommandParameter.HasBackground" xml:space="preserve">
+    <value>背景を含める</value>
+  </data>
+  <data name="ExportImageCommandParameter.QualityLevel" xml:space="preserve">
+    <value>JPEG品質</value>
+  </data>
+  <data name="ExportImageCommandParameter.QualityLevel#Tips" xml:space="preserve">
+    <value>変換が必要な場合にのみ使用されます。</value>
+  </data>
+  <data name="ExportImageCommandParameter.Mode" xml:space="preserve">
     <value>出力画像の種類</value>
   </data>
-  <data name="ParamCommandParameterFocusMainViewClosePanels" xml:space="preserve">
+  <data name="FocusMainViewCommandParameter.NeedClosePanels" xml:space="preserve">
     <value>全てのパネルを閉じる</value>
   </data>
-  <data name="ParamCommandParameterIsReverse" xml:space="preserve">
+  <data name="ReversibleCommandParameter.IsReverse" xml:space="preserve">
     <value>スライダー方向による操作入れ替え許可</value>
   </data>
-  <data name="ParamCommandParameterIsReverseTips" xml:space="preserve">
+  <data name="ReversibleCommandParameter.IsReverse#Tips" xml:space="preserve">
     <value>スライダー方向の変更による操作入れ替えを許可します。</value>
   </data>
-  <data name="ParamCommandParameterMovePagemarkIncludeTerminal" xml:space="preserve">
+  <data name="MovePagemarkInBookCommandParameter.IsIncludeTerminal" xml:space="preserve">
     <value>最初と最後のページを含める</value>
   </data>
-  <data name="ParamCommandParameterMovePagemarkLoop" xml:space="preserve">
+  <data name="MovePagemarkInBookCommandParameter.IsLoop" xml:space="preserve">
     <value>ループ</value>
   </data>
-  <data name="ParamCommandParameterMoveSize" xml:space="preserve">
+  <data name="MoveSizePageCommandParameter.Size" xml:space="preserve">
     <value>移動ページ数</value>
   </data>
-  <data name="ParamCommandParameterRotateAmount" xml:space="preserve">
+  <data name="ViewRotateCommandParameter.Angle" xml:space="preserve">
     <value>回転角度</value>
   </data>
-  <data name="ParamCommandParameterRotateAmountTips" xml:space="preserve">
+  <data name="ViewRotateCommandParameter.Angle#Tips" xml:space="preserve">
     <value>一度の操作で回転する角度です。(0-180)</value>
   </data>
-  <data name="ParamCommandParameterRotateIsStretch" xml:space="preserve">
+  <data name="ViewRotateCommandParameter.IsStretch" xml:space="preserve">
     <value>ストレッチ適用</value>
   </data>
-  <data name="ParamCommandParameterRotateIsStretchTips" xml:space="preserve">
+  <data name="ViewRotateCommandParameter.IsStretch#Tips" xml:space="preserve">
     <value>回転後にストレッチを再適用します。</value>
   </data>
-  <data name="ParamCommandParameterScaleAmount" xml:space="preserve">
+  <data name="ViewScaleCommandParameter.Scale" xml:space="preserve">
     <value>拡大率</value>
   </data>
-  <data name="ParamCommandParameterScaleAmountTips" xml:space="preserve">
+  <data name="ViewScaleCommandParameter.Scale#Tips" xml:space="preserve">
     <value>一度の操作で拡大する割合です。</value>
   </data>
-  <data name="ParamCommandParameterScaleSnapDefault" xml:space="preserve">
+  <data name="ViewScaleCommandParameter.IsSnapDefaultScale" xml:space="preserve">
     <value>100%スナップ</value>
   </data>
-  <data name="ParamCommandParameterScaleSnapDefaultTips" xml:space="preserve">
+  <data name="ViewScaleCommandParameter.IsSnapDefaultScale#Tips" xml:space="preserve">
     <value>拡大縮小で必ず100%を経由するようにします。</value>
   </data>
-  <data name="ParamCommandParameterScrollAllowCross" xml:space="preserve">
+  <data name="ViewScrollCommandParameter.AllowCrossScroll" xml:space="preserve">
     <value>垂直方向へのスクロール許可</value>
   </data>
-  <data name="ParamCommandParameterScrollAllowCrossTips" xml:space="preserve">
+  <data name="ViewScrollCommandParameter.AllowCrossScroll#Tips" xml:space="preserve">
     <value>軸方向にスクロールできない場合は軸に垂直な方向へスクロースを行います。</value>
   </data>
-  <data name="ParamCommandParameterScrollAmount" xml:space="preserve">
+  <data name="ViewScrollCommandParameter.Scroll" xml:space="preserve">
     <value>移動量</value>
   </data>
-  <data name="ParamCommandParameterScrollAmountTips" xml:space="preserve">
+  <data name="ViewScrollCommandParameter.Scroll#Tips" xml:space="preserve">
     <value>一度の操作でスクロールするする画面に対する割合です。</value>
   </data>
-  <data name="ParamCommandParameterScrollDuration" xml:space="preserve">
+  <data name="ViewScrollCommandParameter.ScrollDuration" xml:space="preserve">
     <value>スクロール時間 (秒)</value>
   </data>
-  <data name="ParamCommandParameterScrollPageAmount" xml:space="preserve">
+  <data name="ScrollPageCommandParameter.Scroll" xml:space="preserve">
     <value>移動量</value>
   </data>
-  <data name="ParamCommandParameterScrollPageAmountTips" xml:space="preserve">
+  <data name="ScrollPageCommandParameter.Scroll#Tips" xml:space="preserve">
     <value>一度の操作でスクロールするする画面に対する割合です。</value>
   </data>
   <data name="ParamCommandParameterScrollPageAnimation" xml:space="preserve">
     <value>滑らかスクロール</value>
   </data>
-  <data name="ParamCommandParameterScrollPageDuration" xml:space="preserve">
+  <data name="ScrollPageCommandParameter.ScrollDuration" xml:space="preserve">
     <value>スクロール時間 (秒)</value>
   </data>
-  <data name="ParamCommandParameterScrollPageMargin" xml:space="preserve">
+  <data name="ScrollPageCommandParameter.Margin" xml:space="preserve">
     <value>最小スクロール距離</value>
   </data>
-  <data name="ParamCommandParameterScrollPageMarginTips" xml:space="preserve">
+  <data name="ScrollPageCommandParameter.Margin#Tips" xml:space="preserve">
     <value>このピクセル幅以上スクロールできる場合のみスクロールします。</value>
   </data>
-  <data name="ParamCommandParameterScrollPageMoveMargin" xml:space="preserve">
+  <data name="ScrollPageCommandParameter.PageMoveMargin" xml:space="preserve">
     <value>ページ移動猶予 (秒)</value>
   </data>
-  <data name="ParamCommandParameterScrollPageMoveMarginTips" xml:space="preserve">
+  <data name="ScrollPageCommandParameter.PageMoveMargin#Tips" xml:space="preserve">
     <value>すぐにページ移動させないための判定時間です。</value>
   </data>
-  <data name="ParamCommandParameterScrollPageN" xml:space="preserve">
+  <data name="ScrollPageCommandParameter.IsNScroll" xml:space="preserve">
     <value>N字スクロール</value>
   </data>
-  <data name="ParamCommandParameterScrollPageNTips" xml:space="preserve">
+  <data name="ScrollPageCommandParameter.IsNScroll#Tips" xml:space="preserve">
     <value>縦スクロール可能な場合、縦方向にもスクロールします。縦横スクロールが可能な場合、N字を描くようにスクロールします。</value>
+  </data>
+  <data name="ViewScrollNTypeCommandParameter.Margin" xml:space="preserve">
+    <value>最小スクロール距離</value>
+  </data>
+  <data name="ViewScrollNTypeCommandParameter.Margin#Tips" xml:space="preserve">
+    <value>このピクセル幅以上スクロールできる場合のみスクロールします。</value>
+  </data>
+  <data name="ViewScrollNTypeCommandParameter.Scroll" xml:space="preserve">
+    <value>移動量</value>
+  </data>
+  <data name="ViewScrollNTypeCommandParameter.Scroll#Tips" xml:space="preserve">
+    <value>一度の操作でスクロールするする画面に対する割合です。</value>
+  </data>
+  <data name="ViewScrollNTypeCommandParameter.ScrollDuration" xml:space="preserve">
+    <value>スクロール時間 (秒)</value>
   </data>
   <data name="ParamCommandParameterScrollPageStop" xml:space="preserve">
     <value>スクロール停止</value>
@@ -4202,100 +4214,118 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParamCommandParameterShare" xml:space="preserve">
     <value>パラメーター共有</value>
   </data>
-  <data name="ParamCommandParameterStretchModeIsToggle" xml:space="preserve">
+  <data name="StretchModeCommandParameter.IsToggle" xml:space="preserve">
     <value>オリジナルサイズとの切り替え</value>
   </data>
-  <data name="ParamCommandParameterStretchModeIsToggleTips" xml:space="preserve">
+  <data name="StretchModeCommandParameter.IsToggle#Tips" xml:space="preserve">
     <value>既に指定のストレッチモードの場合はオリジナルサイズにします</value>
   </data>
   <data name="ParamCommandParameterThumbnailListFocus" xml:space="preserve">
     <value>パネルを表示するときにフォーカスを取得する</value>
   </data>
-  <data name="ParamCommandParameterToggleStretchAllowTitle" xml:space="preserve">
+  <data name="ToggleStretchModeCommandParameter.IsEnableNone#Title" xml:space="preserve">
     <value>切り替え可能なモード</value>
   </data>
-  <data name="ParamCommandParameterToggleStretchLoop" xml:space="preserve">
+  <data name="ToggleStretchModeCommandParameter.IsLoop" xml:space="preserve">
     <value>ループ</value>
   </data>
-  <data name="ParamCommandParameterToggleStretchLoopTitle" xml:space="preserve">
+  <data name="ToggleStretchModeCommandParameter.IsLoop#Title" xml:space="preserve">
     <value>ループ設定</value>
+  </data>
+  <data name="ToggleStretchModeCommandParameter.IsEnableNone" xml:space="preserve">
+    <value>@PageStretchMode.None</value>
+  </data>
+  <data name="ToggleStretchModeCommandParameter.IsEnableUniform" xml:space="preserve">
+    <value>@PageStretchMode.Uniform</value>
+  </data>
+  <data name="ToggleStretchModeCommandParameter.IsEnableUniformToFill" xml:space="preserve">
+    <value>@PageStretchMode.UniformToFill</value>
+  </data>
+  <data name="ToggleStretchModeCommandParameter.IsEnableUniformToSize" xml:space="preserve">
+    <value>@PageStretchMode.UniformToSize</value>
+  </data>
+  <data name="ToggleStretchModeCommandParameter.IsEnableUniformToVertical" xml:space="preserve">
+    <value>@PageStretchMode.UniformToVertical</value>
+  </data>
+  <data name="ToggleStretchModeCommandParameter.IsEnableUniformToHorizontal" xml:space="preserve">
+    <value>@PageStretchMode.UniformToHorizontal</value>
   </data>
   <data name="ParamCommandShare" xml:space="preserve">
     <value>「{0}」と共通のパラメーターです。</value>
   </data>
-  <data name="ParamContentCanvasContentsSpace" xml:space="preserve">
+  <data name="BookConfig.ContentsSpace" xml:space="preserve">
     <value>2ページ間の距離</value>
   </data>
-  <data name="ParamContentCanvasContentsSpaceTips" xml:space="preserve">
+  <data name="BookConfig.ContentsSpace#Tips" xml:space="preserve">
     <value>ページとページの隙間を設定します。マイナス値は重なることを意味します。各ページにスケールがかかるため、0でちょうど隙間がなくなることは稀です。</value>
   </data>
-  <data name="ParamCustomBackground" xml:space="preserve">
+  <data name="BackgroundConfig.CustomBackground" xml:space="preserve">
     <value>カスタム背景</value>
   </data>
-  <data name="ParamCustomBackgroundTips" xml:space="preserve">
+  <data name="BackgroundConfig.CustomBackground#Tips" xml:space="preserve">
     <value>背景を「カスタム背景」にした時に適用される設定です。</value>
   </data>
-  <data name="ParamDefaultFolderOrder" xml:space="preserve">
+  <data name="BookshelfConfig.DefaultFolderOrder" xml:space="preserve">
     <value>標準の既定の並び順</value>
   </data>
-  <data name="ParamDestinationFolderCollection" xml:space="preserve">
+  <data name="SystemConfig.DestinationFodlerCollection" xml:space="preserve">
     <value>移動先フォルダーリスト</value>
   </data>
-  <data name="ParamDotKeepIsEnabled" xml:space="preserve">
+  <data name="ImageDotKeepConfig.IsEnabled" xml:space="preserve">
     <value>ドットのまま拡大</value>
   </data>
-  <data name="ParamDotKeepThreshold" xml:space="preserve">
-    <value>「@ParamDotKeepIsEnabled」を適用する拡大率</value>
+  <data name="ImageDotKeepConfig.Threshold" xml:space="preserve">
+    <value>「@ImageDotKeepConfig.IsEnabled」を適用する拡大率</value>
   </data>
-  <data name="ParamDotKeepThresholdTips" xml:space="preserve">
+  <data name="ImageDotKeepConfig.Threshold#Tips" xml:space="preserve">
     <value>この拡大率より拡大される場合にのみ適用します。</value>
   </data>
-  <data name="ParamDownloadPath" xml:space="preserve">
+  <data name="SystemConfig.DownloadPath" xml:space="preserve">
     <value>ダウンロードフォルダ</value>
   </data>
-  <data name="ParamDownloadPathTips" xml:space="preserve">
+  <data name="SystemConfig.DownloadPath#Tips" xml:space="preserve">
     <value>ブラウザ等がらドロップした画像の保存場所です。指定がない場合は一時フォルダーが使用されます。</value>
   </data>
   <data name="ParamDragActionElements" xml:space="preserve">
     <value>ドラッグ操作設定</value>
   </data>
-  <data name="ParamDragTransformAngleFrequency" xml:space="preserve">
+  <data name="ViewConfig.AngleFrequency" xml:space="preserve">
     <value>回転スナップ</value>
   </data>
-  <data name="ParamDragTransformIsControlFlipCenter" xml:space="preserve">
+  <data name="ViewConfig.FlipCenter" xml:space="preserve">
     <value>反転の中心</value>
   </data>
-  <data name="ParamDragTransformIsControlScaleCenter" xml:space="preserve">
+  <data name="ViewConfig.ScaleCenter" xml:space="preserve">
     <value>拡大縮小の中心</value>
   </data>
-  <data name="ParamDragTransformIsControRotatelCenter" xml:space="preserve">
+  <data name="ViewConfig.RotateCenter" xml:space="preserve">
     <value>回転の中心</value>
   </data>
-  <data name="ParamDragTransformIsKeepAngle" xml:space="preserve">
+  <data name="ViewConfig.IsKeepAngle" xml:space="preserve">
     <value>ページを変更しても回転を維持する</value>
   </data>
-  <data name="ParamDragTransformIsKeepAngleTips" xml:space="preserve">
+  <data name="ViewConfig.IsKeepAngle#Tips" xml:space="preserve">
     <value>自動回転有効時はこの設定は機能しません。</value>
   </data>
-  <data name="ParamDragTransformIsKeepFlip" xml:space="preserve">
+  <data name="ViewConfig.IsKeepFlip" xml:space="preserve">
     <value>ページを変更しても反転を維持する</value>
   </data>
-  <data name="ParamDragTransformIsKeepScale" xml:space="preserve">
+  <data name="ViewConfig.IsKeepScale" xml:space="preserve">
     <value>ページを変更しても拡縮を維持する</value>
   </data>
-  <data name="ParamDragTransformIsLimitMove" xml:space="preserve">
+  <data name="ViewConfig.IsLimitMove" xml:space="preserve">
     <value>移動をウィンドウ内に制限する</value>
   </data>
-  <data name="ParamDragTransformIsOriginalScaleShowMessage" xml:space="preserve">
+  <data name="NoticeConfig.IsOriginalScaleShowMessage" xml:space="preserve">
     <value>ビュー操作のスケール表示をオリジナル画像サイズ基準にする</value>
   </data>
-  <data name="ParamDragTransformIsOriginalScaleShowMessageTips" xml:space="preserve">
+  <data name="NoticeConfig.IsOriginalScaleShowMessage#Tips" xml:space="preserve">
     <value>2ページ表示の場合は若い番号のページを基準にします。</value>
   </data>
-  <data name="ParamDragTransformIsViewStartPositionCenter" xml:space="preserve">
+  <data name="ViewConfig.IsViewStartPositionCenter" xml:space="preserve">
     <value>表示開始位置を画像の中心基準にする</value>
   </data>
-  <data name="ParamDragTransformIsViewStartPositionCenterTips" xml:space="preserve">
+  <data name="ViewConfig.IsViewStartPositionCenter#Tips" xml:space="preserve">
     <value>オフにすると、見開き方向によって右上基準、左上基準になります。</value>
   </data>
   <data name="ParamEffectBrightness" xml:space="preserve">
@@ -4313,13 +4343,13 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParamEffectSaturation" xml:space="preserve">
     <value>彩度</value>
   </data>
-  <data name="ParameterCursorHideReleaseDistance" xml:space="preserve">
+  <data name="MouseConfig.CursorHideReleaseDistance" xml:space="preserve">
     <value>再表示する移動距離</value>
   </data>
-  <data name="ParameterCursorHideTime" xml:space="preserve">
+  <data name="MouseConfig.CursorHideTime" xml:space="preserve">
     <value>非表示にするまでの時間(秒)</value>
   </data>
-  <data name="ParameterIsCursorHideReleaseAction" xml:space="preserve">
+  <data name="MouseConfig.IsCursorHideReleaseAction" xml:space="preserve">
     <value>マウスボタン操作で再表示する</value>
   </data>
   <data name="ParamExportImageIsEnableExportFolder" xml:space="preserve">
@@ -4331,7 +4361,7 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParamExportImageQualityLevelTips" xml:space="preserve">
     <value>変換が必要な場合にのみ使用されます。</value>
   </data>
-  <data name="ParamExternalArchiveOption" xml:space="preserve">
+  <data name="OpenExternalAppCommandParameter.ArchivePolicy" xml:space="preserve">
     <value>圧縮ファイルの場合</value>
   </data>
   <data name="ParamExternalArchiveSeparater" xml:space="preserve">
@@ -4340,19 +4370,19 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParamExternalArchiveSeparaterTips" xml:space="preserve">
     <value>「@ParamExternalArchiveOption」が「@EnumArchiveOptionTypeSendArchivePath」の時の設定です。</value>
   </data>
-  <data name="ParamExternalCommand" xml:space="preserve">
+  <data name="OpenExternalAppCommandParameter.Command" xml:space="preserve">
     <value>プログラム</value>
   </data>
-  <data name="ParamExternalCommandTips" xml:space="preserve">
+  <data name="OpenExternalAppCommandParameter.Command#Tips" xml:space="preserve">
     <value>指定がない場合は拡張子に関連付けられたアプリを起動します。</value>
   </data>
-  <data name="ParamExternalMultiPageOption" xml:space="preserve">
+  <data name="OpenExternalAppCommandParameter.MultiPagePolicy" xml:space="preserve">
     <value>2ページの場合</value>
   </data>
-  <data name="ParamExternalParameter" xml:space="preserve">
+  <data name="OpenExternalAppCommandParameter.Parameter" xml:space="preserve">
     <value>パラメーター</value>
   </data>
-  <data name="ParamExternalParameterTips" xml:space="preserve">
+  <data name="OpenExternalAppCommandParameter.Parameter#Tips" xml:space="preserve">
     <value>$File はファイルパスに置換されます。$Uri はURIエスケープされたファイルパスに置換されます。</value>
   </data>
   <data name="ParamExternalProgramType" xml:space="preserve">
@@ -4367,115 +4397,115 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParamFileInformationIsUseExifDateTimeTips" xml:space="preserve">
     <value>情報パネルでの表示に限ります。日付順ソートには影響しません。</value>
   </data>
-  <data name="ParamFileInformationIsVisibleBitsPerPixel" xml:space="preserve">
+  <data name="InformationConfig.IsVisibleBitsPerPixel" xml:space="preserve">
     <value>画像サイズにピクセルあたりのビット数を表示する</value>
   </data>
-  <data name="ParamFileInformationIsVisibleFilePath" xml:space="preserve">
+  <data name="InformationConfig.IsVisibleFilePath" xml:space="preserve">
     <value>圧縮ファイル内のファイルパスを表示する</value>
   </data>
-  <data name="ParamFileInformationIsVisibleLoader" xml:space="preserve">
+  <data name="InformationConfig.IsVisibleLoader" xml:space="preserve">
     <value>使用されたアーカイバー、画像デコーダー名を表示する</value>
   </data>
-  <data name="ParamFilmStripIsEnabled" xml:space="preserve">
+  <data name="FilmStripConfig.IsEnabled" xml:space="preserve">
     <value>フィルムストリップを表示する</value>
   </data>
-  <data name="ParamFilmStripIsHideFilmStrip" xml:space="preserve">
+  <data name="FilmStripConfig.IsHideFilmStrip" xml:space="preserve">
     <value>フィルムストリップを自動的に隠す</value>
   </data>
-  <data name="ParamFilmStripIsManipulationBoundaryFeedbackEnabled" xml:space="preserve">
+  <data name="FilmStripConfig.IsManipulationBoundaryFeedbackEnabled" xml:space="preserve">
     <value>フィルムストリップタッチスクロールの終端バウンド</value>
   </data>
-  <data name="ParamFilmStripIsSelectedCenter" xml:space="preserve">
+  <data name="FilmStripConfig.IsSelectedCenter" xml:space="preserve">
     <value>選択した項目が中央に表示されるようにスクロールする</value>
   </data>
-  <data name="ParamFilmStripIsVisibleThumbnailNumber" xml:space="preserve">
+  <data name="FilmStripConfig.IsVisibleNumber" xml:space="preserve">
     <value>ページ番号を表示する</value>
   </data>
-  <data name="ParamFilmStripIsVisibleThumbnailPlate" xml:space="preserve">
+  <data name="FilmStripConfig.IsVisiblePlate" xml:space="preserve">
     <value>背景を表示する</value>
   </data>
-  <data name="ParamFilmStripIsVisibleThumbnailPlateTips" xml:space="preserve">
+  <data name="FilmStripConfig.IsVisiblePlate#Tips" xml:space="preserve">
     <value>自動的に隠される設定の場合にフィルムストリップの背景を表示します</value>
   </data>
-  <data name="ParamFilmStripThumbnailSize" xml:space="preserve">
+  <data name="FilmStripConfig.ThumbnailSize" xml:space="preserve">
     <value>ページサムネイルサイズ</value>
   </data>
-  <data name="ParamFolderListItemStyle" xml:space="preserve">
+  <data name="FolderListConfig.PanelListItemStyle" xml:space="preserve">
     <value>リスト項目のスタイル</value>
   </data>
-  <data name="ParamFolderTreeLayout" xml:space="preserve">
+  <data name="FolderListConfig.FolderTreeLayout" xml:space="preserve">
     <value>フォルダーツリーの配置</value>
   </data>
-  <data name="ParamGridLineColor" xml:space="preserve">
+  <data name="ImageGridConfig.Color" xml:space="preserve">
     <value>色</value>
   </data>
-  <data name="ParamGridLineDivX" xml:space="preserve">
+  <data name="ImageGridConfig.DivX" xml:space="preserve">
     <value>列</value>
   </data>
-  <data name="ParamGridLineDivY" xml:space="preserve">
+  <data name="ImageGridConfig.DivY" xml:space="preserve">
     <value>行</value>
   </data>
-  <data name="ParamGridLineIsSquare" xml:space="preserve">
+  <data name="ImageGridConfig.IsSquare" xml:space="preserve">
     <value>正方形</value>
   </data>
-  <data name="ParamHistoryEntryPageCount" xml:space="preserve">
+  <data name="HistoryConfig.HistoryEntryPageCount" xml:space="preserve">
     <value>履歴登録開始ページ操作回数</value>
   </data>
-  <data name="ParamHistoryEntryPageCountTips" xml:space="preserve">
+  <data name="HistoryConfig.HistoryEntryPageCount#Tips" xml:space="preserve">
     <value>この回数以上のページ移動操作、もしくは最終ページ表示で履歴に登録します。</value>
   </data>
-  <data name="ParamHistoryFilePath" xml:space="preserve">
+  <data name="HistoryConfig.HistoryFilePath" xml:space="preserve">
     <value>履歴リストの保存場所</value>
   </data>
-  <data name="ParamHistoryIsAutoCleanupEnabled" xml:space="preserve">
+  <data name="HistoryConfig.IsAutoCleanupEnabled" xml:space="preserve">
     <value>無効な履歴を自動削除</value>
   </data>
-  <data name="ParamHistoryIsAutoCleanupEnabledTips" xml:space="preserve">
+  <data name="HistoryConfig.IsAutoCleanupEnabled#Tips" xml:space="preserve">
     <value>起動時に無効な履歴を削除します。</value>
   </data>
-  <data name="ParamHistoryIsCurrentFolder" xml:space="preserve">
+  <data name="HistoryConfig.IsCurrentFolder" xml:space="preserve">
     <value>現在のフォルダーのみ</value>
   </data>
-  <data name="ParamHistoryIsCurrentFolderTips" xml:space="preserve">
+  <data name="HistoryConfig.IsCurrentFolder#Tips" xml:space="preserve">
     <value>現在開いているブックのフォルダーのみの履歴を表示します。</value>
   </data>
-  <data name="ParamHistoryIsKeepFolderStatus" xml:space="preserve">
+  <data name="HistoryConfig.IsKeepFolderStatus" xml:space="preserve">
     <value>各フォルダーの並び順等の情報を保存する</value>
   </data>
-  <data name="ParamHistoryIsKeepLastFolder" xml:space="preserve">
+  <data name="StartUpConfig.IsOpenLastFolder" xml:space="preserve">
     <value>本棚の場所を復元する</value>
   </data>
-  <data name="ParamHistoryIsKeepLastFolderTips" xml:space="preserve">
+  <data name="StartUpConfig.IsOpenLastFolder#Tips" xml:space="preserve">
     <value>起動時に本を開かない場合の本棚の場所です。</value>
   </data>
-  <data name="ParamHistoryIsKeepSearchHistory" xml:space="preserve">
+  <data name="HistoryConfig.IsKeepSearchHistory" xml:space="preserve">
     <value>検索履歴を保存する</value>
   </data>
-  <data name="ParamHistoryLimitSize" xml:space="preserve">
+  <data name="HistoryConfig.LimitSize" xml:space="preserve">
     <value>保存数上限</value>
   </data>
-  <data name="ParamHistoryLimitSpan" xml:space="preserve">
+  <data name="HistoryConfig.LimitSpan" xml:space="preserve">
     <value>保存期間</value>
   </data>
-  <data name="ParamHistoryListItemStyle" xml:space="preserve">
+  <data name="HistoryConfig.PanelListItemStyle" xml:space="preserve">
     <value>履歴リスト項目スタイル</value>
   </data>
-  <data name="ParamImageCustomSize" xml:space="preserve">
+  <data name="ImageCustomSizeConfig.Size" xml:space="preserve">
     <value>画像サイズ指定のサイズ</value>
   </data>
-  <data name="ParamImageCustomSizeIsEnabled" xml:space="preserve">
+  <data name="ImageCustomSizeConfig.IsEnabled" xml:space="preserve">
     <value>画像サイズ指定を有効にする</value>
   </data>
-  <data name="ParamImageEffectEnabled" xml:space="preserve">
+  <data name="ImageEffectConfig.IsEnabled" xml:space="preserve">
     <value>画像エフェクト有効</value>
   </data>
-  <data name="ParamImageEffectIsHsvMode" xml:space="preserve">
+  <data name="ImageEffectConfig.IsHsvMode" xml:space="preserve">
     <value>色設定をHSVで行う</value>
   </data>
-  <data name="ParamImageEffectIsHsvModeTips" xml:space="preserve">
+  <data name="ImageEffectConfig.IsHsvMode#Tips" xml:space="preserve">
     <value>色パラメーターの設定をHSV(色相、彩度、輝度)で設定します。オフにするとRGBでの設定になります。</value>
   </data>
-  <data name="ParamImageEffectType" xml:space="preserve">
+  <data name="ImageEffectConfig.EffectType" xml:space="preserve">
     <value>画像エフェクトの種類</value>
   </data>
   <data name="ParamImageFilterAmount" xml:space="preserve">
@@ -4487,73 +4517,73 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParamImageFilterThreshold" xml:space="preserve">
     <value>閾値</value>
   </data>
-  <data name="ParamImageGridIsEnabled" xml:space="preserve">
+  <data name="ImageGridConfig.IsEnabled" xml:space="preserve">
     <value>グリッド表示</value>
   </data>
-  <data name="ParamImageResizeFilterIsEnabled" xml:space="preserve">
+  <data name="ImageResizeFilterConfig.IsEnabled" xml:space="preserve">
     <value>リサイズフィルター有効</value>
   </data>
-  <data name="ParamImageResizeFilterResizeInterpolation" xml:space="preserve">
+  <data name="ImageResizeFilterConfig.ResizeInterpolation" xml:space="preserve">
     <value>リサイズの補間方法</value>
   </data>
-  <data name="ParamImageResizeFilterSharpen" xml:space="preserve">
+  <data name="ImageResizeFilterConfig.IsUnsharpMaskEnabled" xml:space="preserve">
     <value>リサイズ時のアンシャープマスク有効</value>
   </data>
-  <data name="ParamImageTrimBottom" xml:space="preserve">
+  <data name="ImageTrimConfig.Bottom" xml:space="preserve">
     <value>下</value>
   </data>
-  <data name="ParamImageTrimIsEnabled" xml:space="preserve">
+  <data name="ImageTrimConfig.IsEnabled" xml:space="preserve">
     <value>トリミングを有効にする</value>
   </data>
-  <data name="ParamImageTrimLeft" xml:space="preserve">
+  <data name="ImageTrimConfig.Left" xml:space="preserve">
     <value>左</value>
   </data>
-  <data name="ParamImageTrimRight" xml:space="preserve">
+  <data name="ImageTrimConfig.Right" xml:space="preserve">
     <value>右</value>
   </data>
-  <data name="ParamImageTrimTop" xml:space="preserve">
+  <data name="ImageTrimConfig.Top" xml:space="preserve">
     <value>上</value>
   </data>
-  <data name="ParamInfoBookNameShowMessageStyle" xml:space="preserve">
+  <data name="NoticeConfig.BookNameShowMessageStyle" xml:space="preserve">
     <value>開いたブック名の表示</value>
   </data>
-  <data name="ParamInfoMessageCommandShowMessageStyle" xml:space="preserve">
+  <data name="NoticeConfig.CommandShowMessageStyle" xml:space="preserve">
     <value>コマンド実行メッセージの表示</value>
   </data>
-  <data name="ParamInfoMessageGestureShowMessageStyle" xml:space="preserve">
+  <data name="NoticeConfig.GestureShowMessageStyle" xml:space="preserve">
     <value>ジェスチャーの状態の表示</value>
   </data>
-  <data name="ParamInfoMessageNoticeShowMessageStyle" xml:space="preserve">
+  <data name="NoticeConfig.NoticeShowMessageStyle" xml:space="preserve">
     <value>一般的な通知</value>
   </data>
-  <data name="ParamInfoMessageNowLoadingShowMessageStyle" xml:space="preserve">
+  <data name="NoticeConfig.NowLoadingShowMessageStyle" xml:space="preserve">
     <value>Now Loading の表示</value>
   </data>
-  <data name="ParamInfoMessageViewTransformShowMessageStyle" xml:space="preserve">
+  <data name="NoticeConfig.ViewTransformShowMessageStyle" xml:space="preserve">
     <value>ドラッグ操作によるスケール変更等の情報表示</value>
   </data>
-  <data name="ParamIsAccessKeyEnabled" xml:space="preserve">
+  <data name="CommandConfig.IsAccessKeyEnabled" xml:space="preserve">
     <value>アクセスキーの許可</value>
   </data>
-  <data name="ParamIsAccessKeyEnabledTips" xml:space="preserve">
+  <data name="CommandConfig.IsAccessKeyEnabled#Tips" xml:space="preserve">
     <value>オフにすると、Altキーによるシステム操作が無効になりコマンドのショートカットで使用したときの誤動作がなくなります。ただしAlt+F4は常に有効です。</value>
   </data>
-  <data name="ParamIsAutoGC" xml:space="preserve">
+  <data name="MemoryControl.IsAutoGC" xml:space="preserve">
     <value>メモリ開放をシステムに任せる</value>
   </data>
-  <data name="ParamIsAutoGCTips" xml:space="preserve">
+  <data name="MemoryControl.IsAutoGC#Tips" xml:space="preserve">
     <value>オフの時はページ切り替え毎にメモリ開放を行います</value>
   </data>
-  <data name="ParamIsAutoPlaySlideShow" xml:space="preserve">
+  <data name="StartUpConfig.IsAutoPlaySlideShow" xml:space="preserve">
     <value>スライドショーの再生を開始する</value>
   </data>
-  <data name="ParamIsAutoRecursive" xml:space="preserve">
+  <data name="BookConfig.IsAutoRecursive" xml:space="preserve">
     <value>ページがなくサブフォルダーが１つだけ存在する場合にサブフォルダーを自動的に読み込む</value>
   </data>
-  <data name="ParamIsCancelSlideByMouseMove" xml:space="preserve">
+  <data name="SlideShowConfig.IsCancelSlideByMouseMove" xml:space="preserve">
     <value>マウス移動で表示間隔リセット</value>
   </data>
-  <data name="ParamIsCancelSlideByMouseMoveTips" xml:space="preserve">
+  <data name="SlideShowConfig.IsCancelSlideByMouseMove#Tips" xml:space="preserve">
     <value>オフにするとクリック等明確なアクションでのみリセットされます。</value>
   </data>
   <data name="ParamIsCaptionEmulateInFullScreen" xml:space="preserve">
@@ -4562,172 +4592,172 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParamIsCaptionEmulateInFullScreenTips" xml:space="preserve">
     <value>フルスクリーン時のメニュー上でのタイトルバー操作(ダブルクリックやドラッグ)を有効にします。</value>
   </data>
-  <data name="ParamIsConfirmRecursive" xml:space="preserve">
+  <data name="BookConfig.IsConfirmRecursive" xml:space="preserve">
     <value>ページがない場合、サブフォルダーも読み込むか問い合わせる</value>
   </data>
-  <data name="ParamIsConfirmRecursiveTips" xml:space="preserve">
+  <data name="BookConfig.IsConfirmRecursive#Tips" xml:space="preserve">
     <value>ブックを開いた時に表示可能なページがなく、かつサブフォルダーが存在する場合にサブフォルダーも読み込むかを問い合わせるダイアログを表示します。</value>
   </data>
-  <data name="ParamIsCursorHideEnabled" xml:space="preserve">
+  <data name="MouseConfig.IsCursorHideEnabled" xml:space="preserve">
     <value>自動非表示の有効化</value>
   </data>
-  <data name="ParamIsEmptyMessageEnabled" xml:space="preserve">
+  <data name="NoticeConfig.IsEmptyMessageEnabled" xml:space="preserve">
     <value>ブックにページがない場合にメッセージを表示する</value>
   </data>
-  <data name="ParamIsExplorerContextMenuEnabled" xml:space="preserve">
+  <data name="ExplorerContextMenu.IsEnabled" xml:space="preserve">
     <value>エクスプローラーのコンテキストメニューに登録</value>
   </data>
-  <data name="ParamIsExplorerContextMenuEnabledTips" xml:space="preserve">
+  <data name="ExplorerContextMenu.IsEnabled#Tips" xml:space="preserve">
     <value>エクスプローラーのコンテキストメニューに「NeeViewで開く」を追加します。この機能はレジストリを使用します。</value>
   </data>
-  <data name="ParamIsFileOperationEnabled" xml:space="preserve">
+  <data name="SystemConfig.IsFileWriteAccessEnabled" xml:space="preserve">
     <value>ファイル操作有効</value>
   </data>
-  <data name="ParamIsFolderTreeVisible" xml:space="preserve">
+  <data name="FolderListConfig.IsFolderTreeVisible" xml:space="preserve">
     <value>フォルダーツリーの表示</value>
   </data>
-  <data name="ParamIsForceUpdateHistory" xml:space="preserve">
+  <data name="HistoryConfig.IsForceUpdateHistory" xml:space="preserve">
     <value>履歴からブックを開いたときでも最終閲覧日を更新する</value>
   </data>
-  <data name="ParamIsHamburgerMenu" xml:space="preserve">
+  <data name="MenuBarConfig.IsHamburgerMenu" xml:space="preserve">
     <value>ハンバーガーメニューを使う</value>
   </data>
-  <data name="ParamIsHiddenFileVisibled" xml:space="preserve">
+  <data name="SystemConfig.IsHiddenFileVisibled" xml:space="preserve">
     <value>隠しファイルを表示する</value>
   </data>
-  <data name="ParamIsIgnoreImageDpi" xml:space="preserve">
+  <data name="SystemConfig.IsIgnoreImageDpi" xml:space="preserve">
     <value>画像のドットバイドット表示</value>
   </data>
-  <data name="ParamIsIgnoreImageDpiTips" xml:space="preserve">
+  <data name="SystemConfig.IsIgnoreImageDpi#Tips" xml:space="preserve">
     <value>オリジナルサイズで表示する場合、ディスプレイの表示スケールに依存せずにディスプレイのピクセルと一致させます。</value>
   </data>
-  <data name="ParamIsIncrementalSearchEnabled" xml:space="preserve">
+  <data name="BookshelfConfig.IsIncrementalSearchEnabled" xml:space="preserve">
     <value>インクリメンタルサーチ有効</value>
   </data>
-  <data name="ParamIsInnerArchiveHistoryEnabled" xml:space="preserve">
+  <data name="HistoryConfig.IsInnerArchiveHistoryEnabled" xml:space="preserve">
     <value>多重圧縮ファイルを履歴に保存する</value>
   </data>
-  <data name="ParamIsInputMethodEnabled" xml:space="preserve">
+  <data name="SystemConfig.IsInputMethodEnabled" xml:space="preserve">
     <value>テキストボックス以外でのIMEを有効にする</value>
   </data>
-  <data name="ParamIsInputMethodEnabledTips" xml:space="preserve">
+  <data name="SystemConfig.IsInputMethodEnabled#Tips" xml:space="preserve">
     <value>※次の起動から適用されます。テキストボックスでは常に有効です。</value>
   </data>
-  <data name="ParamIsInsertDummyPage" xml:space="preserve">
+  <data name="BookConfig.IsInsertDummyPage" xml:space="preserve">
     <value>ダミーページを挿入する</value>
   </data>
-  <data name="ParamIsInsertDummyPageTips" xml:space="preserve">
+  <data name="BookConfig.IsInsertDummyPage#Tips" xml:space="preserve">
     <value>2ページモードの終端で十分なページがない場合にダミーページを挿入します。</value>
   </data>
-  <data name="ParamIsMultiBootEnabled" xml:space="preserve">
+  <data name="StartUpConfig.IsMultiBootEnabled" xml:space="preserve">
     <value>多重起動を許可する</value>
   </data>
-  <data name="ParamIsNaturalSortEnabled" xml:space="preserve">
+  <data name="SystemConfig.IsNaturalSortEnabled" xml:space="preserve">
     <value>自然な名前順</value>
   </data>
-  <data name="ParamIsNaturalSortEnabledTips" xml:space="preserve">
+  <data name="SystemConfig.IsNaturalSortEnabled#Tips" xml:space="preserve">
     <value>ピリオドで区切られた数字、漢数字など、名前での並び替えをより自然な並び順になるようにします。オフの場合はエクスプローラーでの並び順と同等です。</value>
   </data>
-  <data name="ParamIsNetworkEnabled" xml:space="preserve">
+  <data name="SystemConfig.IsNetworkEnabled" xml:space="preserve">
     <value>ネットワークアクセスを許可する</value>
   </data>
-  <data name="ParamIsNetworkEnabledTips" xml:space="preserve">
+  <data name="SystemConfig.IsNetworkEnabled#Tips" xml:space="preserve">
     <value>このアプリでは、「このアプリについて」ダイアログからのバージョン更新確認とオンラインヘルプ等のWEBリンクのみにネットワークを使用します。</value>
   </data>
-  <data name="ParamIsOpenbookAtCurrentPlace" xml:space="preserve">
+  <data name="SystemConfig.IsOpenbookAtCurrentPlace" xml:space="preserve">
     <value>「@CommandLoadAs」でのファイル選択ダイアログの開始場所を現在開いているブックの場所にする</value>
   </data>
-  <data name="ParamIsOpenLastBook" xml:space="preserve">
+  <data name="StartUpConfig.IsOpenLastBook" xml:space="preserve">
     <value>開いていたブックを復元する</value>
   </data>
-  <data name="ParamIsOrderWithoutFileType" xml:space="preserve">
+  <data name="BookshelfConfig.IsOrderWithoutFileType" xml:space="preserve">
     <value>ファイルの種類を区別しない並び替え</value>
   </data>
-  <data name="ParamIsPageBackgroundChecker" xml:space="preserve">
+  <data name="BackgroundConfig.IsPageBackgroundChecker" xml:space="preserve">
     <value>透過画像の背景をチェック模様にする</value>
   </data>
-  <data name="ParamIsPageBackgroundCheckerTips" xml:space="preserve">
-    <value>「@ParamPageBackgroundColor」のチェック模様になります。</value>
+  <data name="BackgroundConfig.IsPageBackgroundChecker#Tips" xml:space="preserve">
+    <value>「@BackgroundConfig.PageBackgroundColor」のチェック模様になります。</value>
   </data>
-  <data name="ParamIsRecordPageView" xml:space="preserve">
+  <data name="PageViewRecorderConfig.IsSavePageViewRecord" xml:space="preserve">
     <value>ページ表示履歴をファイルに保存する</value>
   </data>
-  <data name="ParamIsRemoveConfirmed" xml:space="preserve">
+  <data name="SystemConfig.IsRemoveConfirmed" xml:space="preserve">
     <value>ファイル削除時に確認ダイアログを表示する</value>
   </data>
-  <data name="ParamIsRemoveWantNukeWarning" xml:space="preserve">
+  <data name="SystemConfig.IsRemoveWantNukeWarning" xml:space="preserve">
     <value>ごみ箱に入らないサイズのファイルを削除するときに確認ダイアログを表示する</value>
   </data>
   <data name="ParamIsRestoreAeroSnapPlacement" xml:space="preserve">
     <value>AeroSnapのウィンドウ座標を復元</value>
   </data>
-  <data name="ParamIsRestoreSecondWindow" xml:space="preserve">
+  <data name="StartUpConfig.IsRestoreSecondWindowPlacement" xml:space="preserve">
     <value>2つめのウィンドウ座標の復元</value>
   </data>
-  <data name="ParamIsRestoreSecondWindowTips" xml:space="preserve">
+  <data name="StartUpConfig.IsRestoreSecondWindowPlacement#Tips" xml:space="preserve">
     <value>重複起動した場合もウィンドウ座標を復元します。オフにすると初期座標で表示されます。</value>
   </data>
-  <data name="ParamIsSaveBookmark" xml:space="preserve">
+  <data name="BookmarkConfig.IsSaveBookmark" xml:space="preserve">
     <value>ブックマークリストを保存する</value>
   </data>
-  <data name="ParamIsSaveFullScreen" xml:space="preserve">
+  <data name="StartUpConfig.IsRestoreFullScreen" xml:space="preserve">
     <value>フルスクリーン状態を復元する</value>
   </data>
-  <data name="ParamIsSaveHistory" xml:space="preserve">
+  <data name="HistoryConfig.IsSaveHistory" xml:space="preserve">
     <value>履歴リストを保存する</value>
   </data>
-  <data name="ParamIsSavePagemark" xml:space="preserve">
+  <data name="PagemarkConfig.IsSavePagemark" xml:space="preserve">
     <value>ページマークリストを保存する</value>
   </data>
-  <data name="ParamIsSaveWindowPlacement" xml:space="preserve">
+  <data name="StartUpConfig.IsRestoreWindowPlacement" xml:space="preserve">
     <value>ウィンドウ座標を復元する</value>
   </data>
-  <data name="ParamIsScriptFolderEnabled" xml:space="preserve">
+  <data name="ScriptConfig.IsScriptFolderEnabled" xml:space="preserve">
     <value>スクリプトを使用する</value>
   </data>
-  <data name="ParamIsSearchIncludeSubdirectories" xml:space="preserve">
+  <data name="BookshelfConfig.IsSearchIncludeSubdirectories" xml:space="preserve">
     <value>サブフォルダーを含めた検索を行う</value>
   </data>
-  <data name="ParamIsSettingBackup" xml:space="preserve">
+  <data name="SystemConfig.IsSettingBackup" xml:space="preserve">
     <value>ユーザー設定ファイルのバックアップを作る</value>
   </data>
-  <data name="ParamIsSettingBackupTips" xml:space="preserve">
+  <data name="SystemConfig.IsSettingBackup#Tips" xml:space="preserve">
     <value>設定ファイルのバックアップを作成し、もし通常の設定ファイルが読み込めない場合に代わりに読み込みます。ファイル名は UserSetting.json.bak です。更新タイミングは、設定ウィンドウを閉じた時と、アプリを終了した時です。</value>
   </data>
-  <data name="ParamIsSideBarEnabled" xml:space="preserve">
+  <data name="PanelsConfig.IsSideBarEnabled" xml:space="preserve">
     <value>サイドバーを表示する</value>
   </data>
-  <data name="ParamIsSlideShowByLoop" xml:space="preserve">
+  <data name="SlideShowConfig.IsSlideShowByLoop" xml:space="preserve">
     <value>ループ再生</value>
   </data>
-  <data name="ParamIsSlideShowByLoopTips" xml:space="preserve">
+  <data name="SlideShowConfig.IsSlideShowByLoop#Tips" xml:space="preserve">
     <value>最終ページまで再生したら先頭ページに戻ります。</value>
   </data>
-  <data name="ParamIsSortFileFirst" xml:space="preserve">
+  <data name="BookConfig.IsSortFileFirst" xml:space="preserve">
     <value>ファイル優先でページをソートする</value>
   </data>
-  <data name="ParamIsSortFileFirstTips" xml:space="preserve">
+  <data name="BookConfig.IsSortFileFirst#Tips" xml:space="preserve">
     <value>ファイルをフォルダーより先に並べます。</value>
   </data>
-  <data name="ParamIsSplashScreenEnabled" xml:space="preserve">
+  <data name="StartUpConfig.IsSplashScreenEnabled" xml:space="preserve">
     <value>スプラッシュスクリーン</value>
   </data>
-  <data name="ParamIsSyncBookshelfEnabled" xml:space="preserve">
+  <data name="BookmarkConfig.IsSyncBookshelfEnabled" xml:space="preserve">
     <value>ブックを開いたときに本棚と同期する</value>
   </data>
-  <data name="ParamIsSyncUserSetting" xml:space="preserve">
+  <data name="SystemConfig.IsSyncUserSetting" xml:space="preserve">
     <value>設定を同期する</value>
   </data>
-  <data name="ParamIsSyncUserSettingTips" xml:space="preserve">
+  <data name="SystemConfig.IsSyncUserSetting#Tips" xml:space="preserve">
     <value>多重起動しているとき、設定ウィンドウを閉じたときに他のNeeViewの設定も更新します。</value>
   </data>
-  <data name="ParamIsUncHistoryEnabled" xml:space="preserve">
+  <data name="HistoryConfig.IsUncHistoryEnabled" xml:space="preserve">
     <value>UNCパスを履歴に保存する</value>
   </data>
-  <data name="ParamIsUncHistoryEnabledTips" xml:space="preserve">
+  <data name="HistoryConfig.IsUncHistoryEnabled#Tips" xml:space="preserve">
     <value>\\コンピューター名\~ のようなネットワーク上のパスを履歴に保存します。</value>
   </data>
-  <data name="ParamIsVisibleBusy" xml:space="preserve">
+  <data name="NoticeConfig.IsBusyMarkEnabled" xml:space="preserve">
     <value>画像読み込み処理中マークを画面左上に表示する</value>
   </data>
   <data name="ParamIsVisibleWindowTitle" xml:space="preserve">
@@ -4751,16 +4781,16 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParamItemProfileIsTextWrapped" xml:space="preserve">
     <value>テキストの複数行表示</value>
   </data>
-  <data name="ParamJobEngineWorkerSize" xml:space="preserve">
+  <data name="PerformanceConfig.JobWorkerSize" xml:space="preserve">
     <value>画像読み込みに使用するスレッド数</value>
   </data>
-  <data name="ParamJobEngineWorkerSizeTips" xml:space="preserve">
+  <data name="PerformanceConfig.JobWorkerSize#Tips" xml:space="preserve">
     <value>推奨値は2～4です</value>
   </data>
-  <data name="ParamLanguage" xml:space="preserve">
+  <data name="SystemConfig.Language" xml:space="preserve">
     <value>言語</value>
   </data>
-  <data name="ParamLanguageTips" xml:space="preserve">
+  <data name="SystemConfig.Language#Tips" xml:space="preserve">
     <value>※次の起動から適用されます。</value>
   </data>
   <data name="ParamListItemBannerImageWidth" xml:space="preserve">
@@ -4787,10 +4817,10 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParamListItemContentImageWidthTips" xml:space="preserve">
     <value>コンテンツ表示の画像サイズです。サムネイル画像解像度を超えると画像が粗くなります。</value>
   </data>
-  <data name="ParamListItemContentIsDecoratePlace" xml:space="preserve">
+  <data name="PanelsConfig.IsDecoratePlace" xml:space="preserve">
     <value>補足テキストのパス表示を整形する</value>
   </data>
-  <data name="ParamListItemContentIsDecoratePlaceTips" xml:space="preserve">
+  <data name="PanelsConfig.IsDecoratePlace#Tips" xml:space="preserve">
     <value>"AAA (C:\BBB\CCC)" のように整形します。</value>
   </data>
   <data name="ParamListItemContentIsTextWrapped" xml:space="preserve">
@@ -4802,13 +4832,13 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParamListItemContentNoteOpacityTips" xml:space="preserve">
     <value>コンテンツ表示での補足テキストの透明度です。</value>
   </data>
-  <data name="ParamListItemFolderTreeFontSize" xml:space="preserve">
+  <data name="PanelsConfig.FolderTreeFontSize" xml:space="preserve">
     <value>フォルダーツリーのフォントサイズ</value>
   </data>
-  <data name="ParamListItemFontName" xml:space="preserve">
+  <data name="PanelsConfig.FontName" xml:space="preserve">
     <value>リスト項目のフォント</value>
   </data>
-  <data name="ParamListItemFontSize" xml:space="preserve">
+  <data name="PanelsConfig.FontSize" xml:space="preserve">
     <value>リスト項目のフォントサイズ</value>
   </data>
   <data name="ParamListItemImagePopup" xml:space="preserve">
@@ -4850,118 +4880,118 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParamListItemThumbnailNameVisibled" xml:space="preserve">
     <value>サムネイルに名前を表示する</value>
   </data>
-  <data name="ParamLoupeDefaultScale" xml:space="preserve">
+  <data name="LoupeConfig.DefaultScale" xml:space="preserve">
     <value>ルーペ標準倍率</value>
   </data>
-  <data name="ParamLoupeIsEscapeKeyEnabled" xml:space="preserve">
+  <data name="LoupeConfig.IsEscapeKeyEnabled" xml:space="preserve">
     <value>Escキーでルーペを解除する</value>
   </data>
-  <data name="ParamLoupeIsLoupeCenter" xml:space="preserve">
+  <data name="LoupeConfig.IsLoupeCenter" xml:space="preserve">
     <value>開始時カーソル位置を画面中心にする</value>
   </data>
-  <data name="ParamLoupeIsResetByPageChanged" xml:space="preserve">
+  <data name="LoupeConfig.IsResetByPageChanged" xml:space="preserve">
     <value>ページを移動したらルーペを解除する</value>
   </data>
-  <data name="ParamLoupeIsResetByRestart" xml:space="preserve">
+  <data name="LoupeConfig.IsResetByRestart" xml:space="preserve">
     <value>ルーペを標準倍率で開始する</value>
   </data>
-  <data name="ParamLoupeIsResetByRestartTips" xml:space="preserve">
+  <data name="LoupeConfig.IsResetByRestart#Tips" xml:space="preserve">
     <value>オフにすると前回の倍率を引き継ぎます。</value>
   </data>
-  <data name="ParamLoupeIsVisibleLoupeInfo" xml:space="preserve">
+  <data name="LoupeConfig.IsVisibleLoupeInfo" xml:space="preserve">
     <value>ルーペ倍率を表示する</value>
   </data>
-  <data name="ParamLoupeIsVisibleLoupeInfoTips" xml:space="preserve">
+  <data name="LoupeConfig.IsVisibleLoupeInfo#Tips" xml:space="preserve">
     <value>ルーペ時に右上に倍率が表示されます。</value>
   </data>
-  <data name="ParamLoupeIsWheelScalingEnabled" xml:space="preserve">
+  <data name="LoupeConfig.IsWheelScalingEnabled" xml:space="preserve">
     <value>ルーペ使用時、ホイール操作でルーペ倍率を変更する</value>
   </data>
-  <data name="ParamLoupeIsWheelScalingEnabledTips" xml:space="preserve">
+  <data name="LoupeConfig.IsWheelScalingEnabled#Tips" xml:space="preserve">
     <value>ホイール操作が割り当てられているコマンドは無効になります。</value>
   </data>
-  <data name="ParamLoupeMaximumScale" xml:space="preserve">
+  <data name="LoupeConfig.MaximumScale" xml:space="preserve">
     <value>ルーペ最大倍率</value>
   </data>
-  <data name="ParamLoupeMinimumScale" xml:space="preserve">
+  <data name="LoupeConfig.MinimumScale" xml:space="preserve">
     <value>ルーペ最小倍率</value>
   </data>
-  <data name="ParamLoupeScaleStep" xml:space="preserve">
+  <data name="LoupeConfig.ScaleStep" xml:space="preserve">
     <value>ルーペ倍率変化単位</value>
   </data>
-  <data name="ParamLoupeSpeed" xml:space="preserve">
+  <data name="LoupeConfig.Speed" xml:space="preserve">
     <value>ルーペ移動速度</value>
   </data>
-  <data name="ParamMainViewIsFloating" xml:space="preserve">
+  <data name="MainViewConfig.IsFloating" xml:space="preserve">
     <value>メインビューのフローティング</value>
   </data>
-  <data name="ParamMainViewIsHideTitleBar" xml:space="preserve">
+  <data name="MainViewConfig.IsHideTitleBar" xml:space="preserve">
     <value>メインビューウィンドウタイトルの自動非表示</value>
   </data>
-  <data name="ParamMainViewIsTopmost" xml:space="preserve">
+  <data name="MainViewConfig.IsTopmost" xml:space="preserve">
     <value>メインビューウィンドウを常に手前に表示</value>
   </data>
-  <data name="ParamMediaIsMuted" xml:space="preserve">
+  <data name="MediaArchiveConfig.IsMuted" xml:space="preserve">
     <value>動画をミュートする</value>
   </data>
-  <data name="ParamMediaIsRepeat" xml:space="preserve">
+  <data name="MediaArchiveConfig.IsRepeat" xml:space="preserve">
     <value>動画のリピート</value>
   </data>
-  <data name="ParamMediaStartDelaySeconds" xml:space="preserve">
+  <data name="MediaArchiveConfig.MediaStartDelaySeconds" xml:space="preserve">
     <value>再生開始遅延 (秒)</value>
   </data>
-  <data name="ParamMediaStartDelaySecondsTips" xml:space="preserve">
+  <data name="MediaArchiveConfig.MediaStartDelaySeconds#Tips" xml:space="preserve">
     <value>0を指定すると画面がちらつくことがあります。</value>
   </data>
-  <data name="ParamMediaVolume" xml:space="preserve">
+  <data name="MediaArchiveConfig.Volume" xml:space="preserve">
     <value>動画の音量</value>
   </data>
-  <data name="ParamMenuBarIsAutoHide" xml:space="preserve">
+  <data name="MenuBarConfig.IsHideMenu" xml:space="preserve">
     <value>メニューを自動的に隠す</value>
   </data>
-  <data name="ParamMenuBarIsVisibleAddressBar" xml:space="preserve">
+  <data name="MenuBarConfig.IsAddressBarEnabled" xml:space="preserve">
     <value>アドレスバーを表示する</value>
   </data>
-  <data name="ParamMenuColor" xml:space="preserve">
+  <data name="ThemeConfig.MenuColor" xml:space="preserve">
     <value>メニューカラー</value>
   </data>
-  <data name="ParamMouseGestureMinimumDistance" xml:space="preserve">
+  <data name="MouseConfig.GestureMinimumDistance" xml:space="preserve">
     <value>マウスジェスチャーのストローク(ピクセル)</value>
   </data>
-  <data name="ParamMouseGestureMinimumDistanceTips" xml:space="preserve">
+  <data name="MouseConfig.GestureMinimumDistance#Tips" xml:space="preserve">
     <value>この距離の移動でジェスチャーストロークと判断されます。</value>
   </data>
-  <data name="ParamMouseIsDragEnabled" xml:space="preserve">
+  <data name="MouseConfig.IsDragEnabled" xml:space="preserve">
     <value>マウスドラッグ有効</value>
   </data>
-  <data name="ParamMouseIsGestureEnabled" xml:space="preserve">
+  <data name="MouseConfig.IsGestureEnabled" xml:space="preserve">
     <value>マウスジェスチャー有効</value>
   </data>
-  <data name="ParamMouseLongButtonDownMode" xml:space="preserve">
+  <data name="MouseConfig.LongButtonDownMode" xml:space="preserve">
     <value>長押しモード</value>
   </data>
-  <data name="ParamMouseLongButtonDownTime" xml:space="preserve">
+  <data name="MouseConfig.LongButtonDownTime" xml:space="preserve">
     <value>長押し判定時間 (秒)</value>
   </data>
-  <data name="ParamMouseLongButtonDownTimeTips" xml:space="preserve">
+  <data name="MouseConfig.LongButtonDownTime#Tips" xml:space="preserve">
     <value>長押しと判定される時間です。</value>
   </data>
-  <data name="ParamMouseLongButtonMask" xml:space="preserve">
+  <data name="MouseConfig.LongButtonMask" xml:space="preserve">
     <value>長押しボタン</value>
   </data>
-  <data name="ParamMouseLongButtonRepeatTime" xml:space="preserve">
+  <data name="MouseConfig.LongButtonRepeatTime" xml:space="preserve">
     <value>リピート間隔 (秒)</value>
   </data>
-  <data name="ParamMouseLongButtonRepeatTimeTips" xml:space="preserve">
+  <data name="MouseConfig.LongButtonRepeatTime#Tips" xml:space="preserve">
     <value>リピート入力でのリピート時間です。</value>
   </data>
-  <data name="ParamMouseMinimumDragDistance" xml:space="preserve">
+  <data name="MouseConfig.MinimumDragDistance" xml:space="preserve">
     <value>ドラッグ開始距離(ピクセル)</value>
   </data>
-  <data name="ParamMouseMinimumDragDistanceTips" xml:space="preserve">
+  <data name="MouseConfig.MinimumDragDistance#Tips" xml:space="preserve">
     <value>ドラッグやジェスチャーになる最初の移動距離</value>
   </data>
-  <data name="ParamMouseWheelSpeedRate" xml:space="preserve">
+  <data name="PanelsConfig.MouseWheelSpeedRate" xml:space="preserve">
     <value>サムネイル表示でのマウスホイールスクロール速度倍率</value>
   </data>
   <data name="ParamNavigateAutoRotate" xml:space="preserve">
@@ -4973,13 +5003,13 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParamNavigateIsFlipVertical" xml:space="preserve">
     <value>上下反転</value>
   </data>
-  <data name="ParamPageBackgroundColor" xml:space="preserve">
+  <data name="BackgroundConfig.PageBackgroundColor" xml:space="preserve">
     <value>透過画像の背景色</value>
   </data>
-  <data name="ParamPageListFormat" xml:space="preserve">
+  <data name="PageListConfig.Format" xml:space="preserve">
     <value>ページリストのページ名表示形式</value>
   </data>
-  <data name="ParamPageListItemStyle" xml:space="preserve">
+  <data name="PageListConfig.PanelListItemStyle" xml:space="preserve">
     <value>ページリスト項目スタイル</value>
   </data>
   <data name="ParamPageListPlacementInBookshelf" xml:space="preserve">
@@ -4988,191 +5018,191 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParamPageListPlacementInBookshelfTips" xml:space="preserve">
     <value>オフにするとサイドパネルになります。</value>
   </data>
-  <data name="ParamPagemarkFilePath" xml:space="preserve">
+  <data name="PagemarkConfig.PagemarkFilePath" xml:space="preserve">
     <value>ページマークリストの保存場所</value>
   </data>
-  <data name="ParamPagemarkListItemStyle" xml:space="preserve">
+  <data name="PagemarkConfig.PanelListItemStyle" xml:space="preserve">
     <value>ページマークリスト項目スタイル</value>
   </data>
-  <data name="ParamPagemarkOrder" xml:space="preserve">
+  <data name="PagemarkConfig.PagemarkOrder" xml:space="preserve">
     <value>ページマークの並び順</value>
   </data>
-  <data name="ParamPageSeconds" xml:space="preserve">
+  <data name="MediaArchiveConfig.PageSeconds" xml:space="preserve">
     <value>ページ移動での変化時間 (秒)</value>
   </data>
-  <data name="ParamPageViewRecordPath" xml:space="preserve">
+  <data name="PageViewRecorderConfig.PageViewRecordFilePath" xml:space="preserve">
     <value>ページ表示履歴保存場所</value>
   </data>
-  <data name="ParamPanelColor" xml:space="preserve">
+  <data name="ThemeConfig.PanelColor" xml:space="preserve">
     <value>テーマカラー</value>
   </data>
-  <data name="ParamPanelsIsAutoHide" xml:space="preserve">
+  <data name="PanelsConfig.IsHidePanel" xml:space="preserve">
     <value>サイドパネルを自動的に隠す</value>
   </data>
-  <data name="ParamPictureCustomHeight" xml:space="preserve">
+  <data name="ImageCustomSizeConfig.Height" xml:space="preserve">
     <value>縦幅</value>
   </data>
-  <data name="ParamPictureCustomLockAspect" xml:space="preserve">
+  <data name="ImageCustomSizeConfig.IsUniformed" xml:space="preserve">
     <value>縦横比を維持</value>
   </data>
-  <data name="ParamPictureCustomWidth" xml:space="preserve">
+  <data name="ImageCustomSizeConfig.Width" xml:space="preserve">
     <value>横幅</value>
   </data>
   <data name="ParamPictureProfileExtensions" xml:space="preserve">
     <value>画像ファイルの拡張子</value>
   </data>
-  <data name="ParamPictureProfileIsAspectRatioEnabled" xml:space="preserve">
+  <data name="ImageStandardConfig.IsAspectRatioEnabled" xml:space="preserve">
     <value>画像の解像度情報を適用する</value>
   </data>
-  <data name="ParamPictureProfileIsAspectRatioEnabledTips" xml:space="preserve">
+  <data name="ImageStandardConfig.IsAspectRatioEnabled#Tips" xml:space="preserve">
     <value>画像ファイルに設定されているdpiとアスペクト比に従って表示します。</value>
   </data>
-  <data name="ParamPictureProfileIsLimitSourceSize" xml:space="preserve">
+  <data name="PerformanceConfig.IsLimitSourceSize" xml:space="preserve">
     <value>読み込み画像サイズ制限</value>
   </data>
-  <data name="ParamPictureProfileIsLimitSourceSizeTips" xml:space="preserve">
-    <value>「@ParamPictureProfileMaximumSize」を上限として読み込み画像を縮小します。速度、メモリ節約用の設定です。この制限を適用して読み込まれた画像である場合、情報のサイズ欄に「*」が表示されます。</value>
+  <data name="PerformanceConfig.IsLimitSourceSize#Tips" xml:space="preserve">
+    <value>「@PerformanceConfig.MaximumSize」を上限として読み込み画像を縮小します。速度、メモリ節約用の設定です。この制限を適用して読み込まれた画像である場合、情報のサイズ欄に「*」が表示されます。</value>
   </data>
   <data name="ParamPictureProfileIsMagicScaleSimdEnabled" xml:space="preserve">
     <value>リサイズフィルター処理にSIMDを使用する</value>
   </data>
-  <data name="ParamPictureProfileIsSvgEnabled" xml:space="preserve">
+  <data name="ImageSvgConfig.IsEnabled" xml:space="preserve">
     <value>SVGファイルを有効にする</value>
   </data>
-  <data name="ParamPictureProfileIsSvgEnabledTips" xml:space="preserve">
+  <data name="ImageSvgConfig.IsEnabled#Tips" xml:space="preserve">
     <value>SVGファイルをページとして開きます。</value>
   </data>
-  <data name="ParamPictureProfileMaximumSize" xml:space="preserve">
+  <data name="PerformanceConfig.MaximumSize" xml:space="preserve">
     <value>最大画像サイズ</value>
   </data>
-  <data name="ParamPictureProfileMaximumSizeTips" xml:space="preserve">
+  <data name="PerformanceConfig.MaximumSize#Tips" xml:space="preserve">
     <value>リサイズフィルターで拡大される最大画像サイズです。</value>
   </data>
-  <data name="ParamPictureProfileSupportFileTypes" xml:space="preserve">
+  <data name="ImageStandardConfig.SupportFileTypes" xml:space="preserve">
     <value>画像ファイルの拡張子</value>
   </data>
-  <data name="ParamPictureProfileSvgExtensions" xml:space="preserve">
+  <data name="ImageSvgConfig.SupportFileTypes" xml:space="preserve">
     <value>SVGファイルの拡張子</value>
   </data>
-  <data name="ParamPictureProfileUseWicInformation" xml:space="preserve">
+  <data name="ImageStandardConfig.UseWicInformation" xml:space="preserve">
     <value>WIC情報を使用する</value>
   </data>
-  <data name="ParamPictureProfileUseWicInformationNote" xml:space="preserve">
+  <data name="ImageStandardConfig.UseWicInformation#Tips" xml:space="preserve">
     <value>初期化時にWICから画像ファイル拡張子を取得します。OFFの場合は既定の拡張子のみとなります。</value>
   </data>
-  <data name="ParamPlaylistFolderOrder" xml:space="preserve">
+  <data name="BookshelfConfig.PlaylistFolderOrder" xml:space="preserve">
     <value>プレイリストの既定の並び順</value>
   </data>
-  <data name="ParamPreLoadSize" xml:space="preserve">
+  <data name="PerformanceConfig.PreLoadSize" xml:space="preserve">
     <value>先読みページ数</value>
   </data>
-  <data name="ParamPreLoadSizeTips" xml:space="preserve">
+  <data name="PerformanceConfig.PreLoadSize#Tips" xml:space="preserve">
     <value>キャッシュメモリサイズの範囲内で先読みを行います。</value>
   </data>
-  <data name="ParamResetPageWhenRandomSort" xml:space="preserve">
+  <data name="BookConfig.ResetPageWhenRandomSort" xml:space="preserve">
     <value>シャッフルしたときにページをリセットする</value>
   </data>
-  <data name="ParamScriptFolder" xml:space="preserve">
+  <data name="ScriptConfig.ScriptFolder" xml:space="preserve">
     <value>スクリプトフォルダー</value>
   </data>
-  <data name="ParamScriptFolderTips" xml:space="preserve">
+  <data name="ScriptConfig.ScriptFolder#Tips" xml:space="preserve">
     <value>このフォルダーのスクリプトを使用します。</value>
   </data>
-  <data name="ParamSeCannotMove" xml:space="preserve">
+  <data name="BookConfig.TerminalSound" xml:space="preserve">
     <value>移動できなかったときの効果音</value>
   </data>
-  <data name="ParamSevenZipArchiverIsEnabled" xml:space="preserve">
+  <data name="SevenZipArchiveConfig.IsEnabled" xml:space="preserve">
     <value>7-Zipによる圧縮ファイル展開を使用する</value>
   </data>
   <data name="ParamSevenZipArchiverIsPreExtract" xml:space="preserve">
     <value>全て事前展開する</value>
   </data>
-  <data name="ParamSevenZipArchiverIsPreExtractToMemory" xml:space="preserve">
+  <data name="PerformanceConfig.IsPreExtractToMemory" xml:space="preserve">
     <value>ソリッド圧縮ファイルの事前展開先をメモリにする</value>
   </data>
-  <data name="ParamSevenZipArchiverIsPreExtractToMemoryTips" xml:space="preserve">
+  <data name="PerformanceConfig.IsPreExtractToMemory#Tips" xml:space="preserve">
     <value>一時ファイルでなくメモリ上に展開することで高速化します。消費するメモリはブックのキャッシュメモリとは別に確保されます。</value>
   </data>
-  <data name="ParamSevenZipArchiverPreExtractSolidSize" xml:space="preserve">
+  <data name="PerformanceConfig.PreExtractSolidSize" xml:space="preserve">
     <value>ソリッド圧縮ファイルを事前展開する最大展開サイズ(MB)</value>
   </data>
-  <data name="ParamSevenZipArchiverPreExtractSolidSizeTips" xml:space="preserve">
+  <data name="PerformanceConfig.PreExtractSolidSize#Tips" xml:space="preserve">
     <value>この展開サイズを超える圧縮ファイルは事前展開を行いません。全ての事前展開を禁止する場合には0を設定します。
 Susie書庫はこのサイズで判別せず、プラグインの設定でのみ事前展開を判別します。</value>
   </data>
-  <data name="ParamSevenZipArchiverSupportFileTypes" xml:space="preserve">
+  <data name="SevenZipArchiveConfig.SupportFileTypes" xml:space="preserve">
     <value>圧縮ファイルの拡張子</value>
   </data>
-  <data name="ParamSevenZipArchiverX64DllPath" xml:space="preserve">
+  <data name="SevenZipArchiveConfig.X64DllPath" xml:space="preserve">
     <value>7z.dll(64bit)の場所</value>
   </data>
-  <data name="ParamSevenZipArchiverX64DllPathTips" xml:space="preserve">
+  <data name="SevenZipArchiveConfig.X64DllPath#Tips" xml:space="preserve">
     <value>別の7z.dllを使用したい場合に設定します。反映にはアプリを開き直す必要があります。</value>
   </data>
-  <data name="ParamSevenZipArchiverX86DllPath" xml:space="preserve">
+  <data name="SevenZipArchiveConfig.X86DllPath" xml:space="preserve">
     <value>7z.dll(32bit)の場所</value>
   </data>
-  <data name="ParamSevenZipArchiverX86DllPathTips" xml:space="preserve">
+  <data name="SevenZipArchiveConfig.X86DllPath#Tips" xml:space="preserve">
     <value>別の7z.dllを使用したい場合に設定します。反映にはアプリを開き直す必要があります。</value>
   </data>
-  <data name="ParamSidePanelHitTestMargin" xml:space="preserve">
+  <data name="AutoHideConfig.AutoHideHitTestMargin" xml:space="preserve">
     <value>パネル自動表示判定のエリア幅</value>
   </data>
-  <data name="ParamSidePanelIsLeftRightKeyEnabled" xml:space="preserve">
+  <data name="PanelsConfig.IsLeftRightKeyEnabled" xml:space="preserve">
     <value>サイドパネルでの左右キー有効</value>
   </data>
-  <data name="ParamSidePanelIsLeftRightKeyEnabledTips" xml:space="preserve">
+  <data name="PanelsConfig.IsLeftRightKeyEnabled#Tips" xml:space="preserve">
     <value>サイドパネルでの左右キー操作を有効にします。本棚ではフォルダーの階層移動を行います。</value>
   </data>
-  <data name="ParamSidePanelIsManipulationBoundaryFeedbackEnabled" xml:space="preserve">
+  <data name="PanelsConfig.IsManipulationBoundaryFeedbackEnabled" xml:space="preserve">
     <value>サイドパネルタッチスクロールの終端バウンド</value>
   </data>
-  <data name="ParamSidePanelOpacity" xml:space="preserve">
+  <data name="PanelsConfig.Opacity" xml:space="preserve">
     <value>パネル不透明度</value>
   </data>
-  <data name="ParamSidePanelOpacityTips" xml:space="preserve">
+  <data name="PanelsConfig.Opacity#Tips" xml:space="preserve">
     <value>自動非表示の場合に有効です。</value>
   </data>
-  <data name="ParamSidePanelOpenWithDoubleClick" xml:space="preserve">
+  <data name="PanelsConfig.OpenWithDoubleClick" xml:space="preserve">
     <value>ダブルクリックでブックを開く</value>
   </data>
-  <data name="ParamSidePanelOpenWithDoubleClickTips" xml:space="preserve">
+  <data name="PanelsConfig.OpenWithDoubleClick#Tips" xml:space="preserve">
     <value>本棚、ブックマークパネル、履歴パネルで有効です。</value>
   </data>
-  <data name="ParamSliderDirection" xml:space="preserve">
+  <data name="SliderConfig.SliderDirection" xml:space="preserve">
     <value>スライダーの方向</value>
   </data>
-  <data name="ParamSliderIndexLayout" xml:space="preserve">
+  <data name="SliderConfig.SliderIndexLayout" xml:space="preserve">
     <value>ページ数表示位置</value>
   </data>
-  <data name="ParamSliderIsAutoHide" xml:space="preserve">
+  <data name="SliderConfig.IsHidePageSlider" xml:space="preserve">
     <value>スライダーを自動的に隠す</value>
   </data>
-  <data name="ParamSliderIsLinkedThumbnailList" xml:space="preserve">
+  <data name="SliderConfig.IsSliderLinkedFilmStrip" xml:space="preserve">
     <value>スライダーでのリアルタイム変化はフィルムストリップにのみ適用</value>
   </data>
-  <data name="ParamSliderIsLinkedThumbnailListTips" xml:space="preserve">
+  <data name="SliderConfig.IsSliderLinkedFilmStrip#Tips" xml:space="preserve">
     <value>決定した時にページを切り替えます。</value>
   </data>
-  <data name="ParamSliderIsSyncPageMode" xml:space="preserve">
+  <data name="SliderConfig.IsSyncPageMode" xml:space="preserve">
     <value>変更量を表示ページ数に同期</value>
   </data>
-  <data name="ParamSliderOpacity" xml:space="preserve">
+  <data name="SliderConfig.Opacity" xml:space="preserve">
     <value>スライダー不透明度</value>
   </data>
-  <data name="ParamSliderOpacityTips" xml:space="preserve">
+  <data name="SliderConfig.Opacity#Tips" xml:space="preserve">
     <value>自動非表示の場合に有効です。</value>
   </data>
-  <data name="ParamSlideShowInterval" xml:space="preserve">
+  <data name="SlideShowConfig.SlideShowInterval" xml:space="preserve">
     <value>スライドを切り替える時間(秒)</value>
   </data>
-  <data name="ParamSusieIsEnabled" xml:space="preserve">
+  <data name="SusieConfig.IsEnabled" xml:space="preserve">
     <value>Susieプラグインを使用する</value>
   </data>
-  <data name="ParamSusieIsFirstOrderSusieArchive" xml:space="preserve">
+  <data name="SusieConfig.IsFirstOrderSusieArchive" xml:space="preserve">
     <value>圧縮ファイル展開でSusieプラグインを優先する</value>
   </data>
-  <data name="ParamSusieIsFirstOrderSusieImage" xml:space="preserve">
+  <data name="SusieConfig.IsFirstOrderSusieImage" xml:space="preserve">
     <value>画像表示でSusieプラグインを優先する</value>
   </data>
   <data name="ParamSusieIsPluginCacheEnabled" xml:space="preserve">
@@ -5190,115 +5220,115 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   <data name="ParamSusiePluginIsPreExtract" xml:space="preserve">
     <value>書庫を事前展開する</value>
   </data>
-  <data name="ParamSusiePluginPath" xml:space="preserve">
+  <data name="SusieConfig.SusiePluginPath" xml:space="preserve">
     <value>プラグインフォルダー</value>
   </data>
-  <data name="ParamTemporaryDirectory" xml:space="preserve">
+  <data name="SystemConfig.TemporaryDirectory" xml:space="preserve">
     <value>一時フォルダーの場所</value>
   </data>
-  <data name="ParamTemporaryDirectoryTips" xml:space="preserve">
+  <data name="SystemConfig.TemporaryDirectory#Tips" xml:space="preserve">
     <value>多重圧縮ファイルの展開や事前展開に使用されます。</value>
   </data>
-  <data name="ParamThumbnailBookCapacity" xml:space="preserve">
+  <data name="ThumbnailConfig.ThumbnailBookCapacity" xml:space="preserve">
     <value>ブックサムネイル容量</value>
   </data>
-  <data name="ParamThumbnailBookCapacityTips" xml:space="preserve">
+  <data name="ThumbnailConfig.ThumbnailBookCapacity#Tips" xml:space="preserve">
     <value>メモリに保持されるブックサムネイル数です。</value>
   </data>
-  <data name="ParamThumbnailCacheFilePath" xml:space="preserve">
+  <data name="ThumbnailConfig.ThumbnailCacheFilePath" xml:space="preserve">
     <value>サムネイルキャッシュの保存場所</value>
   </data>
-  <data name="ParamThumbnailCacheLimitSpan" xml:space="preserve">
+  <data name="ThumbnailConfig.CacheLimitSpan" xml:space="preserve">
     <value>サムネイルキャッシュの保存期間</value>
   </data>
-  <data name="ParamThumbnailFormat" xml:space="preserve">
+  <data name="ThumbnailConfig.Format" xml:space="preserve">
     <value>サムネイル画像フォーマット</value>
   </data>
-  <data name="ParamThumbnailFormatTips" xml:space="preserve">
+  <data name="ThumbnailConfig.Format#Tips" xml:space="preserve">
     <value>PNGは高品質ですが、JPEGよりもデータサイズが大きくなります。</value>
   </data>
-  <data name="ParamThumbnailIsCacheEnabled" xml:space="preserve">
+  <data name="ThumbnailConfig.IsCacheEnabled" xml:space="preserve">
     <value>サムネイルキャッシュを使用する</value>
   </data>
-  <data name="ParamThumbnailIsCacheEnabledTips" xml:space="preserve">
+  <data name="ThumbnailConfig.IsCacheEnabled#Tips" xml:space="preserve">
     <value>ブックサムネイルをキャッシュします。</value>
   </data>
-  <data name="ParamThumbnailPageCapacity" xml:space="preserve">
+  <data name="ThumbnailConfig.ThumbnailPageCapacity" xml:space="preserve">
     <value>ページサムネイル容量</value>
   </data>
-  <data name="ParamThumbnailPageCapacityTips" xml:space="preserve">
+  <data name="ThumbnailConfig.ThumbnailPageCapacity#Tips" xml:space="preserve">
     <value>メモリに保持されるページサムネイル数です。ブックを閉じると全て破棄されます。</value>
   </data>
-  <data name="ParamThumbnailQuality" xml:space="preserve">
+  <data name="ThumbnailConfig.Quality" xml:space="preserve">
     <value>サムネイル品質</value>
   </data>
-  <data name="ParamThumbnailQualityTips" xml:space="preserve">
+  <data name="ThumbnailConfig.Quality#Tips" xml:space="preserve">
     <value>サムネイル画像フォーマットがJPEGの場合の品質です。</value>
   </data>
-  <data name="ParamThumbnailResolution" xml:space="preserve">
+  <data name="ThumbnailConfig.Resolution" xml:space="preserve">
     <value>サムネイル画像解像度</value>
   </data>
-  <data name="ParamThumbnailResolutionTips" xml:space="preserve">
+  <data name="ThumbnailConfig.Resolution#Tips" xml:space="preserve">
     <value>値が大きいほど高解像度になりますがデータサイズも大きくなります。</value>
   </data>
-  <data name="ParamTouchDragAction" xml:space="preserve">
+  <data name="TouchConfig.DragAction" xml:space="preserve">
     <value>シングルタッチのドラッグ操作</value>
   </data>
-  <data name="ParamTouchGestureMinimumDistance" xml:space="preserve">
+  <data name="TouchConfig.GestureMinimumDistance" xml:space="preserve">
     <value>タッチドラッグ判定の最小移動距離</value>
   </data>
-  <data name="ParamTouchGestureMinimumDistanceTips" xml:space="preserve">
+  <data name="TouchConfig.GestureMinimumDistance#Tips" xml:space="preserve">
     <value>この距離を移動して初めてドラッグ開始と判定されます。</value>
   </data>
-  <data name="ParamTouchHoldAction" xml:space="preserve">
+  <data name="TouchConfig.HoldAction" xml:space="preserve">
     <value>長押しタッチのドラッグ操作</value>
   </data>
-  <data name="ParamTouchIsAngleEnabled" xml:space="preserve">
+  <data name="TouchConfig.IsAngleEnabled" xml:space="preserve">
     <value>マルチタッチでの回転操作を有効にする</value>
   </data>
   <data name="ParamTouchIsEnabled" xml:space="preserve">
     <value>タッチ操作を有効にする</value>
   </data>
-  <data name="ParamTouchIsEnabledTips" xml:space="preserve">
+  <data name="TouchConfig.IsEnabled" xml:space="preserve">
     <value>オフにすると標準のマウス操作として機能します。</value>
   </data>
-  <data name="ParamTouchIsScaleEnabled" xml:space="preserve">
+  <data name="TouchConfig.IsScaleEnabled" xml:space="preserve">
     <value>ピンチイン・ピンチアウトでのサイズ変更操作操作を有効にする</value>
   </data>
-  <data name="ParamTouchMinimumManipulationDistance" xml:space="preserve">
+  <data name="TouchConfig.MinimumManipulationDistance" xml:space="preserve">
     <value>タッチ操作ピンチ最小変化距離</value>
   </data>
-  <data name="ParamTouchMinimumManipulationDistanceTips" xml:space="preserve">
+  <data name="TouchConfig.MinimumManipulationDistance#Tips" xml:space="preserve">
     <value>タッチ操作での回転、拡大縮小が有効になる最小操作距離です。</value>
   </data>
-  <data name="ParamTouchMinimumManipulationRadius" xml:space="preserve">
+  <data name="TouchConfig.MinimumManipulationRadius" xml:space="preserve">
     <value>タッチ操作ピンチ最小判定距離</value>
   </data>
-  <data name="ParamTouchMinimumManipulationRadiusTips" xml:space="preserve">
+  <data name="TouchConfig.MinimumManipulationRadius#Tips" xml:space="preserve">
     <value>タッチ操作での回転、拡大縮小と判定される最小の２タッチ間の距離です。</value>
   </data>
-  <data name="ParamViewAllowStretchScaleDown" xml:space="preserve">
+  <data name="ViewConfig.AllowStretchScaleDown" xml:space="preserve">
     <value>ストレッチで縮小を許可</value>
   </data>
-  <data name="ParamViewAllowStretchScaleUp" xml:space="preserve">
+  <data name="ViewConfig.AllowStretchScaleUp" xml:space="preserve">
     <value>ストレッチで拡大を許可</value>
   </data>
-  <data name="ParamViewBaseScale" xml:space="preserve">
+  <data name="ViewConfig.BaseScale" xml:space="preserve">
     <value>基底スケール</value>
   </data>
-  <data name="ParamViewBaseScaleTips" xml:space="preserve">
+  <data name="ViewConfig.BaseScale#Tips" xml:space="preserve">
     <value>ストレッチ適用後このスケール値を適用します。</value>
   </data>
-  <data name="ParamViewIsBaseScaleEnabled" xml:space="preserve">
+  <data name="ViewConfig.IsBaseScaleEnabled" xml:space="preserve">
     <value>基底スケール有効</value>
   </data>
-  <data name="ParamViewIsBaseScaleEnabledTips" xml:space="preserve">
+  <data name="ViewConfig.IsBaseScaleEnabled#Tips" xml:space="preserve">
     <value>基底スケールを有効にします。</value>
   </data>
-  <data name="ParamViewIsRotateStretchEnabled" xml:space="preserve">
+  <data name="ViewConfig.IsRotateStretchEnabled" xml:space="preserve">
     <value>ナビゲーターの回転ボタンにストレッチを適用する</value>
   </data>
-  <data name="ParamViewStretchMode" xml:space="preserve">
+  <data name="ViewConfig.StretchMode" xml:space="preserve">
     <value>ストレッチモード</value>
   </data>
   <data name="ParamWindowChromeFrame" xml:space="preserve">
@@ -5346,7 +5376,7 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   <data name="ParamZipArchiverSupportFileTypesTips" xml:space="preserve">
     <value>ZIP形式のみ対応しています。</value>
   </data>
-  <data name="ParmViewAutoRotate" xml:space="preserve">
+  <data name="ViewConfig.AutoRotate" xml:space="preserve">
     <value>自動回転</value>
   </data>
   <data name="ParmViewForceAutoRotate" xml:space="preserve">
@@ -5913,6 +5943,15 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>・ブックマークリストはフォルダーリストと統合され、本棚になりました。
 ・ページマークリストのフォルダーは自動作成されるようになりました。</value>
   </data>
+  <data name="VerticalAlignment_Bottom" xml:space="preserve">
+    <value>下詰め</value>
+  </data>
+  <data name="VerticalAlignment_Center" xml:space="preserve">
+    <value>中央</value>
+  </data>
+  <data name="VerticalAlignment_Top" xml:space="preserve">
+    <value>上詰め</value>
+  </data>
   <data name="ViewPageAccessor" xml:space="preserve">
     <value>ビューページアクセサ。表示しているページ情報にアクセスします。</value>
   </data>
@@ -6282,5 +6321,116 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="WordYes" xml:space="preserve">
     <value>はい</value>
+  </data>
+  <data name="BloomEffectUnit.BaseIntensity" xml:space="preserve">
+    <value>Base intensity</value>
+  </data>
+  <data name="BloomEffectUnit.BaseSaturation" xml:space="preserve">
+    <value>Base saturation</value>
+  </data>
+  <data name="BloomEffectUnit.BloomIntensity" xml:space="preserve">
+    <value>Bloom intensity</value>
+  </data>
+  <data name="BloomEffectUnit.BloomSaturation" xml:space="preserve">
+    <value>Bloom saturation</value>
+  </data>
+  <data name="BloomEffectUnit.Threshold" xml:space="preserve">
+    <value>Threshold</value>
+  </data>
+  <data name="BlurEffectUnit.Radius" xml:space="preserve">
+    <value>Radius</value>
+  </data>
+  <data name="ColorToneEffectUnit.DarkColor" xml:space="preserve">
+    <value>Dark color</value>
+  </data>
+  <data name="ColorToneEffectUnit.Desaturation" xml:space="preserve">
+    <value>Desaturation</value>
+  </data>
+  <data name="ColorToneEffectUnit.LightColor" xml:space="preserve">
+    <value>Light color</value>
+  </data>
+  <data name="ColorToneEffectUnit.ToneAmount" xml:space="preserve">
+    <value>Tone amount</value>
+  </data>
+  <data name="EmbossedEffectUnit.Amount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="EmbossedEffectUnit.Color" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="EmbossedEffectUnit.Height" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="LevelEffectUnit.Center" xml:space="preserve">
+    <value>Center</value>
+  </data>
+  <data name="MagnifyEffectUnit.Amount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="MagnifyEffectUnit.Center" xml:space="preserve">
+    <value>Center</value>
+  </data>
+  <data name="MagnifyEffectUnit.InnerRadius" xml:space="preserve">
+    <value>Inner radius</value>
+  </data>
+  <data name="MagnifyEffectUnit.OuterRadius" xml:space="preserve">
+    <value>Outer radius</value>
+  </data>
+  <data name="MonochromeEffectUnit.Color" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="PixelateEffectUnit.Pixelation" xml:space="preserve">
+    <value>Pixelation</value>
+  </data>
+  <data name="RippleEffectUnit.Center" xml:space="preserve">
+    <value>Center</value>
+  </data>
+  <data name="RippleEffectUnit.Frequency" xml:space="preserve">
+    <value>Frequency</value>
+  </data>
+  <data name="RippleEffectUnit.Magnitude" xml:space="preserve">
+    <value>Magnitude</value>
+  </data>
+  <data name="RippleEffectUnit.Phase" xml:space="preserve">
+    <value>Phase</value>
+  </data>
+  <data name="SharpenEffectUnit.Amount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="SharpenEffectUnit.Height" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="SwirlEffectUnit.Center" xml:space="preserve">
+    <value>Center</value>
+  </data>
+  <data name="SwirlEffectUnit.TwistAmount" xml:space="preserve">
+    <value>Twist amount</value>
+  </data>
+  <data name="LevelEffectUnit.Black" xml:space="preserve">
+    <value>Black</value>
+  </data>
+  <data name="LevelEffectUnit.White" xml:space="preserve">
+    <value>White</value>
+  </data>
+  <data name="LevelEffectUnit.Minimum" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="LevelEffectUnit.Maximum" xml:space="preserve">
+    <value>Max</value>
+  </data>
+  <data name="ControlConfig.IsVisible" xml:space="preserve">
+    <value>パネル表示状態</value>
+  </data>
+  <data name="ControlConfig.IsSelected" xml:space="preserve">
+    <value>パネル選択状態</value>
+  </data>
+  <data name="MenuBarConfig.IsVisible" xml:space="preserve">
+    <value>メニュー表示状態</value>
+  </data>
+  <data name="SliderConfig.IsVisible" xml:space="preserve">
+    <value>スライダー表示状態</value>
+  </data>
+  <data name="SystemConfig.ExternalAppCollection" xml:space="preserve">
+    <value>外部アプリリスト</value>
   </data>
 </root>

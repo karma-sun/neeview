@@ -14,49 +14,49 @@ namespace NeeView
         private bool _isRepeat;
 
 
-        [PropertyMember("@ParamArchiverMediaIsEnabled")]
+        [PropertyMember]
         public bool IsEnabled
         {
             get { return _isEnabled; }
             set { SetProperty(ref _isEnabled, value); }
         }
 
-        [PropertyMember("@ParamArchiverMediaSupportFileTypes", Tips = "@ParamArchiverMediaSupportFileTypesTips")]
+        [PropertyMember]
         public FileTypeCollection SupportFileTypes
         {
             get { return _supportFileTypes; }
             set { SetProperty(ref _supportFileTypes, value); }
         }
 
-        [PropertyMember("@ParamPageSeconds")]
+        [PropertyMember]
         public double PageSeconds
         {
             get { return _pageSeconds; }
             set { SetProperty(ref _pageSeconds, value); }
         }
 
-        [PropertyMember("@ParamMediaStartDelaySeconds", Tips = "@ParamMediaStartDelaySecondsTips")]
+        [PropertyMember]
         public double MediaStartDelaySeconds
         {
             get { return _mediaStartDelaySeconds; }
             set { SetProperty(ref _mediaStartDelaySeconds, value); }
         }
 
-        [PropertyMember("@ParamMediaIsMuted")]
+        [PropertyMember]
         public bool IsMuted
         {
             get { return _isMuted; }
             set { SetProperty(ref _isMuted, value); }
         }
 
-        [PropertyMember("@ParamMediaVolume")]
+        [PropertyMember]
         public double Volume
         {
             get { return _volume; }
             set { SetProperty(ref _volume, value); }
         }
 
-        [PropertyMember("@ParamMediaIsRepeat")]
+        [PropertyMember]
         public bool IsRepeat
         {
             get { return _isRepeat; }

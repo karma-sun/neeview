@@ -11,21 +11,21 @@ namespace NeeView
         private bool _isHideTitleBar;
 
 
-        [PropertyMember("@ParamMainViewIsFloating")]
+        [PropertyMember]
         public bool IsFloating
         {
             get { return _isFloating; }
             set { SetProperty(ref _isFloating, value); }
         }
 
-        [PropertyMember("@ParamMainViewIsTopmost")]
+        [PropertyMember]
         public bool IsTopmost
         {
             get { return _isTopmost; }
             set { SetProperty(ref _isTopmost, value); }
         }
 
-        [PropertyMember("@ParamMainViewIsHideTitleBar")]
+        [PropertyMember]
         public bool IsHideTitleBar
         {
             get { return _isHideTitleBar; }

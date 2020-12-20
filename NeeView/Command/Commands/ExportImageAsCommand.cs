@@ -41,7 +41,7 @@ namespace NeeView
         private int _qualityLevel = 80;
 
         [DataMember]
-        [PropertyPath("@ParamCommandParameterExportDefaultFolder", Tips = "@ParamCommandParameterExportDefaultFolderTips", FileDialogType = FileDialogType.Directory)]
+        [PropertyPath(FileDialogType = FileDialogType.Directory)]
         public string ExportFolder
         {
             get => _exportFolder;
@@ -49,7 +49,7 @@ namespace NeeView
         }
 
         [DataMember]
-        [PropertyRange("@ParamCommandParameterExportImageQualityLevel", 5, 100, TickFrequency = 5, Tips = "@ParamCommandParameterExportImageQualityLevelTips")]
+        [PropertyRange(5, 100, TickFrequency = 5)]
         public int QualityLevel
         {
             get => _qualityLevel;

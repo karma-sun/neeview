@@ -12,14 +12,14 @@ namespace NeeView
         private bool _isPageBackgroundChecker;
 
 
-        [PropertyMember("@ParamBackgroundType")]
+        [PropertyMember]
         public BackgroundType BackgroundType
         {
             get { return _backgroundType; }
             set { SetProperty(ref _backgroundType, value); }
         }
 
-        [PropertyMember("@ParamCustomBackground", Tips = "@ParamCustomBackgroundTips")]
+        [PropertyMember]
         [PropertyMapLabel("@WordCustomBackground")]
         public BrushSource CustomBackground
         {
@@ -28,7 +28,7 @@ namespace NeeView
         }
 
         // ページの背景色。透過画像用
-        [PropertyMember("@ParamPageBackgroundColor")]
+        [PropertyMember]
         public Color PageBackgroundColor
         {
             get { return _pageBackgroundColor; }
@@ -36,7 +36,7 @@ namespace NeeView
         }
 
         // ページ背景は格子模様
-        [PropertyMember("@ParamIsPageBackgroundChecker", Tips = "@ParamIsPageBackgroundCheckerTips")]
+        [PropertyMember]
         public bool IsPageBackgroundChecker
         {
             get { return _isPageBackgroundChecker; }

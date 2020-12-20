@@ -29,7 +29,7 @@ namespace NeeView
         /// <summary>
         /// ホームのパス
         /// </summary>
-        [PropertyPath("@ParamBookshelfHome", FileDialogType = FileDialogType.Directory)]
+        [PropertyPath(FileDialogType = FileDialogType.Directory)]
         public string Home
         {
             get { return _home; }
@@ -39,7 +39,7 @@ namespace NeeView
         /// <summary>
         /// コレクションアイテム数の表示
         /// </summary>
-        [PropertyMember("@ParamBookshelfIsVisibleItemsCount")]
+        [PropertyMember]
         public bool IsVisibleItemsCount
         {
             get { return _IsVisibleItemsCount; }
@@ -49,7 +49,7 @@ namespace NeeView
         /// <summary>
         /// 項目に履歴記号を表示する
         /// </summary>
-        [PropertyMember("@ParamBookshelfIsVisibleHistoryMark", Tips = "@ParamBookshelfIsVisibleHistoryMarkTips")]
+        [PropertyMember]
         public bool IsVisibleHistoryMark
         {
             get { return _isVisibleHistoryMark; }
@@ -59,7 +59,7 @@ namespace NeeView
         /// <summary>
         /// 項目にブックマーク記号を表示する
         /// </summary>
-        [PropertyMember("@ParamBookshelfIsVisibleBookmarkMark", Tips = "@ParamBookshelfIsVisibleBookmarkMarkTips")]
+        [PropertyMember]
         public bool IsVisibleBookmarkMark
         {
             get { return _isVisibleBookmarkMark; }
@@ -69,7 +69,7 @@ namespace NeeView
         /// <summary>
         /// フォルダーツリーと連動する
         /// </summary>
-        [PropertyMember("@ParamBookshelfIsSyncFolderTree")]
+        [PropertyMember]
         public bool IsSyncFolderTree
         {
             get { return _isSyncFolderTree; }
@@ -79,7 +79,7 @@ namespace NeeView
         /// <summary>
         /// 項目移動したら閲覧中のブックを閉じる
         /// </summary>
-        [PropertyMember("@ParamBookshelfIsCloseBookWhenMove")]
+        [PropertyMember]
         public bool IsCloseBookWhenMove
         {
             get { return _isCloseBookWhenMove; }
@@ -89,7 +89,7 @@ namespace NeeView
         /// <summary>
         /// 閲覧中のブックを削除したら項目移動
         /// </summary>
-        [PropertyMember("@ParamBookshelfIsOpenNextBookWhenRemove")]
+        [PropertyMember]
         public bool IsOpenNextBookWhenRemove
         {
             get { return _isOpenNextBookWhenRemove; }
@@ -100,7 +100,7 @@ namespace NeeView
         /// 追加されたファイルを挿入する？
         /// OFFにするとリスト末尾に追加する
         /// </summary>
-        [PropertyMember("@ParamBookshelfIsInsertItem", Tips = "@ParamBookshelfIsInsertItemTips")]
+        [PropertyMember]
         public bool IsInsertItem
         {
             get { return _isInsertItem; }
@@ -110,7 +110,7 @@ namespace NeeView
         /// <summary>
         /// 分割RARファイルの場合、先頭のファイルのみを表示
         /// </summary>
-        [PropertyMember("@ParamBookshelfIsMultipleRarFilterEnabled", Tips = "@ParamBookshelfIsMultipleRarFilterEnabledTips")]
+        [PropertyMember]
         public bool IsMultipleRarFilterEnabled
         {
             get { return _isMultipleRarFilterEnabled; }
@@ -120,7 +120,7 @@ namespace NeeView
         /// <summary>
         /// サブフォルダーを含めた巡回移動
         /// </summary>
-        [PropertyMember("@ParamBookshelfIsCruise", Tips = "@ParamBookshelfIsCruiseTips")]
+        [PropertyMember]
         public bool IsCruise
         {
             get { return _isCruise; }
@@ -130,7 +130,7 @@ namespace NeeView
         /// <summary>
         /// 項目除外パターン
         /// </summary>
-        [PropertyMember("@ParamBookshelfExcludePattern", Tips = "@ParamBookshelfExcludePatternTips")]
+        [PropertyMember]
         public string ExcludePattern
         {
             get { return _excludePattern; }
@@ -140,7 +140,7 @@ namespace NeeView
         /// <summary>
         /// インクリメンタルサーチ有効
         /// </summary>
-        [PropertyMember("@ParamIsIncrementalSearchEnabled")]
+        [PropertyMember]
         public bool IsIncrementalSearchEnabled
         {
             get { return _isIncrementalSearchEnabled; }
@@ -150,7 +150,7 @@ namespace NeeView
         /// <summary>
         /// サブフォルダーを含めた検索を行う
         /// </summary>
-        [PropertyMember("@ParamIsSearchIncludeSubdirectories")]
+        [PropertyMember]
         public bool IsSearchIncludeSubdirectories
         {
             get { return _isSearchIncludeSubdirectories; }
@@ -160,7 +160,7 @@ namespace NeeView
         /// <summary>
         /// 既定の並び順
         /// </summary>
-        [PropertyMember("@ParamDefaultFolderOrder")]
+        [PropertyMember]
         public FolderOrder DefaultFolderOrder
         {
             get { return _defaultFolderOrder; }
@@ -170,7 +170,7 @@ namespace NeeView
         /// <summary>
         /// プレイリストの既定の並び順
         /// </summary>
-        [PropertyMember("@ParamPlaylistFolderOrder")]
+        [PropertyMember]
         public FolderOrder PlaylistFolderOrder
         {
             get { return _playlistFolderOrder; }
@@ -180,7 +180,7 @@ namespace NeeView
         /// <summary>
         /// ファイルタイプを考慮しない並び替え
         /// </summary>
-        [PropertyMember("@ParamIsOrderWithoutFileType")]
+        [PropertyMember]
         public bool IsOrderWithoutFileType
         {
             get { return _isOrderWithoutFileType; }

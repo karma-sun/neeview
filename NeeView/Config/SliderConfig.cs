@@ -19,7 +19,7 @@ namespace NeeView
 
         [JsonIgnore]
         [PropertyMapReadOnly]
-        [PropertyMember("@WordIsPanelVisible")]
+        [PropertyMember]
         public bool IsVisible
         {
             get { return _isVisible; }
@@ -27,7 +27,7 @@ namespace NeeView
         }
 
         // スライダーを自動的に隠す
-        [PropertyMember("@ParamSliderIsAutoHide")]
+        [PropertyMember]
         public bool IsHidePageSlider
         {
             get { return _isIsHidePageSlider; }
@@ -37,7 +37,7 @@ namespace NeeView
         /// <summary>
         /// スライダーを自動的に隠す(自動非表示モード)
         /// </summary>
-        [PropertyMember("@SliderConfig.IsHidePageSliderInAutoHideMode")]
+        [PropertyMember]
         public bool IsHidePageSliderInAutoHideMode
         {
             get { return _isHidePageSliderInAutoHideMode; }
@@ -45,7 +45,7 @@ namespace NeeView
         }
 
         // スライダー透明度
-        [PropertyPercent("@ParamSliderOpacity", Tips = "@ParamSliderOpacityTips")]
+        [PropertyPercent]
         public double Opacity
         {
             get { return _sliderOpacity; }
@@ -55,7 +55,7 @@ namespace NeeView
         /// <summary>
         /// ページ数表示位置
         /// </summary>
-        [PropertyMember("@ParamSliderIndexLayout")]
+        [PropertyMember]
         public SliderIndexLayout SliderIndexLayout
         {
             get { return _sliderIndexLayout; }
@@ -65,7 +65,7 @@ namespace NeeView
         /// <summary>
         /// スライダーの方向定義
         /// </summary>
-        [PropertyMember("@ParamSliderDirection")]
+        [PropertyMember]
         public SliderDirection SliderDirection
         {
             get { return _sliderDirection; }
@@ -76,7 +76,7 @@ namespace NeeView
         /// フィルムストリップとスライダーの連動
         /// フィルムストリップ表示時に限りフィルムストリップのみに連動し表示は変化しない(マウスを離したときに決定)
         /// </summary>
-        [PropertyMember("@ParamSliderIsLinkedThumbnailList", Tips = "@ParamSliderIsLinkedThumbnailListTips")]
+        [PropertyMember]
         public bool IsSliderLinkedFilmStrip
         {
             get { return _isSliderLinkedFilmStrip; }
@@ -86,7 +86,7 @@ namespace NeeView
         /// <summary>
         /// スライダーの移動量をページモードに従う
         /// </summary>
-        [PropertyMember("@ParamSliderIsSyncPageMode")]
+        [PropertyMember]
         public bool IsSyncPageMode
         {
             get { return _isSyncPageMode; }

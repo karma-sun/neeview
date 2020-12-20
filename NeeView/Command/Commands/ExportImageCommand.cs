@@ -41,7 +41,7 @@ namespace NeeView
         private int _qualityLevel = 80;
 
         [DataMember]
-        [PropertyMember("@ParamCommandParameterExportMode")]
+        [PropertyMember]
         public ExportImageMode Mode
         {
             get => _mode;
@@ -49,7 +49,7 @@ namespace NeeView
         }
 
         [DataMember]
-        [PropertyMember("@ParamCommandParameterExportHasBackground")]
+        [PropertyMember]
         public bool HasBackground
         {
             get => _hasBackground;
@@ -57,7 +57,7 @@ namespace NeeView
         }
 
         [DataMember]
-        [PropertyPath("@ParamCommandParameterExportFolder", FileDialogType = FileDialogType.Directory)]
+        [PropertyPath(FileDialogType = FileDialogType.Directory)]
         public string ExportFolder
         {
             get => _exportFolder;
@@ -65,7 +65,7 @@ namespace NeeView
         }
 
         [DataMember]
-        [PropertyMember("@ParamCommandParameterExportFileNameMode")]
+        [PropertyMember]
         public ExportImageFileNameMode FileNameMode
         {
             get => _fileNameMode;
@@ -73,7 +73,7 @@ namespace NeeView
         }
 
         [DataMember]
-        [PropertyMember("@ParamCommandParameterExportFileFormat", Tips = "@ParamCommandParameterExportFileFormat")]
+        [PropertyMember]
         public ExportImageFormat FileFormat
         {
             get => _fileFormat;
@@ -81,7 +81,7 @@ namespace NeeView
         }
 
         [DataMember]
-        [PropertyRange("@ParamCommandParameterExportImageQualityLevel", 5, 100, TickFrequency = 5, Tips = "@ParamCommandParameterExportImageQualityLevelTips")]
+        [PropertyRange(5, 100, TickFrequency = 5)]
         public int QualityLevel
         {
             get => _qualityLevel;

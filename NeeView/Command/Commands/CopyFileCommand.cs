@@ -42,7 +42,7 @@ namespace NeeView
 
         // 複数ページのときの動作
         [DataMember]
-        [PropertyMember("@ParamClipboardMultiPageOption")]
+        [PropertyMember]
         public MultiPagePolicy MultiPagePolicy
         {
             get { return _multiPagePolicy; }
@@ -51,7 +51,7 @@ namespace NeeView
 
         // 圧縮ファイルのときの動作
         [DataMember]
-        [PropertyMember("@ParamClipboardArchiveOption")]
+        [PropertyMember]
         public ArchivePolicy ArchivePolicy
         {
             get { return _archivePolicy; }

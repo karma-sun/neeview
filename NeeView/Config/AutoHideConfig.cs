@@ -12,7 +12,7 @@ namespace NeeView
         private double _autoHideHitTestMargin = 32.0;
 
         // パネルやメニューが自動的に消えるまでの時間(秒)
-        [PropertyMember("@ParamAutoHideDelayTime")]
+        [PropertyMember]
         public double AutoHideDelayTime
         {
             get { return _autoHideDelayTime; }
@@ -20,7 +20,7 @@ namespace NeeView
         }
 
         // パネルやメニューが自動的に消えるまでの時間(秒)
-        [PropertyMember("@ParamAutoHideDelayVisibleTime")]
+        [PropertyMember]
         public double AutoHideDelayVisibleTime
         {
             get { return _autoHideDelayVisibleTime; }
@@ -28,7 +28,7 @@ namespace NeeView
         }
 
         // パネル自動非表示のフォーカス挙動モード
-        [PropertyMember("@AutoHideFocusLockMode", Tips = "@AutoHideFocusLockModeTips")]
+        [PropertyMember]
         public AutoHideFocusLockMode AutoHideFocusLockMode
         {
             get { return _autoHideFocusLockMode; }
@@ -36,7 +36,7 @@ namespace NeeView
         }
 
         // パネル自動非表示のキー入力遅延
-        [PropertyMember("@IsAutoHideKeyDownDelay", Tips = "@IsAutoHideKeyDownDelayTips")]
+        [PropertyMember]
         public bool IsAutoHideKeyDownDelay
         {
             get { return _isAutoHideKeyDownDelay; }
@@ -44,7 +44,7 @@ namespace NeeView
         }
 
         // パネル自動非表示の表示判定マージン
-        [PropertyMember("@ParamSidePanelHitTestMargin")]
+        [PropertyMember]
         public double AutoHideHitTestMargin
         {
             get { return _autoHideHitTestMargin; }

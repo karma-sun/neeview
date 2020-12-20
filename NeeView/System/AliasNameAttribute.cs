@@ -43,7 +43,7 @@ namespace NeeView
         private static string GetAliasName<T>(T value, AliasNameAttribute attribute)
         {
             var resourceKey = (attribute != null) ? attribute.AliasName ?? GetResourceKey(value) : null;
-            var resourceString = ResourceService.GetString(resourceKey);
+            var resourceString = ResourceService.GetResourceString(resourceKey, true);
 
 #if DEBUG
             if (resourceKey != null && resourceString is null)
@@ -62,8 +62,8 @@ namespace NeeView
 
         private static string GetTips<T>(T value, AliasNameAttribute attribute)
         {
-            var raw = (attribute != null) ? attribute.Tips ?? GetResourceKey(value, "#Tips") : null;
-            return ResourceService.GetResourceString(raw);
+            var resourceKey = (attribute != null) ? attribute.Tips ?? GetResourceKey(value, "#Tips") : null;
+            return ResourceService.GetResourceString(resourceKey, true);
         }
 
         public static string GetTips<T>(T value)
@@ -96,10 +96,9 @@ namespace NeeView
                 .ToDictionary(e => e.Key, e => GetAliasName(e.Key, e.Attribute));
         }
 
+        #endregion
 
-#endregion
-
-#region Extension Methods
+        #region Extension Methods
 
         public static AliasNameAttribute ToAliasNameAttribute(this Enum value)
         {
@@ -137,7 +136,7 @@ namespace NeeView
                 .ToDictionary(e => e.Key, e => GetAliasName(e.Key, e.Attribute));
         }
 
-#endregion
+        #endregion
     }
 }
 

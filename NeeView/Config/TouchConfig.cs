@@ -15,7 +15,7 @@ namespace NeeView
         private double _minimumManipulationDistance = 30.0;
 
 
-        [PropertyMember("@ParamTouchIsEnabled", Tips = "@ParamTouchIsEnabledTips")]
+        [PropertyMember]
         public bool IsEnabled
         {
             get { return _isEnabled; }
@@ -23,7 +23,7 @@ namespace NeeView
         }
 
         /// ドラッグアクション
-        [PropertyMember("@ParamTouchDragAction")]
+        [PropertyMember]
         public TouchAction DragAction
         {
             get { return _dragAction; }
@@ -31,42 +31,42 @@ namespace NeeView
         }
 
         /// 長押しドラッグアクション
-        [PropertyMember("@ParamTouchHoldAction")]
+        [PropertyMember]
         public TouchAction HoldAction
         {
             get { return _holdAction; }
             set { SetProperty(ref _holdAction, value); }
         }
 
-        [PropertyMember("@ParamTouchIsAngleEnabled")]
+        [PropertyMember]
         public bool IsAngleEnabled
         {
             get { return _isAngleEnabled; }
             set { SetProperty(ref _isAngleEnabled, value); }
         }
 
-        [PropertyMember("@ParamTouchIsScaleEnabled")]
+        [PropertyMember]
         public bool IsScaleEnabled
         {
             get { return _isScaleEnabled; }
             set { SetProperty(ref _isScaleEnabled, value); }
         }
 
-        [PropertyMember("@ParamTouchGestureMinimumDistance", Tips = "@ParamTouchGestureMinimumDistanceTips")]
+        [PropertyMember]
         public double GestureMinimumDistance
         {
             get { return _gestureMinimumDistance; }
             set { SetProperty(ref _gestureMinimumDistance, value); }
         }
 
-        [PropertyMember("@ParamTouchMinimumManipulationRadius", Tips = "@ParamTouchMinimumManipulationRadiusTips")]
+        [PropertyMember]
         public double MinimumManipulationRadius
         {
             get { return _minimumManipulationRadius; }
             set { SetProperty(ref _minimumManipulationRadius, value); }
         }
 
-        [PropertyMember("@ParamTouchMinimumManipulationDistance", Tips = "@ParamTouchMinimumManipulationDistanceTips")]
+        [PropertyMember]
         public double MinimumManipulationDistance
         {
             get { return _minimumManipulationDistance; }

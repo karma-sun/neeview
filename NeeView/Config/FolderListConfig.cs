@@ -12,7 +12,7 @@ namespace NeeView
         /// <summary>
         /// リスト項目のスタイル
         /// </summary>
-        [PropertyMember("@ParamFolderListItemStyle")]
+        [PropertyMember]
         public PanelListItemStyle PanelListItemStyle
         {
             get { return _panelListItemStyle; }
@@ -22,7 +22,7 @@ namespace NeeView
         /// <summary>
         /// フォルダーツリーレイアウト(上部or左部)
         /// </summary>
-        [PropertyMember("@ParamFolderTreeLayout")]
+        [PropertyMember]
         public FolderTreeLayout FolderTreeLayout
         {
             get { return _folderTreeLayout; }
@@ -32,7 +32,7 @@ namespace NeeView
         /// <summary>
         /// フォルダーツリーの表示
         /// </summary>
-        [PropertyMember("@ParamIsFolderTreeVisible")]
+        [PropertyMember]
         public bool IsFolderTreeVisible
         {
             get { return _isFolderTreeVisible; }

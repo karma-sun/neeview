@@ -28,7 +28,7 @@ namespace NeeView
         /// <summary>
         /// パネルを自動的に隠す
         /// </summary>
-        [PropertyMember("@ParamPanelsIsAutoHide")]
+        [PropertyMember]
         public bool IsHidePanel
         {
             get { return _isHidePanel; }
@@ -38,7 +38,7 @@ namespace NeeView
         /// <summary>
         /// パネルを自動的に隠す(自動非表示モード)
         /// </summary>
-        [PropertyMember("@PanelsConfig.IsHidePanelInAutoHideMode")]
+        [PropertyMember]
         public bool IsHidePanelInAutoHideMode
         {
             get { return _isHidePanelInAutoHideMode; }
@@ -48,7 +48,7 @@ namespace NeeView
         /// <summary>
         /// サイドバー表示フラグ 
         /// </summary>
-        [PropertyMember("@ParamIsSideBarEnabled")]
+        [PropertyMember]
         public bool IsSideBarEnabled
         {
             get { return _isSideBarEnabled; }
@@ -58,7 +58,7 @@ namespace NeeView
         /// <summary>
         /// パネルの透明度
         /// </summary>
-        [PropertyPercent("@ParamSidePanelOpacity", Tips = "@ParamSidePanelOpacityTips")]
+        [PropertyPercent]
         public double Opacity
         {
             get { return _opacity; }
@@ -68,7 +68,7 @@ namespace NeeView
         /// <summary>
         /// ダブルクリックでブックを開く
         /// </summary>
-        [PropertyMember("@ParamSidePanelOpenWithDoubleClick", Tips = "@ParamSidePanelOpenWithDoubleClickTips")]
+        [PropertyMember]
         public bool OpenWithDoubleClick
         {
             get { return _openWithDoubleClick; }
@@ -78,7 +78,7 @@ namespace NeeView
         /// <summary>
         /// パネルでの左右キー操作有効
         /// </summary>
-        [PropertyMember("@ParamSidePanelIsLeftRightKeyEnabled", Tips = "@ParamSidePanelIsLeftRightKeyEnabledTips")]
+        [PropertyMember]
         public bool IsLeftRightKeyEnabled
         {
             get { return _isLeftRightKeyEnabled; }
@@ -88,7 +88,7 @@ namespace NeeView
         /// <summary>
         /// タッチパ操作でのリストバウンド効果
         /// </summary>
-        [PropertyMember("@ParamSidePanelIsManipulationBoundaryFeedbackEnabled")]
+        [PropertyMember]
         public bool IsManipulationBoundaryFeedbackEnabled
         {
             get { return _isManipulationBoundaryFeedbackEnabled; }
@@ -98,7 +98,7 @@ namespace NeeView
         /// <summary>
         /// フォント名
         /// </summary>
-        [PropertyMember("@ParamListItemFontName")]
+        [PropertyMember]
         public string FontName
         {
             get { return _fontName; }
@@ -108,7 +108,7 @@ namespace NeeView
         /// <summary>
         /// フォントサイズ
         /// </summary>
-        [PropertyRange("@ParamListItemFontSize", 8, 24, TickFrequency = 0.5, IsEditable = true)]
+        [PropertyRange(8, 24, TickFrequency = 0.5, IsEditable = true)]
         public double FontSize
         {
             get { return _fontSize; }
@@ -118,7 +118,7 @@ namespace NeeView
         /// <summary>
         /// フォルダーツリーのフォントサイズ
         /// </summary>
-        [PropertyRange("@ParamListItemFolderTreeFontSize", 8, 24, TickFrequency = 0.5, IsEditable = true)]
+        [PropertyRange(8, 24, TickFrequency = 0.5, IsEditable = true)]
         public double FolderTreeFontSize
         {
             get { return _folderTreeFontSize; }
@@ -128,7 +128,7 @@ namespace NeeView
         /// <summary>
         /// パス表示形式を "CCC (C:\AAA\BBB) にする
         /// </summary>
-        [PropertyMember("@ParamListItemContentIsDecoratePlace", Tips = "@ParamListItemContentIsDecoratePlaceTips")]
+        [PropertyMember]
         public bool IsDecoratePlace
         {
             get { return _isDecoratePlace; }
@@ -138,7 +138,7 @@ namespace NeeView
         /// <summary>
         /// サムネイルリストのマウスホイール速度倍率
         /// </summary>
-        [PropertyRange("@ParamMouseWheelSpeedRate", 0.1, 2.0, TickFrequency =0.1)]
+        [PropertyRange(0.1, 2.0, TickFrequency =0.1)]
         public double MouseWheelSpeedRate
         {
             get { return _mouseWheelSpeedRate; }

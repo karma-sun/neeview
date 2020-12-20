@@ -1299,7 +1299,7 @@ namespace NeeView
             public string Protocol { get; set; }
 
             // 複数ページのときの動作
-            [PropertyMember("@ParamExternalMultiPageOption")]
+            [PropertyMember]
             public MultiPagePolicy MultiPageOption { get; set; }
 
             // 圧縮ファイルのときの動作

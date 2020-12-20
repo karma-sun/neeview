@@ -15,7 +15,7 @@ namespace NeeView
         private double _right;
 
 
-        [PropertyMember("@ParamImageTrimIsEnabled", IsVisible = false)]
+        [PropertyMember(IsVisible = false)]
         public bool IsEnabled
         {
             get { return _isEnabled; }
@@ -23,7 +23,7 @@ namespace NeeView
         }
 
 
-        [PropertyPercent("@ParamImageTrimLeft", 0.0, _maxRate)]
+        [PropertyPercent(0.0, _maxRate)]
         public double Left
         {
             get { return _left; }
@@ -40,7 +40,7 @@ namespace NeeView
             }
         }
 
-        [PropertyPercent("@ParamImageTrimRight", 0.0, _maxRate)]
+        [PropertyPercent(0.0, _maxRate)]
         public double Right
         {
             get { return _right; }
@@ -58,7 +58,7 @@ namespace NeeView
         }
 
 
-        [PropertyPercent("@ParamImageTrimTop", 0.0, _maxRate)]
+        [PropertyPercent(0.0, _maxRate)]
         public double Top
         {
             get { return _top; }
@@ -75,7 +75,7 @@ namespace NeeView
             }
         }
 
-        [PropertyPercent("@ParamImageTrimBottom", 0.0, _maxRate)]
+        [PropertyPercent(0.0, _maxRate)]
         public double Bottom
         {
             get { return _bottom; }

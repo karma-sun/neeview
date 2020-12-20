@@ -13,14 +13,14 @@ namespace NeeView
         private PagemarkOrder _pagemarkOrder;
 
 
-        [PropertyMember("@ParamPagemarkListItemStyle")]
+        [PropertyMember]
         public PanelListItemStyle PanelListItemStyle
         {
             get { return _panelListItemStyle; }
             set { SetProperty(ref _panelListItemStyle, value); }
         }
 
-        [PropertyMember("@ParamIsSavePagemark")]
+        [PropertyMember]
         public bool IsSavePagemark
         {
             get { return _isSavePagemark; }
@@ -28,7 +28,7 @@ namespace NeeView
         }
 
         // ページマークの保存場所
-        [PropertyPath("@ParamPagemarkFilePath", FileDialogType = FileDialogType.SaveFile, Filter = "JSON|*.json")]
+        [PropertyPath(FileDialogType = FileDialogType.SaveFile, Filter = "JSON|*.json")]
         public string PagemarkFilePath
         {
             get { return _pagemarkFilePath; }
@@ -36,7 +36,7 @@ namespace NeeView
         }
 
         // ページマークの並び順
-        [PropertyMember("@ParamPagemarkOrder")]
+        [PropertyMember]
         public PagemarkOrder PagemarkOrder
         {
             get { return _pagemarkOrder; }

@@ -25,7 +25,7 @@ namespace NeeView
 
 
         // 回転の中心
-        [PropertyMember("@ParamDragTransformIsControRotatelCenter")]
+        [PropertyMember]
         public DragControlCenter RotateCenter
         {
             get { return _rotateCenter; }
@@ -33,7 +33,7 @@ namespace NeeView
         }
 
         // 拡大の中心
-        [PropertyMember("@ParamDragTransformIsControlScaleCenter")]
+        [PropertyMember]
         public DragControlCenter ScaleCenter
         {
             get { return _scaleCenter; }
@@ -41,7 +41,7 @@ namespace NeeView
         }
 
         // 反転の中心
-        [PropertyMember("@ParamDragTransformIsControlFlipCenter")]
+        [PropertyMember]
         public DragControlCenter FlipCenter
         {
             get { return _flipCenter; }
@@ -49,7 +49,7 @@ namespace NeeView
         }
 
         // 拡大率キープ
-        [PropertyMember("@ParamDragTransformIsKeepScale")]
+        [PropertyMember]
         public bool IsKeepScale
         {
             get { return _isKeepScale; }
@@ -57,7 +57,7 @@ namespace NeeView
         }
 
         // 回転キープ
-        [PropertyMember("@ParamDragTransformIsKeepAngle", Tips = "@ParamDragTransformIsKeepAngleTips")]
+        [PropertyMember]
         public bool IsKeepAngle
         {
             get { return _isKeepAngle; }
@@ -65,7 +65,7 @@ namespace NeeView
         }
 
         // 反転キープ
-        [PropertyMember("@ParamDragTransformIsKeepFlip")]
+        [PropertyMember]
         public bool IsKeepFlip
         {
             get { return _isKeepFlip; }
@@ -74,7 +74,7 @@ namespace NeeView
 
 
         // 表示開始時の基準
-        [PropertyMember("@ParamDragTransformIsViewStartPositionCenter", Tips = "@ParamDragTransformIsViewStartPositionCenterTips")]
+        [PropertyMember]
         public bool IsViewStartPositionCenter
         {
             get { return _isViewStartPositionCenter; }
@@ -82,7 +82,7 @@ namespace NeeView
         }
 
         // 回転スナップ。0で無効
-        [PropertyMember("@ParamDragTransformAngleFrequency")]
+        [PropertyMember]
         public double AngleFrequency
         {
             get { return _angleFrequency; }
@@ -90,7 +90,7 @@ namespace NeeView
         }
 
         // ウィンドウ枠内の移動に制限する
-        [PropertyMember("@ParamDragTransformIsLimitMove")]
+        [PropertyMember]
         public bool IsLimitMove
         {
             get { return _isLimitMove; }
@@ -98,7 +98,7 @@ namespace NeeView
         }
 
         // スケールモード
-        [PropertyMember("@ParamViewStretchMode")]
+        [PropertyMember]
         public PageStretchMode StretchMode
         {
             get { return _stretchMode; }
@@ -106,7 +106,7 @@ namespace NeeView
         }
 
         // スケールモード・拡大許可
-        [PropertyMember("@ParamViewAllowStretchScaleUp")]
+        [PropertyMember]
         public bool AllowStretchScaleUp
         {
             get { return _allowStretchScaleUp; }
@@ -114,7 +114,7 @@ namespace NeeView
         }
 
         // スケールモード・縮小許可
-        [PropertyMember("@ParamViewAllowStretchScaleDown")]
+        [PropertyMember]
         public bool AllowStretchScaleDown
         {
             get { return _allowStretchScaleDown; }
@@ -122,7 +122,7 @@ namespace NeeView
         }
 
         // 基底スケール有効
-        [PropertyMember("@ParamViewIsBaseScaleEnabled", Tips = "@ParamViewIsBaseScaleEnabledTips")]
+        [PropertyMember]
         public bool IsBaseScaleEnabled
         {
             get { return _isBaseScaleEnabled; }
@@ -130,7 +130,7 @@ namespace NeeView
         }
 
         // 基底スケール
-        [PropertyPercent("@ParamViewBaseScale", 0.1, 2.0, TickFrequency = 0.01, Tips = "@ParamViewBaseScaleTips")]
+        [PropertyPercent(0.1, 2.0, TickFrequency = 0.01)]
         public double BaseScale
         {
             get { return _baseScale; }
@@ -138,7 +138,7 @@ namespace NeeView
         }
 
         // 自動回転左/右
-        [PropertyMember("@ParmViewAutoRotate")]
+        [PropertyMember]
         public AutoRotateType AutoRotate
         {
             get { return _autoRotate; }
@@ -146,7 +146,7 @@ namespace NeeView
         }
 
         // ナビゲーターボタンによる回転にストレッチを適用
-        [PropertyMember("@ParamViewIsRotateStretchEnabled")]
+        [PropertyMember]
         public bool IsRotateStretchEnabled
         {
             get { return _isRotateStretchEnabled; }

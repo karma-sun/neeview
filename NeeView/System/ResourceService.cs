@@ -56,7 +56,7 @@ namespace NeeView
         /// <returns>存在しない場合はnull</returns>
         public static string GetResourceString(string key)
         {
-            if (key[0] != '@') return null;
+            if (key is null || key[0] != '@') return null;
             return Properties.Resources.ResourceManager.GetString(key.Substring(1), Properties.Resources.Culture);
         }
 

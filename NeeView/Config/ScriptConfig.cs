@@ -10,14 +10,14 @@ namespace NeeView
         private string _scriptFolder = "";
 
 
-        [PropertyMember("@ParamIsScriptFolderEnabled")]
+        [PropertyMember]
         public bool IsScriptFolderEnabled
         {
             get { return _isScriptFolderEnabled; }
             set { SetProperty(ref _isScriptFolderEnabled, value); }
         }
 
-        [PropertyPath("@ParamScriptFolder", Tips = "@ParamScriptFolderTips", FileDialogType = Windows.Controls.FileDialogType.Directory)]
+        [PropertyPath(FileDialogType = Windows.Controls.FileDialogType.Directory)]
         public string ScriptFolder
         {
             get { return _scriptFolder; }

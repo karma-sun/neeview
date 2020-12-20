@@ -15,7 +15,7 @@ namespace NeeView
         /// <summary>
         /// 指定サイズ有効
         /// </summary>
-        [PropertyMember("@ParamImageCustomSizeIsEnabled", IsVisible = false)]
+        [PropertyMember(IsVisible = false)]
         public bool IsEnabled
         {
             get { return _IsEnabled; }
@@ -25,7 +25,7 @@ namespace NeeView
         /// <summary>
         /// カスタムサイズ
         /// </summary>
-        [PropertyMember("@ParamImageCustomSize", IsVisible = false)]
+        [PropertyMember(IsVisible = false)]
         public Size Size
         {
             get { return _Size; }
@@ -42,8 +42,8 @@ namespace NeeView
         /// <summary>
         /// カスタムサイズ：横幅
         /// </summary>
-        [PropertyRange("@ParamPictureCustomWidth", 16, 4096)]
-        [JsonIgnore, PropertyMapIgnoreAttribute]
+        [PropertyRange(16, 4096)]
+        [JsonIgnore, PropertyMapIgnore]
         public int Width
         {
             get { return (int)_Size.Width; }
@@ -53,8 +53,8 @@ namespace NeeView
         /// <summary>
         /// カスタムサイズ：縦幅
         /// </summary>
-        [PropertyRange("@ParamPictureCustomHeight", 16, 4096)]
-        [JsonIgnore, PropertyMapIgnoreAttribute]
+        [PropertyRange(16, 4096)]
+        [JsonIgnore, PropertyMapIgnore]
         public int Height
         {
             get { return (int)_Size.Height; }
@@ -64,7 +64,7 @@ namespace NeeView
         /// <summary>
         /// 縦横比を固定する
         /// </summary>
-        [PropertyMember("@ParamPictureCustomLockAspect")]
+        [PropertyMember]
         public bool IsUniformed
         {
             get { return _IsUniformed; }

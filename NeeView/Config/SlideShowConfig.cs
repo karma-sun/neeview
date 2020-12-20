@@ -12,7 +12,7 @@ namespace NeeView
         /// <summary>
         /// スライドショーの表示間隔(秒)
         /// </summary>
-        [PropertyMember("@ParamSlideShowInterval")]
+        [PropertyMember]
         public double SlideShowInterval
         {
             get { return _slideShowInterval; }
@@ -22,7 +22,7 @@ namespace NeeView
         /// <summary>
         /// カーソルでスライドを止める.
         /// </summary>
-        [PropertyMember("@ParamIsCancelSlideByMouseMove", Tips = "@ParamIsCancelSlideByMouseMoveTips")]
+        [PropertyMember]
         public bool IsCancelSlideByMouseMove
         {
             get { return _isCancelSlideByMouseMove; }
@@ -32,7 +32,7 @@ namespace NeeView
         /// <summary>
         /// ループ再生フラグ
         /// </summary>
-        [PropertyMember("@ParamIsSlideShowByLoop", Tips = "@ParamIsSlideShowByLoopTips")]
+        [PropertyMember]
         public bool IsSlideShowByLoop
         {
             get { return _isSlideShowByLoop; }

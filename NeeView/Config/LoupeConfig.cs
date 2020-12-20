@@ -19,77 +19,77 @@ namespace NeeView
         private bool _isEscapeKeyEnabled = true;
 
 
-        [PropertyMember("@ParamLoupeIsLoupeCenter")]
+        [PropertyMember]
         public bool IsLoupeCenter
         {
             get { return _isLoupeCenter; }
             set { SetProperty(ref _isLoupeCenter, value); }
         }
 
-        [PropertyRange("@ParamLoupeMinimumScale", 1, 20, TickFrequency = 1.0, IsEditable = true)]
+        [PropertyRange(1, 20, TickFrequency = 1.0, IsEditable = true)]
         public double MinimumScale
         {
             get { return _minimumScale; }
             set { SetProperty(ref _minimumScale, value); }
         }
 
-        [PropertyRange("@ParamLoupeMaximumScale", 1, 20, TickFrequency = 1.0, IsEditable = true)]
+        [PropertyRange(1, 20, TickFrequency = 1.0, IsEditable = true)]
         public double MaximumScale
         {
             get { return _maximumScale; }
             set { SetProperty(ref _maximumScale, value); }
         }
 
-        [PropertyRange("@ParamLoupeDefaultScale", 1, 20, TickFrequency = 1.0, IsEditable = true)]
+        [PropertyRange(1, 20, TickFrequency = 1.0, IsEditable = true)]
         public double DefaultScale
         {
             get { return _defaultScale; }
             set { SetProperty(ref _defaultScale, value); }
         }
 
-        [PropertyRange("@ParamLoupeScaleStep", 0.1, 5.0, TickFrequency = 0.1, IsEditable = true)]
+        [PropertyRange(0.1, 5.0, TickFrequency = 0.1, IsEditable = true)]
         public double ScaleStep
         {
             get { return _scaleStep; }
             set { SetProperty(ref _scaleStep, Math.Max(value, 0.0)); }
         }
 
-        [PropertyMember("@ParamLoupeIsResetByRestart", Tips = "@ParamLoupeIsResetByRestartTips")]
+        [PropertyMember]
         public bool IsResetByRestart
         {
             get { return _isResetByRestart; }
             set { SetProperty(ref _isResetByRestart, value); }
         }
 
-        [PropertyMember("@ParamLoupeIsResetByPageChanged")]
+        [PropertyMember]
         public bool IsResetByPageChanged
         {
             get { return _isResetByPageChanged; }
             set { SetProperty(ref _isResetByPageChanged, value); }
         }
 
-        [PropertyMember("@ParamLoupeIsWheelScalingEnabled", Tips = "@ParamLoupeIsWheelScalingEnabledTips")]
+        [PropertyMember]
         public bool IsWheelScalingEnabled
         {
             get { return _isWheelScalingEnabled; }
             set { SetProperty(ref _isWheelScalingEnabled, value); }
         }
 
-        [PropertyRange("@ParamLoupeSpeed", 0.0, 10.0, TickFrequency = 0.1, Format = "×{0:0.0}")]
+        [PropertyRange(0.0, 10.0, TickFrequency = 0.1, Format = "×{0:0.0}")]
         public double Speed
         {
             get { return _speed; }
             set { SetProperty(ref _speed, value); }
         }
 
-        [PropertyMember("@ParamLoupeIsEscapeKeyEnabled")]
+        [PropertyMember]
         public bool IsEscapeKeyEnabled
         {
             get { return _isEscapeKeyEnabled; }
             set { SetProperty(ref _isEscapeKeyEnabled, value); }
         }
 
-        [PropertyMember("@ParamLoupeIsVisibleLoupeInfo", Tips = "@ParamLoupeIsVisibleLoupeInfoTips")]
+        [PropertyMember]
         public bool IsVisibleLoupeInfo
         {
             get { return _isVisibleLoupeInfo; }

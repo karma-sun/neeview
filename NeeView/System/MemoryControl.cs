@@ -35,7 +35,7 @@ namespace NeeView
         /// <summary>
         /// 自動GCフラグ
         /// </summary>
-        [PropertyMember("@ParamIsAutoGC", Tips = "@ParamIsAutoGCTips")]
+        [PropertyMember]
         public bool IsAutoGC { get; set; } = false;
 
 

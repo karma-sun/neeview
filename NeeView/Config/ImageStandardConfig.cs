@@ -12,7 +12,7 @@ namespace NeeView
         private FileTypeCollection _supportFileTypes = null;
 
         // 既定の画像拡張子をWICから取得する
-        [PropertyMember("@ParamPictureProfileUseWicInformation", Tips = "@ParamPictureProfileUseWicInformationNote")]
+        [PropertyMember]
         public bool UseWicInformation
         {
             get { return _useWicInformation; }
@@ -20,7 +20,7 @@ namespace NeeView
         }
 
         // サポートする画像ファイルの拡張子。nullの場合は既定の画像拡張子が適用される
-        [PropertyMember("@ParamPictureProfileSupportFileTypes")]
+        [PropertyMember]
         public FileTypeCollection SupportFileTypes
         {
             get { return _supportFileTypes; }
@@ -28,7 +28,7 @@ namespace NeeView
         }
 
         // 画像の解像度情報を表示に反映する
-        [PropertyMember("@ParamPictureProfileIsAspectRatioEnabled", Tips = "@ParamPictureProfileIsAspectRatioEnabledTips")]
+        [PropertyMember]
         public bool IsAspectRatioEnabled
         {
             get { return _isAspectRatioEnabled; }
@@ -36,7 +36,7 @@ namespace NeeView
         }
 
         // GIFアニメ有効
-        [PropertyMember("@ParamBookIsEnableAnimatedGif", Tips = "@ParamBookIsEnableAnimatedGifTips")]
+        [PropertyMember]
         public bool IsAnimatedGifEnabled
         {
             get { return _isAnimatedGifEnabled; }
@@ -44,7 +44,7 @@ namespace NeeView
         }
 
         // サポート外ファイル有効のときに、すべてのファイルを画像とみなす
-        [PropertyMember("@ParamBookIsAllFileAnImage", Tips = "@ParamBookIsAllFileAnImageTips")]
+        [PropertyMember]
         public bool IsAllFileSupported
         {
             get { return _isAllFileSupported; }

@@ -29,7 +29,7 @@ namespace NeeView
         private bool _needClosePanels;
 
         [DataMember]
-        [PropertyMember("@ParamCommandParameterFocusMainViewClosePanels")]
+        [PropertyMember]
         public bool NeedClosePanels
         {
             get => _needClosePanels;

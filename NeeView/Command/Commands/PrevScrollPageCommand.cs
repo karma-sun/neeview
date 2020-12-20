@@ -47,7 +47,7 @@ namespace NeeView
 
 
         [DataMember]
-        [PropertyMember("@ParamCommandParameterScrollPageN", Tips = "@ParamCommandParameterScrollPageNTips")]
+        [PropertyMember]
         public bool IsNScroll
         {
             get => _isNScroll;
@@ -55,7 +55,7 @@ namespace NeeView
         }
 
         [DataMember]
-        [PropertyMember("@ParamCommandParameterScrollPageMargin", Tips = "@ParamCommandParameterScrollPageMarginTips")]
+        [PropertyMember]
         public double Margin
         {
             get => _margin;
@@ -63,7 +63,7 @@ namespace NeeView
         }
 
         [DataMember(Name = "ScrollV2")]
-        [PropertyPercent("@ParamCommandParameterScrollPageAmount", Tips = "@ParamCommandParameterScrollPageAmountTips")]
+        [PropertyPercent]
         public double Scroll
         {
             get => _scroll;
@@ -71,14 +71,14 @@ namespace NeeView
         }
 
         [DataMember]
-        [PropertyRange("@ParamCommandParameterScrollPageDuration", 0.0, 1.0, TickFrequency = 0.1, IsEditable = true)]
+        [PropertyRange(0.0, 1.0, TickFrequency = 0.1, IsEditable = true)]
         public double ScrollDuration
         {
             get { return _scrollDuration; }
             set { SetProperty(ref _scrollDuration, Math.Max(value, 0.0)); }
         }
 
-        [PropertyRange("@ParamCommandParameterScrollPageMoveMargin", 0.0, 1.0, TickFrequency = 0.1, IsEditable = true, Tips = "@ParamCommandParameterScrollPageMoveMarginTips")]
+        [PropertyRange(0.0, 1.0, TickFrequency = 0.1, IsEditable = true)]
         public double PageMoveMargin
         {
             get { return _pageMoveMargin; }

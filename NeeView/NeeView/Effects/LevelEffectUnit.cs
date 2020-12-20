@@ -23,7 +23,7 @@ namespace NeeView.Effects
         /// Property: Black
         /// </summary>
         [DataMember]
-        [PropertyRange("Black", 0, 1, Title = "Input")]
+        [PropertyRange(0, 1, Title = "Input")]
         [DefaultValue(0.0)]
         public double Black
         {
@@ -36,7 +36,7 @@ namespace NeeView.Effects
         /// Property: White
         /// </summary>
         [DataMember]
-        [PropertyRange("White", 0, 1)]
+        [PropertyRange(0, 1)]
         [DefaultValue(1.0)]
         public double White
         {
@@ -61,7 +61,7 @@ namespace NeeView.Effects
         /// Property: Minimum
         /// </summary>
         [DataMember]
-        [PropertyRange("Min", 0, 1, Title = "Output")]
+        [PropertyRange(0, 1, Title = "Output")]
         [DefaultValue(0.0)]
         public double Minimum
         {
@@ -73,7 +73,7 @@ namespace NeeView.Effects
         /// Property: Center
         /// </summary>
         [DataMember]
-        [PropertyRange("Max", 0, 1)]
+        [PropertyRange(0, 1)]
         [DefaultValue(1.0)]
         public double Maximum
         {

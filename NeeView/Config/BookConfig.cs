@@ -27,7 +27,7 @@ namespace NeeView
         /// <summary>
         /// 横長画像判定用比率
         /// </summary>
-        [PropertyMember("@ParamBookWideRatio", Tips = "@ParamBookWideRatioTips")]
+        [PropertyMember]
         public double WideRatio
         {
             get { return _wideRatio; }
@@ -37,7 +37,7 @@ namespace NeeView
         /// <summary>
         /// 除外フォルダー
         /// </summary>
-        [PropertyMember("@ParamBookExcludes")]
+        [PropertyMember]
         public StringCollection Excludes
         {
             get { return _excludes; }
@@ -46,7 +46,7 @@ namespace NeeView
 
         // 2ページコンテンツの隙間
         [DefaultValue(-1.0)]
-        [PropertyRange("@ParamContentCanvasContentsSpace", -32, 32, TickFrequency = 1, Tips = "@ParamContentCanvasContentsSpaceTips")]
+        [PropertyRange(-32, 32, TickFrequency = 1)]
         public double ContentsSpace
         {
             get { return _contentSpace; }
@@ -56,13 +56,13 @@ namespace NeeView
         /// <summary>
         /// ページ移動優先設定
         /// </summary>
-        [PropertyMember("@ParamBookIsPrioritizePageMove", Tips = "@ParamBookIsPrioritizePageMoveTips")]
+        [PropertyMember]
         public bool IsPrioritizePageMove { get; set; } = true;
 
         /// <summary>
         /// ページ移動命令重複許可
         /// </summary>
-        [PropertyMember("@ParamBookIsMultiplePageMove", Tips = "@ParamBookIsMultiplePageMoveTips")]
+        [PropertyMember]
         public bool IsMultiplePageMove
         {
             get { return _isMultiplePageMove; }
@@ -70,21 +70,21 @@ namespace NeeView
         }
 
         // ページ終端でのアクション
-        [PropertyMember("@ParamBookOperationPageEndAction")]
+        [PropertyMember]
         public PageEndAction PageEndAction
         {
             get { return _pageEndAction; }
             set { SetProperty(ref _pageEndAction, value); }
         }
 
-        [PropertyMember("@ParamBookOperationNotifyPageLoop")]
+        [PropertyMember]
         public bool IsNotifyPageLoop
         {
             get { return _isNotifyPageLoop; }
             set { SetProperty(ref _isNotifyPageLoop, value); }
         }
 
-        [PropertyPath("@ParamSeCannotMove", Filter = "Wave|*.wav")]
+        [PropertyPath(Filter = "Wave|*.wav")]
         public string TerminalSound
         {
             get { return _terminalSound; }
@@ -92,7 +92,7 @@ namespace NeeView
         }
 
         // 再帰を確認する
-        [PropertyMember("@ParamIsConfirmRecursive", Tips = "@ParamIsConfirmRecursiveTips")]
+        [PropertyMember]
         public bool IsConfirmRecursive
         {
             get { return _isConfirmRecursive; }
@@ -100,7 +100,7 @@ namespace NeeView
         }
 
         // 自動再帰
-        [PropertyMember("@ParamIsAutoRecursive")]
+        [PropertyMember]
         public bool IsAutoRecursive
         {
             get { return _isAutoRecursive; }
@@ -108,7 +108,7 @@ namespace NeeView
         }
 
         // ファイル並び順、ファイル優先
-        [PropertyMember("@ParamIsSortFileFirst", Tips = "@ParamIsSortFileFirstTips")]
+        [PropertyMember]
         public bool IsSortFileFirst
         {
             get { return _isSortFileFirst; }
@@ -116,7 +116,7 @@ namespace NeeView
         }
 
         // ブックページ画像サイズ
-        [PropertyRange("@ParamBookPageSize", 100.0, 600.0, TickFrequency = 10.0, IsEditable = true, Tips = "@ParamBookPageSizeTips")]
+        [PropertyRange(100.0, 600.0, TickFrequency = 10.0, IsEditable = true)]
         public double BookPageSize
         {
             get { return _bookPageSize; }
@@ -124,7 +124,7 @@ namespace NeeView
         }
 
         // ランダムソートでページをリセット
-        [PropertyMember("@ParamResetPageWhenRandomSort")]
+        [PropertyMember]
         public bool ResetPageWhenRandomSort
         {
             get { return _resetPageWhenRandomSort; }
@@ -132,7 +132,7 @@ namespace NeeView
         }
 
         // ダミーページの挿入
-        [PropertyMember("@ParamIsInsertDummyPage", Tips = "@ParamIsInsertDummyPageTips")]
+        [PropertyMember]
         public bool IsInsertDummyPage
         {
             get { return _isInsertDummyPage; }

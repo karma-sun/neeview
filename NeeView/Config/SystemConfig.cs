@@ -33,14 +33,14 @@ namespace NeeView
         /// <summary>
         /// 言語
         /// </summary>
-        [PropertyMember("@ParamLanguage", Tips = "@ParamLanguageTips")]
+        [PropertyMember]
         public Language Language
         {
             get { return _language; }
             set { SetProperty(ref _language, value); }
         }
 
-        [PropertyMember("@ParamArchiveRecursiveMode", Tips = "@ParamArchiveRecursiveModeTips")]
+        [PropertyMember]
         public ArchiveEntryCollectionMode ArchiveRecursiveMode
         {
             get { return _archiveRecursiveMode; }
@@ -48,21 +48,21 @@ namespace NeeView
         }
 
         // ページ収集モード
-        [PropertyMember("@ParamBookPageCollectMode", Tips = "@ParamBookPageCollectModeTips")]
+        [PropertyMember]
         public BookPageCollectMode BookPageCollectMode
         {
             get { return _bookPageCollectMode; }
             set { SetProperty(ref _bookPageCollectMode, value); }
         }
 
-        [PropertyMember("@ParamIsRemoveConfirmed")]
+        [PropertyMember]
         public bool IsRemoveConfirmed
         {
             get { return _isRemoveConfirmed; }
             set { SetProperty(ref _isRemoveConfirmed, value); }
         }
 
-        [PropertyMember("@ParamIsRemoveWantNukeWarning")]
+        [PropertyMember]
         public bool IsRemoveWantNukeWarning
         {
             get { return _isRemoveWantNukeWarning; }
@@ -70,7 +70,7 @@ namespace NeeView
         }
 
         // ネットワークアクセス許可
-        [PropertyMember("@ParamIsNetworkEnabled", Tips = "@ParamIsNetworkEnabledTips")]
+        [PropertyMember]
         public bool IsNetworkEnabled
         {
             get { return _isNetworkEnalbe || Environment.IsAppxPackage; } // Appxは強制ON
@@ -78,7 +78,7 @@ namespace NeeView
         }
 
         // 設定データの同期
-        [PropertyMember("@ParamIsSyncUserSetting", Tips = "@ParamIsSyncUserSettingTips")]
+        [PropertyMember]
         public bool IsSyncUserSetting
         {
             get { return _isSyncUserSetting; }
@@ -86,7 +86,7 @@ namespace NeeView
         }
 
         // 設定データのバックアップ作成
-        [PropertyMember("@ParamIsSettingBackup", Tips = "@ParamIsSettingBackupTips")]
+        [PropertyMember]
         public bool IsSettingBackup
         {
             get { return _isSettingBackup || Environment.IsAppxPackage; }  // Appxは強制ON
@@ -94,7 +94,7 @@ namespace NeeView
         }
 
         // 画像のDPI非対応
-        [PropertyMember("@ParamIsIgnoreImageDpi", Tips = "@ParamIsIgnoreImageDpiTips")]
+        [PropertyMember]
         public bool IsIgnoreImageDpi
         {
             get { return _isIgnoreImageDpi; }
@@ -102,7 +102,7 @@ namespace NeeView
         }
 
         // テンポラリフォルダーの場所
-        [PropertyPath("@ParamTemporaryDirectory", Tips = "@ParamTemporaryDirectoryTips", FileDialogType = FileDialogType.Directory)]
+        [PropertyPath(FileDialogType = FileDialogType.Directory)]
         public string TemporaryDirectory
         {
             get { return _temporaryDirectory; }
@@ -111,7 +111,7 @@ namespace NeeView
 
         // ダウンロードファイル置き場
         [DefaultValue("")]
-        [PropertyPath("@ParamDownloadPath", Tips = "@ParamDownloadPathTips", FileDialogType = FileDialogType.Directory)]
+        [PropertyPath(FileDialogType = FileDialogType.Directory)]
         public string DownloadPath
         {
             get { return _downloadPath; }
@@ -119,14 +119,14 @@ namespace NeeView
         }
 
         // 隠しファイルを表示する？
-        [PropertyMember("@ParamIsHiddenFileVisibled")]
+        [PropertyMember]
         public bool IsHiddenFileVisibled
         {
             get { return _isHiddenFileVisibled; }
             set { SetProperty(ref _isHiddenFileVisibled, value); }
         }
 
-        [PropertyMember("@ParamIsFileOperationEnabled")]
+        [PropertyMember]
         public bool IsFileWriteAccessEnabled
         {
             get { return _isFileWriteAccessEnabled; }
@@ -136,7 +136,7 @@ namespace NeeView
 
         // 「ブックを開く」ダイアログを現在の場所を基準にして開く
         // TODO: LoadAs のコマンドパラメータにする
-        [PropertyMember("@ParamIsOpenbookAtCurrentPlace")]
+        [PropertyMember]
         public bool IsOpenbookAtCurrentPlace
         {
             get { return _isOpenbookAtCurrentPlace; }
@@ -144,7 +144,7 @@ namespace NeeView
         }
 
         // カスタム自然順ソート
-        [PropertyMember("@ParamIsNaturalSortEnabled", Tips = "@ParamIsNaturalSortEnabledTips")]
+        [PropertyMember]
         public bool IsNaturalSortEnabled
         {
             get { return _isNaturalSortEnabled; }
@@ -152,7 +152,7 @@ namespace NeeView
         }
 
         // テキストボックス以外でのIME有効 (現状では非公開)
-        [PropertyMember("@ParamIsInputMethodEnabled", Tips = "@ParamIsInputMethodEnabledTips")]
+        [PropertyMember]
         public bool IsInputMethodEnabled
         {
             get { return _isInputMehotdEnabled; }
@@ -161,7 +161,7 @@ namespace NeeView
 
 
         // コピーまたは移動先フォルダーのリスト
-        [PropertyMember("@ParamDestinationFolderCollection")]
+        [PropertyMember]
         [PropertyMapIgnore]
         [ObjectMergeReferenceCopy]
         public DestinationFolderCollection DestinationFodlerCollection
@@ -171,7 +171,7 @@ namespace NeeView
         }
 
         // 外部実行アプリ設定のリスト
-        [PropertyMember("@ParamExternalAppCollection")]
+        [PropertyMember]
         [PropertyMapIgnore]
         [ObjectMergeReferenceCopy]
         public ExternalAppCollection ExternalAppCollection

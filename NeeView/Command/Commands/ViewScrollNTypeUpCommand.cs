@@ -33,21 +33,21 @@ namespace NeeView
         private double _margin = 50;
         private double _scrollDuration = 0.2;
 
-        [PropertyMember("@ParamCommandParameterScrollPageMargin", Tips = "@ParamCommandParameterScrollPageMarginTips")]
+        [PropertyMember]
         public double Margin
         {
             get => _margin;
             set => SetProperty(ref _margin, Math.Max(value, 10));
         }
 
-        [PropertyPercent("@ParamCommandParameterScrollPageAmount", Tips = "@ParamCommandParameterScrollPageAmountTips")]
+        [PropertyPercent]
         public double Scroll
         {
             get => _scroll;
             set => SetProperty(ref _scroll, MathUtility.Clamp(value, 0.0, 1.0));
         }
 
-        [PropertyRange("@ParamCommandParameterScrollPageDuration", 0.0, 1.0, TickFrequency = 0.1, IsEditable = true)]
+        [PropertyRange(0.0, 1.0, TickFrequency = 0.1, IsEditable = true)]
         public double ScrollDuration
         {
             get { return _scrollDuration; }

@@ -13,7 +13,7 @@ namespace NeeView
         /// <summary>
         /// エフェクト有効
         /// </summary>
-        [PropertyMember("@ParamImageEffectEnabled")]
+        [PropertyMember]
         public bool IsEnabled
         {
             get { return _isEnabled; }
@@ -23,7 +23,7 @@ namespace NeeView
         /// <summary>
         /// 適用するエフェクトの種類
         /// </summary>
-        [PropertyMember("@ParamImageEffectType")]
+        [PropertyMember]
         public EffectType EffectType
         {
             get { return _effectType; }
@@ -33,7 +33,7 @@ namespace NeeView
         /// <summary>
         /// 色をHSV表示
         /// </summary>
-        [PropertyMember("@ParamImageEffectIsHsvMode", Tips = "@ParamImageEffectIsHsvModeTips")]
+        [PropertyMember]
         public bool IsHsvMode
         {
             get { return _isHsvMode; }

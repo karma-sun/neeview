@@ -12,21 +12,21 @@ namespace NeeView
         private FileTypeCollection _supportFileTypes = new FileTypeCollection(".pdf");
 
 
-        [PropertyMember("@ParamArchiverPdfIsEnabled")]
+        [PropertyMember]
         public bool IsEnabled
         {
             get { return _isEnabled; }
             set { if (_isEnabled != value) { _isEnabled = value; RaisePropertyChanged(); } }
         }
 
-        [PropertyMember("@ParamArchiverPdfSupportFileTypes")]
+        [PropertyMember]
         public FileTypeCollection SupportFileTypes
         {
             get { return _supportFileTypes; }
             set { SetProperty(ref _supportFileTypes, value); }
         }
 
-        [PropertyMember("@ParamArchiverPdfRenderSize", Tips = "@ParamArchiverPdfRenderSizeTips")]
+        [PropertyMember]
         public Size RenderSize
         {
             get { return _renderSize; }

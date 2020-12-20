@@ -34,14 +34,14 @@ namespace NeeView
         private bool _isLoop;
         private bool _isIncludeTerminal;
 
-        [PropertyMember("@ParamCommandParameterMovePagemarkLoop")]
+        [PropertyMember]
         public bool IsLoop
         {
             get => _isLoop;
             set => SetProperty(ref _isLoop, value);
         }
 
-        [PropertyMember("@ParamCommandParameterMovePagemarkIncludeTerminal")]
+        [PropertyMember]
         public bool IsIncludeTerminal
         {
             get => _isIncludeTerminal;

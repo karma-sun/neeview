@@ -13,7 +13,7 @@ namespace NeeView
         /// <summary>
         /// ページリストのリスト項目表示形式
         /// </summary>
-        [PropertyMember("@ParamPageListItemStyle")]
+        [PropertyMember]
         public PanelListItemStyle PanelListItemStyle
         {
             get { return _panelListItemStyle; }
@@ -23,7 +23,7 @@ namespace NeeView
         /// <summary>
         /// ページ名表示形式
         /// </summary>
-        [PropertyMember("@ParamPageListFormat")]
+        [PropertyMember]
         public PageNameFormat Format
         {
             get { return _format; }

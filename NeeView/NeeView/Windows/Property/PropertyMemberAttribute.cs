@@ -1,6 +1,7 @@
 ﻿using NeeView.Windows.Controls;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -50,6 +51,14 @@ namespace NeeView.Windows.Property
     [AttributeUsage(AttributeTargets.Property)]
     public class PropertyPercentAttribute : PropertyRangeAttribute
     {
+        public PropertyPercentAttribute() : base(0.0, 1.0)
+        {
+        }
+
+        public PropertyPercentAttribute(double min, double max) : base(min, max)
+        {
+        }
+
         public PropertyPercentAttribute(string name) : base(name, 0.0, 1.0)
         {
         }
@@ -57,6 +66,7 @@ namespace NeeView.Windows.Property
         public PropertyPercentAttribute(string name, double min, double max) : base(name, min, max)
         {
         }
+
     }
 
 
@@ -68,8 +78,81 @@ namespace NeeView.Windows.Property
         public string Note;
         public string DefaultFileName;
 
+        public PropertyPathAttribute() : base()
+        {
+        }
+
         public PropertyPathAttribute(string name) : base(name)
         {
+        }
+    }
+
+    public static class PropertyMemberAttributeExtensions
+    {
+        private static string GetResourceKey(PropertyInfo property, string postfix = null)
+        {
+            return $"@{property.DeclaringType.Name}.{property.Name}{postfix}";
+        }
+
+        public static string GetPropertyName(PropertyInfo property, PropertyMemberAttribute attribute)
+        {
+            if (attribute is null)
+            {
+                return property.Name;
+            }
+
+            var resourceKey = attribute.Name ?? GetResourceKey(property);
+            var resourceValue = ResourceService.GetResourceString(resourceKey, true);
+
+#if DEBUG
+            if (resourceValue is null)
+            {
+                Debug.WriteLine($"Error: PropertyName not found: {resourceKey}");
+            }
+#endif
+
+            return resourceValue ?? resourceKey;
+        }
+
+        public static string GetPropertyName(PropertyInfo property)
+        {
+            return GetPropertyName(property, property.GetCustomAttribute<PropertyMemberAttribute>());
+        }
+
+        public static string GetPropertyTips(PropertyInfo property, PropertyMemberAttribute attribute)
+        {
+            if (attribute is null)
+            {
+                return null;
+            }
+
+            var resourceKey = attribute.Tips ?? GetResourceKey(property, "#Tips");
+            var resourceValue = ResourceService.GetResourceString(resourceKey, true);
+
+            return resourceValue;
+        }
+
+        public static string GetPropertyTips(PropertyInfo property)
+        {
+            return GetPropertyTips(property, property.GetCustomAttribute<PropertyMemberAttribute>());
+        }
+
+        public static string GetPropertyTitle(PropertyInfo property, PropertyMemberAttribute attribute)
+        {
+            if (attribute is null)
+            {
+                return null;
+            }
+
+            var resourceKey = attribute.Title ?? GetResourceKey(property, "#Title");
+            var resourceValue = ResourceService.GetResourceString(resourceKey, true);
+
+            return resourceValue;
+        }
+
+        public static string GetPropertyTitle(PropertyInfo property)
+        {
+            return GetPropertyTitle(property, property.GetCustomAttribute<PropertyMemberAttribute>());
         }
     }
 }

@@ -338,7 +338,7 @@ namespace NeeView
         private string GetDocument(string name, string postfix, bool notNull = true)
         {
             var resourceId = $"@{name}{postfix}";
-            var text = ResourceService.GetResourceString(resourceId);
+            var text = ResourceService.GetResourceString(resourceId, true);
             if (text is null && notNull)
             {
                 text = resourceId;

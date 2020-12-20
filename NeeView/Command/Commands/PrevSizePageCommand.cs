@@ -36,7 +36,7 @@ namespace NeeView
     {
         private int _size = 10;
 
-        [PropertyMember("@ParamCommandParameterMoveSize")]
+        [PropertyMember]
         public int Size
         {
             get { return _size; }

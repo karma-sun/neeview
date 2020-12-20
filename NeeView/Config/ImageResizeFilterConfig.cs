@@ -24,21 +24,21 @@ namespace NeeView
             this.UnsharpMask.PropertyChanged += (s, e) => RaisePropertyChanged(nameof(UnsharpMask));
         }
 
-        [PropertyMember("@ParamImageResizeFilterIsEnabled")]
+        [PropertyMember]
         public bool IsEnabled
         {
             get { return _isResizeFilterEnabled; }
             set { SetProperty(ref _isResizeFilterEnabled, value); }
         }
 
-        [PropertyMember("@ParamImageResizeFilterResizeInterpolation")]
+        [PropertyMember]
         public ResizeInterpolation ResizeInterpolation
         {
             get { return _resizeInterpolation; }
             set { SetProperty(ref _resizeInterpolation, value); }
         }
 
-        [PropertyMember("@ParamImageResizeFilterSharpen")]
+        [PropertyMember]
         public bool IsUnsharpMaskEnabled
         {
             get { return _isUnsharpMaskEnabled; }

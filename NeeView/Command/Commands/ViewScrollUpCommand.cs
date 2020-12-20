@@ -37,7 +37,7 @@ namespace NeeView
 
         // 属性に説明文
         [DataMember(Name = "ScrollV2")]
-        [PropertyPercent("@ParamCommandParameterScrollAmount", Tips = "@ParamCommandParameterScrollAmountTips")]
+        [PropertyPercent]
         public double Scroll
         {
             get { return _scroll; }
@@ -46,7 +46,7 @@ namespace NeeView
 
         // スクロール速度(秒)
         [DataMember]
-        [PropertyMember("@ParamCommandParameterScrollDuration")]
+        [PropertyMember]
         public double ScrollDuration
         {
             get { return _scrollDuration; }
@@ -54,7 +54,7 @@ namespace NeeView
         }
 
         [DataMember]
-        [PropertyMember("@ParamCommandParameterScrollAllowCross", Tips = "@ParamCommandParameterScrollAllowCrossTips")]
+        [PropertyMember]
         public bool AllowCrossScroll
         {
             get => _allowCrossScroll;

@@ -15,7 +15,7 @@ namespace NeeView
 
         [JsonIgnore]
         [PropertyMapReadOnly]
-        [PropertyMember("@WordIsPanelVisible")]
+        [PropertyMember]
         public bool IsVisible
         {
             get { return _isVisible; }
@@ -24,7 +24,7 @@ namespace NeeView
 
 
         // メニューを自動的に隠す
-        [PropertyMember("@ParamMenuBarIsAutoHide")]
+        [PropertyMember]
         public bool IsHideMenu
         {
             get { return _isHideMenu; }
@@ -32,7 +32,7 @@ namespace NeeView
         }
 
         // メニューを自動的に隠す(自動非表示モード)
-        [PropertyMember("@MenuBarConfig.IsHideMenuInAutoHideMode")]
+        [PropertyMember]
         public bool IsHideMenuInAutoHideMode
         {
             get { return _isHideMenuInAutoHideMode; }
@@ -40,7 +40,7 @@ namespace NeeView
         }
 
         // アドレスバーON/OFF
-        [PropertyMember("@ParamMenuBarIsVisibleAddressBar")]
+        [PropertyMember]
         public bool IsAddressBarEnabled
         {
             get { return _isAddressBarEnabled; }
@@ -50,7 +50,7 @@ namespace NeeView
         /// <summary>
         /// ハンバーガーメニューにする
         /// </summary>
-        [PropertyMember("@ParamIsHamburgerMenu")]
+        [PropertyMember]
         public bool IsHamburgerMenu
         {
             get { return _isHamburgerMenu; }

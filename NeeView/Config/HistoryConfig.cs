@@ -23,7 +23,7 @@ namespace NeeView
         private bool _isAutoCleanupEnabled;
 
 
-        [PropertyMember("@ParamHistoryListItemStyle")]
+        [PropertyMember]
         public PanelListItemStyle PanelListItemStyle
         {
             get { return _panelListItemStyle; }
@@ -31,7 +31,7 @@ namespace NeeView
         }
 
         // 履歴データの保存
-        [PropertyMember("@ParamIsSaveHistory")]
+        [PropertyMember]
         public bool IsSaveHistory
         {
             get { return _isSaveHistory; }
@@ -39,7 +39,7 @@ namespace NeeView
         }
 
         // 履歴データの保存場所
-        [PropertyPath("@ParamHistoryFilePath", FileDialogType = FileDialogType.SaveFile, Filter = "JSON|*.json")]
+        [PropertyPath(FileDialogType = FileDialogType.SaveFile, Filter = "JSON|*.json")]
         public string HistoryFilePath
         {
             get { return _historyFilePath; }
@@ -47,7 +47,7 @@ namespace NeeView
         }
 
         // フォルダーリストの情報記憶
-        [PropertyMember("@ParamHistoryIsKeepFolderStatus")]
+        [PropertyMember]
         public bool IsKeepFolderStatus
         {
             get { return _isKeepFolderStatus; }
@@ -55,7 +55,7 @@ namespace NeeView
         }
 
         // 検索履歴の情報記憶
-        [PropertyMember("@ParamHistoryIsKeepSearchHistory")]
+        [PropertyMember]
         public bool IsKeepSearchHistory
         {
             get { return _isKeepSearchHistory; }
@@ -65,7 +65,7 @@ namespace NeeView
         /// <summary>
         /// アーカイブ内アーカイブの履歴保存
         /// </summary>
-        [PropertyMember("@ParamIsInnerArchiveHistoryEnabled")]
+        [PropertyMember]
         public bool IsInnerArchiveHistoryEnabled
         {
             get { return _isInnerArchiveHistoryEnabled; }
@@ -75,7 +75,7 @@ namespace NeeView
         /// <summary>
         /// UNCパスの履歴保存
         /// </summary>
-        [PropertyMember("@ParamIsUncHistoryEnabled", Tips = "@ParamIsUncHistoryEnabledTips")]
+        [PropertyMember]
         public bool IsUncHistoryEnabled
         {
             get { return _isUncHistoryEnabled; }
@@ -85,7 +85,7 @@ namespace NeeView
         /// <summary>
         /// 履歴閲覧でも履歴登録日を更新する
         /// </summary>
-        [PropertyMember("@ParamIsForceUpdateHistory")]
+        [PropertyMember]
         public bool IsForceUpdateHistory
         {
             get { return _isForceUpdateHistory; }
@@ -95,7 +95,7 @@ namespace NeeView
         /// <summary>
         /// 何回ページを切り替えたら履歴登録するか
         /// </summary>
-        [PropertyMember("@ParamHistoryEntryPageCount", Tips = "@ParamHistoryEntryPageCountTips")]
+        [PropertyMember]
         public int HistoryEntryPageCount
         {
             get { return _historyEntryPageCount; }
@@ -103,7 +103,7 @@ namespace NeeView
         }
 
         // 履歴制限
-        [PropertyMember("@ParamHistoryLimitSize")]
+        [PropertyMember]
         public int LimitSize
         {
             get { return _limitSize; }
@@ -111,7 +111,7 @@ namespace NeeView
         }
 
         // 履歴制限(時間)
-        [PropertyMember("@ParamHistoryLimitSpan")]
+        [PropertyMember]
         public TimeSpan LimitSpan
         {
             get { return _limitSpan; }
@@ -119,7 +119,7 @@ namespace NeeView
         }
 
         // ブックのあるフォルダーのみ
-        [PropertyMember("@ParamHistoryIsCurrentFolder", Tips = "@ParamHistoryIsCurrentFolderTips")]
+        [PropertyMember]
         public bool IsCurrentFolder
         {
             get { return _isCurrentFolder; }
@@ -127,7 +127,7 @@ namespace NeeView
         }
 
         // 履歴の自動削除
-        [PropertyMember("@ParamHistoryIsAutoCleanupEnabled", Tips = "@ParamHistoryIsAutoCleanupEnabledTips")]
+        [PropertyMember]
         public bool IsAutoCleanupEnabled
         {
             get { return _isAutoCleanupEnabled; }

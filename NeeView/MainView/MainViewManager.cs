@@ -103,6 +103,7 @@ namespace NeeView
             _window.Closed += (s, e) => SetFloating(false);
 
             _window.Show();
+            _window.Activate();
         }
 
 

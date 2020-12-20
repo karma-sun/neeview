@@ -168,7 +168,13 @@ namespace NeeView
 
         private void MainViewWindow_SourceInitialized(object sender, EventArgs e)
         {
-            RestoreWindowPlacement(Config.Current.MainView.WindowPlacement);
+            var placement = Config.Current.MainView.WindowPlacement;
+            if (placement.IsValid() && placement.WindowState == WindowState.Minimized)
+            {
+                placement = placement.WithState(WindowState.Normal);
+            }
+
+            RestoreWindowPlacement(placement);
         }
 
         private void MainViewWindow_Activated(object sender, EventArgs e)

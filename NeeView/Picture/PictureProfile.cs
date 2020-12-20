@@ -19,7 +19,7 @@ namespace NeeView
         }
 
 
-        [PropertyMember("@ParamPictureProfileExtensions")]
+        [PropertyMember]
         public FileTypeCollection SupportFileTypes
         {
             get

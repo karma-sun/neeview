@@ -21,42 +21,42 @@ namespace NeeView
         private bool _IsAutoHideInFullScreen = true;
 
 
-        [PropertyMember("@ParamWindowShapeChromeFrame")]
+        [PropertyMember]
         public WindowChromeFrame WindowChromeFrame
         {
             get { return _windowChromeFrame; }
             set { SetProperty(ref _windowChromeFrame, value); }
         }
 
-        [PropertyMember("@ParamWindowIsCaptionVisible")]
+        [PropertyMember]
         public bool IsCaptionVisible
         {
             get { return _isCaptionVisible; }
             set { SetProperty(ref _isCaptionVisible, value); }
         }
 
-        [PropertyMember("@ParamWindowIsTopmost")]
+        [PropertyMember]
         public bool IsTopmost
         {
             get { return _isTopmost; }
             set { SetProperty(ref _isTopmost, value); }
         }
 
-        [PropertyMember("@ParamIsCaptionEmulateInFullScreen", Tips = "@ParamIsCaptionEmulateInFullScreenTips")]
+        [PropertyMember]
         public bool IsCaptionEmulateInFullScreen
         {
             get { return _isCaptionEmulateInFullScreen; }
             set { SetProperty(ref _isCaptionEmulateInFullScreen, value); }
         }
 
-        [PropertyRange("@ParamWindowShapeMaximizeWindowGapWidth", 0, 16, TickFrequency = 1, IsEditable = true, Tips = "@ParamWindowShapeMaximizeWindowGapWidthTips"), DefaultValue(8.0)]
+        [PropertyRange(0, 16, TickFrequency = 1, IsEditable = true), DefaultValue(8.0)]
         public double MaximizeWindowGapWidth
         {
             get { return _maximizeWindowGapWidth; }
             set { SetProperty(ref _maximizeWindowGapWidth, value); }
         }
 
-        [PropertyMember("@ParamWindowMouseActivateAndEat")]
+        [PropertyMember]
         public bool MouseActivateAndEat
         {
             get { return _mouseActivateAndEat; }
@@ -66,7 +66,7 @@ namespace NeeView
         /// <summary>
         /// ウィンドウ状態
         /// </summary>
-        [PropertyMember("@ParamWindowState")]
+        [PropertyMember]
         public WindowStateEx State
         {
             get { return _state; }
@@ -76,28 +76,28 @@ namespace NeeView
         /// <summary>
         /// エアロスナップのウィンドウ座標を保存
         /// </summary>
-        [PropertyMember("@ParamIsRestoreAeroSnapPlacement")]
+        [PropertyMember]
         public bool IsRestoreAeroSnapPlacement
         {
             get { return _isAeroSnapPlacementEnabled; }
             set { SetProperty(ref _isAeroSnapPlacementEnabled, value); }
         }
 
-        [PropertyMember("@WindowConfig.IsAutoHideInNormal")]
+        [PropertyMember]
         public bool IsAutoHideInNormal
         {
             get { return _isAutoHideInNormal; }
             set { SetProperty(ref _isAutoHideInNormal, value); }
         }
 
-        [PropertyMember("@WindowConfig.IsAutoHidInMaximized")]
+        [PropertyMember]
         public bool IsAutoHidInMaximized
         {
             get { return _isAutoHideInMaximized; }
             set { SetProperty(ref _isAutoHideInMaximized, value); }
         }
 
-        [PropertyMember("@WindowConfig.IsAutoHideInFullScreen")]
+        [PropertyMember]
         public bool IsAutoHideInFullScreen
         {
             get { return _IsAutoHideInFullScreen; }

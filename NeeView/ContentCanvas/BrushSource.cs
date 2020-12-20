@@ -54,7 +54,7 @@ namespace NeeView
         public static Dictionary<BrushType, string> BrushTypeList => AliasNameExtensions.GetAliasNameDictionary<BrushType>();
 
         [DataMember]
-        [PropertyMember("@ParamBrushSourceType")]
+        [PropertyMember]
         public BrushType Type
         {
             get { return _type; }
@@ -62,7 +62,7 @@ namespace NeeView
         }
 
         [DataMember]
-        [PropertyMember("@ParamBrushSourceColor")]
+        [PropertyMember]
         public Color Color
         {
             get { return _color; }
@@ -70,7 +70,7 @@ namespace NeeView
         }
 
         [DataMember]
-        [PropertyMember("@ParamBrushSourceImageFile")]
+        [PropertyMember]
         public string ImageFileName
         {
             get { return _imageFileName; }

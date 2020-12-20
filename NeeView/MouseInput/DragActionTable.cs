@@ -124,7 +124,7 @@ namespace NeeView
         }
 
         // コマンドリスト
-        [PropertyMember("@ParamDragActionElements")]
+        [PropertyMember]
         public Dictionary<string, DragAction> Elements => _elements;
 
 

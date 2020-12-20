@@ -19,7 +19,6 @@ namespace NeeView.Windows.Property
         public string EmptyMessage;
 
         public PropertyMemberAttribute() { }
-        public PropertyMemberAttribute(string name) { Name = name; }
     }
 
     [AttributeUsage(AttributeTargets.Property)]
@@ -33,12 +32,6 @@ namespace NeeView.Windows.Property
         public string RangeProperty;
 
         public PropertyRangeAttribute(double min, double max)
-        {
-            Minimum = min;
-            Maximum = max;
-        }
-
-        public PropertyRangeAttribute(string name, double min, double max) : base(name)
         {
             Minimum = min;
             Maximum = max;
@@ -58,15 +51,6 @@ namespace NeeView.Windows.Property
         public PropertyPercentAttribute(double min, double max) : base(min, max)
         {
         }
-
-        public PropertyPercentAttribute(string name) : base(name, 0.0, 1.0)
-        {
-        }
-
-        public PropertyPercentAttribute(string name, double min, double max) : base(name, min, max)
-        {
-        }
-
     }
 
 
@@ -79,10 +63,6 @@ namespace NeeView.Windows.Property
         public string DefaultFileName;
 
         public PropertyPathAttribute() : base()
-        {
-        }
-
-        public PropertyPathAttribute(string name) : base(name)
         {
         }
     }

@@ -22,7 +22,7 @@ namespace NeeView.Effects
         /// Property: Hue
         /// </summary>
         [DataMember]
-        [PropertyRange("@ParamEffectHue", 0.0, 360.0)]
+        [PropertyRange(0.0, 360.0)]
         [DefaultValue(0.0)]
         public double Hue
         {
@@ -34,7 +34,7 @@ namespace NeeView.Effects
         /// Property: Saturation
         /// </summary>
         [DataMember]
-        [PropertyRange("@ParamEffectSaturation", - 1.0, 1.0)]
+        [PropertyRange(-1.0, 1.0)]
         [DefaultValue(0.0)]
         public double Saturation
         {
@@ -46,7 +46,7 @@ namespace NeeView.Effects
         /// Property: Value
         /// </summary>
         [DataMember]
-        [PropertyRange("@ParamEffectBrightness", - 1.0, 1.0)]
+        [PropertyRange(-1.0, 1.0)]
         [DefaultValue(0.0)]
         public double Value
         {

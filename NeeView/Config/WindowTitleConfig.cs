@@ -17,7 +17,7 @@ namespace NeeView
         /// <summary>
         /// ウィンドウタイトルフォーマット 1P用
         /// </summary>
-        [PropertyMember("@ParamWindowTitleFormat1")]
+        [PropertyMember]
         public string WindowTitleFormat1
         {
             get { return _windowTitleFormat1 ?? WindowTitleFormat1Default; }
@@ -27,7 +27,7 @@ namespace NeeView
         /// <summary>
         /// ウィンドウタイトルフォーマット 2P用
         /// </summary>
-        [PropertyMember("@ParamWindowTitleFormat2")]
+        [PropertyMember]
         public string WindowTitleFormat2
         {
             get { return _windowTitleFormat2 ?? WindowTitleFormat2Default; }
@@ -37,7 +37,7 @@ namespace NeeView
         /// <summary>
         /// ウィンドウタイトルフォーマット メディア用
         /// </summary>
-        [PropertyMember("@ParamWindowTitleFormatMedia")]
+        [PropertyMember]
         public string WindowTitleFormatMedia
         {
             get { return _windowTitleFormatMedia ?? WindowTitleFormatMediaDefault; }
@@ -47,7 +47,7 @@ namespace NeeView
         /// <summary>
         /// タイトルバーが表示されておらず、スライダーにフォーカスがある場合等にキャンバスにタイトルを表示する
         /// </summary>
-        [PropertyMember("@ParamIsVisibleWindowTitle")]
+        [PropertyMember]
         public bool IsMainViewDisplayEnabled
         {
             get { return _isMainViewDisplayEnabled; }

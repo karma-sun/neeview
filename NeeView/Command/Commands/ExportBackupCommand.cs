@@ -2,12 +2,9 @@
 {
     public class ExportBackupCommand : CommandElement
     {
-        public ExportBackupCommand(string name) : base(name)
+        public ExportBackupCommand()
         {
-            this.Group = Properties.Resources.CommandGroupOther;
-            this.Text = Properties.Resources.CommandExportBackup;
-            this.MenuText = Properties.Resources.CommandExportBackupMenu;
-            this.Note = Properties.Resources.CommandExportBackupNote;
+            this.Group = Properties.Resources.CommandGroup_Other;
             this.IsShowMessage = false;
         }
         

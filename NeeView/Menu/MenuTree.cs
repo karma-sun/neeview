@@ -597,7 +597,7 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { CommandName = "OpenScriptsFolder" },
                         new MenuTree(MenuElementType.Command) { CommandName = "OpenConsole" },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { CommandName = "TogglePermitFileCommand"},
+                        new MenuTree(MenuElementType.Command) { CommandName = "TogglePermitFile"},
                     }},
                     new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreeHelp, Children = new ObservableCollection<MenuTree>()
                     {

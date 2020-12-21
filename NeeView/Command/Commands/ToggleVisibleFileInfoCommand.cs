@@ -6,12 +6,9 @@ namespace NeeView
 {
     public class ToggleVisibleFileInfoCommand : CommandElement
     {
-        public ToggleVisibleFileInfoCommand(string name) : base(name)
+        public ToggleVisibleFileInfoCommand()
         {
-            this.Group = Properties.Resources.CommandGroupPanel;
-            this.Text = Properties.Resources.CommandToggleVisibleFileInfo;
-            this.MenuText = Properties.Resources.CommandToggleVisibleFileInfoMenu;
-            this.Note = Properties.Resources.CommandToggleVisibleFileInfoNote;
+            this.Group = Properties.Resources.CommandGroup_Panel;
             this.ShortCutKey = "I";
             this.IsShowMessage = false;
         }
@@ -23,7 +20,7 @@ namespace NeeView
 
         public override string ExecuteMessage(object sender, CommandContext e)
         {
-            return SidePanelFrame.Current.IsVisibleFileInfo ? Properties.Resources.CommandToggleVisibleFileInfoOff : Properties.Resources.CommandToggleVisibleFileInfoOn;
+            return SidePanelFrame.Current.IsVisibleFileInfo ? Properties.Resources.ToggleVisibleFileInfoCommand_Off : Properties.Resources.ToggleVisibleFileInfoCommand_On;
         }
 
         [MethodArgument("@CommandToggleArgument")]

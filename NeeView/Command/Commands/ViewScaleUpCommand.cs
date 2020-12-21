@@ -10,11 +10,9 @@ namespace NeeView
 {
     public class ViewScaleUpCommand : CommandElement
     {
-        public ViewScaleUpCommand(string name) : base(name)
+        public ViewScaleUpCommand()
         {
-            this.Group = Properties.Resources.CommandGroupViewManipulation;
-            this.Text = Properties.Resources.CommandViewScaleUp;
-            this.Note = Properties.Resources.CommandViewScaleUpNote;
+            this.Group = Properties.Resources.CommandGroup_ViewManipulation;
             this.ShortCutKey = "RightButton+WheelUp";
             this.IsShowMessage = false;
             this.ParameterSource = new CommandParameterSource(new ViewScaleCommandParameter());

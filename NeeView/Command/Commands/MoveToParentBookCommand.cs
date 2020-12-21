@@ -2,11 +2,9 @@
 {
     public class MoveToParentBookCommand : CommandElement
     {
-        public MoveToParentBookCommand(string name) : base(name)
+        public MoveToParentBookCommand()
         {
-            this.Group = Properties.Resources.CommandGroupBookMove;
-            this.Text = Properties.Resources.CommandMoveToParentBook;
-            this.Note = Properties.Resources.CommandMoveToParentBookNote;
+            this.Group = Properties.Resources.CommandGroup_BookMove;
             this.ShortCutKey = "Alt+Up";
             this.IsShowMessage = false;
         }

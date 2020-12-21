@@ -2,12 +2,9 @@
 {
     public class HelpMainMenuCommand : CommandElement
     {
-        public HelpMainMenuCommand(string name) : base(name)
+        public HelpMainMenuCommand()
         {
-            this.Group = Properties.Resources.CommandGroupOther;
-            this.Text = Properties.Resources.CommandHelpMainMenu;
-            this.MenuText = Properties.Resources.CommandHelpMainMenuMenu;
-            this.Note = Properties.Resources.CommandHelpMainMenuNote;
+            this.Group = Properties.Resources.CommandGroup_Other;
             this.IsShowMessage = false;
         }
 

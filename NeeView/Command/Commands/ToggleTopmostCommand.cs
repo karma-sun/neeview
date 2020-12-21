@@ -5,12 +5,9 @@ namespace NeeView
 {
     public class ToggleTopmostCommand : CommandElement
     {
-        public ToggleTopmostCommand(string name) : base(name)
+        public ToggleTopmostCommand()
         {
-            this.Group = Properties.Resources.CommandGroupWindow;
-            this.Text = Properties.Resources.CommandToggleTopmost;
-            this.MenuText = Properties.Resources.CommandToggleTopmostMenu;
-            this.Note = Properties.Resources.CommandToggleTopmostNote;
+            this.Group = Properties.Resources.CommandGroup_Window;
             this.IsShowMessage = true;
         }
 
@@ -21,7 +18,7 @@ namespace NeeView
 
         public override string ExecuteMessage(object sender, CommandContext e)
         {
-            return Config.Current.Window.IsTopmost ? Properties.Resources.CommandToggleTopmostOff : Properties.Resources.CommandToggleTopmostOn;
+            return Config.Current.Window.IsTopmost ? Properties.Resources.ToggleTopmostCommand_Off : Properties.Resources.ToggleTopmostCommand_On;
         }
 
         public override void Execute(object sender, CommandContext e)

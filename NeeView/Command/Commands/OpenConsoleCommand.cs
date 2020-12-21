@@ -2,12 +2,9 @@
 {
     public class OpenConsoleCommand : CommandElement
     {
-        public OpenConsoleCommand(string name) : base(name)
+        public OpenConsoleCommand()
         {
-            this.Group = Properties.Resources.CommandGroupOther;
-            this.Text = Properties.Resources.CommandOpenConsole;
-            this.MenuText = Properties.Resources.CommandOpenConsoleMenu;
-            this.Note = Properties.Resources.CommandOpenConsoleNote;
+            this.Group = Properties.Resources.CommandGroup_Other;
             this.IsShowMessage = false;
         }
 

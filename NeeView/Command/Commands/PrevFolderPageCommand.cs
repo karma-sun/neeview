@@ -2,11 +2,9 @@
 {
     public class PrevFolderPageCommand : CommandElement
     {
-        public PrevFolderPageCommand(string name) : base(name)
+        public PrevFolderPageCommand()
         {
-            this.Group = Properties.Resources.CommandGroupMove;
-            this.Text = Properties.Resources.CommandPrevFolderPage;
-            this.Note = Properties.Resources.CommandPrevFolderPageNote;
+            this.Group = Properties.Resources.CommandGroup_Move;
             this.IsShowMessage = true;
             this.PairPartner = "NextFolderPage";
 

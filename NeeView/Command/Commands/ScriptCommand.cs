@@ -23,16 +23,16 @@ namespace NeeView
             if (!name.StartsWith(Prefix)) throw new ArgumentException($"{nameof(name)} must start with '{Prefix}'");
             _scriptName = name.Substring(Prefix.Length);
 
-            this.Group = Properties.Resources.CommandGroupScript;
+            this.Group = Properties.Resources.CommandGroup_Script;
             this.Text = _scriptName;
 
             if (_scriptName == EventOnBookLoaded)
             {
-                this.Note = Properties.Resources.CommandScriptOnBookLoadedNote;
+                this.Note = Properties.Resources.ScriptOnBookLoadedCommand_Note;
             }
             else
             {
-                this.Note = Properties.Resources.CommandScriptNote;
+                this.Note = Properties.Resources.ScriptCommand_Note;
             }
         }
 

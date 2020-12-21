@@ -2,12 +2,9 @@
 {
     public class CloseApplicationCommand : CommandElement
     {
-        public CloseApplicationCommand(string name) : base(name)
+        public CloseApplicationCommand()
         {
-            this.Group = Properties.Resources.CommandGroupOther;
-            this.Text = Properties.Resources.CommandCloseApplication;
-            this.MenuText = Properties.Resources.CommandCloseApplicationMenu;
-            this.Note = Properties.Resources.CommandCloseApplicationNote;
+            this.Group = Properties.Resources.CommandGroup_Other;
             this.IsShowMessage = false;
         }
 

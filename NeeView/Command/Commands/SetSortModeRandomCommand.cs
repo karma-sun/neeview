@@ -5,11 +5,9 @@ namespace NeeView
 {
     public class SetSortModeRandomCommand : CommandElement
     {
-        public SetSortModeRandomCommand(string name) : base(name)
+        public SetSortModeRandomCommand()
         {
-            this.Group = Properties.Resources.CommandGroupPageOrder;
-            this.Text = Properties.Resources.CommandSetSortModeRandom;
-            this.Note = Properties.Resources.CommandSetSortModeRandomNote;
+            this.Group = Properties.Resources.CommandGroup_PageOrder;
             this.IsShowMessage = true;
         }
 

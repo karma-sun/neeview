@@ -5,11 +5,9 @@ namespace NeeView
 {
     public class NextSizePageCommand : CommandElement
     {
-        public NextSizePageCommand(string name) : base(name)
+        public NextSizePageCommand()
         {
-            this.Group = Properties.Resources.CommandGroupMove;
-            this.Text = Properties.Resources.CommandNextSizePage;
-            this.Note = Properties.Resources.CommandNextSizePageNote;
+            this.Group = Properties.Resources.CommandGroup_Move;
             this.IsShowMessage = false;
             this.PairPartner = "PrevSizePage";
 

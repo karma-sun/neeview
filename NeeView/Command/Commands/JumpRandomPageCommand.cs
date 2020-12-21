@@ -2,11 +2,9 @@
 {
     public class JumpRandomPageCommand : CommandElement
     {
-        public JumpRandomPageCommand(string name) : base(name)
+        public JumpRandomPageCommand()
         {
-            this.Group = Properties.Resources.CommandGroupMove;
-            this.Text = Properties.Resources.CommandJumpRandomPage;
-            this.Note = Properties.Resources.CommandJumpRandomPageNote;
+            this.Group = Properties.Resources.CommandGroup_Move;
             this.IsShowMessage = false;
         }
 

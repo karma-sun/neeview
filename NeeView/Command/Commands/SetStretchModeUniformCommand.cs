@@ -6,11 +6,9 @@ namespace NeeView
 {
     public class SetStretchModeUniformCommand : CommandElement
     {
-        public SetStretchModeUniformCommand(string name) : base(name)
+        public SetStretchModeUniformCommand()
         {
-            this.Group = Properties.Resources.CommandGroupImageScale;
-            this.Text = Properties.Resources.CommandSetStretchModeUniform;
-            this.Note = Properties.Resources.CommandSetStretchModeUniformNote;
+            this.Group = Properties.Resources.CommandGroup_ImageScale;
             this.IsShowMessage = true;
 
             this.ParameterSource = new CommandParameterSource(new StretchModeCommandParameter());

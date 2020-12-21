@@ -5,12 +5,9 @@ namespace NeeView
 {
     public class ToggleMainViewFloatingCommand : CommandElement
     {
-        public ToggleMainViewFloatingCommand(string name) : base(name)
+        public ToggleMainViewFloatingCommand()
         {
-            this.Group = Properties.Resources.CommandGroupViewManipulation;
-            this.Text = Properties.Resources.CommandToggleMainViewFloating;
-            this.MenuText = Properties.Resources.CommandToggleMainViewFloatingMenu;
-            this.Note = Properties.Resources.CommandToggleMainViewFloatingNote;
+            this.Group = Properties.Resources.CommandGroup_ViewManipulation;
             this.IsShowMessage = false;
         }
 

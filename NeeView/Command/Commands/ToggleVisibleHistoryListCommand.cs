@@ -6,12 +6,9 @@ namespace NeeView
 {
     public class ToggleVisibleHistoryListCommand : CommandElement
     {
-        public ToggleVisibleHistoryListCommand(string name) : base(name)
+        public ToggleVisibleHistoryListCommand()
         {
-            this.Group = Properties.Resources.CommandGroupPanel;
-            this.Text = Properties.Resources.CommandToggleVisibleHistoryList;
-            this.MenuText = Properties.Resources.CommandToggleVisibleHistoryListMenu;
-            this.Note = Properties.Resources.CommandToggleVisibleHistoryListNote;
+            this.Group = Properties.Resources.CommandGroup_Panel;
             this.ShortCutKey = "H";
             this.IsShowMessage = false;
         }
@@ -23,7 +20,7 @@ namespace NeeView
 
         public override string ExecuteMessage(object sender, CommandContext e)
         {
-            return SidePanelFrame.Current.IsVisibleHistoryList ? Properties.Resources.CommandToggleVisibleHistoryListOff : Properties.Resources.CommandToggleVisibleHistoryListOn;
+            return SidePanelFrame.Current.IsVisibleHistoryList ? Properties.Resources.ToggleVisibleHistoryListCommand_Off : Properties.Resources.ToggleVisibleHistoryListCommand_On;
         }
 
         [MethodArgument("@CommandToggleArgument")]

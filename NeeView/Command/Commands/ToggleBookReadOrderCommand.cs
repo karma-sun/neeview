@@ -2,11 +2,9 @@
 {
     public class ToggleBookReadOrderCommand : CommandElement
     {
-        public ToggleBookReadOrderCommand(string name) : base(name)
+        public ToggleBookReadOrderCommand()
         {
-            this.Group = Properties.Resources.CommandGroupPageSetting;
-            this.Text = Properties.Resources.CommandToggleBookReadOrder;
-            this.Note = Properties.Resources.CommandToggleBookReadOrderNote;
+            this.Group = Properties.Resources.CommandGroup_PageSetting;
             this.IsShowMessage = true;
         }
 

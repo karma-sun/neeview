@@ -2,11 +2,9 @@
 {
     public class SetDefaultPageSettingCommand : CommandElement
     {
-        public SetDefaultPageSettingCommand(string name) : base(name)
+        public SetDefaultPageSettingCommand()
         {
-            this.Group = Properties.Resources.CommandGroupPageSetting;
-            this.Text = Properties.Resources.CommandSetDefaultPageSetting;
-            this.Note = Properties.Resources.CommandSetDefaultPageSettingNote;
+            this.Group = Properties.Resources.CommandGroup_PageSetting;
             this.IsShowMessage = true;
         }
 

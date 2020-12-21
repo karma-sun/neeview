@@ -9,11 +9,9 @@ namespace NeeView
 {
     public class PrevScrollPageCommand : CommandElement
     {
-        public PrevScrollPageCommand(string name) : base(name)
+        public PrevScrollPageCommand()
         {
-            this.Group = Properties.Resources.CommandGroupMove;
-            this.Text = Properties.Resources.CommandPrevScrollPage;
-            this.Note = Properties.Resources.CommandPrevScrollPageNote;
+            this.Group = Properties.Resources.CommandGroup_Move;
             this.ShortCutKey = "WheelUp";
             this.IsShowMessage = false;
             this.PairPartner = "NextScrollPage";

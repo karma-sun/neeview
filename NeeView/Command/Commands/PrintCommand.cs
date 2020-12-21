@@ -2,12 +2,9 @@
 {
     public class PrintCommand : CommandElement
     {
-        public PrintCommand(string name) : base(name)
+        public PrintCommand()
         {
-            this.Group = Properties.Resources.CommandGroupFile;
-            this.Text = Properties.Resources.CommandPrint;
-            this.MenuText = Properties.Resources.CommandPrintMenu;
-            this.Note = Properties.Resources.CommandPrintNote;
+            this.Group = Properties.Resources.CommandGroup_File;
             this.ShortCutKey = "Ctrl+P";
             this.IsShowMessage = false;
         }

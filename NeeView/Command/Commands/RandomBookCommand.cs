@@ -2,11 +2,9 @@
 {
     public class RandomBookCommand : CommandElement
     {
-        public RandomBookCommand(string name) : base(name)
+        public RandomBookCommand()
         {
-            this.Group = Properties.Resources.CommandGroupBookMove;
-            this.Text = Properties.Resources.CommandRandomFolder;
-            this.Note = Properties.Resources.CommandRandomFolderNote;
+            this.Group = Properties.Resources.CommandGroup_BookMove;
             this.IsShowMessage = false;
         }
 

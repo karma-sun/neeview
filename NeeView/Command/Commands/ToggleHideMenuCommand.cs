@@ -5,12 +5,9 @@ namespace NeeView
 {
     public class ToggleHideMenuCommand : CommandElement
     {
-        public ToggleHideMenuCommand(string name) : base(name)
+        public ToggleHideMenuCommand()
         {
-            this.Group = Properties.Resources.CommandGroupWindow;
-            this.Text = Properties.Resources.CommandToggleHideMenu;
-            this.MenuText = Properties.Resources.CommandToggleHideMenuMenu;
-            this.Note = Properties.Resources.CommandToggleHideMenuNote;
+            this.Group = Properties.Resources.CommandGroup_Window;
             this.IsShowMessage = false;
         }
 
@@ -21,7 +18,7 @@ namespace NeeView
 
         public override string ExecuteMessage(object sender, CommandContext e)
         {
-            return Config.Current.MenuBar.IsHideMenu ? Properties.Resources.CommandToggleHideMenuOff : Properties.Resources.CommandToggleHideMenuOn;
+            return Config.Current.MenuBar.IsHideMenu ? Properties.Resources.ToggleHideMenuCommand_Off : Properties.Resources.ToggleHideMenuCommand_On;
         }
 
         public override void Execute(object sender, CommandContext e)

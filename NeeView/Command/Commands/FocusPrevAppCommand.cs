@@ -2,12 +2,9 @@
 {
     public class FocusPrevAppCommand : CommandElement
     {
-        public FocusPrevAppCommand(string name) : base(name)
+        public FocusPrevAppCommand()
         {
-            this.Group = Properties.Resources.CommandGroupWindow;
-            this.Text = Properties.Resources.CommandFocusPrevApp;
-            this.MenuText = Properties.Resources.CommandFocusPrevAppMenu;
-            this.Note = Properties.Resources.CommandFocusPrevAppNote;
+            this.Group = Properties.Resources.CommandGroup_Window;
             this.ShortCutKey = "Ctrl+Shift+Tab";
             this.IsShowMessage = false;
         }

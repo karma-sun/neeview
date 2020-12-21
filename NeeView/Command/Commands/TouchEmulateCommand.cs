@@ -2,11 +2,9 @@
 {
     public class TouchEmulateCommand : CommandElement
     {
-        public TouchEmulateCommand(string name) : base(name)
+        public TouchEmulateCommand()
         {
-            this.Group = Properties.Resources.CommandGroupOther;
-            this.Text = Properties.Resources.CommandTouchEmulate;
-            this.Note = Properties.Resources.CommandTouchEmulateNote;
+            this.Group = Properties.Resources.CommandGroup_Other;
             this.IsShowMessage = false;
         }
 

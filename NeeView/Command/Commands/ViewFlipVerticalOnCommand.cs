@@ -2,11 +2,9 @@
 {
     public class ViewFlipVerticalOnCommand : CommandElement
     {
-        public ViewFlipVerticalOnCommand(string name) : base(name)
+        public ViewFlipVerticalOnCommand()
         {
-            this.Group = Properties.Resources.CommandGroupViewManipulation;
-            this.Text = Properties.Resources.CommandViewFlipVerticalOn;
-            this.Note = Properties.Resources.CommandViewFlipVerticalOnNote;
+            this.Group = Properties.Resources.CommandGroup_ViewManipulation;
             this.IsShowMessage = false;
         }
 

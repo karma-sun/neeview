@@ -2,11 +2,9 @@
 {
     public class ClearHistoryInPlaceCommand : CommandElement
     {
-        public ClearHistoryInPlaceCommand(string name) : base(name)
+        public ClearHistoryInPlaceCommand()
         {
-            this.Group = Properties.Resources.CommandGroupFile;
-            this.Text = Properties.Resources.CommandClearHistoryInPlace;
-            this.Note = Properties.Resources.CommandClearHistoryInPlaceNote;
+            this.Group = Properties.Resources.CommandGroup_File;
             this.IsShowMessage = true;
         }
 

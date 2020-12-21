@@ -9,11 +9,9 @@ namespace NeeView
 {
     public class ViewScrollUpCommand : CommandElement
     {
-        public ViewScrollUpCommand(string name) : base(name)
+        public ViewScrollUpCommand()
         {
-            this.Group = Properties.Resources.CommandGroupViewManipulation;
-            this.Text = Properties.Resources.CommandViewScrollUp;
-            this.Note = Properties.Resources.CommandViewScrollUpNote;
+            this.Group = Properties.Resources.CommandGroup_ViewManipulation;
             this.IsShowMessage = false;
 
             this.ParameterSource = new CommandParameterSource(new ViewScrollCommandParameter());

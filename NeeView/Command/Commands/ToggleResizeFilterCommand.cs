@@ -6,12 +6,9 @@ namespace NeeView
 {
     public class ToggleResizeFilterCommand : CommandElement
     {
-        public ToggleResizeFilterCommand(string name) : base(name)
+        public ToggleResizeFilterCommand()
         {
-            this.Group = Properties.Resources.CommandGroupEffect;
-            this.Text = Properties.Resources.CommandToggleResizeFilter;
-            this.MenuText = Properties.Resources.CommandToggleResizeFilterMenu;
-            this.Note = Properties.Resources.CommandToggleResizeFilterNote;
+            this.Group = Properties.Resources.CommandGroup_Effect;
             this.ShortCutKey = "Ctrl+R";
             this.IsShowMessage = true;
         }
@@ -23,7 +20,7 @@ namespace NeeView
 
         public override string ExecuteMessage(object sender, CommandContext e)
         {
-            return Config.Current.ImageResizeFilter.IsEnabled ? Properties.Resources.CommandToggleResizeFilterOff : Properties.Resources.CommandToggleResizeFilterOn;
+            return Config.Current.ImageResizeFilter.IsEnabled ? Properties.Resources.ToggleResizeFilterCommand_Off : Properties.Resources.ToggleResizeFilterCommand_On;
         }
 
         public override bool CanExecute(object sender, CommandContext e)

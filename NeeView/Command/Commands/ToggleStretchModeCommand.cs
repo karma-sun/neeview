@@ -10,11 +10,9 @@ namespace NeeView
 {
     public class ToggleStretchModeCommand : CommandElement
     {
-        public ToggleStretchModeCommand(string name) : base(name)
+        public ToggleStretchModeCommand()
         {
-            this.Group = Properties.Resources.CommandGroupImageScale;
-            this.Text = Properties.Resources.CommandToggleStretchMode;
-            this.Note = Properties.Resources.CommandToggleStretchModeNote;
+            this.Group = Properties.Resources.CommandGroup_ImageScale;
             this.ShortCutKey = "LeftButton+WheelDown";
             this.IsShowMessage = true;
 

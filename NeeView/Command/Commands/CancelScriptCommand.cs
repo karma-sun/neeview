@@ -2,11 +2,9 @@
 {
     public class CancelScriptCommand : CommandElement
     {
-        public CancelScriptCommand(string name) : base(name)
+        public CancelScriptCommand()
         {
-            this.Group = Properties.Resources.CommandGroupScript;
-            this.Text = Properties.Resources.CommandCancelScript;
-            this.Note = Properties.Resources.CommandCancelScriptNote;
+            this.Group = Properties.Resources.CommandGroup_Script;
             this.IsShowMessage = false;
         }
 

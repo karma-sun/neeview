@@ -2,11 +2,9 @@
 {
     public class PrevHistoryPageCommand : CommandElement
     {
-        public PrevHistoryPageCommand(string name) : base(name)
+        public PrevHistoryPageCommand()
         {
-            this.Group = Properties.Resources.CommandGroupMove;
-            this.Text = Properties.Resources.CommandPrevPageHistory;
-            this.Note = Properties.Resources.CommandPrevPageHistoryNote;
+            this.Group = Properties.Resources.CommandGroup_Move;
             this.ShortCutKey = "Back";
             this.IsShowMessage = false;
         }

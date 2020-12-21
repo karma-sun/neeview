@@ -2,12 +2,9 @@
 {
     public class DeleteBookCommand : CommandElement
     {
-        public DeleteBookCommand(string name) : base(name)
+        public DeleteBookCommand()
         {
-            this.Group = Properties.Resources.CommandGroupFile;
-            this.Text = Properties.Resources.CommandDeleteBook;
-            this.MenuText = Properties.Resources.CommandDeleteBookMenu;
-            this.Note = Properties.Resources.CommandDeleteBookNote;
+            this.Group = Properties.Resources.CommandGroup_File;
             this.IsShowMessage = false;
         }
 

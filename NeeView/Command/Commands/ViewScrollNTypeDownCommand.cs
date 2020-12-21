@@ -2,11 +2,9 @@
 {
     public class ViewScrollNTypeDownCommand : CommandElement
     {
-        public ViewScrollNTypeDownCommand(string name) : base(name)
+        public ViewScrollNTypeDownCommand()
         {
-            this.Group = Properties.Resources.CommandGroupViewManipulation;
-            this.Text = Properties.Resources.CommandViewScrollNTypeDown;
-            this.Note = Properties.Resources.CommandViewScrollNTypeDownNote;
+            this.Group = Properties.Resources.CommandGroup_ViewManipulation;
             this.IsShowMessage = false;
 
             // ViewScrollNTypeUpCommand

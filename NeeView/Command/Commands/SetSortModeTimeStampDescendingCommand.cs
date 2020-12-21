@@ -5,11 +5,9 @@ namespace NeeView
 {
     public class SetSortModeTimeStampDescendingCommand : CommandElement
     {
-        public SetSortModeTimeStampDescendingCommand(string name) : base(name)
+        public SetSortModeTimeStampDescendingCommand()
         {
-            this.Group = Properties.Resources.CommandGroupPageOrder;
-            this.Text = Properties.Resources.CommandSetSortModeTimeStampDescending;
-            this.Note = Properties.Resources.CommandSetSortModeTimeStampDescendingNote;
+            this.Group = Properties.Resources.CommandGroup_PageOrder;
             this.IsShowMessage = true;
         }
 

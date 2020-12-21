@@ -2,11 +2,9 @@
 {
     public class ViewScrollLeftCommand : CommandElement
     {
-        public ViewScrollLeftCommand(string name) : base(name)
+        public ViewScrollLeftCommand()
         {
-            this.Group = Properties.Resources.CommandGroupViewManipulation;
-            this.Text = Properties.Resources.CommandViewScrollLeft;
-            this.Note = Properties.Resources.CommandViewScrollLeftNote;
+            this.Group = Properties.Resources.CommandGroup_ViewManipulation;
             this.IsShowMessage = false;
             
             // ViewScrollUp

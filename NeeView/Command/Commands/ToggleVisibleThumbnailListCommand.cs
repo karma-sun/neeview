@@ -6,12 +6,9 @@ namespace NeeView
 {
     public class ToggleVisibleThumbnailListCommand : CommandElement
     {
-        public ToggleVisibleThumbnailListCommand(string name) : base(name)
+        public ToggleVisibleThumbnailListCommand()
         {
-            this.Group = Properties.Resources.CommandGroupFilmStrip;
-            this.Text = Properties.Resources.CommandToggleVisibleThumbnailList;
-            this.MenuText = Properties.Resources.CommandToggleVisibleThumbnailListMenu;
-            this.Note = Properties.Resources.CommandToggleVisibleThumbnailListNote;
+            this.Group = Properties.Resources.CommandGroup_FilmStrip;
             this.IsShowMessage = false;
         }
 
@@ -22,7 +19,7 @@ namespace NeeView
 
         public override string ExecuteMessage(object sender, CommandContext e)
         {
-            return ThumbnailList.Current.IsVisible ? Properties.Resources.CommandToggleVisibleThumbnailListOff : Properties.Resources.CommandToggleVisibleThumbnailListOn;
+            return ThumbnailList.Current.IsVisible ? Properties.Resources.ToggleVisibleThumbnailListCommand_Off : Properties.Resources.ToggleVisibleThumbnailListCommand_On;
         }
 
         [MethodArgument("@CommandToggleArgument")]

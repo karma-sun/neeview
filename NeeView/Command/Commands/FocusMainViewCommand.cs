@@ -5,12 +5,9 @@ namespace NeeView
 {
     public class FocusMainViewCommand : CommandElement
     {
-        public FocusMainViewCommand(string name) : base(name)
+        public FocusMainViewCommand()
         {
-            this.Group = Properties.Resources.CommandGroupPanel;
-            this.Text = Properties.Resources.CommandFocusMainView;
-            this.MenuText = Properties.Resources.CommandFocusMainViewMenu;
-            this.Note = Properties.Resources.CommandFocusMainViewNote;
+            this.Group = Properties.Resources.CommandGroup_Panel;
             this.IsShowMessage = false;
 
             this.ParameterSource = new CommandParameterSource(new FocusMainViewCommandParameter() { NeedClosePanels = false });

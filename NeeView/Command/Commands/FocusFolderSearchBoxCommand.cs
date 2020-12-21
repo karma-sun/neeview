@@ -2,12 +2,9 @@
 {
     public class FocusFolderSearchBoxCommand : CommandElement
     {
-        public FocusFolderSearchBoxCommand(string name) : base(name)
+        public FocusFolderSearchBoxCommand()
         {
-            this.Group = Properties.Resources.CommandGroupPanel;
-            this.Text = Properties.Resources.CommandFocusFolderSearchBox;
-            this.MenuText = Properties.Resources.CommandFocusFolderSearchBoxMenu;
-            this.Note = Properties.Resources.CommandFocusFolderSearchBoxNote;
+            this.Group = Properties.Resources.CommandGroup_Panel;
             this.IsShowMessage = false;
         }
 

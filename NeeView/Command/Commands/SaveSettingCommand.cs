@@ -2,11 +2,9 @@
 {
     public class SaveSettingCommand : CommandElement
     {
-        public SaveSettingCommand(string name) : base(name)
+        public SaveSettingCommand()
         {
-            this.Group = Properties.Resources.CommandGroupOther;
-            this.Text = Properties.Resources.CommandSaveSetting;
-            this.Note = Properties.Resources.CommandSaveSettingNote;
+            this.Group = Properties.Resources.CommandGroup_Other;
             this.IsShowMessage = true;
         }
 

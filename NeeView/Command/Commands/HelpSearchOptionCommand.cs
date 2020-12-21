@@ -2,12 +2,9 @@
 {
     public class HelpSearchOptionCommand : CommandElement
     {
-        public HelpSearchOptionCommand(string name) : base(name)
+        public HelpSearchOptionCommand()
         {
-            this.Group = Properties.Resources.CommandGroupOther;
-            this.Text = Properties.Resources.CommandHelpSearchOption;
-            this.MenuText = Properties.Resources.CommandHelpSearchOptionMenu;
-            this.Note = Properties.Resources.CommandHelpSearchOptionNote;
+            this.Group = Properties.Resources.CommandGroup_Other;
             this.IsShowMessage = false;
         }
         public override void Execute(object sender, CommandContext e)

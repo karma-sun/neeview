@@ -2,12 +2,9 @@
 {
     public class UnloadCommand : CommandElement
     {
-        public UnloadCommand(string name) : base(name)
+        public UnloadCommand()
         {
-            this.Group = Properties.Resources.CommandGroupFile;
-            this.Text = Properties.Resources.CommandUnload;
-            this.MenuText = Properties.Resources.CommandUnloadMenu;
-            this.Note = Properties.Resources.CommandUnloadNote;
+            this.Group = Properties.Resources.CommandGroup_File;
             this.IsShowMessage = false;
         }
 

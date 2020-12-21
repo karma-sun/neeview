@@ -2,12 +2,9 @@
 {
     public class PasteCommand : CommandElement
     {
-        public PasteCommand(string name) : base(name)
+        public PasteCommand()
         {
-            this.Group = Properties.Resources.CommandGroupFile;
-            this.Text = Properties.Resources.CommandPaste;
-            this.MenuText = Properties.Resources.CommandPasteMenu;
-            this.Note = Properties.Resources.CommandPasteNote;
+            this.Group = Properties.Resources.CommandGroup_File;
             this.ShortCutKey = "Ctrl+V";
             this.IsShowMessage = false;
         }

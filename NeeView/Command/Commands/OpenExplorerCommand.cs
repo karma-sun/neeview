@@ -2,11 +2,9 @@
 {
     public class OpenExplorerCommand : CommandElement
     {
-        public OpenExplorerCommand(string name) : base(name)
+        public OpenExplorerCommand()
         {
-            this.Group = Properties.Resources.CommandGroupFile;
-            this.Text = Properties.Resources.CommandOpenFilePlace;
-            this.Note = Properties.Resources.CommandOpenFilePlaceNote;
+            this.Group = Properties.Resources.CommandGroup_File;
             this.IsShowMessage = false;
         }
 

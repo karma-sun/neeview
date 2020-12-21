@@ -2,12 +2,9 @@
 {
     public class ShowHiddenPanelsCommand : CommandElement
     {
-        public ShowHiddenPanelsCommand(string name) : base(name)
+        public ShowHiddenPanelsCommand()
         {
-            this.Group = Properties.Resources.CommandGroupWindow;
-            this.Text = Properties.Resources.CommandShowHiddenPanels;
-            this.MenuText = Properties.Resources.CommandShowHiddenPanelsMenu;
-            this.Note = Properties.Resources.CommandShowHiddenPanelsNote;
+            this.Group = Properties.Resources.CommandGroup_Window;
             this.TouchGesture = "TouchCenter";
             this.IsShowMessage = false;
         }

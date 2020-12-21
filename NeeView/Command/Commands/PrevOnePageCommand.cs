@@ -2,11 +2,9 @@
 {
     public class PrevOnePageCommand : CommandElement
     {
-        public PrevOnePageCommand(string name) : base(name)
+        public PrevOnePageCommand()
         {
-            this.Group = Properties.Resources.CommandGroupMove;
-            this.Text = Properties.Resources.CommandPrevOnePage;
-            this.Note = Properties.Resources.CommandPrevOnePageNote;
+            this.Group = Properties.Resources.CommandGroup_Move;
             this.MouseGesture = "LR";
             this.IsShowMessage = false;
             this.PairPartner = "NextOnePage";

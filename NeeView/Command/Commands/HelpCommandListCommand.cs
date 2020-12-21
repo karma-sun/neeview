@@ -2,12 +2,9 @@
 {
     public class HelpCommandListCommand : CommandElement
     {
-        public HelpCommandListCommand(string name) : base(name)
+        public HelpCommandListCommand()
         {
-            this.Group = Properties.Resources.CommandGroupOther;
-            this.Text = Properties.Resources.CommandHelpCommandList;
-            this.MenuText = Properties.Resources.CommandHelpCommandListMenu;
-            this.Note = Properties.Resources.CommandHelpCommandListNote;
+            this.Group = Properties.Resources.CommandGroup_Other;
             this.IsShowMessage = false;
         }
 

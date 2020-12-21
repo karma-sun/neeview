@@ -5,11 +5,9 @@ namespace NeeView
 {
     public class SetBookOrderByTimeStampACommand : CommandElement
     {
-        public SetBookOrderByTimeStampACommand(string name) : base(name)
+        public SetBookOrderByTimeStampACommand()
         {
-            this.Group = Properties.Resources.CommandGroupBookOrder;
-            this.Text = Properties.Resources.CommandSetFolderOrderByTimeStampA;
-            this.Note = Properties.Resources.CommandSetFolderOrderByTimeStampANote;
+            this.Group = Properties.Resources.CommandGroup_BookOrder;
             this.IsShowMessage = true;
         }
 

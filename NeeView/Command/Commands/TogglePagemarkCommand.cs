@@ -6,12 +6,9 @@ namespace NeeView
 {
     public class TogglePagemarkCommand : CommandElement
     {
-        public TogglePagemarkCommand(string name) : base(name)
+        public TogglePagemarkCommand()
         {
-            this.Group = Properties.Resources.CommandGroupPagemark;
-            this.Text = Properties.Resources.CommandTogglePagemark;
-            this.MenuText = Properties.Resources.CommandTogglePagemarkMenu;
-            this.Note = Properties.Resources.CommandTogglePagemarkNote;
+            this.Group = Properties.Resources.CommandGroup_Pagemark;
             this.ShortCutKey = "Ctrl+M";
             this.IsShowMessage = true;
         }
@@ -23,7 +20,7 @@ namespace NeeView
 
         public override string ExecuteMessage(object sender, CommandContext e)
         {
-            return BookOperation.Current.IsMarked() ? Properties.Resources.CommandTogglePagemarkOff : Properties.Resources.CommandTogglePagemarkOn;
+            return BookOperation.Current.IsMarked() ? Properties.Resources.TogglePagemarkCommand_Off : Properties.Resources.TogglePagemarkCommand_On;
         }
 
         public override bool CanExecute(object sender, CommandContext e)

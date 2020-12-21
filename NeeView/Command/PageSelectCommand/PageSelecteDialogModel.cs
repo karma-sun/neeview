@@ -11,7 +11,7 @@ namespace NeeView
         public int Min { get; set; }
         public int Max { get; set; }
 
-        public string Caption => Properties.Resources.CommandJumpPage;
+        public string Caption => Properties.Resources.JumpPageCommand_Text;
 
         public string Label => string.Format(Properties.Resources.NotifyJumpPageLabel, Min, Max);
 

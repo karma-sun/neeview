@@ -5,11 +5,9 @@ namespace NeeView
 {
     public class ViewRotateLeftCommand : CommandElement
     {
-        public ViewRotateLeftCommand(string name) : base(name)
+        public ViewRotateLeftCommand()
         {
-            this.Group = Properties.Resources.CommandGroupViewManipulation;
-            this.Text = Properties.Resources.CommandViewRotateLeft;
-            this.Note = Properties.Resources.CommandViewRotateLeftNote;
+            this.Group = Properties.Resources.CommandGroup_ViewManipulation;
             this.IsShowMessage = false;
             this.ParameterSource = new CommandParameterSource(new ViewRotateCommandParameter());
         }

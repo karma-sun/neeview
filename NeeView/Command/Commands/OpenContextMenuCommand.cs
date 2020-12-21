@@ -2,11 +2,9 @@
 {
     public class OpenContextMenuCommand : CommandElement
     {
-        public OpenContextMenuCommand(string name) : base(name)
+        public OpenContextMenuCommand()
         {
-            this.Group = Properties.Resources.CommandGroupOther;
-            this.Text = Properties.Resources.CommandOpenContextMenu;
-            this.Note = Properties.Resources.CommandOpenContextMenuNote;
+            this.Group = Properties.Resources.CommandGroup_Other;
             this.IsShowMessage = false;
         }
 

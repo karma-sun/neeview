@@ -6,12 +6,9 @@ namespace NeeView
 {
     public class ToggleIsAutoRotateRightCommand : CommandElement
     {
-        public ToggleIsAutoRotateRightCommand(string name) : base(name)
+        public ToggleIsAutoRotateRightCommand()
         {
-            this.Group = Properties.Resources.CommandGroupViewManipulation;
-            this.Text = Properties.Resources.CommandToggleIsAutoRotateRight;
-            this.MenuText = Properties.Resources.CommandToggleIsAutoRotateRightMenu;
-            this.Note = Properties.Resources.CommandToggleIsAutoRotateRightNote;
+            this.Group = Properties.Resources.CommandGroup_ViewManipulation;
             this.IsShowMessage = true;
         }
 
@@ -22,7 +19,7 @@ namespace NeeView
 
         public override string ExecuteMessage(object sender, CommandContext e)
         {
-            return MainViewComponent.Current.ViewController.GetAutoRotateRight() ? Properties.Resources.CommandToggleIsAutoRotateRightOff : Properties.Resources.CommandToggleIsAutoRotateRightOn;
+            return MainViewComponent.Current.ViewController.GetAutoRotateRight() ? Properties.Resources.ToggleIsAutoRotateRightCommand_Off : Properties.Resources.ToggleIsAutoRotateRightCommand_On;
         }
         
         public override bool CanExecute(object sender, CommandContext e)

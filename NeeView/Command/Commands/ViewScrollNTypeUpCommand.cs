@@ -7,11 +7,9 @@ namespace NeeView
 {
     public class ViewScrollNTypeUpCommand : CommandElement
     {
-        public ViewScrollNTypeUpCommand(string name) : base(name)
+        public ViewScrollNTypeUpCommand()
         {
-            this.Group = Properties.Resources.CommandGroupViewManipulation;
-            this.Text = Properties.Resources.CommandViewScrollNTypeUp;
-            this.Note = Properties.Resources.CommandViewScrollNTypeUpNote;
+            this.Group = Properties.Resources.CommandGroup_ViewManipulation;
             this.IsShowMessage = false;
 
             this.ParameterSource = new CommandParameterSource(new ViewScrollNTypeCommandParameter());

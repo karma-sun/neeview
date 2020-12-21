@@ -2,12 +2,9 @@
 {
     public class StretchWindowCommand : CommandElement
     {
-        public StretchWindowCommand(string name) : base(name)
+        public StretchWindowCommand()
         {
-            this.Group = Properties.Resources.CommandGroupWindow;
-            this.Text = Properties.Resources.CommandStretchWindow;
-            this.MenuText = Properties.Resources.CommandStretchWindowMenu;
-            this.Note = Properties.Resources.CommandStretchWindowNote;
+            this.Group = Properties.Resources.CommandGroup_Window;
             this.IsShowMessage = false;
         }
 

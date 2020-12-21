@@ -2,11 +2,9 @@
 {
     public class ToggleSortModeCommand : CommandElement
     {
-        public ToggleSortModeCommand(string name) : base(name)
+        public ToggleSortModeCommand()
         {
-            this.Group = Properties.Resources.CommandGroupPageOrder;
-            this.Text = Properties.Resources.CommandToggleSortMode;
-            this.Note = Properties.Resources.CommandToggleSortModeNote;
+            this.Group = Properties.Resources.CommandGroup_PageOrder;
             this.IsShowMessage = true;
         }
         public override string ExecuteMessage(object sender, CommandContext e)

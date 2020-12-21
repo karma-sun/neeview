@@ -5,12 +5,9 @@ namespace NeeView
 {
     public class ToggleVisibleTitleBarCommand : CommandElement
     {
-        public ToggleVisibleTitleBarCommand(string name) : base(name)
+        public ToggleVisibleTitleBarCommand()
         {
-            this.Group = Properties.Resources.CommandGroupWindow;
-            this.Text = Properties.Resources.CommandToggleVisibleTitleBar;
-            this.MenuText = Properties.Resources.CommandToggleVisibleTitleBarMenu;
-            this.Note = Properties.Resources.CommandToggleVisibleTitleBarNote;
+            this.Group = Properties.Resources.CommandGroup_Window;
             this.IsShowMessage = false;
         }
 
@@ -21,7 +18,7 @@ namespace NeeView
 
         public override string ExecuteMessage(object sender, CommandContext e)
         {
-            return Config.Current.Window.IsCaptionVisible ? Properties.Resources.CommandToggleVisibleTitleBarOff : Properties.Resources.CommandToggleVisibleTitleBarOn;
+            return Config.Current.Window.IsCaptionVisible ? Properties.Resources.ToggleVisibleTitleBarCommand_Off : Properties.Resources.ToggleVisibleTitleBarCommand_On;
         }
 
         public override void Execute(object sender, CommandContext e)

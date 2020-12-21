@@ -6,11 +6,9 @@ namespace NeeView
 {
     public class ToggleIsSupportedWidePageCommand : CommandElement
     {
-        public ToggleIsSupportedWidePageCommand(string name) : base(name)
+        public ToggleIsSupportedWidePageCommand()
         {
-            this.Group = Properties.Resources.CommandGroupPageSetting;
-            this.Text = Properties.Resources.CommandToggleIsSupportedWidePage;
-            this.Note = Properties.Resources.CommandToggleIsSupportedWidePageNote;
+            this.Group = Properties.Resources.CommandGroup_PageSetting;
             this.IsShowMessage = true;
         }
 
@@ -21,7 +19,7 @@ namespace NeeView
 
         public override string ExecuteMessage(object sender, CommandContext e)
         {
-            return BookSettingPresenter.Current.LatestSetting.IsSupportedWidePage ? Properties.Resources.CommandToggleIsSupportedWidePageOff : Properties.Resources.CommandToggleIsSupportedWidePageOn;
+            return BookSettingPresenter.Current.LatestSetting.IsSupportedWidePage ? Properties.Resources.ToggleIsSupportedWidePageCommand_Off : Properties.Resources.ToggleIsSupportedWidePageCommand_On;
         }
 
         public override bool CanExecute(object sender, CommandContext e)

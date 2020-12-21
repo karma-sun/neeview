@@ -4,14 +4,11 @@ using System.Windows.Data;
 
 namespace NeeView
 {
-    public class TogglePermitFileCommandCommand : CommandElement
+    public class TogglePermitFileCommand : CommandElement
     {
-        public TogglePermitFileCommandCommand(string name) : base(name)
+        public TogglePermitFileCommand()
         {
-            this.Group = Properties.Resources.CommandGroupOther;
-            this.Text = Properties.Resources.CommandTogglePermitFileCommand;
-            this.MenuText = Properties.Resources.CommandTogglePermitFileCommandMenu;
-            this.Note = Properties.Resources.CommandTogglePermitFileCommandNote;
+            this.Group = Properties.Resources.CommandGroup_Other;
             this.IsShowMessage = true;
         }
 
@@ -22,7 +19,7 @@ namespace NeeView
 
         public override string ExecuteMessage(object sender, CommandContext e)
         {
-            return Config.Current.System.IsFileWriteAccessEnabled ? Properties.Resources.CommandTogglePermitFileCommandOff : Properties.Resources.CommandTogglePermitFileCommandOn;
+            return Config.Current.System.IsFileWriteAccessEnabled ? Properties.Resources.TogglePermitFileCommand_Off : Properties.Resources.TogglePermitFileCommand_On;
         }
 
         [MethodArgument("@CommandToggleArgument")]

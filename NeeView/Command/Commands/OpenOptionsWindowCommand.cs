@@ -2,12 +2,9 @@
 {
     public class OpenOptionsWindowCommand : CommandElement
     {
-        public OpenOptionsWindowCommand(string name) : base(name)
+        public OpenOptionsWindowCommand()
         {
-            this.Group = Properties.Resources.CommandGroupOther;
-            this.Text = Properties.Resources.CommandOpenSettingWindow;
-            this.MenuText = Properties.Resources.CommandOpenSettingWindowMenu;
-            this.Note = Properties.Resources.CommandOpenSettingWindowNote;
+            this.Group = Properties.Resources.CommandGroup_Other;
             this.IsShowMessage = false;
         }
 

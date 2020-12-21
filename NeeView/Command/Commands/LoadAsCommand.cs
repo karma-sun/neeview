@@ -4,17 +4,14 @@ namespace NeeView
 {
     public class LoadAsCommand : CommandElement
     {
-        public LoadAsCommand(string name) : base(name)
+        public LoadAsCommand()
         {
-            this.Group = Properties.Resources.CommandGroupFile;
-            this.Text = Properties.Resources.CommandLoadAs;
-            this.MenuText = Properties.Resources.CommandLoadAsMenu;
-            this.Note = Properties.Resources.CommandLoadAsNote;
+            this.Group = Properties.Resources.CommandGroup_File;
             this.ShortCutKey = "Ctrl+O";
             this.IsShowMessage = false;
         }
 
-        [MethodArgument("@CommandLoadAsArgument")]
+        [MethodArgument]
         public override void Execute(object sender, CommandContext e)
         {
             var path = e.Args.Length > 0 ? e.Args[0] as string : null;

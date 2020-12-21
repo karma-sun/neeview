@@ -2,12 +2,9 @@
 {
     public class ToggleWindowMinimizeCommand : CommandElement
     {
-        public ToggleWindowMinimizeCommand(string name) : base(name)
+        public ToggleWindowMinimizeCommand()
         {
-            this.Group = Properties.Resources.CommandGroupWindow;
-            this.Text = Properties.Resources.CommandToggleWindowMinimize;
-            this.MenuText = Properties.Resources.CommandToggleWindowMinimizeMenu;
-            this.Note = Properties.Resources.CommandToggleWindowMinimizeNote;
+            this.Group = Properties.Resources.CommandGroup_Window;
             this.IsShowMessage = false;
         }
 

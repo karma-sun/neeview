@@ -2,11 +2,9 @@
 {
     public class ViewResetCommand : CommandElement
     {
-        public ViewResetCommand(string name) : base(name)
+        public ViewResetCommand()
         {
-            this.Group = Properties.Resources.CommandGroupViewManipulation;
-            this.Text = Properties.Resources.CommandViewReset;
-            this.Note = Properties.Resources.CommandViewResetNote;
+            this.Group = Properties.Resources.CommandGroup_ViewManipulation;
             this.IsShowMessage = false;
         }
 

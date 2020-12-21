@@ -2,11 +2,9 @@
 {
     public class ToggleBackgroundCommand : CommandElement
     {
-        public ToggleBackgroundCommand(string name) : base(name)
+        public ToggleBackgroundCommand()
         {
-            this.Group = Properties.Resources.CommandGroupEffect;
-            this.Text = Properties.Resources.CommandToggleBackground;
-            this.Note = Properties.Resources.CommandToggleBackgroundNote;
+            this.Group = Properties.Resources.CommandGroup_Effect;
             this.IsShowMessage = true;
         }
 

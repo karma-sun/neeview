@@ -6,11 +6,9 @@ namespace NeeView
 {
     public class ToggleIsRecursiveFolderCommand : CommandElement
     {
-        public ToggleIsRecursiveFolderCommand(string name) : base(name)
+        public ToggleIsRecursiveFolderCommand()
         {
-            this.Group = Properties.Resources.CommandGroupPageSetting;
-            this.Text = Properties.Resources.CommandToggleIsRecursiveFolder;
-            this.Note = Properties.Resources.CommandToggleIsRecursiveFolderNote;
+            this.Group = Properties.Resources.CommandGroup_PageSetting;
             this.IsShowMessage = true;
         }
 
@@ -21,7 +19,7 @@ namespace NeeView
 
         public override string ExecuteMessage(object sender, CommandContext e)
         {
-            return BookSettingPresenter.Current.LatestSetting.IsRecursiveFolder ? Properties.Resources.CommandToggleIsRecursiveFolderOff : Properties.Resources.CommandToggleIsRecursiveFolderOn;
+            return BookSettingPresenter.Current.LatestSetting.IsRecursiveFolder ? Properties.Resources.ToggleIsRecursiveFolderCommand_Off : Properties.Resources.ToggleIsRecursiveFolderCommand_On;
         }
 
         [MethodArgument("@CommandToggleArgument")]

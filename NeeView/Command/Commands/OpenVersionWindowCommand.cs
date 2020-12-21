@@ -2,12 +2,9 @@
 {
     public class OpenVersionWindowCommand : CommandElement
     {
-        public OpenVersionWindowCommand(string name) : base(name)
+        public OpenVersionWindowCommand()
         {
-            this.Group = Properties.Resources.CommandGroupOther;
-            this.Text = Properties.Resources.CommandOpenVersionWindow;
-            this.MenuText = Properties.Resources.CommandOpenVersionWindowMenu;
-            this.Note = Properties.Resources.CommandOpenVersionWindowNote;
+            this.Group = Properties.Resources.CommandGroup_Other;
             this.IsShowMessage = false;
         }
         public override void Execute(object sender, CommandContext e)

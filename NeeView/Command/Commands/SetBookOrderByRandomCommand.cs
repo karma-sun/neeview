@@ -5,11 +5,9 @@ namespace NeeView
 {
     public class SetBookOrderByRandomCommand : CommandElement
     {
-        public SetBookOrderByRandomCommand(string name) : base(name)
+        public SetBookOrderByRandomCommand()
         {
-            this.Group = Properties.Resources.CommandGroupBookOrder;
-            this.Text = Properties.Resources.CommandSetFolderOrderByRandom;
-            this.Note = Properties.Resources.CommandSetFolderOrderByRandomNote;
+            this.Group = Properties.Resources.CommandGroup_BookOrder;
             this.IsShowMessage = true;
         }
 

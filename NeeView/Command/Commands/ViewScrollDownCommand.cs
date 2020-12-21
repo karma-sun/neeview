@@ -6,11 +6,9 @@ namespace NeeView
 {
     public class ViewScrollDownCommand : CommandElement
     {
-        public ViewScrollDownCommand(string name) : base(name)
+        public ViewScrollDownCommand()
         {
-            this.Group = Properties.Resources.CommandGroupViewManipulation;
-            this.Text = Properties.Resources.CommandViewScrollDown;
-            this.Note = Properties.Resources.CommandViewScrollDownNote;
+            this.Group = Properties.Resources.CommandGroup_ViewManipulation;
             this.IsShowMessage = false;
             
             // ViewScrollUp

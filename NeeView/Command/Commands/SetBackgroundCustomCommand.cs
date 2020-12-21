@@ -5,11 +5,9 @@ namespace NeeView
 {
     public class SetBackgroundCustomCommand : CommandElement
     {
-        public SetBackgroundCustomCommand(string name) : base(name)
+        public SetBackgroundCustomCommand()
         {
-            this.Group = Properties.Resources.CommandGroupEffect;
-            this.Text = Properties.Resources.CommandSetBackgroundCustom;
-            this.Note = Properties.Resources.CommandSetBackgroundCustomNote;
+            this.Group = Properties.Resources.CommandGroup_Effect;
             this.IsShowMessage = true;
         }
 

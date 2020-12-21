@@ -126,7 +126,7 @@ namespace NeeView
                     var attribute = (MethodArgumentAttribute)Attribute.GetCustomAttributes(info, typeof(MethodArgumentAttribute)).FirstOrDefault();
                     if (attribute != null)
                     {
-                        var tokens = ResourceService.GetString(attribute.Note).Split('|');
+                        var tokens = MethodArgumentAttributeExtensions.GetMethodNote(info, attribute).Split('|');
                         int index = 0;
                         argument += "<dl>";
                         while (index < tokens.Length)

@@ -5,11 +5,9 @@ namespace NeeView
 {
     public class SetBackgroundCheckCommand : CommandElement
     {
-        public SetBackgroundCheckCommand(string name) : base(name)
+        public SetBackgroundCheckCommand()
         {
-            this.Group = Properties.Resources.CommandGroupEffect;
-            this.Text = Properties.Resources.CommandSetBackgroundCheck;
-            this.Note = Properties.Resources.CommandSetBackgroundCheckNote;
+            this.Group = Properties.Resources.CommandGroup_Effect;
             this.IsShowMessage = true;
         }
 

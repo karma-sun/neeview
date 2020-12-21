@@ -7,11 +7,9 @@ namespace NeeView
 {
     public class ViewScaleDownCommand : CommandElement
     {
-        public ViewScaleDownCommand(string name) : base(name)
+        public ViewScaleDownCommand()
         {
-            this.Group = Properties.Resources.CommandGroupViewManipulation;
-            this.Text = Properties.Resources.CommandViewScaleDown;
-            this.Note = Properties.Resources.CommandViewScaleDownNote;
+            this.Group = Properties.Resources.CommandGroup_ViewManipulation;
             this.ShortCutKey = "RightButton+WheelDown";
             this.IsShowMessage = false;
 

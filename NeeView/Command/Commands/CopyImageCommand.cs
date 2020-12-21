@@ -6,12 +6,9 @@ namespace NeeView
 {
     public class CopyImageCommand : CommandElement
     {
-        public CopyImageCommand(string name) : base(name)
+        public CopyImageCommand()
         {
-            this.Group = Properties.Resources.CommandGroupFile;
-            this.Text = Properties.Resources.CommandCopyImage;
-            this.MenuText = Properties.Resources.CommandCopyImageMenu;
-            this.Note = Properties.Resources.CommandCopyImageNote;
+            this.Group = Properties.Resources.CommandGroup_File;
             this.ShortCutKey = "Ctrl+Shift+C";
             this.IsShowMessage = true;
         }

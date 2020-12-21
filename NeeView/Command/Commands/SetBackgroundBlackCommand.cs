@@ -5,11 +5,9 @@ namespace NeeView
 {
     public class SetBackgroundBlackCommand : CommandElement
     {
-        public SetBackgroundBlackCommand(string name) : base(name)
+        public SetBackgroundBlackCommand()
         {
-            this.Group = Properties.Resources.CommandGroupEffect;
-            this.Text = Properties.Resources.CommandSetBackgroundBlack;
-            this.Note = Properties.Resources.CommandSetBackgroundBlackNote;
+            this.Group = Properties.Resources.CommandGroup_Effect;
             this.IsShowMessage = true;
         }
 

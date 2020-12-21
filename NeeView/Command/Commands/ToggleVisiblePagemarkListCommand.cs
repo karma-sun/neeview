@@ -6,12 +6,9 @@ namespace NeeView
 {
     public class ToggleVisiblePagemarkListCommand : CommandElement
     {
-        public ToggleVisiblePagemarkListCommand(string name) : base(name)
+        public ToggleVisiblePagemarkListCommand()
         {
-            this.Group = Properties.Resources.CommandGroupPanel;
-            this.Text = Properties.Resources.CommandToggleVisiblePagemarkList;
-            this.MenuText = Properties.Resources.CommandToggleVisiblePagemarkListMenu;
-            this.Note = Properties.Resources.CommandToggleVisiblePagemarkListNote;
+            this.Group = Properties.Resources.CommandGroup_Panel;
             this.ShortCutKey = "M";
             this.IsShowMessage = false;
         }
@@ -23,7 +20,7 @@ namespace NeeView
 
         public override string ExecuteMessage(object sender, CommandContext e)
         {
-            return SidePanelFrame.Current.IsVisiblePagemarkList ? Properties.Resources.CommandToggleVisiblePagemarkListOff : Properties.Resources.CommandToggleVisiblePagemarkListOn;
+            return SidePanelFrame.Current.IsVisiblePagemarkList ? Properties.Resources.ToggleVisiblePagemarkListCommand_Off : Properties.Resources.ToggleVisiblePagemarkListCommand_On;
         }
 
         [MethodArgument("@CommandToggleArgument")]

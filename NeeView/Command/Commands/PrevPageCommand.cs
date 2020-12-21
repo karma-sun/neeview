@@ -2,11 +2,9 @@
 {
     public class PrevPageCommand : CommandElement
     {
-        public PrevPageCommand(string name) : base(name)
+        public PrevPageCommand()
         {
-            this.Group = Properties.Resources.CommandGroupMove;
-            this.Text = Properties.Resources.CommandPrevPage;
-            this.Note = Properties.Resources.CommandPrevPageNote;
+            this.Group = Properties.Resources.CommandGroup_Move;
             this.ShortCutKey = "Right,RightClick";
             this.TouchGesture = "TouchR1,TouchR2";
             this.MouseGesture = "R";

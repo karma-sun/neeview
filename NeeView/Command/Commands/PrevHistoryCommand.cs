@@ -2,11 +2,9 @@
 {
     public class PrevHistoryCommand : CommandElement
     {
-        public PrevHistoryCommand(string name) : base(name)
+        public PrevHistoryCommand()
         {
-            this.Group = Properties.Resources.CommandGroupBookMove;
-            this.Text = Properties.Resources.CommandPrevHistory;
-            this.Note = Properties.Resources.CommandPrevHistoryNote;
+            this.Group = Properties.Resources.CommandGroup_BookMove;
             this.IsShowMessage = false;
         }
 

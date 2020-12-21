@@ -4,11 +4,9 @@ namespace NeeView
 {
     public class JumpPageCommand : CommandElement
     {
-        public JumpPageCommand(string name) : base(name)
+        public JumpPageCommand()
         {
-            this.Group = Properties.Resources.CommandGroupMove;
-            this.Text = Properties.Resources.CommandJumpPage;
-            this.Note = Properties.Resources.CommandJumpPageNote;
+            this.Group = Properties.Resources.CommandGroup_Move;
             this.IsShowMessage = false;
         }
 
@@ -17,7 +15,7 @@ namespace NeeView
             return !NowLoading.Current.IsDispNowLoading;
         }
 
-        [MethodArgument("@CommandJumpPageArgument")]
+        [MethodArgument]
         public override void Execute(object sender, CommandContext e)
         {
             if (e.Args.Length > 0)

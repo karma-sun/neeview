@@ -787,6 +787,39 @@ nv.Bookshelf.SelectedItems = nv.Bookshelf.Items.filter(e =&gt; e.Name.startsWith
   <data name="BrushType.SolidColor" xml:space="preserve">
     <value>Solid color</value>
   </data>
+  <data name="CancelFullScreenCommand.Note" xml:space="preserve">
+    <value>Turn off fullscreen.</value>
+  </data>
+  <data name="CancelFullScreenCommand.Text" xml:space="preserve">
+    <value>Full screen OFF</value>
+  </data>
+  <data name="CancelScriptCommand.Note" xml:space="preserve">
+    <value>Stops a running script that has a "sleep" instruction.</value>
+  </data>
+  <data name="CancelScriptCommand.Text" xml:space="preserve">
+    <value>Cancel script</value>
+  </data>
+  <data name="ClearHistoryCommand.Note" xml:space="preserve">
+    <value>Delete all history.</value>
+  </data>
+  <data name="ClearHistoryCommand.Text" xml:space="preserve">
+    <value>Clear history</value>
+  </data>
+  <data name="ClearHistoryInPlaceCommand.Note" xml:space="preserve">
+    <value>Delete all history in the current location of the bookshelf.</value>
+  </data>
+  <data name="ClearHistoryInPlaceCommand.Text" xml:space="preserve">
+    <value>Delete history in place</value>
+  </data>
+  <data name="CloseApplicationCommand.MenuText" xml:space="preserve">
+    <value>_Quit</value>
+  </data>
+  <data name="CloseApplicationCommand.Note" xml:space="preserve">
+    <value>Quit this application.</value>
+  </data>
+  <data name="CloseApplicationCommand.Text" xml:space="preserve">
+    <value>Quit application</value>
+  </data>
   <data name="ColorSelectEffectUnit.Curve" xml:space="preserve">
     <value>Curve</value>
   </data>
@@ -871,39 +904,6 @@ nv.Command.ViewRotateLeft.ShourtCutKey = "Ctrl+A"</value>
     <value>// Set "TouchCenter" for touch operation of ViewRotateLeft command
 nv.Command.ViewRotateLeft.TouchGesture = "TouchCenter"</value>
   </data>
-  <data name="CommandCancelFullScreen" xml:space="preserve">
-    <value>Full screen OFF</value>
-  </data>
-  <data name="CommandCancelFullScreenNote" xml:space="preserve">
-    <value>Turn off fullscreen.</value>
-  </data>
-  <data name="CommandCancelScript" xml:space="preserve">
-    <value>Cancel script</value>
-  </data>
-  <data name="CommandCancelScriptNote" xml:space="preserve">
-    <value>Stops a running script that has a "sleep" instruction.</value>
-  </data>
-  <data name="CommandClearHistory" xml:space="preserve">
-    <value>Clear history</value>
-  </data>
-  <data name="CommandClearHistoryInPlace" xml:space="preserve">
-    <value>Delete history in place</value>
-  </data>
-  <data name="CommandClearHistoryInPlaceNote" xml:space="preserve">
-    <value>Delete all history in the current location of the bookshelf.</value>
-  </data>
-  <data name="CommandClearHistoryNote" xml:space="preserve">
-    <value>Delete all history.</value>
-  </data>
-  <data name="CommandCloseApplication" xml:space="preserve">
-    <value>Quit application</value>
-  </data>
-  <data name="CommandCloseApplicationMenu" xml:space="preserve">
-    <value>_Quit</value>
-  </data>
-  <data name="CommandCloseApplicationNote" xml:space="preserve">
-    <value>Quit this application.</value>
-  </data>
   <data name="CommandConfig.IsAccessKeyEnabled" xml:space="preserve">
     <value>Allow access key</value>
   </data>
@@ -922,206 +922,56 @@ nv.Command.ViewRotateLeft.TouchGesture = "TouchCenter"</value>
   <data name="CommandConfig.IsReversePageMoveWheel#Tips" xml:space="preserve">
     <value>You can select correspondence only for wheel operation.</value>
   </data>
-  <data name="CommandCopyFile" xml:space="preserve">
-    <value>Copy file</value>
-  </data>
-  <data name="CommandCopyFileMenu" xml:space="preserve">
-    <value>_Copy</value>
-  </data>
-  <data name="CommandCopyFileNote" xml:space="preserve">
-    <value>Copy the file to the clipboard.</value>
-  </data>
-  <data name="CommandCopyImage" xml:space="preserve">
-    <value>Copy image</value>
-  </data>
-  <data name="CommandCopyImageMenu" xml:space="preserve">
-    <value>Copy image</value>
-  </data>
-  <data name="CommandCopyImageNote" xml:space="preserve">
-    <value>Copy the image to the clipboard. For 2 page display, copy only the main page.</value>
-  </data>
-  <data name="CommandDeleteBook" xml:space="preserve">
-    <value>Delete book</value>
-  </data>
-  <data name="CommandDeleteBookMenu" xml:space="preserve">
-    <value>_Delete book</value>
-  </data>
-  <data name="CommandDeleteBookNote" xml:space="preserve">
-    <value>Delete the currently viewed folder or compressed file.</value>
-  </data>
-  <data name="CommandDeleteFile" xml:space="preserve">
-    <value>Delete file</value>
-  </data>
-  <data name="CommandDeleteFileMenu" xml:space="preserve">
-    <value>_Delete</value>
-  </data>
-  <data name="CommandDeleteFileNote" xml:space="preserve">
-    <value>Delete the file. It can not be deleted for compressed files.</value>
-  </data>
-  <data name="CommandExportBackup" xml:space="preserve">
-    <value>Export settings</value>
-  </data>
-  <data name="CommandExportBackupMenu" xml:space="preserve">
-    <value>Export settings...</value>
-  </data>
-  <data name="CommandExportBackupNote" xml:space="preserve">
-    <value>Create backups of settings, history, bookmarks, page marks. The thumbnail cache is not backed up.</value>
-  </data>
-  <data name="CommandExportImage" xml:space="preserve">
-    <value>Save</value>
-  </data>
-  <data name="CommandExportImageDialog" xml:space="preserve">
-    <value>Save as</value>
-  </data>
-  <data name="CommandExportImageDialogMenu" xml:space="preserve">
-    <value>_Save as...</value>
-  </data>
-  <data name="CommandExportImageDialogNote" xml:space="preserve">
-    <value>Save the image to a file.</value>
-  </data>
-  <data name="CommandExportImageMenu" xml:space="preserve">
-    <value>_Save</value>
-  </data>
-  <data name="CommandExportImageNote" xml:space="preserve">
-    <value>Save the image to a file. The storage folder is specified by a command parameter.</value>
-  </data>
-  <data name="CommandFirstPage" xml:space="preserve">
-    <value>First page</value>
-  </data>
-  <data name="CommandFirstPageNote" xml:space="preserve">
-    <value>Move to the first page.</value>
-  </data>
-  <data name="CommandFocusBookmarkList" xml:space="preserve">
-    <value>Display bookmark list</value>
-  </data>
-  <data name="CommandFocusBookmarkListMenu" xml:space="preserve">
-    <value>Bookmark list</value>
-  </data>
-  <data name="CommandFocusBookmarkListNote" xml:space="preserve">
-    <value>Display bookmark list of the bookshelf.</value>
-  </data>
-  <data name="CommandFocusFolderSearchBox" xml:space="preserve">
-    <value>Focus search box</value>
-  </data>
-  <data name="CommandFocusFolderSearchBoxMenu" xml:space="preserve">
-    <value>Search box</value>
-  </data>
-  <data name="CommandFocusFolderSearchBoxNote" xml:space="preserve">
-    <value>Focus search box. The bookshelf is displayed.</value>
-  </data>
-  <data name="CommandFocusMainView" xml:space="preserve">
-    <value>Focus on main view</value>
-  </data>
-  <data name="CommandFocusMainViewMenu" xml:space="preserve">
-    <value>Main view</value>
-  </data>
-  <data name="CommandFocusMainViewNote" xml:space="preserve">
-    <value>Move focus to the main view.</value>
-  </data>
-  <data name="CommandFocusNextApp" xml:space="preserve">
-    <value>Switch next NeeView</value>
-  </data>
-  <data name="CommandFocusNextAppMenu" xml:space="preserve">
-    <value>Switch next NeeView</value>
-  </data>
-  <data name="CommandFocusNextAppNote" xml:space="preserve">
-    <value>Switch to the next NeeView when multiple are started.</value>
-  </data>
-  <data name="CommandFocusPrevApp" xml:space="preserve">
-    <value>Switch prev NeeView</value>
-  </data>
-  <data name="CommandFocusPrevAppMenu" xml:space="preserve">
-    <value>Switch prev NeeView</value>
-  </data>
-  <data name="CommandFocusPrevAppNote" xml:space="preserve">
-    <value>Switch to the previous NeeView when multiple are started.</value>
-  </data>
-  <data name="CommandGroupBookmark" xml:space="preserve">
+  <data name="CommandGroup.Bookmark" xml:space="preserve">
     <value>Bookmark</value>
   </data>
-  <data name="CommandGroupBookMove" xml:space="preserve">
+  <data name="CommandGroup.BookMove" xml:space="preserve">
     <value>Book move</value>
   </data>
-  <data name="CommandGroupBookOrder" xml:space="preserve">
+  <data name="CommandGroup.BookOrder" xml:space="preserve">
     <value>Book order</value>
   </data>
-  <data name="CommandGroupEffect" xml:space="preserve">
+  <data name="CommandGroup.Effect" xml:space="preserve">
     <value>Effect</value>
   </data>
-  <data name="CommandGroupFile" xml:space="preserve">
+  <data name="CommandGroup.File" xml:space="preserve">
     <value>File</value>
   </data>
-  <data name="CommandGroupFilmStrip" xml:space="preserve">
+  <data name="CommandGroup.FilmStrip" xml:space="preserve">
     <value>Filmstrip</value>
   </data>
-  <data name="CommandGroupImageScale" xml:space="preserve">
+  <data name="CommandGroup.ImageScale" xml:space="preserve">
     <value>Stretch</value>
   </data>
-  <data name="CommandGroupMove" xml:space="preserve">
+  <data name="CommandGroup.Move" xml:space="preserve">
     <value>Page move</value>
   </data>
-  <data name="CommandGroupOther" xml:space="preserve">
+  <data name="CommandGroup.Other" xml:space="preserve">
     <value>Other</value>
   </data>
-  <data name="CommandGroupPagemark" xml:space="preserve">
+  <data name="CommandGroup.Pagemark" xml:space="preserve">
     <value>Pagemark</value>
   </data>
-  <data name="CommandGroupPageOrder" xml:space="preserve">
+  <data name="CommandGroup.PageOrder" xml:space="preserve">
     <value>Page order</value>
   </data>
-  <data name="CommandGroupPageSetting" xml:space="preserve">
+  <data name="CommandGroup.PageSetting" xml:space="preserve">
     <value>Page setting</value>
   </data>
-  <data name="CommandGroupPanel" xml:space="preserve">
+  <data name="CommandGroup.Panel" xml:space="preserve">
     <value>Panel</value>
   </data>
-  <data name="CommandGroupScript" xml:space="preserve">
+  <data name="CommandGroup.Script" xml:space="preserve">
     <value>Scripts</value>
   </data>
-  <data name="CommandGroupVideo" xml:space="preserve">
+  <data name="CommandGroup.Video" xml:space="preserve">
     <value>Video</value>
   </data>
-  <data name="CommandGroupViewManipulation" xml:space="preserve">
+  <data name="CommandGroup.ViewManipulation" xml:space="preserve">
     <value>View operation</value>
   </data>
-  <data name="CommandGroupWindow" xml:space="preserve">
+  <data name="CommandGroup.Window" xml:space="preserve">
     <value>Window</value>
-  </data>
-  <data name="CommandHelpCommandList" xml:space="preserve">
-    <value>Command help</value>
-  </data>
-  <data name="CommandHelpCommandListMenu" xml:space="preserve">
-    <value>Command Help</value>
-  </data>
-  <data name="CommandHelpCommandListNote" xml:space="preserve">
-    <value>Displays help of all commands in the browser.</value>
-  </data>
-  <data name="CommandHelpMainMenu" xml:space="preserve">
-    <value>Main menu help</value>
-  </data>
-  <data name="CommandHelpMainMenuMenu" xml:space="preserve">
-    <value>Main menu help</value>
-  </data>
-  <data name="CommandHelpMainMenuNote" xml:space="preserve">
-    <value>Display the main menu help on the browser.</value>
-  </data>
-  <data name="CommandHelpScript" xml:space="preserve">
-    <value>Script Help</value>
-  </data>
-  <data name="CommandHelpScriptMenu" xml:space="preserve">
-    <value>Script Help</value>
-  </data>
-  <data name="CommandHelpScriptNote" xml:space="preserve">
-    <value>Displays the script manual in the browser.</value>
-  </data>
-  <data name="CommandHelpSearchOption" xml:space="preserve">
-    <value>Search options help</value>
-  </data>
-  <data name="CommandHelpSearchOptionMenu" xml:space="preserve">
-    <value>Search options help</value>
-  </data>
-  <data name="CommandHelpSearchOptionNote" xml:space="preserve">
-    <value>Display the search options help on the browser.</value>
   </data>
   <data name="CommandHost" xml:space="preserve">
     <value>Provides app-specific features.</value>
@@ -1225,1343 +1075,8 @@ nv.Values["Test"] = "Hello!"
 // As well
 nv.Values.Test = "Hello!"   </value>
   </data>
-  <data name="CommandImportBackup" xml:space="preserve">
-    <value>Import settings</value>
-  </data>
-  <data name="CommandImportBackupMenu" xml:space="preserve">
-    <value>Import settings...</value>
-  </data>
-  <data name="CommandImportBackupNote" xml:space="preserve">
-    <value>Select the restored item from the backup file and restore it.</value>
-  </data>
-  <data name="CommandJumpPage" xml:space="preserve">
-    <value>Jump page</value>
-  </data>
-  <data name="CommandJumpPageArgument" xml:space="preserve">
-    <value>number: int|Page number</value>
-  </data>
-  <data name="CommandJumpPageNote" xml:space="preserve">
-    <value>Enter the page number and move.</value>
-  </data>
-  <data name="CommandJumpRandomPage" xml:space="preserve">
-    <value>Random page</value>
-  </data>
-  <data name="CommandJumpRandomPageNote" xml:space="preserve">
-    <value>Jump to a random page.</value>
-  </data>
-  <data name="CommandLastPage" xml:space="preserve">
-    <value>Last page</value>
-  </data>
-  <data name="CommandLastPageNote" xml:space="preserve">
-    <value>Move to the last page.</value>
-  </data>
-  <data name="CommandLoadAs" xml:space="preserve">
-    <value>Open file</value>
-  </data>
-  <data name="CommandLoadAsArgument" xml:space="preserve">
-    <value>path: string|File or folder path</value>
-  </data>
-  <data name="CommandLoadAsMenu" xml:space="preserve">
-    <value>_Open...</value>
-  </data>
-  <data name="CommandLoadAsNote" xml:space="preserve">
-    <value>Select and open the compressed file or image file.</value>
-  </data>
-  <data name="CommandLoupeOff" xml:space="preserve">
-    <value>Loupe OFF</value>
-  </data>
-  <data name="CommandLoupeOffNote" xml:space="preserve">
-    <value>Release the loupe mode.</value>
-  </data>
-  <data name="CommandLoupeOn" xml:space="preserve">
-    <value>Loupe</value>
-  </data>
-  <data name="CommandLoupeOnNote" xml:space="preserve">
-    <value>Make the loupe mode.</value>
-  </data>
-  <data name="CommandLoupeScaleDown" xml:space="preserve">
-    <value>Loupe zoom out</value>
-  </data>
-  <data name="CommandLoupeScaleDownNote" xml:space="preserve">
-    <value>Reduce the loupe magnification. It functions only when using a loupe.</value>
-  </data>
-  <data name="CommandLoupeScaleUp" xml:space="preserve">
-    <value>Loupe zoom in</value>
-  </data>
-  <data name="CommandLoupeScaleUpNote" xml:space="preserve">
-    <value>Expands the magnifying power of the loupe. It functions only when using a loupe.</value>
-  </data>
-  <data name="CommandMoveToChildBook" xml:space="preserve">
-    <value>Go to child</value>
-  </data>
-  <data name="CommandMoveToChildBookNote" xml:space="preserve">
-    <value>When the page is a book, open that book.</value>
-  </data>
-  <data name="CommandMoveToParentBook" xml:space="preserve">
-    <value>Go to parent</value>
-  </data>
-  <data name="CommandMoveToParentBookNote" xml:space="preserve">
-    <value>Open the upper hierarchy as a book.</value>
-  </data>
-  <data name="CommandNextBookHistory" xml:space="preserve">
-    <value>Go next</value>
-  </data>
-  <data name="CommandNextBookHistoryNote" xml:space="preserve">
-    <value>Open a next open book.</value>
-  </data>
-  <data name="CommandNextFolder" xml:space="preserve">
-    <value>Next Book</value>
-  </data>
-  <data name="CommandNextFolderNote" xml:space="preserve">
-    <value>Load the next book on the bookshelf.</value>
-  </data>
-  <data name="CommandNextFolderPage" xml:space="preserve">
-    <value>Next folder</value>
-  </data>
-  <data name="CommandNextFolderPageNote" xml:space="preserve">
-    <value>Move to the first page of the next folder of the book. Valid only in name order.</value>
-  </data>
-  <data name="CommandNextHistory" xml:space="preserve">
-    <value>Next History</value>
-  </data>
-  <data name="CommandNextHistoryNote" xml:space="preserve">
-    <value>Load the following new history book.</value>
-  </data>
-  <data name="CommandNextOnePage" xml:space="preserve">
-    <value>Next One</value>
-  </data>
-  <data name="CommandNextOnePageNote" xml:space="preserve">
-    <value>Only one page will move in the next direction.</value>
-  </data>
-  <data name="CommandNextPage" xml:space="preserve">
-    <value>Next</value>
-  </data>
-  <data name="CommandNextPageHistory" xml:space="preserve">
-    <value>Go next view page</value>
-  </data>
-  <data name="CommandNextPageHistoryNote" xml:space="preserve">
-    <value>Move to next view page.</value>
-  </data>
-  <data name="CommandNextPagemark" xml:space="preserve">
-    <value>Next pagemark</value>
-  </data>
-  <data name="CommandNextPagemarkInBook" xml:space="preserve">
-    <value>Next pagemark in book</value>
-  </data>
-  <data name="CommandNextPagemarkInBookNote" xml:space="preserve">
-    <value>Move to the next page mark in the current book.</value>
-  </data>
-  <data name="CommandNextPagemarkNote" xml:space="preserve">
-    <value>Go to the next page mark.</value>
-  </data>
-  <data name="CommandNextPageNote" xml:space="preserve">
-    <value>Move to next page direction. If it is 2 page display, it moves by 2 pages.</value>
-  </data>
-  <data name="CommandNextScrollPage" xml:space="preserve">
-    <value>Scroll + Next</value>
-  </data>
-  <data name="CommandNextScrollPageNote" xml:space="preserve">
-    <value>Page Scrolls the image in the next direction. If it is not possible to scroll, it will move to the next page. When using a loupe, only move pages.</value>
-  </data>
-  <data name="CommandNextSizePage" xml:space="preserve">
-    <value>Next num</value>
-  </data>
-  <data name="CommandNextSizePageNote" xml:space="preserve">
-    <value>Move to the next direction by the set number of pages.</value>
-  </data>
-  <data name="CommandOpenApplication" xml:space="preserve">
-    <value>External app</value>
-  </data>
-  <data name="CommandOpenApplicationNote" xml:space="preserve">
-    <value>Open the displayed image with an external application. </value>
-  </data>
-  <data name="CommandOpenConsole" xml:space="preserve">
-    <value>Open console</value>
-  </data>
-  <data name="CommandOpenConsoleMenu" xml:space="preserve">
-    <value>Open _console...</value>
-  </data>
-  <data name="CommandOpenConsoleNote" xml:space="preserve">
-    <value>Open the script console.</value>
-  </data>
-  <data name="CommandOpenContextMenu" xml:space="preserve">
-    <value>Open context menu</value>
-  </data>
-  <data name="CommandOpenContextMenuNote" xml:space="preserve">
-    <value>Open the context menu.</value>
-  </data>
-  <data name="CommandOpenFilePlace" xml:space="preserve">
-    <value>Open in explorer</value>
-  </data>
-  <data name="CommandOpenFilePlaceNote" xml:space="preserve">
-    <value>Open the file of the page you are viewing in Explorer.</value>
-  </data>
-  <data name="CommandOpenSecriptsFolder" xml:space="preserve">
-    <value>Open scripts folder</value>
-  </data>
-  <data name="CommandOpenSecriptsFolderNote" xml:space="preserve">
-    <value>Open the scripts folder with Explorer.</value>
-  </data>
-  <data name="CommandOpenSettingFilesFolder" xml:space="preserve">
-    <value>Open setting folder</value>
-  </data>
-  <data name="CommandOpenSettingFilesFolderNote" xml:space="preserve">
-    <value>Open the folder where the configuration file setting file is saved.</value>
-  </data>
-  <data name="CommandOpenSettingWindow" xml:space="preserve">
-    <value>Open options window</value>
-  </data>
-  <data name="CommandOpenSettingWindowMenu" xml:space="preserve">
-    <value>_Options...</value>
-  </data>
-  <data name="CommandOpenSettingWindowNote" xml:space="preserve">
-    <value>Open the options window.</value>
-  </data>
-  <data name="CommandOpenVersionWindow" xml:space="preserve">
-    <value>Display version information</value>
-  </data>
-  <data name="CommandOpenVersionWindowMenu" xml:space="preserve">
-    <value>_About...</value>
-  </data>
-  <data name="CommandOpenVersionWindowNote" xml:space="preserve">
-    <value>Display version information.</value>
-  </data>
-  <data name="CommandPaste" xml:space="preserve">
-    <value>Paste</value>
-  </data>
-  <data name="CommandPasteMenu" xml:space="preserve">
-    <value>_Paste</value>
-  </data>
-  <data name="CommandPasteNote" xml:space="preserve">
-    <value>Paste clipboard files and images.</value>
-  </data>
-  <data name="CommandPrevBookHistory" xml:space="preserve">
-    <value>Go back</value>
-  </data>
-  <data name="CommandPrevBookHistoryNote" xml:space="preserve">
-    <value>Open a previously open book.</value>
-  </data>
-  <data name="CommandPrevFolder" xml:space="preserve">
-    <value>Prev Book</value>
-  </data>
-  <data name="CommandPrevFolderNote" xml:space="preserve">
-    <value>Load the previous book on the bookshelf.</value>
-  </data>
-  <data name="CommandPrevFolderPage" xml:space="preserve">
-    <value>Prev folder</value>
-  </data>
-  <data name="CommandPrevFolderPageNote" xml:space="preserve">
-    <value>Move to the first page of the previous folder of the book. Valid only in name order.</value>
-  </data>
-  <data name="CommandPrevHistory" xml:space="preserve">
-    <value>Prev History</value>
-  </data>
-  <data name="CommandPrevHistoryNote" xml:space="preserve">
-    <value>Load the previous old history book.</value>
-  </data>
-  <data name="CommandPrevOnePage" xml:space="preserve">
-    <value>Prev One</value>
-  </data>
-  <data name="CommandPrevOnePageNote" xml:space="preserve">
-    <value>Move forward one page only.</value>
-  </data>
-  <data name="CommandPrevPage" xml:space="preserve">
-    <value>Prev</value>
-  </data>
-  <data name="CommandPrevPageHistory" xml:space="preserve">
-    <value>Go back view page</value>
-  </data>
-  <data name="CommandPrevPageHistoryNote" xml:space="preserve">
-    <value>Move to previously view page.</value>
-  </data>
-  <data name="CommandPrevPagemark" xml:space="preserve">
-    <value>Prev pagemark</value>
-  </data>
-  <data name="CommandPrevPagemarkInBook" xml:space="preserve">
-    <value>Prev pagemark in book</value>
-  </data>
-  <data name="CommandPrevPagemarkInBookNote" xml:space="preserve">
-    <value>Move to the previous page mark in the current book.</value>
-  </data>
-  <data name="CommandPrevPagemarkNote" xml:space="preserve">
-    <value>Go to the previous page mark.</value>
-  </data>
-  <data name="CommandPrevPageNote" xml:space="preserve">
-    <value>Move to the front of the page. If it is 2 page display, it moves by 2 pages.</value>
-  </data>
-  <data name="CommandPrevScrollPage" xml:space="preserve">
-    <value>Scroll + Prev</value>
-  </data>
-  <data name="CommandPrevScrollPageNote" xml:space="preserve">
-    <value>Scroll the image forward in the page. If it is not possible to scroll, it will move to the previous page. When using a loupe, only move pages.</value>
-  </data>
-  <data name="CommandPrevSizePage" xml:space="preserve">
-    <value>Prev num</value>
-  </data>
-  <data name="CommandPrevSizePageNote" xml:space="preserve">
-    <value>It moves forward by the set number of pages.</value>
-  </data>
-  <data name="CommandPrint" xml:space="preserve">
-    <value>Print</value>
-  </data>
-  <data name="CommandPrintMenu" xml:space="preserve">
-    <value>_Print...</value>
-  </data>
-  <data name="CommandPrintNote" xml:space="preserve">
-    <value>Print the image.</value>
-  </data>
-  <data name="CommandRandomFolder" xml:space="preserve">
-    <value>Random Book</value>
-  </data>
-  <data name="CommandRandomFolderNote" xml:space="preserve">
-    <value>Load the random book on the bookshelf.</value>
-  </data>
-  <data name="CommandReLoad" xml:space="preserve">
-    <value>Reload</value>
-  </data>
-  <data name="CommandReLoadNote" xml:space="preserve">
-    <value>Reload the book</value>
-  </data>
-  <data name="CommandReloadUserSetting" xml:space="preserve">
-    <value>Reload settings</value>
-  </data>
-  <data name="CommandReloadUserSettingNote" xml:space="preserve">
-    <value>Reload the settings.</value>
-  </data>
-  <data name="CommandSaveSetting" xml:space="preserve">
-    <value>Save settings</value>
-  </data>
-  <data name="CommandSaveSettingNote" xml:space="preserve">
-    <value>Performs saving the current settings.</value>
-  </data>
-  <data name="CommandScriptNote" xml:space="preserve">
-    <value>Script.</value>
-  </data>
-  <data name="CommandScriptOnBookLoadedNote" xml:space="preserve">
-    <value>Scrpit. Executes when the book is opened.</value>
-  </data>
-  <data name="CommandSetBackgroundAuto" xml:space="preserve">
-    <value>Image colored background</value>
-  </data>
-  <data name="CommandSetBackgroundAutoNote" xml:space="preserve">
-    <value>Set the background color from the image. Specifically, the color of the upper left pixel of the image is used.</value>
-  </data>
-  <data name="CommandSetBackgroundBlack" xml:space="preserve">
-    <value>Black background</value>
-  </data>
-  <data name="CommandSetBackgroundBlackNote" xml:space="preserve">
-    <value>Make the background black.</value>
-  </data>
-  <data name="CommandSetBackgroundCheck" xml:space="preserve">
-    <value>White checkered background</value>
-  </data>
-  <data name="CommandSetBackgroundCheckDark" xml:space="preserve">
-    <value>Black checkered background</value>
-  </data>
-  <data name="CommandSetBackgroundCheckDarkNote" xml:space="preserve">
-    <value>Make the background a black checkered pattern.</value>
-  </data>
-  <data name="CommandSetBackgroundCheckNote" xml:space="preserve">
-    <value>Make the background a white checkered pattern.</value>
-  </data>
-  <data name="CommandSetBackgroundCustom" xml:space="preserve">
-    <value>Custom Background</value>
-  </data>
-  <data name="CommandSetBackgroundCustomNote" xml:space="preserve">
-    <value>Make the background a custom background.</value>
-  </data>
-  <data name="CommandSetBackgroundWhite" xml:space="preserve">
-    <value>White background</value>
-  </data>
-  <data name="CommandSetBackgroundWhiteNote" xml:space="preserve">
-    <value>Make the background white.</value>
-  </data>
-  <data name="CommandSetBookReadOrderLeft" xml:space="preserve">
-    <value>Left to right</value>
-  </data>
-  <data name="CommandSetBookReadOrderLeftNote" xml:space="preserve">
-    <value>Left forward from left to right. The younger page turns to the left when 2 page is displayed.</value>
-  </data>
-  <data name="CommandSetBookReadOrderRight" xml:space="preserve">
-    <value>Right to left</value>
-  </data>
-  <data name="CommandSetBookReadOrderRightNote" xml:space="preserve">
-    <value>Left forward from left to right. The young page turns to the right when 2 page is displayed.</value>
-  </data>
-  <data name="CommandSetDefaultPageSetting" xml:space="preserve">
-    <value>Reset page setting</value>
-  </data>
-  <data name="CommandSetDefaultPageSettingNote" xml:space="preserve">
-    <value>Restore the default page setting.</value>
-  </data>
-  <data name="CommandSetFolderOrderByEntryTimeA" xml:space="preserve">
-    <value>Book EntryTime Ascending</value>
-  </data>
-  <data name="CommandSetFolderOrderByEntryTimeANote" xml:space="preserve">
-    <value>Set the order of books in ascending order by entry time.</value>
-  </data>
-  <data name="CommandSetFolderOrderByEntryTimeD" xml:space="preserve">
-    <value>Book EntryTime Descending</value>
-  </data>
-  <data name="CommandSetFolderOrderByEntryTimeDNote" xml:space="preserve">
-    <value>Set the order of books in descending order by entry time.</value>
-  </data>
-  <data name="CommandSetFolderOrderByFileNameA" xml:space="preserve">
-    <value>Book Name Ascending</value>
-  </data>
-  <data name="CommandSetFolderOrderByFileNameANote" xml:space="preserve">
-    <value>Set the order of books in ascending order by name.</value>
-  </data>
-  <data name="CommandSetFolderOrderByFileNameD" xml:space="preserve">
-    <value>Book Name Descending</value>
-  </data>
-  <data name="CommandSetFolderOrderByFileNameDNote" xml:space="preserve">
-    <value>Set the order of books in descending order by name.</value>
-  </data>
-  <data name="CommandSetFolderOrderByFileTypeA" xml:space="preserve">
-    <value>Book FileType Ascending</value>
-  </data>
-  <data name="CommandSetFolderOrderByFileTypeANote" xml:space="preserve">
-    <value>Set the order of books in ascending order by file type.</value>
-  </data>
-  <data name="CommandSetFolderOrderByFileTypeD" xml:space="preserve">
-    <value>Book FileType Descending</value>
-  </data>
-  <data name="CommandSetFolderOrderByFileTypeDNote" xml:space="preserve">
-    <value>Set the order of books in descending order by file type.</value>
-  </data>
-  <data name="CommandSetFolderOrderByPathA" xml:space="preserve">
-    <value>Book Path Ascending</value>
-  </data>
-  <data name="CommandSetFolderOrderByPathANote" xml:space="preserve">
-    <value>Set the order of books in ascending order by full path.</value>
-  </data>
-  <data name="CommandSetFolderOrderByPathD" xml:space="preserve">
-    <value>Book Path Descending</value>
-  </data>
-  <data name="CommandSetFolderOrderByPathDNote" xml:space="preserve">
-    <value>Set the order of books in descending order by full path.</value>
-  </data>
-  <data name="CommandSetFolderOrderByRandom" xml:space="preserve">
-    <value>Book Shuffle</value>
-  </data>
-  <data name="CommandSetFolderOrderByRandomNote" xml:space="preserve">
-    <value>Set the order of books randomly.</value>
-  </data>
-  <data name="CommandSetFolderOrderBySizeA" xml:space="preserve">
-    <value>Book Size Ascending</value>
-  </data>
-  <data name="CommandSetFolderOrderBySizeANote" xml:space="preserve">
-    <value>Set the order of books in ascending order by size.</value>
-  </data>
-  <data name="CommandSetFolderOrderBySizeD" xml:space="preserve">
-    <value>Book Size Descending</value>
-  </data>
-  <data name="CommandSetFolderOrderBySizeDNote" xml:space="preserve">
-    <value>Set the order of books in descending order by size.</value>
-  </data>
-  <data name="CommandSetFolderOrderByTimeStampA" xml:space="preserve">
-    <value>Book Date Ascending</value>
-  </data>
-  <data name="CommandSetFolderOrderByTimeStampANote" xml:space="preserve">
-    <value>Set the order of books in ascending order by date.</value>
-  </data>
-  <data name="CommandSetFolderOrderByTimeStampD" xml:space="preserve">
-    <value>Book Date Descending</value>
-  </data>
-  <data name="CommandSetFolderOrderByTimeStampDNote" xml:space="preserve">
-    <value>Set the order of books in descending order by darte.</value>
-  </data>
-  <data name="CommandSetFullScreen" xml:space="preserve">
-    <value>Full screen</value>
-  </data>
-  <data name="CommandSetFullScreenNote" xml:space="preserve">
-    <value>Make it full screen.</value>
-  </data>
-  <data name="CommandSetPageMode1" xml:space="preserve">
-    <value>One page</value>
-  </data>
-  <data name="CommandSetPageMode1Note" xml:space="preserve">
-    <value>Make it 1 page display.</value>
-  </data>
-  <data name="CommandSetPageMode2" xml:space="preserve">
-    <value>Two page</value>
-  </data>
-  <data name="CommandSetPageMode2Note" xml:space="preserve">
-    <value>It makes 2 page display.</value>
-  </data>
-  <data name="CommandSetSortModeFileName" xml:space="preserve">
-    <value>Name Ascending</value>
-  </data>
-  <data name="CommandSetSortModeFileNameDescending" xml:space="preserve">
-    <value>Name Descending</value>
-  </data>
-  <data name="CommandSetSortModeFileNameDescendingNote" xml:space="preserve">
-    <value>Sort the order of the pages in descending order by file name.</value>
-  </data>
-  <data name="CommandSetSortModeFileNameNote" xml:space="preserve">
-    <value>Sort the order of the pages in ascending order by filename.</value>
-  </data>
-  <data name="CommandSetSortModeRandom" xml:space="preserve">
-    <value>Shuffle</value>
-  </data>
-  <data name="CommandSetSortModeRandomNote" xml:space="preserve">
-    <value>Shuffle the order of pages.</value>
-  </data>
-  <data name="CommandSetSortModeSize" xml:space="preserve">
-    <value>Size Ascending</value>
-  </data>
-  <data name="CommandSetSortModeSizeDescending" xml:space="preserve">
-    <value>Size Descending</value>
-  </data>
-  <data name="CommandSetSortModeSizeDescendingNote" xml:space="preserve">
-    <value>Set the order of pages in descending order of file size.</value>
-  </data>
-  <data name="CommandSetSortModeSizeNote" xml:space="preserve">
-    <value>Set the order of pages in ascending order by file size.</value>
-  </data>
-  <data name="CommandSetSortModeTimeStamp" xml:space="preserve">
-    <value>Date Ascending</value>
-  </data>
-  <data name="CommandSetSortModeTimeStampDescending" xml:space="preserve">
-    <value>Date Descending</value>
-  </data>
-  <data name="CommandSetSortModeTimeStampDescendingNote" xml:space="preserve">
-    <value>Sort the order of pages by file date descending order.</value>
-  </data>
-  <data name="CommandSetSortModeTimeStampNote" xml:space="preserve">
-    <value>Sort the order of pages by file date ascending order.</value>
-  </data>
-  <data name="CommandSetStretchModeInside" xml:space="preserve">
-    <value>Fit to window if large</value>
-  </data>
-  <data name="CommandSetStretchModeInsideNote" xml:space="preserve">
-    <value>Reduce the image to fit in the window and display it.</value>
-  </data>
-  <data name="CommandSetStretchModeNone" xml:space="preserve">
-    <value>Original size</value>
-  </data>
-  <data name="CommandSetStretchModeNoneNote" xml:space="preserve">
-    <value>Display the image as it is.</value>
-  </data>
-  <data name="CommandSetStretchModeOutside" xml:space="preserve">
-    <value>Fit to window if small</value>
-  </data>
-  <data name="CommandSetStretchModeOutsideNote" xml:space="preserve">
-    <value>The image is enlarged as much as possible so that it fits in the window.</value>
-  </data>
-  <data name="CommandSetStretchModeUniform" xml:space="preserve">
-    <value>Fit to window</value>
-  </data>
-  <data name="CommandSetStretchModeUniformNote" xml:space="preserve">
-    <value>Scales the image to fit the window size.</value>
-  </data>
-  <data name="CommandSetStretchModeUniformToFill" xml:space="preserve">
-    <value>Extend to window</value>
-  </data>
-  <data name="CommandSetStretchModeUniformToFillNote" xml:space="preserve">
-    <value>Scale up or down to fit the window size either vertically or horizontally. The image will be larger than the window size.</value>
-  </data>
-  <data name="CommandSetStretchModeUniformToHorizontal" xml:space="preserve">
-    <value>Fit width to window</value>
-  </data>
-  <data name="CommandSetStretchModeUniformToHorizontalNote" xml:space="preserve">
-    <value>Scales to fit the width of the image to the width of the window.</value>
-  </data>
-  <data name="CommandSetStretchModeUniformToSize" xml:space="preserve">
-    <value>Fit to window area size</value>
-  </data>
-  <data name="CommandSetStretchModeUniformToSizeNote" xml:space="preserve">
-    <value>Scales the image so that it is equal to the area size of ​​the window.</value>
-  </data>
-  <data name="CommandSetStretchModeUniformToVertical" xml:space="preserve">
-    <value>Fit height to window</value>
-  </data>
-  <data name="CommandSetStretchModeUniformToVerticalNote" xml:space="preserve">
-    <value>Scales to fit the height of the image to the height of the window.</value>
-  </data>
-  <data name="CommandShowHiddenPanels" xml:space="preserve">
-    <value>Show panels </value>
-  </data>
-  <data name="CommandShowHiddenPanelsMenu" xml:space="preserve">
-    <value>Show panels </value>
-  </data>
-  <data name="CommandShowHiddenPanelsNote" xml:space="preserve">
-    <value>The panel which is hidden automatically is displayed once. It will be canceled by some operation.</value>
-  </data>
-  <data name="CommandStretchWindow" xml:space="preserve">
-    <value>Stretch window</value>
-  </data>
-  <data name="CommandStretchWindowMenu" xml:space="preserve">
-    <value>Stretch window</value>
-  </data>
-  <data name="CommandStretchWindowNote" xml:space="preserve">
-    <value>Fit the window to the MainView content size.</value>
-  </data>
   <data name="CommandToggleArgument" xml:space="preserve">
     <value>switch: bool|ON/OFF. Toggle if omitted.</value>
-  </data>
-  <data name="CommandToggleBackground" xml:space="preserve">
-    <value>Switch background</value>
-  </data>
-  <data name="CommandToggleBackgroundNote" xml:space="preserve">
-    <value>Switch the background sequentially.</value>
-  </data>
-  <data name="CommandToggleBookmark" xml:space="preserve">
-    <value>Toggle bookmark</value>
-  </data>
-  <data name="CommandToggleBookmarkMenu" xml:space="preserve">
-    <value>Bookmark</value>
-  </data>
-  <data name="CommandToggleBookmarkNote" xml:space="preserve">
-    <value>Toggle bookmark registration / release of currently open book.</value>
-  </data>
-  <data name="CommandToggleBookmarkOff" xml:space="preserve">
-    <value>Bookmark OFF</value>
-  </data>
-  <data name="CommandToggleBookmarkOn" xml:space="preserve">
-    <value>Bookmark</value>
-  </data>
-  <data name="CommandToggleBookReadOrder" xml:space="preserve">
-    <value>Book orientation</value>
-  </data>
-  <data name="CommandToggleBookReadOrderNote" xml:space="preserve">
-    <value>Toggle right and left open.</value>
-  </data>
-  <data name="CommandToggleCustomSize" xml:space="preserve">
-    <value>Toggle custom size</value>
-  </data>
-  <data name="CommandToggleCustomSizeMenu" xml:space="preserve">
-    <value>Custom size</value>
-  </data>
-  <data name="CommandToggleCustomSizeNote" xml:space="preserve">
-    <value>Toggles enabling / disabling of size specification applied to original size.</value>
-  </data>
-  <data name="CommandToggleCustomSizeOff" xml:space="preserve">
-    <value>Custom size OFF</value>
-  </data>
-  <data name="CommandToggleCustomSizeOn" xml:space="preserve">
-    <value>Custom size</value>
-  </data>
-  <data name="CommandToggleEffect" xml:space="preserve">
-    <value>Toggle effect</value>
-  </data>
-  <data name="CommandToggleEffectMenu" xml:space="preserve">
-    <value>Effect</value>
-  </data>
-  <data name="CommandToggleEffectNote" xml:space="preserve">
-    <value>Toggle effect on / off.</value>
-  </data>
-  <data name="CommandToggleEffectOff" xml:space="preserve">
-    <value>Effect OFF</value>
-  </data>
-  <data name="CommandToggleEffectOn" xml:space="preserve">
-    <value>Effect</value>
-  </data>
-  <data name="CommandToggleFolderOrder" xml:space="preserve">
-    <value>Switch book order</value>
-  </data>
-  <data name="CommandToggleFolderOrderNote" xml:space="preserve">
-    <value>Switch the order of books in order.</value>
-  </data>
-  <data name="CommandToggleForceAutoRotate" xml:space="preserve">
-    <value>Force auto rotation</value>
-  </data>
-  <data name="CommandToggleForceAutoRotateMenu" xml:space="preserve">
-    <value>Force auto rotation</value>
-  </data>
-  <data name="CommandToggleForceAutoRotateNote" xml:space="preserve">
-    <value>Automatic rotation is applied regardless of the aspect ratio of the image.</value>
-  </data>
-  <data name="CommandToggleForceAutoRotateOff" xml:space="preserve">
-    <value>Force auto rotation OFF</value>
-  </data>
-  <data name="CommandToggleForceAutoRotateOn" xml:space="preserve">
-    <value>Force auto rotation</value>
-  </data>
-  <data name="CommandToggleFullScreen" xml:space="preserve">
-    <value>Toggle full screen</value>
-  </data>
-  <data name="CommandToggleFullScreenMenu" xml:space="preserve">
-    <value>Full screen</value>
-  </data>
-  <data name="CommandToggleFullScreenNote" xml:space="preserve">
-    <value>Switch the full screen state.</value>
-  </data>
-  <data name="CommandToggleFullScreenOff" xml:space="preserve">
-    <value>Full screen OFF</value>
-  </data>
-  <data name="CommandToggleFullScreenOn" xml:space="preserve">
-    <value>Full screen</value>
-  </data>
-  <data name="CommandToggleGrid" xml:space="preserve">
-    <value>Grid</value>
-  </data>
-  <data name="CommandToggleGridMenu" xml:space="preserve">
-    <value>Grid</value>
-  </data>
-  <data name="CommandToggleGridNote" xml:space="preserve">
-    <value>Toggle visible / hide of grid.</value>
-  </data>
-  <data name="CommandToggleGridOff" xml:space="preserve">
-    <value>Grid OFF</value>
-  </data>
-  <data name="CommandToggleGridOn" xml:space="preserve">
-    <value>Grid</value>
-  </data>
-  <data name="CommandToggleHideMenu" xml:space="preserve">
-    <value>Toggle auto hide menu</value>
-  </data>
-  <data name="CommandToggleHideMenuMenu" xml:space="preserve">
-    <value>Auto hide menu</value>
-  </data>
-  <data name="CommandToggleHideMenuNote" xml:space="preserve">
-    <value>Hide the menu. It is displayed by moving the cursor to the upper end of the window.</value>
-  </data>
-  <data name="CommandToggleHideMenuOff" xml:space="preserve">
-    <value>Auto hide menu OFF</value>
-  </data>
-  <data name="CommandToggleHideMenuOn" xml:space="preserve">
-    <value>Auto hide menu</value>
-  </data>
-  <data name="CommandToggleHidePageSlider" xml:space="preserve">
-    <value>Toggle auto hide slider</value>
-  </data>
-  <data name="CommandToggleHidePageSliderMenu" xml:space="preserve">
-    <value>Auto hide slider</value>
-  </data>
-  <data name="CommandToggleHidePageSliderNote" xml:space="preserve">
-    <value>Hide the slider. It is displayed by moving the cursor to the lower end of the window.</value>
-  </data>
-  <data name="CommandToggleHidePageSliderOff" xml:space="preserve">
-    <value>Auto hide slider OFF</value>
-  </data>
-  <data name="CommandToggleHidePageSliderOn" xml:space="preserve">
-    <value>Auto hide slider</value>
-  </data>
-  <data name="CommandToggleHidePanel" xml:space="preserve">
-    <value>Toggle auto hide panels</value>
-  </data>
-  <data name="CommandToggleHidePanelMenu" xml:space="preserve">
-    <value>Auto hide panels</value>
-  </data>
-  <data name="CommandToggleHidePanelNote" xml:space="preserve">
-    <value>Automatically hide the left and right panels. It is displayed by moving the cursor to the left and right edges of the window.</value>
-  </data>
-  <data name="CommandToggleHidePanelOff" xml:space="preserve">
-    <value>Auto hide panels OFF</value>
-  </data>
-  <data name="CommandToggleHidePanelOn" xml:space="preserve">
-    <value>Auto hide panels</value>
-  </data>
-  <data name="CommandToggleHideThumbnailList" xml:space="preserve">
-    <value>Toggle auto hide filmstrip</value>
-  </data>
-  <data name="CommandToggleHideThumbnailListMenu" xml:space="preserve">
-    <value>Auto hide filmstrip</value>
-  </data>
-  <data name="CommandToggleHideThumbnailListNote" xml:space="preserve">
-    <value>Display the film strip only when using the slider.</value>
-  </data>
-  <data name="CommandToggleHideThumbnailListOff" xml:space="preserve">
-    <value>Auto hide filmstrip OFF</value>
-  </data>
-  <data name="CommandToggleHideThumbnailListOn" xml:space="preserve">
-    <value>Auto hide filmstrip</value>
-  </data>
-  <data name="CommandToggleIsAutoRotate" xml:space="preserve">
-    <value>Toggle auto rotation</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateLeft" xml:space="preserve">
-    <value>Toggle auto left rotation</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateLeftMenu" xml:space="preserve">
-    <value>Auto left rotate</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateLeftNote" xml:space="preserve">
-    <value>When displaying the page, left rotate the portrait image 90 degrees. If the window is portrait, rotate horizontally long image by 90 degrees.</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateLeftOff" xml:space="preserve">
-    <value>Auto left rotate OFF</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateLeftOn" xml:space="preserve">
-    <value>Auto left rotate</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateRight" xml:space="preserve">
-    <value>Toggle auto rithg rotation</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateRightMenu" xml:space="preserve">
-    <value>Auto right rotate</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateRightNote" xml:space="preserve">
-    <value>When displaying the page, right rotate the portrait image 90 degrees. If the window is portrait, rotate horizontally long image by 90 degrees.</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateRightOff" xml:space="preserve">
-    <value>Auto right rotate OFF</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateRightOn" xml:space="preserve">
-    <value>Auto right rotate</value>
-  </data>
-  <data name="CommandToggleIsEnabledNearestNeighbor" xml:space="preserve">
-    <value>Toggle keep dot</value>
-  </data>
-  <data name="CommandToggleIsEnabledNearestNeighborMenu" xml:space="preserve">
-    <value>Keep dot</value>
-  </data>
-  <data name="CommandToggleIsEnabledNearestNeighborNote" xml:space="preserve">
-    <value>When set to ON, it will expand while maintaining the dot. When it is OFF, scale conversion processing (Fant) is executed.</value>
-  </data>
-  <data name="CommandToggleIsEnabledNearestNeighborOff" xml:space="preserve">
-    <value>Keep dot OFF</value>
-  </data>
-  <data name="CommandToggleIsEnabledNearestNeighborOn" xml:space="preserve">
-    <value>Keep dot</value>
-  </data>
-  <data name="CommandToggleIsLoupe" xml:space="preserve">
-    <value>Toggle loupe</value>
-  </data>
-  <data name="CommandToggleIsLoupeMenu" xml:space="preserve">
-    <value>Loupe</value>
-  </data>
-  <data name="CommandToggleIsLoupeNote" xml:space="preserve">
-    <value>Turn the loupe on or off.</value>
-  </data>
-  <data name="CommandToggleIsLoupeOff" xml:space="preserve">
-    <value>Loupe OFF</value>
-  </data>
-  <data name="CommandToggleIsLoupeOn" xml:space="preserve">
-    <value>Loupe</value>
-  </data>
-  <data name="CommandToggleIsRecursiveFolder" xml:space="preserve">
-    <value>Load subfolders</value>
-  </data>
-  <data name="CommandToggleIsRecursiveFolderNote" xml:space="preserve">
-    <value>When loading images from folders, subfolders or compressed files are also loaded at the same time.</value>
-  </data>
-  <data name="CommandToggleIsRecursiveFolderOff" xml:space="preserve">
-    <value>Load subfolders OFF</value>
-  </data>
-  <data name="CommandToggleIsRecursiveFolderOn" xml:space="preserve">
-    <value>Load subfolders</value>
-  </data>
-  <data name="CommandToggleIsSupportedDividePage" xml:space="preserve">
-    <value>Split wide page</value>
-  </data>
-  <data name="CommandToggleIsSupportedDividePageNote" xml:space="preserve">
-    <value>When one page is displayed, divide the landscape page into pages.</value>
-  </data>
-  <data name="CommandToggleIsSupportedDividePageOff" xml:space="preserve">
-    <value>Split wide page OFF</value>
-  </data>
-  <data name="CommandToggleIsSupportedDividePageOn" xml:space="preserve">
-    <value>Split wide page</value>
-  </data>
-  <data name="CommandToggleIsSupportedSingleFirstPage" xml:space="preserve">
-    <value>First page alone</value>
-  </data>
-  <data name="CommandToggleIsSupportedSingleFirstPageNote" xml:space="preserve">
-    <value>Even on 2 page display, the first page is displayed as 1 page.</value>
-  </data>
-  <data name="CommandToggleIsSupportedSingleFirstPageOff" xml:space="preserve">
-    <value>First page alone OFF</value>
-  </data>
-  <data name="CommandToggleIsSupportedSingleFirstPageOn" xml:space="preserve">
-    <value>First page alone</value>
-  </data>
-  <data name="CommandToggleIsSupportedSingleLastPage" xml:space="preserve">
-    <value>Last page alone</value>
-  </data>
-  <data name="CommandToggleIsSupportedSingleLastPageNote" xml:space="preserve">
-    <value>Even on 2 page display, the last page is displayed on 1 page.</value>
-  </data>
-  <data name="CommandToggleIsSupportedSingleLastPageOff" xml:space="preserve">
-    <value>Last page alone OFF</value>
-  </data>
-  <data name="CommandToggleIsSupportedSingleLastPageOn" xml:space="preserve">
-    <value>Last page alone</value>
-  </data>
-  <data name="CommandToggleIsSupportedWidePage" xml:space="preserve">
-    <value>Wide is two page</value>
-  </data>
-  <data name="CommandToggleIsSupportedWidePageNote" xml:space="preserve">
-    <value>When two pages are displayed, the horizontally long image is regarded as two pages and is displayed independently.</value>
-  </data>
-  <data name="CommandToggleIsSupportedWidePageOff" xml:space="preserve">
-    <value>Wide is two page OFF</value>
-  </data>
-  <data name="CommandToggleIsSupportedWidePageOn" xml:space="preserve">
-    <value>Wide is two page</value>
-  </data>
-  <data name="CommandToggleMainViewFloating" xml:space="preserve">
-    <value>Toggle MainView window</value>
-  </data>
-  <data name="CommandToggleMainViewFloatingMenu" xml:space="preserve">
-    <value>MainView window</value>
-  </data>
-  <data name="CommandToggleMainViewFloatingNote" xml:space="preserve">
-    <value>Make the MainView a window.</value>
-  </data>
-  <data name="CommandToggleMediaPlay" xml:space="preserve">
-    <value>Play/Stop</value>
-  </data>
-  <data name="CommandToggleMediaPlayNote" xml:space="preserve">
-    <value>Toggle between playing and stopping the movie.</value>
-  </data>
-  <data name="CommandTogglePageListPlacement" xml:space="preserve">
-    <value>Switch placement of page list</value>
-  </data>
-  <data name="CommandTogglePageListPlacementBookshelf" xml:space="preserve">
-    <value>Place page list on bookshelf</value>
-  </data>
-  <data name="CommandTogglePageListPlacementMenu" xml:space="preserve">
-    <value>Page list placement</value>
-  </data>
-  <data name="CommandTogglePageListPlacementNote" xml:space="preserve">
-    <value>Switch placement of page list between bookshelf and side panel</value>
-  </data>
-  <data name="CommandTogglePageListPlacementPanel" xml:space="preserve">
-    <value>Place page list on side panel</value>
-  </data>
-  <data name="CommandTogglePagemark" xml:space="preserve">
-    <value>Toggle pagemark</value>
-  </data>
-  <data name="CommandTogglePagemarkMenu" xml:space="preserve">
-    <value>Pagemark</value>
-  </data>
-  <data name="CommandTogglePagemarkNote" xml:space="preserve">
-    <value>Toggles registration / cancellation of page mark of currently open page.</value>
-  </data>
-  <data name="CommandTogglePagemarkOff" xml:space="preserve">
-    <value>Pagemark OFF</value>
-  </data>
-  <data name="CommandTogglePagemarkOn" xml:space="preserve">
-    <value>Pagemark</value>
-  </data>
-  <data name="CommandTogglePageMode" xml:space="preserve">
-    <value>Toggle page mode</value>
-  </data>
-  <data name="CommandTogglePageModeNote" xml:space="preserve">
-    <value>Switch between 1 page display and 2 page display.</value>
-  </data>
-  <data name="CommandTogglePermitFileCommand" xml:space="preserve">
-    <value>Toggle file operation</value>
-  </data>
-  <data name="CommandTogglePermitFileCommandMenu" xml:space="preserve">
-    <value>File operation</value>
-  </data>
-  <data name="CommandTogglePermitFileCommandNote" xml:space="preserve">
-    <value>Toggle enable / disable of file operation command.</value>
-  </data>
-  <data name="CommandTogglePermitFileCommandOff" xml:space="preserve">
-    <value>Disable file operation</value>
-  </data>
-  <data name="CommandTogglePermitFileCommandOn" xml:space="preserve">
-    <value>Enable file operation</value>
-  </data>
-  <data name="CommandToggleResizeFilter" xml:space="preserve">
-    <value>Toggle resize filter</value>
-  </data>
-  <data name="CommandToggleResizeFilterMenu" xml:space="preserve">
-    <value>Resize filter</value>
-  </data>
-  <data name="CommandToggleResizeFilterNote" xml:space="preserve">
-    <value>Toggle resize filter on / off.</value>
-  </data>
-  <data name="CommandToggleResizeFilterOff" xml:space="preserve">
-    <value>Resize filter OFF</value>
-  </data>
-  <data name="CommandToggleResizeFilterOn" xml:space="preserve">
-    <value>Resize filter</value>
-  </data>
-  <data name="CommandToggleSlideShow" xml:space="preserve">
-    <value>Toggle slideshow</value>
-  </data>
-  <data name="CommandToggleSlideShowMenu" xml:space="preserve">
-    <value>Slideshow</value>
-  </data>
-  <data name="CommandToggleSlideShowNote" xml:space="preserve">
-    <value>Toggle play / stop of the slideshow.</value>
-  </data>
-  <data name="CommandToggleSlideShowOff" xml:space="preserve">
-    <value>Stop slideshw</value>
-  </data>
-  <data name="CommandToggleSlideShowOn" xml:space="preserve">
-    <value>Play slideshow</value>
-  </data>
-  <data name="CommandToggleSortMode" xml:space="preserve">
-    <value>Switch pages order</value>
-  </data>
-  <data name="CommandToggleSortModeNote" xml:space="preserve">
-    <value>Switch the order of the pages in order.</value>
-  </data>
-  <data name="CommandToggleStretchAllowEnlarge" xml:space="preserve">
-    <value>Allow stretch scale up</value>
-  </data>
-  <data name="CommandToggleStretchAllowEnlargeNote" xml:space="preserve">
-    <value>Allow scale up on stretch.</value>
-  </data>
-  <data name="CommandToggleStretchAllowReduce" xml:space="preserve">
-    <value>Allow stretch scale down</value>
-  </data>
-  <data name="CommandToggleStretchAllowReduceNote" xml:space="preserve">
-    <value>Allow scale down on stretch.</value>
-  </data>
-  <data name="CommandToggleStretchMode" xml:space="preserve">
-    <value>Switch stretch</value>
-  </data>
-  <data name="CommandToggleStretchModeNote" xml:space="preserve">
-    <value>Switch the stretch in order.</value>
-  </data>
-  <data name="CommandToggleStretchModeReverse" xml:space="preserve">
-    <value>Switch stretch (reverse)</value>
-  </data>
-  <data name="CommandToggleStretchModeReverseNote" xml:space="preserve">
-    <value>Switch the stretch in order (reverse).</value>
-  </data>
-  <data name="CommandToggleTopmost" xml:space="preserve">
-    <value>Toggle topmost</value>
-  </data>
-  <data name="CommandToggleTopmostMenu" xml:space="preserve">
-    <value>Topmost</value>
-  </data>
-  <data name="CommandToggleTopmostNote" xml:space="preserve">
-    <value>Always display the window in front.</value>
-  </data>
-  <data name="CommandToggleTopmostOff" xml:space="preserve">
-    <value>Topmost OFF</value>
-  </data>
-  <data name="CommandToggleTopmostOn" xml:space="preserve">
-    <value>Topmost</value>
-  </data>
-  <data name="CommandToggleViewFlipHorizontal" xml:space="preserve">
-    <value>Toggle flip horizontal</value>
-  </data>
-  <data name="CommandToggleViewFlipHorizontalNote" xml:space="preserve">
-    <value>Flip the image left and right.</value>
-  </data>
-  <data name="CommandToggleViewFlipVertical" xml:space="preserve">
-    <value>Toggle flip vertial</value>
-  </data>
-  <data name="CommandToggleViewFlipVerticalNote" xml:space="preserve">
-    <value>Flip the image upside down.</value>
-  </data>
-  <data name="CommandToggleVisibleAddressBar" xml:space="preserve">
-    <value>Toggle address bar</value>
-  </data>
-  <data name="CommandToggleVisibleAddressBarMenu" xml:space="preserve">
-    <value>Address bar</value>
-  </data>
-  <data name="CommandToggleVisibleAddressBarNote" xml:space="preserve">
-    <value>Toggle vidible / hide of the address bar.</value>
-  </data>
-  <data name="CommandToggleVisibleAddressBarOff" xml:space="preserve">
-    <value>Address bar OFF</value>
-  </data>
-  <data name="CommandToggleVisibleAddressBarOn" xml:space="preserve">
-    <value>Address bar</value>
-  </data>
-  <data name="CommandToggleVisibleBookmarkList" xml:space="preserve">
-    <value>Toggle bookmark list</value>
-  </data>
-  <data name="CommandToggleVisibleBookmarkListMenu" xml:space="preserve">
-    <value>Bookmark list</value>
-  </data>
-  <data name="CommandToggleVisibleBookmarkListNote" xml:space="preserve">
-    <value>Toggle vidible / hide of the bookmark list panel.</value>
-  </data>
-  <data name="CommandToggleVisibleBookmarkListOff" xml:space="preserve">
-    <value>Bookmark list OFF</value>
-  </data>
-  <data name="CommandToggleVisibleBookmarkListOn" xml:space="preserve">
-    <value>Bookmark list</value>
-  </data>
-  <data name="CommandToggleVisibleBookshelf" xml:space="preserve">
-    <value>Toggle bookshelf</value>
-  </data>
-  <data name="CommandToggleVisibleBookshelfMenu" xml:space="preserve">
-    <value>Bookshelf</value>
-  </data>
-  <data name="CommandToggleVisibleBookshelfNote" xml:space="preserve">
-    <value>Toggle visible / hide of the bookshelf panel.</value>
-  </data>
-  <data name="CommandToggleVisibleBookshelfOff" xml:space="preserve">
-    <value>Bookshelf OFF</value>
-  </data>
-  <data name="CommandToggleVisibleBookshelfOn" xml:space="preserve">
-    <value>Bookshelf</value>
-  </data>
-  <data name="CommandToggleVisibleEffectInfo" xml:space="preserve">
-    <value>Toggle effect panel</value>
-  </data>
-  <data name="CommandToggleVisibleEffectInfoMenu" xml:space="preserve">
-    <value>Effect panel</value>
-  </data>
-  <data name="CommandToggleVisibleEffectInfoNote" xml:space="preserve">
-    <value>Toggle visible / hide of the effect panel.</value>
-  </data>
-  <data name="CommandToggleVisibleEffectInfoOff" xml:space="preserve">
-    <value>Effect panel OFF</value>
-  </data>
-  <data name="CommandToggleVisibleEffectInfoOn" xml:space="preserve">
-    <value>Effect panel</value>
-  </data>
-  <data name="CommandToggleVisibleFileInfo" xml:space="preserve">
-    <value>Toggle information</value>
-  </data>
-  <data name="CommandToggleVisibleFileInfoMenu" xml:space="preserve">
-    <value>Information</value>
-  </data>
-  <data name="CommandToggleVisibleFileInfoNote" xml:space="preserve">
-    <value>Toggle visible / hide of the information panel.</value>
-  </data>
-  <data name="CommandToggleVisibleFileInfoOff" xml:space="preserve">
-    <value>Information OFF</value>
-  </data>
-  <data name="CommandToggleVisibleFileInfoOn" xml:space="preserve">
-    <value>Information</value>
-  </data>
-  <data name="CommandToggleVisibleFoldersTree" xml:space="preserve">
-    <value>Toggle Folders tree</value>
-  </data>
-  <data name="CommandToggleVisibleFoldersTreeMenu" xml:space="preserve">
-    <value>Folders tree</value>
-  </data>
-  <data name="CommandToggleVisibleFoldersTreeNote" xml:space="preserve">
-    <value>Toggle visible / hide of the Folders tree. The bookshelf is displayed.</value>
-  </data>
-  <data name="CommandToggleVisibleFoldersTreeOff" xml:space="preserve">
-    <value>Folders tree OFF</value>
-  </data>
-  <data name="CommandToggleVisibleFoldersTreeOn" xml:space="preserve">
-    <value>Folders tree</value>
-  </data>
-  <data name="CommandToggleVisibleHistoryList" xml:space="preserve">
-    <value>Toggle history list</value>
-  </data>
-  <data name="CommandToggleVisibleHistoryListMenu" xml:space="preserve">
-    <value>History list</value>
-  </data>
-  <data name="CommandToggleVisibleHistoryListNote" xml:space="preserve">
-    <value>Toggle vidible / hide of the history list panel.</value>
-  </data>
-  <data name="CommandToggleVisibleHistoryListOff" xml:space="preserve">
-    <value>History list OFF</value>
-  </data>
-  <data name="CommandToggleVisibleHistoryListOn" xml:space="preserve">
-    <value>History list</value>
-  </data>
-  <data name="CommandToggleVisibleNavigator" xml:space="preserve">
-    <value>Toggle navigator</value>
-  </data>
-  <data name="CommandToggleVisibleNavigatorMenu" xml:space="preserve">
-    <value>Navigator</value>
-  </data>
-  <data name="CommandToggleVisibleNavigatorNote" xml:space="preserve">
-    <value>Toggle visible / hide of the navigator</value>
-  </data>
-  <data name="CommandToggleVisibleNavigatorOff" xml:space="preserve">
-    <value>Navigator OFF</value>
-  </data>
-  <data name="CommandToggleVisibleNavigatorOn" xml:space="preserve">
-    <value>Navigator</value>
-  </data>
-  <data name="CommandToggleVisiblePageList" xml:space="preserve">
-    <value>Toggle page list</value>
-  </data>
-  <data name="CommandToggleVisiblePageListMenu" xml:space="preserve">
-    <value>Page list</value>
-  </data>
-  <data name="CommandToggleVisiblePageListNote" xml:space="preserve">
-    <value>Toggle visible / hide of the page list. The bookshelf is displayed.</value>
-  </data>
-  <data name="CommandToggleVisiblePageListOff" xml:space="preserve">
-    <value>Page list OFF</value>
-  </data>
-  <data name="CommandToggleVisiblePageListOn" xml:space="preserve">
-    <value>Page list</value>
-  </data>
-  <data name="CommandToggleVisiblePagemarkList" xml:space="preserve">
-    <value>Toggle pagemark list</value>
-  </data>
-  <data name="CommandToggleVisiblePagemarkListMenu" xml:space="preserve">
-    <value>Pagemark list</value>
-  </data>
-  <data name="CommandToggleVisiblePagemarkListNote" xml:space="preserve">
-    <value>Toggle vidible / hide of the pagemark list panel.</value>
-  </data>
-  <data name="CommandToggleVisiblePagemarkListOff" xml:space="preserve">
-    <value>Pagemark list OFF</value>
-  </data>
-  <data name="CommandToggleVisiblePagemarkListOn" xml:space="preserve">
-    <value>Pagemark list</value>
-  </data>
-  <data name="CommandToggleVisibleSideBar" xml:space="preserve">
-    <value>Toggle side bar</value>
-  </data>
-  <data name="CommandToggleVisibleSideBarMenu" xml:space="preserve">
-    <value>Side bar</value>
-  </data>
-  <data name="CommandToggleVisibleSideBarNote" xml:space="preserve">
-    <value>Toggle visible / hide of sidebar.</value>
-  </data>
-  <data name="CommandToggleVisibleSideBarOff" xml:space="preserve">
-    <value>Side bar OFF</value>
-  </data>
-  <data name="CommandToggleVisibleSideBarOn" xml:space="preserve">
-    <value>Side bar</value>
-  </data>
-  <data name="CommandToggleVisibleThumbnailList" xml:space="preserve">
-    <value>Toggle filmstrip</value>
-  </data>
-  <data name="CommandToggleVisibleThumbnailListMenu" xml:space="preserve">
-    <value>Filmstrip</value>
-  </data>
-  <data name="CommandToggleVisibleThumbnailListNote" xml:space="preserve">
-    <value>Toggle visible / hide of the filmstrip.</value>
-  </data>
-  <data name="CommandToggleVisibleThumbnailListOff" xml:space="preserve">
-    <value>Filmstrip OFF</value>
-  </data>
-  <data name="CommandToggleVisibleThumbnailListOn" xml:space="preserve">
-    <value>Filmstrip</value>
-  </data>
-  <data name="CommandToggleVisibleTitleBar" xml:space="preserve">
-    <value>Toggle title bar</value>
-  </data>
-  <data name="CommandToggleVisibleTitleBarMenu" xml:space="preserve">
-    <value>Title bar</value>
-  </data>
-  <data name="CommandToggleVisibleTitleBarNote" xml:space="preserve">
-    <value>Toggle visible / hide of window title bar.</value>
-  </data>
-  <data name="CommandToggleVisibleTitleBarOff" xml:space="preserve">
-    <value>Title bar OFF</value>
-  </data>
-  <data name="CommandToggleVisibleTitleBarOn" xml:space="preserve">
-    <value>Title bar</value>
-  </data>
-  <data name="CommandToggleWindowMaximize" xml:space="preserve">
-    <value>Maximize window</value>
-  </data>
-  <data name="CommandToggleWindowMaximizeMenu" xml:space="preserve">
-    <value>Maximize</value>
-  </data>
-  <data name="CommandToggleWindowMaximizeNote" xml:space="preserve">
-    <value>Maximize the window. If it has already been maximized, restore it to its original size.</value>
-  </data>
-  <data name="CommandToggleWindowMinimize" xml:space="preserve">
-    <value>Minimize window</value>
-  </data>
-  <data name="CommandToggleWindowMinimizeMenu" xml:space="preserve">
-    <value>Minimize</value>
-  </data>
-  <data name="CommandToggleWindowMinimizeNote" xml:space="preserve">
-    <value>Minimize the window. If it has already been minimized, restore it to its original size.</value>
-  </data>
-  <data name="CommandTouchEmulate" xml:space="preserve">
-    <value>Touch emulate</value>
-  </data>
-  <data name="CommandTouchEmulateNote" xml:space="preserve">
-    <value>Execute the touch command at the mouse cursor position.</value>
-  </data>
-  <data name="CommandUnload" xml:space="preserve">
-    <value>Close</value>
-  </data>
-  <data name="CommandUnloadMenu" xml:space="preserve">
-    <value>_Close</value>
-  </data>
-  <data name="CommandUnloadNote" xml:space="preserve">
-    <value>Close the open workbook.</value>
-  </data>
-  <data name="CommandViewFlipHorizontalOff" xml:space="preserve">
-    <value>Flip horizontal OFF</value>
-  </data>
-  <data name="CommandViewFlipHorizontalOffNote" xml:space="preserve">
-    <value>Cancel flip.</value>
-  </data>
-  <data name="CommandViewFlipHorizontalOn" xml:space="preserve">
-    <value>Flip horizontal</value>
-  </data>
-  <data name="CommandViewFlipHorizontalOnNote" xml:space="preserve">
-    <value>Flip the image left and right.</value>
-  </data>
-  <data name="CommandViewFlipVerticalOff" xml:space="preserve">
-    <value>Flip vertial OFF</value>
-  </data>
-  <data name="CommandViewFlipVerticalOffNote" xml:space="preserve">
-    <value>Cancel flip.</value>
-  </data>
-  <data name="CommandViewFlipVerticalOn" xml:space="preserve">
-    <value>Flip vertial</value>
-  </data>
-  <data name="CommandViewFlipVerticalOnNote" xml:space="preserve">
-    <value>Turn it upside down.</value>
-  </data>
-  <data name="CommandViewReset" xml:space="preserve">
-    <value>View reset</value>
-  </data>
-  <data name="CommandViewResetNote" xml:space="preserve">
-    <value>Initialize rotation, scaling, movement, and inversion by manipulating the view.</value>
-  </data>
-  <data name="CommandViewRotateLeft" xml:space="preserve">
-    <value>Left rotate</value>
-  </data>
-  <data name="CommandViewRotateLeftNote" xml:space="preserve">
-    <value>Rotates the image to the left.</value>
-  </data>
-  <data name="CommandViewRotateRight" xml:space="preserve">
-    <value>Right rotate</value>
-  </data>
-  <data name="CommandViewRotateRightNote" xml:space="preserve">
-    <value>Rotate the image to the right.</value>
-  </data>
-  <data name="CommandViewScaleDown" xml:space="preserve">
-    <value>Zoom out</value>
-  </data>
-  <data name="CommandViewScaleDownNote" xml:space="preserve">
-    <value>Reduce the image.</value>
-  </data>
-  <data name="CommandViewScaleUp" xml:space="preserve">
-    <value>Zoom in</value>
-  </data>
-  <data name="CommandViewScaleUpNote" xml:space="preserve">
-    <value>Enlarge the image.</value>
-  </data>
-  <data name="CommandViewScrollDown" xml:space="preserve">
-    <value>Scroll ↓</value>
-  </data>
-  <data name="CommandViewScrollDownNote" xml:space="preserve">
-    <value>Roll the image downwards. When it is not possible to scroll vertically, side scrolling will occur.</value>
-  </data>
-  <data name="CommandViewScrollLeft" xml:space="preserve">
-    <value>Scroll ←</value>
-  </data>
-  <data name="CommandViewScrollLeftNote" xml:space="preserve">
-    <value>Roll the image to the left. If horizontal scrolling is not possible, vertical scrolling will occur.</value>
-  </data>
-  <data name="CommandViewScrollNTypeDown" xml:space="preserve">
-    <value>N-type scroll ↓</value>
-  </data>
-  <data name="CommandViewScrollNTypeDownNote" xml:space="preserve">
-    <value>If you can scroll vertically and horizontally, scroll to draw N characters.</value>
-  </data>
-  <data name="CommandViewScrollNTypeUp" xml:space="preserve">
-    <value>N-type scroll ↑</value>
-  </data>
-  <data name="CommandViewScrollNTypeUpNote" xml:space="preserve">
-    <value>If you can scroll vertically and horizontally, scroll to draw N characters.</value>
-  </data>
-  <data name="CommandViewScrollRight" xml:space="preserve">
-    <value>Scroll →</value>
-  </data>
-  <data name="CommandViewScrollRightNote" xml:space="preserve">
-    <value>Roll the image to the right. If horizontal scrolling is not possible, vertical scrolling will occur.</value>
-  </data>
-  <data name="CommandViewScrollUp" xml:space="preserve">
-    <value>Scroll ↑</value>
-  </data>
-  <data name="CommandViewScrollUpNote" xml:space="preserve">
-    <value>Roll the image upwards. When it is not possible to scroll vertically, side scrolling will occur.</value>
   </data>
   <data name="ControlAboutChangeLog" xml:space="preserve">
     <value>Change Log</value>
@@ -2885,11 +1400,47 @@ Please substitute gesture for flick operation. </value>
   <data name="ControlSusiePluginListUp" xml:space="preserve">
     <value>Up</value>
   </data>
+  <data name="CopyFileCommand.MenuText" xml:space="preserve">
+    <value>_Copy</value>
+  </data>
+  <data name="CopyFileCommand.Note" xml:space="preserve">
+    <value>Copy the file to the clipboard.</value>
+  </data>
+  <data name="CopyFileCommand.Text" xml:space="preserve">
+    <value>Copy file</value>
+  </data>
   <data name="CopyFileCommandParameter.ArchivePolicy" xml:space="preserve">
     <value>For compressed files</value>
   </data>
   <data name="CopyFileCommandParameter.MultiPagePolicy" xml:space="preserve">
     <value>For 2 pages</value>
+  </data>
+  <data name="CopyImageCommand.MenuText" xml:space="preserve">
+    <value>Copy image</value>
+  </data>
+  <data name="CopyImageCommand.Note" xml:space="preserve">
+    <value>Copy the image to the clipboard. For 2 page display, copy only the main page.</value>
+  </data>
+  <data name="CopyImageCommand.Text" xml:space="preserve">
+    <value>Copy image</value>
+  </data>
+  <data name="DeleteBookCommand.MenuText" xml:space="preserve">
+    <value>_Delete book</value>
+  </data>
+  <data name="DeleteBookCommand.Note" xml:space="preserve">
+    <value>Delete the currently viewed folder or compressed file.</value>
+  </data>
+  <data name="DeleteBookCommand.Text" xml:space="preserve">
+    <value>Delete book</value>
+  </data>
+  <data name="DeleteFileCommand.MenuText" xml:space="preserve">
+    <value>_Delete</value>
+  </data>
+  <data name="DeleteFileCommand.Note" xml:space="preserve">
+    <value>Delete the file. It can not be deleted for compressed files.</value>
+  </data>
+  <data name="DeleteFileCommand.Text" xml:space="preserve">
+    <value>Delete file</value>
   </data>
   <data name="DestinationFolderEditDialogTitle" xml:space="preserve">
     <value>Folder parameters</value>
@@ -3288,6 +1839,24 @@ Is it OK? </value>
   <data name="ExplorerContextMenu.IsEnabled#Tips" xml:space="preserve">
     <value>Add "Open in NeeView" to the Explorer context menu. This feature uses the registry.</value>
   </data>
+  <data name="ExportBackupCommand.MenuText" xml:space="preserve">
+    <value>Export settings...</value>
+  </data>
+  <data name="ExportBackupCommand.Note" xml:space="preserve">
+    <value>Create backups of settings, history, bookmarks, page marks. The thumbnail cache is not backed up.</value>
+  </data>
+  <data name="ExportBackupCommand.Text" xml:space="preserve">
+    <value>Export settings</value>
+  </data>
+  <data name="ExportImageAsCommand.MenuText" xml:space="preserve">
+    <value>_Save as...</value>
+  </data>
+  <data name="ExportImageAsCommand.Note" xml:space="preserve">
+    <value>Save the image to a file.</value>
+  </data>
+  <data name="ExportImageAsCommand.Text" xml:space="preserve">
+    <value>Save as</value>
+  </data>
   <data name="ExportImageAsCommandParameter.ExportFolder" xml:space="preserve">
     <value>Default output folder</value>
   </data>
@@ -3299,6 +1868,15 @@ Is it OK? </value>
   </data>
   <data name="ExportImageAsCommandParameter.QualityLevel#Tips" xml:space="preserve">
     <value>It is used only when conversion is required.</value>
+  </data>
+  <data name="ExportImageCommand.MenuText" xml:space="preserve">
+    <value>_Save</value>
+  </data>
+  <data name="ExportImageCommand.Note" xml:space="preserve">
+    <value>Save the image to a file. The storage folder is specified by a command parameter.</value>
+  </data>
+  <data name="ExportImageCommand.Text" xml:space="preserve">
+    <value>Save</value>
   </data>
   <data name="ExportImageCommandParameter.ExportFolder" xml:space="preserve">
     <value>Output folder</value>
@@ -3384,8 +1962,59 @@ Is it OK? </value>
   <data name="FilmStripConfig.ThumbnailSize" xml:space="preserve">
     <value>Page thumbnail size</value>
   </data>
+  <data name="FirstPageCommand.Note" xml:space="preserve">
+    <value>Move to the first page.</value>
+  </data>
+  <data name="FirstPageCommand.Text" xml:space="preserve">
+    <value>First page</value>
+  </data>
+  <data name="FocusBookmarkListCommand.MenuText" xml:space="preserve">
+    <value>Bookmark list</value>
+  </data>
+  <data name="FocusBookmarkListCommand.Note" xml:space="preserve">
+    <value>Display bookmark list of the bookshelf.</value>
+  </data>
+  <data name="FocusBookmarkListCommand.Text" xml:space="preserve">
+    <value>Display bookmark list</value>
+  </data>
+  <data name="FocusFolderSearchBoxCommand.MenuText" xml:space="preserve">
+    <value>Search box</value>
+  </data>
+  <data name="FocusFolderSearchBoxCommand.Note" xml:space="preserve">
+    <value>Focus search box. The bookshelf is displayed.</value>
+  </data>
+  <data name="FocusFolderSearchBoxCommand.Text" xml:space="preserve">
+    <value>Focus search box</value>
+  </data>
+  <data name="FocusMainViewCommand.MenuText" xml:space="preserve">
+    <value>Main view</value>
+  </data>
+  <data name="FocusMainViewCommand.Note" xml:space="preserve">
+    <value>Move focus to the main view.</value>
+  </data>
+  <data name="FocusMainViewCommand.Text" xml:space="preserve">
+    <value>Focus on main view</value>
+  </data>
   <data name="FocusMainViewCommandParameter.NeedClosePanels" xml:space="preserve">
     <value>Close all panels</value>
+  </data>
+  <data name="FocusNextAppCommand.MenuText" xml:space="preserve">
+    <value>Switch next NeeView</value>
+  </data>
+  <data name="FocusNextAppCommand.Note" xml:space="preserve">
+    <value>Switch to the next NeeView when multiple are started.</value>
+  </data>
+  <data name="FocusNextAppCommand.Text" xml:space="preserve">
+    <value>Switch next NeeView</value>
+  </data>
+  <data name="FocusPrevAppCommand.MenuText" xml:space="preserve">
+    <value>Switch prev NeeView</value>
+  </data>
+  <data name="FocusPrevAppCommand.Note" xml:space="preserve">
+    <value>Switch to the previous NeeView when multiple are started.</value>
+  </data>
+  <data name="FocusPrevAppCommand.Text" xml:space="preserve">
+    <value>Switch prev NeeView</value>
   </data>
   <data name="FolderInfoArchiver" xml:space="preserve">
     <value>Archiver</value>
@@ -3513,14 +2142,50 @@ Is it OK? </value>
   <data name="HelpChangeLogFile" xml:space="preserve">
     <value>CHANGELOG.html</value>
   </data>
+  <data name="HelpCommandListCommand.MenuText" xml:space="preserve">
+    <value>Command Help</value>
+  </data>
+  <data name="HelpCommandListCommand.Note" xml:space="preserve">
+    <value>Displays help of all commands in the browser.</value>
+  </data>
+  <data name="HelpCommandListCommand.Text" xml:space="preserve">
+    <value>Command help</value>
+  </data>
   <data name="HelpCommandMessage" xml:space="preserve">
     <value>Commands to which no operation is assigned can be used by setting with "Edit commands".</value>
   </data>
   <data name="HelpCommandTitle" xml:space="preserve">
     <value>NeeView Command List</value>
   </data>
+  <data name="HelpMainMenuCommand.MenuText" xml:space="preserve">
+    <value>Main menu help</value>
+  </data>
+  <data name="HelpMainMenuCommand.Note" xml:space="preserve">
+    <value>Display the main menu help on the browser.</value>
+  </data>
+  <data name="HelpMainMenuCommand.Text" xml:space="preserve">
+    <value>Main menu help</value>
+  </data>
   <data name="HelpReadMeFile" xml:space="preserve">
     <value>README.html</value>
+  </data>
+  <data name="HelpScriptCommand.MenuText" xml:space="preserve">
+    <value>Script Help</value>
+  </data>
+  <data name="HelpScriptCommand.Note" xml:space="preserve">
+    <value>Displays the script manual in the browser.</value>
+  </data>
+  <data name="HelpScriptCommand.Text" xml:space="preserve">
+    <value>Script Help</value>
+  </data>
+  <data name="HelpSearchOptionCommand.MenuText" xml:space="preserve">
+    <value>Search options help</value>
+  </data>
+  <data name="HelpSearchOptionCommand.Note" xml:space="preserve">
+    <value>Display the search options help on the browser.</value>
+  </data>
+  <data name="HelpSearchOptionCommand.Text" xml:space="preserve">
+    <value>Search options help</value>
   </data>
   <data name="HistoryConfig.HistoryEntryPageCount" xml:space="preserve">
     <value>Number of page operations to start history registration</value>
@@ -3744,6 +2409,15 @@ Is it OK? </value>
   <data name="ImageTrimConfig.Top" xml:space="preserve">
     <value>Top</value>
   </data>
+  <data name="ImportBackupCommand.MenuText" xml:space="preserve">
+    <value>Import settings...</value>
+  </data>
+  <data name="ImportBackupCommand.Note" xml:space="preserve">
+    <value>Select the restored item from the backup file and restore it.</value>
+  </data>
+  <data name="ImportBackupCommand.Text" xml:space="preserve">
+    <value>Import settings</value>
+  </data>
   <data name="InformationConfig.IsVisibleBitsPerPixel" xml:space="preserve">
     <value>Display the number of bits per pixel in image size</value>
   </data>
@@ -3790,11 +2464,32 @@ include("Sample.nvjs")</value>
   <data name="JavascriptEngine.SystemCall.filename" xml:space="preserve">
     <value>Executable path. If you specify a URL or file path, the associated app will be executed.</value>
   </data>
+  <data name="JumpPageCommand.Execute#Remarks" xml:space="preserve">
+    <value>number: int|Page number</value>
+  </data>
+  <data name="JumpPageCommand.Note" xml:space="preserve">
+    <value>Enter the page number and move.</value>
+  </data>
+  <data name="JumpPageCommand.Text" xml:space="preserve">
+    <value>Jump page</value>
+  </data>
+  <data name="JumpRandomPageCommand.Note" xml:space="preserve">
+    <value>Jump to a random page.</value>
+  </data>
+  <data name="JumpRandomPageCommand.Text" xml:space="preserve">
+    <value>Random page</value>
+  </data>
   <data name="Language.English" xml:space="preserve">
     <value>English</value>
   </data>
   <data name="Language.Japanese" xml:space="preserve">
     <value>日本語</value>
+  </data>
+  <data name="LastPageCommand.Note" xml:space="preserve">
+    <value>Move to the last page.</value>
+  </data>
+  <data name="LastPageCommand.Text" xml:space="preserve">
+    <value>Last page</value>
   </data>
   <data name="LayoutPanelAccessor.Close" xml:space="preserve">
     <value>Close panel</value>
@@ -3840,6 +2535,18 @@ include("Sample.nvjs")</value>
   </data>
   <data name="LevelEffectUnit.White" xml:space="preserve">
     <value>White</value>
+  </data>
+  <data name="LoadAsCommand.Execute#Remarks" xml:space="preserve">
+    <value>path: string|File or folder path</value>
+  </data>
+  <data name="LoadAsCommand.MenuText" xml:space="preserve">
+    <value>_Open...</value>
+  </data>
+  <data name="LoadAsCommand.Note" xml:space="preserve">
+    <value>Select and open the compressed file or image file.</value>
+  </data>
+  <data name="LoadAsCommand.Text" xml:space="preserve">
+    <value>Open file</value>
   </data>
   <data name="LoadingPage.ViewNone" xml:space="preserve">
     <value>None</value>
@@ -3909,6 +2616,30 @@ include("Sample.nvjs")</value>
   </data>
   <data name="LoupeConfig.Speed" xml:space="preserve">
     <value>Loupe Speed</value>
+  </data>
+  <data name="LoupeOffCommand.Note" xml:space="preserve">
+    <value>Release the loupe mode.</value>
+  </data>
+  <data name="LoupeOffCommand.Text" xml:space="preserve">
+    <value>Loupe OFF</value>
+  </data>
+  <data name="LoupeOnCommand.Note" xml:space="preserve">
+    <value>Make the loupe mode.</value>
+  </data>
+  <data name="LoupeOnCommand.Text" xml:space="preserve">
+    <value>Loupe</value>
+  </data>
+  <data name="LoupeScaleDownCommand.Note" xml:space="preserve">
+    <value>Reduce the loupe magnification. It functions only when using a loupe.</value>
+  </data>
+  <data name="LoupeScaleDownCommand.Text" xml:space="preserve">
+    <value>Loupe zoom out</value>
+  </data>
+  <data name="LoupeScaleUpCommand.Note" xml:space="preserve">
+    <value>Expands the magnifying power of the loupe. It functions only when using a loupe.</value>
+  </data>
+  <data name="LoupeScaleUpCommand.Text" xml:space="preserve">
+    <value>Loupe zoom in</value>
   </data>
   <data name="MagnifyEffectUnit.Amount" xml:space="preserve">
     <value>Amount</value>
@@ -4087,6 +2818,18 @@ include("Sample.nvjs")</value>
   <data name="MoveSizePageCommandParameter.Size" xml:space="preserve">
     <value>Number of moved pages</value>
   </data>
+  <data name="MoveToChildBookCommand.Note" xml:space="preserve">
+    <value>When the page is a book, open that book.</value>
+  </data>
+  <data name="MoveToChildBookCommand.Text" xml:space="preserve">
+    <value>Go to child</value>
+  </data>
+  <data name="MoveToParentBookCommand.Note" xml:space="preserve">
+    <value>Open the upper hierarchy as a book.</value>
+  </data>
+  <data name="MoveToParentBookCommand.Text" xml:space="preserve">
+    <value>Go to parent</value>
+  </data>
   <data name="MultiPagePolicy.All" xml:space="preserve">
     <value>Run all pages</value>
   </data>
@@ -4158,6 +2901,72 @@ include("Sample.nvjs")</value>
   </data>
   <data name="NavitageStretchAllowScaleUp" xml:space="preserve">
     <value>Allow stretch scale up</value>
+  </data>
+  <data name="NextBookCommand.Note" xml:space="preserve">
+    <value>Load the next book on the bookshelf.</value>
+  </data>
+  <data name="NextBookCommand.Text" xml:space="preserve">
+    <value>Next Book</value>
+  </data>
+  <data name="NextBookHistoryCommand.Note" xml:space="preserve">
+    <value>Open a next open book.</value>
+  </data>
+  <data name="NextBookHistoryCommand.Text" xml:space="preserve">
+    <value>Go next</value>
+  </data>
+  <data name="NextFolderPageCommand.Note" xml:space="preserve">
+    <value>Move to the first page of the next folder of the book. Valid only in name order.</value>
+  </data>
+  <data name="NextFolderPageCommand.Text" xml:space="preserve">
+    <value>Next folder</value>
+  </data>
+  <data name="NextHistoryCommand.Note" xml:space="preserve">
+    <value>Load the following new history book.</value>
+  </data>
+  <data name="NextHistoryCommand.Text" xml:space="preserve">
+    <value>Next History</value>
+  </data>
+  <data name="NextHistoryPageCommand.Note" xml:space="preserve">
+    <value>Move to next view page.</value>
+  </data>
+  <data name="NextHistoryPageCommand.Text" xml:space="preserve">
+    <value>Go next view page</value>
+  </data>
+  <data name="NextOnePageCommand.Note" xml:space="preserve">
+    <value>Only one page will move in the next direction.</value>
+  </data>
+  <data name="NextOnePageCommand.Text" xml:space="preserve">
+    <value>Next One</value>
+  </data>
+  <data name="NextPageCommand.Note" xml:space="preserve">
+    <value>Move to next page direction. If it is 2 page display, it moves by 2 pages.</value>
+  </data>
+  <data name="NextPageCommand.Text" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="NextPagemarkCommand.Note" xml:space="preserve">
+    <value>Go to the next page mark.</value>
+  </data>
+  <data name="NextPagemarkCommand.Text" xml:space="preserve">
+    <value>Next pagemark</value>
+  </data>
+  <data name="NextPagemarkInBookCommand.Note" xml:space="preserve">
+    <value>Move to the next page mark in the current book.</value>
+  </data>
+  <data name="NextPagemarkInBookCommand.Text" xml:space="preserve">
+    <value>Next pagemark in book</value>
+  </data>
+  <data name="NextScrollPageCommand.Note" xml:space="preserve">
+    <value>Page Scrolls the image in the next direction. If it is not possible to scroll, it will move to the next page. When using a loupe, only move pages.</value>
+  </data>
+  <data name="NextScrollPageCommand.Text" xml:space="preserve">
+    <value>Scroll + Next</value>
+  </data>
+  <data name="NextSizePageCommand.Note" xml:space="preserve">
+    <value>Move to the next direction by the set number of pages.</value>
+  </data>
+  <data name="NextSizePageCommand.Text" xml:space="preserve">
+    <value>Next num</value>
   </data>
   <data name="NoticeConfig.BookNameShowMessageStyle" xml:space="preserve">
     <value>Show open book name</value>
@@ -4333,6 +3142,33 @@ Initialize the temporary location.</value>
   <data name="NotifyTemporaryErrorTitle" xml:space="preserve">
     <value>Temporary error</value>
   </data>
+  <data name="OpenConsoleCommand.MenuText" xml:space="preserve">
+    <value>Open _console...</value>
+  </data>
+  <data name="OpenConsoleCommand.Note" xml:space="preserve">
+    <value>Open the script console.</value>
+  </data>
+  <data name="OpenConsoleCommand.Text" xml:space="preserve">
+    <value>Open console</value>
+  </data>
+  <data name="OpenContextMenuCommand.Note" xml:space="preserve">
+    <value>Open the context menu.</value>
+  </data>
+  <data name="OpenContextMenuCommand.Text" xml:space="preserve">
+    <value>Open context menu</value>
+  </data>
+  <data name="OpenExplorerCommand.Note" xml:space="preserve">
+    <value>Open the file of the page you are viewing in Explorer.</value>
+  </data>
+  <data name="OpenExplorerCommand.Text" xml:space="preserve">
+    <value>Open in explorer</value>
+  </data>
+  <data name="OpenExternalAppCommand.Note" xml:space="preserve">
+    <value>Open the displayed image with an external application. </value>
+  </data>
+  <data name="OpenExternalAppCommand.Text" xml:space="preserve">
+    <value>External app</value>
+  </data>
   <data name="OpenExternalAppCommandParameter.ArchivePolicy" xml:space="preserve">
     <value>Compressed file policy</value>
   </data>
@@ -4350,6 +3186,36 @@ Initialize the temporary location.</value>
   </data>
   <data name="OpenExternalAppCommandParameter.Parameter#Tips" xml:space="preserve">
     <value>$File will be replaced with the file path. $Uri is replaced with the URI escaped file path.</value>
+  </data>
+  <data name="OpenOptionsWindowCommand.MenuText" xml:space="preserve">
+    <value>_Options...</value>
+  </data>
+  <data name="OpenOptionsWindowCommand.Note" xml:space="preserve">
+    <value>Open the options window.</value>
+  </data>
+  <data name="OpenOptionsWindowCommand.Text" xml:space="preserve">
+    <value>Open options window</value>
+  </data>
+  <data name="OpenScriptsFolderCommand.Note" xml:space="preserve">
+    <value>Open the scripts folder with Explorer.</value>
+  </data>
+  <data name="OpenScriptsFolderCommand.Text" xml:space="preserve">
+    <value>Open scripts folder</value>
+  </data>
+  <data name="OpenSettingFilesFolderCommand.Note" xml:space="preserve">
+    <value>Open the folder where the configuration file setting file is saved.</value>
+  </data>
+  <data name="OpenSettingFilesFolderCommand.Text" xml:space="preserve">
+    <value>Open setting folder</value>
+  </data>
+  <data name="OpenVersionWindowCommand.MenuText" xml:space="preserve">
+    <value>_About...</value>
+  </data>
+  <data name="OpenVersionWindowCommand.Note" xml:space="preserve">
+    <value>Display version information.</value>
+  </data>
+  <data name="OpenVersionWindowCommand.Text" xml:space="preserve">
+    <value>Display version information</value>
   </data>
   <data name="OptionErrorArgument" xml:space="preserve">
     <value>{0} is an unsupported argument type.</value>
@@ -4883,6 +3749,15 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParmViewForceAutoRotate" xml:space="preserve">
     <value>Force auto rotation</value>
   </data>
+  <data name="PasteCommand.MenuText" xml:space="preserve">
+    <value>_Paste</value>
+  </data>
+  <data name="PasteCommand.Note" xml:space="preserve">
+    <value>Paste clipboard files and images.</value>
+  </data>
+  <data name="PasteCommand.Text" xml:space="preserve">
+    <value>Paste</value>
+  </data>
   <data name="PdfArchiveConfig.IsEnabled" xml:space="preserve">
     <value>Use PDF</value>
   </data>
@@ -4950,6 +3825,81 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="PixelateEffectUnit.Pixelation" xml:space="preserve">
     <value>Pixelation</value>
   </data>
+  <data name="PrevBookCommand.Note" xml:space="preserve">
+    <value>Load the previous book on the bookshelf.</value>
+  </data>
+  <data name="PrevBookCommand.Text" xml:space="preserve">
+    <value>Prev Book</value>
+  </data>
+  <data name="PrevBookHistoryCommand.Note" xml:space="preserve">
+    <value>Open a previously open book.</value>
+  </data>
+  <data name="PrevBookHistoryCommand.Text" xml:space="preserve">
+    <value>Go back</value>
+  </data>
+  <data name="PrevFolderPageCommand.Note" xml:space="preserve">
+    <value>Move to the first page of the previous folder of the book. Valid only in name order.</value>
+  </data>
+  <data name="PrevFolderPageCommand.Text" xml:space="preserve">
+    <value>Prev folder</value>
+  </data>
+  <data name="PrevHistoryCommand.Note" xml:space="preserve">
+    <value>Load the previous old history book.</value>
+  </data>
+  <data name="PrevHistoryCommand.Text" xml:space="preserve">
+    <value>Prev History</value>
+  </data>
+  <data name="PrevHistoryPageCommand.Note" xml:space="preserve">
+    <value>Move to previously view page.</value>
+  </data>
+  <data name="PrevHistoryPageCommand.Text" xml:space="preserve">
+    <value>Go back view page</value>
+  </data>
+  <data name="PrevOnePageCommand.Note" xml:space="preserve">
+    <value>Move forward one page only.</value>
+  </data>
+  <data name="PrevOnePageCommand.Text" xml:space="preserve">
+    <value>Prev One</value>
+  </data>
+  <data name="PrevPageCommand.Note" xml:space="preserve">
+    <value>Move to the front of the page. If it is 2 page display, it moves by 2 pages.</value>
+  </data>
+  <data name="PrevPageCommand.Text" xml:space="preserve">
+    <value>Prev</value>
+  </data>
+  <data name="PrevPagemarkCommand.Note" xml:space="preserve">
+    <value>Go to the previous page mark.</value>
+  </data>
+  <data name="PrevPagemarkCommand.Text" xml:space="preserve">
+    <value>Prev pagemark</value>
+  </data>
+  <data name="PrevPagemarkInBookCommand.Note" xml:space="preserve">
+    <value>Move to the previous page mark in the current book.</value>
+  </data>
+  <data name="PrevPagemarkInBookCommand.Text" xml:space="preserve">
+    <value>Prev pagemark in book</value>
+  </data>
+  <data name="PrevScrollPageCommand.Note" xml:space="preserve">
+    <value>Scroll the image forward in the page. If it is not possible to scroll, it will move to the previous page. When using a loupe, only move pages.</value>
+  </data>
+  <data name="PrevScrollPageCommand.Text" xml:space="preserve">
+    <value>Scroll + Prev</value>
+  </data>
+  <data name="PrevSizePageCommand.Note" xml:space="preserve">
+    <value>It moves forward by the set number of pages.</value>
+  </data>
+  <data name="PrevSizePageCommand.Text" xml:space="preserve">
+    <value>Prev num</value>
+  </data>
+  <data name="PrintCommand.MenuText" xml:space="preserve">
+    <value>_Print...</value>
+  </data>
+  <data name="PrintCommand.Note" xml:space="preserve">
+    <value>Print the image.</value>
+  </data>
+  <data name="PrintCommand.Text" xml:space="preserve">
+    <value>Print</value>
+  </data>
   <data name="PrintMode.RawImage" xml:space="preserve">
     <value>Image</value>
   </data>
@@ -4977,6 +3927,24 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="QueryScheme.Root" xml:space="preserve">
     <value>Bookshelf</value>
   </data>
+  <data name="RandomBookCommand.Note" xml:space="preserve">
+    <value>Load the random book on the bookshelf.</value>
+  </data>
+  <data name="RandomBookCommand.Text" xml:space="preserve">
+    <value>Random Book</value>
+  </data>
+  <data name="ReLoadCommand.Note" xml:space="preserve">
+    <value>Reload the book</value>
+  </data>
+  <data name="ReLoadCommand.Text" xml:space="preserve">
+    <value>Reload</value>
+  </data>
+  <data name="ReloadSettingCommand.Note" xml:space="preserve">
+    <value>Reload the settings.</value>
+  </data>
+  <data name="ReloadSettingCommand.Text" xml:space="preserve">
+    <value>Reload settings</value>
+  </data>
   <data name="ReversibleCommandParameter.IsReverse" xml:space="preserve">
     <value>Enable operation swap by slider direction</value>
   </data>
@@ -4995,6 +3963,15 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="RippleEffectUnit.Phase" xml:space="preserve">
     <value>Phase</value>
   </data>
+  <data name="SaveSettingCommand.Note" xml:space="preserve">
+    <value>Performs saving the current settings.</value>
+  </data>
+  <data name="SaveSettingCommand.Text" xml:space="preserve">
+    <value>Save settings</value>
+  </data>
+  <data name="ScriptCommand.Note" xml:space="preserve">
+    <value>Script.</value>
+  </data>
   <data name="ScriptConfig.IsScriptFolderEnabled" xml:space="preserve">
     <value>Use scripts</value>
   </data>
@@ -5003,6 +3980,9 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   </data>
   <data name="ScriptConfig.ScriptFolder#Tips" xml:space="preserve">
     <value>Use the scripts in this folder.</value>
+  </data>
+  <data name="ScriptOnBookLoadedCommand.Note" xml:space="preserve">
+    <value>Scrpit. Executes when the book is opened.</value>
   </data>
   <data name="ScriptReference" xml:space="preserve">
     <value>This section explains how to use NeeView-specific commands.</value>
@@ -5036,6 +4016,246 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   </data>
   <data name="ScrollPageCommandParameter.ScrollDuration" xml:space="preserve">
     <value>Scroll time (sec)</value>
+  </data>
+  <data name="SetBackgroundAutoCommand.Note" xml:space="preserve">
+    <value>Set the background color from the image. Specifically, the color of the upper left pixel of the image is used.</value>
+  </data>
+  <data name="SetBackgroundAutoCommand.Text" xml:space="preserve">
+    <value>Image colored background</value>
+  </data>
+  <data name="SetBackgroundBlackCommand.Note" xml:space="preserve">
+    <value>Make the background black.</value>
+  </data>
+  <data name="SetBackgroundBlackCommand.Text" xml:space="preserve">
+    <value>Black background</value>
+  </data>
+  <data name="SetBackgroundCheckCommand.Note" xml:space="preserve">
+    <value>Make the background a white checkered pattern.</value>
+  </data>
+  <data name="SetBackgroundCheckCommand.Text" xml:space="preserve">
+    <value>White checkered background</value>
+  </data>
+  <data name="SetBackgroundCheckDarkCommand.Note" xml:space="preserve">
+    <value>Make the background a black checkered pattern.</value>
+  </data>
+  <data name="SetBackgroundCheckDarkCommand.Text" xml:space="preserve">
+    <value>Black checkered background</value>
+  </data>
+  <data name="SetBackgroundCustomCommand.Note" xml:space="preserve">
+    <value>Make the background a custom background.</value>
+  </data>
+  <data name="SetBackgroundCustomCommand.Text" xml:space="preserve">
+    <value>Custom Background</value>
+  </data>
+  <data name="SetBackgroundWhiteCommand.Note" xml:space="preserve">
+    <value>Make the background white.</value>
+  </data>
+  <data name="SetBackgroundWhiteCommand.Text" xml:space="preserve">
+    <value>White background</value>
+  </data>
+  <data name="SetBookOrderByEntryTimeACommand.Note" xml:space="preserve">
+    <value>Set the order of books in ascending order by entry time.</value>
+  </data>
+  <data name="SetBookOrderByEntryTimeACommand.Text" xml:space="preserve">
+    <value>Book EntryTime Ascending</value>
+  </data>
+  <data name="SetBookOrderByEntryTimeDCommand.Note" xml:space="preserve">
+    <value>Set the order of books in descending order by entry time.</value>
+  </data>
+  <data name="SetBookOrderByEntryTimeDCommand.Text" xml:space="preserve">
+    <value>Book EntryTime Descending</value>
+  </data>
+  <data name="SetBookOrderByFileNameACommand.Note" xml:space="preserve">
+    <value>Set the order of books in ascending order by name.</value>
+  </data>
+  <data name="SetBookOrderByFileNameACommand.Text" xml:space="preserve">
+    <value>Book Name Ascending</value>
+  </data>
+  <data name="SetBookOrderByFileNameDCommand.Note" xml:space="preserve">
+    <value>Set the order of books in descending order by name.</value>
+  </data>
+  <data name="SetBookOrderByFileNameDCommand.Text" xml:space="preserve">
+    <value>Book Name Descending</value>
+  </data>
+  <data name="SetBookOrderByFileTypeACommand.Note" xml:space="preserve">
+    <value>Set the order of books in ascending order by file type.</value>
+  </data>
+  <data name="SetBookOrderByFileTypeACommand.Text" xml:space="preserve">
+    <value>Book FileType Ascending</value>
+  </data>
+  <data name="SetBookOrderByFileTypeDCommand.Note" xml:space="preserve">
+    <value>Set the order of books in descending order by file type.</value>
+  </data>
+  <data name="SetBookOrderByFileTypeDCommand.Text" xml:space="preserve">
+    <value>Book FileType Descending</value>
+  </data>
+  <data name="SetBookOrderByPathACommand.Note" xml:space="preserve">
+    <value>Set the order of books in ascending order by full path.</value>
+  </data>
+  <data name="SetBookOrderByPathACommand.Text" xml:space="preserve">
+    <value>Book Path Ascending</value>
+  </data>
+  <data name="SetBookOrderByPathDCommand.Note" xml:space="preserve">
+    <value>Set the order of books in descending order by full path.</value>
+  </data>
+  <data name="SetBookOrderByPathDCommand.Text" xml:space="preserve">
+    <value>Book Path Descending</value>
+  </data>
+  <data name="SetBookOrderByRandomCommand.Note" xml:space="preserve">
+    <value>Set the order of books randomly.</value>
+  </data>
+  <data name="SetBookOrderByRandomCommand.Text" xml:space="preserve">
+    <value>Book Shuffle</value>
+  </data>
+  <data name="SetBookOrderBySizeACommand.Note" xml:space="preserve">
+    <value>Set the order of books in ascending order by size.</value>
+  </data>
+  <data name="SetBookOrderBySizeACommand.Text" xml:space="preserve">
+    <value>Book Size Ascending</value>
+  </data>
+  <data name="SetBookOrderBySizeDCommand.Note" xml:space="preserve">
+    <value>Set the order of books in descending order by size.</value>
+  </data>
+  <data name="SetBookOrderBySizeDCommand.Text" xml:space="preserve">
+    <value>Book Size Descending</value>
+  </data>
+  <data name="SetBookOrderByTimeStampACommand.Note" xml:space="preserve">
+    <value>Set the order of books in ascending order by date.</value>
+  </data>
+  <data name="SetBookOrderByTimeStampACommand.Text" xml:space="preserve">
+    <value>Book Date Ascending</value>
+  </data>
+  <data name="SetBookOrderByTimeStampDCommand.Note" xml:space="preserve">
+    <value>Set the order of books in descending order by darte.</value>
+  </data>
+  <data name="SetBookOrderByTimeStampDCommand.Text" xml:space="preserve">
+    <value>Book Date Descending</value>
+  </data>
+  <data name="SetBookReadOrderLeftCommand.Note" xml:space="preserve">
+    <value>Left forward from left to right. The younger page turns to the left when 2 page is displayed.</value>
+  </data>
+  <data name="SetBookReadOrderLeftCommand.Text" xml:space="preserve">
+    <value>Left to right</value>
+  </data>
+  <data name="SetBookReadOrderRightCommand.Note" xml:space="preserve">
+    <value>Left forward from left to right. The young page turns to the right when 2 page is displayed.</value>
+  </data>
+  <data name="SetBookReadOrderRightCommand.Text" xml:space="preserve">
+    <value>Right to left</value>
+  </data>
+  <data name="SetDefaultPageSettingCommand.Note" xml:space="preserve">
+    <value>Restore the default page setting.</value>
+  </data>
+  <data name="SetDefaultPageSettingCommand.Text" xml:space="preserve">
+    <value>Reset page setting</value>
+  </data>
+  <data name="SetFullScreenCommand.Note" xml:space="preserve">
+    <value>Make it full screen.</value>
+  </data>
+  <data name="SetFullScreenCommand.Text" xml:space="preserve">
+    <value>Full screen</value>
+  </data>
+  <data name="SetPageModeOneCommand.Note" xml:space="preserve">
+    <value>Make it 1 page display.</value>
+  </data>
+  <data name="SetPageModeOneCommand.Text" xml:space="preserve">
+    <value>One page</value>
+  </data>
+  <data name="SetPageModeTwoCommand.Note" xml:space="preserve">
+    <value>It makes 2 page display.</value>
+  </data>
+  <data name="SetPageModeTwoCommand.Text" xml:space="preserve">
+    <value>Two page</value>
+  </data>
+  <data name="SetSortModeFileNameCommand.Note" xml:space="preserve">
+    <value>Sort the order of the pages in ascending order by filename.</value>
+  </data>
+  <data name="SetSortModeFileNameCommand.Text" xml:space="preserve">
+    <value>Name Ascending</value>
+  </data>
+  <data name="SetSortModeFileNameDescendingCommand.Note" xml:space="preserve">
+    <value>Sort the order of the pages in descending order by file name.</value>
+  </data>
+  <data name="SetSortModeFileNameDescendingCommand.Text" xml:space="preserve">
+    <value>Name Descending</value>
+  </data>
+  <data name="SetSortModeRandomCommand.Note" xml:space="preserve">
+    <value>Shuffle the order of pages.</value>
+  </data>
+  <data name="SetSortModeRandomCommand.Text" xml:space="preserve">
+    <value>Shuffle</value>
+  </data>
+  <data name="SetSortModeSizeCommand.Note" xml:space="preserve">
+    <value>Set the order of pages in ascending order by file size.</value>
+  </data>
+  <data name="SetSortModeSizeCommand.Text" xml:space="preserve">
+    <value>Size Ascending</value>
+  </data>
+  <data name="SetSortModeSizeDescendingCommand.Note" xml:space="preserve">
+    <value>Set the order of pages in descending order of file size.</value>
+  </data>
+  <data name="SetSortModeSizeDescendingCommand.Text" xml:space="preserve">
+    <value>Size Descending</value>
+  </data>
+  <data name="SetSortModeTimeStampCommand.Note" xml:space="preserve">
+    <value>Sort the order of pages by file date ascending order.</value>
+  </data>
+  <data name="SetSortModeTimeStampCommand.Text" xml:space="preserve">
+    <value>Date Ascending</value>
+  </data>
+  <data name="SetSortModeTimeStampDescendingCommand.Note" xml:space="preserve">
+    <value>Sort the order of pages by file date descending order.</value>
+  </data>
+  <data name="SetSortModeTimeStampDescendingCommand.Text" xml:space="preserve">
+    <value>Date Descending</value>
+  </data>
+  <data name="SetStretchModeInsideCommand.Note" xml:space="preserve">
+    <value>Reduce the image to fit in the window and display it.</value>
+  </data>
+  <data name="SetStretchModeInsideCommand.Text" xml:space="preserve">
+    <value>Fit to window if large</value>
+  </data>
+  <data name="SetStretchModeNoneCommand.Note" xml:space="preserve">
+    <value>Display the image as it is.</value>
+  </data>
+  <data name="SetStretchModeNoneCommand.Text" xml:space="preserve">
+    <value>Original size</value>
+  </data>
+  <data name="SetStretchModeOutsideCommand.Note" xml:space="preserve">
+    <value>The image is enlarged as much as possible so that it fits in the window.</value>
+  </data>
+  <data name="SetStretchModeOutsideCommand.Text" xml:space="preserve">
+    <value>Fit to window if small</value>
+  </data>
+  <data name="SetStretchModeUniformCommand.Note" xml:space="preserve">
+    <value>Scales the image to fit the window size.</value>
+  </data>
+  <data name="SetStretchModeUniformCommand.Text" xml:space="preserve">
+    <value>Fit to window</value>
+  </data>
+  <data name="SetStretchModeUniformToFillCommand.Note" xml:space="preserve">
+    <value>Scale up or down to fit the window size either vertically or horizontally. The image will be larger than the window size.</value>
+  </data>
+  <data name="SetStretchModeUniformToFillCommand.Text" xml:space="preserve">
+    <value>Extend to window</value>
+  </data>
+  <data name="SetStretchModeUniformToHorizontalCommand.Note" xml:space="preserve">
+    <value>Scales to fit the width of the image to the width of the window.</value>
+  </data>
+  <data name="SetStretchModeUniformToHorizontalCommand.Text" xml:space="preserve">
+    <value>Fit width to window</value>
+  </data>
+  <data name="SetStretchModeUniformToSizeCommand.Note" xml:space="preserve">
+    <value>Scales the image so that it is equal to the area size of ​​the window.</value>
+  </data>
+  <data name="SetStretchModeUniformToSizeCommand.Text" xml:space="preserve">
+    <value>Fit to window area size</value>
+  </data>
+  <data name="SetStretchModeUniformToVerticalCommand.Note" xml:space="preserve">
+    <value>Scales to fit the height of the image to the height of the window.</value>
+  </data>
+  <data name="SetStretchModeUniformToVerticalCommand.Text" xml:space="preserve">
+    <value>Fit height to window</value>
   </data>
   <data name="SettingItemRemove" xml:space="preserve">
     <value>Delete all data...</value>
@@ -5531,6 +4751,15 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="SharpenEffectUnit.Height" xml:space="preserve">
     <value>Height</value>
   </data>
+  <data name="ShowHiddenPanelsCommand.MenuText" xml:space="preserve">
+    <value>Show panels </value>
+  </data>
+  <data name="ShowHiddenPanelsCommand.Note" xml:space="preserve">
+    <value>The panel which is hidden automatically is displayed once. It will be canceled by some operation.</value>
+  </data>
+  <data name="ShowHiddenPanelsCommand.Text" xml:space="preserve">
+    <value>Show panels </value>
+  </data>
   <data name="ShowMessageStyle.None" xml:space="preserve">
     <value>None</value>
   </data>
@@ -5639,6 +4868,15 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="StretchModeCommandParameter.IsToggle#Tips" xml:space="preserve">
     <value>If the stretch mode is already specified, it will be the original size</value>
   </data>
+  <data name="StretchWindowCommand.MenuText" xml:space="preserve">
+    <value>Stretch window</value>
+  </data>
+  <data name="StretchWindowCommand.Note" xml:space="preserve">
+    <value>Fit the window to the MainView content size.</value>
+  </data>
+  <data name="StretchWindowCommand.Text" xml:space="preserve">
+    <value>Stretch window</value>
+  </data>
   <data name="SusieConfig.IsEnabled" xml:space="preserve">
     <value>Use the Susie plugin</value>
   </data>
@@ -5712,7 +4950,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>In this application, we will use the network only for WEB links such as version update confirmation and online help from "About" dialog.</value>
   </data>
   <data name="SystemConfig.IsOpenbookAtCurrentPlace" xml:space="preserve">
-    <value>Make the start position of the file selection dialog in "@CommandLoadAs" the location of the currently opened book</value>
+    <value>Make the start position of the file selection dialog in "@LoadAsCommand.Text" the location of the currently opened book</value>
   </data>
   <data name="SystemConfig.IsRemoveConfirmed" xml:space="preserve">
     <value>Show confirmation dialog when deleting files</value>
@@ -5792,11 +5030,422 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ThumbnailConfig.ThumbnailPageCapacity#Tips" xml:space="preserve">
     <value>The number of page thumbnails held in memory. When the book is closed everything is destroyed.</value>
   </data>
+  <data name="ToggleBackgroundCommand.Note" xml:space="preserve">
+    <value>Switch the background sequentially.</value>
+  </data>
+  <data name="ToggleBackgroundCommand.Text" xml:space="preserve">
+    <value>Switch background</value>
+  </data>
+  <data name="ToggleBookmarkCommand.MenuText" xml:space="preserve">
+    <value>Bookmark</value>
+  </data>
+  <data name="ToggleBookmarkCommand.Note" xml:space="preserve">
+    <value>Toggle bookmark registration / release of currently open book.</value>
+  </data>
+  <data name="ToggleBookmarkCommand.Text" xml:space="preserve">
+    <value>Toggle bookmark</value>
+  </data>
+  <data name="ToggleBookmarkCommand_Off" xml:space="preserve">
+    <value>Bookmark OFF</value>
+  </data>
+  <data name="ToggleBookmarkCommand_On" xml:space="preserve">
+    <value>Bookmark</value>
+  </data>
+  <data name="ToggleBookOrderCommand.Note" xml:space="preserve">
+    <value>Switch the order of books in order.</value>
+  </data>
+  <data name="ToggleBookOrderCommand.Text" xml:space="preserve">
+    <value>Switch book order</value>
+  </data>
+  <data name="ToggleBookReadOrderCommand.Note" xml:space="preserve">
+    <value>Toggle right and left open.</value>
+  </data>
+  <data name="ToggleBookReadOrderCommand.Text" xml:space="preserve">
+    <value>Book orientation</value>
+  </data>
+  <data name="ToggleCustomSizeCommand.MenuText" xml:space="preserve">
+    <value>Custom size</value>
+  </data>
+  <data name="ToggleCustomSizeCommand.Note" xml:space="preserve">
+    <value>Toggles enabling / disabling of size specification applied to original size.</value>
+  </data>
+  <data name="ToggleCustomSizeCommand.Text" xml:space="preserve">
+    <value>Toggle custom size</value>
+  </data>
+  <data name="ToggleCustomSizeCommand_Off" xml:space="preserve">
+    <value>Custom size OFF</value>
+  </data>
+  <data name="ToggleCustomSizeCommand_On" xml:space="preserve">
+    <value>Custom size</value>
+  </data>
+  <data name="ToggleEffectCommand.MenuText" xml:space="preserve">
+    <value>Effect</value>
+  </data>
+  <data name="ToggleEffectCommand.Note" xml:space="preserve">
+    <value>Toggle effect on / off.</value>
+  </data>
+  <data name="ToggleEffectCommand.Text" xml:space="preserve">
+    <value>Toggle effect</value>
+  </data>
+  <data name="ToggleEffectCommand_Off" xml:space="preserve">
+    <value>Effect OFF</value>
+  </data>
+  <data name="ToggleEffectCommand_On" xml:space="preserve">
+    <value>Effect</value>
+  </data>
+  <data name="ToggleForceAutoRotateCommand.MenuText" xml:space="preserve">
+    <value>Force auto rotation</value>
+  </data>
+  <data name="ToggleForceAutoRotateCommand.Note" xml:space="preserve">
+    <value>Automatic rotation is applied regardless of the aspect ratio of the image.</value>
+  </data>
+  <data name="ToggleForceAutoRotateCommand.Text" xml:space="preserve">
+    <value>Force auto rotation</value>
+  </data>
+  <data name="ToggleForceAutoRotateOffCommand.Text" xml:space="preserve">
+    <value>Force auto rotation OFF</value>
+  </data>
+  <data name="ToggleForceAutoRotateOnCommand.Text" xml:space="preserve">
+    <value>Force auto rotation</value>
+  </data>
+  <data name="ToggleFullScreenCommand.MenuText" xml:space="preserve">
+    <value>Full screen</value>
+  </data>
+  <data name="ToggleFullScreenCommand.Note" xml:space="preserve">
+    <value>Switch the full screen state.</value>
+  </data>
+  <data name="ToggleFullScreenCommand.Text" xml:space="preserve">
+    <value>Toggle full screen</value>
+  </data>
+  <data name="ToggleFullScreenCommand_Off" xml:space="preserve">
+    <value>Full screen OFF</value>
+  </data>
+  <data name="ToggleFullScreenCommand_On" xml:space="preserve">
+    <value>Full screen</value>
+  </data>
+  <data name="ToggleGridCommand.MenuText" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="ToggleGridCommand.Note" xml:space="preserve">
+    <value>Toggle visible / hide of grid.</value>
+  </data>
+  <data name="ToggleGridCommand.Text" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="ToggleGridCommand_Off" xml:space="preserve">
+    <value>Grid OFF</value>
+  </data>
+  <data name="ToggleGridCommand_On" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="ToggleHideMenuCommand.MenuText" xml:space="preserve">
+    <value>Auto hide menu</value>
+  </data>
+  <data name="ToggleHideMenuCommand.Note" xml:space="preserve">
+    <value>Hide the menu. It is displayed by moving the cursor to the upper end of the window.</value>
+  </data>
+  <data name="ToggleHideMenuCommand.Text" xml:space="preserve">
+    <value>Toggle auto hide menu</value>
+  </data>
+  <data name="ToggleHideMenuCommand_Off" xml:space="preserve">
+    <value>Auto hide menu OFF</value>
+  </data>
+  <data name="ToggleHideMenuCommand_On" xml:space="preserve">
+    <value>Auto hide menu</value>
+  </data>
+  <data name="ToggleHidePageSliderCommand.MenuText" xml:space="preserve">
+    <value>Auto hide slider</value>
+  </data>
+  <data name="ToggleHidePageSliderCommand.Note" xml:space="preserve">
+    <value>Hide the slider. It is displayed by moving the cursor to the lower end of the window.</value>
+  </data>
+  <data name="ToggleHidePageSliderCommand.Text" xml:space="preserve">
+    <value>Toggle auto hide slider</value>
+  </data>
+  <data name="ToggleHidePageSliderCommand_Off" xml:space="preserve">
+    <value>Auto hide slider OFF</value>
+  </data>
+  <data name="ToggleHidePageSliderCommand_On" xml:space="preserve">
+    <value>Auto hide slider</value>
+  </data>
+  <data name="ToggleHidePanelCommand.MenuText" xml:space="preserve">
+    <value>Auto hide panels</value>
+  </data>
+  <data name="ToggleHidePanelCommand.Note" xml:space="preserve">
+    <value>Automatically hide the left and right panels. It is displayed by moving the cursor to the left and right edges of the window.</value>
+  </data>
+  <data name="ToggleHidePanelCommand.Text" xml:space="preserve">
+    <value>Toggle auto hide panels</value>
+  </data>
+  <data name="ToggleHidePanelCommand_Off" xml:space="preserve">
+    <value>Auto hide panels OFF</value>
+  </data>
+  <data name="ToggleHidePanelCommand_On" xml:space="preserve">
+    <value>Auto hide panels</value>
+  </data>
+  <data name="ToggleHideThumbnailListCommand.MenuText" xml:space="preserve">
+    <value>Auto hide filmstrip</value>
+  </data>
+  <data name="ToggleHideThumbnailListCommand.Note" xml:space="preserve">
+    <value>Display the film strip only when using the slider.</value>
+  </data>
+  <data name="ToggleHideThumbnailListCommand.Text" xml:space="preserve">
+    <value>Toggle auto hide filmstrip</value>
+  </data>
+  <data name="ToggleHideThumbnailListCommand_Off" xml:space="preserve">
+    <value>Auto hide filmstrip OFF</value>
+  </data>
+  <data name="ToggleHideThumbnailListCommand_On" xml:space="preserve">
+    <value>Auto hide filmstrip</value>
+  </data>
+  <data name="ToggleIsAutoRotateCommand.Text" xml:space="preserve">
+    <value>Toggle auto rotation</value>
+  </data>
+  <data name="ToggleIsAutoRotateLeftCommand.MenuText" xml:space="preserve">
+    <value>Auto left rotate</value>
+  </data>
+  <data name="ToggleIsAutoRotateLeftCommand.Note" xml:space="preserve">
+    <value>When displaying the page, left rotate the portrait image 90 degrees. If the window is portrait, rotate horizontally long image by 90 degrees.</value>
+  </data>
+  <data name="ToggleIsAutoRotateLeftCommand.Text" xml:space="preserve">
+    <value>Toggle auto left rotation</value>
+  </data>
+  <data name="ToggleIsAutoRotateLeftCommand_Off" xml:space="preserve">
+    <value>Auto left rotate OFF</value>
+  </data>
+  <data name="ToggleIsAutoRotateLeftCommand_On" xml:space="preserve">
+    <value>Auto left rotate</value>
+  </data>
+  <data name="ToggleIsAutoRotateRightCommand.MenuText" xml:space="preserve">
+    <value>Auto right rotate</value>
+  </data>
+  <data name="ToggleIsAutoRotateRightCommand.Note" xml:space="preserve">
+    <value>When displaying the page, right rotate the portrait image 90 degrees. If the window is portrait, rotate horizontally long image by 90 degrees.</value>
+  </data>
+  <data name="ToggleIsAutoRotateRightCommand.Text" xml:space="preserve">
+    <value>Toggle auto rithg rotation</value>
+  </data>
+  <data name="ToggleIsAutoRotateRightCommand_Off" xml:space="preserve">
+    <value>Auto right rotate OFF</value>
+  </data>
+  <data name="ToggleIsAutoRotateRightCommand_On" xml:space="preserve">
+    <value>Auto right rotate</value>
+  </data>
+  <data name="ToggleIsLoupeCommand.MenuText" xml:space="preserve">
+    <value>Loupe</value>
+  </data>
+  <data name="ToggleIsLoupeCommand.Note" xml:space="preserve">
+    <value>Turn the loupe on or off.</value>
+  </data>
+  <data name="ToggleIsLoupeCommand.Text" xml:space="preserve">
+    <value>Toggle loupe</value>
+  </data>
+  <data name="ToggleIsLoupeCommand_Off" xml:space="preserve">
+    <value>Loupe OFF</value>
+  </data>
+  <data name="ToggleIsLoupeCommand_On" xml:space="preserve">
+    <value>Loupe</value>
+  </data>
+  <data name="ToggleIsRecursiveFolderCommand.Note" xml:space="preserve">
+    <value>When loading images from folders, subfolders or compressed files are also loaded at the same time.</value>
+  </data>
+  <data name="ToggleIsRecursiveFolderCommand.Text" xml:space="preserve">
+    <value>Load subfolders</value>
+  </data>
+  <data name="ToggleIsRecursiveFolderCommand_Off" xml:space="preserve">
+    <value>Load subfolders OFF</value>
+  </data>
+  <data name="ToggleIsRecursiveFolderCommand_On" xml:space="preserve">
+    <value>Load subfolders</value>
+  </data>
+  <data name="ToggleIsSupportedDividePageCommand.Note" xml:space="preserve">
+    <value>When one page is displayed, divide the landscape page into pages.</value>
+  </data>
+  <data name="ToggleIsSupportedDividePageCommand.Text" xml:space="preserve">
+    <value>Split wide page</value>
+  </data>
+  <data name="ToggleIsSupportedDividePageCommand_Off" xml:space="preserve">
+    <value>Split wide page OFF</value>
+  </data>
+  <data name="ToggleIsSupportedDividePageCommand_On" xml:space="preserve">
+    <value>Split wide page</value>
+  </data>
+  <data name="ToggleIsSupportedSingleFirstPageCommand.Note" xml:space="preserve">
+    <value>Even on 2 page display, the first page is displayed as 1 page.</value>
+  </data>
+  <data name="ToggleIsSupportedSingleFirstPageCommand.Text" xml:space="preserve">
+    <value>First page alone</value>
+  </data>
+  <data name="ToggleIsSupportedSingleFirstPageCommand_Off" xml:space="preserve">
+    <value>First page alone OFF</value>
+  </data>
+  <data name="ToggleIsSupportedSingleFirstPageCommand_On" xml:space="preserve">
+    <value>First page alone</value>
+  </data>
+  <data name="ToggleIsSupportedSingleLastPageCommand.Note" xml:space="preserve">
+    <value>Even on 2 page display, the last page is displayed on 1 page.</value>
+  </data>
+  <data name="ToggleIsSupportedSingleLastPageCommand.Text" xml:space="preserve">
+    <value>Last page alone</value>
+  </data>
+  <data name="ToggleIsSupportedSingleLastPageCommand_Off" xml:space="preserve">
+    <value>Last page alone OFF</value>
+  </data>
+  <data name="ToggleIsSupportedSingleLastPageCommand_On" xml:space="preserve">
+    <value>Last page alone</value>
+  </data>
+  <data name="ToggleIsSupportedWidePageCommand.Note" xml:space="preserve">
+    <value>When two pages are displayed, the horizontally long image is regarded as two pages and is displayed independently.</value>
+  </data>
+  <data name="ToggleIsSupportedWidePageCommand.Text" xml:space="preserve">
+    <value>Wide is two page</value>
+  </data>
+  <data name="ToggleIsSupportedWidePageCommand_Off" xml:space="preserve">
+    <value>Wide is two page OFF</value>
+  </data>
+  <data name="ToggleIsSupportedWidePageCommand_On" xml:space="preserve">
+    <value>Wide is two page</value>
+  </data>
+  <data name="ToggleMainViewFloatingCommand.MenuText" xml:space="preserve">
+    <value>MainView window</value>
+  </data>
+  <data name="ToggleMainViewFloatingCommand.Note" xml:space="preserve">
+    <value>Make the MainView a window.</value>
+  </data>
+  <data name="ToggleMainViewFloatingCommand.Text" xml:space="preserve">
+    <value>Toggle MainView window</value>
+  </data>
   <data name="ToggleMainViewFloatingOff" xml:space="preserve">
     <value>MainView docking</value>
   </data>
   <data name="ToggleMainViewFloatingOn" xml:space="preserve">
     <value>MainView floating</value>
+  </data>
+  <data name="ToggleMediaPlayCommand.Note" xml:space="preserve">
+    <value>Toggle between playing and stopping the movie.</value>
+  </data>
+  <data name="ToggleMediaPlayCommand.Text" xml:space="preserve">
+    <value>Play/Stop</value>
+  </data>
+  <data name="ToggleNearestNeighborCommand.MenuText" xml:space="preserve">
+    <value>Keep dot</value>
+  </data>
+  <data name="ToggleNearestNeighborCommand.Note" xml:space="preserve">
+    <value>When set to ON, it will expand while maintaining the dot. When it is OFF, scale conversion processing (Fant) is executed.</value>
+  </data>
+  <data name="ToggleNearestNeighborCommand.Text" xml:space="preserve">
+    <value>Toggle keep dot</value>
+  </data>
+  <data name="ToggleNearestNeighborCommand_Off" xml:space="preserve">
+    <value>Keep dot OFF</value>
+  </data>
+  <data name="ToggleNearestNeighborCommand_On" xml:space="preserve">
+    <value>Keep dot</value>
+  </data>
+  <data name="TogglePageListPlacementBookshelfCommand.Text" xml:space="preserve">
+    <value>Place page list on bookshelf</value>
+  </data>
+  <data name="TogglePageListPlacementCommand.MenuText" xml:space="preserve">
+    <value>Page list placement</value>
+  </data>
+  <data name="TogglePageListPlacementCommand.Note" xml:space="preserve">
+    <value>Switch placement of page list between bookshelf and side panel</value>
+  </data>
+  <data name="TogglePageListPlacementCommand.Text" xml:space="preserve">
+    <value>Switch placement of page list</value>
+  </data>
+  <data name="TogglePageListPlacementPanelCommand.Text" xml:space="preserve">
+    <value>Place page list on side panel</value>
+  </data>
+  <data name="TogglePagemarkCommand.MenuText" xml:space="preserve">
+    <value>Pagemark</value>
+  </data>
+  <data name="TogglePagemarkCommand.Note" xml:space="preserve">
+    <value>Toggles registration / cancellation of page mark of currently open page.</value>
+  </data>
+  <data name="TogglePagemarkCommand.Text" xml:space="preserve">
+    <value>Toggle pagemark</value>
+  </data>
+  <data name="TogglePagemarkCommand_Off" xml:space="preserve">
+    <value>Pagemark OFF</value>
+  </data>
+  <data name="TogglePagemarkCommand_On" xml:space="preserve">
+    <value>Pagemark</value>
+  </data>
+  <data name="TogglePageModeCommand.Note" xml:space="preserve">
+    <value>Switch between 1 page display and 2 page display.</value>
+  </data>
+  <data name="TogglePageModeCommand.Text" xml:space="preserve">
+    <value>Toggle page mode</value>
+  </data>
+  <data name="TogglePermitFileCommand.MenuText" xml:space="preserve">
+    <value>File operation</value>
+  </data>
+  <data name="TogglePermitFileCommand.Note" xml:space="preserve">
+    <value>Toggle enable / disable of file operation command.</value>
+  </data>
+  <data name="TogglePermitFileCommand.Text" xml:space="preserve">
+    <value>Toggle file operation</value>
+  </data>
+  <data name="TogglePermitFileCommand_Off" xml:space="preserve">
+    <value>Disable file operation</value>
+  </data>
+  <data name="TogglePermitFileCommand_On" xml:space="preserve">
+    <value>Enable file operation</value>
+  </data>
+  <data name="ToggleResizeFilterCommand.MenuText" xml:space="preserve">
+    <value>Resize filter</value>
+  </data>
+  <data name="ToggleResizeFilterCommand.Note" xml:space="preserve">
+    <value>Toggle resize filter on / off.</value>
+  </data>
+  <data name="ToggleResizeFilterCommand.Text" xml:space="preserve">
+    <value>Toggle resize filter</value>
+  </data>
+  <data name="ToggleResizeFilterCommand_Off" xml:space="preserve">
+    <value>Resize filter OFF</value>
+  </data>
+  <data name="ToggleResizeFilterCommand_On" xml:space="preserve">
+    <value>Resize filter</value>
+  </data>
+  <data name="ToggleSlideShowCommand.MenuText" xml:space="preserve">
+    <value>Slideshow</value>
+  </data>
+  <data name="ToggleSlideShowCommand.Note" xml:space="preserve">
+    <value>Toggle play / stop of the slideshow.</value>
+  </data>
+  <data name="ToggleSlideShowCommand.Text" xml:space="preserve">
+    <value>Toggle slideshow</value>
+  </data>
+  <data name="ToggleSlideShowCommand_Off" xml:space="preserve">
+    <value>Stop slideshw</value>
+  </data>
+  <data name="ToggleSlideShowCommand_On" xml:space="preserve">
+    <value>Play slideshow</value>
+  </data>
+  <data name="ToggleSortModeCommand.Note" xml:space="preserve">
+    <value>Switch the order of the pages in order.</value>
+  </data>
+  <data name="ToggleSortModeCommand.Text" xml:space="preserve">
+    <value>Switch pages order</value>
+  </data>
+  <data name="ToggleStretchAllowScaleDownCommand.Note" xml:space="preserve">
+    <value>Allow scale down on stretch.</value>
+  </data>
+  <data name="ToggleStretchAllowScaleDownCommand.Text" xml:space="preserve">
+    <value>Allow stretch scale down</value>
+  </data>
+  <data name="ToggleStretchAllowScaleUpCommand.Note" xml:space="preserve">
+    <value>Allow scale up on stretch.</value>
+  </data>
+  <data name="ToggleStretchAllowScaleUpCommand.Text" xml:space="preserve">
+    <value>Allow stretch scale up</value>
+  </data>
+  <data name="ToggleStretchModeCommand.Note" xml:space="preserve">
+    <value>Switch the stretch in order.</value>
+  </data>
+  <data name="ToggleStretchModeCommand.Text" xml:space="preserve">
+    <value>Switch stretch</value>
   </data>
   <data name="ToggleStretchModeCommandParameter.IsEnableNone" xml:space="preserve">
     <value>@PageStretchMode.None</value>
@@ -5824,6 +5473,252 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="ToggleStretchModeCommandParameter.IsLoop#Title" xml:space="preserve">
     <value>Loop setting</value>
+  </data>
+  <data name="ToggleStretchModeReverseCommand.Note" xml:space="preserve">
+    <value>Switch the stretch in order (reverse).</value>
+  </data>
+  <data name="ToggleStretchModeReverseCommand.Text" xml:space="preserve">
+    <value>Switch stretch (reverse)</value>
+  </data>
+  <data name="ToggleTopmostCommand.MenuText" xml:space="preserve">
+    <value>Topmost</value>
+  </data>
+  <data name="ToggleTopmostCommand.Note" xml:space="preserve">
+    <value>Always display the window in front.</value>
+  </data>
+  <data name="ToggleTopmostCommand.Text" xml:space="preserve">
+    <value>Toggle topmost</value>
+  </data>
+  <data name="ToggleTopmostCommand_Off" xml:space="preserve">
+    <value>Topmost OFF</value>
+  </data>
+  <data name="ToggleTopmostCommand_On" xml:space="preserve">
+    <value>Topmost</value>
+  </data>
+  <data name="ToggleViewFlipHorizontalCommand.Note" xml:space="preserve">
+    <value>Flip the image left and right.</value>
+  </data>
+  <data name="ToggleViewFlipHorizontalCommand.Text" xml:space="preserve">
+    <value>Toggle flip horizontal</value>
+  </data>
+  <data name="ToggleViewFlipVerticalCommand.Note" xml:space="preserve">
+    <value>Flip the image upside down.</value>
+  </data>
+  <data name="ToggleViewFlipVerticalCommand.Text" xml:space="preserve">
+    <value>Toggle flip vertial</value>
+  </data>
+  <data name="ToggleVisibleAddressBarCommand.MenuText" xml:space="preserve">
+    <value>Address bar</value>
+  </data>
+  <data name="ToggleVisibleAddressBarCommand.Note" xml:space="preserve">
+    <value>Toggle vidible / hide of the address bar.</value>
+  </data>
+  <data name="ToggleVisibleAddressBarCommand.Text" xml:space="preserve">
+    <value>Toggle address bar</value>
+  </data>
+  <data name="ToggleVisibleAddressBarCommand_Off" xml:space="preserve">
+    <value>Address bar OFF</value>
+  </data>
+  <data name="ToggleVisibleAddressBarCommand_On" xml:space="preserve">
+    <value>Address bar</value>
+  </data>
+  <data name="ToggleVisibleBookmarkListCommand.MenuText" xml:space="preserve">
+    <value>Bookmark list</value>
+  </data>
+  <data name="ToggleVisibleBookmarkListCommand.Note" xml:space="preserve">
+    <value>Toggle vidible / hide of the bookmark list panel.</value>
+  </data>
+  <data name="ToggleVisibleBookmarkListCommand.Text" xml:space="preserve">
+    <value>Toggle bookmark list</value>
+  </data>
+  <data name="ToggleVisibleBookmarkListCommand_Off" xml:space="preserve">
+    <value>Bookmark list OFF</value>
+  </data>
+  <data name="ToggleVisibleBookmarkListCommand_On" xml:space="preserve">
+    <value>Bookmark list</value>
+  </data>
+  <data name="ToggleVisibleBookshelfCommand.MenuText" xml:space="preserve">
+    <value>Bookshelf</value>
+  </data>
+  <data name="ToggleVisibleBookshelfCommand.Note" xml:space="preserve">
+    <value>Toggle visible / hide of the bookshelf panel.</value>
+  </data>
+  <data name="ToggleVisibleBookshelfCommand.Text" xml:space="preserve">
+    <value>Toggle bookshelf</value>
+  </data>
+  <data name="ToggleVisibleBookshelfCommand_Off" xml:space="preserve">
+    <value>Bookshelf OFF</value>
+  </data>
+  <data name="ToggleVisibleBookshelfCommand_On" xml:space="preserve">
+    <value>Bookshelf</value>
+  </data>
+  <data name="ToggleVisibleEffectInfoCommand.MenuText" xml:space="preserve">
+    <value>Effect panel</value>
+  </data>
+  <data name="ToggleVisibleEffectInfoCommand.Note" xml:space="preserve">
+    <value>Toggle visible / hide of the effect panel.</value>
+  </data>
+  <data name="ToggleVisibleEffectInfoCommand.Text" xml:space="preserve">
+    <value>Toggle effect panel</value>
+  </data>
+  <data name="ToggleVisibleEffectInfoCommand_Off" xml:space="preserve">
+    <value>Effect panel OFF</value>
+  </data>
+  <data name="ToggleVisibleEffectInfoCommand_On" xml:space="preserve">
+    <value>Effect panel</value>
+  </data>
+  <data name="ToggleVisibleFileInfoCommand.MenuText" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="ToggleVisibleFileInfoCommand.Note" xml:space="preserve">
+    <value>Toggle visible / hide of the information panel.</value>
+  </data>
+  <data name="ToggleVisibleFileInfoCommand.Text" xml:space="preserve">
+    <value>Toggle information</value>
+  </data>
+  <data name="ToggleVisibleFileInfoCommand_Off" xml:space="preserve">
+    <value>Information OFF</value>
+  </data>
+  <data name="ToggleVisibleFileInfoCommand_On" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="ToggleVisibleFoldersTreeCommand.MenuText" xml:space="preserve">
+    <value>Folders tree</value>
+  </data>
+  <data name="ToggleVisibleFoldersTreeCommand.Note" xml:space="preserve">
+    <value>Toggle visible / hide of the Folders tree. The bookshelf is displayed.</value>
+  </data>
+  <data name="ToggleVisibleFoldersTreeCommand.Text" xml:space="preserve">
+    <value>Toggle Folders tree</value>
+  </data>
+  <data name="ToggleVisibleFoldersTreeCommand_Off" xml:space="preserve">
+    <value>Folders tree OFF</value>
+  </data>
+  <data name="ToggleVisibleFoldersTreeCommand_On" xml:space="preserve">
+    <value>Folders tree</value>
+  </data>
+  <data name="ToggleVisibleHistoryListCommand.MenuText" xml:space="preserve">
+    <value>History list</value>
+  </data>
+  <data name="ToggleVisibleHistoryListCommand.Note" xml:space="preserve">
+    <value>Toggle vidible / hide of the history list panel.</value>
+  </data>
+  <data name="ToggleVisibleHistoryListCommand.Text" xml:space="preserve">
+    <value>Toggle history list</value>
+  </data>
+  <data name="ToggleVisibleHistoryListCommand_Off" xml:space="preserve">
+    <value>History list OFF</value>
+  </data>
+  <data name="ToggleVisibleHistoryListCommand_On" xml:space="preserve">
+    <value>History list</value>
+  </data>
+  <data name="ToggleVisibleNavigatorCommand.MenuText" xml:space="preserve">
+    <value>Navigator</value>
+  </data>
+  <data name="ToggleVisibleNavigatorCommand.Note" xml:space="preserve">
+    <value>Toggle visible / hide of the navigator</value>
+  </data>
+  <data name="ToggleVisibleNavigatorCommand.Text" xml:space="preserve">
+    <value>Toggle navigator</value>
+  </data>
+  <data name="ToggleVisibleNavigatorCommand_Off" xml:space="preserve">
+    <value>Navigator OFF</value>
+  </data>
+  <data name="ToggleVisibleNavigatorCommand_On" xml:space="preserve">
+    <value>Navigator</value>
+  </data>
+  <data name="ToggleVisiblePageListCommand.MenuText" xml:space="preserve">
+    <value>Page list</value>
+  </data>
+  <data name="ToggleVisiblePageListCommand.Note" xml:space="preserve">
+    <value>Toggle visible / hide of the page list. The bookshelf is displayed.</value>
+  </data>
+  <data name="ToggleVisiblePageListCommand.Text" xml:space="preserve">
+    <value>Toggle page list</value>
+  </data>
+  <data name="ToggleVisiblePageListCommand_Off" xml:space="preserve">
+    <value>Page list OFF</value>
+  </data>
+  <data name="ToggleVisiblePageListCommand_On" xml:space="preserve">
+    <value>Page list</value>
+  </data>
+  <data name="ToggleVisiblePagemarkListCommand.MenuText" xml:space="preserve">
+    <value>Pagemark list</value>
+  </data>
+  <data name="ToggleVisiblePagemarkListCommand.Note" xml:space="preserve">
+    <value>Toggle vidible / hide of the pagemark list panel.</value>
+  </data>
+  <data name="ToggleVisiblePagemarkListCommand.Text" xml:space="preserve">
+    <value>Toggle pagemark list</value>
+  </data>
+  <data name="ToggleVisiblePagemarkListCommand_Off" xml:space="preserve">
+    <value>Pagemark list OFF</value>
+  </data>
+  <data name="ToggleVisiblePagemarkListCommand_On" xml:space="preserve">
+    <value>Pagemark list</value>
+  </data>
+  <data name="ToggleVisibleSideBarCommand.MenuText" xml:space="preserve">
+    <value>Side bar</value>
+  </data>
+  <data name="ToggleVisibleSideBarCommand.Note" xml:space="preserve">
+    <value>Toggle visible / hide of sidebar.</value>
+  </data>
+  <data name="ToggleVisibleSideBarCommand.Text" xml:space="preserve">
+    <value>Toggle side bar</value>
+  </data>
+  <data name="ToggleVisibleSideBarCommand_Off" xml:space="preserve">
+    <value>Side bar OFF</value>
+  </data>
+  <data name="ToggleVisibleSideBarCommand_On" xml:space="preserve">
+    <value>Side bar</value>
+  </data>
+  <data name="ToggleVisibleThumbnailListCommand.MenuText" xml:space="preserve">
+    <value>Filmstrip</value>
+  </data>
+  <data name="ToggleVisibleThumbnailListCommand.Note" xml:space="preserve">
+    <value>Toggle visible / hide of the filmstrip.</value>
+  </data>
+  <data name="ToggleVisibleThumbnailListCommand.Text" xml:space="preserve">
+    <value>Toggle filmstrip</value>
+  </data>
+  <data name="ToggleVisibleThumbnailListCommand_Off" xml:space="preserve">
+    <value>Filmstrip OFF</value>
+  </data>
+  <data name="ToggleVisibleThumbnailListCommand_On" xml:space="preserve">
+    <value>Filmstrip</value>
+  </data>
+  <data name="ToggleVisibleTitleBarCommand.MenuText" xml:space="preserve">
+    <value>Title bar</value>
+  </data>
+  <data name="ToggleVisibleTitleBarCommand.Note" xml:space="preserve">
+    <value>Toggle visible / hide of window title bar.</value>
+  </data>
+  <data name="ToggleVisibleTitleBarCommand.Text" xml:space="preserve">
+    <value>Toggle title bar</value>
+  </data>
+  <data name="ToggleVisibleTitleBarCommand_Off" xml:space="preserve">
+    <value>Title bar OFF</value>
+  </data>
+  <data name="ToggleVisibleTitleBarCommand_On" xml:space="preserve">
+    <value>Title bar</value>
+  </data>
+  <data name="ToggleWindowMaximizeCommand.MenuText" xml:space="preserve">
+    <value>Maximize</value>
+  </data>
+  <data name="ToggleWindowMaximizeCommand.Note" xml:space="preserve">
+    <value>Maximize the window. If it has already been maximized, restore it to its original size.</value>
+  </data>
+  <data name="ToggleWindowMaximizeCommand.Text" xml:space="preserve">
+    <value>Maximize window</value>
+  </data>
+  <data name="ToggleWindowMinimizeCommand.MenuText" xml:space="preserve">
+    <value>Minimize</value>
+  </data>
+  <data name="ToggleWindowMinimizeCommand.Note" xml:space="preserve">
+    <value>Minimize the window. If it has already been minimized, restore it to its original size.</value>
+  </data>
+  <data name="ToggleWindowMinimizeCommand.Text" xml:space="preserve">
+    <value>Minimize window</value>
   </data>
   <data name="TokenFormat" xml:space="preserve">
     <value>"{0}"</value>
@@ -5872,6 +5767,21 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="TouchConfig.MinimumManipulationRadius#Tips" xml:space="preserve">
     <value>It is the distance between the minimum of 2 touches judged as rotation by touch operation, enlargement / reduction.</value>
+  </data>
+  <data name="TouchEmulateCommand.Note" xml:space="preserve">
+    <value>Execute the touch command at the mouse cursor position.</value>
+  </data>
+  <data name="TouchEmulateCommand.Text" xml:space="preserve">
+    <value>Touch emulate</value>
+  </data>
+  <data name="UnloadCommand.MenuText" xml:space="preserve">
+    <value>_Close</value>
+  </data>
+  <data name="UnloadCommand.Note" xml:space="preserve">
+    <value>Close the open workbook.</value>
+  </data>
+  <data name="UnloadCommand.Text" xml:space="preserve">
+    <value>Close</value>
   </data>
   <data name="UnsharpMaskConfig.Amount" xml:space="preserve">
     <value>Amount</value>
@@ -5958,6 +5868,30 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ViewConfig.StretchMode" xml:space="preserve">
     <value>Stretch mode</value>
   </data>
+  <data name="ViewFlipHorizontalOffCommand.Note" xml:space="preserve">
+    <value>Cancel flip.</value>
+  </data>
+  <data name="ViewFlipHorizontalOffCommand.Text" xml:space="preserve">
+    <value>Flip horizontal OFF</value>
+  </data>
+  <data name="ViewFlipHorizontalOnCommand.Note" xml:space="preserve">
+    <value>Flip the image left and right.</value>
+  </data>
+  <data name="ViewFlipHorizontalOnCommand.Text" xml:space="preserve">
+    <value>Flip horizontal</value>
+  </data>
+  <data name="ViewFlipVerticalOffCommand.Note" xml:space="preserve">
+    <value>Cancel flip.</value>
+  </data>
+  <data name="ViewFlipVerticalOffCommand.Text" xml:space="preserve">
+    <value>Flip vertial OFF</value>
+  </data>
+  <data name="ViewFlipVerticalOnCommand.Note" xml:space="preserve">
+    <value>Turn it upside down.</value>
+  </data>
+  <data name="ViewFlipVerticalOnCommand.Text" xml:space="preserve">
+    <value>Flip vertial</value>
+  </data>
   <data name="ViewPageAccessor" xml:space="preserve">
     <value>ViewPage accessor</value>
   </data>
@@ -5971,6 +5905,12 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ViewPageAccessor.Width" xml:space="preserve">
     <value>Page width</value>
   </data>
+  <data name="ViewResetCommand.Note" xml:space="preserve">
+    <value>Initialize rotation, scaling, movement, and inversion by manipulating the view.</value>
+  </data>
+  <data name="ViewResetCommand.Text" xml:space="preserve">
+    <value>View reset</value>
+  </data>
   <data name="ViewRotateCommandParameter.Angle" xml:space="preserve">
     <value>Rotation angle</value>
   </data>
@@ -5983,6 +5923,18 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ViewRotateCommandParameter.IsStretch#Tips" xml:space="preserve">
     <value>Re-apply image stretch after rotation.</value>
   </data>
+  <data name="ViewRotateLeftCommand.Note" xml:space="preserve">
+    <value>Rotates the image to the left.</value>
+  </data>
+  <data name="ViewRotateLeftCommand.Text" xml:space="preserve">
+    <value>Left rotate</value>
+  </data>
+  <data name="ViewRotateRightCommand.Note" xml:space="preserve">
+    <value>Rotate the image to the right.</value>
+  </data>
+  <data name="ViewRotateRightCommand.Text" xml:space="preserve">
+    <value>Right rotate</value>
+  </data>
   <data name="ViewScaleCommandParameter.IsSnapDefaultScale" xml:space="preserve">
     <value>100% snap</value>
   </data>
@@ -5994,6 +5946,18 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="ViewScaleCommandParameter.Scale#Tips" xml:space="preserve">
     <value>It is the rate of change by one operation.</value>
+  </data>
+  <data name="ViewScaleDownCommand.Note" xml:space="preserve">
+    <value>Reduce the image.</value>
+  </data>
+  <data name="ViewScaleDownCommand.Text" xml:space="preserve">
+    <value>Zoom out</value>
+  </data>
+  <data name="ViewScaleUpCommand.Note" xml:space="preserve">
+    <value>Enlarge the image.</value>
+  </data>
+  <data name="ViewScaleUpCommand.Text" xml:space="preserve">
+    <value>Zoom in</value>
   </data>
   <data name="ViewScrollCommandParameter.AllowCrossScroll" xml:space="preserve">
     <value>Allow vertical scroll</value>
@@ -6010,6 +5974,18 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ViewScrollCommandParameter.ScrollDuration" xml:space="preserve">
     <value>Scroll time (sec)</value>
   </data>
+  <data name="ViewScrollDownCommand.Note" xml:space="preserve">
+    <value>Roll the image downwards. When it is not possible to scroll vertically, side scrolling will occur.</value>
+  </data>
+  <data name="ViewScrollDownCommand.Text" xml:space="preserve">
+    <value>Scroll ↓</value>
+  </data>
+  <data name="ViewScrollLeftCommand.Note" xml:space="preserve">
+    <value>Roll the image to the left. If horizontal scrolling is not possible, vertical scrolling will occur.</value>
+  </data>
+  <data name="ViewScrollLeftCommand.Text" xml:space="preserve">
+    <value>Scroll ←</value>
+  </data>
   <data name="ViewScrollNTypeCommandParameter.Margin" xml:space="preserve">
     <value>Minimum scrolling distance</value>
   </data>
@@ -6024,6 +6000,30 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="ViewScrollNTypeCommandParameter.ScrollDuration" xml:space="preserve">
     <value>Scroll time (sec)</value>
+  </data>
+  <data name="ViewScrollNTypeDownCommand.Note" xml:space="preserve">
+    <value>If you can scroll vertically and horizontally, scroll to draw N characters.</value>
+  </data>
+  <data name="ViewScrollNTypeDownCommand.Text" xml:space="preserve">
+    <value>N-type scroll ↓</value>
+  </data>
+  <data name="ViewScrollNTypeUpCommand.Note" xml:space="preserve">
+    <value>If you can scroll vertically and horizontally, scroll to draw N characters.</value>
+  </data>
+  <data name="ViewScrollNTypeUpCommand.Text" xml:space="preserve">
+    <value>N-type scroll ↑</value>
+  </data>
+  <data name="ViewScrollRightCommand.Note" xml:space="preserve">
+    <value>Roll the image to the right. If horizontal scrolling is not possible, vertical scrolling will occur.</value>
+  </data>
+  <data name="ViewScrollRightCommand.Text" xml:space="preserve">
+    <value>Scroll →</value>
+  </data>
+  <data name="ViewScrollUpCommand.Note" xml:space="preserve">
+    <value>Roll the image upwards. When it is not possible to scroll vertically, side scrolling will occur.</value>
+  </data>
+  <data name="ViewScrollUpCommand.Text" xml:space="preserve">
+    <value>Scroll ↑</value>
   </data>
   <data name="WindowAboutTitle" xml:space="preserve">
     <value>About</value>

@@ -2,11 +2,9 @@
 {
     public class OpenSettingFilesFolderCommand : CommandElement
     {
-        public OpenSettingFilesFolderCommand(string name) : base(name)
+        public OpenSettingFilesFolderCommand()
         {
-            this.Group = Properties.Resources.CommandGroupOther;
-            this.Text = Properties.Resources.CommandOpenSettingFilesFolder;
-            this.Note = Properties.Resources.CommandOpenSettingFilesFolderNote;
+            this.Group = Properties.Resources.CommandGroup_Other;
             this.IsShowMessage = false;
         }
 

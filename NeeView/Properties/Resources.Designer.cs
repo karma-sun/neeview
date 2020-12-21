@@ -2069,6 +2069,105 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Turn off fullscreen. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CancelFullScreenCommand_Note {
+            get {
+                return ResourceManager.GetString("CancelFullScreenCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Full screen OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CancelFullScreenCommand_Text {
+            get {
+                return ResourceManager.GetString("CancelFullScreenCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Stops a running script that has a &quot;sleep&quot; instruction. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CancelScriptCommand_Note {
+            get {
+                return ResourceManager.GetString("CancelScriptCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cancel script に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CancelScriptCommand_Text {
+            get {
+                return ResourceManager.GetString("CancelScriptCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete all history. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ClearHistoryCommand_Note {
+            get {
+                return ResourceManager.GetString("ClearHistoryCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Clear history に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ClearHistoryCommand_Text {
+            get {
+                return ResourceManager.GetString("ClearHistoryCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete all history in the current location of the bookshelf. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ClearHistoryInPlaceCommand_Note {
+            get {
+                return ResourceManager.GetString("ClearHistoryInPlaceCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete history in place に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ClearHistoryInPlaceCommand_Text {
+            get {
+                return ResourceManager.GetString("ClearHistoryInPlaceCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _Quit に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CloseApplicationCommand_MenuText {
+            get {
+                return ResourceManager.GetString("CloseApplicationCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Quit this application. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CloseApplicationCommand_Note {
+            get {
+                return ResourceManager.GetString("CloseApplicationCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Quit application に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CloseApplicationCommand_Text {
+            get {
+                return ResourceManager.GetString("CloseApplicationCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Curve に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ColorSelectEffectUnit_Curve {
@@ -2309,105 +2408,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Full screen OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandCancelFullScreen {
-            get {
-                return ResourceManager.GetString("CommandCancelFullScreen", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Turn off fullscreen. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandCancelFullScreenNote {
-            get {
-                return ResourceManager.GetString("CommandCancelFullScreenNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Cancel script に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandCancelScript {
-            get {
-                return ResourceManager.GetString("CommandCancelScript", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Stops a running script that has a &quot;sleep&quot; instruction. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandCancelScriptNote {
-            get {
-                return ResourceManager.GetString("CommandCancelScriptNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Clear history に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandClearHistory {
-            get {
-                return ResourceManager.GetString("CommandClearHistory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Delete history in place に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandClearHistoryInPlace {
-            get {
-                return ResourceManager.GetString("CommandClearHistoryInPlace", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Delete all history in the current location of the bookshelf. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandClearHistoryInPlaceNote {
-            get {
-                return ResourceManager.GetString("CommandClearHistoryInPlaceNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Delete all history. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandClearHistoryNote {
-            get {
-                return ResourceManager.GetString("CommandClearHistoryNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Quit application に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandCloseApplication {
-            get {
-                return ResourceManager.GetString("CommandCloseApplication", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   _Quit に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandCloseApplicationMenu {
-            get {
-                return ResourceManager.GetString("CommandCloseApplicationMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Quit this application. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandCloseApplicationNote {
-            get {
-                return ResourceManager.GetString("CommandCloseApplicationNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Allow access key に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandConfig_IsAccessKeyEnabled {
@@ -2462,605 +2462,155 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Copy file に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandCopyFile {
-            get {
-                return ResourceManager.GetString("CommandCopyFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   _Copy に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandCopyFileMenu {
-            get {
-                return ResourceManager.GetString("CommandCopyFileMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Copy the file to the clipboard. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandCopyFileNote {
-            get {
-                return ResourceManager.GetString("CommandCopyFileNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Copy image に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandCopyImage {
-            get {
-                return ResourceManager.GetString("CommandCopyImage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Copy image に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandCopyImageMenu {
-            get {
-                return ResourceManager.GetString("CommandCopyImageMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Copy the image to the clipboard. For 2 page display, copy only the main page. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandCopyImageNote {
-            get {
-                return ResourceManager.GetString("CommandCopyImageNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Delete book に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandDeleteBook {
-            get {
-                return ResourceManager.GetString("CommandDeleteBook", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   _Delete book に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandDeleteBookMenu {
-            get {
-                return ResourceManager.GetString("CommandDeleteBookMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Delete the currently viewed folder or compressed file. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandDeleteBookNote {
-            get {
-                return ResourceManager.GetString("CommandDeleteBookNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Delete file に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandDeleteFile {
-            get {
-                return ResourceManager.GetString("CommandDeleteFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   _Delete に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandDeleteFileMenu {
-            get {
-                return ResourceManager.GetString("CommandDeleteFileMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Delete the file. It can not be deleted for compressed files. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandDeleteFileNote {
-            get {
-                return ResourceManager.GetString("CommandDeleteFileNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Export settings に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandExportBackup {
-            get {
-                return ResourceManager.GetString("CommandExportBackup", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Export settings... に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandExportBackupMenu {
-            get {
-                return ResourceManager.GetString("CommandExportBackupMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Create backups of settings, history, bookmarks, page marks. The thumbnail cache is not backed up. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandExportBackupNote {
-            get {
-                return ResourceManager.GetString("CommandExportBackupNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Save に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandExportImage {
-            get {
-                return ResourceManager.GetString("CommandExportImage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Save as に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandExportImageDialog {
-            get {
-                return ResourceManager.GetString("CommandExportImageDialog", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   _Save as... に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandExportImageDialogMenu {
-            get {
-                return ResourceManager.GetString("CommandExportImageDialogMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Save the image to a file. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandExportImageDialogNote {
-            get {
-                return ResourceManager.GetString("CommandExportImageDialogNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   _Save に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandExportImageMenu {
-            get {
-                return ResourceManager.GetString("CommandExportImageMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Save the image to a file. The storage folder is specified by a command parameter. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandExportImageNote {
-            get {
-                return ResourceManager.GetString("CommandExportImageNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   First page に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandFirstPage {
-            get {
-                return ResourceManager.GetString("CommandFirstPage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Move to the first page. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandFirstPageNote {
-            get {
-                return ResourceManager.GetString("CommandFirstPageNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Display bookmark list に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandFocusBookmarkList {
-            get {
-                return ResourceManager.GetString("CommandFocusBookmarkList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Bookmark list に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandFocusBookmarkListMenu {
-            get {
-                return ResourceManager.GetString("CommandFocusBookmarkListMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Display bookmark list of the bookshelf. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandFocusBookmarkListNote {
-            get {
-                return ResourceManager.GetString("CommandFocusBookmarkListNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Focus search box に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandFocusFolderSearchBox {
-            get {
-                return ResourceManager.GetString("CommandFocusFolderSearchBox", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Search box に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandFocusFolderSearchBoxMenu {
-            get {
-                return ResourceManager.GetString("CommandFocusFolderSearchBoxMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Focus search box. The bookshelf is displayed. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandFocusFolderSearchBoxNote {
-            get {
-                return ResourceManager.GetString("CommandFocusFolderSearchBoxNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Focus on main view に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandFocusMainView {
-            get {
-                return ResourceManager.GetString("CommandFocusMainView", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Main view に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandFocusMainViewMenu {
-            get {
-                return ResourceManager.GetString("CommandFocusMainViewMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Move focus to the main view. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandFocusMainViewNote {
-            get {
-                return ResourceManager.GetString("CommandFocusMainViewNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Switch next NeeView に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandFocusNextApp {
-            get {
-                return ResourceManager.GetString("CommandFocusNextApp", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Switch next NeeView に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandFocusNextAppMenu {
-            get {
-                return ResourceManager.GetString("CommandFocusNextAppMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Switch to the next NeeView when multiple are started. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandFocusNextAppNote {
-            get {
-                return ResourceManager.GetString("CommandFocusNextAppNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Switch prev NeeView に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandFocusPrevApp {
-            get {
-                return ResourceManager.GetString("CommandFocusPrevApp", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Switch prev NeeView に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandFocusPrevAppMenu {
-            get {
-                return ResourceManager.GetString("CommandFocusPrevAppMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Switch to the previous NeeView when multiple are started. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandFocusPrevAppNote {
-            get {
-                return ResourceManager.GetString("CommandFocusPrevAppNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Bookmark に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CommandGroupBookmark {
+        public static string CommandGroup_Bookmark {
             get {
-                return ResourceManager.GetString("CommandGroupBookmark", resourceCulture);
+                return ResourceManager.GetString("CommandGroup.Bookmark", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Book move に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CommandGroupBookMove {
+        public static string CommandGroup_BookMove {
             get {
-                return ResourceManager.GetString("CommandGroupBookMove", resourceCulture);
+                return ResourceManager.GetString("CommandGroup.BookMove", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Book order に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CommandGroupBookOrder {
+        public static string CommandGroup_BookOrder {
             get {
-                return ResourceManager.GetString("CommandGroupBookOrder", resourceCulture);
+                return ResourceManager.GetString("CommandGroup.BookOrder", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Effect に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CommandGroupEffect {
+        public static string CommandGroup_Effect {
             get {
-                return ResourceManager.GetString("CommandGroupEffect", resourceCulture);
+                return ResourceManager.GetString("CommandGroup.Effect", resourceCulture);
             }
         }
         
         /// <summary>
         ///   File に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CommandGroupFile {
+        public static string CommandGroup_File {
             get {
-                return ResourceManager.GetString("CommandGroupFile", resourceCulture);
+                return ResourceManager.GetString("CommandGroup.File", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Filmstrip に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CommandGroupFilmStrip {
+        public static string CommandGroup_FilmStrip {
             get {
-                return ResourceManager.GetString("CommandGroupFilmStrip", resourceCulture);
+                return ResourceManager.GetString("CommandGroup.FilmStrip", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Stretch に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CommandGroupImageScale {
+        public static string CommandGroup_ImageScale {
             get {
-                return ResourceManager.GetString("CommandGroupImageScale", resourceCulture);
+                return ResourceManager.GetString("CommandGroup.ImageScale", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Page move に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CommandGroupMove {
+        public static string CommandGroup_Move {
             get {
-                return ResourceManager.GetString("CommandGroupMove", resourceCulture);
+                return ResourceManager.GetString("CommandGroup.Move", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Other に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CommandGroupOther {
+        public static string CommandGroup_Other {
             get {
-                return ResourceManager.GetString("CommandGroupOther", resourceCulture);
+                return ResourceManager.GetString("CommandGroup.Other", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Pagemark に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CommandGroupPagemark {
+        public static string CommandGroup_Pagemark {
             get {
-                return ResourceManager.GetString("CommandGroupPagemark", resourceCulture);
+                return ResourceManager.GetString("CommandGroup.Pagemark", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Page order に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CommandGroupPageOrder {
+        public static string CommandGroup_PageOrder {
             get {
-                return ResourceManager.GetString("CommandGroupPageOrder", resourceCulture);
+                return ResourceManager.GetString("CommandGroup.PageOrder", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Page setting に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CommandGroupPageSetting {
+        public static string CommandGroup_PageSetting {
             get {
-                return ResourceManager.GetString("CommandGroupPageSetting", resourceCulture);
+                return ResourceManager.GetString("CommandGroup.PageSetting", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CommandGroupPanel {
+        public static string CommandGroup_Panel {
             get {
-                return ResourceManager.GetString("CommandGroupPanel", resourceCulture);
+                return ResourceManager.GetString("CommandGroup.Panel", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Scripts に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CommandGroupScript {
+        public static string CommandGroup_Script {
             get {
-                return ResourceManager.GetString("CommandGroupScript", resourceCulture);
+                return ResourceManager.GetString("CommandGroup.Script", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Video に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CommandGroupVideo {
+        public static string CommandGroup_Video {
             get {
-                return ResourceManager.GetString("CommandGroupVideo", resourceCulture);
+                return ResourceManager.GetString("CommandGroup.Video", resourceCulture);
             }
         }
         
         /// <summary>
         ///   View operation に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CommandGroupViewManipulation {
+        public static string CommandGroup_ViewManipulation {
             get {
-                return ResourceManager.GetString("CommandGroupViewManipulation", resourceCulture);
+                return ResourceManager.GetString("CommandGroup.ViewManipulation", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Window に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CommandGroupWindow {
+        public static string CommandGroup_Window {
             get {
-                return ResourceManager.GetString("CommandGroupWindow", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Command help に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandHelpCommandList {
-            get {
-                return ResourceManager.GetString("CommandHelpCommandList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Command Help に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandHelpCommandListMenu {
-            get {
-                return ResourceManager.GetString("CommandHelpCommandListMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Displays help of all commands in the browser. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandHelpCommandListNote {
-            get {
-                return ResourceManager.GetString("CommandHelpCommandListNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Main menu help に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandHelpMainMenu {
-            get {
-                return ResourceManager.GetString("CommandHelpMainMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Main menu help に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandHelpMainMenuMenu {
-            get {
-                return ResourceManager.GetString("CommandHelpMainMenuMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Display the main menu help on the browser. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandHelpMainMenuNote {
-            get {
-                return ResourceManager.GetString("CommandHelpMainMenuNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Script Help に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandHelpScript {
-            get {
-                return ResourceManager.GetString("CommandHelpScript", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Script Help に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandHelpScriptMenu {
-            get {
-                return ResourceManager.GetString("CommandHelpScriptMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Displays the script manual in the browser. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandHelpScriptNote {
-            get {
-                return ResourceManager.GetString("CommandHelpScriptNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Search options help に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandHelpSearchOption {
-            get {
-                return ResourceManager.GetString("CommandHelpSearchOption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Search options help に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandHelpSearchOptionMenu {
-            get {
-                return ResourceManager.GetString("CommandHelpSearchOptionMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Display the search options help on the browser. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandHelpSearchOptionNote {
-            get {
-                return ResourceManager.GetString("CommandHelpSearchOptionNote", resourceCulture);
+                return ResourceManager.GetString("CommandGroup.Window", resourceCulture);
             }
         }
         
@@ -3347,4016 +2897,11 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Import settings に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandImportBackup {
-            get {
-                return ResourceManager.GetString("CommandImportBackup", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Import settings... に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandImportBackupMenu {
-            get {
-                return ResourceManager.GetString("CommandImportBackupMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Select the restored item from the backup file and restore it. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandImportBackupNote {
-            get {
-                return ResourceManager.GetString("CommandImportBackupNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Jump page に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandJumpPage {
-            get {
-                return ResourceManager.GetString("CommandJumpPage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   number: int|Page number に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandJumpPageArgument {
-            get {
-                return ResourceManager.GetString("CommandJumpPageArgument", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Enter the page number and move. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandJumpPageNote {
-            get {
-                return ResourceManager.GetString("CommandJumpPageNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Random page に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandJumpRandomPage {
-            get {
-                return ResourceManager.GetString("CommandJumpRandomPage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Jump to a random page. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandJumpRandomPageNote {
-            get {
-                return ResourceManager.GetString("CommandJumpRandomPageNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Last page に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandLastPage {
-            get {
-                return ResourceManager.GetString("CommandLastPage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Move to the last page. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandLastPageNote {
-            get {
-                return ResourceManager.GetString("CommandLastPageNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Open file に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandLoadAs {
-            get {
-                return ResourceManager.GetString("CommandLoadAs", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   path: string|File or folder path に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandLoadAsArgument {
-            get {
-                return ResourceManager.GetString("CommandLoadAsArgument", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   _Open... に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandLoadAsMenu {
-            get {
-                return ResourceManager.GetString("CommandLoadAsMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Select and open the compressed file or image file. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandLoadAsNote {
-            get {
-                return ResourceManager.GetString("CommandLoadAsNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Loupe OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandLoupeOff {
-            get {
-                return ResourceManager.GetString("CommandLoupeOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Release the loupe mode. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandLoupeOffNote {
-            get {
-                return ResourceManager.GetString("CommandLoupeOffNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Loupe に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandLoupeOn {
-            get {
-                return ResourceManager.GetString("CommandLoupeOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Make the loupe mode. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandLoupeOnNote {
-            get {
-                return ResourceManager.GetString("CommandLoupeOnNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Loupe zoom out に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandLoupeScaleDown {
-            get {
-                return ResourceManager.GetString("CommandLoupeScaleDown", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Reduce the loupe magnification. It functions only when using a loupe. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandLoupeScaleDownNote {
-            get {
-                return ResourceManager.GetString("CommandLoupeScaleDownNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Loupe zoom in に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandLoupeScaleUp {
-            get {
-                return ResourceManager.GetString("CommandLoupeScaleUp", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Expands the magnifying power of the loupe. It functions only when using a loupe. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandLoupeScaleUpNote {
-            get {
-                return ResourceManager.GetString("CommandLoupeScaleUpNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Go to child に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandMoveToChildBook {
-            get {
-                return ResourceManager.GetString("CommandMoveToChildBook", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   When the page is a book, open that book. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandMoveToChildBookNote {
-            get {
-                return ResourceManager.GetString("CommandMoveToChildBookNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Go to parent に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandMoveToParentBook {
-            get {
-                return ResourceManager.GetString("CommandMoveToParentBook", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Open the upper hierarchy as a book. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandMoveToParentBookNote {
-            get {
-                return ResourceManager.GetString("CommandMoveToParentBookNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Go next に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandNextBookHistory {
-            get {
-                return ResourceManager.GetString("CommandNextBookHistory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Open a next open book. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandNextBookHistoryNote {
-            get {
-                return ResourceManager.GetString("CommandNextBookHistoryNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Next Book に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandNextFolder {
-            get {
-                return ResourceManager.GetString("CommandNextFolder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Load the next book on the bookshelf. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandNextFolderNote {
-            get {
-                return ResourceManager.GetString("CommandNextFolderNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Next folder に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandNextFolderPage {
-            get {
-                return ResourceManager.GetString("CommandNextFolderPage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Move to the first page of the next folder of the book. Valid only in name order. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandNextFolderPageNote {
-            get {
-                return ResourceManager.GetString("CommandNextFolderPageNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Next History に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandNextHistory {
-            get {
-                return ResourceManager.GetString("CommandNextHistory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Load the following new history book. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandNextHistoryNote {
-            get {
-                return ResourceManager.GetString("CommandNextHistoryNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Next One に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandNextOnePage {
-            get {
-                return ResourceManager.GetString("CommandNextOnePage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Only one page will move in the next direction. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandNextOnePageNote {
-            get {
-                return ResourceManager.GetString("CommandNextOnePageNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Next に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandNextPage {
-            get {
-                return ResourceManager.GetString("CommandNextPage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Go next view page に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandNextPageHistory {
-            get {
-                return ResourceManager.GetString("CommandNextPageHistory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Move to next view page. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandNextPageHistoryNote {
-            get {
-                return ResourceManager.GetString("CommandNextPageHistoryNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Next pagemark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandNextPagemark {
-            get {
-                return ResourceManager.GetString("CommandNextPagemark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Next pagemark in book に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandNextPagemarkInBook {
-            get {
-                return ResourceManager.GetString("CommandNextPagemarkInBook", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Move to the next page mark in the current book. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandNextPagemarkInBookNote {
-            get {
-                return ResourceManager.GetString("CommandNextPagemarkInBookNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Go to the next page mark. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandNextPagemarkNote {
-            get {
-                return ResourceManager.GetString("CommandNextPagemarkNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Move to next page direction. If it is 2 page display, it moves by 2 pages. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandNextPageNote {
-            get {
-                return ResourceManager.GetString("CommandNextPageNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Scroll + Next に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandNextScrollPage {
-            get {
-                return ResourceManager.GetString("CommandNextScrollPage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Page Scrolls the image in the next direction. If it is not possible to scroll, it will move to the next page. When using a loupe, only move pages. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandNextScrollPageNote {
-            get {
-                return ResourceManager.GetString("CommandNextScrollPageNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Next num に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandNextSizePage {
-            get {
-                return ResourceManager.GetString("CommandNextSizePage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Move to the next direction by the set number of pages. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandNextSizePageNote {
-            get {
-                return ResourceManager.GetString("CommandNextSizePageNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   External app に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandOpenApplication {
-            get {
-                return ResourceManager.GetString("CommandOpenApplication", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Open the displayed image with an external application.  に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandOpenApplicationNote {
-            get {
-                return ResourceManager.GetString("CommandOpenApplicationNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Open console に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandOpenConsole {
-            get {
-                return ResourceManager.GetString("CommandOpenConsole", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Open _console... に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandOpenConsoleMenu {
-            get {
-                return ResourceManager.GetString("CommandOpenConsoleMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Open the script console. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandOpenConsoleNote {
-            get {
-                return ResourceManager.GetString("CommandOpenConsoleNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Open context menu に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandOpenContextMenu {
-            get {
-                return ResourceManager.GetString("CommandOpenContextMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Open the context menu. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandOpenContextMenuNote {
-            get {
-                return ResourceManager.GetString("CommandOpenContextMenuNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Open in explorer に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandOpenFilePlace {
-            get {
-                return ResourceManager.GetString("CommandOpenFilePlace", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Open the file of the page you are viewing in Explorer. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandOpenFilePlaceNote {
-            get {
-                return ResourceManager.GetString("CommandOpenFilePlaceNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Open scripts folder に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandOpenSecriptsFolder {
-            get {
-                return ResourceManager.GetString("CommandOpenSecriptsFolder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Open the scripts folder with Explorer. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandOpenSecriptsFolderNote {
-            get {
-                return ResourceManager.GetString("CommandOpenSecriptsFolderNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Open setting folder に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandOpenSettingFilesFolder {
-            get {
-                return ResourceManager.GetString("CommandOpenSettingFilesFolder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Open the folder where the configuration file setting file is saved. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandOpenSettingFilesFolderNote {
-            get {
-                return ResourceManager.GetString("CommandOpenSettingFilesFolderNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Open options window に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandOpenSettingWindow {
-            get {
-                return ResourceManager.GetString("CommandOpenSettingWindow", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   _Options... に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandOpenSettingWindowMenu {
-            get {
-                return ResourceManager.GetString("CommandOpenSettingWindowMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Open the options window. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandOpenSettingWindowNote {
-            get {
-                return ResourceManager.GetString("CommandOpenSettingWindowNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Display version information に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandOpenVersionWindow {
-            get {
-                return ResourceManager.GetString("CommandOpenVersionWindow", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   _About... に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandOpenVersionWindowMenu {
-            get {
-                return ResourceManager.GetString("CommandOpenVersionWindowMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Display version information. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandOpenVersionWindowNote {
-            get {
-                return ResourceManager.GetString("CommandOpenVersionWindowNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Paste に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandPaste {
-            get {
-                return ResourceManager.GetString("CommandPaste", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   _Paste に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandPasteMenu {
-            get {
-                return ResourceManager.GetString("CommandPasteMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Paste clipboard files and images. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandPasteNote {
-            get {
-                return ResourceManager.GetString("CommandPasteNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Go back に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandPrevBookHistory {
-            get {
-                return ResourceManager.GetString("CommandPrevBookHistory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Open a previously open book. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandPrevBookHistoryNote {
-            get {
-                return ResourceManager.GetString("CommandPrevBookHistoryNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Prev Book に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandPrevFolder {
-            get {
-                return ResourceManager.GetString("CommandPrevFolder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Load the previous book on the bookshelf. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandPrevFolderNote {
-            get {
-                return ResourceManager.GetString("CommandPrevFolderNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Prev folder に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandPrevFolderPage {
-            get {
-                return ResourceManager.GetString("CommandPrevFolderPage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Move to the first page of the previous folder of the book. Valid only in name order. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandPrevFolderPageNote {
-            get {
-                return ResourceManager.GetString("CommandPrevFolderPageNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Prev History に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandPrevHistory {
-            get {
-                return ResourceManager.GetString("CommandPrevHistory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Load the previous old history book. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandPrevHistoryNote {
-            get {
-                return ResourceManager.GetString("CommandPrevHistoryNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Prev One に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandPrevOnePage {
-            get {
-                return ResourceManager.GetString("CommandPrevOnePage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Move forward one page only. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandPrevOnePageNote {
-            get {
-                return ResourceManager.GetString("CommandPrevOnePageNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Prev に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandPrevPage {
-            get {
-                return ResourceManager.GetString("CommandPrevPage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Go back view page に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandPrevPageHistory {
-            get {
-                return ResourceManager.GetString("CommandPrevPageHistory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Move to previously view page. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandPrevPageHistoryNote {
-            get {
-                return ResourceManager.GetString("CommandPrevPageHistoryNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Prev pagemark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandPrevPagemark {
-            get {
-                return ResourceManager.GetString("CommandPrevPagemark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Prev pagemark in book に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandPrevPagemarkInBook {
-            get {
-                return ResourceManager.GetString("CommandPrevPagemarkInBook", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Move to the previous page mark in the current book. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandPrevPagemarkInBookNote {
-            get {
-                return ResourceManager.GetString("CommandPrevPagemarkInBookNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Go to the previous page mark. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandPrevPagemarkNote {
-            get {
-                return ResourceManager.GetString("CommandPrevPagemarkNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Move to the front of the page. If it is 2 page display, it moves by 2 pages. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandPrevPageNote {
-            get {
-                return ResourceManager.GetString("CommandPrevPageNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Scroll + Prev に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandPrevScrollPage {
-            get {
-                return ResourceManager.GetString("CommandPrevScrollPage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Scroll the image forward in the page. If it is not possible to scroll, it will move to the previous page. When using a loupe, only move pages. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandPrevScrollPageNote {
-            get {
-                return ResourceManager.GetString("CommandPrevScrollPageNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Prev num に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandPrevSizePage {
-            get {
-                return ResourceManager.GetString("CommandPrevSizePage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   It moves forward by the set number of pages. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandPrevSizePageNote {
-            get {
-                return ResourceManager.GetString("CommandPrevSizePageNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Print に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandPrint {
-            get {
-                return ResourceManager.GetString("CommandPrint", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   _Print... に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandPrintMenu {
-            get {
-                return ResourceManager.GetString("CommandPrintMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Print the image. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandPrintNote {
-            get {
-                return ResourceManager.GetString("CommandPrintNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Random Book に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandRandomFolder {
-            get {
-                return ResourceManager.GetString("CommandRandomFolder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Load the random book on the bookshelf. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandRandomFolderNote {
-            get {
-                return ResourceManager.GetString("CommandRandomFolderNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Reload に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandReLoad {
-            get {
-                return ResourceManager.GetString("CommandReLoad", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Reload the book に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandReLoadNote {
-            get {
-                return ResourceManager.GetString("CommandReLoadNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Reload settings に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandReloadUserSetting {
-            get {
-                return ResourceManager.GetString("CommandReloadUserSetting", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Reload the settings. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandReloadUserSettingNote {
-            get {
-                return ResourceManager.GetString("CommandReloadUserSettingNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Save settings に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSaveSetting {
-            get {
-                return ResourceManager.GetString("CommandSaveSetting", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Performs saving the current settings. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSaveSettingNote {
-            get {
-                return ResourceManager.GetString("CommandSaveSettingNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Script. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandScriptNote {
-            get {
-                return ResourceManager.GetString("CommandScriptNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Scrpit. Executes when the book is opened. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandScriptOnBookLoadedNote {
-            get {
-                return ResourceManager.GetString("CommandScriptOnBookLoadedNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Image colored background に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetBackgroundAuto {
-            get {
-                return ResourceManager.GetString("CommandSetBackgroundAuto", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Set the background color from the image. Specifically, the color of the upper left pixel of the image is used. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetBackgroundAutoNote {
-            get {
-                return ResourceManager.GetString("CommandSetBackgroundAutoNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Black background に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetBackgroundBlack {
-            get {
-                return ResourceManager.GetString("CommandSetBackgroundBlack", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Make the background black. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetBackgroundBlackNote {
-            get {
-                return ResourceManager.GetString("CommandSetBackgroundBlackNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   White checkered background に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetBackgroundCheck {
-            get {
-                return ResourceManager.GetString("CommandSetBackgroundCheck", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Black checkered background に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetBackgroundCheckDark {
-            get {
-                return ResourceManager.GetString("CommandSetBackgroundCheckDark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Make the background a black checkered pattern. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetBackgroundCheckDarkNote {
-            get {
-                return ResourceManager.GetString("CommandSetBackgroundCheckDarkNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Make the background a white checkered pattern. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetBackgroundCheckNote {
-            get {
-                return ResourceManager.GetString("CommandSetBackgroundCheckNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Custom Background に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetBackgroundCustom {
-            get {
-                return ResourceManager.GetString("CommandSetBackgroundCustom", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Make the background a custom background. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetBackgroundCustomNote {
-            get {
-                return ResourceManager.GetString("CommandSetBackgroundCustomNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   White background に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetBackgroundWhite {
-            get {
-                return ResourceManager.GetString("CommandSetBackgroundWhite", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Make the background white. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetBackgroundWhiteNote {
-            get {
-                return ResourceManager.GetString("CommandSetBackgroundWhiteNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Left to right に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetBookReadOrderLeft {
-            get {
-                return ResourceManager.GetString("CommandSetBookReadOrderLeft", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Left forward from left to right. The younger page turns to the left when 2 page is displayed. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetBookReadOrderLeftNote {
-            get {
-                return ResourceManager.GetString("CommandSetBookReadOrderLeftNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Right to left に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetBookReadOrderRight {
-            get {
-                return ResourceManager.GetString("CommandSetBookReadOrderRight", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Left forward from left to right. The young page turns to the right when 2 page is displayed. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetBookReadOrderRightNote {
-            get {
-                return ResourceManager.GetString("CommandSetBookReadOrderRightNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Reset page setting に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetDefaultPageSetting {
-            get {
-                return ResourceManager.GetString("CommandSetDefaultPageSetting", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Restore the default page setting. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetDefaultPageSettingNote {
-            get {
-                return ResourceManager.GetString("CommandSetDefaultPageSettingNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Book EntryTime Ascending に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetFolderOrderByEntryTimeA {
-            get {
-                return ResourceManager.GetString("CommandSetFolderOrderByEntryTimeA", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Set the order of books in ascending order by entry time. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetFolderOrderByEntryTimeANote {
-            get {
-                return ResourceManager.GetString("CommandSetFolderOrderByEntryTimeANote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Book EntryTime Descending に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetFolderOrderByEntryTimeD {
-            get {
-                return ResourceManager.GetString("CommandSetFolderOrderByEntryTimeD", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Set the order of books in descending order by entry time. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetFolderOrderByEntryTimeDNote {
-            get {
-                return ResourceManager.GetString("CommandSetFolderOrderByEntryTimeDNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Book Name Ascending に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetFolderOrderByFileNameA {
-            get {
-                return ResourceManager.GetString("CommandSetFolderOrderByFileNameA", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Set the order of books in ascending order by name. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetFolderOrderByFileNameANote {
-            get {
-                return ResourceManager.GetString("CommandSetFolderOrderByFileNameANote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Book Name Descending に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetFolderOrderByFileNameD {
-            get {
-                return ResourceManager.GetString("CommandSetFolderOrderByFileNameD", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Set the order of books in descending order by name. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetFolderOrderByFileNameDNote {
-            get {
-                return ResourceManager.GetString("CommandSetFolderOrderByFileNameDNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Book FileType Ascending に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetFolderOrderByFileTypeA {
-            get {
-                return ResourceManager.GetString("CommandSetFolderOrderByFileTypeA", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Set the order of books in ascending order by file type. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetFolderOrderByFileTypeANote {
-            get {
-                return ResourceManager.GetString("CommandSetFolderOrderByFileTypeANote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Book FileType Descending に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetFolderOrderByFileTypeD {
-            get {
-                return ResourceManager.GetString("CommandSetFolderOrderByFileTypeD", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Set the order of books in descending order by file type. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetFolderOrderByFileTypeDNote {
-            get {
-                return ResourceManager.GetString("CommandSetFolderOrderByFileTypeDNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Book Path Ascending に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetFolderOrderByPathA {
-            get {
-                return ResourceManager.GetString("CommandSetFolderOrderByPathA", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Set the order of books in ascending order by full path. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetFolderOrderByPathANote {
-            get {
-                return ResourceManager.GetString("CommandSetFolderOrderByPathANote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Book Path Descending に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetFolderOrderByPathD {
-            get {
-                return ResourceManager.GetString("CommandSetFolderOrderByPathD", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Set the order of books in descending order by full path. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetFolderOrderByPathDNote {
-            get {
-                return ResourceManager.GetString("CommandSetFolderOrderByPathDNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Book Shuffle に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetFolderOrderByRandom {
-            get {
-                return ResourceManager.GetString("CommandSetFolderOrderByRandom", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Set the order of books randomly. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetFolderOrderByRandomNote {
-            get {
-                return ResourceManager.GetString("CommandSetFolderOrderByRandomNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Book Size Ascending に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetFolderOrderBySizeA {
-            get {
-                return ResourceManager.GetString("CommandSetFolderOrderBySizeA", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Set the order of books in ascending order by size. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetFolderOrderBySizeANote {
-            get {
-                return ResourceManager.GetString("CommandSetFolderOrderBySizeANote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Book Size Descending に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetFolderOrderBySizeD {
-            get {
-                return ResourceManager.GetString("CommandSetFolderOrderBySizeD", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Set the order of books in descending order by size. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetFolderOrderBySizeDNote {
-            get {
-                return ResourceManager.GetString("CommandSetFolderOrderBySizeDNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Book Date Ascending に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetFolderOrderByTimeStampA {
-            get {
-                return ResourceManager.GetString("CommandSetFolderOrderByTimeStampA", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Set the order of books in ascending order by date. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetFolderOrderByTimeStampANote {
-            get {
-                return ResourceManager.GetString("CommandSetFolderOrderByTimeStampANote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Book Date Descending に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetFolderOrderByTimeStampD {
-            get {
-                return ResourceManager.GetString("CommandSetFolderOrderByTimeStampD", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Set the order of books in descending order by darte. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetFolderOrderByTimeStampDNote {
-            get {
-                return ResourceManager.GetString("CommandSetFolderOrderByTimeStampDNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Full screen に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetFullScreen {
-            get {
-                return ResourceManager.GetString("CommandSetFullScreen", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Make it full screen. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetFullScreenNote {
-            get {
-                return ResourceManager.GetString("CommandSetFullScreenNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   One page に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetPageMode1 {
-            get {
-                return ResourceManager.GetString("CommandSetPageMode1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Make it 1 page display. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetPageMode1Note {
-            get {
-                return ResourceManager.GetString("CommandSetPageMode1Note", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Two page に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetPageMode2 {
-            get {
-                return ResourceManager.GetString("CommandSetPageMode2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   It makes 2 page display. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetPageMode2Note {
-            get {
-                return ResourceManager.GetString("CommandSetPageMode2Note", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Name Ascending に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetSortModeFileName {
-            get {
-                return ResourceManager.GetString("CommandSetSortModeFileName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Name Descending に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetSortModeFileNameDescending {
-            get {
-                return ResourceManager.GetString("CommandSetSortModeFileNameDescending", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sort the order of the pages in descending order by file name. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetSortModeFileNameDescendingNote {
-            get {
-                return ResourceManager.GetString("CommandSetSortModeFileNameDescendingNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sort the order of the pages in ascending order by filename. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetSortModeFileNameNote {
-            get {
-                return ResourceManager.GetString("CommandSetSortModeFileNameNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Shuffle に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetSortModeRandom {
-            get {
-                return ResourceManager.GetString("CommandSetSortModeRandom", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Shuffle the order of pages. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetSortModeRandomNote {
-            get {
-                return ResourceManager.GetString("CommandSetSortModeRandomNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Size Ascending に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetSortModeSize {
-            get {
-                return ResourceManager.GetString("CommandSetSortModeSize", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Size Descending に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetSortModeSizeDescending {
-            get {
-                return ResourceManager.GetString("CommandSetSortModeSizeDescending", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Set the order of pages in descending order of file size. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetSortModeSizeDescendingNote {
-            get {
-                return ResourceManager.GetString("CommandSetSortModeSizeDescendingNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Set the order of pages in ascending order by file size. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetSortModeSizeNote {
-            get {
-                return ResourceManager.GetString("CommandSetSortModeSizeNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Date Ascending に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetSortModeTimeStamp {
-            get {
-                return ResourceManager.GetString("CommandSetSortModeTimeStamp", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Date Descending に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetSortModeTimeStampDescending {
-            get {
-                return ResourceManager.GetString("CommandSetSortModeTimeStampDescending", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sort the order of pages by file date descending order. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetSortModeTimeStampDescendingNote {
-            get {
-                return ResourceManager.GetString("CommandSetSortModeTimeStampDescendingNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sort the order of pages by file date ascending order. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetSortModeTimeStampNote {
-            get {
-                return ResourceManager.GetString("CommandSetSortModeTimeStampNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Fit to window if large に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetStretchModeInside {
-            get {
-                return ResourceManager.GetString("CommandSetStretchModeInside", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Reduce the image to fit in the window and display it. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetStretchModeInsideNote {
-            get {
-                return ResourceManager.GetString("CommandSetStretchModeInsideNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Original size に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetStretchModeNone {
-            get {
-                return ResourceManager.GetString("CommandSetStretchModeNone", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Display the image as it is. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetStretchModeNoneNote {
-            get {
-                return ResourceManager.GetString("CommandSetStretchModeNoneNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Fit to window if small に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetStretchModeOutside {
-            get {
-                return ResourceManager.GetString("CommandSetStretchModeOutside", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   The image is enlarged as much as possible so that it fits in the window. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetStretchModeOutsideNote {
-            get {
-                return ResourceManager.GetString("CommandSetStretchModeOutsideNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Fit to window に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetStretchModeUniform {
-            get {
-                return ResourceManager.GetString("CommandSetStretchModeUniform", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Scales the image to fit the window size. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetStretchModeUniformNote {
-            get {
-                return ResourceManager.GetString("CommandSetStretchModeUniformNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Extend to window に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetStretchModeUniformToFill {
-            get {
-                return ResourceManager.GetString("CommandSetStretchModeUniformToFill", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Scale up or down to fit the window size either vertically or horizontally. The image will be larger than the window size. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetStretchModeUniformToFillNote {
-            get {
-                return ResourceManager.GetString("CommandSetStretchModeUniformToFillNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Fit width to window に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetStretchModeUniformToHorizontal {
-            get {
-                return ResourceManager.GetString("CommandSetStretchModeUniformToHorizontal", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Scales to fit the width of the image to the width of the window. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetStretchModeUniformToHorizontalNote {
-            get {
-                return ResourceManager.GetString("CommandSetStretchModeUniformToHorizontalNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Fit to window area size に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetStretchModeUniformToSize {
-            get {
-                return ResourceManager.GetString("CommandSetStretchModeUniformToSize", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Scales the image so that it is equal to the area size of ​​the window. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetStretchModeUniformToSizeNote {
-            get {
-                return ResourceManager.GetString("CommandSetStretchModeUniformToSizeNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Fit height to window に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetStretchModeUniformToVertical {
-            get {
-                return ResourceManager.GetString("CommandSetStretchModeUniformToVertical", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Scales to fit the height of the image to the height of the window. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandSetStretchModeUniformToVerticalNote {
-            get {
-                return ResourceManager.GetString("CommandSetStretchModeUniformToVerticalNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Show panels  に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandShowHiddenPanels {
-            get {
-                return ResourceManager.GetString("CommandShowHiddenPanels", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Show panels  に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandShowHiddenPanelsMenu {
-            get {
-                return ResourceManager.GetString("CommandShowHiddenPanelsMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   The panel which is hidden automatically is displayed once. It will be canceled by some operation. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandShowHiddenPanelsNote {
-            get {
-                return ResourceManager.GetString("CommandShowHiddenPanelsNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Stretch window に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandStretchWindow {
-            get {
-                return ResourceManager.GetString("CommandStretchWindow", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Stretch window に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandStretchWindowMenu {
-            get {
-                return ResourceManager.GetString("CommandStretchWindowMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Fit the window to the MainView content size. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandStretchWindowNote {
-            get {
-                return ResourceManager.GetString("CommandStretchWindowNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   switch: bool|ON/OFF. Toggle if omitted. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleArgument {
             get {
                 return ResourceManager.GetString("CommandToggleArgument", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Switch background に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleBackground {
-            get {
-                return ResourceManager.GetString("CommandToggleBackground", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Switch the background sequentially. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleBackgroundNote {
-            get {
-                return ResourceManager.GetString("CommandToggleBackgroundNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle bookmark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleBookmark {
-            get {
-                return ResourceManager.GetString("CommandToggleBookmark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Bookmark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleBookmarkMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleBookmarkMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle bookmark registration / release of currently open book. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleBookmarkNote {
-            get {
-                return ResourceManager.GetString("CommandToggleBookmarkNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Bookmark OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleBookmarkOff {
-            get {
-                return ResourceManager.GetString("CommandToggleBookmarkOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Bookmark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleBookmarkOn {
-            get {
-                return ResourceManager.GetString("CommandToggleBookmarkOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Book orientation に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleBookReadOrder {
-            get {
-                return ResourceManager.GetString("CommandToggleBookReadOrder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle right and left open. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleBookReadOrderNote {
-            get {
-                return ResourceManager.GetString("CommandToggleBookReadOrderNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle custom size に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleCustomSize {
-            get {
-                return ResourceManager.GetString("CommandToggleCustomSize", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Custom size に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleCustomSizeMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleCustomSizeMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggles enabling / disabling of size specification applied to original size. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleCustomSizeNote {
-            get {
-                return ResourceManager.GetString("CommandToggleCustomSizeNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Custom size OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleCustomSizeOff {
-            get {
-                return ResourceManager.GetString("CommandToggleCustomSizeOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Custom size に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleCustomSizeOn {
-            get {
-                return ResourceManager.GetString("CommandToggleCustomSizeOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle effect に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleEffect {
-            get {
-                return ResourceManager.GetString("CommandToggleEffect", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Effect に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleEffectMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleEffectMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle effect on / off. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleEffectNote {
-            get {
-                return ResourceManager.GetString("CommandToggleEffectNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Effect OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleEffectOff {
-            get {
-                return ResourceManager.GetString("CommandToggleEffectOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Effect に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleEffectOn {
-            get {
-                return ResourceManager.GetString("CommandToggleEffectOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Switch book order に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleFolderOrder {
-            get {
-                return ResourceManager.GetString("CommandToggleFolderOrder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Switch the order of books in order. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleFolderOrderNote {
-            get {
-                return ResourceManager.GetString("CommandToggleFolderOrderNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Force auto rotation に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleForceAutoRotate {
-            get {
-                return ResourceManager.GetString("CommandToggleForceAutoRotate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Force auto rotation に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleForceAutoRotateMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleForceAutoRotateMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Automatic rotation is applied regardless of the aspect ratio of the image. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleForceAutoRotateNote {
-            get {
-                return ResourceManager.GetString("CommandToggleForceAutoRotateNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Force auto rotation OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleForceAutoRotateOff {
-            get {
-                return ResourceManager.GetString("CommandToggleForceAutoRotateOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Force auto rotation に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleForceAutoRotateOn {
-            get {
-                return ResourceManager.GetString("CommandToggleForceAutoRotateOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle full screen に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleFullScreen {
-            get {
-                return ResourceManager.GetString("CommandToggleFullScreen", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Full screen に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleFullScreenMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleFullScreenMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Switch the full screen state. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleFullScreenNote {
-            get {
-                return ResourceManager.GetString("CommandToggleFullScreenNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Full screen OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleFullScreenOff {
-            get {
-                return ResourceManager.GetString("CommandToggleFullScreenOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Full screen に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleFullScreenOn {
-            get {
-                return ResourceManager.GetString("CommandToggleFullScreenOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Grid に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleGrid {
-            get {
-                return ResourceManager.GetString("CommandToggleGrid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Grid に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleGridMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleGridMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle visible / hide of grid. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleGridNote {
-            get {
-                return ResourceManager.GetString("CommandToggleGridNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Grid OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleGridOff {
-            get {
-                return ResourceManager.GetString("CommandToggleGridOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Grid に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleGridOn {
-            get {
-                return ResourceManager.GetString("CommandToggleGridOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle auto hide menu に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleHideMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleHideMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Auto hide menu に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleHideMenuMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleHideMenuMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Hide the menu. It is displayed by moving the cursor to the upper end of the window. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleHideMenuNote {
-            get {
-                return ResourceManager.GetString("CommandToggleHideMenuNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Auto hide menu OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleHideMenuOff {
-            get {
-                return ResourceManager.GetString("CommandToggleHideMenuOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Auto hide menu に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleHideMenuOn {
-            get {
-                return ResourceManager.GetString("CommandToggleHideMenuOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle auto hide slider に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleHidePageSlider {
-            get {
-                return ResourceManager.GetString("CommandToggleHidePageSlider", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Auto hide slider に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleHidePageSliderMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleHidePageSliderMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Hide the slider. It is displayed by moving the cursor to the lower end of the window. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleHidePageSliderNote {
-            get {
-                return ResourceManager.GetString("CommandToggleHidePageSliderNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Auto hide slider OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleHidePageSliderOff {
-            get {
-                return ResourceManager.GetString("CommandToggleHidePageSliderOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Auto hide slider に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleHidePageSliderOn {
-            get {
-                return ResourceManager.GetString("CommandToggleHidePageSliderOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle auto hide panels に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleHidePanel {
-            get {
-                return ResourceManager.GetString("CommandToggleHidePanel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Auto hide panels に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleHidePanelMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleHidePanelMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Automatically hide the left and right panels. It is displayed by moving the cursor to the left and right edges of the window. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleHidePanelNote {
-            get {
-                return ResourceManager.GetString("CommandToggleHidePanelNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Auto hide panels OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleHidePanelOff {
-            get {
-                return ResourceManager.GetString("CommandToggleHidePanelOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Auto hide panels に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleHidePanelOn {
-            get {
-                return ResourceManager.GetString("CommandToggleHidePanelOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle auto hide filmstrip に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleHideThumbnailList {
-            get {
-                return ResourceManager.GetString("CommandToggleHideThumbnailList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Auto hide filmstrip に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleHideThumbnailListMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleHideThumbnailListMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Display the film strip only when using the slider. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleHideThumbnailListNote {
-            get {
-                return ResourceManager.GetString("CommandToggleHideThumbnailListNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Auto hide filmstrip OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleHideThumbnailListOff {
-            get {
-                return ResourceManager.GetString("CommandToggleHideThumbnailListOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Auto hide filmstrip に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleHideThumbnailListOn {
-            get {
-                return ResourceManager.GetString("CommandToggleHideThumbnailListOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle auto rotation に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsAutoRotate {
-            get {
-                return ResourceManager.GetString("CommandToggleIsAutoRotate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle auto left rotation に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsAutoRotateLeft {
-            get {
-                return ResourceManager.GetString("CommandToggleIsAutoRotateLeft", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Auto left rotate に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsAutoRotateLeftMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleIsAutoRotateLeftMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   When displaying the page, left rotate the portrait image 90 degrees. If the window is portrait, rotate horizontally long image by 90 degrees. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsAutoRotateLeftNote {
-            get {
-                return ResourceManager.GetString("CommandToggleIsAutoRotateLeftNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Auto left rotate OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsAutoRotateLeftOff {
-            get {
-                return ResourceManager.GetString("CommandToggleIsAutoRotateLeftOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Auto left rotate に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsAutoRotateLeftOn {
-            get {
-                return ResourceManager.GetString("CommandToggleIsAutoRotateLeftOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle auto rithg rotation に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsAutoRotateRight {
-            get {
-                return ResourceManager.GetString("CommandToggleIsAutoRotateRight", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Auto right rotate に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsAutoRotateRightMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleIsAutoRotateRightMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   When displaying the page, right rotate the portrait image 90 degrees. If the window is portrait, rotate horizontally long image by 90 degrees. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsAutoRotateRightNote {
-            get {
-                return ResourceManager.GetString("CommandToggleIsAutoRotateRightNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Auto right rotate OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsAutoRotateRightOff {
-            get {
-                return ResourceManager.GetString("CommandToggleIsAutoRotateRightOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Auto right rotate に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsAutoRotateRightOn {
-            get {
-                return ResourceManager.GetString("CommandToggleIsAutoRotateRightOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle keep dot に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsEnabledNearestNeighbor {
-            get {
-                return ResourceManager.GetString("CommandToggleIsEnabledNearestNeighbor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Keep dot に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsEnabledNearestNeighborMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleIsEnabledNearestNeighborMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   When set to ON, it will expand while maintaining the dot. When it is OFF, scale conversion processing (Fant) is executed. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsEnabledNearestNeighborNote {
-            get {
-                return ResourceManager.GetString("CommandToggleIsEnabledNearestNeighborNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Keep dot OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsEnabledNearestNeighborOff {
-            get {
-                return ResourceManager.GetString("CommandToggleIsEnabledNearestNeighborOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Keep dot に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsEnabledNearestNeighborOn {
-            get {
-                return ResourceManager.GetString("CommandToggleIsEnabledNearestNeighborOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle loupe に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsLoupe {
-            get {
-                return ResourceManager.GetString("CommandToggleIsLoupe", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Loupe に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsLoupeMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleIsLoupeMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Turn the loupe on or off. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsLoupeNote {
-            get {
-                return ResourceManager.GetString("CommandToggleIsLoupeNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Loupe OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsLoupeOff {
-            get {
-                return ResourceManager.GetString("CommandToggleIsLoupeOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Loupe に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsLoupeOn {
-            get {
-                return ResourceManager.GetString("CommandToggleIsLoupeOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Load subfolders に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsRecursiveFolder {
-            get {
-                return ResourceManager.GetString("CommandToggleIsRecursiveFolder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   When loading images from folders, subfolders or compressed files are also loaded at the same time. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsRecursiveFolderNote {
-            get {
-                return ResourceManager.GetString("CommandToggleIsRecursiveFolderNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Load subfolders OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsRecursiveFolderOff {
-            get {
-                return ResourceManager.GetString("CommandToggleIsRecursiveFolderOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Load subfolders に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsRecursiveFolderOn {
-            get {
-                return ResourceManager.GetString("CommandToggleIsRecursiveFolderOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Split wide page に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsSupportedDividePage {
-            get {
-                return ResourceManager.GetString("CommandToggleIsSupportedDividePage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   When one page is displayed, divide the landscape page into pages. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsSupportedDividePageNote {
-            get {
-                return ResourceManager.GetString("CommandToggleIsSupportedDividePageNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Split wide page OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsSupportedDividePageOff {
-            get {
-                return ResourceManager.GetString("CommandToggleIsSupportedDividePageOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Split wide page に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsSupportedDividePageOn {
-            get {
-                return ResourceManager.GetString("CommandToggleIsSupportedDividePageOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   First page alone に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsSupportedSingleFirstPage {
-            get {
-                return ResourceManager.GetString("CommandToggleIsSupportedSingleFirstPage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Even on 2 page display, the first page is displayed as 1 page. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsSupportedSingleFirstPageNote {
-            get {
-                return ResourceManager.GetString("CommandToggleIsSupportedSingleFirstPageNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   First page alone OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsSupportedSingleFirstPageOff {
-            get {
-                return ResourceManager.GetString("CommandToggleIsSupportedSingleFirstPageOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   First page alone に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsSupportedSingleFirstPageOn {
-            get {
-                return ResourceManager.GetString("CommandToggleIsSupportedSingleFirstPageOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Last page alone に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsSupportedSingleLastPage {
-            get {
-                return ResourceManager.GetString("CommandToggleIsSupportedSingleLastPage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Even on 2 page display, the last page is displayed on 1 page. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsSupportedSingleLastPageNote {
-            get {
-                return ResourceManager.GetString("CommandToggleIsSupportedSingleLastPageNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Last page alone OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsSupportedSingleLastPageOff {
-            get {
-                return ResourceManager.GetString("CommandToggleIsSupportedSingleLastPageOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Last page alone に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsSupportedSingleLastPageOn {
-            get {
-                return ResourceManager.GetString("CommandToggleIsSupportedSingleLastPageOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Wide is two page に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsSupportedWidePage {
-            get {
-                return ResourceManager.GetString("CommandToggleIsSupportedWidePage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   When two pages are displayed, the horizontally long image is regarded as two pages and is displayed independently. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsSupportedWidePageNote {
-            get {
-                return ResourceManager.GetString("CommandToggleIsSupportedWidePageNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Wide is two page OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsSupportedWidePageOff {
-            get {
-                return ResourceManager.GetString("CommandToggleIsSupportedWidePageOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Wide is two page に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsSupportedWidePageOn {
-            get {
-                return ResourceManager.GetString("CommandToggleIsSupportedWidePageOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle MainView window に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleMainViewFloating {
-            get {
-                return ResourceManager.GetString("CommandToggleMainViewFloating", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   MainView window に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleMainViewFloatingMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleMainViewFloatingMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Make the MainView a window. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleMainViewFloatingNote {
-            get {
-                return ResourceManager.GetString("CommandToggleMainViewFloatingNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Play/Stop に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleMediaPlay {
-            get {
-                return ResourceManager.GetString("CommandToggleMediaPlay", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle between playing and stopping the movie. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleMediaPlayNote {
-            get {
-                return ResourceManager.GetString("CommandToggleMediaPlayNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Switch placement of page list に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandTogglePageListPlacement {
-            get {
-                return ResourceManager.GetString("CommandTogglePageListPlacement", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Place page list on bookshelf に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandTogglePageListPlacementBookshelf {
-            get {
-                return ResourceManager.GetString("CommandTogglePageListPlacementBookshelf", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Page list placement に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandTogglePageListPlacementMenu {
-            get {
-                return ResourceManager.GetString("CommandTogglePageListPlacementMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Switch placement of page list between bookshelf and side panel に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandTogglePageListPlacementNote {
-            get {
-                return ResourceManager.GetString("CommandTogglePageListPlacementNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Place page list on side panel に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandTogglePageListPlacementPanel {
-            get {
-                return ResourceManager.GetString("CommandTogglePageListPlacementPanel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle pagemark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandTogglePagemark {
-            get {
-                return ResourceManager.GetString("CommandTogglePagemark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Pagemark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandTogglePagemarkMenu {
-            get {
-                return ResourceManager.GetString("CommandTogglePagemarkMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggles registration / cancellation of page mark of currently open page. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandTogglePagemarkNote {
-            get {
-                return ResourceManager.GetString("CommandTogglePagemarkNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Pagemark OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandTogglePagemarkOff {
-            get {
-                return ResourceManager.GetString("CommandTogglePagemarkOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Pagemark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandTogglePagemarkOn {
-            get {
-                return ResourceManager.GetString("CommandTogglePagemarkOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle page mode に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandTogglePageMode {
-            get {
-                return ResourceManager.GetString("CommandTogglePageMode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Switch between 1 page display and 2 page display. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandTogglePageModeNote {
-            get {
-                return ResourceManager.GetString("CommandTogglePageModeNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle file operation に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandTogglePermitFileCommand {
-            get {
-                return ResourceManager.GetString("CommandTogglePermitFileCommand", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   File operation に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandTogglePermitFileCommandMenu {
-            get {
-                return ResourceManager.GetString("CommandTogglePermitFileCommandMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle enable / disable of file operation command. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandTogglePermitFileCommandNote {
-            get {
-                return ResourceManager.GetString("CommandTogglePermitFileCommandNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Disable file operation に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandTogglePermitFileCommandOff {
-            get {
-                return ResourceManager.GetString("CommandTogglePermitFileCommandOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Enable file operation に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandTogglePermitFileCommandOn {
-            get {
-                return ResourceManager.GetString("CommandTogglePermitFileCommandOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle resize filter に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleResizeFilter {
-            get {
-                return ResourceManager.GetString("CommandToggleResizeFilter", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Resize filter に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleResizeFilterMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleResizeFilterMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle resize filter on / off. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleResizeFilterNote {
-            get {
-                return ResourceManager.GetString("CommandToggleResizeFilterNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Resize filter OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleResizeFilterOff {
-            get {
-                return ResourceManager.GetString("CommandToggleResizeFilterOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Resize filter に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleResizeFilterOn {
-            get {
-                return ResourceManager.GetString("CommandToggleResizeFilterOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle slideshow に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleSlideShow {
-            get {
-                return ResourceManager.GetString("CommandToggleSlideShow", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Slideshow に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleSlideShowMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleSlideShowMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle play / stop of the slideshow. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleSlideShowNote {
-            get {
-                return ResourceManager.GetString("CommandToggleSlideShowNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Stop slideshw に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleSlideShowOff {
-            get {
-                return ResourceManager.GetString("CommandToggleSlideShowOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Play slideshow に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleSlideShowOn {
-            get {
-                return ResourceManager.GetString("CommandToggleSlideShowOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Switch pages order に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleSortMode {
-            get {
-                return ResourceManager.GetString("CommandToggleSortMode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Switch the order of the pages in order. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleSortModeNote {
-            get {
-                return ResourceManager.GetString("CommandToggleSortModeNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Allow stretch scale up に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleStretchAllowEnlarge {
-            get {
-                return ResourceManager.GetString("CommandToggleStretchAllowEnlarge", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Allow scale up on stretch. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleStretchAllowEnlargeNote {
-            get {
-                return ResourceManager.GetString("CommandToggleStretchAllowEnlargeNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Allow stretch scale down に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleStretchAllowReduce {
-            get {
-                return ResourceManager.GetString("CommandToggleStretchAllowReduce", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Allow scale down on stretch. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleStretchAllowReduceNote {
-            get {
-                return ResourceManager.GetString("CommandToggleStretchAllowReduceNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Switch stretch に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleStretchMode {
-            get {
-                return ResourceManager.GetString("CommandToggleStretchMode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Switch the stretch in order. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleStretchModeNote {
-            get {
-                return ResourceManager.GetString("CommandToggleStretchModeNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Switch stretch (reverse) に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleStretchModeReverse {
-            get {
-                return ResourceManager.GetString("CommandToggleStretchModeReverse", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Switch the stretch in order (reverse). に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleStretchModeReverseNote {
-            get {
-                return ResourceManager.GetString("CommandToggleStretchModeReverseNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle topmost に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleTopmost {
-            get {
-                return ResourceManager.GetString("CommandToggleTopmost", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Topmost に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleTopmostMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleTopmostMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Always display the window in front. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleTopmostNote {
-            get {
-                return ResourceManager.GetString("CommandToggleTopmostNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Topmost OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleTopmostOff {
-            get {
-                return ResourceManager.GetString("CommandToggleTopmostOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Topmost に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleTopmostOn {
-            get {
-                return ResourceManager.GetString("CommandToggleTopmostOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle flip horizontal に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleViewFlipHorizontal {
-            get {
-                return ResourceManager.GetString("CommandToggleViewFlipHorizontal", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Flip the image left and right. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleViewFlipHorizontalNote {
-            get {
-                return ResourceManager.GetString("CommandToggleViewFlipHorizontalNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle flip vertial に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleViewFlipVertical {
-            get {
-                return ResourceManager.GetString("CommandToggleViewFlipVertical", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Flip the image upside down. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleViewFlipVerticalNote {
-            get {
-                return ResourceManager.GetString("CommandToggleViewFlipVerticalNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle address bar に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleAddressBar {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleAddressBar", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Address bar に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleAddressBarMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleAddressBarMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle vidible / hide of the address bar. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleAddressBarNote {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleAddressBarNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Address bar OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleAddressBarOff {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleAddressBarOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Address bar に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleAddressBarOn {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleAddressBarOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle bookmark list に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleBookmarkList {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleBookmarkList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Bookmark list に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleBookmarkListMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleBookmarkListMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle vidible / hide of the bookmark list panel. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleBookmarkListNote {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleBookmarkListNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Bookmark list OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleBookmarkListOff {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleBookmarkListOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Bookmark list に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleBookmarkListOn {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleBookmarkListOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle bookshelf に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleBookshelf {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleBookshelf", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Bookshelf に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleBookshelfMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleBookshelfMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle visible / hide of the bookshelf panel. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleBookshelfNote {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleBookshelfNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Bookshelf OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleBookshelfOff {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleBookshelfOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Bookshelf に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleBookshelfOn {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleBookshelfOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle effect panel に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleEffectInfo {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleEffectInfo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Effect panel に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleEffectInfoMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleEffectInfoMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle visible / hide of the effect panel. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleEffectInfoNote {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleEffectInfoNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Effect panel OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleEffectInfoOff {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleEffectInfoOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Effect panel に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleEffectInfoOn {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleEffectInfoOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle information に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleFileInfo {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleFileInfo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Information に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleFileInfoMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleFileInfoMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle visible / hide of the information panel. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleFileInfoNote {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleFileInfoNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Information OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleFileInfoOff {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleFileInfoOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Information に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleFileInfoOn {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleFileInfoOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle Folders tree に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleFoldersTree {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleFoldersTree", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Folders tree に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleFoldersTreeMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleFoldersTreeMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle visible / hide of the Folders tree. The bookshelf is displayed. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleFoldersTreeNote {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleFoldersTreeNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Folders tree OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleFoldersTreeOff {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleFoldersTreeOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Folders tree に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleFoldersTreeOn {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleFoldersTreeOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle history list に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleHistoryList {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleHistoryList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   History list に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleHistoryListMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleHistoryListMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle vidible / hide of the history list panel. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleHistoryListNote {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleHistoryListNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   History list OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleHistoryListOff {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleHistoryListOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   History list に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleHistoryListOn {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleHistoryListOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle navigator に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleNavigator {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleNavigator", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Navigator に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleNavigatorMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleNavigatorMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle visible / hide of the navigator に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleNavigatorNote {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleNavigatorNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Navigator OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleNavigatorOff {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleNavigatorOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Navigator に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleNavigatorOn {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleNavigatorOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle page list に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisiblePageList {
-            get {
-                return ResourceManager.GetString("CommandToggleVisiblePageList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Page list に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisiblePageListMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleVisiblePageListMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle visible / hide of the page list. The bookshelf is displayed. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisiblePageListNote {
-            get {
-                return ResourceManager.GetString("CommandToggleVisiblePageListNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Page list OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisiblePageListOff {
-            get {
-                return ResourceManager.GetString("CommandToggleVisiblePageListOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Page list に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisiblePageListOn {
-            get {
-                return ResourceManager.GetString("CommandToggleVisiblePageListOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle pagemark list に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisiblePagemarkList {
-            get {
-                return ResourceManager.GetString("CommandToggleVisiblePagemarkList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Pagemark list に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisiblePagemarkListMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleVisiblePagemarkListMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle vidible / hide of the pagemark list panel. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisiblePagemarkListNote {
-            get {
-                return ResourceManager.GetString("CommandToggleVisiblePagemarkListNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Pagemark list OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisiblePagemarkListOff {
-            get {
-                return ResourceManager.GetString("CommandToggleVisiblePagemarkListOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Pagemark list に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisiblePagemarkListOn {
-            get {
-                return ResourceManager.GetString("CommandToggleVisiblePagemarkListOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle side bar に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleSideBar {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleSideBar", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Side bar に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleSideBarMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleSideBarMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle visible / hide of sidebar. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleSideBarNote {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleSideBarNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Side bar OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleSideBarOff {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleSideBarOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Side bar に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleSideBarOn {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleSideBarOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle filmstrip に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleThumbnailList {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleThumbnailList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Filmstrip に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleThumbnailListMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleThumbnailListMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle visible / hide of the filmstrip. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleThumbnailListNote {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleThumbnailListNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Filmstrip OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleThumbnailListOff {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleThumbnailListOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Filmstrip に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleThumbnailListOn {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleThumbnailListOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle title bar に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleTitleBar {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleTitleBar", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Title bar に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleTitleBarMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleTitleBarMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle visible / hide of window title bar. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleTitleBarNote {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleTitleBarNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Title bar OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleTitleBarOff {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleTitleBarOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Title bar に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleTitleBarOn {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleTitleBarOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Maximize window に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleWindowMaximize {
-            get {
-                return ResourceManager.GetString("CommandToggleWindowMaximize", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Maximize に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleWindowMaximizeMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleWindowMaximizeMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Maximize the window. If it has already been maximized, restore it to its original size. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleWindowMaximizeNote {
-            get {
-                return ResourceManager.GetString("CommandToggleWindowMaximizeNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Minimize window に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleWindowMinimize {
-            get {
-                return ResourceManager.GetString("CommandToggleWindowMinimize", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Minimize に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleWindowMinimizeMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleWindowMinimizeMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Minimize the window. If it has already been minimized, restore it to its original size. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleWindowMinimizeNote {
-            get {
-                return ResourceManager.GetString("CommandToggleWindowMinimizeNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Touch emulate に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandTouchEmulate {
-            get {
-                return ResourceManager.GetString("CommandTouchEmulate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Execute the touch command at the mouse cursor position. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandTouchEmulateNote {
-            get {
-                return ResourceManager.GetString("CommandTouchEmulateNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Close に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandUnload {
-            get {
-                return ResourceManager.GetString("CommandUnload", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   _Close に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandUnloadMenu {
-            get {
-                return ResourceManager.GetString("CommandUnloadMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Close the open workbook. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandUnloadNote {
-            get {
-                return ResourceManager.GetString("CommandUnloadNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Flip horizontal OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewFlipHorizontalOff {
-            get {
-                return ResourceManager.GetString("CommandViewFlipHorizontalOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Cancel flip. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewFlipHorizontalOffNote {
-            get {
-                return ResourceManager.GetString("CommandViewFlipHorizontalOffNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Flip horizontal に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewFlipHorizontalOn {
-            get {
-                return ResourceManager.GetString("CommandViewFlipHorizontalOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Flip the image left and right. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewFlipHorizontalOnNote {
-            get {
-                return ResourceManager.GetString("CommandViewFlipHorizontalOnNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Flip vertial OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewFlipVerticalOff {
-            get {
-                return ResourceManager.GetString("CommandViewFlipVerticalOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Cancel flip. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewFlipVerticalOffNote {
-            get {
-                return ResourceManager.GetString("CommandViewFlipVerticalOffNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Flip vertial に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewFlipVerticalOn {
-            get {
-                return ResourceManager.GetString("CommandViewFlipVerticalOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Turn it upside down. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewFlipVerticalOnNote {
-            get {
-                return ResourceManager.GetString("CommandViewFlipVerticalOnNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   View reset に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewReset {
-            get {
-                return ResourceManager.GetString("CommandViewReset", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Initialize rotation, scaling, movement, and inversion by manipulating the view. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewResetNote {
-            get {
-                return ResourceManager.GetString("CommandViewResetNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Left rotate に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewRotateLeft {
-            get {
-                return ResourceManager.GetString("CommandViewRotateLeft", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Rotates the image to the left. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewRotateLeftNote {
-            get {
-                return ResourceManager.GetString("CommandViewRotateLeftNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Right rotate に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewRotateRight {
-            get {
-                return ResourceManager.GetString("CommandViewRotateRight", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Rotate the image to the right. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewRotateRightNote {
-            get {
-                return ResourceManager.GetString("CommandViewRotateRightNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Zoom out に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewScaleDown {
-            get {
-                return ResourceManager.GetString("CommandViewScaleDown", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Reduce the image. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewScaleDownNote {
-            get {
-                return ResourceManager.GetString("CommandViewScaleDownNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Zoom in に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewScaleUp {
-            get {
-                return ResourceManager.GetString("CommandViewScaleUp", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Enlarge the image. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewScaleUpNote {
-            get {
-                return ResourceManager.GetString("CommandViewScaleUpNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Scroll ↓ に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewScrollDown {
-            get {
-                return ResourceManager.GetString("CommandViewScrollDown", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Roll the image downwards. When it is not possible to scroll vertically, side scrolling will occur. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewScrollDownNote {
-            get {
-                return ResourceManager.GetString("CommandViewScrollDownNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Scroll ← に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewScrollLeft {
-            get {
-                return ResourceManager.GetString("CommandViewScrollLeft", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Roll the image to the left. If horizontal scrolling is not possible, vertical scrolling will occur. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewScrollLeftNote {
-            get {
-                return ResourceManager.GetString("CommandViewScrollLeftNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   N-type scroll ↓ に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewScrollNTypeDown {
-            get {
-                return ResourceManager.GetString("CommandViewScrollNTypeDown", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   If you can scroll vertically and horizontally, scroll to draw N characters. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewScrollNTypeDownNote {
-            get {
-                return ResourceManager.GetString("CommandViewScrollNTypeDownNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   N-type scroll ↑ に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewScrollNTypeUp {
-            get {
-                return ResourceManager.GetString("CommandViewScrollNTypeUp", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   If you can scroll vertically and horizontally, scroll to draw N characters. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewScrollNTypeUpNote {
-            get {
-                return ResourceManager.GetString("CommandViewScrollNTypeUpNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Scroll → に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewScrollRight {
-            get {
-                return ResourceManager.GetString("CommandViewScrollRight", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Roll the image to the right. If horizontal scrolling is not possible, vertical scrolling will occur. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewScrollRightNote {
-            get {
-                return ResourceManager.GetString("CommandViewScrollRightNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Scroll ↑ に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewScrollUp {
-            get {
-                return ResourceManager.GetString("CommandViewScrollUp", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Roll the image upwards. When it is not possible to scroll vertically, side scrolling will occur. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandViewScrollUpNote {
-            get {
-                return ResourceManager.GetString("CommandViewScrollUpNote", resourceCulture);
             }
         }
         
@@ -8307,6 +3852,33 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   _Copy に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CopyFileCommand_MenuText {
+            get {
+                return ResourceManager.GetString("CopyFileCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Copy the file to the clipboard. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CopyFileCommand_Note {
+            get {
+                return ResourceManager.GetString("CopyFileCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Copy file に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CopyFileCommand_Text {
+            get {
+                return ResourceManager.GetString("CopyFileCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   For compressed files に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CopyFileCommandParameter_ArchivePolicy {
@@ -8321,6 +3893,87 @@ namespace NeeView.Properties {
         public static string CopyFileCommandParameter_MultiPagePolicy {
             get {
                 return ResourceManager.GetString("CopyFileCommandParameter.MultiPagePolicy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Copy image に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CopyImageCommand_MenuText {
+            get {
+                return ResourceManager.GetString("CopyImageCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Copy the image to the clipboard. For 2 page display, copy only the main page. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CopyImageCommand_Note {
+            get {
+                return ResourceManager.GetString("CopyImageCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Copy image に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CopyImageCommand_Text {
+            get {
+                return ResourceManager.GetString("CopyImageCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _Delete book に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DeleteBookCommand_MenuText {
+            get {
+                return ResourceManager.GetString("DeleteBookCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete the currently viewed folder or compressed file. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DeleteBookCommand_Note {
+            get {
+                return ResourceManager.GetString("DeleteBookCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete book に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DeleteBookCommand_Text {
+            get {
+                return ResourceManager.GetString("DeleteBookCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _Delete に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DeleteFileCommand_MenuText {
+            get {
+                return ResourceManager.GetString("DeleteFileCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete the file. It can not be deleted for compressed files. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DeleteFileCommand_Note {
+            get {
+                return ResourceManager.GetString("DeleteFileCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete file に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DeleteFileCommand_Text {
+            get {
+                return ResourceManager.GetString("DeleteFileCommand.Text", resourceCulture);
             }
         }
         
@@ -9496,6 +5149,60 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Export settings... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExportBackupCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ExportBackupCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Create backups of settings, history, bookmarks, page marks. The thumbnail cache is not backed up. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExportBackupCommand_Note {
+            get {
+                return ResourceManager.GetString("ExportBackupCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Export settings に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExportBackupCommand_Text {
+            get {
+                return ResourceManager.GetString("ExportBackupCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _Save as... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExportImageAsCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ExportImageAsCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Save the image to a file. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExportImageAsCommand_Note {
+            get {
+                return ResourceManager.GetString("ExportImageAsCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Save as に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExportImageAsCommand_Text {
+            get {
+                return ResourceManager.GetString("ExportImageAsCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Default output folder に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ExportImageAsCommandParameter_ExportFolder {
@@ -9528,6 +5235,33 @@ namespace NeeView.Properties {
         public static string ExportImageAsCommandParameter_QualityLevel_Tips {
             get {
                 return ResourceManager.GetString("ExportImageAsCommandParameter.QualityLevel#Tips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _Save に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExportImageCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ExportImageCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Save the image to a file. The storage folder is specified by a command parameter. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExportImageCommand_Note {
+            get {
+                return ResourceManager.GetString("ExportImageCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Save に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExportImageCommand_Text {
+            get {
+                return ResourceManager.GetString("ExportImageCommand.Text", resourceCulture);
             }
         }
         
@@ -9784,11 +5518,164 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Move to the first page. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FirstPageCommand_Note {
+            get {
+                return ResourceManager.GetString("FirstPageCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   First page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FirstPageCommand_Text {
+            get {
+                return ResourceManager.GetString("FirstPageCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Bookmark list に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FocusBookmarkListCommand_MenuText {
+            get {
+                return ResourceManager.GetString("FocusBookmarkListCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display bookmark list of the bookshelf. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FocusBookmarkListCommand_Note {
+            get {
+                return ResourceManager.GetString("FocusBookmarkListCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display bookmark list に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FocusBookmarkListCommand_Text {
+            get {
+                return ResourceManager.GetString("FocusBookmarkListCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Search box に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FocusFolderSearchBoxCommand_MenuText {
+            get {
+                return ResourceManager.GetString("FocusFolderSearchBoxCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Focus search box. The bookshelf is displayed. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FocusFolderSearchBoxCommand_Note {
+            get {
+                return ResourceManager.GetString("FocusFolderSearchBoxCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Focus search box に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FocusFolderSearchBoxCommand_Text {
+            get {
+                return ResourceManager.GetString("FocusFolderSearchBoxCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Main view に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FocusMainViewCommand_MenuText {
+            get {
+                return ResourceManager.GetString("FocusMainViewCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move focus to the main view. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FocusMainViewCommand_Note {
+            get {
+                return ResourceManager.GetString("FocusMainViewCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Focus on main view に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FocusMainViewCommand_Text {
+            get {
+                return ResourceManager.GetString("FocusMainViewCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Close all panels に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FocusMainViewCommandParameter_NeedClosePanels {
             get {
                 return ResourceManager.GetString("FocusMainViewCommandParameter.NeedClosePanels", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Switch next NeeView に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FocusNextAppCommand_MenuText {
+            get {
+                return ResourceManager.GetString("FocusNextAppCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Switch to the next NeeView when multiple are started. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FocusNextAppCommand_Note {
+            get {
+                return ResourceManager.GetString("FocusNextAppCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Switch next NeeView に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FocusNextAppCommand_Text {
+            get {
+                return ResourceManager.GetString("FocusNextAppCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Switch prev NeeView に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FocusPrevAppCommand_MenuText {
+            get {
+                return ResourceManager.GetString("FocusPrevAppCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Switch to the previous NeeView when multiple are started. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FocusPrevAppCommand_Note {
+            get {
+                return ResourceManager.GetString("FocusPrevAppCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Switch prev NeeView に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FocusPrevAppCommand_Text {
+            get {
+                return ResourceManager.GetString("FocusPrevAppCommand.Text", resourceCulture);
             }
         }
         
@@ -10171,6 +6058,33 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Command Help に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string HelpCommandListCommand_MenuText {
+            get {
+                return ResourceManager.GetString("HelpCommandListCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Displays help of all commands in the browser. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string HelpCommandListCommand_Note {
+            get {
+                return ResourceManager.GetString("HelpCommandListCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Command help に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string HelpCommandListCommand_Text {
+            get {
+                return ResourceManager.GetString("HelpCommandListCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Commands to which no operation is assigned can be used by setting with &quot;Edit commands&quot;. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string HelpCommandMessage {
@@ -10189,11 +6103,92 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Main menu help に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string HelpMainMenuCommand_MenuText {
+            get {
+                return ResourceManager.GetString("HelpMainMenuCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display the main menu help on the browser. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string HelpMainMenuCommand_Note {
+            get {
+                return ResourceManager.GetString("HelpMainMenuCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Main menu help に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string HelpMainMenuCommand_Text {
+            get {
+                return ResourceManager.GetString("HelpMainMenuCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   README.html に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string HelpReadMeFile {
             get {
                 return ResourceManager.GetString("HelpReadMeFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Script Help に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string HelpScriptCommand_MenuText {
+            get {
+                return ResourceManager.GetString("HelpScriptCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Displays the script manual in the browser. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string HelpScriptCommand_Note {
+            get {
+                return ResourceManager.GetString("HelpScriptCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Script Help に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string HelpScriptCommand_Text {
+            get {
+                return ResourceManager.GetString("HelpScriptCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Search options help に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string HelpSearchOptionCommand_MenuText {
+            get {
+                return ResourceManager.GetString("HelpSearchOptionCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display the search options help on the browser. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string HelpSearchOptionCommand_Note {
+            get {
+                return ResourceManager.GetString("HelpSearchOptionCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Search options help に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string HelpSearchOptionCommand_Text {
+            get {
+                return ResourceManager.GetString("HelpSearchOptionCommand.Text", resourceCulture);
             }
         }
         
@@ -10864,6 +6859,33 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Import settings... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImportBackupCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ImportBackupCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Select the restored item from the backup file and restore it. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImportBackupCommand_Note {
+            get {
+                return ResourceManager.GetString("ImportBackupCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Import settings に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImportBackupCommand_Text {
+            get {
+                return ResourceManager.GetString("ImportBackupCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Display the number of bits per pixel in image size に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string InformationConfig_IsVisibleBitsPerPixel {
@@ -11000,6 +7022,51 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   number: int|Page number に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string JumpPageCommand_Execute_Remarks {
+            get {
+                return ResourceManager.GetString("JumpPageCommand.Execute#Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Enter the page number and move. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string JumpPageCommand_Note {
+            get {
+                return ResourceManager.GetString("JumpPageCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Jump page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string JumpPageCommand_Text {
+            get {
+                return ResourceManager.GetString("JumpPageCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Jump to a random page. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string JumpRandomPageCommand_Note {
+            get {
+                return ResourceManager.GetString("JumpRandomPageCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Random page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string JumpRandomPageCommand_Text {
+            get {
+                return ResourceManager.GetString("JumpRandomPageCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   English に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Language_English {
@@ -11014,6 +7081,24 @@ namespace NeeView.Properties {
         public static string Language_Japanese {
             get {
                 return ResourceManager.GetString("Language.Japanese", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move to the last page. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LastPageCommand_Note {
+            get {
+                return ResourceManager.GetString("LastPageCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Last page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LastPageCommand_Text {
+            get {
+                return ResourceManager.GetString("LastPageCommand.Text", resourceCulture);
             }
         }
         
@@ -11149,6 +7234,42 @@ namespace NeeView.Properties {
         public static string LevelEffectUnit_White {
             get {
                 return ResourceManager.GetString("LevelEffectUnit.White", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   path: string|File or folder path に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LoadAsCommand_Execute_Remarks {
+            get {
+                return ResourceManager.GetString("LoadAsCommand.Execute#Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _Open... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LoadAsCommand_MenuText {
+            get {
+                return ResourceManager.GetString("LoadAsCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Select and open the compressed file or image file. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LoadAsCommand_Note {
+            get {
+                return ResourceManager.GetString("LoadAsCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open file に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LoadAsCommand_Text {
+            get {
+                return ResourceManager.GetString("LoadAsCommand.Text", resourceCulture);
             }
         }
         
@@ -11356,6 +7477,78 @@ namespace NeeView.Properties {
         public static string LoupeConfig_Speed {
             get {
                 return ResourceManager.GetString("LoupeConfig.Speed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Release the loupe mode. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LoupeOffCommand_Note {
+            get {
+                return ResourceManager.GetString("LoupeOffCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Loupe OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LoupeOffCommand_Text {
+            get {
+                return ResourceManager.GetString("LoupeOffCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Make the loupe mode. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LoupeOnCommand_Note {
+            get {
+                return ResourceManager.GetString("LoupeOnCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Loupe に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LoupeOnCommand_Text {
+            get {
+                return ResourceManager.GetString("LoupeOnCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Reduce the loupe magnification. It functions only when using a loupe. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LoupeScaleDownCommand_Note {
+            get {
+                return ResourceManager.GetString("LoupeScaleDownCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Loupe zoom out に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LoupeScaleDownCommand_Text {
+            get {
+                return ResourceManager.GetString("LoupeScaleDownCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Expands the magnifying power of the loupe. It functions only when using a loupe. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LoupeScaleUpCommand_Note {
+            get {
+                return ResourceManager.GetString("LoupeScaleUpCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Loupe zoom in に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LoupeScaleUpCommand_Text {
+            get {
+                return ResourceManager.GetString("LoupeScaleUpCommand.Text", resourceCulture);
             }
         }
         
@@ -11891,6 +8084,42 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   When the page is a book, open that book. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MoveToChildBookCommand_Note {
+            get {
+                return ResourceManager.GetString("MoveToChildBookCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Go to child に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MoveToChildBookCommand_Text {
+            get {
+                return ResourceManager.GetString("MoveToChildBookCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open the upper hierarchy as a book. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MoveToParentBookCommand_Note {
+            get {
+                return ResourceManager.GetString("MoveToParentBookCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Go to parent に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MoveToParentBookCommand_Text {
+            get {
+                return ResourceManager.GetString("MoveToParentBookCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Run all pages に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string MultiPagePolicy_All {
@@ -12103,6 +8332,204 @@ namespace NeeView.Properties {
         public static string NavitageStretchAllowScaleUp {
             get {
                 return ResourceManager.GetString("NavitageStretchAllowScaleUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Load the next book on the bookshelf. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NextBookCommand_Note {
+            get {
+                return ResourceManager.GetString("NextBookCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Next Book に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NextBookCommand_Text {
+            get {
+                return ResourceManager.GetString("NextBookCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open a next open book. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NextBookHistoryCommand_Note {
+            get {
+                return ResourceManager.GetString("NextBookHistoryCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Go next に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NextBookHistoryCommand_Text {
+            get {
+                return ResourceManager.GetString("NextBookHistoryCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move to the first page of the next folder of the book. Valid only in name order. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NextFolderPageCommand_Note {
+            get {
+                return ResourceManager.GetString("NextFolderPageCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Next folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NextFolderPageCommand_Text {
+            get {
+                return ResourceManager.GetString("NextFolderPageCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Load the following new history book. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NextHistoryCommand_Note {
+            get {
+                return ResourceManager.GetString("NextHistoryCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Next History に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NextHistoryCommand_Text {
+            get {
+                return ResourceManager.GetString("NextHistoryCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move to next view page. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NextHistoryPageCommand_Note {
+            get {
+                return ResourceManager.GetString("NextHistoryPageCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Go next view page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NextHistoryPageCommand_Text {
+            get {
+                return ResourceManager.GetString("NextHistoryPageCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Only one page will move in the next direction. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NextOnePageCommand_Note {
+            get {
+                return ResourceManager.GetString("NextOnePageCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Next One に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NextOnePageCommand_Text {
+            get {
+                return ResourceManager.GetString("NextOnePageCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move to next page direction. If it is 2 page display, it moves by 2 pages. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NextPageCommand_Note {
+            get {
+                return ResourceManager.GetString("NextPageCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Next に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NextPageCommand_Text {
+            get {
+                return ResourceManager.GetString("NextPageCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Go to the next page mark. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NextPagemarkCommand_Note {
+            get {
+                return ResourceManager.GetString("NextPagemarkCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Next pagemark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NextPagemarkCommand_Text {
+            get {
+                return ResourceManager.GetString("NextPagemarkCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move to the next page mark in the current book. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NextPagemarkInBookCommand_Note {
+            get {
+                return ResourceManager.GetString("NextPagemarkInBookCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Next pagemark in book に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NextPagemarkInBookCommand_Text {
+            get {
+                return ResourceManager.GetString("NextPagemarkInBookCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Page Scrolls the image in the next direction. If it is not possible to scroll, it will move to the next page. When using a loupe, only move pages. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NextScrollPageCommand_Note {
+            get {
+                return ResourceManager.GetString("NextScrollPageCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scroll + Next に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NextScrollPageCommand_Text {
+            get {
+                return ResourceManager.GetString("NextScrollPageCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move to the next direction by the set number of pages. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NextSizePageCommand_Note {
+            get {
+                return ResourceManager.GetString("NextSizePageCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Next num に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NextSizePageCommand_Text {
+            get {
+                return ResourceManager.GetString("NextSizePageCommand.Text", resourceCulture);
             }
         }
         
@@ -12623,6 +9050,87 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Open _console... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OpenConsoleCommand_MenuText {
+            get {
+                return ResourceManager.GetString("OpenConsoleCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open the script console. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OpenConsoleCommand_Note {
+            get {
+                return ResourceManager.GetString("OpenConsoleCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open console に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OpenConsoleCommand_Text {
+            get {
+                return ResourceManager.GetString("OpenConsoleCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open the context menu. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OpenContextMenuCommand_Note {
+            get {
+                return ResourceManager.GetString("OpenContextMenuCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open context menu に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OpenContextMenuCommand_Text {
+            get {
+                return ResourceManager.GetString("OpenContextMenuCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open the file of the page you are viewing in Explorer. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OpenExplorerCommand_Note {
+            get {
+                return ResourceManager.GetString("OpenExplorerCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open in explorer に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OpenExplorerCommand_Text {
+            get {
+                return ResourceManager.GetString("OpenExplorerCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open the displayed image with an external application.  に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OpenExternalAppCommand_Note {
+            get {
+                return ResourceManager.GetString("OpenExternalAppCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   External app に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OpenExternalAppCommand_Text {
+            get {
+                return ResourceManager.GetString("OpenExternalAppCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Compressed file policy に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string OpenExternalAppCommandParameter_ArchivePolicy {
@@ -12673,6 +9181,96 @@ namespace NeeView.Properties {
         public static string OpenExternalAppCommandParameter_Parameter_Tips {
             get {
                 return ResourceManager.GetString("OpenExternalAppCommandParameter.Parameter#Tips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _Options... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OpenOptionsWindowCommand_MenuText {
+            get {
+                return ResourceManager.GetString("OpenOptionsWindowCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open the options window. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OpenOptionsWindowCommand_Note {
+            get {
+                return ResourceManager.GetString("OpenOptionsWindowCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open options window に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OpenOptionsWindowCommand_Text {
+            get {
+                return ResourceManager.GetString("OpenOptionsWindowCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open the scripts folder with Explorer. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OpenScriptsFolderCommand_Note {
+            get {
+                return ResourceManager.GetString("OpenScriptsFolderCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open scripts folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OpenScriptsFolderCommand_Text {
+            get {
+                return ResourceManager.GetString("OpenScriptsFolderCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open the folder where the configuration file setting file is saved. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OpenSettingFilesFolderCommand_Note {
+            get {
+                return ResourceManager.GetString("OpenSettingFilesFolderCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open setting folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OpenSettingFilesFolderCommand_Text {
+            get {
+                return ResourceManager.GetString("OpenSettingFilesFolderCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _About... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OpenVersionWindowCommand_MenuText {
+            get {
+                return ResourceManager.GetString("OpenVersionWindowCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display version information. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OpenVersionWindowCommand_Note {
+            get {
+                return ResourceManager.GetString("OpenVersionWindowCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display version information に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OpenVersionWindowCommand_Text {
+            get {
+                return ResourceManager.GetString("OpenVersionWindowCommand.Text", resourceCulture);
             }
         }
         
@@ -14271,6 +10869,33 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   _Paste に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PasteCommand_MenuText {
+            get {
+                return ResourceManager.GetString("PasteCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Paste clipboard files and images. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PasteCommand_Note {
+            get {
+                return ResourceManager.GetString("PasteCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Paste に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PasteCommand_Text {
+            get {
+                return ResourceManager.GetString("PasteCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Use PDF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string PdfArchiveConfig_IsEnabled {
@@ -14470,6 +11095,231 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Load the previous book on the bookshelf. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrevBookCommand_Note {
+            get {
+                return ResourceManager.GetString("PrevBookCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Prev Book に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrevBookCommand_Text {
+            get {
+                return ResourceManager.GetString("PrevBookCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open a previously open book. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrevBookHistoryCommand_Note {
+            get {
+                return ResourceManager.GetString("PrevBookHistoryCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Go back に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrevBookHistoryCommand_Text {
+            get {
+                return ResourceManager.GetString("PrevBookHistoryCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move to the first page of the previous folder of the book. Valid only in name order. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrevFolderPageCommand_Note {
+            get {
+                return ResourceManager.GetString("PrevFolderPageCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Prev folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrevFolderPageCommand_Text {
+            get {
+                return ResourceManager.GetString("PrevFolderPageCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Load the previous old history book. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrevHistoryCommand_Note {
+            get {
+                return ResourceManager.GetString("PrevHistoryCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Prev History に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrevHistoryCommand_Text {
+            get {
+                return ResourceManager.GetString("PrevHistoryCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move to previously view page. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrevHistoryPageCommand_Note {
+            get {
+                return ResourceManager.GetString("PrevHistoryPageCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Go back view page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrevHistoryPageCommand_Text {
+            get {
+                return ResourceManager.GetString("PrevHistoryPageCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move forward one page only. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrevOnePageCommand_Note {
+            get {
+                return ResourceManager.GetString("PrevOnePageCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Prev One に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrevOnePageCommand_Text {
+            get {
+                return ResourceManager.GetString("PrevOnePageCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move to the front of the page. If it is 2 page display, it moves by 2 pages. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrevPageCommand_Note {
+            get {
+                return ResourceManager.GetString("PrevPageCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Prev に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrevPageCommand_Text {
+            get {
+                return ResourceManager.GetString("PrevPageCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Go to the previous page mark. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrevPagemarkCommand_Note {
+            get {
+                return ResourceManager.GetString("PrevPagemarkCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Prev pagemark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrevPagemarkCommand_Text {
+            get {
+                return ResourceManager.GetString("PrevPagemarkCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move to the previous page mark in the current book. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrevPagemarkInBookCommand_Note {
+            get {
+                return ResourceManager.GetString("PrevPagemarkInBookCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Prev pagemark in book に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrevPagemarkInBookCommand_Text {
+            get {
+                return ResourceManager.GetString("PrevPagemarkInBookCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scroll the image forward in the page. If it is not possible to scroll, it will move to the previous page. When using a loupe, only move pages. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrevScrollPageCommand_Note {
+            get {
+                return ResourceManager.GetString("PrevScrollPageCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scroll + Prev に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrevScrollPageCommand_Text {
+            get {
+                return ResourceManager.GetString("PrevScrollPageCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   It moves forward by the set number of pages. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrevSizePageCommand_Note {
+            get {
+                return ResourceManager.GetString("PrevSizePageCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Prev num に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrevSizePageCommand_Text {
+            get {
+                return ResourceManager.GetString("PrevSizePageCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _Print... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrintCommand_MenuText {
+            get {
+                return ResourceManager.GetString("PrintCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Print the image. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrintCommand_Note {
+            get {
+                return ResourceManager.GetString("PrintCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Print に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrintCommand_Text {
+            get {
+                return ResourceManager.GetString("PrintCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Image に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string PrintMode_RawImage {
@@ -14551,6 +11401,60 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Load the random book on the bookshelf. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string RandomBookCommand_Note {
+            get {
+                return ResourceManager.GetString("RandomBookCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Random Book に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string RandomBookCommand_Text {
+            get {
+                return ResourceManager.GetString("RandomBookCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Reload the book に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ReLoadCommand_Note {
+            get {
+                return ResourceManager.GetString("ReLoadCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Reload に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ReLoadCommand_Text {
+            get {
+                return ResourceManager.GetString("ReLoadCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Reload the settings. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ReloadSettingCommand_Note {
+            get {
+                return ResourceManager.GetString("ReloadSettingCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Reload settings に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ReloadSettingCommand_Text {
+            get {
+                return ResourceManager.GetString("ReloadSettingCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Enable operation swap by slider direction に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ReversibleCommandParameter_IsReverse {
@@ -14605,6 +11509,33 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Performs saving the current settings. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SaveSettingCommand_Note {
+            get {
+                return ResourceManager.GetString("SaveSettingCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Save settings に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SaveSettingCommand_Text {
+            get {
+                return ResourceManager.GetString("SaveSettingCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Script. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ScriptCommand_Note {
+            get {
+                return ResourceManager.GetString("ScriptCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Use scripts に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ScriptConfig_IsScriptFolderEnabled {
@@ -14628,6 +11559,15 @@ namespace NeeView.Properties {
         public static string ScriptConfig_ScriptFolder_Tips {
             get {
                 return ResourceManager.GetString("ScriptConfig.ScriptFolder#Tips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scrpit. Executes when the book is opened. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ScriptOnBookLoadedCommand_Note {
+            get {
+                return ResourceManager.GetString("ScriptOnBookLoadedCommand.Note", resourceCulture);
             }
         }
         
@@ -14727,6 +11667,726 @@ namespace NeeView.Properties {
         public static string ScrollPageCommandParameter_ScrollDuration {
             get {
                 return ResourceManager.GetString("ScrollPageCommandParameter.ScrollDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set the background color from the image. Specifically, the color of the upper left pixel of the image is used. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBackgroundAutoCommand_Note {
+            get {
+                return ResourceManager.GetString("SetBackgroundAutoCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Image colored background に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBackgroundAutoCommand_Text {
+            get {
+                return ResourceManager.GetString("SetBackgroundAutoCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Make the background black. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBackgroundBlackCommand_Note {
+            get {
+                return ResourceManager.GetString("SetBackgroundBlackCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Black background に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBackgroundBlackCommand_Text {
+            get {
+                return ResourceManager.GetString("SetBackgroundBlackCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Make the background a white checkered pattern. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBackgroundCheckCommand_Note {
+            get {
+                return ResourceManager.GetString("SetBackgroundCheckCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   White checkered background に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBackgroundCheckCommand_Text {
+            get {
+                return ResourceManager.GetString("SetBackgroundCheckCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Make the background a black checkered pattern. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBackgroundCheckDarkCommand_Note {
+            get {
+                return ResourceManager.GetString("SetBackgroundCheckDarkCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Black checkered background に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBackgroundCheckDarkCommand_Text {
+            get {
+                return ResourceManager.GetString("SetBackgroundCheckDarkCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Make the background a custom background. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBackgroundCustomCommand_Note {
+            get {
+                return ResourceManager.GetString("SetBackgroundCustomCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Custom Background に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBackgroundCustomCommand_Text {
+            get {
+                return ResourceManager.GetString("SetBackgroundCustomCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Make the background white. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBackgroundWhiteCommand_Note {
+            get {
+                return ResourceManager.GetString("SetBackgroundWhiteCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   White background に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBackgroundWhiteCommand_Text {
+            get {
+                return ResourceManager.GetString("SetBackgroundWhiteCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set the order of books in ascending order by entry time. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookOrderByEntryTimeACommand_Note {
+            get {
+                return ResourceManager.GetString("SetBookOrderByEntryTimeACommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Book EntryTime Ascending に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookOrderByEntryTimeACommand_Text {
+            get {
+                return ResourceManager.GetString("SetBookOrderByEntryTimeACommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set the order of books in descending order by entry time. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookOrderByEntryTimeDCommand_Note {
+            get {
+                return ResourceManager.GetString("SetBookOrderByEntryTimeDCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Book EntryTime Descending に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookOrderByEntryTimeDCommand_Text {
+            get {
+                return ResourceManager.GetString("SetBookOrderByEntryTimeDCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set the order of books in ascending order by name. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookOrderByFileNameACommand_Note {
+            get {
+                return ResourceManager.GetString("SetBookOrderByFileNameACommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Book Name Ascending に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookOrderByFileNameACommand_Text {
+            get {
+                return ResourceManager.GetString("SetBookOrderByFileNameACommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set the order of books in descending order by name. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookOrderByFileNameDCommand_Note {
+            get {
+                return ResourceManager.GetString("SetBookOrderByFileNameDCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Book Name Descending に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookOrderByFileNameDCommand_Text {
+            get {
+                return ResourceManager.GetString("SetBookOrderByFileNameDCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set the order of books in ascending order by file type. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookOrderByFileTypeACommand_Note {
+            get {
+                return ResourceManager.GetString("SetBookOrderByFileTypeACommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Book FileType Ascending に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookOrderByFileTypeACommand_Text {
+            get {
+                return ResourceManager.GetString("SetBookOrderByFileTypeACommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set the order of books in descending order by file type. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookOrderByFileTypeDCommand_Note {
+            get {
+                return ResourceManager.GetString("SetBookOrderByFileTypeDCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Book FileType Descending に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookOrderByFileTypeDCommand_Text {
+            get {
+                return ResourceManager.GetString("SetBookOrderByFileTypeDCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set the order of books in ascending order by full path. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookOrderByPathACommand_Note {
+            get {
+                return ResourceManager.GetString("SetBookOrderByPathACommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Book Path Ascending に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookOrderByPathACommand_Text {
+            get {
+                return ResourceManager.GetString("SetBookOrderByPathACommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set the order of books in descending order by full path. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookOrderByPathDCommand_Note {
+            get {
+                return ResourceManager.GetString("SetBookOrderByPathDCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Book Path Descending に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookOrderByPathDCommand_Text {
+            get {
+                return ResourceManager.GetString("SetBookOrderByPathDCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set the order of books randomly. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookOrderByRandomCommand_Note {
+            get {
+                return ResourceManager.GetString("SetBookOrderByRandomCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Book Shuffle に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookOrderByRandomCommand_Text {
+            get {
+                return ResourceManager.GetString("SetBookOrderByRandomCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set the order of books in ascending order by size. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookOrderBySizeACommand_Note {
+            get {
+                return ResourceManager.GetString("SetBookOrderBySizeACommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Book Size Ascending に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookOrderBySizeACommand_Text {
+            get {
+                return ResourceManager.GetString("SetBookOrderBySizeACommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set the order of books in descending order by size. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookOrderBySizeDCommand_Note {
+            get {
+                return ResourceManager.GetString("SetBookOrderBySizeDCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Book Size Descending に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookOrderBySizeDCommand_Text {
+            get {
+                return ResourceManager.GetString("SetBookOrderBySizeDCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set the order of books in ascending order by date. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookOrderByTimeStampACommand_Note {
+            get {
+                return ResourceManager.GetString("SetBookOrderByTimeStampACommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Book Date Ascending に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookOrderByTimeStampACommand_Text {
+            get {
+                return ResourceManager.GetString("SetBookOrderByTimeStampACommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set the order of books in descending order by darte. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookOrderByTimeStampDCommand_Note {
+            get {
+                return ResourceManager.GetString("SetBookOrderByTimeStampDCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Book Date Descending に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookOrderByTimeStampDCommand_Text {
+            get {
+                return ResourceManager.GetString("SetBookOrderByTimeStampDCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Left forward from left to right. The younger page turns to the left when 2 page is displayed. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookReadOrderLeftCommand_Note {
+            get {
+                return ResourceManager.GetString("SetBookReadOrderLeftCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Left to right に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookReadOrderLeftCommand_Text {
+            get {
+                return ResourceManager.GetString("SetBookReadOrderLeftCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Left forward from left to right. The young page turns to the right when 2 page is displayed. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookReadOrderRightCommand_Note {
+            get {
+                return ResourceManager.GetString("SetBookReadOrderRightCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Right to left に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetBookReadOrderRightCommand_Text {
+            get {
+                return ResourceManager.GetString("SetBookReadOrderRightCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Restore the default page setting. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetDefaultPageSettingCommand_Note {
+            get {
+                return ResourceManager.GetString("SetDefaultPageSettingCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Reset page setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetDefaultPageSettingCommand_Text {
+            get {
+                return ResourceManager.GetString("SetDefaultPageSettingCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Make it full screen. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetFullScreenCommand_Note {
+            get {
+                return ResourceManager.GetString("SetFullScreenCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Full screen に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetFullScreenCommand_Text {
+            get {
+                return ResourceManager.GetString("SetFullScreenCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Make it 1 page display. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetPageModeOneCommand_Note {
+            get {
+                return ResourceManager.GetString("SetPageModeOneCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   One page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetPageModeOneCommand_Text {
+            get {
+                return ResourceManager.GetString("SetPageModeOneCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   It makes 2 page display. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetPageModeTwoCommand_Note {
+            get {
+                return ResourceManager.GetString("SetPageModeTwoCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Two page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetPageModeTwoCommand_Text {
+            get {
+                return ResourceManager.GetString("SetPageModeTwoCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sort the order of the pages in ascending order by filename. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetSortModeFileNameCommand_Note {
+            get {
+                return ResourceManager.GetString("SetSortModeFileNameCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Name Ascending に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetSortModeFileNameCommand_Text {
+            get {
+                return ResourceManager.GetString("SetSortModeFileNameCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sort the order of the pages in descending order by file name. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetSortModeFileNameDescendingCommand_Note {
+            get {
+                return ResourceManager.GetString("SetSortModeFileNameDescendingCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Name Descending に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetSortModeFileNameDescendingCommand_Text {
+            get {
+                return ResourceManager.GetString("SetSortModeFileNameDescendingCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Shuffle the order of pages. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetSortModeRandomCommand_Note {
+            get {
+                return ResourceManager.GetString("SetSortModeRandomCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Shuffle に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetSortModeRandomCommand_Text {
+            get {
+                return ResourceManager.GetString("SetSortModeRandomCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set the order of pages in ascending order by file size. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetSortModeSizeCommand_Note {
+            get {
+                return ResourceManager.GetString("SetSortModeSizeCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Size Ascending に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetSortModeSizeCommand_Text {
+            get {
+                return ResourceManager.GetString("SetSortModeSizeCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set the order of pages in descending order of file size. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetSortModeSizeDescendingCommand_Note {
+            get {
+                return ResourceManager.GetString("SetSortModeSizeDescendingCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Size Descending に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetSortModeSizeDescendingCommand_Text {
+            get {
+                return ResourceManager.GetString("SetSortModeSizeDescendingCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sort the order of pages by file date ascending order. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetSortModeTimeStampCommand_Note {
+            get {
+                return ResourceManager.GetString("SetSortModeTimeStampCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Date Ascending に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetSortModeTimeStampCommand_Text {
+            get {
+                return ResourceManager.GetString("SetSortModeTimeStampCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sort the order of pages by file date descending order. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetSortModeTimeStampDescendingCommand_Note {
+            get {
+                return ResourceManager.GetString("SetSortModeTimeStampDescendingCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Date Descending に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetSortModeTimeStampDescendingCommand_Text {
+            get {
+                return ResourceManager.GetString("SetSortModeTimeStampDescendingCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Reduce the image to fit in the window and display it. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetStretchModeInsideCommand_Note {
+            get {
+                return ResourceManager.GetString("SetStretchModeInsideCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Fit to window if large に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetStretchModeInsideCommand_Text {
+            get {
+                return ResourceManager.GetString("SetStretchModeInsideCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display the image as it is. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetStretchModeNoneCommand_Note {
+            get {
+                return ResourceManager.GetString("SetStretchModeNoneCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Original size に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetStretchModeNoneCommand_Text {
+            get {
+                return ResourceManager.GetString("SetStretchModeNoneCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The image is enlarged as much as possible so that it fits in the window. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetStretchModeOutsideCommand_Note {
+            get {
+                return ResourceManager.GetString("SetStretchModeOutsideCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Fit to window if small に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetStretchModeOutsideCommand_Text {
+            get {
+                return ResourceManager.GetString("SetStretchModeOutsideCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scales the image to fit the window size. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetStretchModeUniformCommand_Note {
+            get {
+                return ResourceManager.GetString("SetStretchModeUniformCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Fit to window に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetStretchModeUniformCommand_Text {
+            get {
+                return ResourceManager.GetString("SetStretchModeUniformCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scale up or down to fit the window size either vertically or horizontally. The image will be larger than the window size. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetStretchModeUniformToFillCommand_Note {
+            get {
+                return ResourceManager.GetString("SetStretchModeUniformToFillCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Extend to window に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetStretchModeUniformToFillCommand_Text {
+            get {
+                return ResourceManager.GetString("SetStretchModeUniformToFillCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scales to fit the width of the image to the width of the window. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetStretchModeUniformToHorizontalCommand_Note {
+            get {
+                return ResourceManager.GetString("SetStretchModeUniformToHorizontalCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Fit width to window に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetStretchModeUniformToHorizontalCommand_Text {
+            get {
+                return ResourceManager.GetString("SetStretchModeUniformToHorizontalCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scales the image so that it is equal to the area size of ​​the window. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetStretchModeUniformToSizeCommand_Note {
+            get {
+                return ResourceManager.GetString("SetStretchModeUniformToSizeCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Fit to window area size に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetStretchModeUniformToSizeCommand_Text {
+            get {
+                return ResourceManager.GetString("SetStretchModeUniformToSizeCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scales to fit the height of the image to the height of the window. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetStretchModeUniformToVerticalCommand_Note {
+            get {
+                return ResourceManager.GetString("SetStretchModeUniformToVerticalCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Fit height to window に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetStretchModeUniformToVerticalCommand_Text {
+            get {
+                return ResourceManager.GetString("SetStretchModeUniformToVerticalCommand.Text", resourceCulture);
             }
         }
         
@@ -16184,6 +13844,33 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Show panels  に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ShowHiddenPanelsCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ShowHiddenPanelsCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The panel which is hidden automatically is displayed once. It will be canceled by some operation. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ShowHiddenPanelsCommand_Note {
+            get {
+                return ResourceManager.GetString("ShowHiddenPanelsCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Show panels  に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ShowHiddenPanelsCommand_Text {
+            get {
+                return ResourceManager.GetString("ShowHiddenPanelsCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   None に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ShowMessageStyle_None {
@@ -16508,6 +14195,33 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Stretch window に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string StretchWindowCommand_MenuText {
+            get {
+                return ResourceManager.GetString("StretchWindowCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Fit the window to the MainView content size. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string StretchWindowCommand_Note {
+            get {
+                return ResourceManager.GetString("StretchWindowCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Stretch window に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string StretchWindowCommand_Text {
+            get {
+                return ResourceManager.GetString("StretchWindowCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Use the Susie plugin に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SusieConfig_IsEnabled {
@@ -16724,7 +14438,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Make the start position of the file selection dialog in &quot;@CommandLoadAs&quot; the location of the currently opened book に類似しているローカライズされた文字列を検索します。
+        ///   Make the start position of the file selection dialog in &quot;@LoadAsCommand.Text&quot; the location of the currently opened book に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SystemConfig_IsOpenbookAtCurrentPlace {
             get {
@@ -16967,6 +14681,861 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Switch the background sequentially. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleBackgroundCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleBackgroundCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Switch background に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleBackgroundCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleBackgroundCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Bookmark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleBookmarkCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleBookmarkCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle bookmark registration / release of currently open book. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleBookmarkCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleBookmarkCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Bookmark OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleBookmarkCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleBookmarkCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Bookmark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleBookmarkCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleBookmarkCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle bookmark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleBookmarkCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleBookmarkCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Switch the order of books in order. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleBookOrderCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleBookOrderCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Switch book order に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleBookOrderCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleBookOrderCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle right and left open. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleBookReadOrderCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleBookReadOrderCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Book orientation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleBookReadOrderCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleBookReadOrderCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Custom size に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleCustomSizeCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleCustomSizeCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggles enabling / disabling of size specification applied to original size. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleCustomSizeCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleCustomSizeCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Custom size OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleCustomSizeCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleCustomSizeCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Custom size に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleCustomSizeCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleCustomSizeCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle custom size に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleCustomSizeCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleCustomSizeCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Effect に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleEffectCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleEffectCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle effect on / off. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleEffectCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleEffectCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Effect OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleEffectCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleEffectCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Effect に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleEffectCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleEffectCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle effect に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleEffectCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleEffectCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Force auto rotation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleForceAutoRotateCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleForceAutoRotateCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Automatic rotation is applied regardless of the aspect ratio of the image. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleForceAutoRotateCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleForceAutoRotateCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Force auto rotation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleForceAutoRotateCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleForceAutoRotateCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Force auto rotation OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleForceAutoRotateOffCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleForceAutoRotateOffCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Force auto rotation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleForceAutoRotateOnCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleForceAutoRotateOnCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Full screen に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleFullScreenCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleFullScreenCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Switch the full screen state. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleFullScreenCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleFullScreenCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Full screen OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleFullScreenCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleFullScreenCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Full screen に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleFullScreenCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleFullScreenCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle full screen に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleFullScreenCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleFullScreenCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Grid に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleGridCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleGridCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle visible / hide of grid. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleGridCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleGridCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Grid OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleGridCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleGridCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Grid に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleGridCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleGridCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Grid に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleGridCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleGridCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Auto hide menu に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleHideMenuCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleHideMenuCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Hide the menu. It is displayed by moving the cursor to the upper end of the window. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleHideMenuCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleHideMenuCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Auto hide menu OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleHideMenuCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleHideMenuCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Auto hide menu に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleHideMenuCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleHideMenuCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle auto hide menu に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleHideMenuCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleHideMenuCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Auto hide slider に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleHidePageSliderCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleHidePageSliderCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Hide the slider. It is displayed by moving the cursor to the lower end of the window. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleHidePageSliderCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleHidePageSliderCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Auto hide slider OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleHidePageSliderCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleHidePageSliderCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Auto hide slider に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleHidePageSliderCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleHidePageSliderCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle auto hide slider に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleHidePageSliderCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleHidePageSliderCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Auto hide panels に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleHidePanelCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleHidePanelCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Automatically hide the left and right panels. It is displayed by moving the cursor to the left and right edges of the window. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleHidePanelCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleHidePanelCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Auto hide panels OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleHidePanelCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleHidePanelCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Auto hide panels に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleHidePanelCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleHidePanelCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle auto hide panels に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleHidePanelCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleHidePanelCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Auto hide filmstrip に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleHideThumbnailListCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleHideThumbnailListCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display the film strip only when using the slider. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleHideThumbnailListCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleHideThumbnailListCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Auto hide filmstrip OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleHideThumbnailListCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleHideThumbnailListCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Auto hide filmstrip に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleHideThumbnailListCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleHideThumbnailListCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle auto hide filmstrip に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleHideThumbnailListCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleHideThumbnailListCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle auto rotation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsAutoRotateCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleIsAutoRotateCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Auto left rotate に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsAutoRotateLeftCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleIsAutoRotateLeftCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   When displaying the page, left rotate the portrait image 90 degrees. If the window is portrait, rotate horizontally long image by 90 degrees. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsAutoRotateLeftCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleIsAutoRotateLeftCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Auto left rotate OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsAutoRotateLeftCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleIsAutoRotateLeftCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Auto left rotate に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsAutoRotateLeftCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleIsAutoRotateLeftCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle auto left rotation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsAutoRotateLeftCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleIsAutoRotateLeftCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Auto right rotate に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsAutoRotateRightCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleIsAutoRotateRightCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   When displaying the page, right rotate the portrait image 90 degrees. If the window is portrait, rotate horizontally long image by 90 degrees. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsAutoRotateRightCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleIsAutoRotateRightCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Auto right rotate OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsAutoRotateRightCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleIsAutoRotateRightCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Auto right rotate に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsAutoRotateRightCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleIsAutoRotateRightCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle auto rithg rotation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsAutoRotateRightCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleIsAutoRotateRightCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Loupe に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsLoupeCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleIsLoupeCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Turn the loupe on or off. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsLoupeCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleIsLoupeCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Loupe OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsLoupeCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleIsLoupeCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Loupe に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsLoupeCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleIsLoupeCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle loupe に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsLoupeCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleIsLoupeCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   When loading images from folders, subfolders or compressed files are also loaded at the same time. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsRecursiveFolderCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleIsRecursiveFolderCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Load subfolders OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsRecursiveFolderCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleIsRecursiveFolderCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Load subfolders に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsRecursiveFolderCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleIsRecursiveFolderCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Load subfolders に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsRecursiveFolderCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleIsRecursiveFolderCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   When one page is displayed, divide the landscape page into pages. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsSupportedDividePageCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleIsSupportedDividePageCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Split wide page OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsSupportedDividePageCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleIsSupportedDividePageCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Split wide page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsSupportedDividePageCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleIsSupportedDividePageCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Split wide page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsSupportedDividePageCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleIsSupportedDividePageCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Even on 2 page display, the first page is displayed as 1 page. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsSupportedSingleFirstPageCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleIsSupportedSingleFirstPageCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   First page alone OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsSupportedSingleFirstPageCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleIsSupportedSingleFirstPageCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   First page alone に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsSupportedSingleFirstPageCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleIsSupportedSingleFirstPageCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   First page alone に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsSupportedSingleFirstPageCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleIsSupportedSingleFirstPageCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Even on 2 page display, the last page is displayed on 1 page. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsSupportedSingleLastPageCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleIsSupportedSingleLastPageCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Last page alone OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsSupportedSingleLastPageCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleIsSupportedSingleLastPageCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Last page alone に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsSupportedSingleLastPageCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleIsSupportedSingleLastPageCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Last page alone に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsSupportedSingleLastPageCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleIsSupportedSingleLastPageCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   When two pages are displayed, the horizontally long image is regarded as two pages and is displayed independently. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsSupportedWidePageCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleIsSupportedWidePageCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Wide is two page OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsSupportedWidePageCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleIsSupportedWidePageCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Wide is two page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsSupportedWidePageCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleIsSupportedWidePageCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Wide is two page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsSupportedWidePageCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleIsSupportedWidePageCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   MainView window に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleMainViewFloatingCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleMainViewFloatingCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Make the MainView a window. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleMainViewFloatingCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleMainViewFloatingCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle MainView window に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleMainViewFloatingCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleMainViewFloatingCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   MainView docking に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleMainViewFloatingOff {
@@ -16981,6 +15550,384 @@ namespace NeeView.Properties {
         public static string ToggleMainViewFloatingOn {
             get {
                 return ResourceManager.GetString("ToggleMainViewFloatingOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle between playing and stopping the movie. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleMediaPlayCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleMediaPlayCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Play/Stop に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleMediaPlayCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleMediaPlayCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Keep dot に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleNearestNeighborCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleNearestNeighborCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   When set to ON, it will expand while maintaining the dot. When it is OFF, scale conversion processing (Fant) is executed. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleNearestNeighborCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleNearestNeighborCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Keep dot OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleNearestNeighborCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleNearestNeighborCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Keep dot に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleNearestNeighborCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleNearestNeighborCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle keep dot に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleNearestNeighborCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleNearestNeighborCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Place page list on bookshelf に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TogglePageListPlacementBookshelfCommand_Text {
+            get {
+                return ResourceManager.GetString("TogglePageListPlacementBookshelfCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Page list placement に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TogglePageListPlacementCommand_MenuText {
+            get {
+                return ResourceManager.GetString("TogglePageListPlacementCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Switch placement of page list between bookshelf and side panel に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TogglePageListPlacementCommand_Note {
+            get {
+                return ResourceManager.GetString("TogglePageListPlacementCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Switch placement of page list に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TogglePageListPlacementCommand_Text {
+            get {
+                return ResourceManager.GetString("TogglePageListPlacementCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Place page list on side panel に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TogglePageListPlacementPanelCommand_Text {
+            get {
+                return ResourceManager.GetString("TogglePageListPlacementPanelCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Pagemark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TogglePagemarkCommand_MenuText {
+            get {
+                return ResourceManager.GetString("TogglePagemarkCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggles registration / cancellation of page mark of currently open page. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TogglePagemarkCommand_Note {
+            get {
+                return ResourceManager.GetString("TogglePagemarkCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Pagemark OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TogglePagemarkCommand_Off {
+            get {
+                return ResourceManager.GetString("TogglePagemarkCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Pagemark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TogglePagemarkCommand_On {
+            get {
+                return ResourceManager.GetString("TogglePagemarkCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle pagemark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TogglePagemarkCommand_Text {
+            get {
+                return ResourceManager.GetString("TogglePagemarkCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Switch between 1 page display and 2 page display. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TogglePageModeCommand_Note {
+            get {
+                return ResourceManager.GetString("TogglePageModeCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle page mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TogglePageModeCommand_Text {
+            get {
+                return ResourceManager.GetString("TogglePageModeCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   File operation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TogglePermitFileCommand_MenuText {
+            get {
+                return ResourceManager.GetString("TogglePermitFileCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle enable / disable of file operation command. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TogglePermitFileCommand_Note {
+            get {
+                return ResourceManager.GetString("TogglePermitFileCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Disable file operation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TogglePermitFileCommand_Off {
+            get {
+                return ResourceManager.GetString("TogglePermitFileCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Enable file operation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TogglePermitFileCommand_On {
+            get {
+                return ResourceManager.GetString("TogglePermitFileCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle file operation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TogglePermitFileCommand_Text {
+            get {
+                return ResourceManager.GetString("TogglePermitFileCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Resize filter に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleResizeFilterCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleResizeFilterCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle resize filter on / off. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleResizeFilterCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleResizeFilterCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Resize filter OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleResizeFilterCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleResizeFilterCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Resize filter に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleResizeFilterCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleResizeFilterCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle resize filter に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleResizeFilterCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleResizeFilterCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Slideshow に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleSlideShowCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleSlideShowCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle play / stop of the slideshow. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleSlideShowCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleSlideShowCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Stop slideshw に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleSlideShowCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleSlideShowCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Play slideshow に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleSlideShowCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleSlideShowCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle slideshow に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleSlideShowCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleSlideShowCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Switch the order of the pages in order. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleSortModeCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleSortModeCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Switch pages order に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleSortModeCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleSortModeCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Allow scale down on stretch. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleStretchAllowScaleDownCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleStretchAllowScaleDownCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Allow stretch scale down に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleStretchAllowScaleDownCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleStretchAllowScaleDownCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Allow scale up on stretch. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleStretchAllowScaleUpCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleStretchAllowScaleUpCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Allow stretch scale up に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleStretchAllowScaleUpCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleStretchAllowScaleUpCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Switch the stretch in order. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleStretchModeCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleStretchModeCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Switch stretch に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleStretchModeCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleStretchModeCommand.Text", resourceCulture);
             }
         }
         
@@ -17062,6 +16009,744 @@ namespace NeeView.Properties {
         public static string ToggleStretchModeCommandParameter_IsLoop_Title {
             get {
                 return ResourceManager.GetString("ToggleStretchModeCommandParameter.IsLoop#Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Switch the stretch in order (reverse). に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleStretchModeReverseCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleStretchModeReverseCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Switch stretch (reverse) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleStretchModeReverseCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleStretchModeReverseCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Topmost に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleTopmostCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleTopmostCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Always display the window in front. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleTopmostCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleTopmostCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Topmost OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleTopmostCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleTopmostCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Topmost に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleTopmostCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleTopmostCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle topmost に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleTopmostCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleTopmostCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flip the image left and right. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleViewFlipHorizontalCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleViewFlipHorizontalCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle flip horizontal に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleViewFlipHorizontalCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleViewFlipHorizontalCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flip the image upside down. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleViewFlipVerticalCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleViewFlipVerticalCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle flip vertial に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleViewFlipVerticalCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleViewFlipVerticalCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Address bar に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleAddressBarCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleVisibleAddressBarCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle vidible / hide of the address bar. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleAddressBarCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleVisibleAddressBarCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Address bar OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleAddressBarCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleVisibleAddressBarCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Address bar に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleAddressBarCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleVisibleAddressBarCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle address bar に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleAddressBarCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleVisibleAddressBarCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Bookmark list に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleBookmarkListCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleVisibleBookmarkListCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle vidible / hide of the bookmark list panel. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleBookmarkListCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleVisibleBookmarkListCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Bookmark list OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleBookmarkListCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleVisibleBookmarkListCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Bookmark list に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleBookmarkListCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleVisibleBookmarkListCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle bookmark list に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleBookmarkListCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleVisibleBookmarkListCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Bookshelf に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleBookshelfCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleVisibleBookshelfCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle visible / hide of the bookshelf panel. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleBookshelfCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleVisibleBookshelfCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Bookshelf OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleBookshelfCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleVisibleBookshelfCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Bookshelf に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleBookshelfCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleVisibleBookshelfCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle bookshelf に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleBookshelfCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleVisibleBookshelfCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Effect panel に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleEffectInfoCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleVisibleEffectInfoCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle visible / hide of the effect panel. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleEffectInfoCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleVisibleEffectInfoCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Effect panel OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleEffectInfoCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleVisibleEffectInfoCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Effect panel に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleEffectInfoCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleVisibleEffectInfoCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle effect panel に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleEffectInfoCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleVisibleEffectInfoCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Information に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleFileInfoCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleVisibleFileInfoCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle visible / hide of the information panel. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleFileInfoCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleVisibleFileInfoCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Information OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleFileInfoCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleVisibleFileInfoCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Information に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleFileInfoCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleVisibleFileInfoCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle information に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleFileInfoCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleVisibleFileInfoCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Folders tree に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleFoldersTreeCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleVisibleFoldersTreeCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle visible / hide of the Folders tree. The bookshelf is displayed. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleFoldersTreeCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleVisibleFoldersTreeCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Folders tree OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleFoldersTreeCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleVisibleFoldersTreeCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Folders tree に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleFoldersTreeCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleVisibleFoldersTreeCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle Folders tree に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleFoldersTreeCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleVisibleFoldersTreeCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   History list に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleHistoryListCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleVisibleHistoryListCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle vidible / hide of the history list panel. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleHistoryListCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleVisibleHistoryListCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   History list OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleHistoryListCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleVisibleHistoryListCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   History list に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleHistoryListCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleVisibleHistoryListCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle history list に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleHistoryListCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleVisibleHistoryListCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Navigator に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleNavigatorCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleVisibleNavigatorCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle visible / hide of the navigator に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleNavigatorCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleVisibleNavigatorCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Navigator OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleNavigatorCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleVisibleNavigatorCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Navigator に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleNavigatorCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleVisibleNavigatorCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle navigator に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleNavigatorCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleVisibleNavigatorCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Page list に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisiblePageListCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleVisiblePageListCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle visible / hide of the page list. The bookshelf is displayed. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisiblePageListCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleVisiblePageListCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Page list OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisiblePageListCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleVisiblePageListCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Page list に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisiblePageListCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleVisiblePageListCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle page list に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisiblePageListCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleVisiblePageListCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Pagemark list に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisiblePagemarkListCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleVisiblePagemarkListCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle vidible / hide of the pagemark list panel. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisiblePagemarkListCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleVisiblePagemarkListCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Pagemark list OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisiblePagemarkListCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleVisiblePagemarkListCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Pagemark list に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisiblePagemarkListCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleVisiblePagemarkListCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle pagemark list に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisiblePagemarkListCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleVisiblePagemarkListCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Side bar に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleSideBarCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleVisibleSideBarCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle visible / hide of sidebar. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleSideBarCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleVisibleSideBarCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Side bar OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleSideBarCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleVisibleSideBarCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Side bar に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleSideBarCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleVisibleSideBarCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle side bar に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleSideBarCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleVisibleSideBarCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Filmstrip に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleThumbnailListCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleVisibleThumbnailListCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle visible / hide of the filmstrip. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleThumbnailListCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleVisibleThumbnailListCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Filmstrip OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleThumbnailListCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleVisibleThumbnailListCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Filmstrip に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleThumbnailListCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleVisibleThumbnailListCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle filmstrip に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleThumbnailListCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleVisibleThumbnailListCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Title bar に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleTitleBarCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleVisibleTitleBarCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle visible / hide of window title bar. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleTitleBarCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleVisibleTitleBarCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Title bar OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleTitleBarCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleVisibleTitleBarCommand_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Title bar に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleTitleBarCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleVisibleTitleBarCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle title bar に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleTitleBarCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleVisibleTitleBarCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Maximize に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleWindowMaximizeCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleWindowMaximizeCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Maximize the window. If it has already been maximized, restore it to its original size. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleWindowMaximizeCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleWindowMaximizeCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Maximize window に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleWindowMaximizeCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleWindowMaximizeCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Minimize に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleWindowMinimizeCommand_MenuText {
+            get {
+                return ResourceManager.GetString("ToggleWindowMinimizeCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Minimize the window. If it has already been minimized, restore it to its original size. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleWindowMinimizeCommand_Note {
+            get {
+                return ResourceManager.GetString("ToggleWindowMinimizeCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Minimize window に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleWindowMinimizeCommand_Text {
+            get {
+                return ResourceManager.GetString("ToggleWindowMinimizeCommand.Text", resourceCulture);
             }
         }
         
@@ -17206,6 +16891,51 @@ namespace NeeView.Properties {
         public static string TouchConfig_MinimumManipulationRadius_Tips {
             get {
                 return ResourceManager.GetString("TouchConfig.MinimumManipulationRadius#Tips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Execute the touch command at the mouse cursor position. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TouchEmulateCommand_Note {
+            get {
+                return ResourceManager.GetString("TouchEmulateCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Touch emulate に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TouchEmulateCommand_Text {
+            get {
+                return ResourceManager.GetString("TouchEmulateCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _Close に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UnloadCommand_MenuText {
+            get {
+                return ResourceManager.GetString("UnloadCommand.MenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Close the open workbook. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UnloadCommand_Note {
+            get {
+                return ResourceManager.GetString("UnloadCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Close に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UnloadCommand_Text {
+            get {
+                return ResourceManager.GetString("UnloadCommand.Text", resourceCulture);
             }
         }
         
@@ -17463,6 +17193,78 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Cancel flip. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewFlipHorizontalOffCommand_Note {
+            get {
+                return ResourceManager.GetString("ViewFlipHorizontalOffCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flip horizontal OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewFlipHorizontalOffCommand_Text {
+            get {
+                return ResourceManager.GetString("ViewFlipHorizontalOffCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flip the image left and right. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewFlipHorizontalOnCommand_Note {
+            get {
+                return ResourceManager.GetString("ViewFlipHorizontalOnCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flip horizontal に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewFlipHorizontalOnCommand_Text {
+            get {
+                return ResourceManager.GetString("ViewFlipHorizontalOnCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cancel flip. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewFlipVerticalOffCommand_Note {
+            get {
+                return ResourceManager.GetString("ViewFlipVerticalOffCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flip vertial OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewFlipVerticalOffCommand_Text {
+            get {
+                return ResourceManager.GetString("ViewFlipVerticalOffCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Turn it upside down. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewFlipVerticalOnCommand_Note {
+            get {
+                return ResourceManager.GetString("ViewFlipVerticalOnCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flip vertial に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewFlipVerticalOnCommand_Text {
+            get {
+                return ResourceManager.GetString("ViewFlipVerticalOnCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   ViewPage accessor に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ViewPageAccessor {
@@ -17496,6 +17298,24 @@ namespace NeeView.Properties {
         public static string ViewPageAccessor_Width {
             get {
                 return ResourceManager.GetString("ViewPageAccessor.Width", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Initialize rotation, scaling, movement, and inversion by manipulating the view. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewResetCommand_Note {
+            get {
+                return ResourceManager.GetString("ViewResetCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   View reset に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewResetCommand_Text {
+            get {
+                return ResourceManager.GetString("ViewResetCommand.Text", resourceCulture);
             }
         }
         
@@ -17536,6 +17356,42 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Rotates the image to the left. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewRotateLeftCommand_Note {
+            get {
+                return ResourceManager.GetString("ViewRotateLeftCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Left rotate に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewRotateLeftCommand_Text {
+            get {
+                return ResourceManager.GetString("ViewRotateLeftCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Rotate the image to the right. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewRotateRightCommand_Note {
+            get {
+                return ResourceManager.GetString("ViewRotateRightCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Right rotate に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewRotateRightCommand_Text {
+            get {
+                return ResourceManager.GetString("ViewRotateRightCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   100% snap に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ViewScaleCommandParameter_IsSnapDefaultScale {
@@ -17568,6 +17424,42 @@ namespace NeeView.Properties {
         public static string ViewScaleCommandParameter_Scale_Tips {
             get {
                 return ResourceManager.GetString("ViewScaleCommandParameter.Scale#Tips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Reduce the image. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewScaleDownCommand_Note {
+            get {
+                return ResourceManager.GetString("ViewScaleDownCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Zoom out に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewScaleDownCommand_Text {
+            get {
+                return ResourceManager.GetString("ViewScaleDownCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Enlarge the image. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewScaleUpCommand_Note {
+            get {
+                return ResourceManager.GetString("ViewScaleUpCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Zoom in に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewScaleUpCommand_Text {
+            get {
+                return ResourceManager.GetString("ViewScaleUpCommand.Text", resourceCulture);
             }
         }
         
@@ -17617,6 +17509,42 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Roll the image downwards. When it is not possible to scroll vertically, side scrolling will occur. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewScrollDownCommand_Note {
+            get {
+                return ResourceManager.GetString("ViewScrollDownCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scroll ↓ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewScrollDownCommand_Text {
+            get {
+                return ResourceManager.GetString("ViewScrollDownCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Roll the image to the left. If horizontal scrolling is not possible, vertical scrolling will occur. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewScrollLeftCommand_Note {
+            get {
+                return ResourceManager.GetString("ViewScrollLeftCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scroll ← に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewScrollLeftCommand_Text {
+            get {
+                return ResourceManager.GetString("ViewScrollLeftCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Minimum scrolling distance に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ViewScrollNTypeCommandParameter_Margin {
@@ -17658,6 +17586,78 @@ namespace NeeView.Properties {
         public static string ViewScrollNTypeCommandParameter_ScrollDuration {
             get {
                 return ResourceManager.GetString("ViewScrollNTypeCommandParameter.ScrollDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   If you can scroll vertically and horizontally, scroll to draw N characters. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewScrollNTypeDownCommand_Note {
+            get {
+                return ResourceManager.GetString("ViewScrollNTypeDownCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   N-type scroll ↓ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewScrollNTypeDownCommand_Text {
+            get {
+                return ResourceManager.GetString("ViewScrollNTypeDownCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   If you can scroll vertically and horizontally, scroll to draw N characters. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewScrollNTypeUpCommand_Note {
+            get {
+                return ResourceManager.GetString("ViewScrollNTypeUpCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   N-type scroll ↑ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewScrollNTypeUpCommand_Text {
+            get {
+                return ResourceManager.GetString("ViewScrollNTypeUpCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Roll the image to the right. If horizontal scrolling is not possible, vertical scrolling will occur. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewScrollRightCommand_Note {
+            get {
+                return ResourceManager.GetString("ViewScrollRightCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scroll → に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewScrollRightCommand_Text {
+            get {
+                return ResourceManager.GetString("ViewScrollRightCommand.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Roll the image upwards. When it is not possible to scroll vertically, side scrolling will occur. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewScrollUpCommand_Note {
+            get {
+                return ResourceManager.GetString("ViewScrollUpCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scroll ↑ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewScrollUpCommand_Text {
+            get {
+                return ResourceManager.GetString("ViewScrollUpCommand.Text", resourceCulture);
             }
         }
         

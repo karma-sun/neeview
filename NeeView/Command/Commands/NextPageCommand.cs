@@ -2,11 +2,9 @@
 {
     public class NextPageCommand : CommandElement
     {
-        public NextPageCommand(string name) : base(name)
+        public NextPageCommand()
         {
-            this.Group = Properties.Resources.CommandGroupMove;
-            this.Text = Properties.Resources.CommandNextPage;
-            this.Note = Properties.Resources.CommandNextPageNote;
+            this.Group = Properties.Resources.CommandGroup_Move;
             this.ShortCutKey = "Left,LeftClick";
             this.TouchGesture = "TouchL1,TouchL2";
             this.MouseGesture = "L";

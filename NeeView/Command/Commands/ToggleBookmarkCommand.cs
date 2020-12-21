@@ -6,12 +6,9 @@ namespace NeeView
 {
     public class ToggleBookmarkCommand : CommandElement
     {
-        public ToggleBookmarkCommand(string name) : base(name)
+        public ToggleBookmarkCommand()
         {
-            this.Group = Properties.Resources.CommandGroupBookmark;
-            this.Text = Properties.Resources.CommandToggleBookmark;
-            this.MenuText = Properties.Resources.CommandToggleBookmarkMenu;
-            this.Note = Properties.Resources.CommandToggleBookmarkNote;
+            this.Group = Properties.Resources.CommandGroup_Bookmark;
             this.ShortCutKey = "Ctrl+D";
             this.IsShowMessage = true;
         }
@@ -22,7 +19,7 @@ namespace NeeView
 
         public override string ExecuteMessage(object sender, CommandContext e)
         {
-            return BookOperation.Current.IsBookmark ? Properties.Resources.CommandToggleBookmarkOff : Properties.Resources.CommandToggleBookmarkOn;
+            return BookOperation.Current.IsBookmark ? Properties.Resources.ToggleBookmarkCommand_Off : Properties.Resources.ToggleBookmarkCommand_On;
         }
 
         public override bool CanExecute(object sender, CommandContext e)

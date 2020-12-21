@@ -2,11 +2,9 @@
 {
     public class ReloadSettingCommand : CommandElement
     {
-        public ReloadSettingCommand(string name) : base(name)
+        public ReloadSettingCommand()
         {
-            this.Group = Properties.Resources.CommandGroupOther;
-            this.Text = Properties.Resources.CommandReloadUserSetting;
-            this.Note = Properties.Resources.CommandReloadUserSettingNote;
+            this.Group = Properties.Resources.CommandGroup_Other;
             this.IsShowMessage = false;
         }
 

@@ -2,11 +2,9 @@
 {
     public class NextBookCommand : CommandElement
     {
-        public NextBookCommand(string name) : base(name)
+        public NextBookCommand()
         {
-            this.Group = Properties.Resources.CommandGroupBookMove;
-            this.Text = Properties.Resources.CommandNextFolder;
-            this.Note = Properties.Resources.CommandNextFolderNote;
+            this.Group = Properties.Resources.CommandGroup_BookMove;
             this.ShortCutKey = "Down";
             this.MouseGesture = "LD";
             this.IsShowMessage = false;

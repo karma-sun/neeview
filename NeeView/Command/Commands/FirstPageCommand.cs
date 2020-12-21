@@ -2,11 +2,9 @@
 {
     public class FirstPageCommand : CommandElement
     {
-        public FirstPageCommand(string name) : base(name)
+        public FirstPageCommand()
         {
-            this.Group = Properties.Resources.CommandGroupMove;
-            this.Text = Properties.Resources.CommandFirstPage;
-            this.Note = Properties.Resources.CommandFirstPageNote;
+            this.Group = Properties.Resources.CommandGroup_Move;
             this.ShortCutKey = "Ctrl+Right";
             this.MouseGesture = "UR";
             this.IsShowMessage = true;

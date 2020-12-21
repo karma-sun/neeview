@@ -2,11 +2,9 @@
 {
     public class LastPageCommand : CommandElement
     {
-        public LastPageCommand(string name) : base(name)
+        public LastPageCommand()
         {
-            this.Group = Properties.Resources.CommandGroupMove;
-            this.Text = Properties.Resources.CommandLastPage;
-            this.Note = Properties.Resources.CommandLastPageNote;
+            this.Group = Properties.Resources.CommandGroup_Move;
             this.ShortCutKey = "Ctrl+Left";
             this.MouseGesture = "UL";
             this.IsShowMessage = true;

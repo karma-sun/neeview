@@ -6,11 +6,9 @@ namespace NeeView
 {
     public class OpenExternalAppCommand : CommandElement
     {
-        public OpenExternalAppCommand(string name) : base(name)
+        public OpenExternalAppCommand()
         {
-            this.Group = Properties.Resources.CommandGroupFile;
-            this.Text = Properties.Resources.CommandOpenApplication;
-            this.Note = Properties.Resources.CommandOpenApplicationNote;
+            this.Group = Properties.Resources.CommandGroup_File;
             this.IsShowMessage = false;
 
             this.ParameterSource = new CommandParameterSource(new OpenExternalAppCommandParameter());

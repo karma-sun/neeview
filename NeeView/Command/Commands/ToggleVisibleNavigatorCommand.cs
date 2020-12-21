@@ -6,12 +6,9 @@ namespace NeeView
 {
     public class ToggleVisibleNavigatorCommand : CommandElement
     {
-        public ToggleVisibleNavigatorCommand(string name) : base(name)
+        public ToggleVisibleNavigatorCommand()
         {
-            this.Group = Properties.Resources.CommandGroupPanel;
-            this.Text = Properties.Resources.CommandToggleVisibleNavigator;
-            this.MenuText = Properties.Resources.CommandToggleVisibleNavigatorMenu;
-            this.Note = Properties.Resources.CommandToggleVisibleNavigatorNote;
+            this.Group = Properties.Resources.CommandGroup_Panel;
             this.ShortCutKey = "N";
             this.IsShowMessage = false;
         }
@@ -23,7 +20,7 @@ namespace NeeView
 
         public override string ExecuteMessage(object sender, CommandContext e)
         {
-            return SidePanelFrame.Current.IsVisibleNavigator ? Properties.Resources.CommandToggleVisibleNavigatorOff : Properties.Resources.CommandToggleVisibleNavigatorOn;
+            return SidePanelFrame.Current.IsVisibleNavigator ? Properties.Resources.ToggleVisibleNavigatorCommand_Off : Properties.Resources.ToggleVisibleNavigatorCommand_On;
         }
 
         [MethodArgument("@CommandToggleArgument")]

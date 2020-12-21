@@ -2,11 +2,9 @@
 {
     public class NextHistoryPageCommand : CommandElement
     {
-        public NextHistoryPageCommand(string name) : base(name)
+        public NextHistoryPageCommand()
         {
-            this.Group = Properties.Resources.CommandGroupMove;
-            this.Text = Properties.Resources.CommandNextPageHistory;
-            this.Note = Properties.Resources.CommandNextPageHistoryNote;
+            this.Group = Properties.Resources.CommandGroup_Move;
             this.ShortCutKey = "Shift+Back";
             this.IsShowMessage = false;
         }

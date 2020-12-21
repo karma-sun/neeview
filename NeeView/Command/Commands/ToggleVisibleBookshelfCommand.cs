@@ -6,12 +6,9 @@ namespace NeeView
 {
     public class ToggleVisibleBookshelfCommand : CommandElement
     {
-        public ToggleVisibleBookshelfCommand(string name) : base(name)
+        public ToggleVisibleBookshelfCommand()
         {
-            this.Group = Properties.Resources.CommandGroupPanel;
-            this.Text = Properties.Resources.CommandToggleVisibleBookshelf;
-            this.MenuText = Properties.Resources.CommandToggleVisibleBookshelfMenu;
-            this.Note = Properties.Resources.CommandToggleVisibleBookshelfNote;
+            this.Group = Properties.Resources.CommandGroup_Panel;
             this.ShortCutKey = "B";
             this.IsShowMessage = false;
         }
@@ -23,7 +20,7 @@ namespace NeeView
 
         public override string ExecuteMessage(object sender, CommandContext e)
         {
-            return SidePanelFrame.Current.IsVisibleFolderList ? Properties.Resources.CommandToggleVisibleBookshelfOff : Properties.Resources.CommandToggleVisibleBookshelfOn;
+            return SidePanelFrame.Current.IsVisibleFolderList ? Properties.Resources.ToggleVisibleBookshelfCommand_Off : Properties.Resources.ToggleVisibleBookshelfCommand_On;
         }
 
         [MethodArgument("@CommandToggleArgument")]

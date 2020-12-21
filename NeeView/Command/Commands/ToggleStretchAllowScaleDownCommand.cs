@@ -4,13 +4,11 @@ using System.Windows.Data;
 
 namespace NeeView
 {
-    public class ToggleStretchAllowReduceCommand : CommandElement
+    public class ToggleStretchAllowScaleDownCommand : CommandElement
     {
-        public ToggleStretchAllowReduceCommand(string name) : base(name)
+        public ToggleStretchAllowScaleDownCommand()
         {
-            this.Group = Properties.Resources.CommandGroupImageScale;
-            this.Text = Properties.Resources.CommandToggleStretchAllowReduce;
-            this.Note = Properties.Resources.CommandToggleStretchAllowReduceNote;
+            this.Group = Properties.Resources.CommandGroup_ImageScale;
             this.IsShowMessage = true;
         }
 

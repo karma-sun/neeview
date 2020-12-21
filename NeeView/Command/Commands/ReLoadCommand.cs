@@ -2,11 +2,9 @@
 {
     public class ReLoadCommand : CommandElement
     {
-        public ReLoadCommand(string name) : base(name)
+        public ReLoadCommand()
         {
-            this.Group = Properties.Resources.CommandGroupFile;
-            this.Text = Properties.Resources.CommandReLoad;
-            this.Note = Properties.Resources.CommandReLoadNote;
+            this.Group = Properties.Resources.CommandGroup_File;
             this.MouseGesture = "UD";
             this.IsShowMessage = false;
         }

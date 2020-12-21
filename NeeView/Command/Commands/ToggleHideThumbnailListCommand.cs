@@ -6,12 +6,9 @@ namespace NeeView
 {
     public class ToggleHideThumbnailListCommand : CommandElement
     {
-        public ToggleHideThumbnailListCommand(string name) : base(name)
+        public ToggleHideThumbnailListCommand()
         {
-            this.Group = Properties.Resources.CommandGroupFilmStrip;
-            this.Text = Properties.Resources.CommandToggleHideThumbnailList;
-            this.MenuText = Properties.Resources.CommandToggleHideThumbnailListMenu;
-            this.Note = Properties.Resources.CommandToggleHideThumbnailListNote;
+            this.Group = Properties.Resources.CommandGroup_FilmStrip;
             this.IsShowMessage = false;
         }
 
@@ -22,7 +19,7 @@ namespace NeeView
 
         public override string ExecuteMessage(object sender, CommandContext e)
         {
-            return Config.Current.FilmStrip.IsHideFilmStrip ? Properties.Resources.CommandToggleHideThumbnailListOff : Properties.Resources.CommandToggleHideThumbnailListOn;
+            return Config.Current.FilmStrip.IsHideFilmStrip ? Properties.Resources.ToggleHideThumbnailListCommand_Off : Properties.Resources.ToggleHideThumbnailListCommand_On;
         }
 
         public override bool CanExecute(object sender, CommandContext e)

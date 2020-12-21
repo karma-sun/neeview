@@ -5,11 +5,9 @@ namespace NeeView
 {
     public class SetBookOrderByEntryTimeDCommand : CommandElement
     {
-        public SetBookOrderByEntryTimeDCommand(string name) : base(name)
+        public SetBookOrderByEntryTimeDCommand()
         {
-            this.Group = Properties.Resources.CommandGroupBookOrder;
-            this.Text = Properties.Resources.CommandSetFolderOrderByEntryTimeD;
-            this.Note = Properties.Resources.CommandSetFolderOrderByEntryTimeDNote;
+            this.Group = Properties.Resources.CommandGroup_BookOrder;
             this.IsShowMessage = true;
         }
 

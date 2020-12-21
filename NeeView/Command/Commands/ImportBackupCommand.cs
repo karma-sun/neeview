@@ -2,12 +2,9 @@
 {
     public class ImportBackupCommand : CommandElement
     {
-        public ImportBackupCommand(string name) : base(name)
+        public ImportBackupCommand()
         {
-            this.Group = Properties.Resources.CommandGroupOther;
-            this.Text = Properties.Resources.CommandImportBackup;
-            this.MenuText = Properties.Resources.CommandImportBackupMenu;
-            this.Note = Properties.Resources.CommandImportBackupNote;
+            this.Group = Properties.Resources.CommandGroup_Other;
             this.IsShowMessage = false;
         }
         

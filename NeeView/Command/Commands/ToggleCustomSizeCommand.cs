@@ -6,12 +6,9 @@ namespace NeeView
 {
     public class ToggleCustomSizeCommand : CommandElement
     {
-        public ToggleCustomSizeCommand(string name) : base(name)
+        public ToggleCustomSizeCommand()
         {
-            this.Group = Properties.Resources.CommandGroupImageScale;
-            this.Text = Properties.Resources.CommandToggleCustomSize;
-            this.MenuText = Properties.Resources.CommandToggleCustomSizeMenu;
-            this.Note = Properties.Resources.CommandToggleCustomSizeNote;
+            this.Group = Properties.Resources.CommandGroup_ImageScale;
             this.IsShowMessage = true;
         }
 
@@ -22,7 +19,7 @@ namespace NeeView
 
         public override string ExecuteMessage(object sender, CommandContext e)
         {
-            return Config.Current.ImageCustomSize.IsEnabled ? Properties.Resources.CommandToggleCustomSizeOff : Properties.Resources.CommandToggleCustomSizeOn;
+            return Config.Current.ImageCustomSize.IsEnabled ? Properties.Resources.ToggleCustomSizeCommand_Off : Properties.Resources.ToggleCustomSizeCommand_On;
         }
 
         public override bool CanExecute(object sender, CommandContext e)

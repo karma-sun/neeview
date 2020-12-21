@@ -2,11 +2,9 @@
 {
     public class LoupeScaleUpCommand : CommandElement
     {
-        public LoupeScaleUpCommand(string name) : base(name)
+        public LoupeScaleUpCommand()
         {
-            this.Group = Properties.Resources.CommandGroupViewManipulation;
-            this.Text = Properties.Resources.CommandLoupeScaleUp;
-            this.Note = Properties.Resources.CommandLoupeScaleUpNote;
+            this.Group = Properties.Resources.CommandGroup_ViewManipulation;
             this.IsShowMessage = false;
         }
 

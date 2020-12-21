@@ -4,11 +4,9 @@ namespace NeeView
 {
     public class PrevPagemarkInBookCommand : CommandElement
     {
-        public PrevPagemarkInBookCommand(string name) : base(name)
+        public PrevPagemarkInBookCommand()
         {
-            this.Group = Properties.Resources.CommandGroupPagemark;
-            this.Text = Properties.Resources.CommandPrevPagemarkInBook;
-            this.Note = Properties.Resources.CommandPrevPagemarkInBookNote;
+            this.Group = Properties.Resources.CommandGroup_Pagemark;
             this.IsShowMessage = false;
 
             this.ParameterSource = new CommandParameterSource(new MovePagemarkInBookCommandParameter());

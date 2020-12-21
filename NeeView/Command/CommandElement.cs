@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -43,6 +44,26 @@ namespace NeeView
     }
 
 
+    public enum CommandGroup
+    {
+        [AliasName] Bookmark,
+        [AliasName] BookMove,
+        [AliasName] BookOrder,
+        [AliasName] Effect,
+        [AliasName] File,
+        [AliasName] FilmStrip,
+        [AliasName] ImageScale,
+        [AliasName] Move,
+        [AliasName] Other,
+        [AliasName] Pagemark,
+        [AliasName] PageOrder,
+        [AliasName] PageSetting,
+        [AliasName] Panel,
+        [AliasName] Script,
+        [AliasName] Video,
+        [AliasName] ViewManipulation,
+        [AliasName] Window,
+    }
 
     [DataContract]
     public abstract class CommandElement
@@ -56,11 +77,43 @@ namespace NeeView
         private string _touchGesture = "";
         private string _mouseGesture = "";
 
+        private static Regex _trimCommand = new Regex(@"Command$", RegexOptions.Compiled);
+
+        public CommandElement(): this(null)
+        {
+        }
 
         public CommandElement(string name)
         {
-            Name = name;
+            Name = name ?? _trimCommand.Replace(this.GetType().Name, "");
+
+            Text = GetResourceText(nameof(Text), null, true);
+            MenuText = GetResourceText(nameof(MenuText));
+            Note = GetResourceText(nameof(Note));
         }
+
+        private string GetResourceKey(string property, string postfix = null)
+        {
+            var period = (property is null) ? "" : ".";
+            return "@" + this.GetType().Name + period + property + postfix;
+        }
+
+        private string GetResourceText(string property, string postfix = null, bool isRequired = false)
+        {
+            var resourceKey = GetResourceKey(property, postfix);
+            var resourceValue = ResourceService.GetResourceString(resourceKey, true);
+
+#if DEBUG
+            if (isRequired && resourceValue is null)
+            {
+                Debug.WriteLine($"Error: CommandName not found: {resourceKey}");
+                return resourceKey;
+            }
+#endif
+
+            return resourceValue;
+        }
+
 
         // コマンドの並び優先度
         public int Order { get; set; }

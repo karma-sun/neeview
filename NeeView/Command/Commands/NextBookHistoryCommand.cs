@@ -2,11 +2,9 @@
 {
     public class NextBookHistoryCommand : CommandElement
     {
-        public NextBookHistoryCommand(string name) : base(name)
+        public NextBookHistoryCommand()
         {
-            this.Group = Properties.Resources.CommandGroupBookMove;
-            this.Text = Properties.Resources.CommandNextBookHistory;
-            this.Note = Properties.Resources.CommandNextBookHistoryNote;
+            this.Group = Properties.Resources.CommandGroup_BookMove;
             this.ShortCutKey = "Alt+Right";
             this.IsShowMessage = false;
         }

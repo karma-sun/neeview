@@ -2,11 +2,9 @@
 {
     public class OpenScriptsFolderCommand : CommandElement
     {
-        public OpenScriptsFolderCommand(string name) : base(name)
+        public OpenScriptsFolderCommand()
         {
-            this.Group = Properties.Resources.CommandGroupOther;
-            this.Text = Properties.Resources.CommandOpenSecriptsFolder;
-            this.Note = Properties.Resources.CommandOpenSecriptsFolderNote;
+            this.Group = Properties.Resources.CommandGroup_Other;
             this.IsShowMessage = false;
         }
 

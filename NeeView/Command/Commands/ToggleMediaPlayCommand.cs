@@ -2,11 +2,9 @@
 {
     public class ToggleMediaPlayCommand : CommandElement
     {
-        public ToggleMediaPlayCommand(string name) : base(name)
+        public ToggleMediaPlayCommand()
         {
-            this.Group = Properties.Resources.CommandGroupVideo;
-            this.Text = Properties.Resources.CommandToggleMediaPlay;
-            this.Note = Properties.Resources.CommandToggleMediaPlayNote;
+            this.Group = Properties.Resources.CommandGroup_Video;
         }
         public override string ExecuteMessage(object sender, CommandContext e)
         {

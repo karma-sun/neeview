@@ -9050,7 +9050,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Open _console... に類似しているローカライズされた文字列を検索します。
+        ///   Open script _console... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string OpenConsoleCommand_MenuText {
             get {
@@ -9068,7 +9068,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Open console に類似しているローカライズされた文字列を検索します。
+        ///   Open script console に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string OpenConsoleCommand_Text {
             get {

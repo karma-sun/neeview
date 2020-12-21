@@ -3146,13 +3146,13 @@ include("Sample.nvjs")</value>
     <value>一時フォルダーエラー</value>
   </data>
   <data name="OpenConsoleCommand.MenuText" xml:space="preserve">
-    <value>コンソールを開く(_C)...</value>
+    <value>スクリプトコンソールを開く(_C)...</value>
   </data>
   <data name="OpenConsoleCommand.Note" xml:space="preserve">
     <value>スクリプト用コンソールを開きます。</value>
   </data>
   <data name="OpenConsoleCommand.Text" xml:space="preserve">
-    <value>コンソールを開く</value>
+    <value>スクリプトコンソールを開く</value>
   </data>
   <data name="OpenContextMenuCommand.Note" xml:space="preserve">
     <value>コンテキストメニューを開きます。</value>

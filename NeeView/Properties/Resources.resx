@@ -3143,13 +3143,13 @@ Initialize the temporary location.</value>
     <value>Temporary error</value>
   </data>
   <data name="OpenConsoleCommand.MenuText" xml:space="preserve">
-    <value>Open _console...</value>
+    <value>Open script _console...</value>
   </data>
   <data name="OpenConsoleCommand.Note" xml:space="preserve">
     <value>Open the script console.</value>
   </data>
   <data name="OpenConsoleCommand.Text" xml:space="preserve">
-    <value>Open console</value>
+    <value>Open script console</value>
   </data>
   <data name="OpenContextMenuCommand.Note" xml:space="preserve">
     <value>Open the context menu.</value>

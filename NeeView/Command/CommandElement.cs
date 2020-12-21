@@ -87,7 +87,7 @@ namespace NeeView
         {
             Name = name ?? _trimCommand.Replace(this.GetType().Name, "");
 
-            Text = GetResourceText(nameof(Text), null, true);
+            Text = GetResourceText(null, null, true);
             MenuText = GetResourceText(nameof(MenuText));
             Note = GetResourceText(nameof(Note));
         }

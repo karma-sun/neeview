@@ -40,7 +40,7 @@
             <DockPanel x:Name="CaptionBar" Grid.Row="0" Background="{Binding CaptionBackground}" Height="{Binding WindowChrome.CaptionHeight}" VerticalAlignment="Top">
                 <DockPanel.ContextMenu>
                     <ContextMenu>
-                        <MenuItem x:Name="StretchWindowMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.StretchWindowCommand_Text}"
+                        <MenuItem x:Name="StretchWindowMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.StretchWindowCommand}"
                                 Command="{StaticResource StretchWindowCommand}" />
                         <Separator />
                         <MenuItem x:Name="IsAutoHideMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.MenuAutoHideTitleBar}" IsCheckable="True"

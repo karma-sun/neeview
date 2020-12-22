@@ -2534,6 +2534,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   (none) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandGroup_None {
+            get {
+                return ResourceManager.GetString("CommandGroup.None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Other に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandGroup_Other {
@@ -8534,6 +8543,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   (none) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NoneCommand {
+            get {
+                return ResourceManager.GetString("NoneCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Show open book name に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string NoticeConfig_BookNameShowMessageStyle {
@@ -11523,6 +11541,15 @@ namespace NeeView.Properties {
         public static string SaveSettingCommand_Note {
             get {
                 return ResourceManager.GetString("SaveSettingCommand.Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Script に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ScriptCommand {
+            get {
+                return ResourceManager.GetString("ScriptCommand", resourceCulture);
             }
         }
         

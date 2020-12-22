@@ -332,19 +332,12 @@ namespace NeeView
         /// <summary>
         /// マイドキュメントのアプリ専用フォルダー
         /// </summary>
-        /// <param name="createFolder"></param>
-        /// <returns></returns>
-        public static string GetMyDocumentPath(bool createFolder)
+        /// <returns>マイドキュメントのパス。取得できないときは空文字列</returns>
+        public static string GetMyDocumentPath()
         {
-            string path = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments), CompanyName, SolutionName);
-
-            if (createFolder && !Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-            return path;
+            var myDocuments = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
+            return string.IsNullOrEmpty(myDocuments) ? "" : System.IO.Path.Combine(myDocuments, CompanyName, SolutionName);
         }
-
 
         /// <summary>
         /// フォルダー生成

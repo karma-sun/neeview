@@ -40,7 +40,8 @@ namespace NeeView
             }
             else
             {
-                return Path.Combine(Environment.GetMyDocumentPath(false), GetDefaultScriptFolderName());
+                var myDocument = Environment.GetMyDocumentPath();
+                return string.IsNullOrEmpty(myDocument) ? "" : Path.Combine(myDocument, GetDefaultScriptFolderName());
             }
         }
     }

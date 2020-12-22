@@ -923,6 +923,9 @@ nv.Command.ViewRotateLeft.TouchGesture = "TouchCenter"</value>
   <data name="CommandConfig.IsReversePageMoveWheel#Tips" xml:space="preserve">
     <value>ホイール操作のみ対応の選択ができます。</value>
   </data>
+  <data name="CommandGroup.None" xml:space="preserve">
+    <value>(none)</value>
+  </data>
   <data name="CommandGroup.Bookmark" xml:space="preserve">
     <value>ブックマーク</value>
   </data>
@@ -3972,6 +3975,9 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   <data name="SaveSettingCommand" xml:space="preserve">
     <value>設定の保存</value>
   </data>
+  <data name="ScriptCommand" xml:space="preserve">
+    <value>スクリプト</value>
+  </data>
   <data name="ScriptCommand.Note" xml:space="preserve">
     <value>スクリプト。</value>
   </data>
@@ -3986,6 +3992,9 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   </data>
   <data name="ScriptOnBookLoadedCommand.Note" xml:space="preserve">
     <value>スクリプト。ブックを開いたときに実行されます。</value>
+  </data>
+  <data name="NoneCommand" xml:space="preserve">
+    <value>(none)</value>
   </data>
   <data name="ScriptReference" xml:space="preserve">
     <value>NeeView専用のスクリプト命令の使用方法を説明します。</value>

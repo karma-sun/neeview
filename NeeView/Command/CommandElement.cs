@@ -46,6 +46,7 @@ namespace NeeView
 
     public enum CommandGroup
     {
+        [AliasName] None,
         [AliasName] Bookmark,
         [AliasName] BookMove,
         [AliasName] BookOrder,

@@ -922,6 +922,9 @@ nv.Command.ViewRotateLeft.TouchGesture = "TouchCenter"</value>
   <data name="CommandConfig.IsReversePageMoveWheel#Tips" xml:space="preserve">
     <value>You can select correspondence only for wheel operation.</value>
   </data>
+  <data name="CommandGroup.None" xml:space="preserve">
+    <value>(none)</value>
+  </data>
   <data name="CommandGroup.Bookmark" xml:space="preserve">
     <value>Bookmark</value>
   </data>
@@ -3969,6 +3972,9 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="SaveSettingCommand" xml:space="preserve">
     <value>Save settings</value>
   </data>
+  <data name="ScriptCommand" xml:space="preserve">
+    <value>Script</value>
+  </data>
   <data name="ScriptCommand.Note" xml:space="preserve">
     <value>Script.</value>
   </data>
@@ -3983,6 +3989,9 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   </data>
   <data name="ScriptOnBookLoadedCommand.Note" xml:space="preserve">
     <value>Scrpit. Executes when the book is opened.</value>
+  </data>
+  <data name="NoneCommand" xml:space="preserve">
+    <value>(none)</value>
   </data>
   <data name="ScriptReference" xml:space="preserve">
     <value>This section explains how to use NeeView-specific commands.</value>

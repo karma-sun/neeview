@@ -568,14 +568,17 @@ namespace NeeView
             try
             {
                 var path = Config.Current.Script.GetDefaultScriptFolder();
-                if (!Directory.Exists(path))
+                if (!string.IsNullOrEmpty(path) && !Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);
 
                     // サンプルスクリプトを生成
                     var filename = "Sample.nvjs";
                     var source = Path.Combine(Environment.AssemblyFolder, Config.Current.Script.GetDefaultScriptFolderName(), filename);
-                    File.Copy(source, Path.Combine(path, filename));
+                    if (File.Exists(source))
+                    {
+                        File.Copy(source, Path.Combine(path, filename));
+                    }
                 }
             }
             catch (Exception ex)

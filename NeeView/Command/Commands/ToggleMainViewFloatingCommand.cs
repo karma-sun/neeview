@@ -7,7 +7,7 @@ namespace NeeView
     {
         public ToggleMainViewFloatingCommand()
         {
-            this.Group = Properties.Resources.CommandGroup_ViewManipulation;
+            this.Group = Properties.Resources.CommandGroup_Panel;
             this.IsShowMessage = false;
         }
 

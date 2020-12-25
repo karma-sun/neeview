@@ -913,8 +913,8 @@ nv.Command.ViewRotateLeft.TouchGesture = "TouchCenter"</value>
   <data name="CommandConfig.IsReversePageMove" xml:space="preserve">
     <value>Swap movement direction of page movement command according to slider direction</value>
   </data>
-  <data name="CommandConfig.IsReversePageMove#Tipd" xml:space="preserve">
-    <value>When the slider is from left to right, reverse the page moving direction. The setting of the command to work is set by "@ParamCommandParameterIsReverse" of the command parameter.</value>
+  <data name="CommandConfig.IsReversePageMove#Tips" xml:space="preserve">
+    <value>When the slider is from left to right, reverse the page moving direction. The setting of the command to work is set by "@ReversibleCommandParameter.IsReverse" of the command parameter.</value>
   </data>
   <data name="CommandConfig.IsReversePageMoveWheel" xml:space="preserve">
     <value>Replace when operating wheel</value>

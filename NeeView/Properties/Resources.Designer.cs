@@ -2435,11 +2435,11 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   When the slider is from left to right, reverse the page moving direction. The setting of the command to work is set by &quot;@ParamCommandParameterIsReverse&quot; of the command parameter. に類似しているローカライズされた文字列を検索します。
+        ///   When the slider is from left to right, reverse the page moving direction. The setting of the command to work is set by &quot;@ReversibleCommandParameter.IsReverse&quot; of the command parameter. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CommandConfig_IsReversePageMove_Tipd {
+        public static string CommandConfig_IsReversePageMove_Tips {
             get {
-                return ResourceManager.GetString("CommandConfig.IsReversePageMove#Tipd", resourceCulture);
+                return ResourceManager.GetString("CommandConfig.IsReversePageMove#Tips", resourceCulture);
             }
         }
         

@@ -914,8 +914,8 @@ nv.Command.ViewRotateLeft.TouchGesture = "TouchCenter"</value>
   <data name="CommandConfig.IsReversePageMove" xml:space="preserve">
     <value>スライダー方向によってページ移動コマンドの移動方向を入れ替える</value>
   </data>
-  <data name="CommandConfig.IsReversePageMove#Tipd" xml:space="preserve">
-    <value>スライダーが左から右方向のときにページ移動方向を逆にします。機能するコマンドの設定はコマンドパラメーターの「@ParamCommandParameterIsReverse」で設定します。</value>
+  <data name="CommandConfig.IsReversePageMove#Tips" xml:space="preserve">
+    <value>スライダーが左から右方向のときにページ移動方向を逆にします。機能するコマンドの設定はコマンドパラメーターの「@ReversibleCommandParameter.IsReverse」で設定します。</value>
   </data>
   <data name="CommandConfig.IsReversePageMoveWheel" xml:space="preserve">
     <value>ホイール操作のときに入れ替える</value>

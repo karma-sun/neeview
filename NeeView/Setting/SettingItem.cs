@@ -638,10 +638,10 @@ namespace NeeView.Setting
         {
             return string.Join(" ",
                 Properties.Resources.WordCommand,
-                Properties.Resources.ControlEditCommandTabShortcut,
-                Properties.Resources.ControlEditCommandTabGesture,
-                Properties.Resources.ControlEditCommandTabTouch,
-                Properties.Resources.ControlEditCommandTabParameter);
+                Properties.Resources.EditCommandWindow_Tab_Shortcut,
+                Properties.Resources.EditCommandWindow_Tab_Gesture,
+                Properties.Resources.EditCommandWindow_Tab_Touch,
+                Properties.Resources.EditCommandWindow_Tab_Parameter);
         }
     }
 

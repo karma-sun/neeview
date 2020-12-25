@@ -2987,6 +2987,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   There are no parameters に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandParameterControl_Empty {
+            get {
+                return ResourceManager.GetString("CommandParameterControl.Empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Initialize all command settings. Is it OK? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandResetWindow_Message {
@@ -3028,615 +3037,6 @@ namespace NeeView.Properties {
         public static string ControlConfig_IsVisible {
             get {
                 return ResourceManager.GetString("ControlConfig.IsVisible", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Color に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlCustomBackgroundColor {
-            get {
-                return ResourceManager.GetString("ControlCustomBackgroundColor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Image に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlCustomBackgroundImage {
-            get {
-                return ResourceManager.GetString("ControlCustomBackgroundImage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Select image に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlCustomBackgroundImageSelect {
-            get {
-                return ResourceManager.GetString("ControlCustomBackgroundImageSelect", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Please select an image file に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlCustomBackgroundImageSelectNote {
-            get {
-                return ResourceManager.GetString("ControlCustomBackgroundImageSelectNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Command description に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlEditCommandDescription {
-            get {
-                return ResourceManager.GetString("ControlEditCommandDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   General に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlEditCommandTabGeneral {
-            get {
-                return ResourceManager.GetString("ControlEditCommandTabGeneral", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Gesture に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlEditCommandTabGesture {
-            get {
-                return ResourceManager.GetString("ControlEditCommandTabGesture", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Parameter に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlEditCommandTabParameter {
-            get {
-                return ResourceManager.GetString("ControlEditCommandTabParameter", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Shortcut に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlEditCommandTabShortcut {
-            get {
-                return ResourceManager.GetString("ControlEditCommandTabShortcut", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Touch に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlEditCommandTabTouch {
-            get {
-                return ResourceManager.GetString("ControlEditCommandTabTouch", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Command setting に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlEditCommandTitle {
-            get {
-                return ResourceManager.GetString("ControlEditCommandTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Display a message when executing a command に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlEditCommandVisible {
-            get {
-                return ResourceManager.GetString("ControlEditCommandVisible", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Mouse input here に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlEditDragInput {
-            get {
-                return ResourceManager.GetString("ControlEditDragInput", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   New に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlEditDragNew {
-            get {
-                return ResourceManager.GetString("ControlEditDragNew", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Mouse button input in light blue frame.
-        ///You can not use right button drag because it is reserved with mouse gesture.  に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlEditDragNote {
-            get {
-                return ResourceManager.GetString("ControlEditDragNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Old に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlEditDragOld {
-            get {
-                return ResourceManager.GetString("ControlEditDragOld", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Drag operation に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlEditDragTitle {
-            get {
-                return ResourceManager.GetString("ControlEditDragTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Here gesture input
-        ///(Hold down the right button while dragging)  に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlEditGestureInputGesture {
-            get {
-                return ResourceManager.GetString("ControlEditGestureInputGesture", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   New に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlEditGestureNew {
-            get {
-                return ResourceManager.GetString("ControlEditGestureNew", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Enter a mouse gesture within a light blue frame.
-        ///Mouse gesture is a drag operation while holding down the right mouse button.
-        ///A left click can be registered as the last gesture key.  に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlEditGestureNote {
-            get {
-                return ResourceManager.GetString("ControlEditGestureNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Old に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlEditGestureOld {
-            get {
-                return ResourceManager.GetString("ControlEditGestureOld", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Command に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlEditMouseDragListHeaderCommand {
-            get {
-                return ResourceManager.GetString("ControlEditMouseDragListHeaderCommand", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Drag operation に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlEditMouseDragListHeaderDrag {
-            get {
-                return ResourceManager.GetString("ControlEditMouseDragListHeaderDrag", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Reset... に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlEditMouseDragReset {
-            get {
-                return ResourceManager.GetString("ControlEditMouseDragReset", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   There are no parameters に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlEditParameterEmpty {
-            get {
-                return ResourceManager.GetString("ControlEditParameterEmpty", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Conflict resolution に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlEditShortcutButtonConflict {
-            get {
-                return ResourceManager.GetString("ControlEditShortcutButtonConflict", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Mouse input here に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlEditShortcutInputMouse {
-            get {
-                return ResourceManager.GetString("ControlEditShortcutInputMouse", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Key input here に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlEditShortcutInputShortcut {
-            get {
-                return ResourceManager.GetString("ControlEditShortcutInputShortcut", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Mouse input に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlEditShortcutLabelMouse {
-            get {
-                return ResourceManager.GetString("ControlEditShortcutLabelMouse", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Shortcut key に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlEditShortcutLabelShortcut {
-            get {
-                return ResourceManager.GetString("ControlEditShortcutLabelShortcut", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Shortcut setting に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlEditShortcutTitle {
-            get {
-                return ResourceManager.GetString("ControlEditShortcutTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Here, touch input に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlEditTouchInput {
-            get {
-                return ResourceManager.GetString("ControlEditTouchInput", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Specify the area to touch.
-        ///If Center is not assigned to a command, the judgment of the area (L1, L2, R1, R2) below it is applied.
-        ///Please substitute gesture for flick operation.  に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlEditTouchNote {
-            get {
-                return ResourceManager.GetString("ControlEditTouchNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Please enter the folder path に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlFileNameBoxDirectoryNote {
-            get {
-                return ResourceManager.GetString("ControlFileNameBoxDirectoryNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Please enter the path of the file に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlFileNameBoxFileNote {
-            get {
-                return ResourceManager.GetString("ControlFileNameBoxFileNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Select folder に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlFileNameBoxSelectDirectory {
-            get {
-                return ResourceManager.GetString("ControlFileNameBoxSelectDirectory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Select file に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlFileNameBoxSelectFile {
-            get {
-                return ResourceManager.GetString("ControlFileNameBoxSelectFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Bookmark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlImportBookmark {
-            get {
-                return ResourceManager.GetString("ControlImportBookmark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   History に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlImportHistory {
-            get {
-                return ResourceManager.GetString("ControlImportHistory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Pagemark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlImportPagemark {
-            get {
-                return ResourceManager.GetString("ControlImportPagemark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Setting に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlImportSetting {
-            get {
-                return ResourceManager.GetString("ControlImportSetting", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Include background に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlPrintBackground {
-            get {
-                return ResourceManager.GetString("ControlPrintBackground", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Print に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlPrintButtonPrint {
-            get {
-                return ResourceManager.GetString("ControlPrintButtonPrint", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Column に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlPrintColumn {
-            get {
-                return ResourceManager.GetString("ControlPrintColumn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Content に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlPrintContent {
-            get {
-                return ResourceManager.GetString("ControlPrintContent", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Horizontal alignment に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlPrintHorizontal {
-            get {
-                return ResourceManager.GetString("ControlPrintHorizontal", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Keep dot に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlPrintKeepDot {
-            get {
-                return ResourceManager.GetString("ControlPrintKeepDot", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Margin (mm) に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlPrintMargin {
-            get {
-                return ResourceManager.GetString("ControlPrintMargin", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Orientation に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlPrintOrientation {
-            get {
-                return ResourceManager.GetString("ControlPrintOrientation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Printer に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlPrintPrinter {
-            get {
-                return ResourceManager.GetString("ControlPrintPrinter", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Row に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlPrintRow {
-            get {
-                return ResourceManager.GetString("ControlPrintRow", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Number of sheets に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlPrintSheets {
-            get {
-                return ResourceManager.GetString("ControlPrintSheets", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Print に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlPrintTitle {
-            get {
-                return ResourceManager.GetString("ControlPrintTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Vertical alignment に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlPrintVertival {
-            get {
-                return ResourceManager.GetString("ControlPrintVertival", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Please select only one command to execute with &quot;{0}&quot; に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlResolveConflictNote {
-            get {
-                return ResourceManager.GetString("ControlResolveConflictNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Conflict resolution に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlResolveConflictTitle {
-            get {
-                return ResourceManager.GetString("ControlResolveConflictTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Default destination folder に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlSaveExportFolder {
-            get {
-                return ResourceManager.GetString("ControlSaveExportFolder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Output image type に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlSaveExportMode {
-            get {
-                return ResourceManager.GetString("ControlSaveExportMode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Save original file に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlSaveOriginal {
-            get {
-                return ResourceManager.GetString("ControlSaveOriginal", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Save as... に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlSaveSaveAs {
-            get {
-                return ResourceManager.GetString("ControlSaveSaveAs", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Save image に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlSaveTitle {
-            get {
-                return ResourceManager.GetString("ControlSaveTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Combine two pages に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlSaveWidePage {
-            get {
-                return ResourceManager.GetString("ControlSaveWidePage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Include background に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlSaveWithBackground {
-            get {
-                return ResourceManager.GetString("ControlSaveWithBackground", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Config に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlSusiePluginListConfig {
-            get {
-                return ResourceManager.GetString("ControlSusiePluginListConfig", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Down に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlSusiePluginListDown {
-            get {
-                return ResourceManager.GetString("ControlSusiePluginListDown", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   All On / Off に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlSusiePluginListSwitchAll {
-            get {
-                return ResourceManager.GetString("ControlSusiePluginListSwitchAll", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Up に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlSusiePluginListUp {
-            get {
-                return ResourceManager.GetString("ControlSusiePluginListUp", resourceCulture);
             }
         }
         
@@ -3709,6 +3109,42 @@ namespace NeeView.Properties {
         public static string CopyImageCommand_Remarks {
             get {
                 return ResourceManager.GetString("CopyImageCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Color に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CustomBackgroundControl_Color {
+            get {
+                return ResourceManager.GetString("CustomBackgroundControl.Color", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Image に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CustomBackgroundControl_Image {
+            get {
+                return ResourceManager.GetString("CustomBackgroundControl.Image", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Select image に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CustomBackgroundControl_ImageSelect {
+            get {
+                return ResourceManager.GetString("CustomBackgroundControl.ImageSelect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Please select an image file に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CustomBackgroundControl_ImageSelect_Remarks {
+            get {
+                return ResourceManager.GetString("CustomBackgroundControl.ImageSelect.Remarks", resourceCulture);
             }
         }
         
@@ -4523,6 +3959,78 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Command description に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EditCommandWindow_Remarks {
+            get {
+                return ResourceManager.GetString("EditCommandWindow.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   General に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EditCommandWindow_Tab_General {
+            get {
+                return ResourceManager.GetString("EditCommandWindow.Tab.General", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Gesture に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EditCommandWindow_Tab_Gesture {
+            get {
+                return ResourceManager.GetString("EditCommandWindow.Tab.Gesture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Parameter に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EditCommandWindow_Tab_Parameter {
+            get {
+                return ResourceManager.GetString("EditCommandWindow.Tab.Parameter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Shortcut に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EditCommandWindow_Tab_Shortcut {
+            get {
+                return ResourceManager.GetString("EditCommandWindow.Tab.Shortcut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Touch に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EditCommandWindow_Tab_Touch {
+            get {
+                return ResourceManager.GetString("EditCommandWindow.Tab.Touch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Command setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EditCommandWindow_Title {
+            get {
+                return ResourceManager.GetString("EditCommandWindow.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display a message when executing a command に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EditCommandWindow_Visible {
+            get {
+                return ResourceManager.GetString("EditCommandWindow.Visible", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Base scale に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EffectBaseScale {
@@ -5190,6 +4698,51 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Default destination folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExportImageWindow_Folder {
+            get {
+                return ResourceManager.GetString("ExportImageWindow.Folder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Include background に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExportImageWindow_InclideBackground {
+            get {
+                return ResourceManager.GetString("ExportImageWindow.InclideBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Output image type に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExportImageWindow_Mode {
+            get {
+                return ResourceManager.GetString("ExportImageWindow.Mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Save as... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExportImageWindow_SaveAs {
+            get {
+                return ResourceManager.GetString("ExportImageWindow.SaveAs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Save image に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExportImageWindow_Title {
+            get {
+                return ResourceManager.GetString("ExportImageWindow.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   External apps に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ExternalAppDialogTitle {
@@ -5231,6 +4784,42 @@ namespace NeeView.Properties {
         public static string FileInfoName {
             get {
                 return ResourceManager.GetString("FileInfoName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Please enter the folder path に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FileNameBox_Directory_Message {
+            get {
+                return ResourceManager.GetString("FileNameBox.Directory.Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Please enter the path of the file に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FileNameBox_File_Message {
+            get {
+                return ResourceManager.GetString("FileNameBox.File.Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Select folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FileNameBox_SelectDirectory {
+            get {
+                return ResourceManager.GetString("FileNameBox.SelectDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Select file に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FileNameBox_SelectFile {
+            get {
+                return ResourceManager.GetString("FileNameBox.SelectFile", resourceCulture);
             }
         }
         
@@ -6675,6 +6264,42 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Bookmark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImportControl_Bookmark {
+            get {
+                return ResourceManager.GetString("ImportControl_Bookmark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   History に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImportControl_History {
+            get {
+                return ResourceManager.GetString("ImportControl_History", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Pagemark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImportControl_Pagemark {
+            get {
+                return ResourceManager.GetString("ImportControl_Pagemark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImportControl_Setting {
+            get {
+                return ResourceManager.GetString("ImportControl_Setting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Display the number of bits per pixel in image size に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string InformationConfig_IsVisibleBitsPerPixel {
@@ -6707,6 +6332,60 @@ namespace NeeView.Properties {
         public static string InformationPanelAccessor {
             get {
                 return ResourceManager.GetString("InformationPanelAccessor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Conflict resolution に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InputGestureControl_ButtonConflict {
+            get {
+                return ResourceManager.GetString("InputGestureControl.ButtonConflict", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Mouse input here に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InputGestureControl_InputMouse {
+            get {
+                return ResourceManager.GetString("InputGestureControl.InputMouse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Key input here に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InputGestureControl_InputShortcut {
+            get {
+                return ResourceManager.GetString("InputGestureControl.InputShortcut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Mouse input に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InputGestureControl_LabelMouse {
+            get {
+                return ResourceManager.GetString("InputGestureControl.LabelMouse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Shortcut key に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InputGestureControl_LabelShortcut {
+            get {
+                return ResourceManager.GetString("InputGestureControl.LabelShortcut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Shortcut setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InputGestureControl_Title {
+            get {
+                return ResourceManager.GetString("InputGestureControl.Title", resourceCulture);
             }
         }
         
@@ -6765,6 +6444,26 @@ namespace NeeView.Properties {
         public static string InputSceme_TypeC_Remarks {
             get {
                 return ResourceManager.GetString("InputSceme.TypeC.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Specify the area to touch.
+        ///If Center is not assigned to a command, the judgment of the area (L1, L2, R1, R2) below it is applied.
+        ///Please substitute gesture for flick operation.  に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InputTouchControl_Remarks {
+            get {
+                return ResourceManager.GetString("InputTouchControl.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Here, touch input に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InputTouchControl_TouchInput {
+            get {
+                return ResourceManager.GetString("InputTouchControl.TouchInput", resourceCulture);
             }
         }
         
@@ -7900,6 +7599,118 @@ namespace NeeView.Properties {
         public static string MouseConfig_MinimumDragDistance_Remarks {
             get {
                 return ResourceManager.GetString("MouseConfig.MinimumDragDistance.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Command に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MouseDragList_Header_Command {
+            get {
+                return ResourceManager.GetString("MouseDragList.Header.Command", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Drag operation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MouseDragList_Header_Drag {
+            get {
+                return ResourceManager.GetString("MouseDragList.Header.Drag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Reset... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MouseDragList_Reset {
+            get {
+                return ResourceManager.GetString("MouseDragList.Reset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Mouse input here に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MouseDragSettingWindow_Input {
+            get {
+                return ResourceManager.GetString("MouseDragSettingWindow.Input", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   New に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MouseDragSettingWindow_New {
+            get {
+                return ResourceManager.GetString("MouseDragSettingWindow.New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Old に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MouseDragSettingWindow_Old {
+            get {
+                return ResourceManager.GetString("MouseDragSettingWindow.Old", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Mouse button input in light blue frame.
+        ///You can not use right button drag because it is reserved with mouse gesture.  に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MouseDragSettingWindow_Remarks {
+            get {
+                return ResourceManager.GetString("MouseDragSettingWindow.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Drag operation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MouseDragSettingWindow_Title {
+            get {
+                return ResourceManager.GetString("MouseDragSettingWindow.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Here gesture input
+        ///(Hold down the right button while dragging)  に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MouseGestureControl_InputGesture {
+            get {
+                return ResourceManager.GetString("MouseGestureControl.InputGesture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   New に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MouseGestureControl_New {
+            get {
+                return ResourceManager.GetString("MouseGestureControl.New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Old に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MouseGestureControl_Old {
+            get {
+                return ResourceManager.GetString("MouseGestureControl.Old", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Enter a mouse gesture within a light blue frame.
+        ///Mouse gesture is a drag operation while holding down the right mouse button.
+        ///A left click can be registered as the last gesture key.  に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MouseGestureControl_Remarks {
+            get {
+                return ResourceManager.GetString("MouseGestureControl.Remarks", resourceCulture);
             }
         }
         
@@ -11284,6 +11095,123 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Include background に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrintWindow_Background {
+            get {
+                return ResourceManager.GetString("PrintWindow.Background", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Print に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrintWindow_ButtonPrint {
+            get {
+                return ResourceManager.GetString("PrintWindow.ButtonPrint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Column に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrintWindow_Column {
+            get {
+                return ResourceManager.GetString("PrintWindow.Column", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Content に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrintWindow_Content {
+            get {
+                return ResourceManager.GetString("PrintWindow.Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Horizontal alignment に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrintWindow_Horizontal {
+            get {
+                return ResourceManager.GetString("PrintWindow.Horizontal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Keep dot に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrintWindow_KeepDot {
+            get {
+                return ResourceManager.GetString("PrintWindow.KeepDot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Margin (mm) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrintWindow_Margin {
+            get {
+                return ResourceManager.GetString("PrintWindow.Margin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Orientation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrintWindow_Orientation {
+            get {
+                return ResourceManager.GetString("PrintWindow.Orientation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Printer に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrintWindow_Printer {
+            get {
+                return ResourceManager.GetString("PrintWindow.Printer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Row に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrintWindow_Row {
+            get {
+                return ResourceManager.GetString("PrintWindow.Row", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Number of sheets に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrintWindow_Sheets {
+            get {
+                return ResourceManager.GetString("PrintWindow.Sheets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Print に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrintWindow_Title {
+            get {
+                return ResourceManager.GetString("PrintWindow.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vertical alignment に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PrintWindow_Vertival {
+            get {
+                return ResourceManager.GetString("PrintWindow.Vertival", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Bookmark に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string QueryScheme_Bookmark {
@@ -11379,6 +11307,24 @@ namespace NeeView.Properties {
         public static string ReloadSettingCommand_Remarks {
             get {
                 return ResourceManager.GetString("ReloadSettingCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Please select only one command to execute with &quot;{0}&quot; に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ResolveConflictDialog_Message {
+            get {
+                return ResourceManager.GetString("ResolveConflictDialog.Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Conflict resolution に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ResolveConflictDialog_Title {
+            get {
+                return ResourceManager.GetString("ResolveConflictDialog.Title", resourceCulture);
             }
         }
         
@@ -14191,6 +14137,42 @@ namespace NeeView.Properties {
         public static string SusieConfig_SusiePluginPath {
             get {
                 return ResourceManager.GetString("SusieConfig.SusiePluginPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Config に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SusiePluginList_Config {
+            get {
+                return ResourceManager.GetString("SusiePluginList.Config", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Down に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SusiePluginList_Down {
+            get {
+                return ResourceManager.GetString("SusiePluginList.Down", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   All On / Off に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SusiePluginList_SwitchAll {
+            get {
+                return ResourceManager.GetString("SusiePluginList.SwitchAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Up に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SusiePluginList_Up {
+            get {
+                return ResourceManager.GetString("SusiePluginList.Up", resourceCulture);
             }
         }
         
@@ -18954,6 +18936,24 @@ namespace NeeView.Properties {
         public static string x_ControlAboutChangeLog {
             get {
                 return ResourceManager.GetString("x.ControlAboutChangeLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Save original file に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string x_ControlSaveOriginal {
+            get {
+                return ResourceManager.GetString("x.ControlSaveOriginal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Combine two pages に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string x_ControlSaveWidePage {
+            get {
+                return ResourceManager.GetString("x.ControlSaveWidePage", resourceCulture);
             }
         }
         

@@ -59,7 +59,7 @@ namespace NeeView.Setting
         {
             _commandMap = commandMap;
             Command = command;
-            Header = $"{CommandTable.Current.GetElement(Command).Text} - {Properties.Resources.ControlEditShortcutTitle}";
+            Header = $"{CommandTable.Current.GetElement(Command).Text} - {Properties.Resources.InputGestureControl_Title}";
 
             UpdateGestures();
         }

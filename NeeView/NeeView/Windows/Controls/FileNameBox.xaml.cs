@@ -50,8 +50,8 @@ namespace NeeView.Windows.Controls
 
         #endregion
 
-        private static string _defaultFileNote = Properties.Resources.ControlFileNameBoxFileNote;
-        private static string _defaultDirectoryNote = Properties.Resources.ControlFileNameBoxDirectoryNote;
+        private static string _defaultFileNote = Properties.Resources.FileNameBox_File_Message;
+        private static string _defaultDirectoryNote = Properties.Resources.FileNameBox_Directory_Message;
 
         //
         public static readonly DependencyProperty TextProperty =
@@ -205,7 +205,7 @@ namespace NeeView.Windows.Controls
 
         public string EmptyMessage
         {
-            get => Note ?? (FileDialogType == FileDialogType.Directory ? Properties.Resources.ControlFileNameBoxDirectoryNote : Properties.Resources.ControlFileNameBoxFileNote);
+            get => Note ?? (FileDialogType == FileDialogType.Directory ? Properties.Resources.FileNameBox_Directory_Message : Properties.Resources.FileNameBox_File_Message);
         }
 
 
@@ -216,7 +216,7 @@ namespace NeeView.Windows.Controls
             if (FileDialogType == FileDialogType.Directory)
             {
                 var dialog = new System.Windows.Forms.FolderBrowserDialog();
-                dialog.Description = Title ?? Properties.Resources.ControlFileNameBoxSelectDirectory;
+                dialog.Description = Title ?? Properties.Resources.FileNameBox_SelectDirectory;
                 dialog.SelectedPath = Text;
 
                 if (string.IsNullOrWhiteSpace(dialog.SelectedPath))
@@ -233,7 +233,7 @@ namespace NeeView.Windows.Controls
             else if (FileDialogType == FileDialogType.SaveFile)
             {
                 var dialog = new System.Windows.Forms.SaveFileDialog();
-                dialog.Title = Title ?? Properties.Resources.ControlFileNameBoxSelectFile;
+                dialog.Title = Title ?? Properties.Resources.FileNameBox_SelectFile;
                 dialog.InitialDirectory = string.IsNullOrEmpty(Text) ? null : Path.GetDirectoryName(Text);
                 dialog.FileName = string.IsNullOrEmpty(Text) ? DefaultText : Path.GetFileName(Text);
                 dialog.Filter = Filter;
@@ -249,7 +249,7 @@ namespace NeeView.Windows.Controls
             else
             {
                 var dialog = new System.Windows.Forms.OpenFileDialog();
-                dialog.Title = Title ?? Properties.Resources.ControlFileNameBoxSelectFile;
+                dialog.Title = Title ?? Properties.Resources.FileNameBox_SelectFile;
                 dialog.InitialDirectory = string.IsNullOrEmpty(Text) ? null : Path.GetDirectoryName(Text);
                 dialog.FileName = string.IsNullOrEmpty(Text) ? DefaultText : Path.GetFileName(Text);
                 dialog.Filter = Filter;

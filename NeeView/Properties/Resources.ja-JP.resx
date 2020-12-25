@@ -117,6 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddressBar.Back.ToolTip" xml:space="preserve">
+    <value>戻る</value>
+  </data>
+  <data name="AddressBar.Next.ToolTip" xml:space="preserve">
+    <value>進む</value>
+  </data>
+  <data name="AddressBar.ReLoad.ToolTip" xml:space="preserve">
+    <value>再読込</value>
+  </data>
+  <data name="AddressBar.Unload.ToolTip" xml:space="preserve">
+    <value>閉じる</value>
+  </data>
+  <data name="AddressBar.Up.ToolTip" xml:space="preserve">
+    <value>上へ</value>
+  </data>
   <data name="ArchiveEntryCollectionMode.CurrentDirectory" xml:space="preserve">
     <value>ディレクトリ単位で展開</value>
   </data>
@@ -390,6 +405,9 @@
   <data name="BookConfigAccessor.ViewPageSize" xml:space="preserve">
     <value>表示するページ数</value>
   </data>
+  <data name="Bookmark.Up.ToolTip" xml:space="preserve">
+    <value>上に移動 (Alt+Up)</value>
+  </data>
   <data name="BookmarkConfig.BookmarkFilePath" xml:space="preserve">
     <value>ブックマークリストの保存場所</value>
   </data>
@@ -555,8 +573,50 @@
   <data name="Bookshelf.Back.ToolTip" xml:space="preserve">
     <value>戻る (Alt+Left)</value>
   </data>
-  <data name="PageList.Back.ToolTip" xml:space="preserve">
-    <value>戻る (Alt+Left)</value>
+  <data name="Bookshelf.CopyToFolderFailed" xml:space="preserve">
+    <value>コピーに失敗しました</value>
+  </data>
+  <data name="Bookshelf.Home.Menu.Set" xml:space="preserve">
+    <value>この場所をホームに設定する</value>
+  </data>
+  <data name="Bookshelf.Home.ToolTip" xml:space="preserve">
+    <value>ホームに移動 (Alt+Home)</value>
+  </data>
+  <data name="Bookshelf.Message.MoveToFolderFailed" xml:space="preserve">
+    <value>移動に失敗しました</value>
+  </data>
+  <data name="Bookshelf.MoreMenu.AddQuickAccess" xml:space="preserve">
+    <value>この場所をクイックアクセスに追加</value>
+  </data>
+  <data name="Bookshelf.MoreMenu.ClearHistory" xml:space="preserve">
+    <value>この場所の履歴をすべて削除</value>
+  </data>
+  <data name="Bookshelf.MoreMenu.ExportPlaylist" xml:space="preserve">
+    <value>プレイリストを保存...</value>
+  </data>
+  <data name="Bookshelf.MoreMenu.SearchIncludeSubdirectories" xml:space="preserve">
+    <value>サブフォルダーを含める</value>
+  </data>
+  <data name="Bookshelf.MoreMenu.SearchIncremental" xml:space="preserve">
+    <value>インクリメンタルサーチ</value>
+  </data>
+  <data name="Bookshelf.MoreMenu.SearchOptions" xml:space="preserve">
+    <value>検索オプション</value>
+  </data>
+  <data name="Bookshelf.MoreMenu.Subfolder" xml:space="preserve">
+    <value>この場所ではサブフォルダーを読み込む</value>
+  </data>
+  <data name="Bookshelf.Next.ToolTip" xml:space="preserve">
+    <value>進む (Alt+Right)</value>
+  </data>
+  <data name="Bookshelf.SubFolder.ToolTip" xml:space="preserve">
+    <value>サブフォルダーを読み込む</value>
+  </data>
+  <data name="Bookshelf.Sync.ToolTip" xml:space="preserve">
+    <value>表示中のブックのある場所に移動</value>
+  </data>
+  <data name="Bookshelf.Up.ToolTip" xml:space="preserve">
+    <value>上に移動 (Alt+Up)</value>
   </data>
   <data name="BookshelfConfig.DefaultFolderOrder" xml:space="preserve">
     <value>標準の既定の並び順</value>
@@ -624,43 +684,10 @@
   <data name="BookshelfConfig.PlaylistFolderOrder" xml:space="preserve">
     <value>プレイリストの既定の並び順</value>
   </data>
-  <data name="Bookshelf.CopyToFolderFailed" xml:space="preserve">
-    <value>コピーに失敗しました</value>
-  </data>
-  <data name="PageList.CopyToFolderFailed" xml:space="preserve">
-    <value>コピーに失敗しました</value>
-  </data>
-  <data name="x.BookshelfCopyToFolderSelect" xml:space="preserve">
-    <value>コピー先フォルダーを選択</value>
-  </data>
-  <data name="x.BookshelfCopyToFolderSuccess" xml:space="preserve">
-    <value>{0} 個のアイテムをコピーしました</value>
-  </data>
-  <data name="Bookshelf.Home.Menu.Set" xml:space="preserve">
-    <value>この場所をホームに設定する</value>
-  </data>
-  <data name="Bookshelf.Home.ToolTip" xml:space="preserve">
-    <value>ホームに移動 (Alt+Home)</value>
-  </data>
-  <data name="BookshelfItemAccessor" xml:space="preserve">
-    <value>本棚パネル項目</value>
-  </data>
-  <data name="BookshelfItemAccessor.Name" xml:space="preserve">
-    <value>項目名</value>
-  </data>
-  <data name="BookshelfItemAccessor.Path" xml:space="preserve">
-    <value>項目に対応するパス</value>
-  </data>
-  <data name="BookshelfItem.Menu.ExternalAppOption" xml:space="preserve">
-    <value>外部アプリの登録(_A)...</value>
-  </data>
   <data name="BookshelfItem.Menu.Copy" xml:space="preserve">
     <value>コピー(_C)</value>
   </data>
   <data name="BookshelfItem.Menu.CopyToFolder" xml:space="preserve">
-    <value>フォルダーにコピー(_Y)</value>
-  </data>
-  <data name="PageListItem.Menu.CopyToFolder" xml:space="preserve">
     <value>フォルダーにコピー(_Y)</value>
   </data>
   <data name="BookshelfItem.Menu.Delete" xml:space="preserve">
@@ -675,19 +702,13 @@
   <data name="BookshelfItem.Menu.DestinationFolderOption" xml:space="preserve">
     <value>フォルダーの登録(_A)...</value>
   </data>
-  <data name="x.BookshelfItemMenuDestinationFolderSelect" xml:space="preserve">
-    <value>フォルダーを選択(_S)...</value>
-  </data>
   <data name="BookshelfItem.Menu.Explorer" xml:space="preserve">
     <value>エクスプローラーで開く(_X)</value>
   </data>
-  <data name="PageListItem.Menu.Explorer" xml:space="preserve">
-    <value>エクスプローラーで開く(_X)</value>
+  <data name="BookshelfItem.Menu.ExternalAppOption" xml:space="preserve">
+    <value>外部アプリの登録(_A)...</value>
   </data>
   <data name="BookshelfItem.Menu.MoveToFolder" xml:space="preserve">
-    <value>フォルダーに移動(_E)</value>
-  </data>
-  <data name="PageListItem.Menu.MoveToFolder" xml:space="preserve">
     <value>フォルダーに移動(_E)</value>
   </data>
   <data name="BookshelfItem.Menu.Open" xml:space="preserve">
@@ -696,56 +717,23 @@
   <data name="BookshelfItem.Menu.OpenBook" xml:space="preserve">
     <value>開く(_O)</value>
   </data>
+  <data name="BookshelfItem.Menu.OpenExternalApp" xml:space="preserve">
+    <value>外部アプリで開く(_A)</value>
+  </data>
   <data name="BookshelfItem.Menu.Rename" xml:space="preserve">
     <value>名前の変更(_M)</value>
   </data>
   <data name="BookshelfItem.Menu.Subfolder" xml:space="preserve">
     <value>サブフォルダーを読み込む</value>
   </data>
-  <data name="BookshelfItem.Menu.OpenExternalApp" xml:space="preserve">
-    <value>外部アプリで開く(_A)</value>
+  <data name="BookshelfItemAccessor" xml:space="preserve">
+    <value>本棚パネル項目</value>
   </data>
-  <data name="Bookshelf.MoreMenu.AddQuickAccess" xml:space="preserve">
-    <value>この場所をクイックアクセスに追加</value>
+  <data name="BookshelfItemAccessor.Name" xml:space="preserve">
+    <value>項目名</value>
   </data>
-  <data name="Bookshelf.MoreMenu.ClearHistory" xml:space="preserve">
-    <value>この場所の履歴をすべて削除</value>
-  </data>
-  <data name="Bookshelf.MoreMenu.ExportPlaylist" xml:space="preserve">
-    <value>プレイリストを保存...</value>
-  </data>
-  <data name="Bookshelf.MoreMenu.SearchIncludeSubdirectories" xml:space="preserve">
-    <value>サブフォルダーを含める</value>
-  </data>
-  <data name="Bookshelf.MoreMenu.SearchIncremental" xml:space="preserve">
-    <value>インクリメンタルサーチ</value>
-  </data>
-  <data name="Bookshelf.MoreMenu.SearchOptions" xml:space="preserve">
-    <value>検索オプション</value>
-  </data>
-  <data name="Bookshelf.MoreMenu.Subfolder" xml:space="preserve">
-    <value>この場所ではサブフォルダーを読み込む</value>
-  </data>
-  <data name="Bookshelf.Message.MoveToFolderFailed" xml:space="preserve">
-    <value>移動に失敗しました</value>
-  </data>
-  <data name="PageList.Message.MoveToFolderFailed" xml:space="preserve">
-    <value>移動に失敗しました</value>
-  </data>
-  <data name="x.BookshelfMoveToFolderSelect" xml:space="preserve">
-    <value>移動先フォルダーを選択</value>
-  </data>
-  <data name="x.BookshelfMoveToFolderSuccess" xml:space="preserve">
-    <value>{0} 個のアイテムを移動しました</value>
-  </data>
-  <data name="x.BookshelfName" xml:space="preserve">
-    <value>本棚</value>
-  </data>
-  <data name="Bookshelf.Next.ToolTip" xml:space="preserve">
-    <value>進む (Alt+Right)</value>
-  </data>
-  <data name="PageList.Next.ToolTip" xml:space="preserve">
-    <value>進む (Alt+Right)</value>
+  <data name="BookshelfItemAccessor.Path" xml:space="preserve">
+    <value>項目に対応するパス</value>
   </data>
   <data name="BookshelfPanelAccessor" xml:space="preserve">
     <value>本棚パネルのアクセサです。</value>
@@ -772,21 +760,6 @@ nv.Bookshelf.SelectedItems = nv.Bookshelf.Items.filter(e =&gt; e.Name.startsWith
   <data name="BookshelfPanelAccessor.Style" xml:space="preserve">
     <value>リスト項目表示形式</value>
   </data>
-  <data name="Bookshelf.SubFolder.ToolTip" xml:space="preserve">
-    <value>サブフォルダーを読み込む</value>
-  </data>
-  <data name="Bookshelf.Sync.ToolTip" xml:space="preserve">
-    <value>表示中のブックのある場所に移動</value>
-  </data>
-  <data name="Bookmark.Up.ToolTip" xml:space="preserve">
-    <value>上に移動 (Alt+Up)</value>
-  </data>
-  <data name="Bookshelf.Up.ToolTip" xml:space="preserve">
-    <value>上に移動 (Alt+Up)</value>
-  </data>
-  <data name="PageList.Up.ToolTip" xml:space="preserve">
-    <value>上に移動 (Alt+Up)</value>
-  </data>
   <data name="BrushSource.Color" xml:space="preserve">
     <value>色</value>
   </data>
@@ -811,38 +784,38 @@ nv.Bookshelf.SelectedItems = nv.Bookshelf.Items.filter(e =&gt; e.Name.startsWith
   <data name="BrushType.SolidColor" xml:space="preserve">
     <value>単色</value>
   </data>
-  <data name="CancelFullScreenCommand.Remarks" xml:space="preserve">
-    <value>フルスクリーンを解除します。</value>
-  </data>
   <data name="CancelFullScreenCommand" xml:space="preserve">
     <value>フルスクリーン解除</value>
   </data>
-  <data name="CancelScriptCommand.Remarks" xml:space="preserve">
-    <value>sleep命令が存在する実行中のスクリプトを停止します。</value>
+  <data name="CancelFullScreenCommand.Remarks" xml:space="preserve">
+    <value>フルスクリーンを解除します。</value>
   </data>
   <data name="CancelScriptCommand" xml:space="preserve">
     <value>スクリプト中断</value>
   </data>
-  <data name="ClearHistoryCommand.Remarks" xml:space="preserve">
-    <value>履歴を全て削除します。</value>
+  <data name="CancelScriptCommand.Remarks" xml:space="preserve">
+    <value>sleep命令が存在する実行中のスクリプトを停止します。</value>
   </data>
   <data name="ClearHistoryCommand" xml:space="preserve">
     <value>履歴を消去</value>
   </data>
-  <data name="ClearHistoryInPlaceCommand.Remarks" xml:space="preserve">
-    <value>本棚の現在の場所にあるすべての履歴を削除する</value>
+  <data name="ClearHistoryCommand.Remarks" xml:space="preserve">
+    <value>履歴を全て削除します。</value>
   </data>
   <data name="ClearHistoryInPlaceCommand" xml:space="preserve">
     <value>現在の場所の履歴削除</value>
+  </data>
+  <data name="ClearHistoryInPlaceCommand.Remarks" xml:space="preserve">
+    <value>本棚の現在の場所にあるすべての履歴を削除する</value>
+  </data>
+  <data name="CloseApplicationCommand" xml:space="preserve">
+    <value>アプリを終了する</value>
   </data>
   <data name="CloseApplicationCommand.Menu" xml:space="preserve">
     <value>終了(_X)</value>
   </data>
   <data name="CloseApplicationCommand.Remarks" xml:space="preserve">
     <value>このアプリケーションを終了させます。</value>
-  </data>
-  <data name="CloseApplicationCommand" xml:space="preserve">
-    <value>アプリを終了する</value>
   </data>
   <data name="ColorSelectEffectUnit.Curve" xml:space="preserve">
     <value>境界</value>
@@ -871,6 +844,9 @@ nv.Bookshelf.SelectedItems = nv.Bookshelf.Items.filter(e =&gt; e.Name.startsWith
   <data name="CommandAccessor.Execute" xml:space="preserve">
     <value>コマンドを実行します。</value>
   </data>
+  <data name="CommandAccessor.Execute.args" xml:space="preserve">
+    <value>コマンド引数。コマンドによって内容は異なります。可変長引数です。(省略可)</value>
+  </data>
   <data name="CommandAccessor.Execute.Example" xml:space="preserve">
     <value>// C:\Foo\Bar.zip を開く
 nv.Command.LoadAs.Execute("C:\\Foo\\Bar.zip")</value>
@@ -880,9 +856,6 @@ nv.Command.LoadAs.Execute("C:\\Foo\\Bar.zip")</value>
   </data>
   <data name="CommandAccessor.Execute.Returns" xml:space="preserve">
     <value>コマンドが発行できたか。ロード中などにコマンドが発行できないことがある。コマンド自体の成否は判別しない。</value>
-  </data>
-  <data name="CommandAccessor.Execute.args" xml:space="preserve">
-    <value>コマンド引数。コマンドによって内容は異なります。可変長引数です。(省略可)</value>
   </data>
   <data name="CommandAccessor.IsShowMessage" xml:space="preserve">
     <value>コマンド実行時にメッセージを表示する</value>
@@ -909,11 +882,11 @@ nv.Command.ViewRotateLeft.Parameter.Angle = 45</value>
     <value>// 5度指定で左回転を実行
 nv.Command.ViewRotateLeft.Patch({"Angle": 5}).Execute()</value>
   </data>
-  <data name="CommandAccessor.Patch.Returns" xml:space="preserve">
-    <value>自身のコマンドアクセサをそのまま返す</value>
-  </data>
   <data name="CommandAccessor.Patch.patch" xml:space="preserve">
     <value>一時的に上書きするコマンドパラメーターをJSON形式で指定します。</value>
+  </data>
+  <data name="CommandAccessor.Patch.Returns" xml:space="preserve">
+    <value>自身のコマンドアクセサをそのまま返す</value>
   </data>
   <data name="CommandAccessor.ShortCutKey" xml:space="preserve">
     <value>ショートカット</value>
@@ -947,9 +920,6 @@ nv.Command.ViewRotateLeft.TouchGesture = "TouchCenter"</value>
   <data name="CommandConfig.IsReversePageMoveWheel.Remarks" xml:space="preserve">
     <value>ホイール操作のみ対応の選択ができます。</value>
   </data>
-  <data name="CommandGroup.None" xml:space="preserve">
-    <value>(none)</value>
-  </data>
   <data name="CommandGroup.Bookmark" xml:space="preserve">
     <value>ブックマーク</value>
   </data>
@@ -973,6 +943,9 @@ nv.Command.ViewRotateLeft.TouchGesture = "TouchCenter"</value>
   </data>
   <data name="CommandGroup.Move" xml:space="preserve">
     <value>ページ移動</value>
+  </data>
+  <data name="CommandGroup.None" xml:space="preserve">
+    <value>(none)</value>
   </data>
   <data name="CommandGroup.Other" xml:space="preserve">
     <value>その他</value>
@@ -1053,21 +1026,21 @@ nv.Config.Theme.MenuColor = "Dark"</value>
   <data name="CommandHost.ShowDialog" xml:space="preserve">
     <value>ダイアログを表示します。</value>
   </data>
+  <data name="CommandHost.ShowDialog.commands" xml:space="preserve">
+    <value>0: OK / 1: OKCancel / 2: YesNo
+ボタンの種類 (省略可)</value>
+  </data>
   <data name="CommandHost.ShowDialog.Example" xml:space="preserve">
     <value>isYes = nv.ShowDialog("Is this a pen?", "I think it's a pen, really?", 2)
 if (isYes) {
     nv.ShowDialog("Good.")
 }</value>
   </data>
-  <data name="CommandHost.ShowDialog.Returns" xml:space="preserve">
-    <value>肯定的選択("OK"もしくは"Yes")の場合はtrue、それ以外はfalseを返す。</value>
-  </data>
-  <data name="CommandHost.ShowDialog.commands" xml:space="preserve">
-    <value>0: OK / 1: OKCancel / 2: YesNo
-ボタンの種類 (省略可)</value>
-  </data>
   <data name="CommandHost.ShowDialog.message" xml:space="preserve">
     <value>メッセージ (省略可)</value>
+  </data>
+  <data name="CommandHost.ShowDialog.Returns" xml:space="preserve">
+    <value>肯定的選択("OK"もしくは"Yes")の場合はtrue、それ以外はfalseを返す。</value>
   </data>
   <data name="CommandHost.ShowDialog.title" xml:space="preserve">
     <value>主文</value>
@@ -1105,57 +1078,6 @@ nv.Values["Test"] = "Hello!"
 // 次の書き方でも同じ
 nv.Values.Test = "Hello!"</value>
   </data>
-  <data name="ToggleCommand.Execute.Remarks" xml:space="preserve">
-    <value>switch: bool|有効/無効。省略した場合は切り替え。</value>
-  </data>
-  <data name="x.ControlAboutChangeLog" xml:space="preserve">
-    <value>更新履歴</value>
-  </data>
-  <data name="VersionChecker.Message.Checking" xml:space="preserve">
-    <value>最新バージョンをチェック中...</value>
-  </data>
-  <data name="VersionWindow.Menu.Copy" xml:space="preserve">
-    <value>バージョン情報をコピー(_C)</value>
-  </data>
-  <data name="VersionWindow.Download" xml:space="preserve">
-    <value>ダウンロードページに移動する</value>
-  </data>
-  <data name="VersionChecker.Message.Failed" xml:space="preserve">
-    <value>更新チェックに失敗しました</value>
-  </data>
-  <data name="VersionChecker.Message.Lastest" xml:space="preserve">
-    <value>NeeView は最新のバージョンです</value>
-  </data>
-  <data name="VersionWindow_License" xml:space="preserve">
-    <value>ライセンス情報・更新履歴</value>
-  </data>
-  <data name="VersionChecker.Message.New" xml:space="preserve">
-    <value>新しいバージョンがリリースされています</value>
-  </data>
-  <data name="VersionWindow_Project" xml:space="preserve">
-    <value>プロジェクトページ</value>
-  </data>
-  <data name="VersionChecker.Message.Unknown" xml:space="preserve">
-    <value>NeeView は未知のバージョンです</value>
-  </data>
-  <data name="VersionChecker.Message.WrongFormat" xml:space="preserve">
-    <value>更新ページのフォーマットが想定されているものと異なります</value>
-  </data>
-  <data name="AddressBar.Back.ToolTip" xml:space="preserve">
-    <value>戻る</value>
-  </data>
-  <data name="AddressBar.Next.ToolTip" xml:space="preserve">
-    <value>進む</value>
-  </data>
-  <data name="AddressBar.ReLoad.ToolTip" xml:space="preserve">
-    <value>再読込</value>
-  </data>
-  <data name="AddressBar.Unload.ToolTip" xml:space="preserve">
-    <value>閉じる</value>
-  </data>
-  <data name="AddressBar.Up.ToolTip" xml:space="preserve">
-    <value>上へ</value>
-  </data>
   <data name="CommandList.Header.Command" xml:space="preserve">
     <value>コマンド</value>
   </data>
@@ -1186,36 +1108,17 @@ nv.Values.Test = "Hello!"</value>
   <data name="CommandListItem.Message.ShareParameter" xml:space="preserve">
     <value>「{0}」とパラメーター共有です</value>
   </data>
+  <data name="CommandParameterControl.Empty" xml:space="preserve">
+    <value>パラメーターはありません</value>
+  </data>
   <data name="CommandResetWindow.Message" xml:space="preserve">
     <value>コマンドの設定を全て初期化します。よろしいですか？</value>
   </data>
-  <data name="CommandResetWindow.Title" xml:space="preserve">
-    <value>コマンド設定初期化</value>
-  </data>
-  <data name="InputSceme.TypeA" xml:space="preserve">
-    <value>標準設定</value>
-  </data>
-  <data name="InputSceme.TypeA.Remarks" xml:space="preserve">
-    <value>マウスクリックで「@CommandPrevPage」「@CommandNextPage」
-ホイール操作で「@CommandPrevScrollPage」「@CommandNextScrollPage」</value>
-  </data>
-  <data name="InputSceme.TypeB" xml:space="preserve">
-    <value>ホイールでのページ送り優先設定</value>
-  </data>
-  <data name="InputSceme.TypeB.Remarks" xml:space="preserve">
-    <value>ホイール操作で「@CommandPrevPage」「@CommandNextPage」
-マウス右クリックで「@CommandOpenContextMenu」
-マウス左クリックは未定義</value>
-  </data>
-  <data name="InputSceme.TypeC" xml:space="preserve">
-    <value>クリックでのページ送り優先設定</value>
-  </data>
-  <data name="InputSceme.TypeC.Remarks" xml:space="preserve">
-    <value>マウスクリックで「@CommandPrevPage」「@CommandNextPage」
-ホイール操作で「@CommandViewScrollUp」「@CommandViewScrollDown」</value>
-  </data>
   <data name="CommandResetWindow.ResetType.Title" xml:space="preserve">
     <value>ショートカット初期設定</value>
+  </data>
+  <data name="CommandResetWindow.Title" xml:space="preserve">
+    <value>コマンド設定初期化</value>
   </data>
   <data name="ControlConfig.IsSelected" xml:space="preserve">
     <value>パネル選択状態</value>
@@ -1223,212 +1126,8 @@ nv.Values.Test = "Hello!"</value>
   <data name="ControlConfig.IsVisible" xml:space="preserve">
     <value>パネル表示状態</value>
   </data>
-  <data name="ControlCustomBackgroundColor" xml:space="preserve">
-    <value>色</value>
-  </data>
-  <data name="ControlCustomBackgroundImage" xml:space="preserve">
-    <value>画像</value>
-  </data>
-  <data name="ControlCustomBackgroundImageSelect" xml:space="preserve">
-    <value>画像の選択</value>
-  </data>
-  <data name="ControlCustomBackgroundImageSelectNote" xml:space="preserve">
-    <value>画像ファイルを選択してください</value>
-  </data>
-  <data name="ControlEditCommandDescription" xml:space="preserve">
-    <value>コマンドの説明</value>
-  </data>
-  <data name="ControlEditCommandTabGeneral" xml:space="preserve">
-    <value>全般</value>
-  </data>
-  <data name="ControlEditCommandTabGesture" xml:space="preserve">
-    <value>ジェスチャー</value>
-  </data>
-  <data name="ControlEditCommandTabParameter" xml:space="preserve">
-    <value>パラメーター</value>
-  </data>
-  <data name="ControlEditCommandTabShortcut" xml:space="preserve">
-    <value>ショートカット</value>
-  </data>
-  <data name="ControlEditCommandTabTouch" xml:space="preserve">
-    <value>タッチ</value>
-  </data>
-  <data name="ControlEditCommandTitle" xml:space="preserve">
-    <value>コマンド設定</value>
-  </data>
-  <data name="ControlEditCommandVisible" xml:space="preserve">
-    <value>コマンド実行時にメッセージを表示する</value>
-  </data>
-  <data name="ControlEditDragInput" xml:space="preserve">
-    <value>ここでマウス入力</value>
-  </data>
-  <data name="ControlEditDragNew" xml:space="preserve">
-    <value>新しい設定</value>
-  </data>
-  <data name="ControlEditDragNote" xml:space="preserve">
-    <value>水色の枠内でマウスボタン入力します。
-右ボタンドラッグはマウスジェスチャーで予約されているため使用できません。</value>
-  </data>
-  <data name="ControlEditDragOld" xml:space="preserve">
-    <value>現在の設定</value>
-  </data>
-  <data name="ControlEditDragTitle" xml:space="preserve">
-    <value>ドラッグ操作設定</value>
-  </data>
-  <data name="ControlEditGestureInputGesture" xml:space="preserve">
-    <value>ここでジェスチャー入力
-(右ボタンを押しながらドラッグ)</value>
-  </data>
-  <data name="ControlEditGestureNew" xml:space="preserve">
-    <value>新しい設定</value>
-  </data>
-  <data name="ControlEditGestureNote" xml:space="preserve">
-    <value>水色の枠内でマウスジェスチャーを入力します。
-マウスジェスチャーはマウス右ボタンを押しながらのドラッグ操作です。
-左クリックを最後のジェスチャーキーとして登録可能です。</value>
-  </data>
-  <data name="ControlEditGestureOld" xml:space="preserve">
-    <value>現在の設定</value>
-  </data>
-  <data name="ControlEditMouseDragListHeaderCommand" xml:space="preserve">
-    <value>コマンド</value>
-  </data>
-  <data name="ControlEditMouseDragListHeaderDrag" xml:space="preserve">
-    <value>ドラッグ操作</value>
-  </data>
-  <data name="ControlEditMouseDragReset" xml:space="preserve">
-    <value>すべて初期化...</value>
-  </data>
-  <data name="ControlEditParameterEmpty" xml:space="preserve">
-    <value>パラメーターはありません</value>
-  </data>
-  <data name="ControlEditShortcutButtonConflict" xml:space="preserve">
-    <value>競合の解消</value>
-  </data>
-  <data name="ControlEditShortcutInputMouse" xml:space="preserve">
-    <value>ここでマウス入力</value>
-  </data>
-  <data name="ControlEditShortcutInputShortcut" xml:space="preserve">
-    <value>ここでキー入力</value>
-  </data>
-  <data name="ControlEditShortcutLabelMouse" xml:space="preserve">
-    <value>マウス入力</value>
-  </data>
-  <data name="ControlEditShortcutLabelShortcut" xml:space="preserve">
-    <value>ショートカットキー</value>
-  </data>
-  <data name="ControlEditShortcutTitle" xml:space="preserve">
-    <value>ショートカット設定</value>
-  </data>
-  <data name="ControlEditTouchInput" xml:space="preserve">
-    <value>ここでタッチ入力</value>
-  </data>
-  <data name="ControlEditTouchNote" xml:space="preserve">
-    <value>タッチするエリアを指定します。
-Centerがコマンドに割り当てられていない場合はその下のエリア(L1,L2,R1,R2)の判定が適用されます。
-フリック操作はジェスチャーで代用してください。</value>
-  </data>
-  <data name="ControlFileNameBoxDirectoryNote" xml:space="preserve">
-    <value>フォルダーのパスを入力してください</value>
-  </data>
-  <data name="ControlFileNameBoxFileNote" xml:space="preserve">
-    <value>ファイルのパスを入力してください</value>
-  </data>
-  <data name="ControlFileNameBoxSelectDirectory" xml:space="preserve">
-    <value>フォルダー選択</value>
-  </data>
-  <data name="ControlFileNameBoxSelectFile" xml:space="preserve">
-    <value>ファイル選択</value>
-  </data>
-  <data name="ControlImportBookmark" xml:space="preserve">
-    <value>ブックマーク</value>
-  </data>
-  <data name="ControlImportHistory" xml:space="preserve">
-    <value>履歴</value>
-  </data>
-  <data name="ControlImportPagemark" xml:space="preserve">
-    <value>ページマーク</value>
-  </data>
-  <data name="ControlImportSetting" xml:space="preserve">
-    <value>設定</value>
-  </data>
-  <data name="ControlPrintBackground" xml:space="preserve">
-    <value>背景を印刷する</value>
-  </data>
-  <data name="ControlPrintButtonPrint" xml:space="preserve">
-    <value>印刷</value>
-  </data>
-  <data name="ControlPrintColumn" xml:space="preserve">
-    <value>横</value>
-  </data>
-  <data name="ControlPrintContent" xml:space="preserve">
-    <value>印刷内容</value>
-  </data>
-  <data name="ControlPrintHorizontal" xml:space="preserve">
-    <value>水平位置</value>
-  </data>
-  <data name="ControlPrintKeepDot" xml:space="preserve">
-    <value>ドットのまま印刷</value>
-  </data>
-  <data name="ControlPrintMargin" xml:space="preserve">
-    <value>用紙余白 (mm)</value>
-  </data>
-  <data name="ControlPrintOrientation" xml:space="preserve">
-    <value>印刷の向き</value>
-  </data>
-  <data name="ControlPrintPrinter" xml:space="preserve">
-    <value>プリンター</value>
-  </data>
-  <data name="ControlPrintRow" xml:space="preserve">
-    <value>縦</value>
-  </data>
-  <data name="ControlPrintSheets" xml:space="preserve">
-    <value>用紙枚数</value>
-  </data>
-  <data name="ControlPrintTitle" xml:space="preserve">
-    <value>印刷</value>
-  </data>
-  <data name="ControlPrintVertival" xml:space="preserve">
-    <value>垂直位置</value>
-  </data>
-  <data name="ControlResolveConflictNote" xml:space="preserve">
-    <value>「{0}」で実行するコマンドを１つだけ選択してください</value>
-  </data>
-  <data name="ControlResolveConflictTitle" xml:space="preserve">
-    <value>競合の解消</value>
-  </data>
-  <data name="ControlSaveExportFolder" xml:space="preserve">
-    <value>既定の出力先フォルダー</value>
-  </data>
-  <data name="ControlSaveExportMode" xml:space="preserve">
-    <value>出力画像の種類</value>
-  </data>
-  <data name="ControlSaveOriginal" xml:space="preserve">
-    <value>元ファイルのまま保存</value>
-  </data>
-  <data name="ControlSaveSaveAs" xml:space="preserve">
-    <value>保存...</value>
-  </data>
-  <data name="ControlSaveTitle" xml:space="preserve">
-    <value>画像を保存</value>
-  </data>
-  <data name="ControlSaveWidePage" xml:space="preserve">
-    <value>2ページを連結する</value>
-  </data>
-  <data name="ControlSaveWithBackground" xml:space="preserve">
-    <value>背景を含める</value>
-  </data>
-  <data name="ControlSusiePluginListConfig" xml:space="preserve">
-    <value>設定</value>
-  </data>
-  <data name="ControlSusiePluginListDown" xml:space="preserve">
-    <value>下へ</value>
-  </data>
-  <data name="ControlSusiePluginListSwitchAll" xml:space="preserve">
-    <value>全有効/解除</value>
-  </data>
-  <data name="ControlSusiePluginListUp" xml:space="preserve">
-    <value>上へ</value>
+  <data name="CopyFileCommand" xml:space="preserve">
+    <value>ファイルをコピー</value>
   </data>
   <data name="CopyFileCommand.Menu" xml:space="preserve">
     <value>コピー(_C)</value>
@@ -1436,14 +1135,14 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="CopyFileCommand.Remarks" xml:space="preserve">
     <value>ファイルをクリップボードにコピーします。</value>
   </data>
-  <data name="CopyFileCommand" xml:space="preserve">
-    <value>ファイルをコピー</value>
-  </data>
   <data name="CopyFileCommandParameter.ArchivePolicy" xml:space="preserve">
     <value>圧縮ファイルの場合</value>
   </data>
   <data name="CopyFileCommandParameter.MultiPagePolicy" xml:space="preserve">
     <value>2ページの場合</value>
+  </data>
+  <data name="CopyImageCommand" xml:space="preserve">
+    <value>画像をコピー</value>
   </data>
   <data name="CopyImageCommand.Menu" xml:space="preserve">
     <value>画像コピー</value>
@@ -1451,8 +1150,20 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="CopyImageCommand.Remarks" xml:space="preserve">
     <value>画像をクリップボードにコピーします。2ページ表示の場合はメインとなるページのみコピーします。</value>
   </data>
-  <data name="CopyImageCommand" xml:space="preserve">
-    <value>画像をコピー</value>
+  <data name="CustomBackgroundControl.Color" xml:space="preserve">
+    <value>色</value>
+  </data>
+  <data name="CustomBackgroundControl.Image" xml:space="preserve">
+    <value>画像</value>
+  </data>
+  <data name="CustomBackgroundControl.ImageSelect" xml:space="preserve">
+    <value>画像の選択</value>
+  </data>
+  <data name="CustomBackgroundControl.ImageSelect.Remarks" xml:space="preserve">
+    <value>画像ファイルを選択してください</value>
+  </data>
+  <data name="DeleteBookCommand" xml:space="preserve">
+    <value>ブックを削除</value>
   </data>
   <data name="DeleteBookCommand.Menu" xml:space="preserve">
     <value>ブック削除(_D)</value>
@@ -1460,17 +1171,14 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="DeleteBookCommand.Remarks" xml:space="preserve">
     <value>現在閲覧中のフォルダーまたは圧縮ファイルを削除します。 </value>
   </data>
-  <data name="DeleteBookCommand" xml:space="preserve">
-    <value>ブックを削除</value>
+  <data name="DeleteFileCommand" xml:space="preserve">
+    <value>ファイルを削除</value>
   </data>
   <data name="DeleteFileCommand.Menu" xml:space="preserve">
     <value>削除(_D)</value>
   </data>
   <data name="DeleteFileCommand.Remarks" xml:space="preserve">
     <value>ファイルを削除します。圧縮ファイルの場合は削除できません。 </value>
-  </data>
-  <data name="DeleteFileCommand" xml:space="preserve">
-    <value>ファイルを削除</value>
   </data>
   <data name="DestinationFolderEditDialogTitle" xml:space="preserve">
     <value>フォルダー設定</value>
@@ -1730,6 +1438,30 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="DragControlCenter.View" xml:space="preserve">
     <value>表示の中心</value>
   </data>
+  <data name="EditCommandWindow.Remarks" xml:space="preserve">
+    <value>コマンドの説明</value>
+  </data>
+  <data name="EditCommandWindow.Tab.General" xml:space="preserve">
+    <value>全般</value>
+  </data>
+  <data name="EditCommandWindow.Tab.Gesture" xml:space="preserve">
+    <value>ジェスチャー</value>
+  </data>
+  <data name="EditCommandWindow.Tab.Parameter" xml:space="preserve">
+    <value>パラメーター</value>
+  </data>
+  <data name="EditCommandWindow.Tab.Shortcut" xml:space="preserve">
+    <value>ショートカット</value>
+  </data>
+  <data name="EditCommandWindow.Tab.Touch" xml:space="preserve">
+    <value>タッチ</value>
+  </data>
+  <data name="EditCommandWindow.Title" xml:space="preserve">
+    <value>コマンド設定</value>
+  </data>
+  <data name="EditCommandWindow.Visible" xml:space="preserve">
+    <value>コマンド実行時にメッセージを表示する</value>
+  </data>
   <data name="EffectBaseScale" xml:space="preserve">
     <value>基底スケール</value>
   </data>
@@ -1869,23 +1601,23 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ExplorerContextMenu.IsEnabled.Remarks" xml:space="preserve">
     <value>エクスプローラーのコンテキストメニューに「NeeViewで開く」を追加します。この機能はレジストリを使用します。</value>
   </data>
+  <data name="ExportBackupCommand" xml:space="preserve">
+    <value>設定をエクスポート</value>
+  </data>
   <data name="ExportBackupCommand.Menu" xml:space="preserve">
     <value>設定をエクスポート...</value>
   </data>
   <data name="ExportBackupCommand.Remarks" xml:space="preserve">
     <value>設定、履歴、ブックマーク、ページマークのバックアップを作成します。サムネイルキャッシュはバックアップされません。</value>
   </data>
-  <data name="ExportBackupCommand" xml:space="preserve">
-    <value>設定をエクスポート</value>
+  <data name="ExportImageAsCommand" xml:space="preserve">
+    <value>名前をつけてファイルに保存</value>
   </data>
   <data name="ExportImageAsCommand.Menu" xml:space="preserve">
     <value>保存(_S)...</value>
   </data>
   <data name="ExportImageAsCommand.Remarks" xml:space="preserve">
     <value>画像をファイルに保存します。</value>
-  </data>
-  <data name="ExportImageAsCommand" xml:space="preserve">
-    <value>名前をつけてファイルに保存</value>
   </data>
   <data name="ExportImageAsCommandParameter.ExportFolder" xml:space="preserve">
     <value>既定の出力フォルダー</value>
@@ -1899,14 +1631,14 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ExportImageAsCommandParameter.QualityLevel.Remarks" xml:space="preserve">
     <value>変換が必要な場合にのみ使用されます。</value>
   </data>
+  <data name="ExportImageCommand" xml:space="preserve">
+    <value>ファイルに保存</value>
+  </data>
   <data name="ExportImageCommand.Menu" xml:space="preserve">
     <value>保存(_S)</value>
   </data>
   <data name="ExportImageCommand.Remarks" xml:space="preserve">
     <value>画像をファイルに保存します。保存フォルダーはコマンドパラメーターで指定します。</value>
-  </data>
-  <data name="ExportImageCommand" xml:space="preserve">
-    <value>ファイルに保存</value>
   </data>
   <data name="ExportImageCommandParameter.ExportFolder" xml:space="preserve">
     <value>出力フォルダー</value>
@@ -1953,6 +1685,21 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ExportImageMode.View" xml:space="preserve">
     <value>表示を保存</value>
   </data>
+  <data name="ExportImageWindow.Folder" xml:space="preserve">
+    <value>既定の出力先フォルダー</value>
+  </data>
+  <data name="ExportImageWindow.InclideBackground" xml:space="preserve">
+    <value>背景を含める</value>
+  </data>
+  <data name="ExportImageWindow.Mode" xml:space="preserve">
+    <value>出力画像の種類</value>
+  </data>
+  <data name="ExportImageWindow.SaveAs" xml:space="preserve">
+    <value>保存...</value>
+  </data>
+  <data name="ExportImageWindow.Title" xml:space="preserve">
+    <value>画像を保存</value>
+  </data>
   <data name="ExternalAppDialogTitle" xml:space="preserve">
     <value>外部アプリ一覧</value>
   </data>
@@ -1967,6 +1714,18 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="FileInfoName" xml:space="preserve">
     <value>情報</value>
+  </data>
+  <data name="FileNameBox.Directory.Message" xml:space="preserve">
+    <value>フォルダーのパスを入力してください</value>
+  </data>
+  <data name="FileNameBox.File.Message" xml:space="preserve">
+    <value>ファイルのパスを入力してください</value>
+  </data>
+  <data name="FileNameBox.SelectDirectory" xml:space="preserve">
+    <value>フォルダー選択</value>
+  </data>
+  <data name="FileNameBox.SelectFile" xml:space="preserve">
+    <value>ファイル選択</value>
   </data>
   <data name="FilmStripConfig.IsEnabled" xml:space="preserve">
     <value>フィルムストリップを表示する</value>
@@ -1992,11 +1751,14 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="FilmStripConfig.ThumbnailSize" xml:space="preserve">
     <value>ページサムネイルサイズ</value>
   </data>
+  <data name="FirstPageCommand" xml:space="preserve">
+    <value>最初のページに移動</value>
+  </data>
   <data name="FirstPageCommand.Remarks" xml:space="preserve">
     <value>先頭ページに移動します。</value>
   </data>
-  <data name="FirstPageCommand" xml:space="preserve">
-    <value>最初のページに移動</value>
+  <data name="FocusBookmarkListCommand" xml:space="preserve">
+    <value>ブックマークの表示</value>
   </data>
   <data name="FocusBookmarkListCommand.Menu" xml:space="preserve">
     <value>ブックマークリスト</value>
@@ -2004,8 +1766,8 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="FocusBookmarkListCommand.Remarks" xml:space="preserve">
     <value>本棚のブックマークリストを表示します。</value>
   </data>
-  <data name="FocusBookmarkListCommand" xml:space="preserve">
-    <value>ブックマークの表示</value>
+  <data name="FocusFolderSearchBoxCommand" xml:space="preserve">
+    <value>検索ボックスにフォーカスを移す</value>
   </data>
   <data name="FocusFolderSearchBoxCommand.Menu" xml:space="preserve">
     <value>検索ボックス</value>
@@ -2013,8 +1775,8 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="FocusFolderSearchBoxCommand.Remarks" xml:space="preserve">
     <value>検索ボックスにフォーカスを移します。本棚は表示状態になります。</value>
   </data>
-  <data name="FocusFolderSearchBoxCommand" xml:space="preserve">
-    <value>検索ボックスにフォーカスを移す</value>
+  <data name="FocusMainViewCommand" xml:space="preserve">
+    <value>メインビューにフォーカスを移す</value>
   </data>
   <data name="FocusMainViewCommand.Menu" xml:space="preserve">
     <value>メインビュー</value>
@@ -2022,11 +1784,11 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="FocusMainViewCommand.Remarks" xml:space="preserve">
     <value>メインビューにフォーカスを移します。</value>
   </data>
-  <data name="FocusMainViewCommand" xml:space="preserve">
-    <value>メインビューにフォーカスを移す</value>
-  </data>
   <data name="FocusMainViewCommandParameter.NeedClosePanels" xml:space="preserve">
     <value>全てのパネルを閉じる</value>
+  </data>
+  <data name="FocusNextAppCommand" xml:space="preserve">
+    <value>次のNeeViewに切り替える</value>
   </data>
   <data name="FocusNextAppCommand.Menu" xml:space="preserve">
     <value>次のNeeViewに切り替える</value>
@@ -2034,17 +1796,14 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="FocusNextAppCommand.Remarks" xml:space="preserve">
     <value>複数起動時に次のNeeViewに切り替えます。</value>
   </data>
-  <data name="FocusNextAppCommand" xml:space="preserve">
-    <value>次のNeeViewに切り替える</value>
+  <data name="FocusPrevAppCommand" xml:space="preserve">
+    <value>前のNeeViewに切り替える</value>
   </data>
   <data name="FocusPrevAppCommand.Menu" xml:space="preserve">
     <value>前のNeeViewに切り替える</value>
   </data>
   <data name="FocusPrevAppCommand.Remarks" xml:space="preserve">
     <value>複数起動時に前のNeeViewに切り替えます。</value>
-  </data>
-  <data name="FocusPrevAppCommand" xml:space="preserve">
-    <value>前のNeeViewに切り替える</value>
   </data>
   <data name="FolderInfoArchiver" xml:space="preserve">
     <value>アーカイバー</value>
@@ -2172,14 +1931,14 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="HelpChangeLogFile" xml:space="preserve">
     <value>CHANGELOG.ja-jp.html</value>
   </data>
+  <data name="HelpCommandListCommand" xml:space="preserve">
+    <value>コマンドのヘルプを表示する</value>
+  </data>
   <data name="HelpCommandListCommand.Menu" xml:space="preserve">
     <value>コマンドヘルプ</value>
   </data>
   <data name="HelpCommandListCommand.Remarks" xml:space="preserve">
     <value>全コマンドのヘルプをブラウザで表示します。</value>
-  </data>
-  <data name="HelpCommandListCommand" xml:space="preserve">
-    <value>コマンドのヘルプを表示する</value>
   </data>
   <data name="HelpCommandMessage" xml:space="preserve">
     <value>操作が割り当てられていないコマンドは「コマンド設定」で設定することで使用可能です。</value>
@@ -2187,17 +1946,20 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="HelpCommandTitle" xml:space="preserve">
     <value>NeeView コマンド一覧</value>
   </data>
+  <data name="HelpMainMenuCommand" xml:space="preserve">
+    <value>メインメニューのヘルプを表示する</value>
+  </data>
   <data name="HelpMainMenuCommand.Menu" xml:space="preserve">
     <value>メインメニューヘルプ</value>
   </data>
   <data name="HelpMainMenuCommand.Remarks" xml:space="preserve">
     <value>メインメニューのヘルプをブラウザで表示します。</value>
   </data>
-  <data name="HelpMainMenuCommand" xml:space="preserve">
-    <value>メインメニューのヘルプを表示する</value>
-  </data>
   <data name="HelpReadMeFile" xml:space="preserve">
     <value>README.ja-jp.html</value>
+  </data>
+  <data name="HelpScriptCommand" xml:space="preserve">
+    <value>スクリプトのヘルプを表示する</value>
   </data>
   <data name="HelpScriptCommand.Menu" xml:space="preserve">
     <value>スクリプトヘルプ</value>
@@ -2205,17 +1967,14 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="HelpScriptCommand.Remarks" xml:space="preserve">
     <value>スクリプトマニュアルをブラウザで表示します。</value>
   </data>
-  <data name="HelpScriptCommand" xml:space="preserve">
-    <value>スクリプトのヘルプを表示する</value>
+  <data name="HelpSearchOptionCommand" xml:space="preserve">
+    <value>検索オプションヘルプ</value>
   </data>
   <data name="HelpSearchOptionCommand.Menu" xml:space="preserve">
     <value>検索オプションヘルプ</value>
   </data>
   <data name="HelpSearchOptionCommand.Remarks" xml:space="preserve">
     <value>検索オプションのヘルプをブラウザーで開きます。</value>
-  </data>
-  <data name="HelpSearchOptionCommand" xml:space="preserve">
-    <value>検索オプションヘルプ</value>
   </data>
   <data name="HistoryConfig.HistoryEntryPageCount" xml:space="preserve">
     <value>履歴登録開始ページ操作回数</value>
@@ -2439,14 +2198,26 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ImageTrimConfig.Top" xml:space="preserve">
     <value>上</value>
   </data>
+  <data name="ImportBackupCommand" xml:space="preserve">
+    <value>設定をインポート</value>
+  </data>
   <data name="ImportBackupCommand.Menu" xml:space="preserve">
     <value>設定をインポート...</value>
   </data>
   <data name="ImportBackupCommand.Remarks" xml:space="preserve">
     <value>バックアップファイルから復元項目を選んで復元します。</value>
   </data>
-  <data name="ImportBackupCommand" xml:space="preserve">
-    <value>設定をインポート</value>
+  <data name="ImportControl_Bookmark" xml:space="preserve">
+    <value>ブックマーク</value>
+  </data>
+  <data name="ImportControl_History" xml:space="preserve">
+    <value>履歴</value>
+  </data>
+  <data name="ImportControl_Pagemark" xml:space="preserve">
+    <value>ページマーク</value>
+  </data>
+  <data name="ImportControl_Setting" xml:space="preserve">
+    <value>設定</value>
   </data>
   <data name="InformationConfig.IsVisibleBitsPerPixel" xml:space="preserve">
     <value>画像サイズにピクセルあたりのビット数を表示する</value>
@@ -2460,6 +2231,54 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="InformationPanelAccessor" xml:space="preserve">
     <value>情報パネルのアクセサ</value>
   </data>
+  <data name="InputGestureControl.ButtonConflict" xml:space="preserve">
+    <value>競合の解消</value>
+  </data>
+  <data name="InputGestureControl.InputMouse" xml:space="preserve">
+    <value>ここでマウス入力</value>
+  </data>
+  <data name="InputGestureControl.InputShortcut" xml:space="preserve">
+    <value>ここでキー入力</value>
+  </data>
+  <data name="InputGestureControl.LabelMouse" xml:space="preserve">
+    <value>マウス入力</value>
+  </data>
+  <data name="InputGestureControl.LabelShortcut" xml:space="preserve">
+    <value>ショートカットキー</value>
+  </data>
+  <data name="InputGestureControl.Title" xml:space="preserve">
+    <value>ショートカット設定</value>
+  </data>
+  <data name="InputSceme.TypeA" xml:space="preserve">
+    <value>標準設定</value>
+  </data>
+  <data name="InputSceme.TypeA.Remarks" xml:space="preserve">
+    <value>マウスクリックで「@CommandPrevPage」「@CommandNextPage」
+ホイール操作で「@CommandPrevScrollPage」「@CommandNextScrollPage」</value>
+  </data>
+  <data name="InputSceme.TypeB" xml:space="preserve">
+    <value>ホイールでのページ送り優先設定</value>
+  </data>
+  <data name="InputSceme.TypeB.Remarks" xml:space="preserve">
+    <value>ホイール操作で「@CommandPrevPage」「@CommandNextPage」
+マウス右クリックで「@CommandOpenContextMenu」
+マウス左クリックは未定義</value>
+  </data>
+  <data name="InputSceme.TypeC" xml:space="preserve">
+    <value>クリックでのページ送り優先設定</value>
+  </data>
+  <data name="InputSceme.TypeC.Remarks" xml:space="preserve">
+    <value>マウスクリックで「@CommandPrevPage」「@CommandNextPage」
+ホイール操作で「@CommandViewScrollUp」「@CommandViewScrollDown」</value>
+  </data>
+  <data name="InputTouchControl.Remarks" xml:space="preserve">
+    <value>タッチするエリアを指定します。
+Centerがコマンドに割り当てられていない場合はその下のエリア(L1,L2,R1,R2)の判定が適用されます。
+フリック操作はジェスチャーで代用してください。</value>
+  </data>
+  <data name="InputTouchControl.TouchInput" xml:space="preserve">
+    <value>ここでタッチ入力</value>
+  </data>
   <data name="JavascriptEngine.ExecureFile" xml:space="preserve">
     <value>スクリプトを読み込んで実行します。</value>
   </data>
@@ -2467,11 +2286,11 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>// Sample.nvjs を読み込んで実行
 include("Sample.nvjs")</value>
   </data>
-  <data name="JavascriptEngine.ExecureFile.Returns" xml:space="preserve">
-    <value>スクリプトの実行結果</value>
-  </data>
   <data name="JavascriptEngine.ExecureFile.path" xml:space="preserve">
     <value>スクリプトのパス。相対パスは現在のスクリプトの場所が基準になります。</value>
+  </data>
+  <data name="JavascriptEngine.ExecureFile.Returns" xml:space="preserve">
+    <value>スクリプトの実行結果</value>
   </data>
   <data name="JavascriptEngine.Log" xml:space="preserve">
     <value>コンソールにメッセージを出力します。コンソールからスクリプトを実行したときのみ機能します。スクリプトテスト用です。</value>
@@ -2494,20 +2313,20 @@ include("Sample.nvjs")</value>
   <data name="JavascriptEngine.SystemCall.filename" xml:space="preserve">
     <value>実行ファイルのパス。URLやファイルパスを指定した場合は関連付けられたアプリが実行されます。</value>
   </data>
+  <data name="JumpPageCommand" xml:space="preserve">
+    <value>指定ページに移動</value>
+  </data>
   <data name="JumpPageCommand.Execute.Remarks" xml:space="preserve">
     <value>number: int|ベージ番号</value>
   </data>
   <data name="JumpPageCommand.Remarks" xml:space="preserve">
     <value>ページ番号を指定して移動します。</value>
   </data>
-  <data name="JumpPageCommand" xml:space="preserve">
-    <value>指定ページに移動</value>
+  <data name="JumpRandomPageCommand" xml:space="preserve">
+    <value>ランダムなページに移動</value>
   </data>
   <data name="JumpRandomPageCommand.Remarks" xml:space="preserve">
     <value>ランダムなページに移動します。</value>
-  </data>
-  <data name="JumpRandomPageCommand" xml:space="preserve">
-    <value>ランダムなページに移動</value>
   </data>
   <data name="Language.English" xml:space="preserve">
     <value>English</value>
@@ -2515,11 +2334,11 @@ include("Sample.nvjs")</value>
   <data name="Language.Japanese" xml:space="preserve">
     <value>日本語</value>
   </data>
-  <data name="LastPageCommand.Remarks" xml:space="preserve">
-    <value>終端ページに移動します。</value>
-  </data>
   <data name="LastPageCommand" xml:space="preserve">
     <value>最後のページに移動</value>
+  </data>
+  <data name="LastPageCommand.Remarks" xml:space="preserve">
+    <value>終端ページに移動します。</value>
   </data>
   <data name="LayoutPanelAccessor.Close" xml:space="preserve">
     <value>パネルを閉じる</value>
@@ -2566,6 +2385,9 @@ include("Sample.nvjs")</value>
   <data name="LevelEffectUnit.White" xml:space="preserve">
     <value>White</value>
   </data>
+  <data name="LoadAsCommand" xml:space="preserve">
+    <value>ファイルを開く</value>
+  </data>
   <data name="LoadAsCommand.Execute.Remarks" xml:space="preserve">
     <value>path: string|ファイルやフォルダーのパス</value>
   </data>
@@ -2574,9 +2396,6 @@ include("Sample.nvjs")</value>
   </data>
   <data name="LoadAsCommand.Remarks" xml:space="preserve">
     <value>圧縮ファイルか画像ファイルを選択して開きます。</value>
-  </data>
-  <data name="LoadAsCommand" xml:space="preserve">
-    <value>ファイルを開く</value>
   </data>
   <data name="LoadingPage.ViewNone" xml:space="preserve">
     <value>なし</value>
@@ -2647,29 +2466,29 @@ include("Sample.nvjs")</value>
   <data name="LoupeConfig.Speed" xml:space="preserve">
     <value>ルーペ移動速度</value>
   </data>
-  <data name="LoupeOffCommand.Remarks" xml:space="preserve">
-    <value>ルーペモードを解除します。</value>
-  </data>
   <data name="LoupeOffCommand" xml:space="preserve">
     <value>ルーペ解除</value>
   </data>
-  <data name="LoupeOnCommand.Remarks" xml:space="preserve">
-    <value>ルーペモードにします。</value>
+  <data name="LoupeOffCommand.Remarks" xml:space="preserve">
+    <value>ルーペモードを解除します。</value>
   </data>
   <data name="LoupeOnCommand" xml:space="preserve">
     <value>ルーペ有効</value>
   </data>
-  <data name="LoupeScaleDownCommand.Remarks" xml:space="preserve">
-    <value>ルーペ倍率を縮小します。ルーペ使用時のみ機能します。</value>
+  <data name="LoupeOnCommand.Remarks" xml:space="preserve">
+    <value>ルーペモードにします。</value>
   </data>
   <data name="LoupeScaleDownCommand" xml:space="preserve">
     <value>ルーペ倍率縮小</value>
   </data>
-  <data name="LoupeScaleUpCommand.Remarks" xml:space="preserve">
-    <value>ルーペ倍率を拡大します。ルーペ使用時のみ機能します。</value>
+  <data name="LoupeScaleDownCommand.Remarks" xml:space="preserve">
+    <value>ルーペ倍率を縮小します。ルーペ使用時のみ機能します。</value>
   </data>
   <data name="LoupeScaleUpCommand" xml:space="preserve">
     <value>ルーペ倍率拡大</value>
+  </data>
+  <data name="LoupeScaleUpCommand.Remarks" xml:space="preserve">
+    <value>ルーペ倍率を拡大します。ルーペ使用時のみ機能します。</value>
   </data>
   <data name="MagnifyEffectUnit.Amount" xml:space="preserve">
     <value>Amount</value>
@@ -2839,6 +2658,46 @@ include("Sample.nvjs")</value>
   <data name="MouseConfig.MinimumDragDistance.Remarks" xml:space="preserve">
     <value>ドラッグやジェスチャーになる最初の移動距離</value>
   </data>
+  <data name="MouseDragList.Header.Command" xml:space="preserve">
+    <value>コマンド</value>
+  </data>
+  <data name="MouseDragList.Header.Drag" xml:space="preserve">
+    <value>ドラッグ操作</value>
+  </data>
+  <data name="MouseDragList.Reset" xml:space="preserve">
+    <value>すべて初期化...</value>
+  </data>
+  <data name="MouseDragSettingWindow.Input" xml:space="preserve">
+    <value>ここでマウス入力</value>
+  </data>
+  <data name="MouseDragSettingWindow.New" xml:space="preserve">
+    <value>新しい設定</value>
+  </data>
+  <data name="MouseDragSettingWindow.Old" xml:space="preserve">
+    <value>現在の設定</value>
+  </data>
+  <data name="MouseDragSettingWindow.Remarks" xml:space="preserve">
+    <value>水色の枠内でマウスボタン入力します。
+右ボタンドラッグはマウスジェスチャーで予約されているため使用できません。</value>
+  </data>
+  <data name="MouseDragSettingWindow.Title" xml:space="preserve">
+    <value>ドラッグ操作設定</value>
+  </data>
+  <data name="MouseGestureControl.InputGesture" xml:space="preserve">
+    <value>ここでジェスチャー入力
+(右ボタンを押しながらドラッグ)</value>
+  </data>
+  <data name="MouseGestureControl.New" xml:space="preserve">
+    <value>新しい設定</value>
+  </data>
+  <data name="MouseGestureControl.Old" xml:space="preserve">
+    <value>現在の設定</value>
+  </data>
+  <data name="MouseGestureControl.Remarks" xml:space="preserve">
+    <value>水色の枠内でマウスジェスチャーを入力します。
+マウスジェスチャーはマウス右ボタンを押しながらのドラッグ操作です。
+左クリックを最後のジェスチャーキーとして登録可能です。</value>
+  </data>
   <data name="MovePagemarkInBookCommandParameter.IsIncludeTerminal" xml:space="preserve">
     <value>最初と最後のページを含める</value>
   </data>
@@ -2848,17 +2707,17 @@ include("Sample.nvjs")</value>
   <data name="MoveSizePageCommandParameter.Size" xml:space="preserve">
     <value>移動ページ数</value>
   </data>
-  <data name="MoveToChildBookCommand.Remarks" xml:space="preserve">
-    <value>ページがブックであるとき、そのブックを開きます。</value>
-  </data>
   <data name="MoveToChildBookCommand" xml:space="preserve">
     <value>このブックを開く</value>
   </data>
-  <data name="MoveToParentBookCommand.Remarks" xml:space="preserve">
-    <value>上の階層をブックとして開きます。</value>
+  <data name="MoveToChildBookCommand.Remarks" xml:space="preserve">
+    <value>ページがブックであるとき、そのブックを開きます。</value>
   </data>
   <data name="MoveToParentBookCommand" xml:space="preserve">
     <value>親のブックを開く</value>
+  </data>
+  <data name="MoveToParentBookCommand.Remarks" xml:space="preserve">
+    <value>上の階層をブックとして開きます。</value>
   </data>
   <data name="MultiPagePolicy.All" xml:space="preserve">
     <value>全てのページを実行する</value>
@@ -2932,71 +2791,74 @@ include("Sample.nvjs")</value>
   <data name="NavitageStretchAllowScaleUp" xml:space="preserve">
     <value>拡大を許可</value>
   </data>
-  <data name="NextBookCommand.Remarks" xml:space="preserve">
-    <value>本棚上での次のブックを読み込みます。</value>
-  </data>
   <data name="NextBookCommand" xml:space="preserve">
     <value>次のブックに移動</value>
   </data>
-  <data name="NextBookHistoryCommand.Remarks" xml:space="preserve">
-    <value>次に開いていたブックを開きます。</value>
+  <data name="NextBookCommand.Remarks" xml:space="preserve">
+    <value>本棚上での次のブックを読み込みます。</value>
   </data>
   <data name="NextBookHistoryCommand" xml:space="preserve">
     <value>次の表示ブックに進む</value>
   </data>
-  <data name="NextFolderPageCommand.Remarks" xml:space="preserve">
-    <value>ブック内の次のフォルダーの先頭ページに移動します。名前順の並びでのみ有効です。</value>
+  <data name="NextBookHistoryCommand.Remarks" xml:space="preserve">
+    <value>次に開いていたブックを開きます。</value>
   </data>
   <data name="NextFolderPageCommand" xml:space="preserve">
     <value>次のフォルダーに移動</value>
   </data>
-  <data name="NextHistoryCommand.Remarks" xml:space="preserve">
-    <value>次の新しい履歴のブックを読み込みます。</value>
+  <data name="NextFolderPageCommand.Remarks" xml:space="preserve">
+    <value>ブック内の次のフォルダーの先頭ページに移動します。名前順の並びでのみ有効です。</value>
   </data>
   <data name="NextHistoryCommand" xml:space="preserve">
     <value>次の履歴に進む</value>
   </data>
-  <data name="NextHistoryPageCommand.Remarks" xml:space="preserve">
-    <value>次に開いていたページに移動します。</value>
+  <data name="NextHistoryCommand.Remarks" xml:space="preserve">
+    <value>次の新しい履歴のブックを読み込みます。</value>
   </data>
   <data name="NextHistoryPageCommand" xml:space="preserve">
     <value>次の表示ページに進む</value>
   </data>
-  <data name="NextOnePageCommand.Remarks" xml:space="preserve">
-    <value>1ページだけ次方向に移動します。</value>
+  <data name="NextHistoryPageCommand.Remarks" xml:space="preserve">
+    <value>次に開いていたページに移動します。</value>
   </data>
   <data name="NextOnePageCommand" xml:space="preserve">
     <value>1ページ進む</value>
   </data>
-  <data name="NextPageCommand.Remarks" xml:space="preserve">
-    <value>ページ次方向に移動します。2ページ表示の場合は2ページ分移動します。</value>
+  <data name="NextOnePageCommand.Remarks" xml:space="preserve">
+    <value>1ページだけ次方向に移動します。</value>
   </data>
   <data name="NextPageCommand" xml:space="preserve">
     <value>次のページに進む</value>
   </data>
-  <data name="NextPagemarkCommand.Remarks" xml:space="preserve">
-    <value>次のページマークに移動します。</value>
+  <data name="NextPageCommand.Remarks" xml:space="preserve">
+    <value>ページ次方向に移動します。2ページ表示の場合は2ページ分移動します。</value>
   </data>
   <data name="NextPagemarkCommand" xml:space="preserve">
     <value>次のページマークに移動</value>
   </data>
-  <data name="NextPagemarkInBookCommand.Remarks" xml:space="preserve">
-    <value>現在のブック内で次のページマークに移動します。</value>
+  <data name="NextPagemarkCommand.Remarks" xml:space="preserve">
+    <value>次のページマークに移動します。</value>
   </data>
   <data name="NextPagemarkInBookCommand" xml:space="preserve">
     <value>ブック内の次のページマークに移動</value>
   </data>
-  <data name="NextScrollPageCommand.Remarks" xml:space="preserve">
-    <value>ページ次方向に画像をスクロールさせます。スクロールできない場合は次ページに移動します。ルーペ使用時はページ移動のみ行います。</value>
+  <data name="NextPagemarkInBookCommand.Remarks" xml:space="preserve">
+    <value>現在のブック内で次のページマークに移動します。</value>
   </data>
   <data name="NextScrollPageCommand" xml:space="preserve">
     <value>スクロール＋次のページに進む</value>
   </data>
-  <data name="NextSizePageCommand.Remarks" xml:space="preserve">
-    <value>設定されたページ数だけ次方向に移動します。</value>
+  <data name="NextScrollPageCommand.Remarks" xml:space="preserve">
+    <value>ページ次方向に画像をスクロールさせます。スクロールできない場合は次ページに移動します。ルーペ使用時はページ移動のみ行います。</value>
   </data>
   <data name="NextSizePageCommand" xml:space="preserve">
     <value>設定ページ数進む</value>
+  </data>
+  <data name="NextSizePageCommand.Remarks" xml:space="preserve">
+    <value>設定されたページ数だけ次方向に移動します。</value>
+  </data>
+  <data name="NoneCommand" xml:space="preserve">
+    <value>(none)</value>
   </data>
   <data name="NoticeConfig.BookNameShowMessageStyle" xml:space="preserve">
     <value>開いたブック名の表示</value>
@@ -3172,32 +3034,32 @@ include("Sample.nvjs")</value>
   <data name="NotifyTemporaryErrorTitle" xml:space="preserve">
     <value>一時フォルダーエラー</value>
   </data>
+  <data name="OpenConsoleCommand" xml:space="preserve">
+    <value>スクリプトコンソールを開く</value>
+  </data>
   <data name="OpenConsoleCommand.Menu" xml:space="preserve">
     <value>スクリプトコンソールを開く(_C)...</value>
   </data>
   <data name="OpenConsoleCommand.Remarks" xml:space="preserve">
     <value>スクリプト用コンソールを開きます。</value>
   </data>
-  <data name="OpenConsoleCommand" xml:space="preserve">
-    <value>スクリプトコンソールを開く</value>
+  <data name="OpenContextMenuCommand" xml:space="preserve">
+    <value>コンテキストメニューを開く</value>
   </data>
   <data name="OpenContextMenuCommand.Remarks" xml:space="preserve">
     <value>コンテキストメニューを開きます。</value>
   </data>
-  <data name="OpenContextMenuCommand" xml:space="preserve">
-    <value>コンテキストメニューを開く</value>
+  <data name="OpenExplorerCommand" xml:space="preserve">
+    <value>エクスプローラーで開く</value>
   </data>
   <data name="OpenExplorerCommand.Remarks" xml:space="preserve">
     <value>表示しているページのファイルをエクスプローラーで開きます。</value>
   </data>
-  <data name="OpenExplorerCommand" xml:space="preserve">
-    <value>エクスプローラーで開く</value>
+  <data name="OpenExternalAppCommand" xml:space="preserve">
+    <value>外部アプリで開く</value>
   </data>
   <data name="OpenExternalAppCommand.Remarks" xml:space="preserve">
     <value>表示されている画像を外部アプリで開きます。</value>
-  </data>
-  <data name="OpenExternalAppCommand" xml:space="preserve">
-    <value>外部アプリで開く</value>
   </data>
   <data name="OpenExternalAppCommandParameter.ArchivePolicy" xml:space="preserve">
     <value>圧縮ファイルの場合</value>
@@ -3217,35 +3079,35 @@ include("Sample.nvjs")</value>
   <data name="OpenExternalAppCommandParameter.Parameter.Remarks" xml:space="preserve">
     <value>$File はファイルパスに置換されます。$Uri はURIエスケープされたファイルパスに置換されます。</value>
   </data>
+  <data name="OpenOptionsWindowCommand" xml:space="preserve">
+    <value>設定ウィンドウを開く</value>
+  </data>
   <data name="OpenOptionsWindowCommand.Menu" xml:space="preserve">
     <value>設定(_O)...</value>
   </data>
   <data name="OpenOptionsWindowCommand.Remarks" xml:space="preserve">
     <value>設定ウィンドウを開きます。</value>
   </data>
-  <data name="OpenOptionsWindowCommand" xml:space="preserve">
-    <value>設定ウィンドウを開く</value>
+  <data name="OpenScriptsFolderCommand" xml:space="preserve">
+    <value>スクリプトフォルダーを開く</value>
   </data>
   <data name="OpenScriptsFolderCommand.Remarks" xml:space="preserve">
     <value>スクリプトフォルダーをエクスプローラーで開きます。</value>
   </data>
-  <data name="OpenScriptsFolderCommand" xml:space="preserve">
-    <value>スクリプトフォルダーを開く</value>
+  <data name="OpenSettingFilesFolderCommand" xml:space="preserve">
+    <value>設定ファイルの場所を開く</value>
   </data>
   <data name="OpenSettingFilesFolderCommand.Remarks" xml:space="preserve">
     <value>設定ファイルが保存されているフォルダーを開きます。</value>
   </data>
-  <data name="OpenSettingFilesFolderCommand" xml:space="preserve">
-    <value>設定ファイルの場所を開く</value>
+  <data name="OpenVersionWindowCommand" xml:space="preserve">
+    <value>バージョン情報を表示する</value>
   </data>
   <data name="OpenVersionWindowCommand.Menu" xml:space="preserve">
     <value>このアプリについて(_A)...</value>
   </data>
   <data name="OpenVersionWindowCommand.Remarks" xml:space="preserve">
     <value>バージョン情報を表示します。</value>
-  </data>
-  <data name="OpenVersionWindowCommand" xml:space="preserve">
-    <value>バージョン情報を表示する</value>
   </data>
   <data name="OptionErrorArgument" xml:space="preserve">
     <value>{0} はサポート外の引数型です。</value>
@@ -3326,11 +3188,35 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="PageEndAction.None" xml:space="preserve">
     <value>そのまま</value>
   </data>
+  <data name="PageList.Back.ToolTip" xml:space="preserve">
+    <value>戻る (Alt+Left)</value>
+  </data>
+  <data name="PageList.CopyToFolderFailed" xml:space="preserve">
+    <value>コピーに失敗しました</value>
+  </data>
+  <data name="PageList.Message.MoveToFolderFailed" xml:space="preserve">
+    <value>移動に失敗しました</value>
+  </data>
+  <data name="PageList.Next.ToolTip" xml:space="preserve">
+    <value>進む (Alt+Right)</value>
+  </data>
+  <data name="PageList.Up.ToolTip" xml:space="preserve">
+    <value>上に移動 (Alt+Up)</value>
+  </data>
   <data name="PageListConfig.Format" xml:space="preserve">
     <value>ページリストのページ名表示形式</value>
   </data>
   <data name="PageListConfig.PanelListItemStyle" xml:space="preserve">
     <value>ページリスト項目スタイル</value>
+  </data>
+  <data name="PageListItem.Menu.CopyToFolder" xml:space="preserve">
+    <value>フォルダーにコピー(_Y)</value>
+  </data>
+  <data name="PageListItem.Menu.Explorer" xml:space="preserve">
+    <value>エクスプローラーで開く(_X)</value>
+  </data>
+  <data name="PageListItem.Menu.MoveToFolder" xml:space="preserve">
+    <value>フォルダーに移動(_E)</value>
   </data>
   <data name="PageListItemMenuCopy" xml:space="preserve">
     <value>コピー(_C)</value>
@@ -3779,14 +3665,14 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="ParmViewForceAutoRotate" xml:space="preserve">
     <value>自動回転を強制</value>
   </data>
+  <data name="PasteCommand" xml:space="preserve">
+    <value>貼り付け</value>
+  </data>
   <data name="PasteCommand.Menu" xml:space="preserve">
     <value>貼り付け(_V)</value>
   </data>
   <data name="PasteCommand.Remarks" xml:space="preserve">
     <value>クリップボードのファイルや画像を貼り付けます。</value>
-  </data>
-  <data name="PasteCommand" xml:space="preserve">
-    <value>貼り付け</value>
   </data>
   <data name="PdfArchiveConfig.IsEnabled" xml:space="preserve">
     <value>PDFを使用する</value>
@@ -3855,80 +3741,80 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   <data name="PixelateEffectUnit.Pixelation" xml:space="preserve">
     <value>Pixelation</value>
   </data>
-  <data name="PrevBookCommand.Remarks" xml:space="preserve">
-    <value>本棚上での前のブックを読み込みます。</value>
-  </data>
   <data name="PrevBookCommand" xml:space="preserve">
     <value>前のブックに移動</value>
   </data>
-  <data name="PrevBookHistoryCommand.Remarks" xml:space="preserve">
-    <value>前に開いていたブックを開きます。</value>
+  <data name="PrevBookCommand.Remarks" xml:space="preserve">
+    <value>本棚上での前のブックを読み込みます。</value>
   </data>
   <data name="PrevBookHistoryCommand" xml:space="preserve">
     <value>前の表示ブックに戻る</value>
   </data>
-  <data name="PrevFolderPageCommand.Remarks" xml:space="preserve">
-    <value>ブック内の前のフォルダーの先頭ページに移動します。名前順の並びでのみ有効です。</value>
+  <data name="PrevBookHistoryCommand.Remarks" xml:space="preserve">
+    <value>前に開いていたブックを開きます。</value>
   </data>
   <data name="PrevFolderPageCommand" xml:space="preserve">
     <value>前のフォルダーに移動</value>
   </data>
-  <data name="PrevHistoryCommand.Remarks" xml:space="preserve">
-    <value>前の古い履歴のブックを読み込みます。</value>
+  <data name="PrevFolderPageCommand.Remarks" xml:space="preserve">
+    <value>ブック内の前のフォルダーの先頭ページに移動します。名前順の並びでのみ有効です。</value>
   </data>
   <data name="PrevHistoryCommand" xml:space="preserve">
     <value>前の履歴に戻る</value>
   </data>
-  <data name="PrevHistoryPageCommand.Remarks" xml:space="preserve">
-    <value>前に開いていたページに移動します。</value>
+  <data name="PrevHistoryCommand.Remarks" xml:space="preserve">
+    <value>前の古い履歴のブックを読み込みます。</value>
   </data>
   <data name="PrevHistoryPageCommand" xml:space="preserve">
     <value>前の表示ページに戻る</value>
   </data>
-  <data name="PrevOnePageCommand.Remarks" xml:space="preserve">
-    <value>1ページだけ前方向に移動します。</value>
+  <data name="PrevHistoryPageCommand.Remarks" xml:space="preserve">
+    <value>前に開いていたページに移動します。</value>
   </data>
   <data name="PrevOnePageCommand" xml:space="preserve">
     <value>1ページ戻る</value>
   </data>
-  <data name="PrevPageCommand.Remarks" xml:space="preserve">
-    <value>ページ前方向に移動します。2ページ表示の場合は2ページ分移動します。</value>
+  <data name="PrevOnePageCommand.Remarks" xml:space="preserve">
+    <value>1ページだけ前方向に移動します。</value>
   </data>
   <data name="PrevPageCommand" xml:space="preserve">
     <value>前のページに戻る</value>
   </data>
-  <data name="PrevPagemarkCommand.Remarks" xml:space="preserve">
-    <value>前のページマークに移動します。</value>
+  <data name="PrevPageCommand.Remarks" xml:space="preserve">
+    <value>ページ前方向に移動します。2ページ表示の場合は2ページ分移動します。</value>
   </data>
   <data name="PrevPagemarkCommand" xml:space="preserve">
     <value>前のページマークに移動</value>
   </data>
-  <data name="PrevPagemarkInBookCommand.Remarks" xml:space="preserve">
-    <value>現在のブック内で前のページマークに移動します。</value>
+  <data name="PrevPagemarkCommand.Remarks" xml:space="preserve">
+    <value>前のページマークに移動します。</value>
   </data>
   <data name="PrevPagemarkInBookCommand" xml:space="preserve">
     <value>ブック内の前のページマークに移動</value>
   </data>
-  <data name="PrevScrollPageCommand.Remarks" xml:space="preserve">
-    <value>ページ前方向に画像をスクロールさせます。スクロールできない場合は前ページに移動します。ルーペ使用時はページ移動のみ行います。</value>
+  <data name="PrevPagemarkInBookCommand.Remarks" xml:space="preserve">
+    <value>現在のブック内で前のページマークに移動します。</value>
   </data>
   <data name="PrevScrollPageCommand" xml:space="preserve">
     <value>スクロール＋前のページに戻る</value>
   </data>
-  <data name="PrevSizePageCommand.Remarks" xml:space="preserve">
-    <value>設定されたページ数だけ前方向に移動します。</value>
+  <data name="PrevScrollPageCommand.Remarks" xml:space="preserve">
+    <value>ページ前方向に画像をスクロールさせます。スクロールできない場合は前ページに移動します。ルーペ使用時はページ移動のみ行います。</value>
   </data>
   <data name="PrevSizePageCommand" xml:space="preserve">
     <value>設定ページ数戻る</value>
+  </data>
+  <data name="PrevSizePageCommand.Remarks" xml:space="preserve">
+    <value>設定されたページ数だけ前方向に移動します。</value>
+  </data>
+  <data name="PrintCommand" xml:space="preserve">
+    <value>印刷</value>
   </data>
   <data name="PrintCommand.Menu" xml:space="preserve">
     <value>印刷(_P)...</value>
   </data>
   <data name="PrintCommand.Remarks" xml:space="preserve">
     <value>画像を印刷します。</value>
-  </data>
-  <data name="PrintCommand" xml:space="preserve">
-    <value>印刷</value>
   </data>
   <data name="PrintMode.RawImage" xml:space="preserve">
     <value>画像を印刷</value>
@@ -3941,6 +3827,45 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   </data>
   <data name="PrintMode.ViewStretch" xml:space="preserve">
     <value>全体の表示を印刷</value>
+  </data>
+  <data name="PrintWindow.Background" xml:space="preserve">
+    <value>背景を印刷する</value>
+  </data>
+  <data name="PrintWindow.ButtonPrint" xml:space="preserve">
+    <value>印刷</value>
+  </data>
+  <data name="PrintWindow.Column" xml:space="preserve">
+    <value>横</value>
+  </data>
+  <data name="PrintWindow.Content" xml:space="preserve">
+    <value>印刷内容</value>
+  </data>
+  <data name="PrintWindow.Horizontal" xml:space="preserve">
+    <value>水平位置</value>
+  </data>
+  <data name="PrintWindow.KeepDot" xml:space="preserve">
+    <value>ドットのまま印刷</value>
+  </data>
+  <data name="PrintWindow.Margin" xml:space="preserve">
+    <value>用紙余白 (mm)</value>
+  </data>
+  <data name="PrintWindow.Orientation" xml:space="preserve">
+    <value>印刷の向き</value>
+  </data>
+  <data name="PrintWindow.Printer" xml:space="preserve">
+    <value>プリンター</value>
+  </data>
+  <data name="PrintWindow.Row" xml:space="preserve">
+    <value>縦</value>
+  </data>
+  <data name="PrintWindow.Sheets" xml:space="preserve">
+    <value>用紙枚数</value>
+  </data>
+  <data name="PrintWindow.Title" xml:space="preserve">
+    <value>印刷</value>
+  </data>
+  <data name="PrintWindow.Vertival" xml:space="preserve">
+    <value>垂直位置</value>
   </data>
   <data name="QueryScheme.Bookmark" xml:space="preserve">
     <value>ブックマーク</value>
@@ -3957,23 +3882,29 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   <data name="QueryScheme.Root" xml:space="preserve">
     <value>本棚</value>
   </data>
-  <data name="RandomBookCommand.Remarks" xml:space="preserve">
-    <value>本棚上でランダムなブックを読み込みます。</value>
-  </data>
   <data name="RandomBookCommand" xml:space="preserve">
     <value>ランダムなブックに移動</value>
   </data>
-  <data name="ReLoadCommand.Remarks" xml:space="preserve">
-    <value>ブックを再読み込みします。</value>
+  <data name="RandomBookCommand.Remarks" xml:space="preserve">
+    <value>本棚上でランダムなブックを読み込みます。</value>
   </data>
   <data name="ReLoadCommand" xml:space="preserve">
     <value>再読み込み</value>
   </data>
-  <data name="ReloadSettingCommand.Remarks" xml:space="preserve">
-    <value>設定を再読み込みします。</value>
+  <data name="ReLoadCommand.Remarks" xml:space="preserve">
+    <value>ブックを再読み込みします。</value>
   </data>
   <data name="ReloadSettingCommand" xml:space="preserve">
     <value>設定の再読込</value>
+  </data>
+  <data name="ReloadSettingCommand.Remarks" xml:space="preserve">
+    <value>設定を再読み込みします。</value>
+  </data>
+  <data name="ResolveConflictDialog.Message" xml:space="preserve">
+    <value>「{0}」で実行するコマンドを１つだけ選択してください</value>
+  </data>
+  <data name="ResolveConflictDialog.Title" xml:space="preserve">
+    <value>競合の解消</value>
   </data>
   <data name="ReversibleCommandParameter.IsReverse" xml:space="preserve">
     <value>スライダー方向による操作入れ替え許可</value>
@@ -3993,11 +3924,11 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   <data name="RippleEffectUnit.Phase" xml:space="preserve">
     <value>Phase</value>
   </data>
-  <data name="SaveSettingCommand.Remarks" xml:space="preserve">
-    <value>現在の設定の保存を実行します。</value>
-  </data>
   <data name="SaveSettingCommand" xml:space="preserve">
     <value>設定の保存</value>
+  </data>
+  <data name="SaveSettingCommand.Remarks" xml:space="preserve">
+    <value>現在の設定の保存を実行します。</value>
   </data>
   <data name="ScriptCommand" xml:space="preserve">
     <value>スクリプト</value>
@@ -4017,14 +3948,11 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   <data name="ScriptOnBookLoadedCommand.Remarks" xml:space="preserve">
     <value>スクリプト。ブックを開いたときに実行されます。</value>
   </data>
-  <data name="NoneCommand" xml:space="preserve">
-    <value>(none)</value>
+  <data name="ScriptReference" xml:space="preserve">
+    <value>スクリプトリファレンス</value>
   </data>
   <data name="ScriptReference.Summary" xml:space="preserve">
     <value>NeeView専用のスクリプト命令の使用方法を説明します。</value>
-  </data>
-  <data name="ScriptReference" xml:space="preserve">
-    <value>スクリプトリファレンス</value>
   </data>
   <data name="ScrollPageCommandParameter.IsNScroll" xml:space="preserve">
     <value>N字スクロール</value>
@@ -4053,245 +3981,245 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   <data name="ScrollPageCommandParameter.ScrollDuration" xml:space="preserve">
     <value>スクロール時間 (秒)</value>
   </data>
-  <data name="SetBackgroundAutoCommand.Remarks" xml:space="preserve">
-    <value>背景色を画像から設定します。具体的には画像の左上ピクセルの色が使用されます。</value>
-  </data>
   <data name="SetBackgroundAutoCommand" xml:space="preserve">
     <value>背景を画像に合わせた色にする</value>
   </data>
-  <data name="SetBackgroundBlackCommand.Remarks" xml:space="preserve">
-    <value>背景を黒色にします。</value>
+  <data name="SetBackgroundAutoCommand.Remarks" xml:space="preserve">
+    <value>背景色を画像から設定します。具体的には画像の左上ピクセルの色が使用されます。</value>
   </data>
   <data name="SetBackgroundBlackCommand" xml:space="preserve">
     <value>背景を黒色にする</value>
   </data>
-  <data name="SetBackgroundCheckCommand.Remarks" xml:space="preserve">
-    <value>背景を白チェック模様にします。</value>
+  <data name="SetBackgroundBlackCommand.Remarks" xml:space="preserve">
+    <value>背景を黒色にします。</value>
   </data>
   <data name="SetBackgroundCheckCommand" xml:space="preserve">
     <value>背景を白チェック模様にする</value>
   </data>
-  <data name="SetBackgroundCheckDarkCommand.Remarks" xml:space="preserve">
-    <value>背景を黒チェック模様にします。</value>
+  <data name="SetBackgroundCheckCommand.Remarks" xml:space="preserve">
+    <value>背景を白チェック模様にします。</value>
   </data>
   <data name="SetBackgroundCheckDarkCommand" xml:space="preserve">
     <value>背景を黒チェック模様にする</value>
   </data>
-  <data name="SetBackgroundCustomCommand.Remarks" xml:space="preserve">
-    <value>背景をカスタム背景にします。</value>
+  <data name="SetBackgroundCheckDarkCommand.Remarks" xml:space="preserve">
+    <value>背景を黒チェック模様にします。</value>
   </data>
   <data name="SetBackgroundCustomCommand" xml:space="preserve">
     <value>背景をカスタム背景にする</value>
   </data>
-  <data name="SetBackgroundWhiteCommand.Remarks" xml:space="preserve">
-    <value>背景を白色にします。</value>
+  <data name="SetBackgroundCustomCommand.Remarks" xml:space="preserve">
+    <value>背景をカスタム背景にします。</value>
   </data>
   <data name="SetBackgroundWhiteCommand" xml:space="preserve">
     <value>背景を白色にする</value>
   </data>
-  <data name="SetBookOrderByEntryTimeACommand.Remarks" xml:space="preserve">
-    <value>ブックの並びを登録順(昇順)にします。</value>
+  <data name="SetBackgroundWhiteCommand.Remarks" xml:space="preserve">
+    <value>背景を白色にします。</value>
   </data>
   <data name="SetBookOrderByEntryTimeACommand" xml:space="preserve">
     <value>ブック列は登録昇順</value>
   </data>
-  <data name="SetBookOrderByEntryTimeDCommand.Remarks" xml:space="preserve">
-    <value>ブックの並びを登録順(降順)にします。</value>
+  <data name="SetBookOrderByEntryTimeACommand.Remarks" xml:space="preserve">
+    <value>ブックの並びを登録順(昇順)にします。</value>
   </data>
   <data name="SetBookOrderByEntryTimeDCommand" xml:space="preserve">
     <value>ブック列は登録降順</value>
   </data>
-  <data name="SetBookOrderByFileNameACommand.Remarks" xml:space="preserve">
-    <value>ブックの並びを名前順(昇順)にします。</value>
+  <data name="SetBookOrderByEntryTimeDCommand.Remarks" xml:space="preserve">
+    <value>ブックの並びを登録順(降順)にします。</value>
   </data>
   <data name="SetBookOrderByFileNameACommand" xml:space="preserve">
     <value>ブック列はファイル名順昇順</value>
   </data>
-  <data name="SetBookOrderByFileNameDCommand.Remarks" xml:space="preserve">
-    <value>ブックの並びを名前順(降順)にします。</value>
+  <data name="SetBookOrderByFileNameACommand.Remarks" xml:space="preserve">
+    <value>ブックの並びを名前順(昇順)にします。</value>
   </data>
   <data name="SetBookOrderByFileNameDCommand" xml:space="preserve">
     <value>ブック列はファイル名順降順</value>
   </data>
-  <data name="SetBookOrderByFileTypeACommand.Remarks" xml:space="preserve">
-    <value>ブックの並びをファイルの種類順(昇順)にします。</value>
+  <data name="SetBookOrderByFileNameDCommand.Remarks" xml:space="preserve">
+    <value>ブックの並びを名前順(降順)にします。</value>
   </data>
   <data name="SetBookOrderByFileTypeACommand" xml:space="preserve">
     <value>ブック列は種類昇順</value>
   </data>
-  <data name="SetBookOrderByFileTypeDCommand.Remarks" xml:space="preserve">
-    <value>ブックの並びをファイルの種類順(降順)にします。</value>
+  <data name="SetBookOrderByFileTypeACommand.Remarks" xml:space="preserve">
+    <value>ブックの並びをファイルの種類順(昇順)にします。</value>
   </data>
   <data name="SetBookOrderByFileTypeDCommand" xml:space="preserve">
     <value>ブック列は種類降順</value>
   </data>
-  <data name="SetBookOrderByPathACommand.Remarks" xml:space="preserve">
-    <value>ブックの並びをパス順(昇順)にします。</value>
+  <data name="SetBookOrderByFileTypeDCommand.Remarks" xml:space="preserve">
+    <value>ブックの並びをファイルの種類順(降順)にします。</value>
   </data>
   <data name="SetBookOrderByPathACommand" xml:space="preserve">
     <value>ブック列はパス昇順</value>
   </data>
-  <data name="SetBookOrderByPathDCommand.Remarks" xml:space="preserve">
-    <value>ブックの並びをパス順(降順)にします。</value>
+  <data name="SetBookOrderByPathACommand.Remarks" xml:space="preserve">
+    <value>ブックの並びをパス順(昇順)にします。</value>
   </data>
   <data name="SetBookOrderByPathDCommand" xml:space="preserve">
     <value>ブック列はパス降順</value>
   </data>
-  <data name="SetBookOrderByRandomCommand.Remarks" xml:space="preserve">
-    <value>ブックの並びをシャッフルします。</value>
+  <data name="SetBookOrderByPathDCommand.Remarks" xml:space="preserve">
+    <value>ブックの並びをパス順(降順)にします。</value>
   </data>
   <data name="SetBookOrderByRandomCommand" xml:space="preserve">
     <value>ブック列はシャッフル</value>
   </data>
-  <data name="SetBookOrderBySizeACommand.Remarks" xml:space="preserve">
-    <value>ブックの並びをサイズ順(昇順)にします。</value>
+  <data name="SetBookOrderByRandomCommand.Remarks" xml:space="preserve">
+    <value>ブックの並びをシャッフルします。</value>
   </data>
   <data name="SetBookOrderBySizeACommand" xml:space="preserve">
     <value>ブック列はサイズ昇順</value>
   </data>
-  <data name="SetBookOrderBySizeDCommand.Remarks" xml:space="preserve">
-    <value>ブックの並びをサイズ順(降順)にします。</value>
+  <data name="SetBookOrderBySizeACommand.Remarks" xml:space="preserve">
+    <value>ブックの並びをサイズ順(昇順)にします。</value>
   </data>
   <data name="SetBookOrderBySizeDCommand" xml:space="preserve">
     <value>ブック列はサイズ降順</value>
   </data>
-  <data name="SetBookOrderByTimeStampACommand.Remarks" xml:space="preserve">
-    <value>ブックの並びを日付順(昇順)にします。</value>
+  <data name="SetBookOrderBySizeDCommand.Remarks" xml:space="preserve">
+    <value>ブックの並びをサイズ順(降順)にします。</value>
   </data>
   <data name="SetBookOrderByTimeStampACommand" xml:space="preserve">
     <value>ブック列は日付昇順</value>
   </data>
-  <data name="SetBookOrderByTimeStampDCommand.Remarks" xml:space="preserve">
-    <value>ブックの並びを日付順(降順)にします。</value>
+  <data name="SetBookOrderByTimeStampACommand.Remarks" xml:space="preserve">
+    <value>ブックの並びを日付順(昇順)にします。</value>
   </data>
   <data name="SetBookOrderByTimeStampDCommand" xml:space="preserve">
     <value>ブック列は日付降順</value>
   </data>
-  <data name="SetBookReadOrderLeftCommand.Remarks" xml:space="preserve">
-    <value>読み進む方向を左開きにします。2ページ表示のときに若いページが左になります。</value>
+  <data name="SetBookOrderByTimeStampDCommand.Remarks" xml:space="preserve">
+    <value>ブックの並びを日付順(降順)にします。</value>
   </data>
   <data name="SetBookReadOrderLeftCommand" xml:space="preserve">
     <value>左開き</value>
   </data>
-  <data name="SetBookReadOrderRightCommand.Remarks" xml:space="preserve">
-    <value>読み進む方向を右開きにします。2ページ表示のときに若いページが右になります。</value>
+  <data name="SetBookReadOrderLeftCommand.Remarks" xml:space="preserve">
+    <value>読み進む方向を左開きにします。2ページ表示のときに若いページが左になります。</value>
   </data>
   <data name="SetBookReadOrderRightCommand" xml:space="preserve">
     <value>右開き</value>
   </data>
-  <data name="SetDefaultPageSettingCommand.Remarks" xml:space="preserve">
-    <value>既定のページ設定に戻します。</value>
+  <data name="SetBookReadOrderRightCommand.Remarks" xml:space="preserve">
+    <value>読み進む方向を右開きにします。2ページ表示のときに若いページが右になります。</value>
   </data>
   <data name="SetDefaultPageSettingCommand" xml:space="preserve">
     <value>ページ設定の初期化</value>
   </data>
-  <data name="SetFullScreenCommand.Remarks" xml:space="preserve">
-    <value>フルスクリーンにします。</value>
+  <data name="SetDefaultPageSettingCommand.Remarks" xml:space="preserve">
+    <value>既定のページ設定に戻します。</value>
   </data>
   <data name="SetFullScreenCommand" xml:space="preserve">
     <value>フルスクリーンにする</value>
   </data>
-  <data name="SetPageModeOneCommand.Remarks" xml:space="preserve">
-    <value>1ページ表示にします。</value>
+  <data name="SetFullScreenCommand.Remarks" xml:space="preserve">
+    <value>フルスクリーンにします。</value>
   </data>
   <data name="SetPageModeOneCommand" xml:space="preserve">
     <value>1ページ表示</value>
   </data>
-  <data name="SetPageModeTwoCommand.Remarks" xml:space="preserve">
-    <value>2ページ表示にします。</value>
+  <data name="SetPageModeOneCommand.Remarks" xml:space="preserve">
+    <value>1ページ表示にします。</value>
   </data>
   <data name="SetPageModeTwoCommand" xml:space="preserve">
     <value>2ページ表示</value>
   </data>
-  <data name="SetSortModeFileNameCommand.Remarks" xml:space="preserve">
-    <value>ページの並び順をファイル名昇順にします。</value>
+  <data name="SetPageModeTwoCommand.Remarks" xml:space="preserve">
+    <value>2ページ表示にします。</value>
   </data>
   <data name="SetSortModeFileNameCommand" xml:space="preserve">
     <value>ファイル名昇順</value>
   </data>
-  <data name="SetSortModeFileNameDescendingCommand.Remarks" xml:space="preserve">
-    <value>ページの並び順をファイル名降順にします。</value>
+  <data name="SetSortModeFileNameCommand.Remarks" xml:space="preserve">
+    <value>ページの並び順をファイル名昇順にします。</value>
   </data>
   <data name="SetSortModeFileNameDescendingCommand" xml:space="preserve">
     <value>ファイル名降順</value>
   </data>
-  <data name="SetSortModeRandomCommand.Remarks" xml:space="preserve">
-    <value>ページの並び順をシャッフルます。</value>
+  <data name="SetSortModeFileNameDescendingCommand.Remarks" xml:space="preserve">
+    <value>ページの並び順をファイル名降順にします。</value>
   </data>
   <data name="SetSortModeRandomCommand" xml:space="preserve">
     <value>シャッフル</value>
   </data>
-  <data name="SetSortModeSizeCommand.Remarks" xml:space="preserve">
-    <value>ページの並び順をファイルサイズ昇順にします。</value>
+  <data name="SetSortModeRandomCommand.Remarks" xml:space="preserve">
+    <value>ページの並び順をシャッフルます。</value>
   </data>
   <data name="SetSortModeSizeCommand" xml:space="preserve">
     <value>ファイルサイズ昇順</value>
   </data>
-  <data name="SetSortModeSizeDescendingCommand.Remarks" xml:space="preserve">
-    <value>ページの並び順をファイルサイズ降順にします。</value>
+  <data name="SetSortModeSizeCommand.Remarks" xml:space="preserve">
+    <value>ページの並び順をファイルサイズ昇順にします。</value>
   </data>
   <data name="SetSortModeSizeDescendingCommand" xml:space="preserve">
     <value>ファイルサイズ降順</value>
   </data>
-  <data name="SetSortModeTimeStampCommand.Remarks" xml:space="preserve">
-    <value>ページの並び順をファイル日付昇順にします。</value>
+  <data name="SetSortModeSizeDescendingCommand.Remarks" xml:space="preserve">
+    <value>ページの並び順をファイルサイズ降順にします。</value>
   </data>
   <data name="SetSortModeTimeStampCommand" xml:space="preserve">
     <value>ファイル日付昇順</value>
   </data>
-  <data name="SetSortModeTimeStampDescendingCommand.Remarks" xml:space="preserve">
-    <value>ページの並び順をファイル日付降順にします。</value>
+  <data name="SetSortModeTimeStampCommand.Remarks" xml:space="preserve">
+    <value>ページの並び順をファイル日付昇順にします。</value>
   </data>
   <data name="SetSortModeTimeStampDescendingCommand" xml:space="preserve">
     <value>ファイル日付降順</value>
   </data>
-  <data name="SetStretchModeInsideCommand.Remarks" xml:space="preserve">
-    <value>ウィンドウに収まるように画像を縮小して表示します。</value>
+  <data name="SetSortModeTimeStampDescendingCommand.Remarks" xml:space="preserve">
+    <value>ページの並び順をファイル日付降順にします。</value>
   </data>
   <data name="SetStretchModeInsideCommand" xml:space="preserve">
     <value>大きい場合ウィンドウサイズに合わせる</value>
   </data>
-  <data name="SetStretchModeNoneCommand.Remarks" xml:space="preserve">
-    <value>画像のサイズそのままで表示します。</value>
+  <data name="SetStretchModeInsideCommand.Remarks" xml:space="preserve">
+    <value>ウィンドウに収まるように画像を縮小して表示します。</value>
   </data>
   <data name="SetStretchModeNoneCommand" xml:space="preserve">
     <value>オリジナルサイズ</value>
   </data>
-  <data name="SetStretchModeOutsideCommand.Remarks" xml:space="preserve">
-    <value>ウィンドウに収まるように画像をできるだけ拡大して表示します。</value>
+  <data name="SetStretchModeNoneCommand.Remarks" xml:space="preserve">
+    <value>画像のサイズそのままで表示します。</value>
   </data>
   <data name="SetStretchModeOutsideCommand" xml:space="preserve">
     <value>小さい場合ウィンドウサイズに広げる</value>
   </data>
-  <data name="SetStretchModeUniformCommand.Remarks" xml:space="preserve">
-    <value>画像をウィンドウサイズに合わせるよう拡大縮小します。</value>
+  <data name="SetStretchModeOutsideCommand.Remarks" xml:space="preserve">
+    <value>ウィンドウに収まるように画像をできるだけ拡大して表示します。</value>
   </data>
   <data name="SetStretchModeUniformCommand" xml:space="preserve">
     <value>ウィンドウサイズに合わせる</value>
   </data>
-  <data name="SetStretchModeUniformToFillCommand.Remarks" xml:space="preserve">
-    <value>縦横どちらかをウィンドウサイズに合わせるように拡大縮小します。画像はウィンドウサイズより大きくなります。</value>
+  <data name="SetStretchModeUniformCommand.Remarks" xml:space="preserve">
+    <value>画像をウィンドウサイズに合わせるよう拡大縮小します。</value>
   </data>
   <data name="SetStretchModeUniformToFillCommand" xml:space="preserve">
     <value>ウィンドウいっぱいに広げる</value>
   </data>
-  <data name="SetStretchModeUniformToHorizontalCommand.Remarks" xml:space="preserve">
-    <value>ウィンドウの幅に画像の幅を合わせるように拡大縮小します。</value>
+  <data name="SetStretchModeUniformToFillCommand.Remarks" xml:space="preserve">
+    <value>縦横どちらかをウィンドウサイズに合わせるように拡大縮小します。画像はウィンドウサイズより大きくなります。</value>
   </data>
   <data name="SetStretchModeUniformToHorizontalCommand" xml:space="preserve">
     <value>幅をウィンドウに合わせる</value>
   </data>
-  <data name="SetStretchModeUniformToSizeCommand.Remarks" xml:space="preserve">
-    <value>ウィンドウの面積と等しくなるように画像を拡大縮小します。</value>
+  <data name="SetStretchModeUniformToHorizontalCommand.Remarks" xml:space="preserve">
+    <value>ウィンドウの幅に画像の幅を合わせるように拡大縮小します。</value>
   </data>
   <data name="SetStretchModeUniformToSizeCommand" xml:space="preserve">
     <value>面積をウィンドウに合わせる</value>
   </data>
-  <data name="SetStretchModeUniformToVerticalCommand.Remarks" xml:space="preserve">
-    <value>ウィンドウの高さに画像の高さを合わせるように拡大縮小します。</value>
+  <data name="SetStretchModeUniformToSizeCommand.Remarks" xml:space="preserve">
+    <value>ウィンドウの面積と等しくなるように画像を拡大縮小します。</value>
   </data>
   <data name="SetStretchModeUniformToVerticalCommand" xml:space="preserve">
     <value>高さをウィンドウに合わせる</value>
+  </data>
+  <data name="SetStretchModeUniformToVerticalCommand.Remarks" xml:space="preserve">
+    <value>ウィンドウの高さに画像の高さを合わせるように拡大縮小します。</value>
   </data>
   <data name="SettingItemRemove" xml:space="preserve">
     <value>全てのデータを削除する...</value>
@@ -4787,14 +4715,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="SharpenEffectUnit.Height" xml:space="preserve">
     <value>Height</value>
   </data>
+  <data name="ShowHiddenPanelsCommand" xml:space="preserve">
+    <value>パネルを一時的に表示する</value>
+  </data>
   <data name="ShowHiddenPanelsCommand.Menu" xml:space="preserve">
     <value>パネル一時表示</value>
   </data>
   <data name="ShowHiddenPanelsCommand.Remarks" xml:space="preserve">
     <value>自動非表示になっているパネルを一時的に表示します。なんらかの操作をすると解除されます。</value>
-  </data>
-  <data name="ShowHiddenPanelsCommand" xml:space="preserve">
-    <value>パネルを一時的に表示する</value>
   </data>
   <data name="ShowMessageStyle.None" xml:space="preserve">
     <value>表示しない</value>
@@ -4904,14 +4832,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="StretchModeCommandParameter.IsToggle.Remarks" xml:space="preserve">
     <value>既に指定のストレッチモードの場合はオリジナルサイズにします</value>
   </data>
+  <data name="StretchWindowCommand" xml:space="preserve">
+    <value>ウィンドウサイズ調整</value>
+  </data>
   <data name="StretchWindowCommand.Menu" xml:space="preserve">
     <value>ウィンドウサイズ調整</value>
   </data>
   <data name="StretchWindowCommand.Remarks" xml:space="preserve">
     <value>メインビューのコンテンツサイズにウィンドウを合わせます。</value>
-  </data>
-  <data name="StretchWindowCommand" xml:space="preserve">
-    <value>ウィンドウサイズ調整</value>
   </data>
   <data name="SusieConfig.IsEnabled" xml:space="preserve">
     <value>Susieプラグインを使用する</value>
@@ -4924,6 +4852,18 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="SusieConfig.SusiePluginPath" xml:space="preserve">
     <value>プラグインフォルダー</value>
+  </data>
+  <data name="SusiePluginList.Config" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="SusiePluginList.Down" xml:space="preserve">
+    <value>下へ</value>
+  </data>
+  <data name="SusiePluginList.SwitchAll" xml:space="preserve">
+    <value>全有効/解除</value>
+  </data>
+  <data name="SusiePluginList.Up" xml:space="preserve">
+    <value>上へ</value>
   </data>
   <data name="SwirlEffectUnit.Center" xml:space="preserve">
     <value>Center</value>
@@ -5066,11 +5006,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ThumbnailConfig.ThumbnailPageCapacity.Remarks" xml:space="preserve">
     <value>メモリに保持されるページサムネイル数です。ブックを閉じると全て破棄されます。</value>
   </data>
+  <data name="ToggleBackgroundCommand" xml:space="preserve">
+    <value>背景を切り替える</value>
+  </data>
   <data name="ToggleBackgroundCommand.Remarks" xml:space="preserve">
     <value>背景を順番に切り替えます。</value>
   </data>
-  <data name="ToggleBackgroundCommand" xml:space="preserve">
-    <value>背景を切り替える</value>
+  <data name="ToggleBookmarkCommand" xml:space="preserve">
+    <value>ブックマーク登録/解除</value>
   </data>
   <data name="ToggleBookmarkCommand.Menu" xml:space="preserve">
     <value>ブックマーク</value>
@@ -5078,26 +5021,29 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleBookmarkCommand.Remarks" xml:space="preserve">
     <value>現在開いているブックのブックマークの登録/解除を切り替えます。</value>
   </data>
-  <data name="ToggleBookmarkCommand" xml:space="preserve">
-    <value>ブックマーク登録/解除</value>
-  </data>
   <data name="ToggleBookmarkCommand_Off" xml:space="preserve">
     <value>ブックマーク解除</value>
   </data>
   <data name="ToggleBookmarkCommand_On" xml:space="preserve">
     <value>ブックマークに登録</value>
   </data>
+  <data name="ToggleBookOrderCommand" xml:space="preserve">
+    <value>ブックの並び順を切り替える</value>
+  </data>
   <data name="ToggleBookOrderCommand.Remarks" xml:space="preserve">
     <value>ブックの並び順を順番に切り替えます。</value>
   </data>
-  <data name="ToggleBookOrderCommand" xml:space="preserve">
-    <value>ブックの並び順を切り替える</value>
+  <data name="ToggleBookReadOrderCommand" xml:space="preserve">
+    <value>右開き、左開きを切り替える</value>
   </data>
   <data name="ToggleBookReadOrderCommand.Remarks" xml:space="preserve">
     <value>右開き、左開きを切り替えます。</value>
   </data>
-  <data name="ToggleBookReadOrderCommand" xml:space="preserve">
-    <value>右開き、左開きを切り替える</value>
+  <data name="ToggleCommand.Execute.Remarks" xml:space="preserve">
+    <value>switch: bool|有効/無効。省略した場合は切り替え。</value>
+  </data>
+  <data name="ToggleCustomSizeCommand" xml:space="preserve">
+    <value>サイズ指定の有効/無効</value>
   </data>
   <data name="ToggleCustomSizeCommand.Menu" xml:space="preserve">
     <value>サイズ指定</value>
@@ -5105,14 +5051,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleCustomSizeCommand.Remarks" xml:space="preserve">
     <value>オリジナルサイズに適用されるサイズ指定の有効/無効を切り替えます。</value>
   </data>
-  <data name="ToggleCustomSizeCommand" xml:space="preserve">
-    <value>サイズ指定の有効/無効</value>
-  </data>
   <data name="ToggleCustomSizeCommand_Off" xml:space="preserve">
     <value>サイズ指定無効</value>
   </data>
   <data name="ToggleCustomSizeCommand_On" xml:space="preserve">
     <value>サイズ指定有効</value>
+  </data>
+  <data name="ToggleEffectCommand" xml:space="preserve">
+    <value>エフェクト有効/無効</value>
   </data>
   <data name="ToggleEffectCommand.Menu" xml:space="preserve">
     <value>エフェクト</value>
@@ -5120,14 +5066,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleEffectCommand.Remarks" xml:space="preserve">
     <value>エフェクトの有効/無効を切り替えます。</value>
   </data>
-  <data name="ToggleEffectCommand" xml:space="preserve">
-    <value>エフェクト有効/無効</value>
-  </data>
   <data name="ToggleEffectCommand_Off" xml:space="preserve">
     <value>エフェクト無効</value>
   </data>
   <data name="ToggleEffectCommand_On" xml:space="preserve">
     <value>エフェクト有効</value>
+  </data>
+  <data name="ToggleForceAutoRotateCommand" xml:space="preserve">
+    <value>自動回転を強制</value>
   </data>
   <data name="ToggleForceAutoRotateCommand.Menu" xml:space="preserve">
     <value>自動回転を強制</value>
@@ -5135,14 +5081,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleForceAutoRotateCommand.Remarks" xml:space="preserve">
     <value>画像の縦横比に関わらず自動回転を適用します。</value>
   </data>
-  <data name="ToggleForceAutoRotateCommand" xml:space="preserve">
-    <value>自動回転を強制</value>
-  </data>
   <data name="ToggleForceAutoRotateOffCommand" xml:space="preserve">
     <value>自動回転の強制を解除</value>
   </data>
   <data name="ToggleForceAutoRotateOnCommand" xml:space="preserve">
     <value>自動回転を強制する</value>
+  </data>
+  <data name="ToggleFullScreenCommand" xml:space="preserve">
+    <value>フルスクリーン切り替え</value>
   </data>
   <data name="ToggleFullScreenCommand.Menu" xml:space="preserve">
     <value>フルスクリーン</value>
@@ -5150,14 +5096,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleFullScreenCommand.Remarks" xml:space="preserve">
     <value>フルスクリーン状態を切替ます。</value>
   </data>
-  <data name="ToggleFullScreenCommand" xml:space="preserve">
-    <value>フルスクリーン切り替え</value>
-  </data>
   <data name="ToggleFullScreenCommand_Off" xml:space="preserve">
     <value>フルスクリーン解除</value>
   </data>
   <data name="ToggleFullScreenCommand_On" xml:space="preserve">
     <value>フルスクリーン</value>
+  </data>
+  <data name="ToggleGridCommand" xml:space="preserve">
+    <value>グリッド有効/無効</value>
   </data>
   <data name="ToggleGridCommand.Menu" xml:space="preserve">
     <value>グリッド</value>
@@ -5165,14 +5111,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleGridCommand.Remarks" xml:space="preserve">
     <value>グリッドの表示/非表示を切り替えます。</value>
   </data>
-  <data name="ToggleGridCommand" xml:space="preserve">
-    <value>グリッド有効/無効</value>
-  </data>
   <data name="ToggleGridCommand_Off" xml:space="preserve">
     <value>グリッド無効</value>
   </data>
   <data name="ToggleGridCommand_On" xml:space="preserve">
     <value>グリッド有効</value>
+  </data>
+  <data name="ToggleHideMenuCommand" xml:space="preserve">
+    <value>メニューを自動的に隠す有効/無効</value>
   </data>
   <data name="ToggleHideMenuCommand.Menu" xml:space="preserve">
     <value>メニューを自動的に隠す</value>
@@ -5180,14 +5126,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleHideMenuCommand.Remarks" xml:space="preserve">
     <value>メニューを非表示にします。カーソルをウィンドウ上端に合わせることで表示されます。</value>
   </data>
-  <data name="ToggleHideMenuCommand" xml:space="preserve">
-    <value>メニューを自動的に隠す有効/無効</value>
-  </data>
   <data name="ToggleHideMenuCommand_Off" xml:space="preserve">
     <value>メニューを表示する</value>
   </data>
   <data name="ToggleHideMenuCommand_On" xml:space="preserve">
     <value>メニューを自動的に隠す</value>
+  </data>
+  <data name="ToggleHidePageSliderCommand" xml:space="preserve">
+    <value>スライダーを自動的に隠す有効/無効</value>
   </data>
   <data name="ToggleHidePageSliderCommand.Menu" xml:space="preserve">
     <value>スライダーを自動的に隠す</value>
@@ -5195,14 +5141,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleHidePageSliderCommand.Remarks" xml:space="preserve">
     <value>スライダーを非表示にします。カーソルをウィンドウ下端に合わせることで表示されます。</value>
   </data>
-  <data name="ToggleHidePageSliderCommand" xml:space="preserve">
-    <value>スライダーを自動的に隠す有効/無効</value>
-  </data>
   <data name="ToggleHidePageSliderCommand_Off" xml:space="preserve">
     <value>スライダーを表示する</value>
   </data>
   <data name="ToggleHidePageSliderCommand_On" xml:space="preserve">
     <value>スライダーを自動的に隠す</value>
+  </data>
+  <data name="ToggleHidePanelCommand" xml:space="preserve">
+    <value>パネルを自動的に隠す有効/無効</value>
   </data>
   <data name="ToggleHidePanelCommand.Menu" xml:space="preserve">
     <value>パネルを自動的に隠す</value>
@@ -5210,23 +5156,20 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleHidePanelCommand.Remarks" xml:space="preserve">
     <value>左右のパネルを自動的に隠します。カーソルをウィンドウ左端、右端に合わせることで表示されます。</value>
   </data>
-  <data name="ToggleHidePanelCommand" xml:space="preserve">
-    <value>パネルを自動的に隠す有効/無効</value>
-  </data>
   <data name="ToggleHidePanelCommand_Off" xml:space="preserve">
     <value>パネルを表示する</value>
   </data>
   <data name="ToggleHidePanelCommand_On" xml:space="preserve">
     <value>パネルを自動的に隠す</value>
   </data>
+  <data name="ToggleHideThumbnailListCommand" xml:space="preserve">
+    <value>フィルムストリップを自動的に隠す有効/無効</value>
+  </data>
   <data name="ToggleHideThumbnailListCommand.Menu" xml:space="preserve">
     <value>フィルムストリップを自動的に隠す</value>
   </data>
   <data name="ToggleHideThumbnailListCommand.Remarks" xml:space="preserve">
     <value>スライダーを使用している時だけフィルムストリップを表示するようにします。</value>
-  </data>
-  <data name="ToggleHideThumbnailListCommand" xml:space="preserve">
-    <value>フィルムストリップを自動的に隠す有効/無効</value>
   </data>
   <data name="ToggleHideThumbnailListCommand_Off" xml:space="preserve">
     <value>フィルムストリップを表示する</value>
@@ -5237,14 +5180,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleIsAutoRotateCommand" xml:space="preserve">
     <value>自動回転</value>
   </data>
+  <data name="ToggleIsAutoRotateLeftCommand" xml:space="preserve">
+    <value>自動左回転</value>
+  </data>
   <data name="ToggleIsAutoRotateLeftCommand.Menu" xml:space="preserve">
     <value>自動左回転</value>
   </data>
   <data name="ToggleIsAutoRotateLeftCommand.Remarks" xml:space="preserve">
     <value>ページ表示時、縦長画像を90度左回転します。ウィンドウが縦長の場合、横長画像を90度回転します。</value>
-  </data>
-  <data name="ToggleIsAutoRotateLeftCommand" xml:space="preserve">
-    <value>自動左回転</value>
   </data>
   <data name="ToggleIsAutoRotateLeftCommand_Off" xml:space="preserve">
     <value>自動左回転解除</value>
@@ -5252,14 +5195,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleIsAutoRotateLeftCommand_On" xml:space="preserve">
     <value>自動左回転</value>
   </data>
+  <data name="ToggleIsAutoRotateRightCommand" xml:space="preserve">
+    <value>自動右回転</value>
+  </data>
   <data name="ToggleIsAutoRotateRightCommand.Menu" xml:space="preserve">
     <value>自動右回転</value>
   </data>
   <data name="ToggleIsAutoRotateRightCommand.Remarks" xml:space="preserve">
     <value>ページ表示時、縦長画像を90度右回転します。ウィンドウが縦長の場合、横長画像を90度回転します。</value>
-  </data>
-  <data name="ToggleIsAutoRotateRightCommand" xml:space="preserve">
-    <value>自動右回転</value>
   </data>
   <data name="ToggleIsAutoRotateRightCommand_Off" xml:space="preserve">
     <value>自動右回転解除</value>
@@ -5267,14 +5210,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleIsAutoRotateRightCommand_On" xml:space="preserve">
     <value>自動右回転</value>
   </data>
+  <data name="ToggleIsLoupeCommand" xml:space="preserve">
+    <value>ルーペ有効/無効</value>
+  </data>
   <data name="ToggleIsLoupeCommand.Menu" xml:space="preserve">
     <value>ルーペ</value>
   </data>
   <data name="ToggleIsLoupeCommand.Remarks" xml:space="preserve">
     <value>ルーペの有効/無効を切り替えます。</value>
-  </data>
-  <data name="ToggleIsLoupeCommand" xml:space="preserve">
-    <value>ルーペ有効/無効</value>
   </data>
   <data name="ToggleIsLoupeCommand_Off" xml:space="preserve">
     <value>ルーペ解除</value>
@@ -5282,11 +5225,11 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleIsLoupeCommand_On" xml:space="preserve">
     <value>ルーペ</value>
   </data>
-  <data name="ToggleIsRecursiveFolderCommand.Remarks" xml:space="preserve">
-    <value>フォルダーから画像を読み込むときにサブフォルダーまたは圧縮ファイルも同時に読み込みます。</value>
-  </data>
   <data name="ToggleIsRecursiveFolderCommand" xml:space="preserve">
     <value>サブフォルダーを読み込む</value>
+  </data>
+  <data name="ToggleIsRecursiveFolderCommand.Remarks" xml:space="preserve">
+    <value>フォルダーから画像を読み込むときにサブフォルダーまたは圧縮ファイルも同時に読み込みます。</value>
   </data>
   <data name="ToggleIsRecursiveFolderCommand_Off" xml:space="preserve">
     <value>サブフォルダーは読み込まない</value>
@@ -5294,11 +5237,11 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleIsRecursiveFolderCommand_On" xml:space="preserve">
     <value>サブフォルダーも読み込む</value>
   </data>
-  <data name="ToggleIsSupportedDividePageCommand.Remarks" xml:space="preserve">
-    <value>1ページ表示時、横長ページを分割してページにします。</value>
-  </data>
   <data name="ToggleIsSupportedDividePageCommand" xml:space="preserve">
     <value>横長ページを分割する</value>
+  </data>
+  <data name="ToggleIsSupportedDividePageCommand.Remarks" xml:space="preserve">
+    <value>1ページ表示時、横長ページを分割してページにします。</value>
   </data>
   <data name="ToggleIsSupportedDividePageCommand_Off" xml:space="preserve">
     <value>横長ページの区別をしない</value>
@@ -5306,11 +5249,11 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleIsSupportedDividePageCommand_On" xml:space="preserve">
     <value>横長ページを分割する</value>
   </data>
-  <data name="ToggleIsSupportedSingleFirstPageCommand.Remarks" xml:space="preserve">
-    <value>2ページ表示でも最初のページは1ページ表示にします。</value>
-  </data>
   <data name="ToggleIsSupportedSingleFirstPageCommand" xml:space="preserve">
     <value>最初のページを単独表示</value>
+  </data>
+  <data name="ToggleIsSupportedSingleFirstPageCommand.Remarks" xml:space="preserve">
+    <value>2ページ表示でも最初のページは1ページ表示にします。</value>
   </data>
   <data name="ToggleIsSupportedSingleFirstPageCommand_Off" xml:space="preserve">
     <value>最初のページを区別しない</value>
@@ -5318,11 +5261,11 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleIsSupportedSingleFirstPageCommand_On" xml:space="preserve">
     <value>最初のページを単独表示</value>
   </data>
-  <data name="ToggleIsSupportedSingleLastPageCommand.Remarks" xml:space="preserve">
-    <value>2ページ表示でも最後のページは1ページ表示にします。</value>
-  </data>
   <data name="ToggleIsSupportedSingleLastPageCommand" xml:space="preserve">
     <value>最後のページを単独表示</value>
+  </data>
+  <data name="ToggleIsSupportedSingleLastPageCommand.Remarks" xml:space="preserve">
+    <value>2ページ表示でも最後のページは1ページ表示にします。</value>
   </data>
   <data name="ToggleIsSupportedSingleLastPageCommand_Off" xml:space="preserve">
     <value>最後のページを区別しない</value>
@@ -5330,11 +5273,11 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleIsSupportedSingleLastPageCommand_On" xml:space="preserve">
     <value>最後のページを単独表示</value>
   </data>
-  <data name="ToggleIsSupportedWidePageCommand.Remarks" xml:space="preserve">
-    <value> 2ページ表示時、横長の画像を2ページ分とみなして単独表示します。</value>
-  </data>
   <data name="ToggleIsSupportedWidePageCommand" xml:space="preserve">
     <value>横長ページを2ページとみなす</value>
+  </data>
+  <data name="ToggleIsSupportedWidePageCommand.Remarks" xml:space="preserve">
+    <value> 2ページ表示時、横長の画像を2ページ分とみなして単独表示します。</value>
   </data>
   <data name="ToggleIsSupportedWidePageCommand_Off" xml:space="preserve">
     <value>横長ページの区別をしない</value>
@@ -5342,14 +5285,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleIsSupportedWidePageCommand_On" xml:space="preserve">
     <value>横長ページを2ページとみなす</value>
   </data>
+  <data name="ToggleMainViewFloatingCommand" xml:space="preserve">
+    <value>メインビューウィンドウ/解除</value>
+  </data>
   <data name="ToggleMainViewFloatingCommand.Menu" xml:space="preserve">
     <value>メインビューウィンドウ</value>
   </data>
   <data name="ToggleMainViewFloatingCommand.Remarks" xml:space="preserve">
     <value>メインビューをウィンドウにします。</value>
-  </data>
-  <data name="ToggleMainViewFloatingCommand" xml:space="preserve">
-    <value>メインビューウィンドウ/解除</value>
   </data>
   <data name="ToggleMainViewFloatingOff" xml:space="preserve">
     <value>メインビューのドッキング</value>
@@ -5357,20 +5300,20 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleMainViewFloatingOn" xml:space="preserve">
     <value>メインビューのフローティング</value>
   </data>
+  <data name="ToggleMediaPlayCommand" xml:space="preserve">
+    <value>動画再生/停止</value>
+  </data>
   <data name="ToggleMediaPlayCommand.Remarks" xml:space="preserve">
     <value>動画の再生と停止を切り替えます。</value>
   </data>
-  <data name="ToggleMediaPlayCommand" xml:space="preserve">
-    <value>動画再生/停止</value>
+  <data name="ToggleNearestNeighborCommand" xml:space="preserve">
+    <value>ドットのまま拡大有効/無効</value>
   </data>
   <data name="ToggleNearestNeighborCommand.Menu" xml:space="preserve">
     <value>ドットのまま拡大</value>
   </data>
   <data name="ToggleNearestNeighborCommand.Remarks" xml:space="preserve">
     <value>有効にすると拡大するときにドットのまま拡大します。無効の時にはスケール変換処理(Fant)が行われます。</value>
-  </data>
-  <data name="ToggleNearestNeighborCommand" xml:space="preserve">
-    <value>ドットのまま拡大有効/無効</value>
   </data>
   <data name="ToggleNearestNeighborCommand_Off" xml:space="preserve">
     <value>高品質に拡大する</value>
@@ -5381,17 +5324,20 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="TogglePageListPlacementBookshelfCommand" xml:space="preserve">
     <value>ページリストを本棚に配置</value>
   </data>
+  <data name="TogglePageListPlacementCommand" xml:space="preserve">
+    <value>ページリストの配置切り替え</value>
+  </data>
   <data name="TogglePageListPlacementCommand.Menu" xml:space="preserve">
     <value>ページリストの配置</value>
   </data>
   <data name="TogglePageListPlacementCommand.Remarks" xml:space="preserve">
     <value>ページリストの配置を本棚とサイドパネルで切り替える</value>
   </data>
-  <data name="TogglePageListPlacementCommand" xml:space="preserve">
-    <value>ページリストの配置切り替え</value>
-  </data>
   <data name="TogglePageListPlacementPanelCommand" xml:space="preserve">
     <value>ページリストをサイドパネルに配置</value>
+  </data>
+  <data name="TogglePagemarkCommand" xml:space="preserve">
+    <value>ページマーク登録/解除</value>
   </data>
   <data name="TogglePagemarkCommand.Menu" xml:space="preserve">
     <value>ページマーク</value>
@@ -5399,20 +5345,20 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="TogglePagemarkCommand.Remarks" xml:space="preserve">
     <value>現在開いているページのページマークの登録/解除を切り替えます。</value>
   </data>
-  <data name="TogglePagemarkCommand" xml:space="preserve">
-    <value>ページマーク登録/解除</value>
-  </data>
   <data name="TogglePagemarkCommand_Off" xml:space="preserve">
     <value>ページマーク解除</value>
   </data>
   <data name="TogglePagemarkCommand_On" xml:space="preserve">
     <value>ページマーク登録</value>
   </data>
+  <data name="TogglePageModeCommand" xml:space="preserve">
+    <value>ページ表示モードを切り替える</value>
+  </data>
   <data name="TogglePageModeCommand.Remarks" xml:space="preserve">
     <value>1ページ表示/2ページ表示を切り替えます。</value>
   </data>
-  <data name="TogglePageModeCommand" xml:space="preserve">
-    <value>ページ表示モードを切り替える</value>
+  <data name="TogglePermitFileCommand" xml:space="preserve">
+    <value>ファイル操作有効/無効</value>
   </data>
   <data name="TogglePermitFileCommand.Menu" xml:space="preserve">
     <value>ファイル操作許可(_P)</value>
@@ -5420,14 +5366,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="TogglePermitFileCommand.Remarks" xml:space="preserve">
     <value>ファイル操作系コマンドの有効/無効を切り替えます。</value>
   </data>
-  <data name="TogglePermitFileCommand" xml:space="preserve">
-    <value>ファイル操作有効/無効</value>
-  </data>
   <data name="TogglePermitFileCommand_Off" xml:space="preserve">
     <value>ファイル操作無効</value>
   </data>
   <data name="TogglePermitFileCommand_On" xml:space="preserve">
     <value>ファイル操作有効</value>
+  </data>
+  <data name="ToggleResizeFilterCommand" xml:space="preserve">
+    <value>リサイズフィルター有効/無効</value>
   </data>
   <data name="ToggleResizeFilterCommand.Menu" xml:space="preserve">
     <value>リサイズフィルター</value>
@@ -5435,14 +5381,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleResizeFilterCommand.Remarks" xml:space="preserve">
     <value>リサイズフィルターの有効/無効を切り替えます。</value>
   </data>
-  <data name="ToggleResizeFilterCommand" xml:space="preserve">
-    <value>リサイズフィルター有効/無効</value>
-  </data>
   <data name="ToggleResizeFilterCommand_Off" xml:space="preserve">
     <value>リサイズフィルター無効</value>
   </data>
   <data name="ToggleResizeFilterCommand_On" xml:space="preserve">
     <value>リサイズフィルター有効</value>
+  </data>
+  <data name="ToggleSlideShowCommand" xml:space="preserve">
+    <value>スライドショー再生/停止</value>
   </data>
   <data name="ToggleSlideShowCommand.Menu" xml:space="preserve">
     <value>スライドショー</value>
@@ -5450,38 +5396,35 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleSlideShowCommand.Remarks" xml:space="preserve">
     <value>スライドショーの再生/停止を切り替えます。</value>
   </data>
-  <data name="ToggleSlideShowCommand" xml:space="preserve">
-    <value>スライドショー再生/停止</value>
-  </data>
   <data name="ToggleSlideShowCommand_Off" xml:space="preserve">
     <value>スライドショー停止</value>
   </data>
   <data name="ToggleSlideShowCommand_On" xml:space="preserve">
     <value>スライドショー再生</value>
   </data>
-  <data name="ToggleSortModeCommand.Remarks" xml:space="preserve">
-    <value>ページの並び順を順番に切り替えます。</value>
-  </data>
   <data name="ToggleSortModeCommand" xml:space="preserve">
     <value>ページの並び順を切り替える</value>
   </data>
-  <data name="ToggleStretchAllowScaleDownCommand.Remarks" xml:space="preserve">
-    <value>ストレッチの適用で縮小を許可</value>
+  <data name="ToggleSortModeCommand.Remarks" xml:space="preserve">
+    <value>ページの並び順を順番に切り替えます。</value>
   </data>
   <data name="ToggleStretchAllowScaleDownCommand" xml:space="preserve">
     <value>縮小を許可</value>
   </data>
-  <data name="ToggleStretchAllowScaleUpCommand.Remarks" xml:space="preserve">
-    <value>ストレッチの適用で拡大を許可</value>
+  <data name="ToggleStretchAllowScaleDownCommand.Remarks" xml:space="preserve">
+    <value>ストレッチの適用で縮小を許可</value>
   </data>
   <data name="ToggleStretchAllowScaleUpCommand" xml:space="preserve">
     <value>拡大を許可</value>
   </data>
-  <data name="ToggleStretchModeCommand.Remarks" xml:space="preserve">
-    <value>画像のストレッチを順番に切り替えます。</value>
+  <data name="ToggleStretchAllowScaleUpCommand.Remarks" xml:space="preserve">
+    <value>ストレッチの適用で拡大を許可</value>
   </data>
   <data name="ToggleStretchModeCommand" xml:space="preserve">
     <value>ストレッチを切り替える</value>
+  </data>
+  <data name="ToggleStretchModeCommand.Remarks" xml:space="preserve">
+    <value>画像のストレッチを順番に切り替えます。</value>
   </data>
   <data name="ToggleStretchModeCommandParameter.IsEnableNone" xml:space="preserve">
     <value>@PageStretchMode.None</value>
@@ -5510,11 +5453,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleStretchModeCommandParameter.IsLoop.Title" xml:space="preserve">
     <value>ループ設定</value>
   </data>
+  <data name="ToggleStretchModeReverseCommand" xml:space="preserve">
+    <value>ストレッチを切り替える(逆順)</value>
+  </data>
   <data name="ToggleStretchModeReverseCommand.Remarks" xml:space="preserve">
     <value>画像のストレッチを順番に切り替えます(逆順)。</value>
   </data>
-  <data name="ToggleStretchModeReverseCommand" xml:space="preserve">
-    <value>ストレッチを切り替える(逆順)</value>
+  <data name="ToggleTopmostCommand" xml:space="preserve">
+    <value>常に手前に表示の有効/無効</value>
   </data>
   <data name="ToggleTopmostCommand.Menu" xml:space="preserve">
     <value>常に手前に表示</value>
@@ -5522,26 +5468,26 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleTopmostCommand.Remarks" xml:space="preserve">
     <value>ウィンドウを常に手前に表示します。</value>
   </data>
-  <data name="ToggleTopmostCommand" xml:space="preserve">
-    <value>常に手前に表示の有効/無効</value>
-  </data>
   <data name="ToggleTopmostCommand_Off" xml:space="preserve">
     <value>「常に手前に表示」を解除</value>
   </data>
   <data name="ToggleTopmostCommand_On" xml:space="preserve">
     <value>常に手前に表示する</value>
   </data>
+  <data name="ToggleViewFlipHorizontalCommand" xml:space="preserve">
+    <value>左右反転</value>
+  </data>
   <data name="ToggleViewFlipHorizontalCommand.Remarks" xml:space="preserve">
     <value>画像を左右反転させます。</value>
   </data>
-  <data name="ToggleViewFlipHorizontalCommand" xml:space="preserve">
-    <value>左右反転</value>
+  <data name="ToggleViewFlipVerticalCommand" xml:space="preserve">
+    <value>上下反転</value>
   </data>
   <data name="ToggleViewFlipVerticalCommand.Remarks" xml:space="preserve">
     <value>画像を上下反転させます。</value>
   </data>
-  <data name="ToggleViewFlipVerticalCommand" xml:space="preserve">
-    <value>上下反転</value>
+  <data name="ToggleVisibleAddressBarCommand" xml:space="preserve">
+    <value>アドレスバー表示/非表示</value>
   </data>
   <data name="ToggleVisibleAddressBarCommand.Menu" xml:space="preserve">
     <value>アドレスバー</value>
@@ -5549,14 +5495,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleVisibleAddressBarCommand.Remarks" xml:space="preserve">
     <value>アドレスバーの表示/非表示を切り替えます。</value>
   </data>
-  <data name="ToggleVisibleAddressBarCommand" xml:space="preserve">
-    <value>アドレスバー表示/非表示</value>
-  </data>
   <data name="ToggleVisibleAddressBarCommand_Off" xml:space="preserve">
     <value>アドレスバーを消す</value>
   </data>
   <data name="ToggleVisibleAddressBarCommand_On" xml:space="preserve">
     <value>アドレスバーを表示する</value>
+  </data>
+  <data name="ToggleVisibleBookmarkListCommand" xml:space="preserve">
+    <value>ブックマークリスト表示/非表示</value>
   </data>
   <data name="ToggleVisibleBookmarkListCommand.Menu" xml:space="preserve">
     <value>ブックマークリスト</value>
@@ -5564,14 +5510,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleVisibleBookmarkListCommand.Remarks" xml:space="preserve">
     <value>ブックマークリストパネルの表示/非表示を切り替えます。</value>
   </data>
-  <data name="ToggleVisibleBookmarkListCommand" xml:space="preserve">
-    <value>ブックマークリスト表示/非表示</value>
-  </data>
   <data name="ToggleVisibleBookmarkListCommand_Off" xml:space="preserve">
     <value>ブックマークリストを消す</value>
   </data>
   <data name="ToggleVisibleBookmarkListCommand_On" xml:space="preserve">
     <value>ブックマークリストを表示する</value>
+  </data>
+  <data name="ToggleVisibleBookshelfCommand" xml:space="preserve">
+    <value>本棚の表示/非表示</value>
   </data>
   <data name="ToggleVisibleBookshelfCommand.Menu" xml:space="preserve">
     <value>本棚</value>
@@ -5579,14 +5525,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleVisibleBookshelfCommand.Remarks" xml:space="preserve">
     <value>本棚パネルの表示/非表示を切り替えます。</value>
   </data>
-  <data name="ToggleVisibleBookshelfCommand" xml:space="preserve">
-    <value>本棚の表示/非表示</value>
-  </data>
   <data name="ToggleVisibleBookshelfCommand_Off" xml:space="preserve">
     <value>本棚を消す</value>
   </data>
   <data name="ToggleVisibleBookshelfCommand_On" xml:space="preserve">
     <value>本棚を表示する</value>
+  </data>
+  <data name="ToggleVisibleEffectInfoCommand" xml:space="preserve">
+    <value>エフェクトパネルの表示/非表示</value>
   </data>
   <data name="ToggleVisibleEffectInfoCommand.Menu" xml:space="preserve">
     <value>エフェクトパネル</value>
@@ -5594,14 +5540,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleVisibleEffectInfoCommand.Remarks" xml:space="preserve">
     <value>エフェクトパネルの表示/非表示を切り替えます。</value>
   </data>
-  <data name="ToggleVisibleEffectInfoCommand" xml:space="preserve">
-    <value>エフェクトパネルの表示/非表示</value>
-  </data>
   <data name="ToggleVisibleEffectInfoCommand_Off" xml:space="preserve">
     <value>エフェクトパネルを消す</value>
   </data>
   <data name="ToggleVisibleEffectInfoCommand_On" xml:space="preserve">
     <value>エフェクトパネルを表示する</value>
+  </data>
+  <data name="ToggleVisibleFileInfoCommand" xml:space="preserve">
+    <value>情報の表示/非表示</value>
   </data>
   <data name="ToggleVisibleFileInfoCommand.Menu" xml:space="preserve">
     <value>情報</value>
@@ -5609,14 +5555,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleVisibleFileInfoCommand.Remarks" xml:space="preserve">
     <value>情報パネルの表示/非表示を切り替えます。</value>
   </data>
-  <data name="ToggleVisibleFileInfoCommand" xml:space="preserve">
-    <value>情報の表示/非表示</value>
-  </data>
   <data name="ToggleVisibleFileInfoCommand_Off" xml:space="preserve">
     <value>情報を消す</value>
   </data>
   <data name="ToggleVisibleFileInfoCommand_On" xml:space="preserve">
     <value>情報を表示する</value>
+  </data>
+  <data name="ToggleVisibleFoldersTreeCommand" xml:space="preserve">
+    <value>フォルダーツリーの表示/非表示</value>
   </data>
   <data name="ToggleVisibleFoldersTreeCommand.Menu" xml:space="preserve">
     <value>フォルダーツリー</value>
@@ -5624,14 +5570,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleVisibleFoldersTreeCommand.Remarks" xml:space="preserve">
     <value>フォルダーツリーの表示/非表示を切り替えます。本棚は表示状態になります。</value>
   </data>
-  <data name="ToggleVisibleFoldersTreeCommand" xml:space="preserve">
-    <value>フォルダーツリーの表示/非表示</value>
-  </data>
   <data name="ToggleVisibleFoldersTreeCommand_Off" xml:space="preserve">
     <value>フォルダーツリーを消す</value>
   </data>
   <data name="ToggleVisibleFoldersTreeCommand_On" xml:space="preserve">
     <value>フォルダーツリーを表示する</value>
+  </data>
+  <data name="ToggleVisibleHistoryListCommand" xml:space="preserve">
+    <value>履歴リストの表示/非表示</value>
   </data>
   <data name="ToggleVisibleHistoryListCommand.Menu" xml:space="preserve">
     <value>履歴リスト</value>
@@ -5639,14 +5585,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleVisibleHistoryListCommand.Remarks" xml:space="preserve">
     <value>履歴リストパネルの表示/非表示を切り替えます。</value>
   </data>
-  <data name="ToggleVisibleHistoryListCommand" xml:space="preserve">
-    <value>履歴リストの表示/非表示</value>
-  </data>
   <data name="ToggleVisibleHistoryListCommand_Off" xml:space="preserve">
     <value>履歴リストを消す</value>
   </data>
   <data name="ToggleVisibleHistoryListCommand_On" xml:space="preserve">
     <value>履歴リストを表示する</value>
+  </data>
+  <data name="ToggleVisibleNavigatorCommand" xml:space="preserve">
+    <value>ナビゲーターの表示/非表示</value>
   </data>
   <data name="ToggleVisibleNavigatorCommand.Menu" xml:space="preserve">
     <value>ナビゲーター</value>
@@ -5654,14 +5600,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleVisibleNavigatorCommand.Remarks" xml:space="preserve">
     <value>ナビゲーターの表示/非表示を切り替えます。</value>
   </data>
-  <data name="ToggleVisibleNavigatorCommand" xml:space="preserve">
-    <value>ナビゲーターの表示/非表示</value>
-  </data>
   <data name="ToggleVisibleNavigatorCommand_Off" xml:space="preserve">
     <value>ナビゲーターを消す</value>
   </data>
   <data name="ToggleVisibleNavigatorCommand_On" xml:space="preserve">
     <value>ナビゲーターを表示する</value>
+  </data>
+  <data name="ToggleVisiblePageListCommand" xml:space="preserve">
+    <value>ページリストの表示/非表示</value>
   </data>
   <data name="ToggleVisiblePageListCommand.Menu" xml:space="preserve">
     <value>ページリスト</value>
@@ -5669,14 +5615,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleVisiblePageListCommand.Remarks" xml:space="preserve">
     <value>ページリスト表示/非表示を切り替えます。本棚は表示状態になります。</value>
   </data>
-  <data name="ToggleVisiblePageListCommand" xml:space="preserve">
-    <value>ページリストの表示/非表示</value>
-  </data>
   <data name="ToggleVisiblePageListCommand_Off" xml:space="preserve">
     <value>ページリストを消す</value>
   </data>
   <data name="ToggleVisiblePageListCommand_On" xml:space="preserve">
     <value>ページリストを表示する</value>
+  </data>
+  <data name="ToggleVisiblePagemarkListCommand" xml:space="preserve">
+    <value>ページマークリストの表示/非表示</value>
   </data>
   <data name="ToggleVisiblePagemarkListCommand.Menu" xml:space="preserve">
     <value>ページマークリスト</value>
@@ -5684,14 +5630,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleVisiblePagemarkListCommand.Remarks" xml:space="preserve">
     <value>ページマークリストパネルの表示/非表示を切り替えます。</value>
   </data>
-  <data name="ToggleVisiblePagemarkListCommand" xml:space="preserve">
-    <value>ページマークリストの表示/非表示</value>
-  </data>
   <data name="ToggleVisiblePagemarkListCommand_Off" xml:space="preserve">
     <value>ページマークリストを消す</value>
   </data>
   <data name="ToggleVisiblePagemarkListCommand_On" xml:space="preserve">
     <value>ページマークリストを表示する</value>
+  </data>
+  <data name="ToggleVisibleSideBarCommand" xml:space="preserve">
+    <value>サイドバー表示/非表示</value>
   </data>
   <data name="ToggleVisibleSideBarCommand.Menu" xml:space="preserve">
     <value>サイドバー</value>
@@ -5699,14 +5645,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleVisibleSideBarCommand.Remarks" xml:space="preserve">
     <value>サイドバーの表示/非表示を切り替えます。</value>
   </data>
-  <data name="ToggleVisibleSideBarCommand" xml:space="preserve">
-    <value>サイドバー表示/非表示</value>
-  </data>
   <data name="ToggleVisibleSideBarCommand_Off" xml:space="preserve">
     <value>サイドバーを消す</value>
   </data>
   <data name="ToggleVisibleSideBarCommand_On" xml:space="preserve">
     <value>サイドバーを表示する</value>
+  </data>
+  <data name="ToggleVisibleThumbnailListCommand" xml:space="preserve">
+    <value>フィルムストリップの表示/非表示</value>
   </data>
   <data name="ToggleVisibleThumbnailListCommand.Menu" xml:space="preserve">
     <value>フィルムストリップ</value>
@@ -5714,14 +5660,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleVisibleThumbnailListCommand.Remarks" xml:space="preserve">
     <value>フィルムストリップの表示/非表示を切り替えます。</value>
   </data>
-  <data name="ToggleVisibleThumbnailListCommand" xml:space="preserve">
-    <value>フィルムストリップの表示/非表示</value>
-  </data>
   <data name="ToggleVisibleThumbnailListCommand_Off" xml:space="preserve">
     <value>フィルムストリップを消す</value>
   </data>
   <data name="ToggleVisibleThumbnailListCommand_On" xml:space="preserve">
     <value>フィルムストリップを表示する</value>
+  </data>
+  <data name="ToggleVisibleTitleBarCommand" xml:space="preserve">
+    <value>タイトルバー表示/非表示</value>
   </data>
   <data name="ToggleVisibleTitleBarCommand.Menu" xml:space="preserve">
     <value>タイトルバー</value>
@@ -5729,14 +5675,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleVisibleTitleBarCommand.Remarks" xml:space="preserve">
     <value>ウィンドウタイトルバーの表示/非表示を切り替えます。</value>
   </data>
-  <data name="ToggleVisibleTitleBarCommand" xml:space="preserve">
-    <value>タイトルバー表示/非表示</value>
-  </data>
   <data name="ToggleVisibleTitleBarCommand_Off" xml:space="preserve">
     <value>タイトルバーを消す</value>
   </data>
   <data name="ToggleVisibleTitleBarCommand_On" xml:space="preserve">
     <value>タイトルバー表示する</value>
+  </data>
+  <data name="ToggleWindowMaximizeCommand" xml:space="preserve">
+    <value>ウィンドウを最大化する</value>
   </data>
   <data name="ToggleWindowMaximizeCommand.Menu" xml:space="preserve">
     <value>ウィンドウ最大化</value>
@@ -5744,17 +5690,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleWindowMaximizeCommand.Remarks" xml:space="preserve">
     <value>ウィンドウを最大化します。既に最大化されている場合は元のサイズに戻します。</value>
   </data>
-  <data name="ToggleWindowMaximizeCommand" xml:space="preserve">
-    <value>ウィンドウを最大化する</value>
+  <data name="ToggleWindowMinimizeCommand" xml:space="preserve">
+    <value>ウィンドウを最小化する</value>
   </data>
   <data name="ToggleWindowMinimizeCommand.Menu" xml:space="preserve">
     <value>ウィンドウ最小化</value>
   </data>
   <data name="ToggleWindowMinimizeCommand.Remarks" xml:space="preserve">
     <value>ウィンドウを最小化します。既に最小化されている場合は元のサイズに戻します。</value>
-  </data>
-  <data name="ToggleWindowMinimizeCommand" xml:space="preserve">
-    <value>ウィンドウを最小化する</value>
   </data>
   <data name="TokenFormat" xml:space="preserve">
     <value>「{0}」</value>
@@ -5804,20 +5747,20 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="TouchConfig.MinimumManipulationRadius.Remarks" xml:space="preserve">
     <value>タッチ操作での回転、拡大縮小と判定される最小の２タッチ間の距離です。</value>
   </data>
+  <data name="TouchEmulateCommand" xml:space="preserve">
+    <value>タッチエミュレート</value>
+  </data>
   <data name="TouchEmulateCommand.Remarks" xml:space="preserve">
     <value>マウスカーソル位置のタッチコマンドを実行します。</value>
   </data>
-  <data name="TouchEmulateCommand" xml:space="preserve">
-    <value>タッチエミュレート</value>
+  <data name="UnloadCommand" xml:space="preserve">
+    <value>閉じる</value>
   </data>
   <data name="UnloadCommand.Menu" xml:space="preserve">
     <value>閉じる(_C)</value>
   </data>
   <data name="UnloadCommand.Remarks" xml:space="preserve">
     <value>開いているブックを閉じます。</value>
-  </data>
-  <data name="UnloadCommand" xml:space="preserve">
-    <value>閉じる</value>
   </data>
   <data name="UnsharpMaskConfig.Amount" xml:space="preserve">
     <value>適応量</value>
@@ -5834,6 +5777,36 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="Ver320Note" xml:space="preserve">
     <value>・ブックマークリストはフォルダーリストと統合され、本棚になりました。
 ・ページマークリストのフォルダーは自動作成されるようになりました。</value>
+  </data>
+  <data name="VersionChecker.Message.Checking" xml:space="preserve">
+    <value>最新バージョンをチェック中...</value>
+  </data>
+  <data name="VersionChecker.Message.Failed" xml:space="preserve">
+    <value>更新チェックに失敗しました</value>
+  </data>
+  <data name="VersionChecker.Message.Lastest" xml:space="preserve">
+    <value>NeeView は最新のバージョンです</value>
+  </data>
+  <data name="VersionChecker.Message.New" xml:space="preserve">
+    <value>新しいバージョンがリリースされています</value>
+  </data>
+  <data name="VersionChecker.Message.Unknown" xml:space="preserve">
+    <value>NeeView は未知のバージョンです</value>
+  </data>
+  <data name="VersionChecker.Message.WrongFormat" xml:space="preserve">
+    <value>更新ページのフォーマットが想定されているものと異なります</value>
+  </data>
+  <data name="VersionWindow.Download" xml:space="preserve">
+    <value>ダウンロードページに移動する</value>
+  </data>
+  <data name="VersionWindow.Menu.Copy" xml:space="preserve">
+    <value>バージョン情報をコピー(_C)</value>
+  </data>
+  <data name="VersionWindow_License" xml:space="preserve">
+    <value>ライセンス情報・更新履歴</value>
+  </data>
+  <data name="VersionWindow_Project" xml:space="preserve">
+    <value>プロジェクトページ</value>
   </data>
   <data name="VerticalAlignment_Bottom" xml:space="preserve">
     <value>下詰め</value>
@@ -5904,29 +5877,29 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ViewConfig.StretchMode" xml:space="preserve">
     <value>ストレッチモード</value>
   </data>
-  <data name="ViewFlipHorizontalOffCommand.Remarks" xml:space="preserve">
-    <value>左右反転状態を解除します。</value>
-  </data>
   <data name="ViewFlipHorizontalOffCommand" xml:space="preserve">
     <value>左右反転解除</value>
   </data>
-  <data name="ViewFlipHorizontalOnCommand.Remarks" xml:space="preserve">
-    <value>左右反転状態にします。</value>
+  <data name="ViewFlipHorizontalOffCommand.Remarks" xml:space="preserve">
+    <value>左右反転状態を解除します。</value>
   </data>
   <data name="ViewFlipHorizontalOnCommand" xml:space="preserve">
     <value>左右反転有効</value>
   </data>
-  <data name="ViewFlipVerticalOffCommand.Remarks" xml:space="preserve">
-    <value>上下反転状態を解除します。</value>
+  <data name="ViewFlipHorizontalOnCommand.Remarks" xml:space="preserve">
+    <value>左右反転状態にします。</value>
   </data>
   <data name="ViewFlipVerticalOffCommand" xml:space="preserve">
     <value>上下反転解除</value>
   </data>
-  <data name="ViewFlipVerticalOnCommand.Remarks" xml:space="preserve">
-    <value>上下反転状態にします。</value>
+  <data name="ViewFlipVerticalOffCommand.Remarks" xml:space="preserve">
+    <value>上下反転状態を解除します。</value>
   </data>
   <data name="ViewFlipVerticalOnCommand" xml:space="preserve">
     <value>上下反転有効</value>
+  </data>
+  <data name="ViewFlipVerticalOnCommand.Remarks" xml:space="preserve">
+    <value>上下反転状態にします。</value>
   </data>
   <data name="ViewPageAccessor" xml:space="preserve">
     <value>ビューページアクセサ。表示しているページ情報にアクセスします。</value>
@@ -5941,11 +5914,11 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ViewPageAccessor.Width" xml:space="preserve">
     <value>ページの幅</value>
   </data>
-  <data name="ViewResetCommand.Remarks" xml:space="preserve">
-    <value>ビュー操作での回転、拡縮、移動、反転を初期化します。</value>
-  </data>
   <data name="ViewResetCommand" xml:space="preserve">
     <value>ビューリセット</value>
+  </data>
+  <data name="ViewResetCommand.Remarks" xml:space="preserve">
+    <value>ビュー操作での回転、拡縮、移動、反転を初期化します。</value>
   </data>
   <data name="ViewRotateCommandParameter.Angle" xml:space="preserve">
     <value>回転角度</value>
@@ -5959,17 +5932,17 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ViewRotateCommandParameter.IsStretch.Remarks" xml:space="preserve">
     <value>回転後にストレッチを再適用します。</value>
   </data>
-  <data name="ViewRotateLeftCommand.Remarks" xml:space="preserve">
-    <value>画像を左回転させます。</value>
-  </data>
   <data name="ViewRotateLeftCommand" xml:space="preserve">
     <value>左回転</value>
   </data>
-  <data name="ViewRotateRightCommand.Remarks" xml:space="preserve">
-    <value>画像を右回転させます。</value>
+  <data name="ViewRotateLeftCommand.Remarks" xml:space="preserve">
+    <value>画像を左回転させます。</value>
   </data>
   <data name="ViewRotateRightCommand" xml:space="preserve">
     <value>右回転</value>
+  </data>
+  <data name="ViewRotateRightCommand.Remarks" xml:space="preserve">
+    <value>画像を右回転させます。</value>
   </data>
   <data name="ViewScaleCommandParameter.IsSnapDefaultScale" xml:space="preserve">
     <value>100%スナップ</value>
@@ -5983,17 +5956,17 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ViewScaleCommandParameter.Scale.Remarks" xml:space="preserve">
     <value>一度の操作で拡大する割合です。</value>
   </data>
-  <data name="ViewScaleDownCommand.Remarks" xml:space="preserve">
-    <value>画像を縮小します。</value>
-  </data>
   <data name="ViewScaleDownCommand" xml:space="preserve">
     <value>縮小</value>
   </data>
-  <data name="ViewScaleUpCommand.Remarks" xml:space="preserve">
-    <value>画像を拡大します。</value>
+  <data name="ViewScaleDownCommand.Remarks" xml:space="preserve">
+    <value>画像を縮小します。</value>
   </data>
   <data name="ViewScaleUpCommand" xml:space="preserve">
     <value>拡大</value>
+  </data>
+  <data name="ViewScaleUpCommand.Remarks" xml:space="preserve">
+    <value>画像を拡大します。</value>
   </data>
   <data name="ViewScrollCommandParameter.AllowCrossScroll" xml:space="preserve">
     <value>垂直方向へのスクロール許可</value>
@@ -6010,17 +5983,17 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ViewScrollCommandParameter.ScrollDuration" xml:space="preserve">
     <value>スクロール時間 (秒)</value>
   </data>
-  <data name="ViewScrollDownCommand.Remarks" xml:space="preserve">
-    <value>画像を下方向にするロールさせます。縦スクロールできないときは横スクロールになります。</value>
-  </data>
   <data name="ViewScrollDownCommand" xml:space="preserve">
     <value>スクロール↓</value>
   </data>
-  <data name="ViewScrollLeftCommand.Remarks" xml:space="preserve">
-    <value>画像を左方向にするロールさせます。横スクロールできないときは縦スクロールになります。</value>
+  <data name="ViewScrollDownCommand.Remarks" xml:space="preserve">
+    <value>画像を下方向にするロールさせます。縦スクロールできないときは横スクロールになります。</value>
   </data>
   <data name="ViewScrollLeftCommand" xml:space="preserve">
     <value>スクロール←</value>
+  </data>
+  <data name="ViewScrollLeftCommand.Remarks" xml:space="preserve">
+    <value>画像を左方向にするロールさせます。横スクロールできないときは縦スクロールになります。</value>
   </data>
   <data name="ViewScrollNTypeCommandParameter.Margin" xml:space="preserve">
     <value>最小スクロール距離</value>
@@ -6037,29 +6010,29 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ViewScrollNTypeCommandParameter.ScrollDuration" xml:space="preserve">
     <value>スクロール時間 (秒)</value>
   </data>
-  <data name="ViewScrollNTypeDownCommand.Remarks" xml:space="preserve">
-    <value>縦横スクロールが可能な場合、N字を描くようにスクロールします。</value>
-  </data>
   <data name="ViewScrollNTypeDownCommand" xml:space="preserve">
     <value>N字スクロール↓</value>
   </data>
-  <data name="ViewScrollNTypeUpCommand.Remarks" xml:space="preserve">
+  <data name="ViewScrollNTypeDownCommand.Remarks" xml:space="preserve">
     <value>縦横スクロールが可能な場合、N字を描くようにスクロールします。</value>
   </data>
   <data name="ViewScrollNTypeUpCommand" xml:space="preserve">
     <value>N字スクロール↑</value>
   </data>
-  <data name="ViewScrollRightCommand.Remarks" xml:space="preserve">
-    <value>画像を右方向にするロールさせます。横スクロールできないときは縦スクロールになります。</value>
+  <data name="ViewScrollNTypeUpCommand.Remarks" xml:space="preserve">
+    <value>縦横スクロールが可能な場合、N字を描くようにスクロールします。</value>
   </data>
   <data name="ViewScrollRightCommand" xml:space="preserve">
     <value>スクロール→</value>
   </data>
-  <data name="ViewScrollUpCommand.Remarks" xml:space="preserve">
-    <value>画像を上方向にするロールさせます。縦スクロールできないときは横スクロールになります。</value>
+  <data name="ViewScrollRightCommand.Remarks" xml:space="preserve">
+    <value>画像を右方向にするロールさせます。横スクロールできないときは縦スクロールになります。</value>
   </data>
   <data name="ViewScrollUpCommand" xml:space="preserve">
     <value>スクロール↑</value>
+  </data>
+  <data name="ViewScrollUpCommand.Remarks" xml:space="preserve">
+    <value>画像を上方向にするロールさせます。縦スクロールできないときは横スクロールになります。</value>
   </data>
   <data name="WindowAboutTitle" xml:space="preserve">
     <value>このアプリについて</value>
@@ -6459,6 +6432,33 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="WordYes" xml:space="preserve">
     <value>はい</value>
+  </data>
+  <data name="x.BookshelfCopyToFolderSelect" xml:space="preserve">
+    <value>コピー先フォルダーを選択</value>
+  </data>
+  <data name="x.BookshelfCopyToFolderSuccess" xml:space="preserve">
+    <value>{0} 個のアイテムをコピーしました</value>
+  </data>
+  <data name="x.BookshelfItemMenuDestinationFolderSelect" xml:space="preserve">
+    <value>フォルダーを選択(_S)...</value>
+  </data>
+  <data name="x.BookshelfMoveToFolderSelect" xml:space="preserve">
+    <value>移動先フォルダーを選択</value>
+  </data>
+  <data name="x.BookshelfMoveToFolderSuccess" xml:space="preserve">
+    <value>{0} 個のアイテムを移動しました</value>
+  </data>
+  <data name="x.BookshelfName" xml:space="preserve">
+    <value>本棚</value>
+  </data>
+  <data name="x.ControlAboutChangeLog" xml:space="preserve">
+    <value>更新履歴</value>
+  </data>
+  <data name="x.ControlSaveOriginal" xml:space="preserve">
+    <value>元ファイルのまま保存</value>
+  </data>
+  <data name="x.ControlSaveWidePage" xml:space="preserve">
+    <value>2ページを連結する</value>
   </data>
   <data name="ZipArchiveConfig.IsEnabled" xml:space="preserve">
     <value>標準機能によるZIP圧縮ファイル展開を使用する</value>

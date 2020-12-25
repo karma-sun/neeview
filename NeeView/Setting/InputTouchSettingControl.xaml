@@ -59,7 +59,7 @@
             </Grid>
             <Popup IsOpen="{Binding ElementName=WindowHelp, Path=IsChecked}" PlacementTarget="{Binding ElementName=WindowHelp}" Placement="Top" HorizontalAlignment="Right">
                 <Border BorderBrush="Gray" BorderThickness="1" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}">
-                    <TextBlock Margin="10" Text="{x:Static properties:Resources.ControlEditTouchNote}"/>
+                    <TextBlock Margin="10" Text="{x:Static properties:Resources.InputTouchControl_Remarks}"/>
                 </Border>
             </Popup>
 
@@ -102,7 +102,7 @@
                         <TextBlock Text="Center" Foreground="LightSteelBlue" HorizontalAlignment="Center"/>
                     </Grid>
                 </Grid>
-                <TextBlock Text="{x:Static properties:Resources.ControlEditTouchInput}" VerticalAlignment="Center" TextAlignment="Center" Foreground="LightSteelBlue"/>
+                <TextBlock Text="{x:Static properties:Resources.InputTouchControl_TouchInput}" VerticalAlignment="Center" TextAlignment="Center" Foreground="LightSteelBlue"/>
             </Grid>
         </DockPanel>
 

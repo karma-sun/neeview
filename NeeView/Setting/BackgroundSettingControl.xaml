@@ -25,14 +25,14 @@
             <StackPanel Margin="0,5,0,0">
 
                 <DockPanel Margin="5">
-                    <TextBlock Text="{x:Static properties:Resources.ControlCustomBackgroundColor}" MinWidth="50" VerticalAlignment="Center"/>
+                    <TextBlock Text="{x:Static properties:Resources.CustomBackgroundControl_Color}" MinWidth="50" VerticalAlignment="Center"/>
                     <TextBox Text="{Binding Color}" MinWidth="100" BorderThickness="1,1,0,1" Padding="0,0,2,0" VerticalContentAlignment="Center"/>
                     <osc:ComboColorPicker SelectedColor="{Binding Color, Mode=TwoWay}"/>
                 </DockPanel>
                 <DockPanel Margin="5">
-                    <TextBlock Text="{x:Static properties:Resources.ControlCustomBackgroundImage}" MinWidth="50" VerticalAlignment="Center"/>
-                    <nlc:FileNameBox FileDialogType="OpenFile" Title="{x:Static properties:Resources.ControlCustomBackgroundImageSelect}" Filter="All|*.*" MinHeight="24"
-                                 Note="{x:Static properties:Resources.ControlCustomBackgroundImageSelectNote}"
+                    <TextBlock Text="{x:Static properties:Resources.CustomBackgroundControl_Image}" MinWidth="50" VerticalAlignment="Center"/>
+                    <nlc:FileNameBox FileDialogType="OpenFile" Title="{x:Static properties:Resources.CustomBackgroundControl_ImageSelect}" Filter="All|*.*" MinHeight="24"
+                            Note="{x:Static properties:Resources.CustomBackgroundControl_ImageSelect_Remarks}"
                                  Text="{Binding ImageFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 </DockPanel>
             </StackPanel>

@@ -51,6 +51,6 @@
 
         </DockPanel>
 
-        <TextBlock x:Name="EmptyText" Text="{x:Static properties:Resources.ControlEditParameterEmpty}" Margin="10" Foreground="Gray"/>
+        <TextBlock x:Name="EmptyText" Text="{x:Static properties:Resources.CommandParameterControl_Empty}" Margin="10" Foreground="Gray"/>
     </Grid>
 </UserControl>

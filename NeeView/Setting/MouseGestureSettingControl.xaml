@@ -15,7 +15,7 @@
         
         <DockPanel Margin="10" KeyboardNavigation.TabNavigation="Local">
             <DockPanel DockPanel.Dock="Bottom">
-                <TextBlock Text="{x:Static properties:Resources.ControlEditGestureNew}" VerticalAlignment="Center" MinWidth="90"/>
+                <TextBlock Text="{x:Static properties:Resources.MouseGestureControl_New}" VerticalAlignment="Center" MinWidth="90"/>
 
                 <Button DockPanel.Dock="Right" VerticalAlignment="Center" Margin="2" Padding="10,2" Content="{x:Static properties:Resources.WordClear}" Command="{Binding ClearCommand}" FocusVisualStyle="{StaticResource NVBorderFocusVisual}" TabIndex="2"/>
 
@@ -39,7 +39,7 @@
 
             </DockPanel>
             <DockPanel DockPanel.Dock="Bottom">
-                <TextBlock Text="{x:Static properties:Resources.ControlEditGestureOld}"  VerticalAlignment="Center" MinWidth="90"/>
+                <TextBlock Text="{x:Static properties:Resources.MouseGestureControl_Old}"  VerticalAlignment="Center" MinWidth="90"/>
                 <Grid Width="12" Margin="0,0,2,2"/>
                 <TextBox DockPanel.Dock="Bottom" x:Name="OldGestureText" Margin="2" FontFamily="Meiryo" VerticalAlignment="Center" IsReadOnly="True" IsHitTestVisible="False" BorderBrush="Transparent" IsTabStop="False"
                            Text="{Binding OriginalGesture, Converter={StaticResource MouseGestureToDispTextConverter}}" />
@@ -52,13 +52,13 @@
             </Grid>
             <Popup IsOpen="{Binding ElementName=WindowHelp, Path=IsChecked}" PlacementTarget="{Binding ElementName=WindowHelp}" Placement="Top" HorizontalAlignment="Right">
                 <Border BorderBrush="Gray" BorderThickness="1" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}">
-                    <TextBlock Margin="10" Text="{x:Static properties:Resources.ControlEditGestureNote}"/>
+                    <TextBlock Margin="10" Text="{x:Static properties:Resources.MouseGestureControl_Remarks}"/>
                 </Border>
             </Popup>
 
 
             <Grid x:Name="GestureBox" Margin="2" Background="AliceBlue">
-                <TextBlock Text="{x:Static properties:Resources.ControlEditGestureInputGesture}" VerticalAlignment="Center" TextAlignment="Center" Foreground="Gray"/>
+                <TextBlock Text="{x:Static properties:Resources.MouseGestureControl_InputGesture}" VerticalAlignment="Center" TextAlignment="Center" Foreground="Gray"/>
             </Grid>
         </DockPanel>
 

@@ -35,12 +35,12 @@
             <StackPanel Grid.Column="0">
 
                 <StackPanel VerticalAlignment="Top">
-                    <TextBlock x:Name="textBlock" Margin="10" TextWrapping="Wrap" Text="{x:Static properties:Resources.ControlEditShortcutLabelShortcut}" VerticalAlignment="Top" />
+                    <TextBlock x:Name="textBlock" Margin="10" TextWrapping="Wrap" Text="{x:Static properties:Resources.InputGestureControl_LabelShortcut}" VerticalAlignment="Top" />
                     <Grid Height="40" VerticalAlignment="Top" Margin="10,0" >
                         <TextBox x:Name="KeyGestureBox" Style="{StaticResource InputBox}" PreviewKeyDown="KeyGestureBox_PreviewKeyDown" IsTabStop="False"/>
 
                         <TextBlock x:Name="KeyGestureText"  VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False" Foreground="#222"/>
-                        <TextBlock Text="{x:Static properties:Resources.ControlEditShortcutInputShortcut}" Foreground="Gray" VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False">
+                        <TextBlock Text="{x:Static properties:Resources.InputGestureControl_InputShortcut}" Foreground="Gray" VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="Visibility" Value="Hidden"/>
@@ -67,7 +67,7 @@
                 </StackPanel>
 
                 <StackPanel>
-                    <TextBlock  Margin="10" TextWrapping="Wrap" Text="{x:Static properties:Resources.ControlEditShortcutLabelMouse}" Height="16" />
+                    <TextBlock Margin="10" TextWrapping="Wrap" Text="{x:Static properties:Resources.InputGestureControl_LabelMouse}" Height="16" />
                     <Border x:Name="MouseGestureBox" Margin="10,0" Height="40"
                                 BorderThickness="1" BorderBrush="LightGray"
                                  PreviewMouseDown="MouseGestureBox_PreviewMouseDown"
@@ -84,7 +84,7 @@
                         </Border.Style>
                         <Grid>
                             <TextBlock x:Name="MouseGestureText"  VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False" Foreground="#222"/>
-                            <TextBlock Text="{x:Static properties:Resources.ControlEditShortcutInputMouse}" Foreground="Gray" VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False">
+                            <TextBlock Text="{x:Static properties:Resources.InputGestureControl_InputMouse}" Foreground="Gray" VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Visibility" Value="Hidden"/>
@@ -135,7 +135,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
 
-                <Button x:Name="ConflictButton" Content="{x:Static properties:Resources.ControlEditShortcutButtonConflict}" HorizontalAlignment="Right" Margin="10,10,105,10" Padding="10,0" MinWidth="85" Height="30" VerticalAlignment="Bottom" Click="ConflictButton_Click">
+                <Button x:Name="ConflictButton" Content="{x:Static properties:Resources.InputGestureControl_ButtonConflict}" HorizontalAlignment="Right" Margin="10,10,105,10" Padding="10,0" MinWidth="85" Height="30" VerticalAlignment="Bottom" Click="ConflictButton_Click">
                     <Button.Style>
                         <Style TargetType="Button" BasedOn="{StaticResource ButtonBase}">
                             <Style.Triggers>

@@ -23,7 +23,7 @@ namespace NeeView
             return SidePanelFrame.Current.IsVisibleHistoryList ? Properties.Resources.ToggleVisibleHistoryListCommand_Off : Properties.Resources.ToggleVisibleHistoryListCommand_On;
         }
 
-        [MethodArgument("@CommandToggleArgument")]
+        [MethodArgument("@ToggleCommand.Execute.Remarks")]
         public override void Execute(object sender, CommandContext e)
         {
             if (e.Args.Length > 0)

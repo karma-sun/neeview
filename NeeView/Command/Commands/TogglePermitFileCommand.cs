@@ -22,7 +22,7 @@ namespace NeeView
             return Config.Current.System.IsFileWriteAccessEnabled ? Properties.Resources.TogglePermitFileCommand_Off : Properties.Resources.TogglePermitFileCommand_On;
         }
 
-        [MethodArgument("@CommandToggleArgument")]
+        [MethodArgument("@ToggleCommand.Execute.Remarks")]
         public override void Execute(object sender, CommandContext e)
         {
             if (e.Args.Length > 0)

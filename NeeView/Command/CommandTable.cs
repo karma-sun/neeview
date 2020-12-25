@@ -537,7 +537,7 @@ namespace NeeView
                 writer.WriteLine($"<tr><th>{Properties.Resources.WordGroup}</th><th>{Properties.Resources.WordCommand}</th><th>{Properties.Resources.WordShortcut}</th><th>{Properties.Resources.WordGesture}</th><th>{Properties.Resources.WordTouch}</th><th>{Properties.Resources.Word_Summary}</th></tr>");
                 foreach (var command in _elements.Values.OrderBy(e => e.Order))
                 {
-                    writer.WriteLine($"<tr><td>{command.Group}</td><td>{command.Text}</td><td>{command.ShortCutKey}</td><td>{new MouseGestureSequence(command.MouseGesture).ToDispString()}</td><td>{command.TouchGesture}</td><td>{command.Note}</td></tr>");
+                    writer.WriteLine($"<tr><td>{command.Group}</td><td>{command.Text}</td><td>{command.ShortCutKey}</td><td>{new MouseGestureSequence(command.MouseGesture).ToDispString()}</td><td>{command.TouchGesture}</td><td>{command.Remarks}</td></tr>");
                 }
                 writer.WriteLine("</table>");
                 writer.WriteLine("</body>");

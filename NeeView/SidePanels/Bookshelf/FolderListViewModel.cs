@@ -332,15 +332,15 @@ namespace NeeView
             items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleBanner, PanelListItemStyle.Banner));
             items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleThumbnail, PanelListItemStyle.Thumbnail));
             items.Add(new Separator());
-            items.Add(CreateCommandMenuItem(Properties.Resources.BookshelfMoreMenuExportPlaylist, ExportPlaylist));
-            items.Add(CreateCommandMenuItem(Properties.Resources.BookshelfMoreMenuAddQuickAccess, AddQuickAccess));
-            items.Add(CreateCommandMenuItem(Properties.Resources.BookshelfMoreMenuClearHistory, "ClearHistoryInPlace"));
+            items.Add(CreateCommandMenuItem(Properties.Resources.Bookshelf_MoreMenu_ExportPlaylist, ExportPlaylist));
+            items.Add(CreateCommandMenuItem(Properties.Resources.Bookshelf_MoreMenu_AddQuickAccess, AddQuickAccess));
+            items.Add(CreateCommandMenuItem(Properties.Resources.Bookshelf_MoreMenu_ClearHistory, "ClearHistoryInPlace"));
 
             switch (_model.FolderCollection)
             {
                 case FolderEntryCollection folderEntryCollection:
                     items.Add(new Separator());
-                    items.Add(CreateRecursiveFlagMenuItem(Properties.Resources.BookshelfMoreMenuSubfolder));
+                    items.Add(CreateRecursiveFlagMenuItem(Properties.Resources.Bookshelf_MoreMenu_Subfolder));
                     break;
 
                 case FolderArchiveCollection folderArchiveCollection:
@@ -358,9 +358,9 @@ namespace NeeView
 
             if (_model.IsFolderSearchEnabled)
             {
-                var subItem = new MenuItem() { Header = Properties.Resources.BookshelfMoreMenuSearchOptions };
-                subItem.Items.Add(CreateCheckFlagMenuItem(Properties.Resources.BookshelfMoreMenuSearchIncremental, new Binding(nameof(BookshelfConfig.IsIncrementalSearchEnabled)) { Source = Config.Current.Bookshelf }));
-                subItem.Items.Add(CreateCheckFlagMenuItem(Properties.Resources.BookshelfMoreMenuSearchIncludeSubdirectories, new Binding(nameof(BookshelfConfig.IsSearchIncludeSubdirectories)) { Source = Config.Current.Bookshelf }));
+                var subItem = new MenuItem() { Header = Properties.Resources.Bookshelf_MoreMenu_SearchOptions };
+                subItem.Items.Add(CreateCheckFlagMenuItem(Properties.Resources.Bookshelf_MoreMenu_SearchIncremental, new Binding(nameof(BookshelfConfig.IsIncrementalSearchEnabled)) { Source = Config.Current.Bookshelf }));
+                subItem.Items.Add(CreateCheckFlagMenuItem(Properties.Resources.Bookshelf_MoreMenu_SearchIncludeSubdirectories, new Binding(nameof(BookshelfConfig.IsSearchIncludeSubdirectories)) { Source = Config.Current.Bookshelf }));
                 items.Add(new Separator());
                 items.Add(subItem);
             }

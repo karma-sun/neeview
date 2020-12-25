@@ -33,7 +33,7 @@ namespace NeeView
                 return null;
             }
 
-            var resourceKey = attribute.Note ?? GetResourceKey(property, "#Remarks");
+            var resourceKey = attribute.Note ?? GetResourceKey(property, ".Remarks");
             var resourceValue = ResourceService.GetResourceString(resourceKey, true);
 
             return resourceValue;

@@ -17,7 +17,7 @@ namespace NeeView
             return new Binding(nameof(DragTransform.IsFlipHorizontal)) { Source = MainViewComponent.Current.DragTransform, Mode = BindingMode.OneWay };
         }
 
-        [MethodArgument("@CommandToggleArgument")]
+        [MethodArgument("@ToggleCommand.Execute.Remarks")]
         public override void Execute(object sender, CommandContext e)
         {
             if (e.Args.Length > 0)

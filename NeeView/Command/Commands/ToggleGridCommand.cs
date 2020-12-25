@@ -21,7 +21,7 @@ namespace NeeView
             return Config.Current.ImageGrid.IsEnabled ? Properties.Resources.ToggleGridCommand_Off : Properties.Resources.ToggleGridCommand_On;
         }
 
-        [MethodArgument("@CommandToggleArgument")]
+        [MethodArgument("@ToggleCommand.Execute.Remarks")]
         public override void Execute(object sender, CommandContext e)
         {
             if (e.Args.Length > 0)

@@ -93,21 +93,21 @@ namespace NeeView
             switch (archiverType)
             {
                 case ArchiverType.FolderArchive:
-                    return Properties.Resources.ArchiveFormatFolder;
+                    return Properties.Resources.ArchiveFormat_Folder;
                 case ArchiverType.ZipArchiver:
                 case ArchiverType.SevenZipArchiver:
                 case ArchiverType.SusieArchiver:
-                    return inner + Properties.Resources.ArchiveFormatCompressedFile + $"({extension})";
+                    return inner + Properties.Resources.ArchiveFormat_CompressedFile + $"({extension})";
                 case ArchiverType.PdfArchiver:
-                    return inner + Properties.Resources.ArchiveFormatPdf + $"({extension})";
+                    return inner + Properties.Resources.ArchiveFormat_Pdf + $"({extension})";
                 case ArchiverType.MediaArchiver:
-                    return inner + Properties.Resources.ArchiveFormatMedia + $"({extension})";
+                    return inner + Properties.Resources.ArchiveFormat_Media + $"({extension})";
                 case ArchiverType.PagemarkArchiver:
-                    return Properties.Resources.ArchiveFormatPagemark;
+                    return Properties.Resources.ArchiveFormat_Pagemark;
                 case ArchiverType.PlaylistArchiver:
-                    return Properties.Resources.ArchiveFormatPlaylist;
+                    return Properties.Resources.ArchiveFormat_Playlist;
                 default:
-                    return Properties.Resources.ArchiveFormatUnknown;
+                    return Properties.Resources.ArchiveFormat_Unknown;
             }
         }
 
@@ -115,7 +115,7 @@ namespace NeeView
         {
             string text = "";
             text += GetArchiverDetail() + "\n";
-            text += string.Format(Properties.Resources.BookAddressInfoPage, Pages.Count);
+            text += string.Format(Properties.Resources.BookAddressInfo_Page, Pages.Count);
             return text;
         }
 

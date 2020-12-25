@@ -33,7 +33,7 @@ namespace NeeView
             }
 
             subItem.Items.Add(new Separator());
-            subItem.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuDestinationFolderOption, Command = OpenDestinationFolderDialogCommand });
+            subItem.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItem_Menu_DestinationFolderOption, Command = OpenDestinationFolderDialogCommand });
 
             return subItem;
         }

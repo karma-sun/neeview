@@ -136,7 +136,7 @@ namespace NeeView
                     case MenuElementType.None:
                         return $"({MenuElementType.ToAliasName()})";
                     case MenuElementType.Command:
-                        return CommandTable.Current.GetElement(CommandName).MenuText;
+                        return CommandTable.Current.GetElement(CommandName).Menu;
                 }
             }
         }
@@ -425,7 +425,7 @@ namespace NeeView
                     case MenuElementType.Group:
                         return "";
                     case MenuElementType.Command:
-                        return CommandTable.Current.GetElement(CommandName).Note;
+                        return CommandTable.Current.GetElement(CommandName).Remarks;
                     case MenuElementType.History:
                         return Properties.Resources.MenuTreeHistory;
                     case MenuElementType.Separator:

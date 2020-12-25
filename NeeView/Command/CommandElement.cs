@@ -89,8 +89,8 @@ namespace NeeView
             Name = name ?? _trimCommand.Replace(this.GetType().Name, "");
 
             Text = GetResourceText(null, null, true);
-            MenuText = GetResourceText(nameof(MenuText));
-            Note = GetResourceText(nameof(Note));
+            Menu = GetResourceText(nameof(Menu));
+            Remarks = GetResourceText(nameof(Remarks));
         }
 
         private string GetResourceKey(string property, string postfix = null)
@@ -129,14 +129,14 @@ namespace NeeView
 
         public string LongText => Group + "/" + Text;
 
-        public string MenuText
+        public string Menu
         {
             get { return _menuText ?? Text; }
             set { _menuText = value; }
         }
 
         // コマンド説明
-        public string Note { get; set; }
+        public string Remarks { get; set; }
 
 
         /// <summary>
@@ -334,7 +334,7 @@ namespace NeeView
         // 検索用文字列を取得
         public string GetSearchText()
         {
-            return string.Join(",", new string[] { this.Group, this.Text, this.MenuText, this.Note, this.ShortCutKey, this.MouseGesture, new MouseGestureSequence(this.MouseGesture).ToDispString(), this.TouchGesture });
+            return string.Join(",", new string[] { this.Group, this.Text, this.Menu, this.Remarks, this.ShortCutKey, this.MouseGesture, new MouseGestureSequence(this.MouseGesture).ToDispString(), this.TouchGesture });
         }
 
         #region Memento

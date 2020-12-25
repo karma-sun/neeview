@@ -22,7 +22,7 @@ namespace NeeView
             return BookSettingPresenter.Current.LatestSetting.IsRecursiveFolder ? Properties.Resources.ToggleIsRecursiveFolderCommand_Off : Properties.Resources.ToggleIsRecursiveFolderCommand_On;
         }
 
-        [MethodArgument("@CommandToggleArgument")]
+        [MethodArgument("@ToggleCommand.Execute.Remarks")]
         public override void Execute(object sender, CommandContext e)
         {
             if (e.Args.Length > 0)

@@ -62,7 +62,7 @@ namespace NeeView
 
         private static string GetTips<T>(T value, AliasNameAttribute attribute)
         {
-            var resourceKey = (attribute != null) ? attribute.Tips ?? GetResourceKey(value, "#Tips") : null;
+            var resourceKey = (attribute != null) ? attribute.Tips ?? GetResourceKey(value, ".Remarks") : null;
             return ResourceService.GetResourceString(resourceKey, true);
         }
 

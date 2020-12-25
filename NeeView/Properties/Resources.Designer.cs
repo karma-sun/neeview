@@ -61,6 +61,51 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Back に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AddressBar_Back_ToolTip {
+            get {
+                return ResourceManager.GetString("AddressBar.Back.ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Next に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AddressBar_Next_ToolTip {
+            get {
+                return ResourceManager.GetString("AddressBar.Next.ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Reload に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AddressBar_ReLoad_ToolTip {
+            get {
+                return ResourceManager.GetString("AddressBar.ReLoad.ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Close に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AddressBar_Unload_ToolTip {
+            get {
+                return ResourceManager.GetString("AddressBar.Unload.ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Up に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AddressBar_Up_ToolTip {
+            get {
+                return ResourceManager.GetString("AddressBar.Up.ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Expand for each directory に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ArchiveEntryCollectionMode_CurrentDirectory {
@@ -90,63 +135,63 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Compressed file に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ArchiveFormatCompressedFile {
+        public static string ArchiveFormat_CompressedFile {
             get {
-                return ResourceManager.GetString("ArchiveFormatCompressedFile", resourceCulture);
+                return ResourceManager.GetString("ArchiveFormat.CompressedFile", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Folder に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ArchiveFormatFolder {
+        public static string ArchiveFormat_Folder {
             get {
-                return ResourceManager.GetString("ArchiveFormatFolder", resourceCulture);
+                return ResourceManager.GetString("ArchiveFormat.Folder", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Media に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ArchiveFormatMedia {
+        public static string ArchiveFormat_Media {
             get {
-                return ResourceManager.GetString("ArchiveFormatMedia", resourceCulture);
+                return ResourceManager.GetString("ArchiveFormat.Media", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Pagemark に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ArchiveFormatPagemark {
+        public static string ArchiveFormat_Pagemark {
             get {
-                return ResourceManager.GetString("ArchiveFormatPagemark", resourceCulture);
+                return ResourceManager.GetString("ArchiveFormat.Pagemark", resourceCulture);
             }
         }
         
         /// <summary>
         ///   PDF に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ArchiveFormatPdf {
+        public static string ArchiveFormat_Pdf {
             get {
-                return ResourceManager.GetString("ArchiveFormatPdf", resourceCulture);
+                return ResourceManager.GetString("ArchiveFormat.Pdf", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Playlist に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ArchiveFormatPlaylist {
+        public static string ArchiveFormat_Playlist {
             get {
-                return ResourceManager.GetString("ArchiveFormatPlaylist", resourceCulture);
+                return ResourceManager.GetString("ArchiveFormat.Playlist", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Unknown format に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ArchiveFormatUnknown {
+        public static string ArchiveFormat_Unknown {
             get {
-                return ResourceManager.GetString("ArchiveFormatUnknown", resourceCulture);
+                return ResourceManager.GetString("ArchiveFormat.Unknown", resourceCulture);
             }
         }
         
@@ -216,9 +261,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   It is not hidden when it has focus. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string AutoHideConfig_AutoHideFocusLockMode_Tips {
+        public static string AutoHideConfig_AutoHideFocusLockMode_Remarks {
             get {
-                return ResourceManager.GetString("AutoHideConfig.AutoHideFocusLockMode#Tips", resourceCulture);
+                return ResourceManager.GetString("AutoHideConfig.AutoHideFocusLockMode.Remarks", resourceCulture);
             }
         }
         
@@ -243,9 +288,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Postpone the action to hide when key input. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string AutoHideConfig_IsAutoHideKeyDownDelay_Tips {
+        public static string AutoHideConfig_IsAutoHideKeyDownDelay_Remarks {
             get {
-                return ResourceManager.GetString("AutoHideConfig.IsAutoHideKeyDownDelay#Tips", resourceCulture);
+                return ResourceManager.GetString("AutoHideConfig.IsAutoHideKeyDownDelay.Remarks", resourceCulture);
             }
         }
         
@@ -342,9 +387,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   This setting is applied when the background is set to &quot;custom background&quot;. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string BackgroundConfig_CustomBackground_Tips {
+        public static string BackgroundConfig_CustomBackground_Remarks {
             get {
-                return ResourceManager.GetString("BackgroundConfig.CustomBackground#Tips", resourceCulture);
+                return ResourceManager.GetString("BackgroundConfig.CustomBackground.Remarks", resourceCulture);
             }
         }
         
@@ -360,9 +405,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   It will be a check pattern of &quot;@BackgroundConfig.PageBackgroundColor&quot;. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string BackgroundConfig_IsPageBackgroundChecker_Tips {
+        public static string BackgroundConfig_IsPageBackgroundChecker_Remarks {
             get {
-                return ResourceManager.GetString("BackgroundConfig.IsPageBackgroundChecker#Tips", resourceCulture);
+                return ResourceManager.GetString("BackgroundConfig.IsPageBackgroundChecker.Remarks", resourceCulture);
             }
         }
         
@@ -567,36 +612,36 @@ namespace NeeView.Properties {
         /// <summary>
         ///   This is bookmark address. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string BookAddressInfoBookmark {
+        public static string BookAddressInfo_Bookmark {
             get {
-                return ResourceManager.GetString("BookAddressInfoBookmark", resourceCulture);
+                return ResourceManager.GetString("BookAddressInfo.Bookmark", resourceCulture);
             }
         }
         
         /// <summary>
         ///   This address is invalid. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string BookAddressInfoInvalid {
+        public static string BookAddressInfo_Invalid {
             get {
-                return ResourceManager.GetString("BookAddressInfoInvalid", resourceCulture);
+                return ResourceManager.GetString("BookAddressInfo.Invalid", resourceCulture);
             }
         }
         
         /// <summary>
         ///   {0} page に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string BookAddressInfoPage {
+        public static string BookAddressInfo_Page {
             get {
-                return ResourceManager.GetString("BookAddressInfoPage", resourceCulture);
+                return ResourceManager.GetString("BookAddressInfo.Page", resourceCulture);
             }
         }
         
         /// <summary>
         ///   This is pagemark address. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string BookAddressInfoPagemark {
+        public static string BookAddressInfo_Pagemark {
             get {
-                return ResourceManager.GetString("BookAddressInfoPagemark", resourceCulture);
+                return ResourceManager.GetString("BookAddressInfo.Pagemark", resourceCulture);
             }
         }
         
@@ -612,9 +657,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   The size of the image to display as the book page. Since thumbnails are displayed, large values ​​may be displayed at a lower resolution. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string BookConfig_BookPageSize_Tips {
+        public static string BookConfig_BookPageSize_Remarks {
             get {
-                return ResourceManager.GetString("BookConfig.BookPageSize#Tips", resourceCulture);
+                return ResourceManager.GetString("BookConfig.BookPageSize.Remarks", resourceCulture);
             }
         }
         
@@ -630,9 +675,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Sets the gap between page and page. Negative values ​​mean overlapping. Because each page is scaled, it is rare that there will be no gap just at 0. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string BookConfig_ContentsSpace_Tips {
+        public static string BookConfig_ContentsSpace_Remarks {
             get {
-                return ResourceManager.GetString("BookConfig.ContentsSpace#Tips", resourceCulture);
+                return ResourceManager.GetString("BookConfig.ContentsSpace.Remarks", resourceCulture);
             }
         }
         
@@ -666,9 +711,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   If there is no page that can be displayed when the book is opened, and a subfolder exists, a dialog is displayed asking whether to load the subfolder. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string BookConfig_IsConfirmRecursive_Tips {
+        public static string BookConfig_IsConfirmRecursive_Remarks {
             get {
-                return ResourceManager.GetString("BookConfig.IsConfirmRecursive#Tips", resourceCulture);
+                return ResourceManager.GetString("BookConfig.IsConfirmRecursive.Remarks", resourceCulture);
             }
         }
         
@@ -684,9 +729,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Insert a dummy page when there are not enough pages at the end of two-page mode. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string BookConfig_IsInsertDummyPage_Tips {
+        public static string BookConfig_IsInsertDummyPage_Remarks {
             get {
-                return ResourceManager.GetString("BookConfig.IsInsertDummyPage#Tips", resourceCulture);
+                return ResourceManager.GetString("BookConfig.IsInsertDummyPage.Remarks", resourceCulture);
             }
         }
         
@@ -702,9 +747,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Execute all requested page move commands. If it is set to OFF, duplicate page move commands are canceled. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string BookConfig_IsMultiplePageMove_Tips {
+        public static string BookConfig_IsMultiplePageMove_Remarks {
             get {
-                return ResourceManager.GetString("BookConfig.IsMultiplePageMove#Tips", resourceCulture);
+                return ResourceManager.GetString("BookConfig.IsMultiplePageMove.Remarks", resourceCulture);
             }
         }
         
@@ -729,9 +774,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Perform page movement without waiting for page display. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string BookConfig_IsPrioritizePageMove_Tips {
+        public static string BookConfig_IsPrioritizePageMove_Remarks {
             get {
-                return ResourceManager.GetString("BookConfig.IsPrioritizePageMove#Tips", resourceCulture);
+                return ResourceManager.GetString("BookConfig.IsPrioritizePageMove.Remarks", resourceCulture);
             }
         }
         
@@ -747,9 +792,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Arrange files before folders. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string BookConfig_IsSortFileFirst_Tips {
+        public static string BookConfig_IsSortFileFirst_Remarks {
             get {
-                return ResourceManager.GetString("BookConfig.IsSortFileFirst#Tips", resourceCulture);
+                return ResourceManager.GetString("BookConfig.IsSortFileFirst.Remarks", resourceCulture);
             }
         }
         
@@ -792,9 +837,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   It is used in &quot;Split landscape page&quot;. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string BookConfig_WideRatio_Tips {
+        public static string BookConfig_WideRatio_Remarks {
             get {
-                return ResourceManager.GetString("BookConfig.WideRatio#Tips", resourceCulture);
+                return ResourceManager.GetString("BookConfig.WideRatio.Remarks", resourceCulture);
             }
         }
         
@@ -880,6 +925,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Up (Alt+Up) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Bookmark_Up_ToolTip {
+            get {
+                return ResourceManager.GetString("Bookmark.Up.ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Bookmark list file location に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookmarkConfig_BookmarkFilePath {
@@ -945,27 +999,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Add bookmark に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string BookmarkListAddTips {
+        public static string BookmarkList_Add_ToolTip {
             get {
-                return ResourceManager.GetString("BookmarkListAddTips", resourceCulture);
+                return ResourceManager.GetString("BookmarkList.Add.ToolTip", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sync bookshelf に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string BookmarkListMoreMenuSyncBookshelf {
+        public static string BookmarkList_MoreMenu_SyncBookshelf {
             get {
-                return ResourceManager.GetString("BookmarkListMoreMenuSyncBookshelf", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Bookmark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookmarkName {
-            get {
-                return ResourceManager.GetString("BookmarkName", resourceCulture);
+                return ResourceManager.GetString("BookmarkList.MoreMenu.SyncBookshelf", resourceCulture);
             }
         }
         
@@ -1152,9 +1197,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Because it searches all open folders and below, the processing becomes heavy depending on the location of the folder. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string BookSettingConfig_IsRecursiveFolder_Tips {
+        public static string BookSettingConfig_IsRecursiveFolder_Remarks {
             get {
-                return ResourceManager.GetString("BookSettingConfig.IsRecursiveFolder#Tips", resourceCulture);
+                return ResourceManager.GetString("BookSettingConfig.IsRecursiveFolder.Remarks", resourceCulture);
             }
         }
         
@@ -1377,9 +1422,144 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Back (Alt+Left) に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string BookshelfBackTips {
+        public static string Bookshelf_Back_ToolTip {
             get {
-                return ResourceManager.GetString("BookshelfBackTips", resourceCulture);
+                return ResourceManager.GetString("Bookshelf.Back.ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Copy failed に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Bookshelf_CopyToFolderFailed {
+            get {
+                return ResourceManager.GetString("Bookshelf.CopyToFolderFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set this place home に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Bookshelf_Home_Menu_Set {
+            get {
+                return ResourceManager.GetString("Bookshelf.Home.Menu.Set", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Go to Home (Alt+Home) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Bookshelf_Home_ToolTip {
+            get {
+                return ResourceManager.GetString("Bookshelf.Home.ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move failed に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Bookshelf_Message_MoveToFolderFailed {
+            get {
+                return ResourceManager.GetString("Bookshelf.Message.MoveToFolderFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Add this place to quick access に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Bookshelf_MoreMenu_AddQuickAccess {
+            get {
+                return ResourceManager.GetString("Bookshelf.MoreMenu.AddQuickAccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete all history of this place に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Bookshelf_MoreMenu_ClearHistory {
+            get {
+                return ResourceManager.GetString("Bookshelf.MoreMenu.ClearHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Save playlist... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Bookshelf_MoreMenu_ExportPlaylist {
+            get {
+                return ResourceManager.GetString("Bookshelf.MoreMenu.ExportPlaylist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Include subdirectories に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Bookshelf_MoreMenu_SearchIncludeSubdirectories {
+            get {
+                return ResourceManager.GetString("Bookshelf.MoreMenu.SearchIncludeSubdirectories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Incremental search に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Bookshelf_MoreMenu_SearchIncremental {
+            get {
+                return ResourceManager.GetString("Bookshelf.MoreMenu.SearchIncremental", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Search options に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Bookshelf_MoreMenu_SearchOptions {
+            get {
+                return ResourceManager.GetString("Bookshelf.MoreMenu.SearchOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Load subfolders at this location に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Bookshelf_MoreMenu_Subfolder {
+            get {
+                return ResourceManager.GetString("Bookshelf.MoreMenu.Subfolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Next (Alt+Right) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Bookshelf_Next_ToolTip {
+            get {
+                return ResourceManager.GetString("Bookshelf.Next.ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Load subfolder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Bookshelf_SubFolder_ToolTip {
+            get {
+                return ResourceManager.GetString("Bookshelf.SubFolder.ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move to current book place に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Bookshelf_Sync_ToolTip {
+            get {
+                return ResourceManager.GetString("Bookshelf.Sync.ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Up (Alt+Up) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Bookshelf_Up_ToolTip {
+            get {
+                return ResourceManager.GetString("Bookshelf.Up.ToolTip", resourceCulture);
             }
         }
         
@@ -1404,9 +1584,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   It is specified with .NET regular expression. Capital letters and lower case letters are not distinguished. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string BookshelfConfig_ExcludePattern_Tips {
+        public static string BookshelfConfig_ExcludePattern_Remarks {
             get {
-                return ResourceManager.GetString("BookshelfConfig.ExcludePattern#Tips", resourceCulture);
+                return ResourceManager.GetString("BookshelfConfig.ExcludePattern.Remarks", resourceCulture);
             }
         }
         
@@ -1440,9 +1620,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Move the folder including the parent and child of the folder. It does not apply when the bookshelf is a search result. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string BookshelfConfig_IsCruise_Tips {
+        public static string BookshelfConfig_IsCruise_Remarks {
             get {
-                return ResourceManager.GetString("BookshelfConfig.IsCruise#Tips", resourceCulture);
+                return ResourceManager.GetString("BookshelfConfig.IsCruise.Remarks", resourceCulture);
             }
         }
         
@@ -1467,9 +1647,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   The bookshelf reflects information in real time. If this setting is ON, inserts the added file in the current sort order position. When set to OFF, it is added to the end of the list. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string BookshelfConfig_IsInsertItem_Tips {
+        public static string BookshelfConfig_IsInsertItem_Remarks {
             get {
-                return ResourceManager.GetString("BookshelfConfig.IsInsertItem#Tips", resourceCulture);
+                return ResourceManager.GetString("BookshelfConfig.IsInsertItem.Remarks", resourceCulture);
             }
         }
         
@@ -1485,9 +1665,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   For an RAR split file called .part[number].rar, only the file with the smallest number is displayed in the list. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string BookshelfConfig_IsMultipleRarFilterEnabled_Tips {
+        public static string BookshelfConfig_IsMultipleRarFilterEnabled_Remarks {
             get {
-                return ResourceManager.GetString("BookshelfConfig.IsMultipleRarFilterEnabled#Tips", resourceCulture);
+                return ResourceManager.GetString("BookshelfConfig.IsMultipleRarFilterEnabled.Remarks", resourceCulture);
             }
         }
         
@@ -1539,9 +1719,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   ★ mark is displayed in the bookmarked book. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string BookshelfConfig_IsVisibleBookmarkMark_Tips {
+        public static string BookshelfConfig_IsVisibleBookmarkMark_Remarks {
             get {
-                return ResourceManager.GetString("BookshelfConfig.IsVisibleBookmarkMark#Tips", resourceCulture);
+                return ResourceManager.GetString("BookshelfConfig.IsVisibleBookmarkMark.Remarks", resourceCulture);
             }
         }
         
@@ -1557,9 +1737,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   A check mark is displayed in the book remaining in the history. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string BookshelfConfig_IsVisibleHistoryMark_Tips {
+        public static string BookshelfConfig_IsVisibleHistoryMark_Remarks {
             get {
-                return ResourceManager.GetString("BookshelfConfig.IsVisibleHistoryMark#Tips", resourceCulture);
+                return ResourceManager.GetString("BookshelfConfig.IsVisibleHistoryMark.Remarks", resourceCulture);
             }
         }
         
@@ -1582,47 +1762,128 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Copy failed に類似しているローカライズされた文字列を検索します。
+        ///   _Copy に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string BookshelfCopyToFolderFailed {
+        public static string BookshelfItem_Menu_Copy {
             get {
-                return ResourceManager.GetString("BookshelfCopyToFolderFailed", resourceCulture);
+                return ResourceManager.GetString("BookshelfItem.Menu.Copy", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Select copy destination folder に類似しているローカライズされた文字列を検索します。
+        ///   Cop_y to folder に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string BookshelfCopyToFolderSelect {
+        public static string BookshelfItem_Menu_CopyToFolder {
             get {
-                return ResourceManager.GetString("BookshelfCopyToFolderSelect", resourceCulture);
+                return ResourceManager.GetString("BookshelfItem.Menu.CopyToFolder", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Copied {0} items に類似しているローカライズされた文字列を検索します。
+        ///   _Delete に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string BookshelfCopyToFolderSuccess {
+        public static string BookshelfItem_Menu_Delete {
             get {
-                return ResourceManager.GetString("BookshelfCopyToFolderSuccess", resourceCulture);
+                return ResourceManager.GetString("BookshelfItem.Menu.Delete", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Set this place home に類似しているローカライズされた文字列を検索します。
+        ///   Remove bookmark に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string BookshelfHomeMenuSet {
+        public static string BookshelfItem_Menu_DeleteBookmark {
             get {
-                return ResourceManager.GetString("BookshelfHomeMenuSet", resourceCulture);
+                return ResourceManager.GetString("BookshelfItem.Menu.DeleteBookmark", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Go to Home (Alt+Home) に類似しているローカライズされた文字列を検索します。
+        ///   Remove history に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string BookshelfHomeTips {
+        public static string BookshelfItem_Menu_DeleteHistory {
             get {
-                return ResourceManager.GetString("BookshelfHomeTips", resourceCulture);
+                return ResourceManager.GetString("BookshelfItem.Menu.DeleteHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _Add folders... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfItem_Menu_DestinationFolderOption {
+            get {
+                return ResourceManager.GetString("BookshelfItem.Menu.DestinationFolderOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open in e_xplorer に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfItem_Menu_Explorer {
+            get {
+                return ResourceManager.GetString("BookshelfItem.Menu.Explorer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _Add External apps... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfItem_Menu_ExternalAppOption {
+            get {
+                return ResourceManager.GetString("BookshelfItem.Menu.ExternalAppOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Mov_e to folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfItem_Menu_MoveToFolder {
+            get {
+                return ResourceManager.GetString("BookshelfItem.Menu.MoveToFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move to _subfolder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfItem_Menu_Open {
+            get {
+                return ResourceManager.GetString("BookshelfItem.Menu.Open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _Open に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfItem_Menu_OpenBook {
+            get {
+                return ResourceManager.GetString("BookshelfItem.Menu.OpenBook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open in external _app に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfItem_Menu_OpenExternalApp {
+            get {
+                return ResourceManager.GetString("BookshelfItem.Menu.OpenExternalApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Rena_me に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfItem_Menu_Rename {
+            get {
+                return ResourceManager.GetString("BookshelfItem.Menu.Rename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Load subfolder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfItem_Menu_Subfolder {
+            get {
+                return ResourceManager.GetString("BookshelfItem.Menu.Subfolder", resourceCulture);
             }
         }
         
@@ -1654,249 +1915,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   _Add External apps... に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfItemExternalAppOption {
-            get {
-                return ResourceManager.GetString("BookshelfItemExternalAppOption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   _Copy に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfItemMenuCopy {
-            get {
-                return ResourceManager.GetString("BookshelfItemMenuCopy", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Cop_y to folder に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfItemMenuCopyToFolder {
-            get {
-                return ResourceManager.GetString("BookshelfItemMenuCopyToFolder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   _Delete に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfItemMenuDelete {
-            get {
-                return ResourceManager.GetString("BookshelfItemMenuDelete", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Remove bookmark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfItemMenuDeleteBookmark {
-            get {
-                return ResourceManager.GetString("BookshelfItemMenuDeleteBookmark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Remove history に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfItemMenuDeleteHistory {
-            get {
-                return ResourceManager.GetString("BookshelfItemMenuDeleteHistory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   _Add folders... に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfItemMenuDestinationFolderOption {
-            get {
-                return ResourceManager.GetString("BookshelfItemMenuDestinationFolderOption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   _Select folder... に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfItemMenuDestinationFolderSelect {
-            get {
-                return ResourceManager.GetString("BookshelfItemMenuDestinationFolderSelect", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Open in e_xplorer に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfItemMenuExplorer {
-            get {
-                return ResourceManager.GetString("BookshelfItemMenuExplorer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Mov_e to folder に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfItemMenuMoveToFolder {
-            get {
-                return ResourceManager.GetString("BookshelfItemMenuMoveToFolder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Move to _subfolder に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfItemMenuOpen {
-            get {
-                return ResourceManager.GetString("BookshelfItemMenuOpen", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   _Open に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfItemMenuOpenBook {
-            get {
-                return ResourceManager.GetString("BookshelfItemMenuOpenBook", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Rena_me に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfItemMenuRename {
-            get {
-                return ResourceManager.GetString("BookshelfItemMenuRename", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Load subfolder に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfItemMenuSubfolder {
-            get {
-                return ResourceManager.GetString("BookshelfItemMenuSubfolder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Open in external _app に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfItemOpenExternalApp {
-            get {
-                return ResourceManager.GetString("BookshelfItemOpenExternalApp", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Add this place to quick access に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfMoreMenuAddQuickAccess {
-            get {
-                return ResourceManager.GetString("BookshelfMoreMenuAddQuickAccess", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Delete all history of this place に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfMoreMenuClearHistory {
-            get {
-                return ResourceManager.GetString("BookshelfMoreMenuClearHistory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Save playlist... に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfMoreMenuExportPlaylist {
-            get {
-                return ResourceManager.GetString("BookshelfMoreMenuExportPlaylist", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Include subdirectories に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfMoreMenuSearchIncludeSubdirectories {
-            get {
-                return ResourceManager.GetString("BookshelfMoreMenuSearchIncludeSubdirectories", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Incremental search に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfMoreMenuSearchIncremental {
-            get {
-                return ResourceManager.GetString("BookshelfMoreMenuSearchIncremental", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Search options に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfMoreMenuSearchOptions {
-            get {
-                return ResourceManager.GetString("BookshelfMoreMenuSearchOptions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Load subfolders at this location に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfMoreMenuSubfolder {
-            get {
-                return ResourceManager.GetString("BookshelfMoreMenuSubfolder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Move failed に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfMoveToFolderFailed {
-            get {
-                return ResourceManager.GetString("BookshelfMoveToFolderFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Select move destination folder に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfMoveToFolderSelect {
-            get {
-                return ResourceManager.GetString("BookshelfMoveToFolderSelect", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Moved {0} items に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfMoveToFolderSuccess {
-            get {
-                return ResourceManager.GetString("BookshelfMoveToFolderSuccess", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Bookshelf に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfName {
-            get {
-                return ResourceManager.GetString("BookshelfName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Next (Alt+Right) に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfNextTips {
-            get {
-                return ResourceManager.GetString("BookshelfNextTips", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Bookshelf panel accessor に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookshelfPanelAccessor {
@@ -1911,7 +1929,7 @@ namespace NeeView.Properties {
         /// </summary>
         public static string BookshelfPanelAccessor_Example {
             get {
-                return ResourceManager.GetString("BookshelfPanelAccessor#Example", resourceCulture);
+                return ResourceManager.GetString("BookshelfPanelAccessor.Example", resourceCulture);
             }
         }
         
@@ -1966,33 +1984,6 @@ namespace NeeView.Properties {
         public static string BookshelfPanelAccessor_Style {
             get {
                 return ResourceManager.GetString("BookshelfPanelAccessor.Style", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Load subfolder に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfSubFolderTips {
-            get {
-                return ResourceManager.GetString("BookshelfSubFolderTips", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Move to current book place に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfSyncTips {
-            get {
-                return ResourceManager.GetString("BookshelfSyncTips", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Up (Alt+Up) に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookshelfUpTips {
-            get {
-                return ResourceManager.GetString("BookshelfUpTips", resourceCulture);
             }
         }
         
@@ -2080,9 +2071,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Turn off fullscreen. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CancelFullScreenCommand_Note {
+        public static string CancelFullScreenCommand_Remarks {
             get {
-                return ResourceManager.GetString("CancelFullScreenCommand.Note", resourceCulture);
+                return ResourceManager.GetString("CancelFullScreenCommand.Remarks", resourceCulture);
             }
         }
         
@@ -2098,9 +2089,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Stops a running script that has a &quot;sleep&quot; instruction. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CancelScriptCommand_Note {
+        public static string CancelScriptCommand_Remarks {
             get {
-                return ResourceManager.GetString("CancelScriptCommand.Note", resourceCulture);
+                return ResourceManager.GetString("CancelScriptCommand.Remarks", resourceCulture);
             }
         }
         
@@ -2116,9 +2107,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Delete all history. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ClearHistoryCommand_Note {
+        public static string ClearHistoryCommand_Remarks {
             get {
-                return ResourceManager.GetString("ClearHistoryCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ClearHistoryCommand.Remarks", resourceCulture);
             }
         }
         
@@ -2134,9 +2125,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Delete all history in the current location of the bookshelf. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ClearHistoryInPlaceCommand_Note {
+        public static string ClearHistoryInPlaceCommand_Remarks {
             get {
-                return ResourceManager.GetString("ClearHistoryInPlaceCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ClearHistoryInPlaceCommand.Remarks", resourceCulture);
             }
         }
         
@@ -2152,18 +2143,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   _Quit に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CloseApplicationCommand_MenuText {
+        public static string CloseApplicationCommand_Menu {
             get {
-                return ResourceManager.GetString("CloseApplicationCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("CloseApplicationCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Quit this application. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CloseApplicationCommand_Note {
+        public static string CloseApplicationCommand_Remarks {
             get {
-                return ResourceManager.GetString("CloseApplicationCommand.Note", resourceCulture);
+                return ResourceManager.GetString("CloseApplicationCommand.Remarks", resourceCulture);
             }
         }
         
@@ -2263,7 +2254,7 @@ namespace NeeView.Properties {
         /// </summary>
         public static string CommandAccessor_Execute_Example {
             get {
-                return ResourceManager.GetString("CommandAccessor.Execute#Example", resourceCulture);
+                return ResourceManager.GetString("CommandAccessor.Execute.Example", resourceCulture);
             }
         }
         
@@ -2272,7 +2263,7 @@ namespace NeeView.Properties {
         /// </summary>
         public static string CommandAccessor_Execute_Remarks {
             get {
-                return ResourceManager.GetString("CommandAccessor.Execute#Remarks", resourceCulture);
+                return ResourceManager.GetString("CommandAccessor.Execute.Remarks", resourceCulture);
             }
         }
         
@@ -2281,7 +2272,7 @@ namespace NeeView.Properties {
         /// </summary>
         public static string CommandAccessor_Execute_Returns {
             get {
-                return ResourceManager.GetString("CommandAccessor.Execute#Returns", resourceCulture);
+                return ResourceManager.GetString("CommandAccessor.Execute.Returns", resourceCulture);
             }
         }
         
@@ -2309,7 +2300,7 @@ namespace NeeView.Properties {
         /// </summary>
         public static string CommandAccessor_MouseGesture_Example {
             get {
-                return ResourceManager.GetString("CommandAccessor.MouseGesture#Example", resourceCulture);
+                return ResourceManager.GetString("CommandAccessor.MouseGesture.Example", resourceCulture);
             }
         }
         
@@ -2328,7 +2319,7 @@ namespace NeeView.Properties {
         /// </summary>
         public static string CommandAccessor_Parameter_Example {
             get {
-                return ResourceManager.GetString("CommandAccessor.Parameter#Example", resourceCulture);
+                return ResourceManager.GetString("CommandAccessor.Parameter.Example", resourceCulture);
             }
         }
         
@@ -2347,7 +2338,7 @@ namespace NeeView.Properties {
         /// </summary>
         public static string CommandAccessor_Patch_Example {
             get {
-                return ResourceManager.GetString("CommandAccessor.Patch#Example", resourceCulture);
+                return ResourceManager.GetString("CommandAccessor.Patch.Example", resourceCulture);
             }
         }
         
@@ -2365,7 +2356,7 @@ namespace NeeView.Properties {
         /// </summary>
         public static string CommandAccessor_Patch_Returns {
             get {
-                return ResourceManager.GetString("CommandAccessor.Patch#Returns", resourceCulture);
+                return ResourceManager.GetString("CommandAccessor.Patch.Returns", resourceCulture);
             }
         }
         
@@ -2384,7 +2375,7 @@ namespace NeeView.Properties {
         /// </summary>
         public static string CommandAccessor_ShortCutKey_Example {
             get {
-                return ResourceManager.GetString("CommandAccessor.ShortCutKey#Example", resourceCulture);
+                return ResourceManager.GetString("CommandAccessor.ShortCutKey.Example", resourceCulture);
             }
         }
         
@@ -2403,7 +2394,7 @@ namespace NeeView.Properties {
         /// </summary>
         public static string CommandAccessor_TouchGesture_Example {
             get {
-                return ResourceManager.GetString("CommandAccessor.TouchGesture#Example", resourceCulture);
+                return ResourceManager.GetString("CommandAccessor.TouchGesture.Example", resourceCulture);
             }
         }
         
@@ -2419,9 +2410,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   If it is set to OFF, system operation by Alt key will be invalid and malfunction will be eliminated when used with command shortcut. However Alt+F4 is always active. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CommandConfig_IsAccessKeyEnabled_Tips {
+        public static string CommandConfig_IsAccessKeyEnabled_Remarks {
             get {
-                return ResourceManager.GetString("CommandConfig.IsAccessKeyEnabled#Tips", resourceCulture);
+                return ResourceManager.GetString("CommandConfig.IsAccessKeyEnabled.Remarks", resourceCulture);
             }
         }
         
@@ -2435,11 +2426,11 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   When the slider is from left to right, reverse the page moving direction. The setting of the command to work is set by &quot;@ParamCommandParameterIsReverse&quot; of the command parameter. に類似しているローカライズされた文字列を検索します。
+        ///   When the slider is from left to right, reverse the page moving direction. The setting of the command to work is set by &quot;@ReversibleCommandParameter.IsReverse&quot; of the command parameter. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CommandConfig_IsReversePageMove_Tipd {
+        public static string CommandConfig_IsReversePageMove_Remarks {
             get {
-                return ResourceManager.GetString("CommandConfig.IsReversePageMove#Tipd", resourceCulture);
+                return ResourceManager.GetString("CommandConfig.IsReversePageMove.Remarks", resourceCulture);
             }
         }
         
@@ -2455,9 +2446,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   You can select correspondence only for wheel operation. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CommandConfig_IsReversePageMoveWheel_Tips {
+        public static string CommandConfig_IsReversePageMoveWheel_Remarks {
             get {
-                return ResourceManager.GetString("CommandConfig.IsReversePageMoveWheel#Tips", resourceCulture);
+                return ResourceManager.GetString("CommandConfig.IsReversePageMoveWheel.Remarks", resourceCulture);
             }
         }
         
@@ -2676,7 +2667,7 @@ namespace NeeView.Properties {
         /// </summary>
         public static string CommandHost_Command_Example {
             get {
-                return ResourceManager.GetString("CommandHost.Command#Example", resourceCulture);
+                return ResourceManager.GetString("CommandHost.Command.Example", resourceCulture);
             }
         }
         
@@ -2696,7 +2687,7 @@ namespace NeeView.Properties {
         /// </summary>
         public static string CommandHost_Config_Example {
             get {
-                return ResourceManager.GetString("CommandHost.Config#Example", resourceCulture);
+                return ResourceManager.GetString("CommandHost.Config.Example", resourceCulture);
             }
         }
         
@@ -2781,7 +2772,7 @@ namespace NeeView.Properties {
         /// </summary>
         public static string CommandHost_ShowDialog_Example {
             get {
-                return ResourceManager.GetString("CommandHost.ShowDialog#Example", resourceCulture);
+                return ResourceManager.GetString("CommandHost.ShowDialog.Example", resourceCulture);
             }
         }
         
@@ -2799,7 +2790,7 @@ namespace NeeView.Properties {
         /// </summary>
         public static string CommandHost_ShowDialog_Returns {
             get {
-                return ResourceManager.GetString("CommandHost.ShowDialog#Returns", resourceCulture);
+                return ResourceManager.GetString("CommandHost.ShowDialog.Returns", resourceCulture);
             }
         }
         
@@ -2826,7 +2817,7 @@ namespace NeeView.Properties {
         /// </summary>
         public static string CommandHost_ShowInputDialog_Returns {
             get {
-                return ResourceManager.GetString("CommandHost.ShowInputDialog#Returns", resourceCulture);
+                return ResourceManager.GetString("CommandHost.ShowInputDialog.Returns", resourceCulture);
             }
         }
         
@@ -2901,335 +2892,124 @@ namespace NeeView.Properties {
         /// </summary>
         public static string CommandHost_Values_Example {
             get {
-                return ResourceManager.GetString("CommandHost.Values#Example", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   switch: bool|ON/OFF. Toggle if omitted. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleArgument {
-            get {
-                return ResourceManager.GetString("CommandToggleArgument", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Change Log に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlAboutChangeLog {
-            get {
-                return ResourceManager.GetString("ControlAboutChangeLog", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Checking the latest version ... に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlAboutChecking {
-            get {
-                return ResourceManager.GetString("ControlAboutChecking", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   _Copy version info に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlAboutCopy {
-            get {
-                return ResourceManager.GetString("ControlAboutCopy", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Go to download page に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlAboutDownload {
-            get {
-                return ResourceManager.GetString("ControlAboutDownload", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Update check failed に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlAboutFailed {
-            get {
-                return ResourceManager.GetString("ControlAboutFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   NeeView is the latest version に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlAboutLastest {
-            get {
-                return ResourceManager.GetString("ControlAboutLastest", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   License Info / Change Log に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlAboutLicense {
-            get {
-                return ResourceManager.GetString("ControlAboutLicense", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   A new version has been released に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlAboutNew {
-            get {
-                return ResourceManager.GetString("ControlAboutNew", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Project Page に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlAboutProject {
-            get {
-                return ResourceManager.GetString("ControlAboutProject", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   NeeView is an unknown version に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlAboutUnknown {
-            get {
-                return ResourceManager.GetString("ControlAboutUnknown", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   The format of the update page is different from what is supposed に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlAboutWrongFormat {
-            get {
-                return ResourceManager.GetString("ControlAboutWrongFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Back に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlAddressBarBack {
-            get {
-                return ResourceManager.GetString("ControlAddressBarBack", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Next に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlAddressBarNext {
-            get {
-                return ResourceManager.GetString("ControlAddressBarNext", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Reload に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlAddressBarReLoad {
-            get {
-                return ResourceManager.GetString("ControlAddressBarReLoad", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Close に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlAddressBarUnload {
-            get {
-                return ResourceManager.GetString("ControlAddressBarUnload", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Up に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlAddressBarUp {
-            get {
-                return ResourceManager.GetString("ControlAddressBarUp", resourceCulture);
+                return ResourceManager.GetString("CommandHost.Values.Example", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Command に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ControlCommandListHeaderCommand {
+        public static string CommandList_Header_Command {
             get {
-                return ResourceManager.GetString("ControlCommandListHeaderCommand", resourceCulture);
+                return ResourceManager.GetString("CommandList.Header.Command", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Description に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ControlCommandListHeaderDescription {
+        public static string CommandList_Header_Description {
             get {
-                return ResourceManager.GetString("ControlCommandListHeaderDescription", resourceCulture);
+                return ResourceManager.GetString("CommandList.Header.Description", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Visible に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ControlCommandListHeaderDisplay {
+        public static string CommandList_Header_Display {
             get {
-                return ResourceManager.GetString("ControlCommandListHeaderDisplay", resourceCulture);
+                return ResourceManager.GetString("CommandList.Header.Display", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Message display at command execution に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ControlCommandListHeaderDisplayTips {
+        public static string CommandList_Header_Display_ToolTip {
             get {
-                return ResourceManager.GetString("ControlCommandListHeaderDisplayTips", resourceCulture);
+                return ResourceManager.GetString("CommandList.Header.Display.ToolTip", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Gesture に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ControlCommandListHeaderGesture {
+        public static string CommandList_Header_Gesture {
             get {
-                return ResourceManager.GetString("ControlCommandListHeaderGesture", resourceCulture);
+                return ResourceManager.GetString("CommandList.Header.Gesture", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Group に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ControlCommandListHeaderGroup {
+        public static string CommandList_Header_Group {
             get {
-                return ResourceManager.GetString("ControlCommandListHeaderGroup", resourceCulture);
+                return ResourceManager.GetString("CommandList.Header.Group", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Shortcut に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ControlCommandListHeaderShortcut {
+        public static string CommandList_Header_Shortcut {
             get {
-                return ResourceManager.GetString("ControlCommandListHeaderShortcut", resourceCulture);
+                return ResourceManager.GetString("CommandList.Header.Shortcut", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Touch に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ControlCommandListHeaderTouch {
+        public static string CommandList_Header_Touch {
             get {
-                return ResourceManager.GetString("ControlCommandListHeaderTouch", resourceCulture);
+                return ResourceManager.GetString("CommandList.Header.Touch", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Reset... に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ControlCommandListResetButton {
+        public static string CommandList_ResetButton {
             get {
-                return ResourceManager.GetString("ControlCommandListResetButton", resourceCulture);
+                return ResourceManager.GetString("CommandList.ResetButton", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Parameter sharing with &quot;{0}&quot; に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ControlCommandListShare {
+        public static string CommandListItem_Message_ShareParameter {
             get {
-                return ResourceManager.GetString("ControlCommandListShare", resourceCulture);
+                return ResourceManager.GetString("CommandListItem.Message.ShareParameter", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Initialize all command settings. Is it OK? に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ControlCommandResetMessage {
+        public static string CommandResetWindow_Message {
             get {
-                return ResourceManager.GetString("ControlCommandResetMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Reset command に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlCommandResetTitle {
-            get {
-                return ResourceManager.GetString("ControlCommandResetTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Standard setting に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlCommandResetTypeA {
-            get {
-                return ResourceManager.GetString("ControlCommandResetTypeA", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   By clicking the mouse, &quot;@CommandPrevPage&quot; &quot;@CommandNextPage&quot;.
-        ///In the wheel operation, &quot;@CommandPrevScrollPage&quot; &quot;@CommandNextScrollPage&quot;. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlCommandResetTypeANote {
-            get {
-                return ResourceManager.GetString("ControlCommandResetTypeANote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Prioritize page feed by wheel に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlCommandResetTypeB {
-            get {
-                return ResourceManager.GetString("ControlCommandResetTypeB", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   In the wheel operation, &quot;@CommandPrevPage&quot; &quot;@CommandNextPage&quot;.
-        ///By right-click, &quot;@CommandOpenContextMenu&quot;.
-        ///Left click is undefined. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlCommandResetTypeBNote {
-            get {
-                return ResourceManager.GetString("ControlCommandResetTypeBNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Prioritize page feed by click に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlCommandResetTypeC {
-            get {
-                return ResourceManager.GetString("ControlCommandResetTypeC", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   By clicking the mouse, &quot;@CommandPrevPage&quot; &quot;@CommandNextPage&quot;.
-        ///In the wheel operation, &quot;@CommandViewScrollUp&quot; &quot;@CommandViewScrollDown&quot;. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlCommandResetTypeCNote {
-            get {
-                return ResourceManager.GetString("ControlCommandResetTypeCNote", resourceCulture);
+                return ResourceManager.GetString("CommandResetWindow.Message", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Shortcut initial setting に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ControlCommandResetTypeTitle {
+        public static string CommandResetWindow_ResetType_Title {
             get {
-                return ResourceManager.GetString("ControlCommandResetTypeTitle", resourceCulture);
+                return ResourceManager.GetString("CommandResetWindow.ResetType.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Reset command に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandResetWindow_Title {
+            get {
+                return ResourceManager.GetString("CommandResetWindow.Title", resourceCulture);
             }
         }
         
@@ -3872,18 +3652,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   _Copy に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CopyFileCommand_MenuText {
+        public static string CopyFileCommand_Menu {
             get {
-                return ResourceManager.GetString("CopyFileCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("CopyFileCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Copy the file to the clipboard. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CopyFileCommand_Note {
+        public static string CopyFileCommand_Remarks {
             get {
-                return ResourceManager.GetString("CopyFileCommand.Note", resourceCulture);
+                return ResourceManager.GetString("CopyFileCommand.Remarks", resourceCulture);
             }
         }
         
@@ -3917,18 +3697,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Copy image に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CopyImageCommand_MenuText {
+        public static string CopyImageCommand_Menu {
             get {
-                return ResourceManager.GetString("CopyImageCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("CopyImageCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Copy the image to the clipboard. For 2 page display, copy only the main page. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CopyImageCommand_Note {
+        public static string CopyImageCommand_Remarks {
             get {
-                return ResourceManager.GetString("CopyImageCommand.Note", resourceCulture);
+                return ResourceManager.GetString("CopyImageCommand.Remarks", resourceCulture);
             }
         }
         
@@ -3944,18 +3724,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   _Delete book に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string DeleteBookCommand_MenuText {
+        public static string DeleteBookCommand_Menu {
             get {
-                return ResourceManager.GetString("DeleteBookCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("DeleteBookCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Delete the currently viewed folder or compressed file. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string DeleteBookCommand_Note {
+        public static string DeleteBookCommand_Remarks {
             get {
-                return ResourceManager.GetString("DeleteBookCommand.Note", resourceCulture);
+                return ResourceManager.GetString("DeleteBookCommand.Remarks", resourceCulture);
             }
         }
         
@@ -3971,18 +3751,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   _Delete に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string DeleteFileCommand_MenuText {
+        public static string DeleteFileCommand_Menu {
             get {
-                return ResourceManager.GetString("DeleteFileCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("DeleteFileCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Delete the file. It can not be deleted for compressed files. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string DeleteFileCommand_Note {
+        public static string DeleteFileCommand_Remarks {
             get {
-                return ResourceManager.GetString("DeleteFileCommand.Note", resourceCulture);
+                return ResourceManager.GetString("DeleteFileCommand.Remarks", resourceCulture);
             }
         }
         
@@ -5151,9 +4931,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Add &quot;Open in NeeView&quot; to the Explorer context menu. This feature uses the registry. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ExplorerContextMenu_IsEnabled_Tips {
+        public static string ExplorerContextMenu_IsEnabled_Remarks {
             get {
-                return ResourceManager.GetString("ExplorerContextMenu.IsEnabled#Tips", resourceCulture);
+                return ResourceManager.GetString("ExplorerContextMenu.IsEnabled.Remarks", resourceCulture);
             }
         }
         
@@ -5169,18 +4949,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Export settings... に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ExportBackupCommand_MenuText {
+        public static string ExportBackupCommand_Menu {
             get {
-                return ResourceManager.GetString("ExportBackupCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("ExportBackupCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Create backups of settings, history, bookmarks, page marks. The thumbnail cache is not backed up. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ExportBackupCommand_Note {
+        public static string ExportBackupCommand_Remarks {
             get {
-                return ResourceManager.GetString("ExportBackupCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ExportBackupCommand.Remarks", resourceCulture);
             }
         }
         
@@ -5196,18 +4976,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   _Save as... に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ExportImageAsCommand_MenuText {
+        public static string ExportImageAsCommand_Menu {
             get {
-                return ResourceManager.GetString("ExportImageAsCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("ExportImageAsCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Save the image to a file. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ExportImageAsCommand_Note {
+        public static string ExportImageAsCommand_Remarks {
             get {
-                return ResourceManager.GetString("ExportImageAsCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ExportImageAsCommand.Remarks", resourceCulture);
             }
         }
         
@@ -5223,9 +5003,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Output folder at startup. During startup, it follows the changed storage location. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ExportImageAsCommandParameter_ExportFolder_Tips {
+        public static string ExportImageAsCommandParameter_ExportFolder_Remarks {
             get {
-                return ResourceManager.GetString("ExportImageAsCommandParameter.ExportFolder#Tips", resourceCulture);
+                return ResourceManager.GetString("ExportImageAsCommandParameter.ExportFolder.Remarks", resourceCulture);
             }
         }
         
@@ -5241,9 +5021,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   It is used only when conversion is required. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ExportImageAsCommandParameter_QualityLevel_Tips {
+        public static string ExportImageAsCommandParameter_QualityLevel_Remarks {
             get {
-                return ResourceManager.GetString("ExportImageAsCommandParameter.QualityLevel#Tips", resourceCulture);
+                return ResourceManager.GetString("ExportImageAsCommandParameter.QualityLevel.Remarks", resourceCulture);
             }
         }
         
@@ -5259,18 +5039,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   _Save に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ExportImageCommand_MenuText {
+        public static string ExportImageCommand_Menu {
             get {
-                return ResourceManager.GetString("ExportImageCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("ExportImageCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Save the image to a file. The storage folder is specified by a command parameter. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ExportImageCommand_Note {
+        public static string ExportImageCommand_Remarks {
             get {
-                return ResourceManager.GetString("ExportImageCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ExportImageCommand.Remarks", resourceCulture);
             }
         }
         
@@ -5295,9 +5075,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Used when &quot;@ExportImageCommandParameter.Mode&quot; is &quot;@ExportImageMode.View&quot;. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ExportImageCommandParameter_FileFormat_Tips {
+        public static string ExportImageCommandParameter_FileFormat_Remarks {
             get {
-                return ResourceManager.GetString("ExportImageCommandParameter.FileFormat#Tips", resourceCulture);
+                return ResourceManager.GetString("ExportImageCommandParameter.FileFormat.Remarks", resourceCulture);
             }
         }
         
@@ -5340,9 +5120,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   It is used only when conversion is required. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ExportImageCommandParameter_QualityLevel_Tips {
+        public static string ExportImageCommandParameter_QualityLevel_Remarks {
             get {
-                return ResourceManager.GetString("ExportImageCommandParameter.QualityLevel#Tips", resourceCulture);
+                return ResourceManager.GetString("ExportImageCommandParameter.QualityLevel.Remarks", resourceCulture);
             }
         }
         
@@ -5511,9 +5291,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Display the background of the filmstrip in the case of automatically hidden settings に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string FilmStripConfig_IsVisiblePlate_Tips {
+        public static string FilmStripConfig_IsVisiblePlate_Remarks {
             get {
-                return ResourceManager.GetString("FilmStripConfig.IsVisiblePlate#Tips", resourceCulture);
+                return ResourceManager.GetString("FilmStripConfig.IsVisiblePlate.Remarks", resourceCulture);
             }
         }
         
@@ -5538,9 +5318,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Move to the first page. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string FirstPageCommand_Note {
+        public static string FirstPageCommand_Remarks {
             get {
-                return ResourceManager.GetString("FirstPageCommand.Note", resourceCulture);
+                return ResourceManager.GetString("FirstPageCommand.Remarks", resourceCulture);
             }
         }
         
@@ -5556,18 +5336,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Bookmark list に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string FocusBookmarkListCommand_MenuText {
+        public static string FocusBookmarkListCommand_Menu {
             get {
-                return ResourceManager.GetString("FocusBookmarkListCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("FocusBookmarkListCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Display bookmark list of the bookshelf. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string FocusBookmarkListCommand_Note {
+        public static string FocusBookmarkListCommand_Remarks {
             get {
-                return ResourceManager.GetString("FocusBookmarkListCommand.Note", resourceCulture);
+                return ResourceManager.GetString("FocusBookmarkListCommand.Remarks", resourceCulture);
             }
         }
         
@@ -5583,18 +5363,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Search box に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string FocusFolderSearchBoxCommand_MenuText {
+        public static string FocusFolderSearchBoxCommand_Menu {
             get {
-                return ResourceManager.GetString("FocusFolderSearchBoxCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("FocusFolderSearchBoxCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Focus search box. The bookshelf is displayed. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string FocusFolderSearchBoxCommand_Note {
+        public static string FocusFolderSearchBoxCommand_Remarks {
             get {
-                return ResourceManager.GetString("FocusFolderSearchBoxCommand.Note", resourceCulture);
+                return ResourceManager.GetString("FocusFolderSearchBoxCommand.Remarks", resourceCulture);
             }
         }
         
@@ -5610,18 +5390,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Main view に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string FocusMainViewCommand_MenuText {
+        public static string FocusMainViewCommand_Menu {
             get {
-                return ResourceManager.GetString("FocusMainViewCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("FocusMainViewCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Move focus to the main view. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string FocusMainViewCommand_Note {
+        public static string FocusMainViewCommand_Remarks {
             get {
-                return ResourceManager.GetString("FocusMainViewCommand.Note", resourceCulture);
+                return ResourceManager.GetString("FocusMainViewCommand.Remarks", resourceCulture);
             }
         }
         
@@ -5646,18 +5426,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Switch next NeeView に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string FocusNextAppCommand_MenuText {
+        public static string FocusNextAppCommand_Menu {
             get {
-                return ResourceManager.GetString("FocusNextAppCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("FocusNextAppCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Switch to the next NeeView when multiple are started. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string FocusNextAppCommand_Note {
+        public static string FocusNextAppCommand_Remarks {
             get {
-                return ResourceManager.GetString("FocusNextAppCommand.Note", resourceCulture);
+                return ResourceManager.GetString("FocusNextAppCommand.Remarks", resourceCulture);
             }
         }
         
@@ -5673,18 +5453,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Switch prev NeeView に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string FocusPrevAppCommand_MenuText {
+        public static string FocusPrevAppCommand_Menu {
             get {
-                return ResourceManager.GetString("FocusPrevAppCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("FocusPrevAppCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Switch to the previous NeeView when multiple are started. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string FocusPrevAppCommand_Note {
+        public static string FocusPrevAppCommand_Remarks {
             get {
-                return ResourceManager.GetString("FocusPrevAppCommand.Note", resourceCulture);
+                return ResourceManager.GetString("FocusPrevAppCommand.Remarks", resourceCulture);
             }
         }
         
@@ -6078,18 +5858,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Command Help に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string HelpCommandListCommand_MenuText {
+        public static string HelpCommandListCommand_Menu {
             get {
-                return ResourceManager.GetString("HelpCommandListCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("HelpCommandListCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Displays help of all commands in the browser. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string HelpCommandListCommand_Note {
+        public static string HelpCommandListCommand_Remarks {
             get {
-                return ResourceManager.GetString("HelpCommandListCommand.Note", resourceCulture);
+                return ResourceManager.GetString("HelpCommandListCommand.Remarks", resourceCulture);
             }
         }
         
@@ -6123,18 +5903,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Main menu help に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string HelpMainMenuCommand_MenuText {
+        public static string HelpMainMenuCommand_Menu {
             get {
-                return ResourceManager.GetString("HelpMainMenuCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("HelpMainMenuCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Display the main menu help on the browser. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string HelpMainMenuCommand_Note {
+        public static string HelpMainMenuCommand_Remarks {
             get {
-                return ResourceManager.GetString("HelpMainMenuCommand.Note", resourceCulture);
+                return ResourceManager.GetString("HelpMainMenuCommand.Remarks", resourceCulture);
             }
         }
         
@@ -6159,18 +5939,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Script Help に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string HelpScriptCommand_MenuText {
+        public static string HelpScriptCommand_Menu {
             get {
-                return ResourceManager.GetString("HelpScriptCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("HelpScriptCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Displays the script manual in the browser. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string HelpScriptCommand_Note {
+        public static string HelpScriptCommand_Remarks {
             get {
-                return ResourceManager.GetString("HelpScriptCommand.Note", resourceCulture);
+                return ResourceManager.GetString("HelpScriptCommand.Remarks", resourceCulture);
             }
         }
         
@@ -6186,18 +5966,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Search options help に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string HelpSearchOptionCommand_MenuText {
+        public static string HelpSearchOptionCommand_Menu {
             get {
-                return ResourceManager.GetString("HelpSearchOptionCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("HelpSearchOptionCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Display the search options help on the browser. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string HelpSearchOptionCommand_Note {
+        public static string HelpSearchOptionCommand_Remarks {
             get {
-                return ResourceManager.GetString("HelpSearchOptionCommand.Note", resourceCulture);
+                return ResourceManager.GetString("HelpSearchOptionCommand.Remarks", resourceCulture);
             }
         }
         
@@ -6213,9 +5993,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Register in history with page movement operation more than this count or last page display. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string HistoryConfig_HistoryEntryPageCount_Tips {
+        public static string HistoryConfig_HistoryEntryPageCount_Remarks {
             get {
-                return ResourceManager.GetString("HistoryConfig.HistoryEntryPageCount#Tips", resourceCulture);
+                return ResourceManager.GetString("HistoryConfig.HistoryEntryPageCount.Remarks", resourceCulture);
             }
         }
         
@@ -6240,9 +6020,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Delete invalid history on startup. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string HistoryConfig_IsAutoCleanupEnabled_Tips {
+        public static string HistoryConfig_IsAutoCleanupEnabled_Remarks {
             get {
-                return ResourceManager.GetString("HistoryConfig.IsAutoCleanupEnabled#Tips", resourceCulture);
+                return ResourceManager.GetString("HistoryConfig.IsAutoCleanupEnabled.Remarks", resourceCulture);
             }
         }
         
@@ -6258,9 +6038,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Shows the history of only the folders of the currently open book. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string HistoryConfig_IsCurrentFolder_Tips {
+        public static string HistoryConfig_IsCurrentFolder_Remarks {
             get {
-                return ResourceManager.GetString("HistoryConfig.IsCurrentFolder#Tips", resourceCulture);
+                return ResourceManager.GetString("HistoryConfig.IsCurrentFolder.Remarks", resourceCulture);
             }
         }
         
@@ -6321,9 +6101,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Save the path on the network like &quot;\\computer\~&quot; in the history. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string HistoryConfig_IsUncHistoryEnabled_Tips {
+        public static string HistoryConfig_IsUncHistoryEnabled_Remarks {
             get {
-                return ResourceManager.GetString("HistoryConfig.IsUncHistoryEnabled#Tips", resourceCulture);
+                return ResourceManager.GetString("HistoryConfig.IsUncHistoryEnabled.Remarks", resourceCulture);
             }
         }
         
@@ -6600,9 +6380,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Only applicable if the scale is larger than this. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ImageDotKeepConfig_Threshold_Tips {
+        public static string ImageDotKeepConfig_Threshold_Remarks {
             get {
-                return ResourceManager.GetString("ImageDotKeepConfig.Threshold#Tips", resourceCulture);
+                return ResourceManager.GetString("ImageDotKeepConfig.Threshold.Remarks", resourceCulture);
             }
         }
         
@@ -6636,9 +6416,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Set the color parameter with HSV (Hue, Saturation, Brightness). When set to OFF, it becomes the setting with RGB. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ImageEffectConfig_IsHsvMode_Tips {
+        public static string ImageEffectConfig_IsHsvMode_Remarks {
             get {
-                return ResourceManager.GetString("ImageEffectConfig.IsHsvMode#Tips", resourceCulture);
+                return ResourceManager.GetString("ImageEffectConfig.IsHsvMode.Remarks", resourceCulture);
             }
         }
         
@@ -6726,9 +6506,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   This function works when &quot;@SystemConfig.BookPageCollectMode&quot; is &quot;@BookPageCollectMode.All&quot;. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ImageStandardConfig_IsAllFileSupported_Tips {
+        public static string ImageStandardConfig_IsAllFileSupported_Remarks {
             get {
-                return ResourceManager.GetString("ImageStandardConfig.IsAllFileSupported#Tips", resourceCulture);
+                return ResourceManager.GetString("ImageStandardConfig.IsAllFileSupported.Remarks", resourceCulture);
             }
         }
         
@@ -6744,9 +6524,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Perform animated GIF playback. Memory consumption problems may occur with long GIFs. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ImageStandardConfig_IsAnimatedGifEnabled_Tips {
+        public static string ImageStandardConfig_IsAnimatedGifEnabled_Remarks {
             get {
-                return ResourceManager.GetString("ImageStandardConfig.IsAnimatedGifEnabled#Tips", resourceCulture);
+                return ResourceManager.GetString("ImageStandardConfig.IsAnimatedGifEnabled.Remarks", resourceCulture);
             }
         }
         
@@ -6762,9 +6542,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Display according to the dpi and aspect ratio set in the image file. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ImageStandardConfig_IsAspectRatioEnabled_Tips {
+        public static string ImageStandardConfig_IsAspectRatioEnabled_Remarks {
             get {
-                return ResourceManager.GetString("ImageStandardConfig.IsAspectRatioEnabled#Tips", resourceCulture);
+                return ResourceManager.GetString("ImageStandardConfig.IsAspectRatioEnabled.Remarks", resourceCulture);
             }
         }
         
@@ -6789,9 +6569,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Obtains the image file extension from WIC at initialization. If off, only the default extension is available. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ImageStandardConfig_UseWicInformation_Tips {
+        public static string ImageStandardConfig_UseWicInformation_Remarks {
             get {
-                return ResourceManager.GetString("ImageStandardConfig.UseWicInformation#Tips", resourceCulture);
+                return ResourceManager.GetString("ImageStandardConfig.UseWicInformation.Remarks", resourceCulture);
             }
         }
         
@@ -6807,9 +6587,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Open an SVG file as a page. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ImageSvgConfig_IsEnabled_Tips {
+        public static string ImageSvgConfig_IsEnabled_Remarks {
             get {
-                return ResourceManager.GetString("ImageSvgConfig.IsEnabled#Tips", resourceCulture);
+                return ResourceManager.GetString("ImageSvgConfig.IsEnabled.Remarks", resourceCulture);
             }
         }
         
@@ -6879,18 +6659,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Import settings... に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ImportBackupCommand_MenuText {
+        public static string ImportBackupCommand_Menu {
             get {
-                return ResourceManager.GetString("ImportBackupCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("ImportBackupCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Select the restored item from the backup file and restore it. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ImportBackupCommand_Note {
+        public static string ImportBackupCommand_Remarks {
             get {
-                return ResourceManager.GetString("ImportBackupCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ImportBackupCommand.Remarks", resourceCulture);
             }
         }
         
@@ -6931,6 +6711,64 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Standard setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InputSceme_TypeA {
+            get {
+                return ResourceManager.GetString("InputSceme.TypeA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   By clicking the mouse, &quot;@CommandPrevPage&quot; &quot;@CommandNextPage&quot;.
+        ///In the wheel operation, &quot;@CommandPrevScrollPage&quot; &quot;@CommandNextScrollPage&quot;. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InputSceme_TypeA_Remarks {
+            get {
+                return ResourceManager.GetString("InputSceme.TypeA.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Prioritize page feed by wheel に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InputSceme_TypeB {
+            get {
+                return ResourceManager.GetString("InputSceme.TypeB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   In the wheel operation, &quot;@CommandPrevPage&quot; &quot;@CommandNextPage&quot;.
+        ///By right-click, &quot;@CommandOpenContextMenu&quot;.
+        ///Left click is undefined. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InputSceme_TypeB_Remarks {
+            get {
+                return ResourceManager.GetString("InputSceme.TypeB.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Prioritize page feed by click に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InputSceme_TypeC {
+            get {
+                return ResourceManager.GetString("InputSceme.TypeC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   By clicking the mouse, &quot;@CommandPrevPage&quot; &quot;@CommandNextPage&quot;.
+        ///In the wheel operation, &quot;@CommandViewScrollUp&quot; &quot;@CommandViewScrollDown&quot;. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InputSceme_TypeC_Remarks {
+            get {
+                return ResourceManager.GetString("InputSceme.TypeC.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Load and execute the script. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string JavascriptEngine_ExecureFile {
@@ -6945,7 +6783,7 @@ namespace NeeView.Properties {
         /// </summary>
         public static string JavascriptEngine_ExecureFile_Example {
             get {
-                return ResourceManager.GetString("JavascriptEngine.ExecureFile#Example", resourceCulture);
+                return ResourceManager.GetString("JavascriptEngine.ExecureFile.Example", resourceCulture);
             }
         }
         
@@ -6963,7 +6801,7 @@ namespace NeeView.Properties {
         /// </summary>
         public static string JavascriptEngine_ExecureFile_Returns {
             get {
-                return ResourceManager.GetString("JavascriptEngine.ExecureFile#Returns", resourceCulture);
+                return ResourceManager.GetString("JavascriptEngine.ExecureFile.Returns", resourceCulture);
             }
         }
         
@@ -7044,16 +6882,16 @@ namespace NeeView.Properties {
         /// </summary>
         public static string JumpPageCommand_Execute_Remarks {
             get {
-                return ResourceManager.GetString("JumpPageCommand.Execute#Remarks", resourceCulture);
+                return ResourceManager.GetString("JumpPageCommand.Execute.Remarks", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Enter the page number and move. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string JumpPageCommand_Note {
+        public static string JumpPageCommand_Remarks {
             get {
-                return ResourceManager.GetString("JumpPageCommand.Note", resourceCulture);
+                return ResourceManager.GetString("JumpPageCommand.Remarks", resourceCulture);
             }
         }
         
@@ -7069,9 +6907,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Jump to a random page. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string JumpRandomPageCommand_Note {
+        public static string JumpRandomPageCommand_Remarks {
             get {
-                return ResourceManager.GetString("JumpRandomPageCommand.Note", resourceCulture);
+                return ResourceManager.GetString("JumpRandomPageCommand.Remarks", resourceCulture);
             }
         }
         
@@ -7105,9 +6943,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Move to the last page. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string LastPageCommand_Note {
+        public static string LastPageCommand_Remarks {
             get {
-                return ResourceManager.GetString("LastPageCommand.Note", resourceCulture);
+                return ResourceManager.GetString("LastPageCommand.Remarks", resourceCulture);
             }
         }
         
@@ -7260,25 +7098,25 @@ namespace NeeView.Properties {
         /// </summary>
         public static string LoadAsCommand_Execute_Remarks {
             get {
-                return ResourceManager.GetString("LoadAsCommand.Execute#Remarks", resourceCulture);
+                return ResourceManager.GetString("LoadAsCommand.Execute.Remarks", resourceCulture);
             }
         }
         
         /// <summary>
         ///   _Open... に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string LoadAsCommand_MenuText {
+        public static string LoadAsCommand_Menu {
             get {
-                return ResourceManager.GetString("LoadAsCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("LoadAsCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Select and open the compressed file or image file. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string LoadAsCommand_Note {
+        public static string LoadAsCommand_Remarks {
             get {
-                return ResourceManager.GetString("LoadAsCommand.Note", resourceCulture);
+                return ResourceManager.GetString("LoadAsCommand.Remarks", resourceCulture);
             }
         }
         
@@ -7411,9 +7249,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   When set to OFF, the previous magnification will be inherited. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string LoupeConfig_IsResetByRestart_Tips {
+        public static string LoupeConfig_IsResetByRestart_Remarks {
             get {
-                return ResourceManager.GetString("LoupeConfig.IsResetByRestart#Tips", resourceCulture);
+                return ResourceManager.GetString("LoupeConfig.IsResetByRestart.Remarks", resourceCulture);
             }
         }
         
@@ -7429,9 +7267,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   The magnification will be displayed on the upper right of the screen during loupe. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string LoupeConfig_IsVisibleLoupeInfo_Tips {
+        public static string LoupeConfig_IsVisibleLoupeInfo_Remarks {
             get {
-                return ResourceManager.GetString("LoupeConfig.IsVisibleLoupeInfo#Tips", resourceCulture);
+                return ResourceManager.GetString("LoupeConfig.IsVisibleLoupeInfo.Remarks", resourceCulture);
             }
         }
         
@@ -7447,9 +7285,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Commands to which wheel operation is assigned are invalid. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string LoupeConfig_IsWheelScalingEnabled_Tips {
+        public static string LoupeConfig_IsWheelScalingEnabled_Remarks {
             get {
-                return ResourceManager.GetString("LoupeConfig.IsWheelScalingEnabled#Tips", resourceCulture);
+                return ResourceManager.GetString("LoupeConfig.IsWheelScalingEnabled.Remarks", resourceCulture);
             }
         }
         
@@ -7501,9 +7339,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Release the loupe mode. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string LoupeOffCommand_Note {
+        public static string LoupeOffCommand_Remarks {
             get {
-                return ResourceManager.GetString("LoupeOffCommand.Note", resourceCulture);
+                return ResourceManager.GetString("LoupeOffCommand.Remarks", resourceCulture);
             }
         }
         
@@ -7519,9 +7357,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Make the loupe mode. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string LoupeOnCommand_Note {
+        public static string LoupeOnCommand_Remarks {
             get {
-                return ResourceManager.GetString("LoupeOnCommand.Note", resourceCulture);
+                return ResourceManager.GetString("LoupeOnCommand.Remarks", resourceCulture);
             }
         }
         
@@ -7537,9 +7375,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Reduce the loupe magnification. It functions only when using a loupe. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string LoupeScaleDownCommand_Note {
+        public static string LoupeScaleDownCommand_Remarks {
             get {
-                return ResourceManager.GetString("LoupeScaleDownCommand.Note", resourceCulture);
+                return ResourceManager.GetString("LoupeScaleDownCommand.Remarks", resourceCulture);
             }
         }
         
@@ -7555,9 +7393,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Expands the magnifying power of the loupe. It functions only when using a loupe. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string LoupeScaleUpCommand_Note {
+        public static string LoupeScaleUpCommand_Remarks {
             get {
-                return ResourceManager.GetString("LoupeScaleUpCommand.Note", resourceCulture);
+                return ResourceManager.GetString("LoupeScaleUpCommand.Remarks", resourceCulture);
             }
         }
         
@@ -7663,9 +7501,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   If 0 is specified, the contents may flicker. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string MediaArchiveConfig_MediaStartDelaySeconds_Tips {
+        public static string MediaArchiveConfig_MediaStartDelaySeconds_Remarks {
             get {
-                return ResourceManager.GetString("MediaArchiveConfig.MediaStartDelaySeconds#Tips", resourceCulture);
+                return ResourceManager.GetString("MediaArchiveConfig.MediaStartDelaySeconds.Remarks", resourceCulture);
             }
         }
         
@@ -7690,9 +7528,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Probably what you can play with Windows Media Player is playable. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string MediaArchiveConfig_SupportFileTypes_Tips {
+        public static string MediaArchiveConfig_SupportFileTypes_Remarks {
             get {
-                return ResourceManager.GetString("MediaArchiveConfig.SupportFileTypes#Tips", resourceCulture);
+                return ResourceManager.GetString("MediaArchiveConfig.SupportFileTypes.Remarks", resourceCulture);
             }
         }
         
@@ -7717,9 +7555,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   When it is OFF, memory is released every time page is switched に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string MemoryControl_IsAutoGC_Tips {
+        public static string MemoryControl_IsAutoGC_Remarks {
             get {
-                return ResourceManager.GetString("MemoryControl.IsAutoGC#Tips", resourceCulture);
+                return ResourceManager.GetString("MemoryControl.IsAutoGC.Remarks", resourceCulture);
             }
         }
         
@@ -7951,9 +7789,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   By moving this distance, it is judged as a gesture stroke. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string MouseConfig_GestureMinimumDistance_Tips {
+        public static string MouseConfig_GestureMinimumDistance_Remarks {
             get {
-                return ResourceManager.GetString("MouseConfig.GestureMinimumDistance#Tips", resourceCulture);
+                return ResourceManager.GetString("MouseConfig.GestureMinimumDistance.Remarks", resourceCulture);
             }
         }
         
@@ -8014,9 +7852,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   It is time to be judged to be long pressed. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string MouseConfig_LongButtonDownTime_Tips {
+        public static string MouseConfig_LongButtonDownTime_Remarks {
             get {
-                return ResourceManager.GetString("MouseConfig.LongButtonDownTime#Tips", resourceCulture);
+                return ResourceManager.GetString("MouseConfig.LongButtonDownTime.Remarks", resourceCulture);
             }
         }
         
@@ -8041,9 +7879,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Repeat time with repeat input. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string MouseConfig_LongButtonRepeatTime_Tips {
+        public static string MouseConfig_LongButtonRepeatTime_Remarks {
             get {
-                return ResourceManager.GetString("MouseConfig.LongButtonRepeatTime#Tips", resourceCulture);
+                return ResourceManager.GetString("MouseConfig.LongButtonRepeatTime.Remarks", resourceCulture);
             }
         }
         
@@ -8059,9 +7897,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   First moving distance to become a drag or gesture に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string MouseConfig_MinimumDragDistance_Tips {
+        public static string MouseConfig_MinimumDragDistance_Remarks {
             get {
-                return ResourceManager.GetString("MouseConfig.MinimumDragDistance#Tips", resourceCulture);
+                return ResourceManager.GetString("MouseConfig.MinimumDragDistance.Remarks", resourceCulture);
             }
         }
         
@@ -8104,9 +7942,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   When the page is a book, open that book. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string MoveToChildBookCommand_Note {
+        public static string MoveToChildBookCommand_Remarks {
             get {
-                return ResourceManager.GetString("MoveToChildBookCommand.Note", resourceCulture);
+                return ResourceManager.GetString("MoveToChildBookCommand.Remarks", resourceCulture);
             }
         }
         
@@ -8122,9 +7960,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Open the upper hierarchy as a book. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string MoveToParentBookCommand_Note {
+        public static string MoveToParentBookCommand_Remarks {
             get {
-                return ResourceManager.GetString("MoveToParentBookCommand.Note", resourceCulture);
+                return ResourceManager.GetString("MoveToParentBookCommand.Remarks", resourceCulture);
             }
         }
         
@@ -8356,9 +8194,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Load the next book on the bookshelf. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string NextBookCommand_Note {
+        public static string NextBookCommand_Remarks {
             get {
-                return ResourceManager.GetString("NextBookCommand.Note", resourceCulture);
+                return ResourceManager.GetString("NextBookCommand.Remarks", resourceCulture);
             }
         }
         
@@ -8374,9 +8212,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Open a next open book. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string NextBookHistoryCommand_Note {
+        public static string NextBookHistoryCommand_Remarks {
             get {
-                return ResourceManager.GetString("NextBookHistoryCommand.Note", resourceCulture);
+                return ResourceManager.GetString("NextBookHistoryCommand.Remarks", resourceCulture);
             }
         }
         
@@ -8392,9 +8230,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Move to the first page of the next folder of the book. Valid only in name order. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string NextFolderPageCommand_Note {
+        public static string NextFolderPageCommand_Remarks {
             get {
-                return ResourceManager.GetString("NextFolderPageCommand.Note", resourceCulture);
+                return ResourceManager.GetString("NextFolderPageCommand.Remarks", resourceCulture);
             }
         }
         
@@ -8410,9 +8248,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Load the following new history book. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string NextHistoryCommand_Note {
+        public static string NextHistoryCommand_Remarks {
             get {
-                return ResourceManager.GetString("NextHistoryCommand.Note", resourceCulture);
+                return ResourceManager.GetString("NextHistoryCommand.Remarks", resourceCulture);
             }
         }
         
@@ -8428,9 +8266,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Move to next view page. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string NextHistoryPageCommand_Note {
+        public static string NextHistoryPageCommand_Remarks {
             get {
-                return ResourceManager.GetString("NextHistoryPageCommand.Note", resourceCulture);
+                return ResourceManager.GetString("NextHistoryPageCommand.Remarks", resourceCulture);
             }
         }
         
@@ -8446,9 +8284,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Only one page will move in the next direction. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string NextOnePageCommand_Note {
+        public static string NextOnePageCommand_Remarks {
             get {
-                return ResourceManager.GetString("NextOnePageCommand.Note", resourceCulture);
+                return ResourceManager.GetString("NextOnePageCommand.Remarks", resourceCulture);
             }
         }
         
@@ -8464,9 +8302,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Move to next page direction. If it is 2 page display, it moves by 2 pages. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string NextPageCommand_Note {
+        public static string NextPageCommand_Remarks {
             get {
-                return ResourceManager.GetString("NextPageCommand.Note", resourceCulture);
+                return ResourceManager.GetString("NextPageCommand.Remarks", resourceCulture);
             }
         }
         
@@ -8482,9 +8320,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Go to the next page mark. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string NextPagemarkCommand_Note {
+        public static string NextPagemarkCommand_Remarks {
             get {
-                return ResourceManager.GetString("NextPagemarkCommand.Note", resourceCulture);
+                return ResourceManager.GetString("NextPagemarkCommand.Remarks", resourceCulture);
             }
         }
         
@@ -8500,9 +8338,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Move to the next page mark in the current book. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string NextPagemarkInBookCommand_Note {
+        public static string NextPagemarkInBookCommand_Remarks {
             get {
-                return ResourceManager.GetString("NextPagemarkInBookCommand.Note", resourceCulture);
+                return ResourceManager.GetString("NextPagemarkInBookCommand.Remarks", resourceCulture);
             }
         }
         
@@ -8518,9 +8356,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Page Scrolls the image in the next direction. If it is not possible to scroll, it will move to the next page. When using a loupe, only move pages. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string NextScrollPageCommand_Note {
+        public static string NextScrollPageCommand_Remarks {
             get {
-                return ResourceManager.GetString("NextScrollPageCommand.Note", resourceCulture);
+                return ResourceManager.GetString("NextScrollPageCommand.Remarks", resourceCulture);
             }
         }
         
@@ -8536,9 +8374,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Move to the next direction by the set number of pages. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string NextSizePageCommand_Note {
+        public static string NextSizePageCommand_Remarks {
             get {
-                return ResourceManager.GetString("NextSizePageCommand.Note", resourceCulture);
+                return ResourceManager.GetString("NextSizePageCommand.Remarks", resourceCulture);
             }
         }
         
@@ -8608,9 +8446,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   In case of 2 page display, we refer to the page with the younger number. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string NoticeConfig_IsOriginalScaleShowMessage_Tips {
+        public static string NoticeConfig_IsOriginalScaleShowMessage_Remarks {
             get {
-                return ResourceManager.GetString("NoticeConfig.IsOriginalScaleShowMessage#Tips", resourceCulture);
+                return ResourceManager.GetString("NoticeConfig.IsOriginalScaleShowMessage.Remarks", resourceCulture);
             }
         }
         
@@ -9079,18 +8917,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Open script _console... に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string OpenConsoleCommand_MenuText {
+        public static string OpenConsoleCommand_Menu {
             get {
-                return ResourceManager.GetString("OpenConsoleCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("OpenConsoleCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Open the script console. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string OpenConsoleCommand_Note {
+        public static string OpenConsoleCommand_Remarks {
             get {
-                return ResourceManager.GetString("OpenConsoleCommand.Note", resourceCulture);
+                return ResourceManager.GetString("OpenConsoleCommand.Remarks", resourceCulture);
             }
         }
         
@@ -9106,9 +8944,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Open the context menu. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string OpenContextMenuCommand_Note {
+        public static string OpenContextMenuCommand_Remarks {
             get {
-                return ResourceManager.GetString("OpenContextMenuCommand.Note", resourceCulture);
+                return ResourceManager.GetString("OpenContextMenuCommand.Remarks", resourceCulture);
             }
         }
         
@@ -9124,9 +8962,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Open the file of the page you are viewing in Explorer. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string OpenExplorerCommand_Note {
+        public static string OpenExplorerCommand_Remarks {
             get {
-                return ResourceManager.GetString("OpenExplorerCommand.Note", resourceCulture);
+                return ResourceManager.GetString("OpenExplorerCommand.Remarks", resourceCulture);
             }
         }
         
@@ -9142,9 +8980,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Open the displayed image with an external application.  に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string OpenExternalAppCommand_Note {
+        public static string OpenExternalAppCommand_Remarks {
             get {
-                return ResourceManager.GetString("OpenExternalAppCommand.Note", resourceCulture);
+                return ResourceManager.GetString("OpenExternalAppCommand.Remarks", resourceCulture);
             }
         }
         
@@ -9169,9 +9007,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   If not specified, launch the application associated with the extension. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string OpenExternalAppCommandParameter_Command_Tips {
+        public static string OpenExternalAppCommandParameter_Command_Remarks {
             get {
-                return ResourceManager.GetString("OpenExternalAppCommandParameter.Command#Tips", resourceCulture);
+                return ResourceManager.GetString("OpenExternalAppCommandParameter.Command.Remarks", resourceCulture);
             }
         }
         
@@ -9196,9 +9034,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   $File will be replaced with the file path. $Uri is replaced with the URI escaped file path. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string OpenExternalAppCommandParameter_Parameter_Tips {
+        public static string OpenExternalAppCommandParameter_Parameter_Remarks {
             get {
-                return ResourceManager.GetString("OpenExternalAppCommandParameter.Parameter#Tips", resourceCulture);
+                return ResourceManager.GetString("OpenExternalAppCommandParameter.Parameter.Remarks", resourceCulture);
             }
         }
         
@@ -9214,18 +9052,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   _Options... に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string OpenOptionsWindowCommand_MenuText {
+        public static string OpenOptionsWindowCommand_Menu {
             get {
-                return ResourceManager.GetString("OpenOptionsWindowCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("OpenOptionsWindowCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Open the options window. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string OpenOptionsWindowCommand_Note {
+        public static string OpenOptionsWindowCommand_Remarks {
             get {
-                return ResourceManager.GetString("OpenOptionsWindowCommand.Note", resourceCulture);
+                return ResourceManager.GetString("OpenOptionsWindowCommand.Remarks", resourceCulture);
             }
         }
         
@@ -9241,9 +9079,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Open the scripts folder with Explorer. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string OpenScriptsFolderCommand_Note {
+        public static string OpenScriptsFolderCommand_Remarks {
             get {
-                return ResourceManager.GetString("OpenScriptsFolderCommand.Note", resourceCulture);
+                return ResourceManager.GetString("OpenScriptsFolderCommand.Remarks", resourceCulture);
             }
         }
         
@@ -9259,9 +9097,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Open the folder where the configuration file setting file is saved. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string OpenSettingFilesFolderCommand_Note {
+        public static string OpenSettingFilesFolderCommand_Remarks {
             get {
-                return ResourceManager.GetString("OpenSettingFilesFolderCommand.Note", resourceCulture);
+                return ResourceManager.GetString("OpenSettingFilesFolderCommand.Remarks", resourceCulture);
             }
         }
         
@@ -9277,18 +9115,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   _About... に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string OpenVersionWindowCommand_MenuText {
+        public static string OpenVersionWindowCommand_Menu {
             get {
-                return ResourceManager.GetString("OpenVersionWindowCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("OpenVersionWindowCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Display version information. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string OpenVersionWindowCommand_Note {
+        public static string OpenVersionWindowCommand_Remarks {
             get {
-                return ResourceManager.GetString("OpenVersionWindowCommand.Note", resourceCulture);
+                return ResourceManager.GetString("OpenVersionWindowCommand.Remarks", resourceCulture);
             }
         }
         
@@ -9460,7 +9298,7 @@ namespace NeeView.Properties {
         /// </summary>
         public static string PageAccessor_Example {
             get {
-                return ResourceManager.GetString("PageAccessor#Example", resourceCulture);
+                return ResourceManager.GetString("PageAccessor.Example", resourceCulture);
             }
         }
         
@@ -9528,6 +9366,51 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Back (Alt+Left) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PageList_Back_ToolTip {
+            get {
+                return ResourceManager.GetString("PageList.Back.ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Copy failed に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PageList_CopyToFolderFailed {
+            get {
+                return ResourceManager.GetString("PageList.CopyToFolderFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move failed に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PageList_Message_MoveToFolderFailed {
+            get {
+                return ResourceManager.GetString("PageList.Message.MoveToFolderFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Next (Alt+Right) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PageList_Next_ToolTip {
+            get {
+                return ResourceManager.GetString("PageList.Next.ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Up (Alt+Up) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PageList_Up_ToolTip {
+            get {
+                return ResourceManager.GetString("PageList.Up.ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Page name display format of page list に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string PageListConfig_Format {
@@ -9542,6 +9425,33 @@ namespace NeeView.Properties {
         public static string PageListConfig_PanelListItemStyle {
             get {
                 return ResourceManager.GetString("PageListConfig.PanelListItemStyle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cop_y to folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PageListItem_Menu_CopyToFolder {
+            get {
+                return ResourceManager.GetString("PageListItem.Menu.CopyToFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open in e_xplorer に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PageListItem_Menu_Explorer {
+            get {
+                return ResourceManager.GetString("PageListItem.Menu.Explorer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Mov_e to folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PageListItem_Menu_MoveToFolder {
+            get {
+                return ResourceManager.GetString("PageListItem.Menu.MoveToFolder", resourceCulture);
             }
         }
         
@@ -10160,9 +10070,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   The width of the icon image. If the thumbnail image resolution is exceeded, the image will be grainy. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PanelListItemProfile_ImageWidth_Tips {
+        public static string PanelListItemProfile_ImageWidth_Remarks {
             get {
-                return ResourceManager.GetString("PanelListItemProfile.ImageWidth#Tips", resourceCulture);
+                return ResourceManager.GetString("PanelListItemProfile.ImageWidth.Remarks", resourceCulture);
             }
         }
         
@@ -10178,9 +10088,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   When placing the cursor on the icon, a large image will be displayed in the popup. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PanelListItemProfile_IsImagePopupEnabled_Tips {
+        public static string PanelListItemProfile_IsImagePopupEnabled_Remarks {
             get {
-                return ResourceManager.GetString("PanelListItemProfile.IsImagePopupEnabled#Tips", resourceCulture);
+                return ResourceManager.GetString("PanelListItemProfile.IsImagePopupEnabled.Remarks", resourceCulture);
             }
         }
         
@@ -10259,9 +10169,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Format as &quot;AAA (C:\BBB\CCC)&quot;. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PanelsConfig_IsDecoratePlace_Tips {
+        public static string PanelsConfig_IsDecoratePlace_Remarks {
             get {
-                return ResourceManager.GetString("PanelsConfig.IsDecoratePlace#Tips", resourceCulture);
+                return ResourceManager.GetString("PanelsConfig.IsDecoratePlace.Remarks", resourceCulture);
             }
         }
         
@@ -10295,9 +10205,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Activate left / right key operation on the side panel. In the bookshelf, move the folder hierarchically. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PanelsConfig_IsLeftRightKeyEnabled_Tips {
+        public static string PanelsConfig_IsLeftRightKeyEnabled_Remarks {
             get {
-                return ResourceManager.GetString("PanelsConfig.IsLeftRightKeyEnabled#Tips", resourceCulture);
+                return ResourceManager.GetString("PanelsConfig.IsLeftRightKeyEnabled.Remarks", resourceCulture);
             }
         }
         
@@ -10340,9 +10250,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   It is effective in auto-hide mode. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PanelsConfig_Opacity_Tips {
+        public static string PanelsConfig_Opacity_Remarks {
             get {
-                return ResourceManager.GetString("PanelsConfig.Opacity#Tips", resourceCulture);
+                return ResourceManager.GetString("PanelsConfig.Opacity.Remarks", resourceCulture);
             }
         }
         
@@ -10358,9 +10268,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Effective on bookshelf, bookmark panel, and history panel. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PanelsConfig_OpenWithDoubleClick_Tips {
+        public static string PanelsConfig_OpenWithDoubleClick_Remarks {
             get {
-                return ResourceManager.GetString("PanelsConfig.OpenWithDoubleClick#Tips", resourceCulture);
+                return ResourceManager.GetString("PanelsConfig.OpenWithDoubleClick.Remarks", resourceCulture);
             }
         }
         
@@ -10898,18 +10808,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   _Paste に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PasteCommand_MenuText {
+        public static string PasteCommand_Menu {
             get {
-                return ResourceManager.GetString("PasteCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("PasteCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Paste clipboard files and images. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PasteCommand_Note {
+        public static string PasteCommand_Remarks {
             get {
-                return ResourceManager.GetString("PasteCommand.Note", resourceCulture);
+                return ResourceManager.GetString("PasteCommand.Remarks", resourceCulture);
             }
         }
         
@@ -10934,9 +10844,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Normally we will render according to the display size, but the lower limit will be this standard size. If it becomes smaller, it is reduced and displayed. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PdfArchiveConfig_RenderSize_Tips {
+        public static string PdfArchiveConfig_RenderSize_Remarks {
             get {
-                return ResourceManager.GetString("PdfArchiveConfig.RenderSize#Tips", resourceCulture);
+                return ResourceManager.GetString("PdfArchiveConfig.RenderSize.Remarks", resourceCulture);
             }
         }
         
@@ -10961,9 +10871,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Once the page has been read, it is stored in memory to speed up redisplay. This value is a guideline, and memory may be used beyond this value. Note that too large a value can make the system unstable. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PerformanceConfig_CacheMemorySize_Tips {
+        public static string PerformanceConfig_CacheMemorySize_Remarks {
             get {
-                return ResourceManager.GetString("PerformanceConfig.CacheMemorySize#Tips", resourceCulture);
+                return ResourceManager.GetString("PerformanceConfig.CacheMemorySize.Remarks", resourceCulture);
             }
         }
         
@@ -10979,9 +10889,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Reduce the imported image with &quot;@PerformanceConfig.MaximumSize&quot; as the upper limit. It is setting for speed and memory saving. When this restriction is applied, &quot;*&quot; will be displayed in the size field of the information if it is the loaded image. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PerformanceConfig_IsLimitSourceSize_Tips {
+        public static string PerformanceConfig_IsLimitSourceSize_Remarks {
             get {
-                return ResourceManager.GetString("PerformanceConfig.IsLimitSourceSize#Tips", resourceCulture);
+                return ResourceManager.GetString("PerformanceConfig.IsLimitSourceSize.Remarks", resourceCulture);
             }
         }
         
@@ -10997,9 +10907,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   You can save memory by turning it off. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PerformanceConfig_IsLoadingPageVisible_Tips {
+        public static string PerformanceConfig_IsLoadingPageVisible_Remarks {
             get {
-                return ResourceManager.GetString("PerformanceConfig.IsLoadingPageVisible#Tips", resourceCulture);
+                return ResourceManager.GetString("PerformanceConfig.IsLoadingPageVisible.Remarks", resourceCulture);
             }
         }
         
@@ -11015,9 +10925,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   It speeds up by expanding not in temporary files but in memory. The memory consumed is secured separately from the book cache memory. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PerformanceConfig_IsPreExtractToMemory_Tips {
+        public static string PerformanceConfig_IsPreExtractToMemory_Remarks {
             get {
-                return ResourceManager.GetString("PerformanceConfig.IsPreExtractToMemory#Tips", resourceCulture);
+                return ResourceManager.GetString("PerformanceConfig.IsPreExtractToMemory.Remarks", resourceCulture);
             }
         }
         
@@ -11033,9 +10943,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   The recommended value is 2 to 4 に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PerformanceConfig_JobWorkerSize_Tips {
+        public static string PerformanceConfig_JobWorkerSize_Remarks {
             get {
-                return ResourceManager.GetString("PerformanceConfig.JobWorkerSize#Tips", resourceCulture);
+                return ResourceManager.GetString("PerformanceConfig.JobWorkerSize.Remarks", resourceCulture);
             }
         }
         
@@ -11051,9 +10961,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   This is the maximum image size enlarged by the resize filter. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PerformanceConfig_MaximumSize_Tips {
+        public static string PerformanceConfig_MaximumSize_Remarks {
             get {
-                return ResourceManager.GetString("PerformanceConfig.MaximumSize#Tips", resourceCulture);
+                return ResourceManager.GetString("PerformanceConfig.MaximumSize.Remarks", resourceCulture);
             }
         }
         
@@ -11070,9 +10980,9 @@ namespace NeeView.Properties {
         ///   Compressed files exceeding this extraction size will not be pre-extracted. Set 0 to prohibit all pre-extraction.
         ///The Susie archive does not determine this size, but only pre-extraction in the plug-in settings. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PerformanceConfig_PreExtractSolidSize_Tips {
+        public static string PerformanceConfig_PreExtractSolidSize_Remarks {
             get {
-                return ResourceManager.GetString("PerformanceConfig.PreExtractSolidSize#Tips", resourceCulture);
+                return ResourceManager.GetString("PerformanceConfig.PreExtractSolidSize.Remarks", resourceCulture);
             }
         }
         
@@ -11088,9 +10998,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Read ahead within the cache memory size. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PerformanceConfig_PreLoadSize_Tips {
+        public static string PerformanceConfig_PreLoadSize_Remarks {
             get {
-                return ResourceManager.GetString("PerformanceConfig.PreLoadSize#Tips", resourceCulture);
+                return ResourceManager.GetString("PerformanceConfig.PreLoadSize.Remarks", resourceCulture);
             }
         }
         
@@ -11124,9 +11034,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Load the previous book on the bookshelf. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PrevBookCommand_Note {
+        public static string PrevBookCommand_Remarks {
             get {
-                return ResourceManager.GetString("PrevBookCommand.Note", resourceCulture);
+                return ResourceManager.GetString("PrevBookCommand.Remarks", resourceCulture);
             }
         }
         
@@ -11142,9 +11052,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Open a previously open book. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PrevBookHistoryCommand_Note {
+        public static string PrevBookHistoryCommand_Remarks {
             get {
-                return ResourceManager.GetString("PrevBookHistoryCommand.Note", resourceCulture);
+                return ResourceManager.GetString("PrevBookHistoryCommand.Remarks", resourceCulture);
             }
         }
         
@@ -11160,9 +11070,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Move to the first page of the previous folder of the book. Valid only in name order. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PrevFolderPageCommand_Note {
+        public static string PrevFolderPageCommand_Remarks {
             get {
-                return ResourceManager.GetString("PrevFolderPageCommand.Note", resourceCulture);
+                return ResourceManager.GetString("PrevFolderPageCommand.Remarks", resourceCulture);
             }
         }
         
@@ -11178,9 +11088,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Load the previous old history book. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PrevHistoryCommand_Note {
+        public static string PrevHistoryCommand_Remarks {
             get {
-                return ResourceManager.GetString("PrevHistoryCommand.Note", resourceCulture);
+                return ResourceManager.GetString("PrevHistoryCommand.Remarks", resourceCulture);
             }
         }
         
@@ -11196,9 +11106,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Move to previously view page. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PrevHistoryPageCommand_Note {
+        public static string PrevHistoryPageCommand_Remarks {
             get {
-                return ResourceManager.GetString("PrevHistoryPageCommand.Note", resourceCulture);
+                return ResourceManager.GetString("PrevHistoryPageCommand.Remarks", resourceCulture);
             }
         }
         
@@ -11214,9 +11124,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Move forward one page only. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PrevOnePageCommand_Note {
+        public static string PrevOnePageCommand_Remarks {
             get {
-                return ResourceManager.GetString("PrevOnePageCommand.Note", resourceCulture);
+                return ResourceManager.GetString("PrevOnePageCommand.Remarks", resourceCulture);
             }
         }
         
@@ -11232,9 +11142,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Move to the front of the page. If it is 2 page display, it moves by 2 pages. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PrevPageCommand_Note {
+        public static string PrevPageCommand_Remarks {
             get {
-                return ResourceManager.GetString("PrevPageCommand.Note", resourceCulture);
+                return ResourceManager.GetString("PrevPageCommand.Remarks", resourceCulture);
             }
         }
         
@@ -11250,9 +11160,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Go to the previous page mark. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PrevPagemarkCommand_Note {
+        public static string PrevPagemarkCommand_Remarks {
             get {
-                return ResourceManager.GetString("PrevPagemarkCommand.Note", resourceCulture);
+                return ResourceManager.GetString("PrevPagemarkCommand.Remarks", resourceCulture);
             }
         }
         
@@ -11268,9 +11178,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Move to the previous page mark in the current book. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PrevPagemarkInBookCommand_Note {
+        public static string PrevPagemarkInBookCommand_Remarks {
             get {
-                return ResourceManager.GetString("PrevPagemarkInBookCommand.Note", resourceCulture);
+                return ResourceManager.GetString("PrevPagemarkInBookCommand.Remarks", resourceCulture);
             }
         }
         
@@ -11286,9 +11196,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Scroll the image forward in the page. If it is not possible to scroll, it will move to the previous page. When using a loupe, only move pages. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PrevScrollPageCommand_Note {
+        public static string PrevScrollPageCommand_Remarks {
             get {
-                return ResourceManager.GetString("PrevScrollPageCommand.Note", resourceCulture);
+                return ResourceManager.GetString("PrevScrollPageCommand.Remarks", resourceCulture);
             }
         }
         
@@ -11304,9 +11214,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   It moves forward by the set number of pages. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PrevSizePageCommand_Note {
+        public static string PrevSizePageCommand_Remarks {
             get {
-                return ResourceManager.GetString("PrevSizePageCommand.Note", resourceCulture);
+                return ResourceManager.GetString("PrevSizePageCommand.Remarks", resourceCulture);
             }
         }
         
@@ -11322,18 +11232,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   _Print... に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PrintCommand_MenuText {
+        public static string PrintCommand_Menu {
             get {
-                return ResourceManager.GetString("PrintCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("PrintCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Print the image. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PrintCommand_Note {
+        public static string PrintCommand_Remarks {
             get {
-                return ResourceManager.GetString("PrintCommand.Note", resourceCulture);
+                return ResourceManager.GetString("PrintCommand.Remarks", resourceCulture);
             }
         }
         
@@ -11430,9 +11340,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Load the random book on the bookshelf. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string RandomBookCommand_Note {
+        public static string RandomBookCommand_Remarks {
             get {
-                return ResourceManager.GetString("RandomBookCommand.Note", resourceCulture);
+                return ResourceManager.GetString("RandomBookCommand.Remarks", resourceCulture);
             }
         }
         
@@ -11448,9 +11358,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Reload the book に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ReLoadCommand_Note {
+        public static string ReLoadCommand_Remarks {
             get {
-                return ResourceManager.GetString("ReLoadCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ReLoadCommand.Remarks", resourceCulture);
             }
         }
         
@@ -11466,9 +11376,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Reload the settings. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ReloadSettingCommand_Note {
+        public static string ReloadSettingCommand_Remarks {
             get {
-                return ResourceManager.GetString("ReloadSettingCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ReloadSettingCommand.Remarks", resourceCulture);
             }
         }
         
@@ -11484,9 +11394,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Allows the operation replacement by changing the slider direction. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ReversibleCommandParameter_IsReverse_Tips {
+        public static string ReversibleCommandParameter_IsReverse_Remarks {
             get {
-                return ResourceManager.GetString("ReversibleCommandParameter.IsReverse#Tips", resourceCulture);
+                return ResourceManager.GetString("ReversibleCommandParameter.IsReverse.Remarks", resourceCulture);
             }
         }
         
@@ -11538,9 +11448,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Performs saving the current settings. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SaveSettingCommand_Note {
+        public static string SaveSettingCommand_Remarks {
             get {
-                return ResourceManager.GetString("SaveSettingCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SaveSettingCommand.Remarks", resourceCulture);
             }
         }
         
@@ -11556,9 +11466,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Script. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ScriptCommand_Note {
+        public static string ScriptCommand_Remarks {
             get {
-                return ResourceManager.GetString("ScriptCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ScriptCommand.Remarks", resourceCulture);
             }
         }
         
@@ -11583,23 +11493,23 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Use the scripts in this folder. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ScriptConfig_ScriptFolder_Tips {
+        public static string ScriptConfig_ScriptFolder_Remarks {
             get {
-                return ResourceManager.GetString("ScriptConfig.ScriptFolder#Tips", resourceCulture);
+                return ResourceManager.GetString("ScriptConfig.ScriptFolder.Remarks", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Scrpit. Executes when the book is opened. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ScriptOnBookLoadedCommand_Note {
+        public static string ScriptOnBookLoadedCommand_Remarks {
             get {
-                return ResourceManager.GetString("ScriptOnBookLoadedCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ScriptOnBookLoadedCommand.Remarks", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   This section explains how to use NeeView-specific commands. に類似しているローカライズされた文字列を検索します。
+        ///   Script reference に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ScriptReference {
             get {
@@ -11608,11 +11518,11 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Script reference に類似しているローカライズされた文字列を検索します。
+        ///   This section explains how to use NeeView-specific commands. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ScriptReference_Name {
+        public static string ScriptReference_Summary {
             get {
-                return ResourceManager.GetString("ScriptReference#Name", resourceCulture);
+                return ResourceManager.GetString("ScriptReference.Summary", resourceCulture);
             }
         }
         
@@ -11628,9 +11538,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   If vertically scrollable, scroll vertically as well. If you can scroll vertically and horizontally, scroll to draw N characters. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ScrollPageCommandParameter_IsNScroll_Tips {
+        public static string ScrollPageCommandParameter_IsNScroll_Remarks {
             get {
-                return ResourceManager.GetString("ScrollPageCommandParameter.IsNScroll#Tips", resourceCulture);
+                return ResourceManager.GetString("ScrollPageCommandParameter.IsNScroll.Remarks", resourceCulture);
             }
         }
         
@@ -11646,9 +11556,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Scroll only if you can scroll above this pixel width. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ScrollPageCommandParameter_Margin_Tips {
+        public static string ScrollPageCommandParameter_Margin_Remarks {
             get {
-                return ResourceManager.GetString("ScrollPageCommandParameter.Margin#Tips", resourceCulture);
+                return ResourceManager.GetString("ScrollPageCommandParameter.Margin.Remarks", resourceCulture);
             }
         }
         
@@ -11664,9 +11574,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Judgment time for not moving the page immediately. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ScrollPageCommandParameter_PageMoveMargin_Tips {
+        public static string ScrollPageCommandParameter_PageMoveMargin_Remarks {
             get {
-                return ResourceManager.GetString("ScrollPageCommandParameter.PageMoveMargin#Tips", resourceCulture);
+                return ResourceManager.GetString("ScrollPageCommandParameter.PageMoveMargin.Remarks", resourceCulture);
             }
         }
         
@@ -11682,9 +11592,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   The ratio to the screen to scroll in one operation. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ScrollPageCommandParameter_Scroll_Tips {
+        public static string ScrollPageCommandParameter_Scroll_Remarks {
             get {
-                return ResourceManager.GetString("ScrollPageCommandParameter.Scroll#Tips", resourceCulture);
+                return ResourceManager.GetString("ScrollPageCommandParameter.Scroll.Remarks", resourceCulture);
             }
         }
         
@@ -11709,9 +11619,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Set the background color from the image. Specifically, the color of the upper left pixel of the image is used. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetBackgroundAutoCommand_Note {
+        public static string SetBackgroundAutoCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetBackgroundAutoCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetBackgroundAutoCommand.Remarks", resourceCulture);
             }
         }
         
@@ -11727,9 +11637,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Make the background black. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetBackgroundBlackCommand_Note {
+        public static string SetBackgroundBlackCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetBackgroundBlackCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetBackgroundBlackCommand.Remarks", resourceCulture);
             }
         }
         
@@ -11745,9 +11655,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Make the background a white checkered pattern. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetBackgroundCheckCommand_Note {
+        public static string SetBackgroundCheckCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetBackgroundCheckCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetBackgroundCheckCommand.Remarks", resourceCulture);
             }
         }
         
@@ -11763,9 +11673,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Make the background a black checkered pattern. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetBackgroundCheckDarkCommand_Note {
+        public static string SetBackgroundCheckDarkCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetBackgroundCheckDarkCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetBackgroundCheckDarkCommand.Remarks", resourceCulture);
             }
         }
         
@@ -11781,9 +11691,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Make the background a custom background. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetBackgroundCustomCommand_Note {
+        public static string SetBackgroundCustomCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetBackgroundCustomCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetBackgroundCustomCommand.Remarks", resourceCulture);
             }
         }
         
@@ -11799,9 +11709,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Make the background white. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetBackgroundWhiteCommand_Note {
+        public static string SetBackgroundWhiteCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetBackgroundWhiteCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetBackgroundWhiteCommand.Remarks", resourceCulture);
             }
         }
         
@@ -11817,9 +11727,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Set the order of books in ascending order by entry time. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetBookOrderByEntryTimeACommand_Note {
+        public static string SetBookOrderByEntryTimeACommand_Remarks {
             get {
-                return ResourceManager.GetString("SetBookOrderByEntryTimeACommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetBookOrderByEntryTimeACommand.Remarks", resourceCulture);
             }
         }
         
@@ -11835,9 +11745,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Set the order of books in descending order by entry time. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetBookOrderByEntryTimeDCommand_Note {
+        public static string SetBookOrderByEntryTimeDCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetBookOrderByEntryTimeDCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetBookOrderByEntryTimeDCommand.Remarks", resourceCulture);
             }
         }
         
@@ -11853,9 +11763,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Set the order of books in ascending order by name. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetBookOrderByFileNameACommand_Note {
+        public static string SetBookOrderByFileNameACommand_Remarks {
             get {
-                return ResourceManager.GetString("SetBookOrderByFileNameACommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetBookOrderByFileNameACommand.Remarks", resourceCulture);
             }
         }
         
@@ -11871,9 +11781,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Set the order of books in descending order by name. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetBookOrderByFileNameDCommand_Note {
+        public static string SetBookOrderByFileNameDCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetBookOrderByFileNameDCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetBookOrderByFileNameDCommand.Remarks", resourceCulture);
             }
         }
         
@@ -11889,9 +11799,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Set the order of books in ascending order by file type. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetBookOrderByFileTypeACommand_Note {
+        public static string SetBookOrderByFileTypeACommand_Remarks {
             get {
-                return ResourceManager.GetString("SetBookOrderByFileTypeACommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetBookOrderByFileTypeACommand.Remarks", resourceCulture);
             }
         }
         
@@ -11907,9 +11817,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Set the order of books in descending order by file type. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetBookOrderByFileTypeDCommand_Note {
+        public static string SetBookOrderByFileTypeDCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetBookOrderByFileTypeDCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetBookOrderByFileTypeDCommand.Remarks", resourceCulture);
             }
         }
         
@@ -11925,9 +11835,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Set the order of books in ascending order by full path. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetBookOrderByPathACommand_Note {
+        public static string SetBookOrderByPathACommand_Remarks {
             get {
-                return ResourceManager.GetString("SetBookOrderByPathACommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetBookOrderByPathACommand.Remarks", resourceCulture);
             }
         }
         
@@ -11943,9 +11853,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Set the order of books in descending order by full path. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetBookOrderByPathDCommand_Note {
+        public static string SetBookOrderByPathDCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetBookOrderByPathDCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetBookOrderByPathDCommand.Remarks", resourceCulture);
             }
         }
         
@@ -11961,9 +11871,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Set the order of books randomly. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetBookOrderByRandomCommand_Note {
+        public static string SetBookOrderByRandomCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetBookOrderByRandomCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetBookOrderByRandomCommand.Remarks", resourceCulture);
             }
         }
         
@@ -11979,9 +11889,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Set the order of books in ascending order by size. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetBookOrderBySizeACommand_Note {
+        public static string SetBookOrderBySizeACommand_Remarks {
             get {
-                return ResourceManager.GetString("SetBookOrderBySizeACommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetBookOrderBySizeACommand.Remarks", resourceCulture);
             }
         }
         
@@ -11997,9 +11907,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Set the order of books in descending order by size. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetBookOrderBySizeDCommand_Note {
+        public static string SetBookOrderBySizeDCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetBookOrderBySizeDCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetBookOrderBySizeDCommand.Remarks", resourceCulture);
             }
         }
         
@@ -12015,9 +11925,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Set the order of books in ascending order by date. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetBookOrderByTimeStampACommand_Note {
+        public static string SetBookOrderByTimeStampACommand_Remarks {
             get {
-                return ResourceManager.GetString("SetBookOrderByTimeStampACommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetBookOrderByTimeStampACommand.Remarks", resourceCulture);
             }
         }
         
@@ -12033,9 +11943,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Set the order of books in descending order by darte. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetBookOrderByTimeStampDCommand_Note {
+        public static string SetBookOrderByTimeStampDCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetBookOrderByTimeStampDCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetBookOrderByTimeStampDCommand.Remarks", resourceCulture);
             }
         }
         
@@ -12051,9 +11961,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Left forward from left to right. The younger page turns to the left when 2 page is displayed. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetBookReadOrderLeftCommand_Note {
+        public static string SetBookReadOrderLeftCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetBookReadOrderLeftCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetBookReadOrderLeftCommand.Remarks", resourceCulture);
             }
         }
         
@@ -12069,9 +11979,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Left forward from left to right. The young page turns to the right when 2 page is displayed. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetBookReadOrderRightCommand_Note {
+        public static string SetBookReadOrderRightCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetBookReadOrderRightCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetBookReadOrderRightCommand.Remarks", resourceCulture);
             }
         }
         
@@ -12087,9 +11997,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Restore the default page setting. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetDefaultPageSettingCommand_Note {
+        public static string SetDefaultPageSettingCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetDefaultPageSettingCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetDefaultPageSettingCommand.Remarks", resourceCulture);
             }
         }
         
@@ -12105,9 +12015,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Make it full screen. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetFullScreenCommand_Note {
+        public static string SetFullScreenCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetFullScreenCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetFullScreenCommand.Remarks", resourceCulture);
             }
         }
         
@@ -12123,9 +12033,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Make it 1 page display. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetPageModeOneCommand_Note {
+        public static string SetPageModeOneCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetPageModeOneCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetPageModeOneCommand.Remarks", resourceCulture);
             }
         }
         
@@ -12141,9 +12051,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   It makes 2 page display. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetPageModeTwoCommand_Note {
+        public static string SetPageModeTwoCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetPageModeTwoCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetPageModeTwoCommand.Remarks", resourceCulture);
             }
         }
         
@@ -12159,9 +12069,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Sort the order of the pages in ascending order by filename. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetSortModeFileNameCommand_Note {
+        public static string SetSortModeFileNameCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetSortModeFileNameCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetSortModeFileNameCommand.Remarks", resourceCulture);
             }
         }
         
@@ -12177,9 +12087,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Sort the order of the pages in descending order by file name. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetSortModeFileNameDescendingCommand_Note {
+        public static string SetSortModeFileNameDescendingCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetSortModeFileNameDescendingCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetSortModeFileNameDescendingCommand.Remarks", resourceCulture);
             }
         }
         
@@ -12195,9 +12105,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Shuffle the order of pages. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetSortModeRandomCommand_Note {
+        public static string SetSortModeRandomCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetSortModeRandomCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetSortModeRandomCommand.Remarks", resourceCulture);
             }
         }
         
@@ -12213,9 +12123,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Set the order of pages in ascending order by file size. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetSortModeSizeCommand_Note {
+        public static string SetSortModeSizeCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetSortModeSizeCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetSortModeSizeCommand.Remarks", resourceCulture);
             }
         }
         
@@ -12231,9 +12141,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Set the order of pages in descending order of file size. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetSortModeSizeDescendingCommand_Note {
+        public static string SetSortModeSizeDescendingCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetSortModeSizeDescendingCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetSortModeSizeDescendingCommand.Remarks", resourceCulture);
             }
         }
         
@@ -12249,9 +12159,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Sort the order of pages by file date ascending order. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetSortModeTimeStampCommand_Note {
+        public static string SetSortModeTimeStampCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetSortModeTimeStampCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetSortModeTimeStampCommand.Remarks", resourceCulture);
             }
         }
         
@@ -12267,9 +12177,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Sort the order of pages by file date descending order. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetSortModeTimeStampDescendingCommand_Note {
+        public static string SetSortModeTimeStampDescendingCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetSortModeTimeStampDescendingCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetSortModeTimeStampDescendingCommand.Remarks", resourceCulture);
             }
         }
         
@@ -12285,9 +12195,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Reduce the image to fit in the window and display it. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetStretchModeInsideCommand_Note {
+        public static string SetStretchModeInsideCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetStretchModeInsideCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetStretchModeInsideCommand.Remarks", resourceCulture);
             }
         }
         
@@ -12303,9 +12213,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Display the image as it is. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetStretchModeNoneCommand_Note {
+        public static string SetStretchModeNoneCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetStretchModeNoneCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetStretchModeNoneCommand.Remarks", resourceCulture);
             }
         }
         
@@ -12321,9 +12231,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   The image is enlarged as much as possible so that it fits in the window. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetStretchModeOutsideCommand_Note {
+        public static string SetStretchModeOutsideCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetStretchModeOutsideCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetStretchModeOutsideCommand.Remarks", resourceCulture);
             }
         }
         
@@ -12339,9 +12249,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Scales the image to fit the window size. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetStretchModeUniformCommand_Note {
+        public static string SetStretchModeUniformCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetStretchModeUniformCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetStretchModeUniformCommand.Remarks", resourceCulture);
             }
         }
         
@@ -12357,9 +12267,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Scale up or down to fit the window size either vertically or horizontally. The image will be larger than the window size. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetStretchModeUniformToFillCommand_Note {
+        public static string SetStretchModeUniformToFillCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetStretchModeUniformToFillCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetStretchModeUniformToFillCommand.Remarks", resourceCulture);
             }
         }
         
@@ -12375,9 +12285,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Scales to fit the width of the image to the width of the window. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetStretchModeUniformToHorizontalCommand_Note {
+        public static string SetStretchModeUniformToHorizontalCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetStretchModeUniformToHorizontalCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetStretchModeUniformToHorizontalCommand.Remarks", resourceCulture);
             }
         }
         
@@ -12393,9 +12303,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Scales the image so that it is equal to the area size of ​​the window. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetStretchModeUniformToSizeCommand_Note {
+        public static string SetStretchModeUniformToSizeCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetStretchModeUniformToSizeCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetStretchModeUniformToSizeCommand.Remarks", resourceCulture);
             }
         }
         
@@ -12411,9 +12321,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Scales to fit the height of the image to the height of the window. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SetStretchModeUniformToVerticalCommand_Note {
+        public static string SetStretchModeUniformToVerticalCommand_Remarks {
             get {
-                return ResourceManager.GetString("SetStretchModeUniformToVerticalCommand.Note", resourceCulture);
+                return ResourceManager.GetString("SetStretchModeUniformToVerticalCommand.Remarks", resourceCulture);
             }
         }
         
@@ -13828,9 +13738,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Set this if you want to use another 7z.dll. To reflect, you need to reopen the application. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SevenZipArchiveConfig_X64DllPath_Tips {
+        public static string SevenZipArchiveConfig_X64DllPath_Remarks {
             get {
-                return ResourceManager.GetString("SevenZipArchiveConfig.X64DllPath#Tips", resourceCulture);
+                return ResourceManager.GetString("SevenZipArchiveConfig.X64DllPath.Remarks", resourceCulture);
             }
         }
         
@@ -13846,9 +13756,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Set this if you want to use another 7z.dll. To reflect, you need to reopen the application. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SevenZipArchiveConfig_X86DllPath_Tips {
+        public static string SevenZipArchiveConfig_X86DllPath_Remarks {
             get {
-                return ResourceManager.GetString("SevenZipArchiveConfig.X86DllPath#Tips", resourceCulture);
+                return ResourceManager.GetString("SevenZipArchiveConfig.X86DllPath.Remarks", resourceCulture);
             }
         }
         
@@ -13882,18 +13792,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Show panels  に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ShowHiddenPanelsCommand_MenuText {
+        public static string ShowHiddenPanelsCommand_Menu {
             get {
-                return ResourceManager.GetString("ShowHiddenPanelsCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("ShowHiddenPanelsCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   The panel which is hidden automatically is displayed once. It will be canceled by some operation. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ShowHiddenPanelsCommand_Note {
+        public static string ShowHiddenPanelsCommand_Remarks {
             get {
-                return ResourceManager.GetString("ShowHiddenPanelsCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ShowHiddenPanelsCommand.Remarks", resourceCulture);
             }
         }
         
@@ -13954,9 +13864,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Switch pages when decided. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SliderConfig_IsSliderLinkedFilmStrip_Tips {
+        public static string SliderConfig_IsSliderLinkedFilmStrip_Remarks {
             get {
-                return ResourceManager.GetString("SliderConfig.IsSliderLinkedFilmStrip#Tips", resourceCulture);
+                return ResourceManager.GetString("SliderConfig.IsSliderLinkedFilmStrip.Remarks", resourceCulture);
             }
         }
         
@@ -13990,9 +13900,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   It is effective in auto-hide mode. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SliderConfig_Opacity_Tips {
+        public static string SliderConfig_Opacity_Remarks {
             get {
-                return ResourceManager.GetString("SliderConfig.Opacity#Tips", resourceCulture);
+                return ResourceManager.GetString("SliderConfig.Opacity.Remarks", resourceCulture);
             }
         }
         
@@ -14080,9 +13990,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   When set to OFF, it will only be reset by clear action such as clicking. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SlideShowConfig_IsCancelSlideByMouseMove_Tips {
+        public static string SlideShowConfig_IsCancelSlideByMouseMove_Remarks {
             get {
-                return ResourceManager.GetString("SlideShowConfig.IsCancelSlideByMouseMove#Tips", resourceCulture);
+                return ResourceManager.GetString("SlideShowConfig.IsCancelSlideByMouseMove.Remarks", resourceCulture);
             }
         }
         
@@ -14098,9 +14008,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   After playing to the last page, it will return to the first page. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SlideShowConfig_IsSlideShowByLoop_Tips {
+        public static string SlideShowConfig_IsSlideShowByLoop_Remarks {
             get {
-                return ResourceManager.GetString("SlideShowConfig.IsSlideShowByLoop#Tips", resourceCulture);
+                return ResourceManager.GetString("SlideShowConfig.IsSlideShowByLoop.Remarks", resourceCulture);
             }
         }
         
@@ -14152,9 +14062,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   The location of the bookshelf if you do not open the book at startup. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string StartUpConfig_IsOpenLastFolder_Tips {
+        public static string StartUpConfig_IsOpenLastFolder_Remarks {
             get {
-                return ResourceManager.GetString("StartUpConfig.IsOpenLastFolder#Tips", resourceCulture);
+                return ResourceManager.GetString("StartUpConfig.IsOpenLastFolder.Remarks", resourceCulture);
             }
         }
         
@@ -14179,9 +14089,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Also restore window coordinates when duplicates are activated. When set to OFF, it is displayed in the initial coordinates. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string StartUpConfig_IsRestoreSecondWindowPlacement_Tips {
+        public static string StartUpConfig_IsRestoreSecondWindowPlacement_Remarks {
             get {
-                return ResourceManager.GetString("StartUpConfig.IsRestoreSecondWindowPlacement#Tips", resourceCulture);
+                return ResourceManager.GetString("StartUpConfig.IsRestoreSecondWindowPlacement.Remarks", resourceCulture);
             }
         }
         
@@ -14215,9 +14125,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   If the stretch mode is already specified, it will be the original size に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string StretchModeCommandParameter_IsToggle_Tips {
+        public static string StretchModeCommandParameter_IsToggle_Remarks {
             get {
-                return ResourceManager.GetString("StretchModeCommandParameter.IsToggle#Tips", resourceCulture);
+                return ResourceManager.GetString("StretchModeCommandParameter.IsToggle.Remarks", resourceCulture);
             }
         }
         
@@ -14233,18 +14143,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Stretch window に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string StretchWindowCommand_MenuText {
+        public static string StretchWindowCommand_Menu {
             get {
-                return ResourceManager.GetString("StretchWindowCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("StretchWindowCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Fit the window to the MainView content size. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string StretchWindowCommand_Note {
+        public static string StretchWindowCommand_Remarks {
             get {
-                return ResourceManager.GetString("StretchWindowCommand.Note", resourceCulture);
+                return ResourceManager.GetString("StretchWindowCommand.Remarks", resourceCulture);
             }
         }
         
@@ -14314,9 +14224,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Extended range when opening compressed file に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SystemConfig_ArchiveRecursiveMode_Tips {
+        public static string SystemConfig_ArchiveRecursiveMode_Remarks {
             get {
-                return ResourceManager.GetString("SystemConfig.ArchiveRecursiveMode#Tips", resourceCulture);
+                return ResourceManager.GetString("SystemConfig.ArchiveRecursiveMode.Remarks", resourceCulture);
             }
         }
         
@@ -14332,9 +14242,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   If you make a folder a page, you can open the folder from that page. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SystemConfig_BookPageCollectMode_Tips {
+        public static string SystemConfig_BookPageCollectMode_Remarks {
             get {
-                return ResourceManager.GetString("SystemConfig.BookPageCollectMode#Tips", resourceCulture);
+                return ResourceManager.GetString("SystemConfig.BookPageCollectMode.Remarks", resourceCulture);
             }
         }
         
@@ -14359,9 +14269,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   It is a storage place of the image dropped by the browser etc. If not specified, temporary folder is used. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SystemConfig_DownloadPath_Tips {
+        public static string SystemConfig_DownloadPath_Remarks {
             get {
-                return ResourceManager.GetString("SystemConfig.DownloadPath#Tips", resourceCulture);
+                return ResourceManager.GetString("SystemConfig.DownloadPath.Remarks", resourceCulture);
             }
         }
         
@@ -14404,9 +14314,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   When displaying at the original size, it matches the pixels of the display independently of the display scale of the display. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SystemConfig_IsIgnoreImageDpi_Tips {
+        public static string SystemConfig_IsIgnoreImageDpi_Remarks {
             get {
-                return ResourceManager.GetString("SystemConfig.IsIgnoreImageDpi#Tips", resourceCulture);
+                return ResourceManager.GetString("SystemConfig.IsIgnoreImageDpi.Remarks", resourceCulture);
             }
         }
         
@@ -14422,9 +14332,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   * It is applied from the next startup. Always valid for text boxes. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SystemConfig_IsInputMethodEnabled_Tips {
+        public static string SystemConfig_IsInputMethodEnabled_Remarks {
             get {
-                return ResourceManager.GetString("SystemConfig.IsInputMethodEnabled#Tips", resourceCulture);
+                return ResourceManager.GetString("SystemConfig.IsInputMethodEnabled.Remarks", resourceCulture);
             }
         }
         
@@ -14440,9 +14350,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Makes sorting by name, such as numbers separated by periods, kanji numbers, etc. more natural. When off, same as Explorer. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SystemConfig_IsNaturalSortEnabled_Tips {
+        public static string SystemConfig_IsNaturalSortEnabled_Remarks {
             get {
-                return ResourceManager.GetString("SystemConfig.IsNaturalSortEnabled#Tips", resourceCulture);
+                return ResourceManager.GetString("SystemConfig.IsNaturalSortEnabled.Remarks", resourceCulture);
             }
         }
         
@@ -14458,9 +14368,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   In this application, we will use the network only for WEB links such as version update confirmation and online help from &quot;About&quot; dialog. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SystemConfig_IsNetworkEnabled_Tips {
+        public static string SystemConfig_IsNetworkEnabled_Remarks {
             get {
-                return ResourceManager.GetString("SystemConfig.IsNetworkEnabled#Tips", resourceCulture);
+                return ResourceManager.GetString("SystemConfig.IsNetworkEnabled.Remarks", resourceCulture);
             }
         }
         
@@ -14503,9 +14413,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Make a backup of the configuration file and load it instead if the normal configuration file can not be read. The file name is UserSetting.json.bak. The update timing is when you close the options window and when you exit the application. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SystemConfig_IsSettingBackup_Tips {
+        public static string SystemConfig_IsSettingBackup_Remarks {
             get {
-                return ResourceManager.GetString("SystemConfig.IsSettingBackup#Tips", resourceCulture);
+                return ResourceManager.GetString("SystemConfig.IsSettingBackup.Remarks", resourceCulture);
             }
         }
         
@@ -14521,9 +14431,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   When multi-booting, all NeeView settings are updated when closing the options window. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SystemConfig_IsSyncUserSetting_Tips {
+        public static string SystemConfig_IsSyncUserSetting_Remarks {
             get {
-                return ResourceManager.GetString("SystemConfig.IsSyncUserSetting#Tips", resourceCulture);
+                return ResourceManager.GetString("SystemConfig.IsSyncUserSetting.Remarks", resourceCulture);
             }
         }
         
@@ -14539,9 +14449,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   * It is applied from the next startup. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SystemConfig_Language_Tips {
+        public static string SystemConfig_Language_Remarks {
             get {
-                return ResourceManager.GetString("SystemConfig.Language#Tips", resourceCulture);
+                return ResourceManager.GetString("SystemConfig.Language.Remarks", resourceCulture);
             }
         }
         
@@ -14557,9 +14467,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   It is used for pre-extraction and recursive compression files. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SystemConfig_TemporaryDirectory_Tips {
+        public static string SystemConfig_TemporaryDirectory_Remarks {
             get {
-                return ResourceManager.GetString("SystemConfig.TemporaryDirectory#Tips", resourceCulture);
+                return ResourceManager.GetString("SystemConfig.TemporaryDirectory.Remarks", resourceCulture);
             }
         }
         
@@ -14602,9 +14512,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   PNG is high quality, but the data size is larger than JPEG. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ThumbnailConfig_Format_Tips {
+        public static string ThumbnailConfig_Format_Remarks {
             get {
-                return ResourceManager.GetString("ThumbnailConfig.Format#Tips", resourceCulture);
+                return ResourceManager.GetString("ThumbnailConfig.Format.Remarks", resourceCulture);
             }
         }
         
@@ -14620,9 +14530,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Cache the book thumbnail. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ThumbnailConfig_IsCacheEnabled_Tips {
+        public static string ThumbnailConfig_IsCacheEnabled_Remarks {
             get {
-                return ResourceManager.GetString("ThumbnailConfig.IsCacheEnabled#Tips", resourceCulture);
+                return ResourceManager.GetString("ThumbnailConfig.IsCacheEnabled.Remarks", resourceCulture);
             }
         }
         
@@ -14638,9 +14548,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Quality when the thumbnail image format is JPEG. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ThumbnailConfig_Quality_Tips {
+        public static string ThumbnailConfig_Quality_Remarks {
             get {
-                return ResourceManager.GetString("ThumbnailConfig.Quality#Tips", resourceCulture);
+                return ResourceManager.GetString("ThumbnailConfig.Quality.Remarks", resourceCulture);
             }
         }
         
@@ -14656,9 +14566,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   The higher the value, the higher the resolution but the larger the data size. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ThumbnailConfig_Resolution_Tips {
+        public static string ThumbnailConfig_Resolution_Remarks {
             get {
-                return ResourceManager.GetString("ThumbnailConfig.Resolution#Tips", resourceCulture);
+                return ResourceManager.GetString("ThumbnailConfig.Resolution.Remarks", resourceCulture);
             }
         }
         
@@ -14674,9 +14584,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   The number of book thumbnails held in memory. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ThumbnailConfig_ThumbnailBookCapacity_Tips {
+        public static string ThumbnailConfig_ThumbnailBookCapacity_Remarks {
             get {
-                return ResourceManager.GetString("ThumbnailConfig.ThumbnailBookCapacity#Tips", resourceCulture);
+                return ResourceManager.GetString("ThumbnailConfig.ThumbnailBookCapacity.Remarks", resourceCulture);
             }
         }
         
@@ -14701,9 +14611,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   The number of page thumbnails held in memory. When the book is closed everything is destroyed. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ThumbnailConfig_ThumbnailPageCapacity_Tips {
+        public static string ThumbnailConfig_ThumbnailPageCapacity_Remarks {
             get {
-                return ResourceManager.GetString("ThumbnailConfig.ThumbnailPageCapacity#Tips", resourceCulture);
+                return ResourceManager.GetString("ThumbnailConfig.ThumbnailPageCapacity.Remarks", resourceCulture);
             }
         }
         
@@ -14719,9 +14629,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Switch the background sequentially. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleBackgroundCommand_Note {
+        public static string ToggleBackgroundCommand_Remarks {
             get {
-                return ResourceManager.GetString("ToggleBackgroundCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleBackgroundCommand.Remarks", resourceCulture);
             }
         }
         
@@ -14737,18 +14647,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Bookmark に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleBookmarkCommand_MenuText {
+        public static string ToggleBookmarkCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleBookmarkCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle bookmark registration / release of currently open book. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleBookmarkCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleBookmarkCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleBookmarkCommand.Menu", resourceCulture);
             }
         }
         
@@ -14771,6 +14672,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Toggle bookmark registration / release of currently open book. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleBookmarkCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleBookmarkCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Switch book order に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleBookOrderCommand {
@@ -14782,9 +14692,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Switch the order of books in order. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleBookOrderCommand_Note {
+        public static string ToggleBookOrderCommand_Remarks {
             get {
-                return ResourceManager.GetString("ToggleBookOrderCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleBookOrderCommand.Remarks", resourceCulture);
             }
         }
         
@@ -14800,9 +14710,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Toggle right and left open. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleBookReadOrderCommand_Note {
+        public static string ToggleBookReadOrderCommand_Remarks {
             get {
-                return ResourceManager.GetString("ToggleBookReadOrderCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleBookReadOrderCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   switch: bool|ON/OFF. Toggle if omitted. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleCommand_Execute_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleCommand.Execute.Remarks", resourceCulture);
             }
         }
         
@@ -14818,18 +14737,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Custom size に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleCustomSizeCommand_MenuText {
+        public static string ToggleCustomSizeCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleCustomSizeCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggles enabling / disabling of size specification applied to original size. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleCustomSizeCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleCustomSizeCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleCustomSizeCommand.Menu", resourceCulture);
             }
         }
         
@@ -14852,6 +14762,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Toggles enabling / disabling of size specification applied to original size. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleCustomSizeCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleCustomSizeCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle effect に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleEffectCommand {
@@ -14863,18 +14782,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Effect に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleEffectCommand_MenuText {
+        public static string ToggleEffectCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleEffectCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle effect on / off. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleEffectCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleEffectCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleEffectCommand.Menu", resourceCulture);
             }
         }
         
@@ -14897,6 +14807,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Toggle effect on / off. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleEffectCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleEffectCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Force auto rotation に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleForceAutoRotateCommand {
@@ -14908,18 +14827,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Force auto rotation に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleForceAutoRotateCommand_MenuText {
+        public static string ToggleForceAutoRotateCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleForceAutoRotateCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("ToggleForceAutoRotateCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Automatic rotation is applied regardless of the aspect ratio of the image. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleForceAutoRotateCommand_Note {
+        public static string ToggleForceAutoRotateCommand_Remarks {
             get {
-                return ResourceManager.GetString("ToggleForceAutoRotateCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleForceAutoRotateCommand.Remarks", resourceCulture);
             }
         }
         
@@ -14953,18 +14872,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Full screen に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleFullScreenCommand_MenuText {
+        public static string ToggleFullScreenCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleFullScreenCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Switch the full screen state. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleFullScreenCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleFullScreenCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleFullScreenCommand.Menu", resourceCulture);
             }
         }
         
@@ -14987,6 +14897,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Switch the full screen state. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleFullScreenCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleFullScreenCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Grid に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleGridCommand {
@@ -14998,18 +14917,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Grid に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleGridCommand_MenuText {
+        public static string ToggleGridCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleGridCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle visible / hide of grid. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleGridCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleGridCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleGridCommand.Menu", resourceCulture);
             }
         }
         
@@ -15032,6 +14942,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Toggle visible / hide of grid. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleGridCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleGridCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle auto hide menu に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleHideMenuCommand {
@@ -15043,18 +14962,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Auto hide menu に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleHideMenuCommand_MenuText {
+        public static string ToggleHideMenuCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleHideMenuCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Hide the menu. It is displayed by moving the cursor to the upper end of the window. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleHideMenuCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleHideMenuCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleHideMenuCommand.Menu", resourceCulture);
             }
         }
         
@@ -15077,6 +14987,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Hide the menu. It is displayed by moving the cursor to the upper end of the window. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleHideMenuCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleHideMenuCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle auto hide slider に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleHidePageSliderCommand {
@@ -15088,18 +15007,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Auto hide slider に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleHidePageSliderCommand_MenuText {
+        public static string ToggleHidePageSliderCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleHidePageSliderCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Hide the slider. It is displayed by moving the cursor to the lower end of the window. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleHidePageSliderCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleHidePageSliderCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleHidePageSliderCommand.Menu", resourceCulture);
             }
         }
         
@@ -15122,6 +15032,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Hide the slider. It is displayed by moving the cursor to the lower end of the window. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleHidePageSliderCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleHidePageSliderCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle auto hide panels に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleHidePanelCommand {
@@ -15133,18 +15052,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Auto hide panels に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleHidePanelCommand_MenuText {
+        public static string ToggleHidePanelCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleHidePanelCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Automatically hide the left and right panels. It is displayed by moving the cursor to the left and right edges of the window. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleHidePanelCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleHidePanelCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleHidePanelCommand.Menu", resourceCulture);
             }
         }
         
@@ -15167,6 +15077,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Automatically hide the left and right panels. It is displayed by moving the cursor to the left and right edges of the window. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleHidePanelCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleHidePanelCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle auto hide filmstrip に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleHideThumbnailListCommand {
@@ -15178,18 +15097,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Auto hide filmstrip に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleHideThumbnailListCommand_MenuText {
+        public static string ToggleHideThumbnailListCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleHideThumbnailListCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Display the film strip only when using the slider. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleHideThumbnailListCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleHideThumbnailListCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleHideThumbnailListCommand.Menu", resourceCulture);
             }
         }
         
@@ -15208,6 +15118,15 @@ namespace NeeView.Properties {
         public static string ToggleHideThumbnailListCommand_On {
             get {
                 return ResourceManager.GetString("ToggleHideThumbnailListCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display the film strip only when using the slider. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleHideThumbnailListCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleHideThumbnailListCommand.Remarks", resourceCulture);
             }
         }
         
@@ -15232,18 +15151,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Auto left rotate に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleIsAutoRotateLeftCommand_MenuText {
+        public static string ToggleIsAutoRotateLeftCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleIsAutoRotateLeftCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   When displaying the page, left rotate the portrait image 90 degrees. If the window is portrait, rotate horizontally long image by 90 degrees. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleIsAutoRotateLeftCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleIsAutoRotateLeftCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleIsAutoRotateLeftCommand.Menu", resourceCulture);
             }
         }
         
@@ -15266,6 +15176,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   When displaying the page, left rotate the portrait image 90 degrees. If the window is portrait, rotate horizontally long image by 90 degrees. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsAutoRotateLeftCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleIsAutoRotateLeftCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle auto rithg rotation に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleIsAutoRotateRightCommand {
@@ -15277,18 +15196,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Auto right rotate に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleIsAutoRotateRightCommand_MenuText {
+        public static string ToggleIsAutoRotateRightCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleIsAutoRotateRightCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   When displaying the page, right rotate the portrait image 90 degrees. If the window is portrait, rotate horizontally long image by 90 degrees. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleIsAutoRotateRightCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleIsAutoRotateRightCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleIsAutoRotateRightCommand.Menu", resourceCulture);
             }
         }
         
@@ -15311,6 +15221,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   When displaying the page, right rotate the portrait image 90 degrees. If the window is portrait, rotate horizontally long image by 90 degrees. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsAutoRotateRightCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleIsAutoRotateRightCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle loupe に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleIsLoupeCommand {
@@ -15322,18 +15241,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Loupe に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleIsLoupeCommand_MenuText {
+        public static string ToggleIsLoupeCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleIsLoupeCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Turn the loupe on or off. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleIsLoupeCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleIsLoupeCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleIsLoupeCommand.Menu", resourceCulture);
             }
         }
         
@@ -15356,20 +15266,20 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Turn the loupe on or off. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsLoupeCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleIsLoupeCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Load subfolders に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleIsRecursiveFolderCommand {
             get {
                 return ResourceManager.GetString("ToggleIsRecursiveFolderCommand", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   When loading images from folders, subfolders or compressed files are also loaded at the same time. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleIsRecursiveFolderCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleIsRecursiveFolderCommand.Note", resourceCulture);
             }
         }
         
@@ -15392,20 +15302,20 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   When loading images from folders, subfolders or compressed files are also loaded at the same time. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsRecursiveFolderCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleIsRecursiveFolderCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Split wide page に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleIsSupportedDividePageCommand {
             get {
                 return ResourceManager.GetString("ToggleIsSupportedDividePageCommand", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   When one page is displayed, divide the landscape page into pages. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleIsSupportedDividePageCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleIsSupportedDividePageCommand.Note", resourceCulture);
             }
         }
         
@@ -15428,20 +15338,20 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   When one page is displayed, divide the landscape page into pages. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsSupportedDividePageCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleIsSupportedDividePageCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   First page alone に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleIsSupportedSingleFirstPageCommand {
             get {
                 return ResourceManager.GetString("ToggleIsSupportedSingleFirstPageCommand", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Even on 2 page display, the first page is displayed as 1 page. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleIsSupportedSingleFirstPageCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleIsSupportedSingleFirstPageCommand.Note", resourceCulture);
             }
         }
         
@@ -15464,20 +15374,20 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Even on 2 page display, the first page is displayed as 1 page. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsSupportedSingleFirstPageCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleIsSupportedSingleFirstPageCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Last page alone に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleIsSupportedSingleLastPageCommand {
             get {
                 return ResourceManager.GetString("ToggleIsSupportedSingleLastPageCommand", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Even on 2 page display, the last page is displayed on 1 page. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleIsSupportedSingleLastPageCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleIsSupportedSingleLastPageCommand.Note", resourceCulture);
             }
         }
         
@@ -15500,20 +15410,20 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Even on 2 page display, the last page is displayed on 1 page. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsSupportedSingleLastPageCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleIsSupportedSingleLastPageCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Wide is two page に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleIsSupportedWidePageCommand {
             get {
                 return ResourceManager.GetString("ToggleIsSupportedWidePageCommand", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   When two pages are displayed, the horizontally long image is regarded as two pages and is displayed independently. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleIsSupportedWidePageCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleIsSupportedWidePageCommand.Note", resourceCulture);
             }
         }
         
@@ -15536,6 +15446,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   When two pages are displayed, the horizontally long image is regarded as two pages and is displayed independently. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleIsSupportedWidePageCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleIsSupportedWidePageCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle MainView window に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleMainViewFloatingCommand {
@@ -15547,18 +15466,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   MainView window に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleMainViewFloatingCommand_MenuText {
+        public static string ToggleMainViewFloatingCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleMainViewFloatingCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("ToggleMainViewFloatingCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Make the MainView a window. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleMainViewFloatingCommand_Note {
+        public static string ToggleMainViewFloatingCommand_Remarks {
             get {
-                return ResourceManager.GetString("ToggleMainViewFloatingCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleMainViewFloatingCommand.Remarks", resourceCulture);
             }
         }
         
@@ -15592,9 +15511,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Toggle between playing and stopping the movie. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleMediaPlayCommand_Note {
+        public static string ToggleMediaPlayCommand_Remarks {
             get {
-                return ResourceManager.GetString("ToggleMediaPlayCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleMediaPlayCommand.Remarks", resourceCulture);
             }
         }
         
@@ -15610,18 +15529,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Keep dot に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleNearestNeighborCommand_MenuText {
+        public static string ToggleNearestNeighborCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleNearestNeighborCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   When set to ON, it will expand while maintaining the dot. When it is OFF, scale conversion processing (Fant) is executed. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleNearestNeighborCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleNearestNeighborCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleNearestNeighborCommand.Menu", resourceCulture);
             }
         }
         
@@ -15640,6 +15550,15 @@ namespace NeeView.Properties {
         public static string ToggleNearestNeighborCommand_On {
             get {
                 return ResourceManager.GetString("ToggleNearestNeighborCommand_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   When set to ON, it will expand while maintaining the dot. When it is OFF, scale conversion processing (Fant) is executed. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleNearestNeighborCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleNearestNeighborCommand.Remarks", resourceCulture);
             }
         }
         
@@ -15664,18 +15583,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Page list placement に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string TogglePageListPlacementCommand_MenuText {
+        public static string TogglePageListPlacementCommand_Menu {
             get {
-                return ResourceManager.GetString("TogglePageListPlacementCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("TogglePageListPlacementCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Switch placement of page list between bookshelf and side panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string TogglePageListPlacementCommand_Note {
+        public static string TogglePageListPlacementCommand_Remarks {
             get {
-                return ResourceManager.GetString("TogglePageListPlacementCommand.Note", resourceCulture);
+                return ResourceManager.GetString("TogglePageListPlacementCommand.Remarks", resourceCulture);
             }
         }
         
@@ -15700,18 +15619,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Pagemark に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string TogglePagemarkCommand_MenuText {
+        public static string TogglePagemarkCommand_Menu {
             get {
-                return ResourceManager.GetString("TogglePagemarkCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggles registration / cancellation of page mark of currently open page. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string TogglePagemarkCommand_Note {
-            get {
-                return ResourceManager.GetString("TogglePagemarkCommand.Note", resourceCulture);
+                return ResourceManager.GetString("TogglePagemarkCommand.Menu", resourceCulture);
             }
         }
         
@@ -15734,6 +15644,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Toggles registration / cancellation of page mark of currently open page. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TogglePagemarkCommand_Remarks {
+            get {
+                return ResourceManager.GetString("TogglePagemarkCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle page mode に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string TogglePageModeCommand {
@@ -15745,9 +15664,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Switch between 1 page display and 2 page display. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string TogglePageModeCommand_Note {
+        public static string TogglePageModeCommand_Remarks {
             get {
-                return ResourceManager.GetString("TogglePageModeCommand.Note", resourceCulture);
+                return ResourceManager.GetString("TogglePageModeCommand.Remarks", resourceCulture);
             }
         }
         
@@ -15763,18 +15682,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   File operation に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string TogglePermitFileCommand_MenuText {
+        public static string TogglePermitFileCommand_Menu {
             get {
-                return ResourceManager.GetString("TogglePermitFileCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle enable / disable of file operation command. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string TogglePermitFileCommand_Note {
-            get {
-                return ResourceManager.GetString("TogglePermitFileCommand.Note", resourceCulture);
+                return ResourceManager.GetString("TogglePermitFileCommand.Menu", resourceCulture);
             }
         }
         
@@ -15797,6 +15707,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Toggle enable / disable of file operation command. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TogglePermitFileCommand_Remarks {
+            get {
+                return ResourceManager.GetString("TogglePermitFileCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle resize filter に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleResizeFilterCommand {
@@ -15808,18 +15727,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Resize filter に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleResizeFilterCommand_MenuText {
+        public static string ToggleResizeFilterCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleResizeFilterCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle resize filter on / off. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleResizeFilterCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleResizeFilterCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleResizeFilterCommand.Menu", resourceCulture);
             }
         }
         
@@ -15842,6 +15752,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Toggle resize filter on / off. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleResizeFilterCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleResizeFilterCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle slideshow に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleSlideShowCommand {
@@ -15853,18 +15772,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Slideshow に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleSlideShowCommand_MenuText {
+        public static string ToggleSlideShowCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleSlideShowCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle play / stop of the slideshow. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleSlideShowCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleSlideShowCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleSlideShowCommand.Menu", resourceCulture);
             }
         }
         
@@ -15887,6 +15797,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Toggle play / stop of the slideshow. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleSlideShowCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleSlideShowCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Switch pages order に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleSortModeCommand {
@@ -15898,9 +15817,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Switch the order of the pages in order. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleSortModeCommand_Note {
+        public static string ToggleSortModeCommand_Remarks {
             get {
-                return ResourceManager.GetString("ToggleSortModeCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleSortModeCommand.Remarks", resourceCulture);
             }
         }
         
@@ -15916,9 +15835,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Allow scale down on stretch. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleStretchAllowScaleDownCommand_Note {
+        public static string ToggleStretchAllowScaleDownCommand_Remarks {
             get {
-                return ResourceManager.GetString("ToggleStretchAllowScaleDownCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleStretchAllowScaleDownCommand.Remarks", resourceCulture);
             }
         }
         
@@ -15934,9 +15853,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Allow scale up on stretch. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleStretchAllowScaleUpCommand_Note {
+        public static string ToggleStretchAllowScaleUpCommand_Remarks {
             get {
-                return ResourceManager.GetString("ToggleStretchAllowScaleUpCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleStretchAllowScaleUpCommand.Remarks", resourceCulture);
             }
         }
         
@@ -15952,9 +15871,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Switch the stretch in order. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleStretchModeCommand_Note {
+        public static string ToggleStretchModeCommand_Remarks {
             get {
-                return ResourceManager.GetString("ToggleStretchModeCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleStretchModeCommand.Remarks", resourceCulture);
             }
         }
         
@@ -15972,7 +15891,7 @@ namespace NeeView.Properties {
         /// </summary>
         public static string ToggleStretchModeCommandParameter_IsEnableNone_Title {
             get {
-                return ResourceManager.GetString("ToggleStretchModeCommandParameter.IsEnableNone#Title", resourceCulture);
+                return ResourceManager.GetString("ToggleStretchModeCommandParameter.IsEnableNone.Title", resourceCulture);
             }
         }
         
@@ -16035,7 +15954,7 @@ namespace NeeView.Properties {
         /// </summary>
         public static string ToggleStretchModeCommandParameter_IsLoop_Title {
             get {
-                return ResourceManager.GetString("ToggleStretchModeCommandParameter.IsLoop#Title", resourceCulture);
+                return ResourceManager.GetString("ToggleStretchModeCommandParameter.IsLoop.Title", resourceCulture);
             }
         }
         
@@ -16051,9 +15970,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Switch the stretch in order (reverse). に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleStretchModeReverseCommand_Note {
+        public static string ToggleStretchModeReverseCommand_Remarks {
             get {
-                return ResourceManager.GetString("ToggleStretchModeReverseCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleStretchModeReverseCommand.Remarks", resourceCulture);
             }
         }
         
@@ -16069,18 +15988,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Topmost に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleTopmostCommand_MenuText {
+        public static string ToggleTopmostCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleTopmostCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Always display the window in front. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleTopmostCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleTopmostCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleTopmostCommand.Menu", resourceCulture);
             }
         }
         
@@ -16103,6 +16013,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Always display the window in front. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleTopmostCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleTopmostCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle flip horizontal に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleViewFlipHorizontalCommand {
@@ -16114,9 +16033,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Flip the image left and right. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleViewFlipHorizontalCommand_Note {
+        public static string ToggleViewFlipHorizontalCommand_Remarks {
             get {
-                return ResourceManager.GetString("ToggleViewFlipHorizontalCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleViewFlipHorizontalCommand.Remarks", resourceCulture);
             }
         }
         
@@ -16132,9 +16051,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Flip the image upside down. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleViewFlipVerticalCommand_Note {
+        public static string ToggleViewFlipVerticalCommand_Remarks {
             get {
-                return ResourceManager.GetString("ToggleViewFlipVerticalCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleViewFlipVerticalCommand.Remarks", resourceCulture);
             }
         }
         
@@ -16150,18 +16069,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Address bar に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleVisibleAddressBarCommand_MenuText {
+        public static string ToggleVisibleAddressBarCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleVisibleAddressBarCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle vidible / hide of the address bar. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleVisibleAddressBarCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleVisibleAddressBarCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleVisibleAddressBarCommand.Menu", resourceCulture);
             }
         }
         
@@ -16184,6 +16094,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Toggle vidible / hide of the address bar. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleAddressBarCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleVisibleAddressBarCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle bookmark list に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisibleBookmarkListCommand {
@@ -16195,18 +16114,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Bookmark list に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleVisibleBookmarkListCommand_MenuText {
+        public static string ToggleVisibleBookmarkListCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleVisibleBookmarkListCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle vidible / hide of the bookmark list panel. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleVisibleBookmarkListCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleVisibleBookmarkListCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleVisibleBookmarkListCommand.Menu", resourceCulture);
             }
         }
         
@@ -16229,6 +16139,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Toggle vidible / hide of the bookmark list panel. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleBookmarkListCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleVisibleBookmarkListCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle bookshelf に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisibleBookshelfCommand {
@@ -16240,18 +16159,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Bookshelf に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleVisibleBookshelfCommand_MenuText {
+        public static string ToggleVisibleBookshelfCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleVisibleBookshelfCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle visible / hide of the bookshelf panel. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleVisibleBookshelfCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleVisibleBookshelfCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleVisibleBookshelfCommand.Menu", resourceCulture);
             }
         }
         
@@ -16274,6 +16184,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Toggle visible / hide of the bookshelf panel. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleBookshelfCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleVisibleBookshelfCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle effect panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisibleEffectInfoCommand {
@@ -16285,18 +16204,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Effect panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleVisibleEffectInfoCommand_MenuText {
+        public static string ToggleVisibleEffectInfoCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleVisibleEffectInfoCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle visible / hide of the effect panel. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleVisibleEffectInfoCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleVisibleEffectInfoCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleVisibleEffectInfoCommand.Menu", resourceCulture);
             }
         }
         
@@ -16319,6 +16229,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Toggle visible / hide of the effect panel. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleEffectInfoCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleVisibleEffectInfoCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle information に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisibleFileInfoCommand {
@@ -16330,18 +16249,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Information に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleVisibleFileInfoCommand_MenuText {
+        public static string ToggleVisibleFileInfoCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleVisibleFileInfoCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle visible / hide of the information panel. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleVisibleFileInfoCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleVisibleFileInfoCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleVisibleFileInfoCommand.Menu", resourceCulture);
             }
         }
         
@@ -16364,6 +16274,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Toggle visible / hide of the information panel. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleFileInfoCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleVisibleFileInfoCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle Folders tree に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisibleFoldersTreeCommand {
@@ -16375,18 +16294,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Folders tree に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleVisibleFoldersTreeCommand_MenuText {
+        public static string ToggleVisibleFoldersTreeCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleVisibleFoldersTreeCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle visible / hide of the Folders tree. The bookshelf is displayed. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleVisibleFoldersTreeCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleVisibleFoldersTreeCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleVisibleFoldersTreeCommand.Menu", resourceCulture);
             }
         }
         
@@ -16409,6 +16319,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Toggle visible / hide of the Folders tree. The bookshelf is displayed. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleFoldersTreeCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleVisibleFoldersTreeCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle history list に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisibleHistoryListCommand {
@@ -16420,18 +16339,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   History list に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleVisibleHistoryListCommand_MenuText {
+        public static string ToggleVisibleHistoryListCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleVisibleHistoryListCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle vidible / hide of the history list panel. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleVisibleHistoryListCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleVisibleHistoryListCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleVisibleHistoryListCommand.Menu", resourceCulture);
             }
         }
         
@@ -16454,6 +16364,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Toggle vidible / hide of the history list panel. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleHistoryListCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleVisibleHistoryListCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle navigator に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisibleNavigatorCommand {
@@ -16465,18 +16384,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Navigator に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleVisibleNavigatorCommand_MenuText {
+        public static string ToggleVisibleNavigatorCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleVisibleNavigatorCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle visible / hide of the navigator に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleVisibleNavigatorCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleVisibleNavigatorCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleVisibleNavigatorCommand.Menu", resourceCulture);
             }
         }
         
@@ -16499,6 +16409,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Toggle visible / hide of the navigator に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleNavigatorCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleVisibleNavigatorCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle page list に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisiblePageListCommand {
@@ -16510,18 +16429,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Page list に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleVisiblePageListCommand_MenuText {
+        public static string ToggleVisiblePageListCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleVisiblePageListCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle visible / hide of the page list. The bookshelf is displayed. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleVisiblePageListCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleVisiblePageListCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleVisiblePageListCommand.Menu", resourceCulture);
             }
         }
         
@@ -16544,6 +16454,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Toggle visible / hide of the page list. The bookshelf is displayed. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisiblePageListCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleVisiblePageListCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle pagemark list に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisiblePagemarkListCommand {
@@ -16555,18 +16474,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Pagemark list に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleVisiblePagemarkListCommand_MenuText {
+        public static string ToggleVisiblePagemarkListCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleVisiblePagemarkListCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle vidible / hide of the pagemark list panel. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleVisiblePagemarkListCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleVisiblePagemarkListCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleVisiblePagemarkListCommand.Menu", resourceCulture);
             }
         }
         
@@ -16589,6 +16499,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Toggle vidible / hide of the pagemark list panel. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisiblePagemarkListCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleVisiblePagemarkListCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle side bar に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisibleSideBarCommand {
@@ -16600,18 +16519,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Side bar に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleVisibleSideBarCommand_MenuText {
+        public static string ToggleVisibleSideBarCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleVisibleSideBarCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle visible / hide of sidebar. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleVisibleSideBarCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleVisibleSideBarCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleVisibleSideBarCommand.Menu", resourceCulture);
             }
         }
         
@@ -16634,6 +16544,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Toggle visible / hide of sidebar. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleSideBarCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleVisibleSideBarCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle filmstrip に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisibleThumbnailListCommand {
@@ -16645,18 +16564,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Filmstrip に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleVisibleThumbnailListCommand_MenuText {
+        public static string ToggleVisibleThumbnailListCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleVisibleThumbnailListCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle visible / hide of the filmstrip. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleVisibleThumbnailListCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleVisibleThumbnailListCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleVisibleThumbnailListCommand.Menu", resourceCulture);
             }
         }
         
@@ -16679,6 +16589,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Toggle visible / hide of the filmstrip. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleThumbnailListCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleVisibleThumbnailListCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle title bar に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisibleTitleBarCommand {
@@ -16690,18 +16609,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Title bar に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleVisibleTitleBarCommand_MenuText {
+        public static string ToggleVisibleTitleBarCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleVisibleTitleBarCommand.MenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle visible / hide of window title bar. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleVisibleTitleBarCommand_Note {
-            get {
-                return ResourceManager.GetString("ToggleVisibleTitleBarCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleVisibleTitleBarCommand.Menu", resourceCulture);
             }
         }
         
@@ -16724,6 +16634,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Toggle visible / hide of window title bar. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisibleTitleBarCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleVisibleTitleBarCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Maximize window に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleWindowMaximizeCommand {
@@ -16735,18 +16654,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Maximize に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleWindowMaximizeCommand_MenuText {
+        public static string ToggleWindowMaximizeCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleWindowMaximizeCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("ToggleWindowMaximizeCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Maximize the window. If it has already been maximized, restore it to its original size. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleWindowMaximizeCommand_Note {
+        public static string ToggleWindowMaximizeCommand_Remarks {
             get {
-                return ResourceManager.GetString("ToggleWindowMaximizeCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleWindowMaximizeCommand.Remarks", resourceCulture);
             }
         }
         
@@ -16762,18 +16681,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Minimize に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleWindowMinimizeCommand_MenuText {
+        public static string ToggleWindowMinimizeCommand_Menu {
             get {
-                return ResourceManager.GetString("ToggleWindowMinimizeCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("ToggleWindowMinimizeCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Minimize the window. If it has already been minimized, restore it to its original size. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ToggleWindowMinimizeCommand_Note {
+        public static string ToggleWindowMinimizeCommand_Remarks {
             get {
-                return ResourceManager.GetString("ToggleWindowMinimizeCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ToggleWindowMinimizeCommand.Remarks", resourceCulture);
             }
         }
         
@@ -16843,9 +16762,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Dragging is judged to start for the first time by moving this distance. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string TouchConfig_GestureMinimumDistance_Tips {
+        public static string TouchConfig_GestureMinimumDistance_Remarks {
             get {
-                return ResourceManager.GetString("TouchConfig.GestureMinimumDistance#Tips", resourceCulture);
+                return ResourceManager.GetString("TouchConfig.GestureMinimumDistance.Remarks", resourceCulture);
             }
         }
         
@@ -16897,9 +16816,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   This is the minimum operating distance at which rotation and enlargement / reduction by touch operation are effective. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string TouchConfig_MinimumManipulationDistance_Tips {
+        public static string TouchConfig_MinimumManipulationDistance_Remarks {
             get {
-                return ResourceManager.GetString("TouchConfig.MinimumManipulationDistance#Tips", resourceCulture);
+                return ResourceManager.GetString("TouchConfig.MinimumManipulationDistance.Remarks", resourceCulture);
             }
         }
         
@@ -16915,9 +16834,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   It is the distance between the minimum of 2 touches judged as rotation by touch operation, enlargement / reduction. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string TouchConfig_MinimumManipulationRadius_Tips {
+        public static string TouchConfig_MinimumManipulationRadius_Remarks {
             get {
-                return ResourceManager.GetString("TouchConfig.MinimumManipulationRadius#Tips", resourceCulture);
+                return ResourceManager.GetString("TouchConfig.MinimumManipulationRadius.Remarks", resourceCulture);
             }
         }
         
@@ -16933,9 +16852,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Execute the touch command at the mouse cursor position. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string TouchEmulateCommand_Note {
+        public static string TouchEmulateCommand_Remarks {
             get {
-                return ResourceManager.GetString("TouchEmulateCommand.Note", resourceCulture);
+                return ResourceManager.GetString("TouchEmulateCommand.Remarks", resourceCulture);
             }
         }
         
@@ -16951,18 +16870,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   _Close に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string UnloadCommand_MenuText {
+        public static string UnloadCommand_Menu {
             get {
-                return ResourceManager.GetString("UnloadCommand.MenuText", resourceCulture);
+                return ResourceManager.GetString("UnloadCommand.Menu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Close the open workbook. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string UnloadCommand_Note {
+        public static string UnloadCommand_Remarks {
             get {
-                return ResourceManager.GetString("UnloadCommand.Note", resourceCulture);
+                return ResourceManager.GetString("UnloadCommand.Remarks", resourceCulture);
             }
         }
         
@@ -17009,6 +16928,96 @@ namespace NeeView.Properties {
         public static string Ver320Note {
             get {
                 return ResourceManager.GetString("Ver320Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Checking the latest version ... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string VersionChecker_Message_Checking {
+            get {
+                return ResourceManager.GetString("VersionChecker.Message.Checking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Update check failed に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string VersionChecker_Message_Failed {
+            get {
+                return ResourceManager.GetString("VersionChecker.Message.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   NeeView is the latest version に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string VersionChecker_Message_Lastest {
+            get {
+                return ResourceManager.GetString("VersionChecker.Message.Lastest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   A new version has been released に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string VersionChecker_Message_New {
+            get {
+                return ResourceManager.GetString("VersionChecker.Message.New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   NeeView is an unknown version に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string VersionChecker_Message_Unknown {
+            get {
+                return ResourceManager.GetString("VersionChecker.Message.Unknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The format of the update page is different from what is supposed に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string VersionChecker_Message_WrongFormat {
+            get {
+                return ResourceManager.GetString("VersionChecker.Message.WrongFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Go to download page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string VersionWindow_Download {
+            get {
+                return ResourceManager.GetString("VersionWindow.Download", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   License Info / Change Log に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string VersionWindow_License {
+            get {
+                return ResourceManager.GetString("VersionWindow_License", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _Copy version info に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string VersionWindow_Menu_Copy {
+            get {
+                return ResourceManager.GetString("VersionWindow.Menu.Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Project Page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string VersionWindow_Project {
+            get {
+                return ResourceManager.GetString("VersionWindow_Project", resourceCulture);
             }
         }
         
@@ -17087,9 +17096,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   After applying the stretch, apply this scale value. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ViewConfig_BaseScale_Tips {
+        public static string ViewConfig_BaseScale_Remarks {
             get {
-                return ResourceManager.GetString("ViewConfig.BaseScale#Tips", resourceCulture);
+                return ResourceManager.GetString("ViewConfig.BaseScale.Remarks", resourceCulture);
             }
         }
         
@@ -17114,9 +17123,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Enable base scale. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ViewConfig_IsBaseScaleEnabled_Tips {
+        public static string ViewConfig_IsBaseScaleEnabled_Remarks {
             get {
-                return ResourceManager.GetString("ViewConfig.IsBaseScaleEnabled#Tips", resourceCulture);
+                return ResourceManager.GetString("ViewConfig.IsBaseScaleEnabled.Remarks", resourceCulture);
             }
         }
         
@@ -17132,9 +17141,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   This setting does not work when automatic rotation is enabled. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ViewConfig_IsKeepAngle_Tips {
+        public static string ViewConfig_IsKeepAngle_Remarks {
             get {
-                return ResourceManager.GetString("ViewConfig.IsKeepAngle#Tips", resourceCulture);
+                return ResourceManager.GetString("ViewConfig.IsKeepAngle.Remarks", resourceCulture);
             }
         }
         
@@ -17186,9 +17195,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   When set to OFF, it becomes the upper right reference and the upper left reference depending on the spreading direction. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ViewConfig_IsViewStartPositionCenter_Tips {
+        public static string ViewConfig_IsViewStartPositionCenter_Remarks {
             get {
-                return ResourceManager.GetString("ViewConfig.IsViewStartPositionCenter#Tips", resourceCulture);
+                return ResourceManager.GetString("ViewConfig.IsViewStartPositionCenter.Remarks", resourceCulture);
             }
         }
         
@@ -17231,9 +17240,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Cancel flip. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ViewFlipHorizontalOffCommand_Note {
+        public static string ViewFlipHorizontalOffCommand_Remarks {
             get {
-                return ResourceManager.GetString("ViewFlipHorizontalOffCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ViewFlipHorizontalOffCommand.Remarks", resourceCulture);
             }
         }
         
@@ -17249,9 +17258,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Flip the image left and right. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ViewFlipHorizontalOnCommand_Note {
+        public static string ViewFlipHorizontalOnCommand_Remarks {
             get {
-                return ResourceManager.GetString("ViewFlipHorizontalOnCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ViewFlipHorizontalOnCommand.Remarks", resourceCulture);
             }
         }
         
@@ -17267,9 +17276,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Cancel flip. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ViewFlipVerticalOffCommand_Note {
+        public static string ViewFlipVerticalOffCommand_Remarks {
             get {
-                return ResourceManager.GetString("ViewFlipVerticalOffCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ViewFlipVerticalOffCommand.Remarks", resourceCulture);
             }
         }
         
@@ -17285,9 +17294,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Turn it upside down. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ViewFlipVerticalOnCommand_Note {
+        public static string ViewFlipVerticalOnCommand_Remarks {
             get {
-                return ResourceManager.GetString("ViewFlipVerticalOnCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ViewFlipVerticalOnCommand.Remarks", resourceCulture);
             }
         }
         
@@ -17306,7 +17315,7 @@ namespace NeeView.Properties {
         /// </summary>
         public static string ViewPageAccessor_Example {
             get {
-                return ResourceManager.GetString("ViewPageAccessor#Example", resourceCulture);
+                return ResourceManager.GetString("ViewPageAccessor.Example", resourceCulture);
             }
         }
         
@@ -17340,9 +17349,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Initialize rotation, scaling, movement, and inversion by manipulating the view. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ViewResetCommand_Note {
+        public static string ViewResetCommand_Remarks {
             get {
-                return ResourceManager.GetString("ViewResetCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ViewResetCommand.Remarks", resourceCulture);
             }
         }
         
@@ -17358,9 +17367,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   It is an angle which rotates by one operation. (0-180) に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ViewRotateCommandParameter_Angle_Tips {
+        public static string ViewRotateCommandParameter_Angle_Remarks {
             get {
-                return ResourceManager.GetString("ViewRotateCommandParameter.Angle#Tips", resourceCulture);
+                return ResourceManager.GetString("ViewRotateCommandParameter.Angle.Remarks", resourceCulture);
             }
         }
         
@@ -17376,9 +17385,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Re-apply image stretch after rotation. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ViewRotateCommandParameter_IsStretch_Tips {
+        public static string ViewRotateCommandParameter_IsStretch_Remarks {
             get {
-                return ResourceManager.GetString("ViewRotateCommandParameter.IsStretch#Tips", resourceCulture);
+                return ResourceManager.GetString("ViewRotateCommandParameter.IsStretch.Remarks", resourceCulture);
             }
         }
         
@@ -17394,9 +17403,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Rotates the image to the left. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ViewRotateLeftCommand_Note {
+        public static string ViewRotateLeftCommand_Remarks {
             get {
-                return ResourceManager.GetString("ViewRotateLeftCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ViewRotateLeftCommand.Remarks", resourceCulture);
             }
         }
         
@@ -17412,9 +17421,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Rotate the image to the right. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ViewRotateRightCommand_Note {
+        public static string ViewRotateRightCommand_Remarks {
             get {
-                return ResourceManager.GetString("ViewRotateRightCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ViewRotateRightCommand.Remarks", resourceCulture);
             }
         }
         
@@ -17430,9 +17439,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Make sure to zoom in and out by 100%. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ViewScaleCommandParameter_IsSnapDefaultScale_Tips {
+        public static string ViewScaleCommandParameter_IsSnapDefaultScale_Remarks {
             get {
-                return ResourceManager.GetString("ViewScaleCommandParameter.IsSnapDefaultScale#Tips", resourceCulture);
+                return ResourceManager.GetString("ViewScaleCommandParameter.IsSnapDefaultScale.Remarks", resourceCulture);
             }
         }
         
@@ -17448,9 +17457,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   It is the rate of change by one operation. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ViewScaleCommandParameter_Scale_Tips {
+        public static string ViewScaleCommandParameter_Scale_Remarks {
             get {
-                return ResourceManager.GetString("ViewScaleCommandParameter.Scale#Tips", resourceCulture);
+                return ResourceManager.GetString("ViewScaleCommandParameter.Scale.Remarks", resourceCulture);
             }
         }
         
@@ -17466,9 +17475,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Reduce the image. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ViewScaleDownCommand_Note {
+        public static string ViewScaleDownCommand_Remarks {
             get {
-                return ResourceManager.GetString("ViewScaleDownCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ViewScaleDownCommand.Remarks", resourceCulture);
             }
         }
         
@@ -17484,9 +17493,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Enlarge the image. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ViewScaleUpCommand_Note {
+        public static string ViewScaleUpCommand_Remarks {
             get {
-                return ResourceManager.GetString("ViewScaleUpCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ViewScaleUpCommand.Remarks", resourceCulture);
             }
         }
         
@@ -17502,9 +17511,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   If you can not scroll in the axial direction, sucrose in the direction perpendicular to the axis. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ViewScrollCommandParameter_AllowCrossScroll_Tips {
+        public static string ViewScrollCommandParameter_AllowCrossScroll_Remarks {
             get {
-                return ResourceManager.GetString("ViewScrollCommandParameter.AllowCrossScroll#Tips", resourceCulture);
+                return ResourceManager.GetString("ViewScrollCommandParameter.AllowCrossScroll.Remarks", resourceCulture);
             }
         }
         
@@ -17520,9 +17529,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   The ratio of the screen to scroll in one operation. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ViewScrollCommandParameter_Scroll_Tips {
+        public static string ViewScrollCommandParameter_Scroll_Remarks {
             get {
-                return ResourceManager.GetString("ViewScrollCommandParameter.Scroll#Tips", resourceCulture);
+                return ResourceManager.GetString("ViewScrollCommandParameter.Scroll.Remarks", resourceCulture);
             }
         }
         
@@ -17547,9 +17556,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Roll the image downwards. When it is not possible to scroll vertically, side scrolling will occur. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ViewScrollDownCommand_Note {
+        public static string ViewScrollDownCommand_Remarks {
             get {
-                return ResourceManager.GetString("ViewScrollDownCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ViewScrollDownCommand.Remarks", resourceCulture);
             }
         }
         
@@ -17565,9 +17574,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Roll the image to the left. If horizontal scrolling is not possible, vertical scrolling will occur. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ViewScrollLeftCommand_Note {
+        public static string ViewScrollLeftCommand_Remarks {
             get {
-                return ResourceManager.GetString("ViewScrollLeftCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ViewScrollLeftCommand.Remarks", resourceCulture);
             }
         }
         
@@ -17583,9 +17592,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Scroll only if you can scroll above this pixel width. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ViewScrollNTypeCommandParameter_Margin_Tips {
+        public static string ViewScrollNTypeCommandParameter_Margin_Remarks {
             get {
-                return ResourceManager.GetString("ViewScrollNTypeCommandParameter.Margin#Tips", resourceCulture);
+                return ResourceManager.GetString("ViewScrollNTypeCommandParameter.Margin.Remarks", resourceCulture);
             }
         }
         
@@ -17601,9 +17610,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   The ratio to the screen to scroll in one operation. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ViewScrollNTypeCommandParameter_Scroll_Tips {
+        public static string ViewScrollNTypeCommandParameter_Scroll_Remarks {
             get {
-                return ResourceManager.GetString("ViewScrollNTypeCommandParameter.Scroll#Tips", resourceCulture);
+                return ResourceManager.GetString("ViewScrollNTypeCommandParameter.Scroll.Remarks", resourceCulture);
             }
         }
         
@@ -17628,9 +17637,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   If you can scroll vertically and horizontally, scroll to draw N characters. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ViewScrollNTypeDownCommand_Note {
+        public static string ViewScrollNTypeDownCommand_Remarks {
             get {
-                return ResourceManager.GetString("ViewScrollNTypeDownCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ViewScrollNTypeDownCommand.Remarks", resourceCulture);
             }
         }
         
@@ -17646,9 +17655,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   If you can scroll vertically and horizontally, scroll to draw N characters. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ViewScrollNTypeUpCommand_Note {
+        public static string ViewScrollNTypeUpCommand_Remarks {
             get {
-                return ResourceManager.GetString("ViewScrollNTypeUpCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ViewScrollNTypeUpCommand.Remarks", resourceCulture);
             }
         }
         
@@ -17664,9 +17673,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Roll the image to the right. If horizontal scrolling is not possible, vertical scrolling will occur. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ViewScrollRightCommand_Note {
+        public static string ViewScrollRightCommand_Remarks {
             get {
-                return ResourceManager.GetString("ViewScrollRightCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ViewScrollRightCommand.Remarks", resourceCulture);
             }
         }
         
@@ -17682,9 +17691,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Roll the image upwards. When it is not possible to scroll vertically, side scrolling will occur. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ViewScrollUpCommand_Note {
+        public static string ViewScrollUpCommand_Remarks {
             get {
-                return ResourceManager.GetString("ViewScrollUpCommand.Note", resourceCulture);
+                return ResourceManager.GetString("ViewScrollUpCommand.Remarks", resourceCulture);
             }
         }
         
@@ -17754,9 +17763,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Enable the title bar operation (double click and drag) on ​​the menu at full screen. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string WindowConfig_IsCaptionEmulateInFullScreen_Tips {
+        public static string WindowConfig_IsCaptionEmulateInFullScreen_Remarks {
             get {
-                return ResourceManager.GetString("WindowConfig.IsCaptionEmulateInFullScreen#Tips", resourceCulture);
+                return ResourceManager.GetString("WindowConfig.IsCaptionEmulateInFullScreen.Remarks", resourceCulture);
             }
         }
         
@@ -17799,9 +17808,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   If there is a gap in maximizing the window with the title bar hidden, adjust with this value. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string WindowConfig_MaximizeWindowGapWidth_Tips {
+        public static string WindowConfig_MaximizeWindowGapWidth_Remarks {
             get {
-                return ResourceManager.GetString("WindowConfig.MaximizeWindowGapWidth#Tips", resourceCulture);
+                return ResourceManager.GetString("WindowConfig.MaximizeWindowGapWidth.Remarks", resourceCulture);
             }
         }
         
@@ -18886,6 +18895,69 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Select copy destination folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string x_BookshelfCopyToFolderSelect {
+            get {
+                return ResourceManager.GetString("x.BookshelfCopyToFolderSelect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Copied {0} items に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string x_BookshelfCopyToFolderSuccess {
+            get {
+                return ResourceManager.GetString("x.BookshelfCopyToFolderSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _Select folder... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string x_BookshelfItemMenuDestinationFolderSelect {
+            get {
+                return ResourceManager.GetString("x.BookshelfItemMenuDestinationFolderSelect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Select move destination folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string x_BookshelfMoveToFolderSelect {
+            get {
+                return ResourceManager.GetString("x.BookshelfMoveToFolderSelect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Moved {0} items に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string x_BookshelfMoveToFolderSuccess {
+            get {
+                return ResourceManager.GetString("x.BookshelfMoveToFolderSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Bookshelf に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string x_BookshelfName {
+            get {
+                return ResourceManager.GetString("x.BookshelfName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Change Log に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string x_ControlAboutChangeLog {
+            get {
+                return ResourceManager.GetString("x.ControlAboutChangeLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Use ZIP compressed file expansion with standard function に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ZipArchiveConfig_IsEnabled {
@@ -18906,9 +18978,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Only ZIP format is supported. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ZipArchiveConfig_SupportFileTypes_Tips {
+        public static string ZipArchiveConfig_SupportFileTypes_Remarks {
             get {
-                return ResourceManager.GetString("ZipArchiveConfig.SupportFileTypes#Tips", resourceCulture);
+                return ResourceManager.GetString("ZipArchiveConfig.SupportFileTypes.Remarks", resourceCulture);
             }
         }
     }

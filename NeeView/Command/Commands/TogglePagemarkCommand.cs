@@ -28,7 +28,7 @@ namespace NeeView
             return BookOperation.Current.CanPagemark();
         }
 
-        [MethodArgument("@CommandToggleArgument")]
+        [MethodArgument("@ToggleCommand.Execute.Remarks")]
         public override void Execute(object sender, CommandContext e)
         {
             if (e.Args.Length > 0)

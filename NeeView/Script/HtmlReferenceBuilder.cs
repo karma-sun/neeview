@@ -149,7 +149,7 @@ namespace NeeView
 
             if (isRemarks)
             {
-                var remarks = GetHtmlDocument(name, "#Remarks", false);
+                var remarks = GetHtmlDocument(name, ".Remarks", false);
                 if (remarks != null)
                 {
                     builder.Append($"<p>").Append(remarks).Append("</p>").AppendLine();
@@ -230,7 +230,7 @@ namespace NeeView
             {
                 builder.Append($"<h4>{ResourceService.GetString("@Word.Returns")}</h4>").AppendLine();
                 var typeString = TypeToString(method.ReturnType);
-                var summary = GetHtmlDocument(name, "#Returns");
+                var summary = GetHtmlDocument(name, ".Returns");
                 AppendDictionary(new Dictionary<string, string> { [typeString] = summary }, "table-none");
             }
 
@@ -244,7 +244,7 @@ namespace NeeView
         /// </summary>
         private HtmlReferenceBuilder AppendExamples(IEnumerable<string> names)
         {
-            var examples = names.Select(e => GetDocument(e, "#Example", false)?.Trim()).Where(e => !string.IsNullOrEmpty(e));
+            var examples = names.Select(e => GetDocument(e, ".Example", false)?.Trim()).Where(e => !string.IsNullOrEmpty(e));
             if (examples.Any())
             {
                 builder.Append($"<h4>{ResourceService.GetString("@Word.Example")}</h4>").AppendLine();

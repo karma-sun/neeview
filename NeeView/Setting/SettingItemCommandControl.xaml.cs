@@ -74,7 +74,7 @@ namespace NeeView.Setting
             public bool HasParameter { get; set; }
             public string ParameterShareCommandName { get; set; }
             public bool IsShareParameter => !string.IsNullOrEmpty(ParameterShareCommandName);
-            public string ShareTips => ParameterShareCommandName != null ? string.Format(Properties.Resources.ControlCommandListShare, CommandTable.Current.GetElement(ParameterShareCommandName).Text) : null;
+            public string ShareTips => ParameterShareCommandName != null ? string.Format(Properties.Resources.CommandListItem_Message_ShareParameter, CommandTable.Current.GetElement(ParameterShareCommandName).Text) : null;
         }
 
         private int _commandTableChangeCount;

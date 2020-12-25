@@ -51,8 +51,8 @@ namespace NeeView
 
         private StringBuilder AppendScriptReference(StringBuilder builder)
         {
-            builder.Append($"<h1 class=\"sub\">{ResourceService.GetString("@ScriptReference#Name")}</h1>");
-            builder.Append($"<p>{ResourceService.GetString("@ScriptReference")}</p>").AppendLine();
+            builder.Append($"<h1 class=\"sub\">{ResourceService.GetString("@ScriptReference")}</h1>");
+            builder.Append($"<p>{ResourceService.GetString("@ScriptReference.Summary")}</p>").AppendLine();
 
             var htmlBuilder = new HtmlReferenceBuilder(builder);
 
@@ -185,7 +185,7 @@ namespace NeeView
                     }
                 }
 
-                builder.Append($"<tr><td>{command.Group}</td><td>{command.Text}</td><td><b>{command.Name}</b></td><td>{argument}</td><td>{properties}</td><td>{command.Note}</td></tr>");
+                builder.Append($"<tr><td>{command.Group}</td><td>{command.Text}</td><td><b>{command.Name}</b></td><td>{argument}</td><td>{properties}</td><td>{command.Remarks}</td></tr>");
             }
             builder.Append("</table>");
 

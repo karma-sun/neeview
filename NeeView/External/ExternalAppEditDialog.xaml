@@ -35,13 +35,13 @@
                 <TextBox VerticalAlignment="Center" Text="{Binding Name}" />
             </DockPanel>
 
-            <DockPanel Margin="10" ToolTip="{x:Static properties:Resources.OpenExternalAppCommandParameter_Command_Tips}">
+            <DockPanel Margin="10" ToolTip="{x:Static properties:Resources.OpenExternalAppCommandParameter_Command_Remarks}">
                 <TextBlock Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.OpenExternalAppCommandParameter_Command}" />
                 <nvc:FileNameBox VerticalAlignment="Center" Text="{Binding Command, Mode=TwoWay}" FileDialogType="OpenFile" 
                         Filter="EXE|*.exe|All|*.*" />
             </DockPanel>
 
-            <DockPanel Margin="10" ToolTip="{x:Static properties:Resources.OpenExternalAppCommandParameter_Parameter_Tips}">
+            <DockPanel Margin="10" ToolTip="{x:Static properties:Resources.OpenExternalAppCommandParameter_Parameter_Remarks}">
                 <TextBlock Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.OpenExternalAppCommandParameter_Parameter}"/>
                 <TextBox VerticalAlignment="Center" Text="{Binding Model.Parameter}" />
             </DockPanel>

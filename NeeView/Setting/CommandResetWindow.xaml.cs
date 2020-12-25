@@ -72,9 +72,9 @@ namespace NeeView.Setting
         /// </summary>
         public Dictionary<InputSceme, string> InputScemeList { get; } = new Dictionary<InputSceme, string>
         {
-            [InputSceme.TypeA] = Properties.Resources.ControlCommandResetTypeA,
-            [InputSceme.TypeB] = Properties.Resources.ControlCommandResetTypeB,
-            [InputSceme.TypeC] = Properties.Resources.ControlCommandResetTypeC
+            [InputSceme.TypeA] = Properties.Resources.InputSceme_TypeA,
+            [InputSceme.TypeB] = Properties.Resources.InputSceme_TypeB,
+            [InputSceme.TypeC] = Properties.Resources.InputSceme_TypeC
         };
 
         /// <summary>
@@ -82,9 +82,9 @@ namespace NeeView.Setting
         /// </summary>
         public Dictionary<InputSceme, string> InputScemeNoteList { get; } = new Dictionary<InputSceme, string>
         {
-            [InputSceme.TypeA] = ResourceService.Replace(Properties.Resources.ControlCommandResetTypeANote),
-            [InputSceme.TypeB] = ResourceService.Replace(Properties.Resources.ControlCommandResetTypeBNote),
-            [InputSceme.TypeC] = ResourceService.Replace(Properties.Resources.ControlCommandResetTypeCNote),
+            [InputSceme.TypeA] = ResourceService.Replace(Properties.Resources.InputSceme_TypeA_Remarks),
+            [InputSceme.TypeB] = ResourceService.Replace(Properties.Resources.InputSceme_TypeB_Remarks),
+            [InputSceme.TypeC] = ResourceService.Replace(Properties.Resources.InputSceme_TypeC_Remarks),
         };
 
         /// <summary>

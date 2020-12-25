@@ -281,7 +281,7 @@ namespace NeeView
             }
             catch (Exception ex)
             {
-                ToastService.Current.Show(new Toast(ex.Message, Properties.Resources.BookshelfCopyToFolderFailed, ToastIcon.Error));
+                ToastService.Current.Show(new Toast(ex.Message, Properties.Resources.Bookshelf_CopyToFolderFailed, ToastIcon.Error));
             }
         }
 
@@ -323,7 +323,7 @@ namespace NeeView
             }
             catch (Exception ex)
             {
-                ToastService.Current.Show(new Toast(ex.Message, Properties.Resources.BookshelfMoveToFolderFailed, ToastIcon.Error));
+                ToastService.Current.Show(new Toast(ex.Message, Properties.Resources.PageList_Message_MoveToFolderFailed, ToastIcon.Error));
             }
         }
 
@@ -587,11 +587,11 @@ namespace NeeView
 
             contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagelistItemMenuOpen, Command = OpenCommand });
             contextMenu.Items.Add(new Separator());
-            contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuExplorer, Command = OpenExplorerCommand });
+            contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PageListItem_Menu_Explorer, Command = OpenExplorerCommand });
             contextMenu.Items.Add(ExternalAppCollectionUtility.CreateExternalAppItem(OpenExternalApp_CanExecute(), OpenExternalAppCommand, OpenExternalAppDialogCommand));
             contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PageListItemMenuCopy, Command = CopyCommand });
-            contextMenu.Items.Add(DestinationFolderCollectionUtility.CreateDestinationFolderItem(Properties.Resources.BookshelfItemMenuCopyToFolder, CopyToFolder_CanExecute(), CopyToFolderCommand, OpenDestinationFolderCommand));
-            contextMenu.Items.Add(DestinationFolderCollectionUtility.CreateDestinationFolderItem(Properties.Resources.BookshelfItemMenuMoveToFolder, MoveToFolder_CanExecute(), MoveToFolderCommand, OpenDestinationFolderCommand));
+            contextMenu.Items.Add(DestinationFolderCollectionUtility.CreateDestinationFolderItem(Properties.Resources.PageListItem_Menu_CopyToFolder, CopyToFolder_CanExecute(), CopyToFolderCommand, OpenDestinationFolderCommand));
+            contextMenu.Items.Add(DestinationFolderCollectionUtility.CreateDestinationFolderItem(Properties.Resources.PageListItem_Menu_MoveToFolder, MoveToFolder_CanExecute(), MoveToFolderCommand, OpenDestinationFolderCommand));
             contextMenu.Items.Add(new Separator());
             contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PageListItemMenuDelete, Command = RemoveCommand });
         }

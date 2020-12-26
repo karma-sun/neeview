@@ -108,9 +108,9 @@
                 <Setter Property="ContextMenu">
                     <Setter.Value>
                         <ContextMenu>
-                            <MenuItem Header="{x:Static properties:Resources.HistoryItemMenuOpenBook}" Command="{x:Static local:HistoryListBox.OpenBookCommand}" />
+                            <MenuItem Header="{x:Static properties:Resources.HistoryItem_Menu_OpenBook}" Command="{x:Static local:HistoryListBox.OpenBookCommand}" />
                             <Separator />
-                            <MenuItem Header="{x:Static properties:Resources.HistoryItemMenuDelete}" Command="{x:Static local:HistoryListBox.RemoveCommand}" />
+                            <MenuItem Header="{x:Static properties:Resources.HistoryItem_Menu_Delete}" Command="{x:Static local:HistoryListBox.RemoveCommand}" />
                         </ContextMenu>
                     </Setter.Value>
                 </Setter>

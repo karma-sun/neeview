@@ -161,7 +161,7 @@ namespace NeeView.Setting
             if (Collection == null) return;
 
             var dialog = new AddParameterDialog();
-            dialog.Title = AddDialogTitle ?? Properties.Resources.DialogAddParameterTile;
+            dialog.Title = AddDialogTitle ?? Properties.Resources.AddParameterDialog_Tile;
             dialog.Header = AddDialogHeader;
             dialog.Owner = Window.GetWindow(this);
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;

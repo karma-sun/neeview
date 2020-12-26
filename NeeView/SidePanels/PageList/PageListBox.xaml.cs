@@ -581,19 +581,19 @@ namespace NeeView
 
             if (item.PageType == PageType.Folder)
             {
-                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagelistItemMenuOpenBook, Command = OpenBookCommand });
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagelistItem_Menu_OpenBook, Command = OpenBookCommand });
                 contextMenu.Items.Add(new Separator());
             }
 
-            contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagelistItemMenuOpen, Command = OpenCommand });
+            contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagelistItem_Menu_Open, Command = OpenCommand });
             contextMenu.Items.Add(new Separator());
             contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PageListItem_Menu_Explorer, Command = OpenExplorerCommand });
             contextMenu.Items.Add(ExternalAppCollectionUtility.CreateExternalAppItem(OpenExternalApp_CanExecute(), OpenExternalAppCommand, OpenExternalAppDialogCommand));
-            contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PageListItemMenuCopy, Command = CopyCommand });
+            contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PageListItem_Menu_Copy, Command = CopyCommand });
             contextMenu.Items.Add(DestinationFolderCollectionUtility.CreateDestinationFolderItem(Properties.Resources.PageListItem_Menu_CopyToFolder, CopyToFolder_CanExecute(), CopyToFolderCommand, OpenDestinationFolderCommand));
             contextMenu.Items.Add(DestinationFolderCollectionUtility.CreateDestinationFolderItem(Properties.Resources.PageListItem_Menu_MoveToFolder, MoveToFolder_CanExecute(), MoveToFolderCommand, OpenDestinationFolderCommand));
             contextMenu.Items.Add(new Separator());
-            contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PageListItemMenuDelete, Command = RemoveCommand });
+            contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PageListItem_Menu_Delete, Command = RemoveCommand });
         }
 
 

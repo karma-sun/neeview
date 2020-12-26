@@ -75,7 +75,7 @@ namespace NeeView
             }
             catch (Exception ex)
             {
-                new MessageDialog(ex.Message, Properties.Resources.DialogOpenApplicationErrorTitle).ShowDialog();
+                new MessageDialog(ex.Message, Properties.Resources.OpenApplicationErrorDialog_Title).ShowDialog();
             }
         }
 
@@ -91,7 +91,7 @@ namespace NeeView
             }
             catch (Exception ex)
             {
-                new MessageDialog(ex.Message, Properties.Resources.DialogOpenApplicationErrorTitle).ShowDialog();
+                new MessageDialog(ex.Message, Properties.Resources.OpenApplicationErrorDialog_Title).ShowDialog();
             }
         }
 

@@ -101,7 +101,7 @@ namespace NeeView
             }
             catch (Exception ex)
             {
-                BookHub.Current.RequestUnload(this, true, ex.Message ?? Properties.Resources.NotifyContentFailed);
+                BookHub.Current.RequestUnload(this, true, ex.Message ?? Properties.Resources.Notice_ContentFailed);
                 NeeView.NowLoading.Current.ResetLoading();
             }
         }
@@ -170,7 +170,7 @@ namespace NeeView
             DumpDragData(data);
 
             //  読み込めなかったエラー表示
-            throw new ApplicationException(errorMessage ?? Properties.Resources.NotifyContentFailed);
+            throw new ApplicationException(errorMessage ?? Properties.Resources.Notice_ContentFailed);
         }
 
 
@@ -274,7 +274,7 @@ namespace NeeView
             }
             catch (Exception e)
             {
-                if (!System.IO.Directory.Exists(downloadPath)) throw new DropException(Properties.Resources.NotifyOutputFailed + "\n" + e.Message, e);
+                if (!System.IO.Directory.Exists(downloadPath)) throw new DropException(Properties.Resources.Notice_OutputFailed + "\n" + e.Message, e);
             }
 
             return fileName;
@@ -448,7 +448,7 @@ namespace NeeView
         public override async Task<string> DropAsync(object sender, IDataObject data, string downloadPath, Action<string> nowloading)
         {
             // Webアクセス時はNowLoading表示を行う
-            nowloading(Properties.Resources.NotifyDropContent);
+            nowloading(Properties.Resources.Notice_DropContent);
 
             using (var wc = new System.Net.WebClient())
             {

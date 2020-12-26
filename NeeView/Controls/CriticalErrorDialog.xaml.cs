@@ -28,7 +28,7 @@ namespace NeeView
         {
             this.ErrorLog.Text = errorLog;
             this.ErrorLogLocate.IsXHtml = true;
-            this.ErrorLogLocate.Source = string.Format(Properties.Resources.ExceptionCriticalLogPath, System.Security.SecurityElement.Escape(errorLogPath));
+            this.ErrorLogLocate.Source = string.Format(Properties.Resources.CriticalExceptionDialog_LogPath, System.Security.SecurityElement.Escape(errorLogPath));
 
             this.Loaded += (s, e) => System.Media.SystemSounds.Hand.Play();
         }

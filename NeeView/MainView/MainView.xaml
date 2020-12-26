@@ -64,7 +64,7 @@
         <!-- empty pages message -->
         <Grid Visibility="{Binding ContentCanvas.IsVisibleEmptyPageMessage, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True" IsHitTestVisible="False">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="300">
-                <TextBlock Text="{x:Static  properties:Resources.NotifyCannotDisplay}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{StaticResource InfoTextFontSize}"
+                <TextBlock Text="{x:Static  properties:Resources.Notice_CannotDisplay}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{StaticResource InfoTextFontSize}"
                         FontFamily="Meiryo" Foreground="{Binding ContentCanvasBrush.ForegroundBrush}" />
                 <local:XHtmlTextBlock Source="{Binding ContentCanvas.EmptyPageMessage}" Foreground="{Binding ContentCanvasBrush.ForegroundBrush}" HorizontalAlignment="Center" Margin="0,20,0,0"
                         MinHeight="50" TextWrapping="Wrap" />

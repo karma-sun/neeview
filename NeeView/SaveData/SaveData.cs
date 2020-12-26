@@ -69,10 +69,10 @@ namespace NeeView
                 var extension = Path.GetExtension(filename).ToLower();
                 var filenameV1 = Path.ChangeExtension(filename, ".xml");
 
-                var failedDialog = new LoadFailedDialog(Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
+                var failedDialog = new LoadFailedDialog(Resources.Notice_LoadSettingFailed, Resources.Notice_LoadSettingFailedTitle);
                 if (cancellable)
                 {
-                    failedDialog.CancelCommand = new UICommand(Resources.NotifyLoadSettingFailedButtonQuit) { Alignment = UICommandAlignment.Left };
+                    failedDialog.CancelCommand = new UICommand(Resources.Notice_LoadSettingFailedButtonQuit) { Alignment = UICommandAlignment.Left };
                 }
 
                 if (extension == ".json" && File.Exists(filename))
@@ -130,7 +130,7 @@ namespace NeeView
                 var filename = HistoryFilePath;
                 var extension = Path.GetExtension(filename).ToLower();
                 var filenameV1 = Path.ChangeExtension(filename, ".xml");
-                var failedDialog = new LoadFailedDialog(Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle);
+                var failedDialog = new LoadFailedDialog(Resources.Notice_LoadHistoryFailed, Resources.Notice_LoadHistoryFailedTitle);
 
                 if (extension == ".json" && File.Exists(filename))
                 {
@@ -166,7 +166,7 @@ namespace NeeView
                 var filename = BookmarkFilePath;
                 var extension = Path.GetExtension(filename).ToLower();
                 var filenameV1 = Path.ChangeExtension(filename, ".xml");
-                var failedDialog = new LoadFailedDialog(Resources.NotifyLoadBookmarkFailed, Resources.NotifyLoadBookmarkFailedTitle);
+                var failedDialog = new LoadFailedDialog(Resources.Notice_LoadBookmarkFailed, Resources.Notice_LoadBookmarkFailedTitle);
 
                 if (extension == ".json" && File.Exists(filename))
                 {
@@ -203,7 +203,7 @@ namespace NeeView
                 var filename = PagemarkFilePath;
                 var extension = Path.GetExtension(filename).ToLower();
                 var filenameV1 = Path.ChangeExtension(filename, ".xml");
-                var failedDialog = new LoadFailedDialog(Resources.NotifyLoadPagemarkFailed, Resources.NotifyLoadPagemarkFailedTitle);
+                var failedDialog = new LoadFailedDialog(Resources.Notice_LoadPagemarkFailed, Resources.Notice_LoadPagemarkFailedTitle);
 
                 if (extension == ".json" && File.Exists(filename))
                 {
@@ -385,7 +385,7 @@ namespace NeeView
                         var fileInfo = new FileInfo(HistoryFilePath);
                         if (fileInfo.Exists && fileInfo.LastWriteTime > App.Current.StartTime)
                         {
-                            var failedDialog = new LoadFailedDialog(Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle);
+                            var failedDialog = new LoadFailedDialog(Resources.Notice_LoadHistoryFailed, Resources.Notice_LoadHistoryFailedTitle);
                             var margeMemento = SafetyLoad(BookHistoryCollection.Memento.Load, HistoryFilePath, failedDialog);
                             bookHistoryMemento.Merge(margeMemento);
                         }

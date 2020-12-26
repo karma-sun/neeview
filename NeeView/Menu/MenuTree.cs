@@ -427,7 +427,7 @@ namespace NeeView
                     case MenuElementType.Command:
                         return CommandTable.Current.GetElement(CommandName).Remarks;
                     case MenuElementType.History:
-                        return Properties.Resources.MenuTreeHistory;
+                        return Properties.Resources.MenuTree_History;
                     case MenuElementType.Separator:
                         return "";
                 }
@@ -466,7 +466,7 @@ namespace NeeView
                 MenuElementType = MenuElementType.Group,
                 Children = new ObservableCollection<MenuTree>()
                 {
-                    new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreeFile, Children = new ObservableCollection<MenuTree>()
+                    new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTree_File, Children = new ObservableCollection<MenuTree>()
                     {
                         new MenuTree(MenuElementType.Command) { CommandName = "LoadAs" },
                         new MenuTree(MenuElementType.Command) { CommandName = "Unload" },
@@ -484,7 +484,7 @@ namespace NeeView
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { CommandName = "CloseApplication" },
                     }},
-                    new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreeView, Children = new ObservableCollection<MenuTree>()
+                    new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTree_View, Children = new ObservableCollection<MenuTree>()
                     {
                         new MenuTree(MenuElementType.Command) { CommandName = "ToggleVisibleBookshelf" },
                         new MenuTree(MenuElementType.Command) { CommandName = "ToggleVisiblePageList" },
@@ -512,7 +512,7 @@ namespace NeeView
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { CommandName = "ToggleSlideShow" },
                     }},
-                    new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreeImage, Children = new ObservableCollection<MenuTree>()
+                    new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTree_Image, Children = new ObservableCollection<MenuTree>()
                     {
                         new MenuTree(MenuElementType.Command) { CommandName = "SetStretchModeNone" },
                         new MenuTree(MenuElementType.Command) { CommandName = "SetStretchModeUniform" },
@@ -536,7 +536,7 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { CommandName = "SetBackgroundCheckDark" },
                         new MenuTree(MenuElementType.Command) { CommandName = "SetBackgroundCustom" },
                     }},
-                    new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreeJump, Children = new ObservableCollection<MenuTree>()
+                    new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTree_Jump, Children = new ObservableCollection<MenuTree>()
                     {
                         new MenuTree(MenuElementType.Command) { CommandName = "PrevPage" },
                         new MenuTree(MenuElementType.Command) { CommandName = "NextPage" },
@@ -550,7 +550,7 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { CommandName = "PrevBook" },
                         new MenuTree(MenuElementType.Command) { CommandName = "NextBook" },
                     }},
-                    new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreePage, Children = new ObservableCollection<MenuTree>()
+                    new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTree_Page, Children = new ObservableCollection<MenuTree>()
                     {
                         new MenuTree(MenuElementType.Command) { CommandName = "SetPageModeOne" },
                         new MenuTree(MenuElementType.Command) { CommandName = "SetPageModeTwo" },
@@ -576,7 +576,7 @@ namespace NeeView
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { CommandName = "SetDefaultPageSetting" },
                     }},
-                    new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreeBookmark, Children = new ObservableCollection<MenuTree>()
+                    new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTree_Bookmark, Children = new ObservableCollection<MenuTree>()
                     {
                         new MenuTree(MenuElementType.Command) { CommandName = "ToggleBookmark" },
                         new MenuTree(MenuElementType.Separator),
@@ -586,7 +586,7 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { CommandName = "PrevPagemarkInBook"},
                         new MenuTree(MenuElementType.Command) { CommandName = "NextPagemarkInBook" },
                     }},
-                    new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreeOption, Children = new ObservableCollection<MenuTree>()
+                    new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTree_Option, Children = new ObservableCollection<MenuTree>()
                     {
                         new MenuTree(MenuElementType.Command) { CommandName = "OpenOptionsWindow" },
                         new MenuTree(MenuElementType.Separator),
@@ -599,7 +599,7 @@ namespace NeeView
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { CommandName = "TogglePermitFile"},
                     }},
-                    new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreeHelp, Children = new ObservableCollection<MenuTree>()
+                    new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTree_Help, Children = new ObservableCollection<MenuTree>()
                     {
                         new MenuTree(MenuElementType.Command) { CommandName = "HelpMainMenu" },
                         new MenuTree(MenuElementType.Command) { CommandName = "HelpCommandList" },

@@ -13,7 +13,7 @@ namespace NeeView
 
         public string Caption => Properties.Resources.JumpPageCommand;
 
-        public string Label => string.Format(Properties.Resources.NotifyJumpPageLabel, Min, Max);
+        public string Label => string.Format(Properties.Resources.Notice_JumpPageLabel, Min, Max);
 
         public string GetValue()
         {

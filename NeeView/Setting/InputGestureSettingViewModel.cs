@@ -99,7 +99,7 @@ namespace NeeView.Setting
             if (overlaps.Count > 0)
             {
                 element.Conflicts = overlaps;
-                element.OverlapsText = string.Format(Properties.Resources.NotifyConflict, ResourceService.Join(overlaps.Select(e => CommandTable.Current.GetElement(e).Text)));
+                element.OverlapsText = string.Format(Properties.Resources.Notice_Conflict, ResourceService.Join(overlaps.Select(e => CommandTable.Current.GetElement(e).Text)));
             }
 
             return element;

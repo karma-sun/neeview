@@ -48,7 +48,7 @@ namespace NeeView.Setting
         {
             BookHistoryCollection.Current.Clear();
 
-            var dialog = new MessageDialog("", Properties.Resources.DialogHistoryDeletedTitle);
+            var dialog = new MessageDialog("", Properties.Resources.HistoryDeletedDialog_Title);
             if (element != null)
             {
                 dialog.Owner = Window.GetWindow(element);

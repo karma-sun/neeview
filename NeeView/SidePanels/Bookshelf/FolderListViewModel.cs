@@ -231,7 +231,7 @@ namespace NeeView
                         }
                         catch (Exception ex)
                         {
-                            new MessageDialog(ex.Message, Properties.Resources.DialogExportPlaylistFailedTitle).ShowDialog();
+                            new MessageDialog(ex.Message, Properties.Resources.ExportPlaylistErrorDialog_Title).ShowDialog();
                         }
                     }
                 }
@@ -352,7 +352,7 @@ namespace NeeView
                 case BookmarkFolderCollection bookmarFolderCollection:
                     items.Add(new Separator());
                     items.Add(CreateCommandMenuItem(Properties.Resources.WordNewFolder, NewFolderCommand));
-                    items.Add(CreateCommandMenuItem(Properties.Resources.FolderTreeMenuAddBookmark, AddBookmarkCommand));
+                    items.Add(CreateCommandMenuItem(Properties.Resources.FolderTree_Menu_AddBookmark, AddBookmarkCommand));
                     break;
             }
 

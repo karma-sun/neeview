@@ -34,7 +34,7 @@ namespace NeeView
             dialog.FileName = $"NeeView{Environment.DispVersion}-{DateTime.Now:yyyyMMdd}";
             dialog.DefaultExt = backupDialogDefaultExt;
             dialog.Filter = backupDialogFilder;
-            dialog.Title = Resources.DialogExportTitle;
+            dialog.Title = Resources.ExportDialog_Title;
 
             if (dialog.ShowDialog(MainWindow.Current) == true)
             {
@@ -45,7 +45,7 @@ namespace NeeView
                 }
                 catch (Exception ex)
                 {
-                    new MessageDialog($"{Resources.WordCause}: {ex.Message}", Resources.DialogExportErrorTitle).ShowDialog();
+                    new MessageDialog($"{Resources.WordCause}: {ex.Message}", Resources.ExportErrorDialog_Title).ShowDialog();
                 }
             }
         }
@@ -100,7 +100,7 @@ namespace NeeView
             dialog.AddExtension = true;
             dialog.DefaultExt = backupDialogDefaultExt;
             dialog.Filter = backupDialogFilder;
-            dialog.Title = Resources.DialogImportTitle;
+            dialog.Title = Resources.ImportDialog_Title;
 
             if (dialog.ShowDialog(MainWindow.Current) == true)
             {
@@ -110,7 +110,7 @@ namespace NeeView
                 }
                 catch (Exception ex)
                 {
-                    new MessageDialog($"{Resources.WordCause}: {ex.Message}", Resources.DialogImportErrorTitle).ShowDialog();
+                    new MessageDialog($"{Resources.WordCause}: {ex.Message}", Resources.ImportErrorDialog_Title).ShowDialog();
                 }
             }
         }
@@ -160,7 +160,7 @@ namespace NeeView
                         selector.PagemarkCheckBox.IsChecked = true;
                     }
 
-                    var dialog = new MessageDialog(selector, Resources.DialogImportSelectTitle);
+                    var dialog = new MessageDialog(selector, Resources.ImportSelectDialog_Title);
                     dialog.Commands.Add(new UICommand(Resources.WordImport));
                     dialog.Commands.Add(UICommands.Cancel);
                     var answer = dialog.ShowDialog();

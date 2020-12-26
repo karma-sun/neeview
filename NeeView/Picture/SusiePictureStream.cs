@@ -81,7 +81,7 @@ namespace NeeView
     [Serializable]
     public class SusieIOException : Exception
     {
-        public SusieIOException() : base(Properties.Resources.ExceptionSusieLoadFailed)
+        public SusieIOException() : base(Properties.Resources.SusieLoadFailedException_Message)
         {
         }
 

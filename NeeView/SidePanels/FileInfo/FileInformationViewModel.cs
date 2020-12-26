@@ -272,13 +272,13 @@ namespace NeeView
                 // ファイル更新日時
                 if (info.LastWriteTime != default)
                 {
-                    LastWriteTime = info.LastWriteTime.ToString(NeeView.Properties.Resources.FolderInfoDateFormat);
+                    LastWriteTime = info.LastWriteTime.ToString(NeeView.Properties.Resources.Information_DateFormat);
                 }
 
                 // 撮影日
                 if (exif != null && exif.DateTimeOriginal != default)
                 {
-                    DateTimeOriginal = exif.DateTimeOriginal.ToString(NeeView.Properties.Resources.FolderInfoDateFormat);
+                    DateTimeOriginal = exif.DateTimeOriginal.ToString(NeeView.Properties.Resources.Information_DateFormat);
                 }
 
                 // アーカイバー

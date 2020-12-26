@@ -212,7 +212,7 @@ namespace NeeView.Setting
                         if (overlaps.Count > 0)
                         {
                             if (item.ShortCutNote != null) item.ShortCutNote += "\n";
-                            item.ShortCutNote += string.Format(Properties.Resources.NotifyConflictWith, key, ResourceService.Join(overlaps));
+                            item.ShortCutNote += string.Format(Properties.Resources.Notice_ConflictWith, key, ResourceService.Join(overlaps));
                         }
 
                         var element = new GestureElement();
@@ -254,7 +254,7 @@ namespace NeeView.Setting
                     element.IsConflict = overlaps.Count > 0;
                     if (overlaps.Count > 0)
                     {
-                        element.Note = string.Format(Properties.Resources.NotifyConflict, ResourceService.Join(overlaps));
+                        element.Note = string.Format(Properties.Resources.Notice_Conflict, ResourceService.Join(overlaps));
                     }
 
                     item.MouseGestureElement = element;
@@ -286,7 +286,7 @@ namespace NeeView.Setting
                         if (overlaps.Count > 0)
                         {
                             if (item.TouchGestureNote != null) item.TouchGestureNote += "\n";
-                            item.TouchGestureNote += string.Format(Properties.Resources.NotifyConflictWith, key, ResourceService.Join(overlaps));
+                            item.TouchGestureNote += string.Format(Properties.Resources.Notice_ConflictWith, key, ResourceService.Join(overlaps));
                         }
 
                         var element = new GestureElement();

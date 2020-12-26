@@ -188,10 +188,10 @@ namespace NeeView
             items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleBanner, PanelListItemStyle.Banner));
             items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleThumbnail, PanelListItemStyle.Thumbnail));
             items.Add(new Separator());
-            items.Add(CreateCommandMenuItem(Properties.Resources.FolderTreeMenuDeleteInvalidBookmark, RemoveUnlinkedCommand));
+            items.Add(CreateCommandMenuItem(Properties.Resources.FolderTree_Menu_DeleteInvalidBookmark, RemoveUnlinkedCommand));
             items.Add(new Separator());
             items.Add(CreateCommandMenuItem(Properties.Resources.WordNewFolder, NewFolderCommand));
-            items.Add(CreateCommandMenuItem(Properties.Resources.FolderTreeMenuAddBookmark, AddBookmarkCommand));
+            items.Add(CreateCommandMenuItem(Properties.Resources.FolderTree_Menu_AddBookmark, AddBookmarkCommand));
             items.Add(new Separator());
             items.Add(CreateCheckFlagMenuItem(Properties.Resources.BookmarkList_MoreMenu_SyncBookshelf, new Binding(nameof(BookmarkConfig.IsSyncBookshelfEnabled)) { Source = Config.Current.Bookmark }));
         }

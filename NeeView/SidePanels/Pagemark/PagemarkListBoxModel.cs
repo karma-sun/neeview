@@ -163,7 +163,7 @@ namespace NeeView
                     var count = item.Count(e => e.Value is Pagemark);
                     if (count > 0)
                     {
-                        _toast = new Toast(string.Format(Properties.Resources.DialogPagemarkFolderDelete, count), null, ToastIcon.Information, Properties.Resources.WordRestore, () => PagemarkCollection.Current.Restore(memento));
+                        _toast = new Toast(string.Format(Properties.Resources.PagemarkFolderDelete_Message, count), null, ToastIcon.Information, Properties.Resources.WordRestore, () => PagemarkCollection.Current.Restore(memento));
                         ToastService.Current.Show(_toast);
                     }
                 }
@@ -242,7 +242,7 @@ namespace NeeView
             }
             else
             {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyPagemarkPrevFailed);
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.Notice_PagemarkPrevFailed);
             }
         }
 
@@ -265,7 +265,7 @@ namespace NeeView
             }
             else
             {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyPagemarkNextFailed);
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.Notice_PagemarkNextFailed);
             }
         }
 

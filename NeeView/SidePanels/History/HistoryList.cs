@@ -113,7 +113,7 @@ namespace NeeView
             }
             else
             {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyHistoryTerminal);
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.Notice_HistoryTerminal);
             }
         }
 
@@ -137,7 +137,7 @@ namespace NeeView
             }
             else
             {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyHistoryLastest);
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.Notice_HistoryLastest);
             }
         }
 

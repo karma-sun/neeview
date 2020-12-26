@@ -7,7 +7,7 @@
         xmlns:properties="clr-namespace:NeeView.Properties"
         mc:Ignorable="d"
         Style="{StaticResource ToolWindowStyle}" 
-        Title="{x:Static properties:Resources.ExceptionCriticalTitle}" Height="450" Width="800">
+        Title="{x:Static properties:Resources.CriticalExceptionDialog_Title}" Height="450" Width="800">
     <Window.Resources>
         <DrawingImage x:Key="tic_error">
             <DrawingImage.Drawing>
@@ -33,14 +33,14 @@
         <DockPanel DockPanel.Dock="Bottom" Margin="0,20,0,0" LastChildFill="False">
             <Button x:Name="OkButton" DockPanel.Dock="Right" Style="{StaticResource NVDialogButtonStyle}" Content="OK" Foreground="{StaticResource NVDialogButtonForeground}" Background="{StaticResource NVDialogButtonBackground}" Click="OkButton_Click"/>
             <Button x:Name="CopyButton" Style="{StaticResource NVDialogButtonStyle}" Margin="0" Click="CopyButton_Click">
-                <TextBlock Text="{x:Static properties:Resources.ExceptionCriticalCopy}"  Margin="10,0" /> 
+                <TextBlock Text="{x:Static properties:Resources.CriticalExceptionDialog_Copy}"  Margin="10,0" /> 
             </Button> 
         </DockPanel>
         <DockPanel DockPanel.Dock="Top" Margin="0,0,0,10">
         <Image Source="{StaticResource tic_error}" Width="48"/>
-            <TextBlock x:Name="Caption" Text="{x:Static properties:Resources.ExceptionCritical}" TextWrapping="Wrap" FontSize="24" Margin="10,0" VerticalAlignment="Center"/>
+            <TextBlock x:Name="Caption" Text="{x:Static properties:Resources.CriticalExceptionDialog_Message}" TextWrapping="Wrap" FontSize="24" Margin="10,0" VerticalAlignment="Center"/>
         </DockPanel>
-        <TextBlock x:Name="Message" DockPanel.Dock="Top" Text="{x:Static properties:Resources.ExceptionCriticalMessage}" TextWrapping="Wrap" Margin="0,5"/>
+        <TextBlock x:Name="Message" DockPanel.Dock="Top" Text="{x:Static properties:Resources.CriticalExceptionDialog_Header}" TextWrapping="Wrap" Margin="0,5"/>
         <local:XHtmlTextBlock x:Name="ErrorLogLocate" DockPanel.Dock="Bottom" TextWrapping="Wrap" Margin="0,5"/>
         <TextBox x:Name="ErrorLog" IsReadOnly="True" VerticalScrollBarVisibility="Visible"/>
     </DockPanel>

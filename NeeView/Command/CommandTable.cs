@@ -531,8 +531,8 @@ namespace NeeView
             using (var writer = new System.IO.StreamWriter(fileName, false))
             {
                 writer.WriteLine(HtmlHelpUtility.CraeteHeader("NeeView Command List"));
-                writer.WriteLine($"<body><h1>{Properties.Resources.HelpCommandTitle}</h1>");
-                writer.WriteLine($"<p>{Properties.Resources.HelpCommandMessage}</p>");
+                writer.WriteLine($"<body><h1>{Properties.Resources.HelpCommandList_Title}</h1>");
+                writer.WriteLine($"<p>{Properties.Resources.HelpCommandList_Message}</p>");
                 writer.WriteLine("<table class=\"table-slim table-topless\">");
                 writer.WriteLine($"<tr><th>{Properties.Resources.WordGroup}</th><th>{Properties.Resources.WordCommand}</th><th>{Properties.Resources.WordShortcut}</th><th>{Properties.Resources.WordGesture}</th><th>{Properties.Resources.WordTouch}</th><th>{Properties.Resources.Word_Summary}</th></tr>");
                 foreach (var command in _elements.Values.OrderBy(e => e.Order))

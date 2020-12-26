@@ -461,11 +461,11 @@ namespace NeeView
             }
             catch (SearchKeywordOptionException ex)
             {
-                SearchKeywordErrorMessage = string.Format(Properties.Resources.NotifySearchKeywordOptionError, ex.Option);
+                SearchKeywordErrorMessage = string.Format(Properties.Resources.Notice_SearchKeywordOptionError, ex.Option);
             }
             catch (SearchKeywordDateTimeException)
             {
-                SearchKeywordErrorMessage = Properties.Resources.NotifySearchKeywordDateTimeError;
+                SearchKeywordErrorMessage = Properties.Resources.Notice_SearchKeywordDateTimeError;
             }
             catch (SearchKeywordRegularExpressionException ex)
             {
@@ -772,7 +772,7 @@ namespace NeeView
             if (result != true)
             {
                 SoundPlayerService.Current.PlaySeCannotMove();
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyBookNextFailed);
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.Notice_BookNextFailed);
             }
         }
 
@@ -784,7 +784,7 @@ namespace NeeView
             if (result != true)
             {
                 SoundPlayerService.Current.PlaySeCannotMove();
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyBookPrevFailed);
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.Notice_BookPrevFailed);
             }
         }
 
@@ -1568,7 +1568,7 @@ namespace NeeView
 
             if (count >= 2)
             {
-                var toast = new Toast(string.Format(Properties.Resources.DialogPagemarkFolderDelete, count), null, ToastIcon.Information, Properties.Resources.WordRestore,
+                var toast = new Toast(string.Format(Properties.Resources.PagemarkFolderDelete_Message, count), null, ToastIcon.Information, Properties.Resources.WordRestore,
                     () => { foreach (var memento in mementos) BookmarkCollection.Current.Restore(memento); });
                 ToastService.Current.Show("BookmarkList", toast);
             }
@@ -1627,7 +1627,7 @@ namespace NeeView
                 }
             }
 
-            var removed = await FileIO.Current.RemoveFileAsync(items.Select(e => e.TargetPath.SimplePath).ToList(), Properties.Resources.DialogFileDeleteBookTitle);
+            var removed = await FileIO.Current.RemoveFileAsync(items.Select(e => e.TargetPath.SimplePath).ToList(), Properties.Resources.FileDeleteBookDialog_Title);
             if (removed)
             {
                 var removes = items.Where(e => !FileIO.Exists(e.TargetPath.SimplePath)).ToList();

@@ -321,7 +321,7 @@ namespace NeeView
                 }
                 else
                 {
-                    await FileIO.Current.RemoveFileAsync(Book.SourceAddress, Resources.DialogFileDeleteBookTitle, null);
+                    await FileIO.Current.RemoveFileAsync(Book.SourceAddress, Resources.FileDeleteBookDialog_Title, null);
                 }
             }
         }
@@ -365,7 +365,7 @@ namespace NeeView
                 }
                 catch (Exception ex)
                 {
-                    new MessageDialog(ex.Message, Properties.Resources.DialogOpenApplicationErrorTitle).ShowDialog();
+                    new MessageDialog(ex.Message, Properties.Resources.OpenApplicationErrorDialog_Title).ShowDialog();
                 }
             }
         }
@@ -382,7 +382,7 @@ namespace NeeView
                 }
                 catch (Exception e)
                 {
-                    new MessageDialog($"{Resources.WordCause}: {e.Message}", Resources.DialogCopyErrorTitle).ShowDialog();
+                    new MessageDialog($"{Resources.WordCause}: {e.Message}", Resources.CopyErrorDialog_Title).ShowDialog();
                 }
             }
         }
@@ -416,7 +416,7 @@ namespace NeeView
                 }
                 catch (Exception e)
                 {
-                    new MessageDialog($"{Resources.DialogImageExportError}\n{Resources.WordCause}: {e.Message}", Resources.DialogImageExportErrorTitle).ShowDialog();
+                    new MessageDialog($"{Resources.ImageExportErrorDialog_Message}\n{Resources.WordCause}: {e.Message}", Resources.ImageExportErrorDialog_Title).ShowDialog();
                     return;
                 }
             }
@@ -434,7 +434,7 @@ namespace NeeView
                 }
                 catch (Exception e)
                 {
-                    new MessageDialog($"{Resources.DialogImageExportError}\n{Resources.WordCause}: {e.Message}", Resources.DialogImageExportErrorTitle).ShowDialog();
+                    new MessageDialog($"{Resources.ImageExportErrorDialog_Message}\n{Resources.WordCause}: {e.Message}", Resources.ImageExportErrorDialog_Title).ShowDialog();
                     return;
                 }
             }
@@ -489,7 +489,7 @@ namespace NeeView
             }
             if (Config.Current.Book.IsNotifyPageLoop)
             {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyBookOperationPageLoop);
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.Notice_BookOperationPageLoop);
             }
         }
 
@@ -522,12 +522,12 @@ namespace NeeView
                 if (e.Direction < 0)
                 {
                     SoundPlayerService.Current.PlaySeCannotMove();
-                    InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyFirstPage);
+                    InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.Notice_FirstPage);
                 }
                 else
                 {
                     SoundPlayerService.Current.PlaySeCannotMove();
-                    InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyLastPage);
+                    InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.Notice_LastPage);
                 }
             }
         }
@@ -551,8 +551,8 @@ namespace NeeView
 
         private void PageEndAction_DialogCore(object sender, PageTerminatedEventArgs e)
         {
-            var title = (e.Direction < 0) ? Resources.NotifyFirstPage : Resources.NotifyLastPage;
-            var dialog = new MessageDialog(Resources.DialogPageEnd, title);
+            var title = (e.Direction < 0) ? Resources.Notice_FirstPage : Resources.Notice_LastPage;
+            var dialog = new MessageDialog(Resources.PageEndDialog_Message, title);
             var nextCommand = new UICommand(Properties.Resources.PageEndAction_NextBook);
             var loopCommand = new UICommand(Properties.Resources.PageEndAction_Loop);
             var noneCommand = new UICommand(Properties.Resources.PageEndAction_None);
@@ -735,7 +735,7 @@ namespace NeeView
             else
             {
                 var index = this.Book.Control.PrevFolderPage(sender);
-                ShowMoveFolderPageMessage(index, Properties.Resources.NotifyFirstFolderPage, isShowMessage);
+                ShowMoveFolderPageMessage(index, Properties.Resources.Notice_FirstFolderPage, isShowMessage);
             }
         }
 
@@ -750,7 +750,7 @@ namespace NeeView
             else
             {
                 var index = this.Book.Control.NextFolderPage(sender);
-                ShowMoveFolderPageMessage(index, Properties.Resources.NotifyLastFolderPage, isShowMessage);
+                ShowMoveFolderPageMessage(index, Properties.Resources.Notice_LastFolderPage, isShowMessage);
             }
         }
 
@@ -907,7 +907,7 @@ namespace NeeView
                     // ignore temporary directory
                     if (Book.Address.StartsWith(Temporary.Current.TempDirectory))
                     {
-                        ToastService.Current.Show(new Toast(Resources.DialogBookmarkError, null, ToastIcon.Error));
+                        ToastService.Current.Show(new Toast(Resources.Bookmark_Message_TemporaryNotSupportedError, null, ToastIcon.Error));
                         return;
                     }
 
@@ -1107,7 +1107,7 @@ namespace NeeView
             // ignore temporary directory
             if (place.StartsWith(Temporary.Current.TempDirectory))
             {
-                ToastService.Current.Show(new Toast(Resources.DialogPagemarkError, null, ToastIcon.Error));
+                ToastService.Current.Show(new Toast(Resources.PagemarkError_Message, null, ToastIcon.Error));
                 return null;
             }
 
@@ -1197,7 +1197,7 @@ namespace NeeView
             }
             else
             {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyFirstPagemark);
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.Notice_FirstPagemark);
             }
         }
 
@@ -1213,7 +1213,7 @@ namespace NeeView
             }
             else
             {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyLastPagemark);
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.Notice_LastPagemark);
             }
         }
 

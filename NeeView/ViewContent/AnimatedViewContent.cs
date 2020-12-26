@@ -151,7 +151,7 @@ namespace NeeView
 
         private void Media_MediaFailed(object sender, ExceptionRoutedEventArgs e)
         {
-            _errorMessageTextBlock.Text = e.ErrorException != null ? e.ErrorException.Message : Properties.Resources.NotifyPlayFailed;
+            _errorMessageTextBlock.Text = e.ErrorException != null ? e.ErrorException.Message : Properties.Resources.Notice_PlayFailed;
             _errorMessageTextBlock.Visibility = Visibility.Visible;
         }
 

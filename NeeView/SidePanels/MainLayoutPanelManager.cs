@@ -39,9 +39,9 @@ namespace NeeView
             // NOTE: To be on the safe side, initialize the floating point processor.
             Interop.NVFpReset();
 
-            Resources["Floating"] = Properties.Resources.LayoutPanelMenuFloating;
-            Resources["Docking"] = Properties.Resources.LayoutPanelMenuDocking;
-            Resources["Close"] = Properties.Resources.LayoutPanelMenuClose;
+            Resources["Floating"] = Properties.Resources.LayoutPanel_Menu_Floating;
+            Resources["Docking"] = Properties.Resources.LayoutPanel_Menu_Docking;
+            Resources["Close"] = Properties.Resources.LayoutPanel_Menu_Close;
 
             ContainerDecorator = new LayoutPanelContainerDecorator();
             WindowDecorator = new LayoutWindowDecorator();

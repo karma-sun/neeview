@@ -386,7 +386,7 @@ namespace NeeView
         // 全ユーザデータ削除
         public static void RemoveApplicationData(Window owner)
         {
-            var dialog = new MessageDialog(Resources.DialogDeleteApplicationData, Resources.DialogDeleteApplicationDataTitle);
+            var dialog = new MessageDialog(Resources.DeleteApplicationDataDialog_Message, Resources.DeleteApplicationDataDialog_Title);
             dialog.Commands.Add(UICommands.Delete);
             dialog.Commands.Add(UICommands.Cancel);
             var result = dialog.ShowDialog(owner);
@@ -399,12 +399,12 @@ namespace NeeView
                 try
                 {
                     RemoveApplicationDataCore();
-                    new MessageDialog(Resources.DialogDeleteApplicationDataComplete, Resources.DialogDeleteApplicationDataCompleteTitle).ShowDialog(owner);
+                    new MessageDialog(Resources.DeleteApplicationDataCompleteDialog_Message, Resources.DeleteApplicationDataCompleteDialog_Title).ShowDialog(owner);
                     LocalApplicationDataRemoved?.Invoke(null, null);
                 }
                 catch (Exception ex)
                 {
-                    new MessageDialog(ex.Message, Resources.DialogDeleteApplicationDataErrorTitle).ShowDialog(owner);
+                    new MessageDialog(ex.Message, Resources.DeleteApplicationDataErrorDialog_Title).ShowDialog(owner);
                 }
             }
         }
@@ -415,7 +415,7 @@ namespace NeeView
             // LocalApplicationDataフォルダーを使用している場合のみ
             if (!IsUseLocalApplicationDataFolder)
             {
-                throw new ApplicationException(Properties.Resources.ExceptionCannotDeleteData);
+                throw new ApplicationException(Properties.Resources.CannotDeleteDataException_Message);
             }
 
             Debug.WriteLine("RemoveAllApplicationData ...");

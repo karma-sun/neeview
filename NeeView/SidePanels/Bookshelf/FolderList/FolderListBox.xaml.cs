@@ -58,7 +58,7 @@ namespace NeeView
             if (_vm.FolderCollection is BookmarkFolderCollection)
             {
                 var menu = new ContextMenu();
-                menu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderTreeMenuAddBookmark, Command = AddBookmarkCommand });
+                menu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderTree_Menu_AddBookmark, Command = AddBookmarkCommand });
                 menu.Items.Add(new MenuItem() { Header = Properties.Resources.WordNewFolder, Command = NewFolderCommand });
                 this.ListBox.ContextMenu = menu;
             }

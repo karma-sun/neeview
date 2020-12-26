@@ -43,7 +43,7 @@
                         <MenuItem x:Name="StretchWindowMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.StretchWindowCommand}"
                                 Command="{StaticResource StretchWindowCommand}" />
                         <Separator />
-                        <MenuItem x:Name="IsAutoHideMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.MenuAutoHideTitleBar}" IsCheckable="True"
+                        <MenuItem x:Name="IsAutoHideMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.MainViewWindow_Menu_AutoHideTitleBar}" IsCheckable="True"
                                 IsChecked="{Binding IsAutoHide}" />
                         <MenuItem x:Name="IsTopmostMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.WordTopmost}" IsCheckable="True"
                                 IsChecked="{Binding IsTopmost}" />

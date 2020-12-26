@@ -68,7 +68,7 @@ namespace NeeView
                 // ヘッダチェック
                 if (!CheckSignature(stream))
                 {
-                    throw new FormatException(string.Format(Properties.Resources.ExceptionNotZip, Path));
+                    throw new FormatException(string.Format(Properties.Resources.NotZipException_Message, Path));
                 }
 
                 // エントリー取得
@@ -127,7 +127,7 @@ namespace NeeView
                 ZipArchiveEntry archiveEntry = archiver.Entries[entry.Id];
                 if (archiveEntry.FullName != entry.RawEntryName)
                 {
-                    throw new ApplicationException(Properties.Resources.ExceptionInconsistency);
+                    throw new ApplicationException(Properties.Resources.InconsistencyException_Message);
                 }
 
                 using (var stream = archiveEntry.Open())

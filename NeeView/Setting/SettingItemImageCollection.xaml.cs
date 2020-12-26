@@ -74,7 +74,7 @@ namespace NeeView.Setting
             }
             catch (Exception ex)
             {
-                new MessageDialog(ex.Message, Properties.Resources.DialogHyperLinkFailedTitle).ShowDialog();
+                new MessageDialog(ex.Message, Properties.Resources.HyperLinkErrorDialog_Title).ShowDialog();
             }
         }
     }

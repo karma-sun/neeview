@@ -90,7 +90,7 @@ namespace NeeView.Setting
                     if (overlaps.Count > 0)
                     {
                         if (this.GestureTokenNote != null) this.GestureTokenNote += "\n";
-                        this.GestureTokenNote += string.Format(Properties.Resources.NotifyConflictWith, key, ResourceService.Join(overlaps));
+                        this.GestureTokenNote += string.Format(Properties.Resources.Notice_ConflictWith, key, ResourceService.Join(overlaps));
                     }
 
                     var element = new GestureElement();

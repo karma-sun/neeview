@@ -80,7 +80,7 @@ namespace NeeView
                 var conflict = node.Parent.Children.FirstOrDefault(e => e != node && e.Value is BookmarkFolder && e.Value.Name == newName);
                 if (conflict != null)
                 {
-                    var dialog = new MessageDialog(string.Format(Properties.Resources.DialogMergeFolder, newName), Properties.Resources.DialogMergeFolderTitle);
+                    var dialog = new MessageDialog(string.Format(Properties.Resources.MergeFolderDialog_Message, newName), Properties.Resources.MergeFolderDialog_Title);
                     dialog.Commands.Add(UICommands.Yes);
                     dialog.Commands.Add(UICommands.No);
                     var result = dialog.ShowDialog();

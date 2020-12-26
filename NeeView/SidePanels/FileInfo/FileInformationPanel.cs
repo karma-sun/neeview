@@ -33,7 +33,7 @@ namespace NeeView
 
         public ImageSource Icon { get; private set; }
 
-        public string IconTips => Properties.Resources.FileInfoName;
+        public string IconTips => Properties.Resources.Information_Title;
 
         public FrameworkElement View => _view;
 

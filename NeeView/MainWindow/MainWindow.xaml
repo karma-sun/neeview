@@ -150,7 +150,7 @@
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
                                 
-                                    <ContentControl Grid.Row="1" x:Name="MainViewSocket" />
+                                    <ContentControl Grid.Row="1" x:Name="MainViewSocket" IsTabStop="False" />
 
                                     <Grid x:Name="PageCaption" Grid.Row="{Binding PageCaptionGridRow}" Height="30" VerticalAlignment="Top" HorizontalAlignment="Stretch"
                                             Background="{Binding Model.SliderBackgroundGlass}">

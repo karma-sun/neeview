@@ -63,7 +63,7 @@
             </ContextMenu>
         </Button.ContextMenu>
         <Grid Width="32" Height="32" Background="Transparent">
-            <ContentControl x:Name="ButtonContent" Margin="5" />
+            <ContentControl x:Name="ButtonContent" Margin="5" IsTabStop="False" />
         </Grid>
     </Button>
 </UserControl>

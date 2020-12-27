@@ -53,9 +53,8 @@ namespace NeeView.Windows
             _windowChrome.CaptionHeight = 0;
             _windowChrome.GlassFrameThickness = new Thickness(1);
             _windowChrome.ResizeBorderThickness = new Thickness(8);
-
+            
             _window.StateChanged += Window_StateChanged;
-            _window.SourceInitialized += Window_SourceInitialized;
         }
 
 
@@ -64,6 +63,12 @@ namespace NeeView.Windows
         public WindowChrome WindowChrome => _windowChrome;
 
 
+        /// <summary>
+        /// WindowChromeの有効化
+        /// </summary>
+        /// <remarks>
+        /// WindowHandleが取得できるタイミングで行うこと。
+        /// </remarks>
         public bool IsEnabled
         {
             get { return _isEnabled; }
@@ -116,11 +121,6 @@ namespace NeeView.Windows
             UpdateWindowBorderThickness();
         }
 
-        private void Window_SourceInitialized(object sender, EventArgs e)
-        {
-            AttachWindowChromeExceptionGuard();
-        }
-
         private void Update()
         {
             WindowChrome.SetWindowChrome(_window, IsActive ? _windowChrome : null);
@@ -157,7 +157,7 @@ namespace NeeView.Windows
         private void AttachWindowChromeExceptionGuard()
         {
             HwndSource hwnd = GetHwndSource();
-            if (hwnd == null) return;
+            if (hwnd == null) throw new InvalidOperationException("Cannot get window handle.");
 
             ////Debug.WriteLine($"SetHook {hwnd.Handle}");
             hwnd.RemoveHook(HookProc);
@@ -166,6 +166,8 @@ namespace NeeView.Windows
 
         private IntPtr HookProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
+            ////Debug.WriteLine($"{hwnd.ToInt32():X8}: {msg:X4}");
+
             if (msg == 0x0084 /*WM_NCHITTEST*/ )
             {
                 // This prevents a crash in WindowChromeWorker._HandleNCHitTest

@@ -38,12 +38,13 @@ namespace NeeView.Runtime.LayoutPanel
             this.DpiChanged += (s, e) => _dpiProvider.SetDipScale(e.NewDpi);
 
             _windowChrome = new WindowChromeAccessor(this);
-            _windowChrome.IsEnabled = true;
 
             _windowCaptionEmulator = new LayoutPanelWindowCaptionEmulator(this, this.CaptionBar);
             _windowCaptionEmulator.IsEnabled = true;
 
             DragDropHelper.AttachDragOverTerminator(this);
+
+            this.SourceInitialized += LayoutPanelWindow_SourceInitialized;
         }
 
         public LayoutPanelWindow(LayoutPanelWindowManager manager, LayoutPanel layoutPanel, WindowPlacement placement) : this()
@@ -63,8 +64,6 @@ namespace NeeView.Runtime.LayoutPanel
             {
                 LayoutPanel.WindowPlacement = placement;
             }
-
-            this.SourceInitialized += LayoutPanelWindow_SourceInitialized;
         }
 
 
@@ -108,7 +107,9 @@ namespace NeeView.Runtime.LayoutPanel
 
         private void LayoutPanelWindow_SourceInitialized(object sender, EventArgs e)
         {
-            WindowPlacementTools.RestoreWindowPlacement(this, LayoutPanel.WindowPlacement);
+            _windowChrome.IsEnabled = true;
+
+            WindowPlacementTools.RestoreWindowPlacement(this, LayoutPanel?.WindowPlacement);
         }
 
         public void Snap()

@@ -48,7 +48,7 @@ namespace NeeView.Runtime.LayoutPanel
 
         public LayoutPanelWindow(LayoutPanelWindowManager manager, LayoutPanel layoutPanel, WindowPlacement placement) : this()
         {
-            WindowTools.DisableMinimize(this);
+            WindowTools.DisableStyle(this, WindowTools.WindowStyle.SystemMenu | WindowTools.WindowStyle.MinimizeBox);
             ShowInTaskbar = false;
 
             _layoutPanelWindowManager = manager;

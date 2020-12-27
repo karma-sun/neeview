@@ -438,7 +438,7 @@ namespace NeeView
 
                 case FolderOrder.Path:
                 case FolderOrder.PathDescending:
-                    return SidePanelProfile.Current.GetDecoratePlaceName(LoosePath.GetDirectoryName(TargetPath.SimplePath));
+                    return SidePanelProfile.GetDecoratePlaceName(LoosePath.GetDirectoryName(TargetPath.SimplePath));
             }
         }
     }

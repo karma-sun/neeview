@@ -13,13 +13,9 @@ using System.Windows.Media;
 
 namespace NeeView
 {
-    public class SidePanelProfile : BindableBase
+    public class SidePanelProfile
     {
-        static SidePanelProfile() => Current = new SidePanelProfile();
-        public static SidePanelProfile Current { get; }
-
-
-        private SidePanelProfile()
+        public void Initialize()
         {
             SetFontFamilyResource(Config.Current.Panels.FontName);
             SetFontSizeResource(Config.Current.Panels.FontSize);
@@ -52,7 +48,7 @@ namespace NeeView
             ValidatePanelListItemProfile();
         }
 
-        public string GetDecoratePlaceName(string s)
+        public static string GetDecoratePlaceName(string s)
         {
             if (string.IsNullOrEmpty(s)) return s;
             return Config.Current.Panels.IsDecoratePlace ? LoosePath.GetPlaceName(s) : s;

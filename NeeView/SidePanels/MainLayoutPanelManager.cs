@@ -21,6 +21,7 @@ namespace NeeView
 
         private bool _initialized;
         private bool _isStoreEnabled = true;
+        private SidePanelProfile _sidePanelProfile;
 
 
         public event EventHandler CollectionChanged;
@@ -38,6 +39,9 @@ namespace NeeView
 
             // NOTE: To be on the safe side, initialize the floating point processor.
             Interop.NVFpReset();
+
+            _sidePanelProfile = new SidePanelProfile();
+            _sidePanelProfile.Initialize();
 
             Resources["Floating"] = Properties.Resources.LayoutPanelMenuFloating;
             Resources["Docking"] = Properties.Resources.LayoutPanelMenuDocking;

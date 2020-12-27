@@ -23,7 +23,7 @@
         <CommandBinding x:Name="ClosePanel" Command="{StaticResource ClosePanelCommand}" Executed="ClosePanelCommand_Execute" />
     </UserControl.CommandBindings>
     
-    <Grid Background="#1111" Margin="0">
+    <Grid Background="Transparent" Margin="0">
         <Grid.Resources>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         </Grid.Resources>

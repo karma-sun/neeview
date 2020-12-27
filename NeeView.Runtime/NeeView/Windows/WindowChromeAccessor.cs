@@ -55,6 +55,7 @@ namespace NeeView.Windows
             _windowChrome.ResizeBorderThickness = new Thickness(8);
 
             _window.StateChanged += Window_StateChanged;
+            _window.SourceInitialized += Window_SourceInitialized;
         }
 
 
@@ -115,6 +116,11 @@ namespace NeeView.Windows
             UpdateWindowBorderThickness();
         }
 
+        private void Window_SourceInitialized(object sender, EventArgs e)
+        {
+            AttachWindowChromeExceptionGuard();
+        }
+
         private void Update()
         {
             WindowChrome.SetWindowChrome(_window, IsActive ? _windowChrome : null);
@@ -152,7 +158,8 @@ namespace NeeView.Windows
         {
             HwndSource hwnd = GetHwndSource();
             if (hwnd == null) return;
-            Debug.WriteLine($"SetHook {hwnd.Handle}");
+
+            ////Debug.WriteLine($"SetHook {hwnd.Handle}");
             hwnd.RemoveHook(HookProc);
             hwnd.AddHook(HookProc);
         }

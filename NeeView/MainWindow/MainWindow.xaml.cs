@@ -383,8 +383,6 @@ namespace NeeView
 
             MainViewManager.Current.Update();
 
-            // 一瞬手前に表示してから表示優先度適用
-            this.Topmost = true;
             this.SetBinding(Window.TopmostProperty, new Binding(nameof(WindowShape.IsTopmost)) { Source = _windowShape });
 
             // レイアウト更新

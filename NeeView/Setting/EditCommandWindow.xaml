@@ -26,8 +26,8 @@
 
     <DockPanel Margin="5">
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button x:Name="ButtonOk" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.WordOK}" Click="ButtonOk_Click"/>
-            <Button x:Name="ButtonCancel" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.WordCancel}" Click="ButtonCancel_Click"/>
+            <Button x:Name="ButtonOk" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.Word_OK}" Click="ButtonOk_Click"/>
+            <Button x:Name="ButtonCancel" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.Word_Cancel}" Click="ButtonCancel_Click"/>
         </StackPanel>
         <TabControl x:Name="TabControl" Margin="5" TabIndex="1" KeyboardNavigation.TabNavigation="Local">
             <TabItem x:Name="GeneralTab">

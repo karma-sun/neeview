@@ -13,7 +13,7 @@ namespace NeeView.Setting
     /// </summary>
     class SettingPageCommand : SettingPage
     {
-        public SettingPageCommand() : base(Properties.Resources.SettingPageCommand)
+        public SettingPageCommand() : base(Properties.Resources.SettingPage_Command)
         {
             this.Children = new List<SettingPage>
             {
@@ -24,7 +24,7 @@ namespace NeeView.Setting
 
             this.Items = new List<SettingItem>();
 
-            var section = new SettingItemSection(Properties.Resources.SettingPageCommandGeneralAdvance);
+            var section = new SettingItemSection(Properties.Resources.SettingPage_Command_GeneralAdvance);
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Command, nameof(CommandConfig.IsAccessKeyEnabled))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Command, nameof(CommandConfig.IsReversePageMove))));
             section.Children.Add(new SettingItemSubProperty(PropertyMemberElement.Create(Config.Current.Command, nameof(CommandConfig.IsReversePageMoveWheel)))
@@ -40,11 +40,11 @@ namespace NeeView.Setting
     /// </summary>
     class SettingPageScript : SettingPage
     {
-        public SettingPageScript() : base(Properties.Resources.SettingPageScript)
+        public SettingPageScript() : base(Properties.Resources.SettingPage_Script)
         {
             this.Items = new List<SettingItem>();
 
-            var section = new SettingItemSection(Properties.Resources.SettingPageCommandScipt);
+            var section = new SettingItemSection(Properties.Resources.SettingPage_Script);
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Script, nameof(ScriptConfig.IsScriptFolderEnabled))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Script, nameof(ScriptConfig.ScriptFolder), new PropertyMemberElementOptions() { EmptyValue = Config.Current.Script.GetDefaultScriptFolder() }))
             {
@@ -60,14 +60,14 @@ namespace NeeView.Setting
     /// </summary>
     class SettingPageCommandList : SettingPage
     {
-        public SettingPageCommandList() : base(Properties.Resources.SettingPageCommandMain)
+        public SettingPageCommandList() : base(Properties.Resources.SettingPage_Command_Main)
         {
             var linkCommand = new RelayCommand(() => this.IsSelected = true);
 
             this.IsScrollEnabled = false;
 
-            var section = new SettingItemSection(Properties.Resources.SettingPageCommandMain);
-            section.Children.Add(new SettingItemCommand() { SearchResultItem = new SettingItemLink(Properties.Resources.SettingPageCommandMain, linkCommand) { IsContentOnly = true } });
+            var section = new SettingItemSection(Properties.Resources.SettingPage_Command_Main);
+            section.Children.Add(new SettingItemCommand() { SearchResultItem = new SettingItemLink(Properties.Resources.SettingPage_Command_Main, linkCommand) { IsContentOnly = true } });
             this.Items = new List<SettingItem>() { section };
         }
     }
@@ -77,14 +77,14 @@ namespace NeeView.Setting
     /// </summary>
     class SettingPageContextMenu : SettingPage
     {
-        public SettingPageContextMenu() : base(Properties.Resources.SettingPageContextMenu)
+        public SettingPageContextMenu() : base(Properties.Resources.SettingPage_ContextMenu)
         {
             var linkCommand = new RelayCommand(() => this.IsSelected = true);
 
             this.IsScrollEnabled = false;
 
-            var section = new SettingItemSection(Properties.Resources.SettingPageContextMenuEdit);
-            section.Children.Add(new SettingItemContextMenu() { SearchResultItem = new SettingItemLink(Properties.Resources.SettingPageContextMenuEdit, linkCommand) { IsContentOnly = true } });
+            var section = new SettingItemSection(Properties.Resources.SettingPage_ContextMenu_Edit);
+            section.Children.Add(new SettingItemContextMenu() { SearchResultItem = new SettingItemLink(Properties.Resources.SettingPage_ContextMenu_Edit, linkCommand) { IsContentOnly = true } });
             this.Items = new List<SettingItem>() { section };
         }
     }

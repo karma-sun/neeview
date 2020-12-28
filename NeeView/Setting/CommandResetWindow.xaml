@@ -21,8 +21,8 @@
 
         <DockPanel Margin="5">
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0">
-                <Button x:Name="OkButton" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.WordOK}" Command="{Binding OkCommand}" CommandParameter="{Binding ElementName=MyWindow}"/>
-                <Button x:Name="CancelButton" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.WordCancel}" Command="{Binding CancelCommand}" CommandParameter="{Binding ElementName=MyWindow}"/>
+                <Button x:Name="OkButton" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.Word_OK}" Command="{Binding OkCommand}" CommandParameter="{Binding ElementName=MyWindow}"/>
+                <Button x:Name="CancelButton" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.Word_Cancel}" Command="{Binding CancelCommand}" CommandParameter="{Binding ElementName=MyWindow}"/>
             </StackPanel>
             <DockPanel Margin="0">
                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10">

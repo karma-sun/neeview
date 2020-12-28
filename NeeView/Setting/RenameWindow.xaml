@@ -7,7 +7,7 @@
         xmlns:properties="clr-namespace:NeeView.Properties"
         mc:Ignorable="d"
         Style="{StaticResource ToolDialogStyle}"
-        Title="{x:Static properties:Resources.WordRename}" Height="128" Width="400">
+        Title="{x:Static properties:Resources.Word_Rename}" Height="128" Width="400">
 
     <Window.Resources>
         <Style TargetType="Button">
@@ -20,9 +20,9 @@
     <DockPanel Margin="5" >
 
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">
-            <Button x:Name="CancelButton" Content="{x:Static properties:Resources.WordCancel}" Click="CancelButton_Click" TabIndex="4"/>
-            <Button x:Name="OKButton" Content="{x:Static properties:Resources.WordOK}" Click="OKButton_Click" TabIndex="3"/>
-            <Button x:Name="ResetButton" Content="{x:Static properties:Resources.WordReset}" Click="ResetButton_Click" TabIndex="2"/>
+            <Button x:Name="CancelButton" Content="{x:Static properties:Resources.Word_Cancel}" Click="CancelButton_Click" TabIndex="4"/>
+            <Button x:Name="OKButton" Content="{x:Static properties:Resources.Word_OK}" Click="OKButton_Click" TabIndex="3"/>
+            <Button x:Name="ResetButton" Content="{x:Static properties:Resources.Word_Reset}" Click="ResetButton_Click" TabIndex="2"/>
         </StackPanel>
         <Grid Margin="5">
             <TextBox VerticalAlignment="Center" x:Name="NameTextBox" Text="{Binding Text, Mode=TwoWay}" TabIndex="1"/>

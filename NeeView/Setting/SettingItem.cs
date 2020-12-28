@@ -637,7 +637,7 @@ namespace NeeView.Setting
         public override string GetSearchText()
         {
             return string.Join(" ",
-                Properties.Resources.WordCommand,
+                Properties.Resources.Word_Command,
                 Properties.Resources.EditCommandWindow_Tab_Shortcut,
                 Properties.Resources.EditCommandWindow_Tab_Gesture,
                 Properties.Resources.EditCommandWindow_Tab_Touch,

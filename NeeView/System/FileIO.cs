@@ -349,7 +349,7 @@ namespace NeeView
         private string GetRemoveFilesTypeName(string path)
         {
             bool isDirectory = System.IO.Directory.Exists(path);
-            return isDirectory ? Resources.WordFolder : Resources.WordFile;
+            return isDirectory ? Resources.Word_Folder : Resources.Word_File;
         }
 
         private string GetRemoveFilesTypeName(List<string> paths)
@@ -360,7 +360,7 @@ namespace NeeView
             }
 
             bool isDirectory = paths.All(e => System.IO.Directory.Exists(e));
-            return isDirectory ? Resources.WordFolders : Resources.WordFiles;
+            return isDirectory ? Resources.Word_Folders : Resources.Word_Files;
         }
 
         /// <summary>
@@ -412,7 +412,7 @@ namespace NeeView
             }
             catch (Exception ex)
             {
-                var dialog = new MessageDialog($"{Resources.WordCause}: {ex.Message}", Resources.FileDeleteErrorDialog_Title);
+                var dialog = new MessageDialog($"{Resources.Word_Cause}: {ex.Message}", Resources.FileDeleteErrorDialog_Title);
                 dialog.ShowDialog();
                 return false;
             }
@@ -504,7 +504,7 @@ namespace NeeView
 
                 // 確認
                 var dialog = new MessageDialog(string.Format(Resources.FileRenameConfrictDialog_Message, Path.GetFileName(dstBase), Path.GetFileName(dst)), Resources.FileRenameConfrictDialog_Title);
-                dialog.Commands.Add(new UICommand(Resources.WordRename));
+                dialog.Commands.Add(new UICommand(Resources.Word_Rename));
                 dialog.Commands.Add(UICommands.Cancel);
                 var answer = dialog.ShowDialog();
                 if (answer != dialog.Commands[0])

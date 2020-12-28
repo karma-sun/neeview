@@ -15,9 +15,16 @@ namespace NeeView
     /// </summary>
     public enum PanelListItemStyle
     {
+        [AliasName]
         Normal, // テキストのみ
+
+        [AliasName]
         Content, // コンテンツ
+
+        [AliasName]
         Banner, // バナー
+
+        [AliasName]
         Thumbnail, // サムネイル
     };
 

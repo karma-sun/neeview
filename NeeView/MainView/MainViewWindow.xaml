@@ -45,12 +45,12 @@
                         <Separator />
                         <MenuItem x:Name="IsAutoHideMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.MainViewWindow_Menu_AutoHideTitleBar}" IsCheckable="True"
                                 IsChecked="{Binding IsAutoHide}" />
-                        <MenuItem x:Name="IsTopmostMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.WordTopmost}" IsCheckable="True"
+                        <MenuItem x:Name="IsTopmostMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.Word_Topmost}" IsCheckable="True"
                                 IsChecked="{Binding IsTopmost}" />
-                        <MenuItem x:Name="IsFullScreenMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.WordFullScreen}" IsCheckable="True"
+                        <MenuItem x:Name="IsFullScreenMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.Word_FullScreen}" IsCheckable="True"
                                 IsChecked="{Binding IsFullScreen}" />
                         <Separator />
-                        <MenuItem x:Name="CloseMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.WordClose}"
+                        <MenuItem x:Name="CloseMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.Word_Close}"
                                 Command="{x:Static SystemCommands.CloseWindowCommand}" />
                     </ContextMenu>
                 </DockPanel.ContextMenu>

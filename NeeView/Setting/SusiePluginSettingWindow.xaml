@@ -29,7 +29,7 @@
         <DockPanel>
 
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,5,10,5">
-                <Button x:Name="CloseButton" Content="{x:Static properties:Resources.WordOK}" Click="CloseButton_Click" TabIndex="10"/>
+                <Button x:Name="CloseButton" Content="{x:Static properties:Resources.Word_OK}" Click="CloseButton_Click" TabIndex="10"/>
             </StackPanel>
 
             <DockPanel Margin="10">
@@ -45,20 +45,20 @@
                                 Visibility="{Binding CanOpenConfigDialog, Converter={StaticResource BooleanToVisibilityConverter}}" TabIndex="1">
                             <StackPanel Orientation="Horizontal">
                                 <Image Source="{StaticResource ic_setting_24px}" Width="14" Height="14"/>
-                                <TextBlock Text="{x:Static properties:Resources.WordConfig}" Margin="5,0"/>
+                                <TextBlock Text="{x:Static properties:Resources.Word_Config}" Margin="5,0"/>
                             </StackPanel>
                         </Button>
                     </DockPanel>
                 </DockPanel>
 
                 <StackPanel DockPanel.Dock="Top" Margin="0,15,0,5">
-                    <CheckBox Content="{x:Static properties:Resources.ParamSusiePluginIsEnabled}" IsChecked="{Binding IsEnabled}" FocusVisualStyle="{StaticResource NVBorderFocusVisual}" TabIndex="1"/>
-                    <CheckBox Content="{x:Static properties:Resources.ParamSusiePluginIsCacheEnabled}" IsChecked="{Binding IsCacheEnabled}" FocusVisualStyle="{StaticResource NVBorderFocusVisual}" TabIndex="1"/>
-                    <CheckBox Content="{x:Static properties:Resources.ParamSusiePluginIsPreExtract}" IsChecked="{Binding IsPreExtract}" TabIndex="1"
+                    <CheckBox Content="{x:Static properties:Resources.SusiePluginWindow_IsEnabled}" IsChecked="{Binding IsEnabled}" FocusVisualStyle="{StaticResource NVBorderFocusVisual}" TabIndex="1"/>
+                    <CheckBox Content="{x:Static properties:Resources.SusiePluginWindow_IsCacheEnabled}" IsChecked="{Binding IsCacheEnabled}" FocusVisualStyle="{StaticResource NVBorderFocusVisual}" TabIndex="1"/>
+                    <CheckBox Content="{x:Static properties:Resources.SusiePluginWindow_IsPreExtract}" IsChecked="{Binding IsPreExtract}" TabIndex="1"
                             Visibility="{Binding IsArchiver, Converter={StaticResource BooleanToVisibilityConverter}}" FocusVisualStyle="{StaticResource NVBorderFocusVisual}" />
                 </StackPanel>
 
-                <TextBlock DockPanel.Dock="Top" Text="{x:Static properties:Resources.WordExtension}" FontWeight="Bold" Margin="0,15,0,5"/>
+                <TextBlock DockPanel.Dock="Top" Text="{x:Static properties:Resources.Word_Extension}" FontWeight="Bold" Margin="0,15,0,5"/>
                 <local:SettingItemCollectionControl Collection="{Binding Extensions}" DefaultCollection="{Binding DefaultExtensions}" IsHeightLocked="False" TabIndex="1" KeyboardNavigation.TabNavigation="Local"/>
             </DockPanel>
         </DockPanel>

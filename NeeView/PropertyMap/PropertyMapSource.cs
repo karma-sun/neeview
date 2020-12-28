@@ -58,7 +58,7 @@ namespace NeeView
                 typeString = Converter.GetTypeName(PropertyInfo.PropertyType);
             }
 
-            var readOnly = (PropertyInfo.GetCustomAttribute<PropertyMapReadOnlyAttribute>() != null || !PropertyInfo.CanWrite) ? " (" + ResourceService.GetString("@WordReadOnly") + ")" : "";
+            var readOnly = (PropertyInfo.GetCustomAttribute<PropertyMapReadOnlyAttribute>() != null || !PropertyInfo.CanWrite) ? " (" + ResourceService.GetString("@Word.ReadOnly") + ")" : "";
 
             var attribute = PropertyInfo.GetCustomAttribute<PropertyMemberAttribute>();
             var description = attribute != null

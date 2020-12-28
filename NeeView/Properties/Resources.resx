@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddParameterDialog.Tile" xml:space="preserve">
+    <value>Add item</value>
+  </data>
   <data name="AddressBar.Back.ToolTip" xml:space="preserve">
     <value>Back</value>
   </data>
@@ -131,6 +134,42 @@
   </data>
   <data name="AddressBar.Up.ToolTip" xml:space="preserve">
     <value>Up</value>
+  </data>
+  <data name="AppOption.FolderList" xml:space="preserve">
+    <value>Specify the bookshelf location.</value>
+  </data>
+  <data name="AppOption.IsBlank" xml:space="preserve">
+    <value>Start up without opening the image file</value>
+  </data>
+  <data name="AppOption.IsFullScreen" xml:space="preserve">
+    <value>Specify whether to start with full screen</value>
+  </data>
+  <data name="AppOption.IsHelp" xml:space="preserve">
+    <value>This help is displayed</value>
+  </data>
+  <data name="AppOption.IsNewWindow" xml:space="preserve">
+    <value>Specify whether to start in a new window</value>
+  </data>
+  <data name="AppOption.IsResetPlacement" xml:space="preserve">
+    <value>Initialize window coordinates</value>
+  </data>
+  <data name="AppOption.IsSlideShow" xml:space="preserve">
+    <value>Specify whether to start a slideshow</value>
+  </data>
+  <data name="AppOption.IsVersion" xml:space="preserve">
+    <value>Display version information</value>
+  </data>
+  <data name="AppOption.ScriptFile" xml:space="preserve">
+    <value>Executes the specified script file at startup</value>
+  </data>
+  <data name="AppOption.SettingFilename" xml:space="preserve">
+    <value>Specify the path of the setting file (UserSetting.json)</value>
+  </data>
+  <data name="AppOption.Terminator" xml:space="preserve">
+    <value>Indicates the end of option list. Subsequent arguments are considered file names.</value>
+  </data>
+  <data name="AppOption.WindowState" xml:space="preserve">
+    <value>Start with the specified window state</value>
   </data>
   <data name="ArchiveEntryCollectionMode.CurrentDirectory" xml:space="preserve">
     <value>Expand for each directory</value>
@@ -405,6 +444,12 @@
   <data name="BookConfigAccessor.ViewPageSize" xml:space="preserve">
     <value>Number of pages to display</value>
   </data>
+  <data name="Bookmark.Message.TemporaryNotSupportedError" xml:space="preserve">
+    <value>Temporary folders can not be bookmarked</value>
+  </data>
+  <data name="Bookmark.Title" xml:space="preserve">
+    <value>Bookmark</value>
+  </data>
   <data name="Bookmark.Up.ToolTip" xml:space="preserve">
     <value>Up (Alt+Up)</value>
   </data>
@@ -615,6 +660,9 @@
   <data name="Bookshelf.Sync.ToolTip" xml:space="preserve">
     <value>Move to current book place</value>
   </data>
+  <data name="Bookshelf.Title" xml:space="preserve">
+    <value>Bookshelf</value>
+  </data>
   <data name="Bookshelf.Up.ToolTip" xml:space="preserve">
     <value>Up (Alt+Up)</value>
   </data>
@@ -760,6 +808,12 @@ nv.Bookshelf.SelectedItems = nv.Bookshelf.Items.filter(e =&gt; e.Name.startsWith
   <data name="BookshelfPanelAccessor.Style" xml:space="preserve">
     <value>List item style</value>
   </data>
+  <data name="BootErrorDialog.Title" xml:space="preserve">
+    <value>NeeView Startup error</value>
+  </data>
+  <data name="BootOptionDialog.Title" xml:space="preserve">
+    <value>NeeView Startup options</value>
+  </data>
   <data name="BrushSource.Color" xml:space="preserve">
     <value>Color</value>
   </data>
@@ -784,6 +838,12 @@ nv.Bookshelf.SelectedItems = nv.Bookshelf.Items.filter(e =&gt; e.Name.startsWith
   <data name="BrushType.SolidColor" xml:space="preserve">
     <value>Solid color</value>
   </data>
+  <data name="CacheDeletedDialog.Title" xml:space="preserve">
+    <value>Thumbnail cache deleted</value>
+  </data>
+  <data name="CacheDeletedFailedDialog.Title" xml:space="preserve">
+    <value>Deletion of thumbnail cache failed.</value>
+  </data>
   <data name="CancelFullScreenCommand" xml:space="preserve">
     <value>Full screen OFF</value>
   </data>
@@ -795,6 +855,9 @@ nv.Bookshelf.SelectedItems = nv.Bookshelf.Items.filter(e =&gt; e.Name.startsWith
   </data>
   <data name="CancelScriptCommand.Remarks" xml:space="preserve">
     <value>Stops a running script that has a "sleep" instruction.</value>
+  </data>
+  <data name="CannotDeleteDataException_Message" xml:space="preserve">
+    <value>It is not an AppData folder, so it will not be deleted.</value>
   </data>
   <data name="ClearHistoryCommand" xml:space="preserve">
     <value>Clear history</value>
@@ -1105,6 +1168,9 @@ nv.Values.Test = "Hello!"   </value>
   <data name="CommandListItem.Message.ShareParameter" xml:space="preserve">
     <value>Parameter sharing with "{0}"</value>
   </data>
+  <data name="CommandParameter.Share" xml:space="preserve">
+    <value>Parameters to share with "{0}"</value>
+  </data>
   <data name="CommandParameterControl.Empty" xml:space="preserve">
     <value>There are no parameters</value>
   </data>
@@ -1117,11 +1183,20 @@ nv.Values.Test = "Hello!"   </value>
   <data name="CommandResetWindow.Title" xml:space="preserve">
     <value>Reset command</value>
   </data>
+  <data name="ConfirmRecursiveDialog.Message" xml:space="preserve">
+    <value>There is no file that can be read in "{0}". Do you also load subfolders or compressed files?</value>
+  </data>
+  <data name="ConfirmRecursiveDialog.Title" xml:space="preserve">
+    <value>Do you also read subfolders?</value>
+  </data>
   <data name="ControlConfig.IsSelected" xml:space="preserve">
     <value>Panel selected</value>
   </data>
   <data name="ControlConfig.IsVisible" xml:space="preserve">
     <value>Panel visibility</value>
+  </data>
+  <data name="CopyErrorDialog.Title" xml:space="preserve">
+    <value>Copy failed</value>
   </data>
   <data name="CopyFileCommand" xml:space="preserve">
     <value>Copy file</value>
@@ -1147,6 +1222,24 @@ nv.Values.Test = "Hello!"   </value>
   <data name="CopyImageCommand.Remarks" xml:space="preserve">
     <value>Copy the image to the clipboard. For 2 page display, copy only the main page.</value>
   </data>
+  <data name="CopyImageErrorDialog.Title" xml:space="preserve">
+    <value>Copy failed</value>
+  </data>
+  <data name="CriticalExceptionDialog.Copy" xml:space="preserve">
+    <value>Copy to clipboard</value>
+  </data>
+  <data name="CriticalExceptionDialog.Header" xml:space="preserve">
+    <value>Error details:</value>
+  </data>
+  <data name="CriticalExceptionDialog.LogPath" xml:space="preserve">
+    <value>Details of the error are saved in &lt;a href="{0}"&gt;{0}&lt;/a&gt;</value>
+  </data>
+  <data name="CriticalExceptionDialog.Message" xml:space="preserve">
+    <value>An error occurred. Quit the application.</value>
+  </data>
+  <data name="CriticalExceptionDialog.Title" xml:space="preserve">
+    <value>NeeView - Error</value>
+  </data>
   <data name="CustomBackgroundControl.Color" xml:space="preserve">
     <value>Color</value>
   </data>
@@ -1158,6 +1251,28 @@ nv.Values.Test = "Hello!"   </value>
   </data>
   <data name="CustomBackgroundControl.ImageSelect.Remarks" xml:space="preserve">
     <value>Please select an image file</value>
+  </data>
+  <data name="DeleteApplicationDataCompleteDialog.Message" xml:space="preserve">
+    <value>User data deleted. Quit NeeView.</value>
+  </data>
+  <data name="DeleteApplicationDataCompleteDialog.Title" xml:space="preserve">
+    <value>It has been deleted.</value>
+  </data>
+  <data name="DeleteApplicationDataDialog.Message" xml:space="preserve">
+    <value>Delete user data. Are you sure?
+
+The following data will be deleted
+- Setting file
+- History file
+- Bookmark file
+- Pagemark file
+- Cache file</value>
+  </data>
+  <data name="DeleteApplicationDataDialog.Title" xml:space="preserve">
+    <value>Delete user data.</value>
+  </data>
+  <data name="DeleteApplicationDataErrorDialog.Title" xml:space="preserve">
+    <value>It can not be deleted.</value>
   </data>
   <data name="DeleteBookCommand" xml:space="preserve">
     <value>Delete book</value>
@@ -1177,66 +1292,14 @@ nv.Values.Test = "Hello!"   </value>
   <data name="DeleteFileCommand.Remarks" xml:space="preserve">
     <value>Delete the file. It can not be deleted for compressed files.</value>
   </data>
-  <data name="DestinationFolderEditDialog.Title" xml:space="preserve">
-    <value>Folder parameters</value>
+  <data name="DestinationFolderDialog.Title" xml:space="preserve">
+    <value>Destination folders</value>
   </data>
   <data name="DestinationFolderEditDialog.Path.Remarks" xml:space="preserve">
     <value>folder path</value>
   </data>
-  <data name="DestinationFolderDialog.Title" xml:space="preserve">
-    <value>Destination folders</value>
-  </data>
-  <data name="AddParameterDialog.Tile" xml:space="preserve">
-    <value>Add item</value>
-  </data>
-  <data name="Bookmark.Message.TemporaryNotSupportedError" xml:space="preserve">
-    <value>Temporary folders can not be bookmarked</value>
-  </data>
-  <data name="BootErrorDialog.Title" xml:space="preserve">
-    <value>NeeView Startup error</value>
-  </data>
-  <data name="BootOptionDialog.Title" xml:space="preserve">
-    <value>NeeView Startup options</value>
-  </data>
-  <data name="CacheDeletedFailedDialog.Title" xml:space="preserve">
-    <value>Deletion of thumbnail cache failed.</value>
-  </data>
-  <data name="CacheDeletedDialog.Title" xml:space="preserve">
-    <value>Thumbnail cache deleted</value>
-  </data>
-  <data name="ConfirmRecursiveDialog.Message" xml:space="preserve">
-    <value>There is no file that can be read in "{0}". Do you also load subfolders or compressed files?</value>
-  </data>
-  <data name="ConfirmRecursiveDialog.Title" xml:space="preserve">
-    <value>Do you also read subfolders?</value>
-  </data>
-  <data name="CopyErrorDialog.Title" xml:space="preserve">
-    <value>Copy failed</value>
-  </data>
-  <data name="CopyImageErrorDialog.Title" xml:space="preserve">
-    <value>Copy failed</value>
-  </data>
-  <data name="DeleteApplicationDataDialog.Message" xml:space="preserve">
-    <value>Delete user data. Are you sure?
-
-The following data will be deleted
-- Setting file
-- History file
-- Bookmark file
-- Pagemark file
-- Cache file</value>
-  </data>
-  <data name="DeleteApplicationDataCompleteDialog.Message" xml:space="preserve">
-    <value>User data deleted. Quit NeeView.</value>
-  </data>
-  <data name="DeleteApplicationDataCompleteDialog.Title" xml:space="preserve">
-    <value>It has been deleted.</value>
-  </data>
-  <data name="DeleteApplicationDataErrorDialog.Title" xml:space="preserve">
-    <value>It can not be deleted.</value>
-  </data>
-  <data name="DeleteApplicationDataDialog.Title" xml:space="preserve">
-    <value>Delete user data.</value>
+  <data name="DestinationFolderEditDialog.Title" xml:space="preserve">
+    <value>Folder parameters</value>
   </data>
   <data name="DragActionLockedDialog.Title" xml:space="preserve">
     <value>This operation can not be changed</value>
@@ -1246,143 +1309,6 @@ The following data will be deleted
   </data>
   <data name="DragActionResetDialog.Title" xml:space="preserve">
     <value>Initialize the drag operation</value>
-  </data>
-  <data name="ExportErrorDialog.Title" xml:space="preserve">
-    <value>Export failed</value>
-  </data>
-  <data name="ExportImage.Message.Success" xml:space="preserve">
-    <value>{0} saved.</value>
-  </data>
-  <data name="ExportPlaylistErrorDialog.Title" xml:space="preserve">
-    <value>Failed to save playlist</value>
-  </data>
-  <data name="ExportDialog.Title" xml:space="preserve">
-    <value>Export all settings</value>
-  </data>
-  <data name="FileDeleteDialog.Message" xml:space="preserve">
-    <value>Do you want to delete this {0} ?</value>
-  </data>
-  <data name="FileDeleteBookDialog.Title" xml:space="preserve">
-    <value>Delete book</value>
-  </data>
-  <data name="x.DialogFileDeleteError" xml:space="preserve">
-    <value>Delete failed. Would you like to try again?</value>
-  </data>
-  <data name="x.DialogFileDeleteErrorTitle" xml:space="preserve">
-    <value>Delete failed. Would you like to retry?</value>
-  </data>
-  <data name="FileDeleteErrorDialog.Title" xml:space="preserve">
-    <value>Delete failed.</value>
-  </data>
-  <data name="FileDeleteMultiDialog.Message" xml:space="preserve">
-    <value>Do you want to delete these {0} items?</value>
-  </data>
-  <data name="x.DialogFileDeleteMultiError" xml:space="preserve">
-    <value>Some files could not be deleted. Would you like to try again?</value>
-  </data>
-  <data name="FileDeletePageDialog.Title" xml:space="preserve">
-    <value>Delete page</value>
-  </data>
-  <data name="FileDeleteDialog.Title" xml:space="preserve">
-    <value>Delete {0}</value>
-  </data>
-  <data name="FileRenameConfrictDialog.Message" xml:space="preserve">
-    <value>{0} already exists.
-Would you like to rename it to {1}? </value>
-  </data>
-  <data name="FileRenameConfrictDialog.Title" xml:space="preserve">
-    <value>A file with the same name exists</value>
-  </data>
-  <data name="FileRenameErrorDialog.Title" xml:space="preserve">
-    <value>Can not rename</value>
-  </data>
-  <data name="FileRenameExtensionDialog.Message" xml:space="preserve">
-    <value>Changing the extension may make it impossible to use it.
-Is it OK? </value>
-  </data>
-  <data name="FileRenameExtensionDialog.Title" xml:space="preserve">
-    <value>Change the extension</value>
-  </data>
-  <data name="FileRenameFailedDialog.Message" xml:space="preserve">
-    <value>Failed to change the name. Would you like to try again?</value>
-  </data>
-  <data name="FileRenameFailedDialog.Title" xml:space="preserve">
-    <value>Rename failed</value>
-  </data>
-  <data name="FileRenameInvalidDialog.Message" xml:space="preserve">
-    <value>The file name contains characters that can not be used.</value>
-  </data>
-  <data name="FileRenameWrongDialog.Message" xml:space="preserve">
-    <value>The specified file name is invalid.</value>
-  </data>
-  <data name="FileRenameWrongDeviceDialog.Message" xml:space="preserve">
-    <value>The specified device name is invalid.</value>
-  </data>
-  <data name="HistoryDeleteAllDialog.Message" xml:space="preserve">
-    <value>Delete all history. Is it OK?</value>
-  </data>
-  <data name="HistoryDeleteAllDialog.Title" xml:space="preserve">
-    <value>Delete history</value>
-  </data>
-  <data name="HistoryDeletedDialog.Title" xml:space="preserve">
-    <value>Deleted history</value>
-  </data>
-  <data name="HyperLinkErrorDialog.Title" xml:space="preserve">
-    <value>Could not get link.</value>
-  </data>
-  <data name="ImageExportErrorDialog.Message" xml:space="preserve">
-    <value>This image can not be output.</value>
-  </data>
-  <data name="ImageExportErrorDialog.Title" xml:space="preserve">
-    <value>File save failed</value>
-  </data>
-  <data name="ImportErrorDialog.Title" xml:space="preserve">
-    <value>Import failed</value>
-  </data>
-  <data name="ImportSelectDialog.Title" xml:space="preserve">
-    <value>Please select the item to be imported</value>
-  </data>
-  <data name="ImportDialog.Title" xml:space="preserve">
-    <value>Import all settings</value>
-  </data>
-  <data name="MergeFolderDialog.Message" xml:space="preserve">
-    <value>Consolidate folders into {0}.</value>
-  </data>
-  <data name="MergeFolderDialog.Title" xml:space="preserve">
-    <value>Do you want to merge folders?</value>
-  </data>
-  <data name="OpenApplicationErrorDialog.Title" xml:space="preserve">
-    <value>External app execution failed</value>
-  </data>
-  <data name="OpenScriptsFolderErrorDialog.Title" xml:space="preserve">
-    <value>Cannot open scripts folder</value>
-  </data>
-  <data name="OpenSettingFolderErrorDialog.Message" xml:space="preserve">
-    <value>The location of the setting file can not be opened with the store application</value>
-  </data>
-  <data name="OpenSettingFolderErrorDialog.Title" xml:space="preserve">
-    <value>This command can not be used</value>
-  </data>
-  <data name="PageEndDialog.Message" xml:space="preserve">
-    <value>Please select an action.</value>
-  </data>
-  <data name="PageEndDialog.Title" xml:space="preserve">
-    <value>End of page</value>
-  </data>
-  <data name="PagemarkError.Message" xml:space="preserve">
-    <value>Temporary folders can not be pagemarked</value>
-  </data>
-  <data name="PagemarkFolderDelete.Message" xml:space="preserve">
-    <value>Removed {5} pagemarks.</value>
-  </data>
-  <data name="PageViewRecordWriteError.Message" xml:space="preserve">
-    <value>Could not write Page view record</value>
-  </data>
-  <data name="QuickAccessTempError.Message" xml:space="preserve">
-    <value>Temporary folders can not be added to quick access.</value>
-  </data>
-  <data name="SusieConnectError.Message" xml:space="preserve">
-    <value>Connection to Susie failed.</value>
   </data>
   <data name="DragActionTable.Elements" xml:space="preserve">
     <value>Drag action settings</value>
@@ -1459,9 +1385,6 @@ Is it OK? </value>
   <data name="EditCommandWindow.Visible" xml:space="preserve">
     <value>Display a message when executing a command</value>
   </data>
-  <data name="x.EffectBaseScale" xml:space="preserve">
-    <value>Base scale</value>
-  </data>
   <data name="Effect.CustomSize" xml:space="preserve">
     <value>Custom Size</value>
   </data>
@@ -1477,12 +1400,6 @@ Is it OK? </value>
   <data name="Effect.KeepDot" xml:space="preserve">
     <value>Keep dot</value>
   </data>
-  <data name="Effect.Title" xml:space="preserve">
-    <value>Effect</value>
-  </data>
-  <data name="EffectPanelAccessor" xml:space="preserve">
-    <value>Effect panel accessor</value>
-  </data>
   <data name="Effect.ResizeFilter" xml:space="preserve">
     <value>Resize filter</value>
   </data>
@@ -1495,8 +1412,14 @@ Is it OK? </value>
   <data name="Effect.ResizeUnsharp" xml:space="preserve">
     <value>Unsharp mask</value>
   </data>
+  <data name="Effect.Title" xml:space="preserve">
+    <value>Effect</value>
+  </data>
   <data name="Effect.Trim" xml:space="preserve">
     <value>Trim</value>
+  </data>
+  <data name="EffectPanelAccessor" xml:space="preserve">
+    <value>Effect panel accessor</value>
   </data>
   <data name="EffectType.Bloom" xml:space="preserve">
     <value>Bloom</value>
@@ -1549,54 +1472,14 @@ Is it OK? </value>
   <data name="EmbossedEffectUnit.Height" xml:space="preserve">
     <value>Height</value>
   </data>
-  <data name="CannotDeleteDataException_Message" xml:space="preserve">
-    <value>It is not an AppData folder, so it will not be deleted.</value>
-  </data>
-  <data name="CriticalExceptionDialog.Message" xml:space="preserve">
-    <value>An error occurred. Quit the application.</value>
-  </data>
-  <data name="CriticalExceptionDialog.Copy" xml:space="preserve">
-    <value>Copy to clipboard</value>
-  </data>
-  <data name="CriticalExceptionDialog.LogPath" xml:space="preserve">
-    <value>Details of the error are saved in &lt;a href="{0}"&gt;{0}&lt;/a&gt;</value>
-  </data>
-  <data name="CriticalExceptionDialog.Header" xml:space="preserve">
-    <value>Error details:</value>
-  </data>
-  <data name="CriticalExceptionDialog.Title" xml:space="preserve">
-    <value>NeeView - Error</value>
-  </data>
-  <data name="FileNotFoundException.Message" xml:space="preserve">
-    <value>File not found "{0}"</value>
-  </data>
-  <data name="ImageLoadFailedException.Message" xml:space="preserve">
-    <value>Failed to load image.</value>
-  </data>
-  <data name="InconsistencyException.Message" xml:space="preserve">
-    <value>Inconsistency of page data</value>
-  </data>
-  <data name="LoadFailedException.Message" xml:space="preserve">
-    <value>Failed to read {0}.
-{1} </value>
-  </data>
-  <data name="x.ExceptionNotSupportArchiveFolder" xml:space="preserve">
-    <value>Compressed file folders are not supported.</value>
-  </data>
-  <data name="NotSupportedKeyException.Message" xml:space="preserve">
-    <value>The combination of {0} key and modifier key is not supported in {1}.</value>
-  </data>
-  <data name="NotZipException.Message" xml:space="preserve">
-    <value>{0} is not a ZIP file</value>
-  </data>
-  <data name="SusieLoadFailedException.Message" xml:space="preserve">
-    <value>Failed to load image at Susie.</value>
-  </data>
   <data name="ExplorerContextMenu.IsEnabled" xml:space="preserve">
     <value>Register in the Explorer context menu.</value>
   </data>
   <data name="ExplorerContextMenu.IsEnabled.Remarks" xml:space="preserve">
     <value>Add "Open in NeeView" to the Explorer context menu. This feature uses the registry.</value>
+  </data>
+  <data name="ExplorerContextMenu.OpenInNeeView" xml:space="preserve">
+    <value>Open in Nee&amp;View</value>
   </data>
   <data name="ExportBackupCommand" xml:space="preserve">
     <value>Export settings</value>
@@ -1606,6 +1489,15 @@ Is it OK? </value>
   </data>
   <data name="ExportBackupCommand.Remarks" xml:space="preserve">
     <value>Create backups of settings, history, bookmarks, page marks. The thumbnail cache is not backed up.</value>
+  </data>
+  <data name="ExportDialog.Title" xml:space="preserve">
+    <value>Export all settings</value>
+  </data>
+  <data name="ExportErrorDialog.Title" xml:space="preserve">
+    <value>Export failed</value>
+  </data>
+  <data name="ExportImage.Message.Success" xml:space="preserve">
+    <value>{0} saved.</value>
   </data>
   <data name="ExportImageAsCommand" xml:space="preserve">
     <value>Save as</value>
@@ -1697,6 +1589,9 @@ Is it OK? </value>
   <data name="ExportImageWindow.Title" xml:space="preserve">
     <value>Save image</value>
   </data>
+  <data name="ExportPlaylistErrorDialog.Title" xml:space="preserve">
+    <value>Failed to save playlist</value>
+  </data>
   <data name="ExternalAppDialog.Title" xml:space="preserve">
     <value>External apps</value>
   </data>
@@ -1709,8 +1604,23 @@ Is it OK? </value>
   <data name="ExternalProgramType.Protocol" xml:space="preserve">
     <value>Protocol</value>
   </data>
-  <data name="Information.Title" xml:space="preserve">
-    <value>Information</value>
+  <data name="FileDeleteBookDialog.Title" xml:space="preserve">
+    <value>Delete book</value>
+  </data>
+  <data name="FileDeleteDialog.Message" xml:space="preserve">
+    <value>Do you want to delete this {0} ?</value>
+  </data>
+  <data name="FileDeleteDialog.Title" xml:space="preserve">
+    <value>Delete {0}</value>
+  </data>
+  <data name="FileDeleteErrorDialog.Title" xml:space="preserve">
+    <value>Delete failed.</value>
+  </data>
+  <data name="FileDeleteMultiDialog.Message" xml:space="preserve">
+    <value>Do you want to delete these {0} items?</value>
+  </data>
+  <data name="FileDeletePageDialog.Title" xml:space="preserve">
+    <value>Delete page</value>
   </data>
   <data name="FileNameBox.Directory.Message" xml:space="preserve">
     <value>Please enter the folder path</value>
@@ -1723,6 +1633,41 @@ Is it OK? </value>
   </data>
   <data name="FileNameBox.SelectFile" xml:space="preserve">
     <value>Select file</value>
+  </data>
+  <data name="FileNotFoundException.Message" xml:space="preserve">
+    <value>File not found "{0}"</value>
+  </data>
+  <data name="FileRenameConfrictDialog.Message" xml:space="preserve">
+    <value>{0} already exists.
+Would you like to rename it to {1}? </value>
+  </data>
+  <data name="FileRenameConfrictDialog.Title" xml:space="preserve">
+    <value>A file with the same name exists</value>
+  </data>
+  <data name="FileRenameErrorDialog.Title" xml:space="preserve">
+    <value>Can not rename</value>
+  </data>
+  <data name="FileRenameExtensionDialog.Message" xml:space="preserve">
+    <value>Changing the extension may make it impossible to use it.
+Is it OK? </value>
+  </data>
+  <data name="FileRenameExtensionDialog.Title" xml:space="preserve">
+    <value>Change the extension</value>
+  </data>
+  <data name="FileRenameFailedDialog.Message" xml:space="preserve">
+    <value>Failed to change the name. Would you like to try again?</value>
+  </data>
+  <data name="FileRenameFailedDialog.Title" xml:space="preserve">
+    <value>Rename failed</value>
+  </data>
+  <data name="FileRenameInvalidDialog.Message" xml:space="preserve">
+    <value>The file name contains characters that can not be used.</value>
+  </data>
+  <data name="FileRenameWrongDeviceDialog.Message" xml:space="preserve">
+    <value>The specified device name is invalid.</value>
+  </data>
+  <data name="FileRenameWrongDialog.Message" xml:space="preserve">
+    <value>The specified file name is invalid.</value>
   </data>
   <data name="FilmStripConfig.IsEnabled" xml:space="preserve">
     <value>Show filmstrip</value>
@@ -1802,51 +1747,6 @@ Is it OK? </value>
   <data name="FocusPrevAppCommand.Remarks" xml:space="preserve">
     <value>Switch to the previous NeeView when multiple are started.</value>
   </data>
-  <data name="Information.Archiver" xml:space="preserve">
-    <value>Archiver</value>
-  </data>
-  <data name="Information.Date" xml:space="preserve">
-    <value>File date</value>
-  </data>
-  <data name="Information.DateFormat" xml:space="preserve">
-    <value>yyyy-MM-dd dddd H:mm</value>
-  </data>
-  <data name="Information.DateTimeOriginal" xml:space="preserve">
-    <value>Date taken</value>
-  </data>
-  <data name="Information.Decoder" xml:space="preserve">
-    <value>Decoder</value>
-  </data>
-  <data name="Information.Device" xml:space="preserve">
-    <value>Device</value>
-  </data>
-  <data name="Information.FileName" xml:space="preserve">
-    <value>File</value>
-  </data>
-  <data name="Information.FilePath" xml:space="preserve">
-    <value>Path</value>
-  </data>
-  <data name="Information.FileSize" xml:space="preserve">
-    <value>File size</value>
-  </data>
-  <data name="Information.FolderPath" xml:space="preserve">
-    <value>Folder</value>
-  </data>
-  <data name="Information.ImageSize" xml:space="preserve">
-    <value>Image size</value>
-  </data>
-  <data name="Information.Info" xml:space="preserve">
-    <value>Shot</value>
-  </data>
-  <data name="Information.ISO" xml:space="preserve">
-    <value>ISO</value>
-  </data>
-  <data name="Information.Menu.Copy" xml:space="preserve">
-    <value>_Copy</value>
-  </data>
-  <data name="Information.OpenFolder" xml:space="preserve">
-    <value>Open Folder</value>
-  </data>
   <data name="FolderListConfig.FolderTreeLayout" xml:space="preserve">
     <value>Folder tree layout</value>
   </data>
@@ -1898,12 +1798,6 @@ Is it OK? </value>
   <data name="FolderOrder.TimeStampDescending" xml:space="preserve">
     <value>Date↓</value>
   </data>
-  <data name="FolderTreeLayout.Left" xml:space="preserve">
-    <value>Place to the left</value>
-  </data>
-  <data name="FolderTreeLayout.Top" xml:space="preserve">
-    <value>Place to the top</value>
-  </data>
   <data name="FolderTree.Menu.AddBookmark" xml:space="preserve">
     <value>Add bookmark</value>
   </data>
@@ -1925,8 +1819,17 @@ Is it OK? </value>
   <data name="FolderTree.Menu.RemoveQuickAccess" xml:space="preserve">
     <value>Remove from quick access</value>
   </data>
-  <data name="x.HelpChangeLogFile" xml:space="preserve">
-    <value>CHANGELOG.html</value>
+  <data name="FolderTreeLayout.Left" xml:space="preserve">
+    <value>Place to the left</value>
+  </data>
+  <data name="FolderTreeLayout.Top" xml:space="preserve">
+    <value>Place to the top</value>
+  </data>
+  <data name="HelpCommandList.Message" xml:space="preserve">
+    <value>Commands to which no operation is assigned can be used by setting with "Edit commands".</value>
+  </data>
+  <data name="HelpCommandList.Title" xml:space="preserve">
+    <value>NeeView Command List</value>
   </data>
   <data name="HelpCommandListCommand" xml:space="preserve">
     <value>Command help</value>
@@ -1936,12 +1839,6 @@ Is it OK? </value>
   </data>
   <data name="HelpCommandListCommand.Remarks" xml:space="preserve">
     <value>Displays help of all commands in the browser.</value>
-  </data>
-  <data name="HelpCommandList.Message" xml:space="preserve">
-    <value>Commands to which no operation is assigned can be used by setting with "Edit commands".</value>
-  </data>
-  <data name="HelpCommandList.Title" xml:space="preserve">
-    <value>NeeView Command List</value>
   </data>
   <data name="HelpMainMenuCommand" xml:space="preserve">
     <value>Main menu help</value>
@@ -1972,6 +1869,18 @@ Is it OK? </value>
   </data>
   <data name="HelpSearchOptionCommand.Remarks" xml:space="preserve">
     <value>Display the search options help on the browser.</value>
+  </data>
+  <data name="History.MoreMenu.DeleteAll" xml:space="preserve">
+    <value>Delete all</value>
+  </data>
+  <data name="History.MoreMenu.DeleteInvalid" xml:space="preserve">
+    <value>Remove invalid history</value>
+  </data>
+  <data name="History.MoreMenu.IsCurrentFolder" xml:space="preserve">
+    <value>Current folder only</value>
+  </data>
+  <data name="History.Title" xml:space="preserve">
+    <value>History</value>
   </data>
   <data name="HistoryConfig.HistoryEntryPageCount" xml:space="preserve">
     <value>Number of page operations to start history registration</value>
@@ -2024,6 +1933,21 @@ Is it OK? </value>
   <data name="HistoryConfig.PanelListItemStyle" xml:space="preserve">
     <value>History list item style</value>
   </data>
+  <data name="HistoryDeleteAllDialog.Message" xml:space="preserve">
+    <value>Delete all history. Is it OK?</value>
+  </data>
+  <data name="HistoryDeleteAllDialog.Title" xml:space="preserve">
+    <value>Delete history</value>
+  </data>
+  <data name="HistoryDeletedDialog.Title" xml:space="preserve">
+    <value>Deleted history</value>
+  </data>
+  <data name="HistoryItem.Menu.Delete" xml:space="preserve">
+    <value>_Remove history</value>
+  </data>
+  <data name="HistoryItem.Menu.OpenBook" xml:space="preserve">
+    <value>_Open</value>
+  </data>
   <data name="HistoryItemAccessor" xml:space="preserve">
     <value>History item accessor</value>
   </data>
@@ -2035,24 +1959,6 @@ Is it OK? </value>
   </data>
   <data name="HistoryItemAccessor.Path" xml:space="preserve">
     <value>The path corresponding to the item</value>
-  </data>
-  <data name="HistoryItem.Menu.Delete" xml:space="preserve">
-    <value>_Remove history</value>
-  </data>
-  <data name="History.MoreMenu.IsCurrentFolder" xml:space="preserve">
-    <value>Current folder only</value>
-  </data>
-  <data name="HistoryItem.Menu.OpenBook" xml:space="preserve">
-    <value>_Open</value>
-  </data>
-  <data name="History.MoreMenu.DeleteAll" xml:space="preserve">
-    <value>Delete all</value>
-  </data>
-  <data name="History.MoreMenu.DeleteInvalid" xml:space="preserve">
-    <value>Remove invalid history</value>
-  </data>
-  <data name="History.Title" xml:space="preserve">
-    <value>History</value>
   </data>
   <data name="HistoryPanelAccessor" xml:space="preserve">
     <value>History panel accessor</value>
@@ -2083,6 +1989,9 @@ Is it OK? </value>
   </data>
   <data name="HsvEffectUnit.Value" xml:space="preserve">
     <value>Brightness</value>
+  </data>
+  <data name="HyperLinkErrorDialog.Title" xml:space="preserve">
+    <value>Could not get link.</value>
   </data>
   <data name="ImageCustomSizeConfig.Height" xml:space="preserve">
     <value>Height</value>
@@ -2120,6 +2029,12 @@ Is it OK? </value>
   <data name="ImageEffectConfig.IsHsvMode.Remarks" xml:space="preserve">
     <value>Set the color parameter with HSV (Hue, Saturation, Brightness). When set to OFF, it becomes the setting with RGB.</value>
   </data>
+  <data name="ImageExportErrorDialog.Message" xml:space="preserve">
+    <value>This image can not be output.</value>
+  </data>
+  <data name="ImageExportErrorDialog.Title" xml:space="preserve">
+    <value>File save failed</value>
+  </data>
   <data name="ImageGridConfig.Color" xml:space="preserve">
     <value>Color</value>
   </data>
@@ -2134,6 +2049,9 @@ Is it OK? </value>
   </data>
   <data name="ImageGridConfig.IsSquare" xml:space="preserve">
     <value>Square</value>
+  </data>
+  <data name="ImageLoadFailedException.Message" xml:space="preserve">
+    <value>Failed to load image.</value>
   </data>
   <data name="ImageResizeFilterConfig.IsEnabled" xml:space="preserve">
     <value>Enable resize filter</value>
@@ -2215,6 +2133,66 @@ Is it OK? </value>
   </data>
   <data name="ImportControl.Setting" xml:space="preserve">
     <value>Setting</value>
+  </data>
+  <data name="ImportDialog.Title" xml:space="preserve">
+    <value>Import all settings</value>
+  </data>
+  <data name="ImportErrorDialog.Title" xml:space="preserve">
+    <value>Import failed</value>
+  </data>
+  <data name="ImportSelectDialog.Title" xml:space="preserve">
+    <value>Please select the item to be imported</value>
+  </data>
+  <data name="InconsistencyException.Message" xml:space="preserve">
+    <value>Inconsistency of page data</value>
+  </data>
+  <data name="Information.Archiver" xml:space="preserve">
+    <value>Archiver</value>
+  </data>
+  <data name="Information.Date" xml:space="preserve">
+    <value>File date</value>
+  </data>
+  <data name="Information.DateFormat" xml:space="preserve">
+    <value>yyyy-MM-dd dddd H:mm</value>
+  </data>
+  <data name="Information.DateTimeOriginal" xml:space="preserve">
+    <value>Date taken</value>
+  </data>
+  <data name="Information.Decoder" xml:space="preserve">
+    <value>Decoder</value>
+  </data>
+  <data name="Information.Device" xml:space="preserve">
+    <value>Device</value>
+  </data>
+  <data name="Information.FileName" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="Information.FilePath" xml:space="preserve">
+    <value>Path</value>
+  </data>
+  <data name="Information.FileSize" xml:space="preserve">
+    <value>File size</value>
+  </data>
+  <data name="Information.FolderPath" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="Information.ImageSize" xml:space="preserve">
+    <value>Image size</value>
+  </data>
+  <data name="Information.Info" xml:space="preserve">
+    <value>Shot</value>
+  </data>
+  <data name="Information.ISO" xml:space="preserve">
+    <value>ISO</value>
+  </data>
+  <data name="Information.Menu.Copy" xml:space="preserve">
+    <value>_Copy</value>
+  </data>
+  <data name="Information.OpenFolder" xml:space="preserve">
+    <value>Open Folder</value>
+  </data>
+  <data name="Information.Title" xml:space="preserve">
+    <value>Information</value>
   </data>
   <data name="InformationConfig.IsVisibleBitsPerPixel" xml:space="preserve">
     <value>Display the number of bits per pixel in image size</value>
@@ -2337,6 +2315,15 @@ include("Sample.nvjs")</value>
   <data name="LastPageCommand.Remarks" xml:space="preserve">
     <value>Move to the last page.</value>
   </data>
+  <data name="LayoutPanel.Menu.Close" xml:space="preserve">
+    <value>_Close</value>
+  </data>
+  <data name="LayoutPanel.Menu.Docking" xml:space="preserve">
+    <value>Doc_king</value>
+  </data>
+  <data name="LayoutPanel.Menu.Floating" xml:space="preserve">
+    <value>_Floating</value>
+  </data>
   <data name="LayoutPanelAccessor.Close" xml:space="preserve">
     <value>Close panel</value>
   </data>
@@ -2357,15 +2344,6 @@ include("Sample.nvjs")</value>
   </data>
   <data name="LayoutPanelAccessor.OpenFloat" xml:space="preserve">
     <value>Open panel in floating mode</value>
-  </data>
-  <data name="LayoutPanel.Menu.Close" xml:space="preserve">
-    <value>_Close</value>
-  </data>
-  <data name="LayoutPanel.Menu.Docking" xml:space="preserve">
-    <value>Doc_king</value>
-  </data>
-  <data name="LayoutPanel.Menu.Floating" xml:space="preserve">
-    <value>_Floating</value>
   </data>
   <data name="LevelEffectUnit.Black" xml:space="preserve">
     <value>Black</value>
@@ -2393,6 +2371,10 @@ include("Sample.nvjs")</value>
   </data>
   <data name="LoadAsCommand.Remarks" xml:space="preserve">
     <value>Select and open the compressed file or image file.</value>
+  </data>
+  <data name="LoadFailedException.Message" xml:space="preserve">
+    <value>Failed to read {0}.
+{1} </value>
   </data>
   <data name="LoadingPage.ViewNone" xml:space="preserve">
     <value>None</value>
@@ -2508,6 +2490,9 @@ include("Sample.nvjs")</value>
   <data name="MainViewConfig.IsTopmost" xml:space="preserve">
     <value>MainView window is topmost</value>
   </data>
+  <data name="MainViewWindow.Menu.AutoHideTitleBar" xml:space="preserve">
+    <value>Auto-hide title bar</value>
+  </data>
   <data name="MediaArchiveConfig.IsEnabled" xml:space="preserve">
     <value>Use video</value>
   </data>
@@ -2540,9 +2525,6 @@ include("Sample.nvjs")</value>
   </data>
   <data name="MemoryControl.IsAutoGC.Remarks" xml:space="preserve">
     <value>When it is OFF, memory is released every time page is switched</value>
-  </data>
-  <data name="MainViewWindow.Menu.AutoHideTitleBar" xml:space="preserve">
-    <value>Auto-hide title bar</value>
   </data>
   <data name="MenuBarConfig.IsAddressBarEnabled" xml:space="preserve">
     <value>Show address bar</value>
@@ -2603,6 +2585,12 @@ include("Sample.nvjs")</value>
   </data>
   <data name="MenuTree.View" xml:space="preserve">
     <value>_View</value>
+  </data>
+  <data name="MergeFolderDialog.Message" xml:space="preserve">
+    <value>Consolidate folders into {0}.</value>
+  </data>
+  <data name="MergeFolderDialog.Title" xml:space="preserve">
+    <value>Do you want to merge folders?</value>
   </data>
   <data name="MonochromeEffectUnit.Color" xml:space="preserve">
     <value>Color</value>
@@ -2746,9 +2734,6 @@ A left click can be registered as the last gesture key. </value>
   <data name="Navigator.IsKeepScale" xml:space="preserve">
     <value>Keep scale</value>
   </data>
-  <data name="Navigator.Title" xml:space="preserve">
-    <value>Navigator</value>
-  </data>
   <data name="Navigator.RotateLeft" xml:space="preserve">
     <value>Rotate left</value>
   </data>
@@ -2779,14 +2764,17 @@ A left click can be registered as the last gesture key. </value>
   <data name="Navigator.StretchAllowScaleDown" xml:space="preserve">
     <value>Allow stretch scale down</value>
   </data>
+  <data name="Navigator.StretchAllowScaleUp" xml:space="preserve">
+    <value>Allow stretch scale up</value>
+  </data>
   <data name="Navigator.StretchScale" xml:space="preserve">
     <value>Base scale</value>
   </data>
+  <data name="Navigator.Title" xml:space="preserve">
+    <value>Navigator</value>
+  </data>
   <data name="NavigatorPanelAccessor" xml:space="preserve">
     <value>Navigator panel accessor</value>
-  </data>
-  <data name="Navigator.StretchAllowScaleUp" xml:space="preserve">
-    <value>Allow stretch scale up</value>
   </data>
   <data name="NextBookCommand" xml:space="preserve">
     <value>Next Book</value>
@@ -2856,36 +2844,6 @@ A left click can be registered as the last gesture key. </value>
   </data>
   <data name="NoneCommand" xml:space="preserve">
     <value>(none)</value>
-  </data>
-  <data name="NoticeConfig.BookNameShowMessageStyle" xml:space="preserve">
-    <value>Show open book name</value>
-  </data>
-  <data name="NoticeConfig.CommandShowMessageStyle" xml:space="preserve">
-    <value>Show command execution message</value>
-  </data>
-  <data name="NoticeConfig.GestureShowMessageStyle" xml:space="preserve">
-    <value>Show gesture status</value>
-  </data>
-  <data name="NoticeConfig.IsBusyMarkEnabled" xml:space="preserve">
-    <value>The image reading processing in progress mark is displayed on the upper left of the screen</value>
-  </data>
-  <data name="NoticeConfig.IsEmptyMessageEnabled" xml:space="preserve">
-    <value>Show message when there are no pages in the book</value>
-  </data>
-  <data name="NoticeConfig.IsOriginalScaleShowMessage" xml:space="preserve">
-    <value>Make the scale display of the view operation the original image size standard</value>
-  </data>
-  <data name="NoticeConfig.IsOriginalScaleShowMessage.Remarks" xml:space="preserve">
-    <value>In case of 2 page display, we refer to the page with the younger number.</value>
-  </data>
-  <data name="NoticeConfig.NoticeShowMessageStyle" xml:space="preserve">
-    <value>General information</value>
-  </data>
-  <data name="NoticeConfig.NowLoadingShowMessageStyle" xml:space="preserve">
-    <value>Show Now Loading</value>
-  </data>
-  <data name="NoticeConfig.ViewTransformShowMessageStyle" xml:space="preserve">
-    <value>Sbow status change by drag operation</value>
   </data>
   <data name="Notice.BookNextFailed" xml:space="preserve">
     <value>No next book</value>
@@ -3031,6 +2989,45 @@ Initialize the temporary location.</value>
   <data name="Notice.TemporaryErrorTitle" xml:space="preserve">
     <value>Temporary error</value>
   </data>
+  <data name="NoticeConfig.BookNameShowMessageStyle" xml:space="preserve">
+    <value>Show open book name</value>
+  </data>
+  <data name="NoticeConfig.CommandShowMessageStyle" xml:space="preserve">
+    <value>Show command execution message</value>
+  </data>
+  <data name="NoticeConfig.GestureShowMessageStyle" xml:space="preserve">
+    <value>Show gesture status</value>
+  </data>
+  <data name="NoticeConfig.IsBusyMarkEnabled" xml:space="preserve">
+    <value>The image reading processing in progress mark is displayed on the upper left of the screen</value>
+  </data>
+  <data name="NoticeConfig.IsEmptyMessageEnabled" xml:space="preserve">
+    <value>Show message when there are no pages in the book</value>
+  </data>
+  <data name="NoticeConfig.IsOriginalScaleShowMessage" xml:space="preserve">
+    <value>Make the scale display of the view operation the original image size standard</value>
+  </data>
+  <data name="NoticeConfig.IsOriginalScaleShowMessage.Remarks" xml:space="preserve">
+    <value>In case of 2 page display, we refer to the page with the younger number.</value>
+  </data>
+  <data name="NoticeConfig.NoticeShowMessageStyle" xml:space="preserve">
+    <value>General information</value>
+  </data>
+  <data name="NoticeConfig.NowLoadingShowMessageStyle" xml:space="preserve">
+    <value>Show Now Loading</value>
+  </data>
+  <data name="NoticeConfig.ViewTransformShowMessageStyle" xml:space="preserve">
+    <value>Sbow status change by drag operation</value>
+  </data>
+  <data name="NotSupportedKeyException.Message" xml:space="preserve">
+    <value>The combination of {0} key and modifier key is not supported in {1}.</value>
+  </data>
+  <data name="NotZipException.Message" xml:space="preserve">
+    <value>{0} is not a ZIP file</value>
+  </data>
+  <data name="OpenApplicationErrorDialog.Title" xml:space="preserve">
+    <value>External app execution failed</value>
+  </data>
   <data name="OpenConsoleCommand" xml:space="preserve">
     <value>Open script console</value>
   </data>
@@ -3091,11 +3088,20 @@ Initialize the temporary location.</value>
   <data name="OpenScriptsFolderCommand.Remarks" xml:space="preserve">
     <value>Open the scripts folder with Explorer.</value>
   </data>
+  <data name="OpenScriptsFolderErrorDialog.Title" xml:space="preserve">
+    <value>Cannot open scripts folder</value>
+  </data>
   <data name="OpenSettingFilesFolderCommand" xml:space="preserve">
     <value>Open setting folder</value>
   </data>
   <data name="OpenSettingFilesFolderCommand.Remarks" xml:space="preserve">
     <value>Open the folder where the configuration file setting file is saved.</value>
+  </data>
+  <data name="OpenSettingFolderErrorDialog.Message" xml:space="preserve">
+    <value>The location of the setting file can not be opened with the store application</value>
+  </data>
+  <data name="OpenSettingFolderErrorDialog.Title" xml:space="preserve">
+    <value>This command can not be used</value>
   </data>
   <data name="OpenVersionWindowCommand" xml:space="preserve">
     <value>Display version information</value>
@@ -3106,56 +3112,20 @@ Initialize the temporary location.</value>
   <data name="OpenVersionWindowCommand.Remarks" xml:space="preserve">
     <value>Display version information.</value>
   </data>
-  <data name="OptionArgumentException.NotSupportType" xml:space="preserve">
-    <value>{0} is an unsupported argument type.</value>
-  </data>
   <data name="OptionArgumentException.Empty" xml:space="preserve">
     <value>An argument is required for {0}.</value>
   </data>
   <data name="OptionArgumentException.Failed" xml:space="preserve">
     <value>You can not use {1} as an argument to {0}.</value>
   </data>
-  <data name="OptionArgumentException.Unknown" xml:space="preserve">
-    <value>{0} is an unknown option.</value>
-  </data>
   <data name="OptionArgumentException.FileNotFound" xml:space="preserve">
     <value>Specified configuration file does not exist</value>
   </data>
-  <data name="AppOption.FolderList" xml:space="preserve">
-    <value>Specify the bookshelf location.</value>
+  <data name="OptionArgumentException.NotSupportType" xml:space="preserve">
+    <value>{0} is an unsupported argument type.</value>
   </data>
-  <data name="AppOption.IsBlank" xml:space="preserve">
-    <value>Start up without opening the image file</value>
-  </data>
-  <data name="AppOption.IsFullScreen" xml:space="preserve">
-    <value>Specify whether to start with full screen</value>
-  </data>
-  <data name="AppOption.IsHelp" xml:space="preserve">
-    <value>This help is displayed</value>
-  </data>
-  <data name="AppOption.IsNewWindow" xml:space="preserve">
-    <value>Specify whether to start in a new window</value>
-  </data>
-  <data name="AppOption.IsResetPlacement" xml:space="preserve">
-    <value>Initialize window coordinates</value>
-  </data>
-  <data name="AppOption.IsSlideShow" xml:space="preserve">
-    <value>Specify whether to start a slideshow</value>
-  </data>
-  <data name="AppOption.IsVersion" xml:space="preserve">
-    <value>Display version information</value>
-  </data>
-  <data name="AppOption.ScriptFile" xml:space="preserve">
-    <value>Executes the specified script file at startup</value>
-  </data>
-  <data name="AppOption.SettingFilename" xml:space="preserve">
-    <value>Specify the path of the setting file (UserSetting.json)</value>
-  </data>
-  <data name="AppOption.Terminator" xml:space="preserve">
-    <value>Indicates the end of option list. Subsequent arguments are considered file names.</value>
-  </data>
-  <data name="AppOption.WindowState" xml:space="preserve">
-    <value>Start with the specified window state</value>
+  <data name="OptionArgumentException.Unknown" xml:space="preserve">
+    <value>{0} is an unknown option.</value>
   </data>
   <data name="PageAccessor" xml:space="preserve">
     <value>Page accessor</value>
@@ -3185,6 +3155,12 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="PageEndAction.None" xml:space="preserve">
     <value>None</value>
   </data>
+  <data name="PageEndDialog.Message" xml:space="preserve">
+    <value>Please select an action.</value>
+  </data>
+  <data name="PageEndDialog.Title" xml:space="preserve">
+    <value>End of page</value>
+  </data>
   <data name="PageList.Back.ToolTip" xml:space="preserve">
     <value>Back (Alt+Left)</value>
   </data>
@@ -3197,6 +3173,9 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="PageList.Next.ToolTip" xml:space="preserve">
     <value>Next (Alt+Right)</value>
   </data>
+  <data name="PageList.Title" xml:space="preserve">
+    <value>Page list</value>
+  </data>
   <data name="PageList.Up.ToolTip" xml:space="preserve">
     <value>Up (Alt+Up)</value>
   </data>
@@ -3206,8 +3185,14 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="PageListConfig.PanelListItemStyle" xml:space="preserve">
     <value>Page list item style</value>
   </data>
+  <data name="PageListItem.Menu.Copy" xml:space="preserve">
+    <value>_Copy</value>
+  </data>
   <data name="PageListItem.Menu.CopyToFolder" xml:space="preserve">
     <value>Cop_y to folder</value>
+  </data>
+  <data name="PageListItem.Menu.Delete" xml:space="preserve">
+    <value>_Delete</value>
   </data>
   <data name="PageListItem.Menu.Explorer" xml:space="preserve">
     <value>Open in e_xplorer</value>
@@ -3215,20 +3200,11 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="PageListItem.Menu.MoveToFolder" xml:space="preserve">
     <value>Mov_e to folder</value>
   </data>
-  <data name="PageListItem.Menu.Copy" xml:space="preserve">
-    <value>_Copy</value>
-  </data>
-  <data name="PageListItem.Menu.Delete" xml:space="preserve">
-    <value>_Delete</value>
-  </data>
   <data name="PagelistItem.Menu.Open" xml:space="preserve">
     <value>_Open</value>
   </data>
   <data name="PagelistItem.Menu.OpenBook" xml:space="preserve">
     <value>_Open book</value>
-  </data>
-  <data name="PageList.Title" xml:space="preserve">
-    <value>Page list</value>
   </data>
   <data name="PageListPanelAccessor" xml:space="preserve">
     <value>PageList panel accessor</value>
@@ -3251,6 +3227,21 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="PageListPanelAccessor.Style" xml:space="preserve">
     <value>List item stye</value>
   </data>
+  <data name="Pagemark.MoreMenu.CurrentBook" xml:space="preserve">
+    <value>Current book only</value>
+  </data>
+  <data name="Pagemark.MoreMenu.DeleteInvalid" xml:space="preserve">
+    <value>Remove invalid pagemark</value>
+  </data>
+  <data name="Pagemark.MoreMenu.OpenAsBook" xml:space="preserve">
+    <value>Open as a book</value>
+  </data>
+  <data name="Pagemark.MoreMenu.SortPath" xml:space="preserve">
+    <value>Path order</value>
+  </data>
+  <data name="Pagemark.Title" xml:space="preserve">
+    <value>Pagemark</value>
+  </data>
   <data name="PagemarkConfig.IsSavePagemark" xml:space="preserve">
     <value>Save pagemark list</value>
   </data>
@@ -3262,6 +3253,24 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   </data>
   <data name="PagemarkConfig.PanelListItemStyle" xml:space="preserve">
     <value>Pagemark list item style</value>
+  </data>
+  <data name="PagemarkError.Message" xml:space="preserve">
+    <value>Temporary folders can not be pagemarked</value>
+  </data>
+  <data name="PagemarkFolderDelete.Message" xml:space="preserve">
+    <value>Removed {5} pagemarks.</value>
+  </data>
+  <data name="PagemarkItem.Menu.Delete" xml:space="preserve">
+    <value>_Remove pagemark</value>
+  </data>
+  <data name="PagemarkItem.Menu.DeleteFolder" xml:space="preserve">
+    <value>_Delete folder</value>
+  </data>
+  <data name="PagemarkItem.Menu.Open" xml:space="preserve">
+    <value>_Open</value>
+  </data>
+  <data name="PagemarkItem.Menu.Rename" xml:space="preserve">
+    <value>Rena_me</value>
   </data>
   <data name="PagemarkItemAccessor" xml:space="preserve">
     <value>Pagemark item accessor</value>
@@ -3278,35 +3287,8 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="PagemarkItemAccessor.Type" xml:space="preserve">
     <value>Item type</value>
   </data>
-  <data name="PagemarkItem.Menu.Delete" xml:space="preserve">
-    <value>_Remove pagemark</value>
-  </data>
-  <data name="PagemarkItem.Menu.DeleteFolder" xml:space="preserve">
-    <value>_Delete folder</value>
-  </data>
-  <data name="PagemarkItem.Menu.Open" xml:space="preserve">
-    <value>_Open</value>
-  </data>
-  <data name="PagemarkItem.Menu.Rename" xml:space="preserve">
-    <value>Rena_me</value>
-  </data>
   <data name="PagemarkList.Add.ToolTip" xml:space="preserve">
     <value>Add pagemark</value>
-  </data>
-  <data name="Pagemark.MoreMenu.CurrentBook" xml:space="preserve">
-    <value>Current book only</value>
-  </data>
-  <data name="Pagemark.MoreMenu.DeleteInvalid" xml:space="preserve">
-    <value>Remove invalid pagemark</value>
-  </data>
-  <data name="Pagemark.MoreMenu.OpenAsBook" xml:space="preserve">
-    <value>Open as a book</value>
-  </data>
-  <data name="Pagemark.MoreMenu.SortPath" xml:space="preserve">
-    <value>Path order</value>
-  </data>
-  <data name="Pagemark.Title" xml:space="preserve">
-    <value>Pagemark</value>
   </data>
   <data name="PagemarkPanelAccessor" xml:space="preserve">
     <value>Pagemark panel accessor</value>
@@ -3401,6 +3383,9 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="PageViewRecorderConfig.PageViewRecordFilePath" xml:space="preserve">
     <value>Page view recording path</value>
   </data>
+  <data name="PageViewRecordWriteError.Message" xml:space="preserve">
+    <value>Could not write Page view record</value>
+  </data>
   <data name="PanelListItemImageShape.Banner" xml:space="preserve">
     <value>Banner</value>
   </data>
@@ -3437,8 +3422,20 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="PanelListItemProfile.NoteOpacity" xml:space="preserve">
     <value>Supplemental text opacity</value>
   </data>
-  <data name="x.PanelListItemStyle" xml:space="preserve">
+  <data name="PanelListItemStyle" xml:space="preserve">
     <value>List item style</value>
+  </data>
+  <data name="PanelListItemStyle.Banner" xml:space="preserve">
+    <value>Banner</value>
+  </data>
+  <data name="PanelListItemStyle.Content" xml:space="preserve">
+    <value>Content</value>
+  </data>
+  <data name="PanelListItemStyle.Normal" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="PanelListItemStyle.Thumbnail" xml:space="preserve">
+    <value>Thumbnail</value>
   </data>
   <data name="PanelsConfig.FolderTreeFontSize" xml:space="preserve">
     <value>Font size of folder tree</value>
@@ -3487,180 +3484,6 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   </data>
   <data name="PanelsConfig.OpenWithDoubleClick.Remarks" xml:space="preserve">
     <value>Effective on bookshelf, bookmark panel, and history panel.</value>
-  </data>
-  <data name="ParamBookshelfPageListVisible" xml:space="preserve">
-    <value>Show page list</value>
-  </data>
-  <data name="ParamCacheDirectory" xml:space="preserve">
-    <value>Cache location</value>
-  </data>
-  <data name="ParamCacheDirectoryTips" xml:space="preserve">
-    <value>This is the storage location of the thumbnail cache (Cache.db).</value>
-  </data>
-  <data name="ParamClipboardArchiveSeparater" xml:space="preserve">
-    <value>Delimiter between compressed file and filename</value>
-  </data>
-  <data name="ParamClipboardArchiveSeparaterTips" xml:space="preserve">
-    <value>This is the setting when "@CopyFileCommandParameter.ArchivePolicy" is "@ArchivePolicy.SendArchivePath".</value>
-  </data>
-  <data name="ParamCommandParameterScrollPageAnimation" xml:space="preserve">
-    <value>Smooth scroll</value>
-  </data>
-  <data name="ParamCommandParameterScrollPageStop" xml:space="preserve">
-    <value>Scroll stop</value>
-  </data>
-  <data name="ParamCommandParameterScrollPageStopTips" xml:space="preserve">
-    <value>When it is executed continuously for a short time, it does not move the page.</value>
-  </data>
-  <data name="ParamCommandParameterShare" xml:space="preserve">
-    <value>Parameter sharing</value>
-  </data>
-  <data name="ParamCommandParameterThumbnailListFocus" xml:space="preserve">
-    <value>Get focus when displaying panel</value>
-  </data>
-  <data name="ParamCommandShare" xml:space="preserve">
-    <value>Parameters to share with "{0}"</value>
-  </data>
-  <data name="ParamExportImageIsEnableExportFolder" xml:space="preserve">
-    <value>Remember previously saved folder</value>
-  </data>
-  <data name="ParamExportImageQualityLevel" xml:space="preserve">
-    <value>JPEG quality</value>
-  </data>
-  <data name="ParamExportImageQualityLevelTips" xml:space="preserve">
-    <value>It is used only when conversion is required.</value>
-  </data>
-  <data name="ParamExternalArchiveSeparater" xml:space="preserve">
-    <value>Delimiter between compressed file and filename</value>
-  </data>
-  <data name="ParamExternalArchiveSeparaterTips" xml:space="preserve">
-    <value>This is the setting when "@ParamExternalArchiveOption" is "@EnumArchiveOptionTypeSendArchivePath".</value>
-  </data>
-  <data name="ParamExternalProgramType" xml:space="preserve">
-    <value>Program Type</value>
-  </data>
-  <data name="ParamExternalProtocol" xml:space="preserve">
-    <value>Protocol</value>
-  </data>
-  <data name="ParamFileInformationIsUseExifDateTime" xml:space="preserve">
-    <value>Use EXIF ​​date and time</value>
-  </data>
-  <data name="ParamFileInformationIsUseExifDateTimeTips" xml:space="preserve">
-    <value>It is limited to display on the information panel. It does not affect sorting by date.</value>
-  </data>
-  <data name="ParamItemProfileImageShape" xml:space="preserve">
-    <value>Image shape</value>
-  </data>
-  <data name="ParamItemProfileImageWidth" xml:space="preserve">
-    <value>Image size</value>
-  </data>
-  <data name="ParamItemProfileIsImagePopupEnabled" xml:space="preserve">
-    <value>Enable image popup</value>
-  </data>
-  <data name="ParamItemProfileIsNoteOpacity" xml:space="preserve">
-    <value>Note opacity</value>
-  </data>
-  <data name="ParamItemProfileIsTextVisibled" xml:space="preserve">
-    <value>Display text</value>
-  </data>
-  <data name="ParamItemProfileIsTextWrapped" xml:space="preserve">
-    <value>Enable text wrapped</value>
-  </data>
-  <data name="ParamListItemBannerImageWidth" xml:space="preserve">
-    <value>Banner size</value>
-  </data>
-  <data name="ParamListItemBannerImageWidthTips" xml:space="preserve">
-    <value>The width of the image in banner style. The vertical width is 1/4 of the horizontal width. If the thumbnail image resolution is exceeded, the image will be grainy.</value>
-  </data>
-  <data name="ParamListItemBannerIsTextWrapped" xml:space="preserve">
-    <value>Wrap name in banner style</value>
-  </data>
-  <data name="ParamListItemContentImagePopup" xml:space="preserve">
-    <value>Icon popup</value>
-  </data>
-  <data name="ParamListItemContentImagePopupTips" xml:space="preserve">
-    <value>When placing the cursor on the icon, a large image will be displayed in the popup.</value>
-  </data>
-  <data name="ParamListItemContentImageShape" xml:space="preserve">
-    <value>Shape of Icon</value>
-  </data>
-  <data name="ParamListItemContentImageWidth" xml:space="preserve">
-    <value>Icon size</value>
-  </data>
-  <data name="ParamListItemContentImageWidthTips" xml:space="preserve">
-    <value>The width of the image in content style. If the thumbnail image resolution is exceeded, the image will be grainy.</value>
-  </data>
-  <data name="ParamListItemContentIsTextWrapped" xml:space="preserve">
-    <value>Wrap name in content style</value>
-  </data>
-  <data name="ParamListItemContentNoteOpacity" xml:space="preserve">
-    <value>Supplemental text transparency in content style.</value>
-  </data>
-  <data name="ParamListItemContentNoteOpacityTips" xml:space="preserve">
-    <value>Transparency of supplemental text in content style.</value>
-  </data>
-  <data name="ParamListItemThumbnailImageShape" xml:space="preserve">
-    <value>Shape of thumbnail</value>
-  </data>
-  <data name="ParamListItemThumbnailImageWidth" xml:space="preserve">
-    <value>Thumbnail size</value>
-  </data>
-  <data name="ParamListItemThumbnailImageWidthTips" xml:space="preserve">
-    <value>The width of the image in thumbnail style. If the thumbnail image resolution is exceeded, the image will be grainy.</value>
-  </data>
-  <data name="ParamListItemThumbnailIsTextWrapped" xml:space="preserve">
-    <value>Wrap name in thumbnail style</value>
-  </data>
-  <data name="ParamListItemThumbnailNameVisibled" xml:space="preserve">
-    <value>Display the name when thumbnail style.</value>
-  </data>
-  <data name="ParamNavigateAutoRotate" xml:space="preserve">
-    <value>Auto rotate</value>
-  </data>
-  <data name="ParamNavigateIsFlipHorizontal" xml:space="preserve">
-    <value>Flip horizontal</value>
-  </data>
-  <data name="ParamNavigateIsFlipVertical" xml:space="preserve">
-    <value>Flip vertical</value>
-  </data>
-  <data name="ParamPageListPlacementInBookshelf" xml:space="preserve">
-    <value>Place page list on bookshelf</value>
-  </data>
-  <data name="ParamPageListPlacementInBookshelfTips" xml:space="preserve">
-    <value>When turned OFF, it becomes a side panel.</value>
-  </data>
-  <data name="ParamPictureProfileIsMagicScaleSimdEnabled" xml:space="preserve">
-    <value>Use SIMD for resize filtering</value>
-  </data>
-  <data name="ParamSevenZipArchiverIsPreExtract" xml:space="preserve">
-    <value>Pre Extract</value>
-  </data>
-  <data name="ParamSusieIsPluginCacheEnabled" xml:space="preserve">
-    <value>Cache the plugin</value>
-  </data>
-  <data name="ParamSusieIsPluginCacheEnabledTips" xml:space="preserve">
-    <value>If it is unstable, it may stabilize when it is OFF.</value>
-  </data>
-  <data name="ParamSusiePluginIsCacheEnabled" xml:space="preserve">
-    <value>Cache plugin</value>
-  </data>
-  <data name="ParamSusiePluginIsEnabled" xml:space="preserve">
-    <value>Enable</value>
-  </data>
-  <data name="ParamSusiePluginIsPreExtract" xml:space="preserve">
-    <value>Pre extract</value>
-  </data>
-  <data name="ParamTouchIsEnabled" xml:space="preserve">
-    <value>Enable touch operation</value>
-  </data>
-  <data name="ParamWindowChromeFrame" xml:space="preserve">
-    <value>Window frame with title bar hidden</value>
-  </data>
-  <data name="ParamWindowShapeIsFullScreenWithTaskBar" xml:space="preserve">
-    <value>Do not cover the task bar area at full screen</value>
-  </data>
-  <data name="ParmViewForceAutoRotate" xml:space="preserve">
-    <value>Force auto rotation</value>
   </data>
   <data name="PasteCommand" xml:space="preserve">
     <value>Paste</value>
@@ -3878,6 +3701,9 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   </data>
   <data name="QueryScheme.Root" xml:space="preserve">
     <value>Bookshelf</value>
+  </data>
+  <data name="QuickAccessTempError.Message" xml:space="preserve">
+    <value>Temporary folders can not be added to quick access.</value>
   </data>
   <data name="RandomBookCommand" xml:space="preserve">
     <value>Random Book</value>
@@ -4218,454 +4044,385 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="SetStretchModeUniformToVerticalCommand.Remarks" xml:space="preserve">
     <value>Scales to fit the height of the image to the height of the window.</value>
   </data>
-  <data name="SettingItemRemove" xml:space="preserve">
+  <data name="SettingItem.Remove" xml:space="preserve">
     <value>Delete all data...</value>
   </data>
-  <data name="SettingItemRemoveTips" xml:space="preserve">
+  <data name="SettingItem.Remove.Remarks" xml:space="preserve">
     <value>Delete the user data and exit the application. It is used when you want to completely delete history etc. before uninstallation.</value>
   </data>
-  <data name="SettingPageArchive" xml:space="preserve">
+  <data name="SettingPage.Archive" xml:space="preserve">
     <value>File types</value>
   </data>
-  <data name="SettingPageArchiveMedia" xml:space="preserve">
+  <data name="SettingPage.Archive.Media" xml:space="preserve">
     <value>Video</value>
   </data>
-  <data name="SettingPageArchiveMediaAdvance" xml:space="preserve">
+  <data name="SettingPage.Archive.MediaAdvance" xml:space="preserve">
     <value>Advanced Setting</value>
   </data>
-  <data name="SettingPageArchiveMediaFeature" xml:space="preserve">
+  <data name="SettingPage.Archive.MediaFeature" xml:space="preserve">
     <value>Video</value>
   </data>
-  <data name="SettingPageArchivePdf" xml:space="preserve">
+  <data name="SettingPage.Archive.Pdf" xml:space="preserve">
     <value>PDF</value>
   </data>
-  <data name="SettingPageArchivePdfAdvance" xml:space="preserve">
+  <data name="SettingPage.Archive.PdfAdvance" xml:space="preserve">
     <value>Advanced Setting</value>
   </data>
-  <data name="SettingPageArchivePdfFeature" xml:space="preserve">
+  <data name="SettingPage.Archive.PdfFeature" xml:space="preserve">
     <value>PDF</value>
   </data>
-  <data name="SettingPageArchiverSevenZip" xml:space="preserve">
+  <data name="SettingPage.Archive.rSevenZip" xml:space="preserve">
     <value>7-Zip</value>
   </data>
-  <data name="SettingPageArchiverSevenZipAdvance" xml:space="preserve">
+  <data name="SettingPage.Archive.rSevenZipAdvance" xml:space="preserve">
     <value>Advanced Setting</value>
   </data>
-  <data name="SettingPageArchiverSevenZipFeature" xml:space="preserve">
+  <data name="SettingPage.Archive.rSevenZipFeature" xml:space="preserve">
     <value>7-Zip</value>
   </data>
-  <data name="SettingPageArchiveZip" xml:space="preserve">
+  <data name="SettingPage.Archive.Zip" xml:space="preserve">
     <value>ZIP</value>
   </data>
-  <data name="SettingPageArchiveZipAdvance" xml:space="preserve">
+  <data name="SettingPage.Archive.ZipAdvance" xml:space="preserve">
     <value>Advanced Setting</value>
   </data>
-  <data name="SettingPageArchiveZipFeature" xml:space="preserve">
+  <data name="SettingPage.Archive.ZipFeature" xml:space="preserve">
     <value>Standard archive</value>
   </data>
-  <data name="SettingPageBook" xml:space="preserve">
+  <data name="SettingPage.Book" xml:space="preserve">
     <value>Book</value>
   </data>
-  <data name="SettingPageBookGeneral" xml:space="preserve">
+  <data name="SettingPage.Book.General" xml:space="preserve">
     <value>Book</value>
   </data>
-  <data name="SettingPageBookGeneralGeneral" xml:space="preserve">
-    <value>Book</value>
-  </data>
-  <data name="SettingPageBookMove" xml:space="preserve">
+  <data name="SettingPage.Book.Move" xml:space="preserve">
     <value>Move</value>
   </data>
-  <data name="SettingPageBookMoveAdvance" xml:space="preserve">
-    <value>Advanced Setting</value>
-  </data>
-  <data name="SettingPageBookMoveBook" xml:space="preserve">
+  <data name="SettingPage.Book.MoveBook" xml:space="preserve">
     <value>Move book</value>
   </data>
-  <data name="SettingPageBookMovePage" xml:space="preserve">
+  <data name="SettingPage.Book.MovePage" xml:space="preserve">
     <value>Move pages</value>
   </data>
-  <data name="SettingPageBookPageSetting" xml:space="preserve">
+  <data name="SettingPage.Book.PageSetting" xml:space="preserve">
     <value>Page settings</value>
   </data>
-  <data name="SettingPageBookPageSettingAdvance" xml:space="preserve">
-    <value>Advanced Setting</value>
-  </data>
-  <data name="SettingPageBookPageSettingTips" xml:space="preserve">
+  <data name="SettingPage.Book.PageSetting.Remarks" xml:space="preserve">
     <value>The left item is the default value, and the right item is the behavior when the book is opened.</value>
   </data>
-  <data name="SettingPageBookSubFolder" xml:space="preserve">
+  <data name="SettingPage.Book.SubFolder" xml:space="preserve">
     <value>Subfolder</value>
   </data>
-  <data name="SettingPageBookSubFolderAuto" xml:space="preserve">
+  <data name="SettingPage.Book.SubFolderAuto" xml:space="preserve">
     <value>Automatic determination of subfolder loading</value>
   </data>
-  <data name="SettingPageBookSubFolderConfirm" xml:space="preserve">
+  <data name="SettingPage.Book.SubFolderConfirm" xml:space="preserve">
     <value>Confirm loading of subfolder</value>
   </data>
-  <data name="SettingPageBookVisual" xml:space="preserve">
+  <data name="SettingPage.Book.Visual" xml:space="preserve">
     <value>Page view</value>
   </data>
-  <data name="SettingPageBookVisualVisual" xml:space="preserve">
+  <data name="SettingPage.Book.VisualVisual" xml:space="preserve">
     <value>Page view</value>
   </data>
-  <data name="SettingPageCommand" xml:space="preserve">
-    <value>Command</value>
-  </data>
-  <data name="SettingPageCommandGeneral" xml:space="preserve">
-    <value>Command General</value>
-  </data>
-  <data name="SettingPageCommandGeneralAdvance" xml:space="preserve">
-    <value>Command</value>
-  </data>
-  <data name="SettingPageCommandMain" xml:space="preserve">
-    <value>Edit commands</value>
-  </data>
-  <data name="SettingPageCommandScipt" xml:space="preserve">
-    <value>Scripts</value>
-  </data>
-  <data name="SettingPageContextMenu" xml:space="preserve">
-    <value>Context menu</value>
-  </data>
-  <data name="SettingPageContextMenuEdit" xml:space="preserve">
-    <value>Edit context menu</value>
-  </data>
-  <data name="SettingPageEnvironmentMemoryAndPerformance" xml:space="preserve">
-    <value>Memory &amp; Performance</value>
-  </data>
-  <data name="SettingPageExternal" xml:space="preserve">
-    <value>External</value>
-  </data>
-  <data name="SettingPageExternalGeneral" xml:space="preserve">
-    <value>External General</value>
-  </data>
-  <data name="SettingPageExternalGeneralCopyToClipboard" xml:space="preserve">
-    <value>Copy files to clipboard</value>
-  </data>
-  <data name="SettingPageExternalGeneralFromBrowser" xml:space="preserve">
-    <value>Drag and drop from browser</value>
-  </data>
-  <data name="SettingPageExternalGeneralSave" xml:space="preserve">
-    <value>Save file</value>
-  </data>
-  <data name="SettingPageExternalGeneralSaveTips" xml:space="preserve">
-    <value>This is the setting of the command to save the image</value>
-  </data>
-  <data name="SettingPageExternalProgram" xml:space="preserve">
-    <value>External app</value>
-  </data>
-  <data name="SettingPageExternalProgramSetting" xml:space="preserve">
-    <value>External app</value>
-  </data>
-  <data name="SettingPageGeneral" xml:space="preserve">
-    <value>General</value>
-  </data>
-  <data name="SettingPageGeneralBoot" xml:space="preserve">
-    <value>Launch</value>
-  </data>
-  <data name="SettingPageGeneralBootBoot" xml:space="preserve">
-    <value>Launch setting</value>
-  </data>
-  <data name="SettingPageGeneralBootBootDetail" xml:space="preserve">
-    <value>Advanced Setting</value>
-  </data>
-  <data name="SettingPageGeneralBootBootDetailTips" xml:space="preserve">
-    <value>* This setting will be reflected after closing the setting screen.</value>
-  </data>
-  <data name="SettingPageGeneralBootBootTips" xml:space="preserve">
-    <value>* This setting will be reflected after closing the setting screen.</value>
-  </data>
-  <data name="SettingPageGeneralDetail" xml:space="preserve">
-    <value>Environment</value>
-  </data>
-  <data name="SettingPageGeneralDetailDetail" xml:space="preserve">
-    <value>Advanced Setting</value>
-  </data>
-  <data name="SettingPageGeneralDetailExplorer" xml:space="preserve">
-    <value>Explorer</value>
-  </data>
-  <data name="SettingPageGeneralDetailLanguage" xml:space="preserve">
-    <value>Language</value>
-  </data>
-  <data name="SettingPageGeneralLocation" xml:space="preserve">
-    <value>Location</value>
-  </data>
-  <data name="SettingPageGeneralLocationTypes" xml:space="preserve">
-    <value>Location</value>
-  </data>
-  <data name="SettingPageGeneralLocationTypesTips" xml:space="preserve">
-    <value>* It is applied from the next startup.</value>
-  </data>
-  <data name="SettingPageGeneralSaveData" xml:space="preserve">
-    <value>Save data</value>
-  </data>
-  <data name="SettingPageGeneralSaveDataRemove" xml:space="preserve">
-    <value>Delete data</value>
-  </data>
-  <data name="SettingPageGeneralSaveDataTypes" xml:space="preserve">
-    <value>Save data</value>
-  </data>
-  <data name="SettingPageGeneralSaveDataTypesTips" xml:space="preserve">
-    <value>* The file location will be applied the next time you start up. Please use export, import to take over data.</value>
-  </data>
-  <data name="SettingPageHistory" xml:space="preserve">
-    <value>History</value>
-  </data>
-  <data name="SettingPageHistoryGeneral" xml:space="preserve">
-    <value>History</value>
-  </data>
-  <data name="SettingPageHistoryGeneralAdvance" xml:space="preserve">
-    <value>Advanced Setting</value>
-  </data>
-  <data name="SettingPageHistoryGeneralBookshelf" xml:space="preserve">
+  <data name="SettingPage.Bookshelf" xml:space="preserve">
     <value>Bookshelf</value>
   </data>
-  <data name="SettingPageHistoryGeneralDelete" xml:space="preserve">
-    <value>Delete history</value>
-  </data>
-  <data name="SettingPageHistoryGeneralDeleteButton" xml:space="preserve">
-    <value>Delete history</value>
-  </data>
-  <data name="SettingPageHistoryGeneralGeneral" xml:space="preserve">
-    <value>History</value>
-  </data>
-  <data name="SettingPageHistoryGeneralLimit" xml:space="preserve">
-    <value>Number of records saved limit</value>
-  </data>
-  <data name="SettingPageHistoryGeneralLimitTips" xml:space="preserve">
-    <value>Sets the maximum number of history saved in the history file. The history during application operation is not limited.</value>
-  </data>
-  <data name="SettingPageHistoryPageView" xml:space="preserve">
-    <value>Page view</value>
-  </data>
-  <data name="SettingPageHistoryPageViewRecord" xml:space="preserve">
-    <value>Page view recording</value>
-  </data>
-  <data name="SettingPageImage" xml:space="preserve">
-    <value>Image</value>
-  </data>
-  <data name="SettingPageImageCollection" xml:space="preserve">
-    <value>Image formats</value>
-  </data>
-  <data name="SettingPageManipurate" xml:space="preserve">
-    <value>View operation</value>
-  </data>
-  <data name="SettingPageManipurateGeneral" xml:space="preserve">
-    <value>View operation General</value>
-  </data>
-  <data name="SettingPageManipurateGeneralAdvance" xml:space="preserve">
+  <data name="SettingPage.Bookshelf.Advance" xml:space="preserve">
     <value>Advanced Setting</value>
   </data>
-  <data name="SettingPageManipurateGeneralViewOperation" xml:space="preserve">
-    <value>View operation</value>
-  </data>
-  <data name="SettingPageManipurateLoupe" xml:space="preserve">
-    <value>Loupe</value>
-  </data>
-  <data name="SettingPageManipurateLoupeAdvance" xml:space="preserve">
-    <value>Advanced Setting</value>
-  </data>
-  <data name="SettingPageManipurateLoupeGeneral" xml:space="preserve">
-    <value>Loupe</value>
-  </data>
-  <data name="SettingPageManipurateMouse" xml:space="preserve">
-    <value>Mouse operation</value>
-  </data>
-  <data name="SettingPageManipurateMouseDrag" xml:space="preserve">
-    <value>Mouse drag</value>
-  </data>
-  <data name="SettingPageManipurateMouseHold" xml:space="preserve">
-    <value>Mouse long press</value>
-  </data>
-  <data name="SettingPageManipurateMouseVisibility" xml:space="preserve">
-    <value>Cursor auto hide</value>
-  </data>
-  <data name="SettingPageManipurateMouseVisibilityTips" xml:space="preserve">
-    <value>If you do not operate the mouse for a certain time, the cursor will be hidden.</value>
-  </data>
-  <data name="SettingPageManipurateTouch" xml:space="preserve">
-    <value>Touch operation</value>
-  </data>
-  <data name="SettingPageManipurateTouchAdvance" xml:space="preserve">
-    <value>Advanced Setting</value>
-  </data>
-  <data name="SettingPageManipurateTouchGeneral" xml:space="preserve">
-    <value>Touch operation</value>
-  </data>
-  <data name="SettingPagePanelBookshelf" xml:space="preserve">
+  <data name="SettingPage.Bookshelf.General" xml:space="preserve">
     <value>Bookshelf</value>
   </data>
-  <data name="SettingPagePanelBookshelfAdvance" xml:space="preserve">
-    <value>Advanced Setting</value>
-  </data>
-  <data name="SettingPagePanelBookshelfGeneral" xml:space="preserve">
-    <value>Bookshelf</value>
-  </data>
-  <data name="SettingPagePanelBookshelfTree" xml:space="preserve">
+  <data name="SettingPage.Bookshelf.Tree" xml:space="preserve">
     <value>Folder tree</value>
   </data>
-  <data name="SettingPagePanelBookshelfVisual" xml:space="preserve">
+  <data name="SettingPage.Bookshelf.Visual" xml:space="preserve">
     <value>Display</value>
   </data>
-  <data name="SettingPagePanelEffect" xml:space="preserve">
+  <data name="SettingPage.Command" xml:space="preserve">
+    <value>Command</value>
+  </data>
+  <data name="SettingPage.Command.General" xml:space="preserve">
+    <value>Command General</value>
+  </data>
+  <data name="SettingPage.Command.GeneralAdvance" xml:space="preserve">
+    <value>Command</value>
+  </data>
+  <data name="SettingPage.Command.Main" xml:space="preserve">
+    <value>Edit commands</value>
+  </data>
+  <data name="SettingPage.Command.Scipt" xml:space="preserve">
+    <value>Scripts</value>
+  </data>
+  <data name="SettingPage.ContextMenu" xml:space="preserve">
+    <value>Context menu</value>
+  </data>
+  <data name="SettingPage.ContextMenu.Edit" xml:space="preserve">
+    <value>Edit context menu</value>
+  </data>
+  <data name="SettingPage.Effect" xml:space="preserve">
     <value>Effect panel</value>
   </data>
-  <data name="SettingPagePanelEffectAdvance" xml:space="preserve">
+  <data name="SettingPage.Effect.Advance" xml:space="preserve">
     <value>Advanced Setting</value>
   </data>
-  <data name="SettingPagePanelEffectVisual" xml:space="preserve">
+  <data name="SettingPage.Effect.Visual" xml:space="preserve">
     <value>Effect panel</value>
   </data>
-  <data name="SettingPagePanelFileInfo" xml:space="preserve">
-    <value>Information panel</value>
+  <data name="SettingPage.FileTypes" xml:space="preserve">
+    <value>Image formats</value>
   </data>
-  <data name="SettingPagePanelFileInfoVisual" xml:space="preserve">
-    <value>Information panel</value>
+  <data name="SettingPage.FileTypes.Svg" xml:space="preserve">
+    <value>SVG</value>
   </data>
-  <data name="SettingPagePanelGeneral" xml:space="preserve">
-    <value>Side panels</value>
-  </data>
-  <data name="SettingPagePanelGeneralAdvance" xml:space="preserve">
-    <value>Advanced Setting</value>
-  </data>
-  <data name="SettingPagePanelGeneralOperation" xml:space="preserve">
-    <value>Operation</value>
-  </data>
-  <data name="SettingPagePanelGeneralVisual" xml:space="preserve">
-    <value>Side panels</value>
-  </data>
-  <data name="SettingPagePanelListItem" xml:space="preserve">
-    <value>Panel list item</value>
-  </data>
-  <data name="SettingPagePanels" xml:space="preserve">
-    <value>Panels</value>
-  </data>
-  <data name="SettingPagePanels.AutoHideMode" xml:space="preserve">
-    <value>Auto-hide mode</value>
-  </data>
-  <data name="SettingPagePanels.AutoHideMode.WindowState" xml:space="preserve">
-    <value>Window state to apply auto-hide mode</value>
-  </data>
-  <data name="SettingPagePanelStyleBanner" xml:space="preserve">
-    <value>Banner style of list items</value>
-  </data>
-  <data name="SettingPagePanelStyleContent" xml:space="preserve">
-    <value>Content style of list items</value>
-  </data>
-  <data name="SettingPagePanelStyleThumbnail" xml:space="preserve">
-    <value>Thumbnail style of list items</value>
-  </data>
-  <data name="SettingPageScript" xml:space="preserve">
-    <value>Script</value>
-  </data>
-  <data name="SettingPageSearchResult" xml:space="preserve">
-    <value>Search results</value>
-  </data>
-  <data name="SettingPageSearchResultNotFound" xml:space="preserve">
-    <value>Search results not found</value>
-  </data>
-  <data name="SettingPageSusie" xml:space="preserve">
-    <value>Susie</value>
-  </data>
-  <data name="SettingPageSusieArchivePlugin" xml:space="preserve">
-    <value>Archive plug-in</value>
-  </data>
-  <data name="SettingPageSusieGeneral" xml:space="preserve">
-    <value>General Susie</value>
-  </data>
-  <data name="SettingPageSusieGeneralAdvance" xml:space="preserve">
-    <value>Advanced Setting</value>
-  </data>
-  <data name="SettingPageSusieGeneralGeneral" xml:space="preserve">
-    <value>Susie plug-in</value>
-  </data>
-  <data name="SettingPageSusieGeneralGeneralTips" xml:space="preserve">
-    <value>It supports Susie plug-in (.spi).</value>
-  </data>
-  <data name="SettingPageSusieGeneralGeneralTipsX64" xml:space="preserve">
-    <value>It supports Susie plug-in (.sph) for 64bit.</value>
-  </data>
-  <data name="SettingPageSusieGeneralPriority" xml:space="preserve">
-    <value>Priority</value>
-  </data>
-  <data name="SettingPageSusieImagePlugin" xml:space="preserve">
-    <value>Image plug-in</value>
-  </data>
-  <data name="SettingPageVisual" xml:space="preserve">
-    <value>Visual</value>
-  </data>
-  <data name="SettingPageVisualFilmstrip" xml:space="preserve">
+  <data name="SettingPage.Filmstrip" xml:space="preserve">
     <value>Filmstrip</value>
   </data>
-  <data name="SettingPageVisualFilmstripFilmstrip" xml:space="preserve">
-    <value>Filmstrip</value>
+  <data name="SettingPage.General" xml:space="preserve">
+    <value>General</value>
   </data>
-  <data name="SettingPageVisualFont" xml:space="preserve">
-    <value>Font</value>
+  <data name="SettingPage.General.Boot" xml:space="preserve">
+    <value>Launch</value>
   </data>
-  <data name="SettingPageVisualFontPanel" xml:space="preserve">
-    <value>List item font</value>
+  <data name="SettingPage.General.Boot.Remarks" xml:space="preserve">
+    <value>* This setting will be reflected after closing the setting screen.</value>
   </data>
-  <data name="SettingPageVisualGeneral" xml:space="preserve">
-    <value>Visual General</value>
+  <data name="SettingPage.General.BootBoot" xml:space="preserve">
+    <value>Launch setting</value>
   </data>
-  <data name="SettingPageVisualGeneralAdvance" xml:space="preserve">
-    <value>Window advanced setting</value>
+  <data name="SettingPage.General.BootBootDetail" xml:space="preserve">
+    <value>Advanced Setting</value>
   </data>
-  <data name="SettingPageVisualGeneralAutoHide" xml:space="preserve">
-    <value>Auto-hide panel</value>
+  <data name="SettingPage.General.BootBootDetailTips" xml:space="preserve">
+    <value>* This setting will be reflected after closing the setting screen.</value>
   </data>
-  <data name="SettingPageVisualGeneralBackground" xml:space="preserve">
-    <value>Background</value>
+  <data name="SettingPage.General.Detail" xml:space="preserve">
+    <value>Environment</value>
   </data>
-  <data name="SettingPageVisualGeneralOpacity" xml:space="preserve">
-    <value>Opacity</value>
+  <data name="SettingPage.General.DetailDetail" xml:space="preserve">
+    <value>Advanced Setting</value>
   </data>
-  <data name="SettingPageVisualGeneralTheme" xml:space="preserve">
-    <value>Theme</value>
+  <data name="SettingPage.General.DetailExplorer" xml:space="preserve">
+    <value>Explorer</value>
   </data>
-  <data name="SettingPageVisualNotify" xml:space="preserve">
+  <data name="SettingPage.General.DetailLanguage" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="SettingPage.General.Location" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="SettingPage.General.LocationTypes" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="SettingPage.General.SaveData" xml:space="preserve">
+    <value>Save data</value>
+  </data>
+  <data name="SettingPage.General.SaveDataRemove" xml:space="preserve">
+    <value>Delete data</value>
+  </data>
+  <data name="SettingPage.General.SaveDataTypes" xml:space="preserve">
+    <value>Save data</value>
+  </data>
+  <data name="SettingPage.General.SaveDataTypes.Remarks" xml:space="preserve">
+    <value>* The file location will be applied the next time you start up. Please use export, import to take over data.</value>
+  </data>
+  <data name="SettingPage.History" xml:space="preserve">
+    <value>History</value>
+  </data>
+  <data name="SettingPage.History.General" xml:space="preserve">
+    <value>History</value>
+  </data>
+  <data name="SettingPage.History.GeneralAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="SettingPage.History.GeneralBookshelf" xml:space="preserve">
+    <value>Bookshelf</value>
+  </data>
+  <data name="SettingPage.History.GeneralDelete" xml:space="preserve">
+    <value>Delete history</value>
+  </data>
+  <data name="SettingPage.History.GeneralDeleteButton" xml:space="preserve">
+    <value>Delete history</value>
+  </data>
+  <data name="SettingPage.History.GeneralGeneral" xml:space="preserve">
+    <value>History</value>
+  </data>
+  <data name="SettingPage.History.GeneralLimit" xml:space="preserve">
+    <value>Number of records saved limit</value>
+  </data>
+  <data name="SettingPage.History.GeneralLimit.Remarks" xml:space="preserve">
+    <value>Sets the maximum number of history saved in the history file. The history during application operation is not limited.</value>
+  </data>
+  <data name="SettingPage.History.PageView" xml:space="preserve">
+    <value>Page view</value>
+  </data>
+  <data name="SettingPage.History.PageViewRecord" xml:space="preserve">
+    <value>Page view recording</value>
+  </data>
+  <data name="SettingPage.Information" xml:space="preserve">
+    <value>Information panel</value>
+  </data>
+  <data name="SettingPage.Information.Visual" xml:space="preserve">
+    <value>Information panel</value>
+  </data>
+  <data name="SettingPage.Manipurate" xml:space="preserve">
+    <value>View operation</value>
+  </data>
+  <data name="SettingPage.Manipurate.General" xml:space="preserve">
+    <value>View operation General</value>
+  </data>
+  <data name="SettingPage.Manipurate.GeneralAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="SettingPage.Manipurate.GeneralViewOperation" xml:space="preserve">
+    <value>View operation</value>
+  </data>
+  <data name="SettingPage.Manipurate.Loupe" xml:space="preserve">
+    <value>Loupe</value>
+  </data>
+  <data name="SettingPage.Manipurate.LoupeAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="SettingPage.Manipurate.LoupeGeneral" xml:space="preserve">
+    <value>Loupe</value>
+  </data>
+  <data name="SettingPage.Manipurate.Mouse" xml:space="preserve">
+    <value>Mouse operation</value>
+  </data>
+  <data name="SettingPage.Manipurate.MouseDrag" xml:space="preserve">
+    <value>Mouse drag</value>
+  </data>
+  <data name="SettingPage.Manipurate.MouseHold" xml:space="preserve">
+    <value>Mouse long press</value>
+  </data>
+  <data name="SettingPage.Manipurate.MouseVisibility" xml:space="preserve">
+    <value>Cursor auto hide</value>
+  </data>
+  <data name="SettingPage.Manipurate.MouseVisibility.Remarks" xml:space="preserve">
+    <value>If you do not operate the mouse for a certain time, the cursor will be hidden.</value>
+  </data>
+  <data name="SettingPage.Manipurate.Touch" xml:space="preserve">
+    <value>Touch operation</value>
+  </data>
+  <data name="SettingPage.Manipurate.TouchAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="SettingPage.Manipurate.TouchGeneral" xml:space="preserve">
+    <value>Touch operation</value>
+  </data>
+  <data name="SettingPage.MemoryAndPerformance" xml:space="preserve">
+    <value>Memory &amp; Performance</value>
+  </data>
+  <data name="SettingPage.Notify" xml:space="preserve">
     <value>Notification</value>
   </data>
-  <data name="SettingPageVisualNotifyDisplay" xml:space="preserve">
+  <data name="SettingPage.Notify.Display" xml:space="preserve">
     <value>Notification display</value>
   </data>
-  <data name="SettingPageVisualSlider" xml:space="preserve">
+  <data name="SettingPage.PanelItems" xml:space="preserve">
+    <value>Panel list item</value>
+  </data>
+  <data name="SettingPage.PanelItems.Font" xml:space="preserve">
+    <value>List item font</value>
+  </data>
+  <data name="SettingPage.PanelItems.StyleBanner" xml:space="preserve">
+    <value>Banner style of list items</value>
+  </data>
+  <data name="SettingPage.PanelItems.StyleContent" xml:space="preserve">
+    <value>Content style of list items</value>
+  </data>
+  <data name="SettingPage.PanelItems.StyleThumbnail" xml:space="preserve">
+    <value>Thumbnail style of list items</value>
+  </data>
+  <data name="SettingPage.Panels" xml:space="preserve">
+    <value>Panels</value>
+  </data>
+  <data name="SettingPage.Panels.AutoHide" xml:space="preserve">
+    <value>Auto-hide panel</value>
+  </data>
+  <data name="SettingPage.Panels.AutoHideMode" xml:space="preserve">
+    <value>Auto-hide mode</value>
+  </data>
+  <data name="SettingPage.Panels.AutoHideMode.WindowState" xml:space="preserve">
+    <value>Window state to apply auto-hide mode</value>
+  </data>
+  <data name="SettingPage.Panels.SidePanels" xml:space="preserve">
+    <value>Side panels</value>
+  </data>
+  <data name="SettingPage.Script" xml:space="preserve">
+    <value>Script</value>
+  </data>
+  <data name="SettingPage.SearchResult" xml:space="preserve">
+    <value>Search results</value>
+  </data>
+  <data name="SettingPage.SearchResult.NotFound" xml:space="preserve">
+    <value>Search results not found</value>
+  </data>
+  <data name="SettingPage.Slider" xml:space="preserve">
     <value>Page slider</value>
   </data>
-  <data name="SettingPageVisualSliderVisual" xml:space="preserve">
-    <value>Page slider</value>
-  </data>
-  <data name="SettingPageVisualSlideshow" xml:space="preserve">
+  <data name="SettingPage.Slideshow" xml:space="preserve">
     <value>Slideshow</value>
   </data>
-  <data name="SettingPageVisualSlideshowGeneral" xml:space="preserve">
-    <value>Slideshow</value>
+  <data name="SettingPage.Susie" xml:space="preserve">
+    <value>Susie</value>
   </data>
-  <data name="SettingPageVisualThumbnail" xml:space="preserve">
+  <data name="SettingPage.Susie.ArchivePlugin" xml:space="preserve">
+    <value>Archive plug-in</value>
+  </data>
+  <data name="SettingPage.Susie.General" xml:space="preserve">
+    <value>General Susie</value>
+  </data>
+  <data name="SettingPage.Susie.GeneralAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="SettingPage.Susie.GeneralGeneral" xml:space="preserve">
+    <value>Susie plug-in</value>
+  </data>
+  <data name="SettingPage.Susie.GeneralGeneral.Remarks" xml:space="preserve">
+    <value>It supports Susie plug-in (.spi).</value>
+  </data>
+  <data name="SettingPage.Susie.GeneralPriority" xml:space="preserve">
+    <value>Priority</value>
+  </data>
+  <data name="SettingPage.Susie.ImagePlugin" xml:space="preserve">
+    <value>Image plug-in</value>
+  </data>
+  <data name="SettingPage.Thumbnail" xml:space="preserve">
     <value>Thumbnail</value>
   </data>
-  <data name="SettingPageVisualThumbnailAdvance" xml:space="preserve">
+  <data name="SettingPage.Thumbnail.Advance" xml:space="preserve">
     <value>Thumbnail image settings</value>
   </data>
-  <data name="SettingPageVisualThumbnailCache" xml:space="preserve">
+  <data name="SettingPage.Thumbnail.Cache" xml:space="preserve">
     <value>Thumbnail cache</value>
   </data>
-  <data name="SettingPageVisualThumbnailCacheClear" xml:space="preserve">
+  <data name="SettingPage.Thumbnail.CacheClear" xml:space="preserve">
     <value>Clear thumbnail cache</value>
   </data>
-  <data name="SettingPageVisualThumbnailCacheClearButton" xml:space="preserve">
+  <data name="SettingPage.Thumbnail.CacheClearButton" xml:space="preserve">
     <value>Clear thumbnail cache</value>
   </data>
-  <data name="SettingPageVisualThumbnailCacheClearTips" xml:space="preserve">
+  <data name="SettingPage.Thumbnail.CacheClearTips" xml:space="preserve">
     <value>After changing the thumbnail image settings, you need to clear the cache.</value>
   </data>
-  <data name="SettingPageVisualWindowTitile" xml:space="preserve">
+  <data name="SettingPage.Window" xml:space="preserve">
+    <value>Window</value>
+  </data>
+  <data name="SettingPage.Window.Advance" xml:space="preserve">
+    <value>Window advanced setting</value>
+  </data>
+  <data name="SettingPage.Window.Background" xml:space="preserve">
+    <value>Background</value>
+  </data>
+  <data name="SettingPage.Window.Theme" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="SettingPage.WindowTitile" xml:space="preserve">
     <value>Window title</value>
   </data>
-  <data name="SettingPageVisualWindowTitileDisplay" xml:space="preserve">
-    <value>Window title</value>
-  </data>
-  <data name="SettingPageVisualWindowTitileNote" xml:space="preserve">
+  <data name="SettingPage.WindowTitile.Note" xml:space="preserve">
     <value>Format Description
 
 $Book .. Name of the book
@@ -4681,12 +4438,6 @@ $Scale[LR] .. Image scale (%)
 "◯◯◯[LR]" indicates that the variable name changes for 1 page or 2 pages.
 For example, $Name is for 1 page, $NameL is for 2 pages left, $NameR is for 2 pages right.
 $Name is the main page (the smaller page number) when displaying 2 pages. </value>
-  </data>
-  <data name="SettingPageWindow" xml:space="preserve">
-    <value>Window</value>
-  </data>
-  <data name="SettingSectionSvg" xml:space="preserve">
-    <value>SVG</value>
   </data>
   <data name="SevenZipArchiveConfig.IsEnabled" xml:space="preserve">
     <value>Use compressed file expansion with 7-Zip</value>
@@ -4850,6 +4601,12 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="SusieConfig.SusiePluginPath" xml:space="preserve">
     <value>Plugin folder</value>
   </data>
+  <data name="SusieConnectError.Message" xml:space="preserve">
+    <value>Connection to Susie failed.</value>
+  </data>
+  <data name="SusieLoadFailedException.Message" xml:space="preserve">
+    <value>Failed to load image at Susie.</value>
+  </data>
   <data name="SusiePluginList.Config" xml:space="preserve">
     <value>Config</value>
   </data>
@@ -4861,6 +4618,15 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="SusiePluginList.Up" xml:space="preserve">
     <value>Up</value>
+  </data>
+  <data name="SusiePluginWindow.IsCacheEnabled" xml:space="preserve">
+    <value>Cache plugin</value>
+  </data>
+  <data name="SusiePluginWindow.IsEnabled" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="SusiePluginWindow.IsPreExtract" xml:space="preserve">
+    <value>Pre extract</value>
   </data>
   <data name="SwirlEffectUnit.Center" xml:space="preserve">
     <value>Center</value>
@@ -5015,14 +4781,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleBookmarkCommand.Menu" xml:space="preserve">
     <value>Bookmark</value>
   </data>
-  <data name="ToggleBookmarkCommand.Remarks" xml:space="preserve">
-    <value>Toggle bookmark registration / release of currently open book.</value>
-  </data>
-  <data name="ToggleBookmarkCommand_Off" xml:space="preserve">
+  <data name="ToggleBookmarkCommand.Off" xml:space="preserve">
     <value>Bookmark OFF</value>
   </data>
-  <data name="ToggleBookmarkCommand_On" xml:space="preserve">
+  <data name="ToggleBookmarkCommand.On" xml:space="preserve">
     <value>Bookmark</value>
+  </data>
+  <data name="ToggleBookmarkCommand.Remarks" xml:space="preserve">
+    <value>Toggle bookmark registration / release of currently open book.</value>
   </data>
   <data name="ToggleBookOrderCommand" xml:space="preserve">
     <value>Switch book order</value>
@@ -5045,14 +4811,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleCustomSizeCommand.Menu" xml:space="preserve">
     <value>Custom size</value>
   </data>
-  <data name="ToggleCustomSizeCommand.Remarks" xml:space="preserve">
-    <value>Toggles enabling / disabling of size specification applied to original size.</value>
-  </data>
-  <data name="ToggleCustomSizeCommand_Off" xml:space="preserve">
+  <data name="ToggleCustomSizeCommand.Off" xml:space="preserve">
     <value>Custom size OFF</value>
   </data>
-  <data name="ToggleCustomSizeCommand_On" xml:space="preserve">
+  <data name="ToggleCustomSizeCommand.On" xml:space="preserve">
     <value>Custom size</value>
+  </data>
+  <data name="ToggleCustomSizeCommand.Remarks" xml:space="preserve">
+    <value>Toggles enabling / disabling of size specification applied to original size.</value>
   </data>
   <data name="ToggleEffectCommand" xml:space="preserve">
     <value>Toggle effect</value>
@@ -5060,14 +4826,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleEffectCommand.Menu" xml:space="preserve">
     <value>Effect</value>
   </data>
-  <data name="ToggleEffectCommand.Remarks" xml:space="preserve">
-    <value>Toggle effect on / off.</value>
-  </data>
-  <data name="ToggleEffectCommand_Off" xml:space="preserve">
+  <data name="ToggleEffectCommand.Off" xml:space="preserve">
     <value>Effect OFF</value>
   </data>
-  <data name="ToggleEffectCommand_On" xml:space="preserve">
+  <data name="ToggleEffectCommand.On" xml:space="preserve">
     <value>Effect</value>
+  </data>
+  <data name="ToggleEffectCommand.Remarks" xml:space="preserve">
+    <value>Toggle effect on / off.</value>
   </data>
   <data name="ToggleForceAutoRotateCommand" xml:space="preserve">
     <value>Force auto rotation</value>
@@ -5090,14 +4856,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleFullScreenCommand.Menu" xml:space="preserve">
     <value>Full screen</value>
   </data>
-  <data name="ToggleFullScreenCommand.Remarks" xml:space="preserve">
-    <value>Switch the full screen state.</value>
-  </data>
-  <data name="ToggleFullScreenCommand_Off" xml:space="preserve">
+  <data name="ToggleFullScreenCommand.Off" xml:space="preserve">
     <value>Full screen OFF</value>
   </data>
-  <data name="ToggleFullScreenCommand_On" xml:space="preserve">
+  <data name="ToggleFullScreenCommand.On" xml:space="preserve">
     <value>Full screen</value>
+  </data>
+  <data name="ToggleFullScreenCommand.Remarks" xml:space="preserve">
+    <value>Switch the full screen state.</value>
   </data>
   <data name="ToggleGridCommand" xml:space="preserve">
     <value>Grid</value>
@@ -5105,14 +4871,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleGridCommand.Menu" xml:space="preserve">
     <value>Grid</value>
   </data>
-  <data name="ToggleGridCommand.Remarks" xml:space="preserve">
-    <value>Toggle visible / hide of grid.</value>
-  </data>
-  <data name="ToggleGridCommand_Off" xml:space="preserve">
+  <data name="ToggleGridCommand.Off" xml:space="preserve">
     <value>Grid OFF</value>
   </data>
-  <data name="ToggleGridCommand_On" xml:space="preserve">
+  <data name="ToggleGridCommand.On" xml:space="preserve">
     <value>Grid</value>
+  </data>
+  <data name="ToggleGridCommand.Remarks" xml:space="preserve">
+    <value>Toggle visible / hide of grid.</value>
   </data>
   <data name="ToggleHideMenuCommand" xml:space="preserve">
     <value>Toggle auto hide menu</value>
@@ -5120,14 +4886,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleHideMenuCommand.Menu" xml:space="preserve">
     <value>Auto hide menu</value>
   </data>
-  <data name="ToggleHideMenuCommand.Remarks" xml:space="preserve">
-    <value>Hide the menu. It is displayed by moving the cursor to the upper end of the window.</value>
-  </data>
-  <data name="ToggleHideMenuCommand_Off" xml:space="preserve">
+  <data name="ToggleHideMenuCommand.Off" xml:space="preserve">
     <value>Auto hide menu OFF</value>
   </data>
-  <data name="ToggleHideMenuCommand_On" xml:space="preserve">
+  <data name="ToggleHideMenuCommand.On" xml:space="preserve">
     <value>Auto hide menu</value>
+  </data>
+  <data name="ToggleHideMenuCommand.Remarks" xml:space="preserve">
+    <value>Hide the menu. It is displayed by moving the cursor to the upper end of the window.</value>
   </data>
   <data name="ToggleHidePageSliderCommand" xml:space="preserve">
     <value>Toggle auto hide slider</value>
@@ -5135,14 +4901,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleHidePageSliderCommand.Menu" xml:space="preserve">
     <value>Auto hide slider</value>
   </data>
-  <data name="ToggleHidePageSliderCommand.Remarks" xml:space="preserve">
-    <value>Hide the slider. It is displayed by moving the cursor to the lower end of the window.</value>
-  </data>
-  <data name="ToggleHidePageSliderCommand_Off" xml:space="preserve">
+  <data name="ToggleHidePageSliderCommand.Off" xml:space="preserve">
     <value>Auto hide slider OFF</value>
   </data>
-  <data name="ToggleHidePageSliderCommand_On" xml:space="preserve">
+  <data name="ToggleHidePageSliderCommand.On" xml:space="preserve">
     <value>Auto hide slider</value>
+  </data>
+  <data name="ToggleHidePageSliderCommand.Remarks" xml:space="preserve">
+    <value>Hide the slider. It is displayed by moving the cursor to the lower end of the window.</value>
   </data>
   <data name="ToggleHidePanelCommand" xml:space="preserve">
     <value>Toggle auto hide panels</value>
@@ -5150,14 +4916,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleHidePanelCommand.Menu" xml:space="preserve">
     <value>Auto hide panels</value>
   </data>
-  <data name="ToggleHidePanelCommand.Remarks" xml:space="preserve">
-    <value>Automatically hide the left and right panels. It is displayed by moving the cursor to the left and right edges of the window.</value>
-  </data>
-  <data name="ToggleHidePanelCommand_Off" xml:space="preserve">
+  <data name="ToggleHidePanelCommand.Off" xml:space="preserve">
     <value>Auto hide panels OFF</value>
   </data>
-  <data name="ToggleHidePanelCommand_On" xml:space="preserve">
+  <data name="ToggleHidePanelCommand.On" xml:space="preserve">
     <value>Auto hide panels</value>
+  </data>
+  <data name="ToggleHidePanelCommand.Remarks" xml:space="preserve">
+    <value>Automatically hide the left and right panels. It is displayed by moving the cursor to the left and right edges of the window.</value>
   </data>
   <data name="ToggleHideThumbnailListCommand" xml:space="preserve">
     <value>Toggle auto hide filmstrip</value>
@@ -5165,14 +4931,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleHideThumbnailListCommand.Menu" xml:space="preserve">
     <value>Auto hide filmstrip</value>
   </data>
-  <data name="ToggleHideThumbnailListCommand.Remarks" xml:space="preserve">
-    <value>Display the film strip only when using the slider.</value>
-  </data>
-  <data name="ToggleHideThumbnailListCommand_Off" xml:space="preserve">
+  <data name="ToggleHideThumbnailListCommand.Off" xml:space="preserve">
     <value>Auto hide filmstrip OFF</value>
   </data>
-  <data name="ToggleHideThumbnailListCommand_On" xml:space="preserve">
+  <data name="ToggleHideThumbnailListCommand.On" xml:space="preserve">
     <value>Auto hide filmstrip</value>
+  </data>
+  <data name="ToggleHideThumbnailListCommand.Remarks" xml:space="preserve">
+    <value>Display the film strip only when using the slider.</value>
   </data>
   <data name="ToggleIsAutoRotateCommand" xml:space="preserve">
     <value>Toggle auto rotation</value>
@@ -5183,14 +4949,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleIsAutoRotateLeftCommand.Menu" xml:space="preserve">
     <value>Auto left rotate</value>
   </data>
-  <data name="ToggleIsAutoRotateLeftCommand.Remarks" xml:space="preserve">
-    <value>When displaying the page, left rotate the portrait image 90 degrees. If the window is portrait, rotate horizontally long image by 90 degrees.</value>
-  </data>
-  <data name="ToggleIsAutoRotateLeftCommand_Off" xml:space="preserve">
+  <data name="ToggleIsAutoRotateLeftCommand.Off" xml:space="preserve">
     <value>Auto left rotate OFF</value>
   </data>
-  <data name="ToggleIsAutoRotateLeftCommand_On" xml:space="preserve">
+  <data name="ToggleIsAutoRotateLeftCommand.On" xml:space="preserve">
     <value>Auto left rotate</value>
+  </data>
+  <data name="ToggleIsAutoRotateLeftCommand.Remarks" xml:space="preserve">
+    <value>When displaying the page, left rotate the portrait image 90 degrees. If the window is portrait, rotate horizontally long image by 90 degrees.</value>
   </data>
   <data name="ToggleIsAutoRotateRightCommand" xml:space="preserve">
     <value>Toggle auto rithg rotation</value>
@@ -5198,14 +4964,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleIsAutoRotateRightCommand.Menu" xml:space="preserve">
     <value>Auto right rotate</value>
   </data>
-  <data name="ToggleIsAutoRotateRightCommand.Remarks" xml:space="preserve">
-    <value>When displaying the page, right rotate the portrait image 90 degrees. If the window is portrait, rotate horizontally long image by 90 degrees.</value>
-  </data>
-  <data name="ToggleIsAutoRotateRightCommand_Off" xml:space="preserve">
+  <data name="ToggleIsAutoRotateRightCommand.Off" xml:space="preserve">
     <value>Auto right rotate OFF</value>
   </data>
-  <data name="ToggleIsAutoRotateRightCommand_On" xml:space="preserve">
+  <data name="ToggleIsAutoRotateRightCommand.On" xml:space="preserve">
     <value>Auto right rotate</value>
+  </data>
+  <data name="ToggleIsAutoRotateRightCommand.Remarks" xml:space="preserve">
+    <value>When displaying the page, right rotate the portrait image 90 degrees. If the window is portrait, rotate horizontally long image by 90 degrees.</value>
   </data>
   <data name="ToggleIsLoupeCommand" xml:space="preserve">
     <value>Toggle loupe</value>
@@ -5213,74 +4979,74 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleIsLoupeCommand.Menu" xml:space="preserve">
     <value>Loupe</value>
   </data>
+  <data name="ToggleIsLoupeCommand.Off" xml:space="preserve">
+    <value>Loupe OFF</value>
+  </data>
+  <data name="ToggleIsLoupeCommand.On" xml:space="preserve">
+    <value>Loupe</value>
+  </data>
   <data name="ToggleIsLoupeCommand.Remarks" xml:space="preserve">
     <value>Turn the loupe on or off.</value>
   </data>
-  <data name="ToggleIsLoupeCommand_Off" xml:space="preserve">
-    <value>Loupe OFF</value>
-  </data>
-  <data name="ToggleIsLoupeCommand_On" xml:space="preserve">
-    <value>Loupe</value>
-  </data>
   <data name="ToggleIsRecursiveFolderCommand" xml:space="preserve">
+    <value>Load subfolders</value>
+  </data>
+  <data name="ToggleIsRecursiveFolderCommand.Off" xml:space="preserve">
+    <value>Load subfolders OFF</value>
+  </data>
+  <data name="ToggleIsRecursiveFolderCommand.On" xml:space="preserve">
     <value>Load subfolders</value>
   </data>
   <data name="ToggleIsRecursiveFolderCommand.Remarks" xml:space="preserve">
     <value>When loading images from folders, subfolders or compressed files are also loaded at the same time.</value>
   </data>
-  <data name="ToggleIsRecursiveFolderCommand_Off" xml:space="preserve">
-    <value>Load subfolders OFF</value>
-  </data>
-  <data name="ToggleIsRecursiveFolderCommand_On" xml:space="preserve">
-    <value>Load subfolders</value>
-  </data>
   <data name="ToggleIsSupportedDividePageCommand" xml:space="preserve">
+    <value>Split wide page</value>
+  </data>
+  <data name="ToggleIsSupportedDividePageCommand.Off" xml:space="preserve">
+    <value>Split wide page OFF</value>
+  </data>
+  <data name="ToggleIsSupportedDividePageCommand.On" xml:space="preserve">
     <value>Split wide page</value>
   </data>
   <data name="ToggleIsSupportedDividePageCommand.Remarks" xml:space="preserve">
     <value>When one page is displayed, divide the landscape page into pages.</value>
   </data>
-  <data name="ToggleIsSupportedDividePageCommand_Off" xml:space="preserve">
-    <value>Split wide page OFF</value>
-  </data>
-  <data name="ToggleIsSupportedDividePageCommand_On" xml:space="preserve">
-    <value>Split wide page</value>
-  </data>
   <data name="ToggleIsSupportedSingleFirstPageCommand" xml:space="preserve">
+    <value>First page alone</value>
+  </data>
+  <data name="ToggleIsSupportedSingleFirstPageCommand.Off" xml:space="preserve">
+    <value>First page alone OFF</value>
+  </data>
+  <data name="ToggleIsSupportedSingleFirstPageCommand.On" xml:space="preserve">
     <value>First page alone</value>
   </data>
   <data name="ToggleIsSupportedSingleFirstPageCommand.Remarks" xml:space="preserve">
     <value>Even on 2 page display, the first page is displayed as 1 page.</value>
   </data>
-  <data name="ToggleIsSupportedSingleFirstPageCommand_Off" xml:space="preserve">
-    <value>First page alone OFF</value>
-  </data>
-  <data name="ToggleIsSupportedSingleFirstPageCommand_On" xml:space="preserve">
-    <value>First page alone</value>
-  </data>
   <data name="ToggleIsSupportedSingleLastPageCommand" xml:space="preserve">
+    <value>Last page alone</value>
+  </data>
+  <data name="ToggleIsSupportedSingleLastPageCommand.Off" xml:space="preserve">
+    <value>Last page alone OFF</value>
+  </data>
+  <data name="ToggleIsSupportedSingleLastPageCommand.On" xml:space="preserve">
     <value>Last page alone</value>
   </data>
   <data name="ToggleIsSupportedSingleLastPageCommand.Remarks" xml:space="preserve">
     <value>Even on 2 page display, the last page is displayed on 1 page.</value>
   </data>
-  <data name="ToggleIsSupportedSingleLastPageCommand_Off" xml:space="preserve">
-    <value>Last page alone OFF</value>
-  </data>
-  <data name="ToggleIsSupportedSingleLastPageCommand_On" xml:space="preserve">
-    <value>Last page alone</value>
-  </data>
   <data name="ToggleIsSupportedWidePageCommand" xml:space="preserve">
+    <value>Wide is two page</value>
+  </data>
+  <data name="ToggleIsSupportedWidePageCommand.Off" xml:space="preserve">
+    <value>Wide is two page OFF</value>
+  </data>
+  <data name="ToggleIsSupportedWidePageCommand.On" xml:space="preserve">
     <value>Wide is two page</value>
   </data>
   <data name="ToggleIsSupportedWidePageCommand.Remarks" xml:space="preserve">
     <value>When two pages are displayed, the horizontally long image is regarded as two pages and is displayed independently.</value>
-  </data>
-  <data name="ToggleIsSupportedWidePageCommand_Off" xml:space="preserve">
-    <value>Wide is two page OFF</value>
-  </data>
-  <data name="ToggleIsSupportedWidePageCommand_On" xml:space="preserve">
-    <value>Wide is two page</value>
   </data>
   <data name="ToggleMainViewFloatingCommand" xml:space="preserve">
     <value>Toggle MainView window</value>
@@ -5288,14 +5054,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleMainViewFloatingCommand.Menu" xml:space="preserve">
     <value>MainView window</value>
   </data>
-  <data name="ToggleMainViewFloatingCommand.Remarks" xml:space="preserve">
-    <value>Make the MainView a window.</value>
-  </data>
-  <data name="ToggleMainViewFloatingOff" xml:space="preserve">
+  <data name="ToggleMainViewFloatingCommand.Off" xml:space="preserve">
     <value>MainView docking</value>
   </data>
-  <data name="ToggleMainViewFloatingOn" xml:space="preserve">
+  <data name="ToggleMainViewFloatingCommand.On" xml:space="preserve">
     <value>MainView floating</value>
+  </data>
+  <data name="ToggleMainViewFloatingCommand.Remarks" xml:space="preserve">
+    <value>Make the MainView a window.</value>
   </data>
   <data name="ToggleMediaPlayCommand" xml:space="preserve">
     <value>Play/Stop</value>
@@ -5309,14 +5075,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleNearestNeighborCommand.Menu" xml:space="preserve">
     <value>Keep dot</value>
   </data>
-  <data name="ToggleNearestNeighborCommand.Remarks" xml:space="preserve">
-    <value>When set to ON, it will expand while maintaining the dot. When it is OFF, scale conversion processing (Fant) is executed.</value>
-  </data>
-  <data name="ToggleNearestNeighborCommand_Off" xml:space="preserve">
+  <data name="ToggleNearestNeighborCommand.Off" xml:space="preserve">
     <value>Keep dot OFF</value>
   </data>
-  <data name="ToggleNearestNeighborCommand_On" xml:space="preserve">
+  <data name="ToggleNearestNeighborCommand.On" xml:space="preserve">
     <value>Keep dot</value>
+  </data>
+  <data name="ToggleNearestNeighborCommand.Remarks" xml:space="preserve">
+    <value>When set to ON, it will expand while maintaining the dot. When it is OFF, scale conversion processing (Fant) is executed.</value>
   </data>
   <data name="TogglePageListPlacementBookshelfCommand" xml:space="preserve">
     <value>Place page list on bookshelf</value>
@@ -5339,14 +5105,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="TogglePagemarkCommand.Menu" xml:space="preserve">
     <value>Pagemark</value>
   </data>
-  <data name="TogglePagemarkCommand.Remarks" xml:space="preserve">
-    <value>Toggles registration / cancellation of page mark of currently open page.</value>
-  </data>
-  <data name="TogglePagemarkCommand_Off" xml:space="preserve">
+  <data name="TogglePagemarkCommand.Off" xml:space="preserve">
     <value>Pagemark OFF</value>
   </data>
-  <data name="TogglePagemarkCommand_On" xml:space="preserve">
+  <data name="TogglePagemarkCommand.On" xml:space="preserve">
     <value>Pagemark</value>
+  </data>
+  <data name="TogglePagemarkCommand.Remarks" xml:space="preserve">
+    <value>Toggles registration / cancellation of page mark of currently open page.</value>
   </data>
   <data name="TogglePageModeCommand" xml:space="preserve">
     <value>Toggle page mode</value>
@@ -5360,14 +5126,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="TogglePermitFileCommand.Menu" xml:space="preserve">
     <value>File operation</value>
   </data>
-  <data name="TogglePermitFileCommand.Remarks" xml:space="preserve">
-    <value>Toggle enable / disable of file operation command.</value>
-  </data>
-  <data name="TogglePermitFileCommand_Off" xml:space="preserve">
+  <data name="TogglePermitFileCommand.Off" xml:space="preserve">
     <value>Disable file operation</value>
   </data>
-  <data name="TogglePermitFileCommand_On" xml:space="preserve">
+  <data name="TogglePermitFileCommand.On" xml:space="preserve">
     <value>Enable file operation</value>
+  </data>
+  <data name="TogglePermitFileCommand.Remarks" xml:space="preserve">
+    <value>Toggle enable / disable of file operation command.</value>
   </data>
   <data name="ToggleResizeFilterCommand" xml:space="preserve">
     <value>Toggle resize filter</value>
@@ -5375,14 +5141,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleResizeFilterCommand.Menu" xml:space="preserve">
     <value>Resize filter</value>
   </data>
-  <data name="ToggleResizeFilterCommand.Remarks" xml:space="preserve">
-    <value>Toggle resize filter on / off.</value>
-  </data>
-  <data name="ToggleResizeFilterCommand_Off" xml:space="preserve">
+  <data name="ToggleResizeFilterCommand.Off" xml:space="preserve">
     <value>Resize filter OFF</value>
   </data>
-  <data name="ToggleResizeFilterCommand_On" xml:space="preserve">
+  <data name="ToggleResizeFilterCommand.On" xml:space="preserve">
     <value>Resize filter</value>
+  </data>
+  <data name="ToggleResizeFilterCommand.Remarks" xml:space="preserve">
+    <value>Toggle resize filter on / off.</value>
   </data>
   <data name="ToggleSlideShowCommand" xml:space="preserve">
     <value>Toggle slideshow</value>
@@ -5390,14 +5156,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleSlideShowCommand.Menu" xml:space="preserve">
     <value>Slideshow</value>
   </data>
-  <data name="ToggleSlideShowCommand.Remarks" xml:space="preserve">
-    <value>Toggle play / stop of the slideshow.</value>
-  </data>
-  <data name="ToggleSlideShowCommand_Off" xml:space="preserve">
+  <data name="ToggleSlideShowCommand.Off" xml:space="preserve">
     <value>Stop slideshw</value>
   </data>
-  <data name="ToggleSlideShowCommand_On" xml:space="preserve">
+  <data name="ToggleSlideShowCommand.On" xml:space="preserve">
     <value>Play slideshow</value>
+  </data>
+  <data name="ToggleSlideShowCommand.Remarks" xml:space="preserve">
+    <value>Toggle play / stop of the slideshow.</value>
   </data>
   <data name="ToggleSortModeCommand" xml:space="preserve">
     <value>Switch pages order</value>
@@ -5462,14 +5228,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleTopmostCommand.Menu" xml:space="preserve">
     <value>Topmost</value>
   </data>
-  <data name="ToggleTopmostCommand.Remarks" xml:space="preserve">
-    <value>Always display the window in front.</value>
-  </data>
-  <data name="ToggleTopmostCommand_Off" xml:space="preserve">
+  <data name="ToggleTopmostCommand.Off" xml:space="preserve">
     <value>Topmost OFF</value>
   </data>
-  <data name="ToggleTopmostCommand_On" xml:space="preserve">
+  <data name="ToggleTopmostCommand.On" xml:space="preserve">
     <value>Topmost</value>
+  </data>
+  <data name="ToggleTopmostCommand.Remarks" xml:space="preserve">
+    <value>Always display the window in front.</value>
   </data>
   <data name="ToggleViewFlipHorizontalCommand" xml:space="preserve">
     <value>Toggle flip horizontal</value>
@@ -5489,14 +5255,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleVisibleAddressBarCommand.Menu" xml:space="preserve">
     <value>Address bar</value>
   </data>
-  <data name="ToggleVisibleAddressBarCommand.Remarks" xml:space="preserve">
-    <value>Toggle vidible / hide of the address bar.</value>
-  </data>
-  <data name="ToggleVisibleAddressBarCommand_Off" xml:space="preserve">
+  <data name="ToggleVisibleAddressBarCommand.Off" xml:space="preserve">
     <value>Address bar OFF</value>
   </data>
-  <data name="ToggleVisibleAddressBarCommand_On" xml:space="preserve">
+  <data name="ToggleVisibleAddressBarCommand.On" xml:space="preserve">
     <value>Address bar</value>
+  </data>
+  <data name="ToggleVisibleAddressBarCommand.Remarks" xml:space="preserve">
+    <value>Toggle vidible / hide of the address bar.</value>
   </data>
   <data name="ToggleVisibleBookmarkListCommand" xml:space="preserve">
     <value>Toggle bookmark list</value>
@@ -5504,14 +5270,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleVisibleBookmarkListCommand.Menu" xml:space="preserve">
     <value>Bookmark list</value>
   </data>
-  <data name="ToggleVisibleBookmarkListCommand.Remarks" xml:space="preserve">
-    <value>Toggle vidible / hide of the bookmark list panel.</value>
-  </data>
-  <data name="ToggleVisibleBookmarkListCommand_Off" xml:space="preserve">
+  <data name="ToggleVisibleBookmarkListCommand.Off" xml:space="preserve">
     <value>Bookmark list OFF</value>
   </data>
-  <data name="ToggleVisibleBookmarkListCommand_On" xml:space="preserve">
+  <data name="ToggleVisibleBookmarkListCommand.On" xml:space="preserve">
     <value>Bookmark list</value>
+  </data>
+  <data name="ToggleVisibleBookmarkListCommand.Remarks" xml:space="preserve">
+    <value>Toggle vidible / hide of the bookmark list panel.</value>
   </data>
   <data name="ToggleVisibleBookshelfCommand" xml:space="preserve">
     <value>Toggle bookshelf</value>
@@ -5519,14 +5285,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleVisibleBookshelfCommand.Menu" xml:space="preserve">
     <value>Bookshelf</value>
   </data>
-  <data name="ToggleVisibleBookshelfCommand.Remarks" xml:space="preserve">
-    <value>Toggle visible / hide of the bookshelf panel.</value>
-  </data>
-  <data name="ToggleVisibleBookshelfCommand_Off" xml:space="preserve">
+  <data name="ToggleVisibleBookshelfCommand.Off" xml:space="preserve">
     <value>Bookshelf OFF</value>
   </data>
-  <data name="ToggleVisibleBookshelfCommand_On" xml:space="preserve">
+  <data name="ToggleVisibleBookshelfCommand.On" xml:space="preserve">
     <value>Bookshelf</value>
+  </data>
+  <data name="ToggleVisibleBookshelfCommand.Remarks" xml:space="preserve">
+    <value>Toggle visible / hide of the bookshelf panel.</value>
   </data>
   <data name="ToggleVisibleEffectInfoCommand" xml:space="preserve">
     <value>Toggle effect panel</value>
@@ -5534,14 +5300,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleVisibleEffectInfoCommand.Menu" xml:space="preserve">
     <value>Effect panel</value>
   </data>
-  <data name="ToggleVisibleEffectInfoCommand.Remarks" xml:space="preserve">
-    <value>Toggle visible / hide of the effect panel.</value>
-  </data>
-  <data name="ToggleVisibleEffectInfoCommand_Off" xml:space="preserve">
+  <data name="ToggleVisibleEffectInfoCommand.Off" xml:space="preserve">
     <value>Effect panel OFF</value>
   </data>
-  <data name="ToggleVisibleEffectInfoCommand_On" xml:space="preserve">
+  <data name="ToggleVisibleEffectInfoCommand.On" xml:space="preserve">
     <value>Effect panel</value>
+  </data>
+  <data name="ToggleVisibleEffectInfoCommand.Remarks" xml:space="preserve">
+    <value>Toggle visible / hide of the effect panel.</value>
   </data>
   <data name="ToggleVisibleFileInfoCommand" xml:space="preserve">
     <value>Toggle information</value>
@@ -5549,14 +5315,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleVisibleFileInfoCommand.Menu" xml:space="preserve">
     <value>Information</value>
   </data>
-  <data name="ToggleVisibleFileInfoCommand.Remarks" xml:space="preserve">
-    <value>Toggle visible / hide of the information panel.</value>
-  </data>
-  <data name="ToggleVisibleFileInfoCommand_Off" xml:space="preserve">
+  <data name="ToggleVisibleFileInfoCommand.Off" xml:space="preserve">
     <value>Information OFF</value>
   </data>
-  <data name="ToggleVisibleFileInfoCommand_On" xml:space="preserve">
+  <data name="ToggleVisibleFileInfoCommand.On" xml:space="preserve">
     <value>Information</value>
+  </data>
+  <data name="ToggleVisibleFileInfoCommand.Remarks" xml:space="preserve">
+    <value>Toggle visible / hide of the information panel.</value>
   </data>
   <data name="ToggleVisibleFoldersTreeCommand" xml:space="preserve">
     <value>Toggle Folders tree</value>
@@ -5564,14 +5330,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleVisibleFoldersTreeCommand.Menu" xml:space="preserve">
     <value>Folders tree</value>
   </data>
-  <data name="ToggleVisibleFoldersTreeCommand.Remarks" xml:space="preserve">
-    <value>Toggle visible / hide of the Folders tree. The bookshelf is displayed.</value>
-  </data>
-  <data name="ToggleVisibleFoldersTreeCommand_Off" xml:space="preserve">
+  <data name="ToggleVisibleFoldersTreeCommand.Off" xml:space="preserve">
     <value>Folders tree OFF</value>
   </data>
-  <data name="ToggleVisibleFoldersTreeCommand_On" xml:space="preserve">
+  <data name="ToggleVisibleFoldersTreeCommand.On" xml:space="preserve">
     <value>Folders tree</value>
+  </data>
+  <data name="ToggleVisibleFoldersTreeCommand.Remarks" xml:space="preserve">
+    <value>Toggle visible / hide of the Folders tree. The bookshelf is displayed.</value>
   </data>
   <data name="ToggleVisibleHistoryListCommand" xml:space="preserve">
     <value>Toggle history list</value>
@@ -5579,14 +5345,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleVisibleHistoryListCommand.Menu" xml:space="preserve">
     <value>History list</value>
   </data>
-  <data name="ToggleVisibleHistoryListCommand.Remarks" xml:space="preserve">
-    <value>Toggle vidible / hide of the history list panel.</value>
-  </data>
-  <data name="ToggleVisibleHistoryListCommand_Off" xml:space="preserve">
+  <data name="ToggleVisibleHistoryListCommand.Off" xml:space="preserve">
     <value>History list OFF</value>
   </data>
-  <data name="ToggleVisibleHistoryListCommand_On" xml:space="preserve">
+  <data name="ToggleVisibleHistoryListCommand.On" xml:space="preserve">
     <value>History list</value>
+  </data>
+  <data name="ToggleVisibleHistoryListCommand.Remarks" xml:space="preserve">
+    <value>Toggle vidible / hide of the history list panel.</value>
   </data>
   <data name="ToggleVisibleNavigatorCommand" xml:space="preserve">
     <value>Toggle navigator</value>
@@ -5594,14 +5360,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleVisibleNavigatorCommand.Menu" xml:space="preserve">
     <value>Navigator</value>
   </data>
-  <data name="ToggleVisibleNavigatorCommand.Remarks" xml:space="preserve">
-    <value>Toggle visible / hide of the navigator</value>
-  </data>
-  <data name="ToggleVisibleNavigatorCommand_Off" xml:space="preserve">
+  <data name="ToggleVisibleNavigatorCommand.Off" xml:space="preserve">
     <value>Navigator OFF</value>
   </data>
-  <data name="ToggleVisibleNavigatorCommand_On" xml:space="preserve">
+  <data name="ToggleVisibleNavigatorCommand.On" xml:space="preserve">
     <value>Navigator</value>
+  </data>
+  <data name="ToggleVisibleNavigatorCommand.Remarks" xml:space="preserve">
+    <value>Toggle visible / hide of the navigator</value>
   </data>
   <data name="ToggleVisiblePageListCommand" xml:space="preserve">
     <value>Toggle page list</value>
@@ -5609,14 +5375,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleVisiblePageListCommand.Menu" xml:space="preserve">
     <value>Page list</value>
   </data>
-  <data name="ToggleVisiblePageListCommand.Remarks" xml:space="preserve">
-    <value>Toggle visible / hide of the page list. The bookshelf is displayed.</value>
-  </data>
-  <data name="ToggleVisiblePageListCommand_Off" xml:space="preserve">
+  <data name="ToggleVisiblePageListCommand.Off" xml:space="preserve">
     <value>Page list OFF</value>
   </data>
-  <data name="ToggleVisiblePageListCommand_On" xml:space="preserve">
+  <data name="ToggleVisiblePageListCommand.On" xml:space="preserve">
     <value>Page list</value>
+  </data>
+  <data name="ToggleVisiblePageListCommand.Remarks" xml:space="preserve">
+    <value>Toggle visible / hide of the page list. The bookshelf is displayed.</value>
   </data>
   <data name="ToggleVisiblePagemarkListCommand" xml:space="preserve">
     <value>Toggle pagemark list</value>
@@ -5624,14 +5390,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleVisiblePagemarkListCommand.Menu" xml:space="preserve">
     <value>Pagemark list</value>
   </data>
-  <data name="ToggleVisiblePagemarkListCommand.Remarks" xml:space="preserve">
-    <value>Toggle vidible / hide of the pagemark list panel.</value>
-  </data>
-  <data name="ToggleVisiblePagemarkListCommand_Off" xml:space="preserve">
+  <data name="ToggleVisiblePagemarkListCommand.Off" xml:space="preserve">
     <value>Pagemark list OFF</value>
   </data>
-  <data name="ToggleVisiblePagemarkListCommand_On" xml:space="preserve">
+  <data name="ToggleVisiblePagemarkListCommand.On" xml:space="preserve">
     <value>Pagemark list</value>
+  </data>
+  <data name="ToggleVisiblePagemarkListCommand.Remarks" xml:space="preserve">
+    <value>Toggle vidible / hide of the pagemark list panel.</value>
   </data>
   <data name="ToggleVisibleSideBarCommand" xml:space="preserve">
     <value>Toggle side bar</value>
@@ -5639,14 +5405,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleVisibleSideBarCommand.Menu" xml:space="preserve">
     <value>Side bar</value>
   </data>
-  <data name="ToggleVisibleSideBarCommand.Remarks" xml:space="preserve">
-    <value>Toggle visible / hide of sidebar.</value>
-  </data>
-  <data name="ToggleVisibleSideBarCommand_Off" xml:space="preserve">
+  <data name="ToggleVisibleSideBarCommand.Off" xml:space="preserve">
     <value>Side bar OFF</value>
   </data>
-  <data name="ToggleVisibleSideBarCommand_On" xml:space="preserve">
+  <data name="ToggleVisibleSideBarCommand.On" xml:space="preserve">
     <value>Side bar</value>
+  </data>
+  <data name="ToggleVisibleSideBarCommand.Remarks" xml:space="preserve">
+    <value>Toggle visible / hide of sidebar.</value>
   </data>
   <data name="ToggleVisibleThumbnailListCommand" xml:space="preserve">
     <value>Toggle filmstrip</value>
@@ -5654,14 +5420,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleVisibleThumbnailListCommand.Menu" xml:space="preserve">
     <value>Filmstrip</value>
   </data>
-  <data name="ToggleVisibleThumbnailListCommand.Remarks" xml:space="preserve">
-    <value>Toggle visible / hide of the filmstrip.</value>
-  </data>
-  <data name="ToggleVisibleThumbnailListCommand_Off" xml:space="preserve">
+  <data name="ToggleVisibleThumbnailListCommand.Off" xml:space="preserve">
     <value>Filmstrip OFF</value>
   </data>
-  <data name="ToggleVisibleThumbnailListCommand_On" xml:space="preserve">
+  <data name="ToggleVisibleThumbnailListCommand.On" xml:space="preserve">
     <value>Filmstrip</value>
+  </data>
+  <data name="ToggleVisibleThumbnailListCommand.Remarks" xml:space="preserve">
+    <value>Toggle visible / hide of the filmstrip.</value>
   </data>
   <data name="ToggleVisibleTitleBarCommand" xml:space="preserve">
     <value>Toggle title bar</value>
@@ -5669,14 +5435,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleVisibleTitleBarCommand.Menu" xml:space="preserve">
     <value>Title bar</value>
   </data>
-  <data name="ToggleVisibleTitleBarCommand.Remarks" xml:space="preserve">
-    <value>Toggle visible / hide of window title bar.</value>
-  </data>
-  <data name="ToggleVisibleTitleBarCommand_Off" xml:space="preserve">
+  <data name="ToggleVisibleTitleBarCommand.Off" xml:space="preserve">
     <value>Title bar OFF</value>
   </data>
-  <data name="ToggleVisibleTitleBarCommand_On" xml:space="preserve">
+  <data name="ToggleVisibleTitleBarCommand.On" xml:space="preserve">
     <value>Title bar</value>
+  </data>
+  <data name="ToggleVisibleTitleBarCommand.Remarks" xml:space="preserve">
+    <value>Toggle visible / hide of window title bar.</value>
   </data>
   <data name="ToggleWindowMaximizeCommand" xml:space="preserve">
     <value>Maximize window</value>
@@ -5768,13 +5534,6 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="UnsharpMaskConfig.Threshold" xml:space="preserve">
     <value>Threshold</value>
   </data>
-  <data name="Ver320" xml:space="preserve">
-    <value>NeeVew 32.0 </value>
-  </data>
-  <data name="Ver320Note" xml:space="preserve">
-    <value>· The bookmark list was integrated with the folder list and it became a bookshelf.
-· The folder of the pagemark list is now automatically created.</value>
-  </data>
   <data name="VersionChecker.Message.Checking" xml:space="preserve">
     <value>Checking the latest version ...</value>
   </data>
@@ -5796,22 +5555,22 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="VersionWindow.Download" xml:space="preserve">
     <value>Go to download page</value>
   </data>
+  <data name="VersionWindow.License" xml:space="preserve">
+    <value>License Info / Change Log</value>
+  </data>
   <data name="VersionWindow.Menu.Copy" xml:space="preserve">
     <value>_Copy version info</value>
   </data>
-  <data name="VersionWindow_License" xml:space="preserve">
-    <value>License Info / Change Log</value>
-  </data>
-  <data name="VersionWindow_Project" xml:space="preserve">
+  <data name="VersionWindow.Project" xml:space="preserve">
     <value>Project Page</value>
   </data>
-  <data name="VerticalAlignment_Bottom" xml:space="preserve">
+  <data name="VerticalAlignment.Bottom" xml:space="preserve">
     <value>Bottom</value>
   </data>
-  <data name="VerticalAlignment_Center" xml:space="preserve">
+  <data name="VerticalAlignment.Center" xml:space="preserve">
     <value>Center</value>
   </data>
-  <data name="VerticalAlignment_Top" xml:space="preserve">
+  <data name="VerticalAlignment.Top" xml:space="preserve">
     <value>Top</value>
   </data>
   <data name="ViewConfig.AllowStretchScaleDown" xml:space="preserve">
@@ -6109,11 +5868,161 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="WindowTitleConfig.WindowTitleFormatMedia" xml:space="preserve">
     <value>For video</value>
   </data>
+  <data name="Word.Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Word.AllHistory" xml:space="preserve">
+    <value>All history</value>
+  </data>
+  <data name="Word.AllPagemark" xml:space="preserve">
+    <value>All pagemark</value>
+  </data>
+  <data name="Word.Argument" xml:space="preserve">
+    <value>Argument</value>
+  </data>
+  <data name="Word.Bookmark" xml:space="preserve">
+    <value>Bookmark</value>
+  </data>
+  <data name="Word.Bookshelf" xml:space="preserve">
+    <value>Bookshelf</value>
+  </data>
+  <data name="Word.Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Word.Cause" xml:space="preserve">
+    <value>Cause</value>
+  </data>
+  <data name="Word.CDRomDrive" xml:space="preserve">
+    <value>Disk drive</value>
+  </data>
+  <data name="Word.Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Word.Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Word.Command" xml:space="preserve">
+    <value>Command</value>
+  </data>
+  <data name="Word.CommandList" xml:space="preserve">
+    <value>Command list</value>
+  </data>
+  <data name="Word.CommandName" xml:space="preserve">
+    <value>Command name</value>
+  </data>
+  <data name="Word.CommandParameter" xml:space="preserve">
+    <value>Command parameter</value>
+  </data>
+  <data name="Word.Config" xml:space="preserve">
+    <value>Config</value>
+  </data>
+  <data name="Word.ConfigList" xml:space="preserve">
+    <value>Config list</value>
+  </data>
+  <data name="Word.CustomBackground" xml:space="preserve">
+    <value>Custom background</value>
+  </data>
+  <data name="Word.DaysAgo" xml:space="preserve">
+    <value>{0} days ago</value>
+  </data>
+  <data name="Word.DefaultApp" xml:space="preserve">
+    <value>Default app</value>
+  </data>
+  <data name="Word.DefaultPagemark" xml:space="preserve">
+    <value>Default pagemark</value>
+  </data>
+  <data name="Word.Degree" xml:space="preserve">
+    <value>degree</value>
+  </data>
+  <data name="Word.Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Word.Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Word.Down" xml:space="preserve">
+    <value>Down</value>
+  </data>
+  <data name="Word.Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Word.EmbeddedImage" xml:space="preserve">
+    <value>Embedded image</value>
+  </data>
   <data name="Word.Example" xml:space="preserve">
-    <value>Example</value>
+    <value>e.g.</value>
+  </data>
+  <data name="Word.ExcludePath" xml:space="preserve">
+    <value>Excluded path</value>
+  </data>
+  <data name="Word.Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="Word.Extension" xml:space="preserve">
+    <value>Extension</value>
   </data>
   <data name="Word.Fields" xml:space="preserve">
     <value>Fields</value>
+  </data>
+  <data name="Word.File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="Word.Files" xml:space="preserve">
+    <value>Files</value>
+  </data>
+  <data name="Word.FirstPage" xml:space="preserve">
+    <value>First page</value>
+  </data>
+  <data name="Word.FixedDrive" xml:space="preserve">
+    <value>Local disk</value>
+  </data>
+  <data name="Word.Folder" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="Word.Folders" xml:space="preserve">
+    <value>Folders</value>
+  </data>
+  <data name="Word.FoldersTree" xml:space="preserve">
+    <value>Folders tree</value>
+  </data>
+  <data name="Word.FullScreen" xml:space="preserve">
+    <value>Full screen</value>
+  </data>
+  <data name="Word.Gesture" xml:space="preserve">
+    <value>Gesture</value>
+  </data>
+  <data name="Word.Group" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="Word.Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="Word.Inner" xml:space="preserve">
+    <value>Innner</value>
+  </data>
+  <data name="Word.IsPanelSelected" xml:space="preserve">
+    <value>Panel selected</value>
+  </data>
+  <data name="Word.IsPanelVisible" xml:space="preserve">
+    <value>Panel visibility</value>
+  </data>
+  <data name="Word.Item" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="Word.ItemNone" xml:space="preserve">
+    <value>(None)</value>
+  </data>
+  <data name="Word.Jump" xml:space="preserve">
+    <value>Jump</value>
+  </data>
+  <data name="Word.Left" xml:space="preserve">
+    <value>Left</value>
+  </data>
+  <data name="Word.Loop" xml:space="preserve">
+    <value>Loop</value>
+  </data>
+  <data name="Word.MainMenu" xml:space="preserve">
+    <value>Main Menu</value>
   </data>
   <data name="Word.Methods" xml:space="preserve">
     <value>Methods</value>
@@ -6121,341 +6030,155 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="Word.Name" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="Word.NetworkDrive" xml:space="preserve">
+    <value>Netword drive</value>
+  </data>
+  <data name="Word.NewFolder" xml:space="preserve">
+    <value>New Folder</value>
+  </data>
+  <data name="Word.No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Word.NoLimit" xml:space="preserve">
+    <value>No Limit</value>
+  </data>
+  <data name="Word.None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="Word.Off" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="Word.OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Word.On" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="Word.Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="Word.Page" xml:space="preserve">
+    <value>Page</value>
+  </data>
+  <data name="Word.PageList" xml:space="preserve">
+    <value>Page list</value>
+  </data>
+  <data name="Word.Pagemark" xml:space="preserve">
+    <value>Pagemark</value>
+  </data>
+  <data name="Word.Parameter" xml:space="preserve">
+    <value>Parameter</value>
+  </data>
   <data name="Word.Parameters" xml:space="preserve">
     <value>Parameters</value>
+  </data>
+  <data name="Word.Path" xml:space="preserve">
+    <value>Path</value>
+  </data>
+  <data name="Word.Period" xml:space="preserve">
+    <value>.</value>
+  </data>
+  <data name="Word.Play" xml:space="preserve">
+    <value>Play</value>
+  </data>
+  <data name="Word.Playlist" xml:space="preserve">
+    <value>Playlist</value>
   </data>
   <data name="Word.Properties" xml:space="preserve">
     <value>Properties</value>
   </data>
+  <data name="Word.QuickAccess" xml:space="preserve">
+    <value>Quick access</value>
+  </data>
+  <data name="Word.RamDrive" xml:space="preserve">
+    <value>RAM disk</value>
+  </data>
+  <data name="Word.ReadOnly" xml:space="preserve">
+    <value>Read only</value>
+  </data>
+  <data name="Word.RemovableDrive" xml:space="preserve">
+    <value>Removable disk</value>
+  </data>
+  <data name="Word.Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="Word.Rename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="Word.Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="Word.ResetLong" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="Word.Restore" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="Word.Retry" xml:space="preserve">
+    <value>Retry</value>
+  </data>
   <data name="Word.Returns" xml:space="preserve">
     <value>Returns</value>
+  </data>
+  <data name="Word.Right" xml:space="preserve">
+    <value>Right</value>
+  </data>
+  <data name="Word.SearchWord" xml:space="preserve">
+    <value>Search word</value>
+  </data>
+  <data name="Word.Sec" xml:space="preserve">
+    <value>sec</value>
+  </data>
+  <data name="Word.Shortcut" xml:space="preserve">
+    <value>Shortcut</value>
+  </data>
+  <data name="Word.Stepless" xml:space="preserve">
+    <value>Stepless</value>
+  </data>
+  <data name="Word.Stop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="Word.StyleBanner" xml:space="preserve">
+    <value>Banner style</value>
+  </data>
+  <data name="Word.StyleContent" xml:space="preserve">
+    <value>Content style</value>
+  </data>
+  <data name="Word.StyleList" xml:space="preserve">
+    <value>List style</value>
+  </data>
+  <data name="Word.StyleThumbnail" xml:space="preserve">
+    <value>Thumbnail style</value>
   </data>
   <data name="Word.Summary" xml:space="preserve">
     <value>Summary</value>
   </data>
-  <data name="WordAdd" xml:space="preserve">
-    <value>Add</value>
-  </data>
-  <data name="WordAllHistory" xml:space="preserve">
-    <value>All history</value>
-  </data>
-  <data name="WordAllPagemark" xml:space="preserve">
-    <value>All pagemark</value>
-  </data>
-  <data name="WordArgument" xml:space="preserve">
-    <value>Argument</value>
-  </data>
-  <data name="WordBookmark" xml:space="preserve">
-    <value>Bookmark</value>
-  </data>
-  <data name="WordBookshelf" xml:space="preserve">
-    <value>Bookshelf</value>
-  </data>
-  <data name="WordCancel" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="WordCause" xml:space="preserve">
-    <value>Cause</value>
-  </data>
-  <data name="WordCDRomDrive" xml:space="preserve">
-    <value>Disk drive</value>
-  </data>
-  <data name="WordClear" xml:space="preserve">
-    <value>Clear</value>
-  </data>
-  <data name="WordClose" xml:space="preserve">
-    <value>Close</value>
-  </data>
-  <data name="WordCommand" xml:space="preserve">
-    <value>Command</value>
-  </data>
-  <data name="WordCommandList" xml:space="preserve">
-    <value>Command list</value>
-  </data>
-  <data name="WordCommandName" xml:space="preserve">
-    <value>Command name</value>
-  </data>
-  <data name="WordCommandParameter" xml:space="preserve">
-    <value>Command parameter</value>
-  </data>
-  <data name="WordConfig" xml:space="preserve">
-    <value>Config</value>
-  </data>
-  <data name="WordConfigList" xml:space="preserve">
-    <value>Config list</value>
-  </data>
-  <data name="WordCustomBackground" xml:space="preserve">
-    <value>Custom background</value>
-  </data>
-  <data name="WordDaysAgo" xml:space="preserve">
-    <value>{0} days ago</value>
-  </data>
-  <data name="WordDefaultApp" xml:space="preserve">
-    <value>Default app</value>
-  </data>
-  <data name="WordDefaultPagemark" xml:space="preserve">
-    <value>Default pagemark</value>
-  </data>
-  <data name="WordDegree" xml:space="preserve">
-    <value>degree</value>
-  </data>
-  <data name="WordDelete" xml:space="preserve">
-    <value>Delete</value>
-  </data>
-  <data name="WordDescription" xml:space="preserve">
-    <value>Description</value>
-  </data>
-  <data name="WordDown" xml:space="preserve">
+  <data name="Word.ToDown" xml:space="preserve">
     <value>Down</value>
   </data>
-  <data name="WordEdit" xml:space="preserve">
-    <value>Edit</value>
-  </data>
-  <data name="WordEmbeddedImage" xml:space="preserve">
-    <value>Embedded image</value>
-  </data>
-  <data name="WordExample" xml:space="preserve">
-    <value>e.g.</value>
-  </data>
-  <data name="WordExcludePath" xml:space="preserve">
-    <value>Excluded path</value>
-  </data>
-  <data name="WordExport" xml:space="preserve">
-    <value>Export</value>
-  </data>
-  <data name="WordExtension" xml:space="preserve">
-    <value>Extension</value>
-  </data>
-  <data name="WordFile" xml:space="preserve">
-    <value>File</value>
-  </data>
-  <data name="WordFiles" xml:space="preserve">
-    <value>Files</value>
-  </data>
-  <data name="WordFirstPage" xml:space="preserve">
-    <value>First page</value>
-  </data>
-  <data name="WordFixedDrive" xml:space="preserve">
-    <value>Local disk</value>
-  </data>
-  <data name="WordFolder" xml:space="preserve">
-    <value>Folder</value>
-  </data>
-  <data name="WordFolders" xml:space="preserve">
-    <value>Folders</value>
-  </data>
-  <data name="WordFoldersTree" xml:space="preserve">
-    <value>Folders tree</value>
-  </data>
-  <data name="WordFullScreen" xml:space="preserve">
-    <value>Full screen</value>
-  </data>
-  <data name="WordGesture" xml:space="preserve">
-    <value>Gesture</value>
-  </data>
-  <data name="WordGroup" xml:space="preserve">
-    <value>Group</value>
-  </data>
-  <data name="WordImport" xml:space="preserve">
-    <value>Import</value>
-  </data>
-  <data name="WordInner" xml:space="preserve">
-    <value>Innner</value>
-  </data>
-  <data name="WordIsPanelSelected" xml:space="preserve">
-    <value>Panel selected</value>
-  </data>
-  <data name="WordIsPanelVisible" xml:space="preserve">
-    <value>Panel visibility</value>
-  </data>
-  <data name="WordItem" xml:space="preserve">
-    <value>Item</value>
-  </data>
-  <data name="WordItemNone" xml:space="preserve">
-    <value>(None)</value>
-  </data>
-  <data name="WordJump" xml:space="preserve">
-    <value>Jump</value>
-  </data>
-  <data name="WordLeft" xml:space="preserve">
-    <value>Left</value>
-  </data>
-  <data name="WordLoop" xml:space="preserve">
-    <value>Loop</value>
-  </data>
-  <data name="WordMainMenu" xml:space="preserve">
-    <value>Main Menu</value>
-  </data>
-  <data name="WordName" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="WordNetworkDrive" xml:space="preserve">
-    <value>Netword drive</value>
-  </data>
-  <data name="WordNewFolder" xml:space="preserve">
-    <value>New Folder</value>
-  </data>
-  <data name="WordNo" xml:space="preserve">
-    <value>No</value>
-  </data>
-  <data name="WordNoLimit" xml:space="preserve">
-    <value>No Limit</value>
-  </data>
-  <data name="WordNone" xml:space="preserve">
-    <value>None</value>
-  </data>
-  <data name="WordOff" xml:space="preserve">
-    <value>Off</value>
-  </data>
-  <data name="WordOK" xml:space="preserve">
-    <value>OK</value>
-  </data>
-  <data name="WordOn" xml:space="preserve">
-    <value>On</value>
-  </data>
-  <data name="WordOpen" xml:space="preserve">
-    <value>Open</value>
-  </data>
-  <data name="WordOpenInNeeView" xml:space="preserve">
-    <value>Open in Nee&amp;View</value>
-  </data>
-  <data name="WordOpenStore" xml:space="preserve">
-    <value>Open Microsoft Store</value>
-  </data>
-  <data name="WordPage" xml:space="preserve">
-    <value>Page</value>
-  </data>
-  <data name="WordPageList" xml:space="preserve">
-    <value>Page list</value>
-  </data>
-  <data name="WordPagemark" xml:space="preserve">
-    <value>Pagemark</value>
-  </data>
-  <data name="WordParameter" xml:space="preserve">
-    <value>Parameter</value>
-  </data>
-  <data name="WordPath" xml:space="preserve">
-    <value>Path</value>
-  </data>
-  <data name="WordPeriod" xml:space="preserve">
-    <value>.</value>
-  </data>
-  <data name="WordPlay" xml:space="preserve">
-    <value>Play</value>
-  </data>
-  <data name="WordPlaylist" xml:space="preserve">
-    <value>Playlist</value>
-  </data>
-  <data name="WordQuickAccess" xml:space="preserve">
-    <value>Quick access</value>
-  </data>
-  <data name="WordRamDrive" xml:space="preserve">
-    <value>RAM disk</value>
-  </data>
-  <data name="WordReadOnly" xml:space="preserve">
-    <value>Read only</value>
-  </data>
-  <data name="WordRemovableDrive" xml:space="preserve">
-    <value>Removable disk</value>
-  </data>
-  <data name="WordRemove" xml:space="preserve">
-    <value>Remove</value>
-  </data>
-  <data name="WordRename" xml:space="preserve">
-    <value>Rename</value>
-  </data>
-  <data name="WordReset" xml:space="preserve">
-    <value>Reset</value>
-  </data>
-  <data name="WordResetLong" xml:space="preserve">
-    <value>Reset</value>
-  </data>
-  <data name="WordRestore" xml:space="preserve">
-    <value>Restore</value>
-  </data>
-  <data name="WordRetry" xml:space="preserve">
-    <value>Retry</value>
-  </data>
-  <data name="WordRight" xml:space="preserve">
-    <value>Right</value>
-  </data>
-  <data name="WordSearchWord" xml:space="preserve">
-    <value>Search word</value>
-  </data>
-  <data name="WordSec" xml:space="preserve">
-    <value>sec</value>
-  </data>
-  <data name="WordShortcut" xml:space="preserve">
-    <value>Shortcut</value>
-  </data>
-  <data name="WordStepless" xml:space="preserve">
-    <value>Stepless</value>
-  </data>
-  <data name="WordStop" xml:space="preserve">
-    <value>Stop</value>
-  </data>
-  <data name="WordStyleBanner" xml:space="preserve">
-    <value>Banner style</value>
-  </data>
-  <data name="WordStyleContent" xml:space="preserve">
-    <value>Content style</value>
-  </data>
-  <data name="WordStyleList" xml:space="preserve">
-    <value>List style</value>
-  </data>
-  <data name="WordStyleThumbnail" xml:space="preserve">
-    <value>Thumbnail style</value>
-  </data>
-  <data name="WordToDown" xml:space="preserve">
-    <value>Down</value>
-  </data>
-  <data name="WordTopmost" xml:space="preserve">
+  <data name="Word.Topmost" xml:space="preserve">
     <value>Topmost</value>
   </data>
-  <data name="WordTouch" xml:space="preserve">
+  <data name="Word.Touch" xml:space="preserve">
     <value>Touch</value>
   </data>
-  <data name="WordToUp" xml:space="preserve">
+  <data name="Word.ToUp" xml:space="preserve">
     <value>Up</value>
   </data>
-  <data name="WordType" xml:space="preserve">
+  <data name="Word.Type" xml:space="preserve">
     <value>Type</value>
   </data>
-  <data name="WordUnsharpMask" xml:space="preserve">
+  <data name="Word.UnsharpMask" xml:space="preserve">
     <value>Unsharp mask</value>
   </data>
-  <data name="WordUp" xml:space="preserve">
+  <data name="Word.Up" xml:space="preserve">
     <value>Up</value>
   </data>
-  <data name="WordYes" xml:space="preserve">
+  <data name="Word.Yes" xml:space="preserve">
     <value>Yes</value>
   </data>
-  <data name="x.BookshelfCopyToFolderSelect" xml:space="preserve">
-    <value>Select copy destination folder</value>
-  </data>
-  <data name="x.BookshelfCopyToFolderSuccess" xml:space="preserve">
-    <value>Copied {0} items</value>
-  </data>
-  <data name="x.BookshelfItemMenuDestinationFolderSelect" xml:space="preserve">
-    <value>_Select folder...</value>
-  </data>
-  <data name="x.BookshelfMoveToFolderSelect" xml:space="preserve">
-    <value>Select move destination folder</value>
-  </data>
-  <data name="x.BookshelfMoveToFolderSuccess" xml:space="preserve">
-    <value>Moved {0} items</value>
-  </data>
-  <data name="x.BookshelfName" xml:space="preserve">
-    <value>Bookshelf</value>
-  </data>
-  <data name="x.ControlAboutChangeLog" xml:space="preserve">
-    <value>Change Log</value>
-  </data>
-  <data name="x.ControlSaveOriginal" xml:space="preserve">
-    <value>Save original file</value>
-  </data>
-  <data name="x.ControlSaveWidePage" xml:space="preserve">
-    <value>Combine two pages</value>
+  <data name="x.Word.OpenStore" xml:space="preserve">
+    <value>Open Microsoft Store</value>
   </data>
   <data name="ZipArchiveConfig.IsEnabled" xml:space="preserve">
     <value>Use ZIP compressed file expansion with standard function</value>
@@ -6465,11 +6188,5 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="ZipArchiveConfig.SupportFileTypes.Remarks" xml:space="preserve">
     <value>Only ZIP format is supported.</value>
-  </data>
-  <data name="Bookshelf.Title" xml:space="preserve">
-    <value>Bookshelf</value>
-  </data>
-  <data name="Bookmark.Title" xml:space="preserve">
-    <value>Bookmark</value>
   </data>
 </root>

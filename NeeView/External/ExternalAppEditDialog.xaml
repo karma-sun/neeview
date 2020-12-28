@@ -24,14 +24,14 @@
     <DockPanel Margin="5" >
 
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-            <Button x:Name="OKButton" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.WordOK}" Click="OKButton_Click" />
-            <Button x:Name="CancelButton" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.WordCancel}" Click="CancelButton_Click" />
+            <Button x:Name="OKButton" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.Word_OK}" Click="OKButton_Click" />
+            <Button x:Name="CancelButton" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.Word_Cancel}" Click="CancelButton_Click" />
         </StackPanel>
 
         <StackPanel DockPanel.Dock="Top" Margin="10">
 
             <DockPanel Margin="10">
-                <TextBlock Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.WordName}" />
+                <TextBlock Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.Word_Name}" />
                 <TextBox VerticalAlignment="Center" Text="{Binding Name}" />
             </DockPanel>
 

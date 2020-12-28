@@ -18,7 +18,7 @@ namespace NeeView
 
         public override string Name { get => QueryScheme.QuickAccess.ToSchemeString(); set { } }
 
-        public override string DispName { get => Properties.Resources.WordQuickAccess; set { } }
+        public override string DispName { get => Properties.Resources.Word_QuickAccess; set { } }
 
         public override IImageSourceCollection Icon => new SingleImageSourceCollection(MainWindow.Current.Resources["ic_lightning"] as ImageSource);
 

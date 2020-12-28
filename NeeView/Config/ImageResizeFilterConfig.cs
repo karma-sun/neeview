@@ -45,7 +45,7 @@ namespace NeeView
             set { SetProperty(ref _isUnsharpMaskEnabled, value); }
         }
 
-        [PropertyMapLabel("@WordUnsharpMask")]
+        [PropertyMapLabel("@Word.UnsharpMask")]
         public UnsharpMaskConfig UnsharpMask { get; set; }
 
 

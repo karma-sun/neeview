@@ -1568,7 +1568,7 @@ namespace NeeView
 
             if (count >= 2)
             {
-                var toast = new Toast(string.Format(Properties.Resources.PagemarkFolderDelete_Message, count), null, ToastIcon.Information, Properties.Resources.WordRestore,
+                var toast = new Toast(string.Format(Properties.Resources.PagemarkFolderDelete_Message, count), null, ToastIcon.Information, Properties.Resources.Word_Restore,
                     () => { foreach (var memento in mementos) BookmarkCollection.Current.Restore(memento); });
                 ToastService.Current.Show("BookmarkList", toast);
             }

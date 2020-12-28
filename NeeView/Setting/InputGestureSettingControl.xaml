@@ -53,7 +53,7 @@
                             </TextBlock.Style>
                         </TextBlock>
                     </Grid>
-                    <Button x:Name="AddKeyGestureButton" Content="{x:Static properties:Resources.WordAdd}" HorizontalAlignment="Right" Margin="10" VerticalAlignment="Top" Padding="10,0" MinWidth="76" Height="30" Click="AddKeyGestureButton_Click" >
+                    <Button x:Name="AddKeyGestureButton" Content="{x:Static properties:Resources.Word_Add}" HorizontalAlignment="Right" Margin="10" VerticalAlignment="Top" Padding="10,0" MinWidth="76" Height="30" Click="AddKeyGestureButton_Click" >
                         <Button.Style>
                             <Style TargetType="Button" BasedOn="{StaticResource ButtonBase}">
                                 <Style.Triggers>
@@ -99,7 +99,7 @@
                         </Grid>
                     </Border>
 
-                    <Button x:Name="AddMouseGestureButton" Content="{x:Static properties:Resources.WordAdd}" HorizontalAlignment="Right" Margin="10" Padding="10,0" Height="30" MinWidth="76" Click="AddMouseGestureButton_Click" >
+                    <Button x:Name="AddMouseGestureButton" Content="{x:Static properties:Resources.Word_Add}" HorizontalAlignment="Right" Margin="10" Padding="10,0" Height="30" MinWidth="76" Click="AddMouseGestureButton_Click" >
                         <Button.Style>
                             <Style TargetType="Button" BasedOn="{StaticResource ButtonBase}">
                                 <Style.Triggers>
@@ -147,7 +147,7 @@
                     </Button.Style>
                 </Button>
 
-                <Button x:Name="DeleteButton" Content="{x:Static properties:Resources.WordRemove}" HorizontalAlignment="Right" Margin="10,0,10,10" Padding="10,0" MinWidth="85" Height="30" VerticalAlignment="Bottom" Click="DeleteButton_Click">
+                <Button x:Name="DeleteButton" Content="{x:Static properties:Resources.Word_Remove}" HorizontalAlignment="Right" Margin="10,0,10,10" Padding="10,0" MinWidth="85" Height="30" VerticalAlignment="Bottom" Click="DeleteButton_Click">
                     <Button.Style>
                         <Style TargetType="Button" BasedOn="{StaticResource ButtonBase}">
                             <Style.Triggers>

@@ -17,7 +17,7 @@
             <DockPanel DockPanel.Dock="Bottom">
                 <TextBlock Text="{x:Static properties:Resources.MouseGestureControl_New}" VerticalAlignment="Center" MinWidth="90"/>
 
-                <Button DockPanel.Dock="Right" VerticalAlignment="Center" Margin="2" Padding="10,2" Content="{x:Static properties:Resources.WordClear}" Command="{Binding ClearCommand}" FocusVisualStyle="{StaticResource NVBorderFocusVisual}" TabIndex="2"/>
+                <Button DockPanel.Dock="Right" VerticalAlignment="Center" Margin="2" Padding="10,2" Content="{x:Static properties:Resources.Word_Clear}" Command="{Binding ClearCommand}" FocusVisualStyle="{StaticResource NVBorderFocusVisual}" TabIndex="2"/>
 
                 <DockPanel ToolTip="{Binding GestureToken.OverlapsText}">
 

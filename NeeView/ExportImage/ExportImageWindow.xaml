@@ -45,7 +45,7 @@
         <DockPanel MinWidth="256">
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
                 <Button x:Name="SaveButton" Style="{StaticResource TextButtonMain}" Content="{x:Static properties:Resources.ExportImageWindow_SaveAs}" Click="SaveButton_Click" />
-                <Button x:Name="CancelButton" Style="{StaticResource TextButton}" Content="{x:Static properties:Resources.WordCancel}" Click="CancelButton_Click" />
+                <Button x:Name="CancelButton" Style="{StaticResource TextButton}" Content="{x:Static properties:Resources.Word_Cancel}" Click="CancelButton_Click" />
             </StackPanel>
             <StackPanel DockPanel.Dock="Top" Margin="10">
                 <StackPanel Style="{StaticResource ItemStack}">

@@ -8,7 +8,7 @@
         }
         public override string ExecuteMessage(object sender, CommandContext e)
         {
-            return BookOperation.Current.IsMediaPlaying() ? Properties.Resources.WordStop : Properties.Resources.WordPlay;
+            return BookOperation.Current.IsMediaPlaying() ? Properties.Resources.Word_Stop : Properties.Resources.Word_Play;
         }
 
         public override bool CanExecute(object sender, CommandContext e)

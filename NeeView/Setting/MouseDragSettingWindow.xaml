@@ -24,14 +24,14 @@
         <DockPanel Margin="10">
 
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button x:Name="OkButton" Content="{x:Static properties:Resources.WordOK}" Click="OkButton_Click" TabIndex="10" />
-                <Button x:Name="CancelButton" Content="{x:Static properties:Resources.WordCancel}" Click="CancelButton_Click" TabIndex="10" />
+                <Button x:Name="OkButton" Content="{x:Static properties:Resources.Word_OK}" Click="OkButton_Click" TabIndex="10" />
+                <Button x:Name="CancelButton" Content="{x:Static properties:Resources.Word_Cancel}" Click="CancelButton_Click" TabIndex="10" />
             </StackPanel>
 
             <DockPanel DockPanel.Dock="Bottom" Margin="0,0,0,5">
                 <TextBlock Text="{x:Static properties:Resources.MouseDragSettingWindow_New}" VerticalAlignment="Center" MinWidth="90"/>
 
-                <Button DockPanel.Dock="Right" Margin="5,0,5,0" Padding="10,0" VerticalAlignment="Center" Content="{x:Static properties:Resources.WordClear}" Command="{Binding ClearCommand}" TabIndex="4"/>
+                <Button DockPanel.Dock="Right" Margin="5,0,5,0" Padding="10,0" VerticalAlignment="Center" Content="{x:Static properties:Resources.Word_Clear}" Command="{Binding ClearCommand}" TabIndex="4"/>
 
                 <DockPanel ToolTip="{Binding DragToken.OverlapsText}">
                     <Image Source="{StaticResource ic_warning_48px}" Width="12" Margin="0,0,2,2" VerticalAlignment="Center">

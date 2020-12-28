@@ -29,7 +29,7 @@
         <DockPanel x:Name="MainPanel" Margin="5">
 
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Style="{StaticResource NormalButtonStyle}" Content="{x:Static properties:Resources.WordReset}" Click="ButtonReset_Click" TabIndex="2" />
+                <Button Style="{StaticResource NormalButtonStyle}" Content="{x:Static properties:Resources.Word_Reset}" Click="ButtonReset_Click" TabIndex="2" />
             </StackPanel>
             
             <TextBlock DockPanel.Dock="Top" Text="{Binding Note}" Foreground="Crimson" Margin="0,5">

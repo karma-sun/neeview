@@ -29,7 +29,7 @@ namespace NeeView
             }
             else
             {
-                subItem.Items.Add(new MenuItem() { Header = Properties.Resources.WordItemNone, IsEnabled = false });
+                subItem.Items.Add(new MenuItem() { Header = Properties.Resources.Word_ItemNone, IsEnabled = false });
             }
 
             subItem.Items.Add(new Separator());

@@ -382,7 +382,7 @@ namespace NeeView
                 }
                 catch (Exception e)
                 {
-                    new MessageDialog($"{Resources.WordCause}: {e.Message}", Resources.CopyErrorDialog_Title).ShowDialog();
+                    new MessageDialog($"{Resources.Word_Cause}: {e.Message}", Resources.CopyErrorDialog_Title).ShowDialog();
                 }
             }
         }
@@ -416,7 +416,7 @@ namespace NeeView
                 }
                 catch (Exception e)
                 {
-                    new MessageDialog($"{Resources.ImageExportErrorDialog_Message}\n{Resources.WordCause}: {e.Message}", Resources.ImageExportErrorDialog_Title).ShowDialog();
+                    new MessageDialog($"{Resources.ImageExportErrorDialog_Message}\n{Resources.Word_Cause}: {e.Message}", Resources.ImageExportErrorDialog_Title).ShowDialog();
                     return;
                 }
             }
@@ -434,7 +434,7 @@ namespace NeeView
                 }
                 catch (Exception e)
                 {
-                    new MessageDialog($"{Resources.ImageExportErrorDialog_Message}\n{Resources.WordCause}: {e.Message}", Resources.ImageExportErrorDialog_Title).ShowDialog();
+                    new MessageDialog($"{Resources.ImageExportErrorDialog_Message}\n{Resources.Word_Cause}: {e.Message}", Resources.ImageExportErrorDialog_Title).ShowDialog();
                     return;
                 }
             }

@@ -20,7 +20,7 @@ namespace NeeView
             }
             catch (Exception ex)
             {
-                new MessageDialog($"{Resources.ImageExportErrorDialog_Message}\n{Resources.WordCause}: {ex.Message}", Resources.ImageExportErrorDialog_Title).ShowDialog();
+                new MessageDialog($"{Resources.ImageExportErrorDialog_Message}\n{Resources.Word_Cause}: {ex.Message}", Resources.ImageExportErrorDialog_Title).ShowDialog();
                 return false;
             }
         }

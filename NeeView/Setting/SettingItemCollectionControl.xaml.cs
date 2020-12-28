@@ -51,9 +51,9 @@ namespace NeeView.Setting
         {
             InitializeComponent();
             this.Root.DataContext = this;
-            this.AddButton.Content = Properties.Resources.WordAdd + "...";
-            this.RemoveButton.Content = Properties.Resources.WordRemove;
-            this.ResetButton.Content = Properties.Resources.WordReset;
+            this.AddButton.Content = Properties.Resources.Word_Add + "...";
+            this.RemoveButton.Content = Properties.Resources.Word_Remove;
+            this.ResetButton.Content = Properties.Resources.Word_Reset;
 
             this.CollectionChanged += SettingItemCollectionControl_CollectionChanged;
         }

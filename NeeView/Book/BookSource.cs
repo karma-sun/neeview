@@ -85,7 +85,7 @@ namespace NeeView
                 return null;
             }
 
-            var inner = archiver.Parent != null ? Properties.Resources.WordInner + " " : "";
+            var inner = archiver.Parent != null ? Properties.Resources.Word_Inner + " " : "";
 
             var extension = LoosePath.GetExtension(archiver.EntryName);
 

@@ -16,19 +16,19 @@
     <DockPanel Margin="5" >
 
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-            <Button x:Name="OKButton" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.WordOK}" Click="OKButton_Click" />
-            <Button x:Name="CancelButton" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.WordCancel}" Click="CancelButton_Click" />
+            <Button x:Name="OKButton" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.Word_OK}" Click="OKButton_Click" />
+            <Button x:Name="CancelButton" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.Word_Cancel}" Click="CancelButton_Click" />
         </StackPanel>
 
         <StackPanel DockPanel.Dock="Top" Margin="10">
             
             <DockPanel Margin="10">
-                <TextBlock Text="{x:Static properties:Resources.WordName}" Width="60" VerticalAlignment="Center" />
+                <TextBlock Text="{x:Static properties:Resources.Word_Name}" Width="60" VerticalAlignment="Center" />
                 <TextBox VerticalAlignment="Center" Text="{Binding Name}" />
             </DockPanel>
             
             <DockPanel Margin="10">
-                <TextBlock Text="{x:Static properties:Resources.WordPath}" Width="60"  VerticalAlignment="Center"/>
+                <TextBlock Text="{x:Static properties:Resources.Word_Path}" Width="60"  VerticalAlignment="Center"/>
                 <nvc:FileNameBox VerticalAlignment="Center" Text="{Binding Path, Mode=TwoWay}" FileDialogType="Directory"
                         Note="{x:Static properties:Resources.DestinationFolderEditDialog_Path_Remarks}" />
             </DockPanel>

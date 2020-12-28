@@ -45,7 +45,7 @@ namespace NeeView
                 }
                 catch (Exception ex)
                 {
-                    new MessageDialog($"{Resources.WordCause}: {ex.Message}", Resources.ExportErrorDialog_Title).ShowDialog();
+                    new MessageDialog($"{Resources.Word_Cause}: {ex.Message}", Resources.ExportErrorDialog_Title).ShowDialog();
                 }
             }
         }
@@ -110,7 +110,7 @@ namespace NeeView
                 }
                 catch (Exception ex)
                 {
-                    new MessageDialog($"{Resources.WordCause}: {ex.Message}", Resources.ImportErrorDialog_Title).ShowDialog();
+                    new MessageDialog($"{Resources.Word_Cause}: {ex.Message}", Resources.ImportErrorDialog_Title).ShowDialog();
                 }
             }
         }
@@ -124,7 +124,7 @@ namespace NeeView
             PagemarkCollection.Memento pagemark = null;
 
             var selector = new BackupSelectControl();
-            selector.FileNameTextBlock.Text = $"{Resources.WordImport}: {Path.GetFileName(filename)}";
+            selector.FileNameTextBlock.Text = $"{Resources.Word_Import}: {Path.GetFileName(filename)}";
 
             using (var archiver = ZipFile.OpenRead(filename))
             {
@@ -161,7 +161,7 @@ namespace NeeView
                     }
 
                     var dialog = new MessageDialog(selector, Resources.ImportSelectDialog_Title);
-                    dialog.Commands.Add(new UICommand(Resources.WordImport));
+                    dialog.Commands.Add(new UICommand(Resources.Word_Import));
                     dialog.Commands.Add(UICommands.Cancel);
                     var answer = dialog.ShowDialog();
 

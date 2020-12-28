@@ -33,7 +33,7 @@ namespace NeeView
         }
 
 
-        public string FilterPath => string.IsNullOrEmpty(_model.FilterPath) ? Properties.Resources.WordAllHistory : _model.FilterPath;
+        public string FilterPath => string.IsNullOrEmpty(_model.FilterPath) ? Properties.Resources.Word_AllHistory : _model.FilterPath;
 
 
         #region MoreMenu
@@ -50,9 +50,9 @@ namespace NeeView
         private void InitializeMoreMenu()
         {
             var menu = new ContextMenu();
-            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleList, PanelListItemStyle.Normal));
-            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleContent, PanelListItemStyle.Content));
-            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleBanner, PanelListItemStyle.Banner));
+            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleList, PanelListItemStyle.Normal));
+            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleContent, PanelListItemStyle.Content));
+            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleBanner, PanelListItemStyle.Banner));
             menu.Items.Add(new Separator());
             menu.Items.Add(CreateCheckMenuItem(Properties.Resources.History_MoreMenu_IsCurrentFolder, new Binding(nameof(HistoryConfig.IsCurrentFolder)) { Source = Config.Current.History }));
             menu.Items.Add(new Separator());

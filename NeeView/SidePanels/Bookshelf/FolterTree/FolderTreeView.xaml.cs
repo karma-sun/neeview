@@ -547,15 +547,15 @@ namespace NeeView
                 case RootBookmarkFolderNode rootBookmarkFolder:
                     contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_DeleteInvalidBookmark, RemoveUnlinkedCommand));
                     contextMenu.Items.Add(new Separator());
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.WordNewFolder, NewFolderCommand));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.Word_NewFolder, NewFolderCommand));
                     contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_AddBookmark, AddBookmarkCommand));
                     break;
 
                 case BookmarkFolderNode bookmarkFolder:
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.WordRemove, RemoveCommand));
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.WordRename, RenameCommand));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.Word_Remove, RemoveCommand));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.Word_Rename, RenameCommand));
                     contextMenu.Items.Add(new Separator());
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.WordNewFolder, NewFolderCommand));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.Word_NewFolder, NewFolderCommand));
                     contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_AddBookmark, AddBookmarkCommand));
                     break;
 

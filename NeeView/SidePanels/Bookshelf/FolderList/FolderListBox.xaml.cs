@@ -59,7 +59,7 @@ namespace NeeView
             {
                 var menu = new ContextMenu();
                 menu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderTree_Menu_AddBookmark, Command = AddBookmarkCommand });
-                menu.Items.Add(new MenuItem() { Header = Properties.Resources.WordNewFolder, Command = NewFolderCommand });
+                menu.Items.Add(new MenuItem() { Header = Properties.Resources.Word_NewFolder, Command = NewFolderCommand });
                 this.ListBox.ContextMenu = menu;
             }
         }
@@ -1162,7 +1162,7 @@ namespace NeeView
                 contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItem_Menu_OpenBook, Command = OpenBookCommand });
                 contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItem_Menu_Subfolder, Command = LoadWithRecursiveCommand, IsChecked = item.IsRecursived });
                 contextMenu.Items.Add(new Separator());
-                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.WordBookmark, Command = ToggleBookmarkCommand, IsChecked = BookmarkCollection.Current.Contains(item.EntityPath.SimplePath) });
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.Word_Bookmark, Command = ToggleBookmarkCommand, IsChecked = BookmarkCollection.Current.Contains(item.EntityPath.SimplePath) });
                 contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItem_Menu_DeleteHistory, Command = RemoveHistoryCommand });
                 contextMenu.Items.Add(new Separator());
                 contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItem_Menu_Explorer, Command = OpenExplorerCommand });

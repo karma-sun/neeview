@@ -81,9 +81,9 @@ namespace NeeView
         private void InitializeMoreMenu()
         {
             var menu = new ContextMenu();
-            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleList, PanelListItemStyle.Normal));
-            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleContent, PanelListItemStyle.Content));
-            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleBanner, PanelListItemStyle.Banner));
+            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleList, PanelListItemStyle.Normal));
+            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleContent, PanelListItemStyle.Content));
+            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleBanner, PanelListItemStyle.Banner));
             menu.Items.Add(new Separator());
             menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Pagemark_MoreMenu_SortPath, new Binding(nameof(_model.IsSortPath)) { Source = _model }));
             menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Pagemark_MoreMenu_CurrentBook, new Binding(nameof(_model.IsCurrentBook)) { Source = _model }));

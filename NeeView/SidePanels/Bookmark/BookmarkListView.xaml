@@ -92,7 +92,7 @@
             <DockPanel KeyboardNavigation.TabNavigation="Local">
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" VerticalAlignment="Top">
                     <Button x:Name="FoderTreeButton" Style="{StaticResource FolderListButtonStyle}"  VerticalAlignment="Center" TabIndex="2"
-                            ToolTip="{x:Static properties:Resources.WordFoldersTree}"
+                            ToolTip="{x:Static properties:Resources.Word_FoldersTree}"
                             Command="{Binding ToggleVisibleFoldersTree}">
                         <Image Source="{StaticResource ic_treeview_b}" Width="16" Height="16"/>
                         <Button.ContextMenu>

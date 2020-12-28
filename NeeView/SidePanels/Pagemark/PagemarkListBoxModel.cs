@@ -122,7 +122,7 @@ namespace NeeView
             }
             else
             {
-                PlaceDispString = Properties.Resources.WordAllPagemark;
+                PlaceDispString = Properties.Resources.Word_AllPagemark;
                 Items = PagemarkCollection.Items.Children;
             }
         }
@@ -163,7 +163,7 @@ namespace NeeView
                     var count = item.Count(e => e.Value is Pagemark);
                     if (count > 0)
                     {
-                        _toast = new Toast(string.Format(Properties.Resources.PagemarkFolderDelete_Message, count), null, ToastIcon.Information, Properties.Resources.WordRestore, () => PagemarkCollection.Current.Restore(memento));
+                        _toast = new Toast(string.Format(Properties.Resources.PagemarkFolderDelete_Message, count), null, ToastIcon.Information, Properties.Resources.Word_Restore, () => PagemarkCollection.Current.Restore(memento));
                         ToastService.Current.Show(_toast);
                     }
                 }

@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddParameterDialog.Tile" xml:space="preserve">
+    <value>項目の追加</value>
+  </data>
   <data name="AddressBar.Back.ToolTip" xml:space="preserve">
     <value>戻る</value>
   </data>
@@ -131,6 +134,42 @@
   </data>
   <data name="AddressBar.Up.ToolTip" xml:space="preserve">
     <value>上へ</value>
+  </data>
+  <data name="AppOption.FolderList" xml:space="preserve">
+    <value>本棚の場所を指定します</value>
+  </data>
+  <data name="AppOption.IsBlank" xml:space="preserve">
+    <value>画像ファイルを開かずに起動します</value>
+  </data>
+  <data name="AppOption.IsFullScreen" xml:space="preserve">
+    <value>フルスクリーンで起動するかを指定します</value>
+  </data>
+  <data name="AppOption.IsHelp" xml:space="preserve">
+    <value>このヘルプを表示します</value>
+  </data>
+  <data name="AppOption.IsNewWindow" xml:space="preserve">
+    <value>新しいウィンドウで起動するかを指定します</value>
+  </data>
+  <data name="AppOption.IsResetPlacement" xml:space="preserve">
+    <value>ウィンドウ座標を初期化します</value>
+  </data>
+  <data name="AppOption.IsSlideShow" xml:space="preserve">
+    <value>スライドショウを開始するかを指定します</value>
+  </data>
+  <data name="AppOption.IsVersion" xml:space="preserve">
+    <value>バージョン情報を表示します</value>
+  </data>
+  <data name="AppOption.ScriptFile" xml:space="preserve">
+    <value>指定されたスクリプトファイルを起動時に実行します</value>
+  </data>
+  <data name="AppOption.SettingFilename" xml:space="preserve">
+    <value>設定ファイル(UserSetting.json)のパスを指定します</value>
+  </data>
+  <data name="AppOption.Terminator" xml:space="preserve">
+    <value>オプションリストの終りを示す。これ以後の引数はファイル名とみなされます</value>
+  </data>
+  <data name="AppOption.WindowState" xml:space="preserve">
+    <value>指定されたウィンドウ状態で起動します</value>
   </data>
   <data name="ArchiveEntryCollectionMode.CurrentDirectory" xml:space="preserve">
     <value>ディレクトリ単位で展開</value>
@@ -405,6 +444,12 @@
   <data name="BookConfigAccessor.ViewPageSize" xml:space="preserve">
     <value>表示するページ数</value>
   </data>
+  <data name="Bookmark.Message.TemporaryNotSupportedError" xml:space="preserve">
+    <value>一時フォルダーはブックマークできません</value>
+  </data>
+  <data name="Bookmark.Title" xml:space="preserve">
+    <value>ブックマーク</value>
+  </data>
   <data name="Bookmark.Up.ToolTip" xml:space="preserve">
     <value>上に移動 (Alt+Up)</value>
   </data>
@@ -615,6 +660,9 @@
   <data name="Bookshelf.Sync.ToolTip" xml:space="preserve">
     <value>表示中のブックのある場所に移動</value>
   </data>
+  <data name="Bookshelf.Title" xml:space="preserve">
+    <value>本棚</value>
+  </data>
   <data name="Bookshelf.Up.ToolTip" xml:space="preserve">
     <value>上に移動 (Alt+Up)</value>
   </data>
@@ -760,6 +808,12 @@ nv.Bookshelf.SelectedItems = nv.Bookshelf.Items.filter(e =&gt; e.Name.startsWith
   <data name="BookshelfPanelAccessor.Style" xml:space="preserve">
     <value>リスト項目表示形式</value>
   </data>
+  <data name="BootErrorDialog.Title" xml:space="preserve">
+    <value>NeeView 起動エラー</value>
+  </data>
+  <data name="BootOptionDialog.Title" xml:space="preserve">
+    <value>NeeView 起動オプション</value>
+  </data>
   <data name="BrushSource.Color" xml:space="preserve">
     <value>色</value>
   </data>
@@ -784,6 +838,12 @@ nv.Bookshelf.SelectedItems = nv.Bookshelf.Items.filter(e =&gt; e.Name.startsWith
   <data name="BrushType.SolidColor" xml:space="preserve">
     <value>単色</value>
   </data>
+  <data name="CacheDeletedDialog.Title" xml:space="preserve">
+    <value>サムネイルキャッシュを削除しました</value>
+  </data>
+  <data name="CacheDeletedFailedDialog.Title" xml:space="preserve">
+    <value>サムネイルキャッシュの削除に失敗しました。</value>
+  </data>
   <data name="CancelFullScreenCommand" xml:space="preserve">
     <value>フルスクリーン解除</value>
   </data>
@@ -795,6 +855,9 @@ nv.Bookshelf.SelectedItems = nv.Bookshelf.Items.filter(e =&gt; e.Name.startsWith
   </data>
   <data name="CancelScriptCommand.Remarks" xml:space="preserve">
     <value>sleep命令が存在する実行中のスクリプトを停止します。</value>
+  </data>
+  <data name="CannotDeleteDataException_Message" xml:space="preserve">
+    <value>AppDataフォルダではないため、削除を行いません。</value>
   </data>
   <data name="ClearHistoryCommand" xml:space="preserve">
     <value>履歴を消去</value>
@@ -1108,6 +1171,9 @@ nv.Values.Test = "Hello!"</value>
   <data name="CommandListItem.Message.ShareParameter" xml:space="preserve">
     <value>「{0}」とパラメーター共有です</value>
   </data>
+  <data name="CommandParameter.Share" xml:space="preserve">
+    <value>「{0}」と共通のパラメーターです。</value>
+  </data>
   <data name="CommandParameterControl.Empty" xml:space="preserve">
     <value>パラメーターはありません</value>
   </data>
@@ -1120,11 +1186,20 @@ nv.Values.Test = "Hello!"</value>
   <data name="CommandResetWindow.Title" xml:space="preserve">
     <value>コマンド設定初期化</value>
   </data>
+  <data name="ConfirmRecursiveDialog.Message" xml:space="preserve">
+    <value>"{0}" には読み込めるファイルがありません。サブフォルダーまたは圧縮ファイルも読み込みますか？</value>
+  </data>
+  <data name="ConfirmRecursiveDialog.Title" xml:space="preserve">
+    <value>サブフォルダーも読み込みますか？</value>
+  </data>
   <data name="ControlConfig.IsSelected" xml:space="preserve">
     <value>パネル選択状態</value>
   </data>
   <data name="ControlConfig.IsVisible" xml:space="preserve">
     <value>パネル表示状態</value>
+  </data>
+  <data name="CopyErrorDialog.Title" xml:space="preserve">
+    <value>コピーに失敗しました</value>
   </data>
   <data name="CopyFileCommand" xml:space="preserve">
     <value>ファイルをコピー</value>
@@ -1150,6 +1225,24 @@ nv.Values.Test = "Hello!"</value>
   <data name="CopyImageCommand.Remarks" xml:space="preserve">
     <value>画像をクリップボードにコピーします。2ページ表示の場合はメインとなるページのみコピーします。</value>
   </data>
+  <data name="CopyImageErrorDialog.Title" xml:space="preserve">
+    <value>コピーに失敗しました</value>
+  </data>
+  <data name="CriticalExceptionDialog.Copy" xml:space="preserve">
+    <value>クリップボードにコピー</value>
+  </data>
+  <data name="CriticalExceptionDialog.Header" xml:space="preserve">
+    <value>エラーの詳細:</value>
+  </data>
+  <data name="CriticalExceptionDialog.LogPath" xml:space="preserve">
+    <value>&lt;a href="{0}"&gt;{0}&lt;/a&gt; にエラーの詳細が出力されています。</value>
+  </data>
+  <data name="CriticalExceptionDialog.Message" xml:space="preserve">
+    <value>エラーが発生しました。アプリを終了します。</value>
+  </data>
+  <data name="CriticalExceptionDialog.Title" xml:space="preserve">
+    <value>NeeView - エラー</value>
+  </data>
   <data name="CustomBackgroundControl.Color" xml:space="preserve">
     <value>色</value>
   </data>
@@ -1161,6 +1254,28 @@ nv.Values.Test = "Hello!"</value>
   </data>
   <data name="CustomBackgroundControl.ImageSelect.Remarks" xml:space="preserve">
     <value>画像ファイルを選択してください</value>
+  </data>
+  <data name="DeleteApplicationDataCompleteDialog.Message" xml:space="preserve">
+    <value>ユーザーデータを削除しました。NeeViewを終了します。</value>
+  </data>
+  <data name="DeleteApplicationDataCompleteDialog.Title" xml:space="preserve">
+    <value>削除しました。</value>
+  </data>
+  <data name="DeleteApplicationDataDialog.Message" xml:space="preserve">
+    <value>ユーザーデータを削除します。よろしいですか？
+
+以下のデータが削除されます
+- 設定ファイル
+- 履歴ファイル
+- ブックマークファイル
+- ページマークファイル
+- キャッシュファイル</value>
+  </data>
+  <data name="DeleteApplicationDataDialog.Title" xml:space="preserve">
+    <value>ユーザーデータを削除します。</value>
+  </data>
+  <data name="DeleteApplicationDataErrorDialog.Title" xml:space="preserve">
+    <value>削除できません。</value>
   </data>
   <data name="DeleteBookCommand" xml:space="preserve">
     <value>ブックを削除</value>
@@ -1180,66 +1295,14 @@ nv.Values.Test = "Hello!"</value>
   <data name="DeleteFileCommand.Remarks" xml:space="preserve">
     <value>ファイルを削除します。圧縮ファイルの場合は削除できません。 </value>
   </data>
-  <data name="DestinationFolderEditDialog.Title" xml:space="preserve">
-    <value>フォルダー設定</value>
+  <data name="DestinationFolderDialog.Title" xml:space="preserve">
+    <value>登録フォルダー一覧</value>
   </data>
   <data name="DestinationFolderEditDialog.Path.Remarks" xml:space="preserve">
     <value>出力先フォルダーのパス</value>
   </data>
-  <data name="DestinationFolderDialog.Title" xml:space="preserve">
-    <value>登録フォルダー一覧</value>
-  </data>
-  <data name="AddParameterDialog.Tile" xml:space="preserve">
-    <value>項目の追加</value>
-  </data>
-  <data name="Bookmark.Message.TemporaryNotSupportedError" xml:space="preserve">
-    <value>一時フォルダーはブックマークできません</value>
-  </data>
-  <data name="BootErrorDialog.Title" xml:space="preserve">
-    <value>NeeView 起動エラー</value>
-  </data>
-  <data name="BootOptionDialog.Title" xml:space="preserve">
-    <value>NeeView 起動オプション</value>
-  </data>
-  <data name="CacheDeletedFailedDialog.Title" xml:space="preserve">
-    <value>サムネイルキャッシュの削除に失敗しました。</value>
-  </data>
-  <data name="CacheDeletedDialog.Title" xml:space="preserve">
-    <value>サムネイルキャッシュを削除しました</value>
-  </data>
-  <data name="ConfirmRecursiveDialog.Message" xml:space="preserve">
-    <value>"{0}" には読み込めるファイルがありません。サブフォルダーまたは圧縮ファイルも読み込みますか？</value>
-  </data>
-  <data name="ConfirmRecursiveDialog.Title" xml:space="preserve">
-    <value>サブフォルダーも読み込みますか？</value>
-  </data>
-  <data name="CopyErrorDialog.Title" xml:space="preserve">
-    <value>コピーに失敗しました</value>
-  </data>
-  <data name="CopyImageErrorDialog.Title" xml:space="preserve">
-    <value>コピーに失敗しました</value>
-  </data>
-  <data name="DeleteApplicationDataDialog.Message" xml:space="preserve">
-    <value>ユーザーデータを削除します。よろしいですか？
-
-以下のデータが削除されます
-- 設定ファイル
-- 履歴ファイル
-- ブックマークファイル
-- ページマークファイル
-- キャッシュファイル</value>
-  </data>
-  <data name="DeleteApplicationDataCompleteDialog.Message" xml:space="preserve">
-    <value>ユーザーデータを削除しました。NeeViewを終了します。</value>
-  </data>
-  <data name="DeleteApplicationDataCompleteDialog.Title" xml:space="preserve">
-    <value>削除しました。</value>
-  </data>
-  <data name="DeleteApplicationDataErrorDialog.Title" xml:space="preserve">
-    <value>削除できません。</value>
-  </data>
-  <data name="DeleteApplicationDataDialog.Title" xml:space="preserve">
-    <value>ユーザーデータを削除します。</value>
+  <data name="DestinationFolderEditDialog.Title" xml:space="preserve">
+    <value>フォルダー設定</value>
   </data>
   <data name="DragActionLockedDialog.Title" xml:space="preserve">
     <value>この操作は変更できません</value>
@@ -1249,143 +1312,6 @@ nv.Values.Test = "Hello!"</value>
   </data>
   <data name="DragActionResetDialog.Title" xml:space="preserve">
     <value>ドラッグ操作を初期化します</value>
-  </data>
-  <data name="ExportErrorDialog.Title" xml:space="preserve">
-    <value>エクスポートに失敗しました</value>
-  </data>
-  <data name="ExportImage.Message.Success" xml:space="preserve">
-    <value>{0} を保存しました。</value>
-  </data>
-  <data name="ExportPlaylistErrorDialog.Title" xml:space="preserve">
-    <value>プレイリストの保存に失敗しました</value>
-  </data>
-  <data name="ExportDialog.Title" xml:space="preserve">
-    <value>全設定をエクスポート</value>
-  </data>
-  <data name="FileDeleteDialog.Message" xml:space="preserve">
-    <value>この {0} を削除しますか？</value>
-  </data>
-  <data name="FileDeleteBookDialog.Title" xml:space="preserve">
-    <value>ブックを削除します</value>
-  </data>
-  <data name="x.DialogFileDeleteError" xml:space="preserve">
-    <value>削除できませんでした。もう一度実行しますか？</value>
-  </data>
-  <data name="x.DialogFileDeleteErrorTitle" xml:space="preserve">
-    <value>削除できませんでした。リトライしますか？</value>
-  </data>
-  <data name="FileDeleteErrorDialog.Title" xml:space="preserve">
-    <value>削除できませんでした。</value>
-  </data>
-  <data name="FileDeleteMultiDialog.Message" xml:space="preserve">
-    <value>これら {0} 個の項目を削除しますか？</value>
-  </data>
-  <data name="x.DialogFileDeleteMultiError" xml:space="preserve">
-    <value>一部のファイルを削除できませんでした。もう一度実行しますか？</value>
-  </data>
-  <data name="FileDeletePageDialog.Title" xml:space="preserve">
-    <value>ページを削除します</value>
-  </data>
-  <data name="FileDeleteDialog.Title" xml:space="preserve">
-    <value>{0} を削除します</value>
-  </data>
-  <data name="FileRenameConfrictDialog.Message" xml:space="preserve">
-    <value>{0} は既に存在しています。
-{1} に名前を変更しますか？</value>
-  </data>
-  <data name="FileRenameConfrictDialog.Title" xml:space="preserve">
-    <value>同じ名前のファイルが存在しています</value>
-  </data>
-  <data name="FileRenameErrorDialog.Title" xml:space="preserve">
-    <value>名前を変更できません</value>
-  </data>
-  <data name="FileRenameExtensionDialog.Message" xml:space="preserve">
-    <value>拡張子を変更すると、使えなくなる可能性があります。
-よろしいですか？</value>
-  </data>
-  <data name="FileRenameExtensionDialog.Title" xml:space="preserve">
-    <value>拡張子を変更します</value>
-  </data>
-  <data name="FileRenameFailedDialog.Message" xml:space="preserve">
-    <value>名前の変更に失敗しました。もう一度実行しますか？</value>
-  </data>
-  <data name="FileRenameFailedDialog.Title" xml:space="preserve">
-    <value>名前を変更できませんでした</value>
-  </data>
-  <data name="FileRenameInvalidDialog.Message" xml:space="preserve">
-    <value>ファイル名に使用できない文字が含まれています。</value>
-  </data>
-  <data name="FileRenameWrongDialog.Message" xml:space="preserve">
-    <value>指定されたファイル名は無効です。</value>
-  </data>
-  <data name="FileRenameWrongDeviceDialog.Message" xml:space="preserve">
-    <value>指定されたデバイス名は無効です。</value>
-  </data>
-  <data name="HistoryDeleteAllDialog.Message" xml:space="preserve">
-    <value>すべての履歴を削除します。よろしいですか？</value>
-  </data>
-  <data name="HistoryDeleteAllDialog.Title" xml:space="preserve">
-    <value>履歴を削除します</value>
-  </data>
-  <data name="HistoryDeletedDialog.Title" xml:space="preserve">
-    <value>履歴を削除しました</value>
-  </data>
-  <data name="HyperLinkErrorDialog.Title" xml:space="preserve">
-    <value>リンクが取得できませんでした。</value>
-  </data>
-  <data name="ImageExportErrorDialog.Message" xml:space="preserve">
-    <value>この画像は出力できません。</value>
-  </data>
-  <data name="ImageExportErrorDialog.Title" xml:space="preserve">
-    <value>ファイル保存に失敗しました</value>
-  </data>
-  <data name="ImportErrorDialog.Title" xml:space="preserve">
-    <value>インポートに失敗しました</value>
-  </data>
-  <data name="ImportSelectDialog.Title" xml:space="preserve">
-    <value>インポートする項目を選択してください</value>
-  </data>
-  <data name="ImportDialog.Title" xml:space="preserve">
-    <value>全設定をインポート</value>
-  </data>
-  <data name="MergeFolderDialog.Message" xml:space="preserve">
-    <value>{0} にフォルダーを統合します。</value>
-  </data>
-  <data name="MergeFolderDialog.Title" xml:space="preserve">
-    <value>フォルダーを統合しますか？</value>
-  </data>
-  <data name="OpenApplicationErrorDialog.Title" xml:space="preserve">
-    <value>外部アプリ実行に失敗しました</value>
-  </data>
-  <data name="OpenScriptsFolderErrorDialog.Title" xml:space="preserve">
-    <value>スクリプトフォルダーが開けません</value>
-  </data>
-  <data name="OpenSettingFolderErrorDialog.Message" xml:space="preserve">
-    <value>ストアアプリでは設定ファイルの場所を開くことができません</value>
-  </data>
-  <data name="OpenSettingFolderErrorDialog.Title" xml:space="preserve">
-    <value>このコマンドは使用できません</value>
-  </data>
-  <data name="PageEndDialog.Message" xml:space="preserve">
-    <value>行動を選択してください。</value>
-  </data>
-  <data name="PageEndDialog.Title" xml:space="preserve">
-    <value>ページの終端</value>
-  </data>
-  <data name="PagemarkError.Message" xml:space="preserve">
-    <value>一時フォルダーはページマークできません</value>
-  </data>
-  <data name="PagemarkFolderDelete.Message" xml:space="preserve">
-    <value>{0} 個のページマークを削除しました。</value>
-  </data>
-  <data name="PageViewRecordWriteError.Message" xml:space="preserve">
-    <value>ページ表示履歴を書き込めませんでした</value>
-  </data>
-  <data name="QuickAccessTempError.Message" xml:space="preserve">
-    <value>一時フォルダーはクイックアクセスに追加できません</value>
-  </data>
-  <data name="SusieConnectError.Message" xml:space="preserve">
-    <value>Susieとの接続に失敗しました。</value>
   </data>
   <data name="DragActionTable.Elements" xml:space="preserve">
     <value>ドラッグ操作設定</value>
@@ -1462,9 +1388,6 @@ nv.Values.Test = "Hello!"</value>
   <data name="EditCommandWindow.Visible" xml:space="preserve">
     <value>コマンド実行時にメッセージを表示する</value>
   </data>
-  <data name="x.EffectBaseScale" xml:space="preserve">
-    <value>基底スケール</value>
-  </data>
   <data name="Effect.CustomSize" xml:space="preserve">
     <value>サイズ指定</value>
   </data>
@@ -1480,12 +1403,6 @@ nv.Values.Test = "Hello!"</value>
   <data name="Effect.KeepDot" xml:space="preserve">
     <value>ドットのまま拡大</value>
   </data>
-  <data name="Effect.Title" xml:space="preserve">
-    <value>エフェクト</value>
-  </data>
-  <data name="EffectPanelAccessor" xml:space="preserve">
-    <value>エフェクトパネルのアクセサ</value>
-  </data>
   <data name="Effect.ResizeFilter" xml:space="preserve">
     <value>リサイズフィルター</value>
   </data>
@@ -1498,8 +1415,14 @@ nv.Values.Test = "Hello!"</value>
   <data name="Effect.ResizeUnsharp" xml:space="preserve">
     <value>アンシャープマスク</value>
   </data>
+  <data name="Effect.Title" xml:space="preserve">
+    <value>エフェクト</value>
+  </data>
   <data name="Effect.Trim" xml:space="preserve">
     <value>トリミング</value>
+  </data>
+  <data name="EffectPanelAccessor" xml:space="preserve">
+    <value>エフェクトパネルのアクセサ</value>
   </data>
   <data name="EffectType.Bloom" xml:space="preserve">
     <value>ブルーム</value>
@@ -1552,54 +1475,14 @@ nv.Values.Test = "Hello!"</value>
   <data name="EmbossedEffectUnit.Height" xml:space="preserve">
     <value>Height</value>
   </data>
-  <data name="CannotDeleteDataException_Message" xml:space="preserve">
-    <value>AppDataフォルダではないため、削除を行いません。</value>
-  </data>
-  <data name="CriticalExceptionDialog.Message" xml:space="preserve">
-    <value>エラーが発生しました。アプリを終了します。</value>
-  </data>
-  <data name="CriticalExceptionDialog.Copy" xml:space="preserve">
-    <value>クリップボードにコピー</value>
-  </data>
-  <data name="CriticalExceptionDialog.LogPath" xml:space="preserve">
-    <value>&lt;a href="{0}"&gt;{0}&lt;/a&gt; にエラーの詳細が出力されています。</value>
-  </data>
-  <data name="CriticalExceptionDialog.Header" xml:space="preserve">
-    <value>エラーの詳細:</value>
-  </data>
-  <data name="CriticalExceptionDialog.Title" xml:space="preserve">
-    <value>NeeView - エラー</value>
-  </data>
-  <data name="FileNotFoundException.Message" xml:space="preserve">
-    <value>"{0}" が見つかりません</value>
-  </data>
-  <data name="ImageLoadFailedException.Message" xml:space="preserve">
-    <value>画像の読み込みに失敗しました。</value>
-  </data>
-  <data name="InconsistencyException.Message" xml:space="preserve">
-    <value>ページデータの不整合</value>
-  </data>
-  <data name="LoadFailedException.Message" xml:space="preserve">
-    <value>{0} の読み込みに失敗しました。
-{1}</value>
-  </data>
-  <data name="x.ExceptionNotSupportArchiveFolder" xml:space="preserve">
-    <value>圧縮ファイルのフォルダーは非対応です。</value>
-  </data>
-  <data name="NotSupportedKeyException.Message" xml:space="preserve">
-    <value>{0} キーと修飾キーの組み合わせは、{1} ではサポートされていません。</value>
-  </data>
-  <data name="NotZipException.Message" xml:space="preserve">
-    <value>{0} はZIPファイルではありません</value>
-  </data>
-  <data name="SusieLoadFailedException.Message" xml:space="preserve">
-    <value>Susieでの画像取得に失敗しました。</value>
-  </data>
   <data name="ExplorerContextMenu.IsEnabled" xml:space="preserve">
     <value>エクスプローラーのコンテキストメニューに登録</value>
   </data>
   <data name="ExplorerContextMenu.IsEnabled.Remarks" xml:space="preserve">
     <value>エクスプローラーのコンテキストメニューに「NeeViewで開く」を追加します。この機能はレジストリを使用します。</value>
+  </data>
+  <data name="ExplorerContextMenu.OpenInNeeView" xml:space="preserve">
+    <value>NeeViewで開く(&amp;V)</value>
   </data>
   <data name="ExportBackupCommand" xml:space="preserve">
     <value>設定をエクスポート</value>
@@ -1609,6 +1492,15 @@ nv.Values.Test = "Hello!"</value>
   </data>
   <data name="ExportBackupCommand.Remarks" xml:space="preserve">
     <value>設定、履歴、ブックマーク、ページマークのバックアップを作成します。サムネイルキャッシュはバックアップされません。</value>
+  </data>
+  <data name="ExportDialog.Title" xml:space="preserve">
+    <value>全設定をエクスポート</value>
+  </data>
+  <data name="ExportErrorDialog.Title" xml:space="preserve">
+    <value>エクスポートに失敗しました</value>
+  </data>
+  <data name="ExportImage.Message.Success" xml:space="preserve">
+    <value>{0} を保存しました。</value>
   </data>
   <data name="ExportImageAsCommand" xml:space="preserve">
     <value>名前をつけてファイルに保存</value>
@@ -1700,6 +1592,9 @@ nv.Values.Test = "Hello!"</value>
   <data name="ExportImageWindow.Title" xml:space="preserve">
     <value>画像を保存</value>
   </data>
+  <data name="ExportPlaylistErrorDialog.Title" xml:space="preserve">
+    <value>プレイリストの保存に失敗しました</value>
+  </data>
   <data name="ExternalAppDialog.Title" xml:space="preserve">
     <value>外部アプリ一覧</value>
   </data>
@@ -1712,8 +1607,23 @@ nv.Values.Test = "Hello!"</value>
   <data name="ExternalProgramType.Protocol" xml:space="preserve">
     <value>プロトコル</value>
   </data>
-  <data name="Information.Title" xml:space="preserve">
-    <value>情報</value>
+  <data name="FileDeleteBookDialog.Title" xml:space="preserve">
+    <value>ブックを削除します</value>
+  </data>
+  <data name="FileDeleteDialog.Message" xml:space="preserve">
+    <value>この {0} を削除しますか？</value>
+  </data>
+  <data name="FileDeleteDialog.Title" xml:space="preserve">
+    <value>{0} を削除します</value>
+  </data>
+  <data name="FileDeleteErrorDialog.Title" xml:space="preserve">
+    <value>削除できませんでした。</value>
+  </data>
+  <data name="FileDeleteMultiDialog.Message" xml:space="preserve">
+    <value>これら {0} 個の項目を削除しますか？</value>
+  </data>
+  <data name="FileDeletePageDialog.Title" xml:space="preserve">
+    <value>ページを削除します</value>
   </data>
   <data name="FileNameBox.Directory.Message" xml:space="preserve">
     <value>フォルダーのパスを入力してください</value>
@@ -1726,6 +1636,41 @@ nv.Values.Test = "Hello!"</value>
   </data>
   <data name="FileNameBox.SelectFile" xml:space="preserve">
     <value>ファイル選択</value>
+  </data>
+  <data name="FileNotFoundException.Message" xml:space="preserve">
+    <value>"{0}" が見つかりません</value>
+  </data>
+  <data name="FileRenameConfrictDialog.Message" xml:space="preserve">
+    <value>{0} は既に存在しています。
+{1} に名前を変更しますか？</value>
+  </data>
+  <data name="FileRenameConfrictDialog.Title" xml:space="preserve">
+    <value>同じ名前のファイルが存在しています</value>
+  </data>
+  <data name="FileRenameErrorDialog.Title" xml:space="preserve">
+    <value>名前を変更できません</value>
+  </data>
+  <data name="FileRenameExtensionDialog.Message" xml:space="preserve">
+    <value>拡張子を変更すると、使えなくなる可能性があります。
+よろしいですか？</value>
+  </data>
+  <data name="FileRenameExtensionDialog.Title" xml:space="preserve">
+    <value>拡張子を変更します</value>
+  </data>
+  <data name="FileRenameFailedDialog.Message" xml:space="preserve">
+    <value>名前の変更に失敗しました。もう一度実行しますか？</value>
+  </data>
+  <data name="FileRenameFailedDialog.Title" xml:space="preserve">
+    <value>名前を変更できませんでした</value>
+  </data>
+  <data name="FileRenameInvalidDialog.Message" xml:space="preserve">
+    <value>ファイル名に使用できない文字が含まれています。</value>
+  </data>
+  <data name="FileRenameWrongDeviceDialog.Message" xml:space="preserve">
+    <value>指定されたデバイス名は無効です。</value>
+  </data>
+  <data name="FileRenameWrongDialog.Message" xml:space="preserve">
+    <value>指定されたファイル名は無効です。</value>
   </data>
   <data name="FilmStripConfig.IsEnabled" xml:space="preserve">
     <value>フィルムストリップを表示する</value>
@@ -1805,51 +1750,6 @@ nv.Values.Test = "Hello!"</value>
   <data name="FocusPrevAppCommand.Remarks" xml:space="preserve">
     <value>複数起動時に前のNeeViewに切り替えます。</value>
   </data>
-  <data name="Information.Archiver" xml:space="preserve">
-    <value>アーカイバー</value>
-  </data>
-  <data name="Information.Date" xml:space="preserve">
-    <value>ファイル日付</value>
-  </data>
-  <data name="Information.DateFormat" xml:space="preserve">
-    <value>yyyy年M月d日 dddd H:mm</value>
-  </data>
-  <data name="Information.DateTimeOriginal" xml:space="preserve">
-    <value>撮影日時</value>
-  </data>
-  <data name="Information.Decoder" xml:space="preserve">
-    <value>デコーダー</value>
-  </data>
-  <data name="Information.Device" xml:space="preserve">
-    <value>デバイス</value>
-  </data>
-  <data name="Information.FileName" xml:space="preserve">
-    <value>ファイル名</value>
-  </data>
-  <data name="Information.FilePath" xml:space="preserve">
-    <value>ファイルパス</value>
-  </data>
-  <data name="Information.FileSize" xml:space="preserve">
-    <value>ファイルサイズ</value>
-  </data>
-  <data name="Information.FolderPath" xml:space="preserve">
-    <value>フォルダーのパス</value>
-  </data>
-  <data name="Information.ImageSize" xml:space="preserve">
-    <value>画像サイズ</value>
-  </data>
-  <data name="Information.Info" xml:space="preserve">
-    <value>撮影情報</value>
-  </data>
-  <data name="Information.ISO" xml:space="preserve">
-    <value>ISO</value>
-  </data>
-  <data name="Information.Menu.Copy" xml:space="preserve">
-    <value>コピー(_C)</value>
-  </data>
-  <data name="Information.OpenFolder" xml:space="preserve">
-    <value>フォルダーを開く</value>
-  </data>
   <data name="FolderListConfig.FolderTreeLayout" xml:space="preserve">
     <value>フォルダーツリーの配置</value>
   </data>
@@ -1901,12 +1801,6 @@ nv.Values.Test = "Hello!"</value>
   <data name="FolderOrder.TimeStampDescending" xml:space="preserve">
     <value>日付↓</value>
   </data>
-  <data name="FolderTreeLayout.Left" xml:space="preserve">
-    <value>左に配置</value>
-  </data>
-  <data name="FolderTreeLayout.Top" xml:space="preserve">
-    <value>上に配置</value>
-  </data>
   <data name="FolderTree.Menu.AddBookmark" xml:space="preserve">
     <value>ブックマークを追加</value>
   </data>
@@ -1928,8 +1822,17 @@ nv.Values.Test = "Hello!"</value>
   <data name="FolderTree.Menu.RemoveQuickAccess" xml:space="preserve">
     <value>クイックアクセスから外す</value>
   </data>
-  <data name="x.HelpChangeLogFile" xml:space="preserve">
-    <value>CHANGELOG.ja-jp.html</value>
+  <data name="FolderTreeLayout.Left" xml:space="preserve">
+    <value>左に配置</value>
+  </data>
+  <data name="FolderTreeLayout.Top" xml:space="preserve">
+    <value>上に配置</value>
+  </data>
+  <data name="HelpCommandList.Message" xml:space="preserve">
+    <value>操作が割り当てられていないコマンドは「コマンド設定」で設定することで使用可能です。</value>
+  </data>
+  <data name="HelpCommandList.Title" xml:space="preserve">
+    <value>NeeView コマンド一覧</value>
   </data>
   <data name="HelpCommandListCommand" xml:space="preserve">
     <value>コマンドのヘルプを表示する</value>
@@ -1939,12 +1842,6 @@ nv.Values.Test = "Hello!"</value>
   </data>
   <data name="HelpCommandListCommand.Remarks" xml:space="preserve">
     <value>全コマンドのヘルプをブラウザで表示します。</value>
-  </data>
-  <data name="HelpCommandList.Message" xml:space="preserve">
-    <value>操作が割り当てられていないコマンドは「コマンド設定」で設定することで使用可能です。</value>
-  </data>
-  <data name="HelpCommandList.Title" xml:space="preserve">
-    <value>NeeView コマンド一覧</value>
   </data>
   <data name="HelpMainMenuCommand" xml:space="preserve">
     <value>メインメニューのヘルプを表示する</value>
@@ -1975,6 +1872,18 @@ nv.Values.Test = "Hello!"</value>
   </data>
   <data name="HelpSearchOptionCommand.Remarks" xml:space="preserve">
     <value>検索オプションのヘルプをブラウザーで開きます。</value>
+  </data>
+  <data name="History.MoreMenu.DeleteAll" xml:space="preserve">
+    <value>すべての履歴を削除</value>
+  </data>
+  <data name="History.MoreMenu.DeleteInvalid" xml:space="preserve">
+    <value>無効な履歴を削除</value>
+  </data>
+  <data name="History.MoreMenu.IsCurrentFolder" xml:space="preserve">
+    <value>現在のフォルダーのみ</value>
+  </data>
+  <data name="History.Title" xml:space="preserve">
+    <value>履歴</value>
   </data>
   <data name="HistoryConfig.HistoryEntryPageCount" xml:space="preserve">
     <value>履歴登録開始ページ操作回数</value>
@@ -2027,6 +1936,21 @@ nv.Values.Test = "Hello!"</value>
   <data name="HistoryConfig.PanelListItemStyle" xml:space="preserve">
     <value>履歴リスト項目スタイル</value>
   </data>
+  <data name="HistoryDeleteAllDialog.Message" xml:space="preserve">
+    <value>すべての履歴を削除します。よろしいですか？</value>
+  </data>
+  <data name="HistoryDeleteAllDialog.Title" xml:space="preserve">
+    <value>履歴を削除します</value>
+  </data>
+  <data name="HistoryDeletedDialog.Title" xml:space="preserve">
+    <value>履歴を削除しました</value>
+  </data>
+  <data name="HistoryItem.Menu.Delete" xml:space="preserve">
+    <value>履歴から削除(_D)</value>
+  </data>
+  <data name="HistoryItem.Menu.OpenBook" xml:space="preserve">
+    <value>開く(_O)</value>
+  </data>
   <data name="HistoryItemAccessor" xml:space="preserve">
     <value>履歴項目のアクセサ</value>
   </data>
@@ -2038,24 +1962,6 @@ nv.Values.Test = "Hello!"</value>
   </data>
   <data name="HistoryItemAccessor.Path" xml:space="preserve">
     <value>項目に対応するパス</value>
-  </data>
-  <data name="HistoryItem.Menu.Delete" xml:space="preserve">
-    <value>履歴から削除(_D)</value>
-  </data>
-  <data name="History.MoreMenu.IsCurrentFolder" xml:space="preserve">
-    <value>現在のフォルダーのみ</value>
-  </data>
-  <data name="HistoryItem.Menu.OpenBook" xml:space="preserve">
-    <value>開く(_O)</value>
-  </data>
-  <data name="History.MoreMenu.DeleteAll" xml:space="preserve">
-    <value>すべての履歴を削除</value>
-  </data>
-  <data name="History.MoreMenu.DeleteInvalid" xml:space="preserve">
-    <value>無効な履歴を削除</value>
-  </data>
-  <data name="History.Title" xml:space="preserve">
-    <value>履歴</value>
   </data>
   <data name="HistoryPanelAccessor" xml:space="preserve">
     <value>履歴パネルのアクセサ</value>
@@ -2086,6 +1992,9 @@ nv.Values.Test = "Hello!"</value>
   </data>
   <data name="HsvEffectUnit.Value" xml:space="preserve">
     <value>明度</value>
+  </data>
+  <data name="HyperLinkErrorDialog.Title" xml:space="preserve">
+    <value>リンクが取得できませんでした。</value>
   </data>
   <data name="ImageCustomSizeConfig.Height" xml:space="preserve">
     <value>縦幅</value>
@@ -2123,6 +2032,12 @@ nv.Values.Test = "Hello!"</value>
   <data name="ImageEffectConfig.IsHsvMode.Remarks" xml:space="preserve">
     <value>色パラメーターの設定をHSV(色相、彩度、輝度)で設定します。オフにするとRGBでの設定になります。</value>
   </data>
+  <data name="ImageExportErrorDialog.Message" xml:space="preserve">
+    <value>この画像は出力できません。</value>
+  </data>
+  <data name="ImageExportErrorDialog.Title" xml:space="preserve">
+    <value>ファイル保存に失敗しました</value>
+  </data>
   <data name="ImageGridConfig.Color" xml:space="preserve">
     <value>色</value>
   </data>
@@ -2137,6 +2052,9 @@ nv.Values.Test = "Hello!"</value>
   </data>
   <data name="ImageGridConfig.IsSquare" xml:space="preserve">
     <value>正方形</value>
+  </data>
+  <data name="ImageLoadFailedException.Message" xml:space="preserve">
+    <value>画像の読み込みに失敗しました。</value>
   </data>
   <data name="ImageResizeFilterConfig.IsEnabled" xml:space="preserve">
     <value>リサイズフィルター有効</value>
@@ -2218,6 +2136,66 @@ nv.Values.Test = "Hello!"</value>
   </data>
   <data name="ImportControl.Setting" xml:space="preserve">
     <value>設定</value>
+  </data>
+  <data name="ImportDialog.Title" xml:space="preserve">
+    <value>全設定をインポート</value>
+  </data>
+  <data name="ImportErrorDialog.Title" xml:space="preserve">
+    <value>インポートに失敗しました</value>
+  </data>
+  <data name="ImportSelectDialog.Title" xml:space="preserve">
+    <value>インポートする項目を選択してください</value>
+  </data>
+  <data name="InconsistencyException.Message" xml:space="preserve">
+    <value>ページデータの不整合</value>
+  </data>
+  <data name="Information.Archiver" xml:space="preserve">
+    <value>アーカイバー</value>
+  </data>
+  <data name="Information.Date" xml:space="preserve">
+    <value>ファイル日付</value>
+  </data>
+  <data name="Information.DateFormat" xml:space="preserve">
+    <value>yyyy年M月d日 dddd H:mm</value>
+  </data>
+  <data name="Information.DateTimeOriginal" xml:space="preserve">
+    <value>撮影日時</value>
+  </data>
+  <data name="Information.Decoder" xml:space="preserve">
+    <value>デコーダー</value>
+  </data>
+  <data name="Information.Device" xml:space="preserve">
+    <value>デバイス</value>
+  </data>
+  <data name="Information.FileName" xml:space="preserve">
+    <value>ファイル名</value>
+  </data>
+  <data name="Information.FilePath" xml:space="preserve">
+    <value>ファイルパス</value>
+  </data>
+  <data name="Information.FileSize" xml:space="preserve">
+    <value>ファイルサイズ</value>
+  </data>
+  <data name="Information.FolderPath" xml:space="preserve">
+    <value>フォルダーのパス</value>
+  </data>
+  <data name="Information.ImageSize" xml:space="preserve">
+    <value>画像サイズ</value>
+  </data>
+  <data name="Information.Info" xml:space="preserve">
+    <value>撮影情報</value>
+  </data>
+  <data name="Information.ISO" xml:space="preserve">
+    <value>ISO</value>
+  </data>
+  <data name="Information.Menu.Copy" xml:space="preserve">
+    <value>コピー(_C)</value>
+  </data>
+  <data name="Information.OpenFolder" xml:space="preserve">
+    <value>フォルダーを開く</value>
+  </data>
+  <data name="Information.Title" xml:space="preserve">
+    <value>情報</value>
   </data>
   <data name="InformationConfig.IsVisibleBitsPerPixel" xml:space="preserve">
     <value>画像サイズにピクセルあたりのビット数を表示する</value>
@@ -2340,6 +2318,15 @@ include("Sample.nvjs")</value>
   <data name="LastPageCommand.Remarks" xml:space="preserve">
     <value>終端ページに移動します。</value>
   </data>
+  <data name="LayoutPanel.Menu.Close" xml:space="preserve">
+    <value>閉じる(_C)</value>
+  </data>
+  <data name="LayoutPanel.Menu.Docking" xml:space="preserve">
+    <value>ドッキング(_K)</value>
+  </data>
+  <data name="LayoutPanel.Menu.Floating" xml:space="preserve">
+    <value>フローティング(_F)</value>
+  </data>
   <data name="LayoutPanelAccessor.Close" xml:space="preserve">
     <value>パネルを閉じる</value>
   </data>
@@ -2360,15 +2347,6 @@ include("Sample.nvjs")</value>
   </data>
   <data name="LayoutPanelAccessor.OpenFloat" xml:space="preserve">
     <value>フローティング状態でパネルを開く</value>
-  </data>
-  <data name="LayoutPanel.Menu.Close" xml:space="preserve">
-    <value>閉じる(_C)</value>
-  </data>
-  <data name="LayoutPanel.Menu.Docking" xml:space="preserve">
-    <value>ドッキング(_K)</value>
-  </data>
-  <data name="LayoutPanel.Menu.Floating" xml:space="preserve">
-    <value>フローティング(_F)</value>
   </data>
   <data name="LevelEffectUnit.Black" xml:space="preserve">
     <value>Black</value>
@@ -2396,6 +2374,10 @@ include("Sample.nvjs")</value>
   </data>
   <data name="LoadAsCommand.Remarks" xml:space="preserve">
     <value>圧縮ファイルか画像ファイルを選択して開きます。</value>
+  </data>
+  <data name="LoadFailedException.Message" xml:space="preserve">
+    <value>{0} の読み込みに失敗しました。
+{1}</value>
   </data>
   <data name="LoadingPage.ViewNone" xml:space="preserve">
     <value>なし</value>
@@ -2511,6 +2493,9 @@ include("Sample.nvjs")</value>
   <data name="MainViewConfig.IsTopmost" xml:space="preserve">
     <value>メインビューウィンドウを常に手前に表示</value>
   </data>
+  <data name="MainViewWindow.Menu.AutoHideTitleBar" xml:space="preserve">
+    <value>タイトルバーを自動的に隠す</value>
+  </data>
   <data name="MediaArchiveConfig.IsEnabled" xml:space="preserve">
     <value>動画を使用する</value>
   </data>
@@ -2543,9 +2528,6 @@ include("Sample.nvjs")</value>
   </data>
   <data name="MemoryControl.IsAutoGC.Remarks" xml:space="preserve">
     <value>オフの時はページ切り替え毎にメモリ開放を行います</value>
-  </data>
-  <data name="MainViewWindow.Menu.AutoHideTitleBar" xml:space="preserve">
-    <value>タイトルバーを自動的に隠す</value>
   </data>
   <data name="MenuBarConfig.IsAddressBarEnabled" xml:space="preserve">
     <value>アドレスバーを表示する</value>
@@ -2606,6 +2588,12 @@ include("Sample.nvjs")</value>
   </data>
   <data name="MenuTree.View" xml:space="preserve">
     <value>表示(_V)</value>
+  </data>
+  <data name="MergeFolderDialog.Message" xml:space="preserve">
+    <value>{0} にフォルダーを統合します。</value>
+  </data>
+  <data name="MergeFolderDialog.Title" xml:space="preserve">
+    <value>フォルダーを統合しますか？</value>
   </data>
   <data name="MonochromeEffectUnit.Color" xml:space="preserve">
     <value>Color</value>
@@ -2749,9 +2737,6 @@ include("Sample.nvjs")</value>
   <data name="Navigator.IsKeepScale" xml:space="preserve">
     <value>スケールを維持</value>
   </data>
-  <data name="Navigator.Title" xml:space="preserve">
-    <value>ナビゲーター</value>
-  </data>
   <data name="Navigator.RotateLeft" xml:space="preserve">
     <value>左回転</value>
   </data>
@@ -2782,14 +2767,17 @@ include("Sample.nvjs")</value>
   <data name="Navigator.StretchAllowScaleDown" xml:space="preserve">
     <value>縮小を許可</value>
   </data>
+  <data name="Navigator.StretchAllowScaleUp" xml:space="preserve">
+    <value>拡大を許可</value>
+  </data>
   <data name="Navigator.StretchScale" xml:space="preserve">
     <value>基底スケール</value>
   </data>
+  <data name="Navigator.Title" xml:space="preserve">
+    <value>ナビゲーター</value>
+  </data>
   <data name="NavigatorPanelAccessor" xml:space="preserve">
     <value>ナビゲーターパネルのアクセサ</value>
-  </data>
-  <data name="Navigator.StretchAllowScaleUp" xml:space="preserve">
-    <value>拡大を許可</value>
   </data>
   <data name="NextBookCommand" xml:space="preserve">
     <value>次のブックに移動</value>
@@ -2859,36 +2847,6 @@ include("Sample.nvjs")</value>
   </data>
   <data name="NoneCommand" xml:space="preserve">
     <value>(none)</value>
-  </data>
-  <data name="NoticeConfig.BookNameShowMessageStyle" xml:space="preserve">
-    <value>開いたブック名の表示</value>
-  </data>
-  <data name="NoticeConfig.CommandShowMessageStyle" xml:space="preserve">
-    <value>コマンド実行メッセージの表示</value>
-  </data>
-  <data name="NoticeConfig.GestureShowMessageStyle" xml:space="preserve">
-    <value>ジェスチャーの状態の表示</value>
-  </data>
-  <data name="NoticeConfig.IsBusyMarkEnabled" xml:space="preserve">
-    <value>画像読み込み処理中マークを画面左上に表示する</value>
-  </data>
-  <data name="NoticeConfig.IsEmptyMessageEnabled" xml:space="preserve">
-    <value>ブックにページがない場合にメッセージを表示する</value>
-  </data>
-  <data name="NoticeConfig.IsOriginalScaleShowMessage" xml:space="preserve">
-    <value>ビュー操作のスケール表示をオリジナル画像サイズ基準にする</value>
-  </data>
-  <data name="NoticeConfig.IsOriginalScaleShowMessage.Remarks" xml:space="preserve">
-    <value>2ページ表示の場合は若い番号のページを基準にします。</value>
-  </data>
-  <data name="NoticeConfig.NoticeShowMessageStyle" xml:space="preserve">
-    <value>一般的な通知</value>
-  </data>
-  <data name="NoticeConfig.NowLoadingShowMessageStyle" xml:space="preserve">
-    <value>Now Loading の表示</value>
-  </data>
-  <data name="NoticeConfig.ViewTransformShowMessageStyle" xml:space="preserve">
-    <value>ドラッグ操作によるスケール変更等の情報表示</value>
   </data>
   <data name="Notice.BookNextFailed" xml:space="preserve">
     <value>次のブックはありません</value>
@@ -3034,6 +2992,45 @@ include("Sample.nvjs")</value>
   <data name="Notice.TemporaryErrorTitle" xml:space="preserve">
     <value>一時フォルダーエラー</value>
   </data>
+  <data name="NoticeConfig.BookNameShowMessageStyle" xml:space="preserve">
+    <value>開いたブック名の表示</value>
+  </data>
+  <data name="NoticeConfig.CommandShowMessageStyle" xml:space="preserve">
+    <value>コマンド実行メッセージの表示</value>
+  </data>
+  <data name="NoticeConfig.GestureShowMessageStyle" xml:space="preserve">
+    <value>ジェスチャーの状態の表示</value>
+  </data>
+  <data name="NoticeConfig.IsBusyMarkEnabled" xml:space="preserve">
+    <value>画像読み込み処理中マークを画面左上に表示する</value>
+  </data>
+  <data name="NoticeConfig.IsEmptyMessageEnabled" xml:space="preserve">
+    <value>ブックにページがない場合にメッセージを表示する</value>
+  </data>
+  <data name="NoticeConfig.IsOriginalScaleShowMessage" xml:space="preserve">
+    <value>ビュー操作のスケール表示をオリジナル画像サイズ基準にする</value>
+  </data>
+  <data name="NoticeConfig.IsOriginalScaleShowMessage.Remarks" xml:space="preserve">
+    <value>2ページ表示の場合は若い番号のページを基準にします。</value>
+  </data>
+  <data name="NoticeConfig.NoticeShowMessageStyle" xml:space="preserve">
+    <value>一般的な通知</value>
+  </data>
+  <data name="NoticeConfig.NowLoadingShowMessageStyle" xml:space="preserve">
+    <value>Now Loading の表示</value>
+  </data>
+  <data name="NoticeConfig.ViewTransformShowMessageStyle" xml:space="preserve">
+    <value>ドラッグ操作によるスケール変更等の情報表示</value>
+  </data>
+  <data name="NotSupportedKeyException.Message" xml:space="preserve">
+    <value>{0} キーと修飾キーの組み合わせは、{1} ではサポートされていません。</value>
+  </data>
+  <data name="NotZipException.Message" xml:space="preserve">
+    <value>{0} はZIPファイルではありません</value>
+  </data>
+  <data name="OpenApplicationErrorDialog.Title" xml:space="preserve">
+    <value>外部アプリ実行に失敗しました</value>
+  </data>
   <data name="OpenConsoleCommand" xml:space="preserve">
     <value>スクリプトコンソールを開く</value>
   </data>
@@ -3094,11 +3091,20 @@ include("Sample.nvjs")</value>
   <data name="OpenScriptsFolderCommand.Remarks" xml:space="preserve">
     <value>スクリプトフォルダーをエクスプローラーで開きます。</value>
   </data>
+  <data name="OpenScriptsFolderErrorDialog.Title" xml:space="preserve">
+    <value>スクリプトフォルダーが開けません</value>
+  </data>
   <data name="OpenSettingFilesFolderCommand" xml:space="preserve">
     <value>設定ファイルの場所を開く</value>
   </data>
   <data name="OpenSettingFilesFolderCommand.Remarks" xml:space="preserve">
     <value>設定ファイルが保存されているフォルダーを開きます。</value>
+  </data>
+  <data name="OpenSettingFolderErrorDialog.Message" xml:space="preserve">
+    <value>ストアアプリでは設定ファイルの場所を開くことができません</value>
+  </data>
+  <data name="OpenSettingFolderErrorDialog.Title" xml:space="preserve">
+    <value>このコマンドは使用できません</value>
   </data>
   <data name="OpenVersionWindowCommand" xml:space="preserve">
     <value>バージョン情報を表示する</value>
@@ -3109,56 +3115,20 @@ include("Sample.nvjs")</value>
   <data name="OpenVersionWindowCommand.Remarks" xml:space="preserve">
     <value>バージョン情報を表示します。</value>
   </data>
-  <data name="OptionArgumentException.NotSupportType" xml:space="preserve">
-    <value>{0} はサポート外の引数型です。</value>
-  </data>
   <data name="OptionArgumentException.Empty" xml:space="preserve">
     <value>{0} には引数が必要です。</value>
   </data>
   <data name="OptionArgumentException.Failed" xml:space="preserve">
     <value>{0} の引数として {1} は使用できません。</value>
   </data>
-  <data name="OptionArgumentException.Unknown" xml:space="preserve">
-    <value>{0} は未知のオプションです。</value>
-  </data>
   <data name="OptionArgumentException.FileNotFound" xml:space="preserve">
     <value>指定された設定ファイルが存在しません。</value>
   </data>
-  <data name="AppOption.FolderList" xml:space="preserve">
-    <value>本棚の場所を指定します</value>
+  <data name="OptionArgumentException.NotSupportType" xml:space="preserve">
+    <value>{0} はサポート外の引数型です。</value>
   </data>
-  <data name="AppOption.IsBlank" xml:space="preserve">
-    <value>画像ファイルを開かずに起動します</value>
-  </data>
-  <data name="AppOption.IsFullScreen" xml:space="preserve">
-    <value>フルスクリーンで起動するかを指定します</value>
-  </data>
-  <data name="AppOption.IsHelp" xml:space="preserve">
-    <value>このヘルプを表示します</value>
-  </data>
-  <data name="AppOption.IsNewWindow" xml:space="preserve">
-    <value>新しいウィンドウで起動するかを指定します</value>
-  </data>
-  <data name="AppOption.IsResetPlacement" xml:space="preserve">
-    <value>ウィンドウ座標を初期化します</value>
-  </data>
-  <data name="AppOption.IsSlideShow" xml:space="preserve">
-    <value>スライドショウを開始するかを指定します</value>
-  </data>
-  <data name="AppOption.IsVersion" xml:space="preserve">
-    <value>バージョン情報を表示します</value>
-  </data>
-  <data name="AppOption.ScriptFile" xml:space="preserve">
-    <value>指定されたスクリプトファイルを起動時に実行します</value>
-  </data>
-  <data name="AppOption.SettingFilename" xml:space="preserve">
-    <value>設定ファイル(UserSetting.json)のパスを指定します</value>
-  </data>
-  <data name="AppOption.Terminator" xml:space="preserve">
-    <value>オプションリストの終りを示す。これ以後の引数はファイル名とみなされます</value>
-  </data>
-  <data name="AppOption.WindowState" xml:space="preserve">
-    <value>指定されたウィンドウ状態で起動します</value>
+  <data name="OptionArgumentException.Unknown" xml:space="preserve">
+    <value>{0} は未知のオプションです。</value>
   </data>
   <data name="PageAccessor" xml:space="preserve">
     <value>ページアクセサ。ページ情報にアクセスします。</value>
@@ -3188,6 +3158,12 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="PageEndAction.None" xml:space="preserve">
     <value>そのまま</value>
   </data>
+  <data name="PageEndDialog.Message" xml:space="preserve">
+    <value>行動を選択してください。</value>
+  </data>
+  <data name="PageEndDialog.Title" xml:space="preserve">
+    <value>ページの終端</value>
+  </data>
   <data name="PageList.Back.ToolTip" xml:space="preserve">
     <value>戻る (Alt+Left)</value>
   </data>
@@ -3200,6 +3176,9 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="PageList.Next.ToolTip" xml:space="preserve">
     <value>進む (Alt+Right)</value>
   </data>
+  <data name="PageList.Title" xml:space="preserve">
+    <value>ページリスト</value>
+  </data>
   <data name="PageList.Up.ToolTip" xml:space="preserve">
     <value>上に移動 (Alt+Up)</value>
   </data>
@@ -3209,8 +3188,14 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="PageListConfig.PanelListItemStyle" xml:space="preserve">
     <value>ページリスト項目スタイル</value>
   </data>
+  <data name="PageListItem.Menu.Copy" xml:space="preserve">
+    <value>コピー(_C)</value>
+  </data>
   <data name="PageListItem.Menu.CopyToFolder" xml:space="preserve">
     <value>フォルダーにコピー(_Y)</value>
+  </data>
+  <data name="PageListItem.Menu.Delete" xml:space="preserve">
+    <value>削除(_D)</value>
   </data>
   <data name="PageListItem.Menu.Explorer" xml:space="preserve">
     <value>エクスプローラーで開く(_X)</value>
@@ -3218,20 +3203,11 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="PageListItem.Menu.MoveToFolder" xml:space="preserve">
     <value>フォルダーに移動(_E)</value>
   </data>
-  <data name="PageListItem.Menu.Copy" xml:space="preserve">
-    <value>コピー(_C)</value>
-  </data>
-  <data name="PageListItem.Menu.Delete" xml:space="preserve">
-    <value>削除(_D)</value>
-  </data>
   <data name="PagelistItem.Menu.Open" xml:space="preserve">
     <value>開く(_O)</value>
   </data>
   <data name="PagelistItem.Menu.OpenBook" xml:space="preserve">
     <value>ブックを開く(_O)</value>
-  </data>
-  <data name="PageList.Title" xml:space="preserve">
-    <value>ページリスト</value>
   </data>
   <data name="PageListPanelAccessor" xml:space="preserve">
     <value>ページリストパネルのアクセサ</value>
@@ -3254,6 +3230,21 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="PageListPanelAccessor.Style" xml:space="preserve">
     <value>リスト項目表示形式</value>
   </data>
+  <data name="Pagemark.MoreMenu.CurrentBook" xml:space="preserve">
+    <value>現在のブックのみ</value>
+  </data>
+  <data name="Pagemark.MoreMenu.DeleteInvalid" xml:space="preserve">
+    <value>無効なページマークを削除</value>
+  </data>
+  <data name="Pagemark.MoreMenu.OpenAsBook" xml:space="preserve">
+    <value>ブックとして開く</value>
+  </data>
+  <data name="Pagemark.MoreMenu.SortPath" xml:space="preserve">
+    <value>パス順</value>
+  </data>
+  <data name="Pagemark.Title" xml:space="preserve">
+    <value>ページマーク</value>
+  </data>
   <data name="PagemarkConfig.IsSavePagemark" xml:space="preserve">
     <value>ページマークリストを保存する</value>
   </data>
@@ -3265,6 +3256,24 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   </data>
   <data name="PagemarkConfig.PanelListItemStyle" xml:space="preserve">
     <value>ページマークリスト項目スタイル</value>
+  </data>
+  <data name="PagemarkError.Message" xml:space="preserve">
+    <value>一時フォルダーはページマークできません</value>
+  </data>
+  <data name="PagemarkFolderDelete.Message" xml:space="preserve">
+    <value>{0} 個のページマークを削除しました。</value>
+  </data>
+  <data name="PagemarkItem.Menu.Delete" xml:space="preserve">
+    <value>ページマークをはずす(_R)</value>
+  </data>
+  <data name="PagemarkItem.Menu.DeleteFolder" xml:space="preserve">
+    <value>フォルダーを削除(_D)</value>
+  </data>
+  <data name="PagemarkItem.Menu.Open" xml:space="preserve">
+    <value>開く(_O)</value>
+  </data>
+  <data name="PagemarkItem.Menu.Rename" xml:space="preserve">
+    <value>名前の変更(_M)</value>
   </data>
   <data name="PagemarkItemAccessor" xml:space="preserve">
     <value>ページマーク項目のアクセサ</value>
@@ -3281,35 +3290,8 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="PagemarkItemAccessor.Type" xml:space="preserve">
     <value>種類</value>
   </data>
-  <data name="PagemarkItem.Menu.Delete" xml:space="preserve">
-    <value>ページマークをはずす(_R)</value>
-  </data>
-  <data name="PagemarkItem.Menu.DeleteFolder" xml:space="preserve">
-    <value>フォルダーを削除(_D)</value>
-  </data>
-  <data name="PagemarkItem.Menu.Open" xml:space="preserve">
-    <value>開く(_O)</value>
-  </data>
-  <data name="PagemarkItem.Menu.Rename" xml:space="preserve">
-    <value>名前の変更(_M)</value>
-  </data>
   <data name="PagemarkList.Add.ToolTip" xml:space="preserve">
     <value>ページマークを追加</value>
-  </data>
-  <data name="Pagemark.MoreMenu.CurrentBook" xml:space="preserve">
-    <value>現在のブックのみ</value>
-  </data>
-  <data name="Pagemark.MoreMenu.DeleteInvalid" xml:space="preserve">
-    <value>無効なページマークを削除</value>
-  </data>
-  <data name="Pagemark.MoreMenu.OpenAsBook" xml:space="preserve">
-    <value>ブックとして開く</value>
-  </data>
-  <data name="Pagemark.MoreMenu.SortPath" xml:space="preserve">
-    <value>パス順</value>
-  </data>
-  <data name="Pagemark.Title" xml:space="preserve">
-    <value>ページマーク</value>
   </data>
   <data name="PagemarkPanelAccessor" xml:space="preserve">
     <value>ページマークパネルのアクセサ</value>
@@ -3404,6 +3386,9 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="PageViewRecorderConfig.PageViewRecordFilePath" xml:space="preserve">
     <value>ページ表示履歴保存場所</value>
   </data>
+  <data name="PageViewRecordWriteError.Message" xml:space="preserve">
+    <value>ページ表示履歴を書き込めませんでした</value>
+  </data>
   <data name="PanelListItemImageShape.Banner" xml:space="preserve">
     <value>バナー</value>
   </data>
@@ -3440,8 +3425,20 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="PanelListItemProfile.NoteOpacity" xml:space="preserve">
     <value>補足テキストの不透明度</value>
   </data>
-  <data name="x.PanelListItemStyle" xml:space="preserve">
+  <data name="PanelListItemStyle" xml:space="preserve">
     <value>リスト項目のスタイル</value>
+  </data>
+  <data name="PanelListItemStyle.Banner" xml:space="preserve">
+    <value>バナー</value>
+  </data>
+  <data name="PanelListItemStyle.Content" xml:space="preserve">
+    <value>コンテンツ</value>
+  </data>
+  <data name="PanelListItemStyle.Normal" xml:space="preserve">
+    <value>テキスト</value>
+  </data>
+  <data name="PanelListItemStyle.Thumbnail" xml:space="preserve">
+    <value>サムネイル</value>
   </data>
   <data name="PanelsConfig.FolderTreeFontSize" xml:space="preserve">
     <value>フォルダーツリーのフォントサイズ</value>
@@ -3490,180 +3487,6 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   </data>
   <data name="PanelsConfig.OpenWithDoubleClick.Remarks" xml:space="preserve">
     <value>本棚、ブックマークパネル、履歴パネルで有効です。</value>
-  </data>
-  <data name="ParamBookshelfPageListVisible" xml:space="preserve">
-    <value>ページリストを表示</value>
-  </data>
-  <data name="ParamCacheDirectory" xml:space="preserve">
-    <value>キャッシュフォルダーの場所</value>
-  </data>
-  <data name="ParamCacheDirectoryTips" xml:space="preserve">
-    <value>サムネイルキャッシュ(Cache.db)の保存場所です。</value>
-  </data>
-  <data name="ParamClipboardArchiveSeparater" xml:space="preserve">
-    <value>圧縮ファイルとファイル名の間の区切り文字</value>
-  </data>
-  <data name="ParamClipboardArchiveSeparaterTips" xml:space="preserve">
-    <value>「@CopyFileCommandParameter.ArchivePolicy」が「@ArchivePolicy.SendArchivePath」の時の設定です。</value>
-  </data>
-  <data name="ParamCommandParameterScrollPageAnimation" xml:space="preserve">
-    <value>滑らかスクロール</value>
-  </data>
-  <data name="ParamCommandParameterScrollPageStop" xml:space="preserve">
-    <value>スクロール停止</value>
-  </data>
-  <data name="ParamCommandParameterScrollPageStopTips" xml:space="preserve">
-    <value>短時間で連続で実行された時はページ移動を行いません。</value>
-  </data>
-  <data name="ParamCommandParameterShare" xml:space="preserve">
-    <value>パラメーター共有</value>
-  </data>
-  <data name="ParamCommandParameterThumbnailListFocus" xml:space="preserve">
-    <value>パネルを表示するときにフォーカスを取得する</value>
-  </data>
-  <data name="ParamCommandShare" xml:space="preserve">
-    <value>「{0}」と共通のパラメーターです。</value>
-  </data>
-  <data name="ParamExportImageIsEnableExportFolder" xml:space="preserve">
-    <value>前回保存したフォルダーを記憶する</value>
-  </data>
-  <data name="ParamExportImageQualityLevel" xml:space="preserve">
-    <value>JPEG品質</value>
-  </data>
-  <data name="ParamExportImageQualityLevelTips" xml:space="preserve">
-    <value>変換が必要な場合にのみ使用されます。</value>
-  </data>
-  <data name="ParamExternalArchiveSeparater" xml:space="preserve">
-    <value>圧縮ファイルとファイル名の間の区切り文字</value>
-  </data>
-  <data name="ParamExternalArchiveSeparaterTips" xml:space="preserve">
-    <value>「@ParamExternalArchiveOption」が「@EnumArchiveOptionTypeSendArchivePath」の時の設定です。</value>
-  </data>
-  <data name="ParamExternalProgramType" xml:space="preserve">
-    <value>種類</value>
-  </data>
-  <data name="ParamExternalProtocol" xml:space="preserve">
-    <value>プロトコル</value>
-  </data>
-  <data name="ParamFileInformationIsUseExifDateTime" xml:space="preserve">
-    <value>EXIFの日時を使用する</value>
-  </data>
-  <data name="ParamFileInformationIsUseExifDateTimeTips" xml:space="preserve">
-    <value>情報パネルでの表示に限ります。日付順ソートには影響しません。</value>
-  </data>
-  <data name="ParamItemProfileImageShape" xml:space="preserve">
-    <value>画像の形</value>
-  </data>
-  <data name="ParamItemProfileImageWidth" xml:space="preserve">
-    <value>画像の大きさ</value>
-  </data>
-  <data name="ParamItemProfileIsImagePopupEnabled" xml:space="preserve">
-    <value>画像ポップアップ</value>
-  </data>
-  <data name="ParamItemProfileIsNoteOpacity" xml:space="preserve">
-    <value>補足テキストの不透明度</value>
-  </data>
-  <data name="ParamItemProfileIsTextVisibled" xml:space="preserve">
-    <value>テキスト表示</value>
-  </data>
-  <data name="ParamItemProfileIsTextWrapped" xml:space="preserve">
-    <value>テキストの複数行表示</value>
-  </data>
-  <data name="ParamListItemBannerImageWidth" xml:space="preserve">
-    <value>バナーサイズ</value>
-  </data>
-  <data name="ParamListItemBannerImageWidthTips" xml:space="preserve">
-    <value>バナー表示の画像の横幅です。縦幅は横幅の1/4になります。サムネイル画像解像度を超えると画像が粗くなります。</value>
-  </data>
-  <data name="ParamListItemBannerIsTextWrapped" xml:space="preserve">
-    <value>バナー表示の名前を折り返して表示する</value>
-  </data>
-  <data name="ParamListItemContentImagePopup" xml:space="preserve">
-    <value>アイコンのポップアップ</value>
-  </data>
-  <data name="ParamListItemContentImagePopupTips" xml:space="preserve">
-    <value>アイコンにカーソルを合わせるとポップアップで大きめの画像が表示されます。</value>
-  </data>
-  <data name="ParamListItemContentImageShape" xml:space="preserve">
-    <value>アイコンの形</value>
-  </data>
-  <data name="ParamListItemContentImageWidth" xml:space="preserve">
-    <value>アイコンサイズ</value>
-  </data>
-  <data name="ParamListItemContentImageWidthTips" xml:space="preserve">
-    <value>コンテンツ表示の画像サイズです。サムネイル画像解像度を超えると画像が粗くなります。</value>
-  </data>
-  <data name="ParamListItemContentIsTextWrapped" xml:space="preserve">
-    <value>コンテンツ表示の名前を折り返して表示する</value>
-  </data>
-  <data name="ParamListItemContentNoteOpacity" xml:space="preserve">
-    <value>コンテンツ表示の補足テキストの透明度</value>
-  </data>
-  <data name="ParamListItemContentNoteOpacityTips" xml:space="preserve">
-    <value>コンテンツ表示での補足テキストの透明度です。</value>
-  </data>
-  <data name="ParamListItemThumbnailImageShape" xml:space="preserve">
-    <value>サムネイルの形</value>
-  </data>
-  <data name="ParamListItemThumbnailImageWidth" xml:space="preserve">
-    <value>サムネイルサイズ</value>
-  </data>
-  <data name="ParamListItemThumbnailImageWidthTips" xml:space="preserve">
-    <value>サムネイル表示の画像サイズです。サムネイル画像解像度を超えると画像が粗くなります。</value>
-  </data>
-  <data name="ParamListItemThumbnailIsTextWrapped" xml:space="preserve">
-    <value>サムネイル表示の名前を折り返して表示する</value>
-  </data>
-  <data name="ParamListItemThumbnailNameVisibled" xml:space="preserve">
-    <value>サムネイルに名前を表示する</value>
-  </data>
-  <data name="ParamNavigateAutoRotate" xml:space="preserve">
-    <value>自動回転</value>
-  </data>
-  <data name="ParamNavigateIsFlipHorizontal" xml:space="preserve">
-    <value>左右反転</value>
-  </data>
-  <data name="ParamNavigateIsFlipVertical" xml:space="preserve">
-    <value>上下反転</value>
-  </data>
-  <data name="ParamPageListPlacementInBookshelf" xml:space="preserve">
-    <value>ページリストを本棚に配置</value>
-  </data>
-  <data name="ParamPageListPlacementInBookshelfTips" xml:space="preserve">
-    <value>オフにするとサイドパネルになります。</value>
-  </data>
-  <data name="ParamPictureProfileIsMagicScaleSimdEnabled" xml:space="preserve">
-    <value>リサイズフィルター処理にSIMDを使用する</value>
-  </data>
-  <data name="ParamSevenZipArchiverIsPreExtract" xml:space="preserve">
-    <value>全て事前展開する</value>
-  </data>
-  <data name="ParamSusieIsPluginCacheEnabled" xml:space="preserve">
-    <value>プラグインをキャッシュする</value>
-  </data>
-  <data name="ParamSusieIsPluginCacheEnabledTips" xml:space="preserve">
-    <value>不安定な場合、オフにすると安定する可能性があります。</value>
-  </data>
-  <data name="ParamSusiePluginIsCacheEnabled" xml:space="preserve">
-    <value>プラグインをキャッシュする</value>
-  </data>
-  <data name="ParamSusiePluginIsEnabled" xml:space="preserve">
-    <value>プラグイン有効</value>
-  </data>
-  <data name="ParamSusiePluginIsPreExtract" xml:space="preserve">
-    <value>書庫を事前展開する</value>
-  </data>
-  <data name="ParamTouchIsEnabled" xml:space="preserve">
-    <value>タッチ操作を有効にする</value>
-  </data>
-  <data name="ParamWindowChromeFrame" xml:space="preserve">
-    <value>タイトルバー非表示でのウィンドウ枠</value>
-  </data>
-  <data name="ParamWindowShapeIsFullScreenWithTaskBar" xml:space="preserve">
-    <value>フルスクリーンのときにタスクバー領域を覆わない</value>
-  </data>
-  <data name="ParmViewForceAutoRotate" xml:space="preserve">
-    <value>自動回転を強制</value>
   </data>
   <data name="PasteCommand" xml:space="preserve">
     <value>貼り付け</value>
@@ -3881,6 +3704,9 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   </data>
   <data name="QueryScheme.Root" xml:space="preserve">
     <value>本棚</value>
+  </data>
+  <data name="QuickAccessTempError.Message" xml:space="preserve">
+    <value>一時フォルダーはクイックアクセスに追加できません</value>
   </data>
   <data name="RandomBookCommand" xml:space="preserve">
     <value>ランダムなブックに移動</value>
@@ -4221,454 +4047,385 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   <data name="SetStretchModeUniformToVerticalCommand.Remarks" xml:space="preserve">
     <value>ウィンドウの高さに画像の高さを合わせるように拡大縮小します。</value>
   </data>
-  <data name="SettingItemRemove" xml:space="preserve">
+  <data name="SettingItem.Remove" xml:space="preserve">
     <value>全てのデータを削除する...</value>
   </data>
-  <data name="SettingItemRemoveTips" xml:space="preserve">
+  <data name="SettingItem.Remove.Remarks" xml:space="preserve">
     <value>ユーザーデータを削除してアプリケーションを終了します。アンインストール前に履歴等を完全に削除したい場合に使用します。</value>
   </data>
-  <data name="SettingPageArchive" xml:space="preserve">
+  <data name="SettingPage.Archive" xml:space="preserve">
     <value>対応形式</value>
   </data>
-  <data name="SettingPageArchiveMedia" xml:space="preserve">
+  <data name="SettingPage.Archive.Media" xml:space="preserve">
     <value>動画</value>
   </data>
-  <data name="SettingPageArchiveMediaAdvance" xml:space="preserve">
+  <data name="SettingPage.Archive.MediaAdvance" xml:space="preserve">
     <value>詳細設定</value>
   </data>
-  <data name="SettingPageArchiveMediaFeature" xml:space="preserve">
+  <data name="SettingPage.Archive.MediaFeature" xml:space="preserve">
     <value>動画</value>
   </data>
-  <data name="SettingPageArchivePdf" xml:space="preserve">
+  <data name="SettingPage.Archive.Pdf" xml:space="preserve">
     <value>PDF</value>
   </data>
-  <data name="SettingPageArchivePdfAdvance" xml:space="preserve">
+  <data name="SettingPage.Archive.PdfAdvance" xml:space="preserve">
     <value>詳細設定</value>
   </data>
-  <data name="SettingPageArchivePdfFeature" xml:space="preserve">
+  <data name="SettingPage.Archive.PdfFeature" xml:space="preserve">
     <value>PDF</value>
   </data>
-  <data name="SettingPageArchiverSevenZip" xml:space="preserve">
+  <data name="SettingPage.Archive.rSevenZip" xml:space="preserve">
     <value>7-Zip</value>
   </data>
-  <data name="SettingPageArchiverSevenZipAdvance" xml:space="preserve">
+  <data name="SettingPage.Archive.rSevenZipAdvance" xml:space="preserve">
     <value>詳細設定</value>
   </data>
-  <data name="SettingPageArchiverSevenZipFeature" xml:space="preserve">
+  <data name="SettingPage.Archive.rSevenZipFeature" xml:space="preserve">
     <value>7-Zip</value>
   </data>
-  <data name="SettingPageArchiveZip" xml:space="preserve">
+  <data name="SettingPage.Archive.Zip" xml:space="preserve">
     <value>ZIP</value>
   </data>
-  <data name="SettingPageArchiveZipAdvance" xml:space="preserve">
+  <data name="SettingPage.Archive.ZipAdvance" xml:space="preserve">
     <value>詳細設定</value>
   </data>
-  <data name="SettingPageArchiveZipFeature" xml:space="preserve">
+  <data name="SettingPage.Archive.ZipFeature" xml:space="preserve">
     <value>標準圧縮ファイル</value>
   </data>
-  <data name="SettingPageBook" xml:space="preserve">
+  <data name="SettingPage.Book" xml:space="preserve">
     <value>ブック</value>
   </data>
-  <data name="SettingPageBookGeneral" xml:space="preserve">
+  <data name="SettingPage.Book.General" xml:space="preserve">
     <value>ブック</value>
   </data>
-  <data name="SettingPageBookGeneralGeneral" xml:space="preserve">
-    <value>ブック</value>
-  </data>
-  <data name="SettingPageBookMove" xml:space="preserve">
+  <data name="SettingPage.Book.Move" xml:space="preserve">
     <value>移動</value>
   </data>
-  <data name="SettingPageBookMoveAdvance" xml:space="preserve">
-    <value>詳細設定</value>
-  </data>
-  <data name="SettingPageBookMoveBook" xml:space="preserve">
+  <data name="SettingPage.Book.MoveBook" xml:space="preserve">
     <value>ブック移動</value>
   </data>
-  <data name="SettingPageBookMovePage" xml:space="preserve">
+  <data name="SettingPage.Book.MovePage" xml:space="preserve">
     <value>ページ移動</value>
   </data>
-  <data name="SettingPageBookPageSetting" xml:space="preserve">
+  <data name="SettingPage.Book.PageSetting" xml:space="preserve">
     <value>ページ設定</value>
   </data>
-  <data name="SettingPageBookPageSettingAdvance" xml:space="preserve">
-    <value>詳細設定</value>
-  </data>
-  <data name="SettingPageBookPageSettingTips" xml:space="preserve">
+  <data name="SettingPage.Book.PageSetting.Remarks" xml:space="preserve">
     <value>左の項目は既定値、右の項目はブックを開いたときの動作です。</value>
   </data>
-  <data name="SettingPageBookSubFolder" xml:space="preserve">
+  <data name="SettingPage.Book.SubFolder" xml:space="preserve">
     <value>サブフォルダー</value>
   </data>
-  <data name="SettingPageBookSubFolderAuto" xml:space="preserve">
+  <data name="SettingPage.Book.SubFolderAuto" xml:space="preserve">
     <value>サブフォルダー読み込み自動判定</value>
   </data>
-  <data name="SettingPageBookSubFolderConfirm" xml:space="preserve">
+  <data name="SettingPage.Book.SubFolderConfirm" xml:space="preserve">
     <value>サブフォルダー読み込み問い合わせ</value>
   </data>
-  <data name="SettingPageBookVisual" xml:space="preserve">
+  <data name="SettingPage.Book.Visual" xml:space="preserve">
     <value>ページ表示</value>
   </data>
-  <data name="SettingPageBookVisualVisual" xml:space="preserve">
+  <data name="SettingPage.Book.VisualVisual" xml:space="preserve">
     <value>ページ表示</value>
   </data>
-  <data name="SettingPageCommand" xml:space="preserve">
-    <value>コマンド</value>
-  </data>
-  <data name="SettingPageCommandGeneral" xml:space="preserve">
-    <value>コマンド全般</value>
-  </data>
-  <data name="SettingPageCommandGeneralAdvance" xml:space="preserve">
-    <value>コマンド</value>
-  </data>
-  <data name="SettingPageCommandMain" xml:space="preserve">
-    <value>コマンド設定</value>
-  </data>
-  <data name="SettingPageCommandScipt" xml:space="preserve">
-    <value>スクリプト</value>
-  </data>
-  <data name="SettingPageContextMenu" xml:space="preserve">
-    <value>コンテキストメニュー</value>
-  </data>
-  <data name="SettingPageContextMenuEdit" xml:space="preserve">
-    <value>コンテキストメニュー設定</value>
-  </data>
-  <data name="SettingPageEnvironmentMemoryAndPerformance" xml:space="preserve">
-    <value>メモリとパフォーマンス</value>
-  </data>
-  <data name="SettingPageExternal" xml:space="preserve">
-    <value>外部連携</value>
-  </data>
-  <data name="SettingPageExternalGeneral" xml:space="preserve">
-    <value>外部連携全般</value>
-  </data>
-  <data name="SettingPageExternalGeneralCopyToClipboard" xml:space="preserve">
-    <value>クリップボードへのファイルコピー</value>
-  </data>
-  <data name="SettingPageExternalGeneralFromBrowser" xml:space="preserve">
-    <value>ブラウザからのドラッグ&amp;ドロップ</value>
-  </data>
-  <data name="SettingPageExternalGeneralSave" xml:space="preserve">
-    <value>ファイル保存</value>
-  </data>
-  <data name="SettingPageExternalGeneralSaveTips" xml:space="preserve">
-    <value>画像を保存するコマンドの設定です</value>
-  </data>
-  <data name="SettingPageExternalProgram" xml:space="preserve">
-    <value>外部アプリ</value>
-  </data>
-  <data name="SettingPageExternalProgramSetting" xml:space="preserve">
-    <value>外部アプリ設定</value>
-  </data>
-  <data name="SettingPageGeneral" xml:space="preserve">
-    <value>全般</value>
-  </data>
-  <data name="SettingPageGeneralBoot" xml:space="preserve">
-    <value>起動設定</value>
-  </data>
-  <data name="SettingPageGeneralBootBoot" xml:space="preserve">
-    <value>起動設定</value>
-  </data>
-  <data name="SettingPageGeneralBootBootDetail" xml:space="preserve">
-    <value>詳細設定</value>
-  </data>
-  <data name="SettingPageGeneralBootBootDetailTips" xml:space="preserve">
-    <value>※この設定は、設定ウィンドウを閉じた後に反映されます。</value>
-  </data>
-  <data name="SettingPageGeneralBootBootTips" xml:space="preserve">
-    <value>※この設定は、設定ウィンドウを閉じた後に反映されます。</value>
-  </data>
-  <data name="SettingPageGeneralDetail" xml:space="preserve">
-    <value>環境</value>
-  </data>
-  <data name="SettingPageGeneralDetailDetail" xml:space="preserve">
-    <value>詳細設定</value>
-  </data>
-  <data name="SettingPageGeneralDetailExplorer" xml:space="preserve">
-    <value>エクスプローラー</value>
-  </data>
-  <data name="SettingPageGeneralDetailLanguage" xml:space="preserve">
-    <value>言語</value>
-  </data>
-  <data name="SettingPageGeneralLocation" xml:space="preserve">
-    <value>場所</value>
-  </data>
-  <data name="SettingPageGeneralLocationTypes" xml:space="preserve">
-    <value>場所</value>
-  </data>
-  <data name="SettingPageGeneralLocationTypesTips" xml:space="preserve">
-    <value>※次の起動から適用されます。</value>
-  </data>
-  <data name="SettingPageGeneralSaveData" xml:space="preserve">
-    <value>保存データ</value>
-  </data>
-  <data name="SettingPageGeneralSaveDataRemove" xml:space="preserve">
-    <value>データの削除</value>
-  </data>
-  <data name="SettingPageGeneralSaveDataTypes" xml:space="preserve">
-    <value>保存データ</value>
-  </data>
-  <data name="SettingPageGeneralSaveDataTypesTips" xml:space="preserve">
-    <value>※保存場所は次の起動から適用されます。データの引継ぎにはエクスポート、インポートを活用してください。</value>
-  </data>
-  <data name="SettingPageHistory" xml:space="preserve">
-    <value>履歴</value>
-  </data>
-  <data name="SettingPageHistoryGeneral" xml:space="preserve">
-    <value>履歴</value>
-  </data>
-  <data name="SettingPageHistoryGeneralAdvance" xml:space="preserve">
-    <value>詳細設定</value>
-  </data>
-  <data name="SettingPageHistoryGeneralBookshelf" xml:space="preserve">
+  <data name="SettingPage.Bookshelf" xml:space="preserve">
     <value>本棚</value>
   </data>
-  <data name="SettingPageHistoryGeneralDelete" xml:space="preserve">
-    <value>履歴削除</value>
-  </data>
-  <data name="SettingPageHistoryGeneralDeleteButton" xml:space="preserve">
-    <value>履歴を削除する</value>
-  </data>
-  <data name="SettingPageHistoryGeneralGeneral" xml:space="preserve">
-    <value>履歴</value>
-  </data>
-  <data name="SettingPageHistoryGeneralLimit" xml:space="preserve">
-    <value>履歴保存数制限</value>
-  </data>
-  <data name="SettingPageHistoryGeneralLimitTips" xml:space="preserve">
-    <value>履歴ファイルに保存される履歴数上限を設定します。アプリ動作中の履歴は制限されません。</value>
-  </data>
-  <data name="SettingPageHistoryPageView" xml:space="preserve">
-    <value>ページ表示</value>
-  </data>
-  <data name="SettingPageHistoryPageViewRecord" xml:space="preserve">
-    <value>ページ表示記録</value>
-  </data>
-  <data name="SettingPageImage" xml:space="preserve">
-    <value>画像</value>
-  </data>
-  <data name="SettingPageImageCollection" xml:space="preserve">
-    <value>画像形式</value>
-  </data>
-  <data name="SettingPageManipurate" xml:space="preserve">
-    <value>画像操作</value>
-  </data>
-  <data name="SettingPageManipurateGeneral" xml:space="preserve">
-    <value>画像操作全般</value>
-  </data>
-  <data name="SettingPageManipurateGeneralAdvance" xml:space="preserve">
+  <data name="SettingPage.Bookshelf.Advance" xml:space="preserve">
     <value>詳細設定</value>
   </data>
-  <data name="SettingPageManipurateGeneralViewOperation" xml:space="preserve">
-    <value>ビュー操作</value>
-  </data>
-  <data name="SettingPageManipurateLoupe" xml:space="preserve">
-    <value>ルーペ</value>
-  </data>
-  <data name="SettingPageManipurateLoupeAdvance" xml:space="preserve">
-    <value>詳細設定</value>
-  </data>
-  <data name="SettingPageManipurateLoupeGeneral" xml:space="preserve">
-    <value>ルーペ</value>
-  </data>
-  <data name="SettingPageManipurateMouse" xml:space="preserve">
-    <value>マウス操作</value>
-  </data>
-  <data name="SettingPageManipurateMouseDrag" xml:space="preserve">
-    <value>マウスドラッグ操作</value>
-  </data>
-  <data name="SettingPageManipurateMouseHold" xml:space="preserve">
-    <value>マウス長押し操作</value>
-  </data>
-  <data name="SettingPageManipurateMouseVisibility" xml:space="preserve">
-    <value>カーソルの自動非表示</value>
-  </data>
-  <data name="SettingPageManipurateMouseVisibilityTips" xml:space="preserve">
-    <value>一定時間マウス操作をしない場合カーソルを非表示にします。</value>
-  </data>
-  <data name="SettingPageManipurateTouch" xml:space="preserve">
-    <value>タッチ操作</value>
-  </data>
-  <data name="SettingPageManipurateTouchAdvance" xml:space="preserve">
-    <value>詳細設定</value>
-  </data>
-  <data name="SettingPageManipurateTouchGeneral" xml:space="preserve">
-    <value>タッチ操作</value>
-  </data>
-  <data name="SettingPagePanelBookshelf" xml:space="preserve">
+  <data name="SettingPage.Bookshelf.General" xml:space="preserve">
     <value>本棚</value>
   </data>
-  <data name="SettingPagePanelBookshelfAdvance" xml:space="preserve">
-    <value>詳細設定</value>
-  </data>
-  <data name="SettingPagePanelBookshelfGeneral" xml:space="preserve">
-    <value>本棚</value>
-  </data>
-  <data name="SettingPagePanelBookshelfTree" xml:space="preserve">
+  <data name="SettingPage.Bookshelf.Tree" xml:space="preserve">
     <value>フォルダーツリー</value>
   </data>
-  <data name="SettingPagePanelBookshelfVisual" xml:space="preserve">
+  <data name="SettingPage.Bookshelf.Visual" xml:space="preserve">
     <value>表示</value>
   </data>
-  <data name="SettingPagePanelEffect" xml:space="preserve">
-    <value>エフェクトパネル</value>
+  <data name="SettingPage.Command" xml:space="preserve">
+    <value>コマンド</value>
   </data>
-  <data name="SettingPagePanelEffectAdvance" xml:space="preserve">
-    <value>詳細設定</value>
+  <data name="SettingPage.Command.General" xml:space="preserve">
+    <value>コマンド全般</value>
   </data>
-  <data name="SettingPagePanelEffectVisual" xml:space="preserve">
-    <value>エフェクトパネル</value>
+  <data name="SettingPage.Command.GeneralAdvance" xml:space="preserve">
+    <value>コマンド</value>
   </data>
-  <data name="SettingPagePanelFileInfo" xml:space="preserve">
-    <value>情報パネル</value>
+  <data name="SettingPage.Command.Main" xml:space="preserve">
+    <value>コマンド設定</value>
   </data>
-  <data name="SettingPagePanelFileInfoVisual" xml:space="preserve">
-    <value>情報パネル</value>
-  </data>
-  <data name="SettingPagePanelGeneral" xml:space="preserve">
-    <value>サイドパネル全般</value>
-  </data>
-  <data name="SettingPagePanelGeneralAdvance" xml:space="preserve">
-    <value>詳細設定</value>
-  </data>
-  <data name="SettingPagePanelGeneralOperation" xml:space="preserve">
-    <value>操作</value>
-  </data>
-  <data name="SettingPagePanelGeneralVisual" xml:space="preserve">
-    <value>サイドパネル全般</value>
-  </data>
-  <data name="SettingPagePanelListItem" xml:space="preserve">
-    <value>パネルリスト項目</value>
-  </data>
-  <data name="SettingPagePanels" xml:space="preserve">
-    <value>パネル</value>
-  </data>
-  <data name="SettingPagePanels.AutoHideMode" xml:space="preserve">
-    <value>自動非表示モード</value>
-  </data>
-  <data name="SettingPagePanels.AutoHideMode.WindowState" xml:space="preserve">
-    <value>自動非表示モードを適用するウィンドウ状態</value>
-  </data>
-  <data name="SettingPagePanelStyleBanner" xml:space="preserve">
-    <value>リスト項目のバナー表示</value>
-  </data>
-  <data name="SettingPagePanelStyleContent" xml:space="preserve">
-    <value>リスト項目のコンテンツ表示</value>
-  </data>
-  <data name="SettingPagePanelStyleThumbnail" xml:space="preserve">
-    <value>リスト項目のサムネイル表示</value>
-  </data>
-  <data name="SettingPageScript" xml:space="preserve">
+  <data name="SettingPage.Command.Scipt" xml:space="preserve">
     <value>スクリプト</value>
   </data>
-  <data name="SettingPageSearchResult" xml:space="preserve">
-    <value>検索結果</value>
+  <data name="SettingPage.ContextMenu" xml:space="preserve">
+    <value>コンテキストメニュー</value>
   </data>
-  <data name="SettingPageSearchResultNotFound" xml:space="preserve">
-    <value>検索結果が見つかりませんでした</value>
+  <data name="SettingPage.ContextMenu.Edit" xml:space="preserve">
+    <value>コンテキストメニュー設定</value>
   </data>
-  <data name="SettingPageSusie" xml:space="preserve">
-    <value>Susie</value>
+  <data name="SettingPage.Effect" xml:space="preserve">
+    <value>エフェクトパネル</value>
   </data>
-  <data name="SettingPageSusieArchivePlugin" xml:space="preserve">
-    <value>書庫プラグイン</value>
-  </data>
-  <data name="SettingPageSusieGeneral" xml:space="preserve">
-    <value>Susie全般</value>
-  </data>
-  <data name="SettingPageSusieGeneralAdvance" xml:space="preserve">
+  <data name="SettingPage.Effect.Advance" xml:space="preserve">
     <value>詳細設定</value>
   </data>
-  <data name="SettingPageSusieGeneralGeneral" xml:space="preserve">
-    <value>Susieプラグイン</value>
+  <data name="SettingPage.Effect.Visual" xml:space="preserve">
+    <value>エフェクトパネル</value>
   </data>
-  <data name="SettingPageSusieGeneralGeneralTips" xml:space="preserve">
-    <value>Susieプラグイン(.spi)に対応しています。</value>
+  <data name="SettingPage.FileTypes" xml:space="preserve">
+    <value>画像形式</value>
   </data>
-  <data name="SettingPageSusieGeneralGeneralTipsX64" xml:space="preserve">
-    <value>64bit用Susieプラグイン(.sph)に対応しています。</value>
+  <data name="SettingPage.FileTypes.Svg" xml:space="preserve">
+    <value>SVG</value>
   </data>
-  <data name="SettingPageSusieGeneralPriority" xml:space="preserve">
-    <value>優先設定</value>
-  </data>
-  <data name="SettingPageSusieImagePlugin" xml:space="preserve">
-    <value>画像プラグイン</value>
-  </data>
-  <data name="SettingPageVisual" xml:space="preserve">
-    <value>表示</value>
-  </data>
-  <data name="SettingPageVisualFilmstrip" xml:space="preserve">
+  <data name="SettingPage.Filmstrip" xml:space="preserve">
     <value>フィルムストリップ</value>
   </data>
-  <data name="SettingPageVisualFilmstripFilmstrip" xml:space="preserve">
-    <value>フィルムストリップ</value>
+  <data name="SettingPage.General" xml:space="preserve">
+    <value>全般</value>
   </data>
-  <data name="SettingPageVisualFont" xml:space="preserve">
-    <value>フォント</value>
+  <data name="SettingPage.General.Boot" xml:space="preserve">
+    <value>起動設定</value>
   </data>
-  <data name="SettingPageVisualFontPanel" xml:space="preserve">
-    <value>リスト項目のフォント</value>
+  <data name="SettingPage.General.Boot.Remarks" xml:space="preserve">
+    <value>※この設定は、設定ウィンドウを閉じた後に反映されます。</value>
   </data>
-  <data name="SettingPageVisualGeneral" xml:space="preserve">
-    <value>表示全般</value>
+  <data name="SettingPage.General.BootBoot" xml:space="preserve">
+    <value>起動設定</value>
   </data>
-  <data name="SettingPageVisualGeneralAdvance" xml:space="preserve">
-    <value>ウィンドウ詳細</value>
+  <data name="SettingPage.General.BootBootDetail" xml:space="preserve">
+    <value>詳細設定</value>
   </data>
-  <data name="SettingPageVisualGeneralAutoHide" xml:space="preserve">
-    <value>自動非表示パネル</value>
+  <data name="SettingPage.General.BootBootDetailTips" xml:space="preserve">
+    <value>※この設定は、設定ウィンドウを閉じた後に反映されます。</value>
   </data>
-  <data name="SettingPageVisualGeneralBackground" xml:space="preserve">
-    <value>背景</value>
+  <data name="SettingPage.General.Detail" xml:space="preserve">
+    <value>環境</value>
   </data>
-  <data name="SettingPageVisualGeneralOpacity" xml:space="preserve">
-    <value>透明度</value>
+  <data name="SettingPage.General.DetailDetail" xml:space="preserve">
+    <value>詳細設定</value>
   </data>
-  <data name="SettingPageVisualGeneralTheme" xml:space="preserve">
-    <value>テーマ</value>
+  <data name="SettingPage.General.DetailExplorer" xml:space="preserve">
+    <value>エクスプローラー</value>
   </data>
-  <data name="SettingPageVisualNotify" xml:space="preserve">
+  <data name="SettingPage.General.DetailLanguage" xml:space="preserve">
+    <value>言語</value>
+  </data>
+  <data name="SettingPage.General.Location" xml:space="preserve">
+    <value>場所</value>
+  </data>
+  <data name="SettingPage.General.LocationTypes" xml:space="preserve">
+    <value>場所</value>
+  </data>
+  <data name="SettingPage.General.SaveData" xml:space="preserve">
+    <value>保存データ</value>
+  </data>
+  <data name="SettingPage.General.SaveDataRemove" xml:space="preserve">
+    <value>データの削除</value>
+  </data>
+  <data name="SettingPage.General.SaveDataTypes" xml:space="preserve">
+    <value>保存データ</value>
+  </data>
+  <data name="SettingPage.General.SaveDataTypes.Remarks" xml:space="preserve">
+    <value>※保存場所は次の起動から適用されます。データの引継ぎにはエクスポート、インポートを活用してください。</value>
+  </data>
+  <data name="SettingPage.History" xml:space="preserve">
+    <value>履歴</value>
+  </data>
+  <data name="SettingPage.History.General" xml:space="preserve">
+    <value>履歴</value>
+  </data>
+  <data name="SettingPage.History.GeneralAdvance" xml:space="preserve">
+    <value>詳細設定</value>
+  </data>
+  <data name="SettingPage.History.GeneralBookshelf" xml:space="preserve">
+    <value>本棚</value>
+  </data>
+  <data name="SettingPage.History.GeneralDelete" xml:space="preserve">
+    <value>履歴削除</value>
+  </data>
+  <data name="SettingPage.History.GeneralDeleteButton" xml:space="preserve">
+    <value>履歴を削除する</value>
+  </data>
+  <data name="SettingPage.History.GeneralGeneral" xml:space="preserve">
+    <value>履歴</value>
+  </data>
+  <data name="SettingPage.History.GeneralLimit" xml:space="preserve">
+    <value>履歴保存数制限</value>
+  </data>
+  <data name="SettingPage.History.GeneralLimit.Remarks" xml:space="preserve">
+    <value>履歴ファイルに保存される履歴数上限を設定します。アプリ動作中の履歴は制限されません。</value>
+  </data>
+  <data name="SettingPage.History.PageView" xml:space="preserve">
+    <value>ページ表示</value>
+  </data>
+  <data name="SettingPage.History.PageViewRecord" xml:space="preserve">
+    <value>ページ表示記録</value>
+  </data>
+  <data name="SettingPage.Information" xml:space="preserve">
+    <value>情報パネル</value>
+  </data>
+  <data name="SettingPage.Information.Visual" xml:space="preserve">
+    <value>情報パネル</value>
+  </data>
+  <data name="SettingPage.Manipurate" xml:space="preserve">
+    <value>画像操作</value>
+  </data>
+  <data name="SettingPage.Manipurate.General" xml:space="preserve">
+    <value>画像操作全般</value>
+  </data>
+  <data name="SettingPage.Manipurate.GeneralAdvance" xml:space="preserve">
+    <value>詳細設定</value>
+  </data>
+  <data name="SettingPage.Manipurate.GeneralViewOperation" xml:space="preserve">
+    <value>ビュー操作</value>
+  </data>
+  <data name="SettingPage.Manipurate.Loupe" xml:space="preserve">
+    <value>ルーペ</value>
+  </data>
+  <data name="SettingPage.Manipurate.LoupeAdvance" xml:space="preserve">
+    <value>詳細設定</value>
+  </data>
+  <data name="SettingPage.Manipurate.LoupeGeneral" xml:space="preserve">
+    <value>ルーペ</value>
+  </data>
+  <data name="SettingPage.Manipurate.Mouse" xml:space="preserve">
+    <value>マウス操作</value>
+  </data>
+  <data name="SettingPage.Manipurate.MouseDrag" xml:space="preserve">
+    <value>マウスドラッグ操作</value>
+  </data>
+  <data name="SettingPage.Manipurate.MouseHold" xml:space="preserve">
+    <value>マウス長押し操作</value>
+  </data>
+  <data name="SettingPage.Manipurate.MouseVisibility" xml:space="preserve">
+    <value>カーソルの自動非表示</value>
+  </data>
+  <data name="SettingPage.Manipurate.MouseVisibility.Remarks" xml:space="preserve">
+    <value>一定時間マウス操作をしない場合カーソルを非表示にします。</value>
+  </data>
+  <data name="SettingPage.Manipurate.Touch" xml:space="preserve">
+    <value>タッチ操作</value>
+  </data>
+  <data name="SettingPage.Manipurate.TouchAdvance" xml:space="preserve">
+    <value>詳細設定</value>
+  </data>
+  <data name="SettingPage.Manipurate.TouchGeneral" xml:space="preserve">
+    <value>タッチ操作</value>
+  </data>
+  <data name="SettingPage.MemoryAndPerformance" xml:space="preserve">
+    <value>メモリとパフォーマンス</value>
+  </data>
+  <data name="SettingPage.Notify" xml:space="preserve">
     <value>通知</value>
   </data>
-  <data name="SettingPageVisualNotifyDisplay" xml:space="preserve">
+  <data name="SettingPage.Notify.Display" xml:space="preserve">
     <value>通知表示</value>
   </data>
-  <data name="SettingPageVisualSlider" xml:space="preserve">
+  <data name="SettingPage.PanelItems" xml:space="preserve">
+    <value>パネルリスト項目</value>
+  </data>
+  <data name="SettingPage.PanelItems.Font" xml:space="preserve">
+    <value>リスト項目のフォント</value>
+  </data>
+  <data name="SettingPage.PanelItems.StyleBanner" xml:space="preserve">
+    <value>リスト項目のバナー表示</value>
+  </data>
+  <data name="SettingPage.PanelItems.StyleContent" xml:space="preserve">
+    <value>リスト項目のコンテンツ表示</value>
+  </data>
+  <data name="SettingPage.PanelItems.StyleThumbnail" xml:space="preserve">
+    <value>リスト項目のサムネイル表示</value>
+  </data>
+  <data name="SettingPage.Panels" xml:space="preserve">
+    <value>パネル</value>
+  </data>
+  <data name="SettingPage.Panels.AutoHide" xml:space="preserve">
+    <value>自動非表示パネル</value>
+  </data>
+  <data name="SettingPage.Panels.AutoHideMode" xml:space="preserve">
+    <value>自動非表示モード</value>
+  </data>
+  <data name="SettingPage.Panels.AutoHideMode.WindowState" xml:space="preserve">
+    <value>自動非表示モードを適用するウィンドウ状態</value>
+  </data>
+  <data name="SettingPage.Panels.SidePanels" xml:space="preserve">
+    <value>サイドパネル全般</value>
+  </data>
+  <data name="SettingPage.Script" xml:space="preserve">
+    <value>スクリプト</value>
+  </data>
+  <data name="SettingPage.SearchResult" xml:space="preserve">
+    <value>検索結果</value>
+  </data>
+  <data name="SettingPage.SearchResult.NotFound" xml:space="preserve">
+    <value>検索結果が見つかりませんでした</value>
+  </data>
+  <data name="SettingPage.Slider" xml:space="preserve">
     <value>ページスライダー</value>
   </data>
-  <data name="SettingPageVisualSliderVisual" xml:space="preserve">
-    <value>ページスライダー</value>
-  </data>
-  <data name="SettingPageVisualSlideshow" xml:space="preserve">
+  <data name="SettingPage.Slideshow" xml:space="preserve">
     <value>スライドショー</value>
   </data>
-  <data name="SettingPageVisualSlideshowGeneral" xml:space="preserve">
-    <value>スライドショー</value>
+  <data name="SettingPage.Susie" xml:space="preserve">
+    <value>Susie</value>
   </data>
-  <data name="SettingPageVisualThumbnail" xml:space="preserve">
+  <data name="SettingPage.Susie.ArchivePlugin" xml:space="preserve">
+    <value>書庫プラグイン</value>
+  </data>
+  <data name="SettingPage.Susie.General" xml:space="preserve">
+    <value>Susie全般</value>
+  </data>
+  <data name="SettingPage.Susie.GeneralAdvance" xml:space="preserve">
+    <value>詳細設定</value>
+  </data>
+  <data name="SettingPage.Susie.GeneralGeneral" xml:space="preserve">
+    <value>Susieプラグイン</value>
+  </data>
+  <data name="SettingPage.Susie.GeneralGeneral.Remarks" xml:space="preserve">
+    <value>Susieプラグイン(.spi)に対応しています。</value>
+  </data>
+  <data name="SettingPage.Susie.GeneralPriority" xml:space="preserve">
+    <value>優先設定</value>
+  </data>
+  <data name="SettingPage.Susie.ImagePlugin" xml:space="preserve">
+    <value>画像プラグイン</value>
+  </data>
+  <data name="SettingPage.Thumbnail" xml:space="preserve">
     <value>サムネイル</value>
   </data>
-  <data name="SettingPageVisualThumbnailAdvance" xml:space="preserve">
+  <data name="SettingPage.Thumbnail.Advance" xml:space="preserve">
     <value>サムネイル画像設定</value>
   </data>
-  <data name="SettingPageVisualThumbnailCache" xml:space="preserve">
+  <data name="SettingPage.Thumbnail.Cache" xml:space="preserve">
     <value>サムネイルキャッシュ</value>
   </data>
-  <data name="SettingPageVisualThumbnailCacheClear" xml:space="preserve">
+  <data name="SettingPage.Thumbnail.CacheClear" xml:space="preserve">
     <value>サムネイルキャッシュ削除</value>
   </data>
-  <data name="SettingPageVisualThumbnailCacheClearButton" xml:space="preserve">
+  <data name="SettingPage.Thumbnail.CacheClearButton" xml:space="preserve">
     <value>サムネイルキャッシュを削除する</value>
   </data>
-  <data name="SettingPageVisualThumbnailCacheClearTips" xml:space="preserve">
+  <data name="SettingPage.Thumbnail.CacheClearTips" xml:space="preserve">
     <value>サムネイル画像設定を変更したらキャッシュを削除してください。</value>
   </data>
-  <data name="SettingPageVisualWindowTitile" xml:space="preserve">
+  <data name="SettingPage.Window" xml:space="preserve">
+    <value>ウィンドウ</value>
+  </data>
+  <data name="SettingPage.Window.Advance" xml:space="preserve">
+    <value>ウィンドウ詳細</value>
+  </data>
+  <data name="SettingPage.Window.Background" xml:space="preserve">
+    <value>背景</value>
+  </data>
+  <data name="SettingPage.Window.Theme" xml:space="preserve">
+    <value>テーマ</value>
+  </data>
+  <data name="SettingPage.WindowTitile" xml:space="preserve">
     <value>ウィンドウタイトル</value>
   </data>
-  <data name="SettingPageVisualWindowTitileDisplay" xml:space="preserve">
-    <value>ウィンドウタイトル</value>
-  </data>
-  <data name="SettingPageVisualWindowTitileNote" xml:space="preserve">
+  <data name="SettingPage.WindowTitile.Note" xml:space="preserve">
     <value>フォーマットの説明
 
 $Book .. 開いているブック名
@@ -4684,12 +4441,6 @@ $Scale[LR] .. 画像の表示倍率(%)
 "◯◯◯[LR]" は、1ページ用、2ページ用で変数名が変わることを示します。
 例えば $Name は1ページ用、 $NameL は２ページ左用、 $NameR は2ページ右用になります。
 $Name は2ページ表示時には主となるページ(ページ番号の小さい方)になります。</value>
-  </data>
-  <data name="SettingPageWindow" xml:space="preserve">
-    <value>ウィンドウ</value>
-  </data>
-  <data name="SettingSectionSvg" xml:space="preserve">
-    <value>SVG</value>
   </data>
   <data name="SevenZipArchiveConfig.IsEnabled" xml:space="preserve">
     <value>7-Zipによる圧縮ファイル展開を使用する</value>
@@ -4853,6 +4604,12 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="SusieConfig.SusiePluginPath" xml:space="preserve">
     <value>プラグインフォルダー</value>
   </data>
+  <data name="SusieConnectError.Message" xml:space="preserve">
+    <value>Susieとの接続に失敗しました。</value>
+  </data>
+  <data name="SusieLoadFailedException.Message" xml:space="preserve">
+    <value>Susieでの画像取得に失敗しました。</value>
+  </data>
   <data name="SusiePluginList.Config" xml:space="preserve">
     <value>設定</value>
   </data>
@@ -4864,6 +4621,15 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="SusiePluginList.Up" xml:space="preserve">
     <value>上へ</value>
+  </data>
+  <data name="SusiePluginWindow.IsCacheEnabled" xml:space="preserve">
+    <value>プラグインをキャッシュする</value>
+  </data>
+  <data name="SusiePluginWindow.IsEnabled" xml:space="preserve">
+    <value>プラグイン有効</value>
+  </data>
+  <data name="SusiePluginWindow.IsPreExtract" xml:space="preserve">
+    <value>書庫を事前展開する</value>
   </data>
   <data name="SwirlEffectUnit.Center" xml:space="preserve">
     <value>Center</value>
@@ -5018,14 +4784,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleBookmarkCommand.Menu" xml:space="preserve">
     <value>ブックマーク</value>
   </data>
-  <data name="ToggleBookmarkCommand.Remarks" xml:space="preserve">
-    <value>現在開いているブックのブックマークの登録/解除を切り替えます。</value>
-  </data>
-  <data name="ToggleBookmarkCommand_Off" xml:space="preserve">
+  <data name="ToggleBookmarkCommand.Off" xml:space="preserve">
     <value>ブックマーク解除</value>
   </data>
-  <data name="ToggleBookmarkCommand_On" xml:space="preserve">
+  <data name="ToggleBookmarkCommand.On" xml:space="preserve">
     <value>ブックマークに登録</value>
+  </data>
+  <data name="ToggleBookmarkCommand.Remarks" xml:space="preserve">
+    <value>現在開いているブックのブックマークの登録/解除を切り替えます。</value>
   </data>
   <data name="ToggleBookOrderCommand" xml:space="preserve">
     <value>ブックの並び順を切り替える</value>
@@ -5048,14 +4814,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleCustomSizeCommand.Menu" xml:space="preserve">
     <value>サイズ指定</value>
   </data>
-  <data name="ToggleCustomSizeCommand.Remarks" xml:space="preserve">
-    <value>オリジナルサイズに適用されるサイズ指定の有効/無効を切り替えます。</value>
-  </data>
-  <data name="ToggleCustomSizeCommand_Off" xml:space="preserve">
+  <data name="ToggleCustomSizeCommand.Off" xml:space="preserve">
     <value>サイズ指定無効</value>
   </data>
-  <data name="ToggleCustomSizeCommand_On" xml:space="preserve">
+  <data name="ToggleCustomSizeCommand.On" xml:space="preserve">
     <value>サイズ指定有効</value>
+  </data>
+  <data name="ToggleCustomSizeCommand.Remarks" xml:space="preserve">
+    <value>オリジナルサイズに適用されるサイズ指定の有効/無効を切り替えます。</value>
   </data>
   <data name="ToggleEffectCommand" xml:space="preserve">
     <value>エフェクト有効/無効</value>
@@ -5063,14 +4829,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleEffectCommand.Menu" xml:space="preserve">
     <value>エフェクト</value>
   </data>
-  <data name="ToggleEffectCommand.Remarks" xml:space="preserve">
-    <value>エフェクトの有効/無効を切り替えます。</value>
-  </data>
-  <data name="ToggleEffectCommand_Off" xml:space="preserve">
+  <data name="ToggleEffectCommand.Off" xml:space="preserve">
     <value>エフェクト無効</value>
   </data>
-  <data name="ToggleEffectCommand_On" xml:space="preserve">
+  <data name="ToggleEffectCommand.On" xml:space="preserve">
     <value>エフェクト有効</value>
+  </data>
+  <data name="ToggleEffectCommand.Remarks" xml:space="preserve">
+    <value>エフェクトの有効/無効を切り替えます。</value>
   </data>
   <data name="ToggleForceAutoRotateCommand" xml:space="preserve">
     <value>自動回転を強制</value>
@@ -5093,14 +4859,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleFullScreenCommand.Menu" xml:space="preserve">
     <value>フルスクリーン</value>
   </data>
-  <data name="ToggleFullScreenCommand.Remarks" xml:space="preserve">
-    <value>フルスクリーン状態を切替ます。</value>
-  </data>
-  <data name="ToggleFullScreenCommand_Off" xml:space="preserve">
+  <data name="ToggleFullScreenCommand.Off" xml:space="preserve">
     <value>フルスクリーン解除</value>
   </data>
-  <data name="ToggleFullScreenCommand_On" xml:space="preserve">
+  <data name="ToggleFullScreenCommand.On" xml:space="preserve">
     <value>フルスクリーン</value>
+  </data>
+  <data name="ToggleFullScreenCommand.Remarks" xml:space="preserve">
+    <value>フルスクリーン状態を切替ます。</value>
   </data>
   <data name="ToggleGridCommand" xml:space="preserve">
     <value>グリッド有効/無効</value>
@@ -5108,14 +4874,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleGridCommand.Menu" xml:space="preserve">
     <value>グリッド</value>
   </data>
-  <data name="ToggleGridCommand.Remarks" xml:space="preserve">
-    <value>グリッドの表示/非表示を切り替えます。</value>
-  </data>
-  <data name="ToggleGridCommand_Off" xml:space="preserve">
+  <data name="ToggleGridCommand.Off" xml:space="preserve">
     <value>グリッド無効</value>
   </data>
-  <data name="ToggleGridCommand_On" xml:space="preserve">
+  <data name="ToggleGridCommand.On" xml:space="preserve">
     <value>グリッド有効</value>
+  </data>
+  <data name="ToggleGridCommand.Remarks" xml:space="preserve">
+    <value>グリッドの表示/非表示を切り替えます。</value>
   </data>
   <data name="ToggleHideMenuCommand" xml:space="preserve">
     <value>メニューを自動的に隠す有効/無効</value>
@@ -5123,14 +4889,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleHideMenuCommand.Menu" xml:space="preserve">
     <value>メニューを自動的に隠す</value>
   </data>
-  <data name="ToggleHideMenuCommand.Remarks" xml:space="preserve">
-    <value>メニューを非表示にします。カーソルをウィンドウ上端に合わせることで表示されます。</value>
-  </data>
-  <data name="ToggleHideMenuCommand_Off" xml:space="preserve">
+  <data name="ToggleHideMenuCommand.Off" xml:space="preserve">
     <value>メニューを表示する</value>
   </data>
-  <data name="ToggleHideMenuCommand_On" xml:space="preserve">
+  <data name="ToggleHideMenuCommand.On" xml:space="preserve">
     <value>メニューを自動的に隠す</value>
+  </data>
+  <data name="ToggleHideMenuCommand.Remarks" xml:space="preserve">
+    <value>メニューを非表示にします。カーソルをウィンドウ上端に合わせることで表示されます。</value>
   </data>
   <data name="ToggleHidePageSliderCommand" xml:space="preserve">
     <value>スライダーを自動的に隠す有効/無効</value>
@@ -5138,14 +4904,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleHidePageSliderCommand.Menu" xml:space="preserve">
     <value>スライダーを自動的に隠す</value>
   </data>
-  <data name="ToggleHidePageSliderCommand.Remarks" xml:space="preserve">
-    <value>スライダーを非表示にします。カーソルをウィンドウ下端に合わせることで表示されます。</value>
-  </data>
-  <data name="ToggleHidePageSliderCommand_Off" xml:space="preserve">
+  <data name="ToggleHidePageSliderCommand.Off" xml:space="preserve">
     <value>スライダーを表示する</value>
   </data>
-  <data name="ToggleHidePageSliderCommand_On" xml:space="preserve">
+  <data name="ToggleHidePageSliderCommand.On" xml:space="preserve">
     <value>スライダーを自動的に隠す</value>
+  </data>
+  <data name="ToggleHidePageSliderCommand.Remarks" xml:space="preserve">
+    <value>スライダーを非表示にします。カーソルをウィンドウ下端に合わせることで表示されます。</value>
   </data>
   <data name="ToggleHidePanelCommand" xml:space="preserve">
     <value>パネルを自動的に隠す有効/無効</value>
@@ -5153,14 +4919,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleHidePanelCommand.Menu" xml:space="preserve">
     <value>パネルを自動的に隠す</value>
   </data>
-  <data name="ToggleHidePanelCommand.Remarks" xml:space="preserve">
-    <value>左右のパネルを自動的に隠します。カーソルをウィンドウ左端、右端に合わせることで表示されます。</value>
-  </data>
-  <data name="ToggleHidePanelCommand_Off" xml:space="preserve">
+  <data name="ToggleHidePanelCommand.Off" xml:space="preserve">
     <value>パネルを表示する</value>
   </data>
-  <data name="ToggleHidePanelCommand_On" xml:space="preserve">
+  <data name="ToggleHidePanelCommand.On" xml:space="preserve">
     <value>パネルを自動的に隠す</value>
+  </data>
+  <data name="ToggleHidePanelCommand.Remarks" xml:space="preserve">
+    <value>左右のパネルを自動的に隠します。カーソルをウィンドウ左端、右端に合わせることで表示されます。</value>
   </data>
   <data name="ToggleHideThumbnailListCommand" xml:space="preserve">
     <value>フィルムストリップを自動的に隠す有効/無効</value>
@@ -5168,14 +4934,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleHideThumbnailListCommand.Menu" xml:space="preserve">
     <value>フィルムストリップを自動的に隠す</value>
   </data>
-  <data name="ToggleHideThumbnailListCommand.Remarks" xml:space="preserve">
-    <value>スライダーを使用している時だけフィルムストリップを表示するようにします。</value>
-  </data>
-  <data name="ToggleHideThumbnailListCommand_Off" xml:space="preserve">
+  <data name="ToggleHideThumbnailListCommand.Off" xml:space="preserve">
     <value>フィルムストリップを表示する</value>
   </data>
-  <data name="ToggleHideThumbnailListCommand_On" xml:space="preserve">
+  <data name="ToggleHideThumbnailListCommand.On" xml:space="preserve">
     <value>フィルムストリップを自動的に隠す</value>
+  </data>
+  <data name="ToggleHideThumbnailListCommand.Remarks" xml:space="preserve">
+    <value>スライダーを使用している時だけフィルムストリップを表示するようにします。</value>
   </data>
   <data name="ToggleIsAutoRotateCommand" xml:space="preserve">
     <value>自動回転</value>
@@ -5186,14 +4952,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleIsAutoRotateLeftCommand.Menu" xml:space="preserve">
     <value>自動左回転</value>
   </data>
-  <data name="ToggleIsAutoRotateLeftCommand.Remarks" xml:space="preserve">
-    <value>ページ表示時、縦長画像を90度左回転します。ウィンドウが縦長の場合、横長画像を90度回転します。</value>
-  </data>
-  <data name="ToggleIsAutoRotateLeftCommand_Off" xml:space="preserve">
+  <data name="ToggleIsAutoRotateLeftCommand.Off" xml:space="preserve">
     <value>自動左回転解除</value>
   </data>
-  <data name="ToggleIsAutoRotateLeftCommand_On" xml:space="preserve">
+  <data name="ToggleIsAutoRotateLeftCommand.On" xml:space="preserve">
     <value>自動左回転</value>
+  </data>
+  <data name="ToggleIsAutoRotateLeftCommand.Remarks" xml:space="preserve">
+    <value>ページ表示時、縦長画像を90度左回転します。ウィンドウが縦長の場合、横長画像を90度回転します。</value>
   </data>
   <data name="ToggleIsAutoRotateRightCommand" xml:space="preserve">
     <value>自動右回転</value>
@@ -5201,14 +4967,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleIsAutoRotateRightCommand.Menu" xml:space="preserve">
     <value>自動右回転</value>
   </data>
-  <data name="ToggleIsAutoRotateRightCommand.Remarks" xml:space="preserve">
-    <value>ページ表示時、縦長画像を90度右回転します。ウィンドウが縦長の場合、横長画像を90度回転します。</value>
-  </data>
-  <data name="ToggleIsAutoRotateRightCommand_Off" xml:space="preserve">
+  <data name="ToggleIsAutoRotateRightCommand.Off" xml:space="preserve">
     <value>自動右回転解除</value>
   </data>
-  <data name="ToggleIsAutoRotateRightCommand_On" xml:space="preserve">
+  <data name="ToggleIsAutoRotateRightCommand.On" xml:space="preserve">
     <value>自動右回転</value>
+  </data>
+  <data name="ToggleIsAutoRotateRightCommand.Remarks" xml:space="preserve">
+    <value>ページ表示時、縦長画像を90度右回転します。ウィンドウが縦長の場合、横長画像を90度回転します。</value>
   </data>
   <data name="ToggleIsLoupeCommand" xml:space="preserve">
     <value>ルーペ有効/無効</value>
@@ -5216,74 +4982,74 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleIsLoupeCommand.Menu" xml:space="preserve">
     <value>ルーペ</value>
   </data>
-  <data name="ToggleIsLoupeCommand.Remarks" xml:space="preserve">
-    <value>ルーペの有効/無効を切り替えます。</value>
-  </data>
-  <data name="ToggleIsLoupeCommand_Off" xml:space="preserve">
+  <data name="ToggleIsLoupeCommand.Off" xml:space="preserve">
     <value>ルーペ解除</value>
   </data>
-  <data name="ToggleIsLoupeCommand_On" xml:space="preserve">
+  <data name="ToggleIsLoupeCommand.On" xml:space="preserve">
     <value>ルーペ</value>
+  </data>
+  <data name="ToggleIsLoupeCommand.Remarks" xml:space="preserve">
+    <value>ルーペの有効/無効を切り替えます。</value>
   </data>
   <data name="ToggleIsRecursiveFolderCommand" xml:space="preserve">
     <value>サブフォルダーを読み込む</value>
   </data>
+  <data name="ToggleIsRecursiveFolderCommand.Off" xml:space="preserve">
+    <value>サブフォルダーは読み込まない</value>
+  </data>
+  <data name="ToggleIsRecursiveFolderCommand.On" xml:space="preserve">
+    <value>サブフォルダーも読み込む</value>
+  </data>
   <data name="ToggleIsRecursiveFolderCommand.Remarks" xml:space="preserve">
     <value>フォルダーから画像を読み込むときにサブフォルダーまたは圧縮ファイルも同時に読み込みます。</value>
   </data>
-  <data name="ToggleIsRecursiveFolderCommand_Off" xml:space="preserve">
-    <value>サブフォルダーは読み込まない</value>
-  </data>
-  <data name="ToggleIsRecursiveFolderCommand_On" xml:space="preserve">
-    <value>サブフォルダーも読み込む</value>
-  </data>
   <data name="ToggleIsSupportedDividePageCommand" xml:space="preserve">
+    <value>横長ページを分割する</value>
+  </data>
+  <data name="ToggleIsSupportedDividePageCommand.Off" xml:space="preserve">
+    <value>横長ページの区別をしない</value>
+  </data>
+  <data name="ToggleIsSupportedDividePageCommand.On" xml:space="preserve">
     <value>横長ページを分割する</value>
   </data>
   <data name="ToggleIsSupportedDividePageCommand.Remarks" xml:space="preserve">
     <value>1ページ表示時、横長ページを分割してページにします。</value>
   </data>
-  <data name="ToggleIsSupportedDividePageCommand_Off" xml:space="preserve">
-    <value>横長ページの区別をしない</value>
-  </data>
-  <data name="ToggleIsSupportedDividePageCommand_On" xml:space="preserve">
-    <value>横長ページを分割する</value>
-  </data>
   <data name="ToggleIsSupportedSingleFirstPageCommand" xml:space="preserve">
+    <value>最初のページを単独表示</value>
+  </data>
+  <data name="ToggleIsSupportedSingleFirstPageCommand.Off" xml:space="preserve">
+    <value>最初のページを区別しない</value>
+  </data>
+  <data name="ToggleIsSupportedSingleFirstPageCommand.On" xml:space="preserve">
     <value>最初のページを単独表示</value>
   </data>
   <data name="ToggleIsSupportedSingleFirstPageCommand.Remarks" xml:space="preserve">
     <value>2ページ表示でも最初のページは1ページ表示にします。</value>
   </data>
-  <data name="ToggleIsSupportedSingleFirstPageCommand_Off" xml:space="preserve">
-    <value>最初のページを区別しない</value>
-  </data>
-  <data name="ToggleIsSupportedSingleFirstPageCommand_On" xml:space="preserve">
-    <value>最初のページを単独表示</value>
-  </data>
   <data name="ToggleIsSupportedSingleLastPageCommand" xml:space="preserve">
+    <value>最後のページを単独表示</value>
+  </data>
+  <data name="ToggleIsSupportedSingleLastPageCommand.Off" xml:space="preserve">
+    <value>最後のページを区別しない</value>
+  </data>
+  <data name="ToggleIsSupportedSingleLastPageCommand.On" xml:space="preserve">
     <value>最後のページを単独表示</value>
   </data>
   <data name="ToggleIsSupportedSingleLastPageCommand.Remarks" xml:space="preserve">
     <value>2ページ表示でも最後のページは1ページ表示にします。</value>
   </data>
-  <data name="ToggleIsSupportedSingleLastPageCommand_Off" xml:space="preserve">
-    <value>最後のページを区別しない</value>
-  </data>
-  <data name="ToggleIsSupportedSingleLastPageCommand_On" xml:space="preserve">
-    <value>最後のページを単独表示</value>
-  </data>
   <data name="ToggleIsSupportedWidePageCommand" xml:space="preserve">
+    <value>横長ページを2ページとみなす</value>
+  </data>
+  <data name="ToggleIsSupportedWidePageCommand.Off" xml:space="preserve">
+    <value>横長ページの区別をしない</value>
+  </data>
+  <data name="ToggleIsSupportedWidePageCommand.On" xml:space="preserve">
     <value>横長ページを2ページとみなす</value>
   </data>
   <data name="ToggleIsSupportedWidePageCommand.Remarks" xml:space="preserve">
     <value> 2ページ表示時、横長の画像を2ページ分とみなして単独表示します。</value>
-  </data>
-  <data name="ToggleIsSupportedWidePageCommand_Off" xml:space="preserve">
-    <value>横長ページの区別をしない</value>
-  </data>
-  <data name="ToggleIsSupportedWidePageCommand_On" xml:space="preserve">
-    <value>横長ページを2ページとみなす</value>
   </data>
   <data name="ToggleMainViewFloatingCommand" xml:space="preserve">
     <value>メインビューウィンドウ/解除</value>
@@ -5291,14 +5057,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleMainViewFloatingCommand.Menu" xml:space="preserve">
     <value>メインビューウィンドウ</value>
   </data>
-  <data name="ToggleMainViewFloatingCommand.Remarks" xml:space="preserve">
-    <value>メインビューをウィンドウにします。</value>
-  </data>
-  <data name="ToggleMainViewFloatingOff" xml:space="preserve">
+  <data name="ToggleMainViewFloatingCommand.Off" xml:space="preserve">
     <value>メインビューのドッキング</value>
   </data>
-  <data name="ToggleMainViewFloatingOn" xml:space="preserve">
+  <data name="ToggleMainViewFloatingCommand.On" xml:space="preserve">
     <value>メインビューのフローティング</value>
+  </data>
+  <data name="ToggleMainViewFloatingCommand.Remarks" xml:space="preserve">
+    <value>メインビューをウィンドウにします。</value>
   </data>
   <data name="ToggleMediaPlayCommand" xml:space="preserve">
     <value>動画再生/停止</value>
@@ -5312,14 +5078,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleNearestNeighborCommand.Menu" xml:space="preserve">
     <value>ドットのまま拡大</value>
   </data>
-  <data name="ToggleNearestNeighborCommand.Remarks" xml:space="preserve">
-    <value>有効にすると拡大するときにドットのまま拡大します。無効の時にはスケール変換処理(Fant)が行われます。</value>
-  </data>
-  <data name="ToggleNearestNeighborCommand_Off" xml:space="preserve">
+  <data name="ToggleNearestNeighborCommand.Off" xml:space="preserve">
     <value>高品質に拡大する</value>
   </data>
-  <data name="ToggleNearestNeighborCommand_On" xml:space="preserve">
+  <data name="ToggleNearestNeighborCommand.On" xml:space="preserve">
     <value>ドットのまま拡大する</value>
+  </data>
+  <data name="ToggleNearestNeighborCommand.Remarks" xml:space="preserve">
+    <value>有効にすると拡大するときにドットのまま拡大します。無効の時にはスケール変換処理(Fant)が行われます。</value>
   </data>
   <data name="TogglePageListPlacementBookshelfCommand" xml:space="preserve">
     <value>ページリストを本棚に配置</value>
@@ -5342,14 +5108,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="TogglePagemarkCommand.Menu" xml:space="preserve">
     <value>ページマーク</value>
   </data>
-  <data name="TogglePagemarkCommand.Remarks" xml:space="preserve">
-    <value>現在開いているページのページマークの登録/解除を切り替えます。</value>
-  </data>
-  <data name="TogglePagemarkCommand_Off" xml:space="preserve">
+  <data name="TogglePagemarkCommand.Off" xml:space="preserve">
     <value>ページマーク解除</value>
   </data>
-  <data name="TogglePagemarkCommand_On" xml:space="preserve">
+  <data name="TogglePagemarkCommand.On" xml:space="preserve">
     <value>ページマーク登録</value>
+  </data>
+  <data name="TogglePagemarkCommand.Remarks" xml:space="preserve">
+    <value>現在開いているページのページマークの登録/解除を切り替えます。</value>
   </data>
   <data name="TogglePageModeCommand" xml:space="preserve">
     <value>ページ表示モードを切り替える</value>
@@ -5363,14 +5129,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="TogglePermitFileCommand.Menu" xml:space="preserve">
     <value>ファイル操作許可(_P)</value>
   </data>
-  <data name="TogglePermitFileCommand.Remarks" xml:space="preserve">
-    <value>ファイル操作系コマンドの有効/無効を切り替えます。</value>
-  </data>
-  <data name="TogglePermitFileCommand_Off" xml:space="preserve">
+  <data name="TogglePermitFileCommand.Off" xml:space="preserve">
     <value>ファイル操作無効</value>
   </data>
-  <data name="TogglePermitFileCommand_On" xml:space="preserve">
+  <data name="TogglePermitFileCommand.On" xml:space="preserve">
     <value>ファイル操作有効</value>
+  </data>
+  <data name="TogglePermitFileCommand.Remarks" xml:space="preserve">
+    <value>ファイル操作系コマンドの有効/無効を切り替えます。</value>
   </data>
   <data name="ToggleResizeFilterCommand" xml:space="preserve">
     <value>リサイズフィルター有効/無効</value>
@@ -5378,14 +5144,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleResizeFilterCommand.Menu" xml:space="preserve">
     <value>リサイズフィルター</value>
   </data>
-  <data name="ToggleResizeFilterCommand.Remarks" xml:space="preserve">
-    <value>リサイズフィルターの有効/無効を切り替えます。</value>
-  </data>
-  <data name="ToggleResizeFilterCommand_Off" xml:space="preserve">
+  <data name="ToggleResizeFilterCommand.Off" xml:space="preserve">
     <value>リサイズフィルター無効</value>
   </data>
-  <data name="ToggleResizeFilterCommand_On" xml:space="preserve">
+  <data name="ToggleResizeFilterCommand.On" xml:space="preserve">
     <value>リサイズフィルター有効</value>
+  </data>
+  <data name="ToggleResizeFilterCommand.Remarks" xml:space="preserve">
+    <value>リサイズフィルターの有効/無効を切り替えます。</value>
   </data>
   <data name="ToggleSlideShowCommand" xml:space="preserve">
     <value>スライドショー再生/停止</value>
@@ -5393,14 +5159,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleSlideShowCommand.Menu" xml:space="preserve">
     <value>スライドショー</value>
   </data>
-  <data name="ToggleSlideShowCommand.Remarks" xml:space="preserve">
-    <value>スライドショーの再生/停止を切り替えます。</value>
-  </data>
-  <data name="ToggleSlideShowCommand_Off" xml:space="preserve">
+  <data name="ToggleSlideShowCommand.Off" xml:space="preserve">
     <value>スライドショー停止</value>
   </data>
-  <data name="ToggleSlideShowCommand_On" xml:space="preserve">
+  <data name="ToggleSlideShowCommand.On" xml:space="preserve">
     <value>スライドショー再生</value>
+  </data>
+  <data name="ToggleSlideShowCommand.Remarks" xml:space="preserve">
+    <value>スライドショーの再生/停止を切り替えます。</value>
   </data>
   <data name="ToggleSortModeCommand" xml:space="preserve">
     <value>ページの並び順を切り替える</value>
@@ -5465,14 +5231,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleTopmostCommand.Menu" xml:space="preserve">
     <value>常に手前に表示</value>
   </data>
-  <data name="ToggleTopmostCommand.Remarks" xml:space="preserve">
-    <value>ウィンドウを常に手前に表示します。</value>
-  </data>
-  <data name="ToggleTopmostCommand_Off" xml:space="preserve">
+  <data name="ToggleTopmostCommand.Off" xml:space="preserve">
     <value>「常に手前に表示」を解除</value>
   </data>
-  <data name="ToggleTopmostCommand_On" xml:space="preserve">
+  <data name="ToggleTopmostCommand.On" xml:space="preserve">
     <value>常に手前に表示する</value>
+  </data>
+  <data name="ToggleTopmostCommand.Remarks" xml:space="preserve">
+    <value>ウィンドウを常に手前に表示します。</value>
   </data>
   <data name="ToggleViewFlipHorizontalCommand" xml:space="preserve">
     <value>左右反転</value>
@@ -5492,14 +5258,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleVisibleAddressBarCommand.Menu" xml:space="preserve">
     <value>アドレスバー</value>
   </data>
-  <data name="ToggleVisibleAddressBarCommand.Remarks" xml:space="preserve">
-    <value>アドレスバーの表示/非表示を切り替えます。</value>
-  </data>
-  <data name="ToggleVisibleAddressBarCommand_Off" xml:space="preserve">
+  <data name="ToggleVisibleAddressBarCommand.Off" xml:space="preserve">
     <value>アドレスバーを消す</value>
   </data>
-  <data name="ToggleVisibleAddressBarCommand_On" xml:space="preserve">
+  <data name="ToggleVisibleAddressBarCommand.On" xml:space="preserve">
     <value>アドレスバーを表示する</value>
+  </data>
+  <data name="ToggleVisibleAddressBarCommand.Remarks" xml:space="preserve">
+    <value>アドレスバーの表示/非表示を切り替えます。</value>
   </data>
   <data name="ToggleVisibleBookmarkListCommand" xml:space="preserve">
     <value>ブックマークリスト表示/非表示</value>
@@ -5507,14 +5273,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleVisibleBookmarkListCommand.Menu" xml:space="preserve">
     <value>ブックマークリスト</value>
   </data>
-  <data name="ToggleVisibleBookmarkListCommand.Remarks" xml:space="preserve">
-    <value>ブックマークリストパネルの表示/非表示を切り替えます。</value>
-  </data>
-  <data name="ToggleVisibleBookmarkListCommand_Off" xml:space="preserve">
+  <data name="ToggleVisibleBookmarkListCommand.Off" xml:space="preserve">
     <value>ブックマークリストを消す</value>
   </data>
-  <data name="ToggleVisibleBookmarkListCommand_On" xml:space="preserve">
+  <data name="ToggleVisibleBookmarkListCommand.On" xml:space="preserve">
     <value>ブックマークリストを表示する</value>
+  </data>
+  <data name="ToggleVisibleBookmarkListCommand.Remarks" xml:space="preserve">
+    <value>ブックマークリストパネルの表示/非表示を切り替えます。</value>
   </data>
   <data name="ToggleVisibleBookshelfCommand" xml:space="preserve">
     <value>本棚の表示/非表示</value>
@@ -5522,14 +5288,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleVisibleBookshelfCommand.Menu" xml:space="preserve">
     <value>本棚</value>
   </data>
-  <data name="ToggleVisibleBookshelfCommand.Remarks" xml:space="preserve">
-    <value>本棚パネルの表示/非表示を切り替えます。</value>
-  </data>
-  <data name="ToggleVisibleBookshelfCommand_Off" xml:space="preserve">
+  <data name="ToggleVisibleBookshelfCommand.Off" xml:space="preserve">
     <value>本棚を消す</value>
   </data>
-  <data name="ToggleVisibleBookshelfCommand_On" xml:space="preserve">
+  <data name="ToggleVisibleBookshelfCommand.On" xml:space="preserve">
     <value>本棚を表示する</value>
+  </data>
+  <data name="ToggleVisibleBookshelfCommand.Remarks" xml:space="preserve">
+    <value>本棚パネルの表示/非表示を切り替えます。</value>
   </data>
   <data name="ToggleVisibleEffectInfoCommand" xml:space="preserve">
     <value>エフェクトパネルの表示/非表示</value>
@@ -5537,14 +5303,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleVisibleEffectInfoCommand.Menu" xml:space="preserve">
     <value>エフェクトパネル</value>
   </data>
-  <data name="ToggleVisibleEffectInfoCommand.Remarks" xml:space="preserve">
-    <value>エフェクトパネルの表示/非表示を切り替えます。</value>
-  </data>
-  <data name="ToggleVisibleEffectInfoCommand_Off" xml:space="preserve">
+  <data name="ToggleVisibleEffectInfoCommand.Off" xml:space="preserve">
     <value>エフェクトパネルを消す</value>
   </data>
-  <data name="ToggleVisibleEffectInfoCommand_On" xml:space="preserve">
+  <data name="ToggleVisibleEffectInfoCommand.On" xml:space="preserve">
     <value>エフェクトパネルを表示する</value>
+  </data>
+  <data name="ToggleVisibleEffectInfoCommand.Remarks" xml:space="preserve">
+    <value>エフェクトパネルの表示/非表示を切り替えます。</value>
   </data>
   <data name="ToggleVisibleFileInfoCommand" xml:space="preserve">
     <value>情報の表示/非表示</value>
@@ -5552,14 +5318,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleVisibleFileInfoCommand.Menu" xml:space="preserve">
     <value>情報</value>
   </data>
-  <data name="ToggleVisibleFileInfoCommand.Remarks" xml:space="preserve">
-    <value>情報パネルの表示/非表示を切り替えます。</value>
-  </data>
-  <data name="ToggleVisibleFileInfoCommand_Off" xml:space="preserve">
+  <data name="ToggleVisibleFileInfoCommand.Off" xml:space="preserve">
     <value>情報を消す</value>
   </data>
-  <data name="ToggleVisibleFileInfoCommand_On" xml:space="preserve">
+  <data name="ToggleVisibleFileInfoCommand.On" xml:space="preserve">
     <value>情報を表示する</value>
+  </data>
+  <data name="ToggleVisibleFileInfoCommand.Remarks" xml:space="preserve">
+    <value>情報パネルの表示/非表示を切り替えます。</value>
   </data>
   <data name="ToggleVisibleFoldersTreeCommand" xml:space="preserve">
     <value>フォルダーツリーの表示/非表示</value>
@@ -5567,14 +5333,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleVisibleFoldersTreeCommand.Menu" xml:space="preserve">
     <value>フォルダーツリー</value>
   </data>
-  <data name="ToggleVisibleFoldersTreeCommand.Remarks" xml:space="preserve">
-    <value>フォルダーツリーの表示/非表示を切り替えます。本棚は表示状態になります。</value>
-  </data>
-  <data name="ToggleVisibleFoldersTreeCommand_Off" xml:space="preserve">
+  <data name="ToggleVisibleFoldersTreeCommand.Off" xml:space="preserve">
     <value>フォルダーツリーを消す</value>
   </data>
-  <data name="ToggleVisibleFoldersTreeCommand_On" xml:space="preserve">
+  <data name="ToggleVisibleFoldersTreeCommand.On" xml:space="preserve">
     <value>フォルダーツリーを表示する</value>
+  </data>
+  <data name="ToggleVisibleFoldersTreeCommand.Remarks" xml:space="preserve">
+    <value>フォルダーツリーの表示/非表示を切り替えます。本棚は表示状態になります。</value>
   </data>
   <data name="ToggleVisibleHistoryListCommand" xml:space="preserve">
     <value>履歴リストの表示/非表示</value>
@@ -5582,14 +5348,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleVisibleHistoryListCommand.Menu" xml:space="preserve">
     <value>履歴リスト</value>
   </data>
-  <data name="ToggleVisibleHistoryListCommand.Remarks" xml:space="preserve">
-    <value>履歴リストパネルの表示/非表示を切り替えます。</value>
-  </data>
-  <data name="ToggleVisibleHistoryListCommand_Off" xml:space="preserve">
+  <data name="ToggleVisibleHistoryListCommand.Off" xml:space="preserve">
     <value>履歴リストを消す</value>
   </data>
-  <data name="ToggleVisibleHistoryListCommand_On" xml:space="preserve">
+  <data name="ToggleVisibleHistoryListCommand.On" xml:space="preserve">
     <value>履歴リストを表示する</value>
+  </data>
+  <data name="ToggleVisibleHistoryListCommand.Remarks" xml:space="preserve">
+    <value>履歴リストパネルの表示/非表示を切り替えます。</value>
   </data>
   <data name="ToggleVisibleNavigatorCommand" xml:space="preserve">
     <value>ナビゲーターの表示/非表示</value>
@@ -5597,14 +5363,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleVisibleNavigatorCommand.Menu" xml:space="preserve">
     <value>ナビゲーター</value>
   </data>
-  <data name="ToggleVisibleNavigatorCommand.Remarks" xml:space="preserve">
-    <value>ナビゲーターの表示/非表示を切り替えます。</value>
-  </data>
-  <data name="ToggleVisibleNavigatorCommand_Off" xml:space="preserve">
+  <data name="ToggleVisibleNavigatorCommand.Off" xml:space="preserve">
     <value>ナビゲーターを消す</value>
   </data>
-  <data name="ToggleVisibleNavigatorCommand_On" xml:space="preserve">
+  <data name="ToggleVisibleNavigatorCommand.On" xml:space="preserve">
     <value>ナビゲーターを表示する</value>
+  </data>
+  <data name="ToggleVisibleNavigatorCommand.Remarks" xml:space="preserve">
+    <value>ナビゲーターの表示/非表示を切り替えます。</value>
   </data>
   <data name="ToggleVisiblePageListCommand" xml:space="preserve">
     <value>ページリストの表示/非表示</value>
@@ -5612,14 +5378,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleVisiblePageListCommand.Menu" xml:space="preserve">
     <value>ページリスト</value>
   </data>
-  <data name="ToggleVisiblePageListCommand.Remarks" xml:space="preserve">
-    <value>ページリスト表示/非表示を切り替えます。本棚は表示状態になります。</value>
-  </data>
-  <data name="ToggleVisiblePageListCommand_Off" xml:space="preserve">
+  <data name="ToggleVisiblePageListCommand.Off" xml:space="preserve">
     <value>ページリストを消す</value>
   </data>
-  <data name="ToggleVisiblePageListCommand_On" xml:space="preserve">
+  <data name="ToggleVisiblePageListCommand.On" xml:space="preserve">
     <value>ページリストを表示する</value>
+  </data>
+  <data name="ToggleVisiblePageListCommand.Remarks" xml:space="preserve">
+    <value>ページリスト表示/非表示を切り替えます。本棚は表示状態になります。</value>
   </data>
   <data name="ToggleVisiblePagemarkListCommand" xml:space="preserve">
     <value>ページマークリストの表示/非表示</value>
@@ -5627,14 +5393,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleVisiblePagemarkListCommand.Menu" xml:space="preserve">
     <value>ページマークリスト</value>
   </data>
-  <data name="ToggleVisiblePagemarkListCommand.Remarks" xml:space="preserve">
-    <value>ページマークリストパネルの表示/非表示を切り替えます。</value>
-  </data>
-  <data name="ToggleVisiblePagemarkListCommand_Off" xml:space="preserve">
+  <data name="ToggleVisiblePagemarkListCommand.Off" xml:space="preserve">
     <value>ページマークリストを消す</value>
   </data>
-  <data name="ToggleVisiblePagemarkListCommand_On" xml:space="preserve">
+  <data name="ToggleVisiblePagemarkListCommand.On" xml:space="preserve">
     <value>ページマークリストを表示する</value>
+  </data>
+  <data name="ToggleVisiblePagemarkListCommand.Remarks" xml:space="preserve">
+    <value>ページマークリストパネルの表示/非表示を切り替えます。</value>
   </data>
   <data name="ToggleVisibleSideBarCommand" xml:space="preserve">
     <value>サイドバー表示/非表示</value>
@@ -5642,14 +5408,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleVisibleSideBarCommand.Menu" xml:space="preserve">
     <value>サイドバー</value>
   </data>
-  <data name="ToggleVisibleSideBarCommand.Remarks" xml:space="preserve">
-    <value>サイドバーの表示/非表示を切り替えます。</value>
-  </data>
-  <data name="ToggleVisibleSideBarCommand_Off" xml:space="preserve">
+  <data name="ToggleVisibleSideBarCommand.Off" xml:space="preserve">
     <value>サイドバーを消す</value>
   </data>
-  <data name="ToggleVisibleSideBarCommand_On" xml:space="preserve">
+  <data name="ToggleVisibleSideBarCommand.On" xml:space="preserve">
     <value>サイドバーを表示する</value>
+  </data>
+  <data name="ToggleVisibleSideBarCommand.Remarks" xml:space="preserve">
+    <value>サイドバーの表示/非表示を切り替えます。</value>
   </data>
   <data name="ToggleVisibleThumbnailListCommand" xml:space="preserve">
     <value>フィルムストリップの表示/非表示</value>
@@ -5657,14 +5423,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleVisibleThumbnailListCommand.Menu" xml:space="preserve">
     <value>フィルムストリップ</value>
   </data>
-  <data name="ToggleVisibleThumbnailListCommand.Remarks" xml:space="preserve">
-    <value>フィルムストリップの表示/非表示を切り替えます。</value>
-  </data>
-  <data name="ToggleVisibleThumbnailListCommand_Off" xml:space="preserve">
+  <data name="ToggleVisibleThumbnailListCommand.Off" xml:space="preserve">
     <value>フィルムストリップを消す</value>
   </data>
-  <data name="ToggleVisibleThumbnailListCommand_On" xml:space="preserve">
+  <data name="ToggleVisibleThumbnailListCommand.On" xml:space="preserve">
     <value>フィルムストリップを表示する</value>
+  </data>
+  <data name="ToggleVisibleThumbnailListCommand.Remarks" xml:space="preserve">
+    <value>フィルムストリップの表示/非表示を切り替えます。</value>
   </data>
   <data name="ToggleVisibleTitleBarCommand" xml:space="preserve">
     <value>タイトルバー表示/非表示</value>
@@ -5672,14 +5438,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ToggleVisibleTitleBarCommand.Menu" xml:space="preserve">
     <value>タイトルバー</value>
   </data>
-  <data name="ToggleVisibleTitleBarCommand.Remarks" xml:space="preserve">
-    <value>ウィンドウタイトルバーの表示/非表示を切り替えます。</value>
-  </data>
-  <data name="ToggleVisibleTitleBarCommand_Off" xml:space="preserve">
+  <data name="ToggleVisibleTitleBarCommand.Off" xml:space="preserve">
     <value>タイトルバーを消す</value>
   </data>
-  <data name="ToggleVisibleTitleBarCommand_On" xml:space="preserve">
+  <data name="ToggleVisibleTitleBarCommand.On" xml:space="preserve">
     <value>タイトルバー表示する</value>
+  </data>
+  <data name="ToggleVisibleTitleBarCommand.Remarks" xml:space="preserve">
+    <value>ウィンドウタイトルバーの表示/非表示を切り替えます。</value>
   </data>
   <data name="ToggleWindowMaximizeCommand" xml:space="preserve">
     <value>ウィンドウを最大化する</value>
@@ -5771,13 +5537,6 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="UnsharpMaskConfig.Threshold" xml:space="preserve">
     <value>閾値</value>
   </data>
-  <data name="Ver320" xml:space="preserve">
-    <value>NeeView 32.0</value>
-  </data>
-  <data name="Ver320Note" xml:space="preserve">
-    <value>・ブックマークリストはフォルダーリストと統合され、本棚になりました。
-・ページマークリストのフォルダーは自動作成されるようになりました。</value>
-  </data>
   <data name="VersionChecker.Message.Checking" xml:space="preserve">
     <value>最新バージョンをチェック中...</value>
   </data>
@@ -5799,22 +5558,22 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="VersionWindow.Download" xml:space="preserve">
     <value>ダウンロードページに移動する</value>
   </data>
+  <data name="VersionWindow.License" xml:space="preserve">
+    <value>ライセンス情報・更新履歴</value>
+  </data>
   <data name="VersionWindow.Menu.Copy" xml:space="preserve">
     <value>バージョン情報をコピー(_C)</value>
   </data>
-  <data name="VersionWindow_License" xml:space="preserve">
-    <value>ライセンス情報・更新履歴</value>
-  </data>
-  <data name="VersionWindow_Project" xml:space="preserve">
+  <data name="VersionWindow.Project" xml:space="preserve">
     <value>プロジェクトページ</value>
   </data>
-  <data name="VerticalAlignment_Bottom" xml:space="preserve">
+  <data name="VerticalAlignment.Bottom" xml:space="preserve">
     <value>下詰め</value>
   </data>
-  <data name="VerticalAlignment_Center" xml:space="preserve">
+  <data name="VerticalAlignment.Center" xml:space="preserve">
     <value>中央</value>
   </data>
-  <data name="VerticalAlignment_Top" xml:space="preserve">
+  <data name="VerticalAlignment.Top" xml:space="preserve">
     <value>上詰め</value>
   </data>
   <data name="ViewConfig.AllowStretchScaleDown" xml:space="preserve">
@@ -6112,11 +5871,161 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="WindowTitleConfig.WindowTitleFormatMedia" xml:space="preserve">
     <value>動画用</value>
   </data>
+  <data name="Word.Add" xml:space="preserve">
+    <value>追加</value>
+  </data>
+  <data name="Word.AllHistory" xml:space="preserve">
+    <value>すべての履歴</value>
+  </data>
+  <data name="Word.AllPagemark" xml:space="preserve">
+    <value>すべてのページマーク</value>
+  </data>
+  <data name="Word.Argument" xml:space="preserve">
+    <value>引数</value>
+  </data>
+  <data name="Word.Bookmark" xml:space="preserve">
+    <value>ブックマーク</value>
+  </data>
+  <data name="Word.Bookshelf" xml:space="preserve">
+    <value>本棚</value>
+  </data>
+  <data name="Word.Cancel" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="Word.Cause" xml:space="preserve">
+    <value>原因</value>
+  </data>
+  <data name="Word.CDRomDrive" xml:space="preserve">
+    <value>ディスクドライブ</value>
+  </data>
+  <data name="Word.Clear" xml:space="preserve">
+    <value>クリア</value>
+  </data>
+  <data name="Word.Close" xml:space="preserve">
+    <value>閉じる</value>
+  </data>
+  <data name="Word.Command" xml:space="preserve">
+    <value>コマンド</value>
+  </data>
+  <data name="Word.CommandList" xml:space="preserve">
+    <value>コマンド一覧</value>
+  </data>
+  <data name="Word.CommandName" xml:space="preserve">
+    <value>コマンド名</value>
+  </data>
+  <data name="Word.CommandParameter" xml:space="preserve">
+    <value>コマンドパラメーター</value>
+  </data>
+  <data name="Word.Config" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="Word.ConfigList" xml:space="preserve">
+    <value>設定値一覧</value>
+  </data>
+  <data name="Word.CustomBackground" xml:space="preserve">
+    <value>カスタム背景</value>
+  </data>
+  <data name="Word.DaysAgo" xml:space="preserve">
+    <value>{0}日前まで</value>
+  </data>
+  <data name="Word.DefaultApp" xml:space="preserve">
+    <value>既定のアプリ</value>
+  </data>
+  <data name="Word.DefaultPagemark" xml:space="preserve">
+    <value>規定のページマーク</value>
+  </data>
+  <data name="Word.Degree" xml:space="preserve">
+    <value>度</value>
+  </data>
+  <data name="Word.Delete" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="Word.Description" xml:space="preserve">
+    <value>説明</value>
+  </data>
+  <data name="Word.Down" xml:space="preserve">
+    <value>下</value>
+  </data>
+  <data name="Word.Edit" xml:space="preserve">
+    <value>編集</value>
+  </data>
+  <data name="Word.EmbeddedImage" xml:space="preserve">
+    <value>HTML埋め込み画像</value>
+  </data>
   <data name="Word.Example" xml:space="preserve">
-    <value>使用例</value>
+    <value>例</value>
+  </data>
+  <data name="Word.ExcludePath" xml:space="preserve">
+    <value>除外するパス</value>
+  </data>
+  <data name="Word.Export" xml:space="preserve">
+    <value>エクスポート</value>
+  </data>
+  <data name="Word.Extension" xml:space="preserve">
+    <value>拡張子</value>
   </data>
   <data name="Word.Fields" xml:space="preserve">
     <value>フィールド</value>
+  </data>
+  <data name="Word.File" xml:space="preserve">
+    <value>ファイル</value>
+  </data>
+  <data name="Word.Files" xml:space="preserve">
+    <value>ファイル</value>
+  </data>
+  <data name="Word.FirstPage" xml:space="preserve">
+    <value>最初のページ</value>
+  </data>
+  <data name="Word.FixedDrive" xml:space="preserve">
+    <value>ローカルディスク</value>
+  </data>
+  <data name="Word.Folder" xml:space="preserve">
+    <value>フォルダー</value>
+  </data>
+  <data name="Word.Folders" xml:space="preserve">
+    <value>フォルダー</value>
+  </data>
+  <data name="Word.FoldersTree" xml:space="preserve">
+    <value>フォルダーツリー</value>
+  </data>
+  <data name="Word.FullScreen" xml:space="preserve">
+    <value>フルスクリーン</value>
+  </data>
+  <data name="Word.Gesture" xml:space="preserve">
+    <value>ジェスチャー</value>
+  </data>
+  <data name="Word.Group" xml:space="preserve">
+    <value>グループ</value>
+  </data>
+  <data name="Word.Import" xml:space="preserve">
+    <value>インポート</value>
+  </data>
+  <data name="Word.Inner" xml:space="preserve">
+    <value>内部</value>
+  </data>
+  <data name="Word.IsPanelSelected" xml:space="preserve">
+    <value>パネル選択状態</value>
+  </data>
+  <data name="Word.IsPanelVisible" xml:space="preserve">
+    <value>パネル表示状態</value>
+  </data>
+  <data name="Word.Item" xml:space="preserve">
+    <value>項目</value>
+  </data>
+  <data name="Word.ItemNone" xml:space="preserve">
+    <value>(なし)</value>
+  </data>
+  <data name="Word.Jump" xml:space="preserve">
+    <value>移動</value>
+  </data>
+  <data name="Word.Left" xml:space="preserve">
+    <value>左</value>
+  </data>
+  <data name="Word.Loop" xml:space="preserve">
+    <value>ループ</value>
+  </data>
+  <data name="Word.MainMenu" xml:space="preserve">
+    <value>メインメニュー</value>
   </data>
   <data name="Word.Methods" xml:space="preserve">
     <value>メソッド</value>
@@ -6124,341 +6033,155 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="Word.Name" xml:space="preserve">
     <value>名前</value>
   </data>
+  <data name="Word.NetworkDrive" xml:space="preserve">
+    <value>ネットワークドライブ</value>
+  </data>
+  <data name="Word.NewFolder" xml:space="preserve">
+    <value>新しいフォルダー</value>
+  </data>
+  <data name="Word.No" xml:space="preserve">
+    <value>いいえ</value>
+  </data>
+  <data name="Word.NoLimit" xml:space="preserve">
+    <value>制限なし</value>
+  </data>
+  <data name="Word.None" xml:space="preserve">
+    <value>なし</value>
+  </data>
+  <data name="Word.Off" xml:space="preserve">
+    <value>オフ</value>
+  </data>
+  <data name="Word.OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Word.On" xml:space="preserve">
+    <value>オン</value>
+  </data>
+  <data name="Word.Open" xml:space="preserve">
+    <value>開く</value>
+  </data>
+  <data name="Word.Page" xml:space="preserve">
+    <value>ページ</value>
+  </data>
+  <data name="Word.PageList" xml:space="preserve">
+    <value>ページリスト</value>
+  </data>
+  <data name="Word.Pagemark" xml:space="preserve">
+    <value>ページマーク</value>
+  </data>
+  <data name="Word.Parameter" xml:space="preserve">
+    <value>パラメーター</value>
+  </data>
   <data name="Word.Parameters" xml:space="preserve">
     <value>パラメーター</value>
+  </data>
+  <data name="Word.Path" xml:space="preserve">
+    <value>パス</value>
+  </data>
+  <data name="Word.Period" xml:space="preserve">
+    <value>。</value>
+  </data>
+  <data name="Word.Play" xml:space="preserve">
+    <value>再生</value>
+  </data>
+  <data name="Word.Playlist" xml:space="preserve">
+    <value>プレイリスト</value>
   </data>
   <data name="Word.Properties" xml:space="preserve">
     <value>プロパティ</value>
   </data>
+  <data name="Word.QuickAccess" xml:space="preserve">
+    <value>クイックアクセス</value>
+  </data>
+  <data name="Word.RamDrive" xml:space="preserve">
+    <value>RAMディスク</value>
+  </data>
+  <data name="Word.ReadOnly" xml:space="preserve">
+    <value>読み取り専用</value>
+  </data>
+  <data name="Word.RemovableDrive" xml:space="preserve">
+    <value>リムーバブルディスク</value>
+  </data>
+  <data name="Word.Remove" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="Word.Rename" xml:space="preserve">
+    <value>名前変更</value>
+  </data>
+  <data name="Word.Reset" xml:space="preserve">
+    <value>初期化</value>
+  </data>
+  <data name="Word.ResetLong" xml:space="preserve">
+    <value>初期値に戻す</value>
+  </data>
+  <data name="Word.Restore" xml:space="preserve">
+    <value>元に戻す</value>
+  </data>
+  <data name="Word.Retry" xml:space="preserve">
+    <value>リトライ</value>
+  </data>
   <data name="Word.Returns" xml:space="preserve">
     <value>戻り値</value>
+  </data>
+  <data name="Word.Right" xml:space="preserve">
+    <value>右</value>
+  </data>
+  <data name="Word.SearchWord" xml:space="preserve">
+    <value>検索ワード</value>
+  </data>
+  <data name="Word.Sec" xml:space="preserve">
+    <value>秒</value>
+  </data>
+  <data name="Word.Shortcut" xml:space="preserve">
+    <value>ショートカット</value>
+  </data>
+  <data name="Word.Stepless" xml:space="preserve">
+    <value>無段階</value>
+  </data>
+  <data name="Word.Stop" xml:space="preserve">
+    <value>停止</value>
+  </data>
+  <data name="Word.StyleBanner" xml:space="preserve">
+    <value>バナー表示</value>
+  </data>
+  <data name="Word.StyleContent" xml:space="preserve">
+    <value>コンテンツ表示</value>
+  </data>
+  <data name="Word.StyleList" xml:space="preserve">
+    <value>一覧表示</value>
+  </data>
+  <data name="Word.StyleThumbnail" xml:space="preserve">
+    <value>サムネイル表示</value>
   </data>
   <data name="Word.Summary" xml:space="preserve">
     <value>概要</value>
   </data>
-  <data name="WordAdd" xml:space="preserve">
-    <value>追加</value>
-  </data>
-  <data name="WordAllHistory" xml:space="preserve">
-    <value>すべての履歴</value>
-  </data>
-  <data name="WordAllPagemark" xml:space="preserve">
-    <value>すべてのページマーク</value>
-  </data>
-  <data name="WordArgument" xml:space="preserve">
-    <value>引数</value>
-  </data>
-  <data name="WordBookmark" xml:space="preserve">
-    <value>ブックマーク</value>
-  </data>
-  <data name="WordBookshelf" xml:space="preserve">
-    <value>本棚</value>
-  </data>
-  <data name="WordCancel" xml:space="preserve">
-    <value>キャンセル</value>
-  </data>
-  <data name="WordCause" xml:space="preserve">
-    <value>原因</value>
-  </data>
-  <data name="WordCDRomDrive" xml:space="preserve">
-    <value>ディスクドライブ</value>
-  </data>
-  <data name="WordClear" xml:space="preserve">
-    <value>クリア</value>
-  </data>
-  <data name="WordClose" xml:space="preserve">
-    <value>閉じる</value>
-  </data>
-  <data name="WordCommand" xml:space="preserve">
-    <value>コマンド</value>
-  </data>
-  <data name="WordCommandList" xml:space="preserve">
-    <value>コマンド一覧</value>
-  </data>
-  <data name="WordCommandName" xml:space="preserve">
-    <value>コマンド名</value>
-  </data>
-  <data name="WordCommandParameter" xml:space="preserve">
-    <value>コマンドパラメーター</value>
-  </data>
-  <data name="WordConfig" xml:space="preserve">
-    <value>設定</value>
-  </data>
-  <data name="WordConfigList" xml:space="preserve">
-    <value>設定値一覧</value>
-  </data>
-  <data name="WordCustomBackground" xml:space="preserve">
-    <value>カスタム背景</value>
-  </data>
-  <data name="WordDaysAgo" xml:space="preserve">
-    <value>{0}日前まで</value>
-  </data>
-  <data name="WordDefaultApp" xml:space="preserve">
-    <value>既定のアプリ</value>
-  </data>
-  <data name="WordDefaultPagemark" xml:space="preserve">
-    <value>規定のページマーク</value>
-  </data>
-  <data name="WordDegree" xml:space="preserve">
-    <value>度</value>
-  </data>
-  <data name="WordDelete" xml:space="preserve">
-    <value>削除</value>
-  </data>
-  <data name="WordDescription" xml:space="preserve">
-    <value>説明</value>
-  </data>
-  <data name="WordDown" xml:space="preserve">
-    <value>下</value>
-  </data>
-  <data name="WordEdit" xml:space="preserve">
-    <value>編集</value>
-  </data>
-  <data name="WordEmbeddedImage" xml:space="preserve">
-    <value>HTML埋め込み画像</value>
-  </data>
-  <data name="WordExample" xml:space="preserve">
-    <value>例</value>
-  </data>
-  <data name="WordExcludePath" xml:space="preserve">
-    <value>除外するパス</value>
-  </data>
-  <data name="WordExport" xml:space="preserve">
-    <value>エクスポート</value>
-  </data>
-  <data name="WordExtension" xml:space="preserve">
-    <value>拡張子</value>
-  </data>
-  <data name="WordFile" xml:space="preserve">
-    <value>ファイル</value>
-  </data>
-  <data name="WordFiles" xml:space="preserve">
-    <value>ファイル</value>
-  </data>
-  <data name="WordFirstPage" xml:space="preserve">
-    <value>最初のページ</value>
-  </data>
-  <data name="WordFixedDrive" xml:space="preserve">
-    <value>ローカルディスク</value>
-  </data>
-  <data name="WordFolder" xml:space="preserve">
-    <value>フォルダー</value>
-  </data>
-  <data name="WordFolders" xml:space="preserve">
-    <value>フォルダー</value>
-  </data>
-  <data name="WordFoldersTree" xml:space="preserve">
-    <value>フォルダーツリー</value>
-  </data>
-  <data name="WordFullScreen" xml:space="preserve">
-    <value>フルスクリーン</value>
-  </data>
-  <data name="WordGesture" xml:space="preserve">
-    <value>ジェスチャー</value>
-  </data>
-  <data name="WordGroup" xml:space="preserve">
-    <value>グループ</value>
-  </data>
-  <data name="WordImport" xml:space="preserve">
-    <value>インポート</value>
-  </data>
-  <data name="WordInner" xml:space="preserve">
-    <value>内部</value>
-  </data>
-  <data name="WordIsPanelSelected" xml:space="preserve">
-    <value>パネル選択状態</value>
-  </data>
-  <data name="WordIsPanelVisible" xml:space="preserve">
-    <value>パネル表示状態</value>
-  </data>
-  <data name="WordItem" xml:space="preserve">
-    <value>項目</value>
-  </data>
-  <data name="WordItemNone" xml:space="preserve">
-    <value>(なし)</value>
-  </data>
-  <data name="WordJump" xml:space="preserve">
-    <value>移動</value>
-  </data>
-  <data name="WordLeft" xml:space="preserve">
-    <value>左</value>
-  </data>
-  <data name="WordLoop" xml:space="preserve">
-    <value>ループ</value>
-  </data>
-  <data name="WordMainMenu" xml:space="preserve">
-    <value>メインメニュー</value>
-  </data>
-  <data name="WordName" xml:space="preserve">
-    <value>名前</value>
-  </data>
-  <data name="WordNetworkDrive" xml:space="preserve">
-    <value>ネットワークドライブ</value>
-  </data>
-  <data name="WordNewFolder" xml:space="preserve">
-    <value>新しいフォルダー</value>
-  </data>
-  <data name="WordNo" xml:space="preserve">
-    <value>いいえ</value>
-  </data>
-  <data name="WordNoLimit" xml:space="preserve">
-    <value>制限なし</value>
-  </data>
-  <data name="WordNone" xml:space="preserve">
-    <value>なし</value>
-  </data>
-  <data name="WordOff" xml:space="preserve">
-    <value>オフ</value>
-  </data>
-  <data name="WordOK" xml:space="preserve">
-    <value>OK</value>
-  </data>
-  <data name="WordOn" xml:space="preserve">
-    <value>オン</value>
-  </data>
-  <data name="WordOpen" xml:space="preserve">
-    <value>開く</value>
-  </data>
-  <data name="WordOpenInNeeView" xml:space="preserve">
-    <value>NeeViewで開く(&amp;V)</value>
-  </data>
-  <data name="WordOpenStore" xml:space="preserve">
-    <value>Microsoft Store を開く</value>
-  </data>
-  <data name="WordPage" xml:space="preserve">
-    <value>ページ</value>
-  </data>
-  <data name="WordPageList" xml:space="preserve">
-    <value>ページリスト</value>
-  </data>
-  <data name="WordPagemark" xml:space="preserve">
-    <value>ページマーク</value>
-  </data>
-  <data name="WordParameter" xml:space="preserve">
-    <value>パラメーター</value>
-  </data>
-  <data name="WordPath" xml:space="preserve">
-    <value>パス</value>
-  </data>
-  <data name="WordPeriod" xml:space="preserve">
-    <value>。</value>
-  </data>
-  <data name="WordPlay" xml:space="preserve">
-    <value>再生</value>
-  </data>
-  <data name="WordPlaylist" xml:space="preserve">
-    <value>プレイリスト</value>
-  </data>
-  <data name="WordQuickAccess" xml:space="preserve">
-    <value>クイックアクセス</value>
-  </data>
-  <data name="WordRamDrive" xml:space="preserve">
-    <value>RAMディスク</value>
-  </data>
-  <data name="WordReadOnly" xml:space="preserve">
-    <value>読み取り専用</value>
-  </data>
-  <data name="WordRemovableDrive" xml:space="preserve">
-    <value>リムーバブルディスク</value>
-  </data>
-  <data name="WordRemove" xml:space="preserve">
-    <value>削除</value>
-  </data>
-  <data name="WordRename" xml:space="preserve">
-    <value>名前変更</value>
-  </data>
-  <data name="WordReset" xml:space="preserve">
-    <value>初期化</value>
-  </data>
-  <data name="WordResetLong" xml:space="preserve">
-    <value>初期値に戻す</value>
-  </data>
-  <data name="WordRestore" xml:space="preserve">
-    <value>元に戻す</value>
-  </data>
-  <data name="WordRetry" xml:space="preserve">
-    <value>リトライ</value>
-  </data>
-  <data name="WordRight" xml:space="preserve">
-    <value>右</value>
-  </data>
-  <data name="WordSearchWord" xml:space="preserve">
-    <value>検索ワード</value>
-  </data>
-  <data name="WordSec" xml:space="preserve">
-    <value>秒</value>
-  </data>
-  <data name="WordShortcut" xml:space="preserve">
-    <value>ショートカット</value>
-  </data>
-  <data name="WordStepless" xml:space="preserve">
-    <value>無段階</value>
-  </data>
-  <data name="WordStop" xml:space="preserve">
-    <value>停止</value>
-  </data>
-  <data name="WordStyleBanner" xml:space="preserve">
-    <value>バナー表示</value>
-  </data>
-  <data name="WordStyleContent" xml:space="preserve">
-    <value>コンテンツ表示</value>
-  </data>
-  <data name="WordStyleList" xml:space="preserve">
-    <value>一覧表示</value>
-  </data>
-  <data name="WordStyleThumbnail" xml:space="preserve">
-    <value>サムネイル表示</value>
-  </data>
-  <data name="WordToDown" xml:space="preserve">
+  <data name="Word.ToDown" xml:space="preserve">
     <value>下へ</value>
   </data>
-  <data name="WordTopmost" xml:space="preserve">
+  <data name="Word.Topmost" xml:space="preserve">
     <value>常に手前に表示</value>
   </data>
-  <data name="WordTouch" xml:space="preserve">
+  <data name="Word.Touch" xml:space="preserve">
     <value>タッチ</value>
   </data>
-  <data name="WordToUp" xml:space="preserve">
+  <data name="Word.ToUp" xml:space="preserve">
     <value>上へ</value>
   </data>
-  <data name="WordType" xml:space="preserve">
+  <data name="Word.Type" xml:space="preserve">
     <value>型</value>
   </data>
-  <data name="WordUnsharpMask" xml:space="preserve">
+  <data name="Word.UnsharpMask" xml:space="preserve">
     <value>アンシャープマスク</value>
   </data>
-  <data name="WordUp" xml:space="preserve">
+  <data name="Word.Up" xml:space="preserve">
     <value>上</value>
   </data>
-  <data name="WordYes" xml:space="preserve">
+  <data name="Word.Yes" xml:space="preserve">
     <value>はい</value>
   </data>
-  <data name="x.BookshelfCopyToFolderSelect" xml:space="preserve">
-    <value>コピー先フォルダーを選択</value>
-  </data>
-  <data name="x.BookshelfCopyToFolderSuccess" xml:space="preserve">
-    <value>{0} 個のアイテムをコピーしました</value>
-  </data>
-  <data name="x.BookshelfItemMenuDestinationFolderSelect" xml:space="preserve">
-    <value>フォルダーを選択(_S)...</value>
-  </data>
-  <data name="x.BookshelfMoveToFolderSelect" xml:space="preserve">
-    <value>移動先フォルダーを選択</value>
-  </data>
-  <data name="x.BookshelfMoveToFolderSuccess" xml:space="preserve">
-    <value>{0} 個のアイテムを移動しました</value>
-  </data>
-  <data name="x.BookshelfName" xml:space="preserve">
-    <value>本棚</value>
-  </data>
-  <data name="x.ControlAboutChangeLog" xml:space="preserve">
-    <value>更新履歴</value>
-  </data>
-  <data name="x.ControlSaveOriginal" xml:space="preserve">
-    <value>元ファイルのまま保存</value>
-  </data>
-  <data name="x.ControlSaveWidePage" xml:space="preserve">
-    <value>2ページを連結する</value>
+  <data name="x.Word.OpenStore" xml:space="preserve">
+    <value>Microsoft Store を開く</value>
   </data>
   <data name="ZipArchiveConfig.IsEnabled" xml:space="preserve">
     <value>標準機能によるZIP圧縮ファイル展開を使用する</value>
@@ -6468,11 +6191,5 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="ZipArchiveConfig.SupportFileTypes.Remarks" xml:space="preserve">
     <value>ZIP形式のみ対応しています。</value>
-  </data>
-  <data name="Bookshelf.Title" xml:space="preserve">
-    <value>本棚</value>
-  </data>
-  <data name="Bookmark.Title" xml:space="preserve">
-    <value>ブックマーク</value>
   </data>
 </root>

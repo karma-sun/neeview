@@ -86,7 +86,7 @@
 
                 <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button x:Name="PrintButton" Style="{StaticResource TextButtonMain}" Content="{x:Static properties:Resources.PrintWindow_ButtonPrint}" Command="{Binding PrintCommand}" TabIndex="3"/>
-                    <Button x:Name="CancelButton" Style="{StaticResource TextButton}" Content="{x:Static properties:Resources.WordCancel}" Command="{Binding CancelCommand}" TabIndex="3"/>
+                    <Button x:Name="CancelButton" Style="{StaticResource TextButton}" Content="{x:Static properties:Resources.Word_Cancel}" Command="{Binding CancelCommand}" TabIndex="3"/>
                 </StackPanel>
                         
                 <ScrollViewer Style="{StaticResource DarkScrollViewer}" VerticalScrollBarVisibility="Auto">
@@ -125,19 +125,19 @@
                                     <TextBlock Style="{StaticResource Header}" Text="{x:Static properties:Resources.PrintWindow_Margin}"/>
                                     <UniformGrid Columns="2" Rows="2" Margin="20,0,0,0">
                                         <DockPanel>
-                                            <TextBlock Style="{StaticResource BoxHeader}" Text="{x:Static properties:Resources.WordLeft}"/>
+                                            <TextBlock Style="{StaticResource BoxHeader}" Text="{x:Static properties:Resources.Word_Left}"/>
                                             <nvc:EnterTriggerTextBox Text="{Binding Model.Margin.Left}" Margin="2" TabIndex="2"/>
                                         </DockPanel>
                                         <DockPanel>
-                                            <TextBlock Style="{StaticResource BoxHeader}" Text="{x:Static properties:Resources.WordRight}"/>
+                                            <TextBlock Style="{StaticResource BoxHeader}" Text="{x:Static properties:Resources.Word_Right}"/>
                                             <nvc:EnterTriggerTextBox Text="{Binding Model.Margin.Right}" Margin="2" TabIndex="2"/>
                                         </DockPanel>
                                         <DockPanel>
-                                            <TextBlock Style="{StaticResource BoxHeader}" Text="{x:Static properties:Resources.WordUp}"/>
+                                            <TextBlock Style="{StaticResource BoxHeader}" Text="{x:Static properties:Resources.Word_Up}"/>
                                             <nvc:EnterTriggerTextBox Text="{Binding Model.Margin.Top}" Margin="2" TabIndex="2"/>
                                         </DockPanel>
                                         <DockPanel>
-                                            <TextBlock Style="{StaticResource BoxHeader}" Text="{x:Static properties:Resources.WordDown}"/>
+                                            <TextBlock Style="{StaticResource BoxHeader}" Text="{x:Static properties:Resources.Word_Down}"/>
                                             <nvc:EnterTriggerTextBox Text="{Binding Model.Margin.Bottom}" Margin="2" TabIndex="2"/>
                                         </DockPanel>
                                     </UniformGrid>

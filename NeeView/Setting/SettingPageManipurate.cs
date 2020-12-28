@@ -13,7 +13,7 @@ namespace NeeView.Setting
     /// </summary>
     public class SettingPageManipurate : SettingPage
     {
-        public SettingPageManipurate() : base(Properties.Resources.SettingPageManipurate)
+        public SettingPageManipurate() : base(Properties.Resources.SettingPage_Manipurate)
         {
             this.Children = new List<SettingPage>
             {
@@ -22,7 +22,7 @@ namespace NeeView.Setting
                 new SettingPageLoupe(),
             };
 
-            var section = new SettingItemSection(Properties.Resources.SettingPageManipurateGeneralViewOperation);
+            var section = new SettingItemSection(Properties.Resources.SettingPage_Manipurate_GeneralViewOperation);
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.View, nameof(ViewConfig.IsLimitMove))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.View, nameof(ViewConfig.IsViewStartPositionCenter))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.View, nameof(ViewConfig.RotateCenter))));
@@ -52,7 +52,7 @@ namespace NeeView.Setting
                 Value = value;
             }
 
-            public override string ValueString => Value == 0 ? Properties.Resources.WordStepless : $"{Value} {Properties.Resources.WordDegree}";
+            public override string ValueString => Value == 0 ? Properties.Resources.Word_Stepless : $"{Value} {Properties.Resources.Word_Degree}";
         }
     }
 
@@ -61,11 +61,11 @@ namespace NeeView.Setting
     /// </summary>
     public class SettingPageMouse : SettingPage
     {
-        public SettingPageMouse() : base(Properties.Resources.SettingPageManipurateMouse)
+        public SettingPageMouse() : base(Properties.Resources.SettingPage_Manipurate_Mouse)
         {
             this.Items = new List<SettingItem>();
 
-            var section = new SettingItemSection(Properties.Resources.SettingPageManipurateMouseDrag);
+            var section = new SettingItemSection(Properties.Resources.SettingPage_Manipurate_MouseDrag);
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Mouse, nameof(MouseConfig.MinimumDragDistance))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Mouse, nameof(MouseConfig.IsDragEnabled))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(DragActionTable.Current, nameof(DragActionTable.Elements)), new SettingMouseDragControl()) { IsStretch = true, });
@@ -73,14 +73,14 @@ namespace NeeView.Setting
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Mouse, nameof(MouseConfig.GestureMinimumDistance))));
             this.Items.Add(section);
 
-            section = new SettingItemSection(Properties.Resources.SettingPageManipurateMouseHold);
+            section = new SettingItemSection(Properties.Resources.SettingPage_Manipurate_MouseHold);
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Mouse, nameof(MouseConfig.LongButtonDownMode))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Mouse, nameof(MouseConfig.LongButtonMask))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Mouse, nameof(MouseConfig.LongButtonDownTime))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Mouse, nameof(MouseConfig.LongButtonRepeatTime))));
             this.Items.Add(section);
 
-            section = new SettingItemSection(Properties.Resources.SettingPageManipurateMouseVisibility, Properties.Resources.SettingPageManipurateMouseVisibilityTips);
+            section = new SettingItemSection(Properties.Resources.SettingPage_Manipurate_MouseVisibility, Properties.Resources.SettingPage_Manipurate_MouseVisibility_Remarks);
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Mouse, nameof(MouseConfig.IsCursorHideEnabled))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Mouse, nameof(MouseConfig.CursorHideTime))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Mouse, nameof(MouseConfig.CursorHideReleaseDistance))));
@@ -94,9 +94,9 @@ namespace NeeView.Setting
     /// </summary>
     public class SettingPageTouch : SettingPage
     {
-        public SettingPageTouch() : base(Properties.Resources.SettingPageManipurateTouch)
+        public SettingPageTouch() : base(Properties.Resources.SettingPage_Manipurate_Touch)
         {
-            var section = new SettingItemSection(Properties.Resources.SettingPageManipurateTouchGeneral);
+            var section = new SettingItemSection(Properties.Resources.SettingPage_Manipurate_TouchGeneral);
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Touch, nameof(TouchConfig.IsEnabled))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Touch, nameof(TouchConfig.DragAction))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Touch, nameof(TouchConfig.HoldAction))));
@@ -115,9 +115,9 @@ namespace NeeView.Setting
     /// </summary>
     public class SettingPageLoupe : SettingPage
     {
-        public SettingPageLoupe() : base(Properties.Resources.SettingPageManipurateLoupe)
+        public SettingPageLoupe() : base(Properties.Resources.SettingPage_Manipurate_Loupe)
         {
-            var section = new SettingItemSection(Properties.Resources.SettingPageManipurateLoupeGeneral);
+            var section = new SettingItemSection(Properties.Resources.SettingPage_Manipurate_LoupeGeneral);
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Loupe, nameof(LoupeConfig.IsLoupeCenter))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Loupe, nameof(LoupeConfig.IsResetByRestart))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Loupe, nameof(LoupeConfig.IsVisibleLoupeInfo))));

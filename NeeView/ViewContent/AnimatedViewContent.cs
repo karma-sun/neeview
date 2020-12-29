@@ -45,7 +45,9 @@ namespace NeeView
         /// </summary>
         private new FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter)
         {
-            var uri = new Uri(((AnimatedContent)Content).FileProxy.Path);
+#pragma warning disable CS0618 // 型またはメンバーが旧型式です
+            var uri = new Uri(((AnimatedContent)Content).FileProxy.Path, true);
+#pragma warning restore CS0618 // 型またはメンバーが旧型式です
 
             var image = base.CreateView(source, parameter);
 

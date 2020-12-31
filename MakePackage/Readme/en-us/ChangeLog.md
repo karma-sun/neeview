@@ -26,6 +26,8 @@
 - Fixed a bug that bookmark update may not be completed when importing settings.
 - Fixed a bug related to page spacing setting and stretching application by rotation.
 - Fixed a bug related to scale value continuation when page is moved after rotation.
+- Fixed a bug that playback cannot be performed if "#" is included in the video path.
+- Fixed a page movement bug when splitting horizontally long pages.
 - Suppresses the phenomenon that the page advances when the book page is opened by double-clicking.
 - Improved the problem that media without video such as MP3 may not be played.
 - Fixed shortcut key name.

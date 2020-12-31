@@ -61,7 +61,7 @@ namespace NeeView
         //
         public override string ToString()
         {
-            return Index.ToString() + (Part == 1 ? ".5" : "");
+            return IsEmpty() ? "Empty" : Index.ToString() + (Part == 1 ? ".5" : "");
         }
 
         // clamp

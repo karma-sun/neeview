@@ -220,6 +220,17 @@ namespace NeeView
             }
         }
 
+        /// <summary>
+        /// パーツ指定を外した、リソースベースのページ範囲を求める
+        /// </summary>
+        public PageRange Truncate()
+        {
+            var min = new PagePosition(Min.Index, 0);
+            var max = new PagePosition(Max.Index, 0);
+            var range = new PageRange(min, max);
+            return range;
+        }
+
         #endregion
     }
 }

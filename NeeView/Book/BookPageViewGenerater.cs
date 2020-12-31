@@ -40,7 +40,7 @@ namespace NeeView
             _sender = sender;
             _viewRange = viewPageRange;
             _nextRange = viewPageRange;
-            _contentRange = viewPageRange.Add(aheadPageRanges);
+            _contentRange = viewPageRange.Truncate().Add(aheadPageRanges);
             _contentCount = 0;
 
             _cancellationTokenSource = new CancellationTokenSource();

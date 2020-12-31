@@ -108,7 +108,7 @@
                 <Grid x:Name="LeftPanel" Style="{StaticResource PanelGridStyle}" DockPanel.Dock="Left" UseLayoutRounding="True" Width="{Binding VM.Left.Width, Mode=TwoWay}"
                         Visibility="{Binding VM.Left.PanelVisibility}" SizeChanged="LeftPanel_SizeChanged">
                     <nrlp:LayoutDockPanel x:Name="LeftPanelContent" Margin="{Binding PanelMargin}" Manager="{Binding VM.MainLayoutPanelManager}"
-                            ItemsSource="{Binding VM.MainLayoutPanelManager.LeftDock.SelectedItem}" Background="{Binding ThemeBrush.BackgroundBrush}"
+                            ItemsSource="{Binding VM.MainLayoutPanelManager.LeftDock.SelectedItem}" 
                             BorderBrush="{Binding ThemeBrush.IconBackgroundBrush}"
                             TextBlock.Foreground="Gray">
                         <behaviors:Interaction.Behaviors>
@@ -134,7 +134,7 @@
                 <Grid x:Name="RightPanel" DockPanel.Dock="Right" Style="{StaticResource PanelGridStyle}" Width="{Binding VM.Right.Width, Mode=TwoWay}" UseLayoutRounding="True"
                         Visibility="{Binding VM.Right.PanelVisibility}" SizeChanged="RightPanel_SizeChanged">
                     <nrlp:LayoutDockPanel x:Name="RightPanelContent" Margin="{Binding PanelMargin}" Manager="{Binding VM.MainLayoutPanelManager}"
-                            ItemsSource="{Binding VM.MainLayoutPanelManager.RightDock.SelectedItem}" Background="{Binding ThemeBrush.BackgroundBrush}"
+                            ItemsSource="{Binding VM.MainLayoutPanelManager.RightDock.SelectedItem}"
                             BorderBrush="{Binding ThemeBrush.IconBackgroundBrush}"
                             TextBlock.Foreground="Gray">
                         <behaviors:Interaction.Behaviors>

@@ -207,6 +207,7 @@ namespace NeeView
             if (!this.IsEnabled) return;
 
             ValidateWindowState();
+            UpdatePanelHideMode();
             UpdateWindowChrome();
             _manager.SetWindowState(Config.Current.Window.State);
             _windowBorder.Update();

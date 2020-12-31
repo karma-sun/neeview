@@ -75,7 +75,6 @@ namespace NeeView
             this.DpiChanged += (s, e) => _dpiProvider.SetDipScale(e.NewDpi);
 
             _windowChrome = new WindowChromeAccessor(this);
-            _windowChrome.IsEnabled = true;
 
             _windowStateManager = new WindowStateManager(this, new WindowStateManagerDependency(_windowChrome, TabletModeWatcher.Current));
             _windowStateManager.StateChanged += WindowStateManager_StateChanged;
@@ -168,6 +167,8 @@ namespace NeeView
 
         private void MainViewWindow_SourceInitialized(object sender, EventArgs e)
         {
+            _windowChrome.IsEnabled = true;
+
             var placement = Config.Current.MainView.WindowPlacement;
             if (placement.IsValid() && placement.WindowState == WindowState.Minimized)
             {

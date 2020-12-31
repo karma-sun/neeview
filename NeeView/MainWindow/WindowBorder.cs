@@ -21,6 +21,9 @@ namespace NeeView
             _window.StateChanged +=
                 (s, e) => Update();
 
+            _windowChromeAccessor.AddPropertyChanged(nameof(WindowChromeAccessor.IsEnabled),
+                (s, e) => Update());
+
             Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.WindowChromeFrame),
                 (s, e) => Update());
 

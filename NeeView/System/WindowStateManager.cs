@@ -161,8 +161,6 @@ namespace NeeView
 
         private void EndEdit()
         {
-            _isProgress = false;
-
             var nowState = GetWindowState();
             if (nowState != _currentState)
             {
@@ -170,6 +168,8 @@ namespace NeeView
                 _currentState = nowState;
                 StateChanged?.Invoke(this, new WindowStateChangedEventArgs(_previousState, _currentState));
             }
+
+            _isProgress = false;
         }
 
 
@@ -197,10 +197,13 @@ namespace NeeView
             _window.ResizeMode = ResizeMode.CanResize;
             _window.WindowStyle = WindowStyle.SingleBorderWindow;
             _window.WindowState = WindowState.Normal;
-            
+
             UpdateWindowChrome();
 
-            Windows7Tools.RecoveryTaskBar(_window);
+            if (_currentState == WindowStateEx.FullScreen || _currentState == WindowStateEx.Maximized)
+            {
+                Windows7Tools.RecoveryTaskBar(_window);
+            }
 
             EndEdit();
         }
@@ -256,7 +259,7 @@ namespace NeeView
             _window.WindowState = WindowState.Maximized;
 
             SetFullScreenMode(true);
-            
+
             UpdateWindowChrome();
 
             EndEdit();

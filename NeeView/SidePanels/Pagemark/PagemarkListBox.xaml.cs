@@ -660,7 +660,7 @@ namespace NeeView
                 if (node.Value is PagemarkFolder folder)
                 {
                     var directory = LoosePath.GetDirectoryName(folder.Path);
-                    return SidePanelProfile.Current.GetDecoratePlaceName(directory);
+                    return SidePanelProfile.GetDecoratePlaceName(directory);
                 }
                 else
                 {

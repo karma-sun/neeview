@@ -320,7 +320,7 @@ namespace NeeView
             if (value is ArchiveEntry entry)
             {
                 var directory = entry.RootArchiver?.SystemPath ?? LoosePath.GetDirectoryName(entry.SystemPath);
-                return SidePanelProfile.Current.GetDecoratePlaceName(directory);
+                return SidePanelProfile.GetDecoratePlaceName(directory);
             }
 
             return null;

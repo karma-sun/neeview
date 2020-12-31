@@ -43,7 +43,10 @@ namespace NeeView
         /// </summary>
         private new FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter)
         {
-            var uri = new Uri(((MediaContent)Content).FileProxy.Path);
+#pragma warning disable CS0618 // 型またはメンバーが旧型式です
+            var uri = new Uri(((MediaContent)Content).FileProxy.Path, true);
+#pragma warning restore CS0618 // 型またはメンバーが旧型式です
+
             var isLastStart = source.IsLastStart;
 
             var videoDrawing = new VideoDrawing()

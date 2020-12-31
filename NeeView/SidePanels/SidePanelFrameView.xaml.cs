@@ -241,7 +241,6 @@ namespace NeeView
         /// </summary>
         public double SplitterWidth => _splitterWidth;
 
-        public Thickness ViewpoartMargin { get; } = new Thickness(-_splitterWidth, 0.0, -_splitterWidth, 0.0);
 
         public ThemeBrushProvider ThemeBrush => ThemeBrushProvider.Current;
 
@@ -250,6 +249,13 @@ namespace NeeView
         {
             get { return _vm; }
             private set { if (_vm != value) { _vm = value; RaisePropertyChanged(); } }
+        }
+
+        private Thickness _viewpoartMargin;
+        public Thickness ViewpoartMargin
+        {
+            get { return _viewpoartMargin; }
+            set { SetProperty(ref _viewpoartMargin, value); }
         }
 
 
@@ -264,6 +270,24 @@ namespace NeeView
             this.VM.PanelVisibilityChanged += (s, e) => UpdateCanvas();
             UpdateWidth();
             UpdateAutoHide();
+            UpdateViewpoartMargin();
+        }
+
+        /// <summary>
+        /// キャンバスのマージン更新
+        /// </summary>
+        private void UpdateViewpoartMargin()
+        {
+            if (_vm == null || _vm.IsAutoHide)
+            {
+                ViewpoartMargin = new Thickness(0.0);
+            }
+            else
+            {
+                var leftMargin = (_vm.Left.PanelVisibility == Visibility.Visible) ? -_splitterWidth : 0.0;
+                var rightMargin = (_vm.Right.PanelVisibility == Visibility.Visible) ? -_splitterWidth : 0.0;
+                ViewpoartMargin = new Thickness(leftMargin, 0.0, rightMargin, 0.0);
+            }
         }
 
         /// <summary>
@@ -334,6 +358,8 @@ namespace NeeView
         /// </summary>
         private void UpdateCanvas()
         {
+            UpdateViewpoartMargin();
+
             if (_vm == null || _vm.IsAutoHide)
             {
                 CanvasLeft = 0;

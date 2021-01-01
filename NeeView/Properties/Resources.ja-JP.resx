@@ -226,7 +226,7 @@
     <value>フォーカスがあるときには非表示になりません。</value>
   </data>
   <data name="AutoHideConfig.AutoHideHitTestMargin" xml:space="preserve">
-    <value>パネル自動表示判定のエリア幅</value>
+    <value>パネル自動表示判定のエリア幅 (ピクセル)</value>
   </data>
   <data name="AutoHideConfig.IsAutoHideKeyDownDelay" xml:space="preserve">
     <value>自動非表示パネルのキー入力表示継続</value>
@@ -358,7 +358,7 @@
     <value>ブックページとして表示する画像のサイズです。サムネイルを表示しているため、大きい値では低解像度で表示される場合があります。</value>
   </data>
   <data name="BookConfig.ContentsSpace" xml:space="preserve">
-    <value>2 ページ間の距離</value>
+    <value>2 ページ間の距離 (ピクセル)</value>
   </data>
   <data name="BookConfig.ContentsSpace.Remarks" xml:space="preserve">
     <value>ページとページの隙間を設定します。マイナス値は重なることを意味します。各ページにスケールがかかるため、0 でちょうど隙間がなくなることは稀です。</value>
@@ -2602,7 +2602,7 @@ include("Sample.nvjs")</value>
     <value>Color</value>
   </data>
   <data name="MouseConfig.CursorHideReleaseDistance" xml:space="preserve">
-    <value>再表示する移動距離</value>
+    <value>再表示する移動距離 (ピクセル)</value>
   </data>
   <data name="MouseConfig.CursorHideTime" xml:space="preserve">
     <value>非表示にするまでの時間 (秒)</value>
@@ -5487,7 +5487,7 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
     <value>シングルタッチのドラッグ操作</value>
   </data>
   <data name="TouchConfig.GestureMinimumDistance" xml:space="preserve">
-    <value>タッチドラッグ判定の最小移動距離</value>
+    <value>タッチドラッグ判定の最小移動距離 (ピクセル)</value>
   </data>
   <data name="TouchConfig.GestureMinimumDistance.Remarks" xml:space="preserve">
     <value>この距離を移動して初めてドラッグ開始と判定されます。</value>
@@ -5508,13 +5508,13 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
     <value>ピンチイン・ピンチアウトでのサイズ変更操作操作を有効にする</value>
   </data>
   <data name="TouchConfig.MinimumManipulationDistance" xml:space="preserve">
-    <value>タッチ操作ピンチ最小変化距離</value>
+    <value>タッチ操作ピンチ最小変化距離 (ピクセル)</value>
   </data>
   <data name="TouchConfig.MinimumManipulationDistance.Remarks" xml:space="preserve">
     <value>タッチ操作での回転、拡大縮小が有効になる最小操作距離です。</value>
   </data>
   <data name="TouchConfig.MinimumManipulationRadius" xml:space="preserve">
-    <value>タッチ操作ピンチ最小判定距離</value>
+    <value>タッチ操作ピンチ最小判定距離 (ピクセル)</value>
   </data>
   <data name="TouchConfig.MinimumManipulationRadius.Remarks" xml:space="preserve">
     <value>タッチ操作での回転、拡大縮小と判定される最小の 2 タッチ間の距離です。</value>
@@ -5833,7 +5833,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>ウィンドウを常に手前に表示</value>
   </data>
   <data name="WindowConfig.MaximizeWindowGapWidth" xml:space="preserve">
-    <value>タイトルバー非表示でのウィンドウ最大化のギャップ調整</value>
+    <value>タイトルバー非表示でのウィンドウ最大化のギャップ調整 (ピクセル)</value>
   </data>
   <data name="WindowConfig.MaximizeWindowGapWidth.Remarks" xml:space="preserve">
     <value>タイトルバーを非表示にしたときのウィンドウ最大化で隙間ができる場合の調整用です。</value>

@@ -385,7 +385,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Area width of automatic panel display judgment に類似しているローカライズされた文字列を検索します。
+        ///   Area width of automatic panel display judgment (pixel) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string AutoHideConfig_AutoHideHitTestMargin {
             get {
@@ -781,7 +781,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Distance between two pages に類似しているローカライズされた文字列を検索します。
+        ///   Distance between two pages (pixel) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookConfig_ContentsSpace {
             get {
@@ -7432,7 +7432,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Move distance to redisplay に類似しているローカライズされた文字列を検索します。
+        ///   Move distance to redisplay (pixel) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string MouseConfig_CursorHideReleaseDistance {
             get {
@@ -16040,7 +16040,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Minimum movement distance for touch drag judgment に類似しているローカライズされた文字列を検索します。
+        ///   Minimum movement distance for touch drag judgment (pixel) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string TouchConfig_GestureMinimumDistance {
             get {
@@ -16103,7 +16103,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Touch operation pinch minimum change distance に類似しているローカライズされた文字列を検索します。
+        ///   Touch operation pinch minimum change distance (pixel) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string TouchConfig_MinimumManipulationDistance {
             get {
@@ -16121,7 +16121,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Touch operation pinch minimum determination distance に類似しているローカライズされた文字列を検索します。
+        ///   Touch operation pinch minimum determination distance (pixel) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string TouchConfig_MinimumManipulationRadius {
             get {
@@ -17076,7 +17076,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Gap adjustment of window maximization with title bar hidden に類似しているローカライズされた文字列を検索します。
+        ///   Gap adjustment of window maximization with title bar hidden (pixel) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WindowConfig_MaximizeWindowGapWidth {
             get {

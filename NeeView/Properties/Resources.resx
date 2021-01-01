@@ -226,7 +226,7 @@
     <value>It is not hidden when it has focus.</value>
   </data>
   <data name="AutoHideConfig.AutoHideHitTestMargin" xml:space="preserve">
-    <value>Area width of automatic panel display judgment</value>
+    <value>Area width of automatic panel display judgment (pixel)</value>
   </data>
   <data name="AutoHideConfig.IsAutoHideKeyDownDelay" xml:space="preserve">
     <value>Auto-hide panel key input display continued</value>
@@ -358,7 +358,7 @@
     <value>The size of the image to display as the book page. Since thumbnails are displayed, large values ​​may be displayed at a lower resolution.</value>
   </data>
   <data name="BookConfig.ContentsSpace" xml:space="preserve">
-    <value>Distance between two pages</value>
+    <value>Distance between two pages (pixel)</value>
   </data>
   <data name="BookConfig.ContentsSpace.Remarks" xml:space="preserve">
     <value>Sets the gap between page and page. Negative values ​​mean overlapping. Because each page is scaled, it is rare that there will be no gap just at 0.</value>
@@ -2599,7 +2599,7 @@ include("Sample.nvjs")</value>
     <value>Color</value>
   </data>
   <data name="MouseConfig.CursorHideReleaseDistance" xml:space="preserve">
-    <value>Move distance to redisplay</value>
+    <value>Move distance to redisplay (pixel)</value>
   </data>
   <data name="MouseConfig.CursorHideTime" xml:space="preserve">
     <value>Hide time (sec)</value>
@@ -5484,7 +5484,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Single touch drag operation</value>
   </data>
   <data name="TouchConfig.GestureMinimumDistance" xml:space="preserve">
-    <value>Minimum movement distance for touch drag judgment</value>
+    <value>Minimum movement distance for touch drag judgment (pixel)</value>
   </data>
   <data name="TouchConfig.GestureMinimumDistance.Remarks" xml:space="preserve">
     <value>Dragging is judged to start for the first time by moving this distance.</value>
@@ -5505,13 +5505,13 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Enable sizing operation with pinch in and pinch out</value>
   </data>
   <data name="TouchConfig.MinimumManipulationDistance" xml:space="preserve">
-    <value>Touch operation pinch minimum change distance</value>
+    <value>Touch operation pinch minimum change distance (pixel)</value>
   </data>
   <data name="TouchConfig.MinimumManipulationDistance.Remarks" xml:space="preserve">
     <value>This is the minimum operating distance at which rotation and enlargement / reduction by touch operation are effective.</value>
   </data>
   <data name="TouchConfig.MinimumManipulationRadius" xml:space="preserve">
-    <value>Touch operation pinch minimum determination distance</value>
+    <value>Touch operation pinch minimum determination distance (pixel)</value>
   </data>
   <data name="TouchConfig.MinimumManipulationRadius.Remarks" xml:space="preserve">
     <value>It is the distance between the minimum of 2 touches judged as rotation by touch operation, enlargement / reduction.</value>
@@ -5830,7 +5830,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>Window topmost</value>
   </data>
   <data name="WindowConfig.MaximizeWindowGapWidth" xml:space="preserve">
-    <value>Gap adjustment of window maximization with title bar hidden</value>
+    <value>Gap adjustment of window maximization with title bar hidden (pixel)</value>
   </data>
   <data name="WindowConfig.MaximizeWindowGapWidth.Remarks" xml:space="preserve">
     <value>If there is a gap in maximizing the window with the title bar hidden, adjust with this value.</value>

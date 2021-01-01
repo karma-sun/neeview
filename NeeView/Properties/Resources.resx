@@ -367,19 +367,22 @@
     <value>Excluded folders</value>
   </data>
   <data name="BookConfig.IsAutoRecursive" xml:space="preserve">
-    <value>Automatically load subfolder when there is no page and only one subfolder exists</value>
+    <value>If the subfolder is independent, read it without checking</value>
+  </data>
+  <data name="BookConfig.IsAutoRecursive.Remarks" xml:space="preserve">
+    <value>Automatically loads subfolders if there are no pages and only one subfolder exists.</value>
   </data>
   <data name="BookConfig.IsConfirmRecursive" xml:space="preserve">
-    <value>If there is no page, inquire whether to read the subfolder</value>
+    <value>Ask if you want to load it when you only have a subfolder</value>
   </data>
   <data name="BookConfig.IsConfirmRecursive.Remarks" xml:space="preserve">
     <value>If there is no page that can be displayed when the book is opened, and a subfolder exists, a dialog is displayed asking whether to load the subfolder.</value>
   </data>
   <data name="BookConfig.IsInsertDummyPage" xml:space="preserve">
-    <value>Insert a dummy page</value>
+    <value>Insert a dummy page for a double-page spread</value>
   </data>
   <data name="BookConfig.IsInsertDummyPage.Remarks" xml:space="preserve">
-    <value>Insert a dummy page when there are not enough pages at the end of two-page mode.</value>
+    <value>When there are not enough pages at the end of the two-page display, add a dummy page to align the spread.</value>
   </data>
   <data name="BookConfig.IsMultiplePageMove" xml:space="preserve">
     <value>Accept duplication of page movement commands</value>
@@ -541,7 +544,7 @@
     <value>Load subfolder</value>
   </data>
   <data name="BookSettingConfig.IsRecursiveFolder.Remarks" xml:space="preserve">
-    <value>Because it searches all open folders and below, the processing becomes heavy depending on the location of the folder.</value>
+    <value>Since it searches everything under the folder to be opened, the load may be high depending on the location where it is opened.</value>
   </data>
   <data name="BookSettingConfig.IsSupportedDividePage" xml:space="preserve">
     <value>Split horizontally long page</value>
@@ -1685,10 +1688,10 @@ Is it OK? </value>
     <value>Display page number</value>
   </data>
   <data name="FilmStripConfig.IsVisiblePlate" xml:space="preserve">
-    <value>Display background</value>
+    <value>Show filmstrip background</value>
   </data>
   <data name="FilmStripConfig.IsVisiblePlate.Remarks" xml:space="preserve">
-    <value>Display the background of the filmstrip in the case of automatically hidden settings</value>
+    <value>Shows the background of the filmstrip when "@FilmStripConfig.IsHideFilmStrip" is enabled.</value>
   </data>
   <data name="FilmStripConfig.ThumbnailSize" xml:space="preserve">
     <value>Page thumbnail size</value>
@@ -1886,16 +1889,13 @@ Is it OK? </value>
     <value>Number of page operations to start history registration</value>
   </data>
   <data name="HistoryConfig.HistoryEntryPageCount.Remarks" xml:space="preserve">
-    <value>Register in history with page movement operation more than this count or last page display.</value>
+    <value>The history is recorded when the page is moved more than the set number of times or the last page is displayed.</value>
   </data>
   <data name="HistoryConfig.HistoryFilePath" xml:space="preserve">
     <value>History list file location</value>
   </data>
   <data name="HistoryConfig.IsAutoCleanupEnabled" xml:space="preserve">
-    <value>Automatic deletion of invalid history</value>
-  </data>
-  <data name="HistoryConfig.IsAutoCleanupEnabled.Remarks" xml:space="preserve">
-    <value>Delete invalid history on startup.</value>
+    <value>Automatically delete invalid history at startup</value>
   </data>
   <data name="HistoryConfig.IsCurrentFolder" xml:space="preserve">
     <value>Current folder only</value>
@@ -2015,7 +2015,7 @@ Is it OK? </value>
     <value>Scale threshold for "@ImageDotKeepConfig.IsEnabled"</value>
   </data>
   <data name="ImageDotKeepConfig.Threshold.Remarks" xml:space="preserve">
-    <value>Only applicable if the scale is larger than this.</value>
+    <value>It will be applied when it becomes larger than the set magnification.</value>
   </data>
   <data name="ImageEffectConfig.EffectType" xml:space="preserve">
     <value>Image effect type</value>
@@ -2410,7 +2410,7 @@ include("Sample.nvjs")</value>
     <value>Use the Esc key to release the loupe</value>
   </data>
   <data name="LoupeConfig.IsLoupeCenter" xml:space="preserve">
-    <value>At the start, move the cursor position to the screen center</value>
+    <value>Set the pointer position at the start of the loupe to the center of the screen</value>
   </data>
   <data name="LoupeConfig.IsResetByPageChanged" xml:space="preserve">
     <value>Release the loupe after moving the page</value>
@@ -2419,16 +2419,16 @@ include("Sample.nvjs")</value>
     <value>Start loupe at standard magnification</value>
   </data>
   <data name="LoupeConfig.IsResetByRestart.Remarks" xml:space="preserve">
-    <value>When set to OFF, the previous magnification will be inherited.</value>
+    <value>When turned off, it retains the magnification of the last use of the loupe. The standard magnification can be set arbitrarily.</value>
   </data>
   <data name="LoupeConfig.IsVisibleLoupeInfo" xml:space="preserve">
     <value>Display the magnification of loupe</value>
   </data>
   <data name="LoupeConfig.IsVisibleLoupeInfo.Remarks" xml:space="preserve">
-    <value>The magnification will be displayed on the upper right of the screen during loupe.</value>
+    <value>When using the loupe, the magnification is displayed in the upper right.</value>
   </data>
   <data name="LoupeConfig.IsWheelScalingEnabled" xml:space="preserve">
-    <value>When using a loupe, change the magnifying power by wheel operation</value>
+    <value>Change the loupe magnification by operating the wheel when using the loupe</value>
   </data>
   <data name="LoupeConfig.IsWheelScalingEnabled.Remarks" xml:space="preserve">
     <value>Commands to which wheel operation is assigned are invalid.</value>
@@ -2532,6 +2532,9 @@ include("Sample.nvjs")</value>
   <data name="MenuBarConfig.IsHamburgerMenu" xml:space="preserve">
     <value>Use the hamburger menu</value>
   </data>
+  <data name="MenuBarConfig.IsHamburgerMenu.Remarks" xml:space="preserve">
+    <value>Instead of the menu bar, it displays an icon that brings together the menus.</value>
+  </data>
   <data name="MenuBarConfig.IsHideMenu" xml:space="preserve">
     <value>Hide menu automatically</value>
   </data>
@@ -2608,7 +2611,10 @@ include("Sample.nvjs")</value>
     <value>By moving this distance, it is judged as a gesture stroke.</value>
   </data>
   <data name="MouseConfig.IsCursorHideEnabled" xml:space="preserve">
-    <value>Enable auto hide</value>
+    <value>Hide the pointer with no mouse operation</value>
+  </data>
+  <data name="MouseConfig.IsCursorHideEnabled.Remarks" xml:space="preserve">
+    <value>Hides the pointer if the mouse is not operated for the set time.</value>
   </data>
   <data name="MouseConfig.IsCursorHideReleaseAction" xml:space="preserve">
     <value>Redisplay with mouse button operation</value>
@@ -4297,10 +4303,7 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Mouse long press</value>
   </data>
   <data name="SettingPage.Manipurate.MouseVisibility" xml:space="preserve">
-    <value>Cursor auto hide</value>
-  </data>
-  <data name="SettingPage.Manipurate.MouseVisibility.Remarks" xml:space="preserve">
-    <value>If you do not operate the mouse for a certain time, the cursor will be hidden.</value>
+    <value>Auto-hide pointer</value>
   </data>
   <data name="SettingPage.Manipurate.Touch" xml:space="preserve">
     <value>Touch operation</value>
@@ -4503,7 +4506,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Slider opacity</value>
   </data>
   <data name="SliderConfig.Opacity.Remarks" xml:space="preserve">
-    <value>It is effective in auto-hide mode.</value>
+    <value>It is applied when "@SliderConfig.IsHidePageSlider" is enabled.</value>
   </data>
   <data name="SliderConfig.SliderDirection" xml:space="preserve">
     <value>Slider Direction</value>
@@ -4518,7 +4521,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Right to left</value>
   </data>
   <data name="SliderDirection.SyncBookReadDirection" xml:space="preserve">
-    <value>Depends on books</value>
+    <value>Depends on the book orientation</value>
   </data>
   <data name="SliderIndexLayout.Left" xml:space="preserve">
     <value>Left</value>
@@ -5493,7 +5496,10 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Enable rotation operation with multi-touch</value>
   </data>
   <data name="TouchConfig.IsEnabled" xml:space="preserve">
-    <value>When set to OFF, it functions as standard mouse operation.</value>
+    <value>Use the touch function</value>
+  </data>
+  <data name="TouchConfig.IsEnabled.Remarks" xml:space="preserve">
+    <value>When turned off, it is recognized as a standard mouse operation.</value>
   </data>
   <data name="TouchConfig.IsScaleEnabled" xml:space="preserve">
     <value>Enable sizing operation with pinch in and pinch out</value>
@@ -5622,7 +5628,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Use the display start position as the center of the image</value>
   </data>
   <data name="ViewConfig.IsViewStartPositionCenter.Remarks" xml:space="preserve">
-    <value>When set to OFF, it becomes the upper right reference and the upper left reference depending on the spreading direction.</value>
+    <value>When turned off, the upper right and upper left reference switches depending on the read direction.</value>
   </data>
   <data name="ViewConfig.RotateCenter" xml:space="preserve">
     <value>Center of rotation</value>
@@ -5812,7 +5818,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>Title bar operation at full screen</value>
   </data>
   <data name="WindowConfig.IsCaptionEmulateInFullScreen.Remarks" xml:space="preserve">
-    <value>Enable the title bar operation (double click and drag) on ​​the menu at full screen.</value>
+    <value>Accepts double-click and drag operations in the title bar during full screen.</value>
   </data>
   <data name="WindowConfig.IsCaptionVisible" xml:space="preserve">
     <value>Show title bar</value>

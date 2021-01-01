@@ -808,7 +808,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Automatically load subfolder when there is no page and only one subfolder exists に類似しているローカライズされた文字列を検索します。
+        ///   If the subfolder is independent, read it without checking に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookConfig_IsAutoRecursive {
             get {
@@ -817,7 +817,16 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   If there is no page, inquire whether to read the subfolder に類似しているローカライズされた文字列を検索します。
+        ///   Automatically loads subfolders if there are no pages and only one subfolder exists. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookConfig_IsAutoRecursive_Remarks {
+            get {
+                return ResourceManager.GetString("BookConfig.IsAutoRecursive.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ask if you want to load it when you only have a subfolder に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookConfig_IsConfirmRecursive {
             get {
@@ -835,7 +844,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Insert a dummy page に類似しているローカライズされた文字列を検索します。
+        ///   Insert a dummy page for a double-page spread に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookConfig_IsInsertDummyPage {
             get {
@@ -844,7 +853,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Insert a dummy page when there are not enough pages at the end of two-page mode. に類似しているローカライズされた文字列を検索します。
+        ///   When there are not enough pages at the end of the two-page display, add a dummy page to align the spread. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookConfig_IsInsertDummyPage_Remarks {
             get {
@@ -1330,7 +1339,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Because it searches all open folders and below, the processing becomes heavy depending on the location of the folder. に類似しているローカライズされた文字列を検索します。
+        ///   Since it searches everything under the folder to be opened, the load may be high depending on the location where it is opened. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookSettingConfig_IsRecursiveFolder_Remarks {
             get {
@@ -4706,7 +4715,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Display background に類似しているローカライズされた文字列を検索します。
+        ///   Show filmstrip background に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FilmStripConfig_IsVisiblePlate {
             get {
@@ -4715,7 +4724,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Display the background of the filmstrip in the case of automatically hidden settings に類似しているローカライズされた文字列を検索します。
+        ///   Shows the background of the filmstrip when &quot;@FilmStripConfig.IsHideFilmStrip&quot; is enabled. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FilmStripConfig_IsVisiblePlate_Remarks {
             get {
@@ -5309,7 +5318,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Register in history with page movement operation more than this count or last page display. に類似しているローカライズされた文字列を検索します。
+        ///   The history is recorded when the page is moved more than the set number of times or the last page is displayed. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string HistoryConfig_HistoryEntryPageCount_Remarks {
             get {
@@ -5327,20 +5336,11 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Automatic deletion of invalid history に類似しているローカライズされた文字列を検索します。
+        ///   Automatically delete invalid history at startup に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string HistoryConfig_IsAutoCleanupEnabled {
             get {
                 return ResourceManager.GetString("HistoryConfig.IsAutoCleanupEnabled", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Delete invalid history on startup. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string HistoryConfig_IsAutoCleanupEnabled_Remarks {
-            get {
-                return ResourceManager.GetString("HistoryConfig.IsAutoCleanupEnabled.Remarks", resourceCulture);
             }
         }
         
@@ -5696,7 +5696,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Only applicable if the scale is larger than this. に類似しているローカライズされた文字列を検索します。
+        ///   It will be applied when it becomes larger than the set magnification. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ImageDotKeepConfig_Threshold_Remarks {
             get {
@@ -6865,7 +6865,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   At the start, move the cursor position to the screen center に類似しているローカライズされた文字列を検索します。
+        ///   Set the pointer position at the start of the loupe to the center of the screen に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string LoupeConfig_IsLoupeCenter {
             get {
@@ -6892,7 +6892,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   When set to OFF, the previous magnification will be inherited. に類似しているローカライズされた文字列を検索します。
+        ///   When turned off, it retains the magnification of the last use of the loupe. The standard magnification can be set arbitrarily. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string LoupeConfig_IsResetByRestart_Remarks {
             get {
@@ -6910,7 +6910,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   The magnification will be displayed on the upper right of the screen during loupe. に類似しているローカライズされた文字列を検索します。
+        ///   When using the loupe, the magnification is displayed in the upper right. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string LoupeConfig_IsVisibleLoupeInfo_Remarks {
             get {
@@ -6919,7 +6919,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   When using a loupe, change the magnifying power by wheel operation に類似しているローカライズされた文字列を検索します。
+        ///   Change the loupe magnification by operating the wheel when using the loupe に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string LoupeConfig_IsWheelScalingEnabled {
             get {
@@ -7234,6 +7234,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Instead of the menu bar, it displays an icon that brings together the menus. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MenuBarConfig_IsHamburgerMenu_Remarks {
+            get {
+                return ResourceManager.GetString("MenuBarConfig.IsHamburgerMenu.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Hide menu automatically に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string MenuBarConfig_IsHideMenu {
@@ -7459,11 +7468,20 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Enable auto hide に類似しているローカライズされた文字列を検索します。
+        ///   Hide the pointer with no mouse operation に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string MouseConfig_IsCursorHideEnabled {
             get {
                 return ResourceManager.GetString("MouseConfig.IsCursorHideEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Hides the pointer if the mouse is not operated for the set time. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MouseConfig_IsCursorHideEnabled_Remarks {
+            get {
+                return ResourceManager.GetString("MouseConfig.IsCursorHideEnabled.Remarks", resourceCulture);
             }
         }
         
@@ -12508,20 +12526,11 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Cursor auto hide に類似しているローカライズされた文字列を検索します。
+        ///   Auto-hide pointer に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPage_Manipurate_MouseVisibility {
             get {
                 return ResourceManager.GetString("SettingPage.Manipurate.MouseVisibility", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   If you do not operate the mouse for a certain time, the cursor will be hidden. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string SettingPage_Manipurate_MouseVisibility_Remarks {
-            get {
-                return ResourceManager.GetString("SettingPage.Manipurate.MouseVisibility.Remarks", resourceCulture);
             }
         }
         
@@ -13097,7 +13106,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   It is effective in auto-hide mode. に類似しているローカライズされた文字列を検索します。
+        ///   It is applied when &quot;@SliderConfig.IsHidePageSlider&quot; is enabled. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SliderConfig_Opacity_Remarks {
             get {
@@ -13142,7 +13151,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Depends on books に類似しているローカライズされた文字列を検索します。
+        ///   Depends on the book orientation に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SliderDirection_SyncBookReadDirection {
             get {
@@ -16067,11 +16076,20 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   When set to OFF, it functions as standard mouse operation. に類似しているローカライズされた文字列を検索します。
+        ///   Use the touch function に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string TouchConfig_IsEnabled {
             get {
                 return ResourceManager.GetString("TouchConfig.IsEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   When turned off, it is recognized as a standard mouse operation. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TouchConfig_IsEnabled_Remarks {
+            get {
+                return ResourceManager.GetString("TouchConfig.IsEnabled.Remarks", resourceCulture);
             }
         }
         
@@ -16454,7 +16472,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   When set to OFF, it becomes the upper right reference and the upper left reference depending on the spreading direction. に類似しているローカライズされた文字列を検索します。
+        ///   When turned off, the upper right and upper left reference switches depending on the read direction. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ViewConfig_IsViewStartPositionCenter_Remarks {
             get {
@@ -17022,7 +17040,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Enable the title bar operation (double click and drag) on ​​the menu at full screen. に類似しているローカライズされた文字列を検索します。
+        ///   Accepts double-click and drag operations in the title bar during full screen. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WindowConfig_IsCaptionEmulateInFullScreen_Remarks {
             get {

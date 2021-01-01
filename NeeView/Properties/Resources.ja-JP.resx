@@ -367,19 +367,22 @@
     <value>除外フォルダー</value>
   </data>
   <data name="BookConfig.IsAutoRecursive" xml:space="preserve">
-    <value>ページがなくサブフォルダーが１つだけ存在する場合にサブフォルダーを自動的に読み込む</value>
+    <value>サブフォルダーが単独の場合は確認せずに読み込む</value>
+  </data>
+  <data name="BookConfig.IsAutoRecursive.Remarks" xml:space="preserve">
+    <value>ページがなく、サブフォルダーが 1 つだけ存在する場合にサブフォルダーを自動的に読み込みます。</value>
   </data>
   <data name="BookConfig.IsConfirmRecursive" xml:space="preserve">
-    <value>ページがない場合、サブフォルダーも読み込むか問い合わせる</value>
+    <value>サブフォルダーしかなかいときに、それを読み込むか問い合わせる </value>
   </data>
   <data name="BookConfig.IsConfirmRecursive.Remarks" xml:space="preserve">
     <value>ブックを開いた時に表示可能なページがなく、かつサブフォルダーが存在する場合にサブフォルダーも読み込むかを問い合わせるダイアログを表示します。</value>
   </data>
   <data name="BookConfig.IsInsertDummyPage" xml:space="preserve">
-    <value>ダミーページを挿入する</value>
+    <value>見開き用のダミーページを挿入する </value>
   </data>
   <data name="BookConfig.IsInsertDummyPage.Remarks" xml:space="preserve">
-    <value>2ページモードの終端で十分なページがない場合にダミーページを挿入します。</value>
+    <value>2 ページ表示の終端でページが足りないときに、ダミーページを追加して見開きを揃えます。</value>
   </data>
   <data name="BookConfig.IsMultiplePageMove" xml:space="preserve">
     <value>ページ移動コマンドの重複許可</value>
@@ -541,7 +544,7 @@
     <value>サブフォルダーを読み込む</value>
   </data>
   <data name="BookSettingConfig.IsRecursiveFolder.Remarks" xml:space="preserve">
-    <value>開くフォルダー以下を全て検索するため、フォルダーの場所によっては処理が重くなります。</value>
+    <value>開くフォルダー以下をすべて検索するため、開く場所によっては負荷が高くなることがあります。</value>
   </data>
   <data name="BookSettingConfig.IsSupportedDividePage" xml:space="preserve">
     <value>横長ページを分割する</value>
@@ -1688,10 +1691,10 @@ nv.Values.Test = "Hello!"</value>
     <value>ページ番号を表示する</value>
   </data>
   <data name="FilmStripConfig.IsVisiblePlate" xml:space="preserve">
-    <value>背景を表示する</value>
+    <value>フィルムストリップの背景を表示する</value>
   </data>
   <data name="FilmStripConfig.IsVisiblePlate.Remarks" xml:space="preserve">
-    <value>自動的に隠される設定の場合にフィルムストリップの背景を表示します</value>
+    <value>「@FilmStripConfig.IsHideFilmStrip」が有効なときに、フィルムストリップの背景を表示します。</value>
   </data>
   <data name="FilmStripConfig.ThumbnailSize" xml:space="preserve">
     <value>ページサムネイルサイズ</value>
@@ -1886,19 +1889,16 @@ nv.Values.Test = "Hello!"</value>
     <value>履歴</value>
   </data>
   <data name="HistoryConfig.HistoryEntryPageCount" xml:space="preserve">
-    <value>履歴登録開始ページ操作回数</value>
+    <value>履歴が記録されるページ操作回数</value>
   </data>
   <data name="HistoryConfig.HistoryEntryPageCount.Remarks" xml:space="preserve">
-    <value>この回数以上のページ移動操作、もしくは最終ページ表示で履歴に登録します。</value>
+    <value>設定した回数以上のページ移動操作、または最終ページの表示で履歴が記録されます。</value>
   </data>
   <data name="HistoryConfig.HistoryFilePath" xml:space="preserve">
     <value>履歴リストの保存場所</value>
   </data>
   <data name="HistoryConfig.IsAutoCleanupEnabled" xml:space="preserve">
-    <value>無効な履歴を自動削除</value>
-  </data>
-  <data name="HistoryConfig.IsAutoCleanupEnabled.Remarks" xml:space="preserve">
-    <value>起動時に無効な履歴を削除します。</value>
+    <value>起動時に無効な履歴を自動的に削除する</value>
   </data>
   <data name="HistoryConfig.IsCurrentFolder" xml:space="preserve">
     <value>現在のフォルダーのみ</value>
@@ -2018,7 +2018,7 @@ nv.Values.Test = "Hello!"</value>
     <value>「@ImageDotKeepConfig.IsEnabled」を適用する拡大率</value>
   </data>
   <data name="ImageDotKeepConfig.Threshold.Remarks" xml:space="preserve">
-    <value>この拡大率より拡大される場合にのみ適用します。</value>
+    <value>設定した拡大率より大きくなると適用されます。</value>
   </data>
   <data name="ImageEffectConfig.EffectType" xml:space="preserve">
     <value>画像エフェクトの種類</value>
@@ -2090,7 +2090,7 @@ nv.Values.Test = "Hello!"</value>
     <value>WIC情報を使用する</value>
   </data>
   <data name="ImageStandardConfig.UseWicInformation.Remarks" xml:space="preserve">
-    <value>初期化時にWICから画像ファイル拡張子を取得します。OFFの場合は既定の拡張子のみとなります。</value>
+    <value>初期化時にWICから画像ファイル拡張子を取得します。オフにすると、既定の拡張子のみになります。</value>
   </data>
   <data name="ImageSvgConfig.IsEnabled" xml:space="preserve">
     <value>SVGファイルを有効にする</value>
@@ -2413,25 +2413,25 @@ include("Sample.nvjs")</value>
     <value>Escキーでルーペを解除する</value>
   </data>
   <data name="LoupeConfig.IsLoupeCenter" xml:space="preserve">
-    <value>開始時カーソル位置を画面中心にする</value>
+    <value>ルーペ開始時にポインターがあった位置を画面の中心にする</value>
   </data>
   <data name="LoupeConfig.IsResetByPageChanged" xml:space="preserve">
-    <value>ページを移動したらルーペを解除する</value>
+    <value>ページの移動でルーペを解除する</value>
   </data>
   <data name="LoupeConfig.IsResetByRestart" xml:space="preserve">
     <value>ルーペを標準倍率で開始する</value>
   </data>
   <data name="LoupeConfig.IsResetByRestart.Remarks" xml:space="preserve">
-    <value>オフにすると前回の倍率を引き継ぎます。</value>
+    <value>オフにすると、最後にルーペを使用したときの倍率を引き継ぎます。標準倍率は任意に設定できます。</value>
   </data>
   <data name="LoupeConfig.IsVisibleLoupeInfo" xml:space="preserve">
-    <value>ルーペ倍率を表示する</value>
+    <value>ルーペの倍率を表示する</value>
   </data>
   <data name="LoupeConfig.IsVisibleLoupeInfo.Remarks" xml:space="preserve">
-    <value>ルーペ時に右上に倍率が表示されます。</value>
+    <value>ルーペを使用していときに右上に倍率が表示されます。</value>
   </data>
   <data name="LoupeConfig.IsWheelScalingEnabled" xml:space="preserve">
-    <value>ルーペ使用時、ホイール操作でルーペ倍率を変更する</value>
+    <value>ルーペ使用時のホイール操作でルーペ倍率を変更する</value>
   </data>
   <data name="LoupeConfig.IsWheelScalingEnabled.Remarks" xml:space="preserve">
     <value>ホイール操作が割り当てられているコマンドは無効になります。</value>
@@ -2535,6 +2535,9 @@ include("Sample.nvjs")</value>
   <data name="MenuBarConfig.IsHamburgerMenu" xml:space="preserve">
     <value>ハンバーガーメニューを使う</value>
   </data>
+  <data name="MenuBarConfig.IsHamburgerMenu.Remarks" xml:space="preserve">
+    <value>メニューバーの代わりに、メニューを一つにまとめたアイコンを表示します。 </value>
+  </data>
   <data name="MenuBarConfig.IsHideMenu" xml:space="preserve">
     <value>メニューを自動的に隠す</value>
   </data>
@@ -2611,16 +2614,19 @@ include("Sample.nvjs")</value>
     <value>この距離の移動でジェスチャーストロークと判断されます。</value>
   </data>
   <data name="MouseConfig.IsCursorHideEnabled" xml:space="preserve">
-    <value>自動非表示の有効化</value>
+    <value>マウスの無操作でポインターを非表示にする </value>
+  </data>
+  <data name="MouseConfig.IsCursorHideEnabled.Remarks" xml:space="preserve">
+    <value>設定した時間、マウスを操作しなかった場合にポインターを非表示にします。</value>
   </data>
   <data name="MouseConfig.IsCursorHideReleaseAction" xml:space="preserve">
     <value>マウスボタン操作で再表示する</value>
   </data>
   <data name="MouseConfig.IsDragEnabled" xml:space="preserve">
-    <value>マウスドラッグ有効</value>
+    <value>マウスドラッグ機能を使用する</value>
   </data>
   <data name="MouseConfig.IsGestureEnabled" xml:space="preserve">
-    <value>マウスジェスチャー有効</value>
+    <value>マウスジェスチャー機能を使用する</value>
   </data>
   <data name="MouseConfig.LongButtonDownMode" xml:space="preserve">
     <value>長押しモード</value>
@@ -3537,7 +3543,7 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
     <value>画像読み込みに使用するスレッド数</value>
   </data>
   <data name="PerformanceConfig.JobWorkerSize.Remarks" xml:space="preserve">
-    <value>推奨値は2～4です</value>
+    <value>2 から 4 の値を推奨します。</value>
   </data>
   <data name="PerformanceConfig.MaximumSize" xml:space="preserve">
     <value>最大画像サイズ</value>
@@ -3766,7 +3772,7 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
     <value>スクリプトを使用する</value>
   </data>
   <data name="ScriptConfig.ScriptFolder" xml:space="preserve">
-    <value>スクリプトフォルダー</value>
+    <value>スクリプトフォルダーの場所</value>
   </data>
   <data name="ScriptConfig.ScriptFolder.Remarks" xml:space="preserve">
     <value>このフォルダーのスクリプトを使用します。</value>
@@ -4300,10 +4306,7 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
     <value>マウス長押し操作</value>
   </data>
   <data name="SettingPage.Manipurate.MouseVisibility" xml:space="preserve">
-    <value>カーソルの自動非表示</value>
-  </data>
-  <data name="SettingPage.Manipurate.MouseVisibility.Remarks" xml:space="preserve">
-    <value>一定時間マウス操作をしない場合カーソルを非表示にします。</value>
+    <value>自動非表示ポインター</value>
   </data>
   <data name="SettingPage.Manipurate.Touch" xml:space="preserve">
     <value>タッチ操作</value>
@@ -4506,7 +4509,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>スライダー不透明度</value>
   </data>
   <data name="SliderConfig.Opacity.Remarks" xml:space="preserve">
-    <value>自動非表示の場合に有効です。</value>
+    <value>「@SliderConfig.IsHidePageSlider」が有効なときに、適用されます。</value>
   </data>
   <data name="SliderConfig.SliderDirection" xml:space="preserve">
     <value>スライダーの方向</value>
@@ -4602,7 +4605,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>画像表示でSusieプラグインを優先する</value>
   </data>
   <data name="SusieConfig.SusiePluginPath" xml:space="preserve">
-    <value>プラグインフォルダー</value>
+    <value>プラグインフォルダーの場所</value>
   </data>
   <data name="SusieConnectError.Message" xml:space="preserve">
     <value>Susieとの接続に失敗しました。</value>
@@ -4641,7 +4644,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>圧縮ファイルの扱い</value>
   </data>
   <data name="SystemConfig.ArchiveRecursiveMode.Remarks" xml:space="preserve">
-    <value>圧縮ファイルをブックとして開くときの展開範囲</value>
+    <value>圧縮ファイルをブックとして開くときの展開単位です。</value>
   </data>
   <data name="SystemConfig.BookPageCollectMode" xml:space="preserve">
     <value>ページになるファイルの種類</value>
@@ -4683,7 +4686,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>自然な名前順</value>
   </data>
   <data name="SystemConfig.IsNaturalSortEnabled.Remarks" xml:space="preserve">
-    <value>ピリオドで区切られた数字、漢数字など、名前での並び替えをより自然な並び順になるようにします。オフの場合はエクスプローラーでの並び順と同等です。</value>
+    <value>ピリオドで区切られた数字、漢数字など、名前での並び替えをより自然な並び順になるようにします。オフにすると、エクスプローラーと同じ並び方になります。</value>
   </data>
   <data name="SystemConfig.IsNetworkEnabled" xml:space="preserve">
     <value>ネットワークアクセスを許可する</value>
@@ -4743,7 +4746,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>サムネイルキャッシュを使用する</value>
   </data>
   <data name="ThumbnailConfig.IsCacheEnabled.Remarks" xml:space="preserve">
-    <value>ブックサムネイルをキャッシュします。</value>
+    <value>ブックのサムネイルをストレージに保存します。</value>
   </data>
   <data name="ThumbnailConfig.Quality" xml:space="preserve">
     <value>サムネイル品質</value>
@@ -5496,7 +5499,10 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>マルチタッチでの回転操作を有効にする</value>
   </data>
   <data name="TouchConfig.IsEnabled" xml:space="preserve">
-    <value>オフにすると標準のマウス操作として機能します。</value>
+    <value>タッチ機能を使用する</value>
+  </data>
+  <data name="TouchConfig.IsEnabled.Remarks" xml:space="preserve">
+    <value>オフにすると、標準のマウス操作として認識します。 </value>
   </data>
   <data name="TouchConfig.IsScaleEnabled" xml:space="preserve">
     <value>ピンチイン・ピンチアウトでのサイズ変更操作操作を有効にする</value>
@@ -5625,7 +5631,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>表示開始位置を画像の中心基準にする</value>
   </data>
   <data name="ViewConfig.IsViewStartPositionCenter.Remarks" xml:space="preserve">
-    <value>オフにすると、見開き方向によって右上基準、左上基準になります。</value>
+    <value>オフにすると、見開き方向によって右上、左上基準が切り替わります。</value>
   </data>
   <data name="ViewConfig.RotateCenter" xml:space="preserve">
     <value>回転の中心</value>
@@ -5815,7 +5821,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>フルスクリーン時のタイトルバー操作</value>
   </data>
   <data name="WindowConfig.IsCaptionEmulateInFullScreen.Remarks" xml:space="preserve">
-    <value>フルスクリーン時のメニュー上でのタイトルバー操作(ダブルクリックやドラッグ)を有効にします。</value>
+    <value>フルスクリーン中に、タイトルバーでのダブルクリックやドラッグの操作を受け付けるようにします。</value>
   </data>
   <data name="WindowConfig.IsCaptionVisible" xml:space="preserve">
     <value>タイトルバーを表示</value>

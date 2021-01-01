@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Foreground="#222"
         Style="{StaticResource ToolWindowStyle}"
-        Title="{x:Static properties:Resources.WindowAboutTitle}" Height="280" Width="480" ResizeMode="NoResize">
+        Title="{x:Static properties:Resources.VersionWindow_Title}" Height="280" Width="480" ResizeMode="NoResize">
     <Window.Resources>
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>

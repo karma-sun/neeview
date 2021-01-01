@@ -163,7 +163,7 @@
     <value>Executes the specified script file at startup</value>
   </data>
   <data name="AppOption.SettingFilename" xml:space="preserve">
-    <value>Specify the path of the setting file (UserSetting.json)</value>
+    <value>Specify the path of the setting file "UserSetting.json"</value>
   </data>
   <data name="AppOption.Terminator" xml:space="preserve">
     <value>Indicates the end of option list. Subsequent arguments are considered file names.</value>
@@ -703,7 +703,7 @@
     <value>Filter RAR split files from display</value>
   </data>
   <data name="BookshelfConfig.IsMultipleRarFilterEnabled.Remarks" xml:space="preserve">
-    <value>For an RAR split file called .part[number].rar, only the file with the smallest number is displayed in the list.</value>
+    <value>For an RAR split file called ".part[number].rar", only the file with the smallest number is displayed in the list.</value>
   </data>
   <data name="BookshelfConfig.IsOpenNextBookWhenRemove" xml:space="preserve">
     <value>After deleting the viewing book, open the next book</value>
@@ -1500,7 +1500,7 @@ The following data will be deleted
     <value>Export failed</value>
   </data>
   <data name="ExportImage.Message.Success" xml:space="preserve">
-    <value>{0} saved.</value>
+    <value>"{0}" saved.</value>
   </data>
   <data name="ExportImageAsCommand" xml:space="preserve">
     <value>Save as</value>
@@ -1641,8 +1641,8 @@ The following data will be deleted
     <value>File not found "{0}"</value>
   </data>
   <data name="FileRenameConfrictDialog.Message" xml:space="preserve">
-    <value>{0} already exists.
-Would you like to rename it to {1}? </value>
+    <value>"{0}" already exists.
+Would you like to rename it to "{1}" ? </value>
   </data>
   <data name="FileRenameConfrictDialog.Title" xml:space="preserve">
     <value>A file with the same name exists</value>
@@ -4434,8 +4434,8 @@ $PageMax .. Maximum page number
 $ViewScale .. Scale by view operation (%)
 $FullName[LR] .. File name including path
 $Name[LR] .. File name
-$Size[LR] .. File size (ex. 100 × 100)
-$SizeEx[LR] .. File size + number of pixel bits (ex. 100 × 100 × 24)
+$Size[LR] .. File size (e.g. 100×100)
+$SizeEx[LR] .. File size + number of pixel bits (e.g. 100×100×24)
 $Scale[LR] .. Image scale (%)
 
 "◯◯◯[LR]" indicates that the variable name changes for 1 page or 2 pages.
@@ -4689,7 +4689,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Allow network access</value>
   </data>
   <data name="SystemConfig.IsNetworkEnabled.Remarks" xml:space="preserve">
-    <value>In this application, we will use the network only for WEB links such as version update confirmation and online help from "About" dialog.</value>
+    <value>In this application, we will use the network only for WEB links such as version update confirmation and online help from "@VersionWindow.Title" dialog.</value>
   </data>
   <data name="SystemConfig.IsOpenbookAtCurrentPlace" xml:space="preserve">
     <value>Make the start position of the file selection dialog in "@LoadAsCommand" the location of the currently opened book</value>
@@ -4704,7 +4704,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Make a backup of the user setting file</value>
   </data>
   <data name="SystemConfig.IsSettingBackup.Remarks" xml:space="preserve">
-    <value>Make a backup of the configuration file and load it instead if the normal configuration file can not be read. The file name is UserSetting.json.bak. The update timing is when you close the options window and when you exit the application.</value>
+    <value>Make a backup of the configuration file and load it instead if the normal configuration file can not be read. The file name is "UserSetting.json.bak". The update timing is when you close the options window and when you exit the application.</value>
   </data>
   <data name="SystemConfig.IsSyncUserSetting" xml:space="preserve">
     <value>Synchronize settings</value>
@@ -5223,7 +5223,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Switch stretch (reverse)</value>
   </data>
   <data name="ToggleStretchModeReverseCommand.Remarks" xml:space="preserve">
-    <value>Switch the stretch in order (reverse).</value>
+    <value>Switch the stretch in order. (reverse)</value>
   </data>
   <data name="ToggleTopmostCommand" xml:space="preserve">
     <value>Toggle topmost</value>
@@ -5570,6 +5570,9 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="VersionWindow.Project" xml:space="preserve">
     <value>Project Page</value>
   </data>
+  <data name="VersionWindow.Title" xml:space="preserve">
+    <value>About</value>
+  </data>
   <data name="VerticalAlignment.Bottom" xml:space="preserve">
     <value>Bottom</value>
   </data>
@@ -5795,9 +5798,6 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="ViewScrollUpCommand.Remarks" xml:space="preserve">
     <value>Roll the image upwards. When it is not possible to scroll vertically, side scrolling will occur.</value>
-  </data>
-  <data name="WindowAboutTitle" xml:space="preserve">
-    <value>About</value>
   </data>
   <data name="WindowChromeFrame.None" xml:space="preserve">
     <value>None</value>

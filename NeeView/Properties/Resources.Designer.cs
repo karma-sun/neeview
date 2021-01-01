@@ -196,7 +196,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Specify the path of the setting file (UserSetting.json) に類似しているローカライズされた文字列を検索します。
+        ///   Specify the path of the setting file &quot;UserSetting.json&quot; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string AppOption_SettingFilename {
             get {
@@ -1816,7 +1816,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   For an RAR split file called .part[number].rar, only the file with the smallest number is displayed in the list. に類似しているローカライズされた文字列を検索します。
+        ///   For an RAR split file called &quot;.part[number].rar&quot;, only the file with the smallest number is displayed in the list. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookshelfConfig_IsMultipleRarFilterEnabled_Remarks {
             get {
@@ -4155,7 +4155,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   {0} saved. に類似しているローカライズされた文字列を検索します。
+        ///   &quot;{0}&quot; saved. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ExportImage_Message_Success {
             get {
@@ -4578,8 +4578,8 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   {0} already exists.
-        ///Would you like to rename it to {1}?  に類似しているローカライズされた文字列を検索します。
+        ///   &quot;{0}&quot; already exists.
+        ///Would you like to rename it to &quot;{1}&quot; ?  に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FileRenameConfrictDialog_Message {
             get {
@@ -12903,12 +12903,12 @@ namespace NeeView.Properties {
         ///$ViewScale .. Scale by view operation (%)
         ///$FullName[LR] .. File name including path
         ///$Name[LR] .. File name
-        ///$Size[LR] .. File size (ex. 100 × 100)
-        ///$SizeEx[LR] .. File size + number of pixel bits (ex. 100 × 100 × 24)
+        ///$Size[LR] .. File size (e.g. 100×100)
+        ///$SizeEx[LR] .. File size + number of pixel bits (e.g. 100×100×24)
         ///$Scale[LR] .. Image scale (%)
         ///
         ///&quot;◯◯◯[LR]&quot; indicates that the variable name changes for 1 page or 2 pages.
-        ///For example, $Name is for 1 page, $NameL is for 2 pages left, $NameR is for 2 pag [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///For example, $Name is for 1 page, $NameL is for 2 pages left, $NameR is  [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPage_WindowTitile_Note {
             get {
@@ -13655,7 +13655,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   In this application, we will use the network only for WEB links such as version update confirmation and online help from &quot;About&quot; dialog. に類似しているローカライズされた文字列を検索します。
+        ///   In this application, we will use the network only for WEB links such as version update confirmation and online help from &quot;@VersionWindow.Title&quot; dialog. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SystemConfig_IsNetworkEnabled_Remarks {
             get {
@@ -13700,7 +13700,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Make a backup of the configuration file and load it instead if the normal configuration file can not be read. The file name is UserSetting.json.bak. The update timing is when you close the options window and when you exit the application. に類似しているローカライズされた文字列を検索します。
+        ///   Make a backup of the configuration file and load it instead if the normal configuration file can not be read. The file name is &quot;UserSetting.json.bak&quot;. The update timing is when you close the options window and when you exit the application. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SystemConfig_IsSettingBackup_Remarks {
             get {
@@ -15257,7 +15257,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Switch the stretch in order (reverse). に類似しているローカライズされた文字列を検索します。
+        ///   Switch the stretch in order. (reverse) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleStretchModeReverseCommand_Remarks {
             get {
@@ -16301,6 +16301,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   About に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string VersionWindow_Title {
+            get {
+                return ResourceManager.GetString("VersionWindow.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Bottom に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string VerticalAlignment_Bottom {
@@ -16973,15 +16982,6 @@ namespace NeeView.Properties {
         public static string ViewScrollUpCommand_Remarks {
             get {
                 return ResourceManager.GetString("ViewScrollUpCommand.Remarks", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   About に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string WindowAboutTitle {
-            get {
-                return ResourceManager.GetString("WindowAboutTitle", resourceCulture);
             }
         }
         

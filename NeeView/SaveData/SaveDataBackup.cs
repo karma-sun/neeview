@@ -34,7 +34,7 @@ namespace NeeView
             dialog.FileName = $"NeeView{Environment.DispVersion}-{DateTime.Now:yyyyMMdd}";
             dialog.DefaultExt = backupDialogDefaultExt;
             dialog.Filter = backupDialogFilder;
-            dialog.Title = Resources.DialogExportTitle;
+            dialog.Title = Resources.ExportDialog_Title;
 
             if (dialog.ShowDialog(MainWindow.Current) == true)
             {
@@ -45,7 +45,7 @@ namespace NeeView
                 }
                 catch (Exception ex)
                 {
-                    new MessageDialog($"{Resources.WordCause}: {ex.Message}", Resources.DialogExportErrorTitle).ShowDialog();
+                    new MessageDialog($"{Resources.Word_Cause}: {ex.Message}", Resources.ExportErrorDialog_Title).ShowDialog();
                 }
             }
         }
@@ -100,7 +100,7 @@ namespace NeeView
             dialog.AddExtension = true;
             dialog.DefaultExt = backupDialogDefaultExt;
             dialog.Filter = backupDialogFilder;
-            dialog.Title = Resources.DialogImportTitle;
+            dialog.Title = Resources.ImportDialog_Title;
 
             if (dialog.ShowDialog(MainWindow.Current) == true)
             {
@@ -110,7 +110,7 @@ namespace NeeView
                 }
                 catch (Exception ex)
                 {
-                    new MessageDialog($"{Resources.WordCause}: {ex.Message}", Resources.DialogImportErrorTitle).ShowDialog();
+                    new MessageDialog($"{Resources.Word_Cause}: {ex.Message}", Resources.ImportErrorDialog_Title).ShowDialog();
                 }
             }
         }
@@ -124,7 +124,7 @@ namespace NeeView
             PagemarkCollection.Memento pagemark = null;
 
             var selector = new BackupSelectControl();
-            selector.FileNameTextBlock.Text = $"{Resources.WordImport}: {Path.GetFileName(filename)}";
+            selector.FileNameTextBlock.Text = $"{Resources.Word_Import}: {Path.GetFileName(filename)}";
 
             using (var archiver = ZipFile.OpenRead(filename))
             {
@@ -160,8 +160,8 @@ namespace NeeView
                         selector.PagemarkCheckBox.IsChecked = true;
                     }
 
-                    var dialog = new MessageDialog(selector, Resources.DialogImportSelectTitle);
-                    dialog.Commands.Add(new UICommand(Resources.WordImport));
+                    var dialog = new MessageDialog(selector, Resources.ImportSelectDialog_Title);
+                    dialog.Commands.Add(new UICommand(Resources.Word_Import));
                     dialog.Commands.Add(UICommands.Cancel);
                     var answer = dialog.ShowDialog();
 

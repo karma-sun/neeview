@@ -26,7 +26,7 @@ namespace NeeView
 
         public PageViewRecorderConfig PageViewRecorder { get; set; } = new PageViewRecorderConfig();
 
-        [PropertyMapLabel("@WordBookmark")]
+        [PropertyMapLabel("@Word.Bookmark")]
         public BookmarkConfig Bookmark { get; set; } = new BookmarkConfig();
 
         public PagemarkConfig Pagemark { get; set; } = new PagemarkConfig();
@@ -53,7 +53,7 @@ namespace NeeView
 
         public PanelsConfig Panels { get; set; } = new PanelsConfig();
 
-        [PropertyMapLabel("@WordBookshelf")]
+        [PropertyMapLabel("@Word.Bookshelf")]
         public BookshelfConfig Bookshelf { get; set; } = new BookshelfConfig();
 
         public InformationConfig Information { get; set; } = new InformationConfig();

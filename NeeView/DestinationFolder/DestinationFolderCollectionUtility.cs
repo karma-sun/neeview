@@ -29,11 +29,11 @@ namespace NeeView
             }
             else
             {
-                subItem.Items.Add(new MenuItem() { Header = Properties.Resources.WordItemNone, IsEnabled = false });
+                subItem.Items.Add(new MenuItem() { Header = Properties.Resources.Word_ItemNone, IsEnabled = false });
             }
 
             subItem.Items.Add(new Separator());
-            subItem.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuDestinationFolderOption, Command = OpenDestinationFolderDialogCommand });
+            subItem.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItem_Menu_DestinationFolderOption, Command = OpenDestinationFolderDialogCommand });
 
             return subItem;
         }

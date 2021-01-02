@@ -16,7 +16,7 @@ namespace NeeView
 
         public override string Name => QueryScheme.Bookmark.ToSchemeString();
 
-        public override string DispName { get => Properties.Resources.WordBookmark; set { } }
+        public override string DispName { get => Properties.Resources.Word_Bookmark; set { } }
 
         public override IImageSourceCollection Icon => new SingleImageSourceCollection(MainWindow.Current.Resources["ic_grade_24px"] as ImageSource);
 

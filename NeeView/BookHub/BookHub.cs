@@ -265,7 +265,7 @@ namespace NeeView
                 {
                     if (this.Book?.NotFoundStartPage != null && this.Book.Pages.Count > 0)
                     {
-                        InfoMessage.Current.SetMessage(InfoMessageType.BookName, string.Format(Properties.Resources.NotifyCannotOpen, LoosePath.GetFileName(this.Book.NotFoundStartPage)), null, 2.0);
+                        InfoMessage.Current.SetMessage(InfoMessageType.BookName, string.Format(Properties.Resources.Notice_CannotOpen, LoosePath.GetFileName(this.Book.NotFoundStartPage)), null, 2.0);
                     }
                     else
                     {
@@ -719,7 +719,7 @@ namespace NeeView
 
                     AppDispatcher.Invoke(() =>
                     {
-                        EmptyMessage?.Invoke(this, new BookHubMessageEventArgs(string.Format(Properties.Resources.NotifyNoPages, Book.Address)));
+                        EmptyMessage?.Invoke(this, new BookHubMessageEventArgs(string.Format(Properties.Resources.Notice_NoPages, Book.Address)));
 
                         if (Config.Current.Book.IsConfirmRecursive && (args.Option & BookLoadOption.ReLoad) == 0 && !Book.Source.IsRecursiveFolder && Book.Source.SubFolderCount > 0)
                         {
@@ -741,7 +741,7 @@ namespace NeeView
                 else
                 {
                     // ファイル読み込み失敗通知
-                    var message = string.Format(Properties.Resources.ExceptionLoadFailed, place, ex.Message);
+                    var message = string.Format(Properties.Resources.LoadFailedException_Message, place, ex.Message);
                     EmptyMessage?.Invoke(this, new BookHubMessageEventArgs(message));
                 }
 
@@ -784,7 +784,7 @@ namespace NeeView
         // 再帰読み込み確認
         private void ConfirmRecursive(object sender, CancellationToken token)
         {
-            var dialog = new MessageDialog(string.Format(Properties.Resources.DialogConfirmRecursive, Book.Address), Properties.Resources.DialogConfirmRecursiveTitle);
+            var dialog = new MessageDialog(string.Format(Properties.Resources.ConfirmRecursiveDialog_Message, Book.Address), Properties.Resources.ConfirmRecursiveDialog_Title);
             dialog.Commands.Add(UICommands.Yes);
             dialog.Commands.Add(UICommands.No);
 

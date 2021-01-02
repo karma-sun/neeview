@@ -28,11 +28,11 @@ namespace NeeView
 
             if (_scriptName == EventOnBookLoaded)
             {
-                this.Note = Properties.Resources.ScriptOnBookLoadedCommand_Note;
+                this.Remarks = Properties.Resources.ScriptOnBookLoadedCommand_Remarks;
             }
             else
             {
-                this.Note = Properties.Resources.ScriptCommand_Note;
+                this.Remarks = Properties.Resources.ScriptCommand_Remarks;
             }
         }
 
@@ -69,7 +69,7 @@ namespace NeeView
                                     Text = value;
                                     break;
                                 case "@description":
-                                    Note = value;
+                                    Remarks = value;
                                     break;
                                 case "@shortcutkey":
                                     ShortCutKey = value;

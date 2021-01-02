@@ -50,17 +50,17 @@
                 </Grid>
 
                 <!-- Parameters -->
-                <local:FileInfoItem x:Name="ItemFileName" Header="{x:Static properties:Resources.FolderInfoFileName}" Text="{Binding Model.ViewContent.FileName}" IsTabStop="True"/>
-                <local:FileInfoItem x:Name="ItemFilePath" Header="{x:Static properties:Resources.FolderInfoFilePath}" Text="{Binding FullPath}" IsTabStop="True" Visibility="{Binding Source={x:Static local:Config.Current}, Path=Information.IsVisibleFilePath, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                <local:FileInfoItem x:Name="ItemLastWriteTime" Header="{x:Static properties:Resources.FolderInfoDate}" Text="{Binding LastWriteTime}"/>
-                <local:FileInfoItem x:Name="ItemFileSize" Header="{x:Static properties:Resources.FolderInfoFileSize}" Text="{Binding FileSize}"/>
-                <local:FileInfoItem x:Name="ItemSize" Header="{x:Static properties:Resources.FolderInfoImageSize}" Text="{Binding ImageSize}"/>
+                <local:FileInfoItem x:Name="ItemFileName" Header="{x:Static properties:Resources.Information_FileName}" Text="{Binding Model.ViewContent.FileName}" IsTabStop="True"/>
+                <local:FileInfoItem x:Name="ItemFilePath" Header="{x:Static properties:Resources.Information_FilePath}" Text="{Binding FullPath}" IsTabStop="True" Visibility="{Binding Source={x:Static local:Config.Current}, Path=Information.IsVisibleFilePath, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <local:FileInfoItem x:Name="ItemLastWriteTime" Header="{x:Static properties:Resources.Information_Date}" Text="{Binding LastWriteTime}"/>
+                <local:FileInfoItem x:Name="ItemFileSize" Header="{x:Static properties:Resources.Information_FileSize}" Text="{Binding FileSize}"/>
+                <local:FileInfoItem x:Name="ItemSize" Header="{x:Static properties:Resources.Information_ImageSize}" Text="{Binding ImageSize}"/>
 
-                <local:FileInfoItem x:Name="ItemDateTimeOriginal" Header="{x:Static properties:Resources.FolderInfoDateTimeOriginal}" Text="{Binding DateTimeOriginal}" />
-                <local:FileInfoItem x:Name="ItemShotInfo" Header="{x:Static properties:Resources.FolderInfoInfo}" Text="{Binding ShotInfo}" />
-                <local:FileInfoItem x:Name="ItemISOSpeedRatings" Header="{x:Static properties:Resources.FolderInfoISO}" Text="{Binding ISOSpeedRatings}"/>
-                <local:FileInfoItem x:Name="ItemModel" Header="{x:Static properties:Resources.FolderInfoDevice}" Text="{Binding CameraModel}"/>
-                <local:FileInfoItem x:Name="ItemFilePlace" Header="{x:Static properties:Resources.FolderInfoFolderPath}" Text="{Binding Model.ViewContent.FolderPlace}"/>
+                <local:FileInfoItem x:Name="ItemDateTimeOriginal" Header="{x:Static properties:Resources.Information_DateTimeOriginal}" Text="{Binding DateTimeOriginal}" />
+                <local:FileInfoItem x:Name="ItemShotInfo" Header="{x:Static properties:Resources.Information_Info}" Text="{Binding ShotInfo}" />
+                <local:FileInfoItem x:Name="ItemISOSpeedRatings" Header="{x:Static properties:Resources.Information_ISO}" Text="{Binding ISOSpeedRatings}"/>
+                <local:FileInfoItem x:Name="ItemModel" Header="{x:Static properties:Resources.Information_Device}" Text="{Binding CameraModel}"/>
+                <local:FileInfoItem x:Name="ItemFilePlace" Header="{x:Static properties:Resources.Information_FolderPath}" Text="{Binding Model.ViewContent.FolderPlace}"/>
                 <Button x:Name="OpenPlaceButton" Command="{Binding OpenPlace}" HorizontalAlignment="Left" Margin="-5,-3,0,0">
                     <Button.Style>
                         <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
@@ -71,12 +71,12 @@
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
-                    <TextBlock Margin="8,5" Text="{x:Static properties:Resources.FolderInfoOpenFolder}" Foreground="{StaticResource NVButtonForeground}"/>
+                    <TextBlock Margin="8,5" Text="{x:Static properties:Resources.Information_OpenFolder}" Foreground="{StaticResource NVButtonForeground}"/>
                 </Button>
 
                 <StackPanel x:Name="GroupLoader" Visibility="{Binding LoaderVisibility}">
-                    <local:FileInfoItem x:Name="ItemArchiver" Header="{x:Static properties:Resources.FolderInfoArchiver}" Text="{Binding Archiver}" />
-                    <local:FileInfoItem x:Name="ItemDecoder" Header="{x:Static properties:Resources.FolderInfoDecoder}" Text="{Binding Decoder}"/>
+                    <local:FileInfoItem x:Name="ItemArchiver" Header="{x:Static properties:Resources.Information_Archiver}" Text="{Binding Archiver}" />
+                    <local:FileInfoItem x:Name="ItemDecoder" Header="{x:Static properties:Resources.Information_Decoder}" Text="{Binding Decoder}"/>
                 </StackPanel>
 
             </StackPanel>

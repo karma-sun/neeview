@@ -26,21 +26,21 @@
 
     <DockPanel Margin="5">
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button x:Name="ButtonOk" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.WordOK}" Click="ButtonOk_Click"/>
-            <Button x:Name="ButtonCancel" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.WordCancel}" Click="ButtonCancel_Click"/>
+            <Button x:Name="ButtonOk" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.Word_OK}" Click="ButtonOk_Click"/>
+            <Button x:Name="ButtonCancel" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.Word_Cancel}" Click="ButtonCancel_Click"/>
         </StackPanel>
         <TabControl x:Name="TabControl" Margin="5" TabIndex="1" KeyboardNavigation.TabNavigation="Local">
             <TabItem x:Name="GeneralTab">
                 <TabItem.Header>
                     <Grid MinWidth="60" MinHeight="30">
-                        <TextBlock Text="{x:Static properties:Resources.ControlEditCommandTabGeneral}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Static properties:Resources.EditCommandWindow_Tab_General}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Grid>
                 </TabItem.Header>
                 <DockPanel Margin="10,20">
-                    <CheckBox DockPanel.Dock="Top" Content="{x:Static properties:Resources.ControlEditCommandVisible}" IsChecked="{Binding IsShowMessage}"
+                    <CheckBox DockPanel.Dock="Top" Content="{x:Static properties:Resources.EditCommandWindow_Visible}" IsChecked="{Binding IsShowMessage}"
                             FocusVisualStyle="{StaticResource NVBorderFocusVisual}" />
                     <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
-                        <TextBlock Text="{x:Static properties:Resources.ControlEditCommandDescription}" FontWeight="Bold"/>
+                        <TextBlock Text="{x:Static properties:Resources.EditCommandWindow_Remarks}" FontWeight="Bold"/>
                         <TextBlock Text="{Binding Note}" Padding="10" TextWrapping="Wrap"/>
                     </StackPanel>
                 </DockPanel>
@@ -48,7 +48,7 @@
             <TabItem x:Name="InputGestureTab">
                 <TabItem.Header>
                     <Grid MinWidth="60" MinHeight="30">
-                        <TextBlock Text="{x:Static properties:Resources.ControlEditCommandTabShortcut}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Static properties:Resources.EditCommandWindow_Tab_Shortcut}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Grid>
                 </TabItem.Header>
                 <local:InputGestureSettingControl x:Name="InputGesture"/>
@@ -56,7 +56,7 @@
             <TabItem x:Name="MouseGestureTab">
                 <TabItem.Header>
                     <Grid MinWidth="60" MinHeight="30">
-                        <TextBlock Text="{x:Static properties:Resources.ControlEditCommandTabGesture}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Static properties:Resources.EditCommandWindow_Tab_Gesture}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Grid>
                 </TabItem.Header>
                 <local:MouseGestureSettingControl x:Name="MouseGesture"/>
@@ -64,7 +64,7 @@
             <TabItem x:Name="InputTouchTab">
                 <TabItem.Header>
                     <Grid MinWidth="60" MinHeight="30">
-                        <TextBlock Text="{x:Static properties:Resources.ControlEditCommandTabTouch}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Static properties:Resources.EditCommandWindow_Tab_Touch}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Grid>
                 </TabItem.Header>
                 <local:InputTouchSettingControl x:Name="InputTouch"/>
@@ -72,7 +72,7 @@
             <TabItem x:Name="ParameterTab">
                 <TabItem.Header>
                     <Grid MinWidth="60" MinHeight="30">
-                        <TextBlock Text="{x:Static properties:Resources.ControlEditCommandTabParameter}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Static properties:Resources.EditCommandWindow_Tab_Parameter}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Grid>
                 </TabItem.Header>
                 <local:CommandParameterControl x:Name="Parameter"/>

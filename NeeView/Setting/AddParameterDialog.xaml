@@ -19,8 +19,8 @@
             </Style>
         </DockPanel.Resources>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button x:Name="AddButton" Content="{x:Static properties:Resources.WordAdd}" Click="AddButton_Click"/>
-            <Button x:Name="CancelButton" Content="{x:Static properties:Resources.WordCancel}" Click="CancelButton_Click"/>
+            <Button x:Name="AddButton" Content="{x:Static properties:Resources.Word_Add}" Click="AddButton_Click"/>
+            <Button x:Name="CancelButton" Content="{x:Static properties:Resources.Word_Cancel}" Click="CancelButton_Click"/>
         </StackPanel>
 
         <StackPanel VerticalAlignment="Top" Margin="5" FocusManager.FocusedElement="{Binding ElementName=InputTextBox}">

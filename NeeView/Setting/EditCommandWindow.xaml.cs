@@ -95,9 +95,9 @@ namespace NeeView.Setting
 
             var commandMap = CommandTable.Current;
 
-            this.Title = $"{commandMap[key].Text} - {Properties.Resources.ControlEditCommandTitle}";
+            this.Title = $"{commandMap[key].Text} - {Properties.Resources.EditCommandWindow_Title}";
 
-            this.Note = commandMap[key].Note;
+            this.Note = commandMap[key].Remarks;
             this.IsShowMessage = commandMap[key].IsShowMessage;
 
             this.InputGesture.Initialize(commandMap, key);

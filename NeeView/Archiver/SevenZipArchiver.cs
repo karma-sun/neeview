@@ -364,7 +364,7 @@ namespace NeeView
                     var archiveEntry = extractor.ArchiveFileData[entry.Id];
                     if (archiveEntry.FileName != entry.RawEntryName)
                     {
-                        throw new ApplicationException(Properties.Resources.ExceptionInconsistency);
+                        throw new ApplicationException(Properties.Resources.InconsistencyException_Message);
                     }
 
                     var ms = new MemoryStream();

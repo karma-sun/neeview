@@ -418,16 +418,16 @@ namespace NeeView
             switch (item.Value)
             {
                 case Pagemark pagemark:
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagemarkItemMenuOpen, Command = OpenCommand });
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagemarkItem_Menu_Open, Command = OpenCommand });
                     contextMenu.Items.Add(new Separator());
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagemarkItemMenuDelete, Command = RemoveCommand });
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagemarkItemMenuRename, Command = RenameCommand });
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagemarkItem_Menu_Delete, Command = RemoveCommand });
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagemarkItem_Menu_Rename, Command = RenameCommand });
                     break;
 
                 case PagemarkFolder folder:
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagemarkItemMenuOpen, Command = OpenCommand });
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagemarkItem_Menu_Open, Command = OpenCommand });
                     contextMenu.Items.Add(new Separator());
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagemarkItemMenuDeleteFolder, Command = RemoveCommand });
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagemarkItem_Menu_DeleteFolder, Command = RemoveCommand });
                     break;
             }
         }

@@ -497,7 +497,7 @@ namespace NeeView
         {
             if (Environment.IsAppxPackage)
             {
-                new MessageDialog(Resources.DialogOpenSettingFolderError, Resources.DialogOpenSettingFolderErrorTitle).ShowDialog();
+                new MessageDialog(Resources.OpenSettingFolderErrorDialog_Message, Resources.OpenSettingFolderErrorDialog_Title).ShowDialog();
                 return;
             }
 
@@ -515,7 +515,7 @@ namespace NeeView
             }
             catch (Exception ex)
             {
-                new MessageDialog(ex.Message, Resources.DialogOpenScriptsFolderErrorTitle).ShowDialog();
+                new MessageDialog(ex.Message, Resources.OpenScriptsFolderErrorDialog_Title).ShowDialog();
             }
         }
 

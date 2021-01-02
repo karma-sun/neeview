@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
-        xmlns:nvc="clr-namespace:NeeView.Windows.Controls" xmlns:properties="clr-namespace:NeeView.Properties" mc:Ignorable="d" Title="{x:Static properties:Resources.ExternalAppEditDialogTitle}"
+        xmlns:nvc="clr-namespace:NeeView.Windows.Controls" xmlns:properties="clr-namespace:NeeView.Properties" mc:Ignorable="d" Title="{x:Static properties:Resources.ExternalAppEditDialog_Title}"
         Height="320" Width="600" WindowStyle="ToolWindow" Style="{StaticResource ToolWindowStyle}">
 
     
@@ -24,24 +24,24 @@
     <DockPanel Margin="5" >
 
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-            <Button x:Name="OKButton" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.WordOK}" Click="OKButton_Click" />
-            <Button x:Name="CancelButton" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.WordCancel}" Click="CancelButton_Click" />
+            <Button x:Name="OKButton" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.Word_OK}" Click="OKButton_Click" />
+            <Button x:Name="CancelButton" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.Word_Cancel}" Click="CancelButton_Click" />
         </StackPanel>
 
         <StackPanel DockPanel.Dock="Top" Margin="10">
 
             <DockPanel Margin="10">
-                <TextBlock Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.WordName}" />
+                <TextBlock Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.Word_Name}" />
                 <TextBox VerticalAlignment="Center" Text="{Binding Name}" />
             </DockPanel>
 
-            <DockPanel Margin="10" ToolTip="{x:Static properties:Resources.OpenExternalAppCommandParameter_Command_Tips}">
+            <DockPanel Margin="10" ToolTip="{x:Static properties:Resources.OpenExternalAppCommandParameter_Command_Remarks}">
                 <TextBlock Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.OpenExternalAppCommandParameter_Command}" />
                 <nvc:FileNameBox VerticalAlignment="Center" Text="{Binding Command, Mode=TwoWay}" FileDialogType="OpenFile" 
                         Filter="EXE|*.exe|All|*.*" />
             </DockPanel>
 
-            <DockPanel Margin="10" ToolTip="{x:Static properties:Resources.OpenExternalAppCommandParameter_Parameter_Tips}">
+            <DockPanel Margin="10" ToolTip="{x:Static properties:Resources.OpenExternalAppCommandParameter_Parameter_Remarks}">
                 <TextBlock Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.OpenExternalAppCommandParameter_Parameter}"/>
                 <TextBox VerticalAlignment="Center" Text="{Binding Model.Parameter}" />
             </DockPanel>

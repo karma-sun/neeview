@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Style="{StaticResource ToolWindowStyle}"
         x:Name="MyWindow"
-        Title="{x:Static properties:Resources.ControlCommandResetTitle}" Height="300" Width="500">
+        Title="{x:Static properties:Resources.CommandResetWindow_Title}" Height="300" Width="500">
     <Grid>
         <Grid.Resources>
             <Style x:Key="ButtonStyle" TargetType="Button">
@@ -21,15 +21,15 @@
 
         <DockPanel Margin="5">
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0">
-                <Button x:Name="OkButton" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.WordOK}" Command="{Binding OkCommand}" CommandParameter="{Binding ElementName=MyWindow}"/>
-                <Button x:Name="CancelButton" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.WordCancel}" Command="{Binding CancelCommand}" CommandParameter="{Binding ElementName=MyWindow}"/>
+                <Button x:Name="OkButton" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.Word_OK}" Command="{Binding OkCommand}" CommandParameter="{Binding ElementName=MyWindow}"/>
+                <Button x:Name="CancelButton" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.Word_Cancel}" Command="{Binding CancelCommand}" CommandParameter="{Binding ElementName=MyWindow}"/>
             </StackPanel>
             <DockPanel Margin="0">
                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10">
                     <Image Source="{StaticResource ic_warning_48px}" Width="20" Height="20" Margin="5"/>
-                    <TextBlock Text="{x:Static properties:Resources.ControlCommandResetMessage}" VerticalAlignment="Center"/>
+                    <TextBlock Text="{x:Static properties:Resources.CommandResetWindow_Message}" VerticalAlignment="Center"/>
                 </StackPanel>
-                <GroupBox Header="{x:Static properties:Resources.ControlCommandResetTypeTitle}" Margin="5">
+                <GroupBox Header="{x:Static properties:Resources.CommandResetWindow_ResetType_Title}" Margin="5">
                     <StackPanel Margin="5">
                         <ComboBox Margin="5" ItemsSource="{Binding InputScemeList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding InputSceme}" FocusVisualStyle="{StaticResource NVBorderFocusVisual}"/>
                         <TextBlock Margin="5" Text="{Binding InputScemeNote}" TextWrapping="Wrap"/>

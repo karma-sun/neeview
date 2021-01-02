@@ -205,7 +205,7 @@ namespace NeeView
             }
 
             var thumbnail = await CreatePageVisualAsync(page);
-            return await RemoveFileAsync(page.GetFilePlace(), Resources.DialogFileDeletePageTitle, thumbnail);
+            return await RemoveFileAsync(page.GetFilePlace(), Resources.FileDeletePageDialog_Title, thumbnail);
         }
 
         /// <summary>
@@ -224,7 +224,7 @@ namespace NeeView
             }
             else
             {
-                return await RemoveFileAsync(pages.Select(e => e.GetFilePlace()).ToList(), Resources.DialogFileDeletePageTitle);
+                return await RemoveFileAsync(pages.Select(e => e.GetFilePlace()).ToList(), Resources.FileDeletePageDialog_Title);
             }
         }
 
@@ -313,7 +313,7 @@ namespace NeeView
             var dockPanel = new DockPanel();
 
             var message = new TextBlock();
-            message.Text = string.Format(Resources.DialogFileDelete, GetRemoveFilesTypeName(path));
+            message.Text = string.Format(Resources.FileDeleteDialog_Message, GetRemoveFilesTypeName(path));
             message.Margin = new Thickness(0, 0, 0, 10);
             DockPanel.SetDock(message, Dock.Top);
             dockPanel.Children.Add(message);
@@ -338,18 +338,18 @@ namespace NeeView
 
         private string GetRemoveDialogTitle(string path)
         {
-            return string.Format(Resources.DialogFileDeleteTitle, GetRemoveFilesTypeName(path));
+            return string.Format(Resources.FileDeleteDialog_Title, GetRemoveFilesTypeName(path));
         }
 
         private string GetRemoveDialogTitle(List<string> paths)
         {
-            return string.Format(Resources.DialogFileDeleteTitle, GetRemoveFilesTypeName(paths));
+            return string.Format(Resources.FileDeleteDialog_Title, GetRemoveFilesTypeName(paths));
         }
 
         private string GetRemoveFilesTypeName(string path)
         {
             bool isDirectory = System.IO.Directory.Exists(path);
-            return isDirectory ? Resources.WordFolder : Resources.WordFile;
+            return isDirectory ? Resources.Word_Folder : Resources.Word_File;
         }
 
         private string GetRemoveFilesTypeName(List<string> paths)
@@ -360,7 +360,7 @@ namespace NeeView
             }
 
             bool isDirectory = paths.All(e => System.IO.Directory.Exists(e));
-            return isDirectory ? Resources.WordFolders : Resources.WordFiles;
+            return isDirectory ? Resources.Word_Folders : Resources.Word_Files;
         }
 
         /// <summary>
@@ -369,7 +369,7 @@ namespace NeeView
         private FrameworkElement CreateRemoveDialogContent(List<string> paths)
         {
             var message = new TextBlock();
-            message.Text = string.Format(Resources.DialogFileDeleteMulti, paths.Count);
+            message.Text = string.Format(Resources.FileDeleteMultiDialog_Message, paths.Count);
             message.Margin = new Thickness(0, 10, 0, 10);
             DockPanel.SetDock(message, Dock.Top);
 
@@ -412,7 +412,7 @@ namespace NeeView
             }
             catch (Exception ex)
             {
-                var dialog = new MessageDialog($"{Resources.WordCause}: {ex.Message}", Resources.DialogFileDeleteFailed);
+                var dialog = new MessageDialog($"{Resources.Word_Cause}: {ex.Message}", Resources.FileDeleteErrorDialog_Title);
                 dialog.ShowDialog();
                 return false;
             }
@@ -430,7 +430,7 @@ namespace NeeView
             // ファイル名に使用できない
             if (string.IsNullOrWhiteSpace(newName))
             {
-                var dialog = new MessageDialog(Resources.DialogFileRenameWrong, Resources.DialogFileRenameErrorTitle);
+                var dialog = new MessageDialog(Resources.FileRenameWrongDialog_Message, Resources.FileRenameErrorDialog_Title);
                 dialog.ShowDialog();
                 return null;
             }
@@ -442,7 +442,7 @@ namespace NeeView
             {
                 var invalids = string.Join(" ", newName.Where(e => invalidChars.Contains(e)).Distinct());
 
-                var dialog = new MessageDialog($"{Resources.DialogFileRenameInvalid}\n\n{invalids}", Resources.DialogFileRenameErrorTitle);
+                var dialog = new MessageDialog($"{Resources.FileRenameInvalidDialog_Message}\n\n{invalids}", Resources.FileRenameErrorDialog_Title);
                 dialog.ShowDialog();
 
                 return null;
@@ -452,7 +452,7 @@ namespace NeeView
             var match = new Regex(@"^(CON|PRN|AUX|NUL|COM[0-9]|LPT[0-9])(\.|$)", RegexOptions.IgnoreCase).Match(newName);
             if (match.Success)
             {
-                var dialog = new MessageDialog($"{Resources.DialogFileRenameWrongDevice}\n\n{match.Groups[1].Value.ToUpper()}", Resources.DialogFileRenameErrorTitle);
+                var dialog = new MessageDialog($"{Resources.FileRenameWrongDeviceDialog_Message}\n\n{match.Groups[1].Value.ToUpper()}", Resources.FileRenameErrorDialog_Title);
                 dialog.ShowDialog();
                 return null;
             }
@@ -470,7 +470,7 @@ namespace NeeView
                 var dstExt = System.IO.Path.GetExtension(dst);
                 if (string.Compare(srcExt, dstExt, true) != 0)
                 {
-                    var dialog = new MessageDialog(Resources.DialogFileRenameExtension, Resources.DialogFileRenameExtensionTitle);
+                    var dialog = new MessageDialog(Resources.FileRenameExtensionDialog_Message, Resources.FileRenameExtensionDialog_Title);
                     dialog.Commands.Add(UICommands.Yes);
                     dialog.Commands.Add(UICommands.No);
                     var answer = dialog.ShowDialog();
@@ -503,8 +503,8 @@ namespace NeeView
                 while (System.IO.File.Exists(dst) || System.IO.Directory.Exists(dst));
 
                 // 確認
-                var dialog = new MessageDialog(string.Format(Resources.DialogFileRenameConfrict, Path.GetFileName(dstBase), Path.GetFileName(dst)), Resources.DialogFileRenameConfrictTitle);
-                dialog.Commands.Add(new UICommand(Resources.WordRename));
+                var dialog = new MessageDialog(string.Format(Resources.FileRenameConfrictDialog_Message, Path.GetFileName(dstBase), Path.GetFileName(dst)), Resources.FileRenameConfrictDialog_Title);
+                dialog.Commands.Add(new UICommand(Resources.Word_Rename));
                 dialog.Commands.Add(UICommands.Cancel);
                 var answer = dialog.ShowDialog();
                 if (answer != dialog.Commands[0])
@@ -591,7 +591,7 @@ namespace NeeView
                     goto Retry;
                 }
 
-                var confirm = new MessageDialog($"{Resources.DialogFileRenameFailed}\n\n{ex.Message}", Resources.DialogFileRenameFailedTitle);
+                var confirm = new MessageDialog($"{Resources.FileRenameFailedDialog_Message}\n\n{ex.Message}", Resources.FileRenameFailedDialog_Title);
                 confirm.Commands.Add(UICommands.Retry);
                 confirm.Commands.Add(UICommands.Cancel);
                 var answer = confirm.ShowDialog();

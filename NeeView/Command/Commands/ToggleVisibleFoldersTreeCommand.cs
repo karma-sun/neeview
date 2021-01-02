@@ -22,7 +22,7 @@ namespace NeeView
             return SidePanelFrame.Current.IsVisibleBookshelfFolderTree ? Properties.Resources.ToggleVisibleFoldersTreeCommand_Off : Properties.Resources.ToggleVisibleFoldersTreeCommand_On;
         }
 
-        [MethodArgument("@CommandToggleArgument")]
+        [MethodArgument("@ToggleCommand.Execute.Remarks")]
         public override void Execute(object sender, CommandContext e)
         {
             if (e.Args.Length > 0)

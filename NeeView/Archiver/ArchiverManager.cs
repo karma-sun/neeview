@@ -20,7 +20,7 @@ namespace NeeView
     {
         public NotSupportedFileTypeException() { }
 
-        public NotSupportedFileTypeException(string extension) : base(string.Format(Properties.Resources.NotifyNotSupportedFileType, extension))
+        public NotSupportedFileTypeException(string extension) : base(string.Format(Properties.Resources.Notice_NotSupportedFileType, extension))
         {
             Extension = extension;
         }

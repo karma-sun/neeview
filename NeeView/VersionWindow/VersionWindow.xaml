@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Foreground="#222"
         Style="{StaticResource ToolWindowStyle}"
-        Title="{x:Static properties:Resources.WindowAboutTitle}" Height="280" Width="480" ResizeMode="NoResize">
+        Title="{x:Static properties:Resources.VersionWindow_Title}" Height="280" Width="480" ResizeMode="NoResize">
     <Window.Resources>
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -31,13 +31,13 @@
 
             <TextBlock HorizontalAlignment="Left" Style="{StaticResource LinkedTextBlock}">
                 <Hyperlink NavigateUri="{Binding LicenseUri}" >
-                    <TextBlock Text="{x:Static properties:Resources.ControlAboutLicense}"/>
+                    <TextBlock Text="{x:Static properties:Resources.VersionWindow_License}"/>
                 </Hyperlink>
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Right" Style="{StaticResource LinkedTextBlock}" IsEnabled="{Binding IsNetworkEnabled}">
                 <Hyperlink NavigateUri="{Binding ProjectUri}" >
-                    <TextBlock Text="{x:Static properties:Resources.ControlAboutProject}"/>
+                    <TextBlock Text="{x:Static properties:Resources.VersionWindow_Project}"/>
                 </Hyperlink>
             </TextBlock>
         </Grid>
@@ -46,7 +46,7 @@
 
             <DockPanel.ContextMenu>
                 <ContextMenu x:Name="CopyContextMenu">
-                    <MenuItem Header="{x:Static properties:Resources.ControlAboutCopy}" Command="{x:Static local:VersionWindow.CopyCommand}" />
+                    <MenuItem Header="{x:Static properties:Resources.VersionWindow_Menu_Copy}" Command="{x:Static local:VersionWindow.CopyCommand}" />
                 </ContextMenu>
             </DockPanel.ContextMenu>
 
@@ -73,7 +73,7 @@
                     </TextBlock>
                     <TextBlock HorizontalAlignment="Center" Margin="0,0,0,0" IsEnabled="{Binding IsNetworkEnabled}">
                         <Hyperlink NavigateUri="{Binding Checker.DownloadUri}" KeyboardNavigation.IsTabStop="False">
-                            <TextBlock Text="{x:Static properties:Resources.ControlAboutDownload}"/>
+                            <TextBlock Text="{x:Static properties:Resources.VersionWindow_Download}"/>
                         </Hyperlink>
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">

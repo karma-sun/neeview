@@ -434,7 +434,7 @@ namespace NeeView
 
                 case FolderOrder.FileType:
                 case FolderOrder.FileTypeDescending:
-                    return GetLastWriteTimeString() + (IsDirectoryMaybe() ? Properties.Resources.WordFolder : LoosePath.GetExtension(Name));
+                    return GetLastWriteTimeString() + (IsDirectoryMaybe() ? Properties.Resources.Word_Folder : LoosePath.GetExtension(Name));
 
                 case FolderOrder.Path:
                 case FolderOrder.PathDescending:

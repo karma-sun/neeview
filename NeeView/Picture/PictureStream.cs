@@ -121,7 +121,7 @@ namespace NeeView
                 }
             }
 
-            throw exception ?? new IOException(Properties.Resources.ExceptionImageLoadFailed);
+            throw exception ?? new IOException(Properties.Resources.ImageLoadFailedException_Message);
         }
 
         #endregion

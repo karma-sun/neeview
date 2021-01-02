@@ -74,7 +74,7 @@ namespace NeeView.Data
                 case TypeCode.Double:
                     return "number";
                 default:
-                    throw new NotSupportedException(string.Format(Properties.Resources.OptionErrorArgument, _info.PropertyType));
+                    throw new NotSupportedException(string.Format(Properties.Resources.OptionArgumentException_NotSupportType, _info.PropertyType));
             }
         }
 
@@ -110,7 +110,7 @@ namespace NeeView.Data
                     _info.SetValue(_source, double.Parse(value));
                     break;
                 default:
-                    throw new NotSupportedException(string.Format(Properties.Resources.OptionErrorArgument, _info.PropertyType.Name));
+                    throw new NotSupportedException(string.Format(Properties.Resources.OptionArgumentException_NotSupportType, _info.PropertyType.Name));
             }
         }
     }

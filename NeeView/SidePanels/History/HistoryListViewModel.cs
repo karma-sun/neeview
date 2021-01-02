@@ -33,7 +33,7 @@ namespace NeeView
         }
 
 
-        public string FilterPath => string.IsNullOrEmpty(_model.FilterPath) ? Properties.Resources.WordAllHistory : _model.FilterPath;
+        public string FilterPath => string.IsNullOrEmpty(_model.FilterPath) ? Properties.Resources.Word_AllHistory : _model.FilterPath;
 
 
         #region MoreMenu
@@ -50,14 +50,14 @@ namespace NeeView
         private void InitializeMoreMenu()
         {
             var menu = new ContextMenu();
-            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleList, PanelListItemStyle.Normal));
-            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleContent, PanelListItemStyle.Content));
-            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleBanner, PanelListItemStyle.Banner));
+            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleList, PanelListItemStyle.Normal));
+            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleContent, PanelListItemStyle.Content));
+            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleBanner, PanelListItemStyle.Banner));
             menu.Items.Add(new Separator());
-            menu.Items.Add(CreateCheckMenuItem(Properties.Resources.HistoryItemMenuIsCurrentFolder, new Binding(nameof(HistoryConfig.IsCurrentFolder)) { Source = Config.Current.History }));
+            menu.Items.Add(CreateCheckMenuItem(Properties.Resources.History_MoreMenu_IsCurrentFolder, new Binding(nameof(HistoryConfig.IsCurrentFolder)) { Source = Config.Current.History }));
             menu.Items.Add(new Separator());
-            menu.Items.Add(CreateCommandMenuItem(Properties.Resources.HistoryMenuDeleteInvalid, RemoveUnlinkedCommand));
-            menu.Items.Add(CreateCommandMenuItem(Properties.Resources.HistoryMenuDeleteAll, RemoveAllCommand));
+            menu.Items.Add(CreateCommandMenuItem(Properties.Resources.History_MoreMenu_DeleteInvalid, RemoveUnlinkedCommand));
+            menu.Items.Add(CreateCommandMenuItem(Properties.Resources.History_MoreMenu_DeleteAll, RemoveAllCommand));
             this.MoreMenu = menu;
         }
 
@@ -145,7 +145,7 @@ namespace NeeView
         {
             if (BookHistoryCollection.Current.Items.Any())
             {
-                var dialog = new MessageDialog(Resources.DialogHistoryDeleteAll, Resources.DialogHistoryDeleteAllTitle);
+                var dialog = new MessageDialog(Resources.HistoryDeleteAllDialog_Message, Resources.HistoryDeleteAllDialog_Title);
                 dialog.Commands.Add(UICommands.Delete);
                 dialog.Commands.Add(UICommands.Cancel);
                 var answer = dialog.ShowDialog();

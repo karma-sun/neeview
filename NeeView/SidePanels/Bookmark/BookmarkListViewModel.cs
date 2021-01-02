@@ -183,17 +183,17 @@ namespace NeeView
             var items = this.MoreMenu.Items;
 
             items.Clear();
-            items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleList, PanelListItemStyle.Normal));
-            items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleContent, PanelListItemStyle.Content));
-            items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleBanner, PanelListItemStyle.Banner));
-            items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleThumbnail, PanelListItemStyle.Thumbnail));
+            items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleList, PanelListItemStyle.Normal));
+            items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleContent, PanelListItemStyle.Content));
+            items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleBanner, PanelListItemStyle.Banner));
+            items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleThumbnail, PanelListItemStyle.Thumbnail));
             items.Add(new Separator());
-            items.Add(CreateCommandMenuItem(Properties.Resources.FolderTreeMenuDeleteInvalidBookmark, RemoveUnlinkedCommand));
+            items.Add(CreateCommandMenuItem(Properties.Resources.FolderTree_Menu_DeleteInvalidBookmark, RemoveUnlinkedCommand));
             items.Add(new Separator());
-            items.Add(CreateCommandMenuItem(Properties.Resources.WordNewFolder, NewFolderCommand));
-            items.Add(CreateCommandMenuItem(Properties.Resources.FolderTreeMenuAddBookmark, AddBookmarkCommand));
+            items.Add(CreateCommandMenuItem(Properties.Resources.Word_NewFolder, NewFolderCommand));
+            items.Add(CreateCommandMenuItem(Properties.Resources.FolderTree_Menu_AddBookmark, AddBookmarkCommand));
             items.Add(new Separator());
-            items.Add(CreateCheckFlagMenuItem(Properties.Resources.BookmarkListMoreMenuSyncBookshelf, new Binding(nameof(BookmarkConfig.IsSyncBookshelfEnabled)) { Source = Config.Current.Bookmark }));
+            items.Add(CreateCheckFlagMenuItem(Properties.Resources.BookmarkList_MoreMenu_SyncBookshelf, new Binding(nameof(BookmarkConfig.IsSyncBookshelfEnabled)) { Source = Config.Current.Bookmark }));
         }
 
         private MenuItem CreateCheckFlagMenuItem(string header, Binding binding)

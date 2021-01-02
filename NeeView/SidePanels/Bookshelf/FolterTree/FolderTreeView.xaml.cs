@@ -528,35 +528,35 @@ namespace NeeView
             switch (viewItem.DataContext)
             {
                 case RootQuickAccessNode rootQuickAccess:
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTreeMenuAddCurrentQuickAccess, AddQuickAccessCommand));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_AddCurrentQuickAccess, AddQuickAccessCommand));
                     break;
 
                 case QuickAccessNode quickAccess:
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTreeMenuRemoveQuickAccess, RemoveCommand));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_RemoveQuickAccess, RemoveCommand));
                     break;
 
                 case RootDirectoryNode rootFolder:
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTreeMenuRefreshFolder, RefreshFolderCommand));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_RefreshFolder, RefreshFolderCommand));
                     break;
 
                 case DirectoryNode folder:
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTreeMenuExplorer, OpenExplorerCommand));
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTreeMenuAddQuickAccess, AddQuickAccessCommand));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_Explorer, OpenExplorerCommand));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_AddQuickAccess, AddQuickAccessCommand));
                     break;
 
                 case RootBookmarkFolderNode rootBookmarkFolder:
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTreeMenuDeleteInvalidBookmark, RemoveUnlinkedCommand));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_DeleteInvalidBookmark, RemoveUnlinkedCommand));
                     contextMenu.Items.Add(new Separator());
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.WordNewFolder, NewFolderCommand));
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTreeMenuAddBookmark, AddBookmarkCommand));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.Word_NewFolder, NewFolderCommand));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_AddBookmark, AddBookmarkCommand));
                     break;
 
                 case BookmarkFolderNode bookmarkFolder:
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.WordRemove, RemoveCommand));
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.WordRename, RenameCommand));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.Word_Remove, RemoveCommand));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.Word_Rename, RenameCommand));
                     contextMenu.Items.Add(new Separator());
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.WordNewFolder, NewFolderCommand));
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTreeMenuAddBookmark, AddBookmarkCommand));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.Word_NewFolder, NewFolderCommand));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_AddBookmark, AddBookmarkCommand));
                     break;
 
                 default:

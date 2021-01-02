@@ -75,7 +75,7 @@ namespace NeeView
             set { SetProperty(ref _isWheelScalingEnabled, value); }
         }
 
-        [PropertyRange(0.0, 10.0, TickFrequency = 0.1, Format = "×{0:0.0}")]
+        [PropertyRange(0.0, 10.0, TickFrequency = 0.1, Format = "× {0:0.0}")]
         public double Speed
         {
             get { return _speed; }

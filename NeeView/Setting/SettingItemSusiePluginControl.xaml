@@ -91,10 +91,10 @@
     <DockPanel x:Name="Root" Margin="0,0,5,5">
 
         <StackPanel DockPanel.Dock="Right">
-            <Button x:Name="ConfigButton" Style="{StaticResource SelectedButtonStyle}" Content="{x:Static properties:Resources.ControlSusiePluginListConfig}" Command="{Binding ConfigCommand}" TabIndex="2"/>
-            <Button x:Name="UpButton" Style="{StaticResource SelectedButtonStyle}" Content="{x:Static properties:Resources.ControlSusiePluginListUp}" Command="{Binding MoveUpCommand}" TabIndex="3"/>
-            <Button x:Name="DownButton" Style="{StaticResource SelectedButtonStyle}" Content="{x:Static properties:Resources.ControlSusiePluginListDown}" Command="{Binding MoveDownCommand}" TabIndex="4" />
-            <Button x:Name="SwitchAllButton" Style="{StaticResource AnyButtonStyle}" Content="{x:Static properties:Resources.ControlSusiePluginListSwitchAll}" Command="{Binding SwitchAllCommand}" TabIndex="4" />
+            <Button x:Name="ConfigButton" Style="{StaticResource SelectedButtonStyle}" Content="{x:Static properties:Resources.SusiePluginList_Config}" Command="{Binding ConfigCommand}" TabIndex="2"/>
+            <Button x:Name="UpButton" Style="{StaticResource SelectedButtonStyle}" Content="{x:Static properties:Resources.SusiePluginList_Up}" Command="{Binding MoveUpCommand}" TabIndex="3"/>
+            <Button x:Name="DownButton" Style="{StaticResource SelectedButtonStyle}" Content="{x:Static properties:Resources.SusiePluginList_Down}" Command="{Binding MoveDownCommand}" TabIndex="4" />
+            <Button x:Name="SwitchAllButton" Style="{StaticResource AnyButtonStyle}" Content="{x:Static properties:Resources.SusiePluginList_SwitchAll}" Command="{Binding SwitchAllCommand}" TabIndex="4" />
         </StackPanel>
 
         <ListBox x:Name="PluginList" MinHeight="64" MinWidth="64" SelectionChanged="PluginList_SelectionChanged" TabIndex="1">

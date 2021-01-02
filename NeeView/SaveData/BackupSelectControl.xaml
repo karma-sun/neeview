@@ -11,10 +11,10 @@
         <StackPanel>
             <TextBlock x:Name="FileNameTextBlock" Text="import : someone.nvzip" Margin="0"/>
             <StackPanel Margin="10">
-                <CheckBox x:Name="UserSettingCheckBox" Content="{x:Static properties:Resources.ControlImportSetting}" IsEnabled="False"/>
-                <CheckBox x:Name="HistoryCheckBox" Content="{x:Static properties:Resources.ControlImportHistory}" IsEnabled="False"/>
-                <CheckBox x:Name="BookmarkCheckBox" Content="{x:Static properties:Resources.ControlImportBookmark}" IsEnabled="False"/>
-                <CheckBox x:Name="PagemarkCheckBox" Content="{x:Static properties:Resources.ControlImportPagemark}" IsEnabled="False"/>
+                <CheckBox x:Name="UserSettingCheckBox" Content="{x:Static properties:Resources.ImportControl_Setting}" IsEnabled="False"/>
+                <CheckBox x:Name="HistoryCheckBox" Content="{x:Static properties:Resources.ImportControl_History}" IsEnabled="False"/>
+                <CheckBox x:Name="BookmarkCheckBox" Content="{x:Static properties:Resources.ImportControl_Bookmark}" IsEnabled="False"/>
+                <CheckBox x:Name="PagemarkCheckBox" Content="{x:Static properties:Resources.ImportControl_Pagemark}" IsEnabled="False"/>
             </StackPanel>
         </StackPanel>
     </Grid>

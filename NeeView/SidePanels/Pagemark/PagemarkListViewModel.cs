@@ -81,16 +81,16 @@ namespace NeeView
         private void InitializeMoreMenu()
         {
             var menu = new ContextMenu();
-            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleList, PanelListItemStyle.Normal));
-            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleContent, PanelListItemStyle.Content));
-            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleBanner, PanelListItemStyle.Banner));
+            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleList, PanelListItemStyle.Normal));
+            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleContent, PanelListItemStyle.Content));
+            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleBanner, PanelListItemStyle.Banner));
             menu.Items.Add(new Separator());
-            menu.Items.Add(CreateCheckMenuItem(Properties.Resources.PagemarkMenuSortPath, new Binding(nameof(_model.IsSortPath)) { Source = _model }));
-            menu.Items.Add(CreateCheckMenuItem(Properties.Resources.PagemarkMenuCurrentBook, new Binding(nameof(_model.IsCurrentBook)) { Source = _model }));
+            menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Pagemark_MoreMenu_SortPath, new Binding(nameof(_model.IsSortPath)) { Source = _model }));
+            menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Pagemark_MoreMenu_CurrentBook, new Binding(nameof(_model.IsCurrentBook)) { Source = _model }));
             menu.Items.Add(new Separator());
-            menu.Items.Add(CreateCommandMenuItem(@Properties.Resources.PagemarkMenuOpenAsBook, OpenAsBookCommand));
+            menu.Items.Add(CreateCommandMenuItem(@Properties.Resources.Pagemark_MoreMenu_OpenAsBook, OpenAsBookCommand));
             menu.Items.Add(new Separator());
-            menu.Items.Add(CreateCommandMenuItem(Properties.Resources.PagemarkMenuDeleteInvalid, RemoveUnlinkedCommand));
+            menu.Items.Add(CreateCommandMenuItem(Properties.Resources.Pagemark_MoreMenu_DeleteInvalid, RemoveUnlinkedCommand));
 
             this.MoreMenu = menu;
         }
@@ -174,7 +174,7 @@ namespace NeeView
             _removeUnlinkedCommandCancellationToken?.Cancel();
             _removeUnlinkedCommandCancellationToken = new CancellationTokenSource();
             var count = await PagemarkCollection.Current.RemoveUnlinkedAsync(_removeUnlinkedCommandCancellationToken.Token);
-            ToastService.Current.Show("PagemarkList", new Toast(string.Format(Properties.Resources.NotifyRemoveUnlinkedPagemark, count)));
+            ToastService.Current.Show("PagemarkList", new Toast(string.Format(Properties.Resources.Notice_RemoveUnlinkedPagemark, count)));
         }
 
         private RelayCommand _addPagemarkCommand;

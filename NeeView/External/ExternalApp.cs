@@ -17,7 +17,7 @@ namespace NeeView
 
         // 表示名
         [JsonIgnore]
-        public string DispName => _name ?? (string.IsNullOrWhiteSpace(_command) ? Properties.Resources.WordDefaultApp : LoosePath.GetFileNameWithoutExtension(_command));
+        public string DispName => _name ?? (string.IsNullOrWhiteSpace(_command) ? Properties.Resources.Word_DefaultApp : LoosePath.GetFileNameWithoutExtension(_command));
 
         // 名前
         public string Name
@@ -75,7 +75,7 @@ namespace NeeView
             }
             catch (Exception ex)
             {
-                new MessageDialog(ex.Message, Properties.Resources.DialogOpenApplicationErrorTitle).ShowDialog();
+                new MessageDialog(ex.Message, Properties.Resources.OpenApplicationErrorDialog_Title).ShowDialog();
             }
         }
 
@@ -91,7 +91,7 @@ namespace NeeView
             }
             catch (Exception ex)
             {
-                new MessageDialog(ex.Message, Properties.Resources.DialogOpenApplicationErrorTitle).ShowDialog();
+                new MessageDialog(ex.Message, Properties.Resources.OpenApplicationErrorDialog_Title).ShowDialog();
             }
         }
 

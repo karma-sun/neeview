@@ -18,7 +18,7 @@ namespace NeeView
 
         public override string ExecuteMessage(object sender, CommandContext e)
         {
-            return Config.Current.MainView.IsFloating ? Properties.Resources.ToggleMainViewFloatingOff : Properties.Resources.ToggleMainViewFloatingOn;
+            return Config.Current.MainView.IsFloating ? Properties.Resources.ToggleMainViewFloatingCommand_Off : Properties.Resources.ToggleMainViewFloatingCommand_On;
         }
 
         public override void Execute(object sender, CommandContext e)

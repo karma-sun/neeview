@@ -23,8 +23,8 @@ namespace NeeView.Setting
         {
             InitializeComponent();
 
-            this.AddButton.Content = Properties.Resources.WordAdd;
-            this.CancelButton.Content = Properties.Resources.WordCancel;
+            this.AddButton.Content = Properties.Resources.Word_Add;
+            this.CancelButton.Content = Properties.Resources.Word_Cancel;
 
             this.Loaded += AddParameterDialog_Loaded;
             this.KeyDown += AddParameterDialog_KeyDown;

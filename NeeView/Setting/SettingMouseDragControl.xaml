@@ -15,7 +15,7 @@
 
                 <DockPanel DockPanel.Dock="Bottom">
                     <Grid DockPanel.Dock="Top">
-                        <Button x:Name="ResetDragSettingButton" Content="{x:Static properties:Resources.ControlEditMouseDragReset}" MinWidth="120" Height="30" Margin="8" Padding="5,0" HorizontalAlignment="Right" Click="ResetDragActionSettingButton_Click" TabIndex="10"/>
+                        <Button x:Name="ResetDragSettingButton" Content="{x:Static properties:Resources.MouseDragList_Reset}" MinWidth="120" Height="30" Margin="8" Padding="5,0" HorizontalAlignment="Right" Click="ResetDragActionSettingButton_Click" TabIndex="10"/>
                     </Grid>
 
                 </DockPanel>
@@ -40,7 +40,7 @@
                     <ListView.View>
                         <GridView>
 
-                            <GridViewColumn Header="{x:Static properties:Resources.ControlEditMouseDragListHeaderCommand}" >
+                            <GridViewColumn Header="{x:Static properties:Resources.MouseDragList_Header_Command}" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Header}" TextTrimming="CharacterEllipsis" ToolTipService.ShowOnDisabled="True"/>
@@ -48,7 +48,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
-                            <GridViewColumn Header="{x:Static properties:Resources.ControlEditMouseDragListHeaderDrag}" Width="300" >
+                            <GridViewColumn Header="{x:Static properties:Resources.MouseDragList_Header_Drag}" Width="300" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding DragAction.DragKey}" TextTrimming="CharacterEllipsis"/>

@@ -53,7 +53,7 @@ namespace NeeView.Setting
             _key = key;
 
             var note = DragActionTable.Current.Elements[_key].Note;
-            this.Title = $"{note} - {Properties.Resources.ControlEditDragTitle}";
+            this.Title = $"{note} - {Properties.Resources.MouseDragSettingWindow_Title}";
 
             _vm = new MouseDragSettingViewModel(_memento, _key, this.GestureBox);
             DataContext = _vm;

@@ -106,7 +106,7 @@ namespace NeeView.Windows.Property
                 return null;
             }
 
-            var resourceKey = attribute.Tips ?? GetResourceKey(property, "#Tips");
+            var resourceKey = attribute.Tips ?? GetResourceKey(property, ".Remarks");
             var resourceValue = ResourceService.GetResourceString(resourceKey, true);
 
             return resourceValue;
@@ -124,7 +124,7 @@ namespace NeeView.Windows.Property
                 return null;
             }
 
-            var resourceKey = attribute.Title ?? GetResourceKey(property, "#Title");
+            var resourceKey = attribute.Title ?? GetResourceKey(property, ".Title");
             var resourceValue = ResourceService.GetResourceString(resourceKey, true);
 
             return resourceValue;

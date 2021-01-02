@@ -51,8 +51,8 @@ namespace NeeView
 
         private StringBuilder AppendScriptReference(StringBuilder builder)
         {
-            builder.Append($"<h1 class=\"sub\">{ResourceService.GetString("@ScriptReference#Name")}</h1>");
-            builder.Append($"<p>{ResourceService.GetString("@ScriptReference")}</p>").AppendLine();
+            builder.Append($"<h1 class=\"sub\">{ResourceService.GetString("@ScriptReference")}</h1>");
+            builder.Append($"<p>{ResourceService.GetString("@ScriptReference.Summary")}</p>").AppendLine();
 
             var htmlBuilder = new HtmlReferenceBuilder(builder);
 
@@ -102,9 +102,9 @@ namespace NeeView
 
         private StringBuilder AppendConfigList(StringBuilder builder)
         {
-            builder.Append($"<h1 class=\"sub\" id=\"ConfigList\">{Properties.Resources.WordConfigList}</h1>");
+            builder.Append($"<h1 class=\"sub\" id=\"ConfigList\">{Properties.Resources.Word_ConfigList}</h1>");
             builder.Append("<table class=\"table-slim table-topless\">");
-            builder.Append($"<tr><th>{Properties.Resources.WordName}</th><th>{Properties.Resources.WordType}</th><th>{Properties.Resources.Word_Summary}</th></th>");
+            builder.Append($"<tr><th>{Properties.Resources.Word_Name}</th><th>{Properties.Resources.Word_Type}</th><th>{Properties.Resources.Word_Summary}</th></th>");
             builder.Append(ConfigMap.Current.Map.CreateHelpHtml("nv.Config"));
             builder.Append("</table>");
             return builder;
@@ -114,9 +114,9 @@ namespace NeeView
         {
             var executeMethodArgTypes = new Type[] { typeof(object), typeof(CommandContext) };
 
-            builder.Append($"<h1 class=\"sub\" id=\"CommandList\">{Properties.Resources.WordCommandList}</h1>");
+            builder.Append($"<h1 class=\"sub\" id=\"CommandList\">{Properties.Resources.Word_CommandList}</h1>");
             builder.Append("<table class=\"table-slim table-topless\">");
-            builder.Append($"<tr><th>{Properties.Resources.WordGroup}</th><th>{Properties.Resources.WordCommand}</th><th>{Properties.Resources.WordCommandName}</th><th>{Properties.Resources.WordArgument}</th><th>{Properties.Resources.WordCommandParameter}</th><th>{Properties.Resources.Word_Summary}</th></tr>");
+            builder.Append($"<tr><th>{Properties.Resources.Word_Group}</th><th>{Properties.Resources.Word_Command}</th><th>{Properties.Resources.Word_CommandName}</th><th>{Properties.Resources.Word_Argument}</th><th>{Properties.Resources.Word_CommandParameter}</th><th>{Properties.Resources.Word_Summary}</th></tr>");
             foreach (var command in CommandTable.Current.Values.OrderBy(e => e.Order))
             {
                 string argument = "";
@@ -147,7 +147,7 @@ namespace NeeView
 
                     if (command.Share != null)
                     {
-                        properties = "<p style=\"color:red\">" + string.Format(Properties.Resources.ParamCommandShare, command.Share.Name) + "</p>";
+                        properties = "<p style=\"color:red\">" + string.Format(Properties.Resources.CommandParameter_Share, command.Share.Name) + "</p>";
                     }
 
                     foreach (PropertyInfo info in type.GetProperties())
@@ -167,7 +167,7 @@ namespace NeeView
                                 enums = string.Join(" / ", info.PropertyType.VisibledAliasNameDictionary().Select(e => $"\"{e.Key}\": {e.Value}")) + "<br/>";
                             }
 
-                            var propertyName = PropertyMemberAttributeExtensions.GetPropertyName(info, attribute).TrimEnd(Properties.Resources.WordPeriod.ToArray()) + Properties.Resources.WordPeriod;
+                            var propertyName = PropertyMemberAttributeExtensions.GetPropertyName(info, attribute).TrimEnd(Properties.Resources.Word_Period.ToArray()) + Properties.Resources.Word_Period;
                             var text = title + propertyName;
 
                             var propertyTips = PropertyMemberAttributeExtensions.GetPropertyTips(info, attribute);
@@ -185,7 +185,7 @@ namespace NeeView
                     }
                 }
 
-                builder.Append($"<tr><td>{command.Group}</td><td>{command.Text}</td><td><b>{command.Name}</b></td><td>{argument}</td><td>{properties}</td><td>{command.Note}</td></tr>");
+                builder.Append($"<tr><td>{command.Group}</td><td>{command.Text}</td><td><b>{command.Name}</b></td><td>{argument}</td><td>{properties}</td><td>{command.Remarks}</td></tr>");
             }
             builder.Append("</table>");
 

@@ -48,12 +48,12 @@ namespace NeeView
     /// </summary>
     public static class UICommands
     {
-        public static UICommand OK { get; } = new UICommand(Properties.Resources.WordOK) { IsPositibe = true };
-        public static UICommand Yes { get; } = new UICommand(Properties.Resources.WordYes) { IsPositibe = true };
-        public static UICommand No { get; } = new UICommand(Properties.Resources.WordNo);
-        public static UICommand Cancel { get; } = new UICommand(Properties.Resources.WordCancel);
-        public static UICommand Delete { get; } = new UICommand(Properties.Resources.WordDelete);
-        public static UICommand Retry { get; } = new UICommand(Properties.Resources.WordRetry);
+        public static UICommand OK { get; } = new UICommand(Properties.Resources.Word_OK) { IsPositibe = true };
+        public static UICommand Yes { get; } = new UICommand(Properties.Resources.Word_Yes) { IsPositibe = true };
+        public static UICommand No { get; } = new UICommand(Properties.Resources.Word_No);
+        public static UICommand Cancel { get; } = new UICommand(Properties.Resources.Word_Cancel);
+        public static UICommand Delete { get; } = new UICommand(Properties.Resources.Word_Delete);
+        public static UICommand Retry { get; } = new UICommand(Properties.Resources.Word_Retry);
 
         // dialog.Commands.AddRange(...) のような使用を想定したセット
         public static List<UICommand> YesNo = new List<UICommand>() { Yes, No };

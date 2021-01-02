@@ -151,7 +151,7 @@ namespace NeeView
             }
             catch (Exception)
             {
-                ToastService.Current.Show(new Toast(Resources.DialogSusieConnectError, null, ToastIcon.Error));
+                ToastService.Current.Show(new Toast(Resources.SusieConnectError_Message, null, ToastIcon.Error));
             }
         }
 

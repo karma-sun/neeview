@@ -36,8 +36,8 @@
                         <Setter Property="MinWidth" Value="80"/>
                     </Style>
                 </StackPanel.Resources>
-                <Button x:Name="OKButton" Content="{x:Static properties:Resources.WordOK}" Click="OKButton_Click"/>
-                <Button x:Name="CancelButton" Content="{x:Static properties:Resources.WordCancel}" Click="CancelButton_Click"/>
+                <Button x:Name="OKButton" Content="{x:Static properties:Resources.Word_OK}" Click="OKButton_Click"/>
+                <Button x:Name="CancelButton" Content="{x:Static properties:Resources.Word_Cancel}" Click="CancelButton_Click"/>
             </StackPanel>
 
             <Grid Margin="10,5">

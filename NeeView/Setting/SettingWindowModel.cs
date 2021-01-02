@@ -58,7 +58,7 @@ namespace NeeView.Setting
             get { return _pages; }
         }
 
-        public SettingPage SearchPage { get; } = new SettingPage(Properties.Resources.SettingPageSearchResult);
+        public SettingPage SearchPage { get; } = new SettingPage(Properties.Resources.SettingPage_SearchResult);
 
 
         private void Initialize()
@@ -148,7 +148,7 @@ namespace NeeView.Setting
 
                 if (groups.Any())
                 {
-                    items.Add(new SettingItemSection(Properties.Resources.SettingPageSearchResult));
+                    items.Add(new SettingItemSection(Properties.Resources.SettingPage_SearchResult));
                     foreach (var group in groups)
                     {
                         var section = new SettingItemSection(group.Key.Header, group.Key.Tips);
@@ -158,12 +158,12 @@ namespace NeeView.Setting
                 }
                 else
                 {
-                    items.Add(new SettingItemSection(Properties.Resources.SettingPageSearchResultNotFound));
+                    items.Add(new SettingItemSection(Properties.Resources.SettingPage_SearchResult_NotFound));
                 }
             }
             else
             {
-                items.Add(new SettingItemSection(Properties.Resources.SettingPageSearchResultNotFound));
+                items.Add(new SettingItemSection(Properties.Resources.SettingPage_SearchResult_NotFound));
             }
 
             SearchPage.SetItems(items);

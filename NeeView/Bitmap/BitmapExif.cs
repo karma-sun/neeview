@@ -35,7 +35,7 @@ namespace NeeView
             string shotInfo = "";
             {
                 if (ExposureTime != null && ExposureTime.Numerator > 0)
-                    shotInfo += ExposureTime.Denominator == 1 ? $"{ExposureTime.Numerator} " : $"{ExposureTime.Numerator}/{ExposureTime.Denominator} " + Properties.Resources.WordSec;
+                    shotInfo += ExposureTime.Denominator == 1 ? $"{ExposureTime.Numerator} " : $"{ExposureTime.Numerator}/{ExposureTime.Denominator} " + Properties.Resources.Word_Sec;
                 if (FNumber != null && FNumber.Numerator > 0)
                     shotInfo += $" f/{FNumber.Value}";
                 if (FocalLength != null && FocalLength.Numerator > 0)

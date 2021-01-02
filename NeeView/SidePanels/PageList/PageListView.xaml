@@ -66,20 +66,20 @@
                 </ToggleButton>
                 <WrapPanel MinWidth="150">
                     <Button x:Name="PrevButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToPreviousCommand}" TabIndex="1" ContextMenuService.Placement="Bottom"
-                            ContextMenuOpening="PrevButton_ContextMenuOpening" ToolTip="{x:Static properties:Resources.BookshelfBackTips}">
+                            ContextMenuOpening="PrevButton_ContextMenuOpening" ToolTip="{x:Static properties:Resources.PageList_Back_ToolTip}">
                         <Image Source="{StaticResource ic_arrow_back_24px_b}" Width="16" Height="16" />
                         <Button.ContextMenu>
                             <ContextMenu x:Name="PrevButtonContextMenu" ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}" />
                         </Button.ContextMenu>
                     </Button>
                     <Button x:Name="NextButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToNextCommand}" TabIndex="1" ContextMenuService.Placement="Bottom"
-                            ContextMenuOpening="NextButton_ContextMenuOpening" ToolTip="{x:Static properties:Resources.BookshelfNextTips}">
+                            ContextMenuOpening="NextButton_ContextMenuOpening" ToolTip="{x:Static properties:Resources.PageList_Next_ToolTip}">
                         <Image Source="{StaticResource ic_arrow_forward_24px_b}" Width="16" Height="16" />
                         <Button.ContextMenu>
                             <ContextMenu x:Name="NextButtonContextMenu" ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}" />
                         </Button.ContextMenu>
                     </Button>
-                    <Button x:Name="UpButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToUpCommand}" TabIndex="1" ToolTip="{x:Static properties:Resources.BookshelfUpTips}">
+                    <Button x:Name="UpButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToUpCommand}" TabIndex="1" ToolTip="{x:Static properties:Resources.PageList_Up_ToolTip}">
                         <Image Source="{StaticResource ic_arrow_up_24px_b}" Width="16" Height="16" />
                     </Button>
                     <ComboBox x:Name="FormatComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" TabIndex="1"

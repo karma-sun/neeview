@@ -114,7 +114,7 @@
             <Button x:Name="PrevHistoryButton" Command="{Binding BookCommands[PrevBookHistory]}" Style="{StaticResource AddressIconButton}" TabIndex="1"
                                     ContextMenuService.Placement="Bottom"
                                     ContextMenuOpening="PrevHistoryButton_ContextMenuOpening"
-                                    ToolTip="{x:Static properties:Resources.ControlAddressBarBack}">
+                                    ToolTip="{x:Static properties:Resources.AddressBar_Back_ToolTip}">
                 <Image Source="{Binding Config.Theme.MenuColor, Converter={StaticResource IconArrowBackSelector}}" Width="16" Height="16"/>
                 <Button.ContextMenu>
                     <ContextMenu ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}" />
@@ -123,26 +123,26 @@
             <Button x:Name="NextHistoryButton" Command="{Binding BookCommands[NextBookHistory]}"  Style="{StaticResource AddressIconButton}" TabIndex="2"
                                     ContextMenuService.Placement="Bottom"
                                     ContextMenuOpening="NextHistoryButton_ContextMenuOpening"
-                                    ToolTip="{x:Static properties:Resources.ControlAddressBarNext}">
+                                    ToolTip="{x:Static properties:Resources.AddressBar_Next_ToolTip}">
                 <Image Source="{Binding Config.Theme.MenuColor, Converter={StaticResource IconArrowForwardSelector}}" Width="16" Height="16" />
                 <Button.ContextMenu>
                     <ContextMenu ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}" />
                 </Button.ContextMenu>
             </Button>
             <Button x:Name="MoveToParentButton" Command="{Binding BookCommands[MoveToParentBook]}"  Style="{StaticResource AddressIconButton}" TabIndex="3"
-                                    ToolTip="{x:Static properties:Resources.ControlAddressBarUp}">
+                                    ToolTip="{x:Static properties:Resources.AddressBar_Up_ToolTip}">
                 <Image Source="{Binding Config.Theme.MenuColor, Converter={StaticResource IconArrowUpSelector}}" Width="16" Height="16"/>
             </Button>
 
             <Grid>
                 <Button Command="{Binding BookCommands[ReLoad]}" Style="{StaticResource AddressIconButton}" TabIndex="4"
                         Visibility="{Binding IsLoading, Converter={StaticResource BooleanToInverseVisibilityConverter}}"
-                        ToolTip="{x:Static properties:Resources.ControlAddressBarReLoad}">
+                        ToolTip="{x:Static properties:Resources.AddressBar_ReLoad_ToolTip}">
                     <Image Source="{Binding Config.Theme.MenuColor, Converter={StaticResource IconRefreshSelector}}" Width="16" Height="16" />
                 </Button>
                 <Button Command="{Binding BookCommands[Unload]}" Style="{StaticResource AddressIconButton}" TabIndex="5"
                         Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
-                        ToolTip="{x:Static properties:Resources.ControlAddressBarUnload}">
+                        ToolTip="{x:Static properties:Resources.AddressBar_Unload_ToolTip}">
                     <Image Source="{Binding Config.Theme.MenuColor, Converter={StaticResource IconCloseSelector}}" Width="16" Height="16" />
                 </Button>
             </Grid>

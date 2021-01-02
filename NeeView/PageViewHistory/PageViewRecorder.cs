@@ -128,7 +128,7 @@ namespace NeeView
             catch (IOException err)
             {
                 Debug.WriteLine("[Error] {0}", err.Message);
-                ToastService.Current.Show(new Toast(Resources.DialogPageViewRecordWriteError, null, ToastIcon.Error));
+                ToastService.Current.Show(new Toast(Resources.PageViewRecordWriteError_Message, null, ToastIcon.Error));
             }
             finally
             {
@@ -148,7 +148,7 @@ namespace NeeView
                 catch (IOException err)
                 {
                     Debug.WriteLine("[Error] {0}", err.Message);
-                    ToastService.Current.Show(new Toast(Resources.DialogPageViewRecordWriteError, null, ToastIcon.Error));
+                    ToastService.Current.Show(new Toast(Resources.PageViewRecordWriteError_Message, null, ToastIcon.Error));
                 }
                 _viewedBookAddress = null;
                 _viewedPages = new List<Page>();
@@ -210,7 +210,7 @@ namespace NeeView
             _viewedBookAddress = book.Address;
             if (book.NotFoundStartPage != null && book.Pages.Count > 0)
             {
-                _viewedBookName = string.Format(Resources.NotifyCannotOpen, LoosePath.GetFileName(book.NotFoundStartPage));
+                _viewedBookName = string.Format(Resources.Notice_CannotOpen, LoosePath.GetFileName(book.NotFoundStartPage));
             }
             else
             {

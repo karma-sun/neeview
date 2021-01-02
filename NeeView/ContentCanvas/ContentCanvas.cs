@@ -831,7 +831,7 @@ namespace NeeView
             }
             catch (Exception e)
             {
-                new MessageDialog($"{Resources.WordCause}: {e.Message}", Resources.DialogCopyImageErrorTitle).ShowDialog();
+                new MessageDialog($"{Resources.Word_Cause}: {e.Message}", Resources.CopyImageErrorDialog_Title).ShowDialog();
             }
         }
 

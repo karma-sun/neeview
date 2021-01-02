@@ -47,7 +47,7 @@ namespace NeeView
 
             exporter.Export(filename, isOverweite);
 
-            var toast = new Toast(string.Format(Resources.DialogExportImageSuccess, filename));
+            var toast = new Toast(string.Format(Resources.ExportImage_Message_Success, filename));
             ToastService.Current.Show(toast);
         }
 

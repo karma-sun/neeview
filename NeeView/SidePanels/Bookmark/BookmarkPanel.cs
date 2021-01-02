@@ -31,7 +31,7 @@ namespace NeeView
 
         public ImageSource Icon { get; private set; }
 
-        public string IconTips => Properties.Resources.BookmarkName;
+        public string IconTips => Properties.Resources.Bookmark_Title;
 
         public FrameworkElement View => _view;
 

@@ -58,8 +58,8 @@
         </b:Interaction.Behaviors>
         <Button.ContextMenu>
             <ContextMenu>
-                <MenuItem Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.LayoutPanelMenuFloating}" Command="{StaticResource OpenWindowCommand}" />
-                <MenuItem Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.LayoutPanelMenuDocking}" Command="{StaticResource OpenDockCommand}" />
+                <MenuItem Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.LayoutPanel_Menu_Floating}" Command="{StaticResource OpenWindowCommand}" />
+                <MenuItem Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.LayoutPanel_Menu_Docking}" Command="{StaticResource OpenDockCommand}" />
             </ContextMenu>
         </Button.ContextMenu>
         <Grid Width="32" Height="32" Background="Transparent">

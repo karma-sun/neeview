@@ -24,7 +24,7 @@ namespace NeeView
             return Config.Current.ImageEffect.IsEnabled ? Properties.Resources.ToggleEffectCommand_Off : Properties.Resources.ToggleEffectCommand_On;
         }
 
-        [MethodArgument("@CommandToggleArgument")]
+        [MethodArgument("@ToggleCommand.Execute.Remarks")]
         public override void Execute(object sender, CommandContext e)
         {
             if (e.Args.Length > 0)

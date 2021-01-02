@@ -9,11 +9,11 @@ namespace NeeView.IO
         {
             [DriveType.Unknown] = "",
             [DriveType.NoRootDirectory] = "",
-            [DriveType.Removable] = Properties.Resources.WordRemovableDrive,
-            [DriveType.Fixed] = Properties.Resources.WordFixedDrive,
-            [DriveType.Network] = Properties.Resources.WordNetworkDrive,
-            [DriveType.CDRom] = Properties.Resources.WordCDRomDrive,
-            [DriveType.Ram] = Properties.Resources.WordRamDrive,
+            [DriveType.Removable] = Properties.Resources.Word_RemovableDrive,
+            [DriveType.Fixed] = Properties.Resources.Word_FixedDrive,
+            [DriveType.Network] = Properties.Resources.Word_NetworkDrive,
+            [DriveType.CDRom] = Properties.Resources.Word_CDRomDrive,
+            [DriveType.Ram] = Properties.Resources.Word_RamDrive,
         };
 
         public static string ToDispString(this DriveType driveType)

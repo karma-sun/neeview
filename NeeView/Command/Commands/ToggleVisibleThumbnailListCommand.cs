@@ -22,7 +22,7 @@ namespace NeeView
             return ThumbnailList.Current.IsVisible ? Properties.Resources.ToggleVisibleThumbnailListCommand_Off : Properties.Resources.ToggleVisibleThumbnailListCommand_On;
         }
 
-        [MethodArgument("@CommandToggleArgument")]
+        [MethodArgument("@ToggleCommand.Execute.Remarks")]
         public override void Execute(object sender, CommandContext e)
         {
             if (e.Args.Length > 0)

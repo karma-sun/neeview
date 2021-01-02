@@ -58,8 +58,8 @@ namespace NeeView
             if (_vm.FolderCollection is BookmarkFolderCollection)
             {
                 var menu = new ContextMenu();
-                menu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderTreeMenuAddBookmark, Command = AddBookmarkCommand });
-                menu.Items.Add(new MenuItem() { Header = Properties.Resources.WordNewFolder, Command = NewFolderCommand });
+                menu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderTree_Menu_AddBookmark, Command = AddBookmarkCommand });
+                menu.Items.Add(new MenuItem() { Header = Properties.Resources.Word_NewFolder, Command = NewFolderCommand });
                 this.ListBox.ContextMenu = menu;
             }
         }
@@ -327,7 +327,7 @@ namespace NeeView
             }
             catch (Exception ex)
             {
-                ToastService.Current.Show(new Toast(ex.Message, Properties.Resources.BookshelfCopyToFolderFailed, ToastIcon.Error));
+                ToastService.Current.Show(new Toast(ex.Message, Properties.Resources.Bookshelf_CopyToFolderFailed, ToastIcon.Error));
             }
         }
 
@@ -376,7 +376,7 @@ namespace NeeView
             }
             catch (Exception ex)
             {
-                ToastService.Current.Show(new Toast(ex.Message, Properties.Resources.BookshelfMoveToFolderFailed, ToastIcon.Error));
+                ToastService.Current.Show(new Toast(ex.Message, Properties.Resources.Bookshelf_Message_MoveToFolderFailed, ToastIcon.Error));
             }
         }
 
@@ -1122,57 +1122,57 @@ namespace NeeView
 
             if (item.Attributes.HasFlag(FolderItemAttribute.System))
             {
-                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuOpen, Command = OpenCommand });
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItem_Menu_Open, Command = OpenCommand });
             }
             else if (item.Attributes.HasFlag(FolderItemAttribute.Bookmark))
             {
                 if (item.IsDirectory)
                 {
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuOpen, Command = OpenCommand });
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItem_Menu_Open, Command = OpenCommand });
                     contextMenu.Items.Add(new Separator());
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuDelete, Command = RemoveCommand });
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuRename, Command = RenameCommand });
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItem_Menu_Delete, Command = RemoveCommand });
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItem_Menu_Rename, Command = RenameCommand });
                 }
                 else
                 {
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuOpenBook, Command = OpenBookCommand });
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItem_Menu_OpenBook, Command = OpenBookCommand });
                     contextMenu.Items.Add(new Separator());
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuExplorer, Command = OpenExplorerCommand });
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItem_Menu_Explorer, Command = OpenExplorerCommand });
                     contextMenu.Items.Add(ExternalAppCollectionUtility.CreateExternalAppItem(OpenExternalApp_CanExecute(), OpenExternalAppCommand, OpenExternalAppDialogCommand));
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuCopy, Command = CopyCommand });
-                    contextMenu.Items.Add(DestinationFolderCollectionUtility.CreateDestinationFolderItem(Properties.Resources.BookshelfItemMenuCopyToFolder, CopyToFolder_CanExecute(), CopyToFolderCommand, OpenDestinationFolderCommand));
-                    contextMenu.Items.Add(DestinationFolderCollectionUtility.CreateDestinationFolderItem(Properties.Resources.BookshelfItemMenuMoveToFolder, false, MoveToFolderCommand, OpenDestinationFolderCommand));
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItem_Menu_Copy, Command = CopyCommand });
+                    contextMenu.Items.Add(DestinationFolderCollectionUtility.CreateDestinationFolderItem(Properties.Resources.BookshelfItem_Menu_CopyToFolder, CopyToFolder_CanExecute(), CopyToFolderCommand, OpenDestinationFolderCommand));
+                    contextMenu.Items.Add(DestinationFolderCollectionUtility.CreateDestinationFolderItem(Properties.Resources.BookshelfItem_Menu_MoveToFolder, false, MoveToFolderCommand, OpenDestinationFolderCommand));
                     contextMenu.Items.Add(new Separator());
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuDeleteBookmark, Command = RemoveCommand });
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItem_Menu_DeleteBookmark, Command = RemoveCommand });
                 }
             }
             else if (item.Attributes.HasFlag(FolderItemAttribute.Empty))
             {
                 bool canExplorer = !(_vm.FolderCollection is BookmarkFolderCollection);
-                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuExplorer, Command = OpenExplorerCommand, IsEnabled = canExplorer });
-                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuCopy, Command = CopyCommand, IsEnabled = false });
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItem_Menu_Explorer, Command = OpenExplorerCommand, IsEnabled = canExplorer });
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItem_Menu_Copy, Command = CopyCommand, IsEnabled = false });
             }
             else if (item.IsFileSystem())
             {
                 if (item.IsDirectory || Config.Current.System.ArchiveRecursiveMode != ArchiveEntryCollectionMode.IncludeSubArchives)
                 {
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuOpen, Command = OpenCommand });
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItem_Menu_Open, Command = OpenCommand });
                     contextMenu.Items.Add(new Separator());
                 }
-                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuOpenBook, Command = OpenBookCommand });
-                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuSubfolder, Command = LoadWithRecursiveCommand, IsChecked = item.IsRecursived });
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItem_Menu_OpenBook, Command = OpenBookCommand });
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItem_Menu_Subfolder, Command = LoadWithRecursiveCommand, IsChecked = item.IsRecursived });
                 contextMenu.Items.Add(new Separator());
-                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.WordBookmark, Command = ToggleBookmarkCommand, IsChecked = BookmarkCollection.Current.Contains(item.EntityPath.SimplePath) });
-                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuDeleteHistory, Command = RemoveHistoryCommand });
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.Word_Bookmark, Command = ToggleBookmarkCommand, IsChecked = BookmarkCollection.Current.Contains(item.EntityPath.SimplePath) });
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItem_Menu_DeleteHistory, Command = RemoveHistoryCommand });
                 contextMenu.Items.Add(new Separator());
-                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuExplorer, Command = OpenExplorerCommand });
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItem_Menu_Explorer, Command = OpenExplorerCommand });
                 contextMenu.Items.Add(ExternalAppCollectionUtility.CreateExternalAppItem(OpenExternalApp_CanExecute(), OpenExternalAppCommand, OpenExternalAppDialogCommand));
-                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuCopy, Command = CopyCommand });
-                contextMenu.Items.Add(DestinationFolderCollectionUtility.CreateDestinationFolderItem(Properties.Resources.BookshelfItemMenuCopyToFolder, CopyToFolder_CanExecute(), CopyToFolderCommand, OpenDestinationFolderCommand));
-                contextMenu.Items.Add(DestinationFolderCollectionUtility.CreateDestinationFolderItem(Properties.Resources.BookshelfItemMenuMoveToFolder, MoveToFolder_CanExecute(), MoveToFolderCommand, OpenDestinationFolderCommand));
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItem_Menu_Copy, Command = CopyCommand });
+                contextMenu.Items.Add(DestinationFolderCollectionUtility.CreateDestinationFolderItem(Properties.Resources.BookshelfItem_Menu_CopyToFolder, CopyToFolder_CanExecute(), CopyToFolderCommand, OpenDestinationFolderCommand));
+                contextMenu.Items.Add(DestinationFolderCollectionUtility.CreateDestinationFolderItem(Properties.Resources.BookshelfItem_Menu_MoveToFolder, MoveToFolder_CanExecute(), MoveToFolderCommand, OpenDestinationFolderCommand));
                 contextMenu.Items.Add(new Separator());
-                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuDelete, Command = RemoveCommand });
-                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuRename, Command = RenameCommand });
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItem_Menu_Delete, Command = RemoveCommand });
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItem_Menu_Rename, Command = RenameCommand });
             }
         }
 

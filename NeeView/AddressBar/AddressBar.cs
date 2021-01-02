@@ -65,14 +65,14 @@ namespace NeeView
                     var query = new QueryPath(_address);
                     if (query.Scheme == QueryScheme.Bookmark)
                     {
-                        text = Properties.Resources.BookAddressInfoBookmark;
+                        text = Properties.Resources.BookAddressInfo_Bookmark;
                     }
                     else if (query.Scheme == QueryScheme.Pagemark)
                     {
-                        text = Properties.Resources.BookAddressInfoPagemark;
+                        text = Properties.Resources.BookAddressInfo_Pagemark;
                     }
                 }
-                return text ?? Properties.Resources.BookAddressInfoInvalid;
+                return text ?? Properties.Resources.BookAddressInfo_Invalid;
             }
         }
 

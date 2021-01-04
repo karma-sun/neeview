@@ -108,7 +108,7 @@ namespace NeeView
         /// <summary>
         /// フォントサイズ
         /// </summary>
-        [PropertyRange(8, 24, TickFrequency = 0.5, IsEditable = true)]
+        [PropertyRange(8, 24, TickFrequency = 0.5, IsEditable = true, Format = "{0:0.0}")]
         public double FontSize
         {
             get { return _fontSize; }
@@ -118,7 +118,7 @@ namespace NeeView
         /// <summary>
         /// フォルダーツリーのフォントサイズ
         /// </summary>
-        [PropertyRange(8, 24, TickFrequency = 0.5, IsEditable = true)]
+        [PropertyRange(8, 24, TickFrequency = 0.5, IsEditable = true, Format = "{0:0.0}")]
         public double FolderTreeFontSize
         {
             get { return _folderTreeFontSize; }
@@ -138,7 +138,7 @@ namespace NeeView
         /// <summary>
         /// サムネイルリストのマウスホイール速度倍率
         /// </summary>
-        [PropertyRange(0.1, 2.0, TickFrequency =0.1)]
+        [PropertyRange(0.1, 2.0, TickFrequency =0.1, Format = "× {0:0.0}")]
         public double MouseWheelSpeedRate
         {
             get { return _mouseWheelSpeedRate; }

@@ -202,13 +202,37 @@ namespace NeeView.Windows.Property
             switch (typeCode)
             {
                 case TypeCode.Int32:
-                    this.TypeValue = new PropertyValue_IntegerRange(this, new RangeProfile_Integer(value, true, attribute.Minimum, attribute.Maximum, attribute.TickFrequency, attribute.IsEditable, attribute.Format));
+                    this.TypeValue = CreatePropertyValue(new RangeProfile_Integer(value, attribute.Minimum, attribute.Maximum, attribute.TickFrequency, attribute.IsEditable, attribute.Format));
                     break;
                 case TypeCode.Double:
-                    this.TypeValue = new PropertyValue_DoubleRange(this, new RangeProfile_Double(value, false, attribute.Minimum, attribute.Maximum, attribute.TickFrequency, attribute.IsEditable, attribute.Format));
+                    this.TypeValue = CreatePropertyValue(new RangeProfile_Double(value, attribute.Minimum, attribute.Maximum, attribute.TickFrequency, attribute.IsEditable, attribute.Format));
                     break;
                 default:
                     throw new NotSupportedException();
+            }
+        }
+
+        private PropertyValue CreatePropertyValue(RangeProfile_Integer profile)
+        {
+            if (profile.IsEditable)
+            {
+                return new PropertyValue_EditableIntegerRange(this, profile);
+            }
+            else
+            {
+                return new PropertyValue_IntegerRange(this, profile);
+            }
+        }
+
+        private PropertyValue CreatePropertyValue(RangeProfile_Double profile)
+        {
+            if (profile.IsEditable)
+            {
+                return new PropertyValue_EditableDoubleRange(this, profile);
+            }
+            else
+            {
+                return new PropertyValue_DoubleRange(this, profile);
             }
         }
 
@@ -220,7 +244,7 @@ namespace NeeView.Windows.Property
             switch (typeCode)
             {
                 case TypeCode.Double:
-                    this.TypeValue = new PropertyValue_Percent(this, new RangeProfile_Double(value, false, attribute.Minimum, attribute.Maximum, attribute.TickFrequency, attribute.IsEditable, attribute.Format));
+                    this.TypeValue = new PropertyValue_Percent(this, new RangeProfile_Double(value, attribute.Minimum, attribute.Maximum, attribute.TickFrequency, attribute.IsEditable, attribute.Format));
                     break;
                 default:
                     throw new NotSupportedException();

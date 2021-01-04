@@ -3411,7 +3411,7 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
     <value>Icon size</value>
   </data>
   <data name="PanelListItemProfile.ImageWidth.Remarks" xml:space="preserve">
-    <value>The width of the icon image. If the thumbnail image resolution is exceeded, the image will be grainy.</value>
+    <value>The width of the icon image. The aspect ratio depends on the shape of the icon. If the thumbnail image resolution is exceeded, the image will be grainy.</value>
   </data>
   <data name="PanelListItemProfile.IsImagePopupEnabled" xml:space="preserve">
     <value>Icon popup</value>
@@ -4751,10 +4751,10 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ThumbnailConfig.Quality.Remarks" xml:space="preserve">
     <value>Quality when the thumbnail image format is JPEG.</value>
   </data>
-  <data name="ThumbnailConfig.Resolution" xml:space="preserve">
+  <data name="ThumbnailConfig.ImageWidth" xml:space="preserve">
     <value>Thumbnail image resolution</value>
   </data>
-  <data name="ThumbnailConfig.Resolution.Remarks" xml:space="preserve">
+  <data name="ThumbnailConfig.ImageWidth.Remarks" xml:space="preserve">
     <value>The higher the value, the higher the resolution but the larger the data size.</value>
   </data>
   <data name="ThumbnailConfig.ThumbnailBookCapacity" xml:space="preserve">

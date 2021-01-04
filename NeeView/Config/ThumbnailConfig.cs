@@ -3,6 +3,7 @@ using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Controls;
 using NeeView.Windows.Property;
 using System;
+using System.Text.Json.Serialization;
 
 namespace NeeView
 {
@@ -14,7 +15,7 @@ namespace NeeView
         private int _quality = 80;
         private int _thumbnailBookCapacity = 200;
         private int _thumbnailPageCapacity = 100;
-        private double _resolution = 256.0;
+        private int _imageWidth = 256;
         private string _thumbnailCacheFilePath;
 
 
@@ -46,12 +47,25 @@ namespace NeeView
         /// <summary>
         /// 画像サイズ
         /// </summary>
-        [PropertyRange(64, 512, TickFrequency = 64, IsEditable = true)]
-        public double Resolution
+        [PropertyRange(64, 512, TickFrequency = 64, IsEditable = true, Format="{0} × {0}")]
+        public int ImageWidth
         {
-            get { return _resolution; }
-            set { SetProperty(ref _resolution, MathUtility.Max(value, 64)); }
+            get { return _imageWidth; }
+            set { SetProperty(ref _imageWidth, MathUtility.Max(value, 64)); }
         }
+
+        #region Obsolete
+
+        [Obsolete] // ver.39
+        [JsonPropertyName("Resolution")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public double Resolution_Legacy
+        {
+            get { return 0.0; }
+            set { ImageWidth = (int)value; }
+        }
+
+        #endregion
 
         /// <summary>
         /// 画像フォーマット
@@ -89,13 +103,12 @@ namespace NeeView
 
 
 
-
         /// <summary>
         /// サムネイル画像生成パラメータのハッシュ値
         /// </summary>
         public int GetThumbnailImageGenerateHash()
         {
-            int hash = (int)Resolution;
+            int hash = (int)ImageWidth;
             if (Format == BitmapImageFormat.Jpeg)
             {
                 hash |= 0x40000000;

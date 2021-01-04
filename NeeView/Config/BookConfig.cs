@@ -116,7 +116,7 @@ namespace NeeView
         }
 
         // ブックページ画像サイズ
-        [PropertyRange(100.0, 600.0, TickFrequency = 10.0, IsEditable = true)]
+        [PropertyRange(100.0, 600.0, TickFrequency = 10.0, IsEditable = true, Format = "{0} × {0}")]
         public double BookPageSize
         {
             get { return _bookPageSize; }

@@ -260,7 +260,7 @@
                             <TextBlock Text="{x:Static properties:Resources.Navigator_StretchScale}" VerticalAlignment="Center" />
                         </DockPanel>
                         <DockPanel Margin="0,2" Visibility="{Binding IsBaseScaleEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <nvc:EnterTriggerTextBox DockPanel.Dock="Right" Text="{Binding BaseScale, StringFormat={}{0:F0}}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0" ValueDelta="BaseScale_ValueDelta" />
+                            <nvc:EnterTriggerTextBox DockPanel.Dock="Right" Text="{Binding BaseScale, StringFormat={}{0:F0}}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0" MouseWheelChanged="BaseScale_ValueDelta" />
                             <local:VideoSlider Value="{Binding BaseScale}" Minimum="10.0" Maximum="190.0" VerticalAlignment="Center" IsDirectionEnabled="False" />
                         </DockPanel>
                     </StackPanel>
@@ -274,7 +274,7 @@
                     </DockPanel>
                     <StackPanel Margin="10,5,0,5">
                         <DockPanel Margin="0,2">
-                            <nvc:EnterTriggerTextBox DockPanel.Dock="Right" Text="{Binding Angle, StringFormat={}{0:F0}}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0" ValueDelta="Angle_ValueDelta"/>
+                            <nvc:EnterTriggerTextBox DockPanel.Dock="Right" Text="{Binding Angle, StringFormat={}{0:F0}}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0" MouseWheelChanged="Angle_ValueDelta"/>
                             <local:VideoSlider Value="{Binding Angle}" Minimum="-180.0" Maximum="180.0" TickFrequency="1.0" VerticalAlignment="Center" IsDirectionEnabled="False" />
                         </DockPanel>
                         <DockPanel Margin="0,2" LastChildFill="False">
@@ -312,7 +312,7 @@
                     </DockPanel>
                     <StackPanel Margin="10,5,0,5">
                         <DockPanel Margin="0,2">
-                            <nvc:EnterTriggerTextBox DockPanel.Dock="Right" Text="{Binding Scale, StringFormat={}{0:F0}}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0" ValueDelta="Scale_ValueDelta" />
+                            <nvc:EnterTriggerTextBox DockPanel.Dock="Right" Text="{Binding Scale, StringFormat={}{0:F0}}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0" MouseWheelChanged="Scale_ValueDelta" />
                             <local:VideoSlider Value="{Binding ScaleLog}" Minimum="-5.0" Maximum="5.0" VerticalAlignment="Center" IsDirectionEnabled="False" />
                         </DockPanel>
                         <DockPanel LastChildFill="False">

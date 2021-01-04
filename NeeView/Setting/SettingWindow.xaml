@@ -13,6 +13,7 @@
             <nvd:NotBoolToVisiblityConverter x:Key="NotBoolToVisiblityConverter" />
             <local:BooleanToSwitchStringConverter x:Key="BooleanToSwitchStringConverter" />
             <nv:DoubleToPercentStringConverter x:Key="DoubleToPercentStringConverter" />
+            <nvd:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter" />
 
             <Style x:Key="DisableStyle" TargetType="FrameworkElement">
                 <Style.Triggers>
@@ -46,6 +47,18 @@
                 </StackPanel>
             </DataTemplate>
 
+            <DataTemplate x:Key="EditableRangeValueDataTemplate">
+                <StackPanel>
+                    <nvc:SliderValueTextBox Value="{Binding Path=Value}" SubValue="{Binding ElementName=RangeSlider, Path=Value}" Format="{Binding Range.Format}"
+                            Converter="{Binding Range.Converter}" FormatConverter="{Binding Range.FormatConverter}"
+                            IsSubValueEnabled="{Binding ElementName=RangeSlider, Path=IsMouseCaptureWithin}" />
+                    <nvc:DragCompletedTriggerSlider x:Name="RangeSlider" Value="{Binding Value, UpdateSourceTrigger=Explicit}" Minimum="{Binding Range.Minimum}" Maximum="{Binding Range.Maximum}"
+                            SmallChange="{Binding Range.SmallChange}" LargeChange="{Binding Range.LargeChange}" TickFrequency="{Binding Range.TickFrequency}" IsSnapToTickEnabled="True"
+                            Margin="0,5,0,0" VerticalAlignment="Center" FocusVisualStyle="{StaticResource NVSliderFocusVisual}" />
+                </StackPanel>
+            </DataTemplate>
+
+
             <DataTemplate x:Key="PercentValueDataTemplate">
                 <StackPanel>
                     <StackPanel>
@@ -67,8 +80,16 @@
                 <ContentControl Content="{Binding}" ContentTemplate="{StaticResource RangeValueDataTemplate}" IsTabStop="False" />
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type nvp:PropertyValue_EditableIntegerRange}">
+                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource EditableRangeValueDataTemplate}" IsTabStop="False" />
+            </DataTemplate>
+
             <DataTemplate DataType="{x:Type nvp:PropertyValue_DoubleRange}">
                 <ContentControl Content="{Binding}" ContentTemplate="{StaticResource RangeValueDataTemplate}" IsTabStop="False" />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type nvp:PropertyValue_EditableDoubleRange}">
+                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource EditableRangeValueDataTemplate}" IsTabStop="False" />
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type nvp:PropertyValue_Percent}">

@@ -25,7 +25,7 @@ namespace NeeView.Windows.Controls
         private int _wheel;
 
 
-        public event EventHandler<ValueDeltaEventArgs> ValueDelta;
+        public event EventHandler<ValueDeltaEventArgs> MouseWheelChanged;
 
 
         protected override void OnPreviewKeyDown(KeyEventArgs e)
@@ -41,11 +41,11 @@ namespace NeeView.Windows.Controls
                 }
                 else if (e.Key == Key.Up)
                 {
-                    ValueDelta?.Invoke(this, new ValueDeltaEventArgs(-1));
+                    MouseWheelChanged?.Invoke(this, new ValueDeltaEventArgs(-1));
                 }
                 else if (e.Key == Key.Down)
                 {
-                    ValueDelta?.Invoke(this, new ValueDeltaEventArgs(+1));
+                    MouseWheelChanged?.Invoke(this, new ValueDeltaEventArgs(+1));
                 }
             }
         }
@@ -60,7 +60,7 @@ namespace NeeView.Windows.Controls
             var delta = _wheel / 120;
             if (delta != 0)
             {
-                ValueDelta?.Invoke(this, new ValueDeltaEventArgs(-delta));
+                MouseWheelChanged?.Invoke(this, new ValueDeltaEventArgs(-delta));
             }
 
             _wheel = _wheel % 120;

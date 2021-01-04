@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Media;
 
 namespace NeeView.Windows.Property
@@ -237,27 +238,23 @@ namespace NeeView.Windows.Property
     /// </summary>
     public class RangeProfile<T> : PropertyValue<T>
     {
-        #region Fields
-
-        private bool _isInteger;
-
-        #endregion
-
-        #region Constructors
-
-        public RangeProfile(IValueSetter setter, bool isInteger, double min, double max, double tickFrequency, bool isEditable, string format) : base(setter)
+        public RangeProfile(IValueSetter setter, double min, double max, double tickFrequency, bool isEditable, string format) : base(setter)
         {
-            _isInteger = isInteger;
             this.Minimum = min;
             this.Maximum = max;
             this.TickFrequency = tickFrequency;
             this.IsEditable = isEditable;
             this.Format = format;
+
+            if (format != null)
+            {
+                this.Converter = new SafeValueConverter<T>();
+                this.FormatConverter = new FormatValueConverter<T>() { Format = format };
+            }
+
+            this.WheelCalculator = new NumberDeltaValueCaclulator() { Scale = tickFrequency };
         }
 
-        #endregion
-
-        #region Properties
 
         public double Minimum { get; private set; }
         public double Maximum { get; private set; }
@@ -281,16 +278,21 @@ namespace NeeView.Windows.Property
         /// </summary>
         public string Format { get; private set; }
 
-        #endregion
+        public IValueConverter Converter { get; private set; }
 
-        #region Methods
+        public IValueConverter FormatConverter { get; private set; }
+
+        public IValueDeltaCalculator WheelCalculator { get; private set; }
+
 
         /// <summary>
         /// 整数型ならば1以上の整数にキャスト
         /// </summary>
         private double CastValue(double source)
         {
-            if (_isInteger)
+            // TODO: 他の整数型にも対応
+            var code = Type.GetTypeCode(typeof(T));
+            if (code == TypeCode.Int32)
             {
                 return _tickFrequency < 2.0 ? 1.0 : (int)source;
             }
@@ -299,20 +301,18 @@ namespace NeeView.Windows.Property
                 return source;
             }
         }
-
-        #endregion
     }
 
     public class RangeProfile_Double : RangeProfile<double>
     {
-        public RangeProfile_Double(IValueSetter setter, bool isInteger, double min, double max, double tickFrequency, bool isEditable, string format) : base(setter, isInteger, min, max, tickFrequency, isEditable, format)
+        public RangeProfile_Double(IValueSetter setter, double min, double max, double tickFrequency, bool isEditable, string format) : base(setter, min, max, tickFrequency, isEditable, format)
         {
         }
     }
 
     public class RangeProfile_Integer : RangeProfile<int>
     {
-        public RangeProfile_Integer(IValueSetter setter, bool isInteger, double min, double max, double tickFrequency, bool isEditable, string format) : base(setter, isInteger, min, max, tickFrequency, isEditable, format)
+        public RangeProfile_Integer(IValueSetter setter, double min, double max, double tickFrequency, bool isEditable, string format) : base(setter, min, max, tickFrequency, isEditable, format)
         {
         }
     }
@@ -329,11 +329,33 @@ namespace NeeView.Windows.Property
     }
 
     //
+    public class PropertyValue_EditableIntegerRange : PropertyValue_Integer
+    {
+        public RangeProfile_Integer Range { get; private set; }
+
+        public PropertyValue_EditableIntegerRange(PropertyMemberElement setter, RangeProfile_Integer range) : base(setter)
+        {
+            this.Range = range;
+        }
+    }
+
+    //
     public class PropertyValue_DoubleRange : PropertyValue_Double
     {
         public RangeProfile_Double Range { get; private set; }
 
         public PropertyValue_DoubleRange(PropertyMemberElement setter, RangeProfile_Double range) : base(setter)
+        {
+            this.Range = range;
+        }
+    }
+
+    //
+    public class PropertyValue_EditableDoubleRange : PropertyValue_Double
+    {
+        public RangeProfile_Double Range { get; private set; }
+
+        public PropertyValue_EditableDoubleRange(PropertyMemberElement setter, RangeProfile_Double range) : base(setter)
         {
             this.Range = range;
         }

@@ -9852,7 +9852,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   The width of the icon image. If the thumbnail image resolution is exceeded, the image will be grainy. に類似しているローカライズされた文字列を検索します。
+        ///   The width of the icon image. The aspect ratio depends on the shape of the icon. If the thumbnail image resolution is exceeded, the image will be grainy. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string PanelListItemProfile_ImageWidth_Remarks {
             get {
@@ -13808,6 +13808,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Thumbnail image resolution に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ThumbnailConfig_ImageWidth {
+            get {
+                return ResourceManager.GetString("ThumbnailConfig.ImageWidth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The higher the value, the higher the resolution but the larger the data size. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ThumbnailConfig_ImageWidth_Remarks {
+            get {
+                return ResourceManager.GetString("ThumbnailConfig.ImageWidth.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Use thumbnail cache に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ThumbnailConfig_IsCacheEnabled {
@@ -13840,24 +13858,6 @@ namespace NeeView.Properties {
         public static string ThumbnailConfig_Quality_Remarks {
             get {
                 return ResourceManager.GetString("ThumbnailConfig.Quality.Remarks", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Thumbnail image resolution に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ThumbnailConfig_Resolution {
-            get {
-                return ResourceManager.GetString("ThumbnailConfig.Resolution", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   The higher the value, the higher the resolution but the larger the data size. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ThumbnailConfig_Resolution_Remarks {
-            get {
-                return ResourceManager.GetString("ThumbnailConfig.Resolution.Remarks", resourceCulture);
             }
         }
         

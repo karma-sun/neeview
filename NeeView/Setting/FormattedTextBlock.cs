@@ -1,11 +1,11 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace NeeView.Setting
 {
     public class FormattedTextBlock : TextBlock
     {
-        //
         public string Format
         {
             get { return (string)GetValue(FormatProperty); }
@@ -15,7 +15,6 @@ namespace NeeView.Setting
         public static readonly DependencyProperty FormatProperty =
             DependencyProperty.Register("Format", typeof(string), typeof(FormattedTextBlock), new PropertyMetadata("{0}"));
 
-        //
         public object Value
         {
             get { return (object)GetValue(ValueProperty); }
@@ -33,10 +32,14 @@ namespace NeeView.Setting
             }
         }
 
-        //
-        public void Flush()
+        public virtual void Flush()
         {
-            base.Text = this.Format != null ? string.Format(this.Format, this.Value) : this.Value.ToString();
+            base.Text = CreateFormattedString(this.Value);
+        }
+
+        protected string CreateFormattedString(object value)
+        {
+            return this.Format != null ? string.Format(this.Format, value) : value.ToString();
         }
     }
 }

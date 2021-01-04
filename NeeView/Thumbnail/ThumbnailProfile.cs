@@ -35,7 +35,7 @@ namespace NeeView
         /// <returns></returns>
         public Size GetThumbnailSize(Size size)
         {
-            var resolution = Config.Current.Thumbnail.Resolution;
+            var resolution = Config.Current.Thumbnail.ImageWidth;
 
             if (size.IsEmpty) return new Size(resolution, resolution);
 

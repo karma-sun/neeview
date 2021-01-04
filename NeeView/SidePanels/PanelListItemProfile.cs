@@ -84,7 +84,7 @@ namespace NeeView
         }
 
         [DataMember(EmitDefaultValue = false)]
-        [PropertyRange(64, 512, TickFrequency = 8, IsEditable = true)]
+        [PropertyRange(64, 512, TickFrequency = 8, IsEditable = true, Format = "{0} × {0}")]
         public int ImageWidth
         {
             get { return _imageWidth; }
@@ -129,7 +129,7 @@ namespace NeeView
         }
 
         [DataMember(EmitDefaultValue = false)]
-        [PropertyRange(0.0, 1.0)]
+        [PropertyPercent]
         public double NoteOpacity
         {
             get { return _noteOpacity; }

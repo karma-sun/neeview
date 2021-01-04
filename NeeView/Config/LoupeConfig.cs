@@ -26,28 +26,28 @@ namespace NeeView
             set { SetProperty(ref _isLoupeCenter, value); }
         }
 
-        [PropertyRange(1, 20, TickFrequency = 1.0, IsEditable = true)]
+        [PropertyRange(1, 20, TickFrequency = 1.0, IsEditable = true, Format = "× {0:0.0}")]
         public double MinimumScale
         {
             get { return _minimumScale; }
             set { SetProperty(ref _minimumScale, value); }
         }
 
-        [PropertyRange(1, 20, TickFrequency = 1.0, IsEditable = true)]
+        [PropertyRange(1, 20, TickFrequency = 1.0, IsEditable = true, Format = "× {0:0.0}")]
         public double MaximumScale
         {
             get { return _maximumScale; }
             set { SetProperty(ref _maximumScale, value); }
         }
 
-        [PropertyRange(1, 20, TickFrequency = 1.0, IsEditable = true)]
+        [PropertyRange(1, 20, TickFrequency = 1.0, IsEditable = true, Format = "x {0:0.0}")]
         public double DefaultScale
         {
             get { return _defaultScale; }
             set { SetProperty(ref _defaultScale, value); }
         }
 
-        [PropertyRange(0.1, 5.0, TickFrequency = 0.1, IsEditable = true)]
+        [PropertyRange(0.1, 5.0, TickFrequency = 0.1, IsEditable = true, Format = "{0:0.0}")]
         public double ScaleStep
         {
             get { return _scaleStep; }

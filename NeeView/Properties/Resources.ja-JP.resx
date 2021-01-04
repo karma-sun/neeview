@@ -3414,7 +3414,7 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
     <value>アイコンサイズ</value>
   </data>
   <data name="PanelListItemProfile.ImageWidth.Remarks" xml:space="preserve">
-    <value>アイコン画像サイズです。サムネイル画像解像度を超えると画像が粗くなります。</value>
+    <value>アイコン画像サイズです。縦横比はアイコンの形に依存します。サムネイル画像解像度を超えると画像が粗くなります。</value>
   </data>
   <data name="PanelListItemProfile.IsImagePopupEnabled" xml:space="preserve">
     <value>アイコンのポップアップ</value>
@@ -4754,10 +4754,10 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
   <data name="ThumbnailConfig.Quality.Remarks" xml:space="preserve">
     <value>サムネイル画像フォーマットがJPEGの場合の品質です。</value>
   </data>
-  <data name="ThumbnailConfig.Resolution" xml:space="preserve">
+  <data name="ThumbnailConfig.ImageWidth" xml:space="preserve">
     <value>サムネイル画像解像度</value>
   </data>
-  <data name="ThumbnailConfig.Resolution.Remarks" xml:space="preserve">
+  <data name="ThumbnailConfig.ImageWidth.Remarks" xml:space="preserve">
     <value>値が大きいほど高解像度になりますがデータサイズも大きくなります。</value>
   </data>
   <data name="ThumbnailConfig.ThumbnailBookCapacity" xml:space="preserve">

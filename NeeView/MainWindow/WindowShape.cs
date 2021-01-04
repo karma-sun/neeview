@@ -36,6 +36,32 @@ namespace NeeView
         FullScreen,
     }
 
+    public static class WindowStateExExtensions
+    {
+        public static WindowState ToWindowState(this WindowStateEx self)
+        {
+            switch(self)
+            {
+                default:
+                case WindowStateEx.None:
+                case WindowStateEx.Normal:
+                    return WindowState.Normal;
+
+                case WindowStateEx.Minimized:
+                    return WindowState.Minimized;
+
+                case WindowStateEx.Maximized:
+                case WindowStateEx.FullScreen:
+                    return WindowState.Maximized;
+            }
+        }
+
+        public static bool IsFullScreen(this WindowStateEx self)
+        {
+            return self == WindowStateEx.FullScreen;
+        }
+    }
+
 
     [Obsolete]
     public enum WindowChromeFrameV1

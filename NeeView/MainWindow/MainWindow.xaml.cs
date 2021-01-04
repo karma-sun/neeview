@@ -64,15 +64,15 @@ namespace NeeView
 
             DragDropHelper.AttachDragOverTerminator(this);
 
+            // Window状態初期化
+            InitializeWindowShapeSnap();
+
             _windowChromeAccessor = new MainWindowChromeAccessor(this);
             _windowStateManager = new WindowStateManager(this, new WindowStateManagerDependency(_windowChromeAccessor, TabletModeWatcher.Current));
             _windowShape = new WindowShape(_windowStateManager, _windowChromeAccessor);
             _windowController = new WindowController(_windowStateManager, _windowShape);
 
             ContextMenuWatcher.Initialize();
-
-            // Window状態初期化
-            InitializeWindowShapeSnap();
 
             // 固定画像初期化
             Thumbnail.InitializeBasicImages();
@@ -186,7 +186,6 @@ namespace NeeView
 
         /// <summary>
         /// Window状態初期設定 
-        /// TODO: もっと前に処理できる。起動オプションの反映タイミングぐらい。
         /// </summary>
         private void InitializeWindowShapeSnap()
         {
@@ -335,16 +334,20 @@ namespace NeeView
             // セカンドプロセスはウィンドウ形状を継承しない
             if (Environment.IsSecondProcess && !Config.Current.StartUp.IsRestoreSecondWindowPlacement) return;
 
+            var state = Config.Current.Window.State;
             var placement = Config.Current.Window.WindowPlacement;
-            if (placement == null || !placement.IsValid()) return;
 
-            if (placement.WindowState == WindowState.Minimized)
+            if (placement != null && placement.IsValid())
             {
-                placement = placement.WithState(WindowState.Normal);
-            }
+                placement = placement.WithState(state.ToWindowState(), state.IsFullScreen());
 
-            _windowStateManager.ResumeState = Config.Current.Window.LastState;
-            _windowStateManager.RestoreWindowPlacement(placement);
+                _windowStateManager.ResumeState = Config.Current.Window.LastState;
+                _windowStateManager.RestoreWindowPlacement(placement);
+            }
+            else
+            {
+                _windowStateManager.SetWindowState(state);
+            }
         }
 
         #endregion

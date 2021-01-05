@@ -5313,16 +5313,16 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Toggle visible / hide of the effect panel.</value>
   </data>
   <data name="ToggleVisibleFileInfoCommand" xml:space="preserve">
-    <value>Toggle information</value>
+    <value>Toggle information panel</value>
   </data>
   <data name="ToggleVisibleFileInfoCommand.Menu" xml:space="preserve">
-    <value>Information</value>
+    <value>Information panel</value>
   </data>
   <data name="ToggleVisibleFileInfoCommand.Off" xml:space="preserve">
-    <value>Information OFF</value>
+    <value>Information panel OFF</value>
   </data>
   <data name="ToggleVisibleFileInfoCommand.On" xml:space="preserve">
-    <value>Information</value>
+    <value>Information panel</value>
   </data>
   <data name="ToggleVisibleFileInfoCommand.Remarks" xml:space="preserve">
     <value>Toggle visible / hide of the information panel.</value>
@@ -5370,7 +5370,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Navigator</value>
   </data>
   <data name="ToggleVisibleNavigatorCommand.Remarks" xml:space="preserve">
-    <value>Toggle visible / hide of the navigator</value>
+    <value>Toggle visible / hide of the navigator panel.</value>
   </data>
   <data name="ToggleVisiblePageListCommand" xml:space="preserve">
     <value>Toggle page list</value>
@@ -5385,7 +5385,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Page list</value>
   </data>
   <data name="ToggleVisiblePageListCommand.Remarks" xml:space="preserve">
-    <value>Toggle visible / hide of the page list. The bookshelf is displayed.</value>
+    <value>Toggle visible / hide of the page list panel.</value>
   </data>
   <data name="ToggleVisiblePagemarkListCommand" xml:space="preserve">
     <value>Toggle pagemark list</value>

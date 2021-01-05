@@ -15527,7 +15527,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Toggle information に類似しているローカライズされた文字列を検索します。
+        ///   Toggle information panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisibleFileInfoCommand {
             get {
@@ -15536,7 +15536,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Information に類似しているローカライズされた文字列を検索します。
+        ///   Information panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisibleFileInfoCommand_Menu {
             get {
@@ -15545,7 +15545,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Information OFF に類似しているローカライズされた文字列を検索します。
+        ///   Information panel OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisibleFileInfoCommand_Off {
             get {
@@ -15554,7 +15554,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Information に類似しているローカライズされた文字列を検索します。
+        ///   Information panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisibleFileInfoCommand_On {
             get {
@@ -15698,7 +15698,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Toggle visible / hide of the navigator に類似しているローカライズされた文字列を検索します。
+        ///   Toggle visible / hide of the navigator panel. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisibleNavigatorCommand_Remarks {
             get {
@@ -15743,7 +15743,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Toggle visible / hide of the page list. The bookshelf is displayed. に類似しているローカライズされた文字列を検索します。
+        ///   Toggle visible / hide of the page list panel. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisiblePageListCommand_Remarks {
             get {

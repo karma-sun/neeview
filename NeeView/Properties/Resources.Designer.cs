@@ -1078,7 +1078,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Bookmark list file location に類似しているローカライズされた文字列を検索します。
+        ///   Bookmark file location に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookmarkConfig_BookmarkFilePath {
             get {
@@ -1096,7 +1096,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Save bookmark list に類似しているローカライズされた文字列を検索します。
+        ///   Save bookmark file に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookmarkConfig_IsSaveBookmark {
             get {
@@ -4769,7 +4769,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Bookmark list に類似しているローカライズされた文字列を検索します。
+        ///   Bookmark panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FocusBookmarkListCommand_Menu {
             get {
@@ -4778,7 +4778,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Display bookmark list of the bookshelf. に類似しているローカライズされた文字列を検索します。
+        ///   Display bookmark folder of the bookshelf. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FocusBookmarkListCommand_Remarks {
             get {
@@ -5327,7 +5327,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   History list file location に類似しているローカライズされた文字列を検索します。
+        ///   History file location に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string HistoryConfig_HistoryFilePath {
             get {
@@ -5399,7 +5399,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Save history list に類似しているローカライズされた文字列を検索します。
+        ///   Save history file に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string HistoryConfig_IsSaveHistory {
             get {
@@ -5444,7 +5444,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   History list item style に類似しているローカライズされた文字列を検索します。
+        ///   History item style に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string HistoryConfig_PanelListItemStyle {
             get {
@@ -9159,7 +9159,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Page list に類似しているローカライズされた文字列を検索します。
+        ///   PageList に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string PageList_Title {
             get {
@@ -9177,7 +9177,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Page name display format of page list に類似しているローカライズされた文字列を検索します。
+        ///   Page name display format of PageList に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string PageListConfig_Format {
             get {
@@ -9186,7 +9186,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Page list item style に類似しているローカライズされた文字列を検索します。
+        ///   PageList item style に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string PageListConfig_PanelListItemStyle {
             get {
@@ -9366,7 +9366,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Save pagemark list に類似しているローカライズされた文字列を検索します。
+        ///   Save pagemark file に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string PagemarkConfig_IsSavePagemark {
             get {
@@ -9375,7 +9375,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Pagemark list file location に類似しているローカライズされた文字列を検索します。
+        ///   Pagemark file location に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string PagemarkConfig_PagemarkFilePath {
             get {
@@ -9393,7 +9393,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Pagemark list item style に類似しているローカライズされた文字列を検索します。
+        ///   Pagemark item style に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string PagemarkConfig_PanelListItemStyle {
             get {
@@ -14852,51 +14852,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Place page list on bookshelf に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string TogglePageListPlacementBookshelfCommand {
-            get {
-                return ResourceManager.GetString("TogglePageListPlacementBookshelfCommand", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Switch placement of page list に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string TogglePageListPlacementCommand {
-            get {
-                return ResourceManager.GetString("TogglePageListPlacementCommand", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Page list placement に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string TogglePageListPlacementCommand_Menu {
-            get {
-                return ResourceManager.GetString("TogglePageListPlacementCommand.Menu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Switch placement of page list between bookshelf and side panel に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string TogglePageListPlacementCommand_Remarks {
-            get {
-                return ResourceManager.GetString("TogglePageListPlacementCommand.Remarks", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Place page list on side panel に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string TogglePageListPlacementPanelCommand {
-            get {
-                return ResourceManager.GetString("TogglePageListPlacementPanelCommand", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Toggle pagemark に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string TogglePagemarkCommand {
@@ -15392,7 +15347,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Toggle bookmark list に類似しているローカライズされた文字列を検索します。
+        ///   Toggle bookmark panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisibleBookmarkListCommand {
             get {
@@ -15401,7 +15356,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Bookmark list に類似しているローカライズされた文字列を検索します。
+        ///   Bookmark panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisibleBookmarkListCommand_Menu {
             get {
@@ -15410,7 +15365,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Bookmark list OFF に類似しているローカライズされた文字列を検索します。
+        ///   Bookmark panel OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisibleBookmarkListCommand_Off {
             get {
@@ -15419,7 +15374,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Bookmark list に類似しているローカライズされた文字列を検索します。
+        ///   Bookmark panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisibleBookmarkListCommand_On {
             get {
@@ -15428,7 +15383,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Toggle vidible / hide of the bookmark list panel. に類似しているローカライズされた文字列を検索します。
+        ///   Toggle vidible / hide of the bookmark panel. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisibleBookmarkListCommand_Remarks {
             get {
@@ -15617,7 +15572,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Toggle history list に類似しているローカライズされた文字列を検索します。
+        ///   Toggle history panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisibleHistoryListCommand {
             get {
@@ -15626,7 +15581,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   History list に類似しているローカライズされた文字列を検索します。
+        ///   History panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisibleHistoryListCommand_Menu {
             get {
@@ -15635,7 +15590,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   History list OFF に類似しているローカライズされた文字列を検索します。
+        ///   History panel OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisibleHistoryListCommand_Off {
             get {
@@ -15644,7 +15599,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   History list に類似しているローカライズされた文字列を検索します。
+        ///   History panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisibleHistoryListCommand_On {
             get {
@@ -15653,7 +15608,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Toggle vidible / hide of the history list panel. に類似しているローカライズされた文字列を検索します。
+        ///   Toggle vidible / hide of the history panel. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisibleHistoryListCommand_Remarks {
             get {
@@ -15707,7 +15662,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Toggle page list に類似しているローカライズされた文字列を検索します。
+        ///   Toggle PageList panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisiblePageListCommand {
             get {
@@ -15716,7 +15671,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Page list に類似しているローカライズされた文字列を検索します。
+        ///   PageList panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisiblePageListCommand_Menu {
             get {
@@ -15725,7 +15680,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Page list OFF に類似しているローカライズされた文字列を検索します。
+        ///   PageList panel OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisiblePageListCommand_Off {
             get {
@@ -15734,7 +15689,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Page list に類似しているローカライズされた文字列を検索します。
+        ///   PageList panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisiblePageListCommand_On {
             get {
@@ -15743,7 +15698,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Toggle visible / hide of the page list panel. に類似しているローカライズされた文字列を検索します。
+        ///   Toggle visible / hide of the PageList panel. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisiblePageListCommand_Remarks {
             get {
@@ -15752,7 +15707,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Toggle pagemark list に類似しているローカライズされた文字列を検索します。
+        ///   Toggle pagemark panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisiblePagemarkListCommand {
             get {
@@ -15761,7 +15716,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Pagemark list に類似しているローカライズされた文字列を検索します。
+        ///   Pagemark panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisiblePagemarkListCommand_Menu {
             get {
@@ -15770,7 +15725,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Pagemark list OFF に類似しているローカライズされた文字列を検索します。
+        ///   Pagemark panel OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisiblePagemarkListCommand_Off {
             get {
@@ -15779,7 +15734,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Pagemark list に類似しているローカライズされた文字列を検索します。
+        ///   Pagemark panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisiblePagemarkListCommand_On {
             get {
@@ -15788,7 +15743,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Toggle vidible / hide of the pagemark list panel. に類似しているローカライズされた文字列を検索します。
+        ///   Toggle vidible / hide of the pagemark panel. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisiblePagemarkListCommand_Remarks {
             get {
@@ -17787,7 +17742,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Page list に類似しているローカライズされた文字列を検索します。
+        ///   PageList に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Word_PageList {
             get {

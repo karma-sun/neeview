@@ -457,13 +457,13 @@
     <value>Up (Alt+Up)</value>
   </data>
   <data name="BookmarkConfig.BookmarkFilePath" xml:space="preserve">
-    <value>Bookmark list file location</value>
+    <value>Bookmark file location</value>
   </data>
   <data name="BookmarkConfig.BookmarkFolderOrder" xml:space="preserve">
     <value>Default order of bookmarks</value>
   </data>
   <data name="BookmarkConfig.IsSaveBookmark" xml:space="preserve">
-    <value>Save bookmark list</value>
+    <value>Save bookmark file</value>
   </data>
   <data name="BookmarkConfig.IsSyncBookshelfEnabled" xml:space="preserve">
     <value>Sync bookshelf when book is opened</value>
@@ -1706,10 +1706,10 @@ Is it OK? </value>
     <value>Display bookmark list</value>
   </data>
   <data name="FocusBookmarkListCommand.Menu" xml:space="preserve">
-    <value>Bookmark list</value>
+    <value>Bookmark panel</value>
   </data>
   <data name="FocusBookmarkListCommand.Remarks" xml:space="preserve">
-    <value>Display bookmark list of the bookshelf.</value>
+    <value>Display bookmark folder of the bookshelf.</value>
   </data>
   <data name="FocusFolderSearchBoxCommand" xml:space="preserve">
     <value>Focus search box</value>
@@ -1892,7 +1892,7 @@ Is it OK? </value>
     <value>The history is recorded when the page is moved more than the set number of times or the last page is displayed.</value>
   </data>
   <data name="HistoryConfig.HistoryFilePath" xml:space="preserve">
-    <value>History list file location</value>
+    <value>History file location</value>
   </data>
   <data name="HistoryConfig.IsAutoCleanupEnabled" xml:space="preserve">
     <value>Automatically delete invalid history at startup</value>
@@ -1916,7 +1916,7 @@ Is it OK? </value>
     <value>Save search history</value>
   </data>
   <data name="HistoryConfig.IsSaveHistory" xml:space="preserve">
-    <value>Save history list</value>
+    <value>Save history file</value>
   </data>
   <data name="HistoryConfig.IsUncHistoryEnabled" xml:space="preserve">
     <value>Save UNC path in history</value>
@@ -1931,7 +1931,7 @@ Is it OK? </value>
     <value>Retention period</value>
   </data>
   <data name="HistoryConfig.PanelListItemStyle" xml:space="preserve">
-    <value>History list item style</value>
+    <value>History item style</value>
   </data>
   <data name="HistoryDeleteAllDialog.Message" xml:space="preserve">
     <value>Delete all history. Is it OK?</value>
@@ -3180,16 +3180,16 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
     <value>Next (Alt+Right)</value>
   </data>
   <data name="PageList.Title" xml:space="preserve">
-    <value>Page list</value>
+    <value>PageList</value>
   </data>
   <data name="PageList.Up.ToolTip" xml:space="preserve">
     <value>Up (Alt+Up)</value>
   </data>
   <data name="PageListConfig.Format" xml:space="preserve">
-    <value>Page name display format of page list</value>
+    <value>Page name display format of PageList</value>
   </data>
   <data name="PageListConfig.PanelListItemStyle" xml:space="preserve">
-    <value>Page list item style</value>
+    <value>PageList item style</value>
   </data>
   <data name="PageListItem.Menu.Copy" xml:space="preserve">
     <value>_Copy</value>
@@ -3249,16 +3249,16 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
     <value>Pagemark</value>
   </data>
   <data name="PagemarkConfig.IsSavePagemark" xml:space="preserve">
-    <value>Save pagemark list</value>
+    <value>Save pagemark file</value>
   </data>
   <data name="PagemarkConfig.PagemarkFilePath" xml:space="preserve">
-    <value>Pagemark list file location</value>
+    <value>Pagemark file location</value>
   </data>
   <data name="PagemarkConfig.PagemarkOrder" xml:space="preserve">
     <value>Pagemark order</value>
   </data>
   <data name="PagemarkConfig.PanelListItemStyle" xml:space="preserve">
-    <value>Pagemark list item style</value>
+    <value>Pagemark item style</value>
   </data>
   <data name="PagemarkError.Message" xml:space="preserve">
     <value>Temporary folders can not be pagemarked</value>
@@ -5087,21 +5087,6 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleNearestNeighborCommand.Remarks" xml:space="preserve">
     <value>When set to ON, it will expand while maintaining the dot. When it is OFF, scale conversion processing (Fant) is executed.</value>
   </data>
-  <data name="TogglePageListPlacementBookshelfCommand" xml:space="preserve">
-    <value>Place page list on bookshelf</value>
-  </data>
-  <data name="TogglePageListPlacementCommand" xml:space="preserve">
-    <value>Switch placement of page list</value>
-  </data>
-  <data name="TogglePageListPlacementCommand.Menu" xml:space="preserve">
-    <value>Page list placement</value>
-  </data>
-  <data name="TogglePageListPlacementCommand.Remarks" xml:space="preserve">
-    <value>Switch placement of page list between bookshelf and side panel</value>
-  </data>
-  <data name="TogglePageListPlacementPanelCommand" xml:space="preserve">
-    <value>Place page list on side panel</value>
-  </data>
   <data name="TogglePagemarkCommand" xml:space="preserve">
     <value>Toggle pagemark</value>
   </data>
@@ -5268,19 +5253,19 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Toggle vidible / hide of the address bar.</value>
   </data>
   <data name="ToggleVisibleBookmarkListCommand" xml:space="preserve">
-    <value>Toggle bookmark list</value>
+    <value>Toggle bookmark panel</value>
   </data>
   <data name="ToggleVisibleBookmarkListCommand.Menu" xml:space="preserve">
-    <value>Bookmark list</value>
+    <value>Bookmark panel</value>
   </data>
   <data name="ToggleVisibleBookmarkListCommand.Off" xml:space="preserve">
-    <value>Bookmark list OFF</value>
+    <value>Bookmark panel OFF</value>
   </data>
   <data name="ToggleVisibleBookmarkListCommand.On" xml:space="preserve">
-    <value>Bookmark list</value>
+    <value>Bookmark panel</value>
   </data>
   <data name="ToggleVisibleBookmarkListCommand.Remarks" xml:space="preserve">
-    <value>Toggle vidible / hide of the bookmark list panel.</value>
+    <value>Toggle vidible / hide of the bookmark panel.</value>
   </data>
   <data name="ToggleVisibleBookshelfCommand" xml:space="preserve">
     <value>Toggle bookshelf</value>
@@ -5343,19 +5328,19 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Toggle visible / hide of the Folders tree. The bookshelf is displayed.</value>
   </data>
   <data name="ToggleVisibleHistoryListCommand" xml:space="preserve">
-    <value>Toggle history list</value>
+    <value>Toggle history panel</value>
   </data>
   <data name="ToggleVisibleHistoryListCommand.Menu" xml:space="preserve">
-    <value>History list</value>
+    <value>History panel</value>
   </data>
   <data name="ToggleVisibleHistoryListCommand.Off" xml:space="preserve">
-    <value>History list OFF</value>
+    <value>History panel OFF</value>
   </data>
   <data name="ToggleVisibleHistoryListCommand.On" xml:space="preserve">
-    <value>History list</value>
+    <value>History panel</value>
   </data>
   <data name="ToggleVisibleHistoryListCommand.Remarks" xml:space="preserve">
-    <value>Toggle vidible / hide of the history list panel.</value>
+    <value>Toggle vidible / hide of the history panel.</value>
   </data>
   <data name="ToggleVisibleNavigatorCommand" xml:space="preserve">
     <value>Toggle navigator</value>
@@ -5373,34 +5358,34 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Toggle visible / hide of the navigator panel.</value>
   </data>
   <data name="ToggleVisiblePageListCommand" xml:space="preserve">
-    <value>Toggle page list</value>
+    <value>Toggle PageList panel</value>
   </data>
   <data name="ToggleVisiblePageListCommand.Menu" xml:space="preserve">
-    <value>Page list</value>
+    <value>PageList panel</value>
   </data>
   <data name="ToggleVisiblePageListCommand.Off" xml:space="preserve">
-    <value>Page list OFF</value>
+    <value>PageList panel OFF</value>
   </data>
   <data name="ToggleVisiblePageListCommand.On" xml:space="preserve">
-    <value>Page list</value>
+    <value>PageList panel</value>
   </data>
   <data name="ToggleVisiblePageListCommand.Remarks" xml:space="preserve">
-    <value>Toggle visible / hide of the page list panel.</value>
+    <value>Toggle visible / hide of the PageList panel.</value>
   </data>
   <data name="ToggleVisiblePagemarkListCommand" xml:space="preserve">
-    <value>Toggle pagemark list</value>
+    <value>Toggle pagemark panel</value>
   </data>
   <data name="ToggleVisiblePagemarkListCommand.Menu" xml:space="preserve">
-    <value>Pagemark list</value>
+    <value>Pagemark panel</value>
   </data>
   <data name="ToggleVisiblePagemarkListCommand.Off" xml:space="preserve">
-    <value>Pagemark list OFF</value>
+    <value>Pagemark panel OFF</value>
   </data>
   <data name="ToggleVisiblePagemarkListCommand.On" xml:space="preserve">
-    <value>Pagemark list</value>
+    <value>Pagemark panel</value>
   </data>
   <data name="ToggleVisiblePagemarkListCommand.Remarks" xml:space="preserve">
-    <value>Toggle vidible / hide of the pagemark list panel.</value>
+    <value>Toggle vidible / hide of the pagemark panel.</value>
   </data>
   <data name="ToggleVisibleSideBarCommand" xml:space="preserve">
     <value>Toggle side bar</value>
@@ -6067,7 +6052,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>Page</value>
   </data>
   <data name="Word.PageList" xml:space="preserve">
-    <value>Page list</value>
+    <value>PageList</value>
   </data>
   <data name="Word.Pagemark" xml:space="preserve">
     <value>Pagemark</value>

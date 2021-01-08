@@ -1,5 +1,14 @@
 ## ChangeLog
 
+### 38.1
+(2021-01-08)
+
+#### Fixed
+
+- Fixed a bug related to the state of the window at startup.
+
+----
+
 ### 38.0
 (2021-01-01)
 

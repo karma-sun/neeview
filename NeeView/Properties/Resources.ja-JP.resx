@@ -3462,10 +3462,10 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
     <value>"AAA (C:\BBB\CCC)" のように整形します。</value>
   </data>
   <data name="PanelsConfig.IsHidePanel" xml:space="preserve">
-    <value>サイドパネルを自動的に隠す</value>
+    <value>サイド パネルを自動的に隠す</value>
   </data>
   <data name="PanelsConfig.IsHidePanelInAutoHideMode" xml:space="preserve">
-    <value>自動非表示モードのときにサイドパネルを自動的に隠す</value>
+    <value>自動非表示モードのときにサイド パネルを自動的に隠す</value>
   </data>
   <data name="PanelsConfig.IsLeftRightKeyEnabled" xml:space="preserve">
     <value>サイド パネルでの左右キー有効</value>
@@ -3492,7 +3492,7 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
     <value>ダブルクリックでブックを開く</value>
   </data>
   <data name="PanelsConfig.OpenWithDoubleClick.Remarks" xml:space="preserve">
-    <value>本棚、ブックマークパネル、履歴パネルで有効です。</value>
+    <value>本棚、ブックマーク パネル、履歴パネルで有効です。</value>
   </data>
   <data name="PasteCommand" xml:space="preserve">
     <value>貼り付け</value>

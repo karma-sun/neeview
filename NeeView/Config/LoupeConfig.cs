@@ -40,7 +40,7 @@ namespace NeeView
             set { SetProperty(ref _maximumScale, value); }
         }
 
-        [PropertyRange(1, 20, TickFrequency = 1.0, IsEditable = true, Format = "x {0:0.0}")]
+        [PropertyRange(1, 20, TickFrequency = 1.0, IsEditable = true, Format = "× {0:0.0}")]
         public double DefaultScale
         {
             get { return _defaultScale; }

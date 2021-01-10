@@ -13,7 +13,9 @@ namespace NeeView
     /// </summary>
     public class JsonStringBulder
     {
-        private IndentStringBuilder _builder = new IndentStringBuilder();
+        private static readonly int _limitDepth = 0;
+
+        private readonly IndentStringBuilder _builder = new IndentStringBuilder();
 
         public override string ToString()
         {
@@ -22,11 +24,11 @@ namespace NeeView
 
         public JsonStringBulder AppendObject(object source)
         {
-            AppendObject(_builder, source, false);
+            AppendObject(_builder, source, 0);
             return this;
         }
 
-        private IndentStringBuilder AppendObject(IndentStringBuilder builder, object source, bool isNest)
+        private IndentStringBuilder AppendObject(IndentStringBuilder builder, object source, int depth)
         {
             if (source is null)
             {
@@ -45,27 +47,27 @@ namespace NeeView
             }
             else if (source is string str)
             {
-                return builder.Append(isNest ? "\"" + JavaScriptStringEncode(str) + "\"" : str);
+                return builder.Append(_builder.Indent > 0 ? "\"" + JavaScriptStringEncode(str) + "\"" : str);
             }
             else if (source is object[] objects)
             {
-                return AppendCollection(builder, objects, true);
+                return AppendCollection(builder, objects, depth);
             }
             else if (source is IDictionary<string, object> genericDictionary) // for ExpandoObject
             {
-                return AppendGenericDictionary(builder, genericDictionary, true);
+                return AppendGenericDictionary(builder, genericDictionary, depth);
             }
             else if (source is IDictionary dictionary)
             {
-                return AppendDictionary(builder, dictionary, true);
+                return AppendDictionary(builder, dictionary, depth);
             }
             else if (source is IList && source is IEnumerable collection)
             {
-                return AppendCollection(builder, collection, true);
+                return AppendCollection(builder, collection, depth);
             }
             else if (source is PropertyMap propertyMap)
             {
-                return AppendDictionary(builder, propertyMap.ToDictionary(e => e.Key, e => propertyMap.GetValue(e.Value)), true);
+                return AppendDictionary(builder, propertyMap.ToDictionary(e => e.Key, e => propertyMap.GetValue(e.Value)), depth);
             }
             else if (type.IsClass && !IsDelegate(type))
             {
@@ -75,7 +77,7 @@ namespace NeeView
                         .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                         .Where(e => e.CanRead && e.GetCustomAttribute<ObsoleteAttribute>() is null)
                         .ToDictionary(e => e.Name, e => e.GetValue(source));
-                    return AppendDictionary(builder, dic, true);
+                    return AppendDictionary(builder, dic, depth);
                 }
                 catch
                 {
@@ -114,16 +116,22 @@ namespace NeeView
             return builder.ToString();
         }
 
-        private IndentStringBuilder AppendCollection(IndentStringBuilder builder, IEnumerable source, bool isNest)
+        private IndentStringBuilder AppendCollection(IndentStringBuilder builder, IEnumerable source, int depth)
         {
             var section = new CollectionSection(builder, '[', ']');
 
+            if (depth > _limitDepth)
+            {
+                section.Omit();
+                return builder;
+            }
+
             section.Open();
 
             foreach (var item in source)
             {
                 section.Increment();
-                AppendObject(builder, item, true);
+                AppendObject(builder, item, depth);
             }
 
             section.Close();
@@ -132,16 +140,22 @@ namespace NeeView
         }
 
 
-        private IndentStringBuilder AppendGenericDictionary(IndentStringBuilder builder, IDictionary<string, object> source, bool isNest)
+        private IndentStringBuilder AppendGenericDictionary(IndentStringBuilder builder, IDictionary<string, object> source, int depth)
         {
             var section = new CollectionSection(builder, '{', '}');
 
+            if (depth > _limitDepth)
+            {
+                section.Omit();
+                return builder;
+            }
+
             section.Open();
 
             foreach (var item in source)
             {
                 section.Increment();
-                AppendKeyValuePair(builder, item, true);
+                AppendKeyValuePair(builder, item, depth);
             }
 
             section.Close();
@@ -150,24 +164,30 @@ namespace NeeView
         }
 
 
-        IndentStringBuilder AppendKeyValuePair(IndentStringBuilder builder, KeyValuePair<string, object> source, bool isNest)
+        IndentStringBuilder AppendKeyValuePair(IndentStringBuilder builder, KeyValuePair<string, object> source, int depth)
         {
             builder.Append("\"" + source.Key + "\": ");
-            AppendObject(builder, source.Value, true);
+            AppendObject(builder, source.Value, depth + 1);
             return builder;
         }
 
 
-        private IndentStringBuilder AppendDictionary(IndentStringBuilder builder, IDictionary source, bool isNest)
+        private IndentStringBuilder AppendDictionary(IndentStringBuilder builder, IDictionary source, int depth)
         {
             var section = new CollectionSection(builder, '{', '}');
+
+            if (depth > _limitDepth)
+            {
+                section.Omit();
+                return builder;
+            }
 
             section.Open();
 
             foreach (DictionaryEntry item in source)
             {
                 section.Increment();
-                AppendKeyValuePair(builder, item, true);
+                AppendKeyValuePair(builder, item, depth);
             }
 
             section.Close();
@@ -175,10 +195,10 @@ namespace NeeView
             return builder;
         }
 
-        private IndentStringBuilder AppendKeyValuePair(IndentStringBuilder builder, DictionaryEntry source, bool isNest)
+        private IndentStringBuilder AppendKeyValuePair(IndentStringBuilder builder, DictionaryEntry source, int depth)
         {
             builder.Append("\"" + source.Key + "\": ");
-            AppendObject(builder, source.Value, true);
+            AppendObject(builder, source.Value, depth + 1);
             return builder;
         }
 
@@ -195,6 +215,11 @@ namespace NeeView
                 _builder = builder;
                 _openChar = openChar;
                 _closeChar = closeChar;
+            }
+
+            public void Omit()
+            {
+                _builder.Append($"{_openChar}…{_closeChar}");
             }
 
             public void Open()

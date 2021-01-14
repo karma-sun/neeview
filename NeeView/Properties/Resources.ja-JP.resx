@@ -2252,7 +2252,7 @@ nv.Values.Test = "Hello!"</value>
     <value>クリックでのページ送り優先設定</value>
   </data>
   <data name="InputSceme.TypeC.Remarks" xml:space="preserve">
-    <value>マウスク リックで「@PrevPageCommand」「@NextPageCommand」
+    <value>マウス クリックで「@PrevPageCommand」「@NextPageCommand」
 ホイール操作で「@ViewScrollUpCommand」「@ViewScrollDownCommand」</value>
   </data>
   <data name="InputTouchControl.Remarks" xml:space="preserve">

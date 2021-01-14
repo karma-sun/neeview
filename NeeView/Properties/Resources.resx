@@ -1169,23 +1169,23 @@ nv.Values.Test = "Hello!"   </value>
     <value>Standard setting</value>
   </data>
   <data name="ControlCommandResetTypeANote" xml:space="preserve">
-    <value>By clicking the mouse, "@CommandPrevPage" "@CommandNextPage".
-In the wheel operation, "@CommandPrevScrollPage" "@CommandNextScrollPage".</value>
+    <value>By clicking the mouse, "@PrevPageCommand" "@NextPageCommand".
+In the wheel operation, "@PrevScrollPageCommand" "@NextScrollPageCommand".</value>
   </data>
   <data name="ControlCommandResetTypeB" xml:space="preserve">
     <value>Prioritize page feed by wheel</value>
   </data>
   <data name="ControlCommandResetTypeBNote" xml:space="preserve">
-    <value>In the wheel operation, "@CommandPrevPage" "@CommandNextPage".
-By right-click, "@CommandOpenContextMenu".
+    <value>In the wheel operation, "@PrevPageCommand" "@NextPageCommand".
+By right-click, "@OpenContextMenuCommand".
 Left click is undefined.</value>
   </data>
   <data name="ControlCommandResetTypeC" xml:space="preserve">
     <value>Prioritize page feed by click</value>
   </data>
   <data name="ControlCommandResetTypeCNote" xml:space="preserve">
-    <value>By clicking the mouse, "@CommandPrevPage" "@CommandNextPage".
-In the wheel operation, "@CommandViewScrollUp" "@CommandViewScrollDown".</value>
+    <value>By clicking the mouse, "@PrevPageCommand" "@NextPageCommand".
+In the wheel operation, "@ViewScrollUpCommand" "@ViewScrollDownCommand".</value>
   </data>
   <data name="ControlCommandResetTypeTitle" xml:space="preserve">
     <value>Shortcut initial setting</value>

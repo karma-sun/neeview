@@ -1172,23 +1172,23 @@ nv.Values.Test = "Hello!"</value>
     <value>標準設定</value>
   </data>
   <data name="ControlCommandResetTypeANote" xml:space="preserve">
-    <value>マウスクリックで「@CommandPrevPage」「@CommandNextPage」
-ホイール操作で「@CommandPrevScrollPage」「@CommandNextScrollPage」</value>
+    <value>マウス クリックで「@PrevPageCommand」「@NextPageCommand」
+ホイール操作で「@PrevScrollPageCommand」「@NextScrollPageCommand」</value>
   </data>
   <data name="ControlCommandResetTypeB" xml:space="preserve">
     <value>ホイールでのページ送り優先設定</value>
   </data>
   <data name="ControlCommandResetTypeBNote" xml:space="preserve">
-    <value>ホイール操作で「@CommandPrevPage」「@CommandNextPage」
-マウス右クリックで「@CommandOpenContextMenu」
+    <value>ホイール操作で「@PrevPageCommand」「@NextPageCommand」
+マウス右クリックで「@OpenContextMenuCommand」
 マウス左クリックは未定義</value>
   </data>
   <data name="ControlCommandResetTypeC" xml:space="preserve">
     <value>クリックでのページ送り優先設定</value>
   </data>
   <data name="ControlCommandResetTypeCNote" xml:space="preserve">
-    <value>マウスクリックで「@CommandPrevPage」「@CommandNextPage」
-ホイール操作で「@CommandViewScrollUp」「@CommandViewScrollDown」</value>
+    <value>マウス クリックで「@PrevPageCommand」「@NextPageCommand」
+ホイール操作で「@ViewScrollUpCommand」「@ViewScrollDownCommand」</value>
   </data>
   <data name="ControlCommandResetTypeTitle" xml:space="preserve">
     <value>ショートカット初期設定</value>

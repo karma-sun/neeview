@@ -10,6 +10,7 @@ namespace NeeView
         private AutoHideFocusLockMode _autoHideFocusLockMode = AutoHideFocusLockMode.LogicalTextBoxFocusLock;
         private bool _isAutoHideKeyDownDelay = true;
         private double _autoHideHitTestMargin = 32.0;
+        private double _autoHideConfrictMargin = 1.0;
 
         // パネルやメニューが自動的に消えるまでの時間(秒)
         [PropertyMember]
@@ -49,6 +50,14 @@ namespace NeeView
         {
             get { return _autoHideHitTestMargin; }
             set { SetProperty(ref _autoHideHitTestMargin, value); }
+        }
+
+        // サイドパネルとメニューの自動非表示判定が重なった場合に使用する判定値
+        [PropertyMember]
+        public double AutoHideConfrictMargin
+        {
+            get { return _autoHideConfrictMargin; }
+            set { SetProperty(ref _autoHideConfrictMargin, value); }
         }
     }
 }

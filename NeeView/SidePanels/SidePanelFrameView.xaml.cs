@@ -22,9 +22,6 @@ namespace NeeView
     /// </summary>
     public partial class SidePanelFrameView : UserControl, INotifyPropertyChanged
     {
-        public static SidePanelFrameView Current { get; private set; }
-
-
         private const double _splitterWidth = 8.0;
 
 
@@ -127,20 +124,6 @@ namespace NeeView
         }
 
         /// <summary>
-        /// マウスによる自動非表示の有効/無効
-        /// アドレスバー等の手前のパネルにマウスがあるときは無効にすると言った使い方
-        /// </summary>
-        public bool IsAutoHideMouseEnabled
-        {
-            get { return (bool)GetValue(IsAutoHideMouseEnabledProperty); }
-            set { SetValue(IsAutoHideMouseEnabledProperty, value); }
-        }
-
-        public static readonly DependencyProperty IsAutoHideMouseEnabledProperty =
-            DependencyProperty.Register("IsAutoHideMouseEnabled", typeof(bool), typeof(SidePanelFrameView), new PropertyMetadata(true));
-
-
-        /// <summary>
         /// SidePanelFrameModel を Sourceとして指定する。
         /// 指定することで初めてViewModelが生成される
         /// </summary>
@@ -214,7 +197,7 @@ namespace NeeView
             DependencyProperty.Register("CanvasTop", typeof(double), typeof(SidePanelFrameView), new PropertyMetadata(0.0));
 
 
-        #endregion DependencyProperties
+#endregion DependencyProperties
 
 
         /// <summary>
@@ -222,8 +205,6 @@ namespace NeeView
         /// </summary>
         public SidePanelFrameView()
         {
-            Current = this;
-
             InitializeComponent();
             InitializeViewModel(this.Source);
 
@@ -416,5 +397,22 @@ namespace NeeView
             _vm.DragEnd(sender, e);
         }
 
+
+        public bool IsPanelMouseOver()
+        {
+            return IsLeftPaneMouseOver() || IsRightPanelMouseOver();
+        }
+
+        private bool IsLeftPaneMouseOver()
+        {
+            var pos = Mouse.GetPosition(this.LeftPanelContent);
+            return this.LeftPanelContent.IsMouseOver || pos.X <= 0.0;
+        }
+
+        private bool IsRightPanelMouseOver()
+        {
+            var pos = Mouse.GetPosition(this.RightPanelContent);
+            return this.RightPanelContent.IsMouseOver || pos.X >= 0.0;
+        }
     }
 }

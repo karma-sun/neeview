@@ -228,6 +228,11 @@ namespace NeeView
 
             return false;
         }
+
+        public override bool IsIgnoreMouseOverAppendix()
+        {
+            return MainWindow.Current.IsMenuAreaMouseOver() || MainWindow.Current.IsStatusAreaMouseOver();
+        }
     }
 
 

@@ -349,6 +349,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Area width for automatic display judgment of menu bar on side panel (pixel) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AutoHideConfig_AutoHideConfrictMargin {
+            get {
+                return ResourceManager.GetString("AutoHideConfig.AutoHideConfrictMargin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   If set to 0, the menu bar will not be displayed automatically when the cursor is on the side panel. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AutoHideConfig_AutoHideConfrictMargin_Remarks {
+            get {
+                return ResourceManager.GetString("AutoHideConfig.AutoHideConfrictMargin.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Time to hide auto-hide panel (sec) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string AutoHideConfig_AutoHideDelayTime {

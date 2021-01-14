@@ -228,6 +228,12 @@
   <data name="AutoHideConfig.AutoHideHitTestMargin" xml:space="preserve">
     <value>Area width of automatic panel display judgment (pixel)</value>
   </data>
+  <data name="AutoHideConfig.AutoHideConfrictMargin" xml:space="preserve">
+    <value>Area width for automatic display judgment of menu bar on side panel (pixel)</value>
+  </data>
+  <data name="AutoHideConfig.AutoHideConfrictMargin.Remarks" xml:space="preserve">
+    <value>If set to 0, the menu bar will not be displayed automatically when the cursor is on the side panel.</value>
+  </data>
   <data name="AutoHideConfig.IsAutoHideKeyDownDelay" xml:space="preserve">
     <value>Auto-hide panel key input display continued</value>
   </data>

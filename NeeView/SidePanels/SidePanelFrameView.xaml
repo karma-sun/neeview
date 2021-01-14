@@ -1,8 +1,8 @@
 ﻿<UserControl x:Class="NeeView.SidePanelFrameView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:local="clr-namespace:NeeView" xmlns:osc="clr-namespace:OpenSourceControls" xmlns:nw="clr-namespace:NeeView.Windows;assembly=NeeView.Runtime" xmlns:nwd="clr-namespace:NeeView.Windows.Data"
-             xmlns:nrlp="clr-namespace:NeeView.Runtime.LayoutPanel;assembly=NeeView.Runtime"
-        xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors" mc:Ignorable="d" d:DesignHeight="480" d:DesignWidth="640">
+        xmlns:local="clr-namespace:NeeView" xmlns:osc="clr-namespace:OpenSourceControls" xmlns:nw="clr-namespace:NeeView.Windows;assembly=NeeView.Runtime"
+        xmlns:nwd="clr-namespace:NeeView.Windows.Data" xmlns:nrlp="clr-namespace:NeeView.Runtime.LayoutPanel;assembly=NeeView.Runtime" xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+        mc:Ignorable="d" d:DesignHeight="480" d:DesignWidth="640">
 
     <UserControl.Resources>
 
@@ -73,7 +73,7 @@
 
             <Grid DockPanel.Dock="Left" Visibility="{Binding VM.IsSideBarVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid x:Name="LeftIconGrid" Style="{StaticResource PanelIconGridStyle}" Visibility="{Binding ElementName=LeftPanelContent, Path=Visibility}" AllowDrop="True"
-                        MouseLeftButtonDown="LeftIconGrid_MouseLeftButtonDown"  MouseLeftButtonUp="LeftIconGrid_MouseLeftButtonUp">
+                        MouseLeftButtonDown="LeftIconGrid_MouseLeftButtonDown" MouseLeftButtonUp="LeftIconGrid_MouseLeftButtonUp">
 
                     <b:Interaction.Behaviors>
                         <nw:DragAcceptBehavior Description="{Binding VM.Left.Description}" />
@@ -81,7 +81,7 @@
 
                     <Grid Margin="0,32,0,0">
                         <ItemsControl x:Name="LeftIconList" Style="{StaticResource PanelIconItemsControlStyle}" Margin="{Binding PanelMargin}" ItemTemplate="{StaticResource LeftPanelIconTemplate}"
-                                      ItemsSource="{Binding VM.MainLayoutPanelManager.LeftDock.LeaderPanels}">
+                                ItemsSource="{Binding VM.MainLayoutPanelManager.LeftDock.LeaderPanels}">
                         </ItemsControl>
                     </Grid>
                 </Grid>
@@ -107,16 +107,13 @@
 
                 <Grid x:Name="LeftPanel" Style="{StaticResource PanelGridStyle}" DockPanel.Dock="Left" UseLayoutRounding="True" Width="{Binding VM.Left.Width, Mode=TwoWay}"
                         Visibility="{Binding VM.Left.PanelVisibility}" SizeChanged="LeftPanel_SizeChanged">
-                    <nrlp:LayoutDockPanel x:Name="LeftPanelContent" Margin="{Binding PanelMargin}" Manager="{Binding VM.MainLayoutPanelManager}"
-                            ItemsSource="{Binding VM.MainLayoutPanelManager.LeftDock.SelectedItem}" 
-                            BorderBrush="{Binding ThemeBrush.IconBackgroundBrush}"
-                            TextBlock.Foreground="Gray">
+                    <Grid x:Name="LeftPanelContent" Background="Transparent">
                         <behaviors:Interaction.Behaviors>
                             <local:AutoHideBehavior Name="LeftPanel" Screen="{Binding ElementName=Screen}" SubTarget="{Binding ElementName=LeftPanelSplitter}" Dock="Left"
                                     IsEnabled="{Binding VM.Left.IsAutoHide}" DelayTime="{Binding VM.AutoHideConfig.AutoHideDelayTime}"
                                     DelayVisibleTime="{Binding VM.AutoHideConfig.AutoHideDelayVisibleTime}" FocusLockMode="{Binding VM.AutoHideConfig.AutoHideFocusLockMode}"
                                     IsKeyDownDelayEnabled="{Binding VM.AutoHideConfig.IsAutoHideKeyDownDelay}" HitTestMargin="{Binding VM.AutoHideConfig.AutoHideHitTestMargin}"
-                                    Description="{Binding VM.Left.AutoHideDescription}" IsMouseEnabled="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IsAutoHideMouseEnabled}">
+                                    Description="{Binding VM.Left.AutoHideDescription}">
                                 <local:AutoHideBehavior.IsVisibleLocked>
                                     <MultiBinding Converter="{StaticResource MultiBooleanOrConverter}">
                                         <Binding Path="VM.Model.IsVisibleLocked" />
@@ -125,7 +122,10 @@
                                 </local:AutoHideBehavior.IsVisibleLocked>
                             </local:AutoHideBehavior>
                         </behaviors:Interaction.Behaviors>
-                    </nrlp:LayoutDockPanel>
+                        <nrlp:LayoutDockPanel Margin="{Binding PanelMargin}" Manager="{Binding VM.MainLayoutPanelManager}" ItemsSource="{Binding VM.MainLayoutPanelManager.LeftDock.SelectedItem}"
+                                BorderBrush="{Binding ThemeBrush.IconBackgroundBrush}" TextBlock.Foreground="Gray">
+                        </nrlp:LayoutDockPanel>
+                    </Grid>
                 </Grid>
 
                 <osc:DockPanelSplitter x:Name="LeftPanelSplitter" DockPanel.Dock="Left" Style="{StaticResource NVVerticalBevelGrip}" ProportionalResize="False" UseLayoutRounding="True"
@@ -133,17 +133,13 @@
 
                 <Grid x:Name="RightPanel" DockPanel.Dock="Right" Style="{StaticResource PanelGridStyle}" Width="{Binding VM.Right.Width, Mode=TwoWay}" UseLayoutRounding="True"
                         Visibility="{Binding VM.Right.PanelVisibility}" SizeChanged="RightPanel_SizeChanged">
-                    <nrlp:LayoutDockPanel x:Name="RightPanelContent" Margin="{Binding PanelMargin}" Manager="{Binding VM.MainLayoutPanelManager}"
-                            ItemsSource="{Binding VM.MainLayoutPanelManager.RightDock.SelectedItem}"
-                            BorderBrush="{Binding ThemeBrush.IconBackgroundBrush}"
-                            TextBlock.Foreground="Gray">
+                    <Grid x:Name="RightPanelContent" Background="Transparent">
                         <behaviors:Interaction.Behaviors>
                             <local:AutoHideBehavior Name="RightPanel" Screen="{Binding ElementName=Screen}" SubTarget="{Binding ElementName=RightPanelSplitter}" Dock="Right"
                                     IsEnabled="{Binding VM.Right.IsAutoHide}" DelayTime="{Binding VM.AutoHideConfig.AutoHideDelayTime}"
                                     DelayVisibleTime="{Binding VM.AutoHideConfig.AutoHideDelayVisibleTime}" FocusLockMode="{Binding VM.AutoHideConfig.AutoHideFocusLockMode}"
                                     IsKeyDownDelayEnabled="{Binding VM.AutoHideConfig.IsAutoHideKeyDownDelay}" HitTestMargin="{Binding VM.AutoHideConfig.AutoHideHitTestMargin}"
-                                    Description="{Binding VM.Right.AutoHideDescription}"
-                                    IsMouseEnabled="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IsAutoHideMouseEnabled}">
+                                    Description="{Binding VM.Right.AutoHideDescription}">
                                 <local:AutoHideBehavior.IsVisibleLocked>
                                     <MultiBinding Converter="{StaticResource MultiBooleanOrConverter}">
                                         <Binding Path="VM.Model.IsVisibleLocked" />
@@ -152,7 +148,10 @@
                                 </local:AutoHideBehavior.IsVisibleLocked>
                             </local:AutoHideBehavior>
                         </behaviors:Interaction.Behaviors>
-                    </nrlp:LayoutDockPanel>
+                        <nrlp:LayoutDockPanel Margin="{Binding PanelMargin}" Manager="{Binding VM.MainLayoutPanelManager}" ItemsSource="{Binding VM.MainLayoutPanelManager.RightDock.SelectedItem}"
+                                BorderBrush="{Binding ThemeBrush.IconBackgroundBrush}" TextBlock.Foreground="Gray">
+                        </nrlp:LayoutDockPanel>
+                    </Grid>
                 </Grid>
 
                 <osc:DockPanelSplitter x:Name="RightPanelSplitter" DockPanel.Dock="Right" Style="{StaticResource NVVerticalBevelGrip}" ProportionalResize="False" UseLayoutRounding="True"

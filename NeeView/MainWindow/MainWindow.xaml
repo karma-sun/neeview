@@ -96,7 +96,7 @@
             <DockPanel>
 
                 <!-- メニューエリア-->
-                <ContentControl x:Name="DockMenuSocket" DockPanel.Dock="Top" Focusable="False" MouseEnter="DockMenuSocket_MouseEnter" MouseLeave="DockMenuSocket_MouseLeave">
+                <ContentControl x:Name="DockMenuSocket" DockPanel.Dock="Top" Focusable="False">
                     <Grid x:Name="MenuArea">
                         <StackPanel>
                             <!-- メニューバー-->
@@ -112,7 +112,7 @@
                 </ContentControl>
 
                 <!-- ステータスエリア -->
-                <DockPanel x:Name="DockStatusArea" DockPanel.Dock="Bottom" Background="{DynamicResource NVBaseBrush}" MouseEnter="DockStatusArea_MouseEnter" MouseLeave="DockStatusArea_MouseLeave">
+                <DockPanel x:Name="DockStatusArea" DockPanel.Dock="Bottom" Background="{DynamicResource NVBaseBrush}">
 
                     <!-- スライダー -->
                     <ContentControl x:Name="DockPageSliderSocket" DockPanel.Dock="Bottom" IsTabStop="False">
@@ -149,7 +149,7 @@
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
-                                
+
                                     <ContentControl Grid.Row="1" x:Name="MainViewSocket" IsTabStop="False" />
 
                                     <Grid x:Name="PageCaption" Grid.Row="{Binding PageCaptionGridRow}" Height="30" VerticalAlignment="Top" HorizontalAlignment="Stretch"
@@ -168,11 +168,12 @@
                                                 </Style.Triggers>
                                             </Style>
                                         </Grid.Style>
-                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{Binding WindowTitle.Title}" Foreground="{DynamicResource NVForeground}" Padding="10,0" />
+                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{Binding WindowTitle.Title}" Foreground="{DynamicResource NVForeground}"
+                                                Padding="10,0" />
                                     </Grid>
-                                
+
                                 </Grid>
-                                
+
                                 <!--
                                 <Border BorderBrush="Red" BorderThickness="2"/>
                                 -->
@@ -183,8 +184,7 @@
                         <!-- サイドパネル -->
                         <local:SidePanelFrameView x:Name="SidePanelFrame" PanelMargin="{Binding SidePanelMargin, Mode=OneWay}" Visibility="Visible" Source="{Binding SidePanel}"
                                 IsAutoHide="{Binding Model.CanHidePanel}" PanelBackground="{DynamicResource NVBackground}" IconBackground="{DynamicResource NVPanelIconBackground}"
-                                CanvasWidth="{Binding CanvasWidth, Mode=OneWayToSource}" CanvasHeight="{Binding CanvasHeight, Mode=OneWayToSource}"
-                                IsAutoHideMouseEnabled="{Binding IsFrontAreaMouseOver, Converter={StaticResource BooleanReverseConverter}}" d:IsHidden="True">
+                                CanvasWidth="{Binding CanvasWidth, Mode=OneWayToSource}" CanvasHeight="{Binding CanvasHeight, Mode=OneWayToSource}" d:IsHidden="True">
                         </local:SidePanelFrameView>
 
                     </Grid>
@@ -195,7 +195,7 @@
 
 
             <!-- Menu Layer -->
-            <ContentControl x:Name="LayerMenuSocket" VerticalAlignment="Top" Visibility="Collapsed" Focusable="False" MouseEnter="LayerMenuSocket_MouseEnter" MouseLeave="LayerMenuSocket_MouseLeave">
+            <ContentControl x:Name="LayerMenuSocket" VerticalAlignment="Top" Visibility="Collapsed" Focusable="False">
                 <behaviors:Interaction.Behaviors>
                     <local:AutoHideBehavior Name="MenuBar" Screen="{Binding ElementName=Root}" Dock="Top" IsEnabled="{Binding Model.CanHideMenu}" DelayTime="{Binding AutoHideConfig.AutoHideDelayTime}"
                             DelayVisibleTime="{Binding AutoHideConfig.AutoHideDelayVisibleTime}" FocusLockMode="{Binding AutoHideConfig.AutoHideFocusLockMode}"
@@ -205,7 +205,7 @@
             </ContentControl>
 
             <!-- Status Layer -->
-            <DockPanel x:Name="LayerStatusArea" VerticalAlignment="Bottom" Visibility="Visible" MouseEnter="LayerStatusArea_MouseEnter" MouseLeave="LayerStatusArea_MouseLeave">
+            <DockPanel x:Name="LayerStatusArea" VerticalAlignment="Bottom" Visibility="Visible">
                 <behaviors:Interaction.Behaviors>
                     <local:AutoHideBehavior Screen="{Binding ElementName=Root}" Dock="Bottom" IsEnabled="{Binding Model.CanHidePageSlider}" DelayTime="{Binding AutoHideConfig.AutoHideDelayTime}"
                             DelayVisibleTime="{Binding AutoHideConfig.AutoHideDelayVisibleTime}" FocusLockMode="{Binding AutoHideConfig.AutoHideFocusLockMode}"

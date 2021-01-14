@@ -35,7 +35,7 @@ namespace NeeView
         //
         private void UpdateSidePanelMargin()
         {
-            SidePanelMargin = new Thickness(0, _model.CanHideMenu ? 26 : 0, 0, _model.CanHidePageSlider ? 20 : 0);
+            SidePanelMargin = new Thickness(0, _model.CanHideMenu ? 32 : 0, 0, _model.CanHidePageSlider ? 20 : 0);
         }
 
 
@@ -89,8 +89,6 @@ namespace NeeView
         #endregion
 
         private MainWindowModel _model;
-        private bool _isMenuAreaMouseOver;
-        private bool _isStatusAreaMouseOver;
         private Thickness _mainViewMergin;
 
         private MainViewComponent _viewComponent;
@@ -102,7 +100,7 @@ namespace NeeView
         {
             _viewComponent = MainViewComponent.Current;
 
-            MenuAutoHideDescription = new BasicAutoHideDescription(MainWindow.Current.LayerMenuSocket);
+            MenuAutoHideDescription = new MenuAutoHideDescription(MainWindow.Current.LayerMenuSocket, MainWindow.Current.SidePanelFrame);
             StatusAutoHideDescrption = new BasicAutoHideDescription(MainWindow.Current.LayerStatusArea);
             ThumbnailListusAutoHideDescrption = new BasicAutoHideDescription(MainWindow.Current.LayerThumbnailListSocket);
 
@@ -214,44 +212,6 @@ namespace NeeView
         public BasicAutoHideDescription StatusAutoHideDescrption { get; }
 
         public BasicAutoHideDescription ThumbnailListusAutoHideDescrption { get; }
-
-        /// <summary>
-        /// メニューエリアマウスオーバー
-        /// Viewから更新される
-        /// </summary>
-        public bool IsMenuAreaMouseOver
-        {
-            get { return _isMenuAreaMouseOver; }
-            set
-            {
-                if (SetProperty(ref _isMenuAreaMouseOver, value))
-                {
-                    RaisePropertyChanged(nameof(IsFrontAreaMouseOver));
-                }
-            }
-        }
-
-        /// <summary>
-        /// ステータスエリアマウスオーバー
-        /// Viewから更新される
-        /// </summary>
-        public bool IsStatusAreaMouseOver
-        {
-            get { return _isStatusAreaMouseOver; }
-            set
-            {
-                if (SetProperty(ref _isStatusAreaMouseOver, value))
-                {
-                    RaisePropertyChanged(nameof(IsFrontAreaMouseOver));
-                }
-            }
-        }
-
-        /// <summary>
-        /// メニューエリア、ステータスエリアどちらかの上にマウスがある
-        /// </summary>
-        public bool IsFrontAreaMouseOver => IsMenuAreaMouseOver || IsStatusAreaMouseOver;
-
 
 
         private int _PageCaptionGridRow;

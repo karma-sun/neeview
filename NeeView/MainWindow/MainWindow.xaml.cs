@@ -476,13 +476,17 @@ namespace NeeView
 
         private void MainWindow_PreviewMouseMove(object sender, MouseEventArgs e)
         {
-            // DragMove終了直後のマウス座標が不正(0,0)になるのようなので、この場合は無効にする
+            // NOTE: フルスクリーンのときに左上の(0,0)座標が取得できなくなるので下記処理を無効化 (2021-01-04)
+            // NOTE: 下記処理をしないことによる不具合が確認できないため、無効化してしばらく様子見する
+#if false
+            // WindowChromeでのウィンドウ移動直後のマウス座標が不正(0,0)になるのようなので、この場合は無効にする
             var windowPoint = e.GetPosition(this);
             if (windowPoint.X == 0.0 && windowPoint.Y == 0.0)
             {
-                Debug.WriteLine("Wrong cursor position!");
+                Debug.WriteLine($"Wrong cursor position!");
                 e.Handled = true;
             }
+#endif
         }
 
         private void MainWindow_MouseLeave(object sender, MouseEventArgs e)
@@ -545,68 +549,14 @@ namespace NeeView
 
         #region メニューエリア、ステータスエリアマウスオーバー監視
 
-        public bool _isDockMenuMouseOver;
-        public bool _isLayerMenuMuseOver;
-
-        private void UpdateMenuAreaMouseOver()
+        public bool IsMenuAreaMouseOver()
         {
-            _vm.IsMenuAreaMouseOver = _isDockMenuMouseOver || _isLayerMenuMuseOver;
+            return this.MenuArea.IsMouseOver;
         }
 
-        private void DockMenuSocket_MouseEnter(object sender, MouseEventArgs e)
+        public bool IsStatusAreaMouseOver()
         {
-            _isDockMenuMouseOver = true;
-            UpdateMenuAreaMouseOver();
-        }
-
-        private void DockMenuSocket_MouseLeave(object sender, MouseEventArgs e)
-        {
-            _isDockMenuMouseOver = false;
-            UpdateMenuAreaMouseOver();
-        }
-
-        private void LayerMenuSocket_MouseEnter(object sender, MouseEventArgs e)
-        {
-            _isLayerMenuMuseOver = true;
-            UpdateMenuAreaMouseOver();
-        }
-
-        private void LayerMenuSocket_MouseLeave(object sender, MouseEventArgs e)
-        {
-            _isLayerMenuMuseOver = false;
-            UpdateMenuAreaMouseOver();
-        }
-
-        public bool _isDockStatusMouseOver;
-        public bool _isLayeStatusMuseOver;
-
-        private void UpdateStatusAreaMouseOver()
-        {
-            _vm.IsStatusAreaMouseOver = _isDockStatusMouseOver || _isLayeStatusMuseOver;
-        }
-
-        private void DockStatusArea_MouseEnter(object sender, MouseEventArgs e)
-        {
-            _isDockStatusMouseOver = true;
-            UpdateStatusAreaMouseOver();
-        }
-
-        private void DockStatusArea_MouseLeave(object sender, MouseEventArgs e)
-        {
-            _isDockStatusMouseOver = false;
-            UpdateStatusAreaMouseOver();
-        }
-
-        private void LayerStatusArea_MouseEnter(object sender, MouseEventArgs e)
-        {
-            _isLayeStatusMuseOver = true;
-            UpdateStatusAreaMouseOver();
-        }
-
-        private void LayerStatusArea_MouseLeave(object sender, MouseEventArgs e)
-        {
-            _isLayeStatusMuseOver = false;
-            UpdateStatusAreaMouseOver();
+            return this.DockStatusArea.IsMouseOver || this.LayerStatusArea.IsMouseOver;
         }
 
         #endregion

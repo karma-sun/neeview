@@ -445,6 +445,11 @@ namespace NeeView
                     return true;
                 }
 
+                if (this.Description?.IsIgnoreMouseOverAppendix() == true)
+                {
+                    return false;
+                }
+
                 var point = Mouse.GetPosition(this.Screen);
 
                 switch (this.Dock)
@@ -601,6 +606,14 @@ namespace NeeView
         public void VisibleOnce()
         {
             VisibleOnceCall?.Invoke(this, null);
+        }
+
+        /// <summary>
+        /// 追加のマウス無効判定
+        /// </summary>
+        public virtual bool IsIgnoreMouseOverAppendix()
+        {
+            return false;
         }
     }
 }

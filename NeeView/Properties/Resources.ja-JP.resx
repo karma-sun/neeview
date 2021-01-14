@@ -2237,23 +2237,23 @@ nv.Values.Test = "Hello!"</value>
     <value>標準設定</value>
   </data>
   <data name="InputSceme.TypeA.Remarks" xml:space="preserve">
-    <value>マウス クリックで「@CommandPrevPage」「@CommandNextPage」
-ホイール操作で「@CommandPrevScrollPage」「@CommandNextScrollPage」</value>
+    <value>マウス クリックで「@PrevPageCommand」「@NextPageCommand」
+ホイール操作で「@PrevScrollPageCommand」「@NextScrollPageCommand」</value>
   </data>
   <data name="InputSceme.TypeB" xml:space="preserve">
     <value>ホイールでのページ送り優先設定</value>
   </data>
   <data name="InputSceme.TypeB.Remarks" xml:space="preserve">
-    <value>ホイール操作で「@CommandPrevPage」「@CommandNextPage」
-マウス右クリックで「@CommandOpenContextMenu」
+    <value>ホイール操作で「@PrevPageCommand」「@NextPageCommand」
+マウス右クリックで「@OpenContextMenuCommand」
 マウス左クリックは未定義</value>
   </data>
   <data name="InputSceme.TypeC" xml:space="preserve">
     <value>クリックでのページ送り優先設定</value>
   </data>
   <data name="InputSceme.TypeC.Remarks" xml:space="preserve">
-    <value>マウスク リックで「@CommandPrevPage」「@CommandNextPage」
-ホイール操作で「@CommandViewScrollUp」「@CommandViewScrollDown」</value>
+    <value>マウスク リックで「@PrevPageCommand」「@NextPageCommand」
+ホイール操作で「@ViewScrollUpCommand」「@ViewScrollDownCommand」</value>
   </data>
   <data name="InputTouchControl.Remarks" xml:space="preserve">
     <value>タッチするエリアを指定します。

@@ -6353,8 +6353,8 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   By clicking the mouse, &quot;@CommandPrevPage&quot; &quot;@CommandNextPage&quot;.
-        ///In the wheel operation, &quot;@CommandPrevScrollPage&quot; &quot;@CommandNextScrollPage&quot;. に類似しているローカライズされた文字列を検索します。
+        ///   By clicking the mouse, &quot;@PrevPageCommand&quot; &quot;@NextPageCommand&quot;.
+        ///In the wheel operation, &quot;@PrevScrollPageCommand&quot; &quot;@NextScrollPageCommand&quot;. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string InputSceme_TypeA_Remarks {
             get {
@@ -6372,8 +6372,8 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   In the wheel operation, &quot;@CommandPrevPage&quot; &quot;@CommandNextPage&quot;.
-        ///By right-click, &quot;@CommandOpenContextMenu&quot;.
+        ///   In the wheel operation, &quot;@PrevPageCommand&quot; &quot;@NextPageCommand&quot;.
+        ///By right-click, &quot;@OpenContextMenuCommand&quot;.
         ///Left click is undefined. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string InputSceme_TypeB_Remarks {
@@ -6392,8 +6392,8 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   By clicking the mouse, &quot;@CommandPrevPage&quot; &quot;@CommandNextPage&quot;.
-        ///In the wheel operation, &quot;@CommandViewScrollUp&quot; &quot;@CommandViewScrollDown&quot;. に類似しているローカライズされた文字列を検索します。
+        ///   By clicking the mouse, &quot;@PrevPageCommand&quot; &quot;@NextPageCommand&quot;.
+        ///In the wheel operation, &quot;@ViewScrollUpCommand&quot; &quot;@ViewScrollDownCommand&quot;. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string InputSceme_TypeC_Remarks {
             get {

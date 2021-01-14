@@ -2234,23 +2234,23 @@ Is it OK? </value>
     <value>Standard setting</value>
   </data>
   <data name="InputSceme.TypeA.Remarks" xml:space="preserve">
-    <value>By clicking the mouse, "@CommandPrevPage" "@CommandNextPage".
-In the wheel operation, "@CommandPrevScrollPage" "@CommandNextScrollPage".</value>
+    <value>By clicking the mouse, "@PrevPageCommand" "@NextPageCommand".
+In the wheel operation, "@PrevScrollPageCommand" "@NextScrollPageCommand".</value>
   </data>
   <data name="InputSceme.TypeB" xml:space="preserve">
     <value>Prioritize page feed by wheel</value>
   </data>
   <data name="InputSceme.TypeB.Remarks" xml:space="preserve">
-    <value>In the wheel operation, "@CommandPrevPage" "@CommandNextPage".
-By right-click, "@CommandOpenContextMenu".
+    <value>In the wheel operation, "@PrevPageCommand" "@NextPageCommand".
+By right-click, "@OpenContextMenuCommand".
 Left click is undefined.</value>
   </data>
   <data name="InputSceme.TypeC" xml:space="preserve">
     <value>Prioritize page feed by click</value>
   </data>
   <data name="InputSceme.TypeC.Remarks" xml:space="preserve">
-    <value>By clicking the mouse, "@CommandPrevPage" "@CommandNextPage".
-In the wheel operation, "@CommandViewScrollUp" "@CommandViewScrollDown".</value>
+    <value>By clicking the mouse, "@PrevPageCommand" "@NextPageCommand".
+In the wheel operation, "@ViewScrollUpCommand" "@ViewScrollDownCommand".</value>
   </data>
   <data name="InputTouchControl.Remarks" xml:space="preserve">
     <value>Specify the area to touch.

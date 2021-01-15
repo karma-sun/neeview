@@ -99,7 +99,7 @@ namespace NeeView
             var angle = DragTransformControl.NormalizeLoopRange(_dragTransform.Angle - 90.0, -180.0, 180.0);
             angle = Math.Truncate((angle + 180.0) / 90.0) * 90.0 - 180.0;
 
-            _dragTransform.Angle = angle;
+            _dragTransform.SetAngle(angle, TransformActionType.Navigate);
 
             if (IsRotateStretchEnabled)
             {
@@ -112,7 +112,7 @@ namespace NeeView
             var angle = DragTransformControl.NormalizeLoopRange(_dragTransform.Angle + 90.0, -180.0, 180.0);
             angle = Math.Truncate((angle + 180.0) / 90.0) * 90.0 - 180.0;
 
-            _dragTransform.Angle = angle;
+            _dragTransform.SetAngle(angle, TransformActionType.Navigate);
 
             if (IsRotateStretchEnabled)
             {
@@ -122,7 +122,7 @@ namespace NeeView
 
         public void RotateReset()
         {
-            _dragTransform.Angle = 0.0;
+            _dragTransform.SetAngle(0.0, TransformActionType.Navigate);
 
             if (IsRotateStretchEnabled)
             {
@@ -143,7 +143,7 @@ namespace NeeView
                 scale = _scaleSnaps.First();
             }
 
-            _dragTransform.Scale = scale;
+            _dragTransform.SetScale(scale, TransformActionType.Navigate);
         }
 
         public void ScaleUp()
@@ -159,12 +159,12 @@ namespace NeeView
                 scale = _scaleSnaps.Last();
             }
 
-            _dragTransform.Scale = scale;
+            _dragTransform.SetScale(scale, TransformActionType.Navigate);
         }
 
         public void ScaleReset()
         {
-            _dragTransform.Scale = 1.0;
+            _dragTransform.SetScale(1.0, TransformActionType.Navigate);
         }
 
         public void Stretch()

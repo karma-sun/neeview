@@ -39,7 +39,7 @@ namespace NeeView
         public double Angle
         {
             get => _model.DragTransform.Angle;
-            set => _model.DragTransform.Angle = value;
+            set => _model.DragTransform.SetAngle(value, TransformActionType.Navigate);
         }
 
         public AutoRotateType AutoRotate
@@ -54,13 +54,13 @@ namespace NeeView
         public double Scale
         {
             get { return _model.DragTransform.Scale * 100.0; }
-            set { _model.DragTransform.Scale = value / 100.0; }
+            set { _model.DragTransform.SetScale(value / 100.0, TransformActionType.Navigate); }
         }
 
         public double ScaleLog
         {
             get { return _model.DragTransform.Scale > 0.0 ? Math.Log(_model.DragTransform.Scale, 2.0) : -5.0; }
-            set { _model.DragTransform.Scale = Math.Pow(2, value); }
+            set { _model.DragTransform.SetScale(Math.Pow(2, value), TransformActionType.Navigate); }
         }
 
 

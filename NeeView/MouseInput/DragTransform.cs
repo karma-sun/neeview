@@ -59,7 +59,7 @@ namespace NeeView
         public double Angle
         {
             get { return _angle; }
-            set
+            private set
             {
                 SetProperty(ref _angle, value);
             }
@@ -69,7 +69,7 @@ namespace NeeView
         public double Scale
         {
             get { return _scale; }
-            set
+            private set
             {
                 if (SetProperty(ref _scale, value))
                 {

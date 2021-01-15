@@ -46,6 +46,8 @@ namespace NeeView
         FlipHorizontal,
         FlipVertical,
         LoupeScale,
+        Touch,
+        Navigate,
     }
 
     // 変化通知イベントの引数

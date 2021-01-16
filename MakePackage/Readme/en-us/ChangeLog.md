@@ -1,5 +1,17 @@
 ## ChangeLog
 
+### 38.2
+(2021-01-17)
+
+#### Fixed
+
+- Fixed a bug that the DPI of the display may not be applied.
+- Fixed a bug that dots may be enlarged as they are when the scale is changed in the navigator.
+- Fixed a bug that videos could not be played when switching the main view window.
+- Corrected the text of the command initialization dialog.
+
+----
+
 ### 38.1
 (2021-01-08)
 

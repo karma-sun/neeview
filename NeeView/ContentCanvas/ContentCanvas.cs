@@ -408,9 +408,21 @@ namespace NeeView
             {
                 MainContent = mainContent;
 
+                var oldies = new List<ViewContent>(Contents);
+
                 for (int index = 0; index < 2; ++index)
                 {
                     Contents[index] = index < contents.Count ? contents[index] : new ViewContent();
+                }
+
+                foreach (var content in oldies.Except(Contents))
+                {
+                    content.OnDetached();
+                }
+
+                foreach (var content in Contents.Except(oldies))
+                {
+                    content.OnAttached();
                 }
             }
 

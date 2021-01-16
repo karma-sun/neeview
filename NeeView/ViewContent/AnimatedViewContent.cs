@@ -18,8 +18,9 @@ namespace NeeView
         private static ObjectPool<MediaElement> _mediaElementPool = new ObjectPool<MediaElement>(2);
 
         private TextBlock _errorMessageTextBlock;
+        private ViewContentParameters _parameter;
         private VisualBrush _brush;
-
+        private Grid _mediaGrid;
 
         public AnimatedViewContent(MainViewComponent viewComponent, ViewContentSource source) : base(viewComponent, source)
         {
@@ -29,10 +30,10 @@ namespace NeeView
         public new void Initialize()
         {
             // binding parameter
-            var parameter = CreateBindingParameter();
+            _parameter = CreateBindingParameter();
 
             // create view
-            this.View = new ViewContentControl(CreateView(this.Source, parameter));
+            this.View = new ViewContentControl(CreateAnimatedView(this.Source, _parameter));
 
             // content setting
             var animatedContent = this.Content as AnimatedContent;
@@ -40,55 +41,56 @@ namespace NeeView
             this.FileProxy = animatedContent.FileProxy;
         }
 
-        /// <summary>
-        /// アニメーションビュー生成
-        /// </summary>
-        private new FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter)
+        public override void OnAttached()
         {
+            base.OnAttached();
+
 #pragma warning disable CS0618 // 型またはメンバーが旧型式です
             var uri = new Uri(((AnimatedContent)Content).FileProxy.Path, true);
 #pragma warning restore CS0618 // 型またはメンバーが旧型式です
 
+            var media = CreateMediaElement(uri, _parameter.BitmapScalingMode);
+            media.MediaOpened += OnMediaOpened;
+            _brush.Visual = media;
+        }
+
+        public override void OnDetached()
+        {
+            base.OnDetached();
+
+            if (_brush.Visual is MediaElement media)
+            {
+                _brush.Visual = null;
+                media.MediaOpened -= OnMediaOpened;
+                ReleaseMediaElement(media);
+            }
+        }
+
+        private async void OnMediaOpened(object s, RoutedEventArgs e)
+        {
+            // NOTE: 動画再生開始時に黒画面が一瞬表示されることがある現象の対策。表示開始を遅延させる
+            await Task.Delay(16);
+            _mediaGrid.Visibility = Visibility.Visible;
+        }
+
+        /// <summary>
+        /// アニメーションビュー生成
+        /// </summary>
+        private FrameworkElement CreateAnimatedView(ViewContentSource source, ViewContentParameters parameter)
+        {
             var image = base.CreateView(source, parameter);
 
-            var brush = new VisualBrush();
-            brush.Stretch = Stretch.Fill;
-            brush.Viewbox = source.GetViewBox();
-            _brush = brush;
+            _brush = new VisualBrush();
+            _brush.Stretch = Stretch.Fill;
+            _brush.Viewbox = source.GetViewBox();
 
             var rectangle = new Rectangle();
-            rectangle.Fill = brush;
+            rectangle.Fill = _brush;
             rectangle.SetBinding(Rectangle.VisibilityProperty, parameter.AnimationPlayerVisibility);
 
-            var mediaGrid = new Grid();
-            mediaGrid.Children.Add(rectangle);
-            mediaGrid.Visibility = Visibility.Hidden;
-
-            // inner.
-            async void OnMediaOpened(object s_, RoutedEventArgs e_)
-            {
-                // NOTE: 動画再生開始時に黒画面が一瞬表示されることがある現象の対策。表示開始を遅延させる
-                await Task.Delay(16);
-                mediaGrid.Visibility = Visibility.Visible;
-            }
-
-            rectangle.Loaded += (s, e) =>
-            {
-                var media = CreateMediaElement(uri, parameter.BitmapScalingMode);
-                media.MediaOpened += OnMediaOpened;
-                brush.Visual = media;
-            };
-
-            rectangle.Unloaded += (s, e) =>
-            {
-                if (brush.Visual is MediaElement media)
-                {
-                    brush.Visual = null;
-                    media.MediaOpened -= OnMediaOpened;
-                    ReleaseMediaElement(media);
-                }
-            };
-
+            _mediaGrid = new Grid();
+            _mediaGrid.Children.Add(rectangle);
+            _mediaGrid.Visibility = Visibility.Hidden;
 
             _errorMessageTextBlock = new TextBlock()
             {
@@ -105,7 +107,7 @@ namespace NeeView
             var grid = new Grid();
             grid.UseLayoutRounding = true;
             if (image != null) grid.Children.Add(image);
-            grid.Children.Add(mediaGrid);
+            grid.Children.Add(_mediaGrid);
             grid.Children.Add(_errorMessageTextBlock);
 
             return grid;

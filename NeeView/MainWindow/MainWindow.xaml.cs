@@ -384,6 +384,8 @@ namespace NeeView
 
             App.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
 
+            _dpiProvider.SetDipScale(VisualTreeHelper.GetDpi(this));
+
             MainViewManager.Current.Update();
 
             this.SetBinding(Window.TopmostProperty, new Binding(nameof(WindowShape.IsTopmost)) { Source = _windowShape });

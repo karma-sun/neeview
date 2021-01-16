@@ -89,14 +89,25 @@ namespace NeeView
             var window = Window.GetWindow(this);
             if (_owner == window) return;
 
-            MainView_Unloaded(sender, e);
+            SetOwnerWindow(window);
 
+            var dpiScale = _owner is IDpiScaleProvider dpiProvider ? dpiProvider.GetDpiScale() : VisualTreeHelper.GetDpi(this);
+            _dpiProvider.SetDipScale(dpiScale);
+        }
+
+        private void MainView_Unloaded(object sender, RoutedEventArgs e)
+        {
+            ResetOwnerWindow();
+        }
+
+        private void SetOwnerWindow(Window window)
+        {
             _owner = window;
             _owner.Activated += Window_Activated;
             _owner.Deactivated += Window_Deactivated;
         }
 
-        private void MainView_Unloaded(object sender, RoutedEventArgs e)
+        private void ResetOwnerWindow()
         {
             if (_owner != null)
             {
@@ -368,6 +379,6 @@ namespace NeeView
             }
         }
 
-#endregion SizeChanged
+        #endregion SizeChanged
     }
 }

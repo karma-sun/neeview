@@ -115,7 +115,8 @@ namespace NeeView
             _window.Content = null;
             _window = null;
 
-            _defaultSocket.Content = _mainView;
+            // NOTE: コンテンツの差し替えでLoadedイベントが呼ばれないことがあるため、新規コントロールをはさむことで確実にLoadedイベントが呼ばれるようにする。
+            _defaultSocket.Content = new ContentControl() { Content = _mainView, IsTabStop = false, Focusable = false };
         }
 
 

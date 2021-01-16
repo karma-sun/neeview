@@ -48,7 +48,7 @@ namespace NeeView
 
         #endregion
 
-        private DpiScaleProvider _dpiProvider;
+        private DpiScaleProvider _dpiProvider = new DpiScaleProvider();
 
         private WindowChromeAccessor _windowChrome;
         private WindowCaptionEmulator _windowCaptionEmulator;
@@ -70,9 +70,6 @@ namespace NeeView
             binding.SetMenuForegroundBinding(MainViewWindow.CaptionForegroundProperty);
 
             this.SetBinding(MainViewWindow.TitleProperty, new Binding(nameof(WindowTitle.Title)) { Source = WindowTitle.Current });
-
-            _dpiProvider = new DpiScaleProvider();
-            this.DpiChanged += (s, e) => _dpiProvider.SetDipScale(e.NewDpi);
 
             _windowChrome = new WindowChromeAccessor(this);
 
@@ -100,6 +97,8 @@ namespace NeeView
             MenuAutoHideDescription = new BasicAutoHideDescription(this.CaptionBar);
 
             this.SourceInitialized += MainViewWindow_SourceInitialized;
+            this.Loaded += MainViewWindow_Loaded;
+            this.DpiChanged += MainViewWindow_DpiChanged;
             this.Activated += MainViewWindow_Activated;
 
             UpdateCaptionBar();
@@ -176,6 +175,16 @@ namespace NeeView
             }
 
             RestoreWindowPlacement(placement);
+        }
+
+        private void MainViewWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            _dpiProvider.SetDipScale(VisualTreeHelper.GetDpi(this));
+        }
+
+        private void MainViewWindow_DpiChanged(object sender, DpiChangedEventArgs e)
+        {
+            _dpiProvider.SetDipScale(e.NewDpi);
         }
 
         private void MainViewWindow_Activated(object sender, EventArgs e)

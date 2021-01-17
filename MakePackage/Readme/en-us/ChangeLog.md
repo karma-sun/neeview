@@ -8,6 +8,7 @@
 - Fixed a bug that the DPI of the display may not be applied.
 - Fixed a bug that dots may be enlarged as they are when the scale is changed in the navigator.
 - Fixed a bug that videos could not be played when switching the main view window.
+- Fixed a memory leak in a subwindow.
 - Corrected the text of the command initialization dialog.
 
 ----

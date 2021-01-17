@@ -232,7 +232,7 @@ namespace NeeView
 
         public WindowPlacement StoreWindowPlacement()
         {
-            return _windowStateManager.StoreWindowPlacement();
+            return _windowStateManager.StoreWindowPlacement(withAeroSnap: true);
         }
 
         public void RestoreWindowPlacement(WindowPlacement placement)

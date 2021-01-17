@@ -342,9 +342,9 @@ namespace NeeView
         }
 
 
-        public WindowPlacement StoreWindowPlacement()
+        public WindowPlacement StoreWindowPlacement(bool withAeroSnap)
         {
-            return WindowPlacementTools.StoreWindowPlacement(_window, IsFullScreen);
+            return WindowPlacementTools.StoreWindowPlacement(_window, withAeroSnap).WithIsFullScreeen(IsFullScreen);
         }
 
         public void RestoreWindowPlacement(WindowPlacement placement)

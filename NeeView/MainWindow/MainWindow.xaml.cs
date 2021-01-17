@@ -317,7 +317,7 @@ namespace NeeView
             try
             {
                 Config.Current.Window.LastState = _windowStateManager.ResumeState;
-                Config.Current.Window.WindowPlacement = _windowStateManager.StoreWindowPlacement();
+                Config.Current.Window.WindowPlacement = _windowStateManager.StoreWindowPlacement(Config.Current.Window.IsRestoreAeroSnapPlacement);
             }
             catch (Exception ex)
             {

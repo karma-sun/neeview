@@ -1,4 +1,5 @@
-﻿using NeeView.Runtime.LayoutPanel;
+﻿using NeeView.ComponentModel;
+using NeeView.Runtime.LayoutPanel;
 using NeeView.Windows;
 using System;
 using System.Collections.Generic;
@@ -49,15 +50,14 @@ namespace NeeView
         #endregion
 
         private DpiScaleProvider _dpiProvider = new DpiScaleProvider();
-
         private WindowChromeAccessor _windowChrome;
         private WindowCaptionEmulator _windowCaptionEmulator;
         private WindowStateManager _windowStateManager;
         private WindowBorder _windowBorder;
         private bool _canHideMenu;
-
         private WindowController _windowController;
-
+        private RoutedCommandBinding _routedCommandBinding;
+        private WeakBindableBase<MainViewConfig> _mainViewConfig;
 
         public MainViewWindow()
         {
@@ -83,13 +83,16 @@ namespace NeeView
 
             _windowController = new WindowController(_windowStateManager, this);
 
-            Config.Current.MainView.AddPropertyChanged(nameof(MainViewConfig.IsHideTitleBar), (s, e) =>
+            _routedCommandBinding = new RoutedCommandBinding(this, RoutedCommandTable.Current);
+
+            _mainViewConfig = new WeakBindableBase<MainViewConfig>(Config.Current.MainView);
+            _mainViewConfig.AddPropertyChanged(nameof(MainViewConfig.IsHideTitleBar), (s, e) =>
             {
                 RaisePropertyChanged(nameof(IsAutoHide));
                 UpdateCaptionBar();
             });
 
-            Config.Current.MainView.AddPropertyChanged(nameof(MainViewConfig.IsTopmost), (s, e) =>
+            _mainViewConfig.AddPropertyChanged(nameof(MainViewConfig.IsTopmost), (s, e) =>
             {
                 RaisePropertyChanged(nameof(IsTopmost));
             });
@@ -100,6 +103,7 @@ namespace NeeView
             this.Loaded += MainViewWindow_Loaded;
             this.DpiChanged += MainViewWindow_DpiChanged;
             this.Activated += MainViewWindow_Activated;
+            this.Closed += MainViewWindow_Closed;
 
             UpdateCaptionBar();
         }
@@ -196,6 +200,15 @@ namespace NeeView
         {
             UpdateCaptionBar();
             RaisePropertyChanged(nameof(IsFullScreen));
+        }
+
+        private void MainViewWindow_Closed(object sender, EventArgs e)
+        {
+            if (_routedCommandBinding != null)
+            {
+                _routedCommandBinding.Dispose();
+                _routedCommandBinding = null;
+            }
         }
 
         private void UpdateCaptionBar()

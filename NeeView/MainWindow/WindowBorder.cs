@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.ComponentModel;
 using NeeView.Windows;
 using System.Windows;
 
@@ -9,6 +10,7 @@ namespace NeeView
         private Window _window;
         private WindowChromeAccessor _windowChromeAccessor;
         private Thickness _thickness;
+        private WeakBindableBase<WindowConfig> _windowConfig;
 
         public WindowBorder(Window window, WindowChromeAccessor windowChromeAccessor)
         {
@@ -24,7 +26,8 @@ namespace NeeView
             _windowChromeAccessor.AddPropertyChanged(nameof(WindowChromeAccessor.IsEnabled),
                 (s, e) => Update());
 
-            Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.WindowChromeFrame),
+            _windowConfig = new WeakBindableBase<WindowConfig>(Config.Current.Window);
+            _windowConfig.AddPropertyChanged(nameof(WindowConfig.WindowChromeFrame),
                 (s, e) => Update());
 
             Update();

@@ -11,12 +11,13 @@ namespace NeeView
     /// <summary>
     /// コントロールにコマンドをバインドする
     /// </summary>
-    class RoutedCommandBinding
+    class RoutedCommandBinding : IDisposable
     {
         private FrameworkElement _element;
         private Dictionary<string, CommandBinding> _commandBindings;
         private bool _skipMouseButtonUp;
         private RoutedCommandTable _routedCommandTable;
+        private bool _disposedValue;
 
         public RoutedCommandBinding(FrameworkElement element, RoutedCommandTable routedCommandTable)
         {
@@ -30,6 +31,38 @@ namespace NeeView
             InitializeCommandBindings();
         }
 
+        #region IDisposable
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    if (_element != null)
+                    {
+                        _element.PreviewMouseUp -= Control_PreviewMouseUp;
+                        _element.PreviewKeyDown -= Control_PreviewKeyDown;
+                    }
+
+                    if (_routedCommandTable != null)
+                    {
+                        _routedCommandTable.CommandExecuted -= RoutedCommand_CommandExecuted;
+                        _routedCommandTable.Changed -= RefresuCommandBindings;
+                    }
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion IDisposable
 
         private void InitializeCommandBindings()
         {

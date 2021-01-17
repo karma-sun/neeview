@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.ComponentModel;
 using System;
 using System.ComponentModel;
 using System.Windows;
@@ -10,73 +11,55 @@ namespace NeeView
     /// </summary>
     public class NormalInfoMessageViewModel : BindableBase
     {
-        /// <summary>
-        /// ChangeCount property.
-        /// 表示の更新通知に利用される。
-        /// </summary>
-        public int ChangeCount
-        {
-            get { return _changeCount; }
-            set { if (_changeCount != value) { _changeCount = value; RaisePropertyChanged(); } }
-        }
-
+        private WeakBindableBase<NormalInfoMessage> _model;
         private int _changeCount;
 
 
-
-        /// <summary>
-        /// Model property.
-        /// </summary>
-        public NormalInfoMessage Model
-        {
-            get { return _model; }
-            set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
-        }
-
-        private NormalInfoMessage _model;
-
-
-        //
-        public TimeSpan DispTime => TimeSpan.FromSeconds(_model.DispTime);
-
-        //
-        public Visibility Visibility => string.IsNullOrEmpty(_model.Message) ? Visibility.Collapsed : Visibility.Visible;
-
-        //
-        public Visibility BookmarkIconVisibility => _model.BookMementoIcon == BookMementoType.Bookmark ? Visibility.Visible : Visibility.Collapsed;
-
-        //
-        public Visibility HistoryIconVisibility => _model.BookMementoIcon == BookMementoType.History ? Visibility.Visible : Visibility.Collapsed;
-
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="model"></param>
         public NormalInfoMessageViewModel(NormalInfoMessage model)
         {
-            _model = model;
+            _model = new WeakBindableBase<NormalInfoMessage>(model);
 
-            _model.AddPropertyChanged(nameof(_model.Message),
+            _model.AddPropertyChanged(nameof(NormalInfoMessage.Message),
                 (s, e) =>
                 {
-                    if (!string.IsNullOrWhiteSpace(_model.Message)) ChangeCount++;
+                    if (!string.IsNullOrWhiteSpace(_model.Model.Message)) ChangeCount++;
+                    RaisePropertyChanged(nameof(Message));
                     RaisePropertyChanged(nameof(Visibility));
                 });
 
-            _model.AddPropertyChanged(nameof(_model.BookMementoIcon),
+            _model.AddPropertyChanged(nameof(NormalInfoMessage.BookMementoIcon),
                 (s, e) =>
                 {
                     RaisePropertyChanged(nameof(BookmarkIconVisibility));
                     RaisePropertyChanged(nameof(HistoryIconVisibility));
                 });
 
-            _model.AddPropertyChanged(nameof(_model.DispTime),
+            _model.AddPropertyChanged(nameof(NormalInfoMessage.DispTime),
                 (s, e) =>
                 {
                     RaisePropertyChanged(nameof(DispTime));
                 });
         }
+
+
+        /// <summary>
+        /// 表示の更新通知に利用するカウンタ
+        /// </summary>
+        public int ChangeCount
+        {
+            get { return _changeCount; }
+            set { SetProperty(ref _changeCount, value); }
+        }
+
+        public string Message => _model.Model.Message;
+
+        public TimeSpan DispTime => TimeSpan.FromSeconds(_model.Model.DispTime);
+
+        public Visibility Visibility => string.IsNullOrEmpty(_model.Model.Message) ? Visibility.Collapsed : Visibility.Visible;
+
+        public Visibility BookmarkIconVisibility => _model.Model.BookMementoIcon == BookMementoType.Bookmark ? Visibility.Visible : Visibility.Collapsed;
+
+        public Visibility HistoryIconVisibility => _model.Model.BookMementoIcon == BookMementoType.History ? Visibility.Visible : Visibility.Collapsed;
     }
 
 }

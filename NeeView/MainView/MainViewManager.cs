@@ -93,6 +93,8 @@ namespace NeeView
 
             _defaultSocket.Content = _mainViewBay;
 
+            InfoMessage.Current.ClearMessage(ShowMessageStyle.Normal);
+
             _window = new MainViewWindow();
             _window.MainViewSocket.Content = _mainView;
 

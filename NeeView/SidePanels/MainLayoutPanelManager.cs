@@ -1,4 +1,5 @@
-﻿using NeeView.Native;
+﻿using NeeView.ComponentModel;
+using NeeView.Native;
 using NeeView.Runtime.LayoutPanel;
 using System;
 using System.Collections.Generic;
@@ -210,6 +211,42 @@ namespace NeeView
         /// </summary>
         class LayoutWindowDecorator : ILayoutPanelWindowDecorator
         {
+            class LayoutWindowDecorate : IDisposable
+            {
+                private WeakBindableBase<WindowConfig> _windowConfig; // GCされないように保持
+                private RoutedCommandBinding _routedCommandBinding;
+                private bool _disposedValue;
+
+                public LayoutWindowDecorate(WeakBindableBase<WindowConfig> windowConfig, RoutedCommandBinding routedCommandBinding)
+                {
+                    _windowConfig = windowConfig;
+                    _routedCommandBinding = routedCommandBinding;
+                }
+
+                protected virtual void Dispose(bool disposing)
+                {
+                    if (!_disposedValue)
+                    {
+                        if (disposing)
+                        {
+                            if (_routedCommandBinding != null)
+                            {
+                                _routedCommandBinding.Dispose();
+                                _routedCommandBinding = null;
+                            }
+                        }
+
+                        _disposedValue = true;
+                    }
+                }
+
+                public void Dispose()
+                {
+                    Dispose(disposing: true);
+                    GC.SuppressFinalize(this);
+                }
+            }
+
             public void Decorate(LayoutPanelWindow window)
             {
                 window.Style = (Style)App.Current.Resources["DefaultWindowStyle"];
@@ -219,16 +256,30 @@ namespace NeeView
                 binding.SetMenuForegroundBinding(LayoutPanelWindow.CaptionForegroundProperty);
                 window.SetBinding(LayoutPanelWindow.BackgroundProperty, new Binding(nameof(ThemeBrushProvider.BackgroundBrushRaw)) { Source = ThemeBrushProvider.Current });
 
-                Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.MaximizeWindowGapWidth), (s, e) => UpdateMaximizeWindowGapWidth(window));
+                var windowConfig = new WeakBindableBase<WindowConfig>(Config.Current.Window);
+                windowConfig.AddPropertyChanged(nameof(WindowConfig.MaximizeWindowGapWidth), (s, e) => UpdateMaximizeWindowGapWidth(window));
                 UpdateMaximizeWindowGapWidth(window);
 
                 var windowBorder = new WindowBorder(window, window.WindowChrome);
                 ((FrameworkElement)window.FindName("WindowBorder")).SetBinding(Border.BorderThicknessProperty, new Binding(nameof(WindowBorder.Thickness)) { Source = windowBorder });
 
-                // NOTE: Tagにインスタンスを保持して消えないようにする
-                window.Tag = new RoutedCommandBinding(window, RoutedCommandTable.Current);
+                var routedCommandBinding = new RoutedCommandBinding(window, RoutedCommandTable.Current);
+
+                // NOTE: Tagにインスタンスを保持
+                window.Tag = new LayoutWindowDecorate(windowConfig, routedCommandBinding);
 
                 window.Activated += Window_Activated;
+                window.Closed += Window_Closed;
+            }
+
+            private void Window_Closed(object sender, EventArgs e)
+            {
+                var window = (LayoutPanelWindow)sender;
+                if (window.Tag is LayoutWindowDecorate decorate)
+                {
+                    decorate.Dispose();
+                    window.Tag = null;
+                }
             }
 
             private static void Window_Activated(object sender, EventArgs e)

@@ -306,7 +306,7 @@ namespace NeeView
         {
             if (!IsFullScreen) return;
 
-            if (_resumeState == WindowStateEx.Maximized)
+            if (_resumeState == WindowStateEx.Maximized || _dependency.IsTabletMode)
             {
                 ToMaximize();
             }

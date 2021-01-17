@@ -22,7 +22,7 @@ namespace NeeView
 
         private Window _window;
         private bool _isTabletMode = false;
-        private int _dartyValue;
+        private int _dartyValue = 1;
 
         public TabletModeWatcher()
         {

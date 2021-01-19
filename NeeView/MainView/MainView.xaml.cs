@@ -145,33 +145,31 @@ namespace NeeView
         {
             var window = Window.GetWindow(this);
             if (window is null) return;
+            if (window.WindowState != WindowState.Normal) return;
 
-            window.WindowState = WindowState.Normal;
-
-            var frameWidth = window.ActualWidth - this.ActualWidth;
-            var frameHeight = window.ActualHeight - this.ActualHeight;
-
-            var contentSize = this.GetContentRenderSize();
-            var limitSize = new Size(SystemParameters.VirtualScreenWidth - frameWidth, SystemParameters.VirtualScreenHeight - frameHeight);
-
-            if (contentSize.IsEmptyOrZero()) return;
-
-            Size canvasSize;
-            switch (_vm.GetStretchMode())
+            try
             {
-                case PageStretchMode.Uniform:
-                case PageStretchMode.UniformToSize:
-                    canvasSize = contentSize.Limit(limitSize);
-                    break;
-                default:
-                    canvasSize = contentSize.Clamp(limitSize);
-                    break;
+                var canvasSize = new Size(this.ActualWidth, this.ActualHeight);
+                var contentSize = this.GetContentRenderSize();
+                if (contentSize.IsEmptyOrZero()) return;
+                _vm.StretchWindow(window, canvasSize, contentSize);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return;
             }
 
-            window.Width = canvasSize.Width + frameWidth;
-            window.Height = canvasSize.Height + frameHeight;
+            // NOTE: レンダリングに回転を反映させるためにタイミングを遅らせる
+            // TODO: レンダリング前に数値計算だけで処理するのが理想
+            AppDispatcher.BeginInvoke(() => StretchContent());
+        }
 
-            _vm.Stretch();
+        private void StretchContent()
+        {
+            var canvasSize = new Size(this.ActualWidth, this.ActualHeight);
+            var contentSize = this.GetContentRenderSize();
+            _vm.StretchScale(contentSize, canvasSize);
         }
 
         private Size GetContentRenderSize()
@@ -179,8 +177,6 @@ namespace NeeView
             var rect = new Rect(new Size(this.MainContentShadow.ActualWidth, this.MainContentShadow.ActualHeight));
             return this.MainContentShadow.RenderTransform.TransformBounds(rect).Size;
         }
-
-
 
 
         #region タイマーによる非アクティブ監視

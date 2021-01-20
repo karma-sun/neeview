@@ -75,7 +75,7 @@ namespace NeeView
                     return null;
 
                 case "exit":
-                    _owner.Close();
+                    AppDispatcher.Invoke(() => _owner.Close());
                     return null;
 
                 default:

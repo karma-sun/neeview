@@ -549,7 +549,7 @@ namespace NeeView
         {
             UpdateContentSize();
             ContentSizeChanged?.Invoke(this, null);
-            ResetTransformRaw(true, false, false, 0.0);
+            ResetTransformRaw(true, false, false, 0.0, false);
         }
 
         /// <summary>
@@ -576,7 +576,7 @@ namespace NeeView
             bool isResetAngle = isForce || !Config.Current.View.IsKeepAngle || angleResetMode != AngleResetMode.None;
             bool isResetFlip = isForce || !Config.Current.View.IsKeepFlip;
 
-            ResetTransformRaw(isResetScale, isResetAngle, isResetFlip, GetAutoRotateAngle(angleResetMode));
+            ResetTransformRaw(isResetScale, isResetAngle, isResetFlip, GetAutoRotateAngle(angleResetMode), false);
         }
 
         /// <summary>
@@ -587,9 +587,10 @@ namespace NeeView
         /// <param name="isResetAngle">角度をangleで初期化する</param>
         /// <param name="isResetFlip">反転を初期化する</param>
         /// <param name="angle">角度初期化の値</param>
-        public void ResetTransformRaw(bool isResetScale, bool isResetAngle, bool isResetFlip, double angle)
+        /// <param name="ignoreViewOrigin">初期中心座標補正無しで初期化。座標が必ず0,0になる</param>
+        public void ResetTransformRaw(bool isResetScale, bool isResetAngle, bool isResetFlip, double angle, bool ignoreViewOrigin)
         {
-            _viewComponent.DragTransformControl.Reset(isResetScale, isResetAngle, isResetFlip, angle);
+            _viewComponent.DragTransformControl.Reset(isResetScale, isResetAngle, isResetFlip, angle, ignoreViewOrigin);
         }
 
         /// <summary>
@@ -811,11 +812,11 @@ namespace NeeView
             }
         }
 
-        public void Stretch()
+        public void Stretch(bool ignoreViewOrigin = false)
         {
             UpdateContentSize(_viewComponent.DragTransform.Angle);
             ContentSizeChanged?.Invoke(this, null);
-            ResetTransformRaw(true, false, false, 0.0);
+            ResetTransformRaw(true, false, false, 0.0, ignoreViewOrigin);
         }
 
         #endregion

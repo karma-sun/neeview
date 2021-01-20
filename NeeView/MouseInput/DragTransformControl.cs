@@ -240,7 +240,7 @@ namespace NeeView
 
         // 初期化
         // コンテンツ切り替わり時等
-        public void Reset(bool isResetScale, bool isResetAngle, bool isResetFlip, double angle)
+        public void Reset(bool isResetScale, bool isResetAngle, bool isResetFlip, double angle, bool ignoreViewOrigin)
         {
             _lockMoveX = Config.Current.View.IsLimitMove;
             _lockMoveY = Config.Current.View.IsLimitMove;
@@ -259,7 +259,7 @@ namespace NeeView
                 _transform.IsFlipVertical = false;
             }
 
-            if (ViewOrigin == DragViewOrigin.Center)
+            if (ignoreViewOrigin || ViewOrigin == DragViewOrigin.Center)
             {
                 _transform.SetPosition(new Point(0, 0));
             }

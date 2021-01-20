@@ -500,6 +500,41 @@ namespace NeeView.Windows
         {
             this.AnchorItem = anchor;
         }
+
+        public void SetSelectedItems<T>(IEnumerable<T> selectedItems)
+        {
+            this.SelectedItems.Clear();
+
+            if (selectedItems == null || !selectedItems.Any())
+            {
+                return;
+            }
+
+            var top = selectedItems.First();
+
+            // なるべく選択範囲が表示されるようにスクロールする
+            this.ScrollIntoView(selectedItems.Last());
+            this.UpdateLayout();
+            this.ScrollIntoView(top);
+            this.UpdateLayout();
+
+            // キーボードフォーカスの移動
+            if (this.IsKeyboardFocusWithin)
+            {
+                var listBoxItem = (ListBoxItem)this.ItemContainerGenerator.ContainerFromItem(top);
+                if (listBoxItem != null)
+                {
+                    listBoxItem.Focus();
+                    this.SetAnchorItem(top);
+                }
+            }
+
+            // 選択
+            foreach (var item in selectedItems)
+            {
+                this.SelectedItems.Add(item);
+            }
+        }
     }
 
 }

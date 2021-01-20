@@ -297,14 +297,7 @@ namespace NeeView
 
         public void SetSelectedItems(IEnumerable<BookHistory> selectedItems)
         {
-            this.ListBox.SelectedItems.Clear();
-
-            if (selectedItems == null) return;
-
-            foreach (var item in selectedItems.Intersect(GetItems()))
-            {
-                this.ListBox.SelectedItems.Add(item);
-            }
+            this.ListBox.SetSelectedItems(selectedItems?.Intersect(GetItems()).ToList());
         }
 
         #endregion UI Accessor

@@ -161,6 +161,7 @@ namespace NeeView
                 if (e.Key == Key.Return)
                 {
                     Decide?.Invoke(this, null);
+                    e.Handled = true;
                 }
             }
 

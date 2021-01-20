@@ -252,6 +252,7 @@ namespace NeeView
             if (e.Key == Key.Escape)
             {
                 this.Close();
+                e.Handled = true;
             }
         }
 

@@ -216,8 +216,8 @@ namespace NeeView
             _now = TouchDragTransform.Lerp(_now, _goal, 0.5);
 
             _transform.SetPosition((Point)_now.Trans);
-            _transform.Angle = _now.Angle;
-            _transform.Scale = _now.Scale;
+            _transform.SetAngle(_now.Angle, TransformActionType.Touch);
+            _transform.SetScale(_now.Scale, TransformActionType.Touch);
 
             // speed.
             var speed = _now.Trans - old.Trans;
@@ -280,12 +280,12 @@ namespace NeeView
 
             //
             _transform.SetPosition((Point)_now.Trans);
-            _transform.Angle = _now.Angle;
+            _transform.SetAngle(_now.Angle, TransformActionType.Touch);
 
             // 終了チェック
             if (_speed.LengthSquared < 4.0 && Math.Abs(_now.Angle - _snapAngle) < 1.0)
             {
-                _transform.Angle = _snapAngle;
+                _transform.SetAngle(_snapAngle, TransformActionType.Touch);
 
                 if (Config.Current.View.IsLimitMove)
                 {

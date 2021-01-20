@@ -222,6 +222,16 @@ namespace NeeView
         /// </summary>
         public virtual void UpdateViewBox() { }
 
+        /// <summary>
+        /// 表示コンテンツとして登録されたときのイベント
+        /// </summary>
+        public virtual void OnAttached() { }
+
+        /// <summary>
+        /// 表示コンテンツから解除されたときのイベント
+        /// </summary>
+        public virtual void OnDetached() { }
+
 
         #region IDisposable Support
 

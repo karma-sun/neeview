@@ -317,7 +317,7 @@ namespace NeeView
             try
             {
                 Config.Current.Window.LastState = _windowStateManager.ResumeState;
-                Config.Current.Window.WindowPlacement = _windowStateManager.StoreWindowPlacement();
+                Config.Current.Window.WindowPlacement = _windowStateManager.StoreWindowPlacement(Config.Current.Window.IsRestoreAeroSnapPlacement);
             }
             catch (Exception ex)
             {
@@ -383,6 +383,8 @@ namespace NeeView
             Debug.WriteLine($"App.MainWndow.Loaded: {App.Current.Stopwatch.ElapsedMilliseconds}ms");
 
             App.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
+
+            _dpiProvider.SetDipScale(VisualTreeHelper.GetDpi(this));
 
             MainViewManager.Current.Update();
 

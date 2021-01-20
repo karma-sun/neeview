@@ -93,11 +93,10 @@ namespace NeeView
 
             _defaultSocket.Content = _mainViewBay;
 
+            InfoMessage.Current.ClearMessage(ShowMessageStyle.Normal);
+
             _window = new MainViewWindow();
             _window.MainViewSocket.Content = _mainView;
-
-            // NOTE: Tagにインスタンスを保持して消えないようにする
-            _window.Tag = new RoutedCommandBinding(_window, RoutedCommandTable.Current);
 
             _window.Closing += (s, e) => Store();
             _window.Closed += (s, e) => SetFloating(false);
@@ -115,7 +114,8 @@ namespace NeeView
             _window.Content = null;
             _window = null;
 
-            _defaultSocket.Content = _mainView;
+            // NOTE: コンテンツの差し替えでLoadedイベントが呼ばれないことがあるため、新規コントロールをはさむことで確実にLoadedイベントが呼ばれるようにする。
+            _defaultSocket.Content = new ContentControl() { Content = _mainView, IsTabStop = false, Focusable = false };
         }
 
 

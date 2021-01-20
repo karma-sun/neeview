@@ -20,21 +20,39 @@ namespace NeeView
     /// </summary>
     public partial class NormalInfoMessageView : UserControl, INotifyPropertyChanged
     {
-        #region PropertyChanged
+        #region INotifyPropertyChanged Support
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected bool SetProperty<T>(ref T storage, T value, [System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        {
+            if (object.Equals(storage, value)) return false;
+            storage = value;
+            this.RaisePropertyChanged(propertyName);
+            return true;
+        }
+
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
         public void AddPropertyChanged(string propertyName, PropertyChangedEventHandler handler)
         {
-            PropertyChanged += (s, e) => { if (e.PropertyName == propertyName) handler?.Invoke(s, e); };
+            PropertyChanged += (s, e) => { if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == propertyName) handler?.Invoke(s, e); };
         }
 
         #endregion
+
+
+        private NormalInfoMessageViewModel _vm;
+
+
+        public NormalInfoMessageView()
+        {
+            InitializeComponent();
+            this.Root.DataContext = this;
+        }
 
 
         public NormalInfoMessage Source
@@ -43,7 +61,6 @@ namespace NeeView
             set { SetValue(SourceProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Source.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SourceProperty =
             DependencyProperty.Register("Source", typeof(NormalInfoMessage), typeof(NormalInfoMessageView), new PropertyMetadata(null, SourceChanged));
 
@@ -55,24 +72,11 @@ namespace NeeView
             }
         }
 
-        /// <summary>
-        /// VM property.
-        /// </summary>
         public NormalInfoMessageViewModel VM
         {
             get { return _vm; }
-            private set { if (_vm != value) { _vm = value; RaisePropertyChanged(); } }
+            private set { SetProperty(ref _vm, value); }
         }
 
-        private NormalInfoMessageViewModel _vm;
-
-
-        //
-        public NormalInfoMessageView()
-        {
-            InitializeComponent();
-            this.Root.DataContext = this;
-        }
     }
-
 }

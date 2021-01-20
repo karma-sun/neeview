@@ -37,6 +37,8 @@ namespace NeeView
         //
         public BitmapImage Create(Stream stream, BitmapInfo info, Size size, ProcessImageSettings setting)
         {
+            ////Debug.WriteLine($"MagicScalerImage: {size.Truncate()}");
+            
             stream.Seek(0, SeekOrigin.Begin);
 
             using (var ms = new MemoryStream())

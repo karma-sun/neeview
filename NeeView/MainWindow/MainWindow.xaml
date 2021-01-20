@@ -65,7 +65,7 @@
             <local:BooleanReverseConverter x:Key="BooleanReverseConverter" />
             <local:DoubleOffsetConverter x:Key="AutoHideMarginOffsetConverter" Offset="16" />
             <local:DoubleSumConverter x:Key="DoubleSumConverter" />
-            <local:TypeToVisibilityConverter x:Key="MainViewToVisibilityConverter" Type="{x:Type local:MainView}" />
+            <local:TypeToVisibilityConverter x:Key="MainViewToVisibilityConverter" Type="{x:Type local:MainViewBay}" IsInversed="True" />
 
             <!-- MenuItem History -->
             <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">

@@ -1,6 +1,7 @@
 ﻿using NeeLaboratory.ComponentModel;
 using System;
 using System.Diagnostics;
+using System.Runtime;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -71,6 +72,10 @@ namespace NeeView
 
             collection.Add(new Separator());
 
+            item = new MenuItem() { Header = "GC" };
+            item.Click += MenuItemDevGC_Click;
+            collection.Add(item);
+
             item = new MenuItem() { Header = "Go TEST" };
             item.Click += MenuItemDevButton_Click;
             collection.Add(item);
@@ -78,6 +83,11 @@ namespace NeeView
             return top;
         }
 
+        // [開発用] GCボタン
+        private void MenuItemDevGC_Click(object sender, RoutedEventArgs e)
+        {
+            DebugGC();
+        }
 
         // [開発用] テストボタン
         private void MenuItemDevButton_Click(object sender, RoutedEventArgs e)
@@ -111,6 +121,18 @@ namespace NeeView
 
 
         /// <summary>
+        /// 開発用：GC
+        /// </summary>
+        [Conditional("DEBUG")]
+        private void DebugGC()
+        {
+            GCSettings.LargeObjectHeapCompactionMode = GCLargeObjectHeapCompactionMode.CompactOnce;
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+        }
+
+        /// <summary>
         /// 開発用：テストボタンのアクション
         /// </summary>
         [Conditional("DEBUG")]
@@ -129,5 +151,5 @@ namespace NeeView
             System.Diagnostics.Process.Start("explorer.exe", path);
         }
     }
-#endif
+#endif // DEBUG
 }

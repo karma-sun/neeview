@@ -1,4 +1,5 @@
-﻿using NeeView.Runtime.LayoutPanel;
+﻿using NeeView.ComponentModel;
+using NeeView.Runtime.LayoutPanel;
 using NeeView.Windows;
 using System;
 using System.Collections.Generic;
@@ -48,16 +49,15 @@ namespace NeeView
 
         #endregion
 
-        private DpiScaleProvider _dpiProvider;
-
+        private DpiScaleProvider _dpiProvider = new DpiScaleProvider();
         private WindowChromeAccessor _windowChrome;
         private WindowCaptionEmulator _windowCaptionEmulator;
         private WindowStateManager _windowStateManager;
         private WindowBorder _windowBorder;
         private bool _canHideMenu;
-
         private WindowController _windowController;
-
+        private RoutedCommandBinding _routedCommandBinding;
+        private WeakBindableBase<MainViewConfig> _mainViewConfig;
 
         public MainViewWindow()
         {
@@ -71,9 +71,6 @@ namespace NeeView
 
             this.SetBinding(MainViewWindow.TitleProperty, new Binding(nameof(WindowTitle.Title)) { Source = WindowTitle.Current });
 
-            _dpiProvider = new DpiScaleProvider();
-            this.DpiChanged += (s, e) => _dpiProvider.SetDipScale(e.NewDpi);
-
             _windowChrome = new WindowChromeAccessor(this);
 
             _windowStateManager = new WindowStateManager(this, new WindowStateManagerDependency(_windowChrome, TabletModeWatcher.Current));
@@ -86,13 +83,16 @@ namespace NeeView
 
             _windowController = new WindowController(_windowStateManager, this);
 
-            Config.Current.MainView.AddPropertyChanged(nameof(MainViewConfig.IsHideTitleBar), (s, e) =>
+            _routedCommandBinding = new RoutedCommandBinding(this, RoutedCommandTable.Current);
+
+            _mainViewConfig = new WeakBindableBase<MainViewConfig>(Config.Current.MainView);
+            _mainViewConfig.AddPropertyChanged(nameof(MainViewConfig.IsHideTitleBar), (s, e) =>
             {
                 RaisePropertyChanged(nameof(IsAutoHide));
                 UpdateCaptionBar();
             });
 
-            Config.Current.MainView.AddPropertyChanged(nameof(MainViewConfig.IsTopmost), (s, e) =>
+            _mainViewConfig.AddPropertyChanged(nameof(MainViewConfig.IsTopmost), (s, e) =>
             {
                 RaisePropertyChanged(nameof(IsTopmost));
             });
@@ -100,7 +100,10 @@ namespace NeeView
             MenuAutoHideDescription = new BasicAutoHideDescription(this.CaptionBar);
 
             this.SourceInitialized += MainViewWindow_SourceInitialized;
+            this.Loaded += MainViewWindow_Loaded;
+            this.DpiChanged += MainViewWindow_DpiChanged;
             this.Activated += MainViewWindow_Activated;
+            this.Closed += MainViewWindow_Closed;
 
             UpdateCaptionBar();
         }
@@ -178,6 +181,16 @@ namespace NeeView
             RestoreWindowPlacement(placement);
         }
 
+        private void MainViewWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            _dpiProvider.SetDipScale(VisualTreeHelper.GetDpi(this));
+        }
+
+        private void MainViewWindow_DpiChanged(object sender, DpiChangedEventArgs e)
+        {
+            _dpiProvider.SetDipScale(e.NewDpi);
+        }
+
         private void MainViewWindow_Activated(object sender, EventArgs e)
         {
             RoutedCommandTable.Current.UpdateInputGestures();
@@ -187,6 +200,15 @@ namespace NeeView
         {
             UpdateCaptionBar();
             RaisePropertyChanged(nameof(IsFullScreen));
+        }
+
+        private void MainViewWindow_Closed(object sender, EventArgs e)
+        {
+            if (_routedCommandBinding != null)
+            {
+                _routedCommandBinding.Dispose();
+                _routedCommandBinding = null;
+            }
         }
 
         private void UpdateCaptionBar()
@@ -210,7 +232,7 @@ namespace NeeView
 
         public WindowPlacement StoreWindowPlacement()
         {
-            return _windowStateManager.StoreWindowPlacement();
+            return _windowStateManager.StoreWindowPlacement(withAeroSnap: true);
         }
 
         public void RestoreWindowPlacement(WindowPlacement placement)

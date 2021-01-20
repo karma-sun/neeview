@@ -18,6 +18,8 @@ namespace NeeView
         private MediaPlayer _player;
         private TextBlock _errorMessageTextBlock;
         private DrawingBrush _brush;
+        private VideoDrawing _videoDrawing;
+        private Rectangle _rectangle;
 
         public MediaViewContent(MainViewComponent viewComponent, ViewContentSource source) : base(viewComponent, source)
         {
@@ -30,7 +32,7 @@ namespace NeeView
             var parameter = CreateBindingParameter();
 
             // create view
-            this.View = new ViewContentControl(CreateView(this.Source, parameter));
+            this.View = new ViewContentControl(CreateMediaView(this.Source, parameter));
 
             // content setting
             var animatedContent = this.Content as MediaContent;
@@ -38,67 +40,70 @@ namespace NeeView
             this.FileProxy = animatedContent.FileProxy;
         }
 
-        /// <summary>
-        /// アニメーションビュー生成
-        /// </summary>
-        private new FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter)
+        public override void OnAttached()
         {
+            base.OnAttached();
+
+            OnDetached();
+
 #pragma warning disable CS0618 // 型またはメンバーが旧型式です
             var uri = new Uri(((MediaContent)Content).FileProxy.Path, true);
 #pragma warning restore CS0618 // 型またはメンバーが旧型式です
 
-            var isLastStart = source.IsLastStart;
+            var isLastStart = this.Source.IsLastStart;
 
-            var videoDrawing = new VideoDrawing()
+            _player = _mediaPlayerPool.Allocate();
+            _player.MediaFailed += Media_MediaFailed;
+            _player.MediaOpened += Media_MediaOpened;
+
+            _videoDrawing.Player = _player;
+
+            MediaControl.Current.RiaseContentChanged(this, new MediaPlayerChanged(_player, uri, isLastStart));
+        }
+
+        public override void OnDetached()
+        {
+            base.OnDetached();
+
+            if (_player is null) return;
+
+            _videoDrawing.Player = null;
+
+            _player.MediaFailed -= Media_MediaFailed;
+            _player.MediaOpened -= Media_MediaOpened;
+            _player.Stop();
+            _player.Close();
+            _mediaPlayerPool.Release(_player);
+            _player = null;
+
+            MediaControl.Current.RiaseContentChanged(this, new MediaPlayerChanged());
+
+            _rectangle.Visibility = Visibility.Hidden;
+        }
+
+
+        /// <summary>
+        /// アニメーションビュー生成
+        /// </summary>
+        private FrameworkElement CreateMediaView(ViewContentSource source, ViewContentParameters parameter)
+        {
+            _videoDrawing = new VideoDrawing()
             {
                 Rect = new Rect(this.Content.Size),
             };
-            
-            var brush = new DrawingBrush()
+
+            _brush = new DrawingBrush()
             {
-                Drawing = videoDrawing,
+                Drawing = _videoDrawing,
                 Stretch = Stretch.Fill,
                 Viewbox = source.GetViewBox()
             };
 
-            _brush = brush;
-            
-            var rectangle = new Rectangle()
+            _rectangle = new Rectangle()
             {
-                Fill = brush
+                Fill = _brush
             };
-            rectangle.SetBinding(RenderOptions.BitmapScalingModeProperty, parameter.BitmapScalingMode); // 効果なし
-
-
-            rectangle.Loaded += (s, e) =>
-            {
-                _player = _mediaPlayerPool.Allocate();
-                _player.MediaFailed += Media_MediaFailed;
-                _player.MediaOpened += Media_MediaOpened;
-
-                videoDrawing.Player = _player;
-
-                MediaControl.Current.RiaseContentChanged(this, new MediaPlayerChanged(_player, uri, isLastStart));
-            };
-
-            rectangle.Unloaded += (s, e) =>
-            {
-                if (videoDrawing.Player is MediaPlayer player)
-                {
-                    videoDrawing.Player = null;
-
-                    player.MediaFailed -= Media_MediaFailed;
-                    player.MediaOpened -= Media_MediaOpened;
-                    player.Stop();
-                    player.Close();
-                    _mediaPlayerPool.Release(player);
-                    _player = null;
-
-                    MediaControl.Current.RiaseContentChanged(this, new MediaPlayerChanged());
-
-                    rectangle.Visibility = Visibility.Hidden;
-                }
-            };
+            _rectangle.SetBinding(RenderOptions.BitmapScalingModeProperty, parameter.BitmapScalingMode); // 効果なし
 
             _errorMessageTextBlock = new TextBlock()
             {
@@ -113,7 +118,7 @@ namespace NeeView
             };
 
             var grid = new Grid();
-            grid.Children.Add(rectangle);
+            grid.Children.Add(_rectangle);
             grid.Children.Add(_errorMessageTextBlock);
 
             return grid;

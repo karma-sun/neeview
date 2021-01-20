@@ -22,7 +22,7 @@
                     <TextBlock Visibility="{Binding VM.BookmarkIconVisibility}"  Margin="0,0,5,0" FontFamily="Wingdings" Text="«" FontSize="30" Foreground="{StaticResource NVStarMarkBrush}" VerticalAlignment="Center"/>
                     <TextBlock Visibility="{Binding VM.HistoryIconVisibility}" Margin="0,0,5,0" FontFamily="Webdings" Text="a" FontSize="30" Foreground="{StaticResource NVCheckMarkBrush}" VerticalAlignment="Center"/>
                 </Grid>
-                <TextBlock Text="{Binding VM.Model.Message}" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Foreground="White" FontFamily="Meiryo" TextTrimming="CharacterEllipsis" />
+                <TextBlock Text="{Binding VM.Message}" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Foreground="White" FontFamily="Meiryo" TextTrimming="CharacterEllipsis" />
             </DockPanel>
         </Grid>
     </Grid>

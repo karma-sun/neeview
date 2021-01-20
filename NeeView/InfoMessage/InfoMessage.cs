@@ -87,6 +87,11 @@ namespace NeeView
             SetMessage(GetShowMessageStyle(type), message, tinyMessage, dispTime, bookmarkType);
         }
 
+        public void ClearMessage(ShowMessageStyle style)
+        {
+            SetMessage(style, "");
+        }
+
         #region Memento
         [DataContract]
         public class Memento : IMemento

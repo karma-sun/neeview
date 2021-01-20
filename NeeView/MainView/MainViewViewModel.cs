@@ -1,5 +1,6 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Effects;
+using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -125,14 +126,74 @@ namespace NeeView
             _viewComponent.DragTransformControl.SnapView();
         }
 
-        public void Stretch()
+        public void StretchWindow(Window window, Size canvasSize, Size contentSize)
         {
+            if (contentSize.IsEmptyOrZero())
+            {
+                throw new ArgumentException($"canvasSize is 0.", nameof(canvasSize));
+            }
+
+            if (window.WindowState != WindowState.Normal)
+            {
+                throw new InvalidOperationException($"need Window.State is Normal");
+            }
+
+            var frameWidth = window.ActualWidth - canvasSize.Width;
+            var frameHeight = window.ActualHeight - canvasSize.Height;
+            if (frameWidth < 0.0 || frameHeight < 0.0)
+            {
+                throw new ArgumentException($"canvasSize must be smaller than Window.Size.", nameof(canvasSize));
+            }
+
+            var fixedSize = Config.Current.View.IsBaseScaleEnabled ? contentSize.Multi(1.0 / Config.Current.View.BaseScale) : contentSize;
+
+            var limitSize = new Size(SystemParameters.VirtualScreenWidth - frameWidth, SystemParameters.VirtualScreenHeight - frameHeight);
+
+            Size newCanvasSize;
+            switch (_viewComponent.ContentCanvas.GetStretchMode())
+            {
+                case PageStretchMode.Uniform:
+                case PageStretchMode.UniformToSize:
+                    newCanvasSize = fixedSize.Limit(limitSize);
+                    break;
+                default:
+                    newCanvasSize = fixedSize.Clamp(limitSize);
+                    break;
+            }
+
+            window.Width = newCanvasSize.Width + frameWidth;
+            window.Height = newCanvasSize.Height + frameHeight;
+
             _viewComponent.ContentCanvas.Stretch();
         }
 
-        public PageStretchMode GetStretchMode()
+        public void StretchScale(Size contentSize, Size canvasSize)
         {
-            return _viewComponent.ContentCanvas.GetStretchMode();
+            var scaleX = canvasSize.Width / contentSize.Width;
+            var scaleY = canvasSize.Height / contentSize.Height;
+            var scale = Math.Max(scaleX, scaleY);
+
+            switch (_viewComponent.ContentCanvas.GetStretchMode())
+            {
+                case PageStretchMode.UniformToHorizontal:
+                    scale = scaleX;
+                    break;
+                case PageStretchMode.UniformToVertical:
+                    scale = scaleY;
+                    break;
+            }
+
+            if (Math.Abs(1.0 - scale) < 0.01)
+            {
+                scale = 1.0;
+            }
+
+            if (Config.Current.View.IsBaseScaleEnabled)
+            {
+                scale *= Config.Current.View.BaseScale;
+            }
+
+            _viewComponent.DragTransform.SetScale(scale, TransformActionType.None);
         }
     }
 }

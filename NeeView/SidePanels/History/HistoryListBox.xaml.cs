@@ -161,6 +161,8 @@ namespace NeeView
             {
                 FocusSelectedItem(true);
             }
+
+            this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
         }
 
         private void PanelListtemProfile_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -270,13 +272,8 @@ namespace NeeView
             }
         }
 
-        // 選択項目が表示されるようにスクロールする
         private void HistoryListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (this.ListBox.SelectedItem == null || this.ListBox.SelectedIndex < 0) return;
-
-            // スクロール
-            this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
         }
 
         // リスト全体が変化したときにサムネイルを更新する
@@ -300,14 +297,7 @@ namespace NeeView
 
         public void SetSelectedItems(IEnumerable<BookHistory> selectedItems)
         {
-            this.ListBox.SelectedItems.Clear();
-
-            if (selectedItems == null) return;
-
-            foreach (var item in selectedItems.Intersect(GetItems()))
-            {
-                this.ListBox.SelectedItems.Add(item);
-            }
+            this.ListBox.SetSelectedItems(selectedItems?.Intersect(GetItems()).ToList());
         }
 
         #endregion UI Accessor

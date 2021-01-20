@@ -1,4 +1,5 @@
-﻿using NeeView.Windows;
+﻿using NeeView.ComponentModel;
+using NeeView.Windows;
 using System.ComponentModel;
 
 namespace NeeView
@@ -7,13 +8,15 @@ namespace NeeView
     {
         private WindowChromeAccessor _chrome;
         private TabletModeWatcher _tabletModeWatcher;
+        private WeakBindableBase<WindowConfig> _windowConfig;
 
         public WindowStateManagerDependency(WindowChromeAccessor chrome, TabletModeWatcher tabletModeWatcher)
         {
             _chrome = chrome;
             _tabletModeWatcher = tabletModeWatcher;
 
-            Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.MaximizeWindowGapWidth), (s, e) =>
+            _windowConfig = new WeakBindableBase<WindowConfig>(Config.Current.Window);
+            _windowConfig.AddPropertyChanged(nameof(WindowConfig.MaximizeWindowGapWidth), (s, e) =>
             {
                 _chrome.MaximizeWindowGapWidth = Config.Current.Window.MaximizeWindowGapWidth;
             });

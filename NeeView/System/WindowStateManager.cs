@@ -306,7 +306,7 @@ namespace NeeView
         {
             if (!IsFullScreen) return;
 
-            if (_resumeState == WindowStateEx.Maximized)
+            if (_resumeState == WindowStateEx.Maximized || _dependency.IsTabletMode)
             {
                 ToMaximize();
             }
@@ -342,9 +342,9 @@ namespace NeeView
         }
 
 
-        public WindowPlacement StoreWindowPlacement()
+        public WindowPlacement StoreWindowPlacement(bool withAeroSnap)
         {
-            return WindowPlacementTools.StoreWindowPlacement(_window, IsFullScreen);
+            return WindowPlacementTools.StoreWindowPlacement(_window, withAeroSnap).WithIsFullScreeen(IsFullScreen);
         }
 
         public void RestoreWindowPlacement(WindowPlacement placement)

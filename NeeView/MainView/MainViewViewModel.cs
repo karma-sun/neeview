@@ -164,7 +164,7 @@ namespace NeeView
             window.Width = newCanvasSize.Width + frameWidth;
             window.Height = newCanvasSize.Height + frameHeight;
 
-            _viewComponent.ContentCanvas.Stretch();
+            _viewComponent.ContentCanvas.Stretch(ignoreViewOrigin: true);
         }
 
         public void StretchScale(Size contentSize, Size canvasSize)

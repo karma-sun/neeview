@@ -174,6 +174,66 @@ namespace NeeView.Windows
                 RESTORE = 9,
                 SHOWDEFAULT = 10,
             }
+
+
+            #region for AeroSnap
+
+            private const int CCHDEVICENAME = 32;
+
+            [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+            public struct MONITORINFOEX
+            {
+                public int cbSize; // initialize this field using: Marshal.SizeOf(typeof(MONITORINFOEX));
+                public RECT rcMonitor;
+                public RECT rcWork;
+                public uint dwFlags;
+
+                [MarshalAs(UnmanagedType.ByValTStr, SizeConst = CCHDEVICENAME)]
+                public string szDeviceName;
+            }
+
+            [DllImport("user32.dll")]
+            public static extern IntPtr MonitorFromRect([In] ref RECT lprc, uint dwFlags);
+
+            public const uint MONITOR_MONITOR_DEFAULTTONULL = 0x00000000;
+            public const uint MONITOR_MONITOR_DEFAULTTOPRIMARY = 0x00000001;
+            public const uint MONITOR_DEFAULTTONEAREST = 0x00000002;
+
+            [DllImport("user32.dll", CharSet = CharSet.Auto)]
+            public static extern bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFOEX lpmi);
+
+            [StructLayout(LayoutKind.Sequential)]
+            public struct APPBARDATA
+            {
+                public int cbSize; // initialize this field using: Marshal.SizeOf(typeof(APPBARDATA));
+                public IntPtr hWnd;
+                public uint uCallbackMessage;
+                public uint uEdge;
+                public RECT rc;
+                public int lParam;
+            }
+
+            [DllImport("shell32.dll")]
+            public static extern IntPtr SHAppBarMessage(uint dwMessage, [In] ref APPBARDATA pData);
+
+            public const uint ABM_NEW = 0;
+            public const uint ABM_REMOVE = 1;
+            public const uint ABM_QUERYPOS = 2;
+            public const uint ABM_SETPOS = 3;
+            public const uint ABM_GETSTATE = 4;
+            public const uint ABM_GETTASKBARPOS = 5;
+            public const uint ABM_ACTIVATE = 6;
+            public const uint ABM_GETAUTOHIDEBAR = 7;
+            public const uint ABM_SETAUTOHIDEBAR = 8;
+            public const uint ABM_WINDOWPOSCHANGED = 9;
+            public const uint ABM_SETSTATE = 10;
+
+            public const uint ABE_LEFT = 0;
+            public const uint ABE_TOP = 1;
+            public const uint ABE_RIGHT = 2;
+            public const uint ABE_BOTTOM = 3;
+
+            #endregion for AeroSnap
         }
 
         #endregion Native
@@ -191,14 +251,18 @@ namespace NeeView.Windows
 
             if (withAeroSnap)
             {
-                // AeroSnapの座標保存
-                // NOTE: スナップ状態の復元方法が不明なため、現在のウィンドウサイズを通常ウィンドウサイズとして上書きする。
-                NativeMethods.GetWindowRect(hwnd, out NativeMethods.RECT rect);
-
-                if (raw.ShowCmd == NativeMethods.SW.SHOWNORMAL && !raw.NormalPosition.Equals(rect))
+                if (raw.ShowCmd == NativeMethods.SW.SHOWNORMAL)
                 {
-                    ////Debug.WriteLine("WindowPlacement.Store: Window snapped, maybe: {rect}");
-                    raw.NormalPosition = rect;
+                    try
+                    {
+                        // AeroSnapの座標保存
+                        // NOTE: スナップ状態の復元方法が不明なため、現在のウィンドウサイズを通常ウィンドウサイズとして上書きする。
+                        raw.NormalPosition = GetAeroPlacement(hwnd);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
+                    }
                 }
             }
 
@@ -209,6 +273,52 @@ namespace NeeView.Windows
             ////Debug.WriteLine($"WindowPlacement.Restore: WIDTH: {raw.normalPosition.Width}, DPI: {dpi.DpiScaleX}");
 
             return ConvertToWindowPlacement(raw);
+        }
+
+        // from http://oldworldgarage.web.fc2.com/programing/tip0006_RestoreWindow.html
+        private static NativeMethods.RECT GetAeroPlacement(IntPtr hwnd)
+        {
+            NativeMethods.GetWindowRect(hwnd, out NativeMethods.RECT rect);
+
+            // ウィンドウのあるモニターハンドルを取得
+            IntPtr hMonitor = NativeMethods.MonitorFromRect(ref rect, NativeMethods.MONITOR_DEFAULTTONEAREST);
+
+            // モニター情報取得
+            //var monitorInfo = new NativeMethods.MONITORINFOEX();
+            //monitorInfo.cbSize = Marshal.SizeOf(typeof(NativeMethods.MONITORINFOEX));
+            //monitorInfo.szDeviceName = "";
+            //NativeMethods.GetMonitorInfo(hMonitor, ref monitorInfo);
+
+            // タスクバーのあるモニターハンドルを取得
+            var appBarData = new NativeMethods.APPBARDATA();
+            appBarData.cbSize = Marshal.SizeOf(typeof(NativeMethods.APPBARDATA));
+            appBarData.hWnd = IntPtr.Zero;
+            NativeMethods.SHAppBarMessage(NativeMethods.ABM_GETTASKBARPOS, ref appBarData);
+            IntPtr hMonitorWithTaskBar = NativeMethods.MonitorFromRect(ref appBarData.rc, NativeMethods.MONITOR_DEFAULTTONEAREST);
+
+            // ウィンドウとタスクバーが同じモニターにある？
+            if (hMonitor == hMonitorWithTaskBar)
+            {
+                // 常に表示？
+                if (NativeMethods.SHAppBarMessage(NativeMethods.ABM_GETAUTOHIDEBAR, ref appBarData) == IntPtr.Zero)
+                {
+                    // 座標補正
+                    NativeMethods.SHAppBarMessage(NativeMethods.ABM_GETTASKBARPOS, ref appBarData);
+                    switch (appBarData.uEdge)
+                    {
+                        case NativeMethods.ABE_TOP:
+                            rect.Top = rect.Top - (appBarData.rc.Bottom - appBarData.rc.Top);
+                            rect.Bottom = rect.Bottom - (appBarData.rc.Bottom - appBarData.rc.Top);
+                            break;
+                        case NativeMethods.ABE_LEFT:
+                            rect.Left = rect.Left - (appBarData.rc.Right - appBarData.rc.Left);
+                            rect.Right = rect.Right - (appBarData.rc.Right - appBarData.rc.Left);
+                            break;
+                    }
+                }
+            }
+
+            return rect;
         }
 
 

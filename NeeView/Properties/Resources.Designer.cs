@@ -17031,7 +17031,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Restore AeroSnap window placement に類似しているローカライズされた文字列を検索します。
+        ///   Restore Aero Snap window placement に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WindowConfig_IsRestoreAeroSnapPlacement {
             get {

@@ -5818,7 +5818,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>タイトル バーを表示</value>
   </data>
   <data name="WindowConfig.IsRestoreAeroSnapPlacement" xml:space="preserve">
-    <value>AeroSnap のウィンドウ座標を復元</value>
+    <value>Aero スナップのウィンドウ座標を復元</value>
   </data>
   <data name="WindowConfig.IsTopmost" xml:space="preserve">
     <value>ウィンドウを常に手前に表示</value>

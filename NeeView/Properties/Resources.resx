@@ -5815,7 +5815,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>Show title bar</value>
   </data>
   <data name="WindowConfig.IsRestoreAeroSnapPlacement" xml:space="preserve">
-    <value>Restore AeroSnap window placement</value>
+    <value>Restore Aero Snap window placement</value>
   </data>
   <data name="WindowConfig.IsTopmost" xml:space="preserve">
     <value>Window topmost</value>

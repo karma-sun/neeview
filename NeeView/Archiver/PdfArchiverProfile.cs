@@ -8,7 +8,6 @@ using System.Windows;
 
 namespace NeeView
 {
-    //
     public class PdfArchiverProfile : BindableBase
     {
         static PdfArchiverProfile() => Current = new PdfArchiverProfile();
@@ -24,29 +23,6 @@ namespace NeeView
                     Math.Min(Config.Current.Archive.Pdf.RenderSize.Width, Config.Current.Performance.MaximumSize.Width),
                     Math.Min(Config.Current.Archive.Pdf.RenderSize.Height, Config.Current.Performance.MaximumSize.Height));
             }
-        }
-
-        /// <summary>
-        /// 適切な描写サイズを生成する
-        /// </summary>
-        /// <param name="size">希望するサイズ</param>
-        /// <returns></returns>
-        public Size CreateFixedSize(Size size)
-        {
-            if (size.IsEmpty)
-            {
-                size = this.SizeLimitedRenderSize;
-            }
-            else if (this.SizeLimitedRenderSize.IsContains(size))
-            {
-                size = size.Uniformed(this.SizeLimitedRenderSize);
-            }
-            else if (!Config.Current.Performance.MaximumSize.IsContains(size))
-            {
-                size = size.Uniformed(Config.Current.Performance.MaximumSize);
-            }
-
-            return size;
         }
 
 

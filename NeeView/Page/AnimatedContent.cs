@@ -21,6 +21,8 @@ namespace NeeView
 
         public override bool CanResize => false;
 
+        public bool IsAnimated => this.PictureInfo?.BitmapInfo.FrameCount > 1;
+
 
         public override IContentLoader CreateContentLoader()
         {

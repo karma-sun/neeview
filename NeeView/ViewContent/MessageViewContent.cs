@@ -16,7 +16,7 @@ namespace NeeView
         public override bool IsBitmapScalingModeSupported => false;
 
 
-        public void Initialize()
+        private void Initialize()
         {
             // binding parameter
             var parameter = CreateBindingParameter();

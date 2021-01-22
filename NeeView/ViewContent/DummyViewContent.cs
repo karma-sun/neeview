@@ -14,7 +14,7 @@ namespace NeeView
         public override bool IsBitmapScalingModeSupported => false;
 
 
-        public void Initialize()
+        private void Initialize()
         {
             this.View = new ViewContentControl(CreateView());
         }

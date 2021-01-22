@@ -16,7 +16,7 @@ namespace NeeView
         }
 
 
-        public new void Initialize()
+        private void Initialize()
         {
             // binding parameter
             var parameter = CreateBindingParameter();

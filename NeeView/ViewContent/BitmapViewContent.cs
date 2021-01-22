@@ -30,7 +30,7 @@ namespace NeeView
         public override bool IsBitmapScalingModeSupported => true;
 
 
-        public void Initialize()
+        private void Initialize()
         {
             Debug.Assert(this.Content is BitmapContent bitmapContent_ && bitmapContent_.ImageSource != null);
 

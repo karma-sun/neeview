@@ -22,20 +22,29 @@ namespace NeeView.Setting
     {
         private InputGestureSettingViewModel _vm;
 
-        //
+
         public InputGestureSettingControl()
         {
             InitializeComponent();
+
+            this.Loaded += InputGestureSettingControl_Loaded;
         }
 
-        //
+        private void InputGestureSettingControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            var window = Window.GetWindow(this) as INotifyMouseHorizontalWheelChanged;
+            if (window is null) throw new InvalidOperationException();
+
+            var source = new MouseHorizontalWheelSource(this.MouseGestureBox, window);
+            source.MouseHorizontalWheelChanged += MouseGestureBox_MouseHorizontalWheelChanged;
+        }
+
         public void Initialize(IDictionary<string, CommandElement> commandMap, string key)
         {
             _vm = new InputGestureSettingViewModel(commandMap, key);
             this.DataContext = _vm;
         }
 
-        //
         public void Flush()
         {
             _vm?.Flush();
@@ -230,6 +239,51 @@ namespace NeeView.Setting
                 this.MouseGestureText.Text = null;
             }
         }
+
+        // マウス水平ホイール入力処理
+        // マウスの状態からショートカットテキスト作成
+        private void MouseGestureBox_MouseHorizontalWheelChanged(object sender, MouseWheelEventArgs e)
+        {
+            MouseHorizontalWheelAction wheelAction = MouseHorizontalWheelAction.None;
+            if (e.Delta > 0)
+            {
+                wheelAction = MouseHorizontalWheelAction.WheelLeft;
+            }
+            else if (e.Delta < 0)
+            {
+                wheelAction = MouseHorizontalWheelAction.WheelRight;
+            }
+
+            ModifierMouseButtons modifierMouseButtons = ModifierMouseButtons.None;
+            if (e.LeftButton == MouseButtonState.Pressed)
+                modifierMouseButtons |= ModifierMouseButtons.LeftButton;
+            if (e.RightButton == MouseButtonState.Pressed)
+                modifierMouseButtons |= ModifierMouseButtons.RightButton;
+            if (e.MiddleButton == MouseButtonState.Pressed)
+                modifierMouseButtons |= ModifierMouseButtons.MiddleButton;
+            if (e.XButton1 == MouseButtonState.Pressed)
+                modifierMouseButtons |= ModifierMouseButtons.XButton1;
+            if (e.XButton2 == MouseButtonState.Pressed)
+                modifierMouseButtons |= ModifierMouseButtons.XButton2;
+
+            MouseHorizontalWheelGesture mouseGesture = null;
+            try
+            {
+                mouseGesture = new MouseHorizontalWheelGesture(wheelAction, Keyboard.Modifiers, modifierMouseButtons);
+            }
+            catch { }
+
+            if (mouseGesture != null)
+            {
+                var converter = new MouseHorizontalWheelGestureConverter();
+                this.MouseGestureText.Text = converter.ConvertToString(mouseGesture);
+            }
+            else
+            {
+                this.MouseGestureText.Text = null;
+            }
+        }
+
 
         // マウスショートカット追加ボタン処理
         private void AddMouseGestureButton_Click(object sender, RoutedEventArgs e)

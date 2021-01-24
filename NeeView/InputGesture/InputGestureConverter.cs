@@ -19,11 +19,15 @@ namespace NeeView
         private static MouseGestureConverter _mouseGestureConverter = new MouseGestureConverter();
         private static MouseExGestureConverter _mouseExGestureConverter = new MouseExGestureConverter();
         private static MouseWheelGestureConverter _mouseWheelGestureConverter = new MouseWheelGestureConverter();
+        private static MouseHorizontalWheelGestureConverter _mouseHorizontalWheelGestureConverter = new MouseHorizontalWheelGestureConverter();
 
 
         private enum ConverterType
         {
-            Key, Mouse, MouseWheel
+            Key,
+            Mouse,
+            MouseWheel,
+            MouseHorizontalWheel
         }
 
 
@@ -32,6 +36,7 @@ namespace NeeView
             [ConverterType.Key] = ConvertFromKeyGestureString,
             [ConverterType.Mouse] = ConvertFromMouseGestureString,
             [ConverterType.MouseWheel] = ConvertFromMouseWheelGestureString,
+            [ConverterType.MouseHorizontalWheel] = ConvertFromMouseHorizontalWheelGestureString,
         };
 
 
@@ -42,13 +47,14 @@ namespace NeeView
             switch (type)
             {
                 case ConverterType.MouseWheel:
-                    order = new List<ConverterType> { ConverterType.MouseWheel, ConverterType.Mouse, ConverterType.Key };
+                case ConverterType.MouseHorizontalWheel:
+                    order = new List<ConverterType> { ConverterType.MouseWheel, ConverterType.MouseHorizontalWheel, ConverterType.Mouse, ConverterType.Key };
                     break;
                 case ConverterType.Mouse:
-                    order = new List<ConverterType> { ConverterType.Mouse, ConverterType.MouseWheel, ConverterType.Key };
+                    order = new List<ConverterType> { ConverterType.Mouse, ConverterType.MouseWheel, ConverterType.MouseHorizontalWheel, ConverterType.Key };
                     break;
                 default:
-                    order = new List<ConverterType> { ConverterType.Key, ConverterType.Mouse, ConverterType.MouseWheel };
+                    order = new List<ConverterType> { ConverterType.Key, ConverterType.Mouse, ConverterType.MouseWheel, ConverterType.MouseHorizontalWheel };
                     break;
             }
 
@@ -156,6 +162,26 @@ namespace NeeView
         }
 
         /// <summary>
+        /// 文字列をInputGestureに変換する。MouseHorizontalWheelGestureのみ。
+        /// </summary>
+        /// <param name="source">ショートカット定義文字列</param>
+        /// <returns>InputGesture。変換出来なかった場合はnull</returns>
+        public static InputGesture ConvertFromMouseHorizontalWheelGestureString(string source)
+        {
+            try
+            {
+                MouseHorizontalWheelGestureConverter converter = new MouseHorizontalWheelGestureConverter();
+                return (InputGesture)converter.ConvertFromString(source);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("(Ignore this exception): " + e.Message);
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// InputGestureを文字列にする
         /// </summary>
         public static string ConvertToString(InputGesture gesture)
@@ -176,6 +202,9 @@ namespace NeeView
 
                 case MouseWheelGesture e:
                     return _mouseWheelGestureConverter.ConvertToString(e);
+
+                case MouseHorizontalWheelGesture e:
+                    return _mouseHorizontalWheelGestureConverter.ConvertToString(e);
 
                 default:
                     throw new NotSupportedException($"Not supported gesture type: {gesture.GetType()}");

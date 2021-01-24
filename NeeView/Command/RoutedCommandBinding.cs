@@ -48,7 +48,7 @@ namespace NeeView
                     if (_routedCommandTable != null)
                     {
                         _routedCommandTable.CommandExecuted -= RoutedCommand_CommandExecuted;
-                        _routedCommandTable.Changed -= RefresuCommandBindings;
+                        _routedCommandTable.Changed -= UpdateCommandBindings;
                     }
                 }
 
@@ -75,7 +75,7 @@ namespace NeeView
                 _element.CommandBindings.Add(binding);
             }
 
-            _routedCommandTable.Changed += RefresuCommandBindings;
+            _routedCommandTable.Changed += UpdateCommandBindings;
         }
 
         // コマンド実行後処理
@@ -117,7 +117,7 @@ namespace NeeView
             return binding;
         }
 
-        private void RefresuCommandBindings(object sender, EventArgs _)
+        private void UpdateCommandBindings(object sender, EventArgs _)
         {
             var oldies = _commandBindings.Keys
                 .Where(e => e.StartsWith(ScriptCommand.Prefix))

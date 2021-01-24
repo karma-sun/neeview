@@ -212,6 +212,20 @@ namespace NeeView
             Cancel();
         }
 
+        /// <summary>
+        /// マウス水平ホイール処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public override void OnMouseHorizontalWheel(object sender, MouseWheelEventArgs e)
+        {
+            // コマンド決定
+            // ホイールがメインキー、それ以外は装飾キー
+            MouseHorizontalWheelChanged?.Invoke(sender, e);
+
+            // その後の操作は全て無効
+            Cancel();
+        }
 
         /// <summary>
         /// マウス移動処理

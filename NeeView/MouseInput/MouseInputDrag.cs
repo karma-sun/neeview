@@ -72,6 +72,18 @@ namespace NeeView
             }
         }
 
+        public override void OnMouseHorizontalWheel(object sender, MouseWheelEventArgs e)
+        {
+            // コマンド実行
+            MouseHorizontalWheelChanged?.Invoke(sender, e);
+
+            // ドラッグ解除
+            if (e.Handled)
+            {
+                ResetState();
+            }
+        }
+
         public override void OnMouseMove(object sender, MouseEventArgs e)
         {
             _dragTransformControl.UpdateState(CreateMouseButtonBits(e), Keyboard.Modifiers, e.GetPosition(_context.Sender));

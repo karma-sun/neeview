@@ -29,7 +29,7 @@ namespace NeeView.Setting
     /// <summary>
     /// EditCommandWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class EditCommandWindow : Window, INotifyPropertyChanged
+    public partial class EditCommandWindow : Window, INotifyPropertyChanged, INotifyMouseHorizontalWheelChanged
     {
         #region PropertyChanged
 
@@ -55,9 +55,15 @@ namespace NeeView.Setting
             InitializeComponent();
             this.DataContext = this;
 
+            var mouseHorizontalWheel = new MouseHorizontalWheelService(this);
+            mouseHorizontalWheel.MouseHorizontalWheelChanged += (s, e) => MouseHorizontalWheelChanged?.Invoke(s, e);
+
             this.Loaded += EditCommandWindow_Loaded;
             this.Closed += EditCommandWindow_Closed;
         }
+
+
+        public event MouseWheelEventHandler MouseHorizontalWheelChanged;
 
 
         private bool _isShowMessage;

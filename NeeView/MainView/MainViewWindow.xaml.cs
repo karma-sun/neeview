@@ -23,7 +23,7 @@ namespace NeeView
     /// <summary>
     /// MainViewWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class MainViewWindow : Window, INotifyPropertyChanged, IDpiScaleProvider, IHasWindowController, ITopmostControllable
+    public partial class MainViewWindow : Window, INotifyPropertyChanged, IDpiScaleProvider, IHasWindowController, ITopmostControllable, INotifyMouseHorizontalWheelChanged
     {
         #region INotifyPropertyChanged Support
 
@@ -106,7 +106,13 @@ namespace NeeView
             this.Closed += MainViewWindow_Closed;
 
             UpdateCaptionBar();
+
+            var mouseHorizontalWheel = new MouseHorizontalWheelService(this);
+            mouseHorizontalWheel.MouseHorizontalWheelChanged += (s, e) => MouseHorizontalWheelChanged.Invoke(s, e);
         }
+
+
+        public event MouseWheelEventHandler MouseHorizontalWheelChanged;
 
 
         public Brush CaptionBackground

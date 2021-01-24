@@ -218,6 +218,10 @@ namespace NeeView
                     {
                         mouse.MouseWheelChanged += (s, x) => { if (!x.Handled && gesture.Matches(this, x)) { WheelCommandExecute(s, x, command.Value); } };
                     }
+                    else if (gesture is MouseHorizontalWheelGesture)
+                    {
+                        mouse.MouseHorizontalWheelChanged += (s, x) => { if (!x.Handled && gesture.Matches(this, x)) { WheelCommandExecute(s, x, command.Value); } };
+                    }
                 }
             }
 

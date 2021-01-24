@@ -147,6 +147,11 @@ namespace NeeView
         public EventHandler<MouseWheelEventArgs> MouseWheelChanged;
 
         /// <summary>
+        /// 水平ホイール入力通知
+        /// </summary>
+        public EventHandler<MouseWheelEventArgs> MouseHorizontalWheelChanged;
+
+        /// <summary>
         /// 状態コンテキスト
         /// </summary>
         protected MouseInputContext _context;
@@ -193,6 +198,7 @@ namespace NeeView
         public abstract void OnMouseButtonDown(object sender, MouseButtonEventArgs e);
         public abstract void OnMouseButtonUp(object sender, MouseButtonEventArgs e);
         public abstract void OnMouseWheel(object sender, MouseWheelEventArgs e);
+        public abstract void OnMouseHorizontalWheel(object sender, MouseWheelEventArgs e);
         public abstract void OnMouseMove(object sender, MouseEventArgs e);
         public virtual void OnKeyDown(object sender, KeyEventArgs e) { }
 

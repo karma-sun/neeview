@@ -22,7 +22,7 @@ namespace NeeView
     /// <summary>
     /// MainWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class MainWindow : Window, IDpiScaleProvider, IHasWindowController
+    public partial class MainWindow : Window, IDpiScaleProvider, IHasWindowController, INotifyMouseHorizontalWheelChanged
     {
         public static MainWindow Current { get; private set; }
 
@@ -36,22 +36,23 @@ namespace NeeView
         private WindowShape _windowShape;
         private WindowController _windowController;
 
-
-        public WindowStateManager WindowStateManager => _windowStateManager;
-        public WindowController WindowController => _windowController;
-
-
-        #region コンストラクターと初期化処理
-
-        /// <summary>
-        /// コンストラクター
-        /// </summary>
+        
         public MainWindow()
         {
             Interop.NVFpReset();
 
             InitializeComponent();
         }
+
+
+        public event MouseWheelEventHandler MouseHorizontalWheelChanged;
+
+
+        public WindowStateManager WindowStateManager => _windowStateManager;
+        public WindowController WindowController => _windowController;
+
+
+        #region 初期化処理
 
         /// <summary>
         /// 初期化
@@ -73,6 +74,9 @@ namespace NeeView
             _windowController = new WindowController(_windowStateManager, _windowShape);
 
             ContextMenuWatcher.Initialize();
+
+            var mouseHorizontalWheel = new MouseHorizontalWheelService(this);
+            mouseHorizontalWheel.MouseHorizontalWheelChanged += (s, e) => MouseHorizontalWheelChanged?.Invoke(s, e);
 
             // 固定画像初期化
             Thumbnail.InitializeBasicImages();

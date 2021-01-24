@@ -31,6 +31,117 @@ namespace NeeView
     public class MouseInput : BindableBase
     {
         private FrameworkElement _sender;
+        private MouseInputState _state;
+        private MouseHorizontalWheelSource _mouseHorizontalWheelSource;
+
+        /// <summary>
+        /// 現在状態（実体）
+        /// </summary>
+        private MouseInputBase _current;
+
+        /// <summary>
+        /// 遷移テーブル
+        /// </summary>
+        private Dictionary<MouseInputState, MouseInputBase> _mouseInputCollection;
+
+        /// <summary>
+        /// 状態コンテキスト
+        /// </summary>
+        private MouseInputContext _context;
+
+        /// <summary>
+        /// マウス移動検知用
+        /// </summary>
+        private Point _lastActionPoint;
+
+
+        /// <summary>
+        /// コンストラクター
+        /// </summary>
+        public MouseInput(MouseInputContext context)
+        {
+            _context = context;
+            _sender = _context.Sender;
+
+            this.Normal = new MouseInputNormal(_context);
+            this.Normal.StateChanged += StateChanged;
+            this.Normal.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(_sender, e);
+            this.Normal.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(_sender, e);
+            this.Normal.MouseHorizontalWheelChanged += (s, e) => MouseHorizontalWheelChanged?.Invoke(_sender, e);
+
+            if (context.LoupeTransform != null)
+            {
+                this.Loupe = new MouseInputLoupe(_context);
+                this.Loupe.StateChanged += StateChanged;
+                this.Loupe.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(_sender, e);
+                this.Loupe.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(_sender, e);
+                this.Loupe.MouseHorizontalWheelChanged += (s, e) => MouseHorizontalWheelChanged?.Invoke(_sender, e);
+            }
+
+            if (context.DragTransform != null)
+            {
+                this.Drag = new MouseInputDrag(_context);
+                this.Drag.StateChanged += StateChanged;
+                this.Drag.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(_sender, e);
+                this.Drag.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(_sender, e);
+                this.Drag.MouseHorizontalWheelChanged += (s, e) => MouseHorizontalWheelChanged?.Invoke(_sender, e);
+            }
+
+            this.Gesture = new MouseInputGesture(_context);
+            this.Gesture.StateChanged += StateChanged;
+            this.Gesture.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(_sender, e);
+            this.Gesture.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(_sender, e);
+            this.Gesture.MouseHorizontalWheelChanged += (s, e) => MouseHorizontalWheelChanged?.Invoke(_sender, e);
+            this.Gesture.GestureChanged += (s, e) => _context.GestureCommandCollection.Execute(e.Sequence);
+            this.Gesture.GestureProgressed += (s, e) => _context.GestureCommandCollection.ShowProgressed(e.Sequence);
+
+            // initialize state
+            _mouseInputCollection = new Dictionary<MouseInputState, MouseInputBase>();
+            _mouseInputCollection.Add(MouseInputState.Normal, this.Normal);
+            _mouseInputCollection.Add(MouseInputState.Loupe, this.Loupe);
+            _mouseInputCollection.Add(MouseInputState.Drag, this.Drag);
+            _mouseInputCollection.Add(MouseInputState.Gesture, this.Gesture);
+            SetState(MouseInputState.Normal, null);
+
+            // initialize event
+            // NOTE: 時々操作が奪われしてまう原因の可能性その１
+            _sender.MouseDown += OnMouseButtonDown;
+            _sender.MouseUp += OnMouseButtonUp;
+            _sender.MouseWheel += OnMouseWheel;
+            _sender.MouseMove += OnMouseMove;
+            _sender.PreviewKeyDown += OnKeyDown;
+
+            // 水平ホイールイベント管理
+            _sender.Loaded += (s, e) => InitializeMouseHorizontalWheel();
+            _sender.Unloaded += (s, e) => ReleaseMouseHorizontalWheel();
+            InitializeMouseHorizontalWheel();
+        }
+
+
+        /// <summary>
+        /// ボタン入力イベント
+        /// </summary>
+        public event EventHandler<MouseButtonEventArgs> MouseButtonChanged;
+
+        /// <summary>
+        /// ホイール入力イベント
+        /// </summary>
+        public event EventHandler<MouseWheelEventArgs> MouseWheelChanged;
+
+        /// <summary>
+        /// 水平ホイール入力イベント
+        /// </summary>
+        public event EventHandler<MouseWheelEventArgs> MouseHorizontalWheelChanged;
+
+        /// <summary>
+        /// 一定距離カーソルが移動したイベント
+        /// </summary>
+        public event EventHandler<MouseEventArgs> MouseMoved;
+
+
+        public FrameworkElement Sender => _sender;
+
+        public MouseInputState State => _state;
 
         /// <summary>
         /// 状態：既定
@@ -52,36 +163,13 @@ namespace NeeView
         /// </summary>
         public MouseInputGesture Gesture { get; private set; }
 
-        /// <summary>
-        /// 遷移テーブル
-        /// </summary>
-        private Dictionary<MouseInputState, MouseInputBase> _mouseInputCollection;
+        public bool IsLoupeMode
+        {
+            get { return _state == MouseInputState.Loupe; }
+            set { SetState(value ? MouseInputState.Loupe : MouseInputState.Normal, false); }
+        }
 
-        /// <summary>
-        /// 現在状態
-        /// </summary>
-        private MouseInputState _state;
-        public MouseInputState State => _state;
-
-        /// <summary>
-        /// 現在状態（実体）
-        /// </summary>
-        private MouseInputBase _current;
-
-        /// <summary>
-        /// ボタン入力イベント
-        /// </summary>
-        public event EventHandler<MouseButtonEventArgs> MouseButtonChanged;
-
-        /// <summary>
-        /// ホイール入力イベント
-        /// </summary>
-        public event EventHandler<MouseWheelEventArgs> MouseWheelChanged;
-
-        /// <summary>
-        /// 一定距離カーソルが移動したイベント
-        /// </summary>
-        public event EventHandler<MouseEventArgs> MouseMoved;
+        public bool IsNormalMode => _state == MouseInputState.Normal;
 
 
         /// <summary>
@@ -91,83 +179,42 @@ namespace NeeView
         {
             MouseButtonChanged = null;
             MouseWheelChanged = null;
+            MouseHorizontalWheelChanged = null;
         }
 
         /// <summary>
-        /// 状態コンテキスト
+        /// 水平ホイール有効化
         /// </summary>
-        private MouseInputContext _context;
-
-
-        /// <summary>
-        /// コンストラクター
-        /// </summary>
-        public MouseInput(MouseInputContext context)
+        private void InitializeMouseHorizontalWheel()
         {
-            _context = context;
-            _sender = _context.Sender;
+            _mouseHorizontalWheelSource?.Dispose();
 
-            this.Normal = new MouseInputNormal(_context);
-            this.Normal.StateChanged += StateChanged;
-            this.Normal.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(_sender, e);
-            this.Normal.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(_sender, e);
+            var window = Window.GetWindow(_sender) as INotifyMouseHorizontalWheelChanged;
+            if (window is null) return;
 
-            if (context.LoupeTransform != null)
-            {
-                this.Loupe = new MouseInputLoupe(_context);
-                this.Loupe.StateChanged += StateChanged;
-                this.Loupe.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(_sender, e);
-                this.Loupe.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(_sender, e);
-            }
-
-            if (context.DragTransform != null)
-            {
-                this.Drag = new MouseInputDrag(_context);
-                this.Drag.StateChanged += StateChanged;
-                this.Drag.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(_sender, e);
-                this.Drag.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(_sender, e);
-            }
-
-            this.Gesture = new MouseInputGesture(_context);
-            this.Gesture.StateChanged += StateChanged;
-            this.Gesture.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(_sender, e);
-            this.Gesture.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(_sender, e);
-            this.Gesture.GestureChanged += (s, e) => _context.GestureCommandCollection.Execute(e.Sequence);
-            this.Gesture.GestureProgressed += (s, e) => _context.GestureCommandCollection.ShowProgressed(e.Sequence);
-
-            // initialize state
-            _mouseInputCollection = new Dictionary<MouseInputState, MouseInputBase>();
-            _mouseInputCollection.Add(MouseInputState.Normal, this.Normal);
-            _mouseInputCollection.Add(MouseInputState.Loupe, this.Loupe);
-            _mouseInputCollection.Add(MouseInputState.Drag, this.Drag);
-            _mouseInputCollection.Add(MouseInputState.Gesture, this.Gesture);
-            SetState(MouseInputState.Normal, null);
-
-            // initialize event
-            // NOTE: 時々操作が奪われしてまう原因の可能性その１
-            _sender.MouseDown += OnMouseButtonDown;
-            _sender.MouseUp += OnMouseButtonUp;
-            _sender.MouseWheel += OnMouseWheel;
-            _sender.MouseMove += OnMouseMove;
-            _sender.PreviewKeyDown += OnKeyDown;
+            ////Debug.WriteLine($"MouseInput.Sender: InitializeMouseHorizontalWheel()");
+            _mouseHorizontalWheelSource = new MouseHorizontalWheelSource(_sender, window);
+            _mouseHorizontalWheelSource.MouseHorizontalWheelChanged += (s, e) => OnMouseHorizontalWheel(s, e);
         }
 
+        /// <summary>
+        /// 水平ホイール無効化
+        /// </summary>
+        private void ReleaseMouseHorizontalWheel()
+        {
+            ////Debug.WriteLine($"MouseInput.Sender: ReleaseMouseHorizontalWheel()");
+            _mouseHorizontalWheelSource?.Dispose();
+            _mouseHorizontalWheelSource = null;
+        }
 
-        public FrameworkElement Sender => _sender;
-
-
-        //
         public bool IsCaptured()
         {
             return _current.IsCaptured();
         }
 
-
         /// <summary>
         /// 状態変更イベント処理
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void StateChanged(object sender, MouseInputStateEventArgs e)
         {
             SetState(e.State, e.Parameter);
@@ -176,8 +223,6 @@ namespace NeeView
         /// <summary>
         /// 状態変更
         /// </summary>
-        /// <param name="state"></param>
-        /// <param name="parameter"></param>
         public void SetState(MouseInputState state, object parameter, bool force = false)
         {
             if (!force && state == _state) return;
@@ -202,7 +247,6 @@ namespace NeeView
             inputNew?.OnCaptureOpened(_sender);
         }
 
-
         /// <summary>
         /// 状態初期化
         /// </summary>
@@ -211,28 +255,14 @@ namespace NeeView
             SetState(MouseInputState.Normal, null, true);
         }
 
-
-
-        /// <summary>
-        /// IsLoupeMode property.
-        /// </summary>
-        public bool IsLoupeMode
+        private bool IsStylusDevice(MouseEventArgs e)
         {
-            get { return _state == MouseInputState.Loupe; }
-            set { SetState(value ? MouseInputState.Loupe : MouseInputState.Normal, false); }
+            return e.StylusDevice != null && Config.Current.Touch.IsEnabled;
         }
-
-        //
-        public bool IsNormalMode => _state == MouseInputState.Normal;
-
-        //
-        private bool IsStylusDevice(MouseEventArgs e) => e.StylusDevice != null && Config.Current.Touch.IsEnabled;
 
         /// <summary>
         /// OnMouseButtonDown
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void OnMouseButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (sender != _sender) return;
@@ -245,8 +275,6 @@ namespace NeeView
         /// <summary>
         /// OnMouseButtonUp
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void OnMouseButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (sender != _sender) return;
@@ -263,8 +291,6 @@ namespace NeeView
         /// <summary>
         /// OnMouseWheel
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
             if (sender != _sender) return;
@@ -273,14 +299,20 @@ namespace NeeView
             _current.OnMouseWheel(_sender, e);
         }
 
-        // マウス移動検知用
-        private Point _lastActionPoint;
+        /// <summary>
+        /// マウス水平ホイール
+        /// </summary>
+        private void OnMouseHorizontalWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (sender != _sender) return;
+
+            ////Debug.WriteLine($"MouseInput: OnMouseHorizontalWheel: {e.Delta} ({e.Timestamp})");
+            _current.OnMouseHorizontalWheel(_sender, e);
+        }
 
         /// <summary>
         /// OnMouseMove
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
             if (sender != _sender) return;
@@ -300,8 +332,6 @@ namespace NeeView
         /// <summary>
         /// OnKeyDown
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
             if (sender != _sender) return;

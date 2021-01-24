@@ -192,6 +192,19 @@ namespace NeeView
         }
 
         /// <summary>
+        /// マウス水平ホイール処理
+        /// </summary>
+        public override void OnMouseHorizontalWheel(object sender, MouseWheelEventArgs e)
+        {
+            // コマンド決定
+            // ホイールがメインキー、それ以外は装飾キー
+            MouseHorizontalWheelChanged?.Invoke(sender, e);
+
+            // その後の操作は全て無効
+            _isButtonDown = false;
+        }
+
+        /// <summary>
         /// ズームイン
         /// </summary>
         public void LoupeZoomIn()

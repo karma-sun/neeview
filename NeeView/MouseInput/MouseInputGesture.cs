@@ -140,6 +140,21 @@ namespace NeeView
             }
         }
 
+        /// <summary>
+        /// 水平ホイール処理
+        /// </summary>
+        public override void OnMouseHorizontalWheel(object sender, MouseWheelEventArgs e)
+        {
+            // ホイール入力確定
+            MouseHorizontalWheelChanged?.Invoke(sender, e);
+
+            // ジェスチャー解除
+            if (e.Handled)
+            {
+                ResetState();
+            }
+        }
+
         private void UpdateState(object sender, MouseEventArgs e)
         {
             // ジェスチャー認識前に他のドラッグに切り替わったら処理を切り替える

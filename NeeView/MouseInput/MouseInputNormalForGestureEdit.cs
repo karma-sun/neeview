@@ -83,6 +83,18 @@ namespace NeeView
         }
 
         /// <summary>
+        /// 水平ホイール処理
+        /// </summary>
+        public override void OnMouseHorizontalWheel(object sender, MouseWheelEventArgs e)
+        {
+            // 入力決定
+            MouseHorizontalWheelChanged?.Invoke(sender, e);
+
+            // その後の操作は全て無効
+            _isButtonDown = false;
+        }
+
+        /// <summary>
         /// マウス移動処理
         /// </summary>
         /// <param name="sender"></param>

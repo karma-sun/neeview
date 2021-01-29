@@ -1,4 +1,6 @@
 ﻿using NeeView.Drawing;
+using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Windows;
@@ -20,20 +22,33 @@ namespace NeeView
         {
             if (PictureInfo != null) return PictureInfo;
 
-            this.PictureInfo = new PictureInfo(ArchiveEntry);
-
-            var size = _pdfArchive.GetSourceSize(ArchiveEntry);
-            PictureInfo.OriginalSize = size;
-            PictureInfo.Size = size;
-            PictureInfo.BitsPerPixel = 32;
-            PictureInfo.Decoder = "PDFium";
-
+            var pictureInfo = new PictureInfo(ArchiveEntry);
+            var originalSize = _pdfArchive.GetSourceSize(ArchiveEntry);
+            pictureInfo.OriginalSize = originalSize;
+            var maxSize = Config.Current.Performance.MaximumSize;
+            var size = (Config.Current.Performance.IsLimitSourceSize && !maxSize.IsContains(originalSize)) ? originalSize.Uniformed(maxSize) : originalSize;
+            pictureInfo.Size = size;
+            pictureInfo.BitsPerPixel = 32;
+            pictureInfo.Decoder = "PDFium";
+            this.PictureInfo = pictureInfo;
+            
             return PictureInfo;
         }
 
+        private Size GetImageSize()
+        {
+            if (this.PictureInfo is null)
+            {
+                CreatePictureInfo(CancellationToken.None);
+            }
+
+            return PictureInfo.Size;
+        }
+
+
         public override ImageSource CreateImageSource(Size size, BitmapCreateSetting setting, CancellationToken token)
         {
-            size = size.IsEmpty ? _pdfArchive.GetRenderSize(ArchiveEntry) : size;
+            size = size.IsEmpty ? GetImageSize() : size;
             var bitmapSource = _pdfArchive.CraeteBitmapSource(ArchiveEntry, size).ToBitmapSource();
 
             // 色情報設定
@@ -46,7 +61,7 @@ namespace NeeView
         {
             using (var outStream = new MemoryStream())
             {
-                size = size.IsEmpty ? _pdfArchive.GetRenderSize(ArchiveEntry) : size;
+                size = size.IsEmpty ? GetImageSize() : size;
                 _pdfArchive.CraeteBitmapSource(ArchiveEntry, size).SaveWithQuality(outStream, CreateFormat(format), quality);
                 return outStream.ToArray();
             }
@@ -67,24 +82,30 @@ namespace NeeView
 
         public override byte[] CreateThumbnail(ThumbnailProfile profile, CancellationToken token)
         {
-            Size size;
-            if (PictureInfo != null)
-            {
-                size = PictureInfo.Size;
-            }
-            else
-            {
-                size = _pdfArchive.GetRenderSize(ArchiveEntry);
-            }
-
-            size = profile.GetThumbnailSize(size);
+            var size = profile.GetThumbnailSize(GetImageSize());
             var setting = profile.CreateBitmapCreateSetting();
             return CreateImage(size, setting, Config.Current.Thumbnail.Format, Config.Current.Thumbnail.Quality, token);
         }
 
         public override Size FixedSize(Size size)
         {
-            return PdfArchiverProfile.Current.CreateFixedSize(size);
+            var imageSize = GetImageSize();
+
+            size = size.IsEmpty ? imageSize : size;
+
+            // 最小サイズ
+            if (Config.Current.Archive.Pdf.RenderSize.IsContains(size))
+            {
+                size = size.Uniformed(Config.Current.Archive.Pdf.RenderSize);
+            }
+
+            // 最大サイズ
+            var maxWixth = Math.Max(imageSize.Width, Config.Current.Performance.MaximumSize.Width);
+            var maxHeight = Math.Max(imageSize.Height, Config.Current.Performance.MaximumSize.Height);
+            var maxSize = new Size(maxWixth, maxHeight);
+            size = size.Limit(maxSize);
+
+            return size;
         }
     }
 }

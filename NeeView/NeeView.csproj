@@ -17,7 +17,7 @@
   </Target>
   
   <PropertyGroup>
-    <Version>38.2.0</Version>
+    <Version>38.3.0</Version>
     <Authors>NeeLaboratory</Authors>
     <Copyright>Copyright © 2016-2021 Ito Mitsuhiro (nee)</Copyright>
     <Description>Image viewer</Description>

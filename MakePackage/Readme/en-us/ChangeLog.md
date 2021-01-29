@@ -1,5 +1,27 @@
 ## ChangeLog
 
+
+### 38.3
+(2021-01-29)
+
+#### Fixed
+
+- Fixed a bug in PDF rendering resolution.
+- Fixed a bug related to window coordinate restoration when the taskbar is on the top or left.
+- Fixed a bug that scrolling may be unnatural when multiple items are selected on a bookshelf, etc.
+- Fixed a bug that "Stretch window" may not work properly.
+- Script: Fixed a bug that the focus when selecting a panel list item may not match the keyboard focus.
+- Script: Fixed a bug that the Enter key input of the ShowInputDialog command affects the main window.
+- Script console: Fixed a bug that the application terminates illegally with the exit command.
+- Script console: Fixed a bug that the application may terminate abnormally in the object display.
+
+#### Changed
+
+- "Stretch window" changed to work only when the window state is normal.
+- Script console: Changed to omit nested properties in object display.
+
+----
+
 ### 38.2
 (2021-01-18)
 

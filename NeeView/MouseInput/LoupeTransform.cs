@@ -150,6 +150,15 @@ namespace NeeView
             FixedScale = _isEnabled ? Scale : 1.0;
         }
 
+        public void ZoomIn()
+        {
+            Scale = Math.Min(Scale + Config.Current.Loupe.ScaleStep, Config.Current.Loupe.MaximumScale);
+        }
+
+        public void ZoomOut()
+        {
+            Scale = Math.Max(Scale - Config.Current.Loupe.ScaleStep, Config.Current.Loupe.MinimumScale);
+        }
 
 
         #region Memento

@@ -281,7 +281,7 @@ namespace NeeView
             isVisible = isVisible | !Config.Current.Mouse.IsCursorHideEnabled;
             if (isVisible)
             {
-                if (this.View.Cursor == Cursors.None && !_vm.ViewComponent.MouseInput.IsLoupeMode)
+                if (this.View.Cursor == Cursors.None && !_vm.ViewComponent.IsLoupeMode)
                 {
                     this.View.Cursor = null;
                 }
@@ -300,7 +300,7 @@ namespace NeeView
         /// </summary>
         private bool IsCursurVisibled()
         {
-            return this.View.Cursor != Cursors.None || _vm.ViewComponent.MouseInput.IsLoupeMode;
+            return this.View.Cursor != Cursors.None || _vm.ViewComponent.IsLoupeMode;
         }
 
         #endregion タイマーによる非アクティブ監視

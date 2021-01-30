@@ -107,27 +107,35 @@ namespace NeeView
 
         public void SetLoupeMode(bool isLoupeMode)
         {
-            _viewComponent.MouseInput.IsLoupeMode = isLoupeMode;
+            // NOTE: 有効にするのはマウスのルーペモードのみ
+            if (isLoupeMode)
+            {
+                _viewComponent.MouseInput.SetState(MouseInputState.Loupe, false);
+            }
+            else
+            {
+                _viewComponent.LoupeTransform.IsEnabled = false;
+            }
         }
 
         public bool GetLoupeMode()
         {
-            return _viewComponent.MouseInput.IsLoupeMode;
+            return _viewComponent.LoupeTransform.IsEnabled;
         }
 
         public void ToggleLoupeMode()
         {
-            _viewComponent.MouseInput.IsLoupeMode = !_viewComponent.MouseInput.IsLoupeMode;
+            SetLoupeMode(!GetLoupeMode());
         }
 
         public void LoupeZoomIn()
         {
-            _viewComponent.MouseInput.Loupe.LoupeZoomIn();
+            _viewComponent.LoupeTransform.ZoomIn();
         }
 
         public void LoupeZoomOut()
         {
-            _viewComponent.MouseInput.Loupe.LoupeZoomOut();
+            _viewComponent.LoupeTransform.ZoomOut();
         }
 
 

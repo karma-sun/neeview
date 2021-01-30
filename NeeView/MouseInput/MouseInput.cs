@@ -115,6 +115,9 @@ namespace NeeView
             _sender.Loaded += (s, e) => InitializeMouseHorizontalWheel();
             _sender.Unloaded += (s, e) => ReleaseMouseHorizontalWheel();
             InitializeMouseHorizontalWheel();
+
+            // ルーペモード監視
+            _context.LoupeTransform?.AddPropertyChanged(nameof(LoupeTransform.IsEnabled), LoupeTransform_IsEnabledChanged);
         }
 
 
@@ -139,10 +142,6 @@ namespace NeeView
         public event EventHandler<MouseEventArgs> MouseMoved;
 
 
-        public FrameworkElement Sender => _sender;
-
-        public MouseInputState State => _state;
-
         /// <summary>
         /// 状態：既定
         /// </summary>
@@ -163,14 +162,14 @@ namespace NeeView
         /// </summary>
         public MouseInputGesture Gesture { get; private set; }
 
-        public bool IsLoupeMode
+
+        private void LoupeTransform_IsEnabledChanged(object sender, PropertyChangedEventArgs e)
         {
-            get { return _state == MouseInputState.Loupe; }
-            set { SetState(value ? MouseInputState.Loupe : MouseInputState.Normal, false); }
+            if (_state == MouseInputState.Loupe && !_context.LoupeTransform.IsEnabled)
+            {
+                SetState(MouseInputState.Normal, null);
+            }
         }
-
-        public bool IsNormalMode => _state == MouseInputState.Normal;
-
 
         /// <summary>
         /// コマンド系イベントクリア
@@ -220,6 +219,7 @@ namespace NeeView
             SetState(e.State, e.Parameter);
         }
 
+
         /// <summary>
         /// 状態変更
         /// </summary>
@@ -237,9 +237,9 @@ namespace NeeView
                 return;
             }
 
-            inputOld?.OnClosed(_sender);
             _state = state;
             _current = inputNew;
+            inputOld?.OnClosed(_sender);
             inputNew?.OnOpened(_sender, parameter);
 
             // NOTE: MouseCaptureの影響で同じUIスレッドで再入する可能性があるため、まとめて処理

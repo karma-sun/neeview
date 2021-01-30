@@ -22,7 +22,7 @@ namespace NeeView
         public void ScrollNTypeUp(ViewScrollNTypeCommandParameter parameter)
         {
             int bookReadDirection = (_bookSettingPresenter.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
-            bool isScrolled = _viewContent.MouseInput.IsLoupeMode ? false : _viewContent.DragTransformControl.ScrollN(-1, bookReadDirection, true, parameter);
+            bool isScrolled = _viewContent.IsLoupeMode ? false : _viewContent.DragTransformControl.ScrollN(-1, bookReadDirection, true, parameter);
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace NeeView
         public void ScrollNTypeDown(ViewScrollNTypeCommandParameter parameter)
         {
             int bookReadDirection = (_bookSettingPresenter.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
-            bool isScrolled = _viewContent.MouseInput.IsLoupeMode ? false : _viewContent.DragTransformControl.ScrollN(+1, bookReadDirection, true, parameter);
+            bool isScrolled = _viewContent.IsLoupeMode ? false : _viewContent.DragTransformControl.ScrollN(+1, bookReadDirection, true, parameter);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace NeeView
         public void PrevScrollPage(object sender, ScrollPageCommandParameter parameter)
         {
             int bookReadDirection = (_bookSettingPresenter.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
-            bool isScrolled = _viewContent.MouseInput.IsLoupeMode ? false : _viewContent.DragTransformControl.ScrollN(-1, bookReadDirection, parameter.IsNScroll, parameter);
+            bool isScrolled = _viewContent.IsLoupeMode ? false : _viewContent.DragTransformControl.ScrollN(-1, bookReadDirection, parameter.IsNScroll, parameter);
 
             if (!isScrolled)
             {
@@ -65,7 +65,7 @@ namespace NeeView
         public void NextScrollPage(object sender, ScrollPageCommandParameter parameter)
         {
             int bookReadDirection = (_bookSettingPresenter.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
-            bool isScrolled = _viewContent.MouseInput.IsLoupeMode ? false : _viewContent.DragTransformControl.ScrollN(+1, bookReadDirection, parameter.IsNScroll, parameter);
+            bool isScrolled = _viewContent.IsLoupeMode ? false : _viewContent.DragTransformControl.ScrollN(+1, bookReadDirection, parameter.IsNScroll, parameter);
 
             if (!isScrolled)
             {

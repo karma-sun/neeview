@@ -146,6 +146,9 @@ namespace NeeView
                 case TouchAction.Gesture:
                     SetState(TouchInputState.Gesture, _touch);
                     break;
+                case TouchAction.Loupe:
+                    SetState(TouchInputState.Loupe, _touch);
+                    break;
             }
         }
 

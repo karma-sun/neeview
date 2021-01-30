@@ -13,7 +13,7 @@ namespace NeeView
         }
         public override Binding CreateIsCheckedBinding()
         {
-            return new Binding(nameof(MouseInput.IsLoupeMode)) { Mode = BindingMode.OneWay, Source = MainViewComponent.Current.MouseInput };
+            return new Binding(nameof(LoupeTransform.IsEnabled)) { Mode = BindingMode.OneWay, Source = MainViewComponent.Current.LoupeTransform };
         }
 
         public override string ExecuteMessage(object sender, CommandContext e)

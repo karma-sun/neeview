@@ -131,7 +131,7 @@ namespace NeeView
             _isKeyUpChance = false;
 
             var mouseButtonBits = MouseButtonBitsExtensions.Create();
-            if (_viewComponent.MouseInput.IsLoupeMode && Config.Current.Mouse.LongButtonDownMode == LongButtonDownMode.Loupe)
+            if (_viewComponent.IsLoupeMode && Config.Current.Mouse.LongButtonDownMode == LongButtonDownMode.Loupe)
             {
                 mouseButtonBits = MouseButtonBits.None;
             }

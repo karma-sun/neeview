@@ -30,8 +30,8 @@ namespace NeeView
             DragTransformControl = new DragTransformControl(DragTransform, _mainView.View, _mainView.MainContentShadow);
             LoupeTransform = new LoupeTransform();
 
+            TouchInput = new TouchInput(new TouchInputContext(_mainView.View, _mainView.MainContentShadow, mouseGestureCommandCollection, DragTransform, DragTransformControl, LoupeTransform));
             MouseInput = new MouseInput(new MouseInputContext(_mainView.View, mouseGestureCommandCollection, DragTransformControl, DragTransform, LoupeTransform));
-            TouchInput = new TouchInput(new TouchInputContext(_mainView.View, _mainView.MainContentShadow, mouseGestureCommandCollection, DragTransform, DragTransformControl));
 
             var scrollPageController = new ScrollPageController(this, BookSettingPresenter.Current, BookOperation.Current);
             var printController = new PrintController(this, _mainView);
@@ -66,6 +66,8 @@ namespace NeeView
 
         public ContentRebuild ContentRebuild { get; private set; }
 
+
+        public bool IsLoupeMode => ViewController.GetLoupeMode();
 
 
         protected virtual void Dispose(bool disposing)

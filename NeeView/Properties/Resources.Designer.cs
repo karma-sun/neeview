@@ -15986,6 +15986,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Loupe に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TouchAction_Loupe {
+            get {
+                return ResourceManager.GetString("TouchAction.Loupe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Mouse drag operation に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string TouchAction_MouseDrag {

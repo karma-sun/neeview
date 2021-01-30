@@ -429,7 +429,7 @@ namespace NeeView
             // ルーペ解除
             if (Config.Current.Loupe.IsResetByPageChanged)
             {
-                _viewComponent.MouseInput.IsLoupeMode = false;
+                _viewComponent.ViewController.SetLoupeMode(false);
             }
 
             if (e == null || e.IsFirst)
@@ -568,7 +568,7 @@ namespace NeeView
         public void ResetTransform(bool isForce, int pageDirection, DragViewOrigin viewOrigin, AngleResetMode angleResetMode)
         {
             // NOTE: ルーペモードのときは初期化しない
-            if (_viewComponent.MouseInput.IsLoupeMode) return;
+            if (_viewComponent.IsLoupeMode) return;
 
             _viewComponent.DragTransformControl.SetMouseDragSetting(pageDirection, viewOrigin, BookSettingPresenter.Current.LatestSetting.BookReadOrder);
 

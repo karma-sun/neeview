@@ -11,15 +11,10 @@ namespace NeeView
     public abstract class TouchInputBase : BindableBase
     {
         /// <summary>
-        /// 状態遷移通知
-        /// </summary>
-        public EventHandler<TouchInputStateEventArgs> StateChanged;
-
-
-        /// <summary>
         /// 状態コンテキスト
         /// </summary>
         protected TouchInputContext _context;
+
 
         /// <summary>
         /// コンストラクター
@@ -30,34 +25,38 @@ namespace NeeView
             _context = context;
         }
 
+
+        /// <summary>
+        /// 状態遷移通知
+        /// </summary>
+        public EventHandler<TouchInputStateEventArgs> StateChanged;
+
         /// <summary>
         /// タッチによるコマンド発動
         /// </summary>
         public EventHandler<TouchGestureEventArgs> TouchGestureChanged;
 
-
+        
         /// <summary>
         /// 状態開始時処理
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="parameter"></param>
         public virtual void OnOpened(FrameworkElement sender, object parameter) { }
 
         /// <summary>
         /// 状態終了時処理
         /// </summary>
-        /// <param name="sender"></param>
         public virtual void OnClosed(FrameworkElement sender) { }
 
         /// <summary>
         /// 各種入力イベント
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         public abstract void OnStylusDown(object sender, StylusDownEventArgs e);
         public abstract void OnStylusUp(object sender, StylusEventArgs e);
         public abstract void OnStylusMove(object sender, StylusEventArgs e);
         public virtual void OnStylusSystemGesture(object sender, StylusSystemGestureEventArgs e) { }
+        public virtual void OnMouseWheel(object sender, MouseWheelEventArgs e) { }
+        public virtual void OnKeyDown(object sender, KeyEventArgs e) { }
+
 
         /// <summary>
         /// 状態遷移：既定状態に移動
@@ -90,7 +89,6 @@ namespace NeeView
         /// <summary>
         /// 押されているマウスボタンのビットマスク作成
         /// </summary>
-        /// <returns></returns>
         protected MouseButtonBits CreateMouseButtonBits()
         {
             return MouseButtonBitsExtensions.Create();
@@ -99,8 +97,6 @@ namespace NeeView
         /// <summary>
         /// 押されているボタンを１つだけ返す
         /// </summary>
-        /// <param name="e"></param>
-        /// <returns></returns>
         protected MouseButton? GetMouseButton(MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -131,15 +127,12 @@ namespace NeeView
         /// <summary>
         /// タッチ座標からコマンド発行
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         protected void ExecuteTouchGesture(object sender, StylusEventArgs e)
         {
             var point = e.GetPosition(_context.Sender);
             ExecuteTouchGesture(point);
         }
 
-        //
         protected void ExecuteTouchGesture(Point point)
         {
             var xRate = point.X / _context.Sender.ActualWidth;

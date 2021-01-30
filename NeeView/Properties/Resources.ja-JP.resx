@@ -5474,6 +5474,9 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
   <data name="TouchAction.None" xml:space="preserve">
     <value>なし</value>
   </data>
+  <data name="TouchAction.Loupe" xml:space="preserve">
+    <value>ルーペ</value>
+  </data>
   <data name="TouchConfig.DragAction" xml:space="preserve">
     <value>シングル タッチのドラッグ操作</value>
   </data>

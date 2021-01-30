@@ -2,6 +2,7 @@
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -23,12 +24,20 @@ namespace NeeView
         MouseDrag,
         Drag,
         Gesture,
+        Loupe,
     }
 
 
     // タッチ処理
     public class TouchInput : BindableBase
     {
+        private TouchInputContext _context;
+        private FrameworkElement _sender;
+        private Dictionary<TouchInputState, TouchInputBase> _touchInputCollection;
+        private TouchInputState _state;
+        private TouchInputBase _current;
+
+
         public TouchInput(TouchInputContext context)
         {
             _context = context;
@@ -55,9 +64,11 @@ namespace NeeView
             this.Normal.StateChanged += StateChanged;
             this.Normal.TouchGestureChanged += (s, e) => TouchGestureChanged?.Invoke(_sender, e);
 
+            this.Loupe = new TouchInputLoupe(_context);
+            this.Loupe.StateChanged += StateChanged;
+
             this.Emulator = new TouchInputEmulator(_context);
             this.Emulator.TouchGestureChanged += (s, e) => TouchGestureChanged?.Invoke(_sender, e);
-
 
             // initialize state
             _touchInputCollection = new Dictionary<TouchInputState, TouchInputBase>();
@@ -65,6 +76,7 @@ namespace NeeView
             _touchInputCollection.Add(TouchInputState.MouseDrag, this.MouseDrag);
             _touchInputCollection.Add(TouchInputState.Drag, this.Drag);
             _touchInputCollection.Add(TouchInputState.Gesture, this.Gesture);
+            _touchInputCollection.Add(TouchInputState.Loupe, this.Loupe);
             SetState(TouchInputState.Normal, null);
 
             // initialize event
@@ -72,32 +84,18 @@ namespace NeeView
             _sender.StylusUp += OnStylusUp;
             _sender.StylusMove += OnStylusMove;
             _sender.StylusSystemGesture += OnStylusSystemGesture;
+            _sender.MouseWheel += OnMouseWheel;
+            _sender.PreviewKeyDown += OnKeyDown;
 
-            //
             ClearTouchEventHandler();
+
+            // ルーペモード監視
+            _context.LoupeTransform?.AddPropertyChanged(nameof(LoupeTransform.IsEnabled), LoupeTransform_IsEnabledChanged);
         }
 
 
-
-        //
         public event EventHandler<TouchGestureEventArgs> TouchGestureChanged;
 
-
-        /// <summary>
-        /// コマンド系イベントクリア
-        /// </summary>
-        public void ClearTouchEventHandler()
-        {
-            TouchGestureChanged = null;
-        }
-
-
-        //
-        private TouchInputContext _context;
-        private FrameworkElement _sender;
-
-
-        public FrameworkElement Sender => _sender;
 
         /// <summary>
         /// 状態：既定
@@ -120,33 +118,35 @@ namespace NeeView
         public TouchInputGesture Gesture { get; private set; }
 
         /// <summary>
+        /// 状態：ルーペ
+        /// </summary>
+        public TouchInputLoupe Loupe { get; private set; }
+
+        /// <summary>
         /// エミュレート
         /// </summary>
         public TouchInputEmulator Emulator { get; private set; }
 
 
-        /// <summary>
-        /// 遷移テーブル
-        /// </summary>
-        private Dictionary<TouchInputState, TouchInputBase> _touchInputCollection;
+        private void LoupeTransform_IsEnabledChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (_state == TouchInputState.Loupe && !_context.LoupeTransform.IsEnabled)
+            {
+                SetState(TouchInputState.Normal, null);
+            }
+        }
 
-
-        /// <summary>
-        /// 現在状態
-        /// </summary>
-        private TouchInputState _state;
-        public TouchInputState State => _state;
-
-        /// <summary>
-        /// 現在状態（実体）
-        /// </summary>
-        private TouchInputBase _current;
-
-
-        //
         public bool IsCaptured()
         {
             return _context.TouchMap.Any();
+        }
+
+        /// <summary>
+        /// コマンド系イベントクリア
+        /// </summary>
+        public void ClearTouchEventHandler()
+        {
+            TouchGestureChanged = null;
         }
 
         /// <summary>
@@ -168,19 +168,20 @@ namespace NeeView
         {
             if (state == _state) return;
             ////Debug.WriteLine($"#TouchState: {state}");
-                       
+
             var inputOld = _current;
             var inputNew = _touchInputCollection[state];
 
             if (inputNew is null)
             {
-                Debug.WriteLine($"MouseInput: Not support state: {inputNew}");
+                ////Debug.WriteLine($"TouchInput: Not support state: {inputNew}");
                 return;
             }
 
-            inputOld?.OnClosed(_sender);
             _state = state;
             _current = inputNew;
+
+            inputOld?.OnClosed(_sender);
             inputNew?.OnOpened(_sender, parameter);
         }
 
@@ -190,7 +191,6 @@ namespace NeeView
             _context.TouchMap = _context.TouchMap.Where(item => !item.Key.InAir).ToDictionary(item => item.Key, item => item.Value);
         }
 
-        //
         private void OnStylusDown(object sender, StylusDownEventArgs e)
         {
             if (sender != _sender) return;
@@ -213,7 +213,6 @@ namespace NeeView
             _current.OnStylusDown(_sender, e);
         }
 
-        //
         private void OnStylusUp(object sender, StylusEventArgs e)
         {
             if (!Config.Current.Touch.IsEnabled) return;
@@ -231,7 +230,6 @@ namespace NeeView
             _current.OnStylusUp(_sender, e);
         }
 
-        //
         private void OnStylusMove(object sender, StylusEventArgs e)
         {
             if (!Config.Current.Touch.IsEnabled) return;
@@ -240,7 +238,6 @@ namespace NeeView
             _current.OnStylusMove(_sender, e);
         }
 
-        //
         private void OnStylusSystemGesture(object sender, StylusSystemGestureEventArgs e)
         {
             if (!Config.Current.Touch.IsEnabled) return;
@@ -251,6 +248,17 @@ namespace NeeView
             _current.OnStylusSystemGesture(_sender, e);
         }
 
+        private void OnMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (sender != _sender) return;
+            _current.OnMouseWheel(_sender, e);
+        }
+
+        private void OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (sender != _sender) return;
+            _current.OnKeyDown(_sender, e);
+        }
 
 
         #region Memento
@@ -294,7 +302,5 @@ namespace NeeView
         }
 
         #endregion
-
-
     }
 }

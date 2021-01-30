@@ -5471,6 +5471,9 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="TouchAction.None" xml:space="preserve">
     <value>None</value>
   </data>
+  <data name="TouchAction.Loupe" xml:space="preserve">
+    <value>Loupe</value>
+  </data>
   <data name="TouchConfig.DragAction" xml:space="preserve">
     <value>Single touch drag operation</value>
   </data>

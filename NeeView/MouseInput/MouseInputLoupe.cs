@@ -171,11 +171,11 @@ namespace NeeView
             {
                 if (e.Delta > 0)
                 {
-                    LoupeZoomIn();
+                    _loupe.ZoomIn();
                 }
                 else
                 {
-                    LoupeZoomOut();
+                    _loupe.ZoomOut();
                 }
 
                 e.Handled = true;
@@ -202,22 +202,6 @@ namespace NeeView
 
             // その後の操作は全て無効
             _isButtonDown = false;
-        }
-
-        /// <summary>
-        /// ズームイン
-        /// </summary>
-        public void LoupeZoomIn()
-        {
-            _loupe.Scale = Math.Min(_loupe.Scale + Config.Current.Loupe.ScaleStep, Config.Current.Loupe.MaximumScale);
-        }
-
-        /// <summary>
-        /// ズームアウト
-        /// </summary>
-        public void LoupeZoomOut()
-        {
-            _loupe.Scale = Math.Max(_loupe.Scale - Config.Current.Loupe.ScaleStep, Config.Current.Loupe.MinimumScale);
         }
 
         /// <summary>

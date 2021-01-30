@@ -96,10 +96,13 @@ namespace NeeView.Setting
     {
         public SettingPageTouch() : base(Properties.Resources.SettingPage_Manipurate_Touch)
         {
+            var dragEnumMap = TouchActionClass.Drag.GetAliasNameMap().ToDictionary(e => (Enum)e.Key, e => e.Value);
+            var holdEnumMap = TouchActionClass.Hold.GetAliasNameMap().ToDictionary(e => (Enum)e.Key, e => e.Value);
+
             var section = new SettingItemSection(Properties.Resources.SettingPage_Manipurate_TouchGeneral);
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Touch, nameof(TouchConfig.IsEnabled))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Touch, nameof(TouchConfig.DragAction))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Touch, nameof(TouchConfig.HoldAction))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Touch, nameof(TouchConfig.DragAction), new PropertyMemberElementOptions() { EnumMap = dragEnumMap })));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Touch, nameof(TouchConfig.HoldAction), new PropertyMemberElementOptions() { EnumMap = holdEnumMap })));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Touch, nameof(TouchConfig.IsAngleEnabled))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Touch, nameof(TouchConfig.IsScaleEnabled))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Touch, nameof(TouchConfig.GestureMinimumDistance))));

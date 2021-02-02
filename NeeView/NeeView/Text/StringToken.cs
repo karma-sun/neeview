@@ -16,14 +16,14 @@ namespace NeeView.Text
             Nums = null;
         }
 
-        public StringToken(List<char> chars, List<int> nums)
+        public StringToken(List<char> chars, List<long> nums)
         {
             FirstChar = chars.Count > 0 ? chars[0] : default;
             Chars = chars;
             Nums = nums;
         }
 
-        public StringToken(string s, List<int> nums)
+        public StringToken(string s, List<long> nums)
         {
             FirstChar = s.Length > 0 ? s[0] : default;
             Chars = s.ToList();
@@ -35,7 +35,7 @@ namespace NeeView.Text
 
         public List<char> Chars { get; private set; }
         
-        public List<int> Nums { get; private set; }
+        public List<long> Nums { get; private set; }
 
 
         public bool IsNumber() => Nums != null;
@@ -51,7 +51,7 @@ namespace NeeView.Text
                     var numY = other.Nums[n];
                     if (numX != numY)
                     {
-                        return numX - numY;
+                        return numX.CompareTo(numY);
                     }
                 }
 

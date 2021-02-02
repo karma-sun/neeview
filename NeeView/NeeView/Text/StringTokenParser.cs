@@ -105,8 +105,8 @@ namespace NeeView.Text
         /// </summary>
         public class NumsTokenFactory
         {
-            private int _n;
-            private List<int> _nums = new List<int>(4);
+            private long _n;
+            private List<long> _nums = new List<long>(4);
             private List<char> _chars = new List<char>(8);
 
             public void Add(char c)

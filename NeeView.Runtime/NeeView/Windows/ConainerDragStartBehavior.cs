@@ -51,11 +51,6 @@ namespace NeeView.Windows
         public bool Dragged { get; private set; }
 
         /// <summary>
-        /// 複数ドラッグ時の数
-        /// </summary>
-        protected int DragCount { get; set; }
-
-        /// <summary>
         /// DoDragDropのフック
         /// </summary>
         /// <remarks>
@@ -180,7 +175,6 @@ namespace NeeView.Windows
 
             _origin = e.GetPosition(this.AssociatedObject);
             _isButtonDown = true;
-            this.DragCount = 0;
             this.Dragged = false;
 
             if (sender is UIElement element)
@@ -267,9 +261,10 @@ namespace NeeView.Windows
 
                 if (window != null)
                 {
+                    var dragCount = GetDragCount();
                     var root = window.Content as UIElement;
                     layer = AdornerLayer.GetAdornerLayer(root);
-                    _dragGhost = new DragAdorner(root, _adornerVisual, 0.5, DragCount, _dragStartPos);
+                    _dragGhost = new DragAdorner(root, _adornerVisual, 0.5, dragCount, _dragStartPos);
                     layer.Add(_dragGhost);
                 }
 
@@ -309,6 +304,13 @@ namespace NeeView.Windows
             _cancellationTokenSource = null;
         }
 
+        /// <summary>
+        /// ドラッグ項目数を取得
+        /// </summary>
+        protected virtual int GetDragCount()
+        {
+            return 1;
+        }
 
         public virtual UIElement GetAdornerVisual(TItem dragItem)
         {
@@ -433,10 +435,12 @@ namespace NeeView.Windows
 
     /// <summary>
     /// ListBoxExtended DragDropStartBehavior
+    /// Ctrlキーでの選択解除前にドラッグできるようにする処理
     /// </summary>
     public class ListBoxExtendedDragDropStartBehavior : ListBoxDragDropStartBehavior
     {
-        private object _selectedItem;
+        private List<object> _selectedItems;
+        private object _anchorItem;
 
         protected override void OnAttached()
         {
@@ -449,17 +453,16 @@ namespace NeeView.Windows
             base.PreviewMouseDownHandler(sender, e);
 
             var listBox = (ListBoxExteded)this.AssociatedObject;
+            
+            _selectedItems = null;
+            _anchorItem = null;
 
-            _selectedItem = null;
-            this.DragCount = 0;
-            if (listBox.SelectedItems.Count > 1 && this.DragItem != null)
+            // Ctrlキーによる選択解除のときのみ選択変更をMosueUpまで遅延させる
+            if (this.DragItem != null && Keyboard.Modifiers == ModifierKeys.Control && listBox.SelectedItems.Contains(this.DragItem.DataContext))
             {
-                if (listBox.SelectedItems.Contains(this.DragItem.DataContext))
-                {
-                    this.DragCount = listBox.SelectedItems.Count;
-                    _selectedItem = this.DragItem.DataContext;
-                    e.Handled = true;
-                }
+                _selectedItems = listBox.SelectedItems.Cast<object>().Where(x => x != this.DragItem.DataContext).ToList();
+                _anchorItem = this.DragItem.DataContext;
+                e.Handled = true;
             }
         }
 
@@ -474,16 +477,23 @@ namespace NeeView.Windows
                 return;
             }
 
-            if (_selectedItem != null && !this.Dragged)
+            if (_selectedItems != null && !this.Dragged)
             {
-                listBox.SelectedItem = null;
-                listBox.SelectedItem = _selectedItem;
-                listBox.SetAnchorItem(null);
+                listBox.SetSelectedItemsRaw(_selectedItems);
+                listBox.SetAnchorItem(_anchorItem);
             }
 
-            _selectedItem = null;
+            _selectedItems = null;
+            _anchorItem = null;
         }
 
+
+        protected override int GetDragCount()
+        {
+            var listBox = (ListBoxExteded)this.AssociatedObject;
+
+            return listBox.SelectedItems.Count;
+        }
     }
 
     /// <summary>
@@ -535,6 +545,21 @@ namespace NeeView.Windows
                 this.SelectedItems.Add(item);
             }
         }
-    }
 
+        public void SetSelectedItemsRaw<T>(IEnumerable<T> newItems)
+        {
+            var oldItems = this.SelectedItems.Cast<T>().ToList();
+
+            foreach (var item in oldItems.Except(newItems))
+            {
+                this.SelectedItems.Remove(item);
+            }
+
+            foreach (var item in newItems.Except(oldItems))
+            {
+                this.SelectedItems.Add(item);
+            }
+        }
+
+    }
 }

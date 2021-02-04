@@ -538,6 +538,8 @@ namespace NeeView
         // 項目クリック
         private void PageListItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (Keyboard.Modifiers != ModifierKeys.None) return;
+
             var page = (sender as ListBoxItem)?.Content as Page;
             if (page != null)
             {

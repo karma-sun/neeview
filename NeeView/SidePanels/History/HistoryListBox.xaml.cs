@@ -206,6 +206,8 @@ namespace NeeView
         // 履歴項目決定
         private void HistoryListItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (Keyboard.Modifiers != ModifierKeys.None) return;
+
             var item = ((sender as ListBoxItem)?.Content as BookHistory);
             if (!Config.Current.Panels.OpenWithDoubleClick)
             {

@@ -1016,6 +1016,8 @@ namespace NeeView
         //
         private void FolderListItem_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            if (Keyboard.Modifiers != ModifierKeys.None) return;
+
             var item = (sender as ListBoxItem)?.Content as FolderItem;
             if (!Config.Current.Panels.OpenWithDoubleClick && item != null && !item.IsEmpty())
             {
@@ -1069,8 +1071,6 @@ namespace NeeView
 
         private void FolderListItem_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            var folderInfo = (sender as ListBoxItem)?.Content as FolderItem;
-            if (folderInfo == null) return;
         }
 
         private void FolderListItem_MouseUp(object sender, MouseButtonEventArgs e)

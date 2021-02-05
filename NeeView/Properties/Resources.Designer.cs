@@ -13961,7 +13961,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Bookmark OFF に類似しているローカライズされた文字列を検索します。
+        ///   Removed bookmark に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleBookmarkCommand_Off {
             get {
@@ -13970,7 +13970,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Bookmark に類似しているローカライズされた文字列を検索します。
+        ///   Added bookmark に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleBookmarkCommand_On {
             get {
@@ -13979,7 +13979,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Toggle bookmark registration / release of currently open book. に類似しているローカライズされた文字列を検索します。
+        ///   Toggle bookmark for currently open book. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleBookmarkCommand_Remarks {
             get {
@@ -14888,7 +14888,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Pagemark OFF に類似しているローカライズされた文字列を検索します。
+        ///   Removed pagemark に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string TogglePagemarkCommand_Off {
             get {
@@ -14897,7 +14897,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Pagemark に類似しているローカライズされた文字列を検索します。
+        ///   Added pagemark に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string TogglePagemarkCommand_On {
             get {
@@ -14906,7 +14906,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Toggles registration / cancellation of page mark of currently open page. に類似しているローカライズされた文字列を検索します。
+        ///   Toggles pagemark of currently open page. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string TogglePagemarkCommand_Remarks {
             get {

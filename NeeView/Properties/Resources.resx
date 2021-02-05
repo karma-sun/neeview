@@ -213,6 +213,12 @@
   <data name="ArchivePolicy.SendExtractFile" xml:space="preserve">
     <value>Extract file path (temporary file)</value>
   </data>
+  <data name="AutoHideConfig.AutoHideConfrictMargin" xml:space="preserve">
+    <value>Area width for automatic display judgment of menu bar on side panel (pixel)</value>
+  </data>
+  <data name="AutoHideConfig.AutoHideConfrictMargin.Remarks" xml:space="preserve">
+    <value>If set to 0, the menu bar will not be displayed automatically when the cursor is on the side panel.</value>
+  </data>
   <data name="AutoHideConfig.AutoHideDelayTime" xml:space="preserve">
     <value>Time to hide auto-hide panel (sec)</value>
   </data>
@@ -227,12 +233,6 @@
   </data>
   <data name="AutoHideConfig.AutoHideHitTestMargin" xml:space="preserve">
     <value>Area width of automatic panel display judgment (pixel)</value>
-  </data>
-  <data name="AutoHideConfig.AutoHideConfrictMargin" xml:space="preserve">
-    <value>Area width for automatic display judgment of menu bar on side panel (pixel)</value>
-  </data>
-  <data name="AutoHideConfig.AutoHideConfrictMargin.Remarks" xml:space="preserve">
-    <value>If set to 0, the menu bar will not be displayed automatically when the cursor is on the side panel.</value>
   </data>
   <data name="AutoHideConfig.IsAutoHideKeyDownDelay" xml:space="preserve">
     <value>Auto-hide panel key input display continued</value>
@@ -4745,6 +4745,12 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ThumbnailConfig.Format.Remarks" xml:space="preserve">
     <value>PNG is high quality, but the data size is larger than JPEG.</value>
   </data>
+  <data name="ThumbnailConfig.ImageWidth" xml:space="preserve">
+    <value>Thumbnail image resolution</value>
+  </data>
+  <data name="ThumbnailConfig.ImageWidth.Remarks" xml:space="preserve">
+    <value>The higher the value, the higher the resolution but the larger the data size.</value>
+  </data>
   <data name="ThumbnailConfig.IsCacheEnabled" xml:space="preserve">
     <value>Use thumbnail cache</value>
   </data>
@@ -4756,12 +4762,6 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="ThumbnailConfig.Quality.Remarks" xml:space="preserve">
     <value>Quality when the thumbnail image format is JPEG.</value>
-  </data>
-  <data name="ThumbnailConfig.ImageWidth" xml:space="preserve">
-    <value>Thumbnail image resolution</value>
-  </data>
-  <data name="ThumbnailConfig.ImageWidth.Remarks" xml:space="preserve">
-    <value>The higher the value, the higher the resolution but the larger the data size.</value>
   </data>
   <data name="ThumbnailConfig.ThumbnailBookCapacity" xml:space="preserve">
     <value>Book Thumbnail Capacity</value>
@@ -4791,13 +4791,13 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Bookmark</value>
   </data>
   <data name="ToggleBookmarkCommand.Off" xml:space="preserve">
-    <value>Bookmark OFF</value>
+    <value>Removed bookmark</value>
   </data>
   <data name="ToggleBookmarkCommand.On" xml:space="preserve">
-    <value>Bookmark</value>
+    <value>Added bookmark</value>
   </data>
   <data name="ToggleBookmarkCommand.Remarks" xml:space="preserve">
-    <value>Toggle bookmark registration / release of currently open book.</value>
+    <value>Toggle bookmark for currently open book.</value>
   </data>
   <data name="ToggleBookOrderCommand" xml:space="preserve">
     <value>Switch book order</value>
@@ -5100,13 +5100,13 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Pagemark</value>
   </data>
   <data name="TogglePagemarkCommand.Off" xml:space="preserve">
-    <value>Pagemark OFF</value>
+    <value>Removed pagemark</value>
   </data>
   <data name="TogglePagemarkCommand.On" xml:space="preserve">
-    <value>Pagemark</value>
+    <value>Added pagemark</value>
   </data>
   <data name="TogglePagemarkCommand.Remarks" xml:space="preserve">
-    <value>Toggles registration / cancellation of page mark of currently open page.</value>
+    <value>Toggles pagemark of currently open page.</value>
   </data>
   <data name="TogglePageModeCommand" xml:space="preserve">
     <value>Toggle page mode</value>
@@ -5465,14 +5465,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="TouchAction.Gesture" xml:space="preserve">
     <value>Gesture</value>
   </data>
+  <data name="TouchAction.Loupe" xml:space="preserve">
+    <value>Loupe</value>
+  </data>
   <data name="TouchAction.MouseDrag" xml:space="preserve">
     <value>Mouse drag operation</value>
   </data>
   <data name="TouchAction.None" xml:space="preserve">
     <value>None</value>
-  </data>
-  <data name="TouchAction.Loupe" xml:space="preserve">
-    <value>Loupe</value>
   </data>
   <data name="TouchConfig.DragAction" xml:space="preserve">
     <value>Single touch drag operation</value>

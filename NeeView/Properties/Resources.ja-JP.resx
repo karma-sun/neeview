@@ -213,6 +213,12 @@
   <data name="ArchivePolicy.SendExtractFile" xml:space="preserve">
     <value>出力したファイルのパス (一時ファイル)</value>
   </data>
+  <data name="AutoHideConfig.AutoHideConfrictMargin" xml:space="preserve">
+    <value>サイド パネル上でのメニュー バーの自動表示判定のエリア幅 (ピクセル)</value>
+  </data>
+  <data name="AutoHideConfig.AutoHideConfrictMargin.Remarks" xml:space="preserve">
+    <value>0 にすると、サイド パネル上にカーソルがあるときにはメニュー バーが自動表示されなくなります。</value>
+  </data>
   <data name="AutoHideConfig.AutoHideDelayTime" xml:space="preserve">
     <value>自動非表示パネルを隠すまでの時間 (秒)</value>
   </data>
@@ -227,12 +233,6 @@
   </data>
   <data name="AutoHideConfig.AutoHideHitTestMargin" xml:space="preserve">
     <value>パネル自動表示判定のエリア幅 (ピクセル)</value>
-  </data>
-  <data name="AutoHideConfig.AutoHideConfrictMargin" xml:space="preserve">
-    <value>サイド パネル上でのメニュー バーの自動表示判定のエリア幅 (ピクセル)</value>
-  </data>
-  <data name="AutoHideConfig.AutoHideConfrictMargin.Remarks" xml:space="preserve">
-    <value>0 にすると、サイド パネル上にカーソルがあるときにはメニュー バーが自動表示されなくなります。</value>
   </data>
   <data name="AutoHideConfig.IsAutoHideKeyDownDelay" xml:space="preserve">
     <value>自動非表示パネルのキー入力表示継続</value>
@@ -4748,6 +4748,12 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
   <data name="ThumbnailConfig.Format.Remarks" xml:space="preserve">
     <value>PNG は高品質ですが、JPEG よりもデータサイズが大きくなります。</value>
   </data>
+  <data name="ThumbnailConfig.ImageWidth" xml:space="preserve">
+    <value>サムネイル画像解像度</value>
+  </data>
+  <data name="ThumbnailConfig.ImageWidth.Remarks" xml:space="preserve">
+    <value>値が大きいほど高解像度になりますがデータサイズも大きくなります。</value>
+  </data>
   <data name="ThumbnailConfig.IsCacheEnabled" xml:space="preserve">
     <value>サムネイル キャッシュを使用する</value>
   </data>
@@ -4759,12 +4765,6 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
   </data>
   <data name="ThumbnailConfig.Quality.Remarks" xml:space="preserve">
     <value>サムネイル画像フォーマットがJPEGの場合の品質です。</value>
-  </data>
-  <data name="ThumbnailConfig.ImageWidth" xml:space="preserve">
-    <value>サムネイル画像解像度</value>
-  </data>
-  <data name="ThumbnailConfig.ImageWidth.Remarks" xml:space="preserve">
-    <value>値が大きいほど高解像度になりますがデータサイズも大きくなります。</value>
   </data>
   <data name="ThumbnailConfig.ThumbnailBookCapacity" xml:space="preserve">
     <value>ブック サムネイル容量</value>
@@ -4788,19 +4788,19 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
     <value>背景を順番に切り替えます。</value>
   </data>
   <data name="ToggleBookmarkCommand" xml:space="preserve">
-    <value>ブックマーク登録/解除</value>
+    <value>ブックマーク追加/削除</value>
   </data>
   <data name="ToggleBookmarkCommand.Menu" xml:space="preserve">
     <value>ブックマーク</value>
   </data>
   <data name="ToggleBookmarkCommand.Off" xml:space="preserve">
-    <value>ブックマーク解除</value>
+    <value>ブックマークを削除しました</value>
   </data>
   <data name="ToggleBookmarkCommand.On" xml:space="preserve">
-    <value>ブックマークに登録</value>
+    <value>ブックマークを追加しました</value>
   </data>
   <data name="ToggleBookmarkCommand.Remarks" xml:space="preserve">
-    <value>現在開いているブックのブックマークの登録/解除を切り替えます。</value>
+    <value>現在開いているブックのブックマークを切り替えます。</value>
   </data>
   <data name="ToggleBookOrderCommand" xml:space="preserve">
     <value>ブックの並び順を切り替える</value>
@@ -5097,19 +5097,19 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
     <value>有効にすると拡大するときにドットのまま拡大します。無効の時にはスケール変換処理 (Fant) が行われます。</value>
   </data>
   <data name="TogglePagemarkCommand" xml:space="preserve">
-    <value>ページマーク登録/解除</value>
+    <value>ページマーク追加/削除</value>
   </data>
   <data name="TogglePagemarkCommand.Menu" xml:space="preserve">
     <value>ページマーク</value>
   </data>
   <data name="TogglePagemarkCommand.Off" xml:space="preserve">
-    <value>ページマーク解除</value>
+    <value>ページマークを削除しました</value>
   </data>
   <data name="TogglePagemarkCommand.On" xml:space="preserve">
-    <value>ページマーク登録</value>
+    <value>ページマークを追加しました</value>
   </data>
   <data name="TogglePagemarkCommand.Remarks" xml:space="preserve">
-    <value>現在開いているページのページマークの登録/解除を切り替えます。</value>
+    <value>現在開いているページのページマークを切り替えます。</value>
   </data>
   <data name="TogglePageModeCommand" xml:space="preserve">
     <value>ページ表示モードを切り替える</value>
@@ -5468,14 +5468,14 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
   <data name="TouchAction.Gesture" xml:space="preserve">
     <value>ジェスチャー</value>
   </data>
+  <data name="TouchAction.Loupe" xml:space="preserve">
+    <value>ルーペ</value>
+  </data>
   <data name="TouchAction.MouseDrag" xml:space="preserve">
     <value>マウス ドラッグ操作</value>
   </data>
   <data name="TouchAction.None" xml:space="preserve">
     <value>なし</value>
-  </data>
-  <data name="TouchAction.Loupe" xml:space="preserve">
-    <value>ルーペ</value>
   </data>
   <data name="TouchConfig.DragAction" xml:space="preserve">
     <value>シングル タッチのドラッグ操作</value>

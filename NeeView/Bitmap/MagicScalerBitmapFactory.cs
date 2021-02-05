@@ -19,10 +19,11 @@ namespace NeeView
         {
             var setting = source ?? new ProcessImageSettings();
 
-            // widthを0にすると、heightを基準にwidthを決定する
+            // widthかheightを0にすると、アスペクト比を維持したサイズで変換する
             setting.Width = size.IsEmpty ? 0 : (int)size.Width;
             setting.Height = size.IsEmpty ? 0 : (int)size.Height;
-            setting.ResizeMode = setting.Width == 0 ? CropScaleMode.Crop : CropScaleMode.Stretch;
+            setting.ResizeMode = (setting.Width == 0 || setting.Height == 0) ? CropScaleMode.Crop : CropScaleMode.Stretch;
+            setting.Anchor = (setting.ResizeMode == CropScaleMode.Crop) ? CropAnchor.Left | CropAnchor.Top : CropAnchor.Center;
             setting.SaveFormat = format;
 
             return setting;

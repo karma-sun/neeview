@@ -67,7 +67,7 @@ namespace NeeView
             {
                 if (setting.IsKeepAspectRatio && !size.IsEmpty)
                 {
-                    size = new Size(0, size.Height);
+                    size = new Size(size.Width, 0);
                 }
 
                 var bitmapSource = _bitmapFactory.CreateBitmapSource(stream, PictureInfo?.BitmapInfo, size, setting, token);

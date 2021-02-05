@@ -364,6 +364,16 @@ namespace NeeView
                 }
             }
 
+            // 幅が整数になるように補正
+            if (c0.Width > 0.0)
+            {
+                rate0 = Math.Truncate(c0.Width * rate0) / c0.Width;
+            }
+            if (c1.Width > 0.0)
+            {
+                rate1 = Math.Truncate(c1.Width * rate1) / c1.Width;
+            }
+
             var s0 = new Size(c0.Width * rate0, c0.Height * rate0);
             var s1 = new Size(c1.Width * rate1, c1.Height * rate1);
             return new Size[] { s0, s1 };

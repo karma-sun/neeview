@@ -693,24 +693,27 @@ namespace NeeView
                     var image = bitmapContent.GetViewImage();
                     if (image == null) continue;
 
-                    var pixelHeight = image.GetPixelHeight();
-                    var pixelWidth = image.GetPixelWidth();
+                    var viewBox = content.Source.GetViewBox();
+                    var pixelHeight = (int)(image.GetPixelHeight() * viewBox.Height);
+                    var pixelWidth = (int)(image.GetPixelWidth() * viewBox.Width);
                     var viewHeight = content.Height * finalScale;
                     var viewWidth = content.Width * finalScale;
 
+                    ContentViewMode viewMode;
                     var diff = Math.Abs(pixelHeight - viewHeight) + Math.Abs(pixelWidth - viewWidth);
                     var diffAngle = Math.Abs(_viewComponent.DragTransform.Angle % 90.0);
-                    if (diff < 2.2 && diffAngle < 0.1 && !Config.Current.ImageTrim.IsEnabled)
+                    if (diff < 2.2 && diffAngle < 0.1)
                     {
                         content.BitmapScalingMode = BitmapScalingMode.NearestNeighbor;
-                        content.SetViewMode(ContentViewMode.Pixeled, finalScale);
+                        viewMode = Config.Current.ImageTrim.IsEnabled ? ContentViewMode.Scale : ContentViewMode.Pixeled;
                     }
                     else
                     {
                         var isImageDotKeep = Config.Current.ImageDotKeep.IsImgeDotKeep(new Size(viewWidth, viewHeight), new Size(pixelWidth, pixelHeight));
                         content.BitmapScalingMode = isImageDotKeep ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
-                        content.SetViewMode(ContentViewMode.Scale, finalScale);
+                        viewMode = ContentViewMode.Scale;
                     }
+                    content.SetViewMode(viewMode, finalScale);
 
                     // ##
                     DebugInfo.Current?.SetMessage($"{content.BitmapScalingMode}: s={pixelHeight}: v={viewHeight:0.00}: a={_viewComponent.DragTransform.Angle:0.00}");

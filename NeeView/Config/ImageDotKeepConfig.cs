@@ -32,7 +32,8 @@ namespace NeeView
         /// <returns></returns>
         public bool IsImgeDotKeep(Size viewSize, Size sourceSize)
         {
-            return IsEnabled && viewSize.Width >= sourceSize.Width * Threshold && viewSize.Height >= sourceSize.Height * Threshold;
+            const double margin = 1.0;
+            return IsEnabled && viewSize.Width >= sourceSize.Width * Threshold - margin && viewSize.Height >= sourceSize.Height * Threshold - margin;
         }
     }
 }

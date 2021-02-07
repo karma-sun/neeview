@@ -22,6 +22,7 @@ namespace NeeView
         private bool _isBaseScaleEnabled;
         private double _baseScale = 1.0;
         private bool _isRotateStretchEnabled = true;
+        private double _mainViewMergin;
 
 
         // 回転の中心
@@ -153,6 +154,13 @@ namespace NeeView
             set { SetProperty(ref _isRotateStretchEnabled, value); }
         }
 
+        // ビューエリアの余白
+        [PropertyRange(0.0, 100.0)]
+        public double MainViewMergin
+        {
+            get { return _mainViewMergin; }
+            set { SetProperty(ref _mainViewMergin, value); }
+        }
     }
 
 }

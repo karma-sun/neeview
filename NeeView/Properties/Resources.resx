@@ -6177,9 +6177,6 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="Word.Yes" xml:space="preserve">
     <value>Yes</value>
   </data>
-  <data name="x.Word.OpenStore" xml:space="preserve">
-    <value>Open Microsoft Store</value>
-  </data>
   <data name="ZipArchiveConfig.IsEnabled" xml:space="preserve">
     <value>Use ZIP compressed file expansion with standard function</value>
   </data>
@@ -6188,5 +6185,8 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="ZipArchiveConfig.SupportFileTypes.Remarks" xml:space="preserve">
     <value>Only ZIP format is supported.</value>
+  </data>
+  <data name="ViewConfig.MainViewMergin" xml:space="preserve">
+    <value>Main view margin (pixel)</value>
   </data>
 </root>

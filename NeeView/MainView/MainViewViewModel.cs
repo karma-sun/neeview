@@ -10,7 +10,6 @@ namespace NeeView
     public class MainViewViewModel : BindableBase
     {
         private MainViewComponent _viewComponent;
-        private Thickness _mainViewMergin;
 
 
         public MainViewViewModel(MainViewComponent viewComponent)
@@ -19,6 +18,9 @@ namespace NeeView
 
             InitializeContextMenu();
             InitializeBusyVisibility();
+
+            Config.Current.View.AddPropertyChanged(nameof(ViewConfig.MainViewMergin),
+                (s, e) => RaisePropertyChanged(nameof(MainViewMergin)));
         }
 
 
@@ -40,12 +42,7 @@ namespace NeeView
 
         public TouchInput TouchInput => _viewComponent.TouchInput;
 
-
-        public Thickness MainViewMergin
-        {
-            get { return _mainViewMergin; }
-            set { SetProperty(ref _mainViewMergin, value); }
-        }
+        public Thickness MainViewMergin => new Thickness(Config.Current.View.MainViewMergin);
 
         #region BusyVisibility
 

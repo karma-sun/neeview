@@ -89,7 +89,6 @@ namespace NeeView
         #endregion
 
         private MainWindowModel _model;
-        private Thickness _mainViewMergin;
 
         private MainViewComponent _viewComponent;
 
@@ -181,16 +180,6 @@ namespace NeeView
         {
             get { return _model; }
             set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
-        }
-
-        /// <summary>
-        /// メインビューのマージン。
-        /// メインビューに恒久的にキャプション表示するときの調整用
-        /// </summary>
-        public Thickness MainViewMergin
-        {
-            get { return _mainViewMergin; }
-            set { SetProperty(ref _mainViewMergin, value); }
         }
 
         public bool CanHideThumbnailList

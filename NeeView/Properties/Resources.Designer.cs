@@ -16472,6 +16472,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Main view margin (pixel) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewConfig_MainViewMergin {
+            get {
+                return ResourceManager.GetString("ViewConfig.MainViewMergin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Center of rotation に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ViewConfig_RotateCenter {
@@ -18116,15 +18125,6 @@ namespace NeeView.Properties {
         public static string Word_Yes {
             get {
                 return ResourceManager.GetString("Word.Yes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Open Microsoft Store に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string x_Word_OpenStore {
-            get {
-                return ResourceManager.GetString("x.Word.OpenStore", resourceCulture);
             }
         }
         

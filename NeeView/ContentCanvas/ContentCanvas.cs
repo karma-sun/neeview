@@ -406,14 +406,14 @@ namespace NeeView
             // ViewModelプロパティに反映
             lock (_lock)
             {
-                MainContent = mainContent;
-
                 var oldies = new List<ViewContent>(Contents);
 
                 for (int index = 0; index < 2; ++index)
                 {
                     Contents[index] = index < contents.Count ? contents[index] : new ViewContent();
                 }
+
+                MainContent = mainContent;
 
                 foreach (var content in oldies.Except(Contents))
                 {

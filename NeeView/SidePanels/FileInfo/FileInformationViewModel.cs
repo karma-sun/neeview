@@ -1,327 +1,76 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeLaboratory.Windows.Input;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace NeeView
 {
-    /// <summary>
-    /// FileInformation : ViewModel
-    /// </summary>
     public class FileInformationViewModel : BindableBase
     {
-        /// <summary>
-        /// constructor
-        /// </summary>
-        /// <param name="model"></param>
+        private FileInformation _model;
+        private FileInformationSource _selectedItem;
+
+
         public FileInformationViewModel(FileInformation model)
         {
             _model = model;
-            _model.PropertyChanged += (s, e) =>
-            {
-                switch (e.PropertyName)
-                {
-                    case null:
-                    case nameof(_model.ViewContent):
-                        _isDarty = true;
-                        Update();
-                        break;
-                }
-            };
 
-            Config.Current.Information.PropertyChanged += (s, e) =>
-            {
-                switch (e.PropertyName)
-                {
-                    case null:
-                    case nameof(InformationConfig.IsVisibleBitsPerPixel):
-                    case nameof(InformationConfig.IsVisibleLoader):
-                        _isDarty = true;
-                        Update();
-                        break;
-                }
-            };
+            _model.AddPropertyChanged(nameof(_model.FileInformations),
+                Model_FileInformationsChanged);
+
+            Config.Current.Information.AddPropertyChanged(nameof(InformationConfig.IsVisibleLoader),
+                (s, e) => RaisePropertyChanged(nameof(LoaderVisibility)));
+
+            Config.Current.Information.AddPropertyChanged(nameof(InformationConfig.IsVisibleBitsPerPixel),
+                (s, e) => _model.Update());
+
+            this.OpenPlace = new RelayCommand(OpenPlace_Execute);
         }
 
 
-        /// <summary>
-        /// Model property.
-        /// </summary>
-        public FileInformation Model
-        {
-            get { return _model; }
-            set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
-        }
-
-        private FileInformation _model;
-
-
-        /// <summary>
-        /// 表示状態。
-        /// 非表示での情報更新はデータクリアを行う
-        /// 表示状態になったときにデータを再構築する
-        /// </summary>
-        public bool IsVisible
-        {
-            get { return _isVisible; }
-            set { if (_isVisible != value) { _isVisible = value; RaisePropertyChanged(); Update(); } }
-        }
-
-        private bool _isVisible;
-
-        /// <summary>
-        /// Thumbnail
-        /// </summary>
-        private ImageSource _imageSource;
-        public ImageSource ImageSource
-        {
-            get { return _imageSource; }
-            set { SetProperty(ref _imageSource, value); }
-        }
-
-        private double _ThumbnailWidth;
-        public double ThumbnailWidth
-        {
-            get { return _ThumbnailWidth; }
-            set { SetProperty(ref _ThumbnailWidth, value); }
-        }
-
-        private double _ThumbnailHeight;
-        public double ThumbnailHeight
-        {
-            get { return _ThumbnailHeight; }
-            set { SetProperty(ref _ThumbnailHeight, value); }
-        }
-
-        public double ThumbnailMaxSize => 96.0;
-
-
-        /// <summary>
-        /// FullPath property
-        /// </summary>
-        private string _FullPath;
-        public string FullPath
-        {
-            get { return _FullPath; }
-            set { SetProperty(ref _FullPath, value); }
-        }
-
-        /// <summary>
-        /// ImageSize property.
-        /// </summary>
-        private string _ImageSize;
-        public string ImageSize
-        {
-            get { return _ImageSize; }
-            set { if (_ImageSize != value) { _ImageSize = value; RaisePropertyChanged(); } }
-        }
-
-        /// <summary>
-        /// FileSize property.
-        /// </summary>
-        private string _FileSize;
-        public string FileSize
-        {
-            get { return _FileSize; }
-            set { if (_FileSize != value) { _FileSize = value; RaisePropertyChanged(); } }
-        }
-
-        /// <summary>
-        /// ShotInfo property.
-        /// </summary>
-        private string _ShotInfo;
-        public string ShotInfo
-        {
-            get { return _ShotInfo; }
-            set { if (_ShotInfo != value) { _ShotInfo = value; RaisePropertyChanged(); } }
-        }
-
-        /// <summary>
-        /// ISOSpeedRatings property.
-        /// </summary>
-        private string _ISOSpeedRatings;
-        public string ISOSpeedRatings
-        {
-            get { return _ISOSpeedRatings; }
-            set { if (_ISOSpeedRatings != value) { _ISOSpeedRatings = value; RaisePropertyChanged(); } }
-        }
-
-        /// <summary>
-        /// CameraModel property.
-        /// </summary>
-        private string _CameraModel;
-        public string CameraModel
-        {
-            get { return _CameraModel; }
-            set { if (_CameraModel != value) { _CameraModel = value; RaisePropertyChanged(); } }
-        }
-
-        /// <summary>
-        /// LastWriteTime property.
-        /// </summary>
-        private string _LastWriteTime;
-        public string LastWriteTime
-        {
-            get { return _LastWriteTime; }
-            set { if (_LastWriteTime != value) { _LastWriteTime = value; RaisePropertyChanged(); } }
-        }
-
-
-        private string _dateTimeOriginal;
-        public string DateTimeOriginal
-        {
-            get { return _dateTimeOriginal; }
-            set { SetProperty(ref _dateTimeOriginal, value); }
-        }
-
-
-        /// <summary>
-        /// LoaderVisibility property.
-        /// </summary>
-        private Visibility _LoaderVisibility = Visibility.Collapsed;
         public Visibility LoaderVisibility
         {
-            get { return _LoaderVisibility; }
-            set { if (_LoaderVisibility != value) { _LoaderVisibility = value; RaisePropertyChanged(); } }
+            get { return Config.Current.Information.IsVisibleLoader ? Visibility.Visible : Visibility.Collapsed; }
         }
 
-
-
-        /// <summary>
-        /// Archiver property.
-        /// </summary>
-        private string _Archiver;
-        public string Archiver
+        public List<FileInformationSource> FileInformations
         {
-            get { return _Archiver; }
-            set { if (_Archiver != value) { _Archiver = value; RaisePropertyChanged(); } }
+            get { return _model.FileInformations; }
         }
 
-        /// <summary>
-        /// Decoder property.
-        /// </summary>
-        private string _Decoder;
-        public string Decoder
+        public FileInformationSource SelectedItem
         {
-            get { return _Decoder; }
-            set { if (_Decoder != value) { _Decoder = value; RaisePropertyChanged(); } }
+            get { return _selectedItem; }
+            set { SetProperty(ref _selectedItem, value); }
         }
 
-
-        //
-        private bool _isDarty;
+        public RelayCommand OpenPlace { get; private set; }
 
 
-        // コンテンツの切り替わりで内容更新
-        public void Update()
+        private void Model_FileInformationsChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (!_isDarty) return;
+            RaisePropertyChanged(nameof(FileInformations));
 
-            LoaderVisibility = Config.Current.Information.IsVisibleLoader ? Visibility.Visible : Visibility.Collapsed;
-
-            FullPath = Model.ViewContent?.Page?.Entry?.Link ?? Model.ViewContent?.FullPath;
-
-            var bitmapContent = IsVisible ? _model.ViewContent?.Content as BitmapContent : null;
-            var info = bitmapContent?.PictureInfo;
-            if (info != null)
+            if (SelectedItem is null)
             {
-                //Debug.WriteLine($"FileInfo: {_model.ViewContent?.FileName}");
-
-                _isDarty = false;
-
-                // サムネイル設定
-                ImageSource = bitmapContent?.ImageSource;
-
-                if (ImageSource != null)
-                {
-                    var length = bitmapContent.Size.Width > bitmapContent.Size.Height ? bitmapContent.Size.Width : bitmapContent.Size.Height;
-                    var rate = ThumbnailMaxSize / length;
-                    ThumbnailWidth = bitmapContent.Size.Width * rate;
-                    ThumbnailHeight = bitmapContent.Size.Height * rate;
-                }
-
-                // 画像サイズ表示
-                if (info.OriginalSize.Width <= 0 || info.OriginalSize.Height < 0)
-                {
-                    ImageSize = null;
-                }
-                else
-                {
-                    ImageSize = $"{(int)info.OriginalSize.Width} x {(int)info.OriginalSize.Height}" + (info.IsLimited ? "*" : "") + (Config.Current.Information.IsVisibleBitsPerPixel ? $" ({info.BitsPerPixel}bit)" : "");
-                }
-
-                // ファイルサイズ表示
-                FileSize = info.Length > 0 ? string.Format("{0:#,0} KB", info.Length > 0 ? (info.Length + 1023) / 1024 : 0) : null;
-
-                // EXIF
-                var exif = info.Exif;
-
-                // EXIF: ShotInfo
-                ShotInfo = exif?.ShotInfo;
-
-                // EXIF: ISO Speed Raging
-                ISOSpeedRatings = exif != null && exif.ISOSpeedRatings > 0 ? exif.ISOSpeedRatings.ToString() : null;
-
-                // EXIF: Model
-                CameraModel = exif?.Model;
-
-                // ファイル更新日時
-                if (info.LastWriteTime != default)
-                {
-                    LastWriteTime = info.LastWriteTime.ToString(NeeView.Properties.Resources.Information_DateFormat);
-                }
-
-                // 撮影日
-                if (exif != null && exif.DateTimeOriginal != default)
-                {
-                    DateTimeOriginal = exif.DateTimeOriginal.ToString(NeeView.Properties.Resources.Information_DateFormat);
-                }
-
-                // アーカイバー
-                Archiver = info.Archiver;
-
-                // デコーダ
-                Decoder = ((bitmapContent is AnimatedContent animatedContent && animatedContent.IsAnimated) || bitmapContent is MediaContent) ? "MediaPlayer" : info.Decoder;
-            }
-            else
-            {
-                //Debug.WriteLine($"FileInfo: null");
-
-                ImageSource = null;
-                ImageSize = null;
-                FileSize = null;
-                ShotInfo = null;
-                ISOSpeedRatings = null;
-                CameraModel = null;
-                LastWriteTime = null;
-                DateTimeOriginal = null;
-                Archiver = null;
-                Decoder = null;
+                SelectedItem = _model.FileInformations.FirstOrDefault();
             }
         }
 
-        /// <summary>
-        /// OpenPlace command.
-        /// </summary>
-        private RelayCommand _OpenPlace;
-        public RelayCommand OpenPlace
+        private void OpenPlace_Execute()
         {
-            get { return _OpenPlace = _OpenPlace ?? new RelayCommand(OpenPlace_Executed); }
-        }
+            if (SelectedItem is null) return;
 
-        private void OpenPlace_Executed()
-        {
-            if (_model.ViewContent != null)
+            var place = SelectedItem.ViewContent.Page?.GetFolderOpenPlace();
+            if (!string.IsNullOrWhiteSpace(place))
             {
-                var place = _model.ViewContent.Page?.GetFolderOpenPlace();
-                if (!string.IsNullOrWhiteSpace(place))
-                {
-                    System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + place + "\"");
-                }
+                System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + place + "\"");
             }
         }
 

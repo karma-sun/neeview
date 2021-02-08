@@ -138,7 +138,7 @@ namespace NeeView
             this.ViewComponent.ContentCanvas.UpdateContentSize();
             this.ViewComponent.ContentCanvas.ResetTransformRaw(true, false, false, 0.0, false);
             this.ViewComponent.DragTransformControl.SnapView();
-            FileInformation.Current.Flush();
+            FileInformation.Current.Update();
         }
 
         private void Media_MediaFailed(object sender, ExceptionEventArgs e)

@@ -29,43 +29,56 @@
     </UserControl.Resources>
 
     <Grid Background="Transparent" Margin="2">
-        <ScrollViewer x:Name="ScrollView" Style="{StaticResource DarkScrollViewer}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Focusable="False" IsVisibleChanged="ScrollView_IsVisibleChanged" CanContentScroll="False">
+        <ScrollViewer x:Name="ScrollView" Style="{StaticResource DarkScrollViewer}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Focusable="False" CanContentScroll="False">
             <StackPanel>
                 <StackPanel.Resources>
                     <Style TargetType="local:FileInfoItem">
                         <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
                     </Style>
+                    <ControlTemplate x:Key="NoScroll">
+                        <ItemsPresenter></ItemsPresenter>
+                    </ControlTemplate>
                 </StackPanel.Resources>
 
-                <!-- Thumbnail -->
-                <Grid x:Name="GroupThumbnail" Width="96" Height="96" HorizontalAlignment="Left">
-                    <Image x:Name="Thumbnail" Width="{Binding ThumbnailWidth}" Height="{Binding ThumbnailHeight}" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                           Source="{Binding ImageSource}"
-                           UseLayoutRounding="True"
-                           RenderOptions.BitmapScalingMode="HighQuality" Stretch="Fill">
-                        <Image.Effect>
-                            <DropShadowEffect ShadowDepth="2" Opacity="0.5" RenderingBias="Quality" />
-                        </Image.Effect>
-                    </Image>
-                </Grid>
+                <!-- Thumbnails -->
+                <ListBox x:Name="ThumbnailListBox" Style="{StaticResource NVListBox}" Template="{StaticResource NoScroll}"
+                         ItemsSource="{Binding FileInformations}" SelectedItem="{Binding SelectedItem}" Margin="2" MinHeight="108" MinWidth="256" ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel IsItemsHost="True" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Width="104" Height="104">
+                                <Image Width="{Binding ThumbnailWidth}" Height="{Binding ThumbnailHeight}" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                                        Source="{Binding ImageSource}" UseLayoutRounding="True" RenderOptions.BitmapScalingMode="HighQuality" Stretch="Fill" Margin="4">
+                                    <Image.Effect>
+                                        <DropShadowEffect ShadowDepth="2" Opacity="0.5" RenderingBias="Quality" />
+                                    </Image.Effect>
+                                </Image>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
 
                 <!-- Parameters -->
-                <local:FileInfoItem x:Name="ItemFileName" Header="{x:Static properties:Resources.Information_FileName}" Text="{Binding Model.ViewContent.FileName}" IsTabStop="True"/>
-                <local:FileInfoItem x:Name="ItemFilePath" Header="{x:Static properties:Resources.Information_FilePath}" Text="{Binding FullPath}" IsTabStop="True" Visibility="{Binding Source={x:Static local:Config.Current}, Path=Information.IsVisibleFilePath, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                <local:FileInfoItem x:Name="ItemLastWriteTime" Header="{x:Static properties:Resources.Information_Date}" Text="{Binding LastWriteTime}"/>
-                <local:FileInfoItem x:Name="ItemFileSize" Header="{x:Static properties:Resources.Information_FileSize}" Text="{Binding FileSize}"/>
-                <local:FileInfoItem x:Name="ItemSize" Header="{x:Static properties:Resources.Information_ImageSize}" Text="{Binding ImageSize}"/>
+                <local:FileInfoItem x:Name="ItemFileName" Header="{x:Static properties:Resources.Information_FileName}" Text="{Binding SelectedItem.ViewContent.FileName}" IsTabStop="True"/>
+                <local:FileInfoItem x:Name="ItemFilePath" Header="{x:Static properties:Resources.Information_FilePath}" Text="{Binding SelectedItem.FullPath}" IsTabStop="True" Visibility="{Binding Source={x:Static local:Config.Current}, Path=Information.IsVisibleFilePath, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <local:FileInfoItem x:Name="ItemLastWriteTime" Header="{x:Static properties:Resources.Information_Date}" Text="{Binding SelectedItem.LastWriteTime}"/>
+                <local:FileInfoItem x:Name="ItemFileSize" Header="{x:Static properties:Resources.Information_FileSize}" Text="{Binding SelectedItem.FileSize}"/>
+                <local:FileInfoItem x:Name="ItemSize" Header="{x:Static properties:Resources.Information_ImageSize}" Text="{Binding SelectedItem.ImageSize}"/>
 
-                <local:FileInfoItem x:Name="ItemDateTimeOriginal" Header="{x:Static properties:Resources.Information_DateTimeOriginal}" Text="{Binding DateTimeOriginal}" />
-                <local:FileInfoItem x:Name="ItemShotInfo" Header="{x:Static properties:Resources.Information_Info}" Text="{Binding ShotInfo}" />
-                <local:FileInfoItem x:Name="ItemISOSpeedRatings" Header="{x:Static properties:Resources.Information_ISO}" Text="{Binding ISOSpeedRatings}"/>
-                <local:FileInfoItem x:Name="ItemModel" Header="{x:Static properties:Resources.Information_Device}" Text="{Binding CameraModel}"/>
-                <local:FileInfoItem x:Name="ItemFilePlace" Header="{x:Static properties:Resources.Information_FolderPath}" Text="{Binding Model.ViewContent.FolderPlace}"/>
+                <local:FileInfoItem x:Name="ItemDateTimeOriginal" Header="{x:Static properties:Resources.Information_DateTimeOriginal}" Text="{Binding SelectedItem.DateTimeOriginal}" />
+                <local:FileInfoItem x:Name="ItemShotInfo" Header="{x:Static properties:Resources.Information_Info}" Text="{Binding SelectedItem.ShotInfo}" />
+                <local:FileInfoItem x:Name="ItemISOSpeedRatings" Header="{x:Static properties:Resources.Information_ISO}" Text="{Binding SelectedItem.ISOSpeedRatings}"/>
+                <local:FileInfoItem x:Name="ItemModel" Header="{x:Static properties:Resources.Information_Device}" Text="{Binding SelectedItem.CameraModel}"/>
+                <local:FileInfoItem x:Name="ItemFilePlace" Header="{x:Static properties:Resources.Information_FolderPath}" Text="{Binding SelectedItem.ViewContent.FolderPlace}"/>
                 <Button x:Name="OpenPlaceButton" Command="{Binding OpenPlace}" HorizontalAlignment="Left" Margin="-5,-3,0,0">
                     <Button.Style>
                         <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Model.ViewContent.FolderPlace}" Value="{x:Null}">
+                                <DataTrigger Binding="{Binding SelectedItem.ViewContent.FolderPlace}" Value="{x:Null}">
                                     <Setter Property="Visibility" Value="Collapsed"/>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -75,8 +88,8 @@
                 </Button>
 
                 <StackPanel x:Name="GroupLoader" Visibility="{Binding LoaderVisibility}">
-                    <local:FileInfoItem x:Name="ItemArchiver" Header="{x:Static properties:Resources.Information_Archiver}" Text="{Binding Archiver}" />
-                    <local:FileInfoItem x:Name="ItemDecoder" Header="{x:Static properties:Resources.Information_Decoder}" Text="{Binding Decoder}"/>
+                    <local:FileInfoItem x:Name="ItemArchiver" Header="{x:Static properties:Resources.Information_Archiver}" Text="{Binding SelectedItem.Archiver}" />
+                    <local:FileInfoItem x:Name="ItemDecoder" Header="{x:Static properties:Resources.Information_Decoder}" Text="{Binding SelectedItem.Decoder}"/>
                 </StackPanel>
 
             </StackPanel>

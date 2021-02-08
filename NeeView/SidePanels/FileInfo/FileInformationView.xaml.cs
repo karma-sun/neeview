@@ -49,11 +49,6 @@ namespace NeeView
                 _isFocusRequest = false;
             }
         }
-        
-        private void ScrollView_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            _vm.IsVisible = (bool)e.NewValue;
-        }
 
         public void FocusAtOnce()
         {

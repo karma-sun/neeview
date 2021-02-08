@@ -7,56 +7,54 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace NeeView
 {
-    /// <summary>
-    /// FileInformation : Model
-    /// </summary>
     public class FileInformation : BindableBase
     {
-        static FileInformation() => Current = new FileInformation();
         public static FileInformation Current { get; }
+        static FileInformation() => Current = new FileInformation();
 
-        #region Fields
 
-        private ViewContent _viewContent;
+        private List<FileInformationSource> _fileInformations;
 
-        #endregion
-
-        #region Constructors
 
         private FileInformation()
         {
-            var viewComponent = MainViewComponent.Current;
+            var mainViewComponent = MainViewComponent.Current;
 
-            viewComponent.ContentCanvas.AddPropertyChanged(nameof(ContentCanvas.MainContent),
-                (s, e) => ViewContent = viewComponent.ContentCanvas.MainContent);
+            mainViewComponent.ContentCanvas.ContentChanged +=
+                (s, e) => Update(mainViewComponent.ContentCanvas.Contents);
         }
 
-        #endregion
 
-        #region Properties
-
-        public ViewContent ViewContent
+        public List<FileInformationSource> FileInformations
         {
-            get { return _viewContent; }
-            set { if (_viewContent != value) { _viewContent = value; RaisePropertyChanged(); } }
+            get { return _fileInformations; }
+            set { SetProperty(ref _fileInformations, value); }
         }
 
-        #endregion
 
-        #region Methods
-
-        /// <summary>
-        /// 表示更新
-        /// </summary>
-        public void Flush()
+        public void Update(IEnumerable<ViewContent> viewContents)
         {
-            RaisePropertyChanged(nameof(ViewContent));
+            FileInformations = viewContents?
+                .Reverse()
+                .Where(e => e.IsInformationValid)
+                .Select(e => new FileInformationSource(e))
+                .ToList();
         }
 
-        #endregion
+        public void Update()
+        {
+            if (FileInformations is null) return;
+
+            foreach(var item in FileInformations)
+            {
+                item.Update();
+            }
+        }
+
 
         #region Memento
 
@@ -86,6 +84,7 @@ namespace NeeView
     /// 旧：ファイル情報パネル設定
     /// 互換性のために残してあります
     /// </summary>
+    [Obsolete]
     [DataContract]
     public class FileInfoSetting
     {

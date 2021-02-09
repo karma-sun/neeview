@@ -268,6 +268,11 @@ namespace NeeView
             _dpiProvider.SetDipScale(dpiScale);
         }
 
+        public bool IsLRKeyEnabled()
+        {
+            return Config.Current.Panels.IsLeftRightKeyEnabled || _model.PanelListItemStyle == PanelListItemStyle.Thumbnail;
+        }
+
         #endregion Methods
     }
 }

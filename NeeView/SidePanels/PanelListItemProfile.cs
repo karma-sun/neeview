@@ -200,7 +200,7 @@ namespace NeeView
                 switch (_imageShape)
                 {
                     default:
-                        return AlignmentY.Top;
+                        return AlignmentY.Bottom;
                     case PanelListItemImageShape.Banner:
                         return AlignmentY.Center;
                 }

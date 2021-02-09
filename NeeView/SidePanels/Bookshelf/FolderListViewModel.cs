@@ -473,5 +473,9 @@ namespace NeeView
             }
         }
 
+        public bool IsLRKeyEnabled()
+        {
+            return Config.Current.Panels.IsLeftRightKeyEnabled || _model.PanelListItemStyle == PanelListItemStyle.Thumbnail;
+        }
     }
 }

@@ -49,5 +49,9 @@ namespace NeeView
             _model.ViewItemsChanged -= (s, e) => ViewItemsChanged?.Invoke(s, e);
         }
 
+        public bool IsLRKeyEnabled()
+        {
+            return Config.Current.Panels.IsLeftRightKeyEnabled || _model.PanelListItemStyle == PanelListItemStyle.Thumbnail;
+        }
     }
 }

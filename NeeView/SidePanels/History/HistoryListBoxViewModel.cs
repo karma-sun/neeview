@@ -136,5 +136,9 @@ namespace NeeView
             BookHub.Current?.RequestLoad(this, path, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SkipSamePlace | BookLoadOption.IsBook, true);
         }
 
+        public bool IsLRKeyEnabled()
+        {
+            return Config.Current.Panels.IsLeftRightKeyEnabled || _model.PanelListItemStyle == PanelListItemStyle.Thumbnail;
+        }
     }
 }

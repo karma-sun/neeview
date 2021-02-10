@@ -1,5 +1,7 @@
 ﻿// from https://github.com/takanemu/WPFDragAndDropSample
 
+using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -69,11 +71,19 @@ namespace NeeView.Windows
 
             if (VisualTreeHelper.GetParent(adornElement) != null)
             {
-                var brush = new VisualBrush(adornElement) { Opacity = opacity };
-                var bounds = VisualTreeHelper.GetDescendantBounds(adornElement);
-                var rectangle = new Rectangle() { Width = bounds.Width, Height = bounds.Height };
-                rectangle.Fill = brush;
-                _child = rectangle;
+                try
+                {
+                    var brush = new VisualBrush(adornElement) { Opacity = opacity };
+                    var bounds = VisualTreeHelper.GetDescendantBounds(adornElement);
+                    var rectangle = new Rectangle() { Width = bounds.Width, Height = bounds.Height };
+                    rectangle.Fill = brush;
+                    _child = rectangle;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                    _child = new ContentControl();
+                }
             }
             else
             {

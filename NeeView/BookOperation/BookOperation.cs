@@ -295,7 +295,7 @@ namespace NeeView
         // 消えたファイルのページを削除
         public void ValidateRemoveFile(IEnumerable<Page> pages)
         {
-            Book.Control.RequestRemove(this, pages.Where(e => FileIO.Current.IsPageRemoved(e)).ToList());
+            Book?.Control.RequestRemove(this, pages.Where(e => FileIO.Current.IsPageRemoved(e)).ToList());
         }
 
 

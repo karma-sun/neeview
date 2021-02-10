@@ -32,7 +32,12 @@ namespace NeeView
             if (files.Count > 0)
             {
                 data.SetData(System.Windows.DataFormats.FileDrop, files.ToArray());
-                data.SetData(System.Windows.DataFormats.UnicodeText, string.Join("\r\n", files));
+
+                var paths = (parameter.ArchivePolicy == ArchivePolicy.SendExtractFile)
+                    ? PageUtility.CreateFilePathList(pages, parameter.MultiPagePolicy, ArchivePolicy.SendArchivePath, token)
+                    : files;
+                data.SetData(System.Windows.DataFormats.UnicodeText, string.Join(System.Environment.NewLine, paths));
+
                 return true;
             }
             else

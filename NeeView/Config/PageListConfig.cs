@@ -6,7 +6,7 @@ namespace NeeView
 {
     public class PageListConfig : BindableBase
     {
-        private PanelListItemStyle _panelListItemStyle;
+        private PanelListItemStyle _panelListItemStyle = PanelListItemStyle.Content;
         private PageNameFormat _format = PageNameFormat.Smart;
 
 

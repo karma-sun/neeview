@@ -7,8 +7,8 @@ namespace NeeView
     {
         private FolderTreeLayout _folderTreeLayout = FolderTreeLayout.Left;
         private bool _isFolderTreeVisible = false;
-        private PanelListItemStyle _panelListItemStyle;
-        
+        private PanelListItemStyle _panelListItemStyle = PanelListItemStyle.Content;
+
         /// <summary>
         /// リスト項目のスタイル
         /// </summary>

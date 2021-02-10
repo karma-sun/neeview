@@ -8,7 +8,7 @@ namespace NeeView
 {
     public class HistoryConfig : BindableBase
     {
-        private PanelListItemStyle _panelListItemStyle;
+        private PanelListItemStyle _panelListItemStyle = PanelListItemStyle.Content;
         private bool _isSaveHistory = true;
         private string _historyFilePath;
         private bool _isKeepFolderStatus = true;

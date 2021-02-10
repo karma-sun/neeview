@@ -7,7 +7,7 @@ namespace NeeView
 {
     public class PagemarkConfig : BindableBase
     {
-        private PanelListItemStyle _panelListItemStyle;
+        private PanelListItemStyle _panelListItemStyle = PanelListItemStyle.Content;
         private bool _isSavePagemark = true;
         private string _pagemarkFilePath;
         private PagemarkOrder _pagemarkOrder;

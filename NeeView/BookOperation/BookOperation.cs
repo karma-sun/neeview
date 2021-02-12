@@ -582,7 +582,7 @@ namespace NeeView
             // ページマーカーから削除
             foreach (var page in e.Pages)
             {
-                RemovePagemark(this.Book.Address, page.EntryFullName);
+                PagemarkUtility.RemovePagemark(page);
             }
 
             UpdatePageList(true);
@@ -1057,72 +1057,44 @@ namespace NeeView
         // ページマーク登録可能？
         public bool CanPagemark()
         {
-            return this.Book != null && !this.Book.IsMedia && !this.Book.IsPagemarkFolder;
+            if (this.Book is null) return false;
+
+            return CanPagemark(this.Book.Viewer.GetViewPage());
         }
 
-        // マーカー設定
+        public bool CanPagemark(Page page)
+        {
+            if (this.Book is null) return false;
+
+            return PagemarkUtility.CanPagemark(page);
+        }
+
+        // マーカー追加/削除
         public Pagemark SetPagemark(bool isPagemark)
         {
-            if (!_isEnabled || this.Book == null || this.Book.IsMedia || this.Book.IsPagemarkFolder) return null;
+            if (!_isEnabled) return null;
 
-            var address = Book.Address;
-            var entryName = Book.Viewer.GetViewPage()?.EntryFullName;
-
-            if (isPagemark)
+            var page = this.Book.Viewer.GetViewPage();
+            if (!CanPagemark(page))
             {
-                return AddPagemark(address, entryName); ////, page.Length, page.LastWriteTime);
-            }
-            else
-            {
-                RemovePagemark(address, entryName);
                 return null;
             }
+
+            return PagemarkUtility.SetPagemark(page, isPagemark);
         }
 
         // マーカー切り替え
         public Pagemark TogglePagemark()
         {
-            if (!_isEnabled || this.Book == null || this.Book.IsMedia || this.Book.IsPagemarkFolder) return null;
+            if (!_isEnabled) return null;
 
-            var address = Book.Address;
-            var entryName = Book.Viewer.GetViewPage()?.EntryFullName;
-            var node = PagemarkCollection.Current.FindNode(address, entryName);
-
-            if (node == null)
+            var page = this.Book.Viewer.GetViewPage();
+            if (!CanPagemark(page))
             {
-                return AddPagemark(address, entryName); ////, page.Length, page.LastWriteTime);
-            }
-            else
-            {
-                RemovePagemark(address, entryName);
-                return null;
-            }
-        }
-
-        private Pagemark AddPagemark(string place, string entryName)
-        {
-            if (place == null) return null;
-            if (entryName == null) return null;
-
-            // ignore temporary directory
-            if (place.StartsWith(Temporary.Current.TempDirectory))
-            {
-                ToastService.Current.Show(new Toast(Resources.PagemarkError_Message, null, ToastIcon.Error));
                 return null;
             }
 
-            var node = PagemarkCollection.Current.FindNode(place, entryName);
-            if (node == null)
-            {
-                // TODO: 登録時にサムネイルキャッシュにも登録
-                var pagemark = new Pagemark(place, entryName);
-                PagemarkCollection.Current.Add(new TreeListNode<IPagemarkEntry>(pagemark));
-                return pagemark;
-            }
-            else
-            {
-                return node.Value as Pagemark;
-            }
+            return PagemarkUtility.TogglePagemark(page);
         }
 
         #region 開発用
@@ -1134,32 +1106,14 @@ namespace NeeView
         public void Test_MakeManyPagemark()
         {
             if (Book == null) return;
-            var place = Book.Address;
             for (int index = 0; index < Book.Pages.Count; index += 100)
             {
                 var page = Book.Pages[index];
-                AddPagemark(place, page.EntryFullName);
+                PagemarkUtility.AddPagemark(page);
             }
         }
 
         #endregion
-
-        // マーカー削除
-        private bool RemovePagemark(string place, string entryName)
-        {
-            if (place == null) return false;
-            if (entryName == null) return false;
-
-            var node = PagemarkCollection.Current.FindNode(place, entryName);
-            if (node != null)
-            {
-                return PagemarkCollection.Current.Remove(node);
-            }
-            else
-            {
-                return false;
-            }
-        }
 
         // マーカー表示更新
         public void UpdatePagemark()
@@ -1334,5 +1288,4 @@ namespace NeeView
             public string ArchiveSeparater { get; set; }
         }
     }
-
 }

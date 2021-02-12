@@ -13,6 +13,8 @@ namespace NeeView
 
         public ViewContent ViewContent { get; private set; }
 
+        public Page Page => ViewContent?.Page;
+
         public BitmapContent BitmapContent => ViewContent?.Content as BitmapContent;
 
         public PictureInfo PictureInfo => BitmapContent?.PictureInfo;

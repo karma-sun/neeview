@@ -112,6 +112,9 @@ namespace NeeView
         // ページ名：スマート名用プレフィックス
         public string Prefix { get; set; }
 
+        // ブックのパス
+        public string BookAddress => LoosePath.TrimEnd(BookPrefix);
+
         // ファイル情報：最終更新日
         public DateTime LastWriteTime => Entry != null ? Entry.LastWriteTime : default;
 

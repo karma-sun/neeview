@@ -116,6 +116,7 @@ namespace NeeView
         public static readonly RoutedCommand RemoveCommand = new RoutedCommand(nameof(RemoveCommand), typeof(PageListBox));
         public static readonly RoutedCommand OpenDestinationFolderCommand = new RoutedCommand(nameof(OpenDestinationFolderCommand), typeof(PageListBox));
         public static readonly RoutedCommand OpenExternalAppDialogCommand = new RoutedCommand(nameof(OpenExternalAppDialogCommand), typeof(PageListBox));
+        public static readonly RoutedCommand PagemarkCommand = new RoutedCommand(nameof(PagemarkCommand), typeof(PageListBox));
 
         private PageCommandResource _commandResource = new PageCommandResource();
 
@@ -125,6 +126,7 @@ namespace NeeView
             OpenBookCommand.InputGestures.Add(new KeyGesture(Key.Down, ModifierKeys.Alt));
             CopyCommand.InputGestures.Add(new KeyGesture(Key.C, ModifierKeys.Control));
             RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
+            PagemarkCommand.InputGestures.Add(new KeyGesture(Key.M, ModifierKeys.Control));
         }
 
         private void InitializeCommand()
@@ -139,6 +141,7 @@ namespace NeeView
             this.ListBox.CommandBindings.Add(_commandResource.CreateCommandBinding(RemoveCommand));
             this.ListBox.CommandBindings.Add(_commandResource.CreateCommandBinding(OpenDestinationFolderCommand));
             this.ListBox.CommandBindings.Add(_commandResource.CreateCommandBinding(OpenExternalAppDialogCommand));
+            this.ListBox.CommandBindings.Add(_commandResource.CreateCommandBinding(PagemarkCommand));
         }
 
         #endregion
@@ -363,12 +366,14 @@ namespace NeeView
 
             if (item.PageType == PageType.Folder)
             {
-                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagelistItem_Menu_OpenBook, Command = OpenBookCommand });
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PageListItem_Menu_OpenBook, Command = OpenBookCommand });
                 contextMenu.Items.Add(new Separator());
             }
 
             var listBox = this.ListBox;
-            contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagelistItem_Menu_Open, Command = OpenCommand });
+            contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PageListItem_Menu_Open, Command = OpenCommand });
+            contextMenu.Items.Add(new Separator());
+            contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PageListItem_Menu_Pagemark, Command = PagemarkCommand, IsChecked = _commandResource.Pagemark_IsChecked(listBox) });
             contextMenu.Items.Add(new Separator());
             contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PageListItem_Menu_Explorer, Command = OpenExplorerCommand });
             contextMenu.Items.Add(ExternalAppCollectionUtility.CreateExternalAppItem(_commandResource.OpenExternalApp_CanExecute(listBox), OpenExternalAppCommand, OpenExternalAppDialogCommand));

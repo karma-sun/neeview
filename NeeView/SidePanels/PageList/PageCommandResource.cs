@@ -37,6 +37,8 @@ namespace NeeView
                     return new CommandBinding(command, OpenDestinationFolderDialog_Execute);
                 case "OpenExternalAppDialogCommand":
                     return new CommandBinding(command, OpenExternalAppDialog_Execute);
+                case "PagemarkCommand":
+                    return new CommandBinding(command, Pagemark_Execute, Pagemark_CanExecute);
                 default:
                     throw new ArgumentOutOfRangeException(nameof(key));
             }
@@ -354,6 +356,50 @@ namespace NeeView
         {
             var listBox = sender as ListBox;
             ExternalAppDialog.ShowDialog(Window.GetWindow(listBox));
+        }
+
+        /// <summary>
+        /// ページマーク
+        /// </summary>
+        public void Pagemark_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            var items = GetSelectedPages(sender);
+            if (items != null && items.Count > 0)
+            {
+                e.CanExecute = items.All(x => PagemarkUtility.CanPagemark(x));
+            }
+            else
+            {
+                e.CanExecute = false;
+            }
+        }
+
+        public void Pagemark_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            var items = GetSelectedPages(sender);
+            if (items != null && items.Count > 0)
+            {
+                if (items.Any(x => PagemarkUtility.GetPagemark(x) is null))
+                {
+                    foreach (var item in items)
+                    {
+                        PagemarkUtility.AddPagemark(item);
+                    }
+                }
+                else
+                {
+                    foreach (var item in items)
+                    {
+                        PagemarkUtility.RemovePagemark(item);
+                    }
+                }
+            }
+        }
+
+        public bool Pagemark_IsChecked(object sender)
+        {
+            var item = GetSelectedPage(sender);
+            return PagemarkUtility.GetPagemark(item) != null;
         }
     }
 

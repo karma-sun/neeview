@@ -9260,18 +9260,27 @@ namespace NeeView.Properties {
         /// <summary>
         ///   _Open に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PagelistItem_Menu_Open {
+        public static string PageListItem_Menu_Open {
             get {
-                return ResourceManager.GetString("PagelistItem.Menu.Open", resourceCulture);
+                return ResourceManager.GetString("PageListItem.Menu.Open", resourceCulture);
             }
         }
         
         /// <summary>
         ///   _Open book に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PagelistItem_Menu_OpenBook {
+        public static string PageListItem_Menu_OpenBook {
             get {
-                return ResourceManager.GetString("PagelistItem.Menu.OpenBook", resourceCulture);
+                return ResourceManager.GetString("PageListItem.Menu.OpenBook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Page_mark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PageListItem_Menu_Pagemark {
+            get {
+                return ResourceManager.GetString("PageListItem.Menu.Pagemark", resourceCulture);
             }
         }
         

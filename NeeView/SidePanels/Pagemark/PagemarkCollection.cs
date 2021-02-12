@@ -547,9 +547,22 @@ namespace NeeView
 
             public static Memento Load(ReadOnlySpan<byte> json)
             {
-                return JsonSerializer.Deserialize<Memento>(json, UserSettingTools.GetSerializerOptions());
+                return JsonSerializer.Deserialize<Memento>(json, UserSettingTools.GetSerializerOptions()).Validate();
+            }
 
-                // TODO: v.38以後の互換性処理をここで？
+            /// <summary>
+            /// 互換補正処理 (ver38以降)
+            /// </summary>
+            private Memento Validate()
+            {
+#if false
+                // ver.39
+                if (_Version < Environment.GenerateProductVersionNumber(39, 0, 0))
+                {
+                    ...
+                }
+#endif
+                return this;
             }
 
 
@@ -631,6 +644,22 @@ namespace NeeView
         public List<PagemarkNode> Children { get; set; }
 
         public bool IsFolder => Children != null;
+
+        public IEnumerable<PagemarkNode> GetEnumerator()
+        {
+            yield return this;
+
+            if (Children != null)
+            {
+                foreach (var child in Children)
+                {
+                    foreach (var node in child.GetEnumerator())
+                    {
+                        yield return node;
+                    }
+                }
+            }
+        }
     }
 
     public static class PagemarkNodeConverter

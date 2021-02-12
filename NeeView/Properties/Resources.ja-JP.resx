@@ -3215,11 +3215,14 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="PageListItem.Menu.MoveToFolder" xml:space="preserve">
     <value>フォルダーに移動(_E)</value>
   </data>
-  <data name="PagelistItem.Menu.Open" xml:space="preserve">
+  <data name="PageListItem.Menu.Open" xml:space="preserve">
     <value>開く(_O)</value>
   </data>
-  <data name="PagelistItem.Menu.OpenBook" xml:space="preserve">
+  <data name="PageListItem.Menu.OpenBook" xml:space="preserve">
     <value>ブックを開く(_O)</value>
+  </data>
+  <data name="PageListItem.Menu.Pagemark" xml:space="preserve">
+    <value>ページマーク(_M)</value>
   </data>
   <data name="PageListPanelAccessor" xml:space="preserve">
     <value>ページリスト パネルのアクセサ</value>

@@ -26,7 +26,25 @@
             </DrawingImage.Drawing>
         </DrawingImage>
 
+        <DrawingImage x:Key="ic_bookmark_24px">
+            <DrawingImage.Drawing>
+                <GeometryDrawing Brush="{DynamicResource NVStarMarkBrush}" Pen="{x:Null}">
+                    <GeometryDrawing.Geometry>
+                        <PathGeometry FillRule="Nonzero"
+                                Figures="M7,3.00000023841858L17,3.00000023841858C18.1000003814697,3,19,3.90000009536743,19,5L19,21 12,18 5,21 5.01000022888184,5C5.01000022888184,3.90000009536743,5.90000009536743,3,7,3.00000023841858z" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+        <Style x:Key="PagemarkIconStyle" TargetType="Image">
+            <Setter Property="Width" Value="16" />
+            <Setter Property="Height" Value="16" />
+            <Setter Property="Source" Value="{StaticResource ic_bookmark_24px}" />
+            <Setter Property="Visibility" Value="{Binding Page.IsPagemark, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        </Style>
 
     </UserControl.Resources>
 
@@ -44,7 +62,7 @@
 
                 <!-- Thumbnails -->
                 <nw:ListBoxExteded x:Name="ThumbnailListBox" Style="{StaticResource NVListBox}" Template="{StaticResource NoScroll}"
-                         ItemsSource="{Binding FileInformations}" SelectedItem="{Binding SelectedItem}" Margin="2" MinHeight="108" MinWidth="256" ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+                         ItemsSource="{Binding FileInformations}" SelectedItem="{Binding SelectedItem}" Margin="2" MinHeight="120" MinWidth="256" ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
                     <b:Interaction.Behaviors>
                         <nw:ListBoxExtendedDragDropStartBehavior AllowedEffects="Copy, Scroll" AllowRightButtonDrag="True" DragDropFormat="{x:Static local:FileInformationView.DragDropFormat}"
                                 DragBeginAsync="DragStartBehavior_DragBeginAsync" />
@@ -57,7 +75,6 @@
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem" BasedOn="{StaticResource NVListBoxItem}">
                             <EventSetter Event="ContextMenuOpening" Handler="ThumbnailListBoxItem_ContextMenuOpening" />
-                            <!-- <Setter Property="Padding" Value="2,0" />-->
                             <Setter Property="FocusVisualStyle" Value="{StaticResource NVListItemFocusVisual}" />
                             <Setter Property="ContextMenu">
                                 <Setter.Value>
@@ -68,13 +85,20 @@
                     </ListBox.ItemContainerStyle>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid Width="104" Height="104">
-                                <Image Width="{Binding ThumbnailWidth}" Height="{Binding ThumbnailHeight}" HorizontalAlignment="Center" VerticalAlignment="Bottom"
-                                        Source="{Binding ImageSource}" UseLayoutRounding="True" RenderOptions.BitmapScalingMode="HighQuality" Stretch="Fill" Margin="4">
-                                    <Image.Effect>
-                                        <DropShadowEffect ShadowDepth="2" Opacity="0.5" RenderingBias="Quality" />
-                                    </Image.Effect>
-                                </Image>
+                            <Grid Width="96" Height="96" Margin="4,8">
+                                <Grid HorizontalAlignment="Center" Width="{Binding ThumbnailWidth}" Height="{Binding ThumbnailHeight}" >
+                                    <Image HorizontalAlignment="Center" VerticalAlignment="Bottom" Source="{Binding ImageSource}"
+                                            UseLayoutRounding="True" RenderOptions.BitmapScalingMode="HighQuality" Stretch="Fill">
+                                        <Image.Effect>
+                                            <DropShadowEffect ShadowDepth="2" Opacity="0.5" RenderingBias="Performance" />
+                                        </Image.Effect>
+                                    </Image>
+                                    <Image DockPanel.Dock="Bottom" Style="{StaticResource PagemarkIconStyle}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-4,4,0">
+                                        <Image.Effect>
+                                            <DropShadowEffect ShadowDepth="2" Opacity="0.5" RenderingBias="Performance" />
+                                        </Image.Effect>
+                                    </Image>
+                                </Grid>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

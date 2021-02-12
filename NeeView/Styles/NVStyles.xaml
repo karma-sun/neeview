@@ -12,7 +12,7 @@
     <SolidColorBrush x:Key="NVMouseOverBrush" Color="#AAA" />
     <SolidColorBrush x:Key="NVPressedBrush" Color="#DDD" />
     <SolidColorBrush x:Key="NVCheckMarkBrush" Color="LightGreen" />
-    <SolidColorBrush x:Key="NVStarMarkBrush" Color="#FFFFCC66" />
+    <SolidColorBrush x:Key="NVStarMarkBrush" Color="Orange" />
     <SolidColorBrush x:Key="NVFolderBrush" Color="#FFFFE791"/>
     <SolidColorBrush x:Key="NVPanelIconBackground" Color="#333" />
     <SolidColorBrush x:Key="NVPanelIconForeground" Color="#FFF" />

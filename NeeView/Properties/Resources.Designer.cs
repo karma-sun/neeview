@@ -13133,6 +13133,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Display pagemark icon に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SliderConfig_IsVisiblePagemark {
+            get {
+                return ResourceManager.GetString("SliderConfig.IsVisiblePagemark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Slider opacity に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SliderConfig_Opacity {

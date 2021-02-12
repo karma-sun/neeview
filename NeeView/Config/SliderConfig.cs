@@ -15,6 +15,7 @@ namespace NeeView
         private bool _isSliderLinkedFilmStrip = true;
         private bool _isHidePageSliderInAutoHideMode = true;
         private bool _isSyncPageMode;
+        private bool _isVisiblePagemark = true;
 
 
         [JsonIgnore]
@@ -24,6 +25,14 @@ namespace NeeView
         {
             get { return _isVisible; }
             set { SetProperty(ref _isVisible, value); }
+        }
+
+        // ページマーク表示
+        [PropertyMember]
+        public bool IsVisiblePagemark
+        {
+            get { return _isVisiblePagemark; }
+            set { SetProperty(ref _isVisiblePagemark, value); }
         }
 
         // スライダーを自動的に隠す

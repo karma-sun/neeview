@@ -25,7 +25,8 @@
                                    IsDirectionReversed="{Binding Model.IsSliderDirectionReversed}" Focusable="False"
                                    PreviewMouseLeftButtonDown="PageSlider_PreviewMouseLeftButtonDown"
                                    PreviewMouseLeftButtonUp="PageSlider_PreviewMouseLeftButtonUp"/>
-                <local:PageMarkersView x:Name="PageMarkersView" IsHitTestVisible="False"/>
+                <local:PageMarkersView x:Name="PageMarkersView" IsHitTestVisible="False"
+                        Visibility="{Binding Source={x:Static local:Config.Current}, Path=Slider.IsVisiblePagemark, Converter={StaticResource BooleanToVisibilityConverter}}" />
             </Grid>
         </DockPanel>
     </Grid>

@@ -4517,6 +4517,9 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
   <data name="SliderConfig.IsVisible" xml:space="preserve">
     <value>スライダー表示状態</value>
   </data>
+  <data name="SliderConfig.IsVisiblePagemark" xml:space="preserve">
+    <value>ページマーク アイコンを表示する</value>
+  </data>
   <data name="SliderConfig.Opacity" xml:space="preserve">
     <value>スライダー不透明度</value>
   </data>

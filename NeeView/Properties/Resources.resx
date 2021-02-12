@@ -4514,6 +4514,9 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="SliderConfig.IsVisible" xml:space="preserve">
     <value>Slider visibility</value>
   </data>
+  <data name="SliderConfig.IsVisiblePagemark" xml:space="preserve">
+    <value>Display pagemark icon</value>
+  </data>
   <data name="SliderConfig.Opacity" xml:space="preserve">
     <value>Slider opacity</value>
   </data>

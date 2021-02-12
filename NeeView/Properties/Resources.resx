@@ -1693,6 +1693,9 @@ Is it OK? </value>
   <data name="FilmStripConfig.IsVisibleNumber" xml:space="preserve">
     <value>Display page number</value>
   </data>
+  <data name="FilmStripConfig.IsVisiblePagemark" xml:space="preserve">
+    <value>Display pagemark icon</value>
+  </data>
   <data name="FilmStripConfig.IsVisiblePlate" xml:space="preserve">
     <value>Show filmstrip background</value>
   </data>

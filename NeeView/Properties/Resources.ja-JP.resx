@@ -1696,6 +1696,9 @@ nv.Values.Test = "Hello!"</value>
   <data name="FilmStripConfig.IsVisibleNumber" xml:space="preserve">
     <value>ページ番号を表示する</value>
   </data>
+  <data name="FilmStripConfig.IsVisiblePagemark" xml:space="preserve">
+    <value>ページマーク アイコンを表示する</value>
+  </data>
   <data name="FilmStripConfig.IsVisiblePlate" xml:space="preserve">
     <value>フィルムストリップの背景を表示する</value>
   </data>

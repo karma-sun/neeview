@@ -17,13 +17,6 @@
             </DrawingImage.Drawing>
         </DrawingImage>
 
-        <Style x:Key="PagemarkIconStyle" TargetType="Image">
-            <Setter Property="Width" Value="16" />
-            <Setter Property="Height" Value="16" />
-            <Setter Property="Source" Value="{StaticResource ic_bookmark_24px}" />
-            <Setter Property="Visibility" Value="{Binding IsPagemark, Converter={StaticResource BooleanToVisibilityConverter}}" />
-        </Style>
-        
     </UserControl.Resources>
 
     <Grid x:Name="Root" Visibility="{Binding Model.ThumbnailListVisibility}" SizeChanged="ThumbnailListArea_SizeChanged" UseLayoutRounding="True" >
@@ -73,15 +66,18 @@
                                                         <DropShadowEffect ShadowDepth="2" Opacity="0.5" />
                                                     </Image.Effect>
                                                 </Image>
-                                                <Image Style="{StaticResource PagemarkIconStyle}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-4,4,0">
-                                                    <Image.Effect>
-                                                        <DropShadowEffect ShadowDepth="2" Opacity="0.5" />
-                                                    </Image.Effect>
-                                                </Image>
+                                                <Grid Width="16" Height="16" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-4,4,0"
+                                                      Visibility="{Binding Source={x:Static local:Config.Current}, Path=FilmStrip.IsVisiblePagemark, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                    <Image Source="{StaticResource ic_bookmark_24px}" Visibility="{Binding IsPagemark, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                        <Image.Effect>
+                                                            <DropShadowEffect ShadowDepth="2" Opacity="0.5" />
+                                                        </Image.Effect>
+                                                    </Image>
+                                                </Grid>
                                             </Grid>
                                         </Grid>
                                         <TextBlock Height="16" FontSize="12" FontFamily="Arial" MinWidth="32" TextAlignment="Center"
-                                                           Visibility="{Binding Source={x:Static local:Config.Current},  Path=FilmStrip.IsVisibleNumber, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                           Visibility="{Binding Source={x:Static local:Config.Current}, Path=FilmStrip.IsVisibleNumber, Converter={StaticResource BooleanToVisibilityConverter}}"
                                                            VerticalAlignment="Center"  HorizontalAlignment="Center" Text="{Binding IndexPlusOne}" Padding="5,2">
                                             <TextBlock.Style>
                                                 <Style TargetType="TextBlock">

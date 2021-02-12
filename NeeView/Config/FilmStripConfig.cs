@@ -13,6 +13,7 @@ namespace NeeView
         private bool _isVisiblelPlate = true;
         private bool _isSelectedCenter;
         private bool _isManipulationBoundaryFeedbackEnabled = true;
+        private bool _isVisiblePagemark;
 
 
         /// <summary>
@@ -44,6 +45,17 @@ namespace NeeView
             get { return _thumbnailSize; }
             set { SetProperty(ref _thumbnailSize, MathUtility.Clamp(value, 16, 256)); }
         }
+
+        /// <summary>
+        /// ページマーク表示
+        /// </summary>
+        [PropertyMember]
+        public bool IsVisiblePagemark
+        {
+            get { return _isVisiblePagemark; }
+            set { SetProperty(ref _isVisiblePagemark, value); }
+        }
+
 
         /// <summary>
         /// ページ番号の表示

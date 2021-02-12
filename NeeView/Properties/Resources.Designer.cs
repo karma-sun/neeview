@@ -4733,6 +4733,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Display pagemark icon に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FilmStripConfig_IsVisiblePagemark {
+            get {
+                return ResourceManager.GetString("FilmStripConfig.IsVisiblePagemark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Show filmstrip background に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FilmStripConfig_IsVisiblePlate {

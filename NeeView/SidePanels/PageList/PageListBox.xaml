@@ -35,11 +35,7 @@
             <DrawingImage.Drawing>
                 <DrawingGroup Opacity="1">
                     <DrawingGroup.Children>
-                        <GeometryDrawing Brush="{DynamicResource NVStarMarkBrush}" Pen="{x:Null}">
-                            <GeometryDrawing.Geometry>
-                                <PathGeometry FillRule="Nonzero" Figures="M7,3.00000023841858L17,3.00000023841858C18.1000003814697,3,19,3.90000009536743,19,5L19,21 12,18 5,21 5.01000022888184,5C5.01000022888184,3.90000009536743,5.90000009536743,3,7,3.00000023841858z" />
-                            </GeometryDrawing.Geometry>
-                        </GeometryDrawing>
+                        <GeometryDrawing Brush="{DynamicResource NVStarMarkBrush}" Pen="{x:Null}" Geometry="{StaticResource g_bookmark_24px}" />
                     </DrawingGroup.Children>
                 </DrawingGroup>
             </DrawingImage.Drawing>

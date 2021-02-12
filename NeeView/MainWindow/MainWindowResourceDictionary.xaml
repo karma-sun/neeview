@@ -5,60 +5,31 @@
 
     <DrawingImage x:Key="ic_done_24px">
         <DrawingImage.Drawing>
-            <DrawingGroup Opacity="1">
-                <DrawingGroup.Children>
-                    <GeometryDrawing Brush="{DynamicResource NVCheckMarkBrush}" Pen="{x:Null}">
-                        <GeometryDrawing.Geometry>
-                            <PathGeometry FillRule="Nonzero"
-                                    Figures="M19.6000003814697,5.59999990463257L21,7 9,19 3.40000009536743,13.3999996185303 4.80000019073486,12 9,16.2000007629395 19.6000003814697,5.59999990463257z" />
-                        </GeometryDrawing.Geometry>
-                    </GeometryDrawing>
-                </DrawingGroup.Children>
-            </DrawingGroup>
+            <GeometryDrawing Brush="{DynamicResource NVCheckMarkBrush}" Pen="{x:Null}" Geometry="{StaticResource g_done_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="ic_grade_24px">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource NVStarMarkBrush}" Pen="{x:Null}">
-                <GeometryDrawing.Geometry>
-                    <PathGeometry FillRule="Nonzero"
-                            Figures="M12,1.99999988079071L14.8100004196167,8.63000011444092 22,9.23999977111816 16.5400009155273,13.9700002670288 18.1800003051758,21 12,17.2700004577637 5.82000017166138,21 7.46000003814697,13.9700002670288 2,9.23999977111816 9.1899995803833,8.63000011444092 12,1.99999988079071z" />
-                </GeometryDrawing.Geometry>
-            </GeometryDrawing>
+            <GeometryDrawing Brush="{DynamicResource NVStarMarkBrush}" Pen="{x:Null}" Geometry="{StaticResource g_grade_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="ic_grade_24px_t">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource NVStarMarkBrush}" Pen="{x:Null}">
-                <GeometryDrawing.Geometry>
-                    <PathGeometry FillRule="Nonzero"
-                            Figures="M0,0 M24,24 M12,1.99999988079071L14.8100004196167,8.63000011444092 22,9.23999977111816 16.5400009155273,13.9700002670288 18.1800003051758,21 12,17.2700004577637 5.82000017166138,21 7.46000003814697,13.9700002670288 2,9.23999977111816 9.1899995803833,8.63000011444092 12,1.99999988079071z" />
-                </GeometryDrawing.Geometry>
-            </GeometryDrawing>
+            <GeometryDrawing Brush="{DynamicResource NVStarMarkBrush}" Pen="{x:Null}" Geometry="{StaticResource g_grade_24px_t}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="ic_bookmark_24px">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource NVStarMarkBrush}" Pen="{x:Null}">
-                <GeometryDrawing.Geometry>
-                    <PathGeometry FillRule="Nonzero"
-                            Figures="M7,3.00000023841858L17,3.00000023841858C18.1000003814697,3,19,3.90000009536743,19,5L19,21 12,18 5,21 5.01000022888184,5C5.01000022888184,3.90000009536743,5.90000009536743,3,7,3.00000023841858z" />
-                </GeometryDrawing.Geometry>
-            </GeometryDrawing>
+            <GeometryDrawing Brush="{DynamicResource NVStarMarkBrush}" Pen="{x:Null}" Geometry="{StaticResource g_bookmark_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="ic_bookmark_24px_t">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource NVStarMarkBrush}" Pen="{x:Null}">
-                <GeometryDrawing.Geometry>
-                    <PathGeometry FillRule="Nonzero"
-                            Figures="M0,0 M24,24 M7,3.00000023841858L17,3.00000023841858C18.1000003814697,3,19,3.90000009536743,19,5L19,21 12,18 5,21 5.01000022888184,5C5.01000022888184,3.90000009536743,5.90000009536743,3,7,3.00000023841858z" />
-                </GeometryDrawing.Geometry>
-            </GeometryDrawing>
+            <GeometryDrawing Brush="{DynamicResource NVStarMarkBrush}" Pen="{x:Null}" Geometry="{StaticResource g_bookmark_24px_t}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 

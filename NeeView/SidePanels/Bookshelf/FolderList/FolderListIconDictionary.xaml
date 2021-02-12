@@ -5,34 +5,19 @@
 
     <DrawingImage x:Key="ic_desktop_windows_24px">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource NVForeground}" Pen="{x:Null}">
-                <GeometryDrawing.Geometry>
-                    <PathGeometry FillRule="Nonzero"
-                            Figures="M21,2L3,2C1.9,2,1,2.9,1,4L1,16C1,17.1,1.9,18,3,18L10,18 10,20 8,20 8,22 16,22 16,20 14,20 14,18 21,18C22.1,18,23,17.1,23,16L23,4C23,2.9,22.1,2,21,2z M21,16L3,16 3,4 21,4 21,16z" />
-                </GeometryDrawing.Geometry>
-            </GeometryDrawing>
+            <GeometryDrawing Brush="{DynamicResource NVForeground}" Pen="{x:Null}" Geometry="{StaticResource g_desktop_windows_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="ic_desktop_windows_24px_t">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource NVForeground}" Pen="{x:Null}">
-                <GeometryDrawing.Geometry>
-                    <PathGeometry FillRule="Nonzero"
-                            Figures="M-1,-2 M25,24 M21,2L3,2C1.9,2,1,2.9,1,4L1,16C1,17.1,1.9,18,3,18L10,18 10,20 8,20 8,22 16,22 16,20 14,20 14,18 21,18C22.1,18,23,17.1,23,16L23,4C23,2.9,22.1,2,21,2z M21,16L3,16 3,4 21,4 21,16z" />
-                </GeometryDrawing.Geometry>
-            </GeometryDrawing>
+            <GeometryDrawing Brush="{DynamicResource NVForeground}" Pen="{x:Null}" Geometry="{StaticResource g_desktop_windows_24px_t}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="ic_search_24px">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource NVForeground}" Pen="{x:Null}">
-                <GeometryDrawing.Geometry>
-                    <PathGeometry FillRule="Nonzero"
-                            Figures="M9.5,5C7.01000022888184,5 5,7.01000022888184 5,9.5 5,11.9899997711182 7.01000022888184,14 9.5,14 11.9899997711182,14 14,11.9899997711182 14,9.5 14,7.01000022888184 11.9899997711182,5 9.5,5z M9.5,2.99999976158142C13.0900001525879,3 16,5.90999984741211 16,9.5 16,11.1099996566772 15.4099998474121,12.5900001525879 14.4300003051758,13.7299995422363L14.710000038147,14 15.5,14 20.4899997711182,19 19,20.4899997711182 14,15.5 14,14.710000038147 13.7299995422363,14.4300003051758C12.5900001525879,15.4099998474121 11.1099996566772,16 9.5,16 5.90999984741211,16 3,13.0900001525879 2.99999976158142,9.5 3,5.90999984741211 5.90999984741211,3 9.5,2.99999976158142z" />
-                </GeometryDrawing.Geometry>
-            </GeometryDrawing>
+            <GeometryDrawing Brush="{DynamicResource NVForeground}" Pen="{x:Null}" Geometry="{StaticResource g_search_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 

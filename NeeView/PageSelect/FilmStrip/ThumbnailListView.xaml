@@ -10,6 +10,25 @@
         <local:SliderDirectionToFlowDirectionConverter x:Key="SliderDirectionToFlowDirectionConverter"/>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityHiddenConverter" False="Hidden"/>
+
+        <DrawingImage x:Key="ic_bookmark_24px">
+            <DrawingImage.Drawing>
+                <GeometryDrawing Brush="{DynamicResource NVStarMarkBrush}" Pen="{x:Null}">
+                    <GeometryDrawing.Geometry>
+                        <PathGeometry FillRule="Nonzero"
+                                Figures="M7,3.00000023841858L17,3.00000023841858C18.1000003814697,3,19,3.90000009536743,19,5L19,21 12,18 5,21 5.01000022888184,5C5.01000022888184,3.90000009536743,5.90000009536743,3,7,3.00000023841858z" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <Style x:Key="PagemarkIconStyle" TargetType="Image">
+            <Setter Property="Width" Value="16" />
+            <Setter Property="Height" Value="16" />
+            <Setter Property="Source" Value="{StaticResource ic_bookmark_24px}" />
+            <Setter Property="Visibility" Value="{Binding IsPagemark, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        </Style>
+        
     </UserControl.Resources>
 
     <Grid x:Name="Root" Visibility="{Binding Model.ThumbnailListVisibility}" SizeChanged="ThumbnailListArea_SizeChanged" UseLayoutRounding="True" >
@@ -52,12 +71,19 @@
                                                     </Style>
                                                 </Ellipse.Style>
                                             </Ellipse>
-                                            <Image Source="{Binding Thumbnail.ImageSource}" UseLayoutRounding="True"
-                                                           RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform">
-                                                <Image.Effect>
-                                                    <DropShadowEffect ShadowDepth="2" Opacity="0.5" />
-                                                </Image.Effect>
-                                            </Image>
+                                            <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <Image Source="{Binding Thumbnail.ImageSource}" UseLayoutRounding="True"
+                                                               RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform">
+                                                    <Image.Effect>
+                                                        <DropShadowEffect ShadowDepth="2" Opacity="0.5" />
+                                                    </Image.Effect>
+                                                </Image>
+                                                <Image Style="{StaticResource PagemarkIconStyle}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-4,4,0">
+                                                    <Image.Effect>
+                                                        <DropShadowEffect ShadowDepth="2" Opacity="0.5" />
+                                                    </Image.Effect>
+                                                </Image>
+                                            </Grid>
                                         </Grid>
                                         <TextBlock Height="16" FontSize="12" FontFamily="Arial" MinWidth="32" TextAlignment="Center"
                                                            Visibility="{Binding Source={x:Static local:Config.Current},  Path=FilmStrip.IsVisibleNumber, Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -97,8 +123,14 @@
 
                 <Style TargetType="ListBoxItem" BasedOn="{StaticResource NVListBoxItem}">
                     <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ThumbnailListItem_MouseLeftButtonDown"/>
+                    <EventSetter Event="ContextMenuOpening" Handler="ThumbnailListItem_ContextMenuOpening" />
                     <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
                     <Setter Property="Padding" Value="0"/>
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu />
+                        </Setter.Value>
+                    </Setter>
                 </Style>
 
             </ListBox.Resources>

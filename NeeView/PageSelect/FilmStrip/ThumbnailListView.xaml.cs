@@ -63,9 +63,57 @@ namespace NeeView
 
         #region Constructors
 
+        static ThumbnailListView()
+        {
+            InitializeCommandStatic();
+        }
+
         public ThumbnailListView()
         {
             InitializeComponent();
+            InitializeCommand();
+        }
+
+        #endregion
+
+        #region Commands
+
+        public static readonly RoutedCommand OpenCommand = new RoutedCommand(nameof(OpenCommand), typeof(ThumbnailListView));
+        public static readonly RoutedCommand OpenBookCommand = new RoutedCommand(nameof(OpenBookCommand), typeof(ThumbnailListView));
+        public static readonly RoutedCommand OpenExplorerCommand = new RoutedCommand(nameof(OpenExplorerCommand), typeof(ThumbnailListView));
+        public static readonly RoutedCommand OpenExternalAppCommand = new RoutedCommand(nameof(OpenExternalAppCommand), typeof(ThumbnailListView));
+        public static readonly RoutedCommand CopyCommand = new RoutedCommand(nameof(CopyCommand), typeof(ThumbnailListView));
+        public static readonly RoutedCommand CopyToFolderCommand = new RoutedCommand(nameof(CopyToFolderCommand), typeof(ThumbnailListView));
+        public static readonly RoutedCommand MoveToFolderCommand = new RoutedCommand(nameof(MoveToFolderCommand), typeof(ThumbnailListView));
+        public static readonly RoutedCommand RemoveCommand = new RoutedCommand(nameof(RemoveCommand), typeof(ThumbnailListView));
+        public static readonly RoutedCommand OpenDestinationFolderCommand = new RoutedCommand(nameof(OpenDestinationFolderCommand), typeof(ThumbnailListView));
+        public static readonly RoutedCommand OpenExternalAppDialogCommand = new RoutedCommand(nameof(OpenExternalAppDialogCommand), typeof(ThumbnailListView));
+        public static readonly RoutedCommand PagemarkCommand = new RoutedCommand(nameof(PagemarkCommand), typeof(ThumbnailListView));
+
+        private PageCommandResource _commandResource = new PageCommandResource();
+
+        private static void InitializeCommandStatic()
+        {
+            OpenCommand.InputGestures.Add(new KeyGesture(Key.Return));
+            ////OpenBookCommand.InputGestures.Add(new KeyGesture(Key.Down, ModifierKeys.Alt));
+            CopyCommand.InputGestures.Add(new KeyGesture(Key.C, ModifierKeys.Control));
+            RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
+            PagemarkCommand.InputGestures.Add(new KeyGesture(Key.M, ModifierKeys.Control));
+        }
+
+        private void InitializeCommand()
+        {
+            this.ThumbnailListBox.CommandBindings.Add(_commandResource.CreateCommandBinding(OpenCommand));
+            this.ThumbnailListBox.CommandBindings.Add(_commandResource.CreateCommandBinding(OpenBookCommand));
+            this.ThumbnailListBox.CommandBindings.Add(_commandResource.CreateCommandBinding(OpenExplorerCommand));
+            this.ThumbnailListBox.CommandBindings.Add(_commandResource.CreateCommandBinding(OpenExternalAppCommand));
+            this.ThumbnailListBox.CommandBindings.Add(_commandResource.CreateCommandBinding(CopyCommand));
+            this.ThumbnailListBox.CommandBindings.Add(_commandResource.CreateCommandBinding(CopyToFolderCommand));
+            this.ThumbnailListBox.CommandBindings.Add(_commandResource.CreateCommandBinding(MoveToFolderCommand));
+            this.ThumbnailListBox.CommandBindings.Add(_commandResource.CreateCommandBinding(RemoveCommand));
+            this.ThumbnailListBox.CommandBindings.Add(_commandResource.CreateCommandBinding(OpenDestinationFolderCommand));
+            this.ThumbnailListBox.CommandBindings.Add(_commandResource.CreateCommandBinding(OpenExternalAppDialogCommand));
+            this.ThumbnailListBox.CommandBindings.Add(_commandResource.CreateCommandBinding(PagemarkCommand));
         }
 
         #endregion
@@ -108,14 +156,14 @@ namespace NeeView
 
         private void ViewModel_SelectedIdexChanged(object sender, PropertyChangedEventArgs e)
         {
-            // NOTE: 選択が ThumbnailListBox に反映されるまで遅延
-            // HACK: Control.UpdateLayout()で即時確定させる？
-            AppDispatcher.BeginInvoke(() => DartyThumbnailList());
+            AppDispatcher.BeginInvoke(() => ScrollIntoViewSelectedItem());
         }
 
         private void ViewModel_ViewItemsChanged(object sender, ViewItemsChangedEventArgs e)
         {
             UpdateViewItems(e.ViewItems, e.Direction);
+
+            AppDispatcher.BeginInvoke(() => DartyThumbnailList());
         }
 
         private void UpdateViewItems(List<Page> items, int direction)
@@ -231,6 +279,52 @@ namespace NeeView
 
             // アライメント更新
             ThumbnailListBox_UpdateAlignment();
+        }
+
+        private void ScrollIntoViewSelectedItem()
+        {
+            if (IsOutOfViewIndex(this.ThumbnailListBox.SelectedIndex))
+            {
+                this.ThumbnailListBox.Width = double.NaN;
+                this.ThumbnailListBox.UpdateLayout();
+                ScrollIntoView(this.ThumbnailListBox.SelectedItem);
+            }
+        }
+
+        private bool IsOutOfViewItem(object item)
+        {
+            var listBoxItem = (ListBoxItem)(this.ThumbnailListBox.ItemContainerGenerator.ContainerFromItem(item));
+            return IsOutOfView(listBoxItem, this.Root);
+        }
+
+        private bool IsOutOfViewIndex(int index)
+        {
+            var listBoxItem = (ListBoxItem)(this.ThumbnailListBox.ItemContainerGenerator.ContainerFromIndex(index));
+            return IsOutOfView(listBoxItem, this.Root);
+        }
+
+        private bool IsOutOfView(ListBoxItem listBoxItem, FrameworkElement target)
+        {
+            const double margin = 8.0;
+
+            if (listBoxItem is null)
+            {
+                return true;
+            }
+
+            var leftPos = listBoxItem.TranslatePoint(new Point(0.0, 0.0), target);
+            if (leftPos.X < 0.0 + margin)
+            {
+                return true;
+            }
+
+            var rightPos = listBoxItem.TranslatePoint(new Point(listBoxItem.ActualWidth, 0.0), target);
+            if (rightPos.X > target.ActualWidth - margin)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private double GetItemWidth()
@@ -437,6 +531,49 @@ namespace NeeView
             {
                 BookOperation.Current.JumpPage(this, page);
             }
+        }
+
+        // ContextMenu
+        private void ThumbnailListItem_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            var container = sender as ListBoxItem;
+            if (container == null)
+            {
+                return;
+            }
+
+            var item = container.Content as Page;
+            if (item == null)
+            {
+                return;
+            }
+
+            var contextMenu = container.ContextMenu;
+            if (contextMenu == null)
+            {
+                return;
+            }
+
+            contextMenu.Items.Clear();
+
+            if (item.PageType == PageType.Folder)
+            {
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PageListItem_Menu_OpenBook, Command = OpenBookCommand });
+                contextMenu.Items.Add(new Separator());
+            }
+
+            var listBox = this.ThumbnailListBox;
+            contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PageListItem_Menu_Open, Command = OpenCommand });
+            contextMenu.Items.Add(new Separator());
+            contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PageListItem_Menu_Pagemark, Command = PagemarkCommand, IsChecked = _commandResource.Pagemark_IsChecked(listBox) });
+            contextMenu.Items.Add(new Separator());
+            contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PageListItem_Menu_Explorer, Command = OpenExplorerCommand });
+            contextMenu.Items.Add(ExternalAppCollectionUtility.CreateExternalAppItem(_commandResource.OpenExternalApp_CanExecute(listBox), OpenExternalAppCommand, OpenExternalAppDialogCommand));
+            contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PageListItem_Menu_Copy, Command = CopyCommand });
+            contextMenu.Items.Add(DestinationFolderCollectionUtility.CreateDestinationFolderItem(Properties.Resources.PageListItem_Menu_CopyToFolder, _commandResource.CopyToFolder_CanExecute(listBox), CopyToFolderCommand, OpenDestinationFolderCommand));
+            contextMenu.Items.Add(DestinationFolderCollectionUtility.CreateDestinationFolderItem(Properties.Resources.PageListItem_Menu_MoveToFolder, _commandResource.MoveToFolder_CanExecute(listBox), MoveToFolderCommand, OpenDestinationFolderCommand));
+            contextMenu.Items.Add(new Separator());
+            contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PageListItem_Menu_Delete, Command = RemoveCommand });
         }
 
         #endregion

@@ -12742,7 +12742,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Page slider に類似しているローカライズされた文字列を検索します。
+        ///   Slider に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPage_Slider {
             get {
@@ -13075,6 +13075,15 @@ namespace NeeView.Properties {
         public static string ShowMessageStyle_Tiny {
             get {
                 return ResourceManager.GetString("ShowMessageStyle.Tiny", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Show slider に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SliderConfig_IsEnabled {
+            get {
+                return ResourceManager.GetString("SliderConfig.IsEnabled", resourceCulture);
             }
         }
         
@@ -15793,6 +15802,51 @@ namespace NeeView.Properties {
         public static string ToggleVisiblePagemarkListCommand_Remarks {
             get {
                 return ResourceManager.GetString("ToggleVisiblePagemarkListCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle slider に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisiblePageSliderCommand {
+            get {
+                return ResourceManager.GetString("ToggleVisiblePageSliderCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Slider に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisiblePageSliderCommand_Menu {
+            get {
+                return ResourceManager.GetString("ToggleVisiblePageSliderCommand.Menu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Slider OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisiblePageSliderCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleVisiblePageSliderCommand.Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Slider に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisiblePageSliderCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleVisiblePageSliderCommand.On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle visible / hide of the slider. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisiblePageSliderCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleVisiblePageSliderCommand.Remarks", resourceCulture);
             }
         }
         

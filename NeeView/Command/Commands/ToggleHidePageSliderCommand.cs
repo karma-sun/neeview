@@ -21,6 +21,11 @@ namespace NeeView
             return Config.Current.Slider.IsHidePageSlider ? Properties.Resources.ToggleHidePageSliderCommand_Off : Properties.Resources.ToggleHidePageSliderCommand_On;
         }
 
+        public override bool CanExecute(object sender, CommandContext e)
+        {
+            return Config.Current.Slider.IsEnabled;
+        }
+
         public override void Execute(object sender, CommandContext e)
         {
             MainWindowModel.Current.ToggleHidePageSlider();

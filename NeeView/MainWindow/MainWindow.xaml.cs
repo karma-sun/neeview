@@ -130,6 +130,9 @@ namespace NeeView
             MainWindowModel.Current.AddPropertyChanged(nameof(MainWindowModel.CanHidePageSlider),
                 (s, e) => DartyPageSliderLayout());
 
+            Config.Current.Slider.AddPropertyChanged(nameof(SliderConfig.IsEnabled),
+                (s, e) => DartyPageSliderLayout());
+
             Config.Current.FilmStrip.AddPropertyChanged(nameof(FilmStripConfig.IsEnabled),
                 (s, e) => DartyThumbnailListLayout());
 
@@ -697,7 +700,7 @@ namespace NeeView
             else
             {
                 this.MediaControlView.Visibility = Visibility.Collapsed;
-                this.PageSliderView.Visibility = Visibility.Visible;
+                this.PageSliderView.Visibility = Config.Current.Slider.IsEnabled ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 

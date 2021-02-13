@@ -4378,7 +4378,7 @@ Susie 書庫はこのサイズで判別せず、プラグインの設定での�
     <value>検索結果が見つかりませんでした</value>
   </data>
   <data name="SettingPage.Slider" xml:space="preserve">
-    <value>ページ スライダー</value>
+    <value>スライダー</value>
   </data>
   <data name="SettingPage.Slideshow" xml:space="preserve">
     <value>スライドショー</value>
@@ -5435,6 +5435,21 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
   <data name="ToggleVisibleThumbnailListCommand.Remarks" xml:space="preserve">
     <value>フィルムストリップの表示/非表示を切り替えます。</value>
   </data>
+  <data name="ToggleVisiblePageSliderCommand" xml:space="preserve">
+    <value>スライダーの表示/非表示</value>
+  </data>
+  <data name="ToggleVisiblePageSliderCommand.Menu" xml:space="preserve">
+    <value>スライダー</value>
+  </data>
+  <data name="ToggleVisiblePageSliderCommand.Off" xml:space="preserve">
+    <value>スライダーを消す</value>
+  </data>
+  <data name="ToggleVisiblePageSliderCommand.On" xml:space="preserve">
+    <value>スライダーを表示する</value>
+  </data>
+  <data name="ToggleVisiblePageSliderCommand.Remarks" xml:space="preserve">
+    <value>スライダーの表示/非表示を切り替えます。</value>
+  </data>
   <data name="ToggleVisibleTitleBarCommand" xml:space="preserve">
     <value>タイトル バー表示/非表示</value>
   </data>
@@ -6200,5 +6215,8 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="ViewConfig.MainViewMergin" xml:space="preserve">
     <value>メインビューの余白 (ピクセル)</value>
+  </data>
+  <data name="SliderConfig.IsEnabled" xml:space="preserve">
+    <value>スライダーを表示する</value>
   </data>
 </root>

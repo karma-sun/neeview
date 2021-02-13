@@ -162,6 +162,7 @@
                                                         <MultiDataTrigger.Conditions>
                                                             <Condition Binding="{Binding Model.CanVisibleWindowTitle}" Value="True" />
                                                             <Condition Binding="{Binding ElementName=LayerStatusArea, Path=Visibility}" Value="Visible" />
+                                                            <Condition Binding="{Binding Source={x:Static local:Config.Current}, Path=Slider.IsEnabled}" Value="True" />
                                                         </MultiDataTrigger.Conditions>
                                                         <Setter Property="Visibility" Value="Visible" />
                                                     </MultiDataTrigger>

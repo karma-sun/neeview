@@ -202,24 +202,9 @@ namespace NeeView
 
             ThemeProfile.Current.ThemeColorChanged += (s, e) => RefreshSliderBrushes();
 
-            Config.Current.Slider.AddPropertyChanged(nameof(SliderConfig.Opacity), (s, e) =>
-            {
-                RefreshSliderBrushes();
-            });
-
             Config.Current.WindowTittle.AddPropertyChanged(nameof(WindowTitleConfig.IsMainViewDisplayEnabled), (s, e) =>
             {
                 RefreshCanVisibleWindowTitle();
-            });
-
-            Config.Current.Slider.AddPropertyChanged(nameof(SliderConfig.IsHidePageSliderInAutoHideMode), (s, e) =>
-            {
-                RefreshCanHidePageSlider();
-            });
-
-            Config.Current.Panels.AddPropertyChanged(nameof(PanelsConfig.IsHidePanelInAutoHideMode), (s, e) =>
-            {
-                RefreshCanHidePanel();
             });
 
             Config.Current.MenuBar.AddPropertyChanged(nameof(MenuBarConfig.IsHideMenuInAutoHideMode), (s, e) =>
@@ -232,9 +217,29 @@ namespace NeeView
                 RefreshCanHideMenu();
             });
 
+            Config.Current.Slider.AddPropertyChanged(nameof(SliderConfig.IsEnabled), (s, e) =>
+            {
+                RefreshCanHidePageSlider();
+            });
+
+            Config.Current.Slider.AddPropertyChanged(nameof(SliderConfig.IsHidePageSliderInAutoHideMode), (s, e) =>
+            {
+                RefreshCanHidePageSlider();
+            });
+
             Config.Current.Slider.AddPropertyChanged(nameof(SliderConfig.IsHidePageSlider), (s, e) =>
             {
                 RefreshCanHidePageSlider();
+            });
+
+            Config.Current.Slider.AddPropertyChanged(nameof(SliderConfig.Opacity), (s, e) =>
+            {
+                RefreshSliderBrushes();
+            });
+
+            Config.Current.Panels.AddPropertyChanged(nameof(PanelsConfig.IsHidePanelInAutoHideMode), (s, e) =>
+            {
+                RefreshCanHidePanel();
             });
 
             Config.Current.Panels.AddPropertyChanged(nameof(PanelsConfig.IsHidePanel), (s, e) =>
@@ -284,7 +289,7 @@ namespace NeeView
 
         private void RefreshCanHidePageSlider()
         {
-            CanHidePageSlider = Config.Current.Slider.IsHidePageSlider || (Config.Current.Slider.IsHidePageSliderInAutoHideMode && _windowShape.AutoHideMode);
+            CanHidePageSlider = Config.Current.Slider.IsEnabled && (Config.Current.Slider.IsHidePageSlider || (Config.Current.Slider.IsHidePageSliderInAutoHideMode && _windowShape.AutoHideMode));
         }
 
         public void RefreshCanHidePanel()

@@ -4375,7 +4375,7 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Search results not found</value>
   </data>
   <data name="SettingPage.Slider" xml:space="preserve">
-    <value>Page slider</value>
+    <value>Slider</value>
   </data>
   <data name="SettingPage.Slideshow" xml:space="preserve">
     <value>Slideshow</value>
@@ -5432,6 +5432,21 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ToggleVisibleThumbnailListCommand.Remarks" xml:space="preserve">
     <value>Toggle visible / hide of the filmstrip.</value>
   </data>
+  <data name="ToggleVisiblePageSliderCommand" xml:space="preserve">
+    <value>Toggle slider</value>
+  </data>
+  <data name="ToggleVisiblePageSliderCommand.Menu" xml:space="preserve">
+    <value>Slider</value>
+  </data>
+  <data name="ToggleVisiblePageSliderCommand.Off" xml:space="preserve">
+    <value>Slider OFF</value>
+  </data>
+  <data name="ToggleVisiblePageSliderCommand.On" xml:space="preserve">
+    <value>Slider</value>
+  </data>
+  <data name="ToggleVisiblePageSliderCommand.Remarks" xml:space="preserve">
+    <value>Toggle visible / hide of the slider.</value>
+  </data>
   <data name="ToggleVisibleTitleBarCommand" xml:space="preserve">
     <value>Toggle title bar</value>
   </data>
@@ -6197,5 +6212,8 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="ViewConfig.MainViewMergin" xml:space="preserve">
     <value>Main view margin (pixel)</value>
+  </data>
+  <data name="SliderConfig.IsEnabled" xml:space="preserve">
+    <value>Show slider</value>
   </data>
 </root>

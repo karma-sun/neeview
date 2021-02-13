@@ -197,13 +197,14 @@ namespace NeeView
                 new SetBackgroundCheckDarkCommand(),
                 new SetBackgroundCustomCommand(),
                 new ToggleTopmostCommand(),
-                new ToggleHideMenuCommand(),
-                new ToggleHidePageSliderCommand(),
-                new ToggleHidePanelCommand(),
-
                 new ToggleVisibleTitleBarCommand(),
                 new ToggleVisibleAddressBarCommand(),
+                new ToggleHideMenuCommand(),
                 new ToggleVisibleSideBarCommand(),
+                new ToggleHidePanelCommand(),
+                new ToggleVisiblePageSliderCommand(),
+                new ToggleHidePageSliderCommand(),
+
                 new ToggleVisibleBookshelfCommand(),
                 new ToggleVisiblePageListCommand(),
                 new ToggleVisibleBookmarkListCommand(),

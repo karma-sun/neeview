@@ -217,7 +217,7 @@
     <value>サイド パネル上でのメニュー バーの自動表示判定のエリア幅 (ピクセル)</value>
   </data>
   <data name="AutoHideConfig.AutoHideConfrictMargin.Remarks" xml:space="preserve">
-    <value>0 にすると、サイド パネル上にカーソルがあるときにはメニュー バーが自動表示されなくなります。</value>
+    <value>0 にすると、サイド パネル上にマウス ポインターがあるときにはメニュー バーが自動表示されなくなります。</value>
   </data>
   <data name="AutoHideConfig.AutoHideDelayTime" xml:space="preserve">
     <value>自動非表示パネルを隠すまでの時間 (秒)</value>
@@ -1365,7 +1365,7 @@ nv.Values.Test = "Hello!"</value>
     <value>ウィンドウ移動</value>
   </data>
   <data name="DragControlCenter.Cursor" xml:space="preserve">
-    <value>カーソル位置</value>
+    <value>マウス ポインター位置</value>
   </data>
   <data name="DragControlCenter.Target" xml:space="preserve">
     <value>画像の中心</value>
@@ -2422,7 +2422,7 @@ include("Sample.nvjs")</value>
     <value>Esc キーでルーペを解除する</value>
   </data>
   <data name="LoupeConfig.IsLoupeCenter" xml:space="preserve">
-    <value>ルーペ開始時にポインターがあった位置を画面の中心にする</value>
+    <value>ルーペ開始時にマウス ポインターがあった位置を画面の中心にする</value>
   </data>
   <data name="LoupeConfig.IsResetByPageChanged" xml:space="preserve">
     <value>ページの移動でルーペを解除する</value>
@@ -2623,10 +2623,10 @@ include("Sample.nvjs")</value>
     <value>この距離の移動でジェスチャー ストロークと判断されます。</value>
   </data>
   <data name="MouseConfig.IsCursorHideEnabled" xml:space="preserve">
-    <value>マウスの無操作でポインターを非表示にする </value>
+    <value>マウスの無操作でマウス ポインターを非表示にする </value>
   </data>
   <data name="MouseConfig.IsCursorHideEnabled.Remarks" xml:space="preserve">
-    <value>設定した時間、マウスを操作しなかった場合にポインターを非表示にします。</value>
+    <value>設定した時間、マウスを操作しなかった場合にマウス ポインターを非表示にします。</value>
   </data>
   <data name="MouseConfig.IsCursorHideReleaseAction" xml:space="preserve">
     <value>マウス ボタン操作で再表示する</value>
@@ -3432,7 +3432,7 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
     <value>アイコンのポップアップ</value>
   </data>
   <data name="PanelListItemProfile.IsImagePopupEnabled.Remarks" xml:space="preserve">
-    <value>アイコンにカーソルを合わせるとポップアップで大きめの画像が表示されます。</value>
+    <value>アイコンにマウス ポインターを合わせるとポップアップで大きめの画像が表示されます。</value>
   </data>
   <data name="PanelListItemProfile.IsTextVisible" xml:space="preserve">
     <value>名前を表示する</value>
@@ -4318,7 +4318,7 @@ Susie 書庫はこのサイズで判別せず、プラグインの設定での�
     <value>マウス長押し操作</value>
   </data>
   <data name="SettingPage.Manipurate.MouseVisibility" xml:space="preserve">
-    <value>自動非表示ポインター</value>
+    <value>自動非表示マウス ポインター</value>
   </data>
   <data name="SettingPage.Manipurate.Touch" xml:space="preserve">
     <value>タッチ操作</value>
@@ -4437,10 +4437,10 @@ Susie 書庫はこのサイズで判別せず、プラグインの設定での�
   <data name="SettingPage.Window.Theme" xml:space="preserve">
     <value>テーマ</value>
   </data>
-  <data name="SettingPage.WindowTitile" xml:space="preserve">
+  <data name="SettingPage.WindowTitle" xml:space="preserve">
     <value>ウィンドウ タイトル</value>
   </data>
-  <data name="SettingPage.WindowTitile.Note" xml:space="preserve">
+  <data name="SettingPage.WindowTitle.Note" xml:space="preserve">
     <value>フォーマットの説明
 
 $Book .. 開いているブック名
@@ -4456,6 +4456,9 @@ $Scale[LR] .. 画像の表示倍率 (%)
 "◯◯◯[LR]" は、1 ページ用、2 ページ用で変数名が変わることを示します。
 例えば $Name は 1 ページ用、 $NameL は ２ ページ左用、 $NameR は 2 ページ右用になります。
 $Name は 2 ページ表示時には主となるページ (ページ番号の小さい方) になります。</value>
+  </data>
+  <data name="SettingPage.PageTitle" xml:space="preserve">
+    <value>ページ タイトル</value>
   </data>
   <data name="SevenZipArchiveConfig.IsEnabled" xml:space="preserve">
     <value>7-Zip による圧縮ファイル展開を使用する</value>
@@ -4914,7 +4917,7 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
     <value>メニューを自動的に隠す</value>
   </data>
   <data name="ToggleHideMenuCommand.Remarks" xml:space="preserve">
-    <value>メニューを非表示にします。カーソルをウィンドウ上端に合わせることで表示されます。</value>
+    <value>メニューを非表示にします。マウス ポインターをウィンドウ上端に合わせることで表示されます。</value>
   </data>
   <data name="ToggleHidePageSliderCommand" xml:space="preserve">
     <value>スライダーを自動的に隠す有効/無効</value>
@@ -4929,7 +4932,7 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
     <value>スライダーを自動的に隠す</value>
   </data>
   <data name="ToggleHidePageSliderCommand.Remarks" xml:space="preserve">
-    <value>スライダーを非表示にします。カーソルをウィンドウ下端に合わせることで表示されます。</value>
+    <value>スライダーを非表示にします。マウス ポインターをウィンドウ下端に合わせることで表示されます。</value>
   </data>
   <data name="ToggleHidePanelCommand" xml:space="preserve">
     <value>パネルを自動的に隠す有効/無効</value>
@@ -4944,7 +4947,7 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
     <value>パネルを自動的に隠す</value>
   </data>
   <data name="ToggleHidePanelCommand.Remarks" xml:space="preserve">
-    <value>左右のパネルを自動的に隠します。カーソルをウィンドウ左端、右端に合わせることで表示されます。</value>
+    <value>左右のパネルを自動的に隠します。マウス ポインターをウィンドウ左端、右端に合わせることで表示されます。</value>
   </data>
   <data name="ToggleHideThumbnailListCommand" xml:space="preserve">
     <value>フィルムストリップを自動的に隠す有効/無効</value>
@@ -5541,7 +5544,7 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
     <value>タッチ エミュレート</value>
   </data>
   <data name="TouchEmulateCommand.Remarks" xml:space="preserve">
-    <value>マウス カーソル位置のタッチ コマンドを実行します。</value>
+    <value>マウス ポインター位置のタッチ コマンドを実行します。</value>
   </data>
   <data name="UnloadCommand" xml:space="preserve">
     <value>閉じる</value>
@@ -5883,7 +5886,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="WindowStateEx.Normal" xml:space="preserve">
     <value>通常</value>
   </data>
-  <data name="WindowTitleConfig.IsMainViewDisplayEnabled" xml:space="preserve">
+  <data name="x.WindowTitleConfig.IsMainViewDisplayEnabled" xml:space="preserve">
     <value>タイトル バーが表示されない時に、表示エリアにウィンドウ タイトルを表示する</value>
   </data>
   <data name="WindowTitleConfig.WindowTitleFormat1" xml:space="preserve">
@@ -5893,6 +5896,21 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>2 ページ用</value>
   </data>
   <data name="WindowTitleConfig.WindowTitleFormatMedia" xml:space="preserve">
+    <value>動画用</value>
+  </data>
+  <data name="PageTitleConfig.IsEnabled" xml:space="preserve">
+    <value>ページ タイトルを表示する</value>
+  </data>
+  <data name="PageTitleConfig.IsEnabled.Remarks" xml:space="preserve">
+    <value>マウス ポインターがスライダーやフィルムストリップの上にあるときに表示されます。</value>
+  </data>
+  <data name="PageTitleConfig.PageTitleFormat1" xml:space="preserve">
+    <value>1 ページ用</value>
+  </data>
+  <data name="PageTitleConfig.PageTitleFormat2" xml:space="preserve">
+    <value>2 ページ用</value>
+  </data>
+  <data name="PageTitleConfig.PageTitleFormatMedia" xml:space="preserve">
     <value>動画用</value>
   </data>
   <data name="Word.Add" xml:space="preserve">

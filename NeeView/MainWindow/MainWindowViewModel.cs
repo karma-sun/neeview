@@ -108,7 +108,6 @@ namespace NeeView
 
             // mainwindow model
             _model = model;
-            _model.PropertyChanged += Model_PropertyChanged;
 
             _model.AddPropertyChanged(nameof(_model.CanHideMenu),
                 (s, e) => UpdateSidePanelMargin());
@@ -202,22 +201,6 @@ namespace NeeView
 
         public BasicAutoHideDescription ThumbnailListusAutoHideDescrption { get; }
 
-
-        private int _PageCaptionGridRow;
-        public int PageCaptionGridRow
-        {
-            get { return _PageCaptionGridRow; }
-            set { SetProperty(ref _PageCaptionGridRow, value); }
-        }
-
-
-        private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == nameof(MainWindowModel.CanHidePageSlider) || e.PropertyName == nameof(MainWindowModel.CanVisibleWindowTitle))
-            {
-                PageCaptionGridRow = (!_model.CanHidePageSlider && _model.CanVisibleWindowTitle) ? 0 : 1;
-            }
-        }
 
         private void Model_FocusMainViewCall(object sender, EventArgs e)
         {

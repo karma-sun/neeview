@@ -23,6 +23,7 @@ namespace NeeView.Setting
                 new SettingPageEffect(),
                 new SettingPageFilmstrip(),
                 new SettingPageSlider(),
+                new SettingPagePageTitle(),
             };
 
             this.Items = new List<SettingItem>();
@@ -237,6 +238,25 @@ namespace NeeView.Setting
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Slider, nameof(SliderConfig.SliderIndexLayout))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Slider, nameof(SliderConfig.IsVisiblePagemark))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Slider, nameof(SliderConfig.IsSyncPageMode))));
+
+            this.Items = new List<SettingItem>() { section };
+        }
+    }
+
+
+    /// <summary>
+    /// Setting: PageTitle
+    /// </summary>
+    public class SettingPagePageTitle : SettingPage
+    {
+        public SettingPagePageTitle() : base(Properties.Resources.SettingPage_PageTitle)
+        {
+            var section = new SettingItemSection(Properties.Resources.SettingPage_PageTitle);
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.PageTitle, nameof(PageTitleConfig.IsEnabled))) { IsStretch = true });
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.PageTitle, nameof(PageTitleConfig.PageTitleFormat1))) { IsStretch = true });
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.PageTitle, nameof(PageTitleConfig.PageTitleFormat2))) { IsStretch = true });
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.PageTitle, nameof(PageTitleConfig.PageTitleFormatMedia))) { IsStretch = true });
+            section.Children.Add(new SettingItemNote(Properties.Resources.SettingPage_WindowTitle_Note));
 
             this.Items = new List<SettingItem>() { section };
         }

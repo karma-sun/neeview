@@ -20,9 +20,13 @@ namespace NeeView.Threading
 
         #region Constructors
 
-        public DelayVisibility()
+        public DelayVisibility() : this(Visibility.Collapsed)
         {
-            _visibility = new DelayValue<Visibility>(Visibility.Collapsed);
+        }
+
+        public DelayVisibility(Visibility visibility)
+        {
+            _visibility = new DelayValue<Visibility>(visibility);
             _visibility.ValueChanged += (s, e) =>
             {
                 Changed?.Invoke(s, e);

@@ -2419,7 +2419,7 @@ include("Sample.nvjs")</value>
     <value>Use the Esc key to release the loupe</value>
   </data>
   <data name="LoupeConfig.IsLoupeCenter" xml:space="preserve">
-    <value>Set the pointer position at the start of the loupe to the center of the screen</value>
+    <value>Set the cursor position at the start of the loupe to the center of the screen</value>
   </data>
   <data name="LoupeConfig.IsResetByPageChanged" xml:space="preserve">
     <value>Release the loupe after moving the page</value>
@@ -2620,10 +2620,10 @@ include("Sample.nvjs")</value>
     <value>By moving this distance, it is judged as a gesture stroke.</value>
   </data>
   <data name="MouseConfig.IsCursorHideEnabled" xml:space="preserve">
-    <value>Hide the pointer with no mouse operation</value>
+    <value>Hide the cursor with no mouse operation</value>
   </data>
   <data name="MouseConfig.IsCursorHideEnabled.Remarks" xml:space="preserve">
-    <value>Hides the pointer if the mouse is not operated for the set time.</value>
+    <value>Hide the cursor if the mouse is not operated for the set time.</value>
   </data>
   <data name="MouseConfig.IsCursorHideReleaseAction" xml:space="preserve">
     <value>Redisplay with mouse button operation</value>
@@ -4315,7 +4315,7 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Mouse long press</value>
   </data>
   <data name="SettingPage.Manipurate.MouseVisibility" xml:space="preserve">
-    <value>Auto-hide pointer</value>
+    <value>Auto-hide cursor</value>
   </data>
   <data name="SettingPage.Manipurate.Touch" xml:space="preserve">
     <value>Touch operation</value>
@@ -4434,10 +4434,10 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="SettingPage.Window.Theme" xml:space="preserve">
     <value>Theme</value>
   </data>
-  <data name="SettingPage.WindowTitile" xml:space="preserve">
+  <data name="SettingPage.WindowTitle" xml:space="preserve">
     <value>Window title</value>
   </data>
-  <data name="SettingPage.WindowTitile.Note" xml:space="preserve">
+  <data name="SettingPage.WindowTitle.Note" xml:space="preserve">
     <value>Format Description
 
 $Book .. Name of the book
@@ -4453,6 +4453,9 @@ $Scale[LR] .. Image scale (%)
 "◯◯◯[LR]" indicates that the variable name changes for 1 page or 2 pages.
 For example, $Name is for 1 page, $NameL is for 2 pages left, $NameR is for 2 pages right.
 $Name is the main page (the smaller page number) when displaying 2 pages. </value>
+  </data>
+  <data name="SettingPage.PageTitle" xml:space="preserve">
+    <value>Page title</value>
   </data>
   <data name="SevenZipArchiveConfig.IsEnabled" xml:space="preserve">
     <value>Use compressed file expansion with 7-Zip</value>
@@ -5538,7 +5541,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Touch emulate</value>
   </data>
   <data name="TouchEmulateCommand.Remarks" xml:space="preserve">
-    <value>Execute the touch command at the mouse cursor position.</value>
+    <value>Execute the touch command at the cursor position.</value>
   </data>
   <data name="UnloadCommand" xml:space="preserve">
     <value>Close</value>
@@ -5880,7 +5883,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="WindowStateEx.Normal" xml:space="preserve">
     <value>Normal</value>
   </data>
-  <data name="WindowTitleConfig.IsMainViewDisplayEnabled" xml:space="preserve">
+  <data name="x.WindowTitleConfig.IsMainViewDisplayEnabled" xml:space="preserve">
     <value>When the title bar is not displayed, the window title is displayed in the display area</value>
   </data>
   <data name="WindowTitleConfig.WindowTitleFormat1" xml:space="preserve">
@@ -5890,6 +5893,21 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>For 2 page</value>
   </data>
   <data name="WindowTitleConfig.WindowTitleFormatMedia" xml:space="preserve">
+    <value>For video</value>
+  </data>
+  <data name="PageTitleConfig.IsEnabled" xml:space="preserve">
+    <value>Show page title</value>
+  </data>
+  <data name="PageTitleConfig.IsEnabled.Remarks" xml:space="preserve">
+    <value>Appears when the cursor is over a slider or filmstrip.</value>
+  </data>
+  <data name="PageTitleConfig.PageTitleFormat1" xml:space="preserve">
+    <value>For 1 page</value>
+  </data>
+  <data name="PageTitleConfig.PageTitleFormat2" xml:space="preserve">
+    <value>For 2 page</value>
+  </data>
+  <data name="PageTitleConfig.PageTitleFormatMedia" xml:space="preserve">
     <value>For video</value>
   </data>
   <data name="Word.Add" xml:space="preserve">

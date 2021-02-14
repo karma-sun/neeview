@@ -64,7 +64,6 @@ namespace NeeView
         private bool _canHidePageSlider;
         private bool _canHidePanel;
         private bool _canHideMenu;
-        private bool _canVisibleWindowTitle;
 
         private SolidColorBrush _sliderBackground;
         private SolidColorBrush _sliderBackgroundGlass;
@@ -112,13 +111,7 @@ namespace NeeView
         public bool CanHideMenu
         {
             get { return _canHideMenu; }
-            set
-            {
-                if (SetProperty(ref _canHideMenu, value))
-                {
-                    RefreshCanVisibleWindowTitle();
-                }
-            }
+            set { SetProperty(ref _canHideMenu, value); }
         }
 
         /// <summary>
@@ -151,14 +144,6 @@ namespace NeeView
             }
         }
 
-        /// <summary>
-        /// メインビューにタイトルを表示するか
-        /// </summary>
-        public bool CanVisibleWindowTitle
-        {
-            get { return _canVisibleWindowTitle; }
-            set { SetProperty(ref _canVisibleWindowTitle, value); }
-        }
 
         /// <summary>
         /// パネル表示状態をロックする
@@ -192,20 +177,9 @@ namespace NeeView
                     RefreshCanHideMenu();
                 });
 
-            _windowShape.AddPropertyChanged(nameof(WindowShape.CanCaptionVisible),
-                (s, e) =>
-                {
-                    RefreshCanVisibleWindowTitle();
-                });
-
             _viewComponent = MainViewComponent.Current;
 
             ThemeProfile.Current.ThemeColorChanged += (s, e) => RefreshSliderBrushes();
-
-            Config.Current.WindowTittle.AddPropertyChanged(nameof(WindowTitleConfig.IsMainViewDisplayEnabled), (s, e) =>
-            {
-                RefreshCanVisibleWindowTitle();
-            });
 
             Config.Current.MenuBar.AddPropertyChanged(nameof(MenuBarConfig.IsHideMenuInAutoHideMode), (s, e) =>
             {
@@ -275,11 +249,6 @@ namespace NeeView
             {
                 return source;
             }
-        }
-
-        public void RefreshCanVisibleWindowTitle()
-        {
-            CanVisibleWindowTitle = Config.Current.WindowTittle.IsMainViewDisplayEnabled && CanHideMenu && !_windowShape.CanCaptionVisible;
         }
 
         private void RefreshCanHideMenu()
@@ -652,7 +621,6 @@ namespace NeeView
 
                 config.Slider.Opacity = SliderOpacity;
                 config.Slider.IsHidePageSliderInAutoHideMode = IsHidePageSliderInFullscreen;
-                config.WindowTittle.IsMainViewDisplayEnabled = IsVisibleWindowTitle;
                 config.Panels.IsHidePanelInAutoHideMode = IsHidePanelInFullscreen;
                 config.Mouse.IsCursorHideEnabled = IsCursorHideEnabled;
                 config.Mouse.CursorHideTime = CursorHideTime;

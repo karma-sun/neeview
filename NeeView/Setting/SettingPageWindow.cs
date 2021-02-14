@@ -12,7 +12,7 @@ namespace NeeView.Setting
         {
             this.Children = new List<SettingPage>
             {
-                new SettingPageWindowTitile(),
+                new SettingPageWindowTitle(),
             };
 
             this.Items = new List<SettingItem>();
@@ -42,16 +42,15 @@ namespace NeeView.Setting
     /// <summary>
     /// Setting: WindowTitle
     /// </summary>
-    public class SettingPageWindowTitile : SettingPage
+    public class SettingPageWindowTitle : SettingPage
     {
-        public SettingPageWindowTitile() : base(Properties.Resources.SettingPage_WindowTitile)
+        public SettingPageWindowTitle() : base(Properties.Resources.SettingPage_WindowTitle)
         {
-            var section = new SettingItemSection(Properties.Resources.SettingPage_WindowTitile);
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.WindowTittle, nameof(WindowTitleConfig.WindowTitleFormat1))) { IsStretch = true });
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.WindowTittle, nameof(WindowTitleConfig.WindowTitleFormat2))) { IsStretch = true });
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.WindowTittle, nameof(WindowTitleConfig.WindowTitleFormatMedia))) { IsStretch = true });
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.WindowTittle, nameof(WindowTitleConfig.IsMainViewDisplayEnabled))));
-            section.Children.Add(new SettingItemNote(Properties.Resources.SettingPage_WindowTitile_Note));
+            var section = new SettingItemSection(Properties.Resources.SettingPage_WindowTitle);
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.WindowTitle, nameof(WindowTitleConfig.WindowTitleFormat1))) { IsStretch = true });
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.WindowTitle, nameof(WindowTitleConfig.WindowTitleFormat2))) { IsStretch = true });
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.WindowTitle, nameof(WindowTitleConfig.WindowTitleFormatMedia))) { IsStretch = true });
+            section.Children.Add(new SettingItemNote(Properties.Resources.SettingPage_WindowTitle_Note));
 
             this.Items = new List<SettingItem>() { section };
         }

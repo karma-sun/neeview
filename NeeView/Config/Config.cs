@@ -1,6 +1,8 @@
 ﻿using NeeLaboratory.ComponentModel;
+using System;
 using System.Collections;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace NeeView
 {
@@ -37,7 +39,9 @@ namespace NeeView
 
         public BackgroundConfig Background { get; set; } = new BackgroundConfig();
 
-        public WindowTitleConfig WindowTittle { get; set; } = new WindowTitleConfig();
+        public WindowTitleConfig WindowTitle { get; set; } = new WindowTitleConfig();
+
+        public PageTitleConfig PageTitle { get; set; } = new PageTitleConfig();
 
         public AutoHideConfig AutoHide { get; set; } = new AutoHideConfig();
 
@@ -99,6 +103,23 @@ namespace NeeView
         public CommandConfig Command { get; set; } = new CommandConfig();
 
         public ScriptConfig Script { get; set; } = new ScriptConfig();
+
+
+        #region Validate
+
+        // ver.39
+        // 誤字修正 (WindowTittle -> WindowTitle)
+        [Obsolete]
+        [JsonPropertyName("WindowTittle")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public WindowTitleConfig WindowTitle_Legacty
+        {
+            get { return null; }
+            set { this.WindowTitle = value; }
+        }
+
+        #endregion
+
     }
 }
 

@@ -11,7 +11,6 @@ namespace NeeView
         private string _windowTitleFormat1;
         private string _windowTitleFormat2;
         private string _windowTitleFormatMedia;
-        private bool _isMainViewDisplayEnabled = true;
 
 
         /// <summary>
@@ -42,16 +41,6 @@ namespace NeeView
         {
             get { return _windowTitleFormatMedia ?? WindowTitleFormatMediaDefault; }
             set { SetProperty(ref _windowTitleFormatMedia, CleanUpTitleFormat(value, WindowTitleFormatMediaDefault)); }
-        }
-
-        /// <summary>
-        /// タイトルバーが表示されておらず、スライダーにフォーカスがある場合等にキャンバスにタイトルを表示する
-        /// </summary>
-        [PropertyMember]
-        public bool IsMainViewDisplayEnabled
-        {
-            get { return _isMainViewDisplayEnabled; }
-            set { SetProperty(ref _isMainViewDisplayEnabled, value); }
         }
 
 

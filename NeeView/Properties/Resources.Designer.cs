@@ -6892,7 +6892,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Set the pointer position at the start of the loupe to the center of the screen に類似しているローカライズされた文字列を検索します。
+        ///   Set the cursor position at the start of the loupe to the center of the screen に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string LoupeConfig_IsLoupeCenter {
             get {
@@ -7495,7 +7495,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Hide the pointer with no mouse operation に類似しているローカライズされた文字列を検索します。
+        ///   Hide the cursor with no mouse operation に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string MouseConfig_IsCursorHideEnabled {
             get {
@@ -7504,7 +7504,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Hides the pointer if the mouse is not operated for the set time. に類似しているローカライズされた文字列を検索します。
+        ///   Hide the cursor if the mouse is not operated for the set time. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string MouseConfig_IsCursorHideEnabled_Remarks {
             get {
@@ -9803,6 +9803,51 @@ namespace NeeView.Properties {
         public static string PageStretchMode_UniformToVertical {
             get {
                 return ResourceManager.GetString("PageStretchMode.UniformToVertical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Show page title に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PageTitleConfig_IsEnabled {
+            get {
+                return ResourceManager.GetString("PageTitleConfig.IsEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Appears when the cursor is over a slider or filmstrip. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PageTitleConfig_IsEnabled_Remarks {
+            get {
+                return ResourceManager.GetString("PageTitleConfig.IsEnabled.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   For 1 page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PageTitleConfig_PageTitleFormat1 {
+            get {
+                return ResourceManager.GetString("PageTitleConfig.PageTitleFormat1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   For 2 page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PageTitleConfig_PageTitleFormat2 {
+            get {
+                return ResourceManager.GetString("PageTitleConfig.PageTitleFormat2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   For video に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PageTitleConfig_PageTitleFormatMedia {
+            get {
+                return ResourceManager.GetString("PageTitleConfig.PageTitleFormatMedia", resourceCulture);
             }
         }
         
@@ -12562,7 +12607,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Auto-hide pointer に類似しているローカライズされた文字列を検索します。
+        ///   Auto-hide cursor に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPage_Manipurate_MouseVisibility {
             get {
@@ -12621,6 +12666,15 @@ namespace NeeView.Properties {
         public static string SettingPage_Notify_Display {
             get {
                 return ResourceManager.GetString("SettingPage.Notify.Display", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Page title に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPage_PageTitle {
+            get {
+                return ResourceManager.GetString("SettingPage.PageTitle", resourceCulture);
             }
         }
         
@@ -12924,9 +12978,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Window title に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SettingPage_WindowTitile {
+        public static string SettingPage_WindowTitle {
             get {
-                return ResourceManager.GetString("SettingPage.WindowTitile", resourceCulture);
+                return ResourceManager.GetString("SettingPage.WindowTitle", resourceCulture);
             }
         }
         
@@ -12946,9 +13000,9 @@ namespace NeeView.Properties {
         ///&quot;◯◯◯[LR]&quot; indicates that the variable name changes for 1 page or 2 pages.
         ///For example, $Name is for 1 page, $NameL is for 2 pages left, $NameR is  [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SettingPage_WindowTitile_Note {
+        public static string SettingPage_WindowTitle_Note {
             get {
-                return ResourceManager.GetString("SettingPage.WindowTitile.Note", resourceCulture);
+                return ResourceManager.GetString("SettingPage.WindowTitle.Note", resourceCulture);
             }
         }
         
@@ -16211,7 +16265,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Execute the touch command at the mouse cursor position. に類似しているローカライズされた文字列を検索します。
+        ///   Execute the touch command at the cursor position. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string TouchEmulateCommand_Remarks {
             get {
@@ -17247,15 +17301,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   When the title bar is not displayed, the window title is displayed in the display area に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string WindowTitleConfig_IsMainViewDisplayEnabled {
-            get {
-                return ResourceManager.GetString("WindowTitleConfig.IsMainViewDisplayEnabled", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   For 1 page に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WindowTitleConfig_WindowTitleFormat1 {
@@ -18206,6 +18251,15 @@ namespace NeeView.Properties {
         public static string Word_Yes {
             get {
                 return ResourceManager.GetString("Word.Yes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   When the title bar is not displayed, the window title is displayed in the display area に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string x_WindowTitleConfig_IsMainViewDisplayEnabled {
+            get {
+                return ResourceManager.GetString("x.WindowTitleConfig.IsMainViewDisplayEnabled", resourceCulture);
             }
         }
         

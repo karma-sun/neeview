@@ -67,7 +67,7 @@ namespace NeeView
             BookHub.Current.Loading +=
                 (s, e) => this.LoadingPath = e.Path;
 
-            Config.Current.WindowTittle.PropertyChanged += (s, e) =>
+            Config.Current.WindowTitle.PropertyChanged += (s, e) =>
             {
                 switch (e.PropertyName)
                 {
@@ -113,7 +113,7 @@ namespace NeeView
         // フォーマットの使用キーワード更新
         private void UpdateFomatterFilter()
         {
-            _windowTitleFormatter.SetFilter(Config.Current.WindowTittle.WindowTitleFormat1 + " " + Config.Current.WindowTittle.WindowTitleFormat2 + " " + Config.Current.WindowTittle.WindowTitleFormatMedia);
+            _windowTitleFormatter.SetFilter(Config.Current.WindowTitle.WindowTitleFormat1 + " " + Config.Current.WindowTitle.WindowTitleFormat2 + " " + Config.Current.WindowTitle.WindowTitleFormatMedia);
         }
 
         /// <summary>
@@ -171,8 +171,8 @@ namespace NeeView
 
 
             string format = mainContent is MediaViewContent
-                ? Config.Current.WindowTittle.WindowTitleFormatMedia
-                : subContent.IsValid && !subContent.IsDummy ? Config.Current.WindowTittle.WindowTitleFormat2 : Config.Current.WindowTittle.WindowTitleFormat1;
+                ? Config.Current.WindowTitle.WindowTitleFormatMedia
+                : subContent.IsValid && !subContent.IsDummy ? Config.Current.WindowTitle.WindowTitleFormat2 : Config.Current.WindowTitle.WindowTitleFormat1;
 
             bool isMainContent0 = mainContent == contents[0];
 
@@ -314,9 +314,9 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
-                config.WindowTittle.WindowTitleFormat1 = WindowTitleFormat1;
-                config.WindowTittle.WindowTitleFormat2 = WindowTitleFormat2;
-                config.WindowTittle.WindowTitleFormatMedia = WindowTitleFormatMedia;
+                config.WindowTitle.WindowTitleFormat1 = WindowTitleFormat1;
+                config.WindowTitle.WindowTitleFormat2 = WindowTitleFormat2;
+                config.WindowTitle.WindowTitleFormatMedia = WindowTitleFormatMedia;
             }
         }
 

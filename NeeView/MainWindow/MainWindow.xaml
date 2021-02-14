@@ -144,36 +144,7 @@
                                     Width="{Binding CanvasWidth}" Height="{Binding CanvasHeight}" UseLayoutRounding="True">
 
                                 <!-- メインビュー パネル -->
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition />
-                                    </Grid.RowDefinitions>
-
-                                    <ContentControl Grid.Row="1" x:Name="MainViewSocket" IsTabStop="False" />
-
-                                    <Grid x:Name="PageCaption" Grid.Row="{Binding PageCaptionGridRow}" Height="30" VerticalAlignment="Top" HorizontalAlignment="Stretch"
-                                            Background="{Binding Model.SliderBackgroundGlass}">
-                                        <Grid.Style>
-                                            <Style TargetType="Grid">
-                                                <Setter Property="Visibility" Value="Collapsed" />
-                                                <Style.Triggers>
-                                                    <MultiDataTrigger>
-                                                        <MultiDataTrigger.Conditions>
-                                                            <Condition Binding="{Binding Model.CanVisibleWindowTitle}" Value="True" />
-                                                            <Condition Binding="{Binding ElementName=LayerStatusArea, Path=Visibility}" Value="Visible" />
-                                                            <Condition Binding="{Binding Source={x:Static local:Config.Current}, Path=Slider.IsEnabled}" Value="True" />
-                                                        </MultiDataTrigger.Conditions>
-                                                        <Setter Property="Visibility" Value="Visible" />
-                                                    </MultiDataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Grid.Style>
-                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{Binding WindowTitle.Title}" Foreground="{DynamicResource NVForeground}"
-                                                Padding="10,0" />
-                                    </Grid>
-
-                                </Grid>
+                                <ContentControl x:Name="MainViewSocket" IsTabStop="False" />
 
                                 <!--
                                 <Border BorderBrush="Red" BorderThickness="2"/>
@@ -213,10 +184,10 @@
                             IsKeyDownDelayEnabled="{Binding AutoHideConfig.IsAutoHideKeyDownDelay}" HitTestMargin="{Binding AutoHideConfig.AutoHideHitTestMargin}"
                             Description="{Binding StatusAutoHideDescrption}" IsVisibleLocked="{Binding Model.IsPanelVisibleLocked}" />
                 </behaviors:Interaction.Behaviors>
-                <Grid x:Name="LayerStatusAreaPadding" DockPanel.Dock="Bottom" Height="{Binding ElementName=SliderArea, Path=ActualHeight}" />
                 <Grid DockPanel.Dock="Bottom" Background="{Binding Model.SliderBackground}">
                     <ContentControl x:Name="LayerPageSliderSocket" IsTabStop="False" />
                 </Grid>
+                <Grid x:Name="LayerStatusAreaPadding" DockPanel.Dock="Bottom" Height="{Binding ElementName=DockPageSliderSocket, Path=ActualHeight}" Visibility="{Binding ElementName=LayerThumbnailListSocket, Path=Visibility}" />
                 <Grid DockPanel.Dock="Bottom">
                     <Grid.Style>
                         <Style TargetType="Grid">
@@ -244,6 +215,11 @@
                     </ContentControl>
                 </Grid>
             </DockPanel>
+
+            <!-- Page title -->
+            <Border x:Name="PageCaption" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="{DynamicResource NVBackground}" IsHitTestVisible="False" CornerRadius="10" Margin="0,0,0,5">
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding WindowTitle.Title}" Foreground="{DynamicResource NVForeground}" Margin="20,5" TextWrapping="Wrap" />
+            </Border>
 
             <!-- Message Layer -->
             <DockPanel x:Name="MessageLayer" d:IsHidden="True" Visibility="{Binding ElementName=MainViewSocket, Path=Content, Converter={StaticResource MainViewToVisibilityConverter}}">

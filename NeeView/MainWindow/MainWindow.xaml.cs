@@ -36,7 +36,7 @@ namespace NeeView
         private WindowShape _windowShape;
         private WindowController _windowController;
 
-        
+
         public MainWindow()
         {
             Interop.NVFpReset();
@@ -183,6 +183,9 @@ namespace NeeView
 
             // frame event
             CompositionTarget.Rendering += OnRendering;
+
+            // page caption
+            InitializePageCaption();
 
             // 開発用初期化
             Debug_Initialize();
@@ -682,13 +685,11 @@ namespace NeeView
             {
                 this.LayerPageSliderSocket.Content = null;
                 this.DockPageSliderSocket.Content = this.SliderArea;
-                this.LayerStatusAreaPadding.Visibility = Visibility.Visible;
             }
             else
             {
                 this.DockPageSliderSocket.Content = null;
                 this.LayerPageSliderSocket.Content = this.SliderArea;
-                this.LayerStatusAreaPadding.Visibility = Visibility.Collapsed;
             }
 
             // visibility
@@ -747,7 +748,64 @@ namespace NeeView
             _windowShape.ToggleCaptionVisible();
         }
 
-        #endregion
+        #endregion レイアウト管理
+
+        #region ページタイトル管理
+
+        private DelayVisibility _pageCaptionVisibility;
+
+        private void InitializePageCaption()
+        {
+            this.DockStatusArea.SizeChanged += (s, e) => UpdatePageCaptionLayout();
+            this.DockStatusArea.MouseEnter += (s, e) => UpdatePageCaptionVisibility();
+            this.DockStatusArea.MouseLeave += (s, e) => UpdatePageCaptionVisibility();
+
+            this.LayerStatusArea.IsVisibleChanged += (s, e) => UpdatePageCaptionLayout();
+            this.LayerStatusArea.SizeChanged += (s, e) => UpdatePageCaptionLayout();
+            this.LayerStatusArea.MouseEnter += (s, e) => UpdatePageCaptionVisibility();
+            this.LayerStatusArea.MouseLeave += (s, e) => UpdatePageCaptionVisibility();
+
+            ////this.MouseMove += (s, e) => UpdatePageCaptionVisibility();
+
+            _pageCaptionVisibility = new DelayVisibility();
+            _pageCaptionVisibility.Changed += PageCaptionVisibility_Changed;
+
+            this.PageCaption.Visibility = _pageCaptionVisibility.Visibility;
+            UpdatePageCaptionLayout();
+            UpdatePageCaptionVisibility();
+        }
+
+        private void PageCaptionVisibility_Changed(object sender, EventArgs e)
+        {
+            this.PageCaption.Visibility = _pageCaptionVisibility.Visibility;
+        }
+
+        private void UpdatePageCaptionLayout()
+        {
+            const double margin = 5.0;
+            var space = Math.Max(this.LayerStatusArea.IsVisible ? this.LayerStatusArea.ActualHeight : 0.0, this.DockStatusArea.ActualHeight);
+            this.PageCaption.Margin = new Thickness(margin, margin, margin, margin + space);
+        }
+
+        private void UpdatePageCaptionVisibility()
+        {
+            if (ContextMenuWatcher.TargetElement != null)
+            {
+                return;
+            }
+
+            var isVisible = Config.Current.PageTitle.IsEnabled && (this.LayerStatusArea.IsMouseOver || this.DockStatusArea.IsMouseOver);
+            if (isVisible)
+            {
+                _pageCaptionVisibility.SetDelayVisibility(Visibility.Visible, 0);
+            }
+            else
+            {
+                _pageCaptionVisibility.SetDelayVisibility(Visibility.Collapsed, (int)(Config.Current.AutoHide.AutoHideDelayTime * 1000));
+            }
+        }
+
+        #endregion ページタイトル管理
 
         #region IHasDpiScale support
 

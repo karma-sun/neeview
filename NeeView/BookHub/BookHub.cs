@@ -380,6 +380,11 @@ namespace NeeView
             }
         }
 
+        /// <summary>
+        /// ロード中ブックのパス
+        /// </summary>
+        public string LoadingPath { get; private set; }
+
         public bool IsBusy => _commandEngine.Count > 0;
 
         /// <summary>
@@ -616,6 +621,7 @@ namespace NeeView
         // ロード中状態更新
         private void NotifyLoading(string path)
         {
+            this.LoadingPath = path;
             this.IsLoading = (path != null);
             AppDispatcher.Invoke(() => Loading?.Invoke(this, new BookHubPathEventArgs(path)));
         }

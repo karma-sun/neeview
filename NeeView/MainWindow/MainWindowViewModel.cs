@@ -162,6 +162,7 @@ namespace NeeView
         // for Binding
         public WindowShape WindowShape => _model.WindowShape;
         public WindowTitle WindowTitle => WindowTitle.Current;
+        public PageTitle PageTitle => PageTitle.Current;
         public ThumbnailList ThumbnailList => ThumbnailList.Current;
         public ContentCanvasBrush ContentCanvasBrush => _viewComponent.ContentCanvasBrush;
         public ImageEffect ImageEffect => ImageEffect.Current;

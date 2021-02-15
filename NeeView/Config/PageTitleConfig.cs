@@ -5,8 +5,8 @@ namespace NeeView
 {
     public class PageTitleConfig : BindableBase
     {
-        private const string PageTitleFormat1Default = "$FullName";
-        private const string PageTitleFormat2Default = "$FullNameL | $NameR";
+        private const string PageTitleFormat1Default = "$Name";
+        private const string PageTitleFormat2Default = "$NameL | $NameR";
         private const string PageTitleFormatMediaDefault = "$Book";
         private bool _isEnabled = true;
         private string _pageTitleFormat1;

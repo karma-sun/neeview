@@ -7,126 +7,100 @@ using System.Threading.Tasks;
 
 namespace NeeView.Text
 {
+    public class ReplaceStringChangedEventArgs : EventArgs
+    {
+        public string Key { get; private set; }
+
+        public ReplaceStringChangedEventArgs(string key)
+        {
+            Key = key;
+        }
+    }
+
+
     /// <summary>
     /// キーワード置換
     /// </summary>
     public class ReplaceString
     {
-        /// <summary>
-        /// キーワード置換ユニット
-        /// </summary>
-        private class ReplaceUnit
+        private class ReplaceStringUnit
         {
-            // 置換有効/無効
-            public bool IsEnable { get; set; }
-            // キーワード正規表現
-            public Regex Regex { get; set; }
-            // 置換文字列
+            public Regex Regex { get; private set; }
             public string ReplaceString { get; set; }
 
-            /// <summary>
-            /// コンストラクタ
-            /// </summary>
-            /// <param name="key">キーワード</param>
-            /// <param name="replaceString">置換文字列</param>
-            public ReplaceUnit(string key, string replaceString)
+            public ReplaceStringUnit(string key, string replaceString)
             {
-                Regex = new Regex("\\" + key + "\\b");
+                Regex = new Regex(Regex.Escape(key) + "\\b");
                 ReplaceString = replaceString;
             }
 
-            /// <summary>
-            /// 置換
-            /// IsEnableに関係なく置換を行います
-            /// </summary>
-            /// <param name="s">入力文字列</param>
-            /// <returns>置換された文字列</returns>
             public string Replace(string s)
             {
                 return Regex.Replace(s, ReplaceString);
             }
 
-            //
             public override string ToString()
             {
                 return Regex?.ToString() ?? base.ToString();
             }
         }
 
-        // キーワード辞書
-        private Dictionary<string, ReplaceUnit> _dictionary;
 
-        // 置換フィルタ
-        private string _filter;
-        private bool _isDartyFilter;
+        private readonly Dictionary<string, ReplaceStringUnit> _map;
 
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
         public ReplaceString()
         {
-            _dictionary = new Dictionary<string, ReplaceUnit>();
-            _filter = "";
-            _isDartyFilter = true;
+            _map = new Dictionary<string, ReplaceStringUnit>();
         }
 
-        /// <summary>
-        /// キーワード設定
-        /// </summary>
-        /// <param name="key">キーワード</param>
-        /// <param name="replaceString">置換文字列</param>
+
+        public event EventHandler<ReplaceStringChangedEventArgs> Changed;
+
+
         public void Set(string key, string replaceString)
         {
-            if (_dictionary.ContainsKey(key))
+            if (_map.TryGetValue(key, out var value))
             {
-                _dictionary[key].ReplaceString = replaceString;
+                if (value.ReplaceString != replaceString)
+                {
+                    value.ReplaceString = replaceString;
+                    Changed?.Invoke(this, new ReplaceStringChangedEventArgs(key));
+                }
             }
             else
             {
-                _dictionary[key] = new ReplaceUnit(key, replaceString);
-                _isDartyFilter = true;
+                _map[key] = new ReplaceStringUnit(key, replaceString);
+                Changed?.Invoke(this, new ReplaceStringChangedEventArgs(key));
             }
         }
 
-        /// <summary>
-        /// フィルターを設定。この文字列に含まれるキーワードのみ置換を行う
-        /// </summary>
-        /// <param name="filter">フィルター文字列</param>
-        public void SetFilter(string filter)
+        public bool Remove(string key)
         {
-            _filter = filter;
-            _isDartyFilter = true;
+            return _map.Remove(key);
         }
 
-        /// <summary>
-        /// フィルターから各キーワードの有効無効を設定
-        /// フィルターが空の時は全キーワード有効
-        /// </summary>
-        private void UpdateFilter()
+        public string Replace(string src)
         {
-            if (_isDartyFilter)
+            return Replace(src, _map.Keys);
+        }
+
+        public string Replace(string src, IEnumerable<string> keys)
+        {
+            if (string.IsNullOrEmpty(src) || keys is null)
             {
-                _isDartyFilter = false;
-                foreach (var regexUnit in _dictionary.Values)
+                return src;
+            }
+
+            var s = src;
+            foreach (var key in keys)
+            {
+                if (_map.TryGetValue(key, out var value))
                 {
-                    regexUnit.IsEnable = string.IsNullOrEmpty(_filter) || regexUnit.Regex.IsMatch(_filter);
+                    s = value.Replace(s);
                 }
-            }
-        }
-
-        /// <summary>
-        /// 置換実行
-        /// </summary>
-        /// <param name="s">置換する文字列</param>
-        /// <returns>置換された文字列</returns>
-        public string Replace(string s)
-        {
-            UpdateFilter();
-            foreach (var regexUnit in _dictionary.Values.Where(e => e.IsEnable))
-            {
-                s = regexUnit.Replace(s);
             }
             return s;
         }
     }
+
 }

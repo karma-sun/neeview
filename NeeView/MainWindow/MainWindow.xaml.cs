@@ -765,7 +765,7 @@ namespace NeeView
             this.LayerStatusArea.MouseEnter += (s, e) => UpdatePageCaptionVisibility();
             this.LayerStatusArea.MouseLeave += (s, e) => UpdatePageCaptionVisibility();
 
-            ////this.MouseMove += (s, e) => UpdatePageCaptionVisibility();
+            PageTitle.Current.AddPropertyChanged(nameof(PageTitle.Title), (s, e) => UpdatePageCaptionVisibility());
 
             _pageCaptionVisibility = new DelayVisibility();
             _pageCaptionVisibility.Changed += PageCaptionVisibility_Changed;
@@ -794,7 +794,7 @@ namespace NeeView
                 return;
             }
 
-            var isVisible = Config.Current.PageTitle.IsEnabled && (this.LayerStatusArea.IsMouseOver || this.DockStatusArea.IsMouseOver);
+            var isVisible = Config.Current.PageTitle.IsEnabled && (this.LayerStatusArea.IsMouseOver || this.DockStatusArea.IsMouseOver) && !string.IsNullOrEmpty(PageTitle.Current.Title);
             if (isVisible)
             {
                 _pageCaptionVisibility.SetDelayVisibility(Visibility.Visible, 0);

@@ -187,7 +187,8 @@
                 <Grid DockPanel.Dock="Bottom" Background="{Binding Model.SliderBackground}">
                     <ContentControl x:Name="LayerPageSliderSocket" IsTabStop="False" />
                 </Grid>
-                <Grid x:Name="LayerStatusAreaPadding" DockPanel.Dock="Bottom" Height="{Binding ElementName=DockPageSliderSocket, Path=ActualHeight}" Visibility="{Binding ElementName=LayerThumbnailListSocket, Path=Visibility}" />
+                <Grid x:Name="LayerStatusAreaPadding" DockPanel.Dock="Bottom" Height="{Binding ElementName=DockPageSliderSocket, Path=ActualHeight}"
+                        Visibility="{Binding ElementName=LayerThumbnailListSocket, Path=Visibility}" />
                 <Grid DockPanel.Dock="Bottom">
                     <Grid.Style>
                         <Style TargetType="Grid">
@@ -217,8 +218,9 @@
             </DockPanel>
 
             <!-- Page title -->
-            <Border x:Name="PageCaption" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="{DynamicResource NVBackground}" IsHitTestVisible="False" CornerRadius="10" Margin="0,0,0,5">
-                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding WindowTitle.Title}" Foreground="{DynamicResource NVForeground}" Margin="20,5" TextWrapping="Wrap" />
+            <Border x:Name="PageCaption" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="{DynamicResource NVBackground}" IsHitTestVisible="False" CornerRadius="10"
+                    Margin="0,0,0,5">
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding PageTitle.Title}" Foreground="{DynamicResource NVForeground}" Margin="20,5" TextWrapping="Wrap" />
             </Border>
 
             <!-- Message Layer -->

@@ -27,18 +27,14 @@ namespace NeeView
 
         private bool _IsDispNowLoading;
 
-        //
         public void SetLoading(string message)
         {
             IsDispNowLoading = true;
-            WindowTitle.Current.LoadingPath = message;
         }
 
-        //
         public void ResetLoading()
         {
             IsDispNowLoading = false;
-            WindowTitle.Current.LoadingPath = null;
         }
     }
 

@@ -225,6 +225,8 @@ namespace NeeView
             RefreshCanHidePageSlider();
 
             RefreshSliderBrushes();
+
+            PageViewRecorder.Current.Initialize();
         }
 
 

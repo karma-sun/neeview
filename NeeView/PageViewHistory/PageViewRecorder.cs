@@ -20,7 +20,6 @@ namespace NeeView
         static PageViewRecorder() => Current = new PageViewRecorder();
         public static PageViewRecorder Current { get; }
 
-        #region Fields
 
         private FileStream _file;
         private StringBuilder _writeBuffer;
@@ -29,22 +28,27 @@ namespace NeeView
         private DateTime _viewedBookDateTime;
         private string _viewedBookAddress;
         private string _viewedBookName;
-        private object _lock = new object();
+        private object _lock;
+        private bool _disposedValue;
 
-        #endregion Fields
-
-        #region Constructors
 
         private PageViewRecorder()
         {
-            this.PropertyChanged += OnPropertyChanged;
+        }
+
+
+        public void Initialize()
+        {
+            if (_lock != null) return;
+            _lock = new object();
+
+            Config.Current.PageViewRecorder.PropertyChanged += OnPropertyChanged;
 
             // アプリ終了前の開放予約
             ApplicationDisposer.Current.Add(this);
+
+            UpdateState();
         }
-
-        #endregion Constructors
-
 
         private void WritePageViewedRecord(DateTime now)
         {
@@ -159,6 +163,13 @@ namespace NeeView
 
         private void CloseFile()
         {
+            if (_file != null)
+            {
+                var now = DateTime.Now;
+                WritePageViewedRecord(now);
+                WriteBookViewedRecord(now);
+            }
+
             lock (_lock)
             {
                 BookHub.Current.ViewContentsChanged -= OnViewContentsChanged;
@@ -180,17 +191,28 @@ namespace NeeView
         }
 
         #region IDisposable Support
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    CloseFile();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
         public void Dispose()
         {
-            var now = DateTime.Now;
-            WritePageViewedRecord(now);
-            WriteBookViewedRecord(now);
-            CloseFile();
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
 
         #endregion
 
-        #region Callback Methods
 
         private void OnViewBookChanged(object sender, BookChangedEventArgs e)
         {
@@ -230,6 +252,11 @@ namespace NeeView
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            UpdateState();
+        }
+
+        private void UpdateState()
+        {
             CloseFile();
 
             if (!Config.Current.PageViewRecorder.IsSavePageViewRecord)
@@ -244,8 +271,6 @@ namespace NeeView
 
             OpenFile();
         }
-
-        #endregion Callback Methods
 
 
         #region Memento

@@ -25,7 +25,7 @@
                 </ImageBrush>
             </Rectangle.Fill>
             <Rectangle.ToolTip>
-                <Image Source="{Binding Thumbnail.ImageSource}" Width="{Binding Thumbnail.ImageSource.Width}" Height="{Binding Thumbnail.ImageSource.Height}" />
+                <Image Source="{Binding Thumbnail.ImageSource}" Width="{Binding Thumbnail.Width}" Height="{Binding Thumbnail.Height}" Stretch="Fill" />
             </Rectangle.ToolTip>
             <ToolTipService.InitialShowDelay>1000</ToolTipService.InitialShowDelay>
             <ToolTipService.IsEnabled>

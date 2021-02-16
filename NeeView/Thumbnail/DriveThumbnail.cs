@@ -24,8 +24,8 @@ namespace NeeView
         }
 
         public ImageSource ImageSource => CreateBitmap();
-        public double Width => ImageSource is BitmapSource bitmap ? bitmap.PixelWidth : 0;
-        public double Height => ImageSource is BitmapSource bitmap ? bitmap.PixelHeight : 0;
+        public double Width => ImageSource is BitmapSource bitmap ? bitmap.PixelWidth : ImageSource != null ? ImageSource.Width : 0.0;
+        public double Height => ImageSource is BitmapSource bitmap ? bitmap.PixelHeight : ImageSource != null ? ImageSource.Height : 0.0;
         public bool IsUniqueImage => true;
         public bool IsNormalImage => false;
         public Brush Background => Brushes.Transparent;

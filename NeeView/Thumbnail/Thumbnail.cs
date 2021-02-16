@@ -80,8 +80,8 @@ namespace NeeView
         /// </summary>
         public ImageSource ImageSource => CreateBitmap();
 
-        public double Width => ImageSource is BitmapSource bitmap ? bitmap.PixelWidth : 0;
-        public double Height => ImageSource is BitmapSource bitmap ? bitmap.PixelHeight : 0;
+        public double Width => ImageSource is BitmapSource bitmap ? bitmap.PixelWidth : ImageSource != null ? ImageSource.Width : 0.0;
+        public double Height => ImageSource is BitmapSource bitmap ? bitmap.PixelHeight : ImageSource != null ? ImageSource.Height : 0.0;
 
 
         /// <summary>
@@ -132,10 +132,10 @@ namespace NeeView
                 return;
             }
 #endif
-            
+
             _header = new ThumbnailCacheHeader(entry.SystemPath, entry.Length, appendix, Config.Current.Thumbnail.GetThumbnailImageGenerateHash());
             var image = ThumbnailCache.Current.Load(_header);
-            ////Debug.WriteLine($"ThumbnailCache.Load: {_header.Hash.Substring(0, 8)} {(image == null ? "Miss" : "Hit!")}: {entry.SystemPath}");
+            ////Debug.WriteLine($"ThumbnailCache.Load: {_header.Key}: {(image == null ? "Miss" : "Hit!")}");
             Image = image;
         }
 

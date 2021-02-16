@@ -57,11 +57,13 @@ namespace NeeView
             bool isMainContent0 = mainContent == contents[0];
 
             // book
-            string bookName = LoosePath.GetDispName(BookOperation.Current.Book?.Address);
+            var book = BookHub.Current.Book;
+            string bookName = LoosePath.GetDispName(book?.Address);
             _replaceString.Set("$Book", bookName);
 
             // page
-            _replaceString.Set("$PageMax", (BookOperation.Current.GetMaxPageIndex() + 1).ToString());
+            var pageMax = book != null ? book.Pages.Count : 0;
+            _replaceString.Set("$PageMax", pageMax.ToString());
 
             string pageNum0 = GetPageNum(contents[0]);
             string pageNum1 = GetPageNum(contents[1]);

@@ -9807,6 +9807,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Font size of page title に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PageTitleConfig_FontSize {
+            get {
+                return ResourceManager.GetString("PageTitleConfig.FontSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Show page title に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string PageTitleConfig_IsEnabled {

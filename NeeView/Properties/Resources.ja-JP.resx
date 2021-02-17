@@ -5913,6 +5913,9 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="PageTitleConfig.PageTitleFormatMedia" xml:space="preserve">
     <value>動画用</value>
   </data>
+  <data name="PageTitleConfig.FontSize" xml:space="preserve">
+    <value>ページ タイトルのフォント サイズ</value>
+  </data>
   <data name="Word.Add" xml:space="preserve">
     <value>追加</value>
   </data>

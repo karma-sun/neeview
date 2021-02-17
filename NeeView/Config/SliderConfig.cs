@@ -15,7 +15,7 @@ namespace NeeView
         private bool _isSliderLinkedFilmStrip = true;
         private bool _isHidePageSliderInAutoHideMode = true;
         private bool _isSyncPageMode;
-        private bool _isEnabled = false;
+        private bool _isEnabled = true;
         private bool _isVisiblePagemark = true;
 
 

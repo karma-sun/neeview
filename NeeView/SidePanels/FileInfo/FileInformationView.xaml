@@ -81,13 +81,8 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid Width="96" Height="96" Margin="4,8">
-                                <Grid HorizontalAlignment="Center" Width="{Binding ThumbnailWidth}" Height="{Binding ThumbnailHeight}" >
-                                    <Image HorizontalAlignment="Center" VerticalAlignment="Bottom" Source="{Binding ImageSource}"
-                                            UseLayoutRounding="True" RenderOptions.BitmapScalingMode="HighQuality" Stretch="Fill">
-                                        <Image.Effect>
-                                            <DropShadowEffect ShadowDepth="2" Opacity="0.5" RenderingBias="Performance" />
-                                        </Image.Effect>
-                                    </Image>
+                                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <ContentControl Content="{Binding Icon}" IsTabStop="false" Focusable="False" />
                                     <Image DockPanel.Dock="Bottom" Style="{StaticResource PagemarkIconStyle}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-4,4,0">
                                         <Image.Effect>
                                             <DropShadowEffect ShadowDepth="2" Opacity="0.5" RenderingBias="Performance" />

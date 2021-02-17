@@ -117,15 +117,19 @@ namespace NeeView
 
         private FrameworkElement CreateSymbolFolderIcon()
         {
+            var imageSource = FileIconCollection.Current.CreateDefaultFolderIcon().GetBitmapSource(256.0);
+
             var image = new Image()
             {
-                Source = FileIconCollection.Current.CreateDefaultFolderIcon().GetBitmapSource(48.0),
-                Width = 48.0,
-                Height = 48.0,
+                Source = imageSource,
+                Width = 64.0,
+                Height = 64.0,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
                 UseLayoutRounding = true,
             };
+            RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.HighQuality);
+
             return CreateSymbolIcon(image);
         }
 
@@ -157,7 +161,7 @@ namespace NeeView
                 VerticalAlignment = VerticalAlignment.Center,
                 Width = IconMaxSize,
                 Height = IconMaxSize,
-                Background = new SolidColorBrush(Color.FromArgb(0x20, 0x80, 0x80, 0x80)),
+                Background = new SolidColorBrush(Color.FromArgb(0x10, 0x80, 0x80, 0x80)),
                 Child = content,
             };
 

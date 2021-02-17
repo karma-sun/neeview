@@ -226,7 +226,7 @@
 
             <!-- Message Layer -->
             <DockPanel x:Name="MessageLayer" d:IsHidden="True" Visibility="{Binding ElementName=MainViewSocket, Path=Content, Converter={StaticResource MainViewToVisibilityConverter}}">
-                <Grid DockPanel.Dock="Bottom" Height="{Binding ElementName=DockStatusArea, Path=ActualHeight}" />
+                <Grid x:Name="MessageLayerSpace" DockPanel.Dock="Bottom" Height="30" /> 
                 <local:NormalInfoMessageView Source="{Binding InfoMessage.NormalInfoMessage}" />
             </DockPanel>
 

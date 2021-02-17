@@ -13,7 +13,7 @@ namespace NeeView
         private string _pageTitleFormat1;
         private string _pageTitleFormat2;
         private string _pageTitleFormatMedia;
-        private double _fontSize = 15.0;
+        private double _fontSize = 20.0;
 
 
         /// <summary>

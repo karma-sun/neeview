@@ -285,7 +285,7 @@ namespace NeeView
 
             var data = new DataObject();
             data.SetFileDropList(collection);
-            data.SetData(DataFormats.UnicodeText, string.Join("\r\n", collection));
+            data.SetData(DataFormats.UnicodeText, string.Join(System.Environment.NewLine, collection.Cast<string>()));
             Clipboard.SetDataObject(data);
         }
 

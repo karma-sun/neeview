@@ -794,14 +794,21 @@ namespace NeeView
                 return;
             }
 
-            var isVisible = Config.Current.PageTitle.IsEnabled && (this.LayerStatusArea.IsMouseOver || this.DockStatusArea.IsMouseOver) && !string.IsNullOrEmpty(PageTitle.Current.Title);
-            if (isVisible)
+            if (string.IsNullOrEmpty(PageTitle.Current.Title))
             {
-                _pageCaptionVisibility.SetDelayVisibility(Visibility.Visible, 0);
+                _pageCaptionVisibility.SetDelayVisibility(Visibility.Collapsed, 0, NeeView.Windows.Data.DelayValueOverwriteOption.Force);
             }
             else
             {
-                _pageCaptionVisibility.SetDelayVisibility(Visibility.Collapsed, (int)(Config.Current.AutoHide.AutoHideDelayTime * 1000));
+                var isVisible = Config.Current.PageTitle.IsEnabled && (this.LayerStatusArea.IsMouseOver || this.DockStatusArea.IsMouseOver);
+                if (isVisible)
+                {
+                    _pageCaptionVisibility.SetDelayVisibility(Visibility.Visible, 0);
+                }
+                else
+                {
+                    _pageCaptionVisibility.SetDelayVisibility(Visibility.Collapsed, (int)(Config.Current.AutoHide.AutoHideDelayTime * 1000));
+                }
             }
         }
 

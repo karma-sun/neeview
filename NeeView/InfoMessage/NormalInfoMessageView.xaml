@@ -15,7 +15,7 @@
             </b:PropertyChangedTrigger>
         </b:Interaction.Triggers>
 
-        <Grid x:Name="InfoTextArea" Margin="0,0,0,40" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="#88000000" IsHitTestVisible="False" >
+        <Border x:Name="InfoTextArea" Margin="0,0,0,40" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="#88000000" IsHitTestVisible="False" CornerRadius="10">
             <DockPanel Margin="20,10"  IsHitTestVisible="False">
                 <Grid DockPanel.Dock="Right"/>
                 <Grid>
@@ -24,7 +24,7 @@
                 </Grid>
                 <TextBlock Text="{Binding VM.Message}" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Foreground="White" FontFamily="Meiryo" TextTrimming="CharacterEllipsis" />
             </DockPanel>
-        </Grid>
+        </Border>
     </Grid>
 
 </UserControl>

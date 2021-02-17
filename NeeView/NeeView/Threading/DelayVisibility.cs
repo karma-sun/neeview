@@ -72,6 +72,11 @@ namespace NeeView.Threading
             _visibility.SetValue(visibility, visibility == Visibility.Visible ? 0 : ms);
         }
 
+        public void SetDelayVisibility(Visibility visibility, int ms, DelayValueOverwriteOption overwriteOption)
+        {
+            _visibility.SetValue(visibility, visibility == Visibility.Visible ? 0 : ms, overwriteOption);
+        }
+
         public string ToDetail()
         {
             return _visibility.ToDetail();

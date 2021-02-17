@@ -252,7 +252,8 @@ namespace NeeView.Setting
         public SettingPagePageTitle() : base(Properties.Resources.SettingPage_PageTitle)
         {
             var section = new SettingItemSection(Properties.Resources.SettingPage_PageTitle);
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.PageTitle, nameof(PageTitleConfig.IsEnabled))) { IsStretch = true });
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.PageTitle, nameof(PageTitleConfig.IsEnabled))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.PageTitle, nameof(PageTitleConfig.FontSize))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.PageTitle, nameof(PageTitleConfig.PageTitleFormat1))) { IsStretch = true });
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.PageTitle, nameof(PageTitleConfig.PageTitleFormat2))) { IsStretch = true });
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.PageTitle, nameof(PageTitleConfig.PageTitleFormatMedia))) { IsStretch = true });

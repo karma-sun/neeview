@@ -1,5 +1,6 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
+using System;
 
 namespace NeeView
 {
@@ -12,6 +13,7 @@ namespace NeeView
         private string _pageTitleFormat1;
         private string _pageTitleFormat2;
         private string _pageTitleFormatMedia;
+        private double _fontSize = 15.0;
 
 
         /// <summary>
@@ -54,6 +56,15 @@ namespace NeeView
             set { SetProperty(ref _pageTitleFormatMedia, CleanUpTitleFormat(value, PageTitleFormatMediaDefault)); }
         }
 
+        /// <summary>
+        /// フォントサイズ
+        /// </summary>
+        [PropertyRange(8, 48.0, TickFrequency = 0.5, IsEditable = true, Format = "{0:0.0}")]
+        public double FontSize
+        {
+            get { return _fontSize; }
+            set { SetProperty(ref _fontSize, Math.Max(1.0, value)); }
+        }
 
         private string CleanUpTitleFormat(string source, string defaultFormat)
         {

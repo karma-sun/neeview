@@ -591,6 +591,11 @@ namespace NeeView
         public void ResetTransformRaw(bool isResetScale, bool isResetAngle, bool isResetFlip, double angle, bool ignoreViewOrigin)
         {
             _viewComponent.DragTransformControl.Reset(isResetScale, isResetAngle, isResetFlip, angle, ignoreViewOrigin);
+
+            if (Config.Current.Mouse.IsHoverScroll)
+            {
+                _viewComponent.DragTransformControl.HoverScroll(Mouse.GetPosition(_viewComponent.DragTransformControl.SenderElement), TimeSpan.Zero);
+            }
         }
 
         /// <summary>

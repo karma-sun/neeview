@@ -132,6 +132,9 @@ namespace NeeView
 
         #region Properties
 
+        public FrameworkElement SenderElement => _sender;
+        public FrameworkElement TargetElement => _target;
+
         // 開始時の基準
         public DragViewOrigin ViewOrigin { get; set; }
 
@@ -358,9 +361,19 @@ namespace NeeView
         /// <param name="point">point in sender</param>
         public void HoverScroll(Point point)
         {
+            HoverScroll(point, TimeSpan.FromSeconds(0.05));
+        }
+
+        /// <summary>
+        /// Hover scroll
+        /// </summary>
+        /// <param name="point">point in sender</param>
+        /// <param name="span">scroll time</param>
+        public void HoverScroll(Point point, TimeSpan span)
+        {
             var rateX = (0.5 - point.X / _sender.ActualWidth) * 2.0;
             var rateY = (0.5 - point.Y / _sender.ActualHeight) * 2.0;
-            HoverScroll(rateX, rateY, TimeSpan.FromSeconds(0.05));
+            HoverScroll(rateX, rateY, span);
         }
 
         /// <summary>

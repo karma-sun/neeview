@@ -19,6 +19,7 @@ namespace NeeView
         private double _longButtonRepeatTime = 0.1;
         private bool _isCursorHideReleaseAction = true;
         private double _cursorHideReleaseDistance = 5.0;
+        private bool _isHoverScroll;
 
 
         // マウスジェスチャー有効
@@ -109,6 +110,13 @@ namespace NeeView
         {
             get { return _cursorHideReleaseDistance; }
             set { SetProperty(ref _cursorHideReleaseDistance, value); }
+        }
+
+        [PropertyMember]
+        public bool IsHoverScroll
+        {
+            get { return _isHoverScroll; }
+            set { SetProperty(ref _isHoverScroll, value); }
         }
 
     }

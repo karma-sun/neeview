@@ -53,6 +53,7 @@ namespace NeeView
         public abstract void OnStylusDown(object sender, StylusDownEventArgs e);
         public abstract void OnStylusUp(object sender, StylusEventArgs e);
         public abstract void OnStylusMove(object sender, StylusEventArgs e);
+        public virtual void OnStylusInAirMove(object sender, StylusEventArgs e) { }
         public virtual void OnStylusSystemGesture(object sender, StylusSystemGestureEventArgs e) { }
         public virtual void OnMouseWheel(object sender, MouseWheelEventArgs e) { }
         public virtual void OnKeyDown(object sender, KeyEventArgs e) { }

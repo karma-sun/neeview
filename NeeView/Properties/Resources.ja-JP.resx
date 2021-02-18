@@ -6240,4 +6240,19 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="SliderConfig.IsEnabled" xml:space="preserve">
     <value>スライダーを表示する</value>
   </data>
+  <data name="ToggleHoverScrollCommand" xml:space="preserve">
+    <value>ホバー スクロール有効/無効</value>
+  </data>
+  <data name="ToggleHoverScrollCommand.Menu" xml:space="preserve">
+    <value>ホバー スクロール</value>
+  </data>
+  <data name="ToggleHoverScrollCommand.Off" xml:space="preserve">
+    <value>ホバー スクロール無効</value>
+  </data>
+  <data name="ToggleHoverScrollCommand.On" xml:space="preserve">
+    <value>ホバー スクロール有効</value>
+  </data>
+  <data name="ToggleHoverScrollCommand.Remarks" xml:space="preserve">
+    <value>マウス ポインターの位置に応じてスクロールします。</value>
+  </data>
 </root>

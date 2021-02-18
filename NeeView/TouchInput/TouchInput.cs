@@ -83,6 +83,7 @@ namespace NeeView
             _sender.StylusDown += OnStylusDown;
             _sender.StylusUp += OnStylusUp;
             _sender.StylusMove += OnStylusMove;
+            _sender.StylusInAirMove += OnStylusInAirMove;
             _sender.StylusSystemGesture += OnStylusSystemGesture;
             _sender.MouseWheel += OnMouseWheel;
             _sender.PreviewKeyDown += OnKeyDown;
@@ -236,6 +237,14 @@ namespace NeeView
             if (sender != _sender) return;
 
             _current.OnStylusMove(_sender, e);
+        }
+
+        private void OnStylusInAirMove(object sender, StylusEventArgs e)
+        {
+            if (!Config.Current.Touch.IsEnabled) return;
+            if (sender != _sender) return;
+
+            _current.OnStylusInAirMove(_sender, e);
         }
 
         private void OnStylusSystemGesture(object sender, StylusSystemGestureEventArgs e)

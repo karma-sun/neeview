@@ -234,6 +234,11 @@ namespace NeeView
         /// <param name="e"></param>
         public override void OnMouseMove(object sender, MouseEventArgs e)
         {
+            if (Config.Current.Mouse.IsHoverScroll)
+            {
+                HoverScroll(sender, e);
+            }
+
             if (!_isButtonDown) return;
 
             var point = e.GetPosition(_context.Sender);
@@ -258,6 +263,17 @@ namespace NeeView
                     SetState(MouseInputState.Drag, e);
                 }
             }
+        }
+
+        /// <summary>
+        /// ホバースクロール
+        /// </summary>
+        private void HoverScroll(object sender, MouseEventArgs e)
+        {
+            if (_context.DragTransformControl is null) return;
+
+            var point = e.GetPosition(_context.Sender);
+            _context.DragTransformControl.HoverScroll(point);
         }
 
         /// <summary>

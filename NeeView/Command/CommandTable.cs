@@ -229,6 +229,8 @@ namespace NeeView
                 new ShowHiddenPanelsCommand(),
 
                 new ToggleSlideShowCommand(),
+                new ToggleHoverScrollCommand(),
+
                 new ViewScrollNTypeUpCommand(),
                 new ViewScrollNTypeDownCommand(),
                 new ViewScrollUpCommand(),
@@ -250,6 +252,7 @@ namespace NeeView
                 new ViewFlipVerticalOnCommand(),
                 new ViewFlipVerticalOffCommand(),
                 new ViewResetCommand(),
+
                 new PrevPageCommand(),
                 new NextPageCommand(),
                 new PrevOnePageCommand(),

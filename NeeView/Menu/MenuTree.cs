@@ -536,6 +536,8 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { CommandName = "SetBackgroundCheck" },
                         new MenuTree(MenuElementType.Command) { CommandName = "SetBackgroundCheckDark" },
                         new MenuTree(MenuElementType.Command) { CommandName = "SetBackgroundCustom" },
+                        new MenuTree(MenuElementType.Separator),
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleHoverScroll" },
                     }},
                     new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTree_Jump, Children = new ObservableCollection<MenuTree>()
                     {

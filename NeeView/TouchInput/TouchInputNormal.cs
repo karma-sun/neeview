@@ -120,6 +120,25 @@ namespace NeeView
             }
         }
 
+        public override void OnStylusInAirMove(object sender, StylusEventArgs e)
+        {
+            if (Config.Current.Mouse.IsHoverScroll)
+            {
+                HoverScroll(sender, e);
+            }
+        }
+
+        /// <summary>
+        /// ホバースクロール
+        /// </summary>
+        private void HoverScroll(object sender, StylusEventArgs e)
+        {
+            if (_context.DragTransformControl is null) return;
+
+            var point = e.GetPosition(_context.Sender);
+            _context.DragTransformControl.HoverScroll(point);
+        }
+
         //
         public override void OnStylusSystemGesture(object sender, StylusSystemGestureEventArgs e)
         {

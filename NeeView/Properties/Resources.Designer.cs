@@ -14537,6 +14537,51 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Toggle hover scroll に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleHoverScrollCommand {
+            get {
+                return ResourceManager.GetString("ToggleHoverScrollCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Hover scroll に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleHoverScrollCommand_Menu {
+            get {
+                return ResourceManager.GetString("ToggleHoverScrollCommand.Menu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Hover scroll OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleHoverScrollCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleHoverScrollCommand.Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Hover scroll に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleHoverScrollCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleHoverScrollCommand.On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scrolls according to the position of the cursor. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleHoverScrollCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleHoverScrollCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle auto rotation に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleIsAutoRotateCommand {

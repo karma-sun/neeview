@@ -1,4 +1,5 @@
-﻿using NeeView.Windows;
+﻿using NeeLaboratory;
+using NeeView.Windows;
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
@@ -348,6 +349,39 @@ namespace NeeView
         }
 
         #endregion
+
+        #region Hover scroll method
+
+        /// <summary>
+        /// Hover scroll
+        /// </summary>
+        /// <param name="point">point in sender</param>
+        public void HoverScroll(Point point)
+        {
+            var rateX = (0.5 - point.X / _sender.ActualWidth) * 2.0;
+            var rateY = (0.5 - point.Y / _sender.ActualHeight) * 2.0;
+            HoverScroll(rateX, rateY, TimeSpan.FromSeconds(0.05));
+        }
+
+        /// <summary>
+        /// Hover scroll
+        /// </summary>
+        /// <param name="rateX">point.X rate in sender [-1.0, 1.0]</param>
+        /// <param name="rateY">point.Y rate in sender [-1.0, 1.0]</param>
+        /// <param name="span">scroll time</param>
+        public void HoverScroll(double rateX, double rateY, TimeSpan span)
+        {
+            var targetRect = new Rect(0.0, 0.0, _target.ActualWidth, _target.ActualHeight);
+            var targetViewRect = _transform.TransformCalc.TransformBounds(targetRect);
+
+            var x = Math.Max(targetViewRect.Width - _sender.ActualWidth, 0.0) * MathUtility.Clamp(rateX, -0.5, 0.5);
+            var y = Math.Max(targetViewRect.Height - _sender.ActualHeight, 0.0) * MathUtility.Clamp(rateY, -0.5, 0.5);
+            var pos = new Point(x, y);
+
+            _transform.SetPosition(pos, span);
+        }
+
+        #endregion Hover scroll method
 
         #region Scroll method
 

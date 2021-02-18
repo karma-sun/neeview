@@ -6237,4 +6237,19 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="SliderConfig.IsEnabled" xml:space="preserve">
     <value>Show slider</value>
   </data>
+  <data name="ToggleHoverScrollCommand" xml:space="preserve">
+    <value>Toggle hover scroll</value>
+  </data>
+  <data name="ToggleHoverScrollCommand.Menu" xml:space="preserve">
+    <value>Hover scroll</value>
+  </data>
+  <data name="ToggleHoverScrollCommand.Off" xml:space="preserve">
+    <value>Hover scroll OFF</value>
+  </data>
+  <data name="ToggleHoverScrollCommand.On" xml:space="preserve">
+    <value>Hover scroll</value>
+  </data>
+  <data name="ToggleHoverScrollCommand.Remarks" xml:space="preserve">
+    <value>Scrolls according to the position of the cursor.</value>
+  </data>
 </root>

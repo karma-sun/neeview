@@ -80,6 +80,10 @@ namespace NeeView.Setting
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Mouse, nameof(MouseConfig.LongButtonRepeatTime))));
             this.Items.Add(section);
 
+            section = new SettingItemSection(Properties.Resources.SettingPage_Manipurate_HoverScroll);
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Mouse, nameof(MouseConfig.HoverScrollDuration))));
+            this.Items.Add(section);
+
             section = new SettingItemSection(Properties.Resources.SettingPage_Manipurate_MouseVisibility);
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Mouse, nameof(MouseConfig.IsCursorHideEnabled))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Mouse, nameof(MouseConfig.CursorHideTime))));

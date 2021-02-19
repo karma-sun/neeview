@@ -5,7 +5,6 @@ using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 
 namespace NeeView
 {
@@ -14,12 +13,7 @@ namespace NeeView
     /// </summary>
     public class DragTransform : BindableBase
     {
-        // コンテンツの平行移動行列。アニメーション用。
-        private TranslateTransform _translateTransform;
-
-        // 移動アニメーション中フラグ(内部管理)
-        private bool _isTranslateAnimated;
-
+        private TranslateTransformAnime _translateTransformAnime;
         private Point _position;
         private double _angle;
         private double _scale = 1.0;
@@ -29,10 +23,11 @@ namespace NeeView
 
         public DragTransform()
         {
-            this.TransformView = CreateTransformGroup();
-            this.TransformCalc = CreateTransformGroup();
+            this.TransformView = CreateTransformGroup(false);
+            this.TransformCalc = CreateTransformGroup(true);
 
-            _translateTransform = this.TransformView.Children.OfType<TranslateTransform>().First();
+            var translateTransform = this.TransformView.Children.OfType<TranslateTransform>().First();
+            _translateTransformAnime = new TranslateTransformAnime(translateTransform);
         }
 
 
@@ -119,7 +114,7 @@ namespace NeeView
 
 
         // パラメータとトランスフォームを対応させる
-        private TransformGroup CreateTransformGroup()
+        private TransformGroup CreateTransformGroup(bool bindPosition)
         {
             var scaleTransform = new ScaleTransform();
             BindingOperations.SetBinding(scaleTransform, ScaleTransform.ScaleXProperty, new Binding(nameof(ScaleX)) { Source = this });
@@ -129,8 +124,11 @@ namespace NeeView
             BindingOperations.SetBinding(rotateTransform, RotateTransform.AngleProperty, new Binding(nameof(Angle)) { Source = this });
 
             var translateTransform = new TranslateTransform();
-            BindingOperations.SetBinding(translateTransform, TranslateTransform.XProperty, new Binding("Position.X") { Source = this });
-            BindingOperations.SetBinding(translateTransform, TranslateTransform.YProperty, new Binding("Position.Y") { Source = this });
+            if (bindPosition)
+            {
+                BindingOperations.SetBinding(translateTransform, TranslateTransform.XProperty, new Binding("Position.X") { Source = this });
+                BindingOperations.SetBinding(translateTransform, TranslateTransform.YProperty, new Binding("Position.Y") { Source = this });
+            }
 
             var transformGroup = new TransformGroup();
             transformGroup.Children.Add(scaleTransform);
@@ -140,54 +138,29 @@ namespace NeeView
             return transformGroup;
         }
 
+
         public void SetPosition(Point value)
         {
-            SetPosition(value, default);
+            SetPosition(value, TranslateTransformEasing.Direct, default);
         }
 
-        public void SetPosition(Point value, TimeSpan span)
+        public void SetPosition(Point value, TranslateTransformEasing easing)
         {
-            if (span.TotalMilliseconds > 0)
-            {
-                Duration duration = span;
+            SetPosition(value, easing, default);
+        }
 
-                if (!_isTranslateAnimated)
-                {
-                    // 開始
-                    _isTranslateAnimated = true;
-                    _translateTransform.BeginAnimation(TranslateTransform.XProperty,
-                        DecorateDoubleAnimation(new DoubleAnimation(_position.X, value.X, duration)), HandoffBehavior.SnapshotAndReplace);
-                    _translateTransform.BeginAnimation(TranslateTransform.YProperty,
-                        DecorateDoubleAnimation(new DoubleAnimation(_position.Y, value.Y, duration)), HandoffBehavior.SnapshotAndReplace);
-                }
-                else
-                {
-                    // 継続
-                    _translateTransform.BeginAnimation(TranslateTransform.XProperty,
-                        DecorateDoubleAnimation(new DoubleAnimation(value.X, duration)), HandoffBehavior.Compose);
-                    _translateTransform.BeginAnimation(TranslateTransform.YProperty,
-                        DecorateDoubleAnimation(new DoubleAnimation(value.Y, duration)), HandoffBehavior.Compose);
-                }
-            }
-            else
+        public void SetPosition(Point value, TranslateTransformEasing easing, TimeSpan span)
+        {
+            if (Position == value) return;
+
+            if (easing == TranslateTransformEasing.Animation && span == TimeSpan.Zero)
             {
-                if (_isTranslateAnimated)
-                {
-                    // 解除
-                    _translateTransform.ApplyAnimationClock(TranslateTransform.XProperty, null);
-                    _translateTransform.ApplyAnimationClock(TranslateTransform.YProperty, null);
-                    _isTranslateAnimated = false;
-                }
+                easing = TranslateTransformEasing.Direct;
             }
 
             Position = value;
 
-            DoubleAnimation DecorateDoubleAnimation(DoubleAnimation source)
-            {
-                source.AccelerationRatio = 0.4;
-                source.DecelerationRatio = 0.4;
-                return source;
-            }
+            _translateTransformAnime.SetPosition(value, easing, span);
         }
 
         public void SetAngle(double angle, TransformActionType actionType)

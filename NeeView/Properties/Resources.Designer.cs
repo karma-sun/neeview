@@ -7495,6 +7495,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Hover scroll time (sec) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MouseConfig_HoverScrollDuration {
+            get {
+                return ResourceManager.GetString("MouseConfig.HoverScrollDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The longer the time, the smoother the scroll. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MouseConfig_HoverScrollDuration_Remarks {
+            get {
+                return ResourceManager.GetString("MouseConfig.HoverScrollDuration.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Hide the cursor with no mouse operation に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string MouseConfig_IsCursorHideEnabled {
@@ -12558,6 +12576,15 @@ namespace NeeView.Properties {
         public static string SettingPage_Manipurate_GeneralViewOperation {
             get {
                 return ResourceManager.GetString("SettingPage.Manipurate.GeneralViewOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Hover scroll に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPage_Manipurate_HoverScroll {
+            get {
+                return ResourceManager.GetString("SettingPage.Manipurate.HoverScroll", resourceCulture);
             }
         }
         

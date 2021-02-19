@@ -6252,4 +6252,13 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ToggleHoverScrollCommand.Remarks" xml:space="preserve">
     <value>Scrolls according to the position of the cursor.</value>
   </data>
+  <data name="MouseConfig.HoverScrollDuration" xml:space="preserve">
+    <value>Hover scroll time (sec)</value>
+  </data>
+  <data name="MouseConfig.HoverScrollDuration.Remarks" xml:space="preserve">
+    <value>The longer the time, the smoother the scroll.</value>
+  </data>
+  <data name="SettingPage.Manipurate.HoverScroll" xml:space="preserve">
+    <value>Hover scroll</value>
+  </data>
 </root>

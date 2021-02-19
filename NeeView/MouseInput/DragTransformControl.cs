@@ -361,7 +361,7 @@ namespace NeeView
         /// <param name="point">point in sender</param>
         public void HoverScroll(Point point)
         {
-            HoverScroll(point, TimeSpan.FromSeconds(0.05));
+            HoverScroll(point, TimeSpan.FromSeconds(Config.Current.Mouse.HoverScrollDuration));
         }
 
         /// <summary>
@@ -391,7 +391,8 @@ namespace NeeView
             var y = Math.Max(targetViewRect.Height - _sender.ActualHeight, 0.0) * MathUtility.Clamp(rateY, -0.5, 0.5);
             var pos = new Point(x, y);
 
-            _transform.SetPosition(pos, span);
+            var easing = span == TimeSpan.Zero ? TranslateTransformEasing.Direct : TranslateTransformEasing.Animation;
+            _transform.SetPosition(pos, easing, span);
         }
 
         #endregion Hover scroll method
@@ -898,7 +899,7 @@ namespace NeeView
         // 移動
         public void DragMove(Point start, Point end)
         {
-            DragMoveEx(start, end, 1.0, default);
+            DragMoveEx(start, end, 1.0, TimeSpan.Zero);
         }
 
         // 移動(速度スケール依存)
@@ -910,7 +911,7 @@ namespace NeeView
             var scale = scaleX > scaleY ? scaleX : scaleY;
             scale = scale < 1.0 ? 1.0 : scale;
 
-            DragMoveEx(start, end, scale, default);
+            DragMoveEx(start, end, scale, TimeSpan.Zero);
         }
 
         private void DragMoveEx(Point start, Point end, double scale, TimeSpan span)
@@ -947,7 +948,7 @@ namespace NeeView
                 _basePosition += move - moveExpectation;
             }
 
-            _transform.SetPosition(pos0 + move, span);
+            _transform.SetPosition(pos0 + move, TranslateTransformEasing.Animation, span);
 
             return move.X != 0.0 || move.Y != 0.0;
         }

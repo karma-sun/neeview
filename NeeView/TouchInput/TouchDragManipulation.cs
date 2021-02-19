@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory;
+using NeeView.Windows;
 using NeeView.Windows.Property;
 using System;
 using System.ComponentModel;
@@ -403,13 +404,4 @@ namespace NeeView
 
         #endregion
     }
-
-    public static class VectorExtensions
-    {
-        public static Vector Lerp(Vector v0, Vector v1, double rate)
-        {
-            return v0 + (v1 - v0) * rate;
-        }
-    }
-
 }

@@ -24,5 +24,16 @@ namespace NeeView.Windows
             var sa = Math.Sin(radians);
             return new Vector(ca * v.X - sa * v.Y, sa * v.X + ca * v.Y);
         }
+
+
+        public static Vector Lerp(Vector v0, Vector v1, double rate)
+        {
+            return v0 + (v1 - v0) * rate;
+        }
+
+        public static Point Lerp(Point v0, Point v1, double rate)
+        {
+            return v0 + (v1 - v0) * rate;
+        }
     }
 }

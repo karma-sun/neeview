@@ -35,13 +35,6 @@ namespace NeeLaboratory
             return v0 + (v1 - v0) * rate;
         }
 
-#if false
-        public static Vector Lerp(Vector v0, Vector v1, double rate)
-        {
-            return v0 + (v1 - v0) * rate;
-        }
-#endif
-
         public static double Snap(double val, double tick)
         {
             return Math.Floor((val + tick * 0.5) / tick) * tick;

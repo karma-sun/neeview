@@ -41,7 +41,7 @@ namespace NeeView
         public void PrevScrollPage(object sender, ScrollPageCommandParameter parameter)
         {
             int bookReadDirection = (_bookSettingPresenter.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
-            bool isScrolled = _viewContent.IsLoupeMode ? false : _viewContent.DragTransformControl.ScrollN(-1, bookReadDirection, parameter.IsNScroll, parameter);
+            bool isScrolled = Config.Current.Mouse.IsHoverScroll || _viewContent.IsLoupeMode ? false : _viewContent.DragTransformControl.ScrollN(-1, bookReadDirection, parameter.IsNScroll, parameter);
 
             if (!isScrolled)
             {
@@ -65,7 +65,7 @@ namespace NeeView
         public void NextScrollPage(object sender, ScrollPageCommandParameter parameter)
         {
             int bookReadDirection = (_bookSettingPresenter.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
-            bool isScrolled = _viewContent.IsLoupeMode ? false : _viewContent.DragTransformControl.ScrollN(+1, bookReadDirection, parameter.IsNScroll, parameter);
+            bool isScrolled = Config.Current.Mouse.IsHoverScroll || _viewContent.IsLoupeMode ? false : _viewContent.DragTransformControl.ScrollN(+1, bookReadDirection, parameter.IsNScroll, parameter);
 
             if (!isScrolled)
             {

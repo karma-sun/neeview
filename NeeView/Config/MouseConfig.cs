@@ -20,6 +20,7 @@ namespace NeeView
         private bool _isCursorHideReleaseAction = true;
         private double _cursorHideReleaseDistance = 5.0;
         private bool _isHoverScroll;
+        private double _hoverScrollDuration = 0.5;
 
 
         // マウスジェスチャー有効
@@ -117,6 +118,13 @@ namespace NeeView
         {
             get { return _isHoverScroll; }
             set { SetProperty(ref _isHoverScroll, value); }
+        }
+
+        [PropertyRange(0.0, 1.0, TickFrequency = 0.1, IsEditable = true)]
+        public double HoverScrollDuration
+        {
+            get { return _hoverScrollDuration; }
+            set { SetProperty(ref _hoverScrollDuration, Math.Max(value, 0.0)); }
         }
 
     }

@@ -114,6 +114,11 @@ namespace NeeView.Setting
             _latestSelectedPageType = page != SearchPage ? page.GetType() : null;
         }
 
+        private IEnumerable<SettingPage> GetSettingPagesEnumerator()
+        {
+            return GetSettingPagesEnumerator(_pages);
+        }
+
         private IEnumerable<SettingPage> GetSettingPagesEnumerator(IEnumerable<SettingPage> pages)
         {
             if (pages == null) yield break;
@@ -128,6 +133,16 @@ namespace NeeView.Setting
                         yield return child;
                     }
                 }
+            }
+        }
+
+        public void ClearPageContentCache()
+        {
+            SearchPage.ClearContentCache();
+
+            foreach (var page in GetSettingPagesEnumerator())
+            {
+                page.ClearContentCache();
             }
         }
 

@@ -48,6 +48,7 @@ namespace NeeView.Setting
                 {
                     if (!string.IsNullOrWhiteSpace(_searchKeyword) || IsSearchPageSelected)
                     {
+                        _model.ClearPageContentCache();
                         _model.UpdateSearchPage(_searchKeyword);
                         CurrentPage = _model.SearchPage;
                         IsSearchPageSelected = true;

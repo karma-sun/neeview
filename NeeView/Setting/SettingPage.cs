@@ -81,6 +81,10 @@ namespace NeeView.Setting
             get { return (this.Items != null) ? this : this.Children?.FirstOrDefault(); }
         }
 
+        public void ClearContentCache()
+        {
+            _content = null;
+        }
 
         private UIElement CreateContent()
         {

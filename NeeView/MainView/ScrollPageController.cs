@@ -22,7 +22,10 @@ namespace NeeView
         public void ScrollNTypeUp(ViewScrollNTypeCommandParameter parameter)
         {
             int bookReadDirection = (_bookSettingPresenter.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
-            bool isScrolled = _viewContent.IsLoupeMode ? false : _viewContent.DragTransformControl.ScrollN(-1, bookReadDirection, true, parameter);
+            if (CanScroll())
+            {
+                _viewContent.DragTransformControl.ScrollN(-1, bookReadDirection, true, parameter);
+            }
         }
 
         /// <summary>
@@ -31,17 +34,19 @@ namespace NeeView
         public void ScrollNTypeDown(ViewScrollNTypeCommandParameter parameter)
         {
             int bookReadDirection = (_bookSettingPresenter.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
-            bool isScrolled = _viewContent.IsLoupeMode ? false : _viewContent.DragTransformControl.ScrollN(+1, bookReadDirection, true, parameter);
+            if (CanScroll())
+            {
+                _viewContent.DragTransformControl.ScrollN(+1, bookReadDirection, true, parameter);
+            }
         }
 
         /// <summary>
         /// スクロール＋前のページに戻る。
-        /// ルーペ使用時はページ移動のみ行う。
         /// </summary>
         public void PrevScrollPage(object sender, ScrollPageCommandParameter parameter)
         {
             int bookReadDirection = (_bookSettingPresenter.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
-            bool isScrolled = Config.Current.Mouse.IsHoverScroll || _viewContent.IsLoupeMode ? false : _viewContent.DragTransformControl.ScrollN(-1, bookReadDirection, parameter.IsNScroll, parameter);
+            bool isScrolled = CanScroll() && _viewContent.DragTransformControl.ScrollN(-1, bookReadDirection, parameter.IsNScroll, parameter);
 
             if (!isScrolled)
             {
@@ -51,7 +56,6 @@ namespace NeeView
                 {
                     _viewContent.ContentCanvas.NextViewOrigin = (_bookSettingPresenter.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightBottom : DragViewOrigin.LeftBottom;
                     _bookOperation.PrevPage(sender);
-                    return;
                 }
             }
 
@@ -60,12 +64,11 @@ namespace NeeView
 
         /// <summary>
         /// スクロール＋次のページに進む。
-        /// ルーペ使用時はページ移動のみ行う。
         /// </summary>
         public void NextScrollPage(object sender, ScrollPageCommandParameter parameter)
         {
             int bookReadDirection = (_bookSettingPresenter.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
-            bool isScrolled = Config.Current.Mouse.IsHoverScroll || _viewContent.IsLoupeMode ? false : _viewContent.DragTransformControl.ScrollN(+1, bookReadDirection, parameter.IsNScroll, parameter);
+            bool isScrolled = CanScroll() && _viewContent.DragTransformControl.ScrollN(+1, bookReadDirection, parameter.IsNScroll, parameter);
 
             if (!isScrolled)
             {
@@ -75,11 +78,21 @@ namespace NeeView
                 {
                     _viewContent.ContentCanvas.NextViewOrigin = (_bookSettingPresenter.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightTop : DragViewOrigin.LeftTop;
                     _bookOperation.NextPage(sender);
-                    return;
                 }
             }
 
             _scrollPageTime = DateTime.Now;
+        }
+
+        /// <summary>
+        /// スクロール可能判定
+        /// </summary>
+        /// <remarks>
+        /// ホバースクロール等の他のスクロールが優先されるときはN字スクロールはできない
+        /// </remarks>
+        private bool CanScroll()
+        {
+            return !Config.Current.Mouse.IsHoverScroll && !_viewContent.IsLoupeMode;
         }
     }
 

@@ -11077,6 +11077,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Scroll end margin に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ScrollPageCommandParameter_EndMargin {
+            get {
+                return ResourceManager.GetString("ScrollPageCommandParameter.EndMargin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   If the scroll distance is less than this, page movement is prioritized. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ScrollPageCommandParameter_EndMargin_Remarks {
+            get {
+                return ResourceManager.GetString("ScrollPageCommandParameter.EndMargin.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   N-type scroll に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ScrollPageCommandParameter_IsNScroll {
@@ -11097,18 +11115,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Minimum scrolling distance に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ScrollPageCommandParameter_Margin {
+        public static string ScrollPageCommandParameter_MinScroll {
             get {
-                return ResourceManager.GetString("ScrollPageCommandParameter.Margin", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Scroll only if you can scroll above this pixel width. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ScrollPageCommandParameter_Margin_Remarks {
-            get {
-                return ResourceManager.GetString("ScrollPageCommandParameter.Margin.Remarks", resourceCulture);
+                return ResourceManager.GetString("ScrollPageCommandParameter.MinScroll", resourceCulture);
             }
         }
         
@@ -17078,18 +17087,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Minimum scrolling distance に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ViewScrollNTypeCommandParameter_Margin {
+        public static string ViewScrollNTypeCommandParameter_MinScroll {
             get {
-                return ResourceManager.GetString("ViewScrollNTypeCommandParameter.Margin", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Scroll only if you can scroll above this pixel width. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ViewScrollNTypeCommandParameter_Margin_Remarks {
-            get {
-                return ResourceManager.GetString("ViewScrollNTypeCommandParameter.Margin.Remarks", resourceCulture);
+                return ResourceManager.GetString("ViewScrollNTypeCommandParameter.MinScroll", resourceCulture);
             }
         }
         

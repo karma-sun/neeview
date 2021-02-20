@@ -3804,11 +3804,8 @@ Susie 書庫はこのサイズで判別せず、プラグインの設定での�
   <data name="ScrollPageCommandParameter.IsNScroll.Remarks" xml:space="preserve">
     <value>縦スクロール可能な場合、縦方向にもスクロールします。縦横スクロールが可能な場合、N字を描くようにスクロールします。</value>
   </data>
-  <data name="ScrollPageCommandParameter.Margin" xml:space="preserve">
-    <value>最小スクロール距離</value>
-  </data>
-  <data name="ScrollPageCommandParameter.Margin.Remarks" xml:space="preserve">
-    <value>このピクセル幅以上スクロールできる場合のみスクロールします。</value>
+  <data name="ScrollPageCommandParameter.MinScroll" xml:space="preserve">
+    <value>最小スクロール距離 (ピクセル)</value>
   </data>
   <data name="ScrollPageCommandParameter.PageMoveMargin" xml:space="preserve">
     <value>ページ移動猶予 (秒)</value>
@@ -3824,6 +3821,12 @@ Susie 書庫はこのサイズで判別せず、プラグインの設定での�
   </data>
   <data name="ScrollPageCommandParameter.ScrollDuration" xml:space="preserve">
     <value>スクロール時間 (秒)</value>
+  </data>
+  <data name="ScrollPageCommandParameter.EndMargin" xml:space="preserve">
+    <value>スクロール終端マージン (ピクセル)</value>
+  </data>
+  <data name="ScrollPageCommandParameter.EndMargin.Remarks" xml:space="preserve">
+    <value>このスクロール距離未満ではページ移動が優先されます。</value>
   </data>
   <data name="SetBackgroundAutoCommand" xml:space="preserve">
     <value>背景を画像に合わせた色にする</value>
@@ -5784,11 +5787,8 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ViewScrollLeftCommand.Remarks" xml:space="preserve">
     <value>画像を左方向にするロールさせます。横スクロールできないときは縦スクロールになります。</value>
   </data>
-  <data name="ViewScrollNTypeCommandParameter.Margin" xml:space="preserve">
-    <value>最小スクロール距離</value>
-  </data>
-  <data name="ViewScrollNTypeCommandParameter.Margin.Remarks" xml:space="preserve">
-    <value>このピクセル幅以上スクロールできる場合のみスクロールします。</value>
+  <data name="ViewScrollNTypeCommandParameter.MinScroll" xml:space="preserve">
+    <value>最小スクロール距離 (ピクセル)</value>
   </data>
   <data name="ViewScrollNTypeCommandParameter.Scroll" xml:space="preserve">
     <value>移動量</value>

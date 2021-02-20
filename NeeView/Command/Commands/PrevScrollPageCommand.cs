@@ -35,13 +35,13 @@ namespace NeeView
     /// スクロール＋ページ移動用パラメータ
     /// </summary>
     [DataContract]
-    public class ScrollPageCommandParameter : ReversibleCommandParameter, IScrollNTypeParameter
+    public class ScrollPageCommandParameter : ReversibleCommandParameter, IScrollNTypeParameter, IScrollNTypeEndMargin
     {
         private bool _isNScroll = true;
         private double _scroll = 1.0;
-        private double _margin = 50.0;
         private double _scrollDuration = 0.2;
         private double _pageMoveMargin;
+        private double _endMargin = 10.0;
 
 
         [DataMember]
@@ -52,20 +52,12 @@ namespace NeeView
             set => SetProperty(ref _isNScroll, value);
         }
 
-        [DataMember]
-        [PropertyMember]
-        public double Margin
-        {
-            get => _margin;
-            set => SetProperty(ref _margin, Math.Max(value, 10));
-        }
-
         [DataMember(Name = "ScrollV2")]
         [PropertyPercent]
         public double Scroll
         {
             get => _scroll;
-            set => SetProperty(ref _scroll, MathUtility.Clamp(value, 0.0, 1.0));
+            set => SetProperty(ref _scroll, MathUtility.Clamp(value, 0.1, 1.0));
         }
 
         [DataMember]
@@ -83,6 +75,12 @@ namespace NeeView
             set { SetProperty(ref _pageMoveMargin, value); }
         }
 
+        [PropertyMember]
+        public double EndMargin
+        {
+            get => _endMargin;
+            set => SetProperty(ref _endMargin, Math.Max(value, 0.0));
+        }
 
         #region Obsolete
 
@@ -118,8 +116,8 @@ namespace NeeView
         {
             _isNScroll = true;
             _scroll = 1.0;
-            _margin = 50.0;
             _scrollDuration = 0.1;
+            _endMargin = 10.0;
         }
     }
 }

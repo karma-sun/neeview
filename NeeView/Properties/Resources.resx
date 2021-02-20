@@ -3801,11 +3801,8 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="ScrollPageCommandParameter.IsNScroll.Remarks" xml:space="preserve">
     <value>If vertically scrollable, scroll vertically as well. If you can scroll vertically and horizontally, scroll to draw N characters.</value>
   </data>
-  <data name="ScrollPageCommandParameter.Margin" xml:space="preserve">
+  <data name="ScrollPageCommandParameter.MinScroll" xml:space="preserve">
     <value>Minimum scrolling distance</value>
-  </data>
-  <data name="ScrollPageCommandParameter.Margin.Remarks" xml:space="preserve">
-    <value>Scroll only if you can scroll above this pixel width.</value>
   </data>
   <data name="ScrollPageCommandParameter.PageMoveMargin" xml:space="preserve">
     <value>Page move margin (sec)</value>
@@ -3821,6 +3818,12 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   </data>
   <data name="ScrollPageCommandParameter.ScrollDuration" xml:space="preserve">
     <value>Scroll time (sec)</value>
+  </data>
+  <data name="ScrollPageCommandParameter.EndMargin" xml:space="preserve">
+    <value>Scroll end margin</value>
+  </data>
+  <data name="ScrollPageCommandParameter.EndMargin.Remarks" xml:space="preserve">
+    <value>If the scroll distance is less than this, page movement is prioritized.</value>
   </data>
   <data name="SetBackgroundAutoCommand" xml:space="preserve">
     <value>Image colored background</value>
@@ -5781,11 +5784,8 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ViewScrollLeftCommand.Remarks" xml:space="preserve">
     <value>Roll the image to the left. If horizontal scrolling is not possible, vertical scrolling will occur.</value>
   </data>
-  <data name="ViewScrollNTypeCommandParameter.Margin" xml:space="preserve">
+  <data name="ViewScrollNTypeCommandParameter.MinScroll" xml:space="preserve">
     <value>Minimum scrolling distance</value>
-  </data>
-  <data name="ViewScrollNTypeCommandParameter.Margin.Remarks" xml:space="preserve">
-    <value>Scroll only if you can scroll above this pixel width.</value>
   </data>
   <data name="ViewScrollNTypeCommandParameter.Scroll" xml:space="preserve">
     <value>Amount of movement</value>

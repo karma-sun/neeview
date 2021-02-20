@@ -75,7 +75,7 @@ namespace NeeView.Windows.Controls
 
         public void UpdateStrokeThickness(DpiScale dpi)
         {
-            StrokeThickness = 1.0 / dpi.DpiScaleX;
+            StrokeThickness = Math.Max(Math.Floor(dpi.DpiScaleX), 1.0) / dpi.DpiScaleX;
         }
 
         private void Window_StateChanged(object sender, EventArgs e)

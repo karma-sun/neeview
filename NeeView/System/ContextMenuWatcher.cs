@@ -17,7 +17,6 @@ namespace NeeView
     {
         private static bool _isInitialized;
         private static DelayValue<UIElement> _targetElement = new DelayValue<UIElement>();
-        private static UIElement _openingEventElement;
 
         public static event EventHandler<TargetElementChangedEventArgs> TargetElementChanged;
 
@@ -35,23 +34,17 @@ namespace NeeView
             _targetElement = new DelayValue<UIElement>();
             _targetElement.ValueChanged += (s, e) => TargetElementChanged?.Invoke(s, new TargetElementChangedEventArgs(_targetElement.Value));
 
-            CompositionTarget.Rendering += CompositionTarget_Rendering;
             EventManager.RegisterClassHandler(typeof(UIElement), ContextMenuService.ContextMenuOpeningEvent, new ContextMenuEventHandler(OnContextMenuOpening));
         }
 
-        private static void CompositionTarget_Rendering(object sender, EventArgs e)
-        {
-            _openingEventElement = null;
-        }
 
         private static void OnContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             var menu = ContextMenuService.GetContextMenu((DependencyObject)sender);
             if (menu != null)
             {
-                if (_openingEventElement == null && sender is UIElement element)
+                if (sender is UIElement element)
                 {
-                    _openingEventElement = element;
                     SetTargetElement(element);
                 }
             }

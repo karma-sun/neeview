@@ -533,7 +533,7 @@ namespace NeeView
             else
             {
                 var option = isForce ? DelayValueOverwriteOption.Force : DelayValueOverwriteOption.Shorten;
-                var ms = now ? 0.0 : this.DelayTime * 1000.0;
+                var ms = now ? 0.0 : Math.Max(this.DelayTime * 1000.0, 1.0); // NOTE: コンテキストメニューを閉じた瞬間に IsMouseOver が取得できないことがあるので最小の遅延時間を保証する
                 _delayVisibility.SetValue(Visibility.Collapsed, ms, option);
             }
         }

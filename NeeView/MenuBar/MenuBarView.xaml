@@ -6,7 +6,7 @@
              xmlns:nwc="clr-namespace:NeeView.Windows.Controls;assembly=NeeView.Runtime"
              xmlns:local="clr-namespace:NeeView"
              mc:Ignorable="d" 
-        d:DesignHeight="50" d:DesignWidth="300">
+        d:DesignHeight="32" d:DesignWidth="640">
     <UserControl.Resources>
         <local:PanelColorToBrushConverter x:Key="BackgroundSelector" Dark="{StaticResource NVMenuBackgroundDark}" Light="{StaticResource NVMenuBackgroundLight}"/>
         <local:PanelColorTobrushMultiConverter x:Key="ForegroundSelector" Dark="{StaticResource NVMenuForegroundDark}" Light="{StaticResource NVMenuForegroundLight}"/>

@@ -405,12 +405,16 @@ namespace NeeView
 
         private bool IsLeftPaneMouseOver()
         {
+            if (!this.LeftPanelContent.IsVisible) return false;
+
             var pos = Mouse.GetPosition(this.LeftPanelContent);
             return this.LeftPanelContent.IsMouseOver || pos.X <= 0.0;
         }
 
         private bool IsRightPanelMouseOver()
         {
+            if (!this.RightPanelContent.IsVisible) return false;
+
             var pos = Mouse.GetPosition(this.RightPanelContent);
             return this.RightPanelContent.IsMouseOver || pos.X >= 0.0;
         }

@@ -4688,6 +4688,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Page thumbnail size に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FilmStripConfig_ImageWidth {
+            get {
+                return ResourceManager.GetString("FilmStripConfig.ImageWidth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Show filmstrip に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FilmStripConfig_IsEnabled {
@@ -4756,15 +4765,6 @@ namespace NeeView.Properties {
         public static string FilmStripConfig_IsVisiblePlate_Remarks {
             get {
                 return ResourceManager.GetString("FilmStripConfig.IsVisiblePlate.Remarks", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Page thumbnail size に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FilmStripConfig_ThumbnailSize {
-            get {
-                return ResourceManager.GetString("FilmStripConfig.ThumbnailSize", resourceCulture);
             }
         }
         
@@ -11113,15 +11113,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Minimum scrolling distance に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ScrollPageCommandParameter_MinScroll {
-            get {
-                return ResourceManager.GetString("ScrollPageCommandParameter.MinScroll", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Page move margin (sec) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ScrollPageCommandParameter_PageMoveMargin {
@@ -17085,15 +17076,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Minimum scrolling distance に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ViewScrollNTypeCommandParameter_MinScroll {
-            get {
-                return ResourceManager.GetString("ViewScrollNTypeCommandParameter.MinScroll", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Amount of movement に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ViewScrollNTypeCommandParameter_Scroll {
@@ -18332,6 +18314,24 @@ namespace NeeView.Properties {
         public static string Word_Yes {
             get {
                 return ResourceManager.GetString("Word.Yes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Minimum scrolling distance に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string x_ScrollPageCommandParameter_MinScroll {
+            get {
+                return ResourceManager.GetString("x.ScrollPageCommandParameter.MinScroll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Minimum scrolling distance に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string x_ViewScrollNTypeCommandParameter_MinScroll {
+            get {
+                return ResourceManager.GetString("x.ViewScrollNTypeCommandParameter.MinScroll", resourceCulture);
             }
         }
         

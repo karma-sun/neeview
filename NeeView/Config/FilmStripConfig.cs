@@ -1,6 +1,8 @@
 ﻿using NeeLaboratory;
 using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
+using System;
+using System.Text.Json.Serialization;
 
 namespace NeeView
 {
@@ -8,7 +10,7 @@ namespace NeeView
     {
         private bool _isEnabled;
         private bool _isHideFilmStrip;
-        private double _thumbnailSize = 96.0;
+        private double _imageWidth = 96.0;
         private bool _isVisibleNumber;
         private bool _isVisiblelPlate = true;
         private bool _isSelectedCenter;
@@ -39,11 +41,11 @@ namespace NeeView
         /// <summary>
         /// サムネイルサイズ
         /// </summary>
-        [PropertyRange(16, 256, TickFrequency = 8, Format = "{0} × {0}")]
-        public double ThumbnailSize
+        [PropertyRange(32, 512, TickFrequency = 8, IsEditable = true, Format = "{0} × {0}")]
+        public double ImageWidth
         {
-            get { return _thumbnailSize; }
-            set { SetProperty(ref _thumbnailSize, MathUtility.Clamp(value, 16, 256)); }
+            get { return _imageWidth; }
+            set { SetProperty(ref _imageWidth, Math.Max(value, 32)); }
         }
 
         /// <summary>
@@ -96,6 +98,19 @@ namespace NeeView
             get { return _isSelectedCenter; }
             set { SetProperty(ref _isSelectedCenter, value); }
         }
+
+        #region Obsolete
+
+        [Obsolete] // ver.39
+        [JsonPropertyName("ThumbnailSize")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public double ThumbnailSize_Legacy
+        {
+            get { return 0.0; }
+            set { ImageWidth = (int)value; }
+        }
+
+        #endregion
     }
 }
 

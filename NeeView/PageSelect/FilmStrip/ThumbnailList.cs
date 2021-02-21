@@ -66,6 +66,9 @@ namespace NeeView
                     case nameof(FilmStripConfig.IsVisibleNumber):
                         RaisePropertyChanged(nameof(ThumbnailNumberVisibility));
                         break;
+                    case nameof(FilmStripConfig.ImageWidth):
+                        Update();
+                        break;
                 }
             };
 
@@ -205,6 +208,11 @@ namespace NeeView
 
         private void PageSelector_CollectionChanged(object sender, EventArgs e)
         {
+            Update();
+        }
+
+        private void Update()
+        {
             UpdateItems();
             RaisePropertyChanged(nameof(ThumbnailListVisibility));
         }
@@ -299,7 +307,7 @@ namespace NeeView
 
             var pageList = BookOperation.Current.PageList;
 
-            if (pageList == null || Config.Current.FilmStrip.ThumbnailSize < 8.0) return;
+            if (pageList == null || Config.Current.FilmStrip.ImageWidth < 8.0) return;
 
             // フィルムストリップが無効の場合、処理しない
             if (!Config.Current.FilmStrip.IsEnabled) return;
@@ -374,7 +382,7 @@ namespace NeeView
             {
                 config.FilmStrip.IsEnabled = IsEnableThumbnailList;
                 config.FilmStrip.IsHideFilmStrip = IsHideThumbnailList;
-                config.FilmStrip.ThumbnailSize = ThumbnailSize;
+                config.FilmStrip.ImageWidth = ThumbnailSize;
                 config.FilmStrip.IsVisibleNumber = IsVisibleThumbnailNumber;
                 config.FilmStrip.IsVisiblePlate = IsVisibleThumbnailPlate;
                 config.FilmStrip.IsManipulationBoundaryFeedbackEnabled = IsManipulationBoundaryFeedbackEnabled;

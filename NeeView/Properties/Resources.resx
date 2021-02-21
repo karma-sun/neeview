@@ -1702,7 +1702,7 @@ Is it OK? </value>
   <data name="FilmStripConfig.IsVisiblePlate.Remarks" xml:space="preserve">
     <value>Shows the background of the filmstrip when "@FilmStripConfig.IsHideFilmStrip" is enabled.</value>
   </data>
-  <data name="FilmStripConfig.ThumbnailSize" xml:space="preserve">
+  <data name="FilmStripConfig.ImageWidth" xml:space="preserve">
     <value>Page thumbnail size</value>
   </data>
   <data name="FirstPageCommand" xml:space="preserve">
@@ -3801,7 +3801,7 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="ScrollPageCommandParameter.IsNScroll.Remarks" xml:space="preserve">
     <value>If vertically scrollable, scroll vertically as well. If you can scroll vertically and horizontally, scroll to draw N characters.</value>
   </data>
-  <data name="ScrollPageCommandParameter.MinScroll" xml:space="preserve">
+  <data name="x.ScrollPageCommandParameter.MinScroll" xml:space="preserve">
     <value>Minimum scrolling distance</value>
   </data>
   <data name="ScrollPageCommandParameter.PageMoveMargin" xml:space="preserve">
@@ -5784,7 +5784,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ViewScrollLeftCommand.Remarks" xml:space="preserve">
     <value>Roll the image to the left. If horizontal scrolling is not possible, vertical scrolling will occur.</value>
   </data>
-  <data name="ViewScrollNTypeCommandParameter.MinScroll" xml:space="preserve">
+  <data name="x.ViewScrollNTypeCommandParameter.MinScroll" xml:space="preserve">
     <value>Minimum scrolling distance</value>
   </data>
   <data name="ViewScrollNTypeCommandParameter.Scroll" xml:space="preserve">

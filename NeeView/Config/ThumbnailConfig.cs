@@ -47,25 +47,12 @@ namespace NeeView
         /// <summary>
         /// 画像サイズ
         /// </summary>
-        [PropertyRange(64, 512, TickFrequency = 64, IsEditable = true, Format="{0} × {0}")]
+        [PropertyRange(64, 512, TickFrequency = 8, IsEditable = true, Format="{0} × {0}")]
         public int ImageWidth
         {
             get { return _imageWidth; }
             set { SetProperty(ref _imageWidth, MathUtility.Max(value, 64)); }
         }
-
-        #region Obsolete
-
-        [Obsolete] // ver.39
-        [JsonPropertyName("Resolution")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public double Resolution_Legacy
-        {
-            get { return 0.0; }
-            set { ImageWidth = (int)value; }
-        }
-
-        #endregion
 
         /// <summary>
         /// 画像フォーマット
@@ -102,6 +89,18 @@ namespace NeeView
         }
 
 
+        #region Obsolete
+
+        [Obsolete] // ver.39
+        [JsonPropertyName("Resolution")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public double Resolution_Legacy
+        {
+            get { return 0.0; }
+            set { ImageWidth = (int)value; }
+        }
+
+        #endregion
 
         /// <summary>
         /// サムネイル画像生成パラメータのハッシュ値

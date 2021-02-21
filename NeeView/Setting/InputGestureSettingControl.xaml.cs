@@ -247,11 +247,11 @@ namespace NeeView.Setting
             MouseHorizontalWheelAction wheelAction = MouseHorizontalWheelAction.None;
             if (e.Delta > 0)
             {
-                wheelAction = MouseHorizontalWheelAction.WheelLeft;
+                wheelAction = MouseHorizontalWheelAction.WheelRight;
             }
             else if (e.Delta < 0)
             {
-                wheelAction = MouseHorizontalWheelAction.WheelRight;
+                wheelAction = MouseHorizontalWheelAction.WheelLeft;
             }
 
             ModifierMouseButtons modifierMouseButtons = ModifierMouseButtons.None;

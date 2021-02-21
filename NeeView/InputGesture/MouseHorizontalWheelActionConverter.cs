@@ -78,7 +78,7 @@ namespace NeeView
 
         internal static bool IsDefinedMouseWheelAction(MouseHorizontalWheelAction mouseAction)
         {
-            return (mouseAction >= MouseHorizontalWheelAction.None && mouseAction <= MouseHorizontalWheelAction.WheelLeft);
+            return (mouseAction >= MouseHorizontalWheelAction.None && mouseAction <= MouseHorizontalWheelAction.WheelRight);
         }
     }
 }

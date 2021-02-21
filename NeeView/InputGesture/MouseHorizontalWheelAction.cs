@@ -4,7 +4,7 @@
     public enum MouseHorizontalWheelAction
     {
         None,
-        WheelRight,
         WheelLeft,
+        WheelRight,
     }
 }

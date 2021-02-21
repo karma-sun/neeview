@@ -33,11 +33,11 @@ namespace NeeView
             MouseHorizontalWheelAction wheelAction = MouseHorizontalWheelAction.None;
             if (mouseEventArgs.Delta > 0)
             {
-                wheelAction = MouseHorizontalWheelAction.WheelLeft;
+                wheelAction = MouseHorizontalWheelAction.WheelRight;
             }
             else if (mouseEventArgs.Delta < 0)
             {
-                wheelAction = MouseHorizontalWheelAction.WheelRight;
+                wheelAction = MouseHorizontalWheelAction.WheelLeft;
             }
             //System.Diagnostics.Debug.WriteLine($"HorizontalWheel: {mouseEventArgs.Delta}");
 

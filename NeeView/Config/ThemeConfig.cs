@@ -6,7 +6,7 @@ namespace NeeView
     public class ThemeConfig : BindableBase
     {
         private PanelColor _panelColor = PanelColor.Dark;
-        private PanelColor _menuColor = PanelColor.Light;
+        private PanelColor _menuColor = PanelColor.Dark;
 
 
         /// <summary>

@@ -9,7 +9,7 @@ namespace NeeView
     public class WindowConfig : BindableBase
     {
         private WindowChromeFrame _windowChromeFrame = WindowChromeFrame.WindowFrame;
-        private bool _isCaptionVisible = true;
+        private bool _isCaptionVisible = false;
         private bool _isTopmost = false;
         private double _maximizeWindowGapWidth = 8.0;
         private WindowStateEx _state;

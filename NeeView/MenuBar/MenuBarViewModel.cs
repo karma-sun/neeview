@@ -126,10 +126,9 @@ namespace NeeView
                 var image = new Image();
                 image.Width = 18;
                 image.Height = 18;
-                image.Margin = new Thickness(4, 2, 4, 2);
+                image.Margin = new Thickness(0, 2, 0, 2);
                 image.GetThemeBinder().SetMenuIconBinding(Image.SourceProperty);
                 image.SetBinding(Image.OpacityProperty, new Binding(nameof(Window.IsActive)) { Source = MainWindow.Current, Converter = new BooleanToOpacityConverter() });
-
 
                 var topMenu = new MenuItem();
                 topMenu.Header = image;

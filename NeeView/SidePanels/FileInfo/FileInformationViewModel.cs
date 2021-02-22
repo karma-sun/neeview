@@ -59,7 +59,7 @@ namespace NeeView
 
             if (SelectedItem is null)
             {
-                SelectedItem = _model.FileInformations.FirstOrDefault();
+                SelectedItem = _model.GetMainFileInformation();
             }
         }
 

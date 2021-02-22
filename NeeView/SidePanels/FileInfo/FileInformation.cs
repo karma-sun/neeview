@@ -36,6 +36,11 @@ namespace NeeView
         }
 
 
+        public FileInformationSource GetMainFileInformation()
+        {
+            return FileInformations.OrderBy(e => e.Page?.Index ?? int.MaxValue).FirstOrDefault();
+        }
+
         public void Update(IEnumerable<ViewContent> viewContents)
         {
             FileInformations = viewContents?
@@ -49,7 +54,7 @@ namespace NeeView
         {
             if (FileInformations is null) return;
 
-            foreach(var item in FileInformations)
+            foreach (var item in FileInformations)
             {
                 item.Update();
             }

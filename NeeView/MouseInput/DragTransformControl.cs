@@ -353,6 +353,24 @@ namespace NeeView
 
         #endregion
 
+        #region LookAt method
+
+        /// <summary>
+        /// ターゲット座標で移動 (ナビゲーター用)
+        /// </summary>
+        /// <param name="point">ターゲット座標</param>
+        public void LookAt(Point point)
+        {
+            var transformGroup = new TransformGroup();
+            transformGroup.Children.Add(new ScaleTransform(_transform.ScaleX, _transform.ScaleY));
+            transformGroup.Children.Add(new RotateTransform(_transform.Angle));
+
+            var pos = transformGroup.Transform(point);
+            _transform.SetPosition(pos);
+        }
+
+        #endregion LookAt method
+
         #region Hover scroll method
 
         /// <summary>

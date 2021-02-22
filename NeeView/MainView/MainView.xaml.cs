@@ -27,6 +27,7 @@ namespace NeeView
         private MainViewViewModel _vm;
         private Window _owner;
         private DpiScaleProvider _dpiProvider = new DpiScaleProvider();
+        private TransformGroup _transformCalc;
 
         public MainView()
         {
@@ -37,11 +38,17 @@ namespace NeeView
             this.DataContextChanged += MainView_DataContextChanged;
         }
 
+
+        public event EventHandler TransformChanged;
+
+
         public MouseInput MouseInput => _vm?.MouseInput;
 
         public TouchInput TouchInput => _vm?.TouchInput;
 
         public DpiScaleProvider DpiProvider => _dpiProvider;
+
+        public TransformGroup Transform => _transformCalc;
 
 
         public void Initialize()
@@ -63,10 +70,11 @@ namespace NeeView
             this.MainContent.RenderTransform = transformView;
             this.MainContent.RenderTransformOrigin = new Point(0.5, 0.5);
 
-            var transformCalc = new TransformGroup();
-            transformCalc.Children.Add(_vm.ViewComponent.DragTransform.TransformCalc);
-            transformCalc.Children.Add(_vm.ViewComponent.LoupeTransform.TransformCalc);
-            this.MainContentShadow.RenderTransform = transformCalc;
+            _transformCalc = new TransformGroup();
+            _transformCalc.Children.Add(_vm.ViewComponent.DragTransform.TransformCalc);
+            _transformCalc.Children.Add(_vm.ViewComponent.LoupeTransform.TransformCalc);
+            _transformCalc.Changed += (s, e) => TransformChanged?.Invoke(s, e);
+            this.MainContentShadow.RenderTransform = _transformCalc;
             this.MainContentShadow.RenderTransformOrigin = new Point(0.5, 0.5);
 
             _vm.ViewComponent.OpenContextMenuRequest += (s, e) => OpenContextMenu();

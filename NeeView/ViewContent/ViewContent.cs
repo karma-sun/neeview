@@ -132,6 +132,8 @@ namespace NeeView
 
         public virtual bool IsInformationValid => IsValid;
 
+        public virtual bool IsViewContent => false;
+
         // 表示スケール
         public double Scale => Source != null ? Width / Source.Size.Width : 1.0;
 

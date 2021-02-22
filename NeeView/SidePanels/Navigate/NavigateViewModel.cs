@@ -6,6 +6,9 @@ using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace NeeView
 {
@@ -33,6 +36,8 @@ namespace NeeView
             ScaleUpCommand = new RelayCommand(_model.ScaleUp);
             ScaleResetCommand = new RelayCommand(_model.ScaleReset);
             StretchCommand = new RelayCommand(_model.Stretch);
+
+            InitializeMoreMenu();
         }
 
 
@@ -251,5 +256,34 @@ namespace NeeView
             Angle = MathUtility.Snap(Angle + delta * tick, tick);
         }
 
+
+
+        #region MoreMenu
+
+        private ContextMenu _moreMenu;
+
+        public ContextMenu MoreMenu
+        {
+            get { return _moreMenu; }
+            set { if (_moreMenu != value) { _moreMenu = value; RaisePropertyChanged(); } }
+        }
+
+        private void InitializeMoreMenu()
+        {
+            var menu = new ContextMenu();
+            menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Navigator_MoreMenu_IsVisibleThumbnail, new Binding(nameof(NavigatorConfig.IsVisibleThumbnail)) { Source = Config.Current.Navigator }));
+            this.MoreMenu = menu;
+        }
+
+        private MenuItem CreateCheckMenuItem(string header, Binding binding)
+        {
+            var item = new MenuItem();
+            item.Header = header;
+            item.IsCheckable = true;
+            item.SetBinding(MenuItem.IsCheckedProperty, binding);
+            return item;
+        }
+
+        #endregion
     }
 }

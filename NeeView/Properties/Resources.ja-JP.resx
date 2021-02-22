@@ -6264,4 +6264,13 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="SettingPage.Manipurate.HoverScroll" xml:space="preserve">
     <value>ホバー スクロール</value>
   </data>
+  <data name="Navigator.MoreMenu.IsVisibleThumbnail" xml:space="preserve">
+    <value>サムネイル</value>
+  </data>
+  <data name="NavigatorConfig.IsVisibleThumbnail" xml:space="preserve">
+    <value>サムネイルを表示する</value>
+  </data>
+  <data name="MouseConfig.IsHoverScroll" xml:space="preserve">
+    <value>ホバー スクロール モード</value>
+  </data>
 </root>

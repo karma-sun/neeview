@@ -62,6 +62,8 @@ namespace NeeView
 
         public InformationConfig Information { get; set; } = new InformationConfig();
 
+        public NavigatorConfig Navigator { get; set; } = new NavigatorConfig();
+
         public PageListConfig PageList { get; set; } = new PageListConfig();
 
         public ThumbnailConfig Thumbnail { get; set; } = new ThumbnailConfig();

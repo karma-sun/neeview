@@ -15,6 +15,9 @@ namespace NeeView
 
         public override bool IsInformationValid => false;
 
+        public override bool IsViewContent => false;
+
+
         private void Initialize()
         {
             this.View = new ViewContentControl(CreateView());

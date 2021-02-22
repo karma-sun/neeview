@@ -183,6 +183,8 @@ namespace NeeView
 
         public event EventHandler ContentSizeChanged;
 
+        public event EventHandler ContentStretchChanged;
+
         public event EventHandler DpiChanged;
 
 
@@ -468,6 +470,12 @@ namespace NeeView
             ////DebugTimer.Check("UpdatedContentCanvas");
         }
 
+        // 表示物として有効なコンテンツ？
+        public bool IsViewContents()
+        {
+            return Contents.Any(e => e.IsViewContent);
+        }
+       
         // 先読みコンテンツ更新
         // 表示サイズを確定し、フィルター適用時にリサイズ処理を行う
         private void OnNextContentsChanged(object sender, ViewContentSourceCollectionChangedEventArgs source)
@@ -824,6 +832,7 @@ namespace NeeView
         {
             UpdateContentSize(_viewComponent.DragTransform.Angle);
             ContentSizeChanged?.Invoke(this, null);
+            ContentStretchChanged?.Invoke(this, null);
             ResetTransformRaw(true, false, false, 0.0, ignoreViewOrigin);
         }
 

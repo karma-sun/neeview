@@ -25,7 +25,7 @@ namespace NeeView
         private bool _isRequested;
         private bool _isBusy;
         private bool _isKeyUpChance;
-
+        private bool _ignoreMouseState;
 
 
         #region Constructors
@@ -37,6 +37,7 @@ namespace NeeView
             // コンテンツ変更監視
             _viewComponent.ContentCanvas.ContentChanged += (s, e) => Request();
             _viewComponent.ContentCanvas.ContentSizeChanged += (s, e) => Request();
+            _viewComponent.ContentCanvas.ContentStretchChanged += (s, e) => RequestSoon();
 
             // DPI変化に追従
             _viewComponent.MainView.DpiProvider.DpiChanged += (s, e) => RequestWithResize();
@@ -135,7 +136,8 @@ namespace NeeView
             {
                 mouseButtonBits = MouseButtonBits.None;
             }
-            if (mouseButtonBits != MouseButtonBits.None) return;
+            if (!_ignoreMouseState && mouseButtonBits != MouseButtonBits.None) return;
+            _ignoreMouseState = false;
 
             bool isSuccessed = true;
             var dpiScaleX = _viewComponent.MainView.DpiProvider.DpiScale.DpiScaleX;
@@ -153,6 +155,13 @@ namespace NeeView
         // 更新要求
         public void Request()
         {
+            this.IsRequested = true;
+        }
+
+        // 即時更新要求
+        public void RequestSoon()
+        {
+            _ignoreMouseState = true;
             this.IsRequested = true;
         }
 

@@ -7558,6 +7558,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Hover scroll mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MouseConfig_IsHoverScroll {
+            get {
+                return ResourceManager.GetString("MouseConfig.IsHoverScroll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Long press mode に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string MouseConfig_LongButtonDownMode {
@@ -7895,6 +7904,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Thumbnail に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Navigator_MoreMenu_IsVisibleThumbnail {
+            get {
+                return ResourceManager.GetString("Navigator.MoreMenu.IsVisibleThumbnail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Rotate left に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Navigator_RotateLeft {
@@ -8008,6 +8026,15 @@ namespace NeeView.Properties {
         public static string Navigator_Title {
             get {
                 return ResourceManager.GetString("Navigator.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Show thumbnail に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NavigatorConfig_IsVisibleThumbnail {
+            get {
+                return ResourceManager.GetString("NavigatorConfig.IsVisibleThumbnail", resourceCulture);
             }
         }
         

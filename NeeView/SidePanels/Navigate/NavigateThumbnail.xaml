@@ -12,7 +12,7 @@
     </UserControl.Resources>
 
     <Border x:Name="Root" BorderThickness="0" BorderBrush="DarkGray" Visibility="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}">
-        <Grid x:Name="ThumbnailGrid" Width="{Binding ThumbnailWidth}" Height="{Binding ThumbnailHeight}" Background="{Binding MainViewVisualBrush}" ClipToBounds="True" MouseMove="ThumbnailGrid_MouseMove">
+        <Grid x:Name="ThumbnailGrid" Width="{Binding ThumbnailWidth}" Height="{Binding ThumbnailHeight}" Background="{Binding MainViewVisualBrush}" ClipToBounds="True">
             <Canvas>
                 <Path Stroke="Red" StrokeThickness="1" Data="{Binding ViewboxGeometry}" RenderOptions.EdgeMode="Unspecified" />
             </Canvas>

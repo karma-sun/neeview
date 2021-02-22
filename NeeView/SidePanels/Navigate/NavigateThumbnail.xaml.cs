@@ -26,24 +26,37 @@ namespace NeeView
             this.Root.DataContext = _vm;
 
             this.IsVisibleChanged += NavigateThumbnail_IsVisibleChanged;
+
+            this.ThumbnailGrid.MouseLeftButtonDown += ThumbnailGrid_MouseLeftButtonDown;
+            this.ThumbnailGrid.PreviewMouseLeftButtonUp += ThumbnailGrid_PreviewMouseLeftButtonUp;
+            this.ThumbnailGrid.MouseMove += ThumbnailGrid_MouseMove;
         }
+
 
         private void NavigateThumbnail_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             _vm.IsEnabled = this.IsVisible;
         }
 
+        private void ThumbnailGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.ThumbnailGrid.CaptureMouse();
+            this.ThumbnailGrid.Cursor = Cursors.Hand;
+
+            _vm.LookAt(e.GetPosition(this.ThumbnailGrid));
+        }
+
+        private void ThumbnailGrid_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            this.ThumbnailGrid.ReleaseMouseCapture();
+            this.ThumbnailGrid.Cursor = null;
+        }
+
         private void ThumbnailGrid_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
-            {
-                _vm.LookAt(e.GetPosition(this.ThumbnailGrid));
-                this.ThumbnailGrid.Cursor = Cursors.Hand;
-            }
-            else
-            {
-                this.ThumbnailGrid.Cursor = null;
-            }
+            if (e.LeftButton != MouseButtonState.Pressed) return;
+
+            _vm.LookAt(e.GetPosition(this.ThumbnailGrid));
         }
     }
 }

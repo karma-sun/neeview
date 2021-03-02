@@ -15,7 +15,7 @@ namespace NeeView
         }
 
 
-        public override bool IsLoaded => FileProxy != null;
+        public override bool IsLoaded => base.IsLoaded && FileProxy != null;
 
         public override bool IsViewReady => IsLoaded; 
 

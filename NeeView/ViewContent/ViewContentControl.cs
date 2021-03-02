@@ -27,7 +27,11 @@ namespace NeeView
             }
 
             _content = content;
-            this.Children.Insert(0, _content);
+
+            if (content != null)
+            {
+                this.Children.Insert(0, _content);
+            }
         }
 
         public void SetMessage(string message)

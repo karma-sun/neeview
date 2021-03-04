@@ -6270,4 +6270,448 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="MouseConfig.IsHoverScroll" xml:space="preserve">
     <value>Hover scroll mode</value>
   </data>
+  <data name="FilePropertyKey.FileName" xml:space="preserve">
+    <value>File name</value>
+  </data>
+  <data name="FilePropertyKey.FilePath" xml:space="preserve">
+    <value>Archive path</value>
+  </data>
+  <data name="FilePropertyKey.CreationTime" xml:space="preserve">
+    <value>Creation time</value>
+  </data>
+  <data name="FilePropertyKey.LastWriteTime" xml:space="preserve">
+    <value>Last write time</value>
+  </data>
+  <data name="FilePropertyKey.FileSize" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="FilePropertyKey.FolderPlace" xml:space="preserve">
+    <value>Folder place</value>
+  </data>
+  <data name="ImagePropertyKey.Dimensions" xml:space="preserve">
+    <value>Dimensions</value>
+  </data>
+  <data name="ImagePropertyKey.Width" xml:space="preserve">
+    <value>Width</value>
+  </data>
+  <data name="ImagePropertyKey.Height" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="ImagePropertyKey.HorizontalResolution" xml:space="preserve">
+    <value>Horizontal resolution</value>
+  </data>
+  <data name="ImagePropertyKey.VerticalResolution" xml:space="preserve">
+    <value>Vertical resolution</value>
+  </data>
+  <data name="ImagePropertyKey.BitDepth" xml:space="preserve">
+    <value>Bit depth</value>
+  </data>
+  <data name="ImagePropertyKey.Archiver" xml:space="preserve">
+    <value>Archiver</value>
+  </data>
+  <data name="ImagePropertyKey.Decoder" xml:space="preserve">
+    <value>Decoder</value>
+  </data>
+  <data name="BitmapMetadataKey.Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="BitmapMetadataKey.Subject" xml:space="preserve">
+    <value>Subject</value>
+  </data>
+  <data name="BitmapMetadataKey.Rating" xml:space="preserve">
+    <value>Rating</value>
+  </data>
+  <data name="BitmapMetadataKey.Tags" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="BitmapMetadataKey.Comments" xml:space="preserve">
+    <value>Comments</value>
+  </data>
+  <data name="BitmapMetadataKey.Author" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="BitmapMetadataKey.DateTaken" xml:space="preserve">
+    <value>Date taken</value>
+  </data>
+  <data name="BitmapMetadataKey.ApplicatoinName" xml:space="preserve">
+    <value>Applicatoin name</value>
+  </data>
+  <data name="BitmapMetadataKey.DateAcquired" xml:space="preserve">
+    <value>Date acquired</value>
+  </data>
+  <data name="BitmapMetadataKey.Copyright" xml:space="preserve">
+    <value>Copyright</value>
+  </data>
+  <data name="BitmapMetadataKey.CameraMaker" xml:space="preserve">
+    <value>Camera maker</value>
+  </data>
+  <data name="BitmapMetadataKey.CameraModel" xml:space="preserve">
+    <value>Camera model</value>
+  </data>
+  <data name="BitmapMetadataKey.FNumber" xml:space="preserve">
+    <value>FNumber</value>
+  </data>
+  <data name="BitmapMetadataKey.ExposureTime" xml:space="preserve">
+    <value>Exposure time</value>
+  </data>
+  <data name="BitmapMetadataKey.ISOSpeed" xml:space="preserve">
+    <value>ISO speed</value>
+  </data>
+  <data name="BitmapMetadataKey.ExposureBias" xml:space="preserve">
+    <value>Exposure bias</value>
+  </data>
+  <data name="BitmapMetadataKey.FocalLength" xml:space="preserve">
+    <value>Focal length</value>
+  </data>
+  <data name="BitmapMetadataKey.MaxAperture" xml:space="preserve">
+    <value>Max aperture</value>
+  </data>
+  <data name="BitmapMetadataKey.MeteringMode" xml:space="preserve">
+    <value>Metering mode</value>
+  </data>
+  <data name="BitmapMetadataKey.SubjectDistance" xml:space="preserve">
+    <value>Subject distance</value>
+  </data>
+  <data name="BitmapMetadataKey.FlashMode" xml:space="preserve">
+    <value>Flash mode</value>
+  </data>
+  <data name="BitmapMetadataKey.FlashEnergy" xml:space="preserve">
+    <value>Flash energy</value>
+  </data>
+  <data name="BitmapMetadataKey.FocalLengthIn35mmFilm" xml:space="preserve">
+    <value>Focal length in 35mm film</value>
+  </data>
+  <data name="BitmapMetadataKey.LensMaker" xml:space="preserve">
+    <value>Lens maker</value>
+  </data>
+  <data name="BitmapMetadataKey.LensModel" xml:space="preserve">
+    <value>Lens model</value>
+  </data>
+  <data name="BitmapMetadataKey.FlashMaker" xml:space="preserve">
+    <value>Flash maker</value>
+  </data>
+  <data name="BitmapMetadataKey.FlashModel" xml:space="preserve">
+    <value>Flash model</value>
+  </data>
+  <data name="BitmapMetadataKey.CameraSerialNumber" xml:space="preserve">
+    <value>Camera serial number</value>
+  </data>
+  <data name="BitmapMetadataKey.Contrast" xml:space="preserve">
+    <value>Contrast</value>
+  </data>
+  <data name="BitmapMetadataKey.Brightness" xml:space="preserve">
+    <value>Brightness</value>
+  </data>
+  <data name="BitmapMetadataKey.LightSource" xml:space="preserve">
+    <value>Light source</value>
+  </data>
+  <data name="BitmapMetadataKey.ExposureProgram" xml:space="preserve">
+    <value>Exposure program</value>
+  </data>
+  <data name="BitmapMetadataKey.Saturation" xml:space="preserve">
+    <value>Saturation</value>
+  </data>
+  <data name="BitmapMetadataKey.Sharpness" xml:space="preserve">
+    <value>Sharpness</value>
+  </data>
+  <data name="BitmapMetadataKey.WhiteBalance" xml:space="preserve">
+    <value>White balance</value>
+  </data>
+  <data name="BitmapMetadataKey.PhotometricInterpretation" xml:space="preserve">
+    <value>Photometric interpretation</value>
+  </data>
+  <data name="BitmapMetadataKey.DigitalZoom" xml:space="preserve">
+    <value>Digital zoom</value>
+  </data>
+  <data name="BitmapMetadataKey.EXIFVersion" xml:space="preserve">
+    <value>EXIF version</value>
+  </data>
+  <data name="BitmapMetadataKey.GPSLatitude" xml:space="preserve">
+    <value>Latitude</value>
+  </data>
+  <data name="BitmapMetadataKey.GPSLongitude" xml:space="preserve">
+    <value>Longitude</value>
+  </data>
+  <data name="BitmapMetadataKey.GPSAltitude" xml:space="preserve">
+    <value>Altitude</value>
+  </data>
+  <data name="ExifContrast.Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="ExifContrast.Soft" xml:space="preserve">
+    <value>Soft</value>
+  </data>
+  <data name="ExifContrast.Hard" xml:space="preserve">
+    <value>Hard</value>
+  </data>
+  <data name="ExifExposureProgram.NotDefined" xml:space="preserve">
+    <value>Not defined</value>
+  </data>
+  <data name="ExifExposureProgram.Manual" xml:space="preserve">
+    <value>Manual</value>
+  </data>
+  <data name="ExifExposureProgram.NormalProgram" xml:space="preserve">
+    <value>Normal program</value>
+  </data>
+  <data name="ExifExposureProgram.AperturePriority" xml:space="preserve">
+    <value>Aperture priority</value>
+  </data>
+  <data name="ExifExposureProgram.ShutterPriority" xml:space="preserve">
+    <value>Shutter priority</value>
+  </data>
+  <data name="ExifExposureProgram.CreativeProgram " xml:space="preserve">
+    <value>Creative program</value>
+  </data>
+  <data name="ExifExposureProgram.ActionProgram " xml:space="preserve">
+    <value>Action program</value>
+  </data>
+  <data name="ExifExposureProgram.PortraitMode " xml:space="preserve">
+    <value>Portrait mode</value>
+  </data>
+  <data name="ExifExposureProgram.LandscapeMode " xml:space="preserve">
+    <value>Landscape mode</value>
+  </data>
+  <data name="ExifFlashMode.FlashDidNotFire" xml:space="preserve">
+    <value>Flash did not fire</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired" xml:space="preserve">
+    <value>Flash fired</value>
+  </data>
+  <data name="ExifFlashMode.StrobeReturnLightNotDetected" xml:space="preserve">
+    <value>Strobe return light not detected</value>
+  </data>
+  <data name="ExifFlashMode.StrobeReturnLightDetected" xml:space="preserve">
+    <value>Strobe return light detected</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode" xml:space="preserve">
+    <value>Flash fired, compulsory flash mode</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_ReturnLightNotDetected" xml:space="preserve">
+    <value>Flash fired, compulsory flash mode, return light not detected</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_ReturnLightDetected" xml:space="preserve">
+    <value>Flash fired, compulsory flash mode, return light detected</value>
+  </data>
+  <data name="ExifFlashMode.FlashDidNotFire_CompulsoryFlashMode" xml:space="preserve">
+    <value>Flash did not fire, compulsory flash mode</value>
+  </data>
+  <data name="ExifFlashMode.FlashDidNotFire_AutoMode" xml:space="preserve">
+    <value>Flash did not fire, auto mode</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_AutoMode" xml:space="preserve">
+    <value>Flash fired, auto mode</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_AutoMode_ReturnLightNotDetected" xml:space="preserve">
+    <value>Flash fired, auto mode, return light not detected</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_AutoMode_ReturnLightDetected" xml:space="preserve">
+    <value>Flash fired, auto mode, return light detected</value>
+  </data>
+  <data name="ExifFlashMode.NoFlashFunction" xml:space="preserve">
+    <value>No flash function</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_RedEyeReductionMode" xml:space="preserve">
+    <value>Flash fired, red-eye reduction mode</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_RedEyeReductionMode_ReturnLightNotDetected" xml:space="preserve">
+    <value>Flash fired, red-eye reduction mode, return light not detected</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_RedEyeReductionMode_ReturnLightDetected" xml:space="preserve">
+    <value>Flash fired, red-eye reduction mode, return light detected</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_RedEyeReductionMode" xml:space="preserve">
+    <value>Flash fired, compulsory flash mode, red-eye reduction mode</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_RedEyeReductionMode_ReturnLightNotDetected" xml:space="preserve">
+    <value>Flash fired, compulsory flash mode, red-eye reduction mode, return light not detected</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_RedEyeReductionMode_ReturnLightDetected" xml:space="preserve">
+    <value>Flash fired, compulsory flash mode, red-eye reduction mode, return light detected</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_AutoMode_RedEyeReductionMode" xml:space="preserve">
+    <value>Flash fired, auto mode, red-eye reduction mode</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_AutoMode_ReturnLightNotDetected_RedEyeReductionMode" xml:space="preserve">
+    <value>Flash fired, auto mode, return light not detected, red-eye reduction mode</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_AutoMode_ReturnLightDetected_RedEyeReductionMode" xml:space="preserve">
+    <value>Flash fired, auto mode, return light detected, red-eye reduction mode</value>
+  </data>
+  <data name="ExifLightSource.Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="ExifLightSource.Daylight" xml:space="preserve">
+    <value>Daylight</value>
+  </data>
+  <data name="ExifLightSource.Fluorescent" xml:space="preserve">
+    <value>Fluorescent</value>
+  </data>
+  <data name="ExifLightSource.Tungsten" xml:space="preserve">
+    <value>Tungsten</value>
+  </data>
+  <data name="ExifLightSource.Flash" xml:space="preserve">
+    <value>Flash</value>
+  </data>
+  <data name="ExifLightSource.FineWeather" xml:space="preserve">
+    <value>Fine weather</value>
+  </data>
+  <data name="ExifLightSource.CloudyWeather" xml:space="preserve">
+    <value>Cloudy weather</value>
+  </data>
+  <data name="ExifLightSource.Shade" xml:space="preserve">
+    <value>Shade</value>
+  </data>
+  <data name="ExifLightSource.DaylightFluorescent" xml:space="preserve">
+    <value>Daylight fluorescent</value>
+  </data>
+  <data name="ExifLightSource.DayWhiteFluorescent" xml:space="preserve">
+    <value>Day white fluorescent</value>
+  </data>
+  <data name="ExifLightSource.CoolWhiteFluorescent" xml:space="preserve">
+    <value>Cool white fluorescent</value>
+  </data>
+  <data name="ExifLightSource.WhiteFluorescent" xml:space="preserve">
+    <value>White fluorescent</value>
+  </data>
+  <data name="ExifLightSource.StandardLightA" xml:space="preserve">
+    <value>Standard light A</value>
+  </data>
+  <data name="ExifLightSource.StandardLightB" xml:space="preserve">
+    <value>Standard light B</value>
+  </data>
+  <data name="ExifLightSource.StandardLightC" xml:space="preserve">
+    <value>Standard light C</value>
+  </data>
+  <data name="ExifLightSource.D55" xml:space="preserve">
+    <value>D55</value>
+  </data>
+  <data name="ExifLightSource.D65" xml:space="preserve">
+    <value>D65</value>
+  </data>
+  <data name="ExifLightSource.D75" xml:space="preserve">
+    <value>D75</value>
+  </data>
+  <data name="ExifLightSource.D50" xml:space="preserve">
+    <value>D50</value>
+  </data>
+  <data name="ExifLightSource.ISOStudioTungsten" xml:space="preserve">
+    <value>ISO studio tungsten</value>
+  </data>
+  <data name="ExifLightSource.OtherLightSource" xml:space="preserve">
+    <value>Other light source</value>
+  </data>
+  <data name="ExifMeteringMode.Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="ExifMeteringMode.Average" xml:space="preserve">
+    <value>Average</value>
+  </data>
+  <data name="ExifMeteringMode.CenterWeightedAverage" xml:space="preserve">
+    <value>Center weighted average</value>
+  </data>
+  <data name="ExifMeteringMode.Spot" xml:space="preserve">
+    <value>Spot</value>
+  </data>
+  <data name="ExifMeteringMode.MultiSpot" xml:space="preserve">
+    <value>Multi spot</value>
+  </data>
+  <data name="ExifMeteringMode.Pattern" xml:space="preserve">
+    <value>Pattern</value>
+  </data>
+  <data name="ExifMeteringMode.Partial" xml:space="preserve">
+    <value>Partial</value>
+  </data>
+  <data name="ExifMeteringMode.Other" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.WhiteIsZero" xml:space="preserve">
+    <value>White is zero</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.BlackIsZero" xml:space="preserve">
+    <value>Black is zero</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.RGB" xml:space="preserve">
+    <value>RGB</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.PaletteColor" xml:space="preserve">
+    <value>Palette color</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.TransparencyMask" xml:space="preserve">
+    <value>Transparency mask</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.CMYK" xml:space="preserve">
+    <value>CMYK</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.YCbCr" xml:space="preserve">
+    <value>YCbCr</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.CIELab" xml:space="preserve">
+    <value>CIE L*a*b*</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.ICCLab" xml:space="preserve">
+    <value>ICC L*a*b*</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.ITULab" xml:space="preserve">
+    <value>ITU L*a*b*</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.CFA" xml:space="preserve">
+    <value>CFA</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.PixarLogL" xml:space="preserve">
+    <value>Pixar LogL</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.LogLuv" xml:space="preserve">
+    <value>LogLuv</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.LinearRaw" xml:space="preserve">
+    <value>Linear raw</value>
+  </data>
+  <data name="ExifSaturation.Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="ExifSaturation.LowSaturation" xml:space="preserve">
+    <value>LowSaturation</value>
+  </data>
+  <data name="ExifSaturation.HighSaturation" xml:space="preserve">
+    <value>HighSaturation</value>
+  </data>
+  <data name="ExifSharpness.Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="ExifSharpness.Soft" xml:space="preserve">
+    <value>Soft</value>
+  </data>
+  <data name="ExifSharpness.Hard" xml:space="preserve">
+    <value>Hard</value>
+  </data>
+  <data name="ExifWhiteBalance.AutoWhiteBalance" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="ExifWhiteBalance.ManualWhiteBalance" xml:space="preserve">
+    <value>Manual</value>
+  </data>
+  <data name="Information.File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="Information.Image" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="Information.Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Information.Origin" xml:space="preserve">
+    <value>Origin</value>
+  </data>
+  <data name="Information.Camera" xml:space="preserve">
+    <value>Camera</value>
+  </data>
+  <data name="Information.AdvancedPhoto" xml:space="preserve">
+    <value>Advanced photo</value>
+  </data>
+  <data name="Information.Gps" xml:space="preserve">
+    <value>GPS</value>
+  </data>
+  <data name="Information.OpenMap" xml:space="preserve">
+    <value>Open map</value>
+  </data>
 </root>

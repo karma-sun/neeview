@@ -6273,4 +6273,448 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="MouseConfig.IsHoverScroll" xml:space="preserve">
     <value>ホバー スクロール モード</value>
   </data>
+  <data name="FilePropertyKey.FileName" xml:space="preserve">
+    <value>ファイル名</value>
+  </data>
+  <data name="FilePropertyKey.FilePath" xml:space="preserve">
+    <value>アーカイブ パス</value>
+  </data>
+  <data name="FilePropertyKey.CreationTime" xml:space="preserve">
+    <value>作成日時</value>
+  </data>
+  <data name="FilePropertyKey.LastWriteTime" xml:space="preserve">
+    <value>更新日時</value>
+  </data>
+  <data name="FilePropertyKey.FileSize" xml:space="preserve">
+    <value>サイズ</value>
+  </data>
+  <data name="FilePropertyKey.FolderPlace" xml:space="preserve">
+    <value>フォルダーの場所</value>
+  </data>
+  <data name="ImagePropertyKey.Dimensions" xml:space="preserve">
+    <value>大きさ</value>
+  </data>
+  <data name="ImagePropertyKey.Width" xml:space="preserve">
+    <value>幅</value>
+  </data>
+  <data name="ImagePropertyKey.Height" xml:space="preserve">
+    <value>高さ</value>
+  </data>
+  <data name="ImagePropertyKey.HorizontalResolution" xml:space="preserve">
+    <value>水平方向の解像度</value>
+  </data>
+  <data name="ImagePropertyKey.VerticalResolution" xml:space="preserve">
+    <value>垂直方向の解像度</value>
+  </data>
+  <data name="ImagePropertyKey.BitDepth" xml:space="preserve">
+    <value>ビットの深さ</value>
+  </data>
+  <data name="ImagePropertyKey.Archiver" xml:space="preserve">
+    <value>アーカイバー</value>
+  </data>
+  <data name="ImagePropertyKey.Decoder" xml:space="preserve">
+    <value>デコーダー</value>
+  </data>
+  <data name="BitmapMetadataKey.Title" xml:space="preserve">
+    <value>タイトル</value>
+  </data>
+  <data name="BitmapMetadataKey.Subject" xml:space="preserve">
+    <value>件名</value>
+  </data>
+  <data name="BitmapMetadataKey.Rating" xml:space="preserve">
+    <value>評価</value>
+  </data>
+  <data name="BitmapMetadataKey.Tags" xml:space="preserve">
+    <value>タグ</value>
+  </data>
+  <data name="BitmapMetadataKey.Comments" xml:space="preserve">
+    <value>コメント</value>
+  </data>
+  <data name="BitmapMetadataKey.Author" xml:space="preserve">
+    <value>作成者</value>
+  </data>
+  <data name="BitmapMetadataKey.DateTaken" xml:space="preserve">
+    <value>撮影日時</value>
+  </data>
+  <data name="BitmapMetadataKey.ApplicatoinName" xml:space="preserve">
+    <value>プログラム名</value>
+  </data>
+  <data name="BitmapMetadataKey.DateAcquired" xml:space="preserve">
+    <value>取得日時</value>
+  </data>
+  <data name="BitmapMetadataKey.Copyright" xml:space="preserve">
+    <value>著作権</value>
+  </data>
+  <data name="BitmapMetadataKey.CameraMaker" xml:space="preserve">
+    <value>カメラ メーカー</value>
+  </data>
+  <data name="BitmapMetadataKey.CameraModel" xml:space="preserve">
+    <value>カメラ モデル</value>
+  </data>
+  <data name="BitmapMetadataKey.FNumber" xml:space="preserve">
+    <value>絞り値</value>
+  </data>
+  <data name="BitmapMetadataKey.ExposureTime" xml:space="preserve">
+    <value>露出時間</value>
+  </data>
+  <data name="BitmapMetadataKey.ISOSpeed" xml:space="preserve">
+    <value>ISO 速度</value>
+  </data>
+  <data name="BitmapMetadataKey.ExposureBias" xml:space="preserve">
+    <value>露出補正</value>
+  </data>
+  <data name="BitmapMetadataKey.FocalLength" xml:space="preserve">
+    <value>焦点距離</value>
+  </data>
+  <data name="BitmapMetadataKey.MaxAperture" xml:space="preserve">
+    <value>最大絞り</value>
+  </data>
+  <data name="BitmapMetadataKey.MeteringMode" xml:space="preserve">
+    <value>測光モード</value>
+  </data>
+  <data name="BitmapMetadataKey.SubjectDistance" xml:space="preserve">
+    <value>対象の距離</value>
+  </data>
+  <data name="BitmapMetadataKey.FlashMode" xml:space="preserve">
+    <value>フラッシュ モード</value>
+  </data>
+  <data name="BitmapMetadataKey.FlashEnergy" xml:space="preserve">
+    <value>フラッシュ エネルギー</value>
+  </data>
+  <data name="BitmapMetadataKey.FocalLengthIn35mmFilm" xml:space="preserve">
+    <value>35mm 焦点距離</value>
+  </data>
+  <data name="BitmapMetadataKey.LensMaker" xml:space="preserve">
+    <value>レンズ メーカー</value>
+  </data>
+  <data name="BitmapMetadataKey.LensModel" xml:space="preserve">
+    <value>レンズ モデル</value>
+  </data>
+  <data name="BitmapMetadataKey.FlashMaker" xml:space="preserve">
+    <value>フラッシュ メーカー</value>
+  </data>
+  <data name="BitmapMetadataKey.FlashModel" xml:space="preserve">
+    <value>フラッシュ モデル</value>
+  </data>
+  <data name="BitmapMetadataKey.CameraSerialNumber" xml:space="preserve">
+    <value>カメラ製造番号</value>
+  </data>
+  <data name="BitmapMetadataKey.Contrast" xml:space="preserve">
+    <value>コントラスト</value>
+  </data>
+  <data name="BitmapMetadataKey.Brightness" xml:space="preserve">
+    <value>明るさ</value>
+  </data>
+  <data name="BitmapMetadataKey.LightSource" xml:space="preserve">
+    <value>光源</value>
+  </data>
+  <data name="BitmapMetadataKey.ExposureProgram" xml:space="preserve">
+    <value>露出プログラム</value>
+  </data>
+  <data name="BitmapMetadataKey.Saturation" xml:space="preserve">
+    <value>彩度</value>
+  </data>
+  <data name="BitmapMetadataKey.Sharpness" xml:space="preserve">
+    <value>鮮明度</value>
+  </data>
+  <data name="BitmapMetadataKey.WhiteBalance" xml:space="preserve">
+    <value>ホワイト バランス</value>
+  </data>
+  <data name="BitmapMetadataKey.PhotometricInterpretation" xml:space="preserve">
+    <value>光度測定解釈</value>
+  </data>
+  <data name="BitmapMetadataKey.DigitalZoom" xml:space="preserve">
+    <value>デジタル ズーム</value>
+  </data>
+  <data name="BitmapMetadataKey.EXIFVersion" xml:space="preserve">
+    <value>EXIF バージョン</value>
+  </data>
+  <data name="BitmapMetadataKey.GPSLatitude" xml:space="preserve">
+    <value>緯度</value>
+  </data>
+  <data name="BitmapMetadataKey.GPSLongitude" xml:space="preserve">
+    <value>経度</value>
+  </data>
+  <data name="BitmapMetadataKey.GPSAltitude" xml:space="preserve">
+    <value>高度</value>
+  </data>
+  <data name="ExifContrast.Normal" xml:space="preserve">
+    <value>標準</value>
+  </data>
+  <data name="ExifContrast.Soft" xml:space="preserve">
+    <value>ソフト</value>
+  </data>
+  <data name="ExifContrast.Hard" xml:space="preserve">
+    <value>ハード</value>
+  </data>
+  <data name="ExifExposureProgram.NotDefined" xml:space="preserve">
+    <value>不明</value>
+  </data>
+  <data name="ExifExposureProgram.Manual" xml:space="preserve">
+    <value>手動</value>
+  </data>
+  <data name="ExifExposureProgram.NormalProgram" xml:space="preserve">
+    <value>標準</value>
+  </data>
+  <data name="ExifExposureProgram.AperturePriority" xml:space="preserve">
+    <value>絞り優先</value>
+  </data>
+  <data name="ExifExposureProgram.ShutterPriority" xml:space="preserve">
+    <value>シャッター優先</value>
+  </data>
+  <data name="ExifExposureProgram.CreativeProgram " xml:space="preserve">
+    <value>深度優先</value>
+  </data>
+  <data name="ExifExposureProgram.ActionProgram " xml:space="preserve">
+    <value>動体優先</value>
+  </data>
+  <data name="ExifExposureProgram.PortraitMode " xml:space="preserve">
+    <value>縦長</value>
+  </data>
+  <data name="ExifExposureProgram.LandscapeMode " xml:space="preserve">
+    <value>横長</value>
+  </data>
+  <data name="ExifFlashMode.FlashDidNotFire" xml:space="preserve">
+    <value>フラッシュなし</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired" xml:space="preserve">
+    <value>フラッシュ</value>
+  </data>
+  <data name="ExifFlashMode.StrobeReturnLightNotDetected" xml:space="preserve">
+    <value>フラッシュ (ストロボの反射光なし)</value>
+  </data>
+  <data name="ExifFlashMode.StrobeReturnLightDetected" xml:space="preserve">
+    <value>フラッシュ (ストロボの反射光あり)</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode" xml:space="preserve">
+    <value>フラッシュ (強制)</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_ReturnLightNotDetected" xml:space="preserve">
+    <value>フラッシュ (強制、ストロボの反射光なし)</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_ReturnLightDetected" xml:space="preserve">
+    <value>フラッシュ (強制、ストロボの反射光あり)</value>
+  </data>
+  <data name="ExifFlashMode.FlashDidNotFire_CompulsoryFlashMode" xml:space="preserve">
+    <value>フラッシュなし (強制)</value>
+  </data>
+  <data name="ExifFlashMode.FlashDidNotFire_AutoMode" xml:space="preserve">
+    <value>フラッシュなし (自動)</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_AutoMode" xml:space="preserve">
+    <value>フラッシュ (自動)</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_AutoMode_ReturnLightNotDetected" xml:space="preserve">
+    <value>フラッシュ (自動、ストロボの反射光なし)</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_AutoMode_ReturnLightDetected" xml:space="preserve">
+    <value>フラッシュ (自動、ストロボの反射光あり)</value>
+  </data>
+  <data name="ExifFlashMode.NoFlashFunction" xml:space="preserve">
+    <value>フラッシュ機能なし</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_RedEyeReductionMode" xml:space="preserve">
+    <value>フラッシュ (赤目修整)</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_RedEyeReductionMode_ReturnLightNotDetected" xml:space="preserve">
+    <value>フラッシュ (赤目修整、ストロボの反射光なし)</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_RedEyeReductionMode_ReturnLightDetected" xml:space="preserve">
+    <value>フラッシュ (赤目修整、ストロボの反射光あり)</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_RedEyeReductionMode" xml:space="preserve">
+    <value>フラッシュ (強制、赤目修整)</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_RedEyeReductionMode_ReturnLightNotDetected" xml:space="preserve">
+    <value>フラッシュ (強制、赤目修整、ストロボの反射光なし)</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_RedEyeReductionMode_ReturnLightDetected" xml:space="preserve">
+    <value>フラッシュ (強制、赤目修整、ストロボの反射光あり)</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_AutoMode_RedEyeReductionMode" xml:space="preserve">
+    <value>フラッシュ (自動、赤目修整)</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_AutoMode_ReturnLightNotDetected_RedEyeReductionMode" xml:space="preserve">
+    <value>フラッシュ (自動、赤目修整、ストロボの反射光なし)</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_AutoMode_ReturnLightDetected_RedEyeReductionMode" xml:space="preserve">
+    <value>フラッシュ (自動、赤目修整、ストロボの反射光あり)</value>
+  </data>
+  <data name="ExifLightSource.Unknown" xml:space="preserve">
+    <value>不明</value>
+  </data>
+  <data name="ExifLightSource.Daylight" xml:space="preserve">
+    <value>日光</value>
+  </data>
+  <data name="ExifLightSource.Fluorescent" xml:space="preserve">
+    <value>蛍光灯</value>
+  </data>
+  <data name="ExifLightSource.Tungsten" xml:space="preserve">
+    <value>タングステン</value>
+  </data>
+  <data name="ExifLightSource.Flash" xml:space="preserve">
+    <value>フラッシュ</value>
+  </data>
+  <data name="ExifLightSource.FineWeather" xml:space="preserve">
+    <value>快晴</value>
+  </data>
+  <data name="ExifLightSource.CloudyWeather" xml:space="preserve">
+    <value>曇天</value>
+  </data>
+  <data name="ExifLightSource.Shade" xml:space="preserve">
+    <value>日陰</value>
+  </data>
+  <data name="ExifLightSource.DaylightFluorescent" xml:space="preserve">
+    <value>昼光色蛍光灯</value>
+  </data>
+  <data name="ExifLightSource.DayWhiteFluorescent" xml:space="preserve">
+    <value>昼白色蛍光灯</value>
+  </data>
+  <data name="ExifLightSource.CoolWhiteFluorescent" xml:space="preserve">
+    <value>涼しげな白色蛍光灯</value>
+  </data>
+  <data name="ExifLightSource.WhiteFluorescent" xml:space="preserve">
+    <value>白色蛍光灯</value>
+  </data>
+  <data name="ExifLightSource.StandardLightA" xml:space="preserve">
+    <value>標準イルミナント A</value>
+  </data>
+  <data name="ExifLightSource.StandardLightB" xml:space="preserve">
+    <value>標準イルミナント B</value>
+  </data>
+  <data name="ExifLightSource.StandardLightC" xml:space="preserve">
+    <value>標準イルミナント C</value>
+  </data>
+  <data name="ExifLightSource.D55" xml:space="preserve">
+    <value>D55</value>
+  </data>
+  <data name="ExifLightSource.D65" xml:space="preserve">
+    <value>D65</value>
+  </data>
+  <data name="ExifLightSource.D75" xml:space="preserve">
+    <value>D75</value>
+  </data>
+  <data name="ExifLightSource.D50" xml:space="preserve">
+    <value>D50</value>
+  </data>
+  <data name="ExifLightSource.ISOStudioTungsten" xml:space="preserve">
+    <value>ISO スタジオ タングステン</value>
+  </data>
+  <data name="ExifLightSource.OtherLightSource" xml:space="preserve">
+    <value>その他の光源</value>
+  </data>
+  <data name="ExifMeteringMode.Unknown" xml:space="preserve">
+    <value>不明</value>
+  </data>
+  <data name="ExifMeteringMode.Average" xml:space="preserve">
+    <value>均等</value>
+  </data>
+  <data name="ExifMeteringMode.CenterWeightedAverage" xml:space="preserve">
+    <value>中央重点測光</value>
+  </data>
+  <data name="ExifMeteringMode.Spot" xml:space="preserve">
+    <value>スポット</value>
+  </data>
+  <data name="ExifMeteringMode.MultiSpot" xml:space="preserve">
+    <value>マルチ スポット</value>
+  </data>
+  <data name="ExifMeteringMode.Pattern" xml:space="preserve">
+    <value>パターン</value>
+  </data>
+  <data name="ExifMeteringMode.Partial" xml:space="preserve">
+    <value>部分</value>
+  </data>
+  <data name="ExifMeteringMode.Other" xml:space="preserve">
+    <value>その他</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.WhiteIsZero" xml:space="preserve">
+    <value>White is zero</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.BlackIsZero" xml:space="preserve">
+    <value>Black is zero</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.RGB" xml:space="preserve">
+    <value>RGB</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.PaletteColor" xml:space="preserve">
+    <value>パレット カラー</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.TransparencyMask" xml:space="preserve">
+    <value>透過マスク</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.CMYK" xml:space="preserve">
+    <value>CMYK</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.YCbCr" xml:space="preserve">
+    <value>YCbCr</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.CIELab" xml:space="preserve">
+    <value>CIE L*a*b*</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.ICCLab" xml:space="preserve">
+    <value>ICC L*a*b*</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.ITULab" xml:space="preserve">
+    <value>ITU L*a*b*</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.CFA" xml:space="preserve">
+    <value>CFA</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.PixarLogL" xml:space="preserve">
+    <value>Pixar LogL</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.LogLuv" xml:space="preserve">
+    <value>LogLuv</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.LinearRaw" xml:space="preserve">
+    <value>Linear raw</value>
+  </data>
+  <data name="ExifSaturation.Normal" xml:space="preserve">
+    <value>標準</value>
+  </data>
+  <data name="ExifSaturation.LowSaturation" xml:space="preserve">
+    <value>低彩度</value>
+  </data>
+  <data name="ExifSaturation.HighSaturation" xml:space="preserve">
+    <value>高彩度</value>
+  </data>
+  <data name="ExifSharpness.Normal" xml:space="preserve">
+    <value>標準</value>
+  </data>
+  <data name="ExifSharpness.Soft" xml:space="preserve">
+    <value>ソフト</value>
+  </data>
+  <data name="ExifSharpness.Hard" xml:space="preserve">
+    <value>ハード</value>
+  </data>
+  <data name="ExifWhiteBalance.AutoWhiteBalance" xml:space="preserve">
+    <value>自動</value>
+  </data>
+  <data name="ExifWhiteBalance.ManualWhiteBalance" xml:space="preserve">
+    <value>手動</value>
+  </data>
+  <data name="Information.File" xml:space="preserve">
+    <value>ファイル</value>
+  </data>
+  <data name="Information.Image" xml:space="preserve">
+    <value>イメージ</value>
+  </data>
+  <data name="Information.Description" xml:space="preserve">
+    <value>説明</value>
+  </data>
+  <data name="Information.Origin" xml:space="preserve">
+    <value>ソース</value>
+  </data>
+  <data name="Information.Camera" xml:space="preserve">
+    <value>カメラ</value>
+  </data>
+  <data name="Information.AdvancedPhoto" xml:space="preserve">
+    <value>写真詳細</value>
+  </data>
+  <data name="Information.Gps" xml:space="preserve">
+    <value>GPS</value>
+  </data>
+  <data name="Information.OpenMap" xml:space="preserve">
+    <value>地図を開く</value>
+  </data>
 </root>

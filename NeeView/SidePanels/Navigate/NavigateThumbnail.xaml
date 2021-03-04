@@ -11,8 +11,8 @@
         <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityHiddenConverter" False="Hidden" />
     </UserControl.Resources>
 
-    <Border x:Name="Root" BorderThickness="0" BorderBrush="DarkGray" Visibility="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}">
-        <Grid x:Name="ThumbnailGrid" Width="{Binding ThumbnailWidth}" Height="{Binding ThumbnailHeight}" Background="{Binding MainViewVisualBrush}" ClipToBounds="True">
+    <Border x:Name="Root" BorderThickness="0" BorderBrush="DarkGray" Visibility="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" >
+        <Grid x:Name="ThumbnailGrid" Width="{Binding ThumbnailWidth}" Height="{Binding ThumbnailHeight}" Background="{Binding MainViewVisualBrush}">
             <Canvas>
                 <Path Stroke="Red" StrokeThickness="1" Data="{Binding ViewboxGeometry}" RenderOptions.EdgeMode="Unspecified" />
             </Canvas>

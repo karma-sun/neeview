@@ -46,9 +46,10 @@ namespace NeeView
                 var size = (Config.Current.Performance.IsLimitSourceSize && !maxSize.IsContains(originalSize)) ? originalSize.Uniformed(maxSize) : Size.Empty;
                 pictureInfo.Size = size.IsEmpty ? originalSize : size;
 
-                pictureInfo.Decoder = _streamSource.Decoder ?? ".Net BitmapImage";
+                pictureInfo.Decoder = _streamSource.Decoder ?? ".NET BitmapImage";
                 pictureInfo.BitsPerPixel = bitmapInfo.BitsPerPixel;
                 pictureInfo.Exif = bitmapInfo.Exif;
+                pictureInfo.Metadata = bitmapInfo.Metadata;
                 pictureInfo.AspectRatio = bitmapInfo.AspectRatio;
                 pictureInfo.AspectSize = new Size(bitmapInfo.AspectWidth, bitmapInfo.AspectHeight);
 

@@ -167,4 +167,10 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Page Update="SidePanels\FileInfo\FileInformationContent.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+  </ItemGroup>
+
 </Project>

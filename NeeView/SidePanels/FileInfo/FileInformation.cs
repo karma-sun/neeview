@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Data;
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace NeeView
         static FileInformation() => Current = new FileInformation();
 
 
-        private List<FileInformationSource> _fileInformations;
+        private DelayValue<List<FileInformationSource>> _fileInformationsDelay;
 
 
         private FileInformation()
@@ -26,13 +27,15 @@ namespace NeeView
 
             mainViewComponent.ContentCanvas.ContentChanged +=
                 (s, e) => Update(mainViewComponent.ContentCanvas.Contents);
+
+            _fileInformationsDelay = new DelayValue<List<FileInformationSource>>();
+            _fileInformationsDelay.ValueChanged += (s, e) => RaisePropertyChanged(nameof(FileInformations));
         }
 
 
         public List<FileInformationSource> FileInformations
         {
-            get { return _fileInformations; }
-            set { SetProperty(ref _fileInformations, value); }
+            get { return _fileInformationsDelay.Value; }
         }
 
 
@@ -43,11 +46,13 @@ namespace NeeView
 
         public void Update(IEnumerable<ViewContent> viewContents)
         {
-            FileInformations = viewContents?
+            var fileInformations = viewContents?
                 .Reverse()
                 .Where(e => e.IsInformationValid)
                 .Select(e => new FileInformationSource(e))
                 .ToList();
+
+            _fileInformationsDelay.SetValue(fileInformations, 100); // 100ms delay
         }
 
         public void Update()

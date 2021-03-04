@@ -29,7 +29,7 @@ namespace NeeView
 
         public override string ToString()
         {
-            return ".Net ZipArchiver";
+            return ".NET ZipArchiver";
         }
 
         // サポート判定

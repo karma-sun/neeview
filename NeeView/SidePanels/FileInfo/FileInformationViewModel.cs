@@ -1,11 +1,15 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeLaboratory.Windows.Input;
+using NeeView.Media.Imaging.Metadata;
+using NeeView.Windows.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -30,7 +34,7 @@ namespace NeeView
             Config.Current.Information.AddPropertyChanged(nameof(InformationConfig.IsVisibleBitsPerPixel),
                 (s, e) => _model.Update());
 
-            this.OpenPlace = new RelayCommand(OpenPlace_Execute);
+            InitializeMoreMenu();
         }
 
 
@@ -50,8 +54,6 @@ namespace NeeView
             set { SetProperty(ref _selectedItem, value); }
         }
 
-        public RelayCommand OpenPlace { get; private set; }
-
 
         private void Model_FileInformationsChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -63,16 +65,40 @@ namespace NeeView
             }
         }
 
-        private void OpenPlace_Execute()
-        {
-            if (SelectedItem is null) return;
 
-            var place = SelectedItem.ViewContent.Page?.GetFolderOpenPlace();
-            if (!string.IsNullOrWhiteSpace(place))
-            {
-                System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + place + "\"");
-            }
+
+        #region MoreMenu
+
+        private ContextMenu _moreMenu;
+
+        public ContextMenu MoreMenu
+        {
+            get { return _moreMenu; }
+            set { if (_moreMenu != value) { _moreMenu = value; RaisePropertyChanged(); } }
         }
 
+        private void InitializeMoreMenu()
+        {
+            var menu = new ContextMenu();
+            menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Information_File, new Binding(nameof(InformationConfig.IsVisibleFileSection)) { Source = Config.Current.Information }));
+            menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Information_Image, new Binding(nameof(InformationConfig.IsVisibleImageSection)) { Source = Config.Current.Information }));
+            menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Information_Description, new Binding(nameof(InformationConfig.IsVisibleDescriptionSection)) { Source = Config.Current.Information }));
+            menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Information_Origin, new Binding(nameof(InformationConfig.IsVisibleOriginSection)) { Source = Config.Current.Information }));
+            menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Information_Camera, new Binding(nameof(InformationConfig.IsVisibleCameraSection)) { Source = Config.Current.Information }));
+            menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Information_AdvancedPhoto, new Binding(nameof(InformationConfig.IsVisibleAdvancedPhotoSection)) { Source = Config.Current.Information }));
+            menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Information_Gps, new Binding(nameof(InformationConfig.IsVisibleGpsSection)) { Source = Config.Current.Information }));
+            this.MoreMenu = menu;
+        }
+
+        private MenuItem CreateCheckMenuItem(string header, Binding binding)
+        {
+            var item = new MenuItem();
+            item.Header = header;
+            item.IsCheckable = true;
+            item.SetBinding(MenuItem.IsCheckedProperty, binding);
+            return item;
+        }
+
+        #endregion
     }
 }

@@ -1,20 +1,10 @@
-﻿<UserControl x:Class="NeeView.FileInformationView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:NeeView"
-             xmlns:properties="clr-namespace:NeeView.Properties"
-             xmlns:nw="clr-namespace:NeeView.Windows;assembly=NeeView.Runtime"
-             mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="300" MinWidth="100"
-             Focusable="True"
-             FocusVisualStyle="{x:Null}"
-             Foreground="{DynamicResource NVForeground}">
+﻿<UserControl x:Class="NeeView.FileInformationView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:b="http://schemas.microsoft.com/xaml/behaviors" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:NeeView" xmlns:nv="clr-namespace:NeeView" xmlns:nvc="clr-namespace:NeeView.Windows.Controls" xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:properties="clr-namespace:NeeView.Properties" xmlns:nw="clr-namespace:NeeView.Windows;assembly=NeeView.Runtime" mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="300" MinWidth="100"
+        Focusable="True" FocusVisualStyle="{x:Null}" Foreground="{DynamicResource NVForeground}">
 
     <UserControl.Resources>
-
         <DrawingImage x:Key="ic_info_24px">
             <DrawingImage.Drawing>
                 <DrawingGroup>
@@ -32,7 +22,9 @@
             </DrawingImage.Drawing>
         </DrawingImage>
 
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityHiddenConverter" False="Hidden" />
+        <local:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter" />
 
         <Style x:Key="PagemarkIconStyle" TargetType="Image">
             <Setter Property="Width" Value="16" />
@@ -44,87 +36,63 @@
     </UserControl.Resources>
 
     <Grid Background="Transparent" Margin="2">
-        <ScrollViewer x:Name="ScrollView" Style="{StaticResource DarkScrollViewer}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Focusable="False" CanContentScroll="False">
-            <StackPanel>
-                <StackPanel.Resources>
-                    <Style TargetType="local:FileInfoItem">
-                        <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+        <DockPanel>
+            <DockPanel.Resources>
+                <ControlTemplate x:Key="NoScroll">
+                    <ItemsPresenter></ItemsPresenter>
+                </ControlTemplate>
+            </DockPanel.Resources>
+
+            <DockPanel DockPanel.Dock="Top" LastChildFill="False" KeyboardNavigation.TabNavigation="Local">
+                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Height="30" Width="30" MouseRightButtonUp="MoreButton_MouseRightButtonUp"
+                        Checked="MoreButton_Checked" nvc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}" TabIndex="2">
+                    <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16" />
+                </ToggleButton>
+            </DockPanel>
+
+            <nw:ListBoxExteded x:Name="ThumbnailListBox" DockPanel.Dock="Top" Style="{StaticResource NVListBox}" Template="{StaticResource NoScroll}" ItemsSource="{Binding FileInformations}"
+                    SelectedItem="{Binding SelectedItem}" Margin="2" MinHeight="120" MinWidth="256" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <b:Interaction.Behaviors>
+                    <nw:ListBoxExtendedDragDropStartBehavior AllowedEffects="Copy, Scroll" AllowRightButtonDrag="True" DragDropFormat="{x:Static local:FileInformationView.DragDropFormat}"
+                            DragBeginAsync="DragStartBehavior_DragBeginAsync" />
+                </b:Interaction.Behaviors>
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel IsItemsHost="True" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource NVListBoxItem}">
+                        <EventSetter Event="ContextMenuOpening" Handler="ThumbnailListBoxItem_ContextMenuOpening" />
+                        <Setter Property="FocusVisualStyle" Value="{StaticResource NVListItemFocusVisual}" />
+                        <Setter Property="ContextMenu">
+                            <Setter.Value>
+                                <ContextMenu />
+                            </Setter.Value>
+                        </Setter>
                     </Style>
-                    <ControlTemplate x:Key="NoScroll">
-                        <ItemsPresenter></ItemsPresenter>
-                    </ControlTemplate>
-                </StackPanel.Resources>
-
-                <!-- Thumbnails -->
-                <nw:ListBoxExteded x:Name="ThumbnailListBox" Style="{StaticResource NVListBox}" Template="{StaticResource NoScroll}"
-                         ItemsSource="{Binding FileInformations}" SelectedItem="{Binding SelectedItem}" Margin="2" MinHeight="120" MinWidth="256" ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
-                    <b:Interaction.Behaviors>
-                        <nw:ListBoxExtendedDragDropStartBehavior AllowedEffects="Copy, Scroll" AllowRightButtonDrag="True" DragDropFormat="{x:Static local:FileInformationView.DragDropFormat}"
-                                DragBeginAsync="DragStartBehavior_DragBeginAsync" />
-                    </b:Interaction.Behaviors>
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel IsItemsHost="True" />
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem" BasedOn="{StaticResource NVListBoxItem}">
-                            <EventSetter Event="ContextMenuOpening" Handler="ThumbnailListBoxItem_ContextMenuOpening" />
-                            <Setter Property="FocusVisualStyle" Value="{StaticResource NVListItemFocusVisual}" />
-                            <Setter Property="ContextMenu">
-                                <Setter.Value>
-                                    <ContextMenu />
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </ListBox.ItemContainerStyle>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Width="96" Height="96" Margin="4,8">
-                                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <ContentControl Content="{Binding Icon}" IsTabStop="false" Focusable="False" />
-                                    <Image DockPanel.Dock="Bottom" Style="{StaticResource PagemarkIconStyle}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-4,4,0">
-                                        <Image.Effect>
-                                            <DropShadowEffect ShadowDepth="2" Opacity="0.5" RenderingBias="Performance" />
-                                        </Image.Effect>
-                                    </Image>
-                                </Grid>
+                </ListBox.ItemContainerStyle>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Width="96" Height="96" Margin="4,8">
+                            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <ContentControl Content="{Binding Icon}" IsTabStop="false" Focusable="False" />
+                                <Image DockPanel.Dock="Bottom" Style="{StaticResource PagemarkIconStyle}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-4,4,0">
+                                    <Image.Effect>
+                                        <DropShadowEffect ShadowDepth="2" Opacity="0.5" RenderingBias="Performance" />
+                                    </Image.Effect>
+                                </Image>
                             </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </nw:ListBoxExteded>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </nw:ListBoxExteded>
 
-                <!-- Parameters -->
-                <local:FileInfoItem x:Name="ItemFileName" Header="{x:Static properties:Resources.Information_FileName}" Text="{Binding SelectedItem.ViewContent.FileName}" IsTabStop="True"/>
-                <local:FileInfoItem x:Name="ItemFilePath" Header="{x:Static properties:Resources.Information_FilePath}" Text="{Binding SelectedItem.FullPath}" IsTabStop="True" Visibility="{Binding Source={x:Static local:Config.Current}, Path=Information.IsVisibleFilePath, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                <local:FileInfoItem x:Name="ItemLastWriteTime" Header="{x:Static properties:Resources.Information_Date}" Text="{Binding SelectedItem.LastWriteTime}"/>
-                <local:FileInfoItem x:Name="ItemFileSize" Header="{x:Static properties:Resources.Information_FileSize}" Text="{Binding SelectedItem.FileSize}"/>
-                <local:FileInfoItem x:Name="ItemSize" Header="{x:Static properties:Resources.Information_ImageSize}" Text="{Binding SelectedItem.ImageSize}"/>
+            <ScrollViewer x:Name="ScrollView" Style="{StaticResource DarkScrollViewer}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Focusable="False"
+                    CanContentScroll="False" Visibility="{Binding SelectedItem, Converter={StaticResource NullableToVisibilityConverter}}">
+                <local:FileInformationContent DataContext="{Binding SelectedItem}" />
+            </ScrollViewer>
 
-                <local:FileInfoItem x:Name="ItemDateTimeOriginal" Header="{x:Static properties:Resources.Information_DateTimeOriginal}" Text="{Binding SelectedItem.DateTimeOriginal}" />
-                <local:FileInfoItem x:Name="ItemShotInfo" Header="{x:Static properties:Resources.Information_Info}" Text="{Binding SelectedItem.ShotInfo}" />
-                <local:FileInfoItem x:Name="ItemISOSpeedRatings" Header="{x:Static properties:Resources.Information_ISO}" Text="{Binding SelectedItem.ISOSpeedRatings}"/>
-                <local:FileInfoItem x:Name="ItemModel" Header="{x:Static properties:Resources.Information_Device}" Text="{Binding SelectedItem.CameraModel}"/>
-                <local:FileInfoItem x:Name="ItemFilePlace" Header="{x:Static properties:Resources.Information_FolderPath}" Text="{Binding SelectedItem.ViewContent.FolderPlace}"/>
-                <Button x:Name="OpenPlaceButton" Command="{Binding OpenPlace}" HorizontalAlignment="Left" Margin="-5,-3,0,0">
-                    <Button.Style>
-                        <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding SelectedItem.ViewContent.FolderPlace}" Value="{x:Null}">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                    <TextBlock Margin="8,5" Text="{x:Static properties:Resources.Information_OpenFolder}" Foreground="{StaticResource NVButtonForeground}"/>
-                </Button>
-
-                <StackPanel x:Name="GroupLoader" Visibility="{Binding LoaderVisibility}">
-                    <local:FileInfoItem x:Name="ItemArchiver" Header="{x:Static properties:Resources.Information_Archiver}" Text="{Binding SelectedItem.Archiver}" />
-                    <local:FileInfoItem x:Name="ItemDecoder" Header="{x:Static properties:Resources.Information_Decoder}" Text="{Binding SelectedItem.Decoder}"/>
-                </StackPanel>
-
-            </StackPanel>
-        </ScrollViewer>
+        </DockPanel>
     </Grid>
 </UserControl>

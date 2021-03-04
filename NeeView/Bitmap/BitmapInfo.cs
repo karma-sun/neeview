@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Media.Imaging.Metadata;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
@@ -20,11 +21,15 @@ namespace NeeView
         public bool IsMirrorHorizontal { get; private set; }
         public bool IsMirrorVertical { get; private set; }
         public Rotation Rotation { get; private set; }
+
+        [Obsolete]
         public BitmapExif Exif { get; private set; }
         public double AspectRatio { get; private set; }
         public double AspectWidth { get; private set; }
         public double AspectHeight { get; private set; }
         public int FrameCount { get; private set; }
+
+        public BitmapMetadataDatabase Metadata { get; private set; }
 
         // 転置？
         public bool IsTranspose => (this.Rotation == Rotation.Rotate90 || this.Rotation == Rotation.Rotate270);
@@ -44,6 +49,7 @@ namespace NeeView
             this.BitsPerPixel = bitmapFrame.Format.BitsPerPixel;
             var metadata = (BitmapMetadata)bitmapFrame.Metadata;
             this.Exif = new BitmapExif(metadata);
+            this.Metadata = new BitmapMetadataDatabase(metadata);
             this.FrameCount = bitmapFrame.Decoder is GifBitmapDecoder gifBitmapDecoder ? gifBitmapDecoder.Frames.Count : 1;
 
             this.AspectWidth = bitmapFrame.Width;

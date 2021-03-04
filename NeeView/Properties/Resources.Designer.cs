@@ -628,6 +628,375 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Applicatoin name に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_ApplicatoinName {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.ApplicatoinName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Author に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_Author {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.Author", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Brightness に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_Brightness {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.Brightness", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Camera maker に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_CameraMaker {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.CameraMaker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Camera model に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_CameraModel {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.CameraModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Camera serial number に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_CameraSerialNumber {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.CameraSerialNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Comments に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_Comments {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.Comments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Contrast に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_Contrast {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.Contrast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Copyright に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_Copyright {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.Copyright", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Date acquired に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_DateAcquired {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.DateAcquired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Date taken に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_DateTaken {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.DateTaken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Digital zoom に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_DigitalZoom {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.DigitalZoom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   EXIF version に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_EXIFVersion {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.EXIFVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Exposure bias に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_ExposureBias {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.ExposureBias", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Exposure program に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_ExposureProgram {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.ExposureProgram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Exposure time に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_ExposureTime {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.ExposureTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flash energy に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_FlashEnergy {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.FlashEnergy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flash maker に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_FlashMaker {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.FlashMaker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flash mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_FlashMode {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.FlashMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flash model に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_FlashModel {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.FlashModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   FNumber に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_FNumber {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.FNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Focal length に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_FocalLength {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.FocalLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Focal length in 35mm film に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_FocalLengthIn35mmFilm {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.FocalLengthIn35mmFilm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Altitude に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_GPSAltitude {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.GPSAltitude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Latitude に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_GPSLatitude {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.GPSLatitude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Longitude に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_GPSLongitude {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.GPSLongitude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ISO speed に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_ISOSpeed {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.ISOSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Lens maker に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_LensMaker {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.LensMaker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Lens model に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_LensModel {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.LensModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Light source に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_LightSource {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.LightSource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Max aperture に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_MaxAperture {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.MaxAperture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Metering mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_MeteringMode {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.MeteringMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Photometric interpretation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_PhotometricInterpretation {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.PhotometricInterpretation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Rating に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_Rating {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.Rating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Saturation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_Saturation {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.Saturation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sharpness に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_Sharpness {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.Sharpness", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Subject に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_Subject {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.Subject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Subject distance に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_SubjectDistance {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.SubjectDistance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Tags に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_Tags {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.Tags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Title に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_Title {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   White balance に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_WhiteBalance {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.WhiteBalance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Base intensity に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BloomEffectUnit_BaseIntensity {
@@ -4101,6 +4470,773 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Hard に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifContrast_Hard {
+            get {
+                return ResourceManager.GetString("ExifContrast.Hard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Normal に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifContrast_Normal {
+            get {
+                return ResourceManager.GetString("ExifContrast.Normal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Soft に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifContrast_Soft {
+            get {
+                return ResourceManager.GetString("ExifContrast.Soft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Action program に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifExposureProgram_ActionProgram_ {
+            get {
+                return ResourceManager.GetString("ExifExposureProgram.ActionProgram ", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Aperture priority に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifExposureProgram_AperturePriority {
+            get {
+                return ResourceManager.GetString("ExifExposureProgram.AperturePriority", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Creative program に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifExposureProgram_CreativeProgram_ {
+            get {
+                return ResourceManager.GetString("ExifExposureProgram.CreativeProgram ", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Landscape mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifExposureProgram_LandscapeMode_ {
+            get {
+                return ResourceManager.GetString("ExifExposureProgram.LandscapeMode ", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Manual に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifExposureProgram_Manual {
+            get {
+                return ResourceManager.GetString("ExifExposureProgram.Manual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Normal program に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifExposureProgram_NormalProgram {
+            get {
+                return ResourceManager.GetString("ExifExposureProgram.NormalProgram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Not defined に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifExposureProgram_NotDefined {
+            get {
+                return ResourceManager.GetString("ExifExposureProgram.NotDefined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Portrait mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifExposureProgram_PortraitMode_ {
+            get {
+                return ResourceManager.GetString("ExifExposureProgram.PortraitMode ", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Shutter priority に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifExposureProgram_ShutterPriority {
+            get {
+                return ResourceManager.GetString("ExifExposureProgram.ShutterPriority", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flash did not fire に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifFlashMode_FlashDidNotFire {
+            get {
+                return ResourceManager.GetString("ExifFlashMode.FlashDidNotFire", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flash did not fire, auto mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifFlashMode_FlashDidNotFire_AutoMode {
+            get {
+                return ResourceManager.GetString("ExifFlashMode.FlashDidNotFire_AutoMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flash did not fire, compulsory flash mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifFlashMode_FlashDidNotFire_CompulsoryFlashMode {
+            get {
+                return ResourceManager.GetString("ExifFlashMode.FlashDidNotFire_CompulsoryFlashMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flash fired に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifFlashMode_FlashFired {
+            get {
+                return ResourceManager.GetString("ExifFlashMode.FlashFired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flash fired, auto mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifFlashMode_FlashFired_AutoMode {
+            get {
+                return ResourceManager.GetString("ExifFlashMode.FlashFired_AutoMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flash fired, auto mode, red-eye reduction mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifFlashMode_FlashFired_AutoMode_RedEyeReductionMode {
+            get {
+                return ResourceManager.GetString("ExifFlashMode.FlashFired_AutoMode_RedEyeReductionMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flash fired, auto mode, return light detected に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifFlashMode_FlashFired_AutoMode_ReturnLightDetected {
+            get {
+                return ResourceManager.GetString("ExifFlashMode.FlashFired_AutoMode_ReturnLightDetected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flash fired, auto mode, return light detected, red-eye reduction mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifFlashMode_FlashFired_AutoMode_ReturnLightDetected_RedEyeReductionMode {
+            get {
+                return ResourceManager.GetString("ExifFlashMode.FlashFired_AutoMode_ReturnLightDetected_RedEyeReductionMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flash fired, auto mode, return light not detected に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifFlashMode_FlashFired_AutoMode_ReturnLightNotDetected {
+            get {
+                return ResourceManager.GetString("ExifFlashMode.FlashFired_AutoMode_ReturnLightNotDetected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flash fired, auto mode, return light not detected, red-eye reduction mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifFlashMode_FlashFired_AutoMode_ReturnLightNotDetected_RedEyeReductionMode {
+            get {
+                return ResourceManager.GetString("ExifFlashMode.FlashFired_AutoMode_ReturnLightNotDetected_RedEyeReductionMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flash fired, compulsory flash mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifFlashMode_FlashFired_CompulsoryFlashMode {
+            get {
+                return ResourceManager.GetString("ExifFlashMode.FlashFired_CompulsoryFlashMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flash fired, compulsory flash mode, red-eye reduction mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifFlashMode_FlashFired_CompulsoryFlashMode_RedEyeReductionMode {
+            get {
+                return ResourceManager.GetString("ExifFlashMode.FlashFired_CompulsoryFlashMode_RedEyeReductionMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flash fired, compulsory flash mode, red-eye reduction mode, return light detected に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifFlashMode_FlashFired_CompulsoryFlashMode_RedEyeReductionMode_ReturnLightDetected {
+            get {
+                return ResourceManager.GetString("ExifFlashMode.FlashFired_CompulsoryFlashMode_RedEyeReductionMode_ReturnLightDetec" +
+                        "ted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flash fired, compulsory flash mode, red-eye reduction mode, return light not detected に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifFlashMode_FlashFired_CompulsoryFlashMode_RedEyeReductionMode_ReturnLightNotDetected {
+            get {
+                return ResourceManager.GetString("ExifFlashMode.FlashFired_CompulsoryFlashMode_RedEyeReductionMode_ReturnLightNotDe" +
+                        "tected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flash fired, compulsory flash mode, return light detected に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifFlashMode_FlashFired_CompulsoryFlashMode_ReturnLightDetected {
+            get {
+                return ResourceManager.GetString("ExifFlashMode.FlashFired_CompulsoryFlashMode_ReturnLightDetected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flash fired, compulsory flash mode, return light not detected に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifFlashMode_FlashFired_CompulsoryFlashMode_ReturnLightNotDetected {
+            get {
+                return ResourceManager.GetString("ExifFlashMode.FlashFired_CompulsoryFlashMode_ReturnLightNotDetected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flash fired, red-eye reduction mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifFlashMode_FlashFired_RedEyeReductionMode {
+            get {
+                return ResourceManager.GetString("ExifFlashMode.FlashFired_RedEyeReductionMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flash fired, red-eye reduction mode, return light detected に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifFlashMode_FlashFired_RedEyeReductionMode_ReturnLightDetected {
+            get {
+                return ResourceManager.GetString("ExifFlashMode.FlashFired_RedEyeReductionMode_ReturnLightDetected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flash fired, red-eye reduction mode, return light not detected に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifFlashMode_FlashFired_RedEyeReductionMode_ReturnLightNotDetected {
+            get {
+                return ResourceManager.GetString("ExifFlashMode.FlashFired_RedEyeReductionMode_ReturnLightNotDetected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   No flash function に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifFlashMode_NoFlashFunction {
+            get {
+                return ResourceManager.GetString("ExifFlashMode.NoFlashFunction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Strobe return light detected に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifFlashMode_StrobeReturnLightDetected {
+            get {
+                return ResourceManager.GetString("ExifFlashMode.StrobeReturnLightDetected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Strobe return light not detected に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifFlashMode_StrobeReturnLightNotDetected {
+            get {
+                return ResourceManager.GetString("ExifFlashMode.StrobeReturnLightNotDetected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cloudy weather に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifLightSource_CloudyWeather {
+            get {
+                return ResourceManager.GetString("ExifLightSource.CloudyWeather", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cool white fluorescent に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifLightSource_CoolWhiteFluorescent {
+            get {
+                return ResourceManager.GetString("ExifLightSource.CoolWhiteFluorescent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   D50 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifLightSource_D50 {
+            get {
+                return ResourceManager.GetString("ExifLightSource.D50", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   D55 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifLightSource_D55 {
+            get {
+                return ResourceManager.GetString("ExifLightSource.D55", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   D65 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifLightSource_D65 {
+            get {
+                return ResourceManager.GetString("ExifLightSource.D65", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   D75 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifLightSource_D75 {
+            get {
+                return ResourceManager.GetString("ExifLightSource.D75", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Daylight に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifLightSource_Daylight {
+            get {
+                return ResourceManager.GetString("ExifLightSource.Daylight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Daylight fluorescent に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifLightSource_DaylightFluorescent {
+            get {
+                return ResourceManager.GetString("ExifLightSource.DaylightFluorescent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Day white fluorescent に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifLightSource_DayWhiteFluorescent {
+            get {
+                return ResourceManager.GetString("ExifLightSource.DayWhiteFluorescent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Fine weather に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifLightSource_FineWeather {
+            get {
+                return ResourceManager.GetString("ExifLightSource.FineWeather", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flash に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifLightSource_Flash {
+            get {
+                return ResourceManager.GetString("ExifLightSource.Flash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Fluorescent に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifLightSource_Fluorescent {
+            get {
+                return ResourceManager.GetString("ExifLightSource.Fluorescent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ISO studio tungsten に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifLightSource_ISOStudioTungsten {
+            get {
+                return ResourceManager.GetString("ExifLightSource.ISOStudioTungsten", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Other light source に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifLightSource_OtherLightSource {
+            get {
+                return ResourceManager.GetString("ExifLightSource.OtherLightSource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Shade に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifLightSource_Shade {
+            get {
+                return ResourceManager.GetString("ExifLightSource.Shade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Standard light A に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifLightSource_StandardLightA {
+            get {
+                return ResourceManager.GetString("ExifLightSource.StandardLightA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Standard light B に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifLightSource_StandardLightB {
+            get {
+                return ResourceManager.GetString("ExifLightSource.StandardLightB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Standard light C に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifLightSource_StandardLightC {
+            get {
+                return ResourceManager.GetString("ExifLightSource.StandardLightC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Tungsten に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifLightSource_Tungsten {
+            get {
+                return ResourceManager.GetString("ExifLightSource.Tungsten", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Unknown に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifLightSource_Unknown {
+            get {
+                return ResourceManager.GetString("ExifLightSource.Unknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   White fluorescent に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifLightSource_WhiteFluorescent {
+            get {
+                return ResourceManager.GetString("ExifLightSource.WhiteFluorescent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Average に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifMeteringMode_Average {
+            get {
+                return ResourceManager.GetString("ExifMeteringMode.Average", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Center weighted average に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifMeteringMode_CenterWeightedAverage {
+            get {
+                return ResourceManager.GetString("ExifMeteringMode.CenterWeightedAverage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Multi spot に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifMeteringMode_MultiSpot {
+            get {
+                return ResourceManager.GetString("ExifMeteringMode.MultiSpot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Other に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifMeteringMode_Other {
+            get {
+                return ResourceManager.GetString("ExifMeteringMode.Other", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Partial に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifMeteringMode_Partial {
+            get {
+                return ResourceManager.GetString("ExifMeteringMode.Partial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Pattern に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifMeteringMode_Pattern {
+            get {
+                return ResourceManager.GetString("ExifMeteringMode.Pattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Spot に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifMeteringMode_Spot {
+            get {
+                return ResourceManager.GetString("ExifMeteringMode.Spot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Unknown に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifMeteringMode_Unknown {
+            get {
+                return ResourceManager.GetString("ExifMeteringMode.Unknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Black is zero に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifPhotometricInterpretation_BlackIsZero {
+            get {
+                return ResourceManager.GetString("ExifPhotometricInterpretation.BlackIsZero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   CFA に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifPhotometricInterpretation_CFA {
+            get {
+                return ResourceManager.GetString("ExifPhotometricInterpretation.CFA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   CIE L*a*b* に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifPhotometricInterpretation_CIELab {
+            get {
+                return ResourceManager.GetString("ExifPhotometricInterpretation.CIELab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   CMYK に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifPhotometricInterpretation_CMYK {
+            get {
+                return ResourceManager.GetString("ExifPhotometricInterpretation.CMYK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ICC L*a*b* に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifPhotometricInterpretation_ICCLab {
+            get {
+                return ResourceManager.GetString("ExifPhotometricInterpretation.ICCLab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ITU L*a*b* に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifPhotometricInterpretation_ITULab {
+            get {
+                return ResourceManager.GetString("ExifPhotometricInterpretation.ITULab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Linear raw に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifPhotometricInterpretation_LinearRaw {
+            get {
+                return ResourceManager.GetString("ExifPhotometricInterpretation.LinearRaw", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   LogLuv に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifPhotometricInterpretation_LogLuv {
+            get {
+                return ResourceManager.GetString("ExifPhotometricInterpretation.LogLuv", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Palette color に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifPhotometricInterpretation_PaletteColor {
+            get {
+                return ResourceManager.GetString("ExifPhotometricInterpretation.PaletteColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Pixar LogL に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifPhotometricInterpretation_PixarLogL {
+            get {
+                return ResourceManager.GetString("ExifPhotometricInterpretation.PixarLogL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   RGB に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifPhotometricInterpretation_RGB {
+            get {
+                return ResourceManager.GetString("ExifPhotometricInterpretation.RGB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Transparency mask に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifPhotometricInterpretation_TransparencyMask {
+            get {
+                return ResourceManager.GetString("ExifPhotometricInterpretation.TransparencyMask", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   White is zero に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifPhotometricInterpretation_WhiteIsZero {
+            get {
+                return ResourceManager.GetString("ExifPhotometricInterpretation.WhiteIsZero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   YCbCr に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifPhotometricInterpretation_YCbCr {
+            get {
+                return ResourceManager.GetString("ExifPhotometricInterpretation.YCbCr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   HighSaturation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifSaturation_HighSaturation {
+            get {
+                return ResourceManager.GetString("ExifSaturation.HighSaturation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   LowSaturation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifSaturation_LowSaturation {
+            get {
+                return ResourceManager.GetString("ExifSaturation.LowSaturation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Normal に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifSaturation_Normal {
+            get {
+                return ResourceManager.GetString("ExifSaturation.Normal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Hard に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifSharpness_Hard {
+            get {
+                return ResourceManager.GetString("ExifSharpness.Hard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Normal に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifSharpness_Normal {
+            get {
+                return ResourceManager.GetString("ExifSharpness.Normal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Soft に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifSharpness_Soft {
+            get {
+                return ResourceManager.GetString("ExifSharpness.Soft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Auto に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifWhiteBalance_AutoWhiteBalance {
+            get {
+                return ResourceManager.GetString("ExifWhiteBalance.AutoWhiteBalance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Manual に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifWhiteBalance_ManualWhiteBalance {
+            get {
+                return ResourceManager.GetString("ExifWhiteBalance.ManualWhiteBalance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Register in the Explorer context menu. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ExplorerContextMenu_IsEnabled {
@@ -4592,6 +5728,60 @@ namespace NeeView.Properties {
         public static string FileNotFoundException_Message {
             get {
                 return ResourceManager.GetString("FileNotFoundException.Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Creation time に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FilePropertyKey_CreationTime {
+            get {
+                return ResourceManager.GetString("FilePropertyKey.CreationTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   File name に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FilePropertyKey_FileName {
+            get {
+                return ResourceManager.GetString("FilePropertyKey.FileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Archive path に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FilePropertyKey_FilePath {
+            get {
+                return ResourceManager.GetString("FilePropertyKey.FilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Size に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FilePropertyKey_FileSize {
+            get {
+                return ResourceManager.GetString("FilePropertyKey.FileSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Folder place に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FilePropertyKey_FolderPlace {
+            get {
+                return ResourceManager.GetString("FilePropertyKey.FolderPlace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Last write time に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FilePropertyKey_LastWriteTime {
+            get {
+                return ResourceManager.GetString("FilePropertyKey.LastWriteTime", resourceCulture);
             }
         }
         
@@ -5840,6 +7030,78 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Archiver に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImagePropertyKey_Archiver {
+            get {
+                return ResourceManager.GetString("ImagePropertyKey.Archiver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Bit depth に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImagePropertyKey_BitDepth {
+            get {
+                return ResourceManager.GetString("ImagePropertyKey.BitDepth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Decoder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImagePropertyKey_Decoder {
+            get {
+                return ResourceManager.GetString("ImagePropertyKey.Decoder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Dimensions に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImagePropertyKey_Dimensions {
+            get {
+                return ResourceManager.GetString("ImagePropertyKey.Dimensions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Height に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImagePropertyKey_Height {
+            get {
+                return ResourceManager.GetString("ImagePropertyKey.Height", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Horizontal resolution に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImagePropertyKey_HorizontalResolution {
+            get {
+                return ResourceManager.GetString("ImagePropertyKey.HorizontalResolution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vertical resolution に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImagePropertyKey_VerticalResolution {
+            get {
+                return ResourceManager.GetString("ImagePropertyKey.VerticalResolution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Width に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImagePropertyKey_Width {
+            get {
+                return ResourceManager.GetString("ImagePropertyKey.Width", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Enable resize filter に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ImageResizeFilterConfig_IsEnabled {
@@ -6119,11 +7381,29 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Advanced photo に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Information_AdvancedPhoto {
+            get {
+                return ResourceManager.GetString("Information.AdvancedPhoto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Archiver に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Information_Archiver {
             get {
                 return ResourceManager.GetString("Information.Archiver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Camera に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Information_Camera {
+            get {
+                return ResourceManager.GetString("Information.Camera", resourceCulture);
             }
         }
         
@@ -6164,11 +7444,29 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Description に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Information_Description {
+            get {
+                return ResourceManager.GetString("Information.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Device に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Information_Device {
             get {
                 return ResourceManager.GetString("Information.Device", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   File に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Information_File {
+            get {
+                return ResourceManager.GetString("Information.File", resourceCulture);
             }
         }
         
@@ -6205,6 +7503,24 @@ namespace NeeView.Properties {
         public static string Information_FolderPath {
             get {
                 return ResourceManager.GetString("Information.FolderPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   GPS に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Information_Gps {
+            get {
+                return ResourceManager.GetString("Information.Gps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Image に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Information_Image {
+            get {
+                return ResourceManager.GetString("Information.Image", resourceCulture);
             }
         }
         
@@ -6250,6 +7566,24 @@ namespace NeeView.Properties {
         public static string Information_OpenFolder {
             get {
                 return ResourceManager.GetString("Information.OpenFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open map に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Information_OpenMap {
+            get {
+                return ResourceManager.GetString("Information.OpenMap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Origin に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Information_Origin {
+            get {
+                return ResourceManager.GetString("Information.Origin", resourceCulture);
             }
         }
         

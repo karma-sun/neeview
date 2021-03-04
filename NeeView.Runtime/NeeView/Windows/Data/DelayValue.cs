@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeLaboratory.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Threading;
@@ -11,7 +12,7 @@ namespace NeeView.Windows.Data
     /// <summary>
     /// 値の遅延反映
     /// </summary>
-    public class DelayValue<T>
+    public class DelayValue<T> : BindableBase
     {
         #region Fields
 
@@ -60,11 +61,8 @@ namespace NeeView.Windows.Data
         /// <summary>
         /// 現在値
         /// </summary>
-        public T Value
-        {
-            get { return _value; }
-            set { SetValue(value, 0, DelayValueOverwriteOption.Force); }
-        }
+        public T Value => _value;
+
         #endregion
 
         #region Methods
@@ -126,6 +124,7 @@ namespace NeeView.Windows.Data
             {
                 _value = _delayValue;
                 ValueChanged?.Invoke(this, null);
+                RaisePropertyChanged(nameof(Value));
             }
         }
 

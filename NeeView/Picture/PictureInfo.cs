@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Media.Imaging.Metadata;
+using System;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -61,7 +62,10 @@ namespace NeeView
         /// <summary>
         /// EXIF
         /// </summary>
+        [Obsolete]
         public BitmapExif Exif { get; set; }
+
+        public BitmapMetadataDatabase Metadata { get; set; }
 
 
         /// <summary>

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -172,6 +174,17 @@ namespace NeeView
         }
 
         #endregion
+
+        private void MoreButton_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            MoreButton.IsChecked = !MoreButton.IsChecked;
+            e.Handled = true;
+        }
+
+        private void MoreButton_Checked(object sender, RoutedEventArgs e)
+        {
+            ContextMenuWatcher.SetTargetElement((UIElement)sender);
+        }
     }
 
     public class InformationPageCommandResource : PageCommandResource
@@ -192,5 +205,6 @@ namespace NeeView
                 .ToList();
         }
     }
+
 
 }

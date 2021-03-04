@@ -9,7 +9,7 @@ namespace NeeView
     public sealed class AliasNameAttribute : Attribute
     {
         public string AliasName;
-        public string Tips;
+        public string Remarks;
         public bool IsVisibled = true;
 
         public AliasNameAttribute()
@@ -24,25 +24,98 @@ namespace NeeView
 
     public static class AliasNameExtensions
     {
-        #region Generics
+        private static Dictionary<Type, Dictionary<Enum, string>> _cache = new Dictionary<Type, Dictionary<Enum, string>>();
 
-        private static AliasNameAttribute GetAliasNameAttribute<T>(T value)
+
+        public static string GetAliasName(object value)
         {
-            return value.GetType()
-                .GetField(value.ToString())
-                .GetCustomAttributes(typeof(AliasNameAttribute), false)
-                .Cast<AliasNameAttribute>()
-                .FirstOrDefault();
+            if (value is null) return null;
+
+            var type = value.GetType();
+            if (!type.IsEnum) return value.ToString();
+
+            var map = GetAliasNameDictionary(type);
+            return map.TryGetValue((Enum)value, out var name) ? name : value.ToString();
         }
 
-        private static string GetResourceKey<T>(T value, string postfix = null)
+        public static string ToAliasName<T>(this T value)
+            where T : Enum
         {
-            return $"@{value.GetType().Name}.{value}{postfix}";
+            Debug.Assert(typeof(T) != typeof(Enum), "Not support System.Enum directory"); // Enumそのものの型は非対応
+
+            var map = GetAliasNameDictionary(typeof(T));
+            return map.TryGetValue(value, out var name) ? name : value.ToString();
         }
 
-        private static string GetAliasName<T>(T value, AliasNameAttribute attribute)
+        // TODO: use _cache?
+        public static Dictionary<T, string> GetAliasNameDictionary<T>()
         {
-            var resourceKey = (attribute != null) ? attribute.AliasName ?? GetResourceKey(value) : null;
+            Debug.Assert(typeof(T).IsEnum);
+
+            var type = typeof(T);
+
+            return Enum.GetValues(type)
+                .Cast<T>()
+                .ToDictionary(e => e, e => GetAliasNameInner(e));
+        }
+
+        // TODO: use _cache?
+        public static Dictionary<T, string> GetVisibledAliasNameDictionary<T>()
+        {
+            Debug.Assert(typeof(T).IsEnum);
+
+            var type = typeof(T);
+
+            return Enum.GetValues(type)
+                .Cast<T>()
+                .Select(e => (Key: e, Attribute: GetAliasNameAttribute(e)))
+                .Where(e => e.Attribute == null || e.Attribute.IsVisibled)
+                .ToDictionary(e => e.Key, e => GetAliasNameInner(e.Key, e.Attribute));
+        }
+
+        // TODO: use _cache?
+        public static Dictionary<Enum, string> VisibledAliasNameDictionary(this Type type)
+        {
+            if (!type.IsEnum) throw new ArgumentException("not enum", nameof(type));
+
+            return Enum.GetValues(type)
+                .Cast<Enum>()
+                .Distinct()
+                .Select(e => (Key: e, Attribute: GetAliasNameAttribute(e)))
+                .Where(e => e.Attribute == null || e.Attribute.IsVisibled)
+                .ToDictionary(e => e.Key, e => GetAliasNameInner(e.Key, e.Attribute));
+        }
+
+
+
+        private static Dictionary<Enum, string> GetAliasNameDictionary(Type type)
+        {
+            Debug.Assert(type.IsEnum);
+            if (!_cache.TryGetValue(type, out var map))
+            {
+                map = CreateAliasNameDictionary(type);
+                _cache.Add(type, map);
+            }
+            return map;
+        }
+
+        private static Dictionary<Enum, string> CreateAliasNameDictionary(Type type)
+        {
+            Debug.Assert(type.IsEnum);
+
+            return Enum.GetValues(type)
+                .Cast<object>()
+                .ToDictionary(e => (Enum)e, e => GetAliasNameInner(e));
+        }
+
+        private static string GetAliasNameInner(object value)
+        {
+            return GetAliasNameInner(value, GetAliasNameAttribute(value));
+        }
+
+        private static string GetAliasNameInner(object value, AliasNameAttribute attribute)
+        {
+            var resourceKey = attribute?.AliasName ?? GetResourceKey(value);
             var resourceString = ResourceService.GetResourceString(resourceKey, true);
 
 #if DEBUG
@@ -55,52 +128,8 @@ namespace NeeView
             return resourceString ?? value.ToString();
         }
 
-        public static string GetAliasName<T>(T value)
-        {
-            return GetAliasName(value, GetAliasNameAttribute(value));
-        }
 
-        private static string GetTips<T>(T value, AliasNameAttribute attribute)
-        {
-            var resourceKey = (attribute != null) ? attribute.Tips ?? GetResourceKey(value, ".Remarks") : null;
-            return ResourceService.GetResourceString(resourceKey, true);
-        }
-
-        public static string GetTips<T>(T value)
-        {
-            return GetTips(value, GetAliasNameAttribute(value));
-        }
-
-
-        public static Dictionary<T, string> GetAliasNameDictionary<T>()
-        {
-            Debug.Assert(typeof(T).IsEnum);
-
-            var type = typeof(T);
-
-            return Enum.GetValues(type)
-                .Cast<T>()
-                .ToDictionary(e => e, e => GetAliasName(e));
-        }
-
-        public static Dictionary<T, string> GetVisibledAliasNameDictionary<T>()
-        {
-            Debug.Assert(typeof(T).IsEnum);
-
-            var type = typeof(T);
-
-            return Enum.GetValues(type)
-                .Cast<T>()
-                .Select(e => (Key: e, Attribute: GetAliasNameAttribute(e)))
-                .Where(e => e.Attribute == null || e.Attribute.IsVisibled)
-                .ToDictionary(e => e.Key, e => GetAliasName(e.Key, e.Attribute));
-        }
-
-        #endregion
-
-        #region Extension Methods
-
-        public static AliasNameAttribute ToAliasNameAttribute(this Enum value)
+        private static AliasNameAttribute GetAliasNameAttribute(object value)
         {
             return value.GetType()
                 .GetField(value.ToString())
@@ -109,34 +138,29 @@ namespace NeeView
                 .FirstOrDefault();
         }
 
-        public static string ToAliasName(this Enum value)
+        private static string GetResourceKey(object value, string postfix = null)
         {
-            return GetAliasName(value);
+            var type = value.GetType();
+            return $"@{type.Name}.{value}{postfix}";
         }
 
-        public static Dictionary<Enum, string> AliasNameDictionary(this Type type)
-        {
-            if (!type.IsEnum) throw new ArgumentException("not enum", nameof(type));
 
-            return Enum.GetValues(type)
-                .Cast<Enum>()
-                .Distinct()
-                .ToDictionary(e => e, e => e.ToAliasName());
+
+
+        #region Remarks
+
+        public static string GetRemarks<T>(T value)
+        {
+            return GetRemarks(value, GetAliasNameAttribute(value));
         }
 
-        public static Dictionary<Enum, string> VisibledAliasNameDictionary(this Type type)
+        private static string GetRemarks<T>(T value, AliasNameAttribute attribute)
         {
-            if (!type.IsEnum) throw new ArgumentException("not enum", nameof(type));
-
-            return Enum.GetValues(type)
-                .Cast<Enum>()
-                .Distinct()
-                .Select(e => (Key: e, Attribute: e.ToAliasNameAttribute()))
-                .Where(e => e.Attribute == null || e.Attribute.IsVisibled)
-                .ToDictionary(e => e.Key, e => GetAliasName(e.Key, e.Attribute));
+            var resourceKey = attribute?.Remarks ?? GetResourceKey(value, ".Remarks");
+            return ResourceService.GetResourceString(resourceKey, true);
         }
 
-        #endregion
+        #endregion Tips
     }
 }
 

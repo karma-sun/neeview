@@ -1,4 +1,11 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeLaboratory.Windows.Input;
+using NeeView.Media.Imaging.Metadata;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -6,12 +13,55 @@ using System.Windows.Media.Effects;
 
 namespace NeeView
 {
+    public enum InformationSection
+    {
+        File,
+        Image,
+        Description,
+        Origin,
+        Camera,
+        AdvancedPhoto,
+        Gps,
+    }
+
+    public enum FilePropertyKey
+    {
+        FileName,
+        FilePath,
+        CreationTime,
+        LastWriteTime,
+        FileSize,
+        FolderPlace,
+    }
+
+    public enum ImagePropertyKey
+    {
+        Dimensions,
+        //Width,
+        //Height,
+        //HorizontalResolution,
+        //VerticalResolution,
+        BitDepth,
+        Archiver,
+        Decoder,
+    }
+
+
     public class FileInformationSource : BindableBase
     {
         public FileInformationSource(ViewContent viewContent)
         {
             this.ViewContent = viewContent;
+
+            OpenPlaceCommand = new RelayCommand(OpenPlace, () => CanOpenPlace);
+            OpenMapCommand = new RelayCommand(OpenMap, () => CanOpenMap);
+
+            Update();
         }
+
+
+        public RelayCommand OpenPlaceCommand { get; private set; }
+        public RelayCommand OpenMapCommand { get; private set; }
 
 
         public ViewContent ViewContent { get; private set; }
@@ -22,39 +72,168 @@ namespace NeeView
 
         public PictureInfo PictureInfo => BitmapContent?.PictureInfo;
 
-        public BitmapExif Exif => PictureInfo?.Exif;
+        //[Obsolete]
+        //public BitmapExif Exif => PictureInfo?.Exif;
+
+        public BitmapMetadataDatabase Metadata => PictureInfo?.Metadata;
 
         public double IconMaxSize => 96.0;
 
         public FrameworkElement Icon => CreateIcon();
 
-        public string FullPath => ViewContent?.Page?.Entry?.Link ?? ViewContent?.FullPath;
 
-        public string ImageSize => (PictureInfo != null && PictureInfo.OriginalSize.Width > 0 && PictureInfo.OriginalSize.Height > 0)
-                    ? $"{(int)PictureInfo.OriginalSize.Width} x {(int)PictureInfo.OriginalSize.Height}" + (PictureInfo.IsLimited ? "*" : "") + (Config.Current.Information.IsVisibleBitsPerPixel ? $" ({PictureInfo.BitsPerPixel}bit)" : "")
-                    : null;
 
-        public string FileSize => (PictureInfo != null && PictureInfo.Length > 0) ? string.Format("{0:#,0} KB", PictureInfo.Length > 0 ? (PictureInfo.Length + 1023) / 1024 : 0) : null;
 
-        public string ShotInfo => Exif?.ShotInfo;
+        private Dictionary<FilePropertyKey, object> _FileProperties;
+        public Dictionary<FilePropertyKey, object> FileProperties
+        {
+            get { return _FileProperties; }
+            set { SetProperty(ref _FileProperties, value); }
+        }
 
-        public string ISOSpeedRatings => Exif != null && Exif.ISOSpeedRatings > 0 ? Exif.ISOSpeedRatings.ToString() : null;
 
-        public string CameraModel => Exif?.Model;
+        private Dictionary<ImagePropertyKey, object> _ImageProperties;
+        public Dictionary<ImagePropertyKey, object> ImageProperties
+        {
+            get { return _ImageProperties; }
+            set { SetProperty(ref _ImageProperties, value); }
+        }
 
-        public string LastWriteTime => (PictureInfo != null && PictureInfo.LastWriteTime != default) ? PictureInfo.LastWriteTime.ToString(NeeView.Properties.Resources.Information_DateFormat) : null;
 
-        public string DateTimeOriginal => (Exif != null && Exif.DateTimeOriginal != default) ? Exif.DateTimeOriginal.ToString(NeeView.Properties.Resources.Information_DateFormat) : null;
+        private Dictionary<BitmapMetadataKey, object> _Description;
+        public Dictionary<BitmapMetadataKey, object> Description
+        {
+            get { return _Description; }
+            set { SetProperty(ref _Description, value); }
+        }
 
-        public string Archiver => PictureInfo?.Archiver;
 
-        public string Decoder => ((BitmapContent is AnimatedContent animatedContent && animatedContent.IsAnimated) || BitmapContent is MediaContent) ? "MediaPlayer" : PictureInfo?.Decoder;
+        private Dictionary<BitmapMetadataKey, object> _Origin;
+        public Dictionary<BitmapMetadataKey, object> Origin
+        {
+            get { return _Origin; }
+            set { SetProperty(ref _Origin, value); }
+        }
 
+
+        private Dictionary<BitmapMetadataKey, object> _Camera;
+        public Dictionary<BitmapMetadataKey, object> Camera
+        {
+            get { return _Camera; }
+            set { SetProperty(ref _Camera, value); }
+        }
+
+
+        private Dictionary<BitmapMetadataKey, object> _AdvancedPhoto;
+        public Dictionary<BitmapMetadataKey, object> AdvancedPhoto
+        {
+            get { return _AdvancedPhoto; }
+            set { SetProperty(ref _AdvancedPhoto, value); }
+        }
+
+
+        private Dictionary<BitmapMetadataKey, object> _Gps;
+        public Dictionary<BitmapMetadataKey, object> Gps
+        {
+            get { return _Gps; }
+            set { SetProperty(ref _Gps, value); }
+        }
+
+
+        public GpsLocation GpsLocation { get; private set; }
+
+
+        public bool CanOpenPlace => FileProperties[FilePropertyKey.FolderPlace] != null;
+
+        public bool CanOpenMap => GpsLocation != null;
+
+
+        public InformationConfig InformationConfig => Config.Current.Information;
 
 
         public void Update()
         {
+            UpdateFileProperties();
+            UpdateImageProperties();
+            UpdateMetadata();
+
             RaisePropertyChanged(null);
+        }
+
+        private void UpdateMetadata()
+        {
+            UpdateDescription();
+            UpdateOrigin();
+            UpdateCamera();
+            UpdateAdvancedPhoto();
+            UpdateGps();
+        }
+
+
+        private void UpdateFileProperties()
+        {
+            FileProperties = new Dictionary<FilePropertyKey, object>()
+            {
+                [FilePropertyKey.FileName] = ViewContent?.FileName,
+                [FilePropertyKey.FilePath] = ViewContent?.Page?.Entry?.Link ?? ViewContent?.FullPath,
+                [FilePropertyKey.FileSize] = (PictureInfo != null && PictureInfo.Length > 0) ? string.Format("{0:#,0} KB", PictureInfo.Length > 0 ? (PictureInfo.Length + 1023) / 1024 : 0) : null,
+                [FilePropertyKey.LastWriteTime] = (PictureInfo != null && PictureInfo.LastWriteTime != default) ? (object)PictureInfo.LastWriteTime : null,
+                [FilePropertyKey.FolderPlace] = ViewContent?.FolderPlace,
+            };
+
+            RaisePropertyChanged(nameof(CanOpenPlace));
+        }
+
+        private void UpdateImageProperties()
+        {
+            ImageProperties = new Dictionary<ImagePropertyKey, object>()
+            {
+                [ImagePropertyKey.Dimensions] = (PictureInfo != null && PictureInfo.OriginalSize.Width > 0 && PictureInfo.OriginalSize.Height > 0) ? $"{(int)PictureInfo.OriginalSize.Width} x {(int)PictureInfo.OriginalSize.Height}" + (PictureInfo.IsLimited ? "*" : "") : null,
+                [ImagePropertyKey.BitDepth] = PictureInfo?.BitsPerPixel,
+                [ImagePropertyKey.Archiver] = PictureInfo?.Archiver,
+                [ImagePropertyKey.Decoder] = ((BitmapContent is AnimatedContent animatedContent && animatedContent.IsAnimated) || BitmapContent is MediaContent) ? "MediaPlayer" : PictureInfo?.Decoder,
+            };
+        }
+
+        private void UpdateDescription()
+        {
+            Description = Metadata?.Where(e => e.Key.GetGroup() == BitmapMetadataGroup.Description).ToDictionary(e => e.Key, e => e.Value);
+        }
+
+        private void UpdateOrigin()
+        {
+            Origin = Metadata?.Where(e => e.Key.GetGroup() == BitmapMetadataGroup.Origin).ToDictionary(e => e.Key, e => e.Value);
+        }
+
+        private void UpdateCamera()
+        {
+            Camera = Metadata?.Where(e => e.Key.GetGroup() == BitmapMetadataGroup.Camera).ToDictionary(e => e.Key, e => e.Value);
+        }
+
+        private void UpdateAdvancedPhoto()
+        {
+            AdvancedPhoto = Metadata?.Where(e => e.Key.GetGroup() == BitmapMetadataGroup.AdvancedPhoto).ToDictionary(e => e.Key, e => e.Value);
+        }
+
+        private void UpdateGps()
+        {
+            Gps = Metadata?.Where(e => e.Key.GetGroup() == BitmapMetadataGroup.GPS).ToDictionary(e => e.Key, e => e.Value);
+            UpdateGpsLocate();
+        }
+
+
+        private void UpdateGpsLocate()
+        {
+            if (Metadata != null && Metadata[BitmapMetadataKey.GPSLatitude] is ExifGpsDegree lat && Metadata[BitmapMetadataKey.GPSLongitude] is ExifGpsDegree lon)
+            {
+                GpsLocation = new GpsLocation(lat, lon);
+            }
+            else
+            {
+                GpsLocation = null;
+            }
+
+            RaisePropertyChanged(nameof(CanOpenMap));
         }
 
 
@@ -168,5 +347,22 @@ namespace NeeView
             return border;
         }
 
+
+        public void OpenPlace()
+        {
+            var place = ViewContent?.Page?.GetFolderOpenPlace();
+            if (!string.IsNullOrWhiteSpace(place))
+            {
+                System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + place + "\"");
+            }
+        }
+
+        public void OpenMap()
+        {
+            GpsLocation?.OpenMap();
+        }
+
     }
+
+
 }

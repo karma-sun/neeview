@@ -145,7 +145,7 @@ namespace NeeView
                     var item = this.TreeView.SelectedItem as DirectoryNode;
                     if (item != null)
                     {
-                        System.Diagnostics.Process.Start("explorer.exe", item.Path);
+                        ExternalProcess.Start("explorer.exe", item.Path);
                     }
                 }
             }

@@ -74,7 +74,7 @@ namespace NeeView
                 Debug.WriteLine($"CallProcess: {sentence}");
                 try
                 {
-                    System.Diagnostics.Process.Start(param);
+                    ExternalProcess.Start(param, null, ExternalProcessAtrtibute.ThrowException);
                 }
                 catch (Exception ex)
                 {
@@ -89,7 +89,7 @@ namespace NeeView
                 Debug.WriteLine($"CallProcess: {sentence}");
                 try
                 {
-                    System.Diagnostics.Process.Start(command, param);
+                    ExternalProcess.Start(command, param, ExternalProcessAtrtibute.ThrowException);
                 }
                 catch (Exception ex)
                 {

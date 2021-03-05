@@ -51,8 +51,8 @@ namespace NeeView
             this.Message.Source = _toast.Message;
             this.ConfirmButton.Content = _toast.ButtonContent;
             this.ConfirmButton.Visibility = _toast.ButtonContent is null ? Visibility.Collapsed : Visibility.Visible;
-           
-            switch(_toast.Icon)
+
+            switch (_toast.Icon)
             {
                 default:
                 case ToastIcon.Information:
@@ -83,15 +83,8 @@ namespace NeeView
         // from http://gushwell.ldblog.jp/archives/52279481.html
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
         {
-            try
-            {
-                System.Diagnostics.Process.Start(e.Uri.AbsoluteUri);
-                e.Handled = true;
-            }
-            catch (Exception ex)
-            {
-                new MessageDialog(ex.Message, Properties.Resources.HyperLinkErrorDialog_Title).ShowDialog();
-            }
+            ExternalProcess.Start(e.Uri.AbsoluteUri);
+            e.Handled = true;
         }
     }
 }

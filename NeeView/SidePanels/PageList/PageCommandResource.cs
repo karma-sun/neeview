@@ -116,7 +116,7 @@ namespace NeeView
             if (item != null)
             {
                 var path = item.SystemPath;
-                System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + path + "\"");
+                ExternalProcess.Start("explorer.exe", "/select,\"" + path + "\"");
             }
         }
 

@@ -323,7 +323,7 @@ namespace NeeView
             var place = ViewContent?.Page?.GetFolderOpenPlace();
             if (!string.IsNullOrWhiteSpace(place))
             {
-                System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + place + "\"");
+                ExternalProcess.Start("explorer.exe", "/select,\"" + place + "\"");
             }
         }
 

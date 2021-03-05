@@ -35,7 +35,7 @@
                 </Hyperlink>
             </TextBlock>
 
-            <TextBlock HorizontalAlignment="Right" Style="{StaticResource LinkedTextBlock}" IsEnabled="{Binding IsNetworkEnabled}">
+            <TextBlock HorizontalAlignment="Right" Style="{StaticResource LinkedTextBlock}">
                 <Hyperlink NavigateUri="{Binding ProjectUri}" >
                     <TextBlock Text="{x:Static properties:Resources.VersionWindow_Project}"/>
                 </Hyperlink>
@@ -71,7 +71,7 @@
                             </Style>
                         </TextBlock.Style>
                     </TextBlock>
-                    <TextBlock HorizontalAlignment="Center" Margin="0,0,0,0" IsEnabled="{Binding IsNetworkEnabled}">
+                    <TextBlock HorizontalAlignment="Center" Margin="0,0,0,0">
                         <Hyperlink NavigateUri="{Binding Checker.DownloadUri}" KeyboardNavigation.IsTabStop="False">
                             <TextBlock Text="{x:Static properties:Resources.VersionWindow_Download}"/>
                         </Hyperlink>

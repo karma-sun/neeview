@@ -4710,7 +4710,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Allow network access</value>
   </data>
   <data name="SystemConfig.IsNetworkEnabled.Remarks" xml:space="preserve">
-    <value>In this application, we will use the network only for WEB links such as version update confirmation and online help from "@VersionWindow.Title" dialog.</value>
+    <value>When turned off, the version update confirmation from the "@VersionWindow.Title" dialog is stopped and a confirmation dialog is displayed before connecting to the Internet with a web browser.</value>
   </data>
   <data name="SystemConfig.IsOpenbookAtCurrentPlace" xml:space="preserve">
     <value>Make the start position of the file selection dialog in "@LoadAsCommand" the location of the currently opened book</value>
@@ -6773,5 +6773,14 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="ExifOrientation.Rotate270" xml:space="preserve">
     <value>Rotate270</value>
+  </data>
+  <data name="ExternalProcess.ConfirmBrowserDialog.Title" xml:space="preserve">
+    <value>Open a web browser. Is it OK?</value>
+  </data>
+  <data name="ExternalProcess.ConfirmBrowserDialog.Message" xml:space="preserve">
+    <value>Connect to the net with a web browser.</value>
+  </data>
+  <data name="Word.Error" xml:space="preserve">
+    <value>Error</value>
   </data>
 </root>

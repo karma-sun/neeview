@@ -344,7 +344,7 @@ namespace NeeView
                 string place = Book.Viewer.GetViewPage()?.GetFolderOpenPlace();
                 if (place != null)
                 {
-                    System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + place + "\"");
+                    ExternalProcess.Start("explorer.exe", "/select,\"" + place + "\"");
                 }
             }
         }

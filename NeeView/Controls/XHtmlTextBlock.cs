@@ -129,7 +129,7 @@ namespace NeeView
 
         private static void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
         {
-            System.Diagnostics.Process.Start(e.Uri.AbsoluteUri);
+            ExternalProcess.Start(e.Uri.AbsoluteUri);
             e.Handled = true;
         }
     }

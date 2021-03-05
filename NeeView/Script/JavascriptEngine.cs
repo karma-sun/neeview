@@ -80,11 +80,7 @@ namespace NeeView
         [Documentable(Name = "system")]
         public void SystemCall(string filename, string args = null)
         {
-            var startInfo = new ProcessStartInfo();
-            startInfo.UseShellExecute = true;
-            startInfo.FileName = filename;
-            startInfo.Arguments = args;
-            Process.Start(startInfo);
+            ExternalProcess.Start(filename, args, ExternalProcessAtrtibute.ThrowException);
         }
 
 

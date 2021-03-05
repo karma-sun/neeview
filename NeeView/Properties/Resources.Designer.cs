@@ -5696,6 +5696,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Connect to the net with a web browser. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExternalProcess_ConfirmBrowserDialog_Message {
+            get {
+                return ResourceManager.GetString("ExternalProcess.ConfirmBrowserDialog.Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open a web browser. Is it OK? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExternalProcess_ConfirmBrowserDialog_Title {
+            get {
+                return ResourceManager.GetString("ExternalProcess.ConfirmBrowserDialog.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   External program に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ExternalProgramType_Normal {
@@ -15196,7 +15214,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   In this application, we will use the network only for WEB links such as version update confirmation and online help from &quot;@VersionWindow.Title&quot; dialog. に類似しているローカライズされた文字列を検索します。
+        ///   When turned off, the version update confirmation from the &quot;@VersionWindow.Title&quot; dialog is stopped and a confirmation dialog is displayed before connecting to the Internet with a web browser. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SystemConfig_IsNetworkEnabled_Remarks {
             get {
@@ -19027,6 +19045,15 @@ namespace NeeView.Properties {
         public static string Word_EmbeddedImage {
             get {
                 return ResourceManager.GetString("Word.EmbeddedImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Error に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Word_Error {
+            get {
+                return ResourceManager.GetString("Word.Error", resourceCulture);
             }
         }
         

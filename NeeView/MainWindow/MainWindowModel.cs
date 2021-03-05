@@ -477,7 +477,7 @@ namespace NeeView
                 return;
             }
 
-            Process.Start("explorer.exe", $"\"{Environment.LocalApplicationDataPath}\"");
+            ExternalProcess.Start("explorer.exe", $"\"{Environment.LocalApplicationDataPath}\"");
         }
 
         // スクリプトファイルの場所を開く
@@ -487,7 +487,7 @@ namespace NeeView
 
             try
             {
-                Process.Start("explorer.exe", $"\"{path}\"");
+                ExternalProcess.Start("explorer.exe", $"\"{path}\"", ExternalProcessAtrtibute.ThrowException);
             }
             catch (Exception ex)
             {
@@ -498,7 +498,7 @@ namespace NeeView
         // オンラインヘルプ
         public void OpenOnlineHelp()
         {
-            System.Diagnostics.Process.Start("https://bitbucket.org/neelabo/neeview/wiki/");
+            ExternalProcess.Start("https://bitbucket.org/neelabo/neeview/wiki/");
         }
 
 

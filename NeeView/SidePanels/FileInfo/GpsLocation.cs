@@ -19,14 +19,14 @@ namespace NeeView
             _longitude = longitude;
         }
 
-        public bool OpenMap(string format)
+        public void OpenMap(string format)
         {
             if (format is null)
             {
                 throw new ArgumentNullException(nameof(format));
             }
 
-            if (!_latitude.IsValid || !_longitude.IsValid) return false;
+            if (!_latitude.IsValid || !_longitude.IsValid) return;
 
             var s = format;
             s = s.Replace("{Lat}", _latitude.ToFormatString());
@@ -34,23 +34,7 @@ namespace NeeView
             s = s.Replace("{LatDeg}", _latitude.ToValueString("{0:F5}"));
             s = s.Replace("{LonDeg}", _longitude.ToValueString("{0:F5}"));
 
-            try
-            {
-                var startInfo = new ProcessStartInfo()
-                {
-                    FileName = s,
-                    UseShellExecute = true,
-                };
-
-                Debug.WriteLine(startInfo.FileName);
-                Process.Start(startInfo);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                return false;
-            }
+            ExternalProcess.Start(s);
         }
     }
 }

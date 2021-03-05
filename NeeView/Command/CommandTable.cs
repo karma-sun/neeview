@@ -549,7 +549,7 @@ namespace NeeView
                 writer.WriteLine(HtmlHelpUtility.CreateFooter());
             }
 
-            System.Diagnostics.Process.Start(fileName);
+            ExternalProcess.Start(fileName);
         }
 
         #endregion

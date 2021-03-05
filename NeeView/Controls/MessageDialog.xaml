@@ -8,7 +8,7 @@
         Style="{StaticResource ToolWindowStyle}" 
         UseLayoutRounding="True"
         KeyDown="MesageDialog_KeyDown"
-        Title="MessageDialog" ResizeMode="NoResize" SizeToContent="Height" Width="600" WindowStyle="ToolWindow">
+        Title="NeeView" ResizeMode="NoResize" SizeToContent="Height" Width="600" WindowStyle="ToolWindow">
 
     <DockPanel Margin="30,20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <DockPanel DockPanel.Dock="Bottom" Margin="0,20,0,0">

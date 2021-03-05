@@ -67,15 +67,8 @@ namespace NeeView.Setting
         // from http://gushwell.ldblog.jp/archives/52279481.html
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
         {
-            try
-            {
-                System.Diagnostics.Process.Start(e.Uri.AbsoluteUri);
-                e.Handled = true;
-            }
-            catch (Exception ex)
-            {
-                new MessageDialog(ex.Message, Properties.Resources.HyperLinkErrorDialog_Title).ShowDialog();
-            }
+            ExternalProcess.Start(e.Uri.AbsoluteUri);
+            e.Handled = true;
         }
     }
 }

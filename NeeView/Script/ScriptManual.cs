@@ -22,7 +22,7 @@ namespace NeeView
             }
 
             // open in browser
-            System.Diagnostics.Process.Start(fileName);
+            ExternalProcess.Start(fileName);
         }
 
 

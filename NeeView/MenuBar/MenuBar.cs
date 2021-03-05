@@ -121,7 +121,7 @@ namespace NeeView
                 writer.WriteLine(HtmlHelpUtility.CreateFooter());
             }
 
-            System.Diagnostics.Process.Start(fileName);
+            ExternalProcess.Start(fileName);
         }
 
         public void OpenSearchOptionHelp()
@@ -134,7 +134,7 @@ namespace NeeView
                 writer.WriteLine(HtmlHelpUtility.GetSearchHelp());
             }
 
-            System.Diagnostics.Process.Start(fileName);
+            ExternalProcess.Start(fileName);
         }
 
         #region Memento

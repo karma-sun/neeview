@@ -155,6 +155,11 @@ namespace NeeView
         public bool IsEmpty { get; set; }
 
         /// <summary>
+        /// ファイル作成日
+        /// </summary>
+        public DateTime CreationTime { get; set; }
+
+        /// <summary>
         /// ファイル更新日
         /// </summary>
         public DateTime LastWriteTime { get; set; }
@@ -313,9 +318,9 @@ namespace NeeView
             return EntryName ?? base.ToString();
         }
 
-#endregion
+        #endregion
 
-#region Utility
+        #region Utility
 
         /// <summary>
         /// ArchiveEntry生成。
@@ -348,6 +353,7 @@ namespace NeeView
                         if (directoryInfo.Exists)
                         {
                             entry.Length = -1;
+                            entry.CreationTime = directoryInfo.CreationTime;
                             entry.LastWriteTime = directoryInfo.LastWriteTime;
                             entry.IsValid = true;
                             return entry;
@@ -356,6 +362,7 @@ namespace NeeView
                         if (fileInfo.Exists)
                         {
                             entry.Length = fileInfo.Length;
+                            entry.CreationTime = fileInfo.CreationTime;
                             entry.LastWriteTime = fileInfo.LastWriteTime;
                             entry.IsValid = true;
                             if (FileShortcut.IsShortcut(fileInfo.Name))
@@ -368,6 +375,7 @@ namespace NeeView
                                         var info = (DirectoryInfo)shortcut.Target;
                                         entry.Link = info.FullName;
                                         entry.Length = -1;
+                                        entry.CreationTime = info.CreationTime;
                                         entry.LastWriteTime = info.LastWriteTime;
                                     }
                                     else
@@ -375,6 +383,7 @@ namespace NeeView
                                         var info = (FileInfo)shortcut.Target;
                                         entry.Link = info.FullName;
                                         entry.Length = info.Length;
+                                        entry.CreationTime = info.CreationTime;
                                         entry.LastWriteTime = info.LastWriteTime;
                                     }
                                 }
@@ -401,7 +410,7 @@ namespace NeeView
             return entry;
         }
 
-#endregion
+        #endregion
     }
 }
 

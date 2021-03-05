@@ -96,15 +96,6 @@ namespace NeeView
             typeof(ViewScrollNTypeCommandParameter),
         };
 
-        public static JsonSerializerOptions GetSerializerOptions()
-        {
-            var options = new JsonSerializerOptions();
-            options.Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
-            options.WriteIndented = false;
-            options.IgnoreReadOnlyProperties = false;
-            options.IgnoreNullValues = false;
-            return options;
-        }
 
         public override CommandParameter Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {

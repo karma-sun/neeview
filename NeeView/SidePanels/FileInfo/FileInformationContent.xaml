@@ -31,7 +31,7 @@
         </Style>
 
         <DataTemplate x:Key="PropertyItemTemplate">
-            <Grid Margin="4,0" HorizontalAlignment="Stretch">
+            <Grid Margin="0,0" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="{Binding Source={x:Static local:Config.Current}, Path=Information.PropertyHeaderWidth, Mode=TwoWay}" />
                     <ColumnDefinition Width="*" MinWidth="300" />
@@ -46,7 +46,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ContentControl">
-                        <Grid Margin="4,0" HorizontalAlignment="Stretch">
+                        <Grid Margin="0,0" HorizontalAlignment="Stretch">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="{Binding Source={x:Static local:Config.Current}, Path=Information.PropertyHeaderWidth}" />
                                 <ColumnDefinition Width="*" MinWidth="300" />
@@ -83,6 +83,7 @@
         <Style TargetType="Separator">
             <Setter Property="Background" Value="#4888" />
             <Setter Property="Visibility" Value="Visible" />
+            <Setter Property="Margin" Value="0,0,10,0" />
         </Style>
 
     </UserControl.Resources>

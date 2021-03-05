@@ -14,6 +14,12 @@ namespace NeeView
         private bool _isPixelInfoInitialized;
         private Size _aspectSize = Size.Empty;
 
+
+        public PictureInfo()
+        {
+        }
+
+
         /// <summary>
         /// Bitmap画像のRaw情報
         /// </summary>
@@ -34,7 +40,6 @@ namespace NeeView
         /// </summary>
         public bool IsLimited => Size != OriginalSize;
 
-
         /// <summary>
         /// 画像のアスペクト比
         /// </summary>
@@ -50,28 +55,9 @@ namespace NeeView
         }
 
         /// <summary>
-        /// ファイルサイズ
+        /// Metadata
         /// </summary>
-        public long Length { get; set; } = -1;
-
-        /// <summary>
-        /// 最終更新日
-        /// </summary>
-        public DateTime LastWriteTime { get; set; }
-
-        /// <summary>
-        /// EXIF
-        /// </summary>
-        [Obsolete]
-        public BitmapExif Exif { get; set; }
-
         public BitmapMetadataDatabase Metadata { get; set; }
-
-
-        /// <summary>
-        /// Archiver
-        /// </summary>
-        public string Archiver { get; set; }
 
         /// <summary>
         /// Decoder
@@ -91,22 +77,8 @@ namespace NeeView
         /// </summary>
         public int BitsPerPixel { get; set; }
 
-
-        //
         public bool IsPixelInfoEnabled => BitsPerPixel > 0;
 
-        //
-        public PictureInfo()
-        {
-        }
-
-        //
-        public PictureInfo(ArchiveEntry entry)
-        {
-            this.Length = entry.Length;
-            this.LastWriteTime = entry.LastWriteTime;
-            this.Archiver = entry.Archiver?.ToString();
-        }
 
 
         /// <summary>

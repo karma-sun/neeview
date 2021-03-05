@@ -115,6 +115,9 @@ namespace NeeView
         // ブックのパス
         public string BookAddress => LoosePath.TrimEnd(BookPrefix);
 
+        // ファイル情報：ファイル作成日
+        public DateTime CreationTime => Entry != null ? Entry.CreationTime : default;
+
         // ファイル情報：最終更新日
         public DateTime LastWriteTime => Entry != null ? Entry.LastWriteTime : default;
 

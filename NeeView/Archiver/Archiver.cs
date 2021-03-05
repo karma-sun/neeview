@@ -46,6 +46,7 @@ namespace NeeView
                 Parent = source.Archiver;
                 EntryName = source.EntryName;
                 Id = source.Id;
+                CreationTime = source.CreationTime;
                 LastWriteTime = source.LastWriteTime;
                 Length = source.Length;
 
@@ -126,6 +127,11 @@ namespace NeeView
         /// アーカイブのサイズ
         /// </summary>
         public long Length { get; private set; }
+
+        /// <summary>
+        /// アーカイブの作成日時
+        /// </summary>
+        public DateTime CreationTime { get; private set; }
 
         /// <summary>
         /// アーカイブの最終更新日
@@ -340,6 +346,7 @@ namespace NeeView
                     RawEntryName = e.Path,
                     Length = -1,
                     IsEmpty = !e.HasChild,
+                    CreationTime = e.CreationTime,
                     LastWriteTime = e.LastWriteTime,
                 })
                 .ToList();

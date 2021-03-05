@@ -80,9 +80,6 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
-                config.Information.IsVisibleBitsPerPixel = IsVisibleBitsPerPixel;
-                config.Information.IsVisibleLoader = IsVisibleLoader;
-                config.Information.IsVisibleFilePath = IsVisibleFilePath;
             }
         }
 

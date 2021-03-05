@@ -916,6 +916,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Orientation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BitmapMetadataKey_Orientation {
+            get {
+                return ResourceManager.GetString("BitmapMetadataKey.Orientation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Photometric interpretation に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BitmapMetadataKey_PhotometricInterpretation {
@@ -5039,6 +5048,78 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Mirror horizontal に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifOrientation_MirrorHorizontal {
+            get {
+                return ResourceManager.GetString("ExifOrientation.MirrorHorizontal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Mirror horizontal, rotate270 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifOrientation_MirrorHorizontal_Rotate270 {
+            get {
+                return ResourceManager.GetString("ExifOrientation.MirrorHorizontal_Rotate270", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Mirror horizontal, rotate90 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifOrientation_MirrorHorizontal_Rotate90 {
+            get {
+                return ResourceManager.GetString("ExifOrientation.MirrorHorizontal_Rotate90", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Mirror vertical に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifOrientation_MirrorVertical {
+            get {
+                return ResourceManager.GetString("ExifOrientation.MirrorVertical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Normal に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifOrientation_Normal {
+            get {
+                return ResourceManager.GetString("ExifOrientation.Normal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Rotate180 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifOrientation_Rotate180 {
+            get {
+                return ResourceManager.GetString("ExifOrientation.Rotate180", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Rotate270 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifOrientation_Rotate270 {
+            get {
+                return ResourceManager.GetString("ExifOrientation.Rotate270", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Rotate90 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExifOrientation_Rotate90 {
+            get {
+                return ResourceManager.GetString("ExifOrientation.Rotate90", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Black is zero に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ExifPhotometricInterpretation_BlackIsZero {
@@ -5732,6 +5813,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Archive path に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FilePropertyKey_ArchivePath {
+            get {
+                return ResourceManager.GetString("FilePropertyKey.ArchivePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Archiver に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FilePropertyKey_Archiver {
+            get {
+                return ResourceManager.GetString("FilePropertyKey.Archiver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Creation time に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FilePropertyKey_CreationTime {
@@ -5746,15 +5845,6 @@ namespace NeeView.Properties {
         public static string FilePropertyKey_FileName {
             get {
                 return ResourceManager.GetString("FilePropertyKey.FileName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Archive path に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FilePropertyKey_FilePath {
-            get {
-                return ResourceManager.GetString("FilePropertyKey.FilePath", resourceCulture);
             }
         }
         
@@ -7030,15 +7120,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Archiver に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ImagePropertyKey_Archiver {
-            get {
-                return ResourceManager.GetString("ImagePropertyKey.Archiver", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Bit depth に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ImagePropertyKey_BitDepth {
@@ -7390,56 +7471,11 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Archiver に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Information_Archiver {
-            get {
-                return ResourceManager.GetString("Information.Archiver", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Camera に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Information_Camera {
             get {
                 return ResourceManager.GetString("Information.Camera", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   File date に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Information_Date {
-            get {
-                return ResourceManager.GetString("Information.Date", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   yyyy-MM-dd dddd H:mm に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Information_DateFormat {
-            get {
-                return ResourceManager.GetString("Information.DateFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Date taken に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Information_DateTimeOriginal {
-            get {
-                return ResourceManager.GetString("Information.DateTimeOriginal", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Decoder に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Information_Decoder {
-            get {
-                return ResourceManager.GetString("Information.Decoder", resourceCulture);
             }
         }
         
@@ -7453,56 +7489,11 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Device に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Information_Device {
-            get {
-                return ResourceManager.GetString("Information.Device", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   File に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Information_File {
             get {
                 return ResourceManager.GetString("Information.File", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   File に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Information_FileName {
-            get {
-                return ResourceManager.GetString("Information.FileName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Path に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Information_FilePath {
-            get {
-                return ResourceManager.GetString("Information.FilePath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   File size に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Information_FileSize {
-            get {
-                return ResourceManager.GetString("Information.FileSize", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Folder に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Information_FolderPath {
-            get {
-                return ResourceManager.GetString("Information.FolderPath", resourceCulture);
             }
         }
         
@@ -7521,33 +7512,6 @@ namespace NeeView.Properties {
         public static string Information_Image {
             get {
                 return ResourceManager.GetString("Information.Image", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Image size に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Information_ImageSize {
-            get {
-                return ResourceManager.GetString("Information.ImageSize", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Shot に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Information_Info {
-            get {
-                return ResourceManager.GetString("Information.Info", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   ISO に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Information_ISO {
-            get {
-                return ResourceManager.GetString("Information.ISO", resourceCulture);
             }
         }
         
@@ -7597,29 +7561,101 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Display the number of bits per pixel in image size に類似しているローカライズされた文字列を検索します。
+        ///   Date time format に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string InformationConfig_IsVisibleBitsPerPixel {
+        public static string InformationConfig_DateTimeFormat {
             get {
-                return ResourceManager.GetString("InformationConfig.IsVisibleBitsPerPixel", resourceCulture);
+                return ResourceManager.GetString("InformationConfig.DateTimeFormat", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Display the file path in the compressed file に類似しているローカライズされた文字列を検索します。
+        ///   Specifies the .NET custom datetime format string. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string InformationConfig_IsVisibleFilePath {
+        public static string InformationConfig_DateTimeFormat_Remarks {
             get {
-                return ResourceManager.GetString("InformationConfig.IsVisibleFilePath", resourceCulture);
+                return ResourceManager.GetString("InformationConfig.DateTimeFormat.Remarks", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Display used archiver, image decoder name に類似しているローカライズされた文字列を検索します。
+        ///   View advanced photo section に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string InformationConfig_IsVisibleLoader {
+        public static string InformationConfig_IsVisibleAdvancedPhotoSection {
             get {
-                return ResourceManager.GetString("InformationConfig.IsVisibleLoader", resourceCulture);
+                return ResourceManager.GetString("InformationConfig.IsVisibleAdvancedPhotoSection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   View camera section に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationConfig_IsVisibleCameraSection {
+            get {
+                return ResourceManager.GetString("InformationConfig.IsVisibleCameraSection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   View description section に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationConfig_IsVisibleDescriptionSection {
+            get {
+                return ResourceManager.GetString("InformationConfig.IsVisibleDescriptionSection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   View file section に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationConfig_IsVisibleFileSection {
+            get {
+                return ResourceManager.GetString("InformationConfig.IsVisibleFileSection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   View GPS section に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationConfig_IsVisibleGpsSection {
+            get {
+                return ResourceManager.GetString("InformationConfig.IsVisibleGpsSection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   View image section に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationConfig_IsVisibleImageSection {
+            get {
+                return ResourceManager.GetString("InformationConfig.IsVisibleImageSection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   View origin section に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationConfig_IsVisibleOriginSection {
+            get {
+                return ResourceManager.GetString("InformationConfig.IsVisibleOriginSection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Map program に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationConfig_MapProgramFormat {
+            get {
+                return ResourceManager.GetString("InformationConfig.MapProgramFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   {Lat}: Latitude, &quot;{LatDeg}&quot;: Latitude (DEF), &quot;{Lon}&quot;: Longitude, &quot;{LonDeg}&quot;: Longitude (DEG) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationConfig_MapProgramFormat_Remarks {
+            get {
+                return ResourceManager.GetString("InformationConfig.MapProgramFormat.Remarks", resourceCulture);
             }
         }
         
@@ -19702,6 +19738,150 @@ namespace NeeView.Properties {
         public static string x_WindowTitleConfig_IsMainViewDisplayEnabled {
             get {
                 return ResourceManager.GetString("x.WindowTitleConfig.IsMainViewDisplayEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Archiver に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string xInformation_Archiver {
+            get {
+                return ResourceManager.GetString("xInformation.Archiver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   File date に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string xInformation_Date {
+            get {
+                return ResourceManager.GetString("xInformation.Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   yyyy-MM-dd dddd H:mm に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string xInformation_DateFormat {
+            get {
+                return ResourceManager.GetString("xInformation.DateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Date taken に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string xInformation_DateTimeOriginal {
+            get {
+                return ResourceManager.GetString("xInformation.DateTimeOriginal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Decoder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string xInformation_Decoder {
+            get {
+                return ResourceManager.GetString("xInformation.Decoder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Device に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string xInformation_Device {
+            get {
+                return ResourceManager.GetString("xInformation.Device", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   File に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string xInformation_FileName {
+            get {
+                return ResourceManager.GetString("xInformation.FileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Path に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string xInformation_FilePath {
+            get {
+                return ResourceManager.GetString("xInformation.FilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   File size に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string xInformation_FileSize {
+            get {
+                return ResourceManager.GetString("xInformation.FileSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string xInformation_FolderPath {
+            get {
+                return ResourceManager.GetString("xInformation.FolderPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Image size に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string xInformation_ImageSize {
+            get {
+                return ResourceManager.GetString("xInformation.ImageSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Shot に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string xInformation_Info {
+            get {
+                return ResourceManager.GetString("xInformation.Info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ISO に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string xInformation_ISO {
+            get {
+                return ResourceManager.GetString("xInformation.ISO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display the number of bits per pixel in image size に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string xInformationConfig_IsVisibleBitsPerPixel {
+            get {
+                return ResourceManager.GetString("xInformationConfig.IsVisibleBitsPerPixel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display the file path in the compressed file に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string xInformationConfig_IsVisibleFilePath {
+            get {
+                return ResourceManager.GetString("xInformationConfig.IsVisibleFilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display used archiver, image decoder name に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string xInformationConfig_IsVisibleLoader {
+            get {
+                return ResourceManager.GetString("xInformationConfig.IsVisibleLoader", resourceCulture);
             }
         }
         

@@ -71,6 +71,7 @@ namespace NeeView
                     Id = list.Count,
                     RawEntryName = name,
                     Length = isDirectory ? -1 : fileInfo.Length,
+                    CreationTime = info.CreationTime,
                     LastWriteTime = info.LastWriteTime,
                 };
 
@@ -81,6 +82,7 @@ namespace NeeView
                     {
                         entry.Link = target.FullName;
                         entry.Length = target.Length;
+                        entry.CreationTime = target.CreationTime;
                         entry.LastWriteTime = target.LastWriteTime;
                     }
                 }

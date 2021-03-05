@@ -243,9 +243,7 @@
                         </ToggleButton>
                     </DockPanel>
 
-                    <Grid ClipToBounds="True">
-                    <local:NavigateThumbnail HorizontalAlignment="Center" Margin="10" Visibility="{Binding Source={x:Static local:Config.Current}, Path=Navigator.IsVisibleThumbnail, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                    </Grid>
+                    <local:NavigateThumbnail HorizontalAlignment="Stretch" Margin="10" Visibility="{Binding Source={x:Static local:Config.Current}, Path=Navigator.IsVisibleThumbnail, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                     <Separator />
 

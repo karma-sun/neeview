@@ -1,6 +1,7 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeLaboratory.Windows.Input;
 using NeeView.Media.Imaging.Metadata;
+using NeeView.Text;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,40 +14,6 @@ using System.Windows.Media.Effects;
 
 namespace NeeView
 {
-    public enum InformationSection
-    {
-        File,
-        Image,
-        Description,
-        Origin,
-        Camera,
-        AdvancedPhoto,
-        Gps,
-    }
-
-    public enum FilePropertyKey
-    {
-        FileName,
-        FilePath,
-        CreationTime,
-        LastWriteTime,
-        FileSize,
-        FolderPlace,
-    }
-
-    public enum ImagePropertyKey
-    {
-        Dimensions,
-        //Width,
-        //Height,
-        //HorizontalResolution,
-        //VerticalResolution,
-        BitDepth,
-        Archiver,
-        Decoder,
-    }
-
-
     public class FileInformationSource : BindableBase
     {
         public FileInformationSource(ViewContent viewContent)
@@ -71,9 +38,6 @@ namespace NeeView
         public BitmapContent BitmapContent => ViewContent?.Content as BitmapContent;
 
         public PictureInfo PictureInfo => BitmapContent?.PictureInfo;
-
-        //[Obsolete]
-        //public BitmapExif Exif => PictureInfo?.Exif;
 
         public BitmapMetadataDatabase Metadata => PictureInfo?.Metadata;
 
@@ -172,12 +136,16 @@ namespace NeeView
 
         private void UpdateFileProperties()
         {
+            var page = ViewContent?.Page;
+
             FileProperties = new Dictionary<FilePropertyKey, object>()
             {
                 [FilePropertyKey.FileName] = ViewContent?.FileName,
-                [FilePropertyKey.FilePath] = ViewContent?.Page?.Entry?.Link ?? ViewContent?.FullPath,
-                [FilePropertyKey.FileSize] = (PictureInfo != null && PictureInfo.Length > 0) ? string.Format("{0:#,0} KB", PictureInfo.Length > 0 ? (PictureInfo.Length + 1023) / 1024 : 0) : null,
-                [FilePropertyKey.LastWriteTime] = (PictureInfo != null && PictureInfo.LastWriteTime != default) ? (object)PictureInfo.LastWriteTime : null,
+                [FilePropertyKey.ArchivePath] = ViewContent?.Page?.Entry?.Link ?? ViewContent?.FullPath,
+                [FilePropertyKey.FileSize] = (page != null && page.Length > 0) ? string.Format("{0:#,0} KB", page.Length > 0 ? (page.Length + 1023) / 1024 : 0) : null,
+                [FilePropertyKey.CreationTime] = (page != null && page.CreationTime != default) ? (object)page.CreationTime : null,
+                [FilePropertyKey.LastWriteTime] = (page != null && page.LastWriteTime != default) ? (object)page.LastWriteTime : null,
+                [FilePropertyKey.Archiver] = page?.Entry?.Archiver?.ToString(),
                 [FilePropertyKey.FolderPlace] = ViewContent?.FolderPlace,
             };
 
@@ -189,11 +157,13 @@ namespace NeeView
             ImageProperties = new Dictionary<ImagePropertyKey, object>()
             {
                 [ImagePropertyKey.Dimensions] = (PictureInfo != null && PictureInfo.OriginalSize.Width > 0 && PictureInfo.OriginalSize.Height > 0) ? $"{(int)PictureInfo.OriginalSize.Width} x {(int)PictureInfo.OriginalSize.Height}" + (PictureInfo.IsLimited ? "*" : "") : null,
-                [ImagePropertyKey.BitDepth] = PictureInfo?.BitsPerPixel,
-                [ImagePropertyKey.Archiver] = PictureInfo?.Archiver,
+                [ImagePropertyKey.BitDepth] = new FormatValue(PictureInfo?.BitsPerPixel, "{0}", FormatValue.NotDefaultValueConverter<int>),
+                [ImagePropertyKey.HorizontalResolution] = new FormatValue(PictureInfo?.BitmapInfo?.DpiX, "{0:0.# dpi}", FormatValue.NotDefaultValueConverter<double>),
+                [ImagePropertyKey.VerticalResolution] = new FormatValue(PictureInfo?.BitmapInfo?.DpiY, "{0:0.# dpi}", FormatValue.NotDefaultValueConverter<double>),
                 [ImagePropertyKey.Decoder] = ((BitmapContent is AnimatedContent animatedContent && animatedContent.IsAnimated) || BitmapContent is MediaContent) ? "MediaPlayer" : PictureInfo?.Decoder,
             };
         }
+
 
         private void UpdateDescription()
         {
@@ -359,10 +329,8 @@ namespace NeeView
 
         public void OpenMap()
         {
-            GpsLocation?.OpenMap();
+            GpsLocation?.OpenMap(Config.Current.Information.MapProgramFormat);
         }
 
     }
-
-
 }

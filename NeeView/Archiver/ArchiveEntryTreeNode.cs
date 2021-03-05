@@ -22,6 +22,8 @@ namespace NeeView
         }
 
         public string Name { get; private set; }
+
+        public DateTime CreationTime { get; set; }
         public DateTime LastWriteTime { get; set; }
 
         /// <summary>

@@ -14,9 +14,9 @@ namespace NeeView.Media.Imaging.Metadata
         private BitmapMetadata _meta;
         private Dictionary<string, List<string>> _textMap = new Dictionary<string, List<string>>();
 
+
         public PngMetadataAccessor(BitmapMetadata meta)
         {
-            // NOTE: _meta の寿命に注意。例えば BitmapFrame の BitmapMetadata を参照している場合、BitmapFrame が閉じられるとこのデータは使用できなくなる
             _meta = meta ?? throw new ArgumentNullException(nameof(meta));
             Debug.Assert(_meta.Format == "png");
 

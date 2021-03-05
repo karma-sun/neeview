@@ -94,6 +94,7 @@ namespace NeeView
                 Link = path,
                 Instance = innterEntry,
                 Length = innterEntry.Length,
+                CreationTime = innterEntry.CreationTime,
                 LastWriteTime = innterEntry.LastWriteTime,
             };
 

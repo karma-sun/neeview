@@ -2158,43 +2158,43 @@ nv.Values.Test = "Hello!"</value>
   <data name="InconsistencyException.Message" xml:space="preserve">
     <value>ページ データの不整合</value>
   </data>
-  <data name="Information.Archiver" xml:space="preserve">
+  <data name="xInformation.Archiver" xml:space="preserve">
     <value>アーカイバー</value>
   </data>
-  <data name="Information.Date" xml:space="preserve">
+  <data name="xInformation.Date" xml:space="preserve">
     <value>ファイル日付</value>
   </data>
-  <data name="Information.DateFormat" xml:space="preserve">
+  <data name="xInformation.DateFormat" xml:space="preserve">
     <value>yyyy年M月d日 dddd H:mm</value>
   </data>
-  <data name="Information.DateTimeOriginal" xml:space="preserve">
+  <data name="xInformation.DateTimeOriginal" xml:space="preserve">
     <value>撮影日時</value>
   </data>
-  <data name="Information.Decoder" xml:space="preserve">
+  <data name="xInformation.Decoder" xml:space="preserve">
     <value>デコーダー</value>
   </data>
-  <data name="Information.Device" xml:space="preserve">
+  <data name="xInformation.Device" xml:space="preserve">
     <value>デバイス</value>
   </data>
-  <data name="Information.FileName" xml:space="preserve">
+  <data name="xInformation.FileName" xml:space="preserve">
     <value>ファイル名</value>
   </data>
-  <data name="Information.FilePath" xml:space="preserve">
+  <data name="xInformation.FilePath" xml:space="preserve">
     <value>ファイル パス</value>
   </data>
-  <data name="Information.FileSize" xml:space="preserve">
+  <data name="xInformation.FileSize" xml:space="preserve">
     <value>ファイル サイズ</value>
   </data>
-  <data name="Information.FolderPath" xml:space="preserve">
+  <data name="xInformation.FolderPath" xml:space="preserve">
     <value>フォルダーのパス</value>
   </data>
-  <data name="Information.ImageSize" xml:space="preserve">
+  <data name="xInformation.ImageSize" xml:space="preserve">
     <value>画像サイズ</value>
   </data>
-  <data name="Information.Info" xml:space="preserve">
+  <data name="xInformation.Info" xml:space="preserve">
     <value>撮影情報</value>
   </data>
-  <data name="Information.ISO" xml:space="preserve">
+  <data name="xInformation.ISO" xml:space="preserve">
     <value>ISO</value>
   </data>
   <data name="Information.Menu.Copy" xml:space="preserve">
@@ -2206,13 +2206,13 @@ nv.Values.Test = "Hello!"</value>
   <data name="Information.Title" xml:space="preserve">
     <value>情報</value>
   </data>
-  <data name="InformationConfig.IsVisibleBitsPerPixel" xml:space="preserve">
+  <data name="xInformationConfig.IsVisibleBitsPerPixel" xml:space="preserve">
     <value>画像サイズにピクセルあたりのビット数を表示する</value>
   </data>
-  <data name="InformationConfig.IsVisibleFilePath" xml:space="preserve">
+  <data name="xInformationConfig.IsVisibleFilePath" xml:space="preserve">
     <value>圧縮ファイル内のファイルパスを表示する</value>
   </data>
-  <data name="InformationConfig.IsVisibleLoader" xml:space="preserve">
+  <data name="xInformationConfig.IsVisibleLoader" xml:space="preserve">
     <value>使用されたアーカイバー、画像デコーダー名を表示する</value>
   </data>
   <data name="InformationPanelAccessor" xml:space="preserve">
@@ -6276,7 +6276,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="FilePropertyKey.FileName" xml:space="preserve">
     <value>ファイル名</value>
   </data>
-  <data name="FilePropertyKey.FilePath" xml:space="preserve">
+  <data name="FilePropertyKey.ArchivePath" xml:space="preserve">
     <value>アーカイブ パス</value>
   </data>
   <data name="FilePropertyKey.CreationTime" xml:space="preserve">
@@ -6309,7 +6309,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ImagePropertyKey.BitDepth" xml:space="preserve">
     <value>ビットの深さ</value>
   </data>
-  <data name="ImagePropertyKey.Archiver" xml:space="preserve">
+  <data name="FilePropertyKey.Archiver" xml:space="preserve">
     <value>アーカイバー</value>
   </data>
   <data name="ImagePropertyKey.Decoder" xml:space="preserve">
@@ -6437,6 +6437,9 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="BitmapMetadataKey.GPSAltitude" xml:space="preserve">
     <value>高度</value>
+  </data>
+  <data name="BitmapMetadataKey.Orientation" xml:space="preserve">
+    <value>向き</value>
   </data>
   <data name="ExifContrast.Normal" xml:space="preserve">
     <value>標準</value>
@@ -6716,5 +6719,62 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="Information.OpenMap" xml:space="preserve">
     <value>地図を開く</value>
+  </data>
+  <data name="InformationConfig.DateTimeFormat" xml:space="preserve">
+    <value>日時表示フォーマット</value>
+  </data>
+  <data name="InformationConfig.DateTimeFormat.Remarks" xml:space="preserve">
+    <value>.NET のカスタム日時形式文字列を指定します。</value>
+  </data>
+  <data name="InformationConfig.MapProgramFormat" xml:space="preserve">
+    <value>地図プログラム</value>
+  </data>
+  <data name="InformationConfig.MapProgramFormat.Remarks" xml:space="preserve">
+    <value>"{Lat}": 緯度, "{LatDeg}": 緯度(DEF), "{Lon}": 経度, "{LonDeg}": 経度(DEG)</value>
+  </data>
+  <data name="InformationConfig.IsVisibleFileSection" xml:space="preserve">
+    <value>ファイル情報を表示</value>
+  </data>
+  <data name="InformationConfig.IsVisibleImageSection" xml:space="preserve">
+    <value>イメージ情報を表示</value>
+  </data>
+  <data name="InformationConfig.IsVisibleDescriptionSection" xml:space="preserve">
+    <value>説明情報を表示</value>
+  </data>
+  <data name="InformationConfig.IsVisibleOriginSection" xml:space="preserve">
+    <value>ソース情報を表示</value>
+  </data>
+  <data name="InformationConfig.IsVisibleCameraSection" xml:space="preserve">
+    <value>カメラ情報を表示</value>
+  </data>
+  <data name="InformationConfig.IsVisibleAdvancedPhotoSection" xml:space="preserve">
+    <value>写真詳細情報を表示</value>
+  </data>
+  <data name="InformationConfig.IsVisibleGpsSection" xml:space="preserve">
+    <value>GPS情報を表示</value>
+  </data>
+  <data name="ExifOrientation.Normal" xml:space="preserve">
+    <value>標準</value>
+  </data>
+  <data name="ExifOrientation.MirrorHorizontal" xml:space="preserve">
+    <value>水平方向に反転</value>
+  </data>
+  <data name="ExifOrientation.Rotate180" xml:space="preserve">
+    <value>180° 回転</value>
+  </data>
+  <data name="ExifOrientation.MirrorVertical" xml:space="preserve">
+    <value>垂直方向に反転</value>
+  </data>
+  <data name="ExifOrientation.MirrorHorizontal_Rotate270" xml:space="preserve">
+    <value>水平方向に反転、270° 回転</value>
+  </data>
+  <data name="ExifOrientation.Rotate90" xml:space="preserve">
+    <value>90° 回転</value>
+  </data>
+  <data name="ExifOrientation.MirrorHorizontal_Rotate90" xml:space="preserve">
+    <value>水平方向に反転、90° 回転</value>
+  </data>
+  <data name="ExifOrientation.Rotate270" xml:space="preserve">
+    <value>270° 回転</value>
   </data>
 </root>

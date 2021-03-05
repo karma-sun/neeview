@@ -63,6 +63,7 @@ namespace NeeView.Media.Imaging.Metadata
         WhiteBalance,
         PhotometricInterpretation,
         DigitalZoom,
+        Orientation,
         EXIFVersion,
 
         // -- GPS
@@ -129,6 +130,7 @@ namespace NeeView.Media.Imaging.Metadata
             [BitmapMetadataKey.WhiteBalance] = BitmapMetadataGroup.AdvancedPhoto,
             [BitmapMetadataKey.PhotometricInterpretation] = BitmapMetadataGroup.AdvancedPhoto,
             [BitmapMetadataKey.DigitalZoom] = BitmapMetadataGroup.AdvancedPhoto,
+            [BitmapMetadataKey.Orientation] = BitmapMetadataGroup.AdvancedPhoto,
             [BitmapMetadataKey.EXIFVersion] = BitmapMetadataGroup.AdvancedPhoto,
 
             // -- GPS

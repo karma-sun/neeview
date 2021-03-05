@@ -79,8 +79,7 @@ namespace NeeView
                 case IEnumerable<string> strings:
                     return string.Join("; ", strings);
                 case DateTime dateTime:
-                    //return dateTime.ToString("yyyy年M月d日 dddd H:mm");
-                    return dateTime.ToString("u");
+                    return dateTime.ToString(Config.Current.Information.DateTimeFormat);
                 case Enum e:
                     return AliasNameExtensions.GetAliasName(value);
                 default:

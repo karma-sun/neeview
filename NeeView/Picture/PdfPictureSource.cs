@@ -22,7 +22,7 @@ namespace NeeView
         {
             if (PictureInfo != null) return PictureInfo;
 
-            var pictureInfo = new PictureInfo(ArchiveEntry);
+            var pictureInfo = new PictureInfo();
             var originalSize = _pdfArchive.GetSourceSize(ArchiveEntry);
             pictureInfo.OriginalSize = originalSize;
             var maxSize = Config.Current.Performance.MaximumSize;

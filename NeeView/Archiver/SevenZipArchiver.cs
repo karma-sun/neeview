@@ -76,6 +76,8 @@ namespace NeeView
 
         public bool IsStream => _stream != null;
 
+        public string Format => _extractor?.Format.ToString();
+
         public object Lock => _lock;
 
         #endregion
@@ -168,10 +170,11 @@ namespace NeeView
             get { return _extractor.ArchiveFileData; }
         }
 
-        public bool IsSolid
-        {
-            get { return _extractor.IsSolid; }
-        }
+
+        public string Format => _extractor.Format.ToString();
+
+        public bool IsSolid => _extractor.IsSolid;
+
 
         public void ExtractFile(int index, Stream extractStream)
         {
@@ -237,6 +240,7 @@ namespace NeeView
         #region Fields
 
         private SevenZipSource _source;
+        private string _format;
 
         #endregion
 
@@ -255,7 +259,7 @@ namespace NeeView
 
         public override string ToString()
         {
-            return "7-Zip";
+            return "7-Zip" + (_format != null ? $" ({_format})" : null);
         }
 
         public override void Unlock()
@@ -310,6 +314,7 @@ namespace NeeView
                     // NOTE: 異なるスレッドで処理するととても重くなることがあるので排他処理にする
                     lock (_staticLock)
                     {
+                        _format = extractor.Format;
                         entries = extractor.ArchiveFileData;
                     }
 

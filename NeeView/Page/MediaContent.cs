@@ -17,7 +17,7 @@ namespace NeeView
     {
         public MediaContent(ArchiveEntry entry) : base(entry)
         {
-            PictureInfo = new PictureInfo(entry);
+            PictureInfo = new PictureInfo();
         }
 
         public override bool IsLoaded => FileProxy != null;

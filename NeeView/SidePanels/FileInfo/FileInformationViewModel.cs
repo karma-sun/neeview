@@ -28,20 +28,15 @@ namespace NeeView
             _model.AddPropertyChanged(nameof(_model.FileInformations),
                 Model_FileInformationsChanged);
 
-            Config.Current.Information.AddPropertyChanged(nameof(InformationConfig.IsVisibleLoader),
-                (s, e) => RaisePropertyChanged(nameof(LoaderVisibility)));
+            Config.Current.Information.AddPropertyChanged(nameof(InformationConfig.DateTimeFormat),
+                (s, e) => _model.Update());
 
-            Config.Current.Information.AddPropertyChanged(nameof(InformationConfig.IsVisibleBitsPerPixel),
+            Config.Current.Information.AddPropertyChanged(nameof(InformationConfig.MapProgramFormat),
                 (s, e) => _model.Update());
 
             InitializeMoreMenu();
         }
 
-
-        public Visibility LoaderVisibility
-        {
-            get { return Config.Current.Information.IsVisibleLoader ? Visibility.Visible : Visibility.Collapsed; }
-        }
 
         public List<FileInformationSource> FileInformations
         {

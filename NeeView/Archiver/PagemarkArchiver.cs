@@ -86,6 +86,7 @@ namespace NeeView
                 Link = pagemark.FullName,
                 Instance = innerEntry,
                 Length = innerEntry.Length,
+                CreationTime = innerEntry.CreationTime,
                 LastWriteTime = innerEntry.LastWriteTime,
             };
         }

@@ -27,9 +27,9 @@ namespace NeeView
 
             this.IsVisibleChanged += NavigateThumbnail_IsVisibleChanged;
 
-            this.ThumbnailGrid.MouseLeftButtonDown += ThumbnailGrid_MouseLeftButtonDown;
-            this.ThumbnailGrid.PreviewMouseLeftButtonUp += ThumbnailGrid_PreviewMouseLeftButtonUp;
-            this.ThumbnailGrid.MouseMove += ThumbnailGrid_MouseMove;
+            this.MouseLeftButtonDown += ThumbnailGrid_MouseLeftButtonDown;
+            this.PreviewMouseLeftButtonUp += ThumbnailGrid_PreviewMouseLeftButtonUp;
+            this.MouseMove += ThumbnailGrid_MouseMove;
         }
 
 
@@ -40,16 +40,16 @@ namespace NeeView
 
         private void ThumbnailGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            this.ThumbnailGrid.CaptureMouse();
-            this.ThumbnailGrid.Cursor = Cursors.Hand;
+            this.CaptureMouse();
+            this.Cursor = Cursors.Hand;
 
             _vm.LookAt(e.GetPosition(this.ThumbnailGrid));
         }
 
         private void ThumbnailGrid_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            this.ThumbnailGrid.ReleaseMouseCapture();
-            this.ThumbnailGrid.Cursor = null;
+            this.ReleaseMouseCapture();
+            this.Cursor = null;
         }
 
         private void ThumbnailGrid_MouseMove(object sender, MouseEventArgs e)

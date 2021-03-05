@@ -1,13 +1,10 @@
 ﻿using NeeView.Numetrics;
+using NeeView.Text;
 using System;
 using System.Windows.Media.Imaging;
 
-// TODO: 
-// - ToString() 内で変換時に例外が発生するとアプリが落ちる
-
 namespace NeeView.Media.Imaging.Metadata
 {
-
     /// <summary>
     /// basic metadata accessor for JPG and TIFF
     /// </summary>
@@ -47,6 +44,7 @@ namespace NeeView.Media.Imaging.Metadata
         private const string policy_WhiteBalance = "System.Photo.WhiteBalance";
         private const string policy_PhotometricInterpretation = "System.Photo.PhotometricInterpretation";
         private const string policy_DigitalZoom = "System.Photo.DigitalZoom";
+        private const string policy_Orientation = "System.Photo.Orientation";
         private const string policy_EXIFVersion = "System.Photo.EXIFVersion";
 
         private const string policy_Latitude = "System.GPS.Latitude.Proxy";
@@ -56,7 +54,7 @@ namespace NeeView.Media.Imaging.Metadata
 
 
 
-        // NOTE: _meta の寿命に注意。例えば BitmapFrame の BitmapMetadata を参照している場合、BitmapFrame が閉じられるとこのデータは使用できなくなる
+        // NOTE: _meta の寿命に注意。ソース が閉じられるとこのデータアクセスは保証されない
         private BitmapMetadata _metadata;
 
 
@@ -93,7 +91,7 @@ namespace NeeView.Media.Imaging.Metadata
                 case BitmapMetadataKey.CameraMaker: return _metadata.CameraManufacturer;
                 case BitmapMetadataKey.CameraModel: return _metadata.CameraModel;
                 case BitmapMetadataKey.FNumber: return new FormatValue(_metadata.GetQuery(policy_FNumber), "f/{0:0.##}");
-                case BitmapMetadataKey.ExposureTime: return new FormatValue(GetRational(policy_ExposureTime), "{0} s", FormatValueAttribute.Reduction);
+                case BitmapMetadataKey.ExposureTime: return new FormatValue(GetRational(policy_ExposureTime), "{0} s");
                 case BitmapMetadataKey.ISOSpeed: return _metadata.GetQuery(policy_ISOSpeed);
                 case BitmapMetadataKey.ExposureBias: return new FormatValue(_metadata.GetQuery(policy_ExposureBias), "{0:+0.#;-0.#;0} step");
                 case BitmapMetadataKey.FocalLength: return new FormatValue(_metadata.GetQuery(policy_FocalLength), "{0:0.##} mm");
@@ -119,6 +117,7 @@ namespace NeeView.Media.Imaging.Metadata
                 case BitmapMetadataKey.WhiteBalance: return GetEnumValue<ExifWhiteBalance>(policy_WhiteBalance);
                 case BitmapMetadataKey.PhotometricInterpretation: return GetEnumValue<ExifPhotometricInterpretation>(policy_PhotometricInterpretation);
                 case BitmapMetadataKey.DigitalZoom: return new FormatValue(_metadata.GetQuery(policy_DigitalZoom), "{0:0.##}");
+                case BitmapMetadataKey.Orientation: return GetEnumValue<ExifOrientation>(policy_Orientation);
                 case BitmapMetadataKey.EXIFVersion: return _metadata.GetQuery(policy_EXIFVersion);
 
                 // -- GPS

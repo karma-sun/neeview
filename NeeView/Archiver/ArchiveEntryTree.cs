@@ -47,10 +47,8 @@ namespace NeeView
                     child.HasChild = true;
                 }
 
-                if (child.LastWriteTime < entry.LastWriteTime)
-                {
-                    child.LastWriteTime = entry.LastWriteTime;
-                }
+                child.CreationTime = entry.CreationTime;
+                child.LastWriteTime = entry.LastWriteTime;
 
                 node = child;
             }

@@ -21,14 +21,12 @@ namespace NeeView
         public bool IsMirrorHorizontal { get; private set; }
         public bool IsMirrorVertical { get; private set; }
         public Rotation Rotation { get; private set; }
-
-        [Obsolete]
-        public BitmapExif Exif { get; private set; }
+        public double DpiX { get; private set; }
+        public double DpiY { get; private set; }
         public double AspectRatio { get; private set; }
         public double AspectWidth { get; private set; }
         public double AspectHeight { get; private set; }
         public int FrameCount { get; private set; }
-
         public BitmapMetadataDatabase Metadata { get; private set; }
 
         // 転置？
@@ -47,11 +45,10 @@ namespace NeeView
             this.PixelWidth = bitmapFrame.PixelWidth;
             this.PixelHeight = bitmapFrame.PixelHeight;
             this.BitsPerPixel = bitmapFrame.Format.BitsPerPixel;
-            var metadata = (BitmapMetadata)bitmapFrame.Metadata;
-            this.Exif = new BitmapExif(metadata);
-            this.Metadata = new BitmapMetadataDatabase(metadata);
+            this.Metadata = new BitmapMetadataDatabase((bitmapFrame.Decoder.Metadata ?? bitmapFrame.Metadata) as BitmapMetadata);
             this.FrameCount = bitmapFrame.Decoder is GifBitmapDecoder gifBitmapDecoder ? gifBitmapDecoder.Frames.Count : 1;
-
+            this.DpiX = bitmapFrame.DpiX;
+            this.DpiY = bitmapFrame.DpiY;
             this.AspectWidth = bitmapFrame.Width;
             this.AspectHeight = bitmapFrame.Height;
             this.AspectRatio = (bitmapFrame.PixelWidth * bitmapFrame.Height) / (bitmapFrame.PixelHeight * bitmapFrame.Width);
@@ -60,36 +57,34 @@ namespace NeeView
                 this.AspectRatio = 1.0;
             }
 
-            if (metadata != null)
+            if (this.Metadata != null && this.Metadata[BitmapMetadataKey.Orientation] is ExifOrientation orientation)
             {
-                var exif = new ExifAccessor(metadata);
-
-                switch (exif.Orientation)
+                switch (orientation)
                 {
                     default:
-                    case 1: // normal
+                    case ExifOrientation.Normal:
                         break;
-                    case 2: // Mirror horizontal
+                    case ExifOrientation.MirrorHorizontal:
                         this.IsMirrorHorizontal = true;
                         break;
-                    case 3: // Rotate 180
+                    case ExifOrientation.Rotate180:
                         this.Rotation = Rotation.Rotate180;
                         break;
-                    case 4: //Mirror vertical
+                    case ExifOrientation.MirrorVertical:
                         this.IsMirrorVertical = true;
                         break;
-                    case 5: // Mirror horizontal and rotate 270 CW
+                    case ExifOrientation.MirrorHorizontal_Rotate270:
                         this.IsMirrorHorizontal = true;
                         this.Rotation = Rotation.Rotate270;
                         break;
-                    case 6: //Rotate 90 CW
+                    case ExifOrientation.Rotate90:
                         this.Rotation = Rotation.Rotate90;
                         break;
-                    case 7: // Mirror horizontal and rotate 90 CW
+                    case ExifOrientation.MirrorHorizontal_Rotate90:
                         this.IsMirrorHorizontal = true;
                         this.Rotation = Rotation.Rotate90;
                         break;
-                    case 8: // Rotate 270 CW
+                    case ExifOrientation.Rotate270:
                         this.Rotation = Rotation.Rotate270;
                         break;
                 }

@@ -32,7 +32,7 @@ namespace NeeView
 
             token.ThrowIfCancellationRequested();
 
-            var pictureInfo = new PictureInfo(ArchiveEntry);
+            var pictureInfo = new PictureInfo();
 
             using (var stream = _streamSource.CreateStream(token))
             {
@@ -48,7 +48,6 @@ namespace NeeView
 
                 pictureInfo.Decoder = _streamSource.Decoder ?? ".NET BitmapImage";
                 pictureInfo.BitsPerPixel = bitmapInfo.BitsPerPixel;
-                pictureInfo.Exif = bitmapInfo.Exif;
                 pictureInfo.Metadata = bitmapInfo.Metadata;
                 pictureInfo.AspectRatio = bitmapInfo.AspectRatio;
                 pictureInfo.AspectSize = new Size(bitmapInfo.AspectWidth, bitmapInfo.AspectHeight);

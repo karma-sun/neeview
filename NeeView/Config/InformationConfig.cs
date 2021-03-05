@@ -8,9 +8,15 @@ namespace NeeView
 {
     public class InformationConfig : BindableBase
     {
-        private bool _isVisibleBitsPerPixel;
-        private bool _isVisibleLoader;
-        private bool _isVisibleFilePath;
+        private static string _defaultDateTimeFormat { get; set; } = @"f";
+        private static string _defaultMapProgramFormat = @"https://www.google.com/maps/place/{Lat}+{Lon}/";
+
+        [JsonInclude, JsonPropertyName(nameof(DateTimeFormat))]
+        public string _dateTimeFormat = null;
+
+        [JsonInclude, JsonPropertyName(nameof(MapProgramFormat))]
+        public string _mapProgramFormat;
+
         private bool _isVisibleFileSection = true;
         private bool _isVisibleImageSection = true;
         private bool _isVisibleDescriptionSection = true;
@@ -21,30 +27,22 @@ namespace NeeView
         private GridLength _propertyHeaderWidth = new GridLength(128.0);
 
 
-        [Obsolete]
+
+        [JsonIgnore]
         [PropertyMember]
-        public bool IsVisibleBitsPerPixel
+        public string DateTimeFormat
         {
-            get { return _isVisibleBitsPerPixel; }
-            set { SetProperty(ref _isVisibleBitsPerPixel, value); }
+            get { return _dateTimeFormat ?? _defaultDateTimeFormat; }
+            set { SetProperty(ref _dateTimeFormat, (string.IsNullOrWhiteSpace(value) || value == _defaultDateTimeFormat) ? null : value); }
         }
 
-        [Obsolete]
+        [JsonIgnore]
         [PropertyMember]
-        public bool IsVisibleLoader
+        public string MapProgramFormat
         {
-            get { return _isVisibleLoader; }
-            set { SetProperty(ref _isVisibleLoader, value); }
+            get { return _mapProgramFormat ?? _defaultMapProgramFormat; }
+            set { SetProperty(ref _mapProgramFormat, (string.IsNullOrWhiteSpace(value) || value == _defaultMapProgramFormat) ? null : value); }
         }
-
-        [Obsolete]
-        [PropertyMember]
-        public bool IsVisibleFilePath
-        {
-            get { return _isVisibleFilePath; }
-            set { SetProperty(ref _isVisibleFilePath, value); }
-        }
-
 
 
         [PropertyMember]

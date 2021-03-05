@@ -69,7 +69,7 @@ namespace NeeView
 
             Initialize(token);
 
-            this.PictureInfo = new PictureInfo(ArchiveEntry);
+            this.PictureInfo = new PictureInfo();
 
             var size = new Size(_imageSource.Width, _imageSource.Height);
             PictureInfo.OriginalSize = size;

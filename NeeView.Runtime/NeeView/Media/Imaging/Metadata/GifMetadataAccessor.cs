@@ -17,7 +17,7 @@ namespace NeeView.Media.Imaging.Metadata
             Debug.Assert(_meta.Format == "gif");
 
             // commentext  map
-            foreach (var key in meta.Where(e => e.EndsWith("commentext", StringComparison.OrdinalIgnoreCase)))
+            foreach (var key in meta.Where(e => e.EndsWith("commentext", StringComparison.Ordinal)))
             {
                 var commentextMeta = meta.GetQuery(key) as BitmapMetadata;
                 if (commentextMeta != null)
@@ -35,7 +35,7 @@ namespace NeeView.Media.Imaging.Metadata
         {
             switch (key)
             {
-                case BitmapMetadataKey.Comments: return string.Join("\r\n", _comments);
+                case BitmapMetadataKey.Comments: return string.Join(Environment.NewLine, _comments);
 
                 default: return null;
             }

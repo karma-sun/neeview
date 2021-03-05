@@ -9,7 +9,7 @@ namespace NeeView
     public class InformationConfig : BindableBase
     {
         private static string _defaultDateTimeFormat { get; set; } = @"f";
-        private static string _defaultMapProgramFormat = @"https://www.google.com/maps/place/{Lat}+{Lon}/";
+        private static string _defaultMapProgramFormat = @"https://www.google.com/maps/place/$Lat+$Lon/";
 
         [JsonInclude, JsonPropertyName(nameof(DateTimeFormat))]
         public string _dateTimeFormat = null;

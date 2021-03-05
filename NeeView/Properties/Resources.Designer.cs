@@ -7669,7 +7669,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   {Lat}: Latitude, &quot;{LatDeg}&quot;: Latitude (DEF), &quot;{Lon}&quot;: Longitude, &quot;{LonDeg}&quot;: Longitude (DEG) に類似しているローカライズされた文字列を検索します。
+        ///   $Lat: Latitude, $LatDeg: Latitude(DEG), $Lon: Longitude, $LonDeg: Longitude(DEG) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string InformationConfig_MapProgramFormat_Remarks {
             get {

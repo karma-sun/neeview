@@ -6,8 +6,8 @@ namespace NeeView
 {
     public class GpsLocation
     {
-        ////public static string GoogleMapFormatA => @"https://www.google.com/maps/@{LatDeg},{LonDeg},15z";
-        ////public static string GoogleMapFormatB => @"https://www.google.com/maps/place/{Lat}+{Lon}/";
+        ////public static string GoogleMapFormatA => @"https://www.google.com/maps/@$LatDeg,$LonDeg,15z";
+        ////public static string GoogleMapFormatB => @"https://www.google.com/maps/place/$Lat+$Lon/";
 
 
         ExifGpsDegree _latitude;
@@ -29,10 +29,10 @@ namespace NeeView
             if (!_latitude.IsValid || !_longitude.IsValid) return;
 
             var s = format;
-            s = s.Replace("{Lat}", _latitude.ToFormatString());
-            s = s.Replace("{Lon}", _longitude.ToFormatString());
-            s = s.Replace("{LatDeg}", _latitude.ToValueString("{0:F5}"));
-            s = s.Replace("{LonDeg}", _longitude.ToValueString("{0:F5}"));
+            s = s.Replace("$LatDeg", _latitude.ToValueString("{0:F5}"));
+            s = s.Replace("$LonDeg", _longitude.ToValueString("{0:F5}"));
+            s = s.Replace("$Lat", _latitude.ToFormatString());
+            s = s.Replace("$Lon", _longitude.ToFormatString());
 
             ExternalProcess.Start(s);
         }

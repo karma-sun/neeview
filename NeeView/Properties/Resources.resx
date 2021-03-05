@@ -6727,7 +6727,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>Map program</value>
   </data>
   <data name="InformationConfig.MapProgramFormat.Remarks" xml:space="preserve">
-    <value>{Lat}: Latitude, "{LatDeg}": Latitude (DEF), "{Lon}": Longitude, "{LonDeg}": Longitude (DEG)</value>
+    <value>$Lat: Latitude, $LatDeg: Latitude(DEG), $Lon: Longitude, $LonDeg: Longitude(DEG)</value>
   </data>
   <data name="InformationConfig.IsVisibleFileSection" xml:space="preserve">
     <value>View file section</value>

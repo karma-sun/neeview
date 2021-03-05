@@ -6730,7 +6730,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>地図プログラム</value>
   </data>
   <data name="InformationConfig.MapProgramFormat.Remarks" xml:space="preserve">
-    <value>"{Lat}": 緯度, "{LatDeg}": 緯度(DEF), "{Lon}": 経度, "{LonDeg}": 経度(DEG)</value>
+    <value>$Lat: 緯度, $LatDeg: 緯度(DEG), $Lon: 経度, $LonDeg: 経度(DEG)</value>
   </data>
   <data name="InformationConfig.IsVisibleFileSection" xml:space="preserve">
     <value>ファイル情報を表示</value>

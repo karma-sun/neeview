@@ -31,7 +31,6 @@ namespace NeeView.Text
             Restore(items);
         }
 
-
         [DataMember]
         public bool IsSorted { get; private set; } = true;
 
@@ -49,9 +48,10 @@ namespace NeeView.Text
         [DataMember(EmitDefaultValue = false)]
         public string OneLine
         {
-            get { return Items.Count > 0 ? string.Join(";", Items) : ""; }
+            get { return Store(); }
             set { Restore(value); }
         }
+
 
 
         public bool IsEmpty()
@@ -75,7 +75,7 @@ namespace NeeView.Text
             item = ValidateItem(item);
             return Items.Contains(item, StringComparer.OrdinalIgnoreCase);
         }
-        
+
         public string Add(string item)
         {
             item = ValidateItem(item);
@@ -98,6 +98,11 @@ namespace NeeView.Text
             Items = Items.Except(ValidateCollection(items)).ToList();
         }
 
+        public string Store()
+        {
+            return StringCollectionParser.Create(Items);
+        }
+
         public void Restore(IEnumerable<string> items)
         {
             Items = ValidateCollection(items);
@@ -108,7 +113,7 @@ namespace NeeView.Text
         /// </summary>
         public void Restore(string items)
         {
-            Items = ValidateCollection(items?.Split(';').Select(e => e.Trim()));
+            Items = ValidateCollection(StringCollectionParser.Parse(items));
         }
 
         /// <summary>
@@ -165,7 +170,7 @@ namespace NeeView.Text
         public bool Equals(StringCollection other)
         {
             if (other == null) return false;
-            return this.ToString() == other.ToString();
+            return this.Items.SequenceEqual(other.Items);
         }
 
         public override int GetHashCode()

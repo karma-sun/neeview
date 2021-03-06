@@ -19,8 +19,21 @@ namespace NeeView
         {
             var startInfo = new ProcessStartInfo();
             startInfo.UseShellExecute = true;
-            startInfo.FileName = filename;
-            startInfo.Arguments = args;
+
+            if (string.IsNullOrWhiteSpace(filename))
+            {
+                startInfo.FileName = args;
+            }
+            else
+            {
+                startInfo.FileName = filename;
+                startInfo.Arguments = args;
+            }
+
+            if (string.IsNullOrWhiteSpace(startInfo.FileName))
+            {
+                return;
+            }
 
             if (!Config.Current.System.IsNetworkEnabled && _httpPrefix.IsMatch(startInfo.FileName))
             {

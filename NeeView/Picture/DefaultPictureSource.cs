@@ -45,12 +45,11 @@ namespace NeeView
                 var maxSize = bitmapInfo.IsTranspose ? Config.Current.Performance.MaximumSize.Transpose() : Config.Current.Performance.MaximumSize;
                 var size = (Config.Current.Performance.IsLimitSourceSize && !maxSize.IsContains(originalSize)) ? originalSize.Uniformed(maxSize) : Size.Empty;
                 pictureInfo.Size = size.IsEmpty ? originalSize : size;
+                pictureInfo.AspectSize = bitmapInfo.IsTranspose ? bitmapInfo.GetAspectSize().Transpose() : bitmapInfo.GetAspectSize();
 
                 pictureInfo.Decoder = _streamSource.Decoder ?? ".NET BitmapImage";
                 pictureInfo.BitsPerPixel = bitmapInfo.BitsPerPixel;
                 pictureInfo.Metadata = bitmapInfo.Metadata;
-                pictureInfo.AspectRatio = bitmapInfo.AspectRatio;
-                pictureInfo.AspectSize = new Size(bitmapInfo.AspectWidth, bitmapInfo.AspectHeight);
 
                 this.PictureInfo = pictureInfo;
             }

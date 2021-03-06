@@ -41,11 +41,6 @@ namespace NeeView
         public bool IsLimited => Size != OriginalSize;
 
         /// <summary>
-        /// 画像のアスペクト比
-        /// </summary>
-        public double AspectRatio { get; set; } = 1.0;
-
-        /// <summary>
         /// 画像解像度を適用したサイズ
         /// </summary>
         public Size AspectSize

@@ -23,7 +23,6 @@ namespace NeeView
         public Rotation Rotation { get; private set; }
         public double DpiX { get; private set; }
         public double DpiY { get; private set; }
-        public double AspectRatio { get; private set; }
         public double AspectWidth { get; private set; }
         public double AspectHeight { get; private set; }
         public int FrameCount { get; private set; }
@@ -51,11 +50,6 @@ namespace NeeView
             this.DpiY = bitmapFrame.DpiY;
             this.AspectWidth = bitmapFrame.Width;
             this.AspectHeight = bitmapFrame.Height;
-            this.AspectRatio = (bitmapFrame.PixelWidth * bitmapFrame.Height) / (bitmapFrame.PixelHeight * bitmapFrame.Width);
-            if (0.999 < this.AspectRatio && this.AspectRatio < 1.001)
-            {
-                this.AspectRatio = 1.0;
-            }
 
             if (this.Metadata != null && this.Metadata[BitmapMetadataKey.Orientation] is ExifOrientation orientation)
             {
@@ -98,6 +92,11 @@ namespace NeeView
         public Size GetPixelSize()
         {
             return (this.PixelWidth == 0.0 || this.PixelHeight == 0.0) ? Size.Empty : new Size(this.PixelWidth, this.PixelHeight);
+        }
+
+        public Size GetAspectSize()
+        {
+            return (this.AspectWidth == 0.0 || this.AspectHeight == 0.0) ? Size.Empty : new Size(this.AspectWidth, this.AspectHeight);
         }
 
         #endregion

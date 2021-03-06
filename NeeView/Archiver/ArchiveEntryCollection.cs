@@ -117,7 +117,7 @@ namespace NeeView
             }
 
             Archiver = rootArchiver;
-            Mode = Archiver.IsFileSystem? _mode : _modeIfArchive;
+            Mode = (Archiver is PagemarkArchiver) ? ArchiveEntryCollectionMode.IncludeSubDirectories : (Archiver.IsFileSystem ? _mode : _modeIfArchive);
 
             var includeSubDirectories = Mode == ArchiveEntryCollectionMode.IncludeSubDirectories || Mode == ArchiveEntryCollectionMode.IncludeSubArchives;
             var entries = await rootArchiver.GetEntriesAsync(rootArchiverPath, includeSubDirectories, token);
@@ -155,7 +155,7 @@ namespace NeeView
                         var subEntries = await subArchive.GetEntriesAsync(token);
                         result.AddRange(await GetSubArchivesEntriesAsync(subEntries, token));
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         Debug.WriteLine(ex.Message);
                         Debug.WriteLine($"ArchiveEntryCollection.Skip: {entry.EntryName}");

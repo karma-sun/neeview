@@ -16,9 +16,9 @@ namespace NeeView.Setting
     public class SettingWindowViewModel : BindableBase
     {
         private SettingWindowModel _model;
-        private bool _isSearchPageSelected;
         private string _searchKeyword;
         private SettingPage _currentPage;
+        private SettingPage _lastPage;
 
 
         public SettingWindowViewModel(SettingWindowModel model)
@@ -35,8 +35,7 @@ namespace NeeView.Setting
 
         public bool IsSearchPageSelected
         {
-            get { return _isSearchPageSelected; }
-            set { SetProperty(ref _isSearchPageSelected, value); }
+            get { return _currentPage == _model.SearchPage; }
         }
 
         public string SearchKeyword
@@ -46,12 +45,18 @@ namespace NeeView.Setting
             {
                 if (SetProperty(ref _searchKeyword, value))
                 {
-                    if (!string.IsNullOrWhiteSpace(_searchKeyword) || IsSearchPageSelected)
+                    if (!string.IsNullOrWhiteSpace(_searchKeyword))
                     {
                         _model.ClearPageContentCache();
                         _model.UpdateSearchPage(_searchKeyword);
                         CurrentPage = _model.SearchPage;
-                        IsSearchPageSelected = true;
+                    }
+                    else
+                    {
+                        if (IsSearchPageSelected && _lastPage != null)
+                        {
+                            _lastPage.IsSelected = true;
+                        }
                     }
                 }
             }
@@ -75,7 +80,7 @@ namespace NeeView.Setting
             if (settingPage != null)
             {
                 CurrentPage = settingPage;
-                IsSearchPageSelected = false;
+                _lastPage = settingPage;
                 SearchKeyword = "";
             }
         }

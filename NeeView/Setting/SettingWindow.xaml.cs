@@ -51,7 +51,7 @@ namespace NeeView.Setting
             _vm = new SettingWindowViewModel(model);
             this.DataContext = _vm;
 
-            _vm.AddPropertyChanged(nameof(SettingWindowViewModel.IsSearchPageSelected), UpdateIndexTreeSelected);
+            _vm.AddPropertyChanged(nameof(SettingWindowViewModel.CurrentPage), UpdateIndexTreeSelected);
         }
 
 

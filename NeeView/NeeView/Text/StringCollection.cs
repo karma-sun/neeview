@@ -12,6 +12,7 @@ namespace NeeView.Text
     /// 文字列コレクション
     /// </summary>
     [DataContract]
+    [ObjectMergeReferenceCopy]
     [JsonConverter(typeof(JsonStringCollectionConverter))]
     public class StringCollection : ICloneable, IEquatable<StringCollection>
     {

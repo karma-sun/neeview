@@ -5,8 +5,11 @@ namespace NeeView
 {
     public class MediaArchiveConfig : BindableBase
     {
+        public static FileTypeCollection DefaultSupportFileTypes { get; } = new FileTypeCollection(".asf;.avi;.mp4;.mkv;.mov;.wmv");
+
+
         private bool _isEnabled = true;
-        private FileTypeCollection _supportFileTypes = new FileTypeCollection(".asf;.avi;.mp4;.mkv;.mov;.wmv");
+        private FileTypeCollection _supportFileTypes = (FileTypeCollection)DefaultSupportFileTypes.Clone();
         private double _pageSeconds = 10.0;
         private double _mediaStartDelaySeconds = 0.5;
         private bool _isMuted;

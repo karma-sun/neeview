@@ -9,8 +9,11 @@ namespace NeeView
 {
     public class BookConfig : BindableBase
     {
+        public static StringCollection DefaultExcludes { get; } = new StringCollection("__MACOSX;.DS_Store");
+
+
         private double _wideRatio = 1.0;
-        private StringCollection _excludes = new StringCollection("__MACOSX;.DS_Store");
+        private StringCollection _excludes = (StringCollection)DefaultExcludes.Clone();
         private bool _isMultiplePageMove = true;
         private PageEndAction _pageEndAction;
         private bool _isNotifyPageLoop;

@@ -5,8 +5,11 @@ namespace NeeView
 {
     public class ImageSvgConfig: BindableBase
     {
+        public static FileTypeCollection DefaultSupportFileTypes { get; } = new FileTypeCollection(".svg");
+
+
         private bool _isEnabled = true;
-        private FileTypeCollection _supportFileTypes = new FileTypeCollection(".svg");
+        private FileTypeCollection _supportFileTypes = (FileTypeCollection)DefaultSupportFileTypes.Clone();
 
         // support SVG
         [PropertyMember]

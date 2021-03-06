@@ -7,9 +7,12 @@ namespace NeeView
 {
     public class PdfArchiveConfig : BindableBase
     {
+        public static FileTypeCollection DefaultSupportFileTypes { get; } = new FileTypeCollection(".pdf");
+
+
         private bool _isEnabled = true;
         private Size _renderSize = new Size(1920, 1080);
-        private FileTypeCollection _supportFileTypes = new FileTypeCollection(".pdf");
+        private FileTypeCollection _supportFileTypes = (FileTypeCollection)DefaultSupportFileTypes.Clone();
 
 
         [PropertyMember]

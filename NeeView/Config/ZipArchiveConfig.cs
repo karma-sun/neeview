@@ -5,8 +5,12 @@ namespace NeeView
 {
     public class ZipArchiveConfig : BindableBase
     {
+        public static FileTypeCollection DefaultSupportFileTypes { get; } = new FileTypeCollection(".zip");
+
+
         private bool _isEnabled = true;
-        private FileTypeCollection _supportFileTypes = new FileTypeCollection(".zip");
+        private FileTypeCollection _supportFileTypes = (FileTypeCollection)DefaultSupportFileTypes.Clone();
+
 
         [PropertyMember]
         public bool IsEnabled
@@ -21,6 +25,5 @@ namespace NeeView
             get { return _supportFileTypes; }
             set { SetProperty(ref _supportFileTypes, value); }
         }
-
     }
 }

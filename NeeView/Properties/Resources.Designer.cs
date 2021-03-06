@@ -7498,6 +7498,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   yyyy-MM-dd dddd H:mm に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Information_DateFormat {
+            get {
+                return ResourceManager.GetString("Information.DateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Description に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Information_Description {
@@ -19783,15 +19792,6 @@ namespace NeeView.Properties {
         public static string xInformation_Date {
             get {
                 return ResourceManager.GetString("xInformation.Date", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   yyyy-MM-dd dddd H:mm に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string xInformation_DateFormat {
-            get {
-                return ResourceManager.GetString("xInformation.DateFormat", resourceCulture);
             }
         }
         

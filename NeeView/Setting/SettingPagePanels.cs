@@ -146,7 +146,7 @@ namespace NeeView.Setting
         {
             var section = new SettingItemSection(Properties.Resources.SettingPage_Information_Visual);
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Information, nameof(InformationConfig.DateTimeFormat))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Information, nameof(InformationConfig.MapProgramFormat))) { IsStretch = true });
+            ////section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Information, nameof(InformationConfig.MapProgramFormat))) { IsStretch = true });
 
             this.Items = new List<SettingItem>() { section };
         }

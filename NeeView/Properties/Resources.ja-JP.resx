@@ -2164,7 +2164,7 @@ nv.Values.Test = "Hello!"</value>
   <data name="xInformation.Date" xml:space="preserve">
     <value>ファイル日付</value>
   </data>
-  <data name="xInformation.DateFormat" xml:space="preserve">
+  <data name="Information.DateFormat" xml:space="preserve">
     <value>yyyy年M月d日 dddd H:mm</value>
   </data>
   <data name="xInformation.DateTimeOriginal" xml:space="preserve">

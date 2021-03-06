@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -29,7 +30,15 @@ namespace NeeView
 
         public override string ValidateItem(string item)
         {
-            return string.IsNullOrWhiteSpace(item) ? null : "." + item.Trim().TrimStart('.').ToLower();
+            return string.IsNullOrWhiteSpace(item) ? null : "." + ReplaceInvalidFileNameChars(item).Trim().TrimStart('.').ToLower();
+        }
+
+        private string ReplaceInvalidFileNameChars(string s)
+        {
+            if (s is null) return null;
+
+            var invalidChars = System.IO.Path.GetInvalidFileNameChars();
+            return string.Concat(s.Select(c => invalidChars.Contains(c) ? '_' : c));
         }
 
         public new static FileTypeCollection Parse(string s)

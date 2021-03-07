@@ -1033,7 +1033,7 @@ namespace NeeView
                         break;
                     case EntryCollectionChangedAction.Add:
                     case EntryCollectionChangedAction.Remove:
-                        if (e.Item.Value is Pagemark pagemark && pagemark.Path == Address)
+                        if (e.Item.Value is IPagemarkEntry pagemark && pagemark.Path == Address)
                         {
                             UpdatePagemark();
                         }

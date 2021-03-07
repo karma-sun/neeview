@@ -1145,7 +1145,7 @@ if (isYes) {
     <value>// Store value
 nv.Values["Test"] = "Hello!"
 // As well
-nv.Values.Test = "Hello!"   </value>
+nv.Values.Test = "Hello!"</value>
   </data>
   <data name="CommandList.Header.Command" xml:space="preserve">
     <value>Command</value>
@@ -1648,7 +1648,7 @@ The following data will be deleted
   </data>
   <data name="FileRenameConfrictDialog.Message" xml:space="preserve">
     <value>"{0}" already exists.
-Would you like to rename it to "{1}" ? </value>
+Would you like to rename it to "{1}" ?</value>
   </data>
   <data name="FileRenameConfrictDialog.Title" xml:space="preserve">
     <value>A file with the same name exists</value>
@@ -1658,7 +1658,7 @@ Would you like to rename it to "{1}" ? </value>
   </data>
   <data name="FileRenameExtensionDialog.Message" xml:space="preserve">
     <value>Changing the extension may make it impossible to use it.
-Is it OK? </value>
+Is it OK?</value>
   </data>
   <data name="FileRenameExtensionDialog.Title" xml:space="preserve">
     <value>Change the extension</value>
@@ -2258,7 +2258,7 @@ In the wheel operation, "@ViewScrollUpCommand" "@ViewScrollDownCommand".</value>
   <data name="InputTouchControl.Remarks" xml:space="preserve">
     <value>Specify the area to touch.
 If Center is not assigned to a command, the judgment of the area (L1, L2, R1, R2) below it is applied.
-Please substitute gesture for flick operation. </value>
+Please substitute gesture for flick operation.</value>
   </data>
   <data name="InputTouchControl.TouchInput" xml:space="preserve">
     <value>Here, touch input</value>
@@ -2383,7 +2383,7 @@ include("Sample.nvjs")</value>
   </data>
   <data name="LoadFailedException.Message" xml:space="preserve">
     <value>Failed to read {0}.
-{1} </value>
+{1}</value>
   </data>
   <data name="LoadingPage.ViewNone" xml:space="preserve">
     <value>None</value>
@@ -2678,14 +2678,14 @@ include("Sample.nvjs")</value>
   </data>
   <data name="MouseDragSettingWindow.Remarks" xml:space="preserve">
     <value>Mouse button input in light blue frame.
-You can not use right button drag because it is reserved with mouse gesture. </value>
+You can not use right button drag because it is reserved with mouse gesture.</value>
   </data>
   <data name="MouseDragSettingWindow.Title" xml:space="preserve">
     <value>Drag operation</value>
   </data>
   <data name="MouseGestureControl.InputGesture" xml:space="preserve">
     <value>Here gesture input
-(Hold down the right button while dragging) </value>
+(Hold down the right button while dragging)</value>
   </data>
   <data name="MouseGestureControl.New" xml:space="preserve">
     <value>New</value>
@@ -2696,7 +2696,7 @@ You can not use right button drag because it is reserved with mouse gesture. </v
   <data name="MouseGestureControl.Remarks" xml:space="preserve">
     <value>Enter a mouse gesture within a light blue frame.
 Mouse gesture is a drag operation while holding down the right mouse button.
-A left click can be registered as the last gesture key. </value>
+A left click can be registered as the last gesture key.</value>
   </data>
   <data name="MovePagemarkInBookCommandParameter.IsIncludeTerminal" xml:space="preserve">
     <value>Include the first and last pages</value>
@@ -3068,7 +3068,7 @@ Initialize the temporary location.</value>
     <value>External app</value>
   </data>
   <data name="OpenExternalAppCommand.Remarks" xml:space="preserve">
-    <value>Open the displayed image with an external application. </value>
+    <value>Open the displayed image with an external application.</value>
   </data>
   <data name="OpenExternalAppCommandParameter.ArchivePolicy" xml:space="preserve">
     <value>Compressed file policy</value>
@@ -4455,7 +4455,7 @@ $Scale[LR] .. Image scale (%)
 
 "◯◯◯[LR]" indicates that the variable name changes for 1 page or 2 pages.
 For example, $Name is for 1 page, $NameL is for 2 pages left, $NameR is for 2 pages right.
-$Name is the main page (the smaller page number) when displaying 2 pages. </value>
+$Name is the main page (the smaller page number) when displaying 2 pages.</value>
   </data>
   <data name="SettingPage.PageTitle" xml:space="preserve">
     <value>Page title</value>
@@ -4485,10 +4485,10 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Height</value>
   </data>
   <data name="ShowHiddenPanelsCommand" xml:space="preserve">
-    <value>Show panels </value>
+    <value>Show panels</value>
   </data>
   <data name="ShowHiddenPanelsCommand.Menu" xml:space="preserve">
-    <value>Show panels </value>
+    <value>Show panels</value>
   </data>
   <data name="ShowHiddenPanelsCommand.Remarks" xml:space="preserve">
     <value>The panel which is hidden automatically is displayed once. It will be canceled by some operation.</value>
@@ -6462,16 +6462,16 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ExifExposureProgram.ShutterPriority" xml:space="preserve">
     <value>Shutter priority</value>
   </data>
-  <data name="ExifExposureProgram.CreativeProgram " xml:space="preserve">
+  <data name="ExifExposureProgram.CreativeProgram" xml:space="preserve">
     <value>Creative program</value>
   </data>
-  <data name="ExifExposureProgram.ActionProgram " xml:space="preserve">
+  <data name="ExifExposureProgram.ActionProgram" xml:space="preserve">
     <value>Action program</value>
   </data>
-  <data name="ExifExposureProgram.PortraitMode " xml:space="preserve">
+  <data name="ExifExposureProgram.PortraitMode" xml:space="preserve">
     <value>Portrait mode</value>
   </data>
-  <data name="ExifExposureProgram.LandscapeMode " xml:space="preserve">
+  <data name="ExifExposureProgram.LandscapeMode" xml:space="preserve">
     <value>Landscape mode</value>
   </data>
   <data name="ExifFlashMode.FlashDidNotFire" xml:space="preserve">

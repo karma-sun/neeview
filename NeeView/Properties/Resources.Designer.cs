@@ -3482,7 +3482,7 @@ namespace NeeView.Properties {
         ///   // Store value
         ///nv.Values[&quot;Test&quot;] = &quot;Hello!&quot;
         ///// As well
-        ///nv.Values.Test = &quot;Hello!&quot;    に類似しているローカライズされた文字列を検索します。
+        ///nv.Values.Test = &quot;Hello!&quot; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandHost_Values_Example {
             get {
@@ -4508,9 +4508,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Action program に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ExifExposureProgram_ActionProgram_ {
+        public static string ExifExposureProgram_ActionProgram {
             get {
-                return ResourceManager.GetString("ExifExposureProgram.ActionProgram ", resourceCulture);
+                return ResourceManager.GetString("ExifExposureProgram.ActionProgram", resourceCulture);
             }
         }
         
@@ -4526,18 +4526,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Creative program に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ExifExposureProgram_CreativeProgram_ {
+        public static string ExifExposureProgram_CreativeProgram {
             get {
-                return ResourceManager.GetString("ExifExposureProgram.CreativeProgram ", resourceCulture);
+                return ResourceManager.GetString("ExifExposureProgram.CreativeProgram", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Landscape mode に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ExifExposureProgram_LandscapeMode_ {
+        public static string ExifExposureProgram_LandscapeMode {
             get {
-                return ResourceManager.GetString("ExifExposureProgram.LandscapeMode ", resourceCulture);
+                return ResourceManager.GetString("ExifExposureProgram.LandscapeMode", resourceCulture);
             }
         }
         
@@ -4571,9 +4571,9 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Portrait mode に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ExifExposureProgram_PortraitMode_ {
+        public static string ExifExposureProgram_PortraitMode {
             get {
-                return ResourceManager.GetString("ExifExposureProgram.PortraitMode ", resourceCulture);
+                return ResourceManager.GetString("ExifExposureProgram.PortraitMode", resourceCulture);
             }
         }
         
@@ -5895,7 +5895,7 @@ namespace NeeView.Properties {
         
         /// <summary>
         ///   &quot;{0}&quot; already exists.
-        ///Would you like to rename it to &quot;{1}&quot; ?  に類似しているローカライズされた文字列を検索します。
+        ///Would you like to rename it to &quot;{1}&quot; ? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FileRenameConfrictDialog_Message {
             get {
@@ -5923,7 +5923,7 @@ namespace NeeView.Properties {
         
         /// <summary>
         ///   Changing the extension may make it impossible to use it.
-        ///Is it OK?  に類似しているローカライズされた文字列を検索します。
+        ///Is it OK? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FileRenameExtensionDialog_Message {
             get {
@@ -7810,7 +7810,7 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Specify the area to touch.
         ///If Center is not assigned to a command, the judgment of the area (L1, L2, R1, R2) below it is applied.
-        ///Please substitute gesture for flick operation.  に類似しているローカライズされた文字列を検索します。
+        ///Please substitute gesture for flick operation. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string InputTouchControl_Remarks {
             get {
@@ -8181,7 +8181,7 @@ namespace NeeView.Properties {
         
         /// <summary>
         ///   Failed to read {0}.
-        ///{1}  に類似しているローカライズされた文字列を検索します。
+        ///{1} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string LoadFailedException_Message {
             get {
@@ -9091,7 +9091,7 @@ namespace NeeView.Properties {
         
         /// <summary>
         ///   Mouse button input in light blue frame.
-        ///You can not use right button drag because it is reserved with mouse gesture.  に類似しているローカライズされた文字列を検索します。
+        ///You can not use right button drag because it is reserved with mouse gesture. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string MouseDragSettingWindow_Remarks {
             get {
@@ -9110,7 +9110,7 @@ namespace NeeView.Properties {
         
         /// <summary>
         ///   Here gesture input
-        ///(Hold down the right button while dragging)  に類似しているローカライズされた文字列を検索します。
+        ///(Hold down the right button while dragging) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string MouseGestureControl_InputGesture {
             get {
@@ -9139,7 +9139,7 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Enter a mouse gesture within a light blue frame.
         ///Mouse gesture is a drag operation while holding down the right mouse button.
-        ///A left click can be registered as the last gesture key.  に類似しているローカライズされた文字列を検索します。
+        ///A left click can be registered as the last gesture key. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string MouseGestureControl_Remarks {
             get {
@@ -10267,7 +10267,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Open the displayed image with an external application.  に類似しているローカライズされた文字列を検索します。
+        ///   Open the displayed image with an external application. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string OpenExternalAppCommand_Remarks {
             get {
@@ -14539,7 +14539,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Show panels  に類似しているローカライズされた文字列を検索します。
+        ///   Show panels に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ShowHiddenPanelsCommand {
             get {
@@ -14548,7 +14548,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Show panels  に類似しているローカライズされた文字列を検索します。
+        ///   Show panels に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ShowHiddenPanelsCommand_Menu {
             get {

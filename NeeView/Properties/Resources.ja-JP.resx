@@ -379,13 +379,13 @@
     <value>ページがなく、サブフォルダーが 1 つだけ存在する場合にサブフォルダーを自動的に読み込みます。</value>
   </data>
   <data name="BookConfig.IsConfirmRecursive" xml:space="preserve">
-    <value>サブフォルダーしかなかいときに、それを読み込むか問い合わせる </value>
+    <value>サブフォルダーしかなかいときに、それを読み込むか問い合わせる</value>
   </data>
   <data name="BookConfig.IsConfirmRecursive.Remarks" xml:space="preserve">
     <value>ブックを開いた時に表示可能なページがなく、かつサブフォルダーが存在する場合にサブフォルダーも読み込むかを問い合わせるダイアログを表示します。</value>
   </data>
   <data name="BookConfig.IsInsertDummyPage" xml:space="preserve">
-    <value>見開き用のダミー ページを挿入する </value>
+    <value>見開き用のダミー ページを挿入する</value>
   </data>
   <data name="BookConfig.IsInsertDummyPage.Remarks" xml:space="preserve">
     <value>2 ページ表示の終端でページが足りないときに、ダミー ページを追加して見開きを揃えます。</value>
@@ -1293,7 +1293,7 @@ nv.Values.Test = "Hello!"</value>
     <value>ブック削除(_D)</value>
   </data>
   <data name="DeleteBookCommand.Remarks" xml:space="preserve">
-    <value>現在閲覧中のフォルダーまたは圧縮ファイルを削除します。 </value>
+    <value>現在閲覧中のフォルダーまたは圧縮ファイルを削除します。</value>
   </data>
   <data name="DeleteFileCommand" xml:space="preserve">
     <value>ファイルを削除</value>
@@ -1302,7 +1302,7 @@ nv.Values.Test = "Hello!"</value>
     <value>削除(_D)</value>
   </data>
   <data name="DeleteFileCommand.Remarks" xml:space="preserve">
-    <value>ファイルを削除します。圧縮ファイルの場合は削除できません。 </value>
+    <value>ファイルを削除します。圧縮ファイルの場合は削除できません。</value>
   </data>
   <data name="DestinationFolderDialog.Title" xml:space="preserve">
     <value>登録フォルダー一覧</value>
@@ -2545,7 +2545,7 @@ include("Sample.nvjs")</value>
     <value>ハンバーガー メニューを使う</value>
   </data>
   <data name="MenuBarConfig.IsHamburgerMenu.Remarks" xml:space="preserve">
-    <value>メニューバーの代わりに、メニューを一つにまとめたアイコンを表示します。 </value>
+    <value>メニューバーの代わりに、メニューを一つにまとめたアイコンを表示します。</value>
   </data>
   <data name="MenuBarConfig.IsHideMenu" xml:space="preserve">
     <value>メニューを自動的に隠す</value>
@@ -2623,7 +2623,7 @@ include("Sample.nvjs")</value>
     <value>この距離の移動でジェスチャー ストロークと判断されます。</value>
   </data>
   <data name="MouseConfig.IsCursorHideEnabled" xml:space="preserve">
-    <value>マウスの無操作でマウス ポインターを非表示にする </value>
+    <value>マウスの無操作でマウス ポインターを非表示にする</value>
   </data>
   <data name="MouseConfig.IsCursorHideEnabled.Remarks" xml:space="preserve">
     <value>設定した時間、マウスを操作しなかった場合にマウス ポインターを非表示にします。</value>
@@ -5526,7 +5526,7 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
     <value>タッチ機能を使用する</value>
   </data>
   <data name="TouchConfig.IsEnabled.Remarks" xml:space="preserve">
-    <value>オフにすると、標準のマウス操作として認識します。 </value>
+    <value>オフにすると、標準のマウス操作として認識します。</value>
   </data>
   <data name="TouchConfig.IsScaleEnabled" xml:space="preserve">
     <value>ピンチイン・ピンチアウトでのサイズ変更操作操作を有効にする</value>
@@ -6465,16 +6465,16 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ExifExposureProgram.ShutterPriority" xml:space="preserve">
     <value>シャッター優先</value>
   </data>
-  <data name="ExifExposureProgram.CreativeProgram " xml:space="preserve">
+  <data name="ExifExposureProgram.CreativeProgram" xml:space="preserve">
     <value>深度優先</value>
   </data>
-  <data name="ExifExposureProgram.ActionProgram " xml:space="preserve">
+  <data name="ExifExposureProgram.ActionProgram" xml:space="preserve">
     <value>動体優先</value>
   </data>
-  <data name="ExifExposureProgram.PortraitMode " xml:space="preserve">
+  <data name="ExifExposureProgram.PortraitMode" xml:space="preserve">
     <value>縦長</value>
   </data>
-  <data name="ExifExposureProgram.LandscapeMode " xml:space="preserve">
+  <data name="ExifExposureProgram.LandscapeMode" xml:space="preserve">
     <value>横長</value>
   </data>
   <data name="ExifFlashMode.FlashDidNotFire" xml:space="preserve">

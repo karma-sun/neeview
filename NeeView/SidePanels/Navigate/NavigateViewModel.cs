@@ -37,7 +37,7 @@ namespace NeeView
             ScaleResetCommand = new RelayCommand(_model.ScaleReset);
             StretchCommand = new RelayCommand(_model.Stretch);
 
-            InitializeMoreMenu();
+            MoreMenuDescription = new NavigateMoreMenuDescription();
         }
 
 
@@ -260,28 +260,16 @@ namespace NeeView
 
         #region MoreMenu
 
-        private ContextMenu _moreMenu;
+        public NavigateMoreMenuDescription MoreMenuDescription { get; }
 
-        public ContextMenu MoreMenu
+        public class NavigateMoreMenuDescription : MoreMenuDescription
         {
-            get { return _moreMenu; }
-            set { if (_moreMenu != value) { _moreMenu = value; RaisePropertyChanged(); } }
-        }
-
-        private void InitializeMoreMenu()
-        {
-            var menu = new ContextMenu();
-            menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Navigator_MoreMenu_IsVisibleThumbnail, new Binding(nameof(NavigatorConfig.IsVisibleThumbnail)) { Source = Config.Current.Navigator }));
-            this.MoreMenu = menu;
-        }
-
-        private MenuItem CreateCheckMenuItem(string header, Binding binding)
-        {
-            var item = new MenuItem();
-            item.Header = header;
-            item.IsCheckable = true;
-            item.SetBinding(MenuItem.IsCheckedProperty, binding);
-            return item;
+            public override ContextMenu Create()
+            {
+                var menu = new ContextMenu();
+                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Navigator_MoreMenu_IsVisibleThumbnail, new Binding(nameof(NavigatorConfig.IsVisibleThumbnail)) { Source = Config.Current.Navigator }));
+                return menu;
+            }
         }
 
         #endregion

@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace NeeView
 {
-    public class HistoryConfig : BindableBase
+    public class HistoryConfig : BindableBase, IHasPanelListItemStyle
     {
         private PanelListItemStyle _panelListItemStyle = PanelListItemStyle.Content;
         private bool _isSaveHistory = true;

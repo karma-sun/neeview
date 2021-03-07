@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace NeeView
 {
-    public class PagemarkConfig : BindableBase
+    public class PagemarkConfig : BindableBase, IHasPanelListItemStyle
     {
         private PanelListItemStyle _panelListItemStyle = PanelListItemStyle.Content;
         private bool _isSavePagemark = true;

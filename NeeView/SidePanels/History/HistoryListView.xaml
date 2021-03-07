@@ -33,10 +33,7 @@
                 <TextBlock Text="{Binding FilterPath}" ToolTip="{Binding FilterPath}" HorizontalAlignment="Right" VerticalAlignment="Center" />
             </DockPanel>
             <DockPanel LastChildFill="False">
-                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Height ="30" Width="30" MouseRightButtonUp="MoreButton_MouseRightButtonUp" Checked="MoreButton_Checked"
-                              nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}">
-                    <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
-                </ToggleButton>
+                <local:MoreMenuButton Description="{Binding MoreMenuDescription}" DockPanel.Dock="Right" />
             </DockPanel>
         </StackPanel>
 

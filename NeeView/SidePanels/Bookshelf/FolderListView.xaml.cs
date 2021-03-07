@@ -197,19 +197,6 @@ namespace NeeView
             }
         }
 
-        private void MoreButton_Checked(object sender, RoutedEventArgs e)
-        {
-            _vm.UpdateMoreMenu();
-            ContextMenuWatcher.SetTargetElement(this);
-        }
-
-        private void MoreButton_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            MoreButton.IsChecked = !MoreButton.IsChecked;
-            e.Handled = true;
-        }
-
-
         #region DragDrop
 
         private DragDropGoast _goast = new DragDropGoast();

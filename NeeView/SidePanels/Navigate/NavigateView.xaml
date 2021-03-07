@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="NeeView.NavitateView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+﻿<UserControl x:Class="NeeView.NavigateView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:NeeView"
         xmlns:nvp="clr-namespace:NeeView.Windows.Property" xmlns:nvc="clr-namespace:NeeView.Windows.Controls" xmlns:properties="clr-namespace:NeeView.Properties" mc:Ignorable="d" d:DesignHeight="800"
         d:DesignWidth="300" MinWidth="200" Focusable="True" FocusVisualStyle="{x:Null}" Foreground="{DynamicResource NVForeground}">
@@ -237,10 +237,7 @@
                 <StackPanel Margin="2,0">
 
                     <DockPanel LastChildFill="False" KeyboardNavigation.TabNavigation="Local">
-                        <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Height="30" Width="30" MouseRightButtonUp="MoreButton_MouseRightButtonUp"
-                                Checked="MoreButton_Checked" nvc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}" TabIndex="2">
-                            <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16" />
-                        </ToggleButton>
+                        <local:MoreMenuButton Description="{Binding MoreMenuDescription}" DockPanel.Dock="Right" />
                     </DockPanel>
 
                     <local:NavigateThumbnail HorizontalAlignment="Stretch" Margin="10" Visibility="{Binding Source={x:Static local:Config.Current}, Path=Navigator.IsVisibleThumbnail, Converter={StaticResource BooleanToVisibilityConverter}}" />

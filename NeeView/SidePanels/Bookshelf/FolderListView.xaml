@@ -156,10 +156,7 @@
                             </ContextMenu>
                         </Button.ContextMenu>
                     </Button>
-                    <ToggleButton x:Name="MoreButton" Style="{StaticResource FolderListToggleButtonStyle}"  VerticalAlignment="Center" TabIndex="4" Checked="MoreButton_Checked" MouseRightButtonUp="MoreButton_MouseRightButtonUp"
-                                  nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}">
-                        <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
-                    </ToggleButton>
+                    <local:MoreMenuButton Description="{Binding MoreMenuDescription}" VerticalAlignment="Center" TabIndex="4" />
                 </StackPanel>
                 <WrapPanel Orientation="Horizontal" VerticalAlignment="Top" MinWidth="150">
                     <Button x:Name="FolderHomeButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToHome}" TabIndex="1"

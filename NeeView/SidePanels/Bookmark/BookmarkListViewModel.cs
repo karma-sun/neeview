@@ -27,7 +27,6 @@ namespace NeeView
     {
         #region Fields
 
-        private PanelListItemStyleToBooleanConverter _panelListItemStyleToBooleanConverter = new PanelListItemStyleToBooleanConverter();
         private CancellationTokenSource _removeUnlinkedCommandCancellationTokenSource;
         private DpiScaleProvider _dpiProvider = new DpiScaleProvider();
 
@@ -48,7 +47,7 @@ namespace NeeView
             _dpiProvider.DpiChanged +=
                 (s, e) => RaisePropertyChanged(nameof(DpiScale));
 
-            InitializeMoreMenu();
+            MoreMenuDescription = new BookmarkListMoreMenu(this);
         }
 
         #endregion
@@ -168,86 +167,6 @@ namespace NeeView
             _model.FolderListConfig.IsFolderTreeVisible = !_model.FolderListConfig.IsFolderTreeVisible;
         }
 
-        #endregion Commands
-
-        #region MoreMenu
-
-        private void InitializeMoreMenu()
-        {
-            this.MoreMenu = new ContextMenu();
-            UpdateMoreMenu();
-        }
-
-        public void UpdateMoreMenu()
-        {
-            var items = this.MoreMenu.Items;
-
-            items.Clear();
-            items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleList, PanelListItemStyle.Normal));
-            items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleContent, PanelListItemStyle.Content));
-            items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleBanner, PanelListItemStyle.Banner));
-            items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleThumbnail, PanelListItemStyle.Thumbnail));
-            items.Add(new Separator());
-            items.Add(CreateCommandMenuItem(Properties.Resources.FolderTree_Menu_DeleteInvalidBookmark, RemoveUnlinkedCommand));
-            items.Add(new Separator());
-            items.Add(CreateCommandMenuItem(Properties.Resources.Word_NewFolder, NewFolderCommand));
-            items.Add(CreateCommandMenuItem(Properties.Resources.FolderTree_Menu_AddBookmark, AddBookmarkCommand));
-            items.Add(new Separator());
-            items.Add(CreateCheckFlagMenuItem(Properties.Resources.BookmarkList_MoreMenu_SyncBookshelf, new Binding(nameof(BookmarkConfig.IsSyncBookshelfEnabled)) { Source = Config.Current.Bookmark }));
-        }
-
-        private MenuItem CreateCheckFlagMenuItem(string header, Binding binding)
-        {
-            var item = new MenuItem();
-            item.Header = header;
-            item.IsCheckable = true;
-            item.SetBinding(MenuItem.IsCheckedProperty, binding);
-            return item;
-        }
-
-        private MenuItem CreateCommandMenuItem(string header, ICommand command)
-        {
-            var item = new MenuItem();
-            item.Header = header;
-            item.Command = command;
-            return item;
-        }
-
-        private MenuItem CreateCommandMenuItem(string header, string command)
-        {
-            var item = new MenuItem();
-            item.Header = header;
-            item.Command = RoutedCommandTable.Current.Commands[command];
-            item.CommandParameter = MenuCommandTag.Tag; // コマンドがメニューからであることをパラメータで伝えてみる
-            var binding = CommandTable.Current.GetElement(command).CreateIsCheckedBinding();
-            if (binding != null)
-            {
-                item.SetBinding(MenuItem.IsCheckedProperty, binding);
-            }
-
-            return item;
-        }
-
-        private MenuItem CreateListItemStyleMenuItem(string header, PanelListItemStyle style)
-        {
-            var item = new MenuItem();
-            item.Header = header;
-            item.Command = SetListItemStyle;
-            item.CommandParameter = style;
-            var binding = new Binding(nameof(FolderListConfig.PanelListItemStyle))
-            {
-                Converter = _panelListItemStyleToBooleanConverter,
-                ConverterParameter = style,
-                Source = _model.FolderListConfig,
-            };
-            item.SetBinding(MenuItem.IsCheckedProperty, binding);
-
-            return item;
-        }
-
-        /// <summary>
-        /// SetListItemStyle command.
-        /// </summary>
         private RelayCommand<PanelListItemStyle> _SetListItemStyle;
         public RelayCommand<PanelListItemStyle> SetListItemStyle
         {
@@ -257,6 +176,48 @@ namespace NeeView
         private void SetListItemStyle_Executed(PanelListItemStyle style)
         {
             _model.FolderListConfig.PanelListItemStyle = style;
+        }
+
+        #endregion Commands
+
+        #region MoreMenu
+
+        public BookmarkListMoreMenu MoreMenuDescription { get; }
+
+        public class BookmarkListMoreMenu : ItemsListMoreMenuDescription
+        {
+            private BookmarkListViewModel _vm;
+
+            public BookmarkListMoreMenu(BookmarkListViewModel vm)
+            {
+                _vm = vm;
+            }
+
+            public override ContextMenu Create()
+            {
+                var menu = new ContextMenu();
+                var items = menu.Items;
+
+                items.Clear();
+                items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleList, PanelListItemStyle.Normal));
+                items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleContent, PanelListItemStyle.Content));
+                items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleBanner, PanelListItemStyle.Banner));
+                items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleThumbnail, PanelListItemStyle.Thumbnail));
+                items.Add(new Separator());
+                items.Add(CreateCommandMenuItem(Properties.Resources.FolderTree_Menu_DeleteInvalidBookmark, _vm.RemoveUnlinkedCommand));
+                items.Add(new Separator());
+                items.Add(CreateCommandMenuItem(Properties.Resources.Word_NewFolder, _vm.NewFolderCommand));
+                items.Add(CreateCommandMenuItem(Properties.Resources.FolderTree_Menu_AddBookmark, _vm.AddBookmarkCommand));
+                items.Add(new Separator());
+                items.Add(CreateCheckMenuItem(Properties.Resources.BookmarkList_MoreMenu_SyncBookshelf, new Binding(nameof(BookmarkConfig.IsSyncBookshelfEnabled)) { Source = Config.Current.Bookmark }));
+
+                return menu;
+            }
+
+            private MenuItem CreateListItemStyleMenuItem(string header, PanelListItemStyle style)
+            {
+                return CreateListItemStyleMenuItem(header, _vm.SetListItemStyle, style, _vm.Model.FolderListConfig);
+            }
         }
 
         #endregion MoreMenu

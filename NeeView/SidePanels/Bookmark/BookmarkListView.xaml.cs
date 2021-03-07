@@ -80,18 +80,6 @@ namespace NeeView
             }
         }
 
-        private void MoreButton_Checked(object sender, RoutedEventArgs e)
-        {
-            _vm.UpdateMoreMenu();
-            ContextMenuWatcher.SetTargetElement((UIElement)sender);
-        }
-
-        private void MoreButton_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            MoreButton.IsChecked = !MoreButton.IsChecked;
-            e.Handled = true;
-        }
-
         public void SetFolderListBoxContent(FolderListBox content)
         {
             this.ListBoxContent.Content = content;

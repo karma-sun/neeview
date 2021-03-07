@@ -60,10 +60,7 @@
             </StackPanel>
 
             <DockPanel KeyboardNavigation.TabNavigation ="Local" >
-                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource FolderListToggleButtonStyle}" VerticalAlignment="Top" Width="30" MouseRightButtonUp="MoreButton_MouseRightButtonUp" Checked="MoreButton_Checked"
-                              nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}" TabIndex="2">
-                    <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
-                </ToggleButton>
+                <local:MoreMenuButton Description="{Binding MoreMenuDescription}" DockPanel.Dock="Right" TabIndex="2" />
                 <WrapPanel MinWidth="150">
                     <Button x:Name="PrevButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToPreviousCommand}" TabIndex="1" ContextMenuService.Placement="Bottom"
                             ContextMenuOpening="PrevButton_ContextMenuOpening" ToolTip="{x:Static properties:Resources.PageList_Back_ToolTip}">

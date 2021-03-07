@@ -29,7 +29,7 @@ namespace NeeView
             _model = model;
             _model.AddPropertyChanged(nameof(HistoryList.FilterPath), (s, e) => RaisePropertyChanged(nameof(FilterPath)));
 
-            InitializeMoreMenu();
+            MoreMenuDescription = new HistoryListMoreMenuDescription(this);
         }
 
 
@@ -38,77 +38,35 @@ namespace NeeView
 
         #region MoreMenu
 
-        private ContextMenu _moreMenu;
-        private PanelListItemStyleToBooleanConverter _panelListItemStyleToBooleanConverter = new PanelListItemStyleToBooleanConverter();
+        public HistoryListMoreMenuDescription MoreMenuDescription { get; }
 
-        public ContextMenu MoreMenu
+        public class HistoryListMoreMenuDescription : ItemsListMoreMenuDescription
         {
-            get { return _moreMenu; }
-            set { if (_moreMenu != value) { _moreMenu = value; RaisePropertyChanged(); } }
-        }
+            private HistoryListViewModel _vm;
 
-        private void InitializeMoreMenu()
-        {
-            var menu = new ContextMenu();
-            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleList, PanelListItemStyle.Normal));
-            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleContent, PanelListItemStyle.Content));
-            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleBanner, PanelListItemStyle.Banner));
-            menu.Items.Add(new Separator());
-            menu.Items.Add(CreateCheckMenuItem(Properties.Resources.History_MoreMenu_IsCurrentFolder, new Binding(nameof(HistoryConfig.IsCurrentFolder)) { Source = Config.Current.History }));
-            menu.Items.Add(new Separator());
-            menu.Items.Add(CreateCommandMenuItem(Properties.Resources.History_MoreMenu_DeleteInvalid, RemoveUnlinkedCommand));
-            menu.Items.Add(CreateCommandMenuItem(Properties.Resources.History_MoreMenu_DeleteAll, RemoveAllCommand));
-            this.MoreMenu = menu;
-        }
-
-        private MenuItem CreateCheckMenuItem(string header, Binding binding)
-        {
-            var item = new MenuItem();
-            item.Header = header;
-            item.IsCheckable = true;
-            item.SetBinding(MenuItem.IsCheckedProperty, binding);
-            return item;
-        }
-
-        private MenuItem CreateCommandMenuItem(string header, ICommand command)
-        {
-            var item = new MenuItem();
-            item.Header = header;
-            item.Command = command;
-            return item;
-        }
-
-        private MenuItem CreateCommandMenuItem(string header, string command, object source)
-        {
-            var item = new MenuItem();
-            item.Header = header;
-            item.Command = RoutedCommandTable.Current.Commands[command];
-            item.CommandParameter = MenuCommandTag.Tag; // コマンドがメニューからであることをパラメータで伝えてみる
-            var binding = CommandTable.Current.GetElement(command).CreateIsCheckedBinding();
-            if (binding != null)
+            public HistoryListMoreMenuDescription(HistoryListViewModel vm)
             {
-                binding.Source = source;
-                item.SetBinding(MenuItem.IsCheckedProperty, binding);
+                _vm = vm;
             }
 
-            return item;
-        }
-
-        private MenuItem CreateListItemStyleMenuItem(string header, PanelListItemStyle style)
-        {
-            var item = new MenuItem();
-            item.Header = header;
-            item.Command = SetListItemStyle;
-            item.CommandParameter = style;
-            var binding = new Binding(nameof(HistoryConfig.PanelListItemStyle))
+            public override ContextMenu Create()
             {
-                Converter = _panelListItemStyleToBooleanConverter,
-                ConverterParameter = style,
-                Source = Config.Current.History
-            };
-            item.SetBinding(MenuItem.IsCheckedProperty, binding);
+                var menu = new ContextMenu();
+                menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleList, PanelListItemStyle.Normal));
+                menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleContent, PanelListItemStyle.Content));
+                menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleBanner, PanelListItemStyle.Banner));
+                menu.Items.Add(new Separator());
+                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.History_MoreMenu_IsCurrentFolder, new Binding(nameof(HistoryConfig.IsCurrentFolder)) { Source = Config.Current.History }));
+                menu.Items.Add(new Separator());
+                menu.Items.Add(CreateCommandMenuItem(Properties.Resources.History_MoreMenu_DeleteInvalid, _vm.RemoveUnlinkedCommand));
+                menu.Items.Add(CreateCommandMenuItem(Properties.Resources.History_MoreMenu_DeleteAll, _vm.RemoveAllCommand));
+                return  menu;
+            }
 
-            return item;
+            private MenuItem CreateListItemStyleMenuItem(string header, PanelListItemStyle style)
+            {
+                return CreateListItemStyleMenuItem(header, _vm.SetListItemStyle, style, Config.Current.History);
+            }
         }
 
         #endregion

@@ -35,18 +35,6 @@ namespace NeeView
             this.DockPanel.DataContext = _vm;
         }
 
-
-        private void MoreButton_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            MoreButton.IsChecked = !MoreButton.IsChecked;
-            e.Handled = true;
-        }
-
-        private void MoreButton_Checked(object sender, RoutedEventArgs e)
-        {
-            ContextMenuWatcher.SetTargetElement((UIElement)sender);
-        }
-
         /// <summary>
         /// 履歴戻るボタンコンテキストメニュー開く 前処理
         /// </summary>

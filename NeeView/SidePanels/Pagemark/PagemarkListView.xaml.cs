@@ -41,17 +41,6 @@ namespace NeeView
         public PagemarkList PagemarkList => _vm.Model;
 
 
-        private void MoreButton_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            MoreButton.IsChecked = !MoreButton.IsChecked;
-            e.Handled = true;
-        }
-
-        private void MoreButton_Checked(object sender, RoutedEventArgs e)
-        {
-            ContextMenuWatcher.SetTargetElement((UIElement)sender);
-        }
-
         public void Refresh()
         {
             _vm.ListBoxContent?.Refresh();

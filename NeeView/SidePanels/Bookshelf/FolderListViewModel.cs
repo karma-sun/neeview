@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Input;
 
 namespace NeeView
 {
@@ -24,7 +23,6 @@ namespace NeeView
     /// </summary>
     public class FolderListViewModel : BindableBase
     {
-        private PanelListItemStyleToBooleanConverter _panelListItemStyleToBooleanConverter = new PanelListItemStyleToBooleanConverter();
         private BookshelfFolderList _model;
         private Dictionary<FolderOrder, string> _folderOrderList = AliasNameExtensions.GetAliasNameDictionary<FolderOrder>();
         private double _dpi = 1.0;
@@ -43,7 +41,7 @@ namespace NeeView
             _model.CollectionChanged +=
                 Model_CollectionChanged;
 
-            InitializeMoreMenu();
+            MoreMenuDescription = new FolderListMoreMenuDescription(this);
         }
 
 
@@ -306,122 +304,72 @@ namespace NeeView
 
         #region MoreMenu
 
-        private ContextMenu _moreMenu;
+        public FolderListMoreMenuDescription MoreMenuDescription { get; }
 
-
-        public ContextMenu MoreMenu
+        public class FolderListMoreMenuDescription : ItemsListMoreMenuDescription
         {
-            get { return _moreMenu; }
-            set { if (_moreMenu != value) { _moreMenu = value; RaisePropertyChanged(); } }
-        }
+            private FolderListViewModel _vm;
 
-
-        private void InitializeMoreMenu()
-        {
-            this.MoreMenu = new ContextMenu();
-            UpdateMoreMenu();
-        }
-
-        public void UpdateMoreMenu()
-        {
-            var items = this.MoreMenu.Items;
-
-            items.Clear();
-            items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleList, PanelListItemStyle.Normal));
-            items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleContent, PanelListItemStyle.Content));
-            items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleBanner, PanelListItemStyle.Banner));
-            items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleThumbnail, PanelListItemStyle.Thumbnail));
-            items.Add(new Separator());
-            items.Add(CreateCommandMenuItem(Properties.Resources.Bookshelf_MoreMenu_ExportPlaylist, ExportPlaylist));
-            items.Add(CreateCommandMenuItem(Properties.Resources.Bookshelf_MoreMenu_AddQuickAccess, AddQuickAccess));
-            items.Add(CreateCommandMenuItem(Properties.Resources.Bookshelf_MoreMenu_ClearHistory, "ClearHistoryInPlace"));
-
-            switch (_model.FolderCollection)
+            public FolderListMoreMenuDescription(FolderListViewModel vm)
             {
-                case FolderEntryCollection folderEntryCollection:
-                    items.Add(new Separator());
-                    items.Add(CreateRecursiveFlagMenuItem(Properties.Resources.Bookshelf_MoreMenu_Subfolder));
-                    break;
-
-                case FolderArchiveCollection folderArchiveCollection:
-                    break;
-
-                case FolderSearchCollection folderSearchCollection:
-                    break;
-
-                case BookmarkFolderCollection bookmarFolderCollection:
-                    items.Add(new Separator());
-                    items.Add(CreateCommandMenuItem(Properties.Resources.Word_NewFolder, NewFolderCommand));
-                    items.Add(CreateCommandMenuItem(Properties.Resources.FolderTree_Menu_AddBookmark, AddBookmarkCommand));
-                    break;
+                _vm = vm;
             }
 
-            if (_model.IsFolderSearchEnabled)
+            public override ContextMenu Create()
             {
-                var subItem = new MenuItem() { Header = Properties.Resources.Bookshelf_MoreMenu_SearchOptions };
-                subItem.Items.Add(CreateCheckFlagMenuItem(Properties.Resources.Bookshelf_MoreMenu_SearchIncremental, new Binding(nameof(BookshelfConfig.IsIncrementalSearchEnabled)) { Source = Config.Current.Bookshelf }));
-                subItem.Items.Add(CreateCheckFlagMenuItem(Properties.Resources.Bookshelf_MoreMenu_SearchIncludeSubdirectories, new Binding(nameof(BookshelfConfig.IsSearchIncludeSubdirectories)) { Source = Config.Current.Bookshelf }));
+                return Update(new ContextMenu());
+            }
+
+            public override ContextMenu Update(ContextMenu menu)
+            {
+                var items = menu.Items;
+
+                items.Clear();
+                items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleList, PanelListItemStyle.Normal));
+                items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleContent, PanelListItemStyle.Content));
+                items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleBanner, PanelListItemStyle.Banner));
+                items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleThumbnail, PanelListItemStyle.Thumbnail));
                 items.Add(new Separator());
-                items.Add(subItem);
-            }
-        }
+                items.Add(CreateCommandMenuItem(Properties.Resources.Bookshelf_MoreMenu_ExportPlaylist, _vm.ExportPlaylist));
+                items.Add(CreateCommandMenuItem(Properties.Resources.Bookshelf_MoreMenu_AddQuickAccess, _vm.AddQuickAccess));
+                items.Add(CreateCommandMenuItem(Properties.Resources.Bookshelf_MoreMenu_ClearHistory, "ClearHistoryInPlace"));
 
-        private MenuItem CreateCheckFlagMenuItem(string header, Binding binding)
-        {
-            var item = new MenuItem();
-            item.Header = header;
-            item.IsCheckable = true;
-            item.SetBinding(MenuItem.IsCheckedProperty, binding);
-            return item;
-        }
+                switch (_vm._model.FolderCollection)
+                {
+                    case FolderEntryCollection folderEntryCollection:
+                        items.Add(new Separator());
+                        items.Add(CreateCommandMenuItem(Properties.Resources.Bookshelf_MoreMenu_Subfolder, _vm.ToggleFolderRecursive, new Binding("FolderCollection.FolderParameter.IsFolderRecursive")));
+                        break;
 
-        private MenuItem CreateRecursiveFlagMenuItem(string header)
-        {
-            var item = new MenuItem();
-            item.Header = header;
-            item.Command = ToggleFolderRecursive;
-            item.SetBinding(MenuItem.IsCheckedProperty, new Binding("FolderCollection.FolderParameter.IsFolderRecursive"));
-            return item;
-        }
+                    case FolderArchiveCollection folderArchiveCollection:
+                        break;
 
-        private MenuItem CreateCommandMenuItem(string header, ICommand command)
-        {
-            var item = new MenuItem();
-            item.Header = header;
-            item.Command = command;
-            return item;
-        }
+                    case FolderSearchCollection folderSearchCollection:
+                        break;
 
-        private MenuItem CreateCommandMenuItem(string header, string command)
-        {
-            var item = new MenuItem();
-            item.Header = header;
-            item.Command = RoutedCommandTable.Current.Commands[command];
-            item.CommandParameter = MenuCommandTag.Tag; // コマンドがメニューからであることをパラメータで伝えてみる
-            var binding = CommandTable.Current.GetElement(command).CreateIsCheckedBinding();
-            if (binding != null)
-            {
-                item.SetBinding(MenuItem.IsCheckedProperty, binding);
+                    case BookmarkFolderCollection bookmarFolderCollection:
+                        items.Add(new Separator());
+                        items.Add(CreateCommandMenuItem(Properties.Resources.Word_NewFolder, _vm.NewFolderCommand));
+                        items.Add(CreateCommandMenuItem(Properties.Resources.FolderTree_Menu_AddBookmark, _vm.AddBookmarkCommand));
+                        break;
+                }
+
+                if (_vm._model.IsFolderSearchEnabled)
+                {
+                    var subItem = new MenuItem() { Header = Properties.Resources.Bookshelf_MoreMenu_SearchOptions };
+                    subItem.Items.Add(CreateCheckMenuItem(Properties.Resources.Bookshelf_MoreMenu_SearchIncremental, new Binding(nameof(BookshelfConfig.IsIncrementalSearchEnabled)) { Source = Config.Current.Bookshelf }));
+                    subItem.Items.Add(CreateCheckMenuItem(Properties.Resources.Bookshelf_MoreMenu_SearchIncludeSubdirectories, new Binding(nameof(BookshelfConfig.IsSearchIncludeSubdirectories)) { Source = Config.Current.Bookshelf }));
+                    items.Add(new Separator());
+                    items.Add(subItem);
+                }
+
+                return menu;
             }
 
-            return item;
-        }
-
-        private MenuItem CreateListItemStyleMenuItem(string header, PanelListItemStyle style)
-        {
-            var item = new MenuItem();
-            item.Header = header;
-            item.Command = SetListItemStyle;
-            item.CommandParameter = style;
-            var binding = new Binding(nameof(FolderListConfig.PanelListItemStyle))
+            private MenuItem CreateListItemStyleMenuItem(string header, PanelListItemStyle style)
             {
-                Converter = _panelListItemStyleToBooleanConverter,
-                ConverterParameter = style,
-                Source = _model.FolderListConfig,
-            };
-            item.SetBinding(MenuItem.IsCheckedProperty, binding);
-
-            return item;
+                return CreateListItemStyleMenuItem(header, _vm.SetListItemStyle, style, _vm._model.FolderListConfig);
+            }
         }
 
         #endregion MoreMenu

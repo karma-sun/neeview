@@ -38,7 +38,8 @@ namespace NeeView
                 (s, e) => UpdateMoveToUpCommandCanExecute();
 
             InitializeCommands();
-            InitializeMoreMenu();
+
+            MoreMenuDescription = new PageListMoreMenuDescription(this);
         }
 
         public Dictionary<PageNameFormat, string> FormatList { get; } = AliasNameExtensions.GetAliasNameDictionary<PageNameFormat>();
@@ -73,46 +74,6 @@ namespace NeeView
             MoveToUpCommand = new RelayCommand(_model.MoveToParent, _model.CanMoveToParent);
         }
 
-        #endregion Commands
-
-        #region MoreMenu
-
-        private ContextMenu _moreMenu;
-        private PanelListItemStyleToBooleanConverter _panelListItemStyleToBooleanConverter = new PanelListItemStyleToBooleanConverter();
-
-        public ContextMenu MoreMenu
-        {
-            get { return _moreMenu; }
-            set { if (_moreMenu != value) { _moreMenu = value; RaisePropertyChanged(); } }
-        }
-
-        private void InitializeMoreMenu()
-        {
-            var menu = new ContextMenu();
-            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleList, PanelListItemStyle.Normal));
-            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleContent, PanelListItemStyle.Content));
-            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleBanner, PanelListItemStyle.Banner));
-            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleThumbnail, PanelListItemStyle.Thumbnail));
-
-            this.MoreMenu = menu;
-        }
-
-        private MenuItem CreateListItemStyleMenuItem(string header, PanelListItemStyle style)
-        {
-            var item = new MenuItem();
-            item.Header = header;
-            item.Command = SetListItemStyle;
-            item.CommandParameter = style;
-            var binding = new Binding(nameof(PageListConfig.PanelListItemStyle))
-            {
-                Converter = _panelListItemStyleToBooleanConverter,
-                ConverterParameter = style,
-                Source = Config.Current.PageList
-            };
-            item.SetBinding(MenuItem.IsCheckedProperty, binding);
-
-            return item;
-        }
 
         private RelayCommand<PanelListItemStyle> _setListItemStyle;
         public RelayCommand<PanelListItemStyle> SetListItemStyle
@@ -123,6 +84,37 @@ namespace NeeView
         private void SetListItemStyle_Executed(PanelListItemStyle style)
         {
             Config.Current.PageList.PanelListItemStyle = style;
+        }
+
+        #endregion Commands
+
+        #region MoreMenu
+
+        public PageListMoreMenuDescription MoreMenuDescription { get; }
+
+        public class PageListMoreMenuDescription : ItemsListMoreMenuDescription
+        {
+            private PageListViewModel _vm;
+
+            public PageListMoreMenuDescription(PageListViewModel vm)
+            {
+                _vm = vm;
+            }
+
+            public override ContextMenu Create()
+            {
+                var menu = new ContextMenu();
+                menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleList, PanelListItemStyle.Normal));
+                menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleContent, PanelListItemStyle.Content));
+                menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleBanner, PanelListItemStyle.Banner));
+                menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleThumbnail, PanelListItemStyle.Thumbnail));
+                return menu;
+            }
+
+            private MenuItem CreateListItemStyleMenuItem(string header, PanelListItemStyle style)
+            {
+                return CreateListItemStyleMenuItem(header, _vm.SetListItemStyle, style, Config.Current.PageList);
+            }
         }
 
         #endregion

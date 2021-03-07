@@ -31,7 +31,7 @@ namespace NeeView
 
             Config.Current.Pagemark.AddPropertyChanged(nameof(PagemarkConfig.PanelListItemStyle), (s, e) => UpdateListBoxContent());
 
-            InitializeMoreMenu();
+            MoreMenuDescription = new PagemarkListMoreMenuDescription(this);
 
             UpdateListBoxContent();
         }
@@ -61,88 +61,37 @@ namespace NeeView
 
         #region MoreMenu
 
-        private PanelListItemStyleToBooleanConverter _PanelListItemStyleToBooleanConverter = new PanelListItemStyleToBooleanConverter();
+        public PagemarkListMoreMenuDescription MoreMenuDescription { get; }
 
-
-        /// <summary>
-        /// MoreMenu property.
-        /// </summary>
-        public ContextMenu MoreMenu
+        public class PagemarkListMoreMenuDescription : ItemsListMoreMenuDescription
         {
-            get { return _MoreMenu; }
-            set { if (_MoreMenu != value) { _MoreMenu = value; RaisePropertyChanged(); } }
-        }
+            private PagemarkListViewModel _vm;
 
-        //
-        private ContextMenu _MoreMenu;
-
-
-        //
-        private void InitializeMoreMenu()
-        {
-            var menu = new ContextMenu();
-            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleList, PanelListItemStyle.Normal));
-            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleContent, PanelListItemStyle.Content));
-            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleBanner, PanelListItemStyle.Banner));
-            menu.Items.Add(new Separator());
-            menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Pagemark_MoreMenu_SortPath, new Binding(nameof(_model.IsSortPath)) { Source = _model }));
-            menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Pagemark_MoreMenu_CurrentBook, new Binding(nameof(_model.IsCurrentBook)) { Source = _model }));
-            menu.Items.Add(new Separator());
-            menu.Items.Add(CreateCommandMenuItem(@Properties.Resources.Pagemark_MoreMenu_OpenAsBook, OpenAsBookCommand));
-            menu.Items.Add(new Separator());
-            menu.Items.Add(CreateCommandMenuItem(Properties.Resources.Pagemark_MoreMenu_DeleteInvalid, RemoveUnlinkedCommand));
-
-            this.MoreMenu = menu;
-        }
-
-        private MenuItem CreateCheckMenuItem(string header, Binding binding)
-        {
-            var item = new MenuItem();
-            item.Header = header;
-            item.IsCheckable = true;
-            item.SetBinding(MenuItem.IsCheckedProperty, binding);
-            return item;
-        }
-
-        private MenuItem CreateCommandMenuItem(string header, ICommand command)
-        {
-            var item = new MenuItem();
-            item.Header = header;
-            item.Command = command;
-            return item;
-        }
-
-        private MenuItem CreateCommandMenuItem(string header, string command, object source)
-        {
-            var item = new MenuItem();
-            item.Header = header;
-            item.Command = RoutedCommandTable.Current.Commands[command];
-            item.CommandParameter = MenuCommandTag.Tag; // コマンドがメニューからであることをパラメータで伝えてみる
-            var binding = CommandTable.Current.GetElement(command).CreateIsCheckedBinding();
-            if (binding != null)
+            public PagemarkListMoreMenuDescription(PagemarkListViewModel vm)
             {
-                binding.Source = source;
-                item.SetBinding(MenuItem.IsCheckedProperty, binding);
+                _vm = vm;
             }
 
-            return item;
-        }
-
-        private MenuItem CreateListItemStyleMenuItem(string header, PanelListItemStyle style)
-        {
-            var item = new MenuItem();
-            item.Header = header;
-            item.Command = SetListItemStyle;
-            item.CommandParameter = style;
-            var binding = new Binding(nameof(PagemarkConfig.PanelListItemStyle))
+            public override ContextMenu Create()
             {
-                Converter = _PanelListItemStyleToBooleanConverter,
-                ConverterParameter = style,
-                Source = Config.Current.Pagemark
-            };
-            item.SetBinding(MenuItem.IsCheckedProperty, binding);
+                var menu = new ContextMenu();
+                menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleList, PanelListItemStyle.Normal));
+                menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleContent, PanelListItemStyle.Content));
+                menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleBanner, PanelListItemStyle.Banner));
+                menu.Items.Add(new Separator());
+                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Pagemark_MoreMenu_SortPath, new Binding(nameof(_model.IsSortPath)) { Source = _vm.Model }));
+                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Pagemark_MoreMenu_CurrentBook, new Binding(nameof(_model.IsCurrentBook)) { Source = _vm.Model }));
+                menu.Items.Add(new Separator());
+                menu.Items.Add(CreateCommandMenuItem(@Properties.Resources.Pagemark_MoreMenu_OpenAsBook, _vm.OpenAsBookCommand));
+                menu.Items.Add(new Separator());
+                menu.Items.Add(CreateCommandMenuItem(Properties.Resources.Pagemark_MoreMenu_DeleteInvalid, _vm.RemoveUnlinkedCommand));
+                return menu;
+            }
 
-            return item;
+            private MenuItem CreateListItemStyleMenuItem(string header, PanelListItemStyle style)
+            {
+                return CreateListItemStyleMenuItem(header, _vm.SetListItemStyle, style, Config.Current.Pagemark);
+            }
         }
 
         #endregion

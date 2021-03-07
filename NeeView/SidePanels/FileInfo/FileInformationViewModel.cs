@@ -34,7 +34,7 @@ namespace NeeView
             Config.Current.Information.AddPropertyChanged(nameof(InformationConfig.MapProgramFormat),
                 (s, e) => _model.Update());
 
-            InitializeMoreMenu();
+            MoreMenuDescription = new FileInformationMoreMenuDescription();
         }
 
 
@@ -60,40 +60,26 @@ namespace NeeView
             }
         }
 
-
-
         #region MoreMenu
 
-        private ContextMenu _moreMenu;
+        public FileInformationMoreMenuDescription MoreMenuDescription { get; }
 
-        public ContextMenu MoreMenu
+        public class FileInformationMoreMenuDescription : MoreMenuDescription
         {
-            get { return _moreMenu; }
-            set { if (_moreMenu != value) { _moreMenu = value; RaisePropertyChanged(); } }
+            public override ContextMenu Create()
+            {
+                var menu = new ContextMenu();
+                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Information_File, new Binding(nameof(InformationConfig.IsVisibleFileSection)) { Source = Config.Current.Information }));
+                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Information_Image, new Binding(nameof(InformationConfig.IsVisibleImageSection)) { Source = Config.Current.Information }));
+                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Information_Description, new Binding(nameof(InformationConfig.IsVisibleDescriptionSection)) { Source = Config.Current.Information }));
+                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Information_Origin, new Binding(nameof(InformationConfig.IsVisibleOriginSection)) { Source = Config.Current.Information }));
+                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Information_Camera, new Binding(nameof(InformationConfig.IsVisibleCameraSection)) { Source = Config.Current.Information }));
+                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Information_AdvancedPhoto, new Binding(nameof(InformationConfig.IsVisibleAdvancedPhotoSection)) { Source = Config.Current.Information }));
+                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Information_Gps, new Binding(nameof(InformationConfig.IsVisibleGpsSection)) { Source = Config.Current.Information }));
+                return menu;
+            }
         }
 
-        private void InitializeMoreMenu()
-        {
-            var menu = new ContextMenu();
-            menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Information_File, new Binding(nameof(InformationConfig.IsVisibleFileSection)) { Source = Config.Current.Information }));
-            menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Information_Image, new Binding(nameof(InformationConfig.IsVisibleImageSection)) { Source = Config.Current.Information }));
-            menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Information_Description, new Binding(nameof(InformationConfig.IsVisibleDescriptionSection)) { Source = Config.Current.Information }));
-            menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Information_Origin, new Binding(nameof(InformationConfig.IsVisibleOriginSection)) { Source = Config.Current.Information }));
-            menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Information_Camera, new Binding(nameof(InformationConfig.IsVisibleCameraSection)) { Source = Config.Current.Information }));
-            menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Information_AdvancedPhoto, new Binding(nameof(InformationConfig.IsVisibleAdvancedPhotoSection)) { Source = Config.Current.Information }));
-            menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Information_Gps, new Binding(nameof(InformationConfig.IsVisibleGpsSection)) { Source = Config.Current.Information }));
-            this.MoreMenu = menu;
-        }
-
-        private MenuItem CreateCheckMenuItem(string header, Binding binding)
-        {
-            var item = new MenuItem();
-            item.Header = header;
-            item.IsCheckable = true;
-            item.SetBinding(MenuItem.IsCheckedProperty, binding);
-            return item;
-        }
-
-        #endregion
+        #endregion MoreMenu
     }
 }

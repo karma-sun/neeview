@@ -44,10 +44,7 @@
             </DockPanel.Resources>
 
             <DockPanel DockPanel.Dock="Top" LastChildFill="False" KeyboardNavigation.TabNavigation="Local">
-                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Height="30" Width="30" MouseRightButtonUp="MoreButton_MouseRightButtonUp"
-                        Checked="MoreButton_Checked" nvc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}" TabIndex="2">
-                    <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16" />
-                </ToggleButton>
+                <local:MoreMenuButton Description="{Binding MoreMenuDescription}" DockPanel.Dock="Right" />
             </DockPanel>
 
             <nw:ListBoxExteded x:Name="ThumbnailListBox" DockPanel.Dock="Top" Style="{StaticResource NVListBox}" Template="{StaticResource NoScroll}" ItemsSource="{Binding FileInformations}"

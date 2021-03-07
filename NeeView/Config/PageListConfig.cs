@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace NeeView
 {
-    public class PageListConfig : BindableBase
+    public class PageListConfig : BindableBase, IHasPanelListItemStyle
     {
         private PanelListItemStyle _panelListItemStyle = PanelListItemStyle.Content;
         private PageNameFormat _format = PageNameFormat.Smart;

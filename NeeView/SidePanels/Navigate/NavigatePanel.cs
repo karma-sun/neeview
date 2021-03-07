@@ -17,11 +17,11 @@ namespace NeeView
     /// </summary>
     public class NavigatePanel : BindableBase, IPanel
     {
-        private NavitateView _view;
+        private NavigateView _view;
 
         public NavigatePanel(NavigateModel model)
         {
-            _view = new NavitateView(model);
+            _view = new NavigateView(model);
 
             Icon = App.Current.MainWindow.Resources["pic_navigate"] as ImageSource;
 

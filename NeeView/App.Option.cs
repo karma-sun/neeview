@@ -42,34 +42,34 @@ namespace NeeView
 
     public class CommandLineOption
     {
-        [OptionMember("h", "help", Default = "true", HelpText = "@AppOption_IsHelp")]
+        [OptionMember("h", "help", Default = "true", HelpText = "@AppOption.IsHelp")]
         public bool IsHelp { get; set; }
 
-        [OptionMember("v", "version", Default = "true", HelpText = "@AppOption_IsVersion")]
+        [OptionMember("v", "version", Default = "true", HelpText = "@AppOption.IsVersion")]
         public bool IsVersion { get; set; }
 
-        [OptionMember("x", "setting", HasParameter = true, RequireParameter = true, HelpText = "@AppOption_SettingFilename")]
+        [OptionMember("x", "setting", HasParameter = true, RequireParameter = true, HelpText = "@AppOption.SettingFilename")]
         public string SettingFilename { get; set; }
 
-        [OptionMember("b", "blank", Default = "on", HelpText = "@AppOption_IsBlank")]
+        [OptionMember("b", "blank", Default = "on", HelpText = "@AppOption.IsBlank")]
         public SwitchOption IsBlank { get; set; }
 
-        [OptionMember("r", "reset-placement", Default = "on", HelpText = "@AppOption_IsResetPlacement")]
+        [OptionMember("r", "reset-placement", Default = "on", HelpText = "@AppOption.IsResetPlacement")]
         public SwitchOption IsResetPlacement { get; set; }
 
-        [OptionMember("n", "new-window", Default = "on", HasParameter = true, HelpText = "@AppOption_IsNewWindow")]
+        [OptionMember("n", "new-window", Default = "on", HasParameter = true, HelpText = "@AppOption.IsNewWindow")]
         public SwitchOption? IsNewWindow { get; set; }
 
-        [OptionMember("s", "slideshow", Default = "on", HasParameter = true, HelpText = "@AppOption_IsSlideShow")]
+        [OptionMember("s", "slideshow", Default = "on", HasParameter = true, HelpText = "@AppOption.IsSlideShow")]
         public SwitchOption? IsSlideShow { get; set; }
 
-        [OptionMember("o", "folderlist", HasParameter = true, RequireParameter = true, HelpText = "@AppOption_FolderList")]
+        [OptionMember("o", "folderlist", HasParameter = true, RequireParameter = true, HelpText = "@AppOption.FolderList")]
         public string FolderList { get; set; }
 
-        [OptionMember(null, "window", HasParameter = true, RequireParameter = true, HelpText = "@AppOption_WindowState")]
+        [OptionMember(null, "window", HasParameter = true, RequireParameter = true, HelpText = "@AppOption.WindowState")]
         public WindowStateOption? WindowState { get; set; }
 
-        [OptionMember(null, "script", HasParameter = true, RequireParameter = true, HelpText = "@AppOption_ScriptFile")]
+        [OptionMember(null, "script", HasParameter = true, RequireParameter = true, HelpText = "@AppOption.ScriptFile")]
         public string ScriptFile { get; set; }
 
 

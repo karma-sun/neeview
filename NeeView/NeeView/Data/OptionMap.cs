@@ -103,14 +103,14 @@ namespace NeeView.Data
                 }
                 else if (element.Default == null)
                 {
-                    keyValue = $"<{keyValue}>";
+                    keyValue = $"=<{keyValue}>";
                 }
                 else
                 {
                     keyValue = $"[={keyValue}]";
                 }
 
-                text += $"{key} {keyValue}\n                {element.HelpText}\n";
+                text += $"{key}{keyValue}\n                {element.HelpText}\n";
             }
 
             text += $"--\n                {Properties.Resources.AppOption_Terminator}";

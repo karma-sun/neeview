@@ -55,7 +55,8 @@
 
         public string ToRationalString()
         {
-            return Denominator == 1 ? Numerator.ToString() : $"{Numerator}/{Denominator}";
+            var reduction = Reduction();
+            return reduction.Denominator == 1 ? reduction.Numerator.ToString() : $"{reduction.Numerator}/{reduction.Denominator}";
         }
 
         public override string ToString()

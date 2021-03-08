@@ -90,7 +90,7 @@ namespace NeeView
                             Instance = null,
                             RawEntryName = entry.FullName,
                             Length = entry.Length,
-                            LastWriteTime = entry.LastWriteTime.DateTime,
+                            LastWriteTime = entry.LastWriteTime.LocalDateTime,
                         };
 
                         if (!entry.IsDirectory())

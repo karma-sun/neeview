@@ -402,14 +402,14 @@
                                         RelativeSource={RelativeSource TemplatedParent}}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                             </ScrollViewer>
 
-                            <ScrollContentPresenter Name="PART_ScrollContentPresenter" KeyboardNavigation.DirectionalNavigation="Local" CanContentScroll="True" CanHorizontallyScroll="False"
+                            <ScrollContentPresenter Name="PART_ScrollContentPresenter" KeyboardNavigation.DirectionalNavigation="Local" CanContentScroll="{TemplateBinding CanContentScroll}" CanHorizontallyScroll="False"
                                     CanVerticallyScroll="False" />
                         </DockPanel>
 
-                        <ScrollBar Name="PART_HorizontalScrollBar" Orientation="Horizontal" Grid.Row="1" Maximum="{TemplateBinding ScrollableWidth}" ViewportSize="{TemplateBinding ViewportWidth}"
+                        <ScrollBar Name="PART_HorizontalScrollBar" Style="{StaticResource DarkScrollBar}" Orientation="Horizontal" Grid.Row="1" Maximum="{TemplateBinding ScrollableWidth}" ViewportSize="{TemplateBinding ViewportWidth}"
                                 Value="{TemplateBinding HorizontalOffset}" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" />
 
-                        <ScrollBar Name="PART_VerticalScrollBar" Grid.Column="1" Maximum="{TemplateBinding ScrollableHeight}" ViewportSize="{TemplateBinding ViewportHeight}"
+                        <ScrollBar Name="PART_VerticalScrollBar" Style="{StaticResource DarkScrollBar}" Grid.Column="1" Maximum="{TemplateBinding ScrollableHeight}" ViewportSize="{TemplateBinding ViewportHeight}"
                                 Value="{TemplateBinding VerticalOffset}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" />
 
                     </Grid>
@@ -421,13 +421,13 @@
 
     <Style x:Key="NVGridViewColumnHeaderGripper" TargetType="Thumb">
         <Setter Property="Width" Value="18" />
-        <Setter Property="Background" Value="#0888">
+        <Setter Property="Background" Value="#8888">
         </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
                     <Border Padding="{TemplateBinding Padding}" Background="Transparent">
-                        <Rectangle HorizontalAlignment="Center" Width="1" Fill="{TemplateBinding Background}" />
+                        <Rectangle HorizontalAlignment="Center" Width="1" Fill="{TemplateBinding Background}" Margin="0,0,0,5"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -451,7 +451,7 @@
                                 <VisualState x:Name="Disabled" />
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Border x:Name="HeaderBorder" BorderThickness="0,0,0,1" BorderBrush="#8888" Background="Transparent" Padding="10,5">
+                        <Border x:Name="HeaderBorder" BorderThickness="0,0,0,0" BorderBrush="#8888" Background="Transparent" Padding="10,5">
                             <ContentPresenter x:Name="HeaderContent" Margin="0,0,0,1" RecognizesAccessKey="True" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         </Border>
@@ -477,7 +477,7 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="GridViewColumnHeader">
-                            <Border Name="HeaderBorder" BorderThickness="0,0,0,1" BorderBrush="#8888" Background="Transparent" />
+                            <Border Name="HeaderBorder" BorderThickness="0,0,0,0" BorderBrush="#8888" Background="Transparent" />
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>

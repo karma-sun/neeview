@@ -121,7 +121,11 @@ namespace NeeView.Media.Imaging.Metadata
             var creationTime = GetPngText("Creation Time");
             if (creationTime != null)
             {
-                if (DateTime.TryParse(creationTime, out var dateTime))
+                if (ExifDateTime.TryParse(creationTime, out var exifDateTime))
+                {
+                    return exifDateTime;
+                }
+                else if (DateTime.TryParse(creationTime, out var dateTime))
                 {
                     return dateTime;
                 }

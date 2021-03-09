@@ -1,6 +1,9 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 using System.Windows;
 
@@ -17,15 +20,33 @@ namespace NeeView
         [JsonInclude, JsonPropertyName(nameof(MapProgramFormat))]
         public string _mapProgramFormat;
 
-        private bool _isVisibleFileSection = true;
-        private bool _isVisibleImageSection = true;
-        private bool _isVisibleDescriptionSection = true;
-        private bool _isVisibleOriginSection = true;
-        private bool _isVisibleCameraSection = true;
-        private bool _isVisibleAdvancedPhotoSection = true;
-        private bool _isVisibleGpsSection = true;
         private GridLength _propertyHeaderWidth = new GridLength(128.0);
 
+        private Dictionary<InformationGroup, bool> _groupVisibilityMap = new Dictionary<InformationGroup, bool>()
+        {
+            [InformationGroup.File] = true,
+            [InformationGroup.Image] = true,
+            [InformationGroup.Description] = true,
+            [InformationGroup.Origin] = true,
+            [InformationGroup.Camera] = true,
+            [InformationGroup.AdvancedPhoto] = true,
+            [InformationGroup.Gps] = true,
+        };
+
+
+        private bool SetVisibleGroup(InformationGroup group, bool isVisible, [CallerMemberName] string propertyName = null)
+        {
+            if (_groupVisibilityMap[group] == isVisible) return false;
+
+            _groupVisibilityMap[group] = isVisible;
+            RaisePropertyChanged(propertyName);
+            return true;
+        }
+
+        public bool IsVisibleGroup(InformationGroup group)
+        {
+            return _groupVisibilityMap[group];
+        }
 
 
         [JsonIgnore]
@@ -46,55 +67,59 @@ namespace NeeView
 
 
         [PropertyMember]
-        public bool IsVisibleFileSection
+        public bool IsVisibleFile
         {
-            get { return _isVisibleFileSection; }
-            set { SetProperty(ref _isVisibleFileSection, value); }
+            get { return IsVisibleGroup(InformationGroup.File); }
+            set { SetVisibleGroup(InformationGroup.File, value); }
         }
 
         [PropertyMember]
-        public bool IsVisibleImageSection
+        public bool IsVisibleImage
         {
-            get { return _isVisibleImageSection; }
-            set { SetProperty(ref _isVisibleImageSection, value); }
+            get { return IsVisibleGroup(InformationGroup.Image); }
+            set { SetVisibleGroup(InformationGroup.Image, value); }
         }
 
         [PropertyMember]
-        public bool IsVisibleDescriptionSection
+        public bool IsVisibleDescription
         {
-            get { return _isVisibleDescriptionSection; }
-            set { SetProperty(ref _isVisibleDescriptionSection, value); }
+            get { return IsVisibleGroup(InformationGroup.Description); }
+            set { SetVisibleGroup(InformationGroup.Description, value); }
         }
 
         [PropertyMember]
-        public bool IsVisibleOriginSection
+        public bool IsVisibleOrigin
         {
-            get { return _isVisibleOriginSection; }
-            set { SetProperty(ref _isVisibleOriginSection, value); }
+            get { return IsVisibleGroup(InformationGroup.Origin); }
+            set { SetVisibleGroup(InformationGroup.Origin, value); }
         }
 
         [PropertyMember]
-        public bool IsVisibleCameraSection
+        public bool IsVisibleCamera
         {
-            get { return _isVisibleCameraSection; }
-            set { SetProperty(ref _isVisibleCameraSection, value); }
+            get { return IsVisibleGroup(InformationGroup.Camera); }
+            set { SetVisibleGroup(InformationGroup.Camera, value); }
         }
 
         [PropertyMember]
-        public bool IsVisibleAdvancedPhotoSection
+        public bool IsVisibleAdvancedPhoto
         {
-            get { return _isVisibleAdvancedPhotoSection; }
-            set { SetProperty(ref _isVisibleAdvancedPhotoSection, value); }
+            get { return IsVisibleGroup(InformationGroup.AdvancedPhoto); }
+            set { SetVisibleGroup(InformationGroup.AdvancedPhoto, value); }
         }
 
         [PropertyMember]
-        public bool IsVisibleGpsSection
+        public bool IsVisibleGps
         {
-            get { return _isVisibleGpsSection; }
-            set { SetProperty(ref _isVisibleGpsSection, value); }
+            get { return IsVisibleGroup(InformationGroup.Gps); }
+            set { SetVisibleGroup(InformationGroup.Gps, value); }
         }
 
         #region HiddenParameters
+
+        [JsonIgnore]
+        [PropertyMapIgnore]
+        public ReadOnlyDictionary<InformationGroup, bool> GroupVisibilityMap => new ReadOnlyDictionary<InformationGroup, bool>(_groupVisibilityMap);
 
         [PropertyMapIgnore]
         public GridLength PropertyHeaderWidth

@@ -251,6 +251,11 @@ namespace NeeView.Windows.Media
         public static T GetParentElement<T>(DependencyObject obj)
             where T : class
         {
+            if (!(obj is Visual))
+            {
+                return null;
+            }
+
             var element = obj;
             while (element != null)
             {

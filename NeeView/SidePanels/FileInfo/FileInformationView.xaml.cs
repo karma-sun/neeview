@@ -82,9 +82,6 @@ namespace NeeView
             this.DataContext = _vm;
 
             this.IsVisibleChanged += FileInformationView_IsVisibleChanged;
-
-            // タッチスクロール操作の終端挙動抑制
-            this.ScrollView.ManipulationBoundaryFeedback += SidePanelFrame.Current.ScrollViewer_ManipulationBoundaryFeedback;
         }
 
 
@@ -137,6 +134,20 @@ namespace NeeView
             contextMenu.Items.Add(DestinationFolderCollectionUtility.CreateDestinationFolderItem(Properties.Resources.PageListItem_Menu_CopyToFolder, _commandResource.CopyToFolder_CanExecute(listBox), CopyToFolderCommand, OpenDestinationFolderCommand));
             contextMenu.Items.Add(DestinationFolderCollectionUtility.CreateDestinationFolderItem(Properties.Resources.PageListItem_Menu_MoveToFolder, _commandResource.MoveToFolder_CanExecute(listBox), MoveToFolderCommand, OpenDestinationFolderCommand));
         }
+
+
+        private void FolderInformationView_KeyDown(object sender, KeyEventArgs e)
+        {
+            // このパネルで使用するキーのイベントを止める
+            if (Keyboard.Modifiers == ModifierKeys.None)
+            {
+                if (e.Key == Key.Up || e.Key == Key.Down || (_vm.IsLRKeyEnabled() && (e.Key == Key.Left || e.Key == Key.Right)) || e.Key == Key.Return || e.Key == Key.Delete)
+                {
+                    e.Handled = true;
+                }
+            }
+        }
+
 
         #region DragDrop
 

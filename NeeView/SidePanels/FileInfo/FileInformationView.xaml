@@ -35,7 +35,7 @@
 
     </UserControl.Resources>
 
-    <Grid Background="Transparent" Margin="2">
+    <Grid Background="Transparent" Margin="2" KeyDown="FolderInformationView_KeyDown">
         <DockPanel>
             <DockPanel.Resources>
                 <ControlTemplate x:Key="NoScroll">
@@ -85,10 +85,7 @@
                 </ListBox.ItemTemplate>
             </nw:ListBoxExteded>
 
-            <ScrollViewer x:Name="ScrollView" Style="{StaticResource DarkScrollViewer}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Focusable="False"
-                    CanContentScroll="False" Visibility="{Binding SelectedItem, Converter={StaticResource NullableToVisibilityConverter}}">
-                <local:FileInformationContent DataContext="{Binding SelectedItem}" />
-            </ScrollViewer>
+            <local:FileInformationContent Source="{Binding SelectedItem}" Margin="0,10,0,0" />
 
         </DockPanel>
     </Grid>

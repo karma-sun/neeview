@@ -68,7 +68,7 @@ namespace NeeView.Media.Imaging.Metadata
 
         public string ToFormatString()
         {
-            return ToFormatString("{0}°{1:00}'{2:00.#}\"{3}");
+            return ToFormatString("{0}°{1:00}'{2:00.0}\"{3}");
         }
 
         public string ToFormatString(string format)

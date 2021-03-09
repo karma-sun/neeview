@@ -28,12 +28,6 @@ namespace NeeView
             _model.AddPropertyChanged(nameof(_model.FileInformations),
                 Model_FileInformationsChanged);
 
-            Config.Current.Information.AddPropertyChanged(nameof(InformationConfig.DateTimeFormat),
-                (s, e) => _model.Update());
-
-            Config.Current.Information.AddPropertyChanged(nameof(InformationConfig.MapProgramFormat),
-                (s, e) => _model.Update());
-
             MoreMenuDescription = new FileInformationMoreMenuDescription();
         }
 
@@ -50,6 +44,29 @@ namespace NeeView
         }
 
 
+        #region MoreMenu
+
+        public FileInformationMoreMenuDescription MoreMenuDescription { get; }
+
+        public class FileInformationMoreMenuDescription : MoreMenuDescription
+        {
+            public override ContextMenu Create()
+            {
+                var menu = new ContextMenu();
+                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.InformationGroup_File, new Binding(nameof(InformationConfig.IsVisibleFile)) { Source = Config.Current.Information }));
+                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.InformationGroup_Image, new Binding(nameof(InformationConfig.IsVisibleImage)) { Source = Config.Current.Information }));
+                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.InformationGroup_Description, new Binding(nameof(InformationConfig.IsVisibleDescription)) { Source = Config.Current.Information }));
+                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.InformationGroup_Origin, new Binding(nameof(InformationConfig.IsVisibleOrigin)) { Source = Config.Current.Information }));
+                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.InformationGroup_Camera, new Binding(nameof(InformationConfig.IsVisibleCamera)) { Source = Config.Current.Information }));
+                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.InformationGroup_AdvancedPhoto, new Binding(nameof(InformationConfig.IsVisibleAdvancedPhoto)) { Source = Config.Current.Information }));
+                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.InformationGroup_Gps, new Binding(nameof(InformationConfig.IsVisibleGps)) { Source = Config.Current.Information }));
+                return menu;
+            }
+        }
+
+        #endregion MoreMenu
+
+
         private void Model_FileInformationsChanged(object sender, PropertyChangedEventArgs e)
         {
             RaisePropertyChanged(nameof(FileInformations));
@@ -60,26 +77,10 @@ namespace NeeView
             }
         }
 
-        #region MoreMenu
-
-        public FileInformationMoreMenuDescription MoreMenuDescription { get; }
-
-        public class FileInformationMoreMenuDescription : MoreMenuDescription
+        public bool IsLRKeyEnabled()
         {
-            public override ContextMenu Create()
-            {
-                var menu = new ContextMenu();
-                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Information_File, new Binding(nameof(InformationConfig.IsVisibleFileSection)) { Source = Config.Current.Information }));
-                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Information_Image, new Binding(nameof(InformationConfig.IsVisibleImageSection)) { Source = Config.Current.Information }));
-                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Information_Description, new Binding(nameof(InformationConfig.IsVisibleDescriptionSection)) { Source = Config.Current.Information }));
-                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Information_Origin, new Binding(nameof(InformationConfig.IsVisibleOriginSection)) { Source = Config.Current.Information }));
-                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Information_Camera, new Binding(nameof(InformationConfig.IsVisibleCameraSection)) { Source = Config.Current.Information }));
-                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Information_AdvancedPhoto, new Binding(nameof(InformationConfig.IsVisibleAdvancedPhotoSection)) { Source = Config.Current.Information }));
-                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Information_Gps, new Binding(nameof(InformationConfig.IsVisibleGpsSection)) { Source = Config.Current.Information }));
-                return menu;
-            }
+            return Config.Current.Panels.IsLeftRightKeyEnabled;
         }
 
-        #endregion MoreMenu
     }
 }

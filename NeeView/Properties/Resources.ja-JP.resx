@@ -6786,4 +6786,25 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="Word.Error" xml:space="preserve">
     <value>エラー</value>
   </data>
+  <data name="InformationGroup.File" xml:space="preserve">
+    <value>ファイル</value>
+  </data>
+  <data name="InformationGroup.Image" xml:space="preserve">
+    <value>イメージ</value>
+  </data>
+  <data name="InformationGroup.Description" xml:space="preserve">
+    <value>説明</value>
+  </data>
+  <data name="InformationGroup.Origin" xml:space="preserve">
+    <value>ソース</value>
+  </data>
+  <data name="InformationGroup.Camera" xml:space="preserve">
+    <value>カメラ</value>
+  </data>
+  <data name="InformationGroup.AdvancedPhoto" xml:space="preserve">
+    <value>写真詳細</value>
+  </data>
+  <data name="InformationGroup.Gps" xml:space="preserve">
+    <value>GPS</value>
+  </data>
 </root>

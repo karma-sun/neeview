@@ -7687,6 +7687,69 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Advanced photo に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationGroup_AdvancedPhoto {
+            get {
+                return ResourceManager.GetString("InformationGroup.AdvancedPhoto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Camera に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationGroup_Camera {
+            get {
+                return ResourceManager.GetString("InformationGroup.Camera", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Description に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationGroup_Description {
+            get {
+                return ResourceManager.GetString("InformationGroup.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   File に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationGroup_File {
+            get {
+                return ResourceManager.GetString("InformationGroup.File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   GPS に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationGroup_Gps {
+            get {
+                return ResourceManager.GetString("InformationGroup.Gps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Image に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationGroup_Image {
+            get {
+                return ResourceManager.GetString("InformationGroup.Image", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Origin に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationGroup_Origin {
+            get {
+                return ResourceManager.GetString("InformationGroup.Origin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Information panel accessor に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string InformationPanelAccessor {

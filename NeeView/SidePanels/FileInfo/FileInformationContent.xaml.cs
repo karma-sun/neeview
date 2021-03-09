@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading;
@@ -23,10 +20,78 @@ namespace NeeView
     /// </summary>
     public partial class FileInformationContent : UserControl
     {
+        private FileInformationContentViewModel _vm;
+
+
+        static FileInformationContent()
+        {
+            InitializeCommandStatic();
+        }
+
         public FileInformationContent()
         {
             InitializeComponent();
+            InitializeCommand();
+
+            _vm = new FileInformationContentViewModel();
+            this.Root.DataContext = _vm;
+
+            // タッチスクロール操作の終端挙動抑制
+            this.PropertyListBox.ManipulationBoundaryFeedback += SidePanelFrame.Current.ScrollViewer_ManipulationBoundaryFeedback;
         }
+
+
+        #region Depenency properties
+
+        public FileInformationSource Source
+        {
+            get { return (FileInformationSource)GetValue(SourceProperty); }
+            set { SetValue(SourceProperty, value); }
+        }
+
+        public static readonly DependencyProperty SourceProperty =
+            DependencyProperty.Register("Source", typeof(FileInformationSource), typeof(FileInformationContent), new PropertyMetadata(null, SourcePropertyChanged));
+
+
+        private static void SourcePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is FileInformationContent control)
+            {
+                control._vm.Source = control.Source;
+            }
+        }
+
+        #endregion Depenency properties
+
+
+        #region Commands
+
+        public readonly static RoutedCommand CopyCommand = new RoutedCommand(nameof(CopyCommand), typeof(FileInformationContent));
+
+        private static void InitializeCommandStatic()
+        {
+            CopyCommand.InputGestures.Add(new KeyGesture(Key.C, ModifierKeys.Control));
+        }
+
+        private void InitializeCommand()
+        {
+            this.PropertyListBox.CommandBindings.Add(new CommandBinding(CopyCommand, CopyCommand_Execute, CopyCommand_CanExecute));
+        }
+
+        private void CopyCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = this.PropertyListBox.SelectedItem is FileInformationRecord record && record.Value != null;
+        }
+
+        private void CopyCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (this.PropertyListBox.SelectedItem is FileInformationRecord record && record.Value != null)
+            {
+                Clipboard.SetText(record.Value.ToString());
+            }
+        }
+
+        #endregion Commands
 
 
         private void TextBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -44,53 +109,10 @@ namespace NeeView
             var t = sender as TextBox;
             if (t != null)
             {
+                this.PropertyListBox.SelectedItem = null;
                 t.SelectAll();
             }
         }
+
     }
-
-
-    public class EnumToAliasNameConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value != null)
-            {
-                return AliasNameExtensions.GetAliasName(value);
-            }
-
-            return value;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class MetadataValueToStringConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is null) return null;
-
-            switch (value)
-            {
-                case IEnumerable<string> strings:
-                    return string.Join("; ", strings);
-                case DateTime dateTime:
-                    return dateTime.ToString(Config.Current.Information.DateTimeFormat);
-                case Enum e:
-                    return AliasNameExtensions.GetAliasName(value);
-                default:
-                    return value.ToString();
-            }
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
 }

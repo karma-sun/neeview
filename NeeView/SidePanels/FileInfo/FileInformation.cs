@@ -17,7 +17,7 @@ namespace NeeView
         public static FileInformation Current { get; }
         static FileInformation() => Current = new FileInformation();
 
-
+        private List<FileInformationSource> _fileInformations;
         private DelayValue<List<FileInformationSource>> _fileInformationsDelay;
 
 
@@ -46,20 +46,21 @@ namespace NeeView
 
         public void Update(IEnumerable<ViewContent> viewContents)
         {
-            var fileInformations = viewContents?
+            _fileInformations = viewContents?
                 .Reverse()
                 .Where(e => e.IsInformationValid)
                 .Select(e => new FileInformationSource(e))
                 .ToList();
 
-            _fileInformationsDelay.SetValue(fileInformations, 100); // 100ms delay
+            _fileInformationsDelay.SetValue(_fileInformations, 100); // 100ms delay
         }
+
 
         public void Update()
         {
-            if (FileInformations is null) return;
+            if (_fileInformations is null) return;
 
-            foreach (var item in FileInformations)
+            foreach (var item in _fileInformations)
             {
                 item.Update();
             }

@@ -1,4 +1,6 @@
-﻿namespace NeeView.Numetrics
+﻿using System;
+
+namespace NeeView.Numetrics
 {
     public class URational : IRational
     {
@@ -15,6 +17,19 @@
         IRational IRational.Reduction()
         {
             return Reduction();
+        }
+
+        // 約分（近似）
+        public URational ApproximateReduction()
+        {
+            var reduction = Reduction();
+            var number = reduction.Numerator;
+            var denominator = reduction.Denominator;
+            if (number > 9 && number * 9 < denominator)
+            {
+                return new URational(1, Convert.ToUInt32((double)reduction.Denominator / number));
+            }
+            return reduction;
         }
 
         // 約分
@@ -55,7 +70,7 @@
 
         public string ToRationalString()
         {
-            var reduction = Reduction();
+            var reduction = ApproximateReduction();
             return reduction.Denominator == 1 ? reduction.Numerator.ToString() : $"{reduction.Numerator}/{reduction.Denominator}";
         }
 

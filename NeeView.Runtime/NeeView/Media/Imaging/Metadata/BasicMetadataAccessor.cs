@@ -171,7 +171,7 @@ namespace NeeView.Media.Imaging.Metadata
             {
                 if (DateTime.TryParse(s, out DateTime dateTime))
                 {
-                    return dateTime;
+                    return dateTime.ToLocalTime();
                 }
             }
 

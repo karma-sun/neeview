@@ -13,7 +13,7 @@
             <Style TargetType="Button" BasedOn="{StaticResource IconButton}" />
         </Grid.Resources>
 
-        <ItemsControl x:Name="Items" ItemsSource="{Binding PageSortModeList}" Margin="5" Height="64" IsTabStop="False" FocusVisualStyle="{x:Null}">
+        <ItemsControl x:Name="Items" ItemsSource="{Binding PageSortModeList}" Margin="5" Height="68" IsTabStop="False" FocusVisualStyle="{x:Null}">
 
             <ItemsControl.Resources>
                 <local:SortModeToStringConverter x:Key="SortModeToStringConverter" />

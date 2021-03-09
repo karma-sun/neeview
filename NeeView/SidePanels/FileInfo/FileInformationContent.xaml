@@ -6,15 +6,13 @@
 
     <UserControl.Resources>
 
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityHiddenConverter" False="Hidden" />
         <local:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter" />
         <local:EnumToAliasNameConverter x:Key="EnumToAliasNameConverter" />
         <local:MetadataValueToStringConverter x:Key="MetadataValueToStringConverter" />
 
         <Style x:Key="PropertyHeaderTextBlockStyle" TargetType="TextBlock">
             <Setter Property="TextTrimming" Value="CharacterEllipsis" />
-            <Setter Property="Margin" Value="2" />
+            <Setter Property="Margin" Value="1" />
         </Style>
 
         <Style x:Key="PropertyValueTextBoxStyle" TargetType="TextBox">
@@ -23,7 +21,8 @@
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="InputMethod.IsInputMethodEnabled" Value="False" />
             <Setter Property="Padding" Value="0" />
-            <Setter Property="Margin" Value="2" />
+            <Setter Property="Margin" Value="1" />
+            <Setter Property="MinWidth" Value="300" />
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Foreground" Value="{DynamicResource NVForeground}" />
             <EventSetter Event="PreviewMouseLeftButtonDown" Handler="TextBox_PreviewMouseLeftButtonDown" />
@@ -36,112 +35,42 @@
                     <ColumnDefinition Width="{Binding Source={x:Static local:Config.Current}, Path=Information.PropertyHeaderWidth, Mode=TwoWay}" />
                     <ColumnDefinition Width="*" MinWidth="300" />
                 </Grid.ColumnDefinitions>
+                <Grid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="{x:Static properties:Resources.Information_Menu_Copy}" Command="{x:Static local:FileInformationContent.CopyCommand}" />
+                    </ContextMenu>
+                </Grid.ContextMenu>
                 <TextBlock Grid.Column="0" Text="{Binding Key, Converter={StaticResource EnumToAliasNameConverter}}" Margin="2" TextTrimming="CharacterEllipsis" />
                 <GridSplitter Grid.Column="0" HorizontalAlignment="Right" Width="10" VerticalAlignment="Stretch" Background="Transparent" IsTabStop="False" />
                 <TextBox Grid.Column="1" Style="{StaticResource PropertyValueTextBoxStyle}" Text="{Binding Value, Converter={StaticResource MetadataValueToStringConverter}, Mode=OneWay}" />
             </Grid>
         </DataTemplate>
 
-        <Style x:Key="PropertyValueContentControlStyle" TargetType="ContentControl">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ContentControl">
-                        <Grid Margin="0,0" HorizontalAlignment="Stretch">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="{Binding Source={x:Static local:Config.Current}, Path=Information.PropertyHeaderWidth}" />
-                                <ColumnDefinition Width="*" MinWidth="300" />
-                            </Grid.ColumnDefinitions>
-                            <ContentPresenter Grid.Column="1" Content="{TemplateBinding Content}" />
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
         <Style x:Key="PropertyValueButtonStyle" TargetType="Button" BasedOn="{StaticResource IconButton}">
             <Setter Property="HorizontalAlignment" Value="Left" />
-            <Setter Property="Margin" Value="-5,-3,0,0" />
-            <Setter Property="Padding" Value="8,5" />
+            <Setter Property="Padding" Value="8,0" />
             <Setter Property="Foreground" Value="{StaticResource NVButtonForeground}" />
         </Style>
 
-        <Style x:Key="SectionStackPanelStyle" TargetType="StackPanel">
-            <Setter Property="Margin" Value="0,5" />
-        </Style>
-
-        <Style x:Key="HeaderTextBlockStyle" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="Gray" />
-            <Setter Property="Margin" Value="2,0" />
-        </Style>
-
-        <Style x:Key="ItemsControlStyle" TargetType="ItemsControl">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="ItemTemplate" Value="{StaticResource PropertyItemTemplate}" />
-        </Style>
-
-        <Style TargetType="Separator">
-            <Setter Property="Background" Value="#4888" />
-            <Setter Property="Visibility" Value="Visible" />
-            <Setter Property="Margin" Value="0,0,10,0" />
-        </Style>
+        <DataTemplate x:Key="GroupHeadderTemplate">
+            <Border BorderThickness="0,0,0,1" BorderBrush="#8888" Margin="5,10,5,5">
+                <DockPanel>
+                    <local:InformationGroupButton DockPanel.Dock="Right" Style="{StaticResource PropertyValueButtonStyle}" Content="Button" GroupName="{Binding Name}"
+                            Source="{Binding Path=DataContext.Source, ElementName=Root}" />
+                    <TextBlock Text="{Binding Path=Name}" Foreground="Gray" />
+                </DockPanel>
+            </Border>
+        </DataTemplate>
 
     </UserControl.Resources>
 
-    <StackPanel x:Name="Root">
-
-        <StackPanel Style="{StaticResource SectionStackPanelStyle}" Visibility="{Binding InformationConfig.IsVisibleFileSection, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="{x:Static properties:Resources.Information_File}" />
-            <Separator />
-            <ItemsControl Style="{StaticResource ItemsControlStyle}" ItemsSource="{Binding FileProperties}" />
-            <ContentControl Style="{StaticResource PropertyValueContentControlStyle}" Visibility="{Binding CanOpenPlace, Converter={StaticResource BooleanToVisibilityHiddenConverter}}">
-                <Button x:Name="OpenPlaceButton" Style="{StaticResource PropertyValueButtonStyle}" Command="{Binding OpenPlaceCommand}" Content="{x:Static properties:Resources.Information_OpenFolder}" />
-            </ContentControl>
-        </StackPanel>
-
-        <StackPanel Style="{StaticResource SectionStackPanelStyle}" Visibility="{Binding InformationConfig.IsVisibleImageSection, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="{x:Static properties:Resources.Information_Image}" />
-            <Separator />
-            <ItemsControl Style="{StaticResource ItemsControlStyle}" ItemsSource="{Binding ImageProperties}" />
-        </StackPanel>
-
-        <StackPanel Visibility="{Binding Metadata, Converter={StaticResource NullableToVisibilityConverter}}">
-
-            <StackPanel Style="{StaticResource SectionStackPanelStyle}" Visibility="{Binding InformationConfig.IsVisibleDescriptionSection, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="{x:Static properties:Resources.Information_Description}" />
-                <Separator />
-                <ItemsControl Style="{StaticResource ItemsControlStyle}" ItemsSource="{Binding Description}" />
-            </StackPanel>
-
-            <StackPanel Style="{StaticResource SectionStackPanelStyle}" Visibility="{Binding InformationConfig.IsVisibleOriginSection, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="{x:Static properties:Resources.Information_Origin}" />
-                <Separator />
-                <ItemsControl Style="{StaticResource ItemsControlStyle}" ItemsSource="{Binding Origin}" />
-            </StackPanel>
-
-            <StackPanel Style="{StaticResource SectionStackPanelStyle}" Visibility="{Binding InformationConfig.IsVisibleCameraSection, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="{x:Static properties:Resources.Information_Camera}" />
-                <Separator />
-                <ItemsControl Style="{StaticResource ItemsControlStyle}" ItemsSource="{Binding Camera}" />
-            </StackPanel>
-
-            <StackPanel Style="{StaticResource SectionStackPanelStyle}" Visibility="{Binding InformationConfig.IsVisibleAdvancedPhotoSection, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="{x:Static properties:Resources.Information_AdvancedPhoto}" />
-                <Separator />
-                <ItemsControl Style="{StaticResource ItemsControlStyle}" ItemsSource="{Binding AdvancedPhoto}" />
-            </StackPanel>
-
-            <StackPanel Style="{StaticResource SectionStackPanelStyle}" Visibility="{Binding InformationConfig.IsVisibleGpsSection, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="{x:Static properties:Resources.Information_Gps}" />
-                <Separator />
-                <ItemsControl Style="{StaticResource ItemsControlStyle}" ItemsSource="{Binding Gps}" />
-                <ContentControl Style="{StaticResource PropertyValueContentControlStyle}" Visibility="{Binding CanOpenMap, Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <Button x:Name="OpenMapButton" Style="{StaticResource PropertyValueButtonStyle}" Command="{Binding OpenMapCommand}" Content="{x:Static properties:Resources.Information_OpenMap}" />
-                </ContentControl>
-            </StackPanel>
-
-        </StackPanel>
-
-    </StackPanel>
+    <Grid x:Name="Root" Visibility="{Binding Source, Converter={StaticResource NullableToVisibilityConverter}}">
+        <ListBox x:Name="PropertyListBox" Style="{StaticResource NVListBox}" ItemsSource="{Binding CollectionViewSource.View}" ItemTemplate="{StaticResource PropertyItemTemplate}"
+                SelectedItem="{Binding SelectedItem}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False" VirtualizingPanel.ScrollUnit="Pixel">
+            <ListBox.GroupStyle>
+                <GroupStyle HeaderTemplate="{StaticResource GroupHeadderTemplate}" />
+            </ListBox.GroupStyle>
+        </ListBox>
+    </Grid>
 
 </UserControl>

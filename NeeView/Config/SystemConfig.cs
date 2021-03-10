@@ -5,6 +5,7 @@ using System;
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace NeeView
 {
@@ -13,7 +14,6 @@ namespace NeeView
         private ArchiveEntryCollectionMode _archiveRecursiveMode = ArchiveEntryCollectionMode.IncludeSubArchives;
         private bool _isNetworkEnalbe = true;
         private bool _isSettingBackup;
-        private string _temporaryDirectory;
         private bool _isHiddenFileVisibled;
         private bool _isFileWriteAccessEnabled = true;
         private Language _language = LanguageExtensions.GetLanguage(CultureInfo.CurrentCulture.Name);
@@ -28,6 +28,9 @@ namespace NeeView
         private bool _isInputMehotdEnabled;
         private DestinationFolderCollection _destinationFolderCollection = new DestinationFolderCollection();
         private ExternalAppCollection _externalAppCollection = new ExternalAppCollection() { new ExternalApp() };
+
+        [JsonInclude, JsonPropertyName(nameof(TemporaryDirectory))]
+        public string _temporaryDirectory;
 
 
         /// <summary>
@@ -102,11 +105,12 @@ namespace NeeView
         }
 
         // テンポラリフォルダーの場所
+        [JsonIgnore]
         [PropertyPath(FileDialogType = FileDialogType.Directory)]
         public string TemporaryDirectory
         {
-            get { return _temporaryDirectory; }
-            set { SetProperty(ref _temporaryDirectory, (string.IsNullOrWhiteSpace(value) || value?.Trim() == Temporary.TempRootPathDefault) ? null : value); }
+            get { return _temporaryDirectory ?? Temporary.TempRootPathDefault; }
+            set { SetProperty(ref _temporaryDirectory, (string.IsNullOrWhiteSpace(value) || value.Trim() == Temporary.TempRootPathDefault) ? null : value.Trim()); }
         }
 
         // ダウンロードファイル置き場

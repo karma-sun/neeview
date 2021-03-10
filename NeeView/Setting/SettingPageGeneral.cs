@@ -89,19 +89,19 @@ namespace NeeView.Setting
             var section = new SettingItemSection(Properties.Resources.SettingPage_General_SaveDataTypes, Properties.Resources.SettingPage_General_SaveDataTypes_Remarks);
 
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.IsSaveHistory))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.HistoryFilePath), new PropertyMemberElementOptions() { EmptyValue = SaveData.DefaultHistoryFilePath }))
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.HistoryFilePath)))
             {
                 IsStretch = true,
                 IsEnabled = new IsEnabledPropertyValue(Config.Current.History, nameof(HistoryConfig.IsSaveHistory))
             });
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookmark, nameof(BookmarkConfig.IsSaveBookmark))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookmark, nameof(BookmarkConfig.BookmarkFilePath), new PropertyMemberElementOptions() { EmptyValue = SaveData.DefaultBookmarkFilePath }))
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookmark, nameof(BookmarkConfig.BookmarkFilePath)))
             {
                 IsStretch = true,
                 IsEnabled = new IsEnabledPropertyValue(Config.Current.Bookmark, nameof(BookmarkConfig.IsSaveBookmark))
             });
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Pagemark, nameof(PagemarkConfig.IsSavePagemark))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Pagemark, nameof(PagemarkConfig.PagemarkFilePath), new PropertyMemberElementOptions() { EmptyValue = SaveData.DefaultPagemarkFilePath }))
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Pagemark, nameof(PagemarkConfig.PagemarkFilePath)))
             {
                 IsStretch = true,
                 IsEnabled = new IsEnabledPropertyValue(Config.Current.Pagemark, nameof(PagemarkConfig.IsSavePagemark))
@@ -113,9 +113,9 @@ namespace NeeView.Setting
                 section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.IsSettingBackup))));
             }
 
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Thumbnail, nameof(ThumbnailConfig.ThumbnailCacheFilePath), new PropertyMemberElementOptions() { EmptyValue = ThumbnailCache.DefaultThumbnailCacheFilePath })) { IsStretch = true });
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Thumbnail, nameof(ThumbnailConfig.ThumbnailCacheFilePath))) { IsStretch = true });
 
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.TemporaryDirectory), new PropertyMemberElementOptions() { EmptyValue = Temporary.TempRootPathDefault })) { IsStretch = true });
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.TemporaryDirectory))) { IsStretch = true });
 
             if (Environment.ConfigType == "Debug" || (Environment.IsUseLocalApplicationDataFolder && !Environment.IsAppxPackage))
             {

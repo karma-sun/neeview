@@ -10,7 +10,6 @@ namespace NeeView
     {
         private PanelListItemStyle _panelListItemStyle = PanelListItemStyle.Content;
         private bool _isSaveHistory = true;
-        private string _historyFilePath;
         private bool _isKeepFolderStatus = true;
         private bool _isKeepSearchHistory = true;
         private bool _isInnerArchiveHistoryEnabled = true;
@@ -21,6 +20,9 @@ namespace NeeView
         private TimeSpan _limitSpan;
         private bool _isCurrentFolder;
         private bool _isAutoCleanupEnabled;
+
+        [JsonInclude, JsonPropertyName(nameof(HistoryFilePath))]
+        public string _historyFilePath;
 
 
         [PropertyMember]
@@ -39,11 +41,12 @@ namespace NeeView
         }
 
         // 履歴データの保存場所
+        [JsonIgnore]
         [PropertyPath(FileDialogType = FileDialogType.SaveFile, Filter = "JSON|*.json")]
         public string HistoryFilePath
         {
-            get { return _historyFilePath; }
-            set { SetProperty(ref _historyFilePath, (string.IsNullOrWhiteSpace(value) || value.Trim() == SaveData.DefaultHistoryFilePath) ? null : value); }
+            get { return _historyFilePath ?? SaveData.DefaultHistoryFilePath; }
+            set { SetProperty(ref _historyFilePath, (string.IsNullOrWhiteSpace(value) || value.Trim() == SaveData.DefaultHistoryFilePath) ? null : value.Trim()); }
         }
 
         // フォルダーリストの情報記憶

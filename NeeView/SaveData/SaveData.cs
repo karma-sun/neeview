@@ -39,9 +39,9 @@ namespace NeeView
         public static string DefaultPagemarkFilePath => Path.Combine(Environment.LocalApplicationDataPath, PagemarkFileName);
 
         public string UserSettingFilePath => App.Current.Option.SettingFilename;
-        public string HistoryFilePath => Config.Current.History.HistoryFilePath ?? DefaultHistoryFilePath;
-        public string BookmarkFilePath => Config.Current.Bookmark.BookmarkFilePath ?? DefaultBookmarkFilePath;
-        public string PagemarkFilePath => Config.Current.Pagemark.PagemarkFilePath ?? DefaultPagemarkFilePath;
+        public string HistoryFilePath => Config.Current.History.HistoryFilePath;
+        public string BookmarkFilePath => Config.Current.Bookmark.BookmarkFilePath;
+        public string PagemarkFilePath => Config.Current.Pagemark.PagemarkFilePath;
 
         public bool IsEnableSave { get; set; } = true;
 

@@ -9,8 +9,10 @@ namespace NeeView
     {
         private PanelListItemStyle _panelListItemStyle = PanelListItemStyle.Content;
         private bool _isSavePagemark = true;
-        private string _pagemarkFilePath;
         private PagemarkOrder _pagemarkOrder;
+
+        [JsonInclude, JsonPropertyName(nameof(PagemarkFilePath))]
+        public string _pagemarkFilePath;
 
 
         [PropertyMember]
@@ -28,11 +30,12 @@ namespace NeeView
         }
 
         // ページマークの保存場所
+        [JsonIgnore]
         [PropertyPath(FileDialogType = FileDialogType.SaveFile, Filter = "JSON|*.json")]
         public string PagemarkFilePath
         {
-            get { return _pagemarkFilePath; }
-            set { SetProperty(ref _pagemarkFilePath, (string.IsNullOrWhiteSpace(value) || value == SaveData.DefaultPagemarkFilePath) ? null : value); }
+            get { return _pagemarkFilePath ?? SaveData.DefaultPagemarkFilePath; }
+            set { SetProperty(ref _pagemarkFilePath, (string.IsNullOrWhiteSpace(value) || value.Trim() == SaveData.DefaultPagemarkFilePath) ? null : value.Trim()); }
         }
 
         // ページマークの並び順

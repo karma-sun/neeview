@@ -13,13 +13,6 @@ namespace NeeView
     {
         private static string _defaultDateTimeFormat => Properties.Resources.Information_DateFormat;
         private static string _defaultMapProgramFormat = @"https://www.google.com/maps/place/$Lat+$Lon/";
-
-        [JsonInclude, JsonPropertyName(nameof(DateTimeFormat))]
-        public string _dateTimeFormat = null;
-
-        [JsonInclude, JsonPropertyName(nameof(MapProgramFormat))]
-        public string _mapProgramFormat;
-
         private GridLength _propertyHeaderWidth = new GridLength(128.0);
 
         private Dictionary<InformationGroup, bool> _groupVisibilityMap = new Dictionary<InformationGroup, bool>()
@@ -32,6 +25,11 @@ namespace NeeView
             [InformationGroup.AdvancedPhoto] = true,
             [InformationGroup.Gps] = true,
         };
+
+        [JsonInclude, JsonPropertyName(nameof(DateTimeFormat))]
+        public string _dateTimeFormat = null;
+        [JsonInclude, JsonPropertyName(nameof(MapProgramFormat))]
+        public string _mapProgramFormat;
 
 
         private bool SetVisibleGroup(InformationGroup group, bool isVisible, [CallerMemberName] string propertyName = null)

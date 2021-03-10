@@ -16,7 +16,9 @@ namespace NeeView
         private int _thumbnailBookCapacity = 200;
         private int _thumbnailPageCapacity = 100;
         private int _imageWidth = 256;
-        private string _thumbnailCacheFilePath;
+
+        [JsonInclude, JsonPropertyName(nameof(ThumbnailCacheFilePath))]
+        public string _thumbnailCacheFilePath;
 
 
         [PropertyMember]
@@ -27,11 +29,12 @@ namespace NeeView
         }
 
         // キャッシュの保存場所
+        [JsonIgnore]
         [PropertyPath(FileDialogType = FileDialogType.SaveFile, Filter = "DB|*.db")]
         public string ThumbnailCacheFilePath
         {
-            get { return _thumbnailCacheFilePath; }
-            set { SetProperty(ref _thumbnailCacheFilePath, string.IsNullOrWhiteSpace(value) || value == ThumbnailCache.DefaultThumbnailCacheFilePath ? null : value); }
+            get { return _thumbnailCacheFilePath ?? ThumbnailCache.DefaultThumbnailCacheFilePath; }
+            set { SetProperty(ref _thumbnailCacheFilePath, string.IsNullOrWhiteSpace(value) || value.Trim() == ThumbnailCache.DefaultThumbnailCacheFilePath ? null : value.Trim()); }
         }
 
         /// <summary>

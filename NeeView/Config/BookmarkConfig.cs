@@ -8,9 +8,11 @@ namespace NeeView
     public class BookmarkConfig : FolderListConfig
     {
         private bool _isSaveBookmark = true;
-        private string _bookmarkFilePath;
         private bool _isSyncBookshelfEnabled = true;
         private FolderOrder _bookmarkFolderOrder;
+
+        [JsonInclude, JsonPropertyName(nameof(BookmarkFilePath))]
+        public string _bookmarkFilePath;
 
 
         /// <summary>
@@ -32,11 +34,12 @@ namespace NeeView
         }
 
         // ブックマークの保存場所
+        [JsonIgnore]
         [PropertyPath(FileDialogType = FileDialogType.SaveFile, Filter = "JSON|*.json")]
         public string BookmarkFilePath
         {
-            get { return _bookmarkFilePath; }
-            set { SetProperty(ref _bookmarkFilePath, string.IsNullOrWhiteSpace(value) || value == SaveData.DefaultBookmarkFilePath ? null : value); }
+            get { return _bookmarkFilePath ?? SaveData.DefaultBookmarkFilePath; }
+            set { SetProperty(ref _bookmarkFilePath, string.IsNullOrWhiteSpace(value) || value.Trim() == SaveData.DefaultBookmarkFilePath ? null : value.Trim()); }
         }
 
         // ブックマークの既定の並び順

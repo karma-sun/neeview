@@ -145,7 +145,7 @@ namespace NeeView
                     }
                     else
                     {
-                        return GetDefaultHome();
+                        return new QueryPath(GetDefaultHomePath());
                     }
 
                 case QueryScheme.Bookmark:
@@ -160,20 +160,20 @@ namespace NeeView
 
                 default:
                     Debug.WriteLine($"Not support yet: {Config.Current.Bookshelf.Home}");
-                    return GetDefaultHome();
+                    return new QueryPath(GetDefaultHomePath());
             }
         }
 
-        private QueryPath GetDefaultHome()
+        public static string GetDefaultHomePath()
         {
             var myPicture = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyPictures);
             if (Directory.Exists(myPicture))
             {
-                return new QueryPath(myPicture);
+                return myPicture;
             }
 
             // 救済措置
-            return new QueryPath(System.Environment.CurrentDirectory);
+            return System.Environment.CurrentDirectory;
         }
 
         public override async void Sync()

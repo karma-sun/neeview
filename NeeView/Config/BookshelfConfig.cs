@@ -8,7 +8,6 @@ namespace NeeView
 {
     public class BookshelfConfig : FolderListConfig
     {
-        private string _home;
         private bool _IsVisibleItemsCount;
         private bool _isVisibleHistoryMark = true;
         private bool _isVisibleBookmarkMark = true;
@@ -25,15 +24,18 @@ namespace NeeView
         private FolderOrder _playlistFolderOrder;
         private bool _isOrderWithoutFileType;
 
+        [JsonInclude, JsonPropertyName(nameof(Home))]
+        public string _home;
 
         /// <summary>
         /// ホームのパス
         /// </summary>
+        [JsonIgnore]
         [PropertyPath(FileDialogType = FileDialogType.Directory)]
         public string Home
         {
-            get { return _home; }
-            set { if (_home != value) { _home = value; RaisePropertyChanged(); } }
+            get { return _home ?? BookshelfFolderList.GetDefaultHomePath(); }
+            set { SetProperty(ref _home, (string.IsNullOrWhiteSpace(value) || value.Trim() == BookshelfFolderList.GetDefaultHomePath()) ? null : value.Trim()); }
         }
 
         /// <summary>

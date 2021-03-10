@@ -16,6 +16,11 @@
 
         public QueryPath Path { get; private set; }
         public int Index { get; private set; }
+
+        public override string ToString()
+        {
+            return $"{Path},{Index}";
+        }
     }
 
 }

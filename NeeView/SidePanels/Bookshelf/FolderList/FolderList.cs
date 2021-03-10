@@ -579,7 +579,7 @@ namespace NeeView
                         this.FolderCollection.CollectionChanged += FolderCollection_CollectionChanged;
                         RaiseCollectionChanged();
 
-                        this.SetSelectedItem(select, options.HasFlag(FolderSetPlaceOption.Focus));
+                        this.SetSelectedItem(FixedItemPrioritizeCurrentBook(select), options.HasFlag(FolderSetPlaceOption.Focus));
 
                         // 最終フォルダー更新
                         Config.Current.StartUp.LastFolderPath = Place.SimpleQuery;
@@ -605,7 +605,7 @@ namespace NeeView
             else
             {
                 // 選択項目のみ変更
-                SetSelectedItem(select, false);
+                SetSelectedItem(FixedItem(select), false);
                 PlaceChanged?.Invoke(this, null);
             }
         }
@@ -1229,10 +1229,10 @@ namespace NeeView
         #endregion
 
 
-        public void SetSelectedItem(FolderItemPosition select, bool isFocus)
+        internal void SetSelectedItem(FolderItem item, bool isFocus)
         {
             RaiseSelectedItemChanging();
-            this.SelectedItem = FixedItem(select);
+            this.SelectedItem = item;
             RaiseSelectedItemChanged(isFocus);
         }
 
@@ -1246,6 +1246,15 @@ namespace NeeView
         {
             var index = this.FolderCollection.IndexOfPath(path);
             return index < 0 ? 0 : index;
+        }
+
+        /// <summary>
+        /// 選択項目の復元 (現在ブックを優先)
+        /// </summary>
+        internal FolderItem FixedItemPrioritizeCurrentBook(FolderItemPosition pos)
+        {
+            var item = FindFolderItem(BookHub.Current.Book?.SourceAddress);
+            return item ?? FixedItem(pos);
         }
 
         /// <summary>
@@ -1579,6 +1588,8 @@ namespace NeeView
 
         public FolderItem FindFolderItem(string address)
         {
+            if (address is null) return null;
+
             var path = new QueryPath(address);
             var select = this.FolderCollection.Items.FirstOrDefault(e => e.TargetPath == path);
 

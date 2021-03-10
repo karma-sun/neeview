@@ -628,384 +628,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Applicatoin name に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_ApplicatoinName {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.ApplicatoinName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Author に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_Author {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.Author", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Brightness に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_Brightness {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.Brightness", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Camera maker に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_CameraMaker {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.CameraMaker", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Camera model に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_CameraModel {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.CameraModel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Camera serial number に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_CameraSerialNumber {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.CameraSerialNumber", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Comments に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_Comments {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.Comments", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Contrast に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_Contrast {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.Contrast", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Copyright に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_Copyright {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.Copyright", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Date acquired に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_DateAcquired {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.DateAcquired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Date taken に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_DateTaken {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.DateTaken", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Digital zoom に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_DigitalZoom {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.DigitalZoom", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   EXIF version に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_EXIFVersion {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.EXIFVersion", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Exposure bias に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_ExposureBias {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.ExposureBias", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Exposure program に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_ExposureProgram {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.ExposureProgram", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Exposure time に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_ExposureTime {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.ExposureTime", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Flash energy に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_FlashEnergy {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.FlashEnergy", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Flash maker に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_FlashMaker {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.FlashMaker", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Flash mode に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_FlashMode {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.FlashMode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Flash model に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_FlashModel {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.FlashModel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   FNumber に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_FNumber {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.FNumber", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Focal length に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_FocalLength {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.FocalLength", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Focal length in 35mm film に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_FocalLengthIn35mmFilm {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.FocalLengthIn35mmFilm", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Altitude に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_GPSAltitude {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.GPSAltitude", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Latitude に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_GPSLatitude {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.GPSLatitude", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Longitude に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_GPSLongitude {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.GPSLongitude", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   ISO speed に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_ISOSpeed {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.ISOSpeed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Lens maker に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_LensMaker {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.LensMaker", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Lens model に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_LensModel {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.LensModel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Light source に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_LightSource {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.LightSource", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Max aperture に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_MaxAperture {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.MaxAperture", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Metering mode に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_MeteringMode {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.MeteringMode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Orientation に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_Orientation {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.Orientation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Photometric interpretation に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_PhotometricInterpretation {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.PhotometricInterpretation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Rating に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_Rating {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.Rating", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Saturation に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_Saturation {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.Saturation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sharpness に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_Sharpness {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.Sharpness", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Subject に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_Subject {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.Subject", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Subject distance に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_SubjectDistance {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.SubjectDistance", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Tags に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_Tags {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.Tags", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Title に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_Title {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   White balance に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BitmapMetadataKey_WhiteBalance {
-            get {
-                return ResourceManager.GetString("BitmapMetadataKey.WhiteBalance", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Base intensity に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BloomEffectUnit_BaseIntensity {
@@ -5831,69 +5453,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Archive path に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FilePropertyKey_ArchivePath {
-            get {
-                return ResourceManager.GetString("FilePropertyKey.ArchivePath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Archiver に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FilePropertyKey_Archiver {
-            get {
-                return ResourceManager.GetString("FilePropertyKey.Archiver", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Creation time に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FilePropertyKey_CreationTime {
-            get {
-                return ResourceManager.GetString("FilePropertyKey.CreationTime", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   File name に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FilePropertyKey_FileName {
-            get {
-                return ResourceManager.GetString("FilePropertyKey.FileName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Size に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FilePropertyKey_FileSize {
-            get {
-                return ResourceManager.GetString("FilePropertyKey.FileSize", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Folder place に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FilePropertyKey_FolderPlace {
-            get {
-                return ResourceManager.GetString("FilePropertyKey.FolderPlace", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Last write time に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FilePropertyKey_LastWriteTime {
-            get {
-                return ResourceManager.GetString("FilePropertyKey.LastWriteTime", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   &quot;{0}&quot; already exists.
         ///Would you like to rename it to &quot;{1}&quot; ? に類似しているローカライズされた文字列を検索します。
         /// </summary>
@@ -7138,69 +6697,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Bit depth に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ImagePropertyKey_BitDepth {
-            get {
-                return ResourceManager.GetString("ImagePropertyKey.BitDepth", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Decoder に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ImagePropertyKey_Decoder {
-            get {
-                return ResourceManager.GetString("ImagePropertyKey.Decoder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Dimensions に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ImagePropertyKey_Dimensions {
-            get {
-                return ResourceManager.GetString("ImagePropertyKey.Dimensions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Height に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ImagePropertyKey_Height {
-            get {
-                return ResourceManager.GetString("ImagePropertyKey.Height", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Horizontal resolution に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ImagePropertyKey_HorizontalResolution {
-            get {
-                return ResourceManager.GetString("ImagePropertyKey.HorizontalResolution", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Vertical resolution に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ImagePropertyKey_VerticalResolution {
-            get {
-                return ResourceManager.GetString("ImagePropertyKey.VerticalResolution", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Width に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ImagePropertyKey_Width {
-            get {
-                return ResourceManager.GetString("ImagePropertyKey.Width", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Enable resize filter に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ImageResizeFilterConfig_IsEnabled {
@@ -7480,65 +6976,11 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Advanced photo に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Information_AdvancedPhoto {
-            get {
-                return ResourceManager.GetString("Information.AdvancedPhoto", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Camera に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Information_Camera {
-            get {
-                return ResourceManager.GetString("Information.Camera", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   yyyy-MM-dd dddd H:mm に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Information_DateFormat {
             get {
                 return ResourceManager.GetString("Information.DateFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Description に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Information_Description {
-            get {
-                return ResourceManager.GetString("Information.Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   File に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Information_File {
-            get {
-                return ResourceManager.GetString("Information.File", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   GPS に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Information_Gps {
-            get {
-                return ResourceManager.GetString("Information.Gps", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Image に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Information_Image {
-            get {
-                return ResourceManager.GetString("Information.Image", resourceCulture);
             }
         }
         
@@ -7566,15 +7008,6 @@ namespace NeeView.Properties {
         public static string Information_OpenMap {
             get {
                 return ResourceManager.GetString("Information.OpenMap", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Origin に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Information_Origin {
-            get {
-                return ResourceManager.GetString("Information.Origin", resourceCulture);
             }
         }
         
@@ -7746,6 +7179,510 @@ namespace NeeView.Properties {
         public static string InformationGroup_Origin {
             get {
                 return ResourceManager.GetString("InformationGroup.Origin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Applicatoin name に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_ApplicatoinName {
+            get {
+                return ResourceManager.GetString("InformationKey.ApplicatoinName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Archive path に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_ArchivePath {
+            get {
+                return ResourceManager.GetString("InformationKey.ArchivePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Archiver に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_Archiver {
+            get {
+                return ResourceManager.GetString("InformationKey.Archiver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Author に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_Author {
+            get {
+                return ResourceManager.GetString("InformationKey.Author", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Bit depth に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_BitDepth {
+            get {
+                return ResourceManager.GetString("InformationKey.BitDepth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Brightness に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_Brightness {
+            get {
+                return ResourceManager.GetString("InformationKey.Brightness", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Camera maker に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_CameraMaker {
+            get {
+                return ResourceManager.GetString("InformationKey.CameraMaker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Camera model に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_CameraModel {
+            get {
+                return ResourceManager.GetString("InformationKey.CameraModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Camera serial number に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_CameraSerialNumber {
+            get {
+                return ResourceManager.GetString("InformationKey.CameraSerialNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Comments に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_Comments {
+            get {
+                return ResourceManager.GetString("InformationKey.Comments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Contrast に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_Contrast {
+            get {
+                return ResourceManager.GetString("InformationKey.Contrast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Copyright に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_Copyright {
+            get {
+                return ResourceManager.GetString("InformationKey.Copyright", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Creation time に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_CreationTime {
+            get {
+                return ResourceManager.GetString("InformationKey.CreationTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Date acquired に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_DateAcquired {
+            get {
+                return ResourceManager.GetString("InformationKey.DateAcquired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Date taken に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_DateTaken {
+            get {
+                return ResourceManager.GetString("InformationKey.DateTaken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Decoder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_Decoder {
+            get {
+                return ResourceManager.GetString("InformationKey.Decoder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Digital zoom に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_DigitalZoom {
+            get {
+                return ResourceManager.GetString("InformationKey.DigitalZoom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Dimensions に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_Dimensions {
+            get {
+                return ResourceManager.GetString("InformationKey.Dimensions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   EXIF version に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_EXIFVersion {
+            get {
+                return ResourceManager.GetString("InformationKey.EXIFVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Exposure bias に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_ExposureBias {
+            get {
+                return ResourceManager.GetString("InformationKey.ExposureBias", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Exposure program に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_ExposureProgram {
+            get {
+                return ResourceManager.GetString("InformationKey.ExposureProgram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Exposure time に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_ExposureTime {
+            get {
+                return ResourceManager.GetString("InformationKey.ExposureTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   File name に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_FileName {
+            get {
+                return ResourceManager.GetString("InformationKey.FileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   File path に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_FilePath {
+            get {
+                return ResourceManager.GetString("InformationKey.FilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Size に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_FileSize {
+            get {
+                return ResourceManager.GetString("InformationKey.FileSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flash energy に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_FlashEnergy {
+            get {
+                return ResourceManager.GetString("InformationKey.FlashEnergy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flash maker に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_FlashMaker {
+            get {
+                return ResourceManager.GetString("InformationKey.FlashMaker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flash mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_FlashMode {
+            get {
+                return ResourceManager.GetString("InformationKey.FlashMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flash model に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_FlashModel {
+            get {
+                return ResourceManager.GetString("InformationKey.FlashModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   FNumber に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_FNumber {
+            get {
+                return ResourceManager.GetString("InformationKey.FNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Focal length に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_FocalLength {
+            get {
+                return ResourceManager.GetString("InformationKey.FocalLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Focal length in 35mm film に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_FocalLengthIn35mmFilm {
+            get {
+                return ResourceManager.GetString("InformationKey.FocalLengthIn35mmFilm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Altitude に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_GPSAltitude {
+            get {
+                return ResourceManager.GetString("InformationKey.GPSAltitude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Latitude に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_GPSLatitude {
+            get {
+                return ResourceManager.GetString("InformationKey.GPSLatitude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Longitude に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_GPSLongitude {
+            get {
+                return ResourceManager.GetString("InformationKey.GPSLongitude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Height に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_Height {
+            get {
+                return ResourceManager.GetString("InformationKey.Height", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Horizontal resolution に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_HorizontalResolution {
+            get {
+                return ResourceManager.GetString("InformationKey.HorizontalResolution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ISO speed に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_ISOSpeed {
+            get {
+                return ResourceManager.GetString("InformationKey.ISOSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Last write time に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_LastWriteTime {
+            get {
+                return ResourceManager.GetString("InformationKey.LastWriteTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Lens maker に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_LensMaker {
+            get {
+                return ResourceManager.GetString("InformationKey.LensMaker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Lens model に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_LensModel {
+            get {
+                return ResourceManager.GetString("InformationKey.LensModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Light source に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_LightSource {
+            get {
+                return ResourceManager.GetString("InformationKey.LightSource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Max aperture に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_MaxAperture {
+            get {
+                return ResourceManager.GetString("InformationKey.MaxAperture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Metering mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_MeteringMode {
+            get {
+                return ResourceManager.GetString("InformationKey.MeteringMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Orientation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_Orientation {
+            get {
+                return ResourceManager.GetString("InformationKey.Orientation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Photometric interpretation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_PhotometricInterpretation {
+            get {
+                return ResourceManager.GetString("InformationKey.PhotometricInterpretation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Rating に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_Rating {
+            get {
+                return ResourceManager.GetString("InformationKey.Rating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Saturation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_Saturation {
+            get {
+                return ResourceManager.GetString("InformationKey.Saturation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sharpness に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_Sharpness {
+            get {
+                return ResourceManager.GetString("InformationKey.Sharpness", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Subject に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_Subject {
+            get {
+                return ResourceManager.GetString("InformationKey.Subject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Subject distance に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_SubjectDistance {
+            get {
+                return ResourceManager.GetString("InformationKey.SubjectDistance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Tags に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_Tags {
+            get {
+                return ResourceManager.GetString("InformationKey.Tags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Title に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_Title {
+            get {
+                return ResourceManager.GetString("InformationKey.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vertical resolution に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_VerticalResolution {
+            get {
+                return ResourceManager.GetString("InformationKey.VerticalResolution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   White balance に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_WhiteBalance {
+            get {
+                return ResourceManager.GetString("InformationKey.WhiteBalance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Width に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InformationKey_Width {
+            get {
+                return ResourceManager.GetString("InformationKey.Width", resourceCulture);
             }
         }
         
@@ -19841,11 +19778,29 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Advanced photo に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string xInformation_AdvancedPhoto {
+            get {
+                return ResourceManager.GetString("xInformation.AdvancedPhoto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Archiver に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string xInformation_Archiver {
             get {
                 return ResourceManager.GetString("xInformation.Archiver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Camera に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string xInformation_Camera {
+            get {
+                return ResourceManager.GetString("xInformation.Camera", resourceCulture);
             }
         }
         
@@ -19877,11 +19832,29 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Description に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string xInformation_Description {
+            get {
+                return ResourceManager.GetString("xInformation.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Device に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string xInformation_Device {
             get {
                 return ResourceManager.GetString("xInformation.Device", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   File に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string xInformation_File {
+            get {
+                return ResourceManager.GetString("xInformation.File", resourceCulture);
             }
         }
         
@@ -19922,6 +19895,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   GPS に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string xInformation_Gps {
+            get {
+                return ResourceManager.GetString("xInformation.Gps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Image に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string xInformation_Image {
+            get {
+                return ResourceManager.GetString("xInformation.Image", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Image size に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string xInformation_ImageSize {
@@ -19945,6 +19936,15 @@ namespace NeeView.Properties {
         public static string xInformation_ISO {
             get {
                 return ResourceManager.GetString("xInformation.ISO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Origin に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string xInformation_Origin {
+            get {
+                return ResourceManager.GetString("xInformation.Origin", resourceCulture);
             }
         }
         

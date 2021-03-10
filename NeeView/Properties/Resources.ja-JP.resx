@@ -6273,172 +6273,172 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="MouseConfig.IsHoverScroll" xml:space="preserve">
     <value>ホバー スクロール モード</value>
   </data>
-  <data name="FilePropertyKey.FileName" xml:space="preserve">
+  <data name="InformationKey.FileName" xml:space="preserve">
     <value>ファイル名</value>
   </data>
-  <data name="FilePropertyKey.ArchivePath" xml:space="preserve">
+  <data name="InformationKey.ArchivePath" xml:space="preserve">
     <value>アーカイブ パス</value>
   </data>
-  <data name="FilePropertyKey.CreationTime" xml:space="preserve">
+  <data name="InformationKey.CreationTime" xml:space="preserve">
     <value>作成日時</value>
   </data>
-  <data name="FilePropertyKey.LastWriteTime" xml:space="preserve">
+  <data name="InformationKey.LastWriteTime" xml:space="preserve">
     <value>更新日時</value>
   </data>
-  <data name="FilePropertyKey.FileSize" xml:space="preserve">
+  <data name="InformationKey.FileSize" xml:space="preserve">
     <value>サイズ</value>
   </data>
-  <data name="FilePropertyKey.FolderPlace" xml:space="preserve">
-    <value>フォルダーの場所</value>
+  <data name="InformationKey.FilePath" xml:space="preserve">
+    <value>ファイル パス</value>
   </data>
-  <data name="ImagePropertyKey.Dimensions" xml:space="preserve">
+  <data name="InformationKey.Dimensions" xml:space="preserve">
     <value>大きさ</value>
   </data>
-  <data name="ImagePropertyKey.Width" xml:space="preserve">
+  <data name="InformationKey.Width" xml:space="preserve">
     <value>幅</value>
   </data>
-  <data name="ImagePropertyKey.Height" xml:space="preserve">
+  <data name="InformationKey.Height" xml:space="preserve">
     <value>高さ</value>
   </data>
-  <data name="ImagePropertyKey.HorizontalResolution" xml:space="preserve">
+  <data name="InformationKey.HorizontalResolution" xml:space="preserve">
     <value>水平方向の解像度</value>
   </data>
-  <data name="ImagePropertyKey.VerticalResolution" xml:space="preserve">
+  <data name="InformationKey.VerticalResolution" xml:space="preserve">
     <value>垂直方向の解像度</value>
   </data>
-  <data name="ImagePropertyKey.BitDepth" xml:space="preserve">
+  <data name="InformationKey.BitDepth" xml:space="preserve">
     <value>ビットの深さ</value>
   </data>
-  <data name="FilePropertyKey.Archiver" xml:space="preserve">
+  <data name="InformationKey.Archiver" xml:space="preserve">
     <value>アーカイバー</value>
   </data>
-  <data name="ImagePropertyKey.Decoder" xml:space="preserve">
+  <data name="InformationKey.Decoder" xml:space="preserve">
     <value>デコーダー</value>
   </data>
-  <data name="BitmapMetadataKey.Title" xml:space="preserve">
+  <data name="InformationKey.Title" xml:space="preserve">
     <value>タイトル</value>
   </data>
-  <data name="BitmapMetadataKey.Subject" xml:space="preserve">
+  <data name="InformationKey.Subject" xml:space="preserve">
     <value>件名</value>
   </data>
-  <data name="BitmapMetadataKey.Rating" xml:space="preserve">
+  <data name="InformationKey.Rating" xml:space="preserve">
     <value>評価</value>
   </data>
-  <data name="BitmapMetadataKey.Tags" xml:space="preserve">
+  <data name="InformationKey.Tags" xml:space="preserve">
     <value>タグ</value>
   </data>
-  <data name="BitmapMetadataKey.Comments" xml:space="preserve">
+  <data name="InformationKey.Comments" xml:space="preserve">
     <value>コメント</value>
   </data>
-  <data name="BitmapMetadataKey.Author" xml:space="preserve">
+  <data name="InformationKey.Author" xml:space="preserve">
     <value>作成者</value>
   </data>
-  <data name="BitmapMetadataKey.DateTaken" xml:space="preserve">
+  <data name="InformationKey.DateTaken" xml:space="preserve">
     <value>撮影日時</value>
   </data>
-  <data name="BitmapMetadataKey.ApplicatoinName" xml:space="preserve">
+  <data name="InformationKey.ApplicatoinName" xml:space="preserve">
     <value>プログラム名</value>
   </data>
-  <data name="BitmapMetadataKey.DateAcquired" xml:space="preserve">
+  <data name="InformationKey.DateAcquired" xml:space="preserve">
     <value>取得日時</value>
   </data>
-  <data name="BitmapMetadataKey.Copyright" xml:space="preserve">
+  <data name="InformationKey.Copyright" xml:space="preserve">
     <value>著作権</value>
   </data>
-  <data name="BitmapMetadataKey.CameraMaker" xml:space="preserve">
+  <data name="InformationKey.CameraMaker" xml:space="preserve">
     <value>カメラ メーカー</value>
   </data>
-  <data name="BitmapMetadataKey.CameraModel" xml:space="preserve">
+  <data name="InformationKey.CameraModel" xml:space="preserve">
     <value>カメラ モデル</value>
   </data>
-  <data name="BitmapMetadataKey.FNumber" xml:space="preserve">
+  <data name="InformationKey.FNumber" xml:space="preserve">
     <value>絞り値</value>
   </data>
-  <data name="BitmapMetadataKey.ExposureTime" xml:space="preserve">
+  <data name="InformationKey.ExposureTime" xml:space="preserve">
     <value>露出時間</value>
   </data>
-  <data name="BitmapMetadataKey.ISOSpeed" xml:space="preserve">
+  <data name="InformationKey.ISOSpeed" xml:space="preserve">
     <value>ISO 速度</value>
   </data>
-  <data name="BitmapMetadataKey.ExposureBias" xml:space="preserve">
+  <data name="InformationKey.ExposureBias" xml:space="preserve">
     <value>露出補正</value>
   </data>
-  <data name="BitmapMetadataKey.FocalLength" xml:space="preserve">
+  <data name="InformationKey.FocalLength" xml:space="preserve">
     <value>焦点距離</value>
   </data>
-  <data name="BitmapMetadataKey.MaxAperture" xml:space="preserve">
+  <data name="InformationKey.MaxAperture" xml:space="preserve">
     <value>最大絞り</value>
   </data>
-  <data name="BitmapMetadataKey.MeteringMode" xml:space="preserve">
+  <data name="InformationKey.MeteringMode" xml:space="preserve">
     <value>測光モード</value>
   </data>
-  <data name="BitmapMetadataKey.SubjectDistance" xml:space="preserve">
+  <data name="InformationKey.SubjectDistance" xml:space="preserve">
     <value>対象の距離</value>
   </data>
-  <data name="BitmapMetadataKey.FlashMode" xml:space="preserve">
+  <data name="InformationKey.FlashMode" xml:space="preserve">
     <value>フラッシュ モード</value>
   </data>
-  <data name="BitmapMetadataKey.FlashEnergy" xml:space="preserve">
+  <data name="InformationKey.FlashEnergy" xml:space="preserve">
     <value>フラッシュ エネルギー</value>
   </data>
-  <data name="BitmapMetadataKey.FocalLengthIn35mmFilm" xml:space="preserve">
+  <data name="InformationKey.FocalLengthIn35mmFilm" xml:space="preserve">
     <value>35mm 焦点距離</value>
   </data>
-  <data name="BitmapMetadataKey.LensMaker" xml:space="preserve">
+  <data name="InformationKey.LensMaker" xml:space="preserve">
     <value>レンズ メーカー</value>
   </data>
-  <data name="BitmapMetadataKey.LensModel" xml:space="preserve">
+  <data name="InformationKey.LensModel" xml:space="preserve">
     <value>レンズ モデル</value>
   </data>
-  <data name="BitmapMetadataKey.FlashMaker" xml:space="preserve">
+  <data name="InformationKey.FlashMaker" xml:space="preserve">
     <value>フラッシュ メーカー</value>
   </data>
-  <data name="BitmapMetadataKey.FlashModel" xml:space="preserve">
+  <data name="InformationKey.FlashModel" xml:space="preserve">
     <value>フラッシュ モデル</value>
   </data>
-  <data name="BitmapMetadataKey.CameraSerialNumber" xml:space="preserve">
+  <data name="InformationKey.CameraSerialNumber" xml:space="preserve">
     <value>カメラ製造番号</value>
   </data>
-  <data name="BitmapMetadataKey.Contrast" xml:space="preserve">
+  <data name="InformationKey.Contrast" xml:space="preserve">
     <value>コントラスト</value>
   </data>
-  <data name="BitmapMetadataKey.Brightness" xml:space="preserve">
+  <data name="InformationKey.Brightness" xml:space="preserve">
     <value>明るさ</value>
   </data>
-  <data name="BitmapMetadataKey.LightSource" xml:space="preserve">
+  <data name="InformationKey.LightSource" xml:space="preserve">
     <value>光源</value>
   </data>
-  <data name="BitmapMetadataKey.ExposureProgram" xml:space="preserve">
+  <data name="InformationKey.ExposureProgram" xml:space="preserve">
     <value>露出プログラム</value>
   </data>
-  <data name="BitmapMetadataKey.Saturation" xml:space="preserve">
+  <data name="InformationKey.Saturation" xml:space="preserve">
     <value>彩度</value>
   </data>
-  <data name="BitmapMetadataKey.Sharpness" xml:space="preserve">
+  <data name="InformationKey.Sharpness" xml:space="preserve">
     <value>鮮明度</value>
   </data>
-  <data name="BitmapMetadataKey.WhiteBalance" xml:space="preserve">
+  <data name="InformationKey.WhiteBalance" xml:space="preserve">
     <value>ホワイト バランス</value>
   </data>
-  <data name="BitmapMetadataKey.PhotometricInterpretation" xml:space="preserve">
+  <data name="InformationKey.PhotometricInterpretation" xml:space="preserve">
     <value>光度測定解釈</value>
   </data>
-  <data name="BitmapMetadataKey.DigitalZoom" xml:space="preserve">
+  <data name="InformationKey.DigitalZoom" xml:space="preserve">
     <value>デジタル ズーム</value>
   </data>
-  <data name="BitmapMetadataKey.EXIFVersion" xml:space="preserve">
+  <data name="InformationKey.EXIFVersion" xml:space="preserve">
     <value>EXIF バージョン</value>
   </data>
-  <data name="BitmapMetadataKey.GPSLatitude" xml:space="preserve">
+  <data name="InformationKey.GPSLatitude" xml:space="preserve">
     <value>緯度</value>
   </data>
-  <data name="BitmapMetadataKey.GPSLongitude" xml:space="preserve">
+  <data name="InformationKey.GPSLongitude" xml:space="preserve">
     <value>経度</value>
   </data>
-  <data name="BitmapMetadataKey.GPSAltitude" xml:space="preserve">
+  <data name="InformationKey.GPSAltitude" xml:space="preserve">
     <value>高度</value>
   </data>
-  <data name="BitmapMetadataKey.Orientation" xml:space="preserve">
+  <data name="InformationKey.Orientation" xml:space="preserve">
     <value>向き</value>
   </data>
   <data name="ExifContrast.Normal" xml:space="preserve">
@@ -6696,25 +6696,25 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ExifWhiteBalance.ManualWhiteBalance" xml:space="preserve">
     <value>手動</value>
   </data>
-  <data name="Information.File" xml:space="preserve">
+  <data name="xInformation.File" xml:space="preserve">
     <value>ファイル</value>
   </data>
-  <data name="Information.Image" xml:space="preserve">
+  <data name="xInformation.Image" xml:space="preserve">
     <value>イメージ</value>
   </data>
-  <data name="Information.Description" xml:space="preserve">
+  <data name="xInformation.Description" xml:space="preserve">
     <value>説明</value>
   </data>
-  <data name="Information.Origin" xml:space="preserve">
+  <data name="xInformation.Origin" xml:space="preserve">
     <value>ソース</value>
   </data>
-  <data name="Information.Camera" xml:space="preserve">
+  <data name="xInformation.Camera" xml:space="preserve">
     <value>カメラ</value>
   </data>
-  <data name="Information.AdvancedPhoto" xml:space="preserve">
+  <data name="xInformation.AdvancedPhoto" xml:space="preserve">
     <value>写真詳細</value>
   </data>
-  <data name="Information.Gps" xml:space="preserve">
+  <data name="xInformation.Gps" xml:space="preserve">
     <value>GPS</value>
   </data>
   <data name="Information.OpenMap" xml:space="preserve">

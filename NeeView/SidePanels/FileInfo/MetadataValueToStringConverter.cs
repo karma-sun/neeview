@@ -16,7 +16,7 @@ namespace NeeView
                 case IEnumerable<string> strings:
                     return string.Join("; ", strings);
                 case DateTime dateTime:
-                    return dateTime.ToString(Config.Current.Information.DateTimeFormat);
+                    return dateTime != default ? dateTime.ToString(Config.Current.Information.DateTimeFormat) : null;
                 case Enum _:
                     return AliasNameExtensions.GetAliasName(value);
                 default:

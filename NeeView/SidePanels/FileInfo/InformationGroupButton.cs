@@ -6,9 +6,6 @@ namespace NeeView
 {
     public class InformationGroupButton : Button
     {
-        private RelayCommand _openFolderCommand;
-        private RelayCommand _openMapCommand;
-
 
         public InformationGroupButton() : base()
         {

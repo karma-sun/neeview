@@ -9,7 +9,7 @@ namespace NeeView
 {
     public class FileInformationContentViewModel : BindableBase
     {
-        private Dictionary<string, FileInformationRecord> _database;
+        private Dictionary<InformationKey, FileInformationRecord> _database;
         private FileInformationSource _source;
         private CollectionViewSource _collectionViewSource;
         private FileInformationRecord _selectedItem;
@@ -124,12 +124,12 @@ namespace NeeView
         {
             if (e.Item is FileInformationRecord record)
             {
-                var category = record.Group.ToInformationGroupCategory();
-                if (category == InformationGroupCategory.Image && !IsVisibleImage)
+                var category = record.Group.ToInformationCategory();
+                if (category == InformationCategory.Image && !IsVisibleImage)
                 {
                     e.Accepted = false;
                 }
-                else if (category == InformationGroupCategory.Metadata && !IsVisibleMetadata)
+                else if (category == InformationCategory.Metadata && !IsVisibleMetadata)
                 {
                     e.Accepted = false;
                 }

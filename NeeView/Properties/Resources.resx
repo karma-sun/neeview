@@ -6270,172 +6270,172 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="MouseConfig.IsHoverScroll" xml:space="preserve">
     <value>Hover scroll mode</value>
   </data>
-  <data name="FilePropertyKey.FileName" xml:space="preserve">
+  <data name="InformationKey.FileName" xml:space="preserve">
     <value>File name</value>
   </data>
-  <data name="FilePropertyKey.ArchivePath" xml:space="preserve">
+  <data name="InformationKey.ArchivePath" xml:space="preserve">
     <value>Archive path</value>
   </data>
-  <data name="FilePropertyKey.CreationTime" xml:space="preserve">
+  <data name="InformationKey.CreationTime" xml:space="preserve">
     <value>Creation time</value>
   </data>
-  <data name="FilePropertyKey.LastWriteTime" xml:space="preserve">
+  <data name="InformationKey.LastWriteTime" xml:space="preserve">
     <value>Last write time</value>
   </data>
-  <data name="FilePropertyKey.FileSize" xml:space="preserve">
+  <data name="InformationKey.FileSize" xml:space="preserve">
     <value>Size</value>
   </data>
-  <data name="FilePropertyKey.FolderPlace" xml:space="preserve">
-    <value>Folder place</value>
+  <data name="InformationKey.FilePath" xml:space="preserve">
+    <value>File path</value>
   </data>
-  <data name="ImagePropertyKey.Dimensions" xml:space="preserve">
+  <data name="InformationKey.Dimensions" xml:space="preserve">
     <value>Dimensions</value>
   </data>
-  <data name="ImagePropertyKey.Width" xml:space="preserve">
+  <data name="InformationKey.Width" xml:space="preserve">
     <value>Width</value>
   </data>
-  <data name="ImagePropertyKey.Height" xml:space="preserve">
+  <data name="InformationKey.Height" xml:space="preserve">
     <value>Height</value>
   </data>
-  <data name="ImagePropertyKey.HorizontalResolution" xml:space="preserve">
+  <data name="InformationKey.HorizontalResolution" xml:space="preserve">
     <value>Horizontal resolution</value>
   </data>
-  <data name="ImagePropertyKey.VerticalResolution" xml:space="preserve">
+  <data name="InformationKey.VerticalResolution" xml:space="preserve">
     <value>Vertical resolution</value>
   </data>
-  <data name="ImagePropertyKey.BitDepth" xml:space="preserve">
+  <data name="InformationKey.BitDepth" xml:space="preserve">
     <value>Bit depth</value>
   </data>
-  <data name="FilePropertyKey.Archiver" xml:space="preserve">
+  <data name="InformationKey.Archiver" xml:space="preserve">
     <value>Archiver</value>
   </data>
-  <data name="ImagePropertyKey.Decoder" xml:space="preserve">
+  <data name="InformationKey.Decoder" xml:space="preserve">
     <value>Decoder</value>
   </data>
-  <data name="BitmapMetadataKey.Title" xml:space="preserve">
+  <data name="InformationKey.Title" xml:space="preserve">
     <value>Title</value>
   </data>
-  <data name="BitmapMetadataKey.Subject" xml:space="preserve">
+  <data name="InformationKey.Subject" xml:space="preserve">
     <value>Subject</value>
   </data>
-  <data name="BitmapMetadataKey.Rating" xml:space="preserve">
+  <data name="InformationKey.Rating" xml:space="preserve">
     <value>Rating</value>
   </data>
-  <data name="BitmapMetadataKey.Tags" xml:space="preserve">
+  <data name="InformationKey.Tags" xml:space="preserve">
     <value>Tags</value>
   </data>
-  <data name="BitmapMetadataKey.Comments" xml:space="preserve">
+  <data name="InformationKey.Comments" xml:space="preserve">
     <value>Comments</value>
   </data>
-  <data name="BitmapMetadataKey.Author" xml:space="preserve">
+  <data name="InformationKey.Author" xml:space="preserve">
     <value>Author</value>
   </data>
-  <data name="BitmapMetadataKey.DateTaken" xml:space="preserve">
+  <data name="InformationKey.DateTaken" xml:space="preserve">
     <value>Date taken</value>
   </data>
-  <data name="BitmapMetadataKey.ApplicatoinName" xml:space="preserve">
+  <data name="InformationKey.ApplicatoinName" xml:space="preserve">
     <value>Applicatoin name</value>
   </data>
-  <data name="BitmapMetadataKey.DateAcquired" xml:space="preserve">
+  <data name="InformationKey.DateAcquired" xml:space="preserve">
     <value>Date acquired</value>
   </data>
-  <data name="BitmapMetadataKey.Copyright" xml:space="preserve">
+  <data name="InformationKey.Copyright" xml:space="preserve">
     <value>Copyright</value>
   </data>
-  <data name="BitmapMetadataKey.CameraMaker" xml:space="preserve">
+  <data name="InformationKey.CameraMaker" xml:space="preserve">
     <value>Camera maker</value>
   </data>
-  <data name="BitmapMetadataKey.CameraModel" xml:space="preserve">
+  <data name="InformationKey.CameraModel" xml:space="preserve">
     <value>Camera model</value>
   </data>
-  <data name="BitmapMetadataKey.FNumber" xml:space="preserve">
+  <data name="InformationKey.FNumber" xml:space="preserve">
     <value>FNumber</value>
   </data>
-  <data name="BitmapMetadataKey.ExposureTime" xml:space="preserve">
+  <data name="InformationKey.ExposureTime" xml:space="preserve">
     <value>Exposure time</value>
   </data>
-  <data name="BitmapMetadataKey.ISOSpeed" xml:space="preserve">
+  <data name="InformationKey.ISOSpeed" xml:space="preserve">
     <value>ISO speed</value>
   </data>
-  <data name="BitmapMetadataKey.ExposureBias" xml:space="preserve">
+  <data name="InformationKey.ExposureBias" xml:space="preserve">
     <value>Exposure bias</value>
   </data>
-  <data name="BitmapMetadataKey.FocalLength" xml:space="preserve">
+  <data name="InformationKey.FocalLength" xml:space="preserve">
     <value>Focal length</value>
   </data>
-  <data name="BitmapMetadataKey.MaxAperture" xml:space="preserve">
+  <data name="InformationKey.MaxAperture" xml:space="preserve">
     <value>Max aperture</value>
   </data>
-  <data name="BitmapMetadataKey.MeteringMode" xml:space="preserve">
+  <data name="InformationKey.MeteringMode" xml:space="preserve">
     <value>Metering mode</value>
   </data>
-  <data name="BitmapMetadataKey.SubjectDistance" xml:space="preserve">
+  <data name="InformationKey.SubjectDistance" xml:space="preserve">
     <value>Subject distance</value>
   </data>
-  <data name="BitmapMetadataKey.FlashMode" xml:space="preserve">
+  <data name="InformationKey.FlashMode" xml:space="preserve">
     <value>Flash mode</value>
   </data>
-  <data name="BitmapMetadataKey.FlashEnergy" xml:space="preserve">
+  <data name="InformationKey.FlashEnergy" xml:space="preserve">
     <value>Flash energy</value>
   </data>
-  <data name="BitmapMetadataKey.FocalLengthIn35mmFilm" xml:space="preserve">
+  <data name="InformationKey.FocalLengthIn35mmFilm" xml:space="preserve">
     <value>Focal length in 35mm film</value>
   </data>
-  <data name="BitmapMetadataKey.LensMaker" xml:space="preserve">
+  <data name="InformationKey.LensMaker" xml:space="preserve">
     <value>Lens maker</value>
   </data>
-  <data name="BitmapMetadataKey.LensModel" xml:space="preserve">
+  <data name="InformationKey.LensModel" xml:space="preserve">
     <value>Lens model</value>
   </data>
-  <data name="BitmapMetadataKey.FlashMaker" xml:space="preserve">
+  <data name="InformationKey.FlashMaker" xml:space="preserve">
     <value>Flash maker</value>
   </data>
-  <data name="BitmapMetadataKey.FlashModel" xml:space="preserve">
+  <data name="InformationKey.FlashModel" xml:space="preserve">
     <value>Flash model</value>
   </data>
-  <data name="BitmapMetadataKey.CameraSerialNumber" xml:space="preserve">
+  <data name="InformationKey.CameraSerialNumber" xml:space="preserve">
     <value>Camera serial number</value>
   </data>
-  <data name="BitmapMetadataKey.Contrast" xml:space="preserve">
+  <data name="InformationKey.Contrast" xml:space="preserve">
     <value>Contrast</value>
   </data>
-  <data name="BitmapMetadataKey.Brightness" xml:space="preserve">
+  <data name="InformationKey.Brightness" xml:space="preserve">
     <value>Brightness</value>
   </data>
-  <data name="BitmapMetadataKey.LightSource" xml:space="preserve">
+  <data name="InformationKey.LightSource" xml:space="preserve">
     <value>Light source</value>
   </data>
-  <data name="BitmapMetadataKey.ExposureProgram" xml:space="preserve">
+  <data name="InformationKey.ExposureProgram" xml:space="preserve">
     <value>Exposure program</value>
   </data>
-  <data name="BitmapMetadataKey.Saturation" xml:space="preserve">
+  <data name="InformationKey.Saturation" xml:space="preserve">
     <value>Saturation</value>
   </data>
-  <data name="BitmapMetadataKey.Sharpness" xml:space="preserve">
+  <data name="InformationKey.Sharpness" xml:space="preserve">
     <value>Sharpness</value>
   </data>
-  <data name="BitmapMetadataKey.WhiteBalance" xml:space="preserve">
+  <data name="InformationKey.WhiteBalance" xml:space="preserve">
     <value>White balance</value>
   </data>
-  <data name="BitmapMetadataKey.PhotometricInterpretation" xml:space="preserve">
+  <data name="InformationKey.PhotometricInterpretation" xml:space="preserve">
     <value>Photometric interpretation</value>
   </data>
-  <data name="BitmapMetadataKey.DigitalZoom" xml:space="preserve">
+  <data name="InformationKey.DigitalZoom" xml:space="preserve">
     <value>Digital zoom</value>
   </data>
-  <data name="BitmapMetadataKey.EXIFVersion" xml:space="preserve">
+  <data name="InformationKey.EXIFVersion" xml:space="preserve">
     <value>EXIF version</value>
   </data>
-  <data name="BitmapMetadataKey.GPSLatitude" xml:space="preserve">
+  <data name="InformationKey.GPSLatitude" xml:space="preserve">
     <value>Latitude</value>
   </data>
-  <data name="BitmapMetadataKey.GPSLongitude" xml:space="preserve">
+  <data name="InformationKey.GPSLongitude" xml:space="preserve">
     <value>Longitude</value>
   </data>
-  <data name="BitmapMetadataKey.GPSAltitude" xml:space="preserve">
+  <data name="InformationKey.GPSAltitude" xml:space="preserve">
     <value>Altitude</value>
   </data>
-  <data name="BitmapMetadataKey.Orientation" xml:space="preserve">
+  <data name="InformationKey.Orientation" xml:space="preserve">
     <value>Orientation</value>
   </data>
   <data name="ExifContrast.Normal" xml:space="preserve">
@@ -6693,25 +6693,25 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ExifWhiteBalance.ManualWhiteBalance" xml:space="preserve">
     <value>Manual</value>
   </data>
-  <data name="Information.File" xml:space="preserve">
+  <data name="xInformation.File" xml:space="preserve">
     <value>File</value>
   </data>
-  <data name="Information.Image" xml:space="preserve">
+  <data name="xInformation.Image" xml:space="preserve">
     <value>Image</value>
   </data>
-  <data name="Information.Description" xml:space="preserve">
+  <data name="xInformation.Description" xml:space="preserve">
     <value>Description</value>
   </data>
-  <data name="Information.Origin" xml:space="preserve">
+  <data name="xInformation.Origin" xml:space="preserve">
     <value>Origin</value>
   </data>
-  <data name="Information.Camera" xml:space="preserve">
+  <data name="xInformation.Camera" xml:space="preserve">
     <value>Camera</value>
   </data>
-  <data name="Information.AdvancedPhoto" xml:space="preserve">
+  <data name="xInformation.AdvancedPhoto" xml:space="preserve">
     <value>Advanced photo</value>
   </data>
-  <data name="Information.Gps" xml:space="preserve">
+  <data name="xInformation.Gps" xml:space="preserve">
     <value>GPS</value>
   </data>
   <data name="Information.OpenMap" xml:space="preserve">

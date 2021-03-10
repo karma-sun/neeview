@@ -13,7 +13,7 @@ namespace NeeView
         Gps,
     }
 
-    public enum InformationGroupCategory
+    public enum InformationCategory
     {
         File,
         Image,
@@ -22,20 +22,20 @@ namespace NeeView
 
     public static class InformationGroupExtensions
     {
-        public static InformationGroupCategory ToInformationGroupCategory(this InformationGroup self)
+        public static InformationCategory ToInformationCategory(this InformationGroup self)
         {
             switch (self)
             {
                 case InformationGroup.File:
-                    return InformationGroupCategory.File;
+                    return InformationCategory.File;
                 case InformationGroup.Image:
-                    return InformationGroupCategory.Image;
+                    return InformationCategory.Image;
                 case InformationGroup.Description:
                 case InformationGroup.Origin:
                 case InformationGroup.Camera:
                 case InformationGroup.AdvancedPhoto:
                 case InformationGroup.Gps:
-                    return InformationGroupCategory.Metadata;
+                    return InformationCategory.Metadata;
                 default:
                     throw new NotSupportedException();
             }

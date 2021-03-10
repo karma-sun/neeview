@@ -40,7 +40,7 @@
                         <MenuItem Header="{x:Static properties:Resources.Information_Menu_Copy}" Command="{x:Static local:FileInformationContent.CopyCommand}" />
                     </ContextMenu>
                 </Grid.ContextMenu>
-                <TextBlock Grid.Column="0" Text="{Binding Key, Converter={StaticResource EnumToAliasNameConverter}}" Margin="2" TextTrimming="CharacterEllipsis" />
+                <TextBlock Grid.Column="0" Text="{Binding Key, Converter={StaticResource EnumToAliasNameConverter}}" Margin="2,0" TextTrimming="CharacterEllipsis" />
                 <GridSplitter Grid.Column="0" HorizontalAlignment="Right" Width="10" VerticalAlignment="Stretch" Background="Transparent" IsTabStop="False" />
                 <TextBox Grid.Column="1" Style="{StaticResource PropertyValueTextBoxStyle}" Text="{Binding Value, Converter={StaticResource MetadataValueToStringConverter}, Mode=OneWay}" />
             </Grid>

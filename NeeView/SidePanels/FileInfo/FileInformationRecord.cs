@@ -7,9 +7,9 @@ namespace NeeView
         private object _value;
 
 
-        public FileInformationRecord(InformationGroup group, string key, object value)
+        public FileInformationRecord(InformationKey key, object value)
         {
-            Group = group;
+            Group = key.ToInformationGroup();
             Key = key;
             Value = value;
         }
@@ -17,7 +17,7 @@ namespace NeeView
 
         public InformationGroup Group { get; private set; }
         
-        public string Key { get; private set; }
+        public InformationKey Key { get; private set; }
 
         public object Value
         {

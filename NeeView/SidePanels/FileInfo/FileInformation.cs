@@ -17,8 +17,9 @@ namespace NeeView
         public static FileInformation Current { get; }
         static FileInformation() => Current = new FileInformation();
 
+        
+        private DelayValue<IEnumerable<ViewContent>> _viewContentsDelay;
         private List<FileInformationSource> _fileInformations;
-        private DelayValue<List<FileInformationSource>> _fileInformationsDelay;
 
 
         private FileInformation()
@@ -28,33 +29,36 @@ namespace NeeView
             mainViewComponent.ContentCanvas.ContentChanged +=
                 (s, e) => Update(mainViewComponent.ContentCanvas.Contents);
 
-            _fileInformationsDelay = new DelayValue<List<FileInformationSource>>();
-            _fileInformationsDelay.ValueChanged += (s, e) => RaisePropertyChanged(nameof(FileInformations));
+            _viewContentsDelay = new DelayValue<IEnumerable<ViewContent>>();
+            _viewContentsDelay.ValueChanged += ViewContentsDelay_ValueChanged;
         }
 
 
         public List<FileInformationSource> FileInformations
         {
-            get { return _fileInformationsDelay.Value; }
+            get { return _fileInformations; }
+            set { SetProperty(ref _fileInformations, value); }
         }
 
 
         public FileInformationSource GetMainFileInformation()
         {
-            return FileInformations.OrderBy(e => e.Page?.Index ?? int.MaxValue).FirstOrDefault();
+            return FileInformations?.OrderBy(e => e.Page?.Index ?? int.MaxValue).FirstOrDefault();
         }
 
         public void Update(IEnumerable<ViewContent> viewContents)
         {
-            _fileInformations = viewContents?
+            _viewContentsDelay.SetValue(viewContents.ToList(), 100); // 100ms delay
+        }
+
+        private void ViewContentsDelay_ValueChanged(object sender, EventArgs _)
+        {
+            this.FileInformations = _viewContentsDelay.Value?
                 .Reverse()
                 .Where(e => e.IsInformationValid)
                 .Select(e => new FileInformationSource(e))
                 .ToList();
-
-            _fileInformationsDelay.SetValue(_fileInformations, 100); // 100ms delay
         }
-
 
         public void Update()
         {

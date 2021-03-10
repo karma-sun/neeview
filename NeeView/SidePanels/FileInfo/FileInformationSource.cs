@@ -5,6 +5,7 @@ using NeeView.Text;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -54,48 +55,20 @@ namespace NeeView
 
         public static List<FileInformationRecord> CreatePropertiesTemplate()
         {
-            var items = new List<FileInformationRecord>();
-
-            items.AddRange(Enum.GetValues(typeof(FilePropertyKey)).Cast<FilePropertyKey>().Select(e => new FileInformationRecord(InformationGroup.File, e.ToAliasName(), null)));
-            items.AddRange(Enum.GetValues(typeof(ImagePropertyKey)).Cast<ImagePropertyKey>().Select(e => new FileInformationRecord(InformationGroup.Image, e.ToAliasName(), null)));
-            items.AddRange(Enum.GetValues(typeof(BitmapMetadataKey)).Cast<BitmapMetadataKey>().Select(e => new FileInformationRecord(e.ToInformationGroup(), e.ToAliasName(), null)));
-
-            return items;
+            return new List<FileInformationRecord>(Enum.GetValues(typeof(InformationKey)).Cast<InformationKey>().Select(e => new FileInformationRecord(e, null)));
         }
 
         public void Update()
         {
-            var items = new List<FileInformationRecord>();
-
-            var page = ViewContent?.Page;
-            items.Add(new FileInformationRecord(InformationGroup.File, FilePropertyKey.FileName.ToAliasName(), ViewContent?.FileName));
-            items.Add(new FileInformationRecord(InformationGroup.File, FilePropertyKey.ArchivePath.ToAliasName(), ViewContent?.Page?.Entry?.Link ?? ViewContent?.FullPath));
-            items.Add(new FileInformationRecord(InformationGroup.File, FilePropertyKey.FileSize.ToAliasName(), (page != null && page.Length > 0) ? string.Format("{0:#,0} KB", page.Length > 0 ? (page.Length + 1023) / 1024 : 0) : null));
-            items.Add(new FileInformationRecord(InformationGroup.File, FilePropertyKey.CreationTime.ToAliasName(), (page != null && page.CreationTime != default) ? (object)page.CreationTime : null));
-            items.Add(new FileInformationRecord(InformationGroup.File, FilePropertyKey.LastWriteTime.ToAliasName(), (page != null && page.LastWriteTime != default) ? (object)page.LastWriteTime : null));
-            items.Add(new FileInformationRecord(InformationGroup.File, FilePropertyKey.Archiver.ToAliasName(), page?.Entry?.Archiver?.ToString()));
-            items.Add(new FileInformationRecord(InformationGroup.File, FilePropertyKey.FolderPlace.ToAliasName(), ViewContent?.FolderPlace));
-
-            items.Add(new FileInformationRecord(InformationGroup.Image, ImagePropertyKey.Dimensions.ToAliasName(), (PictureInfo != null && PictureInfo.OriginalSize.Width > 0 && PictureInfo.OriginalSize.Height > 0) ? $"{(int)PictureInfo.OriginalSize.Width} x {(int)PictureInfo.OriginalSize.Height}" + (PictureInfo.IsLimited ? "*" : "") : null));
-            items.Add(new FileInformationRecord(InformationGroup.Image, ImagePropertyKey.BitDepth.ToAliasName(), new FormatValue(PictureInfo?.BitsPerPixel, "{0}", FormatValue.NotDefaultValueConverter<int>)));
-            items.Add(new FileInformationRecord(InformationGroup.Image, ImagePropertyKey.HorizontalResolution.ToAliasName(), new FormatValue(PictureInfo?.BitmapInfo?.DpiX, "{0:0.# dpi}", FormatValue.NotDefaultValueConverter<double>)));
-            items.Add(new FileInformationRecord(InformationGroup.Image, ImagePropertyKey.VerticalResolution.ToAliasName(), new FormatValue(PictureInfo?.BitmapInfo?.DpiY, "{0:0.# dpi}", FormatValue.NotDefaultValueConverter<double>)));
-            items.Add(new FileInformationRecord(InformationGroup.Image, ImagePropertyKey.Decoder.ToAliasName(), ((BitmapContent is AnimatedContent animatedContent && animatedContent.IsAnimated) || BitmapContent is MediaContent) ? "MediaPlayer" : PictureInfo?.Decoder));
-
-            if (Metadata != null)
-            {
-                items.AddRange(Metadata.Select(e => new FileInformationRecord(e.Key.ToInformationGroup(), e.Key.ToAliasName(), e.Value)));
-            }
-            else
-            {
-                items.AddRange(Enum.GetValues(typeof(BitmapMetadataKey)).Cast<BitmapMetadataKey>().Select(e => new FileInformationRecord(e.ToInformationGroup(), e.ToAliasName(), null)));
-            }
-
-            GpsLocation = CreateGpsLocate();
-
-            this.Properties = items;
+            this.GpsLocation = CreateGpsLocate();
+            this.Properties = CreateProperties();
         }
 
+        public List<FileInformationRecord> CreateProperties()
+        {
+            var factory = new InformationValueFactory(new InformationValueSource(ViewContent?.Page, BitmapContent, Metadata));
+            return new List<FileInformationRecord>(Enum.GetValues(typeof(InformationKey)).Cast<InformationKey>().Select(e => new FileInformationRecord(e, factory.Create(e))));
+        }
 
         private GpsLocation CreateGpsLocate()
         {
@@ -103,7 +76,6 @@ namespace NeeView
             {
                 return new GpsLocation(lat, lon);
             }
-
             return null;
         }
 
@@ -244,5 +216,4 @@ namespace NeeView
         }
 
     }
-
 }

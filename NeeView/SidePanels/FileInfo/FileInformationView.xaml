@@ -48,7 +48,7 @@
             </DockPanel>
 
             <nw:ListBoxExteded x:Name="ThumbnailListBox" DockPanel.Dock="Top" Style="{StaticResource NVListBox}" Template="{StaticResource NoScroll}" ItemsSource="{Binding FileInformations}"
-                    SelectedItem="{Binding SelectedItem}" Margin="2" MinHeight="120" MinWidth="256" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    SelectedItem="{Binding SelectedItem}" Margin="2" MinHeight="120" MinWidth="256" ScrollViewer.HorizontalScrollBarVisibility="Disabled" PreviewMouseWheel="ThumbnailListBox_PreviewMouseWheel">
                 <b:Interaction.Behaviors>
                     <nw:ListBoxExtendedDragDropStartBehavior AllowedEffects="Copy, Scroll" AllowRightButtonDrag="True" DragDropFormat="{x:Static local:FileInformationView.DragDropFormat}"
                             DragBeginAsync="DragStartBehavior_DragBeginAsync" />

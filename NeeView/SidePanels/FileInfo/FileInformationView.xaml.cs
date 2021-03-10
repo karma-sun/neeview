@@ -61,6 +61,7 @@ namespace NeeView
 
         private FileInformationViewModel _vm;
         private bool _isFocusRequest;
+        private MouseWheelDelta _mouseWheelDelta = new MouseWheelDelta();
 
 
         static FileInformationView()
@@ -135,6 +136,16 @@ namespace NeeView
             contextMenu.Items.Add(DestinationFolderCollectionUtility.CreateDestinationFolderItem(Properties.Resources.PageListItem_Menu_MoveToFolder, _commandResource.MoveToFolder_CanExecute(listBox), MoveToFolderCommand, OpenDestinationFolderCommand));
         }
 
+        private void ThumbnailListBox_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            var delta = _mouseWheelDelta.NotchCount(e);
+            if (delta != 0)
+            {
+                delta = PageSlider.Current.IsSliderDirectionReversed ? delta : -delta;
+                _vm.MoveSelectedItem(delta);
+            }
+            e.Handled = true;
+        }
 
         private void FolderInformationView_KeyDown(object sender, KeyEventArgs e)
         {

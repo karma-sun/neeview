@@ -1,4 +1,5 @@
-﻿using NeeLaboratory.ComponentModel;
+﻿using NeeLaboratory;
+using NeeLaboratory.ComponentModel;
 using NeeLaboratory.Windows.Input;
 using NeeView.Media.Imaging.Metadata;
 using NeeView.Windows.Data;
@@ -82,5 +83,16 @@ namespace NeeView
             return Config.Current.Panels.IsLeftRightKeyEnabled;
         }
 
+        public void MoveSelectedItem(int delta)
+        {
+            if (FileInformations is null) return;
+
+            var index = SelectedItem is null ? 0 : FileInformations.IndexOf(SelectedItem);
+            index = MathUtility.Clamp(index + delta, 0, FileInformations.Count - 1);
+            if (index >= 0)
+            {
+                SelectedItem = FileInformations[index];
+            }
+        }
     }
 }

@@ -127,7 +127,7 @@
     <value>進む</value>
   </data>
   <data name="AddressBar.ReLoad.ToolTip" xml:space="preserve">
-    <value>再読込</value>
+    <value>再読み込み</value>
   </data>
   <data name="AddressBar.Unload.ToolTip" xml:space="preserve">
     <value>閉じる</value>
@@ -751,7 +751,7 @@
     <value>削除(_D)</value>
   </data>
   <data name="BookshelfItem.Menu.DeleteBookmark" xml:space="preserve">
-    <value>ブックマークから外す</value>
+    <value>ブックマークを削除</value>
   </data>
   <data name="BookshelfItem.Menu.DeleteHistory" xml:space="preserve">
     <value>履歴から削除</value>
@@ -1832,7 +1832,7 @@ nv.Values.Test = "Hello!"</value>
     <value>再読み込み</value>
   </data>
   <data name="FolderTree.Menu.RemoveQuickAccess" xml:space="preserve">
-    <value>クイック アクセスから外す</value>
+    <value>クイック アクセスを削除</value>
   </data>
   <data name="FolderTreeLayout.Left" xml:space="preserve">
     <value>左に配置</value>
@@ -3282,7 +3282,7 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
     <value>{0} 個のページマークを削除しました。</value>
   </data>
   <data name="PagemarkItem.Menu.Delete" xml:space="preserve">
-    <value>ページマークをはずす(_R)</value>
+    <value>ページマークを削除(_R)</value>
   </data>
   <data name="PagemarkItem.Menu.DeleteFolder" xml:space="preserve">
     <value>フォルダーを削除(_D)</value>
@@ -3739,7 +3739,7 @@ Susie 書庫はこのサイズで判別せず、プラグインの設定での�
     <value>ブックを再読み込みします。</value>
   </data>
   <data name="ReloadSettingCommand" xml:space="preserve">
-    <value>設定の再読込</value>
+    <value>設定の再読み込み</value>
   </data>
   <data name="ReloadSettingCommand.Remarks" xml:space="preserve">
     <value>設定を再読み込みします。</value>
@@ -4704,7 +4704,7 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
     <value>※次の起動から適用されます。テキスト ボックスでは常に有効です。</value>
   </data>
   <data name="SystemConfig.IsNaturalSortEnabled" xml:space="preserve">
-    <value>自然な名前順</value>
+    <value>自然な名前順を使用する</value>
   </data>
   <data name="SystemConfig.IsNaturalSortEnabled.Remarks" xml:space="preserve">
     <value>ピリオドで区切られた数字、漢数字など、名前での並び替えをより自然な並び順になるようにします。オフにすると、エクスプローラーと同じ並び方になります。</value>

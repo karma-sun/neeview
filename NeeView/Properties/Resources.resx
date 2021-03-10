@@ -1829,7 +1829,7 @@ Is it OK?</value>
     <value>Reload</value>
   </data>
   <data name="FolderTree.Menu.RemoveQuickAccess" xml:space="preserve">
-    <value>Remove from quick access</value>
+    <value>Remove quick access</value>
   </data>
   <data name="FolderTreeLayout.Left" xml:space="preserve">
     <value>Place to the left</value>
@@ -4701,7 +4701,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages.</value
     <value>* It is applied from the next startup. Always valid for text boxes.</value>
   </data>
   <data name="SystemConfig.IsNaturalSortEnabled" xml:space="preserve">
-    <value>Natural sort</value>
+    <value>Use natural sort</value>
   </data>
   <data name="SystemConfig.IsNaturalSortEnabled.Remarks" xml:space="preserve">
     <value>Makes sorting by name, such as numbers separated by periods, kanji numbers, etc. more natural. When off, same as Explorer.</value>

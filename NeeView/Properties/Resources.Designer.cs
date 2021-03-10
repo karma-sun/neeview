@@ -5995,7 +5995,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Remove from quick access に類似しているローカライズされた文字列を検索します。
+        ///   Remove quick access に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FolderTree_Menu_RemoveQuickAccess {
             get {
@@ -15196,7 +15196,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Natural sort に類似しているローカライズされた文字列を検索します。
+        ///   Use natural sort に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SystemConfig_IsNaturalSortEnabled {
             get {

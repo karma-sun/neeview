@@ -810,7 +810,7 @@ namespace NeeView
                 return;
             }
 
-            if (string.IsNullOrEmpty(PageTitle.Current.Title))
+            if (string.IsNullOrWhiteSpace(PageTitle.Current.Title))
             {
                 _pageCaptionVisibility.SetDelayVisibility(Visibility.Collapsed, 0, NeeView.Windows.Data.DelayValueOverwriteOption.Force);
             }

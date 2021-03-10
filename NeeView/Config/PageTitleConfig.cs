@@ -8,7 +8,7 @@ namespace NeeView
     {
         private const string PageTitleFormat1Default = "$Name";
         private const string PageTitleFormat2Default = "$NameL | $NameR";
-        private const string PageTitleFormatMediaDefault = "$Book";
+        private const string PageTitleFormatMediaDefault = " ";
         private bool _isEnabled = true;
         private string _pageTitleFormat1;
         private string _pageTitleFormat2;

@@ -11,6 +11,7 @@
         <local:PanelColorToBrushConverter x:Key="BackgroundSelector" Dark="{StaticResource NVMenuBackgroundDark}" Light="{StaticResource NVMenuBackgroundLight}"/>
         <local:PanelColorTobrushMultiConverter x:Key="ForegroundSelector" Dark="{StaticResource NVMenuForegroundDark}" Light="{StaticResource NVMenuForegroundLight}"/>
         <local:BooleanToOpacityConverter x:Key="BooleanToOpacityConverter"/>
+        <local:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
 
@@ -64,8 +65,10 @@
                     </Style>
                 </nwc:WindowCaptionButtons.Style>
             </nwc:WindowCaptionButtons>
-            <Grid x:Name="Watermark" DockPanel.Dock="Right" Background="DarkOrange" Height="18" VerticalAlignment="Top" Visibility="Collapsed">
-                    <TextBlock x:Name="WatermarkText" Foreground="White" Margin="10,0" FontSize="14" VerticalAlignment="Center" FontWeight="Normal" Text="Canary 0000"/>
+            <Grid DockPanel.Dock="Right" Visibility="{Binding MainMenu, Converter={StaticResource NullableToVisibilityConverter}}">
+                <Border x:Name="Watermark" Background="DarkOrange" Height="18" VerticalAlignment="Top" Visibility="Collapsed">
+                    <TextBlock x:Name="WatermarkText" Foreground="White" Margin="10,0" FontSize="14" VerticalAlignment="Center" FontWeight="Normal" Text="Canary 0000" />
+                </Border>
             </Grid>
 
             <DockPanel x:Name="MenuArea" VerticalAlignment="Bottom">

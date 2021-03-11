@@ -55,6 +55,9 @@
         </Grid.Resources>
 
         <DockPanel VerticalAlignment="Top" Margin="2,2">
+
+            <ContentControl x:Name="MainMenuJoint" Content="{Binding MainMenu}" IsTabStop="False" VerticalAlignment="Center" />
+
             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" UseLayoutRounding="True">
 
                 <Button Style="{StaticResource AddressIconButton}" Command="{Binding BookCommands[TogglePageMode]}" TabIndex="20">

@@ -1,11 +1,10 @@
 ﻿using NeeLaboratory.ComponentModel;
-using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Text.RegularExpressions;
+using System.Windows.Controls;
 
 namespace NeeView
 {
@@ -14,128 +13,25 @@ namespace NeeView
     /// </summary>
     public class MenuBar : BindableBase
     {
-        static MenuBar() => Current = new MenuBar();
-        public static MenuBar Current { get; }
-
-
+        private MainMenuSelector _mainMenuSelector;
         private WindowStateManager _windowStateManager;
 
 
-        private MenuBar()
+        public MenuBar(MainMenuSelector mainMenuSelector, WindowStateManager windowStateManager)
         {
-            MainMenuSource = MenuTree.CreateDefault();
-        }
-
-        public void Initialize(WindowStateManager windowStateManager)
-        {
+            _mainMenuSelector = mainMenuSelector;
             _windowStateManager = windowStateManager;
 
-            BookHub.Current.BookChanged +=
-                (s, e) => UpdateLastFiles();
-
-            RoutedCommandTable.Current.Changed +=
-                (s, e) => Refresh();
-
-            BookHistoryCollection.Current.HistoryChanged +=
-                (s, e) =>
-                {
-                    switch (e.HistoryChangedType)
-                    {
-                        case BookMementoCollectionChangedType.Clear:
-                        case BookMementoCollectionChangedType.Load:
-                            UpdateLastFiles();
-                            break;
-                    }
-                };
+            _mainMenuSelector.AddPropertyChanged(nameof(MainMenuSelector.MenuBarMenu),
+                (s, e) => RaisePropertyChanged(nameof(MainMenu)));
         }
 
 
-        public event EventHandler CommandGestureChanged;
-
+        public Menu MainMenu => _mainMenuSelector.MenuBarMenu;
 
         public WindowStateManager WindowStateManager => _windowStateManager;
 
-        public MenuTree MainMenuSource { get; set; }
 
-
-        #region LastFiles
-        // TODO: Historyで管理すべき
-
-        // 最近使ったフォルダー
-        private List<BookHistory> _lastFiles = new List<BookHistory>();
-        public List<BookHistory> LastFiles
-        {
-            get { return _lastFiles; }
-            set { _lastFiles = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(IsEnableLastFiles)); }
-        }
-
-        // 最近使ったフォルダーの有効フラグ
-        public bool IsEnableLastFiles { get { return LastFiles.Count > 0; } }
-
-        // 最近使ったファイル 更新
-        private void UpdateLastFiles()
-        {
-            LastFiles = BookHistoryCollection.Current.ListUp(10);
-        }
-
-        #endregion
-
-
-        public void Refresh()
-        {
-            CommandGestureChanged?.Invoke(this, null);
-        }
-
-        public void OpenMainMenuHelp()
-        {
-            var groups = new Dictionary<string, List<MenuTree.TableData>>();
-
-            foreach (var group in MainMenuSource.Children)
-            {
-                groups.Add(group.Label, group.GetTable(0));
-            }
-
-            System.IO.Directory.CreateDirectory(Temporary.Current.TempSystemDirectory);
-            string fileName = System.IO.Path.Combine(Temporary.Current.TempSystemDirectory, "MainMenuList.html");
-
-            using (var writer = new System.IO.StreamWriter(fileName, false))
-            {
-                writer.WriteLine(HtmlHelpUtility.CraeteHeader("NeeView MainMenu List"));
-
-                writer.WriteLine($"<body><h1>NeeView {Properties.Resources.Word_MainMenu}</h1>");
-
-                foreach (var pair in groups)
-                {
-                    writer.WriteLine($"<h3>{pair.Key.Replace("_", "")}</h3>");
-                    writer.WriteLine("<table class=\"table-slim\">");
-                    foreach (var item in pair.Value)
-                    {
-                        string name = string.Concat(Enumerable.Repeat("&nbsp;", item.Depth * 2)) + item.Element.DispLabel;
-
-                        writer.WriteLine($"<td>{name}<td>{item.Element.Note}<tr>");
-                    }
-                    writer.WriteLine("</table>");
-                }
-                writer.WriteLine("</body>");
-
-                writer.WriteLine(HtmlHelpUtility.CreateFooter());
-            }
-
-            ExternalProcess.Start(fileName);
-        }
-
-        public void OpenSearchOptionHelp()
-        {
-            System.IO.Directory.CreateDirectory(Temporary.Current.TempSystemDirectory);
-            string fileName = System.IO.Path.Combine(Temporary.Current.TempSystemDirectory, "SearchOptions.html");
-
-            using (var writer = new System.IO.StreamWriter(fileName, false))
-            {
-                writer.WriteLine(HtmlHelpUtility.GetSearchHelp());
-            }
-
-            ExternalProcess.Start(fileName);
-        }
 
         #region Memento
         [DataContract]
@@ -153,8 +49,6 @@ namespace NeeView
                 config.MenuBar.IsHamburgerMenu = IsHamburgerMenu;
             }
         }
-
         #endregion
-
     }
 }

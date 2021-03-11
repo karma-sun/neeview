@@ -10,7 +10,7 @@
 
         public override void Execute(object sender, CommandContext e)
         {
-            MenuBar.Current.OpenMainMenuHelp();
+            Documents.OpenMainMenuHelp();
         }
     }
 }

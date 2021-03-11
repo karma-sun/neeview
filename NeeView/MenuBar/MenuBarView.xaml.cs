@@ -134,7 +134,7 @@ namespace NeeView
 
         public void Initialize()
         {
-            _vm = new MenuBarViewModel(this, this.Source);
+            _vm = new MenuBarViewModel(this.Source, this);
             this.Root.DataContext = _vm;
         }
 

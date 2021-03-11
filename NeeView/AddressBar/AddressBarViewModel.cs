@@ -2,6 +2,7 @@
 using NeeLaboratory.Windows.Input;
 using NeeView.Windows.Data;
 using System.Collections.Generic;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace NeeView
@@ -20,6 +21,9 @@ namespace NeeView
         {
             _model = model;
 
+            _model.AddPropertyChanged(nameof(AddressBar.MainMenu),
+                (s, e) => RaisePropertyChanged(nameof(MainMenu)));
+
             BookSettingPresenter.Current.SettingChanged +=
                (s, e) => RaisePropertyChanged(nameof(BookSetting));
 
@@ -34,6 +38,13 @@ namespace NeeView
             get { return _model; }
             set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
         }
+
+        public Menu MainMenu
+        {
+            get { return _model.MainMenu; }
+        }
+
+
 
         public Config Config => Config.Current;
 

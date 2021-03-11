@@ -1,5 +1,6 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.IO;
+using System.Windows.Controls;
 
 namespace NeeView
 {
@@ -8,12 +9,17 @@ namespace NeeView
     /// </summary>
     public class AddressBar : BindableBase
     {
-        static AddressBar() => Current = new AddressBar();
-        public static AddressBar Current { get; }
+        private MainMenuSelector _mainMenuSelector;
+        private string _address;
 
 
-        private AddressBar()
+        public AddressBar(MainMenuSelector mainMenuSelector)
         {
+            _mainMenuSelector = mainMenuSelector;
+            
+            _mainMenuSelector.AddPropertyChanged(nameof(MainMenuSelector.AddressBarMenu),
+                (s, e) => RaisePropertyChanged(nameof(MainMenu)));
+
             BookHub.Current.AddressChanged +=
                 (s, e) => SetAddress(BookHub.Current.Address);
 
@@ -24,8 +30,9 @@ namespace NeeView
                 (s, e) => RaisePropertyChanged(nameof(IsBookmark));
         }
 
-        //
-        private string _address;
+
+        public Menu MainMenu => _mainMenuSelector.AddressBarMenu;
+
         public string Address
         {
             get { return _address; }
@@ -44,13 +51,11 @@ namespace NeeView
             }
         }
 
-        //
         public bool IsBookmark
         {
             get { return BookmarkCollection.Current.Contains(Address); }
         }
 
-        //
         public string BookName => LoosePath.GetFileName(_address);
 
         public bool IsBookEnabled => BookHub.Current.Book != null;
@@ -83,12 +88,6 @@ namespace NeeView
         {
             _address = address;
             RaisePropertyChanged(null);
-            /*
-            RaisePropertyChanged(nameof(Address));
-            RaisePropertyChanged(nameof(IsBookmark));
-            RaisePropertyChanged(nameof(BookName));
-            RaisePropertyChanged(nameof(BookDetail));
-            */
         }
 
         // フォルダー読み込み

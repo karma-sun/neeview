@@ -95,6 +95,7 @@
         </DrawingImage>
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <local:ColorToBrushConverter x:Key="ColorToBrushConverter" />
 
         <Style x:Key="PanelIconButtonStyle" TargetType="{x:Type Button}">
             <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
@@ -213,7 +214,8 @@
                     </Style.Triggers>
                 </Style>
             </DockPanel.Style>
-            <local:VideoSlider Value="{Binding Operator.PositionRate}" DragStarted="VideoSlider_DragStarted" DragCompleted="VideoSlider_DragCompleted" PreviewMouseLeftButtonDown="VideoSlider_PreviewMouseLeftButtonDown" />
+            <local:VideoSlider SliderBrush="{Binding Slider.Color, Source={x:Static local:Config.Current}, Converter={StaticResource ColorToBrushConverter}}"
+                    ThumbSize="{Binding Slider.Thickness, Source={x:Static local:Config.Current}}" Value="{Binding Operator.PositionRate}" DragStarted="VideoSlider_DragStarted" DragCompleted="VideoSlider_DragCompleted" PreviewMouseLeftButtonDown="VideoSlider_PreviewMouseLeftButtonDown" />
         </DockPanel>
 
 

@@ -24,7 +24,11 @@ namespace NeeView
 
             _model.AddPropertyChanged(nameof(_model.MarkerCollection),
                 (s, e) => UpdateInvoke());
+
             _model.AddPropertyChanged(nameof(_model.IsSliderDirectionReversed),
+                (s, e) => UpdateInvoke());
+
+            Config.Current.Slider.AddPropertyChanged(nameof(SliderConfig.Thickness),
                 (s, e) => UpdateInvoke());
         }
 
@@ -84,29 +88,29 @@ namespace NeeView
 
             // Pathの作成
             Path path = new Path();
-            path.Fill = App.Current.Resources["NVStarMarkBrush"] as Brush;
+            path.Stroke = Brushes.Gray;
+            path.StrokeThickness = 3.0;
+            RenderOptions.SetEdgeMode(path, EdgeMode.Aliased);
 
             StreamGeometry geometry = new StreamGeometry();
             geometry.FillRule = FillRule.Nonzero;
             using (StreamGeometryContext context = geometry.Open())
             {
+                double tumbWidth = Config.Current.Slider.Thickness;
+                double min = tumbWidth * 0.5;
+                double max = canvasWidth - tumbWidth * 0.5;
+                double valueMin = 0;
+                double valueMax = _model.MarkerCollection.Maximum;
+
                 foreach (var index in _model.MarkerCollection.Indexes)
                 {
-                    const double tumbWidth = 25.0;
-
-                    double min = tumbWidth * 0.5;
-                    double max = canvasWidth - tumbWidth * 0.5;
-                    double valueMin = 0;
-                    double valueMax = _model.MarkerCollection.Maximum;
                     double value = isReverse ? valueMax - index + valueMin : index;
 
                     double x = value * (max - min) / (valueMax - valueMin) + min;
-                    double y = 15.0; // キャンバスの高さの半分。中央座標のY。
+                    double y = 0.0;
 
-                    context.BeginFigure(new Point(x + 0, y - 5), true, true);
-                    context.LineTo(new Point(x + 5, y + 0), true, true);
-                    context.LineTo(new Point(x + 0, y + 5), true, true);
-                    context.LineTo(new Point(x - 5, y + 0), true, true);
+                    context.BeginFigure(new Point(x + 0, y - 6), false, false);
+                    context.LineTo(new Point(x + 0, y + 1), true, false);
                 }
             }
             geometry.Freeze();

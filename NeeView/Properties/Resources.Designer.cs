@@ -14593,6 +14593,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Slider color に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SliderConfig_Color {
+            get {
+                return ResourceManager.GetString("SliderConfig.Color", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Show slider に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SliderConfig_IsEnabled {
@@ -14656,7 +14665,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Display pagemark icon に類似しているローカライズされた文字列を検索します。
+        ///   Display pagemark marker に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SliderConfig_IsVisiblePagemark {
             get {
@@ -14697,6 +14706,15 @@ namespace NeeView.Properties {
         public static string SliderConfig_SliderIndexLayout {
             get {
                 return ResourceManager.GetString("SliderConfig.SliderIndexLayout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Slider thickness (pixel) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SliderConfig_Thickness {
+            get {
+                return ResourceManager.GetString("SliderConfig.Thickness", resourceCulture);
             }
         }
         

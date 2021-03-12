@@ -1,7 +1,9 @@
-﻿using NeeLaboratory.ComponentModel;
+﻿using NeeLaboratory;
+using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
 using System;
 using System.Text.Json.Serialization;
+using System.Windows.Media;
 
 namespace NeeView
 {
@@ -17,6 +19,8 @@ namespace NeeView
         private bool _isSyncPageMode;
         private bool _isEnabled = true;
         private bool _isVisiblePagemark = true;
+        private double _thickness = 25.0;
+        private Color _color = Colors.SteelBlue;
 
 
         [JsonIgnore]
@@ -62,6 +66,22 @@ namespace NeeView
         {
             get { return _isVisiblePagemark; }
             set { SetProperty(ref _isVisiblePagemark, value); }
+        }
+
+        // スライダーの厚さ
+        [PropertyRange(15.0, 50.0, TickFrequency = 5.0)]
+        public double Thickness
+        {
+            get { return _thickness; }
+            set { SetProperty(ref _thickness, MathUtility.Clamp(value, 15.0, 50.0)); }
+        }
+
+        // スライダーの色
+        [PropertyMember]
+        public Color Color
+        {
+            get { return _color; }
+            set { SetProperty(ref _color, value); }
         }
 
         // スライダー透明度

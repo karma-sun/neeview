@@ -8,6 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <local:ColorToBrushConverter x:Key="ColorToBrushConverter" />
     </UserControl.Resources>
     
     <Grid x:Name="Root" MouseWheel="SliderArea_MouseWheel" UseLayoutRounding="True">
@@ -18,15 +19,17 @@
                                        ValueChanged="PageSliderTextBox_ValueChanged" KeyDown="PageSliderTextBox_KeyDown"
                                        Foreground="{DynamicResource NVForeground}">
             </local:SliderTextBox>
-            
-            <Grid Height="30" Margin="{Binding SliderMargin}">
+
+            <Grid Margin="{Binding SliderMargin}">
+                <local:PageMarkersView x:Name="PageMarkersView" IsHitTestVisible="False" VerticalAlignment="Center"
+                        Visibility="{Binding Source={x:Static local:Config.Current}, Path=Slider.IsVisiblePagemark, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 <local:VideoSlider x:Name="Slider"
+                                   SliderBrush="{Binding Slider.Color, Source={x:Static local:Config.Current}, Converter={StaticResource ColorToBrushConverter}}"
+                                   ThumbSize="{Binding Slider.Thickness, Source={x:Static local:Config.Current}}"
                                    Maximum="{Binding Model.PageSelector.MaxIndex}" Value="{Binding Model.SelectedIndex}"
                                    IsDirectionReversed="{Binding Model.IsSliderDirectionReversed}" Focusable="False"
                                    PreviewMouseLeftButtonDown="PageSlider_PreviewMouseLeftButtonDown"
                                    PreviewMouseLeftButtonUp="PageSlider_PreviewMouseLeftButtonUp"/>
-                <local:PageMarkersView x:Name="PageMarkersView" IsHitTestVisible="False"
-                        Visibility="{Binding Source={x:Static local:Config.Current}, Path=Slider.IsVisiblePagemark, Converter={StaticResource BooleanToVisibilityConverter}}" />
             </Grid>
         </DockPanel>
     </Grid>

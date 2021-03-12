@@ -4524,10 +4524,10 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
     <value>スライダー表示状態</value>
   </data>
   <data name="SliderConfig.IsVisiblePagemark" xml:space="preserve">
-    <value>ページマーク アイコンを表示する</value>
+    <value>ページマーク マーカーを表示する</value>
   </data>
   <data name="SliderConfig.Opacity" xml:space="preserve">
-    <value>スライダー不透明度</value>
+    <value>スライダーの不透明度</value>
   </data>
   <data name="SliderConfig.Opacity.Remarks" xml:space="preserve">
     <value>「@SliderConfig.IsHidePageSlider」が有効なときに、適用されます。</value>
@@ -6806,5 +6806,11 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="InformationGroup.Gps" xml:space="preserve">
     <value>GPS</value>
+  </data>
+  <data name="SliderConfig.Thickness" xml:space="preserve">
+    <value>スライダーの太さ (ピクセル)</value>
+  </data>
+  <data name="SliderConfig.Color" xml:space="preserve">
+    <value>スライダーの色</value>
   </data>
 </root>

@@ -4521,7 +4521,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages.</value
     <value>Slider visibility</value>
   </data>
   <data name="SliderConfig.IsVisiblePagemark" xml:space="preserve">
-    <value>Display pagemark icon</value>
+    <value>Display pagemark marker</value>
   </data>
   <data name="SliderConfig.Opacity" xml:space="preserve">
     <value>Slider opacity</value>
@@ -6803,5 +6803,11 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="InformationGroup.Gps" xml:space="preserve">
     <value>GPS</value>
+  </data>
+  <data name="SliderConfig.Thickness" xml:space="preserve">
+    <value>Slider thickness (pixel)</value>
+  </data>
+  <data name="SliderConfig.Color" xml:space="preserve">
+    <value>Slider color</value>
   </data>
 </root>

@@ -33,25 +33,21 @@ namespace NeeView
 
         #region DependencyProperties
 
-        //
         public double Minimum
         {
             get { return (double)GetValue(MinimumProperty); }
             set { SetValue(MinimumProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Minimum.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MinimumProperty =
             DependencyProperty.Register("Minimum", typeof(double), typeof(VideoSlider), new PropertyMetadata(0.0, OnParameterChanged));
 
-        //
         public double Maximum
         {
             get { return (double)GetValue(MaximumProperty); }
             set { SetValue(MaximumProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Maximum.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MaximumProperty =
             DependencyProperty.Register("Maximum", typeof(double), typeof(VideoSlider), new PropertyMetadata(1.0, OnParameterChanged));
 
@@ -62,12 +58,10 @@ namespace NeeView
             set { SetValue(TickFrequencyProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for TickFrequency.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TickFrequencyProperty =
             DependencyProperty.Register("TickFrequency", typeof(double), typeof(VideoSlider), new PropertyMetadata(0.0, OnParameterChanged));
 
 
-        //
         private static void OnParameterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is VideoSlider control)
@@ -76,18 +70,15 @@ namespace NeeView
             }
         }
 
-        //
         public double Value
         {
             get { return (double)GetValue(ValueProperty); }
             set { SetValue(ValueProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Value.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ValueProperty =
             DependencyProperty.Register("Value", typeof(double), typeof(VideoSlider), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnValueChanged, OnValueCoerce));
 
-        //
         private static object OnValueCoerce(DependencyObject d, object baseValue)
         {
             var control = d as VideoSlider;
@@ -107,7 +98,6 @@ namespace NeeView
             }
         }
 
-        //
         private static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             //Debug.WriteLine("{0} -> {1}", (double)e.OldValue, (double)e.NewValue);
@@ -123,18 +113,15 @@ namespace NeeView
             }
         }
 
-        //
         public bool IsDirectionReversed
         {
             get { return (bool)GetValue(IsDirectionReversedProperty); }
             set { SetValue(IsDirectionReversedProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for IsDirectionReversed.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsDirectionReversedProperty =
             DependencyProperty.Register("IsDirectionReversed", typeof(bool), typeof(VideoSlider), new PropertyMetadata(false, OnDirectionReversedChanged));
 
-        //
         private static void OnDirectionReversedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is VideoSlider control)
@@ -150,7 +137,6 @@ namespace NeeView
             set { SetValue(IsDirectionEnabledProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for IsDirectionEnabled.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsDirectionEnabledProperty =
             DependencyProperty.Register("IsDirectionEnabled", typeof(bool), typeof(VideoSlider), new PropertyMetadata(true, OnIsDirectionEnabledChanged));
 
@@ -173,6 +159,43 @@ namespace NeeView
             DependencyProperty.Register("ThumbSize", typeof(double), typeof(VideoSlider), new PropertyMetadata(25.0, OnThumbSizeChanged));
 
         private static void OnThumbSizeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is VideoSlider control)
+            {
+                control.UpdateSliderLayout();
+            }
+        }
+
+
+        public bool IsFillThumb
+        {
+            get { return (bool)GetValue(IsFillThumbProperty); }
+            set { SetValue(IsFillThumbProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsFillThumbProperty =
+            DependencyProperty.Register("IsFillThumb", typeof(bool), typeof(VideoSlider), new PropertyMetadata(false, OnIsFillThumbChanged));
+
+        private static void OnIsFillThumbChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is VideoSlider control)
+            {
+                control.ResetThumbBackground();
+                control.UpdateSliderLayout();
+            }
+        }
+
+
+        public double TrackThickness
+        {
+            get { return (double)GetValue(TrackThicknessProperty); }
+            set { SetValue(TrackThicknessProperty, value); }
+        }
+
+        public static readonly DependencyProperty TrackThicknessProperty =
+            DependencyProperty.Register("TrackThickness", typeof(double), typeof(VideoSlider), new PropertyMetadata(3.0, OnTrackThicknessChanged));
+
+        private static void OnTrackThicknessChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is VideoSlider control)
             {
@@ -212,27 +235,20 @@ namespace NeeView
         {
             if (d is VideoSlider control)
             {
-                control.Thumb.Background = control.Fill;
+                control.ResetThumbBackground();
             }
         }
 
-
-
-
         #endregion
 
-        #region Constructors
 
         public VideoSlider()
         {
             InitializeComponent();
-
             UpdateSliderLayout();
         }
 
-        #endregion
 
-        #region Events
 
         /// <summary>
         /// Event correspond to Value changed event
@@ -244,7 +260,6 @@ namespace NeeView
         /// </summary>
         public event RoutedPropertyChangedEventHandler<double> ValueChanged { add { AddHandler(ValueChangedEvent, value); } remove { RemoveHandler(ValueChangedEvent, value); } }
 
-
         /// <summary>
         /// Event correspond to Value changed event
         /// </summary>
@@ -254,8 +269,6 @@ namespace NeeView
         /// Add / Remove ValueChangedEvent handler
         /// </summary>
         public event DragStartedEventHandler DragStarted { add { AddHandler(DragStartedEvent, value); } remove { RemoveHandler(DragStartedEvent, value); } }
-
-
 
         /// <summary>
         /// Event correspond to Value changed event
@@ -267,7 +280,6 @@ namespace NeeView
         /// </summary>
         public event DragCompletedEventHandler DragCompleted { add { AddHandler(DragCompletedEvent, value); } remove { RemoveHandler(DragCompletedEvent, value); } }
 
-
         /// <summary>
         /// Event correspond to Value changed event
         /// </summary>
@@ -278,11 +290,8 @@ namespace NeeView
         /// </summary>
         public event DragDeltaEventHandler DragDelta { add { AddHandler(DragDeltaEvent, value); } remove { RemoveHandler(DragDeltaEvent, value); } }
 
-        #endregion Events
 
-        #region EventHandlers
 
-        //
         private void Root_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var pos = e.GetPosition(this.Root);
@@ -300,7 +309,6 @@ namespace NeeView
             e.Handled = true;
         }
 
-        //
         private void Root_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             UpdateThumbPosition();
@@ -330,13 +338,18 @@ namespace NeeView
         /// <param name="e"></param>
         private void Thumb_DragCompleted(object sender, DragCompletedEventArgs e)
         {
-            this.Thumb.Background = this.Fill;
+            ResetThumbBackground();
 
             UpdateThumbPosition();
 
             DragCompletedEventArgs args = new DragCompletedEventArgs(e.HorizontalChange, e.VerticalChange, e.Canceled);
             args.RoutedEvent = VideoSlider.DragCompletedEvent;
             RaiseEvent(args);
+        }
+
+        private void ResetThumbBackground()
+        {
+            this.Thumb.Background = this.IsFillThumb ? this.SliderBrush : this.Fill;
         }
 
         /// <summary>
@@ -356,9 +369,7 @@ namespace NeeView
             RaiseEvent(args);
         }
 
-        #endregion
 
-        #region Methods
 
         // 座標 > 値
         private void SetValuePosition(double x)
@@ -407,15 +418,17 @@ namespace NeeView
             x = Math.Max(Math.Truncate(x + 0.5), 0);
             Canvas.SetLeft(this.Thumb, x);
 
+            var fillOffset = IsFillThumb ? thumbHalf : 0.0;
+
             var x0 = thumbHalf;
             var w0 = Math.Max(x - x0 + 1.0, 0.0);
-            Canvas.SetLeft(this.LeftTrack, x0);
-            this.LeftTrack.Width = w0;
+            Canvas.SetLeft(this.LeftTrack, x0 - fillOffset);
+            this.LeftTrack.Width = w0 + fillOffset * 2.0;
 
             var x1 = x + this.ThumbSize - 1.0;
             var w1 = Math.Max(this.Root.ActualWidth - x1 - thumbHalf, 0.0);
-            Canvas.SetLeft(this.RightTrack, x1);
-            this.RightTrack.Width = w1;
+            Canvas.SetLeft(this.RightTrack, x1 - fillOffset);
+            this.RightTrack.Width = w1 + fillOffset * 2.0;
         }
 
         private double ClampPosition(double x)
@@ -449,18 +462,19 @@ namespace NeeView
             this.Thumb.Width = this.ThumbSize;
             this.Thumb.Height = this.ThumbSize;
             this.RootCanvas.Height = this.ThumbSize;
+            this.Root.Height = this.ThumbSize + 2.0;
 
-            Canvas.SetTop(this.LeftTrack, thumbHalf - 1.0);
-            this.LeftTrack.Height = 3.0;
+            var trackTop = thumbHalf - (TrackThickness - 1.0) * 0.5;
+
+            Canvas.SetTop(this.LeftTrack, trackTop);
+            this.LeftTrack.Height = TrackThickness;
             this.LeftTrack.Fill = IsDirectionEnabled ? this.IsDirectionReversed ? _grayTruchBrush : this.SliderBrush : _grayTruchBrush;
 
-            Canvas.SetTop(this.RightTrack, thumbHalf - 1.0);
-            this.RightTrack.Height = 3.0;
+            Canvas.SetTop(this.RightTrack, trackTop);
+            this.RightTrack.Height = TrackThickness;
             this.RightTrack.Fill = IsDirectionEnabled ? this.IsDirectionReversed ? this.SliderBrush : _grayTruchBrush : _grayTruchBrush;
 
             UpdateThumbPosition();
         }
-
-        #endregion
     }
 }

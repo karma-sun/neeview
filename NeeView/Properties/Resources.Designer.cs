@@ -160,7 +160,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Initialize window coordinates に類似しているローカライズされた文字列を検索します。
+        ///   Reset window coordinates に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string AppOption_IsResetPlacement {
             get {
@@ -1573,7 +1573,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Restore, else default, reset last page に類似しているローカライズされた文字列を検索します。
+        ///   Restore, else default, clear last page に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookSettingSelectMode_RestoreOrDefaultReset {
             get {
@@ -3221,7 +3221,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Initialize all command settings. Is it OK? に類似しているローカライズされた文字列を検索します。
+        ///   Reset all command settings. Is it OK? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandResetWindow_Message {
             get {
@@ -3230,7 +3230,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Shortcut initial setting に類似しているローカライズされた文字列を検索します。
+        ///   Template に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandResetWindow_ResetType_Title {
             get {
@@ -3678,7 +3678,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Initialize all drag operations. Is it OK? に類似しているローカライズされた文字列を検索します。
+        ///   Reset all drag operations. Is it OK? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string DragActionResetDialog_Message {
             get {
@@ -3687,7 +3687,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Initialize the drag operation に類似しているローカライズされた文字列を検索します。
+        ///   Reset the drag operation に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string DragActionResetDialog_Title {
             get {
@@ -6913,7 +6913,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Obtains the image file extension from WIC at initialization. If off, only the default extension is available. に類似しているローカライズされた文字列を検索します。
+        ///   Obtains the image file extension from WIC. If off, only the default extension is available. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ImageStandardConfig_UseWicInformation_Remarks {
             get {
@@ -9797,7 +9797,7 @@ namespace NeeView.Properties {
         
         /// <summary>
         ///   Folder not found. ({0})
-        ///Initialize the cache location. に類似しているローカライズされた文字列を検索します。
+        ///Reset the cache location. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Notice_CacheErrorDirectoryNotFound {
             get {
@@ -10177,7 +10177,7 @@ namespace NeeView.Properties {
         
         /// <summary>
         ///   Folder not found. ({0})
-        ///Initialize the temporary location. に類似しているローカライズされた文字列を検索します。
+        ///Reset the temporary location. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Notice_TemporaryErrorDirectoryNotFound {
             get {
@@ -10447,7 +10447,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Open options window に類似しているローカライズされた文字列を検索します。
+        ///   Open settings window に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string OpenOptionsWindowCommand {
             get {
@@ -10456,7 +10456,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   _Options... に類似しているローカライズされた文字列を検索します。
+        ///   _Settings... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string OpenOptionsWindowCommand_Menu {
             get {
@@ -10465,7 +10465,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Open the options window. に類似しているローカライズされた文字列を検索します。
+        ///   Open the settings window. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string OpenOptionsWindowCommand_Remarks {
             get {
@@ -18401,7 +18401,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Initialize rotation, scaling, movement, and inversion by manipulating the view. に類似しているローカライズされた文字列を検索します。
+        ///   Reset rotation, scaling, movement, and inversion by manipulating the view. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ViewResetCommand_Remarks {
             get {
@@ -18869,7 +18869,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Options に類似しているローカライズされた文字列を検索します。
+        ///   Settings に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WindowSettingTitle {
             get {
@@ -19679,15 +19679,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Reset に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Word_ResetLong {
-            get {
-                return ResourceManager.GetString("Word.ResetLong", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Restore に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Word_Restore {
@@ -20107,6 +20098,15 @@ namespace NeeView.Properties {
         public static string xInformationConfig_IsVisibleLoader {
             get {
                 return ResourceManager.GetString("xInformationConfig.IsVisibleLoader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Reset に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string xWord_ResetLong {
+            get {
+                return ResourceManager.GetString("xWord.ResetLong", resourceCulture);
             }
         }
         

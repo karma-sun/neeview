@@ -40,7 +40,7 @@
         <StackPanel>
             <ItemsControl x:Name="properties" ItemsSource="{Binding Document.Elements}" IsTabStop="False" />
             <Button x:Name="ResetButton"  HorizontalAlignment="Right" Margin="5" Click="Reset">
-                <TextBlock Margin="5" Text="{x:Static properties:Resources.Word_ResetLong}" Foreground="{StaticResource NVButtonForeground}"/>
+                <TextBlock Margin="5" Text="{x:Static properties:Resources.Word_Reset}" Foreground="{StaticResource NVButtonForeground}"/>
             </Button>
         </StackPanel>
     </Grid>

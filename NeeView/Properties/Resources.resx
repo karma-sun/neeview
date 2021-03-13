@@ -151,7 +151,7 @@
     <value>Specify whether to start in a new window</value>
   </data>
   <data name="AppOption.IsResetPlacement" xml:space="preserve">
-    <value>Initialize window coordinates</value>
+    <value>Reset window coordinates</value>
   </data>
   <data name="AppOption.IsSlideShow" xml:space="preserve">
     <value>Specify whether to start a slideshow</value>
@@ -622,7 +622,7 @@
     <value>Restore, else default</value>
   </data>
   <data name="BookSettingSelectMode.RestoreOrDefaultReset" xml:space="preserve">
-    <value>Restore, else default, reset last page</value>
+    <value>Restore, else default, clear last page</value>
   </data>
   <data name="Bookshelf.Back.ToolTip" xml:space="preserve">
     <value>Back (Alt+Left)</value>
@@ -1184,10 +1184,10 @@ nv.Values.Test = "Hello!"</value>
     <value>There are no parameters</value>
   </data>
   <data name="CommandResetWindow.Message" xml:space="preserve">
-    <value>Initialize all command settings. Is it OK?</value>
+    <value>Reset all command settings. Is it OK?</value>
   </data>
   <data name="CommandResetWindow.ResetType.Title" xml:space="preserve">
-    <value>Shortcut initial setting</value>
+    <value>Template</value>
   </data>
   <data name="CommandResetWindow.Title" xml:space="preserve">
     <value>Reset command</value>
@@ -1314,10 +1314,10 @@ The following data will be deleted
     <value>This operation can not be changed</value>
   </data>
   <data name="DragActionResetDialog.Message" xml:space="preserve">
-    <value>Initialize all drag operations. Is it OK?</value>
+    <value>Reset all drag operations. Is it OK?</value>
   </data>
   <data name="DragActionResetDialog.Title" xml:space="preserve">
-    <value>Initialize the drag operation</value>
+    <value>Reset the drag operation</value>
   </data>
   <data name="DragActionTable.Elements" xml:space="preserve">
     <value>Drag action settings</value>
@@ -2096,7 +2096,7 @@ Is it OK?</value>
     <value>Use WIC information</value>
   </data>
   <data name="ImageStandardConfig.UseWicInformation.Remarks" xml:space="preserve">
-    <value>Obtains the image file extension from WIC at initialization. If off, only the default extension is available.</value>
+    <value>Obtains the image file extension from WIC. If off, only the default extension is available.</value>
   </data>
   <data name="ImageSvgConfig.IsEnabled" xml:space="preserve">
     <value>Enable SVG file</value>
@@ -2871,7 +2871,7 @@ A left click can be registered as the last gesture key.</value>
   </data>
   <data name="Notice.CacheErrorDirectoryNotFound" xml:space="preserve">
     <value>Folder not found. ({0})
-Initialize the cache location.</value>
+Reset the cache location.</value>
   </data>
   <data name="Notice.CacheErrorTitle" xml:space="preserve">
     <value>Cache error</value>
@@ -2999,7 +2999,7 @@ Initialize the cache location.</value>
   </data>
   <data name="Notice.TemporaryErrorDirectoryNotFound" xml:space="preserve">
     <value>Folder not found. ({0})
-Initialize the temporary location.</value>
+Reset the temporary location.</value>
   </data>
   <data name="Notice.TemporaryErrorTitle" xml:space="preserve">
     <value>Temporary error</value>
@@ -3089,13 +3089,13 @@ Initialize the temporary location.</value>
     <value>$File will be replaced with the file path. $Uri is replaced with the URI escaped file path.</value>
   </data>
   <data name="OpenOptionsWindowCommand" xml:space="preserve">
-    <value>Open options window</value>
+    <value>Open settings window</value>
   </data>
   <data name="OpenOptionsWindowCommand.Menu" xml:space="preserve">
-    <value>_Options...</value>
+    <value>_Settings...</value>
   </data>
   <data name="OpenOptionsWindowCommand.Remarks" xml:space="preserve">
-    <value>Open the options window.</value>
+    <value>Open the settings window.</value>
   </data>
   <data name="OpenScriptsFolderCommand" xml:space="preserve">
     <value>Open scripts folder</value>
@@ -5707,7 +5707,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>View reset</value>
   </data>
   <data name="ViewResetCommand.Remarks" xml:space="preserve">
-    <value>Initialize rotation, scaling, movement, and inversion by manipulating the view.</value>
+    <value>Reset rotation, scaling, movement, and inversion by manipulating the view.</value>
   </data>
   <data name="ViewRotateCommandParameter.Angle" xml:space="preserve">
     <value>Rotation angle</value>
@@ -5866,7 +5866,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>Window frame with title bar hidden</value>
   </data>
   <data name="WindowSettingTitle" xml:space="preserve">
-    <value>Options</value>
+    <value>Settings</value>
   </data>
   <data name="WindowStateEx.FullScreen" xml:space="preserve">
     <value>FullScreen</value>
@@ -6153,7 +6153,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="Word.Reset" xml:space="preserve">
     <value>Reset</value>
   </data>
-  <data name="Word.ResetLong" xml:space="preserve">
+  <data name="xWord.ResetLong" xml:space="preserve">
     <value>Reset</value>
   </data>
   <data name="Word.Restore" xml:space="preserve">

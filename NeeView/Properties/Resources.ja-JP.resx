@@ -151,7 +151,7 @@
     <value>新しいウィンドウで起動するかを指定します</value>
   </data>
   <data name="AppOption.IsResetPlacement" xml:space="preserve">
-    <value>ウィンドウ座標を初期化します</value>
+    <value>ウィンドウ座標をリセットします</value>
   </data>
   <data name="AppOption.IsSlideShow" xml:space="preserve">
     <value>スライドショウを開始するかを指定します</value>
@@ -622,7 +622,7 @@
     <value>復元、できなければ既定</value>
   </data>
   <data name="BookSettingSelectMode.RestoreOrDefaultReset" xml:space="preserve">
-    <value>復元、できなければ既定、最終ページ初期化</value>
+    <value>復元、できなければ既定、最終ページをクリア</value>
   </data>
   <data name="Bookshelf.Back.ToolTip" xml:space="preserve">
     <value>戻る(Alt+Left)</value>
@@ -1175,7 +1175,7 @@ nv.Values.Test = "Hello!"</value>
     <value>タッチ</value>
   </data>
   <data name="CommandList.ResetButton" xml:space="preserve">
-    <value>初期化...</value>
+    <value>リセット...</value>
   </data>
   <data name="CommandListItem.Message.ShareParameter" xml:space="preserve">
     <value>「{0}」とパラメーター共有です</value>
@@ -1187,13 +1187,13 @@ nv.Values.Test = "Hello!"</value>
     <value>パラメーターはありません</value>
   </data>
   <data name="CommandResetWindow.Message" xml:space="preserve">
-    <value>コマンドの設定を全て初期化します。よろしいですか？</value>
+    <value>コマンドの設定を全てリセットします。よろしいですか？</value>
   </data>
   <data name="CommandResetWindow.ResetType.Title" xml:space="preserve">
-    <value>ショートカット初期設定</value>
+    <value>テンプレート</value>
   </data>
   <data name="CommandResetWindow.Title" xml:space="preserve">
-    <value>コマンド設定初期化</value>
+    <value>コマンド設定をリセット</value>
   </data>
   <data name="ConfirmRecursiveDialog.Message" xml:space="preserve">
     <value>"{0}" には読み込めるファイルがありません。サブフォルダーまたは圧縮ファイルも読み込みますか？</value>
@@ -1317,10 +1317,10 @@ nv.Values.Test = "Hello!"</value>
     <value>この操作は変更できません</value>
   </data>
   <data name="DragActionResetDialog.Message" xml:space="preserve">
-    <value>すべてのドラッグ操作を初期化します。よろしいですか？</value>
+    <value>すべてのドラッグ操作をリセットします。よろしいですか？</value>
   </data>
   <data name="DragActionResetDialog.Title" xml:space="preserve">
-    <value>ドラッグ操作を初期化します</value>
+    <value>ドラッグ操作をリセットします</value>
   </data>
   <data name="DragActionTable.Elements" xml:space="preserve">
     <value>ドラッグ操作設定</value>
@@ -1419,7 +1419,7 @@ nv.Values.Test = "Hello!"</value>
     <value>補間法</value>
   </data>
   <data name="Effect.ResizeReset" xml:space="preserve">
-    <value>初期値に戻す</value>
+    <value>リセット</value>
   </data>
   <data name="Effect.ResizeUnsharp" xml:space="preserve">
     <value>アンシャープ マスク</value>
@@ -2099,7 +2099,7 @@ nv.Values.Test = "Hello!"</value>
     <value>WIC 情報を使用する</value>
   </data>
   <data name="ImageStandardConfig.UseWicInformation.Remarks" xml:space="preserve">
-    <value>初期化時に WIC から画像ファイル拡張子を取得します。オフにすると、既定の拡張子のみになります。</value>
+    <value>WIC から画像ファイル拡張子を取得します。オフにすると、既定の拡張子のみになります。</value>
   </data>
   <data name="ImageSvgConfig.IsEnabled" xml:space="preserve">
     <value>SVG ファイルを有効にする</value>
@@ -2668,7 +2668,7 @@ include("Sample.nvjs")</value>
     <value>ドラッグ操作</value>
   </data>
   <data name="MouseDragList.Reset" xml:space="preserve">
-    <value>すべて初期化...</value>
+    <value>すべてリセット...</value>
   </data>
   <data name="MouseDragSettingWindow.Input" xml:space="preserve">
     <value>ここでマウス入力</value>
@@ -2874,7 +2874,7 @@ include("Sample.nvjs")</value>
   </data>
   <data name="Notice.CacheErrorDirectoryNotFound" xml:space="preserve">
     <value>フォルダーが見つかりません。({0})
-キャッシュの場所を初期化します。</value>
+キャッシュの場所をリセットします。</value>
   </data>
   <data name="Notice.CacheErrorTitle" xml:space="preserve">
     <value>キャッシュ エラー</value>
@@ -3002,7 +3002,7 @@ include("Sample.nvjs")</value>
   </data>
   <data name="Notice.TemporaryErrorDirectoryNotFound" xml:space="preserve">
     <value>フォルダーが見つかりません。({0})
-一時フォルダーの場所を初期化します。</value>
+一時フォルダーの場所をリセットします。</value>
   </data>
   <data name="Notice.TemporaryErrorTitle" xml:space="preserve">
     <value>一時フォルダー エラー</value>
@@ -3095,7 +3095,7 @@ include("Sample.nvjs")</value>
     <value>設定ウィンドウを開く</value>
   </data>
   <data name="OpenOptionsWindowCommand.Menu" xml:space="preserve">
-    <value>設定(_O)...</value>
+    <value>設定(_S)...</value>
   </data>
   <data name="OpenOptionsWindowCommand.Remarks" xml:space="preserve">
     <value>設定ウィンドウを開きます。</value>
@@ -3955,7 +3955,7 @@ Susie 書庫はこのサイズで判別せず、プラグインの設定での�
     <value>読み進む方向を右開きにします。2 ページ表示のときに若いページが右になります。</value>
   </data>
   <data name="SetDefaultPageSettingCommand" xml:space="preserve">
-    <value>ページ設定の初期化</value>
+    <value>ページ設定をリセット</value>
   </data>
   <data name="SetDefaultPageSettingCommand.Remarks" xml:space="preserve">
     <value>既定のページ設定に戻します。</value>
@@ -5710,7 +5710,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>ビュー リセット</value>
   </data>
   <data name="ViewResetCommand.Remarks" xml:space="preserve">
-    <value>ビュー操作での回転、拡縮、移動、反転を初期化します。</value>
+    <value>ビュー操作での回転、拡縮、移動、反転をリセットします。</value>
   </data>
   <data name="ViewRotateCommandParameter.Angle" xml:space="preserve">
     <value>回転角度</value>
@@ -6154,10 +6154,10 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>名前変更</value>
   </data>
   <data name="Word.Reset" xml:space="preserve">
-    <value>初期化</value>
+    <value>リセット</value>
   </data>
-  <data name="Word.ResetLong" xml:space="preserve">
-    <value>初期値に戻す</value>
+  <data name="xWord.ResetLong" xml:space="preserve">
+    <value>既定値に戻す</value>
   </data>
   <data name="Word.Restore" xml:space="preserve">
     <value>元に戻す</value>
@@ -6823,10 +6823,10 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>長辺を揃える</value>
   </data>
   <data name="ImageCustomSizeConfig.IsAlignLongSide.Remarks" xml:space="preserve">
-    <value>必要に応じて縦横を交換します。</value>
+    <value>必要に応じて縦横を入れ替えます。</value>
   </data>
   <data name="CustomSizeAspectRatio.None" xml:space="preserve">
-    <value>自由</value>
+    <value>制限なし</value>
   </data>
   <data name="CustomSizeAspectRatio.Origin" xml:space="preserve">
     <value>元の縦横比を維持</value>

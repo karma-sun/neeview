@@ -30,7 +30,7 @@ namespace NeeView
         {
             if (self.IsEmpty) return self;
 
-            return new Size((int)self.Width, (int)self.Height);
+            return new Size(Math.Truncate(self.Width), Math.Truncate(self.Height));
         }
 
         // 画像アスペクト比を保つ最大のサイズを返す
@@ -44,6 +44,35 @@ namespace NeeView
             var scale = 1.0 / (rateX > rateY ? rateX : rateY);
 
             return new Size(self.Width * scale, self.Height * scale);
+        }
+
+        // 指定されたアスペクト比の最大サイズを返す
+        public static Size AspectRatioUniformed(this Size self, double rateX, double rateY)
+        {
+            if (rateX <= 0.0) throw new ArgumentException($"{rateX} is an invalid value.", nameof(rateX));
+            if (rateY <= 0.0) throw new ArgumentException($"{rateY} is an invalid value.", nameof(rateY));
+            if (self.IsEmpty) return self;
+
+            var scaleX = self.Width / rateX;
+            var scaleY = self.Height / rateY;
+            var scale = scaleX < scaleY ? scaleX : scaleY;
+            return new Size(rateX * scale, rateY * scale);
+        }
+
+        // 横長？
+        public static bool IsHorizontally(this Size self)
+        {
+            if (self.IsEmpty) return false;
+
+            return self.Width > self.Height;
+        }
+
+        // 縦長？
+        public static bool IsVertically(this Size self)
+        {
+            if (self.IsEmpty) return false;
+
+            return self.Height > self.Width;
         }
 
         //

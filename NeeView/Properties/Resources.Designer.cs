@@ -3455,6 +3455,87 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Half view aspect ratio に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CustomSizeAspectRatio_HalfView {
+            get {
+                return ResourceManager.GetString("CustomSizeAspectRatio.HalfView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Free に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CustomSizeAspectRatio_None {
+            get {
+                return ResourceManager.GetString("CustomSizeAspectRatio.None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Keep the original aspect ratio に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CustomSizeAspectRatio_Origin {
+            get {
+                return ResourceManager.GetString("CustomSizeAspectRatio.Origin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   1:1 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CustomSizeAspectRatio_Ratio_1_1 {
+            get {
+                return ResourceManager.GetString("CustomSizeAspectRatio.Ratio_1_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   16:9 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CustomSizeAspectRatio_Ratio_16_9 {
+            get {
+                return ResourceManager.GetString("CustomSizeAspectRatio.Ratio_16_9", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   2:3 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CustomSizeAspectRatio_Ratio_2_3 {
+            get {
+                return ResourceManager.GetString("CustomSizeAspectRatio.Ratio_2_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   4:3 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CustomSizeAspectRatio_Ratio_4_3 {
+            get {
+                return ResourceManager.GetString("CustomSizeAspectRatio.Ratio_4_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   8:9 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CustomSizeAspectRatio_Ratio_8_9 {
+            get {
+                return ResourceManager.GetString("CustomSizeAspectRatio.Ratio_8_9", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   View aspect ratio に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CustomSizeAspectRatio_View {
+            get {
+                return ResourceManager.GetString("CustomSizeAspectRatio.View", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   User data deleted. Quit NeeView. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string DeleteApplicationDataCompleteDialog_Message {
@@ -6517,11 +6598,47 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Applicability rate に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImageCustomSizeConfig_ApplicabilityRate {
+            get {
+                return ResourceManager.GetString("ImageCustomSizeConfig.ApplicabilityRate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Aspect ratio に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImageCustomSizeConfig_AspectRatio {
+            get {
+                return ResourceManager.GetString("ImageCustomSizeConfig.AspectRatio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Height に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ImageCustomSizeConfig_Height {
             get {
                 return ResourceManager.GetString("ImageCustomSizeConfig.Height", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Align long side に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImageCustomSizeConfig_IsAlignLongSide {
+            get {
+                return ResourceManager.GetString("ImageCustomSizeConfig.IsAlignLongSide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Swap the vertical and horizontal as needed. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImageCustomSizeConfig_IsAlignLongSide_Remarks {
+            get {
+                return ResourceManager.GetString("ImageCustomSizeConfig.IsAlignLongSide.Remarks", resourceCulture);
             }
         }
         

@@ -739,6 +739,24 @@ namespace NeeView
             }
         }
 
+        // 自動回転する？
+        public AutoRotateType CheckAutoRotate(Size contentSize)
+        {
+            if (Config.Current.View.AutoRotate == AutoRotateType.None) return AutoRotateType.None;
+
+            if (ViewSize.Height <= 0.0) return AutoRotateType.None;
+            var viewRatio = ViewSize.Width / ViewSize.Height;
+
+            if (contentSize.IsEmptyOrZero()) return AutoRotateType.None;
+            var contentRatio = contentSize.Width / contentSize.Height;
+
+            // NOTE: サイズ指定に問題が生じるため、マージンはなし
+            double margin = 0.0;
+
+            var isAutoRotated = viewRatio >= 1.0 ? contentRatio < (1.0 - margin) : contentRatio > (1.0 + margin);
+            return isAutoRotated ? Config.Current.View.AutoRotate : AutoRotateType.None;
+        }
+
 
         #region スケールモード
 

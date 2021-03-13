@@ -121,7 +121,7 @@ namespace NeeView
 
             // アスペクト比固定?
             var cutomSize = Config.Current.ImageCustomSize;
-            var keepAspectRatio = size.IsEmpty || !cutomSize.IsEnabled || cutomSize.IsUniformed;
+            var keepAspectRatio = size.IsEmpty || !cutomSize.IsEnabled || cutomSize.AspectRatio == CustomSizeAspectRatio.Origin;
 
             int filterHashCode = GetEnvironmentoHashCode();
             bool isDartyResizeParameter = _resizeHashCode != filterHashCode;

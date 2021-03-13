@@ -6813,4 +6813,43 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="SliderConfig.Color" xml:space="preserve">
     <value>スライダーの色</value>
   </data>
+  <data name="ImageCustomSizeConfig.AspectRatio" xml:space="preserve">
+    <value>アスペクト比</value>
+  </data>
+  <data name="ImageCustomSizeConfig.ApplicabilityRate" xml:space="preserve">
+    <value>適用率</value>
+  </data>
+  <data name="ImageCustomSizeConfig.IsAlignLongSide" xml:space="preserve">
+    <value>長辺を揃える</value>
+  </data>
+  <data name="ImageCustomSizeConfig.IsAlignLongSide.Remarks" xml:space="preserve">
+    <value>必要に応じて縦横を交換します。</value>
+  </data>
+  <data name="CustomSizeAspectRatio.None" xml:space="preserve">
+    <value>自由</value>
+  </data>
+  <data name="CustomSizeAspectRatio.Origin" xml:space="preserve">
+    <value>元の縦横比を維持</value>
+  </data>
+  <data name="CustomSizeAspectRatio.Ratio_1_1" xml:space="preserve">
+    <value>1:1</value>
+  </data>
+  <data name="CustomSizeAspectRatio.Ratio_2_3" xml:space="preserve">
+    <value>2:3</value>
+  </data>
+  <data name="CustomSizeAspectRatio.Ratio_4_3" xml:space="preserve">
+    <value>4:3</value>
+  </data>
+  <data name="CustomSizeAspectRatio.Ratio_8_9" xml:space="preserve">
+    <value>8:9</value>
+  </data>
+  <data name="CustomSizeAspectRatio.Ratio_16_9" xml:space="preserve">
+    <value>16:9</value>
+  </data>
+  <data name="CustomSizeAspectRatio.HalfView" xml:space="preserve">
+    <value>ビューの半分の縦横比</value>
+  </data>
+  <data name="CustomSizeAspectRatio.View" xml:space="preserve">
+    <value>ビューの縦横比</value>
+  </data>
 </root>

@@ -135,19 +135,7 @@ namespace NeeView
         /// </summary>
         public Size Size
         {
-            get
-            {
-                // サイズ指定を反映
-                var customSize = Config.Current.ImageCustomSize;
-                if (customSize.IsEnabled && !_content.Size.IsEmptyOrZero())
-                {
-                    return customSize.IsUniformed ? _content.Size.Uniformed(customSize.Size) : customSize.Size;
-                }
-                else
-                {
-                    return _content.Size;
-                }
-            }
+            get { return CustomSize.Current.TransformToCustomSize(_content.Size); }
         }
 
         /// <summary>

@@ -175,9 +175,14 @@ namespace NeeView
 
         private void StretchContent()
         {
-            var canvasSize = new Size(this.MainViewCanvas.ActualWidth, this.MainViewCanvas.ActualHeight);
+            var canvasSize = this.GetCanvasSzie();
             var contentSize = this.GetContentRenderSize();
             _vm.StretchScale(contentSize, canvasSize);
+        }
+
+        private Size GetCanvasSzie()
+        {
+            return new Size(this.MainViewCanvas.ActualWidth, this.MainViewCanvas.ActualHeight);
         }
 
         private Size GetContentRenderSize()

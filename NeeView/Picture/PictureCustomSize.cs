@@ -27,7 +27,7 @@ namespace NeeView
             public void RestoreConfig(Config config)
             {
                 config.ImageCustomSize.IsEnabled = IsEnabled;
-                config.ImageCustomSize.IsUniformed = IsUniformed;
+                config.ImageCustomSize.AspectRatio = IsUniformed ? CustomSizeAspectRatio.Origin : CustomSizeAspectRatio.None;
                 config.ImageCustomSize.Size = Size;
             }
         }

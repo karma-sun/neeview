@@ -1,5 +1,7 @@
-﻿using NeeLaboratory.ComponentModel;
+﻿using NeeLaboratory;
+using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
+using System;
 using System.Text.Json.Serialization;
 using System.Windows;
 
@@ -7,9 +9,11 @@ namespace NeeView
 {
     public class ImageCustomSizeConfig : BindableBase
     {
-        private bool _IsEnabled;
-        private bool _IsUniformed;
-        private Size _Size = new Size(256, 256);
+        private bool _isEnabled;
+        private Size _size = new Size(256, 256);
+        private CustomSizeAspectRatio _aspectRatio;
+        private double _applicabilityRate = 1.0;
+        private bool _isAlignLongSide = false;
 
 
         /// <summary>
@@ -18,8 +22,8 @@ namespace NeeView
         [PropertyMember(IsVisible = false)]
         public bool IsEnabled
         {
-            get { return _IsEnabled; }
-            set { SetProperty(ref _IsEnabled, value); }
+            get { return _isEnabled; }
+            set { SetProperty(ref _isEnabled, value); }
         }
 
         /// <summary>
@@ -28,10 +32,10 @@ namespace NeeView
         [PropertyMember(IsVisible = false)]
         public Size Size
         {
-            get { return _Size; }
+            get { return _size; }
             set
             {
-                if (SetProperty(ref _Size, value))
+                if (SetProperty(ref _size, value))
                 {
                     RaisePropertyChanged(nameof(Width));
                     RaisePropertyChanged(nameof(Height));
@@ -46,8 +50,8 @@ namespace NeeView
         [JsonIgnore, PropertyMapIgnore]
         public int Width
         {
-            get { return (int)_Size.Width; }
-            set { if (value != _Size.Width) { Size = new Size(value, _Size.Height); } }
+            get { return (int)_size.Width; }
+            set { if (value != _size.Width) { Size = new Size(value, _size.Height); } }
         }
 
         /// <summary>
@@ -57,18 +61,49 @@ namespace NeeView
         [JsonIgnore, PropertyMapIgnore]
         public int Height
         {
-            get { return (int)_Size.Height; }
-            set { if (value != _Size.Height) { Size = new Size(_Size.Width, value); } }
+            get { return (int)_size.Height; }
+            set { if (value != _size.Height) { Size = new Size(_size.Width, value); } }
         }
 
         /// <summary>
         /// 縦横比を固定する
         /// </summary>
-        [PropertyMember]
+        [Obsolete]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool IsUniformed
         {
-            get { return _IsUniformed; }
-            set { SetProperty(ref _IsUniformed, value); }
+            get { return false; }
+            set { AspectRatio = value ? CustomSizeAspectRatio.Origin : CustomSizeAspectRatio.None; }
+        }
+
+        /// <summary>
+        /// アスペクト比
+        /// </summary>
+        [PropertyMember]
+        public CustomSizeAspectRatio AspectRatio
+        {
+            get { return _aspectRatio; }
+            set { SetProperty(ref _aspectRatio, value); }
+        }
+
+        /// <summary>
+        /// 適用率
+        /// </summary>
+        [PropertyPercent]
+        public double ApplicabilityRate
+        {
+            get { return _applicabilityRate; }
+            set { SetProperty(ref _applicabilityRate, MathUtility.Clamp(value, 0.0, 1.0)); }
+        }
+
+        /// <summary>
+        /// 長辺をそろえる
+        /// </summary>
+        [PropertyMember]
+        public bool IsAlignLongSide
+        {
+            get { return _isAlignLongSide; }
+            set { SetProperty(ref _isAlignLongSide, value); }
         }
 
         /// <summary>
@@ -77,9 +112,22 @@ namespace NeeView
         /// <returns></returns>
         public int GetHashCodde()
         {
-            var hash = (_IsEnabled.GetHashCode() << 30) ^ (_IsUniformed.GetHashCode() << 29) ^ _Size.GetHashCode();
+            var hash = new { _isEnabled, _size, _aspectRatio, _applicabilityRate, _isAlignLongSide }.GetHashCode();
             ////System.Diagnostics.Debug.WriteLine($"hash={hash}");
             return hash;
         }
+    }
+
+    public enum CustomSizeAspectRatio
+    {
+        None,
+        Origin,
+        Ratio_1_1,
+        Ratio_2_3,
+        Ratio_4_3,
+        Ratio_8_9,
+        Ratio_16_9,
+        HalfView,
+        View,
     }
 }

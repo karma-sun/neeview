@@ -6810,4 +6810,43 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="SliderConfig.Color" xml:space="preserve">
     <value>Slider color</value>
   </data>
+  <data name="ImageCustomSizeConfig.AspectRatio" xml:space="preserve">
+    <value>Aspect ratio</value>
+  </data>
+  <data name="ImageCustomSizeConfig.ApplicabilityRate" xml:space="preserve">
+    <value>Applicability rate</value>
+  </data>
+  <data name="ImageCustomSizeConfig.IsAlignLongSide" xml:space="preserve">
+    <value>Align long side</value>
+  </data>
+  <data name="ImageCustomSizeConfig.IsAlignLongSide.Remarks" xml:space="preserve">
+    <value>Swap the vertical and horizontal as needed.</value>
+  </data>
+  <data name="CustomSizeAspectRatio.None" xml:space="preserve">
+    <value>Free</value>
+  </data>
+  <data name="CustomSizeAspectRatio.Origin" xml:space="preserve">
+    <value>Keep the original aspect ratio</value>
+  </data>
+  <data name="CustomSizeAspectRatio.Ratio_1_1" xml:space="preserve">
+    <value>1:1</value>
+  </data>
+  <data name="CustomSizeAspectRatio.Ratio_2_3" xml:space="preserve">
+    <value>2:3</value>
+  </data>
+  <data name="CustomSizeAspectRatio.Ratio_4_3" xml:space="preserve">
+    <value>4:3</value>
+  </data>
+  <data name="CustomSizeAspectRatio.Ratio_8_9" xml:space="preserve">
+    <value>8:9</value>
+  </data>
+  <data name="CustomSizeAspectRatio.Ratio_16_9" xml:space="preserve">
+    <value>16:9</value>
+  </data>
+  <data name="CustomSizeAspectRatio.HalfView" xml:space="preserve">
+    <value>Half view aspect ratio</value>
+  </data>
+  <data name="CustomSizeAspectRatio.View" xml:space="preserve">
+    <value>View aspect ratio</value>
+  </data>
 </root>

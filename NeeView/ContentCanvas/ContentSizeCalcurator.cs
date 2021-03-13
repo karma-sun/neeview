@@ -136,32 +136,8 @@ namespace NeeView
 
                 default:
                 case AngleResetMode.Normal:
-                    if (this.AutoRotateType == AutoRotateType.None)
-                    {
-                        return 0.0;
-                    }
-                    else
-                    {
-                        var margin = 0.1;
-                        var viewRatio = GetViewAreaAspectRatio();
-                        var contentRatio = GetContentAspectRatio(source);
-                        var isAutoRotated = viewRatio >= 1.0 ? contentRatio < (1.0 - margin) : contentRatio > (1.0 + margin);
-                        return isAutoRotated ? this.AutoRotateType.ToAngle() : 0.0;
-                    }
+                    return _contentCanvas.CheckAutoRotate(GetContentSize(source)).ToAngle();
             }
-        }
-
-        //
-        private double GetViewAreaAspectRatio()
-        {
-            return ViewSize.Width / ViewSize.Height;
-        }
-
-        //
-        private double GetContentAspectRatio(List<Size> source)
-        {
-            var size = GetContentSize(source);
-            return size.Width / size.Height;
         }
 
         //

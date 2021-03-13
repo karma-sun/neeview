@@ -15,7 +15,7 @@ namespace NeeView
         {
             _sender = sender;
             _command = command;
-            Parameter = _command.Parameter != null ? new PropertyMap(_command.Parameter) : null;
+            Parameter = _command.Parameter != null ? new PropertyMap(_command.Parameter, $"nv.Command[{_command.Name}].Parameter") : null;
         }
 
         [WordNodeMember]

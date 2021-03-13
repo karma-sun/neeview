@@ -60,11 +60,11 @@ namespace NeeView
 
         private PropertyMapOptions _options;
 
-        public PropertyMap(object source) : this(source, null, null)
+        public PropertyMap(object source, string prefix) : this(source, prefix, null, null)
         {
         }
 
-        public PropertyMap(object source, string prefix, PropertyMapOptions options)
+        public PropertyMap(object source, string prefix, string label, PropertyMapOptions options)
         {
             _source = source;
             _options = options ?? _defaultOptions;
@@ -75,21 +75,27 @@ namespace NeeView
             foreach (var property in type.GetProperties(BindingFlags.Public | BindingFlags.Instance).OrderBy(e => e.Name))
             {
                 if (property.GetCustomAttribute(typeof(PropertyMapIgnoreAttribute)) != null) continue;
-                if (property.GetCustomAttribute(typeof(ObsoleteAttribute)) != null) continue;
 
                 var nameAttribute = (PropertyMapNameAttribute)property.GetCustomAttribute(typeof(PropertyMapNameAttribute));
                 var key = nameAttribute?.Name ?? property.Name;
                 var converter = _options.Converters.FirstOrDefault(e => e.CanConvert(property.PropertyType));
 
-                if (converter == null && property.PropertyType.IsClass && property.PropertyType != typeof(string))
+                var obsolete = (ObsoleteAttribute)property.GetCustomAttribute(typeof(ObsoleteAttribute));
+                if (obsolete != null)
+                {
+                    ////Debug.WriteLine($"[OBSOLETE] {prefix}.{key}: {obsolete.Message}");
+                    _items.Add(key, new PropertyMapObsolete(prefix + "." + key, obsolete.Message));
+                }
+                else if (converter == null && property.PropertyType.IsClass && property.PropertyType != typeof(string))
                 {
                     var labelAttribute = (PropertyMapLabelAttribute)property.GetCustomAttribute(typeof(PropertyMapLabelAttribute));
-                    var newPrefix = labelAttribute != null ? prefix + ResourceService.GetString(labelAttribute.Label) + ": " : prefix;
-                    _items.Add(key, new PropertyMap(property.GetValue(_source), newPrefix, options));
+                    var newPrefix = prefix + "." + key;
+                    var newLabel = labelAttribute != null ? label + ResourceService.GetString(labelAttribute.Label) + ": " : label;
+                    _items.Add(key, new PropertyMap(property.GetValue(_source), newPrefix, newLabel, options));
                 }
                 else
                 {
-                    _items.Add(key, new PropertyMapSource(source, property, converter ?? _defaultConverter, prefix));
+                    _items.Add(key, new PropertyMapSource(source, property, converter ?? _defaultConverter, label));
                 }
             }
         }
@@ -107,7 +113,11 @@ namespace NeeView
 
         internal object GetValue(PropertyMapNode node)
         {
-            if (node is PropertyMapSource source)
+            if (node is PropertyMapObsolete obsolete)
+            {
+                throw new NotSupportedException($"Script: {obsolete.PropertyName} is obsolete. {obsolete.Message}".Trim());
+            }
+            else if (node is PropertyMapSource source)
             {
                 return AppDispatcher.Invoke(() => source.Read(_options));
             }
@@ -192,7 +202,7 @@ namespace NeeView
 
         public IEnumerator<KeyValuePair<string, PropertyMapNode>> GetEnumerator()
         {
-            return _items.GetEnumerator();
+            return _items.Where(e => !(e.Value is PropertyMapObsolete)).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

@@ -94,10 +94,9 @@ namespace NeeView
 
         #region Obsolete
 
-        [Obsolete] // ver.39
-        [JsonPropertyName("Resolution")]
+        [Obsolete("Use ImageWidth instead.")] // ver.39
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public double Resolution_Legacy
+        public double Resolution
         {
             get { return 0.0; }
             set { ImageWidth = (int)value; }

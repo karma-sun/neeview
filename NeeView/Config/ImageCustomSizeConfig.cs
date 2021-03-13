@@ -65,16 +65,6 @@ namespace NeeView
             set { if (value != _size.Height) { Size = new Size(_size.Width, value); } }
         }
 
-        /// <summary>
-        /// 縦横比を固定する
-        /// </summary>
-        [Obsolete]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public bool IsUniformed
-        {
-            get { return false; }
-            set { AspectRatio = value ? CustomSizeAspectRatio.Origin : CustomSizeAspectRatio.None; }
-        }
 
         /// <summary>
         /// アスペクト比
@@ -105,6 +95,21 @@ namespace NeeView
             get { return _isAlignLongSide; }
             set { SetProperty(ref _isAlignLongSide, value); }
         }
+
+        #region Obsolete
+
+        /// <summary>
+        /// 縦横比を固定する
+        /// </summary>
+        [Obsolete("Use AspectRatio instead.")] // ver.39
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public bool IsUniformed
+        {
+            get { return false; }
+            set { AspectRatio = value ? CustomSizeAspectRatio.Origin : CustomSizeAspectRatio.None; }
+        }
+
+        #endregion
 
         /// <summary>
         /// ハッシュ値の計算

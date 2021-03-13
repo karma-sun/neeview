@@ -109,12 +109,10 @@ namespace NeeView
 
         #region Validate
 
-        // ver.39
         // 誤字修正 (WindowTittle -> WindowTitle)
-        [Obsolete]
-        [JsonPropertyName("WindowTittle")]
+        [Obsolete("It's typo. Use WindowTitle instead.")] // ver.39
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public WindowTitleConfig WindowTitle_Legacty
+        public WindowTitleConfig WindowTittle
         {
             get { return null; }
             set { this.WindowTitle = value; }

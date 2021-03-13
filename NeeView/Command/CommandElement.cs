@@ -80,7 +80,7 @@ namespace NeeView
 
         private static Regex _trimCommand = new Regex(@"Command$", RegexOptions.Compiled);
 
-        public CommandElement(): this(null)
+        public CommandElement() : this(null)
         {
         }
 
@@ -230,14 +230,6 @@ namespace NeeView
             return ExecuteMessage(sender, new CommandContext(this.Parameter, args));
         }
 
-        /*
-        public string ExecuteMessage(object sender, object[] args, CommandOption option)
-        {
-            if (args == null) throw new ArgumentNullException(nameof(args));
-            return ExecuteMessage(sender, new CommandArgs(this.Parameter, args, option));
-        }
-        */
-
         // コマンド実行可能判定
         public virtual bool CanExecute(object sender, CommandContext e)
         {
@@ -249,14 +241,6 @@ namespace NeeView
             return CanExecute(sender, new CommandContext(this.Parameter, args));
         }
 
-        /*
-        public bool CanExecute(object sender, object[] args, CommandOption option)
-        {
-            if (args == null) throw new ArgumentNullException(nameof(args));
-            return CanExecute(sender, new CommandArgs(this.Parameter, args, option));
-        }
-        */
-
         // コマンド実行
         public abstract void Execute(object sender, CommandContext args);
 
@@ -265,27 +249,15 @@ namespace NeeView
             Execute(sender, new CommandContext(this.Parameter, args));
         }
 
-        /*
-        public void Execute(object sender, object[] args, CommandOption option)
-        {
-            if (args == null) throw new ArgumentNullException(nameof(args));
-            Execute(sender, new CommandArgs(this.Parameter, args, option));
-        }
-        */
-
+        // 一時コマンドパラメーター作成
         public CommandParameter CreateOverwriteCommandParameter(IDictionary<string, object> args)
         {
-            return CreateOverwriteCommandParameter(this.Parameter, args);
-        }
+            if (this.Parameter == null) return null;
 
-        public static CommandParameter CreateOverwriteCommandParameter(CommandParameter source, IDictionary<string, object> args)
-        {
-            if (source == null) return null;
-
-            var clone = (CommandParameter)source.Clone();
+            var clone = (CommandParameter)this.Parameter.Clone();
             if (args == null) return clone;
 
-            var map = new PropertyMap(clone);
+            var map = new PropertyMap(clone, $"nv.Command[{this.Name}].Parameter");
             foreach (var arg in args)
             {
                 map[arg.Key] = arg.Value;

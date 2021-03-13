@@ -101,10 +101,9 @@ namespace NeeView
 
         #region Obsolete
 
-        [Obsolete] // ver.39
-        [JsonPropertyName("ThumbnailSize")]
+        [Obsolete("Use ImageWidth instead.")] // ver.39
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public double ThumbnailSize_Legacy
+        public double ThumbnailSize
         {
             get { return 0.0; }
             set { ImageWidth = (int)value; }

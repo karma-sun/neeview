@@ -8,7 +8,7 @@
 
         public ConfigMap()
         {
-            Map = new PropertyMap(NeeView.Config.Current);
+            Map = new PropertyMap(NeeView.Config.Current, "nv.Config");
 
             if (Environment.IsZipLikePackage)
             {

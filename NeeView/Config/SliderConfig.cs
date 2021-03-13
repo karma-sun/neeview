@@ -136,7 +136,7 @@ namespace NeeView
 
         #region Obsolete
 
-        [Obsolete] // ver.38
+        [Obsolete("Use IsHidePageSliderInAutoHideMode instead.")] // ver.38
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool IsHidePageSliderInFullscreen
         {

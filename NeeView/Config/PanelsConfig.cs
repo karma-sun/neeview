@@ -184,7 +184,7 @@ namespace NeeView
 
         #region Obsolete
 
-        [Obsolete] // ver.38
+        [Obsolete("Use IsHidePanelInAutoHideMode instead.")] // ver.38
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool IsHidePanelInFullscreen
         {

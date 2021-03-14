@@ -84,6 +84,11 @@
                 </DockPanel>
 
                 <StackPanel Margin="10,0,0,5" Visibility="{Binding Source={x:Static local:Config.Current}, Path=ImageCustomSize.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <StackPanel.Resources>
+                        <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
+                        </Style>
+                    </StackPanel.Resources>
                     <nvp:PropertyInspector Document="{Binding CustomSizeProfile}" IsResetButtonVisible="False" />
                 </StackPanel>
 

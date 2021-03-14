@@ -40,8 +40,9 @@ namespace NeeView
         private bool _isNScroll = true;
         private double _scroll = 1.0;
         private double _scrollDuration = 0.2;
-        private double _pageMoveMargin;
         private double _endMargin = 10.0;
+        private double _lineBreakStopTime;
+        private LineBreakStopMode _lineBreakStopMode = LineBreakStopMode.Line;
 
 
         [DataMember]
@@ -68,13 +69,6 @@ namespace NeeView
             set { SetProperty(ref _scrollDuration, Math.Max(value, 0.0)); }
         }
 
-        [PropertyRange(0.0, 1.0, TickFrequency = 0.1, IsEditable = true)]
-        public double PageMoveMargin
-        {
-            get { return _pageMoveMargin; }
-            set { SetProperty(ref _pageMoveMargin, value); }
-        }
-
         [PropertyMember]
         public double EndMargin
         {
@@ -82,7 +76,30 @@ namespace NeeView
             set => SetProperty(ref _endMargin, Math.Max(value, 0.0));
         }
 
+        [PropertyRange(0.0, 1.0, TickFrequency = 0.1, IsEditable = true)]
+        public double LineBreakStopTime
+        {
+            get { return _lineBreakStopTime; }
+            set { SetProperty(ref _lineBreakStopTime, value); }
+        }
+
+        [PropertyMember]
+        public LineBreakStopMode LineBreakStopMode
+        {
+            get { return _lineBreakStopMode; }
+            set { SetProperty(ref _lineBreakStopMode, value); }
+        }
+
+
         #region Obsolete
+
+        [Obsolete("Use LineBreakStopTime instead.")] // ver.39
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public double PageMoveMargin
+        {
+            get { return 0.0; }
+            set { LineBreakStopTime = value; LineBreakStopMode = LineBreakStopMode.Page; }
+        }
 
         [Obsolete, JsonIgnore, EqualsIgnore, DataMember(Name = "Scroll", EmitDefaultValue = false)] // ver.37
         [PropertyMapIgnore]
@@ -119,5 +136,12 @@ namespace NeeView
             _scrollDuration = 0.1;
             _endMargin = 10.0;
         }
+    }
+
+
+    public enum LineBreakStopMode
+    {
+        Line,
+        Page,
     }
 }

@@ -13,6 +13,10 @@ namespace NeeView.Windows
 
         private const double DegToRad = Math.PI / 180;
 
+
+        public static Vector Zero { get; } = new Vector();
+
+
         public static Vector Rotate(this Vector v, double degrees)
         {
             return v.RotateRadians(degrees * DegToRad);
@@ -35,5 +39,11 @@ namespace NeeView.Windows
         {
             return v0 + (v1 - v0) * rate;
         }
+
+        public static bool IsZero(this Vector v)
+        {
+            return v.X == 0.0 && v.Y == 0.0;
+        }
     }
+
 }

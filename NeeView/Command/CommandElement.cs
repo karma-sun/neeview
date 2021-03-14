@@ -257,7 +257,7 @@ namespace NeeView
             var clone = (CommandParameter)this.Parameter.Clone();
             if (args == null) return clone;
 
-            var map = new PropertyMap(clone, $"nv.Command[{this.Name}].Parameter");
+            var map = new PropertyMap(clone, $"nv.Command.{this.Name}.Parameter");
             foreach (var arg in args)
             {
                 map[arg.Key] = arg.Value;

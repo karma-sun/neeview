@@ -3230,7 +3230,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Template に類似しているローカライズされた文字列を検索します。
+        ///   Preset に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandResetWindow_ResetType_Title {
             get {
@@ -8261,6 +8261,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Line に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LineBreakStopMode_Line {
+            get {
+                return ResourceManager.GetString("LineBreakStopMode.Line", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LineBreakStopMode_Page {
+            get {
+                return ResourceManager.GetString("LineBreakStopMode.Page", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Open file に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string LoadAsCommand {
@@ -12627,7 +12645,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   If the scroll distance is less than this, page movement is prioritized. に類似しているローカライズされた文字列を検索します。
+        ///   If the scroll distance is less than this, line movement is prioritized. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ScrollPageCommandParameter_EndMargin_Remarks {
             get {
@@ -12654,20 +12672,38 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Page move margin (sec) に類似しているローカライズされた文字列を検索します。
+        ///   Line break stop mode に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ScrollPageCommandParameter_PageMoveMargin {
+        public static string ScrollPageCommandParameter_LineBreakStopMode {
             get {
-                return ResourceManager.GetString("ScrollPageCommandParameter.PageMoveMargin", resourceCulture);
+                return ResourceManager.GetString("ScrollPageCommandParameter.LineBreakStopMode", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Judgment time for not moving the page immediately. に類似しているローカライズされた文字列を検索します。
+        ///   Line by line or page by page. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ScrollPageCommandParameter_PageMoveMargin_Remarks {
+        public static string ScrollPageCommandParameter_LineBreakStopMode_Remarks {
             get {
-                return ResourceManager.GetString("ScrollPageCommandParameter.PageMoveMargin.Remarks", resourceCulture);
+                return ResourceManager.GetString("ScrollPageCommandParameter.LineBreakStopMode.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Line break stop (sec) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ScrollPageCommandParameter_LineBreakStopTime {
+            get {
+                return ResourceManager.GetString("ScrollPageCommandParameter.LineBreakStopTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   This is the waiting time to prevent a line break immediately. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ScrollPageCommandParameter_LineBreakStopTime_Remarks {
+            get {
+                return ResourceManager.GetString("ScrollPageCommandParameter.LineBreakStopTime.Remarks", resourceCulture);
             }
         }
         
@@ -18631,6 +18667,24 @@ namespace NeeView.Properties {
         public static string ViewScrollLeftCommand_Remarks {
             get {
                 return ResourceManager.GetString("ViewScrollLeftCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Line break stop (sec) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewScrollNTypeCommandParameter_LineBreakStopTime {
+            get {
+                return ResourceManager.GetString("ViewScrollNTypeCommandParameter.LineBreakStopTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   This is the waiting time to prevent line breaks immediately. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewScrollNTypeCommandParameter_LineBreakStopTime_Remarks {
+            get {
+                return ResourceManager.GetString("ViewScrollNTypeCommandParameter.LineBreakStopTime.Remarks", resourceCulture);
             }
         }
         

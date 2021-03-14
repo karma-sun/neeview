@@ -1187,7 +1187,7 @@ nv.Values.Test = "Hello!"</value>
     <value>Reset all command settings. Is it OK?</value>
   </data>
   <data name="CommandResetWindow.ResetType.Title" xml:space="preserve">
-    <value>Template</value>
+    <value>Preset</value>
   </data>
   <data name="CommandResetWindow.Title" xml:space="preserve">
     <value>Reset command</value>
@@ -3804,11 +3804,17 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="x.ScrollPageCommandParameter.MinScroll" xml:space="preserve">
     <value>Minimum scrolling distance</value>
   </data>
-  <data name="ScrollPageCommandParameter.PageMoveMargin" xml:space="preserve">
-    <value>Page move margin (sec)</value>
+  <data name="ScrollPageCommandParameter.LineBreakStopTime" xml:space="preserve">
+    <value>Line break stop (sec)</value>
   </data>
-  <data name="ScrollPageCommandParameter.PageMoveMargin.Remarks" xml:space="preserve">
-    <value>Judgment time for not moving the page immediately.</value>
+  <data name="ScrollPageCommandParameter.LineBreakStopTime.Remarks" xml:space="preserve">
+    <value>This is the waiting time to prevent a line break immediately.</value>
+  </data>
+  <data name="ScrollPageCommandParameter.LineBreakStopMode" xml:space="preserve">
+    <value>Line break stop mode</value>
+  </data>
+  <data name="ScrollPageCommandParameter.LineBreakStopMode.Remarks" xml:space="preserve">
+    <value>Line by line or page by page.</value>
   </data>
   <data name="ScrollPageCommandParameter.Scroll" xml:space="preserve">
     <value>Amount of movement</value>
@@ -3823,7 +3829,7 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Scroll end margin</value>
   </data>
   <data name="ScrollPageCommandParameter.EndMargin.Remarks" xml:space="preserve">
-    <value>If the scroll distance is less than this, page movement is prioritized.</value>
+    <value>If the scroll distance is less than this, line movement is prioritized.</value>
   </data>
   <data name="SetBackgroundAutoCommand" xml:space="preserve">
     <value>Image colored background</value>
@@ -6848,5 +6854,17 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="CustomSizeAspectRatio.View" xml:space="preserve">
     <value>View aspect ratio</value>
+  </data>
+  <data name="ViewScrollNTypeCommandParameter.LineBreakStopTime" xml:space="preserve">
+    <value>Line break stop (sec)</value>
+  </data>
+  <data name="ViewScrollNTypeCommandParameter.LineBreakStopTime.Remarks" xml:space="preserve">
+    <value>This is the waiting time to prevent line breaks immediately.</value>
+  </data>
+  <data name="LineBreakStopMode.Line" xml:space="preserve">
+    <value>Line</value>
+  </data>
+  <data name="LineBreakStopMode.Page" xml:space="preserve">
+    <value>Page</value>
   </data>
 </root>

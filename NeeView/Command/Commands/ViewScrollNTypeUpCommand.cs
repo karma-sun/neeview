@@ -28,6 +28,7 @@ namespace NeeView
     {
         private double _scroll = 1.0;
         private double _scrollDuration = 0.2;
+        private double _lineBreakStopTime;
 
         [PropertyPercent]
         public double Scroll
@@ -41,6 +42,13 @@ namespace NeeView
         {
             get { return _scrollDuration; }
             set { SetProperty(ref _scrollDuration, Math.Max(value, 0.0)); }
+        }
+
+        [PropertyRange(0.0, 1.0, TickFrequency = 0.1, IsEditable = true)]
+        public double LineBreakStopTime
+        {
+            get { return _lineBreakStopTime; }
+            set { SetProperty(ref _lineBreakStopTime, value); }
         }
     }
 

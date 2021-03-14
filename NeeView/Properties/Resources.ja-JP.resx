@@ -1190,7 +1190,7 @@ nv.Values.Test = "Hello!"</value>
     <value>コマンドの設定を全てリセットします。よろしいですか？</value>
   </data>
   <data name="CommandResetWindow.ResetType.Title" xml:space="preserve">
-    <value>テンプレート</value>
+    <value>プリセット</value>
   </data>
   <data name="CommandResetWindow.Title" xml:space="preserve">
     <value>コマンド設定をリセット</value>
@@ -3807,11 +3807,17 @@ Susie 書庫はこのサイズで判別せず、プラグインの設定での�
   <data name="x.ScrollPageCommandParameter.MinScroll" xml:space="preserve">
     <value>最小スクロール距離 (ピクセル)</value>
   </data>
-  <data name="ScrollPageCommandParameter.PageMoveMargin" xml:space="preserve">
-    <value>ページ移動猶予 (秒)</value>
+  <data name="ScrollPageCommandParameter.LineBreakStopTime" xml:space="preserve">
+    <value>改行停止 (秒)</value>
   </data>
-  <data name="ScrollPageCommandParameter.PageMoveMargin.Remarks" xml:space="preserve">
-    <value>すぐにページ移動させないための判定時間です。</value>
+  <data name="ScrollPageCommandParameter.LineBreakStopTime.Remarks" xml:space="preserve">
+    <value>すぐに改行させないための待機時間です。</value>
+  </data>
+  <data name="ScrollPageCommandParameter.LineBreakStopMode" xml:space="preserve">
+    <value>改行動停止モード</value>
+  </data>
+  <data name="ScrollPageCommandParameter.LineBreakStopMode.Remarks" xml:space="preserve">
+    <value>行単位か、ページ単位か。</value>
   </data>
   <data name="ScrollPageCommandParameter.Scroll" xml:space="preserve">
     <value>移動量</value>
@@ -3826,7 +3832,7 @@ Susie 書庫はこのサイズで判別せず、プラグインの設定での�
     <value>スクロール終端マージン (ピクセル)</value>
   </data>
   <data name="ScrollPageCommandParameter.EndMargin.Remarks" xml:space="preserve">
-    <value>このスクロール距離未満ではページ移動が優先されます。</value>
+    <value>このスクロール距離未満では行移動が優先されます。</value>
   </data>
   <data name="SetBackgroundAutoCommand" xml:space="preserve">
     <value>背景を画像に合わせた色にする</value>
@@ -6851,5 +6857,17 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="CustomSizeAspectRatio.View" xml:space="preserve">
     <value>ビューの縦横比</value>
+  </data>
+  <data name="ViewScrollNTypeCommandParameter.LineBreakStopTime" xml:space="preserve">
+    <value>改行停止 (秒)</value>
+  </data>
+  <data name="ViewScrollNTypeCommandParameter.LineBreakStopTime.Remarks" xml:space="preserve">
+    <value>すぐに改行させないための待機時間です。</value>
+  </data>
+  <data name="LineBreakStopMode.Line" xml:space="preserve">
+    <value>行</value>
+  </data>
+  <data name="LineBreakStopMode.Page" xml:space="preserve">
+    <value>ページ</value>
   </data>
 </root>

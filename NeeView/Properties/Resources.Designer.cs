@@ -10321,6 +10321,33 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Diagonal scroll に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NScrollType_Diagonal {
+            get {
+                return ResourceManager.GetString("NScrollType.Diagonal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   N-type scroll に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NScrollType_NType {
+            get {
+                return ResourceManager.GetString("NScrollType.NType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Z-type scroll に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NScrollType_ZType {
+            get {
+                return ResourceManager.GetString("NScrollType.ZType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   External app execution failed に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string OpenApplicationErrorDialog_Title {
@@ -12731,6 +12758,15 @@ namespace NeeView.Properties {
         public static string ScrollPageCommandParameter_ScrollDuration {
             get {
                 return ResourceManager.GetString("ScrollPageCommandParameter.ScrollDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scroll type に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ScrollPageCommandParameter_ScrollType {
+            get {
+                return ResourceManager.GetString("ScrollPageCommandParameter.ScrollType", resourceCulture);
             }
         }
         
@@ -18712,6 +18748,15 @@ namespace NeeView.Properties {
         public static string ViewScrollNTypeCommandParameter_ScrollDuration {
             get {
                 return ResourceManager.GetString("ViewScrollNTypeCommandParameter.ScrollDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scroll type に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewScrollNTypeCommandParameter_ScrollType {
+            get {
+                return ResourceManager.GetString("ViewScrollNTypeCommandParameter.ScrollType", resourceCulture);
             }
         }
         

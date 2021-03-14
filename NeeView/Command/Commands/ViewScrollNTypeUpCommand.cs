@@ -26,9 +26,17 @@ namespace NeeView
     /// </summary>
     public class ViewScrollNTypeCommandParameter : ReversibleCommandParameter, IScrollNTypeParameter
     {
+        private NScrollType _scrollType = NScrollType.NType;
         private double _scroll = 1.0;
         private double _scrollDuration = 0.2;
         private double _lineBreakStopTime;
+
+        [PropertyMember]
+        public NScrollType ScrollType
+        {
+            get { return _scrollType; }
+            set { SetProperty(ref _scrollType, value); }
+        }
 
         [PropertyPercent]
         public double Scroll

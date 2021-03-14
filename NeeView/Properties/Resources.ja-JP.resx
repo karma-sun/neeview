@@ -6870,4 +6870,19 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="LineBreakStopMode.Page" xml:space="preserve">
     <value>ページ</value>
   </data>
+  <data name="NScrollType.NType" xml:space="preserve">
+    <value>N字スクロール</value>
+  </data>
+  <data name="NScrollType.ZType" xml:space="preserve">
+    <value>Z字スクロール</value>
+  </data>
+  <data name="NScrollType.Diagonal" xml:space="preserve">
+    <value>斜めスクロール</value>
+  </data>
+  <data name="ViewScrollNTypeCommandParameter.ScrollType" xml:space="preserve">
+    <value>スクロール タイプ</value>
+  </data>
+  <data name="ScrollPageCommandParameter.ScrollType" xml:space="preserve">
+    <value>スクロール タイプ</value>
+  </data>
 </root>

@@ -37,7 +37,7 @@ namespace NeeView
     [DataContract]
     public class ScrollPageCommandParameter : ReversibleCommandParameter, IScrollNTypeParameter, IScrollNTypeEndMargin
     {
-        private bool _isNScroll = true;
+        private NScrollType _scrollType = NScrollType.NType;
         private double _scroll = 1.0;
         private double _scrollDuration = 0.2;
         private double _endMargin = 10.0;
@@ -45,12 +45,11 @@ namespace NeeView
         private LineBreakStopMode _lineBreakStopMode = LineBreakStopMode.Line;
 
 
-        [DataMember]
         [PropertyMember]
-        public bool IsNScroll
+        public NScrollType ScrollType
         {
-            get => _isNScroll;
-            set => SetProperty(ref _isNScroll, value);
+            get { return _scrollType; }
+            set { SetProperty(ref _scrollType, value); }
         }
 
         [DataMember(Name = "ScrollV2")]
@@ -93,6 +92,14 @@ namespace NeeView
 
         #region Obsolete
 
+        [Obsolete("Use ScrollType instead.")] // ver.39
+        [DataMember]
+        public bool IsNScroll
+        {
+            get { return false; }
+            set { ScrollType = value ? NScrollType.NType : NScrollType.Diagonal; }
+        }
+
         [Obsolete("Use LineBreakStopTime instead.")] // ver.39
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public double PageMoveMargin
@@ -131,13 +138,19 @@ namespace NeeView
         [OnDeserializing]
         private void OnDeserializing(StreamingContext context)
         {
-            _isNScroll = true;
             _scroll = 1.0;
             _scrollDuration = 0.1;
             _endMargin = 10.0;
         }
     }
 
+
+    public enum NScrollType
+    {
+        NType,
+        ZType,
+        Diagonal,
+    }
 
     public enum LineBreakStopMode
     {

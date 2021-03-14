@@ -9,7 +9,6 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
-// TODO: 整備
 // TODO: 関数が大きすぎる？細分化を検討
 
 namespace NeeView
@@ -502,11 +501,11 @@ namespace NeeView
         /// <param name="bookReadDirection">右開き:+1 / 左開き:-1</param>
         /// <param name="parameter">N字スクロールコマンドパラメータ</param>
         /// <returns>スクロールしたか</returns>
-        public bool ScrollN(int direction, int bookReadDirection, bool isNScroll, bool isLieBreakStop, IScrollNTypeParameter parameter)
+        public bool ScrollN(int direction, int bookReadDirection, bool isLieBreakStop, IScrollNTypeParameter parameter)
         {
             var endMargin = (parameter is IScrollNTypeEndMargin e) ? e.EndMargin : 0.0;
             var lineBreakStopTime = isLieBreakStop ? parameter.LineBreakStopTime : 0.0;
-            return ScrollN(direction, bookReadDirection, isNScroll, parameter.Scroll, parameter.ScrollDuration, lineBreakStopTime, endMargin);
+            return ScrollN(direction, bookReadDirection, parameter.ScrollType, parameter.Scroll, parameter.ScrollDuration, lineBreakStopTime, endMargin);
         }
 
         /// <summary>
@@ -514,25 +513,25 @@ namespace NeeView
         /// </summary>
         /// <param name="direction">次方向:+1 / 前方向:-1</param>
         /// <param name="bookReadDirection">右開き:+1 / 左開き:-1</param>
-        /// <param name="allowVerticalScroll">縦方向スクロール許可</param>
+        /// <param name="scrollType">スクロールのタイプ</param>
         /// <param name="minScroll">最小移動距離</param>
         /// <param name="rate">移動距離の割合</param>
         /// <param name="sec">移動時間。アニメーション時間</param>
         /// <param name="endMargin">終端判定マージン</param>
         /// <returns>スクロールしたか</returns>
-        private bool ScrollN(int direction, int bookReadDirection, bool allowVerticalScroll, double rate, double sec, double lineBreakStopTime, double endMargin)
+        private bool ScrollN(int direction, int bookReadDirection, NScrollType scrollType, double rate, double sec, double lineBreakStopTime, double endMargin)
         {
             var isLimit = _repeatLimiter.IsLimit((int)(lineBreakStopTime * 1000.0));
             _repeatLimiter.Reset();
 
-            var delta = GetNScrollDelta(direction, bookReadDirection, allowVerticalScroll, rate, endMargin);
+            var delta = GetNScrollDelta(direction, bookReadDirection, scrollType, rate, endMargin);
             if (delta.IsZero())
             {
                 return false;
             }
 
-            // if new line limit, fake move.
-            if (isLimit && IsNScrollNewLineDelta(delta))
+            // line braek stop
+            if (isLimit && IsNScrollLineBreak(scrollType, delta))
             {
                 return true;
             }
@@ -541,41 +540,61 @@ namespace NeeView
             return true;
         }
 
-        private bool IsNScrollNewLineDelta(Vector v)
+        // N字スクロール：移動量から改行であるかを判定
+        private bool IsNScrollLineBreak(NScrollType scrollType, Vector v)
         {
-            return v.X != 0.0 && v.Y != 0.0;
+            return scrollType != NScrollType.Diagonal && v.X != 0.0 && v.Y != 0.0;
         }
 
         // N字スクロール：スクロール距離を計算
-        private Vector GetNScrollDelta(int direction, int bookReadDirection, bool allowVerticalScroll, double rate, double endMergin)
+        private Vector GetNScrollDelta(int direction, int bookReadDirection, NScrollType scrollType, double rate, double endMergin)
         {
-            Vector delta = new Vector(0.0, 0.0);
-
             var area = GetArea();
 
-            // N Scroll
-            if (allowVerticalScroll)
+            switch (scrollType)
             {
-                delta = SnapZero(GetNScrollVertical(area, direction, bookReadDirection, rate), endMergin);
+                case NScrollType.NType:
+                    return GetNTypeScrollDelta(area, direction, bookReadDirection, rate, endMergin);
 
-                UpdateLock();
+                case NScrollType.ZType:
+                    return GetZTypeScrollDelta(area, direction, bookReadDirection, rate, endMergin);
 
-                if (_lockMoveY || delta.Y == 0.0)
-                {
-                    delta = SnapZero(GetNScrollNewLine(area, direction, bookReadDirection, rate), endMergin);
-                }
+                case NScrollType.Diagonal:
+                default:
+                    return GetDiagonalScrollDelta(area, direction, bookReadDirection, rate, endMergin);
             }
+        }
 
-            // not N Scroll
-            else
+        private Vector GetNTypeScrollDelta(DragArea area, int direction, int bookReadDirection, double rate, double endMergin)
+        {
+            var delta = SnapZero(GetNScrollVertical(area, direction, bookReadDirection, rate), endMergin);
+            UpdateLock();
+            if (_lockMoveY || delta.Y == 0.0)
             {
-                delta = SnapZero(GetNotNScrollDelta(area, direction, bookReadDirection, rate), endMergin);
+                delta = SnapZero(GetNScrollNewLineVertical(area, direction, bookReadDirection, rate), endMergin);
             }
-
             return delta;
         }
 
-        private Vector GetNotNScrollDelta(DragArea area, int direction, int bookReadDirection, double rate)
+        private Vector GetZTypeScrollDelta(DragArea area, int direction, int bookReadDirection, double rate, double endMergin)
+        {
+            var delta = SnapZero(GetNScrollHorizontal(area, direction, bookReadDirection, rate), endMergin);
+            UpdateLock();
+            if (_lockMoveX || delta.X == 0.0)
+            {
+                delta = SnapZero(GetNScrollNewLineHorizontal(area, direction, bookReadDirection, rate), endMergin);
+            }
+            return delta;
+        }
+
+        private Vector GetDiagonalScrollDelta(DragArea area, int direction, int bookReadDirection, double rate, double endMergin)
+        {
+            var deltaX = GetNScrollHorizontal(area, direction, bookReadDirection, rate);
+            var deltaY = GetNScrollVertical(area, direction, bookReadDirection, rate);
+            return SnapZero(new Vector(deltaX.X, deltaY.Y), endMergin);
+        }
+
+        private Vector GetNScrollHorizontal(DragArea area, int direction, int bookReadDirection, double rate)
         {
             var delta = new Vector();
 
@@ -586,15 +605,6 @@ namespace NeeView
             else
             {
                 delta.X = SnapZero(GetNScrollHorizontalToRight(area, rate));
-            }
-
-            if (direction > 0)
-            {
-                delta.Y = SnapZero(GetNScrollVerticalToBottom(area, rate));
-            }
-            else
-            {
-                delta.Y = SnapZero(GetNScrollVerticalToTop(area, rate));
             }
 
             return delta;
@@ -616,7 +626,40 @@ namespace NeeView
             return delta;
         }
 
-        private Vector GetNScrollNewLine(DragArea area, int direction, int bookReadDirection, double rate)
+        // N字スクロール改行：水平方向
+        private Vector GetNScrollNewLineHorizontal(DragArea area, int direction, int bookReadDirection, double rate)
+        {
+            var delta = new Vector();
+
+            var canHorizontalScroll = area.Over.Width > 0.0;
+            var rateY = canHorizontalScroll ? 1.0 : rate;
+            if (direction > 0)
+            {
+                delta.Y = SnapZero(GetNScrollVerticalToBottom(area, rateY));
+            }
+            else
+            {
+                delta.Y = SnapZero(GetNScrollVerticalToTop(area, rateY));
+            }
+
+            if (delta.Y != 0.0)
+            {
+                if (direction * bookReadDirection > 0)
+                {
+                    delta.X = SnapZero(GetNScrollHorizontalMoveToRight(area));
+                }
+                else
+                {
+                    delta.X = SnapZero(GetNScrollHorizontalMoveToLeft(area));
+                }
+            }
+
+            return delta;
+        }
+
+
+        // N字スクロール改行：垂直方向
+        private Vector GetNScrollNewLineVertical(DragArea area, int direction, int bookReadDirection, double rate)
         {
             var delta = new Vector();
 
@@ -719,6 +762,18 @@ namespace NeeView
         private double GetNScrollVerticalMoveToBottom(DragArea area)
         {
             return -Math.Abs(area.Over.Bottom);
+        }
+
+        // N字スクロール：左端までの移動距離取得
+        private double GetNScrollHorizontalMoveToLeft(DragArea area)
+        {
+            return Math.Abs(area.Over.Left);
+        }
+
+        // N字スクロール：右端までの移動距離取得
+        private double GetNScrollHorizontalMoveToRight(DragArea area)
+        {
+            return -Math.Abs(area.Over.Right);
         }
 
         // N字スクロール：左方向スクロール距離取得
@@ -1381,6 +1436,11 @@ namespace NeeView
     /// </summary>
     public interface IScrollNTypeParameter
     {
+        /// <summary>
+        /// スクロールの種類
+        /// </summary>
+        NScrollType ScrollType { get; set; }
+
         /// <summary>
         /// スクロール移動量の割合
         /// </summary>

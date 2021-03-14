@@ -25,7 +25,7 @@ namespace NeeView
             int bookReadDirection = (_bookSettingPresenter.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
             if (CanScroll())
             {
-                _viewContent.DragTransformControl.ScrollN(-1, bookReadDirection, true, true, parameter);
+                _viewContent.DragTransformControl.ScrollN(-1, bookReadDirection, true, parameter);
             }
         }
 
@@ -37,7 +37,7 @@ namespace NeeView
             int bookReadDirection = (_bookSettingPresenter.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
             if (CanScroll())
             {
-                _viewContent.DragTransformControl.ScrollN(+1, bookReadDirection, true, true, parameter);
+                _viewContent.DragTransformControl.ScrollN(+1, bookReadDirection, true, parameter);
             }
         }
 
@@ -49,7 +49,7 @@ namespace NeeView
         {
             int bookReadDirection = (_bookSettingPresenter.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
             bool isLineBreakStop = parameter.LineBreakStopMode == LineBreakStopMode.Line;
-            bool isScrolled = CanScroll() && _viewContent.DragTransformControl.ScrollN(-1, bookReadDirection, parameter.IsNScroll, isLineBreakStop, parameter);
+            bool isScrolled = CanScroll() && _viewContent.DragTransformControl.ScrollN(-1, bookReadDirection, isLineBreakStop, parameter);
 
             if (!isScrolled && !_repeatLimiter.IsLimit((int)(parameter.LineBreakStopTime * 1000.0)))
             {
@@ -67,7 +67,7 @@ namespace NeeView
         {
             int bookReadDirection = (_bookSettingPresenter.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
             bool isLineBreakStop = parameter.LineBreakStopMode == LineBreakStopMode.Line;
-            bool isScrolled = CanScroll() && _viewContent.DragTransformControl.ScrollN(+1, bookReadDirection, parameter.IsNScroll, isLineBreakStop, parameter);
+            bool isScrolled = CanScroll() && _viewContent.DragTransformControl.ScrollN(+1, bookReadDirection, isLineBreakStop, parameter);
 
             if (!isScrolled && !_repeatLimiter.IsLimit((int)(parameter.LineBreakStopTime * 1000.0)))
             {

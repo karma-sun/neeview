@@ -5,11 +5,11 @@ using System.Windows.Input;
 
 namespace NeeView
 {
-    public class MenuAutoHideDescription : BasicAutoHideDescription
+    public class StatusAutoHideDescription : BasicAutoHideDescription
     {
         private readonly SidePanelFrameView _sidePanelFrame;
 
-        public MenuAutoHideDescription(FrameworkElement target, SidePanelFrameView sidePanelFrame) : base(target)
+        public StatusAutoHideDescription(FrameworkElement target, SidePanelFrameView sidePanelFrame) : base(target)
         {
             if (sidePanelFrame is null) throw new ArgumentNullException(nameof(sidePanelFrame));
 
@@ -23,7 +23,7 @@ namespace NeeView
                 return false;
             }
 
-            switch (Config.Current.AutoHide.AutoHideConfrictTopMargin)
+            switch (Config.Current.AutoHide.AutoHideConfrictBottomMargin)
             {
                 default:
                 case AutoHideConfrictMode.Allow:
@@ -31,7 +31,7 @@ namespace NeeView
 
                 case AutoHideConfrictMode.AllowPixel:
                     var pos = Mouse.GetPosition(_sidePanelFrame);
-                    return pos.Y > 1.5;
+                    return pos.Y < _sidePanelFrame.ActualHeight - 1.5;
 
                 case AutoHideConfrictMode.Deny:
                     return true;

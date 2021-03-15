@@ -213,11 +213,11 @@
   <data name="ArchivePolicy.SendExtractFile" xml:space="preserve">
     <value>出力したファイルのパス (一時ファイル)</value>
   </data>
-  <data name="AutoHideConfig.AutoHideConfrictMargin" xml:space="preserve">
-    <value>サイド パネル上でのメニュー バーの自動表示判定のエリア幅 (ピクセル)</value>
+  <data name="AutoHideConfig.AutoHideConfrictTopMargin" xml:space="preserve">
+    <value>サイド パネル上でのメニュー バーの自動表示判定</value>
   </data>
-  <data name="AutoHideConfig.AutoHideConfrictMargin.Remarks" xml:space="preserve">
-    <value>0 にすると、サイド パネル上にマウス ポインターがあるときにはメニュー バーが自動表示されなくなります。</value>
+  <data name="AutoHideConfig.AutoHideConfrictBottomMargin" xml:space="preserve">
+    <value>サイド パネル上でのスライダーの自動表示判定</value>
   </data>
   <data name="AutoHideConfig.AutoHideDelayTime" xml:space="preserve">
     <value>自動非表示パネルを隠すまでの時間 (秒)</value>
@@ -6887,5 +6887,14 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="ScrollPageCommandParameter.ScrollType" xml:space="preserve">
     <value>スクロール タイプ</value>
+  </data>
+  <data name="AutoHideConfrictMode.Allow" xml:space="preserve">
+    <value>許可</value>
+  </data>
+  <data name="AutoHideConfrictMode.AllowPixel" xml:space="preserve">
+    <value>1 ピクセルだけ許可</value>
+  </data>
+  <data name="AutoHideConfrictMode.Deny" xml:space="preserve">
+    <value>拒否</value>
   </data>
 </root>

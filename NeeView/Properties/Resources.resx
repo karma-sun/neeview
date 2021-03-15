@@ -213,11 +213,11 @@
   <data name="ArchivePolicy.SendExtractFile" xml:space="preserve">
     <value>Extract file path (temporary file)</value>
   </data>
-  <data name="AutoHideConfig.AutoHideConfrictMargin" xml:space="preserve">
-    <value>Area width for automatic display judgment of menu bar on side panel (pixel)</value>
+  <data name="AutoHideConfig.AutoHideConfrictTopMargin" xml:space="preserve">
+    <value>Automatic display judgment of menu bar on side panel</value>
   </data>
-  <data name="AutoHideConfig.AutoHideConfrictMargin.Remarks" xml:space="preserve">
-    <value>If set to 0, the menu bar will not be displayed automatically when the cursor is on the side panel.</value>
+  <data name="AutoHideConfig.AutoHideConfrictBottomMargin" xml:space="preserve">
+    <value>Automatic display judgment of slider on side panel</value>
   </data>
   <data name="AutoHideConfig.AutoHideDelayTime" xml:space="preserve">
     <value>Time to hide auto-hide panel (sec)</value>
@@ -6884,5 +6884,14 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="ScrollPageCommandParameter.ScrollType" xml:space="preserve">
     <value>Scroll type</value>
+  </data>
+  <data name="AutoHideConfrictMode.Allow" xml:space="preserve">
+    <value>Allow</value>
+  </data>
+  <data name="AutoHideConfrictMode.AllowPixel" xml:space="preserve">
+    <value>Allow one pixel</value>
+  </data>
+  <data name="AutoHideConfrictMode.Deny" xml:space="preserve">
+    <value>Deny</value>
   </data>
 </root>

@@ -349,20 +349,20 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Area width for automatic display judgment of menu bar on side panel (pixel) に類似しているローカライズされた文字列を検索します。
+        ///   Automatic display judgment of slider on side panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string AutoHideConfig_AutoHideConfrictMargin {
+        public static string AutoHideConfig_AutoHideConfrictBottomMargin {
             get {
-                return ResourceManager.GetString("AutoHideConfig.AutoHideConfrictMargin", resourceCulture);
+                return ResourceManager.GetString("AutoHideConfig.AutoHideConfrictBottomMargin", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   If set to 0, the menu bar will not be displayed automatically when the cursor is on the side panel. に類似しているローカライズされた文字列を検索します。
+        ///   Automatic display judgment of menu bar on side panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string AutoHideConfig_AutoHideConfrictMargin_Remarks {
+        public static string AutoHideConfig_AutoHideConfrictTopMargin {
             get {
-                return ResourceManager.GetString("AutoHideConfig.AutoHideConfrictMargin.Remarks", resourceCulture);
+                return ResourceManager.GetString("AutoHideConfig.AutoHideConfrictTopMargin", resourceCulture);
             }
         }
         
@@ -426,6 +426,33 @@ namespace NeeView.Properties {
         public static string AutoHideConfig_IsAutoHideKeyDownDelay_Remarks {
             get {
                 return ResourceManager.GetString("AutoHideConfig.IsAutoHideKeyDownDelay.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Allow に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AutoHideConfrictMode_Allow {
+            get {
+                return ResourceManager.GetString("AutoHideConfrictMode.Allow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Allow one pixel に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AutoHideConfrictMode_AllowPixel {
+            get {
+                return ResourceManager.GetString("AutoHideConfrictMode.AllowPixel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Deny に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AutoHideConfrictMode_Deny {
+            get {
+                return ResourceManager.GetString("AutoHideConfrictMode.Deny", resourceCulture);
             }
         }
         

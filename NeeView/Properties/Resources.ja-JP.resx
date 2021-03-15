@@ -2962,7 +2962,10 @@ include("Sample.nvjs")</value>
     <value>ページマークの読み込みに失敗しました</value>
   </data>
   <data name="Notice.LoadSettingFailed" xml:space="preserve">
-    <value>設定の読み込みに失敗しました。</value>
+    <value>設定の読み込みに失敗しました。デフォルト設定を使用します。</value>
+  </data>
+  <data name="Notice.LoadSettingFailedButtonContinue" xml:space="preserve">
+    <value>続行</value>
   </data>
   <data name="Notice.LoadSettingFailedButtonQuit" xml:space="preserve">
     <value>アプリを終了</value>

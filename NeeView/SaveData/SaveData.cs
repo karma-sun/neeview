@@ -70,6 +70,7 @@ namespace NeeView
                 var filenameV1 = Path.ChangeExtension(filename, ".xml");
 
                 var failedDialog = new LoadFailedDialog(Resources.Notice_LoadSettingFailed, Resources.Notice_LoadSettingFailedTitle);
+                failedDialog.OKCommand = new UICommand(Resources.Notice_LoadSettingFailedButtonContinue) { IsPositibe = true };
                 if (cancellable)
                 {
                     failedDialog.CancelCommand = new UICommand(Resources.Notice_LoadSettingFailedButtonQuit) { Alignment = UICommandAlignment.Left };

@@ -2959,7 +2959,10 @@ Reset the cache location.</value>
     <value>Failed to load pagemark</value>
   </data>
   <data name="Notice.LoadSettingFailed" xml:space="preserve">
-    <value>Failed to load settings.</value>
+    <value>Failed to load settings. Use the default settings.</value>
+  </data>
+  <data name="Notice.LoadSettingFailedButtonContinue" xml:space="preserve">
+    <value>Continue</value>
   </data>
   <data name="Notice.LoadSettingFailedButtonQuit" xml:space="preserve">
     <value>Quit app</value>

@@ -10077,11 +10077,20 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Failed to load settings. に類似しているローカライズされた文字列を検索します。
+        ///   Failed to load settings. Use the default settings. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Notice_LoadSettingFailed {
             get {
                 return ResourceManager.GetString("Notice.LoadSettingFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Continue に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Notice_LoadSettingFailedButtonContinue {
+            get {
+                return ResourceManager.GetString("Notice.LoadSettingFailedButtonContinue", resourceCulture);
             }
         }
         

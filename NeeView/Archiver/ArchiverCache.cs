@@ -25,10 +25,7 @@ namespace NeeView
                 _disposedValue = true;
                 if (disposing)
                 {
-                    var items = _caches.Values
-                        .Select(e => e.TryGetTarget(out var archiver) ? archiver as IDisposable : null)
-                        .Where(e => e != null)
-                        .ToList();
+                    var items = CollectDisposable();
 
                     if (items.Count > 0)
                     {
@@ -51,6 +48,17 @@ namespace NeeView
         }
         #endregion
 
+
+        private List<IDisposable> CollectDisposable()
+        {
+            lock (_lock)
+            {
+                return _caches.Values
+                       .Select(e => e.TryGetTarget(out var archiver) ? archiver as IDisposable : null)
+                       .Where(e => e != null)
+                       .ToList();
+            }
+        }
 
         public void Add(Archiver archiver)
         {

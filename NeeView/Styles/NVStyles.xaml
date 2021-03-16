@@ -1322,12 +1322,15 @@
     </Style>
 
     <Style x:Key="NVMenuItemSeparatorStyle" TargetType="{x:Type Separator}">
+        <Setter Property="MinHeight" Value="1" />
         <Setter Property="Height" Value="1" />
         <Setter Property="Margin" Value="4,4" />
+        <Setter Property="BorderBrush" Value="{StaticResource NVMenuSepalatorBrush}" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Separator}">
-                    <Border BorderThickness="1" BorderBrush="{StaticResource NVMenuSepalatorBrush}" />
+                        <Border BorderThickness="1" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -1385,18 +1388,20 @@
         <Border x:Name="Border" BorderThickness="1" Background="Transparent">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="28" SharedSizeGroup="Icon" />
+                    <ColumnDefinition Width="22" SharedSizeGroup="Icon" />
+                    <ColumnDefinition Width="2" />
                     <ColumnDefinition Width="*" MinWidth="100" />
+                    <ColumnDefinition Width="30" />
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut" />
-                    <ColumnDefinition Width="28" />
+                    <ColumnDefinition Width="20" />
                 </Grid.ColumnDefinitions>
-                <ContentPresenter x:Name="Icon" Margin="6,0,6,0" VerticalAlignment="Center" ContentSource="Icon" />
-                <Border x:Name="Check" Visibility="Visible" HorizontalAlignment="Center" >
-                    <Path x:Name="CheckMark" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center" SnapsToDevicePixels="False" StrokeThickness="1" Data="M 0 5 l 3 4 l 6 -8"
+                <ContentPresenter x:Name="Icon" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" ContentSource="Icon" />
+                <Border x:Name="Check" Visibility="Visible" Width="22" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Path x:Name="CheckMark" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" StrokeThickness="1" Data="M 0 5 l 3 4 l 6 -8"
                             Stroke="{TemplateBinding Foreground}" />
                 </Border>
-                <ContentPresenter x:Name="HeaderHost" Grid.Column="1" ContentSource="Header" RecognizesAccessKey="True" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2,2,20,2" />
-                <TextBlock x:Name="InputGestureText" Grid.Column="2" Text="{TemplateBinding InputGestureText}" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" />
+                <ContentPresenter x:Name="HeaderHost" Grid.Column="2" ContentSource="Header" RecognizesAccessKey="True" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="{TemplateBinding MenuItem.Padding}" />
+                <TextBlock x:Name="InputGestureText" Grid.Column="4" Text="{TemplateBinding InputGestureText}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="{TemplateBinding MenuItem.Padding}" />
             </Grid>
         </Border>
         <ControlTemplate.Triggers>
@@ -1425,15 +1430,20 @@
         <Border x:Name="Border" BorderThickness="1" Background="Transparent">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="28" SharedSizeGroup="Icon" />
+                    <ColumnDefinition Width="22" SharedSizeGroup="Icon" />
+                    <ColumnDefinition Width="2" />
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="30" />
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut" />
-                    <ColumnDefinition Width="28" />
+                    <ColumnDefinition Width="20" />
                 </Grid.ColumnDefinitions>
-                <ContentPresenter x:Name="Icon" Margin="6,0,6,0" VerticalAlignment="Center" ContentSource="Icon" />
-                <ContentPresenter x:Name="HeaderHost" Grid.Column="1" ContentSource="Header" RecognizesAccessKey="True" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2,2,20,2" />
-                <TextBlock x:Name="InputGestureText" Grid.Column="2" Text="{TemplateBinding InputGestureText}" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" />
-                <Path Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2" StrokeThickness="1" Stroke="{TemplateBinding Foreground}" Data="M 0 0 l 4 4 l -4 4" />
+                <ContentPresenter x:Name="Icon" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" ContentSource="Icon" />
+                <Border x:Name="Check" Visibility="Hidden" Width="22" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <ContentPresenter x:Name="HeaderHost" Grid.Column="2" ContentSource="Header" RecognizesAccessKey="True" HorizontalAlignment="Left" VerticalAlignment="Center"
+                        Margin="{TemplateBinding MenuItem.Padding}" />
+                <TextBlock x:Name="InputGestureText" Grid.Column="4" Text="{TemplateBinding InputGestureText}" HorizontalAlignment="Right" VerticalAlignment="Center"
+                        Margin="{TemplateBinding MenuItem.Padding}" />
+                <Path Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center" StrokeThickness="1" Stroke="{TemplateBinding Foreground}" Data="M 0 0 l 4 4 l -4 4" />
                 <Popup x:Name="Popup" Placement="Right" HorizontalOffset="0" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
                     <Border x:Name="SubmenuBorder" SnapsToDevicePixels="True" Background="{TemplateBinding Background}" BorderThickness="1" BorderBrush="{DynamicResource NVBorderBrush}">
                         <ScrollViewer CanContentScroll="True" Style="{StaticResource NVMenuScrollViewer}">
@@ -1462,7 +1472,7 @@
     </ControlTemplate>
 
     <Style x:Key="NVMenuItem" TargetType="{x:Type MenuItem}">
-        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <!-- <Setter Property="OverridesDefaultStyle" Value="True" /> -->
         <Setter Property="Background" Value="{DynamicResource NVMenuBackgroundBrush}" />
         <Style.Triggers>
             <Trigger Property="Role" Value="TopLevelHeader">

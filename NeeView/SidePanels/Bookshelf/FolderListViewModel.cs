@@ -338,7 +338,7 @@ namespace NeeView
                 {
                     case FolderEntryCollection folderEntryCollection:
                         items.Add(new Separator());
-                        items.Add(CreateCommandMenuItem(Properties.Resources.Bookshelf_MoreMenu_Subfolder, _vm.ToggleFolderRecursive, new Binding("FolderCollection.FolderParameter.IsFolderRecursive")));
+                        items.Add(CreateCommandMenuItem(Properties.Resources.Bookshelf_MoreMenu_Subfolder, _vm.ToggleFolderRecursive, new Binding("FolderCollection.FolderParameter.IsFolderRecursive") { Source = _vm._model }));
                         break;
 
                     case FolderArchiveCollection folderArchiveCollection:

@@ -6,6 +6,7 @@ namespace NeeView
     public class MainMenuSelector : BindableBase
     {
         private MainMenu _mainMenu;
+        private MainMenuPlacement _mainMenuPlacement;
         private Menu _menuBarMenu;
         private Menu _addressBarMenu;
 
@@ -14,41 +15,89 @@ namespace NeeView
         {
             _mainMenu = mainMenu;
 
-            _mainMenu.AddPropertyChanged(nameof(MainMenu.Menu), (s, e) => Update());
-            Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.IsCaptionVisible), (s, e) => Update());
-            Config.Current.MenuBar.AddPropertyChanged(nameof(MenuBarConfig.IsAddressBarEnabled), (s, e) => Update());
+            _mainMenu.AddPropertyChanged(nameof(MainMenu.Menu),
+                (s, e) => Update());
 
-            Update();
+            Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.IsCaptionVisible),
+                (s, e) => UpdatePlacement());
+
+            Config.Current.MenuBar.AddPropertyChanged(nameof(MenuBarConfig.IsHamburgerMenu),
+                (s, e) => UpdatePlacement());
+
+            Config.Current.MenuBar.AddPropertyChanged(nameof(MenuBarConfig.IsAddressBarEnabled),
+                (s, e) => UpdatePlacement());
+
+            UpdatePlacement();
         }
 
+
+        public MainMenuPlacement MainMenuPlacement
+        {
+            get { return _mainMenuPlacement; }
+            private set
+            {
+                if (SetProperty(ref _mainMenuPlacement, value))
+                {
+                    _mainMenu.Update();
+                }
+            }
+        }
 
         public Menu MenuBarMenu
         {
             get { return _menuBarMenu; }
-            set { SetProperty(ref _menuBarMenu, value); }
+            private set { SetProperty(ref _menuBarMenu, value); }
         }
 
 
         public Menu AddressBarMenu
         {
             get { return _addressBarMenu; }
-            set { SetProperty(ref _addressBarMenu, value); }
+            private set { SetProperty(ref _addressBarMenu, value); }
         }
 
 
-        private void Update()
+        private void UpdatePlacement()
         {
-            if (_mainMenu.IsHamburgerMenu && Config.Current.Window.IsCaptionVisible && Config.Current.MenuBar.IsAddressBarEnabled)
+            if (Config.Current.MenuBar.IsHamburgerMenu && Config.Current.Window.IsCaptionVisible && Config.Current.MenuBar.IsAddressBarEnabled)
             {
-                MenuBarMenu = null;
-                AddressBarMenu = _mainMenu.Menu;
+                MainMenuPlacement = MainMenuPlacement.AddressBar;
             }
             else
             {
-                AddressBarMenu = null;
-                MenuBarMenu = _mainMenu.Menu;
+                MainMenuPlacement = MainMenuPlacement.MenuBar;
+            }
+        }
+
+        private void Update()
+        {
+            switch (_mainMenuPlacement)
+            {
+                default:
+                    MenuBarMenu = null;
+                    AddressBarMenu = null;
+                    break;
+
+                case MainMenuPlacement.MenuBar:
+                    AddressBarMenu = null;
+                    MenuBarMenu = _mainMenu.Menu;
+                    break;
+
+                case MainMenuPlacement.AddressBar:
+                    MenuBarMenu = null;
+                    AddressBarMenu = _mainMenu.Menu;
+                    break;
             }
         }
 
     }
+
+
+    public enum MainMenuPlacement
+    {
+        None,
+        MenuBar,
+        AddressBar,
+    }
+
 }

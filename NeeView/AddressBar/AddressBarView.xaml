@@ -56,7 +56,19 @@
 
         <DockPanel VerticalAlignment="Top" Margin="2,2">
 
-            <ContentControl x:Name="MainMenuJoint" Content="{Binding MainMenu}" IsTabStop="False" VerticalAlignment="Center" />
+            <ContentControl x:Name="MainMenuJoint" Content="{Binding MainMenu}" IsTabStop="False" VerticalAlignment="Center">
+                <ContentControl.Resources>
+                    <Style x:Key="{x:Type Menu}" TargetType="{x:Type Menu}" BasedOn="{StaticResource NVMenu}">
+                        <Setter Property="Foreground" Value="{Binding Config.Theme.MenuColor, Converter={StaticResource ForegroundSelector}}" />
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="BorderBrush" Value="Transparent" />
+                    </Style>
+                    <Style x:Key="{x:Type MenuItem}" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource NVMenuItem}">
+                        <Setter Property="Foreground" Value="{Binding Config.Theme.MenuColor, Converter={StaticResource ForegroundSelector}}" />
+                        <Setter Property="Background" Value="{Binding Config.Theme.MenuColor, Converter={StaticResource BackgroundSelector}}" />
+                    </Style>
+                </ContentControl.Resources>
+            </ContentControl>
 
             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" UseLayoutRounding="True">
 

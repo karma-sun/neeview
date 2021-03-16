@@ -3,6 +3,8 @@ using NeeView.Windows.Property;
 using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace NeeView
@@ -52,6 +54,7 @@ namespace NeeView
                 App.Current.Resources["NVPanelIconBackground"] = new SolidColorBrush(Color.FromRgb(0x33, 0x33, 0x33));
                 App.Current.Resources["NVPanelIconForeground"] = new SolidColorBrush(Color.FromRgb(0xEE, 0xEE, 0xEE));
                 App.Current.Resources["NVFolderPen"] = null;
+                App.Current.Resources["NVMenuBackgroundBrush"] = new SolidColorBrush(Color.FromRgb(0x38, 0x38, 0x38));
             }
             else
             {
@@ -67,11 +70,41 @@ namespace NeeView
                 App.Current.Resources["NVPanelIconBackground"] = new SolidColorBrush(Color.FromRgb(0xE0, 0xE0, 0xE0));
                 App.Current.Resources["NVPanelIconForeground"] = new SolidColorBrush(Color.FromRgb(0x44, 0x44, 0x44));
                 App.Current.Resources["NVFolderPen"] = new Pen(new SolidColorBrush(Color.FromRgb(0xDE, 0xB9, 0x82)), 1);
+                App.Current.Resources["NVMenuBackgroundBrush"] = new SolidColorBrush(Color.FromRgb(0xFF, 0xFF, 0xFF));
             }
 
             ThemeColorChanged?.Invoke(this, null);
         }
 
+
+        /// <summary>
+        /// TextBox の EditContextMenu にスタイルを適用する
+        /// </summary>
+        /// <remarks>
+        /// from https://stackoverflow.com/questions/30940939/wpf-default-textbox-contextmenu-styling
+        /// </remarks>
+        /// <param name="element">設定するリソースのエレメント</param>
+        public static void InitializeEditorContextMenuStyle(FrameworkElement element)
+        {
+            var presentationFrameworkAssembly = typeof(Application).Assembly;
+            var contextMenuStyle = element.FindResource(typeof(ContextMenu)) as Style;
+            var editorContextMenuType = Type.GetType("System.Windows.Documents.TextEditorContextMenu+EditorContextMenu, " + presentationFrameworkAssembly);
+
+            if (editorContextMenuType != null)
+            {
+                var editorContextMenuStyle = new Style(editorContextMenuType, contextMenuStyle);
+                element.Resources.Add(editorContextMenuType, editorContextMenuStyle);
+            }
+
+            var menuItemStyle = element.FindResource(typeof(MenuItem)) as Style;
+            var editorMenuItemType = Type.GetType("System.Windows.Documents.TextEditorContextMenu+EditorMenuItem, " + presentationFrameworkAssembly);
+
+            if (editorMenuItemType != null)
+            {
+                var editorContextMenuStyle = new Style(editorMenuItemType, menuItemStyle);
+                element.Resources.Add(editorMenuItemType, editorContextMenuStyle);
+            }
+        }
 
         #region Memento
 

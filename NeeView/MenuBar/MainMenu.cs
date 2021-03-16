@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace NeeView
 {
@@ -42,22 +43,11 @@ namespace NeeView
             set { SetProperty(ref _menu, value); }
         }
 
-        public bool IsHamburgerMenu { get; private set; }
 
-
-        private void Update()
+        public void Update()
         {
-            var style = new Style(typeof(MenuItem));
-            var dataTrigger = new DataTrigger() { Binding = new Binding(nameof(WindowEnvironment.IsHighContrast)) { Source = WindowEnvironment.Current }, Value = false };
-            dataTrigger.Setters.Add(new Setter(MenuItem.ForegroundProperty, SystemColors.ControlTextBrush));
-            style.Triggers.Add(dataTrigger);
-
-            this.IsHamburgerMenu = Config.Current.MenuBar.IsHamburgerMenu;
-            this.Menu = CreateMainMenu(this.IsHamburgerMenu, style);
+            this.Menu = CreateMainMenu(Config.Current.MenuBar.IsHamburgerMenu);
             this.Menu.UpdateInputGestureText();
-
-            BindingOperations.SetBinding(Menu, Menu.BackgroundProperty, new Binding(nameof(System.Windows.Controls.Menu.Background)) { RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(ContentControl), 1) });
-            BindingOperations.SetBinding(Menu, Menu.ForegroundProperty, new Binding(nameof(System.Windows.Controls.Menu.Foreground)) { RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(ContentControl), 1) });
         }
 
         public void UpdateInputGestureText()
@@ -65,7 +55,7 @@ namespace NeeView
             Menu?.UpdateInputGestureText();
         }
 
-        private Menu CreateMainMenu(bool isHamburgerMenu, Style style)
+        private Menu CreateMainMenu(bool isHamburgerMenu)
         {
             var items = _mainMenuSource.CreateMenuItems();
 #if DEBUG
@@ -75,14 +65,11 @@ namespace NeeView
             var menu = new Menu();
             if (isHamburgerMenu)
             {
-                IsHamburgerMenu = true;
-
                 var image = new Image();
                 image.Width = 18;
                 image.Height = 18;
                 image.Margin = new Thickness(0, 2, 0, 2);
-                image.GetThemeBinder().SetMenuIconBinding(Image.SourceProperty);
-                image.SetBinding(Image.OpacityProperty, new Binding(nameof(Window.IsActive)) { Source = MainWindow.Current, Converter = new BooleanToOpacityConverter() });
+                image.Source = CreateMenuIcon();
 
                 var topMenu = new MenuItem();
                 topMenu.Header = image;
@@ -101,19 +88,22 @@ namespace NeeView
                 }
             }
 
-            // サブメニューのColorを固定にする
-            if (style != null)
-            {
-                foreach (MenuItem item in menu.Items)
-                {
-                    foreach (MenuItem subItem in item.Items.OfType<MenuItem>())
-                    {
-                        subItem.Style = style;
-                    }
-                }
-            }
-
             return menu;
+        }
+
+        /// <summary>
+        /// メニューアイコン作成
+        /// </summary>
+        /// <remarks>
+        /// アイコンの色は親のForegroundを参照する
+        /// </remarks>
+        private DrawingImage CreateMenuIcon()
+        {
+            var drawing = new GeometryDrawing();
+            drawing.Geometry = App.Current.Resources["g_menu_24px"] as Geometry;
+            BindingOperations.SetBinding(drawing, GeometryDrawing.BrushProperty, new Binding(nameof(Control.Foreground)) { RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(Control), 1) });
+            var drawingImage = new DrawingImage(drawing);
+            return drawingImage;
         }
 
     }

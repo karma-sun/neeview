@@ -25,6 +25,17 @@
 
     <SolidColorBrush x:Key="NVSelectedMarkBrush" Color="Orange"/>
 
+    <SolidColorBrush x:Key="NVBorderBrush" Color="#4888" />
+    <SolidColorBrush x:Key="NVDisabledForegroundBrush" Color="#888" />
+    
+    <SolidColorBrush x:Key="NVMenuBackgroundBrush" Color="#222" />
+    <SolidColorBrush x:Key="NVMenuSepalatorBrush" Color="#8888" />
+    
+    <SolidColorBrush x:Key="NVSelectedBorderBrush" Color="#FF26A0DA" />
+    <SolidColorBrush x:Key="NVSelectedBackgroundBrush" Color="#3D26A0DA" />
+
+    <DropShadowEffect x:Key="NVDropShadowEffect" Opacity="0.5" ShadowDepth="2" />
+
     <Style x:Key="NVFocusVisual">
         <Setter Property="Control.Template">
             <Setter.Value>
@@ -1257,6 +1268,227 @@
 
     <!--#endregion -->
 
+    
+    <!--#region NVMenu -->
+
+    <Style x:Key="NVMenuScrollViewer" TargetType="ScrollViewer" BasedOn="{StaticResource DarkScrollViewer}">
+        <Setter Property="HorizontalScrollBarVisibility" Value="Hidden" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+    </Style>
+
+    <Style x:Key="NVMenu" TargetType="{x:Type Menu}">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Foreground" Value="{DynamicResource NVForeground}" />
+        <Setter Property="Background" Value="{DynamicResource NVMenuBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource NVBorderBrush}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="FontSize" Value="{DynamicResource {x:Static SystemFonts.MessageFontSizeKey}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Menu}">
+                    <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}">
+                        <StackPanel ClipToBounds="True" Orientation="Horizontal" IsItemsHost="True" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="NVContextMenu" TargetType="{x:Type ContextMenu}">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Foreground" Value="{DynamicResource NVForeground}" />
+        <Setter Property="Background" Value="{DynamicResource NVMenuBackgroundBrush}" />
+        <Setter Property="FontSize" Value="{DynamicResource {x:Static SystemFonts.MessageFontSizeKey}}" />
+        <Setter Property="Grid.IsSharedSizeScope" Value="true" />
+        <Setter Property="HasDropShadow" Value="True" />
+        <Setter Property="Padding" Value="2" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ContextMenu}">
+                    <Border x:Name="Border" Background="{TemplateBinding Background}" BorderThickness="1" BorderBrush="{DynamicResource NVBorderBrush}">
+                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" Margin="{TemplateBinding Padding}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="HasDropShadow" Value="true">
+                            <Setter TargetName="Border" Property="Margin" Value="5" />
+                            <Setter TargetName="Border" Property="Effect" Value="{StaticResource NVDropShadowEffect}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="NVMenuItemSeparatorStyle" TargetType="{x:Type Separator}">
+        <Setter Property="Height" Value="1" />
+        <Setter Property="Margin" Value="4,4" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Separator}">
+                    <Border BorderThickness="1" BorderBrush="{StaticResource NVMenuSepalatorBrush}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <ControlTemplate x:Key="NVTopLevelHeaderTemplate" TargetType="{x:Type MenuItem}">
+        <Border x:Name="Border" BorderThickness="1" Background="Transparent">
+            <Grid>
+                <ContentPresenter Margin="6,3,6,3" ContentSource="Header" RecognizesAccessKey="True" />
+                <Popup x:Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
+                    <Border x:Name="SubmenuBorder" SnapsToDevicePixels="True" BorderThickness="1" BorderBrush="{DynamicResource NVBorderBrush}" Background="{TemplateBinding Background}">
+                        <ScrollViewer CanContentScroll="True" Style="{StaticResource NVMenuScrollViewer}">
+                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" Margin="2"/>
+                        </ScrollViewer>
+                    </Border>
+                </Popup>
+            </Grid>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsSuspendingPopupAnimation" Value="true">
+                <Setter TargetName="Popup" Property="PopupAnimation" Value="None" />
+            </Trigger>
+            <Trigger Property="IsHighlighted" Value="true">
+                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource NVSelectedBorderBrush}" />
+                <Setter Property="Background" TargetName="Border" Value="{DynamicResource NVSelectedBackgroundBrush}" />
+            </Trigger>
+            <Trigger SourceName="Popup" Property="AllowsTransparency" Value="True">
+                <Setter Property="Margin" TargetName="SubmenuBorder" Value="5" />
+                <Setter Property="Effect" TargetName="SubmenuBorder" Value="{StaticResource NVDropShadowEffect}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{DynamicResource NVDisabledForegroundBrush}" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="NVTopLevelItemTemplate" TargetType="{x:Type MenuItem}">
+        <Border x:Name="Border" BorderThickness="1" Background="Transparent">
+            <Grid>
+                <ContentPresenter Margin="6,3,6,3" ContentSource="Header" RecognizesAccessKey="True" />
+            </Grid>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsHighlighted" Value="true">
+                <Setter Property="BorderBrush" TargetName="Border" Value="{DynamicResource NVSelectedBorderBrush}" />
+                <Setter Property="Background" TargetName="Border" Value="{DynamicResource NVSelectedBackgroundBrush}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource NVDisabledForegroundBrush}" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="NVSubmenuItemTemplate" TargetType="{x:Type MenuItem}">
+        <Border x:Name="Border" BorderThickness="1" Background="Transparent">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="28" SharedSizeGroup="Icon" />
+                    <ColumnDefinition Width="*" MinWidth="100" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut" />
+                    <ColumnDefinition Width="28" />
+                </Grid.ColumnDefinitions>
+                <ContentPresenter x:Name="Icon" Margin="6,0,6,0" VerticalAlignment="Center" ContentSource="Icon" />
+                <Border x:Name="Check" Visibility="Visible" HorizontalAlignment="Center" >
+                    <Path x:Name="CheckMark" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center" SnapsToDevicePixels="False" StrokeThickness="1" Data="M 0 5 l 3 4 l 6 -8"
+                            Stroke="{TemplateBinding Foreground}" />
+                </Border>
+                <ContentPresenter x:Name="HeaderHost" Grid.Column="1" ContentSource="Header" RecognizesAccessKey="True" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2,2,20,2" />
+                <TextBlock x:Name="InputGestureText" Grid.Column="2" Text="{TemplateBinding InputGestureText}" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" />
+            </Grid>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="ButtonBase.Command" Value="{x:Null}" />
+            <Trigger Property="Icon" Value="{x:Null}">
+                <Setter TargetName="Icon" Property="Visibility" Value="Hidden" />
+            </Trigger>
+            <Trigger Property="IsChecked" Value="true">
+                <Setter TargetName="CheckMark" Property="Visibility" Value="Visible" />
+            </Trigger>
+            <Trigger Property="IsCheckable" Value="true">
+                <Setter TargetName="Check" Property="Visibility" Value="Visible" />
+                <Setter TargetName="Icon" Property="Visibility" Value="Hidden" />
+            </Trigger>
+            <Trigger Property="IsHighlighted" Value="true">
+                <Setter Property="Background" TargetName="Border" Value="{DynamicResource NVSelectedBackgroundBrush}" />
+                <Setter Property="BorderBrush" TargetName="Border" Value="{DynamicResource NVSelectedBorderBrush}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Foreground" Value="{DynamicResource NVDisabledForegroundBrush}" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="NVSubmenuHeaderTemplate" TargetType="{x:Type MenuItem}">
+        <Border x:Name="Border" BorderThickness="1" Background="Transparent">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="28" SharedSizeGroup="Icon" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut" />
+                    <ColumnDefinition Width="28" />
+                </Grid.ColumnDefinitions>
+                <ContentPresenter x:Name="Icon" Margin="6,0,6,0" VerticalAlignment="Center" ContentSource="Icon" />
+                <ContentPresenter x:Name="HeaderHost" Grid.Column="1" ContentSource="Header" RecognizesAccessKey="True" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2,2,20,2" />
+                <TextBlock x:Name="InputGestureText" Grid.Column="2" Text="{TemplateBinding InputGestureText}" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" />
+                <Path Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2" StrokeThickness="1" Stroke="{TemplateBinding Foreground}" Data="M 0 0 l 4 4 l -4 4" />
+                <Popup x:Name="Popup" Placement="Right" HorizontalOffset="0" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
+                    <Border x:Name="SubmenuBorder" SnapsToDevicePixels="True" Background="{TemplateBinding Background}" BorderThickness="1" BorderBrush="{DynamicResource NVBorderBrush}">
+                        <ScrollViewer CanContentScroll="True" Style="{StaticResource NVMenuScrollViewer}">
+                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" Margin="2"/>
+                        </ScrollViewer>
+                    </Border>
+                </Popup>
+            </Grid>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="Icon" Value="{x:Null}">
+                <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
+            </Trigger>
+            <Trigger Property="IsHighlighted" Value="true">
+                <Setter Property="Background" TargetName="Border" Value="{DynamicResource NVSelectedBackgroundBrush}" />
+                <Setter Property="BorderBrush" TargetName="Border" Value="{DynamicResource NVSelectedBorderBrush}" />
+            </Trigger>
+            <Trigger SourceName="Popup" Property="AllowsTransparency" Value="True">
+                <Setter Property="Margin" TargetName="SubmenuBorder" Value="5" />
+                <Setter Property="Effect" TargetName="SubmenuBorder" Value="{StaticResource NVDropShadowEffect}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Foreground" Value="{StaticResource NVDisabledForegroundBrush}" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style x:Key="NVMenuItem" TargetType="{x:Type MenuItem}">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Background" Value="{DynamicResource NVMenuBackgroundBrush}" />
+        <Style.Triggers>
+            <Trigger Property="Role" Value="TopLevelHeader">
+                <Setter Property="Template" Value="{StaticResource NVTopLevelHeaderTemplate}" />
+                <Setter Property="Grid.IsSharedSizeScope" Value="True" />
+            </Trigger>
+            <Trigger Property="Role" Value="TopLevelItem">
+                <Setter Property="Template" Value="{StaticResource NVTopLevelItemTemplate}" />
+            </Trigger>
+            <Trigger Property="Role" Value="SubmenuHeader">
+                <Setter Property="Template" Value="{StaticResource NVSubmenuHeaderTemplate}" />
+            </Trigger>
+            <Trigger Property="Role" Value="SubmenuItem">
+                <Setter Property="Template" Value="{StaticResource NVSubmenuItemTemplate}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <!-- to default -->
+    <Style x:Key="{x:Type Menu}" TargetType="{x:Type Menu}" BasedOn="{StaticResource NVMenu}" />
+    <Style x:Key="{x:Type ContextMenu}" TargetType="{x:Type ContextMenu}" BasedOn="{StaticResource NVContextMenu}" />
+    <Style x:Key="{x:Type MenuItem}" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource NVMenuItem}" />
+    <Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="{x:Type Separator}" BasedOn="{StaticResource NVMenuItemSeparatorStyle}" />
+
+    <!--#endregion NVMenu -->
+    
 
     <SolidColorBrush x:Key="NVDialogButtonForeground" Color="White" />
     <SolidColorBrush x:Key="NVDialogButtonBackground" Color="RoyalBlue" />

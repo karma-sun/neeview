@@ -42,6 +42,9 @@ namespace NeeView
             Interop.NVFpReset();
 
             InitializeComponent();
+
+            // TextBox の ContextMenu のスタイルを変更する ... やりすぎ？
+            // ThemeProfile.InitializeEditorContextMenuStyle(this);
         }
 
 

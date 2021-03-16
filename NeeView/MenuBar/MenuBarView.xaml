@@ -49,6 +49,7 @@
         </ContentControl>
 
         <DockPanel x:Name="MenuBarArea" LastChildFill="True" Margin="0,0,0,2">
+
             <nwc:WindowCaptionButtons x:Name="WindowCaptionButtons" VerticalAlignment="Top" DockPanel.Dock="Right" WindowChrome.IsHitTestVisibleInChrome="False"
                     Foreground="{Binding Foreground, ElementName=ForegroundColorResource}">
                 <nwc:WindowCaptionButtons.Style>
@@ -72,6 +73,16 @@
             </Grid>
 
             <DockPanel x:Name="MenuArea" VerticalAlignment="Bottom">
+                <DockPanel.Resources>
+                    <Style x:Key="{x:Type Menu}" TargetType="{x:Type Menu}" BasedOn="{StaticResource NVMenu}">
+                        <Setter Property="Foreground" Value="{Binding Foreground, ElementName=ForegroundColorResource}" />
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="BorderBrush" Value="Transparent" />
+                    </Style>
+                    <Style x:Key="{x:Type MenuItem}" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource NVMenuItem}">
+                        <Setter Property="Background" Value="{Binding Background, ElementName=Root}" />
+                    </Style>
+                </DockPanel.Resources>
                 <ContentControl x:Name="MainMenuJoint" Content="{Binding MainMenu}" IsTabStop="False" VerticalAlignment="Center" WindowChrome.IsHitTestVisibleInChrome="False"
                         Foreground="{Binding Foreground, ElementName=ForegroundColorResource}" Margin="4,0,0,0">
                 </ContentControl>

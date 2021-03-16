@@ -36,6 +36,7 @@ namespace NeeView.Windows.Controls
 
             dropDownMenu.Placement = PlacementMode.Bottom;
             dropDownMenu.PlacementTarget = button;
+            dropDownMenu.VerticalOffset = -5;
             dropDownMenu.SetBinding(ContextMenu.IsOpenProperty, new Binding(nameof(button.IsChecked))
             {
                 Source = button,

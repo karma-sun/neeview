@@ -77,7 +77,7 @@ namespace NeeView
                     }
                     else
                     {
-                        var name = e.Name.TrimEnd(LoosePath.Separator);
+                        var name = e.Name.TrimEnd(LoosePath.Separators);
 
                         var drive = _children.Cast<DriveDirectoryNode>().FirstOrDefault(d => d.Name == name);
                         if (drive != null)
@@ -105,7 +105,7 @@ namespace NeeView
             if (driveInfo == null) return;
             if (_children == null) return;
 
-            var name = driveInfo.Name.TrimEnd(LoosePath.Separator);
+            var name = driveInfo.Name.TrimEnd(LoosePath.Separators);
 
             var drive = _children.Cast<DriveDirectoryNode>().FirstOrDefault(d => d.Name == name);
             if (drive != null)
@@ -152,7 +152,7 @@ namespace NeeView
             {
                 try
                 {
-                    var name = e.Name.TrimEnd(LoosePath.Separator);
+                    var name = e.Name.TrimEnd(LoosePath.Separators);
 
                     var drive = _children.Cast<DriveDirectoryNode>().FirstOrDefault(d => d.Name == name);
                     if (drive == null)

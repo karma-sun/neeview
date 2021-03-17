@@ -17,7 +17,7 @@ namespace NeeView
         private bool _iconInitialized;
 
 
-        public DriveDirectoryNode(DriveInfo drive, RootDirectoryNode parent) : base(drive.Name.TrimEnd(LoosePath.Separator), parent)
+        public DriveDirectoryNode(DriveInfo drive, RootDirectoryNode parent) : base(drive.Name.TrimEnd(LoosePath.Separators), parent)
         {
             _driveInfo = drive;
             var async = InitializeAsync();

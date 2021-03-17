@@ -106,8 +106,8 @@ namespace NeeView
             if (dir1 == null && dir2 == null) return true;
             if (dir1 == null || dir2 == null) return false;
 
-            var path1 = LoosePath.NormalizeSeparator(dir1.FullName).TrimEnd(LoosePath.Separator).ToUpperInvariant();
-            var path2 = LoosePath.NormalizeSeparator(dir2.FullName).TrimEnd(LoosePath.Separator).ToUpperInvariant();
+            var path1 = LoosePath.NormalizeSeparator(dir1.FullName).TrimEnd(LoosePath.Separators).ToUpperInvariant();
+            var path2 = LoosePath.NormalizeSeparator(dir2.FullName).TrimEnd(LoosePath.Separators).ToUpperInvariant();
             return path1 == path2;
         }
 

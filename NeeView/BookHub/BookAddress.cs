@@ -209,7 +209,7 @@ namespace NeeView
 
             var full = query.SimplePath;
             if (!full.StartsWith(address.SimplePath)) throw new ArgumentException($"{address} is not include entry.", nameof(address));
-            return full.Substring(address.SimplePath.Length, full.Length - address.SimplePath.Length).TrimStart(LoosePath.Separator);
+            return full.Substring(address.SimplePath.Length, full.Length - address.SimplePath.Length).TrimStart(LoosePath.Separators);
         }
 
         #endregion

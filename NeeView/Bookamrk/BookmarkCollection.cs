@@ -113,7 +113,7 @@ namespace NeeView
                 {
                     return Items;
                 }
-                return FindNode(Items, path.Path.Split(LoosePath.Separator));
+                return FindNode(Items, path.Path.Split(LoosePath.Separators));
             }
             else if (path.Scheme == QueryScheme.Pagemark)
             {

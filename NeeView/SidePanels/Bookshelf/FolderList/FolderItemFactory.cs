@@ -231,7 +231,7 @@ namespace NeeView
             string name = entry.EntryLastName;
             if (prefix != null)
             {
-                name = entry.EntryFullName.Substring(prefix.Length).TrimStart(LoosePath.Separator);
+                name = entry.EntryFullName.Substring(prefix.Length).TrimStart(LoosePath.Separators);
             }
 
             return new FileFolderItem(_isOverlayEnabled)

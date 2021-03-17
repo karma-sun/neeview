@@ -154,7 +154,7 @@ namespace NeeView
         {
             if (path == null) return null;
 
-            var pathTokens = path.Trim(LoosePath.Separator).Split(LoosePath.Separator);
+            var pathTokens = path.Trim(LoosePath.Separators).Split(LoosePath.Separators);
             return GetFolderTreeNode(pathTokens, createChildren, asFarAsPossible);
         }
 

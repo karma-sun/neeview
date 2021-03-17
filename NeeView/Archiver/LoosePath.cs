@@ -12,7 +12,7 @@ namespace NeeView
     /// </summary>
     public static class LoosePath
     {
-        public static readonly char[] Separator = new char[] { '\\', '/' };
+        public static readonly char[] Separators = new char[] { '\\', '/' };
 
         public static readonly char[] AsciiSpaces = new char[] {
             '\u0009',  // CHARACTER TABULATION
@@ -31,9 +31,9 @@ namespace NeeView
         {
             if (string.IsNullOrEmpty(s)) return "";
 
-            if (Separator.Contains(s.Last()))
+            if (Separators.Contains(s.Last()))
             {
-                s = s.TrimEnd(Separator);
+                s = s.TrimEnd(Separators);
                 if (s.Last() == ':') s += "\\";
             }
 
@@ -46,14 +46,14 @@ namespace NeeView
         public static string TrimDirectoryEnd(string s)
         {
             if (string.IsNullOrEmpty(s)) return "";
-            return s.TrimEnd(Separator) + '\\';
+            return s.TrimEnd(Separators) + '\\';
         }
 
         //
         public static string[] Split(string s)
         {
             if (string.IsNullOrEmpty(s)) return new string[0];
-            var parts = s.Split(Separator, StringSplitOptions.RemoveEmptyEntries);
+            var parts = s.Split(Separators, StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length > 0 && (s.StartsWith("\\\\") || s.StartsWith("//")))
             {
                 return parts.Skip(1).Prepend("\\\\" + parts.First()).ToArray();
@@ -68,7 +68,7 @@ namespace NeeView
         public static string GetFileName(string s)
         {
             if (string.IsNullOrEmpty(s)) return "";
-            return s.Split(Separator, StringSplitOptions.RemoveEmptyEntries).Last();
+            return s.Split(Separators, StringSplitOptions.RemoveEmptyEntries).Last();
         }
 
         // place部をディレクトリーとみなしたファイル名取得
@@ -77,7 +77,7 @@ namespace NeeView
             if (string.IsNullOrEmpty(s)) return "";
             if (string.IsNullOrEmpty(place)) return s;
             if (string.Compare(s, 0, place, 0, place.Length) != 0) throw new ArgumentException("s not contain place");
-            return s.Substring(place.Length).TrimStart(Separator);
+            return s.Substring(place.Length).TrimStart(Separators);
         }
 
         public static string GetFileNameWithoutExtension(string s)
@@ -100,7 +100,7 @@ namespace NeeView
         public static string GetPathRoot(string s)
         {
             if (string.IsNullOrEmpty(s)) return "";
-            var parts = s.Split(Separator, 2);
+            var parts = s.Split(Separators, 2);
             return parts.First();
         }
 
@@ -109,7 +109,7 @@ namespace NeeView
         {
             if (string.IsNullOrEmpty(s)) return "";
 
-            var parts = s.Split(Separator, StringSplitOptions.RemoveEmptyEntries).ToList();
+            var parts = s.Split(Separators, StringSplitOptions.RemoveEmptyEntries).ToList();
             if (parts.Count <= 1) return "";
 
             parts.RemoveAt(parts.Count - 1);
@@ -137,7 +137,7 @@ namespace NeeView
             else if (string.IsNullOrEmpty(s2))
                 return s1;
             else
-                return s1.TrimEnd(Separator) + "\\" + s2.TrimStart(Separator);
+                return s1.TrimEnd(Separators) + "\\" + s2.TrimStart(Separators);
         }
 
         // ファイル名として使えない文字を置換

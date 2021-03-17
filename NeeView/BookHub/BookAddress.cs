@@ -121,9 +121,39 @@ namespace NeeView
             // パスはページ
             else
             {
-                this.Address = query.GetParent();
-                this.EntryName = query.FileName;
-                entry = await ArchiveEntryUtility.CreateAsync(Address.SimplePath, token);
+                try
+                {
+                    if (entry.IsFileSystem)
+                    {
+                        this.Address = query.GetParent();
+                    }
+                    else
+                    {
+                        switch (mode)
+                        {
+                            case ArchiveEntryCollectionMode.CurrentDirectory:
+                                this.Address = query.GetParent();
+                                break;
+                            case ArchiveEntryCollectionMode.IncludeSubDirectories:
+                                this.Address = new QueryPath(entry.Archiver.SystemPath);
+                                break;
+                            case ArchiveEntryCollectionMode.IncludeSubArchives:
+                                this.Address = new QueryPath(entry.RootArchiver.SystemPath);
+                                break;
+                            default:
+                                throw new NotSupportedException($"{nameof(ArchiveEntryCollectionMode)}.{mode} is not supported.");
+                        }
+                    }
+                    this.EntryName = GetEntryName(query, this.Address);
+                    entry = await ArchiveEntryUtility.CreateAsync(Address.SimplePath, token);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                    this.Address = query.GetParent();
+                    this.EntryName = query.FileName;
+                    entry = await ArchiveEntryUtility.CreateAsync(Address.SimplePath, token);
+                }
             }
 
             this.Place = GetPlace(entry, mode);
@@ -170,6 +200,16 @@ namespace NeeView
                     return new QueryPath(entry.SystemPath).GetParent();
                 }
             }
+        }
+
+        private string GetEntryName(QueryPath query, QueryPath address)
+        {
+            if (query is null) throw new ArgumentNullException(nameof(query));
+            if (address is null) throw new ArgumentNullException(nameof(address));
+
+            var full = query.SimplePath;
+            if (!full.StartsWith(address.SimplePath)) throw new ArgumentException($"{address} is not include entry.", nameof(address));
+            return full.Substring(address.SimplePath.Length, full.Length - address.SimplePath.Length).TrimStart(LoosePath.Separator);
         }
 
         #endregion

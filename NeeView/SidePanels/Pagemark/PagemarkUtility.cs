@@ -6,6 +6,11 @@ namespace NeeView
     {
         public static bool CanPagemark(Page page)
         {
+            if (page is null)
+            {
+                return false;
+            }
+
             if (page.ContentAccessor is MediaContent)
             {
                 return false;

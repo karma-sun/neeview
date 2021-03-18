@@ -47,12 +47,12 @@
 
         <Style x:Key="FolderListButtonStyle" TargetType="Button" BasedOn="{StaticResource IconButton}">
             <Setter Property="Width" Value="28"/>
-            <Setter Property="Height" Value="28"/>
+            <Setter Property="MinHeight" Value="{DynamicResource FontIconSize}"/>
         </Style>
 
         <Style x:Key="FolderListToggleButtonStyle" TargetType="ToggleButton" BasedOn="{StaticResource IconToggleButton}">
             <Setter Property="Width" Value="28"/>
-            <Setter Property="Height" Value="28"/>
+            <Setter Property="MinHeight" Value="{DynamicResource FontIconSize}"/>
         </Style>
 
         <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
@@ -91,7 +91,7 @@
 
             <DockPanel KeyboardNavigation.TabNavigation="Local">
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" VerticalAlignment="Top">
-                    <Button x:Name="FoderTreeButton" Style="{StaticResource FolderListButtonStyle}"  VerticalAlignment="Center" TabIndex="2"
+                    <Button x:Name="FoderTreeButton" Style="{StaticResource FolderListButtonStyle}" TabIndex="2"
                             ToolTip="{x:Static properties:Resources.Word_FoldersTree}"
                             Command="{Binding ToggleVisibleFoldersTree}">
                         <Image Source="{StaticResource ic_treeview_b}" Width="16" Height="16"/>
@@ -104,10 +104,10 @@
                             </ContextMenu>
                         </Button.ContextMenu>
                     </Button>
-                    <local:MoreMenuButton Description="{Binding MoreMenuDescription}" VerticalAlignment="Center" TabIndex="4" />
+                    <local:MoreMenuButton Description="{Binding MoreMenuDescription}" MinHeight="{DynamicResource FontIconSize}" TabIndex="4" />
                 </StackPanel>
                 <WrapPanel Orientation="Horizontal" MinWidth="90">
-                    <Button x:Name="AddPagemark" Style="{StaticResource IconButton}" Height="30" Width="30" Command="{Binding AddBookmarkCommand}" ToolTip="{x:Static properties:Resources.BookmarkList_Add_ToolTip}" TabIndex="1">
+                    <Button x:Name="AddPagemark" Style="{StaticResource FolderListButtonStyle}" Command="{Binding AddBookmarkCommand}" ToolTip="{x:Static properties:Resources.BookmarkList_Add_ToolTip}" TabIndex="1">
                         <Image Source="{StaticResource ic_add_24px_b}" Width="16" Height="16"/>
                     </Button>
                     <Button x:Name="FolderUpButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToUp}" TabIndex="1"
@@ -116,8 +116,7 @@
                     </Button>
                     <ComboBox x:Name="FolderOrderComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" TabIndex="1"
                           ItemsSource="{Binding FolderOrderList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding FolderCollection.FolderParameter.FolderOrder, Delay=1}"
-                          Visibility="{Binding Model.IsFolderOrderEnabled, Converter={StaticResource BooleanToHiddenVisibilityConverter}}"
-                          VerticalAlignment="Center">
+                          Visibility="{Binding Model.IsFolderOrderEnabled, Converter={StaticResource BooleanToHiddenVisibilityConverter}}">
                     </ComboBox>
                 </WrapPanel>
             </DockPanel>

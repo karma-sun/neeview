@@ -78,12 +78,12 @@
 
         <Style x:Key="FolderListButtonStyle" TargetType="Button" BasedOn="{StaticResource IconButton}">
             <Setter Property="Width" Value="28"/>
-            <Setter Property="Height" Value="28"/>
+            <Setter Property="MinHeight" Value="{DynamicResource FontIconSize}" />
         </Style>
 
         <Style x:Key="FolderListToggleButtonStyle" TargetType="ToggleButton" BasedOn="{StaticResource IconToggleButton}">
             <Setter Property="Width" Value="28"/>
-            <Setter Property="Height" Value="28"/>
+            <Setter Property="MinHeight" Value="{DynamicResource FontIconSize}" />
         </Style>
 
         <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
@@ -143,7 +143,7 @@
 
             <DockPanel KeyboardNavigation.TabNavigation="Local">
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Top">
-                    <Button x:Name="FoderTreeButton" Style="{StaticResource FolderListButtonStyle}" VerticalAlignment="Center" TabIndex="2"
+                    <Button x:Name="FoderTreeButton" Style="{StaticResource FolderListButtonStyle}" TabIndex="2"
                             ToolTip="{x:Static properties:Resources.Word_FoldersTree}"
                             Command="{Binding ToggleVisibleFoldersTree}">
                         <Image Source="{StaticResource ic_treeview}" Width="16" Height="16" />
@@ -156,7 +156,7 @@
                             </ContextMenu>
                         </Button.ContextMenu>
                     </Button>
-                    <local:MoreMenuButton Description="{Binding MoreMenuDescription}" VerticalAlignment="Center" TabIndex="4" />
+                    <local:MoreMenuButton Description="{Binding MoreMenuDescription}" MinHeight="{DynamicResource FontIconSize}" TabIndex="4" />
                 </StackPanel>
                 <WrapPanel Orientation="Horizontal" VerticalAlignment="Top" MinWidth="150">
                     <Button x:Name="FolderHomeButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToHome}" TabIndex="1"
@@ -196,8 +196,7 @@
                     </Button>
                     <ComboBox x:Name="FolderOrderComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" TabIndex="1"
                           ItemsSource="{Binding FolderOrderList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding FolderOrder, Delay=1}"
-                          Visibility="{Binding Model.IsFolderOrderEnabled, Converter={StaticResource BooleanToHiddenVisibilityConverter}}"
-                          VerticalAlignment="Center">
+                          Visibility="{Binding Model.IsFolderOrderEnabled, Converter={StaticResource BooleanToHiddenVisibilityConverter}}">
                     </ComboBox>
                 </WrapPanel>
             </DockPanel>
@@ -250,10 +249,10 @@
                     </Button>
                     <ComboBox x:Name="SearchBox" Text="{Binding Model.InputKeyword, UpdateSourceTrigger=PropertyChanged}" TabIndex="1"
                               TextBoxBase.TextChanged="SearchBox_TextChanged"
-                              Style="{StaticResource NVComboBoxEditable}"
+                              Style="{StaticResource NVComboBoxEditable}" MinHeight="{DynamicResource FontIconSize}"
                               IsKeyboardFocusWithinChanged="SearchBox_IsKeyboardFocusWithinChanged"
                               Foreground="{DynamicResource NVForeground}" Background="{Binding ElementName=SearchBoxRoot, Path=Background}"
-                              VerticalAlignment="Center" KeyDown="SearchBox_KeyDown" ItemsSource="{Binding Source={x:Static local:BookHistoryCollection.Current}, Path=SearchHistory}" IsTextSearchCaseSensitive="True"
+                              VerticalAlignment="Stretch" KeyDown="SearchBox_KeyDown" ItemsSource="{Binding Source={x:Static local:BookHistoryCollection.Current}, Path=SearchHistory}" IsTextSearchCaseSensitive="True"
                               IsEditable="True" BorderThickness="0" BorderBrush="red">
                         <ComboBox.ItemContainerStyle>
                             <Style TargetType="ComboBoxItem">
@@ -263,7 +262,7 @@
                         </ComboBox.ItemContainerStyle>
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding}" TextTrimming="CharacterEllipsis" MaxWidth="{Binding ElementName=SearchBox,Path=ActualWidth}" MinWidth="200"/>
+                                <TextBlock Text="{Binding}" TextTrimming="CharacterEllipsis" MaxWidth="{Binding ElementName=SearchBox,Path=ActualWidth}" MinWidth="200" />
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>

@@ -161,13 +161,18 @@ namespace NeeView
                 node.Children = new List<WordNode>();
                 foreach (var item in _items)
                 {
-                    if (item.Value is PropertyMap propertyMap)
+                    switch (item.Value)
                     {
-                        node.Children.Add(propertyMap.CreateWordNode(item.Key));
-                    }
-                    else
-                    {
-                        node.Children.Add(new WordNode(item.Key));
+                        case PropertyMap propertyMap:
+                            node.Children.Add(propertyMap.CreateWordNode(item.Key));
+                            break;
+
+                        case PropertyMapObsolete _:
+                            break;
+
+                        default:
+                            node.Children.Add(new WordNode(item.Key));
+                            break;
                     }
                 }
             }

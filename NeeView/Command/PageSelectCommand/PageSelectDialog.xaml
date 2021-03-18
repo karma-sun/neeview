@@ -9,18 +9,18 @@
         MouseWheel="PageSelectDialog_MouseWheel"
         KeyDown="PageSelectDialog_KeyDown"
         Style="{StaticResource ToolWindowStyle}" 
-        Title="{Binding Caption, Mode=OneTime}" Height="180" Width="400" ResizeMode="NoResize" WindowStyle="ToolWindow">
-    <Grid>
-        <DockPanel Margin="20">
+        Title="{Binding Caption, Mode=OneTime}" Height="180" Width="400" SizeToContent="WidthAndHeight" WindowStyle="ToolWindow">
+    <Grid MinWidth="400">
+        <DockPanel LastChildFill="True" Margin="20">
             <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right" Orientation="Horizontal">
                 <Button Style="{StaticResource NVDialogButtonStyle}" Foreground="{StaticResource NVDialogButtonForeground}" Background="{StaticResource NVDialogButtonBackground}" Content="{x:Static properties:Resources.Word_Jump}"
                         Command="{Binding DecideCommand}"/>
                 <Button Style="{StaticResource NVDialogButtonStyle}" Content="{x:Static properties:Resources.Word_Cancel}"
                         Command="{Binding CancelCommand}"/>
             </StackPanel>
-            <StackPanel VerticalAlignment="Center">
+            <StackPanel DockPanel.Dock="Top" >
                 <TextBlock x:Name="Label" Text="{Binding Label, Mode=OneTime}"/>
-                <TextBox x:Name="InputValueTextBox" Margin="0,5" Text="{Binding InputValue, UpdateSourceTrigger=PropertyChanged}"
+                <TextBox x:Name="InputValueTextBox" Margin="0,5,0,15" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
                          KeyDown="InputValueTextBox_KeyDown"/>
             </StackPanel>
         </DockPanel>

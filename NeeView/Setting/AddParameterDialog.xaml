@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:NeeView.Setting"
         xmlns:properties="clr-namespace:NeeView.Properties"
         mc:Ignorable="d"
-        Style="{StaticResource ToolWindowStyle}"
+        Style="{StaticResource SystemWindowStyle}"
         UseLayoutRounding="True"
         Title="AddParameterDialog" Height="164" Width="400" WindowStyle="ToolWindow">
     <DockPanel Margin="5">

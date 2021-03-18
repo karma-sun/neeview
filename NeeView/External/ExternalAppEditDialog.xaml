@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         xmlns:nvc="clr-namespace:NeeView.Windows.Controls" xmlns:properties="clr-namespace:NeeView.Properties" mc:Ignorable="d" Title="{x:Static properties:Resources.ExternalAppEditDialog_Title}"
-        Height="320" Width="600" WindowStyle="ToolWindow" Style="{StaticResource ToolWindowStyle}">
+        Height="320" Width="600" SizeToContent="Height" WindowStyle="ToolWindow" Style="{StaticResource ToolWindowStyle}">
 
     
     <Window.Resources>
@@ -13,7 +13,8 @@
         <local:ArchivePolicyToSampleStringConverter x:Key="ArchivePolicyToSampleStringConverter" />
 
         <Style x:Key="HeaderStyle" TargetType="TextBlock">
-            <Setter Property="Width" Value="160" />
+            <Setter Property="MinWidth" Value="160" />
+            <Setter Property="Margin" Value="10" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
 
@@ -28,34 +29,34 @@
             <Button x:Name="CancelButton" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.Word_Cancel}" Click="CancelButton_Click" />
         </StackPanel>
 
-        <StackPanel DockPanel.Dock="Top" Margin="10">
+        <Grid DockPanel.Dock="Top" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
 
-            <DockPanel Margin="10">
-                <TextBlock Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.Word_Name}" />
-                <TextBox VerticalAlignment="Center" Text="{Binding Name}" />
-            </DockPanel>
+            <TextBlock Grid.Column="0" Grid.Row="0" Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.Word_Name}" />
+            <TextBox Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Text="{Binding Name}" />
 
-            <DockPanel Margin="10" ToolTip="{x:Static properties:Resources.OpenExternalAppCommandParameter_Command_Remarks}">
-                <TextBlock Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.OpenExternalAppCommandParameter_Command}" />
-                <nvc:FileNameBox VerticalAlignment="Center" Text="{Binding Command, Mode=TwoWay}" FileDialogType="OpenFile" 
-                        Filter="EXE|*.exe|All|*.*" />
-            </DockPanel>
+            <TextBlock Grid.Column="0" Grid.Row="1" Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.OpenExternalAppCommandParameter_Command}" />
+            <nvc:FileNameBox Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Text="{Binding Command, Mode=TwoWay}" FileDialogType="OpenFile" Filter="EXE|*.exe|All|*.*" />
 
-            <DockPanel Margin="10" ToolTip="{x:Static properties:Resources.OpenExternalAppCommandParameter_Parameter_Remarks}">
-                <TextBlock Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.OpenExternalAppCommandParameter_Parameter}"/>
-                <TextBox VerticalAlignment="Center" Text="{Binding Model.Parameter}" />
-            </DockPanel>
+            <TextBlock Grid.Column="0" Grid.Row="2" Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.OpenExternalAppCommandParameter_Parameter}" />
+            <TextBox Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Text="{Binding Model.Parameter}" />
 
-            <DockPanel Margin="10,10,10,0">
-                <TextBlock Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.OpenExternalAppCommandParameter_ArchivePolicy}"/>
-                <ComboBox ItemsSource="{Binding ArchivePolicyList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.ArchivePolicy}" />
-            </DockPanel>
-            <DockPanel Margin="10,0,10,10">
-                <TextBlock Style="{StaticResource HeaderStyle}" Text="" />
-                <TextBlock Text="{Binding Model.ArchivePolicy, Converter={StaticResource ArchivePolicyToSampleStringConverter}}" Foreground="Gray" Padding="2" />
-            </DockPanel>
+            <TextBlock Grid.Column="0" Grid.Row="3" Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.OpenExternalAppCommandParameter_ArchivePolicy}" />
+            <ComboBox Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" ItemsSource="{Binding ArchivePolicyList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.ArchivePolicy}" />
 
-        </StackPanel>
-        
+            <TextBlock Grid.Column="0" Grid.Row="4" Style="{StaticResource HeaderStyle}" Text="" />
+            <TextBlock Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Text="{Binding Model.ArchivePolicy, Converter={StaticResource ArchivePolicyToSampleStringConverter}}" Foreground="Gray" Padding="2" />
+        </Grid>
+       
     </DockPanel>
 </Window>

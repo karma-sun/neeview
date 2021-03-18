@@ -217,12 +217,12 @@
 
             <Style x:Key="NavigateButtonStyle" TargetType="Button" BasedOn="{StaticResource IconButton}">
                 <Setter Property="Width" Value="28" />
-                <Setter Property="Height" Value="28" />
+                <Setter Property="MinHeight" Value="{DynamicResource FontIconSize}" />
             </Style>
 
             <Style x:Key="NavigateToggleButtonStyle" TargetType="ToggleButton" BasedOn="{StaticResource IconToggleButton}">
                 <Setter Property="Width" Value="28" />
-                <Setter Property="Height" Value="28" />
+                <Setter Property="MinHeight" Value="{DynamicResource FontIconSize}" />
             </Style>
 
         </ResourceDictionary>
@@ -230,17 +230,20 @@
     </UserControl.Resources>
 
     <Grid Margin="2" Background="Transparent">
-        <ScrollViewer x:Name="ScrollView" Style="{StaticResource DarkScrollViewer}" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" Focusable="False"
-                CanContentScroll="False">
+        <DockPanel Margin="0">
 
-            <StackPanel Margin="0">
+            <DockPanel DockPanel.Dock="Top" LastChildFill="False" KeyboardNavigation.TabNavigation="Local">
+                <local:MoreMenuButton Description="{Binding MoreMenuDescription}" DockPanel.Dock="Right" />
+            </DockPanel>
+
+            <ScrollViewer x:Name="ScrollView" Style="{StaticResource DarkScrollViewer}" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" Focusable="False"
+                    CanContentScroll="False">
+
                 <StackPanel Margin="2,0">
 
-                    <DockPanel LastChildFill="False" KeyboardNavigation.TabNavigation="Local">
-                        <local:MoreMenuButton Description="{Binding MoreMenuDescription}" DockPanel.Dock="Right" />
-                    </DockPanel>
 
-                    <local:NavigateThumbnail HorizontalAlignment="Stretch" Margin="10" Visibility="{Binding Source={x:Static local:Config.Current}, Path=Navigator.IsVisibleThumbnail, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <local:NavigateThumbnail HorizontalAlignment="Stretch" Margin="10"
+                            Visibility="{Binding Source={x:Static local:Config.Current}, Path=Navigator.IsVisibleThumbnail, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                     <Separator />
 
@@ -379,9 +382,9 @@
 
                 </StackPanel>
 
-            </StackPanel>
 
-        </ScrollViewer>
+            </ScrollViewer>
+        </DockPanel>
     </Grid>
 
 </UserControl>

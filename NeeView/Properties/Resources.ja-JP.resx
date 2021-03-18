@@ -3461,13 +3461,13 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="PanelListItemStyle.Thumbnail" xml:space="preserve">
     <value>サムネイル</value>
   </data>
-  <data name="PanelsConfig.FolderTreeFontSize" xml:space="preserve">
+  <data name="xPanelsConfig.FolderTreeFontSize" xml:space="preserve">
     <value>フォルダー ツリーのフォント サイズ</value>
   </data>
-  <data name="PanelsConfig.FontName" xml:space="preserve">
+  <data name="xPanelsConfig.FontName" xml:space="preserve">
     <value>リスト項目のフォント</value>
   </data>
-  <data name="PanelsConfig.FontSize" xml:space="preserve">
+  <data name="xPanelsConfig.FontSize" xml:space="preserve">
     <value>リスト項目のフォント サイズ</value>
   </data>
   <data name="PanelsConfig.IsDecoratePlace" xml:space="preserve">
@@ -6896,5 +6896,32 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="AutoHideConfrictMode.Deny" xml:space="preserve">
     <value>拒否</value>
+  </data>
+  <data name="SettingPage.Fonts" xml:space="preserve">
+    <value>フォント</value>
+  </data>
+  <data name="FontsConfig.FontName" xml:space="preserve">
+    <value>フォント</value>
+  </data>
+  <data name="FontsConfig.FontScale" xml:space="preserve">
+    <value>フォント スケール</value>
+  </data>
+  <data name="FontsConfig.FolderTreeFontScale" xml:space="preserve">
+    <value>フォルダー ツリーのフォント スケール</value>
+  </data>
+  <data name="FontsConfig.MenuFontScale" xml:space="preserve">
+    <value>メニューのフォント スケール</value>
+  </data>
+  <data name="FontsConfig.PanelFontName" xml:space="preserve">
+    <value>リスト項目のフォント</value>
+  </data>
+  <data name="FontsConfig.PanelFontScale" xml:space="preserve">
+    <value>リスト項目のフォント スケール</value>
+  </data>
+  <data name="PanelColor.Dark" xml:space="preserve">
+    <value>ダーク</value>
+  </data>
+  <data name="PanelColor.Light" xml:space="preserve">
+    <value>ライト</value>
   </data>
 </root>

@@ -11,14 +11,9 @@ namespace NeeView
     /// </summary>
     public class PageSliderViewModel : BindableBase
     {
-        #region Fields
-
         private PageSlider _model;
         private MouseWheelDelta _mouseWheelDelta = new MouseWheelDelta();
 
-        #endregion
-
-        #region Constructors
 
         public PageSliderViewModel(PageSlider model)
         {
@@ -27,21 +22,18 @@ namespace NeeView
             _model = model;
 
             Config.Current.Slider.AddPropertyChanged(nameof(SliderConfig.SliderIndexLayout),
-                (s, e) =>
-                {
-                    RaisePropertyChanged(null);
-                });
+                (s, e) => RaisePropertyChanged(null));
 
             BookOperation.Current.BookChanged +=
-                (s, e) =>
-                {
-                    RaisePropertyChanged(nameof(PageSliderVisibility));
-                };
+                (s, e) => RaisePropertyChanged(nameof(PageSliderVisibility));
+
+            VisualParameters.Current.AddPropertyChanged(nameof(VisualParameters.DefaultFontSize),
+                (s, e) => RaisePropertyChanged(nameof(FontSize)));
+
+            Config.Current.Slider.AddPropertyChanged(nameof(SliderConfig.Thickness),
+                (s, e) => RaisePropertyChanged(nameof(FontSize)));
         }
 
-        #endregion
-
-        #region Properties
 
         public PageSlider Model
         {
@@ -57,9 +49,8 @@ namespace NeeView
 
         public Visibility PageSliderVisibility => _model != null && BookOperation.Current.GetPageCount() > 0 ? Visibility.Visible : Visibility.Hidden;
 
-        #endregion
+        public double FontSize => Math.Min(VisualParameters.Current.DefaultFontSize, Config.Current.Slider.Thickness);
 
-        #region Methods
 
         public void MouseWheel(object sender, MouseWheelEventArgs e)
         {
@@ -85,7 +76,6 @@ namespace NeeView
             _model.Jump(force);
         }
 
-        #endregion
     }
 }
 

@@ -19,11 +19,6 @@
         <Grid.Style>
             <Style TargetType="Grid">
                 <Setter Property="Background" Value="{Binding Config.Theme.MenuColor, Converter={StaticResource BackgroundSelector}}" />
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding IsHighContrast}" Value="True">
-                        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
-                    </DataTrigger>
-                </Style.Triggers>
             </Style>
         </Grid.Style>
 
@@ -39,11 +34,6 @@
                             </MultiBinding>
                         </Setter.Value>
                     </Setter>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsHighContrast}" Value="True">
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
-                        </DataTrigger>
-                    </Style.Triggers>
                 </Style>
             </ContentControl.Style>
         </ContentControl>
@@ -86,9 +76,10 @@
                 <ContentControl x:Name="MainMenuJoint" Content="{Binding MainMenu}" IsTabStop="False" VerticalAlignment="Center" WindowChrome.IsHitTestVisibleInChrome="False"
                         Foreground="{Binding Foreground, ElementName=ForegroundColorResource}" Margin="4,0,0,0">
                 </ContentControl>
-                <TextBlock x:Name="MenuTitle" Text="{Binding WindowTitle.Title}" VerticalAlignment="Center" HorizontalAlignment="Left" TextTrimming="CharacterEllipsis" Margin="5,0"
-                        FontSize="{x:Static SystemFonts.MessageFontSize}" Visibility="{Binding IsCaptionEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
-                        Foreground="{Binding Foreground, ElementName=ForegroundColorResource}">
+                <TextBlock x:Name="MenuTitle" Text="{Binding WindowTitle.Title}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0"
+                        Visibility="{Binding IsCaptionEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        Foreground="{Binding Foreground, ElementName=ForegroundColorResource}" FontSize="{DynamicResource MenuFontSize}"
+                        TextTrimming="CharacterEllipsis">
                 </TextBlock>
             </DockPanel>
 

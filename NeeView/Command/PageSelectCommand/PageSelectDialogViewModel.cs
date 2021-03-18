@@ -6,9 +6,9 @@ using System.ComponentModel;
 
 namespace NeeView
 {
-    public class PageSelectDialogResultEventArgs : EventArgs
+    public class PageSelectDialogDecidedEventArgs : EventArgs
     {
-        public PageSelectDialogResultEventArgs(bool result)
+        public PageSelectDialogDecidedEventArgs(bool result)
         {
             Result = result;
         }
@@ -16,117 +16,48 @@ namespace NeeView
         public bool Result { get; set; }
     }
 
-    public class PageSelectDialogViewModel : BindableBase, INotifyDataErrorInfo
+    public class PageSelectDialogViewModel : BindableBase 
     {
-        #region INotifyDataErrorInfo Support
-        private Dictionary<string, string> _errors = new Dictionary<string, string>();
-
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
-
-        private bool SetError(string propertyName, string message)
-        {
-            if (message == null)
-            {
-                return ResetError(propertyName);
-            }
-
-            if (_errors.ContainsKey(propertyName) && _errors[propertyName] == message)
-            {
-                return false;
-            }
-
-            _errors[propertyName] = message;
-            RaiseErrorsChanged(propertyName);
-            return true;
-        }
-
-        private bool ResetError(string propertyName)
-        {
-            if (!_errors.ContainsKey(propertyName))
-            {
-                return false;
-            }
-
-            _errors.Remove(propertyName);
-            RaiseErrorsChanged(propertyName);
-            return true;
-        }
-
-        private void RaiseErrorsChanged(string propertyName)
-        {
-            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
-        }
-
-        public System.Collections.IEnumerable GetErrors(string propertyName)
-        {
-            var errors = new List<string>();
-
-            if (_errors.ContainsKey(propertyName))
-            {
-                errors.Add(_errors[propertyName]);
-            }
-
-            return errors;
-        }
-
-        public bool HasErrors
-        {
-            get { return _errors.Count > 0; }
-        }
-        #endregion
-
         private PageSelecteDialogModel _model;
+        private RelayCommand _decideCommand;
+        private RelayCommand _cancelCommand;
 
         public PageSelectDialogViewModel(PageSelecteDialogModel model)
         {
             _model = model;
-            _inputValue = _model.GetValue();
+
+            _model.AddPropertyChanged(nameof(_model.Value),
+                (s, e) => RaisePropertyChanged(nameof(Value)));
         }
 
-        public event EventHandler<PageSelectDialogResultEventArgs> ChangeResult;
 
-        public string Caption => _model.Caption;
-        public string Label => _model.Label;
+        public event EventHandler<PageSelectDialogDecidedEventArgs> Decided;
 
-        private string _inputValue;
-        public string InputValue
+
+        public string Caption => Properties.Resources.JumpPageCommand;
+
+        public string Label => string.Format(Properties.Resources.Notice_JumpPageLabel, _model.Min, _model.Max);
+
+        public int Value
         {
-            get { return _inputValue; }
-            set
-            {
-                if (SetProperty(ref _inputValue, value))
-                {
-                    if (SetError(nameof(InputValue), _model.CanParse(value) ? null : "Error"))
-                    {
-                        DecideCommand.RaiseCanExecuteChanged();
-                    }
-                }
-            }
+            get { return _model.Value; }
+            set { _model.Value = value; }
         }
 
-        private RelayCommand _decideCommand;
+
         public RelayCommand DecideCommand
         {
             get
             {
-                return _decideCommand = _decideCommand ?? new RelayCommand(Execute, CanExcute);
-
-                bool CanExcute()
-                {
-                    return !HasErrors;
-                }
+                return _decideCommand = _decideCommand ?? new RelayCommand(Execute);
 
                 void Execute()
                 {
-                    if (_model.SetValue(_inputValue))
-                    {
-                        ChangeResult?.Invoke(this, new PageSelectDialogResultEventArgs(true));
-                    }
+                    Decided?.Invoke(this, new PageSelectDialogDecidedEventArgs(true));
                 }
             }
         }
 
-        private RelayCommand _cancelCommand;
         public RelayCommand CancelCommand
         {
             get
@@ -135,14 +66,15 @@ namespace NeeView
 
                 void Execute()
                 {
-                    ChangeResult?.Invoke(this, new PageSelectDialogResultEventArgs(false));
+                    Decided?.Invoke(this, new PageSelectDialogDecidedEventArgs(false));
                 }
             }
         }
 
+
         public void AddValue(int delta)
         {
-            InputValue = _model.AddValue(InputValue, delta);
+            _model.AddValue(delta);
         }
     }
 }

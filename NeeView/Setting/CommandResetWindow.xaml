@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:NeeView.Setting"
         xmlns:properties="clr-namespace:NeeView.Properties"
         mc:Ignorable="d"
-        Style="{StaticResource ToolWindowStyle}"
+        Style="{StaticResource SystemWindowStyle}"
         x:Name="MyWindow"
         Title="{x:Static properties:Resources.CommandResetWindow_Title}" Height="300" Width="500">
     <Grid>

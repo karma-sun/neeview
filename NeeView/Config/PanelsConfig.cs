@@ -14,9 +14,6 @@ namespace NeeView
         private bool _isSideBarEnabled = true;
         private double _opacity = 1.0;
         private bool _isHidePanelInAutoHideMode = true;
-        private string _fontName = SystemFonts.MessageFontFamily.Source;
-        private double _fontSize = 15.0;
-        private double _folderTreeFontSize = 12.0;
         private bool _isDecoratePlace = true;
         private bool _openWithDoubleClick;
         private bool _isLeftRightKeyEnabled;
@@ -96,36 +93,6 @@ namespace NeeView
         }
 
         /// <summary>
-        /// フォント名
-        /// </summary>
-        [PropertyMember]
-        public string FontName
-        {
-            get { return _fontName; }
-            set { SetProperty(ref _fontName, string.IsNullOrWhiteSpace(value) ? SystemFonts.MessageFontFamily.Source : value); }
-        }
-
-        /// <summary>
-        /// フォントサイズ
-        /// </summary>
-        [PropertyRange(8, 24, TickFrequency = 0.5, IsEditable = true, Format = "{0:0.0}")]
-        public double FontSize
-        {
-            get { return _fontSize; }
-            set { SetProperty(ref _fontSize, Math.Max(1.0, value)); }
-        }
-
-        /// <summary>
-        /// フォルダーツリーのフォントサイズ
-        /// </summary>
-        [PropertyRange(8, 24, TickFrequency = 0.5, IsEditable = true, Format = "{0:0.0}")]
-        public double FolderTreeFontSize
-        {
-            get { return _folderTreeFontSize; }
-            set { SetProperty(ref _folderTreeFontSize, Math.Max(1.0, value)); }
-        }
-
-        /// <summary>
         /// パス表示形式を "CCC (C:\AAA\BBB) にする
         /// </summary>
         [PropertyMember]
@@ -138,7 +105,7 @@ namespace NeeView
         /// <summary>
         /// サムネイルリストのマウスホイール速度倍率
         /// </summary>
-        [PropertyRange(0.1, 2.0, TickFrequency =0.1, Format = "× {0:0.0}")]
+        [PropertyRange(0.1, 2.0, TickFrequency = 0.1, Format = "× {0:0.0}")]
         public double MouseWheelSpeedRate
         {
             get { return _mouseWheelSpeedRate; }
@@ -183,6 +150,42 @@ namespace NeeView
 
 
         #region Obsolete
+
+        [Obsolete, PropertyMapIgnore]
+        [JsonIgnore]
+        public string FontName_Legacy { get; private set; }
+
+        [Obsolete("Use nv.Config.Fonts.PanelFontName instead.")] // ver.39
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string FontName
+        {
+            get { return null; }
+            set { FontName_Legacy = value; }
+        }
+
+        [Obsolete, PropertyMapIgnore]
+        [JsonIgnore]
+        public double FontSize_Legacy { get; private set; }
+
+        [Obsolete("Use nv.Config.Fonts.PanelFontScale instead.")] // ver.39
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public double FontSize
+        {
+            get { return 0.0; }
+            set { FontSize_Legacy = value; }
+        }
+
+        [Obsolete, PropertyMapIgnore]
+        [JsonIgnore]
+        public double FolderTreeFontSize_Legacy { get; private set; }
+
+        [Obsolete("Use nv.Config.Fonts.FolderTreeFontScale instead.")] // ver.39
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public double FolderTreeFontSize
+        {
+            get { return 0.0; }
+            set { FolderTreeFontSize_Legacy = value; }
+        }
 
         [Obsolete("Use IsHidePanelInAutoHideMode instead.")] // ver.38
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

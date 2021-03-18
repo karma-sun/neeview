@@ -37,7 +37,8 @@
                     </ContextMenu>
                 </DockPanel.ContextMenu>
                 <nvc:WindowCaptionButtons DockPanel.Dock="Right" Foreground="{Binding CaptionForeground}" IsEnabled="True" IsMinimizeEnabled="False" WindowChrome.IsHitTestVisibleInChrome="False" />
-                <TextBlock Text="{Binding Path=Title}" VerticalAlignment="Center" Margin="16,0" Foreground="{Binding CaptionForeground}" />
+                <TextBlock Text="{Binding Path=Title}" VerticalAlignment="Center" Margin="16,0" Foreground="{Binding CaptionForeground}"
+                        FontSize="{DynamicResource {x:Static SystemFonts.CaptionFontSizeKey}}" FontFamily="{DynamicResource {x:Static SystemFonts.CaptionFontFamilyKey}}" TextTrimming="CharacterEllipsis" />
             </DockPanel>
 
             <UserControl x:Name="MainContent" Grid.Row="1" Content="{Binding LayoutPanel.Content}" />

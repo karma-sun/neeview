@@ -33,7 +33,7 @@
                 </Border>
             </Grid>
             <DockPanel Margin=" 10">
-                <TextBlock x:Name="FileNameTextBlock" Text="{Binding Name}" HorizontalAlignment="Center" TextWrapping="Wrap" FontSize="20" VerticalAlignment="Top" MinHeight="80"
+                <TextBlock x:Name="FileNameTextBlock" Text="{Binding Name}" HorizontalAlignment="Center" TextWrapping="Wrap" FontSize="{DynamicResource SystemFontSizeLarge}" VerticalAlignment="Top" MinHeight="80"
                         Foreground="{DynamicResource DefaultBrush}" />
             </DockPanel>
         </StackPanel>

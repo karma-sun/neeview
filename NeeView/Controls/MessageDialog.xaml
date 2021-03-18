@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
-        Style="{StaticResource ToolWindowStyle}" 
+        Style="{StaticResource SystemWindowStyle}" 
         UseLayoutRounding="True"
         KeyDown="MesageDialog_KeyDown"
         Title="NeeView" ResizeMode="NoResize" SizeToContent="Height" Width="600" WindowStyle="ToolWindow">
@@ -18,7 +18,8 @@
             <StackPanel x:Name="SubButtonPanel" Orientation="Horizontal" Margin="-20,0,0,0">
             </StackPanel>
         </DockPanel>
-        <TextBlock x:Name="Caption" DockPanel.Dock="Top" Text="Title" TextWrapping="Wrap" FontSize="24" Margin="0,5"/>
+        <TextBlock x:Name="Caption" DockPanel.Dock="Top" Text="Title" TextWrapping="Wrap" FontSize="{DynamicResource SystemFontSizeHuge}" Margin="0,5" />
+
         <ContentControl x:Name="Message" Margin="0,5" IsTabStop="False" Content="Content"/>
     </DockPanel>
 

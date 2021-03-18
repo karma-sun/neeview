@@ -36,6 +36,8 @@ namespace NeeView
         public WindowConfig Window { get; set; } = new WindowConfig();
 
         public ThemeConfig Theme { get; set; } = new ThemeConfig();
+        
+        public FontsConfig Fonts { get; set; } = new FontsConfig();
 
         public BackgroundConfig Background { get; set; } = new BackgroundConfig();
 

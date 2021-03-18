@@ -6130,6 +6130,60 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Folder tree font scale に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FontsConfig_FolderTreeFontScale {
+            get {
+                return ResourceManager.GetString("FontsConfig.FolderTreeFontScale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Font に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FontsConfig_FontName {
+            get {
+                return ResourceManager.GetString("FontsConfig.FontName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Font scale に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FontsConfig_FontScale {
+            get {
+                return ResourceManager.GetString("FontsConfig.FontScale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Menu font scale に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FontsConfig_MenuFontScale {
+            get {
+                return ResourceManager.GetString("FontsConfig.MenuFontScale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   List item font に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FontsConfig_PanelFontName {
+            get {
+                return ResourceManager.GetString("FontsConfig.PanelFontName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   List item font scale に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FontsConfig_PanelFontScale {
+            get {
+                return ResourceManager.GetString("FontsConfig.PanelFontScale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Commands to which no operation is assigned can be used by setting with &quot;Edit commands&quot;. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string HelpCommandList_Message {
@@ -11528,6 +11582,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Dark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PanelColor_Dark {
+            get {
+                return ResourceManager.GetString("PanelColor.Dark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Light に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PanelColor_Light {
+            get {
+                return ResourceManager.GetString("PanelColor.Light", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Banner に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string PanelListItemImageShape_Banner {
@@ -11677,33 +11749,6 @@ namespace NeeView.Properties {
         public static string PanelListItemStyle_Thumbnail {
             get {
                 return ResourceManager.GetString("PanelListItemStyle.Thumbnail", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Font size of folder tree に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string PanelsConfig_FolderTreeFontSize {
-            get {
-                return ResourceManager.GetString("PanelsConfig.FolderTreeFontSize", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   List item font に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string PanelsConfig_FontName {
-            get {
-                return ResourceManager.GetString("PanelsConfig.FontName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Font size of list items に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string PanelsConfig_FontSize {
-            get {
-                return ResourceManager.GetString("PanelsConfig.FontSize", resourceCulture);
             }
         }
         
@@ -13928,6 +13973,15 @@ namespace NeeView.Properties {
         public static string SettingPage_Filmstrip {
             get {
                 return ResourceManager.GetString("SettingPage.Filmstrip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Fonts に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPage_Fonts {
+            get {
+                return ResourceManager.GetString("SettingPage.Fonts", resourceCulture);
             }
         }
         
@@ -20233,6 +20287,33 @@ namespace NeeView.Properties {
         public static string xInformationConfig_IsVisibleLoader {
             get {
                 return ResourceManager.GetString("xInformationConfig.IsVisibleLoader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Font size of folder tree に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string xPanelsConfig_FolderTreeFontSize {
+            get {
+                return ResourceManager.GetString("xPanelsConfig.FolderTreeFontSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   List item font に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string xPanelsConfig_FontName {
+            get {
+                return ResourceManager.GetString("xPanelsConfig.FontName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Font size of list items に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string xPanelsConfig_FontSize {
+            get {
+                return ResourceManager.GetString("xPanelsConfig.FontSize", resourceCulture);
             }
         }
         

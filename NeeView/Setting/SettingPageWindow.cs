@@ -12,6 +12,7 @@ namespace NeeView.Setting
         {
             this.Children = new List<SettingPage>
             {
+                new SettingPageFonts(),
                 new SettingPageWindowTitle(),
             };
 
@@ -38,6 +39,26 @@ namespace NeeView.Setting
         }
     }
 
+
+    /// <summary>
+    /// SettingPage: Fonts
+    /// </summary>
+    public class SettingPageFonts : SettingPage
+    {
+        public SettingPageFonts() : base(Properties.Resources.SettingPage_Fonts)
+        {
+            this.Items = new List<SettingItem>();
+
+            var section = new SettingItemSection(Properties.Resources.SettingPage_Fonts);
+            section.Children.Add(new SettingItemPropertyFont(PropertyMemberElement.Create(Config.Current.Fonts, nameof(FontsConfig.FontName))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Fonts, nameof(FontsConfig.FontScale))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Fonts, nameof(FontsConfig.MenuFontScale))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Fonts, nameof(FontsConfig.FolderTreeFontScale))));
+            section.Children.Add(new SettingItemPropertyFont(PropertyMemberElement.Create(Config.Current.Fonts, nameof(FontsConfig.PanelFontName))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Fonts, nameof(FontsConfig.PanelFontScale))));
+            this.Items.Add(section);
+        }
+    }
 
     /// <summary>
     /// Setting: WindowTitle

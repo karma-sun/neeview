@@ -26,16 +26,18 @@ namespace NeeView
             InitializeComponent();
 
             this.Loaded += PageSelectDialog_Loaded;
+            this.ContentRendered += PageSelectDialog_ContentRendered;
         }
+
 
         public PageSelectDialog(PageSelecteDialogModel model) : this()
         {
             _vm = new PageSelectDialogViewModel(model);
-            _vm.ChangeResult += ViewModel_ChangeResult;
+            _vm.Decided += ViewModel_ChangeResult;
             this.DataContext = _vm;
         }
 
-        private void ViewModel_ChangeResult(object sender, PageSelectDialogResultEventArgs e)
+        private void ViewModel_ChangeResult(object sender, PageSelectDialogDecidedEventArgs e)
         {
             this.DialogResult = e.Result;
             this.Close();
@@ -43,14 +45,18 @@ namespace NeeView
 
         private void PageSelectDialog_Loaded(object sender, RoutedEventArgs e)
         {
-            this.InputValueTextBox.SelectAll();
             this.InputValueTextBox.Focus();
+        }
+        private void PageSelectDialog_ContentRendered(object sender, EventArgs e)
+        {
+            this.InputValueTextBox.SelectAll();
         }
 
         private void PageSelectDialog_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             int turn = _mouseWheelDelta.NotchCount(e);
             _vm.AddValue(-turn);
+            this.InputValueTextBox.SelectAll();
         }
 
         private void PageSelectDialog_KeyDown(object sender, KeyEventArgs e)

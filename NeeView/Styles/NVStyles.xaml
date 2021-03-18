@@ -694,7 +694,7 @@
                                               Content="{TemplateBinding SelectionBoxItem}"
                                               ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
                                               ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                                              Margin="8,4,23,4" VerticalAlignment="Stretch" HorizontalAlignment="Left">
+                                              Margin="8,4,23,4" VerticalAlignment="Center" HorizontalAlignment="Left">
                         </ContentPresenter>
                         <TextBox x:Name="PART_EditableTextBox" Style="{x:Null}" Template="{StaticResource NVComboBoxTextBox}" HorizontalAlignment="Left"
                                      VerticalAlignment="Bottom" Margin="8,4,23,4" Focusable="True" Foreground="{TemplateBinding Foreground}" Background="Transparent" Visibility="Hidden" IsReadOnly="{TemplateBinding IsReadOnly}" />
@@ -811,7 +811,7 @@
                                               Margin="8,4,3,4" VerticalAlignment="Stretch" HorizontalAlignment="Left">
                         </ContentPresenter>
                         <TextBox x:Name="PART_EditableTextBox"  HorizontalAlignment="Stretch"
-                                     VerticalAlignment="Stretch" Margin="8,4,3,4" Focusable="True" Foreground="{TemplateBinding Foreground}" Background="Transparent" CaretBrush="{TemplateBinding Foreground}"
+                                     VerticalAlignment="Center" Margin="8,4,3,4" Focusable="True" Foreground="{TemplateBinding Foreground}" Background="Transparent" CaretBrush="{TemplateBinding Foreground}"
                                      Visibility="Hidden" IsReadOnly="{TemplateBinding IsReadOnly}" >
                             <TextBox.Template>
                                 <ControlTemplate TargetType="TextBox">
@@ -1283,7 +1283,7 @@
         <Setter Property="Background" Value="{DynamicResource NVMenuBackgroundBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource NVBorderBrush}" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="FontSize" Value="{DynamicResource {x:Static SystemFonts.MessageFontSizeKey}}" />
+        <Setter Property="FontSize" Value="{DynamicResource MenuFontSize}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Menu}">
@@ -1300,7 +1300,7 @@
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Foreground" Value="{DynamicResource NVForeground}" />
         <Setter Property="Background" Value="{DynamicResource NVMenuBackgroundBrush}" />
-        <Setter Property="FontSize" Value="{DynamicResource {x:Static SystemFonts.MessageFontSizeKey}}" />
+        <Setter Property="FontSize" Value="{DynamicResource MenuFontSize}" />
         <Setter Property="Grid.IsSharedSizeScope" Value="true" />
         <Setter Property="HasDropShadow" Value="True" />
         <Setter Property="Padding" Value="2" />

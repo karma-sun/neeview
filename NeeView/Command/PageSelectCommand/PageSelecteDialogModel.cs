@@ -1,4 +1,6 @@
-﻿using NeeLaboratory.ComponentModel;
+﻿using NeeLaboratory;
+using NeeLaboratory.ComponentModel;
+using System;
 
 namespace NeeView
 {
@@ -7,7 +9,21 @@ namespace NeeView
     /// </summary>
     public class PageSelecteDialogModel : BindableBase
     {
-        public int Value { get; set; }
+        private int _value;
+
+        public PageSelecteDialogModel(int value, int min, int max)
+        {
+            Value = value;
+            Min = min;
+            Max = max;
+        }
+
+        public int Value
+        {
+            get { return _value; }
+            set { SetProperty(ref _value, value); }
+        }
+
         public int Min { get; set; }
         public int Max { get; set; }
 
@@ -15,41 +31,16 @@ namespace NeeView
 
         public string Label => string.Format(Properties.Resources.Notice_JumpPageLabel, Min, Max);
 
-        public string GetValue()
+        public void AddValue(int delta)
         {
-            return Value.ToString();
-        }
-
-        public bool SetValue(string source)
-        {
-            if (CanParse(source))
+            if (delta < 0 && Value > Min)
             {
-                Value = int.Parse(source);
-                return true;
+                Value = Math.Max(Value + delta, Min);
             }
-
-            return false;
-        }
-
-        public bool CanParse(string source)
-        {
-            if (int.TryParse(source, out int value))
+            else if (delta > 0 && Value < Max)
             {
-                return Min <= value && value <= Max;
+                Value = Math.Min(Value + delta, Max);
             }
-
-            return false;
-        }
-
-        public string AddValue(string source, int delta)
-        {
-            if (!int.TryParse(source, out int value))
-            {
-                value = Value;
-            }
-
-            value = NeeLaboratory.MathUtility.Clamp(value + delta, Min, Max);
-            return value.ToString();
         }
     }
 }

@@ -22,13 +22,8 @@ namespace NeeView
 
             InitializeWindowCaptionEmulator(control, model.WindowStateManager);
 
-
             _model.AddPropertyChanged(nameof(MenuBar.MainMenu),
                 (s, e) => RaisePropertyChanged(nameof(MainMenu)));
-
-            WindowEnvironment.Current.AddPropertyChanged(nameof(WindowEnvironment.IsHighContrast),
-                (s, e) => RaisePropertyChanged(nameof(IsHighContrast)));
-
         }
 
         public MenuBar Model
@@ -46,8 +41,6 @@ namespace NeeView
         public Dictionary<string, RoutedUICommand> BookCommands => RoutedCommandTable.Current.Commands;
 
         public WindowTitle WindowTitle => WindowTitle.Current;
-
-        public bool IsHighContrast => WindowEnvironment.Current.IsHighContrast;
 
         public bool IsCaptionEnabled
         {

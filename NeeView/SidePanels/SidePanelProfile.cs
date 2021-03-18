@@ -17,33 +17,11 @@ namespace NeeView
     {
         public void Initialize()
         {
-            SetFontFamilyResource(Config.Current.Panels.FontName);
-            SetFontSizeResource(Config.Current.Panels.FontSize);
-            SetFolderTreeFontSizeResource(Config.Current.Panels.FolderTreeFontSize);
+            VisualParameters.Current.AddPropertyChanged(nameof(VisualParameters.PanelFontName),
+                (s, e) => ValidatePanelListItemProfile());
 
-            Config.Current.Panels.AddPropertyChanged(nameof(PanelsConfig.FontName), (s, e) =>
-            {
-                try
-                {
-                    SetFontFamilyResource(Config.Current.Panels.FontName);
-                    ValidatePanelListItemProfile();
-                }
-                catch
-                {
-                    // nop.
-                }
-            });
-
-            Config.Current.Panels.AddPropertyChanged(nameof(PanelsConfig.FontSize), (s, e) =>
-            {
-                SetFontSizeResource(Config.Current.Panels.FontSize);
-                ValidatePanelListItemProfile();
-            });
-
-            Config.Current.Panels.AddPropertyChanged(nameof(PanelsConfig.FolderTreeFontSize), (s, e) =>
-            {
-                SetFolderTreeFontSizeResource(Config.Current.Panels.FolderTreeFontSize);
-            });
+            VisualParameters.Current.AddPropertyChanged(nameof(VisualParameters.PaneFontSize),
+                (s, e) => ValidatePanelListItemProfile());
 
             ValidatePanelListItemProfile();
         }
@@ -53,26 +31,6 @@ namespace NeeView
             if (string.IsNullOrEmpty(s)) return s;
             return Config.Current.Panels.IsDecoratePlace ? LoosePath.GetPlaceName(s) : s;
         }
-
-        // リソースにFontFamily適用
-        private void SetFontFamilyResource(string fontName)
-        {
-            var fontFamily = fontName != null ? new FontFamily(fontName) : SystemFonts.MessageFontFamily;
-            App.Current.Resources["PanelFontFamily"] = fontFamily;
-        }
-
-        // リソースにFontSize適用
-        private void SetFontSizeResource(double fontSize)
-        {
-            App.Current.Resources["PanelFontSize"] = fontSize;
-        }
-
-        // リソースにFolderTreeFontSize適用
-        private void SetFolderTreeFontSizeResource(double fontSize)
-        {
-            App.Current.Resources["FolderTreeFontSize"] = fontSize;
-        }
-
 
         public void ValidatePanelListItemProfile()
         {
@@ -133,9 +91,9 @@ namespace NeeView
             {
                 config.Panels.IsLeftRightKeyEnabled = IsLeftRightKeyEnabled;
                 config.Panels.Opacity = Opacity;
-                config.Panels.FontName = FontName;
-                config.Panels.FontSize = FontSize;
-                config.Panels.FolderTreeFontSize = FolderTreeFontSize;
+                config.Fonts.PanelFontName = FontName;
+                config.Fonts.PanelFontScale = FontSize / VisualParameters.SystemMessageFontSize;
+                config.Fonts.FolderTreeFontScale = FolderTreeFontSize / VisualParameters.SystemMessageFontSize;
                 config.Panels.IsDecoratePlace = IsDecoratePlace;
 
                 config.Panels.ContentItemProfile = ContentItemProfile ?? PanelListItemProfile.DefaultContentItemProfile.Clone();

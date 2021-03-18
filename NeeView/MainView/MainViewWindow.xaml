@@ -37,7 +37,7 @@
 
             <UserControl x:Name="MainViewSocket" Grid.Row="1" Content="{Binding LayoutPanel.Content}" />
 
-            <DockPanel x:Name="CaptionBar" Grid.Row="0" Background="{Binding CaptionBackground}" Height="{Binding WindowChrome.CaptionHeight}" VerticalAlignment="Top">
+            <DockPanel x:Name="CaptionBar" Grid.Row="0" Background="{Binding CaptionBackground}" MinHeight="{Binding WindowChrome.CaptionHeight}" VerticalAlignment="Top">
                 <DockPanel.ContextMenu>
                     <ContextMenu>
                         <MenuItem x:Name="StretchWindowMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="{x:Static properties:Resources.StretchWindowCommand}"
@@ -63,7 +63,8 @@
                 </behaviors:Interaction.Behaviors>
 
                 <nwc:WindowCaptionButtons DockPanel.Dock="Right" Foreground="{Binding CaptionForeground}" IsEnabled="True" IsMinimizeEnabled="True" WindowChrome.IsHitTestVisibleInChrome="False" />
-                <TextBlock Text="{Binding Path=Title}" VerticalAlignment="Center" Margin="16,0" Foreground="{Binding CaptionForeground}" />
+                <TextBlock Text="{Binding Path=Title}" VerticalAlignment="Center" Margin="16,0" Foreground="{Binding CaptionForeground}"
+                        FontSize="{DynamicResource {x:Static SystemFonts.CaptionFontSizeKey}}" FontFamily="{DynamicResource {x:Static SystemFonts.CaptionFontFamilyKey}}" TextTrimming="CharacterEllipsis" />
             </DockPanel>
 
             <local:NormalInfoMessageView Grid.Row="1" Source="{Binding InfoMessage.NormalInfoMessage}" />

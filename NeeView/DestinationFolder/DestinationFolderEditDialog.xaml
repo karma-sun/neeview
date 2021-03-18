@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         xmlns:nvc="clr-namespace:NeeView.Windows.Controls" xmlns:properties="clr-namespace:NeeView.Properties" mc:Ignorable="d" Title="{x:Static properties:Resources.DestinationFolderEditDialog_Title}"
-        Height="220" Width="500" WindowStyle="ToolWindow" Style="{StaticResource ToolWindowStyle}">
+        Height="220" Width="500" WindowStyle="ToolWindow" SizeToContent="Height"  Style="{StaticResource ToolWindowStyle}">
 
     <Window.Resources>
 
@@ -20,20 +20,22 @@
             <Button x:Name="CancelButton" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.Word_Cancel}" Click="CancelButton_Click" />
         </StackPanel>
 
-        <StackPanel DockPanel.Dock="Top" Margin="10">
-            
-            <DockPanel Margin="10">
-                <TextBlock Text="{x:Static properties:Resources.Word_Name}" Width="60" VerticalAlignment="Center" />
-                <TextBox VerticalAlignment="Center" Text="{Binding Name}" />
-            </DockPanel>
-            
-            <DockPanel Margin="10">
-                <TextBlock Text="{x:Static properties:Resources.Word_Path}" Width="60"  VerticalAlignment="Center"/>
-                <nvc:FileNameBox VerticalAlignment="Center" Text="{Binding Path, Mode=TwoWay}" FileDialogType="Directory"
-                        Note="{x:Static properties:Resources.DestinationFolderEditDialog_Path_Remarks}" />
-            </DockPanel>
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
 
-        </StackPanel>
+            <TextBlock Grid.Column="0" Grid.Row="0" Text="{x:Static properties:Resources.Word_Name}" MinWidth="60" VerticalAlignment="Center" Margin="10" />
+            <TextBox Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Text="{Binding Name}" />
+
+            <TextBlock Grid.Column="0" Grid.Row="1" Text="{x:Static properties:Resources.Word_Path}" MinWidth="60" VerticalAlignment="Center" Margin="10" />
+            <nvc:FileNameBox Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Text="{Binding Path, Mode=TwoWay}" FileDialogType="Directory" Note="{x:Static properties:Resources.DestinationFolderEditDialog_Path_Remarks}" />
+        </Grid>
         
     </DockPanel>
 </Window>

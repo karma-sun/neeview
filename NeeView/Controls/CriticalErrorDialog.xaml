@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:NeeView"
         xmlns:properties="clr-namespace:NeeView.Properties"
         mc:Ignorable="d"
-        Style="{StaticResource ToolWindowStyle}" 
+        Style="{StaticResource SystemWindowStyle}" ShowInTaskbar="True"
         Title="{x:Static properties:Resources.CriticalExceptionDialog_Title}" Height="450" Width="800">
     <Window.Resources>
         <DrawingImage x:Key="tic_error">
@@ -38,7 +38,7 @@
         </DockPanel>
         <DockPanel DockPanel.Dock="Top" Margin="0,0,0,10">
         <Image Source="{StaticResource tic_error}" Width="48"/>
-            <TextBlock x:Name="Caption" Text="{x:Static properties:Resources.CriticalExceptionDialog_Message}" TextWrapping="Wrap" FontSize="24" Margin="10,0" VerticalAlignment="Center"/>
+            <TextBlock x:Name="Caption" Text="{x:Static properties:Resources.CriticalExceptionDialog_Message}" TextWrapping="Wrap" FontSize="{DynamicResource SystemFontSizeHuge}" Margin="10,0" VerticalAlignment="Center"/>
         </DockPanel>
         <TextBlock x:Name="Message" DockPanel.Dock="Top" Text="{x:Static properties:Resources.CriticalExceptionDialog_Header}" TextWrapping="Wrap" Margin="0,5"/>
         <local:XHtmlTextBlock x:Name="ErrorLogLocate" DockPanel.Dock="Bottom" TextWrapping="Wrap" Margin="0,5"/>

@@ -22,14 +22,27 @@
 
                     <!--#region Parameters -->
 
+                    <system:Double x:Key="SystemFontSize">12</system:Double>
+                    <system:Double x:Key="SystemFontSizeNormal">15</system:Double>
+                    <system:Double x:Key="SystemFontSizeLarge">18</system:Double>
+                    <system:Double x:Key="SystemFontSizeHuge">24</system:Double>
+
+                    <FontFamily x:Key="DefaultFontFamily" />
+                    <FontFamily x:Key="PanelFontFamily"/>
+                    
+                    <system:Double x:Key="DefaultFontSize">15</system:Double>
+                    <system:Double x:Key="MenuFontSize">12</system:Double>
+                    <system:Double x:Key="FolderTreeFontSize">12</system:Double>
+                    <system:Double x:Key="PanelFontSize">15</system:Double>
+                    <system:Double x:Key="ConsoleFontSize">14</system:Double>
+
+                    <system:Double x:Key="FontIconSize">28</system:Double>
+
                     <!-- InfoText FontSize-->
                     <system:Double x:Key="InfoTextFontSize">24.0</system:Double>
 
                     <!-- Panel ListBox -->
                     <ScrollUnit x:Key="PanelScrollUnit">Pixel</ScrollUnit>
-                    <FontFamily x:Key="PanelFontFamily"/>
-                    <system:Double x:Key="PanelFontSize">15</system:Double>
-                    <system:Double x:Key="FolderTreeFontSize">12</system:Double>
 
                     <!--#endregion Parameters -->
 
@@ -619,7 +632,8 @@
 
                     <!-- Window Style -->
                     <Style x:Key="DefaultWindowStyle" TargetType="Window">
-                        <Setter Property="FontSize" Value="15"/>
+                        <Setter Property="FontFamily" Value="{DynamicResource DefaultFontFamily}" />
+                        <Setter Property="FontSize" Value="{DynamicResource DefaultFontSize}"/>
                     </Style>
 
                     <!-- Tool Window Style -->
@@ -627,12 +641,10 @@
                         <Setter Property="ShowInTaskbar" Value="False"/>
                     </Style>
 
-                    <!-- Tool Dialog Style : 未使用 -->
-                    <Style x:Key="ToolDialogStyle" TargetType="Window" BasedOn="{StaticResource DefaultWindowStyle}">
-                        <Setter Property="ShowInTaskbar" Value="False"/>
-                        <!--
-                        <Setter Property="Icon" Value="/NeeView;component/Resources/1x1.png"/>
-                        -->
+                    <!-- System Window Style -->
+                    <Style x:Key="SystemWindowStyle" TargetType="Window">
+                        <Setter Property="FontSize" Value="{DynamicResource SystemFontSizeNormal}" />
+                        <Setter Property="ShowInTaskbar" Value="False" />
                     </Style>
 
                     <!-- IconButton Style -->

@@ -28,12 +28,12 @@
 
         <Style x:Key="FolderListButtonStyle" TargetType="Button" BasedOn="{StaticResource IconButton}">
             <Setter Property="Width" Value="28" />
-            <Setter Property="Height" Value="28" />
+            <Setter Property="MinHeight" Value="{DynamicResource FontIconSize}" />
         </Style>
 
         <Style x:Key="FolderListToggleButtonStyle" TargetType="ToggleButton" BasedOn="{StaticResource IconToggleButton}">
             <Setter Property="Width" Value="28" />
-            <Setter Property="Height" Value="28" />
+            <Setter Property="MinHeight" Value="{DynamicResource FontIconSize}" />
         </Style>
 
         <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
@@ -60,7 +60,7 @@
             </StackPanel>
 
             <DockPanel KeyboardNavigation.TabNavigation ="Local" >
-                <local:MoreMenuButton Description="{Binding MoreMenuDescription}" DockPanel.Dock="Right" TabIndex="2" />
+                <local:MoreMenuButton Description="{Binding MoreMenuDescription}" DockPanel.Dock="Right" VerticalAlignment="Top" Height="{DynamicResource FontIconSize}" TabIndex="2" />
                 <WrapPanel MinWidth="150">
                     <Button x:Name="PrevButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToPreviousCommand}" TabIndex="1" ContextMenuService.Placement="Bottom"
                             ContextMenuOpening="PrevButton_ContextMenuOpening" ToolTip="{x:Static properties:Resources.PageList_Back_ToolTip}">
@@ -80,12 +80,10 @@
                         <Image Source="{StaticResource ic_arrow_up_24px_b}" Width="16" Height="16" />
                     </Button>
                     <ComboBox x:Name="FormatComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" TabIndex="1"
-                          ItemsSource="{Binding FormatList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding Source={x:Static local:Config.Current}, Path=PageList.Format, Delay=1}"
-                          VerticalAlignment="Center">
+                          ItemsSource="{Binding FormatList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding Source={x:Static local:Config.Current}, Path=PageList.Format, Delay=1}">
                     </ComboBox>
                     <ComboBox x:Name="PageSortComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" TabIndex="1"
-                          ItemsSource="{Binding PageSortModeList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding PageSortMode, Delay=1}"
-                          VerticalAlignment="Center">
+                          ItemsSource="{Binding PageSortModeList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding PageSortMode, Delay=1}">
                     </ComboBox>
                 </WrapPanel>
             </DockPanel>

@@ -58,6 +58,23 @@ namespace NeeView
                 Debug.WriteLine($"PanelLayout done");
             }
 
+            // ver.39
+            if (self.Format.CompareTo(new FormatVersion(Environment.SolutionName, 39, 0, 0)) < 0)
+            {
+                if (self.Config.Panels.FontName_Legacy != default)
+                {
+                    self.Config.Fonts.PanelFontName = self.Config.Panels.FontName_Legacy;
+                }
+                if (self.Config.Panels.FontSize_Legacy != default)
+                {
+                    self.Config.Fonts.PanelFontScale = self.Config.Panels.FontSize_Legacy / VisualParameters.SystemMessageFontSize;
+                }
+                if (self.Config.Panels.FolderTreeFontSize_Legacy != default)
+                {
+                    self.Config.Fonts.FolderTreeFontScale = self.Config.Panels.FolderTreeFontSize_Legacy / VisualParameters.SystemMessageFontSize;
+                }
+            }
+
             return self;
 #pragma warning restore CS0612 // 型またはメンバーが旧型式です
         }

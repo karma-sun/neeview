@@ -7,8 +7,8 @@
         xmlns:properties="clr-namespace:NeeView.Properties"
         mc:Ignorable="d"
         Foreground="#222"
-        Style="{StaticResource ToolWindowStyle}"
-        Title="{x:Static properties:Resources.VersionWindow_Title}" Height="280" Width="480" ResizeMode="NoResize">
+        Style="{StaticResource SystemWindowStyle}"
+        Title="{x:Static properties:Resources.VersionWindow_Title}" Height="280" Width="480" SizeToContent="WidthAndHeight" ResizeMode="NoResize" >
     <Window.Resources>
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -20,27 +20,27 @@
         </Style>
     </Window.Resources>
 
-    <DockPanel Background="#F8F8F8">
+    <DockPanel Background="#F8F8F8" MinHeight="280" MinWidth="480">
 
-        <Grid DockPanel.Dock="Bottom" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
-            <Grid.Resources>
+        <DockPanel DockPanel.Dock="Bottom" LastChildFill="False" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" >
+            <DockPanel.Resources>
                 <Style x:Key="LinkedTextBlock" TargetType="TextBlock">
                     <Setter Property="Margin" Value="30,20"/>
                 </Style>
-            </Grid.Resources>
+            </DockPanel.Resources>
 
-            <TextBlock HorizontalAlignment="Left" Style="{StaticResource LinkedTextBlock}">
+            <TextBlock DockPanel.Dock="Left" Style="{StaticResource LinkedTextBlock}">
                 <Hyperlink NavigateUri="{Binding LicenseUri}" >
                     <TextBlock Text="{x:Static properties:Resources.VersionWindow_License}"/>
                 </Hyperlink>
             </TextBlock>
 
-            <TextBlock HorizontalAlignment="Right" Style="{StaticResource LinkedTextBlock}">
+            <TextBlock DockPanel.Dock="Right" Style="{StaticResource LinkedTextBlock}">
                 <Hyperlink NavigateUri="{Binding ProjectUri}" >
                     <TextBlock Text="{x:Static properties:Resources.VersionWindow_Project}"/>
                 </Hyperlink>
             </TextBlock>
-        </Grid>
+        </DockPanel>
 
         <DockPanel VerticalAlignment="Center" UseLayoutRounding="True" Background="Transparent">
 
@@ -54,7 +54,7 @@
                 <DockPanel DockPanel.Dock="Top" Margin="0,15">
                     <Image DockPanel.Dock="Left" Margin="40,0"  Width="64" Height="64" Source="{Binding Icon}" UseLayoutRounding="True" VerticalAlignment="Center"/>
                     <StackPanel DockPanel.Dock="Top" Margin="0,0,10,0" VerticalAlignment="Center">
-                        <TextBlock Text="{Binding ApplicationName}" FontSize="32" FontFamily="Trebuchet MS"/>
+                        <TextBlock Text="{Binding ApplicationName}" FontSize="{DynamicResource SystemFontSizeHuge}" FontFamily="Trebuchet MS"/>
                         <TextBlock Text="{Binding DispVersion}" />
                     </StackPanel>
                 </DockPanel>

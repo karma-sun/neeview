@@ -7,7 +7,7 @@
         xmlns:properties="clr-namespace:NeeView.Properties"
         xmlns:nvc="clr-namespace:NeeView.Windows.Controls"
         mc:Ignorable="d"
-        Style="{StaticResource ToolWindowStyle}"
+        Style="{StaticResource DefaultWindowStyle}"
         Foreground="{DynamicResource NVForeground}"
         Background="{DynamicResource NVBackground}"
         Title="{x:Static properties:Resources.PrintWindow_Title}" Height="600" Width="800" ResizeMode="CanResizeWithGrip">
@@ -70,26 +70,26 @@
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="250" />
+                <ColumnDefinition Width="300" MinWidth="{Binding ElementName=Buttons, Path=ActualWidth}" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
             <!-- panel -->
-            <DockPanel Grid.Column="0" Margin="10,10,20,10">
+            <DockPanel Grid.Column="0" Margin="10,10,2,10">
 
-                <StackPanel DockPanel.Dock="Top" Style="{StaticResource ItemStack}">
+                <StackPanel DockPanel.Dock="Top" Style="{StaticResource ItemStack}" Margin="0,0,10,0">
                     <TextBlock Style="{StaticResource Header}" Text="{x:Static properties:Resources.PrintWindow_Printer}"/>
                     <Button Style="{StaticResource IconButton}" Command="{Binding PrintDialogCommand}" Foreground="{StaticResource NVButtonForeground}" HorizontalContentAlignment="Left" TabIndex="1">
                         <TextBlock Text="{Binding Model.PrintQueue.FullName}" MinWidth="50" TextTrimming="CharacterEllipsis" Margin="2"/>
                     </Button>
                 </StackPanel>
 
-                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+                <StackPanel x:Name="Buttons" DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,10,0">
                     <Button x:Name="PrintButton" Style="{StaticResource TextButtonMain}" Content="{x:Static properties:Resources.PrintWindow_ButtonPrint}" Command="{Binding PrintCommand}" TabIndex="3"/>
                     <Button x:Name="CancelButton" Style="{StaticResource TextButton}" Content="{x:Static properties:Resources.Word_Cancel}" Command="{Binding CancelCommand}" TabIndex="3"/>
                 </StackPanel>
                         
-                <ScrollViewer Style="{StaticResource DarkScrollViewer}" VerticalScrollBarVisibility="Auto">
+                <ScrollViewer Style="{StaticResource DarkScrollViewer}" VerticalScrollBarVisibility="Visible" CanContentScroll="False" >
                     <StackPanel>
 
                         <DockPanel Style="{StaticResource ItemDock}">
@@ -163,9 +163,6 @@
                 </ScrollViewer>
             </DockPanel>
 
-            <!-- splitter -->
-            <GridSplitter Grid.Column="0" Width="10" HorizontalAlignment="Right" Background="{DynamicResource NVBackground}" FocusVisualStyle="{StaticResource NVFocusVisual}" IsTabStop="False"/>
-
             <!-- Preview -->
             <Grid Grid.Column="1" Background="#FEEE">
                 <Grid>
@@ -177,6 +174,10 @@
                     </Viewbox>
                 </Grid>
             </Grid>
+
+            <!-- splitter -->
+            <GridSplitter Grid.Column="1" Width="8" HorizontalAlignment="Left" Background="Transparent" FocusVisualStyle="{StaticResource NVFocusVisual}" IsTabStop="False" />
+
         </Grid>
     </Grid>
 </Window>

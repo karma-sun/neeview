@@ -297,11 +297,11 @@ namespace NeeView
                 var textBlock = new TextBlock()
                 {
                     Text = "Age\nBusy",
-                    FontSize = Config.Current.Panels.FontSize,
+                    FontSize = VisualParameters.Current.PaneFontSize,
                 };
-                if (Config.Current.Panels.FontName != null)
+                if (VisualParameters.Current.PanelFontName != null)
                 {
-                    textBlock.FontFamily = new FontFamily(Config.Current.Panels.FontName);
+                    textBlock.FontFamily = new FontFamily(VisualParameters.Current.PanelFontName);
                 };
                 var panel = new StackPanel();
                 panel.Children.Add(textBlock);

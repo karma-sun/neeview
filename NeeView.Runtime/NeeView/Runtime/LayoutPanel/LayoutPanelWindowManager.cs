@@ -42,9 +42,14 @@ namespace NeeView.Runtime.LayoutPanel
             var window = _windows.FirstOrDefault(e => e.LayoutPanel == panel);
             if (window is null)
             {
-                window = new LayoutPanelWindow(this, panel, placement);
+                if (placement.IsValid())
+                {
+                    panel.WindowPlacement = placement;
+                }
+
+                var builder = _layoutPanelManager.WindowBuilder ?? new DefaultLayoutPanelWindowBuilder();
+                window = builder.CreateWindow(this, panel);
                 window.Owner = Owner;
-                _layoutPanelManager.WindowDecorator?.Decorate(window);
                 window.Show();
                 _windows.Add(window);
             }
@@ -91,7 +96,7 @@ namespace NeeView.Runtime.LayoutPanel
             }
         }
 
-        
+
         #region Memento
 
         public class Memento

@@ -26,6 +26,7 @@ namespace NeeView
                 (s, e) => RaisePropertyChanged(nameof(MainMenu)));
         }
 
+
         public MenuBar Model
         {
             get { return _model; }
@@ -65,7 +66,7 @@ namespace NeeView
         {
             this.Window = System.Windows.Window.GetWindow(control);
 
-            _windowCaptionEmulator = new MainWindowCaptionEmulator(Window, control, windowStateManamger);
+            _windowCaptionEmulator = new MainWindowCaptionEmulator(Window, control) { WindowStateManager = windowStateManamger };
             UpdateCaptionEnabled();
 
             Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.IsCaptionVisible), (s, e) => UpdateCaptionEnabled());

@@ -67,13 +67,9 @@ namespace NeeView
             }
         }
 
-        #region Fields
 
         private MenuBarViewModel _vm;
 
-        #endregion
-
-        #region Constructors
 
         public MenuBarView()
         {
@@ -97,9 +93,6 @@ namespace NeeView
             this.MouseRightButtonUp += MenuBarView_MouseRightButtonUp;
         }
 
-        #endregion
-
-        #region DependencyProperties
 
         public MenuBar Source
         {
@@ -108,29 +101,13 @@ namespace NeeView
         }
 
         public static readonly DependencyProperty SourceProperty =
-            DependencyProperty.Register("Source", typeof(MenuBar), typeof(MenuBarView), new PropertyMetadata(null, Source_Changed));
+            DependencyProperty.Register("Source", typeof(MenuBar), typeof(MenuBarView), new PropertyMetadata(null, SourcePropertyChanged));
 
-        private static void Source_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void SourcePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             (d as MenuBarView)?.Initialize();
         }
 
-
-        /// <summary>
-        /// ウィンドウ非アクティブ時に表示を薄くする機能の有効/無効
-        /// </summary>
-        public bool IsUnactiveEnabled
-        {
-            get { return (bool)GetValue(IsUnactiveEnabledProperty); }
-            set { SetValue(IsUnactiveEnabledProperty, value); }
-        }
-
-        public static readonly DependencyProperty IsUnactiveEnabledProperty =
-            DependencyProperty.Register("IsUnactiveEnabled", typeof(bool), typeof(MenuBarView), new PropertyMetadata(false));
-
-        #endregion
-
-        #region Methods
 
         public void Initialize()
         {
@@ -153,22 +130,23 @@ namespace NeeView
                 e.Handled = true;
             }
         }
-
-        #endregion
     }
 
 
     public class BooleanToOpacityConverter : IValueConverter
     {
+        public double TrueOpacity { get; set; } = 1.0;
+        public double FalseOpacity { get; set; } = 0.5;
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is bool isTrue)
             {
-                return isTrue ? 1.0 : 0.5;
+                return isTrue ? TrueOpacity : FalseOpacity;
             }
             else
             {
-                return 0.5f;
+                return FalseOpacity;
             }
         }
 
@@ -176,5 +154,48 @@ namespace NeeView
         {
             throw new NotImplementedException();
         }
+    }
+
+
+    public class BrushAddOpacityConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values.Length == 2 && values[0] is SolidColorBrush brush && values[1] is double opacity)
+            {
+                ////Debug.WriteLine($"{brush.Color},{opacity}");
+                return new SolidColorBrush(brush.Color) { Opacity = opacity };
+            }
+
+            return DependencyProperty.UnsetValue;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
+    // from https://thomaslevesque.com/2011/03/21/wpf-how-to-bind-to-data-when-the-datacontext-is-not-inherited/
+    public class BindingProxy : Freezable
+    {
+        #region Overrides of Freezable
+
+        protected override Freezable CreateInstanceCore()
+        {
+            return new BindingProxy();
+        }
+
+        #endregion
+
+        public object Data
+        {
+            get { return (object)GetValue(DataProperty); }
+            set { SetValue(DataProperty, value); }
+        }
+
+        public static readonly DependencyProperty DataProperty =
+            DependencyProperty.Register("Data", typeof(object), typeof(BindingProxy), new UIPropertyMetadata(null));
     }
 }

@@ -1,13 +1,13 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
+using System;
+using System.Text.Json.Serialization;
 
 namespace NeeView
 {
     public class ThemeConfig : BindableBase
     {
         private PanelColor _panelColor = PanelColor.Dark;
-        private PanelColor _menuColor = PanelColor.Dark;
-
 
         /// <summary>
         /// テーマカラー：パネル
@@ -19,15 +19,17 @@ namespace NeeView
             set { SetProperty(ref _panelColor, value); }
         }
 
-        /// <summary>
-        /// テーマカラー：メニュー
-        /// </summary>
-        [PropertyMember]
+        #region Obsolete
+
+        [Obsolete] // ver.39
+        [JsonIgnore]
         public PanelColor MenuColor
         {
-            get { return _menuColor; }
-            set { SetProperty(ref _menuColor, value); }
+            get { return PanelColor; }
+            set { }
         }
+
+        #endregion Obsolete
 
     }
 }

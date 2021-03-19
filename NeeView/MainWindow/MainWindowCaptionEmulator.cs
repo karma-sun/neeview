@@ -7,17 +7,17 @@ namespace NeeView
 {
     public class MainWindowCaptionEmulator : WindowCaptionEmulator
     {
-        private WindowStateManager _windowStateManager;
-
-        public MainWindowCaptionEmulator(Window window, FrameworkElement target, WindowStateManager windowStateManager) : base(window, target)
+        public MainWindowCaptionEmulator(Window window, FrameworkElement target) : base(window, target)
         {
-            _windowStateManager = windowStateManager;
         }
+
+
+        public WindowStateManager WindowStateManager { get; set; }
 
 
         protected override void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (!Config.Current.Window.IsCaptionEmulateInFullScreen && _windowStateManager.IsFullScreen) return;
+            if (!Config.Current.Window.IsCaptionEmulateInFullScreen && this.WindowStateManager?.IsFullScreen == true) return;
 
             base.OnMouseLeftButtonDown(sender, e);
         }

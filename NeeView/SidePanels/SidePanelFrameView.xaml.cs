@@ -244,9 +244,9 @@ namespace NeeView
         {
             if (model == null) return;
 
-            MainLayoutPanelManager.Current.Initialize();
-            var leftPanelViewModel = new LeftPanelViewModel(this.LeftIconList, MainLayoutPanelManager.Current.LeftDock, LeftPanelElementContains);
-            var rightPanelViewModel = new RightPanelViewModel(this.RightIconList, MainLayoutPanelManager.Current.RightDock, RightPanelElementContains);
+            CustomLayoutPanelManager.Current.Initialize();
+            var leftPanelViewModel = new LeftPanelViewModel(this.LeftIconList, CustomLayoutPanelManager.Current.LeftDock, LeftPanelElementContains);
+            var rightPanelViewModel = new RightPanelViewModel(this.RightIconList, CustomLayoutPanelManager.Current.RightDock, RightPanelElementContains);
             this.VM = new SidePanelFrameViewModel(model, leftPanelViewModel, rightPanelViewModel);
             this.VM.PanelVisibilityChanged += (s, e) => UpdateCanvas();
             UpdateWidth();

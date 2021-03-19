@@ -21,7 +21,7 @@ namespace NeeView
             // 情報の確定
             MainWindow.Current.StoreWindowPlacement();
             MainViewManager.Current.Store();
-            MainLayoutPanelManager.Current.Store();
+            CustomLayoutPanelManager.Current.Store();
 
             return new UserSetting()
             {
@@ -92,7 +92,7 @@ namespace NeeView
             ObjectMerge.Merge(Config.Current, setting.Config, options);
 
             // レイアウト反映
-            MainLayoutPanelManager.Current.Restore();
+            CustomLayoutPanelManager.Current.Restore();
 
             // コマンド設定反映
             CommandTable.Current.RestoreCommandCollection(setting.Commands);

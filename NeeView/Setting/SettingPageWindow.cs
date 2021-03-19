@@ -20,7 +20,6 @@ namespace NeeView.Setting
 
             var section = new SettingItemSection(Properties.Resources.SettingPage_Window_Theme);
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Theme, nameof(ThemeConfig.PanelColor))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Theme, nameof(ThemeConfig.MenuColor))));
             this.Items.Add(section);
 
             section = new SettingItemSection(Properties.Resources.SettingPage_Window_Background);

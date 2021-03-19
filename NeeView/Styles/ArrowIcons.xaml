@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <DrawingImage x:Key="ic_arrow_back_24px">
+        <DrawingImage.Drawing>
+            <GeometryDrawing Brush="{DynamicResource NVForeground}" Pen="{x:Null}" Geometry="{StaticResource g_arrow_back_24px}" />
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="ic_arrow_forward_24px">
+        <DrawingImage.Drawing>
+            <GeometryDrawing Brush="{DynamicResource NVForeground}" Pen="{x:Null}" Geometry="{StaticResource g_arrow_forward_24px}" />
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="ic_arrow_up_24px">
+        <DrawingImage.Drawing>
+            <GeometryDrawing Brush="{DynamicResource NVForeground}" Pen="{x:Null}" Geometry="{StaticResource g_arrow_up_24px}" />
+        </DrawingImage.Drawing>
+    </DrawingImage>
+    
+</ResourceDictionary>

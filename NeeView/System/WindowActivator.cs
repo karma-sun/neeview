@@ -32,7 +32,7 @@ namespace NeeView
         public IEnumerable<Window> GetSubWindows()
         {
             var viewWindow = MainViewManager.Current.Window;
-            var layoutPanelWindows = MainLayoutPanelManager.Current.Windows.Windows.Cast<Window>();
+            var layoutPanelWindows = CustomLayoutPanelManager.Current.Windows.Windows.Cast<Window>();
 
             return viewWindow != null ? layoutPanelWindows.Prepend(viewWindow) : layoutPanelWindows;
         }

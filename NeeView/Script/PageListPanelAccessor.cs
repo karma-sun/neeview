@@ -12,7 +12,7 @@ namespace NeeView
 
         public PageListPanelAccessor() : base(nameof(PageListPanel))
         {
-            _panel = (PageListPanel)MainLayoutPanelManager.Current.GetPanel(nameof(PageListPanel));
+            _panel = (PageListPanel)CustomLayoutPanelManager.Current.GetPanel(nameof(PageListPanel));
             _model = _panel.Presenter.PageList;
         }
 

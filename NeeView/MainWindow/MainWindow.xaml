@@ -67,6 +67,10 @@
             <local:DoubleSumConverter x:Key="DoubleSumConverter" />
             <local:TypeToVisibilityConverter x:Key="MainViewToVisibilityConverter" Type="{x:Type local:MainViewBay}" IsInversed="True" />
 
+            <local:BooleanToOpacityConverter x:Key="BooleanToOpacityConverter" />
+            <local:BrushAddOpacityConverter x:Key="BrushAddOpacityConverter" />
+            <local:BindingProxy x:Key="BaseForeground" Data="{DynamicResource NVForeground}" />
+            
             <!-- MenuItem History -->
             <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
                 <Setter Property="Header" Value="{Binding Path=Name}" />
@@ -100,7 +104,14 @@
                     <Grid x:Name="MenuArea">
                         <StackPanel>
                             <!-- メニューバー-->
-                            <local:MenuBarView x:Name="MenuBar" IsUnactiveEnabled="{Binding WindowShape.CanCaptionVisible, Converter={StaticResource BooleanReverseConverter}}" />
+                            <local:MenuBarView x:Name="MenuBar">
+                                <local:MenuBarView.Foreground>
+                                    <MultiBinding Converter="{StaticResource BrushAddOpacityConverter}">
+                                        <Binding Source="{StaticResource BaseForeground}" Path="Data" />
+                                        <Binding Path="IsMenuBarActive" Converter="{StaticResource BooleanToOpacityConverter}" />
+                                    </MultiBinding>
+                                </local:MenuBarView.Foreground>
+                            </local:MenuBarView>
 
                             <!-- アドレスバー -->
                             <local:AddressBarView x:Name="AddressBar" VerticalAlignment="Top"

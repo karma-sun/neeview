@@ -5,13 +5,13 @@ namespace NeeView
     public class LayoutPanelAccessor
     {
         private string _key;
-        private MainLayoutPanelManager _manager;
+        private CustomLayoutPanelManager _manager;
         private LayoutPanel _layoutPanel;
 
         public LayoutPanelAccessor(string key)
         {
             _key = key;
-            _manager = MainLayoutPanelManager.Current;
+            _manager = CustomLayoutPanelManager.Current;
             _layoutPanel = _manager.Panels[key];
         }
 

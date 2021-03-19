@@ -38,7 +38,7 @@ namespace NeeView
 
         private SidePanelFrame()
         {
-            MainLayoutPanelManager.Current.CollectionChanged += (s, e) => RaisePanelPropertyChanged();
+            CustomLayoutPanelManager.Current.CollectionChanged += (s, e) => RaisePanelPropertyChanged();
         }
 
 
@@ -90,18 +90,18 @@ namespace NeeView
 
         private bool IsVisiblePanel(string key)
         {
-            return MainLayoutPanelManager.Current.IsPanelSelected(key);
+            return CustomLayoutPanelManager.Current.IsPanelSelected(key);
         }
 
         private void SetVisiblePanel(string key, bool isVisible)
         {
-            MainLayoutPanelManager.Current.SelectPanel(key, isVisible);
+            CustomLayoutPanelManager.Current.SelectPanel(key, isVisible);
             RaisePanelPropertyChanged();
         }
 
         private bool ToggleVisiblePanel(string key, bool byMenu)
         {
-            bool isVisible = !MainLayoutPanelManager.Current.IsPanelSelected(key) || (!byMenu && !MainLayoutPanelManager.Current.IsPanelVisible(key));
+            bool isVisible = !CustomLayoutPanelManager.Current.IsPanelSelected(key) || (!byMenu && !CustomLayoutPanelManager.Current.IsPanelVisible(key));
             SetVisiblePanel(key, isVisible);
             return isVisible;
         }

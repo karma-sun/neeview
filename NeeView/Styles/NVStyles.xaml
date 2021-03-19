@@ -1279,9 +1279,11 @@
     <Style x:Key="NVMenu" TargetType="{x:Type Menu}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
+        <!--
         <Setter Property="Foreground" Value="{DynamicResource NVForeground}" />
         <Setter Property="Background" Value="{DynamicResource NVMenuBackgroundBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource NVBorderBrush}" />
+        -->
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="FontSize" Value="{DynamicResource MenuFontSize}" />
         <Setter Property="Template">
@@ -1472,7 +1474,9 @@
     </ControlTemplate>
 
     <Style x:Key="NVMenuItem" TargetType="{x:Type MenuItem}">
-        <!-- <Setter Property="OverridesDefaultStyle" Value="True" /> -->
+        <!--
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        -->
         <Setter Property="Background" Value="{DynamicResource NVMenuBackgroundBrush}" />
         <Style.Triggers>
             <Trigger Property="Role" Value="TopLevelHeader">

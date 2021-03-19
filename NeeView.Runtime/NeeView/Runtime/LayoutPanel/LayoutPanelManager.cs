@@ -26,7 +26,7 @@ namespace NeeView.Runtime.LayoutPanel
 
         public ILayoutPanelContainerDecorator ContainerDecorator { get; set; }
 
-        public ILayoutPanelWindowDecorator WindowDecorator { get; set; }
+        public ILayoutPanelWindowBuilder WindowBuilder { get; set; }
 
         public LayoutPanelManager()
         {

@@ -12,7 +12,7 @@ namespace NeeView
 
         public HistoryPanelAccessor() : base(nameof(HistoryPanel))
         {
-            _panel = (HistoryPanel)MainLayoutPanelManager.Current.GetPanel(nameof(HistoryPanel));
+            _panel = (HistoryPanel)CustomLayoutPanelManager.Current.GetPanel(nameof(HistoryPanel));
             _model = _panel.Presenter.HistoryList;
         }
 

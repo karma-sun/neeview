@@ -14,13 +14,13 @@ namespace NeeView.Windows
     /// <summary>
     /// ウィンドウキャプションのマウス操作エミュレート
     /// </summary>
-    public class WindowCaptionEmulator
+    public class WindowCaptionEmulator : IDisposable
     {
         private Window _window;
         private FrameworkElement _target;
         private bool _isDrag;
         private Point _dragStartPoint;
-
+        private bool _disposedValue;
 
         public WindowCaptionEmulator(Window window, FrameworkElement target)
         {
@@ -31,7 +31,7 @@ namespace NeeView.Windows
             _target.MouseLeftButtonUp += OnMouseLeftButtonUp;
             _target.MouseMove += OnMouseMove;
         }
-        
+
 
         public bool IsEnabled { get; set; }
         public Window Window => _window;
@@ -116,6 +116,27 @@ namespace NeeView.Windows
 
         protected virtual void OnWindowStateChanged(object sender, WindowStateChangeEventArgs e)
         {
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _target.MouseLeftButtonDown -= OnMouseLeftButtonDown;
+                    _target.MouseLeftButtonUp -= OnMouseLeftButtonUp;
+                    _target.MouseMove -= OnMouseMove;
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 

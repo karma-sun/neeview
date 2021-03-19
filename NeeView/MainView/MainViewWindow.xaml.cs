@@ -51,7 +51,6 @@ namespace NeeView
 
         private DpiScaleProvider _dpiProvider = new DpiScaleProvider();
         private WindowChromeAccessor _windowChrome;
-        private WindowCaptionEmulator _windowCaptionEmulator;
         private WindowStateManager _windowStateManager;
         private WindowBorder _windowBorder;
         private bool _canHideMenu;
@@ -65,19 +64,12 @@ namespace NeeView
 
             this.DataContext = this;
 
-            var binding = new ThemeBinder(this);
-            binding.SetMenuBackgroundBinding(MainViewWindow.CaptionBackgroundProperty);
-            binding.SetMenuForegroundBinding(MainViewWindow.CaptionForegroundProperty);
-
             this.SetBinding(MainViewWindow.TitleProperty, new Binding(nameof(WindowTitle.Title)) { Source = WindowTitle.Current });
 
             _windowChrome = new WindowChromeAccessor(this);
 
             _windowStateManager = new WindowStateManager(this, new WindowStateManagerDependency(_windowChrome, TabletModeWatcher.Current));
             _windowStateManager.StateChanged += WindowStateManager_StateChanged;
-
-            _windowCaptionEmulator = new MainWindowCaptionEmulator(this, this.CaptionBar, _windowStateManager);
-            _windowCaptionEmulator.IsEnabled = true;
 
             _windowBorder = new WindowBorder(this, _windowChrome);
 
@@ -115,30 +107,11 @@ namespace NeeView
         public event MouseWheelEventHandler MouseHorizontalWheelChanged;
 
 
-        public Brush CaptionBackground
-        {
-            get { return (Brush)GetValue(CaptionBackgroundProperty); }
-            set { SetValue(CaptionBackgroundProperty, value); }
-        }
-
-        public static readonly DependencyProperty CaptionBackgroundProperty =
-            DependencyProperty.Register("CaptionBackground", typeof(Brush), typeof(MainViewWindow), new PropertyMetadata(Brushes.DarkGray));
-
-
-        public Brush CaptionForeground
-        {
-            get { return (Brush)GetValue(CaptionForegroundProperty); }
-            set { SetValue(CaptionForegroundProperty, value); }
-        }
-
-        public static readonly DependencyProperty CaptionForegroundProperty =
-            DependencyProperty.Register("CaptionForeground", typeof(Brush), typeof(MainViewWindow), new PropertyMetadata(Brushes.White));
-
-
-
         public WindowController WindowController => _windowController;
 
         public WindowChromeAccessor WindowChrome => _windowChrome;
+
+        public WindowStateManager WindowStateManager => _windowStateManager;
 
         public WindowBorder WindowBorder => _windowBorder;
 

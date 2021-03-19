@@ -12,7 +12,7 @@ namespace NeeView
 
         public BookshelfPanelAccessor() : base(nameof(FolderPanel))
         {
-            _panel = (FolderPanel)MainLayoutPanelManager.Current.GetPanel(nameof(FolderPanel));
+            _panel = (FolderPanel)CustomLayoutPanelManager.Current.GetPanel(nameof(FolderPanel));
             _model = _panel.Presenter.FolderList;
         }
 

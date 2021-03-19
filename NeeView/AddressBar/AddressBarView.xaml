@@ -9,40 +9,34 @@
              d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        <local:BooleanToVisibilityConverter x:Key="BooleanToInverseVisibilityConverter" True="Collapsed" False="Visible"/>
-        <local:SortModeToStringConverter x:Key="SortModeToStringConverter"/>
-        <local:SortModeToVisibilityConverter x:Key="SortModeToVisibilityConverter"/>
+        <ResourceDictionary>
+            
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/ArrowIcons.xaml" />
+                <ResourceDictionary Source="/Styles/MenuIcons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
-        <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
-            <Setter Property="HeaderTemplate">
-                <Setter.Value>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Path=Value.DispName}" />
-                    </DataTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Command" Value="{Binding DataContext.MoveToHistory, RelativeSource={RelativeSource FindAncestor, AncestorType=ContextMenu}}" />
-            <Setter Property="CommandParameter" Value="{Binding}" />
-        </Style>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <local:BooleanToVisibilityConverter x:Key="BooleanToInverseVisibilityConverter" True="Collapsed" False="Visible" />
+            <local:SortModeToStringConverter x:Key="SortModeToStringConverter" />
+            <local:SortModeToVisibilityConverter x:Key="SortModeToVisibilityConverter" />
 
-        <local:PanelColorToBrushConverter x:Key="BackgroundSelector" Dark="{StaticResource NVMenuBackgroundDark}" Light="{StaticResource NVMenuBackgroundLight}"/>
-        <local:PanelColorToBrushConverter x:Key="ForegroundSelector" Dark="{StaticResource NVMenuForegroundDark}" Light="{StaticResource NVMenuForegroundLight}"/>
+            <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
+                <Setter Property="HeaderTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Value.DispName}" />
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Command" Value="{Binding DataContext.MoveToHistory, RelativeSource={RelativeSource FindAncestor, AncestorType=ContextMenu}}" />
+                <Setter Property="CommandParameter" Value="{Binding}" />
+            </Style>
 
-        <local:PanelColorToImageSourceConverter x:Key="IconArrowBackSelector" Dark="{StaticResource ic_arrow_back_24px_dark}" Light="{StaticResource ic_arrow_back_24px_light}" />
-        <local:PanelColorToImageSourceConverter x:Key="IconArrowForwardSelector" Dark="{StaticResource ic_arrow_forward_24px_dark}" Light="{StaticResource ic_arrow_forward_24px_light}" />
-        <local:PanelColorToImageSourceConverter x:Key="IconArrowUpSelector" Dark="{StaticResource ic_arrow_up_24px_dark}" Light="{StaticResource ic_arrow_up_24px_light}" />
-        <local:PanelColorToImageSourceConverter x:Key="IconRefreshSelector" Dark="{StaticResource ic_refresh_24px_dark}" Light="{StaticResource ic_refresh_24px_light}" />
-        <local:PanelColorToImageSourceConverter x:Key="IconCloseSelector" Dark="{StaticResource ic_close_24px_dark}" Light="{StaticResource ic_close_24px_light}" />
-        <local:PanelColorToImageSourceConverter x:Key="IconLooksOneSelector" Dark="{StaticResource ic_looks_one_24px_dark}" Light="{StaticResource ic_looks_one_24px_light}" />
-        <local:PanelColorToImageSourceConverter x:Key="IconLooksTwoSelector" Dark="{StaticResource ic_looks_two_24px_dark}" Light="{StaticResource ic_looks_two_24px_light}" />
-        <local:PanelColorToImageSourceConverter x:Key="IconLeftToRightSelector" Dark="{StaticResource ic_left_to_right_24px_dark}" Light="{StaticResource ic_left_to_right_24px_light}" />
-        <local:PanelColorToImageSourceConverter x:Key="IconRightToLeftSelector" Dark="{StaticResource ic_right_to_left_24px_dark}" Light="{StaticResource ic_right_to_left_24px_light}" />
-        <local:PanelColorToImageSourceConverter x:Key="IconInfoOutlineSelector" Dark="{StaticResource ic_info_outline_24px_dark}" Light="{StaticResource ic_info_outline_24px_light}" />
-
+        </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid x:Name="Root" MinHeight="32" Background="{Binding Config.Theme.MenuColor, Converter={StaticResource BackgroundSelector}}" KeyboardNavigation.TabNavigation="Local">
+    <Grid x:Name="Root" MinHeight="32" Background="{DynamicResource NVBaseBrush}" KeyboardNavigation.TabNavigation="Local">
         <Grid.Resources>
             <Style x:Key="AddressIconButton" TargetType="Button" BasedOn="{StaticResource IconButton}">
                 <Setter Property="Width" Value="24"/>
@@ -59,13 +53,13 @@
             <ContentControl x:Name="MainMenuJoint" Content="{Binding MainMenu}" IsTabStop="False" VerticalAlignment="Center">
                 <ContentControl.Resources>
                     <Style x:Key="{x:Type Menu}" TargetType="{x:Type Menu}" BasedOn="{StaticResource NVMenu}">
-                        <Setter Property="Foreground" Value="{Binding Config.Theme.MenuColor, Converter={StaticResource ForegroundSelector}}" />
+                        <Setter Property="Foreground" Value="{DynamicResource NVForeground}" />
                         <Setter Property="Background" Value="Transparent" />
                         <Setter Property="BorderBrush" Value="Transparent" />
                     </Style>
                     <Style x:Key="{x:Type MenuItem}" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource NVMenuItem}">
-                        <Setter Property="Foreground" Value="{Binding Config.Theme.MenuColor, Converter={StaticResource ForegroundSelector}}" />
-                        <Setter Property="Background" Value="{Binding Config.Theme.MenuColor, Converter={StaticResource BackgroundSelector}}" />
+                        <Setter Property="Foreground" Value="{DynamicResource NVForeground}" />
+                        <Setter Property="Background" Value="{DynamicResource NVBaseBrush}" />
                     </Style>
                 </ContentControl.Resources>
             </ContentControl>
@@ -76,11 +70,11 @@
                     <Image Width="18" Height="18">
                         <Image.Style>
                             <Style TargetType="Image">
-                                <Setter Property="Source" Value="{Binding Config.Theme.MenuColor, Converter={StaticResource IconLooksOneSelector}}"/>
+                                <Setter Property="Source" Value="{StaticResource ic_looks_one_24px}"/>
                                 <Setter Property="ToolTip" Value="{x:Static properties:Resources.PageMode_SinglePage}"/>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding BookSetting.PageMode}"  Value="WidePage">
-                                        <Setter Property="Source" Value="{Binding Config.Theme.MenuColor, Converter={StaticResource IconLooksTwoSelector}}"/>
+                                        <Setter Property="Source" Value="{StaticResource ic_looks_two_24px}"/>
                                         <Setter Property="ToolTip" Value="{x:Static properties:Resources.PageMode_WidePage}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -94,11 +88,11 @@
                         <Image Width="18" Height="18">
                             <Image.Style>
                                 <Style TargetType="Image">
-                                    <Setter Property="Source" Value="{Binding Config.Theme.MenuColor, Converter={StaticResource IconLeftToRightSelector}}"/>
+                                    <Setter Property="Source" Value="{StaticResource ic_left_to_right_24px}"/>
                                     <Setter Property="ToolTip" Value="{x:Static properties:Resources.PageReadOrder_LeftToRight}"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding BookSetting.BookReadOrder}"  Value="RightToLeft">
-                                            <Setter Property="Source" Value="{Binding Config.Theme.MenuColor, Converter={StaticResource IconRightToLeftSelector}}"/>
+                                            <Setter Property="Source" Value="{StaticResource ic_right_to_left_24px}"/>
                                             <Setter Property="ToolTip" Value="{x:Static properties:Resources.PageReadOrder_RightToLeft}"/>
                                         </DataTrigger>
                                     </Style.Triggers>
@@ -130,7 +124,7 @@
                                     ContextMenuService.Placement="Bottom"
                                     ContextMenuOpening="PrevHistoryButton_ContextMenuOpening"
                                     ToolTip="{x:Static properties:Resources.AddressBar_Back_ToolTip}">
-                <Image Source="{Binding Config.Theme.MenuColor, Converter={StaticResource IconArrowBackSelector}}" Width="16" Height="16"/>
+                <Image Source="{StaticResource ic_arrow_back_24px}" Width="16" Height="16"/>
                 <Button.ContextMenu>
                     <ContextMenu ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}" />
                 </Button.ContextMenu>
@@ -139,26 +133,27 @@
                                     ContextMenuService.Placement="Bottom"
                                     ContextMenuOpening="NextHistoryButton_ContextMenuOpening"
                                     ToolTip="{x:Static properties:Resources.AddressBar_Next_ToolTip}">
-                <Image Source="{Binding Config.Theme.MenuColor, Converter={StaticResource IconArrowForwardSelector}}" Width="16" Height="16" />
+                <Image Source="{StaticResource ic_arrow_forward_24px}" Width="16" Height="16" />
                 <Button.ContextMenu>
                     <ContextMenu ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}" />
                 </Button.ContextMenu>
             </Button>
             <Button x:Name="MoveToParentButton" Command="{Binding BookCommands[MoveToParentBook]}"  Style="{StaticResource AddressIconButton}" TabIndex="3"
                                     ToolTip="{x:Static properties:Resources.AddressBar_Up_ToolTip}">
-                <Image Source="{Binding Config.Theme.MenuColor, Converter={StaticResource IconArrowUpSelector}}" Width="16" Height="16"/>
+                <Image Source="{StaticResource ic_arrow_up_24px}" Width="16" Height="16" />
+
             </Button>
 
             <Grid>
                 <Button Command="{Binding BookCommands[ReLoad]}" Style="{StaticResource AddressIconButton}" TabIndex="4"
                         Visibility="{Binding IsLoading, Converter={StaticResource BooleanToInverseVisibilityConverter}}"
                         ToolTip="{x:Static properties:Resources.AddressBar_ReLoad_ToolTip}">
-                    <Image Source="{Binding Config.Theme.MenuColor, Converter={StaticResource IconRefreshSelector}}" Width="16" Height="16" />
+                    <Image Source="{StaticResource ic_refresh_24px}" Width="16" Height="16" />
                 </Button>
                 <Button Command="{Binding BookCommands[Unload]}" Style="{StaticResource AddressIconButton}" TabIndex="5"
                         Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
                         ToolTip="{x:Static properties:Resources.AddressBar_Unload_ToolTip}">
-                    <Image Source="{Binding Config.Theme.MenuColor, Converter={StaticResource IconCloseSelector}}" Width="16" Height="16" />
+                    <Image Source="{StaticResource ic_close_24px}" Width="16" Height="16" />
                 </Button>
             </Grid>
 
@@ -198,11 +193,11 @@
                                 PreviewMouseLeftButtonUp="BookButton_MouseLeftButtonUp"
                                 PreviewMouseMove="BookButton_MouseMove"
                                 QueryContinueDrag="BookButton_QueryContinueDrag">
-                            <Image Source="{Binding Config.Theme.MenuColor, Converter={StaticResource IconInfoOutlineSelector}}" Width="16"/>
+                            <Image Source="{StaticResource ic_info_outline_24px}" Width="16"/>
                         </Button>
                         <TextBox x:Name="AddressTextBox" Text="{Binding Model.Address}" BorderThickness="0" VerticalAlignment="Center" TabIndex="12"
-                                Background="{Binding Config.Theme.MenuColor, Converter={StaticResource BackgroundSelector}}"
-                                Foreground="{Binding Config.Theme.MenuColor, Converter={StaticResource ForegroundSelector}}" KeyDown="AddressTextBox_KeyDown">
+                                Background="{DynamicResource NVBaseBrush}"
+                                Foreground="{DynamicResource NVForeground}" KeyDown="AddressTextBox_KeyDown">
                         </TextBox>
                     </DockPanel>
 

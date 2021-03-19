@@ -12,7 +12,7 @@ namespace NeeView
 
         public BookmarkPanelAccessor() : base(nameof(BookmarkPanel))
         {
-            _panel = (BookmarkPanel)MainLayoutPanelManager.Current.GetPanel(nameof(BookmarkPanel));
+            _panel = (BookmarkPanel)CustomLayoutPanelManager.Current.GetPanel(nameof(BookmarkPanel));
             _model = _panel.Presenter.BookmarkFolderList;
         }
 

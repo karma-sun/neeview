@@ -295,7 +295,7 @@ namespace NeeView
         // 起動時処理
         public void Loaded()
         {
-            MainLayoutPanelManager.Current.Restore();
+            CustomLayoutPanelManager.Current.Restore();
 
             // Susie起動
             // TODO: 非同期化できないか？
@@ -552,8 +552,8 @@ namespace NeeView
         {
             if (parameter.NeedClosePanels)
             {
-                MainLayoutPanelManager.Current.LeftDock.SelectedItem = null;
-                MainLayoutPanelManager.Current.RightDock.SelectedItem = null;
+                CustomLayoutPanelManager.Current.LeftDock.SelectedItem = null;
+                CustomLayoutPanelManager.Current.RightDock.SelectedItem = null;
                 ////SidePanel.Current.CloseAllPanels();
             }
 

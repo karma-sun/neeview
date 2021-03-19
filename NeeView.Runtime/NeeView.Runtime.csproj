@@ -32,16 +32,10 @@
     <Compile Update="NeeView\Runtime\LayoutPanel\LayoutPanelContainer.xaml.cs">
       <DependentUpon>LayoutPanelContainer.xaml</DependentUpon>
     </Compile>
-    <Compile Update="NeeView\Runtime\LayoutPanel\LayoutPanelWindow.xaml.cs">
-      <DependentUpon>LayoutPanelWindow.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <Page Update="NeeView\Runtime\LayoutPanel\LayoutPanelContainer.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="NeeView\Runtime\LayoutPanel\LayoutPanelWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

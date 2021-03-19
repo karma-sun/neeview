@@ -1,6 +1,7 @@
 ﻿using NeeView.ComponentModel;
 using NeeView.Native;
 using NeeView.Runtime.LayoutPanel;
+using NeeView.Windows;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,10 +15,10 @@ using System.Windows.Threading;
 
 namespace NeeView
 {
-    public class MainLayoutPanelManager : LayoutPanelManager
+    public class CustomLayoutPanelManager : LayoutPanelManager
     {
-        public static MainLayoutPanelManager Current { get; }
-        static MainLayoutPanelManager() => Current = new MainLayoutPanelManager();
+        public static CustomLayoutPanelManager Current { get; }
+        static CustomLayoutPanelManager() => Current = new CustomLayoutPanelManager();
 
 
         private bool _initialized;
@@ -49,7 +50,7 @@ namespace NeeView
             Resources["Close"] = Properties.Resources.LayoutPanel_Menu_Close;
 
             ContainerDecorator = new LayoutPanelContainerDecorator();
-            WindowDecorator = new LayoutWindowDecorator();
+            WindowBuilder = new LayoutPanelWindowBuilder();
 
             var panelKyes = new[] {
                 nameof(FolderPanel),
@@ -207,89 +208,13 @@ namespace NeeView
         }
 
         /// <summary>
-        /// LayoutWindow装飾
+        /// LayoutPanelWindow作成
         /// </summary>
-        class LayoutWindowDecorator : ILayoutPanelWindowDecorator
+        class LayoutPanelWindowBuilder : ILayoutPanelWindowBuilder
         {
-            class LayoutWindowDecorate : IDisposable
+            public LayoutPanelWindow CreateWindow(LayoutPanelWindowManager manager, LayoutPanel layoutPanel)
             {
-                private WeakBindableBase<WindowConfig> _windowConfig; // GCされないように保持
-                private RoutedCommandBinding _routedCommandBinding;
-                private bool _disposedValue;
-
-                public LayoutWindowDecorate(WeakBindableBase<WindowConfig> windowConfig, RoutedCommandBinding routedCommandBinding)
-                {
-                    _windowConfig = windowConfig;
-                    _routedCommandBinding = routedCommandBinding;
-                }
-
-                protected virtual void Dispose(bool disposing)
-                {
-                    if (!_disposedValue)
-                    {
-                        if (disposing)
-                        {
-                            if (_routedCommandBinding != null)
-                            {
-                                _routedCommandBinding.Dispose();
-                                _routedCommandBinding = null;
-                            }
-                        }
-
-                        _disposedValue = true;
-                    }
-                }
-
-                public void Dispose()
-                {
-                    Dispose(disposing: true);
-                    GC.SuppressFinalize(this);
-                }
-            }
-
-            public void Decorate(LayoutPanelWindow window)
-            {
-                window.Style = (Style)App.Current.Resources["DefaultWindowStyle"];
-
-                var binding = new ThemeBinder(window);
-                binding.SetMenuBackgroundBinding(LayoutPanelWindow.CaptionBackgroundProperty);
-                binding.SetMenuForegroundBinding(LayoutPanelWindow.CaptionForegroundProperty);
-                window.SetBinding(LayoutPanelWindow.BackgroundProperty, new Binding(nameof(ThemeBrushProvider.BackgroundBrushRaw)) { Source = ThemeBrushProvider.Current });
-
-                var windowConfig = new WeakBindableBase<WindowConfig>(Config.Current.Window);
-                windowConfig.AddPropertyChanged(nameof(WindowConfig.MaximizeWindowGapWidth), (s, e) => UpdateMaximizeWindowGapWidth(window));
-                UpdateMaximizeWindowGapWidth(window);
-
-                var windowBorder = new WindowBorder(window, window.WindowChrome);
-                ((FrameworkElement)window.FindName("WindowBorder")).SetBinding(Border.BorderThicknessProperty, new Binding(nameof(WindowBorder.Thickness)) { Source = windowBorder });
-
-                var routedCommandBinding = new RoutedCommandBinding(window, RoutedCommandTable.Current);
-
-                // NOTE: Tagにインスタンスを保持
-                window.Tag = new LayoutWindowDecorate(windowConfig, routedCommandBinding);
-
-                window.Activated += Window_Activated;
-                window.Closed += Window_Closed;
-            }
-
-            private void Window_Closed(object sender, EventArgs e)
-            {
-                var window = (LayoutPanelWindow)sender;
-                if (window.Tag is LayoutWindowDecorate decorate)
-                {
-                    decorate.Dispose();
-                    window.Tag = null;
-                }
-            }
-
-            private static void Window_Activated(object sender, EventArgs e)
-            {
-                RoutedCommandTable.Current.UpdateInputGestures();
-            }
-
-            private static void UpdateMaximizeWindowGapWidth(LayoutPanelWindow window)
-            {
-                window.WindowChrome.MaximizeWindowGapWidth = Config.Current.Window.MaximizeWindowGapWidth;
+                return new CustomLayoutPanelWindow(manager, layoutPanel);
             }
         }
     }

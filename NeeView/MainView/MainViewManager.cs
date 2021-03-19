@@ -1,6 +1,7 @@
 ﻿using NeeView.Windows;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -131,7 +132,14 @@ namespace NeeView
 
             if (_window != null)
             {
-                Config.Current.MainView.WindowPlacement = _window.StoreWindowPlacement();
+                try
+                {
+                    Config.Current.MainView.WindowPlacement = _window.StoreWindowPlacement();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
             }
         }
     }

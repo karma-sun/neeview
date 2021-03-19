@@ -7,41 +7,26 @@
              xmlns:local="clr-namespace:NeeView"
              mc:Ignorable="d" 
         d:DesignHeight="32" d:DesignWidth="640">
+    
     <UserControl.Resources>
-        <local:PanelColorToBrushConverter x:Key="BackgroundSelector" Dark="{StaticResource NVMenuBackgroundDark}" Light="{StaticResource NVMenuBackgroundLight}"/>
-        <local:PanelColorTobrushMultiConverter x:Key="ForegroundSelector" Dark="{StaticResource NVMenuForegroundDark}" Light="{StaticResource NVMenuForegroundLight}"/>
-        <local:BooleanToOpacityConverter x:Key="BooleanToOpacityConverter"/>
-        <local:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter" />
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <ResourceDictionary>
+            
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/MenuIcons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <local:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter" />
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            
+        </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid x:Name="Root" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture" MinHeight="0">
-        <Grid.Style>
-            <Style TargetType="Grid">
-                <Setter Property="Background" Value="{Binding Config.Theme.MenuColor, Converter={StaticResource BackgroundSelector}}" />
-            </Style>
-        </Grid.Style>
 
-        <ContentControl x:Name="ForegroundColorResource" IsHitTestVisible="False" HorizontalAlignment="Left" VerticalAlignment="Top" Focusable="False">
-            <ContentControl.Style>
-                <Style TargetType="ContentControl">
-                    <Setter Property="Foreground">
-                        <Setter.Value>
-                            <MultiBinding Converter="{StaticResource ForegroundSelector}">
-                                <Binding Path="Config.Theme.MenuColor" />
-                                <Binding Path="IsActive" RelativeSource="{RelativeSource AncestorType=Window}" />
-                                <Binding Path="IsUnactiveEnabled" RelativeSource="{RelativeSource  AncestorType=local:MenuBarView}" />
-                            </MultiBinding>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </ContentControl.Style>
-        </ContentControl>
+    <Grid x:Name="Root" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture" MinHeight="0" Background="{DynamicResource NVBackground}">
 
         <DockPanel x:Name="MenuBarArea" LastChildFill="True" Margin="0,0,0,2">
 
-            <nwc:WindowCaptionButtons x:Name="WindowCaptionButtons" VerticalAlignment="Top" DockPanel.Dock="Right" WindowChrome.IsHitTestVisibleInChrome="False"
-                    Foreground="{Binding Foreground, ElementName=ForegroundColorResource}">
+            <nwc:WindowCaptionButtons x:Name="WindowCaptionButtons" VerticalAlignment="Top" DockPanel.Dock="Right" WindowChrome.IsHitTestVisibleInChrome="False">
                 <nwc:WindowCaptionButtons.Style>
                     <Style TargetType="nwc:WindowCaptionButtons">
                         <Setter Property="Height" Value="28"/>
@@ -56,6 +41,7 @@
                     </Style>
                 </nwc:WindowCaptionButtons.Style>
             </nwc:WindowCaptionButtons>
+            
             <Grid DockPanel.Dock="Right" Visibility="{Binding MainMenu, Converter={StaticResource NullableToVisibilityConverter}}">
                 <Border x:Name="Watermark" Background="DarkOrange" Height="18" VerticalAlignment="Top" Visibility="Collapsed">
                     <TextBlock x:Name="WatermarkText" Foreground="White" Margin="10,0" FontSize="14" VerticalAlignment="Center" FontWeight="Normal" Text="Canary 0000" />
@@ -65,7 +51,6 @@
             <DockPanel x:Name="MenuArea" VerticalAlignment="Bottom">
                 <DockPanel.Resources>
                     <Style x:Key="{x:Type Menu}" TargetType="{x:Type Menu}" BasedOn="{StaticResource NVMenu}">
-                        <Setter Property="Foreground" Value="{Binding Foreground, ElementName=ForegroundColorResource}" />
                         <Setter Property="Background" Value="Transparent" />
                         <Setter Property="BorderBrush" Value="Transparent" />
                     </Style>
@@ -74,11 +59,11 @@
                     </Style>
                 </DockPanel.Resources>
                 <ContentControl x:Name="MainMenuJoint" Content="{Binding MainMenu}" IsTabStop="False" VerticalAlignment="Center" WindowChrome.IsHitTestVisibleInChrome="False"
-                        Foreground="{Binding Foreground, ElementName=ForegroundColorResource}" Margin="4,0,0,0">
+                        Margin="4,0,0,0">
                 </ContentControl>
                 <TextBlock x:Name="MenuTitle" Text="{Binding WindowTitle.Title}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0"
                         Visibility="{Binding IsCaptionEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
-                        Foreground="{Binding Foreground, ElementName=ForegroundColorResource}" FontSize="{DynamicResource MenuFontSize}"
+                        FontSize="{DynamicResource MenuFontSize}"
                         TextTrimming="CharacterEllipsis">
                 </TextBlock>
             </DockPanel>

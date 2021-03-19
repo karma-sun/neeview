@@ -126,7 +126,6 @@ namespace NeeView
             public void RestoreConfig(Config config)
             {
                 config.Theme.PanelColor = PanelColor;
-                config.Theme.MenuColor = MenuColor;
             }
         }
 

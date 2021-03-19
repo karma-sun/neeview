@@ -122,7 +122,16 @@ namespace NeeView
             _model.AddPropertyChanged(nameof(_model.CanHidePanel),
                 (s, e) => UpdateSidePanelMargin());
 
+            _model.WindowShape.AddPropertyChanged(nameof(WindowShape.CanCaptionVisible),
+                (s, e) => RaisePropertyChanged(nameof(IsMenuBarActive)));
+
             _model.FocusMainViewCall += Model_FocusMainViewCall;
+
+            MainWindow.Current.Activated +=
+                (s, e) => RaisePropertyChanged(nameof(IsMenuBarActive));
+ 
+            MainWindow.Current.Deactivated +=
+                (s, e) => RaisePropertyChanged(nameof(IsMenuBarActive));
 
 
             // SlideShow link to WindowIcon
@@ -201,6 +210,14 @@ namespace NeeView
         public BasicAutoHideDescription StatusAutoHideDescrption { get; }
 
         public BasicAutoHideDescription ThumbnailListusAutoHideDescrption { get; }
+
+        public bool IsMenuBarActive
+        {
+            get
+            {
+                return MainWindow.Current.IsActive || _model.WindowShape.CanCaptionVisible;
+            }
+        }
 
 
         private void Model_FocusMainViewCall(object sender, EventArgs e)

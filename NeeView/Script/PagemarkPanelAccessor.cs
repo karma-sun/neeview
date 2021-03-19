@@ -13,7 +13,7 @@ namespace NeeView
 
         public PagemarkPanelAccessor() : base(nameof(PagemarkPanel))
         {
-            _panel = (PagemarkPanel)MainLayoutPanelManager.Current.GetPanel(nameof(PagemarkPanel));
+            _panel = (PagemarkPanel)CustomLayoutPanelManager.Current.GetPanel(nameof(PagemarkPanel));
             _model = _panel.PagemarkListView.PagemarkList;
         }
 

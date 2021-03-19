@@ -102,7 +102,7 @@ namespace NeeView
 
                 if (_dock.SelectedItem != null)
                 {
-                    var layoutPanelManager = (MainLayoutPanelManager)_dock.LayoutPanelManager;
+                    var layoutPanelManager = (CustomLayoutPanelManager)_dock.LayoutPanelManager;
                     return _dock.SelectedItem.Any(e => layoutPanelManager.PanelsSource[e.Key].IsVisibleLock);
                 }
 

@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="400">
     
-    <Grid x:Name="Root" Background="White" PreviewKeyDown="Root_PreviewKeyDown">
+    <Grid x:Name="Root" Background="{DynamicResource NVMenuBackgroundBrush}" PreviewKeyDown="Root_PreviewKeyDown">
 
         <Grid.Resources>
             <Style TargetType="Button" BasedOn="{StaticResource IconButton}" />

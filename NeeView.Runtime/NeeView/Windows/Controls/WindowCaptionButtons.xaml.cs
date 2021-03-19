@@ -51,6 +51,17 @@ namespace NeeView.Windows.Controls
 
 
 
+        public double ForegroundOpacity
+        {
+            get { return (double)GetValue(ForegroundOpacityProperty); }
+            set { SetValue(ForegroundOpacityProperty, value); }
+        }
+
+        public static readonly DependencyProperty ForegroundOpacityProperty =
+            DependencyProperty.Register("ForegroundOpacity", typeof(double), typeof(WindowCaptionButtons), new PropertyMetadata(1.0));
+
+
+
         public void InitializeWindow(Window window)
         {
             if (window == null) return;

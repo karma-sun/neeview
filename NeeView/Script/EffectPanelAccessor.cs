@@ -7,7 +7,7 @@
 
         public EffectPanelAccessor() : base(nameof(ImageEffectPanel))
         {
-            _panel = (ImageEffectPanel)MainLayoutPanelManager.Current.GetPanel(nameof(ImageEffectPanel));
+            _panel = (ImageEffectPanel)CustomLayoutPanelManager.Current.GetPanel(nameof(ImageEffectPanel));
         }
 
 

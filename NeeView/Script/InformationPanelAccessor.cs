@@ -8,7 +8,7 @@
 
         public InformationPanelAccessor() : base(nameof(FileInformationPanel))
         {
-            _panel = (FileInformationPanel)MainLayoutPanelManager.Current.GetPanel(nameof(FileInformationPanel));
+            _panel = (FileInformationPanel)CustomLayoutPanelManager.Current.GetPanel(nameof(FileInformationPanel));
             _model = _panel.FileInformation;
         }
 

@@ -55,7 +55,7 @@ namespace NeeView
 
         public event EventHandler<WindowStateChangedEventArgs> StateChanged;
 
-
+        public Window Window => _window;
         public WindowStateEx CurrentState => _currentState;
         public WindowStateEx PreviousState => _previousState;
 

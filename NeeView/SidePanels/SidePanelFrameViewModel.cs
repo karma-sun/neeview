@@ -23,7 +23,7 @@ namespace NeeView
             _model = model;
             _model.VisibleAtOnceRequest += Model_VisibleAtOnceRequest;
 
-            MainLayoutPanelManager = MainLayoutPanelManager.Current;
+            MainLayoutPanelManager = CustomLayoutPanelManager.Current;
 
             Left = left;
             Left.PropertyChanged += Left_PropertyChanged;
@@ -142,7 +142,7 @@ namespace NeeView
 
 
 
-        public MainLayoutPanelManager MainLayoutPanelManager { get; private set; }
+        public CustomLayoutPanelManager MainLayoutPanelManager { get; private set; }
 
         /// <summary>
         /// ドラッグ開始イベント処理.

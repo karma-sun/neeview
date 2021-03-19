@@ -112,7 +112,7 @@ namespace NeeView
             _routedCommandBinding = new RoutedCommandBinding(this, RoutedCommandTable.Current);
 
             // サイドパネル初期化
-            MainLayoutPanelManager.Current.Initialize();
+            CustomLayoutPanelManager.Current.Initialize();
 
             // メインメニュー
             var mainMenuSelector = new MainMenuSelector(MainMenu.Current);
@@ -538,8 +538,8 @@ namespace NeeView
             }
 
             // パネルレイアウトの保存
-            MainLayoutPanelManager.Current?.Store();
-            MainLayoutPanelManager.Current?.SetIsStoreEnabled(false);
+            CustomLayoutPanelManager.Current?.Store();
+            CustomLayoutPanelManager.Current?.SetIsStoreEnabled(false);
 
             // メインビューの保存
             MainViewManager.Current?.Store();

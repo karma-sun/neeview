@@ -73,7 +73,7 @@ namespace NeeView
         {
             if (this.DataContext is LayoutPanel layoutPanel)
             {
-                MainLayoutPanelManager.Current.OpenDock(layoutPanel);
+                CustomLayoutPanelManager.Current.OpenDock(layoutPanel);
             }
         }
 
@@ -81,7 +81,7 @@ namespace NeeView
         {
             if (this.DataContext is LayoutPanel layoutPanel)
             {
-                MainLayoutPanelManager.Current.OpenWindow(layoutPanel, WindowPlacement.None);
+                CustomLayoutPanelManager.Current.OpenWindow(layoutPanel, WindowPlacement.None);
             }
         }
 

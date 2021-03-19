@@ -7,7 +7,7 @@
 
         public NavigatorPanelAccessor() : base(nameof(NavigatePanel))
         {
-            _panel = (NavigatePanel)MainLayoutPanelManager.Current.GetPanel(nameof(NavigatePanel));
+            _panel = (NavigatePanel)CustomLayoutPanelManager.Current.GetPanel(nameof(NavigatePanel));
         }
 
 

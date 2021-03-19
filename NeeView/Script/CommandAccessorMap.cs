@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace NeeView
 {
-    public class CommandAccessorMap : Dictionary<string, CommandAccessor>
+    public class CommandAccessorMap : Dictionary<string, ICommandAccessor>
     {
         public CommandAccessorMap(object sender, CommandTable commandTable)
         {
@@ -12,6 +12,13 @@ namespace NeeView
             {
                 this.Add(item.Key, new CommandAccessor(sender, item.Value));
             }
+
+#pragma warning disable CS0612 // 型またはメンバーが旧型式です
+            foreach (var item in commandTable.ObsoleteCommands)
+            {
+                this.Add(item, new ObsoleteCommandAccessor(item));
+            }
+#pragma warning restore CS0612 // 型またはメンバーが旧型式です
         }
 
         internal WordNode CreateWordNode(string name)
@@ -20,7 +27,7 @@ namespace NeeView
             node.Children = new List<WordNode>();
             foreach (var commandName in this.Keys)
             {
-                var commandAccessor = this[commandName];
+                var commandAccessor = this[commandName] as CommandAccessor;
                 if (commandAccessor != null)
                 {
                     node.Children.Add(commandAccessor.CreateWordNode(commandName));
@@ -29,48 +36,4 @@ namespace NeeView
             return node;
         }
     }
-
-#if false
-    public class CommandAccessorMap_
-    {
-        private object _sender;
-        private CommandTable _commandTable;
-
-        public CommandAccessorMap_(object sender, CommandTable commandTable)
-        {
-            _sender = sender;
-            _commandTable = commandTable;
-        }
-
-        public CommandAccessor this[string name]
-        {
-            get
-            {
-                if (_commandTable.TryGetValue(name, out CommandElement command))
-                {
-                    return new CommandAccessor(_sender, command);
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-
-        internal WordNode CreateWordNode(string name)
-        {
-            var node = new WordNode(name);
-            node.Children = new List<WordNode>();
-            foreach(var commandName in _commandTable.Keys)
-            {
-                var commandAccessor = this[commandName];
-                if (commandAccessor != null)
-                {
-                    node.Children.Add(commandAccessor.CreateWordNode(commandName));
-                }
-            }
-            return node;
-        }
-    }
-#endif
 }

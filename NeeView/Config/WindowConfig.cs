@@ -1,7 +1,9 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Windows;
 using NeeView.Windows.Property;
+using System;
 using System.ComponentModel;
+using System.Text.Json.Serialization;
 using System.Windows;
 
 namespace NeeView
@@ -9,7 +11,6 @@ namespace NeeView
     public class WindowConfig : BindableBase
     {
         private WindowChromeFrame _windowChromeFrame = WindowChromeFrame.WindowFrame;
-        private bool _isCaptionVisible = false;
         private bool _isTopmost = false;
         private double _maximizeWindowGapWidth = 8.0;
         private WindowStateEx _state;
@@ -28,12 +29,6 @@ namespace NeeView
             set { SetProperty(ref _windowChromeFrame, value); }
         }
 
-        [PropertyMember]
-        public bool IsCaptionVisible
-        {
-            get { return _isCaptionVisible; }
-            set { SetProperty(ref _isCaptionVisible, value); }
-        }
 
         [PropertyMember]
         public bool IsTopmost
@@ -121,6 +116,19 @@ namespace NeeView
         public WindowPlacement WindowPlacement { get; set; }
 
         #endregion HiddenParameters
+
+
+        #region Obsolete
+
+        [Obsolete()] // ver.39
+        [JsonIgnore]
+        public bool IsCaptionVisible
+        {
+            get { return false; }
+            set { }
+        }
+
+        #endregion Obsolete
     }
 
 }

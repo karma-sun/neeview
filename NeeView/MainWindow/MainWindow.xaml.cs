@@ -114,15 +114,12 @@ namespace NeeView
             // サイドパネル初期化
             CustomLayoutPanelManager.Current.Initialize();
 
-            // メインメニュー
-            var mainMenuSelector = new MainMenuSelector(MainMenu.Current);
-
             // 各コントロールとモデルを関連付け
             this.PageSliderView.Source = PageSlider.Current;
             this.MediaControlView.Source = MediaControl.Current;
             this.ThumbnailListArea.Source = ThumbnailList.Current;
-            this.MenuBar.Source = new MenuBar(mainMenuSelector, _windowStateManager);
-            this.AddressBar.Source = new AddressBar(mainMenuSelector);
+            this.MenuBar.Source = new MenuBar(_windowStateManager);
+            this.AddressBar.Source = new AddressBar();
 
             Config.Current.MenuBar.AddPropertyChanged(nameof(MenuBarConfig.IsHideMenu),
                 (s, e) => DartyMenuAreaLayout());
@@ -747,11 +744,6 @@ namespace NeeView
             {
                 ThumbnailList.Current.FocusAtOnce();
             }
-        }
-
-        public void ToggleCaptionVisible()
-        {
-            _windowShape.ToggleCaptionVisible();
         }
 
         private void InitializeMessageLayerSpace()

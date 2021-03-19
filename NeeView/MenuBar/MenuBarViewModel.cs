@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -57,20 +58,13 @@ namespace NeeView
         }
 
 
-        private void UpdateCaptionEnabled()
-        {
-            IsCaptionEnabled = !Config.Current.Window.IsCaptionVisible || Model.WindowStateManager.IsFullScreen;
-        }
-
         private void InitializeWindowCaptionEmulator(FrameworkElement control, WindowStateManager windowStateManamger)
         {
             this.Window = System.Windows.Window.GetWindow(control);
 
             _windowCaptionEmulator = new MainWindowCaptionEmulator(Window, control) { WindowStateManager = windowStateManamger };
-            UpdateCaptionEnabled();
-
-            Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.IsCaptionVisible), (s, e) => UpdateCaptionEnabled());
-            Model.WindowStateManager.AddPropertyChanged(nameof(WindowStateManager.IsFullScreen), (s, e) => UpdateCaptionEnabled());
+            
+            IsCaptionEnabled = true;
         }
     }
 }

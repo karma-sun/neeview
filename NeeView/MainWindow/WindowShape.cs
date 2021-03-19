@@ -114,9 +114,6 @@ namespace NeeView
 
             _windowBorder = new WindowBorder(_window, _windowChromeAccessor);
 
-            Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.IsCaptionVisible),
-                (s, e) => Refresh());
-
             Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.IsTopmost),
                 (s, e) => RaisePropertyChanged(nameof(IsTopmost)));
 
@@ -135,11 +132,6 @@ namespace NeeView
 
 
         public WindowBorder WindowBorder => _windowBorder;
-
-        public bool CanCaptionVisible
-        {
-            get { return Config.Current.Window.IsCaptionVisible && !_manager.IsFullScreen; }
-        }
 
         public bool IsTopmost
         {
@@ -170,7 +162,6 @@ namespace NeeView
         {
             Config.Current.Window.State = e.NewState;
             UpdatePanelHideMode();
-            RaisePropertyChanged(nameof(CanCaptionVisible));
         }
 
         public void UpdatePanelHideMode()
@@ -210,19 +201,9 @@ namespace NeeView
             }
         }
 
-        public void ToggleCaptionVisible()
-        {
-            Config.Current.Window.IsCaptionVisible = !Config.Current.Window.IsCaptionVisible;
-        }
-
         public void ToggleTopmost()
         {
             Config.Current.Window.IsTopmost = !Config.Current.Window.IsTopmost;
-        }
-
-        private void UpdateWindowChrome()
-        {
-            _windowChromeAccessor.IsEnabled = !Config.Current.Window.IsCaptionVisible;
         }
 
         /// <summary>
@@ -234,7 +215,7 @@ namespace NeeView
 
             ValidateWindowState();
             UpdatePanelHideMode();
-            UpdateWindowChrome();
+            _windowChromeAccessor.IsEnabled = true;
             _manager.SetWindowState(Config.Current.Window.State);
             _windowBorder.Update();
             RaisePropertyChanged(null);
@@ -279,7 +260,6 @@ namespace NeeView
             public void RestoreConfig(Config config)
             {
                 config.Window.IsTopmost = IsTopMost;
-                config.Window.IsCaptionVisible = IsCaptionVisible;
                 config.Window.MaximizeWindowGapWidth = MaximizeWindowGapWidth;
                 config.Window.State = State;
                 config.Window.LastState = LastState;

@@ -79,6 +79,8 @@ namespace NeeView
 
         public Dictionary<string, CommandElement> Elements => _elements;
 
+        public List<string> ObsoleteCommands { get; private set; }
+
         #region IDictionary Support
 
         public ICollection<string> Keys => ((IDictionary<string, CommandElement>)_elements).Keys;
@@ -197,7 +199,6 @@ namespace NeeView
                 new SetBackgroundCheckDarkCommand(),
                 new SetBackgroundCustomCommand(),
                 new ToggleTopmostCommand(),
-                new ToggleVisibleTitleBarCommand(),
                 new ToggleVisibleAddressBarCommand(),
                 new ToggleHideMenuCommand(),
                 new ToggleVisibleSideBarCommand(),
@@ -399,6 +400,12 @@ namespace NeeView
 
             // デフォルト設定として記憶
             DefaultMemento = CreateCommandCollectionMemento();
+
+            // 廃棄されたコマンド
+            ObsoleteCommands = new List<string>()
+            {
+                "ToggleVisibleTitleBar",
+            };
         }
 
         #endregion

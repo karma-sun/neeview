@@ -22,20 +22,17 @@
     </UserControl.Resources>
 
 
-    <Grid x:Name="Root" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture" MinHeight="0" Background="{DynamicResource NVBackground}">
+    <Grid x:Name="Root" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture" MinHeight="0" Background="{DynamicResource NVBaseBrush}">
 
         <DockPanel x:Name="MenuBarArea" LastChildFill="True" Margin="0,0,0,2">
 
             <nwc:WindowCaptionButtons x:Name="WindowCaptionButtons" VerticalAlignment="Top" DockPanel.Dock="Right" WindowChrome.IsHitTestVisibleInChrome="False">
                 <nwc:WindowCaptionButtons.Style>
                     <Style TargetType="nwc:WindowCaptionButtons">
-                        <Setter Property="Height" Value="28"/>
+                        <Setter Property="MinHeight" Value="28"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsCaptionEnabled}" Value="False">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                            </DataTrigger>
                             <DataTrigger Binding="{Binding Window.WindowState}" Value="Maximized">
-                                <Setter Property="Height" Value="24"/>
+                                <Setter Property="MinHeight" Value="24"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -54,15 +51,11 @@
                         <Setter Property="Background" Value="Transparent" />
                         <Setter Property="BorderBrush" Value="Transparent" />
                     </Style>
-                    <Style x:Key="{x:Type MenuItem}" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource NVMenuItem}">
-                        <Setter Property="Background" Value="{Binding Background, ElementName=Root}" />
-                    </Style>
                 </DockPanel.Resources>
                 <ContentControl x:Name="MainMenuJoint" Content="{Binding MainMenu}" IsTabStop="False" VerticalAlignment="Center" WindowChrome.IsHitTestVisibleInChrome="False"
                         Margin="4,0,0,0">
                 </ContentControl>
                 <TextBlock x:Name="MenuTitle" Text="{Binding WindowTitle.Title}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0"
-                        Visibility="{Binding IsCaptionEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
                         FontSize="{DynamicResource MenuFontSize}"
                         TextTrimming="CharacterEllipsis">
                 </TextBlock>

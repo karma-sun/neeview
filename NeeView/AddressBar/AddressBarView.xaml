@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:NeeView"
              xmlns:properties="clr-namespace:NeeView.Properties"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="50" d:DesignWidth="600">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -49,20 +49,6 @@
         </Grid.Resources>
 
         <DockPanel VerticalAlignment="Top" Margin="2,2">
-
-            <ContentControl x:Name="MainMenuJoint" Content="{Binding MainMenu}" IsTabStop="False" VerticalAlignment="Center">
-                <ContentControl.Resources>
-                    <Style x:Key="{x:Type Menu}" TargetType="{x:Type Menu}" BasedOn="{StaticResource NVMenu}">
-                        <Setter Property="Foreground" Value="{DynamicResource NVForeground}" />
-                        <Setter Property="Background" Value="Transparent" />
-                        <Setter Property="BorderBrush" Value="Transparent" />
-                    </Style>
-                    <Style x:Key="{x:Type MenuItem}" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource NVMenuItem}">
-                        <Setter Property="Foreground" Value="{DynamicResource NVForeground}" />
-                        <Setter Property="Background" Value="{DynamicResource NVBaseBrush}" />
-                    </Style>
-                </ContentControl.Resources>
-            </ContentControl>
 
             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" UseLayoutRounding="True">
 

@@ -122,9 +122,6 @@ namespace NeeView
             _model.AddPropertyChanged(nameof(_model.CanHidePanel),
                 (s, e) => UpdateSidePanelMargin());
 
-            _model.WindowShape.AddPropertyChanged(nameof(WindowShape.CanCaptionVisible),
-                (s, e) => RaisePropertyChanged(nameof(IsMenuBarActive)));
-
             _model.FocusMainViewCall += Model_FocusMainViewCall;
 
             MainWindow.Current.Activated +=
@@ -211,13 +208,7 @@ namespace NeeView
 
         public BasicAutoHideDescription ThumbnailListusAutoHideDescrption { get; }
 
-        public bool IsMenuBarActive
-        {
-            get
-            {
-                return MainWindow.Current.IsActive || _model.WindowShape.CanCaptionVisible;
-            }
-        }
+        public bool IsMenuBarActive => MainWindow.Current.IsActive;
 
 
         private void Model_FocusMainViewCall(object sender, EventArgs e)

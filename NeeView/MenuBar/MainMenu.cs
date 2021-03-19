@@ -68,7 +68,6 @@ namespace NeeView
                 var image = new Image();
                 image.Width = 18;
                 image.Height = 18;
-                image.Margin = new Thickness(0, 2, 0, 2);
                 image.Source = CreateMenuIcon();
 
                 var topMenu = new MenuItem();

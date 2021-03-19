@@ -5,7 +5,7 @@ namespace NeeView
     /// <summary>
     /// コマンドアクセス
     /// </summary>
-    public class CommandAccessor
+    public class CommandAccessor : ICommandAccessor
     {
         private object _sender;
         private CommandElement _command;

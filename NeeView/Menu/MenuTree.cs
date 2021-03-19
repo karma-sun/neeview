@@ -297,6 +297,12 @@ namespace NeeView
             {
                 case MenuElementType.Command:
                     {
+                        if (!CommandTable.Current.ContainsKey(this.CommandName))
+                        {
+                            Debug.WriteLine($"Command {this.CommandName} is not defined.");
+                            return null;
+                        }
+
                         var item = new MenuItem();
                         item.Header = this.Label;
                         item.Tag = this.CommandName;
@@ -497,7 +503,6 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { CommandName = "ToggleVisibleSideBar" },
                         new MenuTree(MenuElementType.Command) { CommandName = "ToggleHidePanel" },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleVisibleTitleBar" },
                         new MenuTree(MenuElementType.Command) { CommandName = "ToggleVisibleAddressBar" },
                         new MenuTree(MenuElementType.Command) { CommandName = "ToggleHideMenu" },
                         new MenuTree(MenuElementType.Separator),

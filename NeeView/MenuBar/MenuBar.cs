@@ -13,21 +13,19 @@ namespace NeeView
     /// </summary>
     public class MenuBar : BindableBase
     {
-        private MainMenuSelector _mainMenuSelector;
         private WindowStateManager _windowStateManager;
 
 
-        public MenuBar(MainMenuSelector mainMenuSelector, WindowStateManager windowStateManager)
+        public MenuBar(WindowStateManager windowStateManager)
         {
-            _mainMenuSelector = mainMenuSelector;
             _windowStateManager = windowStateManager;
 
-            _mainMenuSelector.AddPropertyChanged(nameof(MainMenuSelector.MenuBarMenu),
+            NeeView.MainMenu.Current.AddPropertyChanged(nameof(NeeView.MainMenu.Menu),
                 (s, e) => RaisePropertyChanged(nameof(MainMenu)));
         }
 
 
-        public Menu MainMenu => _mainMenuSelector.MenuBarMenu;
+        public Menu MainMenu => NeeView.MainMenu.Current.Menu;
 
         public WindowStateManager WindowStateManager => _windowStateManager;
 

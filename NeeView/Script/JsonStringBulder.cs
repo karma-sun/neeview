@@ -37,6 +37,12 @@ namespace NeeView
 
             var type = source.GetType();
 
+            var obsolete = type.GetCustomAttribute<ObsoleteAttribute>();
+            if (obsolete != null)
+            {
+                return builder.Append((source as IHasObsoleteMessage)?.ObsoleteMessage ?? obsolete.Message ?? "This is obsolete.");
+            }
+
             if (source is Enum enm)
             {
                 return builder.Append(Convert.ToInt32(enm).ToString());
@@ -186,6 +192,12 @@ namespace NeeView
 
             foreach (DictionaryEntry item in source)
             {
+                var valueType = item.Value.GetType();
+                if (valueType.GetCustomAttribute<ObsoleteAttribute>() != null)
+                {
+                    continue;
+                }
+
                 section.Increment();
                 AppendKeyValuePair(builder, item, depth);
             }

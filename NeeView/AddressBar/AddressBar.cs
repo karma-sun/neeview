@@ -9,17 +9,11 @@ namespace NeeView
     /// </summary>
     public class AddressBar : BindableBase
     {
-        private MainMenuSelector _mainMenuSelector;
         private string _address;
 
 
-        public AddressBar(MainMenuSelector mainMenuSelector)
+        public AddressBar()
         {
-            _mainMenuSelector = mainMenuSelector;
-            
-            _mainMenuSelector.AddPropertyChanged(nameof(MainMenuSelector.AddressBarMenu),
-                (s, e) => RaisePropertyChanged(nameof(MainMenu)));
-
             BookHub.Current.AddressChanged +=
                 (s, e) => SetAddress(BookHub.Current.Address);
 
@@ -30,8 +24,6 @@ namespace NeeView
                 (s, e) => RaisePropertyChanged(nameof(IsBookmark));
         }
 
-
-        public Menu MainMenu => _mainMenuSelector.AddressBarMenu;
 
         public string Address
         {

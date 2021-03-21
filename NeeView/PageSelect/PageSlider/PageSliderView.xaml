@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
              mc:Ignorable="d" 
+             Foreground="{DynamicResource Slider.Foreground}"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -17,7 +18,7 @@
                                        Visibility="{Binding IsSliderWithIndex, Converter={StaticResource BooleanToVisibilityConverter}}"
                                        Maximum="{Binding Model.PageSelector.MaxIndex}" Value="{Binding Model.SelectedIndexRaw}"
                                        ValueChanged="PageSliderTextBox_ValueChanged" KeyDown="PageSliderTextBox_KeyDown"
-                                       Foreground="{DynamicResource NVForeground}" FontSize="{Binding FontSize}">
+                                       FontSize="{Binding FontSize}">
             </local:SliderTextBox>
 
             <Grid Margin="{Binding SliderMargin}">

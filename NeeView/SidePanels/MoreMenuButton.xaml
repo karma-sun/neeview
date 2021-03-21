@@ -8,9 +8,19 @@
              mc:Ignorable="d"
              Width="30" Height="30"
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        
+        <DrawingImage x:Key="ic_more_24px_a">
+            <DrawingImage.Drawing>
+                <GeometryDrawing Brush="{DynamicResource Control.AccentColor}" Pen="{x:Null}" Geometry="{StaticResource g_more_24px}" />
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        
+    </UserControl.Resources>
     
     <ToggleButton x:Name="MoreButton" Style="{StaticResource IconToggleButton}" MouseRightButtonUp="MoreButton_MouseRightButtonUp"
             Checked="MoreButton_Checked" nvc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}">
-        <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16" />
+        <Image Source="{StaticResource ic_more_24px_a}" Width="16" Height="16" />
     </ToggleButton>
 </UserControl>

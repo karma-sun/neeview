@@ -10,21 +10,28 @@
              xmlns:properties="clr-namespace:NeeView.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
-             Foreground="{DynamicResource NVForeground}">
+             Foreground="{DynamicResource Default.Foreground}">
 
     <UserControl.Resources>
+        <ResourceDictionary>
 
-        <DrawingImage x:Key="ic_bookmark_24px">
-            <DrawingImage.Drawing>
-                <DrawingGroup Opacity="1">
-                    <DrawingGroup.Children>
-                        <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
-                        <GeometryDrawing Brush="Gray" Pen="{x:Null}" Geometry="{StaticResource g_bookmark_border_24px}" />
-                    </DrawingGroup.Children>
-                </DrawingGroup>
-            </DrawingImage.Drawing>
-        </DrawingImage>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/PanelIcons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
+
+            <DrawingImage x:Key="ic_bookmark_24px">
+                <DrawingImage.Drawing>
+                    <DrawingGroup Opacity="1">
+                        <DrawingGroup.Children>
+                            <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
+                            <GeometryDrawing Brush="Gray" Pen="{x:Null}" Geometry="{StaticResource g_bookmark_border_24px}" />
+                        </DrawingGroup.Children>
+                    </DrawingGroup>
+                </DrawingImage.Drawing>
+            </DrawingImage>
+
+        </ResourceDictionary>
     </UserControl.Resources>
 
 
@@ -37,7 +44,7 @@
             <DockPanel LastChildFill="False" KeyboardNavigation.TabNavigation="Local">
                 <local:MoreMenuButton Description="{Binding MoreMenuDescription}" DockPanel.Dock="Right" TabIndex="2" />
                 <Button x:Name="AddPagemark" Style="{StaticResource IconButton}" Height="30" Width="30" Command="{Binding AddPagemarkCommand}" ToolTip="{x:Static properties:Resources.PagemarkList_Add_ToolTip}" TabIndex="1">
-                    <Image Source="{StaticResource ic_add_24px_b}" Width="16" Height="16"/>
+                    <Image Source="{StaticResource ic_add_24px_a}" Width="16" Height="16"/>
                 </Button>
             </DockPanel>
         </StackPanel>

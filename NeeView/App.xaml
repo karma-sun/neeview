@@ -204,7 +204,7 @@
 
                     <DrawingImage x:Key="ic_search_24px_b">
                         <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}" Geometry="{StaticResource g_search_24px}"/>
+                            <GeometryDrawing Brush="{DynamicResource Button.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_search_24px}"/>
                         </DrawingImage.Drawing>
                     </DrawingImage>
 
@@ -218,20 +218,6 @@
                     <!--#region ic_setting_24px -->
                     <PathGeometry x:Key="g_setting_24px" FillRule="Nonzero" Figures="M12,8.5C10.0699996948242,8.5 8.5,10.0699996948242 8.5,12 8.5,13.9300003051758 10.0699996948242,15.5 12,15.5 13.9300003051758,15.5 15.5,13.9300003051758 15.5,12 15.5,10.0699996948242 13.9300003051758,8.5 12,8.5z M10,2L14,2C14.25,2,14.460000038147,2.1800000667572,14.4899997711182,2.42000007629395L14.8699998855591,5.07000017166138C15.4799995422363,5.32000017166138,16.0400009155273,5.65000009536743,16.5599994659424,6.05000019073486L19.0499992370605,5.05000019073486C19.2700004577637,4.96999979019165,19.5400009155273,5.05000019073486,19.6599998474121,5.26999998092651L21.6599998474121,8.72999954223633C21.7800006866455,8.94999980926514,21.7299995422363,9.22000026702881,21.5400009155273,9.36999988555908L19.4300003051758,11.0200004577637C19.4699993133545,11.3400001525879 19.5,11.6599998474121 19.5,12 19.5,12.3400001525879 19.4699993133545,12.6599998474121 19.4300003051758,12.9799995422363L21.5400009155273,14.6300001144409C21.7299995422363,14.7799997329712,21.7800006866455,15.0500001907349,21.6599998474121,15.2700004577637L19.6599998474121,18.7299995422363C19.5400009155273,18.9500007629395,19.2800006866455,19.0400009155273,19.0499992370605,18.9500007629395L16.5599994659424,17.9500007629395C16.0400009155273,18.3400001525879,15.4799995422363,18.6800003051758,14.8699998855591,18.9300003051758L14.4899997711182,21.5799999237061C14.460000038147,21.8199996948242,14.25,22,14,22L10,22C9.75,22,9.53999996185303,21.8199996948242,9.51000022888184,21.5799999237061L9.13000011444092,18.9300003051758C8.52000045776367,18.6800003051758,7.96000003814697,18.3500003814697,7.44000005722046,17.9500007629395L4.94999980926514,18.9500007629395C4.73000001907349,19.0300006866455,4.46000003814697,18.9500007629395,4.34000015258789,18.7299995422363L2.33999991416931,15.2700004577637C2.22000002861023,15.0500001907349,2.26999998092651,14.7799997329712,2.46000003814697,14.6300001144409L4.57000017166138,12.9799995422363C4.53000020980835,12.6599998474121 4.5,12.3299999237061 4.5,12 4.5,11.6700000762939 4.53000020980835,11.3400001525879 4.57000017166138,11.0200004577637L2.46000003814697,9.36999988555908C2.26999998092651,9.22000026702881,2.21000003814697,8.94999980926514,2.33999991416931,8.72999954223633L4.34000015258789,5.26999998092651C4.46000003814697,5.05000019073486,4.71999979019165,4.96000003814697,4.94999980926514,5.05000019073486L7.44000005722046,6.05000019073486C7.96000003814697,5.65999984741211,8.52000045776367,5.32000017166138,9.13000011444092,5.07000017166138L9.51000022888184,2.42000007629395C9.53999996185303,2.1800000667572,9.75,2,10,2z" />
 
-                    <DrawingImage x:Key="ic_setting_24px">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{DynamicResource NVForeground}" Pen="{x:Null}" Geometry="{StaticResource g_setting_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-
-                    <DrawingImage x:Key="ic_setting_24px_b">
-                        <DrawingImage.Drawing>
-                            <DrawingGroup>
-                                <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
-                                <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}" Geometry="{StaticResource g_setting_24px}" />
-                            </DrawingGroup>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
                     <!--#endregion -->
 
                     <!--#region ic_warning_48px -->
@@ -257,49 +243,11 @@
                     <!--#region ic_arrow_back_24px -->
                     <PathGeometry x:Key="g_arrow_back_24px" FillRule="Nonzero" Figures="M12,4L13.4200000762939,5.40999984741211 7.82999992370605,11 20,11 20,13 7.82999992370605,13 13.4099998474121,18.5900001525879 12,20 4,12 12,4z" />
 
-                    <!--
-                    <DrawingImage x:Key="ic_arrow_back_24px_dark">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushDark}" Pen="{x:Null}" Geometry="{StaticResource g_arrow_back_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-
-                    <DrawingImage x:Key="ic_arrow_back_24px_light">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushLight}" Pen="{x:Null}" Geometry="{StaticResource g_arrow_back_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-                    -->
-
-                    <DrawingImage x:Key="ic_arrow_back_24px_b">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}" Geometry="{StaticResource g_arrow_back_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
                     <!--#endregion -->
 
                     <!--#region ic_arrow_forward_24px -->
                     <PathGeometry x:Key="g_arrow_forward_24px" FillRule="Nonzero" Figures="M12,4L20,12 12,20 10.5900001525879,18.5900001525879 16.1700000762939,13 4,13 4,11 16.1700000762939,11 10.5900001525879,5.40999984741211 12,4z" />
 
-                    <!--
-                    <DrawingImage x:Key="ic_arrow_forward_24px_dark">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushDark}" Pen="{x:Null}" Geometry="{StaticResource g_arrow_forward_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-
-                    <DrawingImage x:Key="ic_arrow_forward_24px_light">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushLight}" Pen="{x:Null}" Geometry="{StaticResource g_arrow_forward_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-                    -->
-
-                    <DrawingImage x:Key="ic_arrow_forward_24px_b">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}" Geometry="{StaticResource g_arrow_forward_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
                     <!--#endregion -->
 
                     <!--#region ic_arrow_up_24px -->
@@ -309,247 +257,70 @@
                         </PathGeometry.Transform>
                     </PathGeometry>
 
-                    <!--
-                    <DrawingImage x:Key="ic_arrow_up_24px">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{DynamicResource NVForeground}" Pen="{x:Null}" Geometry="{StaticResource g_arrow_up_24px}" />
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-                    -->
-                    
-                    <!--
-                    <DrawingImage x:Key="ic_arrow_up_24px_dark">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushDark}" Pen="{x:Null}" Geometry="{StaticResource g_arrow_up_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-
-                    <DrawingImage x:Key="ic_arrow_up_24px_light">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushLight}" Pen="{x:Null}" Geometry="{StaticResource g_arrow_up_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-                    -->
-
-                    <DrawingImage x:Key="ic_arrow_up_24px_b">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}" Geometry="{StaticResource g_arrow_up_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
                     <!--#endregion -->
 
                     <!--#region ic_info_outline_24px -->
                     <PathGeometry x:Key="g_info_outline_24px" FillRule="Nonzero" Figures="M11,17L13,17 13,11 11,11 11,17z M12,2C6.48,2 2,6.48 2,12 2,17.52 6.48,22 12,22 17.52,22 22,17.52 22,12 22,6.48 17.52,2 12,2z M12,20C7.59,20 4,16.41 4,12 4,7.59 7.59,4 12,4 16.41,4 20,7.59 20,12 20,16.41 16.41,20 12,20z M11,9L13,9 13,7 11,7 11,9z" />
-
-                    <!--
-                    <DrawingImage x:Key="ic_info_outline_24px_dark">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushDark}" Pen="{x:Null}" Geometry="{StaticResource g_info_outline_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-
-                    <DrawingImage x:Key="ic_info_outline_24px_light">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushLight}" Pen="{x:Null}" Geometry="{StaticResource g_info_outline_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-                    -->
                     
                     <!--#endregion -->
 
                     <!--#region ic_refresh_24px -->
                     <PathGeometry x:Key="g_refresh_24px" FillRule="Nonzero" Figures="M12,4C14.210000038147,4,16.2000007629395,4.90000009536743,17.6499996185303,6.34999990463257L20,4 20,11 13,11 16.2199993133545,7.78000020980835C15.1400003433228,6.69000005722046 13.6599998474121,6 12,6 8.6899995803833,6 6,8.6899995803833 6,12 6,15.3100004196167 8.6899995803833,18 12,18 14.6099996566772,18 16.8299999237061,16.3299999237061 17.6499996185303,14L19.7299995422363,14C18.8400001525879,17.4500007629395 15.7299995422363,20 12,20 7.57999992370605,20 4.01000022888184,16.4200000762939 4.01000022888184,12 4.01000022888184,7.57999992370605 7.57999992370605,4 12,4z" />
-
-
-                    <!--
-                    <DrawingImage x:Key="ic_refresh_24px_dark">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushDark}" Pen="{x:Null}" Geometry="{StaticResource g_refresh_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-
-                    <DrawingImage x:Key="ic_refresh_24px_light">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushLight}" Pen="{x:Null}" Geometry="{StaticResource g_refresh_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-                    -->
                     
                     <!--#endregion -->
 
                     <!--#region ic_close_24px -->
                     <PathGeometry x:Key="g_close_24px" FillRule="Nonzero" Figures="M19,6.41L17.59,5 12,10.59 6.41,5 5,6.41 10.59,12 5,17.59 6.41,19 12,13.41 17.59,19 19,17.59 13.41,12z" />
 
-
-                    <!--
-                    <DrawingImage x:Key="ic_close_24px_dark">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushDark}" Pen="{x:Null}" Geometry="{StaticResource g_close_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-
-                    <DrawingImage x:Key="ic_close_24px_light">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushLight}" Pen="{x:Null}" Geometry="{StaticResource g_close_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-                    -->
                     <!--#endregion -->
 
                     <!--#region ic_looks_one_24px -->
                     <PathGeometry x:Key="g_looks_one_24px" FillRule="Nonzero" Figures="M10,7L10,9 12,9 12,17 14,17 14,7 10,7z M5,3.00000023841858L19,3.00000023841858C20.1000003814697,3,21,3.90000009536743,21,5L21,19C21,20.1000003814697,20.1000003814697,21,19,21L5,21C3.90000009536743,21,3,20.1000003814697,3.00000023841858,19L3.00000023841858,5C3,3.90000009536743,3.90000009536743,3,5,3.00000023841858z" />
 
-
-                    <!--
-                    <DrawingImage x:Key="ic_looks_one_24px_dark">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushDark}" Pen="{x:Null}" Geometry="{StaticResource g_looks_one_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-
-                    <DrawingImage x:Key="ic_looks_one_24px_light">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushLight}" Pen="{x:Null}" Geometry="{StaticResource g_looks_one_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-                    -->
                     <!--#endregion -->
 
                     <!--#region ic_looks_two_24px -->
                     <PathGeometry x:Key="g_looks_two_24px" FillRule="Nonzero" Figures="M9,7L9,9 13,9 13,11 11,11C9.89999961853027,11,9,11.8900003433228,9,13L9,17 15,17 15,15 11,15 11,13 13,13C14.1000003814697,13,15,12.1099996566772,15,11L15,9C15,7.8899998664856,14.1000003814697,7,13,7L9,7z M5,3.00000023841858L19,3.00000023841858C20.1000003814697,3,21,3.90000009536743,21,5L21,19C21,20.1000003814697,20.1000003814697,21,19,21L5,21C3.90000009536743,21,3,20.1000003814697,3.00000023841858,19L3.00000023841858,5C3,3.90000009536743,3.90000009536743,3,5,3.00000023841858z" />
 
-
-                    <!--
-                    <DrawingImage x:Key="ic_looks_two_24px_dark">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushDark}" Pen="{x:Null}" Geometry="{StaticResource g_looks_two_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-
-                    <DrawingImage x:Key="ic_looks_two_24px_light">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushLight}" Pen="{x:Null}" Geometry="{StaticResource g_looks_two_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-                    -->
                     <!--#endregion -->
 
                     <!--#region ic_right_to_left_24px -->
                     <PathGeometry x:Key="g_right_to_left_24px_a" FillRule="Nonzero" Figures="M6.98999977111816,11L6.98999977111816,14 14,14 14,16 6.98999977111816,16 6.98999977111816,19 3.00000023841858,15 6.98999977111816,11z" />
                     <PathGeometry x:Key="g_right_to_left_24px_b" FillRule="Nonzero" Figures="M17.0100002288818,5L21,9 17.0100002288818,13 17.0100002288818,10 10,10 10,8 17.0100002288818,8 17.0100002288818,5z" />
 
-
-                    <!--
-                    <DrawingImage x:Key="ic_right_to_left_24px_dark">
-                        <DrawingImage.Drawing>
-                            <DrawingGroup Opacity="1">
-                                <DrawingGroup.Children>
-                                    <GeometryDrawing Brush="{StaticResource NVIconBrushDark}" Pen="{x:Null}" Geometry="{StaticResource g_right_to_left_24px_a}"/>
-                                    <GeometryDrawing Brush="#88888888" Pen="{x:Null}" Geometry="{StaticResource g_right_to_left_24px_b}"/>
-                                </DrawingGroup.Children>
-                            </DrawingGroup>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-
-                    <DrawingImage x:Key="ic_right_to_left_24px_light">
-                        <DrawingImage.Drawing>
-                            <DrawingGroup Opacity="1">
-                                <DrawingGroup.Children>
-                                    <GeometryDrawing Brush="{StaticResource NVIconBrushLight}" Pen="{x:Null}" Geometry="{StaticResource g_right_to_left_24px_a}"/>
-                                    <GeometryDrawing Brush="#88888888" Pen="{x:Null}" Geometry="{StaticResource g_right_to_left_24px_b}"/>
-                                </DrawingGroup.Children>
-                            </DrawingGroup>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-                    -->
                     <!--#endregion -->
 
                     <!--#region ic_left_to_right_24px -->
                     <PathGeometry x:Key="g_left_to_right_24px_a" FillRule="Nonzero" Figures="M6.98999977111816,11L6.98999977111816,14 14,14 14,16 6.98999977111816,16 6.98999977111816,19 3.00000023841858,15 6.98999977111816,11z" />
                     <PathGeometry x:Key="g_left_to_right_24px_b" FillRule="Nonzero" Figures="M17.0100002288818,5L21,9 17.0100002288818,13 17.0100002288818,10 10,10 10,8 17.0100002288818,8 17.0100002288818,5z" />
 
-                    
-                    <!--
-                    <DrawingImage x:Key="ic_left_to_right_24px_dark">
-                        <DrawingImage.Drawing>
-                            <DrawingGroup Opacity="1">
-                                <DrawingGroup.Children>
-                                    <GeometryDrawing Brush="#88888888" Pen="{x:Null}" Geometry="{StaticResource g_left_to_right_24px_a}"/>
-                                    <GeometryDrawing Brush="{StaticResource NVIconBrushDark}" Pen="{x:Null}" Geometry="{StaticResource g_left_to_right_24px_b}"/>
-                                </DrawingGroup.Children>
-                            </DrawingGroup>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-
-                    <DrawingImage x:Key="ic_left_to_right_24px_light">
-                        <DrawingImage.Drawing>
-                            <DrawingGroup Opacity="1">
-                                <DrawingGroup.Children>
-                                    <GeometryDrawing Brush="#88888888" Pen="{x:Null}" Geometry="{StaticResource g_left_to_right_24px_a}"/>
-                                    <GeometryDrawing Brush="{StaticResource NVIconBrushLight}" Pen="{x:Null}" Geometry="{StaticResource g_left_to_right_24px_b}"/>
-                                </DrawingGroup.Children>
-                            </DrawingGroup>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-                    -->
                     <!--#endregion -->
 
                     <!--#region ic_shuffle_24px -->
                     <PathGeometry x:Key="g_shuffle_24px" FillRule="Nonzero" Figures="M14.8299999237061,13.4099998474121L17.9599990844727,16.5400009155273 20,14.5 20,20 14.5,20 16.5499992370605,17.9500007629395 13.4200000762939,14.8199996948242 14.8299999237061,13.4099998474121z M14.5,4L20,4 20,9.5 17.9599990844727,7.46000003814697 5.40999984741211,20 4,18.5900001525879 16.5400009155273,6.03999996185303 14.5,4z M5.40999984741211,4L10.5900001525879,9.17000007629395 9.17000007629395,10.5799999237061 4,5.40999984741211 5.40999984741211,4z" />
 
-                    <!--
-                    <DrawingImage x:Key="ic_shuffle_24px_dark">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushDark}" Pen="{x:Null}" Geometry="{StaticResource g_shuffle_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-
-                    <DrawingImage x:Key="ic_shuffle_24px_light">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushLight}" Pen="{x:Null}" Geometry="{StaticResource g_shuffle_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-                    -->
                     <!--#endregion -->
 
                     <!--#region ic_home_24px -->
                     <PathGeometry x:Key="g_home_24px" FillRule="Nonzero" Figures="M12,3L22,12 19,12 19,20 14,20 14,14 10,14 10,20 5,20 5,12 2,12 12,3z" />
 
-                    <DrawingImage x:Key="ic_home_24px_b">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}" Geometry="{StaticResource g_home_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
                     <!--#endregion -->
 
                     <!--#region ic_sync_24px -->
                     <PathGeometry x:Key="g_sync_24px" FillRule="Nonzero" Figures="M5.23999977111816,7.73999977111816L6.69999980926514,9.19999980926514C6.25,10.0299997329712 6,10.9899997711182 6,12 6,15.3100004196167 8.6899995803833,18 12,18L12,15 16,19 12,23 12,20C7.57999992370605,20 4,16.4200000762939 4,12 4,10.4300003051758 4.46000003814697,8.97000026702881 5.23999977111816,7.73999977111816z M12,1.00000011920929L12,4C16.4200000762939,4 20,7.57999992370605 20,12 20,13.5699996948242 19.5400009155273,15.0299997329712 18.7600002288818,16.2600002288818L17.2999992370605,14.8000001907349C17.75,13.9700002670288 18,13.0100002288818 18,12 18,8.6899995803833 15.3100004196167,6 12,6L12,9 8,5 12,1.00000011920929z" />
 
-                    <DrawingImage x:Key="ic_sync_24px_b">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}" Geometry="{StaticResource g_sync_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
+
                     <!--#endregion -->
 
                     <!--#region ic_more_24px -->
                     <PathGeometry x:Key="g_more_24px" FillRule="Nonzero" Figures="M18,10C19.1000003814697,10 20,10.8999996185303 20,12 20,13.1000003814697 19.1000003814697,14 18,14 16.8999996185303,14 16,13.1000003814697 16,12 16,10.8999996185303 16.8999996185303,10 18,10z M12,10C13.1000003814697,10 14,10.8999996185303 14,12 14,13.1000003814697 13.1000003814697,14 12,14 10.8999996185303,14 10,13.1000003814697 10,12 10,10.8999996185303 10.8999996185303,10 12,10z M6,10C7.09999990463257,10 8,10.8999996185303 8,12 8,13.1000003814697 7.09999990463257,14 6,14 4.90000009536743,14 4,13.1000003814697 4,12 4,10.8999996185303 4.90000009536743,10 6,10z" />
 
-                    <DrawingImage x:Key="ic_more_24px_b">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}" Geometry="{StaticResource g_more_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
+
                     <!--#endregion -->
 
                     <!--#region ic_add_24px -->
                     <PathGeometry x:Key="g_add_24px" FillRule="Nonzero" Figures="M19,13L13,13 13,19 11,19 11,13 5,13 5,11 11,11 11,5 13,5 13,11 19,11 19,13z" />
 
-                    <DrawingImage x:Key="ic_add_24px_b">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}" Geometry="{StaticResource g_add_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
                     <!--#endregion -->
 
                     <!--#region ic_clear_24px (×マーク)-->
@@ -561,11 +332,6 @@
                         </DrawingImage.Drawing>
                     </DrawingImage>
 
-                    <DrawingImage x:Key="ic_clear_24px_b">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}" Geometry="{StaticResource g_clear_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
                     <!--#endregion -->
 
                     <!-- NeeView Custom : from Material design icons by Google -->
@@ -573,113 +339,31 @@
                     <!--#region ic_sort_name_24px -->
                     <PathGeometry x:Key="g_sort_name_24px" FillRule="Nonzero" Figures="M7.61549711227417,1035.73388671875L5.26151847839355,1042.01123046875 9.96947574615479,1042.01123046875 7.61549711227417,1035.73388671875z M6.55791521072388,1032.91357421875L8.6730785369873,1032.91357421875 14.4841260910034,1047.69714355469 12.107385635376,1047.69714355469 10.8109884262085,1044.28564453125 4.39724349975586,1044.28564453125 3.12359309196472,1047.69714355469 0.746868014335632,1047.69714355469 6.55791521072388,1032.91357421875z" />
 
-                    
-                    <!--
-                    <DrawingImage x:Key="ic_sort_name_24px_dark">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushDark}" Pen="{x:Null}" Geometry="{StaticResource g_sort_name_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-
-                    <DrawingImage x:Key="ic_sort_name_24px_light">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushLight}" Pen="{x:Null}" Geometry="{StaticResource g_sort_name_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-                    -->
                     <!--#endregion -->
 
                     <!--#region ic_sort_time_24px -->
                     <PathGeometry x:Key="g_sort_time_24px" FillRule="Nonzero" Figures="M6.69443273544312,1036.93115234375L8.25043487548828,1036.93115234375 8.25043487548828,1040.87780761719 11.5193033218384,1042.83581542969 10.7414264678955,1044.08374023438 6.69443273544312,1041.65576171875 6.69443273544312,1036.93115234375z M7.66521549224854,1035.1337890625C4.54277181625366,1035.1337890625 2.01372599601746,1037.66284179688 2.01372265815735,1040.78527832031 2.01372599601746,1043.90783691406 4.54277181625366,1046.43676757813 7.66521549224854,1046.43676757813 10.7876749038696,1046.43676757813 13.3167200088501,1043.90783691406 13.3167247772217,1040.78527832031 13.3167200088501,1037.66284179688 10.7876749038696,1035.1337890625 7.66521549224854,1035.1337890625z M7.6575288772583,1033.0771484375C11.9201307296753,1033.0771484375 15.3733787536621,1036.53039550781 15.3733749389648,1040.78527832031 15.3733787536621,1045.04028320313 11.9201307296753,1048.49353027344 7.6575288772583,1048.49353027344 3.40262603759766,1048.49353027344 -0.0429160892963409,1045.04028320313 -0.0429123789072037,1040.78527832031 -0.0429160892963409,1036.53039550781 3.40262603759766,1033.0771484375 7.6575288772583,1033.0771484375z" />
-                    
-                    <!--
-                    <DrawingImage x:Key="ic_sort_time_24px_dark">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushDark}" Pen="{x:Null}" Geometry="{StaticResource g_sort_time_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
 
-                    <DrawingImage x:Key="ic_sort_time_24px_light">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushLight}" Pen="{x:Null}" Geometry="{StaticResource g_sort_time_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-                    -->
                     <!--#endregion -->
 
                     <!--#region ic_sort_size_24px -->
                     <PathGeometry x:Key="g_sort_size_24px" FillRule="Nonzero" Figures="M3,18L9,18 9,16 3,16 3,18z M3,6L3,8 21,8 21,6 3,6z M3,13L15,13 15,11 3,11 3,13z" />
-                    
-                    <!--
-                    <DrawingImage x:Key="ic_sort_size_24px_dark">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushDark}" Pen="{x:Null}" Geometry="{StaticResource g_sort_size_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
 
-                    <DrawingImage x:Key="ic_sort_size_24px_light">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushLight}" Pen="{x:Null}" Geometry="{StaticResource g_sort_size_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-                    -->
                     <!--#endregion -->
 
                     <!--#region ic_sortex_up_24px -->
                     <PathGeometry x:Key="g_sortex_up_24px" FillRule="Nonzero" Figures="M4.42532634735107,1028.63256835938L8.31918430328369,1032.53503417969 7.12042760848999,1033.73376464844 4.42532634735107,1031.03869628906 1.73022568225861,1033.73376464844 0.522965610027313,1032.53503417969 4.42532634735107,1028.63256835938z" />
 
-                    
-                    <!--
-                    <DrawingImage x:Key="ic_sortex_up_24px_dark">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushDark}" Pen="{x:Null}" Geometry="{StaticResource g_sortex_up_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-
-                    <DrawingImage x:Key="ic_sortex_up_24px_light">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushLight}" Pen="{x:Null}" Geometry="{StaticResource g_sortex_up_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-                    -->
                     <!--#endregion -->
 
                     <!--#region ic_sortex_down_24px -->
                     <PathGeometry x:Key="g_sortex_down_24px" FillRule="Nonzero" Figures="M1.73793923854828,1029.32543945313L4.43304347991943,1032.02062988281 7.1281476020813,1029.32543945313 8.33541584014893,1030.52429199219 4.43304347991943,1034.4267578125 0.539180040359497,1030.52429199219 1.73793923854828,1029.32543945313z" />
 
-                    
-                    <!--
-                    <DrawingImage x:Key="ic_sortex_down_24px_dark">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushDark}" Pen="{x:Null}" Geometry="{StaticResource g_sortex_down_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-
-                    <DrawingImage x:Key="ic_sortex_down_24px_light">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushLight}" Pen="{x:Null}" Geometry="{StaticResource g_sortex_down_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-                    -->
                     <!--#endregion -->
 
                     <!--#region ic_menu_24px_dark -->
                     <PathGeometry x:Key="g_menu_24px" FillRule="Nonzero" Figures="M3,18L21,18 21,16 3,16 3,18z M3,13L21,13 21,11 3,11 3,13z M3,6L3,8 21,8 21,6 3,6z" />
 
-                    
-                    <!--
-                    <DrawingImage x:Key="ic_menu_24px_dark">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushDark}" Pen="{x:Null}" Geometry="{StaticResource g_menu_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-
-                    <DrawingImage x:Key="ic_menu_24px_light">
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource NVIconBrushLight}" Pen="{x:Null}" Geometry="{StaticResource g_menu_24px}"/>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-                    -->
                     <!--#endregion -->
 
                     <!--#endregion Icons-->
@@ -690,8 +374,8 @@
                     <Style x:Key="DefaultWindowStyle" TargetType="Window">
                         <Setter Property="FontFamily" Value="{DynamicResource DefaultFontFamily}" />
                         <Setter Property="FontSize" Value="{DynamicResource DefaultFontSize}"/>
-                        <Setter Property="Foreground" Value="{DynamicResource NVForeground}" />
-                        <Setter Property="Background" Value="{DynamicResource NVBackground}" />
+                        <Setter Property="Foreground" Value="{DynamicResource Default.Foreground}" />
+                        <Setter Property="Background" Value="{DynamicResource Default.Background}" />
                     </Style>
 
                     <!-- Tool Window Style -->
@@ -708,6 +392,7 @@
                     <!-- IconButton Style -->
                     <Style x:Key="IconButton" TargetType="{x:Type Button}">
                         <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource Control.AccentColor}" />
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type Button}">
@@ -717,10 +402,10 @@
                                     </Grid>
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Fill" TargetName="baseRectangle" Value="#44BBDDFF"/>
+                                            <Setter Property="Fill" TargetName="baseRectangle" Value="{DynamicResource Button.MouseOver}"/>
                                         </Trigger>
                                         <Trigger Property="IsPressed" Value="True">
-                                            <Setter Property="Fill" TargetName="baseRectangle" Value="#FFBBDDFF"/>
+                                            <Setter Property="Fill" TargetName="baseRectangle" Value="{DynamicResource Button.Pressed}"/>
                                         </Trigger>
                                         <Trigger Property="IsEnabled" Value="False">
                                             <Setter Property="Opacity" TargetName="contentPresenter" Value="0.25"/>
@@ -734,6 +419,7 @@
                     <!-- IconToggleButton Style -->
                     <Style x:Key="IconToggleButton" TargetType="{x:Type ToggleButton}">
                         <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource Control.AccentColor}" />
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type ToggleButton}">
@@ -743,13 +429,13 @@
                                     </Grid>
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Fill" TargetName="baseRectangle" Value="#44BBDDFF"/>
+                                            <Setter Property="Fill" TargetName="baseRectangle" Value="{DynamicResource Button.MouseOver}"/>
                                         </Trigger>
                                         <Trigger Property="IsChecked" Value="True">
-                                            <Setter Property="Fill" TargetName="baseRectangle" Value="#44BBDDFF"/>
+                                            <Setter Property="Fill" TargetName="baseRectangle" Value="{DynamicResource Button.MouseOver}"/>
                                         </Trigger>
                                         <Trigger Property="IsPressed" Value="True">
-                                            <Setter Property="Fill" TargetName="baseRectangle" Value="#FFBBDDFF"/>
+                                            <Setter Property="Fill" TargetName="baseRectangle" Value="{DynamicResource Button.Pressed}"/>
                                         </Trigger>
                                         <Trigger Property="IsEnabled" Value="False">
                                             <Setter Property="Opacity" TargetName="contentPresenter" Value="0.25"/>
@@ -758,21 +444,6 @@
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
-                    </Style>
-
-                    <Style x:Key="PanelTitleIconStyle" TargetType="Image">
-                        <Setter Property="Visibility" Value="Collapsed" />
-                        <Setter Property="VerticalAlignment" Value="Center" />
-                        <Setter Property="Width" Value="18" />
-                        <Setter Property="Height" Value="18" />
-                        <Setter Property="Margin" Value="0,0,2,0" />
-                    </Style>
-
-                    <Style x:Key="PanelTitleTextStyle" TargetType="TextBlock">
-                        <Setter Property="FontWeight" Value="Normal" />
-                        <Setter Property="VerticalAlignment" Value="Center" />
-                        <Setter Property="Foreground" Value="Gray" />
-                        <Setter Property="Margin" Value="2,0" />
                     </Style>
                     
                     <!--#endregion Styles-->

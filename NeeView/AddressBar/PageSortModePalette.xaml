@@ -7,11 +7,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="400">
     
-    <Grid x:Name="Root" Background="{DynamicResource NVMenuBackgroundBrush}" PreviewKeyDown="Root_PreviewKeyDown">
+    <Border x:Name="Root" Background="{DynamicResource Menu.Background}" BorderBrush="{DynamicResource Menu.Border}" BorderThickness="1" PreviewKeyDown="Root_PreviewKeyDown">
 
-        <Grid.Resources>
+        <Border.Resources>
             <Style TargetType="Button" BasedOn="{StaticResource IconButton}" />
-        </Grid.Resources>
+        </Border.Resources>
 
         <ItemsControl x:Name="Items" ItemsSource="{Binding PageSortModeList}" Margin="5" Height="68" IsTabStop="False" FocusVisualStyle="{x:Null}">
 
@@ -32,5 +32,5 @@
 
         </ItemsControl>
         
-    </Grid>
+    </Border>
 </UserControl>

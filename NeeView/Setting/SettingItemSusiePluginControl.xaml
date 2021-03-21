@@ -12,15 +12,12 @@
              Height="300" d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
 
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/SystemTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-
-        <!--
-        <CollectionViewSource x:Key="PluginSource" Source="{Binding SusiePluginList}">
-            <CollectionViewSource.GroupDescriptions>
-                <PropertyGroupDescription PropertyName="ApiVersion" />
-            </CollectionViewSource.GroupDescriptions>
-        </CollectionViewSource>
-        -->
 
         <DataTemplate DataType="{x:Type susie:SusiePluginInfo}" x:Key="SusiePlugin">
             <StackPanel Orientation="Horizontal">
@@ -29,7 +26,7 @@
                 </b:Interaction.Behaviors>
                 <CheckBox VerticalAlignment="Center" IsChecked="{Binding IsEnabled}" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
                 <Grid Width="20" VerticalAlignment="Center" Margin="2">
-                    <Image Width="14" Height="14" Source="{StaticResource ic_setting_24px}" Visibility="{Binding HasConfigurationDlg, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    <Image Width="16" Height="16" Source="{StaticResource ic_setting_24px}" Visibility="{Binding HasConfigurationDlg, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 </Grid>
                 <TextBlock Text="{Binding DetailText}" ToolTip="{Binding PluginVersion}" VerticalAlignment="Center">
                     <TextBlock.Style>
@@ -58,16 +55,10 @@
             <EventSetter Event="Drop" Handler="PluginListView_Drop" />
         </Style>
 
-
-        <Style TargetType="CheckBox">
-            <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
-        </Style>
-
         <Style TargetType="Button">
             <Setter Property="Margin" Value="5,2"/>
             <Setter Property="Padding" Value="10,5"/>
             <Setter Property="MinWidth" Value="80"/>
-            <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
         </Style>
 
         <Style x:Key="SelectedButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
@@ -86,6 +77,7 @@
             </Style.Triggers>
         </Style>
 
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <DockPanel x:Name="Root" Margin="0,0,5,5">
@@ -102,7 +94,6 @@
                 <Style TargetType="ListBoxItem">
                     <EventSetter Event="MouseDoubleClick" Handler="ListBoxItem_MouseDoubleClick"/>
                     <EventSetter Event="KeyDown" Handler="ListBoxItem_KeyDown" />
-                    <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}" />
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>

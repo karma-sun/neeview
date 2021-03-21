@@ -6,7 +6,25 @@
              xmlns:nv="clr-namespace:NeeView"
              xmlns:local="clr-namespace:NeeView.Windows.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="50" d:DesignWidth="200">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/SystemTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <DrawingImage x:Key="ic_clear_24px_g">
+                <DrawingImage.Drawing>
+                    <DrawingGroup>
+                        <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
+                        <GeometryDrawing Brush="{Binding RelativeSource={RelativeSource AncestorType=Control}, Path=Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_clear_24px}" />
+                    </DrawingGroup>
+                </DrawingImage.Drawing>
+            </DrawingImage>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
 
     <Grid x:Name="Root" VerticalAlignment="Top">
         <Grid.Resources>
@@ -22,9 +40,9 @@
 
         <Image Source="{StaticResource ic_search_24px_g}" Width="12" Height="12" Margin="6,0,0,0"  HorizontalAlignment="Left" VerticalAlignment="Center" />
 
-        <Button x:Name="ClearSearchButton" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,2,0" Style="{StaticResource ButtonStyle}" Click="ClearSearchButton_Click"
-                Visibility="{Binding ElementName=SearchTextBox, Path=Text, Converter={StaticResource StringNullOrWhiteSpaceToVisibilityConverter}}">
-            <Image Source="{StaticResource ic_clear_24px_b}" Width="10" Height="10" />
+        <Button x:Name="ClearSearchButton" HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="28" Style="{StaticResource SystemIconButton}" Click="ClearSearchButton_Click"
+                Visibility="{Binding ElementName=SearchTextBox, Path=Text, Converter={StaticResource StringNullOrWhiteSpaceToVisibilityConverter}}" BorderThickness="0">
+            <Image Source="{StaticResource ic_clear_24px_g}" Width="16" Height="16" />
         </Button>
 
     </Grid>

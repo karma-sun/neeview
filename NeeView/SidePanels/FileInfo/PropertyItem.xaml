@@ -30,7 +30,7 @@
             <TextBlock Grid.Column="0" Text="{Binding Key}" Margin="2" TextTrimming="CharacterEllipsis" />
             <GridSplitter Grid.Column="0" HorizontalAlignment="Right" Width="10" VerticalAlignment="Stretch" Background="Transparent" IsTabStop="False" />
             <TextBox Grid.Column="1" Margin="2" IsReadOnly="True" Text="{Binding Value, Converter={StaticResource MetadataValueToStringConverter}, Mode=OneWay}" TextWrapping="Wrap"
-                    BorderThickness="0" InputMethod.IsInputMethodEnabled="False" Padding="0" Background="Transparent" Foreground="{DynamicResource NVForeground}"
+                    BorderThickness="0" InputMethod.IsInputMethodEnabled="False" Padding="0" Background="Transparent" Foreground="{DynamicResource Default.Foreground}"
                     PreviewMouseLeftButtonDown="TextBox_PreviewMouseLeftButtonDown" GotFocus="TextBox_GotFocus" />
         </Grid>
         -->

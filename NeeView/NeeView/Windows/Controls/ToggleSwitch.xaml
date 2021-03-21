@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView.Windows.Controls"
              mc:Ignorable="d" 
-             Focusable="true" IsTabStop="True" FocusVisualStyle="{StaticResource NVFocusVisual}"
+             Focusable="true" IsTabStop="True"
              KeyDown="ToggleSwitch_KeyDown"
              d:DesignHeight="300" d:DesignWidth="300">
     <Viewbox Stretch="Uniform" Height="20">

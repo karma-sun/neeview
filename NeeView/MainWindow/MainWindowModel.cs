@@ -232,7 +232,7 @@ namespace NeeView
 
         private void RefreshSliderBrushes()
         {
-            var original = (SolidColorBrush)App.Current.Resources["NVBaseBrush"];
+            var original = (SolidColorBrush)App.Current.Resources["Slider.Background"];
             var glass = CreatePanelBrush(original, Config.Current.Slider.Opacity);
 
             SliderBackground = CanHidePageSlider ? glass : original;

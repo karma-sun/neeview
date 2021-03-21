@@ -10,7 +10,7 @@
              xmlns:osc="clr-namespace:OpenSourceControls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
-             Foreground="{DynamicResource NVForeground}">
+             Foreground="{DynamicResource Default.Foreground}">
 
     <UserControl.Resources>
 
@@ -20,7 +20,7 @@
                     <DrawingGroup.Children>
                         <GeometryDrawing>
                             <GeometryDrawing.Pen>
-                                <Pen Brush="{DynamicResource NVForeground}" Thickness="1.25"></Pen>
+                                <Pen Brush="{DynamicResource Default.Foreground}" Thickness="1.25"></Pen>
                             </GeometryDrawing.Pen>
                             <GeometryDrawing.Geometry>
                                 <PathGeometry FillRule="Nonzero" Figures="M0,0 L14,0 14,10 16,12 16,18, 0,18Z M14,10 L13,12 13,18"/>

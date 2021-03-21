@@ -10,19 +10,26 @@
         Title="{Binding Name}" Width="600" Height="600">
 
     <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/SystemTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
-        <Style TargetType="{x:Type Button}">
-            <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
-            <Setter Property="MinWidth" Value="80" />
-            <Setter Property="MinHeight" Value="28"/>
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="Padding" Value="10,5"/>
-        </Style>
-        <Style TargetType="{x:Type CheckBox}">
-            <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
-            <Setter Property="Margin" Value="0,2"/>
-        </Style>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                <Setter Property="MinWidth" Value="80" />
+                <Setter Property="MinHeight" Value="28" />
+                <Setter Property="Margin" Value="5" />
+                <Setter Property="Padding" Value="10,5" />
+            </Style>
+
+            <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource {x:Type CheckBox}}">
+                <Setter Property="Margin" Value="0,2" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+            </Style>
+
+        </ResourceDictionary>
     </Window.Resources>
 
     <Grid>
@@ -44,18 +51,18 @@
                         <Button x:Name="ConfigButton" DockPanel.Dock="Right" Click="ConfigButton_Click" Margin="10"
                                 Visibility="{Binding CanOpenConfigDialog, Converter={StaticResource BooleanToVisibilityConverter}}" TabIndex="1">
                             <StackPanel Orientation="Horizontal">
-                                <Image Source="{StaticResource ic_setting_24px}" Width="14" Height="14"/>
-                                <TextBlock Text="{x:Static properties:Resources.Word_Config}" Margin="5,0"/>
+                                <Image Source="{StaticResource ic_setting_24px}" Width="16" Height="16" VerticalAlignment="Center"/>
+                                <TextBlock Text="{x:Static properties:Resources.Word_Config}" Margin="5,0" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
                     </DockPanel>
                 </DockPanel>
 
                 <StackPanel DockPanel.Dock="Top" Margin="0,15,0,5">
-                    <CheckBox Content="{x:Static properties:Resources.SusiePluginWindow_IsEnabled}" IsChecked="{Binding IsEnabled}" FocusVisualStyle="{StaticResource NVBorderFocusVisual}" TabIndex="1"/>
-                    <CheckBox Content="{x:Static properties:Resources.SusiePluginWindow_IsCacheEnabled}" IsChecked="{Binding IsCacheEnabled}" FocusVisualStyle="{StaticResource NVBorderFocusVisual}" TabIndex="1"/>
+                    <CheckBox Content="{x:Static properties:Resources.SusiePluginWindow_IsEnabled}" IsChecked="{Binding IsEnabled}" TabIndex="1"/>
+                    <CheckBox Content="{x:Static properties:Resources.SusiePluginWindow_IsCacheEnabled}" IsChecked="{Binding IsCacheEnabled}" TabIndex="1"/>
                     <CheckBox Content="{x:Static properties:Resources.SusiePluginWindow_IsPreExtract}" IsChecked="{Binding IsPreExtract}" TabIndex="1"
-                            Visibility="{Binding IsArchiver, Converter={StaticResource BooleanToVisibilityConverter}}" FocusVisualStyle="{StaticResource NVBorderFocusVisual}" />
+                            Visibility="{Binding IsArchiver, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 </StackPanel>
 
                 <TextBlock DockPanel.Dock="Top" Text="{x:Static properties:Resources.Word_Extension}" FontWeight="Bold" Margin="0,15,0,5"/>

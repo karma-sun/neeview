@@ -9,17 +9,17 @@
 
     <DockPanel x:Name="Root" Height="150" KeyboardNavigation.TabNavigation="Local">
         <DockPanel.Resources>
-            <Style TargetType="Button">
+            <Style x:Key="MyButton" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
                 <Setter Property="Padding" Value="20,5"/>
                 <Setter Property="Margin" Value="5"/>
-                <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
             </Style>
         </DockPanel.Resources>
+        
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button x:Name="AddButton" DockPanel.Dock="Right" Content="Add..." Click="AddButton_Click" TabIndex="2"/>
+            <Button x:Name="AddButton" Style="{StaticResource MyButton}" DockPanel.Dock="Right" Content="Add..." Click="AddButton_Click" TabIndex="2"/>
             <Button x:Name="RemoveButton" DockPanel.Dock="Right" Content="Remove" Click="RemoveButton_Click" TabIndex="3">
                 <Button.Style>
-                    <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                    <Style TargetType="Button" BasedOn="{StaticResource MyButton}">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding ElementName=CollectionListBox, Path=SelectedItem}" Value="{x:Null}">
                                 <Setter Property="IsEnabled" Value="False"/>
@@ -30,7 +30,7 @@
             </Button>
             <Button x:Name="ResetButton" Content="Reset" Click="ResetButton_Click"  IsEnabled="{Binding IsResetEnabled}" TabIndex="4">
                 <Button.Style>
-                    <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                    <Style TargetType="Button" BasedOn="{StaticResource MyButton}">
                         <Setter Property="Visibility" Value="Visible"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsResetVisible}" Value="{x:Null}">
@@ -43,11 +43,6 @@
         </StackPanel>
 
         <ListBox x:Name="CollectionListBox" ItemsSource="{Binding Items}" PreviewKeyDown="CollectionListBox_PreviewKeyDown" TabIndex="1">
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="ListBoxItem">
-                    <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}" />
-                </Style>
-            </ListBox.ItemContainerStyle>
         </ListBox>
 
     </DockPanel>

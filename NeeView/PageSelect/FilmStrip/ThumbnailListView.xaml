@@ -81,7 +81,7 @@
                                                            VerticalAlignment="Center"  HorizontalAlignment="Center" Text="{Binding IndexPlusOne}" Padding="5,2">
                                             <TextBlock.Style>
                                                 <Style TargetType="TextBlock">
-                                                    <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
+                                                    <Setter Property="Foreground" Value="{DynamicResource Default.Foreground}"/>
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding Source={x:Static local:Config.Current},  Path=FilmStrip.IsVisiblePlate}" Value="False">
                                                             <Setter Property="Foreground" Value="White"/>

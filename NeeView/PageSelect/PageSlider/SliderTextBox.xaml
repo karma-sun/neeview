@@ -31,7 +31,7 @@
                    Text="{Binding DispText}">
             </TextBlock>
             <TextBox x:Name="TextBox"  TextAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Stretch"
-                 Foreground="{DynamicResource NVForeground}" Background="{DynamicResource NVBackground}"
+                 Foreground="{DynamicResource Default.Foreground}" Background="Transparent"
                  Text="{Binding Value, UpdateSourceTrigger=Explicit, Converter={StaticResource SliderValueConverter}}"
                  Visibility="Hidden"
                  MouseWheel="TextBox_MouseWheel"

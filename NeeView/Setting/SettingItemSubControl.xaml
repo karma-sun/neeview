@@ -3,64 +3,25 @@
         xmlns:local="clr-namespace:NeeView.Setting" mc:Ignorable="d" d:DesignHeight="30" d:DesignWidth="400">
 
     <UserControl.Resources>
+        <ResourceDictionary>
 
-        <Style x:Key="EnabledTextBlockStyle" TargetType="TextBlock">
-            <Style.Triggers>
-                <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Opacity" Value="0.5" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/SystemTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
-        <Style x:Key="CustomStyle" TargetType="{x:Type CheckBox}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type CheckBox}">
-                        <BulletDecorator>
-                            <BulletDecorator.Bullet>
-                                <Grid x:Name="EnableTrue" Width="22" Height="22">
-                                    <Rectangle x:Name="CheckRect" Width="20" Height="20" Fill="Transparent" Stroke="Black" StrokeThickness="2" />
-                                    <Rectangle x:Name="CheckNull" Width="10" Height="10" Fill="Black" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed" />
-                                    <Path x:Name="CheckMark" IsHitTestVisible="False" SnapsToDevicePixels="False" StrokeThickness="1" Data="M 3 10 l 5 5 l 10 -10" Stroke="Black" />
-                                </Grid>
-                            </BulletDecorator.Bullet>
-                            <BulletDecorator.Child>
-                                <ContentPresenter Margin="5,0" VerticalAlignment="Center" />
-                            </BulletDecorator.Child>
-                        </BulletDecorator>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsChecked" Value="{x:Null}">
-                                <Setter TargetName="CheckMark" Property="Visibility" Value="Collapsed" />
-                                <Setter TargetName="CheckNull" Property="Visibility" Value="Visible" />
-                            </Trigger>
-                            <Trigger Property="IsChecked" Value="True">
-                                <Setter TargetName="CheckMark" Property="Visibility" Value="Visible" />
-                                <Setter TargetName="CheckMark" Property="Stroke" Value="White" />
-                                <Setter TargetName="CheckRect" Property="Fill" Value="{DynamicResource NVButtonForeground}" />
-                                <Setter TargetName="CheckRect" Property="Stroke" Value="{DynamicResource NVButtonForeground}" />
-                            </Trigger>
-                            <Trigger Property="IsChecked" Value="False">
-                                <Setter TargetName="CheckMark" Property="Visibility" Value="Collapsed" />
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="CheckRect" Property="Stroke" Value="Black" />
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="CheckRect" Property="Stroke" Value="Gray" />
-                                <Setter TargetName="CheckRect" Property="Fill" Value="Transparent" />
-                                <Setter TargetName="CheckMark" Property="Stroke" Value="Gray" />
-                                <Setter Property="Foreground" Value="Gray" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+            <Style x:Key="EnabledTextBlockStyle" TargetType="TextBlock">
+                <Style.Triggers>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Opacity" Value="0.5" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
 
-        <DataTemplate DataType="{x:Type nvp:PropertyValue_Boolean}">
-            <CheckBox Style="{StaticResource CustomStyle}"  IsChecked="{Binding Value}" Content="{Binding Name}" VerticalAlignment="Center" VerticalContentAlignment="Center" FocusVisualStyle="{StaticResource NVBorderFocusVisual}" />
-        </DataTemplate>
+            <DataTemplate DataType="{x:Type nvp:PropertyValue_Boolean}">
+                <CheckBox Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Value}" Content="{Binding Name}" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+            </DataTemplate>
 
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <Border x:Name="Root" BorderBrush="WhiteSmoke" BorderThickness="0,0,0,0" Background="Transparent">
@@ -69,4 +30,5 @@
             <ContentControl x:Name="ContentValue" VerticalAlignment="Center" Focusable="False" Margin="0" />
         </DockPanel>
     </Border>
+
 </UserControl>

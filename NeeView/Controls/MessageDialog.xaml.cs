@@ -229,17 +229,11 @@ namespace NeeView
         {
             var button = new Button()
             {
-                Style = App.Current.Resources["NVDialogButtonStyle"] as Style,
+                Style = this.Resources[isDefault ? "NVSystemDialogRecommentedButton" : "NVSystemDialogButton"] as Style,
                 Content = command.Label,
                 Command = ButtonClickedCommand,
                 CommandParameter = command,
             };
-
-            if (isDefault)
-            {
-                button.Foreground = App.Current.Resources["NVDialogButtonForeground"] as Brush;
-                button.Background = App.Current.Resources["NVDialogButtonBackground"] as Brush;
-            }
 
             return button;
         }

@@ -10,12 +10,21 @@
         KeyDown="PageSelectDialog_KeyDown"
         Style="{StaticResource ToolWindowStyle}" 
         Title="{Binding Caption, Mode=OneTime}" Height="180" Width="400" SizeToContent="WidthAndHeight" WindowStyle="ToolWindow">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/NVTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    
     <Grid MinWidth="400">
         <DockPanel LastChildFill="True" Margin="20">
             <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button Style="{StaticResource NVDialogButtonStyle}" Foreground="{StaticResource NVDialogButtonForeground}" Background="{StaticResource NVDialogButtonBackground}" Content="{x:Static properties:Resources.Word_Jump}"
+                <Button Style="{StaticResource NVDialogRecommentedButton}" Content="{x:Static properties:Resources.Word_Jump}"
                         Command="{Binding DecideCommand}"/>
-                <Button Style="{StaticResource NVDialogButtonStyle}" Content="{x:Static properties:Resources.Word_Cancel}"
+                <Button Style="{StaticResource NVDialogButton}" Content="{x:Static properties:Resources.Word_Cancel}"
                         Command="{Binding CancelCommand}"/>
             </StackPanel>
             <StackPanel DockPanel.Dock="Top" >

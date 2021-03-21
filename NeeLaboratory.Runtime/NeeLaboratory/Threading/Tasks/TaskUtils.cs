@@ -19,7 +19,16 @@ namespace NeeLaboratory.Threading.Tasks
         public static async Task WaitAsync(Task task, CancellationToken token)
         {
             token.ThrowIfCancellationRequested();
-            await Task.Run(() => task.Wait(token));
+            await Task.Run(() =>
+            {
+                try
+                {
+                    task.Wait(token);
+                }
+                catch (OperationCanceledException)
+                {
+                }
+            });
         }
 
         /// <summary>

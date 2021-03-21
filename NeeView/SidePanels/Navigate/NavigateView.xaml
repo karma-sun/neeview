@@ -1,13 +1,14 @@
 ﻿<UserControl x:Class="NeeView.NavigateView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:NeeView"
         xmlns:nvp="clr-namespace:NeeView.Windows.Property" xmlns:nvc="clr-namespace:NeeView.Windows.Controls" xmlns:properties="clr-namespace:NeeView.Properties" mc:Ignorable="d" d:DesignHeight="800"
-        d:DesignWidth="300" MinWidth="200" Focusable="True" FocusVisualStyle="{x:Null}" Foreground="{DynamicResource NVForeground}">
+        d:DesignWidth="300" MinWidth="200" Focusable="True" FocusVisualStyle="{x:Null}" Foreground="{DynamicResource Default.Foreground}">
 
     <UserControl.Resources>
 
         <ResourceDictionary>
 
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/NVTheme.xaml" />
                 <ResourceDictionary Source="/NeeView/Windows/Property/PropertyValueTemplateDictionary.xaml" />
                 <ResourceDictionary Source="/SidePanels/PanelIconDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -32,7 +33,7 @@
                 <DrawingImage.Drawing>
                     <DrawingGroup>
                         <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
-                        <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Geometry="{StaticResource g_rotate_90_degrees_ccw_24px}" />
+                        <GeometryDrawing Brush="{DynamicResource Control.AccentColor}" Geometry="{StaticResource g_rotate_90_degrees_ccw_24px}" />
                     </DrawingGroup>
                 </DrawingImage.Drawing>
             </DrawingImage>
@@ -41,7 +42,7 @@
                 <DrawingImage.Drawing>
                     <DrawingGroup>
                         <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
-                        <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Geometry="{StaticResource g_rotate_90_degrees_ccw_24px}" />
+                        <GeometryDrawing Brush="{DynamicResource Control.AccentColor}" Geometry="{StaticResource g_rotate_90_degrees_ccw_24px}" />
                         <DrawingGroup.Transform>
                             <ScaleTransform ScaleX="-1" />
                         </DrawingGroup.Transform>
@@ -56,7 +57,7 @@
                 <DrawingImage.Drawing>
                     <DrawingGroup>
                         <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
-                        <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Geometry="{StaticResource g_center_focus_strong_24px}" />
+                        <GeometryDrawing Brush="{DynamicResource Control.AccentColor}" Geometry="{StaticResource g_center_focus_strong_24px}" />
                         <DrawingGroup.Transform>
                             <ScaleTransform ScaleX="-1" />
                         </DrawingGroup.Transform>
@@ -68,7 +69,7 @@
                 <DrawingImage.Drawing>
                     <DrawingGroup>
                         <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
-                        <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}" Geometry="{StaticResource g_clear_24px}" />
+                        <GeometryDrawing Brush="{DynamicResource Control.AccentColor}" Pen="{x:Null}" Geometry="{StaticResource g_clear_24px}" />
                     </DrawingGroup>
                 </DrawingImage.Drawing>
             </DrawingImage>
@@ -80,7 +81,7 @@
                 <DrawingImage.Drawing>
                     <DrawingGroup>
                         <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
-                        <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}" Geometry="{StaticResource g_add_circle_24px}" />
+                        <GeometryDrawing Brush="{DynamicResource Control.AccentColor}" Pen="{x:Null}" Geometry="{StaticResource g_add_circle_24px}" />
                     </DrawingGroup>
                 </DrawingImage.Drawing>
             </DrawingImage>
@@ -92,7 +93,7 @@
                 <DrawingImage.Drawing>
                     <DrawingGroup>
                         <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
-                        <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}" Geometry="{StaticResource g_remove_circle_24px}" />
+                        <GeometryDrawing Brush="{DynamicResource Control.AccentColor}" Pen="{x:Null}" Geometry="{StaticResource g_remove_circle_24px}" />
                     </DrawingGroup>
                 </DrawingImage.Drawing>
             </DrawingImage>
@@ -105,7 +106,7 @@
                 <DrawingImage.Drawing>
                     <DrawingGroup>
                         <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
-                        <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}" Geometry="{StaticResource g_flip_24px}" />
+                        <GeometryDrawing Brush="{DynamicResource Control.AccentColor}" Pen="{x:Null}" Geometry="{StaticResource g_flip_24px}" />
                     </DrawingGroup>
                 </DrawingImage.Drawing>
             </DrawingImage>
@@ -114,7 +115,7 @@
                 <DrawingImage.Drawing>
                     <DrawingGroup>
                         <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
-                        <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}" Geometry="{StaticResource g_flip_24px}" />
+                        <GeometryDrawing Brush="{DynamicResource Control.AccentColor}" Pen="{x:Null}" Geometry="{StaticResource g_flip_24px}" />
                         <DrawingGroup.Transform>
                             <RotateTransform Angle="90" />
                         </DrawingGroup.Transform>
@@ -132,7 +133,7 @@
                 <DrawingImage.Drawing>
                     <DrawingGroup>
                         <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
-                        <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}" Geometry="{StaticResource g_fullscreen_exit_24px}" />
+                        <GeometryDrawing Brush="{DynamicResource Control.AccentColor}" Pen="{x:Null}" Geometry="{StaticResource g_fullscreen_exit_24px}" />
                     </DrawingGroup>
                 </DrawingImage.Drawing>
             </DrawingImage>
@@ -141,7 +142,7 @@
                 <DrawingImage.Drawing>
                     <DrawingGroup>
                         <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
-                        <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}" Geometry="{StaticResource g_fullscreen_24px}" />
+                        <GeometryDrawing Brush="{DynamicResource Control.AccentColor}" Pen="{x:Null}" Geometry="{StaticResource g_fullscreen_24px}" />
                     </DrawingGroup>
                 </DrawingImage.Drawing>
             </DrawingImage>
@@ -161,7 +162,7 @@
                             </GeometryDrawing>
                         </DrawingGroup>
                         <DrawingGroup Transform="1,0,0,-1,0,960">
-                            <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Geometry="{StaticResource g_pushpin}" />
+                            <GeometryDrawing Brush="{DynamicResource Control.AccentColor}" Geometry="{StaticResource g_pushpin}" />
                         </DrawingGroup>
                     </DrawingGroup>
                 </DrawingImage.Drawing>
@@ -176,38 +177,11 @@
                 <CheckBox IsChecked="{Binding Value}" Content="{Binding Value}" />
             </DataTemplate>
 
-            <Style x:Key="BlackStyle" TargetType="UserControl">
-                <Setter Property="Background" Value="#FF101010" />
-                <Setter Property="Foreground" Value="White" />
-            </Style>
-            <Style x:Key="WhiteStyle" TargetType="UserControl">
-                <Setter Property="Background" Value="#FFF8F8F8" />
-                <Setter Property="Foreground" Value="Black" />
-            </Style>
 
-            <Style x:Key="ToggleSwitchStyle" TargetType="nvc:ToggleSwitch">
-                <Setter Property="Fill" Value="{DynamicResource NVBackground}" />
-                <Setter Property="Stroke" Value="{DynamicResource NVForeground}" />
-                <Setter Property="CheckedBrush" Value="{DynamicResource NVButtonForeground}" />
-                <Setter Property="Margin" Value="10,0,0,0" />
-                <Setter Property="Height" Value="30" />
-            </Style>
+            <Style TargetType="Button" BasedOn="{StaticResource IconButton}" />
 
-            <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
-            </Style>
-
-            <Style TargetType="TextBox">
-                <Setter Property="Foreground" Value="{DynamicResource NVForeground}" />
-                <Setter Property="Background" Value="{DynamicResource NVBackground}" />
-                <Setter Property="BorderBrush" Value="{DynamicResource NVDefaultBrush}" />
+            <Style TargetType="nvc:EnterTriggerTextBox" BasedOn="{StaticResource {x:Type TextBox}}">
                 <EventSetter Event="KeyDown" Handler="Control_KeyDown_IgnoreSingleKeyGesture" />
-            </Style>
-
-            <Style TargetType="nvc:EnterTriggerTextBox" BasedOn="{StaticResource {x:Type TextBox}}" />
-
-            <Style TargetType="ComboBox" BasedOn="{StaticResource NVComboBox}">
-                <Setter Property="Foreground" Value="{StaticResource NVButtonForeground}" />
-                <Setter Property="Background" Value="{DynamicResource NVBackground}" />
             </Style>
 
             <Style TargetType="Separator">
@@ -262,12 +236,12 @@
                                     <Image Source="{StaticResource ic_fullscreen_24px_b}" />
                                 </ToggleButton>
                             </StackPanel>
-                            <ComboBox DockPanel.Dock="Right" Style="{StaticResource NVComboBox}" ItemsSource="{Binding StretchModeList}" Foreground="{StaticResource NVButtonForeground}"
-                                    Background="{DynamicResource NVBackground}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding StretchMode}" TabIndex="2" />
+                            <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding StretchModeList}"
+                                    SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding StretchMode}" TabIndex="2" />
                         </DockPanel>
                         <StackPanel Margin="10,0,0,0">
                             <DockPanel Margin="0,5">
-                                <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding IsBaseScaleEnabled}" VerticalAlignment="Center" />
+                                <nvc:ToggleSwitch DockPanel.Dock="Right" IsChecked="{Binding IsBaseScaleEnabled}" Margin="10,0,0,0" VerticalAlignment="Center" />
                                 <TextBlock Text="{x:Static properties:Resources.Navigator_StretchScale}" VerticalAlignment="Center" />
                             </DockPanel>
                             <DockPanel Margin="0,2" Visibility="{Binding IsBaseScaleEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -307,8 +281,8 @@
                                     </ToggleButton>
                                 </StackPanel>
                                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                                    <ComboBox DockPanel.Dock="Right" Style="{StaticResource NVComboBox}" ItemsSource="{Binding AutoRotateTypeList}" Foreground="{StaticResource NVButtonForeground}"
-                                            Background="{DynamicResource NVBackground}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding AutoRotate}" />
+                                    <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding AutoRotateTypeList}"
+                                            SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding AutoRotate}" />
                                     <ToggleButton Style="{StaticResource NavigateToggleButtonStyle}" IsChecked="{Binding IsKeepAngle}" ToolTip="{x:Static properties:Resources.Navigator_IsKeepAngle}">
                                         <Image Source="{StaticResource ic_pushpin_b}" />
                                     </ToggleButton>

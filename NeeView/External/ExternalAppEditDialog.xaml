@@ -7,19 +7,25 @@
         xmlns:nvc="clr-namespace:NeeView.Windows.Controls" xmlns:properties="clr-namespace:NeeView.Properties" mc:Ignorable="d" Title="{x:Static properties:Resources.ExternalAppEditDialog_Title}"
         Height="320" Width="600" SizeToContent="Height" WindowStyle="ToolWindow" Style="{StaticResource ToolWindowStyle}">
 
-    
+
     <Window.Resources>
+        <ResourceDictionary>
+            
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/NVTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
-        <local:ArchivePolicyToSampleStringConverter x:Key="ArchivePolicyToSampleStringConverter" />
+            <local:ArchivePolicyToSampleStringConverter x:Key="ArchivePolicyToSampleStringConverter" />
 
-        <Style x:Key="HeaderStyle" TargetType="TextBlock">
-            <Setter Property="MinWidth" Value="160" />
-            <Setter Property="Margin" Value="10" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-        </Style>
+            <Style x:Key="HeaderStyle" TargetType="TextBlock">
+                <Setter Property="MinWidth" Value="160" />
+                <Setter Property="Margin" Value="10" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
 
-        <Style x:Key="ButtonStyle" TargetType="Button" BasedOn="{StaticResource NVDialogButtonStyle}" />
+            <Style x:Key="ButtonStyle" TargetType="Button" BasedOn="{StaticResource NVDialogButton}" />
 
+        </ResourceDictionary>
     </Window.Resources>
 
     <DockPanel Margin="5" >

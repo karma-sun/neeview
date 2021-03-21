@@ -4,11 +4,17 @@
         Style="{StaticResource DefaultWindowStyle}">
 
     <Window.Resources>
+        <ResourceDictionary>
 
-        <Style TargetType="Button" BasedOn="{StaticResource NVDialogButtonStyle}">
-            <Setter Property="Margin" Value="5,0" />
-        </Style>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/NVTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
+            <Style TargetType="Button" BasedOn="{StaticResource NVDialogButton}">
+                <Setter Property="Margin" Value="5,0" />
+            </Style>
+
+        </ResourceDictionary>
     </Window.Resources>
 
     <DockPanel Margin="5" MinHeight="450">
@@ -27,6 +33,13 @@
         </DockPanel>
 
         <ListView x:Name="ItemsListView" Margin="5" ItemsSource="{Binding Items}" SelectedIndex="{Binding SelectedIndex}" AllowDrop="True" PreviewDragEnter="ItemsListView_PreviewDragOver" PreviewDragOver="ItemsListView_PreviewDragOver" Drop="ItemsListView_Drop" KeyDown="ItemsListView_KeyDown">
+
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem" BasedOn="{StaticResource {x:Type ListViewItem}}">
+                    <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick" />
+                </Style>
+            </ListView.ItemContainerStyle>
+
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="{x:Static properties:Resources.Word_Name}" Width="150">
@@ -45,11 +58,7 @@
                     </GridViewColumn>
                 </GridView>
             </ListView.View>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick" />
-                </Style>
-            </ListView.ItemContainerStyle>
+
         </ListView>
 
     </DockPanel>

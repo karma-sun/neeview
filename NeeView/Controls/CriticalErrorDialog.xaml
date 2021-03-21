@@ -31,8 +31,8 @@
     
     <DockPanel Margin="30,20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <DockPanel DockPanel.Dock="Bottom" Margin="0,20,0,0" LastChildFill="False">
-            <Button x:Name="OkButton" DockPanel.Dock="Right" Style="{StaticResource NVDialogButtonStyle}" Content="OK" Foreground="{StaticResource NVDialogButtonForeground}" Background="{StaticResource NVDialogButtonBackground}" Click="OkButton_Click"/>
-            <Button x:Name="CopyButton" Style="{StaticResource NVDialogButtonStyle}" Margin="0" Click="CopyButton_Click">
+            <Button x:Name="OkButton" DockPanel.Dock="Right" Style="{StaticResource NVDialogRecommentedButton}" Content="OK" Click="OkButton_Click"/>
+            <Button x:Name="CopyButton" Style="{StaticResource NVDialogButton}" Margin="0" Click="CopyButton_Click">
                 <TextBlock Text="{x:Static properties:Resources.CriticalExceptionDialog_Copy}"  Margin="10,0" /> 
             </Button> 
         </DockPanel>

@@ -2,7 +2,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:b="http://schemas.microsoft.com/xaml/behaviors" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:NeeView" xmlns:nv="clr-namespace:NeeView" xmlns:nvc="clr-namespace:NeeView.Windows.Controls" xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:properties="clr-namespace:NeeView.Properties" xmlns:nw="clr-namespace:NeeView.Windows;assembly=NeeView.Runtime" mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="300" MinWidth="100"
-        Focusable="True" FocusVisualStyle="{x:Null}" Foreground="{DynamicResource NVForeground}">
+        Focusable="True" FocusVisualStyle="{x:Null}" Foreground="{DynamicResource Default.Foreground}">
 
     <UserControl.Resources>
         <DrawingImage x:Key="ic_info_24px">

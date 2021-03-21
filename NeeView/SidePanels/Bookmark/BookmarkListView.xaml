@@ -10,68 +10,65 @@
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance local:FolderListDataContext_Design, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="300"
-             Foreground="{DynamicResource NVForeground}">
+             Foreground="{DynamicResource Default.Foreground}">
 
     <UserControl.Resources>
+        <ResourceDictionary>
 
-        <!--#region Icons -->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/ArrowIcons.xaml" />
+                <ResourceDictionary Source="/Styles/PanelIcons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
-        <DrawingImage x:Key="ic_star_24px">
-            <DrawingImage.Drawing>
-                <DrawingGroup Opacity="1">
-                    <DrawingGroup.Children>
-                        <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
-                        <GeometryDrawing Brush="Gray" Pen="{x:Null}" Geometry="{StaticResource g_star_border_24px}" />
-                    </DrawingGroup.Children>
-                </DrawingGroup>
-            </DrawingImage.Drawing>
-        </DrawingImage>
+            <!--#region Icons -->
 
-        <DrawingImage x:Key="ic_treeview_b">
-            <DrawingImage.Drawing>
-                <DrawingGroup Opacity="1">
-                    <DrawingGroup.Children>
-                        <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}" Geometry="{StaticResource g_treeview}" />
-                    </DrawingGroup.Children>
-                </DrawingGroup>
-            </DrawingImage.Drawing>
-        </DrawingImage>
+            <DrawingImage x:Key="ic_star_24px">
+                <DrawingImage.Drawing>
+                    <DrawingGroup Opacity="1">
+                        <DrawingGroup.Children>
+                            <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
+                            <GeometryDrawing Brush="Gray" Pen="{x:Null}" Geometry="{StaticResource g_star_border_24px}" />
+                        </DrawingGroup.Children>
+                    </DrawingGroup>
+                </DrawingImage.Drawing>
+            </DrawingImage>
 
-        <!--#endregion Icons-->
+            <!--#endregion Icons-->
 
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        <local:BooleanToVisibilityConverter x:Key="BooleanToHiddenVisibilityConverter" False="Hidden"/>
-        <local:FolderCollectionToFolderRecursiveVisibilityConverter x:Key="FolderCollectionToFolderRecursiveVisibilityConverter"/>
-        <local:FolderTreeLayoutToBooleanConverter x:Key="FolderTreeLayoutToBooleanConverter"/>
-        <local:PathToPlaceIconConverter x:Key="PathToPlaceIconConverter"/>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <local:BooleanToVisibilityConverter x:Key="BooleanToHiddenVisibilityConverter" False="Hidden" />
+            <local:FolderCollectionToFolderRecursiveVisibilityConverter x:Key="FolderCollectionToFolderRecursiveVisibilityConverter" />
+            <local:FolderTreeLayoutToBooleanConverter x:Key="FolderTreeLayoutToBooleanConverter" />
+            <local:PathToPlaceIconConverter x:Key="PathToPlaceIconConverter" />
 
-        <Style x:Key="FolderListButtonStyle" TargetType="Button" BasedOn="{StaticResource IconButton}">
-            <Setter Property="Width" Value="28"/>
-            <Setter Property="MinHeight" Value="{DynamicResource FontIconSize}"/>
-        </Style>
+            <Style x:Key="FolderListButtonStyle" TargetType="Button" BasedOn="{StaticResource IconButton}">
+                <Setter Property="Width" Value="28" />
+                <Setter Property="MinHeight" Value="{DynamicResource FontIconSize}" />
+            </Style>
 
-        <Style x:Key="FolderListToggleButtonStyle" TargetType="ToggleButton" BasedOn="{StaticResource IconToggleButton}">
-            <Setter Property="Width" Value="28"/>
-            <Setter Property="MinHeight" Value="{DynamicResource FontIconSize}"/>
-        </Style>
+            <Style x:Key="FolderListToggleButtonStyle" TargetType="ToggleButton" BasedOn="{StaticResource IconToggleButton}">
+                <Setter Property="Width" Value="28" />
+                <Setter Property="MinHeight" Value="{DynamicResource FontIconSize}" />
+            </Style>
 
-        <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
-            <Setter Property="Header" Value="{Binding Path=Value.DispName}"/>
-            <Setter Property="Command" Value="{Binding DataContext.MoveToHistory, RelativeSource={RelativeSource FindAncestor, AncestorType=ContextMenu}}" />
-            <Setter Property="CommandParameter" Value="{Binding}" />
-        </Style>
+            <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
+                <Setter Property="Header" Value="{Binding Path=Value.DispName}" />
+                <Setter Property="Command" Value="{Binding DataContext.MoveToHistory, RelativeSource={RelativeSource FindAncestor, AncestorType=ContextMenu}}" />
+                <Setter Property="CommandParameter" Value="{Binding}" />
+            </Style>
 
-        <Style x:Key="NVHorizontalBevelGrip" TargetType="{x:Type osc:DockPanelSplitter}">
-            <Setter Property="Thickness" Value="6"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type osc:DockPanelSplitter}">
-                        <Grid SnapsToDevicePixels="True" Background="{DynamicResource  NVBaseBrush}"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+            <Style x:Key="NVHorizontalBevelGrip" TargetType="{x:Type osc:DockPanelSplitter}">
+                <Setter Property="Thickness" Value="6" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type osc:DockPanelSplitter}">
+                            <Grid SnapsToDevicePixels="True" Background="{DynamicResource  Panel.Grip}" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
 
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <DockPanel x:Name="Root" Margin="2" IsVisibleChanged="BookmarkListView_IsVisibleChanged" Background="Transparent" KeyDown="Root_KeyDown">
@@ -94,7 +91,7 @@
                     <Button x:Name="FoderTreeButton" Style="{StaticResource FolderListButtonStyle}" TabIndex="2"
                             ToolTip="{x:Static properties:Resources.Word_FoldersTree}"
                             Command="{Binding ToggleVisibleFoldersTree}">
-                        <Image Source="{StaticResource ic_treeview_b}" Width="16" Height="16"/>
+                        <Image Source="{StaticResource ic_treeview_a}" Width="16" Height="16"/>
                         <Button.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="{x:Static properties:Resources.FolderTreeLayout_Top}" IsChecked="{Binding Model.FolderTreeLayout, Converter={StaticResource FolderTreeLayoutToBooleanConverter}, ConverterParameter={x:Static local:FolderTreeLayout.Top}}"
@@ -108,13 +105,13 @@
                 </StackPanel>
                 <WrapPanel Orientation="Horizontal" MinWidth="90">
                     <Button x:Name="AddPagemark" Style="{StaticResource FolderListButtonStyle}" Command="{Binding AddBookmarkCommand}" ToolTip="{x:Static properties:Resources.BookmarkList_Add_ToolTip}" TabIndex="1">
-                        <Image Source="{StaticResource ic_add_24px_b}" Width="16" Height="16"/>
+                        <Image Source="{StaticResource ic_add_24px_a}" Width="16" Height="16"/>
                     </Button>
                     <Button x:Name="FolderUpButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToUp}" TabIndex="1"
                         ToolTip="{x:Static properties:Resources.Bookmark_Up_ToolTip}">
-                        <Image Source="{StaticResource ic_arrow_up_24px_b}" Width="16" Height="16"/>
+                        <Image Source="{StaticResource ic_arrow_up_24px_a}" Width="16" Height="16"/>
                     </Button>
-                    <ComboBox x:Name="FolderOrderComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" TabIndex="1"
+                    <ComboBox x:Name="FolderOrderComboBox" TabIndex="1"
                           ItemsSource="{Binding FolderOrderList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding FolderCollection.FolderParameter.FolderOrder, Delay=1}"
                           Visibility="{Binding Model.IsFolderOrderEnabled, Converter={StaticResource BooleanToHiddenVisibilityConverter}}">
                     </ComboBox>

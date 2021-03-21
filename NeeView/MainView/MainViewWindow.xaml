@@ -4,7 +4,14 @@
         xmlns:local="clr-namespace:NeeView" mc:Ignorable="d" Style="{StaticResource DefaultWindowStyle}" Topmost="{Binding IsTopmost}" Title="{Binding Title}" Height="450" Width="800">
 
     <Window.Resources>
-        <RoutedCommand x:Key="StretchWindowCommand" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/NVTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            <RoutedCommand x:Key="StretchWindowCommand" />
+            
+        </ResourceDictionary>
     </Window.Resources>
 
     <Window.CommandBindings>
@@ -15,7 +22,7 @@
         <CommandBinding Command="{StaticResource StretchWindowCommand}" Executed="StretchWindowCommand_Execute" />
     </Window.CommandBindings>
     
-    <Border BorderThickness="{Binding WindowBorder.Thickness}" BorderBrush="Gray">
+    <Border BorderThickness="{Binding WindowBorder.Thickness}" BorderBrush="{DynamicResource Default.Border}">
         <Grid x:Name="Root">
             <Grid.RowDefinitions>
                 <RowDefinition x:Name="Row0" Height="Auto" />

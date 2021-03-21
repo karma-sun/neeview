@@ -8,14 +8,21 @@
         mc:Ignorable="d"
         Style="{StaticResource DefaultWindowStyle}"
         ShowInTaskbar="False"
-        Foreground="{DynamicResource NVForeground}"
-        Background="{DynamicResource NVBackground}"
+        Foreground="{DynamicResource Panel.Foreground}"
+        Background="{DynamicResource Panel.Background}"
         Title="CustomLayoutPanelWindow" Height="450" Width="800">
 
     <Window.Resources>
-        <Style TargetType="MenuItem" BasedOn="{StaticResource NVMenuItem}">
-            <Setter Property="CommandTarget" Value="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/NVTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="MenuItem" BasedOn="{StaticResource NVMenuItem}">
+                <Setter Property="CommandTarget" Value="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+            </Style>
+            
+        </ResourceDictionary>
     </Window.Resources>
 
     <Window.CommandBindings>
@@ -25,7 +32,7 @@
         <CommandBinding Command="{x:Static SystemCommands.MinimizeWindowCommand}" Executed="MinimizeWindowCommand_Execute" />
     </Window.CommandBindings>
 
-    <Border x:Name="WindowBorder" BorderBrush="Gray" >
+    <Border x:Name="WindowBorder" BorderBrush="{DynamicResource Default.Border}" >
         <Grid x:Name="Root">
             <Grid.RowDefinitions>
                 <RowDefinition x:Name="Row0" Height="Auto" />

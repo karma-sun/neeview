@@ -92,7 +92,7 @@
                 <Path Data="M0,0 L10,10 M0,10 L10,0" Stroke="White" StrokeThickness="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Button>
             <DockPanel Margin="10,0">
-                <Button x:Name="ConfirmButton" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Foreground="White" Background="{StaticResource NVButtonForeground}" BorderThickness="0"  Padding="30,5" Content="__ConfirmButton__" Click="ConfirmButton_Click"/>
+                <Button x:Name="ConfirmButton" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Foreground="White" Background="{DynamicResource Button.Foreground}" BorderThickness="0"  Padding="30,5" Content="__ConfirmButton__" Click="ConfirmButton_Click"/>
                 <DockPanel VerticalAlignment="Center" Margin="0,10">
                     <Image x:Name="Icon" DockPanel.Dock="Left" VerticalAlignment="Top" Width="16" Height="16" Margin="0,2,5,0" />
                     <TextBlock x:Name="Caption" DockPanel.Dock="Top" Margin="0,0,0,10"  Foreground="White" FontWeight="Bold" TextWrapping="Wrap" Text="__Caption__"/>

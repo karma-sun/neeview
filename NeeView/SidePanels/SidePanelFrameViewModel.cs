@@ -31,14 +31,19 @@ namespace NeeView
             Right = right;
             Right.PropertyChanged += Right_PropertyChanged;
 
-            Config.Current.Panels.AddPropertyChanged(nameof(PanelsConfig.IsSideBarEnabled), (s, e) =>
-            {
-                RaisePropertyChanged(nameof(IsSideBarVisible));
-            });
+            MainWindowModel.Current.AddPropertyChanged(nameof(MainWindowModel.CanHidePanel),
+                (s, e) => RaisePropertyChanged(nameof(Opacity)));
 
-            MainLayoutPanelManager.DragBegin += (s, e) => DragBegin(this, null);
-            MainLayoutPanelManager.DragEnd += (s, e) => DragEnd(this, null);
+            Config.Current.Panels.AddPropertyChanged(nameof(PanelsConfig.Opacity),
+                (s, e) => RaisePropertyChanged(nameof(Opacity)));
 
+            Config.Current.Panels.AddPropertyChanged(nameof(PanelsConfig.IsSideBarEnabled),
+                (s, e) => RaisePropertyChanged(nameof(IsSideBarVisible)));
+
+            MainLayoutPanelManager.DragBegin +=
+                (s, e) => DragBegin(this, null);
+            MainLayoutPanelManager.DragEnd +=
+                (s, e) => DragEnd(this, null);
 
             SidePanelIconDescriptor = new SidePanelIconDescriptor(this);
         }
@@ -71,6 +76,14 @@ namespace NeeView
         }
 
 
+        public double Opacity
+        {
+            get => MainWindowModel.Current.CanHidePanel ? Config.Current.Panels.Opacity : 1.0;
+        }
+
+
+
+
         /// <summary>
         /// パネル表示リクエスト
         /// </summary>
@@ -83,7 +96,7 @@ namespace NeeView
         /// パネルを一度だけ表示
         /// </summary>
         public void VisibleAtOnce(string key)
-        { 
+        {
             if (Left.SelectedItemContains(key))
             {
                 Left.VisibleOnce();

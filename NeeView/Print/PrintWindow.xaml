@@ -8,65 +8,53 @@
         xmlns:nvc="clr-namespace:NeeView.Windows.Controls"
         mc:Ignorable="d"
         Style="{StaticResource DefaultWindowStyle}"
-        Foreground="{DynamicResource NVForeground}"
-        Background="{DynamicResource NVBackground}"
         Title="{x:Static properties:Resources.PrintWindow_Title}" Height="600" Width="800" ResizeMode="CanResizeWithGrip">
-    
+
     <Window.Resources>
-        <Style x:Key="TextButton" TargetType="Button" BasedOn="{StaticResource NVDialogButtonStyle}">
-            <Setter Property="Margin" Value="10,10,0,0" />
-        </Style>
-        
-        <Style x:Key="TextButtonMain" TargetType="Button" BasedOn="{StaticResource TextButton}">
-            <Setter Property="Foreground" Value="{StaticResource NVDialogButtonForeground}" />
-            <Setter Property="Background" Value="{StaticResource NVDialogButtonBackground}" />
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/NVTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
-        <Style x:Key="Header" TargetType="TextBlock">
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
-        </Style>
+            <Style x:Key="TextButton" TargetType="Button" BasedOn="{StaticResource NVDialogButton}">
+                <Setter Property="Margin" Value="10,10,0,0" />
+            </Style>
 
-        <Style x:Key="Body" TargetType="TextBlock">
-            <Setter Property="Background" Value="Transparent"/>
-        </Style>
-
-        <Style x:Key="BodyCheckBox" TargetType="CheckBox">
-            <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" /> 
-            <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-        </Style>
+            <Style x:Key="TextRecommentedButton" TargetType="Button" BasedOn="{StaticResource NVDialogRecommentedButton}">
+                <Setter Property="Margin" Value="10,10,0,0" />
+            </Style>
 
 
-        <Style x:Key="BodyComboBox" TargetType="ComboBox" BasedOn="{StaticResource NVComboBox}">
-            <Setter Property="Foreground" Value="{StaticResource NVButtonForeground}"/>
-        </Style>
+            <Style x:Key="Header" TargetType="TextBlock">
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+            </Style>
 
-        <Style TargetType="TextBox">
-            <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
-            <Setter Property="Background" Value="{DynamicResource NVBackground}"/>
-            <Setter Property="BorderBrush" Value="{DynamicResource NVDefaultBrush}"/>
-        </Style>
+            <Style x:Key="Body" TargetType="TextBlock">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
 
-        <Style TargetType="nvc:EnterTriggerTextBox" BasedOn="{StaticResource {x:Type TextBox}}" />
+            <Style TargetType="nvc:EnterTriggerTextBox" BasedOn="{StaticResource {x:Type TextBox}}" />
 
-        <Style x:Key="BoxHeader" TargetType="TextBlock">
-            <Setter Property="MinWidth" Value="40"/>
-            <Setter Property="Padding" Value="2,0"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="TextAlignment" Value="Right"/>
-        </Style>
+            <Style x:Key="BoxHeader" TargetType="TextBlock">
+                <Setter Property="MinWidth" Value="40" />
+                <Setter Property="Padding" Value="2,0" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="TextAlignment" Value="Right" />
+            </Style>
 
 
-        <Style x:Key="ItemStack" TargetType="StackPanel">
-            <Setter Property="Margin" Value="0,5"/>
-        </Style>
+            <Style x:Key="ItemStack" TargetType="StackPanel">
+                <Setter Property="Margin" Value="0,5" />
+            </Style>
 
-        <Style x:Key="ItemDock" TargetType="DockPanel">
-            <Setter Property="Margin" Value="0,5"/>
-        </Style>
+            <Style x:Key="ItemDock" TargetType="DockPanel">
+                <Setter Property="Margin" Value="0,5" />
+            </Style>
 
+        </ResourceDictionary>
     </Window.Resources>
+
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -79,13 +67,13 @@
 
                 <StackPanel DockPanel.Dock="Top" Style="{StaticResource ItemStack}" Margin="0,0,10,0">
                     <TextBlock Style="{StaticResource Header}" Text="{x:Static properties:Resources.PrintWindow_Printer}"/>
-                    <Button Style="{StaticResource IconButton}" Command="{Binding PrintDialogCommand}" Foreground="{StaticResource NVButtonForeground}" HorizontalContentAlignment="Left" TabIndex="1">
-                        <TextBlock Text="{Binding Model.PrintQueue.FullName}" MinWidth="50" TextTrimming="CharacterEllipsis" Margin="2"/>
+                    <Button Style="{StaticResource IconButton}" Command="{Binding PrintDialogCommand}" HorizontalContentAlignment="Left" TabIndex="1">
+                        <TextBlock Text="{Binding Model.PrintQueue.FullName}" MinWidth="50" TextTrimming="CharacterEllipsis" Margin="2" />
                     </Button>
                 </StackPanel>
 
                 <StackPanel x:Name="Buttons" DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,10,0">
-                    <Button x:Name="PrintButton" Style="{StaticResource TextButtonMain}" Content="{x:Static properties:Resources.PrintWindow_ButtonPrint}" Command="{Binding PrintCommand}" TabIndex="3"/>
+                    <Button x:Name="PrintButton" Style="{StaticResource TextRecommentedButton}" Content="{x:Static properties:Resources.PrintWindow_ButtonPrint}" Command="{Binding PrintCommand}" TabIndex="3"/>
                     <Button x:Name="CancelButton" Style="{StaticResource TextButton}" Content="{x:Static properties:Resources.Word_Cancel}" Command="{Binding CancelCommand}" TabIndex="3"/>
                 </StackPanel>
                         
@@ -93,31 +81,31 @@
                     <StackPanel>
 
                         <DockPanel Style="{StaticResource ItemDock}">
-                            <ComboBox DockPanel.Dock="Right" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" ItemsSource="{Binding Model.PageOrientationList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.PageOrientation}" TabIndex="2"/>
+                            <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding Model.PageOrientationList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.PageOrientation}" TabIndex="2"/>
                             <TextBlock Style="{StaticResource Header}" Text="{x:Static properties:Resources.PrintWindow_Orientation}"/>
                         </DockPanel>
 
                         <StackPanel Style="{StaticResource ItemStack}">
                             <TextBlock Style="{StaticResource Header}"  Text="{x:Static properties:Resources.PrintWindow_Content}"/>
-                            <ComboBox HorizontalAlignment="Right" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" ItemsSource="{Binding Model.PrintModeList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.PrintMode}" TabIndex="2"/>
+                            <ComboBox HorizontalAlignment="Right" ItemsSource="{Binding Model.PrintModeList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.PrintMode}" TabIndex="2"/>
                         </StackPanel>
 
                         <StackPanel Style="{StaticResource ItemStack}" Margin="20,0,5,5">
-                            <CheckBox Style="{StaticResource BodyCheckBox}" Content="{x:Static properties:Resources.PrintWindow_Background}" IsChecked="{Binding Model.IsBackground}"
+                            <CheckBox Content="{x:Static properties:Resources.PrintWindow_Background}" IsChecked="{Binding Model.IsBackground}"
                                     FocusVisualStyle="{StaticResource NVBorderFocusVisual}" TabIndex="2"/>
-                            <CheckBox Style="{StaticResource BodyCheckBox}" Content="{x:Static properties:Resources.PrintWindow_KeepDot}" IsChecked="{Binding Model.IsDotScale}"
+                            <CheckBox Content="{x:Static properties:Resources.PrintWindow_KeepDot}" IsChecked="{Binding Model.IsDotScale}"
                                     FocusVisualStyle="{StaticResource NVBorderFocusVisual}" TabIndex="2"/>
                         </StackPanel>
 
-                        <Border BorderBrush="{DynamicResource NVDefaultBrush}" BorderThickness="0,0,0,0" Margin="0,10,0,0" UseLayoutRounding="True">
+                        <Border Margin="0,10,0,0" UseLayoutRounding="True">
                             <StackPanel>
                                 <StackPanel Style="{StaticResource ItemStack}">
                                     <DockPanel>
-                                        <ComboBox DockPanel.Dock="Right" Style="{StaticResource BodyComboBox}" ItemsSource="{Binding Model.HorizontalAlignmentList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.HorizontalAlignment}" TabIndex="2"/>
+                                        <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding Model.HorizontalAlignmentList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.HorizontalAlignment}" TabIndex="2"/>
                                         <TextBlock Style="{StaticResource Header}" Text="{x:Static properties:Resources.PrintWindow_Horizontal}"/>
                                     </DockPanel>
                                     <DockPanel>
-                                        <ComboBox DockPanel.Dock="Right" Style="{StaticResource BodyComboBox}" ItemsSource="{Binding Model.VerticalAlignmentList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.VerticalAlignment}" TabIndex="2"/>
+                                        <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding Model.VerticalAlignmentList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.VerticalAlignment}" TabIndex="2"/>
                                         <TextBlock Style="{StaticResource Header}" Text="{x:Static properties:Resources.PrintWindow_Vertival}"/>
                                     </DockPanel>
                                 </StackPanel>

@@ -27,7 +27,7 @@
         <DockPanel KeyboardNavigation.TabNavigation="Local">
             <nvc:EnterTriggerTextBox DockPanel.Dock="Right" Text="{Binding Value}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0" TabIndex="2"/>
             <Slider Value="{Binding Range.Value}" Minimum="{Binding Range.Minimum}" Maximum="{Binding Range.Maximum}" SmallChange="{Binding Range.SmallChange}" LargeChange="{Binding Range.LargeChange}"
-                    TickFrequency="{Binding Range.TickFrequency}" IsSnapToTickEnabled="True" VerticalAlignment="Center" FocusVisualStyle="{StaticResource NVSliderFocusVisual}" TabIndex="1"/>
+                    TickFrequency="{Binding Range.TickFrequency}" IsSnapToTickEnabled="True" VerticalAlignment="Center" TabIndex="1"/>
         </DockPanel>
     </DataTemplate>
 
@@ -39,7 +39,7 @@
         <DockPanel KeyboardNavigation.TabNavigation="Local">
             <nvc:EnterTriggerTextBox DockPanel.Dock="Right" Text="{Binding Value}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0" TabIndex="2"/>
             <Slider Value="{Binding Range.Value}" Minimum="{Binding Range.Minimum}" Maximum="{Binding Range.Maximum}" SmallChange="{Binding Range.SmallChange}" LargeChange="{Binding Range.LargeChange}"
-                    TickFrequency="{Binding Range.TickFrequency}" IsSnapToTickEnabled="True" VerticalAlignment="Center" FocusVisualStyle="{StaticResource NVSliderFocusVisual}" TabIndex="1"/>
+                    TickFrequency="{Binding Range.TickFrequency}" IsSnapToTickEnabled="True" VerticalAlignment="Center" TabIndex="1"/>
         </DockPanel>
     </DataTemplate>
 
@@ -48,7 +48,7 @@
             <nvc:EnterTriggerTextBox DockPanel.Dock="Right" Text="{Binding Value, Converter={StaticResource DoubleToPercentStringConverter}}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0" TabIndex="2"/>
             <Slider Value="{Binding Range.Value}" Minimum="{Binding Range.Minimum}" Maximum="{Binding Range.Maximum}" SmallChange="{Binding Range.SmallChange}" LargeChange="{Binding Range.LargeChange}"
                     TickFrequency="{Binding Range.TickFrequency}" IsSnapToTickEnabled="True" VerticalAlignment="Center"
-                    FocusVisualStyle="{StaticResource NVSliderFocusVisual}" TabIndex="1" />
+                    TabIndex="1" />
         </DockPanel>
     </DataTemplate>
 
@@ -76,7 +76,7 @@
 
 
     <DataTemplate x:Key="PropertyValue_Boolean_ToggleSwitch">
-        <nvc:ToggleSwitch IsChecked="{Binding Value}" Height="30" HorizontalAlignment="Right" VerticalAlignment="Center" Fill="{DynamicResource NVBackground}" Stroke="{DynamicResource NVForeground}" CheckedBrush="{DynamicResource NVButtonForeground}"/>
+        <nvc:ToggleSwitch IsChecked="{Binding Value}" Height="30" HorizontalAlignment="Right" VerticalAlignment="Center" />
     </DataTemplate>
 
     <DataTemplate x:Key="PropertyValue_Color_ComboColorPicker">

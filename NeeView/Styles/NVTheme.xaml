@@ -1,0 +1,21 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:nvc="clr-namespace:NeeView.Windows.Controls">
+
+    <Style TargetType="{x:Type ListView}" BasedOn="{StaticResource NVListView}" />
+    <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource NVListViewItem}" />
+    <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource NVGridViewColumnHeader}" />
+
+    <Style x:Key="{x:Type Menu}" TargetType="{x:Type Menu}" BasedOn="{StaticResource NVMenu}" />
+    <Style x:Key="{x:Type ContextMenu}" TargetType="{x:Type ContextMenu}" BasedOn="{StaticResource NVContextMenu}" />
+    <Style x:Key="{x:Type MenuItem}" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource NVMenuItem}" />
+    <Style x:Key="{x:Type ComboBox}" TargetType="{x:Type ComboBox}" BasedOn="{StaticResource NVComboBox}" />
+    <Style x:Key="{x:Type CheckBox}" TargetType="{x:Type CheckBox}" BasedOn="{StaticResource NVCheckBox}" />
+    <Style x:Key="{x:Type nvc:ToggleSwitch}" TargetType="{x:Type nvc:ToggleSwitch}" BasedOn="{StaticResource NVToggleSwitch}" />
+
+    <Style TargetType="{x:Type TextBox}">
+        <Setter Property="Foreground" Value="{DynamicResource TextBox.Foreground}" />
+        <Setter Property="Background" Value="{DynamicResource TextBox.Background}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource TextBox.Border}" />
+    </Style>
+
+</ResourceDictionary>

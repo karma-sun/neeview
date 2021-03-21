@@ -2,6 +2,7 @@
 using NeeLaboratory.ComponentModel;
 using System;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media;
 
@@ -9,12 +10,18 @@ namespace NeeView
 {
     public class VisualParameters : BindableBase, IDisposable
     {
+        public static class NativeMethods
+        {
+            [DllImport("dwmapi.dll", PreserveSig = false)]
+            public static extern void DwmGetColorizationColor(out uint colorizationColor, [MarshalAs(UnmanagedType.Bool)] out bool colorizationOpaqueBlend);
+        }
+
+
         static VisualParameters() => Current = new VisualParameters();
         public static VisualParameters Current { get; }
 
 
-        private bool _isHighContrast = SystemParameters.HighContrast;
-
+        private bool _isHighContrast = SystemParameters.HighContrast; //|| true; // ##
 
         private double _systemFontSize = 12.0;
         private string _defaultFontName;
@@ -25,7 +32,7 @@ namespace NeeView
         private double _panelFontSize;
         private double _fontIconSize;
         private bool _disposedValue;
-
+        private Color _systemAccentColor = Colors.RoyalBlue;
 
         private VisualParameters()
         {
@@ -38,6 +45,7 @@ namespace NeeView
                 (s, e) => UpdateFonts();
 
             UpdateFonts();
+            UpdateColors();
         }
 
 
@@ -151,6 +159,19 @@ namespace NeeView
             }
         }
 
+        public Color SystemAccentColor
+        {
+            get { return _systemAccentColor; }
+            set
+            {
+                if (SetProperty(ref _systemAccentColor, value))
+                {
+                    Debug.WriteLine($"System.AccentColor: {_systemAccentColor}");
+                    App.Current.Resources["System.AccentColor"] = new SolidColorBrush(_systemAccentColor);
+                }
+            }
+        }
+
 
         private void SystemParameters_StaticPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
@@ -164,9 +185,15 @@ namespace NeeView
 
         private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
         {
-            if (e.Category == UserPreferenceCategory.Window)
+            switch (e.Category)
             {
-                AppDispatcher.BeginInvoke(UpdateFonts);
+                case UserPreferenceCategory.Window:
+                    AppDispatcher.BeginInvoke(UpdateFonts);
+                    break;
+
+                case UserPreferenceCategory.General:
+                    AppDispatcher.BeginInvoke(UpdateColors);
+                    break;
             }
         }
 
@@ -187,6 +214,12 @@ namespace NeeView
 
             DefaultFontName = Config.Current.Fonts.FontName;
             PanelFontName = Config.Current.Fonts.PanelFontName;
+        }
+
+        private void UpdateColors()
+        {
+            NativeMethods.DwmGetColorizationColor(out uint colorizationColor, out bool colorizationOpaqueBlend);
+            SystemAccentColor = Color.FromRgb((byte)(colorizationColor >> 16), (byte)(colorizationColor >> 8), (byte)colorizationColor);
         }
 
         #region IDisposable

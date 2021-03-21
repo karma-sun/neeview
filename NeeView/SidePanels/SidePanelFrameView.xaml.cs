@@ -51,48 +51,6 @@ namespace NeeView
 
         #region DependencyProperties
 
-        /// <summary>
-        /// パネル背景
-        /// </summary>
-        public Brush PanelBackground
-        {
-            get { return (Brush)GetValue(PanelBackgroundProperty); }
-            set { SetValue(PanelBackgroundProperty, value); }
-        }
-
-        public static readonly DependencyProperty PanelBackgroundProperty =
-            DependencyProperty.Register("PanelBackground", typeof(Brush), typeof(SidePanelFrameView), new PropertyMetadata(Brushes.DarkGray));
-
-
-        /// <summary>
-        /// アイコンリスト背景
-        /// </summary>
-        public Brush IconBackground
-        {
-            get { return (Brush)GetValue(IconBackgroundProperty); }
-            set { SetValue(IconBackgroundProperty, value); }
-        }
-
-        public static readonly DependencyProperty IconBackgroundProperty =
-            DependencyProperty.Register("IconBackground", typeof(Brush), typeof(SidePanelFrameView), new PropertyMetadata(Brushes.Gray));
-
-
-        /// <summary>
-        /// アイコン色
-        /// </summary>
-        public Brush IconForeground
-        {
-            get { return (Brush)GetValue(IconForegroundProperty); }
-            set { SetValue(IconForegroundProperty, value); }
-        }
-
-        public static readonly DependencyProperty IconForegroundProperty =
-            DependencyProperty.Register("IconForeground", typeof(Brush), typeof(SidePanelFrameView), new PropertyMetadata(null));
-
-
-        /// <summary>
-        /// PanelMargin property.
-        /// </summary>
         public Thickness PanelMargin
         {
             get { return (Thickness)GetValue(PanelMarginProperty); }
@@ -197,7 +155,7 @@ namespace NeeView
             DependencyProperty.Register("CanvasTop", typeof(double), typeof(SidePanelFrameView), new PropertyMetadata(0.0));
 
 
-#endregion DependencyProperties
+        #endregion DependencyProperties
 
 
         /// <summary>

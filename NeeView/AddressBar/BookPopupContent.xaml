@@ -2,11 +2,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:NeeView" mc:Ignorable="d"
         d:DesignHeight="450" d:DesignWidth="800">
 
-    <Grid x:Name="Root" Background="White" Focusable="True" FocusVisualStyle="{x:Null}" PreviewKeyDown="MainContent_PreviewKeyDown">
+    <Grid x:Name="Root" Focusable="True" Background="{DynamicResource Menu.Background}" FocusVisualStyle="{x:Null}" PreviewKeyDown="MainContent_PreviewKeyDown">
         <Grid.Resources>
             <Style TargetType="{x:Type TextBlock}">
                 <Setter Property="FontSize" Value="12" />
-                <Setter Property="Foreground" Value="#222222" />
+                <Setter Property="Foreground" Value="{DynamicResource Menu.Foreground}" />
             </Style>
         </Grid.Resources>
         <StackPanel Margin="10" MinWidth="160">

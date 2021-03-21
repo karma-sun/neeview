@@ -8,45 +8,51 @@
              xmlns:properties="clr-namespace:NeeView.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
-             Foreground="{DynamicResource NVForeground}">
+             Foreground="{DynamicResource Default.Foreground}">
 
     <UserControl.Resources>
+        <ResourceDictionary>
 
-        <DrawingImage x:Key="ic_photo_library_24px">
-            <DrawingImage.Drawing>
-                <DrawingGroup>
-                    <DrawingGroup.Children>
-                        <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
-                        <GeometryDrawing Brush="Gray" Pen="{x:Null}" Geometry="{StaticResource g_photo_library_24px}" />
-                    </DrawingGroup.Children>
-                </DrawingGroup>
-            </DrawingImage.Drawing>
-        </DrawingImage>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/ArrowIcons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
+            <DrawingImage x:Key="ic_photo_library_24px">
+                <DrawingImage.Drawing>
+                    <DrawingGroup>
+                        <DrawingGroup.Children>
+                            <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
+                            <GeometryDrawing Brush="Gray" Pen="{x:Null}" Geometry="{StaticResource g_photo_library_24px}" />
+                        </DrawingGroup.Children>
+                    </DrawingGroup>
+                </DrawingImage.Drawing>
+            </DrawingImage>
 
-        <local:BooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" True="Collapsed" False="Visible"/>
+            <local:BooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" True="Collapsed" False="Visible" />
 
-        <Style x:Key="FolderListButtonStyle" TargetType="Button" BasedOn="{StaticResource IconButton}">
-            <Setter Property="Width" Value="28" />
-            <Setter Property="MinHeight" Value="{DynamicResource FontIconSize}" />
-        </Style>
+            <Style x:Key="FolderListButtonStyle" TargetType="Button" BasedOn="{StaticResource IconButton}">
+                <Setter Property="Width" Value="28" />
+                <Setter Property="MinHeight" Value="{DynamicResource FontIconSize}" />
+            </Style>
 
-        <Style x:Key="FolderListToggleButtonStyle" TargetType="ToggleButton" BasedOn="{StaticResource IconToggleButton}">
-            <Setter Property="Width" Value="28" />
-            <Setter Property="MinHeight" Value="{DynamicResource FontIconSize}" />
-        </Style>
+            <Style x:Key="FolderListToggleButtonStyle" TargetType="ToggleButton" BasedOn="{StaticResource IconToggleButton}">
+                <Setter Property="Width" Value="28" />
+                <Setter Property="MinHeight" Value="{DynamicResource FontIconSize}" />
+            </Style>
 
-        <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
-            <Setter Property="HeaderTemplate">
-                <Setter.Value>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Path=Value.PageName}" />
-                    </DataTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Command" Value="{Binding DataContext.MoveToHistoryCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=ContextMenu}}" />
-            <Setter Property="CommandParameter" Value="{Binding}" />
-        </Style>
+            <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
+                <Setter Property="HeaderTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Value.PageName}" />
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Command" Value="{Binding DataContext.MoveToHistoryCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=ContextMenu}}" />
+                <Setter Property="CommandParameter" Value="{Binding}" />
+            </Style>
+
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <DockPanel x:Name="DockPanel" Margin="2" Background="Transparent">
@@ -64,25 +70,25 @@
                 <WrapPanel MinWidth="150">
                     <Button x:Name="PrevButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToPreviousCommand}" TabIndex="1" ContextMenuService.Placement="Bottom"
                             ContextMenuOpening="PrevButton_ContextMenuOpening" ToolTip="{x:Static properties:Resources.PageList_Back_ToolTip}">
-                        <Image Source="{StaticResource ic_arrow_back_24px_b}" Width="16" Height="16" />
+                        <Image Source="{StaticResource ic_arrow_back_24px_a}" Width="16" Height="16" />
                         <Button.ContextMenu>
                             <ContextMenu x:Name="PrevButtonContextMenu" ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}" />
                         </Button.ContextMenu>
                     </Button>
                     <Button x:Name="NextButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToNextCommand}" TabIndex="1" ContextMenuService.Placement="Bottom"
                             ContextMenuOpening="NextButton_ContextMenuOpening" ToolTip="{x:Static properties:Resources.PageList_Next_ToolTip}">
-                        <Image Source="{StaticResource ic_arrow_forward_24px_b}" Width="16" Height="16" />
+                        <Image Source="{StaticResource ic_arrow_forward_24px_a}" Width="16" Height="16" />
                         <Button.ContextMenu>
                             <ContextMenu x:Name="NextButtonContextMenu" ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}" />
                         </Button.ContextMenu>
                     </Button>
                     <Button x:Name="UpButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToUpCommand}" TabIndex="1" ToolTip="{x:Static properties:Resources.PageList_Up_ToolTip}">
-                        <Image Source="{StaticResource ic_arrow_up_24px_b}" Width="16" Height="16" />
+                        <Image Source="{StaticResource ic_arrow_up_24px_a}" Width="16" Height="16" />
                     </Button>
-                    <ComboBox x:Name="FormatComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" TabIndex="1"
+                    <ComboBox x:Name="FormatComboBox" TabIndex="1"
                           ItemsSource="{Binding FormatList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding Source={x:Static local:Config.Current}, Path=PageList.Format, Delay=1}">
                     </ComboBox>
-                    <ComboBox x:Name="PageSortComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" TabIndex="1"
+                    <ComboBox x:Name="PageSortComboBox" TabIndex="1"
                           ItemsSource="{Binding PageSortModeList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding PageSortMode, Delay=1}">
                     </ComboBox>
                 </WrapPanel>

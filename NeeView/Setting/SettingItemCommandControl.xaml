@@ -3,8 +3,17 @@
         xmlns:nv="clr-namespace:NeeView" xmlns:nvc="clr-namespace:NeeView.Windows.Controls"  xmlns:properties="clr-namespace:NeeView.Properties" mc:Ignorable="d" d:DesignHeight="480" d:DesignWidth="640">
     <Grid x:Name="Root">
         <Grid.Resources>
+
+            <ResourceDictionary>
+
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="/Styles/SystemTheme.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
             <nv:MouseGestureToDispTextConverter x:Key="MouseGestureToDispTextConverter" />
+
+            </ResourceDictionary>
         </Grid.Resources>
 
         <DockPanel>
@@ -42,10 +51,10 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <DockPanel>
-                                            <Grid DockPanel.Dock="Left" Width="16" VerticalAlignment="Center">
+                                            <Grid DockPanel.Dock="Left" Width="20" VerticalAlignment="Center">
                                                 <Button Click="EditCommandParameterButton_Clock" Tag="{Binding}" ToolTipService.ShowOnDisabled="True">
                                                     <Button.Style>
-                                                        <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
+                                                        <Style TargetType="Button" BasedOn="{StaticResource SystemIconButton}">
                                                             <Style.Triggers>
                                                                 <DataTrigger Binding="{Binding HasParameter}" Value="False">
                                                                     <Setter Property="Visibility" Value="Collapsed" />
@@ -57,7 +66,7 @@
                                                             </Style.Triggers>
                                                         </Style>
                                                     </Button.Style>
-                                                    <Image Width="14" Height="14" Source="{StaticResource ic_setting_24px}" />
+                                                    <Image Width="16" Height="16" Source="{StaticResource ic_setting_24px}" />
                                                 </Button>
                                             </Grid>
                                             <TextBlock Text="{Binding Command.Text}" TextTrimming="CharacterEllipsis" Margin="2,0" />

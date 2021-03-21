@@ -8,9 +8,15 @@
         Height="220" Width="500" WindowStyle="ToolWindow" SizeToContent="Height"  Style="{StaticResource ToolWindowStyle}">
 
     <Window.Resources>
+        <ResourceDictionary>
 
-        <Style x:Key="ButtonStyle" TargetType="Button" BasedOn="{StaticResource NVDialogButtonStyle}" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/NVTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
+            <Style x:Key="ButtonStyle" TargetType="Button" BasedOn="{StaticResource NVDialogButton}" />
+
+        </ResourceDictionary>
     </Window.Resources>
 
     <DockPanel Margin="5" >

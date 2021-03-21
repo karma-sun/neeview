@@ -6,6 +6,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/SystemTheme.xaml" />
                 <ResourceDictionary Source="/NeeView/Windows/Property/PropertyValueTemplateDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
@@ -25,7 +26,7 @@
 
             <DataTemplate DataType="{x:Type nvp:PropertyValue_Boolean}">
                 <StackPanel Orientation="Horizontal" Style="{StaticResource DisableStyle}">
-                    <nvc:ToggleSwitch IsChecked="{Binding Value}" Height="20" HorizontalAlignment="Left" CheckedBrush="{DynamicResource NVButtonForeground}" />
+                    <nvc:ToggleSwitch IsChecked="{Binding Value}" Height="20" HorizontalAlignment="Left" />
                     <TextBlock Margin="10,0" VerticalAlignment="Center" Text="{Binding Value, Converter={StaticResource BooleanToSwitchStringConverter}}" />
                 </StackPanel>
             </DataTemplate>
@@ -43,7 +44,7 @@
                     </StackPanel>
                     <nvc:DragCompletedTriggerSlider x:Name="RangeSlider" Value="{Binding Value, UpdateSourceTrigger=Explicit}" Minimum="{Binding Range.Minimum}" Maximum="{Binding Range.Maximum}"
                             SmallChange="{Binding Range.SmallChange}" LargeChange="{Binding Range.LargeChange}" TickFrequency="{Binding Range.TickFrequency}" IsSnapToTickEnabled="True"
-                            Margin="0,5,0,0" FocusVisualStyle="{StaticResource NVSliderFocusVisual}" />
+                            Margin="0,5,0,0" />
                 </StackPanel>
             </DataTemplate>
 
@@ -54,7 +55,7 @@
                             IsSubValueEnabled="{Binding ElementName=RangeSlider, Path=IsMouseCaptureWithin}" />
                     <nvc:DragCompletedTriggerSlider x:Name="RangeSlider" Value="{Binding Value, UpdateSourceTrigger=Explicit}" Minimum="{Binding Range.Minimum}" Maximum="{Binding Range.Maximum}"
                             SmallChange="{Binding Range.SmallChange}" LargeChange="{Binding Range.LargeChange}" TickFrequency="{Binding Range.TickFrequency}" IsSnapToTickEnabled="True"
-                            Margin="0,5,0,0" VerticalAlignment="Center" FocusVisualStyle="{StaticResource NVSliderFocusVisual}" />
+                            Margin="0,5,0,0" VerticalAlignment="Center" />
                 </StackPanel>
             </DataTemplate>
 
@@ -72,7 +73,7 @@
                     </StackPanel>
                     <nvc:DragCompletedTriggerSlider x:Name="RangeSlider" Value="{Binding Value, UpdateSourceTrigger=Explicit}" Minimum="{Binding Range.Minimum}" Maximum="{Binding Range.Maximum}"
                             SmallChange="{Binding Range.SmallChange}" LargeChange="{Binding Range.LargeChange}" TickFrequency="{Binding Range.TickFrequency}" IsSnapToTickEnabled="True"
-                            Margin="0,5,0,0" FocusVisualStyle="{StaticResource NVSliderFocusVisual}" />
+                            Margin="0,5,0,0" />
                 </StackPanel>
             </DataTemplate>
 
@@ -112,30 +113,6 @@
                 <nvp:PropertyControl Header="{Binding Name}" Value="{Binding TypeValue}" Tips="{Binding Tips}"
                         ColumnRate="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=ColumnRate}" />
             </DataTemplate>
-
-            <Style TargetType="TextBox">
-                <Setter Property="HorizontalAlignment" Value="Stretch" />
-            </Style>
-
-            <Style TargetType="nvc:EnterTriggerTextBox" BasedOn="{StaticResource {x:Type TextBox}}" />
-
-            <Style x:Key="ToggleSwitchStyle" TargetType="nvc:ToggleSwitch">
-                <Setter Property="Fill" Value="{DynamicResource NVBackground}" />
-                <Setter Property="Stroke" Value="{DynamicResource NVForeground}" />
-                <Setter Property="CheckedBrush" Value="{DynamicResource NVButtonForeground}" />
-            </Style>
-
-            <Style TargetType="Button">
-                <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
-            </Style>
-
-            <Style TargetType="ComboBox">
-                <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
-            </Style>
-
-            <Style TargetType="CheckBox">
-                <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
-            </Style>
 
         </ResourceDictionary>
     </Window.Resources>

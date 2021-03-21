@@ -12,34 +12,11 @@
         <ResourceDictionary>
 
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="MainWindowResourceDictionary.xaml" />
+                <ResourceDictionary Source="/Styles/NVTheme.xaml" />
+                <ResourceDictionary Source="/MainWindow/MainWindowResourceDictionary.xaml" />
                 <ResourceDictionary Source="/SidePanels/PanelIconDictionary.xaml" />
                 <ResourceDictionary Source="/SidePanels/Bookshelf/FolderList/FolderListIconDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
-            <!-- Styling the DockPanelSplitter -->
-            <Style x:Key="NVHorizontalBevelGrip" TargetType="{x:Type osc:DockPanelSplitter}">
-                <Setter Property="Thickness" Value="6" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type osc:DockPanelSplitter}">
-                            <Grid SnapsToDevicePixels="True" Background="{DynamicResource NVBackground}" />
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-
-            <Style x:Key="NVVerticalBevelGrip" TargetType="{x:Type osc:DockPanelSplitter}">
-                <Setter Property="Thickness" Value="6" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type osc:DockPanelSplitter}">
-                            <Grid SnapsToDevicePixels="True" Background="{DynamicResource NVBackground}" />
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-
 
             <Style x:Key="StatusAreaStyle" TargetType="DockPanel">
                 <Style.Triggers>
@@ -48,7 +25,7 @@
                             <Condition Binding="{Binding Source={x:Static local:Config.Current}, Path=FilmStrip.IsVisiblePlate}" Value="True" />
                             <Condition Binding="{Binding Visibility, ElementName=ThumbnailListArea}" Value="Visible" />
                         </MultiDataTrigger.Conditions>
-                        <Setter Property="Background" Value="{DynamicResource NVBackground}" />
+                        <Setter Property="Background" Value="{DynamicResource Slider.Background}" />
                     </MultiDataTrigger>
                 </Style.Triggers>
             </Style>
@@ -69,8 +46,8 @@
 
             <local:BooleanToOpacityConverter x:Key="BooleanToOpacityConverter" />
             <local:BrushAddOpacityConverter x:Key="BrushAddOpacityConverter" />
-            <local:BindingProxy x:Key="BaseForeground" Data="{DynamicResource NVForeground}" />
-            
+            <local:BindingProxy x:Key="BaseForeground" Data="{DynamicResource Default.Foreground}" />
+
             <!-- MenuItem History -->
             <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
                 <Setter Property="Header" Value="{Binding Path=Name}" />
@@ -90,7 +67,7 @@
         <CommandBinding Command="{x:Static SystemCommands.MinimizeWindowCommand}" Executed="MinimizeWindowCommand_Execute" />
     </Window.CommandBindings>
 
-    <Border BorderThickness="{Binding WindowShape.WindowBorder.Thickness}" BorderBrush="Gray">
+    <Border BorderThickness="{Binding WindowShape.WindowBorder.Thickness}" BorderBrush="{DynamicResource Default.Border}">
 
         <!-- 製品表示領域 -->
         <Grid x:Name="Root" UseLayoutRounding="True" WindowChrome.IsHitTestVisibleInChrome="False">
@@ -101,7 +78,7 @@
 
                 <!-- メニューエリア-->
                 <ContentControl x:Name="DockMenuSocket" DockPanel.Dock="Top" Focusable="False">
-                    <Grid x:Name="MenuArea">
+                    <Border x:Name="MenuArea" BorderBrush="{DynamicResource AddressBar.Border}" BorderThickness="0,0,0,1">
                         <StackPanel>
                             <!-- メニューバー-->
                             <local:MenuBarView x:Name="MenuBar">
@@ -119,26 +96,28 @@
                                     IsTabStop="False" />
 
                         </StackPanel>
-                    </Grid>
+                    </Border>
                 </ContentControl>
 
                 <!-- ステータスエリア -->
-                <DockPanel x:Name="DockStatusArea" DockPanel.Dock="Bottom" Background="{DynamicResource NVBaseBrush}">
+                <Border x:Name="DockStatusArea" DockPanel.Dock="Bottom" Background="{DynamicResource Slider.Background}" BorderBrush="{DynamicResource Slider.Border}" BorderThickness="0,1,0,0">
+                    <DockPanel>
 
-                    <!-- スライダー -->
-                    <ContentControl x:Name="DockPageSliderSocket" DockPanel.Dock="Bottom" IsTabStop="False">
-                        <Grid x:Name="SliderArea">
-                            <local:PageSliderView x:Name="PageSliderView" VerticalAlignment="Bottom" />
-                            <local:MediaControlView x:Name="MediaControlView" VerticalAlignment="Bottom" />
-                        </Grid>
-                    </ContentControl>
+                        <!-- スライダー -->
+                        <ContentControl x:Name="DockPageSliderSocket" DockPanel.Dock="Bottom" IsTabStop="False">
+                            <Grid x:Name="SliderArea">
+                                <local:PageSliderView x:Name="PageSliderView" VerticalAlignment="Bottom" />
+                                <local:MediaControlView x:Name="MediaControlView" VerticalAlignment="Bottom" />
+                            </Grid>
+                        </ContentControl>
 
-                    <!-- フィルムストリップ -->
-                    <ContentControl x:Name="DockThumbnailListSocket" DockPanel.Dock="Bottom" IsTabStop="False">
-                        <local:ThumbnailListView x:Name="ThumbnailListArea" />
-                    </ContentControl>
+                        <!-- フィルムストリップ -->
+                        <ContentControl x:Name="DockThumbnailListSocket" DockPanel.Dock="Bottom" IsTabStop="False">
+                            <local:ThumbnailListView x:Name="ThumbnailListArea" />
+                        </ContentControl>
 
-                </DockPanel>
+                    </DockPanel>
+                </Border>
 
                 <!--  ビューエリア -->
                 <Grid x:Name="ViewArea">
@@ -166,7 +145,7 @@
 
                         <!-- サイドパネル -->
                         <local:SidePanelFrameView x:Name="SidePanelFrame" PanelMargin="{Binding SidePanelMargin, Mode=OneWay}" Visibility="Visible" Source="{Binding SidePanel}"
-                                IsAutoHide="{Binding Model.CanHidePanel}" PanelBackground="{DynamicResource NVBackground}" IconBackground="{DynamicResource NVPanelIconBackground}"
+                                IsAutoHide="{Binding Model.CanHidePanel}"
                                 CanvasWidth="{Binding CanvasWidth, Mode=OneWayToSource}" CanvasHeight="{Binding CanvasHeight, Mode=OneWayToSource}" d:IsHidden="True">
                         </local:SidePanelFrameView>
 
@@ -229,15 +208,14 @@
             </DockPanel>
 
             <!-- Page title -->
-            <Border x:Name="PageCaption" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="#88000000" IsHitTestVisible="False" CornerRadius="10"
-                    Margin="0,0,0,5">
+            <Border x:Name="PageCaption" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="#88000000" IsHitTestVisible="False" CornerRadius="10" Margin="0,0,0,5">
                 <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding PageTitle.Title}" FontSize="{Binding Source={x:Static local:Config.Current}, Path=PageTitle.FontSize}"
                         Foreground="White" Margin="20,5" TextWrapping="Wrap" />
             </Border>
 
             <!-- Message Layer -->
             <DockPanel x:Name="MessageLayer" d:IsHidden="True" Visibility="{Binding ElementName=MainViewSocket, Path=Content, Converter={StaticResource MainViewToVisibilityConverter}}">
-                <Grid x:Name="MessageLayerSpace" DockPanel.Dock="Bottom" Height="30" /> 
+                <Grid x:Name="MessageLayerSpace" DockPanel.Dock="Bottom" Height="30" />
                 <local:NormalInfoMessageView Source="{Binding InfoMessage.NormalInfoMessage}" />
             </DockPanel>
 

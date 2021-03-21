@@ -6,6 +6,9 @@
              xmlns:nwc="clr-namespace:NeeView.Windows.Controls;assembly=NeeView.Runtime"
              xmlns:local="clr-namespace:NeeView"
              mc:Ignorable="d" 
+             Background="{DynamicResource Caption.Background}"
+             Foreground="{DynamicResource Caption.Foreground}"
+             BorderBrush="{DynamicResource Caption.Border}"
         d:DesignHeight="32" d:DesignWidth="640">
     
     <UserControl.Resources>
@@ -21,8 +24,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-
-    <Grid x:Name="Root" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture" MinHeight="0" Background="{DynamicResource NVBaseBrush}">
+    <Grid x:Name="Root" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture" MinHeight="0">
 
         <DockPanel x:Name="MenuBarArea" LastChildFill="True" Margin="0,0,0,2">
 

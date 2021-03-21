@@ -26,6 +26,11 @@ namespace NeeView
 
                     e.Handled = true;
                 }
+                // Ctrl+Space
+                else if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.Space)
+                {
+                    ThemeProfile.Current.LoadColorMap();
+                }
             };
         }
 

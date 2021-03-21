@@ -274,25 +274,28 @@ namespace NeeView
 
         public ThemeColorMap ThemeColorMap { get; set; }
 
-        const string ThemeColorMapFile = "ThemeColorMap.json";
+        const string ThemeColorMapFile = "Resources/ThemeColorMap.json";
 
         private void InitializeThemeColorMap()
         {
             LoadColorMap();
         }
 
+        // [Develop]
         public void Save(string path)
         {
             var json = JsonSerializer.SerializeToUtf8Bytes(ThemeColorMap, UserSettingTools.GetSerializerOptions());
             System.IO.File.WriteAllBytes(path, json);
         }
 
+        // [Develop]
         public static ThemeColorMap Load(string path)
         {
             var json = System.IO.File.ReadAllBytes(path);
             return JsonSerializer.Deserialize<ThemeColorMap>(json, UserSettingTools.GetSerializerOptions());
         }
 
+        // [Develop]
         public void LoadColorMap()
         {
             try

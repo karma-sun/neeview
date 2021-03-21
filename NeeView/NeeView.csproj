@@ -159,6 +159,9 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Update="Resources\ThemeColorMap.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Scripts\OnBookLoaded.nvjs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

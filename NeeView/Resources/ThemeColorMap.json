@@ -1,0 +1,70 @@
+{
+  "Format": "NeeView.ThemeColorMap/38.9.0",
+  "Items": {
+    "Default.Background": "#222",
+    "Default.Foreground": "White",
+    "Default.Border": "Default.Background",
+    "Default.Sepalator": "#88888888",
+    "Default.TitleText": "Gray",
+    "Default.GrayText": "Gray",
+    "Default.Disable": "Gray",
+
+    "Control.Background": "Default.Background",
+    "Control.Foreground": "Default.Foreground",
+    "Control.Border": "Gray",
+    "Control.Base": "#FF666666",
+    "Control.MouseOver": "#FF888888",
+    "Control.Pressed": "#FFAAAAAA",
+    "Control.PressedInverse": "#FF000000",
+    "Control.Focus": "Control.AccentColor",
+    "Control.Disable": "Gray",
+    "Control.AccentColor": "#FF1188DD",
+
+    "Button.Background": "#00000000",
+    "Button.Foreground": "#FF1188DD",
+    "Button.MouseOver": "#FF444444",
+    "Button.Pressed": "#FF888888",
+
+    "ItemMouseOver.Background": "#1F26A0DA",
+    "ItemMouseOver.Border": "#A826A0DA",
+
+    "ItemSelected.Background": "#3D26A0DA",
+    "ItemSelected.Border": "#FF26A0DA",
+    
+    "ItemInactive.Background": "#3DDADADA",
+    "ItemInactive.Border": "#FFDADADA",
+
+
+    "Thumbnail.Background": "#FF444444",
+    "Thumbnail.Foreground": "#FF808080",
+
+    "Icon.Background": "#00000000",
+    "Icon.Foreground": "Default.Foreground",
+
+    "TextBox.Background": "#FF202020",
+    "TextBox.Foreground": "Default.Foreground",
+    "TextBox.Border": "#88888888",
+
+    "Menu.Background": "#FF222222",
+    "Menu.Foreground": null,
+    "Menu.Border": "#FF444444",
+    "Menu.Sepalator": "#88888888",
+
+    "SideBar.Background": "#FF303030",
+    "SideBar.Border": null,
+
+    "Panel.Background": "#FF222222",
+    "Panel.Border": null,
+    "Panel.Grip": "Default.Border",
+
+    "Caption.Background": "#FF383838",
+    "Caption.Border": null,
+
+    "AddressBar.Background": "Caption.Background",
+    "AddressBar.Border": null,
+
+    "Slider.Background": "Caption.Background",
+    "Slider.Border": null
+
+  }
+}

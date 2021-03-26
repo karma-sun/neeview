@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Windows;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,11 +20,15 @@ namespace NeeView
     /// </summary>
     public partial class ExportImageWindow : Window
     {
+        private ChromeWindowStyleAssistant _assistant;
         private ExportImageWindowViewModel _vm;
 
         public ExportImageWindow()
         {
             InitializeComponent();
+
+            _assistant = new ChromeWindowStyleAssistant(this);
+            _assistant.Attach();
         }
 
         public ExportImageWindow(ExportImageWindowViewModel vm) : this()

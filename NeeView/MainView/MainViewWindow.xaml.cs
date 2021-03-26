@@ -224,30 +224,6 @@ namespace NeeView
             Config.Current.MainView.IsTopmost = !Config.Current.MainView.IsTopmost;
         }
 
-        #region Window state commands
-
-        private void MinimizeWindowCommand_Execute(object sender, ExecutedRoutedEventArgs e)
-        {
-            SystemCommands.MinimizeWindow(this);
-        }
-
-        private void RestoreWindowCommand_Execute(object sender, ExecutedRoutedEventArgs e)
-        {
-            SystemCommands.RestoreWindow(this);
-        }
-
-        private void MaximizeWindowCommand_Execute(object sender, ExecutedRoutedEventArgs e)
-        {
-            SystemCommands.MaximizeWindow(this);
-        }
-
-        private void CloseWindowCommand_Execute(object sender, ExecutedRoutedEventArgs e)
-        {
-            SystemCommands.CloseWindow(this);
-        }
-
-        #endregion Window state commands
-
         private void StretchWindowCommand_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             if (this.MainViewSocket.Content is MainView mainView)

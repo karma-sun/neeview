@@ -154,6 +154,17 @@ namespace NeeView
             "Button.MouseOver",
             "Button.Pressed",
 
+            "DialogButton.Background",
+            "DialogButton.Foreground",
+            "DialogRecommentedButton.Background",
+            "DialogRecommentedButton.Foreground",
+
+            "ScrollBar.Background",
+            "ScrollBar.Foreground",
+            "ScrollBar.Border",
+            "ScrollBar.MouseOver",
+            "ScrollBar.Pressed",
+
             "TextBox.Background",
             "TextBox.Foreground",
             "TextBox.Border",
@@ -189,6 +200,11 @@ namespace NeeView
             "Slider.Background",
             "Slider.Foreground",
             "Slider.Border",
+
+            "SelectedMark.Foreground",
+            "CheckIcon.Foreground",
+            "BookmarkIcon.Foreground",
+            "PagemarkIcon.Foreground",
         };
 
         public ThemeColorMap()
@@ -331,7 +347,7 @@ namespace NeeView
                 App.Current.Resources["NVPanelIconForeground"] = Brushes.Brown;
                 App.Current.Resources["NVForeground"] = Brushes.White;
 
-                App.Current.Resources["NVCheckMarkBrush"] = new SolidColorBrush(Color.FromRgb(0x90, 0xEE, 0x90)); // ?
+                App.Current.Resources["CheckIcon.Foreground"] = new SolidColorBrush(Color.FromRgb(0x90, 0xEE, 0x90)); // ?
                 App.Current.Resources["NVFolderPen"] = null;
 
                 App.Current.Resources["NVBorderBrush"] = Brushes.Silver;
@@ -350,7 +366,7 @@ namespace NeeView
                 App.Current.Resources["NVPressedBrush"] = new SolidColorBrush(Color.FromRgb(0xDD, 0xDD, 0xDD));
                 App.Current.Resources["NVPanelIconForeground"] = new SolidColorBrush(Color.FromRgb(0xEE, 0xEE, 0xEE));
                 App.Current.Resources["Default.Foreground"] = new SolidColorBrush(Color.FromRgb(0xEE, 0xEE, 0xEE));
-                App.Current.Resources["NVCheckMarkBrush"] = new SolidColorBrush(Color.FromRgb(0x90, 0xEE, 0x90));
+                App.Current.Resources["CheckIcon.Foreground"] = new SolidColorBrush(Color.FromRgb(0x90, 0xEE, 0x90));
                 App.Current.Resources["NVFolderPen"] = null;
             }
             else
@@ -367,7 +383,7 @@ namespace NeeView
                 App.Current.Resources["NVPanelIconForeground"] = new SolidColorBrush(Color.FromRgb(0x44, 0x44, 0x44));
                 App.Current.Resources["Default.Foreground"] = new SolidColorBrush(Color.FromRgb(0x22, 0x22, 0x22));
                 App.Current.Resources["NVFolderPen"] = new Pen(new SolidColorBrush(Color.FromRgb(0xDE, 0xB9, 0x82)), 1);
-                App.Current.Resources["NVCheckMarkBrush"] = new SolidColorBrush(Color.FromRgb(0x44, 0xBB, 0x44));
+                App.Current.Resources["CheckIcon.Foreground"] = new SolidColorBrush(Color.FromRgb(0x44, 0xBB, 0x44));
             }
 #endif
 

@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <FontFamily x:Key="DefaultFontFamily" />
+    <FontFamily x:Key="PanelFontFamily" />
+    
+    <system:Double x:Key="SystemFontSize">12</system:Double>
+    <system:Double x:Key="SystemFontSizeNormal">15</system:Double>
+    <system:Double x:Key="SystemFontSizeLarge">18</system:Double>
+    <system:Double x:Key="SystemFontSizeHuge">24</system:Double>
+
+    <system:Double x:Key="DefaultFontSize">15</system:Double>
+    <system:Double x:Key="MenuFontSize">12</system:Double>
+    <system:Double x:Key="FolderTreeFontSize">12</system:Double>
+    <system:Double x:Key="PanelFontSize">15</system:Double>
+    <system:Double x:Key="ConsoleFontSize">14</system:Double>
+
+    <system:Double x:Key="FontIconSize">28</system:Double>
+    <system:Double x:Key="InfoTextFontSize">24</system:Double>
+    
+</ResourceDictionary>

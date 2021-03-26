@@ -18,7 +18,7 @@
 
         <DrawingImage x:Key="ic_bookmark_24px">
             <DrawingImage.Drawing>
-                <GeometryDrawing Brush="{DynamicResource NVStarMarkBrush}" Pen="{x:Null}" Geometry="{StaticResource g_bookmark_24px}" />
+                <GeometryDrawing Brush="{DynamicResource PagemarkIcon.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_bookmark_24px}" />
             </DrawingImage.Drawing>
         </DrawingImage>
 

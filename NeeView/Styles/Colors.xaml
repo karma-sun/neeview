@@ -23,7 +23,7 @@
     <SolidColorBrush x:Key="Default.TitleText" Color="Gray" />
     <SolidColorBrush x:Key="Default.Disable" Color="Gray" />
 
-    <SolidColorBrush x:Key="Control.Background" Color="Black" />
+    <SolidColorBrush x:Key="Control.Background" Color="Silver" />
     <SolidColorBrush x:Key="Control.Foreground" Color="White" />
     <SolidColorBrush x:Key="Control.Border" Color="Gray" />
     <SolidColorBrush x:Key="Control.Base" Color="Gray" />
@@ -42,10 +42,21 @@
     <SolidColorBrush x:Key="ItemInactive.Background" Color="#3DDADADA" />
     <SolidColorBrush x:Key="ItemInactive.Border" Color="#FFDADADA" />
 
-    <SolidColorBrush x:Key="Button.Background" Color="Transparent" />
+    <SolidColorBrush x:Key="Button.Background" Color="Silver" />
     <SolidColorBrush x:Key="Button.Foreground" Color="#FF1188DD" />
     <SolidColorBrush x:Key="Button.MouseOver" Color="#FF888888" />
     <SolidColorBrush x:Key="Button.Pressed" Color="#FFAAAAAA" />
+
+    <SolidColorBrush x:Key="DialogButton.Background" Color="Silver" />
+    <SolidColorBrush x:Key="DialogButton.Foreground" Color="Black" />
+    <SolidColorBrush x:Key="DialogRecommentedButton.Background" Color="SteelBlue" />
+    <SolidColorBrush x:Key="DialogRecommentedButton.Foreground" Color="White" />
+
+    <SolidColorBrush x:Key="ScrollBar.Background" Color="Gray" />
+    <SolidColorBrush x:Key="ScrollBar.Foreground" Color="White" />
+    <SolidColorBrush x:Key="ScrollBar.Border" Color="Gray" />
+    <SolidColorBrush x:Key="ScrollBar.MouseOver" Color="Silver" />
+    <SolidColorBrush x:Key="ScrollBar.Pressed" Color="LightGray" />
 
     <SolidColorBrush x:Key="TextBox.Background" Color="#FF222222" />
     <SolidColorBrush x:Key="TextBox.Foreground" Color="White" />
@@ -82,5 +93,11 @@
 
     <SolidColorBrush x:Key="Thumbnail.Background" Color="Gray" />
     <SolidColorBrush x:Key="Thumbnail.Foreground" Color="DarkGray" />
+
+
+    <SolidColorBrush x:Key="CheckIcon.Foreground" Color="LightGreen" />
+    <SolidColorBrush x:Key="BookmarkIcon.Foreground" Color="Orange" />
+    <SolidColorBrush x:Key="PagemarkIcon.Foreground" Color="Orange" />
+    <SolidColorBrush x:Key="SelectedMark.Foreground" Color="Orange" />
 
 </ResourceDictionary>

@@ -167,7 +167,7 @@
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Model.IsBookmark}" Value="True">
                                             <Setter Property="Text" Value="★"/>
-                                            <Setter Property="Foreground" Value="{StaticResource NVStarMarkBrush}"/>
+                                            <Setter Property="Foreground" Value="{DynamicResource BookmarkIcon.Foreground}"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -185,7 +185,7 @@
                             <Image Source="{StaticResource ic_info_outline_24px}" Width="16"/>
                         </Button>
                         <TextBox x:Name="AddressTextBox" Text="{Binding Model.Address}" BorderThickness="0" VerticalAlignment="Center" TabIndex="12" KeyDown="AddressTextBox_KeyDown"
-                                 Background="Transparent"/>
+                                 Background="Transparent" />
                     </DockPanel>
 
                 </DockPanel>

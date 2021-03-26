@@ -44,7 +44,7 @@
     </UserControl.Resources>
 
     <Grid Margin="2" Background="Transparent">
-        <ScrollViewer x:Name="ScrollView" Style="{StaticResource DarkScrollViewer}" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" Focusable="False"
+        <ScrollViewer x:Name="ScrollView" Style="{StaticResource NVScrollViewer}" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" Focusable="False"
                 CanContentScroll="False">
 
             <StackPanel Margin="2,10,0,10">

@@ -48,7 +48,7 @@ namespace NeeView
             this.WindowBorder.SetBinding(Border.BorderThicknessProperty, new Binding(nameof(NeeView.WindowBorder.Thickness)) { Source = new WindowBorder(this, _windowChrome) });
 
             Config.Current.Window.PropertyChanged += WindowConfig_PropertyChanged;
-            
+
             _routedCommandBinding = new RoutedCommandBinding(this, RoutedCommandTable.Current);
         }
 
@@ -67,14 +67,14 @@ namespace NeeView
         protected override void OnActivated(EventArgs e)
         {
             RoutedCommandTable.Current.UpdateInputGestures();
-            
+
             base.OnActivated(e);
         }
 
         protected override void OnClosed(EventArgs e)
         {
             Dispose();
-            
+
             base.OnClosed(e);
         }
 
@@ -113,29 +113,5 @@ namespace NeeView
         }
 
         #endregion IDisposable
-
-        #region Window state commands
-
-        private void MinimizeWindowCommand_Execute(object sender, ExecutedRoutedEventArgs e)
-        {
-            SystemCommands.MinimizeWindow(this);
-        }
-
-        private void RestoreWindowCommand_Execute(object sender, ExecutedRoutedEventArgs e)
-        {
-            SystemCommands.RestoreWindow(this);
-        }
-
-        private void MaximizeWindowCommand_Execute(object sender, ExecutedRoutedEventArgs e)
-        {
-            SystemCommands.MaximizeWindow(this);
-        }
-
-        private void CloseWindowCommand_Execute(object sender, ExecutedRoutedEventArgs e)
-        {
-            SystemCommands.CloseWindow(this);
-        }
-
-        #endregion Window state commands
     }
 }

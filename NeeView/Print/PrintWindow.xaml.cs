@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Windows;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Printing;
@@ -19,23 +20,18 @@ namespace NeeView
     /// </summary>
     public partial class PrintWindow : Window
     {
-        /// <summary>
-        /// ViewModel
-        /// </summary>
         private PrintWindowViewModel _vm;
+        private ChromeWindowStyleAssistant _assistant;
 
-        /// <summary>
-        /// コンストラクター
-        /// </summary>
+
         public PrintWindow()
         {
             InitializeComponent();
+
+            _assistant = new ChromeWindowStyleAssistant(this);
+            _assistant.Attach();
         }
 
-        /// <summary>
-        /// コンストラクター
-        /// </summary>
-        /// <param name="context"></param>
         public PrintWindow(PrintContext context) : this()
         {
             _vm = new PrintWindowViewModel(context);
@@ -47,6 +43,7 @@ namespace NeeView
             this.Closed += PrintWindow_Closed;
             this.KeyDown += PrintWindow_KeyDown;
         }
+
 
         private void PrintWindow_Loaded(object sender, RoutedEventArgs e)
         {

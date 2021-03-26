@@ -12,10 +12,28 @@
     <Style x:Key="{x:Type CheckBox}" TargetType="{x:Type CheckBox}" BasedOn="{StaticResource NVCheckBox}" />
     <Style x:Key="{x:Type nvc:ToggleSwitch}" TargetType="{x:Type nvc:ToggleSwitch}" BasedOn="{StaticResource NVToggleSwitch}" />
 
-    <Style TargetType="{x:Type TextBox}">
+    <Style TargetType="{x:Type Slider}">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource NVSliderFocusVisual}" />
+    </Style>
+
+    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource NVTextBox}">
         <Setter Property="Foreground" Value="{DynamicResource TextBox.Foreground}" />
         <Setter Property="Background" Value="{DynamicResource TextBox.Background}" />
         <Setter Property="BorderBrush" Value="{DynamicResource TextBox.Border}" />
+    </Style>
+
+    <Style x:Key="DialogButton" TargetType="{x:Type Button}" BasedOn="{StaticResource DialogButtonBase}">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}" />
+        <Setter Property="Background" Value="{DynamicResource DialogButton.Background}" />
+        <Setter Property="Foreground" Value="{DynamicResource DialogButton.Foreground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Control.Foreground}" />
+    </Style>
+
+    <Style x:Key="DialogRecommentedButton" TargetType="{x:Type Button}" BasedOn="{StaticResource DialogButtonBase}">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}" />
+        <Setter Property="Background" Value="{DynamicResource DialogRecommentedButton.Background}" />
+        <Setter Property="Foreground" Value="{DynamicResource DialogRecommentedButton.Foreground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Control.Foreground}" />
     </Style>
 
 </ResourceDictionary>

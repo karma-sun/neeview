@@ -210,7 +210,7 @@
                 <local:MoreMenuButton Description="{Binding MoreMenuDescription}" DockPanel.Dock="Right" />
             </DockPanel>
 
-            <ScrollViewer x:Name="ScrollView" Style="{StaticResource DarkScrollViewer}" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" Focusable="False"
+            <ScrollViewer x:Name="ScrollView" Style="{StaticResource NVScrollViewer}" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" Focusable="False"
                     CanContentScroll="False">
 
                 <StackPanel Margin="2,0">

@@ -10,8 +10,6 @@
             </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>
-
-
     
     <Style x:Key="CheckBoxStyle" TargetType="{x:Type CheckBox}">
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
@@ -123,12 +121,13 @@
         </Setter>
     </Style>
 
-    <Style x:Key="NVSystemDialogButton" TargetType="{x:Type Button}" BasedOn="{StaticResource NVDialogButton}">
+    <Style x:Key="DialogButton" TargetType="{x:Type Button}" BasedOn="{StaticResource DialogButtonBase}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource NVSystemFocusVisual}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
     </Style>
 
-    <Style x:Key="NVSystemDialogRecommentedButton" TargetType="{x:Type Button}" BasedOn="{StaticResource NVSystemDialogButton}">
+    <Style x:Key="DialogRecommentedButton" TargetType="{x:Type Button}" BasedOn="{StaticResource DialogButtonBase}">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource NVSystemFocusVisual}" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
     </Style>

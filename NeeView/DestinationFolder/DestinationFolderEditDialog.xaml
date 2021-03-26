@@ -5,16 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         xmlns:nvc="clr-namespace:NeeView.Windows.Controls" xmlns:properties="clr-namespace:NeeView.Properties" mc:Ignorable="d" Title="{x:Static properties:Resources.DestinationFolderEditDialog_Title}"
-        Height="220" Width="500" WindowStyle="ToolWindow" SizeToContent="Height"  Style="{StaticResource ToolWindowStyle}">
+        Height="220" Width="500" WindowStyle="SingleBorderWindow" SizeToContent="Height"  Style="{StaticResource SystemWindowStyle}">
 
     <Window.Resources>
         <ResourceDictionary>
 
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Styles/NVTheme.xaml" />
+                <ResourceDictionary Source="/Styles/SystemTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <Style x:Key="ButtonStyle" TargetType="Button" BasedOn="{StaticResource NVDialogButton}" />
+            <Style x:Key="ButtonStyle" TargetType="Button" BasedOn="{StaticResource DialogButton}" />
 
         </ResourceDictionary>
     </Window.Resources>

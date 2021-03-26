@@ -9,7 +9,7 @@
     "Default.GrayText": "Gray",
     "Default.Disable": "Gray",
 
-    "Control.Background": "Default.Background",
+    "Control.Background": "Silver",
     "Control.Foreground": "Default.Foreground",
     "Control.Border": "Gray",
     "Control.Base": "#FF666666",
@@ -18,19 +18,31 @@
     "Control.PressedInverse": "#FF000000",
     "Control.Focus": "Control.AccentColor",
     "Control.Disable": "Gray",
-    "Control.AccentColor": "#FF1188DD",
+    "Control.AccentColor": "Orange",
 
-    "Button.Background": "#00000000",
+    "Button.Background": "Control.Background",
     "Button.Foreground": "#FF1188DD",
     "Button.MouseOver": "#FF444444",
     "Button.Pressed": "#FF888888",
+
+
+    "ScrollBar.Background": "#FF444444",
+    "ScrollBar.Foreground": "Control.Foreground",
+    "ScrollBar.Border": "Control.Border",
+    "ScrollBar.MouseOver": "Control.MouseOver",
+    "ScrollBar.Pressed": "Control.Pressed",
+
+    "DialogButton.Background": "Silver",
+    "DialogButton.Foreground": "Black",
+    "DialogRecommentedButton.Background": "Control.AccentColor",
+    "DialogRecommentedButton.Foreground": "Control.Foreground",
 
     "ItemMouseOver.Background": "#1F26A0DA",
     "ItemMouseOver.Border": "#A826A0DA",
 
     "ItemSelected.Background": "#3D26A0DA",
     "ItemSelected.Border": "#FF26A0DA",
-    
+
     "ItemInactive.Background": "#3DDADADA",
     "ItemInactive.Border": "#FFDADADA",
 
@@ -64,7 +76,11 @@
     "AddressBar.Border": null,
 
     "Slider.Background": "Caption.Background",
-    "Slider.Border": null
+    "Slider.Border": null,
 
+    "SelectedMark.Foreground": "Orange",
+    "CheckIcon.Foreground": "LightGreen",
+    "BookmarkIcon.Foreground": "Orange",
+    "PagemarkIcon.Foreground": "Orange"
   }
 }

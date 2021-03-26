@@ -5,31 +5,31 @@
 
     <DrawingImage x:Key="ic_done_24px">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource NVCheckMarkBrush}" Pen="{x:Null}" Geometry="{StaticResource g_done_24px}" />
+            <GeometryDrawing Brush="{DynamicResource CheckIcon.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_done_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="ic_grade_24px">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource NVStarMarkBrush}" Pen="{x:Null}" Geometry="{StaticResource g_grade_24px}" />
+            <GeometryDrawing Brush="{DynamicResource BookmarkIcon.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_grade_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="ic_grade_24px_t">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource NVStarMarkBrush}" Pen="{x:Null}" Geometry="{StaticResource g_grade_24px_t}" />
+            <GeometryDrawing Brush="{DynamicResource BookmarkIcon.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_grade_24px_t}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="ic_bookmark_24px">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource NVStarMarkBrush}" Pen="{x:Null}" Geometry="{StaticResource g_bookmark_24px}" />
+            <GeometryDrawing Brush="{DynamicResource PagemarkIcon.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_bookmark_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="ic_bookmark_24px_t">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource NVStarMarkBrush}" Pen="{x:Null}" Geometry="{StaticResource g_bookmark_24px_t}" />
+            <GeometryDrawing Brush="{DynamicResource PagemarkIcon.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_bookmark_24px_t}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 

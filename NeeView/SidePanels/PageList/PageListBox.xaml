@@ -35,7 +35,7 @@
             <DrawingImage.Drawing>
                 <DrawingGroup Opacity="1">
                     <DrawingGroup.Children>
-                        <GeometryDrawing Brush="{DynamicResource NVStarMarkBrush}" Pen="{x:Null}" Geometry="{StaticResource g_bookmark_24px}" />
+                        <GeometryDrawing Brush="{DynamicResource PagemarkIcon.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_bookmark_24px}" />
                     </DrawingGroup.Children>
                 </DrawingGroup>
             </DrawingImage.Drawing>
@@ -97,14 +97,14 @@
         <Style x:Key="VerticalSelectedStyle" TargetType="Rectangle">
             <Setter Property="Width" Value="4"/>
             <Setter Property="Margin" Value="-2,0,0,0"/>
-            <Setter Property="Fill" Value="{StaticResource NVSelectedMarkBrush}"/>
+            <Setter Property="Fill" Value="{DynamicResource SelectedMark.Foreground}"/>
             <Setter Property="Visibility" Value="{Binding IsVisibled, Converter={StaticResource BooleanToVisibilityHiddenConverter}}"/>
         </Style>
 
         <Style x:Key="HorizontalSelectedStyle" TargetType="Rectangle">
             <Setter Property="Height" Value="4"/>
             <Setter Property="Margin" Value="-2,0,-2,-1"/>
-            <Setter Property="Fill" Value="{StaticResource NVSelectedMarkBrush}"/>
+            <Setter Property="Fill" Value="{DynamicResource SelectedMark.Foreground}"/>
             <Setter Property="Visibility" Value="{Binding IsVisibled, Converter={StaticResource BooleanToVisibilityHiddenConverter}}"/>
         </Style>
 

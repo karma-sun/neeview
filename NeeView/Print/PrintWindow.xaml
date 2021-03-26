@@ -7,7 +7,7 @@
         xmlns:properties="clr-namespace:NeeView.Properties"
         xmlns:nvc="clr-namespace:NeeView.Windows.Controls"
         mc:Ignorable="d"
-        Style="{StaticResource DefaultWindowStyle}"
+        Style="{StaticResource ChromeWindowStyle}"
         Title="{x:Static properties:Resources.PrintWindow_Title}" Height="600" Width="800" ResizeMode="CanResizeWithGrip">
 
     <Window.Resources>
@@ -16,11 +16,11 @@
                 <ResourceDictionary Source="/Styles/NVTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <Style x:Key="TextButton" TargetType="Button" BasedOn="{StaticResource NVDialogButton}">
+            <Style x:Key="TextButton" TargetType="Button" BasedOn="{StaticResource DialogButton}">
                 <Setter Property="Margin" Value="10,10,0,0" />
             </Style>
 
-            <Style x:Key="TextRecommentedButton" TargetType="Button" BasedOn="{StaticResource NVDialogRecommentedButton}">
+            <Style x:Key="TextRecommentedButton" TargetType="Button" BasedOn="{StaticResource DialogRecommentedButton}">
                 <Setter Property="Margin" Value="10,10,0,0" />
             </Style>
 
@@ -77,7 +77,7 @@
                     <Button x:Name="CancelButton" Style="{StaticResource TextButton}" Content="{x:Static properties:Resources.Word_Cancel}" Command="{Binding CancelCommand}" TabIndex="3"/>
                 </StackPanel>
                         
-                <ScrollViewer Style="{StaticResource DarkScrollViewer}" VerticalScrollBarVisibility="Visible" CanContentScroll="False" >
+                <ScrollViewer Style="{StaticResource NVScrollViewer}" VerticalScrollBarVisibility="Visible" CanContentScroll="False" >
                     <StackPanel>
 
                         <DockPanel Style="{StaticResource ItemDock}">

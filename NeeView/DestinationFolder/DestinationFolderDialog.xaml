@@ -1,16 +1,16 @@
 ﻿<Window x:Class="NeeView.DestinationFolderDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:NeeView"
         xmlns:properties="clr-namespace:NeeView.Properties" mc:Ignorable="d" Title="{x:Static properties:Resources.DestinationFolderDialog_Title}" Height="450" Width="800" SizeToContent="Height"
-        Style="{StaticResource DefaultWindowStyle}">
+        Style="{StaticResource SystemWindowStyle}">
 
     <Window.Resources>
         <ResourceDictionary>
 
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Styles/NVTheme.xaml" />
+                <ResourceDictionary Source="/Styles/SystemTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <Style TargetType="Button" BasedOn="{StaticResource NVDialogButton}">
+            <Style TargetType="Button" BasedOn="{StaticResource DialogButton}">
                 <Setter Property="Margin" Value="5,0" />
             </Style>
 
@@ -35,7 +35,7 @@
         <ListView x:Name="ItemsListView" Margin="5" ItemsSource="{Binding Items}" SelectedIndex="{Binding SelectedIndex}" AllowDrop="True" PreviewDragEnter="ItemsListView_PreviewDragOver" PreviewDragOver="ItemsListView_PreviewDragOver" Drop="ItemsListView_Drop" KeyDown="ItemsListView_KeyDown">
 
             <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem" BasedOn="{StaticResource {x:Type ListViewItem}}">
+                <Style TargetType="ListViewItem">
                     <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick" />
                 </Style>
             </ListView.ItemContainerStyle>

@@ -13,7 +13,7 @@
 
         <DrawingImage x:Key="ic_bookmark_24px">
             <DrawingImage.Drawing>
-                <GeometryDrawing Brush="{DynamicResource NVStarMarkBrush}" Pen="{x:Null}" Geometry="{StaticResource g_bookmark_24px}" />
+                <GeometryDrawing Brush="{DynamicResource PagemarkIcon.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_bookmark_24px}" />
             </DrawingImage.Drawing>
         </DrawingImage>
 
@@ -43,7 +43,7 @@
                         <Setter.Value>
                             <DataTemplate>
                                 <DockPanel>
-                                    <Rectangle DockPanel.Dock="Bottom"  Margin="-1,0,-1,-1" Height="4" Fill="{StaticResource NVSelectedMarkBrush}" Visibility="{Binding IsVisibled, Converter={StaticResource BooleanToVisibilityHiddenConverter}}"/>
+                                    <Rectangle DockPanel.Dock="Bottom"  Margin="-1,0,-1,-1" Height="4" Fill="{DynamicResource SelectedMark.Foreground}" Visibility="{Binding IsVisibled, Converter={StaticResource BooleanToVisibilityHiddenConverter}}"/>
                                     <StackPanel Margin="5" Width="{Binding Source={x:Static local:Config.Current},  Path=FilmStrip.ImageWidth}" MinWidth="32">
                                         <Grid Width="{Binding Source={x:Static local:Config.Current},  Path=FilmStrip.ImageWidth}"
                                                 Height="{Binding Source={x:Static local:Config.Current},  Path=FilmStrip.ImageWidth}">

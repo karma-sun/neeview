@@ -8,7 +8,7 @@
         Style="{StaticResource SystemWindowStyle}" 
         UseLayoutRounding="True"
         KeyDown="MesageDialog_KeyDown"
-        Title="NeeView" ResizeMode="NoResize" SizeToContent="Height" Width="600" WindowStyle="ToolWindow">
+        Title="NeeView" ResizeMode="NoResize" SizeToContent="Height" Width="600" WindowStyle="SingleBorderWindow">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -21,7 +21,7 @@
     <DockPanel Margin="30,20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <DockPanel DockPanel.Dock="Bottom" Margin="0,20,0,0">
             <StackPanel x:Name="ButtonPanel" DockPanel.Dock="Right" Orientation="Horizontal">
-                <Button Style="{StaticResource NVSystemDialogRecommentedButton}" Content="OK" />
+                <Button Style="{StaticResource DialogRecommentedButton}" Content="OK" />
             </StackPanel>
             <StackPanel x:Name="SubButtonPanel" Orientation="Horizontal" Margin="-20,0,0,0">
             </StackPanel>

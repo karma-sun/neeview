@@ -22,7 +22,7 @@ namespace NeeView
     public partial class CaptionBar : UserControl
     {
         MainWindowCaptionEmulator _windowCaptionEmulator;
-
+        WindowStateCommands _windowStateCommands;
 
         public CaptionBar()
         {
@@ -71,6 +71,7 @@ namespace NeeView
         private void CaptionBar_Loaded(object sender, RoutedEventArgs e)
         {
             UpdateCaptionEmulator();
+            UpdateWindowStateCommands();
         }
 
         private void UpdateCaptionEmulator()
@@ -85,6 +86,18 @@ namespace NeeView
             }
 
             _windowCaptionEmulator.WindowStateManager = this.WindowStateManager;
+        }
+
+        private void UpdateWindowStateCommands()
+        {
+            var window = Window.GetWindow(this);
+            if (window is null) return;
+
+            if (_windowStateCommands is null)
+            {
+                _windowStateCommands = new WindowStateCommands(window);
+                _windowStateCommands.Bind();
+            }
         }
     }
 }

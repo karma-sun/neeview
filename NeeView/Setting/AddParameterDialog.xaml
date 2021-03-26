@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Style="{StaticResource SystemWindowStyle}"
         UseLayoutRounding="True"
-        Title="AddParameterDialog" Height="164" Width="400" WindowStyle="ToolWindow">
+        Title="AddParameterDialog" Height="164" Width="400" WindowStyle="SingleBorderWindow">
     <DockPanel Margin="5">
         <DockPanel.Resources>
             <Style TargetType="{x:Type Button}">

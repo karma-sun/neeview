@@ -76,14 +76,6 @@ namespace NeeView
             set { SetProperty(ref _thickness, MathUtility.Clamp(value, 15.0, 50.0)); }
         }
 
-        // スライダーの色
-        [PropertyMember]
-        public Color Color
-        {
-            get { return _color; }
-            set { SetProperty(ref _color, value); }
-        }
-
         // スライダー透明度
         [PropertyPercent]
         public double Opacity
@@ -134,7 +126,7 @@ namespace NeeView
         }
 
 
-        #region Obsolete
+#region Obsolete
 
         [Obsolete("Use IsHidePageSliderInAutoHideMode instead.")] // ver.38
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
@@ -144,6 +136,6 @@ namespace NeeView
             set { IsHidePageSliderInAutoHideMode = value; }
         }
 
-        #endregion Obsoletet
+#endregion Obsoletet
     }
 }

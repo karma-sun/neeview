@@ -74,6 +74,10 @@ namespace NeeView
             {
                 return null;
             }
+            else if (string.Compare(s, "default", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                return null;
+            }
             else if (s.IndexOf('.') >= 0)
             {
                 return new ThemeColor(s);
@@ -117,47 +121,48 @@ namespace NeeView
 
         public static ThemeColorMap Default { get; } = new ThemeColorMap()
         {
-            ["Default.Background"] = new ThemeColor(Colors.Black),
-            ["Default.Foreground"] = new ThemeColor(Colors.White),
-            ["Default.Border"] = new ThemeColor(Colors.Gray),
-            ["Default.Sepalator"] = new ThemeColor(Colors.Gray),
+            ["Window.Background"] = new ThemeColor(Colors.Black),
+            ["Window.Foreground"] = new ThemeColor(Colors.White),
+            ["Window.Border"] = new ThemeColor(Colors.Gray),
         };
 
 
         public static readonly List<string> Keys = new List<string>()
         {
-            "Default.Background",
-            "Default.Foreground",
-            "Default.Border",
-            "Default.Sepalator",
-            "Default.TitleText",
-            "Default.Disable",
+            "Window.Background",
+            "Window.Foreground",
+            "Window.Border",
 
             "Control.Background",
             "Control.Foreground",
             "Control.Border",
-            "Control.MouseOver",
-            "Control.Pressed",
-            "Control.Focus",
             "Control.Disable",
-            "Control.AccentColor",
+            "Control.Accent",
 
-            "ItemMouseOver.Background",
-            "ItemMouseOver.Border",
-            "ItemSelected.Background",
-            "ItemSelected.Border",
-            "ItemInactive.Background",
-            "ItemInactive.Border",
+            "Item.MouseOver.Background",
+            "Item.MouseOver.Border",
+            "Item.Selected.Background",
+            "Item.Selected.Border",
+            "Item.Inactive.Background",
+            "Item.Inactive.Border",
 
             "Button.Background",
             "Button.Foreground",
+            "Button.Border",
             "Button.MouseOver",
+            "Button.Checked",
             "Button.Pressed",
 
             "DialogButton.Background",
             "DialogButton.Foreground",
             "DialogRecommentedButton.Background",
             "DialogRecommentedButton.Foreground",
+
+            "Slider.Background",
+            "Slider.Foreground",
+            "Slider.Border",
+            "Slider.Thumb",
+            "Slider.Track",
 
             "ScrollBar.Background",
             "ScrollBar.Foreground",
@@ -174,32 +179,33 @@ namespace NeeView
             "Menu.Border",
             "Menu.Sepalator",
 
-            "Icon.Foreground",
-            "Icon.Background",
-
-            "Thumbnail.Background",
-            "Thumbnail.Foreground",
 
             "SideBar.Background",
             "SideBar.Foreground",
             "SideBar.Border",
 
-            "Panel.Background",
-            "Panel.Foreground",
-            "Panel.Border",
-            "Panel.Grip",
+            "SidePanel.Background",
+            "SidePanel.Foreground",
+            "SidePanel.Border",
+            "SidePanel.Header",
+            "SidePanel.Sepalator",
+            "SidePanel.Splitter",
 
-            "Caption.Background",
-            "Caption.Foreground",
-            "Caption.Border",
+            "CaptionBar.Background",
+            "CaptionBar.Foreground",
+            "CaptionBar.Border",
 
             "AddressBar.Background",
             "AddressBar.Foreground",
             "AddressBar.Border",
 
-            "Slider.Background",
-            "Slider.Foreground",
-            "Slider.Border",
+            "PageSlider.Background",
+            "PageSlider.Foreground",
+            "PageSlider.Border",
+            "PageSlider.Thumb",
+
+            "Thumbnail.Background",
+            "Thumbnail.Foreground",
 
             "SelectedMark.Foreground",
             "CheckIcon.Foreground",
@@ -248,17 +254,20 @@ namespace NeeView
         private Color GetDefaultColor(string key)
         {
             var tokens = key.Split('.');
-            if (tokens.Length != 2) throw new ArgumentException("Wrong format", nameof(key));
+            if (tokens.Length < 2) throw new FormatException($"Wrong format: {key}");
 
-            switch (tokens[1])
+            var name = string.Join(".", tokens.Take(tokens.Length - 1));
+            var role = tokens.Last();
+
+            switch (role)
             {
-                case "Sepalator":
-                    return GetColor(tokens[0] + ".Foreground");
-                case "Border":
-                    return GetColor(tokens[0] + ".Background");
+                case "Foreground":
+                case "Background":
+                    if (name == "Window") throw new FormatException($"Not defined: {key}");
+                    return GetColor("Window." + role);
+
                 default:
-                    if (tokens[0] == "Default") throw new FormatException($"Not defined: {key}");
-                    return GetColor("Default." + tokens[1]);
+                    return GetColor(name + ".Background");
             }
         }
 
@@ -335,7 +344,7 @@ namespace NeeView
 #if false
             if (VisualParameters.Current.IsHighContrast)
             {
-                App.Current.Resources["Default.Foreground"] = new SolidColorBrush(Color.FromRgb(0x00, 0x00, 0x00));
+                App.Current.Resources["Window.Foreground"] = new SolidColorBrush(Color.FromRgb(0x00, 0x00, 0x00));
                 App.Current.Resources["NVBackground"] = Brushes.Red;
                 App.Current.Resources["NVPanelIconBackground"] = Brushes.Silver;
                 App.Current.Resources["NVMenuBackgroundBrush"] = Brushes.Blue;
@@ -365,7 +374,7 @@ namespace NeeView
                 App.Current.Resources["NVMouseOverBrush"] = new SolidColorBrush(Color.FromRgb(0xAA, 0xAA, 0xAA));
                 App.Current.Resources["NVPressedBrush"] = new SolidColorBrush(Color.FromRgb(0xDD, 0xDD, 0xDD));
                 App.Current.Resources["NVPanelIconForeground"] = new SolidColorBrush(Color.FromRgb(0xEE, 0xEE, 0xEE));
-                App.Current.Resources["Default.Foreground"] = new SolidColorBrush(Color.FromRgb(0xEE, 0xEE, 0xEE));
+                App.Current.Resources["Window.Foreground"] = new SolidColorBrush(Color.FromRgb(0xEE, 0xEE, 0xEE));
                 App.Current.Resources["CheckIcon.Foreground"] = new SolidColorBrush(Color.FromRgb(0x90, 0xEE, 0x90));
                 App.Current.Resources["NVFolderPen"] = null;
             }
@@ -381,7 +390,7 @@ namespace NeeView
                 App.Current.Resources["NVMouseOverBrush"] = new SolidColorBrush(Color.FromRgb(0x88, 0x88, 0x88));
                 App.Current.Resources["NVPressedBrush"] = new SolidColorBrush(Color.FromRgb(0x55, 0x55, 0x55));
                 App.Current.Resources["NVPanelIconForeground"] = new SolidColorBrush(Color.FromRgb(0x44, 0x44, 0x44));
-                App.Current.Resources["Default.Foreground"] = new SolidColorBrush(Color.FromRgb(0x22, 0x22, 0x22));
+                App.Current.Resources["Window.Foreground"] = new SolidColorBrush(Color.FromRgb(0x22, 0x22, 0x22));
                 App.Current.Resources["NVFolderPen"] = new Pen(new SolidColorBrush(Color.FromRgb(0xDE, 0xB9, 0x82)), 1);
                 App.Current.Resources["CheckIcon.Foreground"] = new SolidColorBrush(Color.FromRgb(0x44, 0xBB, 0x44));
             }

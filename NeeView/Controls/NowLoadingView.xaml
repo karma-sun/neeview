@@ -21,12 +21,12 @@
                     </Style.Triggers>
                 </Style>
             </Grid.Style>
-            <Grid x:Name="NowLoadingNormal" Background="{DynamicResource Default.Background}">
+            <Grid x:Name="NowLoadingNormal" Background="{DynamicResource Window.Background}">
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
                     <TextBlock x:Name="NowLoadingText" Text="Now Loading"  TextAlignment="Center" VerticalAlignment="Center"
-                                                   Foreground="{DynamicResource Default.Foreground}" FontFamily="Meiryo" FontSize="{StaticResource InfoTextFontSize}" Margin="8" TextTrimming="CharacterEllipsis"/>
+                                                   Foreground="{DynamicResource Window.Foreground}" FontFamily="Meiryo" FontSize="{StaticResource InfoTextFontSize}" Margin="8" TextTrimming="CharacterEllipsis"/>
                     <Grid Width="50" Height="50">
-                        <Rectangle Width="5" Height="25" Fill="{DynamicResource Control.AccentColor}" RenderTransformOrigin="0.5,0.5">
+                        <Rectangle Width="5" Height="25" Fill="{DynamicResource Control.Accent}" RenderTransformOrigin="0.5,0.5">
                             <Rectangle.RenderTransform>
                                 <TransformGroup>
                                     <ScaleTransform/>

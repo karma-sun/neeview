@@ -41,16 +41,6 @@ namespace NeeView
         }
 
 
-        public PanelColor MenuColor
-        {
-            get { return (PanelColor)GetValue(MenuColorProperty); }
-            set { SetValue(MenuColorProperty, value); }
-        }
-
-        public static readonly DependencyProperty MenuColorProperty =
-            DependencyProperty.Register("MenuColor", typeof(PanelColor), typeof(PageSortModeIcon), new PropertyMetadata(PanelColor.Light));
-
-
         private void Refresh()
         {
             var key = "Icon" + Enum.GetName(typeof(PageSortMode), PageSortMode);

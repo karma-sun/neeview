@@ -13,7 +13,7 @@
         
         <DrawingImage x:Key="ic_more_24px_a">
             <DrawingImage.Drawing>
-                <GeometryDrawing Brush="{DynamicResource Control.AccentColor}" Pen="{x:Null}" Geometry="{StaticResource g_more_24px}" />
+                <GeometryDrawing Brush="{DynamicResource Control.Accent}" Pen="{x:Null}" Geometry="{StaticResource g_more_24px}" />
             </DrawingImage.Drawing>
         </DrawingImage>
         

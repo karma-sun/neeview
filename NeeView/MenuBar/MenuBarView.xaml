@@ -6,9 +6,9 @@
              xmlns:nwc="clr-namespace:NeeView.Windows.Controls;assembly=NeeView.Runtime"
              xmlns:local="clr-namespace:NeeView"
              mc:Ignorable="d" 
-             Background="{DynamicResource Caption.Background}"
-             Foreground="{DynamicResource Caption.Foreground}"
-             BorderBrush="{DynamicResource Caption.Border}"
+             Background="{DynamicResource CaptionBar.Background}"
+             Foreground="{DynamicResource CaptionBar.Foreground}"
+             BorderBrush="{DynamicResource CaptionBar.Border}"
         d:DesignHeight="32" d:DesignWidth="640">
     
     <UserControl.Resources>

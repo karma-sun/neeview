@@ -12,8 +12,8 @@
     <Style x:Key="{x:Type CheckBox}" TargetType="{x:Type CheckBox}" BasedOn="{StaticResource NVCheckBox}" />
     <Style x:Key="{x:Type nvc:ToggleSwitch}" TargetType="{x:Type nvc:ToggleSwitch}" BasedOn="{StaticResource NVToggleSwitch}" />
 
-    <Style TargetType="{x:Type Slider}">
-        <Setter Property="FocusVisualStyle" Value="{StaticResource NVSliderFocusVisual}" />
+    <Style x:Key="{x:Type Slider}" TargetType="{x:Type Slider}" BasedOn="{StaticResource NVSlider}">
+        <Setter Property="nvc:SliderTools.MoveToPointOnDrag" Value="True" />
     </Style>
 
     <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource NVTextBox}">

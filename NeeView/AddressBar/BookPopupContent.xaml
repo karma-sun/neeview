@@ -8,6 +8,9 @@
                 <Setter Property="FontSize" Value="12" />
                 <Setter Property="Foreground" Value="{DynamicResource Menu.Foreground}" />
             </Style>
+            <Style TargetType="{x:Type Separator}">
+                <Setter Property="Background" Value="{DynamicResource Menu.Sepalator}" />
+            </Style>
         </Grid.Resources>
         <StackPanel Margin="10" MinWidth="160">
             <TextBlock FontWeight="Bold" Text="{Binding BookName}" />

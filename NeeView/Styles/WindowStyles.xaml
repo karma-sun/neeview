@@ -6,8 +6,8 @@
     <Style x:Key="DefaultWindowStyle" TargetType="Window">
         <Setter Property="FontFamily" Value="{DynamicResource DefaultFontFamily}" />
         <Setter Property="FontSize" Value="{DynamicResource DefaultFontSize}" />
-        <Setter Property="Foreground" Value="{DynamicResource Default.Foreground}" />
-        <Setter Property="Background" Value="{DynamicResource Default.Background}" />
+        <Setter Property="Foreground" Value="{DynamicResource Window.Foreground}" />
+        <Setter Property="Background" Value="{DynamicResource Window.Background}" />
     </Style>
 
     <!-- System Window Style -->

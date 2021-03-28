@@ -8,7 +8,8 @@
              xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
              VerticalAlignment="Top" IsTabStop="False" Focusable="False"
-             Background="{DynamicResource Caption.Background}"
+             Foreground="{DynamicResource CaptionBar.Foreground}"
+             Background="{DynamicResource CaptionBar.Background}"
              d:DesignHeight="50" d:DesignWidth="800">
 
     <ContentControl>
@@ -16,7 +17,7 @@
         <ContentControl.Resources>
             <local:BooleanToOpacityConverter x:Key="BooleanToOpacityConverter" />
             <local:BrushAddOpacityConverter x:Key="BrushAddOpacityConverter" />
-            <local:BindingProxy x:Key="BaseForeground" Data="{DynamicResource Default.Foreground}" />
+            <local:BindingProxy x:Key="BaseForeground" Data="{DynamicResource CaptionBar.Foreground}" />
         </ContentControl.Resources>
 
         <ContentControl.Foreground>

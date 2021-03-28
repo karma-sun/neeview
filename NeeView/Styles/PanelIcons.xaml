@@ -3,31 +3,31 @@
 
     <DrawingImage x:Key="ic_home_24px_a">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource Control.AccentColor}" Pen="{x:Null}" Geometry="{StaticResource g_home_24px}" />
+            <GeometryDrawing Brush="{DynamicResource Control.Accent}" Pen="{x:Null}" Geometry="{StaticResource g_home_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="ic_sync_24px_a">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource Control.AccentColor}" Pen="{x:Null}" Geometry="{StaticResource g_sync_24px}" />
+            <GeometryDrawing Brush="{DynamicResource Control.Accent}" Pen="{x:Null}" Geometry="{StaticResource g_sync_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="ic_add_24px_a">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource Control.AccentColor}" Pen="{x:Null}" Geometry="{StaticResource g_add_24px}" />
+            <GeometryDrawing Brush="{DynamicResource Control.Accent}" Pen="{x:Null}" Geometry="{StaticResource g_add_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="ic_clear_24px_a">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource Control.AccentColor}" Pen="{x:Null}" Geometry="{StaticResource g_clear_24px}" />
+            <GeometryDrawing Brush="{DynamicResource Control.Accent}" Pen="{x:Null}" Geometry="{StaticResource g_clear_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="ic_treeview_a">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource Control.AccentColor}" Pen="{x:Null}" Geometry="{StaticResource g_treeview}" />
+            <GeometryDrawing Brush="{DynamicResource Control.Accent}" Pen="{x:Null}" Geometry="{StaticResource g_treeview}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
@@ -35,7 +35,7 @@
         <DrawingImage.Drawing>
             <DrawingGroup>
                 <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
-                <GeometryDrawing Brush="{DynamicResource Control.AccentColor}" Pen="{x:Null}" Geometry="{StaticResource g_setting_24px}" />
+                <GeometryDrawing Brush="{DynamicResource Control.Accent}" Pen="{x:Null}" Geometry="{StaticResource g_setting_24px}" />
             </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>

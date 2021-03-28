@@ -6,7 +6,7 @@
 
     <UserControl.Resources>
 
-        <local:BindingProxy x:Key="PanelBackgroundBrush" Data="{DynamicResource Panel.Background}" />
+        <local:BindingProxy x:Key="PanelBackgroundBrush" Data="{DynamicResource SidePanel.Background}" />
         <local:BindingProxy x:Key="SideBarBackgroundBrush" Data="{DynamicResource SideBar.Background}" />
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -23,6 +23,7 @@
         </DataTemplate>
 
         <Style x:Key="PanelIconBorderStyle" TargetType="Border">
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource SideBar.Foreground}" />
             <Setter Property="BorderBrush" Value="{DynamicResource SideBar.Border}" />
             <Setter Property="Width" Value="40" />
             <Setter Property="Visibility" Value="{Binding IsSideBarVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
@@ -50,7 +51,8 @@
         </Style>
 
         <Style x:Key="PanelBorderStyle" TargetType="Border">
-            <Setter Property="BorderBrush" Value="{DynamicResource Panel.Border}" />
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource SidePanel.Foreground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource SidePanel.Border}" />
             <Setter Property="Background">
                 <Setter.Value>
                     <MultiBinding Converter="{StaticResource BrushAddOpacityConverter}">
@@ -146,7 +148,7 @@
                             </local:AutoHideBehavior>
                         </behaviors:Interaction.Behaviors>
                         <nrlp:LayoutDockPanel Margin="{Binding PanelMargin}" Manager="{Binding VM.MainLayoutPanelManager}" ItemsSource="{Binding VM.MainLayoutPanelManager.LeftDock.SelectedItem}"
-                                BorderBrush="{DynamicResource Panel.Grip}" TextBlock.Foreground="{DynamicResource Default.TitleText}">
+                                BorderBrush="{DynamicResource SidePanel.Splitter}" TextBlock.Foreground="{DynamicResource SidePanel.Header}">
                         </nrlp:LayoutDockPanel>
                     </Border>
                 </Border>
@@ -172,7 +174,7 @@
                             </local:AutoHideBehavior>
                         </behaviors:Interaction.Behaviors>
                         <nrlp:LayoutDockPanel Margin="{Binding PanelMargin}" Manager="{Binding VM.MainLayoutPanelManager}" ItemsSource="{Binding VM.MainLayoutPanelManager.RightDock.SelectedItem}"
-                                BorderBrush="{DynamicResource Panel.Grip}" TextBlock.Foreground="{DynamicResource Default.TitleText}">
+                                BorderBrush="{DynamicResource SidePanel.Splitter}" TextBlock.Foreground="{DynamicResource SidePanel.Header}">
                         </nrlp:LayoutDockPanel>
                     </Border>
                 </Border>

@@ -95,7 +95,7 @@
                         Click="PageSortModeButton_Click"
                         ToolTip="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToStringConverter}}">
                     <Grid Width="20" Height="18">
-                        <local:PageSortModeIcon PageSortMode="{Binding BookSetting.SortMode}" MenuColor="{Binding Config.Theme.MenuColor}"/>
+                        <local:PageSortModeIcon PageSortMode="{Binding BookSetting.SortMode}" />
                     </Grid>
                 </Button>
                 <Popup x:Name="PageSortModePopup" PlacementTarget="{Binding ElementName=PageSortModeButton}" StaysOpen="False" AllowsTransparency="True" Opened="Popup_Opened" Closed="Popup_Closed">
@@ -152,7 +152,7 @@
                         <Setter Property="BorderBrush" Value="{DynamicResource TextBox.Border}" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding ElementName=AddressTextBox, Path=IsFocused}" Value="True">
-                                <Setter Property="BorderBrush" Value="{DynamicResource Control.Focus}" />
+                                <Setter Property="BorderBrush" Value="{DynamicResource Control.Accent}" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -163,7 +163,7 @@
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="Text" Value="☆"/>
-                                    <Setter Property="Foreground" Value="{DynamicResource Icon.Foreground}"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource AddressBar.Foreground}"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Model.IsBookmark}" Value="True">
                                             <Setter Property="Text" Value="★"/>

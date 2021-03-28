@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
              mc:Ignorable="d" 
-             Foreground="{DynamicResource Slider.Foreground}"
+             Foreground="{DynamicResource PageSlider.Foreground}"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -25,7 +25,7 @@
                 <local:PageMarkersView x:Name="PageMarkersView" IsHitTestVisible="False" VerticalAlignment="Center"
                         Visibility="{Binding Source={x:Static local:Config.Current}, Path=Slider.IsVisiblePagemark, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 <local:VideoSlider x:Name="Slider"
-                                   SliderBrush="{Binding Slider.Color, Source={x:Static local:Config.Current}, Converter={StaticResource ColorToBrushConverter}}"
+                                   SliderBrush="{DynamicResource PageSlider.Thumb}"
                                    ThumbSize="{Binding Slider.Thickness, Source={x:Static local:Config.Current}}"
                                    Maximum="{Binding Model.PageSelector.MaxIndex}" Value="{Binding Model.SelectedIndex}"
                                    IsDirectionReversed="{Binding Model.IsSliderDirectionReversed}" Focusable="False"

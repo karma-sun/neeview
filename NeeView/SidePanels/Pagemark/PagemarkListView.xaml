@@ -10,7 +10,7 @@
              xmlns:properties="clr-namespace:NeeView.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
-             Foreground="{DynamicResource Default.Foreground}">
+             Foreground="{DynamicResource SidePanel.Foreground}">
 
     <UserControl.Resources>
         <ResourceDictionary>

@@ -10,7 +10,7 @@
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance local:FolderListDataContext_Design, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="300"
-             Foreground="{DynamicResource Default.Foreground}">
+             Foreground="{DynamicResource SidePanel.Foreground}">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -36,7 +36,7 @@
                 <DrawingImage.Drawing>
                     <DrawingGroup Opacity="1">
                         <DrawingGroup.Children>
-                            <GeometryDrawing Brush="{DynamicResource Icon.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_recursive_folder_24px}" />
+                            <GeometryDrawing Brush="{DynamicResource SidePanel.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_recursive_folder_24px}" />
                         </DrawingGroup.Children>
                     </DrawingGroup>
                 </DrawingImage.Drawing>
@@ -79,7 +79,7 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type osc:DockPanelSplitter}">
-                            <Grid SnapsToDevicePixels="True" Background="{DynamicResource  Panel.Grip}" />
+                            <Grid SnapsToDevicePixels="True" Background="{DynamicResource  SidePanel.Splitter}" />
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
@@ -96,7 +96,7 @@
             <StackPanel HorizontalAlignment="Stretch">
                 <Grid x:Name="PlaceGrid">
                     <DockPanel>
-                        <TextBlock DockPanel.Dock="Right" Text="{Binding FolderCollection.ValidCount, StringFormat={}{0}}" Foreground="{DynamicResource Default.Foreground}" Margin="5,0"
+                        <TextBlock DockPanel.Dock="Right" Text="{Binding FolderCollection.ValidCount, StringFormat={}{0}}" Foreground="{DynamicResource SidePanel.Foreground}" Margin="5,0"
                                 Visibility="{Binding Source={x:Static local:Config.Current}, Path=Bookshelf.IsVisibleItemsCount, Converter={StaticResource BooleanToVisibilityConverter}}" />
                         <DockPanel x:Name="PlaceBar" HorizontalAlignment="Left">
                             <Image x:Name="PlaceIcon" DockPanel.Dock="Left" Width="16" Height="16"
@@ -195,7 +195,7 @@
                         <Setter Property="ToolTip" Value="{Binding Model.SearchKeywordErrorMessage, Mode=OneWay}"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding ElementName=SearchBox, Path=IsKeyboardFocusWithin}" Value="True">
-                                <Setter Property="BorderBrush" Value="{DynamicResource Control.Focus}"/>
+                                <Setter Property="BorderBrush" Value="{DynamicResource Control.Accent}"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Model.SearchKeywordErrorMessage, Converter={StaticResource IsNullConverter}}" Value="False">
                                 <Setter Property="BorderBrush" Value="Crimson"/>
@@ -228,7 +228,7 @@
                               TextBoxBase.TextChanged="SearchBox_TextChanged"
                               Style="{StaticResource NVComboBoxEditable}" MinHeight="{DynamicResource FontIconSize}"
                               IsKeyboardFocusWithinChanged="SearchBox_IsKeyboardFocusWithinChanged"
-                              Foreground="{DynamicResource Control.AccentColor}" Background="{Binding ElementName=SearchBoxRoot, Path=Background}"
+                              Foreground="{DynamicResource SidePanel.Foreground}" Background="{Binding ElementName=SearchBoxRoot, Path=Background}"
                               VerticalAlignment="Stretch" KeyDown="SearchBox_KeyDown" ItemsSource="{Binding Source={x:Static local:BookHistoryCollection.Current}, Path=SearchHistory}" IsTextSearchCaseSensitive="True"
                               IsEditable="True" BorderThickness="0">
                         <ComboBox.ItemContainerStyle>

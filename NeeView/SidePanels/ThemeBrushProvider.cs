@@ -65,9 +65,9 @@ namespace NeeView
             var opacity = MainWindowModel.Current.CanHidePanel ? Config.Current.Panels.Opacity : 1.0;
 
             ForegroundBrush = (SolidColorBrush)App.Current.Resources["Dfault.Foreground"];
-            BackgroundBrushRaw = (SolidColorBrush)App.Current.Resources["Default.Background"];
+            BackgroundBrushRaw = (SolidColorBrush)App.Current.Resources["Window.Background"];
             BackgroundBrush = CreatePanelBrush(BackgroundBrushRaw, opacity);
-            BaseBrush = CreatePanelBrush((SolidColorBrush)App.Current.Resources["Panel.Background"], opacity);
+            BaseBrush = CreatePanelBrush((SolidColorBrush)App.Current.Resources["SidePanel.Background"], opacity);
             IconBackgroundBrush = CreatePanelBrush((SolidColorBrush)App.Current.Resources["SideBar.Background"], opacity);
         }
 

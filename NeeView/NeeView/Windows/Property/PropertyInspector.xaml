@@ -36,7 +36,7 @@
         <StackPanel>
             <ItemsControl x:Name="properties" ItemsSource="{Binding Document.Elements}" IsTabStop="False" />
             <Button x:Name="ResetButton"  HorizontalAlignment="Right" Margin="5" Click="Reset">
-                <TextBlock Margin="5" Text="{x:Static properties:Resources.Word_Reset}" Foreground="{DynamicResource Control.AccentColor}"/>
+                <TextBlock Margin="5" Text="{x:Static properties:Resources.Word_Reset}" Foreground="{DynamicResource Control.Accent}"/>
             </Button>
         </StackPanel>
     </Grid>

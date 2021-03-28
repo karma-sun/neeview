@@ -2,7 +2,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:b="http://schemas.microsoft.com/xaml/behaviors" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:NeeView" xmlns:nv="clr-namespace:NeeView" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:properties="clr-namespace:NeeView.Properties"
         xmlns:nw="clr-namespace:NeeView.Windows;assembly=NeeView.Runtime" mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="300" MinWidth="100" Focusable="True" FocusVisualStyle="{x:Null}"
-        Foreground="{DynamicResource Default.Foreground}">
+        Foreground="{DynamicResource SidePanel.Foreground}">
 
     <UserControl.Resources>
 
@@ -24,7 +24,7 @@
             <Setter Property="Margin" Value="1" />
             <Setter Property="MinWidth" Value="300" />
             <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Foreground" Value="{DynamicResource Default.Foreground}" />
+            <Setter Property="Foreground" Value="{DynamicResource SidePanel.Foreground}" />
             <EventSetter Event="PreviewMouseLeftButtonDown" Handler="TextBox_PreviewMouseLeftButtonDown" />
             <EventSetter Event="GotFocus" Handler="TextBox_GotFocus" />
         </Style>
@@ -49,15 +49,15 @@
         <Style x:Key="PropertyValueButtonStyle" TargetType="Button" BasedOn="{StaticResource IconButton}">
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="Padding" Value="8,0" />
-            <Setter Property="Foreground" Value="{DynamicResource Control.AccentColor}" />
+            <Setter Property="Foreground" Value="{DynamicResource Control.Accent}" />
         </Style>
 
         <DataTemplate x:Key="GroupHeadderTemplate">
-            <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource Default.Sepalator}" Margin="5,10,5,5">
+            <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource SidePanel.Sepalator}" Margin="5,10,5,5">
                 <DockPanel>
                     <local:InformationGroupButton DockPanel.Dock="Right" Style="{StaticResource PropertyValueButtonStyle}" Content="Button" GroupName="{Binding Name}"
                             Source="{Binding Path=DataContext.Source, ElementName=Root}" />
-                    <TextBlock Text="{Binding Path=Name}" Foreground="{DynamicResource Default.TitleText}" />
+                    <TextBlock Text="{Binding Path=Name}" Foreground="{DynamicResource SidePanel.Header}" />
                 </DockPanel>
             </Border>
         </DataTemplate>

@@ -11,7 +11,7 @@
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance local:FolderListDataContext_Design, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="300"
-             Foreground="{DynamicResource Default.Foreground}">
+             Foreground="{DynamicResource SidePanel.Foreground}">
 
     <UserControl.Resources>
 

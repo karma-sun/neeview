@@ -72,12 +72,12 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource System.ItemMouseOver.Background}" />
-                            <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource System.ItemMouseOver.Border}" />
+                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource System.Item.MouseOver.Background}" />
+                            <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource System.Item.MouseOver.Border}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource System.ItemSelected.Background}" />
-                            <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource System.ItemSelected.Border}" />
+                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource System.Item.Selected.Background}" />
+                            <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource System.Item.Selected.Border}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" TargetName="contentPresenter" Value="0.25" />
@@ -101,16 +101,16 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource System.ItemMouseOver.Background}" />
-                            <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource System.ItemMouseOver.Border}" />
+                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource System.Item.MouseOver.Background}" />
+                            <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource System.Item.MouseOver.Border}" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource System.ItemMouseOver.Background}" />
-                            <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource System.ItemMouseOver.Border}" />
+                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource System.Item.MouseOver.Background}" />
+                            <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource System.Item.MouseOver.Border}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource System.ItemSelected.Background}" />
-                            <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource System.ItemSelected.Border}" />
+                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource System.Item.Selected.Background}" />
+                            <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource System.Item.Selected.Border}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" TargetName="contentPresenter" Value="0.25" />

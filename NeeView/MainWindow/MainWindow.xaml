@@ -25,7 +25,7 @@
                             <Condition Binding="{Binding Source={x:Static local:Config.Current}, Path=FilmStrip.IsVisiblePlate}" Value="True" />
                             <Condition Binding="{Binding Visibility, ElementName=ThumbnailListArea}" Value="Visible" />
                         </MultiDataTrigger.Conditions>
-                        <Setter Property="Background" Value="{DynamicResource Slider.Background}" />
+                        <Setter Property="Background" Value="{DynamicResource PageSlider.Background}" />
                     </MultiDataTrigger>
                 </Style.Triggers>
             </Style>
@@ -46,7 +46,7 @@
 
             <local:BooleanToOpacityConverter x:Key="BooleanToOpacityConverter" />
             <local:BrushAddOpacityConverter x:Key="BrushAddOpacityConverter" />
-            <local:BindingProxy x:Key="BaseForeground" Data="{DynamicResource Default.Foreground}" />
+            <local:BindingProxy x:Key="BaseForeground" Data="{DynamicResource CaptionBar.Foreground}" />
 
             <!-- MenuItem History -->
             <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
@@ -67,7 +67,7 @@
         <CommandBinding Command="{x:Static SystemCommands.MinimizeWindowCommand}" Executed="MinimizeWindowCommand_Execute" />
     </Window.CommandBindings>
 
-    <Border BorderThickness="{Binding WindowShape.WindowBorder.Thickness}" BorderBrush="{DynamicResource Default.Border}">
+    <Border BorderThickness="{Binding WindowShape.WindowBorder.Thickness}" BorderBrush="{DynamicResource Window.Border}">
 
         <!-- 製品表示領域 -->
         <Grid x:Name="Root" UseLayoutRounding="True" WindowChrome.IsHitTestVisibleInChrome="False">
@@ -100,7 +100,7 @@
                 </ContentControl>
 
                 <!-- ステータスエリア -->
-                <Border x:Name="DockStatusArea" DockPanel.Dock="Bottom" Background="{DynamicResource Slider.Background}" BorderBrush="{DynamicResource Slider.Border}" BorderThickness="0,1,0,0">
+                <Border x:Name="DockStatusArea" DockPanel.Dock="Bottom" Background="{DynamicResource PageSlider.Background}" BorderBrush="{DynamicResource PageSlider.Border}" BorderThickness="0,1,0,0">
                     <DockPanel>
 
                         <!-- スライダー -->

@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="NeeView.ImageEffectView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:NeeView"
         xmlns:nvp="clr-namespace:NeeView.Windows.Property" xmlns:nvc="clr-namespace:NeeView.Windows.Controls" xmlns:properties="clr-namespace:NeeView.Properties" mc:Ignorable="d" d:DesignHeight="800"
-        d:DesignWidth="300" MinWidth="200" Focusable="True" FocusVisualStyle="{x:Null}" Foreground="{DynamicResource Default.Foreground}">
+        d:DesignWidth="300" MinWidth="200" Focusable="True" FocusVisualStyle="{x:Null}" Foreground="{DynamicResource SidePanel.Foreground}">
 
     <UserControl.Resources>
 
@@ -114,7 +114,7 @@
                     </Grid>
 
                     <Button x:Name="ResetButton" Style="{StaticResource IconButton}" HorizontalAlignment="Right" Margin="5" Click="Reset">
-                        <TextBlock Margin="5" Text="{x:Static properties:Resources.Effect_ResizeReset}" Foreground="{DynamicResource Control.AccentColor}" />
+                        <TextBlock Margin="5" Text="{x:Static properties:Resources.Effect_ResizeReset}" Foreground="{DynamicResource Control.Accent}" />
                     </Button>
                 </StackPanel>
 

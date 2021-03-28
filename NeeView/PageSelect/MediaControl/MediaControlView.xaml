@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
              mc:Ignorable="d" 
-             Foreground="{DynamicResource Default.Foreground}"
+             Foreground="{DynamicResource Window.Foreground}"
              d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.Resources>
@@ -14,7 +14,7 @@
             <DrawingImage.Drawing>
                 <DrawingGroup Opacity="1">
                     <DrawingGroup.Children>
-                        <GeometryDrawing Brush="{DynamicResource Icon.Foreground}" Pen="{x:Null}">
+                        <GeometryDrawing Brush="{DynamicResource PageSlider.Foreground}" Pen="{x:Null}">
                             <GeometryDrawing.Geometry>
                                 <PathGeometry FillRule="Nonzero" Figures="M8,5L8,19 19,12z" />
                             </GeometryDrawing.Geometry>
@@ -28,7 +28,7 @@
             <DrawingImage.Drawing>
                 <DrawingGroup Opacity="1">
                     <DrawingGroup.Children>
-                        <GeometryDrawing Brush="{DynamicResource Icon.Foreground}" Pen="{x:Null}">
+                        <GeometryDrawing Brush="{DynamicResource PageSlider.Foreground}" Pen="{x:Null}">
                             <GeometryDrawing.Geometry>
                                 <PathGeometry FillRule="Nonzero" Figures="M6,19L10,19 10,5 6,5 6,19z M14,5L14,19 18,19 18,5 14,5z" />
                             </GeometryDrawing.Geometry>
@@ -42,7 +42,7 @@
             <DrawingImage.Drawing>
                 <DrawingGroup Opacity="1">
                     <DrawingGroup.Children>
-                        <GeometryDrawing Brush="{DynamicResource Icon.Foreground}" Pen="{x:Null}">
+                        <GeometryDrawing Brush="{DynamicResource PageSlider.Foreground}" Pen="{x:Null}">
                             <GeometryDrawing.Geometry>
                                 <PathGeometry FillRule="Nonzero" Figures="M22,12L18,8 18,11 3,11 3,13 18,13 18,16z" />
                             </GeometryDrawing.Geometry>
@@ -56,7 +56,7 @@
             <DrawingImage.Drawing>
                 <DrawingGroup Opacity="1">
                     <DrawingGroup.Children>
-                        <GeometryDrawing Brush="{DynamicResource Icon.Foreground}" Pen="{x:Null}">
+                        <GeometryDrawing Brush="{DynamicResource PageSlider.Foreground}" Pen="{x:Null}">
                             <GeometryDrawing.Geometry>
                                 <PathGeometry FillRule="Nonzero" Figures="M7,7L17,7 17,10 21,6 17,2 17,5 5,5 5,11 7,11 7,7z M17,17L7,17 7,14 3,18 7,22 7,19 19,19 19,13 17,13 17,17z" />
                             </GeometryDrawing.Geometry>
@@ -70,7 +70,7 @@
             <DrawingImage.Drawing>
                 <DrawingGroup Opacity="1">
                     <DrawingGroup.Children>
-                        <GeometryDrawing Brush="{DynamicResource Icon.Foreground}" Pen="{x:Null}">
+                        <GeometryDrawing Brush="{DynamicResource PageSlider.Foreground}" Pen="{x:Null}">
                             <GeometryDrawing.Geometry>
                                 <PathGeometry FillRule="Nonzero" Figures="M3,9L3,15 7,15 12,20 12,4 7,9 3,9z M16.5,12C16.5,10.23,15.48,8.71,14,7.97L14,16.02C15.48,15.29,16.5,13.77,16.5,12z M14,3.23L14,5.29C16.89,6.15 19,8.83 19,12 19,15.17 16.89,17.85 14,18.71L14,20.77C18.01,19.86 21,16.28 21,12 21,7.72 18.01,4.14 14,3.23z" />
                             </GeometryDrawing.Geometry>
@@ -84,7 +84,7 @@
             <DrawingImage.Drawing>
                 <DrawingGroup Opacity="1">
                     <DrawingGroup.Children>
-                        <GeometryDrawing Brush="{DynamicResource Icon.Foreground}" Pen="{x:Null}">
+                        <GeometryDrawing Brush="{DynamicResource PageSlider.Foreground}" Pen="{x:Null}">
                             <GeometryDrawing.Geometry>
                                 <PathGeometry FillRule="Nonzero" Figures="M16.5,12C16.5,10.23,15.48,8.71,14,7.97L14,10.18 16.45,12.63C16.48,12.43,16.5,12.22,16.5,12z M19,12C19,12.94,18.8,13.82,18.46,14.64L19.97,16.15C20.63,14.91 21,13.5 21,12 21,7.72 18.01,4.14 14,3.23L14,5.29C16.89,6.15,19,8.83,19,12z M4.27,3L3,4.27 7.73,9 3,9 3,15 7,15 12,20 12,13.27 16.25,17.52C15.58,18.04,14.83,18.45,14,18.7L14,20.76C15.38,20.45,16.63,19.81,17.69,18.95L19.73,21 21,19.73 12,10.73 4.27,3z M12,4L9.91,6.09 12,8.18 12,4z" />
                             </GeometryDrawing.Geometry>
@@ -176,10 +176,11 @@
             </Button>
 
             <Button Width="NaN" MouseWheel="Volume_MouseWheel">
-                <local:VideoSlider Width="100" ThumbSize="12" Margin="0" Height="30" VerticalAlignment="Center" Value="{Binding Operator.Volume}" Minimum="0" Maximum="1" SliderBrush="{DynamicResource Icon.Fore}" Fill="{DynamicResource Icon.Foreground}"/>
+                <local:VideoSlider Width="100" ThumbSize="12" Margin="0" Height="30" VerticalAlignment="Center" Value="{Binding Operator.Volume}" Minimum="0" Maximum="1"
+                        SliderBrush="{DynamicResource PageSlider.Foreground}" Fill="{DynamicResource PageSlider.Foreground}"/>
             </Button>
 
-            <TextBlock Margin="5,0" DockPanel.Dock="Left" VerticalAlignment="Center" Text="{Binding Operator.DispTime}" Foreground="{DynamicResource Default.Foreground}">
+            <TextBlock Margin="5,0" DockPanel.Dock="Left" VerticalAlignment="Center" Text="{Binding Operator.DispTime}" Foreground="{DynamicResource PageSlider.Foreground}">
                 <TextBlock.Style>
                     <Style TargetType="TextBlock">
                         <EventSetter Event="MouseLeftButtonDown" Handler="TimeTextBlock_MouseLeftButtonDown"/>
@@ -214,7 +215,7 @@
                     </Style.Triggers>
                 </Style>
             </DockPanel.Style>
-            <local:VideoSlider SliderBrush="{Binding Slider.Color, Source={x:Static local:Config.Current}, Converter={StaticResource ColorToBrushConverter}}"
+            <local:VideoSlider SliderBrush="{DynamicResource PageSlider.Thumb}"
                     ThumbSize="{Binding Slider.Thickness, Source={x:Static local:Config.Current}}" Value="{Binding Operator.PositionRate}" DragStarted="VideoSlider_DragStarted" DragCompleted="VideoSlider_DragCompleted" PreviewMouseLeftButtonDown="VideoSlider_PreviewMouseLeftButtonDown" />
         </DockPanel>
 

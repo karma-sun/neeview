@@ -156,7 +156,7 @@ namespace NeeView
         }
     }
 
-
+    // TODO: 配置
     public class BrushAddOpacityConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
@@ -176,7 +176,29 @@ namespace NeeView
         }
     }
 
+    // TODO: 配置
+    public class BrushAddStaticOpacityConverter : IValueConverter
+    {
+        public double Opacity { get; set; } = 1.0;
 
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is SolidColorBrush brush)
+            {
+                return new SolidColorBrush(brush.Color) { Opacity = this.Opacity };
+            }
+
+            return DependencyProperty.UnsetValue;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
+    // TODO: 配置
     // from https://thomaslevesque.com/2011/03/21/wpf-how-to-bind-to-data-when-the-datacontext-is-not-inherited/
     public class BindingProxy : Freezable
     {

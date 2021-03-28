@@ -1727,7 +1727,7 @@
                             <Setter Property="Fill" TargetName="baseRectangle" Value="{DynamicResource Button.MouseOver}" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="Fill" TargetName="baseRectangle" Value="{DynamicResource Button.MouseOver}" />
+                            <Setter Property="Fill" TargetName="baseRectangle" Value="{DynamicResource Button.Checked}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Fill" TargetName="baseRectangle" Value="{DynamicResource Button.Pressed}" />

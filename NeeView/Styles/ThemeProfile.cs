@@ -13,7 +13,7 @@ using System.Collections;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 using System.Linq;
-
+using System.IO;
 
 namespace NeeView
 {
@@ -284,7 +284,6 @@ namespace NeeView
         {
             InitializeThemeColorMap(); // ##
 
-
             RefreshThemeColor();
 
             Config.Current.Theme.AddPropertyChanged(nameof(ThemeConfig.PanelColor), (s, e) =>
@@ -299,11 +298,10 @@ namespace NeeView
 
         public ThemeColorMap ThemeColorMap { get; set; }
 
-        const string ThemeColorMapFile = "Resources/ThemeColorMap.json";
 
         private void InitializeThemeColorMap()
         {
-            LoadColorMap();
+            //LoadColorMap();
         }
 
         // [Develop]
@@ -320,13 +318,26 @@ namespace NeeView
             return JsonSerializer.Deserialize<ThemeColorMap>(json, UserSettingTools.GetSerializerOptions());
         }
 
+        public static ThemeColorMap Load(Stream stream)
+        {
+            using (var ms = new MemoryStream())
+            {
+                stream.CopyTo(ms);
+                return JsonSerializer.Deserialize<ThemeColorMap>(ms.ToArray(), UserSettingTools.GetSerializerOptions());
+            }
+        }
+
+
         // [Develop]
-        public void LoadColorMap()
+        public void LoadColorMap(string contentFilePath)
         {
             try
             {
-                ThemeColorMap = Load(ThemeColorMapFile);
-                RefreshThemeColor();
+                Uri uri = new Uri(contentFilePath, UriKind.Relative);
+                Debug.WriteLine($"#### LoadColorMap: {uri}");
+
+                var info = Application.GetContentStream(uri);
+                ThemeColorMap = Load(info.Stream);
             }
             catch (Exception ex)
             {
@@ -335,73 +346,38 @@ namespace NeeView
             }
         }
 
+        // [Develop]
+        public void LoadColorMap()
+        {
+            if (Config.Current.Theme.PanelColor == PanelColor.Dark)
+            {
+                LoadColorMap("Resources/DarkThemeColorMap.json");
+            }
+            else
+            {
+                LoadColorMap("Resources/LightThemeColorMap.json");
+            }
+        }
+
 
         public void RefreshThemeColor()
         {
             if (App.Current == null) return;
 
-            // NOTE: 改装中
-#if false
-            if (VisualParameters.Current.IsHighContrast)
-            {
-                App.Current.Resources["Window.Foreground"] = new SolidColorBrush(Color.FromRgb(0x00, 0x00, 0x00));
-                App.Current.Resources["NVBackground"] = Brushes.Red;
-                App.Current.Resources["NVPanelIconBackground"] = Brushes.Silver;
-                App.Current.Resources["NVMenuBackgroundBrush"] = Brushes.Blue;
-                App.Current.Resources["NVBaseBrush"] = Brushes.Magenta;
-                App.Current.Resources["NVDefaultBrush"] = Brushes.Cyan;
-                App.Current.Resources["NVSuppresstBrush"] = Brushes.Yellow;
-                App.Current.Resources["NVMouseOverBrush"] = Brushes.Orange;
-                App.Current.Resources["NVPressedBrush"] = Brushes.Pink;
-                App.Current.Resources["NVPanelIconForeground"] = Brushes.Brown;
-                App.Current.Resources["NVForeground"] = Brushes.White;
+            LoadColorMap();
 
-                App.Current.Resources["CheckIcon.Foreground"] = new SolidColorBrush(Color.FromRgb(0x90, 0xEE, 0x90)); // ?
-                App.Current.Resources["NVFolderPen"] = null;
 
-                App.Current.Resources["NVBorderBrush"] = Brushes.Silver;
-
-            }
-            else if (Config.Current.Theme.PanelColor == PanelColor.Dark)
-            {
-                App.Current.Resources["NVBackgroundFade"] = new SolidColorBrush(Color.FromRgb(0x00, 0x00, 0x00));
-                App.Current.Resources["NVBackground"] = new SolidColorBrush(Color.FromRgb(0x22, 0x22, 0x22));
-                App.Current.Resources["NVPanelIconBackground"] = new SolidColorBrush(Color.FromRgb(0x33, 0x33, 0x33));
-                App.Current.Resources["NVMenuBackgroundBrush"] = new SolidColorBrush(Color.FromRgb(0x38, 0x38, 0x38));
-                App.Current.Resources["NVBaseBrush"] = new SolidColorBrush(Color.FromRgb(0x28, 0x28, 0x28));
-                App.Current.Resources["NVDefaultBrush"] = new SolidColorBrush(Color.FromRgb(0x55, 0x55, 0x55));
-                App.Current.Resources["NVSuppresstBrush"] = new SolidColorBrush(Color.FromRgb(0x88, 0x88, 0x88));
-                App.Current.Resources["NVMouseOverBrush"] = new SolidColorBrush(Color.FromRgb(0xAA, 0xAA, 0xAA));
-                App.Current.Resources["NVPressedBrush"] = new SolidColorBrush(Color.FromRgb(0xDD, 0xDD, 0xDD));
-                App.Current.Resources["NVPanelIconForeground"] = new SolidColorBrush(Color.FromRgb(0xEE, 0xEE, 0xEE));
-                App.Current.Resources["Window.Foreground"] = new SolidColorBrush(Color.FromRgb(0xEE, 0xEE, 0xEE));
-                App.Current.Resources["CheckIcon.Foreground"] = new SolidColorBrush(Color.FromRgb(0x90, 0xEE, 0x90));
-                App.Current.Resources["NVFolderPen"] = null;
-            }
-            else
-            {
-                App.Current.Resources["NVBackgroundFade"] = new SolidColorBrush(Color.FromRgb(0xFF, 0xFF, 0xFF));
-                App.Current.Resources["NVBackground"] = new SolidColorBrush(Color.FromRgb(0xF8, 0xF8, 0xF8));
-                App.Current.Resources["NVPanelIconBackground"] = new SolidColorBrush(Color.FromRgb(0xE0, 0xE0, 0xE0));
-                App.Current.Resources["NVMenuBackgroundBrush"] = new SolidColorBrush(Color.FromRgb(0xFF, 0xFF, 0xFF));
-                App.Current.Resources["NVBaseBrush"] = new SolidColorBrush(Color.FromRgb(0xEE, 0xEE, 0xEE));
-                App.Current.Resources["NVDefaultBrush"] = new SolidColorBrush(Color.FromRgb(0xDD, 0xDD, 0xDD));
-                App.Current.Resources["NVSuppresstBrush"] = new SolidColorBrush(Color.FromRgb(0xAA, 0xAA, 0xAA));
-                App.Current.Resources["NVMouseOverBrush"] = new SolidColorBrush(Color.FromRgb(0x88, 0x88, 0x88));
-                App.Current.Resources["NVPressedBrush"] = new SolidColorBrush(Color.FromRgb(0x55, 0x55, 0x55));
-                App.Current.Resources["NVPanelIconForeground"] = new SolidColorBrush(Color.FromRgb(0x44, 0x44, 0x44));
-                App.Current.Resources["Window.Foreground"] = new SolidColorBrush(Color.FromRgb(0x22, 0x22, 0x22));
-                App.Current.Resources["NVFolderPen"] = new Pen(new SolidColorBrush(Color.FromRgb(0xDE, 0xB9, 0x82)), 1);
-                App.Current.Resources["CheckIcon.Foreground"] = new SolidColorBrush(Color.FromRgb(0x44, 0xBB, 0x44));
-            }
-#endif
-
+            var sw = Stopwatch.StartNew();
+            
             foreach (var key in ThemeColorMap.Keys)
             {
                 var color = ThemeColorMap.GetColor(key);
-                Debug.WriteLine($"{key}: {color}");
+                //Debug.WriteLine($"{key}: {color}");
                 App.Current.Resources[key] = new SolidColorBrush(color);
             }
+         
+            sw.Stop();
+            Debug.WriteLine($"#### RefreshThemeColor: {sw.ElapsedMilliseconds}ms");
 
             ThemeColorChanged?.Invoke(this, null);
         }
@@ -409,7 +385,7 @@ namespace NeeView
 
 
         /// <summary>
-        /// TextBox の EditContextMenu にスタイルを適用する
+        /// TextBox の EditContextMenu にスタイルを適用する (未使用)
         /// </summary>
         /// <remarks>
         /// from https://stackoverflow.com/questions/30940939/wpf-default-textbox-contextmenu-styling

@@ -100,7 +100,7 @@
                 </ContentControl>
 
                 <!-- ステータスエリア -->
-                <Border x:Name="DockStatusArea" DockPanel.Dock="Bottom" Background="{DynamicResource PageSelectionBar.Background}" BorderBrush="{DynamicResource PageSelectionBar.Border}" BorderThickness="0,1,0,0">
+                <Border x:Name="DockStatusArea" DockPanel.Dock="Bottom" Background="{DynamicResource PageSelectionBar.Background}" BorderBrush="{DynamicResource PageSelectionBar.Border}" BorderThickness="0,0,0,0">
                     <DockPanel>
 
                         <!-- スライダー -->

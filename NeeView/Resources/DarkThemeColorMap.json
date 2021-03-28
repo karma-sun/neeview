@@ -1,0 +1,87 @@
+{
+  "Format": "NeeView.ThemeColorMap/38.9.0",
+  "Items": {
+    "Window.Background": "#FF202020",
+    "Window.Foreground": "#FFF0F0F0",
+    "Window.Border": "default",
+
+    "Control.Background": "#FFA0A0A0",
+    "Control.Foreground": "default",
+    "Control.Border": "#FFA0A0A0",
+    "Control.Disable": "#80808080",
+    "Control.Accent": "#FF1188DD",
+
+    "Button.Background": "#00000000",
+    "Button.Foreground": "default",
+    "Button.Border": "default",
+    "Button.MouseOver": "#30F0F0F0",
+    "Button.Checked": "#40F0F0F0",
+    "Button.Pressed": "#A0F0F0F0",
+
+    "ScrollBar.Background": "#FF404040",
+    "ScrollBar.Foreground": "default",
+    "ScrollBar.Border": "default",
+    "ScrollBar.MouseOver": "#FF808080",
+    "ScrollBar.Pressed": "#FFA0A0A0",
+
+    "DialogButton.Background": "#FFA0A0A0",
+    "DialogButton.Foreground": "#FF202020",
+    "DialogRecommentedButton.Background": "Control.Accent",
+    "DialogRecommentedButton.Foreground": "Control.Foreground",
+
+    "Slider.Background": "#FF505050",
+    "Slider.Foreground": "default",
+    "Slider.Border": "default",
+    "Slider.Thumb": "Control.Accent",
+    "Slider.Track": "default",
+
+    "TextBox.Background": "#FF202020",
+    "TextBox.Foreground": "default",
+    "TextBox.Border": "#FF404040",
+
+    "Menu.Background": "#FF222222",
+    "Menu.Foreground": "default",
+    "Menu.Border": "#FF404040",
+    "Menu.Sepalator": "#FF808080",
+
+    "Item.MouseOver.Background": "#1F26A0DA",
+    "Item.MouseOver.Border": "#A826A0DA",
+    "Item.Selected.Background": "#3D26A0DA",
+    "Item.Selected.Border": "#FF26A0DA",
+    "Item.Inactive.Background": "#3DDADADA",
+    "Item.Inactive.Border": "#FFDADADA",
+
+    "SideBar.Background": "#FF303030",
+    "SideBar.Foreground": "default",
+    "SideBar.Border": "default",
+
+    "SidePanel.Background": "#FF202020",
+    "SidePanel.Foreground": "default",
+    "SidePanel.Border": "default",
+    "SidePanel.Header": "#FF808080",
+    "SidePanel.Sepalator": "#FF404040",
+    "SidePanel.Splitter": "SideBar.Background",
+
+    "MenuBar.Background": "#FF383838",
+    "MenuBar.Foreground": "default",
+    "MenuBar.Border": "default",
+
+    "PageSelectionBar.Background": "MenuBar.Background",
+    "PageSelectionBar.Foreground": "MenuBar.Foreground",
+    "PageSelectionBar.Border": "default",
+
+    "PageSelectionBar.Slider.Background": "Slider.Background",
+    "PageSelectionBar.Slider.Foreground": "Slider.Foreground",
+    "PageSelectionBar.Slider.Border": "Slider.Border",
+    "PageSelectionBar.Slider.Thumb": "#FF1188DD",
+    "PageSelectionBar.Slider.Track": "#FF1188DD",
+
+    "Thumbnail.Background": "#FF404040",
+    "Thumbnail.Foreground": "#FF808080",
+
+    "SelectedMark.Foreground": "#FFFFA500",
+    "CheckIcon.Foreground": "#FF90EE90",
+    "BookmarkIcon.Foreground": "#FFFFA500",
+    "PagemarkIcon.Foreground": "#FFFFA500"
+  }
+}

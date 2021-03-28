@@ -1,8 +1,8 @@
 {
   "Format": "NeeView.ThemeColorMap/38.9.0",
   "Items": {
-    "Window.Background": "#FF202020",
-    "Window.Foreground": "#FFF0F0F0",
+    "Window.Background": "#FFF8F8F8",
+    "Window.Foreground": "#FF202020",
     "Window.Border": "default",
 
     "Control.Background": "#FFA0A0A0",
@@ -14,34 +14,34 @@
     "Button.Background": "#00000000",
     "Button.Foreground": "default",
     "Button.Border": "default",
-    "Button.MouseOver": "#40F0F0F0",
-    "Button.Checked": "#80F0F0F0",
-    "Button.Pressed": "#A0F0F0F0",
+    "Button.MouseOver": "#10000000",
+    "Button.Checked": "#20000000",
+    "Button.Pressed": "#40000000",
 
-    "ScrollBar.Background": "#FF404040",
+    "ScrollBar.Background": "#FFC0C0C0",
     "ScrollBar.Foreground": "default",
     "ScrollBar.Border": "default",
     "ScrollBar.MouseOver": "#FF808080",
-    "ScrollBar.Pressed": "#FFA0A0A0",
+    "ScrollBar.Pressed": "#FF606060",
 
     "DialogButton.Background": "#FFA0A0A0",
     "DialogButton.Foreground": "#FF202020",
     "DialogRecommentedButton.Background": "Control.Accent",
     "DialogRecommentedButton.Foreground": "Control.Foreground",
 
-    "Slider.Background": "#FF505050",
+    "Slider.Background": "#FFA0A0A0",
     "Slider.Foreground": "default",
     "Slider.Border": "default",
     "Slider.Thumb": "Control.Accent",
     "Slider.Track": "default",
 
-    "TextBox.Background": "#FF202020",
+    "TextBox.Background": "#FFF8F8F8",
     "TextBox.Foreground": "default",
-    "TextBox.Border": "#FF404040",
+    "TextBox.Border": "#FFC0C0C0",
 
-    "Menu.Background": "#FF222222",
+    "Menu.Background": "default",
     "Menu.Foreground": "default",
-    "Menu.Border": "#FF404040",
+    "Menu.Border": "#FFA0A0A0",
     "Menu.Sepalator": "#FF808080",
 
     "Item.MouseOver.Background": "#1F26A0DA",
@@ -51,18 +51,18 @@
     "Item.Inactive.Background": "#3DDADADA",
     "Item.Inactive.Border": "#FFDADADA",
 
-    "SideBar.Background": "#FF303030",
+    "SideBar.Background": "#FFE0E0E0",
     "SideBar.Foreground": "default",
     "SideBar.Border": "default",
 
-    "SidePanel.Background": "#FF202020",
+    "SidePanel.Background": "#FFF0F0F0",
     "SidePanel.Foreground": "default",
     "SidePanel.Border": "default",
     "SidePanel.Header": "#FF808080",
-    "SidePanel.Sepalator": "#FF404040",
+    "SidePanel.Sepalator": "#FFC0C0C0",
     "SidePanel.Splitter": "SideBar.Background",
 
-    "MenuBar.Background": "#FF383838",
+    "MenuBar.Background": "#FFD8D8D8",
     "MenuBar.Foreground": "default",
     "MenuBar.Border": "default",
 
@@ -80,7 +80,7 @@
     "Thumbnail.Foreground": "#FF808080",
 
     "SelectedMark.Foreground": "#FFFFA500",
-    "CheckIcon.Foreground": "#FF90EE90",
+    "CheckIcon.Foreground": "#FF44BB44",
     "BookmarkIcon.Foreground": "#FFFFA500",
     "PagemarkIcon.Foreground": "#FFFFA500"
   }

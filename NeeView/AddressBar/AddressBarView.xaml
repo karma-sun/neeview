@@ -147,19 +147,23 @@
             </Grid>
 
             <Border x:Name="AddressTextBoxBase" BorderThickness="1" MinHeight="26" Margin="10,0">
+                <Border.Resources>
+                    <local:BrushAddStaticOpacityConverter x:Key="BrushAddOpacityConverter" Opacity="0.50" />
+                    <local:BindingProxy x:Key="TextBoxBackground" Data="{DynamicResource TextBox.Background}" />
+                </Border.Resources>
                 <Border.Style>
                     <Style TargetType="Border">
-                        <Setter Property="BorderBrush" Value="{DynamicResource TextBox.Border}" />
-                        <Setter Property="Background" Value="#22000000" />
+                        <Setter Property="BorderBrush" Value="{Binding Path=Data, Source={StaticResource TextBoxBackground}, Converter={StaticResource BrushAddOpacityConverter}}" />
+                        <Setter Property="Background" Value="{Binding Path=Data, Source={StaticResource TextBoxBackground}, Converter={StaticResource BrushAddOpacityConverter}}" />
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding ElementName=AddressTextBox, Path=IsFocused}" Value="True">
+                            <DataTrigger Binding="{Binding ElementName=AddressTextBox, Path=IsKeyboardFocusWithin}" Value="True">
                                 <Setter Property="BorderBrush" Value="{DynamicResource Control.Accent}" />
                                 <Setter Property="Background" Value="{DynamicResource TextBox.Background}" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </Border.Style>
-                <DockPanel>
+                <DockPanel Margin="2,0">
                     <Button DockPanel.Dock="Right" Style="{StaticResource AddressIconButton}" Margin="0" Command="{Binding BookCommands[ToggleBookmark]}" TabIndex="13">
                         <TextBlock FontSize="20" FontFamily="Meyrio">
                             <TextBlock.Style>

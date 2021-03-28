@@ -4,56 +4,56 @@
 
     <DrawingImage x:Key="ic_arrow_back_24px">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource AddressBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_arrow_back_24px}" />
+            <GeometryDrawing Brush="{DynamicResource MenuBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_arrow_back_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="ic_arrow_forward_24px">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource AddressBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_arrow_forward_24px}" />
+            <GeometryDrawing Brush="{DynamicResource MenuBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_arrow_forward_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="ic_arrow_up_24px">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource AddressBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_arrow_up_24px}" />
+            <GeometryDrawing Brush="{DynamicResource MenuBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_arrow_up_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
     
     
     <DrawingImage x:Key="ic_menu_24px">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource AddressBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_menu_24px}" />
+            <GeometryDrawing Brush="{DynamicResource MenuBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_menu_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
     
     <DrawingImage x:Key="ic_info_outline_24px">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource AddressBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_info_outline_24px}" />
+            <GeometryDrawing Brush="{DynamicResource MenuBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_info_outline_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="ic_refresh_24px">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource AddressBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_refresh_24px}" />
+            <GeometryDrawing Brush="{DynamicResource MenuBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_refresh_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="ic_close_24px">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource AddressBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_close_24px}" />
+            <GeometryDrawing Brush="{DynamicResource MenuBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_close_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="ic_looks_one_24px">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource AddressBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_looks_one_24px}" />
+            <GeometryDrawing Brush="{DynamicResource MenuBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_looks_one_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="ic_looks_two_24px">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource AddressBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_looks_two_24px}" />
+            <GeometryDrawing Brush="{DynamicResource MenuBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_looks_two_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
@@ -61,7 +61,7 @@
         <DrawingImage.Drawing>
             <DrawingGroup Opacity="1">
                 <DrawingGroup.Children>
-                    <GeometryDrawing Brush="{DynamicResource AddressBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_right_to_left_24px_a}" />
+                    <GeometryDrawing Brush="{DynamicResource MenuBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_right_to_left_24px_a}" />
                     <GeometryDrawing Brush="#88888888" Pen="{x:Null}" Geometry="{StaticResource g_right_to_left_24px_b}" />
                 </DrawingGroup.Children>
             </DrawingGroup>
@@ -73,7 +73,7 @@
             <DrawingGroup Opacity="1">
                 <DrawingGroup.Children>
                     <GeometryDrawing Brush="#88888888" Pen="{x:Null}" Geometry="{StaticResource g_left_to_right_24px_a}" />
-                    <GeometryDrawing Brush="{DynamicResource AddressBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_left_to_right_24px_b}" />
+                    <GeometryDrawing Brush="{DynamicResource MenuBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_left_to_right_24px_b}" />
                 </DrawingGroup.Children>
             </DrawingGroup>
         </DrawingImage.Drawing>

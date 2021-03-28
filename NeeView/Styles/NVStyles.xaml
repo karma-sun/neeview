@@ -1511,6 +1511,8 @@
         <Setter Property="AllowDrop" Value="true" />
         <Setter Property="CaretBrush" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Foreground}" />
         <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="{DynamicResource TextBox.Border}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBoxBase}">

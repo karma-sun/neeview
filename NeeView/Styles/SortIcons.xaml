@@ -3,37 +3,37 @@
 
     <DrawingImage x:Key="ic_shuffle_24px">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource AddressBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_shuffle_24px}" />
+            <GeometryDrawing Brush="{DynamicResource MenuBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_shuffle_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="ic_sort_name_24px">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource AddressBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_sort_name_24px}" />
+            <GeometryDrawing Brush="{DynamicResource MenuBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_sort_name_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="ic_sort_time_24px">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource AddressBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_sort_time_24px}" />
+            <GeometryDrawing Brush="{DynamicResource MenuBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_sort_time_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="ic_sort_size_24px">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource AddressBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_sort_size_24px}" />
+            <GeometryDrawing Brush="{DynamicResource MenuBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_sort_size_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="ic_sortex_up_24px">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource AddressBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_sortex_up_24px}" />
+            <GeometryDrawing Brush="{DynamicResource MenuBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_sortex_up_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="ic_sortex_down_24px">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource AddressBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_sortex_down_24px}" />
+            <GeometryDrawing Brush="{DynamicResource MenuBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_sortex_down_24px}" />
         </DrawingImage.Drawing>
     </DrawingImage>
     

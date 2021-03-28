@@ -35,15 +35,15 @@ namespace NeeView.Windows.Controls
 
             if ((bool)e.NewValue)
             {
-                slider.PreviewMouseDown += Slider_PreviewMouseDown;
+                slider.PreviewMouseLeftButtonDown += Slider_PreviewMouseLeftButtonDown;
             }
             else
             {
-                slider.PreviewMouseDown -= Slider_PreviewMouseDown;
+                slider.PreviewMouseLeftButtonDown -= Slider_PreviewMouseLeftButtonDown;
             }
         }
 
-        private static void Slider_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        private static void Slider_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var slider = sender as Slider;
             if (slider is null) return;

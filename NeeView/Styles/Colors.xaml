@@ -76,18 +76,19 @@
     <SolidColorBrush x:Key="SidePanel.Sepalator" Color="Gray" />
     <SolidColorBrush x:Key="SidePanel.Splitter" Color="#FF333333" />
 
-    <SolidColorBrush x:Key="CaptionBar.Background" Color="#FF282828" />
-    <SolidColorBrush x:Key="CaptionBar.Foreground" Color="White" />
-    <SolidColorBrush x:Key="CaptionBar.Border" Color="Gray" />
+    <SolidColorBrush x:Key="MenuBar.Background" Color="#FF282828" />
+    <SolidColorBrush x:Key="MenuBar.Foreground" Color="White" />
+    <SolidColorBrush x:Key="MenuBar.Border" Color="Gray" />
 
-    <SolidColorBrush x:Key="AddressBar.Background" Color="#FF282828" />
-    <SolidColorBrush x:Key="AddressBar.Foreground" Color="White" />
-    <SolidColorBrush x:Key="AddressBar.Border" Color="Gray" />
+    <SolidColorBrush x:Key="PageSelectionBar.Background" Color="#FF282828" />
+    <SolidColorBrush x:Key="PageSelectionBar.Foreground" Color="White" />
+    <SolidColorBrush x:Key="PageSelectionBar.Border" Color="Gray" />
 
-    <SolidColorBrush x:Key="PageSlider.Background" Color="#FF282828" />
-    <SolidColorBrush x:Key="PageSlider.Foreground" Color="White" />
-    <SolidColorBrush x:Key="PageSlider.Border" Color="Gray" />
-    <SolidColorBrush x:Key="PageSlider.Thumb" Color="SteelBlue" />
+    <SolidColorBrush x:Key="PageSelectionBar.Slider.Background" Color="Gray" />
+    <SolidColorBrush x:Key="PageSelectionBar.Slider.Foreground" Color="White" />
+    <SolidColorBrush x:Key="PageSelectionBar.Slider.Border" Color="Gray" />
+    <SolidColorBrush x:Key="PageSelectionBar.Slider.Thumb" Color="SteelBlue" />
+    <SolidColorBrush x:Key="PageSelectionBar.Slider.Track" Color="SteelBlue" />
 
     <SolidColorBrush x:Key="Thumbnail.Background" Color="Gray" />
     <SolidColorBrush x:Key="Thumbnail.Foreground" Color="DarkGray" />

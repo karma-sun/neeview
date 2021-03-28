@@ -8,7 +8,7 @@
     "Control.Background": "#FFA0A0A0",
     "Control.Foreground": "default",
     "Control.Border": "#FFA0A0A0",
-    "Control.Disable": "#FF808080",
+    "Control.Disable": "#80808080",
     "Control.Accent": "#FF1188DD",
 
     "Button.Background": "#00000000",
@@ -62,18 +62,19 @@
     "SidePanel.Sepalator": "#FF404040",
     "SidePanel.Splitter": "SideBar.Background",
 
-    "CaptionBar.Background": "#FF383838",
-    "CaptionBar.Foreground": "default",
-    "CaptionBar.Border": "default",
+    "MenuBar.Background": "#FF383838",
+    "MenuBar.Foreground": "default",
+    "MenuBar.Border": "default",
 
-    "AddressBar.Background": "CaptionBar.Background",
-    "AddressBar.Foreground": "CaptionBar.Foreground",
-    "AddressBar.Border": "default",
+    "PageSelectionBar.Background": "MenuBar.Background",
+    "PageSelectionBar.Foreground": "MenuBar.Foreground",
+    "PageSelectionBar.Border": "default",
 
-    "PageSlider.Background": "CaptionBar.Background",
-    "PageSlider.Foreground": "CaptionBar.Foreground",
-    "PageSlider.Border": "default",
-    "PageSlider.Thumb": "#FF1188DD",
+    "PageSelectionBar.Slider.Background": "Slider.Background",
+    "PageSelectionBar.Slider.Foreground": "Slider.Foreground",
+    "PageSelectionBar.Slider.Border": "Slider.Border",
+    "PageSelectionBar.Slider.Thumb": "#FF1188DD",
+    "PageSelectionBar.Slider.Track": "#FF1188DD",
 
     "Thumbnail.Background": "#FF404040",
     "Thumbnail.Foreground": "#FF808080",

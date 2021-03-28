@@ -6,9 +6,9 @@
              xmlns:local="clr-namespace:NeeView"
              xmlns:properties="clr-namespace:NeeView.Properties"
              mc:Ignorable="d" 
-             Background="{DynamicResource AddressBar.Background}"
-             Foreground="{DynamicResource AddressBar.Foreground}"
-             BorderBrush="{DynamicResource AddressBar.Border}"
+             Background="{DynamicResource MenuBar.Background}"
+             Foreground="{DynamicResource MenuBar.Foreground}"
+             BorderBrush="{DynamicResource MenuBar.Border}"
              d:DesignHeight="50" d:DesignWidth="600">
 
     <UserControl.Resources>
@@ -146,13 +146,15 @@
                 </Button>
             </Grid>
 
-            <Border x:Name="AddressTextBoxBase" BorderThickness="1" MinHeight="26" Margin="10,0" Background="#22000000">
+            <Border x:Name="AddressTextBoxBase" BorderThickness="1" MinHeight="26" Margin="10,0">
                 <Border.Style>
                     <Style TargetType="Border">
                         <Setter Property="BorderBrush" Value="{DynamicResource TextBox.Border}" />
+                        <Setter Property="Background" Value="#22000000" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding ElementName=AddressTextBox, Path=IsFocused}" Value="True">
                                 <Setter Property="BorderBrush" Value="{DynamicResource Control.Accent}" />
+                                <Setter Property="Background" Value="{DynamicResource TextBox.Background}" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -163,7 +165,7 @@
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="Text" Value="☆"/>
-                                    <Setter Property="Foreground" Value="{DynamicResource AddressBar.Foreground}"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource MenuBar.Foreground}"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Model.IsBookmark}" Value="True">
                                             <Setter Property="Text" Value="★"/>
@@ -185,7 +187,7 @@
                             <Image Source="{StaticResource ic_info_outline_24px}" Width="16"/>
                         </Button>
                         <TextBox x:Name="AddressTextBox" Text="{Binding Model.Address}" BorderThickness="0" VerticalAlignment="Center" TabIndex="12" KeyDown="AddressTextBox_KeyDown"
-                                 Background="Transparent" />
+                                 Background="Transparent"/>
                     </DockPanel>
 
                 </DockPanel>

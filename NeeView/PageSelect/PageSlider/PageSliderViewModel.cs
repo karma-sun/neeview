@@ -45,8 +45,6 @@ namespace NeeView
 
         public Dock SliderIndexDock => _model != null && Config.Current.Slider.SliderIndexLayout == SliderIndexLayout.Left ? Dock.Left : Dock.Right;
 
-        public Thickness SliderMargin => IsSliderWithIndex ? SliderIndexDock == Dock.Left ? new Thickness(-8, 0, 0, 0) : new Thickness(0, 0, -8, 0) : new Thickness();
-
         public Visibility PageSliderVisibility => _model != null && BookOperation.Current.GetPageCount() > 0 ? Visibility.Visible : Visibility.Hidden;
 
         public double FontSize => Math.Min(VisualParameters.Current.DefaultFontSize, Config.Current.Slider.Thickness);

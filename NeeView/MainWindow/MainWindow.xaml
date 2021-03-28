@@ -25,7 +25,7 @@
                             <Condition Binding="{Binding Source={x:Static local:Config.Current}, Path=FilmStrip.IsVisiblePlate}" Value="True" />
                             <Condition Binding="{Binding Visibility, ElementName=ThumbnailListArea}" Value="Visible" />
                         </MultiDataTrigger.Conditions>
-                        <Setter Property="Background" Value="{DynamicResource PageSlider.Background}" />
+                        <Setter Property="Background" Value="{DynamicResource PageSelectionBar.Background}" />
                     </MultiDataTrigger>
                 </Style.Triggers>
             </Style>
@@ -46,7 +46,7 @@
 
             <local:BooleanToOpacityConverter x:Key="BooleanToOpacityConverter" />
             <local:BrushAddOpacityConverter x:Key="BrushAddOpacityConverter" />
-            <local:BindingProxy x:Key="BaseForeground" Data="{DynamicResource CaptionBar.Foreground}" />
+            <local:BindingProxy x:Key="BaseForeground" Data="{DynamicResource MenuBar.Foreground}" />
 
             <!-- MenuItem History -->
             <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
@@ -78,7 +78,7 @@
 
                 <!-- メニューエリア-->
                 <ContentControl x:Name="DockMenuSocket" DockPanel.Dock="Top" Focusable="False">
-                    <Border x:Name="MenuArea" BorderBrush="{DynamicResource AddressBar.Border}" BorderThickness="0,0,0,1">
+                    <Border x:Name="MenuArea" BorderBrush="{DynamicResource MenuBar.Border}" BorderThickness="0,0,0,1">
                         <StackPanel>
                             <!-- メニューバー-->
                             <local:MenuBarView x:Name="MenuBar">
@@ -100,7 +100,7 @@
                 </ContentControl>
 
                 <!-- ステータスエリア -->
-                <Border x:Name="DockStatusArea" DockPanel.Dock="Bottom" Background="{DynamicResource PageSlider.Background}" BorderBrush="{DynamicResource PageSlider.Border}" BorderThickness="0,1,0,0">
+                <Border x:Name="DockStatusArea" DockPanel.Dock="Bottom" Background="{DynamicResource PageSelectionBar.Background}" BorderBrush="{DynamicResource PageSelectionBar.Border}" BorderThickness="0,1,0,0">
                     <DockPanel>
 
                         <!-- スライダー -->

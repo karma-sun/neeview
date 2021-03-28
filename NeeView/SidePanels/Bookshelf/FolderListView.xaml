@@ -181,29 +181,26 @@
             <Border x:Name="SearchBoxRoot" Margin="0,2,0,5" Visibility="{Binding Model.IsFolderSearchBoxVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
                     BorderThickness="1">
                 <Border.Resources>
-                    <Style TargetType="TextBox">
-                        <Setter Property="Foreground" Value="{DynamicResource TextBox.Foreground}"/>
-                        <Setter Property="Background" Value="{DynamicResource TextBox.Background}"/>
-                        <Setter Property="BorderBrush" Value="{DynamicResource TextBox.Border}"/>
+                    <Style TargetType="TextBox" BasedOn="{StaticResource NVTextBox}">
                         <EventSetter Event="KeyDown" Handler="Control_KeyDown_IgnoreSingleKeyGesture"/>
                     </Style>
                 </Border.Resources>
                 <Border.Style>
                     <Style TargetType="Border">
-                        <Setter Property="Background" Value="{DynamicResource TextBox.Background}" />
+                        <Setter Property="Background" Value="Transparent" />
                         <Setter Property="BorderBrush" Value="{DynamicResource TextBox.Border}"/>
                         <Setter Property="ToolTip" Value="{Binding Model.SearchKeywordErrorMessage, Mode=OneWay}"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding ElementName=SearchBox, Path=IsKeyboardFocusWithin}" Value="True">
                                 <Setter Property="BorderBrush" Value="{DynamicResource Control.Accent}"/>
+                                <Setter Property="Background" Value="{DynamicResource TextBox.Background}" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Model.SearchKeywordErrorMessage, Converter={StaticResource IsNullConverter}}" Value="False">
                                 <Setter Property="BorderBrush" Value="Crimson"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Model.IsFolderSearchEnabled}" Value="False">
                                 <Setter Property="IsEnabled" Value="False"/>
-                                <Setter Property="Background" Value="{DynamicResource TextBox.Background}" />
-                                <Setter Property="BorderBrush" Value="{DynamicResource TextBox.Background}" />
+                                <Setter Property="BorderBrush" Value="Transparent" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>

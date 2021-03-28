@@ -4,8 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
+             xmlns:nwc="clr-namespace:NeeView.Windows.Controls"
              mc:Ignorable="d" 
-             Foreground="{DynamicResource PageSlider.Foreground}"
+             Foreground="{DynamicResource PageSelectionBar.Foreground}"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -21,16 +22,20 @@
                                        FontSize="{Binding FontSize}">
             </local:SliderTextBox>
 
-            <Grid Margin="{Binding SliderMargin}">
+            <Grid>
                 <local:PageMarkersView x:Name="PageMarkersView" IsHitTestVisible="False" VerticalAlignment="Center"
                         Visibility="{Binding Source={x:Static local:Config.Current}, Path=Slider.IsVisiblePagemark, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                <local:VideoSlider x:Name="Slider"
-                                   SliderBrush="{DynamicResource PageSlider.Thumb}"
-                                   ThumbSize="{Binding Slider.Thickness, Source={x:Static local:Config.Current}}"
-                                   Maximum="{Binding Model.PageSelector.MaxIndex}" Value="{Binding Model.SelectedIndex}"
-                                   IsDirectionReversed="{Binding Model.IsSliderDirectionReversed}" Focusable="False"
-                                   PreviewMouseLeftButtonDown="PageSlider_PreviewMouseLeftButtonDown"
-                                   PreviewMouseLeftButtonUp="PageSlider_PreviewMouseLeftButtonUp"/>
+
+                <nwc:SmartSlider x:Name="Slider"
+                                 ThumbSize="{Binding Slider.Thickness, Source={x:Static local:Config.Current}}"
+                                 ThumbBorderBrush="{DynamicResource PageSelectionBar.Slider.Thumb}"
+                                 TrackDecreaseBrush="{DynamicResource PageSelectionBar.Slider.Track}"
+                                 TrackIncreaseBrush="{DynamicResource PageSelectionBar.Slider.Background}"
+                                 Maximum="{Binding Model.PageSelector.MaxIndex}"
+                                 Value="{Binding Model.SelectedIndex}"
+                                 IsDirectionReversed="{Binding Model.IsSliderDirectionReversed}"
+                                 PreviewMouseLeftButtonDown="PageSlider_PreviewMouseLeftButtonDown"
+                                 PreviewMouseLeftButtonUp="PageSlider_PreviewMouseLeftButtonUp" />
             </Grid>
         </DockPanel>
     </Grid>

@@ -58,8 +58,6 @@
     <None Remove="NeeView\Effects\Shaders\ColorSelectEffect.ps" />
     <None Remove="NeeView\Effects\Shaders\HsvEffect.ps" />
     <None Remove="NeeView\Effects\Shaders\LevelEffect.ps" />
-    <None Remove="Resources\DarkThemeColorMap.json" />
-    <None Remove="Resources\LightThemeColorMap.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -140,11 +138,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Resources\DarkThemeColorMap.json">
+    <Content Include="Themes\DarkTheme.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-	<Content Include="Resources\LightThemeColorMap.json">
-		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	<Content Include="Themes\LightTheme.json">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	</Content>
     <Content Include="x64\NeeView.Interop.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

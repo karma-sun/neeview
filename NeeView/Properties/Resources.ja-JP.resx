@@ -1074,8 +1074,7 @@ nv.Command.NextPage.Execute()</value>
   </data>
   <data name="CommandHost.Config.Example" xml:space="preserve">
     <value>// テーマ カラーを黒にする
-nv.Config.Theme.PanelColor = "Dark"
-nv.Config.Theme.MenuColor = "Dark"</value>
+nv.Config.Theme.ThemeType = "Dark"</value>
   </data>
   <data name="CommandHost.Effect" xml:space="preserve">
     <value>エフェクト パネルのアクセサ</value>
@@ -4757,11 +4756,11 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
   <data name="SystemConfig.TemporaryDirectory.Remarks" xml:space="preserve">
     <value>多重圧縮ファイルの展開や事前展開に使用されます。</value>
   </data>
-  <data name="ThemeConfig.MenuColor" xml:space="preserve">
-    <value>メニュー カラー</value>
+  <data name="ThemeConfig.ThemeType" xml:space="preserve">
+    <value>テーマの種類</value>
   </data>
-  <data name="ThemeConfig.PanelColor" xml:space="preserve">
-    <value>テーマ カラー</value>
+  <data name="ThemeConfig.CustomThemeFilePath" xml:space="preserve">
+    <value>カスタム テーマ ファイルの場所</value>
   </data>
   <data name="ThumbnailConfig.CacheLimitSpan" xml:space="preserve">
     <value>サムネイル キャッシュの保存期間</value>
@@ -6889,13 +6888,13 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>スクロール タイプ</value>
   </data>
   <data name="AutoHideConfrictMode.Allow" xml:space="preserve">
-    <value>許可</value>
+    <value>有効</value>
   </data>
   <data name="AutoHideConfrictMode.AllowPixel" xml:space="preserve">
-    <value>1 ピクセルだけ許可</value>
+    <value>1 ピクセルだけ有効</value>
   </data>
   <data name="AutoHideConfrictMode.Deny" xml:space="preserve">
-    <value>拒否</value>
+    <value>無効</value>
   </data>
   <data name="SettingPage.Fonts" xml:space="preserve">
     <value>フォント</value>
@@ -6918,10 +6917,19 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="FontsConfig.PanelFontScale" xml:space="preserve">
     <value>リスト項目のフォント スケール</value>
   </data>
-  <data name="PanelColor.Dark" xml:space="preserve">
+  <data name="ThemeType.Dark" xml:space="preserve">
     <value>ダーク</value>
   </data>
-  <data name="PanelColor.Light" xml:space="preserve">
+  <data name="ThemeType.Light" xml:space="preserve">
     <value>ライト</value>
+  </data>
+  <data name="ThemeType.Custom" xml:space="preserve">
+    <value>カスタム</value>
+  </data>
+  <data name="ThemeErrorDialog.Title" xml:space="preserve">
+    <value>テーマ エラー</value>
+  </data>
+  <data name="SettingPage.Window.Theme.OpenCustomThemeFile" xml:space="preserve">
+    <value>カスタム テーマ ファイルを開く</value>
   </data>
 </root>

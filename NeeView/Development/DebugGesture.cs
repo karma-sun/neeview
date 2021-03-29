@@ -29,7 +29,7 @@ namespace NeeView
                 // Ctrl+Space
                 else if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.Space)
                 {
-                    ThemeProfile.Current.LoadColorMap();
+                    ThemeManager.Current.RefreshThemeColor();
                 }
             };
         }

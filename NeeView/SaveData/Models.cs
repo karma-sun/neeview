@@ -54,7 +54,7 @@ namespace NeeView
             [DataMember]
             public BookSettingPresenter.Memento BookSettingPresenter { get; set; }
             [DataMember]
-            public ThemeProfile.Memento ThemeProfile { get; set; }
+            public ThemeManager.Memento ThemeProfile { get; set; }
             [DataMember]
             public MainWindowModel.Memento MainWindowModel { get; set; }
             [DataMember]

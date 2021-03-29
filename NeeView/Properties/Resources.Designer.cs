@@ -2925,8 +2925,7 @@ namespace NeeView.Properties {
         
         /// <summary>
         ///   // Change the theme color to dark
-        ///nv.Config.Theme.PanelColor = &quot;Dark&quot;
-        ///nv.Config.Theme.MenuColor = &quot;Dark&quot; に類似しているローカライズされた文字列を検索します。
+        ///nv.Config.Theme.ThemeType = &quot;Dark&quot; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandHost_Config_Example {
             get {
@@ -11582,24 +11581,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Dark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string PanelColor_Dark {
-            get {
-                return ResourceManager.GetString("PanelColor.Dark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Light に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string PanelColor_Light {
-            get {
-                return ResourceManager.GetString("PanelColor.Light", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Banner に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string PanelListItemImageShape_Banner {
@@ -14715,6 +14696,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Open custom theme file に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPage_Window_Theme_OpenCustomThemeFile {
+            get {
+                return ResourceManager.GetString("SettingPage.Window.Theme.OpenCustomThemeFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Window title に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPage_WindowTitle {
@@ -15628,20 +15618,56 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Menu color に類似しているローカライズされた文字列を検索します。
+        ///   Custom theme file path に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ThemeConfig_MenuColor {
+        public static string ThemeConfig_CustomThemeFilePath {
             get {
-                return ResourceManager.GetString("ThemeConfig.MenuColor", resourceCulture);
+                return ResourceManager.GetString("ThemeConfig.CustomThemeFilePath", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Theme color に類似しているローカライズされた文字列を検索します。
+        ///   Theme type に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ThemeConfig_PanelColor {
+        public static string ThemeConfig_ThemeType {
             get {
-                return ResourceManager.GetString("ThemeConfig.PanelColor", resourceCulture);
+                return ResourceManager.GetString("ThemeConfig.ThemeType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Theme error に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ThemeErrorDialog_Title {
+            get {
+                return ResourceManager.GetString("ThemeErrorDialog.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Custom に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ThemeType_Custom {
+            get {
+                return ResourceManager.GetString("ThemeType.Custom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Dark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ThemeType_Dark {
+            get {
+                return ResourceManager.GetString("ThemeType.Dark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Light に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ThemeType_Light {
+            get {
+                return ResourceManager.GetString("ThemeType.Light", resourceCulture);
             }
         }
         

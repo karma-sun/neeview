@@ -12,9 +12,9 @@ namespace NeeView
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is PanelColor panelColor)
+            if (value is ThemeType panelColor)
             {
-                return panelColor == PanelColor.Dark ? Dark : Light;
+                return panelColor == ThemeType.Dark ? Dark : Light;
             }
             return Dark;
         }

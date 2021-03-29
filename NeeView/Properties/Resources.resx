@@ -1071,8 +1071,7 @@ nv.Command.NextPage.Execute()</value>
   </data>
   <data name="CommandHost.Config.Example" xml:space="preserve">
     <value>// Change the theme color to dark
-nv.Config.Theme.PanelColor = "Dark"
-nv.Config.Theme.MenuColor = "Dark"</value>
+nv.Config.Theme.ThemeType = "Dark"</value>
   </data>
   <data name="CommandHost.Effect" xml:space="preserve">
     <value>Effect panel accessor</value>
@@ -4754,11 +4753,11 @@ $Name is the main page (the smaller page number) when displaying 2 pages.</value
   <data name="SystemConfig.TemporaryDirectory.Remarks" xml:space="preserve">
     <value>It is used for pre-extraction and recursive compression files.</value>
   </data>
-  <data name="ThemeConfig.MenuColor" xml:space="preserve">
-    <value>Menu color</value>
+  <data name="ThemeConfig.ThemeType" xml:space="preserve">
+    <value>Theme type</value>
   </data>
-  <data name="ThemeConfig.PanelColor" xml:space="preserve">
-    <value>Theme color</value>
+  <data name="ThemeConfig.CustomThemeFilePath" xml:space="preserve">
+    <value>Custom theme file path</value>
   </data>
   <data name="ThumbnailConfig.CacheLimitSpan" xml:space="preserve">
     <value>Thumbnail cache retention period</value>
@@ -6915,10 +6914,19 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="FontsConfig.PanelFontScale" xml:space="preserve">
     <value>List item font scale</value>
   </data>
-  <data name="PanelColor.Dark" xml:space="preserve">
+  <data name="ThemeType.Dark" xml:space="preserve">
     <value>Dark</value>
   </data>
-  <data name="PanelColor.Light" xml:space="preserve">
+  <data name="ThemeType.Light" xml:space="preserve">
     <value>Light</value>
+  </data>
+  <data name="ThemeType.Custom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="ThemeErrorDialog.Title" xml:space="preserve">
+    <value>Theme error</value>
+  </data>
+  <data name="SettingPage.Window.Theme.OpenCustomThemeFile" xml:space="preserve">
+    <value>Open custom theme file</value>
   </data>
 </root>

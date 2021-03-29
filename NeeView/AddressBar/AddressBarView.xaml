@@ -163,7 +163,7 @@
                         </Style.Triggers>
                     </Style>
                 </Border.Style>
-                <DockPanel Margin="2,0">
+                <DockPanel Margin="0">
                     <Button DockPanel.Dock="Right" Style="{StaticResource AddressIconButton}" Margin="0" Command="{Binding BookCommands[ToggleBookmark]}" TabIndex="13">
                         <TextBlock FontSize="20" FontFamily="Meyrio">
                             <TextBlock.Style>

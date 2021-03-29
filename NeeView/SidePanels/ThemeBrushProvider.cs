@@ -17,7 +17,7 @@ namespace NeeView
 
         public ThemeBrushProvider()
         {
-            ThemeProfile.Current.ThemeColorChanged +=
+            ThemeManager.Current.ThemeProfileChanged +=
                 (s, e) => RefreshBrushes();
             
             MainWindowModel.Current.CanHidePanelChanged +=

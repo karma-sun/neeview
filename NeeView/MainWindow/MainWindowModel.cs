@@ -179,7 +179,7 @@ namespace NeeView
 
             _viewComponent = MainViewComponent.Current;
 
-            ThemeProfile.Current.ThemeColorChanged += (s, e) => RefreshSliderBrushes();
+            ThemeManager.Current.ThemeProfileChanged += (s, e) => RefreshSliderBrushes();
 
             Config.Current.MenuBar.AddPropertyChanged(nameof(MenuBarConfig.IsHideMenuInAutoHideMode), (s, e) =>
             {
@@ -608,7 +608,7 @@ namespace NeeView
             public double CursorHideReleaseDistance { get; set; }
 
             [Obsolete, DataMember(EmitDefaultValue = false)]
-            public PanelColor PanelColor { get; set; } // no used v34.0. moved to ThumbnailProfile.
+            public ThemeType PanelColor { get; set; } // no used v34.0. moved to ThumbnailProfile.
 
 
             [OnDeserializing]

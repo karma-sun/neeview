@@ -1,13 +1,60 @@
-﻿using NeeView.Windows.Property;
+﻿using NeeLaboratory.Windows.Input;
+using NeeView.Windows.Property;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Windows;
+using System.Windows.Data;
 
 namespace NeeView.Setting
 {
+    public class ObjectCompareConverter : IValueConverter
+    {
+        public object Target { get; set; }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return object.Equals(value, Target);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class ObjectCompareToVisibilityConverter : IValueConverter
+    {
+        public object Target { get; set; }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return object.Equals(value, Target) ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     /// <summary>
     /// Setting: Window
     /// </summary>
     public class SettingPageWindow : SettingPage
     {
+        private RelayCommand _openCustomThemeFile;
+        public RelayCommand OpenCustomThemeFile
+        {
+            get { return _openCustomThemeFile = _openCustomThemeFile ?? new RelayCommand(OpenCustomThemeFile_Execute); }
+        }
+
+        private void OpenCustomThemeFile_Execute()
+        {
+            ThemeManager.Current.OpenCustomThemeFile();
+        }
+
+
         public SettingPageWindow() : base(Properties.Resources.SettingPage_Window)
         {
             this.Children = new List<SettingPage>
@@ -19,7 +66,18 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>();
 
             var section = new SettingItemSection(Properties.Resources.SettingPage_Window_Theme);
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Theme, nameof(ThemeConfig.PanelColor))));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Theme, nameof(ThemeConfig.ThemeType))));
+            var group = new SettingItemGroup()
+            {
+                Visibility = new VisibilityPropertyValue(new Binding(nameof(ThemeConfig.ThemeType)) { Source = Config.Current.Theme, Converter = new ObjectCompareToVisibilityConverter() { Target = ThemeType.Custom } }),
+            };
+            group.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Theme, nameof(ThemeConfig.CustomThemeFilePath)))
+            {
+                IsStretch = true,
+            });
+            group.Children.Add(new SettingItemLink(Properties.Resources.SettingPage_Window_Theme_OpenCustomThemeFile, OpenCustomThemeFile) { IsContentOnly = true });
+            section.Children.Add(group);
+
             this.Items.Add(section);
 
             section = new SettingItemSection(Properties.Resources.SettingPage_Window_Background);

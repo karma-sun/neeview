@@ -49,7 +49,6 @@ namespace NeeView
             Resources["Docking"] = Properties.Resources.LayoutPanel_Menu_Docking;
             Resources["Close"] = Properties.Resources.LayoutPanel_Menu_Close;
 
-            ContainerDecorator = new LayoutPanelContainerDecorator();
             WindowBuilder = new LayoutPanelWindowBuilder();
 
             var panelKyes = new[] {
@@ -192,18 +191,6 @@ namespace NeeView
             if (_initialized)
             {
                 Restore(Config.Current.Panels.Layout);
-            }
-        }
-
-
-        /// <summary>
-        /// LayoutContainer装飾
-        /// </summary>
-        class LayoutPanelContainerDecorator : ILayoutPanelContainerDecorator
-        {
-            public void Decorate(LayoutPanelContainer container, Button closeButton)
-            {
-                closeButton.Style = (Style)App.Current.Resources["IconButton"];
             }
         }
 

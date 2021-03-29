@@ -43,8 +43,6 @@ namespace NeeView.Runtime.LayoutPanel
             this.DockingMenuItem.Header = manager.Resources["Docking"];
             this.CloseMenuItem.Header = manager.Resources["Close"];
 
-            manager.ContainerDecorator?.Decorate(this, this.CloseButton);
-
             this.Loaded += LayoutPanelContainer_Loaded;
         }
 
@@ -173,7 +171,7 @@ namespace NeeView.Runtime.LayoutPanel
             {
                 return;
             }
-                
+
             if (content == this.LayoutPanel)
             {
                 e.Effects = DragDropEffects.None;

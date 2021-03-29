@@ -148,7 +148,7 @@
                             </local:AutoHideBehavior>
                         </behaviors:Interaction.Behaviors>
                         <nrlp:LayoutDockPanel Margin="{Binding PanelMargin}" Manager="{Binding VM.MainLayoutPanelManager}" ItemsSource="{Binding VM.MainLayoutPanelManager.LeftDock.SelectedItem}"
-                                BorderBrush="{DynamicResource SidePanel.Splitter}" TextBlock.Foreground="{DynamicResource SidePanel.Header}">
+                                BorderBrush="{DynamicResource SidePanel.Splitter}">
                         </nrlp:LayoutDockPanel>
                     </Border>
                 </Border>
@@ -174,7 +174,7 @@
                             </local:AutoHideBehavior>
                         </behaviors:Interaction.Behaviors>
                         <nrlp:LayoutDockPanel Margin="{Binding PanelMargin}" Manager="{Binding VM.MainLayoutPanelManager}" ItemsSource="{Binding VM.MainLayoutPanelManager.RightDock.SelectedItem}"
-                                BorderBrush="{DynamicResource SidePanel.Splitter}" TextBlock.Foreground="{DynamicResource SidePanel.Header}">
+                                BorderBrush="{DynamicResource SidePanel.Splitter}">
                         </nrlp:LayoutDockPanel>
                     </Border>
                 </Border>

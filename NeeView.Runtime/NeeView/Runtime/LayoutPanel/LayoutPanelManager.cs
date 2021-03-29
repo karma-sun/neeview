@@ -24,8 +24,6 @@ namespace NeeView.Runtime.LayoutPanel
             ["Close"] = "_Close",
         };
 
-        public ILayoutPanelContainerDecorator ContainerDecorator { get; set; }
-
         public ILayoutPanelWindowBuilder WindowBuilder { get; set; }
 
         public LayoutPanelManager()

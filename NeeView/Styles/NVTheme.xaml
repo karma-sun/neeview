@@ -1,4 +1,7 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:nvc="clr-namespace:NeeView.Windows.Controls">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:nvc="clr-namespace:NeeView.Windows.Controls"
+                    xmlns:nrl="clr-namespace:NeeView.Runtime.LayoutPanel;assembly=NeeView.Runtime">
 
     <Style TargetType="{x:Type ListView}" BasedOn="{StaticResource NVListView}" />
     <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource NVListViewItem}" />
@@ -20,12 +23,12 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="{x:Type nvc:ToggleSwitch}" TargetType="{x:Type nvc:ToggleSwitch}" BasedOn="{StaticResource NVToggleSwitch}" />
-
     <Style x:Key="{x:Type Slider}" TargetType="{x:Type Slider}" BasedOn="{StaticResource NVSlider}">
         <Setter Property="nvc:SliderTools.MoveToPointOnDrag" Value="True" />
     </Style>
-
+    
+    <Style x:Key="{x:Type nvc:ToggleSwitch}" TargetType="{x:Type nvc:ToggleSwitch}" BasedOn="{StaticResource NVToggleSwitch}" />
+    <Style x:Key="{x:Type nrl:LayoutPanelHeader}" TargetType="{x:Type nrl:LayoutPanelHeader}" BasedOn="{StaticResource NVLayoutPanelHeader}" />
 
     <Style x:Key="DialogButton" TargetType="{x:Type Button}" BasedOn="{StaticResource DialogButtonBase}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}" />

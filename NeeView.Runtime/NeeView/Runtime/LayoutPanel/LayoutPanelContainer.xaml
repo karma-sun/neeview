@@ -31,25 +31,21 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <DockPanel x:Name="Caption" Grid.Row="0" Background="Transparent" Cursor="Hand">
+
+        <local:LayoutPanelHeader x:Name="Caption" Grid.Row="0" Cursor="Hand" Title="{Binding LayoutPanel.Title}" ClosePanelCommand="{StaticResource ClosePanelCommand}">
             <b:Interaction.Behaviors>
                 <nw:DragStartBehavior AllowedEffects="Move" DragDropData="{Binding LayoutPanel}" DragBegin="DragBegin" DragEnd="DragEnd" />
             </b:Interaction.Behaviors>
-            <DockPanel.ContextMenu>
+            <local:LayoutPanelHeader.ContextMenu>
                 <ContextMenu>
                     <MenuItem x:Name="FloatingMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="Floating" Command="{StaticResource OpenWindowCommand}" />
                     <MenuItem x:Name="DockingMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="Docking" IsEnabled="False" />
                     <Separator />
-                    <MenuItem x:Name="CloseMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="Close" Command="{StaticResource ClosePanelCommand}"/>
+                    <MenuItem x:Name="CloseMenuItem" Style="{StaticResource ContextMenuItemStyle}" Header="Close" Command="{StaticResource ClosePanelCommand}" />
                 </ContextMenu>
-            </DockPanel.ContextMenu>
-            <Button x:Name="CloseButton" DockPanel.Dock="Right" Width="24" Height="24" Command="{StaticResource ClosePanelCommand}" Cursor="Arrow" BorderThickness="0" Background="Transparent"
-                    Visibility="{Binding ElementName=Caption, Path=IsMouseOver, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Path UseLayoutRounding="True" StrokeThickness="1" Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                        Data="M 0,0 L 10,10 M 0,10 L 10,0" Margin="0,0,1,0" />
-            </Button>
-            <TextBlock Text="{Binding LayoutPanel.Title}" VerticalAlignment="Center" MinHeight="24"/>
-        </DockPanel>
-        <UserControl Grid.Row="1" Content="{Binding LayoutPanel.Content}" />
+            </local:LayoutPanelHeader.ContextMenu>
+        </local:LayoutPanelHeader>
+
+        <ContentControl Grid.Row="1" Content="{Binding LayoutPanel.Content}" />
     </Grid>
 </UserControl>

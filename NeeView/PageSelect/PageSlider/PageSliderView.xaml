@@ -14,7 +14,9 @@
     </UserControl.Resources>
     
     <Grid x:Name="Root" MouseWheel="SliderArea_MouseWheel" UseLayoutRounding="True">
-        <DockPanel Visibility="{Binding PageSliderVisibility}">
+        <Border BorderThickness="0,1,0,0" BorderBrush="{DynamicResource PageSelectionBar.Border}"
+                Visibility="{Binding RelativeSource={RelativeSource AncestorType=local:PageSliderView}, Path=IsBorderVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        <DockPanel Visibility="{Binding PageSliderVisibility}" Margin="0,1,0,0">
             <local:SliderTextBox x:Name="PageSliderTextBox" DockPanel.Dock="{Binding SliderIndexDock}" 
                                        Visibility="{Binding IsSliderWithIndex, Converter={StaticResource BooleanToVisibilityConverter}}"
                                        Maximum="{Binding Model.PageSelector.MaxIndex}" Value="{Binding Model.SelectedIndexRaw}"

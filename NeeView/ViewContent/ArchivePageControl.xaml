@@ -17,12 +17,12 @@
                         PreviewStylusDown="OpenBookButton_PreviewStylusDown" PreviewStylusUp="OpenBookButton_PreviewStylusUp">
                     <Border.Style>
                         <Style TargetType="Border">
-                            <Setter Property="Background" Value="#1F808080" />
-                            <Setter Property="BorderBrush" Value="#1F808080" />
+                            <Setter Property="Background" Value="{DynamicResource Thumbnail.Background}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource Thumbnail.Background}" />
                             <Style.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#1F26A0DA" />
-                                    <Setter Property="BorderBrush" Value="#A826A0DA" />
+                                    <Setter Property="Background" Value="{DynamicResource Item.MouseOver.Background}" />
+                                    <Setter Property="BorderBrush" Value="{DynamicResource Item.MouseOver.Border}" />
                                 </Trigger>
                             </Style.Triggers>
                         </Style>

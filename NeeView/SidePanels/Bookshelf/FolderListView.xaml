@@ -63,7 +63,7 @@
                 <Setter Property="MinHeight" Value="{DynamicResource FontIconSize}" />
             </Style>
 
-            <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
+            <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem" BasedOn="{StaticResource NVMenuItem}">
                 <Setter Property="HeaderTemplate">
                     <Setter.Value>
                         <DataTemplate>
@@ -90,164 +90,155 @@
     </UserControl.Resources>
 
 
-    <DockPanel x:Name="DockPanel" Margin="2" IsVisibleChanged="FolderListView_IsVisibleChanged" Background="Transparent" KeyDown="Root_KeyDown">
+    <DockPanel x:Name="DockPanel" Margin="0" IsVisibleChanged="FolderListView_IsVisibleChanged" Background="Transparent" KeyDown="Root_KeyDown">
 
-        <StackPanel DockPanel.Dock="Top">
+        <Border DockPanel.Dock="Top" BorderThickness="0,0,0,0" BorderBrush="{DynamicResource SidePanel.Border}">
+            <StackPanel Margin="2">
 
-            <StackPanel HorizontalAlignment="Stretch">
-                <Grid x:Name="PlaceGrid">
-                    <DockPanel>
-                        <TextBlock DockPanel.Dock="Right" Text="{Binding FolderCollection.ValidCount, StringFormat={}{0}}" Foreground="{DynamicResource SidePanel.Foreground}" Margin="5,0"
-                                Visibility="{Binding Source={x:Static local:Config.Current}, Path=Bookshelf.IsVisibleItemsCount, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                        <DockPanel x:Name="PlaceBar" HorizontalAlignment="Left">
-                            <Image x:Name="PlaceIcon" DockPanel.Dock="Left" Width="16" Height="16"
-                                    VerticalAlignment="Center" Margin="0,0,0,0" PreviewMouseLeftButtonDown="PlaceIcon_MouseLeftButtonDown" PreviewMouseLeftButtonUp="PlaceIcon_MouseLeftButtonUp"
-                                    PreviewMouseMove="PlaceIcon_MouseMove" QueryContinueDrag="PlaceIcon_QueryContinueDrag">
-                                <Image.Source>
-                                    <MultiBinding Converter="{StaticResource PathToPlaceIconConverter}">
-                                        <Binding Path="FolderCollection.Place" />
-                                        <Binding Path="Dpi" />
-                                    </MultiBinding>
-                                </Image.Source>
-                            </Image>
-                            <Image DockPanel.Dock="Right" Source="{StaticResource fic_recursive_folder_24px}" Width="12" Height="12" VerticalAlignment="Center" Margin="0,2,0,0"
-                                   ToolTip="{x:Static properties:Resources.Bookshelf_SubFolder_ToolTip}"
-                                   Visibility="{Binding FolderCollection, Converter={StaticResource FolderCollectionToFolderRecursiveVisibilityConverter}}"/>
-                            <TextBlock Text="{Binding FolderCollection.PlaceDispString}" ToolTip="{Binding FolderCollection.PlaceDispString}" Margin="5,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <StackPanel HorizontalAlignment="Stretch">
+                    <Grid x:Name="PlaceGrid">
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Right" Text="{Binding FolderCollection.ValidCount, StringFormat={}{0}}" Foreground="{DynamicResource SidePanel.Foreground}" Margin="5,0"
+                                    Visibility="{Binding Source={x:Static local:Config.Current}, Path=Bookshelf.IsVisibleItemsCount, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            <DockPanel x:Name="PlaceBar" HorizontalAlignment="Left">
+                                <Image x:Name="PlaceIcon" DockPanel.Dock="Left" Width="16" Height="16" VerticalAlignment="Center" Margin="0,0,0,0"
+                                        PreviewMouseLeftButtonDown="PlaceIcon_MouseLeftButtonDown" PreviewMouseLeftButtonUp="PlaceIcon_MouseLeftButtonUp" PreviewMouseMove="PlaceIcon_MouseMove"
+                                        QueryContinueDrag="PlaceIcon_QueryContinueDrag">
+                                    <Image.Source>
+                                        <MultiBinding Converter="{StaticResource PathToPlaceIconConverter}">
+                                            <Binding Path="FolderCollection.Place" />
+                                            <Binding Path="Dpi" />
+                                        </MultiBinding>
+                                    </Image.Source>
+                                </Image>
+                                <Image DockPanel.Dock="Right" Source="{StaticResource fic_recursive_folder_24px}" Width="12" Height="12" VerticalAlignment="Center" Margin="0,2,0,0"
+                                        ToolTip="{x:Static properties:Resources.Bookshelf_SubFolder_ToolTip}"
+                                        Visibility="{Binding FolderCollection, Converter={StaticResource FolderCollectionToFolderRecursiveVisibilityConverter}}" />
+                                <TextBlock Text="{Binding FolderCollection.PlaceDispString}" ToolTip="{Binding FolderCollection.PlaceDispString}" Margin="5,0" HorizontalAlignment="Right"
+                                        VerticalAlignment="Center" />
+                            </DockPanel>
                         </DockPanel>
-                    </DockPanel>
-                </Grid>
-            </StackPanel>
-
-            <DockPanel KeyboardNavigation.TabNavigation="Local">
-                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Top">
-                    <Button x:Name="FoderTreeButton" Style="{StaticResource FolderListButtonStyle}" TabIndex="2"
-                            ToolTip="{x:Static properties:Resources.Word_FoldersTree}"
-                            Command="{Binding ToggleVisibleFoldersTree}">
-                        <Image Source="{StaticResource ic_treeview_a}" />
-                        <Button.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="{x:Static properties:Resources.FolderTreeLayout_Top}" IsChecked="{Binding Model.FolderTreeLayout, Converter={StaticResource FolderTreeLayoutToBooleanConverter}, ConverterParameter={x:Static local:FolderTreeLayout.Top}}"
-                                          Command="{Binding SetFolderTreeLayout}" CommandParameter="{x:Static local:FolderTreeLayout.Top}"/>
-                                <MenuItem Header="{x:Static properties:Resources.FolderTreeLayout_Left}" IsChecked="{Binding Model.FolderTreeLayout, Converter={StaticResource FolderTreeLayoutToBooleanConverter}, ConverterParameter={x:Static local:FolderTreeLayout.Left}}"
-                                          Command="{Binding SetFolderTreeLayout}" CommandParameter="{x:Static local:FolderTreeLayout.Left}"/>
-                            </ContextMenu>
-                        </Button.ContextMenu>
-                    </Button>
-                    <local:MoreMenuButton Description="{Binding MoreMenuDescription}" MinHeight="{DynamicResource FontIconSize}" TabIndex="4" />
+                    </Grid>
                 </StackPanel>
-                <WrapPanel Orientation="Horizontal" VerticalAlignment="Top" MinWidth="150">
-                    <Button x:Name="FolderHomeButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToHome}" TabIndex="1"
-                        ToolTip="{x:Static properties:Resources.Bookshelf_Home_ToolTip}">
-                        <Image Source="{StaticResource ic_home_24px_a}" />
-                        <Button.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="{x:Static properties:Resources.Bookshelf_Home_Menu_Set}" Command="{Binding SetHome}"/>
-                            </ContextMenu>
-                        </Button.ContextMenu>
-                    </Button>
-                    <Button x:Name="FolderPrevButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToPrevious}" TabIndex="1"
-                        ContextMenuService.Placement="Bottom"
-                        ContextMenuOpening="FolderPrevButton_ContextMenuOpening"
-                        ToolTip="{x:Static properties:Resources.Bookshelf_Back_ToolTip}">
-                        <Image Source="{StaticResource ic_arrow_back_24px_a}" />
-                        <Button.ContextMenu>
-                            <ContextMenu x:Name="FolderPrevButtonContextMenu" ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}"/>
-                        </Button.ContextMenu>
-                    </Button>
-                    <Button x:Name="FolderNextButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToNext}" TabIndex="1"
-                        ContextMenuService.Placement="Bottom"
-                        ContextMenuOpening="FolderNextButton_ContextMenuOpening"
-                        ToolTip="{x:Static properties:Resources.Bookshelf_Next_ToolTip}">
-                        <Image Source="{StaticResource ic_arrow_forward_24px_a}" />
-                        <Button.ContextMenu>
-                            <ContextMenu x:Name="FolderNextButtonContextMenu" ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}"/>
-                        </Button.ContextMenu>
-                    </Button>
-                    <Button x:Name="FolderUpButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToUp}" TabIndex="1"
-                        ToolTip="{x:Static properties:Resources.Bookshelf_Up_ToolTip}">
-                        <Image Source="{StaticResource ic_arrow_up_24px_a}" />
-                    </Button>
-                    <Button x:Name="FolderSync" Style="{StaticResource FolderListButtonStyle}"  Command="{Binding Sync}" TabIndex="1"
-                        ToolTip="{x:Static properties:Resources.Bookshelf_Sync_ToolTip}">
-                        <Image Source="{StaticResource ic_sync_24px_a}" />
-                    </Button>
-                    <ComboBox x:Name="FolderOrderComboBox" TabIndex="1"
-                          ItemsSource="{Binding FolderOrderList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding FolderOrder, Delay=1}"
-                          Visibility="{Binding Model.IsFolderOrderEnabled, Converter={StaticResource BooleanToHiddenVisibilityConverter}}">
-                    </ComboBox>
-                </WrapPanel>
-            </DockPanel>
 
-            <Border x:Name="SearchBoxRoot" Margin="0,2,0,5" Visibility="{Binding Model.IsFolderSearchBoxVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
-                    BorderThickness="1">
-                <Border.Resources>
-                    <Style TargetType="TextBox" BasedOn="{StaticResource NVTextBox}">
-                        <EventSetter Event="KeyDown" Handler="Control_KeyDown_IgnoreSingleKeyGesture"/>
-                    </Style>
-                </Border.Resources>
-                <Border.Style>
-                    <Style TargetType="Border">
-                        <Setter Property="Background" Value="Transparent" />
-                        <Setter Property="BorderBrush" Value="{DynamicResource TextBox.Border}"/>
-                        <Setter Property="ToolTip" Value="{Binding Model.SearchKeywordErrorMessage, Mode=OneWay}"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding ElementName=SearchBox, Path=IsKeyboardFocusWithin}" Value="True">
-                                <Setter Property="BorderBrush" Value="{DynamicResource Control.Accent}"/>
-                                <Setter Property="Background" Value="{DynamicResource TextBox.Background}" />
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding Model.SearchKeywordErrorMessage, Converter={StaticResource IsNullConverter}}" Value="False">
-                                <Setter Property="BorderBrush" Value="Crimson"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding Model.IsFolderSearchEnabled}" Value="False">
-                                <Setter Property="IsEnabled" Value="False"/>
-                                <Setter Property="BorderBrush" Value="Transparent" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Border.Style>
                 <DockPanel KeyboardNavigation.TabNavigation="Local">
-                    <Image Source="{StaticResource ic_search_24px_g}" Width="14" Height="14" VerticalAlignment="Center" Margin="8,0,0,0">
-                        <Image.Style>
-                            <Style TargetType="Image">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=SearchBoxRoot, Path=IsEnabled}" Value="False">
-                                        <Setter Property="Opacity" Value="0.5" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Image.Style>
-                    </Image>
-                    <Button x:Name="ClearSearchButton" DockPanel.Dock="Right" VerticalAlignment="Center" Style="{StaticResource FolderListButtonStyle}" Width="24" Command="{Binding ClearSearch}"
-                            TabIndex="3" Visibility="{Binding ElementName=SearchBox, Path=Text, Converter={StaticResource StringNullOrWhiteSpaceToVisibilityConverter}}">
-                        <Image Source="{StaticResource ic_clear_24px_a}" Width="12" Height="12"/>
-                    </Button>
-                    <ComboBox x:Name="SearchBox" Text="{Binding Model.InputKeyword, UpdateSourceTrigger=PropertyChanged}" TabIndex="1"
-                              TextBoxBase.TextChanged="SearchBox_TextChanged"
-                              Style="{StaticResource NVComboBoxEditable}" MinHeight="{DynamicResource FontIconSize}"
-                              IsKeyboardFocusWithinChanged="SearchBox_IsKeyboardFocusWithinChanged"
-                              Foreground="{DynamicResource SidePanel.Foreground}" Background="{Binding ElementName=SearchBoxRoot, Path=Background}"
-                              VerticalAlignment="Stretch" KeyDown="SearchBox_KeyDown" ItemsSource="{Binding Source={x:Static local:BookHistoryCollection.Current}, Path=SearchHistory}" IsTextSearchCaseSensitive="True"
-                              IsEditable="True" BorderThickness="0">
-                        <ComboBox.ItemContainerStyle>
-                            <Style TargetType="ComboBoxItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Left" />
-                                <Setter Property="VerticalContentAlignment" Value="Center" />
-                            </Style>
-                        </ComboBox.ItemContainerStyle>
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding}" TextTrimming="CharacterEllipsis" MaxWidth="{Binding ElementName=SearchBox,Path=ActualWidth}" MinWidth="200" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
+                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Top">
+                        <Button x:Name="FoderTreeButton" Style="{StaticResource FolderListButtonStyle}" TabIndex="2" ToolTip="{x:Static properties:Resources.Word_FoldersTree}"
+                                Command="{Binding ToggleVisibleFoldersTree}">
+                            <Image Source="{StaticResource ic_treeview_a}" />
+                            <Button.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="{x:Static properties:Resources.FolderTreeLayout_Top}"
+                                            IsChecked="{Binding Model.FolderTreeLayout, Converter={StaticResource FolderTreeLayoutToBooleanConverter}, ConverterParameter={x:Static local:FolderTreeLayout.Top}}"
+                                            Command="{Binding SetFolderTreeLayout}" CommandParameter="{x:Static local:FolderTreeLayout.Top}" />
+                                    <MenuItem Header="{x:Static properties:Resources.FolderTreeLayout_Left}"
+                                            IsChecked="{Binding Model.FolderTreeLayout, Converter={StaticResource FolderTreeLayoutToBooleanConverter}, ConverterParameter={x:Static local:FolderTreeLayout.Left}}"
+                                            Command="{Binding SetFolderTreeLayout}" CommandParameter="{x:Static local:FolderTreeLayout.Left}" />
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                        </Button>
+                        <local:MoreMenuButton Description="{Binding MoreMenuDescription}" MinHeight="{DynamicResource FontIconSize}" TabIndex="4" />
+                    </StackPanel>
+                    <WrapPanel Orientation="Horizontal" VerticalAlignment="Top" MinWidth="150">
+                        <Button x:Name="FolderHomeButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToHome}" TabIndex="1"
+                                ToolTip="{x:Static properties:Resources.Bookshelf_Home_ToolTip}">
+                            <Image Source="{StaticResource ic_home_24px_a}" />
+                            <Button.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="{x:Static properties:Resources.Bookshelf_Home_Menu_Set}" Command="{Binding SetHome}" />
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                        </Button>
+                        <Button x:Name="FolderPrevButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToPrevious}" TabIndex="1" ContextMenuService.Placement="Bottom"
+                                ContextMenuOpening="FolderPrevButton_ContextMenuOpening" ToolTip="{x:Static properties:Resources.Bookshelf_Back_ToolTip}">
+                            <Image Source="{StaticResource ic_arrow_back_24px_a}" />
+                            <Button.ContextMenu>
+                                <ContextMenu x:Name="FolderPrevButtonContextMenu" ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}" />
+                            </Button.ContextMenu>
+                        </Button>
+                        <Button x:Name="FolderNextButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToNext}" TabIndex="1" ContextMenuService.Placement="Bottom"
+                                ContextMenuOpening="FolderNextButton_ContextMenuOpening" ToolTip="{x:Static properties:Resources.Bookshelf_Next_ToolTip}">
+                            <Image Source="{StaticResource ic_arrow_forward_24px_a}" />
+                            <Button.ContextMenu>
+                                <ContextMenu x:Name="FolderNextButtonContextMenu" ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}" />
+                            </Button.ContextMenu>
+                        </Button>
+                        <Button x:Name="FolderUpButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToUp}" TabIndex="1"
+                                ToolTip="{x:Static properties:Resources.Bookshelf_Up_ToolTip}">
+                            <Image Source="{StaticResource ic_arrow_up_24px_a}" />
+                        </Button>
+                        <Button x:Name="FolderSync" Style="{StaticResource FolderListButtonStyle}" Command="{Binding Sync}" TabIndex="1"
+                                ToolTip="{x:Static properties:Resources.Bookshelf_Sync_ToolTip}">
+                            <Image Source="{StaticResource ic_sync_24px_a}" />
+                        </Button>
+                        <ComboBox x:Name="FolderOrderComboBox" TabIndex="1" ItemsSource="{Binding FolderOrderList}" SelectedValuePath="Key" DisplayMemberPath="Value"
+                                SelectedValue="{Binding FolderOrder, Delay=1}" Visibility="{Binding Model.IsFolderOrderEnabled, Converter={StaticResource BooleanToHiddenVisibilityConverter}}">
+                        </ComboBox>
+                    </WrapPanel>
                 </DockPanel>
-            </Border>
 
-        </StackPanel>
+                <Border x:Name="SearchBoxRoot" Margin="0,2,0,5" Visibility="{Binding Model.IsFolderSearchBoxVisible, Converter={StaticResource BooleanToVisibilityConverter}}" BorderThickness="1">
+                    <Border.Resources>
+                        <Style TargetType="TextBox" BasedOn="{StaticResource NVTextBox}">
+                            <EventSetter Event="KeyDown" Handler="Control_KeyDown_IgnoreSingleKeyGesture" />
+                        </Style>
+                    </Border.Resources>
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource TextBox.Border}" />
+                            <Setter Property="ToolTip" Value="{Binding Model.SearchKeywordErrorMessage, Mode=OneWay}" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=SearchBox, Path=IsKeyboardFocusWithin}" Value="True">
+                                    <Setter Property="BorderBrush" Value="{DynamicResource Control.Accent}" />
+                                    <Setter Property="Background" Value="{DynamicResource TextBox.Background}" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Model.SearchKeywordErrorMessage, Converter={StaticResource IsNullConverter}}" Value="False">
+                                    <Setter Property="BorderBrush" Value="Crimson" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Model.IsFolderSearchEnabled}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                    <Setter Property="BorderBrush" Value="Transparent" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <DockPanel KeyboardNavigation.TabNavigation="Local">
+                        <Image Source="{StaticResource ic_search_24px_g}" Width="14" Height="14" VerticalAlignment="Center" Margin="8,0,0,0">
+                            <Image.Style>
+                                <Style TargetType="Image">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=SearchBoxRoot, Path=IsEnabled}" Value="False">
+                                            <Setter Property="Opacity" Value="0.5" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                        <Button x:Name="ClearSearchButton" DockPanel.Dock="Right" VerticalAlignment="Center" Style="{StaticResource FolderListButtonStyle}" Width="24" Command="{Binding ClearSearch}"
+                                TabIndex="3" Visibility="{Binding ElementName=SearchBox, Path=Text, Converter={StaticResource StringNullOrWhiteSpaceToVisibilityConverter}}">
+                            <Image Source="{StaticResource ic_clear_24px_a}" />
+                        </Button>
+                        <ComboBox x:Name="SearchBox" Text="{Binding Model.InputKeyword, UpdateSourceTrigger=PropertyChanged}" TabIndex="1" TextBoxBase.TextChanged="SearchBox_TextChanged"
+                                Style="{StaticResource NVComboBoxEditable}" MinHeight="{DynamicResource FontIconSize}" IsKeyboardFocusWithinChanged="SearchBox_IsKeyboardFocusWithinChanged"
+                                Foreground="{DynamicResource SidePanel.Foreground}" Background="{Binding ElementName=SearchBoxRoot, Path=Background}" VerticalAlignment="Stretch"
+                                KeyDown="SearchBox_KeyDown" ItemsSource="{Binding Source={x:Static local:BookHistoryCollection.Current}, Path=SearchHistory}" IsTextSearchCaseSensitive="True"
+                                IsEditable="True" BorderThickness="0">
 
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" TextTrimming="CharacterEllipsis" MaxWidth="{Binding ElementName=SearchBox,Path=ActualWidth}" MinWidth="200" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </DockPanel>
+                </Border>
+                
+            </StackPanel>
+        </Border>
+        
         <DockPanel SizeChanged="Grid_SizeChanged">
-            <local:FolderTreeView DockPanel.Dock="{Binding Model.FolderTreeDock}" x:Name="FolderTree"
+            <local:FolderTreeView DockPanel.Dock="{Binding Model.FolderTreeDock}" x:Name="FolderTree" Margin="2"
                                   Visibility="{Binding Model.IsFolderTreeVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <local:FolderTreeView.Style>
                     <Style TargetType="{x:Type local:FolderTreeView}">
@@ -266,7 +257,7 @@
             <osc:DockPanelSplitter x:Name="LeftPanelSplitter" DockPanel.Dock="{Binding Model.FolderTreeDock}" Style="{StaticResource NVHorizontalBevelGrip}" ProportionalResize="False" UseLayoutRounding="True" IsTabStop="False"
                                    Visibility="{Binding Model.IsFolderTreeVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             
-            <ContentControl x:Name="ListBoxContent" Content="{Binding FolderListBox}" Focusable="False" />
+            <ContentControl x:Name="ListBoxContent" Content="{Binding FolderListBox}" Focusable="False" Margin="2" />
         </DockPanel>
 
     </DockPanel>

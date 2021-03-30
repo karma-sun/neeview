@@ -41,7 +41,7 @@
                 <Setter Property="MinHeight" Value="{DynamicResource FontIconSize}" />
             </Style>
 
-            <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
+            <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem" BasedOn="{StaticResource NVMenuItem}">
                 <Setter Property="HeaderTemplate">
                     <Setter.Value>
                         <DataTemplate>

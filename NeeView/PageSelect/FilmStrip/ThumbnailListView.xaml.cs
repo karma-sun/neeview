@@ -42,6 +42,18 @@ namespace NeeView
             }
         }
 
+
+        public bool IsContentVisible
+        {
+            get { return (bool)GetValue(IsContentVisibleProperty); }
+            private set { SetValue(IsContentVisiblePropertyKey, value); }
+        }
+
+        private static readonly DependencyPropertyKey IsContentVisiblePropertyKey =
+            DependencyProperty.RegisterReadOnly("IsContentVisible", typeof(bool), typeof(ThumbnailListView), new PropertyMetadata(false));
+
+        public static readonly DependencyProperty IsContentVisibleProperty = IsContentVisiblePropertyKey.DependencyProperty;
+
         #endregion
 
         #region Fields
@@ -72,6 +84,9 @@ namespace NeeView
         {
             InitializeComponent();
             InitializeCommand();
+
+            this.Root.IsVisibleChanged +=
+                (s, e) => this.IsContentVisible = (bool)e.NewValue;
         }
 
         #endregion

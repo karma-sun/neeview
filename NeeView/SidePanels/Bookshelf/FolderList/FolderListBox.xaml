@@ -139,12 +139,12 @@
         </DataTemplate>
 
         <DataTemplate x:Key="ThumbnailTemplate">
-            <StackPanel Margin="0,5" Width="{Binding Source={x:Static local:Config.Current}, Path=Panels.ThumbnailItemProfile.ShapeWidth}" Style="{StaticResource ThumbnailStackPanelStyle}">
-                <local:PanelListThumbnailImage Thumbnail="{Binding Thumbnail}"/>
+            <StackPanel Margin="5" Width="{Binding Source={x:Static local:Config.Current}, Path=Panels.ThumbnailItemProfile.ShapeWidth}" Style="{StaticResource ThumbnailStackPanelStyle}">
+                <local:PanelListThumbnailImage Thumbnail="{Binding Thumbnail}" />
                 <Rectangle DockPanel.Dock="Bottom" Style="{StaticResource HorizontalSelectedStyle}" />
                 <DockPanel>
                     <local:FolderListIcon DockPanel.Dock="Right" VerticalAlignment="Top" IsKeepArea="False" />
-                    <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource ThumbnailNameStyle}"/>
+                    <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource ThumbnailNameStyle}" />
                 </DockPanel>
             </StackPanel>
         </DataTemplate>

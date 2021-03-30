@@ -53,8 +53,8 @@
         </Style>
 
         <DataTemplate x:Key="GroupHeadderTemplate">
-            <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource SidePanel.Sepalator}" Margin="5,10,5,5">
-                <DockPanel>
+            <Border BorderThickness="0,1,0,0" BorderBrush="{DynamicResource SidePanel.Sepalator}" Margin="0,5">
+                <DockPanel Margin="0,5">
                     <local:InformationGroupButton DockPanel.Dock="Right" Style="{StaticResource PropertyValueButtonStyle}" Content="Button" GroupName="{Binding Name}"
                             Source="{Binding Path=DataContext.Source, ElementName=Root}" />
                     <TextBlock Text="{Binding Path=Name}" Foreground="{DynamicResource SidePanel.Header}" />
@@ -70,6 +70,10 @@
             <ListBox.GroupStyle>
                 <GroupStyle HeaderTemplate="{StaticResource GroupHeadderTemplate}" />
             </ListBox.GroupStyle>
+
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource NVListBoxItem}" />
+            </ListBox.ItemContainerStyle>
         </ListBox>
     </Grid>
 

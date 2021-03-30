@@ -49,7 +49,7 @@
             <local:BindingProxy x:Key="BaseForeground" Data="{DynamicResource MenuBar.Foreground}" />
 
             <!-- MenuItem History -->
-            <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
+            <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem" BasedOn="{StaticResource NVMenuItem}">
                 <Setter Property="Header" Value="{Binding Path=Name}" />
                 <Setter Property="Command" Value="{x:Static local:LoadCommand.Command}" />
                 <Setter Property="CommandParameter" Value="{Binding Path=Path}" />
@@ -106,7 +106,8 @@
                         <!-- スライダー -->
                         <ContentControl x:Name="DockPageSliderSocket" DockPanel.Dock="Bottom" IsTabStop="False">
                             <Grid x:Name="SliderArea">
-                                <local:PageSliderView x:Name="PageSliderView" VerticalAlignment="Bottom" />
+                                <local:PageSliderView x:Name="PageSliderView" VerticalAlignment="Bottom"
+                                                      IsBorderVisible="{Binding ElementName=ThumbnailListArea, Path=IsContentVisible, Converter={StaticResource BooleanReverseConverter}}" />
                                 <local:MediaControlView x:Name="MediaControlView" VerticalAlignment="Bottom" />
                             </Grid>
                         </ContentControl>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Media;
 using System.Diagnostics;
 using System.Linq;
+using NeeLaboratory;
 
 namespace NeeView
 {
@@ -10,8 +11,8 @@ namespace NeeView
     {
         public static ThemeProfile Default { get; } = new ThemeProfile()
         {
-            ["Window.Background"] = new ThemeColor(System.Windows.Media.Colors.Black),
-            ["Window.Foreground"] = new ThemeColor(System.Windows.Media.Colors.White),
+            ["Window.Background"] = new ThemeColor(System.Windows.Media.Colors.Black, 1.0),
+            ["Window.Foreground"] = new ThemeColor(System.Windows.Media.Colors.White, 1.0),
         };
 
         public static readonly List<string> Keys = new List<string>()
@@ -36,9 +37,12 @@ namespace NeeView
             "Button.Background",
             "Button.Foreground",
             "Button.Border",
-            "Button.MouseOver",
-            "Button.Checked",
-            "Button.Pressed",
+            "Button.MouseOver.Background",
+            "Button.MouseOver.Border",
+            "Button.Checked.Background",
+            "Button.Checked.Border",
+            "Button.Pressed.Background",
+            "Button.Pressed.Border",
 
             "DialogButton.Background",
             "DialogButton.Foreground",
@@ -122,22 +126,22 @@ namespace NeeView
             Debug.WriteLine("ThemProfile.Verify.Surplus: " + string.Join(", ", surplus)); // 余剰
         }
 
-        public Color GetColor(string key, IEnumerable<string> nests = null)
+        public Color GetColor(string key, double opacity, IEnumerable<string> nests = null)
         {
             if (Colors.TryGetValue(key, out var value))
             {
                 switch (value.ThemeColorType)
                 {
                     case ThemeColorType.Default:
-                        return GetDefaultColor(key);
+                        return GetDefaultColor(key, opacity);
 
                     case ThemeColorType.Color:
-                        return value.Color;
+                        return AddOpacityToColor(value.Color, value.Opacity * opacity);
 
                     case ThemeColorType.Link:
                         if (nests != null && nests.Contains(key)) throw new FormatException($"Circular reference: {key}");
                         nests = nests is null ? new List<string>() { key } : nests.Append(key);
-                        return GetColor(value.Link, nests);
+                        return GetColor(value.Link, value.Opacity * opacity, nests);
 
                     default:
                         throw new NotSupportedException();
@@ -145,11 +149,17 @@ namespace NeeView
             }
             else
             {
-                return GetDefaultColor(key);
+                return GetDefaultColor(key, opacity);
             }
         }
 
-        private Color GetDefaultColor(string key)
+        private Color AddOpacityToColor(Color color, double opacity)
+        {
+            if (opacity == 1.0) return color;
+            return Color.FromArgb((byte)(MathUtility.Clamp(color.A * opacity, 0.0, 255.0)), color.R, color.G, color.B);
+        }
+
+        private Color GetDefaultColor(string key, double opacity)
         {
             var tokens = key.Split('.');
             if (tokens.Length < 2) throw new FormatException($"Wrong format: {key}");
@@ -161,11 +171,11 @@ namespace NeeView
             {
                 case "Foreground":
                 case "Background":
-                    if (name == "Window") return Default.GetColor(key);
-                    return GetColor("Window." + role);
+                    if (name == "Window") return Default.GetColor(key, opacity);
+                    return GetColor("Window." + role, opacity);
 
                 default:
-                    return GetColor(name + ".Background");
+                    return GetColor(name + ".Background", opacity);
             }
         }
 

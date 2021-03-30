@@ -60,7 +60,7 @@ namespace NeeView
 
             foreach (var key in ThemeProfile.Keys)
             {
-                var color = ThemeProfile.GetColor(key);
+                var color = ThemeProfile.GetColor(key, 1.0);
                 App.Current.Resources[key] = new SolidColorBrush(color);
             }
 

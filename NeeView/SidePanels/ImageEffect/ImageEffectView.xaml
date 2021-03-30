@@ -35,7 +35,7 @@
             </Style>
 
             <Style TargetType="Separator">
-                <Setter Property="Background" Value="#4888" />
+                <Setter Property="Background" Value="{DynamicResource SidePanel.Sepalator}" />
                 <Setter Property="Margin" Value="0,5" />
             </Style>
 

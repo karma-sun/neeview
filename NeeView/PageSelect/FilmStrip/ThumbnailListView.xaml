@@ -19,7 +19,7 @@
 
     </UserControl.Resources>
 
-    <Grid x:Name="Root" Visibility="{Binding Model.ThumbnailListVisibility}" SizeChanged="ThumbnailListArea_SizeChanged" UseLayoutRounding="True" >
+    <Border x:Name="Root" Visibility="{Binding Model.ThumbnailListVisibility}" SizeChanged="ThumbnailListArea_SizeChanged" UseLayoutRounding="True" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource PageSelectionBar.Border}" >
         <ListBox x:Name="ThumbnailListBox" ItemsSource="{Binding Model.Items, NotifyOnTargetUpdated=True}" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                              SelectedIndex="{Binding Model.SelectedIndex}"
                              TargetUpdated="ThumbnailListBox_TargetUpdated"
@@ -126,6 +126,6 @@
 
             </ListBox.Resources>
         </ListBox>
-    </Grid>
+    </Border>
 
 </UserControl>

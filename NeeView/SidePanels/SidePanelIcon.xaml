@@ -19,7 +19,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid>
-                            <Rectangle x:Name="baseRectangle" RadiusY="0" RadiusX="0" StrokeThickness="1" Fill="{x:Null}" />
+                            <Border x:Name="Bd" BorderThickness="1" BorderBrush="{x:Null}" Background="{x:Null}" />
                             <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True"
                                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Opacity="0.5" />
                         </Grid>

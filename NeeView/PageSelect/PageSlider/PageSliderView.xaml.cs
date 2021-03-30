@@ -21,13 +21,15 @@ namespace NeeView
     /// </summary>
     public partial class PageSliderView : UserControl
     {
+        private PageSliderViewModel _vm;
+
+
         public PageSlider Source
         {
             get { return (PageSlider)GetValue(SourceProperty); }
             set { SetValue(SourceProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Source.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SourceProperty =
             DependencyProperty.Register("Source", typeof(PageSlider), typeof(PageSliderView), new PropertyMetadata(null, Source_Changed));
 
@@ -40,20 +42,22 @@ namespace NeeView
         }
 
 
+        public bool IsBorderVisible
+        {
+            get { return (bool)GetValue(IsBorderVisibleProperty); }
+            set { SetValue(IsBorderVisibleProperty, value); }
+        }
 
-        private PageSliderViewModel _vm;
+        public static readonly DependencyProperty IsBorderVisibleProperty =
+            DependencyProperty.Register("IsBorderVisible", typeof(bool), typeof(PageSliderView), new PropertyMetadata(false));
 
 
-        /// <summary>
-        /// constructor
-        /// </summary>
         public PageSliderView()
         {
             InitializeComponent();
         }
 
 
-        //
         public void Initialize()
         {
             if (this.Source == null) return;

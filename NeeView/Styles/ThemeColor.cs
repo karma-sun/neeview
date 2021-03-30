@@ -24,23 +24,36 @@ namespace NeeView
             ThemeColorType = ThemeColorType.Default;
         }
 
-        public ThemeColor(Color color)
+        public ThemeColor(Color color, double opacity)
         {
             ThemeColorType = ThemeColorType.Color;
             Color = color;
+            Opacity = opacity;
         }
 
-        public ThemeColor(string link)
+        public ThemeColor(string link, double opacity)
         {
             ThemeColorType = ThemeColorType.Link;
             Link = link;
+            Opacity = opacity;
+
+            /*
+            var tokens = link.Split('/');
+
+            Link = tokens[0];
+
+            if (tokens.Length > 1)
+            {
+                Opacity = double.Parse(tokens[1]);
+            }
+            */
         }
 
 
         public ThemeColorType ThemeColorType { get; private set; }
         public Color Color { get; private set; }
         public string Link { get; private set; }
-
+        public double Opacity { get; private set; } = 1.0;
 
         public override string ToString()
         {
@@ -49,34 +62,48 @@ namespace NeeView
                 case ThemeColorType.Default:
                     return "";
                 case ThemeColorType.Color:
-                    return Color.ToString();
+                    return DecorateOpacityString(Color.ToString());
                 case ThemeColorType.Link:
-                    return Link;
+                    return DecorateOpacityString(Link);
             }
 
             throw new InvalidOperationException();
         }
 
+        private string DecorateOpacityString(string s)
+        {
+            if (Opacity == 1.0) return s;
+
+            return s + ":" + Opacity.ToString("F2");
+        }
+
         public static ThemeColor Parse(string s)
         {
-            if (string.IsNullOrWhiteSpace(s))
+            try
             {
-                return new ThemeColor();
-            }
-            else if (s.IndexOf('.') >= 0)
-            {
-                return new ThemeColor(s);
-            }
-            else
-            {
-                try
+                if (string.IsNullOrWhiteSpace(s))
                 {
-                    return new ThemeColor((Color)ColorConverter.ConvertFromString(s));
+                    return new ThemeColor();
                 }
-                catch (FormatException ex)
+                else
                 {
-                    throw new FormatException($"{ex.Message}: \"{s}\"", ex);
+                    var tokens = s.Split('/');
+                    var token = tokens[0];
+                    var opacity = (tokens.Length > 1) ? double.Parse(tokens[1]) : 1.0;
+
+                    if (token.IndexOf('.') >= 0)
+                    {
+                        return new ThemeColor(token, opacity);
+                    }
+                    else
+                    {
+                        return new ThemeColor((Color)ColorConverter.ConvertFromString(token), opacity);
+                    }
                 }
+            }
+            catch (FormatException ex)
+            {
+                throw new FormatException($"{ex.Message}: \"{s}\"", ex);
             }
         }
     }

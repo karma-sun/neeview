@@ -74,6 +74,10 @@ namespace NeeView
             options.Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
             options.WriteIndented = true;
             options.IgnoreReadOnlyProperties = true;
+
+            options.ReadCommentHandling = JsonCommentHandling.Skip;
+            options.AllowTrailingCommas = true;
+
             options.Converters.Add(new JsonEnumFuzzyConverter());
             options.Converters.Add(new JsonColorConverter());
             options.Converters.Add(new JsonSizeConverter());

@@ -25,7 +25,7 @@
         <Style x:Key="PanelIconBorderStyle" TargetType="Border">
             <Setter Property="TextBlock.Foreground" Value="{DynamicResource SideBar.Foreground}" />
             <Setter Property="BorderBrush" Value="{DynamicResource SideBar.Border}" />
-            <Setter Property="Width" Value="40" />
+            <Setter Property="Width" Value="41" />
             <Setter Property="Visibility" Value="{Binding IsSideBarVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Setter Property="UseLayoutRounding" Value="True" />
             <Setter Property="Focusable" Value="True" />

@@ -42,9 +42,9 @@
     <Grid x:Name="Root" MinHeight="32" KeyboardNavigation.TabNavigation="Local">
         <Grid.Resources>
             <Style x:Key="AddressIconButton" TargetType="Button" BasedOn="{StaticResource IconButton}">
-                <Setter Property="Width" Value="24"/>
-                <Setter Property="Height" Value="24"/>
-                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Width" Value="28"/>
+                <Setter Property="Height" Value="28"/>
+                <Setter Property="Padding" Value="2"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
                 <Setter Property="IsTabStop" Value="True"/>
                 <Setter Property="Margin" Value="4,0"/>
@@ -56,7 +56,7 @@
             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" UseLayoutRounding="True">
 
                 <Button Style="{StaticResource AddressIconButton}" Command="{Binding BookCommands[TogglePageMode]}" TabIndex="20">
-                    <Image Width="18" Height="18">
+                    <Image>
                         <Image.Style>
                             <Style TargetType="Image">
                                 <Setter Property="Source" Value="{StaticResource ic_looks_one_24px}"/>
@@ -72,29 +72,27 @@
                     </Image>
                 </Button>
 
-                <Button Style="{StaticResource AddressIconButton}" Command="{Binding BookCommands[ToggleBookReadOrder]}" TabIndex="21" >
-                    <Grid Width="22" Height="18" Background="#0000">
-                        <Image Width="18" Height="18">
-                            <Image.Style>
-                                <Style TargetType="Image">
-                                    <Setter Property="Source" Value="{StaticResource ic_left_to_right_24px}"/>
-                                    <Setter Property="ToolTip" Value="{x:Static properties:Resources.PageReadOrder_LeftToRight}"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding BookSetting.BookReadOrder}"  Value="RightToLeft">
-                                            <Setter Property="Source" Value="{StaticResource ic_right_to_left_24px}"/>
-                                            <Setter Property="ToolTip" Value="{x:Static properties:Resources.PageReadOrder_RightToLeft}"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Image.Style>
-                        </Image>
-                    </Grid>
+                <Button Style="{StaticResource AddressIconButton}" Command="{Binding BookCommands[ToggleBookReadOrder]}" TabIndex="21">
+                    <Image>
+                        <Image.Style>
+                            <Style TargetType="Image">
+                                <Setter Property="Source" Value="{StaticResource ic_left_to_right_24px}" />
+                                <Setter Property="ToolTip" Value="{x:Static properties:Resources.PageReadOrder_LeftToRight}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding BookSetting.BookReadOrder}" Value="RightToLeft">
+                                        <Setter Property="Source" Value="{StaticResource ic_right_to_left_24px}" />
+                                        <Setter Property="ToolTip" Value="{x:Static properties:Resources.PageReadOrder_RightToLeft}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
                 </Button>
 
                 <Button x:Name="PageSortModeButton" Style="{StaticResource AddressIconButton}" TabIndex="22"
                         Click="PageSortModeButton_Click"
                         ToolTip="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToStringConverter}}">
-                    <Grid Width="20" Height="18">
+                    <Grid>
                         <local:PageSortModeIcon PageSortMode="{Binding BookSetting.SortMode}" />
                     </Grid>
                 </Button>
@@ -113,7 +111,7 @@
                                     ContextMenuService.Placement="Bottom"
                                     ContextMenuOpening="PrevHistoryButton_ContextMenuOpening"
                                     ToolTip="{x:Static properties:Resources.AddressBar_Back_ToolTip}">
-                <Image Source="{StaticResource ic_arrow_back_24px}" Width="16" Height="16"/>
+                <Image Source="{StaticResource ic_arrow_back_24px}" />
                 <Button.ContextMenu>
                     <ContextMenu ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}" />
                 </Button.ContextMenu>
@@ -122,14 +120,14 @@
                                     ContextMenuService.Placement="Bottom"
                                     ContextMenuOpening="NextHistoryButton_ContextMenuOpening"
                                     ToolTip="{x:Static properties:Resources.AddressBar_Next_ToolTip}">
-                <Image Source="{StaticResource ic_arrow_forward_24px}" Width="16" Height="16" />
+                <Image Source="{StaticResource ic_arrow_forward_24px}" />
                 <Button.ContextMenu>
                     <ContextMenu ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}" />
                 </Button.ContextMenu>
             </Button>
             <Button x:Name="MoveToParentButton" Command="{Binding BookCommands[MoveToParentBook]}"  Style="{StaticResource AddressIconButton}" TabIndex="3"
                                     ToolTip="{x:Static properties:Resources.AddressBar_Up_ToolTip}">
-                <Image Source="{StaticResource ic_arrow_up_24px}" Width="16" Height="16" />
+                <Image Source="{StaticResource ic_arrow_up_24px}" />
 
             </Button>
 
@@ -137,12 +135,12 @@
                 <Button Command="{Binding BookCommands[ReLoad]}" Style="{StaticResource AddressIconButton}" TabIndex="4"
                         Visibility="{Binding IsLoading, Converter={StaticResource BooleanToInverseVisibilityConverter}}"
                         ToolTip="{x:Static properties:Resources.AddressBar_ReLoad_ToolTip}">
-                    <Image Source="{StaticResource ic_refresh_24px}" Width="16" Height="16" />
+                    <Image Source="{StaticResource ic_refresh_24px}" />
                 </Button>
                 <Button Command="{Binding BookCommands[Unload]}" Style="{StaticResource AddressIconButton}" TabIndex="5"
                         Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
                         ToolTip="{x:Static properties:Resources.AddressBar_Unload_ToolTip}">
-                    <Image Source="{StaticResource ic_close_24px}" Width="16" Height="16" />
+                    <Image Source="{StaticResource ic_close_24px}" />
                 </Button>
             </Grid>
 
@@ -182,13 +180,13 @@
                     </Button>
 
                     <DockPanel x:Name="AddressGroup">
-                        <Button x:Name="BookButton" Style="{StaticResource IconButton}" Width="26" TabIndex="11"
+                        <Button x:Name="BookButton" Style="{StaticResource IconButton}" Width="26" Padding="4" TabIndex="11"
                                 Click="BookButton_Click"
                                 PreviewMouseLeftButtonDown="BookButton_MouseLeftButtonDown"
                                 PreviewMouseLeftButtonUp="BookButton_MouseLeftButtonUp"
                                 PreviewMouseMove="BookButton_MouseMove"
                                 QueryContinueDrag="BookButton_QueryContinueDrag">
-                            <Image Source="{StaticResource ic_info_outline_24px}" Width="16"/>
+                            <Image Source="{StaticResource ic_info_outline_24px}" />
                         </Button>
                         <TextBox x:Name="AddressTextBox" Text="{Binding Model.Address}" BorderThickness="0" VerticalAlignment="Center" TabIndex="12" KeyDown="AddressTextBox_KeyDown"
                                  Background="Transparent"/>

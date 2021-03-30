@@ -44,6 +44,7 @@
             <Style x:Key="FolderListButtonStyle" TargetType="Button" BasedOn="{StaticResource IconButton}">
                 <Setter Property="Width" Value="28" />
                 <Setter Property="MinHeight" Value="{DynamicResource FontIconSize}" />
+                <Setter Property="Padding" Value="2" />
             </Style>
 
             <Style x:Key="FolderListToggleButtonStyle" TargetType="ToggleButton" BasedOn="{StaticResource IconToggleButton}">
@@ -91,7 +92,7 @@
                     <Button x:Name="FoderTreeButton" Style="{StaticResource FolderListButtonStyle}" TabIndex="2"
                             ToolTip="{x:Static properties:Resources.Word_FoldersTree}"
                             Command="{Binding ToggleVisibleFoldersTree}">
-                        <Image Source="{StaticResource ic_treeview_a}" Width="16" Height="16"/>
+                        <Image Source="{StaticResource ic_treeview_a}" />
                         <Button.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="{x:Static properties:Resources.FolderTreeLayout_Top}" IsChecked="{Binding Model.FolderTreeLayout, Converter={StaticResource FolderTreeLayoutToBooleanConverter}, ConverterParameter={x:Static local:FolderTreeLayout.Top}}"
@@ -105,11 +106,11 @@
                 </StackPanel>
                 <WrapPanel Orientation="Horizontal" MinWidth="90">
                     <Button x:Name="AddPagemark" Style="{StaticResource FolderListButtonStyle}" Command="{Binding AddBookmarkCommand}" ToolTip="{x:Static properties:Resources.BookmarkList_Add_ToolTip}" TabIndex="1">
-                        <Image Source="{StaticResource ic_add_24px_a}" Width="16" Height="16"/>
+                        <Image Source="{StaticResource ic_add_24px_a}" />
                     </Button>
                     <Button x:Name="FolderUpButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToUp}" TabIndex="1"
                         ToolTip="{x:Static properties:Resources.Bookmark_Up_ToolTip}">
-                        <Image Source="{StaticResource ic_arrow_up_24px_a}" Width="16" Height="16"/>
+                        <Image Source="{StaticResource ic_arrow_up_24px_a}" />
                     </Button>
                     <ComboBox x:Name="FolderOrderComboBox" TabIndex="1"
                           ItemsSource="{Binding FolderOrderList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding FolderCollection.FolderParameter.FolderOrder, Delay=1}"

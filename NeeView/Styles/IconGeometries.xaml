@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <RectangleGeometry x:Key="g_rect24x24" Rect="0,0,24,24" />
-    <RectangleGeometry x:Key="g_rect1000x1000" Rect="-100,-100,1200,1200" />
+    <RectangleGeometry x:Key="g_rect48x48" Rect="0,0,48,48" />
+    <RectangleGeometry x:Key="g_rect1000x1000" Rect="-200,-200,1400,1400" />
 
     <!-- Material design icons by Google -->
     <!-- http://www.google.com/design/spec/style/icons.html#icons-system-icons -->
@@ -79,7 +80,9 @@
     <PathGeometry x:Key="g_arrow_up_24px" FillRule="Nonzero"
             Figures="M12,4L20,12 12,20 10.5900001525879,18.5900001525879 16.1700000762939,13 4,13 4,11 16.1700000762939,11 10.5900001525879,5.40999984741211 12,4z">
         <PathGeometry.Transform>
-            <RotateTransform Angle="270" />
+            <TransformGroup>
+                <RotateTransform Angle="270" CenterX="12" CenterY="12" />
+            </TransformGroup>
         </PathGeometry.Transform>
     </PathGeometry>
 

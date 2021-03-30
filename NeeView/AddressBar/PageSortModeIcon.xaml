@@ -38,7 +38,7 @@
 
 
         <Grid x:Key="IconRandom">
-            <Image Width="16" Height="16" Source="{StaticResource ic_shuffle_24px}"/>
+            <Image Style="{StaticResource MainImage}" Width="15" Height="15" Source="{StaticResource ic_shuffle_24px}" Margin="0,0,0,-1" />
         </Grid>
 
         <Grid x:Key="IconFileName">

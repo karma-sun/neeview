@@ -73,8 +73,8 @@
     "PageSelectionBar.Slider.Background": "Slider.Background",
     "PageSelectionBar.Slider.Foreground": "Slider.Foreground",
     "PageSelectionBar.Slider.Border": "Slider.Border",
-    "PageSelectionBar.Slider.Thumb": "#FF1188DD",
-    "PageSelectionBar.Slider.Track": "#FF1188DD",
+    "PageSelectionBar.Slider.Thumb": "Control.Accent",
+    "PageSelectionBar.Slider.Track": "Control.Accent",
 
     "Thumbnail.Background": "#FF404040",
     "Thumbnail.Foreground": "#FF808080",

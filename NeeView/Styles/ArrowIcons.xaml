@@ -1,27 +1,30 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-
-
-    
     
     <DrawingImage x:Key="ic_arrow_back_24px_a">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource Control.Accent}" Pen="{x:Null}" Geometry="{StaticResource g_arrow_back_24px}" />
+            <DrawingGroup>
+                <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
+                <GeometryDrawing Brush="{DynamicResource Control.Accent}" Pen="{x:Null}" Geometry="{StaticResource g_arrow_back_24px}" />
+            </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>
-
 
     <DrawingImage x:Key="ic_arrow_forward_24px_a">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource Control.Accent}" Pen="{x:Null}" Geometry="{StaticResource g_arrow_forward_24px}" />
+            <DrawingGroup>
+                <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
+                <GeometryDrawing Brush="{DynamicResource Control.Accent}" Pen="{x:Null}" Geometry="{StaticResource g_arrow_forward_24px}" />
+            </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>
 
-
-
     <DrawingImage x:Key="ic_arrow_up_24px_a">
         <DrawingImage.Drawing>
-            <GeometryDrawing Brush="{DynamicResource Control.Accent}" Pen="{x:Null}" Geometry="{StaticResource g_arrow_up_24px}" />
+            <DrawingGroup>
+                <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
+                <GeometryDrawing Brush="{DynamicResource Control.Accent}" Pen="{x:Null}" Geometry="{StaticResource g_arrow_up_24px}" />
+            </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>
 

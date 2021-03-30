@@ -31,6 +31,13 @@
                 </DrawingImage.Drawing>
             </DrawingImage>
 
+
+            <Style x:Key="FolderListButtonStyle" TargetType="Button" BasedOn="{StaticResource IconButton}">
+                <Setter Property="Width" Value="28" />
+                <Setter Property="MinHeight" Value="{DynamicResource FontIconSize}" />
+                <Setter Property="Padding" Value="2" />
+            </Style>
+            
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -43,8 +50,8 @@
             </DockPanel>
             <DockPanel LastChildFill="False" KeyboardNavigation.TabNavigation="Local">
                 <local:MoreMenuButton Description="{Binding MoreMenuDescription}" DockPanel.Dock="Right" TabIndex="2" />
-                <Button x:Name="AddPagemark" Style="{StaticResource IconButton}" Height="30" Width="30" Command="{Binding AddPagemarkCommand}" ToolTip="{x:Static properties:Resources.PagemarkList_Add_ToolTip}" TabIndex="1">
-                    <Image Source="{StaticResource ic_add_24px_a}" Width="16" Height="16"/>
+                <Button x:Name="AddPagemark" Style="{StaticResource FolderListButtonStyle}" Command="{Binding AddPagemarkCommand}" ToolTip="{x:Static properties:Resources.PagemarkList_Add_ToolTip}" TabIndex="1">
+                    <Image Source="{StaticResource ic_add_24px_a}" />
                 </Button>
             </DockPanel>
         </StackPanel>

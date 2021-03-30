@@ -1,9 +1,9 @@
 {
   "Format": "NeeView.Theme/1.0.0",
   "Colors": {
-    "Window.Background": "#FFF8F8F8",
+    "Window.Background": "#FFFFFFFF",
     "Window.Foreground": "#FF202020",
-    "Window.Border": "",
+    "Window.Border": "#00808080",
 
     "Control.Background": "#FFA0A0A0",
     "Control.Foreground": "",

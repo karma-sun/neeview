@@ -10,7 +10,6 @@ namespace NeeView
 {
     public class WindowConfig : BindableBase
     {
-        private WindowChromeFrame _windowChromeFrame = WindowChromeFrame.WindowFrame;
         private bool _isTopmost = false;
         private double _maximizeWindowGapWidth = 8.0;
         private WindowStateEx _state;
@@ -20,14 +19,6 @@ namespace NeeView
         private bool _isAutoHideInNormal = false;
         private bool _isAutoHideInMaximized = false;
         private bool _IsAutoHideInFullScreen = true;
-
-
-        [PropertyMember]
-        public WindowChromeFrame WindowChromeFrame
-        {
-            get { return _windowChromeFrame; }
-            set { SetProperty(ref _windowChromeFrame, value); }
-        }
 
 
         [PropertyMember]
@@ -119,6 +110,14 @@ namespace NeeView
 
 
         #region Obsolete
+
+        [Obsolete("Use Whindow.Border in CustomTheme instead.")] // ver.39
+        [JsonIgnore]
+        public WindowChromeFrame WindowChromeFrame
+        {
+            get { return WindowChromeFrame.None; }
+            set { }
+        }
 
         [Obsolete()] // ver.39
         [JsonIgnore]

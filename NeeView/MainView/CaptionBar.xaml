@@ -27,12 +27,14 @@
             </MultiBinding>
         </ContentControl.Foreground>
 
-        <DockPanel>
-            <nwc:WindowCaptionButtons x:Name="CaptionButtons" DockPanel.Dock="Right" IsEnabled="True" WindowChrome.IsHitTestVisibleInChrome="False"
-                    IsMinimizeEnabled="{Binding RelativeSource={RelativeSource AncestorType=local:CaptionBar}, Path=IsMinimizeEnabled}"/>
-            <TextBlock x:Name="TitleTextBlock" VerticalAlignment="Center" Margin="16,0" FontSize="{DynamicResource {x:Static SystemFonts.CaptionFontSizeKey}}"
-                    FontFamily="{DynamicResource {x:Static SystemFonts.CaptionFontFamilyKey}}" TextTrimming="CharacterEllipsis"
-                    Text="{Binding RelativeSource={RelativeSource AncestorType=local:CaptionBar}, Path=Title}" />
-        </DockPanel>
+        <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource MenuBar.Border}">
+            <DockPanel>
+                <nwc:WindowCaptionButtons x:Name="CaptionButtons" DockPanel.Dock="Right" IsEnabled="True" WindowChrome.IsHitTestVisibleInChrome="False"
+                        IsMinimizeEnabled="{Binding RelativeSource={RelativeSource AncestorType=local:CaptionBar}, Path=IsMinimizeEnabled}" />
+                <TextBlock x:Name="TitleTextBlock" VerticalAlignment="Center" Margin="16,0" FontSize="{DynamicResource {x:Static SystemFonts.CaptionFontSizeKey}}"
+                        FontFamily="{DynamicResource {x:Static SystemFonts.CaptionFontFamilyKey}}" TextTrimming="CharacterEllipsis"
+                        Text="{Binding RelativeSource={RelativeSource AncestorType=local:CaptionBar}, Path=Title}" />
+            </DockPanel>
+        </Border>
     </ContentControl>
 </UserControl>

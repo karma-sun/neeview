@@ -206,8 +206,6 @@ namespace NeeView
                 config.System.IsSyncUserSetting = IsSyncUserSetting;
                 config.System.TemporaryDirectory = TemporaryDirectory;
                 config.Thumbnail.ThumbnailCacheFilePath = CacheDirectory != null ? Path.Combine(CacheDirectory, ThumbnailCache.ThumbnailCacheFileName) : null;
-                ////config.System.CacheDirectoryOld = CacheDirectoryOld;
-                config.Window.WindowChromeFrame = WindowChromeFrame;
                 config.System.IsIgnoreImageDpi = IsIgnoreImageDpi;
                 config.AutoHide.AutoHideDelayTime = AutoHideDelayTime;
                 config.AutoHide.AutoHideDelayVisibleTime = AutoHideDelayVisibleTime;

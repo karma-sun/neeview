@@ -26,6 +26,9 @@ namespace NeeView
         public static ThemeManager Current { get; }
 
 
+        private ThemeProfile _themeProfile;
+
+
         private ThemeManager()
         {
             RefreshThemeColor();
@@ -40,29 +43,37 @@ namespace NeeView
         public event EventHandler ThemeProfileChanged;
 
 
-        public ThemeProfile ThemeProfile { get; private set; }
+        public ThemeProfile ThemeProfile
+        {
+            get { return _themeProfile; }
+            private set { SetProperty(ref _themeProfile, value); }
+        }
 
 
         public void RefreshThemeColor()
         {
             if (App.Current == null) return;
 
+            ThemeProfile themeProfile;
+
             try
             {
-                ThemeProfile = LoadThemeProfile(Config.Current.Theme.ThemeType);
-                ThemeProfile.Verify();
+                themeProfile = LoadThemeProfile(Config.Current.Theme.ThemeType);
+                themeProfile.Verify();
             }
             catch (Exception ex)
             {
                 ToastService.Current.Show(new Toast(ex.Message, Properties.Resources.ThemeErrorDialog_Title, ToastIcon.Error));
-                ThemeProfile = ThemeProfile.Default;
+                themeProfile = ThemeProfile.Default;
             }
 
             foreach (var key in ThemeProfile.Keys)
             {
-                var color = ThemeProfile.GetColor(key, 1.0);
+                var color = themeProfile.GetColor(key, 1.0);
                 App.Current.Resources[key] = new SolidColorBrush(color);
             }
+
+            ThemeProfile = themeProfile;
 
             ThemeProfileChanged?.Invoke(this, null);
         }

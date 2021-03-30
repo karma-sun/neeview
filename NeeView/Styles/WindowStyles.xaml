@@ -20,6 +20,7 @@
     <!-- Use with ChromeWindowStyleAssistant -->
     <Style x:Key="ChromeWindowStyle" TargetType="{x:Type Window}" BasedOn="{StaticResource DefaultWindowStyle}">
         <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Window.Border}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Window}">

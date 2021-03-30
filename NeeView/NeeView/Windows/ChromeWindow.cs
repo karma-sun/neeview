@@ -15,12 +15,13 @@ namespace NeeView.Windows
     {
         private Window _window;
         private WindowChromeAccessor _windowChrome;
-
+        private WindowBorder _windowBorder;
 
         public ChromeWindowStyleAssistant(Window window)
         {
             _window = window;
             _windowChrome = new WindowChromeAccessor(_window);
+            _windowBorder = new WindowBorder(_window, _windowChrome);
         }
 
 
@@ -29,8 +30,6 @@ namespace NeeView.Windows
 
         public void Attach()
         {
-            _window.SetBinding(Window.BorderThicknessProperty, new Binding(nameof(WindowBorder.Thickness)) { Source = new WindowBorder(_window, _windowChrome) });
-
             Config.Current.Window.PropertyChanged += WindowConfig_PropertyChanged;
 
             _window.SourceInitialized += Window_SourceInitialized;
@@ -45,6 +44,12 @@ namespace NeeView.Windows
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            var windowBorder = _window.Template.FindName("WindowBorder", _window) as Border;
+            if (windowBorder != null)
+            {
+                windowBorder.SetBinding(Border.BorderThicknessProperty, new Binding(nameof(WindowBorder.Thickness)) { Source = _windowBorder });
+            }
+
             // CaptionBar があればその高さを設定
             var captionBar = _window.Template.FindName("PART_CaptionBar", _window) as CaptionBar;
             if (captionBar != null)

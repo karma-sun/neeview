@@ -1,6 +1,7 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.ComponentModel;
 using NeeView.Windows;
+using System.Diagnostics;
 using System.Windows;
 
 namespace NeeView
@@ -10,7 +11,7 @@ namespace NeeView
         private Window _window;
         private WindowChromeAccessor _windowChromeAccessor;
         private Thickness _thickness;
-        private WeakBindableBase<WindowConfig> _windowConfig;
+        private WeakBindableBase<ThemeManager> _themeManager;
 
         public WindowBorder(Window window, WindowChromeAccessor windowChromeAccessor)
         {
@@ -26,8 +27,8 @@ namespace NeeView
             _windowChromeAccessor.AddPropertyChanged(nameof(WindowChromeAccessor.IsEnabled),
                 (s, e) => Update());
 
-            _windowConfig = new WeakBindableBase<WindowConfig>(Config.Current.Window);
-            _windowConfig.AddPropertyChanged(nameof(WindowConfig.WindowChromeFrame),
+            _themeManager = new WeakBindableBase<ThemeManager>(ThemeManager.Current);
+            _themeManager.AddPropertyChanged(nameof(ThemeManager.ThemeProfile),
                 (s, e) => Update());
 
             Update();
@@ -41,17 +42,11 @@ namespace NeeView
 
         public void Update()
         {
-            // NOTE: Windows7 only
-            if (!Windows7Tools.IsWindows7) return;
-
             if (_window.WindowState == WindowState.Minimized) return;
 
-            if (_windowChromeAccessor.IsEnabled && _window.WindowState == WindowState.Normal && Config.Current.Window.WindowChromeFrame == WindowChromeFrame.WindowFrame)
+            if (_windowChromeAccessor.IsEnabled && _window.WindowState == WindowState.Normal && _themeManager.Model.ThemeProfile.GetColor("Window.Border", 1.0).A > 0x00)
             {
-                var dipScale = (_window is IDpiScaleProvider dipProvider) ? dipProvider.GetDpiScale() : new DpiScale(1.0, 1.0);
-                var x = 1.0 / dipScale.DpiScaleX;
-                var y = 1.0 / dipScale.DpiScaleY;
-                this.Thickness = new Thickness(x, y, x, y);
+                this.Thickness = new Thickness(1.0);
             }
             else
             {

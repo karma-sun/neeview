@@ -6932,4 +6932,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="SettingPage.Window.Theme.OpenCustomThemeFile" xml:space="preserve">
     <value>カスタム テーマ ファイルを開く</value>
   </data>
+  <data name="SusiePluginWindow.About" xml:space="preserve">
+    <value>このプラグインについて</value>
+  </data>
 </root>

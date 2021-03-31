@@ -9,7 +9,7 @@
 
     <DockPanel x:Name="Root" Height="150" KeyboardNavigation.TabNavigation="Local">
         <DockPanel.Resources>
-            <Style x:Key="MyButton" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+            <Style x:Key="MyButton" TargetType="{x:Type Button}">
                 <Setter Property="Padding" Value="20,5"/>
                 <Setter Property="Margin" Value="5"/>
             </Style>
@@ -42,7 +42,7 @@
             </Button>
         </StackPanel>
 
-        <ListBox x:Name="CollectionListBox" ItemsSource="{Binding Items}" PreviewKeyDown="CollectionListBox_PreviewKeyDown" TabIndex="1">
+        <ListBox x:Name="CollectionListBox" ItemsSource="{Binding Items}" PreviewKeyDown="CollectionListBox_PreviewKeyDown" TabIndex="1" >
         </ListBox>
 
     </DockPanel>

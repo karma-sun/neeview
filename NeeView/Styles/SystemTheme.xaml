@@ -122,12 +122,11 @@
     </Style>
 
     <Style x:Key="DialogButton" TargetType="{x:Type Button}" BasedOn="{StaticResource DialogButtonBase}">
-        <Setter Property="FocusVisualStyle" Value="{StaticResource NVSystemFocusVisual}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource NVSystemBorderFocusVisual}" />
     </Style>
 
     <Style x:Key="DialogRecommentedButton" TargetType="{x:Type Button}" BasedOn="{StaticResource DialogButtonBase}">
-        <Setter Property="FocusVisualStyle" Value="{StaticResource NVSystemFocusVisual}" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource NVSystemBorderFocusVisual}" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
     </Style>

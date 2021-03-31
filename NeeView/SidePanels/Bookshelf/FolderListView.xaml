@@ -22,6 +22,12 @@
             
             <!--#region Icons -->
 
+            <DrawingImage x:Key="ic_search_24px_g">
+                <DrawingImage.Drawing>
+                    <GeometryDrawing Brush="{DynamicResource Control.GrayText}" Pen="{x:Null}" Geometry="{StaticResource g_search_24px}" />
+                </DrawingImage.Drawing>
+            </DrawingImage>
+
             <DrawingImage x:Key="ic_bookshelf">
                 <DrawingImage.Drawing>
                     <DrawingGroup Opacity="1">

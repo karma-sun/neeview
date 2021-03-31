@@ -33,7 +33,7 @@
                         <Style TargetType="TextBlock">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding IsEnabled}" Value="False">
-                                    <Setter Property="Foreground" Value="Gray"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
@@ -45,8 +45,10 @@
         <Style TargetType="ListBox">
             <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <!--
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="BorderBrush" Value="LightGray"/>
+            -->
             <Setter Property="ItemTemplate" Value="{StaticResource SusiePlugin}"/>
             <Setter Property="Margin" Value="0,2"/>
             <Setter Property="AllowDrop" Value="True"/>

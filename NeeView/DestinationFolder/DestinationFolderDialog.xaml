@@ -11,7 +11,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <Style TargetType="Button" BasedOn="{StaticResource DialogButton}">
-                <Setter Property="Margin" Value="5,0" />
+                <Setter Property="Margin" Value="5,2" />
             </Style>
 
         </ResourceDictionary>

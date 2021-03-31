@@ -160,7 +160,7 @@
                             <Setter TargetName="Thumb" Property="Background" Value="{DynamicResource ScrollBar.Pressed}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Thumb" Property="Background" Value="{DynamicResource Control.Disable}" />
+                            <Setter TargetName="Thumb" Property="Background" Value="{DynamicResource Control.GrayText}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -301,7 +301,7 @@
                             <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource Item.Inactive.Border}" />
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="{DynamicResource Control.Disable}" />
+                            <Setter Property="Foreground" Value="{DynamicResource Control.GrayText}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -328,8 +328,8 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Control.Disable}" />
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Control.Disable}" />
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Control.GrayText}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Control.GrayText}" />
                         </Trigger>
                         <Trigger Property="IsGrouping" Value="true">
                             <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
@@ -470,7 +470,7 @@
                             <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Control.Disable}" />
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Control.GrayText}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -509,7 +509,7 @@
                             <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource Item.Inactive.Border}" />
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="{DynamicResource Control.Disable}" />
+                            <Setter Property="Foreground" Value="{DynamicResource Control.GrayText}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -934,7 +934,7 @@
                             <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource Item.Inactive.Border}" />
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="{DynamicResource Control.Disable}" />
+                            <Setter Property="Foreground" Value="{DynamicResource Control.GrayText}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -1029,7 +1029,7 @@
                             <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource Item.Inactive.Border}" />
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="{DynamicResource Control.Disable}" />
+                            <Setter Property="Foreground" Value="{DynamicResource Control.GrayText}" />
                         </Trigger>
 
                         <!--
@@ -1172,7 +1172,7 @@
                 <Setter Property="Effect" TargetName="SubmenuBorder" Value="{StaticResource NVDropShadowEffect}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource Control.Disable}" />
+                <Setter Property="Foreground" Value="{DynamicResource Control.GrayText}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -1189,7 +1189,7 @@
                 <Setter Property="BorderBrush" TargetName="Border" Value="{DynamicResource Item.Selected.Border}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource Control.Disable}" />
+                <Setter Property="Foreground" Value="{DynamicResource Control.GrayText}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -1233,7 +1233,7 @@
                 <Setter Property="BorderBrush" TargetName="Border" Value="{DynamicResource Item.Selected.Border}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Foreground" Value="{DynamicResource Control.Disable}" />
+                <Setter Property="Foreground" Value="{DynamicResource Control.GrayText}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -1278,7 +1278,7 @@
                 <Setter Property="Effect" TargetName="SubmenuBorder" Value="{StaticResource NVDropShadowEffect}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Foreground" Value="{DynamicResource Control.Disable}" />
+                <Setter Property="Foreground" Value="{DynamicResource Control.GrayText}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -1351,10 +1351,10 @@
                             <Setter TargetName="CheckRect" Property="Stroke" Value="{DynamicResource Control.Foreground}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="CheckRect" Property="Stroke" Value="{DynamicResource Control.Disable}" />
+                            <Setter TargetName="CheckRect" Property="Stroke" Value="{DynamicResource Control.GrayText}" />
                             <Setter TargetName="CheckRect" Property="Fill" Value="Transparent" />
-                            <Setter TargetName="CheckMark" Property="Stroke" Value="{DynamicResource Control.Disable}" />
-                            <Setter Property="Foreground" Value="{DynamicResource Control.Disable}" />
+                            <Setter TargetName="CheckMark" Property="Stroke" Value="{DynamicResource Control.GrayText}" />
+                            <Setter Property="Foreground" Value="{DynamicResource Control.GrayText}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -1396,8 +1396,8 @@
                             <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Control.Accent}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Control.Disable}" />
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Control.Disable}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Control.GrayText}" />
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Control.GrayText}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
 

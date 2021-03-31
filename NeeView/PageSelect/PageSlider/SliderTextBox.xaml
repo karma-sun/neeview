@@ -14,12 +14,8 @@
         </Grid.Resources>
         <Grid.Style>
             <Style TargetType="Grid">
-                <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="KeyboardNavigation.IsTabStop" Value="True" />
                 <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="#8888"/>
-                    </Trigger>
                     <DataTrigger Binding="{Binding ElementName=TextBox, Path=IsFocused}" Value="True">
                         <Setter Property="KeyboardNavigation.IsTabStop" Value="False" />
                     </DataTrigger>
@@ -27,9 +23,19 @@
             </Style>
         </Grid.Style>
         <Grid>
-            <TextBlock x:Name="TextBlock" TextAlignment="Center" VerticalAlignment="Center" Padding="8,0"
-                   Text="{Binding DispText}">
-            </TextBlock>
+            <Border Background="Transparent" BorderThickness="1">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="BorderBrush" Value="Transparent" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" Value="{DynamicResource Control.Accent}" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <TextBlock x:Name="TextBlock" TextAlignment="Center" VerticalAlignment="Center" Padding="8,0" Text="{Binding DispText}" />
+            </Border>
             <TextBox x:Name="TextBox"  TextAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Stretch"
                  Foreground="{DynamicResource TextBox.Foreground}" Background="{DynamicResource TextBox.Background}"
                  Text="{Binding Value, UpdateSourceTrigger=Explicit, Converter={StaticResource SliderValueConverter}}"

@@ -254,11 +254,11 @@ namespace NeeView.Setting
                 var tips = new TextBlock()
                 {
                     Text = this.Tips,
-                    Foreground = Brushes.Gray,
                     HorizontalAlignment = HorizontalAlignment.Left,
                     TextWrapping = TextWrapping.Wrap,
                     Margin = new Thickness(0, 5, 0, 0),
                 };
+                tips.SetResourceReference(TextBlock.ForegroundProperty, SystemColors.GrayTextBrushKey);
                 title.Children.Add(tips);
             }
 
@@ -574,11 +574,17 @@ namespace NeeView.Setting
             var textBlock = new TextBlock()
             {
                 Text = _text,
-                Background = Brushes.LightGray,
                 Padding = new Thickness(20),
+            };
+
+            var groupBox = new GroupBox
+            {
+                Header = "Memo",
+                Content = textBlock,
                 Margin = new Thickness(0, 20, 0, 20),
             };
-            return textBlock;
+
+            return groupBox;
         }
 
         public override string GetSearchText()

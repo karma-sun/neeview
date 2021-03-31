@@ -17,7 +17,7 @@
         </TextBox>
 
 
-        <TextBlock x:Name="PathTextBlock" Text="{Binding EmptyMessage}" VerticalAlignment="Center" Margin="4,0" Foreground="Gray" IsHitTestVisible="False">
+        <TextBlock x:Name="PathTextBlock" Text="{Binding EmptyMessage}" VerticalAlignment="Center" Margin="4,0" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" IsHitTestVisible="False">
             <TextBlock.Style>
                 <Style TargetType="TextBlock">
                     <Setter Property="Visibility" Value="Hidden"/>

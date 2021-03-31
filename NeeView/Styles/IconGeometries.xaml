@@ -165,12 +165,6 @@
         </DrawingImage.Drawing>
     </DrawingImage>
 
-    <DrawingImage x:Key="ic_search_24px_g">
-        <DrawingImage.Drawing>
-            <GeometryDrawing Brush="Gray" Pen="{x:Null}" Geometry="{StaticResource g_search_24px}" />
-        </DrawingImage.Drawing>
-    </DrawingImage>
-
     <DrawingImage x:Key="ic_warning_48px">
         <DrawingImage.Drawing>
             <GeometryDrawing Brush="Orange" Pen="{x:Null}" Geometry="{StaticResource g_warning_48px}" />

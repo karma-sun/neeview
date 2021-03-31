@@ -31,17 +31,17 @@
     <Style x:Key="{x:Type nrl:LayoutPanelHeader}" TargetType="{x:Type nrl:LayoutPanelHeader}" BasedOn="{StaticResource NVLayoutPanelHeader}" />
 
     <Style x:Key="DialogButton" TargetType="{x:Type Button}" BasedOn="{StaticResource DialogButtonBase}">
-        <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
         <Setter Property="Background" Value="{DynamicResource DialogButton.Background}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource DialogButton.Border}" />
         <Setter Property="Foreground" Value="{DynamicResource DialogButton.Foreground}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource Control.Foreground}" />
     </Style>
 
     <Style x:Key="DialogRecommentedButton" TargetType="{x:Type Button}" BasedOn="{StaticResource DialogButtonBase}">
-        <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
         <Setter Property="Background" Value="{DynamicResource DialogRecommentedButton.Background}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource DialogRecommentedButton.Border}" />
         <Setter Property="Foreground" Value="{DynamicResource DialogRecommentedButton.Foreground}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource Control.Foreground}" />
     </Style>
 
 </ResourceDictionary>

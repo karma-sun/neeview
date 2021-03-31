@@ -14,6 +14,12 @@
                 <ResourceDictionary Source="/Styles/SystemTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
+            <DrawingImage x:Key="ic_search_24px_g">
+                <DrawingImage.Drawing>
+                    <GeometryDrawing Brush="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" Pen="{x:Null}" Geometry="{StaticResource g_search_24px}" />
+                </DrawingImage.Drawing>
+            </DrawingImage>
+
             <DrawingImage x:Key="ic_clear_24px_g">
                 <DrawingImage.Drawing>
                     <DrawingGroup>

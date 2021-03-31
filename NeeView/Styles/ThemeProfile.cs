@@ -24,8 +24,9 @@ namespace NeeView
             "Control.Background",
             "Control.Foreground",
             "Control.Border",
-            "Control.Disable",
+            "Control.GrayText",
             "Control.Accent",
+            "Control.AccentText",
 
             "Item.MouseOver.Background",
             "Item.MouseOver.Border",
@@ -46,8 +47,10 @@ namespace NeeView
 
             "DialogButton.Background",
             "DialogButton.Foreground",
+            "DialogButton.Border",
             "DialogRecommentedButton.Background",
             "DialogRecommentedButton.Foreground",
+            "DialogRecommentedButton.Border",
 
             "Slider.Background",
             "Slider.Foreground",

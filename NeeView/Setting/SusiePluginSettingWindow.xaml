@@ -41,22 +41,23 @@
 
             <DockPanel Margin="10">
 
-                <DockPanel DockPanel.Dock="Top" Background="#EEE">
+                <GroupBox DockPanel.Dock="Top" Header="{x:Static properties:Resources.SusiePluginWindow_About}">
+                    <DockPanel>
+                        <TextBlock DockPanel.Dock="Top" Text="{Binding Name}" TextWrapping="Wrap" FontWeight="Bold" Margin="10,10,10,0" />
 
-                    <TextBlock DockPanel.Dock="Top" Text="{Binding Name}" TextWrapping="Wrap" FontWeight="Bold" Margin="10,10,10,0" />
+                        <TextBlock DockPanel.Dock="Top" Text="{Binding Version}" TextWrapping="Wrap" Margin="10,10,10,0" MinHeight="50" />
 
-                    <TextBlock DockPanel.Dock="Top" Text="{Binding Version}" TextWrapping="Wrap" Margin="10,10,10,0" MinHeight="50"/>
-
-                    <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Right" LastChildFill="False">
-                        <Button x:Name="ConfigButton" DockPanel.Dock="Right" Click="ConfigButton_Click" Margin="10"
-                                Visibility="{Binding CanOpenConfigDialog, Converter={StaticResource BooleanToVisibilityConverter}}" TabIndex="1">
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="{StaticResource ic_setting_24px}" Width="16" Height="16" VerticalAlignment="Center"/>
-                                <TextBlock Text="{x:Static properties:Resources.Word_Config}" Margin="5,0" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </Button>
+                        <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Right" LastChildFill="False">
+                            <Button x:Name="ConfigButton" DockPanel.Dock="Right" Click="ConfigButton_Click" Margin="10"
+                                    Visibility="{Binding CanOpenConfigDialog, Converter={StaticResource BooleanToVisibilityConverter}}" TabIndex="1">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{StaticResource ic_setting_24px}" Width="16" Height="16" VerticalAlignment="Center" />
+                                    <TextBlock Text="{x:Static properties:Resources.Word_Config}" Margin="5,0" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+                        </DockPanel>
                     </DockPanel>
-                </DockPanel>
+                </GroupBox>
 
                 <StackPanel DockPanel.Dock="Top" Margin="0,15,0,5">
                     <CheckBox Content="{x:Static properties:Resources.SusiePluginWindow_IsEnabled}" IsChecked="{Binding IsEnabled}" TabIndex="1"/>

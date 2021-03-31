@@ -109,7 +109,7 @@
                         <TextBlock Text="Center" Foreground="LightSteelBlue" HorizontalAlignment="Center"/>
                     </Grid>
                 </Grid>
-                <TextBlock Text="{x:Static properties:Resources.InputTouchControl_TouchInput}" VerticalAlignment="Center" TextAlignment="Center" Foreground="LightSteelBlue"/>
+                <TextBlock Text="{x:Static properties:Resources.InputTouchControl_TouchInput}" VerticalAlignment="Center" TextAlignment="Center" Foreground="Gray"/>
             </Grid>
         </DockPanel>
 

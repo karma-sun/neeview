@@ -23,7 +23,7 @@
     <SolidColorBrush x:Key="Control.Background" Color="Silver" />
     <SolidColorBrush x:Key="Control.Foreground" Color="White" />
     <SolidColorBrush x:Key="Control.Border" Color="Gray" />
-    <SolidColorBrush x:Key="Control.Disable" Color="Gray" />
+    <SolidColorBrush x:Key="Control.GrayText" Color="Gray" />
     <SolidColorBrush x:Key="Control.Accent" Color="SteelBlue" />
     
     <SolidColorBrush x:Key="Item.MouseOver.Background" Color="#1F26A0DA" />
@@ -45,8 +45,10 @@
 
     <SolidColorBrush x:Key="DialogButton.Background" Color="Silver" />
     <SolidColorBrush x:Key="DialogButton.Foreground" Color="Black" />
+    <SolidColorBrush x:Key="DialogButton.Border" Color="Black" />
     <SolidColorBrush x:Key="DialogRecommentedButton.Background" Color="SteelBlue" />
     <SolidColorBrush x:Key="DialogRecommentedButton.Foreground" Color="White" />
+    <SolidColorBrush x:Key="DialogRecommentedButton.Border" Color="White" />
 
     <SolidColorBrush x:Key="Slider.Foregtound" Color="#FFFFFFFF" />
     <SolidColorBrush x:Key="Slider.Background" Color="#FF808080" />

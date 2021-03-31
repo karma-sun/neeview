@@ -15312,6 +15312,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   About this plugin に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SusiePluginWindow_About {
+            get {
+                return ResourceManager.GetString("SusiePluginWindow.About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cache plugin に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SusiePluginWindow_IsCacheEnabled {

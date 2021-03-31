@@ -8,8 +8,9 @@
     "Control.Background": "#FFA0A0A0",
     "Control.Foreground": "",
     "Control.Border": "#FFA0A0A0",
-    "Control.Disable": "#80808080",
+    "Control.GrayText": "#FF808080",
     "Control.Accent": "#FF26A0DA",
+    "Control.AccentText": "#FFFFFFFF",
 
     "Button.Background": "#00000000",
     "Button.Foreground": "Control.Accent",
@@ -29,8 +30,10 @@
 
     "DialogButton.Background": "#FFA0A0A0",
     "DialogButton.Foreground": "#FF202020",
+    "DialogButton.Border": "",
     "DialogRecommentedButton.Background": "Control.Accent",
-    "DialogRecommentedButton.Foreground": "Control.Foreground",
+    "DialogRecommentedButton.Foreground": "Control.AccentText",
+    "DialogRecommentedButton.Border": "",
 
     "Slider.Background": "#FFC0C0C0",
     "Slider.Foreground": "",

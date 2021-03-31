@@ -42,6 +42,16 @@ namespace NeeView
         }
 
 
+        public bool IsBackgroundOpacityEnabled
+        {
+            get { return (bool)GetValue(IsBackgroundOpacityEnabledProperty); }
+            set { SetValue(IsBackgroundOpacityEnabledProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsBackgroundOpacityEnabledProperty =
+            DependencyProperty.Register("IsBackgroundOpacityEnabled", typeof(bool), typeof(PageSliderView), new PropertyMetadata(false));
+
+
         public bool IsBorderVisible
         {
             get { return (bool)GetValue(IsBorderVisibleProperty); }

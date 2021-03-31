@@ -54,6 +54,17 @@ namespace NeeView
 
         public static readonly DependencyProperty IsContentVisibleProperty = IsContentVisiblePropertyKey.DependencyProperty;
 
+
+        public bool IsBackgroundOpacityEnabled
+        {
+            get { return (bool)GetValue(IsBackgroundOpacityEnabledProperty); }
+            set { SetValue(IsBackgroundOpacityEnabledProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsBackgroundOpacityEnabledProperty =
+            DependencyProperty.Register("IsBackgroundOpacityEnabled", typeof(bool), typeof(ThumbnailListView), new PropertyMetadata(false));
+
+
         #endregion
 
         #region Fields

@@ -19,7 +19,21 @@
 
     </UserControl.Resources>
 
-    <Border x:Name="Root" Visibility="{Binding Model.ThumbnailListVisibility}" SizeChanged="ThumbnailListArea_SizeChanged" UseLayoutRounding="True" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource PageSelectionBar.Border}" >
+    <Grid x:Name="Root" Visibility="{Binding Model.ThumbnailListVisibility}" SizeChanged="ThumbnailListArea_SizeChanged" UseLayoutRounding="True">
+        
+        <Border BorderThickness="0,1,0,0" BorderBrush="{DynamicResource PageSelectionBar.Border}" Background="{DynamicResource PageSelectionBar.Background}">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Opacity" Value="1.0" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsBackgroundOpacityEnabled, RelativeSource={RelativeSource AncestorType=local:ThumbnailListView}}" Value="True">
+                            <Setter Property="Opacity" Value="{Binding Source={x:Static local:Config.Current}, Path=Slider.Opacity}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+        </Border>
+        
         <ListBox x:Name="ThumbnailListBox" ItemsSource="{Binding Model.Items, NotifyOnTargetUpdated=True}" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                              SelectedIndex="{Binding Model.SelectedIndex}"
                              TargetUpdated="ThumbnailListBox_TargetUpdated"
@@ -126,6 +140,6 @@
 
             </ListBox.Resources>
         </ListBox>
-    </Border>
+    </Grid>
 
 </UserControl>

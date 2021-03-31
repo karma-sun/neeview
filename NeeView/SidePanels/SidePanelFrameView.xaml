@@ -6,9 +6,6 @@
 
     <UserControl.Resources>
 
-        <local:BindingProxy x:Key="PanelBackgroundBrush" Data="{DynamicResource SidePanel.Background}" />
-        <local:BindingProxy x:Key="SideBarBackgroundBrush" Data="{DynamicResource SideBar.Background}" />
-
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <nwd:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter" />
         <local:MultiBooleanOrConverter x:Key="MultiBooleanOrConverter" />
@@ -25,19 +22,10 @@
         <Style x:Key="PanelIconBorderStyle" TargetType="Border">
             <Setter Property="TextBlock.Foreground" Value="{DynamicResource SideBar.Foreground}" />
             <Setter Property="BorderBrush" Value="{DynamicResource SideBar.Border}" />
+            <Setter Property="Background" Value="{DynamicResource SideBar.Background}" />
+            <Setter Property="Opacity" Value="{Binding VM.Opacity}" />
             <Setter Property="Width" Value="41" />
-            <Setter Property="Visibility" Value="{Binding IsSideBarVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Setter Property="UseLayoutRounding" Value="True" />
-            <Setter Property="Focusable" Value="True" />
-            <Setter Property="KeyboardNavigation.IsTabStop" Value="False" />
-            <Setter Property="Background">
-                <Setter.Value>
-                    <MultiBinding Converter="{StaticResource BrushAddOpacityConverter}">
-                        <Binding Source="{StaticResource SideBarBackgroundBrush}" Path="Data" />
-                        <Binding Path="VM.Opacity" />
-                    </MultiBinding>
-                </Setter.Value>
-            </Setter>
         </Style>
 
         <Style x:Key="PanelIconItemsControlStyle" TargetType="ItemsControl">
@@ -53,14 +41,8 @@
         <Style x:Key="PanelBorderStyle" TargetType="Border">
             <Setter Property="TextBlock.Foreground" Value="{DynamicResource SidePanel.Foreground}" />
             <Setter Property="BorderBrush" Value="{DynamicResource SidePanel.Border}" />
-            <Setter Property="Background">
-                <Setter.Value>
-                    <MultiBinding Converter="{StaticResource BrushAddOpacityConverter}">
-                        <Binding Source="{StaticResource PanelBackgroundBrush}" Path="Data" />
-                        <Binding Path="VM.Opacity" />
-                    </MultiBinding>
-                </Setter.Value>
-            </Setter>
+            <Setter Property="Background" Value="{DynamicResource SidePanel.Background}" />
+            <Setter Property="Opacity" Value="{Binding VM.Opacity}" />
         </Style>
 
         <Style x:Key="PanelGridStyle" TargetType="Grid">
@@ -77,9 +59,6 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type osc:DockPanelSplitter}">
-                        <!--
-                        <Grid SnapsToDevicePixels="True" Background="{Binding ThemeBrush.BackgroundBrush}" />
-                        -->
                         <Grid SnapsToDevicePixels="True" Background="#0800" />
                     </ControlTemplate>
                 </Setter.Value>
@@ -96,43 +75,41 @@
 
         <DockPanel>
 
-            <Border DockPanel.Dock="Left" Visibility="{Binding VM.IsSideBarVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Border x:Name="LeftIconGrid" Style="{StaticResource PanelIconBorderStyle}" BorderThickness="0,0,1,0" Visibility="{Binding ElementName=LeftPanelContent, Path=Visibility}" AllowDrop="True"
+            <Grid DockPanel.Dock="Left" Visibility="{Binding VM.IsSideBarVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid x:Name="LeftIconGrid" Visibility="{Binding ElementName=LeftPanelContent, Path=Visibility}" Background="Transparent" AllowDrop="True"
                         MouseLeftButtonDown="LeftIconGrid_MouseLeftButtonDown" MouseLeftButtonUp="LeftIconGrid_MouseLeftButtonUp">
-
                     <b:Interaction.Behaviors>
                         <nw:DragAcceptBehavior Description="{Binding VM.Left.Description}" />
                     </b:Interaction.Behaviors>
-
-                    <Grid Margin="0,32,0,0">
+                    <Border Style="{StaticResource PanelIconBorderStyle}" BorderThickness="0,0,1,0" />
+                    <Grid Margin="0,32,1,0">
                         <ItemsControl x:Name="LeftIconList" Style="{StaticResource PanelIconItemsControlStyle}" Margin="{Binding PanelMargin}" ItemTemplate="{StaticResource LeftPanelIconTemplate}"
                                 ItemsSource="{Binding VM.MainLayoutPanelManager.LeftDock.LeaderPanels}">
                         </ItemsControl>
                     </Grid>
-                </Border>
-            </Border>
+                </Grid>
+            </Grid>
 
-            <Border DockPanel.Dock="Right" Visibility="{Binding VM.IsSideBarVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Border x:Name="RightIconGrid" Style="{StaticResource PanelIconBorderStyle}" BorderThickness="1,0,0,0" Visibility="{Binding ElementName=RightPanelContent, Path=Visibility}" AllowDrop="True"
+            <Grid DockPanel.Dock="Right" Visibility="{Binding VM.IsSideBarVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid x:Name="RightIconGrid" Visibility="{Binding ElementName=RightPanelContent, Path=Visibility}" Background="Transparent" AllowDrop="True"
                         MouseLeftButtonDown="RightIconGrid_MouseLeftButtonDown" MouseLeftButtonUp="RightIconGrid_MouseLeftButtonUp">
-
                     <b:Interaction.Behaviors>
                         <nw:DragAcceptBehavior Description="{Binding VM.Right.Description}" />
                     </b:Interaction.Behaviors>
-
-                    <Grid Margin="0,32,0,0">
+                    <Border Style="{StaticResource PanelIconBorderStyle}" BorderThickness="1,0,0,0" />
+                    <Grid Margin="1,32,0,0">
                         <ItemsControl x:Name="RightIconList" Style="{StaticResource PanelIconItemsControlStyle}" Margin="{Binding PanelMargin}" ItemTemplate="{StaticResource RightPanelIconTemplate}"
                                 ItemsSource="{Binding VM.MainLayoutPanelManager.RightDock.LeaderPanels}">
                         </ItemsControl>
                     </Grid>
-                </Border>
-            </Border>
+                </Grid>
+            </Grid>
 
             <DockPanel x:Name="Screen">
 
-                <Border x:Name="LeftPanel" Style="{StaticResource PanelBorderStyle}" BorderThickness="0,0,1,0" DockPanel.Dock="Left" UseLayoutRounding="True" Width="{Binding VM.Left.Width, Mode=TwoWay}"
-                    Visibility="{Binding VM.Left.PanelVisibility}" SizeChanged="LeftPanel_SizeChanged">
-                    <Border x:Name="LeftPanelContent" Background="Transparent">
+                <Grid x:Name="LeftPanel"  DockPanel.Dock="Left" UseLayoutRounding="True" Width="{Binding VM.Left.Width, Mode=TwoWay}" Visibility="{Binding VM.Left.PanelVisibility}" SizeChanged="LeftPanel_SizeChanged">
+                    <Border Style="{StaticResource PanelBorderStyle}" BorderThickness="0,0,1,0" />
+                    <Border x:Name="LeftPanelContent" Background="Transparent" Margin="0,0,1,0">
                         <behaviors:Interaction.Behaviors>
                             <local:AutoHideBehavior Name="LeftPanel" Screen="{Binding ElementName=Screen}" SubTarget="{Binding ElementName=LeftPanelSplitter}" Dock="Left"
                                     IsEnabled="{Binding VM.Left.IsAutoHide}" DelayTime="{Binding VM.AutoHideConfig.AutoHideDelayTime}"
@@ -151,14 +128,17 @@
                                 BorderBrush="{DynamicResource SidePanel.Splitter}">
                         </nrlp:LayoutDockPanel>
                     </Border>
-                </Border>
+
+                </Grid>
+
 
                 <osc:DockPanelSplitter x:Name="LeftPanelSplitter" DockPanel.Dock="Left" Style="{StaticResource NVVerticalBevelGrip}" ProportionalResize="False" UseLayoutRounding="True"
                         Visibility="{Binding VM.Left.PanelVisibility}" IsTabStop="False" />
 
-                <Border x:Name="RightPanel" DockPanel.Dock="Right" Style="{StaticResource PanelBorderStyle}" BorderThickness="1,0,0,0" Width="{Binding VM.Right.Width, Mode=TwoWay}" UseLayoutRounding="True"
-                        Visibility="{Binding VM.Right.PanelVisibility}" SizeChanged="RightPanel_SizeChanged">
-                    <Border x:Name="RightPanelContent" Background="Transparent">
+                <Grid x:Name="RightPanel" DockPanel.Dock="Right" Width="{Binding VM.Right.Width, Mode=TwoWay}" UseLayoutRounding="True" Visibility="{Binding VM.Right.PanelVisibility}"
+                        SizeChanged="RightPanel_SizeChanged">
+                    <Border Style="{StaticResource PanelBorderStyle}" BorderThickness="1,0,0,0" />
+                    <Border x:Name="RightPanelContent" Background="Transparent" Margin="1,0,0,0">
                         <behaviors:Interaction.Behaviors>
                             <local:AutoHideBehavior Name="RightPanel" Screen="{Binding ElementName=Screen}" SubTarget="{Binding ElementName=RightPanelSplitter}" Dock="Right"
                                     IsEnabled="{Binding VM.Right.IsAutoHide}" DelayTime="{Binding VM.AutoHideConfig.AutoHideDelayTime}"
@@ -177,7 +157,7 @@
                                 BorderBrush="{DynamicResource SidePanel.Splitter}">
                         </nrlp:LayoutDockPanel>
                     </Border>
-                </Border>
+                </Grid>
 
                 <osc:DockPanelSplitter x:Name="RightPanelSplitter" DockPanel.Dock="Right" Style="{StaticResource NVVerticalBevelGrip}" ProportionalResize="False" UseLayoutRounding="True"
                         Visibility="{Binding VM.Right.PanelVisibility}" IsTabStop="False" />

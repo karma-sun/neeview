@@ -32,7 +32,8 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <local:LayoutPanelHeader x:Name="Caption" Grid.Row="0" Cursor="Hand" Title="{Binding LayoutPanel.Title}" ClosePanelCommand="{StaticResource ClosePanelCommand}">
+        <local:LayoutPanelHeader x:Name="Caption" Grid.Row="0" Cursor="Hand" Title="{Binding LayoutPanel.Title}" Focusable="False" IsTabStop="False"
+                ClosePanelCommand="{StaticResource ClosePanelCommand}">
             <b:Interaction.Behaviors>
                 <nw:DragStartBehavior AllowedEffects="Move" DragDropData="{Binding LayoutPanel}" DragBegin="DragBegin" DragEnd="DragEnd" />
             </b:Interaction.Behaviors>
@@ -46,6 +47,6 @@
             </local:LayoutPanelHeader.ContextMenu>
         </local:LayoutPanelHeader>
 
-        <ContentControl Grid.Row="1" Content="{Binding LayoutPanel.Content}" />
+        <ContentControl Grid.Row="1" Content="{Binding LayoutPanel.Content}" Focusable="False" IsTabStop="False" />
     </Grid>
 </UserControl>

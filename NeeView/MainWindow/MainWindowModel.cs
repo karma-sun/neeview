@@ -91,20 +91,6 @@ namespace NeeView
         public WindowShape WindowShape => _windowShape;
 
 
-        // スライダー背景ブラシ
-        public SolidColorBrush SliderBackground
-        {
-            get { return _sliderBackground; }
-            private set { SetProperty(ref _sliderBackground, value); }
-        }
-
-        // スライダー背景ブラス(常に不透明度適用)
-        public SolidColorBrush SliderBackgroundGlass
-        {
-            get { return _sliderBackgroundGlass; }
-            set { SetProperty(ref _sliderBackgroundGlass, value); }
-        }
-
         /// <summary>
         /// メニューを自動非表示するか
         /// </summary>
@@ -120,13 +106,7 @@ namespace NeeView
         public bool CanHidePageSlider
         {
             get { return _canHidePageSlider; }
-            set
-            {
-                if (SetProperty(ref _canHidePageSlider, value))
-                {
-                    RefreshSliderBrushes();
-                }
-            }
+            set { SetProperty(ref _canHidePageSlider, value); }
         }
 
         /// <summary>
@@ -179,8 +159,6 @@ namespace NeeView
 
             _viewComponent = MainViewComponent.Current;
 
-            ThemeManager.Current.ThemeProfileChanged += (s, e) => RefreshSliderBrushes();
-
             Config.Current.MenuBar.AddPropertyChanged(nameof(MenuBarConfig.IsHideMenuInAutoHideMode), (s, e) =>
             {
                 RefreshCanHideMenu();
@@ -206,11 +184,6 @@ namespace NeeView
                 RefreshCanHidePageSlider();
             });
 
-            Config.Current.Slider.AddPropertyChanged(nameof(SliderConfig.Opacity), (s, e) =>
-            {
-                RefreshSliderBrushes();
-            });
-
             Config.Current.Panels.AddPropertyChanged(nameof(PanelsConfig.IsHidePanelInAutoHideMode), (s, e) =>
             {
                 RefreshCanHidePanel();
@@ -224,33 +197,7 @@ namespace NeeView
             RefreshCanHidePanel();
             RefreshCanHidePageSlider();
 
-            RefreshSliderBrushes();
-
             PageViewRecorder.Current.Initialize();
-        }
-
-
-        private void RefreshSliderBrushes()
-        {
-            var original = (SolidColorBrush)App.Current.Resources["PageSelectionBar.Background"];
-            var glass = CreatePanelBrush(original, Config.Current.Slider.Opacity);
-
-            SliderBackground = CanHidePageSlider ? glass : original;
-            SliderBackgroundGlass = glass;
-        }
-
-        private SolidColorBrush CreatePanelBrush(SolidColorBrush source, double opacity)
-        {
-            if (opacity < 1.0)
-            {
-                var color = source.Color;
-                color.A = (byte)NeeLaboratory.MathUtility.Clamp((int)(opacity * 0xFF), 0x00, 0xFF);
-                return new SolidColorBrush(color);
-            }
-            else
-            {
-                return source;
-            }
         }
 
         private void RefreshCanHideMenu()
@@ -569,7 +516,7 @@ namespace NeeView
         }
 
 
-        #region Memento
+#region Memento
 
         [DataContract]
         public class Memento : IMemento
@@ -638,7 +585,7 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
     }
 
 }

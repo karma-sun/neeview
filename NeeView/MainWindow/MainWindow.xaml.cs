@@ -688,11 +688,15 @@ namespace NeeView
             {
                 this.LayerPageSliderSocket.Content = null;
                 this.DockPageSliderSocket.Content = this.SliderArea;
+                this.MediaControlView.IsBackgroundOpacityEnabled = false;
+                this.PageSliderView.IsBackgroundOpacityEnabled = false;
             }
             else
             {
                 this.DockPageSliderSocket.Content = null;
                 this.LayerPageSliderSocket.Content = this.SliderArea;
+                this.MediaControlView.IsBackgroundOpacityEnabled = true;
+                this.PageSliderView.IsBackgroundOpacityEnabled = true;
             }
 
             // visibility
@@ -723,11 +727,13 @@ namespace NeeView
             {
                 this.LayerThumbnailListSocket.Content = null;
                 this.DockThumbnailListSocket.Content = this.ThumbnailListArea;
+                this.ThumbnailListArea.IsBackgroundOpacityEnabled = false;
             }
             else
             {
                 this.DockThumbnailListSocket.Content = null;
                 this.LayerThumbnailListSocket.Content = this.ThumbnailListArea;
+                this.ThumbnailListArea.IsBackgroundOpacityEnabled = true;
             }
 
             // フィルムストリップ

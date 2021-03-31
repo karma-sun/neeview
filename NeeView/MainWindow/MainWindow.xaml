@@ -100,7 +100,7 @@
                 </ContentControl>
 
                 <!-- ステータスエリア -->
-                <Border x:Name="DockStatusArea" DockPanel.Dock="Bottom" Background="{DynamicResource PageSelectionBar.Background}" BorderBrush="{DynamicResource PageSelectionBar.Border}" BorderThickness="0,0,0,0">
+                <Border x:Name="DockStatusArea" DockPanel.Dock="Bottom">
                     <DockPanel>
 
                         <!-- スライダー -->
@@ -175,37 +175,24 @@
                             IsKeyDownDelayEnabled="{Binding AutoHideConfig.IsAutoHideKeyDownDelay}" HitTestMargin="{Binding AutoHideConfig.AutoHideHitTestMargin}"
                             Description="{Binding StatusAutoHideDescrption}" IsVisibleLocked="{Binding Model.IsPanelVisibleLocked}" />
                 </behaviors:Interaction.Behaviors>
-                <Grid DockPanel.Dock="Bottom" Background="{Binding Model.SliderBackground}">
-                    <ContentControl x:Name="LayerPageSliderSocket" IsTabStop="False" />
-                </Grid>
+                <ContentControl x:Name="LayerPageSliderSocket" DockPanel.Dock="Bottom" IsTabStop="False" />
                 <Grid x:Name="LayerStatusAreaPadding" DockPanel.Dock="Bottom" Height="{Binding ElementName=DockPageSliderSocket, Path=ActualHeight}"
                         Visibility="{Binding ElementName=LayerThumbnailListSocket, Path=Visibility}" />
-                <Grid DockPanel.Dock="Bottom">
-                    <Grid.Style>
-                        <Style TargetType="Grid">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Source={x:Static local:Config.Current},  Path=FilmStrip.IsVisiblePlate}" Value="True">
-                                    <Setter Property="Background" Value="{Binding Model.SliderBackground}" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Grid.Style>
-                    <ContentControl x:Name="LayerThumbnailListSocket" IsTabStop="False">
-                        <behaviors:Interaction.Behaviors>
-                            <local:AutoHideBehavior Screen="{Binding ElementName=Root}" Dock="Bottom" IsEnabled="{Binding CanHideThumbnailList}" DelayTime="{Binding AutoHideConfig.AutoHideDelayTime}"
-                                    DelayVisibleTime="{Binding AutoHideConfig.AutoHideDelayVisibleTime}" FocusLockMode="{Binding AutoHideConfig.AutoHideFocusLockMode}"
-                                    IsKeyDownDelayEnabled="{Binding AutoHideConfig.IsAutoHideKeyDownDelay}" Description="{Binding ThumbnailListusAutoHideDescrption}"
-                                    IsVisibleLocked="{Binding Model.IsPanelVisibleLocked}">
-                                <local:AutoHideBehavior.HitTestMargin>
-                                    <MultiBinding Converter="{StaticResource DoubleSumConverter}">
-                                        <Binding ElementName="SliderArea" Path="ActualHeight" />
-                                        <Binding Path="AutoHideConfig.AutoHideHitTestMargin" />
-                                    </MultiBinding>
-                                </local:AutoHideBehavior.HitTestMargin>
-                            </local:AutoHideBehavior>
-                        </behaviors:Interaction.Behaviors>
-                    </ContentControl>
-                </Grid>
+                <ContentControl x:Name="LayerThumbnailListSocket" DockPanel.Dock="Bottom" IsTabStop="False">
+                    <behaviors:Interaction.Behaviors>
+                        <local:AutoHideBehavior Screen="{Binding ElementName=Root}" Dock="Bottom" IsEnabled="{Binding CanHideThumbnailList}" DelayTime="{Binding AutoHideConfig.AutoHideDelayTime}"
+                                DelayVisibleTime="{Binding AutoHideConfig.AutoHideDelayVisibleTime}" FocusLockMode="{Binding AutoHideConfig.AutoHideFocusLockMode}"
+                                IsKeyDownDelayEnabled="{Binding AutoHideConfig.IsAutoHideKeyDownDelay}" Description="{Binding ThumbnailListusAutoHideDescrption}"
+                                IsVisibleLocked="{Binding Model.IsPanelVisibleLocked}">
+                            <local:AutoHideBehavior.HitTestMargin>
+                                <MultiBinding Converter="{StaticResource DoubleSumConverter}">
+                                    <Binding ElementName="SliderArea" Path="ActualHeight" />
+                                    <Binding Path="AutoHideConfig.AutoHideHitTestMargin" />
+                                </MultiBinding>
+                            </local:AutoHideBehavior.HitTestMargin>
+                        </local:AutoHideBehavior>
+                    </behaviors:Interaction.Behaviors>
+                </ContentControl>
             </DockPanel>
 
             <!-- Page title -->

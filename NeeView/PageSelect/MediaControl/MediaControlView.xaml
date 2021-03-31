@@ -140,99 +140,104 @@
         </Style>
     </UserControl.Resources>
 
-    <StackPanel VerticalAlignment="Bottom" MouseWheel="Root_MouseWheel" Background="Transparent">
-
-        <DockPanel VerticalAlignment="Bottom" Margin="5,0" LastChildFill="False">
-
-            <Button Command="{Binding Operator.PlayCommand}">
-                <Image>
-                    <Image.Style>
-                        <Style TargetType="Image" BasedOn="{StaticResource ButtonImage}">
-                            <Setter Property="Source" Value="{StaticResource ic_play_allow_24px}"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Operator.IsPlaying}" Value="True">
-                                    <Setter Property="Source" Value="{StaticResource ic_pause_24px}"/>
-                                    <Setter Property="Height" Value="16"/>
-                                    <Setter Property="Width" Value="16"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Image.Style>
-                </Image>
-            </Button>
-
-            <Button Command="{Binding Operator.MuteCommand}">
-                <Image Width="18" Height="18">
-                    <Image.Style>
-                        <Style TargetType="Image" BasedOn="{StaticResource ButtonImage}">
-                            <Setter Property="Source" Value="{StaticResource ic_volume_up_24px}"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Operator.IsMuted}" Value="True">
-                                    <Setter Property="Source" Value="{StaticResource ic_volume_off_24px}"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Image.Style>
-                </Image>
-            </Button>
-
-            <Button Width="NaN" MouseWheel="Volume_MouseWheel">
-                <nwc:SmartSlider x:Name="VolumeSlider"
-                                 Width="100" Height="30" VerticalAlignment="Center"
-                                 ThumbSize="12"
-                                 ThumbBorderBrush="{DynamicResource PageSelectionBar.Foreground}"
-                                 ThumbFill="{DynamicResource PageSelectionBar.Foreground}"
-                                 TrackDecreaseBrush="{DynamicResource PageSelectionBar.Foreground}"
-                                 TrackIncreaseBrush="{DynamicResource Slider.Background}"
-                                 Value="{Binding Operator.Volume}" />
-            </Button>
-
-            <TextBlock Margin="5,0" DockPanel.Dock="Left" VerticalAlignment="Center" Text="{Binding Operator.DispTime}" Foreground="{DynamicResource PageSelectionBar.Foreground}">
-                <TextBlock.Style>
-                    <Style TargetType="TextBlock">
-                        <EventSetter Event="MouseLeftButtonDown" Handler="TimeTextBlock_MouseLeftButtonDown"/>
-                    </Style>
-                </TextBlock.Style>
-            </TextBlock>
-
-            <Button DockPanel.Dock="Right" Command="{Binding Operator.RepeatCommand}">
-                <Image>
-                    <Image.Style>
-                        <Style TargetType="Image" BasedOn="{StaticResource ButtonImage}">
-                            <Setter Property="Source" Value="{StaticResource ic_trending_flat_24px}"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Operator.IsRepeat}" Value="True">
-                                    <Setter Property="Source" Value="{StaticResource ic_repeat_24px}"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Image.Style>
-                </Image>
-            </Button>
-
-        </DockPanel>
-
-        <DockPanel VerticalAlignment="Bottom">
-            <DockPanel.Style>
-                <Style TargetType="DockPanel">
+    <Grid>
+        
+        <Border x:Name="BaseBorder" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource PageSelectionBar.Border}" Background="{DynamicResource PageSelectionBar.Background}">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Opacity" Value="1.0" />
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Operator.DurationHasTimeSpan}" Value="False">
-                            <Setter Property="Visibility" Value="Hidden"/>
+                        <DataTrigger Binding="{Binding IsBackgroundOpacityEnabled, RelativeSource={RelativeSource AncestorType=local:MediaControlView}}" Value="True">
+                            <Setter Property="Opacity" Value="{Binding Source={x:Static local:Config.Current}, Path=Slider.Opacity}" />
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
-            </DockPanel.Style>
-            <nwc:SmartSlider x:Name="Slider"
-                             ThumbSize="{Binding Slider.Thickness, Source={x:Static local:Config.Current}}"
-                             ThumbBorderBrush="{DynamicResource PageSelectionBar.Slider.Thumb}"
-                             TrackDecreaseBrush="{DynamicResource PageSelectionBar.Slider.Track}"
-                             TrackIncreaseBrush="{DynamicResource PageSelectionBar.Slider.Background}"
-                             Value="{Binding Operator.PositionRate}"
-                             DragStarted="VideoSlider_DragStarted"
-                             DragCompleted="VideoSlider_DragCompleted"
-                             PreviewMouseLeftButtonDown="VideoSlider_PreviewMouseLeftButtonDown" />
-        </DockPanel>
+            </Border.Style>
+        </Border>
 
-    </StackPanel>
+        <StackPanel VerticalAlignment="Bottom" MouseWheel="Root_MouseWheel" Background="Transparent">
 
+            <DockPanel VerticalAlignment="Bottom" Margin="5,0" LastChildFill="False">
+
+                <Button Command="{Binding Operator.PlayCommand}">
+                    <Image>
+                        <Image.Style>
+                            <Style TargetType="Image" BasedOn="{StaticResource ButtonImage}">
+                                <Setter Property="Source" Value="{StaticResource ic_play_allow_24px}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Operator.IsPlaying}" Value="True">
+                                        <Setter Property="Source" Value="{StaticResource ic_pause_24px}" />
+                                        <Setter Property="Height" Value="16" />
+                                        <Setter Property="Width" Value="16" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
+                </Button>
+
+                <Button Command="{Binding Operator.MuteCommand}">
+                    <Image Width="18" Height="18">
+                        <Image.Style>
+                            <Style TargetType="Image" BasedOn="{StaticResource ButtonImage}">
+                                <Setter Property="Source" Value="{StaticResource ic_volume_up_24px}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Operator.IsMuted}" Value="True">
+                                        <Setter Property="Source" Value="{StaticResource ic_volume_off_24px}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
+                </Button>
+
+                <Button Width="NaN" MouseWheel="Volume_MouseWheel">
+                    <nwc:SmartSlider x:Name="VolumeSlider" Width="100" Height="30" VerticalAlignment="Center" ThumbSize="12" ThumbBorderBrush="{DynamicResource PageSelectionBar.Foreground}"
+                            ThumbFill="{DynamicResource PageSelectionBar.Foreground}" TrackDecreaseBrush="{DynamicResource PageSelectionBar.Foreground}"
+                            TrackIncreaseBrush="{DynamicResource Slider.Background}" Value="{Binding Operator.Volume}" />
+                </Button>
+
+                <TextBlock Margin="5,0" DockPanel.Dock="Left" VerticalAlignment="Center" Text="{Binding Operator.DispTime}" Foreground="{DynamicResource PageSelectionBar.Foreground}">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <EventSetter Event="MouseLeftButtonDown" Handler="TimeTextBlock_MouseLeftButtonDown" />
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <Button DockPanel.Dock="Right" Command="{Binding Operator.RepeatCommand}">
+                    <Image>
+                        <Image.Style>
+                            <Style TargetType="Image" BasedOn="{StaticResource ButtonImage}">
+                                <Setter Property="Source" Value="{StaticResource ic_trending_flat_24px}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Operator.IsRepeat}" Value="True">
+                                        <Setter Property="Source" Value="{StaticResource ic_repeat_24px}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
+                </Button>
+
+            </DockPanel>
+
+            <DockPanel VerticalAlignment="Bottom">
+                <DockPanel.Style>
+                    <Style TargetType="DockPanel">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Operator.DurationHasTimeSpan}" Value="False">
+                                <Setter Property="Visibility" Value="Hidden" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DockPanel.Style>
+                <nwc:SmartSlider x:Name="Slider" ThumbSize="{Binding Slider.Thickness, Source={x:Static local:Config.Current}}" ThumbBorderBrush="{DynamicResource PageSelectionBar.Slider.Thumb}"
+                        TrackDecreaseBrush="{DynamicResource PageSelectionBar.Slider.Track}" TrackIncreaseBrush="{DynamicResource PageSelectionBar.Slider.Background}"
+                        Value="{Binding Operator.PositionRate}" DragStarted="VideoSlider_DragStarted" DragCompleted="VideoSlider_DragCompleted"
+                        PreviewMouseLeftButtonDown="VideoSlider_PreviewMouseLeftButtonDown" />
+            </DockPanel>
+
+        </StackPanel>
+    </Grid>
 </UserControl>

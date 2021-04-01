@@ -142,6 +142,7 @@
                                  TrackIncreaseBrush="{DynamicResource Slider.Background}"
                                  Value="{Binding Operator.Volume}"
                                  FocusVisualStyle="{StaticResource NVFocusVisual}" Focusable="True" IsTabStop="True"
+                                 PreviewMouseDown="Volume_PreviewMouseDown"
                                  MouseWheel="Volume_MouseWheel"
                                  KeyDown="Volume_KeyDown" />
 

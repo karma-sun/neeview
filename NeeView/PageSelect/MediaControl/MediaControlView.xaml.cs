@@ -93,6 +93,11 @@ namespace NeeView
             e.Handled = true;
         }
 
+        private void Volume_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.VolumeSlider.Focus();
+        }
+
         private void Volume_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             _vm.MouseWheelVolume(sender, e);
@@ -105,7 +110,6 @@ namespace NeeView
         }
 
         #endregion
-
     }
 
 

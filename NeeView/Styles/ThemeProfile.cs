@@ -102,6 +102,10 @@ namespace NeeView
             "PageSelectionBar.Slider.Thumb",
             "PageSelectionBar.Slider.Track",
 
+            "Toast.Background",
+            "Toast.Foreground",
+            "Toast.Border",
+
             "Thumbnail.Background",
             "Thumbnail.Foreground",
 

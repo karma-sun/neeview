@@ -27,7 +27,8 @@
     <SolidColorBrush x:Key="Control.Border" Color="Gray" />
     <SolidColorBrush x:Key="Control.GrayText" Color="Gray" />
     <SolidColorBrush x:Key="Control.Accent" Color="SteelBlue" />
-    
+    <SolidColorBrush x:Key="Control.AccentText" Color="White" />
+
     <SolidColorBrush x:Key="Item.MouseOver.Background" Color="#1F26A0DA" />
     <SolidColorBrush x:Key="Item.MouseOver.Border" Color="#A826A0DA" />
     <SolidColorBrush x:Key="Item.Selected.Background" Color="#3D26A0DA" />
@@ -100,6 +101,10 @@
     <SolidColorBrush x:Key="PageSelectionBar.Slider.Border" Color="Gray" />
     <SolidColorBrush x:Key="PageSelectionBar.Slider.Thumb" Color="SteelBlue" />
     <SolidColorBrush x:Key="PageSelectionBar.Slider.Track" Color="SteelBlue" />
+
+    <SolidColorBrush x:Key="Toast.Background" Color="Gray" />
+    <SolidColorBrush x:Key="Toast.Foreground" Color="White" />
+    <SolidColorBrush x:Key="Toast.Border" Color="Gray" />
 
     <SolidColorBrush x:Key="Thumbnail.Background" Color="Gray" />
     <SolidColorBrush x:Key="Thumbnail.Foreground" Color="DarkGray" />

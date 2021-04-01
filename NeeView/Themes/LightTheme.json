@@ -5,7 +5,7 @@
     "Window.Foreground": "#FF404040",
     "Window.Border": "#00808080",
     "Window.ActiveTitle": "Window.Foreground",
-    "Window.InactiveTitle": "Window.Title/0.5",
+    "Window.InactiveTitle": "Window.ActiveTitle/0.5",
 
     "Control.Background": "#FFA0A0A0",
     "Control.Foreground": "",
@@ -86,6 +86,10 @@
     "PageSelectionBar.Slider.Border": "Slider.Border",
     "PageSelectionBar.Slider.Thumb": "Control.Accent",
     "PageSelectionBar.Slider.Track": "Control.Accent",
+
+    "Toast.Background": "Menu.Background",
+    "Toast.Foreground": "Menu.Foreground",
+    "Toast.Border": "Menu.Border",
 
     "Thumbnail.Background": "#FF404040",
     "Thumbnail.Foreground": "#FF808080",

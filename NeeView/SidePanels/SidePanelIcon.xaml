@@ -4,8 +4,7 @@
         d:DesignWidth="800">
     <UserControl.Resources>
 
-        <Style x:Key="PanelIconButtonStyle" TargetType="{x:Type Button}">
-            <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}" />
+        <Style x:Key="PanelIconButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource IconButton}">
             <Setter Property="Width" Value="36" />
             <Setter Property="Height" Value="36" />
             <Setter Property="Margin" Value="2" />
@@ -14,26 +13,6 @@
             <Setter Property="ToolTip" Value="{Binding Title}" />
             <Setter Property="ToolTipService.ShowDuration" Value="1000" />
             <Setter Property="ToolTipService.Placement" Value="Bottom" />
-
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Grid>
-                            <Border x:Name="Bd" BorderThickness="1" BorderBrush="{x:Null}" Background="{x:Null}" />
-                            <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True"
-                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Opacity="0.5" />
-                        </Grid>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Opacity" TargetName="contentPresenter" Value="1.0" />
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Opacity" TargetName="contentPresenter" Value="0.25" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
         </Style>
 
         <Style x:Key="ContextMenuItemStyle" TargetType="MenuItem">

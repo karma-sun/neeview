@@ -65,9 +65,6 @@ namespace NeeView
         private bool _canHidePanel;
         private bool _canHideMenu;
 
-        private SolidColorBrush _sliderBackground;
-        private SolidColorBrush _sliderBackgroundGlass;
-
         private volatile EditCommandWindow _editCommandWindow;
 
         private MainViewComponent _viewComponent;
@@ -516,7 +513,7 @@ namespace NeeView
         }
 
 
-#region Memento
+        #region Memento
 
         [DataContract]
         public class Memento : IMemento
@@ -585,7 +582,7 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
     }
 
 }

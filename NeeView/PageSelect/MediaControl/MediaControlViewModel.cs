@@ -91,6 +91,25 @@ namespace NeeView
             Operator.AddVolume(delta);
         }
 
+        internal bool KeyVolume(Key key)
+        {
+            switch (key)
+            {
+                case Key.Up:
+                case Key.Right:
+                    Operator.AddVolume(+0.01);
+                    return true;
+
+                case Key.Down:
+                case Key.Left:
+                    Operator.AddVolume(-0.01);
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
+
         #endregion
     }
 }

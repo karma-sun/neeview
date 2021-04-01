@@ -99,6 +99,11 @@ namespace NeeView
             e.Handled = true;
         }
 
+        private void Volume_KeyDown(object sender, KeyEventArgs e)
+        {
+            e.Handled = _vm.KeyVolume(e.Key);
+        }
+
         #endregion
 
     }

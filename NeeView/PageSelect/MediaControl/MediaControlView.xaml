@@ -10,87 +10,59 @@
              d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.Resources>
-
+        
         <DrawingImage x:Key="ic_play_allow_24px">
             <DrawingImage.Drawing>
-                <DrawingGroup Opacity="1">
-                    <DrawingGroup.Children>
-                        <GeometryDrawing Brush="{DynamicResource PageSelectionBar.Foreground}" Pen="{x:Null}">
-                            <GeometryDrawing.Geometry>
-                                <PathGeometry FillRule="Nonzero" Figures="M8,5L8,19 19,12z" />
-                            </GeometryDrawing.Geometry>
-                        </GeometryDrawing>
-                    </DrawingGroup.Children>
+                <DrawingGroup>
+                    <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
+                    <GeometryDrawing Brush="{DynamicResource PageSelectionBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_play_allow_24px}" />
                 </DrawingGroup>
             </DrawingImage.Drawing>
         </DrawingImage>
 
         <DrawingImage x:Key="ic_pause_24px">
             <DrawingImage.Drawing>
-                <DrawingGroup Opacity="1">
-                    <DrawingGroup.Children>
-                        <GeometryDrawing Brush="{DynamicResource PageSelectionBar.Foreground}" Pen="{x:Null}">
-                            <GeometryDrawing.Geometry>
-                                <PathGeometry FillRule="Nonzero" Figures="M6,19L10,19 10,5 6,5 6,19z M14,5L14,19 18,19 18,5 14,5z" />
-                            </GeometryDrawing.Geometry>
-                        </GeometryDrawing>
-                    </DrawingGroup.Children>
+                <DrawingGroup>
+                    <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
+                    <GeometryDrawing Brush="{DynamicResource PageSelectionBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_pause_24px}" />
                 </DrawingGroup>
             </DrawingImage.Drawing>
         </DrawingImage>
 
         <DrawingImage x:Key="ic_trending_flat_24px">
             <DrawingImage.Drawing>
-                <DrawingGroup Opacity="1">
-                    <DrawingGroup.Children>
-                        <GeometryDrawing Brush="{DynamicResource PageSelectionBar.Foreground}" Pen="{x:Null}">
-                            <GeometryDrawing.Geometry>
-                                <PathGeometry FillRule="Nonzero" Figures="M22,12L18,8 18,11 3,11 3,13 18,13 18,16z" />
-                            </GeometryDrawing.Geometry>
-                        </GeometryDrawing>
-                    </DrawingGroup.Children>
+                <DrawingGroup>
+                    <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
+                    <GeometryDrawing Brush="{DynamicResource PageSelectionBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_trending_flat_24px}" />
                 </DrawingGroup>
             </DrawingImage.Drawing>
         </DrawingImage>
 
         <DrawingImage x:Key="ic_repeat_24px">
             <DrawingImage.Drawing>
-                <DrawingGroup Opacity="1">
-                    <DrawingGroup.Children>
-                        <GeometryDrawing Brush="{DynamicResource PageSelectionBar.Foreground}" Pen="{x:Null}">
-                            <GeometryDrawing.Geometry>
-                                <PathGeometry FillRule="Nonzero" Figures="M7,7L17,7 17,10 21,6 17,2 17,5 5,5 5,11 7,11 7,7z M17,17L7,17 7,14 3,18 7,22 7,19 19,19 19,13 17,13 17,17z" />
-                            </GeometryDrawing.Geometry>
-                        </GeometryDrawing>
-                    </DrawingGroup.Children>
+                <DrawingGroup>
+                    <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
+                    <GeometryDrawing Brush="{DynamicResource PageSelectionBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_repeat_24px}" />
                 </DrawingGroup>
             </DrawingImage.Drawing>
         </DrawingImage>
+
 
         <DrawingImage x:Key="ic_volume_up_24px">
             <DrawingImage.Drawing>
-                <DrawingGroup Opacity="1">
-                    <DrawingGroup.Children>
-                        <GeometryDrawing Brush="{DynamicResource PageSelectionBar.Foreground}" Pen="{x:Null}">
-                            <GeometryDrawing.Geometry>
-                                <PathGeometry FillRule="Nonzero" Figures="M3,9L3,15 7,15 12,20 12,4 7,9 3,9z M16.5,12C16.5,10.23,15.48,8.71,14,7.97L14,16.02C15.48,15.29,16.5,13.77,16.5,12z M14,3.23L14,5.29C16.89,6.15 19,8.83 19,12 19,15.17 16.89,17.85 14,18.71L14,20.77C18.01,19.86 21,16.28 21,12 21,7.72 18.01,4.14 14,3.23z" />
-                            </GeometryDrawing.Geometry>
-                        </GeometryDrawing>
-                    </DrawingGroup.Children>
+                <DrawingGroup>
+                    <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
+                    <GeometryDrawing Brush="{DynamicResource PageSelectionBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_volume_up_24px}" />
                 </DrawingGroup>
             </DrawingImage.Drawing>
         </DrawingImage>
 
+
         <DrawingImage x:Key="ic_volume_off_24px">
             <DrawingImage.Drawing>
-                <DrawingGroup Opacity="1">
-                    <DrawingGroup.Children>
-                        <GeometryDrawing Brush="{DynamicResource PageSelectionBar.Foreground}" Pen="{x:Null}">
-                            <GeometryDrawing.Geometry>
-                                <PathGeometry FillRule="Nonzero" Figures="M16.5,12C16.5,10.23,15.48,8.71,14,7.97L14,10.18 16.45,12.63C16.48,12.43,16.5,12.22,16.5,12z M19,12C19,12.94,18.8,13.82,18.46,14.64L19.97,16.15C20.63,14.91 21,13.5 21,12 21,7.72 18.01,4.14 14,3.23L14,5.29C16.89,6.15,19,8.83,19,12z M4.27,3L3,4.27 7.73,9 3,9 3,15 7,15 12,20 12,13.27 16.25,17.52C15.58,18.04,14.83,18.45,14,18.7L14,20.76C15.38,20.45,16.63,19.81,17.69,18.95L19.73,21 21,19.73 12,10.73 4.27,3z M12,4L9.91,6.09 12,8.18 12,4z" />
-                            </GeometryDrawing.Geometry>
-                        </GeometryDrawing>
-                    </DrawingGroup.Children>
+                <DrawingGroup>
+                    <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
+                    <GeometryDrawing Brush="{DynamicResource PageSelectionBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_volume_off_24px}" />
                 </DrawingGroup>
             </DrawingImage.Drawing>
         </DrawingImage>
@@ -98,45 +70,19 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <local:ColorToBrushConverter x:Key="ColorToBrushConverter" />
 
-        <Style x:Key="PanelIconButtonStyle" TargetType="{x:Type Button}">
-            <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
-            <Setter Property="Width" Value="36"/>
-            <Setter Property="Height" Value="36"/>
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-            <Setter Property="ToolTipService.ShowDuration" Value="1000"/>
-            <Setter Property="ToolTipService.Placement"  Value="Bottom"/>
-
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Grid>
-                            <Rectangle x:Name="baseRectangle" Fill="Transparent"/>
-                            <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Opacity="0.5"/>
-                        </Grid>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Opacity" TargetName="contentPresenter" Value="1.0"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Opacity" TargetName="contentPresenter" Value="0.25"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style TargetType="Button" BasedOn="{StaticResource PanelIconButtonStyle}">
+        <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
             <Setter Property="Margin" Value="5,5"/>
             <Setter Property="Width" Value="30"/>
             <Setter Property="Height" Value="30"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="ToolTipService.ShowDuration" Value="1000" />
+            <Setter Property="ToolTipService.Placement" Value="Bottom" />
         </Style>
 
         <Style TargetType="Image" x:Key="ButtonImage">
-            <Setter Property="Width" Value="20"/>
-            <Setter Property="Height" Value="20"/>
+            <Setter Property="Width" Value="24"/>
+            <Setter Property="Height" Value="24"/>
         </Style>
     </UserControl.Resources>
 
@@ -167,8 +113,6 @@
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Operator.IsPlaying}" Value="True">
                                         <Setter Property="Source" Value="{StaticResource ic_pause_24px}" />
-                                        <Setter Property="Height" Value="16" />
-                                        <Setter Property="Width" Value="16" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -177,7 +121,7 @@
                 </Button>
 
                 <Button Command="{Binding Operator.MuteCommand}">
-                    <Image Width="18" Height="18">
+                    <Image>
                         <Image.Style>
                             <Style TargetType="Image" BasedOn="{StaticResource ButtonImage}">
                                 <Setter Property="Source" Value="{StaticResource ic_volume_up_24px}" />
@@ -191,13 +135,17 @@
                     </Image>
                 </Button>
 
-                <Button Width="NaN" MouseWheel="Volume_MouseWheel">
-                    <nwc:SmartSlider x:Name="VolumeSlider" Width="100" Height="30" VerticalAlignment="Center" ThumbSize="12" ThumbBorderBrush="{DynamicResource PageSelectionBar.Foreground}"
-                            ThumbFill="{DynamicResource PageSelectionBar.Foreground}" TrackDecreaseBrush="{DynamicResource PageSelectionBar.Foreground}"
-                            TrackIncreaseBrush="{DynamicResource Slider.Background}" Value="{Binding Operator.Volume}" />
-                </Button>
+                <nwc:SmartSlider x:Name="VolumeSlider" Width="112" Height="30" VerticalAlignment="Center" ThumbSize="12"
+                                 ThumbBorderBrush="{DynamicResource PageSelectionBar.Foreground}"
+                                 ThumbFill="{DynamicResource PageSelectionBar.Foreground}"
+                                 TrackDecreaseBrush="{DynamicResource PageSelectionBar.Foreground}"
+                                 TrackIncreaseBrush="{DynamicResource Slider.Background}"
+                                 Value="{Binding Operator.Volume}"
+                                 FocusVisualStyle="{StaticResource NVFocusVisual}" Focusable="True" IsTabStop="True"
+                                 MouseWheel="Volume_MouseWheel"
+                                 KeyDown="Volume_KeyDown" />
 
-                <TextBlock Margin="5,0" DockPanel.Dock="Left" VerticalAlignment="Center" Text="{Binding Operator.DispTime}" Foreground="{DynamicResource PageSelectionBar.Foreground}">
+                <TextBlock Margin="15,0" DockPanel.Dock="Left" VerticalAlignment="Center" Text="{Binding Operator.DispTime}" Foreground="{DynamicResource PageSelectionBar.Foreground}">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <EventSetter Event="MouseLeftButtonDown" Handler="TimeTextBlock_MouseLeftButtonDown" />

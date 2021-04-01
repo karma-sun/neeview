@@ -145,14 +145,10 @@
             </Grid>
 
             <Border x:Name="AddressTextBoxBase" BorderThickness="1" MinHeight="26" Margin="10,0">
-                <Border.Resources>
-                    <local:BrushAddStaticOpacityConverter x:Key="BrushAddOpacityConverter" Opacity="0.50" />
-                    <local:BindingProxy x:Key="TextBoxBackground" Data="{DynamicResource TextBox.Background}" />
-                </Border.Resources>
                 <Border.Style>
                     <Style TargetType="Border">
-                        <Setter Property="BorderBrush" Value="{Binding Path=Data, Source={StaticResource TextBoxBackground}, Converter={StaticResource BrushAddOpacityConverter}}" />
-                        <Setter Property="Background" Value="{Binding Path=Data, Source={StaticResource TextBoxBackground}, Converter={StaticResource BrushAddOpacityConverter}}" />
+                        <Setter Property="BorderBrush" Value="{DynamicResource MenuBar.Address.Border}" />
+                        <Setter Property="Background" Value="{DynamicResource MenuBar.Address.Background}"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding ElementName=AddressTextBox, Path=IsKeyboardFocusWithin}" Value="True">
                                 <Setter Property="BorderBrush" Value="{DynamicResource Control.Accent}" />

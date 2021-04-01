@@ -1287,7 +1287,6 @@
         <!--
         <Setter Property="OverridesDefaultStyle" Value="True" />
         -->
-        <Setter Property="Foreground" Value="{DynamicResource Menu.Foreground}" />
         <Setter Property="Background" Value="{DynamicResource Menu.Background}" />
         <Setter Property="BorderBrush" Value="{DynamicResource Menu.Border}" />
         <Style.Triggers>
@@ -1299,9 +1298,11 @@
                 <Setter Property="Template" Value="{StaticResource NVTopLevelItemTemplate}" />
             </Trigger>
             <Trigger Property="Role" Value="SubmenuHeader">
+                <Setter Property="Foreground" Value="{DynamicResource Menu.Foreground}" />
                 <Setter Property="Template" Value="{StaticResource NVSubmenuHeaderTemplate}" />
             </Trigger>
             <Trigger Property="Role" Value="SubmenuItem">
+                <Setter Property="Foreground" Value="{DynamicResource Menu.Foreground}" />
                 <Setter Property="Template" Value="{StaticResource NVSubmenuItemTemplate}" />
             </Trigger>
         </Style.Triggers>

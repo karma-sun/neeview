@@ -19,6 +19,8 @@
     <SolidColorBrush x:Key="Window.Background" Color="Black" />
     <SolidColorBrush x:Key="Window.Foreground" Color="White" />
     <SolidColorBrush x:Key="Window.Border" Color="Gray" />
+    <SolidColorBrush x:Key="Window.ActiveTitle" Color="White" />
+    <SolidColorBrush x:Key="Window.InactiveTitle" Color="Gray" />
 
     <SolidColorBrush x:Key="Control.Background" Color="Silver" />
     <SolidColorBrush x:Key="Control.Foreground" Color="White" />
@@ -86,6 +88,8 @@
     <SolidColorBrush x:Key="MenuBar.Background" Color="#FF282828" />
     <SolidColorBrush x:Key="MenuBar.Foreground" Color="White" />
     <SolidColorBrush x:Key="MenuBar.Border" Color="Gray" />
+    <SolidColorBrush x:Key="MenuBar.Address.Background" Color="Gray" />
+    <SolidColorBrush x:Key="MenuBar.Address.Border" Color="Gray" />
 
     <SolidColorBrush x:Key="PageSelectionBar.Background" Color="#FF282828" />
     <SolidColorBrush x:Key="PageSelectionBar.Foreground" Color="White" />

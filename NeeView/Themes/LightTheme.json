@@ -4,6 +4,8 @@
     "Window.Background": "#FFFFFFFF",
     "Window.Foreground": "#FF404040",
     "Window.Border": "#00808080",
+    "Window.ActiveTitle": "Window.Foreground",
+    "Window.InactiveTitle": "Window.Title/0.5",
 
     "Control.Background": "#FFA0A0A0",
     "Control.Foreground": "",
@@ -72,6 +74,8 @@
     "MenuBar.Background": "#FFD8D8D8",
     "MenuBar.Foreground": "",
     "MenuBar.Border": "",
+    "MenuBar.Address.Background": "#FFE8E8E8",
+    "MenuBar.Address.Border": "",
 
     "PageSelectionBar.Background": "MenuBar.Background",
     "PageSelectionBar.Foreground": "MenuBar.Foreground",

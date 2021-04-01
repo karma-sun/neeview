@@ -7,7 +7,6 @@
              xmlns:local="clr-namespace:NeeView"
              mc:Ignorable="d" 
              Background="{DynamicResource MenuBar.Background}"
-             Foreground="{DynamicResource MenuBar.Foreground}"
              BorderBrush="{DynamicResource MenuBar.Border}"
         d:DesignHeight="32" d:DesignWidth="640">
     
@@ -23,6 +22,17 @@
             
         </ResourceDictionary>
     </UserControl.Resources>
+
+    <UserControl.Style>
+        <Style TargetType="UserControl">
+            <Setter Property="Foreground" Value="{DynamicResource Window.ActiveTitle}" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}}" Value="False">
+                    <Setter Property="Foreground" Value="{DynamicResource Window.InactiveTitle}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Style>
 
     <Grid x:Name="Root" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture" MinHeight="0">
 
@@ -52,6 +62,7 @@
                     <Style x:Key="{x:Type Menu}" TargetType="{x:Type Menu}" BasedOn="{StaticResource NVMenu}">
                         <Setter Property="Background" Value="Transparent" />
                         <Setter Property="BorderBrush" Value="Transparent" />
+                        <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType=local:MenuBarView}}" />
                     </Style>
                 </DockPanel.Resources>
                 <ContentControl x:Name="MainMenuJoint" Content="{Binding MainMenu}" IsTabStop="False" VerticalAlignment="Center" WindowChrome.IsHitTestVisibleInChrome="False"

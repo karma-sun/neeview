@@ -20,6 +20,8 @@ namespace NeeView
             "Window.Background",
             "Window.Foreground",
             "Window.Border",
+            "Window.ActiveTitle",
+            "Window.InactiveTitle",
 
             "Control.Background",
             "Control.Foreground",
@@ -88,6 +90,8 @@ namespace NeeView
             "MenuBar.Background",
             "MenuBar.Foreground",
             "MenuBar.Border",
+            "MenuBar.Address.Background",
+            "MenuBar.Address.Border",
 
             "PageSelectionBar.Background",
             "PageSelectionBar.Foreground",

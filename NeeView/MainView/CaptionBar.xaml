@@ -8,8 +8,8 @@
              xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
              VerticalAlignment="Top" IsTabStop="False" Focusable="False"
-             Foreground="{DynamicResource MenuBar.Foreground}"
              Background="{DynamicResource MenuBar.Background}"
+             Foreground="{DynamicResource Window.ActiveTitle}"
              d:DesignHeight="50" d:DesignWidth="800">
 
     <ContentControl>
@@ -17,15 +17,18 @@
         <ContentControl.Resources>
             <local:BooleanToOpacityConverter x:Key="BooleanToOpacityConverter" />
             <local:BrushAddOpacityConverter x:Key="BrushAddOpacityConverter" />
-            <local:BindingProxy x:Key="BaseForeground" Data="{DynamicResource MenuBar.Foreground}" />
         </ContentControl.Resources>
 
-        <ContentControl.Foreground>
-            <MultiBinding Converter="{StaticResource BrushAddOpacityConverter}">
-                <Binding Source="{StaticResource BaseForeground}" Path="Data" />
-                <Binding RelativeSource="{RelativeSource AncestorType=Window}" Path="IsActive" Converter="{StaticResource BooleanToOpacityConverter}" />
-            </MultiBinding>
-        </ContentControl.Foreground>
+        <ContentControl.Style>
+            <Style TargetType="{x:Type ContentControl}">
+                <Setter Property="Foreground" Value="{DynamicResource Window.ActiveTitle}" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}}" Value="False">
+                        <Setter Property="Foreground" Value="{DynamicResource Window.InactiveTitle}" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </ContentControl.Style>
 
         <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource MenuBar.Border}">
             <DockPanel>

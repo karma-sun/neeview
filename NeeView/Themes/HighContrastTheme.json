@@ -11,7 +11,7 @@
     "Control.Foreground": "",
     "Control.Border": "#FF80D0FF",
     "Control.GrayText": "#FF00FF00",
-    "Control.Accent": "#FFFF8C00",
+    "Control.Accent": "#FFFFA500",
     "Control.AccentText": "#FF000000",
 
     "Button.Background": "#00000000",
@@ -42,7 +42,7 @@
     "Slider.Border": "",
     "Slider.Thumb": "Control.Accent",
     "Slider.Track": "",
-    
+
     "TextBox.Background": "Window.Background",
     "TextBox.Foreground": "Window.Foreground",
     "TextBox.Border": "Control.Border",

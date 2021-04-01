@@ -44,9 +44,6 @@
             <local:DoubleSumConverter x:Key="DoubleSumConverter" />
             <local:TypeToVisibilityConverter x:Key="MainViewToVisibilityConverter" Type="{x:Type local:MainViewBay}" IsInversed="True" />
 
-            <local:BooleanToOpacityConverter x:Key="BooleanToOpacityConverter" />
-            <local:BrushAddOpacityConverter x:Key="BrushAddOpacityConverter" />
-
             <!-- MenuItem History -->
             <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem" BasedOn="{StaticResource NVMenuItem}">
                 <Setter Property="Header" Value="{Binding Path=Name}" />

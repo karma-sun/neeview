@@ -181,8 +181,6 @@ namespace NeeView
         public double SplitterWidth => _splitterWidth;
 
 
-        public ThemeBrushProvider ThemeBrush => ThemeBrushProvider.Current;
-
         private SidePanelFrameViewModel _vm;
         public SidePanelFrameViewModel VM
         {

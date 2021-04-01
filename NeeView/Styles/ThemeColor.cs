@@ -36,17 +36,6 @@ namespace NeeView
             ThemeColorType = ThemeColorType.Link;
             Link = link;
             Opacity = opacity;
-
-            /*
-            var tokens = link.Split('/');
-
-            Link = tokens[0];
-
-            if (tokens.Length > 1)
-            {
-                Opacity = double.Parse(tokens[1]);
-            }
-            */
         }
 
 

@@ -14,11 +14,6 @@
 
     <ContentControl>
         
-        <ContentControl.Resources>
-            <local:BooleanToOpacityConverter x:Key="BooleanToOpacityConverter" />
-            <local:BrushAddOpacityConverter x:Key="BrushAddOpacityConverter" />
-        </ContentControl.Resources>
-
         <ContentControl.Style>
             <Style TargetType="{x:Type ContentControl}">
                 <Setter Property="Foreground" Value="{DynamicResource Window.ActiveTitle}" />

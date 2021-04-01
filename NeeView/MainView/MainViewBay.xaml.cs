@@ -27,7 +27,6 @@ namespace NeeView
         public MouseInput MouseInput => _mouseInput;
         public TouchInput TouchInput => _touchInput;
 
-        public ThemeBrushProvider ThemeBrush => ThemeBrushProvider.Current;
 
         public MainViewBay()
         {

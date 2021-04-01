@@ -9,7 +9,6 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <nwd:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter" />
         <local:MultiBooleanOrConverter x:Key="MultiBooleanOrConverter" />
-        <local:BrushAddOpacityConverter x:Key="BrushAddOpacityConverter" />
 
         <DataTemplate x:Key="LeftPanelIconTemplate">
             <local:SidePanelIcon Descriptor="{Binding Path=DataContext.VM.SidePanelIconDescriptor, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}" />
@@ -43,15 +42,6 @@
             <Setter Property="BorderBrush" Value="{DynamicResource SidePanel.Border}" />
             <Setter Property="Background" Value="{DynamicResource SidePanel.Background}" />
             <Setter Property="Opacity" Value="{Binding VM.Opacity}" />
-        </Style>
-
-        <Style x:Key="PanelGridStyle" TargetType="Grid">
-            <Setter Property="Background" Value="{Binding ThemeBrush.BackgroundBrush}" />
-        </Style>
-
-        <Style x:Key="PanelGridSplitterStyle" TargetType="GridSplitter">
-            <Setter Property="Width" Value="{Binding PanelIconGridWidth}" />
-            <Setter Property="Background" Value="{Binding ThemeBrush.BackgroundBrush}" />
         </Style>
 
         <Style x:Key="NVVerticalBevelGrip" TargetType="{x:Type osc:DockPanelSplitter}">

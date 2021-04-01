@@ -7,7 +7,8 @@
 
         <local:BooleanToTextWrappingConverter x:Key="BooleanToTextWrappingConverter" />
         <local:ArchiveEntryToDecoratePlaceNameConverter x:Key="ArchiveEntryToDecoratePlaceNameConverter" />
-
+        <local:BrushAlphaToVisibilityConverter x:Key="BrushAlphaToVisibilityConverter" />
+        
         <Style x:Key="NameStyle" TargetType="TextBlock">
             <Setter Property="Text" Value="{Binding Name}" />
             <Setter Property="ToolTip" Value="{Binding Detail}" />
@@ -39,9 +40,9 @@
         <Style x:Key="NoteTextStyle" TargetType="TextBlock">
             <Setter Property="Margin" Value="5,0" />
             <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="Opacity" Value="{Binding Source={x:Static local:Config.Current}, Path=Panels.ContentItemProfile.NoteOpacity}" />
             <Setter Property="TextTrimming" Value="CharacterEllipsis" />
-            <Setter Property="Visibility" Value="{Binding Source={x:Static local:Config.Current}, Path=Panels.ContentItemProfile.NoteVisibility}" />
+            <Setter Property="Foreground" Value="{DynamicResource SidePanel.Note}" />
+            <Setter Property="Visibility" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource BrushAlphaToVisibilityConverter}}" />
         </Style>
 
 

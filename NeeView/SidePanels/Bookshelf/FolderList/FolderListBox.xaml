@@ -19,6 +19,7 @@
         <local:BooleanToTextWrappingConverter x:Key="BooleanToTextWrappingConverter"/>
         <local:FolderItemToNoteConverter x:Key="FolderItemToNoteConverter"/>
         <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityHiddenConverter" False="Hidden" />
+        <local:BrushAlphaToVisibilityConverter x:Key="BrushAlphaToVisibilityConverter" />
 
         <Style x:Key="NameStyleBase" TargetType="TextBlock" >
             <Setter Property="Text" Value="{Binding DispName}"/>
@@ -62,9 +63,9 @@
         <Style x:Key="NoteTextStyle" TargetType="TextBlock">
             <Setter Property="Margin" Value="5,0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Opacity" Value="{Binding Source={x:Static local:Config.Current}, Path=Panels.ContentItemProfile.NoteOpacity}"/>
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
-            <Setter Property="Visibility" Value="{Binding Source={x:Static local:Config.Current}, Path=Panels.ContentItemProfile.NoteVisibility}"/>
+            <Setter Property="Foreground" Value="{DynamicResource SidePanel.Note}"/>
+            <Setter Property="Visibility" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource BrushAlphaToVisibilityConverter}}" />
         </Style>
 
         <Style x:Key="ThumbnailStackPanelStyle" TargetType="StackPanel" >

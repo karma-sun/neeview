@@ -65,6 +65,7 @@
     "SidePanel.Foreground": "",
     "SidePanel.Border": "",
     "SidePanel.Header": "#FF808080",
+    "SidePanel.Note": "Control.GrayText",
     "SidePanel.Sepalator": "#FFC0C0C0",
     "SidePanel.Splitter": "SideBar.Background",
 

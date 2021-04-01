@@ -47,7 +47,8 @@
         <local:PageNameFormatConverter x:Key="PageNameFormatConverter"/>
         <local:PageToNoteConverter x:Key="PageToNoteConverter"/>
         <local:ArchviePageToVisibilityConverter x:Key="ArchviePageToVisibilityConverter"/>
-
+        <local:BrushAlphaToVisibilityConverter x:Key="BrushAlphaToVisibilityConverter" />
+        
         <Style x:Key="NameStyle" TargetType="TextBlock">
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -88,9 +89,9 @@
         <Style x:Key="NoteTextStyle" TargetType="TextBlock" >
             <Setter Property="Margin" Value="5,0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Opacity" Value="{Binding Source={x:Static local:Config.Current}, Path=Panels.ContentItemProfile.NoteOpacity}"/>
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
-            <Setter Property="Visibility" Value="{Binding Source={x:Static local:Config.Current}, Path=Panels.ContentItemProfile.NoteVisibility}"/>
+            <Setter Property="Foreground" Value="{DynamicResource SidePanel.Note}" />
+            <Setter Property="Visibility" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource BrushAlphaToVisibilityConverter}}" />
         </Style>
 
 

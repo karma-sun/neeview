@@ -3,6 +3,7 @@ using NeeView.Windows.Property;
 using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -30,10 +31,10 @@ namespace NeeView
     [DataContract]
     public class PanelListItemProfile : BindableBase
     {
-        public static PanelListItemProfile DefaultNormalItemProfile = new PanelListItemProfile(PanelListItemImageShape.Square, 0, false, true, false, 0.0);
-        public static PanelListItemProfile DefaultContentItemProfile = new PanelListItemProfile(PanelListItemImageShape.Square, 64, true, true, false, 0.5);
-        public static PanelListItemProfile DefaultBannerItemProfile = new PanelListItemProfile(PanelListItemImageShape.Banner, 200, false, true, false, 0.0);
-        public static PanelListItemProfile DefaultThumbnailItemProfile = new PanelListItemProfile(PanelListItemImageShape.Original, 128, false, true, true, 0.0);
+        public static PanelListItemProfile DefaultNormalItemProfile = new PanelListItemProfile(PanelListItemImageShape.Square, 0, false, true, false);
+        public static PanelListItemProfile DefaultContentItemProfile = new PanelListItemProfile(PanelListItemImageShape.Square, 64, true, true, false);
+        public static PanelListItemProfile DefaultBannerItemProfile = new PanelListItemProfile(PanelListItemImageShape.Banner, 200, false, true, false);
+        public static PanelListItemProfile DefaultThumbnailItemProfile = new PanelListItemProfile(PanelListItemImageShape.Original, 128, false, true, true);
 
         private static Rect _rectDefault = new Rect(0, 0, 1, 1);
         private static Rect _rectBanner = new Rect(0, 0, 1, 0.6);
@@ -44,7 +45,6 @@ namespace NeeView
         private bool _isImagePopupEnabled;
         private bool _isTextVisible;
         private bool _isTextWrapped;
-        private double _noteOpacity;
         private bool _isTextheightDarty = true;
         private double _textHeight = double.NaN;
 
@@ -53,14 +53,13 @@ namespace NeeView
         {
         }
 
-        public PanelListItemProfile(PanelListItemImageShape imageShape, int imageWidth, bool isImagePopupEnabled, bool isTextVisibled, bool isTextWrapped, double noteOpacity)
+        public PanelListItemProfile(PanelListItemImageShape imageShape, int imageWidth, bool isImagePopupEnabled, bool isTextVisibled, bool isTextWrapped)
         {
             _imageShape = imageShape;
             _imageWidth = imageWidth;
             _isImagePopupEnabled = isImagePopupEnabled;
             _isTextVisible = isTextVisibled;
             _isTextWrapped = isTextWrapped;
-            _noteOpacity = noteOpacity;
 
             UpdateTextHeight();
         }
@@ -128,22 +127,19 @@ namespace NeeView
             }
         }
 
-        [DataMember(EmitDefaultValue = false)]
-        [PropertyPercent]
-        public double NoteOpacity
+        #endregion
+
+        #region Obsolete
+
+        [Obsolete("Use SidePanel.Note in CustomTheme instead.")] // ver.39
+        [JsonIgnore]
+        public double NoteOpacity   
         {
-            get { return _noteOpacity; }
-            set
-            {
-                if (SetProperty(ref _noteOpacity, value))
-                {
-                    RaisePropertyChanged(nameof(NoteVisibility));
-                }
-            }
+            get { return 0.0; }
+            set { }
         }
 
         #endregion
-
 
         #region 非公開プロパティ
 
@@ -236,7 +232,7 @@ namespace NeeView
                 }
             }
         }
-        
+
         [PropertyMapIgnore]
         public double TextHeight
         {
@@ -251,14 +247,7 @@ namespace NeeView
             }
         }
 
-        [PropertyMapIgnore]
-        public Visibility NoteVisibility
-        {
-            get { return NoteOpacity > 0.0 ? Visibility.Visible : Visibility.Collapsed; }
-        }
-
         #endregion
-
 
 
         [OnDeserializing]

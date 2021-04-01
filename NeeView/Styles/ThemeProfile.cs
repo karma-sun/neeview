@@ -81,6 +81,7 @@ namespace NeeView
             "SidePanel.Foreground",
             "SidePanel.Border",
             "SidePanel.Header",
+            "SidePanel.Note",
             "SidePanel.Sepalator",
             "SidePanel.Splitter",
 

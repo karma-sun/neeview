@@ -131,7 +131,6 @@ namespace NeeView
                     SidePanelProfile.FontSize = SidePanel.FontSize > 0.0 ? SidePanel.FontSize : 15.0;
                     SidePanelProfile.FolderTreeFontSize = SidePanel.FolderTreeFontSize > 0.0 ? SidePanel.FolderTreeFontSize : 12.0;
                     SidePanelProfile.ContentItemProfile.IsTextWrapped = SidePanel.IsTextWrapped;
-                    SidePanelProfile.ContentItemProfile.NoteOpacity = SidePanel.NoteOpacity;
                     SidePanelProfile.BannerItemProfile.IsTextWrapped = SidePanel.IsTextWrapped;
                     SidePanelProfile.ThumbnailItemProfile.IsTextWrapped = SidePanel.IsTextWrapped;
                 }

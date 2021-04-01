@@ -79,6 +79,7 @@
     <SolidColorBrush x:Key="SidePanel.Foreground" Color="White" />
     <SolidColorBrush x:Key="SidePanel.Border" Color="Gray" />
     <SolidColorBrush x:Key="SidePanel.Header" Color="Gray" />
+    <SolidColorBrush x:Key="SidePanel.Note" Color="Gray" />
     <SolidColorBrush x:Key="SidePanel.Sepalator" Color="Gray" />
     <SolidColorBrush x:Key="SidePanel.Splitter" Color="#FF333333" />
 

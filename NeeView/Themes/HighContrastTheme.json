@@ -1,0 +1,101 @@
+{
+  "Format": "NeeView.Theme/1.0.0",
+  "Colors": {
+    "Window.Background": "#FF000000",
+    "Window.Foreground": "#FFFFFFFF",
+    "Window.Border": "Control.Border",
+    "Window.ActiveTitle": "Window.Foreground",
+    "Window.InactiveTitle": "Window.Foreground",
+
+    "Control.Background": "#FFA0A0A0",
+    "Control.Foreground": "",
+    "Control.Border": "#FF80D0FF",
+    "Control.GrayText": "#FF00FF00",
+    "Control.Accent": "#FFFF8C00",
+    "Control.AccentText": "#FF000000",
+
+    "Button.Background": "#00000000",
+    "Button.Foreground": "Control.Accent",
+    "Button.Border": "",
+    "Button.MouseOver.Background": "#00000000",
+    "Button.MouseOver.Border": "Control.Accent",
+    "Button.Checked.Background": "#00000000",
+    "Button.Checked.Border": "Control.Accent",
+    "Button.Pressed.Background": "#00000000",
+    "Button.Pressed.Border": "Control.Foreground",
+
+    "ScrollBar.Background": "#FFC0C0C0",
+    "ScrollBar.Foreground": "",
+    "ScrollBar.Border": "",
+    "ScrollBar.MouseOver": "#FFFFFFFF",
+    "ScrollBar.Pressed": "#FFFFFFFF",
+
+    "DialogButton.Background": "",
+    "DialogButton.Foreground": "Control.Foreground",
+    "DialogButton.Border": "Control.Foreground",
+    "DialogRecommentedButton.Background": "",
+    "DialogRecommentedButton.Foreground": "Control.Foreground",
+    "DialogRecommentedButton.Border": "Control.Accent",
+
+    "Slider.Background": "Window.Foreground",
+    "Slider.Foreground": "",
+    "Slider.Border": "",
+    "Slider.Thumb": "Control.Accent",
+    "Slider.Track": "",
+    
+    "TextBox.Background": "Window.Background",
+    "TextBox.Foreground": "Window.Foreground",
+    "TextBox.Border": "Control.Border",
+
+    "Menu.Background": "",
+    "Menu.Foreground": "",
+    "Menu.Border": "Window.Border",
+    "Menu.Sepalator": "Menu.Foreground",
+
+    "Item.MouseOver.Background": "#00000000",
+    "Item.MouseOver.Border": "Control.Accent",
+    "Item.Selected.Background": "#00000000",
+    "Item.Selected.Border": "Control.Accent",
+    "Item.Inactive.Background": "#00000000",
+    "Item.Inactive.Border": "Control.Foreground",
+
+    "SideBar.Background": "",
+    "SideBar.Foreground": "",
+    "SideBar.Border": "Control.Border",
+
+    "SidePanel.Background": "",
+    "SidePanel.Foreground": "",
+    "SidePanel.Border": "Control.Border",
+    "SidePanel.Header": "Control.Foreground",
+    "SidePanel.Note": "Control.GrayText",
+    "SidePanel.Sepalator": "Control.Border",
+    "SidePanel.Splitter": "Control.Border",
+
+    "MenuBar.Background": "",
+    "MenuBar.Foreground": "",
+    "MenuBar.Border": "Control.Border",
+    "MenuBar.Address.Background": "",
+    "MenuBar.Address.Border": "Control.Border",
+
+    "PageSelectionBar.Background": "",
+    "PageSelectionBar.Foreground": "MenuBar.Foreground",
+    "PageSelectionBar.Border": "Control.Border",
+    "PageSelectionBar.Slider.Background": "Slider.Background",
+    "PageSelectionBar.Slider.Foreground": "Slider.Foreground",
+    "PageSelectionBar.Slider.Border": "Slider.Border",
+    "PageSelectionBar.Slider.Thumb": "Slider.Thumb",
+    "PageSelectionBar.Slider.Track": "PageSelectionBar.Slider.Thumb",
+
+    "Toast.Background": "",
+    "Toast.Foreground": "",
+    "Toast.Border": "Control.Border",
+
+    "Thumbnail.Background": "#FF404040",
+    "Thumbnail.Foreground": "#FF808080",
+
+    "SelectedMark.Foreground": "#FFFFA500",
+    "CheckIcon.Foreground": "#FF90EE90",
+    "BookmarkIcon.Foreground": "#FFFFA500",
+    "PagemarkIcon.Foreground": "#FFFFA500"
+  }
+}

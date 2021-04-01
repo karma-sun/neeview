@@ -16,6 +16,7 @@ namespace NeeView
     {
         Dark,
         Light,
+        HighContrast,
         Custom,
     }
 
@@ -80,30 +81,35 @@ namespace NeeView
 
         private ThemeProfile LoadThemeProfile(ThemeType themeType)
         {
-
-            if (themeType == ThemeType.Custom)
+            switch (themeType)
             {
-                if (File.Exists(Config.Current.Theme.CustomThemeFilePath))
-                {
-                    try
-                    {
-                        return ThemeProfileTools.LoadFromFile(Config.Current.Theme.CustomThemeFilePath);
-                    }
-                    catch (Exception ex)
-                    {
-                        ToastService.Current.Show(new Toast(ex.Message, Properties.Resources.ThemeErrorDialog_Title, ToastIcon.Error));
-                    }
-                }
-            }
+                case ThemeType.Dark:
+                    return ThemeProfileTools.LoadFromContent("Themes/DarkTheme.json");
 
-            if (themeType == ThemeType.Light)
-            {
-                return ThemeProfileTools.LoadFromContent("Themes/LightTheme.json");
-            }
+                case ThemeType.Light:
+                    return ThemeProfileTools.LoadFromContent("Themes/LightTheme.json");
 
-            return ThemeProfileTools.LoadFromContent("Themes/DarkTheme.json");
+                case ThemeType.HighContrast:
+                    return ThemeProfileTools.LoadFromContent("Themes/HighContrastTheme.json");
+
+                case ThemeType.Custom:
+                    if (File.Exists(Config.Current.Theme.CustomThemeFilePath))
+                    {
+                        try
+                        {
+                            return ThemeProfileTools.LoadFromFile(Config.Current.Theme.CustomThemeFilePath);
+                        }
+                        catch (Exception ex)
+                        {
+                            ToastService.Current.Show(new Toast(ex.Message, Properties.Resources.ThemeErrorDialog_Title, ToastIcon.Error));
+                        }
+                    }
+                    return LoadThemeProfile(ThemeType.Dark);
+
+                default:
+                    throw new NotSupportedException();
+            }
         }
-
 
         public void OpenCustomThemeFile()
         {

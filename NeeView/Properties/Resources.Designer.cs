@@ -15672,6 +15672,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   High contrast に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ThemeType_HighContrast {
+            get {
+                return ResourceManager.GetString("ThemeType.HighContrast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Light に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ThemeType_Light {

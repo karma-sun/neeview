@@ -6923,6 +6923,9 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ThemeType.Light" xml:space="preserve">
     <value>ライト</value>
   </data>
+  <data name="ThemeType.HighContrast" xml:space="preserve">
+    <value>ハイ コントラスト</value>
+  </data>
   <data name="ThemeType.Custom" xml:space="preserve">
     <value>カスタム</value>
   </data>

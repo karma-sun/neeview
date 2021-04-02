@@ -76,6 +76,17 @@ namespace NeeView
         public string OldFullPath { get; set; }
     }
 
+    public class SettingChangedEventArgs : EventArgs
+    {
+        public SettingChangedEventArgs(uint action, string message)
+        {
+            Action = action;
+            Message = message;
+        }
+
+        public uint Action { get; private set; }
+        public string Message { get; private set; }
+    }
 
     public class WindowMessage
     {
@@ -85,10 +96,13 @@ namespace NeeView
         {
             // ウィンドウメッセージ
             public const int WM_SIZE = 0x0005;
+            public const int WM_SETTINGCHANGE = 0x001A;
             public const int WM_MOUSEACTIVATE = 0x0021;
             public const int WM_ENTERSIZEMOVE = 0x0231;
             public const int WM_EXITSIZEMOVE = 0x0232;
             public const int WM_DEVICECHANGE = 0x0219;
+            public const int WM_THEMECHANGED = 0x031A;
+            public const int WM_DWMCOLORIZATIONCOLORCHANGED = 0x0320;
             public const int WM_SHNOTIFY = 0x0401;
 
             // マウスアクティブ
@@ -227,6 +241,7 @@ namespace NeeView
         public event EventHandler<DriveChangedEventArgs> DriveChanged;
         public event EventHandler<MediaChangedEventArgs> MediaChanged;
         public event EventHandler<DirectoryChangedEventArgs> DirectoryChanged;
+        public event EventHandler<SettingChangedEventArgs> SettingChanged;
         public event EventHandler EnterSizeMove;
         public event EventHandler ExitSizeMove;
 
@@ -250,6 +265,7 @@ namespace NeeView
             hsrc.AddHook(WndProc);
         }
 
+
         // ウィンドウプロシージャ
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
@@ -269,6 +285,9 @@ namespace NeeView
                     case NativeMethods.WM_SHNOTIFY:
                         OnSHNotify(wParam, lParam);
                         break;
+                    case NativeMethods.WM_SETTINGCHANGE:
+                        OnSettingChange(wParam, lParam);
+                        break;
                     case NativeMethods.WM_MOUSEACTIVATE:
                         return OnMouseActive(ref handled);
                 }
@@ -281,6 +300,17 @@ namespace NeeView
             return IntPtr.Zero;
         }
 
+        /// <summary>
+        /// 設定変更イベント
+        /// </summary>
+        private void OnSettingChange(IntPtr wParam, IntPtr lParam)
+        {
+            var action = (uint)wParam;
+            string str = Marshal.PtrToStringAuto(lParam);
+            ////Debug.WriteLine($"WM_SETTINGCHANGE: {action:X4}, {str}");
+
+            SettingChanged?.Invoke(this, new SettingChangedEventArgs(action, str));
+        }
 
         /// <summary>
         /// マウスボタンを押すことでウィンドウをアクティブ化するメッセージ処理

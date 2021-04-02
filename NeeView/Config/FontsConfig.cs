@@ -27,8 +27,8 @@ namespace NeeView
         [JsonIgnore]
         public string FontName
         {
-            get { return _fontName ?? VisualParameters.SystemFontName; }
-            set { SetProperty(ref _fontName, (string.IsNullOrWhiteSpace(value) || value == VisualParameters.SystemFontName) ? null : value); }
+            get { return _fontName ?? SystemVisualParameters.Current.MessageFontName; }
+            set { SetProperty(ref _fontName, (string.IsNullOrWhiteSpace(value) || value == SystemVisualParameters.Current.MessageFontName) ? null : value); }
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace NeeView
         [PropertyPercent(1.0, 2.0, TickFrequency = 0.05, IsEditable = true)]
         public double FontScale
         {
-            get { return _fontScale <= 0.0 ? 15.0 / VisualParameters.SystemMessageFontSize : _fontScale ; }
+            get { return _fontScale <= 0.0 ? 15.0 / SystemVisualParameters.Current.MessageFontSize : _fontScale ; }
             set { SetProperty(ref _fontScale, value); }
         }
 
@@ -57,7 +57,7 @@ namespace NeeView
         [PropertyPercent(1.0, 2.0, TickFrequency = 0.05, IsEditable = true)]
         public double FolderTreeFontScale
         {
-            get { return _folderTreeFontScale <= 0.0 ? 12.0 / VisualParameters.SystemMessageFontSize : _folderTreeFontScale; }
+            get { return _folderTreeFontScale <= 0.0 ? 12.0 / SystemVisualParameters.Current.MessageFontSize : _folderTreeFontScale; }
             set { SetProperty(ref _folderTreeFontScale, value); }
         }
 
@@ -68,8 +68,8 @@ namespace NeeView
         [JsonIgnore]
         public string PanelFontName
         {
-            get { return _panelFontName ?? VisualParameters.SystemFontName; }
-            set { SetProperty(ref _panelFontName, (string.IsNullOrWhiteSpace(value) || value == VisualParameters.SystemFontName) ? null : value); }
+            get { return _panelFontName ?? SystemVisualParameters.Current.MessageFontName; }
+            set { SetProperty(ref _panelFontName, (string.IsNullOrWhiteSpace(value) || value == SystemVisualParameters.Current.MessageFontName) ? null : value); }
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace NeeView
         [PropertyPercent(1.0, 2.0, TickFrequency = 0.05, IsEditable = true)]
         public double PanelFontScale
         {
-            get { return _panelFontScale <= 0.0 ? 15.0 / VisualParameters.SystemMessageFontSize : _panelFontScale; }
+            get { return _panelFontScale <= 0.0 ? 15.0 / SystemVisualParameters.Current.MessageFontSize : _panelFontScale; }
             set { SetProperty(ref _panelFontScale, value); }
         }
     }

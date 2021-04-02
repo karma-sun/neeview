@@ -6933,7 +6933,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>Custom</value>
   </data>
   <data name="ThemeType.System" xml:space="preserve">
-    <value>Follow system settings</value>
+    <value>Follow Windows settings</value>
   </data>
   <data name="ThemeErrorDialog.Title" xml:space="preserve">
     <value>Theme error</value>

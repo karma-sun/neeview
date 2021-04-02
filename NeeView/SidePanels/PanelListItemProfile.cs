@@ -242,6 +242,8 @@ namespace NeeView
                 {
                     _isTextheightDarty = false;
                     _textHeight = CalcTextHeight();
+
+                    System.Diagnostics.Debug.WriteLine($"## CalcTextHeight: {_textHeight}");
                 }
                 return _textHeight;
             }
@@ -286,11 +288,11 @@ namespace NeeView
                 var textBlock = new TextBlock()
                 {
                     Text = "Age\nBusy",
-                    FontSize = VisualParameters.Current.PaneFontSize,
+                    FontSize = FontParameters.Current.PaneFontSize,
                 };
-                if (VisualParameters.Current.PanelFontName != null)
+                if (FontParameters.Current.PanelFontName != null)
                 {
-                    textBlock.FontFamily = new FontFamily(VisualParameters.Current.PanelFontName);
+                    textBlock.FontFamily = new FontFamily(FontParameters.Current.PanelFontName);
                 };
                 var panel = new StackPanel();
                 panel.Children.Add(textBlock);

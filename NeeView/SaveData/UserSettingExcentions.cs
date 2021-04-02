@@ -67,11 +67,11 @@ namespace NeeView
                 }
                 if (self.Config.Panels.FontSize_Legacy != default)
                 {
-                    self.Config.Fonts.PanelFontScale = self.Config.Panels.FontSize_Legacy / VisualParameters.SystemMessageFontSize;
+                    self.Config.Fonts.PanelFontScale = self.Config.Panels.FontSize_Legacy / SystemVisualParameters.Current.MessageFontSize;
                 }
                 if (self.Config.Panels.FolderTreeFontSize_Legacy != default)
                 {
-                    self.Config.Fonts.FolderTreeFontScale = self.Config.Panels.FolderTreeFontSize_Legacy / VisualParameters.SystemMessageFontSize;
+                    self.Config.Fonts.FolderTreeFontScale = self.Config.Panels.FolderTreeFontSize_Legacy / SystemVisualParameters.Current.MessageFontSize;
                 }
             }
 

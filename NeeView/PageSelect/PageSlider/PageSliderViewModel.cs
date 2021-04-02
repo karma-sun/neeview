@@ -27,7 +27,7 @@ namespace NeeView
             BookOperation.Current.BookChanged +=
                 (s, e) => RaisePropertyChanged(nameof(PageSliderVisibility));
 
-            VisualParameters.Current.AddPropertyChanged(nameof(VisualParameters.DefaultFontSize),
+            FontParameters.Current.AddPropertyChanged(nameof(FontParameters.DefaultFontSize),
                 (s, e) => RaisePropertyChanged(nameof(FontSize)));
 
             Config.Current.Slider.AddPropertyChanged(nameof(SliderConfig.Thickness),
@@ -47,7 +47,7 @@ namespace NeeView
 
         public Visibility PageSliderVisibility => _model != null && BookOperation.Current.GetPageCount() > 0 ? Visibility.Visible : Visibility.Hidden;
 
-        public double FontSize => Math.Min(VisualParameters.Current.DefaultFontSize, Config.Current.Slider.Thickness);
+        public double FontSize => Math.Min(FontParameters.Current.DefaultFontSize, Config.Current.Slider.Thickness);
 
 
         public void MouseWheel(object sender, MouseWheelEventArgs e)

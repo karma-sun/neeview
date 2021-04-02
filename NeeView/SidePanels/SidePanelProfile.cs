@@ -17,10 +17,10 @@ namespace NeeView
     {
         public void Initialize()
         {
-            VisualParameters.Current.AddPropertyChanged(nameof(VisualParameters.PanelFontName),
+            FontParameters.Current.AddPropertyChanged(nameof(FontParameters.PanelFontName),
                 (s, e) => ValidatePanelListItemProfile());
 
-            VisualParameters.Current.AddPropertyChanged(nameof(VisualParameters.PaneFontSize),
+            FontParameters.Current.AddPropertyChanged(nameof(FontParameters.PaneFontSize),
                 (s, e) => ValidatePanelListItemProfile());
 
             ValidatePanelListItemProfile();
@@ -92,8 +92,8 @@ namespace NeeView
                 config.Panels.IsLeftRightKeyEnabled = IsLeftRightKeyEnabled;
                 config.Panels.Opacity = Opacity;
                 config.Fonts.PanelFontName = FontName;
-                config.Fonts.PanelFontScale = FontSize / VisualParameters.SystemMessageFontSize;
-                config.Fonts.FolderTreeFontScale = FolderTreeFontSize / VisualParameters.SystemMessageFontSize;
+                config.Fonts.PanelFontScale = FontSize / SystemVisualParameters.Current.MessageFontSize;
+                config.Fonts.FolderTreeFontScale = FolderTreeFontSize / SystemVisualParameters.Current.MessageFontSize;
                 config.Panels.IsDecoratePlace = IsDecoratePlace;
 
                 config.Panels.ContentItemProfile = ContentItemProfile ?? PanelListItemProfile.DefaultContentItemProfile.Clone();

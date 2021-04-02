@@ -140,8 +140,6 @@ namespace NeeView.Setting
         // マウスの状態からショートカットテキスト作成
         private void MouseGestureBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            // [?]TODO: チルトボタン .. WinProcの監視が必要なようなので、後回しです。
-
             MouseExAction exAction = MouseExAction.None;
             switch (e.ChangedButton)
             {

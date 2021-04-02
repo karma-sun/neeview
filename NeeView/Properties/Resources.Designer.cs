@@ -15708,7 +15708,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Follow system settings に類似しているローカライズされた文字列を検索します。
+        ///   Follow Windows settings に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ThemeType_System {
             get {

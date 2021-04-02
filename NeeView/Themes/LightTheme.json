@@ -10,7 +10,7 @@
     "Control.Background": "#FFA0A0A0",
     "Control.Foreground": "",
     "Control.Border": "#FFA0A0A0",
-    "Control.GrayText": "#FF808080",
+    "Control.GrayText": "#FFA0A0A0",
     "Control.Accent": "#FF1188DD",
     "Control.AccentText": "#FFFFFFFF",
     "Control.Focus": "Control.Accent",

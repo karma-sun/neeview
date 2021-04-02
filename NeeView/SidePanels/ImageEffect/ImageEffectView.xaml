@@ -34,7 +34,7 @@
                 <EventSetter Event="KeyDown" Handler="Control_KeyDown_IgnoreSingleKeyGesture" />
             </Style>
 
-            <Style TargetType="Separator">
+            <Style TargetType="Separator" BasedOn="{StaticResource NVSeparator}">
                 <Setter Property="Background" Value="{DynamicResource SidePanel.Sepalator}" />
                 <Setter Property="Margin" Value="0,5" />
             </Style>

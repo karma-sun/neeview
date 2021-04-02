@@ -6936,7 +6936,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>カスタム</value>
   </data>
   <data name="ThemeType.System" xml:space="preserve">
-    <value>システムの設定に従う</value>
+    <value>Windows の設定に従う</value>
   </data>
   <data name="ThemeErrorDialog.Title" xml:space="preserve">
     <value>テーマ エラー</value>

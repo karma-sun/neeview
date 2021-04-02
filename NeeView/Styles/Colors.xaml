@@ -3,8 +3,6 @@
 
     <!-- Windows System Colors -->
 
-    <SolidColorBrush x:Key="System.AccentColor" Color="RoyalBlue" />
-
     <SolidColorBrush x:Key="System.Item.MouseOver.Background" Color="#1F26A0DA" />
     <SolidColorBrush x:Key="System.Item.MouseOver.Border" Color="#A826A0DA" />
 

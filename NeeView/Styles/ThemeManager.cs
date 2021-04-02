@@ -19,6 +19,7 @@ namespace NeeView
         Light,
         LightMonochrome,
         HighContrast,
+        System,
         Custom,
     }
 
@@ -36,10 +37,17 @@ namespace NeeView
         {
             RefreshThemeColor();
 
-            Config.Current.Theme.AddPropertyChanged(nameof(ThemeConfig.ThemeType), (s, e) =>
-            {
-                RefreshThemeColor();
-            });
+            Config.Current.Theme.AddPropertyChanged(nameof(ThemeConfig.ThemeType),
+                (s, e) => RefreshThemeColor());
+
+            SystemVisualParameters.Current.AddPropertyChanged(nameof(SystemVisualParameters.IsHighContrast),
+                (s, e) => RefreshThemeColor());
+
+            SystemVisualParameters.Current.AddPropertyChanged(nameof(SystemVisualParameters.Theme),
+                (s, e) => RefreshThemeColor());
+
+            SystemVisualParameters.Current.AddPropertyChanged(nameof(SystemVisualParameters.AccentColor),
+                (s, e) => RefreshThemeColor());
         }
 
 
@@ -55,8 +63,6 @@ namespace NeeView
 
         public void RefreshThemeColor()
         {
-            if (App.Current == null) return;
-
             ThemeProfile themeProfile;
 
             try
@@ -99,6 +105,31 @@ namespace NeeView
 
                 case ThemeType.HighContrast:
                     return ThemeProfileTools.LoadFromContent("Themes/HighContrastTheme.json");
+
+                case ThemeType.System:
+                    if (SystemVisualParameters.Current.IsHighContrast)
+                    {
+                        return LoadThemeProfile(ThemeType.HighContrast);
+                    }
+                    else
+                    {
+                        ThemeProfile themeProfile;
+                        switch (SystemVisualParameters.Current.Theme)
+                        {
+                            case SystemThemeType.Dark:
+                                themeProfile = LoadThemeProfile(ThemeType.Dark);
+                                break;
+
+                            case SystemThemeType.Light:
+                                themeProfile = LoadThemeProfile(ThemeType.Light);
+                                break;
+
+                            default:
+                                throw new NotSupportedException();
+                        }
+                        themeProfile.Colors["Control.Accent"] = new ThemeColor(SystemVisualParameters.Current.AccentColor, 1.0);
+                        return themeProfile;
+                    }
 
                 case ThemeType.Custom:
                     if (File.Exists(Config.Current.Theme.CustomThemeFilePath))

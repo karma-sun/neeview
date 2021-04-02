@@ -2,7 +2,7 @@
   "Format": "NeeView.Theme/1.0.0",
   "Colors": {
     "Window.Background": "#FFFFFFFF",
-    "Window.Foreground": "#FF404040",
+    "Window.Foreground": "#FF505050",
     "Window.Border": "#00808080",
     "Window.ActiveTitle": "Window.Foreground",
     "Window.InactiveTitle": "Window.ActiveTitle/0.5",
@@ -11,19 +11,19 @@
     "Control.Foreground": "",
     "Control.Border": "#FFA0A0A0",
     "Control.GrayText": "#FF808080",
-    "Control.Accent": "#FF1188DD",
-    "Control.AccentText": "#FFFFFFFF",
+    "Control.Accent": "Window.Foreground",
+    "Control.AccentText": "#FFE0E0E0",
     "Control.Focus": "Control.Accent",
 
     "Button.Background": "#00000000",
     "Button.Foreground": "Control.Accent",
     "Button.Border": "",
-    "Button.MouseOver.Background": "Control.Accent/0.15",
-    "Button.MouseOver.Border": "Control.Accent/0.65",
-    "Button.Checked.Background": "Control.Accent/0.25",
-    "Button.Checked.Border": "Control.Accent/0.25",
-    "Button.Pressed.Background": "Control.Accent/0.25",
-    "Button.Pressed.Border": "Control.Accent",
+    "Button.MouseOver.Background": "#11000000",
+    "Button.MouseOver.Border": "",
+    "Button.Checked.Background": "Control.Accent/0.20",
+    "Button.Checked.Border": "",
+    "Button.Pressed.Background": "#22000000",
+    "Button.Pressed.Border": "",
 
     "ScrollBar.Background": "#FFC0C0C0",
     "ScrollBar.Foreground": "",
@@ -53,12 +53,12 @@
     "Menu.Border": "#FFA0A0A0",
     "Menu.Sepalator": "#FF808080",
 
-    "Item.MouseOver.Background": "Control.Accent/0.15",
-    "Item.MouseOver.Border": "Control.Accent/0.65",
-    "Item.Selected.Background": "Control.Accent/0.25",
-    "Item.Selected.Border": "Control.Accent",
-    "Item.Inactive.Background": "#3DDADADA",
-    "Item.Inactive.Border": "#FFDADADA",
+    "Item.MouseOver.Background": "#08000000",
+    "Item.MouseOver.Border": "",
+    "Item.Selected.Background": "#10000000",
+    "Item.Selected.Border": "",
+    "Item.Inactive.Background": "#00000000",
+    "Item.Inactive.Border": "#66000000",
 
     "SideBar.Background": "#FFE0E0E0",
     "SideBar.Foreground": "",
@@ -98,9 +98,9 @@
     "Thumbnail.Background": "#FF404040",
     "Thumbnail.Foreground": "#FF808080",
 
-    "SelectedMark.Foreground": "#FFFFA500",
-    "CheckIcon.Foreground": "#FF44BB44",
-    "BookmarkIcon.Foreground": "#FFFFA500",
-    "PagemarkIcon.Foreground": "#FFFFA500"
+    "SelectedMark.Foreground": "Control.Accent",
+    "CheckIcon.Foreground": "Window.Foreground",
+    "BookmarkIcon.Foreground": "#FFFFA07A",
+    "PagemarkIcon.Foreground": "#FFFFA07A"
   }
 }

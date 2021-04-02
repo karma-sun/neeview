@@ -13,6 +13,7 @@
     "Control.GrayText": "#FF00FF00",
     "Control.Accent": "#FFFFA500",
     "Control.AccentText": "#FF000000",
+    "Control.Focus": "Control.Accent",
 
     "Button.Background": "#00000000",
     "Button.Foreground": "Control.Accent",
@@ -89,6 +90,9 @@
     "Toast.Background": "",
     "Toast.Foreground": "",
     "Toast.Border": "Control.Border",
+
+    "Notification.Background": "#FF000000",
+    "Notification.Foreground": "#FFFFFFFF",
 
     "Thumbnail.Background": "#FF404040",
     "Thumbnail.Foreground": "#FF808080",

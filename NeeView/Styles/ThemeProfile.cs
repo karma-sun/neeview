@@ -29,6 +29,7 @@ namespace NeeView
             "Control.GrayText",
             "Control.Accent",
             "Control.AccentText",
+            "Control.Focus",
 
             "Item.MouseOver.Background",
             "Item.MouseOver.Border",
@@ -105,6 +106,9 @@ namespace NeeView
             "Toast.Background",
             "Toast.Foreground",
             "Toast.Border",
+
+            "Notification.Background",
+            "Notification.Foreground",
 
             "Thumbnail.Background",
             "Thumbnail.Foreground",

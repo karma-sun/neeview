@@ -63,7 +63,7 @@ namespace NeeView
         {
             if (Opacity == 1.0) return s;
 
-            return s + ":" + Opacity.ToString("F2");
+            return s + "/" + Opacity.ToString("F2");
         }
 
         public static ThemeColor Parse(string s)

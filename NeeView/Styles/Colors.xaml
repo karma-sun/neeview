@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- Windows System Color -->
+    <!-- Windows System Colors -->
 
     <SolidColorBrush x:Key="System.AccentColor" Color="RoyalBlue" />
 
@@ -14,7 +14,11 @@
     <SolidColorBrush x:Key="System.Item.Inactive.Background" Color="#3DDADADA" />
     <SolidColorBrush x:Key="System.Item.Inactive.Border" Color="#FFDADADA" />
 
-    <!-- NeeView Theme Color -->
+    <!-- NeeView Static Colors -->
+
+    <SolidColorBrush x:Key="Signal.Busy" Color="#884682b4" />
+    
+    <!-- NeeView Theme Colors -->
     
     <SolidColorBrush x:Key="Window.Background" Color="Black" />
     <SolidColorBrush x:Key="Window.Foreground" Color="White" />
@@ -28,6 +32,7 @@
     <SolidColorBrush x:Key="Control.GrayText" Color="Gray" />
     <SolidColorBrush x:Key="Control.Accent" Color="SteelBlue" />
     <SolidColorBrush x:Key="Control.AccentText" Color="White" />
+    <SolidColorBrush x:Key="Control.Focus" Color="SteelBlue" />
 
     <SolidColorBrush x:Key="Item.MouseOver.Background" Color="#1F26A0DA" />
     <SolidColorBrush x:Key="Item.MouseOver.Border" Color="#A826A0DA" />
@@ -106,6 +111,9 @@
     <SolidColorBrush x:Key="Toast.Foreground" Color="White" />
     <SolidColorBrush x:Key="Toast.Border" Color="Gray" />
 
+    <SolidColorBrush x:Key="Notification.Background" Color="#88000000" />
+    <SolidColorBrush x:Key="Notification.Foreground" Color="White" />
+
     <SolidColorBrush x:Key="Thumbnail.Background" Color="Gray" />
     <SolidColorBrush x:Key="Thumbnail.Foreground" Color="DarkGray" />
 
@@ -113,5 +121,6 @@
     <SolidColorBrush x:Key="BookmarkIcon.Foreground" Color="Orange" />
     <SolidColorBrush x:Key="PagemarkIcon.Foreground" Color="Orange" />
     <SolidColorBrush x:Key="SelectedMark.Foreground" Color="Orange" />
+
 
 </ResourceDictionary>

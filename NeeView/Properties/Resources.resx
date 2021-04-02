@@ -6920,11 +6920,20 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ThemeType.Light" xml:space="preserve">
     <value>Light</value>
   </data>
+  <data name="ThemeType.DarkMonochrome" xml:space="preserve">
+    <value>Dark monochrome</value>
+  </data>
+  <data name="ThemeType.LightMonochrome" xml:space="preserve">
+    <value>Light monochrome</value>
+  </data>
   <data name="ThemeType.HighContrast" xml:space="preserve">
     <value>High contrast</value>
   </data>
   <data name="ThemeType.Custom" xml:space="preserve">
     <value>Custom</value>
+  </data>
+  <data name="ThemeType.System" xml:space="preserve">
+    <value>Follow system settings</value>
   </data>
   <data name="ThemeErrorDialog.Title" xml:space="preserve">
     <value>Theme error</value>

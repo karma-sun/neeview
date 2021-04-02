@@ -15672,6 +15672,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Dark monochrome に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ThemeType_DarkMonochrome {
+            get {
+                return ResourceManager.GetString("ThemeType.DarkMonochrome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   High contrast に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ThemeType_HighContrast {
@@ -15686,6 +15695,24 @@ namespace NeeView.Properties {
         public static string ThemeType_Light {
             get {
                 return ResourceManager.GetString("ThemeType.Light", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Light monochrome に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ThemeType_LightMonochrome {
+            get {
+                return ResourceManager.GetString("ThemeType.LightMonochrome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Follow system settings に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ThemeType_System {
+            get {
+                return ResourceManager.GetString("ThemeType.System", resourceCulture);
             }
         }
         

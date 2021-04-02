@@ -15,14 +15,14 @@
             </b:PropertyChangedTrigger>
         </b:Interaction.Triggers>
 
-        <Border x:Name="InfoTextArea" Margin="0,0,0,40" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="#88000000" IsHitTestVisible="False" CornerRadius="10">
+        <Border x:Name="InfoTextArea" Margin="0,0,0,40" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="{DynamicResource Notification.Background}" IsHitTestVisible="False" CornerRadius="10">
             <DockPanel Margin="20,10"  IsHitTestVisible="False">
                 <Grid DockPanel.Dock="Right"/>
                 <Grid>
                     <TextBlock Visibility="{Binding VM.BookmarkIconVisibility}" Margin="0,0,5,0" FontFamily="Wingdings" Text="«" FontSize="30" Foreground="{DynamicResource BookmarkIcon.Foreground}" VerticalAlignment="Center"/>
                     <TextBlock Visibility="{Binding VM.HistoryIconVisibility}" Margin="0,0,5,0" FontFamily="Webdings" Text="a" FontSize="30" Foreground="{DynamicResource CheckIcon.Foreground}" VerticalAlignment="Center"/>
                 </Grid>
-                <TextBlock Text="{Binding VM.Message}" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{DynamicResource SystemFontSizeHuge}" Foreground="White" FontFamily="Meiryo" TextTrimming="CharacterEllipsis" />
+                <TextBlock Text="{Binding VM.Message}" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{DynamicResource SystemFontSizeHuge}" Foreground="{DynamicResource Notification.Foreground}" FontFamily="Meiryo" TextTrimming="CharacterEllipsis" />
             </DockPanel>
         </Border>
     </Grid>

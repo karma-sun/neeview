@@ -15,7 +15,9 @@ namespace NeeView
     public enum ThemeType
     {
         Dark,
+        DarkMonochrome,
         Light,
+        LightMonochrome,
         HighContrast,
         Custom,
     }
@@ -86,8 +88,14 @@ namespace NeeView
                 case ThemeType.Dark:
                     return ThemeProfileTools.LoadFromContent("Themes/DarkTheme.json");
 
+                case ThemeType.DarkMonochrome:
+                    return ThemeProfileTools.LoadFromContent("Themes/DarkMonochromeTheme.json");
+
                 case ThemeType.Light:
                     return ThemeProfileTools.LoadFromContent("Themes/LightTheme.json");
+
+                case ThemeType.LightMonochrome:
+                    return ThemeProfileTools.LoadFromContent("Themes/LightMonochromeTheme.json");
 
                 case ThemeType.HighContrast:
                     return ThemeProfileTools.LoadFromContent("Themes/HighContrastTheme.json");

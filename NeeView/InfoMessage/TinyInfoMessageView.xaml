@@ -15,7 +15,7 @@
             </b:PropertyChangedTrigger>
         </b:Interaction.Triggers>
         
-        <TextBlock x:Name="TinyInfoTextBlock" Text="{Binding VM.Model.Message}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="White" Background="#88000000" Padding="20,5" IsHitTestVisible="False">
+        <TextBlock x:Name="TinyInfoTextBlock" Text="{Binding VM.Model.Message}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="{DynamicResource Notification.Foreground}" Background="{DynamicResource Notification.Background}" Padding="20,5" IsHitTestVisible="False">
         </TextBlock>
     </Grid>
     

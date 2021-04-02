@@ -28,8 +28,8 @@
                         VerticalAlignment="Center">
                     <Canvas.Resources>
                         <Style TargetType="TextBlock" x:Key="ContentProperty">
-                            <Setter Property="Foreground" Value="White" />
-                            <Setter Property="Background" Value="#80000000" />
+                            <Setter Property="Foreground" Value="{DynamicResource Notification.Foreground}" />
+                            <Setter Property="Background" Value="{DynamicResource Notification.Background}" />
                             <Setter Property="Padding" Value="10,5" />
                             <Style.Triggers>
                                 <Trigger Property="Text" Value="">
@@ -74,8 +74,8 @@
         <!-- loupe info -->
         <Grid Visibility="{Binding Source={x:Static local:Config.Current}, Path=Loupe.IsVisibleLoupeInfo, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Grid x:Name="LoupeInfo" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" DataContext="{Binding LoupeTransform}"
-                    Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="{Binding ElementName=MainViewCanvas, Path=Margin}" Background="#88000000">
-                <TextBlock VerticalAlignment="Center" Padding="20,0" Foreground="White" Text="{Binding ScaleX, StringFormat={}×{0:.0}}" />
+                    Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="{Binding ElementName=MainViewCanvas, Path=Margin}" Background="{DynamicResource Notification.Background}">
+                <TextBlock VerticalAlignment="Center" Padding="20,0" Foreground="{DynamicResource Notification.Foreground}" Text="{Binding ScaleX, StringFormat={}×{0:.0}}" />
             </Grid>
         </Grid>
 
@@ -87,7 +87,7 @@
 
         <!-- IsBusy -->
         <Grid Margin="{Binding ElementName=MainViewCanvas, Path=Margin}">
-            <Rectangle Fill="#884682b4" Width="5" Height="5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Visibility="{Binding BusyVisibility}" />
+            <Rectangle Fill="{StaticResource Signal.Busy}" Width="5" Height="5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Visibility="{Binding BusyVisibility}" />
         </Grid>
 
     </Grid>

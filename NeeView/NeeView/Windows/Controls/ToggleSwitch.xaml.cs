@@ -36,58 +36,60 @@ namespace NeeView.Windows.Controls
 
         #region Dependency Properties
 
-        //
         public Brush Stroke
         {
             get { return (Brush)GetValue(StrokeProperty); }
             set { SetValue(StrokeProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Stroke.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty StrokeProperty =
             DependencyProperty.Register("Stroke", typeof(Brush), typeof(ToggleSwitch), new PropertyMetadata(Brushes.Black, BrushProperty_Changed));
 
-        //
+
         public Brush Fill
         {
             get { return (Brush)GetValue(FillProperty); }
             set { SetValue(FillProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Fill.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty FillProperty =
             DependencyProperty.Register("Fill", typeof(Brush), typeof(ToggleSwitch), new PropertyMetadata(Brushes.White, BrushProperty_Changed));
 
-        //
+
         public Brush CheckedBrush
         {
             get { return (Brush)GetValue(CheckedBrushProperty); }
             set { SetValue(CheckedBrushProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for CheckedBrush.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CheckedBrushProperty =
             DependencyProperty.Register("CheckedBrush", typeof(Brush), typeof(ToggleSwitch), new PropertyMetadata(Brushes.SteelBlue, BrushProperty_Changed));
 
 
-        // Stroke or Fill Changed
+        public Brush CheckedThumbBrush
+        {
+            get { return (Brush)GetValue(CheckedThumbBrushProperty); }
+            set { SetValue(CheckedThumbBrushProperty, value); }
+        }
+
+        public static readonly DependencyProperty CheckedThumbBrushProperty =
+            DependencyProperty.Register("CheckedThumbBrush", typeof(Brush), typeof(ToggleSwitch), new PropertyMetadata(Brushes.White, BrushProperty_Changed));
+
         private static void BrushProperty_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             (d as ToggleSwitch)?.UpdateBrush();
         }
 
-        //
+
         public bool IsChecked
         {
             get { return (bool)GetValue(IsCheckedProperty); }
             set { SetValue(IsCheckedProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for IsChecked.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsCheckedProperty =
             DependencyProperty.Register("IsChecked", typeof(bool), typeof(ToggleSwitch), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, IsCheckedProperty_Changed));
 
-        //
         private static void IsCheckedProperty_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is ToggleSwitch control)
@@ -99,9 +101,7 @@ namespace NeeView.Windows.Controls
 
         #endregion
 
-        #region Constructors
 
-        //
         public ToggleSwitch()
         {
             InitializeComponent();
@@ -111,11 +111,7 @@ namespace NeeView.Windows.Controls
             _offAnimation = this.Root.Resources["OffAnimation"] as Storyboard;
         }
 
-        #endregion
 
-        #region Methods
-
-        //
         private void UpdateBrush()
         {
             if (_pressed)
@@ -128,7 +124,7 @@ namespace NeeView.Windows.Controls
             {
                 this.rectangle.Fill = this.CheckedBrush;
                 this.rectangle.Stroke = this.CheckedBrush;
-                this.ellipse.Fill = Brushes.White;
+                this.ellipse.Fill = this.CheckedThumbBrush;
             }
             else
             {
@@ -138,7 +134,6 @@ namespace NeeView.Windows.Controls
             }
         }
 
-        //
         private void UpdateThumb()
         {
             if (this.IsLoaded)
@@ -165,7 +160,6 @@ namespace NeeView.Windows.Controls
             }
         }
 
-        //
         private void BaseGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.Focus();
@@ -179,7 +173,6 @@ namespace NeeView.Windows.Controls
             UpdateBrush();
         }
 
-        //
         private void BaseGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             MouseInputHelper.ReleaseMouseCapture(this, this.Root);
@@ -201,7 +194,6 @@ namespace NeeView.Windows.Controls
             UpdateBrush();
         }
 
-        //
         private void BaseGrid_MouseMove(object sender, MouseEventArgs e)
         {
             if (!_pressed) return;
@@ -214,19 +206,16 @@ namespace NeeView.Windows.Controls
             this.thumbTranslate.X = dx;
         }
 
-        //
         private void OnAnimation_Completed(object sender, EventArgs e)
         {
             this.thumbTranslate.X = _max;
         }
 
-        //
         private void OffAnimation_Completed(object sender, EventArgs e)
         {
             this.thumbTranslate.X = 0.0;
         }
 
-        //
         private void ToggleSwitch_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Space || e.Key == Key.Enter)
@@ -236,6 +225,5 @@ namespace NeeView.Windows.Controls
             }
         }
 
-        #endregion
     }
 }

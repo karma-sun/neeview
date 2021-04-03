@@ -47,6 +47,15 @@ namespace NeeView
             Config.Current.Theme.AddPropertyChanged(nameof(ThemeConfig.ThemeType),
                 (s, e) => RefreshThemeColor());
 
+            Config.Current.Theme.AddPropertyChanged(nameof(ThemeConfig.CustomThemeFilePath),
+                (s, e) =>
+                {
+                    if (Config.Current.Theme.ThemeType == ThemeType.Custom)
+                    {
+                        RefreshThemeColor();
+                    }
+                });
+
             SystemVisualParameters.Current.AddPropertyChanged(nameof(SystemVisualParameters.IsHighContrast),
                 (s, e) => RefreshThemeColor());
 

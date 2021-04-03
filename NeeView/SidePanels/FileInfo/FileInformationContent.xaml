@@ -30,7 +30,7 @@
         </Style>
 
         <DataTemplate x:Key="PropertyItemTemplate">
-            <Grid Margin="0,0" HorizontalAlignment="Stretch">
+            <Grid Margin="5,1" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="{Binding Source={x:Static local:Config.Current}, Path=Information.PropertyHeaderWidth, Mode=TwoWay}" />
                     <ColumnDefinition Width="*" MinWidth="300" />
@@ -53,13 +53,14 @@
         </Style>
 
         <DataTemplate x:Key="GroupHeadderTemplate">
-            <Border BorderThickness="0,1,0,0" BorderBrush="{DynamicResource SidePanel.Sepalator}" Margin="0,5">
-                <DockPanel Margin="0,5">
+            <StackPanel Margin="0,5,0,0">
+                <Separator Background="{DynamicResource SidePanel.Sepalator}" />
+                <DockPanel Margin="0,2">
                     <local:InformationGroupButton DockPanel.Dock="Right" Style="{StaticResource PropertyValueButtonStyle}" Content="Button" GroupName="{Binding Name}"
                             Source="{Binding Path=DataContext.Source, ElementName=Root}" />
                     <TextBlock Text="{Binding Path=Name}" Foreground="{DynamicResource SidePanel.Header}" />
                 </DockPanel>
-            </Border>
+            </StackPanel>
         </DataTemplate>
 
     </UserControl.Resources>

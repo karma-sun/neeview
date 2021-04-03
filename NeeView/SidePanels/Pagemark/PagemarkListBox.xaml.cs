@@ -554,7 +554,23 @@ namespace NeeView
 
             await item.InitializeEntryAsync(token);
 
-            await Task.Run(() => ClipboardUtility.SetData(e.Data, new List<Page>() { item }, new CopyFileCommandParameter(), token));
+            var isSuccess = await Task.Run(() =>
+            {
+                try
+                {
+                    return ClipboardUtility.SetData(e.Data, new List<Page>() { item }, new CopyFileCommandParameter(), token);
+                }
+                catch (OperationCanceledException)
+                {
+                    return false;
+                }
+            });
+
+            if (!isSuccess)
+            {
+                e.Cancel = true;
+                return;
+            }
 
             e.AllowedEffects = DragDropEffects.Copy | DragDropEffects.Scroll;
         }

@@ -97,14 +97,14 @@
 
         <Style x:Key="VerticalSelectedStyle" TargetType="Rectangle">
             <Setter Property="Width" Value="4"/>
-            <Setter Property="Margin" Value="-2,0,0,0"/>
+            <Setter Property="Margin" Value="0,-1,0,0"/>
             <Setter Property="Fill" Value="{DynamicResource SelectedMark.Foreground}"/>
             <Setter Property="Visibility" Value="{Binding IsVisibled, Converter={StaticResource BooleanToVisibilityHiddenConverter}}"/>
         </Style>
 
         <Style x:Key="HorizontalSelectedStyle" TargetType="Rectangle">
             <Setter Property="Height" Value="4"/>
-            <Setter Property="Margin" Value="-2,0,-2,-1"/>
+            <Setter Property="Margin" Value="0,0,0,1"/>
             <Setter Property="Fill" Value="{DynamicResource SelectedMark.Foreground}"/>
             <Setter Property="Visibility" Value="{Binding IsVisibled, Converter={StaticResource BooleanToVisibilityHiddenConverter}}"/>
         </Style>
@@ -127,17 +127,17 @@
 
         <DataTemplate x:Key="NormalTemplate">
             <DockPanel MinHeight="20">
-                <Rectangle Style="{StaticResource VerticalSelectedStyle}"/>
-                <Image DockPanel.Dock="Right" Style="{StaticResource FolderIconStyle}"/>
-                <Image DockPanel.Dock="Right" Style="{StaticResource PagemarkIconStyle}"/>
-                <TextBlock Style="{StaticResource NormalNameStyle}" Margin="5,0"/>
+                <Rectangle Style="{StaticResource VerticalSelectedStyle}" />
+                <Image DockPanel.Dock="Right" Style="{StaticResource FolderIconStyle}" Margin="1" />
+                <Image DockPanel.Dock="Right" Style="{StaticResource PagemarkIconStyle}" Margin="1" />
+                <TextBlock Style="{StaticResource NormalNameStyle}" Margin="5,2" />
             </DockPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="ContentTemplate">
             <DockPanel>
                 <Rectangle Style="{StaticResource VerticalSelectedStyle}"/>
-                <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
+                <Border Margin="0,1,0,0" BorderBrush="#22888888" BorderThickness="0,0,0,1">
                     <DockPanel Margin="2" LastChildFill="False">
                         <local:PanelListContentImage Thumbnail="{Binding Thumbnail}"/>
                         <Image DockPanel.Dock="Right" Style="{StaticResource FolderIconStyle}"/>
@@ -154,8 +154,8 @@
         <DataTemplate x:Key="BannerTemplate">
             <DockPanel>
                 <Rectangle Style="{StaticResource VerticalSelectedStyle}"/>
-                <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
-                    <DockPanel Margin="4,0" HorizontalAlignment="Stretch" LastChildFill="False">
+                <Border Margin="0,0" BorderBrush="#22888888" BorderThickness="0,0,0,1">
+                    <DockPanel Margin="0,0" HorizontalAlignment="Stretch" LastChildFill="False">
                         <DockPanel DockPanel.Dock="Bottom" Margin="2" >
                             <Image DockPanel.Dock="Right" Style="{StaticResource FolderIconStyle}"/>
                             <Image DockPanel.Dock="Right" Style="{StaticResource PagemarkIconStyle}"/>
@@ -169,8 +169,8 @@
 
         <DataTemplate x:Key="ThumbnailTemplate">
             <StackPanel Margin="5" Width="{Binding Source={x:Static local:Config.Current}, Path=Panels.ThumbnailItemProfile.ShapeWidth}" ToolTip="{Binding EntryFullName}" ToolTipService.InitialShowDelay="1000">
-                <local:PanelListThumbnailImage Thumbnail="{Binding Thumbnail}"/>
-                <Rectangle DockPanel.Dock="Bottom" Style="{StaticResource HorizontalSelectedStyle}"/>
+                <local:PanelListThumbnailImage Thumbnail="{Binding Thumbnail}" />
+                <Rectangle DockPanel.Dock="Bottom" Style="{StaticResource HorizontalSelectedStyle}" Margin="-5,0,-5,1"/>
                 <DockPanel>
                     <Image DockPanel.Dock="Right" Style="{StaticResource FolderIconStyle}" VerticalAlignment="Top"/>
                     <Image DockPanel.Dock="Right" Style="{StaticResource PagemarkIconStyle}" VerticalAlignment="Top"/>

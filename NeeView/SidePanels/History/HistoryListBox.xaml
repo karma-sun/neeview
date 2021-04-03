@@ -48,12 +48,12 @@
 
         <DataTemplate x:Key="NormalTemplate">
             <Grid MinHeight="20">
-                <TextBlock Style="{StaticResource NormalNameStyle}" />
+                <TextBlock Style="{StaticResource NormalNameStyle}" Margin="5,2" />
             </Grid>
         </DataTemplate>
 
         <DataTemplate x:Key="ContentTemplace">
-            <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
+            <Border Margin="0,1,0,0" BorderBrush="#22888888" BorderThickness="0,0,0,1">
                 <DockPanel Margin="2">
                     <DockPanel>
                         <local:PanelListContentImage Thumbnail="{Binding Thumbnail}" />
@@ -67,7 +67,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="BannerTemplate">
-            <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
+            <Border Margin="0,0" BorderBrush="#22888888" BorderThickness="0,0,0,1">
                 <DockPanel Margin="0" HorizontalAlignment="Stretch" LastChildFill="False">
                     <DockPanel DockPanel.Dock="Bottom" Margin="2">
                         <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource BannerrNameStyle}" />

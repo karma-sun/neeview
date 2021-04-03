@@ -59,7 +59,7 @@
     "Item.Selected.Background": "#FFFFFFFF/0.25",
     "Item.Selected.Border": "",
     "Item.Inactive.Background": "#00000000",
-    "Item.Inactive.Border": "#FFFFFFFF/0.50",
+    "Item.Inactive.Border": "#FF606060",
 
     "SideBar.Background": "#FF303030",
     "SideBar.Foreground": "",

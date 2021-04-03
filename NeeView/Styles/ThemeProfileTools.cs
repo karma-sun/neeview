@@ -13,7 +13,18 @@ namespace NeeView
             System.IO.File.WriteAllBytes(path, json);
         }
 
-        public static ThemeProfile Load(Stream stream)
+        public static void SaveFromContent(string contentPath, string path)
+        {
+            Uri uri = new Uri(contentPath, UriKind.Relative);
+            var info = Application.GetContentStream(uri);
+
+            using (var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write))
+            {
+                info.Stream.CopyTo(fileStream);
+            }
+        }
+
+            public static ThemeProfile Load(Stream stream)
         {
             using (var ms = new MemoryStream())
             {

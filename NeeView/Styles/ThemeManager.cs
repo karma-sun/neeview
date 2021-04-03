@@ -30,6 +30,12 @@ namespace NeeView
         static ThemeManager() => Current = new ThemeManager();
         public static ThemeManager Current { get; }
 
+        private static readonly string _darkThemeContentPath = "Themes/DarkTheme.json";
+        private static readonly string _darkMonochromeThemeContentPath = "Themes/DarkMonochromeTheme.json";
+        private static readonly string _lightThemeContentPath = "Themes/LightTheme.json";
+        private static readonly string _lightMonochromeThemeContentPath = "Themes/LightMonochromeTheme.json";
+        private static readonly string _highContrastThemeContentPath = "Themes/HighContrastTheme.json";
+
 
         private ThemeProfile _themeProfile;
 
@@ -104,19 +110,19 @@ namespace NeeView
             switch (themeType)
             {
                 case ThemeType.Dark:
-                    return ThemeProfileTools.LoadFromContent("Themes/DarkTheme.json");
+                    return ThemeProfileTools.LoadFromContent(_darkThemeContentPath);
 
                 case ThemeType.DarkMonochrome:
-                    return ThemeProfileTools.LoadFromContent("Themes/DarkMonochromeTheme.json");
+                    return ThemeProfileTools.LoadFromContent(_darkMonochromeThemeContentPath);
 
                 case ThemeType.Light:
-                    return ThemeProfileTools.LoadFromContent("Themes/LightTheme.json");
+                    return ThemeProfileTools.LoadFromContent(_lightThemeContentPath);
 
                 case ThemeType.LightMonochrome:
-                    return ThemeProfileTools.LoadFromContent("Themes/LightMonochromeTheme.json");
+                    return ThemeProfileTools.LoadFromContent(_lightMonochromeThemeContentPath);
 
                 case ThemeType.HighContrast:
-                    return ThemeProfileTools.LoadFromContent("Themes/HighContrastTheme.json");
+                    return ThemeProfileTools.LoadFromContent(_highContrastThemeContentPath);
 
                 case ThemeType.System:
                     if (SystemVisualParameters.Current.IsHighContrast)
@@ -168,7 +174,7 @@ namespace NeeView
             {
                 if (!File.Exists(Config.Current.Theme.CustomThemeFilePath))
                 {
-                    ThemeProfileTools.Save(ThemeProfile, Config.Current.Theme.CustomThemeFilePath);
+                    ThemeProfileTools.SaveFromContent(_darkThemeContentPath, Config.Current.Theme.CustomThemeFilePath);
                 }
 
                 ExternalProcess.Start(Config.Current.Theme.CustomThemeFilePath, null, ExternalProcessAtrtibute.ThrowException);

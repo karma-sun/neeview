@@ -12,7 +12,6 @@ namespace NeeView
         private bool _isHideFilmStrip;
         private double _imageWidth = 96.0;
         private bool _isVisibleNumber;
-        private bool _isVisiblelPlate = true;
         private bool _isSelectedCenter;
         private bool _isManipulationBoundaryFeedbackEnabled = true;
         private bool _isVisiblePagemark;
@@ -69,15 +68,7 @@ namespace NeeView
             set { SetProperty(ref _isVisibleNumber, value); }
         }
 
-        /// <summary>
-        /// サムネイル台紙の表示
-        /// </summary>
-        [PropertyMember]
-        public bool IsVisiblePlate
-        {
-            get { return _isVisiblelPlate; }
-            set { SetProperty(ref _isVisiblelPlate, value); }
-        }
+
 
         /// <summary>
         /// スクロールビュータッチ操作の終端挙動
@@ -100,6 +91,14 @@ namespace NeeView
         }
 
         #region Obsolete
+
+        [Obsolete] // ver.39
+        [JsonIgnore]
+        public bool IsVisiblePlate
+        {
+            get { return false; }
+            set { }
+        }
 
         [Obsolete("Use ImageWidth instead.")] // ver.39
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

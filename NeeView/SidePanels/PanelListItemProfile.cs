@@ -242,8 +242,6 @@ namespace NeeView
                 {
                     _isTextheightDarty = false;
                     _textHeight = CalcTextHeight();
-
-                    System.Diagnostics.Debug.WriteLine($"## CalcTextHeight: {_textHeight}");
                 }
                 return _textHeight;
             }

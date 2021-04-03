@@ -384,7 +384,6 @@ namespace NeeView
                 config.FilmStrip.IsHideFilmStrip = IsHideThumbnailList;
                 config.FilmStrip.ImageWidth = ThumbnailSize;
                 config.FilmStrip.IsVisibleNumber = IsVisibleThumbnailNumber;
-                config.FilmStrip.IsVisiblePlate = IsVisibleThumbnailPlate;
                 config.FilmStrip.IsManipulationBoundaryFeedbackEnabled = IsManipulationBoundaryFeedbackEnabled;
                 config.FilmStrip.IsSelectedCenter = IsSelectedCenter;
             }

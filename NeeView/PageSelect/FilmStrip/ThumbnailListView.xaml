@@ -29,6 +29,15 @@
                         <DataTrigger Binding="{Binding IsBackgroundOpacityEnabled, RelativeSource={RelativeSource AncestorType=local:ThumbnailListView}}" Value="True">
                             <Setter Property="Opacity" Value="{Binding Source={x:Static local:Config.Current}, Path=Slider.Opacity}" />
                         </DataTrigger>
+                        <!--
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsBackgroundOpacityEnabled, RelativeSource={RelativeSource AncestorType=local:ThumbnailListView}}" Value="True" />
+                                <Condition Binding="{Binding Source={x:Static local:Config.Current}, Path=FilmStrip.IsVisiblePlate}" Value="False" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </MultiDataTrigger>
+                        -->
                     </Style.Triggers>
                 </Style>
             </Border.Style>
@@ -61,7 +70,7 @@
                                     <StackPanel Margin="5" Width="{Binding Source={x:Static local:Config.Current},  Path=FilmStrip.ImageWidth}" MinWidth="32">
                                         <Grid Width="{Binding Source={x:Static local:Config.Current},  Path=FilmStrip.ImageWidth}"
                                                 Height="{Binding Source={x:Static local:Config.Current},  Path=FilmStrip.ImageWidth}">
-                                            <Ellipse Fill="Gray" Width="8" Height="8">
+                                            <Ellipse Fill="{DynamicResource Thumbnail.Background}" Width="8" Height="8">
                                                 <Ellipse.Style>
                                                     <Style TargetType="Ellipse">
                                                         <Setter Property="Visibility" Value="Collapsed"/>
@@ -91,24 +100,12 @@
                                             </Grid>
                                         </Grid>
                                         <TextBlock Height="16" FontSize="12" FontFamily="Arial" MinWidth="32" TextAlignment="Center"
-                                                           Visibility="{Binding Source={x:Static local:Config.Current}, Path=FilmStrip.IsVisibleNumber, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                                           VerticalAlignment="Center"  HorizontalAlignment="Center" Text="{Binding IndexPlusOne}" Padding="5,2">
-                                            <TextBlock.Style>
-                                                <Style TargetType="TextBlock">
-                                                    <Setter Property="Foreground" Value="{DynamicResource PageSelectionBar.Foreground}"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Source={x:Static local:Config.Current},  Path=FilmStrip.IsVisiblePlate}" Value="False">
-                                                            <Setter Property="Foreground" Value="White"/>
-                                                            <Setter Property="Effect">
-                                                                <Setter.Value>
-                                                                    <DropShadowEffect ShadowDepth="0" Opacity="1"/>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-
-                                                </Style>
-                                            </TextBlock.Style>
+                                                Visibility="{Binding Source={x:Static local:Config.Current}, Path=FilmStrip.IsVisibleNumber, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding IndexPlusOne}" Padding="5,2"
+                                                Foreground="{DynamicResource PageSelectionBar.Foreground}">
+                                            <TextBlock.Effect>
+                                                <DropShadowEffect ShadowDepth="0" Opacity="1" Color="{DynamicResource PageSelectionBar.Background.Color}" />
+                                            </TextBlock.Effect>
                                         </TextBlock>
                                     </StackPanel>
                                 </DockPanel>
@@ -118,7 +115,7 @@
                     <Setter Property="ItemsPanel">
                         <Setter.Value>
                             <ItemsPanelTemplate>
-                                <VirtualizingStackPanel Orientation="Horizontal" CanHorizontallyScroll="True" CanVerticallyScroll="False" Margin="2,0"
+                                <VirtualizingStackPanel Orientation="Horizontal" CanHorizontallyScroll="True" CanVerticallyScroll="False" Margin="2,1"
                                                                     Loaded="ThumbnailListBoxPanel_Loaded"
                                                                     KeyDown="ThumbnailListBoxPanel_KeyDown"/>
                             </ItemsPanelTemplate>

@@ -86,6 +86,9 @@ namespace NeeView
                 App.Current.Resources[key] = new SolidColorBrush(themeProfile.GetColor(key, 1.0));
             }
 
+            // NOTE: special theme color
+            App.Current.Resources["PageSelectionBar.Background.Color"] = themeProfile.GetColor("PageSelectionBar.Background", 1.0);
+
             ThemeProfile = themeProfile;
 
             ThemeProfileChanged?.Invoke(this, null);

@@ -121,4 +121,6 @@
     <SolidColorBrush x:Key="SelectedMark.Foreground" Color="Orange" />
 
 
+    <Color x:Key="PageSelectionBar.Background.Color">Black</Color>
+
 </ResourceDictionary>

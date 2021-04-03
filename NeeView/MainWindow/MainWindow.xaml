@@ -18,19 +18,6 @@
                 <ResourceDictionary Source="/SidePanels/Bookshelf/FolderList/FolderListIconDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <Style x:Key="StatusAreaStyle" TargetType="DockPanel">
-                <Style.Triggers>
-                    <MultiDataTrigger>
-                        <MultiDataTrigger.Conditions>
-                            <Condition Binding="{Binding Source={x:Static local:Config.Current}, Path=FilmStrip.IsVisiblePlate}" Value="True" />
-                            <Condition Binding="{Binding Visibility, ElementName=ThumbnailListArea}" Value="Visible" />
-                        </MultiDataTrigger.Conditions>
-                        <Setter Property="Background" Value="{DynamicResource PageSelectionBar.Background}" />
-                    </MultiDataTrigger>
-                </Style.Triggers>
-            </Style>
-
-
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
             <local:IsNearZeroConverter x:Key="IsNearZeroConverter" />
             <local:SortModeToVisibilityConverter x:Key="SortModeToVisibilityConverter" />
@@ -95,8 +82,18 @@
                         <!-- スライダー -->
                         <ContentControl x:Name="DockPageSliderSocket" DockPanel.Dock="Bottom" IsTabStop="False">
                             <Grid x:Name="SliderArea">
-                                <local:PageSliderView x:Name="PageSliderView" VerticalAlignment="Bottom"
-                                                      IsBorderVisible="{Binding ElementName=ThumbnailListArea, Path=IsContentVisible, Converter={StaticResource BooleanReverseConverter}}" />
+                                <local:PageSliderView x:Name="PageSliderView" VerticalAlignment="Bottom">
+                                    <local:PageSliderView.Style>
+                                        <Style TargetType="local:PageSliderView">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=ThumbnailListArea, Path=IsContentVisible}" Value="False">
+                                                    <Setter Property="IsBorderVisible" Value="True" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </local:PageSliderView.Style>
+                                </local:PageSliderView>
+
                                 <local:MediaControlView x:Name="MediaControlView" VerticalAlignment="Bottom" />
                             </Grid>
                         </ContentControl>

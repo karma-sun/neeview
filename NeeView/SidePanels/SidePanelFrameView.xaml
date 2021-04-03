@@ -65,7 +65,8 @@
 
         <DockPanel>
 
-            <Grid DockPanel.Dock="Left" Visibility="{Binding VM.IsSideBarVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Grid DockPanel.Dock="Left" Visibility="{Binding VM.IsSideBarVisible, Converter={StaticResource BooleanToVisibilityConverter}}" KeyboardNavigation.TabNavigation="Local"
+                    KeyboardNavigation.TabIndex="1">
                 <Grid x:Name="LeftIconGrid" Visibility="{Binding ElementName=LeftPanelContent, Path=Visibility}" Background="Transparent" AllowDrop="True"
                         MouseLeftButtonDown="LeftIconGrid_MouseLeftButtonDown" MouseLeftButtonUp="LeftIconGrid_MouseLeftButtonUp">
                     <b:Interaction.Behaviors>
@@ -80,7 +81,8 @@
                 </Grid>
             </Grid>
 
-            <Grid DockPanel.Dock="Right" Visibility="{Binding VM.IsSideBarVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Grid DockPanel.Dock="Right" Visibility="{Binding VM.IsSideBarVisible, Converter={StaticResource BooleanToVisibilityConverter}}" KeyboardNavigation.TabNavigation="Local"
+                    KeyboardNavigation.TabIndex="4">
                 <Grid x:Name="RightIconGrid" Visibility="{Binding ElementName=RightPanelContent, Path=Visibility}" Background="Transparent" AllowDrop="True"
                         MouseLeftButtonDown="RightIconGrid_MouseLeftButtonDown" MouseLeftButtonUp="RightIconGrid_MouseLeftButtonUp">
                     <b:Interaction.Behaviors>
@@ -97,7 +99,8 @@
 
             <DockPanel x:Name="Screen">
 
-                <Grid x:Name="LeftPanel"  DockPanel.Dock="Left" UseLayoutRounding="True" Width="{Binding VM.Left.Width, Mode=TwoWay}" Visibility="{Binding VM.Left.PanelVisibility}" SizeChanged="LeftPanel_SizeChanged">
+                <Grid x:Name="LeftPanel" DockPanel.Dock="Left" UseLayoutRounding="True" Width="{Binding VM.Left.Width, Mode=TwoWay}" Visibility="{Binding VM.Left.PanelVisibility}"
+                        SizeChanged="LeftPanel_SizeChanged" KeyboardNavigation.TabNavigation="Local" KeyboardNavigation.TabIndex="2">
                     <Border Style="{StaticResource PanelBorderStyle}" BorderThickness="0,0,1,0" />
                     <Border x:Name="LeftPanelContent" Background="Transparent" Margin="0,0,1,0">
                         <behaviors:Interaction.Behaviors>
@@ -126,7 +129,7 @@
                         Visibility="{Binding VM.Left.PanelVisibility}" IsTabStop="False" />
 
                 <Grid x:Name="RightPanel" DockPanel.Dock="Right" Width="{Binding VM.Right.Width, Mode=TwoWay}" UseLayoutRounding="True" Visibility="{Binding VM.Right.PanelVisibility}"
-                        SizeChanged="RightPanel_SizeChanged">
+                        SizeChanged="RightPanel_SizeChanged" KeyboardNavigation.TabNavigation="Local" KeyboardNavigation.TabIndex="3">
                     <Border Style="{StaticResource PanelBorderStyle}" BorderThickness="1,0,0,0" />
                     <Border x:Name="RightPanelContent" Background="Transparent" Margin="1,0,0,0">
                         <behaviors:Interaction.Behaviors>

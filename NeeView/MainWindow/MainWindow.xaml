@@ -60,7 +60,7 @@
             <DockPanel>
 
                 <!-- メニューエリア-->
-                <ContentControl x:Name="DockMenuSocket" DockPanel.Dock="Top" Focusable="False">
+                <ContentControl x:Name="DockMenuSocket" DockPanel.Dock="Top" Focusable="False" KeyboardNavigation.TabNavigation="Local" KeyboardNavigation.TabIndex="1">
                     <Border x:Name="MenuArea" BorderBrush="{DynamicResource MenuBar.Border}" BorderThickness="0,0,0,1">
                         <StackPanel>
                             <!-- メニューバー-->
@@ -76,13 +76,13 @@
                 </ContentControl>
 
                 <!-- ステータスエリア -->
-                <Border x:Name="DockStatusArea" DockPanel.Dock="Bottom">
+                <Border x:Name="DockStatusArea" DockPanel.Dock="Bottom" KeyboardNavigation.TabNavigation="Local" KeyboardNavigation.TabIndex="3">
                     <DockPanel>
 
                         <!-- スライダー -->
                         <ContentControl x:Name="DockPageSliderSocket" DockPanel.Dock="Bottom" IsTabStop="False">
                             <Grid x:Name="SliderArea">
-                                <local:PageSliderView x:Name="PageSliderView" VerticalAlignment="Bottom">
+                                <local:PageSliderView x:Name="PageSliderView" VerticalAlignment="Bottom" KeyboardNavigation.TabNavigation="Local" TabIndex="2">
                                     <local:PageSliderView.Style>
                                         <Style TargetType="local:PageSliderView">
                                             <Style.Triggers>
@@ -94,20 +94,20 @@
                                     </local:PageSliderView.Style>
                                 </local:PageSliderView>
 
-                                <local:MediaControlView x:Name="MediaControlView" VerticalAlignment="Bottom" />
+                                <local:MediaControlView x:Name="MediaControlView" VerticalAlignment="Bottom" KeyboardNavigation.TabNavigation="Local" TabIndex="3" />
                             </Grid>
                         </ContentControl>
 
                         <!-- フィルムストリップ -->
                         <ContentControl x:Name="DockThumbnailListSocket" DockPanel.Dock="Bottom" IsTabStop="False">
-                            <local:ThumbnailListView x:Name="ThumbnailListArea" />
+                            <local:ThumbnailListView x:Name="ThumbnailListArea" KeyboardNavigation.TabNavigation="Local" TabIndex="1" />
                         </ContentControl>
 
                     </DockPanel>
                 </Border>
 
                 <!--  ビューエリア -->
-                <Grid x:Name="ViewArea">
+                <Grid x:Name="ViewArea" KeyboardNavigation.TabNavigation="Local" KeyboardNavigation.TabIndex="2">
 
                     <!-- ビューエリア ベース -->
                     <Grid x:Name="ViewAreaBase" />
@@ -132,8 +132,8 @@
 
                         <!-- サイドパネル -->
                         <local:SidePanelFrameView x:Name="SidePanelFrame" PanelMargin="{Binding SidePanelMargin, Mode=OneWay}" Visibility="Visible" Source="{Binding SidePanel}"
-                                IsAutoHide="{Binding Model.CanHidePanel}"
-                                CanvasWidth="{Binding CanvasWidth, Mode=OneWayToSource}" CanvasHeight="{Binding CanvasHeight, Mode=OneWayToSource}" d:IsHidden="True">
+                                IsAutoHide="{Binding Model.CanHidePanel}" CanvasWidth="{Binding CanvasWidth, Mode=OneWayToSource}" CanvasHeight="{Binding CanvasHeight, Mode=OneWayToSource}"
+                                d:IsHidden="True">
                         </local:SidePanelFrameView>
 
                     </Grid>
@@ -144,7 +144,7 @@
 
 
             <!-- Menu Layer -->
-            <ContentControl x:Name="LayerMenuSocket" VerticalAlignment="Top" Visibility="Collapsed" Focusable="False">
+            <ContentControl x:Name="LayerMenuSocket" VerticalAlignment="Top" Visibility="Collapsed" Focusable="False" KeyboardNavigation.TabNavigation="Local" KeyboardNavigation.TabIndex="1">
                 <behaviors:Interaction.Behaviors>
                     <local:AutoHideBehavior Name="MenuBar" Screen="{Binding ElementName=Root}" Dock="Top" IsEnabled="{Binding Model.CanHideMenu}" DelayTime="{Binding AutoHideConfig.AutoHideDelayTime}"
                             DelayVisibleTime="{Binding AutoHideConfig.AutoHideDelayVisibleTime}" FocusLockMode="{Binding AutoHideConfig.AutoHideFocusLockMode}"
@@ -154,7 +154,7 @@
             </ContentControl>
 
             <!-- Status Layer -->
-            <DockPanel x:Name="LayerStatusArea" VerticalAlignment="Bottom" Visibility="Visible">
+            <DockPanel x:Name="LayerStatusArea" VerticalAlignment="Bottom" Visibility="Visible" KeyboardNavigation.TabNavigation="Local" KeyboardNavigation.TabIndex="3">
                 <behaviors:Interaction.Behaviors>
                     <local:AutoHideBehavior Screen="{Binding ElementName=Root}" Dock="Bottom" IsEnabled="{Binding Model.CanHidePageSlider}" DelayTime="{Binding AutoHideConfig.AutoHideDelayTime}"
                             DelayVisibleTime="{Binding AutoHideConfig.AutoHideDelayVisibleTime}" FocusLockMode="{Binding AutoHideConfig.AutoHideFocusLockMode}"
@@ -182,7 +182,8 @@
             </DockPanel>
 
             <!-- Page title -->
-            <Border x:Name="PageCaption" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="{DynamicResource Notification.Background}" IsHitTestVisible="False" CornerRadius="10" Margin="0,0,0,5">
+            <Border x:Name="PageCaption" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="{DynamicResource Notification.Background}" IsHitTestVisible="False"
+                    CornerRadius="10" Margin="0,0,0,5">
                 <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding PageTitle.Title}" FontSize="{Binding Source={x:Static local:Config.Current}, Path=PageTitle.FontSize}"
                         Foreground="{DynamicResource Notification.Foreground}" Margin="20,5" TextWrapping="Wrap" />
             </Border>

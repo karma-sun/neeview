@@ -1137,7 +1137,7 @@
         <Setter Property="MinHeight" Value="1" />
         <Setter Property="Height" Value="1" />
         <Setter Property="Margin" Value="4,4" />
-        <Setter Property="BorderBrush" Value="{DynamicResource Menu.Sepalator}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Menu.Separator}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">
             <Setter.Value>

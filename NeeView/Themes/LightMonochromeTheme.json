@@ -51,7 +51,7 @@
     "Menu.Background": "",
     "Menu.Foreground": "",
     "Menu.Border": "#FFA0A0A0",
-    "Menu.Sepalator": "#FF808080",
+    "Menu.Separator": "#FF808080",
 
     "Item.MouseOver.Background": "#11000000",
     "Item.MouseOver.Border": "",
@@ -69,7 +69,7 @@
     "SidePanel.Border": "",
     "SidePanel.Header": "#FF808080",
     "SidePanel.Note": "Control.GrayText",
-    "SidePanel.Sepalator": "#FFC0C0C0",
+    "SidePanel.Separator": "#FFC0C0C0",
     "SidePanel.Splitter": "SideBar.Background",
 
     "MenuBar.Background": "#FFD8D8D8",

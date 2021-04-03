@@ -70,7 +70,7 @@ namespace NeeView
             "Menu.Background",
             "Menu.Foreground",
             "Menu.Border",
-            "Menu.Sepalator",
+            "Menu.Separator",
 
             "SideBar.Background",
             "SideBar.Foreground",
@@ -81,7 +81,7 @@ namespace NeeView
             "SidePanel.Border",
             "SidePanel.Header",
             "SidePanel.Note",
-            "SidePanel.Sepalator",
+            "SidePanel.Separator",
             "SidePanel.Splitter",
 
             "MenuBar.Background",

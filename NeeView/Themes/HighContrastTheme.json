@@ -51,7 +51,7 @@
     "Menu.Background": "",
     "Menu.Foreground": "",
     "Menu.Border": "Window.Border",
-    "Menu.Sepalator": "Menu.Foreground",
+    "Menu.Separator": "Menu.Foreground",
 
     "Item.MouseOver.Background": "#00000000",
     "Item.MouseOver.Border": "Control.Accent",
@@ -69,7 +69,7 @@
     "SidePanel.Border": "Control.Border",
     "SidePanel.Header": "Control.Foreground",
     "SidePanel.Note": "Control.GrayText",
-    "SidePanel.Sepalator": "Control.Border",
+    "SidePanel.Separator": "Control.Border",
     "SidePanel.Splitter": "Control.Border",
 
     "MenuBar.Background": "",

@@ -54,7 +54,7 @@
 
         <DataTemplate x:Key="GroupHeadderTemplate">
             <StackPanel Margin="0,5,0,0">
-                <Separator Background="{DynamicResource SidePanel.Sepalator}" />
+                <Separator Background="{DynamicResource SidePanel.Separator}" />
                 <DockPanel Margin="0,2">
                     <local:InformationGroupButton DockPanel.Dock="Right" Style="{StaticResource PropertyValueButtonStyle}" Content="Button" GroupName="{Binding Name}"
                             Source="{Binding Path=DataContext.Source, ElementName=Root}" />

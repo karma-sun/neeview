@@ -75,7 +75,7 @@
     <SolidColorBrush x:Key="Menu.Background" Color="#FF222222" />
     <SolidColorBrush x:Key="Menu.Foreground" Color="White" />
     <SolidColorBrush x:Key="Menu.Border" Color="Gray" />
-    <SolidColorBrush x:Key="Menu.Sepalator" Color="#88888888" />
+    <SolidColorBrush x:Key="Menu.Separator" Color="#88888888" />
 
     <SolidColorBrush x:Key="SideBar.Background" Color="#FF333333" />
     <SolidColorBrush x:Key="SideBar.Foreground" Color="White" />
@@ -86,7 +86,7 @@
     <SolidColorBrush x:Key="SidePanel.Border" Color="Gray" />
     <SolidColorBrush x:Key="SidePanel.Header" Color="Gray" />
     <SolidColorBrush x:Key="SidePanel.Note" Color="Gray" />
-    <SolidColorBrush x:Key="SidePanel.Sepalator" Color="Gray" />
+    <SolidColorBrush x:Key="SidePanel.Separator" Color="Gray" />
     <SolidColorBrush x:Key="SidePanel.Splitter" Color="#FF333333" />
 
     <SolidColorBrush x:Key="MenuBar.Background" Color="#FF282828" />

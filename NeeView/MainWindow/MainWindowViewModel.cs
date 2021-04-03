@@ -101,7 +101,7 @@ namespace NeeView
 
             MenuAutoHideDescription = new MenuAutoHideDescription(MainWindow.Current.LayerMenuSocket, MainWindow.Current.SidePanelFrame);
             StatusAutoHideDescrption = new StatusAutoHideDescription(MainWindow.Current.LayerStatusArea, MainWindow.Current.SidePanelFrame);
-            ThumbnailListusAutoHideDescrption = new BasicAutoHideDescription(MainWindow.Current.LayerThumbnailListSocket);
+            ThumbnailListusAutoHideDescrption = new StatusAutoHideDescription(MainWindow.Current.LayerThumbnailListSocket, MainWindow.Current.SidePanelFrame);
 
             // icon
             InitializeWindowIcons();

@@ -4,6 +4,7 @@ using System.Windows.Media;
 using System.Text.Json.Serialization;
 using System.Globalization;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace NeeView
 {
@@ -19,6 +20,8 @@ namespace NeeView
     [JsonConverter(typeof(ThemeColorJsonConverter))]
     public class ThemeColor
     {
+        private static Regex _linkTokenRegex = new Regex(@"^\w+(\.\w+)+$", RegexOptions.Compiled);
+
         public ThemeColor()
         {
             ThemeColorType = ThemeColorType.Default;
@@ -80,7 +83,7 @@ namespace NeeView
                     var token = tokens[0];
                     var opacity = (tokens.Length > 1) ? double.Parse(tokens[1]) : 1.0;
 
-                    if (token.IndexOf('.') >= 0)
+                    if (_linkTokenRegex.IsMatch(token))
                     {
                         return new ThemeColor(token, opacity);
                     }

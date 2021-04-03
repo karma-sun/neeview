@@ -9,11 +9,7 @@ namespace NeeView
 {
     public class ThemeProfile
     {
-        public static ThemeProfile Default { get; } = new ThemeProfile()
-        {
-            ["Window.Background"] = new ThemeColor(System.Windows.Media.Colors.Black, 1.0),
-            ["Window.Foreground"] = new ThemeColor(System.Windows.Media.Colors.White, 1.0),
-        };
+        public static ThemeProfile Default { get; }
 
         public static readonly List<string> Keys = new List<string>()
         {
@@ -119,6 +115,29 @@ namespace NeeView
             "PagemarkIcon.Foreground",
         };
 
+        static ThemeProfile()
+        {
+            Default = CreateDefaultThemeProfile();
+        }
+
+        private static ThemeProfile CreateDefaultThemeProfile()
+        {
+            var profile = new ThemeProfile();
+
+            foreach (var key in Keys)
+            {
+                if (!key.EndsWith("Foreground") && !key.EndsWith("Background"))
+                {
+                    profile.Colors[key] = new ThemeColor(System.Windows.Media.Colors.Gray, 1.0);
+                }
+            }
+            profile.Colors["Window.Background"] = new ThemeColor(System.Windows.Media.Colors.Black, 1.0);
+            profile.Colors["Window.Foreground"] = new ThemeColor(System.Windows.Media.Colors.White, 1.0);
+            profile.Colors["Control.Accent"] = new ThemeColor(System.Windows.Media.Colors.White, 1.0);
+            
+            return profile;
+        }
+
         public ThemeProfile()
         {
             Format = new FormatVersion(Environment.SolutionName + ".Theme", 1, 0, 0);
@@ -140,6 +159,13 @@ namespace NeeView
 
             Debug.WriteLine("ThemProfile.Verify.Lack: " + string.Join(", ", lack)); // 不足
             Debug.WriteLine("ThemProfile.Verify.Surplus: " + string.Join(", ", surplus)); // 余剰
+        }
+
+        public ThemeProfile Validate()
+        {
+            var themeProfile = new ThemeProfile();
+            themeProfile.Colors =ThemeProfile.Keys.ToDictionary(e => e, e => new ThemeColor(this.GetColor(e, 1.0), 1.0));
+            return themeProfile;
         }
 
         public Color GetColor(string key, double opacity, IEnumerable<string> nests = null)
@@ -177,6 +203,11 @@ namespace NeeView
 
         private Color GetDefaultColor(string key, double opacity)
         {
+            if (!(Colors.ContainsKey(key) ||  Keys.Contains(key)))
+            {
+                throw new FormatException($"No such key: {key}");
+            }
+
             var tokens = key.Split('.');
             if (tokens.Length < 2) throw new FormatException($"Wrong format: {key}");
 

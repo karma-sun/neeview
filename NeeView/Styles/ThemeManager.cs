@@ -10,6 +10,7 @@ using System.Collections;
 using System.Text.Json.Serialization;
 using System.IO;
 
+
 namespace NeeView
 {
     public enum ThemeType
@@ -63,28 +64,39 @@ namespace NeeView
 
         public void RefreshThemeColor()
         {
-            ThemeProfile themeProfile;
-
-            try
-            {
-                themeProfile = LoadThemeProfile(Config.Current.Theme.ThemeType);
-                themeProfile.Verify();
-            }
-            catch (Exception ex)
-            {
-                ToastService.Current.Show(new Toast(ex.Message, Properties.Resources.ThemeErrorDialog_Title, ToastIcon.Error));
-                themeProfile = ThemeProfile.Default;
-            }
+            var themeProfile = GeThemeProfile(Config.Current.Theme.ThemeType, true);
 
             foreach (var key in ThemeProfile.Keys)
             {
-                var color = themeProfile.GetColor(key, 1.0);
-                App.Current.Resources[key] = new SolidColorBrush(color);
+                App.Current.Resources[key] = new SolidColorBrush(themeProfile.GetColor(key, 1.0));
             }
 
             ThemeProfile = themeProfile;
 
             ThemeProfileChanged?.Invoke(this, null);
+        }
+
+        private ThemeProfile GeThemeProfile(ThemeType themeType, bool isShowExceptionToast)
+        {
+            try
+            {
+                var themeProfile = LoadThemeProfile(themeType);
+                themeProfile.Verify();
+                return themeProfile.Validate();
+            }
+            catch (Exception ex)
+            {
+                ToastService.Current.Show(new Toast(ex.Message, Properties.Resources.ThemeErrorDialog_Title, ToastIcon.Error));
+
+                if (themeType is ThemeType.Custom)
+                {
+                    return GeThemeProfile(ThemeType.Dark, false);
+                }
+                else
+                {
+                    return ThemeProfile.Default.Validate();
+                }
+            }
         }
 
         private ThemeProfile LoadThemeProfile(ThemeType themeType)

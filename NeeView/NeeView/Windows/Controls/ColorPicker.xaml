@@ -17,42 +17,9 @@
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
             <local:ColorToStringConverter x:Key="ColorToStringConverter" />
 
-            <Style x:Key="RgbSlider" TargetType="Slider">
-                <Setter Property="FocusVisualStyle" Value="{StaticResource NVSliderFocusVisual}" />
-                <Setter Property="Minimum" Value="0" />
-                <Setter Property="Maximum" Value="255" />
-                <Setter Property="SmallChange" Value="10" />
-                <Setter Property="LargeChange" Value="50" />
-                <Setter Property="TickFrequency" Value="1" />
-                <Setter Property="IsSnapToTickEnabled" Value="True" />
-                <Setter Property="Margin" Value="5,0" />
-            </Style>
-
-            <Style x:Key="HsvSliderH" TargetType="Slider">
-                <Setter Property="FocusVisualStyle" Value="{StaticResource NVSliderFocusVisual}" />
-                <Setter Property="Minimum" Value="0" />
-                <Setter Property="Maximum" Value="359" />
-                <Setter Property="SmallChange" Value="30" />
-                <Setter Property="LargeChange" Value="90" />
-                <Setter Property="TickFrequency" Value="1" />
-                <Setter Property="IsSnapToTickEnabled" Value="True" />
-                <Setter Property="Margin" Value="5,0" />
-            </Style>
-
-            <Style x:Key="HsvSliderSV" TargetType="Slider">
-                <Setter Property="FocusVisualStyle" Value="{StaticResource NVSliderFocusVisual}" />
-                <Setter Property="Minimum" Value="0" />
-                <Setter Property="Maximum" Value="1" />
-                <Setter Property="SmallChange" Value="0.1" />
-                <Setter Property="LargeChange" Value="0.25" />
-                <Setter Property="TickFrequency" Value="0.01" />
-                <Setter Property="IsSnapToTickEnabled" Value="True" />
-                <Setter Property="Margin" Value="5,0" />
-            </Style>
-
         </Grid.Resources>
 
-
+        
         <StackPanel>
             <Grid Margin="0,0,0,5">
                 <Grid.ColumnDefinitions>
@@ -81,21 +48,21 @@
                     <nvc:EnterTriggerTextBox DockPanel.Dock="Right"
                              Width="70"
                              Text="{Binding R}" />
-                    <Slider Style="{StaticResource RgbSlider}" Value="{Binding R}" TabIndex="1"/>
+                    <Slider Value="{Binding R}" Minimum="0" Maximum="255" TickFrequency="1" Margin="5,0" TabIndex="1" />
                 </DockPanel>
                 <DockPanel Margin="0,0,0,5" KeyboardNavigation.TabNavigation="Local">
                     <TextBlock Width="16" Text="G" />
                     <nvc:EnterTriggerTextBox DockPanel.Dock="Right"
                              Width="70"
                              Text="{Binding G}" />
-                    <Slider Style="{StaticResource RgbSlider}" Value="{Binding G}" TabIndex="1"/>
+                    <Slider Value="{Binding G}" Minimum="0" Maximum="255" TickFrequency="1" Margin="5,0" TabIndex="1" />
                 </DockPanel>
                 <DockPanel Margin="0,0,0,5" KeyboardNavigation.TabNavigation="Local">
                     <TextBlock Width="16" Text="B" />
                     <nvc:EnterTriggerTextBox DockPanel.Dock="Right"
                              Width="70"
                              Text="{Binding B}" />
-                    <Slider Style="{StaticResource RgbSlider}" Value="{Binding B}" TabIndex="1"/>
+                    <Slider Value="{Binding B}" Minimum="0" Maximum="255" TickFrequency="1"  Margin="5,0" TabIndex="1"/>
                 </DockPanel>
             </StackPanel>
 
@@ -105,21 +72,21 @@
                     <nvc:EnterTriggerTextBox DockPanel.Dock="Right"
                              Width="70"
                              Text="{Binding H}" />
-                    <Slider Style="{StaticResource HsvSliderH}" Value="{Binding H}" TabIndex="1"/>
+                    <Slider Value="{Binding H}" Minimum="0" Maximum="360" TickFrequency="1" Margin="5,0" TabIndex="1"/>
                 </DockPanel>
                 <DockPanel Margin="0,0,0,5" KeyboardNavigation.TabNavigation="Local">
                     <TextBlock Width="16" Text="S" />
                     <nvc:EnterTriggerTextBox DockPanel.Dock="Right"
                              Width="70"
                              Text="{Binding S, StringFormat={}{0:0.00}}" />
-                    <Slider Style="{StaticResource HsvSliderSV}" Value="{Binding S}" TabIndex="1"/>
+                    <Slider Value="{Binding S}" Minimum="0" Maximum="1" TickFrequency="0.01" Margin="5,0" TabIndex="1"/>
                 </DockPanel>
                 <DockPanel Margin="0,0,0,5" KeyboardNavigation.TabNavigation="Local">
                     <TextBlock Width="16" Text="V" />
                     <nvc:EnterTriggerTextBox DockPanel.Dock="Right"
                              Width="70"
                              Text="{Binding V, StringFormat={}{0:0.00}}" />
-                    <Slider Style="{StaticResource HsvSliderSV}" Value="{Binding V}" TabIndex="1"/>
+                    <Slider Value="{Binding V}" Minimum="0" Maximum="1" TickFrequency="0.01" Margin="5,0" TabIndex="1"/>
                 </DockPanel>
             </StackPanel>
 

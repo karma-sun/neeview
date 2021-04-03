@@ -8,29 +8,16 @@
              d:DesignHeight="300" d:DesignWidth="300">
 
     <Grid x:Name="Root">
-        <Grid.Resources>
-            <Style x:Key="ValueSlider" TargetType="Slider">
-                <Setter Property="FocusVisualStyle" Value="{StaticResource NVSliderFocusVisual}" />
-                <Setter Property="Minimum" Value="0"/>
-                <Setter Property="Maximum" Value="1"/>
-                <Setter Property="SmallChange" Value="0.1"/>
-                <Setter Property="LargeChange" Value="0.25"/>
-                <Setter Property="TickFrequency" Value="0.01"/>
-                <Setter Property="IsSnapToTickEnabled" Value="True"/>
-                <Setter Property="Margin" Value="5,0"/>
-            </Style>
-        </Grid.Resources>
-
         <StackPanel>
             <DockPanel Margin="0,0,0,5">
                 <TextBlock Text="X" Width="16"/>
                 <TextBox DockPanel.Dock="Right" Width="70" Text="{Binding X}"/>
-                <Slider Style="{StaticResource ValueSlider}" Value="{Binding X}"/>
+                <Slider Value="{Binding X}" Minimum="0" Maximum="1" TickFrequency="0.01" Margin="5,0"/>
             </DockPanel>
             <DockPanel Margin="0,0,0,5">
                 <TextBlock Text="Y" Width="16"/>
                 <TextBox DockPanel.Dock="Right" Width="70" Text="{Binding Y}"/>
-                <Slider Style="{StaticResource ValueSlider}" Value="{Binding Y}"/>
+                <Slider Value="{Binding Y}" Minimum="0" Maximum="1" TickFrequency="0.01" Margin="5,0"/>
             </DockPanel >
         </StackPanel>
     </Grid>

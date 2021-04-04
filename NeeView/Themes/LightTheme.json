@@ -25,11 +25,11 @@
     "Button.Pressed.Background": "Control.Accent/0.25",
     "Button.Pressed.Border": "Control.Accent",
 
-    "ScrollBar.Background": "#FFC0C0C0",
-    "ScrollBar.Foreground": "",
+    "ScrollBar.Background": "#FFE0E0E0",
+    "ScrollBar.Foreground": "#FF808080",
     "ScrollBar.Border": "",
-    "ScrollBar.MouseOver": "#FF808080",
-    "ScrollBar.Pressed": "#FF606060",
+    "ScrollBar.MouseOver": "#FF606060",
+    "ScrollBar.Pressed": "#FF404040",
 
     "DialogButton.Background": "#FFA0A0A0",
     "DialogButton.Foreground": "#FF202020",

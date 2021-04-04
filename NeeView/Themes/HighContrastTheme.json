@@ -25,9 +25,9 @@
     "Button.Pressed.Background": "#00000000",
     "Button.Pressed.Border": "Control.Foreground",
 
-    "ScrollBar.Background": "#FFC0C0C0",
-    "ScrollBar.Foreground": "",
-    "ScrollBar.Border": "",
+    "ScrollBar.Background": "#FF000000",
+    "ScrollBar.Foreground": "#FFFFFFFF",
+    "ScrollBar.Border": "#FFFFFFFF",
     "ScrollBar.MouseOver": "#FFFFFFFF",
     "ScrollBar.Pressed": "#FFFFFFFF",
 

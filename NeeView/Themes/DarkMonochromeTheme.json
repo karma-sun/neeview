@@ -26,10 +26,10 @@
     "Button.Pressed.Border": "",
 
     "ScrollBar.Background": "#FF404040",
-    "ScrollBar.Foreground": "",
+    "ScrollBar.Foreground": "#FF808080",
     "ScrollBar.Border": "",
-    "ScrollBar.MouseOver": "#FF808080",
-    "ScrollBar.Pressed": "#FFA0A0A0",
+    "ScrollBar.MouseOver": "#FFA0A0A0",
+    "ScrollBar.Pressed": "#FFC0C0C0",
 
     "DialogButton.Background": "#FFC0C0C0",
     "DialogButton.Foreground": "#FF202020",

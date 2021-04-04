@@ -118,7 +118,7 @@
       <Component>
         <File Source="$(var.ContentDir)Themes\LightTheme.json" KeyPath="yes"/>
       </Component>
-            <Component Guid="*">
+      <Component>
         <File Source="$(var.ContentDir)Themes\DarkMonochromeTheme.json" KeyPath="yes"/>
       </Component>
       <Component>
@@ -126,6 +126,9 @@
       </Component>
       <Component>
         <File Source="$(var.ContentDir)Themes\HighContrastTheme.json" KeyPath="yes"/>
+      </Component>
+      <Component>
+        <File Source="$(var.ContentDir)Themes\CustomThemeTemplate.json" KeyPath="yes"/>
       </Component>
     </ComponentGroup>
 

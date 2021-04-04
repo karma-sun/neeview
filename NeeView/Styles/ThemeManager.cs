@@ -30,12 +30,14 @@ namespace NeeView
         static ThemeManager() => Current = new ThemeManager();
         public static ThemeManager Current { get; }
 
+        private const string _themeProtocolHeader = "themes://";
+
         private static readonly string _darkThemeContentPath = "Themes/DarkTheme.json";
         private static readonly string _darkMonochromeThemeContentPath = "Themes/DarkMonochromeTheme.json";
         private static readonly string _lightThemeContentPath = "Themes/LightTheme.json";
         private static readonly string _lightMonochromeThemeContentPath = "Themes/LightMonochromeTheme.json";
         private static readonly string _highContrastThemeContentPath = "Themes/HighContrastTheme.json";
-
+        private static readonly string _customThemeTemplateContentPath = "Themes/CustomThemeTemplate.json";
 
         private ThemeProfile _themeProfile;
 
@@ -166,17 +168,38 @@ namespace NeeView
                     {
                         try
                         {
-                            return ThemeProfileTools.LoadFromFile(Config.Current.Theme.CustomThemeFilePath);
+                            return ValidateBasedOn(ThemeProfileTools.LoadFromFile(Config.Current.Theme.CustomThemeFilePath), Path.GetDirectoryName(Config.Current.Theme.CustomThemeFilePath));
                         }
                         catch (Exception ex)
                         {
                             ToastService.Current.Show(new Toast(ex.Message, Properties.Resources.ThemeErrorDialog_Title, ToastIcon.Error));
                         }
                     }
-                    return LoadThemeProfile(ThemeType.Dark);
+                    return ValidateBasedOn(ThemeProfileTools.LoadFromContent(_customThemeTemplateContentPath), Environment.AssemblyFolder);
 
                 default:
                     throw new NotSupportedException();
+            }
+        }
+
+        private ThemeProfile ValidateBasedOn(ThemeProfile themeProfile, string currentPath)
+        {
+            if (string.IsNullOrWhiteSpace(themeProfile.BasedOn))
+            {
+                return themeProfile;
+            }
+
+            if (themeProfile.BasedOn.StartsWith(_themeProtocolHeader))
+            {
+                var path = themeProfile.BasedOn.Substring(_themeProtocolHeader.Length);
+                var baseTheme = ThemeProfileTools.LoadFromContent("Themes/" + path + ".json");
+                return ThemeProfileTools.Merge(baseTheme, themeProfile);
+            }
+            else
+            {
+                var path = Path.IsPathRooted(themeProfile.BasedOn) ? themeProfile.BasedOn : Path.Combine(currentPath, themeProfile.BasedOn);
+                var baseTheme = ValidateBasedOn(ThemeProfileTools.LoadFromFile(path), Path.GetDirectoryName(path));
+                return ThemeProfileTools.Merge(baseTheme, themeProfile);
             }
         }
 
@@ -186,7 +209,7 @@ namespace NeeView
             {
                 if (!File.Exists(Config.Current.Theme.CustomThemeFilePath))
                 {
-                    ThemeProfileTools.SaveFromContent(_darkThemeContentPath, Config.Current.Theme.CustomThemeFilePath);
+                    ThemeProfileTools.SaveFromContent(_customThemeTemplateContentPath, Config.Current.Theme.CustomThemeFilePath);
                 }
 
                 ExternalProcess.Start(Config.Current.Theme.CustomThemeFilePath, null, ExternalProcessAtrtibute.ThrowException);

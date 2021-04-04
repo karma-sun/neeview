@@ -7,7 +7,7 @@ using NeeLaboratory;
 
 namespace NeeView
 {
-    public class ThemeProfile
+    public class ThemeProfile : ICloneable
     {
         public static ThemeProfile Default { get; }
 
@@ -147,6 +147,8 @@ namespace NeeView
 
         public FormatVersion Format { get; set; }
 
+        public string BasedOn { get; set; }
+
         public Dictionary<string, ThemeColor> Colors { get; set; }
 
         public ThemeColor this[string key] { get => Colors[key]; set => Colors[key] = value; }
@@ -226,5 +228,11 @@ namespace NeeView
             }
         }
 
+        public object Clone()
+        {
+            var clone = (ThemeProfile)MemberwiseClone();
+            clone.Colors = new Dictionary<string, ThemeColor>(this.Colors);
+            return clone;
+        }
     }
 }

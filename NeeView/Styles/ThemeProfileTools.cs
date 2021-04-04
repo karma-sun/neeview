@@ -39,6 +39,7 @@ namespace NeeView
         {
             Uri uri = new Uri(contentPath, UriKind.Relative);
             var info = Application.GetContentStream(uri);
+            if (info is null) throw new FileNotFoundException($"No such theme: {contentPath}");
             return Load(info.Stream);
         }
 
@@ -48,6 +49,18 @@ namespace NeeView
             {
                 return Load(fs);
             }
+        }
+
+        public static ThemeProfile Merge(ThemeProfile baseProfile, ThemeProfile overwriteProfile)
+        {
+            var profile = (ThemeProfile)baseProfile.Clone();
+
+            foreach(var pair in overwriteProfile.Colors)
+            {
+                profile[pair.Key] = pair.Value;
+            }
+
+            return profile;
         }
     }
 }

@@ -1,0 +1,7 @@
+{
+  "Format": "NeeView.Theme/1.0.0",
+  "BasedOn": "themes://DarkTheme",
+  "Colors": {
+    "Control.Accent": "Orange"
+  }
+}

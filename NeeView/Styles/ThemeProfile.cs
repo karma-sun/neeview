@@ -83,6 +83,7 @@ namespace NeeView
             "SidePanel.Note",
             "SidePanel.Separator",
             "SidePanel.Splitter",
+            "SidePanel.List.Separator",
 
             "MenuBar.Background",
             "MenuBar.Foreground",
@@ -203,11 +204,6 @@ namespace NeeView
 
         private Color GetDefaultColor(string key, double opacity)
         {
-            if (!(Colors.ContainsKey(key) ||  Keys.Contains(key)))
-            {
-                throw new FormatException($"No such key: {key}");
-            }
-
             var tokens = key.Split('.');
             if (tokens.Length < 2) throw new FormatException($"Wrong format: {key}");
 
@@ -222,6 +218,10 @@ namespace NeeView
                     return GetColor("Window." + role, opacity);
 
                 default:
+                    if (!(Colors.ContainsKey(key) || Keys.Contains(key)))
+                    {
+                        throw new FormatException($"No such key: {key}");
+                    }
                     return GetColor(name + ".Background", opacity);
             }
         }

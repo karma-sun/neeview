@@ -71,6 +71,7 @@
     "SidePanel.Note": "Control.GrayText",
     "SidePanel.Separator": "Control.Border",
     "SidePanel.Splitter": "Control.Border",
+    "SidePanel.List.Separator": "#00FFFFFF",
 
     "MenuBar.Background": "",
     "MenuBar.Foreground": "",

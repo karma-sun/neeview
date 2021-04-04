@@ -71,6 +71,7 @@
     "SidePanel.Note": "Control.GrayText",
     "SidePanel.Separator": "#FFC0C0C0",
     "SidePanel.Splitter": "SideBar.Background",
+    "SidePanel.List.Separator": "#22888888",
 
     "MenuBar.Background": "#FFD8D8D8",
     "MenuBar.Foreground": "",
@@ -95,8 +96,8 @@
     "Notification.Background": "#88000000",
     "Notification.Foreground": "#FFFFFFFF",
 
-    "Thumbnail.Background": "#FF404040",
-    "Thumbnail.Foreground": "#FF808080",
+    "Thumbnail.Background": "#FFA0A0A0",
+    "Thumbnail.Foreground": "#FFC0C0C0",
 
     "SelectedMark.Foreground": "Control.Accent",
     "CheckIcon.Foreground": "Window.Foreground",

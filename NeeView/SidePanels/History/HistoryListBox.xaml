@@ -48,34 +48,50 @@
 
         <DataTemplate x:Key="NormalTemplate">
             <Grid MinHeight="20">
-                <TextBlock Style="{StaticResource NormalNameStyle}" Margin="5,2" />
+                <TextBlock Style="{StaticResource NormalNameStyle}" Margin="5,1" />
             </Grid>
         </DataTemplate>
 
         <DataTemplate x:Key="ContentTemplace">
-            <Border Margin="0,1,0,0" BorderBrush="#22888888" BorderThickness="0,0,0,1">
-                <DockPanel Margin="2">
-                    <DockPanel>
-                        <local:PanelListContentImage Thumbnail="{Binding Thumbnail}" />
-                        <StackPanel VerticalAlignment="Center">
-                            <TextBlock x:Name="Place" Style="{StaticResource NoteTextStyle}" Text="{Binding ArchivePage.Entry, Converter={StaticResource ArchiveEntryToDecoratePlaceNameConverter}}" />
-                            <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource ContentNameStyle}" />
-                        </StackPanel>
-                    </DockPanel>
+            <DockPanel Margin="2">
+                <DockPanel>
+                    <local:PanelListContentImage Thumbnail="{Binding Thumbnail}" />
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock x:Name="Place" Style="{StaticResource NoteTextStyle}" Text="{Binding ArchivePage.Entry, Converter={StaticResource ArchiveEntryToDecoratePlaceNameConverter}}" />
+                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource ContentNameStyle}" />
+                    </StackPanel>
                 </DockPanel>
-            </Border>
+            </DockPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="BannerTemplate">
-            <Border Margin="0,0" BorderBrush="#22888888" BorderThickness="0,0,0,1">
-                <DockPanel Margin="0" HorizontalAlignment="Stretch" LastChildFill="False">
-                    <DockPanel DockPanel.Dock="Bottom" Margin="2">
-                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource BannerrNameStyle}" />
-                    </DockPanel>
-                    <local:PanelListBannerImage Thumbnail="{Binding Thumbnail}" />
+            <DockPanel Margin="0" HorizontalAlignment="Stretch" LastChildFill="False">
+                <DockPanel DockPanel.Dock="Bottom" Margin="2">
+                    <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource BannerrNameStyle}" />
                 </DockPanel>
-            </Border>
+                <local:PanelListBannerImage Thumbnail="{Binding Thumbnail}" />
+            </DockPanel>
         </DataTemplate>
+
+        <Style x:Key="ListBoxItemStyle" TargetType="ListBoxItem" BasedOn="{StaticResource NVListBoxItem}">
+            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="HistoryListItem_MouseLeftButtonDown" />
+            <EventSetter Event="PreviewMouseDoubleClick" Handler="HistoryListItem_MouseDoubleClick" />
+            <EventSetter Event="KeyDown" Handler="HistoryListItem_KeyDown" />
+            <Setter Property="FocusVisualStyle" Value="{StaticResource NVListItemFocusVisual}" />
+            <Setter Property="ContextMenu">
+                <Setter.Value>
+                    <ContextMenu>
+                        <MenuItem Header="{x:Static properties:Resources.HistoryItem_Menu_OpenBook}" Command="{x:Static local:HistoryListBox.OpenBookCommand}" />
+                        <Separator />
+                        <MenuItem Header="{x:Static properties:Resources.HistoryItem_Menu_Delete}" Command="{x:Static local:HistoryListBox.RemoveCommand}" />
+                    </ContextMenu>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ListBoxItemBorderStyle" TargetType="ListBoxItem" BasedOn="{StaticResource ListBoxItemStyle}">
+            <Setter Property="BorderBrush" Value="{DynamicResource SidePanel.List.Separator}" />
+        </Style>
 
     </UserControl.Resources>
 
@@ -89,34 +105,19 @@
         <ListBox.Style>
             <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">
                 <Setter Property="ItemTemplate" Value="{StaticResource NormalTemplate}" />
+                <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxItemStyle}" />
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding Source={x:Static local:Config.Current}, Path=History.PanelListItemStyle}" Value="Content">
                         <Setter Property="ItemTemplate" Value="{StaticResource ContentTemplace}" />
+                        <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxItemBorderStyle}" />
                     </DataTrigger>
                     <DataTrigger Binding="{Binding Source={x:Static local:Config.Current}, Path=History.PanelListItemStyle}" Value="Banner">
                         <Setter Property="ItemTemplate" Value="{StaticResource BannerTemplate}" />
+                        <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxItemBorderStyle}" />
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
         </ListBox.Style>
-
-        <ListBox.ItemContainerStyle>
-            <Style TargetType="ListBoxItem" BasedOn="{StaticResource NVListBoxItem}">
-                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="HistoryListItem_MouseLeftButtonDown" />
-                <EventSetter Event="PreviewMouseDoubleClick" Handler="HistoryListItem_MouseDoubleClick" />
-                <EventSetter Event="KeyDown" Handler="HistoryListItem_KeyDown" />
-                <Setter Property="FocusVisualStyle" Value="{StaticResource NVListItemFocusVisual}" />
-                <Setter Property="ContextMenu">
-                    <Setter.Value>
-                        <ContextMenu>
-                            <MenuItem Header="{x:Static properties:Resources.HistoryItem_Menu_OpenBook}" Command="{x:Static local:HistoryListBox.OpenBookCommand}" />
-                            <Separator />
-                            <MenuItem Header="{x:Static properties:Resources.HistoryItem_Menu_Delete}" Command="{x:Static local:HistoryListBox.RemoveCommand}" />
-                        </ContextMenu>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-        </ListBox.ItemContainerStyle>
 
     </nw:ListBoxExteded>
 

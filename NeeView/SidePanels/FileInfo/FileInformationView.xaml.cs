@@ -171,7 +171,18 @@ namespace NeeView
                 return;
             }
 
-            var isSuccess = await Task.Run(() => ClipboardUtility.SetData(e.Data, pages, new CopyFileCommandParameter() { MultiPagePolicy = MultiPagePolicy.All }, token));
+            var isSuccess = await Task.Run(() =>
+            {
+                try
+                {
+                    return ClipboardUtility.SetData(e.Data, pages, new CopyFileCommandParameter() { MultiPagePolicy = MultiPagePolicy.All }, token);
+                }
+                catch (OperationCanceledException)
+                {
+                    return false;
+                }
+            });
+
             if (!isSuccess)
             {
                 e.Cancel = true;

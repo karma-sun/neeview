@@ -17868,51 +17868,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Toggle title bar に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleVisibleTitleBarCommand {
-            get {
-                return ResourceManager.GetString("ToggleVisibleTitleBarCommand", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Title bar に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleVisibleTitleBarCommand_Menu {
-            get {
-                return ResourceManager.GetString("ToggleVisibleTitleBarCommand.Menu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Title bar OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleVisibleTitleBarCommand_Off {
-            get {
-                return ResourceManager.GetString("ToggleVisibleTitleBarCommand.Off", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Title bar に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleVisibleTitleBarCommand_On {
-            get {
-                return ResourceManager.GetString("ToggleVisibleTitleBarCommand.On", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle visible / hide of window title bar. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleVisibleTitleBarCommand_Remarks {
-            get {
-                return ResourceManager.GetString("ToggleVisibleTitleBarCommand.Remarks", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Maximize window に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleWindowMaximizeCommand {
@@ -19057,15 +19012,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Show title bar に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string WindowConfig_IsCaptionVisible {
-            get {
-                return ResourceManager.GetString("WindowConfig.IsCaptionVisible", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Restore Aero Snap window placement に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WindowConfig_IsRestoreAeroSnapPlacement {
@@ -19084,7 +19030,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Gap adjustment of window maximization with title bar hidden (pixel) に類似しているローカライズされた文字列を検索します。
+        ///   Gap adjustment of window maximization (pixel) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WindowConfig_MaximizeWindowGapWidth {
             get {
@@ -19093,7 +19039,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   If there is a gap in maximizing the window with the title bar hidden, adjust with this value. に類似しているローカライズされた文字列を検索します。
+        ///   If there is a gap in maximizing the window, adjust with this value. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WindowConfig_MaximizeWindowGapWidth_Remarks {
             get {
@@ -19116,15 +19062,6 @@ namespace NeeView.Properties {
         public static string WindowConfig_State {
             get {
                 return ResourceManager.GetString("WindowConfig.State", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Window frame with title bar hidden に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string WindowConfig_WindowChromeFrame {
-            get {
-                return ResourceManager.GetString("WindowConfig.WindowChromeFrame", resourceCulture);
             }
         }
         
@@ -20146,11 +20083,74 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Toggle title bar に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string x_ToggleVisibleTitleBarCommand {
+            get {
+                return ResourceManager.GetString("x.ToggleVisibleTitleBarCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Title bar に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string x_ToggleVisibleTitleBarCommand_Menu {
+            get {
+                return ResourceManager.GetString("x.ToggleVisibleTitleBarCommand.Menu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Title bar OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string x_ToggleVisibleTitleBarCommand_Off {
+            get {
+                return ResourceManager.GetString("x.ToggleVisibleTitleBarCommand.Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Title bar に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string x_ToggleVisibleTitleBarCommand_On {
+            get {
+                return ResourceManager.GetString("x.ToggleVisibleTitleBarCommand.On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle visible / hide of window title bar. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string x_ToggleVisibleTitleBarCommand_Remarks {
+            get {
+                return ResourceManager.GetString("x.ToggleVisibleTitleBarCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Minimum scrolling distance に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string x_ViewScrollNTypeCommandParameter_MinScroll {
             get {
                 return ResourceManager.GetString("x.ViewScrollNTypeCommandParameter.MinScroll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Show title bar に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string x_WindowConfig_IsCaptionVisible {
+            get {
+                return ResourceManager.GetString("x.WindowConfig.IsCaptionVisible", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Window frame with title bar hidden に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string x_WindowConfig_WindowChromeFrame {
+            get {
+                return ResourceManager.GetString("x.WindowConfig.WindowChromeFrame", resourceCulture);
             }
         }
         

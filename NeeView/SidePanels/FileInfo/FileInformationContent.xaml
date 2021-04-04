@@ -30,7 +30,7 @@
         </Style>
 
         <DataTemplate x:Key="PropertyItemTemplate">
-            <Grid Margin="5,1" HorizontalAlignment="Stretch">
+            <Grid Margin="5,0" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="{Binding Source={x:Static local:Config.Current}, Path=Information.PropertyHeaderWidth, Mode=TwoWay}" />
                     <ColumnDefinition Width="*" MinWidth="300" />

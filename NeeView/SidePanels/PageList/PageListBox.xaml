@@ -97,14 +97,14 @@
 
         <Style x:Key="VerticalSelectedStyle" TargetType="Rectangle">
             <Setter Property="Width" Value="4"/>
-            <Setter Property="Margin" Value="0,-1,0,0"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
             <Setter Property="Fill" Value="{DynamicResource SelectedMark.Foreground}"/>
             <Setter Property="Visibility" Value="{Binding IsVisibled, Converter={StaticResource BooleanToVisibilityHiddenConverter}}"/>
         </Style>
 
         <Style x:Key="HorizontalSelectedStyle" TargetType="Rectangle">
             <Setter Property="Height" Value="4"/>
-            <Setter Property="Margin" Value="0,0,0,1"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
             <Setter Property="Fill" Value="{DynamicResource SelectedMark.Foreground}"/>
             <Setter Property="Visibility" Value="{Binding IsVisibled, Converter={StaticResource BooleanToVisibilityHiddenConverter}}"/>
         </Style>
@@ -130,47 +130,43 @@
                 <Rectangle Style="{StaticResource VerticalSelectedStyle}" />
                 <Image DockPanel.Dock="Right" Style="{StaticResource FolderIconStyle}" Margin="1" />
                 <Image DockPanel.Dock="Right" Style="{StaticResource PagemarkIconStyle}" Margin="1" />
-                <TextBlock Style="{StaticResource NormalNameStyle}" Margin="5,2" />
+                <TextBlock Style="{StaticResource NormalNameStyle}" Margin="5,1" />
             </DockPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="ContentTemplate">
             <DockPanel>
-                <Rectangle Style="{StaticResource VerticalSelectedStyle}"/>
-                <Border Margin="0,1,0,0" BorderBrush="#22888888" BorderThickness="0,0,0,1">
-                    <DockPanel Margin="2" LastChildFill="False">
-                        <local:PanelListContentImage Thumbnail="{Binding Thumbnail}"/>
-                        <Image DockPanel.Dock="Right" Style="{StaticResource FolderIconStyle}"/>
-                        <Image DockPanel.Dock="Right" Style="{StaticResource PagemarkIconStyle}"/>
-                        <StackPanel VerticalAlignment="Center">
-                            <TextBlock Style="{StaticResource NoteTextStyle}" Text="{Binding Converter={StaticResource PageToNoteConverter}}"/>
-                            <TextBlock Style="{StaticResource ContentNameStyle}" Margin="5,0"/>
-                        </StackPanel>
-                    </DockPanel>
-                </Border>
+                <Rectangle Style="{StaticResource VerticalSelectedStyle}" />
+                <DockPanel Margin="2" LastChildFill="False">
+                    <local:PanelListContentImage Thumbnail="{Binding Thumbnail}" />
+                    <Image DockPanel.Dock="Right" Style="{StaticResource FolderIconStyle}" />
+                    <Image DockPanel.Dock="Right" Style="{StaticResource PagemarkIconStyle}" />
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Style="{StaticResource NoteTextStyle}" Text="{Binding Converter={StaticResource PageToNoteConverter}}" />
+                        <TextBlock Style="{StaticResource ContentNameStyle}" Margin="5,0" />
+                    </StackPanel>
+                </DockPanel>
             </DockPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="BannerTemplate">
             <DockPanel>
-                <Rectangle Style="{StaticResource VerticalSelectedStyle}"/>
-                <Border Margin="0,0" BorderBrush="#22888888" BorderThickness="0,0,0,1">
-                    <DockPanel Margin="0,0" HorizontalAlignment="Stretch" LastChildFill="False">
-                        <DockPanel DockPanel.Dock="Bottom" Margin="2" >
-                            <Image DockPanel.Dock="Right" Style="{StaticResource FolderIconStyle}"/>
-                            <Image DockPanel.Dock="Right" Style="{StaticResource PagemarkIconStyle}"/>
-                            <TextBlock Style="{StaticResource BannerrNameStyle}"/>
-                        </DockPanel>
-                        <local:PanelListBannerImage Thumbnail="{Binding Thumbnail}"/>
+                <Rectangle Style="{StaticResource VerticalSelectedStyle}" />
+                <DockPanel Margin="0,0" HorizontalAlignment="Stretch" LastChildFill="False">
+                    <DockPanel DockPanel.Dock="Bottom" Margin="2">
+                        <Image DockPanel.Dock="Right" Style="{StaticResource FolderIconStyle}" />
+                        <Image DockPanel.Dock="Right" Style="{StaticResource PagemarkIconStyle}" />
+                        <TextBlock Style="{StaticResource BannerrNameStyle}" />
                     </DockPanel>
-                </Border>
+                    <local:PanelListBannerImage Thumbnail="{Binding Thumbnail}" />
+                </DockPanel>
             </DockPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="ThumbnailTemplate">
             <StackPanel Margin="5" Width="{Binding Source={x:Static local:Config.Current}, Path=Panels.ThumbnailItemProfile.ShapeWidth}" ToolTip="{Binding EntryFullName}" ToolTipService.InitialShowDelay="1000">
                 <local:PanelListThumbnailImage Thumbnail="{Binding Thumbnail}" />
-                <Rectangle DockPanel.Dock="Bottom" Style="{StaticResource HorizontalSelectedStyle}" Margin="-5,0,-5,1"/>
+                <Rectangle DockPanel.Dock="Bottom" Style="{StaticResource HorizontalSelectedStyle}" Margin="-5,0,-5,2"/>
                 <DockPanel>
                     <Image DockPanel.Dock="Right" Style="{StaticResource FolderIconStyle}" VerticalAlignment="Top"/>
                     <Image DockPanel.Dock="Right" Style="{StaticResource PagemarkIconStyle}" VerticalAlignment="Top"/>
@@ -178,6 +174,27 @@
                 </DockPanel>
             </StackPanel>
         </DataTemplate>
+
+        <Style x:Key="ListBoxItemStyle" TargetType="ListBoxItem" BasedOn="{StaticResource NVListBoxItem}">
+            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="PageListItem_MouseLeftButtonDown" />
+            <EventSetter Event="MouseDoubleClick" Handler="PageListItem_MouseDoubleClick" />
+            <EventSetter Event="ContextMenuOpening" Handler="PageListItem_ContextMenuOpening" />
+            <Setter Property="Padding" Value="0,0" />
+            <Setter Property="FocusVisualStyle" Value="{StaticResource NVListItemFocusVisual}" />
+            <Setter Property="ContextMenu">
+                <Setter.Value>
+                    <ContextMenu />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ListBoxItemBorderStyle" TargetType="ListBoxItem" BasedOn="{StaticResource ListBoxItemStyle}">
+            <Setter Property="BorderBrush" Value="{DynamicResource SidePanel.List.Separator}" />
+        </Style>
+
+        <Style x:Key="ListBoxItemThumbnailStyle" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxItemStyle}">
+            <Setter Property="Margin" Value="0" />
+        </Style>
 
     </UserControl.Resources>
 
@@ -208,19 +225,23 @@
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding Source={x:Static local:Config.Current}, Path=PageList.PanelListItemStyle}" Value="Normal">
                         <Setter Property="ItemTemplate" Value="{StaticResource NormalTemplate}"/>
+                        <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxItemStyle}" />
                     </DataTrigger>
                     <DataTrigger Binding="{Binding Source={x:Static local:Config.Current}, Path=PageList.PanelListItemStyle}" Value="Content">
                         <Setter Property="ItemTemplate" Value="{StaticResource ContentTemplate}"/>
+                        <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxItemBorderStyle}" />
                     </DataTrigger>
                     <DataTrigger Binding="{Binding Source={x:Static local:Config.Current}, Path=PageList.PanelListItemStyle}" Value="Banner">
                         <Setter Property="ItemTemplate" Value="{StaticResource BannerTemplate}"/>
+                        <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxItemBorderStyle}" />
                     </DataTrigger>
                     <DataTrigger Binding="{Binding Source={x:Static local:Config.Current}, Path=PageList.PanelListItemStyle}" Value="Thumbnail">
                         <Setter Property="ItemTemplate" Value="{StaticResource ThumbnailTemplate}"/>
+                        <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxItemThumbnailStyle}" />
                         <Setter Property="ItemsPanel">
                             <Setter.Value>
                                 <ItemsPanelTemplate>
-                                    <osc:VirtualizingWrapPanel IsItemsHost="True" />
+                                    <osc:VirtualizingWrapPanel IsItemsHost="True" MouseWheelRate="{Binding Source={x:Static local:Config.Current}, Path=Panels.MouseWheelSpeedRate}" />
                                 </ItemsPanelTemplate>
                             </Setter.Value>
                         </Setter>
@@ -228,21 +249,6 @@
                 </Style.Triggers>
             </Style>
         </ListBox.Style>
-
-        <ListBox.ItemContainerStyle>
-            <Style TargetType="ListBoxItem" BasedOn="{StaticResource NVListBoxItem}">
-                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="PageListItem_MouseLeftButtonDown"/>
-                <EventSetter Event="MouseDoubleClick" Handler="PageListItem_MouseDoubleClick"/>
-                <EventSetter Event="ContextMenuOpening" Handler="PageListItem_ContextMenuOpening" />
-                <Setter Property="Padding" Value="2,0"/>
-                <Setter Property="FocusVisualStyle" Value="{StaticResource NVListItemFocusVisual}"/>
-                <Setter Property="ContextMenu">
-                    <Setter.Value>
-                        <ContextMenu />
-                    </Setter.Value>
-                </Setter>
-            </Style>
-        </ListBox.ItemContainerStyle>
 
     </nw:ListBoxExteded>
 

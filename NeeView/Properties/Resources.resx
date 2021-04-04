@@ -5461,19 +5461,19 @@ $Name is the main page (the smaller page number) when displaying 2 pages.</value
   <data name="ToggleVisiblePageSliderCommand.Remarks" xml:space="preserve">
     <value>Toggle visible / hide of the slider.</value>
   </data>
-  <data name="ToggleVisibleTitleBarCommand" xml:space="preserve">
+  <data name="x.ToggleVisibleTitleBarCommand" xml:space="preserve">
     <value>Toggle title bar</value>
   </data>
-  <data name="ToggleVisibleTitleBarCommand.Menu" xml:space="preserve">
+  <data name="x.ToggleVisibleTitleBarCommand.Menu" xml:space="preserve">
     <value>Title bar</value>
   </data>
-  <data name="ToggleVisibleTitleBarCommand.Off" xml:space="preserve">
+  <data name="x.ToggleVisibleTitleBarCommand.Off" xml:space="preserve">
     <value>Title bar OFF</value>
   </data>
-  <data name="ToggleVisibleTitleBarCommand.On" xml:space="preserve">
+  <data name="x.ToggleVisibleTitleBarCommand.On" xml:space="preserve">
     <value>Title bar</value>
   </data>
-  <data name="ToggleVisibleTitleBarCommand.Remarks" xml:space="preserve">
+  <data name="x.ToggleVisibleTitleBarCommand.Remarks" xml:space="preserve">
     <value>Toggle visible / hide of window title bar.</value>
   </data>
   <data name="ToggleWindowMaximizeCommand" xml:space="preserve">
@@ -5849,7 +5849,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="WindowConfig.IsCaptionEmulateInFullScreen.Remarks" xml:space="preserve">
     <value>Accepts double-click and drag operations in the title bar during full screen.</value>
   </data>
-  <data name="WindowConfig.IsCaptionVisible" xml:space="preserve">
+  <data name="x.WindowConfig.IsCaptionVisible" xml:space="preserve">
     <value>Show title bar</value>
   </data>
   <data name="WindowConfig.IsRestoreAeroSnapPlacement" xml:space="preserve">
@@ -5859,10 +5859,10 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>Window topmost</value>
   </data>
   <data name="WindowConfig.MaximizeWindowGapWidth" xml:space="preserve">
-    <value>Gap adjustment of window maximization with title bar hidden (pixel)</value>
+    <value>Gap adjustment of window maximization (pixel)</value>
   </data>
   <data name="WindowConfig.MaximizeWindowGapWidth.Remarks" xml:space="preserve">
-    <value>If there is a gap in maximizing the window with the title bar hidden, adjust with this value.</value>
+    <value>If there is a gap in maximizing the window, adjust with this value.</value>
   </data>
   <data name="WindowConfig.MouseActivateAndEat" xml:space="preserve">
     <value>Disable mouse data when activating window with mouse</value>
@@ -5870,7 +5870,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="WindowConfig.State" xml:space="preserve">
     <value>Window state</value>
   </data>
-  <data name="WindowConfig.WindowChromeFrame" xml:space="preserve">
+  <data name="x.WindowConfig.WindowChromeFrame" xml:space="preserve">
     <value>Window frame with title bar hidden</value>
   </data>
   <data name="WindowSettingTitle" xml:space="preserve">

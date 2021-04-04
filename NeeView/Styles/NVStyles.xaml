@@ -276,14 +276,20 @@
     <Style x:Key="NVListBoxItem" TargetType="{x:Type ListBoxItem}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource NVListItemFocusVisual}" />
         <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0,0,0,1" />
+        <Setter Property="Margin" Value="0,-1,0,0" />
         <Setter Property="Padding" Value="0,0" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                    <Grid>
-                        <Border Name="Bd" Background="Transparent" BorderThickness="1" SnapsToDevicePixels="true" Margin="0,-1,0,0"/>
-                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Margin="{TemplateBinding Padding}"/>
+                    <Grid Margin="{TemplateBinding Margin}">
+                        <Border Name="Separator" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                                SnapsToDevicePixels="true" />
+                        <Border Name="Bd" BorderThickness="1" SnapsToDevicePixels="true">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Margin="{TemplateBinding Padding}" />
+                        </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
@@ -871,7 +877,9 @@
         <Setter Property="VerticalContentAlignment" Value="Top" />
         <Setter Property="Padding" Value="0,0" />
         <Setter Property="FocusVisualStyle" Value="{StaticResource TreeViewItemFocusVisual}" />
-
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0,0,0,1" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TreeViewItem}">
@@ -879,18 +887,21 @@
                         <local:TreeViewIndentConverter Length="19" x:Key="indentConverter" />
                     </ControlTemplate.Resources>
                     <StackPanel>
-                        <Grid>
-                            <Border Name="Bd" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Margin="0,-1,0,0" />
-                            <Grid Margin="{TemplateBinding Padding}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="{Binding Converter={StaticResource indentConverter}, RelativeSource={RelativeSource TemplatedParent}}" />
-                                    <ColumnDefinition Width="19" />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <ToggleButton x:Name="Expander" Grid.Column="1" Style="{StaticResource ExpandCollapseToggleStyle}"
-                                        IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource TemplatedParent}}" ClickMode="Press" />
-                                <ContentPresenter x:Name="PART_Header" Grid.Column="2" ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
-                            </Grid>
+                        <Grid Margin="0,-1,0,0">
+                            <Border Name="Separator" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                                    SnapsToDevicePixels="True" />
+                            <Border Name="Bd" BorderThickness="1" SnapsToDevicePixels="True">
+                                <Grid Margin="{TemplateBinding Padding}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="{Binding Converter={StaticResource indentConverter}, RelativeSource={RelativeSource TemplatedParent}}" />
+                                        <ColumnDefinition Width="19" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <ToggleButton x:Name="Expander" Grid.Column="1" Style="{StaticResource ExpandCollapseToggleStyle}"
+                                            IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource TemplatedParent}}" ClickMode="Press" />
+                                    <ContentPresenter x:Name="PART_Header" Grid.Column="2" ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                                </Grid>
+                            </Border>
                         </Grid>
                         <ItemsPresenter x:Name="ItemsHost" />
                     </StackPanel>

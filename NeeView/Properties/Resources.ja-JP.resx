@@ -5464,19 +5464,19 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
   <data name="ToggleVisiblePageSliderCommand.Remarks" xml:space="preserve">
     <value>スライダーの表示/非表示を切り替えます。</value>
   </data>
-  <data name="ToggleVisibleTitleBarCommand" xml:space="preserve">
+  <data name="x.ToggleVisibleTitleBarCommand" xml:space="preserve">
     <value>タイトル バー表示/非表示</value>
   </data>
-  <data name="ToggleVisibleTitleBarCommand.Menu" xml:space="preserve">
+  <data name="x.ToggleVisibleTitleBarCommand.Menu" xml:space="preserve">
     <value>タイトル バー</value>
   </data>
-  <data name="ToggleVisibleTitleBarCommand.Off" xml:space="preserve">
+  <data name="x.ToggleVisibleTitleBarCommand.Off" xml:space="preserve">
     <value>タイトル バーを消す</value>
   </data>
-  <data name="ToggleVisibleTitleBarCommand.On" xml:space="preserve">
+  <data name="x.ToggleVisibleTitleBarCommand.On" xml:space="preserve">
     <value>タイトル バー表示する</value>
   </data>
-  <data name="ToggleVisibleTitleBarCommand.Remarks" xml:space="preserve">
+  <data name="x.ToggleVisibleTitleBarCommand.Remarks" xml:space="preserve">
     <value>ウィンドウ タイトル バーの表示/非表示を切り替えます。</value>
   </data>
   <data name="ToggleWindowMaximizeCommand" xml:space="preserve">
@@ -5852,7 +5852,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="WindowConfig.IsCaptionEmulateInFullScreen.Remarks" xml:space="preserve">
     <value>フルスクリーン中に、タイトル バーでのダブルクリックやドラッグの操作を受け付けるようにします。</value>
   </data>
-  <data name="WindowConfig.IsCaptionVisible" xml:space="preserve">
+  <data name="x.WindowConfig.IsCaptionVisible" xml:space="preserve">
     <value>タイトル バーを表示</value>
   </data>
   <data name="WindowConfig.IsRestoreAeroSnapPlacement" xml:space="preserve">
@@ -5862,10 +5862,10 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>ウィンドウを常に手前に表示</value>
   </data>
   <data name="WindowConfig.MaximizeWindowGapWidth" xml:space="preserve">
-    <value>タイトル バー非表示でのウィンドウ最大化のギャップ調整 (ピクセル)</value>
+    <value>ウィンドウ最大化のギャップ調整 (ピクセル)</value>
   </data>
   <data name="WindowConfig.MaximizeWindowGapWidth.Remarks" xml:space="preserve">
-    <value>タイトル バーを非表示にしたときのウィンドウ最大化で隙間ができる場合の調整用です。</value>
+    <value>ウィンドウ最大化で隙間ができる場合の調整用です。</value>
   </data>
   <data name="WindowConfig.MouseActivateAndEat" xml:space="preserve">
     <value>マウスでウィンドウをアクティブ化したときのマウス操作を無効にする</value>
@@ -5873,7 +5873,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="WindowConfig.State" xml:space="preserve">
     <value>ウィンドウ状態</value>
   </data>
-  <data name="WindowConfig.WindowChromeFrame" xml:space="preserve">
+  <data name="x.WindowConfig.WindowChromeFrame" xml:space="preserve">
     <value>タイトル バー非表示でのウィンドウ枠</value>
   </data>
   <data name="WindowSettingTitle" xml:space="preserve">

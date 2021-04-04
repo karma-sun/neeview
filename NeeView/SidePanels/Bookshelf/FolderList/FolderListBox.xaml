@@ -81,14 +81,14 @@
 
         <Style x:Key="VerticalSelectedStyle" TargetType="Rectangle">
             <Setter Property="Width" Value="4" />
-            <Setter Property="Margin" Value="0,-1,0,0" />
+            <Setter Property="Margin" Value="0,0,0,0" />
             <Setter Property="Fill" Value="{DynamicResource SelectedMark.Foreground}" />
             <Setter Property="Visibility" Value="{Binding IsVisibled, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
         </Style>
 
         <Style x:Key="HorizontalSelectedStyle" TargetType="Rectangle">
             <Setter Property="Height" Value="4" />
-            <Setter Property="Margin" Value="0,0,0,1" />
+            <Setter Property="Margin" Value="0,0,0,0" />
             <Setter Property="Fill" Value="{DynamicResource SelectedMark.Foreground}" />
             <Setter Property="Visibility" Value="{Binding IsVisibled, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
         </Style>
@@ -97,45 +97,41 @@
             <DockPanel LastChildFill="False" MinHeight="20">
                 <Rectangle Style="{StaticResource VerticalSelectedStyle}" />
                 <local:FolderListIcon DockPanel.Dock="Right" Margin="1" />
-                <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource NormalNameStyle}" Margin="5,2" />
+                <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource NormalNameStyle}" Margin="5,1" />
             </DockPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="ContentTemplate">
             <DockPanel>
-                <Rectangle Style="{StaticResource VerticalSelectedStyle}"/>
-                <Border Margin="0,1,0,0" BorderBrush="#22888888" BorderThickness="0,0,0,1">
-                    <DockPanel LastChildFill="False" Margin="2">
-                        <local:FolderListIcon DockPanel.Dock="Right" />
-                        <local:PanelListContentImage Thumbnail="{Binding Thumbnail}"/>
-                        <StackPanel VerticalAlignment="Center">
-                            <TextBlock Style="{StaticResource NoteTextStyle}">
-                                <TextBlock.Text>
-                                    <MultiBinding Converter="{StaticResource FolderItemToNoteConverter}">
-                                        <Binding />
-                                        <Binding Path="DataContext.FolderOrder" RelativeSource="{RelativeSource FindAncestor, AncestorType=ListBox}"/>
-                                    </MultiBinding>
-                                </TextBlock.Text>
-                            </TextBlock>
-                            <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource ContentNameStyle}"/>
-                        </StackPanel>
-                    </DockPanel>
-                </Border>
+                <Rectangle Style="{StaticResource VerticalSelectedStyle}" />
+                <DockPanel LastChildFill="False" Margin="2">
+                    <local:FolderListIcon DockPanel.Dock="Right" />
+                    <local:PanelListContentImage Thumbnail="{Binding Thumbnail}" />
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Style="{StaticResource NoteTextStyle}">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource FolderItemToNoteConverter}">
+                                    <Binding />
+                                    <Binding Path="DataContext.FolderOrder" RelativeSource="{RelativeSource FindAncestor, AncestorType=ListBox}" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource ContentNameStyle}" />
+                    </StackPanel>
+                </DockPanel>
             </DockPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="BannerTemplate">
             <DockPanel>
                 <Rectangle Style="{StaticResource VerticalSelectedStyle}" />
-                <Border Margin="0,0" BorderBrush="#22888888" BorderThickness="0,0,0,1">
-                    <DockPanel Margin="0,0" HorizontalAlignment="Stretch" LastChildFill="False">
-                        <DockPanel DockPanel.Dock="Bottom" Margin="2">
-                            <local:FolderListIcon DockPanel.Dock="Right" />
-                            <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource BannerNameStyle}" Margin="0" />
-                        </DockPanel>
-                        <local:PanelListBannerImage Thumbnail="{Binding Thumbnail}" />
+                <DockPanel Margin="0,0" HorizontalAlignment="Stretch" LastChildFill="False">
+                    <DockPanel DockPanel.Dock="Bottom" Margin="2">
+                        <local:FolderListIcon DockPanel.Dock="Right" />
+                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource BannerNameStyle}" Margin="0" />
                     </DockPanel>
-                </Border>
+                    <local:PanelListBannerImage Thumbnail="{Binding Thumbnail}" />
+                </DockPanel>
             </DockPanel>
         </DataTemplate>
 
@@ -149,6 +145,34 @@
                 </DockPanel>
             </StackPanel>
         </DataTemplate>
+
+        <Style x:Key="ListBoxItemStyle" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource NVListBoxItem}">
+            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="FolderListItem_MouseLeftButtonDown" />
+            <EventSetter Event="PreviewMouseDoubleClick" Handler="FolderListItem_MouseDoubleClick" />
+            <EventSetter Event="KeyDown" Handler="FolderListItem_KeyDown" />
+            <EventSetter Event="PreviewMouseDown" Handler="FolderListItem_MouseDown" />
+            <EventSetter Event="PreviewMouseUp" Handler="FolderListItem_MouseUp" />
+            <EventSetter Event="PreviewMouseMove" Handler="FolderListItem_MouseMove" />
+            <EventSetter Event="ContextMenuOpening" Handler="FolderListItem_ContextMenuOpening" />
+            <Setter Property="FocusVisualStyle" Value="{StaticResource NVListItemFocusVisual}" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="ContextMenu">
+                <Setter.Value>
+                    <ContextMenu />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ListBoxItemBorderStyle" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxItemStyle}">
+            <Setter Property="BorderBrush" Value="{DynamicResource SidePanel.List.Separator}" />
+        </Style>
+
+        <Style x:Key="ListBoxItemThumbnailStyle" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxItemStyle}">
+            <Setter Property="Margin" Value="0" />
+        </Style>
 
     </UserControl.Resources>
 
@@ -186,19 +210,23 @@
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Normal">
                             <Setter Property="ItemTemplate" Value="{StaticResource NormalTemplate}"/>
+                            <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxItemStyle}" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Content">
                             <Setter Property="ItemTemplate" Value="{StaticResource ContentTemplate}"/>
+                            <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxItemBorderStyle}" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Banner">
                             <Setter Property="ItemTemplate" Value="{StaticResource BannerTemplate}"/>
+                            <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxItemBorderStyle}" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Thumbnail">
                             <Setter Property="ItemTemplate" Value="{StaticResource ThumbnailTemplate}"/>
+                            <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxItemThumbnailStyle}" />
                             <Setter Property="ItemsPanel">
                                 <Setter.Value>
                                     <ItemsPanelTemplate>
-                                        <osc:VirtualizingWrapPanel IsItemsHost="True" MouseWheelRate="{Binding Source={x:Static local:Config.Current}, Path=Panels.MouseWheelSpeedRate}"/>
+                                        <osc:VirtualizingWrapPanel IsItemsHost="True" MouseWheelRate="{Binding Source={x:Static local:Config.Current}, Path=Panels.MouseWheelSpeedRate}" />
                                     </ItemsPanelTemplate>
                                 </Setter.Value>
                             </Setter>
@@ -206,28 +234,6 @@
                     </Style.Triggers>
                 </Style>
             </ListBox.Style>
-
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource NVListBoxItem}">
-                    <EventSetter Event="PreviewMouseLeftButtonDown" Handler="FolderListItem_MouseLeftButtonDown"/>
-                    <EventSetter Event="PreviewMouseDoubleClick" Handler="FolderListItem_MouseDoubleClick"/>
-                    <EventSetter Event="KeyDown" Handler="FolderListItem_KeyDown"/>
-                    <EventSetter Event="PreviewMouseDown" Handler="FolderListItem_MouseDown"/>
-                    <EventSetter Event="PreviewMouseUp" Handler="FolderListItem_MouseUp"/>
-                    <EventSetter Event="PreviewMouseMove" Handler="FolderListItem_MouseMove"/>
-                    <EventSetter Event="ContextMenuOpening" Handler="FolderListItem_ContextMenuOpening"/>
-                    <Setter Property="FocusVisualStyle" Value="{StaticResource NVListItemFocusVisual}"/>
-                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                    <Setter Property="VerticalAlignment" Value="Center"/>
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                    <Setter Property="VerticalContentAlignment" Value="Center"/>
-                    <Setter Property="ContextMenu">
-                        <Setter.Value>
-                            <ContextMenu/>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </ListBox.ItemContainerStyle>
 
         </nw:ListBoxExteded>
 

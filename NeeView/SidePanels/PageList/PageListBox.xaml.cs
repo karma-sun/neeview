@@ -402,7 +402,7 @@ namespace NeeView
                 {
                     return ClipboardUtility.SetData(e.Data, pages, new CopyFileCommandParameter() { MultiPagePolicy = MultiPagePolicy.All }, token);
                 }
-                catch(OperationCanceledException)
+                catch (OperationCanceledException)
                 {
                     return false;
                 }

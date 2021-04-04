@@ -179,7 +179,6 @@
             <EventSetter Event="PreviewMouseLeftButtonDown" Handler="PageListItem_MouseLeftButtonDown" />
             <EventSetter Event="MouseDoubleClick" Handler="PageListItem_MouseDoubleClick" />
             <EventSetter Event="ContextMenuOpening" Handler="PageListItem_ContextMenuOpening" />
-            <Setter Property="Padding" Value="0,0" />
             <Setter Property="FocusVisualStyle" Value="{StaticResource NVListItemFocusVisual}" />
             <Setter Property="ContextMenu">
                 <Setter.Value>

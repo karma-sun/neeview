@@ -412,6 +412,7 @@ namespace NeeView
                 try
                 {
                     _exportImageProceduralDialog = _exportImageProceduralDialog ?? new ExportImageProceduralDialog();
+                    _exportImageProceduralDialog.Owner = MainViewComponent.Current.GetWindow();
                     _exportImageProceduralDialog.Show(parameter);
                 }
                 catch (Exception e)
@@ -798,7 +799,7 @@ namespace NeeView
             var dialogModel = new PageSelecteDialogModel(this.Book.Viewer.GetViewPageIndex() + 1, 1, this.Book.Pages.Count);
 
             var dialog = new PageSelectDialog(dialogModel);
-            dialog.Owner = MainWindow.Current;
+            dialog.Owner = MainViewComponent.Current.GetWindow();
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 
             var result = dialog.ShowDialog();

@@ -1365,8 +1365,7 @@
     <!--#region NVCheckBox -->
 
     <Style x:Key="NVCheckBox" TargetType="{x:Type CheckBox}">
-        <Setter Property="Foreground" Value="{DynamicResource Control.Foreground}" />
-        <Setter Property="Background" Value="{DynamicResource Control.Accent}" />
+        <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="{DynamicResource Control.Foreground}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -1374,7 +1373,7 @@
                     <BulletDecorator>
                         <BulletDecorator.Bullet>
                             <Grid x:Name="EnableTrue" Width="22" Height="22">
-                                <Rectangle x:Name="CheckRect" Width="20" Height="20" Fill="Transparent" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="2" />
+                                <Rectangle x:Name="CheckRect" Width="20" Height="20" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="2" />
                                 <Rectangle x:Name="CheckNull" Width="10" Height="10" Fill="{TemplateBinding BorderBrush}" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed" />
                                 <Path x:Name="CheckMark" IsHitTestVisible="False" SnapsToDevicePixels="False" StrokeThickness="1" Data="M 3 10 l 5 5 l 10 -10" Stroke="{TemplateBinding BorderBrush}" />
                             </Grid>
@@ -1390,7 +1389,7 @@
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="CheckMark" Property="Visibility" Value="Visible" />
-                            <Setter TargetName="CheckMark" Property="Stroke" Value="White" />
+                            <Setter TargetName="CheckMark" Property="Stroke" Value="{DynamicResource Control.AccentText}" />
                             <Setter TargetName="CheckRect" Property="Fill" Value="{DynamicResource Control.Accent}" />
                             <Setter TargetName="CheckRect" Property="Stroke" Value="{DynamicResource Control.Accent}" />
                         </Trigger>
@@ -1398,7 +1397,7 @@
                             <Setter TargetName="CheckMark" Property="Visibility" Value="Collapsed" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="CheckRect" Property="Stroke" Value="{DynamicResource Control.Foreground}" />
+                            <Setter TargetName="CheckRect" Property="Stroke" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=BorderBrush}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="CheckRect" Property="Stroke" Value="{DynamicResource Control.GrayText}" />

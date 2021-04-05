@@ -14,6 +14,8 @@ namespace NeeView
 
         public bool HasBackground { get; set; }
 
+        public Window Owner { get; set; }
+
         public void Show(ExportImageAsCommandParameter parameter)
         {
             if (!_isInitialized)
@@ -32,7 +34,7 @@ namespace NeeView
 
             var vm = new ExportImageWindowViewModel(exporter);
             var editor = new ExportImageWindow(vm);
-            editor.Owner = MainWindow.Current;
+            editor.Owner = Owner ?? MainWindow.Current;
             editor.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             editor.ShowDialog();
 

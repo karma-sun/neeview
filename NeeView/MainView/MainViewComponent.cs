@@ -70,6 +70,11 @@ namespace NeeView
         public bool IsLoupeMode => ViewController.GetLoupeMode();
 
 
+        public Window GetWindow()
+        {
+            return Window.GetWindow(_mainView);
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposedValue)

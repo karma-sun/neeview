@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView.Windows.Controls"
+             xmlns:nvc="clr-namespace:NeeView.Windows.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
@@ -11,13 +12,13 @@
         <StackPanel>
             <DockPanel Margin="0,0,0,5">
                 <TextBlock Text="X" Width="16"/>
-                <TextBox DockPanel.Dock="Right" Width="70" Text="{Binding X}"/>
-                <Slider Value="{Binding X}" Minimum="0" Maximum="1" TickFrequency="0.01" Margin="5,0"/>
+                <nvc:EnterTriggerTextBox DockPanel.Dock="Right" Width="70" Text="{Binding X}" Slider="{Binding ElementName=SliderX}"/>
+                <Slider x:Name="SliderX" Value="{Binding X}" Minimum="0" Maximum="1" TickFrequency="0.01" Margin="5,0"/>
             </DockPanel>
             <DockPanel Margin="0,0,0,5">
                 <TextBlock Text="Y" Width="16"/>
-                <TextBox DockPanel.Dock="Right" Width="70" Text="{Binding Y}"/>
-                <Slider Value="{Binding Y}" Minimum="0" Maximum="1" TickFrequency="0.01" Margin="5,0"/>
+                <nvc:EnterTriggerTextBox DockPanel.Dock="Right" Width="70" Text="{Binding Y}" Slider="{Binding ElementName=SliderY}"/>
+                <Slider x:Name="SliderY" Value="{Binding Y}" Minimum="0" Maximum="1" TickFrequency="0.01" Margin="5,0"/>
             </DockPanel >
         </StackPanel>
     </Grid>

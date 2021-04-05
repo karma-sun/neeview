@@ -21,7 +21,7 @@ namespace NeeView.Windows.Controls
             _mainTextBox.SetBinding(FormattedTextBox.FormatProperty, new Binding(nameof(Format)) { Source = this });
             _mainTextBox.SetBinding(FormattedTextBox.ConverterProperty, new Binding(nameof(Converter)) { Source = this });
             _mainTextBox.SetBinding(FormattedTextBox.FormatConverterProperty, new Binding(nameof(FormatConverter)) { Source = this });
-            _mainTextBox.MouseWheelChanged += MainTextBox_ValueDelta;
+            _mainTextBox.ValueDeltaChanged += MainTextBox_ValueDelta;
 
             _subTextBox = new TextBox();
             _subTextBox.Focusable = false;

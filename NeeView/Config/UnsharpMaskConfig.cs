@@ -31,7 +31,7 @@ namespace NeeView
         /// UnsharpRadius property.
         /// 0.3-3.0
         /// </summary>
-        [PropertyRange(0.3, 3.0)]
+        [PropertyRange(0.3, 3.0, TickFrequency = 0.05)]
         [DefaultValue(1.5)]
         public double Radius
         {

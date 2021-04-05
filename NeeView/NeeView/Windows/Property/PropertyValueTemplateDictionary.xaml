@@ -25,8 +25,8 @@
 
     <DataTemplate DataType="{x:Type local:PropertyValue_IntegerRange}">
         <DockPanel KeyboardNavigation.TabNavigation="Local">
-            <nvc:EnterTriggerTextBox DockPanel.Dock="Right" Text="{Binding Value}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0" TabIndex="2"/>
-            <Slider Value="{Binding Range.Value}" Minimum="{Binding Range.Minimum}" Maximum="{Binding Range.Maximum}" SmallChange="{Binding Range.SmallChange}" LargeChange="{Binding Range.LargeChange}"
+            <nvc:EnterTriggerTextBox DockPanel.Dock="Right" Text="{Binding Value}" Slider="{Binding ElementName=InnerSlider}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0" TabIndex="2"/>
+            <Slider x:Name="InnerSlider" Value="{Binding Range.Value}" Minimum="{Binding Range.Minimum}" Maximum="{Binding Range.Maximum}" SmallChange="{Binding Range.SmallChange}" LargeChange="{Binding Range.LargeChange}"
                     TickFrequency="{Binding Range.TickFrequency}" IsSnapToTickEnabled="True" VerticalAlignment="Center" TabIndex="1"/>
         </DockPanel>
     </DataTemplate>
@@ -37,18 +37,18 @@
 
     <DataTemplate DataType="{x:Type local:PropertyValue_DoubleRange}">
         <DockPanel KeyboardNavigation.TabNavigation="Local">
-            <nvc:EnterTriggerTextBox DockPanel.Dock="Right" Text="{Binding Value}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0" TabIndex="2"/>
-            <Slider Value="{Binding Range.Value}" Minimum="{Binding Range.Minimum}" Maximum="{Binding Range.Maximum}" SmallChange="{Binding Range.SmallChange}" LargeChange="{Binding Range.LargeChange}"
+            <nvc:EnterTriggerTextBox DockPanel.Dock="Right" Text="{Binding Value}" Slider="{Binding ElementName=InnerSlider}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0" TabIndex="2"/>
+            <Slider x:Name="InnerSlider" Value="{Binding Range.Value}" Minimum="{Binding Range.Minimum}" Maximum="{Binding Range.Maximum}" SmallChange="{Binding Range.SmallChange}" LargeChange="{Binding Range.LargeChange}"
                     TickFrequency="{Binding Range.TickFrequency}" IsSnapToTickEnabled="True" VerticalAlignment="Center" TabIndex="1"/>
         </DockPanel>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type local:PropertyValue_Percent}">
         <DockPanel KeyboardNavigation.TabNavigation="Local">
-            <nvc:EnterTriggerTextBox DockPanel.Dock="Right" Text="{Binding Value, Converter={StaticResource DoubleToPercentStringConverter}}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0" TabIndex="2"/>
-            <Slider Value="{Binding Range.Value}" Minimum="{Binding Range.Minimum}" Maximum="{Binding Range.Maximum}" SmallChange="{Binding Range.SmallChange}" LargeChange="{Binding Range.LargeChange}"
-                    TickFrequency="{Binding Range.TickFrequency}" IsSnapToTickEnabled="True" VerticalAlignment="Center"
-                    TabIndex="1" />
+            <nvc:EnterTriggerTextBox DockPanel.Dock="Right" Text="{Binding Value, Converter={StaticResource DoubleToPercentStringConverter}}" Slider="{Binding ElementName=InnerSlider}" Width="70"
+                    VerticalAlignment="Center" Margin="5,0,0,0" TabIndex="2" />
+            <Slider x:Name="InnerSlider" Value="{Binding Range.Value}" Minimum="{Binding Range.Minimum}" Maximum="{Binding Range.Maximum}" SmallChange="{Binding Range.SmallChange}"
+                    LargeChange="{Binding Range.LargeChange}" TickFrequency="{Binding Range.TickFrequency}" IsSnapToTickEnabled="True" VerticalAlignment="Center" TabIndex="1" />
         </DockPanel>
     </DataTemplate>
 

@@ -87,7 +87,7 @@ namespace NeeView
 
         internal void MouseWheelVolume(object sender, MouseWheelEventArgs e)
         {
-            var delta = (double)e.Delta / -6000.0;
+            var delta = (double)e.Delta / 6000.0;
             Operator.AddVolume(delta);
         }
 

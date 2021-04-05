@@ -77,7 +77,7 @@ namespace NeeView
             switch (e.Message)
             {
                 case "WindowsThemeElement":
-                    AppDispatcher.BeginInvoke(() => UpdateFonts());
+                    AppDispatcher.BeginInvoke(() => { UpdateFonts(); UpdateColors(); });
                     break;
 
                 case "ImmersiveColorSet":
@@ -111,7 +111,7 @@ namespace NeeView
                 using (var registoryKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(registoryKeyName))
                 {
                     var value = (int)registoryKey.GetValue("AppsUseLightTheme");
-                    return (value == 0) ? SystemThemeType.Dark : SystemThemeType.Light;
+                    return (value == 1) ? SystemThemeType.Light : SystemThemeType.Dark;
                 }
             }
             catch

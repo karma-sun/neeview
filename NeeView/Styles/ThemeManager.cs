@@ -143,7 +143,7 @@ namespace NeeView
                     {
                         return LoadThemeProfile(ThemeType.HighContrast);
                     }
-                    else
+                    else if (Windows10Tools.IsWindows10_OrGreater)
                     {
                         ThemeProfile themeProfile;
                         switch (SystemVisualParameters.Current.Theme)
@@ -161,6 +161,10 @@ namespace NeeView
                         }
                         themeProfile.Colors["Control.Accent"] = new ThemeColor(SystemVisualParameters.Current.AccentColor, 1.0);
                         return themeProfile;
+                    }
+                    else
+                    {
+                        return LoadThemeProfile(ThemeType.Dark);
                     }
 
                 case ThemeType.Custom:

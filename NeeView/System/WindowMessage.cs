@@ -307,7 +307,7 @@ namespace NeeView
         {
             var action = (uint)wParam;
             string str = Marshal.PtrToStringAuto(lParam);
-            ////Debug.WriteLine($"WM_SETTINGCHANGE: {action:X4}, {str}");
+            ////Trace.WriteLine($"WM_SETTINGCHANGE: {action:X4}, {str}");
 
             SettingChanged?.Invoke(this, new SettingChangedEventArgs(action, str));
         }

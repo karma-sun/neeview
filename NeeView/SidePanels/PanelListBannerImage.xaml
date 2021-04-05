@@ -30,13 +30,20 @@
                         AlignmentY="{Binding Thumbnail.IsNormalImage, Converter={StaticResource BooleanToBannerAlignmentYConverter}}">
                 </ImageBrush>
             </Rectangle.Fill>
-            <Rectangle.ToolTip>
-                <Image Source="{Binding Thumbnail.ImageSource}" Width="{Binding Thumbnail.Width}" Height="{Binding Thumbnail.Height}" Stretch="Fill" />
-            </Rectangle.ToolTip>
-            <ToolTipService.InitialShowDelay>1000</ToolTipService.InitialShowDelay>
-            <ToolTipService.IsEnabled>
-                <Binding Path="Thumbnail.IsUniqueImage" Converter="{StaticResource BannerProfileToolTopEnableConverter}" />
-            </ToolTipService.IsEnabled>
+            <Rectangle.Style>
+                <Style TargetType="Rectangle">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Thumbnail.IsUniqueImage, Converter={StaticResource BannerProfileToolTopEnableConverter}}" Value="True">
+                            <Setter Property="ToolTipService.InitialShowDelay" Value="1000" />
+                            <Setter Property="ToolTip">
+                                <Setter.Value>
+                                    <Image Source="{Binding Thumbnail.ImageSource}" Width="{Binding Thumbnail.Width}" Height="{Binding Thumbnail.Height}" Stretch="Fill" />
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Rectangle.Style>
         </Rectangle>
     </Grid>
 </UserControl>

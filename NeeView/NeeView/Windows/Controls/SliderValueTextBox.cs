@@ -28,7 +28,7 @@ namespace NeeView.Windows.Controls
             _subTextBox.IsTabStop = false;
             _subTextBox.IsHitTestVisible = false;
             UpdateSubTextBox();
-            UpdateSubTextBoxVisibility();
+            UpdateTextBoxVisibility();
 
             this.Children.Add(_mainTextBox);
             this.Children.Add(_subTextBox);
@@ -121,7 +121,7 @@ namespace NeeView.Windows.Controls
         {
             if (d is SliderValueTextBox control)
             {
-                control.UpdateSubTextBoxVisibility();
+                control.UpdateTextBoxVisibility();
             }
         }
 
@@ -142,8 +142,9 @@ namespace NeeView.Windows.Controls
             _subTextBox.SetBinding(TextBox.TextProperty, binding);
         }
 
-        private void UpdateSubTextBoxVisibility()
+        private void UpdateTextBoxVisibility()
         {
+            _mainTextBox.Visibility = IsSubValueEnabled ? Visibility.Hidden : Visibility.Visible;
             _subTextBox.Visibility = IsSubValueEnabled ? Visibility.Visible : Visibility.Hidden;
         }
     }

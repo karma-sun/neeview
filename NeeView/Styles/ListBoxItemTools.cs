@@ -9,7 +9,7 @@ namespace NeeView
             return (Thickness)obj.GetValue(InnerMarginProperty);
         }
 
-        public static void SetnnerMargin(DependencyObject obj, Thickness value)
+        public static void SetInnerMargin(DependencyObject obj, Thickness value)
         {
             obj.SetValue(InnerMarginProperty, value);
         }

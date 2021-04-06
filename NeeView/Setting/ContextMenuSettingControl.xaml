@@ -10,6 +10,14 @@
 
     <UserControl.Resources>
 
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource NVButton}">
+            <Setter Property="Margin" Value="10,2,0,2" />
+            <Setter Property="Padding" Value="10,5" />
+            <Setter Property="Width" Value="100" />
+            <Setter Property="MinWidth" Value="0" />
+            <Setter Property="MinHeight" Value="0" />
+        </Style>
+
         <Style TargetType="Separator" x:Key="TreeViewItemSeparatorStyle">
             <Setter Property="Visibility" Value="Hidden"/>
             <Style.Triggers>
@@ -38,24 +46,14 @@
                 <TextBlock Text="{Binding Path=DispLabel}" Style="{StaticResource TreeViewItemStyle}" ToolTip="{Binding DefaultLongLabel}"/>
             </Grid>
         </HierarchicalDataTemplate>
+
     </UserControl.Resources>
 
     <Grid x:Name="Root">
-        <Border BorderBrush="Gray" BorderThickness="0" Margin="0">
+        <Border BorderBrush="Gray" BorderThickness="0" Margin="0" >
             <Grid>
 
                 <DockPanel Margin="5,5,10,10">
-                    <DockPanel.Resources>
-                        <Style TargetType="Button">
-                            <Setter Property="Margin" Value="10,2,0,2"/>
-                            <Setter Property="Padding" Value="10,5"/>
-                            <Setter Property="Width" Value="100"/>
-                            <!--
-                            <Setter Property="MinHeight" Value="28"/>
-                            -->
-                        </Style>
-                    </DockPanel.Resources>
-
                     <DockPanel DockPanel.Dock="Top">
                         <StackPanel DockPanel.Dock="Right">
                             <Button x:Name="AddButton" Content="{x:Static properties:Resources.Word_Add}" Command="{x:Static local:ContextMenuSettingControl.AddCommand}" TabIndex="2"/>
@@ -71,7 +69,7 @@
 
                             <Button DockPanel.Dock="Bottom" x:Name="ResetButton" Content="{x:Static properties:Resources.Word_Reset}" Click="ResetButton_Click" TabIndex="15"/>
                         </DockPanel>
-                            <TreeView x:Name="ContextMenuTreeView" BorderBrush="LightGray" ItemContainerStyle="{StaticResource NVTreeViewItemWide}" TabIndex="10"
+                            <TreeView x:Name="ContextMenuTreeView" BorderBrush="{DynamicResource Control.Border}" BorderThickness="1" TabIndex="10"
                                       HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                       ItemsSource="{Binding Root.Children}" ItemTemplate="{StaticResource treeViewTemplate}" Padding="5" >
                             </TreeView>

@@ -10,7 +10,7 @@
     "Control.Background": "#FFA0A0A0",
     "Control.Foreground": "",
     "Control.Border": "#FFA0A0A0",
-    "Control.GrayText": "#FF808080",
+    "Control.GrayText": "#FF909090",
     "Control.Accent": "#FF1188DD",
     "Control.AccentText": "#FFFFFFFF",
     "Control.Focus": "Control.Accent",
@@ -31,8 +31,8 @@
     "ScrollBar.MouseOver": "#FFA0A0A0",
     "ScrollBar.Pressed": "#FFC0C0C0",
 
-    "DialogButton.Background": "#FFA0A0A0",
-    "DialogButton.Foreground": "#FF202020",
+    "DialogButton.Background": "#FF404040",
+    "DialogButton.Foreground": "Window.Foreground",
     "DialogButton.Border": "",
     "DialogRecommentedButton.Background": "Control.Accent",
     "DialogRecommentedButton.Foreground": "Control.AccentText",
@@ -46,7 +46,7 @@
 
     "TextBox.Background": "#FF202020",
     "TextBox.Foreground": "",
-    "TextBox.Border": "#FF404040",
+    "TextBox.Border": "Control.Border",
 
     "Menu.Background": "#FF222222",
     "Menu.Foreground": "",

@@ -48,7 +48,7 @@
                 <ScrollViewer.Resources>
                     <!-- なぜかForegroundが継承されないので、強制設定する -->
                     <Style TargetType="{x:Type TextBlock}">
-                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
+                        <Setter Property="Foreground" Value="{DynamicResource Window.Foreground}" />
                     </Style>
                 </ScrollViewer.Resources>
                 <nlp:PropertyInspector x:Name="Inspector" Document="{Binding PropertyDocument}" Margin="5" TabIndex="1" KeyboardNavigation.TabNavigation="Local" IsResetButtonVisible="False"
@@ -57,6 +57,6 @@
 
         </DockPanel>
 
-        <TextBlock x:Name="EmptyText" Text="{x:Static properties:Resources.CommandParameterControl_Empty}" Margin="10" Foreground="Gray"/>
+        <TextBlock x:Name="EmptyText" Text="{x:Static properties:Resources.CommandParameterControl_Empty}" Margin="10" Foreground="{DynamicResource Control.GrayText}"/>
     </Grid>
 </UserControl>

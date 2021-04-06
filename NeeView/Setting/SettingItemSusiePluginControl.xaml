@@ -10,57 +10,62 @@
              xmlns:properties="clr-namespace:NeeView.Properties"
              mc:Ignorable="d" 
              Height="300" d:DesignHeight="300" d:DesignWidth="300">
+
     <UserControl.Resources>
 
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Styles/SystemTheme.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <DrawingImage x:Key="ic_setting_24px">
+            <DrawingImage.Drawing>
+                <DrawingGroup>
+                    <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
+                    <GeometryDrawing Brush="{DynamicResource Window.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_setting_24px}" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
         <DataTemplate DataType="{x:Type susie:SusiePluginInfo}" x:Key="SusiePlugin">
             <StackPanel Orientation="Horizontal">
                 <b:Interaction.Behaviors>
-                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{Binding Path=DataContext.DragDataFormat, ElementName=Root}" DragDropData="{Binding}" Target="{Binding ElementName=PluginList}" />
+                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{Binding Path=DataContext.DragDataFormat, ElementName=Root}" DragDropData="{Binding}"
+                            Target="{Binding ElementName=PluginList}" />
                 </b:Interaction.Behaviors>
-                <CheckBox VerticalAlignment="Center" IsChecked="{Binding IsEnabled}" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                <CheckBox VerticalAlignment="Center" IsChecked="{Binding IsEnabled}" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed" />
                 <Grid Width="20" VerticalAlignment="Center" Margin="2">
-                    <Image Width="16" Height="16" Source="{StaticResource ic_setting_24px}" Visibility="{Binding HasConfigurationDlg, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    <Image Width="16" Height="16" Source="{StaticResource ic_setting_24px}" Visibility="{Binding HasConfigurationDlg, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 </Grid>
                 <TextBlock Text="{Binding DetailText}" ToolTip="{Binding PluginVersion}" VerticalAlignment="Center">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding IsEnabled}" Value="False">
-                                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource Control.GrayText}" />
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </TextBlock.Style>
                 </TextBlock>
-            </StackPanel>               
+            </StackPanel>
         </DataTemplate>
 
-        <Style TargetType="ListBox">
-            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
-            <!--
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush" Value="LightGray"/>
-            -->
-            <Setter Property="ItemTemplate" Value="{StaticResource SusiePlugin}"/>
-            <Setter Property="Margin" Value="0,2"/>
-            <Setter Property="AllowDrop" Value="True"/>
+        <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+            <Setter Property="ItemTemplate" Value="{StaticResource SusiePlugin}" />
+            <Setter Property="Margin" Value="0,2" />
+            <Setter Property="AllowDrop" Value="True" />
+            <Setter Property="BorderBrush" Value="{DynamicResource Control.Border}" />
+            <Setter Property="BorderThickness" Value="1" />
             <EventSetter Event="PreviewDragOver" Handler="PluginListView_PreviewDragOver" />
             <EventSetter Event="PreviewDragEnter" Handler="PluginListView_PreviewDragEnter" />
             <EventSetter Event="Drop" Handler="PluginListView_Drop" />
         </Style>
 
-        <Style TargetType="Button">
-            <Setter Property="Margin" Value="5,2"/>
-            <Setter Property="Padding" Value="10,5"/>
-            <Setter Property="MinWidth" Value="80"/>
+        <Style TargetType="Button" BasedOn="{StaticResource NVButton}">
+            <Setter Property="Margin" Value="5,2" />
+            <Setter Property="Padding" Value="10,5" />
+            <Setter Property="MinWidth" Value="80" />
+            <Setter Property="MinHeight" Value="0" />
         </Style>
 
         <Style x:Key="SelectedButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
@@ -79,22 +84,22 @@
             </Style.Triggers>
         </Style>
 
-        </ResourceDictionary>
     </UserControl.Resources>
 
     <DockPanel x:Name="Root" Margin="0,0,5,5">
 
         <StackPanel DockPanel.Dock="Right">
-            <Button x:Name="ConfigButton" Style="{StaticResource SelectedButtonStyle}" Content="{x:Static properties:Resources.SusiePluginList_Config}" Command="{Binding ConfigCommand}" TabIndex="2"/>
-            <Button x:Name="UpButton" Style="{StaticResource SelectedButtonStyle}" Content="{x:Static properties:Resources.SusiePluginList_Up}" Command="{Binding MoveUpCommand}" TabIndex="3"/>
+            <Button x:Name="ConfigButton" Style="{StaticResource SelectedButtonStyle}" Content="{x:Static properties:Resources.SusiePluginList_Config}" Command="{Binding ConfigCommand}" TabIndex="2" />
+            <Button x:Name="UpButton" Style="{StaticResource SelectedButtonStyle}" Content="{x:Static properties:Resources.SusiePluginList_Up}" Command="{Binding MoveUpCommand}" TabIndex="3" />
             <Button x:Name="DownButton" Style="{StaticResource SelectedButtonStyle}" Content="{x:Static properties:Resources.SusiePluginList_Down}" Command="{Binding MoveDownCommand}" TabIndex="4" />
-            <Button x:Name="SwitchAllButton" Style="{StaticResource AnyButtonStyle}" Content="{x:Static properties:Resources.SusiePluginList_SwitchAll}" Command="{Binding SwitchAllCommand}" TabIndex="4" />
+            <Button x:Name="SwitchAllButton" Style="{StaticResource AnyButtonStyle}" Content="{x:Static properties:Resources.SusiePluginList_SwitchAll}" Command="{Binding SwitchAllCommand}"
+                    TabIndex="4" />
         </StackPanel>
 
         <ListBox x:Name="PluginList" MinHeight="64" MinWidth="64" SelectionChanged="PluginList_SelectionChanged" TabIndex="1">
             <ListBox.ItemContainerStyle>
-                <Style TargetType="ListBoxItem">
-                    <EventSetter Event="MouseDoubleClick" Handler="ListBoxItem_MouseDoubleClick"/>
+                <Style TargetType="ListBoxItem" BasedOn="{StaticResource NVListBoxItem}">
+                    <EventSetter Event="MouseDoubleClick" Handler="ListBoxItem_MouseDoubleClick" />
                     <EventSetter Event="KeyDown" Handler="ListBoxItem_KeyDown" />
                 </Style>
             </ListBox.ItemContainerStyle>

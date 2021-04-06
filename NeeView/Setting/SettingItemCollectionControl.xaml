@@ -9,14 +9,18 @@
 
     <DockPanel x:Name="Root" Height="150" KeyboardNavigation.TabNavigation="Local">
         <DockPanel.Resources>
-            <Style x:Key="MyButton" TargetType="{x:Type Button}">
+            <Style x:Key="MyButton" TargetType="{x:Type Button}" BasedOn="{StaticResource NVButton}">
                 <Setter Property="Padding" Value="20,5"/>
                 <Setter Property="Margin" Value="5"/>
+                <Setter Property="MinWidth" Value="0" />
+                <Setter Property="MinHeight" Value="0" />
             </Style>
+
+
         </DockPanel.Resources>
         
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button x:Name="AddButton" Style="{StaticResource MyButton}" DockPanel.Dock="Right" Content="Add..." Click="AddButton_Click" TabIndex="2"/>
+            <Button x:Name="AddButton" DockPanel.Dock="Right" Style="{StaticResource MyButton}" Content="Add..." Click="AddButton_Click" TabIndex="2"/>
             <Button x:Name="RemoveButton" DockPanel.Dock="Right" Content="Remove" Click="RemoveButton_Click" TabIndex="3">
                 <Button.Style>
                     <Style TargetType="Button" BasedOn="{StaticResource MyButton}">

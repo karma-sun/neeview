@@ -171,7 +171,7 @@
         </Style>
 
         <Style x:Key="ListBoxItemThumbnailStyle" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxItemStyle}">
-            <Setter Property="Padding" Value="0" />
+            <Setter Property="local:ListBoxItemTools.InnerMargin" Value="0" />
         </Style>
 
     </UserControl.Resources>

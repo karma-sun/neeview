@@ -10,7 +10,7 @@
     "Control.Background": "#FFA0A0A0",
     "Control.Foreground": "",
     "Control.Border": "#FFA0A0A0",
-    "Control.GrayText": "#FF808080",
+    "Control.GrayText": "#FF909090",
     "Control.Accent": "Window.Foreground",
     "Control.AccentText": "#FF404040",
     "Control.Focus": "Control.Accent",
@@ -31,8 +31,8 @@
     "ScrollBar.MouseOver": "#FFA0A0A0",
     "ScrollBar.Pressed": "#FFC0C0C0",
 
-    "DialogButton.Background": "#FFC0C0C0",
-    "DialogButton.Foreground": "#FF202020",
+    "DialogButton.Background": "#FF404040",
+    "DialogButton.Foreground": "Window.Foreground",
     "DialogButton.Border": "",
 
     "DialogRecommentedButton.Background": "Control.Accent",

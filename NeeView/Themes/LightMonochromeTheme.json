@@ -31,8 +31,8 @@
     "ScrollBar.MouseOver": "#FF606060",
     "ScrollBar.Pressed": "#FF404040",
 
-    "DialogButton.Background": "#FFA0A0A0",
-    "DialogButton.Foreground": "#FF202020",
+    "DialogButton.Background": "#FFD0D0D0",
+    "DialogButton.Foreground": "Window.Foreground",
     "DialogButton.Border": "",
     "DialogRecommentedButton.Background": "Control.Accent",
     "DialogRecommentedButton.Foreground": "Control.AccentText",

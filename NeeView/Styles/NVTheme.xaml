@@ -31,6 +31,10 @@
         </Style.Triggers>
     </Style>
 
+    <Style TargetType="{x:Type nvc:EnterTriggerTextBox}" BasedOn="{StaticResource NVTextBox}">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+    </Style>
+
     <Style x:Key="{x:Type Slider}" TargetType="{x:Type Slider}" BasedOn="{StaticResource NVSlider}">
         <Setter Property="nvc:SliderTools.MoveToPointOnDrag" Value="True" />
     </Style>

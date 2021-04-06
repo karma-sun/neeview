@@ -22,7 +22,7 @@
     <Border x:Name="Root" BorderBrush="WhiteSmoke" BorderThickness="0,0,0,0" Background="Transparent">
         <DockPanel Margin="0,15,0,0" MinWidth="300" >
             <TextBlock x:Name="Header"  DockPanel.Dock="Top" TextWrapping="Wrap" VerticalAlignment="Bottom" Margin="0,5" Style="{StaticResource EnabledTextBlockStyle}"/>
-            <TextBlock x:Name="Note" DockPanel.Dock="Top" TextWrapping="Wrap" Margin="0,0,0,5" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" Visibility="Collapsed" Style="{StaticResource EnabledTextBlockStyle}"/>
+            <TextBlock x:Name="Note" DockPanel.Dock="Top" TextWrapping="Wrap" Margin="0,0,0,5" Foreground="{DynamicResource Control.GrayText}" Visibility="Collapsed" Style="{StaticResource EnabledTextBlockStyle}"/>
             <ContentControl x:Name="ContentValue" DockPanel.Dock="Top" VerticalAlignment="Center" Focusable="False" Margin="0,5" />
 
         </DockPanel>

@@ -62,11 +62,10 @@
                     <Image Width="14" Height="14" Source="{StaticResource ic_help_24px}"/>
                 </ToggleButton>
             </Grid>
-            <Popup IsOpen="{Binding ElementName=WindowHelp, Path=IsChecked}" PlacementTarget="{Binding ElementName=WindowHelp}" Placement="Top" HorizontalAlignment="Right">
-                <Border BorderBrush="Gray" BorderThickness="1" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}">
-                    <TextBlock Margin="10" Text="{x:Static properties:Resources.MouseDragSettingWindow_Remarks}">
-                    </TextBlock>
-                </Border>
+            <Popup Style="{StaticResource NVPopup}" IsOpen="{Binding ElementName=WindowHelp, Path=IsChecked}" PlacementTarget="{Binding ElementName=WindowHelp}" Placement="Top" HorizontalAlignment="Right">
+                <ContentControl Style="{StaticResource NVPopupContent}">
+                    <TextBlock Margin="10" Text="{x:Static properties:Resources.MouseDragSettingWindow_Remarks}" />
+                </ContentControl>
             </Popup>
 
             <Grid x:Name="GestureBox" Margin="2" Background="AliceBlue" Focusable="False" FocusVisualStyle="{StaticResource NVFocusVisual}">

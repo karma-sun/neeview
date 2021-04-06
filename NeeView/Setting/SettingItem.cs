@@ -258,7 +258,7 @@ namespace NeeView.Setting
                     TextWrapping = TextWrapping.Wrap,
                     Margin = new Thickness(0, 5, 0, 0),
                 };
-                tips.SetResourceReference(TextBlock.ForegroundProperty, SystemColors.GrayTextBrushKey);
+                tips.SetResourceReference(TextBlock.ForegroundProperty, "Control.GrayText");
                 title.Children.Add(tips);
             }
 

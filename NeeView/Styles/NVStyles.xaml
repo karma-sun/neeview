@@ -661,11 +661,13 @@
         <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}" />
         <Setter Property="Foreground" Value="{DynamicResource Control.Accent}" />
         <Setter Property="Background" Value="Transparent" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBox}">
                     <Grid>
-                        <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" />
+                        <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" />
                         <ToggleButton x:Name="ToggleButton" Template="{StaticResource NVComboBoxToggleButton}" Grid.Column="2" Focusable="false" ClickMode="Press"
                                 Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}" VerticalAlignment="Stretch"
                                 IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
@@ -1174,6 +1176,7 @@
     <!--#region NVCheckBox -->
 
     <Style x:Key="NVCheckBox" TargetType="{x:Type CheckBox}">
+        <Setter Property="Foreground" Value="{DynamicResource Window.Foreground}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="{DynamicResource Control.Foreground}" />
         <Setter Property="Template">
@@ -1483,6 +1486,44 @@
         </Setter>
     </Style>
 
+
+    <Style x:Key="NVButton" TargetType="{x:Type Button}">
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="MinWidth" Value="100" />
+        <Setter Property="MinHeight" Value="32" />
+        <Setter Property="Padding" Value="20,10" />
+        <Setter Property="Margin" Value="2" />
+        <Setter Property="BorderBrush" Value="{DynamicResource DialogButton.Border}" />
+        <Setter Property="Background" Value="{DynamicResource DialogButton.Background}" />
+        <Setter Property="Foreground" Value="{DynamicResource DialogButton.Foreground}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Border x:Name="root" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" />
+                        <Rectangle x:Name="fill" Fill="#FFF" Opacity="0.0" />
+                        <Border BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Opacity" TargetName="fill" Value="0.25" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Opacity" TargetName="fill" Value="0.5" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{DynamicResource Control.GrayText}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     <!--#endregion Buttons -->
 
     <Style x:Key="NVSeparator" TargetType="{x:Type Separator}">
@@ -1524,6 +1565,29 @@
                             </Button>
                             <TextBlock x:Name="PART_Title" Text="{TemplateBinding Title}" Foreground="{DynamicResource SidePanel.Header}" VerticalAlignment="Center" />
                         </DockPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="NVPopup" TargetType="{x:Type Popup}">
+        <Setter Property="AllowsTransparency" Value="True" />
+    </Style>
+
+    <Style x:Key="NVPopupContent" TargetType="{x:Type ContentControl}">
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.InfoTextBrushKey}}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ContentControl}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                            Margin="{TemplateBinding Margin}" Padding="{TemplateBinding Padding}" Effect="{StaticResource NVDropShadowEffect}">
+                        <ContentPresenter />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

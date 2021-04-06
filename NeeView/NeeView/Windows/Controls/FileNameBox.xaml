@@ -9,29 +9,45 @@
              d:DesignHeight="20" d:DesignWidth="300">
 
     <UserControl.Resources>
+
+        <DrawingImage x:Key="ic_more_24px_a">
+            <DrawingImage.Drawing>
+                <DrawingGroup>
+                    <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
+                    <GeometryDrawing Brush="{DynamicResource Window.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_folder_open_24px}" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
         <nwd:NotBoolToVisiblityConverter x:Key="NotBoolToVisiblityConverter"/>
     </UserControl.Resources>
 
-    <Grid x:Name="Root">
-        <TextBox x:Name="PathTextBox" Padding="0,0,22,0" VerticalContentAlignment="Center" Text="{Binding Text, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FileNameBox}}}" PreviewDragOver="PathTextBox_PreviewDragOver" Drop="PathTextBox_Drop">
-        </TextBox>
+    <DockPanel x:Name="Root">
 
+        <Button x:Name="ButtonOpenDialog" DockPanel.Dock="Right" Style="{StaticResource NVButton}" MinWidth="0" MinHeight="0" Padding="0" Margin="0" Width="26" Click="ButtonOpenDialog_Click">
+            <Image Width="18" Source="{StaticResource ic_more_24px_a}" />
+        </Button>
 
-        <TextBlock x:Name="PathTextBlock" Text="{Binding EmptyMessage}" VerticalAlignment="Center" Margin="4,0" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" IsHitTestVisible="False">
-            <TextBlock.Style>
-                <Style TargetType="TextBlock">
-                    <Setter Property="Visibility" Value="Hidden"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding ElementName=PathTextBox, Path=Text}" Value="">
-                            <Setter Property="Visibility" Value="Visible"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </TextBlock.Style>
-        </TextBlock>
-        <Button x:Name="ButtonOpenDialog" Content="..." MinWidth="20" Height="{Binding ElementName=PathTextBox, Path=ActualHeight}" Click="ButtonOpenDialog_Click" HorizontalAlignment="Right"/>
-      
-    </Grid>
+        <Grid Margin="0,0,4,0">
+            <TextBox x:Name="PathTextBox" VerticalContentAlignment="Center"
+                    Text="{Binding Text, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FileNameBox}}}" PreviewDragOver="PathTextBox_PreviewDragOver" Drop="PathTextBox_Drop">
+            </TextBox>
 
+            <TextBlock x:Name="PathTextBlock" Text="{Binding EmptyMessage}" VerticalAlignment="Center" Margin="4,0" Foreground="{DynamicResource Control.GrayText}" IsHitTestVisible="False">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Visibility" Value="Hidden" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=PathTextBox, Path=Text}" Value="">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+
+        </Grid>
+
+    </DockPanel>
 
 </UserControl>

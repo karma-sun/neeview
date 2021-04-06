@@ -3,25 +3,19 @@
         xmlns:local="clr-namespace:NeeView.Setting" mc:Ignorable="d" d:DesignHeight="30" d:DesignWidth="400">
 
     <UserControl.Resources>
-        <ResourceDictionary>
 
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Styles/SystemTheme.xaml" />
-            </ResourceDictionary.MergedDictionaries>
+        <Style x:Key="EnabledTextBlockStyle" TargetType="TextBlock">
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
 
-            <Style x:Key="EnabledTextBlockStyle" TargetType="TextBlock">
-                <Style.Triggers>
-                    <Trigger Property="IsEnabled" Value="False">
-                        <Setter Property="Opacity" Value="0.5" />
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
+        <DataTemplate DataType="{x:Type nvp:PropertyValue_Boolean}">
+            <CheckBox IsChecked="{Binding Value}" Content="{Binding Name}" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+        </DataTemplate>
 
-            <DataTemplate DataType="{x:Type nvp:PropertyValue_Boolean}">
-                <CheckBox Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Value}" Content="{Binding Name}" VerticalAlignment="Center" VerticalContentAlignment="Center" />
-            </DataTemplate>
-
-        </ResourceDictionary>
     </UserControl.Resources>
 
     <Border x:Name="Root" BorderBrush="WhiteSmoke" BorderThickness="0,0,0,0" Background="Transparent">

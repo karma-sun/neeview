@@ -3,14 +3,22 @@
                     xmlns:nvc="clr-namespace:NeeView.Windows.Controls"
                     xmlns:nrl="clr-namespace:NeeView.Runtime.LayoutPanel;assembly=NeeView.Runtime">
 
+    <Style TargetType="{x:Type ListBox}" BasedOn="{StaticResource NVListBox}" />
+    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource NVListBoxItem}" />
+
     <Style TargetType="{x:Type ListView}" BasedOn="{StaticResource NVListView}" />
     <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource NVListViewItem}" />
     <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource NVGridViewColumnHeader}" />
 
+    <Style TargetType="{x:Type TreeView}" BasedOn="{StaticResource NVTreeView}" />
+    <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource NVTreeViewItem}" />
+
     <Style x:Key="{x:Type Menu}" TargetType="{x:Type Menu}" BasedOn="{StaticResource NVMenu}" />
-    <Style x:Key="{x:Type ContextMenu}" TargetType="{x:Type ContextMenu}" BasedOn="{StaticResource NVContextMenu}" />
     <Style x:Key="{x:Type MenuItem}" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource NVMenuItem}" />
+    <Style x:Key="{x:Type ContextMenu}" TargetType="{x:Type ContextMenu}" BasedOn="{StaticResource NVContextMenu}" />
+
     <Style x:Key="{x:Type ComboBox}" TargetType="{x:Type ComboBox}" BasedOn="{StaticResource NVComboBox}" />
+    
     <Style x:Key="{x:Type CheckBox}" TargetType="{x:Type CheckBox}" BasedOn="{StaticResource NVCheckBox}" />
 
     <Style x:Key="{x:Type TextBox}" TargetType="{x:Type TextBox}" BasedOn="{StaticResource NVTextBox}">

@@ -77,15 +77,16 @@
         </HierarchicalDataTemplate>
 
         <Style x:Key="TreeViewItemStyle" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource NVTreeViewItem}">
+            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Padding" Value="0" />
             <Setter Property="ContextMenu">
                 <Setter.Value>
                     <ContextMenu />
                 </Setter.Value>
             </Setter>
             <EventSetter Event="ContextMenuOpening" Handler="TreeViewItem_ContextMenuOpening" />
-            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
             <EventSetter Event="MouseRightButtonDown" Handler="TreeViewItem_MouseRightButtonDown" />
             <EventSetter Event="PreviewMouseLeftButtonDown" Handler="TreeViewItem_MouseLeftButtonDown" />
             <EventSetter Event="PreviewMouseDoubleClick" Handler="TreeViewItem_MouseDoubleClick" />
@@ -95,6 +96,7 @@
 
         <Style x:Key="TreeViewItemBorderStyle" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource TreeViewItemStyle}">
             <Setter Property="BorderBrush" Value="{DynamicResource SidePanel.List.Separator}" />
+            <Setter Property="local:TreeViewItemTools.IndentLength" Value="20" />
         </Style>
 
     </UserControl.Resources>
@@ -118,6 +120,13 @@
             <Style TargetType="TreeView" BasedOn="{StaticResource NVTreeView}">
                 <Setter Property="ItemTemplate" Value="{StaticResource NormalTemplate}"/>
                 <Setter Property="ItemContainerStyle" Value="{StaticResource TreeViewItemStyle}" />
+                <Setter Property="ItemsPanel">
+                    <Setter.Value>
+                        <ItemsPanelTemplate>
+                            <local:CustomVirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </Setter.Value>
+                </Setter>
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding Source={x:Static local:Config.Current}, Path=Pagemark.PanelListItemStyle, Mode=OneTime}" Value="Content">
                         <Setter Property="ItemTemplate" Value="{StaticResource ContentTemplate}"/>

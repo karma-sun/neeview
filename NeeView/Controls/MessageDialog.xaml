@@ -4,31 +4,24 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
+        xmlns:nw="clr-namespace:NeeView.Windows"
         mc:Ignorable="d"
-        Style="{StaticResource SystemWindowStyle}" 
+        Style="{StaticResource ChromeDialogStyle}" 
         UseLayoutRounding="True"
         KeyDown="MesageDialog_KeyDown"
-        Title="NeeView" ResizeMode="NoResize" SizeToContent="Height" Width="600" WindowStyle="SingleBorderWindow">
+        Title="NeeView" SizeToContent="Height" Width="600" ResizeMode="NoResize">
 
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Styles/SystemTheme.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
+        <DockPanel Margin="30,20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <DockPanel DockPanel.Dock="Bottom" Margin="0,20,0,0">
+                <StackPanel x:Name="ButtonPanel" DockPanel.Dock="Right" Orientation="Horizontal">
+                    <Button Style="{StaticResource DialogRecommentedButton}" Content="OK" />
+                </StackPanel>
+                <StackPanel x:Name="SubButtonPanel" Orientation="Horizontal" Margin="-20,0,0,0">
+                </StackPanel>
+            </DockPanel>
+            <TextBlock x:Name="Caption" DockPanel.Dock="Top" Text="Title" TextWrapping="Wrap" FontSize="{DynamicResource SystemFontSizeHuge}" Margin="0,5" />
 
-    <DockPanel Margin="30,20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-        <DockPanel DockPanel.Dock="Bottom" Margin="0,20,0,0">
-            <StackPanel x:Name="ButtonPanel" DockPanel.Dock="Right" Orientation="Horizontal">
-                <Button Style="{StaticResource DialogRecommentedButton}" Content="OK" />
-            </StackPanel>
-            <StackPanel x:Name="SubButtonPanel" Orientation="Horizontal" Margin="-20,0,0,0">
-            </StackPanel>
+            <ContentControl x:Name="Message" Margin="0,5" IsTabStop="False" Content="Content" />
         </DockPanel>
-        <TextBlock x:Name="Caption" DockPanel.Dock="Top" Text="Title" TextWrapping="Wrap" FontSize="{DynamicResource SystemFontSizeHuge}" Margin="0,5" />
-
-        <ContentControl x:Name="Message" Margin="0,5" IsTabStop="False" Content="Content"/>
-    </DockPanel>
 
 </Window>

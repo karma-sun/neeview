@@ -8,18 +8,10 @@
         mc:Ignorable="d"
         MouseWheel="PageSelectDialog_MouseWheel"
         KeyDown="PageSelectDialog_KeyDown"
-        Style="{StaticResource SystemWindowStyle}" 
-        Title="{Binding Caption, Mode=OneTime}" Height="180" Width="400" SizeToContent="WidthAndHeight" WindowStyle="SingleBorderWindow" ResizeMode="NoResize">
-
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Styles/SystemTheme.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
+        Style="{StaticResource ChromeDialogStyle}" 
+        Title="{Binding Caption, Mode=OneTime}" Height="180" Width="512" SizeToContent="Height" ResizeMode="NoResize">
     
-    <Grid MinWidth="400">
+    <Grid MinWidth="512">
         <DockPanel LastChildFill="True" Margin="20">
             <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right" Orientation="Horizontal">
                 <Button Style="{StaticResource DialogRecommentedButton}" Content="{x:Static properties:Resources.Word_Jump}"

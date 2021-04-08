@@ -1,6 +1,7 @@
 ﻿using NeeView.Windows;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +30,7 @@ namespace NeeView
             InitializeComponent();
 
             this.Loaded += CaptionBar_Loaded;
+            this.MouseRightButtonUp += CaptionBar_MouseRightButtonUp;
         }
 
 
@@ -64,7 +66,37 @@ namespace NeeView
         }
 
         public static readonly DependencyProperty IsMinimizeEnabledProperty =
-            DependencyProperty.Register("IsMinimizeEnabled", typeof(bool), typeof(CaptionBar), new PropertyMetadata(true));
+            DependencyProperty.Register("IsMinimizeEnabled", typeof(bool), typeof(CaptionBar), new PropertyMetadata(true, IsMinimizeEnabledPropertyChanged));
+
+        private static void IsMinimizeEnabledPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as CaptionBar)?.UpdateSystemMenu();
+        }
+
+
+        public bool IsMaximizeEnabled
+        {
+            get { return (bool)GetValue(IsMaximizeEnabledProperty); }
+            set { SetValue(IsMaximizeEnabledProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsMaximizeEnabledProperty =
+            DependencyProperty.Register("IsMaximizeEnabled", typeof(bool), typeof(CaptionBar), new PropertyMetadata(true, IsMaximizeEnabledPropertyChanged));
+
+        private static void IsMaximizeEnabledPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as CaptionBar)?.UpdateSystemMenu();
+        }
+
+
+        public bool IsSystemMenuEnabled
+        {
+            get { return (bool)GetValue(IsSystemMenuEnabledProperty); }
+            set { SetValue(IsSystemMenuEnabledProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsSystemMenuEnabledProperty =
+            DependencyProperty.Register("IsSystemMenuEnabled", typeof(bool), typeof(CaptionBar), new PropertyMetadata(false));
 
 
 
@@ -72,7 +104,21 @@ namespace NeeView
         {
             UpdateCaptionEmulator();
             UpdateWindowStateCommands();
+            UpdateSystemMenu();
         }
+
+        private void CaptionBar_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (e.Handled) return;
+            if (!IsSystemMenuEnabled) return;
+
+            var window = Window.GetWindow(this);
+            if (window is null) return;
+
+            WindowTools.ShowSystemMenu(window);
+            e.Handled = true;
+        }
+
 
         private void UpdateCaptionEmulator()
         {
@@ -82,6 +128,7 @@ namespace NeeView
             if (_windowCaptionEmulator is null)
             {
                 _windowCaptionEmulator = new MainWindowCaptionEmulator(window, this);
+                _windowCaptionEmulator.IsMaximizeEnabled = IsMaximizeEnabled;
                 _windowCaptionEmulator.IsEnabled = true;
             }
 
@@ -98,6 +145,17 @@ namespace NeeView
                 _windowStateCommands = new WindowStateCommands(window);
                 _windowStateCommands.Bind();
             }
+        }
+
+        private void UpdateSystemMenu()
+        {
+            var window = Window.GetWindow(this);
+            if (window is null) return;
+
+            var disableFlags = (IsMinimizeEnabled ? WindowTools.WindowStyle.None : WindowTools.WindowStyle.MinimizeBox)
+                | (IsMaximizeEnabled ? WindowTools.WindowStyle.None : WindowTools.WindowStyle.MaximizeBox);
+
+            WindowTools.DisableStyle(window, disableFlags);
         }
     }
 }

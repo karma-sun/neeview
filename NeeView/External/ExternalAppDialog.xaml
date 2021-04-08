@@ -1,25 +1,19 @@
 ﻿<Window x:Class="NeeView.ExternalAppDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:NeeView"
-        xmlns:properties="clr-namespace:NeeView.Properties" mc:Ignorable="d" Title="{x:Static properties:Resources.ExternalAppDialog_Title}" Height="450" Width="800" SizeToContent="Height"
-        Style="{StaticResource SystemWindowStyle}">
+        xmlns:properties="clr-namespace:NeeView.Properties" mc:Ignorable="d" Title="{x:Static properties:Resources.ExternalAppDialog_Title}" Height="450" Width="800"
+        Style="{StaticResource ChromeDialogStyle}">
 
     <Window.Resources>
-        <ResourceDictionary>
 
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Styles/SystemTheme.xaml" />
-            </ResourceDictionary.MergedDictionaries>
+        <local:ArchivePolicyToStringConverter x:Key="ArchivePolicyToStringConverter" />
 
-            <local:ArchivePolicyToStringConverter x:Key="ArchivePolicyToStringConverter" />
+        <Style TargetType="Button" BasedOn="{StaticResource DialogButton}">
+            <Setter Property="Margin" Value="5,5" />
+        </Style>
 
-            <Style TargetType="Button" BasedOn="{StaticResource DialogButton}">
-                <Setter Property="Margin" Value="5,0" />
-            </Style>
-
-        </ResourceDictionary>
     </Window.Resources>
 
-    <DockPanel Margin="5" MinHeight="450">
+    <DockPanel Margin="5" >
 
         <DockPanel DockPanel.Dock="Right" LastChildFill="False" Margin="5">
             <StackPanel DockPanel.Dock="Top">
@@ -37,7 +31,7 @@
         <ListView x:Name="ItemsListView" Margin="5" ItemsSource="{Binding Items}" SelectedIndex="{Binding SelectedIndex}" AllowDrop="True" PreviewDragEnter="ItemsListView_PreviewDragOver" PreviewDragOver="ItemsListView_PreviewDragOver" Drop="ItemsListView_Drop" KeyDown="ItemsListView_KeyDown">
 
             <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
+                <Style TargetType="ListViewItem" BasedOn="{StaticResource NVListViewItem}">
                     <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick" />
                 </Style>
             </ListView.ItemContainerStyle>

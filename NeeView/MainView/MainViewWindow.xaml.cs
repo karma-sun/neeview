@@ -52,7 +52,6 @@ namespace NeeView
         private DpiScaleProvider _dpiProvider = new DpiScaleProvider();
         private WindowChromeAccessor _windowChrome;
         private WindowStateManager _windowStateManager;
-        private WindowBorder _windowBorder;
         private bool _canHideMenu;
         private WindowController _windowController;
         private RoutedCommandBinding _routedCommandBinding;
@@ -70,8 +69,6 @@ namespace NeeView
 
             _windowStateManager = new WindowStateManager(this, new WindowStateManagerDependency(_windowChrome, TabletModeWatcher.Current));
             _windowStateManager.StateChanged += WindowStateManager_StateChanged;
-
-            _windowBorder = new WindowBorder(this, _windowChrome);
 
             _windowController = new WindowController(_windowStateManager, this);
 
@@ -112,8 +109,6 @@ namespace NeeView
         public WindowChromeAccessor WindowChrome => _windowChrome;
 
         public WindowStateManager WindowStateManager => _windowStateManager;
-
-        public WindowBorder WindowBorder => _windowBorder;
 
         public AutoHideConfig AutoHideConfig => Config.Current.AutoHide;
 

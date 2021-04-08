@@ -76,26 +76,35 @@
             <Path UseLayoutRounding="True" Opacity="{Binding ForegroundOpacity}" StrokeThickness="{Binding StrokeThickness}" Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=Button}}" Data="M 0,0 L 10,10 M 0,10 L 10,0" Margin="0,0,1,0"/>
         </Button>
 
-        <Button x:Name="CaptionMaximizeButton" DockPanel.Dock="Right" Style="{StaticResource WindowCaptionButtonStyle}" Command="{x:Static SystemCommands.MaximizeWindowCommand}">
-            <Rectangle UseLayoutRounding="True" Opacity="{Binding ForegroundOpacity}" Width="10" Height="10" StrokeThickness="{Binding StrokeThickness}" Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}" />
-        </Button>
+        <Grid DockPanel.Dock="Right" Visibility="{Binding IsMaximizeEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
 
-        <Button x:Name="CaptionRestoreButton" DockPanel.Dock="Right" Style="{StaticResource WindowCaptionButtonStyle}" Command="{x:Static SystemCommands.RestoreWindowCommand}" >
-            <Grid Width="10" Height="10" Opacity="{Binding ForegroundOpacity}" >
-                <Rectangle UseLayoutRounding="True" Width="8" Height="8" StrokeThickness="{Binding StrokeThickness}"  Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}" Margin="0,2,2,0"/>
-                <Rectangle UseLayoutRounding="True" Width="8" Height="8" StrokeThickness="{Binding StrokeThickness}"  Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}" Margin="2,0,0,2">
-                    <Rectangle.Clip>
-                        <GeometryGroup FillRule="Nonzero">
-                            <RectangleGeometry Rect="0,0,10,2"/>
-                            <RectangleGeometry Rect="6,0,10,10"/>
-                        </GeometryGroup>
-                    </Rectangle.Clip>
-                </Rectangle>
-            </Grid>
-        </Button>
+            <Button x:Name="CaptionMaximizeButton" Style="{StaticResource WindowCaptionButtonStyle}" Command="{x:Static SystemCommands.MaximizeWindowCommand}">
+                <Rectangle UseLayoutRounding="True" Opacity="{Binding ForegroundOpacity}" Width="10" Height="10" StrokeThickness="{Binding StrokeThickness}"
+                        Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+            </Button>
 
-        <Button x:Name="CaptionMinimizeButton" DockPanel.Dock="Right" Style="{StaticResource WindowCaptionButtonStyle}" Command="{x:Static SystemCommands.MinimizeWindowCommand}" Visibility="{Binding IsMinimizeEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <Rectangle UseLayoutRounding="True" Opacity="{Binding ForegroundOpacity}" Width="10" Height="{Binding StrokeThickness}" StrokeThickness="{Binding StrokeThickness}"   Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+            <Button x:Name="CaptionRestoreButton" Style="{StaticResource WindowCaptionButtonStyle}" Command="{x:Static SystemCommands.RestoreWindowCommand}">
+                <Grid Width="10" Height="10" Opacity="{Binding ForegroundOpacity}">
+                    <Rectangle UseLayoutRounding="True" Width="8" Height="8" StrokeThickness="{Binding StrokeThickness}"
+                            Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}" Margin="0,2,2,0" />
+                    <Rectangle UseLayoutRounding="True" Width="8" Height="8" StrokeThickness="{Binding StrokeThickness}"
+                            Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}" Margin="2,0,0,2">
+                        <Rectangle.Clip>
+                            <GeometryGroup FillRule="Nonzero">
+                                <RectangleGeometry Rect="0,0,10,2" />
+                                <RectangleGeometry Rect="6,0,10,10" />
+                            </GeometryGroup>
+                        </Rectangle.Clip>
+                    </Rectangle>
+                </Grid>
+            </Button>
+
+        </Grid>
+
+        <Button x:Name="CaptionMinimizeButton" DockPanel.Dock="Right" Style="{StaticResource WindowCaptionButtonStyle}" Command="{x:Static SystemCommands.MinimizeWindowCommand}"
+                Visibility="{Binding IsMinimizeEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Rectangle UseLayoutRounding="True" Opacity="{Binding ForegroundOpacity}" Width="10" Height="{Binding StrokeThickness}" StrokeThickness="{Binding StrokeThickness}"
+                    Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}" />
         </Button>
 
     </DockPanel>

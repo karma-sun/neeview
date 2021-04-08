@@ -16,10 +16,6 @@ namespace NeeView
             _tabletModeWatcher = tabletModeWatcher;
 
             _windowConfig = new WeakBindableBase<WindowConfig>(Config.Current.Window);
-            _windowConfig.AddPropertyChanged(nameof(WindowConfig.MaximizeWindowGapWidth), (s, e) =>
-            {
-                _chrome.MaximizeWindowGapWidth = Config.Current.Window.MaximizeWindowGapWidth;
-            });
         }
 
         public bool IsTabletMode => _tabletModeWatcher.IsTabletMode;

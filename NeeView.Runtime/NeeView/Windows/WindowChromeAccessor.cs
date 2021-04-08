@@ -40,7 +40,6 @@ namespace NeeView.Windows
         private WindowChrome _windowChrome;
         private bool _isEnabled;
         private bool _isSuspended;
-        private double _maximizeWindowGapWidth = 8.0;
 
 
         public WindowChromeAccessor(Window window)
@@ -53,7 +52,7 @@ namespace NeeView.Windows
             _windowChrome.CaptionHeight = 0;
             _windowChrome.GlassFrameThickness = new Thickness(1);
             _windowChrome.ResizeBorderThickness = new Thickness(8);
-            
+
             _window.StateChanged += Window_StateChanged;
         }
 
@@ -102,48 +101,18 @@ namespace NeeView.Windows
             get { return _window.WindowState == WindowState.Maximized ? 24.0 : 28.0; }
         }
 
-        public double MaximizeWindowGapWidth
-        {
-            get { return _maximizeWindowGapWidth; }
-            set
-            {
-                if (SetProperty(ref _maximizeWindowGapWidth, Math.Max(value, 0.0)))
-                {
-                    UpdateWindowBorderThickness();
-                }
-            }
-        }
-
 
         private void Window_StateChanged(object sender, EventArgs e)
         {
             RaisePropertyChanged(nameof(CaptionHeight));
-            UpdateWindowBorderThickness();
         }
 
         private void Update()
         {
             WindowChrome.SetWindowChrome(_window, IsActive ? _windowChrome : null);
-            UpdateWindowBorderThickness();
             AttachWindowChromeExceptionGuard();
         }
 
-        public virtual void UpdateWindowBorderThickness()
-        {
-            var dpi = (_window is IDpiScaleProvider dpiProvider) ? dpiProvider.GetDpiScale() : new DpiScale(1.0, 1.0);
-
-            if (IsActive && _window.WindowState == WindowState.Maximized)
-            {
-                var x = MaximizeWindowGapWidth / dpi.DpiScaleX;
-                var y = MaximizeWindowGapWidth / dpi.DpiScaleY;
-                _window.BorderBrush = Brushes.Black;
-                _window.BorderThickness = new Thickness(x, y, x, y);
-            }
-            else
-            {
-                _window.BorderThickness = default;
-            }
-        }
 
         #region Hotfix: Overflow exception in WindowChrome
 

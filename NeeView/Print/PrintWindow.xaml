@@ -11,48 +11,43 @@
         Title="{x:Static properties:Resources.PrintWindow_Title}" Height="600" Width="800" ResizeMode="CanResizeWithGrip">
 
     <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Styles/NVTheme.xaml" />
-            </ResourceDictionary.MergedDictionaries>
 
-            <Style x:Key="TextButton" TargetType="Button" BasedOn="{StaticResource DialogButton}">
-                <Setter Property="Margin" Value="10,10,0,0" />
-            </Style>
+        <Style x:Key="TextButton" TargetType="Button" BasedOn="{StaticResource DialogButton}">
+            <Setter Property="Margin" Value="10,10,0,0" />
+        </Style>
 
-            <Style x:Key="TextRecommentedButton" TargetType="Button" BasedOn="{StaticResource DialogRecommentedButton}">
-                <Setter Property="Margin" Value="10,10,0,0" />
-            </Style>
+        <Style x:Key="TextRecommentedButton" TargetType="Button" BasedOn="{StaticResource DialogRecommentedButton}">
+            <Setter Property="Margin" Value="10,10,0,0" />
+        </Style>
 
 
-            <Style x:Key="Header" TargetType="TextBlock">
-                <Setter Property="VerticalAlignment" Value="Center" />
-                <Setter Property="TextTrimming" Value="CharacterEllipsis" />
-            </Style>
+        <Style x:Key="Header" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        </Style>
 
-            <Style x:Key="Body" TargetType="TextBlock">
-                <Setter Property="Background" Value="Transparent" />
-            </Style>
+        <Style x:Key="Body" TargetType="TextBlock">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
 
-            <Style TargetType="nvc:EnterTriggerTextBox" BasedOn="{StaticResource {x:Type TextBox}}" />
+        <Style TargetType="nvc:EnterTriggerTextBox" BasedOn="{StaticResource {x:Type TextBox}}" />
 
-            <Style x:Key="BoxHeader" TargetType="TextBlock">
-                <Setter Property="MinWidth" Value="40" />
-                <Setter Property="Padding" Value="2,0" />
-                <Setter Property="VerticalAlignment" Value="Center" />
-                <Setter Property="TextAlignment" Value="Right" />
-            </Style>
+        <Style x:Key="BoxHeader" TargetType="TextBlock">
+            <Setter Property="MinWidth" Value="40" />
+            <Setter Property="Padding" Value="2,0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="TextAlignment" Value="Right" />
+        </Style>
 
 
-            <Style x:Key="ItemStack" TargetType="StackPanel">
-                <Setter Property="Margin" Value="0,5" />
-            </Style>
+        <Style x:Key="ItemStack" TargetType="StackPanel">
+            <Setter Property="Margin" Value="0,5" />
+        </Style>
 
-            <Style x:Key="ItemDock" TargetType="DockPanel">
-                <Setter Property="Margin" Value="0,5" />
-            </Style>
+        <Style x:Key="ItemDock" TargetType="DockPanel">
+            <Setter Property="Margin" Value="0,5" />
+        </Style>
 
-        </ResourceDictionary>
     </Window.Resources>
 
     <Grid>

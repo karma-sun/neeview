@@ -9,7 +9,7 @@ using System.Text.Json;
 using System.Collections;
 using System.Text.Json.Serialization;
 using System.IO;
-
+using System.Windows;
 
 namespace NeeView
 {
@@ -79,6 +79,11 @@ namespace NeeView
         }
 
 
+        public void Touch()
+        {
+            // NOTE: シングルトンインスタンスの保証
+        }
+
         public void RefreshThemeColor()
         {
             var themeProfile = GeThemeProfile(Config.Current.Theme.ThemeType, true);
@@ -88,13 +93,19 @@ namespace NeeView
                 App.Current.Resources[key] = new SolidColorBrush(themeProfile.GetColor(key, 1.0));
             }
 
-            // NOTE: special theme color
+            // special theme color
             App.Current.Resources["PageSelectionBar.Background.Color"] = themeProfile.GetColor("PageSelectionBar.Background", 1.0);
 
-            ThemeProfile = themeProfile;
+            // window border thickness
+            App.Current.Resources["Window.BorderThickness"] = themeProfile.GetColor("Window.Border", 1.0).A > 0x00 ? new Thickness(1.0) : default;
 
+            // dialog border thickness
+            App.Current.Resources["Dialog.BorderThickness"] = themeProfile.GetColor("Dialog.Border", 1.0).A > 0x00 ? new Thickness(1.0) : default;
+
+            ThemeProfile = themeProfile;
             ThemeProfileChanged?.Invoke(this, null);
         }
+
 
         private ThemeProfile GeThemeProfile(ThemeType themeType, bool isShowExceptionToast)
         {

@@ -229,7 +229,7 @@ namespace NeeView
         {
             var button = new Button()
             {
-                Style = this.Resources[isDefault ? "DialogRecommentedButton" : "DialogButton"] as Style,
+                Style = App.Current.Resources[isDefault ? "DialogRecommentedButton" : "DialogButton"] as Style,
                 Content = command.Label,
                 Command = ButtonClickedCommand,
                 CommandParameter = command,

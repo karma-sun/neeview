@@ -13,7 +13,7 @@ namespace NeeView
     // from https://stackoverflow.com/questions/5047576/wpf-treeview-how-to-style-selected-items-with-rounded-corners-like-in-explorer
     // from  https://stackoverflow.com/questions/664632/highlight-whole-treeviewitem-line-in-wpf
 
-    public class TreeViewItemTools : DependencyObject
+    public class TreeViewItemTools 
     {
         private static TreeViewItem CurrentItem;
 
@@ -22,10 +22,10 @@ namespace NeeView
 
 
         public static readonly DependencyProperty IndentLengthProperty =
-            DependencyProperty.Register("IndentLength", typeof(double), typeof(TreeViewItemTools), new PropertyMetadata(10.0));
+            DependencyProperty.RegisterAttached("IndentLength", typeof(double), typeof(TreeViewItemTools), new PropertyMetadata(10.0));
 
         public static readonly DependencyProperty VerticalMarginProperty =
-            DependencyProperty.Register("VerticalMargin", typeof(double), typeof(TreeViewItemTools), new PropertyMetadata(0.0));
+            DependencyProperty.RegisterAttached("VerticalMargin", typeof(double), typeof(TreeViewItemTools), new PropertyMetadata(0.0));
 
         private static readonly DependencyPropertyKey IsMouseDirectlyOverItemKey =
             DependencyProperty.RegisterAttachedReadOnly("IsMouseDirectlyOverItem", typeof(bool), typeof(TreeViewItemTools), new FrameworkPropertyMetadata(null, new CoerceValueCallback(CalculateIsMouseDirectlyOverItem)));

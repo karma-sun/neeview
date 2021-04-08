@@ -23,6 +23,7 @@ namespace NeeView
     public partial class CustomLayoutPanelWindow : LayoutPanelWindow, IDisposable
     {
         private WindowChromeAccessor _windowChrome;
+        private WindowStateManager _windowStateManager;
         private RoutedCommandBinding _routedCommandBinding;
         private bool _disposedValue;
 
@@ -32,9 +33,8 @@ namespace NeeView
             InitializeComponent();
             this.DataContext = this;
 
-            WindowTools.DisableStyle(this, WindowTools.WindowStyle.MinimizeBox);
-
             _windowChrome = new WindowChromeAccessor(this);
+            _windowStateManager = new WindowStateManager(this, new WindowStateManagerDependency(_windowChrome, TabletModeWatcher.Current));
         }
 
         public CustomLayoutPanelWindow(LayoutPanelWindowManager manager, LayoutPanel layoutPanel) : this()
@@ -44,10 +44,6 @@ namespace NeeView
             this.Title = layoutPanel.Title;
 
             this.CaptionBar.ContextMenu = CreateContextMenu();
-
-            this.WindowBorder.SetBinding(Border.BorderThicknessProperty, new Binding(nameof(NeeView.WindowBorder.Thickness)) { Source = new WindowBorder(this, _windowChrome) });
-
-            Config.Current.Window.PropertyChanged += WindowConfig_PropertyChanged;
 
             _routedCommandBinding = new RoutedCommandBinding(this, RoutedCommandTable.Current);
         }
@@ -78,16 +74,6 @@ namespace NeeView
             base.OnClosed(e);
         }
 
-        private void WindowConfig_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            UpdateMaximizeWindowGapWidth();
-        }
-
-        private void UpdateMaximizeWindowGapWidth()
-        {
-            _windowChrome.MaximizeWindowGapWidth = Config.Current.Window.MaximizeWindowGapWidth;
-        }
-
         #region IDisposable
 
         protected virtual void Dispose(bool disposing)
@@ -96,8 +82,6 @@ namespace NeeView
             {
                 if (disposing)
                 {
-                    Config.Current.Window.PropertyChanged -= WindowConfig_PropertyChanged;
-
                     _routedCommandBinding?.Dispose();
                     _routedCommandBinding = null;
                 }

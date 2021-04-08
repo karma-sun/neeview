@@ -2,7 +2,7 @@
 
 namespace NeeView
 {
-    public class ListBoxItemTools : DependencyObject
+    public class ListBoxItemTools
     {
         public static Thickness GetInnerMargin(DependencyObject obj)
         {
@@ -15,6 +15,6 @@ namespace NeeView
         }
 
         public static readonly DependencyProperty InnerMarginProperty =
-            DependencyProperty.Register("InnerMargin", typeof(Thickness), typeof(ListBoxItemTools), new PropertyMetadata(new Thickness(0,-1,0,0)));
+            DependencyProperty.RegisterAttached("InnerMargin", typeof(Thickness), typeof(ListBoxItemTools), new PropertyMetadata(new Thickness(0,-1,0,0)));
     }
 }

@@ -124,6 +124,8 @@ namespace NeeView
 
             Trace.WriteLine($"App.Initialized: {Stopwatch.ElapsedMilliseconds}ms");
 
+            ThemeManager.Current.Touch();
+
             // メインウィンドウ起動
             var mainWindow = new MainWindow();
             mainWindow.Initialize();

@@ -21,15 +21,11 @@ namespace NeeView
     public partial class PrintWindow : Window
     {
         private PrintWindowViewModel _vm;
-        private ChromeWindowStyleAssistant _assistant;
 
 
         public PrintWindow()
         {
             InitializeComponent();
-
-            _assistant = new ChromeWindowStyleAssistant(this);
-            _assistant.Attach();
         }
 
         public PrintWindow(PrintContext context) : this()

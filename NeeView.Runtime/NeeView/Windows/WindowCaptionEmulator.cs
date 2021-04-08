@@ -34,6 +34,9 @@ namespace NeeView.Windows
 
 
         public bool IsEnabled { get; set; }
+
+        public bool IsMaximizeEnabled { get; set; } = true;
+
         public Window Window => _window;
 
 
@@ -42,7 +45,7 @@ namespace NeeView.Windows
             if (e.Handled) return;
             if (!IsEnabled) return;
 
-            if (e.ClickCount == 2)
+            if (IsMaximizeEnabled && e.ClickCount == 2)
             {
                 switch (_window.WindowState)
                 {
@@ -117,6 +120,7 @@ namespace NeeView.Windows
         protected virtual void OnWindowStateChanged(object sender, WindowStateChangeEventArgs e)
         {
         }
+
 
         protected virtual void Dispose(bool disposing)
         {

@@ -172,6 +172,17 @@ namespace NeeView
             _isProgress = false;
         }
 
+        // NOTE: メインウィンドウ以外でも使用した場合にResizeModeが切り替わってしまう現象に対する応急処置
+        private ResizeMode ValidateResizeMode(ResizeMode resizeMode)
+        {
+            return (_previousState == WindowStateEx.FullScreen) ? resizeMode : _window.ResizeMode;
+        }
+
+        // NOTE: メインウィンドウ以外でも使用した場合にWindowStyleが切り替わってしまう現象に対する応急処置
+        private WindowStyle ValidateWindowStyle(WindowStyle windowStyle)
+        {
+            return (_window.WindowStyle == WindowStyle.None) ? windowStyle : _window.WindowStyle;
+        }
 
         public void ToMinimize()
         {
@@ -179,7 +190,8 @@ namespace NeeView
 
             BeginEdit();
 
-            _window.ResizeMode = ResizeMode.CanResize;
+            _window.ResizeMode = ValidateResizeMode(ResizeMode.CanResize);
+            _window.WindowStyle = ValidateWindowStyle(WindowStyle.SingleBorderWindow);
             _window.WindowState = WindowState.Minimized;
 
             EndEdit();
@@ -194,8 +206,8 @@ namespace NeeView
             SetFullScreenMode(false);
             _resumeState = WindowStateEx.Normal;
 
-            _window.ResizeMode = ResizeMode.CanResize;
-            _window.WindowStyle = WindowStyle.SingleBorderWindow;
+            _window.ResizeMode = ValidateResizeMode(ResizeMode.CanResize);
+            _window.WindowStyle = ValidateWindowStyle(WindowStyle.SingleBorderWindow);
             _window.WindowState = WindowState.Normal;
 
             UpdateWindowChrome();
@@ -229,8 +241,8 @@ namespace NeeView
             SetFullScreenMode(false);
             _resumeState = WindowStateEx.Maximized;
 
-            _window.ResizeMode = ResizeMode.CanResize;
-            _window.WindowStyle = WindowStyle.SingleBorderWindow;
+            _window.ResizeMode = ValidateResizeMode(ResizeMode.CanResize);
+            _window.WindowStyle = ValidateWindowStyle(WindowStyle.SingleBorderWindow);
             _window.WindowState = WindowState.Maximized;
 
             UpdateWindowChrome();

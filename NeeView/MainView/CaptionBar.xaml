@@ -16,6 +16,8 @@
         
         <ContentControl.Style>
             <Style TargetType="{x:Type ContentControl}">
+                <Setter Property="Focusable" Value="False" />
+                <Setter Property="IsTabStop" Value="False" />
                 <Setter Property="Foreground" Value="{DynamicResource Window.ActiveTitle}" />
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}}" Value="False">
@@ -27,8 +29,9 @@
 
         <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource MenuBar.Border}">
             <DockPanel>
-                <nwc:WindowCaptionButtons x:Name="CaptionButtons" DockPanel.Dock="Right" IsEnabled="True" WindowChrome.IsHitTestVisibleInChrome="False"
-                        IsMinimizeEnabled="{Binding RelativeSource={RelativeSource AncestorType=local:CaptionBar}, Path=IsMinimizeEnabled}" />
+                <nwc:WindowCaptionButtons x:Name="CaptionButtons" DockPanel.Dock="Right" IsEnabled="True" WindowChrome.IsHitTestVisibleInChrome="True"
+                        IsMinimizeEnabled="{Binding RelativeSource={RelativeSource AncestorType=local:CaptionBar}, Path=IsMinimizeEnabled}"
+                        IsMaximizeEnabled="{Binding RelativeSource={RelativeSource AncestorType=local:CaptionBar}, Path=IsMaximizeEnabled}" />
                 <TextBlock x:Name="TitleTextBlock" VerticalAlignment="Center" Margin="16,0" FontSize="{DynamicResource {x:Static SystemFonts.CaptionFontSizeKey}}"
                         FontFamily="{DynamicResource {x:Static SystemFonts.CaptionFontFamilyKey}}" TextTrimming="CharacterEllipsis"
                         Text="{Binding RelativeSource={RelativeSource AncestorType=local:CaptionBar}, Path=Title}" />

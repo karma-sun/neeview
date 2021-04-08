@@ -1,7 +1,7 @@
 ﻿<Window x:Class="NeeView.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:NeeView"
         xmlns:osc="clr-namespace:OpenSourceControls" xmlns:nwc="clr-namespace:NeeView.Windows.Controls" xmlns:properties="clr-namespace:NeeView.Properties"
-        xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors" mc:Ignorable="d" x:Name="RootWindow" Style="{StaticResource DefaultWindowStyle}" BorderBrush="Black"
+        xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors" mc:Ignorable="d" x:Name="RootWindow" Style="{StaticResource DefaultWindowStyle}"
         Title="{Binding WindowTitle.Title}" Icon="{Binding WindowIcon}" d:DesignHeight="768" d:DesignWidth="1024" MinHeight="50" MinWidth="150" SourceInitialized="MainWindow_SourceInitialized"
         Loaded="MainWindow_Loaded" ContentRendered="MainWindow_ContentRendered" Closed="MainWindow_Closed" Closing="MainWindow_Closing" Activated="MainWindow_Activated"
         Deactivated="MainWindow_Deactivated" MouseLeave="MainWindow_MouseLeave" StateChanged="MainWindow_StateChanged" DpiChanged="MainWindow_DpiChanged">
@@ -50,7 +50,7 @@
         <CommandBinding Command="{x:Static SystemCommands.MinimizeWindowCommand}" Executed="MinimizeWindowCommand_Execute" />
     </Window.CommandBindings>
 
-    <Border BorderThickness="{Binding WindowShape.WindowBorder.Thickness}" BorderBrush="{DynamicResource Window.Border}">
+    <Border>
 
         <!-- 製品表示領域 -->
         <Grid x:Name="Root" UseLayoutRounding="True" WindowChrome.IsHitTestVisibleInChrome="False">

@@ -7,6 +7,8 @@
     "Window.ActiveTitle": "Window.Foreground",
     "Window.InactiveTitle": "Window.Foreground",
 
+    "Dialog.Border": "Window.Border",
+
     "Control.Background": "#FFA0A0A0",
     "Control.Foreground": "",
     "Control.Border": "#FF80D0FF",

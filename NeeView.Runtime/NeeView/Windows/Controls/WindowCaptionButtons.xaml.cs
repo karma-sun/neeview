@@ -39,6 +39,15 @@ namespace NeeView.Windows.Controls
             DependencyProperty.Register("IsMinimizeEnabled", typeof(bool), typeof(WindowCaptionButtons), new PropertyMetadata(true));
 
 
+        public bool IsMaximizeEnabled
+        {
+            get { return (bool)GetValue(IsMaximizeEnabledProperty); }
+            set { SetValue(IsMaximizeEnabledProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsMaximizeEnabledProperty =
+            DependencyProperty.Register("IsMaximizeEnabled", typeof(bool), typeof(WindowCaptionButtons), new PropertyMetadata(true));
+
 
         public double StrokeThickness
         {

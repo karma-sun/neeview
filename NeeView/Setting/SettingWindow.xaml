@@ -1,15 +1,13 @@
 ﻿<Window x:Class="NeeView.Setting.SettingWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:NeeView.Setting"
         xmlns:nv="clr-namespace:NeeView"  xmlns:nvp="clr-namespace:NeeView.Windows.Property" xmlns:nvc="clr-namespace:NeeView.Windows.Controls" xmlns:nvd="clr-namespace:NeeView.Windows.Data"
-        xmlns:osc="clr-namespace:OpenSourceControls" xmlns:properties="clr-namespace:NeeView.Properties" mc:Ignorable="d" Style="{StaticResource DefaultWindowStyle}" ShowInTaskbar="True"
+        xmlns:osc="clr-namespace:OpenSourceControls" xmlns:properties="clr-namespace:NeeView.Properties" mc:Ignorable="d" Style="{StaticResource ChromeWindowStyle}" ShowInTaskbar="True"
         Deactivated="Window_Deactivated" Closed="SettingWindow_Closed" Title="{x:Static properties:Resources.WindowSettingTitle}" Height="704" Width="960">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Styles/NVTheme.xaml" />
                 <ResourceDictionary Source="/NeeView/Windows/Property/PropertyValueTemplateDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
 
 
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -132,7 +130,7 @@
 
             <DataTemplate DataType="{x:Type nvp:PropertyValue_Color}">
                 <DockPanel>
-                    <nvc:EnterTriggerTextBox Text="{Binding Value}" MinWidth="100" BorderThickness="1,1,0,1" Padding="0,0,2,0" VerticalContentAlignment="Center" />
+                    <nvc:EnterTriggerTextBox Text="{Binding Value}" MinWidth="100" BorderThickness="1,1,1,1" Padding="0,0,2,0" VerticalContentAlignment="Center" />
                     <osc:ComboColorPicker SelectedColor="{Binding Value, Mode=TwoWay}" />
                 </DockPanel>
             </DataTemplate>

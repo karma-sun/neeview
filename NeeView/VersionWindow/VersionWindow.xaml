@@ -6,9 +6,8 @@
         xmlns:local="clr-namespace:NeeView"
         xmlns:properties="clr-namespace:NeeView.Properties"
         mc:Ignorable="d"
-        Foreground="#222"
-        Style="{StaticResource SystemWindowStyle}"
-        Title="{x:Static properties:Resources.VersionWindow_Title}" Height="280" Width="480" SizeToContent="WidthAndHeight" ResizeMode="NoResize" >
+        Style="{StaticResource ChromeDialogStyle}"
+        Title="{x:Static properties:Resources.VersionWindow_Title}" Width="512" SizeToContent="Height" ResizeMode="NoResize" >
     <Window.Resources>
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -20,9 +19,9 @@
         </Style>
     </Window.Resources>
 
-    <DockPanel Background="#F8F8F8" MinHeight="280" MinWidth="480">
+    <DockPanel MinHeight="280" MinWidth="480">
 
-        <DockPanel DockPanel.Dock="Bottom" LastChildFill="False" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" >
+        <DockPanel DockPanel.Dock="Bottom" LastChildFill="False" Background="{DynamicResource SidePanel.Background}" >
             <DockPanel.Resources>
                 <Style x:Key="LinkedTextBlock" TargetType="TextBlock">
                     <Setter Property="Margin" Value="30,20"/>
@@ -62,10 +61,10 @@
                     <TextBlock Text="{Binding Checker.Message}">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
-                                <Setter Property="Foreground" Value="Gray"/>
+                                <Setter Property="Foreground" Value="{DynamicResource Control.GrayText}"/>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Checker.IsExistNewVersion}" Value="True">
-                                        <Setter Property="Foreground" Value="Black"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource Window.Foreground}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>

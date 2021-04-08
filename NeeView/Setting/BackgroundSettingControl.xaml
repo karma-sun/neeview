@@ -26,7 +26,7 @@
 
                 <DockPanel Margin="5">
                     <TextBlock Text="{x:Static properties:Resources.CustomBackgroundControl_Color}" MinWidth="50" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding Color}" MinWidth="100" BorderThickness="1,1,0,1" Padding="0,0,2,0" VerticalContentAlignment="Center"/>
+                    <TextBox Text="{Binding Color}" MinWidth="100" BorderThickness="1" Padding="0,0,2,0" VerticalContentAlignment="Center"/>
                     <osc:ComboColorPicker SelectedColor="{Binding Color, Mode=TwoWay}"/>
                 </DockPanel>
                 <DockPanel Margin="5">

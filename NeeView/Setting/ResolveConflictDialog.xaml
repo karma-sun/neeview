@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:NeeView.Setting"
         xmlns:properties="clr-namespace:NeeView.Properties"
         mc:Ignorable="d"
-        Style="{StaticResource SystemWindowStyle}"
-        SizeToContent="Height" MinHeight="150" Width="600"
+        Style="{StaticResource ChromeDialogStyle}"
+        SizeToContent="Height" MinHeight="150" Width="600" ResizeMode="NoResize"
         Title="{Binding Title}">
 
     <Window.Resources>

@@ -24,6 +24,8 @@
     <SolidColorBrush x:Key="Window.ActiveTitle" Color="White" />
     <SolidColorBrush x:Key="Window.InactiveTitle" Color="Gray" />
 
+    <SolidColorBrush x:Key="Dialog.Border" Color="Gray" />
+
     <SolidColorBrush x:Key="Control.Background" Color="Silver" />
     <SolidColorBrush x:Key="Control.Foreground" Color="White" />
     <SolidColorBrush x:Key="Control.Border" Color="Gray" />

@@ -19,6 +19,8 @@ namespace NeeView
             "Window.ActiveTitle",
             "Window.InactiveTitle",
 
+            "Dialog.Border",
+
             "Control.Background",
             "Control.Foreground",
             "Control.Border",

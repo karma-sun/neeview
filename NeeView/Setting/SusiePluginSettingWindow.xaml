@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:NeeView.Setting"
         xmlns:properties="clr-namespace:NeeView.Properties"
         mc:Ignorable="d"
-        Style="{StaticResource SystemWindowStyle}"
+        Style="{StaticResource ChromeDialogStyle}"
         Title="{Binding Name}" Width="600" Height="600">
 
     <Window.Resources>
@@ -15,6 +15,15 @@
                 <ResourceDictionary Source="/Styles/SystemTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
+            <DrawingImage x:Key="ic_setting_24px">
+                <DrawingImage.Drawing>
+                    <DrawingGroup>
+                        <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
+                        <GeometryDrawing Brush="{DynamicResource DialogButton.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_setting_24px}" />
+                    </DrawingGroup>
+                </DrawingImage.Drawing>
+            </DrawingImage>
+            
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
             <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
@@ -27,6 +36,12 @@
             <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource {x:Type CheckBox}}">
                 <Setter Property="Margin" Value="0,2" />
                 <Setter Property="VerticalContentAlignment" Value="Center" />
+            </Style>
+
+
+            <Style TargetType="{x:Type ListBox}" BasedOn="{StaticResource NVListBox}">
+                <Setter Property="BorderBrush" Value="{DynamicResource Control.Border}" />
+                <Setter Property="BorderThickness" Value="1" />
             </Style>
 
         </ResourceDictionary>

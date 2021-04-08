@@ -17,8 +17,8 @@
     <Window.CommandBindings>
         <CommandBinding Command="{StaticResource StretchWindowCommand}" Executed="StretchWindowCommand_Execute" />
     </Window.CommandBindings>
-    
-    <Border BorderThickness="{Binding WindowBorder.Thickness}" BorderBrush="{DynamicResource Window.Border}">
+
+    <Border>
         <Grid x:Name="Root">
             <Grid.RowDefinitions>
                 <RowDefinition x:Name="Row0" Height="Auto" />

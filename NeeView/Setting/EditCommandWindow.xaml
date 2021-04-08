@@ -7,16 +7,16 @@
         xmlns:nv="clr-namespace:NeeView"
         xmlns:properties="clr-namespace:NeeView.Properties"
         mc:Ignorable="d"
-        Style="{StaticResource SystemWindowStyle}"
+        Style="{StaticResource ChromeDialogStyle}"
         UseLayoutRounding="True"
         Title="EditCommandWindow" Height="480" Width="640">
     
     <Window.Resources>
-        <Style x:Key="ButtonStyle" TargetType="Button">
-            <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
+        <Style x:Key="ButtonStyle" TargetType="Button" BasedOn="{StaticResource NVButton}">
             <Setter Property="Padding" Value="10,5" />
             <Setter Property="Margin" Value="5" />
             <Setter Property="MinWidth" Value="80" />
+            <Setter Property="MinHeight" Value="0" />
         </Style>
         <Style TargetType="TabItem">
             <Setter Property="FocusVisualStyle" Value="{StaticResource NVInnerFocusVisual}" />
@@ -28,7 +28,8 @@
             <Button x:Name="ButtonOk" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.Word_OK}" Click="ButtonOk_Click"/>
             <Button x:Name="ButtonCancel" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.Word_Cancel}" Click="ButtonCancel_Click"/>
         </StackPanel>
-        <TabControl x:Name="TabControl" Margin="5" TabIndex="1" KeyboardNavigation.TabNavigation="Local">
+        <TabControl x:Name="TabControl" Margin="5" TabIndex="1" KeyboardNavigation.TabNavigation="Local"
+                    Background="#8888" Foreground="{DynamicResource Window.Foreground}" BorderBrush="Red">
             <TabItem x:Name="GeneralTab">
                 <TabItem.Header>
                     <Grid MinWidth="60" MinHeight="30">

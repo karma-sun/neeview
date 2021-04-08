@@ -42,6 +42,8 @@
     <Style x:Key="{x:Type nvc:ToggleSwitch}" TargetType="{x:Type nvc:ToggleSwitch}" BasedOn="{StaticResource NVToggleSwitch}" />
     <Style x:Key="{x:Type nrl:LayoutPanelHeader}" TargetType="{x:Type nrl:LayoutPanelHeader}" BasedOn="{StaticResource NVLayoutPanelHeader}" />
 
+    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource NVButton}" />
+
     <Style x:Key="DialogButton" TargetType="{x:Type Button}" BasedOn="{StaticResource DialogButtonBase}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
         <Setter Property="Background" Value="{DynamicResource DialogButton.Background}" />

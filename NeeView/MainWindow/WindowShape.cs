@@ -100,7 +100,6 @@ namespace NeeView
         private bool _isEnabled;
         private MainWindowChromeAccessor _windowChromeAccessor;
         private WindowStateManager _manager;
-        private WindowBorder _windowBorder;
         private bool _autoHideMode;
 
 
@@ -111,8 +110,6 @@ namespace NeeView
 
             _manager = manager;
             _manager.StateChanged += WindowStateManager_StateChanged;
-
-            _windowBorder = new WindowBorder(_window, _windowChromeAccessor);
 
             Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.IsTopmost),
                 (s, e) => RaisePropertyChanged(nameof(IsTopmost)));
@@ -130,8 +127,6 @@ namespace NeeView
                 (s, e) => UpdatePanelHideMode());
         }
 
-
-        public WindowBorder WindowBorder => _windowBorder;
 
         public bool IsTopmost
         {
@@ -217,7 +212,6 @@ namespace NeeView
             UpdatePanelHideMode();
             _windowChromeAccessor.IsEnabled = true;
             _manager.SetWindowState(Config.Current.Window.State);
-            _windowBorder.Update();
             RaisePropertyChanged(null);
         }
 

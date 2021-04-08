@@ -25,18 +25,13 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Border x:Name="WindowBorder" BorderBrush="{DynamicResource Window.Border}" >
-        <Grid x:Name="Root">
-            <Grid.RowDefinitions>
-                <RowDefinition x:Name="Row0" Height="Auto" />
-                <RowDefinition x:Name="Row1" />
-            </Grid.RowDefinitions>
-
-            <ContentControl x:Name="MainViewSocket" Grid.Row="1" Content="{Binding LayoutPanel.Content}" />
-
-            <local:CaptionBar x:Name="CaptionBar" Grid.Row="0" MinHeight="{Binding WindowChrome.CaptionHeight}" VerticalAlignment="Top" Title="{Binding Title}" IsMinimizeEnabled="False" />
-
-        </Grid>
-    </Border>
+    <Grid x:Name="Root">
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="Row0" Height="Auto" />
+            <RowDefinition x:Name="Row1" />
+        </Grid.RowDefinitions>
+        <ContentControl x:Name="MainViewSocket" Grid.Row="1" Content="{Binding LayoutPanel.Content}" />
+        <local:CaptionBar x:Name="CaptionBar" Grid.Row="0" MinHeight="{Binding WindowChrome.CaptionHeight}" VerticalAlignment="Top" Title="{Binding Title}" IsMinimizeEnabled="False" />
+    </Grid>
 
 </layoutpanel:LayoutPanelWindow>

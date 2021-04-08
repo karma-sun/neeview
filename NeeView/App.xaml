@@ -24,9 +24,7 @@
                 <ResourceDictionary Source="/Styles/IconGeometries.xaml" />
 
                 <ResourceDictionary Source="/Styles/NVStyles.xaml" />
-                <ResourceDictionary Source="/Styles/DialogButton.xaml" />
                 <ResourceDictionary Source="/Styles/NVTheme.xaml" />
-
                 <ResourceDictionary Source="/Styles/WindowStyles.xaml" />
 
             </ResourceDictionary.MergedDictionaries>

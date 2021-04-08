@@ -46,18 +46,22 @@ namespace NeeView
             "Button.Pressed.Background",
             "Button.Pressed.Border",
 
-            "DialogButton.Background",
-            "DialogButton.Foreground",
-            "DialogButton.Border",
-            "DialogRecommentedButton.Background",
-            "DialogRecommentedButton.Foreground",
-            "DialogRecommentedButton.Border",
+            "IconButton.Background",
+            "IconButton.Foreground",
+            "IconButton.Border",
+            "IconButton.MouseOver.Background",
+            "IconButton.MouseOver.Border",
+            "IconButton.Checked.Background",
+            "IconButton.Checked.Border",
+            "IconButton.Pressed.Background",
+            "IconButton.Pressed.Border",
 
             "Slider.Background",
             "Slider.Foreground",
             "Slider.Border",
             "Slider.Thumb",
             "Slider.Track",
+
 
             "ScrollBar.Background",
             "ScrollBar.Foreground",

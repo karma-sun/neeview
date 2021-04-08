@@ -7,16 +7,15 @@
         <ResourceDictionary>
 
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Styles/NVTheme.xaml" />
                 <ResourceDictionary Source="/Styles/PanelIcons.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <Style x:Key="TextButton" TargetType="Button" BasedOn="{StaticResource DialogButton}">
+            <Style x:Key="TextButton" TargetType="Button" BasedOn="{StaticResource NVDialogButton}">
             <Setter Property="Margin" Value="10,10,0,0" />
             <Setter Property="MaxWidth" Value="512" />
         </Style>
 
-        <Style x:Key="TextButtonMain" TargetType="Button" BasedOn="{StaticResource DialogRecommentedButton}">
+            <Style x:Key="TextButtonMain" TargetType="Button" BasedOn="{StaticResource NVDialogAccentButton}">
             <Setter Property="Margin" Value="10,10,0,0" />
             <Setter Property="MaxWidth" Value="512" />
         </Style>

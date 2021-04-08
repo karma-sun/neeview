@@ -244,6 +244,5 @@ namespace NeeView.Setting
         }
 
         #endregion
-
     }
 }

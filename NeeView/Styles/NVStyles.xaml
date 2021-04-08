@@ -17,37 +17,6 @@
 
     <!--#region NVFocusVisual-->
 
-    <Style x:Key="NVSystemFocusVisual">
-        <Setter Property="Control.Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <Rectangle StrokeThickness="1" Stroke="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" SnapsToDevicePixels="true" />
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="NVSystemBorderFocusVisual">
-        <Setter Property="Control.Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <Rectangle Margin="-2" StrokeThickness="1" Stroke="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" SnapsToDevicePixels="true" />
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="NVSystemSliderFocusVisual">
-        <Setter Property="Control.Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <Rectangle Margin="-2" StrokeThickness="1" Stroke="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" SnapsToDevicePixels="true" />
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-
     <Style x:Key="NVFocusVisual">
         <Setter Property="Control.Template">
             <Setter.Value>
@@ -207,7 +176,7 @@
             <VisualStateManager.VisualStateGroups>
                 <VisualStateGroup x:Name="CommonStates">
                     <VisualState x:Name="Normal">
-                        <Storyboard BeginTime="0:0:1.0">
+                        <Storyboard BeginTime="0:0:2.0">
                             <DoubleAnimation Duration="0:0:0.1" Storyboard.TargetProperty="ScaleX" Storyboard.TargetName="Scaler" To="0.125" />
                             <DoubleAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="Bd" To="0" />
                             <DoubleAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="UpButton" To="0" />
@@ -259,7 +228,7 @@
             <VisualStateManager.VisualStateGroups>
                 <VisualStateGroup x:Name="CommonStates">
                     <VisualState x:Name="Normal">
-                        <Storyboard BeginTime="0:0:1.0">
+                        <Storyboard BeginTime="0:0:2.0">
                             <DoubleAnimation Duration="0:0:0.1" Storyboard.TargetProperty="ScaleY" Storyboard.TargetName="Scaler" To="0.125" />
                             <DoubleAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="Bd" To="0" />
                             <DoubleAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="LeftButton" To="0" />
@@ -613,12 +582,12 @@
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Button.MouseOver.Background}" />
-                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Button.MouseOver.Border}" />
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource IconButton.MouseOver.Background}" />
+                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource IconButton.MouseOver.Border}" />
             </Trigger>
             <Trigger Property="IsChecked" Value="True">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Button.MouseOver.Background}" />
-                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Button.MouseOver.Border}" />
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource IconButton.MouseOver.Background}" />
+                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource IconButton.MouseOver.Border}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter TargetName="Arrow" Property="Opacity" Value="0.5" />
@@ -721,12 +690,12 @@
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Button.MouseOver.Background}" />
-                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Button.MouseOver.Border}" />
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource IconButton.MouseOver.Background}" />
+                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource IconButton.MouseOver.Border}" />
             </Trigger>
             <Trigger Property="IsChecked" Value="True">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Button.MouseOver.Background}" />
-                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Button.MouseOver.Border}" />
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource IconButton.MouseOver.Background}" />
+                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource IconButton.MouseOver.Border}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter TargetName="Arrow" Property="Opacity" Value="0.5" />
@@ -1425,9 +1394,9 @@
     <!--#region Buttons -->
     <Style x:Key="IconButton" TargetType="{x:Type Button}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}" />
-        <Setter Property="Foreground" Value="{DynamicResource Button.Foreground}" />
-        <Setter Property="Background" Value="{DynamicResource Button.Background}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource Button.Border}" />
+        <Setter Property="Foreground" Value="{DynamicResource IconButton.Foreground}" />
+        <Setter Property="Background" Value="{DynamicResource IconButton.Background}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource IconButton.Border}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Template">
             <Setter.Value>
@@ -1439,12 +1408,12 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource Button.MouseOver.Background}" />
-                            <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource Button.MouseOver.Border}" />
+                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource IconButton.MouseOver.Background}" />
+                            <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource IconButton.MouseOver.Border}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource Button.Pressed.Background}" />
-                            <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource Button.Pressed.Border}" />
+                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource IconButton.Pressed.Background}" />
+                            <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource IconButton.Pressed.Border}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" TargetName="contentPresenter" Value="0.25" />
@@ -1457,9 +1426,9 @@
 
     <Style x:Key="IconToggleButton" TargetType="{x:Type ToggleButton}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}" />
-        <Setter Property="Foreground" Value="{DynamicResource Button.Foreground}" />
-        <Setter Property="Background" Value="{DynamicResource Button.Background}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource Button.Border}" />
+        <Setter Property="Foreground" Value="{DynamicResource IconButton.Foreground}" />
+        <Setter Property="Background" Value="{DynamicResource IconButton.Background}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource IconButton.Border}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Template">
             <Setter.Value>
@@ -1471,16 +1440,16 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource Button.MouseOver.Background}" />
-                            <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource Button.MouseOver.Border}" />
+                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource IconButton.MouseOver.Background}" />
+                            <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource IconButton.MouseOver.Border}" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource Button.Checked.Background}" />
-                            <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource Button.Checked.Border}" />
+                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource IconButton.Checked.Background}" />
+                            <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource IconButton.Checked.Border}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource Button.Pressed.Background}" />
-                            <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource Button.Pressed.Border}" />
+                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource IconButton.Pressed.Background}" />
+                            <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource IconButton.Pressed.Border}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" TargetName="contentPresenter" Value="0.25" />
@@ -1500,16 +1469,17 @@
         -->
         <Setter Property="Padding" Value="20,10" />
         <Setter Property="Margin" Value="2" />
-        <Setter Property="BorderBrush" Value="{DynamicResource DialogButton.Border}" />
-        <Setter Property="Background" Value="{DynamicResource DialogButton.Background}" />
-        <Setter Property="Foreground" Value="{DynamicResource DialogButton.Foreground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Button.Border}" />
+        <Setter Property="Background" Value="{DynamicResource Button.Background}" />
+        <Setter Property="Foreground" Value="{DynamicResource Button.Foreground}" />
         <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
-                        <Border x:Name="root" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" />
-                        <Rectangle x:Name="fill" Fill="#FFF" Opacity="0.0" />
+                        <Border x:Name="Base" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" />
+                        <Border x:Name="Bd" BorderThickness="{TemplateBinding BorderThickness}" />
                         <Border BorderThickness="{TemplateBinding BorderThickness}">
                             <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True"
                                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}" />
@@ -1517,10 +1487,12 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Opacity" TargetName="fill" Value="0.25" />
+                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource Button.MouseOver.Background}" />
+                            <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource Button.MouseOver.Border}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Opacity" TargetName="fill" Value="0.5" />
+                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource Button.Pressed.Background}" />
+                            <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource Button.Pressed.Border}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{DynamicResource Control.GrayText}" />
@@ -1530,7 +1502,25 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
+    <Style x:Key="NVAccentButton" TargetType="{x:Type Button}" BasedOn="{StaticResource NVButton}">
+        <Setter Property="Background" Value="{DynamicResource Control.Accent}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Control.Accent}" />
+        <Setter Property="Foreground" Value="{DynamicResource Control.AccentText}" />
+    </Style>
+
+    <Style x:Key="NVDialogButton" TargetType="{x:Type Button}" BasedOn="{StaticResource NVButton}">
+        <Setter Property="MinWidth" Value="100" />
+        <Setter Property="MinHeight" Value="40" />
+        <Setter Property="Margin" Value="20,2,2,2" />
+    </Style>
+
+    <Style x:Key="NVDialogAccentButton" TargetType="{x:Type Button}" BasedOn="{StaticResource NVDialogButton}">
+        <Setter Property="Background" Value="{DynamicResource Control.Accent}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Control.Accent}" />
+        <Setter Property="Foreground" Value="{DynamicResource Control.AccentText}" />
+    </Style>
+
     <!--#endregion Buttons -->
 
     <!--#region NVTabControl -->
@@ -1561,28 +1551,29 @@
     </Style>
 
     <Style x:Key="NVTabItem" TargetType="{x:Type TabItem}">
-        <Setter Property="Background" Value="{DynamicResource DialogButton.Background}" />
+        <Setter Property="Background" Value="{DynamicResource Button.Background}" />
         <Setter Property="BorderBrush" Value="{DynamicResource Control.Border}" />
-        <Setter Property="Foreground" Value="{DynamicResource DialogButton.Foreground}" />
+        <Setter Property="Foreground" Value="{DynamicResource Button.Foreground}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabItem}">
-                    <Grid x:Name="Root">
-                        <Border x:Name="Border" Margin="0,-1,-1,0" BorderThickness="1,1,1,1" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}">
-                            <Border x:Name="Bd">
-                                <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="12,4,12,4" RecognizesAccessKey="True" />
-                            </Border>
+                    <Grid x:Name="Root" Margin="0,-1,-1,0">
+                        <Border x:Name="Border" BorderThickness="1,1,1,1" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" />
+                        <Border x:Name="Bd" BorderThickness="1">
+                            <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="12,4,12,4" RecognizesAccessKey="True" />
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Bd" Property="Background" Value="#4FFF" />
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Button.MouseOver.Background}" />
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource Button.MouseOver.Border}" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Panel.ZIndex" Value="100" />
                             <Setter TargetName="Bd" Property="Background" Value="{x:Null}" />
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{x:Null}" />
+                            <Setter TargetName="Root" Property="Margin" Value="0,-4,-1,0" />
                             <Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0" />
-                            <Setter TargetName="Border" Property="Margin" Value="0,-4,-1,0" />
                             <Setter TargetName="Border" Property="Background" Value="{DynamicResource Window.Background}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
@@ -1599,7 +1590,7 @@
     <!--#region  NVGroupBox-->
 
     <Style x:Key="NVGroupBox" TargetType="{x:Type GroupBox}">
-        <Setter Property="BorderBrush" Value="{DynamicResource Control.Brorder}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Control.Border}" />
         <Setter Property="Foreground" Value="{DynamicResource Control.Foreground}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Template">
@@ -1707,6 +1698,19 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="NVHyperlink" TargetType="{x:Type Hyperlink}">
+        <Setter Property="Foreground" Value="{DynamicResource Control.Accent}" />
+        <Setter Property="TextDecorations" Value="Underline" />
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{DynamicResource Control.GrayText}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="True">
+                <Setter Property="Cursor" Value="Hand" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
 </ResourceDictionary>

@@ -13,7 +13,7 @@
 
     <Window.Resources>
 
-        <Style x:Key="ButtonStyle" TargetType="Button" BasedOn="{StaticResource DialogButton}" />
+        <Style x:Key="ButtonStyle" TargetType="Button" BasedOn="{StaticResource NVButton}" />
 
     </Window.Resources>
 

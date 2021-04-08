@@ -12,11 +12,11 @@
 
     <Window.Resources>
 
-        <Style x:Key="TextButton" TargetType="Button" BasedOn="{StaticResource DialogButton}">
+        <Style x:Key="TextButton" TargetType="Button" BasedOn="{StaticResource NVDialogButton}">
             <Setter Property="Margin" Value="10,10,0,0" />
         </Style>
 
-        <Style x:Key="TextRecommentedButton" TargetType="Button" BasedOn="{StaticResource DialogRecommentedButton}">
+        <Style x:Key="TextRecommentedButton" TargetType="Button" BasedOn="{StaticResource NVDialogAccentButton}">
             <Setter Property="Margin" Value="10,10,0,0" />
         </Style>
 

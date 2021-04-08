@@ -12,7 +12,6 @@
         <ResourceDictionary>
 
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Styles/NVTheme.xaml" />
                 <ResourceDictionary Source="/MainWindow/MainWindowResourceDictionary.xaml" />
                 <ResourceDictionary Source="/SidePanels/PanelIconDictionary.xaml" />
                 <ResourceDictionary Source="/SidePanels/Bookshelf/FolderList/FolderListIconDictionary.xaml" />

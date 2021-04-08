@@ -5,7 +5,7 @@
 
     <Window.Resources>
 
-        <Style TargetType="Button" BasedOn="{StaticResource DialogButton}">
+        <Style TargetType="Button" BasedOn="{StaticResource NVButton}">
             <Setter Property="Margin" Value="5,2" />
         </Style>
 

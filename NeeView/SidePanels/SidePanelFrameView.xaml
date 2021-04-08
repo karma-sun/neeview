@@ -19,7 +19,7 @@
         </DataTemplate>
 
         <Style x:Key="PanelIconBorderStyle" TargetType="Border">
-            <Setter Property="TextBlock.Foreground" Value="{DynamicResource SideBar.Foreground}" />
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource SideBar.Foreground}" />
             <Setter Property="BorderBrush" Value="{DynamicResource SideBar.Border}" />
             <Setter Property="Background" Value="{DynamicResource SideBar.Background}" />
             <Setter Property="Opacity" Value="{Binding VM.Opacity}" />
@@ -38,7 +38,7 @@
         </Style>
 
         <Style x:Key="PanelBorderStyle" TargetType="Border">
-            <Setter Property="TextBlock.Foreground" Value="{DynamicResource SidePanel.Foreground}" />
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource SidePanel.Foreground}" />
             <Setter Property="BorderBrush" Value="{DynamicResource SidePanel.Border}" />
             <Setter Property="Background" Value="{DynamicResource SidePanel.Background}" />
             <Setter Property="Opacity" Value="{Binding VM.Opacity}" />

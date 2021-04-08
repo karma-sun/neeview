@@ -10,10 +10,10 @@
              d:DesignHeight="300" d:DesignWidth="460">
 
     <UserControl.Resources>
-        <Style x:Key="ButtonBase" TargetType="Button">
+        <Style x:Key="ButtonBase" TargetType="Button" BasedOn="{StaticResource NVButton}">
             <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
         </Style>
-        <Style x:Key="InputBox" TargetType="TextBox">
+        <Style x:Key="InputBox" TargetType="TextBox" BasedOn="{StaticResource NVTextBox}">
             <Setter Property="IsReadOnly" Value="True"/>
             <Setter Property="Background" Value="AliceBlue"/>
             <Style.Triggers>
@@ -67,7 +67,7 @@
                 </StackPanel>
 
                 <StackPanel>
-                    <TextBlock Margin="10" TextWrapping="Wrap" Text="{x:Static properties:Resources.InputGestureControl_LabelMouse}" Height="16" />
+                    <TextBlock Margin="10" TextWrapping="Wrap" Text="{x:Static properties:Resources.InputGestureControl_LabelMouse}" />
                     <Border x:Name="MouseGestureBox" Margin="10,0" Height="40"
                                 BorderThickness="1" BorderBrush="LightGray"
                                  PreviewMouseDown="MouseGestureBox_PreviewMouseDown"
@@ -114,7 +114,7 @@
             </StackPanel>
             
             <Grid Grid.Column="1">
-                <ListBox x:Name="InputGestureList" ItemsSource="{Binding GestureTokens}" Margin="10,10,10,45" FocusVisualStyle="{StaticResource NVBorderFocusVisual}">      
+                <ListBox x:Name="InputGestureList" ItemsSource="{Binding GestureTokens}" Margin="10,10,10,45" FocusVisualStyle="{StaticResource NVBorderFocusVisual}" BorderThickness="1" BorderBrush="{StaticResource Control.Border}">      
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" ToolTip="{Binding OverlapsText}">

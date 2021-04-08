@@ -21,6 +21,11 @@
     
     <Style x:Key="{x:Type CheckBox}" TargetType="{x:Type CheckBox}" BasedOn="{StaticResource NVCheckBox}" />
 
+    <Style TargetType="TabControl" BasedOn="{StaticResource NVTabControl}" />
+    <Style TargetType="TabItem" BasedOn="{StaticResource NVTabItem}" />
+
+    <Style TargetType="GroupBox" BasedOn="{StaticResource NVGroupBox}" />
+
     <Style x:Key="{x:Type TextBox}" TargetType="{x:Type TextBox}" BasedOn="{StaticResource NVTextBox}">
         <Style.Triggers>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">

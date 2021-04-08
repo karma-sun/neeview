@@ -18,9 +18,26 @@
             <Setter Property="MinWidth" Value="80" />
             <Setter Property="MinHeight" Value="0" />
         </Style>
+
+        <!--
+        <Style TargetType="TabControl">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{DynamicResource Window.Foreground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource Control.Border}" />
+        </Style>
+
         <Style TargetType="TabItem">
             <Setter Property="FocusVisualStyle" Value="{StaticResource NVInnerFocusVisual}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{DynamicResource Window.Foreground}" />
         </Style>
+
+        <Style TargetType="TabPanel">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource Window.Foreground}" />
+        </Style>
+        -->
+        
     </Window.Resources>
 
     <DockPanel Margin="5">
@@ -28,8 +45,7 @@
             <Button x:Name="ButtonOk" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.Word_OK}" Click="ButtonOk_Click"/>
             <Button x:Name="ButtonCancel" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.Word_Cancel}" Click="ButtonCancel_Click"/>
         </StackPanel>
-        <TabControl x:Name="TabControl" Margin="5" TabIndex="1" KeyboardNavigation.TabNavigation="Local"
-                    Background="#8888" Foreground="{DynamicResource Window.Foreground}" BorderBrush="Red">
+        <TabControl x:Name="TabControl" Margin="5" TabIndex="1" KeyboardNavigation.TabNavigation="Local">
             <TabItem x:Name="GeneralTab">
                 <TabItem.Header>
                     <Grid MinWidth="60" MinHeight="30">

@@ -10,6 +10,8 @@ using System.Collections;
 using System.Text.Json.Serialization;
 using System.IO;
 using System.Windows;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NeeView
 {
@@ -197,7 +199,7 @@ namespace NeeView
             }
         }
 
-        private ThemeProfile ValidateBasedOn(ThemeProfile themeProfile, string currentPath)
+        private ThemeProfile ValidateBasedOn(ThemeProfile themeProfile, string currentPath, IEnumerable<string> nests = null)
         {
             if (string.IsNullOrWhiteSpace(themeProfile.BasedOn))
             {
@@ -213,7 +215,9 @@ namespace NeeView
             else
             {
                 var path = Path.IsPathRooted(themeProfile.BasedOn) ? themeProfile.BasedOn : Path.Combine(currentPath, themeProfile.BasedOn);
-                var baseTheme = ValidateBasedOn(ThemeProfileTools.LoadFromFile(path), Path.GetDirectoryName(path));
+                if (nests != null && nests.Contains(path)) throw new FormatException($"Circular reference: {path}");
+                nests = nests is null ? new List<string>() { path } : nests.Append(path);
+                var baseTheme = ValidateBasedOn(ThemeProfileTools.LoadFromFile(path), Path.GetDirectoryName(path), nests);
                 return ThemeProfileTools.Merge(baseTheme, themeProfile);
             }
         }

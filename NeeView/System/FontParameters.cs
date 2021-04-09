@@ -5,7 +5,7 @@ using System.Windows.Media;
 
 namespace NeeView
 {
-    public class FontParameters : BindableBase 
+    public class FontParameters : BindableBase
     {
         static FontParameters() => Current = new FontParameters();
         public static FontParameters Current { get; }
@@ -16,9 +16,10 @@ namespace NeeView
         private double _defaultFontSize;
         private double _menuFontSize;
         private double _folderTreeFontSize;
-        private string _panelFontName;
         private double _panelFontSize;
         private double _fontIconSize;
+        private ClearTypeHint _clearTypeHint = ClearTypeHint.Enabled;
+
 
         private FontParameters()
         {
@@ -32,7 +33,7 @@ namespace NeeView
 
         private void Current_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            switch(e.PropertyName)
+            switch (e.PropertyName)
             {
                 case nameof(SystemVisualParameters.MessageFontName):
                 case nameof(SystemVisualParameters.MessageFontSize):
@@ -51,18 +52,6 @@ namespace NeeView
                 if (SetProperty(ref _defaultFontName, value))
                 {
                     App.Current.Resources["DefaultFontFamily"] = new FontFamily(_defaultFontName ?? "");
-                }
-            }
-        }
-
-        public string PanelFontName
-        {
-            get { return _panelFontName; }
-            set
-            {
-                if (SetProperty(ref _panelFontName, value))
-                {
-                    App.Current.Resources["PanelFontFamily"] = new FontFamily(_panelFontName ?? "");
                 }
             }
         }
@@ -143,6 +132,19 @@ namespace NeeView
             }
         }
 
+        public ClearTypeHint ClearTypeHint
+        {
+            get { return _clearTypeHint; }
+            set
+            {
+                if (SetProperty(ref _clearTypeHint, value))
+                {
+                    App.Current.Resources["Window.ClearTypeHint"] = _clearTypeHint;
+                }
+            }
+        }
+
+
         private void UpdateFonts()
         {
             SystemFontSize = SystemVisualParameters.Current.MessageFontSize;
@@ -154,7 +156,8 @@ namespace NeeView
             MenuFontSize = SystemVisualParameters.Current.MenuFontSize * Config.Current.Fonts.MenuFontScale;
 
             DefaultFontName = Config.Current.Fonts.FontName;
-            PanelFontName = Config.Current.Fonts.PanelFontName;
+
+            ClearTypeHint = Config.Current.Fonts.IsClearTypeEnabled ? ClearTypeHint.Enabled : ClearTypeHint.Auto;
         }
     }
 }

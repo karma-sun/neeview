@@ -7,11 +7,13 @@
 
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     <BorderGapMaskConverter x:Key="BorderGapMaskConverter" />
-    
-    
+
+
     <Thickness x:Key="Window.BorderThickness">0.0</Thickness>
     <Thickness x:Key="Dialog.BorderThickness">0.0</Thickness>
-    
+
+    <ClearTypeHint x:Key="Window.ClearTypeHint">Enabled</ClearTypeHint>
+
     <DropShadowEffect x:Key="NVDropShadowEffect" Opacity="0.5" ShadowDepth="2" />
 
 
@@ -69,7 +71,7 @@
 
     <!--#endregion NVFocusVisual-->
 
-    
+
     <!--#region NVScrollViewer-->
 
     <Style x:Key="NVScrollBarLineButton" TargetType="{x:Type RepeatButton}">
@@ -147,7 +149,7 @@
     <ControlTemplate x:Key="NVVerticalScrollBar" TargetType="{x:Type ScrollBar}">
         <Grid Margin="-12,0,0,0">
             <Border x:Name="HitArea" Width="10" HorizontalAlignment="Right" Background="Transparent" />
-            <Grid x:Name="root" Width="16" HorizontalAlignment="Right" >
+            <Grid x:Name="root" Width="16" HorizontalAlignment="Right">
                 <Grid.LayoutTransform>
                     <ScaleTransform x:Name="Scaler" ScaleX="0.125" ScaleY="1.0" />
                 </Grid.LayoutTransform>
@@ -311,6 +313,7 @@
         <Setter Property="Padding" Value="0" />
         <Setter Property="BorderThickness" Value="0,0,0,1" />
         <Setter Property="local:ListBoxItemTools.InnerMargin" Value="0,-1,0,0" />
+        <Setter Property="RenderOptions.ClearTypeHint" Value="{DynamicResource Window.ClearTypeHint}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -387,7 +390,7 @@
 
     <!--#endregion NVListBox -->
 
-    
+
     <!--#region  NVListView -->
 
     <Style x:Key="NVGridViewScrollViewerStyleKey" TargetType="ScrollViewer">
@@ -532,6 +535,7 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Padding" Value="5,2" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="RenderOptions.ClearTypeHint" Value="{DynamicResource Window.ClearTypeHint}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListViewItem}">
@@ -566,7 +570,7 @@
 
     <!--#endregion  NVListView -->
 
-    
+
     <!--#region NVComboBox-->
 
     <ControlTemplate x:Key="NVComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
@@ -604,8 +608,8 @@
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="Background" Value="{DynamicResource Menu.Background}" />
         <Setter Property="Foreground" Value="{DynamicResource Menu.Foreground}" />
+        <Setter Property="RenderOptions.ClearTypeHint" Value="{DynamicResource Window.ClearTypeHint}" />
         <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}" />
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBoxItem}">
@@ -771,9 +775,9 @@
 
     <!--#endregion NVComboBox-->
 
-    
+
     <!--#region NVTreeView -->
-    
+
     <!-- https://stackoverflow.com/questions/5047576/wpf-treeview-how-to-style-selected-items-with-rounded-corners-like-in-explorer -->
     <!-- https://stackoverflow.com/questions/664632/highlight-whole-treeviewitem-line-in-wpf -->
 
@@ -802,6 +806,7 @@
     </Style>
 
     <Style x:Key="NVTreeViewItem" TargetType="{x:Type TreeViewItem}">
+        <Setter Property="RenderOptions.ClearTypeHint" Value="{DynamicResource Window.ClearTypeHint}" />
         <Setter Property="Foreground" Value="{DynamicResource Window.Foreground}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
@@ -1118,6 +1123,7 @@
 
     <Style x:Key="NVMenuItem" TargetType="{x:Type MenuItem}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="RenderOptions.ClearTypeHint" Value="{DynamicResource Window.ClearTypeHint}" />
         <Setter Property="Background" Value="{DynamicResource Menu.Background}" />
         <Setter Property="BorderBrush" Value="{DynamicResource Menu.Border}" />
         <Style.Triggers>
@@ -1212,34 +1218,58 @@
     <!--#region NVTextBox -->
 
     <Style x:Key="NVTextBox" TargetType="{x:Type TextBox}">
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="AllowDrop" Value="true" />
-        <Setter Property="CaretBrush" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Foreground}" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Foreground" Value="{DynamicResource TextBox.Foreground}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="{DynamicResource TextBox.Border}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="AllowDrop" Value="true" />
+        <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst" />
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
+        <Setter Property="CaretBrush" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Foreground}" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type TextBoxBase}">
-                    <Border Name="Border" Padding="2" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}">
-                        <ScrollViewer Style="{StaticResource NVScrollViewer}" Margin="0" x:Name="PART_ContentHost" Padding="{TemplateBinding Padding}" />
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}"
+                            SnapsToDevicePixels="True">
+                        <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
+                            <ScrollViewer.ContentTemplate>
+                                <DataTemplate>
+                                    <Grid Background="{Binding Background, ElementName=PART_ContentHost}" RenderOptions.ClearTypeHint="{DynamicResource Window.ClearTypeHint}">
+                                        <ContentPresenter Content="{Binding Path=Content, ElementName=PART_ContentHost}"></ContentPresenter>
+                                    </Grid>
+                                </DataTemplate>
+                            </ScrollViewer.ContentTemplate>
+                        </ScrollViewer>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Control.Accent}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Control.Accent}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource TextBox.Background}" />
+                            <Setter TargetName="border" Property="TextElement.Foreground" Value="{DynamicResource TextBox.Foreground}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Control.GrayText}" />
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Control.GrayText}" />
+                            <Setter Property="Opacity" TargetName="border" Value="0.56" />
                         </Trigger>
                     </ControlTemplate.Triggers>
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsInactiveSelectionHighlightEnabled" Value="true" />
+                    <Condition Property="IsSelectionActive" Value="false" />
+                </MultiTrigger.Conditions>
+                <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
+            </MultiTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="NVEnterTriggerTextBox" TargetType="{x:Type nvc:EnterTriggerTextBox}" BasedOn="{StaticResource NVTextBox}">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
     </Style>
 
     <!--#endregion NVTextBox-->
@@ -1375,6 +1405,7 @@
         <Setter Property="FocusVisualStyle" Value="{StaticResource NVSliderFocusVisual}" />
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="nvc:SliderTools.MoveToPointOnDrag" Value="True" />
         <Style.Triggers>
             <Trigger Property="Orientation" Value="Horizontal">
                 <Setter Property="MinWidth" Value="104" />
@@ -1741,8 +1772,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ContentControl}">
-                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
-                            Margin="{TemplateBinding Margin}" Padding="{TemplateBinding Padding}" Effect="{StaticResource NVDropShadowEffect}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Margin="{TemplateBinding Margin}"
+                            Padding="{TemplateBinding Padding}" Effect="{StaticResource NVDropShadowEffect}">
                         <ContentPresenter />
                     </Border>
                 </ControlTemplate>

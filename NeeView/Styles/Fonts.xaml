@@ -3,7 +3,6 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <FontFamily x:Key="DefaultFontFamily" />
-    <FontFamily x:Key="PanelFontFamily" />
     
     <system:Double x:Key="SystemFontSize">12</system:Double>
     <system:Double x:Key="SystemFontSizeNormal">15</system:Double>

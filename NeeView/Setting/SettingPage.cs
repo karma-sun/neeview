@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace NeeView.Setting
 {
@@ -95,6 +96,7 @@ namespace NeeView.Setting
 
             var dockPanel = new DockPanel();
             dockPanel.MinWidth = 256;
+            dockPanel.SetResourceReference(RenderOptions.ClearTypeHintProperty, "Window.ClearTypeHint");
 
             foreach (var item in this.Items)
             {

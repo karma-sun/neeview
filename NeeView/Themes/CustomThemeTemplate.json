@@ -1,6 +1,6 @@
 {
   "Format": "NeeView.Theme/1.0.0",
-  "BasedOn": "themes://DarkTheme",
+  "BasedOn": "themes://DarkTheme.json",
   "Colors": {
     "Control.Accent": "Orange"
   }

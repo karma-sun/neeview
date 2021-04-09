@@ -13,6 +13,7 @@
         <Setter Property="Background" Value="{DynamicResource Window.Background}" />
         <Setter Property="BorderBrush" Value="{DynamicResource Window.Border}" />
         <Setter Property="BorderThickness" Value="{DynamicResource Window.BorderThickness}" />
+        <Setter Property="RenderOptions.ClearTypeHint" Value="{DynamicResource Window.ClearTypeHint}" />
         <Setter Property="nw:WindowDpiScale.Attached" Value="True" />
         <Style.Triggers>
             <Trigger Property="WindowState" Value="Maximized">
@@ -35,7 +36,6 @@
     <!-- Default Window Style (with Chrome) -->
     <Style x:Key="ChromeWindowStyle" TargetType="{x:Type Window}" BasedOn="{StaticResource DefaultWindowStyle}">
         <Setter Property="nw:ChromeWindowAssistantTools.Attached" Value="True" />
-        <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="BorderBrush" Value="{DynamicResource Window.Border}" />
         <Setter Property="BorderThickness" Value="{DynamicResource Window.BorderThickness}" />

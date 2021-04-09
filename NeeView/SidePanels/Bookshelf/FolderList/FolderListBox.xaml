@@ -180,7 +180,7 @@
 
         <nw:ListBoxExteded x:Name="ListBox" Focusable="True"
                 MinHeight="0"
-                FontFamily="{DynamicResource PanelFontFamily}" FontSize="{DynamicResource PanelFontSize}"
+                FontSize="{DynamicResource PanelFontSize}"
                 Background="Transparent"
                 Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
                 FocusVisualStyle="{StaticResource NVFocusVisual}"

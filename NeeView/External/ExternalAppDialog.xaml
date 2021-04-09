@@ -8,7 +8,8 @@
         <local:ArchivePolicyToStringConverter x:Key="ArchivePolicyToStringConverter" />
 
         <Style TargetType="Button" BasedOn="{StaticResource NVButton}">
-            <Setter Property="Margin" Value="5,5" />
+            <Setter Property="Margin" Value="5,2" />
+            <Setter Property="MinWidth" Value="100" />
         </Style>
 
     </Window.Resources>

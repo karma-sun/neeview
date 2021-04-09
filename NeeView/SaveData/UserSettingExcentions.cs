@@ -63,7 +63,7 @@ namespace NeeView
             {
                 if (self.Config.Panels.FontName_Legacy != default)
                 {
-                    self.Config.Fonts.PanelFontName = self.Config.Panels.FontName_Legacy;
+                    self.Config.Fonts.FontName = self.Config.Panels.FontName_Legacy;
                 }
                 if (self.Config.Panels.FontSize_Legacy != default)
                 {

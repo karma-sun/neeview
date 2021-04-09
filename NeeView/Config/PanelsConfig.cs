@@ -155,7 +155,7 @@ namespace NeeView
         [JsonIgnore]
         public string FontName_Legacy { get; private set; }
 
-        [Obsolete("Use nv.Config.Fonts.PanelFontName instead.")] // ver.39
+        [Obsolete("Use nv.Config.Fonts.FontName instead.")] // ver.39
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string FontName
         {

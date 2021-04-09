@@ -26,24 +26,12 @@
 
     <Style TargetType="GroupBox" BasedOn="{StaticResource NVGroupBox}" />
 
-    <Style x:Key="{x:Type TextBox}" TargetType="{x:Type TextBox}" BasedOn="{StaticResource NVTextBox}">
-        <Style.Triggers>
-            <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource Control.Accent}" />
-                <Setter Property="Background" Value="{DynamicResource TextBox.Background}" />
-                <Setter Property="Foreground" Value="{DynamicResource TextBox.Foreground}" />
-            </Trigger>
-        </Style.Triggers>
-    </Style>
+    <Style x:Key="{x:Type TextBox}" TargetType="{x:Type TextBox}" BasedOn="{StaticResource NVTextBox}" />
 
-    <Style TargetType="{x:Type nvc:EnterTriggerTextBox}" BasedOn="{StaticResource NVTextBox}">
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
-    </Style>
+    <Style TargetType="{x:Type nvc:EnterTriggerTextBox}" BasedOn="{StaticResource NVEnterTriggerTextBox}" />
 
-    <Style x:Key="{x:Type Slider}" TargetType="{x:Type Slider}" BasedOn="{StaticResource NVSlider}">
-        <Setter Property="nvc:SliderTools.MoveToPointOnDrag" Value="True" />
-    </Style>
-    
+    <Style x:Key="{x:Type Slider}" TargetType="{x:Type Slider}" BasedOn="{StaticResource NVSlider}" />
+
     <Style x:Key="{x:Type nvc:ToggleSwitch}" TargetType="{x:Type nvc:ToggleSwitch}" BasedOn="{StaticResource NVToggleSwitch}" />
     <Style x:Key="{x:Type nrl:LayoutPanelHeader}" TargetType="{x:Type nrl:LayoutPanelHeader}" BasedOn="{StaticResource NVLayoutPanelHeader}" />
 

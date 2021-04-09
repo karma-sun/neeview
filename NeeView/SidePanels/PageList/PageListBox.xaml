@@ -198,7 +198,7 @@
     </UserControl.Resources>
 
     <nw:ListBoxExteded x:Name="ListBox" Focusable="True"
-                 FontFamily="{DynamicResource PanelFontFamily}" FontSize="{DynamicResource PanelFontSize}"
+                 FontSize="{DynamicResource PanelFontSize}"
                  Background="Transparent"
                  Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
                  FocusVisualStyle="{x:Null}"

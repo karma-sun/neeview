@@ -10,15 +10,11 @@ namespace NeeView
         private double _menuFontScale;
         private double _folderTreeFontScale;
         private double _panelFontScale;
+        private bool _isClearTypeEnabled = true;
 
         [JsonPropertyName(nameof(FontName))]
         [JsonInclude]
         public string _fontName;
-
-        [JsonPropertyName(nameof(PanelFontName))]
-        [JsonInclude]
-        public string _panelFontName;
-
 
         /// <summary>
         /// 標準フォント名
@@ -62,17 +58,6 @@ namespace NeeView
         }
 
         /// <summary>
-        /// パネルフォント名
-        /// </summary>
-        [PropertyMember]
-        [JsonIgnore]
-        public string PanelFontName
-        {
-            get { return _panelFontName ?? SystemVisualParameters.Current.MessageFontName; }
-            set { SetProperty(ref _panelFontName, (string.IsNullOrWhiteSpace(value) || value == SystemVisualParameters.Current.MessageFontName) ? null : value); }
-        }
-
-        /// <summary>
         /// パネルフォントスケール
         /// </summary>
         [PropertyPercent(1.0, 2.0, TickFrequency = 0.05, IsEditable = true)]
@@ -81,5 +66,16 @@ namespace NeeView
             get { return _panelFontScale <= 0.0 ? 15.0 / SystemVisualParameters.Current.MessageFontSize : _panelFontScale; }
             set { SetProperty(ref _panelFontScale, value); }
         }
+
+        /// <summary>
+        /// ClearType
+        /// </summary>
+        [PropertyMember]
+        public bool IsClearTypeEnabled
+        {
+            get { return _isClearTypeEnabled; }
+            set { SetProperty(ref _isClearTypeEnabled, value); }
+        }
+
     }
 }

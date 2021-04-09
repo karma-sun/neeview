@@ -16,10 +16,14 @@ namespace NeeView.Windows.Controls
         protected override void OnValueChanged(double oldValue, double newValue)
         {
             base.OnValueChanged(oldValue, newValue);
-            if (!_isDragging)
+
+            // NOTE: SliderTools でのドラッグ開始時のTnumb移動に反応しないようにする
+            if (_isDragging || (this.IsMouseOver && Mouse.LeftButton == MouseButtonState.Pressed))
             {
-                UpdateSource();
+                return;
             }
+
+            UpdateSource();
         }
 
         protected override void OnThumbDragStarted(DragStartedEventArgs e)

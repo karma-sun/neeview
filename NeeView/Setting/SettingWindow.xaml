@@ -18,14 +18,6 @@
             <nv:DoubleToPercentStringConverter x:Key="DoubleToPercentStringConverter" />
             <nvd:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter" />
 
-            <!--
-            <Style x:Key="{x:Type Button}" TargetType="{x:Type Button}" BasedOn="{StaticResource NVButton}">
-                <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
-                <Setter Property="Margin" Value="0" />
-            </Style>
-            -->
-
-            
             <Style TargetType="{x:Type nvc:FormattedTextBox}" BasedOn="{StaticResource NVTextBox}" />
 
             <Style TargetType="{x:Type nvc:DragCompletedTriggerSlider}" BasedOn="{StaticResource NVSlider}" />

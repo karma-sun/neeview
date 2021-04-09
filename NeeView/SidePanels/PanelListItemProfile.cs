@@ -288,9 +288,9 @@ namespace NeeView
                     Text = "Age\nBusy",
                     FontSize = FontParameters.Current.PaneFontSize,
                 };
-                if (FontParameters.Current.PanelFontName != null)
+                if (FontParameters.Current.DefaultFontName != null)
                 {
-                    textBlock.FontFamily = new FontFamily(FontParameters.Current.PanelFontName);
+                    textBlock.FontFamily = new FontFamily(FontParameters.Current.DefaultFontName);
                 };
                 var panel = new StackPanel();
                 panel.Children.Add(textBlock);

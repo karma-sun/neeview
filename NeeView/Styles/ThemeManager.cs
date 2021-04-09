@@ -207,7 +207,7 @@ namespace NeeView
             if (themeProfile.BasedOn.StartsWith(_themeProtocolHeader))
             {
                 var path = themeProfile.BasedOn.Substring(_themeProtocolHeader.Length);
-                var baseTheme = ThemeProfileTools.LoadFromContent("Themes/" + path + ".json");
+                var baseTheme = ThemeProfileTools.LoadFromContent("Themes/" + path);
                 return ThemeProfileTools.Merge(baseTheme, themeProfile);
             }
             else

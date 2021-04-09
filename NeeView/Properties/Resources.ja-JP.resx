@@ -6911,8 +6911,8 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="FontsConfig.MenuFontScale" xml:space="preserve">
     <value>メニューのフォント スケール</value>
   </data>
-  <data name="FontsConfig.PanelFontName" xml:space="preserve">
-    <value>リスト項目のフォント</value>
+  <data name="FontsConfig.IsClearTypeEnabled" xml:space="preserve">
+    <value>ClearType を有効にする</value>
   </data>
   <data name="FontsConfig.PanelFontScale" xml:space="preserve">
     <value>リスト項目のフォント スケール</value>

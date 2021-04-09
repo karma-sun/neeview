@@ -17,7 +17,7 @@ namespace NeeView
     {
         public void Initialize()
         {
-            FontParameters.Current.AddPropertyChanged(nameof(FontParameters.PanelFontName),
+            FontParameters.Current.AddPropertyChanged(nameof(FontParameters.DefaultFontName),
                 (s, e) => ValidatePanelListItemProfile());
 
             FontParameters.Current.AddPropertyChanged(nameof(FontParameters.PaneFontSize),
@@ -91,7 +91,7 @@ namespace NeeView
             {
                 config.Panels.IsLeftRightKeyEnabled = IsLeftRightKeyEnabled;
                 config.Panels.Opacity = Opacity;
-                config.Fonts.PanelFontName = FontName;
+                config.Fonts.FontName = FontName;
                 config.Fonts.PanelFontScale = FontSize / SystemVisualParameters.Current.MessageFontSize;
                 config.Fonts.FolderTreeFontScale = FolderTreeFontSize / SystemVisualParameters.Current.MessageFontSize;
                 config.Panels.IsDecoratePlace = IsDecoratePlace;

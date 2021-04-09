@@ -179,7 +179,7 @@
 
             <Style TargetType="Button" BasedOn="{StaticResource IconButton}" />
 
-            <Style TargetType="nvc:EnterTriggerTextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Style TargetType="nvc:EnterTriggerTextBox" BasedOn="{StaticResource NVEnterTriggerTextBox}">
                 <EventSetter Event="KeyDown" Handler="Control_KeyDown_IgnoreSingleKeyGesture" />
             </Style>
 
@@ -212,8 +212,7 @@
             <ScrollViewer x:Name="ScrollView" Style="{StaticResource NVScrollViewer}" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" Focusable="False"
                     CanContentScroll="False">
 
-                <StackPanel Margin="2,0">
-
+                <StackPanel Margin="2,0" RenderOptions.ClearTypeHint="{DynamicResource Window.ClearTypeHint}">
 
                     <local:NavigateThumbnail HorizontalAlignment="Stretch" Margin="10"
                             Visibility="{Binding Source={x:Static local:Config.Current}, Path=Navigator.IsVisibleThumbnail, Converter={StaticResource BooleanToVisibilityConverter}}" />

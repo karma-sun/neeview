@@ -102,7 +102,7 @@
     </UserControl.Resources>
 
     <TreeView x:Name="TreeView" FocusVisualStyle="{x:Null}"
-              FontFamily="{DynamicResource PanelFontFamily}" FontSize="{DynamicResource PanelFontSize}"
+              FontSize="{DynamicResource PanelFontSize}"
               Foreground="{DynamicResource SidePanel.Foreground}" Background="Transparent" BorderThickness="0"
               ItemsSource="{Binding Model.Items}"
               SelectedItemChanged="TreeView_SelectedItemChanged"

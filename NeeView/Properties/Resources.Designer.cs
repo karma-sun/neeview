@@ -6156,20 +6156,20 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Enable ClearType に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FontsConfig_IsClearTypeEnabled {
+            get {
+                return ResourceManager.GetString("FontsConfig.IsClearTypeEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Menu font scale に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FontsConfig_MenuFontScale {
             get {
                 return ResourceManager.GetString("FontsConfig.MenuFontScale", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   List item font に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FontsConfig_PanelFontName {
-            get {
-                return ResourceManager.GetString("FontsConfig.PanelFontName", resourceCulture);
             }
         }
         

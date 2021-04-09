@@ -15,7 +15,7 @@
             <Setter Property="Margin" Value="1" />
         </Style>
 
-        <Style x:Key="PropertyValueTextBoxStyle" TargetType="TextBox">
+        <Style x:Key="PropertyValueTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource NVTextBox}">
             <Setter Property="IsReadOnly" Value="True" />
             <Setter Property="TextWrapping" Value="Wrap" />
             <Setter Property="BorderThickness" Value="0" />
@@ -40,7 +40,8 @@
                         <MenuItem Header="{x:Static properties:Resources.Information_Menu_Copy}" Command="{x:Static local:FileInformationContent.CopyCommand}" />
                     </ContextMenu>
                 </Grid.ContextMenu>
-                <TextBlock Grid.Column="0" Text="{Binding Key, Converter={StaticResource EnumToAliasNameConverter}}" Margin="2,0" TextTrimming="CharacterEllipsis" />
+                <TextBlock Grid.Column="0" Text="{Binding Key, Converter={StaticResource EnumToAliasNameConverter}}" Margin="2,0" TextTrimming="CharacterEllipsis"
+                        RenderOptions.ClearTypeHint="{DynamicResource Window.ClearTypeHint}" />
                 <GridSplitter Grid.Column="0" HorizontalAlignment="Right" Width="10" VerticalAlignment="Stretch" Background="Transparent" IsTabStop="False" />
                 <TextBox Grid.Column="1" Style="{StaticResource PropertyValueTextBoxStyle}" Text="{Binding Value, Converter={StaticResource MetadataValueToStringConverter}, Mode=OneWay}" />
             </Grid>
@@ -53,7 +54,7 @@
         </Style>
 
         <DataTemplate x:Key="GroupHeadderTemplate">
-            <StackPanel Margin="0,5,0,0">
+            <StackPanel Margin="0,5,0,0" RenderOptions.ClearTypeHint="{DynamicResource Window.ClearTypeHint}">
                 <Separator Background="{DynamicResource SidePanel.Separator}" />
                 <DockPanel Margin="0,2">
                     <local:InformationGroupButton DockPanel.Dock="Right" Style="{StaticResource PropertyValueButtonStyle}" Content="Button" GroupName="{Binding Name}"

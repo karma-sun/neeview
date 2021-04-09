@@ -9,7 +9,7 @@
 
     "Dialog.Border": "Window.Border",
 
-    "Control.Background": "#FFA0A0A0",
+    "Control.Background": "#FF000000",
     "Control.Foreground": "",
     "Control.Border": "#FF80D0FF",
     "Control.GrayText": "#FF00FF00",

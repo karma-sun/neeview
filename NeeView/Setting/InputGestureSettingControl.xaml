@@ -25,7 +25,7 @@
         <nv:IsNullConverter x:Key="IsNullConverter"/>
     </UserControl.Resources>
 
-    <Border BorderBrush="Gray" BorderThickness="1" Margin="5">
+    <Border BorderBrush="{DynamicResource Control.Border}" BorderThickness="1" Margin="5">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="59*"/>

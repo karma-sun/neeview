@@ -24,8 +24,8 @@
         </StackPanel>
 
         <StackPanel VerticalAlignment="Top" Margin="5" FocusManager.FocusedElement="{Binding ElementName=InputTextBox}">
-            <TextBlock x:Name="HeaderLabel" Text="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Header}" Margin="0,5"/>
-            <TextBox x:Name="InputTextBox" Text="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Input}" PreviewKeyDown="InputTextBox_PreviewKeyDown"/>
+            <TextBlock x:Name="HeaderLabel" Text="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Header}" Margin="5"/>
+            <TextBox x:Name="InputTextBox" Text="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Input}" Margin="5" PreviewKeyDown="InputTextBox_PreviewKeyDown"/>
         </StackPanel>
 
     </DockPanel>

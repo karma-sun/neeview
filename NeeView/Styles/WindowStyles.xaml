@@ -13,6 +13,7 @@
         <Setter Property="Background" Value="{DynamicResource Window.Background}" />
         <Setter Property="BorderBrush" Value="{DynamicResource Window.Border}" />
         <Setter Property="BorderThickness" Value="{DynamicResource Window.BorderThickness}" />
+        <Setter Property="nw:WindowDpiScale.Attached" Value="True" />
         <Style.Triggers>
             <Trigger Property="WindowState" Value="Maximized">
                 <Setter Property="BorderBrush" Value="Black" />
@@ -20,7 +21,7 @@
                     <Setter.Value>
                         <MultiBinding Converter="{StaticResource DoubleToDpiScaledThicknessConverter}">
                             <Binding Source="{x:Static local:Config.Current}" Path="Window.MaximizeWindowGapWidth" />
-                            <Binding RelativeSource="{RelativeSource Mode=Self}" />
+                            <Binding RelativeSource="{RelativeSource Mode=Self}" Path="(nw:WindowDpiScale.DpiScale)" />
                         </MultiBinding>
                     </Setter.Value>
                 </Setter>
@@ -29,12 +30,6 @@
                 <Setter Property="BorderThickness" Value="0" />
             </Trigger>
         </Style.Triggers>
-    </Style>
-
-    <!-- System Window Style -->
-    <Style x:Key="SystemWindowStyle" TargetType="Window">
-        <Setter Property="FontSize" Value="{DynamicResource SystemFontSizeNormal}" />
-        <Setter Property="ShowInTaskbar" Value="False" />
     </Style>
 
     <!-- Default Window Style (with Chrome) -->

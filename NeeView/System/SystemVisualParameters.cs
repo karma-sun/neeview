@@ -96,10 +96,7 @@ namespace NeeView
         private void UpdateColors()
         {
             Theme = GetSystemAppTheme();
-
-            NativeMethods.DwmGetColorizationColor(out uint colorizationColor, out bool colorizationOpaqueBlend);
-            AccentColor = Color.FromRgb((byte)(colorizationColor >> 16), (byte)(colorizationColor >> 8), (byte)colorizationColor);
-
+            AccentColor = GetAccentColor();
             IsHighContrast = SystemParameters.HighContrast;
         }
 
@@ -116,10 +113,21 @@ namespace NeeView
             }
             catch
             {
-                // nop.
+                return SystemThemeType.Dark;
             }
+        }
 
-            return SystemThemeType.Dark;
+        private Color GetAccentColor()
+        {
+            try
+            {
+                NativeMethods.DwmGetColorizationColor(out uint colorizationColor, out bool colorizationOpaqueBlend);
+                return Color.FromRgb((byte)(colorizationColor >> 16), (byte)(colorizationColor >> 8), (byte)colorizationColor);
+            }
+            catch
+            {
+                return Color.FromRgb(0x00, 0x78, 0xD7);
+            }
         }
     }
 }

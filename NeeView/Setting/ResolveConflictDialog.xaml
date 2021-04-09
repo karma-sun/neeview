@@ -12,7 +12,7 @@
 
     <Window.Resources>
         <DataTemplate DataType="{x:Type local:ConflictItem}">
-            <RadioButton Content="{Binding Text}" IsChecked="{Binding IsChecked}" GroupName="SelectGroup" Margin="5"/>
+            <RadioButton Content="{Binding Text}" IsChecked="{Binding IsChecked}" GroupName="SelectGroup" Margin="5" />
         </DataTemplate>
     </Window.Resources>
 
@@ -30,7 +30,7 @@
 
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
                 <StackPanel.Resources>
-                    <Style TargetType="Button">
+                    <Style TargetType="Button" BasedOn="{StaticResource NVButton}">
                         <Setter Property="Margin" Value="5"/>
                         <Setter Property="Padding" Value="10,5"/>
                         <Setter Property="MinWidth" Value="80"/>
@@ -41,7 +41,7 @@
             </StackPanel>
 
             <Grid Margin="10,5">
-                <ItemsControl ItemsSource="{Binding Conflicts}" Margin="10"/>
+                <ItemsControl ItemsSource="{Binding Conflicts}" Margin="10" IsTabStop="False"/>
             </Grid>
         </DockPanel>
     </Grid>

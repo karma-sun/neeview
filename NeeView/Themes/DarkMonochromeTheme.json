@@ -58,7 +58,7 @@
 
     "TextBox.Background": "#FF202020",
     "TextBox.Foreground": "",
-    "TextBox.Border": "#FF404040",
+    "TextBox.Border": "Control.Border",
 
     "Menu.Background": "#FF222222",
     "Menu.Foreground": "",

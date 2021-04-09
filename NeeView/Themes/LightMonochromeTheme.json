@@ -9,9 +9,9 @@
 
     "Dialog.Border": "Window.Border",
 
-    "Control.Background": "#FFA0A0A0",
+    "Control.Background": "#FFC0C0C0",
     "Control.Foreground": "",
-    "Control.Border": "#FFA0A0A0",
+    "Control.Border": "#FFC0C0C0",
     "Control.GrayText": "#FFA0A0A0",
     "Control.Accent": "Window.Foreground",
     "Control.AccentText": "#FFE0E0E0",
@@ -58,7 +58,7 @@
 
     "TextBox.Background": "#FFF8F8F8",
     "TextBox.Foreground": "",
-    "TextBox.Border": "#FFC0C0C0",
+    "TextBox.Border": "Control.Border",
 
     "Menu.Background": "",
     "Menu.Foreground": "",

@@ -903,7 +903,7 @@
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Visible" />
         <Setter Property="Foreground" Value="{DynamicResource Window.Foreground}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource Control.Brorder}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Control.Border}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -1550,10 +1550,21 @@
         </Setter>
     </Style>
 
+    <Style x:Key="NVTabItemFocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Rectangle Margin="4,1,3,2" StrokeThickness="1" Stroke="{DynamicResource Control.Focus}" SnapsToDevicePixels="true" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="NVTabItem" TargetType="{x:Type TabItem}">
         <Setter Property="Background" Value="{DynamicResource Button.Background}" />
         <Setter Property="BorderBrush" Value="{DynamicResource Control.Border}" />
         <Setter Property="Foreground" Value="{DynamicResource Button.Foreground}" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource NVTabItemFocusVisual}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabItem}">
@@ -1631,6 +1642,45 @@
     </Style>
 
     <!--#endregion NVGroupBox-->
+
+    <!--#region NVRadioButton-->
+
+    <Style x:Key="NVRadioButton" TargetType="{x:Type RadioButton}">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <BulletDecorator Background="Transparent">
+                        <BulletDecorator.Bullet>
+                            <Grid Width="20" Height="20" VerticalAlignment="Center">
+                                <Ellipse x:Name="Border" StrokeThickness="2" Stroke="{DynamicResource Control.Border}" Fill="Transparent" />
+                            </Grid>
+                        </BulletDecorator.Bullet>
+                        <ContentPresenter Margin="8,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" RecognizesAccessKey="True" />
+                    </BulletDecorator>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Border" Property="StrokeThickness" Value="0" />
+                            <Setter TargetName="Border" Property="Fill" Value="{DynamicResource Control.Border}" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Border" Property="StrokeThickness" Value="5" />
+                            <Setter TargetName="Border" Property="Stroke" Value="{DynamicResource Control.Accent}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Stroke" Value="{DynamicResource Control.GrayText}" />
+                            <Setter Property="Foreground" Value="{DynamicResource Control.GrayText}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--#endregion NVRadioButton-->
 
     <Style x:Key="NVSeparator" TargetType="{x:Type Separator}">
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" />

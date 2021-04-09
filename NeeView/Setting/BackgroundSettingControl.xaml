@@ -15,7 +15,7 @@
         <nv:EnumToBooleanConverter x:Key="EnumToBooleanConverter"/>
     </UserControl.Resources>
 
-    <Border BorderBrush="LightGray" BorderThickness="1">
+    <Border BorderBrush="{DynamicResource Control.Border}" BorderThickness="1">
 
         <!-- Parameters -->
         <StackPanel Margin="10" >

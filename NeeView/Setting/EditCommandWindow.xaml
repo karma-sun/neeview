@@ -10,34 +10,21 @@
         Style="{StaticResource ChromeDialogStyle}"
         UseLayoutRounding="True"
         Title="EditCommandWindow" Height="480" Width="640">
-    
+
     <Window.Resources>
-        <Style x:Key="ButtonStyle" TargetType="Button" BasedOn="{StaticResource NVButton}">
-            <Setter Property="Padding" Value="10,5" />
-            <Setter Property="Margin" Value="5" />
-            <Setter Property="MinWidth" Value="80" />
-            <Setter Property="MinHeight" Value="0" />
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/SettingTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            <Style x:Key="ButtonStyle" TargetType="Button" BasedOn="{StaticResource NVButton}">
+                <Setter Property="Padding" Value="10,5" />
+                <Setter Property="Margin" Value="5" />
+                <Setter Property="MinWidth" Value="80" />
+                <Setter Property="MinHeight" Value="0" />
+            </Style>
 
-        <!--
-        <Style TargetType="TabControl">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Foreground" Value="{DynamicResource Window.Foreground}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource Control.Border}" />
-        </Style>
-
-        <Style TargetType="TabItem">
-            <Setter Property="FocusVisualStyle" Value="{StaticResource NVInnerFocusVisual}" />
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Foreground" Value="{DynamicResource Window.Foreground}" />
-        </Style>
-
-        <Style TargetType="TabPanel">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="TextElement.Foreground" Value="{DynamicResource Window.Foreground}" />
-        </Style>
-        -->
-        
+        </ResourceDictionary>
     </Window.Resources>
 
     <DockPanel Margin="5">

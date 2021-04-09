@@ -38,6 +38,8 @@
             <Setter Property="MinWidth" Value="100" />
         </Style>
 
+        <Style TargetType="{x:Type Hyperlink}" />
+
     </Window.Resources>
 
     <DockPanel Margin="30,20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">

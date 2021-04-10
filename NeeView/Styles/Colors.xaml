@@ -112,4 +112,8 @@
     <!-- Raw Colors -->
     <Color x:Key="PageSelectionBar.Background.Color">Black</Color>
 
+    <SolidColorBrush x:Key="Button.Accent.Background" Color="#FF1188DD" />
+    <SolidColorBrush x:Key="Button.Accent.Foreground" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="Button.Accent.Border" Color="#FF1188DD" />
+
 </ResourceDictionary>

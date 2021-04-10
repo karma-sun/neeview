@@ -105,6 +105,20 @@ namespace NeeView
             // dialog border thickness
             App.Current.Resources["Dialog.BorderThickness"] = themeProfile.GetColor("Dialog.Border", 1.0).A > 0x00 ? new Thickness(1.0) : default;
 
+            if (themeProfile.GetColor("Button.Background", 1.0).A > 0x00)
+            {
+                App.Current.Resources["Button.Accent.Background"] = new SolidColorBrush(themeProfile.GetColor("Control.Accent", 1.0));
+                App.Current.Resources["Button.Accent.Foreground"] = new SolidColorBrush(themeProfile.GetColor("Control.AccentText", 1.0));
+                App.Current.Resources["Button.Accent.Border"] = new SolidColorBrush(themeProfile.GetColor("Control.Accent", 1.0));
+            }
+            else
+            {
+                App.Current.Resources["Button.Accent.Background"] = new SolidColorBrush(themeProfile.GetColor("Button.Background", 1.0));
+                App.Current.Resources["Button.Accent.Foreground"] = new SolidColorBrush(themeProfile.GetColor("Button.Foreground", 1.0));
+                App.Current.Resources["Button.Accent.Border"] = new SolidColorBrush(themeProfile.GetColor("Control.Accent", 1.0));
+            }
+
+
             ThemeProfile = themeProfile;
             ThemeProfileChanged?.Invoke(this, null);
         }

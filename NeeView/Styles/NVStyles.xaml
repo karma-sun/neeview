@@ -714,6 +714,8 @@
     <Style x:Key="NVComboBoxButton" TargetType="{x:Type ComboBox}" BasedOn="{StaticResource NVComboBox}">
         <Setter Property="Foreground" Value="{DynamicResource Button.Foreground}" />
         <Setter Property="Background" Value="{DynamicResource Button.Background}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Button.Border}" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="local:ComboBoxTools.MouseOverBackground" Value="{DynamicResource Button.MouseOver.Background}" />
         <Setter Property="local:ComboBoxTools.MouseOverBorderBrush" Value="{DynamicResource Button.MouseOver.Border}" />
     </Style>
@@ -1479,9 +1481,9 @@
     </Style>
 
     <Style x:Key="NVAccentButton" TargetType="{x:Type Button}" BasedOn="{StaticResource NVButton}">
-        <Setter Property="Background" Value="{DynamicResource Control.Accent}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource Control.Accent}" />
-        <Setter Property="Foreground" Value="{DynamicResource Control.AccentText}" />
+        <Setter Property="Background" Value="{DynamicResource Button.Accent.Background}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Button.Accent.Border}" />
+        <Setter Property="Foreground" Value="{DynamicResource Button.Accent.Foreground}" />
     </Style>
 
     <Style x:Key="NVDialogButton" TargetType="{x:Type Button}" BasedOn="{StaticResource NVButton}">
@@ -1490,10 +1492,10 @@
         <Setter Property="Margin" Value="20,2,2,2" />
     </Style>
 
-    <Style x:Key="NVDialogAccentButton" TargetType="{x:Type Button}" BasedOn="{StaticResource NVDialogButton}">
-        <Setter Property="Background" Value="{DynamicResource Control.Accent}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource Control.Accent}" />
-        <Setter Property="Foreground" Value="{DynamicResource Control.AccentText}" />
+    <Style x:Key="NVDialogAccentButton" TargetType="{x:Type Button}" BasedOn="{StaticResource NVAccentButton}">
+        <Setter Property="MinWidth" Value="100" />
+        <Setter Property="MinHeight" Value="40" />
+        <Setter Property="Margin" Value="20,2,2,2" />
     </Style>
 
     <!--#endregion Buttons -->

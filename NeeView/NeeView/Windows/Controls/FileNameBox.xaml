@@ -22,13 +22,14 @@
         <nwd:NotBoolToVisiblityConverter x:Key="NotBoolToVisiblityConverter"/>
     </UserControl.Resources>
 
-    <DockPanel x:Name="Root">
+    <Grid x:Name="Root">
 
-        <Button x:Name="ButtonOpenDialog" DockPanel.Dock="Right" Style="{StaticResource NVButton}" MinWidth="0" MinHeight="0" Padding="0" Margin="0" Width="26" Click="ButtonOpenDialog_Click">
-            <Image Width="18" Source="{StaticResource ic_more_24px_a}" />
-        </Button>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
 
-        <Grid Margin="0,0,4,0">
+        <Grid Margin="0,0,4,0" Grid.Column="0">
             <TextBox x:Name="PathTextBox" VerticalContentAlignment="Center"
                     Text="{Binding Text, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FileNameBox}}}" PreviewDragOver="PathTextBox_PreviewDragOver" Drop="PathTextBox_Drop">
             </TextBox>
@@ -48,6 +49,10 @@
 
         </Grid>
 
-    </DockPanel>
+        <Button x:Name="ButtonOpenDialog" Grid.Column="2" Style="{StaticResource NVButton}" MinWidth="0" MinHeight="0" Padding="0" Margin="0" Width="26" Click="ButtonOpenDialog_Click">
+            <Image Width="18" Source="{StaticResource ic_more_24px_a}" />
+        </Button>
+        
+    </Grid>
 
 </UserControl>

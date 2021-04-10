@@ -9305,7 +9305,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Mouse button input in light blue frame.
+        ///   Mouse button input in frame.
         ///You can not use right button drag because it is reserved with mouse gesture. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string MouseDragSettingWindow_Remarks {
@@ -9352,7 +9352,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Enter a mouse gesture within a light blue frame.
+        ///   Enter a mouse gesture within a frame.
         ///Mouse gesture is a drag operation while holding down the right mouse button.
         ///A left click can be registered as the last gesture key. に類似しているローカライズされた文字列を検索します。
         /// </summary>

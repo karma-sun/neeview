@@ -64,45 +64,58 @@
             </Popup>
 
 
-            <Grid x:Name="GestureBox" Margin="2" Background="AliceBlue">
-                <Rectangle Stroke="LightGray" StrokeThickness="1"/>
+            <Grid x:Name="GestureBox" Margin="2,2,2,10" Background="{DynamicResource Window.Background}">
                 <Grid IsHitTestVisible="False">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
                     </Grid.RowDefinitions>
-                    <Rectangle Grid.Column="0" Grid.Row="0" Fill="{Binding TouchAreaMap, Converter={StaticResource TouchAreaToBrush}, ConverterParameter={x:Static nv:TouchGesture.TouchL1}}"/>
-                    <Rectangle Grid.Column="0" Grid.Row="1" Fill="{Binding TouchAreaMap, Converter={StaticResource TouchAreaToBrush}, ConverterParameter={x:Static nv:TouchGesture.TouchL2}}"/>
-                    <Rectangle Grid.Column="1" Grid.Row="0" Fill="{Binding TouchAreaMap, Converter={StaticResource TouchAreaToBrush}, ConverterParameter={x:Static nv:TouchGesture.TouchR1}}"/>
-                    <Rectangle Grid.Column="1" Grid.Row="1" Fill="{Binding TouchAreaMap, Converter={StaticResource TouchAreaToBrush}, ConverterParameter={x:Static nv:TouchGesture.TouchR2}}"/>
-                    <Line Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="2" X1="0" X2="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualWidth}" Y1="0" Y2="0" Stroke="LightSteelBlue" StrokeThickness="1" StrokeDashArray="2,2" UseLayoutRounding="True"/>
-                    <Line Grid.Column="1" Grid.RowSpan="2" X1="0" X2="0" Y1="0" Y2="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualHeight}" Stroke="LightSteelBlue" StrokeThickness="1" StrokeDashArray="2,2" UseLayoutRounding="True"/>
-                    <TextBlock Text="L1" Grid.Column="0" Grid.Row="0" Margin="2" Foreground="LightSteelBlue"/>
-                    <TextBlock Text="L2" Grid.Column="0" Grid.Row="1" Margin="2" Foreground="LightSteelBlue" VerticalAlignment="Bottom"/>
-                    <TextBlock Text="R1" Grid.Column="1" Grid.Row="0" Margin="2" Foreground="LightSteelBlue" HorizontalAlignment="Right"/>
-                    <TextBlock Text="R2" Grid.Column="1" Grid.Row="1" Margin="2" Foreground="LightSteelBlue" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+                    <Rectangle Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="2"
+                            Fill="{Binding TouchAreaMap, Converter={StaticResource TouchAreaToBrush}, ConverterParameter={x:Static nv:TouchGesture.TouchL1}}" />
+                    <Rectangle Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="2" Margin="0,0,-1,-1" Stroke="{DynamicResource Control.Border}" StrokeThickness="2" StrokeDashArray="2,2"
+                            Fill="{StaticResource DiagonalBrush}" />
+                    <Rectangle Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="2"
+                            Fill="{Binding TouchAreaMap, Converter={StaticResource TouchAreaToBrush}, ConverterParameter={x:Static nv:TouchGesture.TouchR1}}" />
+                    <Rectangle Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="2" Margin="-1,0,0,-1" Stroke="{DynamicResource Control.Border}" StrokeThickness="2" StrokeDashArray="2,2"
+                            Fill="{StaticResource DiagonalBrush}" />
+                    <Rectangle Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" Grid.RowSpan="2"
+                            Fill="{Binding TouchAreaMap, Converter={StaticResource TouchAreaToBrush}, ConverterParameter={x:Static nv:TouchGesture.TouchL2}}" />
+                    <Rectangle Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" Grid.RowSpan="2" Margin="0,-1,-1,0" Stroke="{DynamicResource Control.Border}" StrokeThickness="2" StrokeDashArray="2,2"
+                            Fill="{StaticResource DiagonalBrush}" />
+                    <Rectangle Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="2" Grid.RowSpan="2"
+                            Fill="{Binding TouchAreaMap, Converter={StaticResource TouchAreaToBrush}, ConverterParameter={x:Static nv:TouchGesture.TouchR2}}" />
+                    <Rectangle Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="2" Grid.RowSpan="2" Margin="-1,-1,0,0" Stroke="{DynamicResource Control.Border}" StrokeThickness="2" StrokeDashArray="2,2"
+                            Fill="{StaticResource DiagonalBrush}" />
+                    <Rectangle Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="3"
+                            Fill="{Binding TouchAreaMap, Converter={StaticResource TouchAreaToBrush}, ConverterParameter={x:Static nv:TouchGesture.TouchCenter}}" />
+                    <Rectangle Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="3" Stroke="{DynamicResource Control.Border}" StrokeThickness="2" StrokeDashArray="2,2"
+                            Fill="{StaticResource DiagonalBrush}" />
+                    <Rectangle Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0" Grid.RowSpan="4" Stroke="{DynamicResource Control.Border}" StrokeThickness="4" />
+
+                    <TextBlock Text="L1" Grid.Column="0" Grid.Row="0" Margin="6" Foreground="{DynamicResource Control.GrayText}" Background="{DynamicResource Window.Background}"
+                            HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <TextBlock Text="L2" Grid.Column="0" Grid.Row="3" Margin="6" Foreground="{DynamicResource Control.GrayText}" Background="{DynamicResource Window.Background}"
+                            HorizontalAlignment="Left" VerticalAlignment="Bottom" />
+                    <TextBlock Text="R1" Grid.Column="5" Grid.Row="0" Margin="6" Foreground="{DynamicResource Control.GrayText}" Background="{DynamicResource Window.Background}"
+                            HorizontalAlignment="Right" VerticalAlignment="Top" />
+                    <TextBlock Text="R2" Grid.Column="5" Grid.Row="3" Margin="6" Foreground="{DynamicResource Control.GrayText}" Background="{DynamicResource Window.Background}"
+                            HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+                    <TextBlock Text="Center" Grid.Column="2" Grid.ColumnSpan="2" Margin="6" Foreground="{DynamicResource Control.GrayText}" Background="{DynamicResource Window.Background}"
+                            HorizontalAlignment="Center" VerticalAlignment="Top" />
                 </Grid>
-                <Grid IsHitTestVisible="False">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="3*"/>
-                        <RowDefinition Height="1*"/>
-                    </Grid.RowDefinitions>
-                    <Grid Grid.Column="1" Grid.Row="0">
-                        <Rectangle Fill="{Binding TouchAreaMap, Converter={StaticResource TouchAreaToBrush}, ConverterParameter={x:Static nv:TouchGesture.TouchCenter}}"
-                                   Stroke="LightSteelBlue" StrokeThickness="1" StrokeDashArray="2,2"/>
-                        <TextBlock Text="Center" Foreground="LightSteelBlue" HorizontalAlignment="Center"/>
-                    </Grid>
-                </Grid>
-                <TextBlock Text="{x:Static properties:Resources.InputTouchControl_TouchInput}" VerticalAlignment="Center" TextAlignment="Center" Foreground="Gray"/>
+                <TextBlock Text="{x:Static properties:Resources.InputTouchControl_TouchInput}" VerticalAlignment="Top" HorizontalAlignment="Center" TextAlignment="Center" Padding="10,5"
+                        Foreground="{DynamicResource Control.GrayText}" Margin="0,60,0,0" Background="{DynamicResource Window.Background}" />
+
             </Grid>
         </DockPanel>
 

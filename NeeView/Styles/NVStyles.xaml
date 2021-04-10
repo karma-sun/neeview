@@ -16,6 +16,20 @@
 
     <DropShadowEffect x:Key="NVDropShadowEffect" Opacity="0.5" ShadowDepth="2" />
 
+    <!-- https://pikopiko.artm.jp/page/note/13/ -->
+    <DrawingBrush x:Key="DiagonalBrush" Viewport="0,0,20,20" ViewportUnits="Absolute" Viewbox="0,0,10,10" ViewboxUnits="Absolute" TileMode="Tile">
+        <DrawingBrush.Drawing>
+            <GeometryDrawing>
+                <GeometryDrawing.Pen>
+                    <Pen Brush="#80808080" Thickness="1" />
+                </GeometryDrawing.Pen>
+                <GeometryDrawing.Geometry>
+                    <Geometry>M10,0 L0,10 M5,-5 L-5,5 M15,5 L5,15</Geometry>
+                </GeometryDrawing.Geometry>
+            </GeometryDrawing>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
 
     <!--#region NVFocusVisual-->
 
@@ -1245,11 +1259,15 @@
                         </ScrollViewer>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsKeyboardFocusWithin" Value="True" />
+                                <Condition Property="IsReadOnly" Value="False" />
+                            </MultiTrigger.Conditions>
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Control.Accent}" />
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource TextBox.Background}" />
                             <Setter TargetName="border" Property="TextElement.Foreground" Value="{DynamicResource TextBox.Foreground}" />
-                        </Trigger>
+                        </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" TargetName="border" Value="0.56" />
                         </Trigger>
@@ -1494,10 +1512,6 @@
 
     <Style x:Key="NVButton" TargetType="{x:Type Button}">
         <Setter Property="FontWeight" Value="Bold" />
-        <!--
-        <Setter Property="MinWidth" Value="100" />
-        <Setter Property="MinHeight" Value="32" />
-        -->
         <Setter Property="Padding" Value="20,10" />
         <Setter Property="Margin" Value="2" />
         <Setter Property="BorderBrush" Value="{DynamicResource Button.Border}" />
@@ -1508,7 +1522,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Grid>
+                    <Grid x:Name="root">
                         <Border x:Name="Base" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" />
                         <Border x:Name="Bd" BorderThickness="{TemplateBinding BorderThickness}" />
                         <Border BorderThickness="{TemplateBinding BorderThickness}">
@@ -1526,7 +1540,7 @@
                             <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource Button.Pressed.Border}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="{DynamicResource Control.GrayText}" />
+                            <Setter Property="Opacity" TargetName="root" Value="0.56" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -1769,6 +1783,7 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Margin" Value="5" />
         <Setter Property="Padding" Value="5" />
+        <Setter Property="RenderOptions.ClearTypeHint" Value="{DynamicResource Window.ClearTypeHint}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ContentControl}">

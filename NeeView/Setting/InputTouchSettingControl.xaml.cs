@@ -62,7 +62,7 @@ namespace NeeView.Setting
             var map = (TouchAreaMap)value;
             var gesture = (TouchGesture)parameter;
 
-            return map[gesture] ? Brushes.SteelBlue : Brushes.AliceBlue;
+            return map[gesture] ? App.Current.Resources["Control.Accent"] : App.Current.Resources["Window.Background"];
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

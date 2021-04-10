@@ -51,6 +51,14 @@ namespace NeeView.Setting
         }
 
 
+        private void KeyGestureBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is IInputElement element)
+            {
+                Keyboard.Focus(element);
+            }
+        }
+
         // キー入力処理
         // 押されているキーの状態からショートカットテキスト作成
         private void KeyGestureBox_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -191,6 +199,11 @@ namespace NeeView.Setting
                     this.MouseGestureText.Text = null;
                 }
             }
+
+            if (this.MouseGestureText.Text != null)
+            {
+                this.AddMouseGestureButton.Focus();
+            }
         }
 
 
@@ -236,6 +249,11 @@ namespace NeeView.Setting
             {
                 this.MouseGestureText.Text = null;
             }
+
+            if (this.MouseGestureText.Text != null)
+            {
+                this.AddMouseGestureButton.Focus();
+            }
         }
 
         // マウス水平ホイール入力処理
@@ -280,6 +298,11 @@ namespace NeeView.Setting
             {
                 this.MouseGestureText.Text = null;
             }
+
+            if (this.MouseGestureText.Text != null)
+            {
+                this.AddMouseGestureButton.Focus();
+            }
         }
 
 
@@ -303,5 +326,6 @@ namespace NeeView.Setting
                 _vm.ResolveConflict(item, Window.GetWindow(this));
             }
         }
+
     }
 }

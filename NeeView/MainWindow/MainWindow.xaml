@@ -183,7 +183,7 @@
             <!-- Page title -->
             <Border x:Name="PageCaption" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="{DynamicResource Notification.Background}" IsHitTestVisible="False"
                     CornerRadius="10" Margin="0,0,0,5">
-                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding PageTitle.Title}" FontSize="{Binding Source={x:Static local:Config.Current}, Path=PageTitle.FontSize}"
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding PageTitle.Title}" FontSize="20.0"
                         Foreground="{DynamicResource Notification.Foreground}" Margin="20,5" TextWrapping="Wrap" />
             </Border>
 

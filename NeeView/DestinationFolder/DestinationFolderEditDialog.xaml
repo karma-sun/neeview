@@ -13,7 +13,9 @@
 
     <Window.Resources>
 
-        <Style x:Key="ButtonStyle" TargetType="Button" BasedOn="{StaticResource NVButton}" />
+        <Style x:Key="ButtonStyle" TargetType="Button" BasedOn="{StaticResource NVButton}">
+            <Setter Property="MinWidth" Value="100" />
+        </Style>
 
     </Window.Resources>
 

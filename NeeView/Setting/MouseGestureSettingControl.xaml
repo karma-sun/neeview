@@ -10,7 +10,9 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.Resources>
+            
             <nv:MouseGestureToDispTextConverter x:Key="MouseGestureToDispTextConverter"/>
+
         </Grid.Resources>
         
         <DockPanel Margin="10" KeyboardNavigation.TabNavigation="Local">
@@ -56,10 +58,12 @@
                 </ContentControl>
             </Popup>
 
-
-            <Grid x:Name="GestureBox" Margin="2" Background="AliceBlue">
-                <TextBlock Text="{x:Static properties:Resources.MouseGestureControl_InputGesture}" VerticalAlignment="Center" TextAlignment="Center" Foreground="Gray"/>
-            </Grid>
+            <Border x:Name="GestureBox" Margin="2" Background="{DynamicResource Window.Background}">
+                <Border BorderThickness="4" BorderBrush="{DynamicResource Control.Border}" Background="{StaticResource DiagonalBrush}">
+                <TextBlock Text="{x:Static properties:Resources.MouseGestureControl_InputGesture}" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center"
+                        Foreground="{DynamicResource Control.GrayText}" Background="{DynamicResource Window.Background}" Padding="20,10" />
+                </Border>
+            </Border>
         </DockPanel>
 
     </Grid>

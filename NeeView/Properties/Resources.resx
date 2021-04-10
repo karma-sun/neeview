@@ -2676,7 +2676,7 @@ include("Sample.nvjs")</value>
     <value>Old</value>
   </data>
   <data name="MouseDragSettingWindow.Remarks" xml:space="preserve">
-    <value>Mouse button input in light blue frame.
+    <value>Mouse button input in frame.
 You can not use right button drag because it is reserved with mouse gesture.</value>
   </data>
   <data name="MouseDragSettingWindow.Title" xml:space="preserve">
@@ -2693,7 +2693,7 @@ You can not use right button drag because it is reserved with mouse gesture.</va
     <value>Old</value>
   </data>
   <data name="MouseGestureControl.Remarks" xml:space="preserve">
-    <value>Enter a mouse gesture within a light blue frame.
+    <value>Enter a mouse gesture within a frame.
 Mouse gesture is a drag operation while holding down the right mouse button.
 A left click can be registered as the last gesture key.</value>
   </data>

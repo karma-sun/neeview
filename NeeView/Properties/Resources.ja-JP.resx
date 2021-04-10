@@ -2679,7 +2679,7 @@ include("Sample.nvjs")</value>
     <value>現在の設定</value>
   </data>
   <data name="MouseDragSettingWindow.Remarks" xml:space="preserve">
-    <value>水色の枠内でマウス ボタン入力します。
+    <value>枠内でマウス ボタン入力します。
 右ボタンドラッグはマウス ジェスチャーで予約されているため使用できません。</value>
   </data>
   <data name="MouseDragSettingWindow.Title" xml:space="preserve">
@@ -2696,7 +2696,7 @@ include("Sample.nvjs")</value>
     <value>現在の設定</value>
   </data>
   <data name="MouseGestureControl.Remarks" xml:space="preserve">
-    <value>水色の枠内でマウス ジェスチャーを入力します。
+    <value>枠内でマウス ジェスチャーを入力します。
 マウス ジェスチャーはマウス右ボタンを押しながらのドラッグ操作です。
 左クリックを最後のジェスチャーキーとして登録可能です。</value>
   </data>

@@ -198,7 +198,8 @@
                 <Border.Effect>
                     <DropShadowEffect Opacity="0.5" ShadowDepth="2" />
                 </Border.Effect>
-                <local:BookPopupContent DataContext="{Binding Model}" ParentPopup="{Binding ElementName=BookPopup}" SelfClosed="BookPopup_SelfClosed" />
+                <local:BookPopupContent DataContext="{Binding Model}" ParentPopup="{Binding ElementName=BookPopup}" SelfClosed="BookPopup_SelfClosed"
+                        RenderOptions.ClearTypeHint="{DynamicResource Window.ClearTypeHint}" />
             </Border>
         </Popup>
     </Grid>

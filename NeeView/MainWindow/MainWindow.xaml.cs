@@ -755,14 +755,13 @@ namespace NeeView
         private void InitializeMessageLayerSpace()
         {
             this.DockStatusArea.SizeChanged += (s, e) => { if (e.HeightChanged) { UpdateMessageLayerSpace(); } };
-            Config.Current.PageTitle.AddPropertyChanged(nameof(PageTitleConfig.FontSize), (s, e) => UpdateMessageLayerSpace());
 
             UpdateMessageLayerSpace();
         }
 
         private void UpdateMessageLayerSpace()
         {
-            this.MessageLayerSpace.Height = Math.Max(this.DockStatusArea.ActualHeight, 30.0) + Math.Max(Config.Current.PageTitle.FontSize - 10.0, 0.0);
+            this.MessageLayerSpace.Height = Math.Max(this.DockStatusArea.ActualHeight, 30.0) + 10.0;
         }
 
         #endregion レイアウト管理

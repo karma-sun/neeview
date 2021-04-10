@@ -13,15 +13,7 @@
         <Style x:Key="ButtonBase" TargetType="Button" BasedOn="{StaticResource NVButton}">
             <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
         </Style>
-        <Style x:Key="InputBox" TargetType="TextBox" BasedOn="{StaticResource NVTextBox}">
-            <Setter Property="IsReadOnly" Value="True"/>
-            <Setter Property="Background" Value="AliceBlue"/>
-            <Style.Triggers>
-                <Trigger Property="IsFocused" Value="True">
-                    <Setter Property="Background" Value="#FFFFEECC" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
+
         <nv:IsNullConverter x:Key="IsNullConverter"/>
     </UserControl.Resources>
 
@@ -36,29 +28,50 @@
 
                 <StackPanel VerticalAlignment="Top">
                     <TextBlock x:Name="textBlock" Margin="10" TextWrapping="Wrap" Text="{x:Static properties:Resources.InputGestureControl_LabelShortcut}" VerticalAlignment="Top" />
-                    <Grid Height="40" VerticalAlignment="Top" Margin="10,0" >
-                        <TextBox x:Name="KeyGestureBox" Style="{StaticResource InputBox}" PreviewKeyDown="KeyGestureBox_PreviewKeyDown" IsTabStop="False"/>
 
-                        <TextBlock x:Name="KeyGestureText"  VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False" Foreground="#222"/>
-                        <TextBlock Text="{x:Static properties:Resources.InputGestureControl_InputShortcut}" Foreground="Gray" VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Visibility" Value="Hidden"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=KeyGestureText, Path=Text}" Value="">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </Grid>
-                    <Button x:Name="AddKeyGestureButton" Content="{x:Static properties:Resources.Word_Add}" HorizontalAlignment="Right" Margin="10" VerticalAlignment="Top" Padding="10,0" MinWidth="76" Height="30" Click="AddKeyGestureButton_Click" >
+                    <Border x:Name="KeyGestureBox" Height="40" VerticalAlignment="Top" Margin="10,0" BorderThickness="2" Background="{DynamicResource Window.Background}"
+                            PreviewKeyDown="KeyGestureBox_PreviewKeyDown" PreviewMouseDown="KeyGestureBox_PreviewMouseDown" Focusable="True" KeyboardNavigation.IsTabStop="False" >
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="BorderBrush" Value="{DynamicResource Control.Border}" />
+                                <Style.Triggers>
+                                    <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                        <Setter Property="BorderBrush" Value="{DynamicResource Control.Accent}" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <Grid>
+
+                            <Border>
+                                <TextBlock x:Name="KeyGestureText" VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False"
+                                        Foreground="{DynamicResource Window.Foreground}" />
+                            </Border>
+
+                            <Border Background="{StaticResource DiagonalBrush}">
+                                <TextBlock Text="{x:Static properties:Resources.InputGestureControl_InputShortcut}" Foreground="{DynamicResource Control.GrayText}" VerticalAlignment="Center"
+                                        Background="{DynamicResource Window.Background}" Padding="10,2" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False" />
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Visibility" Value="Hidden" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=KeyGestureText, Path=Text}" Value="">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <Button x:Name="AddKeyGestureButton" Content="{x:Static properties:Resources.Word_Add}" HorizontalAlignment="Right" Margin="10" VerticalAlignment="Top" Padding="10,0" MinWidth="76"
+                            Height="30" Click="AddKeyGestureButton_Click">
                         <Button.Style>
                             <Style TargetType="Button" BasedOn="{StaticResource ButtonBase}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding ElementName=KeyGestureText, Path=Text}" Value="">
-                                        <Setter Property="IsEnabled" Value="False"/>
+                                        <Setter Property="IsEnabled" Value="False" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -68,36 +81,41 @@
 
                 <StackPanel>
                     <TextBlock Margin="10" TextWrapping="Wrap" Text="{x:Static properties:Resources.InputGestureControl_LabelMouse}" />
-                    <Border x:Name="MouseGestureBox" Margin="10,0" Height="40"
-                                BorderThickness="1" BorderBrush="LightGray"
-                                 PreviewMouseDown="MouseGestureBox_PreviewMouseDown"
-                                 PreviewMouseWheel="MouseGestureBox_PreviewMouseWheel">
-                        <Border.Style>
-                            <Style TargetType="Border">
-                                <Setter Property="Background" Value="AliceBlue"/>
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#FFFFEECC" />
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Border.Style>
-                        <Grid>
-                            <TextBlock x:Name="MouseGestureText"  VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False" Foreground="#222"/>
-                            <TextBlock Text="{x:Static properties:Resources.InputGestureControl_InputMouse}" Foreground="Gray" VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="Visibility" Value="Hidden"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=MouseGestureText, Path=Text}" Value="">
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                        </Grid>
-                    </Border>
+                    <Grid>
+                        <Border x:Name="MouseGestureBox" Margin="10,0" Height="40" BorderThickness="2" Background="{DynamicResource Window.Background}" PreviewMouseDown="MouseGestureBox_PreviewMouseDown"
+                                PreviewMouseWheel="MouseGestureBox_PreviewMouseWheel">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="BorderBrush" Value="{DynamicResource Control.Border}" />
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="BorderBrush" Value="{DynamicResource Control.Accent}" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <Grid>
+                                <Border>
+                                    <TextBlock x:Name="MouseGestureText" VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False"
+                                            Foreground="{DynamicResource Window.Foreground}" />
+                                </Border>
+                                <Border Background="{StaticResource DiagonalBrush}">
+                                    <TextBlock Text="{x:Static properties:Resources.InputGestureControl_InputMouse}" Foreground="{DynamicResource Control.GrayText}" VerticalAlignment="Center" Background="{DynamicResource Window.Background}" Padding="10,2"
+                                            HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False" />
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Visibility" Value="Hidden" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=MouseGestureText, Path=Text}" Value="">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </Grid>
 
                     <Button x:Name="AddMouseGestureButton" Content="{x:Static properties:Resources.Word_Add}" HorizontalAlignment="Right" Margin="10" Padding="10,0" Height="30" MinWidth="76" Click="AddMouseGestureButton_Click" >
                         <Button.Style>

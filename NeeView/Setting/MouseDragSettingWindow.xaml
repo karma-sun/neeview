@@ -67,8 +67,11 @@
                 </ContentControl>
             </Popup>
 
-            <Grid x:Name="GestureBox" Margin="2" Background="AliceBlue" Focusable="False" FocusVisualStyle="{StaticResource NVFocusVisual}">
-                <TextBlock Text="{x:Static properties:Resources.MouseDragSettingWindow_Input}" VerticalAlignment="Center" TextAlignment="Center" Foreground="Gray"/>
+            <Grid x:Name="GestureBox" Margin="2,2,2,10" Background="{DynamicResource Window.Background}">
+                <Border BorderBrush="{DynamicResource Control.Border}" BorderThickness="4" Background="{StaticResource DiagonalBrush}">
+                    <TextBlock Text="{x:Static properties:Resources.MouseDragSettingWindow_Input}" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center"
+                            Foreground="{DynamicResource Control.GrayText}" Background="{DynamicResource Window.Background}" Padding="10,5" />
+                </Border>
             </Grid>
         </DockPanel>
     </Grid>

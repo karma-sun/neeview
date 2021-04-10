@@ -121,7 +121,7 @@ namespace NeeView
         public override void OnKeyDown(object sender, KeyEventArgs e)
         {
             // ESC で 状態解除
-            if (Config.Current.Loupe.IsEscapeKeyEnabled && e.Key == Key.Escape)
+            if (Config.Current.Loupe.IsEscapeKeyEnabled && e.Key == Key.Escape && Keyboard.Modifiers == ModifierKeys.None)
             {
                 ResetState();
                 e.Handled = true;

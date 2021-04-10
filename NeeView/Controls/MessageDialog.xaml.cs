@@ -240,7 +240,7 @@ namespace NeeView
 
         private void MesageDialog_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Escape)
+            if (e.Key == Key.Escape && Keyboard.Modifiers == ModifierKeys.None)
             {
                 this.Close();
                 e.Handled = true;

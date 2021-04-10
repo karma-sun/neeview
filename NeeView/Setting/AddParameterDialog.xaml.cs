@@ -32,7 +32,7 @@ namespace NeeView.Setting
 
         private void AddParameterDialog_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Escape)
+            if (e.Key == Key.Escape && Keyboard.Modifiers == ModifierKeys.None)
             {
                 this.Close();
                 e.Handled = true;
@@ -89,7 +89,7 @@ namespace NeeView.Setting
                 Close();
                 e.Handled = true;
             }
-            else if (e.Key == Key.Escape)
+            else if (e.Key == Key.Escape && Keyboard.Modifiers == ModifierKeys.None)
             {
                 this.DialogResult = false;
                 Close();

@@ -186,6 +186,8 @@ namespace NeeView
 
         private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            if (Keyboard.Modifiers != ModifierKeys.None) return;
+
             switch (e.Key)
             {
                 case Key.Escape:

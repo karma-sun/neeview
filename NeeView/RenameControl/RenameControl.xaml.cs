@@ -189,7 +189,7 @@ namespace NeeView
 
         private void RenameTextBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Escape)
+            if (e.Key == Key.Escape && Keyboard.Modifiers == ModifierKeys.None)
             {
                 Stop(false);
                 e.Handled = true;

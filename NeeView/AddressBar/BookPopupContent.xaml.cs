@@ -48,8 +48,11 @@ namespace NeeView
             switch (e.Key)
             {
                 case Key.Escape:
-                    Close();
-                    e.Handled = true;
+                    if (Keyboard.Modifiers == ModifierKeys.None)
+                    {
+                        Close();
+                        e.Handled = true;
+                    }
                     break;
 
                 case Key.Left:

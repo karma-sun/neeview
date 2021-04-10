@@ -113,8 +113,8 @@
                     <TextBlock Text="Center" Grid.Column="2" Grid.ColumnSpan="2" Margin="6" Foreground="{DynamicResource Control.GrayText}" Background="{DynamicResource Window.Background}"
                             HorizontalAlignment="Center" VerticalAlignment="Top" />
                 </Grid>
-                <TextBlock Text="{x:Static properties:Resources.InputTouchControl_TouchInput}" VerticalAlignment="Top" HorizontalAlignment="Center" TextAlignment="Center" Padding="10,5"
-                        Foreground="{DynamicResource Control.GrayText}" Margin="0,60,0,0" Background="{DynamicResource Window.Background}" />
+                <TextBlock Text="{x:Static properties:Resources.InputTouchControl_TouchInput}" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" Padding="10,5"
+                        Foreground="{DynamicResource Control.GrayText}" Background="{DynamicResource Window.Background}" />
 
             </Grid>
         </DockPanel>

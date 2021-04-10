@@ -226,8 +226,8 @@
                             <Image Source="{StaticResource ic_clear_24px_a}" />
                         </Button>
                         <ComboBox x:Name="SearchBox" Text="{Binding Model.InputKeyword, UpdateSourceTrigger=PropertyChanged}" TabIndex="1" TextBoxBase.TextChanged="SearchBox_TextChanged"
-                                Style="{StaticResource NVComboBoxEditable}" MinHeight="{DynamicResource FontIconSize}" IsKeyboardFocusWithinChanged="SearchBox_IsKeyboardFocusWithinChanged"
-                                Foreground="{DynamicResource SidePanel.Foreground}" Background="{Binding ElementName=SearchBoxRoot, Path=Background}" VerticalAlignment="Stretch"
+                                MinHeight="{DynamicResource FontIconSize}" IsKeyboardFocusWithinChanged="SearchBox_IsKeyboardFocusWithinChanged"
+                                Background="{Binding ElementName=SearchBoxRoot, Path=Background}" VerticalAlignment="Stretch"
                                 KeyDown="SearchBox_KeyDown" ItemsSource="{Binding Source={x:Static local:BookHistoryCollection.Current}, Path=SearchHistory}" IsTextSearchCaseSensitive="True"
                                 IsEditable="True" BorderThickness="0">
 

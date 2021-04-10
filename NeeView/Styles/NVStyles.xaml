@@ -584,37 +584,27 @@
 
     <!--#endregion  NVListView -->
 
-
     <!--#region NVComboBox-->
 
     <ControlTemplate x:Key="NVComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="20" />
-            </Grid.ColumnDefinitions>
-            <Border x:Name="Border" Grid.ColumnSpan="2" CornerRadius="0" BorderThickness="1" Background="Transparent" BorderBrush="Transparent" />
-            <Path x:Name="Arrow" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,4,0,0" Stroke="{TemplateBinding Foreground}" StrokeThickness="1"
-                    Data="M 0 0 L 5 5 L 10 0">
-            </Path>
-        </Grid>
+        <Border x:Name="Border" BorderThickness="1" Background="Transparent" BorderBrush="Transparent">
+            <Grid Width="20" HorizontalAlignment="Right">
+                <Path x:Name="Arrow" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4,0,0" Stroke="{TemplateBinding Foreground}" StrokeThickness="1" Data="M 0 0 L 5 5 L 10 0" />
+            </Grid>
+        </Border>
         <ControlTemplate.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource IconButton.MouseOver.Background}" />
-                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource IconButton.MouseOver.Border}" />
-            </Trigger>
-            <Trigger Property="IsChecked" Value="True">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource IconButton.MouseOver.Background}" />
-                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource IconButton.MouseOver.Border}" />
-            </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter TargetName="Arrow" Property="Opacity" Value="0.5" />
             </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Border" Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Background}" />
+                <Setter TargetName="Border" Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=BorderBrush}" />
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter TargetName="Border" Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Background}" />
+                <Setter TargetName="Border" Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=BorderBrush}" />
+            </Trigger>
         </ControlTemplate.Triggers>
-    </ControlTemplate>
-
-    <ControlTemplate x:Key="NVComboBoxTextBox" TargetType="{x:Type TextBox}">
-        <Border x:Name="PART_ContentHost" Focusable="False" Background="{TemplateBinding Background}" />
     </ControlTemplate>
 
     <Style x:Key="NVComboBoxItem" TargetType="{x:Type ComboBoxItem}">
@@ -642,8 +632,8 @@
     </Style>
 
     <Style x:Key="NVComboBox" TargetType="{x:Type ComboBox}">
-        <Setter Property="SnapsToDevicePixels" Value="true" />
-        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="False" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
@@ -653,20 +643,40 @@
         <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}" />
         <Setter Property="Foreground" Value="{DynamicResource Control.Accent}" />
         <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Control.Border}" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="8,4,3,4" />
+        <Setter Property="local:ComboBoxTools.MouseOverBackground" Value="{DynamicResource Item.MouseOver.Background}" />
+        <Setter Property="local:ComboBoxTools.MouseOverBorderBrush" Value="{DynamicResource Item.MouseOver.Border}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBox}">
                     <Grid>
-                        <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" />
-                        <ToggleButton x:Name="ToggleButton" Template="{StaticResource NVComboBoxToggleButton}" Grid.Column="2" Focusable="false" ClickMode="Press"
-                                Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}" VerticalAlignment="Stretch"
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="22" />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.ColumnSpan="2" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" />
+                        <ToggleButton x:Name="ToggleButton" Template="{StaticResource NVComboBoxToggleButton}" Grid.Column="0" Grid.ColumnSpan="2" Focusable="False" ClickMode="Press"
+                                Foreground="{TemplateBinding Foreground}" Background="{TemplateBinding local:ComboBoxTools.MouseOverBackground}"
+                                BorderBrush="{TemplateBinding local:ComboBoxTools.MouseOverBorderBrush}" VerticalAlignment="Stretch"
                                 IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
                         <ContentPresenter x:Name="ContentSite" IsHitTestVisible="False" Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-                                ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="8,4,23,4" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                        <TextBox x:Name="PART_EditableTextBox" Style="{x:Null}" Template="{StaticResource NVComboBoxTextBox}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="8,4,23,4"
-                                Focusable="True" Foreground="{TemplateBinding Foreground}" Background="Transparent" Visibility="Hidden" IsReadOnly="{TemplateBinding IsReadOnly}" />
+                                ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="{TemplateBinding Padding}" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                        <TextBox x:Name="PART_EditableTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="{TemplateBinding Padding}" Focusable="True"
+                                Foreground="{DynamicResource TextBox.Foreground}" Background="Transparent" CaretBrush="{DynamicResource TextBox.Foreground}" Visibility="Hidden"
+                                IsReadOnly="{TemplateBinding IsReadOnly}">
+                            <TextBox.Template>
+                                <ControlTemplate TargetType="TextBox">
+                                    <Border Background="{TemplateBinding Background}">
+                                        <ScrollViewer Style="{StaticResource NVScrollViewer}" x:Name="PART_ContentHost" HorizontalContentAlignment="{TemplateBinding TextAlignment}"
+                                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                    </Border>
+                                </ControlTemplate>
+                            </TextBox.Template>
+                        </TextBox>
                         <Popup x:Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Slide">
                             <Grid x:Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
                                 <Border x:Name="DropDownBorder" BorderThickness="1" BorderBrush="{DynamicResource Menu.Border}" Background="{DynamicResource Menu.Background}"
@@ -682,6 +692,8 @@
                         <Trigger Property="IsEditable" Value="True">
                             <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible" />
                             <Setter TargetName="ContentSite" Property="Visibility" Value="Hidden" />
+                            <Setter TargetName="ToggleButton" Property="Grid.Column" Value="1" />
+                            <Setter TargetName="ToggleButton" Property="Grid.ColumnSpan" Value="1" />
                         </Trigger>
                         <Trigger Property="HasItems" Value="false">
                             <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95" />
@@ -699,96 +711,14 @@
         </Setter>
     </Style>
 
-    <ControlTemplate x:Key="NVComboBoxToggleButtonEditable" TargetType="{x:Type ToggleButton}">
-        <Grid>
-            <Border x:Name="Border" Grid.ColumnSpan="2" CornerRadius="0" BorderThickness="1" Background="Transparent" BorderBrush="Transparent" />
-            <Path x:Name="Arrow" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4,0,0" Stroke="{TemplateBinding Foreground}" StrokeThickness="1"
-                    Data="M 0 0 L 5 5 L 10 0">
-            </Path>
-        </Grid>
-        <ControlTemplate.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource IconButton.MouseOver.Background}" />
-                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource IconButton.MouseOver.Border}" />
-            </Trigger>
-            <Trigger Property="IsChecked" Value="True">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource IconButton.MouseOver.Background}" />
-                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource IconButton.MouseOver.Border}" />
-            </Trigger>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter TargetName="Arrow" Property="Opacity" Value="0.5" />
-            </Trigger>
-        </ControlTemplate.Triggers>
-    </ControlTemplate>
-
-    <Style x:Key="NVComboBoxEditable" TargetType="{x:Type ComboBox}">
-        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-        <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
-        <Setter Property="MinWidth" Value="40" />
-        <Setter Property="MinHeight" Value="20" />
-        <Setter Property="ItemContainerStyle" Value="{StaticResource NVComboBoxItem}" />
-        <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}" />
-        <Setter Property="IsEditable" Value="True" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ComboBox}">
-                    <Grid Background="{TemplateBinding Background}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="20" />
-                        </Grid.ColumnDefinitions>
-                        <ToggleButton x:Name="ToggleButton" Grid.Column="1" Template="{StaticResource NVComboBoxToggleButtonEditable}" Focusable="false" ClickMode="Press"
-                                Background="{TemplateBinding Background}" Foreground="{DynamicResource Control.Accent}" VerticalAlignment="Stretch"
-                                IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
-                        <ContentPresenter x:Name="ContentSite" IsHitTestVisible="False" Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-                                ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="8,4,3,4" VerticalAlignment="Stretch" HorizontalAlignment="Left">
-                        </ContentPresenter>
-                        <TextBox x:Name="PART_EditableTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8,4,3,4" Focusable="True" Foreground="{TemplateBinding Foreground}"
-                                Background="Transparent" CaretBrush="{TemplateBinding Foreground}" Visibility="Hidden" IsReadOnly="{TemplateBinding IsReadOnly}">
-                            <TextBox.Template>
-                                <ControlTemplate TargetType="TextBox">
-                                    <Border x:Name="border" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
-                                        <ScrollViewer x:Name="PART_ContentHost" HorizontalContentAlignment="{TemplateBinding TextAlignment}"
-                                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-                                    </Border>
-                                </ControlTemplate>
-                            </TextBox.Template>
-                        </TextBox>
-                        <Popup x:Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Slide">
-                            <Grid x:Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                                <Border x:Name="DropDownBorder" BorderThickness="1" BorderBrush="{DynamicResource Menu.Border}" Background="{DynamicResource Menu.Background}"
-                                        TextElement.Foreground="{DynamicResource Menu.Foreground}">
-                                    <ScrollViewer Margin="0" SnapsToDevicePixels="True">
-                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
-                                    </ScrollViewer>
-                                </Border>
-                            </Grid>
-                        </Popup>
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsEditable" Value="True">
-                            <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible" />
-                            <Setter TargetName="ContentSite" Property="Visibility" Value="Hidden" />
-                        </Trigger>
-                        <Trigger Property="HasItems" Value="false">
-                            <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95" />
-                        </Trigger>
-                        <Trigger Property="IsGrouping" Value="true">
-                            <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
-                        </Trigger>
-                        <Trigger SourceName="Popup" Property="AllowsTransparency" Value="true">
-                            <Setter TargetName="DropDownBorder" Property="CornerRadius" Value="0" />
-                            <Setter TargetName="DropDownBorder" Property="Margin" Value="0" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+    <Style x:Key="NVComboBoxButton" TargetType="{x:Type ComboBox}" BasedOn="{StaticResource NVComboBox}">
+        <Setter Property="Foreground" Value="{DynamicResource Button.Foreground}" />
+        <Setter Property="Background" Value="{DynamicResource Button.Background}" />
+        <Setter Property="local:ComboBoxTools.MouseOverBackground" Value="{DynamicResource Button.MouseOver.Background}" />
+        <Setter Property="local:ComboBoxTools.MouseOverBorderBrush" Value="{DynamicResource Button.MouseOver.Border}" />
     </Style>
 
     <!--#endregion NVComboBox-->
-
 
     <!--#region NVTreeView -->
 

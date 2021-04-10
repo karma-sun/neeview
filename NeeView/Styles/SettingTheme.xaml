@@ -13,11 +13,6 @@
         <Setter Property="Padding" Value="5,2" />
     </Style>
 
-    <Style x:Key="{x:Type ComboBox}" TargetType="{x:Type ComboBox}" BasedOn="{StaticResource NVComboBox}">
-        <Setter Property="Foreground" Value="{DynamicResource Control.Foreground}" />
-        <Setter Property="Background" Value="{DynamicResource Button.Background}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource Button.Border}" />
-        <Setter Property="BorderThickness" Value="1" />
-    </Style>
-    
+    <Style x:Key="{x:Type ComboBox}" TargetType="{x:Type ComboBox}" BasedOn="{StaticResource NVComboBoxButton}" />
+
 </ResourceDictionary>

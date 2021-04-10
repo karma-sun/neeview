@@ -17,116 +17,99 @@
     <SolidColorBrush x:Key="Signal.Busy" Color="#884682b4" />
     
     <!-- NeeView Theme Colors -->
-    
-    <SolidColorBrush x:Key="Window.Background" Color="Black" />
-    <SolidColorBrush x:Key="Window.Foreground" Color="White" />
-    <SolidColorBrush x:Key="Window.Border" Color="Gray" />
-    <SolidColorBrush x:Key="Window.ActiveTitle" Color="White" />
-    <SolidColorBrush x:Key="Window.InactiveTitle" Color="Gray" />
 
-    <SolidColorBrush x:Key="Dialog.Border" Color="Gray" />
-
-    <SolidColorBrush x:Key="Control.Background" Color="Silver" />
-    <SolidColorBrush x:Key="Control.Foreground" Color="White" />
-    <SolidColorBrush x:Key="Control.Border" Color="Gray" />
-    <SolidColorBrush x:Key="Control.GrayText" Color="Gray" />
-    <SolidColorBrush x:Key="Control.Accent" Color="SteelBlue" />
-    <SolidColorBrush x:Key="Control.AccentText" Color="White" />
-    <SolidColorBrush x:Key="Control.Focus" Color="SteelBlue" />
-
-    <SolidColorBrush x:Key="Item.MouseOver.Background" Color="#1F26A0DA" />
-    <SolidColorBrush x:Key="Item.MouseOver.Border" Color="#A826A0DA" />
-    <SolidColorBrush x:Key="Item.Selected.Background" Color="#3D26A0DA" />
-    <SolidColorBrush x:Key="Item.Selected.Border" Color="#FF26A0DA" />
+    <SolidColorBrush x:Key="Window.Background" Color="#FF000000" />
+    <SolidColorBrush x:Key="Window.Foreground" Color="#FFF0F0F0" />
+    <SolidColorBrush x:Key="Window.Border" Color="#00808080" />
+    <SolidColorBrush x:Key="Window.ActiveTitle" Color="#FFF0F0F0" />
+    <SolidColorBrush x:Key="Window.InactiveTitle" Color="#7FF0F0F0" />
+    <SolidColorBrush x:Key="Dialog.Border" Color="#FF404040" />
+    <SolidColorBrush x:Key="Control.Background" Color="#FFA0A0A0" />
+    <SolidColorBrush x:Key="Control.Foreground" Color="#FFF0F0F0" />
+    <SolidColorBrush x:Key="Control.Border" Color="#FFA0A0A0" />
+    <SolidColorBrush x:Key="Control.GrayText" Color="#FF909090" />
+    <SolidColorBrush x:Key="Control.Accent" Color="#FF1188DD" />
+    <SolidColorBrush x:Key="Control.AccentText" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="Control.Focus" Color="#FF1188DD" />
+    <SolidColorBrush x:Key="Item.MouseOver.Background" Color="#261188DD" />
+    <SolidColorBrush x:Key="Item.MouseOver.Border" Color="#A51188DD" />
+    <SolidColorBrush x:Key="Item.Selected.Background" Color="#3F1188DD" />
+    <SolidColorBrush x:Key="Item.Selected.Border" Color="#FF1188DD" />
     <SolidColorBrush x:Key="Item.Inactive.Background" Color="#3DDADADA" />
     <SolidColorBrush x:Key="Item.Inactive.Border" Color="#FFDADADA" />
-
-    <SolidColorBrush x:Key="IconButton.Background" Color="#FFC0C0C0" />
+    <SolidColorBrush x:Key="Button.Background" Color="#FF404040" />
+    <SolidColorBrush x:Key="Button.Foreground" Color="#FFF0F0F0" />
+    <SolidColorBrush x:Key="Button.Border" Color="#FF404040" />
+    <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#44FFFFFF" />
+    <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#44FFFFFF" />
+    <SolidColorBrush x:Key="Button.Checked.Background" Color="#44FFFFFF" />
+    <SolidColorBrush x:Key="Button.Checked.Border" Color="#FF1188DD" />
+    <SolidColorBrush x:Key="Button.Pressed.Background" Color="#88FFFFFF" />
+    <SolidColorBrush x:Key="Button.Pressed.Border" Color="#88FFFFFF" />
+    <SolidColorBrush x:Key="IconButton.Background" Color="#00000000" />
     <SolidColorBrush x:Key="IconButton.Foreground" Color="#FF1188DD" />
-    <SolidColorBrush x:Key="IconButton.Border" Color="Transparent" />
-    <SolidColorBrush x:Key="IconButton.MouseOver.Background" Color="#FFD0D0D0" />
-    <SolidColorBrush x:Key="IconButton.MouseOver.Border" Color="#FFD0D0D0" />
-    <SolidColorBrush x:Key="IconButton.Pressed.Background" Color="#FFF0F0F0" />
-    <SolidColorBrush x:Key="IconButton.Pressed.Border" Color="#FFF0F0F0" />
-    <SolidColorBrush x:Key="IconButton.Checked.Background" Color="#FFE0E0E0" />
-    <SolidColorBrush x:Key="IconButton.Checked.Border" Color="#FFE0E0E0" />
-
-    <SolidColorBrush x:Key="Button.Background" Color="Silver" />
-    <SolidColorBrush x:Key="Button.Foreground" Color="Black" />
-    <SolidColorBrush x:Key="Button.Border" Color="Transparent" />
-    <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFD0D0D0" />
-    <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FFD0D0D0" />
-    <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFF0F0F0" />
-    <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FFF0F0F0" />
-    <SolidColorBrush x:Key="Button.Checked.Background" Color="#FFE0E0E0" />
-    <SolidColorBrush x:Key="Button.Checked.Border" Color="#FFE0E0E0" />
-    
-    <SolidColorBrush x:Key="Slider.Foregtound" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="Slider.Background" Color="#FF808080" />
-    <SolidColorBrush x:Key="Slider.Border" Color="#FF808080" />
-    <SolidColorBrush x:Key="Slider.Thumb" Color="SteelBlue" />
-    <SolidColorBrush x:Key="Slider.Track" Color="SteelBlue" />
-
-    <SolidColorBrush x:Key="ScrollBar.Background" Color="Gray" />
-    <SolidColorBrush x:Key="ScrollBar.Foreground" Color="White" />
-    <SolidColorBrush x:Key="ScrollBar.Border" Color="Gray" />
-    <SolidColorBrush x:Key="ScrollBar.MouseOver" Color="Silver" />
-    <SolidColorBrush x:Key="ScrollBar.Pressed" Color="LightGray" />
-
-    <SolidColorBrush x:Key="TextBox.Background" Color="#FF222222" />
-    <SolidColorBrush x:Key="TextBox.Foreground" Color="White" />
-    <SolidColorBrush x:Key="TextBox.Border" Color="Gray" />
-    
+    <SolidColorBrush x:Key="IconButton.Border" Color="#00000000" />
+    <SolidColorBrush x:Key="IconButton.MouseOver.Background" Color="#261188DD" />
+    <SolidColorBrush x:Key="IconButton.MouseOver.Border" Color="#A51188DD" />
+    <SolidColorBrush x:Key="IconButton.Checked.Background" Color="#3F1188DD" />
+    <SolidColorBrush x:Key="IconButton.Checked.Border" Color="#3F1188DD" />
+    <SolidColorBrush x:Key="IconButton.Pressed.Background" Color="#3F1188DD" />
+    <SolidColorBrush x:Key="IconButton.Pressed.Border" Color="#FF1188DD" />
+    <SolidColorBrush x:Key="Slider.Background" Color="#FF505050" />
+    <SolidColorBrush x:Key="Slider.Foreground" Color="#FFF0F0F0" />
+    <SolidColorBrush x:Key="Slider.Border" Color="#FF505050" />
+    <SolidColorBrush x:Key="Slider.Thumb" Color="#FF1188DD" />
+    <SolidColorBrush x:Key="Slider.Track" Color="#FF505050" />
+    <SolidColorBrush x:Key="ScrollBar.Background" Color="#FF404040" />
+    <SolidColorBrush x:Key="ScrollBar.Foreground" Color="#FF808080" />
+    <SolidColorBrush x:Key="ScrollBar.Border" Color="#FF404040" />
+    <SolidColorBrush x:Key="ScrollBar.MouseOver" Color="#FFA0A0A0" />
+    <SolidColorBrush x:Key="ScrollBar.Pressed" Color="#FFC0C0C0" />
+    <SolidColorBrush x:Key="TextBox.Background" Color="#FF202020" />
+    <SolidColorBrush x:Key="TextBox.Foreground" Color="#FFF0F0F0" />
+    <SolidColorBrush x:Key="TextBox.Border" Color="#FFA0A0A0" />
     <SolidColorBrush x:Key="Menu.Background" Color="#FF222222" />
-    <SolidColorBrush x:Key="Menu.Foreground" Color="White" />
-    <SolidColorBrush x:Key="Menu.Border" Color="Gray" />
-    <SolidColorBrush x:Key="Menu.Separator" Color="#88888888" />
-
-    <SolidColorBrush x:Key="SideBar.Background" Color="#FF333333" />
-    <SolidColorBrush x:Key="SideBar.Foreground" Color="White" />
-    <SolidColorBrush x:Key="SideBar.Border" Color="Gray" />
-    
-    <SolidColorBrush x:Key="SidePanel.Background" Color="#FF222222" />
-    <SolidColorBrush x:Key="SidePanel.Foreground" Color="White" />
-    <SolidColorBrush x:Key="SidePanel.Border" Color="Gray" />
-    <SolidColorBrush x:Key="SidePanel.Header" Color="Gray" />
-    <SolidColorBrush x:Key="SidePanel.Note" Color="Gray" />
-    <SolidColorBrush x:Key="SidePanel.Separator" Color="Gray" />
-    <SolidColorBrush x:Key="SidePanel.Splitter" Color="#FF333333" />
+    <SolidColorBrush x:Key="Menu.Foreground" Color="#FFF0F0F0" />
+    <SolidColorBrush x:Key="Menu.Border" Color="#FF404040" />
+    <SolidColorBrush x:Key="Menu.Separator" Color="#FF808080" />
+    <SolidColorBrush x:Key="SideBar.Background" Color="#FF303030" />
+    <SolidColorBrush x:Key="SideBar.Foreground" Color="#FFF0F0F0" />
+    <SolidColorBrush x:Key="SideBar.Border" Color="#FF303030" />
+    <SolidColorBrush x:Key="SidePanel.Background" Color="#FF202020" />
+    <SolidColorBrush x:Key="SidePanel.Foreground" Color="#FFF0F0F0" />
+    <SolidColorBrush x:Key="SidePanel.Border" Color="#FF202020" />
+    <SolidColorBrush x:Key="SidePanel.Header" Color="#FF808080" />
+    <SolidColorBrush x:Key="SidePanel.Note" Color="#FF909090" />
+    <SolidColorBrush x:Key="SidePanel.Separator" Color="#FF404040" />
+    <SolidColorBrush x:Key="SidePanel.Splitter" Color="#FF303030" />
     <SolidColorBrush x:Key="SidePanel.List.Separator" Color="#22888888" />
-
-    <SolidColorBrush x:Key="MenuBar.Background" Color="#FF282828" />
-    <SolidColorBrush x:Key="MenuBar.Foreground" Color="White" />
-    <SolidColorBrush x:Key="MenuBar.Border" Color="Gray" />
-    <SolidColorBrush x:Key="MenuBar.Address.Background" Color="Gray" />
-    <SolidColorBrush x:Key="MenuBar.Address.Border" Color="Gray" />
-
-    <SolidColorBrush x:Key="PageSelectionBar.Background" Color="#FF282828" />
-    <SolidColorBrush x:Key="PageSelectionBar.Foreground" Color="White" />
-    <SolidColorBrush x:Key="PageSelectionBar.Border" Color="Gray" />
-
-    <SolidColorBrush x:Key="PageSelectionBar.Slider.Background" Color="Gray" />
-    <SolidColorBrush x:Key="PageSelectionBar.Slider.Foreground" Color="White" />
-    <SolidColorBrush x:Key="PageSelectionBar.Slider.Border" Color="Gray" />
-    <SolidColorBrush x:Key="PageSelectionBar.Slider.Thumb" Color="SteelBlue" />
-    <SolidColorBrush x:Key="PageSelectionBar.Slider.Track" Color="SteelBlue" />
-
-    <SolidColorBrush x:Key="Toast.Background" Color="Gray" />
-    <SolidColorBrush x:Key="Toast.Foreground" Color="White" />
-    <SolidColorBrush x:Key="Toast.Border" Color="Gray" />
-
+    <SolidColorBrush x:Key="MenuBar.Background" Color="#FF383838" />
+    <SolidColorBrush x:Key="MenuBar.Foreground" Color="#FFF0F0F0" />
+    <SolidColorBrush x:Key="MenuBar.Border" Color="#FF383838" />
+    <SolidColorBrush x:Key="MenuBar.Address.Background" Color="#FF282828" />
+    <SolidColorBrush x:Key="MenuBar.Address.Border" Color="#FF282828" />
+    <SolidColorBrush x:Key="PageSelectionBar.Background" Color="#FF383838" />
+    <SolidColorBrush x:Key="PageSelectionBar.Foreground" Color="#FFF0F0F0" />
+    <SolidColorBrush x:Key="PageSelectionBar.Border" Color="#FF383838" />
+    <SolidColorBrush x:Key="PageSelectionBar.Slider.Background" Color="#FF505050" />
+    <SolidColorBrush x:Key="PageSelectionBar.Slider.Foreground" Color="#FFF0F0F0" />
+    <SolidColorBrush x:Key="PageSelectionBar.Slider.Border" Color="#FF505050" />
+    <SolidColorBrush x:Key="PageSelectionBar.Slider.Thumb" Color="#FF1188DD" />
+    <SolidColorBrush x:Key="PageSelectionBar.Slider.Track" Color="#FF1188DD" />
+    <SolidColorBrush x:Key="Toast.Background" Color="#FF222222" />
+    <SolidColorBrush x:Key="Toast.Foreground" Color="#FFF0F0F0" />
+    <SolidColorBrush x:Key="Toast.Border" Color="#FF404040" />
     <SolidColorBrush x:Key="Notification.Background" Color="#88000000" />
-    <SolidColorBrush x:Key="Notification.Foreground" Color="White" />
-
-    <SolidColorBrush x:Key="Thumbnail.Background" Color="Gray" />
-    <SolidColorBrush x:Key="Thumbnail.Foreground" Color="DarkGray" />
-
-    <SolidColorBrush x:Key="CheckIcon.Foreground" Color="LightGreen" />
-    <SolidColorBrush x:Key="BookmarkIcon.Foreground" Color="Orange" />
-    <SolidColorBrush x:Key="PagemarkIcon.Foreground" Color="Orange" />
-    <SolidColorBrush x:Key="SelectedMark.Foreground" Color="Orange" />
+    <SolidColorBrush x:Key="Notification.Foreground" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="Thumbnail.Background" Color="#FF404040" />
+    <SolidColorBrush x:Key="Thumbnail.Foreground" Color="#FF808080" />
+    <SolidColorBrush x:Key="SelectedMark.Foreground" Color="#FFFFA500" />
+    <SolidColorBrush x:Key="CheckIcon.Foreground" Color="#FF90EE90" />
+    <SolidColorBrush x:Key="BookmarkIcon.Foreground" Color="#FFFFA500" />
+    <SolidColorBrush x:Key="PagemarkIcon.Foreground" Color="#FFFFA500" />
 
 
+    <!-- Raw Colors -->
     <Color x:Key="PageSelectionBar.Background.Color">Black</Color>
 
 </ResourceDictionary>

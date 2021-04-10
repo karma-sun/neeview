@@ -72,6 +72,10 @@ namespace NeeView
 
             collection.Add(new Separator());
 
+            item = new MenuItem() { Header = "Export Colors.xaml" };
+            item.Click += MenuItemDevExportColorsXaml_Click;
+            collection.Add(item);
+
             item = new MenuItem() { Header = "GC" };
             item.Click += MenuItemDevGC_Click;
             collection.Add(item);
@@ -81,6 +85,12 @@ namespace NeeView
             collection.Add(item);
 
             return top;
+        }
+
+        // [開発用] Colors.xaml 出力
+        private void MenuItemDevExportColorsXaml_Click(object sender, RoutedEventArgs e)
+        {
+            ThemeProfileTools.SaveColorsXaml(ThemeManager.Current.ThemeProfile, "Colors.xaml");
         }
 
         // [開発用] GCボタン

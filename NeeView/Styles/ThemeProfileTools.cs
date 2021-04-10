@@ -2,6 +2,9 @@
 using System.Text.Json;
 using System.IO;
 using System.Windows;
+using System.Xml.Linq;
+using System.Diagnostics;
+using System.Xml;
 
 namespace NeeView
 {
@@ -24,7 +27,7 @@ namespace NeeView
             }
         }
 
-            public static ThemeProfile Load(Stream stream)
+        public static ThemeProfile Load(Stream stream)
         {
             using (var ms = new MemoryStream())
             {
@@ -55,12 +58,37 @@ namespace NeeView
         {
             var profile = (ThemeProfile)baseProfile.Clone();
 
-            foreach(var pair in overwriteProfile.Colors)
+            foreach (var pair in overwriteProfile.Colors)
             {
                 profile[pair.Key] = pair.Value;
             }
 
             return profile;
+        }
+
+        [Conditional("DEBUG")]
+        public static void SaveColorsXaml(ThemeProfile themeProfile, string path)
+        {
+            XNamespace ns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
+            XNamespace nsx = "http://schemas.microsoft.com/winfx/2006/xaml";
+            var xdoc = new XDocument();
+            var root = new XElement(ns + "ResourceDictionary", new XAttribute("xmlns", ns), new XAttribute(XNamespace.Xmlns + "x", nsx));
+
+            xdoc.Add(root);
+            foreach (var pair in themeProfile.Colors)
+            {
+                var node = new XElement(ns + "SolidColorBrush",
+                    new XAttribute(nsx + "Key", pair.Key),
+                    new XAttribute("Color", themeProfile.GetColor(pair.Key, 1.0).ToString()));
+                root.Add(node);
+            }
+
+            Debug.Write(xdoc);
+
+            using (var xw = XmlWriter.Create(path, new XmlWriterSettings { OmitXmlDeclaration = true, Indent = true, IndentChars = "    " }))
+            {
+                xdoc.Save(xw);
+            }
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿<Window x:Class="NeeView.ExternalAppDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:NeeView"
-        xmlns:properties="clr-namespace:NeeView.Properties" mc:Ignorable="d" Title="{x:Static properties:Resources.ExternalAppDialog_Title}" Height="450" Width="800"
-        Style="{StaticResource ChromeDialogStyle}">
+        xmlns:properties="clr-namespace:NeeView.Properties" xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors" mc:Ignorable="d"
+        Title="{x:Static properties:Resources.ExternalAppDialog_Title}" Height="450" Width="800" Style="{StaticResource ChromeDialogStyle}">
 
     <Window.Resources>
 
@@ -30,6 +30,10 @@
         </DockPanel>
 
         <ListView x:Name="ItemsListView" Margin="5" ItemsSource="{Binding Items}" SelectedIndex="{Binding SelectedIndex}" AllowDrop="True" PreviewDragEnter="ItemsListView_PreviewDragOver" PreviewDragOver="ItemsListView_PreviewDragOver" Drop="ItemsListView_Drop" KeyDown="ItemsListView_KeyDown">
+
+            <behaviors:Interaction.Behaviors>
+                <local:ListViewHorizontalWheelScrollBehavior />
+            </behaviors:Interaction.Behaviors>
 
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem" BasedOn="{StaticResource NVListViewItem}">

@@ -633,7 +633,7 @@
 
     <Style x:Key="NVComboBox" TargetType="{x:Type ComboBox}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="False" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
@@ -690,6 +690,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEditable" Value="True">
+                            <Setter Property="IsTabStop" Value="False" />
                             <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible" />
                             <Setter TargetName="ContentSite" Property="Visibility" Value="Hidden" />
                             <Setter TargetName="ToggleButton" Property="Grid.Column" Value="1" />
@@ -883,6 +884,7 @@
 
     <Style x:Key="NVMenu" TargetType="{x:Type Menu}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="FocusManager.IsFocusScope" Value="False" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Foreground" Value="{DynamicResource Menu.Foreground}" />
         <Setter Property="Background" Value="{DynamicResource Menu.Background}" />

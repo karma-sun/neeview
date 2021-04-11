@@ -51,7 +51,7 @@ namespace NeeView.Windows
             _windowChrome.UseAeroCaptionButtons = false;
             _windowChrome.CaptionHeight = 0;
             _windowChrome.GlassFrameThickness = new Thickness(1);
-            _windowChrome.ResizeBorderThickness = new Thickness(8);
+            _windowChrome.ResizeBorderThickness = new Thickness(4);
 
             _window.StateChanged += Window_StateChanged;
         }

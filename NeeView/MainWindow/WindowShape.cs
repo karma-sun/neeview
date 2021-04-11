@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Windows;
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
@@ -98,12 +99,12 @@ namespace NeeView
     {
         private Window _window;
         private bool _isEnabled;
-        private MainWindowChromeAccessor _windowChromeAccessor;
+        private WindowChromeAccessor _windowChromeAccessor;
         private WindowStateManager _manager;
         private bool _autoHideMode;
 
 
-        public WindowShape(WindowStateManager manager, MainWindowChromeAccessor windowChromeAccessor)
+        public WindowShape(WindowStateManager manager, WindowChromeAccessor windowChromeAccessor)
         {
             _window = MainWindow.Current;
             _windowChromeAccessor = windowChromeAccessor;

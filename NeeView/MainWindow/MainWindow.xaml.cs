@@ -31,7 +31,7 @@ namespace NeeView
         private MainViewComponent _viewComponent;
         private DpiScaleProvider _dpiProvider = new DpiScaleProvider();
 
-        private MainWindowChromeAccessor _windowChromeAccessor;
+        private WindowChromeAccessor _windowChromeAccessor;
         private WindowStateManager _windowStateManager;
         private WindowShape _windowShape;
         private WindowController _windowController;
@@ -71,7 +71,7 @@ namespace NeeView
             // Window状態初期化
             InitializeWindowShapeSnap();
 
-            _windowChromeAccessor = new MainWindowChromeAccessor(this);
+            _windowChromeAccessor = new WindowChromeAccessor(this);
             _windowStateManager = new WindowStateManager(this, new WindowStateManagerDependency(_windowChromeAccessor, TabletModeWatcher.Current));
             _windowShape = new WindowShape(_windowStateManager, _windowChromeAccessor);
             _windowController = new WindowController(_windowStateManager, _windowShape);

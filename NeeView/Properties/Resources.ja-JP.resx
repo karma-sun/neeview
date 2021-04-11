@@ -4452,9 +4452,7 @@ Susie 書庫はこのサイズで判別せず、プラグインの設定での�
     <value>ウィンドウ タイトル</value>
   </data>
   <data name="SettingPage.WindowTitle.Note" xml:space="preserve">
-    <value>フォーマットの説明
-
-$Book .. 開いているブック名
+    <value>$Book .. 開いているブック名
 $Page[LR]  .. 現在ページ番号
 $PageMax .. 最大ページ番号
 $ViewScale .. ビュー操作による表示倍率 (%)
@@ -4467,6 +4465,9 @@ $Scale[LR] .. 画像の表示倍率 (%)
 "◯◯◯[LR]" は、1 ページ用、2 ページ用で変数名が変わることを示します。
 例えば $Name は 1 ページ用、 $NameL は ２ ページ左用、 $NameR は 2 ページ右用になります。
 $Name は 2 ページ表示時には主となるページ (ページ番号の小さい方) になります。</value>
+  </data>
+  <data name="SettingPage.WindowTitle.Note.Title" xml:space="preserve">
+    <value>フォーマットの説明</value>
   </data>
   <data name="SettingPage.PageTitle" xml:space="preserve">
     <value>ページ タイトル</value>

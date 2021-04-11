@@ -9,16 +9,23 @@
         Style="{StaticResource ChromeDialogStyle}"
         x:Name="MyWindow"
         Title="{x:Static properties:Resources.CommandResetWindow_Title}" Height="300" Width="512">
-    <Grid>
-        <Grid.Resources>
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/SettingTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
             <Style x:Key="ButtonStyle" TargetType="Button">
                 <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
                 <Setter Property="MinWidth" Value="80"/>
                 <Setter Property="Margin" Value="5" />
                 <Setter Property="Padding" Value="10,5" />
             </Style>
-        </Grid.Resources>
-
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <Grid>
         <DockPanel Margin="5">
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0">
                 <Button x:Name="OkButton" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.Word_OK}" Command="{Binding OkCommand}" CommandParameter="{Binding ElementName=MyWindow}"/>

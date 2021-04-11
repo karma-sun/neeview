@@ -127,7 +127,7 @@ namespace NeeView.Setting
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.WindowTitle, nameof(WindowTitleConfig.WindowTitleFormat1))) { IsStretch = true });
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.WindowTitle, nameof(WindowTitleConfig.WindowTitleFormat2))) { IsStretch = true });
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.WindowTitle, nameof(WindowTitleConfig.WindowTitleFormatMedia))) { IsStretch = true });
-            section.Children.Add(new SettingItemNote(Properties.Resources.SettingPage_WindowTitle_Note));
+            section.Children.Add(new SettingItemNote(Properties.Resources.SettingPage_WindowTitle_Note, Properties.Resources.SettingPage_WindowTitle_Note_Title));
 
             this.Items = new List<SettingItem>() { section };
         }

@@ -563,10 +563,12 @@ namespace NeeView.Setting
     public class SettingItemNote : SettingItem
     {
         private string _text;
+        private string _header;
 
-        public SettingItemNote(string text) : base(null)
+        public SettingItemNote(string text, string header) : base(null)
         {
             _text = text;
+            _header = header;
         }
 
         protected override UIElement CreateContentInner()
@@ -579,7 +581,7 @@ namespace NeeView.Setting
 
             var groupBox = new GroupBox
             {
-                Header = "Memo",
+                Header = _header,
                 Content = textBlock,
                 Margin = new Thickness(0, 20, 0, 20),
             };

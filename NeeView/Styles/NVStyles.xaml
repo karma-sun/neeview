@@ -992,7 +992,7 @@
                     <ColumnDefinition Width="2" />
                     <ColumnDefinition Width="*" MinWidth="100" />
                     <ColumnDefinition Width="30" />
-                    <ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="20" />
                 </Grid.ColumnDefinitions>
                 <ContentPresenter x:Name="Icon" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" ContentSource="Icon" />
@@ -1033,7 +1033,7 @@
                     <ColumnDefinition Width="2" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="30" />
-                    <ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="20" />
                 </Grid.ColumnDefinitions>
                 <ContentPresenter x:Name="Icon" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" ContentSource="Icon" />

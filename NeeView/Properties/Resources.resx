@@ -4449,9 +4449,7 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Window title</value>
   </data>
   <data name="SettingPage.WindowTitle.Note" xml:space="preserve">
-    <value>Format Description
-
-$Book .. Name of the book
+    <value>$Book .. Name of the book
 $Page[LR] .. Current page number
 $PageMax .. Maximum page number
 $ViewScale .. Scale by view operation (%)
@@ -4464,6 +4462,9 @@ $Scale[LR] .. Image scale (%)
 "◯◯◯[LR]" indicates that the variable name changes for 1 page or 2 pages.
 For example, $Name is for 1 page, $NameL is for 2 pages left, $NameR is for 2 pages right.
 $Name is the main page (the smaller page number) when displaying 2 pages.</value>
+  </data>
+  <data name="SettingPage.WindowTitle.Note.Title" xml:space="preserve">
+    <value>Format Description</value>
   </data>
   <data name="SettingPage.PageTitle" xml:space="preserve">
     <value>Page title</value>

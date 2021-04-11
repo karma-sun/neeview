@@ -58,7 +58,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- panel -->
-            <Border BorderThickness="0,0,1,0" BorderBrush="{DynamicResource SidePanel.Border}" Background="{DynamicResource SidePanel.Background}">
+            <Border BorderThickness="0,0,1,0" BorderBrush="{DynamicResource Panel.Border}" Background="{DynamicResource Panel.Background}">
                 <DockPanel Grid.Column="0" Margin="10,10,2,10">
 
                     <StackPanel DockPanel.Dock="Top" Style="{StaticResource ItemStack}" Margin="0,0,10,0">

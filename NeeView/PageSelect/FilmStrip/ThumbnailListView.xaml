@@ -21,7 +21,7 @@
 
     <Grid x:Name="Root" Visibility="{Binding Model.ThumbnailListVisibility}" SizeChanged="ThumbnailListArea_SizeChanged" UseLayoutRounding="True">
         
-        <Border BorderThickness="0,1,0,0" BorderBrush="{DynamicResource PageSelectionBar.Border}" Background="{DynamicResource PageSelectionBar.Background}">
+        <Border BorderThickness="0,1,0,0" BorderBrush="{DynamicResource BottomBar.Border}" Background="{DynamicResource BottomBar.Background}">
             <Border.Style>
                 <Style TargetType="Border">
                     <Setter Property="Opacity" Value="1.0" />
@@ -70,7 +70,7 @@
                                     <StackPanel Margin="5" Width="{Binding Source={x:Static local:Config.Current},  Path=FilmStrip.ImageWidth}" MinWidth="32">
                                         <Grid Width="{Binding Source={x:Static local:Config.Current},  Path=FilmStrip.ImageWidth}"
                                                 Height="{Binding Source={x:Static local:Config.Current},  Path=FilmStrip.ImageWidth}">
-                                            <Ellipse Fill="{DynamicResource Thumbnail.Background}" Width="8" Height="8">
+                                            <Ellipse Fill="{DynamicResource Thumbnail.Foreground}" Width="8" Height="8">
                                                 <Ellipse.Style>
                                                     <Style TargetType="Ellipse">
                                                         <Setter Property="Visibility" Value="Collapsed"/>
@@ -102,9 +102,9 @@
                                         <TextBlock Height="16" FontSize="12" FontFamily="Arial" MinWidth="32" TextAlignment="Center"
                                                 Visibility="{Binding Source={x:Static local:Config.Current}, Path=FilmStrip.IsVisibleNumber, Converter={StaticResource BooleanToVisibilityConverter}}"
                                                 VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding IndexPlusOne}" Padding="5,2"
-                                                Foreground="{DynamicResource PageSelectionBar.Foreground}">
+                                                Foreground="{DynamicResource BottomBar.Foreground}">
                                             <TextBlock.Effect>
-                                                <DropShadowEffect ShadowDepth="0" Opacity="1" Color="{DynamicResource PageSelectionBar.Background.Color}" />
+                                                <DropShadowEffect ShadowDepth="0" Opacity="1" Color="{DynamicResource BottomBar.Background.Color}" />
                                             </TextBlock.Effect>
                                         </TextBlock>
                                     </StackPanel>

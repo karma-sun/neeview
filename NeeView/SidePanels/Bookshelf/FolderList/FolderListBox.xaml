@@ -11,7 +11,7 @@
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance local:FolderListDataContext_Design, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="300"
-             Foreground="{DynamicResource SidePanel.Foreground}">
+             Foreground="{DynamicResource Panel.Foreground}">
 
     <UserControl.Resources>
 
@@ -64,7 +64,7 @@
             <Setter Property="Margin" Value="5,0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
-            <Setter Property="Foreground" Value="{DynamicResource SidePanel.Note}"/>
+            <Setter Property="Foreground" Value="{DynamicResource Panel.Note}"/>
             <Setter Property="Visibility" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource BrushAlphaToVisibilityConverter}}" />
         </Style>
 
@@ -167,7 +167,7 @@
         </Style>
 
         <Style x:Key="ListBoxItemBorderStyle" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxItemStyle}">
-            <Setter Property="BorderBrush" Value="{DynamicResource SidePanel.List.Separator}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource Item.Separator}" />
         </Style>
 
         <Style x:Key="ListBoxItemThumbnailStyle" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxItemStyle}">

@@ -79,8 +79,8 @@
     </Style>
 
     <Style x:Key="ChromeDialogStyle" TargetType="{x:Type Window}" BasedOn="{StaticResource ChromeWindowStyle}">
-        <Setter Property="BorderBrush" Value="{DynamicResource Dialog.Border}" />
-        <Setter Property="BorderThickness" Value="{DynamicResource Dialog.BorderThickness}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Window.Dialog.Border}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource Window.Dialog.BorderThickness}" />
 
     </Style>
 

@@ -10,7 +10,7 @@
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance local:FolderListDataContext_Design, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="300"
-             Foreground="{DynamicResource SidePanel.Foreground}">
+             Foreground="{DynamicResource Panel.Foreground}">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -42,7 +42,7 @@
                 <DrawingImage.Drawing>
                     <DrawingGroup Opacity="1">
                         <DrawingGroup.Children>
-                            <GeometryDrawing Brush="{DynamicResource SidePanel.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_recursive_folder_24px}" />
+                            <GeometryDrawing Brush="{DynamicResource Panel.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_recursive_folder_24px}" />
                         </DrawingGroup.Children>
                     </DrawingGroup>
                 </DrawingImage.Drawing>
@@ -86,7 +86,7 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type osc:DockPanelSplitter}">
-                            <Grid SnapsToDevicePixels="True" Background="{DynamicResource  SidePanel.Splitter}" />
+                            <Grid SnapsToDevicePixels="True" Background="{DynamicResource  Panel.Splitter}" />
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
@@ -98,13 +98,13 @@
 
     <DockPanel x:Name="DockPanel" Margin="0" IsVisibleChanged="FolderListView_IsVisibleChanged" Background="Transparent" KeyDown="Root_KeyDown">
 
-        <Border DockPanel.Dock="Top" BorderThickness="0,0,0,0" BorderBrush="{DynamicResource SidePanel.Border}">
+        <Border DockPanel.Dock="Top" BorderThickness="0,0,0,0" BorderBrush="{DynamicResource Panel.Border}">
             <StackPanel Margin="2">
 
                 <StackPanel HorizontalAlignment="Stretch">
                     <Grid x:Name="PlaceGrid">
                         <DockPanel>
-                            <TextBlock DockPanel.Dock="Right" Text="{Binding FolderCollection.ValidCount, StringFormat={}{0}}" Foreground="{DynamicResource SidePanel.Foreground}" Margin="5,0"
+                            <TextBlock DockPanel.Dock="Right" Text="{Binding FolderCollection.ValidCount, StringFormat={}{0}}" Foreground="{DynamicResource Panel.Foreground}" Margin="5,0"
                                     Visibility="{Binding Source={x:Static local:Config.Current}, Path=Bookshelf.IsVisibleItemsCount, Converter={StaticResource BooleanToVisibilityConverter}}" />
                             <DockPanel x:Name="PlaceBar" HorizontalAlignment="Left">
                                 <Image x:Name="PlaceIcon" DockPanel.Dock="Left" Width="16" Height="16" VerticalAlignment="Center" Margin="0,0,0,0"

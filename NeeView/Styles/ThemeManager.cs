@@ -97,13 +97,13 @@ namespace NeeView
             }
 
             // special theme color
-            App.Current.Resources["PageSelectionBar.Background.Color"] = themeProfile.GetColor("PageSelectionBar.Background", 1.0);
+            App.Current.Resources["BottomBar.Background.Color"] = themeProfile.GetColor("BottomBar.Background", 1.0);
 
             // window border thickness
             App.Current.Resources["Window.BorderThickness"] = themeProfile.GetColor("Window.Border", 1.0).A > 0x00 ? new Thickness(1.0) : default;
 
             // dialog border thickness
-            App.Current.Resources["Dialog.BorderThickness"] = themeProfile.GetColor("Dialog.Border", 1.0).A > 0x00 ? new Thickness(1.0) : default;
+            App.Current.Resources["Window.Dialog.BorderThickness"] = themeProfile.GetColor("Window.Dialog.Border", 1.0).A > 0x00 ? new Thickness(1.0) : default;
 
             if (themeProfile.GetColor("Button.Background", 1.0).A > 0x00)
             {

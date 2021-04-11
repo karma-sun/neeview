@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:NeeView"
              xmlns:nwc="clr-namespace:NeeView.Windows.Controls"
              mc:Ignorable="d" 
-             Foreground="{DynamicResource PageSelectionBar.Foreground}"
+             Foreground="{DynamicResource BottomBar.Foreground}"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -15,7 +15,7 @@
     
     <Grid x:Name="Root" MouseWheel="SliderArea_MouseWheel" UseLayoutRounding="True">
         
-        <Border x:Name="BaseBorder" BorderBrush="{DynamicResource PageSelectionBar.Border}" Background="{DynamicResource PageSelectionBar.Background}">
+        <Border x:Name="BaseBorder" BorderBrush="{DynamicResource BottomBar.Border}" Background="{DynamicResource BottomBar.Background}">
             <Border.Style>
                 <Style TargetType="Border">
                     <Setter Property="BorderThickness" Value="0" />
@@ -46,9 +46,9 @@
 
                 <nwc:SmartSlider x:Name="Slider"
                                  ThumbSize="{Binding Slider.Thickness, Source={x:Static local:Config.Current}}"
-                                 ThumbBorderBrush="{DynamicResource PageSelectionBar.Slider.Thumb}"
-                                 TrackDecreaseBrush="{DynamicResource PageSelectionBar.Slider.Track}"
-                                 TrackIncreaseBrush="{DynamicResource PageSelectionBar.Slider.Background}"
+                                 ThumbBorderBrush="{DynamicResource BottomBar.Slider.Thumb}"
+                                 TrackDecreaseBrush="{DynamicResource BottomBar.Slider.Track}"
+                                 TrackIncreaseBrush="{DynamicResource BottomBar.Slider.Background}"
                                  Maximum="{Binding Model.PageSelector.MaxIndex}"
                                  Value="{Binding Model.SelectedIndex}"
                                  IsDirectionReversed="{Binding Model.IsSliderDirectionReversed}"

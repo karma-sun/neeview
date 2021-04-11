@@ -2,7 +2,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:b="http://schemas.microsoft.com/xaml/behaviors" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:NeeView" xmlns:nv="clr-namespace:NeeView" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:properties="clr-namespace:NeeView.Properties"
         xmlns:nw="clr-namespace:NeeView.Windows;assembly=NeeView.Runtime" mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="300" MinWidth="100" Focusable="True" FocusVisualStyle="{x:Null}"
-        Foreground="{DynamicResource SidePanel.Foreground}">
+        Foreground="{DynamicResource Panel.Foreground}">
 
     <UserControl.Resources>
 
@@ -24,7 +24,7 @@
             <Setter Property="Margin" Value="1" />
             <Setter Property="MinWidth" Value="300" />
             <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Foreground" Value="{DynamicResource SidePanel.Foreground}" />
+            <Setter Property="Foreground" Value="{DynamicResource Panel.Foreground}" />
             <EventSetter Event="PreviewMouseLeftButtonDown" Handler="TextBox_PreviewMouseLeftButtonDown" />
             <EventSetter Event="GotFocus" Handler="TextBox_GotFocus" />
         </Style>
@@ -55,11 +55,11 @@
 
         <DataTemplate x:Key="GroupHeadderTemplate">
             <StackPanel Margin="0,5,0,0" RenderOptions.ClearTypeHint="{DynamicResource Window.ClearTypeHint}">
-                <Separator Background="{DynamicResource SidePanel.Separator}" />
+                <Separator Background="{DynamicResource Panel.Separator}" />
                 <DockPanel Margin="0,2">
                     <local:InformationGroupButton DockPanel.Dock="Right" Style="{StaticResource PropertyValueButtonStyle}" Content="Button" GroupName="{Binding Name}"
                             Source="{Binding Path=DataContext.Source, ElementName=Root}" />
-                    <TextBlock Text="{Binding Path=Name}" Foreground="{DynamicResource SidePanel.Header}" />
+                    <TextBlock Text="{Binding Path=Name}" Foreground="{DynamicResource Panel.Header}" />
                 </DockPanel>
             </StackPanel>
         </DataTemplate>

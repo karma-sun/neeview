@@ -10,7 +10,7 @@
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance local:FolderListDataContext_Design, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="300"
-             Foreground="{DynamicResource SidePanel.Foreground}">
+             Foreground="{DynamicResource Panel.Foreground}">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -63,7 +63,7 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type osc:DockPanelSplitter}">
-                            <Grid SnapsToDevicePixels="True" Background="{DynamicResource  SidePanel.Splitter}" />
+                            <Grid SnapsToDevicePixels="True" Background="{DynamicResource  Panel.Splitter}" />
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>

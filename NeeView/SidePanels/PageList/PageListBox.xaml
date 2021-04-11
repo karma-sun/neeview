@@ -10,7 +10,7 @@
              xmlns:osc="clr-namespace:OpenSourceControls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
-             Foreground="{DynamicResource SidePanel.Foreground}">
+             Foreground="{DynamicResource Panel.Foreground}">
 
     <UserControl.Resources>
 
@@ -20,7 +20,7 @@
                     <DrawingGroup.Children>
                         <GeometryDrawing>
                             <GeometryDrawing.Pen>
-                                <Pen Brush="{DynamicResource SidePanel.Foreground}" Thickness="1.25"></Pen>
+                                <Pen Brush="{DynamicResource Panel.Foreground}" Thickness="1.25"></Pen>
                             </GeometryDrawing.Pen>
                             <GeometryDrawing.Geometry>
                                 <PathGeometry FillRule="Nonzero" Figures="M0,0 L14,0 14,10 16,12 16,18, 0,18Z M14,10 L13,12 13,18"/>
@@ -90,7 +90,7 @@
             <Setter Property="Margin" Value="5,0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
-            <Setter Property="Foreground" Value="{DynamicResource SidePanel.Note}" />
+            <Setter Property="Foreground" Value="{DynamicResource Panel.Note}" />
             <Setter Property="Visibility" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource BrushAlphaToVisibilityConverter}}" />
         </Style>
 
@@ -188,7 +188,7 @@
         </Style>
 
         <Style x:Key="ListBoxItemBorderStyle" TargetType="ListBoxItem" BasedOn="{StaticResource ListBoxItemStyle}">
-            <Setter Property="BorderBrush" Value="{DynamicResource SidePanel.List.Separator}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource Item.Separator}" />
         </Style>
 
         <Style x:Key="ListBoxItemThumbnailStyle" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxItemStyle}">

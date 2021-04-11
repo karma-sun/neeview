@@ -19,7 +19,7 @@ namespace NeeView
             "Window.ActiveTitle",
             "Window.InactiveTitle",
 
-            "Dialog.Border",
+            "Window.Dialog.Border",
 
             "Control.Background",
             "Control.Foreground",
@@ -29,6 +29,7 @@ namespace NeeView
             "Control.AccentText",
             "Control.Focus",
 
+            "Item.Separator",
             "Item.MouseOver.Background",
             "Item.MouseOver.Border",
             "Item.Selected.Background",
@@ -62,7 +63,6 @@ namespace NeeView
             "Slider.Thumb",
             "Slider.Track",
 
-
             "ScrollBar.Background",
             "ScrollBar.Foreground",
             "ScrollBar.Border",
@@ -82,14 +82,13 @@ namespace NeeView
             "SideBar.Foreground",
             "SideBar.Border",
 
-            "SidePanel.Background",
-            "SidePanel.Foreground",
-            "SidePanel.Border",
-            "SidePanel.Header",
-            "SidePanel.Note",
-            "SidePanel.Separator",
-            "SidePanel.Splitter",
-            "SidePanel.List.Separator",
+            "Panel.Background",
+            "Panel.Foreground",
+            "Panel.Border",
+            "Panel.Header",
+            "Panel.Note",
+            "Panel.Separator",
+            "Panel.Splitter",
 
             "MenuBar.Background",
             "MenuBar.Foreground",
@@ -97,14 +96,14 @@ namespace NeeView
             "MenuBar.Address.Background",
             "MenuBar.Address.Border",
 
-            "PageSelectionBar.Background",
-            "PageSelectionBar.Foreground",
-            "PageSelectionBar.Border",
-            "PageSelectionBar.Slider.Background",
-            "PageSelectionBar.Slider.Foreground",
-            "PageSelectionBar.Slider.Border",
-            "PageSelectionBar.Slider.Thumb",
-            "PageSelectionBar.Slider.Track",
+            "BottomBar.Background",
+            "BottomBar.Foreground",
+            "BottomBar.Border",
+            "BottomBar.Slider.Background",
+            "BottomBar.Slider.Foreground",
+            "BottomBar.Slider.Border",
+            "BottomBar.Slider.Thumb",
+            "BottomBar.Slider.Track",
 
             "Toast.Background",
             "Toast.Foreground",

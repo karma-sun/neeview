@@ -10,7 +10,7 @@
 
 
     <Thickness x:Key="Window.BorderThickness">0.0</Thickness>
-    <Thickness x:Key="Dialog.BorderThickness">0.0</Thickness>
+    <Thickness x:Key="Window.Dialog.BorderThickness">0.0</Thickness>
 
     <ClearTypeHint x:Key="Window.ClearTypeHint">Enabled</ClearTypeHint>
 
@@ -1689,14 +1689,14 @@
                                             <DrawingImage.Drawing>
                                                 <DrawingGroup>
                                                     <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
-                                                    <GeometryDrawing Brush="{DynamicResource SidePanel.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_clear_24px}" />
+                                                    <GeometryDrawing Brush="{DynamicResource Panel.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_clear_24px}" />
                                                 </DrawingGroup>
                                             </DrawingImage.Drawing>
                                         </DrawingImage>
                                     </Image.Source>
                                 </Image>
                             </Button>
-                            <TextBlock x:Name="PART_Title" Text="{TemplateBinding Title}" Foreground="{DynamicResource SidePanel.Header}" VerticalAlignment="Center" />
+                            <TextBlock x:Name="PART_Title" Text="{TemplateBinding Title}" Foreground="{DynamicResource Panel.Header}" VerticalAlignment="Center" />
                         </DockPanel>
                     </Border>
                 </ControlTemplate>

@@ -43,7 +43,7 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <Border BorderThickness="0,0,1,0" BorderBrush="{DynamicResource SidePanel.Border}" Background="{DynamicResource SidePanel.Background}">
+        <Border BorderThickness="0,0,1,0" BorderBrush="{DynamicResource Panel.Border}" Background="{DynamicResource Panel.Background}">
             <DockPanel>
                 <StackPanel x:Name="Buttons" DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
                     <Button x:Name="SaveButton" Style="{StaticResource TextButtonMain}" Content="{x:Static properties:Resources.ExportImageWindow_SaveAs}" Click="SaveButton_Click" />

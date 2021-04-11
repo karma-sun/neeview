@@ -22,7 +22,7 @@
         <Style x:Key="NodeTextBlockStyle" TargetType="{x:Type TextBlock}">
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="5,0,0,0"/>
-            <Setter Property="Foreground" Value="{DynamicResource SidePanel.Foreground}"/>
+            <Setter Property="Foreground" Value="{DynamicResource Panel.Foreground}"/>
             <Setter Property="FontSize" Value="{DynamicResource FolderTreeFontSize}"/>
         </Style>
 
@@ -33,7 +33,7 @@
     <Grid x:Name="Root">
         <TreeView x:Name="TreeView"
                   Style="{StaticResource NVTreeView}"
-                  Foreground="{DynamicResource SidePanel.Foreground}" Background="Transparent" BorderThickness="0"
+                  Foreground="{DynamicResource Panel.Foreground}" Background="Transparent" BorderThickness="0"
                   SelectedItemChanged="TreeView_SelectedItemChanged"
                   IsVisibleChanged="TreeView_IsVisibleChanged"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"

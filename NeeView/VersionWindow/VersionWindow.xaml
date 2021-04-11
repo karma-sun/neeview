@@ -21,7 +21,7 @@
 
     <DockPanel MinHeight="280" MinWidth="480">
 
-        <DockPanel DockPanel.Dock="Bottom" LastChildFill="False" Background="{DynamicResource SidePanel.Background}" >
+        <DockPanel DockPanel.Dock="Bottom" LastChildFill="False" Background="{DynamicResource Panel.Background}" >
             <DockPanel.Resources>
                 <Style x:Key="LinkedTextBlock" TargetType="TextBlock">
                     <Setter Property="Margin" Value="30,20"/>

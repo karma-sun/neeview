@@ -7,7 +7,7 @@
     "Window.ActiveTitle": "Window.Foreground",
     "Window.InactiveTitle": "Window.ActiveTitle/0.5",
 
-    "Dialog.Border": "#FF404040",
+    "Window.Dialog.Border": "#FF404040",
 
     "Control.Background": "#FFA0A0A0",
     "Control.Foreground": "",
@@ -17,6 +17,7 @@
     "Control.AccentText": "#FFFFFFFF",
     "Control.Focus": "Control.Accent",
 
+    "Item.Separator": "#22888888",
     "Item.MouseOver.Background": "Control.Accent/0.15",
     "Item.MouseOver.Border": "Control.Accent/0.65",
     "Item.Selected.Background": "Control.Accent/0.25",
@@ -65,19 +66,17 @@
     "Menu.Border": "#FF404040",
     "Menu.Separator": "#FF808080",
 
-
     "SideBar.Background": "#FF303030",
     "SideBar.Foreground": "",
     "SideBar.Border": "",
 
-    "SidePanel.Background": "#FF202020",
-    "SidePanel.Foreground": "",
-    "SidePanel.Border": "",
-    "SidePanel.Header": "#FF808080",
-    "SidePanel.Note": "Control.GrayText",
-    "SidePanel.Separator": "#FF404040",
-    "SidePanel.Splitter": "SideBar.Background",
-    "SidePanel.List.Separator": "#22888888",
+    "Panel.Background": "#FF202020",
+    "Panel.Foreground": "",
+    "Panel.Border": "",
+    "Panel.Header": "#FF808080",
+    "Panel.Note": "Control.GrayText",
+    "Panel.Separator": "#FF404040",
+    "Panel.Splitter": "SideBar.Background",
 
     "MenuBar.Background": "#FF383838",
     "MenuBar.Foreground": "",
@@ -85,15 +84,15 @@
     "MenuBar.Address.Background": "#FF282828",
     "MenuBar.Address.Border": "",
 
-    "PageSelectionBar.Background": "MenuBar.Background",
-    "PageSelectionBar.Foreground": "MenuBar.Foreground",
-    "PageSelectionBar.Border": "",
+    "BottomBar.Background": "MenuBar.Background",
+    "BottomBar.Foreground": "MenuBar.Foreground",
+    "BottomBar.Border": "",
 
-    "PageSelectionBar.Slider.Background": "Slider.Background",
-    "PageSelectionBar.Slider.Foreground": "Slider.Foreground",
-    "PageSelectionBar.Slider.Border": "Slider.Border",
-    "PageSelectionBar.Slider.Thumb": "Control.Accent",
-    "PageSelectionBar.Slider.Track": "Control.Accent",
+    "BottomBar.Slider.Background": "Slider.Background",
+    "BottomBar.Slider.Foreground": "Slider.Foreground",
+    "BottomBar.Slider.Border": "Slider.Border",
+    "BottomBar.Slider.Thumb": "Control.Accent",
+    "BottomBar.Slider.Track": "Control.Accent",
 
     "Toast.Background": "Menu.Background",
     "Toast.Foreground": "Menu.Foreground",

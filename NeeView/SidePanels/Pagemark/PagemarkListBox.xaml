@@ -11,7 +11,7 @@
              xmlns:properties="clr-namespace:NeeView.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
-             Foreground="{DynamicResource SidePanel.Foreground}">
+             Foreground="{DynamicResource Panel.Foreground}">
 
     <UserControl.Resources>
 
@@ -27,7 +27,7 @@
             <Setter Property="Margin" Value="5,0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
-            <Setter Property="Foreground" Value="{DynamicResource SidePanel.Foreground}"/>
+            <Setter Property="Foreground" Value="{DynamicResource Panel.Foreground}"/>
         </Style>
 
         <Style x:Key="NormalNameStyle" TargetType="TextBlock" BasedOn="{StaticResource NameStyle}">
@@ -48,7 +48,7 @@
             <Setter Property="Margin" Value="5,0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
-            <Setter Property="Foreground" Value="{DynamicResource SidePanel.Note}" />
+            <Setter Property="Foreground" Value="{DynamicResource Panel.Note}" />
             <Setter Property="Visibility" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource BrushAlphaToVisibilityConverter}}" />
         </Style>
 
@@ -95,7 +95,7 @@
         </Style>
 
         <Style x:Key="TreeViewItemBorderStyle" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource TreeViewItemStyle}">
-            <Setter Property="BorderBrush" Value="{DynamicResource SidePanel.List.Separator}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource Item.Separator}" />
             <Setter Property="local:TreeViewItemTools.IndentLength" Value="20" />
         </Style>
 
@@ -103,7 +103,7 @@
 
     <TreeView x:Name="TreeView" FocusVisualStyle="{x:Null}"
               FontSize="{DynamicResource PanelFontSize}"
-              Foreground="{DynamicResource SidePanel.Foreground}" Background="Transparent" BorderThickness="0"
+              Foreground="{DynamicResource Panel.Foreground}" Background="Transparent" BorderThickness="0"
               ItemsSource="{Binding Model.Items}"
               SelectedItemChanged="TreeView_SelectedItemChanged"
               IsVisibleChanged="TreeView_IsVisibleChanged"

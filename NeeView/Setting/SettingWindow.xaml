@@ -126,7 +126,7 @@
 
     <DockPanel UseLayoutRounding="True">
 
-        <Border DockPanel.Dock="Left" Width="250" Background="{DynamicResource SidePanel.Background}" BorderBrush="{DynamicResource SidePanel.Border}" BorderThickness="0,0,1,0">
+        <Border DockPanel.Dock="Left" Width="250" Background="{DynamicResource Panel.Background}" BorderBrush="{DynamicResource Panel.Border}" BorderThickness="0,0,1,0">
             <DockPanel>
 
                 <nvc:SearchBox DockPanel.Dock="Top" Margin="5,5,5,0" SearchKeyword="{Binding SearchKeyword}" />

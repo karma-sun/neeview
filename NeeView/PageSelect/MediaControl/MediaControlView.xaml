@@ -15,7 +15,7 @@
             <DrawingImage.Drawing>
                 <DrawingGroup>
                     <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
-                    <GeometryDrawing Brush="{DynamicResource PageSelectionBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_play_allow_24px}" />
+                    <GeometryDrawing Brush="{DynamicResource BottomBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_play_allow_24px}" />
                 </DrawingGroup>
             </DrawingImage.Drawing>
         </DrawingImage>
@@ -24,7 +24,7 @@
             <DrawingImage.Drawing>
                 <DrawingGroup>
                     <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
-                    <GeometryDrawing Brush="{DynamicResource PageSelectionBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_pause_24px}" />
+                    <GeometryDrawing Brush="{DynamicResource BottomBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_pause_24px}" />
                 </DrawingGroup>
             </DrawingImage.Drawing>
         </DrawingImage>
@@ -33,7 +33,7 @@
             <DrawingImage.Drawing>
                 <DrawingGroup>
                     <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
-                    <GeometryDrawing Brush="{DynamicResource PageSelectionBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_trending_flat_24px}" />
+                    <GeometryDrawing Brush="{DynamicResource BottomBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_trending_flat_24px}" />
                 </DrawingGroup>
             </DrawingImage.Drawing>
         </DrawingImage>
@@ -42,7 +42,7 @@
             <DrawingImage.Drawing>
                 <DrawingGroup>
                     <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
-                    <GeometryDrawing Brush="{DynamicResource PageSelectionBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_repeat_24px}" />
+                    <GeometryDrawing Brush="{DynamicResource BottomBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_repeat_24px}" />
                 </DrawingGroup>
             </DrawingImage.Drawing>
         </DrawingImage>
@@ -52,7 +52,7 @@
             <DrawingImage.Drawing>
                 <DrawingGroup>
                     <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
-                    <GeometryDrawing Brush="{DynamicResource PageSelectionBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_volume_up_24px}" />
+                    <GeometryDrawing Brush="{DynamicResource BottomBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_volume_up_24px}" />
                 </DrawingGroup>
             </DrawingImage.Drawing>
         </DrawingImage>
@@ -62,7 +62,7 @@
             <DrawingImage.Drawing>
                 <DrawingGroup>
                     <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
-                    <GeometryDrawing Brush="{DynamicResource PageSelectionBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_volume_off_24px}" />
+                    <GeometryDrawing Brush="{DynamicResource BottomBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_volume_off_24px}" />
                 </DrawingGroup>
             </DrawingImage.Drawing>
         </DrawingImage>
@@ -88,7 +88,7 @@
 
     <Grid>
         
-        <Border x:Name="BaseBorder" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource PageSelectionBar.Border}" Background="{DynamicResource PageSelectionBar.Background}">
+        <Border x:Name="BaseBorder" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource BottomBar.Border}" Background="{DynamicResource BottomBar.Background}">
             <Border.Style>
                 <Style TargetType="Border">
                     <Setter Property="Opacity" Value="1.0" />
@@ -136,9 +136,9 @@
                 </Button>
 
                 <nwc:SmartSlider x:Name="VolumeSlider" Width="112" Height="30" VerticalAlignment="Center" ThumbSize="12"
-                                 ThumbBorderBrush="{DynamicResource PageSelectionBar.Foreground}"
-                                 ThumbFill="{DynamicResource PageSelectionBar.Foreground}"
-                                 TrackDecreaseBrush="{DynamicResource PageSelectionBar.Foreground}"
+                                 ThumbBorderBrush="{DynamicResource BottomBar.Foreground}"
+                                 ThumbFill="{DynamicResource BottomBar.Foreground}"
+                                 TrackDecreaseBrush="{DynamicResource BottomBar.Foreground}"
                                  TrackIncreaseBrush="{DynamicResource Slider.Background}"
                                  Value="{Binding Operator.Volume}"
                                  FocusVisualStyle="{StaticResource NVFocusVisual}" Focusable="True" IsTabStop="True"
@@ -146,7 +146,7 @@
                                  MouseWheel="Volume_MouseWheel"
                                  KeyDown="Volume_KeyDown" />
 
-                <TextBlock Margin="15,0" DockPanel.Dock="Left" VerticalAlignment="Center" Text="{Binding Operator.DispTime}" Foreground="{DynamicResource PageSelectionBar.Foreground}">
+                <TextBlock Margin="15,0" DockPanel.Dock="Left" VerticalAlignment="Center" Text="{Binding Operator.DispTime}" Foreground="{DynamicResource BottomBar.Foreground}">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <EventSetter Event="MouseLeftButtonDown" Handler="TimeTextBlock_MouseLeftButtonDown" />
@@ -181,8 +181,8 @@
                         </Style.Triggers>
                     </Style>
                 </DockPanel.Style>
-                <nwc:SmartSlider x:Name="Slider" ThumbSize="{Binding Slider.Thickness, Source={x:Static local:Config.Current}}" ThumbBorderBrush="{DynamicResource PageSelectionBar.Slider.Thumb}"
-                        TrackDecreaseBrush="{DynamicResource PageSelectionBar.Slider.Track}" TrackIncreaseBrush="{DynamicResource PageSelectionBar.Slider.Background}"
+                <nwc:SmartSlider x:Name="Slider" ThumbSize="{Binding Slider.Thickness, Source={x:Static local:Config.Current}}" ThumbBorderBrush="{DynamicResource BottomBar.Slider.Thumb}"
+                        TrackDecreaseBrush="{DynamicResource BottomBar.Slider.Track}" TrackIncreaseBrush="{DynamicResource BottomBar.Slider.Background}"
                         Value="{Binding Operator.PositionRate}" DragStarted="VideoSlider_DragStarted" DragCompleted="VideoSlider_DragCompleted"
                         PreviewMouseLeftButtonDown="VideoSlider_PreviewMouseLeftButtonDown" />
             </DockPanel>

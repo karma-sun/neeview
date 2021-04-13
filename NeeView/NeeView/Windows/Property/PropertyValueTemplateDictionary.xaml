@@ -57,6 +57,10 @@
         <ComboBox ItemsSource="{Binding Map}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding SelectedValue}"/>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type local:PropertyValue_StringMap}">
+        <ComboBox ItemsSource="{Binding Map}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding SelectedValue}" />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type local:PropertyValue_Point}">
         <nvc:PointInspector Point="{Binding Value, Mode=TwoWay}"/>
     </DataTemplate>

@@ -4,6 +4,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Resources;
 using System.Linq;
+using System.Text;
 
 namespace NeeView
 {
@@ -11,12 +12,24 @@ namespace NeeView
     {
         public static string GetSearchHelp()
         {
-            Uri fileUri = new Uri($"/Resources/{Config.Current.System.Language.GetCultureName()}/SearchOptions.html", UriKind.Relative);
-            StreamResourceInfo info = System.Windows.Application.GetResourceStream(fileUri);
+            var builder = new StringBuilder();
+            builder.Append(HtmlHelpUtility.CraeteHeader("NeeView Search Options"));
+            builder.Append($"<body>");
+            AppendResource(builder, "SearchOptions.html");
+            builder.Append("</body>");
+
+            return builder.ToString();
+        }
+
+        private static StringBuilder AppendResource(StringBuilder builder, string resourcPath)
+        {
+            var info = ResourceTools.GetCultureResource(resourcPath);
             using (StreamReader sr = new StreamReader(info.Stream))
             {
-                return sr.ReadToEnd();
+                builder.Append(sr.ReadToEnd());
             }
+
+            return builder;
         }
 
         /// <summary>

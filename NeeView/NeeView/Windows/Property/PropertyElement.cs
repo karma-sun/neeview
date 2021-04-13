@@ -102,6 +102,10 @@ namespace NeeView.Windows.Property
                     InitializeByPathAttribute(pathAttribute);
                     break;
 
+                case PropertyStringsAttribute stringsAttribute:
+                    InitializeByStringsAttribute(stringsAttribute);
+                    break;
+
                 default:
                     InitializeByDefaultAttribute(attribute);
                     break;
@@ -258,6 +262,19 @@ namespace NeeView.Windows.Property
             {
                 case TypeCode.String:
                     this.TypeValue = new PropertyValue_FilePath(this, attribute.FileDialogType, attribute.Filter, attribute.Note, attribute.DefaultFileName);
+                    break;
+                default:
+                    throw new NotSupportedException();
+            }
+        }
+
+        private void InitializeByStringsAttribute(PropertyStringsAttribute attribute)
+        {
+            TypeCode typeCode = Type.GetTypeCode(_info.PropertyType);
+            switch (typeCode)
+            {
+                case TypeCode.String:
+                    this.TypeValue = new PropertyValue_StringMap(this, attribute.Strings);
                     break;
                 default:
                     throw new NotSupportedException();

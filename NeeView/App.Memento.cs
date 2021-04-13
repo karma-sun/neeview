@@ -136,7 +136,7 @@ namespace NeeView
             public bool IsSettingBackup { get; set; }
 
             [DataMember]
-            public Language Language { get; set; }
+            public string Language { get; set; }
 
             [DataMember, DefaultValue(true)]
             public bool IsSplashScreenEnabled { get; set; }
@@ -168,7 +168,7 @@ namespace NeeView
             {
                 this.InitializePropertyDefaultValues();
 
-                this.Language = LanguageExtensions.GetLanguage(CultureInfo.CurrentCulture.Name);
+                this.Language = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
             }
 
 #pragma warning disable CS0612
@@ -194,7 +194,7 @@ namespace NeeView
                 config.StartUp.IsRestoreSecondWindowPlacement = IsRestoreSecondWindow;
                 config.System.IsNetworkEnabled = IsNetworkEnabled;
                 config.StartUp.IsOpenLastBook = IsOpenLastBook;
-                config.System.Language = Language;
+                config.System.Language = Language == "Japanese" ? "ja" : "en";
                 config.StartUp.IsSplashScreenEnabled = IsSplashScreenEnabled;
                 config.History.IsSaveHistory = IsSaveHistory;
                 config.History.HistoryFilePath = HistoryFilePath;

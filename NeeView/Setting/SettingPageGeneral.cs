@@ -3,6 +3,7 @@ using NeeView.Data;
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +29,9 @@ namespace NeeView.Setting
 
             var section = new SettingItemSection(Properties.Resources.SettingPage_General);
 
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.Language))));
+            var cultureMap = Environment.Cultures.Select(e => CultureInfo.GetCultureInfo(e)).OrderBy(e => e.NativeName).ToDictionary(e => e.Name, e => e.NativeName);
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.Language), new PropertyMemberElementOptions() { StringMap = cultureMap })));
+
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.ArchiveRecursiveMode))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.BookPageCollectMode))));
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.IsNaturalSortEnabled))));
@@ -125,7 +128,7 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>() { section };
         }
 
-        #region Commands
+#region Commands
 
         private RelayCommand<UIElement> _RemoveAllData;
         public RelayCommand<UIElement> RemoveAllData
@@ -139,7 +142,7 @@ namespace NeeView.Setting
             Environment.RemoveApplicationData(window);
         }
 
-        #endregion
+#endregion
     }
 
 
@@ -189,7 +192,7 @@ namespace NeeView.Setting
             this.Items.Add(section);
         }
 
-        #region Commands
+#region Commands
 
         private RelayCommand<UIElement> _RemoveCache;
         public RelayCommand<UIElement> RemoveCache
@@ -221,7 +224,7 @@ namespace NeeView.Setting
             }
         }
 
-        #endregion
+#endregion
 
         /// <summary>
         /// 履歴期限テーブル

@@ -21,5 +21,10 @@ namespace NeeView.Windows.Property
         /// EnumValueでの選択項目指定
         /// </summary>
         public Dictionary<Enum, string> EnumMap { get; set; }
+
+        /// <summary>
+        /// Stringsでの選択項目指定
+        /// </summary>
+        public Dictionary<string, string> StringMap { get; set; }
     }
 }

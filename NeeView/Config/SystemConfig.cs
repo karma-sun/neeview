@@ -16,7 +16,7 @@ namespace NeeView
         private bool _isSettingBackup;
         private bool _isHiddenFileVisibled;
         private bool _isFileWriteAccessEnabled = true;
-        private Language _language = LanguageExtensions.GetLanguage(CultureInfo.CurrentCulture.Name);
+        private string _language;
         private BookPageCollectMode _bookPageCollectMode = BookPageCollectMode.ImageAndBook;
         private bool _isRemoveConfirmed = true;
         private bool _isRemoveWantNukeWarning;
@@ -36,10 +36,10 @@ namespace NeeView
         /// <summary>
         /// 言語
         /// </summary>
-        [PropertyMember]
-        public Language Language
+        [PropertyStrings]
+        public string Language
         {
-            get { return _language; }
+            get { return _language ?? (_language = CultureInfoTools.GetBetterCulture(CultureInfo.CurrentCulture).Name); }
             set { SetProperty(ref _language, value); }
         }
 

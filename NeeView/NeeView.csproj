@@ -127,12 +127,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\en-US\ScriptManual.html" />
-    <Resource Include="Resources\en-US\SearchOptions.html" />
-    <Resource Include="Resources\en-US\ScriptManualExample.html" />
-    <Resource Include="Resources\ja-JP\ScriptManualExample.html" />
-    <Resource Include="Resources\ja-JP\ScriptManual.html" />
-    <Resource Include="Resources\ja-JP\SearchOptions.html" />
+	<Resource Include="Resources\en\ScriptManual.html" />
+	<Resource Include="Resources\en\SearchOptions.html" />
+	<Resource Include="Resources\en\ScriptManualExample.html" />
+    <Resource Include="Resources\ja\ScriptManualExample.html" />
+    <Resource Include="Resources\ja\ScriptManual.html" />
+    <Resource Include="Resources\ja\SearchOptions.html" />
     <Resource Include="Resources\App.ico" />
     <Resource Include="Resources\Style.css" />
     <Resource Include="Resources\Play.ico" />

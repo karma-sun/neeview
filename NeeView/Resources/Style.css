@@ -62,13 +62,21 @@ code.example {
     padding: 15px 60px;
 }
 
+blockquote {
+    position: relative;
+    padding: 5px 20px;
+    box-sizing: border-box;
+    background: #efefef;
+    color: #555;
+}
+
 hr {
     margin: 50px 0px;
 }
 
 .table-normal {
     width: 100%;
-    margin: 20px 0 50px;
+    margin: 20px 0 30px;
     border-top: 1px solid #CCC;
     border-left: 1px solid #CCC;
     border-spacing: 0;
@@ -88,6 +96,7 @@ hr {
 
 .table-none {
     border-collapse: collapse;
+    margin: 20px 0 30px;
 }
 
 .table-none td, .table-none th {
@@ -97,6 +106,7 @@ hr {
 
 .table-slim {
     border-collapse: collapse;
+    margin: 20px 0 30px;
 }
 
 .table-slim tr {

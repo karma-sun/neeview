@@ -25,7 +25,9 @@ namespace NeeView
         private static string _revision;
         private static string _dateVersion;
         private static bool? _isUseLocalApplicationDataFolder;
+        private static List<string> _cultures;
         private static string _logFile;
+
 
         static Environment()
         {
@@ -248,6 +250,20 @@ namespace NeeView
             }
         }
 
+        /// <summary>
+        /// 対応言語
+        /// </summary>
+        public static List<string> Cultures
+        {
+            get
+            {
+                if (_cultures == null)
+                {
+                    _cultures = ConfigurationManager.AppSettings["Cultures"].Split(',').ToList();
+                }
+                return _cultures;
+            }
+        }
 
         // [開発用] 出力用ログファイル名
         public static string LogFile

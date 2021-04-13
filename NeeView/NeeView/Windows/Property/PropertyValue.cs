@@ -121,6 +121,27 @@ namespace NeeView.Windows.Property
         }
     }
 
+    public class PropertyValue_StringMap : PropertyValue<string>
+    {
+        public Dictionary<string, string> Map { get; private set; }
+
+        public string SelectedValue
+        {
+            get { return (string)Value; }
+            set { Value = value; }
+        }
+
+        public PropertyValue_StringMap(PropertyMemberElement setter, IEnumerable<string> strings) : base(setter)
+        {
+            this.Map = setter.Options?.StringMap ?? strings.ToDictionary(e => e, e => e);
+        }
+
+        public override void SetValueFromString(string value)
+        {
+            Value = value;
+        }
+    }
+
     //
     public class PropertyValue_Integer : PropertyValue<int>
     {

@@ -1,93 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<style type="text/css">
-body {
-    margin: 5%;
-    font-family: Meiryo, "Yu Gothic" ,sans-serif;
-    background-color: white;
-}
+<h1>NeeView 検索オプション</h1>
 
-h1 {
-    font-family: "Trebuchet MS", Trebuchet, Verdana, sans-serif;
-    text-align: center;
-    background-color: #002244;
-    font-size: 2.0em;
-    color: #ffffff;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    width: 600px;
-}
-
-h2 {
-    color: #444444;
-    margin-top: 40px;
-    padding-top: 2px;
-    padding-left: 10px;
-    border-left: 8px solid #444444;
-    width: 600px;
-}
-
-h3 {
-    color: #444444;
-    margin-top: 40px;
-    padding-top: 2px;
-    padding-left: 10px;
-    border-left: 8px solid #AAAAAA;
-    width: 600px;
-}
-
-p {
-    text-align: left;
-    padding-left: 1em;
-}
-
-code {
-    background-color: #EEEEEE;
-    padding: 0px 10px;
-    font-family: "ãƒ¡ã‚¤ãƒªã‚ª", Meiryo;
-}
-
-table {
-    width: 100%;
-    margin: 20px 0 50px;
-    border-top: 1px solid #CCC;
-    border-left: 1px solid #CCC;
-    border-spacing: 0;
-}
-
-table tr th, table tr td {
-    font-size: 12px;
-    border-bottom: 1px solid #CCC;
-    border-right: 1px solid #CCC;
-    padding: 7px;
-}
-
-table tr th {
-    background: #EEE;
-}
-
-blockquote {
-    position: relative;
-    padding: 5px 20px;
-    box-sizing: border-box;
-    background: #efefef;
-    color: #555;
-}
-</style>
-</head>
-
-<body>
-    <h1>NeeView 検索オプション</h1>
-    
-    <h2> 検索オプション</h2>
-    
+<h2> 検索オプション</h2>
+<p>
     検索オプション指定がない場合はAND標準検索になります("/and /m2"を指定したのと同じ)。<br/>
     検索オプションは直後の検索単語にのみ影響します。
-    
-    <h3>接続オプション</h3>
-    <table>
+</p>
+
+<h3>接続オプション</h3>
+<table class="table-slim table-topless">
     <tr><th>オプション</th><th>説明</th></tr>
     <tr><td>/and</td><td>AND検索 (デフォルト)</td></tr>
     <tr><td>/or</td><td>OR検索</td></tr>
@@ -95,7 +15,7 @@ blockquote {
 </table>
 
 <h3>適合オプション</h3>
-<table>
+<table class="table-slim table-topless">
     <tr><th>オプション</th><th>説明</th><th>補足</th></tr>
     <tr><td>/m0, /exact</td><td>完全一致</td><td> "ダブルクオートで囲むのと同じ"</td></tr>
     <tr><td>/m1, /word</td><td>単語一致</td><td> 文字の種類で単語を識別しているので精度はあまりよくない</td></tr>
@@ -106,17 +26,17 @@ blockquote {
     <tr><td>/until</td><td>日時指定・以前</td><td>指定日時以前</td></tr>
 </table>
 
-
-標準検索または単語一致検索の場合、以下のような曖昧検索になります。
-
-<ul>
-    <li>半角、全角を区別しません。</li>
-    <li>ひらがな、カタカナを区別しません。単語一致検索の場合は区別します。</li>
-    <li>英数の大文字、小文字を区別しません。</li>
-    <li>数字は先頭の"0"を無視します。(例："2015年2月4日" と "2015年02月04日" は区別されない)</li>
-    <li>UNICODE正規化(NFKC)を使用しています。(例："㌫" と "パーセント" は区別されない)</li>
-</ul>
-
+<p>
+    標準検索または単語一致検索の場合、以下のような曖昧検索になります。
+    
+    <ul>
+        <li>半角、全角を区別しません。</li>
+        <li>ひらがな、カタカナを区別しません。単語一致検索の場合は区別します。</li>
+        <li>英数の大文字、小文字を区別しません。</li>
+        <li>数字は先頭の"0"を無視します。(例："2015年2月4日" と "2015年02月04日" は区別されない)</li>
+        <li>UNICODE正規化(NFKC)を使用しています。(例："㌫" と "パーセント" は区別されない)</li>
+    </ul>
+</p>
 
 <h3>日時指定フォーマット</h3>
 
@@ -154,5 +74,3 @@ blockquote {
 
 <blockquote>/since 2019-04-01 /until 2019-05-01</blockquote>
 
-</body>
-</html>

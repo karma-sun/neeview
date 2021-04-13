@@ -180,7 +180,7 @@ namespace NeeView
             Debug.WriteLine($"App.UserSettingLoaded: {Stopwatch.ElapsedMilliseconds}ms");
 
             // 言語適用。初期化に影響するため優先して設定
-            NeeView.Properties.Resources.Culture = CultureInfo.GetCultureInfo(config.System.Language.GetCultureName());
+            NeeView.Properties.Resources.Culture = CultureInfo.GetCultureInfo(config.System.Language);
 
             // スプラッシュスクリーン
             ShowSplashScreen(config);

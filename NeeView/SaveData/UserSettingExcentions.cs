@@ -73,6 +73,16 @@ namespace NeeView
                 {
                     self.Config.Fonts.FolderTreeFontScale = self.Config.Panels.FolderTreeFontSize_Legacy / SystemVisualParameters.Current.MessageFontSize;
                 }
+
+                switch(self.Config.System.Language)
+                {
+                    case "English":
+                        self.Config.System.Language = "en";
+                        break;
+                    case "Japanese":
+                        self.Config.System.Language = "jp";
+                        break;
+                }
             }
 
             return self;

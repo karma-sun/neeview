@@ -67,6 +67,17 @@ namespace NeeView.Windows.Property
         }
     }
 
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class PropertyStringsAttribute : PropertyMemberAttribute
+    {
+        public string[] Strings;
+
+        public PropertyStringsAttribute() : base()
+        {
+        }
+    }
+
     public static class PropertyMemberAttributeExtensions
     {
         private static string GetResourceKey(PropertyInfo property, string postfix = null)

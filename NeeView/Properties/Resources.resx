@@ -6945,4 +6945,257 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="SusiePluginWindow.About" xml:space="preserve">
     <value>About this plugin</value>
   </data>
+  <data name="_Document.ScriptManual.html" xml:space="preserve">
+    <value>&lt;h1&gt;NeeView Script Manual&lt;/h1&gt;
+
+&lt;h2&gt; Overview &lt;/h2&gt;
+&lt;p&gt;
+    Extend the command with a script. You can change the settings, execute multiple commands at once, or execute them as separate commands with changed command parameters.
+&lt;/p&gt;
+&lt;p&gt;
+    Scripting is disabled by default. Set and enable on the Scripts page of Options.
+
+    &lt;ul&gt;
+        &lt;li&gt;The script grammar is Javascript (ECMA 5.1).&lt;/li&gt;
+        &lt;li&gt;&lt;a href="https://github.com/sebastienros/jint"&gt;Jint&lt;/a&gt; is used for the script engine.&lt;/li&gt;
+        &lt;li&gt;The file extension is .nvjs.&lt;/li&gt;
+        &lt;li&gt;The character code is UTF8. No BOM is recommended.&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/p&gt;
+&lt;p&gt;
+    You can qualify the command with the doc comments at the top of the file. The keys are not case sensitive.
+
+    &lt;table class="table-slim table-topless"&gt;
+        &lt;tr&gt;&lt;th&gt;Key&lt;/th&gt;&lt;th&gt;Summary&lt;/th&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;@name&lt;/td&gt;&lt;td&gt;Command name&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;@description&lt;/td&gt;&lt;td&gt;Command description&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;@shortCutKey&lt;/td&gt;&lt;td&gt;Default shotcuts&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;@mouseGesture&lt;/td&gt;&lt;td&gt;Default mouse gestures&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;@touchGesture&lt;/td&gt;&lt;td&gt;Default touch operation&lt;/td&gt;&lt;/tr&gt;
+    &lt;/table&gt;
+&lt;/p&gt;
+
+
+&lt;h2&gt;Command script&lt;/h2&gt;
+&lt;p&gt;
+    If the script file is placed in the script folder, it can be used as a command. One file is one command.
+
+    &lt;ul&gt;
+        &lt;li&gt;Shortcuts can be set in the "Command settings" of the Options like normal commands. &lt;/li&gt;
+        &lt;li&gt;The file name becomes the command name.&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/p&gt;
+
+&lt;h2&gt;Event script&lt;/h2&gt;
+&lt;p&gt;
+    A specially named script file will be executed automatically.
+
+    &lt;table class="table-slim"&gt;
+        &lt;tr&gt;&lt;td&gt;OnBookLoaded.nvjs&lt;/td&gt;&lt;td&gt;Runs when you open the book.&lt;/td&gt;&lt;/tr&gt;
+    &lt;/table&gt;
+&lt;/p&gt;
+
+&lt;h2&gt;Console&lt;/h2&gt;
+&lt;p&gt;
+    A console for testing scripts. To open it, select "Options &gt; Open console" from the menu.
+&lt;/p&gt;
+&lt;h4&gt;Console-only command&lt;/h4&gt;
+&lt;p&gt;
+    &lt;table class="table-slim"&gt;
+        &lt;tr&gt;&lt;td&gt;cls&lt;/td&gt;&lt;td&gt;Clear screen (Ctrl+L)&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;exit&lt;/td&gt;&lt;td&gt;Close console&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;help, ?&lt;/td&gt;&lt;td&gt;Open this script help&lt;/td&gt;&lt;/tr&gt;
+    &lt;/table&gt;
+&lt;/p&gt;
+</value>
+  </data>
+  <data name="_Document.ScriptManualExample.html" xml:space="preserve">
+    <value>&lt;h1 class="sub"&gt;Script examples&lt;/h1&gt;
+
+Here are some example scripts.
+For other samples, refer to &lt;a href="https://bitbucket.org/neelabo/neeview.scriptsamples/"&gt;here&lt;/a&gt;.
+
+&lt;h3&gt;Execute "External app" command by temporarily changing the executable file and arguments&lt;/h3&gt;
+&lt;p&gt;
+&lt;pre&gt;OpenMsPaint.nvjs
+&lt;code class="example"&gt;// @name MS Paint
+// @description Open the file with MS Paint.
+
+param = {
+    "Command": "mspaint.exe",
+    "Parameter": "\"$File\""
+}
+nv.Command.OpenExternalApp.Patch(param).Execute()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+
+
+&lt;h3&gt;Open display page in new NeeView&lt;/h3&gt;
+&lt;p&gt;
+&lt;pre&gt;OpenNeeView.nvjs
+&lt;code class="example"&gt;// @name Open in NeeView
+// @description Opens the display page in a new NeeView.
+
+nv.Command.SaveSetting.Execute() // Save to keep the same settings
+
+param = {
+    "Command": "$NeeView", // Special way to show NeeView's own path
+    "Parameter": "-n \"$File\"",
+    "MultiPagePolicy": "Once",
+    "ArchivePolicy": "SendArchivePath"
+}
+nv.Command.OpenExternalApp.Patch(param).Execute()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+
+
+&lt;h3&gt;ON / OFF of unsharp mask&lt;/h3&gt;
+&lt;p&gt;
+&lt;pre&gt;ToggleUnsharpMask.nvjs
+&lt;code class="example"&gt;// @name Unsharp mask ON/OFF
+// @description Switching of unsharp mask. Show warning when resize filter is not enabled
+
+if (nv.Config.ImageResizeFilter.IsEnabled) {
+    nv.Config.ImageResizeFilter.IsUnsharpMaskEnabled = !nv.Config.ImageResizeFilter.IsUnsharpMaskEnabled
+    if (nv.Config.ImageResizeFilter.IsUnsharpMaskEnabled) {
+        nv.ShowMessage("UnsharpMask ON")
+    }
+    else {
+        nv.ShowMessage("UnsharpMask OFF")
+    }
+}
+else {
+    nv.ShowMessage("ResizeFilter is not active")
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+
+
+&lt;h3&gt;If the path of the newly opened book contains "English", open it to the left, otherwise open it to the right&lt;/h3&gt;
+&lt;p&gt;
+&lt;pre&gt;OnBookLoaded.nvjs
+&lt;code class="example"&gt;// @name Book loaded processing
+// @description Event when the book is opened
+
+if (nv.Book.IsNew) {
+  if (nv.Book.Path.match(/English/) != null) {
+    nv.Book.Config.BookReadOrder = "LeftToRight"
+  }
+  else {
+    nv.Book.Config.BookReadOrder = "RightToLeft"
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+
+&lt;h3&gt;Change the operation method when a video file is opened&lt;/h3&gt;
+&lt;p&gt;
+&lt;pre&gt;OnBookLoaded.nvjs
+&lt;code class="example"&gt;// @name Book loaded processing
+// @description Event when the book is opened
+
+if (nv.Book.IsMedia) {
+  // Video: Click to play / stop, double-click to switch full screen
+  nv.Command.ToggleMediaPlay.ShortCutKey = "LeftClick"
+  nv.Command.Script_ToggleFullScreenAndMediaPlay.ShortCutKey = "LeftDoubleClick"
+  nv.Command.NextPage.ShortCutKey = "Left"
+}
+else {
+  // Normal: Standard setting
+  nv.Command.ToggleMediaPlay.ShortCutKey = null
+  nv.Command.Script_ToggleFullScreenAndMediaPlay.ShortCutKey = null
+  nv.Command.NextPage.ShortCutKey = "Left,LeftClick"
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;pre&gt;ToggleFullScreenAndMediaPlay.nvjs
+&lt;code class="example"&gt;// @name Full screen &amp; video playback
+// @description Switch full screen and video playback at the same time
+
+nv.Command.ToggleFullScreen.Execute()
+nv.Command.ToggleMediaPlay.Execute()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+</value>
+  </data>
+  <data name="_Document.SearchOptions.html" xml:space="preserve">
+    <value>&lt;h1&gt;NeeView search options&lt;/h1&gt;
+
+&lt;h2&gt;Search options&lt;/h2&gt;
+&lt;p&gt;
+    If no search option is specified, it becomes AND-Standard search (same as specifying "/and /m2").&lt;br/&gt; 
+    Search options affect only the immediately following search words.
+&lt;/p&gt;
+
+&lt;h3&gt;Connection options&lt;/h3&gt;
+&lt;table class="table-slim table-topless"&gt;
+    &lt;tr&gt;&lt;th&gt;Option&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/and&lt;/td&gt;&lt;td&gt;AND search (default)&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/or&lt;/td&gt;&lt;td&gt;OR search&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/not&lt;/td&gt;&lt;td&gt;NOT search&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;h3&gt;Match options&lt;/h3&gt;
+&lt;table class="table-slim table-topless"&gt;
+    &lt;tr&gt;&lt;th&gt;Option&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;th&gt;Supplement&lt;/th&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/m0, /exact&lt;/td&gt;&lt;td&gt;ExactMatch&lt;/td&gt;&lt;td&gt;"Same as enclosing with double quotes"&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/m1, /word&lt;/td&gt;&lt;td&gt;WordMatch&lt;/td&gt;&lt;td&gt;Since we identify words by kind of letters, accuracy is not very good.&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/m2&lt;/td&gt;&lt;td&gt;Standard (default)&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/re&lt;/td&gt;&lt;td&gt;RegularExpression&lt;/td&gt;&lt;td&gt;&lt;a href="https://docs.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-language-quick-reference"&gt;.NE Regular Expression&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/ire&lt;/td&gt;&lt;td&gt;RegularExpression / IgnoreCase&lt;/td&gt;&lt;td&gt;Perform regular expression search without case sensitivity.&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/since&lt;/td&gt;&lt;td&gt;DateTime / Since&lt;/td&gt;&lt;td&gt;After specified date&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/until&lt;/td&gt;&lt;td&gt;DateTime / Until&lt;/td&gt;&lt;td&gt;Before specified date&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;p&gt;
+    In case of Standard search or WordMatch search, it becomes ambiguous search as follows.
+    
+    &lt;ul&gt;
+        &lt;li&gt;Halfwidth and double-byte are not distinguished.&lt;/li&gt;
+        &lt;li&gt;It does not distinguish between Hiragana and Katakana. In case of WordMatch search, we will distinguish.&lt;/li&gt;
+        &lt;li&gt;We do not distinguish capital letters and lower case letters of alphanumeric characters.&lt;/li&gt;
+        &lt;li&gt;Ignore the leading "0" for numbers. (Example: "2015-2-4" and "2015-02-04" are not distinguished)&lt;/li&gt;
+        &lt;li&gt;UNICODE normalization (NFKC).&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/p&gt;
+
+&lt;h3&gt;DateTime format&lt;/h3&gt;
+
+&lt;p&gt;
+    Normally, it is specified in the form "2019-04-01".
+    Because &lt;a href="https://docs.microsoft.com/en-us/dotnet/standard/base-types/parsing-datetime"&gt;.NET date and time parsing&lt;/a&gt; is used, you can specify other formats.&lt;br/&gt;
+    NOTE: The date designation "2019-04-01" is interpreted as "2019-04-01 00:00:00", so "/until 2019-04-01" does not include April 1.
+&lt;/p&gt;
+
+&lt;p&gt;
+    You can also specify relative date and time in the format "-12day", "-6month" and "-1year". &lt;br/&gt;
+    "/since -5day" means "within the past 5 days".
+&lt;/p&gt;
+
+&lt;h2&gt;Example of use&lt;/h2&gt;
+
+AND-Standard search of "ABC", "DEF"
+
+&lt;blockquote&gt;ABC DEF&lt;/blockquote&gt;
+
+RegularExpression search of "^ABC$"
+
+&lt;blockquote&gt;/re ^ABC$&lt;/blockquote&gt;
+
+ExactMatch search for "ABC DEF"
+
+&lt;blockquote&gt;"ABC DEF"&lt;/blockquote&gt;
+
+"DEF" NOT-WordMatch search for "ABC" Standard search results
+
+&lt;blockquote&gt;ABC /not /word DEF&lt;/blockquote&gt;
+
+Search for files updated in April 2019
+
+&lt;blockquote&gt;/since 2019-04-01 /until 2019-05-01&lt;/blockquote&gt;
+
+</value>
+  </data>
 </root>

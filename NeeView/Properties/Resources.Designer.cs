@@ -61,6 +61,73 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   &lt;h1&gt;NeeView Script Manual&lt;/h1&gt;
+        ///
+        ///&lt;h2&gt; Overview &lt;/h2&gt;
+        ///&lt;p&gt;
+        ///    Extend the command with a script. You can change the settings, execute multiple commands at once, or execute them as separate commands with changed command parameters.
+        ///&lt;/p&gt;
+        ///&lt;p&gt;
+        ///    Scripting is disabled by default. Set and enable on the Scripts page of Options.
+        ///
+        ///    &lt;ul&gt;
+        ///        &lt;li&gt;The script grammar is Javascript (ECMA 5.1).&lt;/li&gt;
+        ///        &lt;li&gt;&lt;a href=&quot;https://github.com/sebastienros/jint&quot;&gt;Jint&lt;/a&gt; is used for the script engine.&lt;/li&gt;
+        ///   [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string _Document_ScriptManual_html {
+            get {
+                return ResourceManager.GetString("_Document.ScriptManual.html", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   &lt;h1 class=&quot;sub&quot;&gt;Script examples&lt;/h1&gt;
+        ///
+        ///Here are some example scripts.
+        ///For other samples, refer to &lt;a href=&quot;https://bitbucket.org/neelabo/neeview.scriptsamples/&quot;&gt;here&lt;/a&gt;.
+        ///
+        ///&lt;h3&gt;Execute &quot;External app&quot; command by temporarily changing the executable file and arguments&lt;/h3&gt;
+        ///&lt;p&gt;
+        ///&lt;pre&gt;OpenMsPaint.nvjs
+        ///&lt;code class=&quot;example&quot;&gt;// @name MS Paint
+        ///// @description Open the file with MS Paint.
+        ///
+        ///param = {
+        ///    &quot;Command&quot;: &quot;mspaint.exe&quot;,
+        ///    &quot;Parameter&quot;: &quot;\&quot;$File\&quot;&quot;
+        ///}
+        ///nv.Command.OpenExternalApp.Patch(param).Execu [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string _Document_ScriptManualExample_html {
+            get {
+                return ResourceManager.GetString("_Document.ScriptManualExample.html", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   &lt;h1&gt;NeeView search options&lt;/h1&gt;
+        ///
+        ///&lt;h2&gt;Search options&lt;/h2&gt;
+        ///&lt;p&gt;
+        ///    If no search option is specified, it becomes AND-Standard search (same as specifying &quot;/and /m2&quot;).&lt;br/&gt; 
+        ///    Search options affect only the immediately following search words.
+        ///&lt;/p&gt;
+        ///
+        ///&lt;h3&gt;Connection options&lt;/h3&gt;
+        ///&lt;table class=&quot;table-slim table-topless&quot;&gt;
+        ///    &lt;tr&gt;&lt;th&gt;Option&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;/tr&gt;
+        ///    &lt;tr&gt;&lt;td&gt;/and&lt;/td&gt;&lt;td&gt;AND search (default)&lt;/td&gt;&lt;/tr&gt;
+        ///    &lt;tr&gt;&lt;td&gt;/or&lt;/td&gt;&lt;td&gt;OR search&lt;/td&gt;&lt;/tr&gt;
+        ///    &lt;tr&gt;&lt;td&gt;/not&lt;/td&gt;&lt;td&gt;NOT search [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string _Document_SearchOptions_html {
+            get {
+                return ResourceManager.GetString("_Document.SearchOptions.html", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Add item に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string AddParameterDialog_Tile {

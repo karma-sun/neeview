@@ -33,7 +33,7 @@ namespace NeeView
             builder.Append(HtmlHelpUtility.CraeteHeader("NeeView Script Manual"));
             builder.Append($"<body>");
 
-            AppendResource(builder, "ScriptManual.html");
+            builder.Append(Properties.Resources._Document_ScriptManual_html);
 
             AppendScriptReference(builder);
 
@@ -41,7 +41,7 @@ namespace NeeView
 
             AppendCommandList(builder);
 
-            AppendResource(builder, "ScriptManualExample.html");
+            builder.Append(Properties.Resources._Document_ScriptManualExample_html);
 
             builder.Append("</body>");
             builder.Append(HtmlHelpUtility.CreateFooter());
@@ -188,17 +188,6 @@ namespace NeeView
                 builder.Append($"<tr><td>{command.Group}</td><td>{command.Text}</td><td><b>{command.Name}</b></td><td>{argument}</td><td>{properties}</td><td>{command.Remarks}</td></tr>");
             }
             builder.Append("</table>");
-
-            return builder;
-        }
-
-        private StringBuilder AppendResource(StringBuilder builder, string resourcPath)
-        {
-            var info = ResourceTools.GetCultureResource(resourcPath);
-            using (StreamReader sr = new StreamReader(info.Stream))
-            {
-                builder.Append(sr.ReadToEnd());
-            }
 
             return builder;
         }

@@ -1,5 +1,5 @@
 $ResTextDir = "..\Source"
-$OutpuXlsx = "_Resources.xlsx"
+$OutpuXlsx = "..\Resources.xlsx"
 
 $TempDir = New-TemporaryFile | Foreach-Object { Remove-Item $_; mkdir $_ }
 try {

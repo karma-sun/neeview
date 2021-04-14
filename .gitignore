@@ -227,6 +227,7 @@ ModelManifest.xml
 !/MakePackage/WixSource/x86
 !/NeeView/x64/
 !/NeeView/x86/
+/Language/Resources.xlsx
 
 Thumbs.db
 launchSettings.json

@@ -15,21 +15,10 @@ namespace NeeView
             var builder = new StringBuilder();
             builder.Append(HtmlHelpUtility.CraeteHeader("NeeView Search Options"));
             builder.Append($"<body>");
-            AppendResource(builder, "SearchOptions.html");
+            builder.Append(Properties.Resources._Document_SearchOptions_html);
             builder.Append("</body>");
 
             return builder.ToString();
-        }
-
-        private static StringBuilder AppendResource(StringBuilder builder, string resourcPath)
-        {
-            var info = ResourceTools.GetCultureResource(resourcPath);
-            using (StreamReader sr = new StreamReader(info.Stream))
-            {
-                builder.Append(sr.ReadToEnd());
-            }
-
-            return builder;
         }
 
         /// <summary>

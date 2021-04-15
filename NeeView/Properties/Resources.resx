@@ -117,6 +117,255 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="_Document.ScriptManual.html" xml:space="preserve">
+    <value>&lt;h1&gt;NeeView Script Manual&lt;/h1&gt;
+
+&lt;h2&gt; Overview &lt;/h2&gt;
+&lt;p&gt;
+    Extend the command with a script. You can change the settings, execute multiple commands at once, or execute them as separate commands with changed command parameters.
+&lt;/p&gt;
+&lt;p&gt;
+    Scripting is disabled by default. Set and enable on the Scripts page of Options.
+
+    &lt;ul&gt;
+        &lt;li&gt;The script grammar is Javascript (ECMA 5.1).&lt;/li&gt;
+        &lt;li&gt;&lt;a href="https://github.com/sebastienros/jint"&gt;Jint&lt;/a&gt; is used for the script engine.&lt;/li&gt;
+        &lt;li&gt;The file extension is .nvjs.&lt;/li&gt;
+        &lt;li&gt;The character code is UTF8. No BOM is recommended.&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/p&gt;
+&lt;p&gt;
+    You can qualify the command with the doc comments at the top of the file. The keys are not case sensitive.
+
+    &lt;table class="table-slim table-topless"&gt;
+        &lt;tr&gt;&lt;th&gt;Key&lt;/th&gt;&lt;th&gt;Summary&lt;/th&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;@name&lt;/td&gt;&lt;td&gt;Command name&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;@description&lt;/td&gt;&lt;td&gt;Command description&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;@shortCutKey&lt;/td&gt;&lt;td&gt;Default shotcuts&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;@mouseGesture&lt;/td&gt;&lt;td&gt;Default mouse gestures&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;@touchGesture&lt;/td&gt;&lt;td&gt;Default touch operation&lt;/td&gt;&lt;/tr&gt;
+    &lt;/table&gt;
+&lt;/p&gt;
+
+
+&lt;h2&gt;Command script&lt;/h2&gt;
+&lt;p&gt;
+    If the script file is placed in the script folder, it can be used as a command. One file is one command.
+
+    &lt;ul&gt;
+        &lt;li&gt;Shortcuts can be set in the "Command settings" of the Options like normal commands. &lt;/li&gt;
+        &lt;li&gt;The file name becomes the command name.&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/p&gt;
+
+&lt;h2&gt;Event script&lt;/h2&gt;
+&lt;p&gt;
+    A specially named script file will be executed automatically.
+
+    &lt;table class="table-slim"&gt;
+        &lt;tr&gt;&lt;td&gt;OnBookLoaded.nvjs&lt;/td&gt;&lt;td&gt;Runs when you open the book.&lt;/td&gt;&lt;/tr&gt;
+    &lt;/table&gt;
+&lt;/p&gt;
+
+&lt;h2&gt;Console&lt;/h2&gt;
+&lt;p&gt;
+    A console for testing scripts. To open it, select "Options &gt; Open console" from the menu.
+&lt;/p&gt;
+&lt;h4&gt;Console-only command&lt;/h4&gt;
+&lt;p&gt;
+    &lt;table class="table-slim"&gt;
+        &lt;tr&gt;&lt;td&gt;cls&lt;/td&gt;&lt;td&gt;Clear screen (Ctrl+L)&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;exit&lt;/td&gt;&lt;td&gt;Close console&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;help, ?&lt;/td&gt;&lt;td&gt;Open this script help&lt;/td&gt;&lt;/tr&gt;
+    &lt;/table&gt;
+&lt;/p&gt;</value>
+  </data>
+  <data name="_Document.ScriptManualExample.html" xml:space="preserve">
+    <value>&lt;h1 class="sub"&gt;Script examples&lt;/h1&gt;
+
+Here are some example scripts.
+For other samples, refer to &lt;a href="https://bitbucket.org/neelabo/neeview.scriptsamples/"&gt;here&lt;/a&gt;.
+
+&lt;h3&gt;Execute "External app" command by temporarily changing the executable file and arguments&lt;/h3&gt;
+&lt;p&gt;
+&lt;pre&gt;OpenMsPaint.nvjs
+&lt;code class="example"&gt;// @name MS Paint
+// @description Open the file with MS Paint.
+
+param = {
+    "Command": "mspaint.exe",
+    "Parameter": "\"$File\""
+}
+nv.Command.OpenExternalApp.Patch(param).Execute()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+
+
+&lt;h3&gt;Open display page in new NeeView&lt;/h3&gt;
+&lt;p&gt;
+&lt;pre&gt;OpenNeeView.nvjs
+&lt;code class="example"&gt;// @name Open in NeeView
+// @description Opens the display page in a new NeeView.
+
+nv.Command.SaveSetting.Execute() // Save to keep the same settings
+
+param = {
+    "Command": "$NeeView", // Special way to show NeeView's own path
+    "Parameter": "-n \"$File\"",
+    "MultiPagePolicy": "Once",
+    "ArchivePolicy": "SendArchivePath"
+}
+nv.Command.OpenExternalApp.Patch(param).Execute()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+
+
+&lt;h3&gt;ON / OFF of unsharp mask&lt;/h3&gt;
+&lt;p&gt;
+&lt;pre&gt;ToggleUnsharpMask.nvjs
+&lt;code class="example"&gt;// @name Unsharp mask ON/OFF
+// @description Switching of unsharp mask. Show warning when resize filter is not enabled
+
+if (nv.Config.ImageResizeFilter.IsEnabled) {
+    nv.Config.ImageResizeFilter.IsUnsharpMaskEnabled = !nv.Config.ImageResizeFilter.IsUnsharpMaskEnabled
+    if (nv.Config.ImageResizeFilter.IsUnsharpMaskEnabled) {
+        nv.ShowMessage("UnsharpMask ON")
+    }
+    else {
+        nv.ShowMessage("UnsharpMask OFF")
+    }
+}
+else {
+    nv.ShowMessage("ResizeFilter is not active")
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+
+
+&lt;h3&gt;If the path of the newly opened book contains "English", open it to the left, otherwise open it to the right&lt;/h3&gt;
+&lt;p&gt;
+&lt;pre&gt;OnBookLoaded.nvjs
+&lt;code class="example"&gt;// @name Book loaded processing
+// @description Event when the book is opened
+
+if (nv.Book.IsNew) {
+  if (nv.Book.Path.match(/English/) != null) {
+    nv.Book.Config.BookReadOrder = "LeftToRight"
+  }
+  else {
+    nv.Book.Config.BookReadOrder = "RightToLeft"
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+
+&lt;h3&gt;Change the operation method when a video file is opened&lt;/h3&gt;
+&lt;p&gt;
+&lt;pre&gt;OnBookLoaded.nvjs
+&lt;code class="example"&gt;// @name Book loaded processing
+// @description Event when the book is opened
+
+if (nv.Book.IsMedia) {
+  // Video: Click to play / stop, double-click to switch full screen
+  nv.Command.ToggleMediaPlay.ShortCutKey = "LeftClick"
+  nv.Command.Script_ToggleFullScreenAndMediaPlay.ShortCutKey = "LeftDoubleClick"
+  nv.Command.NextPage.ShortCutKey = "Left"
+}
+else {
+  // Normal: Standard setting
+  nv.Command.ToggleMediaPlay.ShortCutKey = null
+  nv.Command.Script_ToggleFullScreenAndMediaPlay.ShortCutKey = null
+  nv.Command.NextPage.ShortCutKey = "Left,LeftClick"
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;pre&gt;ToggleFullScreenAndMediaPlay.nvjs
+&lt;code class="example"&gt;// @name Full screen &amp; video playback
+// @description Switch full screen and video playback at the same time
+
+nv.Command.ToggleFullScreen.Execute()
+nv.Command.ToggleMediaPlay.Execute()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;</value>
+  </data>
+  <data name="_Document.SearchOptions.html" xml:space="preserve">
+    <value>&lt;h1&gt;NeeView search options&lt;/h1&gt;
+
+&lt;h2&gt;Search options&lt;/h2&gt;
+&lt;p&gt;
+    If no search option is specified, it becomes AND-Standard search (same as specifying "/and /m2").&lt;br/&gt; 
+    Search options affect only the immediately following search words.
+&lt;/p&gt;
+
+&lt;h3&gt;Connection options&lt;/h3&gt;
+&lt;table class="table-slim table-topless"&gt;
+    &lt;tr&gt;&lt;th&gt;Option&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/and&lt;/td&gt;&lt;td&gt;AND search (default)&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/or&lt;/td&gt;&lt;td&gt;OR search&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/not&lt;/td&gt;&lt;td&gt;NOT search&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;h3&gt;Match options&lt;/h3&gt;
+&lt;table class="table-slim table-topless"&gt;
+    &lt;tr&gt;&lt;th&gt;Option&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;th&gt;Supplement&lt;/th&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/m0, /exact&lt;/td&gt;&lt;td&gt;ExactMatch&lt;/td&gt;&lt;td&gt;"Same as enclosing with double quotes"&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/m1, /word&lt;/td&gt;&lt;td&gt;WordMatch&lt;/td&gt;&lt;td&gt;Since we identify words by kind of letters, accuracy is not very good.&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/m2&lt;/td&gt;&lt;td&gt;Standard (default)&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/re&lt;/td&gt;&lt;td&gt;RegularExpression&lt;/td&gt;&lt;td&gt;&lt;a href="https://docs.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-language-quick-reference"&gt;.NE Regular Expression&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/ire&lt;/td&gt;&lt;td&gt;RegularExpression / IgnoreCase&lt;/td&gt;&lt;td&gt;Perform regular expression search without case sensitivity.&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/since&lt;/td&gt;&lt;td&gt;DateTime / Since&lt;/td&gt;&lt;td&gt;After specified date&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/until&lt;/td&gt;&lt;td&gt;DateTime / Until&lt;/td&gt;&lt;td&gt;Before specified date&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;p&gt;
+    In case of Standard search or WordMatch search, it becomes ambiguous search as follows.
+    
+    &lt;ul&gt;
+        &lt;li&gt;Halfwidth and double-byte are not distinguished.&lt;/li&gt;
+        &lt;li&gt;It does not distinguish between Hiragana and Katakana. In case of WordMatch search, we will distinguish.&lt;/li&gt;
+        &lt;li&gt;We do not distinguish capital letters and lower case letters of alphanumeric characters.&lt;/li&gt;
+        &lt;li&gt;Ignore the leading "0" for numbers. (Example: "2015-2-4" and "2015-02-04" are not distinguished)&lt;/li&gt;
+        &lt;li&gt;UNICODE normalization (NFKC).&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/p&gt;
+
+&lt;h3&gt;DateTime format&lt;/h3&gt;
+
+&lt;p&gt;
+    Normally, it is specified in the form "2019-04-01".
+    Because &lt;a href="https://docs.microsoft.com/en-us/dotnet/standard/base-types/parsing-datetime"&gt;.NET date and time parsing&lt;/a&gt; is used, you can specify other formats.&lt;br/&gt;
+    NOTE: The date designation "2019-04-01" is interpreted as "2019-04-01 00:00:00", so "/until 2019-04-01" does not include April 1.
+&lt;/p&gt;
+
+&lt;p&gt;
+    You can also specify relative date and time in the format "-12day", "-6month" and "-1year". &lt;br/&gt;
+    "/since -5day" means "within the past 5 days".
+&lt;/p&gt;
+
+&lt;h2&gt;Example of use&lt;/h2&gt;
+
+AND-Standard search of "ABC", "DEF"
+
+&lt;blockquote&gt;ABC DEF&lt;/blockquote&gt;
+
+RegularExpression search of "^ABC$"
+
+&lt;blockquote&gt;/re ^ABC$&lt;/blockquote&gt;
+
+ExactMatch search for "ABC DEF"
+
+&lt;blockquote&gt;"ABC DEF"&lt;/blockquote&gt;
+
+"DEF" NOT-WordMatch search for "ABC" Standard search results
+
+&lt;blockquote&gt;ABC /not /word DEF&lt;/blockquote&gt;
+
+Search for files updated in April 2019
+
+&lt;blockquote&gt;/since 2019-04-01 /until 2019-05-01&lt;/blockquote&gt;</value>
+  </data>
   <data name="AddParameterDialog.Tile" xml:space="preserve">
     <value>Add item</value>
   </data>
@@ -213,11 +462,11 @@
   <data name="ArchivePolicy.SendExtractFile" xml:space="preserve">
     <value>Extract file path (temporary file)</value>
   </data>
-  <data name="AutoHideConfig.AutoHideConfrictTopMargin" xml:space="preserve">
-    <value>Automatic display judgment of menu bar on side panel</value>
-  </data>
   <data name="AutoHideConfig.AutoHideConfrictBottomMargin" xml:space="preserve">
     <value>Automatic display judgment of slider on side panel</value>
+  </data>
+  <data name="AutoHideConfig.AutoHideConfrictTopMargin" xml:space="preserve">
+    <value>Automatic display judgment of menu bar on side panel</value>
   </data>
   <data name="AutoHideConfig.AutoHideDelayTime" xml:space="preserve">
     <value>Time to hide auto-hide panel (sec)</value>
@@ -239,6 +488,15 @@
   </data>
   <data name="AutoHideConfig.IsAutoHideKeyDownDelay.Remarks" xml:space="preserve">
     <value>Postpone the action to hide when key input.</value>
+  </data>
+  <data name="AutoHideConfrictMode.Allow" xml:space="preserve">
+    <value>Allow</value>
+  </data>
+  <data name="AutoHideConfrictMode.AllowPixel" xml:space="preserve">
+    <value>Allow one pixel</value>
+  </data>
+  <data name="AutoHideConfrictMode.Deny" xml:space="preserve">
+    <value>Deny</value>
   </data>
   <data name="AutoHideFocusLockMode.FocusLock" xml:space="preserve">
     <value>Window and Panel</value>
@@ -1260,6 +1518,33 @@ nv.Values.Test = "Hello!"</value>
   <data name="CustomBackgroundControl.ImageSelect.Remarks" xml:space="preserve">
     <value>Please select an image file</value>
   </data>
+  <data name="CustomSizeAspectRatio.HalfView" xml:space="preserve">
+    <value>Half view aspect ratio</value>
+  </data>
+  <data name="CustomSizeAspectRatio.None" xml:space="preserve">
+    <value>Free</value>
+  </data>
+  <data name="CustomSizeAspectRatio.Origin" xml:space="preserve">
+    <value>Keep the original aspect ratio</value>
+  </data>
+  <data name="CustomSizeAspectRatio.Ratio_1_1" xml:space="preserve">
+    <value>1:1</value>
+  </data>
+  <data name="CustomSizeAspectRatio.Ratio_16_9" xml:space="preserve">
+    <value>16:9</value>
+  </data>
+  <data name="CustomSizeAspectRatio.Ratio_2_3" xml:space="preserve">
+    <value>2:3</value>
+  </data>
+  <data name="CustomSizeAspectRatio.Ratio_4_3" xml:space="preserve">
+    <value>4:3</value>
+  </data>
+  <data name="CustomSizeAspectRatio.Ratio_8_9" xml:space="preserve">
+    <value>8:9</value>
+  </data>
+  <data name="CustomSizeAspectRatio.View" xml:space="preserve">
+    <value>View aspect ratio</value>
+  </data>
   <data name="DeleteApplicationDataCompleteDialog.Message" xml:space="preserve">
     <value>User data deleted. Quit NeeView.</value>
   </data>
@@ -1480,6 +1765,285 @@ The following data will be deleted
   <data name="EmbossedEffectUnit.Height" xml:space="preserve">
     <value>Height</value>
   </data>
+  <data name="ExifContrast.Hard" xml:space="preserve">
+    <value>Hard</value>
+  </data>
+  <data name="ExifContrast.Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="ExifContrast.Soft" xml:space="preserve">
+    <value>Soft</value>
+  </data>
+  <data name="ExifExposureProgram.ActionProgram" xml:space="preserve">
+    <value>Action program</value>
+  </data>
+  <data name="ExifExposureProgram.AperturePriority" xml:space="preserve">
+    <value>Aperture priority</value>
+  </data>
+  <data name="ExifExposureProgram.CreativeProgram" xml:space="preserve">
+    <value>Creative program</value>
+  </data>
+  <data name="ExifExposureProgram.LandscapeMode" xml:space="preserve">
+    <value>Landscape mode</value>
+  </data>
+  <data name="ExifExposureProgram.Manual" xml:space="preserve">
+    <value>Manual</value>
+  </data>
+  <data name="ExifExposureProgram.NormalProgram" xml:space="preserve">
+    <value>Normal program</value>
+  </data>
+  <data name="ExifExposureProgram.NotDefined" xml:space="preserve">
+    <value>Not defined</value>
+  </data>
+  <data name="ExifExposureProgram.PortraitMode" xml:space="preserve">
+    <value>Portrait mode</value>
+  </data>
+  <data name="ExifExposureProgram.ShutterPriority" xml:space="preserve">
+    <value>Shutter priority</value>
+  </data>
+  <data name="ExifFlashMode.FlashDidNotFire" xml:space="preserve">
+    <value>Flash did not fire</value>
+  </data>
+  <data name="ExifFlashMode.FlashDidNotFire_AutoMode" xml:space="preserve">
+    <value>Flash did not fire, auto mode</value>
+  </data>
+  <data name="ExifFlashMode.FlashDidNotFire_CompulsoryFlashMode" xml:space="preserve">
+    <value>Flash did not fire, compulsory flash mode</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired" xml:space="preserve">
+    <value>Flash fired</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_AutoMode" xml:space="preserve">
+    <value>Flash fired, auto mode</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_AutoMode_RedEyeReductionMode" xml:space="preserve">
+    <value>Flash fired, auto mode, red-eye reduction mode</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_AutoMode_ReturnLightDetected" xml:space="preserve">
+    <value>Flash fired, auto mode, return light detected</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_AutoMode_ReturnLightDetected_RedEyeReductionMode" xml:space="preserve">
+    <value>Flash fired, auto mode, return light detected, red-eye reduction mode</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_AutoMode_ReturnLightNotDetected" xml:space="preserve">
+    <value>Flash fired, auto mode, return light not detected</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_AutoMode_ReturnLightNotDetected_RedEyeReductionMode" xml:space="preserve">
+    <value>Flash fired, auto mode, return light not detected, red-eye reduction mode</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode" xml:space="preserve">
+    <value>Flash fired, compulsory flash mode</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_RedEyeReductionMode" xml:space="preserve">
+    <value>Flash fired, compulsory flash mode, red-eye reduction mode</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_RedEyeReductionMode_ReturnLightDetected" xml:space="preserve">
+    <value>Flash fired, compulsory flash mode, red-eye reduction mode, return light detected</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_RedEyeReductionMode_ReturnLightNotDetected" xml:space="preserve">
+    <value>Flash fired, compulsory flash mode, red-eye reduction mode, return light not detected</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_ReturnLightDetected" xml:space="preserve">
+    <value>Flash fired, compulsory flash mode, return light detected</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_ReturnLightNotDetected" xml:space="preserve">
+    <value>Flash fired, compulsory flash mode, return light not detected</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_RedEyeReductionMode" xml:space="preserve">
+    <value>Flash fired, red-eye reduction mode</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_RedEyeReductionMode_ReturnLightDetected" xml:space="preserve">
+    <value>Flash fired, red-eye reduction mode, return light detected</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_RedEyeReductionMode_ReturnLightNotDetected" xml:space="preserve">
+    <value>Flash fired, red-eye reduction mode, return light not detected</value>
+  </data>
+  <data name="ExifFlashMode.NoFlashFunction" xml:space="preserve">
+    <value>No flash function</value>
+  </data>
+  <data name="ExifFlashMode.StrobeReturnLightDetected" xml:space="preserve">
+    <value>Strobe return light detected</value>
+  </data>
+  <data name="ExifFlashMode.StrobeReturnLightNotDetected" xml:space="preserve">
+    <value>Strobe return light not detected</value>
+  </data>
+  <data name="ExifLightSource.CloudyWeather" xml:space="preserve">
+    <value>Cloudy weather</value>
+  </data>
+  <data name="ExifLightSource.CoolWhiteFluorescent" xml:space="preserve">
+    <value>Cool white fluorescent</value>
+  </data>
+  <data name="ExifLightSource.D50" xml:space="preserve">
+    <value>D50</value>
+  </data>
+  <data name="ExifLightSource.D55" xml:space="preserve">
+    <value>D55</value>
+  </data>
+  <data name="ExifLightSource.D65" xml:space="preserve">
+    <value>D65</value>
+  </data>
+  <data name="ExifLightSource.D75" xml:space="preserve">
+    <value>D75</value>
+  </data>
+  <data name="ExifLightSource.Daylight" xml:space="preserve">
+    <value>Daylight</value>
+  </data>
+  <data name="ExifLightSource.DaylightFluorescent" xml:space="preserve">
+    <value>Daylight fluorescent</value>
+  </data>
+  <data name="ExifLightSource.DayWhiteFluorescent" xml:space="preserve">
+    <value>Day white fluorescent</value>
+  </data>
+  <data name="ExifLightSource.FineWeather" xml:space="preserve">
+    <value>Fine weather</value>
+  </data>
+  <data name="ExifLightSource.Flash" xml:space="preserve">
+    <value>Flash</value>
+  </data>
+  <data name="ExifLightSource.Fluorescent" xml:space="preserve">
+    <value>Fluorescent</value>
+  </data>
+  <data name="ExifLightSource.ISOStudioTungsten" xml:space="preserve">
+    <value>ISO studio tungsten</value>
+  </data>
+  <data name="ExifLightSource.OtherLightSource" xml:space="preserve">
+    <value>Other light source</value>
+  </data>
+  <data name="ExifLightSource.Shade" xml:space="preserve">
+    <value>Shade</value>
+  </data>
+  <data name="ExifLightSource.StandardLightA" xml:space="preserve">
+    <value>Standard light A</value>
+  </data>
+  <data name="ExifLightSource.StandardLightB" xml:space="preserve">
+    <value>Standard light B</value>
+  </data>
+  <data name="ExifLightSource.StandardLightC" xml:space="preserve">
+    <value>Standard light C</value>
+  </data>
+  <data name="ExifLightSource.Tungsten" xml:space="preserve">
+    <value>Tungsten</value>
+  </data>
+  <data name="ExifLightSource.Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="ExifLightSource.WhiteFluorescent" xml:space="preserve">
+    <value>White fluorescent</value>
+  </data>
+  <data name="ExifMeteringMode.Average" xml:space="preserve">
+    <value>Average</value>
+  </data>
+  <data name="ExifMeteringMode.CenterWeightedAverage" xml:space="preserve">
+    <value>Center weighted average</value>
+  </data>
+  <data name="ExifMeteringMode.MultiSpot" xml:space="preserve">
+    <value>Multi spot</value>
+  </data>
+  <data name="ExifMeteringMode.Other" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="ExifMeteringMode.Partial" xml:space="preserve">
+    <value>Partial</value>
+  </data>
+  <data name="ExifMeteringMode.Pattern" xml:space="preserve">
+    <value>Pattern</value>
+  </data>
+  <data name="ExifMeteringMode.Spot" xml:space="preserve">
+    <value>Spot</value>
+  </data>
+  <data name="ExifMeteringMode.Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="ExifOrientation.MirrorHorizontal" xml:space="preserve">
+    <value>Mirror horizontal</value>
+  </data>
+  <data name="ExifOrientation.MirrorHorizontal_Rotate270" xml:space="preserve">
+    <value>Mirror horizontal, rotate270</value>
+  </data>
+  <data name="ExifOrientation.MirrorHorizontal_Rotate90" xml:space="preserve">
+    <value>Mirror horizontal, rotate90</value>
+  </data>
+  <data name="ExifOrientation.MirrorVertical" xml:space="preserve">
+    <value>Mirror vertical</value>
+  </data>
+  <data name="ExifOrientation.Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="ExifOrientation.Rotate180" xml:space="preserve">
+    <value>Rotate180</value>
+  </data>
+  <data name="ExifOrientation.Rotate270" xml:space="preserve">
+    <value>Rotate270</value>
+  </data>
+  <data name="ExifOrientation.Rotate90" xml:space="preserve">
+    <value>Rotate90</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.BlackIsZero" xml:space="preserve">
+    <value>Black is zero</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.CFA" xml:space="preserve">
+    <value>CFA</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.CIELab" xml:space="preserve">
+    <value>CIE L*a*b*</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.CMYK" xml:space="preserve">
+    <value>CMYK</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.ICCLab" xml:space="preserve">
+    <value>ICC L*a*b*</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.ITULab" xml:space="preserve">
+    <value>ITU L*a*b*</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.LinearRaw" xml:space="preserve">
+    <value>Linear raw</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.LogLuv" xml:space="preserve">
+    <value>LogLuv</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.PaletteColor" xml:space="preserve">
+    <value>Palette color</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.PixarLogL" xml:space="preserve">
+    <value>Pixar LogL</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.RGB" xml:space="preserve">
+    <value>RGB</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.TransparencyMask" xml:space="preserve">
+    <value>Transparency mask</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.WhiteIsZero" xml:space="preserve">
+    <value>White is zero</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.YCbCr" xml:space="preserve">
+    <value>YCbCr</value>
+  </data>
+  <data name="ExifSaturation.HighSaturation" xml:space="preserve">
+    <value>HighSaturation</value>
+  </data>
+  <data name="ExifSaturation.LowSaturation" xml:space="preserve">
+    <value>LowSaturation</value>
+  </data>
+  <data name="ExifSaturation.Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="ExifSharpness.Hard" xml:space="preserve">
+    <value>Hard</value>
+  </data>
+  <data name="ExifSharpness.Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="ExifSharpness.Soft" xml:space="preserve">
+    <value>Soft</value>
+  </data>
+  <data name="ExifWhiteBalance.AutoWhiteBalance" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="ExifWhiteBalance.ManualWhiteBalance" xml:space="preserve">
+    <value>Manual</value>
+  </data>
   <data name="ExplorerContextMenu.IsEnabled" xml:space="preserve">
     <value>Register in the Explorer context menu.</value>
   </data>
@@ -1606,6 +2170,12 @@ The following data will be deleted
   <data name="ExternalAppEditDialog.Title" xml:space="preserve">
     <value>External app parameters</value>
   </data>
+  <data name="ExternalProcess.ConfirmBrowserDialog.Message" xml:space="preserve">
+    <value>Connect to the net with a web browser.</value>
+  </data>
+  <data name="ExternalProcess.ConfirmBrowserDialog.Title" xml:space="preserve">
+    <value>Open a web browser. Is it OK?</value>
+  </data>
   <data name="ExternalProgramType.Normal" xml:space="preserve">
     <value>External program</value>
   </data>
@@ -1677,6 +2247,9 @@ Is it OK?</value>
   <data name="FileRenameWrongDialog.Message" xml:space="preserve">
     <value>The specified file name is invalid.</value>
   </data>
+  <data name="FilmStripConfig.ImageWidth" xml:space="preserve">
+    <value>Page thumbnail size</value>
+  </data>
   <data name="FilmStripConfig.IsEnabled" xml:space="preserve">
     <value>Show filmstrip</value>
   </data>
@@ -1700,9 +2273,6 @@ Is it OK?</value>
   </data>
   <data name="FilmStripConfig.IsVisiblePlate.Remarks" xml:space="preserve">
     <value>Shows the background of the filmstrip when "@FilmStripConfig.IsHideFilmStrip" is enabled.</value>
-  </data>
-  <data name="FilmStripConfig.ImageWidth" xml:space="preserve">
-    <value>Page thumbnail size</value>
   </data>
   <data name="FirstPageCommand" xml:space="preserve">
     <value>First page</value>
@@ -1835,6 +2405,24 @@ Is it OK?</value>
   </data>
   <data name="FolderTreeLayout.Top" xml:space="preserve">
     <value>Place to the top</value>
+  </data>
+  <data name="FontsConfig.FolderTreeFontScale" xml:space="preserve">
+    <value>Folder tree font scale</value>
+  </data>
+  <data name="FontsConfig.FontName" xml:space="preserve">
+    <value>Font</value>
+  </data>
+  <data name="FontsConfig.FontScale" xml:space="preserve">
+    <value>Font scale</value>
+  </data>
+  <data name="FontsConfig.IsClearTypeEnabled" xml:space="preserve">
+    <value>Enable ClearType</value>
+  </data>
+  <data name="FontsConfig.MenuFontScale" xml:space="preserve">
+    <value>Menu font scale</value>
+  </data>
+  <data name="FontsConfig.PanelFontScale" xml:space="preserve">
+    <value>List item font scale</value>
   </data>
   <data name="HelpCommandList.Message" xml:space="preserve">
     <value>Commands to which no operation is assigned can be used by setting with "Edit commands".</value>
@@ -2001,8 +2589,20 @@ Is it OK?</value>
   <data name="HyperLinkErrorDialog.Title" xml:space="preserve">
     <value>Could not get link.</value>
   </data>
+  <data name="ImageCustomSizeConfig.ApplicabilityRate" xml:space="preserve">
+    <value>Applicability rate</value>
+  </data>
+  <data name="ImageCustomSizeConfig.AspectRatio" xml:space="preserve">
+    <value>Aspect ratio</value>
+  </data>
   <data name="ImageCustomSizeConfig.Height" xml:space="preserve">
     <value>Height</value>
+  </data>
+  <data name="ImageCustomSizeConfig.IsAlignLongSide" xml:space="preserve">
+    <value>Align long side</value>
+  </data>
+  <data name="ImageCustomSizeConfig.IsAlignLongSide.Remarks" xml:space="preserve">
+    <value>Swap the vertical and horizontal as needed.</value>
   </data>
   <data name="ImageCustomSizeConfig.IsEnabled" xml:space="preserve">
     <value>Enable custom image size</value>
@@ -2154,44 +2754,8 @@ Is it OK?</value>
   <data name="InconsistencyException.Message" xml:space="preserve">
     <value>Inconsistency of page data</value>
   </data>
-  <data name="xInformation.Archiver" xml:space="preserve">
-    <value>Archiver</value>
-  </data>
-  <data name="xInformation.Date" xml:space="preserve">
-    <value>File date</value>
-  </data>
   <data name="Information.DateFormat" xml:space="preserve">
     <value>yyyy-MM-dd dddd H:mm</value>
-  </data>
-  <data name="xInformation.DateTimeOriginal" xml:space="preserve">
-    <value>Date taken</value>
-  </data>
-  <data name="xInformation.Decoder" xml:space="preserve">
-    <value>Decoder</value>
-  </data>
-  <data name="xInformation.Device" xml:space="preserve">
-    <value>Device</value>
-  </data>
-  <data name="xInformation.FileName" xml:space="preserve">
-    <value>File</value>
-  </data>
-  <data name="xInformation.FilePath" xml:space="preserve">
-    <value>Path</value>
-  </data>
-  <data name="xInformation.FileSize" xml:space="preserve">
-    <value>File size</value>
-  </data>
-  <data name="xInformation.FolderPath" xml:space="preserve">
-    <value>Folder</value>
-  </data>
-  <data name="xInformation.ImageSize" xml:space="preserve">
-    <value>Image size</value>
-  </data>
-  <data name="xInformation.Info" xml:space="preserve">
-    <value>Shot</value>
-  </data>
-  <data name="xInformation.ISO" xml:space="preserve">
-    <value>ISO</value>
   </data>
   <data name="Information.Menu.Copy" xml:space="preserve">
     <value>_Copy</value>
@@ -2199,17 +2763,233 @@ Is it OK?</value>
   <data name="Information.OpenFolder" xml:space="preserve">
     <value>Open Folder</value>
   </data>
+  <data name="Information.OpenMap" xml:space="preserve">
+    <value>Open map</value>
+  </data>
   <data name="Information.Title" xml:space="preserve">
     <value>Information</value>
   </data>
-  <data name="xInformationConfig.IsVisibleBitsPerPixel" xml:space="preserve">
-    <value>Display the number of bits per pixel in image size</value>
+  <data name="InformationConfig.DateTimeFormat" xml:space="preserve">
+    <value>Date time format</value>
   </data>
-  <data name="xInformationConfig.IsVisibleFilePath" xml:space="preserve">
-    <value>Display the file path in the compressed file</value>
+  <data name="InformationConfig.DateTimeFormat.Remarks" xml:space="preserve">
+    <value>Specifies the .NET custom datetime format string.</value>
   </data>
-  <data name="xInformationConfig.IsVisibleLoader" xml:space="preserve">
-    <value>Display used archiver, image decoder name</value>
+  <data name="InformationConfig.IsVisibleAdvancedPhotoSection" xml:space="preserve">
+    <value>View advanced photo section</value>
+  </data>
+  <data name="InformationConfig.IsVisibleCameraSection" xml:space="preserve">
+    <value>View camera section</value>
+  </data>
+  <data name="InformationConfig.IsVisibleDescriptionSection" xml:space="preserve">
+    <value>View description section</value>
+  </data>
+  <data name="InformationConfig.IsVisibleFileSection" xml:space="preserve">
+    <value>View file section</value>
+  </data>
+  <data name="InformationConfig.IsVisibleGpsSection" xml:space="preserve">
+    <value>View GPS section</value>
+  </data>
+  <data name="InformationConfig.IsVisibleImageSection" xml:space="preserve">
+    <value>View image section</value>
+  </data>
+  <data name="InformationConfig.IsVisibleOriginSection" xml:space="preserve">
+    <value>View origin section</value>
+  </data>
+  <data name="InformationConfig.MapProgramFormat" xml:space="preserve">
+    <value>Map program</value>
+  </data>
+  <data name="InformationConfig.MapProgramFormat.Remarks" xml:space="preserve">
+    <value>$Lat: Latitude, $LatDeg: Latitude(DEG), $Lon: Longitude, $LonDeg: Longitude(DEG)</value>
+  </data>
+  <data name="InformationGroup.AdvancedPhoto" xml:space="preserve">
+    <value>Advanced photo</value>
+  </data>
+  <data name="InformationGroup.Camera" xml:space="preserve">
+    <value>Camera</value>
+  </data>
+  <data name="InformationGroup.Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="InformationGroup.File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="InformationGroup.Gps" xml:space="preserve">
+    <value>GPS</value>
+  </data>
+  <data name="InformationGroup.Image" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="InformationGroup.Origin" xml:space="preserve">
+    <value>Origin</value>
+  </data>
+  <data name="InformationKey.ApplicatoinName" xml:space="preserve">
+    <value>Applicatoin name</value>
+  </data>
+  <data name="InformationKey.ArchivePath" xml:space="preserve">
+    <value>Archive path</value>
+  </data>
+  <data name="InformationKey.Archiver" xml:space="preserve">
+    <value>Archiver</value>
+  </data>
+  <data name="InformationKey.Author" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="InformationKey.BitDepth" xml:space="preserve">
+    <value>Bit depth</value>
+  </data>
+  <data name="InformationKey.Brightness" xml:space="preserve">
+    <value>Brightness</value>
+  </data>
+  <data name="InformationKey.CameraMaker" xml:space="preserve">
+    <value>Camera maker</value>
+  </data>
+  <data name="InformationKey.CameraModel" xml:space="preserve">
+    <value>Camera model</value>
+  </data>
+  <data name="InformationKey.CameraSerialNumber" xml:space="preserve">
+    <value>Camera serial number</value>
+  </data>
+  <data name="InformationKey.Comments" xml:space="preserve">
+    <value>Comments</value>
+  </data>
+  <data name="InformationKey.Contrast" xml:space="preserve">
+    <value>Contrast</value>
+  </data>
+  <data name="InformationKey.Copyright" xml:space="preserve">
+    <value>Copyright</value>
+  </data>
+  <data name="InformationKey.CreationTime" xml:space="preserve">
+    <value>Creation time</value>
+  </data>
+  <data name="InformationKey.DateAcquired" xml:space="preserve">
+    <value>Date acquired</value>
+  </data>
+  <data name="InformationKey.DateTaken" xml:space="preserve">
+    <value>Date taken</value>
+  </data>
+  <data name="InformationKey.Decoder" xml:space="preserve">
+    <value>Decoder</value>
+  </data>
+  <data name="InformationKey.DigitalZoom" xml:space="preserve">
+    <value>Digital zoom</value>
+  </data>
+  <data name="InformationKey.Dimensions" xml:space="preserve">
+    <value>Dimensions</value>
+  </data>
+  <data name="InformationKey.EXIFVersion" xml:space="preserve">
+    <value>EXIF version</value>
+  </data>
+  <data name="InformationKey.ExposureBias" xml:space="preserve">
+    <value>Exposure bias</value>
+  </data>
+  <data name="InformationKey.ExposureProgram" xml:space="preserve">
+    <value>Exposure program</value>
+  </data>
+  <data name="InformationKey.ExposureTime" xml:space="preserve">
+    <value>Exposure time</value>
+  </data>
+  <data name="InformationKey.FileName" xml:space="preserve">
+    <value>File name</value>
+  </data>
+  <data name="InformationKey.FilePath" xml:space="preserve">
+    <value>File path</value>
+  </data>
+  <data name="InformationKey.FileSize" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="InformationKey.FlashEnergy" xml:space="preserve">
+    <value>Flash energy</value>
+  </data>
+  <data name="InformationKey.FlashMaker" xml:space="preserve">
+    <value>Flash maker</value>
+  </data>
+  <data name="InformationKey.FlashMode" xml:space="preserve">
+    <value>Flash mode</value>
+  </data>
+  <data name="InformationKey.FlashModel" xml:space="preserve">
+    <value>Flash model</value>
+  </data>
+  <data name="InformationKey.FNumber" xml:space="preserve">
+    <value>FNumber</value>
+  </data>
+  <data name="InformationKey.FocalLength" xml:space="preserve">
+    <value>Focal length</value>
+  </data>
+  <data name="InformationKey.FocalLengthIn35mmFilm" xml:space="preserve">
+    <value>Focal length in 35mm film</value>
+  </data>
+  <data name="InformationKey.GPSAltitude" xml:space="preserve">
+    <value>Altitude</value>
+  </data>
+  <data name="InformationKey.GPSLatitude" xml:space="preserve">
+    <value>Latitude</value>
+  </data>
+  <data name="InformationKey.GPSLongitude" xml:space="preserve">
+    <value>Longitude</value>
+  </data>
+  <data name="InformationKey.Height" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="InformationKey.HorizontalResolution" xml:space="preserve">
+    <value>Horizontal resolution</value>
+  </data>
+  <data name="InformationKey.ISOSpeed" xml:space="preserve">
+    <value>ISO speed</value>
+  </data>
+  <data name="InformationKey.LastWriteTime" xml:space="preserve">
+    <value>Last write time</value>
+  </data>
+  <data name="InformationKey.LensMaker" xml:space="preserve">
+    <value>Lens maker</value>
+  </data>
+  <data name="InformationKey.LensModel" xml:space="preserve">
+    <value>Lens model</value>
+  </data>
+  <data name="InformationKey.LightSource" xml:space="preserve">
+    <value>Light source</value>
+  </data>
+  <data name="InformationKey.MaxAperture" xml:space="preserve">
+    <value>Max aperture</value>
+  </data>
+  <data name="InformationKey.MeteringMode" xml:space="preserve">
+    <value>Metering mode</value>
+  </data>
+  <data name="InformationKey.Orientation" xml:space="preserve">
+    <value>Orientation</value>
+  </data>
+  <data name="InformationKey.PhotometricInterpretation" xml:space="preserve">
+    <value>Photometric interpretation</value>
+  </data>
+  <data name="InformationKey.Rating" xml:space="preserve">
+    <value>Rating</value>
+  </data>
+  <data name="InformationKey.Saturation" xml:space="preserve">
+    <value>Saturation</value>
+  </data>
+  <data name="InformationKey.Sharpness" xml:space="preserve">
+    <value>Sharpness</value>
+  </data>
+  <data name="InformationKey.Subject" xml:space="preserve">
+    <value>Subject</value>
+  </data>
+  <data name="InformationKey.SubjectDistance" xml:space="preserve">
+    <value>Subject distance</value>
+  </data>
+  <data name="InformationKey.Tags" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="InformationKey.Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="InformationKey.VerticalResolution" xml:space="preserve">
+    <value>Vertical resolution</value>
+  </data>
+  <data name="InformationKey.WhiteBalance" xml:space="preserve">
+    <value>White balance</value>
+  </data>
+  <data name="InformationKey.Width" xml:space="preserve">
+    <value>Width</value>
   </data>
   <data name="InformationPanelAccessor" xml:space="preserve">
     <value>Information panel accessor</value>
@@ -2367,6 +3147,12 @@ include("Sample.nvjs")</value>
   </data>
   <data name="LevelEffectUnit.White" xml:space="preserve">
     <value>White</value>
+  </data>
+  <data name="LineBreakStopMode.Line" xml:space="preserve">
+    <value>Line</value>
+  </data>
+  <data name="LineBreakStopMode.Page" xml:space="preserve">
+    <value>Page</value>
   </data>
   <data name="LoadAsCommand" xml:space="preserve">
     <value>Open file</value>
@@ -2618,6 +3404,12 @@ include("Sample.nvjs")</value>
   <data name="MouseConfig.GestureMinimumDistance.Remarks" xml:space="preserve">
     <value>By moving this distance, it is judged as a gesture stroke.</value>
   </data>
+  <data name="MouseConfig.HoverScrollDuration" xml:space="preserve">
+    <value>Hover scroll time (sec)</value>
+  </data>
+  <data name="MouseConfig.HoverScrollDuration.Remarks" xml:space="preserve">
+    <value>The longer the time, the smoother the scroll.</value>
+  </data>
   <data name="MouseConfig.IsCursorHideEnabled" xml:space="preserve">
     <value>Hide the cursor with no mouse operation</value>
   </data>
@@ -2632,6 +3424,9 @@ include("Sample.nvjs")</value>
   </data>
   <data name="MouseConfig.IsGestureEnabled" xml:space="preserve">
     <value>Use mouse gesture</value>
+  </data>
+  <data name="MouseConfig.IsHoverScroll" xml:space="preserve">
+    <value>Hover scroll mode</value>
   </data>
   <data name="MouseConfig.LongButtonDownMode" xml:space="preserve">
     <value>Long press mode</value>
@@ -2748,6 +3543,9 @@ A left click can be registered as the last gesture key.</value>
   <data name="Navigator.IsKeepScale" xml:space="preserve">
     <value>Keep scale</value>
   </data>
+  <data name="Navigator.MoreMenu.IsVisibleThumbnail" xml:space="preserve">
+    <value>Thumbnail</value>
+  </data>
   <data name="Navigator.RotateLeft" xml:space="preserve">
     <value>Rotate left</value>
   </data>
@@ -2786,6 +3584,9 @@ A left click can be registered as the last gesture key.</value>
   </data>
   <data name="Navigator.Title" xml:space="preserve">
     <value>Navigator</value>
+  </data>
+  <data name="NavigatorConfig.IsVisibleThumbnail" xml:space="preserve">
+    <value>Show thumbnail</value>
   </data>
   <data name="NavigatorPanelAccessor" xml:space="preserve">
     <value>Navigator panel accessor</value>
@@ -3041,6 +3842,15 @@ Reset the temporary location.</value>
   </data>
   <data name="NotZipException.Message" xml:space="preserve">
     <value>{0} is not a ZIP file</value>
+  </data>
+  <data name="NScrollType.Diagonal" xml:space="preserve">
+    <value>Diagonal scroll</value>
+  </data>
+  <data name="NScrollType.NType" xml:space="preserve">
+    <value>N-type scroll</value>
+  </data>
+  <data name="NScrollType.ZType" xml:space="preserve">
+    <value>Z-type scroll</value>
   </data>
   <data name="OpenApplicationErrorDialog.Title" xml:space="preserve">
     <value>External app execution failed</value>
@@ -3397,6 +4207,24 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="PageStretchMode.UniformToVertical" xml:space="preserve">
     <value>Fit height to window</value>
   </data>
+  <data name="PageTitleConfig.FontSize" xml:space="preserve">
+    <value>Font size of page title</value>
+  </data>
+  <data name="PageTitleConfig.IsEnabled" xml:space="preserve">
+    <value>Show page title</value>
+  </data>
+  <data name="PageTitleConfig.IsEnabled.Remarks" xml:space="preserve">
+    <value>Appears when the cursor is over a slider or filmstrip.</value>
+  </data>
+  <data name="PageTitleConfig.PageTitleFormat1" xml:space="preserve">
+    <value>For 1 page</value>
+  </data>
+  <data name="PageTitleConfig.PageTitleFormat2" xml:space="preserve">
+    <value>For 2 page</value>
+  </data>
+  <data name="PageTitleConfig.PageTitleFormatMedia" xml:space="preserve">
+    <value>For video</value>
+  </data>
   <data name="PageViewRecorderConfig.IsSavePageViewRecord" xml:space="preserve">
     <value>Save page view recods</value>
   </data>
@@ -3456,15 +4284,6 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   </data>
   <data name="PanelListItemStyle.Thumbnail" xml:space="preserve">
     <value>Thumbnail</value>
-  </data>
-  <data name="xPanelsConfig.FolderTreeFontSize" xml:space="preserve">
-    <value>Font size of folder tree</value>
-  </data>
-  <data name="xPanelsConfig.FontName" xml:space="preserve">
-    <value>List item font</value>
-  </data>
-  <data name="xPanelsConfig.FontSize" xml:space="preserve">
-    <value>Font size of list items</value>
   </data>
   <data name="PanelsConfig.IsDecoratePlace" xml:space="preserve">
     <value>Format path display of supplemental text</value>
@@ -3797,26 +4616,29 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="ScriptReference.Summary" xml:space="preserve">
     <value>This section explains how to use NeeView-specific commands.</value>
   </data>
+  <data name="ScrollPageCommandParameter.EndMargin" xml:space="preserve">
+    <value>Scroll end margin</value>
+  </data>
+  <data name="ScrollPageCommandParameter.EndMargin.Remarks" xml:space="preserve">
+    <value>If the scroll distance is less than this, line movement is prioritized.</value>
+  </data>
   <data name="ScrollPageCommandParameter.IsNScroll" xml:space="preserve">
     <value>N-type scroll</value>
   </data>
   <data name="ScrollPageCommandParameter.IsNScroll.Remarks" xml:space="preserve">
     <value>If vertically scrollable, scroll vertically as well. If you can scroll vertically and horizontally, scroll to draw N characters.</value>
   </data>
-  <data name="x.ScrollPageCommandParameter.MinScroll" xml:space="preserve">
-    <value>Minimum scrolling distance</value>
+  <data name="ScrollPageCommandParameter.LineBreakStopMode" xml:space="preserve">
+    <value>Line break stop mode</value>
+  </data>
+  <data name="ScrollPageCommandParameter.LineBreakStopMode.Remarks" xml:space="preserve">
+    <value>Line by line or page by page.</value>
   </data>
   <data name="ScrollPageCommandParameter.LineBreakStopTime" xml:space="preserve">
     <value>Line break stop (sec)</value>
   </data>
   <data name="ScrollPageCommandParameter.LineBreakStopTime.Remarks" xml:space="preserve">
     <value>This is the waiting time to prevent a line break immediately.</value>
-  </data>
-  <data name="ScrollPageCommandParameter.LineBreakStopMode" xml:space="preserve">
-    <value>Line break stop mode</value>
-  </data>
-  <data name="ScrollPageCommandParameter.LineBreakStopMode.Remarks" xml:space="preserve">
-    <value>Line by line or page by page.</value>
   </data>
   <data name="ScrollPageCommandParameter.Scroll" xml:space="preserve">
     <value>Amount of movement</value>
@@ -3827,11 +4649,8 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="ScrollPageCommandParameter.ScrollDuration" xml:space="preserve">
     <value>Scroll time (sec)</value>
   </data>
-  <data name="ScrollPageCommandParameter.EndMargin" xml:space="preserve">
-    <value>Scroll end margin</value>
-  </data>
-  <data name="ScrollPageCommandParameter.EndMargin.Remarks" xml:space="preserve">
-    <value>If the scroll distance is less than this, line movement is prioritized.</value>
+  <data name="ScrollPageCommandParameter.ScrollType" xml:space="preserve">
+    <value>Scroll type</value>
   </data>
   <data name="SetBackgroundAutoCommand" xml:space="preserve">
     <value>Image colored background</value>
@@ -4208,6 +5027,9 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="SettingPage.Filmstrip" xml:space="preserve">
     <value>Filmstrip</value>
   </data>
+  <data name="SettingPage.Fonts" xml:space="preserve">
+    <value>Fonts</value>
+  </data>
   <data name="SettingPage.General" xml:space="preserve">
     <value>General</value>
   </data>
@@ -4307,6 +5129,9 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="SettingPage.Manipurate.GeneralViewOperation" xml:space="preserve">
     <value>View operation</value>
   </data>
+  <data name="SettingPage.Manipurate.HoverScroll" xml:space="preserve">
+    <value>Hover scroll</value>
+  </data>
   <data name="SettingPage.Manipurate.Loupe" xml:space="preserve">
     <value>Loupe</value>
   </data>
@@ -4345,6 +5170,9 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   </data>
   <data name="SettingPage.Notify.Display" xml:space="preserve">
     <value>Notification display</value>
+  </data>
+  <data name="SettingPage.PageTitle" xml:space="preserve">
+    <value>Page title</value>
   </data>
   <data name="SettingPage.PanelItems" xml:space="preserve">
     <value>Panel list item</value>
@@ -4445,6 +5273,9 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="SettingPage.Window.Theme" xml:space="preserve">
     <value>Theme</value>
   </data>
+  <data name="SettingPage.Window.Theme.OpenCustomThemeFile" xml:space="preserve">
+    <value>Open custom theme file</value>
+  </data>
   <data name="SettingPage.WindowTitle" xml:space="preserve">
     <value>Window title</value>
   </data>
@@ -4465,9 +5296,6 @@ $Name is the main page (the smaller page number) when displaying 2 pages.</value
   </data>
   <data name="SettingPage.WindowTitle.Note.Title" xml:space="preserve">
     <value>Format Description</value>
-  </data>
-  <data name="SettingPage.PageTitle" xml:space="preserve">
-    <value>Page title</value>
   </data>
   <data name="SevenZipArchiveConfig.IsEnabled" xml:space="preserve">
     <value>Use compressed file expansion with 7-Zip</value>
@@ -4511,6 +5339,12 @@ $Name is the main page (the smaller page number) when displaying 2 pages.</value
   <data name="ShowMessageStyle.Tiny" xml:space="preserve">
     <value>Tiny</value>
   </data>
+  <data name="SliderConfig.Color" xml:space="preserve">
+    <value>Slider color</value>
+  </data>
+  <data name="SliderConfig.IsEnabled" xml:space="preserve">
+    <value>Show slider</value>
+  </data>
   <data name="SliderConfig.IsHidePageSlider" xml:space="preserve">
     <value>Hide slider automatically</value>
   </data>
@@ -4543,6 +5377,9 @@ $Name is the main page (the smaller page number) when displaying 2 pages.</value
   </data>
   <data name="SliderConfig.SliderIndexLayout" xml:space="preserve">
     <value>Page number display position</value>
+  </data>
+  <data name="SliderConfig.Thickness" xml:space="preserve">
+    <value>Slider thickness (pixel)</value>
   </data>
   <data name="SliderDirection.LeftToRight" xml:space="preserve">
     <value>Left to right</value>
@@ -4652,6 +5489,9 @@ $Name is the main page (the smaller page number) when displaying 2 pages.</value
   <data name="SusiePluginList.Up" xml:space="preserve">
     <value>Up</value>
   </data>
+  <data name="SusiePluginWindow.About" xml:space="preserve">
+    <value>About this plugin</value>
+  </data>
   <data name="SusiePluginWindow.IsCacheEnabled" xml:space="preserve">
     <value>Cache plugin</value>
   </data>
@@ -4754,11 +5594,35 @@ $Name is the main page (the smaller page number) when displaying 2 pages.</value
   <data name="SystemConfig.TemporaryDirectory.Remarks" xml:space="preserve">
     <value>It is used for pre-extraction and recursive compression files.</value>
   </data>
+  <data name="ThemeConfig.CustomThemeFilePath" xml:space="preserve">
+    <value>Custom theme file path</value>
+  </data>
   <data name="ThemeConfig.ThemeType" xml:space="preserve">
     <value>Theme type</value>
   </data>
-  <data name="ThemeConfig.CustomThemeFilePath" xml:space="preserve">
-    <value>Custom theme file path</value>
+  <data name="ThemeErrorDialog.Title" xml:space="preserve">
+    <value>Theme error</value>
+  </data>
+  <data name="ThemeType.Custom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="ThemeType.Dark" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="ThemeType.DarkMonochrome" xml:space="preserve">
+    <value>Dark monochrome</value>
+  </data>
+  <data name="ThemeType.HighContrast" xml:space="preserve">
+    <value>High contrast</value>
+  </data>
+  <data name="ThemeType.Light" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="ThemeType.LightMonochrome" xml:space="preserve">
+    <value>Light monochrome</value>
+  </data>
+  <data name="ThemeType.System" xml:space="preserve">
+    <value>Follow Windows settings</value>
   </data>
   <data name="ThumbnailConfig.CacheLimitSpan" xml:space="preserve">
     <value>Thumbnail cache retention period</value>
@@ -4972,6 +5836,21 @@ $Name is the main page (the smaller page number) when displaying 2 pages.</value
   </data>
   <data name="ToggleHideThumbnailListCommand.Remarks" xml:space="preserve">
     <value>Display the film strip only when using the slider.</value>
+  </data>
+  <data name="ToggleHoverScrollCommand" xml:space="preserve">
+    <value>Toggle hover scroll</value>
+  </data>
+  <data name="ToggleHoverScrollCommand.Menu" xml:space="preserve">
+    <value>Hover scroll</value>
+  </data>
+  <data name="ToggleHoverScrollCommand.Off" xml:space="preserve">
+    <value>Hover scroll OFF</value>
+  </data>
+  <data name="ToggleHoverScrollCommand.On" xml:space="preserve">
+    <value>Hover scroll</value>
+  </data>
+  <data name="ToggleHoverScrollCommand.Remarks" xml:space="preserve">
+    <value>Scrolls according to the position of the cursor.</value>
   </data>
   <data name="ToggleIsAutoRotateCommand" xml:space="preserve">
     <value>Toggle auto rotation</value>
@@ -5417,6 +6296,21 @@ $Name is the main page (the smaller page number) when displaying 2 pages.</value
   <data name="ToggleVisiblePagemarkListCommand.Remarks" xml:space="preserve">
     <value>Toggle vidible / hide of the pagemark panel.</value>
   </data>
+  <data name="ToggleVisiblePageSliderCommand" xml:space="preserve">
+    <value>Toggle slider</value>
+  </data>
+  <data name="ToggleVisiblePageSliderCommand.Menu" xml:space="preserve">
+    <value>Slider</value>
+  </data>
+  <data name="ToggleVisiblePageSliderCommand.Off" xml:space="preserve">
+    <value>Slider OFF</value>
+  </data>
+  <data name="ToggleVisiblePageSliderCommand.On" xml:space="preserve">
+    <value>Slider</value>
+  </data>
+  <data name="ToggleVisiblePageSliderCommand.Remarks" xml:space="preserve">
+    <value>Toggle visible / hide of the slider.</value>
+  </data>
   <data name="ToggleVisibleSideBarCommand" xml:space="preserve">
     <value>Toggle side bar</value>
   </data>
@@ -5446,36 +6340,6 @@ $Name is the main page (the smaller page number) when displaying 2 pages.</value
   </data>
   <data name="ToggleVisibleThumbnailListCommand.Remarks" xml:space="preserve">
     <value>Toggle visible / hide of the filmstrip.</value>
-  </data>
-  <data name="ToggleVisiblePageSliderCommand" xml:space="preserve">
-    <value>Toggle slider</value>
-  </data>
-  <data name="ToggleVisiblePageSliderCommand.Menu" xml:space="preserve">
-    <value>Slider</value>
-  </data>
-  <data name="ToggleVisiblePageSliderCommand.Off" xml:space="preserve">
-    <value>Slider OFF</value>
-  </data>
-  <data name="ToggleVisiblePageSliderCommand.On" xml:space="preserve">
-    <value>Slider</value>
-  </data>
-  <data name="ToggleVisiblePageSliderCommand.Remarks" xml:space="preserve">
-    <value>Toggle visible / hide of the slider.</value>
-  </data>
-  <data name="x.ToggleVisibleTitleBarCommand" xml:space="preserve">
-    <value>Toggle title bar</value>
-  </data>
-  <data name="x.ToggleVisibleTitleBarCommand.Menu" xml:space="preserve">
-    <value>Title bar</value>
-  </data>
-  <data name="x.ToggleVisibleTitleBarCommand.Off" xml:space="preserve">
-    <value>Title bar OFF</value>
-  </data>
-  <data name="x.ToggleVisibleTitleBarCommand.On" xml:space="preserve">
-    <value>Title bar</value>
-  </data>
-  <data name="x.ToggleVisibleTitleBarCommand.Remarks" xml:space="preserve">
-    <value>Toggle visible / hide of window title bar.</value>
   </data>
   <data name="ToggleWindowMaximizeCommand" xml:space="preserve">
     <value>Maximize window</value>
@@ -5666,6 +6530,9 @@ $Name is the main page (the smaller page number) when displaying 2 pages.</value
   <data name="ViewConfig.IsViewStartPositionCenter.Remarks" xml:space="preserve">
     <value>When turned off, the upper right and upper left reference switches depending on the read direction.</value>
   </data>
+  <data name="ViewConfig.MainViewMergin" xml:space="preserve">
+    <value>Main view margin (pixel)</value>
+  </data>
   <data name="ViewConfig.RotateCenter" xml:space="preserve">
     <value>Center of rotation</value>
   </data>
@@ -5793,8 +6660,11 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ViewScrollLeftCommand.Remarks" xml:space="preserve">
     <value>Roll the image to the left. If horizontal scrolling is not possible, vertical scrolling will occur.</value>
   </data>
-  <data name="x.ViewScrollNTypeCommandParameter.MinScroll" xml:space="preserve">
-    <value>Minimum scrolling distance</value>
+  <data name="ViewScrollNTypeCommandParameter.LineBreakStopTime" xml:space="preserve">
+    <value>Line break stop (sec)</value>
+  </data>
+  <data name="ViewScrollNTypeCommandParameter.LineBreakStopTime.Remarks" xml:space="preserve">
+    <value>This is the waiting time to prevent line breaks immediately.</value>
   </data>
   <data name="ViewScrollNTypeCommandParameter.Scroll" xml:space="preserve">
     <value>Amount of movement</value>
@@ -5804,6 +6674,9 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="ViewScrollNTypeCommandParameter.ScrollDuration" xml:space="preserve">
     <value>Scroll time (sec)</value>
+  </data>
+  <data name="ViewScrollNTypeCommandParameter.ScrollType" xml:space="preserve">
+    <value>Scroll type</value>
   </data>
   <data name="ViewScrollNTypeDownCommand" xml:space="preserve">
     <value>N-type scroll ↓</value>
@@ -5850,9 +6723,6 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="WindowConfig.IsCaptionEmulateInFullScreen.Remarks" xml:space="preserve">
     <value>Accepts double-click and drag operations in the title bar during full screen.</value>
   </data>
-  <data name="x.WindowConfig.IsCaptionVisible" xml:space="preserve">
-    <value>Show title bar</value>
-  </data>
   <data name="WindowConfig.IsRestoreAeroSnapPlacement" xml:space="preserve">
     <value>Restore Aero Snap window placement</value>
   </data>
@@ -5870,9 +6740,6 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="WindowConfig.State" xml:space="preserve">
     <value>Window state</value>
-  </data>
-  <data name="x.WindowConfig.WindowChromeFrame" xml:space="preserve">
-    <value>Window frame with title bar hidden</value>
   </data>
   <data name="WindowSettingTitle" xml:space="preserve">
     <value>Settings</value>
@@ -5892,9 +6759,6 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="WindowStateEx.Normal" xml:space="preserve">
     <value>Normal</value>
   </data>
-  <data name="x.WindowTitleConfig.IsMainViewDisplayEnabled" xml:space="preserve">
-    <value>When the title bar is not displayed, the window title is displayed in the display area</value>
-  </data>
   <data name="WindowTitleConfig.WindowTitleFormat1" xml:space="preserve">
     <value>For 1 page</value>
   </data>
@@ -5903,24 +6767,6 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="WindowTitleConfig.WindowTitleFormatMedia" xml:space="preserve">
     <value>For video</value>
-  </data>
-  <data name="PageTitleConfig.IsEnabled" xml:space="preserve">
-    <value>Show page title</value>
-  </data>
-  <data name="PageTitleConfig.IsEnabled.Remarks" xml:space="preserve">
-    <value>Appears when the cursor is over a slider or filmstrip.</value>
-  </data>
-  <data name="PageTitleConfig.PageTitleFormat1" xml:space="preserve">
-    <value>For 1 page</value>
-  </data>
-  <data name="PageTitleConfig.PageTitleFormat2" xml:space="preserve">
-    <value>For 2 page</value>
-  </data>
-  <data name="PageTitleConfig.PageTitleFormatMedia" xml:space="preserve">
-    <value>For video</value>
-  </data>
-  <data name="PageTitleConfig.FontSize" xml:space="preserve">
-    <value>Font size of page title</value>
   </data>
   <data name="Word.Add" xml:space="preserve">
     <value>Add</value>
@@ -6002,6 +6848,9 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="Word.EmbeddedImage" xml:space="preserve">
     <value>Embedded image</value>
+  </data>
+  <data name="Word.Error" xml:space="preserve">
+    <value>Error</value>
   </data>
   <data name="Word.Example" xml:space="preserve">
     <value>e.g.</value>
@@ -6162,9 +7011,6 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="Word.Reset" xml:space="preserve">
     <value>Reset</value>
   </data>
-  <data name="xWord.ResetLong" xml:space="preserve">
-    <value>Reset</value>
-  </data>
   <data name="Word.Restore" xml:space="preserve">
     <value>Restore</value>
   </data>
@@ -6239,963 +7085,5 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="ZipArchiveConfig.SupportFileTypes.Remarks" xml:space="preserve">
     <value>Only ZIP format is supported.</value>
-  </data>
-  <data name="ViewConfig.MainViewMergin" xml:space="preserve">
-    <value>Main view margin (pixel)</value>
-  </data>
-  <data name="SliderConfig.IsEnabled" xml:space="preserve">
-    <value>Show slider</value>
-  </data>
-  <data name="ToggleHoverScrollCommand" xml:space="preserve">
-    <value>Toggle hover scroll</value>
-  </data>
-  <data name="ToggleHoverScrollCommand.Menu" xml:space="preserve">
-    <value>Hover scroll</value>
-  </data>
-  <data name="ToggleHoverScrollCommand.Off" xml:space="preserve">
-    <value>Hover scroll OFF</value>
-  </data>
-  <data name="ToggleHoverScrollCommand.On" xml:space="preserve">
-    <value>Hover scroll</value>
-  </data>
-  <data name="ToggleHoverScrollCommand.Remarks" xml:space="preserve">
-    <value>Scrolls according to the position of the cursor.</value>
-  </data>
-  <data name="MouseConfig.HoverScrollDuration" xml:space="preserve">
-    <value>Hover scroll time (sec)</value>
-  </data>
-  <data name="MouseConfig.HoverScrollDuration.Remarks" xml:space="preserve">
-    <value>The longer the time, the smoother the scroll.</value>
-  </data>
-  <data name="SettingPage.Manipurate.HoverScroll" xml:space="preserve">
-    <value>Hover scroll</value>
-  </data>
-  <data name="Navigator.MoreMenu.IsVisibleThumbnail" xml:space="preserve">
-    <value>Thumbnail</value>
-  </data>
-  <data name="NavigatorConfig.IsVisibleThumbnail" xml:space="preserve">
-    <value>Show thumbnail</value>
-  </data>
-  <data name="MouseConfig.IsHoverScroll" xml:space="preserve">
-    <value>Hover scroll mode</value>
-  </data>
-  <data name="InformationKey.FileName" xml:space="preserve">
-    <value>File name</value>
-  </data>
-  <data name="InformationKey.ArchivePath" xml:space="preserve">
-    <value>Archive path</value>
-  </data>
-  <data name="InformationKey.CreationTime" xml:space="preserve">
-    <value>Creation time</value>
-  </data>
-  <data name="InformationKey.LastWriteTime" xml:space="preserve">
-    <value>Last write time</value>
-  </data>
-  <data name="InformationKey.FileSize" xml:space="preserve">
-    <value>Size</value>
-  </data>
-  <data name="InformationKey.FilePath" xml:space="preserve">
-    <value>File path</value>
-  </data>
-  <data name="InformationKey.Dimensions" xml:space="preserve">
-    <value>Dimensions</value>
-  </data>
-  <data name="InformationKey.Width" xml:space="preserve">
-    <value>Width</value>
-  </data>
-  <data name="InformationKey.Height" xml:space="preserve">
-    <value>Height</value>
-  </data>
-  <data name="InformationKey.HorizontalResolution" xml:space="preserve">
-    <value>Horizontal resolution</value>
-  </data>
-  <data name="InformationKey.VerticalResolution" xml:space="preserve">
-    <value>Vertical resolution</value>
-  </data>
-  <data name="InformationKey.BitDepth" xml:space="preserve">
-    <value>Bit depth</value>
-  </data>
-  <data name="InformationKey.Archiver" xml:space="preserve">
-    <value>Archiver</value>
-  </data>
-  <data name="InformationKey.Decoder" xml:space="preserve">
-    <value>Decoder</value>
-  </data>
-  <data name="InformationKey.Title" xml:space="preserve">
-    <value>Title</value>
-  </data>
-  <data name="InformationKey.Subject" xml:space="preserve">
-    <value>Subject</value>
-  </data>
-  <data name="InformationKey.Rating" xml:space="preserve">
-    <value>Rating</value>
-  </data>
-  <data name="InformationKey.Tags" xml:space="preserve">
-    <value>Tags</value>
-  </data>
-  <data name="InformationKey.Comments" xml:space="preserve">
-    <value>Comments</value>
-  </data>
-  <data name="InformationKey.Author" xml:space="preserve">
-    <value>Author</value>
-  </data>
-  <data name="InformationKey.DateTaken" xml:space="preserve">
-    <value>Date taken</value>
-  </data>
-  <data name="InformationKey.ApplicatoinName" xml:space="preserve">
-    <value>Applicatoin name</value>
-  </data>
-  <data name="InformationKey.DateAcquired" xml:space="preserve">
-    <value>Date acquired</value>
-  </data>
-  <data name="InformationKey.Copyright" xml:space="preserve">
-    <value>Copyright</value>
-  </data>
-  <data name="InformationKey.CameraMaker" xml:space="preserve">
-    <value>Camera maker</value>
-  </data>
-  <data name="InformationKey.CameraModel" xml:space="preserve">
-    <value>Camera model</value>
-  </data>
-  <data name="InformationKey.FNumber" xml:space="preserve">
-    <value>FNumber</value>
-  </data>
-  <data name="InformationKey.ExposureTime" xml:space="preserve">
-    <value>Exposure time</value>
-  </data>
-  <data name="InformationKey.ISOSpeed" xml:space="preserve">
-    <value>ISO speed</value>
-  </data>
-  <data name="InformationKey.ExposureBias" xml:space="preserve">
-    <value>Exposure bias</value>
-  </data>
-  <data name="InformationKey.FocalLength" xml:space="preserve">
-    <value>Focal length</value>
-  </data>
-  <data name="InformationKey.MaxAperture" xml:space="preserve">
-    <value>Max aperture</value>
-  </data>
-  <data name="InformationKey.MeteringMode" xml:space="preserve">
-    <value>Metering mode</value>
-  </data>
-  <data name="InformationKey.SubjectDistance" xml:space="preserve">
-    <value>Subject distance</value>
-  </data>
-  <data name="InformationKey.FlashMode" xml:space="preserve">
-    <value>Flash mode</value>
-  </data>
-  <data name="InformationKey.FlashEnergy" xml:space="preserve">
-    <value>Flash energy</value>
-  </data>
-  <data name="InformationKey.FocalLengthIn35mmFilm" xml:space="preserve">
-    <value>Focal length in 35mm film</value>
-  </data>
-  <data name="InformationKey.LensMaker" xml:space="preserve">
-    <value>Lens maker</value>
-  </data>
-  <data name="InformationKey.LensModel" xml:space="preserve">
-    <value>Lens model</value>
-  </data>
-  <data name="InformationKey.FlashMaker" xml:space="preserve">
-    <value>Flash maker</value>
-  </data>
-  <data name="InformationKey.FlashModel" xml:space="preserve">
-    <value>Flash model</value>
-  </data>
-  <data name="InformationKey.CameraSerialNumber" xml:space="preserve">
-    <value>Camera serial number</value>
-  </data>
-  <data name="InformationKey.Contrast" xml:space="preserve">
-    <value>Contrast</value>
-  </data>
-  <data name="InformationKey.Brightness" xml:space="preserve">
-    <value>Brightness</value>
-  </data>
-  <data name="InformationKey.LightSource" xml:space="preserve">
-    <value>Light source</value>
-  </data>
-  <data name="InformationKey.ExposureProgram" xml:space="preserve">
-    <value>Exposure program</value>
-  </data>
-  <data name="InformationKey.Saturation" xml:space="preserve">
-    <value>Saturation</value>
-  </data>
-  <data name="InformationKey.Sharpness" xml:space="preserve">
-    <value>Sharpness</value>
-  </data>
-  <data name="InformationKey.WhiteBalance" xml:space="preserve">
-    <value>White balance</value>
-  </data>
-  <data name="InformationKey.PhotometricInterpretation" xml:space="preserve">
-    <value>Photometric interpretation</value>
-  </data>
-  <data name="InformationKey.DigitalZoom" xml:space="preserve">
-    <value>Digital zoom</value>
-  </data>
-  <data name="InformationKey.EXIFVersion" xml:space="preserve">
-    <value>EXIF version</value>
-  </data>
-  <data name="InformationKey.GPSLatitude" xml:space="preserve">
-    <value>Latitude</value>
-  </data>
-  <data name="InformationKey.GPSLongitude" xml:space="preserve">
-    <value>Longitude</value>
-  </data>
-  <data name="InformationKey.GPSAltitude" xml:space="preserve">
-    <value>Altitude</value>
-  </data>
-  <data name="InformationKey.Orientation" xml:space="preserve">
-    <value>Orientation</value>
-  </data>
-  <data name="ExifContrast.Normal" xml:space="preserve">
-    <value>Normal</value>
-  </data>
-  <data name="ExifContrast.Soft" xml:space="preserve">
-    <value>Soft</value>
-  </data>
-  <data name="ExifContrast.Hard" xml:space="preserve">
-    <value>Hard</value>
-  </data>
-  <data name="ExifExposureProgram.NotDefined" xml:space="preserve">
-    <value>Not defined</value>
-  </data>
-  <data name="ExifExposureProgram.Manual" xml:space="preserve">
-    <value>Manual</value>
-  </data>
-  <data name="ExifExposureProgram.NormalProgram" xml:space="preserve">
-    <value>Normal program</value>
-  </data>
-  <data name="ExifExposureProgram.AperturePriority" xml:space="preserve">
-    <value>Aperture priority</value>
-  </data>
-  <data name="ExifExposureProgram.ShutterPriority" xml:space="preserve">
-    <value>Shutter priority</value>
-  </data>
-  <data name="ExifExposureProgram.CreativeProgram" xml:space="preserve">
-    <value>Creative program</value>
-  </data>
-  <data name="ExifExposureProgram.ActionProgram" xml:space="preserve">
-    <value>Action program</value>
-  </data>
-  <data name="ExifExposureProgram.PortraitMode" xml:space="preserve">
-    <value>Portrait mode</value>
-  </data>
-  <data name="ExifExposureProgram.LandscapeMode" xml:space="preserve">
-    <value>Landscape mode</value>
-  </data>
-  <data name="ExifFlashMode.FlashDidNotFire" xml:space="preserve">
-    <value>Flash did not fire</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired" xml:space="preserve">
-    <value>Flash fired</value>
-  </data>
-  <data name="ExifFlashMode.StrobeReturnLightNotDetected" xml:space="preserve">
-    <value>Strobe return light not detected</value>
-  </data>
-  <data name="ExifFlashMode.StrobeReturnLightDetected" xml:space="preserve">
-    <value>Strobe return light detected</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode" xml:space="preserve">
-    <value>Flash fired, compulsory flash mode</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_ReturnLightNotDetected" xml:space="preserve">
-    <value>Flash fired, compulsory flash mode, return light not detected</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_ReturnLightDetected" xml:space="preserve">
-    <value>Flash fired, compulsory flash mode, return light detected</value>
-  </data>
-  <data name="ExifFlashMode.FlashDidNotFire_CompulsoryFlashMode" xml:space="preserve">
-    <value>Flash did not fire, compulsory flash mode</value>
-  </data>
-  <data name="ExifFlashMode.FlashDidNotFire_AutoMode" xml:space="preserve">
-    <value>Flash did not fire, auto mode</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_AutoMode" xml:space="preserve">
-    <value>Flash fired, auto mode</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_AutoMode_ReturnLightNotDetected" xml:space="preserve">
-    <value>Flash fired, auto mode, return light not detected</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_AutoMode_ReturnLightDetected" xml:space="preserve">
-    <value>Flash fired, auto mode, return light detected</value>
-  </data>
-  <data name="ExifFlashMode.NoFlashFunction" xml:space="preserve">
-    <value>No flash function</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_RedEyeReductionMode" xml:space="preserve">
-    <value>Flash fired, red-eye reduction mode</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_RedEyeReductionMode_ReturnLightNotDetected" xml:space="preserve">
-    <value>Flash fired, red-eye reduction mode, return light not detected</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_RedEyeReductionMode_ReturnLightDetected" xml:space="preserve">
-    <value>Flash fired, red-eye reduction mode, return light detected</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_RedEyeReductionMode" xml:space="preserve">
-    <value>Flash fired, compulsory flash mode, red-eye reduction mode</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_RedEyeReductionMode_ReturnLightNotDetected" xml:space="preserve">
-    <value>Flash fired, compulsory flash mode, red-eye reduction mode, return light not detected</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_RedEyeReductionMode_ReturnLightDetected" xml:space="preserve">
-    <value>Flash fired, compulsory flash mode, red-eye reduction mode, return light detected</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_AutoMode_RedEyeReductionMode" xml:space="preserve">
-    <value>Flash fired, auto mode, red-eye reduction mode</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_AutoMode_ReturnLightNotDetected_RedEyeReductionMode" xml:space="preserve">
-    <value>Flash fired, auto mode, return light not detected, red-eye reduction mode</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_AutoMode_ReturnLightDetected_RedEyeReductionMode" xml:space="preserve">
-    <value>Flash fired, auto mode, return light detected, red-eye reduction mode</value>
-  </data>
-  <data name="ExifLightSource.Unknown" xml:space="preserve">
-    <value>Unknown</value>
-  </data>
-  <data name="ExifLightSource.Daylight" xml:space="preserve">
-    <value>Daylight</value>
-  </data>
-  <data name="ExifLightSource.Fluorescent" xml:space="preserve">
-    <value>Fluorescent</value>
-  </data>
-  <data name="ExifLightSource.Tungsten" xml:space="preserve">
-    <value>Tungsten</value>
-  </data>
-  <data name="ExifLightSource.Flash" xml:space="preserve">
-    <value>Flash</value>
-  </data>
-  <data name="ExifLightSource.FineWeather" xml:space="preserve">
-    <value>Fine weather</value>
-  </data>
-  <data name="ExifLightSource.CloudyWeather" xml:space="preserve">
-    <value>Cloudy weather</value>
-  </data>
-  <data name="ExifLightSource.Shade" xml:space="preserve">
-    <value>Shade</value>
-  </data>
-  <data name="ExifLightSource.DaylightFluorescent" xml:space="preserve">
-    <value>Daylight fluorescent</value>
-  </data>
-  <data name="ExifLightSource.DayWhiteFluorescent" xml:space="preserve">
-    <value>Day white fluorescent</value>
-  </data>
-  <data name="ExifLightSource.CoolWhiteFluorescent" xml:space="preserve">
-    <value>Cool white fluorescent</value>
-  </data>
-  <data name="ExifLightSource.WhiteFluorescent" xml:space="preserve">
-    <value>White fluorescent</value>
-  </data>
-  <data name="ExifLightSource.StandardLightA" xml:space="preserve">
-    <value>Standard light A</value>
-  </data>
-  <data name="ExifLightSource.StandardLightB" xml:space="preserve">
-    <value>Standard light B</value>
-  </data>
-  <data name="ExifLightSource.StandardLightC" xml:space="preserve">
-    <value>Standard light C</value>
-  </data>
-  <data name="ExifLightSource.D55" xml:space="preserve">
-    <value>D55</value>
-  </data>
-  <data name="ExifLightSource.D65" xml:space="preserve">
-    <value>D65</value>
-  </data>
-  <data name="ExifLightSource.D75" xml:space="preserve">
-    <value>D75</value>
-  </data>
-  <data name="ExifLightSource.D50" xml:space="preserve">
-    <value>D50</value>
-  </data>
-  <data name="ExifLightSource.ISOStudioTungsten" xml:space="preserve">
-    <value>ISO studio tungsten</value>
-  </data>
-  <data name="ExifLightSource.OtherLightSource" xml:space="preserve">
-    <value>Other light source</value>
-  </data>
-  <data name="ExifMeteringMode.Unknown" xml:space="preserve">
-    <value>Unknown</value>
-  </data>
-  <data name="ExifMeteringMode.Average" xml:space="preserve">
-    <value>Average</value>
-  </data>
-  <data name="ExifMeteringMode.CenterWeightedAverage" xml:space="preserve">
-    <value>Center weighted average</value>
-  </data>
-  <data name="ExifMeteringMode.Spot" xml:space="preserve">
-    <value>Spot</value>
-  </data>
-  <data name="ExifMeteringMode.MultiSpot" xml:space="preserve">
-    <value>Multi spot</value>
-  </data>
-  <data name="ExifMeteringMode.Pattern" xml:space="preserve">
-    <value>Pattern</value>
-  </data>
-  <data name="ExifMeteringMode.Partial" xml:space="preserve">
-    <value>Partial</value>
-  </data>
-  <data name="ExifMeteringMode.Other" xml:space="preserve">
-    <value>Other</value>
-  </data>
-  <data name="ExifPhotometricInterpretation.WhiteIsZero" xml:space="preserve">
-    <value>White is zero</value>
-  </data>
-  <data name="ExifPhotometricInterpretation.BlackIsZero" xml:space="preserve">
-    <value>Black is zero</value>
-  </data>
-  <data name="ExifPhotometricInterpretation.RGB" xml:space="preserve">
-    <value>RGB</value>
-  </data>
-  <data name="ExifPhotometricInterpretation.PaletteColor" xml:space="preserve">
-    <value>Palette color</value>
-  </data>
-  <data name="ExifPhotometricInterpretation.TransparencyMask" xml:space="preserve">
-    <value>Transparency mask</value>
-  </data>
-  <data name="ExifPhotometricInterpretation.CMYK" xml:space="preserve">
-    <value>CMYK</value>
-  </data>
-  <data name="ExifPhotometricInterpretation.YCbCr" xml:space="preserve">
-    <value>YCbCr</value>
-  </data>
-  <data name="ExifPhotometricInterpretation.CIELab" xml:space="preserve">
-    <value>CIE L*a*b*</value>
-  </data>
-  <data name="ExifPhotometricInterpretation.ICCLab" xml:space="preserve">
-    <value>ICC L*a*b*</value>
-  </data>
-  <data name="ExifPhotometricInterpretation.ITULab" xml:space="preserve">
-    <value>ITU L*a*b*</value>
-  </data>
-  <data name="ExifPhotometricInterpretation.CFA" xml:space="preserve">
-    <value>CFA</value>
-  </data>
-  <data name="ExifPhotometricInterpretation.PixarLogL" xml:space="preserve">
-    <value>Pixar LogL</value>
-  </data>
-  <data name="ExifPhotometricInterpretation.LogLuv" xml:space="preserve">
-    <value>LogLuv</value>
-  </data>
-  <data name="ExifPhotometricInterpretation.LinearRaw" xml:space="preserve">
-    <value>Linear raw</value>
-  </data>
-  <data name="ExifSaturation.Normal" xml:space="preserve">
-    <value>Normal</value>
-  </data>
-  <data name="ExifSaturation.LowSaturation" xml:space="preserve">
-    <value>LowSaturation</value>
-  </data>
-  <data name="ExifSaturation.HighSaturation" xml:space="preserve">
-    <value>HighSaturation</value>
-  </data>
-  <data name="ExifSharpness.Normal" xml:space="preserve">
-    <value>Normal</value>
-  </data>
-  <data name="ExifSharpness.Soft" xml:space="preserve">
-    <value>Soft</value>
-  </data>
-  <data name="ExifSharpness.Hard" xml:space="preserve">
-    <value>Hard</value>
-  </data>
-  <data name="ExifWhiteBalance.AutoWhiteBalance" xml:space="preserve">
-    <value>Auto</value>
-  </data>
-  <data name="ExifWhiteBalance.ManualWhiteBalance" xml:space="preserve">
-    <value>Manual</value>
-  </data>
-  <data name="xInformation.File" xml:space="preserve">
-    <value>File</value>
-  </data>
-  <data name="xInformation.Image" xml:space="preserve">
-    <value>Image</value>
-  </data>
-  <data name="xInformation.Description" xml:space="preserve">
-    <value>Description</value>
-  </data>
-  <data name="xInformation.Origin" xml:space="preserve">
-    <value>Origin</value>
-  </data>
-  <data name="xInformation.Camera" xml:space="preserve">
-    <value>Camera</value>
-  </data>
-  <data name="xInformation.AdvancedPhoto" xml:space="preserve">
-    <value>Advanced photo</value>
-  </data>
-  <data name="xInformation.Gps" xml:space="preserve">
-    <value>GPS</value>
-  </data>
-  <data name="Information.OpenMap" xml:space="preserve">
-    <value>Open map</value>
-  </data>
-  <data name="InformationConfig.DateTimeFormat" xml:space="preserve">
-    <value>Date time format</value>
-  </data>
-  <data name="InformationConfig.DateTimeFormat.Remarks" xml:space="preserve">
-    <value>Specifies the .NET custom datetime format string.</value>
-  </data>
-  <data name="InformationConfig.MapProgramFormat" xml:space="preserve">
-    <value>Map program</value>
-  </data>
-  <data name="InformationConfig.MapProgramFormat.Remarks" xml:space="preserve">
-    <value>$Lat: Latitude, $LatDeg: Latitude(DEG), $Lon: Longitude, $LonDeg: Longitude(DEG)</value>
-  </data>
-  <data name="InformationConfig.IsVisibleFileSection" xml:space="preserve">
-    <value>View file section</value>
-  </data>
-  <data name="InformationConfig.IsVisibleImageSection" xml:space="preserve">
-    <value>View image section</value>
-  </data>
-  <data name="InformationConfig.IsVisibleDescriptionSection" xml:space="preserve">
-    <value>View description section</value>
-  </data>
-  <data name="InformationConfig.IsVisibleOriginSection" xml:space="preserve">
-    <value>View origin section</value>
-  </data>
-  <data name="InformationConfig.IsVisibleCameraSection" xml:space="preserve">
-    <value>View camera section</value>
-  </data>
-  <data name="InformationConfig.IsVisibleAdvancedPhotoSection" xml:space="preserve">
-    <value>View advanced photo section</value>
-  </data>
-  <data name="InformationConfig.IsVisibleGpsSection" xml:space="preserve">
-    <value>View GPS section</value>
-  </data>
-  <data name="ExifOrientation.Normal" xml:space="preserve">
-    <value>Normal</value>
-  </data>
-  <data name="ExifOrientation.MirrorHorizontal" xml:space="preserve">
-    <value>Mirror horizontal</value>
-  </data>
-  <data name="ExifOrientation.Rotate180" xml:space="preserve">
-    <value>Rotate180</value>
-  </data>
-  <data name="ExifOrientation.MirrorVertical" xml:space="preserve">
-    <value>Mirror vertical</value>
-  </data>
-  <data name="ExifOrientation.MirrorHorizontal_Rotate270" xml:space="preserve">
-    <value>Mirror horizontal, rotate270</value>
-  </data>
-  <data name="ExifOrientation.Rotate90" xml:space="preserve">
-    <value>Rotate90</value>
-  </data>
-  <data name="ExifOrientation.MirrorHorizontal_Rotate90" xml:space="preserve">
-    <value>Mirror horizontal, rotate90</value>
-  </data>
-  <data name="ExifOrientation.Rotate270" xml:space="preserve">
-    <value>Rotate270</value>
-  </data>
-  <data name="ExternalProcess.ConfirmBrowserDialog.Title" xml:space="preserve">
-    <value>Open a web browser. Is it OK?</value>
-  </data>
-  <data name="ExternalProcess.ConfirmBrowserDialog.Message" xml:space="preserve">
-    <value>Connect to the net with a web browser.</value>
-  </data>
-  <data name="Word.Error" xml:space="preserve">
-    <value>Error</value>
-  </data>
-  <data name="InformationGroup.File" xml:space="preserve">
-    <value>File</value>
-  </data>
-  <data name="InformationGroup.Image" xml:space="preserve">
-    <value>Image</value>
-  </data>
-  <data name="InformationGroup.Description" xml:space="preserve">
-    <value>Description</value>
-  </data>
-  <data name="InformationGroup.Origin" xml:space="preserve">
-    <value>Origin</value>
-  </data>
-  <data name="InformationGroup.Camera" xml:space="preserve">
-    <value>Camera</value>
-  </data>
-  <data name="InformationGroup.AdvancedPhoto" xml:space="preserve">
-    <value>Advanced photo</value>
-  </data>
-  <data name="InformationGroup.Gps" xml:space="preserve">
-    <value>GPS</value>
-  </data>
-  <data name="SliderConfig.Thickness" xml:space="preserve">
-    <value>Slider thickness (pixel)</value>
-  </data>
-  <data name="SliderConfig.Color" xml:space="preserve">
-    <value>Slider color</value>
-  </data>
-  <data name="ImageCustomSizeConfig.AspectRatio" xml:space="preserve">
-    <value>Aspect ratio</value>
-  </data>
-  <data name="ImageCustomSizeConfig.ApplicabilityRate" xml:space="preserve">
-    <value>Applicability rate</value>
-  </data>
-  <data name="ImageCustomSizeConfig.IsAlignLongSide" xml:space="preserve">
-    <value>Align long side</value>
-  </data>
-  <data name="ImageCustomSizeConfig.IsAlignLongSide.Remarks" xml:space="preserve">
-    <value>Swap the vertical and horizontal as needed.</value>
-  </data>
-  <data name="CustomSizeAspectRatio.None" xml:space="preserve">
-    <value>Free</value>
-  </data>
-  <data name="CustomSizeAspectRatio.Origin" xml:space="preserve">
-    <value>Keep the original aspect ratio</value>
-  </data>
-  <data name="CustomSizeAspectRatio.Ratio_1_1" xml:space="preserve">
-    <value>1:1</value>
-  </data>
-  <data name="CustomSizeAspectRatio.Ratio_2_3" xml:space="preserve">
-    <value>2:3</value>
-  </data>
-  <data name="CustomSizeAspectRatio.Ratio_4_3" xml:space="preserve">
-    <value>4:3</value>
-  </data>
-  <data name="CustomSizeAspectRatio.Ratio_8_9" xml:space="preserve">
-    <value>8:9</value>
-  </data>
-  <data name="CustomSizeAspectRatio.Ratio_16_9" xml:space="preserve">
-    <value>16:9</value>
-  </data>
-  <data name="CustomSizeAspectRatio.HalfView" xml:space="preserve">
-    <value>Half view aspect ratio</value>
-  </data>
-  <data name="CustomSizeAspectRatio.View" xml:space="preserve">
-    <value>View aspect ratio</value>
-  </data>
-  <data name="ViewScrollNTypeCommandParameter.LineBreakStopTime" xml:space="preserve">
-    <value>Line break stop (sec)</value>
-  </data>
-  <data name="ViewScrollNTypeCommandParameter.LineBreakStopTime.Remarks" xml:space="preserve">
-    <value>This is the waiting time to prevent line breaks immediately.</value>
-  </data>
-  <data name="LineBreakStopMode.Line" xml:space="preserve">
-    <value>Line</value>
-  </data>
-  <data name="LineBreakStopMode.Page" xml:space="preserve">
-    <value>Page</value>
-  </data>
-  <data name="NScrollType.NType" xml:space="preserve">
-    <value>N-type scroll</value>
-  </data>
-  <data name="NScrollType.ZType" xml:space="preserve">
-    <value>Z-type scroll</value>
-  </data>
-  <data name="NScrollType.Diagonal" xml:space="preserve">
-    <value>Diagonal scroll</value>
-  </data>
-  <data name="ViewScrollNTypeCommandParameter.ScrollType" xml:space="preserve">
-    <value>Scroll type</value>
-  </data>
-  <data name="ScrollPageCommandParameter.ScrollType" xml:space="preserve">
-    <value>Scroll type</value>
-  </data>
-  <data name="AutoHideConfrictMode.Allow" xml:space="preserve">
-    <value>Allow</value>
-  </data>
-  <data name="AutoHideConfrictMode.AllowPixel" xml:space="preserve">
-    <value>Allow one pixel</value>
-  </data>
-  <data name="AutoHideConfrictMode.Deny" xml:space="preserve">
-    <value>Deny</value>
-  </data>
-  <data name="SettingPage.Fonts" xml:space="preserve">
-    <value>Fonts</value>
-  </data>
-  <data name="FontsConfig.FontName" xml:space="preserve">
-    <value>Font</value>
-  </data>
-  <data name="FontsConfig.FontScale" xml:space="preserve">
-    <value>Font scale</value>
-  </data>
-  <data name="FontsConfig.FolderTreeFontScale" xml:space="preserve">
-    <value>Folder tree font scale</value>
-  </data>
-  <data name="FontsConfig.MenuFontScale" xml:space="preserve">
-    <value>Menu font scale</value>
-  </data>
-  <data name="FontsConfig.IsClearTypeEnabled" xml:space="preserve">
-    <value>Enable ClearType</value>
-  </data>
-  <data name="FontsConfig.PanelFontScale" xml:space="preserve">
-    <value>List item font scale</value>
-  </data>
-  <data name="ThemeType.Dark" xml:space="preserve">
-    <value>Dark</value>
-  </data>
-  <data name="ThemeType.Light" xml:space="preserve">
-    <value>Light</value>
-  </data>
-  <data name="ThemeType.DarkMonochrome" xml:space="preserve">
-    <value>Dark monochrome</value>
-  </data>
-  <data name="ThemeType.LightMonochrome" xml:space="preserve">
-    <value>Light monochrome</value>
-  </data>
-  <data name="ThemeType.HighContrast" xml:space="preserve">
-    <value>High contrast</value>
-  </data>
-  <data name="ThemeType.Custom" xml:space="preserve">
-    <value>Custom</value>
-  </data>
-  <data name="ThemeType.System" xml:space="preserve">
-    <value>Follow Windows settings</value>
-  </data>
-  <data name="ThemeErrorDialog.Title" xml:space="preserve">
-    <value>Theme error</value>
-  </data>
-  <data name="SettingPage.Window.Theme.OpenCustomThemeFile" xml:space="preserve">
-    <value>Open custom theme file</value>
-  </data>
-  <data name="SusiePluginWindow.About" xml:space="preserve">
-    <value>About this plugin</value>
-  </data>
-  <data name="_Document.ScriptManual.html" xml:space="preserve">
-    <value>&lt;h1&gt;NeeView Script Manual&lt;/h1&gt;
-
-&lt;h2&gt; Overview &lt;/h2&gt;
-&lt;p&gt;
-    Extend the command with a script. You can change the settings, execute multiple commands at once, or execute them as separate commands with changed command parameters.
-&lt;/p&gt;
-&lt;p&gt;
-    Scripting is disabled by default. Set and enable on the Scripts page of Options.
-
-    &lt;ul&gt;
-        &lt;li&gt;The script grammar is Javascript (ECMA 5.1).&lt;/li&gt;
-        &lt;li&gt;&lt;a href="https://github.com/sebastienros/jint"&gt;Jint&lt;/a&gt; is used for the script engine.&lt;/li&gt;
-        &lt;li&gt;The file extension is .nvjs.&lt;/li&gt;
-        &lt;li&gt;The character code is UTF8. No BOM is recommended.&lt;/li&gt;
-    &lt;/ul&gt;
-&lt;/p&gt;
-&lt;p&gt;
-    You can qualify the command with the doc comments at the top of the file. The keys are not case sensitive.
-
-    &lt;table class="table-slim table-topless"&gt;
-        &lt;tr&gt;&lt;th&gt;Key&lt;/th&gt;&lt;th&gt;Summary&lt;/th&gt;&lt;/tr&gt;
-        &lt;tr&gt;&lt;td&gt;@name&lt;/td&gt;&lt;td&gt;Command name&lt;/td&gt;&lt;/tr&gt;
-        &lt;tr&gt;&lt;td&gt;@description&lt;/td&gt;&lt;td&gt;Command description&lt;/td&gt;&lt;/tr&gt;
-        &lt;tr&gt;&lt;td&gt;@shortCutKey&lt;/td&gt;&lt;td&gt;Default shotcuts&lt;/td&gt;&lt;/tr&gt;
-        &lt;tr&gt;&lt;td&gt;@mouseGesture&lt;/td&gt;&lt;td&gt;Default mouse gestures&lt;/td&gt;&lt;/tr&gt;
-        &lt;tr&gt;&lt;td&gt;@touchGesture&lt;/td&gt;&lt;td&gt;Default touch operation&lt;/td&gt;&lt;/tr&gt;
-    &lt;/table&gt;
-&lt;/p&gt;
-
-
-&lt;h2&gt;Command script&lt;/h2&gt;
-&lt;p&gt;
-    If the script file is placed in the script folder, it can be used as a command. One file is one command.
-
-    &lt;ul&gt;
-        &lt;li&gt;Shortcuts can be set in the "Command settings" of the Options like normal commands. &lt;/li&gt;
-        &lt;li&gt;The file name becomes the command name.&lt;/li&gt;
-    &lt;/ul&gt;
-&lt;/p&gt;
-
-&lt;h2&gt;Event script&lt;/h2&gt;
-&lt;p&gt;
-    A specially named script file will be executed automatically.
-
-    &lt;table class="table-slim"&gt;
-        &lt;tr&gt;&lt;td&gt;OnBookLoaded.nvjs&lt;/td&gt;&lt;td&gt;Runs when you open the book.&lt;/td&gt;&lt;/tr&gt;
-    &lt;/table&gt;
-&lt;/p&gt;
-
-&lt;h2&gt;Console&lt;/h2&gt;
-&lt;p&gt;
-    A console for testing scripts. To open it, select "Options &gt; Open console" from the menu.
-&lt;/p&gt;
-&lt;h4&gt;Console-only command&lt;/h4&gt;
-&lt;p&gt;
-    &lt;table class="table-slim"&gt;
-        &lt;tr&gt;&lt;td&gt;cls&lt;/td&gt;&lt;td&gt;Clear screen (Ctrl+L)&lt;/td&gt;&lt;/tr&gt;
-        &lt;tr&gt;&lt;td&gt;exit&lt;/td&gt;&lt;td&gt;Close console&lt;/td&gt;&lt;/tr&gt;
-        &lt;tr&gt;&lt;td&gt;help, ?&lt;/td&gt;&lt;td&gt;Open this script help&lt;/td&gt;&lt;/tr&gt;
-    &lt;/table&gt;
-&lt;/p&gt;
-</value>
-  </data>
-  <data name="_Document.ScriptManualExample.html" xml:space="preserve">
-    <value>&lt;h1 class="sub"&gt;Script examples&lt;/h1&gt;
-
-Here are some example scripts.
-For other samples, refer to &lt;a href="https://bitbucket.org/neelabo/neeview.scriptsamples/"&gt;here&lt;/a&gt;.
-
-&lt;h3&gt;Execute "External app" command by temporarily changing the executable file and arguments&lt;/h3&gt;
-&lt;p&gt;
-&lt;pre&gt;OpenMsPaint.nvjs
-&lt;code class="example"&gt;// @name MS Paint
-// @description Open the file with MS Paint.
-
-param = {
-    "Command": "mspaint.exe",
-    "Parameter": "\"$File\""
-}
-nv.Command.OpenExternalApp.Patch(param).Execute()
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/p&gt;
-
-
-&lt;h3&gt;Open display page in new NeeView&lt;/h3&gt;
-&lt;p&gt;
-&lt;pre&gt;OpenNeeView.nvjs
-&lt;code class="example"&gt;// @name Open in NeeView
-// @description Opens the display page in a new NeeView.
-
-nv.Command.SaveSetting.Execute() // Save to keep the same settings
-
-param = {
-    "Command": "$NeeView", // Special way to show NeeView's own path
-    "Parameter": "-n \"$File\"",
-    "MultiPagePolicy": "Once",
-    "ArchivePolicy": "SendArchivePath"
-}
-nv.Command.OpenExternalApp.Patch(param).Execute()
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/p&gt;
-
-
-&lt;h3&gt;ON / OFF of unsharp mask&lt;/h3&gt;
-&lt;p&gt;
-&lt;pre&gt;ToggleUnsharpMask.nvjs
-&lt;code class="example"&gt;// @name Unsharp mask ON/OFF
-// @description Switching of unsharp mask. Show warning when resize filter is not enabled
-
-if (nv.Config.ImageResizeFilter.IsEnabled) {
-    nv.Config.ImageResizeFilter.IsUnsharpMaskEnabled = !nv.Config.ImageResizeFilter.IsUnsharpMaskEnabled
-    if (nv.Config.ImageResizeFilter.IsUnsharpMaskEnabled) {
-        nv.ShowMessage("UnsharpMask ON")
-    }
-    else {
-        nv.ShowMessage("UnsharpMask OFF")
-    }
-}
-else {
-    nv.ShowMessage("ResizeFilter is not active")
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/p&gt;
-
-
-&lt;h3&gt;If the path of the newly opened book contains "English", open it to the left, otherwise open it to the right&lt;/h3&gt;
-&lt;p&gt;
-&lt;pre&gt;OnBookLoaded.nvjs
-&lt;code class="example"&gt;// @name Book loaded processing
-// @description Event when the book is opened
-
-if (nv.Book.IsNew) {
-  if (nv.Book.Path.match(/English/) != null) {
-    nv.Book.Config.BookReadOrder = "LeftToRight"
-  }
-  else {
-    nv.Book.Config.BookReadOrder = "RightToLeft"
-  }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/p&gt;
-
-&lt;h3&gt;Change the operation method when a video file is opened&lt;/h3&gt;
-&lt;p&gt;
-&lt;pre&gt;OnBookLoaded.nvjs
-&lt;code class="example"&gt;// @name Book loaded processing
-// @description Event when the book is opened
-
-if (nv.Book.IsMedia) {
-  // Video: Click to play / stop, double-click to switch full screen
-  nv.Command.ToggleMediaPlay.ShortCutKey = "LeftClick"
-  nv.Command.Script_ToggleFullScreenAndMediaPlay.ShortCutKey = "LeftDoubleClick"
-  nv.Command.NextPage.ShortCutKey = "Left"
-}
-else {
-  // Normal: Standard setting
-  nv.Command.ToggleMediaPlay.ShortCutKey = null
-  nv.Command.Script_ToggleFullScreenAndMediaPlay.ShortCutKey = null
-  nv.Command.NextPage.ShortCutKey = "Left,LeftClick"
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/p&gt;
-
-&lt;p&gt;
-&lt;pre&gt;ToggleFullScreenAndMediaPlay.nvjs
-&lt;code class="example"&gt;// @name Full screen &amp; video playback
-// @description Switch full screen and video playback at the same time
-
-nv.Command.ToggleFullScreen.Execute()
-nv.Command.ToggleMediaPlay.Execute()
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/p&gt;
-</value>
-  </data>
-  <data name="_Document.SearchOptions.html" xml:space="preserve">
-    <value>&lt;h1&gt;NeeView search options&lt;/h1&gt;
-
-&lt;h2&gt;Search options&lt;/h2&gt;
-&lt;p&gt;
-    If no search option is specified, it becomes AND-Standard search (same as specifying "/and /m2").&lt;br/&gt; 
-    Search options affect only the immediately following search words.
-&lt;/p&gt;
-
-&lt;h3&gt;Connection options&lt;/h3&gt;
-&lt;table class="table-slim table-topless"&gt;
-    &lt;tr&gt;&lt;th&gt;Option&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;/tr&gt;
-    &lt;tr&gt;&lt;td&gt;/and&lt;/td&gt;&lt;td&gt;AND search (default)&lt;/td&gt;&lt;/tr&gt;
-    &lt;tr&gt;&lt;td&gt;/or&lt;/td&gt;&lt;td&gt;OR search&lt;/td&gt;&lt;/tr&gt;
-    &lt;tr&gt;&lt;td&gt;/not&lt;/td&gt;&lt;td&gt;NOT search&lt;/td&gt;&lt;/tr&gt;
-&lt;/table&gt;
-
-&lt;h3&gt;Match options&lt;/h3&gt;
-&lt;table class="table-slim table-topless"&gt;
-    &lt;tr&gt;&lt;th&gt;Option&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;th&gt;Supplement&lt;/th&gt;&lt;/tr&gt;
-    &lt;tr&gt;&lt;td&gt;/m0, /exact&lt;/td&gt;&lt;td&gt;ExactMatch&lt;/td&gt;&lt;td&gt;"Same as enclosing with double quotes"&lt;/td&gt;&lt;/tr&gt;
-    &lt;tr&gt;&lt;td&gt;/m1, /word&lt;/td&gt;&lt;td&gt;WordMatch&lt;/td&gt;&lt;td&gt;Since we identify words by kind of letters, accuracy is not very good.&lt;/td&gt;&lt;/tr&gt;
-    &lt;tr&gt;&lt;td&gt;/m2&lt;/td&gt;&lt;td&gt;Standard (default)&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
-    &lt;tr&gt;&lt;td&gt;/re&lt;/td&gt;&lt;td&gt;RegularExpression&lt;/td&gt;&lt;td&gt;&lt;a href="https://docs.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-language-quick-reference"&gt;.NE Regular Expression&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
-    &lt;tr&gt;&lt;td&gt;/ire&lt;/td&gt;&lt;td&gt;RegularExpression / IgnoreCase&lt;/td&gt;&lt;td&gt;Perform regular expression search without case sensitivity.&lt;/td&gt;&lt;/tr&gt;
-    &lt;tr&gt;&lt;td&gt;/since&lt;/td&gt;&lt;td&gt;DateTime / Since&lt;/td&gt;&lt;td&gt;After specified date&lt;/td&gt;&lt;/tr&gt;
-    &lt;tr&gt;&lt;td&gt;/until&lt;/td&gt;&lt;td&gt;DateTime / Until&lt;/td&gt;&lt;td&gt;Before specified date&lt;/td&gt;&lt;/tr&gt;
-&lt;/table&gt;
-
-&lt;p&gt;
-    In case of Standard search or WordMatch search, it becomes ambiguous search as follows.
-    
-    &lt;ul&gt;
-        &lt;li&gt;Halfwidth and double-byte are not distinguished.&lt;/li&gt;
-        &lt;li&gt;It does not distinguish between Hiragana and Katakana. In case of WordMatch search, we will distinguish.&lt;/li&gt;
-        &lt;li&gt;We do not distinguish capital letters and lower case letters of alphanumeric characters.&lt;/li&gt;
-        &lt;li&gt;Ignore the leading "0" for numbers. (Example: "2015-2-4" and "2015-02-04" are not distinguished)&lt;/li&gt;
-        &lt;li&gt;UNICODE normalization (NFKC).&lt;/li&gt;
-    &lt;/ul&gt;
-&lt;/p&gt;
-
-&lt;h3&gt;DateTime format&lt;/h3&gt;
-
-&lt;p&gt;
-    Normally, it is specified in the form "2019-04-01".
-    Because &lt;a href="https://docs.microsoft.com/en-us/dotnet/standard/base-types/parsing-datetime"&gt;.NET date and time parsing&lt;/a&gt; is used, you can specify other formats.&lt;br/&gt;
-    NOTE: The date designation "2019-04-01" is interpreted as "2019-04-01 00:00:00", so "/until 2019-04-01" does not include April 1.
-&lt;/p&gt;
-
-&lt;p&gt;
-    You can also specify relative date and time in the format "-12day", "-6month" and "-1year". &lt;br/&gt;
-    "/since -5day" means "within the past 5 days".
-&lt;/p&gt;
-
-&lt;h2&gt;Example of use&lt;/h2&gt;
-
-AND-Standard search of "ABC", "DEF"
-
-&lt;blockquote&gt;ABC DEF&lt;/blockquote&gt;
-
-RegularExpression search of "^ABC$"
-
-&lt;blockquote&gt;/re ^ABC$&lt;/blockquote&gt;
-
-ExactMatch search for "ABC DEF"
-
-&lt;blockquote&gt;"ABC DEF"&lt;/blockquote&gt;
-
-"DEF" NOT-WordMatch search for "ABC" Standard search results
-
-&lt;blockquote&gt;ABC /not /word DEF&lt;/blockquote&gt;
-
-Search for files updated in April 2019
-
-&lt;blockquote&gt;/since 2019-04-01 /until 2019-05-01&lt;/blockquote&gt;
-
-</value>
   </data>
 </root>

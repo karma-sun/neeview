@@ -117,6 +117,257 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="_Document.ScriptManual.html" xml:space="preserve">
+    <value>&lt;h1&gt;NeeView スクリプトマニュアル&lt;/h1&gt;
+
+&lt;h2&gt; 概要 &lt;/h2&gt;
+&lt;p&gt;
+    スクリプトでコマンドを拡張します。設定を変更したり、複数のコマンドをまとめて実行したり、コマンドパラメーターを変更した別のコマンドとして実行することができます。
+&lt;/p&gt;
+&lt;p&gt;
+    スクリプト機能はデフォルトでは無効になっています。設定の「スクリプト」ページで設定して有効にします。
+
+    &lt;ul&gt;
+        &lt;li&gt;スクリプトは Javascript (ECMA 5.1) で記述します。&lt;/li&gt;
+        &lt;li&gt;スクリプトエンジンに &lt;a href="https://github.com/sebastienros/jint"&gt;Jint&lt;/a&gt; を使用しています。&lt;/li&gt;
+        &lt;li&gt;ファイル拡張子は .nvjs です。&lt;/li&gt;
+        &lt;li&gt;文字コードはUTF8です。BOM無しを推奨します。&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/p&gt;
+&lt;p&gt;
+    ファイル先頭のドックコメントでコマンドを修飾できます。キーは大文字小文字を区別しません。
+
+    &lt;table class="table-slim table-topless"&gt;
+        &lt;tr&gt;&lt;th&gt;キー&lt;/th&gt;&lt;th&gt;概要&lt;/th&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;@name&lt;/td&gt;&lt;td&gt;コマンド名&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;@description&lt;/td&gt;&lt;td&gt;コマンド説明&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;@shortCutKey&lt;/td&gt;&lt;td&gt;既定のショートカット&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;@mouseGesture&lt;/td&gt;&lt;td&gt;既定のマウスジェスチャー&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;@touchGesture&lt;/td&gt;&lt;td&gt;既定のタッチ操作&lt;/td&gt;&lt;/tr&gt;
+    &lt;/table&gt;
+&lt;/p&gt;
+
+&lt;h2&gt;コマンドスクリプト&lt;/h2&gt;
+&lt;p&gt;
+    スクリプトフォルダーにスクリプトファイルが配置されているとコマンドとして使用可能になります。
+    １ファイルが１コマンドになります。
+
+    &lt;ul&gt;
+        &lt;li&gt;設定の「コマンド設定」で通常のコマンドと同様にショートカットを設定できます。&lt;/li&gt;
+        &lt;li&gt;ファイル名がコマンド名になります。&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/p&gt;
+
+&lt;h2&gt;イベントスクリプト&lt;/h2&gt;
+&lt;p&gt;
+    特定の名前のスクリプトファイルは自動的に実行されます。
+
+    &lt;table class="table-slim"&gt;
+        &lt;tr&gt;&lt;td&gt;OnBookLoaded.nvjs&lt;/td&gt;&lt;td&gt;ブックを開いたときに実行されます。&lt;/td&gt;&lt;/tr&gt;
+    &lt;/table&gt;
+&lt;/p&gt;
+
+&lt;h2&gt;コンソール&lt;/h2&gt;
+&lt;p&gt;
+    スクリプトのテストをするためのコンソールです。メニューの「オプション &gt; コンソールを開く」で開きます。
+&lt;/p&gt;
+&lt;h4&gt;コンソール専用コマンド&lt;/h4&gt;
+
+&lt;p&gt;
+    &lt;table class="table-slim"&gt;
+        &lt;tr&gt;&lt;td&gt;cls&lt;/td&gt;&lt;td&gt;画面のクリア(Ctrl+L)&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;exit&lt;/td&gt;&lt;td&gt;コンソールを閉じる&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;help, ?&lt;/td&gt;&lt;td&gt;スクリプトヘルプを開く&lt;/td&gt;&lt;/tr&gt;
+    &lt;/table&gt;
+&lt;/p&gt;</value>
+  </data>
+  <data name="_Document.ScriptManualExample.html" xml:space="preserve">
+    <value>&lt;h1 class="sub"&gt;スクリプトの例&lt;/h1&gt;
+
+スクリプトの例をいくつか列挙します。
+その他サンプルは&lt;a href="https://bitbucket.org/neelabo/neeview.scriptsamples/"&gt;こちら&lt;/a&gt;を参照してください。
+
+&lt;h3&gt;実行ファイルと引数を一時的に変更して「外部アプリで開く」コマンドを実行する&lt;/h3&gt;
+&lt;p&gt;
+&lt;pre&gt;OpenMsPaint.nvjs
+&lt;code class="example"&gt;// @name MSペイント
+// @description MSペイントでファイルを開きます。
+
+param = {
+    "Command": "mspaint.exe",
+    "Parameter": "\"$File\""
+}
+nv.Command.OpenExternalApp.Patch(param).Execute()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+
+
+&lt;h3&gt;表示ページを新しいNeeViewで開く&lt;/h3&gt;
+&lt;p&gt;
+&lt;pre&gt;OpenNeeView.nvjs
+&lt;code class="example"&gt;// @name NeeViewで開く
+// @description 表示ページを新しいNeeViewで開きます。
+
+nv.Command.SaveSetting.Execute() // 設定を同じにするため保存を実行
+
+param = {
+    "Command": "$NeeView", // NeeView自身のパスを示す特殊な書き方
+    "Parameter": "-n \"$File\"",
+    "MultiPagePolicy": "Once",
+    "ArchivePolicy": "SendArchivePath"
+}
+nv.Command.OpenExternalApp.Patch(param).Execute()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+
+
+&lt;h3&gt;アンシャープマスクのON/OFF&lt;/h3&gt;
+&lt;p&gt;
+&lt;pre&gt;ToggleUnsharpMask.nvjs
+&lt;code class="example"&gt;// @name アンシャープマスクON/OFF
+// @description アンシャープマスクの切り替え。リサイズフィルターが有効でないときは警告を表示する
+
+if (nv.Config.ImageResizeFilter.IsEnabled) {
+    nv.Config.ImageResizeFilter.IsUnsharpMaskEnabled = !nv.Config.ImageResizeFilter.IsUnsharpMaskEnabled
+    if (nv.Config.ImageResizeFilter.IsUnsharpMaskEnabled) {
+        nv.ShowMessage("UnsharpMask ON")
+    }
+    else {
+        nv.ShowMessage("UnsharpMask OFF")
+    }
+}
+else {
+    nv.ShowMessage("ResizeFilter is not active")
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+
+
+&lt;h3&gt;新しく開いたブックのパスに"English"が含まれていたら左開き、それ以外は右開きにする&lt;/h3&gt;
+&lt;p&gt;
+&lt;pre&gt;OnBookLoaded.nvjs
+&lt;code class="example"&gt;// @name ブック開始処理
+// @description ブックを開いたときのイベント
+
+if (nv.Book.IsNew) {
+  if (nv.Book.Path.match(/English/) != null) {
+    nv.Book.Config.BookReadOrder = "LeftToRight"
+  }
+  else {
+    nv.Book.Config.BookReadOrder = "RightToLeft"
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+
+&lt;h3&gt;動画ファイルを開いたときに操作方法を変更する&lt;/h3&gt;
+&lt;p&gt;
+&lt;pre&gt;OnBookLoaded.nvjs
+&lt;code class="example"&gt;// @name ブック開始処理
+// @description ブックを開いたときのイベント
+
+if (nv.Book.IsMedia) {
+  // 動画：クリックで再生/停止、ダブルクリックでフルスクリーンの切り替え
+  nv.Command.ToggleMediaPlay.ShortCutKey = "LeftClick"
+  nv.Command.Script_ToggleFullScreenAndMediaPlay.ShortCutKey = "LeftDoubleClick"
+  nv.Command.NextPage.ShortCutKey = "Left"
+}
+else {
+  // 通常：標準設定
+  nv.Command.ToggleMediaPlay.ShortCutKey = null
+  nv.Command.Script_ToggleFullScreenAndMediaPlay.ShortCutKey = null
+  nv.Command.NextPage.ShortCutKey = "Left,LeftClick"
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;pre&gt;ToggleFullScreenAndMediaPlay.nvjs
+&lt;code class="example"&gt;// @name フルスクリーン＆動画再生
+// @description フルスクリーンと動画再生を同時に切り替え
+
+nv.Command.ToggleFullScreen.Execute()
+nv.Command.ToggleMediaPlay.Execute()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;</value>
+  </data>
+  <data name="_Document.SearchOptions.html" xml:space="preserve">
+    <value>&lt;h1&gt;NeeView 検索オプション&lt;/h1&gt;
+
+&lt;h2&gt; 検索オプション&lt;/h2&gt;
+&lt;p&gt;
+    検索オプション指定がない場合はAND標準検索になります("/and /m2"を指定したのと同じ)。&lt;br/&gt;
+    検索オプションは直後の検索単語にのみ影響します。
+&lt;/p&gt;
+
+&lt;h3&gt;接続オプション&lt;/h3&gt;
+&lt;table class="table-slim table-topless"&gt;
+    &lt;tr&gt;&lt;th&gt;オプション&lt;/th&gt;&lt;th&gt;説明&lt;/th&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/and&lt;/td&gt;&lt;td&gt;AND検索 (デフォルト)&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/or&lt;/td&gt;&lt;td&gt;OR検索&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/not&lt;/td&gt;&lt;td&gt;NOT検索&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;h3&gt;適合オプション&lt;/h3&gt;
+&lt;table class="table-slim table-topless"&gt;
+    &lt;tr&gt;&lt;th&gt;オプション&lt;/th&gt;&lt;th&gt;説明&lt;/th&gt;&lt;th&gt;補足&lt;/th&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/m0, /exact&lt;/td&gt;&lt;td&gt;完全一致&lt;/td&gt;&lt;td&gt; "ダブルクオートで囲むのと同じ"&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/m1, /word&lt;/td&gt;&lt;td&gt;単語一致&lt;/td&gt;&lt;td&gt; 文字の種類で単語を識別しているので精度はあまりよくない&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/m2&lt;/td&gt;&lt;td&gt;標準 (デフォルト)&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/re&lt;/td&gt;&lt;td&gt;正規表現&lt;/td&gt;&lt;td&gt;&lt;a href="https://docs.microsoft.com/ja-jp/dotnet/standard/base-types/regular-expression-language-quick-reference"&gt;.NETの正規表現&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/ire&lt;/td&gt;&lt;td&gt;正規表現・大文字小文字無効&lt;/td&gt;&lt;td&gt;大文字と小文字を区別しない正規表現検索を行う&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/since&lt;/td&gt;&lt;td&gt;日時指定・以後&lt;/td&gt;&lt;td&gt;指定日時以後&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;/until&lt;/td&gt;&lt;td&gt;日時指定・以前&lt;/td&gt;&lt;td&gt;指定日時以前&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;p&gt;
+    標準検索または単語一致検索の場合、以下のような曖昧検索になります。
+    
+    &lt;ul&gt;
+        &lt;li&gt;半角、全角を区別しません。&lt;/li&gt;
+        &lt;li&gt;ひらがな、カタカナを区別しません。単語一致検索の場合は区別します。&lt;/li&gt;
+        &lt;li&gt;英数の大文字、小文字を区別しません。&lt;/li&gt;
+        &lt;li&gt;数字は先頭の"0"を無視します。(例："2015年2月4日" と "2015年02月04日" は区別されない)&lt;/li&gt;
+        &lt;li&gt;UNICODE正規化(NFKC)を使用しています。(例："㌫" と "パーセント" は区別されない)&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/p&gt;
+
+&lt;h3&gt;日時指定フォーマット&lt;/h3&gt;
+
+&lt;p&gt;
+    通常は "2019-04-01" といった形式で指定します。
+    &lt;a href="https://docs.microsoft.com/ja-jp/dotnet/standard/base-types/parsing-datetime"&gt;.NETの日時変換&lt;/a&gt;を使用しているため、それ以外の形式でも指定可能です。&lt;br/&gt;
+    注意点として、"2019-04-01" という日にちの指定は "2019-04-01 00:00:00" と解釈されるため、"/until 2019-04-01" では4月1日は含まれません。&lt;br/&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+    また、"-12day", "-6month" "-1year" といった形式で相対日時を指定可能です。&lt;br/&gt;
+    "/since -5day" は「過去5日以内」という意味になります。
+&lt;/p&gt;
+    
+
+&lt;h2&gt;使用例&lt;/h2&gt;
+
+"ABC","DEF"のAND標準検索
+
+&lt;blockquote&gt;ABC DEF&lt;/blockquote&gt;
+
+"^ABC$"の正規表現検索
+
+&lt;blockquote&gt;/re ^ABC$&lt;/blockquote&gt;
+
+"ABC DEF"の完全一致検索
+
+&lt;blockquote&gt;"ABC DEF"&lt;/blockquote&gt;
+
+"ABC"標準検索結果に対する、"DEF"NOT単語検索
+
+&lt;blockquote&gt;ABC /not /word DEF&lt;/blockquote&gt;
+
+2019年4月に更新されたファイルの検索
+
+&lt;blockquote&gt;/since 2019-04-01 /until 2019-05-01&lt;/blockquote&gt;</value>
+  </data>
   <data name="AddParameterDialog.Tile" xml:space="preserve">
     <value>項目の追加</value>
   </data>
@@ -213,11 +464,11 @@
   <data name="ArchivePolicy.SendExtractFile" xml:space="preserve">
     <value>出力したファイルのパス (一時ファイル)</value>
   </data>
-  <data name="AutoHideConfig.AutoHideConfrictTopMargin" xml:space="preserve">
-    <value>サイド パネル上でのメニュー バーの自動表示判定</value>
-  </data>
   <data name="AutoHideConfig.AutoHideConfrictBottomMargin" xml:space="preserve">
     <value>サイド パネル上でのスライダーの自動表示判定</value>
+  </data>
+  <data name="AutoHideConfig.AutoHideConfrictTopMargin" xml:space="preserve">
+    <value>サイド パネル上でのメニュー バーの自動表示判定</value>
   </data>
   <data name="AutoHideConfig.AutoHideDelayTime" xml:space="preserve">
     <value>自動非表示パネルを隠すまでの時間 (秒)</value>
@@ -239,6 +490,15 @@
   </data>
   <data name="AutoHideConfig.IsAutoHideKeyDownDelay.Remarks" xml:space="preserve">
     <value>キー入力されたら非表示にする動作を延期します。</value>
+  </data>
+  <data name="AutoHideConfrictMode.Allow" xml:space="preserve">
+    <value>有効</value>
+  </data>
+  <data name="AutoHideConfrictMode.AllowPixel" xml:space="preserve">
+    <value>1 ピクセルだけ有効</value>
+  </data>
+  <data name="AutoHideConfrictMode.Deny" xml:space="preserve">
+    <value>無効</value>
   </data>
   <data name="AutoHideFocusLockMode.FocusLock" xml:space="preserve">
     <value>ウィンドウとパネル</value>
@@ -1263,6 +1523,33 @@ nv.Values.Test = "Hello!"</value>
   <data name="CustomBackgroundControl.ImageSelect.Remarks" xml:space="preserve">
     <value>画像ファイルを選択してください</value>
   </data>
+  <data name="CustomSizeAspectRatio.HalfView" xml:space="preserve">
+    <value>ビューの半分の縦横比</value>
+  </data>
+  <data name="CustomSizeAspectRatio.None" xml:space="preserve">
+    <value>制限なし</value>
+  </data>
+  <data name="CustomSizeAspectRatio.Origin" xml:space="preserve">
+    <value>元の縦横比を維持</value>
+  </data>
+  <data name="CustomSizeAspectRatio.Ratio_1_1" xml:space="preserve">
+    <value>1:1</value>
+  </data>
+  <data name="CustomSizeAspectRatio.Ratio_16_9" xml:space="preserve">
+    <value>16:9</value>
+  </data>
+  <data name="CustomSizeAspectRatio.Ratio_2_3" xml:space="preserve">
+    <value>2:3</value>
+  </data>
+  <data name="CustomSizeAspectRatio.Ratio_4_3" xml:space="preserve">
+    <value>4:3</value>
+  </data>
+  <data name="CustomSizeAspectRatio.Ratio_8_9" xml:space="preserve">
+    <value>8:9</value>
+  </data>
+  <data name="CustomSizeAspectRatio.View" xml:space="preserve">
+    <value>ビューの縦横比</value>
+  </data>
   <data name="DeleteApplicationDataCompleteDialog.Message" xml:space="preserve">
     <value>ユーザー データを削除しました。NeeView を終了します。</value>
   </data>
@@ -1483,6 +1770,285 @@ nv.Values.Test = "Hello!"</value>
   <data name="EmbossedEffectUnit.Height" xml:space="preserve">
     <value>Height</value>
   </data>
+  <data name="ExifContrast.Hard" xml:space="preserve">
+    <value>ハード</value>
+  </data>
+  <data name="ExifContrast.Normal" xml:space="preserve">
+    <value>標準</value>
+  </data>
+  <data name="ExifContrast.Soft" xml:space="preserve">
+    <value>ソフト</value>
+  </data>
+  <data name="ExifExposureProgram.ActionProgram" xml:space="preserve">
+    <value>動体優先</value>
+  </data>
+  <data name="ExifExposureProgram.AperturePriority" xml:space="preserve">
+    <value>絞り優先</value>
+  </data>
+  <data name="ExifExposureProgram.CreativeProgram" xml:space="preserve">
+    <value>深度優先</value>
+  </data>
+  <data name="ExifExposureProgram.LandscapeMode" xml:space="preserve">
+    <value>横長</value>
+  </data>
+  <data name="ExifExposureProgram.Manual" xml:space="preserve">
+    <value>手動</value>
+  </data>
+  <data name="ExifExposureProgram.NormalProgram" xml:space="preserve">
+    <value>標準</value>
+  </data>
+  <data name="ExifExposureProgram.NotDefined" xml:space="preserve">
+    <value>不明</value>
+  </data>
+  <data name="ExifExposureProgram.PortraitMode" xml:space="preserve">
+    <value>縦長</value>
+  </data>
+  <data name="ExifExposureProgram.ShutterPriority" xml:space="preserve">
+    <value>シャッター優先</value>
+  </data>
+  <data name="ExifFlashMode.FlashDidNotFire" xml:space="preserve">
+    <value>フラッシュなし</value>
+  </data>
+  <data name="ExifFlashMode.FlashDidNotFire_AutoMode" xml:space="preserve">
+    <value>フラッシュなし (自動)</value>
+  </data>
+  <data name="ExifFlashMode.FlashDidNotFire_CompulsoryFlashMode" xml:space="preserve">
+    <value>フラッシュなし (強制)</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired" xml:space="preserve">
+    <value>フラッシュ</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_AutoMode" xml:space="preserve">
+    <value>フラッシュ (自動)</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_AutoMode_RedEyeReductionMode" xml:space="preserve">
+    <value>フラッシュ (自動、赤目修整)</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_AutoMode_ReturnLightDetected" xml:space="preserve">
+    <value>フラッシュ (自動、ストロボの反射光あり)</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_AutoMode_ReturnLightDetected_RedEyeReductionMode" xml:space="preserve">
+    <value>フラッシュ (自動、赤目修整、ストロボの反射光あり)</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_AutoMode_ReturnLightNotDetected" xml:space="preserve">
+    <value>フラッシュ (自動、ストロボの反射光なし)</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_AutoMode_ReturnLightNotDetected_RedEyeReductionMode" xml:space="preserve">
+    <value>フラッシュ (自動、赤目修整、ストロボの反射光なし)</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode" xml:space="preserve">
+    <value>フラッシュ (強制)</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_RedEyeReductionMode" xml:space="preserve">
+    <value>フラッシュ (強制、赤目修整)</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_RedEyeReductionMode_ReturnLightDetected" xml:space="preserve">
+    <value>フラッシュ (強制、赤目修整、ストロボの反射光あり)</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_RedEyeReductionMode_ReturnLightNotDetected" xml:space="preserve">
+    <value>フラッシュ (強制、赤目修整、ストロボの反射光なし)</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_ReturnLightDetected" xml:space="preserve">
+    <value>フラッシュ (強制、ストロボの反射光あり)</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_ReturnLightNotDetected" xml:space="preserve">
+    <value>フラッシュ (強制、ストロボの反射光なし)</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_RedEyeReductionMode" xml:space="preserve">
+    <value>フラッシュ (赤目修整)</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_RedEyeReductionMode_ReturnLightDetected" xml:space="preserve">
+    <value>フラッシュ (赤目修整、ストロボの反射光あり)</value>
+  </data>
+  <data name="ExifFlashMode.FlashFired_RedEyeReductionMode_ReturnLightNotDetected" xml:space="preserve">
+    <value>フラッシュ (赤目修整、ストロボの反射光なし)</value>
+  </data>
+  <data name="ExifFlashMode.NoFlashFunction" xml:space="preserve">
+    <value>フラッシュ機能なし</value>
+  </data>
+  <data name="ExifFlashMode.StrobeReturnLightDetected" xml:space="preserve">
+    <value>フラッシュ (ストロボの反射光あり)</value>
+  </data>
+  <data name="ExifFlashMode.StrobeReturnLightNotDetected" xml:space="preserve">
+    <value>フラッシュ (ストロボの反射光なし)</value>
+  </data>
+  <data name="ExifLightSource.CloudyWeather" xml:space="preserve">
+    <value>曇天</value>
+  </data>
+  <data name="ExifLightSource.CoolWhiteFluorescent" xml:space="preserve">
+    <value>涼しげな白色蛍光灯</value>
+  </data>
+  <data name="ExifLightSource.D50" xml:space="preserve">
+    <value>D50</value>
+  </data>
+  <data name="ExifLightSource.D55" xml:space="preserve">
+    <value>D55</value>
+  </data>
+  <data name="ExifLightSource.D65" xml:space="preserve">
+    <value>D65</value>
+  </data>
+  <data name="ExifLightSource.D75" xml:space="preserve">
+    <value>D75</value>
+  </data>
+  <data name="ExifLightSource.Daylight" xml:space="preserve">
+    <value>日光</value>
+  </data>
+  <data name="ExifLightSource.DaylightFluorescent" xml:space="preserve">
+    <value>昼光色蛍光灯</value>
+  </data>
+  <data name="ExifLightSource.DayWhiteFluorescent" xml:space="preserve">
+    <value>昼白色蛍光灯</value>
+  </data>
+  <data name="ExifLightSource.FineWeather" xml:space="preserve">
+    <value>快晴</value>
+  </data>
+  <data name="ExifLightSource.Flash" xml:space="preserve">
+    <value>フラッシュ</value>
+  </data>
+  <data name="ExifLightSource.Fluorescent" xml:space="preserve">
+    <value>蛍光灯</value>
+  </data>
+  <data name="ExifLightSource.ISOStudioTungsten" xml:space="preserve">
+    <value>ISO スタジオ タングステン</value>
+  </data>
+  <data name="ExifLightSource.OtherLightSource" xml:space="preserve">
+    <value>その他の光源</value>
+  </data>
+  <data name="ExifLightSource.Shade" xml:space="preserve">
+    <value>日陰</value>
+  </data>
+  <data name="ExifLightSource.StandardLightA" xml:space="preserve">
+    <value>標準イルミナント A</value>
+  </data>
+  <data name="ExifLightSource.StandardLightB" xml:space="preserve">
+    <value>標準イルミナント B</value>
+  </data>
+  <data name="ExifLightSource.StandardLightC" xml:space="preserve">
+    <value>標準イルミナント C</value>
+  </data>
+  <data name="ExifLightSource.Tungsten" xml:space="preserve">
+    <value>タングステン</value>
+  </data>
+  <data name="ExifLightSource.Unknown" xml:space="preserve">
+    <value>不明</value>
+  </data>
+  <data name="ExifLightSource.WhiteFluorescent" xml:space="preserve">
+    <value>白色蛍光灯</value>
+  </data>
+  <data name="ExifMeteringMode.Average" xml:space="preserve">
+    <value>均等</value>
+  </data>
+  <data name="ExifMeteringMode.CenterWeightedAverage" xml:space="preserve">
+    <value>中央重点測光</value>
+  </data>
+  <data name="ExifMeteringMode.MultiSpot" xml:space="preserve">
+    <value>マルチ スポット</value>
+  </data>
+  <data name="ExifMeteringMode.Other" xml:space="preserve">
+    <value>その他</value>
+  </data>
+  <data name="ExifMeteringMode.Partial" xml:space="preserve">
+    <value>部分</value>
+  </data>
+  <data name="ExifMeteringMode.Pattern" xml:space="preserve">
+    <value>パターン</value>
+  </data>
+  <data name="ExifMeteringMode.Spot" xml:space="preserve">
+    <value>スポット</value>
+  </data>
+  <data name="ExifMeteringMode.Unknown" xml:space="preserve">
+    <value>不明</value>
+  </data>
+  <data name="ExifOrientation.MirrorHorizontal" xml:space="preserve">
+    <value>水平方向に反転</value>
+  </data>
+  <data name="ExifOrientation.MirrorHorizontal_Rotate270" xml:space="preserve">
+    <value>水平方向に反転、270° 回転</value>
+  </data>
+  <data name="ExifOrientation.MirrorHorizontal_Rotate90" xml:space="preserve">
+    <value>水平方向に反転、90° 回転</value>
+  </data>
+  <data name="ExifOrientation.MirrorVertical" xml:space="preserve">
+    <value>垂直方向に反転</value>
+  </data>
+  <data name="ExifOrientation.Normal" xml:space="preserve">
+    <value>標準</value>
+  </data>
+  <data name="ExifOrientation.Rotate180" xml:space="preserve">
+    <value>180° 回転</value>
+  </data>
+  <data name="ExifOrientation.Rotate270" xml:space="preserve">
+    <value>270° 回転</value>
+  </data>
+  <data name="ExifOrientation.Rotate90" xml:space="preserve">
+    <value>90° 回転</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.BlackIsZero" xml:space="preserve">
+    <value>Black is zero</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.CFA" xml:space="preserve">
+    <value>CFA</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.CIELab" xml:space="preserve">
+    <value>CIE L*a*b*</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.CMYK" xml:space="preserve">
+    <value>CMYK</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.ICCLab" xml:space="preserve">
+    <value>ICC L*a*b*</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.ITULab" xml:space="preserve">
+    <value>ITU L*a*b*</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.LinearRaw" xml:space="preserve">
+    <value>Linear raw</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.LogLuv" xml:space="preserve">
+    <value>LogLuv</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.PaletteColor" xml:space="preserve">
+    <value>パレット カラー</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.PixarLogL" xml:space="preserve">
+    <value>Pixar LogL</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.RGB" xml:space="preserve">
+    <value>RGB</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.TransparencyMask" xml:space="preserve">
+    <value>透過マスク</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.WhiteIsZero" xml:space="preserve">
+    <value>White is zero</value>
+  </data>
+  <data name="ExifPhotometricInterpretation.YCbCr" xml:space="preserve">
+    <value>YCbCr</value>
+  </data>
+  <data name="ExifSaturation.HighSaturation" xml:space="preserve">
+    <value>高彩度</value>
+  </data>
+  <data name="ExifSaturation.LowSaturation" xml:space="preserve">
+    <value>低彩度</value>
+  </data>
+  <data name="ExifSaturation.Normal" xml:space="preserve">
+    <value>標準</value>
+  </data>
+  <data name="ExifSharpness.Hard" xml:space="preserve">
+    <value>ハード</value>
+  </data>
+  <data name="ExifSharpness.Normal" xml:space="preserve">
+    <value>標準</value>
+  </data>
+  <data name="ExifSharpness.Soft" xml:space="preserve">
+    <value>ソフト</value>
+  </data>
+  <data name="ExifWhiteBalance.AutoWhiteBalance" xml:space="preserve">
+    <value>自動</value>
+  </data>
+  <data name="ExifWhiteBalance.ManualWhiteBalance" xml:space="preserve">
+    <value>手動</value>
+  </data>
   <data name="ExplorerContextMenu.IsEnabled" xml:space="preserve">
     <value>エクスプローラーのコンテキスト メニューに登録</value>
   </data>
@@ -1609,6 +2175,12 @@ nv.Values.Test = "Hello!"</value>
   <data name="ExternalAppEditDialog.Title" xml:space="preserve">
     <value>外部アプリ設定</value>
   </data>
+  <data name="ExternalProcess.ConfirmBrowserDialog.Message" xml:space="preserve">
+    <value>Web ブラウザーでネットに接続します。</value>
+  </data>
+  <data name="ExternalProcess.ConfirmBrowserDialog.Title" xml:space="preserve">
+    <value>Web ブラウザーを開きます。よろしいですか？</value>
+  </data>
   <data name="ExternalProgramType.Normal" xml:space="preserve">
     <value>外部プログラム</value>
   </data>
@@ -1680,6 +2252,9 @@ nv.Values.Test = "Hello!"</value>
   <data name="FileRenameWrongDialog.Message" xml:space="preserve">
     <value>指定されたファイル名は無効です。</value>
   </data>
+  <data name="FilmStripConfig.ImageWidth" xml:space="preserve">
+    <value>ページ サムネイル サイズ</value>
+  </data>
   <data name="FilmStripConfig.IsEnabled" xml:space="preserve">
     <value>フィルムストリップを表示する</value>
   </data>
@@ -1703,9 +2278,6 @@ nv.Values.Test = "Hello!"</value>
   </data>
   <data name="FilmStripConfig.IsVisiblePlate.Remarks" xml:space="preserve">
     <value>「@FilmStripConfig.IsHideFilmStrip」が有効なときに、フィルムストリップの背景を表示します。</value>
-  </data>
-  <data name="FilmStripConfig.ImageWidth" xml:space="preserve">
-    <value>ページ サムネイル サイズ</value>
   </data>
   <data name="FirstPageCommand" xml:space="preserve">
     <value>最初のページに移動</value>
@@ -1838,6 +2410,24 @@ nv.Values.Test = "Hello!"</value>
   </data>
   <data name="FolderTreeLayout.Top" xml:space="preserve">
     <value>上に配置</value>
+  </data>
+  <data name="FontsConfig.FolderTreeFontScale" xml:space="preserve">
+    <value>フォルダー ツリーのフォント スケール</value>
+  </data>
+  <data name="FontsConfig.FontName" xml:space="preserve">
+    <value>フォント</value>
+  </data>
+  <data name="FontsConfig.FontScale" xml:space="preserve">
+    <value>フォント スケール</value>
+  </data>
+  <data name="FontsConfig.IsClearTypeEnabled" xml:space="preserve">
+    <value>ClearType を有効にする</value>
+  </data>
+  <data name="FontsConfig.MenuFontScale" xml:space="preserve">
+    <value>メニューのフォント スケール</value>
+  </data>
+  <data name="FontsConfig.PanelFontScale" xml:space="preserve">
+    <value>リスト項目のフォント スケール</value>
   </data>
   <data name="HelpCommandList.Message" xml:space="preserve">
     <value>操作が割り当てられていないコマンドは「コマンド設定」で設定することで使用可能です。</value>
@@ -2004,8 +2594,20 @@ nv.Values.Test = "Hello!"</value>
   <data name="HyperLinkErrorDialog.Title" xml:space="preserve">
     <value>リンクが取得できませんでした。</value>
   </data>
+  <data name="ImageCustomSizeConfig.ApplicabilityRate" xml:space="preserve">
+    <value>適用率</value>
+  </data>
+  <data name="ImageCustomSizeConfig.AspectRatio" xml:space="preserve">
+    <value>アスペクト比</value>
+  </data>
   <data name="ImageCustomSizeConfig.Height" xml:space="preserve">
     <value>縦幅</value>
+  </data>
+  <data name="ImageCustomSizeConfig.IsAlignLongSide" xml:space="preserve">
+    <value>長辺を揃える</value>
+  </data>
+  <data name="ImageCustomSizeConfig.IsAlignLongSide.Remarks" xml:space="preserve">
+    <value>必要に応じて縦横を入れ替えます。</value>
   </data>
   <data name="ImageCustomSizeConfig.IsEnabled" xml:space="preserve">
     <value>画像サイズ指定を有効にする</value>
@@ -2157,44 +2759,8 @@ nv.Values.Test = "Hello!"</value>
   <data name="InconsistencyException.Message" xml:space="preserve">
     <value>ページ データの不整合</value>
   </data>
-  <data name="xInformation.Archiver" xml:space="preserve">
-    <value>アーカイバー</value>
-  </data>
-  <data name="xInformation.Date" xml:space="preserve">
-    <value>ファイル日付</value>
-  </data>
   <data name="Information.DateFormat" xml:space="preserve">
     <value>yyyy年M月d日 dddd H:mm</value>
-  </data>
-  <data name="xInformation.DateTimeOriginal" xml:space="preserve">
-    <value>撮影日時</value>
-  </data>
-  <data name="xInformation.Decoder" xml:space="preserve">
-    <value>デコーダー</value>
-  </data>
-  <data name="xInformation.Device" xml:space="preserve">
-    <value>デバイス</value>
-  </data>
-  <data name="xInformation.FileName" xml:space="preserve">
-    <value>ファイル名</value>
-  </data>
-  <data name="xInformation.FilePath" xml:space="preserve">
-    <value>ファイル パス</value>
-  </data>
-  <data name="xInformation.FileSize" xml:space="preserve">
-    <value>ファイル サイズ</value>
-  </data>
-  <data name="xInformation.FolderPath" xml:space="preserve">
-    <value>フォルダーのパス</value>
-  </data>
-  <data name="xInformation.ImageSize" xml:space="preserve">
-    <value>画像サイズ</value>
-  </data>
-  <data name="xInformation.Info" xml:space="preserve">
-    <value>撮影情報</value>
-  </data>
-  <data name="xInformation.ISO" xml:space="preserve">
-    <value>ISO</value>
   </data>
   <data name="Information.Menu.Copy" xml:space="preserve">
     <value>コピー(_C)</value>
@@ -2202,17 +2768,233 @@ nv.Values.Test = "Hello!"</value>
   <data name="Information.OpenFolder" xml:space="preserve">
     <value>フォルダーを開く</value>
   </data>
+  <data name="Information.OpenMap" xml:space="preserve">
+    <value>地図を開く</value>
+  </data>
   <data name="Information.Title" xml:space="preserve">
     <value>情報</value>
   </data>
-  <data name="xInformationConfig.IsVisibleBitsPerPixel" xml:space="preserve">
-    <value>画像サイズにピクセルあたりのビット数を表示する</value>
+  <data name="InformationConfig.DateTimeFormat" xml:space="preserve">
+    <value>日時表示フォーマット</value>
   </data>
-  <data name="xInformationConfig.IsVisibleFilePath" xml:space="preserve">
-    <value>圧縮ファイル内のファイルパスを表示する</value>
+  <data name="InformationConfig.DateTimeFormat.Remarks" xml:space="preserve">
+    <value>.NET のカスタム日時形式文字列を指定します。</value>
   </data>
-  <data name="xInformationConfig.IsVisibleLoader" xml:space="preserve">
-    <value>使用されたアーカイバー、画像デコーダー名を表示する</value>
+  <data name="InformationConfig.IsVisibleAdvancedPhotoSection" xml:space="preserve">
+    <value>写真詳細情報を表示</value>
+  </data>
+  <data name="InformationConfig.IsVisibleCameraSection" xml:space="preserve">
+    <value>カメラ情報を表示</value>
+  </data>
+  <data name="InformationConfig.IsVisibleDescriptionSection" xml:space="preserve">
+    <value>説明情報を表示</value>
+  </data>
+  <data name="InformationConfig.IsVisibleFileSection" xml:space="preserve">
+    <value>ファイル情報を表示</value>
+  </data>
+  <data name="InformationConfig.IsVisibleGpsSection" xml:space="preserve">
+    <value>GPS情報を表示</value>
+  </data>
+  <data name="InformationConfig.IsVisibleImageSection" xml:space="preserve">
+    <value>イメージ情報を表示</value>
+  </data>
+  <data name="InformationConfig.IsVisibleOriginSection" xml:space="preserve">
+    <value>ソース情報を表示</value>
+  </data>
+  <data name="InformationConfig.MapProgramFormat" xml:space="preserve">
+    <value>地図プログラム</value>
+  </data>
+  <data name="InformationConfig.MapProgramFormat.Remarks" xml:space="preserve">
+    <value>$Lat: 緯度, $LatDeg: 緯度(DEG), $Lon: 経度, $LonDeg: 経度(DEG)</value>
+  </data>
+  <data name="InformationGroup.AdvancedPhoto" xml:space="preserve">
+    <value>写真詳細</value>
+  </data>
+  <data name="InformationGroup.Camera" xml:space="preserve">
+    <value>カメラ</value>
+  </data>
+  <data name="InformationGroup.Description" xml:space="preserve">
+    <value>説明</value>
+  </data>
+  <data name="InformationGroup.File" xml:space="preserve">
+    <value>ファイル</value>
+  </data>
+  <data name="InformationGroup.Gps" xml:space="preserve">
+    <value>GPS</value>
+  </data>
+  <data name="InformationGroup.Image" xml:space="preserve">
+    <value>イメージ</value>
+  </data>
+  <data name="InformationGroup.Origin" xml:space="preserve">
+    <value>ソース</value>
+  </data>
+  <data name="InformationKey.ApplicatoinName" xml:space="preserve">
+    <value>プログラム名</value>
+  </data>
+  <data name="InformationKey.ArchivePath" xml:space="preserve">
+    <value>アーカイブ パス</value>
+  </data>
+  <data name="InformationKey.Archiver" xml:space="preserve">
+    <value>アーカイバー</value>
+  </data>
+  <data name="InformationKey.Author" xml:space="preserve">
+    <value>作成者</value>
+  </data>
+  <data name="InformationKey.BitDepth" xml:space="preserve">
+    <value>ビットの深さ</value>
+  </data>
+  <data name="InformationKey.Brightness" xml:space="preserve">
+    <value>明るさ</value>
+  </data>
+  <data name="InformationKey.CameraMaker" xml:space="preserve">
+    <value>カメラ メーカー</value>
+  </data>
+  <data name="InformationKey.CameraModel" xml:space="preserve">
+    <value>カメラ モデル</value>
+  </data>
+  <data name="InformationKey.CameraSerialNumber" xml:space="preserve">
+    <value>カメラ製造番号</value>
+  </data>
+  <data name="InformationKey.Comments" xml:space="preserve">
+    <value>コメント</value>
+  </data>
+  <data name="InformationKey.Contrast" xml:space="preserve">
+    <value>コントラスト</value>
+  </data>
+  <data name="InformationKey.Copyright" xml:space="preserve">
+    <value>著作権</value>
+  </data>
+  <data name="InformationKey.CreationTime" xml:space="preserve">
+    <value>作成日時</value>
+  </data>
+  <data name="InformationKey.DateAcquired" xml:space="preserve">
+    <value>取得日時</value>
+  </data>
+  <data name="InformationKey.DateTaken" xml:space="preserve">
+    <value>撮影日時</value>
+  </data>
+  <data name="InformationKey.Decoder" xml:space="preserve">
+    <value>デコーダー</value>
+  </data>
+  <data name="InformationKey.DigitalZoom" xml:space="preserve">
+    <value>デジタル ズーム</value>
+  </data>
+  <data name="InformationKey.Dimensions" xml:space="preserve">
+    <value>大きさ</value>
+  </data>
+  <data name="InformationKey.EXIFVersion" xml:space="preserve">
+    <value>EXIF バージョン</value>
+  </data>
+  <data name="InformationKey.ExposureBias" xml:space="preserve">
+    <value>露出補正</value>
+  </data>
+  <data name="InformationKey.ExposureProgram" xml:space="preserve">
+    <value>露出プログラム</value>
+  </data>
+  <data name="InformationKey.ExposureTime" xml:space="preserve">
+    <value>露出時間</value>
+  </data>
+  <data name="InformationKey.FileName" xml:space="preserve">
+    <value>ファイル名</value>
+  </data>
+  <data name="InformationKey.FilePath" xml:space="preserve">
+    <value>ファイル パス</value>
+  </data>
+  <data name="InformationKey.FileSize" xml:space="preserve">
+    <value>サイズ</value>
+  </data>
+  <data name="InformationKey.FlashEnergy" xml:space="preserve">
+    <value>フラッシュ エネルギー</value>
+  </data>
+  <data name="InformationKey.FlashMaker" xml:space="preserve">
+    <value>フラッシュ メーカー</value>
+  </data>
+  <data name="InformationKey.FlashMode" xml:space="preserve">
+    <value>フラッシュ モード</value>
+  </data>
+  <data name="InformationKey.FlashModel" xml:space="preserve">
+    <value>フラッシュ モデル</value>
+  </data>
+  <data name="InformationKey.FNumber" xml:space="preserve">
+    <value>絞り値</value>
+  </data>
+  <data name="InformationKey.FocalLength" xml:space="preserve">
+    <value>焦点距離</value>
+  </data>
+  <data name="InformationKey.FocalLengthIn35mmFilm" xml:space="preserve">
+    <value>35mm 焦点距離</value>
+  </data>
+  <data name="InformationKey.GPSAltitude" xml:space="preserve">
+    <value>高度</value>
+  </data>
+  <data name="InformationKey.GPSLatitude" xml:space="preserve">
+    <value>緯度</value>
+  </data>
+  <data name="InformationKey.GPSLongitude" xml:space="preserve">
+    <value>経度</value>
+  </data>
+  <data name="InformationKey.Height" xml:space="preserve">
+    <value>高さ</value>
+  </data>
+  <data name="InformationKey.HorizontalResolution" xml:space="preserve">
+    <value>水平方向の解像度</value>
+  </data>
+  <data name="InformationKey.ISOSpeed" xml:space="preserve">
+    <value>ISO 速度</value>
+  </data>
+  <data name="InformationKey.LastWriteTime" xml:space="preserve">
+    <value>更新日時</value>
+  </data>
+  <data name="InformationKey.LensMaker" xml:space="preserve">
+    <value>レンズ メーカー</value>
+  </data>
+  <data name="InformationKey.LensModel" xml:space="preserve">
+    <value>レンズ モデル</value>
+  </data>
+  <data name="InformationKey.LightSource" xml:space="preserve">
+    <value>光源</value>
+  </data>
+  <data name="InformationKey.MaxAperture" xml:space="preserve">
+    <value>最大絞り</value>
+  </data>
+  <data name="InformationKey.MeteringMode" xml:space="preserve">
+    <value>測光モード</value>
+  </data>
+  <data name="InformationKey.Orientation" xml:space="preserve">
+    <value>向き</value>
+  </data>
+  <data name="InformationKey.PhotometricInterpretation" xml:space="preserve">
+    <value>光度測定解釈</value>
+  </data>
+  <data name="InformationKey.Rating" xml:space="preserve">
+    <value>評価</value>
+  </data>
+  <data name="InformationKey.Saturation" xml:space="preserve">
+    <value>彩度</value>
+  </data>
+  <data name="InformationKey.Sharpness" xml:space="preserve">
+    <value>鮮明度</value>
+  </data>
+  <data name="InformationKey.Subject" xml:space="preserve">
+    <value>件名</value>
+  </data>
+  <data name="InformationKey.SubjectDistance" xml:space="preserve">
+    <value>対象の距離</value>
+  </data>
+  <data name="InformationKey.Tags" xml:space="preserve">
+    <value>タグ</value>
+  </data>
+  <data name="InformationKey.Title" xml:space="preserve">
+    <value>タイトル</value>
+  </data>
+  <data name="InformationKey.VerticalResolution" xml:space="preserve">
+    <value>垂直方向の解像度</value>
+  </data>
+  <data name="InformationKey.WhiteBalance" xml:space="preserve">
+    <value>ホワイト バランス</value>
+  </data>
+  <data name="InformationKey.Width" xml:space="preserve">
+    <value>幅</value>
   </data>
   <data name="InformationPanelAccessor" xml:space="preserve">
     <value>情報パネルのアクセサ</value>
@@ -2370,6 +3152,12 @@ include("Sample.nvjs")</value>
   </data>
   <data name="LevelEffectUnit.White" xml:space="preserve">
     <value>White</value>
+  </data>
+  <data name="LineBreakStopMode.Line" xml:space="preserve">
+    <value>行</value>
+  </data>
+  <data name="LineBreakStopMode.Page" xml:space="preserve">
+    <value>ページ</value>
   </data>
   <data name="LoadAsCommand" xml:space="preserve">
     <value>ファイルを開く</value>
@@ -2621,6 +3409,12 @@ include("Sample.nvjs")</value>
   <data name="MouseConfig.GestureMinimumDistance.Remarks" xml:space="preserve">
     <value>この距離の移動でジェスチャー ストロークと判断されます。</value>
   </data>
+  <data name="MouseConfig.HoverScrollDuration" xml:space="preserve">
+    <value>ホバー スクロール時間 (秒)</value>
+  </data>
+  <data name="MouseConfig.HoverScrollDuration.Remarks" xml:space="preserve">
+    <value>時間が長いほどスクロールが滑らかになります。</value>
+  </data>
   <data name="MouseConfig.IsCursorHideEnabled" xml:space="preserve">
     <value>マウスの無操作でマウス ポインターを非表示にする</value>
   </data>
@@ -2635,6 +3429,9 @@ include("Sample.nvjs")</value>
   </data>
   <data name="MouseConfig.IsGestureEnabled" xml:space="preserve">
     <value>マウス ジェスチャー機能を使用する</value>
+  </data>
+  <data name="MouseConfig.IsHoverScroll" xml:space="preserve">
+    <value>ホバー スクロール モード</value>
   </data>
   <data name="MouseConfig.LongButtonDownMode" xml:space="preserve">
     <value>長押しモード</value>
@@ -2751,6 +3548,9 @@ include("Sample.nvjs")</value>
   <data name="Navigator.IsKeepScale" xml:space="preserve">
     <value>スケールを維持</value>
   </data>
+  <data name="Navigator.MoreMenu.IsVisibleThumbnail" xml:space="preserve">
+    <value>サムネイル</value>
+  </data>
   <data name="Navigator.RotateLeft" xml:space="preserve">
     <value>左回転</value>
   </data>
@@ -2789,6 +3589,9 @@ include("Sample.nvjs")</value>
   </data>
   <data name="Navigator.Title" xml:space="preserve">
     <value>ナビゲーター</value>
+  </data>
+  <data name="NavigatorConfig.IsVisibleThumbnail" xml:space="preserve">
+    <value>サムネイルを表示する</value>
   </data>
   <data name="NavigatorPanelAccessor" xml:space="preserve">
     <value>ナビゲーター パネルのアクセサ</value>
@@ -3044,6 +3847,15 @@ include("Sample.nvjs")</value>
   </data>
   <data name="NotZipException.Message" xml:space="preserve">
     <value>{0} は ZIP ファイルではありません</value>
+  </data>
+  <data name="NScrollType.Diagonal" xml:space="preserve">
+    <value>斜めスクロール</value>
+  </data>
+  <data name="NScrollType.NType" xml:space="preserve">
+    <value>N字スクロール</value>
+  </data>
+  <data name="NScrollType.ZType" xml:space="preserve">
+    <value>Z字スクロール</value>
   </data>
   <data name="OpenApplicationErrorDialog.Title" xml:space="preserve">
     <value>外部アプリ実行に失敗しました</value>
@@ -3400,6 +4212,24 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="PageStretchMode.UniformToVertical" xml:space="preserve">
     <value>高さをウィンドウに合わせる</value>
   </data>
+  <data name="PageTitleConfig.FontSize" xml:space="preserve">
+    <value>ページ タイトルのフォント サイズ</value>
+  </data>
+  <data name="PageTitleConfig.IsEnabled" xml:space="preserve">
+    <value>ページ タイトルを表示する</value>
+  </data>
+  <data name="PageTitleConfig.IsEnabled.Remarks" xml:space="preserve">
+    <value>マウス ポインターがスライダーやフィルムストリップの上にあるときに表示されます。</value>
+  </data>
+  <data name="PageTitleConfig.PageTitleFormat1" xml:space="preserve">
+    <value>1 ページ用</value>
+  </data>
+  <data name="PageTitleConfig.PageTitleFormat2" xml:space="preserve">
+    <value>2 ページ用</value>
+  </data>
+  <data name="PageTitleConfig.PageTitleFormatMedia" xml:space="preserve">
+    <value>動画用</value>
+  </data>
   <data name="PageViewRecorderConfig.IsSavePageViewRecord" xml:space="preserve">
     <value>ページ表示履歴をファイルに保存する</value>
   </data>
@@ -3459,15 +4289,6 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   </data>
   <data name="PanelListItemStyle.Thumbnail" xml:space="preserve">
     <value>サムネイル</value>
-  </data>
-  <data name="xPanelsConfig.FolderTreeFontSize" xml:space="preserve">
-    <value>フォルダー ツリーのフォント サイズ</value>
-  </data>
-  <data name="xPanelsConfig.FontName" xml:space="preserve">
-    <value>リスト項目のフォント</value>
-  </data>
-  <data name="xPanelsConfig.FontSize" xml:space="preserve">
-    <value>リスト項目のフォント サイズ</value>
   </data>
   <data name="PanelsConfig.IsDecoratePlace" xml:space="preserve">
     <value>補足テキストのパス表示を整形する</value>
@@ -3800,26 +4621,29 @@ Susie 書庫はこのサイズで判別せず、プラグインの設定での�
   <data name="ScriptReference.Summary" xml:space="preserve">
     <value>NeeView 専用のスクリプト命令の使用方法を説明します。</value>
   </data>
+  <data name="ScrollPageCommandParameter.EndMargin" xml:space="preserve">
+    <value>スクロール終端マージン (ピクセル)</value>
+  </data>
+  <data name="ScrollPageCommandParameter.EndMargin.Remarks" xml:space="preserve">
+    <value>このスクロール距離未満では行移動が優先されます。</value>
+  </data>
   <data name="ScrollPageCommandParameter.IsNScroll" xml:space="preserve">
     <value>N字スクロール</value>
   </data>
   <data name="ScrollPageCommandParameter.IsNScroll.Remarks" xml:space="preserve">
     <value>縦スクロール可能な場合、縦方向にもスクロールします。縦横スクロールが可能な場合、N字を描くようにスクロールします。</value>
   </data>
-  <data name="x.ScrollPageCommandParameter.MinScroll" xml:space="preserve">
-    <value>最小スクロール距離 (ピクセル)</value>
+  <data name="ScrollPageCommandParameter.LineBreakStopMode" xml:space="preserve">
+    <value>改行動停止モード</value>
+  </data>
+  <data name="ScrollPageCommandParameter.LineBreakStopMode.Remarks" xml:space="preserve">
+    <value>行単位か、ページ単位か。</value>
   </data>
   <data name="ScrollPageCommandParameter.LineBreakStopTime" xml:space="preserve">
     <value>改行停止 (秒)</value>
   </data>
   <data name="ScrollPageCommandParameter.LineBreakStopTime.Remarks" xml:space="preserve">
     <value>すぐに改行させないための待機時間です。</value>
-  </data>
-  <data name="ScrollPageCommandParameter.LineBreakStopMode" xml:space="preserve">
-    <value>改行動停止モード</value>
-  </data>
-  <data name="ScrollPageCommandParameter.LineBreakStopMode.Remarks" xml:space="preserve">
-    <value>行単位か、ページ単位か。</value>
   </data>
   <data name="ScrollPageCommandParameter.Scroll" xml:space="preserve">
     <value>移動量</value>
@@ -3830,11 +4654,8 @@ Susie 書庫はこのサイズで判別せず、プラグインの設定での�
   <data name="ScrollPageCommandParameter.ScrollDuration" xml:space="preserve">
     <value>スクロール時間 (秒)</value>
   </data>
-  <data name="ScrollPageCommandParameter.EndMargin" xml:space="preserve">
-    <value>スクロール終端マージン (ピクセル)</value>
-  </data>
-  <data name="ScrollPageCommandParameter.EndMargin.Remarks" xml:space="preserve">
-    <value>このスクロール距離未満では行移動が優先されます。</value>
+  <data name="ScrollPageCommandParameter.ScrollType" xml:space="preserve">
+    <value>スクロール タイプ</value>
   </data>
   <data name="SetBackgroundAutoCommand" xml:space="preserve">
     <value>背景を画像に合わせた色にする</value>
@@ -4211,6 +5032,9 @@ Susie 書庫はこのサイズで判別せず、プラグインの設定での�
   <data name="SettingPage.Filmstrip" xml:space="preserve">
     <value>フィルムストリップ</value>
   </data>
+  <data name="SettingPage.Fonts" xml:space="preserve">
+    <value>フォント</value>
+  </data>
   <data name="SettingPage.General" xml:space="preserve">
     <value>全般</value>
   </data>
@@ -4310,6 +5134,9 @@ Susie 書庫はこのサイズで判別せず、プラグインの設定での�
   <data name="SettingPage.Manipurate.GeneralViewOperation" xml:space="preserve">
     <value>ビュー操作</value>
   </data>
+  <data name="SettingPage.Manipurate.HoverScroll" xml:space="preserve">
+    <value>ホバー スクロール</value>
+  </data>
   <data name="SettingPage.Manipurate.Loupe" xml:space="preserve">
     <value>ルーペ</value>
   </data>
@@ -4348,6 +5175,9 @@ Susie 書庫はこのサイズで判別せず、プラグインの設定での�
   </data>
   <data name="SettingPage.Notify.Display" xml:space="preserve">
     <value>通知表示</value>
+  </data>
+  <data name="SettingPage.PageTitle" xml:space="preserve">
+    <value>ページ タイトル</value>
   </data>
   <data name="SettingPage.PanelItems" xml:space="preserve">
     <value>パネル リスト項目</value>
@@ -4448,6 +5278,9 @@ Susie 書庫はこのサイズで判別せず、プラグインの設定での�
   <data name="SettingPage.Window.Theme" xml:space="preserve">
     <value>テーマ</value>
   </data>
+  <data name="SettingPage.Window.Theme.OpenCustomThemeFile" xml:space="preserve">
+    <value>カスタム テーマ ファイルを開く</value>
+  </data>
   <data name="SettingPage.WindowTitle" xml:space="preserve">
     <value>ウィンドウ タイトル</value>
   </data>
@@ -4468,9 +5301,6 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
   </data>
   <data name="SettingPage.WindowTitle.Note.Title" xml:space="preserve">
     <value>フォーマットの説明</value>
-  </data>
-  <data name="SettingPage.PageTitle" xml:space="preserve">
-    <value>ページ タイトル</value>
   </data>
   <data name="SevenZipArchiveConfig.IsEnabled" xml:space="preserve">
     <value>7-Zip による圧縮ファイル展開を使用する</value>
@@ -4514,6 +5344,12 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
   <data name="ShowMessageStyle.Tiny" xml:space="preserve">
     <value>小さく表示する</value>
   </data>
+  <data name="SliderConfig.Color" xml:space="preserve">
+    <value>スライダーの色</value>
+  </data>
+  <data name="SliderConfig.IsEnabled" xml:space="preserve">
+    <value>スライダーを表示する</value>
+  </data>
   <data name="SliderConfig.IsHidePageSlider" xml:space="preserve">
     <value>スライダーを自動的に隠す</value>
   </data>
@@ -4546,6 +5382,9 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
   </data>
   <data name="SliderConfig.SliderIndexLayout" xml:space="preserve">
     <value>ページ数表示位置</value>
+  </data>
+  <data name="SliderConfig.Thickness" xml:space="preserve">
+    <value>スライダーの太さ (ピクセル)</value>
   </data>
   <data name="SliderDirection.LeftToRight" xml:space="preserve">
     <value>▶ 左から右</value>
@@ -4655,6 +5494,9 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
   <data name="SusiePluginList.Up" xml:space="preserve">
     <value>上へ</value>
   </data>
+  <data name="SusiePluginWindow.About" xml:space="preserve">
+    <value>このプラグインについて</value>
+  </data>
   <data name="SusiePluginWindow.IsCacheEnabled" xml:space="preserve">
     <value>プラグインをキャッシュする</value>
   </data>
@@ -4757,11 +5599,35 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
   <data name="SystemConfig.TemporaryDirectory.Remarks" xml:space="preserve">
     <value>多重圧縮ファイルの展開や事前展開に使用されます。</value>
   </data>
+  <data name="ThemeConfig.CustomThemeFilePath" xml:space="preserve">
+    <value>カスタム テーマ ファイルの場所</value>
+  </data>
   <data name="ThemeConfig.ThemeType" xml:space="preserve">
     <value>テーマの種類</value>
   </data>
-  <data name="ThemeConfig.CustomThemeFilePath" xml:space="preserve">
-    <value>カスタム テーマ ファイルの場所</value>
+  <data name="ThemeErrorDialog.Title" xml:space="preserve">
+    <value>テーマ エラー</value>
+  </data>
+  <data name="ThemeType.Custom" xml:space="preserve">
+    <value>カスタム</value>
+  </data>
+  <data name="ThemeType.Dark" xml:space="preserve">
+    <value>ダーク</value>
+  </data>
+  <data name="ThemeType.DarkMonochrome" xml:space="preserve">
+    <value>ダーク モノクローム</value>
+  </data>
+  <data name="ThemeType.HighContrast" xml:space="preserve">
+    <value>ハイ コントラスト</value>
+  </data>
+  <data name="ThemeType.Light" xml:space="preserve">
+    <value>ライト</value>
+  </data>
+  <data name="ThemeType.LightMonochrome" xml:space="preserve">
+    <value>ライト モノクローム</value>
+  </data>
+  <data name="ThemeType.System" xml:space="preserve">
+    <value>Windows の設定に従う</value>
   </data>
   <data name="ThumbnailConfig.CacheLimitSpan" xml:space="preserve">
     <value>サムネイル キャッシュの保存期間</value>
@@ -4975,6 +5841,21 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
   </data>
   <data name="ToggleHideThumbnailListCommand.Remarks" xml:space="preserve">
     <value>スライダーを使用している時だけフィルムストリップを表示するようにします。</value>
+  </data>
+  <data name="ToggleHoverScrollCommand" xml:space="preserve">
+    <value>ホバー スクロール有効/無効</value>
+  </data>
+  <data name="ToggleHoverScrollCommand.Menu" xml:space="preserve">
+    <value>ホバー スクロール</value>
+  </data>
+  <data name="ToggleHoverScrollCommand.Off" xml:space="preserve">
+    <value>ホバー スクロール無効</value>
+  </data>
+  <data name="ToggleHoverScrollCommand.On" xml:space="preserve">
+    <value>ホバー スクロール有効</value>
+  </data>
+  <data name="ToggleHoverScrollCommand.Remarks" xml:space="preserve">
+    <value>マウス ポインターの位置に応じてスクロールします。</value>
   </data>
   <data name="ToggleIsAutoRotateCommand" xml:space="preserve">
     <value>自動回転</value>
@@ -5420,6 +6301,21 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
   <data name="ToggleVisiblePagemarkListCommand.Remarks" xml:space="preserve">
     <value>ページマーク パネルの表示/非表示を切り替えます。</value>
   </data>
+  <data name="ToggleVisiblePageSliderCommand" xml:space="preserve">
+    <value>スライダーの表示/非表示</value>
+  </data>
+  <data name="ToggleVisiblePageSliderCommand.Menu" xml:space="preserve">
+    <value>スライダー</value>
+  </data>
+  <data name="ToggleVisiblePageSliderCommand.Off" xml:space="preserve">
+    <value>スライダーを消す</value>
+  </data>
+  <data name="ToggleVisiblePageSliderCommand.On" xml:space="preserve">
+    <value>スライダーを表示する</value>
+  </data>
+  <data name="ToggleVisiblePageSliderCommand.Remarks" xml:space="preserve">
+    <value>スライダーの表示/非表示を切り替えます。</value>
+  </data>
   <data name="ToggleVisibleSideBarCommand" xml:space="preserve">
     <value>サイド バー表示/非表示</value>
   </data>
@@ -5449,36 +6345,6 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
   </data>
   <data name="ToggleVisibleThumbnailListCommand.Remarks" xml:space="preserve">
     <value>フィルムストリップの表示/非表示を切り替えます。</value>
-  </data>
-  <data name="ToggleVisiblePageSliderCommand" xml:space="preserve">
-    <value>スライダーの表示/非表示</value>
-  </data>
-  <data name="ToggleVisiblePageSliderCommand.Menu" xml:space="preserve">
-    <value>スライダー</value>
-  </data>
-  <data name="ToggleVisiblePageSliderCommand.Off" xml:space="preserve">
-    <value>スライダーを消す</value>
-  </data>
-  <data name="ToggleVisiblePageSliderCommand.On" xml:space="preserve">
-    <value>スライダーを表示する</value>
-  </data>
-  <data name="ToggleVisiblePageSliderCommand.Remarks" xml:space="preserve">
-    <value>スライダーの表示/非表示を切り替えます。</value>
-  </data>
-  <data name="x.ToggleVisibleTitleBarCommand" xml:space="preserve">
-    <value>タイトル バー表示/非表示</value>
-  </data>
-  <data name="x.ToggleVisibleTitleBarCommand.Menu" xml:space="preserve">
-    <value>タイトル バー</value>
-  </data>
-  <data name="x.ToggleVisibleTitleBarCommand.Off" xml:space="preserve">
-    <value>タイトル バーを消す</value>
-  </data>
-  <data name="x.ToggleVisibleTitleBarCommand.On" xml:space="preserve">
-    <value>タイトル バー表示する</value>
-  </data>
-  <data name="x.ToggleVisibleTitleBarCommand.Remarks" xml:space="preserve">
-    <value>ウィンドウ タイトル バーの表示/非表示を切り替えます。</value>
   </data>
   <data name="ToggleWindowMaximizeCommand" xml:space="preserve">
     <value>ウィンドウを最大化する</value>
@@ -5669,6 +6535,9 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
   <data name="ViewConfig.IsViewStartPositionCenter.Remarks" xml:space="preserve">
     <value>オフにすると、見開き方向によって右上、左上基準が切り替わります。</value>
   </data>
+  <data name="ViewConfig.MainViewMergin" xml:space="preserve">
+    <value>メインビューの余白 (ピクセル)</value>
+  </data>
   <data name="ViewConfig.RotateCenter" xml:space="preserve">
     <value>回転の中心</value>
   </data>
@@ -5796,8 +6665,11 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ViewScrollLeftCommand.Remarks" xml:space="preserve">
     <value>画像を左方向にするロールさせます。横スクロールできないときは縦スクロールになります。</value>
   </data>
-  <data name="x.ViewScrollNTypeCommandParameter.MinScroll" xml:space="preserve">
-    <value>最小スクロール距離 (ピクセル)</value>
+  <data name="ViewScrollNTypeCommandParameter.LineBreakStopTime" xml:space="preserve">
+    <value>改行停止 (秒)</value>
+  </data>
+  <data name="ViewScrollNTypeCommandParameter.LineBreakStopTime.Remarks" xml:space="preserve">
+    <value>すぐに改行させないための待機時間です。</value>
   </data>
   <data name="ViewScrollNTypeCommandParameter.Scroll" xml:space="preserve">
     <value>移動量</value>
@@ -5807,6 +6679,9 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="ViewScrollNTypeCommandParameter.ScrollDuration" xml:space="preserve">
     <value>スクロール時間 (秒)</value>
+  </data>
+  <data name="ViewScrollNTypeCommandParameter.ScrollType" xml:space="preserve">
+    <value>スクロール タイプ</value>
   </data>
   <data name="ViewScrollNTypeDownCommand" xml:space="preserve">
     <value>N字スクロール↓</value>
@@ -5853,9 +6728,6 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="WindowConfig.IsCaptionEmulateInFullScreen.Remarks" xml:space="preserve">
     <value>フルスクリーン中に、タイトル バーでのダブルクリックやドラッグの操作を受け付けるようにします。</value>
   </data>
-  <data name="x.WindowConfig.IsCaptionVisible" xml:space="preserve">
-    <value>タイトル バーを表示</value>
-  </data>
   <data name="WindowConfig.IsRestoreAeroSnapPlacement" xml:space="preserve">
     <value>Aero スナップのウィンドウ座標を復元</value>
   </data>
@@ -5873,9 +6745,6 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="WindowConfig.State" xml:space="preserve">
     <value>ウィンドウ状態</value>
-  </data>
-  <data name="x.WindowConfig.WindowChromeFrame" xml:space="preserve">
-    <value>タイトル バー非表示でのウィンドウ枠</value>
   </data>
   <data name="WindowSettingTitle" xml:space="preserve">
     <value>設定</value>
@@ -5895,9 +6764,6 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="WindowStateEx.Normal" xml:space="preserve">
     <value>通常</value>
   </data>
-  <data name="x.WindowTitleConfig.IsMainViewDisplayEnabled" xml:space="preserve">
-    <value>タイトル バーが表示されない時に、表示エリアにウィンドウ タイトルを表示する</value>
-  </data>
   <data name="WindowTitleConfig.WindowTitleFormat1" xml:space="preserve">
     <value>1 ページ用</value>
   </data>
@@ -5906,24 +6772,6 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="WindowTitleConfig.WindowTitleFormatMedia" xml:space="preserve">
     <value>動画用</value>
-  </data>
-  <data name="PageTitleConfig.IsEnabled" xml:space="preserve">
-    <value>ページ タイトルを表示する</value>
-  </data>
-  <data name="PageTitleConfig.IsEnabled.Remarks" xml:space="preserve">
-    <value>マウス ポインターがスライダーやフィルムストリップの上にあるときに表示されます。</value>
-  </data>
-  <data name="PageTitleConfig.PageTitleFormat1" xml:space="preserve">
-    <value>1 ページ用</value>
-  </data>
-  <data name="PageTitleConfig.PageTitleFormat2" xml:space="preserve">
-    <value>2 ページ用</value>
-  </data>
-  <data name="PageTitleConfig.PageTitleFormatMedia" xml:space="preserve">
-    <value>動画用</value>
-  </data>
-  <data name="PageTitleConfig.FontSize" xml:space="preserve">
-    <value>ページ タイトルのフォント サイズ</value>
   </data>
   <data name="Word.Add" xml:space="preserve">
     <value>追加</value>
@@ -6005,6 +6853,9 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="Word.EmbeddedImage" xml:space="preserve">
     <value>HTML 埋め込み画像</value>
+  </data>
+  <data name="Word.Error" xml:space="preserve">
+    <value>エラー</value>
   </data>
   <data name="Word.Example" xml:space="preserve">
     <value>例</value>
@@ -6165,9 +7016,6 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="Word.Reset" xml:space="preserve">
     <value>リセット</value>
   </data>
-  <data name="xWord.ResetLong" xml:space="preserve">
-    <value>既定値に戻す</value>
-  </data>
   <data name="Word.Restore" xml:space="preserve">
     <value>元に戻す</value>
   </data>
@@ -6242,965 +7090,5 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="ZipArchiveConfig.SupportFileTypes.Remarks" xml:space="preserve">
     <value>ZIP 形式のみ対応しています。</value>
-  </data>
-  <data name="ViewConfig.MainViewMergin" xml:space="preserve">
-    <value>メインビューの余白 (ピクセル)</value>
-  </data>
-  <data name="SliderConfig.IsEnabled" xml:space="preserve">
-    <value>スライダーを表示する</value>
-  </data>
-  <data name="ToggleHoverScrollCommand" xml:space="preserve">
-    <value>ホバー スクロール有効/無効</value>
-  </data>
-  <data name="ToggleHoverScrollCommand.Menu" xml:space="preserve">
-    <value>ホバー スクロール</value>
-  </data>
-  <data name="ToggleHoverScrollCommand.Off" xml:space="preserve">
-    <value>ホバー スクロール無効</value>
-  </data>
-  <data name="ToggleHoverScrollCommand.On" xml:space="preserve">
-    <value>ホバー スクロール有効</value>
-  </data>
-  <data name="ToggleHoverScrollCommand.Remarks" xml:space="preserve">
-    <value>マウス ポインターの位置に応じてスクロールします。</value>
-  </data>
-  <data name="MouseConfig.HoverScrollDuration" xml:space="preserve">
-    <value>ホバー スクロール時間 (秒)</value>
-  </data>
-  <data name="MouseConfig.HoverScrollDuration.Remarks" xml:space="preserve">
-    <value>時間が長いほどスクロールが滑らかになります。</value>
-  </data>
-  <data name="SettingPage.Manipurate.HoverScroll" xml:space="preserve">
-    <value>ホバー スクロール</value>
-  </data>
-  <data name="Navigator.MoreMenu.IsVisibleThumbnail" xml:space="preserve">
-    <value>サムネイル</value>
-  </data>
-  <data name="NavigatorConfig.IsVisibleThumbnail" xml:space="preserve">
-    <value>サムネイルを表示する</value>
-  </data>
-  <data name="MouseConfig.IsHoverScroll" xml:space="preserve">
-    <value>ホバー スクロール モード</value>
-  </data>
-  <data name="InformationKey.FileName" xml:space="preserve">
-    <value>ファイル名</value>
-  </data>
-  <data name="InformationKey.ArchivePath" xml:space="preserve">
-    <value>アーカイブ パス</value>
-  </data>
-  <data name="InformationKey.CreationTime" xml:space="preserve">
-    <value>作成日時</value>
-  </data>
-  <data name="InformationKey.LastWriteTime" xml:space="preserve">
-    <value>更新日時</value>
-  </data>
-  <data name="InformationKey.FileSize" xml:space="preserve">
-    <value>サイズ</value>
-  </data>
-  <data name="InformationKey.FilePath" xml:space="preserve">
-    <value>ファイル パス</value>
-  </data>
-  <data name="InformationKey.Dimensions" xml:space="preserve">
-    <value>大きさ</value>
-  </data>
-  <data name="InformationKey.Width" xml:space="preserve">
-    <value>幅</value>
-  </data>
-  <data name="InformationKey.Height" xml:space="preserve">
-    <value>高さ</value>
-  </data>
-  <data name="InformationKey.HorizontalResolution" xml:space="preserve">
-    <value>水平方向の解像度</value>
-  </data>
-  <data name="InformationKey.VerticalResolution" xml:space="preserve">
-    <value>垂直方向の解像度</value>
-  </data>
-  <data name="InformationKey.BitDepth" xml:space="preserve">
-    <value>ビットの深さ</value>
-  </data>
-  <data name="InformationKey.Archiver" xml:space="preserve">
-    <value>アーカイバー</value>
-  </data>
-  <data name="InformationKey.Decoder" xml:space="preserve">
-    <value>デコーダー</value>
-  </data>
-  <data name="InformationKey.Title" xml:space="preserve">
-    <value>タイトル</value>
-  </data>
-  <data name="InformationKey.Subject" xml:space="preserve">
-    <value>件名</value>
-  </data>
-  <data name="InformationKey.Rating" xml:space="preserve">
-    <value>評価</value>
-  </data>
-  <data name="InformationKey.Tags" xml:space="preserve">
-    <value>タグ</value>
-  </data>
-  <data name="InformationKey.Comments" xml:space="preserve">
-    <value>コメント</value>
-  </data>
-  <data name="InformationKey.Author" xml:space="preserve">
-    <value>作成者</value>
-  </data>
-  <data name="InformationKey.DateTaken" xml:space="preserve">
-    <value>撮影日時</value>
-  </data>
-  <data name="InformationKey.ApplicatoinName" xml:space="preserve">
-    <value>プログラム名</value>
-  </data>
-  <data name="InformationKey.DateAcquired" xml:space="preserve">
-    <value>取得日時</value>
-  </data>
-  <data name="InformationKey.Copyright" xml:space="preserve">
-    <value>著作権</value>
-  </data>
-  <data name="InformationKey.CameraMaker" xml:space="preserve">
-    <value>カメラ メーカー</value>
-  </data>
-  <data name="InformationKey.CameraModel" xml:space="preserve">
-    <value>カメラ モデル</value>
-  </data>
-  <data name="InformationKey.FNumber" xml:space="preserve">
-    <value>絞り値</value>
-  </data>
-  <data name="InformationKey.ExposureTime" xml:space="preserve">
-    <value>露出時間</value>
-  </data>
-  <data name="InformationKey.ISOSpeed" xml:space="preserve">
-    <value>ISO 速度</value>
-  </data>
-  <data name="InformationKey.ExposureBias" xml:space="preserve">
-    <value>露出補正</value>
-  </data>
-  <data name="InformationKey.FocalLength" xml:space="preserve">
-    <value>焦点距離</value>
-  </data>
-  <data name="InformationKey.MaxAperture" xml:space="preserve">
-    <value>最大絞り</value>
-  </data>
-  <data name="InformationKey.MeteringMode" xml:space="preserve">
-    <value>測光モード</value>
-  </data>
-  <data name="InformationKey.SubjectDistance" xml:space="preserve">
-    <value>対象の距離</value>
-  </data>
-  <data name="InformationKey.FlashMode" xml:space="preserve">
-    <value>フラッシュ モード</value>
-  </data>
-  <data name="InformationKey.FlashEnergy" xml:space="preserve">
-    <value>フラッシュ エネルギー</value>
-  </data>
-  <data name="InformationKey.FocalLengthIn35mmFilm" xml:space="preserve">
-    <value>35mm 焦点距離</value>
-  </data>
-  <data name="InformationKey.LensMaker" xml:space="preserve">
-    <value>レンズ メーカー</value>
-  </data>
-  <data name="InformationKey.LensModel" xml:space="preserve">
-    <value>レンズ モデル</value>
-  </data>
-  <data name="InformationKey.FlashMaker" xml:space="preserve">
-    <value>フラッシュ メーカー</value>
-  </data>
-  <data name="InformationKey.FlashModel" xml:space="preserve">
-    <value>フラッシュ モデル</value>
-  </data>
-  <data name="InformationKey.CameraSerialNumber" xml:space="preserve">
-    <value>カメラ製造番号</value>
-  </data>
-  <data name="InformationKey.Contrast" xml:space="preserve">
-    <value>コントラスト</value>
-  </data>
-  <data name="InformationKey.Brightness" xml:space="preserve">
-    <value>明るさ</value>
-  </data>
-  <data name="InformationKey.LightSource" xml:space="preserve">
-    <value>光源</value>
-  </data>
-  <data name="InformationKey.ExposureProgram" xml:space="preserve">
-    <value>露出プログラム</value>
-  </data>
-  <data name="InformationKey.Saturation" xml:space="preserve">
-    <value>彩度</value>
-  </data>
-  <data name="InformationKey.Sharpness" xml:space="preserve">
-    <value>鮮明度</value>
-  </data>
-  <data name="InformationKey.WhiteBalance" xml:space="preserve">
-    <value>ホワイト バランス</value>
-  </data>
-  <data name="InformationKey.PhotometricInterpretation" xml:space="preserve">
-    <value>光度測定解釈</value>
-  </data>
-  <data name="InformationKey.DigitalZoom" xml:space="preserve">
-    <value>デジタル ズーム</value>
-  </data>
-  <data name="InformationKey.EXIFVersion" xml:space="preserve">
-    <value>EXIF バージョン</value>
-  </data>
-  <data name="InformationKey.GPSLatitude" xml:space="preserve">
-    <value>緯度</value>
-  </data>
-  <data name="InformationKey.GPSLongitude" xml:space="preserve">
-    <value>経度</value>
-  </data>
-  <data name="InformationKey.GPSAltitude" xml:space="preserve">
-    <value>高度</value>
-  </data>
-  <data name="InformationKey.Orientation" xml:space="preserve">
-    <value>向き</value>
-  </data>
-  <data name="ExifContrast.Normal" xml:space="preserve">
-    <value>標準</value>
-  </data>
-  <data name="ExifContrast.Soft" xml:space="preserve">
-    <value>ソフト</value>
-  </data>
-  <data name="ExifContrast.Hard" xml:space="preserve">
-    <value>ハード</value>
-  </data>
-  <data name="ExifExposureProgram.NotDefined" xml:space="preserve">
-    <value>不明</value>
-  </data>
-  <data name="ExifExposureProgram.Manual" xml:space="preserve">
-    <value>手動</value>
-  </data>
-  <data name="ExifExposureProgram.NormalProgram" xml:space="preserve">
-    <value>標準</value>
-  </data>
-  <data name="ExifExposureProgram.AperturePriority" xml:space="preserve">
-    <value>絞り優先</value>
-  </data>
-  <data name="ExifExposureProgram.ShutterPriority" xml:space="preserve">
-    <value>シャッター優先</value>
-  </data>
-  <data name="ExifExposureProgram.CreativeProgram" xml:space="preserve">
-    <value>深度優先</value>
-  </data>
-  <data name="ExifExposureProgram.ActionProgram" xml:space="preserve">
-    <value>動体優先</value>
-  </data>
-  <data name="ExifExposureProgram.PortraitMode" xml:space="preserve">
-    <value>縦長</value>
-  </data>
-  <data name="ExifExposureProgram.LandscapeMode" xml:space="preserve">
-    <value>横長</value>
-  </data>
-  <data name="ExifFlashMode.FlashDidNotFire" xml:space="preserve">
-    <value>フラッシュなし</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired" xml:space="preserve">
-    <value>フラッシュ</value>
-  </data>
-  <data name="ExifFlashMode.StrobeReturnLightNotDetected" xml:space="preserve">
-    <value>フラッシュ (ストロボの反射光なし)</value>
-  </data>
-  <data name="ExifFlashMode.StrobeReturnLightDetected" xml:space="preserve">
-    <value>フラッシュ (ストロボの反射光あり)</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode" xml:space="preserve">
-    <value>フラッシュ (強制)</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_ReturnLightNotDetected" xml:space="preserve">
-    <value>フラッシュ (強制、ストロボの反射光なし)</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_ReturnLightDetected" xml:space="preserve">
-    <value>フラッシュ (強制、ストロボの反射光あり)</value>
-  </data>
-  <data name="ExifFlashMode.FlashDidNotFire_CompulsoryFlashMode" xml:space="preserve">
-    <value>フラッシュなし (強制)</value>
-  </data>
-  <data name="ExifFlashMode.FlashDidNotFire_AutoMode" xml:space="preserve">
-    <value>フラッシュなし (自動)</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_AutoMode" xml:space="preserve">
-    <value>フラッシュ (自動)</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_AutoMode_ReturnLightNotDetected" xml:space="preserve">
-    <value>フラッシュ (自動、ストロボの反射光なし)</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_AutoMode_ReturnLightDetected" xml:space="preserve">
-    <value>フラッシュ (自動、ストロボの反射光あり)</value>
-  </data>
-  <data name="ExifFlashMode.NoFlashFunction" xml:space="preserve">
-    <value>フラッシュ機能なし</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_RedEyeReductionMode" xml:space="preserve">
-    <value>フラッシュ (赤目修整)</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_RedEyeReductionMode_ReturnLightNotDetected" xml:space="preserve">
-    <value>フラッシュ (赤目修整、ストロボの反射光なし)</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_RedEyeReductionMode_ReturnLightDetected" xml:space="preserve">
-    <value>フラッシュ (赤目修整、ストロボの反射光あり)</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_RedEyeReductionMode" xml:space="preserve">
-    <value>フラッシュ (強制、赤目修整)</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_RedEyeReductionMode_ReturnLightNotDetected" xml:space="preserve">
-    <value>フラッシュ (強制、赤目修整、ストロボの反射光なし)</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_CompulsoryFlashMode_RedEyeReductionMode_ReturnLightDetected" xml:space="preserve">
-    <value>フラッシュ (強制、赤目修整、ストロボの反射光あり)</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_AutoMode_RedEyeReductionMode" xml:space="preserve">
-    <value>フラッシュ (自動、赤目修整)</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_AutoMode_ReturnLightNotDetected_RedEyeReductionMode" xml:space="preserve">
-    <value>フラッシュ (自動、赤目修整、ストロボの反射光なし)</value>
-  </data>
-  <data name="ExifFlashMode.FlashFired_AutoMode_ReturnLightDetected_RedEyeReductionMode" xml:space="preserve">
-    <value>フラッシュ (自動、赤目修整、ストロボの反射光あり)</value>
-  </data>
-  <data name="ExifLightSource.Unknown" xml:space="preserve">
-    <value>不明</value>
-  </data>
-  <data name="ExifLightSource.Daylight" xml:space="preserve">
-    <value>日光</value>
-  </data>
-  <data name="ExifLightSource.Fluorescent" xml:space="preserve">
-    <value>蛍光灯</value>
-  </data>
-  <data name="ExifLightSource.Tungsten" xml:space="preserve">
-    <value>タングステン</value>
-  </data>
-  <data name="ExifLightSource.Flash" xml:space="preserve">
-    <value>フラッシュ</value>
-  </data>
-  <data name="ExifLightSource.FineWeather" xml:space="preserve">
-    <value>快晴</value>
-  </data>
-  <data name="ExifLightSource.CloudyWeather" xml:space="preserve">
-    <value>曇天</value>
-  </data>
-  <data name="ExifLightSource.Shade" xml:space="preserve">
-    <value>日陰</value>
-  </data>
-  <data name="ExifLightSource.DaylightFluorescent" xml:space="preserve">
-    <value>昼光色蛍光灯</value>
-  </data>
-  <data name="ExifLightSource.DayWhiteFluorescent" xml:space="preserve">
-    <value>昼白色蛍光灯</value>
-  </data>
-  <data name="ExifLightSource.CoolWhiteFluorescent" xml:space="preserve">
-    <value>涼しげな白色蛍光灯</value>
-  </data>
-  <data name="ExifLightSource.WhiteFluorescent" xml:space="preserve">
-    <value>白色蛍光灯</value>
-  </data>
-  <data name="ExifLightSource.StandardLightA" xml:space="preserve">
-    <value>標準イルミナント A</value>
-  </data>
-  <data name="ExifLightSource.StandardLightB" xml:space="preserve">
-    <value>標準イルミナント B</value>
-  </data>
-  <data name="ExifLightSource.StandardLightC" xml:space="preserve">
-    <value>標準イルミナント C</value>
-  </data>
-  <data name="ExifLightSource.D55" xml:space="preserve">
-    <value>D55</value>
-  </data>
-  <data name="ExifLightSource.D65" xml:space="preserve">
-    <value>D65</value>
-  </data>
-  <data name="ExifLightSource.D75" xml:space="preserve">
-    <value>D75</value>
-  </data>
-  <data name="ExifLightSource.D50" xml:space="preserve">
-    <value>D50</value>
-  </data>
-  <data name="ExifLightSource.ISOStudioTungsten" xml:space="preserve">
-    <value>ISO スタジオ タングステン</value>
-  </data>
-  <data name="ExifLightSource.OtherLightSource" xml:space="preserve">
-    <value>その他の光源</value>
-  </data>
-  <data name="ExifMeteringMode.Unknown" xml:space="preserve">
-    <value>不明</value>
-  </data>
-  <data name="ExifMeteringMode.Average" xml:space="preserve">
-    <value>均等</value>
-  </data>
-  <data name="ExifMeteringMode.CenterWeightedAverage" xml:space="preserve">
-    <value>中央重点測光</value>
-  </data>
-  <data name="ExifMeteringMode.Spot" xml:space="preserve">
-    <value>スポット</value>
-  </data>
-  <data name="ExifMeteringMode.MultiSpot" xml:space="preserve">
-    <value>マルチ スポット</value>
-  </data>
-  <data name="ExifMeteringMode.Pattern" xml:space="preserve">
-    <value>パターン</value>
-  </data>
-  <data name="ExifMeteringMode.Partial" xml:space="preserve">
-    <value>部分</value>
-  </data>
-  <data name="ExifMeteringMode.Other" xml:space="preserve">
-    <value>その他</value>
-  </data>
-  <data name="ExifPhotometricInterpretation.WhiteIsZero" xml:space="preserve">
-    <value>White is zero</value>
-  </data>
-  <data name="ExifPhotometricInterpretation.BlackIsZero" xml:space="preserve">
-    <value>Black is zero</value>
-  </data>
-  <data name="ExifPhotometricInterpretation.RGB" xml:space="preserve">
-    <value>RGB</value>
-  </data>
-  <data name="ExifPhotometricInterpretation.PaletteColor" xml:space="preserve">
-    <value>パレット カラー</value>
-  </data>
-  <data name="ExifPhotometricInterpretation.TransparencyMask" xml:space="preserve">
-    <value>透過マスク</value>
-  </data>
-  <data name="ExifPhotometricInterpretation.CMYK" xml:space="preserve">
-    <value>CMYK</value>
-  </data>
-  <data name="ExifPhotometricInterpretation.YCbCr" xml:space="preserve">
-    <value>YCbCr</value>
-  </data>
-  <data name="ExifPhotometricInterpretation.CIELab" xml:space="preserve">
-    <value>CIE L*a*b*</value>
-  </data>
-  <data name="ExifPhotometricInterpretation.ICCLab" xml:space="preserve">
-    <value>ICC L*a*b*</value>
-  </data>
-  <data name="ExifPhotometricInterpretation.ITULab" xml:space="preserve">
-    <value>ITU L*a*b*</value>
-  </data>
-  <data name="ExifPhotometricInterpretation.CFA" xml:space="preserve">
-    <value>CFA</value>
-  </data>
-  <data name="ExifPhotometricInterpretation.PixarLogL" xml:space="preserve">
-    <value>Pixar LogL</value>
-  </data>
-  <data name="ExifPhotometricInterpretation.LogLuv" xml:space="preserve">
-    <value>LogLuv</value>
-  </data>
-  <data name="ExifPhotometricInterpretation.LinearRaw" xml:space="preserve">
-    <value>Linear raw</value>
-  </data>
-  <data name="ExifSaturation.Normal" xml:space="preserve">
-    <value>標準</value>
-  </data>
-  <data name="ExifSaturation.LowSaturation" xml:space="preserve">
-    <value>低彩度</value>
-  </data>
-  <data name="ExifSaturation.HighSaturation" xml:space="preserve">
-    <value>高彩度</value>
-  </data>
-  <data name="ExifSharpness.Normal" xml:space="preserve">
-    <value>標準</value>
-  </data>
-  <data name="ExifSharpness.Soft" xml:space="preserve">
-    <value>ソフト</value>
-  </data>
-  <data name="ExifSharpness.Hard" xml:space="preserve">
-    <value>ハード</value>
-  </data>
-  <data name="ExifWhiteBalance.AutoWhiteBalance" xml:space="preserve">
-    <value>自動</value>
-  </data>
-  <data name="ExifWhiteBalance.ManualWhiteBalance" xml:space="preserve">
-    <value>手動</value>
-  </data>
-  <data name="xInformation.File" xml:space="preserve">
-    <value>ファイル</value>
-  </data>
-  <data name="xInformation.Image" xml:space="preserve">
-    <value>イメージ</value>
-  </data>
-  <data name="xInformation.Description" xml:space="preserve">
-    <value>説明</value>
-  </data>
-  <data name="xInformation.Origin" xml:space="preserve">
-    <value>ソース</value>
-  </data>
-  <data name="xInformation.Camera" xml:space="preserve">
-    <value>カメラ</value>
-  </data>
-  <data name="xInformation.AdvancedPhoto" xml:space="preserve">
-    <value>写真詳細</value>
-  </data>
-  <data name="xInformation.Gps" xml:space="preserve">
-    <value>GPS</value>
-  </data>
-  <data name="Information.OpenMap" xml:space="preserve">
-    <value>地図を開く</value>
-  </data>
-  <data name="InformationConfig.DateTimeFormat" xml:space="preserve">
-    <value>日時表示フォーマット</value>
-  </data>
-  <data name="InformationConfig.DateTimeFormat.Remarks" xml:space="preserve">
-    <value>.NET のカスタム日時形式文字列を指定します。</value>
-  </data>
-  <data name="InformationConfig.MapProgramFormat" xml:space="preserve">
-    <value>地図プログラム</value>
-  </data>
-  <data name="InformationConfig.MapProgramFormat.Remarks" xml:space="preserve">
-    <value>$Lat: 緯度, $LatDeg: 緯度(DEG), $Lon: 経度, $LonDeg: 経度(DEG)</value>
-  </data>
-  <data name="InformationConfig.IsVisibleFileSection" xml:space="preserve">
-    <value>ファイル情報を表示</value>
-  </data>
-  <data name="InformationConfig.IsVisibleImageSection" xml:space="preserve">
-    <value>イメージ情報を表示</value>
-  </data>
-  <data name="InformationConfig.IsVisibleDescriptionSection" xml:space="preserve">
-    <value>説明情報を表示</value>
-  </data>
-  <data name="InformationConfig.IsVisibleOriginSection" xml:space="preserve">
-    <value>ソース情報を表示</value>
-  </data>
-  <data name="InformationConfig.IsVisibleCameraSection" xml:space="preserve">
-    <value>カメラ情報を表示</value>
-  </data>
-  <data name="InformationConfig.IsVisibleAdvancedPhotoSection" xml:space="preserve">
-    <value>写真詳細情報を表示</value>
-  </data>
-  <data name="InformationConfig.IsVisibleGpsSection" xml:space="preserve">
-    <value>GPS情報を表示</value>
-  </data>
-  <data name="ExifOrientation.Normal" xml:space="preserve">
-    <value>標準</value>
-  </data>
-  <data name="ExifOrientation.MirrorHorizontal" xml:space="preserve">
-    <value>水平方向に反転</value>
-  </data>
-  <data name="ExifOrientation.Rotate180" xml:space="preserve">
-    <value>180° 回転</value>
-  </data>
-  <data name="ExifOrientation.MirrorVertical" xml:space="preserve">
-    <value>垂直方向に反転</value>
-  </data>
-  <data name="ExifOrientation.MirrorHorizontal_Rotate270" xml:space="preserve">
-    <value>水平方向に反転、270° 回転</value>
-  </data>
-  <data name="ExifOrientation.Rotate90" xml:space="preserve">
-    <value>90° 回転</value>
-  </data>
-  <data name="ExifOrientation.MirrorHorizontal_Rotate90" xml:space="preserve">
-    <value>水平方向に反転、90° 回転</value>
-  </data>
-  <data name="ExifOrientation.Rotate270" xml:space="preserve">
-    <value>270° 回転</value>
-  </data>
-  <data name="ExternalProcess.ConfirmBrowserDialog.Title" xml:space="preserve">
-    <value>Web ブラウザーを開きます。よろしいですか？</value>
-  </data>
-  <data name="ExternalProcess.ConfirmBrowserDialog.Message" xml:space="preserve">
-    <value>Web ブラウザーでネットに接続します。</value>
-  </data>
-  <data name="Word.Error" xml:space="preserve">
-    <value>エラー</value>
-  </data>
-  <data name="InformationGroup.File" xml:space="preserve">
-    <value>ファイル</value>
-  </data>
-  <data name="InformationGroup.Image" xml:space="preserve">
-    <value>イメージ</value>
-  </data>
-  <data name="InformationGroup.Description" xml:space="preserve">
-    <value>説明</value>
-  </data>
-  <data name="InformationGroup.Origin" xml:space="preserve">
-    <value>ソース</value>
-  </data>
-  <data name="InformationGroup.Camera" xml:space="preserve">
-    <value>カメラ</value>
-  </data>
-  <data name="InformationGroup.AdvancedPhoto" xml:space="preserve">
-    <value>写真詳細</value>
-  </data>
-  <data name="InformationGroup.Gps" xml:space="preserve">
-    <value>GPS</value>
-  </data>
-  <data name="SliderConfig.Thickness" xml:space="preserve">
-    <value>スライダーの太さ (ピクセル)</value>
-  </data>
-  <data name="SliderConfig.Color" xml:space="preserve">
-    <value>スライダーの色</value>
-  </data>
-  <data name="ImageCustomSizeConfig.AspectRatio" xml:space="preserve">
-    <value>アスペクト比</value>
-  </data>
-  <data name="ImageCustomSizeConfig.ApplicabilityRate" xml:space="preserve">
-    <value>適用率</value>
-  </data>
-  <data name="ImageCustomSizeConfig.IsAlignLongSide" xml:space="preserve">
-    <value>長辺を揃える</value>
-  </data>
-  <data name="ImageCustomSizeConfig.IsAlignLongSide.Remarks" xml:space="preserve">
-    <value>必要に応じて縦横を入れ替えます。</value>
-  </data>
-  <data name="CustomSizeAspectRatio.None" xml:space="preserve">
-    <value>制限なし</value>
-  </data>
-  <data name="CustomSizeAspectRatio.Origin" xml:space="preserve">
-    <value>元の縦横比を維持</value>
-  </data>
-  <data name="CustomSizeAspectRatio.Ratio_1_1" xml:space="preserve">
-    <value>1:1</value>
-  </data>
-  <data name="CustomSizeAspectRatio.Ratio_2_3" xml:space="preserve">
-    <value>2:3</value>
-  </data>
-  <data name="CustomSizeAspectRatio.Ratio_4_3" xml:space="preserve">
-    <value>4:3</value>
-  </data>
-  <data name="CustomSizeAspectRatio.Ratio_8_9" xml:space="preserve">
-    <value>8:9</value>
-  </data>
-  <data name="CustomSizeAspectRatio.Ratio_16_9" xml:space="preserve">
-    <value>16:9</value>
-  </data>
-  <data name="CustomSizeAspectRatio.HalfView" xml:space="preserve">
-    <value>ビューの半分の縦横比</value>
-  </data>
-  <data name="CustomSizeAspectRatio.View" xml:space="preserve">
-    <value>ビューの縦横比</value>
-  </data>
-  <data name="ViewScrollNTypeCommandParameter.LineBreakStopTime" xml:space="preserve">
-    <value>改行停止 (秒)</value>
-  </data>
-  <data name="ViewScrollNTypeCommandParameter.LineBreakStopTime.Remarks" xml:space="preserve">
-    <value>すぐに改行させないための待機時間です。</value>
-  </data>
-  <data name="LineBreakStopMode.Line" xml:space="preserve">
-    <value>行</value>
-  </data>
-  <data name="LineBreakStopMode.Page" xml:space="preserve">
-    <value>ページ</value>
-  </data>
-  <data name="NScrollType.NType" xml:space="preserve">
-    <value>N字スクロール</value>
-  </data>
-  <data name="NScrollType.ZType" xml:space="preserve">
-    <value>Z字スクロール</value>
-  </data>
-  <data name="NScrollType.Diagonal" xml:space="preserve">
-    <value>斜めスクロール</value>
-  </data>
-  <data name="ViewScrollNTypeCommandParameter.ScrollType" xml:space="preserve">
-    <value>スクロール タイプ</value>
-  </data>
-  <data name="ScrollPageCommandParameter.ScrollType" xml:space="preserve">
-    <value>スクロール タイプ</value>
-  </data>
-  <data name="AutoHideConfrictMode.Allow" xml:space="preserve">
-    <value>有効</value>
-  </data>
-  <data name="AutoHideConfrictMode.AllowPixel" xml:space="preserve">
-    <value>1 ピクセルだけ有効</value>
-  </data>
-  <data name="AutoHideConfrictMode.Deny" xml:space="preserve">
-    <value>無効</value>
-  </data>
-  <data name="SettingPage.Fonts" xml:space="preserve">
-    <value>フォント</value>
-  </data>
-  <data name="FontsConfig.FontName" xml:space="preserve">
-    <value>フォント</value>
-  </data>
-  <data name="FontsConfig.FontScale" xml:space="preserve">
-    <value>フォント スケール</value>
-  </data>
-  <data name="FontsConfig.FolderTreeFontScale" xml:space="preserve">
-    <value>フォルダー ツリーのフォント スケール</value>
-  </data>
-  <data name="FontsConfig.MenuFontScale" xml:space="preserve">
-    <value>メニューのフォント スケール</value>
-  </data>
-  <data name="FontsConfig.IsClearTypeEnabled" xml:space="preserve">
-    <value>ClearType を有効にする</value>
-  </data>
-  <data name="FontsConfig.PanelFontScale" xml:space="preserve">
-    <value>リスト項目のフォント スケール</value>
-  </data>
-  <data name="ThemeType.Dark" xml:space="preserve">
-    <value>ダーク</value>
-  </data>
-  <data name="ThemeType.Light" xml:space="preserve">
-    <value>ライト</value>
-  </data>
-  <data name="ThemeType.DarkMonochrome" xml:space="preserve">
-    <value>ダーク モノクローム</value>
-  </data>
-  <data name="ThemeType.LightMonochrome" xml:space="preserve">
-    <value>ライト モノクローム</value>
-  </data>
-  <data name="ThemeType.HighContrast" xml:space="preserve">
-    <value>ハイ コントラスト</value>
-  </data>
-  <data name="ThemeType.Custom" xml:space="preserve">
-    <value>カスタム</value>
-  </data>
-  <data name="ThemeType.System" xml:space="preserve">
-    <value>Windows の設定に従う</value>
-  </data>
-  <data name="ThemeErrorDialog.Title" xml:space="preserve">
-    <value>テーマ エラー</value>
-  </data>
-  <data name="SettingPage.Window.Theme.OpenCustomThemeFile" xml:space="preserve">
-    <value>カスタム テーマ ファイルを開く</value>
-  </data>
-  <data name="SusiePluginWindow.About" xml:space="preserve">
-    <value>このプラグインについて</value>
-  </data>
-  <data name="_Document.ScriptManual.html" xml:space="preserve">
-    <value>&lt;h1&gt;NeeView スクリプトマニュアル&lt;/h1&gt;
-
-&lt;h2&gt; 概要 &lt;/h2&gt;
-&lt;p&gt;
-    スクリプトでコマンドを拡張します。設定を変更したり、複数のコマンドをまとめて実行したり、コマンドパラメーターを変更した別のコマンドとして実行することができます。
-&lt;/p&gt;
-&lt;p&gt;
-    スクリプト機能はデフォルトでは無効になっています。設定の「スクリプト」ページで設定して有効にします。
-
-    &lt;ul&gt;
-        &lt;li&gt;スクリプトは Javascript (ECMA 5.1) で記述します。&lt;/li&gt;
-        &lt;li&gt;スクリプトエンジンに &lt;a href="https://github.com/sebastienros/jint"&gt;Jint&lt;/a&gt; を使用しています。&lt;/li&gt;
-        &lt;li&gt;ファイル拡張子は .nvjs です。&lt;/li&gt;
-        &lt;li&gt;文字コードはUTF8です。BOM無しを推奨します。&lt;/li&gt;
-    &lt;/ul&gt;
-&lt;/p&gt;
-&lt;p&gt;
-    ファイル先頭のドックコメントでコマンドを修飾できます。キーは大文字小文字を区別しません。
-
-    &lt;table class="table-slim table-topless"&gt;
-        &lt;tr&gt;&lt;th&gt;キー&lt;/th&gt;&lt;th&gt;概要&lt;/th&gt;&lt;/tr&gt;
-        &lt;tr&gt;&lt;td&gt;@name&lt;/td&gt;&lt;td&gt;コマンド名&lt;/td&gt;&lt;/tr&gt;
-        &lt;tr&gt;&lt;td&gt;@description&lt;/td&gt;&lt;td&gt;コマンド説明&lt;/td&gt;&lt;/tr&gt;
-        &lt;tr&gt;&lt;td&gt;@shortCutKey&lt;/td&gt;&lt;td&gt;既定のショートカット&lt;/td&gt;&lt;/tr&gt;
-        &lt;tr&gt;&lt;td&gt;@mouseGesture&lt;/td&gt;&lt;td&gt;既定のマウスジェスチャー&lt;/td&gt;&lt;/tr&gt;
-        &lt;tr&gt;&lt;td&gt;@touchGesture&lt;/td&gt;&lt;td&gt;既定のタッチ操作&lt;/td&gt;&lt;/tr&gt;
-    &lt;/table&gt;
-&lt;/p&gt;
-
-&lt;h2&gt;コマンドスクリプト&lt;/h2&gt;
-&lt;p&gt;
-    スクリプトフォルダーにスクリプトファイルが配置されているとコマンドとして使用可能になります。
-    １ファイルが１コマンドになります。
-
-    &lt;ul&gt;
-        &lt;li&gt;設定の「コマンド設定」で通常のコマンドと同様にショートカットを設定できます。&lt;/li&gt;
-        &lt;li&gt;ファイル名がコマンド名になります。&lt;/li&gt;
-    &lt;/ul&gt;
-&lt;/p&gt;
-
-&lt;h2&gt;イベントスクリプト&lt;/h2&gt;
-&lt;p&gt;
-    特定の名前のスクリプトファイルは自動的に実行されます。
-
-    &lt;table class="table-slim"&gt;
-        &lt;tr&gt;&lt;td&gt;OnBookLoaded.nvjs&lt;/td&gt;&lt;td&gt;ブックを開いたときに実行されます。&lt;/td&gt;&lt;/tr&gt;
-    &lt;/table&gt;
-&lt;/p&gt;
-
-&lt;h2&gt;コンソール&lt;/h2&gt;
-&lt;p&gt;
-    スクリプトのテストをするためのコンソールです。メニューの「オプション &gt; コンソールを開く」で開きます。
-&lt;/p&gt;
-&lt;h4&gt;コンソール専用コマンド&lt;/h4&gt;
-
-&lt;p&gt;
-    &lt;table class="table-slim"&gt;
-        &lt;tr&gt;&lt;td&gt;cls&lt;/td&gt;&lt;td&gt;画面のクリア(Ctrl+L)&lt;/td&gt;&lt;/tr&gt;
-        &lt;tr&gt;&lt;td&gt;exit&lt;/td&gt;&lt;td&gt;コンソールを閉じる&lt;/td&gt;&lt;/tr&gt;
-        &lt;tr&gt;&lt;td&gt;help, ?&lt;/td&gt;&lt;td&gt;スクリプトヘルプを開く&lt;/td&gt;&lt;/tr&gt;
-    &lt;/table&gt;
-&lt;/p&gt;
-</value>
-  </data>
-  <data name="_Document.ScriptManualExample.html" xml:space="preserve">
-    <value>&lt;h1 class="sub"&gt;スクリプトの例&lt;/h1&gt;
-
-スクリプトの例をいくつか列挙します。
-その他サンプルは&lt;a href="https://bitbucket.org/neelabo/neeview.scriptsamples/"&gt;こちら&lt;/a&gt;を参照してください。
-
-&lt;h3&gt;実行ファイルと引数を一時的に変更して「外部アプリで開く」コマンドを実行する&lt;/h3&gt;
-&lt;p&gt;
-&lt;pre&gt;OpenMsPaint.nvjs
-&lt;code class="example"&gt;// @name MSペイント
-// @description MSペイントでファイルを開きます。
-
-param = {
-    "Command": "mspaint.exe",
-    "Parameter": "\"$File\""
-}
-nv.Command.OpenExternalApp.Patch(param).Execute()
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/p&gt;
-
-
-&lt;h3&gt;表示ページを新しいNeeViewで開く&lt;/h3&gt;
-&lt;p&gt;
-&lt;pre&gt;OpenNeeView.nvjs
-&lt;code class="example"&gt;// @name NeeViewで開く
-// @description 表示ページを新しいNeeViewで開きます。
-
-nv.Command.SaveSetting.Execute() // 設定を同じにするため保存を実行
-
-param = {
-    "Command": "$NeeView", // NeeView自身のパスを示す特殊な書き方
-    "Parameter": "-n \"$File\"",
-    "MultiPagePolicy": "Once",
-    "ArchivePolicy": "SendArchivePath"
-}
-nv.Command.OpenExternalApp.Patch(param).Execute()
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/p&gt;
-
-
-&lt;h3&gt;アンシャープマスクのON/OFF&lt;/h3&gt;
-&lt;p&gt;
-&lt;pre&gt;ToggleUnsharpMask.nvjs
-&lt;code class="example"&gt;// @name アンシャープマスクON/OFF
-// @description アンシャープマスクの切り替え。リサイズフィルターが有効でないときは警告を表示する
-
-if (nv.Config.ImageResizeFilter.IsEnabled) {
-    nv.Config.ImageResizeFilter.IsUnsharpMaskEnabled = !nv.Config.ImageResizeFilter.IsUnsharpMaskEnabled
-    if (nv.Config.ImageResizeFilter.IsUnsharpMaskEnabled) {
-        nv.ShowMessage("UnsharpMask ON")
-    }
-    else {
-        nv.ShowMessage("UnsharpMask OFF")
-    }
-}
-else {
-    nv.ShowMessage("ResizeFilter is not active")
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/p&gt;
-
-
-&lt;h3&gt;新しく開いたブックのパスに"English"が含まれていたら左開き、それ以外は右開きにする&lt;/h3&gt;
-&lt;p&gt;
-&lt;pre&gt;OnBookLoaded.nvjs
-&lt;code class="example"&gt;// @name ブック開始処理
-// @description ブックを開いたときのイベント
-
-if (nv.Book.IsNew) {
-  if (nv.Book.Path.match(/English/) != null) {
-    nv.Book.Config.BookReadOrder = "LeftToRight"
-  }
-  else {
-    nv.Book.Config.BookReadOrder = "RightToLeft"
-  }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/p&gt;
-
-&lt;h3&gt;動画ファイルを開いたときに操作方法を変更する&lt;/h3&gt;
-&lt;p&gt;
-&lt;pre&gt;OnBookLoaded.nvjs
-&lt;code class="example"&gt;// @name ブック開始処理
-// @description ブックを開いたときのイベント
-
-if (nv.Book.IsMedia) {
-  // 動画：クリックで再生/停止、ダブルクリックでフルスクリーンの切り替え
-  nv.Command.ToggleMediaPlay.ShortCutKey = "LeftClick"
-  nv.Command.Script_ToggleFullScreenAndMediaPlay.ShortCutKey = "LeftDoubleClick"
-  nv.Command.NextPage.ShortCutKey = "Left"
-}
-else {
-  // 通常：標準設定
-  nv.Command.ToggleMediaPlay.ShortCutKey = null
-  nv.Command.Script_ToggleFullScreenAndMediaPlay.ShortCutKey = null
-  nv.Command.NextPage.ShortCutKey = "Left,LeftClick"
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/p&gt;
-
-&lt;p&gt;
-&lt;pre&gt;ToggleFullScreenAndMediaPlay.nvjs
-&lt;code class="example"&gt;// @name フルスクリーン＆動画再生
-// @description フルスクリーンと動画再生を同時に切り替え
-
-nv.Command.ToggleFullScreen.Execute()
-nv.Command.ToggleMediaPlay.Execute()
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/p&gt;
-</value>
-  </data>
-  <data name="_Document.SearchOptions.html" xml:space="preserve">
-    <value>&lt;h1&gt;NeeView 検索オプション&lt;/h1&gt;
-
-&lt;h2&gt; 検索オプション&lt;/h2&gt;
-&lt;p&gt;
-    検索オプション指定がない場合はAND標準検索になります("/and /m2"を指定したのと同じ)。&lt;br/&gt;
-    検索オプションは直後の検索単語にのみ影響します。
-&lt;/p&gt;
-
-&lt;h3&gt;接続オプション&lt;/h3&gt;
-&lt;table class="table-slim table-topless"&gt;
-    &lt;tr&gt;&lt;th&gt;オプション&lt;/th&gt;&lt;th&gt;説明&lt;/th&gt;&lt;/tr&gt;
-    &lt;tr&gt;&lt;td&gt;/and&lt;/td&gt;&lt;td&gt;AND検索 (デフォルト)&lt;/td&gt;&lt;/tr&gt;
-    &lt;tr&gt;&lt;td&gt;/or&lt;/td&gt;&lt;td&gt;OR検索&lt;/td&gt;&lt;/tr&gt;
-    &lt;tr&gt;&lt;td&gt;/not&lt;/td&gt;&lt;td&gt;NOT検索&lt;/td&gt;&lt;/tr&gt;
-&lt;/table&gt;
-
-&lt;h3&gt;適合オプション&lt;/h3&gt;
-&lt;table class="table-slim table-topless"&gt;
-    &lt;tr&gt;&lt;th&gt;オプション&lt;/th&gt;&lt;th&gt;説明&lt;/th&gt;&lt;th&gt;補足&lt;/th&gt;&lt;/tr&gt;
-    &lt;tr&gt;&lt;td&gt;/m0, /exact&lt;/td&gt;&lt;td&gt;完全一致&lt;/td&gt;&lt;td&gt; "ダブルクオートで囲むのと同じ"&lt;/td&gt;&lt;/tr&gt;
-    &lt;tr&gt;&lt;td&gt;/m1, /word&lt;/td&gt;&lt;td&gt;単語一致&lt;/td&gt;&lt;td&gt; 文字の種類で単語を識別しているので精度はあまりよくない&lt;/td&gt;&lt;/tr&gt;
-    &lt;tr&gt;&lt;td&gt;/m2&lt;/td&gt;&lt;td&gt;標準 (デフォルト)&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
-    &lt;tr&gt;&lt;td&gt;/re&lt;/td&gt;&lt;td&gt;正規表現&lt;/td&gt;&lt;td&gt;&lt;a href="https://docs.microsoft.com/ja-jp/dotnet/standard/base-types/regular-expression-language-quick-reference"&gt;.NETの正規表現&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
-    &lt;tr&gt;&lt;td&gt;/ire&lt;/td&gt;&lt;td&gt;正規表現・大文字小文字無効&lt;/td&gt;&lt;td&gt;大文字と小文字を区別しない正規表現検索を行う&lt;/td&gt;&lt;/tr&gt;
-    &lt;tr&gt;&lt;td&gt;/since&lt;/td&gt;&lt;td&gt;日時指定・以後&lt;/td&gt;&lt;td&gt;指定日時以後&lt;/td&gt;&lt;/tr&gt;
-    &lt;tr&gt;&lt;td&gt;/until&lt;/td&gt;&lt;td&gt;日時指定・以前&lt;/td&gt;&lt;td&gt;指定日時以前&lt;/td&gt;&lt;/tr&gt;
-&lt;/table&gt;
-
-&lt;p&gt;
-    標準検索または単語一致検索の場合、以下のような曖昧検索になります。
-    
-    &lt;ul&gt;
-        &lt;li&gt;半角、全角を区別しません。&lt;/li&gt;
-        &lt;li&gt;ひらがな、カタカナを区別しません。単語一致検索の場合は区別します。&lt;/li&gt;
-        &lt;li&gt;英数の大文字、小文字を区別しません。&lt;/li&gt;
-        &lt;li&gt;数字は先頭の"0"を無視します。(例："2015年2月4日" と "2015年02月04日" は区別されない)&lt;/li&gt;
-        &lt;li&gt;UNICODE正規化(NFKC)を使用しています。(例："㌫" と "パーセント" は区別されない)&lt;/li&gt;
-    &lt;/ul&gt;
-&lt;/p&gt;
-
-&lt;h3&gt;日時指定フォーマット&lt;/h3&gt;
-
-&lt;p&gt;
-    通常は "2019-04-01" といった形式で指定します。
-    &lt;a href="https://docs.microsoft.com/ja-jp/dotnet/standard/base-types/parsing-datetime"&gt;.NETの日時変換&lt;/a&gt;を使用しているため、それ以外の形式でも指定可能です。&lt;br/&gt;
-    注意点として、"2019-04-01" という日にちの指定は "2019-04-01 00:00:00" と解釈されるため、"/until 2019-04-01" では4月1日は含まれません。&lt;br/&gt;
-&lt;/p&gt;
-
-&lt;p&gt;
-    また、"-12day", "-6month" "-1year" といった形式で相対日時を指定可能です。&lt;br/&gt;
-    "/since -5day" は「過去5日以内」という意味になります。
-&lt;/p&gt;
-    
-
-&lt;h2&gt;使用例&lt;/h2&gt;
-
-"ABC","DEF"のAND標準検索
-
-&lt;blockquote&gt;ABC DEF&lt;/blockquote&gt;
-
-"^ABC$"の正規表現検索
-
-&lt;blockquote&gt;/re ^ABC$&lt;/blockquote&gt;
-
-"ABC DEF"の完全一致検索
-
-&lt;blockquote&gt;"ABC DEF"&lt;/blockquote&gt;
-
-"ABC"標準検索結果に対する、"DEF"NOT単語検索
-
-&lt;blockquote&gt;ABC /not /word DEF&lt;/blockquote&gt;
-
-2019年4月に更新されたファイルの検索
-
-&lt;blockquote&gt;/since 2019-04-01 /until 2019-05-01&lt;/blockquote&gt;
-
-</value>
   </data>
 </root>

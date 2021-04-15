@@ -73,7 +73,7 @@ namespace NeeView.Properties {
         ///    &lt;ul&gt;
         ///        &lt;li&gt;The script grammar is Javascript (ECMA 5.1).&lt;/li&gt;
         ///        &lt;li&gt;&lt;a href=&quot;https://github.com/sebastienros/jint&quot;&gt;Jint&lt;/a&gt; is used for the script engine.&lt;/li&gt;
-        ///   [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///        &lt;li&gt;Th [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string _Document_ScriptManual_html {
             get {
@@ -97,7 +97,8 @@ namespace NeeView.Properties {
         ///    &quot;Command&quot;: &quot;mspaint.exe&quot;,
         ///    &quot;Parameter&quot;: &quot;\&quot;$File\&quot;&quot;
         ///}
-        ///nv.Command.OpenExternalApp.Patch(param).Execu [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///nv.Command.OpenExternalApp.Patch(param).Execute()
+        ///&lt;/code&gt;&lt;/p [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string _Document_ScriptManualExample_html {
             get {
@@ -119,7 +120,8 @@ namespace NeeView.Properties {
         ///    &lt;tr&gt;&lt;th&gt;Option&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;/tr&gt;
         ///    &lt;tr&gt;&lt;td&gt;/and&lt;/td&gt;&lt;td&gt;AND search (default)&lt;/td&gt;&lt;/tr&gt;
         ///    &lt;tr&gt;&lt;td&gt;/or&lt;/td&gt;&lt;td&gt;OR search&lt;/td&gt;&lt;/tr&gt;
-        ///    &lt;tr&gt;&lt;td&gt;/not&lt;/td&gt;&lt;td&gt;NOT search [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///    &lt;tr&gt;&lt;td&gt;/not&lt;/td&gt;&lt;td&gt;NOT search&lt;/td&gt;&lt;/tr&gt;
+        ///&lt;/ [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string _Document_SearchOptions_html {
             get {
@@ -14793,7 +14795,7 @@ namespace NeeView.Properties {
         ///
         ///&quot;◯◯◯[LR]&quot; indicates that the variable name changes for 1 page or 2 pages.
         ///For example, $Name is for 1 page, $NameL is for 2 pages left, $NameR is for 2 pages right.
-        ///$N [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///$Name is the m [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPage_WindowTitle_Note {
             get {
@@ -20145,330 +20147,6 @@ namespace NeeView.Properties {
         public static string Word_Yes {
             get {
                 return ResourceManager.GetString("Word.Yes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Minimum scrolling distance に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string x_ScrollPageCommandParameter_MinScroll {
-            get {
-                return ResourceManager.GetString("x.ScrollPageCommandParameter.MinScroll", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle title bar に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string x_ToggleVisibleTitleBarCommand {
-            get {
-                return ResourceManager.GetString("x.ToggleVisibleTitleBarCommand", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Title bar に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string x_ToggleVisibleTitleBarCommand_Menu {
-            get {
-                return ResourceManager.GetString("x.ToggleVisibleTitleBarCommand.Menu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Title bar OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string x_ToggleVisibleTitleBarCommand_Off {
-            get {
-                return ResourceManager.GetString("x.ToggleVisibleTitleBarCommand.Off", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Title bar に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string x_ToggleVisibleTitleBarCommand_On {
-            get {
-                return ResourceManager.GetString("x.ToggleVisibleTitleBarCommand.On", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle visible / hide of window title bar. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string x_ToggleVisibleTitleBarCommand_Remarks {
-            get {
-                return ResourceManager.GetString("x.ToggleVisibleTitleBarCommand.Remarks", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Minimum scrolling distance に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string x_ViewScrollNTypeCommandParameter_MinScroll {
-            get {
-                return ResourceManager.GetString("x.ViewScrollNTypeCommandParameter.MinScroll", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Show title bar に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string x_WindowConfig_IsCaptionVisible {
-            get {
-                return ResourceManager.GetString("x.WindowConfig.IsCaptionVisible", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Window frame with title bar hidden に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string x_WindowConfig_WindowChromeFrame {
-            get {
-                return ResourceManager.GetString("x.WindowConfig.WindowChromeFrame", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   When the title bar is not displayed, the window title is displayed in the display area に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string x_WindowTitleConfig_IsMainViewDisplayEnabled {
-            get {
-                return ResourceManager.GetString("x.WindowTitleConfig.IsMainViewDisplayEnabled", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Advanced photo に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string xInformation_AdvancedPhoto {
-            get {
-                return ResourceManager.GetString("xInformation.AdvancedPhoto", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Archiver に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string xInformation_Archiver {
-            get {
-                return ResourceManager.GetString("xInformation.Archiver", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Camera に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string xInformation_Camera {
-            get {
-                return ResourceManager.GetString("xInformation.Camera", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   File date に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string xInformation_Date {
-            get {
-                return ResourceManager.GetString("xInformation.Date", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Date taken に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string xInformation_DateTimeOriginal {
-            get {
-                return ResourceManager.GetString("xInformation.DateTimeOriginal", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Decoder に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string xInformation_Decoder {
-            get {
-                return ResourceManager.GetString("xInformation.Decoder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Description に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string xInformation_Description {
-            get {
-                return ResourceManager.GetString("xInformation.Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Device に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string xInformation_Device {
-            get {
-                return ResourceManager.GetString("xInformation.Device", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   File に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string xInformation_File {
-            get {
-                return ResourceManager.GetString("xInformation.File", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   File に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string xInformation_FileName {
-            get {
-                return ResourceManager.GetString("xInformation.FileName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Path に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string xInformation_FilePath {
-            get {
-                return ResourceManager.GetString("xInformation.FilePath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   File size に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string xInformation_FileSize {
-            get {
-                return ResourceManager.GetString("xInformation.FileSize", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Folder に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string xInformation_FolderPath {
-            get {
-                return ResourceManager.GetString("xInformation.FolderPath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   GPS に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string xInformation_Gps {
-            get {
-                return ResourceManager.GetString("xInformation.Gps", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Image に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string xInformation_Image {
-            get {
-                return ResourceManager.GetString("xInformation.Image", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Image size に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string xInformation_ImageSize {
-            get {
-                return ResourceManager.GetString("xInformation.ImageSize", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Shot に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string xInformation_Info {
-            get {
-                return ResourceManager.GetString("xInformation.Info", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   ISO に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string xInformation_ISO {
-            get {
-                return ResourceManager.GetString("xInformation.ISO", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Origin に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string xInformation_Origin {
-            get {
-                return ResourceManager.GetString("xInformation.Origin", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Display the number of bits per pixel in image size に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string xInformationConfig_IsVisibleBitsPerPixel {
-            get {
-                return ResourceManager.GetString("xInformationConfig.IsVisibleBitsPerPixel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Display the file path in the compressed file に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string xInformationConfig_IsVisibleFilePath {
-            get {
-                return ResourceManager.GetString("xInformationConfig.IsVisibleFilePath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Display used archiver, image decoder name に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string xInformationConfig_IsVisibleLoader {
-            get {
-                return ResourceManager.GetString("xInformationConfig.IsVisibleLoader", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Font size of folder tree に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string xPanelsConfig_FolderTreeFontSize {
-            get {
-                return ResourceManager.GetString("xPanelsConfig.FolderTreeFontSize", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   List item font に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string xPanelsConfig_FontName {
-            get {
-                return ResourceManager.GetString("xPanelsConfig.FontName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Font size of list items に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string xPanelsConfig_FontSize {
-            get {
-                return ResourceManager.GetString("xPanelsConfig.FontSize", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Reset に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string xWord_ResetLong {
-            get {
-                return ResourceManager.GetString("xWord.ResetLong", resourceCulture);
             }
         }
         

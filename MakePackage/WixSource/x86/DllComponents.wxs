@@ -102,9 +102,9 @@
                 <Component Id="cmp0A51BFCFF923F0EF22600551AF1D86B6" Guid="*">
                     <File Id="fil3576D83CB6E9CB17112B9E29CE587AF9" KeyPath="yes" Source="$(var.LibrariesDir)\System.ValueTuple.dll" />
                 </Component>
-                <Directory Id="dirFE0CDB84362EC844D704BA7868A472C8" Name="ja-JP">
-                    <Component Id="cmp9AC34FFE315750C746B9E441DD4DE751" Guid="*">
-                        <File Id="fil3A6EE1EE320DC44669A8C644D3B8438E" KeyPath="yes" Source="$(var.LibrariesDir)\ja-JP\NeeView.resources.dll" />
+                <Directory Id="dir8CB54AE0847D31CD3372BA963A102C40" Name="ja">
+                    <Component Id="cmp5DF1F836E64173F13533AA719D4A0584" Guid="*">
+                        <File Id="filA735C44130B5E575E229E7CDB1B8B6CA" KeyPath="yes" Source="$(var.LibrariesDir)\ja\NeeView.resources.dll" />
                     </Component>
                 </Directory>
                 <Directory Id="dirABD3696E701800C252C841FD33A09618" Name="Susie">
@@ -173,7 +173,7 @@
             <ComponentRef Id="cmp240B7C29A2FCE5C4387A9F70AAC0D35B" />
             <ComponentRef Id="cmp766C4F0988292AB2956EC638E86DD37B" />
             <ComponentRef Id="cmp0A51BFCFF923F0EF22600551AF1D86B6" />
-            <ComponentRef Id="cmp9AC34FFE315750C746B9E441DD4DE751" />
+            <ComponentRef Id="cmp5DF1F836E64173F13533AA719D4A0584" />
             <ComponentRef Id="cmp62ED9E2D5EE2D02A3B046C80227A2438" />
             <ComponentRef Id="cmp9E03F4553A7333F202040A5DF31578F3" />
             <ComponentRef Id="cmp01964A7054B7C68A143EB8EF529BB54E" />

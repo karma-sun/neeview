@@ -1,6 +1,12 @@
 @if not defined _echo echo off
 
+echo NeeView DevPowerShell
+
 set VSWHERE="%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
+call :NORMALIZEPATH "%~dp0.."
+set NVROOT=%RETVAL%
+set NVTOOLS=%~dp0Tools
+set PATH=%NVTOOLS%;%PATH%
 
 for /f "usebackq delims=" %%i in (`%VSWHERE% -prerelease -latest -property installationPath`) do (
   if exist "%%i\Common7\Tools\vsdevcmd.bat" (
@@ -10,3 +16,7 @@ for /f "usebackq delims=" %%i in (`%VSWHERE% -prerelease -latest -property insta
 )
 
 exit /b 2
+
+:NORMALIZEPATH
+  set RETVAL=%~dpfn1
+  exit /B

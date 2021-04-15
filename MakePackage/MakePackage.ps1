@@ -219,10 +219,13 @@ function New-Package($platform, $productName, $productDir, $publishSusieDir, $pa
 	Copy-Item "$publishSusieDir\*.dll" $packageSusieDir
 
 	# copy language dll
-	$langs = "ja-JP"
+	$langs = Get-CulturesFromConfig $productDir "$productName.exe.config"
 	foreach($lang in $langs)
 	{
-		Copy-Item "$productDir\$lang" $packageLibraryDir -Recurse
+		if ($lang -ne "en")
+		{
+			Copy-Item "$productDir\$lang" $packageLibraryDir -Recurse
+		}
 	}
 
 	# copy platform dll
@@ -317,6 +320,16 @@ function New-Readme($packageDir, $culture, $target)
 function New-Zip($packageDir, $packageZip)
 {
 	Compress-Archive $packageDir -DestinationPath $packageZip
+}
+
+
+#--------------------------
+function Get-CulturesFromConfig($inputDir, $config)
+{
+	[xml]$xml = Get-Content "$inputDir\$config"
+
+	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'Cultures' } | Select -First 1
+	return $add.value.Split(",")
 }
 
 #--------------------------

@@ -80,7 +80,7 @@ namespace NeeView
                         self.Config.System.Language = "en";
                         break;
                     case "Japanese":
-                        self.Config.System.Language = "jp";
+                        self.Config.System.Language = "ja";
                         break;
                 }
             }

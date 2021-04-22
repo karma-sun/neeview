@@ -33,6 +33,8 @@ namespace NeeView
 
         public PagemarkConfig Pagemark { get; set; } = new PagemarkConfig();
 
+        public PlaylistConfig Playlist { get; set; } = new PlaylistConfig();
+
         public WindowConfig Window { get; set; } = new WindowConfig();
 
         public ThemeConfig Theme { get; set; } = new ThemeConfig();

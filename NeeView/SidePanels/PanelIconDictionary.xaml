@@ -77,6 +77,23 @@
         </DrawingImage.Drawing>
     </DrawingImage>
 
+    <DrawingImage x:Key="pic_playlist_24px">
+        <DrawingImage.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="Transparent">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry Rect="-3,-3,21,21" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Geometry="{StaticResource g_playlist_24px}">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{DynamicResource Panel.Foreground}" Thickness="1.25" />
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
     <!--#endregion Icons-->
 
 

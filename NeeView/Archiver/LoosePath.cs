@@ -31,6 +31,7 @@ namespace NeeView
         {
             if (string.IsNullOrEmpty(s)) return "";
 
+            s = s.TrimEnd();
             if (Separators.Contains(s.Last()))
             {
                 s = s.TrimEnd(Separators);
@@ -46,7 +47,7 @@ namespace NeeView
         public static string TrimDirectoryEnd(string s)
         {
             if (string.IsNullOrEmpty(s)) return "";
-            return s.TrimEnd(Separators) + '\\';
+            return s.TrimEnd().TrimEnd(Separators) + '\\';
         }
 
         //
@@ -127,6 +128,17 @@ namespace NeeView
             int index = fileName.LastIndexOf('.');
 
             return (index >= 0) ? fileName.Substring(index).ToLower() : "";
+        }
+
+        //
+        public static string ChopExtension(string s)
+        {
+            if (string.IsNullOrEmpty(s)) return "";
+
+            var ext = GetExtension(s);
+            if (string.IsNullOrEmpty(s)) return s;
+            
+            return s.Substring(0, s.Length - ext.Length);
         }
 
         //

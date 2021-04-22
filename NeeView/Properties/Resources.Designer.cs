@@ -2083,6 +2083,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   _Edit に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfItem_Menu_Edit {
+            get {
+                return ResourceManager.GetString("BookshelfItem.Menu.Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Open in e_xplorer に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookshelfItem_Menu_Explorer {
@@ -12142,6 +12151,15 @@ namespace NeeView.Properties {
         public static string PixelateEffectUnit_Pixelation {
             get {
                 return ResourceManager.GetString("PixelateEffectUnit.Pixelation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Playlist に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Playlist_Title {
+            get {
+                return ResourceManager.GetString("Playlist.Title", resourceCulture);
             }
         }
         

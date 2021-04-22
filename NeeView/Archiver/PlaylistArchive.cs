@@ -56,7 +56,7 @@ namespace NeeView
         {
             token.ThrowIfCancellationRequested();
 
-            var playlist = PlaylistFile.Load(Path);
+            var playlist = PlaylistTools.Load(Path);
             var list = new List<ArchiveEntry>();
 
             foreach (var item in playlist.Items)
@@ -81,17 +81,17 @@ namespace NeeView
             return list;
         }
 
-        private async Task<ArchiveEntry> CreateEntryAsync(string path, int id, CancellationToken token)
+        private async Task<ArchiveEntry> CreateEntryAsync(PlaylistItem item, int id, CancellationToken token)
         {
-            var innterEntry = await ArchiveEntryUtility.CreateAsync(path, token);
+            var innterEntry = await ArchiveEntryUtility.CreateAsync(item.Path, token);
 
             ArchiveEntry entry = new ArchiveEntry()
             {
                 IsValid = true,
                 Archiver = this,
                 Id = id,
-                RawEntryName = LoosePath.GetFileName(path),
-                Link = path,
+                RawEntryName = item.Name ?? LoosePath.GetFileName(item.Path),
+                Link = item.Path,
                 Instance = innterEntry,
                 Length = innterEntry.Length,
                 CreationTime = innterEntry.CreationTime,

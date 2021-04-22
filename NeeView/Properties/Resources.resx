@@ -7086,4 +7086,10 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ZipArchiveConfig.SupportFileTypes.Remarks" xml:space="preserve">
     <value>Only ZIP format is supported.</value>
   </data>
+  <data name="Playlist.Title" xml:space="preserve">
+    <value>Playlist</value>
+  </data>
+  <data name="BookshelfItem.Menu.Edit" xml:space="preserve">
+    <value>_Edit</value>
+  </data>
 </root>

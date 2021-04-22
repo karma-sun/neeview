@@ -107,13 +107,18 @@ namespace NeeView
         }
 
         // 指定ページに移動
-        public void JumpPage(object sender, Page page)
+        public bool JumpPage(object sender, Page page)
         {
             int index = _book.Pages.IndexOf(page);
             if (index >= 0)
             {
                 var position = new PagePosition(index, 0);
                 RequestSetPosition(sender, position, 1);
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 

@@ -131,8 +131,9 @@ namespace NeeView
         // ページ
         public Page GetPage(int index) => Pages.Count > 0 ? Pages[ClampPageNumber(index)] : null;
 
-        //
         public Page GetPage(string name) => Pages.FirstOrDefault(e => e.EntryFullName == name);
+
+        public Page GetPageWithSystemPath(string name) => Pages.FirstOrDefault(e => e.SystemPath == name);
 
         // ページ番号
         public int GetIndex(Page page) => Pages.IndexOf(page);

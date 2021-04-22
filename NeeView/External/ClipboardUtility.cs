@@ -27,6 +27,14 @@ namespace NeeView
 
         public static bool SetData(System.Windows.DataObject data, List<Page> pages, CopyFileCommandParameter parameter, CancellationToken token)
         {
+            bool result = false;
+
+            if (pages.Count > 0)
+            {
+                data.SetData(pages.Select(x => new QueryPath(x.SystemPath)).ToQueryPathCollection());
+                result = true;
+            }
+
             var files = PageUtility.CreateFilePathList(pages, parameter.MultiPagePolicy, parameter.ArchivePolicy, token);
 
             if (files.Count > 0)
@@ -38,12 +46,10 @@ namespace NeeView
                     : files;
                 data.SetData(System.Windows.DataFormats.UnicodeText, string.Join(System.Environment.NewLine, paths));
 
-                return true;
+                result = true;
             }
-            else
-            {
-                return false;
-            }
+
+            return result;
         }
 
         // クリップボードに画像をコピー

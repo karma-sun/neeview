@@ -168,6 +168,8 @@ namespace NeeView
             SavePagemark(sync);
             RemoveBookmarkIfNotSave();
             RemovePagemarkIfNotSave();
+
+            PlaylistModel.Current.Flush();
         }
     }
 }

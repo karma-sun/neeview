@@ -224,7 +224,7 @@ namespace NeeView
                             else
                             {
                                 var playlist = new Playlist(_model.FolderCollection.Items.Where(e => e.TargetPath.Scheme == QueryScheme.File).Select(e => e.TargetPath.SimplePath));
-                                PlaylistFile.Save(dialog.FileName, playlist, true);
+                                PlaylistTools.Save(playlist, dialog.FileName, true);
                             }
                         }
                         catch (Exception ex)

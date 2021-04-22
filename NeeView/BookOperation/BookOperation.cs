@@ -207,6 +207,11 @@ namespace NeeView
             RaisePropertyChanged(nameof(IsPagemark));
         }
 
+        // 現在ベージ取得
+        public Page GetPage()
+        {
+            return this.Book?.Viewer.GetViewPage();
+        }
 
         // 現在ページ番号取得
         public int GetPageIndex()
@@ -783,12 +788,21 @@ namespace NeeView
         }
 
         // ページ名を指定して移動
-        public void JumpPage(object sender, string name)
+        public bool JumpPage(object sender, string name)
         {
-            if (this.Book == null || this.Book.IsMedia) return;
+            if (this.Book == null || this.Book.IsMedia) return false;
 
             var page = this.Book.Pages.GetPage(name);
-            this.Book.Control.JumpPage(sender, page);
+            return this.Book.Control.JumpPage(sender, page);
+        }
+
+        // パスを指定して移動
+        public bool JumpPageWithSystemPath(object sender, string path)
+        {
+            if (this.Book == null || this.Book.IsMedia) return false;
+
+            var page = this.Book.Pages.GetPageWithSystemPath(path);
+            return this.Book.Control.JumpPage(sender, page);
         }
 
         // ページを指定して移動

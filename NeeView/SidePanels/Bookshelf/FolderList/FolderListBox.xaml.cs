@@ -121,6 +121,7 @@ namespace NeeView
         public static readonly RoutedCommand ToggleBookmarkCommand = new RoutedCommand("ToggleBookmarkCommand", typeof(FolderListBox));
         public static readonly RoutedCommand OpenDestinationFolderCommand = new RoutedCommand("OpenDestinationFolderCommand", typeof(FolderListBox));
         public static readonly RoutedCommand OpenExternalAppDialogCommand = new RoutedCommand("OpenExternalAppDialogCommand", typeof(FolderListBox));
+        public static readonly RoutedCommand EditPlaylistCommand = new RoutedCommand("EditPlaylistCommand", typeof(FolderListBox));
 
         private static void InitialieCommandStatic()
         {
@@ -148,6 +149,7 @@ namespace NeeView
             this.ListBox.CommandBindings.Add(new CommandBinding(ToggleBookmarkCommand, ToggleBookmark_Executed, ToggleBookmark_CanExecute));
             this.ListBox.CommandBindings.Add(new CommandBinding(OpenDestinationFolderCommand, OpenDestinationFolderDialog_Execute));
             this.ListBox.CommandBindings.Add(new CommandBinding(OpenExternalAppDialogCommand, OpenExternalAppDialog_Execute));
+            this.ListBox.CommandBindings.Add(new CommandBinding(EditPlaylistCommand, EditPlaylistCommand_Execute));
         }
 
         /// <summary>
@@ -608,6 +610,15 @@ namespace NeeView
             ExternalAppDialog.ShowDialog(Window.GetWindow(this));
         }
 
+        private void EditPlaylistCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            var item = (sender as ListBox)?.SelectedItem as FolderItem;
+            if (item != null && item.IsPlaylist)
+            {
+                Config.Current.Playlist.CurrentPlaylist = item.EntityPath.SimplePath;
+            }
+        }
+
 
         private RelayCommand _NewFolderCommand;
         public RelayCommand NewFolderCommand
@@ -794,7 +805,7 @@ namespace NeeView
                 return;
             }
 
-            if (node.Value is BookmarkFolder && query.Search == null && (query.Scheme == QueryScheme.File || query.IsRoot(QueryScheme.Pagemark)))
+            if (node.Value is BookmarkFolder && CanDropToBookmark(query))
             {
                 if (isDrop)
                 {
@@ -803,6 +814,26 @@ namespace NeeView
                 }
                 e.Effects = DragDropEffects.Copy;
                 e.Handled = true;
+            }
+        }
+
+        private bool CanDropToBookmark(QueryPath query)
+        {
+            if (query.Search != null)
+            {
+                return false;
+            }
+
+            switch (query.Scheme)
+            {
+                case QueryScheme.File:
+                    return CanDropToBookmark(query.SimplePath);
+
+                case QueryScheme.Pagemark:
+                    return query.IsRoot(QueryScheme.Pagemark);
+
+                default:
+                    return false;
             }
         }
 
@@ -819,7 +850,7 @@ namespace NeeView
 
             foreach (var fileName in fileNames)
             {
-                if (ArchiverManager.Current.IsSupported(fileName, true, true) || System.IO.Directory.Exists(fileName))
+                if (CanDropToBookmark(fileName))
                 {
                     if (isDrop)
                     {
@@ -830,6 +861,11 @@ namespace NeeView
                     e.Handled = true;
                 }
             }
+        }
+
+        private bool CanDropToBookmark(string path)
+        {
+            return ArchiverManager.Current.IsSupported(path, true, true) || System.IO.Directory.Exists(path);
         }
 
         private ListBoxItem PointToViewItem(ListBox listBox, Point point)
@@ -1169,6 +1205,11 @@ namespace NeeView
                 contextMenu.Items.Add(new Separator());
                 contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItem_Menu_Delete, Command = RemoveCommand });
                 contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItem_Menu_Rename, Command = RenameCommand });
+                if (item.IsPlaylist)
+                {
+                    contextMenu.Items.Add(new Separator());
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItem_Menu_Edit, Command = EditPlaylistCommand });
+                }
             }
         }
 

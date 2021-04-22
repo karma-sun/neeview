@@ -1182,7 +1182,7 @@
                 <ControlTemplate TargetType="{x:Type TextBox}">
                     <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}"
                             SnapsToDevicePixels="True">
-                        <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
+                        <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" Style="{StaticResource NVScrollViewer}">
                             <ScrollViewer.ContentTemplate>
                                 <DataTemplate>
                                     <Grid Background="{Binding Background, ElementName=PART_ContentHost}" RenderOptions.ClearTypeHint="{DynamicResource Window.ClearTypeHint}">

@@ -3,6 +3,7 @@
 using Microsoft.Xaml.Behaviors;
 using NeeView.Windows.Media;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -453,7 +454,7 @@ namespace NeeView.Windows
             base.PreviewMouseDownHandler(sender, e);
 
             var listBox = (ListBoxExteded)this.AssociatedObject;
-            
+
             _selectedItems = null;
             _anchorItem = null;
 
@@ -505,6 +506,24 @@ namespace NeeView.Windows
         {
             SelectionMode = SelectionMode.Extended;
         }
+
+#if false // TODO
+        public new static readonly DependencyProperty SelectedItemsProperty =
+            DependencyProperty.Register(nameof(SelectedItems), typeof(IList), typeof(ListBoxExteded), new FrameworkPropertyMetadata(new List<object>(), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        public new IList SelectedItems
+        {
+            get { return (IList)this.GetValue(SelectedItemsProperty); }
+            set { this.SetValue(SelectedItemsProperty, value); }
+        }
+
+        protected override void OnSelectionChanged(SelectionChangedEventArgs e)
+        {
+            base.OnSelectionChanged(e);
+
+            this.SelectedItems = base.SelectedItems;
+        }
+#endif
 
         public void SetAnchorItem(object anchor)
         {

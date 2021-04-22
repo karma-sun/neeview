@@ -2222,3 +2222,5 @@ Word.Yes=Yes
 ZipArchiveConfig.IsEnabled=Use ZIP compressed file expansion with standard function
 ZipArchiveConfig.SupportFileTypes=Compressed file extension
 ZipArchiveConfig.SupportFileTypes.Remarks=Only ZIP format is supported.
+Playlist.Title=Playlist
+BookshelfItem.Menu.Edit=_Edit

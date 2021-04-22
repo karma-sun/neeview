@@ -34,11 +34,13 @@ namespace NeeView
         public const string BookmarkFileName = "Bookmark.json";
         public const string PagemarkFileName = "Pagemark.json";
         public const string CustomThemeFileName = "CustomTheme.json";
+        public const string PlaylistsFolder = "Playlists";
 
         public static string DefaultHistoryFilePath => Path.Combine(Environment.LocalApplicationDataPath, HistoryFileName);
         public static string DefaultBookmarkFilePath => Path.Combine(Environment.LocalApplicationDataPath, BookmarkFileName);
         public static string DefaultPagemarkFilePath => Path.Combine(Environment.LocalApplicationDataPath, PagemarkFileName);
         public static string DefaultCustomThemeFilePath => Path.Combine(Environment.LocalApplicationDataPath, CustomThemeFileName);
+        public static string DefaultPlaylistsFolder => Path.Combine(Environment.LocalApplicationDataPath, PlaylistsFolder);
 
 
         public string UserSettingFilePath => App.Current.Option.SettingFilename;
@@ -621,8 +623,9 @@ namespace NeeView
             {
                 IsReadOnly = true,
                 Text = Message + System.Environment.NewLine + ex.Message,
+                TextWrapping = System.Windows.TextWrapping.Wrap,
                 VerticalScrollBarVisibility = System.Windows.Controls.ScrollBarVisibility.Auto,
-                HorizontalScrollBarVisibility = System.Windows.Controls.ScrollBarVisibility.Auto,
+                HorizontalScrollBarVisibility = System.Windows.Controls.ScrollBarVisibility.Disabled,
             };
 
             var dialog = new MessageDialog(textBox, Title);

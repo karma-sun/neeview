@@ -40,6 +40,9 @@ namespace NeeView
                 case nameof(PageListPanel):
                     return new PageListPanel(PageList.Current);
 
+                case nameof(PlaylistPanel):
+                    return new PlaylistPanel(PlaylistModel.Current);
+
                 default:
                     throw new NotSupportedException();
             }

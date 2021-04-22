@@ -8,6 +8,8 @@ $root = $env:NVROOT
 $sourceDir = "$root\Language\Source"
 $propertiesDir = "$root\NeeView\Properties"
 
+NVXlsxToRestext.ps1
+
 Get-ChildItem "$sourceDir\Resources*.restext" | Foreach-Object {
 
     $resx = "$propertiesDir\$($_.BaseName).resx";

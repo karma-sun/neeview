@@ -20,4 +20,6 @@ Get-ChildItem "$propertiesDir\Resources*.resx" | Foreach-Object {
     resgen.exe $_ "$sourceDir\$($_.BaseName).restext"
 }
 
+NVRestextToXlsx.ps1
+
 Write-Host "done."

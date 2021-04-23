@@ -616,6 +616,7 @@ namespace NeeView
             if (item != null && item.IsPlaylist)
             {
                 Config.Current.Playlist.CurrentPlaylist = item.EntityPath.SimplePath;
+                SidePanelFrame.Current.IsVisiblePlaylist = true;
             }
         }
 

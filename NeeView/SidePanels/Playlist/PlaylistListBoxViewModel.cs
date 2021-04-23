@@ -25,6 +25,8 @@ namespace NeeView
 
             _model.AddPropertyChanged(nameof(_model.Items),
                 (s, e) => this.Items = _model.Items);
+
+            this.Items = _model.Items;
         }
 
 

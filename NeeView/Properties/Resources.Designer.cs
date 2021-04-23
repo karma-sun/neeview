@@ -12155,11 +12155,137 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Delete playlist file に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Playlist_DeleteDialog_Title {
+            get {
+                return ResourceManager.GetString("Playlist.DeleteDialog.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Playlist error に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Playlist_ErrorDialog_Title {
+            get {
+                return ResourceManager.GetString("Playlist.ErrorDialog.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Current book only に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Playlist_MoreMenu_CurrentBook {
+            get {
+                return ResourceManager.GetString("Playlist.MoreMenu.CurrentBook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _Delete に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Playlist_MoreMenu_Delete {
+            get {
+                return ResourceManager.GetString("Playlist.MoreMenu.Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Remove invalid items に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Playlist_MoreMenu_DeleteInvalid {
+            get {
+                return ResourceManager.GetString("Playlist.MoreMenu.DeleteInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Group by に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Playlist_MoreMenu_GroupBy {
+            get {
+                return ResourceManager.GetString("Playlist.MoreMenu.GroupBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _New に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Playlist_MoreMenu_New {
+            get {
+                return ResourceManager.GetString("Playlist.MoreMenu.New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _Open に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Playlist_MoreMenu_Open {
+            get {
+                return ResourceManager.GetString("Playlist.MoreMenu.Open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open as a book に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Playlist_MoreMenu_OpenAsBook {
+            get {
+                return ResourceManager.GetString("Playlist.MoreMenu.OpenAsBook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Rena_me に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Playlist_MoreMenu_Rename {
+            get {
+                return ResourceManager.GetString("Playlist.MoreMenu.Rename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sort by path に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Playlist_MoreMenu_Sort {
+            get {
+                return ResourceManager.GetString("Playlist.MoreMenu.Sort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Playlist に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Playlist_Title {
             get {
                 return ResourceManager.GetString("Playlist.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _Delete に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PlaylistItem_Menu_Delete {
+            get {
+                return ResourceManager.GetString("PlaylistItem.Menu.Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _Open に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PlaylistItem_Menu_Open {
+            get {
+                return ResourceManager.GetString("PlaylistItem.Menu.Open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Rena_me に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PlaylistItem_Menu_Rename {
+            get {
+                return ResourceManager.GetString("PlaylistItem.Menu.Rename", resourceCulture);
             }
         }
         

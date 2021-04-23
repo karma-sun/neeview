@@ -13,6 +13,7 @@ using NeeLaboratory.ComponentModel;
 using System.Threading;
 using NeeView.Properties;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace NeeView
 {
@@ -26,10 +27,39 @@ namespace NeeView
             _model = model;
 
             MoreMenuDescription = new PlaylistMoreMenuDescription(this);
+
+            _model.AddPropertyChanged(nameof(_model.PlaylistCollection), Model_PlaylistCollectionChanged);
+            _model.AddPropertyChanged(nameof(_model.SelectedItem), Model_SelectedItemChanged);
         }
 
 
-        public PlaylistModel Model => _model;
+        public EventHandler RenameRequest;
+
+
+        public List<object> PlaylistCollection
+        {
+            get => _model.PlaylistCollection;
+        }
+
+        public string SelectedItem
+        {
+            get => _model.SelectedItem;
+            set => _model.SelectedItem = value;
+        }
+
+
+        private void Model_PlaylistCollectionChanged(object sender, PropertyChangedEventArgs e)
+        {
+            RaisePropertyChanged(nameof(PlaylistCollection));
+        }
+
+        private void Model_SelectedItemChanged(object sender, PropertyChangedEventArgs e)
+        {
+            RaisePropertyChanged(nameof(SelectedItem));
+            DeleteCommand.RaiseCanExecuteChanged();
+            RenameCommand.RaiseCanExecuteChanged();
+        }
+
 
 
         #region MoreMenu
@@ -52,19 +82,18 @@ namespace NeeView
                 menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleContent, PanelListItemStyle.Content));
                 menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleBanner, PanelListItemStyle.Banner));
                 menu.Items.Add(new Separator());
-                menu.Items.Add(CreateCommandMenuItem("@New", _vm.NewCommand));
-                menu.Items.Add(CreateCommandMenuItem("@Open", _vm.OpenCommand));
-                menu.Items.Add(CreateCommandMenuItem("@Delete", _vm.DeleteCommand));
-                menu.Items.Add(CreateCommandMenuItem("@Rename", _vm.RenameCommand));
+                menu.Items.Add(CreateCommandMenuItem(Properties.Resources.Playlist_MoreMenu_New, _vm.NewCommand));
+                menu.Items.Add(CreateCommandMenuItem(Properties.Resources.Playlist_MoreMenu_Open, _vm.OpenCommand));
+                menu.Items.Add(CreateCommandMenuItem(Properties.Resources.Playlist_MoreMenu_Delete, _vm.DeleteCommand));
+                menu.Items.Add(CreateCommandMenuItem(Properties.Resources.Playlist_MoreMenu_Rename, _vm.RenameCommand));
                 menu.Items.Add(new Separator());
-                menu.Items.Add(new MenuItem() { Header = "@Group" });
-                menu.Items.Add(new MenuItem() { Header = "@CurrentOnly" });
-                menu.Items.Add(new MenuItem() { Header = "@VisibleMarker" });
+                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Playlist_MoreMenu_GroupBy, new Binding(nameof(PlaylistConfig.IsGroupBy)) { Source = Config.Current.Playlist }));
+                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Playlist_MoreMenu_CurrentBook, new Binding(nameof(PlaylistConfig.IsCurrentBookFilterEnabled)) { Source = Config.Current.Playlist }));
                 menu.Items.Add(new Separator());
-                menu.Items.Add(new MenuItem() { Header = "@RemoveIgnoreItems" });
-                menu.Items.Add(new MenuItem() { Header = "@Sort" });
+                menu.Items.Add(CreateCommandMenuItem(Properties.Resources.Playlist_MoreMenu_DeleteInvalid, _vm.DeleteInvalidItemsCommand));
+                menu.Items.Add(CreateCommandMenuItem(Properties.Resources.Playlist_MoreMenu_Sort, _vm.SortItemsCommand));
                 menu.Items.Add(new Separator());
-                menu.Items.Add(new MenuItem() { Header = "@OpenAsBook" });
+                menu.Items.Add(CreateCommandMenuItem(Properties.Resources.Playlist_MoreMenu_OpenAsBook, _vm.OpenAsBookCommand));
 
                 return menu;
             }
@@ -113,7 +142,8 @@ namespace NeeView
 
         private void NewCommand_Execute()
         {
-            throw new NotImplementedException();
+            _model.CreateNew();
+            RenameRequest?.Invoke(this, null);
         }
 
 
@@ -125,30 +155,80 @@ namespace NeeView
 
         private void OpenCommand_Execute()
         {
-            throw new NotImplementedException();
+            _model.Open();
         }
 
         private RelayCommand _DeleteCommand;
         public RelayCommand DeleteCommand
         {
-            get { return _DeleteCommand = _DeleteCommand ?? new RelayCommand(DeleteCommand_Execute); }
+            get { return _DeleteCommand = _DeleteCommand ?? new RelayCommand(DeleteCommand_Execute, DeleteCommand_CanExecute); }
         }
 
-        private void DeleteCommand_Execute()
+        private bool DeleteCommand_CanExecute()
         {
-            throw new NotImplementedException();
+            return _model.CanDelete();
+        }
+
+        private async void DeleteCommand_Execute()
+        {
+            await _model.DeleteAsync();
         }
 
 
         private RelayCommand _RenameCommand;
         public RelayCommand RenameCommand
         {
-            get { return _RenameCommand = _RenameCommand ?? new RelayCommand(RenameCommand_Execute); }
+            get { return _RenameCommand = _RenameCommand ?? new RelayCommand(RenameCommand_Execute, RenameCommand_CanExecute); }
+        }
+
+        private bool RenameCommand_CanExecute()
+        {
+            return _model.CanRename();
         }
 
         private void RenameCommand_Execute()
         {
-            throw new NotImplementedException();
+            RenameRequest?.Invoke(this, null);
+        }
+
+        public bool Rename(string newName)
+        {
+            return _model.Rename(newName);
+        }
+
+
+        private RelayCommand _OpenAsBookCommand;
+        public RelayCommand OpenAsBookCommand
+        {
+            get { return _OpenAsBookCommand = _OpenAsBookCommand ?? new RelayCommand(OpenAsBookCommand_Execute); }
+        }
+
+        private void OpenAsBookCommand_Execute()
+        {
+            _model.OpenAsBook();
+        }
+
+        private RelayCommand _DeleteInvalidItemsCommand;
+        public RelayCommand DeleteInvalidItemsCommand
+        {
+            get { return _DeleteInvalidItemsCommand = _DeleteInvalidItemsCommand ?? new RelayCommand(DeleteInvalidItemsCommand_Execute); }
+        }
+
+        private async void DeleteInvalidItemsCommand_Execute()
+        {
+            await _model.DeleteInvalidItemsAsync();
+        }
+
+
+        private RelayCommand _SortItemsCommand;
+        public RelayCommand SortItemsCommand
+        {
+            get { return _SortItemsCommand = _SortItemsCommand ?? new RelayCommand(SortItemsCommand_Execute); }
+        }
+
+        private void SortItemsCommand_Execute()
+        {
+            _model.SortItems();
         }
 
         #endregion

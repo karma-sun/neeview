@@ -79,6 +79,7 @@ namespace NeeView
             RaisePropertyChanged(nameof(IsVisibleFileInfo));
             RaisePropertyChanged(nameof(IsVisibleEffectInfo));
             RaisePropertyChanged(nameof(IsVisibleNavigator));
+            RaisePropertyChanged(nameof(IsVisiblePlaylist));
         }
 
 
@@ -252,6 +253,24 @@ namespace NeeView
         public bool ToggleVisiblePagemarkList(bool byMenu)
         {
             return ToggleVisiblePanel(nameof(PagemarkPanel), byMenu);
+        }
+
+
+        // プレイリスト表示ON/OFF
+        public bool IsVisiblePlaylist
+        {
+            get { return IsVisiblePanel(nameof(PlaylistPanel)); }
+            set { SetVisiblePanel(nameof(PlaylistPanel), value); }
+        }
+
+        public void SetVisiblePlaylist(bool isVisible, bool flush)
+        {
+            SetVisiblePanel(nameof(PlaylistPanel), isVisible);
+        }
+
+        public bool ToggleVisiblePlaylist(bool byMenu)
+        {
+            return ToggleVisiblePanel(nameof(PlaylistPanel), byMenu);
         }
 
         #endregion Panels Visibility

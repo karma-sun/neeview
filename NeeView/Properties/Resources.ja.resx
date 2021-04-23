@@ -7097,4 +7097,46 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="BookshelfItem.Menu.Edit" xml:space="preserve">
     <value>編集(_E)</value>
   </data>
+  <data name="Playlist.MoreMenu.New" xml:space="preserve">
+    <value>新規作成(_N)</value>
+  </data>
+  <data name="Playlist.MoreMenu.Open" xml:space="preserve">
+    <value>開く(_O)</value>
+  </data>
+  <data name="Playlist.MoreMenu.Delete" xml:space="preserve">
+    <value>削除(_D)</value>
+  </data>
+  <data name="Playlist.MoreMenu.Rename" xml:space="preserve">
+    <value>名前の変更(_M)</value>
+  </data>
+  <data name="Playlist.MoreMenu.GroupBy" xml:space="preserve">
+    <value>グループで表示</value>
+  </data>
+  <data name="Playlist.MoreMenu.CurrentBook" xml:space="preserve">
+    <value>現在のブックのみ表示</value>
+  </data>
+  <data name="Playlist.MoreMenu.DeleteInvalid" xml:space="preserve">
+    <value>無効な項目を削除</value>
+  </data>
+  <data name="Playlist.MoreMenu.Sort" xml:space="preserve">
+    <value>パス順に並び替える</value>
+  </data>
+  <data name="Playlist.MoreMenu.OpenAsBook" xml:space="preserve">
+    <value>ブックとして開く</value>
+  </data>
+  <data name="Playlist.ErrorDialog.Title" xml:space="preserve">
+    <value>プレイリスト エラー</value>
+  </data>
+  <data name="Playlist.DeleteDialog.Title" xml:space="preserve">
+    <value>プレイリスト ファイルの削除</value>
+  </data>
+  <data name="PlaylistItem.Menu.Open" xml:space="preserve">
+    <value>開く(_O)</value>
+  </data>
+  <data name="PlaylistItem.Menu.Delete" xml:space="preserve">
+    <value>削除(_D)</value>
+  </data>
+  <data name="PlaylistItem.Menu.Rename" xml:space="preserve">
+    <value>名前の変更(_M)</value>
+  </data>
 </root>

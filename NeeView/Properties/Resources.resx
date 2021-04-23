@@ -7092,4 +7092,46 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="BookshelfItem.Menu.Edit" xml:space="preserve">
     <value>_Edit</value>
   </data>
+  <data name="Playlist.MoreMenu.New" xml:space="preserve">
+    <value>_New</value>
+  </data>
+  <data name="Playlist.MoreMenu.Open" xml:space="preserve">
+    <value>_Open</value>
+  </data>
+  <data name="Playlist.MoreMenu.Delete" xml:space="preserve">
+    <value>_Delete</value>
+  </data>
+  <data name="Playlist.MoreMenu.Rename" xml:space="preserve">
+    <value>Rena_me</value>
+  </data>
+  <data name="Playlist.MoreMenu.GroupBy" xml:space="preserve">
+    <value>Group by</value>
+  </data>
+  <data name="Playlist.MoreMenu.CurrentBook" xml:space="preserve">
+    <value>Current book only</value>
+  </data>
+  <data name="Playlist.MoreMenu.DeleteInvalid" xml:space="preserve">
+    <value>Remove invalid items</value>
+  </data>
+  <data name="Playlist.MoreMenu.Sort" xml:space="preserve">
+    <value>Sort by path</value>
+  </data>
+  <data name="Playlist.MoreMenu.OpenAsBook" xml:space="preserve">
+    <value>Open as a book</value>
+  </data>
+  <data name="Playlist.ErrorDialog.Title" xml:space="preserve">
+    <value>Playlist error</value>
+  </data>
+  <data name="Playlist.DeleteDialog.Title" xml:space="preserve">
+    <value>Delete playlist file</value>
+  </data>
+  <data name="PlaylistItem.Menu.Open" xml:space="preserve">
+    <value>_Open</value>
+  </data>
+  <data name="PlaylistItem.Menu.Delete" xml:space="preserve">
+    <value>_Delete</value>
+  </data>
+  <data name="PlaylistItem.Menu.Rename" xml:space="preserve">
+    <value>Rena_me</value>
+  </data>
 </root>

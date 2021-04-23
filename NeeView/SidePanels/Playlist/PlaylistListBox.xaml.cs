@@ -58,6 +58,7 @@ namespace NeeView
 
         #region Commands
 
+        public readonly static RoutedCommand OpenCommand = new RoutedCommand(nameof(OpenCommand), typeof(PlaylistListBox));
         public readonly static RoutedCommand RenameCommand = new RoutedCommand(nameof(RenameCommand), typeof(PlaylistListBox));
         public readonly static RoutedCommand RemoveCommand = new RoutedCommand(nameof(RemoveCommand), typeof(PlaylistListBox));
 
@@ -69,8 +70,21 @@ namespace NeeView
 
         private void InitializeCommand()
         {
+            this.ListBox.CommandBindings.Add(new CommandBinding(OpenCommand, OpenCommand_Execute, OpenCommand_CanExecute));
             this.ListBox.CommandBindings.Add(new CommandBinding(RenameCommand, RenameCommand_Execute, RenameCommand_CanExecute));
             this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, RemoveCommand_Execute, RemoveCommand_CanExecute));
+        }
+
+        private void OpenCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void OpenCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            var item = this.ListBox.SelectedItem as PlaylistListBoxItem;
+            if (item is null) return;
+            _vm.Open(item);
         }
 
         private void RenameCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)

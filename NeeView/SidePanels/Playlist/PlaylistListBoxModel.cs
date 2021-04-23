@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NeeView
@@ -23,9 +25,10 @@ namespace NeeView
             _delaySave = new DelayAction(App.Current.Dispatcher, TimeSpan.FromSeconds(0.2), () => SavePlaylist(true), TimeSpan.FromSeconds(0.5));
 
             // NOTE: 非同期で読み込む
-            Task.Run(() => Load(path));
+            var async = LoadAsync(path);
         }
 
+        public string PlaylistPath => _playlistPath;
 
         public ObservableCollection<PlaylistListBoxItem> Items
         {
@@ -63,7 +66,7 @@ namespace NeeView
         }
 
 
-        public void Load(string path)
+        private async Task LoadAsync(string path)
         {
             if (this.Items != null)
             {
@@ -75,34 +78,37 @@ namespace NeeView
                 path = System.IO.Path.Combine(Config.Current.Playlist.PlaylistFolder, "Default.nvplst");
             }
 
-            lock (_lock)
+            if (System.IO.File.Exists(path))
             {
-                if (System.IO.File.Exists(path))
+                try
                 {
-                    Debug.WriteLine($"Load Playlist: {path}"); // ##
-
-                    try
+                    var playlist = await PlaylistTools.LoadAsync(path);
+                    lock (_lock)
                     {
-                        var playlist = PlaylistTools.Load(path);
                         this.Items = new ObservableCollection<PlaylistListBoxItem>(playlist.Items.Select(e => new PlaylistListBoxItem(e)));
                         _playlistPath = path;
+                        _isDarty = false;
                     }
-                    catch (Exception ex)
+                }
+                catch (Exception ex)
+                {
+                    ToastService.Current.Show(new Toast(ex.Message, Properties.Resources.Playlist_ErrorDialog_Title, ToastIcon.Error));
+                    lock (_lock)
                     {
-                        ToastService.Current.Show(new Toast(ex.Message, "Playlist error", ToastIcon.Error));
                         this.Items = null;
                         _playlistPath = null;
+                        _isDarty = false;
                     }
                 }
-                else
+            }
+            else
+            {
+                lock (_lock)
                 {
-                    Debug.WriteLine($"New Playlist: {path}"); // ##
-
                     this.Items = new ObservableCollection<PlaylistListBoxItem>();
                     _playlistPath = path;
+                    _isDarty = false;
                 }
-
-                _isDarty = false;
             }
         }
 
@@ -137,6 +143,34 @@ namespace NeeView
             //}
         }
 
+
+        public string RenamePlaylist(string newName)
+        {
+            if (this.Items is null) return null;
+            if (string.IsNullOrWhiteSpace(newName)) return null;
+
+            Save();
+
+            try
+            {
+                var newPath = FileIO.CreateUniquePath(Path.Combine(Path.GetDirectoryName(_playlistPath), newName + Path.GetExtension(_playlistPath)));
+                var file = new FileInfo(_playlistPath);
+                if (file.Exists)
+                {
+                    file.MoveTo(newPath);
+                }
+                _playlistPath = newPath;
+            }
+            catch (Exception ex)
+            {
+                ToastService.Current.Show(new Toast(ex.Message, Properties.Resources.Playlist_ErrorDialog_Title, ToastIcon.Error));
+                return null;
+            }
+
+            // TODO: 他のNeeViewとの同期 ... ファイルシステムの名前変更監視？
+
+            return _playlistPath;
+        }
 
         public PlaylistListBoxItem Add(string path)
         {
@@ -187,6 +221,33 @@ namespace NeeView
             _delaySave.Request();
         }
 
+        public async Task DeleteInvalidItemsAsync(CancellationToken token)
+        {
+            if (this.Items is null) return;
+
+            // 削除項目収集
+            var unlinked = new List<PlaylistListBoxItem>();
+            foreach (var node in this.Items)
+            {
+                if (!await ArchiveEntryUtility.ExistsAsync(node.Path, token))
+                {
+                    unlinked.Add(node);
+                }
+            }
+
+            // 削除実行
+            lock (_lock)
+            {
+                foreach (var node in unlinked)
+                {
+                    this.Items.Remove(node);
+                }
+                _isDarty = true;
+            }
+
+            _delaySave.Request();
+        }
+
         public void Move(PlaylistListBoxItem item, PlaylistListBoxItem targetItem)
         {
             if (this.Items is null) return;
@@ -204,6 +265,21 @@ namespace NeeView
 
             _delaySave.Request();
         }
+
+        public void Sort()
+        {
+            if (this.Items is null) return;
+
+            lock (_lock)
+            {
+                var sorted = this.Items.OrderBy(e => Path.GetDirectoryName(e.Path), NaturalSort.Comparer);
+                this.Items = new ObservableCollection<PlaylistListBoxItem>(sorted);
+                _isDarty = true;
+            }
+
+            _delaySave.Request();
+        }
+
 
         public bool Rename(PlaylistListBoxItem item, string newName)
         {

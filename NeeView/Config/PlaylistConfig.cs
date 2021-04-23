@@ -9,6 +9,8 @@ namespace NeeView
     {
         private PanelListItemStyle _panelListItemStyle;
         private string _currentPlaylist;
+        private bool _isGroupBy;
+        private bool _isCurrentBookFilterEnabled;
 
         [JsonInclude, JsonPropertyName(nameof(PlaylistFolder))]
         public string _playlistFolder;
@@ -35,6 +37,18 @@ namespace NeeView
         {
             get { return _currentPlaylist; }
             set { SetProperty(ref _currentPlaylist, string.IsNullOrWhiteSpace(value) ? null :  LoosePath.TrimEnd(value)); }
+        }
+
+        public bool IsGroupBy
+        {
+            get { return _isGroupBy; }
+            set { SetProperty(ref _isGroupBy, value); }
+        }
+
+        public bool IsCurrentBookFilterEnabled
+        {
+            get { return _isCurrentBookFilterEnabled; }
+            set { SetProperty(ref _isCurrentBookFilterEnabled, value); }
         }
     }
 }

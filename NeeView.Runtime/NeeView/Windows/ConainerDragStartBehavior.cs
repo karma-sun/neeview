@@ -458,12 +458,22 @@ namespace NeeView.Windows
             _selectedItems = null;
             _anchorItem = null;
 
-            // Ctrlキーによる選択解除のときのみ選択変更をMosueUpまで遅延させる
-            if (this.DragItem != null && Keyboard.Modifiers == ModifierKeys.Control && listBox.SelectedItems.Contains(this.DragItem.DataContext))
+            if (this.DragItem != null && listBox.SelectedItems.Contains(this.DragItem.DataContext))
             {
-                _selectedItems = listBox.SelectedItems.Cast<object>().Where(x => x != this.DragItem.DataContext).ToList();
-                _anchorItem = this.DragItem.DataContext;
-                e.Handled = true;
+                switch (Keyboard.Modifiers)
+                {
+                    case ModifierKeys.None:
+                        _selectedItems = new List<object>();
+                        _anchorItem = this.DragItem.DataContext;
+                        e.Handled = true;
+                        break;
+
+                    case ModifierKeys.Control:
+                        _selectedItems = listBox.SelectedItems.Cast<object>().Where(x => x != this.DragItem.DataContext).ToList();
+                        _anchorItem = this.DragItem.DataContext;
+                        e.Handled = true;
+                        break;
+                }
             }
         }
 

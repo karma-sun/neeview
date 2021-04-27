@@ -463,7 +463,7 @@ namespace NeeView.Windows
                 switch (Keyboard.Modifiers)
                 {
                     case ModifierKeys.None:
-                        _selectedItems = new List<object>();
+                        _selectedItems = new List<object>() { this.DragItem.DataContext };
                         _anchorItem = this.DragItem.DataContext;
                         e.Handled = true;
                         break;
@@ -516,24 +516,6 @@ namespace NeeView.Windows
         {
             SelectionMode = SelectionMode.Extended;
         }
-
-#if false // TODO
-        public new static readonly DependencyProperty SelectedItemsProperty =
-            DependencyProperty.Register(nameof(SelectedItems), typeof(IList), typeof(ListBoxExteded), new FrameworkPropertyMetadata(new List<object>(), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-
-        public new IList SelectedItems
-        {
-            get { return (IList)this.GetValue(SelectedItemsProperty); }
-            set { this.SetValue(SelectedItemsProperty, value); }
-        }
-
-        protected override void OnSelectionChanged(SelectionChangedEventArgs e)
-        {
-            base.OnSelectionChanged(e);
-
-            this.SelectedItems = base.SelectedItems;
-        }
-#endif
 
         public void SetAnchorItem(object anchor)
         {

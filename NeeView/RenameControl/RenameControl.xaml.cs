@@ -112,6 +112,15 @@ namespace NeeView
             set { SetProperty(ref _isInvalidFileNameChars, value); }
         }
 
+        // パス区切り文字制御
+        private bool _isInvalidSeparatorChars;
+        public bool IsInvalidSeparatorChars
+        {
+            get { return _isInvalidSeparatorChars; }
+            set { SetProperty(ref _isInvalidSeparatorChars, value); }
+        }
+
+
         // 拡張子を除いた部分を選択
         public bool IsSeleftFileNameBody { get; set; } = false;
 
@@ -129,6 +138,14 @@ namespace NeeView
                         if (_text != value)
                         {
                             ToastService.Current.Show(new Toast(Properties.Resources.Notice_InvalidFileNameChars, null, ToastIcon.Information));
+                        }
+                    }
+                    else if (_isInvalidSeparatorChars)
+                    {
+                        _text = new string(value.Where(e => !LoosePath.Separators.Contains(e)).ToArray());
+                        if (_text != value)
+                        {
+                            ToastService.Current.Show(new Toast(Properties.Resources.Notice_InvalidSeparatorChars, null, ToastIcon.Information));
                         }
                     }
                     else

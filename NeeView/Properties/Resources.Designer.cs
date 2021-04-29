@@ -10136,6 +10136,16 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   The following characters can not be used:
+        ///\ / : * ? &quot; &lt; &gt; | に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Notice_InvalidSeparatorChars {
+            get {
+                return ResourceManager.GetString("Notice.InvalidSeparatorChars", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Page number ({0} - {1}) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Notice_JumpPageLabel {
@@ -12164,11 +12174,56 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   {0} items deleted. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Playlist_DeleteItemsMessage {
+            get {
+                return ResourceManager.GetString("Playlist.DeleteItemsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Playlist error に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Playlist_ErrorDialog_Title {
             get {
                 return ResourceManager.GetString("Playlist.ErrorDialog.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Failed to load the playlist に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Playlist_FailedToLoad {
+            get {
+                return ResourceManager.GetString("Playlist.FailedToLoad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Failed to save the playlist に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Playlist_FailedToSave {
+            get {
+                return ResourceManager.GetString("Playlist.FailedToSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   First in に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Playlist_FirstIn {
+            get {
+                return ResourceManager.GetString("Playlist.FirstIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Last in に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Playlist_LastIn {
+            get {
+                return ResourceManager.GetString("Playlist.LastIn", resourceCulture);
             }
         }
         
@@ -12218,7 +12273,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   _Open に類似しているローカライズされた文字列を検索します。
+        ///   _Open... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Playlist_MoreMenu_Open {
             get {

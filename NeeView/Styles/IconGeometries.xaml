@@ -126,7 +126,14 @@
     <PathGeometry x:Key="g_folder_24px" FillRule="Nonzero" Figures="M10,4L4,4C2.9,4,2.01,4.9,2.01,6L2,18C2,19.1,2.9,20,4,20L20,20C21.1,20,22,19.1,22,18L22,8C22,6.9,21.1,6,20,6L12,6 10,4z" />
 
     <PathGeometry x:Key="g_folder_open_24px" FillRule="Nonzero" Figures="M20,6L12,6 10,4 4,4C2.9,4,2.01,4.9,2.01,6L2,18C2,19.1,2.9,20,4,20L20,20C21.1,20,22,19.1,22,18L22,8C22,6.9,21.1,6,20,6z M20,18L4,18 4,8 20,8 20,18z" />
-    
+
+    <PathGeometry x:Key="g_keyboard_arrow_down_24px" FillRule=" Nonzero" Figures="M7.41,7.84L12,12.42 16.59,7.84 18,9.25 12,15.25 6,9.25z" />
+
+    <PathGeometry x:Key="g_keyboard_arrow_up_24px"  FillRule="Nonzero" Figures="M7.41,15.41L12,10.83 16.59,15.41 18,14 12,8 6,14z" />
+
+    <PathGeometry x:Key="g_lock_outline_24px" FillRule="Nonzero"
+            Figures="M18,8L17,8 17,6C17,3.24 14.76,1 12,1 9.24,1 7,3.24 7,6L7,8 6,8C4.9,8,4,8.9,4,10L4,20C4,21.1,4.9,22,6,22L18,22C19.1,22,20,21.1,20,20L20,10C20,8.9,19.1,8,18,8z M12,2.9C13.71,2.9,15.1,4.29,15.1,6L15.1,8 9,8 9,6 8.9,6C8.9,4.29,10.29,2.9,12,2.9z M18,20L6,20 6,10 18,10 18,20z M12,17C13.1,17 14,16.1 14,15 14,13.9 13.1,13 12,13 10.9,13 10,13.9 10,15 10,16.1 10.9,17 12,17z" />
+
     <!-- NeeView Custom : from Material design icons by Google -->
 
     <PathGeometry x:Key="g_sort_name_24px" FillRule="Nonzero"

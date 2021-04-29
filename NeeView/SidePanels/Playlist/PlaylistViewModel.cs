@@ -30,8 +30,14 @@ namespace NeeView
 
             _model.AddPropertyChanged(nameof(_model.PlaylistCollection), Model_PlaylistCollectionChanged);
             _model.AddPropertyChanged(nameof(_model.SelectedItem), Model_SelectedItemChanged);
+            _model.AddPropertyChanged(nameof(_model.FilterMessage), (s, e) => RaisePropertyChanged(nameof(FilterMessage)));
         }
 
+
+        public void UpdatePlaylistCollection()
+        {
+            _model.UpdatePlaylistCollection();
+        }
 
         public EventHandler RenameRequest;
 
@@ -46,6 +52,12 @@ namespace NeeView
             get => _model.SelectedItem;
             set => _model.SelectedItem = value;
         }
+
+        public string FilterMessage
+        {
+            get => _model.FilterMessage;
+        }
+
 
 
         private void Model_PlaylistCollectionChanged(object sender, PropertyChangedEventArgs e)
@@ -82,13 +94,13 @@ namespace NeeView
                 menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleContent, PanelListItemStyle.Content));
                 menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleBanner, PanelListItemStyle.Banner));
                 menu.Items.Add(new Separator());
+                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Playlist_MoreMenu_GroupBy, new Binding(nameof(PlaylistConfig.IsGroupBy)) { Source = Config.Current.Playlist }));
+                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Playlist_MoreMenu_CurrentBook, new Binding(nameof(PlaylistConfig.IsCurrentBookFilterEnabled)) { Source = Config.Current.Playlist }));
+                menu.Items.Add(new Separator());
                 menu.Items.Add(CreateCommandMenuItem(Properties.Resources.Playlist_MoreMenu_New, _vm.NewCommand));
                 menu.Items.Add(CreateCommandMenuItem(Properties.Resources.Playlist_MoreMenu_Open, _vm.OpenCommand));
                 menu.Items.Add(CreateCommandMenuItem(Properties.Resources.Playlist_MoreMenu_Delete, _vm.DeleteCommand));
                 menu.Items.Add(CreateCommandMenuItem(Properties.Resources.Playlist_MoreMenu_Rename, _vm.RenameCommand));
-                menu.Items.Add(new Separator());
-                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Playlist_MoreMenu_GroupBy, new Binding(nameof(PlaylistConfig.IsGroupBy)) { Source = Config.Current.Playlist }));
-                menu.Items.Add(CreateCheckMenuItem(Properties.Resources.Playlist_MoreMenu_CurrentBook, new Binding(nameof(PlaylistConfig.IsCurrentBookFilterEnabled)) { Source = Config.Current.Playlist }));
                 menu.Items.Add(new Separator());
                 menu.Items.Add(CreateCommandMenuItem(Properties.Resources.Playlist_MoreMenu_DeleteInvalid, _vm.DeleteInvalidItemsCommand));
                 menu.Items.Add(CreateCommandMenuItem(Properties.Resources.Playlist_MoreMenu_Sort, _vm.SortItemsCommand));
@@ -118,19 +130,6 @@ namespace NeeView
         private void SetListItemStyle_Executed(PanelListItemStyle style)
         {
             Config.Current.Playlist.PanelListItemStyle = style;
-        }
-
-
-        private RelayCommand _sddPagelistItemCommand;
-        public RelayCommand AddPagelistItemCommand
-        {
-            get { return _sddPagelistItemCommand = _sddPagelistItemCommand ?? new RelayCommand(AddPagelistItemCommand_Execute); }
-        }
-
-        private void AddPagelistItemCommand_Execute()
-        {
-            // TODO: 本来はコマンドを呼ぶべき？
-            _model.AddPlaylist();
         }
 
 

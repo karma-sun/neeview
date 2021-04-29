@@ -243,6 +243,31 @@ namespace NeeView.Windows.Media
         }
 
         /// <summary>
+        /// DependencyObjectとその親から、指定した型のコントロールを取得する.
+        /// </summary>
+        public static T FindSourceElement<T>(DependencyObject obj, DependencyObject terminator = null)
+            where T : class
+        {
+            if (!(obj is Visual))
+            {
+                return null;
+            }
+
+            var element = obj;
+            while (element != terminator)
+            {
+                if (element is T item)
+                {
+                    return item;
+                }
+                element = VisualTreeHelper.GetParent(element);
+            }
+
+            return null;
+        }
+
+
+        /// <summary>
         /// DependencyObject から、型、名前を指定して親コントロールを取得する
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -268,7 +293,6 @@ namespace NeeView.Windows.Media
 
             return null;
         }
-
 
         /// <summary>
         /// 指定した親に属しているか判定する
@@ -361,5 +385,28 @@ namespace NeeView.Windows.Media
 
             return null;
         }
+
+        public static List<T> FindVisualChildren<T>(DependencyObject root) where T : FrameworkElement
+        {
+            if (root == null)
+            {
+                return null;
+            }
+
+            var result = root as T;
+            if (result != null)
+            {
+                return new List<T>() { result };
+            }
+
+            var children = Enumerable.Range(0, VisualTreeHelper.GetChildrenCount(root))
+                .Select(i => FindVisualChildren<T>(VisualTreeHelper.GetChild(root, i)))
+                .Where(x => x != null)
+                .SelectMany(x => x)
+                .ToList();
+
+            return children;
+        }
+
     }
 }

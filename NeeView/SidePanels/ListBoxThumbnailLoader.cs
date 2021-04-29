@@ -62,6 +62,37 @@ namespace NeeView
                 return;
             }
 
+#if true
+
+#if false
+            var virtualizingPanels = VisualTreeUtility.FindVisualChildren<VirtualizingPanel>(_panel.PageCollectionListBox);
+            if (virtualizingPanels == null || virtualizingPanels.Count <= 0)
+            {
+                return;
+            }
+
+            var dataContexts = virtualizingPanels
+                .Select(e => e.Children)
+                .Cast<ListBoxItem>()
+                .Select(i => i.DataContext)
+                .ToList();
+#endif
+
+            var listBoxItems = VisualTreeUtility.FindVisualChildren<ListBoxItem>(_panel.PageCollectionListBox);
+            if (listBoxItems == null || listBoxItems.Count <= 0)
+            {
+                return;
+            }
+
+            // 有効な ListBoxItem 収集
+            var items = _panel.CollectPageList(listBoxItems.Select(i => i.DataContext)).ToList();
+
+            var pages = items.Select(e => e.GetPage()).ToList();
+            _jobClient?.Order(pages);
+
+            Debug.WriteLine($"ThumbLoad: {pages.Count}");
+
+#else
             var virtualizingPanel = VisualTreeUtility.FindVisualChild<VirtualizingPanel>(_panel.PageCollectionListBox);
             if (virtualizingPanel == null)
             {
@@ -73,6 +104,7 @@ namespace NeeView
 
             var pages = items.Select(e => e.GetPage()).ToList();
             _jobClient?.Order(pages);
+#endif
         }
 
         public void Unload()

@@ -1,5 +1,8 @@
 ﻿using Microsoft.Win32;
 using NeeLaboratory.ComponentModel;
+using NeeView.IO;
+using NeeView.Threading;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -22,12 +25,21 @@ namespace NeeView
         private PlaylistListBoxModel _listBoxModel;
         private int _listBoxModelLockCount;
         private CancellationTokenSource _deleteInvalidItemsCancellationToken;
+        private bool _isListBoxModeDarty;
 
 
         private PlaylistModel()
         {
+            InitializeFileWatcher();
+
             Config.Current.Playlist.AddPropertyChanged(nameof(PlaylistConfig.CurrentPlaylist),
                 (s, e) => RaisePropertyChanged(nameof(SelectedItem)));
+
+            Config.Current.Playlist.AddPropertyChanged(nameof(PlaylistConfig.IsCurrentBookFilterEnabled),
+                (s, e) => RaisePropertyChanged(nameof(FilterMessage)));
+
+            BookOperation.Current.BookChanged +=
+                (s, e) => RaisePropertyChanged(nameof(FilterMessage));
 
             this.AddPropertyChanged(nameof(SelectedItem),
                 (s, e) => SelectedItemChanged());
@@ -36,7 +48,10 @@ namespace NeeView
         }
 
 
-        public string DefaultPlaylist => Path.Combine(Config.Current.Playlist.PlaylistFolder, "Default.nvpls");
+        public event EventHandler PlaylistItemsStateChanged;
+
+
+        public string DefaultPlaylist => Config.Current.Playlist.DefaultPlaylist;
         public string NewPlaylist => Path.Combine(Config.Current.Playlist.PlaylistFolder, "NewPlaylist.nvpls");
 
         public List<object> PlaylistCollection
@@ -54,7 +69,8 @@ namespace NeeView
 
         public string SelectedItem
         {
-            get { return Config.Current.Playlist.CurrentPlaylist; }
+            get 
+            { return Config.Current.Playlist.CurrentPlaylist; }
             set
             {
                 if (Config.Current.Playlist.CurrentPlaylist != value)
@@ -67,13 +83,44 @@ namespace NeeView
         public PlaylistListBoxModel ListBoxModel
         {
             get { return _listBoxModel; }
-            set { SetProperty(ref _listBoxModel, value); }
+            set
+            {
+                if (_listBoxModel != value)
+                {
+                    if (_listBoxModel != null)
+                    {
+                        _listBoxModel.ItemsStateChanged -= ListBoxModel_ItemsStateChanged;
+                    }
+
+                    _listBoxModel = value;
+
+                    if (_listBoxModel != null)
+                    {
+                        _listBoxModel.ItemsStateChanged += ListBoxModel_ItemsStateChanged;
+                    }
+
+                    RaisePropertyChanged();
+                }
+            }
         }
 
 
+        public string FilterMessage
+        {
+            get { return Config.Current.Playlist.IsCurrentBookFilterEnabled ? LoosePath.GetFileName(BookOperation.Current.Address) : null; }
+        }
+
+
+
+
+        private void ListBoxModel_ItemsStateChanged(object sender, EventArgs e)
+        {
+            PlaylistItemsStateChanged?.Invoke(this, null);
+        }
+
         private void SelectedItemChanged()
         {
-            if (SelectedItem != null && !PlaylistCollection.Contains(SelectedItem))
+            if (!this.PlaylistCollection.Contains(SelectedItem))
             {
                 UpdatePlaylistCollection();
             }
@@ -82,8 +129,7 @@ namespace NeeView
         }
 
 
-        // TODO: 非同期化
-        private void UpdatePlaylistCollection()
+        public void UpdatePlaylistCollection()
         {
             try
             {
@@ -113,8 +159,8 @@ namespace NeeView
                 }
 
                 var groups = list.GroupBy(e => Path.GetDirectoryName(e) == Config.Current.Playlist.PlaylistFolder);
-                var normals = groups.FirstOrDefault(e => e.Key == true)?.OrderBy(e => e != DefaultPlaylist);
-                var externals = groups.FirstOrDefault(e => e.Key == false)?.OrderBy(e => e);
+                var normals = groups.FirstOrDefault(e => e.Key == true)?.OrderBy(e => e != DefaultPlaylist).ThenBy(e => e, NaturalSort.Comparer);
+                var externals = groups.FirstOrDefault(e => e.Key == false)?.OrderBy(e => e, NaturalSort.Comparer);
 
                 var items = new List<object>();
                 items.AddRange(normals);
@@ -135,17 +181,20 @@ namespace NeeView
 
         private void UpdateListBoxModel()
         {
-            if (this.ListBoxModel is null || _listBoxModelLockCount <= 0 && this.ListBoxModel?.PlaylistPath != this.SelectedItem)
+            if (_listBoxModelLockCount <= 0 && (this.ListBoxModel is null || _isListBoxModeDarty || this.ListBoxModel?.PlaylistPath != this.SelectedItem))
             {
-                this.ListBoxModel?.Flush();
+                if (!_isListBoxModeDarty && this.ListBoxModel != null)
+                {
+                    this.ListBoxModel.Flush();
+                }
+
                 this.ListBoxModel = new PlaylistListBoxModel(this.SelectedItem);
+                _isListBoxModeDarty = false;
+
+                StartFileWatch(this.SelectedItem);
             }
         }
 
-        public void AddPlaylist()
-        {
-            this.ListBoxModel.Add(BookOperation.Current.GetPage()?.SystemPath);
-        }
 
         public void Flush()
         {
@@ -183,7 +232,7 @@ namespace NeeView
             if (isSuccessed)
             {
                 SelectedItem = DefaultPlaylist;
-                UpdatePlaylistCollection();
+                //UpdatePlaylistCollection();
             }
         }
 
@@ -196,33 +245,108 @@ namespace NeeView
         {
             if (!CanRename()) return false;
 
-            var newPath = this.ListBoxModel?.RenamePlaylist(newName);
-            if (newPath != null)
+            this.ListBoxModel?.Save();
+
+            try
             {
-                SelectedItem = newPath;
+                var newPath = FileIO.CreateUniquePath(Path.Combine(Path.GetDirectoryName(SelectedItem), newName + Path.GetExtension(SelectedItem)));
+                var file = new FileInfo(SelectedItem);
+                if (file.Exists)
+                {
+                    file.MoveTo(newPath);
+                }
+                else
+                {
+                    SelectedItem = newPath;
+                }
                 return true;
             }
-
-            return false;
+            catch (Exception ex)
+            {
+                ToastService.Current.Show(new Toast(ex.Message, Properties.Resources.Playlist_ErrorDialog_Title, ToastIcon.Error));
+                return false;
+            }
         }
 
 
         public void OpenAsBook()
         {
-            _listBoxModel.Flush();
+            _listBoxModel?.Flush();
             BookHub.Current.RequestLoad(this, SelectedItem, null, BookLoadOption.IsBook, true);
         }
+
+
+        #region ListBoxModel Controls
 
         public async Task DeleteInvalidItemsAsync()
         {
             _deleteInvalidItemsCancellationToken?.Cancel();
             _deleteInvalidItemsCancellationToken = new CancellationTokenSource();
-            await _listBoxModel.DeleteInvalidItemsAsync(_deleteInvalidItemsCancellationToken.Token);
+            await _listBoxModel?.DeleteInvalidItemsAsync(_deleteInvalidItemsCancellationToken.Token);
         }
 
         public void SortItems()
         {
-            _listBoxModel.Sort();
+            _listBoxModel?.Sort();
         }
+
+        #endregion
+
+
+        #region FileSystemWatcher
+
+        private SingleFileWatcher _watcher;
+        private SimpleDelayAction _delayReloadAction;
+
+        private void InitializeFileWatcher()
+        {
+            _watcher = new SingleFileWatcher(SingleFileWaterOptions.FollowRename);
+            _watcher.Changed += Watcher_Changed;
+            _watcher.Deleted += Watcher_Deleted;
+            _watcher.Renamed += Watcher_Renamed;
+
+            _delayReloadAction = new SimpleDelayAction();
+        }
+
+        private void StartFileWatch(string path)
+        {
+            _delayReloadAction.Cancel();
+            _watcher.Start(path);
+        }
+
+        private void Watcher_Changed(object sender, FileSystemEventArgs e)
+        {
+            if (string.Compare(SelectedItem, e.FullPath, StringComparison.OrdinalIgnoreCase) != 0) return;
+
+            Debug.WriteLine($"## Watcher.Changed: {e.FullPath}");
+
+            if (_listBoxModel.LastWriteTime.AddSeconds(5.0) < DateTime.Now)
+            {
+                _delayReloadAction.Request(async () => await _listBoxModel.ReloadAsync(), TimeSpan.FromSeconds(1.0));
+            }
+        }
+
+        private void Watcher_Deleted(object sender, FileSystemEventArgs e)
+        {
+            if (string.Compare(SelectedItem, e.FullPath, StringComparison.OrdinalIgnoreCase) != 0) return;
+
+            Debug.WriteLine($"## Watcher.Deleted: {e.FullPath}");
+
+            SelectedItem = DefaultPlaylist;
+        }
+
+        private void Watcher_Renamed(object sender, RenamedEventArgs e)
+        {
+            if (string.Compare(SelectedItem, e.OldFullPath, StringComparison.OrdinalIgnoreCase) != 0) return;
+
+            Debug.WriteLine($"## Watcher.Renamed: {e.OldFullPath} -> {e.FullPath}");
+
+            if (_listBoxModel.PlaylistPath != e.OldFullPath) return;
+
+            _listBoxModel.PlaylistPath = e.FullPath;
+            SelectedItem = e.FullPath;
+        }
+
+        #endregion FileSystemWatcher
     }
 }

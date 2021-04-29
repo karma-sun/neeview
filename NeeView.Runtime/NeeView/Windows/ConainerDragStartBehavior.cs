@@ -446,14 +446,14 @@ namespace NeeView.Windows
         protected override void OnAttached()
         {
             base.OnAttached();
-            Debug.Assert(this.AssociatedObject is ListBoxExteded);
+            Debug.Assert(this.AssociatedObject is ListBoxExtended);
         }
 
         protected override void PreviewMouseDownHandler(object sender, MouseButtonEventArgs e)
         {
             base.PreviewMouseDownHandler(sender, e);
 
-            var listBox = (ListBoxExteded)this.AssociatedObject;
+            var listBox = (ListBoxExtended)this.AssociatedObject;
 
             _selectedItems = null;
             _anchorItem = null;
@@ -481,7 +481,7 @@ namespace NeeView.Windows
         {
             base.PreviewMouseUpHandler(sender, e);
 
-            var listBox = (ListBoxExteded)this.AssociatedObject;
+            var listBox = (ListBoxExtended)this.AssociatedObject;
 
             if (e.ChangedButton == MouseButton.Right)
             {
@@ -490,8 +490,13 @@ namespace NeeView.Windows
 
             if (_selectedItems != null && !this.Dragged)
             {
-                listBox.SetSelectedItemsRaw(_selectedItems);
-                listBox.SetAnchorItem(_anchorItem);
+                // NOTE: マウス操作中に項目が変更されたときの変更をキャンセル
+                if (listBox.Items?.Contains(_anchorItem) == true)
+                {
+                    listBox.SetSelectedItems(_selectedItems);
+                    listBox.SetAnchorItem(_anchorItem);
+                }
+                listBox.Focus();
             }
 
             _selectedItems = null;
@@ -501,7 +506,7 @@ namespace NeeView.Windows
 
         protected override int GetDragCount()
         {
-            var listBox = (ListBoxExteded)this.AssociatedObject;
+            var listBox = (ListBoxExtended)this.AssociatedObject;
 
             return listBox.SelectedItems.Count;
         }
@@ -510,9 +515,9 @@ namespace NeeView.Windows
     /// <summary>
     /// 複数選択専用ListBix
     /// </summary>
-    public class ListBoxExteded : ListBox
+    public class ListBoxExtended : ListBox
     {
-        public ListBoxExteded()
+        public ListBoxExtended()
         {
             SelectionMode = SelectionMode.Extended;
         }
@@ -522,19 +527,19 @@ namespace NeeView.Windows
             this.AnchorItem = anchor;
         }
 
-        public void SetSelectedItems<T>(IEnumerable<T> selectedItems)
+        public void ScrollSelectedItemsIntoView()
         {
-            this.SelectedItems.Clear();
+            ScrollItemsIntoView(this.SelectedItems.Cast<object>());
+        }
 
-            if (selectedItems == null || !selectedItems.Any())
-            {
-                return;
-            }
+        public void ScrollItemsIntoView<T>(IEnumerable<T> items)
+        {
+            if (items == null || !items.Any()) return;
 
-            var top = selectedItems.First();
+            var top = items.First();
 
             // なるべく選択範囲が表示されるようにスクロールする
-            this.ScrollIntoView(selectedItems.Last());
+            this.ScrollIntoView(items.Last());
             this.UpdateLayout();
             this.ScrollIntoView(top);
             this.UpdateLayout();
@@ -549,28 +554,38 @@ namespace NeeView.Windows
                     this.SetAnchorItem(top);
                 }
             }
+        }
 
-            // 選択
+        public void SetSelectedItemsWithScrollIntoView<T>(IEnumerable<T> selectedItems)
+        {
+            base.SetSelectedItems(selectedItems);
+
+            ScrollItemsIntoView(selectedItems);
+        }
+
+        public void SetSelectedItems<T>(IEnumerable<T> newItems)
+        {
+            base.SetSelectedItems(newItems);
+        }
+
+    }
+
+
+    public static class IListExtensions
+    {
+        public static void Reset<T>(this IList self, IEnumerable<T> selectedItems)
+        {
+            self.Clear();
+
+            if (selectedItems == null || !selectedItems.Any())
+            {
+                return;
+            }
+
             foreach (var item in selectedItems)
             {
-                this.SelectedItems.Add(item);
+                self.Add(item);
             }
         }
-
-        public void SetSelectedItemsRaw<T>(IEnumerable<T> newItems)
-        {
-            var oldItems = this.SelectedItems.Cast<T>().ToList();
-
-            foreach (var item in oldItems.Except(newItems))
-            {
-                this.SelectedItems.Remove(item);
-            }
-
-            foreach (var item in newItems.Except(oldItems))
-            {
-                this.SelectedItems.Add(item);
-            }
-        }
-
     }
 }

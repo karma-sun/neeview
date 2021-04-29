@@ -326,6 +326,8 @@
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="BorderThickness" Value="0,0,0,1" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="local:ListBoxItemTools.InnerMargin" Value="0,-1,0,0" />
         <Setter Property="RenderOptions.ClearTypeHint" Value="{DynamicResource Window.ClearTypeHint}" />
         <Setter Property="Template">
@@ -393,9 +395,14 @@
                             <Setter TargetName="Border" Property="Background" Value="{DynamicResource Control.GrayText}" />
                             <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Control.GrayText}" />
                         </Trigger>
+                        <!--
                         <Trigger Property="IsGrouping" Value="true">
                             <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
                         </Trigger>
+                        <Trigger Property="VirtualizingPanel.IsVirtualizing" Value="True">
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
+                        </Trigger>
+                        -->
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -1429,6 +1436,38 @@
                         <Trigger Property="IsChecked" Value="True">
                             <Setter Property="Background" TargetName="Bd" Value="{DynamicResource IconButton.Checked.Background}" />
                             <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource IconButton.Checked.Border}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource IconButton.Pressed.Background}" />
+                            <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource IconButton.Pressed.Border}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" TargetName="contentPresenter" Value="0.25" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="IconRepeatButton" TargetType="{x:Type RepeatButton}">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}" />
+        <Setter Property="Foreground" Value="{DynamicResource IconButton.Foreground}" />
+        <Setter Property="Background" Value="{DynamicResource IconButton.Background}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource IconButton.Border}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Grid>
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" />
+                        <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource IconButton.MouseOver.Background}" />
+                            <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource IconButton.MouseOver.Border}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Background" TargetName="Bd" Value="{DynamicResource IconButton.Pressed.Background}" />

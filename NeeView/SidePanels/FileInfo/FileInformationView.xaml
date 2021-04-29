@@ -47,7 +47,7 @@
                 <local:MoreMenuButton Description="{Binding MoreMenuDescription}" DockPanel.Dock="Right" />
             </DockPanel>
 
-            <nw:ListBoxExteded x:Name="ThumbnailListBox" DockPanel.Dock="Top" Style="{StaticResource NVListBox}" Template="{StaticResource NoScroll}" ItemsSource="{Binding FileInformations}"
+            <nw:ListBoxExtended x:Name="ThumbnailListBox" DockPanel.Dock="Top" Style="{StaticResource NVListBox}" Template="{StaticResource NoScroll}" ItemsSource="{Binding FileInformations}"
                     SelectedItem="{Binding SelectedItem}" Margin="2" MinHeight="120" MinWidth="256" ScrollViewer.HorizontalScrollBarVisibility="Disabled" PreviewMouseWheel="ThumbnailListBox_PreviewMouseWheel">
                 <b:Interaction.Behaviors>
                     <nw:ListBoxExtendedDragDropStartBehavior AllowedEffects="Copy, Scroll" AllowRightButtonDrag="True" DragDropFormat="{x:Static local:FileInformationView.DragDropFormat}"
@@ -83,7 +83,7 @@
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
-            </nw:ListBoxExteded>
+            </nw:ListBoxExtended>
 
             <local:FileInformationContent Source="{Binding SelectedItem}" Margin="0,10,0,0" />
 

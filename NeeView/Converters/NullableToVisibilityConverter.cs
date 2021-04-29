@@ -8,9 +8,12 @@ namespace NeeView
     [ValueConversion(typeof(object), typeof(Visibility))]
     public class NullableToVisibilityConverter : IValueConverter
     {
+        public Visibility True { get; set; } = Visibility.Collapsed;
+        public Visibility False { get; set; } = Visibility.Visible;
+
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return (value == null) ? Visibility.Collapsed : Visibility.Visible;
+            return (value == null) ? True : False;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

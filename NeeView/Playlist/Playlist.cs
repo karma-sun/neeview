@@ -1,11 +1,13 @@
 ﻿using NeeLaboratory.IO;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NeeView
@@ -37,6 +39,8 @@ namespace NeeView
 
     public static class PlaylistTools
     {
+        private static readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
+
         public static void Save(this Playlist playlist, string path, bool overwrite)
         {
             if (!overwrite && File.Exists(path))
@@ -44,20 +48,47 @@ namespace NeeView
                 throw new IOException();
             }
 
-            var json = JsonSerializer.SerializeToUtf8Bytes(playlist, UserSettingTools.GetSerializerOptions());
-            File.WriteAllBytes(path, json);
+            _semaphore.Wait();
+            try
+            {
+                Debug.WriteLine($"Save: {path}");
+                var json = JsonSerializer.SerializeToUtf8Bytes(playlist, UserSettingTools.GetSerializerOptions());
+                File.WriteAllBytes(path, json);
+            }
+            finally
+            {
+                _semaphore.Release();
+            }
         }
 
         public static Playlist Load(string path)
         {
-            var json = File.ReadAllBytes(path);
-            return Deserialize(json);
+            _semaphore.Wait();
+            try
+            {
+                Debug.WriteLine($"Load: {path}");
+                var json = FileTools.ReadAllBytes(path, FileShare.Read);
+                return Deserialize(json);
+            }
+            finally
+            {
+                _semaphore.Release();
+            }
         }
 
         public static async Task<Playlist> LoadAsync(string path)
         {
-            var json = await FileTools.ReadAllBytesAsync(path);
-            return Deserialize(json);
+            await _semaphore.WaitAsync();
+            try
+            {
+                Debug.WriteLine($"Load: {path}");
+                var json = await FileTools.ReadAllBytesAsync(path, FileShare.Read);
+                return Deserialize(json);
+            }
+            finally
+            {
+                _semaphore.Release();
+            }
         }
 
         private static Playlist Deserialize(byte[] json)

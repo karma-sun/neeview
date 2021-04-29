@@ -17,12 +17,11 @@ namespace NeeView
             Name = item.Name;
         }
 
-
         private string _path;
         public string Path
         {
             get { return _path; }
-            set
+            private set
             {
                 if (SetProperty(ref _path, value))
                 {
@@ -51,6 +50,37 @@ namespace NeeView
         }
 
 
+        private string _place;
+        public string Place
+        {
+            get
+            {
+                if (_place is null)
+                {
+                    if (FileIO.Exists(_path))
+                    {
+                        _place = LoosePath.GetDirectoryName(_path);
+                    }
+                    else
+                    {
+                        _place = ArchiveEntryUtility.GetExistEntryName(_path);
+                    }
+                }
+                return _place;
+            }
+        }
+
+        public string DispPlace
+        {
+            get { return SidePanelProfile.GetDecoratePlaceName(Place); }
+        }
+
+        public bool IsArchive
+        {
+            get { return ArchiverManager.Current.IsSupported(_path) || System.IO.Directory.Exists(_path); }
+        }
+
+
         private Page _archivePage;
 
         public Page ArchivePage
@@ -73,6 +103,11 @@ namespace NeeView
             BookThumbnailPool.Current.Add(thumbnail);
         }
 
+        public void UpdateDispPlace()
+        {
+            RaisePropertyChanged(nameof(DispPlace));
+        }
+
         public Page GetPage()
         {
             return ArchivePage;
@@ -81,6 +116,11 @@ namespace NeeView
         public PlaylistItem ToPlaylistItem()
         {
             return new PlaylistItem(Path, Name);
+        }
+
+        public override string ToString()
+        {
+            return DispName ?? base.ToString();
         }
     }
 }

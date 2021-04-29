@@ -7101,7 +7101,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>新規作成(_N)</value>
   </data>
   <data name="Playlist.MoreMenu.Open" xml:space="preserve">
-    <value>開く(_O)</value>
+    <value>開く(_O)...</value>
   </data>
   <data name="Playlist.MoreMenu.Delete" xml:space="preserve">
     <value>削除(_D)</value>
@@ -7138,5 +7138,24 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="PlaylistItem.Menu.Rename" xml:space="preserve">
     <value>名前の変更(_M)</value>
+  </data>
+  <data name="Notice.InvalidSeparatorChars" xml:space="preserve">
+    <value>次の文字は使えません:
+\ /</value>
+  </data>
+  <data name="Playlist.FailedToLoad" xml:space="preserve">
+    <value>プレイリストの読み込みに失敗しました</value>
+  </data>
+  <data name="Playlist.DeleteItemsMessage" xml:space="preserve">
+    <value>{0} 個の項目を削除しました。</value>
+  </data>
+  <data name="Playlist.FirstIn" xml:space="preserve">
+    <value>先頭に追加</value>
+  </data>
+  <data name="Playlist.LastIn" xml:space="preserve">
+    <value>末尾に追加</value>
+  </data>
+  <data name="Playlist.FailedToSave" xml:space="preserve">
+    <value>プレイリストの保存に失敗しました</value>
   </data>
 </root>

@@ -20,6 +20,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <local:PathToFileNameWithoutExtensionConverter x:Key="PathToFileNameWithoutExtensionConverter" />
+            <local:StringNullOrWhiteSpaceToVisibilityConverter x:Key="StringNullOrWhiteSpaceToVisibilityConverter" True="Collapsed" False="Visible" />
 
             <DrawingImage x:Key="ic_history_24px">
                 <DrawingImage.Drawing>
@@ -32,12 +33,18 @@
                 </DrawingImage.Drawing>
             </DrawingImage>
 
-            <Style x:Key="FolderListButtonStyle" TargetType="Button" BasedOn="{StaticResource IconButton}">
+            <Style x:Key="IconButtonStyle" TargetType="Button" BasedOn="{StaticResource IconButton}">
                 <Setter Property="Width" Value="28" />
                 <Setter Property="MinHeight" Value="{DynamicResource FontIconSize}" />
                 <Setter Property="Padding" Value="2" />
             </Style>
-            
+
+            <Style x:Key="RepeatButtonStyle" TargetType="RepeatButton" BasedOn="{StaticResource IconRepeatButton}">
+                <Setter Property="Width" Value="28" />
+                <Setter Property="MinHeight" Value="{DynamicResource FontIconSize}" />
+                <Setter Property="Padding" Value="2" />
+            </Style>
+
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -45,9 +52,12 @@
     <DockPanel x:Name="DockPanel" Margin="2" Background="Transparent">
 
         <StackPanel DockPanel.Dock="Top">
-            <DockPanel LastChildFill="True">
-                <local:MoreMenuButton Description="{Binding MoreMenuDescription}" DockPanel.Dock="Right" />
-                <ComboBox x:Name="PlaylistComboBox" ItemsSource="{Binding PlaylistCollection}" SelectedItem="{Binding SelectedItem}">
+
+            <DockPanel Margin="0" KeyboardNavigation.TabNavigation="Local">
+                
+                <local:MoreMenuButton DockPanel.Dock="Right" Description="{Binding MoreMenuDescription}" VerticalAlignment="Center" TabIndex="2" />
+
+                <ComboBox x:Name="PlaylistComboBox" ItemsSource="{Binding PlaylistCollection}" SelectedItem="{Binding SelectedItem}" VerticalAlignment="Center"  TabIndex="1">
                     <ComboBox.Resources>
                         <DataTemplate DataType="{x:Type sys:String}">
                             <TextBlock x:Name="NameTextBlock" Text="{Binding Converter={StaticResource PathToFileNameWithoutExtensionConverter}}" />
@@ -58,14 +68,12 @@
                     </ComboBox.Resources>
                 </ComboBox>
             </DockPanel>
-            <DockPanel LastChildFill="False">
-                <Button x:Name="AddPagemark" Style="{StaticResource FolderListButtonStyle}" Command="{Binding AddPagelistItemCommand}">
-                    <Image Source="{StaticResource ic_add_24px_a}" />
-                </Button>
-            </DockPanel>
+
+            <TextBlock Text="{Binding FilterMessage}" Margin="8,0" Visibility="{Binding FilterMessage, Converter={StaticResource StringNullOrWhiteSpaceToVisibilityConverter}}" />
+            
         </StackPanel>
 
-        <ContentControl x:Name="ListBoxContent" Focusable="False" Margin="0,0,0,5"/>
+        <ContentControl x:Name="ListBoxContent" Focusable="False" Margin="0,2,0,5"/>
 
     </DockPanel>
 </UserControl>

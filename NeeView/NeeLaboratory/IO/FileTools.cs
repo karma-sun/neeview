@@ -5,15 +5,25 @@ namespace NeeLaboratory.IO
 {
     public static class FileTools
     {
-        public static async Task<byte[]> ReadAllBytesAsync(string path)
+        public static byte[] ReadAllBytes(string path, FileShare share)
         {
             byte[] result;
-            using (FileStream stream = File.Open(path, FileMode.Open))
+            using (FileStream stream = File.Open(path, FileMode.Open, FileAccess.Read, share))
+            {
+                result = new byte[stream.Length];
+                stream.Read(result, 0, (int)stream.Length);
+            }
+            return result;
+        }
+
+        public static async Task<byte[]> ReadAllBytesAsync(string path, FileShare share)
+        {
+            byte[] result;
+            using (FileStream stream = File.Open(path, FileMode.Open, FileAccess.Read, share))
             {
                 result = new byte[stream.Length];
                 await stream.ReadAsync(result, 0, (int)stream.Length);
             }
-
             return result;
         }
 

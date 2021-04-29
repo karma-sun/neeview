@@ -38,10 +38,14 @@ namespace NeeView
 
             _vm.RenameRequest +=
                 (s, e) => Rename();
+
+            this.PlaylistComboBox.DropDownOpened +=
+                (s, e) => _vm.UpdatePlaylistCollection();
        }
 
 
         public readonly static RoutedCommand RenameCommand = new RoutedCommand(nameof(RenameCommand), typeof(PlaylistView), new InputGestureCollection() { new KeyGesture(Key.F2) });
+
 
         private void InitializeCommand()
         {

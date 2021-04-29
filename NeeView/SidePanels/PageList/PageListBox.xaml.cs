@@ -446,7 +446,7 @@ namespace NeeView
 
         public void SetSelectedItems(IEnumerable<Page> selectedItems)
         {
-            this.ListBox.SetSelectedItems(selectedItems?.Intersect(GetItems()).ToList());
+            this.ListBox.SetSelectedItemsWithScrollIntoView(selectedItems?.Intersect(GetItems()).ToList());
         }
 
         #endregion UI Accessor

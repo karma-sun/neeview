@@ -386,16 +386,15 @@ namespace NeeView
         public void Remove_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             var items = this.ListBox.SelectedItems.Cast<FolderItem>();
-            e.CanExecute = items != null && items.All(x => x.CanRemove());
+            e.CanExecute = items != null && !(_vm.FolderCollection is PlaylistFolderCollection) && items.All(x => x.CanRemove());
         }
 
-
-        /// <summary>
-        /// 削除コマンド実行
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public async void Remove_Executed(object sender, ExecutedRoutedEventArgs e)
+            /// <summary>
+            /// 削除コマンド実行
+            /// </summary>
+            /// <param name="sender"></param>
+            /// <param name="e"></param>
+            public async void Remove_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var items = this.ListBox.SelectedItems.Cast<FolderItem>().ToList();
             await _vm.RemoveAsync(items);
@@ -1265,7 +1264,7 @@ namespace NeeView
 
         public void SetSelectedItems(IEnumerable<FolderItem> selectedItems)
         {
-            this.ListBox.SetSelectedItems(selectedItems?.Intersect(GetItems()).ToList());
+            this.ListBox.SetSelectedItemsWithScrollIntoView(selectedItems?.Intersect(GetItems()).ToList());
         }
 
         #endregion UI Accessor

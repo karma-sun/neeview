@@ -8,7 +8,7 @@ namespace NeeView
         private PlaylistModel _playlistModel;
 
         private PlaylistListBox _playlistListBox;
-        private PlaylistListBoxViewModel _playlistListBoxViewModel;
+        private PlaylistListBoxViewModel _playlistListBoxViewModel = new PlaylistListBoxViewModel();
 
 
         public PlaylistPresenter(PlaylistView playlistView, PlaylistModel playlistModel)
@@ -33,12 +33,17 @@ namespace NeeView
 
         private void UpdateListBox()
         {
-            _playlistListBoxViewModel = new PlaylistListBoxViewModel(_playlistModel.ListBoxModel);
+            _playlistListBoxViewModel.SetModel(_playlistModel.ListBoxModel);
             UpdateListBoxContent();
         }
 
         private void UpdateListBoxContent()
         {
+            if (_playlistListBox != null)
+            {
+                _playlistListBox.DataContext = null;
+            }
+
             _playlistListBox = new PlaylistListBox(_playlistListBoxViewModel);
             _playliseView.ListBoxContent.Content = _playlistListBox;
         }

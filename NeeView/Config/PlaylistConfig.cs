@@ -8,12 +8,15 @@ namespace NeeView
     public class PlaylistConfig : BindableBase, IHasPanelListItemStyle
     {
         private PanelListItemStyle _panelListItemStyle;
-        private string _currentPlaylist;
         private bool _isGroupBy;
         private bool _isCurrentBookFilterEnabled;
+        private bool _isFirstIn;
 
         [JsonInclude, JsonPropertyName(nameof(PlaylistFolder))]
         public string _playlistFolder;
+
+        [JsonInclude, JsonPropertyName(nameof(CurrentPlaylist))]
+        public string _currentPlaylist;
 
 
         [PropertyMember]
@@ -31,12 +34,15 @@ namespace NeeView
             set { SetProperty(ref _playlistFolder, (string.IsNullOrWhiteSpace(value) || value.Trim() == SaveData.DefaultPlaylistsFolder) ? null : value.Trim()); }
         }
 
+        [JsonIgnore]
+        public string DefaultPlaylist => System.IO.Path.Combine(PlaylistFolder, "Default.nvpls");
 
+        [JsonIgnore]
         [PropertyPath(FileDialogType = FileDialogType.SaveFile, Filter = "NeeView Playlist|*.nvpls")]
         public string CurrentPlaylist
         {
-            get { return _currentPlaylist; }
-            set { SetProperty(ref _currentPlaylist, string.IsNullOrWhiteSpace(value) ? null :  LoosePath.TrimEnd(value)); }
+            get { return _currentPlaylist ?? DefaultPlaylist; }
+            set { SetProperty(ref _currentPlaylist, (string.IsNullOrWhiteSpace(value) || value.Trim() == DefaultPlaylist) ? null : value.Trim()); }
         }
 
         public bool IsGroupBy
@@ -50,6 +56,13 @@ namespace NeeView
             get { return _isCurrentBookFilterEnabled; }
             set { SetProperty(ref _isCurrentBookFilterEnabled, value); }
         }
+
+        public bool IsFirstIn
+        {
+            get { return _isFirstIn; }
+            set { SetProperty(ref _isFirstIn, value); }
+        }
+
     }
 }
 

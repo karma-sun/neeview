@@ -178,7 +178,7 @@
 
     <Grid x:Name="Root">
 
-        <nw:ListBoxExteded x:Name="ListBox" Focusable="True"
+        <nw:ListBoxExtended x:Name="ListBox" Focusable="True"
                 MinHeight="0"
                 FontSize="{DynamicResource PanelFontSize}"
                 Background="Transparent"
@@ -235,7 +235,7 @@
                 </Style>
             </ListBox.Style>
 
-        </nw:ListBoxExteded>
+        </nw:ListBoxExtended>
 
         <ContentControl x:Name="BusyFadeContent" Focusable="False" />
         

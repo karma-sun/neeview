@@ -7096,7 +7096,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>_New</value>
   </data>
   <data name="Playlist.MoreMenu.Open" xml:space="preserve">
-    <value>_Open</value>
+    <value>_Open...</value>
   </data>
   <data name="Playlist.MoreMenu.Delete" xml:space="preserve">
     <value>_Delete</value>
@@ -7133,5 +7133,24 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="PlaylistItem.Menu.Rename" xml:space="preserve">
     <value>Rena_me</value>
+  </data>
+  <data name="Notice.InvalidSeparatorChars" xml:space="preserve">
+    <value>The following characters can not be used:
+\ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="Playlist.FailedToLoad" xml:space="preserve">
+    <value>Failed to load the playlist</value>
+  </data>
+  <data name="Playlist.DeleteItemsMessage" xml:space="preserve">
+    <value>{0} items deleted.</value>
+  </data>
+  <data name="Playlist.FirstIn" xml:space="preserve">
+    <value>First in</value>
+  </data>
+  <data name="Playlist.LastIn" xml:space="preserve">
+    <value>Last in</value>
+  </data>
+  <data name="Playlist.FailedToSave" xml:space="preserve">
+    <value>Failed to save the playlist</value>
   </data>
 </root>

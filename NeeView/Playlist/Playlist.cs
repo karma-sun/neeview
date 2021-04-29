@@ -53,6 +53,12 @@ namespace NeeView
             {
                 Debug.WriteLine($"Save: {path}");
                 var json = JsonSerializer.SerializeToUtf8Bytes(playlist, UserSettingTools.GetSerializerOptions());
+
+                var directory = Path.GetDirectoryName(path);
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
                 File.WriteAllBytes(path, json);
             }
             finally
@@ -68,21 +74,6 @@ namespace NeeView
             {
                 Debug.WriteLine($"Load: {path}");
                 var json = FileTools.ReadAllBytes(path, FileShare.Read);
-                return Deserialize(json);
-            }
-            finally
-            {
-                _semaphore.Release();
-            }
-        }
-
-        public static async Task<Playlist> LoadAsync(string path)
-        {
-            await _semaphore.WaitAsync();
-            try
-            {
-                Debug.WriteLine($"Load: {path}");
-                var json = await FileTools.ReadAllBytesAsync(path, FileShare.Read);
                 return Deserialize(json);
             }
             finally

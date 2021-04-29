@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace NeeView.IO
 {
     public class SingleFileWatcher : IDisposable
     {
+        private string _path;
         private SingleFileWaterOptions _options;
         private FileSystemWatcher _watcher;
         private bool _disposedValue;
@@ -21,16 +23,21 @@ namespace NeeView.IO
 
         public void Start(string path)
         {
+            if (path == _path) return;
+
             Stop();
 
-            if (path is null)
+            if (path is null || !FileIO.Exists(path))
             {
                 return;
             }
 
+            Debug.WriteLine($"## WatchFile: {path}");
+            _path = path;
+
             _watcher = new FileSystemWatcher();
-            _watcher.Path = Path.GetDirectoryName(path);
-            _watcher.Filter = Path.GetFileName(path);
+            _watcher.Path = Path.GetDirectoryName(_path);
+            _watcher.Filter = Path.GetFileName(_path);
             _watcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName;
             _watcher.IncludeSubdirectories = false;
             _watcher.Changed += Watcher_Changed;

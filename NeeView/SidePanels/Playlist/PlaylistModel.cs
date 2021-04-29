@@ -30,6 +30,14 @@ namespace NeeView
 
         private PlaylistModel()
         {
+            if (SelectedItem != Config.Current.Playlist.DefaultPlaylist)
+            {
+                if (!File.Exists(SelectedItem))
+                {
+                    SelectedItem = Config.Current.Playlist.DefaultPlaylist;
+                }
+            }
+
             InitializeFileWatcher();
 
             Config.Current.Playlist.AddPropertyChanged(nameof(PlaylistConfig.CurrentPlaylist),
@@ -90,6 +98,7 @@ namespace NeeView
                     if (_listBoxModel != null)
                     {
                         _listBoxModel.ItemsStateChanged -= ListBoxModel_ItemsStateChanged;
+                        _listBoxModel.Saved -= ListBoxModel_Saved;
                     }
 
                     _listBoxModel = value;
@@ -97,12 +106,14 @@ namespace NeeView
                     if (_listBoxModel != null)
                     {
                         _listBoxModel.ItemsStateChanged += ListBoxModel_ItemsStateChanged;
+                        _listBoxModel.Saved += ListBoxModel_Saved;
                     }
 
                     RaisePropertyChanged();
                 }
             }
         }
+
 
 
         public string FilterMessage
@@ -112,6 +123,10 @@ namespace NeeView
 
 
 
+        private void ListBoxModel_Saved(object sender, EventArgs e)
+        {
+            StartFileWatch(this.SelectedItem);
+        }
 
         private void ListBoxModel_ItemsStateChanged(object sender, EventArgs e)
         {
@@ -191,7 +206,7 @@ namespace NeeView
                 this.ListBoxModel = new PlaylistListBoxModel(this.SelectedItem);
                 _isListBoxModeDarty = false;
 
-                StartFileWatch(this.SelectedItem);
+                StartFileWatch(this.SelectedItem, true);
             }
         }
 
@@ -308,7 +323,7 @@ namespace NeeView
             _delayReloadAction = new SimpleDelayAction();
         }
 
-        private void StartFileWatch(string path)
+        private void StartFileWatch(string path, bool isForce = false)
         {
             _delayReloadAction.Cancel();
             _watcher.Start(path);
@@ -322,7 +337,7 @@ namespace NeeView
 
             if (_listBoxModel.LastWriteTime.AddSeconds(5.0) < DateTime.Now)
             {
-                _delayReloadAction.Request(async () => await _listBoxModel.ReloadAsync(), TimeSpan.FromSeconds(1.0));
+                _delayReloadAction.Request(() => _listBoxModel.Reload(), TimeSpan.FromSeconds(1.0));
             }
         }
 

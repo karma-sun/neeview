@@ -31,11 +31,13 @@ namespace NeeView
             PlaylistPath = path;
 
             // NOTE: 非同期で読み込む
-            var async = LoadAsync(path);
+            Task.Run(() => Load(path));
         }
 
 
         public event EventHandler ItemsStateChanged;
+
+        public event EventHandler Saved;
 
 
         public string PlaylistPath
@@ -116,18 +118,18 @@ namespace NeeView
             _delaySave.Flush();
         }
 
-        public async Task ReloadAsync()
+        public void Reload()
         {
             if (_playlistPath is null) return;
 
-            var playlist = await LoadPlaylistAsync(_playlistPath);
+            var playlist = LoadPlaylist(_playlistPath);
             if (playlist != null)
             {
                 SetPlaylist(_playlistPath, playlist);
             }
         }
 
-        private async Task LoadAsync(string path)
+        private void Load(string path)
         {
             if (string.IsNullOrEmpty(path))
             {
@@ -139,7 +141,7 @@ namespace NeeView
 
             if (file.Exists)
             {
-                var playlist = await LoadPlaylistAsync(path);
+                var playlist = LoadPlaylist(path);
                 if (playlist != null)
                 {
                     SetPlaylist(path, playlist);
@@ -154,15 +156,15 @@ namespace NeeView
             {
                 SetPlaylist(path, new Playlist());
                 IsEditable = true;
-                Save();
+                Save(true);
             }
         }
 
-        private async Task<Playlist> LoadPlaylistAsync(string path)
+        private Playlist LoadPlaylist(string path)
         {
             try
             {
-                return await PlaylistTools.LoadAsync(path);
+                return PlaylistTools.Load(path);
             }
             catch (Exception ex)
             {
@@ -196,16 +198,16 @@ namespace NeeView
         }
 
 
-        public void RequestSave()
+        public void DelaySave()
         {
             _delaySave.Request(() => Save(), TimeSpan.FromSeconds(0.5));
         }
 
-        public void Save()
+        public void Save(bool isForce = false)
         {
             if (!IsEditable) return;
             if (_playlistPath is null) return;
-            if (!_isDarty) return;
+            if (!_isDarty && !isForce) return;
 
             Playlist playlist;
 
@@ -235,6 +237,8 @@ namespace NeeView
                     playlis.Save(path, true);
                 }
                 , 3, 1000, token);
+
+                Saved?.Invoke(this, null);
             }
             catch (OperationCanceledException)
             {
@@ -293,7 +297,7 @@ namespace NeeView
                 _isDarty = true;
             }
 
-            RequestSave();
+            DelaySave();
 
             return news;
         }
@@ -313,7 +317,7 @@ namespace NeeView
                 _isDarty = true;
             }
 
-            RequestSave();
+            DelaySave();
         }
 
         public async Task DeleteInvalidItemsAsync(CancellationToken token)
@@ -350,7 +354,7 @@ namespace NeeView
                 _isDarty = true;
             }
 
-            RequestSave();
+            DelaySave();
         }
 
         public void Move(IEnumerable<PlaylistListBoxItem> items, PlaylistListBoxItem targetItem)
@@ -378,7 +382,7 @@ namespace NeeView
                 _isDarty = true;
             }
 
-            RequestSave();
+            DelaySave();
         }
 
         public void Sort()
@@ -392,7 +396,7 @@ namespace NeeView
                 _isDarty = true;
             }
 
-            RequestSave();
+            DelaySave();
         }
 
         public bool Rename(PlaylistListBoxItem item, string newName)
@@ -408,7 +412,7 @@ namespace NeeView
                 _isDarty = true;
             }
 
-            RequestSave();
+            DelaySave();
 
             return true;
         }

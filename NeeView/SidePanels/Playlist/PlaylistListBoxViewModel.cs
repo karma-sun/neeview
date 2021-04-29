@@ -111,7 +111,7 @@ namespace NeeView
             _model = model;
 
             _model.AddPropertyChanged(nameof(_model.Items),
-                (s, e) => UpdateItems());
+                (s, e) => AppDispatcher.Invoke(() => UpdateItems()));
 
             _model.AddPropertyChanged(nameof(_model.IsEditable),
                 (s, e) => RaisePropertyChanged(nameof(IsEditable)));

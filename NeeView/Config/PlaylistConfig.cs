@@ -35,6 +35,7 @@ namespace NeeView
         }
 
         [JsonIgnore]
+        [PropertyMapIgnore]
         public string DefaultPlaylist => System.IO.Path.Combine(PlaylistFolder, "Default.nvpls");
 
         [JsonIgnore]
@@ -45,18 +46,21 @@ namespace NeeView
             set { SetProperty(ref _currentPlaylist, (string.IsNullOrWhiteSpace(value) || value.Trim() == DefaultPlaylist) ? null : value.Trim()); }
         }
 
+        [PropertyMember]
         public bool IsGroupBy
         {
             get { return _isGroupBy; }
             set { SetProperty(ref _isGroupBy, value); }
         }
 
+        [PropertyMember]
         public bool IsCurrentBookFilterEnabled
         {
             get { return _isCurrentBookFilterEnabled; }
             set { SetProperty(ref _isCurrentBookFilterEnabled, value); }
         }
 
+        [PropertyMember]
         public bool IsFirstIn
         {
             get { return _isFirstIn; }

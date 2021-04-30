@@ -90,7 +90,7 @@ namespace NeeView
                 IsValid = true,
                 Archiver = this,
                 Id = id,
-                RawEntryName = item.Name ?? LoosePath.GetFileName(item.Path),
+                RawEntryName = item.Name, ////?? LoosePath.GetFileName(item.Path),
                 Link = item.Path,
                 Instance = innterEntry,
                 Length = innterEntry.Length,

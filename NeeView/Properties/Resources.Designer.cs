@@ -3066,6 +3066,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Playlist panel accessor に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandHost_Playlist {
+            get {
+                return ResourceManager.GetString("CommandHost.Playlist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Display the dialog. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandHost_ShowDialog {
@@ -7316,63 +7325,63 @@ namespace NeeView.Properties {
         /// <summary>
         ///   View advanced photo section に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string InformationConfig_IsVisibleAdvancedPhotoSection {
+        public static string InformationConfig_IsVisibleAdvancedPhoto {
             get {
-                return ResourceManager.GetString("InformationConfig.IsVisibleAdvancedPhotoSection", resourceCulture);
+                return ResourceManager.GetString("InformationConfig.IsVisibleAdvancedPhoto", resourceCulture);
             }
         }
         
         /// <summary>
         ///   View camera section に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string InformationConfig_IsVisibleCameraSection {
+        public static string InformationConfig_IsVisibleCamera {
             get {
-                return ResourceManager.GetString("InformationConfig.IsVisibleCameraSection", resourceCulture);
+                return ResourceManager.GetString("InformationConfig.IsVisibleCamera", resourceCulture);
             }
         }
         
         /// <summary>
         ///   View description section に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string InformationConfig_IsVisibleDescriptionSection {
+        public static string InformationConfig_IsVisibleDescription {
             get {
-                return ResourceManager.GetString("InformationConfig.IsVisibleDescriptionSection", resourceCulture);
+                return ResourceManager.GetString("InformationConfig.IsVisibleDescription", resourceCulture);
             }
         }
         
         /// <summary>
         ///   View file section に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string InformationConfig_IsVisibleFileSection {
+        public static string InformationConfig_IsVisibleFile {
             get {
-                return ResourceManager.GetString("InformationConfig.IsVisibleFileSection", resourceCulture);
+                return ResourceManager.GetString("InformationConfig.IsVisibleFile", resourceCulture);
             }
         }
         
         /// <summary>
         ///   View GPS section に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string InformationConfig_IsVisibleGpsSection {
+        public static string InformationConfig_IsVisibleGps {
             get {
-                return ResourceManager.GetString("InformationConfig.IsVisibleGpsSection", resourceCulture);
+                return ResourceManager.GetString("InformationConfig.IsVisibleGps", resourceCulture);
             }
         }
         
         /// <summary>
         ///   View image section に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string InformationConfig_IsVisibleImageSection {
+        public static string InformationConfig_IsVisibleImage {
             get {
-                return ResourceManager.GetString("InformationConfig.IsVisibleImageSection", resourceCulture);
+                return ResourceManager.GetString("InformationConfig.IsVisibleImage", resourceCulture);
             }
         }
         
         /// <summary>
         ///   View origin section に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string InformationConfig_IsVisibleOriginSection {
+        public static string InformationConfig_IsVisibleOrigin {
             get {
-                return ResourceManager.GetString("InformationConfig.IsVisibleOriginSection", resourceCulture);
+                return ResourceManager.GetString("InformationConfig.IsVisibleOrigin", resourceCulture);
             }
         }
         
@@ -12318,6 +12327,78 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Current playlist に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PlaylistConfig_CurrentPlaylist {
+            get {
+                return ResourceManager.GetString("PlaylistConfig.CurrentPlaylist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Show only open book pages に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PlaylistConfig_IsCurrentBookFilterEnabled {
+            get {
+                return ResourceManager.GetString("PlaylistConfig.IsCurrentBookFilterEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Add to the top of the list に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PlaylistConfig_IsFirstIn {
+            get {
+                return ResourceManager.GetString("PlaylistConfig.IsFirstIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   This is the insertion position for additional commands. If it is turned off, it will be added at the end. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PlaylistConfig_IsFirstIn_Remarks {
+            get {
+                return ResourceManager.GetString("PlaylistConfig.IsFirstIn.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Group and display by folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PlaylistConfig_IsGroupBy {
+            get {
+                return ResourceManager.GetString("PlaylistConfig.IsGroupBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   List item style に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PlaylistConfig_PanelListItemStyle {
+            get {
+                return ResourceManager.GetString("PlaylistConfig.PanelListItemStyle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Playlist file storage location に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PlaylistConfig_PlaylistFolder {
+            get {
+                return ResourceManager.GetString("PlaylistConfig.PlaylistFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Playlist files in this folder are managed. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PlaylistConfig_PlaylistFolder_Remarks {
+            get {
+                return ResourceManager.GetString("PlaylistConfig.PlaylistFolder.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   _Delete に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string PlaylistItem_Menu_Delete {
@@ -12341,6 +12422,78 @@ namespace NeeView.Properties {
         public static string PlaylistItem_Menu_Rename {
             get {
                 return ResourceManager.GetString("PlaylistItem.Menu.Rename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Playlist item accessor に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PlaylistItemAccessor {
+            get {
+                return ResourceManager.GetString("PlaylistItemAccessor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Item name に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PlaylistItemAccessor_Name {
+            get {
+                return ResourceManager.GetString("PlaylistItemAccessor.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The path corresponding to the item に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PlaylistItemAccessor_Path {
+            get {
+                return ResourceManager.GetString("PlaylistItemAccessor.Path", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Playlist panel accessor に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PlaylistPanelAccessor {
+            get {
+                return ResourceManager.GetString("PlaylistPanelAccessor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   List items に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PlaylistPanelAccessor_Items {
+            get {
+                return ResourceManager.GetString("PlaylistPanelAccessor.Items", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Current playlist path に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PlaylistPanelAccessor_Path {
+            get {
+                return ResourceManager.GetString("PlaylistPanelAccessor.Path", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Selected items に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PlaylistPanelAccessor_SelectedItems {
+            get {
+                return ResourceManager.GetString("PlaylistPanelAccessor.SelectedItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   List item style に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PlaylistPanelAccessor_Style {
+            get {
+                return ResourceManager.GetString("PlaylistPanelAccessor.Style", resourceCulture);
             }
         }
         

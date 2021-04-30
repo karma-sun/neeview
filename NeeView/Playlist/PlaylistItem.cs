@@ -4,7 +4,9 @@ namespace NeeView
 {
     public class PlaylistItem
     {
-        private string _name;
+        [JsonInclude, JsonPropertyName(nameof(Name))]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string _name;
 
         public PlaylistItem()
         {
@@ -23,11 +25,11 @@ namespace NeeView
 
         public string Path { get; set; }
 
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonIgnore]
         public string Name
         {
-            get { return _name; }
-            set { _name = (string.IsNullOrEmpty(value) || value == LoosePath.GetFileName(Path)) ? null : value; }
+            get { return _name ?? LoosePath.GetFileName(Path); }
+            set { _name = (string.IsNullOrEmpty(value) || value.Trim() == LoosePath.GetFileName(Path)) ? null : value.Trim(); }
         }
     }
 

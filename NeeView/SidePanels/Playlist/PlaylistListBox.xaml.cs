@@ -549,20 +549,18 @@ namespace NeeView
         }
 
         #region UI Accessor
-        // TODO:
 
-        public List<PlaylistItem> GetItems()
+        public List<PlaylistListBoxItem> GetItems()
         {
-            ////_vm.UpdateItems();
-            return this.ListBox.Items?.Cast<PlaylistItem>().ToList();
+            return this.ListBox.Items?.Cast<PlaylistListBoxItem>().ToList();
         }
 
-        public List<PlaylistItem> GetSelectedItems()
+        public List<PlaylistListBoxItem> GetSelectedItems()
         {
-            return this.ListBox.SelectedItems.Cast<PlaylistItem>().ToList();
+            return this.ListBox.SelectedItems.Cast<PlaylistListBoxItem>().ToList();
         }
 
-        public void SetSelectedItems(IEnumerable<PlaylistItem> selectedItems)
+        public void SetSelectedItems(IEnumerable<PlaylistListBoxItem> selectedItems)
         {
             var items = selectedItems?.Intersect(GetItems()).ToList();
             this.ListBox.SetSelectedItems(items);

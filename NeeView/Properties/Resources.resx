@@ -2775,25 +2775,25 @@ Is it OK?</value>
   <data name="InformationConfig.DateTimeFormat.Remarks" xml:space="preserve">
     <value>Specifies the .NET custom datetime format string.</value>
   </data>
-  <data name="InformationConfig.IsVisibleAdvancedPhotoSection" xml:space="preserve">
+  <data name="InformationConfig.IsVisibleAdvancedPhoto" xml:space="preserve">
     <value>View advanced photo section</value>
   </data>
-  <data name="InformationConfig.IsVisibleCameraSection" xml:space="preserve">
+  <data name="InformationConfig.IsVisibleCamera" xml:space="preserve">
     <value>View camera section</value>
   </data>
-  <data name="InformationConfig.IsVisibleDescriptionSection" xml:space="preserve">
+  <data name="InformationConfig.IsVisibleDescription" xml:space="preserve">
     <value>View description section</value>
   </data>
-  <data name="InformationConfig.IsVisibleFileSection" xml:space="preserve">
+  <data name="InformationConfig.IsVisibleFile" xml:space="preserve">
     <value>View file section</value>
   </data>
-  <data name="InformationConfig.IsVisibleGpsSection" xml:space="preserve">
+  <data name="InformationConfig.IsVisibleGps" xml:space="preserve">
     <value>View GPS section</value>
   </data>
-  <data name="InformationConfig.IsVisibleImageSection" xml:space="preserve">
+  <data name="InformationConfig.IsVisibleImage" xml:space="preserve">
     <value>View image section</value>
   </data>
-  <data name="InformationConfig.IsVisibleOriginSection" xml:space="preserve">
+  <data name="InformationConfig.IsVisibleOrigin" xml:space="preserve">
     <value>View origin section</value>
   </data>
   <data name="InformationConfig.MapProgramFormat" xml:space="preserve">
@@ -7152,5 +7152,56 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="Playlist.FailedToSave" xml:space="preserve">
     <value>Failed to save the playlist</value>
+  </data>
+  <data name="PlaylistConfig.CurrentPlaylist" xml:space="preserve">
+    <value>Current playlist</value>
+  </data>
+  <data name="PlaylistConfig.IsCurrentBookFilterEnabled" xml:space="preserve">
+    <value>Show only open book pages</value>
+  </data>
+  <data name="PlaylistConfig.IsFirstIn" xml:space="preserve">
+    <value>Add to the top of the list</value>
+  </data>
+  <data name="PlaylistConfig.IsFirstIn.Remarks" xml:space="preserve">
+    <value>This is the insertion position for additional commands. If it is turned off, it will be added at the end.</value>
+  </data>
+  <data name="PlaylistConfig.IsGroupBy" xml:space="preserve">
+    <value>Group and display by folder</value>
+  </data>
+  <data name="PlaylistConfig.PanelListItemStyle" xml:space="preserve">
+    <value>List item style</value>
+  </data>
+  <data name="PlaylistConfig.PlaylistFolder" xml:space="preserve">
+    <value>Playlist file storage location</value>
+  </data>
+  <data name="PlaylistConfig.PlaylistFolder.Remarks" xml:space="preserve">
+    <value>Playlist files in this folder are managed.</value>
+  </data>
+  <data name="CommandHost.Playlist" xml:space="preserve">
+    <value>Playlist panel accessor</value>
+  </data>
+  <data name="PlaylistPanelAccessor.Path" xml:space="preserve">
+    <value>Current playlist path</value>
+  </data>
+  <data name="PlaylistPanelAccessor.Style" xml:space="preserve">
+    <value>List item style</value>
+  </data>
+  <data name="PlaylistPanelAccessor.Items" xml:space="preserve">
+    <value>List items</value>
+  </data>
+  <data name="PlaylistPanelAccessor.SelectedItems" xml:space="preserve">
+    <value>Selected items</value>
+  </data>
+  <data name="PlaylistPanelAccessor" xml:space="preserve">
+    <value>Playlist panel accessor</value>
+  </data>
+  <data name="PlaylistItemAccessor" xml:space="preserve">
+    <value>Playlist item accessor</value>
+  </data>
+  <data name="PlaylistItemAccessor.Name" xml:space="preserve">
+    <value>Item name</value>
+  </data>
+  <data name="PlaylistItemAccessor.Path" xml:space="preserve">
+    <value>The path corresponding to the item</value>
   </data>
 </root>

@@ -19,16 +19,16 @@ namespace NeeView
             _playlistModel.AddPropertyChanged(nameof(PlaylistModel.ListBoxModel),
                 (s, e) => UpdateListBox());
 
-            Config.Current.History.AddPropertyChanged(nameof(HistoryConfig.PanelListItemStyle),
+            Config.Current.Playlist.AddPropertyChanged(nameof(PlaylistConfig.PanelListItemStyle),
                 (s, e) => UpdateListBoxContent());
 
             UpdateListBox();
         }
 
 
-        public PlaylistView HistoryListView => _playliseView;
-        public PlaylistListBox HistoryListBox => _playlistListBox;
-        public PlaylistModel HistoryList => _playlistModel;
+        public PlaylistView PlaylistView => _playliseView;
+        public PlaylistListBox PlaylistListBox=> _playlistListBox;
+        public PlaylistModel PlaylistModel => _playlistModel;
 
 
         private void UpdateListBox()

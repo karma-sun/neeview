@@ -6,64 +6,62 @@ namespace NeeView
 {
     public class PlaylistListBoxItem : BindableBase, IHasPage, IHasName
     {
+        private PlaylistItem _item;
+        private string _place;
+        private Page _archivePage;
+
+
         public PlaylistListBoxItem(string path)
         {
-            Path = path;
+            _item = new PlaylistItem(path);
         }
 
         public PlaylistListBoxItem(PlaylistItem item)
         {
-            Path = item.Path;
-            Name = item.Name;
+            _item = new PlaylistItem(item.Path, item.Name);
         }
 
-        private string _path;
+
         public string Path
         {
-            get { return _path; }
+            get { return _item.Path; }
             private set
             {
-                if (SetProperty(ref _path, value))
+                if (_item.Path != value)
                 {
-                    RaisePropertyChanged(nameof(DispName));
+                    _item.Path = value;
+                    RaisePropertyChanged(nameof(Name));
                 }
             }
         }
 
-        private string _name;
         public string Name
         {
-            get { return _name; }
-            set
+            get { return _item.Name; }
+            set 
             {
-                var newName = (string.IsNullOrWhiteSpace(value) || value == LoosePath.GetFileName(Path)) ? null : value;
-                if (SetProperty(ref _name, newName))
+                var oldName = _item.Name;
+                _item.Name = value;
+                if (_item.Name != oldName)
                 {
-                    RaisePropertyChanged(nameof(DispName));
+                    RaisePropertyChanged();
                 }
             }
         }
 
-        public string DispName
-        {
-            get { return _name ?? LoosePath.GetFileName(_path); }
-        }
-
-
-        private string _place;
         public string Place
         {
             get
             {
                 if (_place is null)
                 {
-                    if (FileIO.Exists(_path))
+                    if (FileIO.Exists(Path))
                     {
-                        _place = LoosePath.GetDirectoryName(_path);
+                        _place = LoosePath.GetDirectoryName(Path);
                     }
                     else
                     {
-                        _place = ArchiveEntryUtility.GetExistEntryName(_path);
+                        _place = ArchiveEntryUtility.GetExistEntryName(Path);
                     }
                 }
                 return _place;
@@ -77,11 +75,10 @@ namespace NeeView
 
         public bool IsArchive
         {
-            get { return ArchiverManager.Current.IsSupported(_path) || System.IO.Directory.Exists(_path); }
+            get { return ArchiverManager.Current.IsSupported(Path) || System.IO.Directory.Exists(Path); }
         }
 
 
-        private Page _archivePage;
 
         public Page ArchivePage
         {
@@ -89,7 +86,7 @@ namespace NeeView
             {
                 if (_archivePage == null)
                 {
-                    _archivePage = new Page("", new ArchiveContent(_path));
+                    _archivePage = new Page("", new ArchiveContent(Path));
                     _archivePage.Thumbnail.IsCacheEnabled = true;
                     _archivePage.Thumbnail.Touched += Thumbnail_Touched;
                 }
@@ -120,7 +117,7 @@ namespace NeeView
 
         public override string ToString()
         {
-            return DispName ?? base.ToString();
+            return Name ?? base.ToString();
         }
     }
 }

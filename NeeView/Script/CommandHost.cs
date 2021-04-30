@@ -26,6 +26,7 @@ namespace NeeView
             PageList = new PageListPanelAccessor();
             Bookmark = new BookmarkPanelAccessor();
             Pagemark = new PagemarkPanelAccessor();
+            Playlist = new PlaylistPanelAccessor();
             History = new HistoryPanelAccessor();
             Information = new InformationPanelAccessor();
             Effect = new EffectPanelAccessor();
@@ -55,6 +56,9 @@ namespace NeeView
 
         [WordNodeMember(IsAutoCollect = false)]
         public PagemarkPanelAccessor Pagemark { get; }
+
+        [WordNodeMember(IsAutoCollect = false)]
+        public PlaylistPanelAccessor Playlist { get; }
 
         [WordNodeMember(IsAutoCollect = false)]
         public HistoryPanelAccessor History { get; }
@@ -137,6 +141,7 @@ namespace NeeView
             node.Children.Add(PageList.CreateWordNode(nameof(PageList)));
             node.Children.Add(Bookmark.CreateWordNode(nameof(Bookmark)));
             node.Children.Add(Pagemark.CreateWordNode(nameof(Pagemark)));
+            node.Children.Add(Playlist.CreateWordNode(nameof(Playlist)));
             node.Children.Add(History.CreateWordNode(nameof(History)));
             node.Children.Add(Information.CreateWordNode(nameof(Information)));
             node.Children.Add(Effect.CreateWordNode(nameof(Effect)));

@@ -297,7 +297,9 @@ namespace NeeView
 
         public void SetSelectedItems(IEnumerable<BookHistory> selectedItems)
         {
-            this.ListBox.SetSelectedItemsWithScrollIntoView(selectedItems?.Intersect(GetItems()).ToList());
+            var items = selectedItems?.Intersect(GetItems()).ToList();
+            this.ListBox.SetSelectedItems(items);
+            this.ListBox.ScrollItemsIntoView(items);
         }
 
         #endregion UI Accessor

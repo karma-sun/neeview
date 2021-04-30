@@ -344,7 +344,8 @@ namespace NeeView
                 var items = _vm.Insert(paths, targetItem);
                 if (items != null)
                 {
-                    this.ListBox.SetSelectedItemsWithScrollIntoView(items);
+                    this.ListBox.SetSelectedItems(items);
+                    this.ListBox.ScrollItemsIntoView(items);
                 }
             }
 
@@ -369,7 +370,8 @@ namespace NeeView
                 var items = _vm.Insert(fileNames, targetItem);
                 if (items != null)
                 {
-                    this.ListBox.SetSelectedItemsWithScrollIntoView(items);
+                    this.ListBox.SetSelectedItems(items);
+                    this.ListBox.ScrollItemsIntoView(items);
                 }
             }
 
@@ -562,7 +564,9 @@ namespace NeeView
 
         public void SetSelectedItems(IEnumerable<PlaylistItem> selectedItems)
         {
-            this.ListBox.SetSelectedItemsWithScrollIntoView(selectedItems?.Intersect(GetItems()).ToList());
+            var items = selectedItems?.Intersect(GetItems()).ToList();
+            this.ListBox.SetSelectedItems(items);
+            this.ListBox.ScrollItemsIntoView(items);
         }
 
         #endregion UI Accessor

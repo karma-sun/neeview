@@ -441,7 +441,6 @@ namespace NeeView.Windows
     public class ListBoxExtendedDragDropStartBehavior : ListBoxDragDropStartBehavior
     {
         private List<object> _selectedItems;
-        private object _anchorItem;
 
         protected override void OnAttached()
         {
@@ -456,21 +455,18 @@ namespace NeeView.Windows
             var listBox = (ListBoxExtended)this.AssociatedObject;
 
             _selectedItems = null;
-            _anchorItem = null;
 
-            if (this.DragItem != null && listBox.SelectedItems.Contains(this.DragItem.DataContext))
+            if (listBox.SelectedItems.Count > 1 && this.DragItem != null && listBox.SelectedItems.Contains(this.DragItem.DataContext))
             {
                 switch (Keyboard.Modifiers)
                 {
                     case ModifierKeys.None:
                         _selectedItems = new List<object>() { this.DragItem.DataContext };
-                        _anchorItem = this.DragItem.DataContext;
                         e.Handled = true;
                         break;
 
                     case ModifierKeys.Control:
                         _selectedItems = listBox.SelectedItems.Cast<object>().Where(x => x != this.DragItem.DataContext).ToList();
-                        _anchorItem = this.DragItem.DataContext;
                         e.Handled = true;
                         break;
                 }
@@ -490,17 +486,11 @@ namespace NeeView.Windows
 
             if (_selectedItems != null && !this.Dragged)
             {
-                // NOTE: マウス操作中に項目が変更されたときの変更をキャンセル
-                if (listBox.Items?.Contains(_anchorItem) == true)
-                {
-                    listBox.SetSelectedItems(_selectedItems);
-                    listBox.SetAnchorItem(_anchorItem);
-                }
-                listBox.Focus();
+                listBox.SetSelectedItems(_selectedItems);
+                listBox.SetAnchorItem(null);
             }
 
             _selectedItems = null;
-            _anchorItem = null;
         }
 
 
@@ -556,36 +546,9 @@ namespace NeeView.Windows
             }
         }
 
-        public void SetSelectedItemsWithScrollIntoView<T>(IEnumerable<T> selectedItems)
-        {
-            base.SetSelectedItems(selectedItems);
-
-            ScrollItemsIntoView(selectedItems);
-        }
-
         public void SetSelectedItems<T>(IEnumerable<T> newItems)
         {
             base.SetSelectedItems(newItems);
-        }
-
-    }
-
-
-    public static class IListExtensions
-    {
-        public static void Reset<T>(this IList self, IEnumerable<T> selectedItems)
-        {
-            self.Clear();
-
-            if (selectedItems == null || !selectedItems.Any())
-            {
-                return;
-            }
-
-            foreach (var item in selectedItems)
-            {
-                self.Add(item);
-            }
         }
     }
 }

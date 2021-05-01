@@ -88,9 +88,8 @@ No dedicated script is used. Use only .NET Frameworl tools commands.
 
 2. Create a dll
 
-Execute the commands as follows. 
+Execute the commands as follows. (e.g. Resource.de-DE.restext)
 
-    e.g. "Resource.de-DE.restext" to "NeeView.Resource.dll"
     > ResGen.exe Resources.de-DE.restext NeeView.Properties.Resources.de-DE.resources
     > Al.exe /culture:de-DE /out:NeeView.resources.dll /embed:NeeView.Properties.Resources.de-DE.resources
 

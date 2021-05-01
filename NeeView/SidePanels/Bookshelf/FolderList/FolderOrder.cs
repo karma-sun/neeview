@@ -63,19 +63,19 @@ namespace NeeView
 
         [EnumMember]
         [AliasName]
-        EntryTime,
-
-        [EnumMember]
-        [AliasName]
-        EntryTimeDescending,
-
-        [EnumMember]
-        [AliasName]
         Size,
 
         [EnumMember]
         [AliasName]
         SizeDescending,
+
+        [EnumMember]
+        [AliasName]
+        EntryTime,
+
+        [EnumMember]
+        [AliasName]
+        EntryTimeDescending,
 
         [EnumMember]
         [AliasName]

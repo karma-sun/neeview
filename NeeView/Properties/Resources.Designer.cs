@@ -11480,6 +11480,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Entry↑ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PageSortMode_Entry {
+            get {
+                return ResourceManager.GetString("PageSortMode.Entry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Entry↓ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PageSortMode_EntryDescending {
+            get {
+                return ResourceManager.GetString("PageSortMode.EntryDescending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Name↑ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string PageSortMode_FileName {
@@ -13704,6 +13722,42 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Entry Ascending に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetSortModeEntryCommand {
+            get {
+                return ResourceManager.GetString("SetSortModeEntryCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set the order of pages in ascending order by entry. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetSortModeEntryCommand_Remarks {
+            get {
+                return ResourceManager.GetString("SetSortModeEntryCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Entry Descending に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetSortModeEntryDescendingCommand {
+            get {
+                return ResourceManager.GetString("SetSortModeEntryDescendingCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set the order of pages in descending order by entry. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SetSortModeEntryDescendingCommand_Remarks {
+            get {
+                return ResourceManager.GetString("SetSortModeEntryDescendingCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Name Ascending に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SetSortModeFileNameCommand {
@@ -13785,7 +13839,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Set the order of pages in descending order of file size. に類似しているローカライズされた文字列を検索します。
+        ///   Set the order of pages in descending order by file size. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SetSortModeSizeDescendingCommand_Remarks {
             get {

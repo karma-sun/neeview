@@ -14,8 +14,8 @@ namespace NeeView
 {
     public class PlaylistListBoxViewModel : BindableBase
     {
-        private PlaylistListBoxModel _model;
-        private ObservableCollection<PlaylistListBoxItem> _items;
+        private Playlist _model;
+        private ObservableCollection<PlaylistItem> _items;
         private Visibility _visibility = Visibility.Hidden;
 
 
@@ -47,15 +47,15 @@ namespace NeeView
 
 
 
-        public ObservableCollection<PlaylistListBoxItem> Items
+        public ObservableCollection<PlaylistItem> Items
         {
             get { return _items; }
             private set { SetProperty(ref _items, value); }
         }
 
-        private PlaylistListBoxItem _selectedItem;
+        private PlaylistItem _selectedItem;
 
-        public PlaylistListBoxItem SelectedItem
+        public PlaylistItem SelectedItem
         {
             get { return _selectedItem; }
             set { SetProperty(ref _selectedItem, value); }
@@ -104,7 +104,7 @@ namespace NeeView
             RaisePropertyChanged(nameof(IsLastIn));
         }
 
-        public void SetModel(PlaylistListBoxModel model)
+        public void SetModel(Playlist model)
         {
             // TODO: 購読の解除。今の所Modelのほうが寿命が短いので問題ないが、安全のため。
 
@@ -123,7 +123,7 @@ namespace NeeView
         {
             if (Config.Current.Playlist.IsCurrentBookFilterEnabled && BookOperation.Current.IsValid)
             {
-                var item = (PlaylistListBoxItem)e.Item;
+                var item = (PlaylistItem)e.Item;
                 e.Accepted = BookOperation.Current.Book.Pages.Any(x => x.SystemPath == item.Path);
             }
             else
@@ -151,7 +151,7 @@ namespace NeeView
             this.CollectionViewSource.GroupDescriptions.Clear();
             if (Config.Current.Playlist.IsGroupBy)
             {
-                this.CollectionViewSource.GroupDescriptions.Add(new PropertyGroupDescription(nameof(PlaylistListBoxItem.DispPlace)));
+                this.CollectionViewSource.GroupDescriptions.Add(new PropertyGroupDescription(nameof(PlaylistItem.DispPlace)));
             }
         }
 
@@ -193,7 +193,7 @@ namespace NeeView
             }
         }
 
-        public PlaylistListBoxItem AddCurrentPage()
+        public PlaylistItem AddCurrentPage()
         {
             var path = BookOperation.Current.GetPage()?.SystemPath;
             if (path is null) return null;
@@ -224,7 +224,7 @@ namespace NeeView
         }
 
 
-        public List<PlaylistListBoxItem> Insert(IEnumerable<string> paths, PlaylistListBoxItem targetItem)
+        public List<PlaylistItem> Insert(IEnumerable<string> paths, PlaylistItem targetItem)
         {
             if (_model.Items is null) return null;
 
@@ -237,7 +237,7 @@ namespace NeeView
             return items;
         }
 
-        public void Remove(IEnumerable<PlaylistListBoxItem> items)
+        public void Remove(IEnumerable<PlaylistItem> items)
         {
             if (_model.Items is null) return;
 
@@ -249,19 +249,19 @@ namespace NeeView
             SetSelectedIndex(index);
         }
 
-        public void Move(IEnumerable<PlaylistListBoxItem> items, PlaylistListBoxItem targetItem)
+        public void Move(IEnumerable<PlaylistItem> items, PlaylistItem targetItem)
         {
             if (_model.Items is null) return;
 
             _model.Move(items, targetItem);
         }
 
-        public bool Rename(PlaylistListBoxItem item, string newName)
+        public bool Rename(PlaylistItem item, string newName)
         {
             return _model.Rename(item, newName);
         }
 
-        public void Open(PlaylistListBoxItem item)
+        public void Open(PlaylistItem item)
         {
             _model.Open(item);
         }

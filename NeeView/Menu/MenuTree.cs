@@ -580,6 +580,8 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { CommandName = "SetSortModeTimeStampDescending" },
                         new MenuTree(MenuElementType.Command) { CommandName = "SetSortModeSize" },
                         new MenuTree(MenuElementType.Command) { CommandName = "SetSortModeSizeDescending" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "SetSortModeEntry" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "SetSortModeEntryDescending" },
                         new MenuTree(MenuElementType.Command) { CommandName = "SetSortModeRandom" },
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { CommandName = "SetDefaultPageSetting" },

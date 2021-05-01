@@ -74,7 +74,7 @@ namespace NeeView
                     self.Config.Fonts.FolderTreeFontScale = self.Config.Panels.FolderTreeFontSize_Legacy / SystemVisualParameters.Current.MessageFontSize;
                 }
 
-                switch(self.Config.System.Language)
+                switch (self.Config.System.Language)
                 {
                     case "English":
                         self.Config.System.Language = "en";
@@ -82,6 +82,15 @@ namespace NeeView
                     case "Japanese":
                         self.Config.System.Language = "ja";
                         break;
+                }
+
+                if (self.Config.BookSetting.SortMode == PageSortMode.FileName)
+                {
+                    self.Config.BookSetting.SortMode = PageSortMode.Entry;
+                }
+                if (self.Config.BookSetting.SortMode == PageSortMode.FileNameDescending)
+                {
+                    self.Config.BookSetting.SortMode = PageSortMode.EntryDescending;
                 }
             }
 

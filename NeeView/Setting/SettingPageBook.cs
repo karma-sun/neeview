@@ -73,6 +73,8 @@ namespace NeeView.Setting
             {
                 Content1 = Properties.Resources.Word_FirstPage,
             });
+
+
             section.Children.Add(new SettingItemMultiProperty(
                 PropertyMemberElement.Create(BookSettingPresenter.Current.DefaultSetting, nameof(BookSettingConfig.SortMode)),
                 PropertyMemberElement.Create(BookSettingPresenter.Current.Generater, nameof(BookSettingPolicyConfig.SortMode))));
@@ -97,6 +99,7 @@ namespace NeeView.Setting
             section.Children.Add(new SettingItemMultiProperty(
                 PropertyMemberElement.Create(BookSettingPresenter.Current.DefaultSetting, nameof(BookSettingConfig.IsRecursiveFolder)),
                 PropertyMemberElement.Create(BookSettingPresenter.Current.Generater, nameof(BookSettingPolicyConfig.IsRecursiveFolder))));
+
             this.Items.Add(section);
 
             section = new SettingItemSection(Properties.Resources.SettingPage_Book_SubFolder);

@@ -2,14 +2,14 @@
 {
     public class PlaylistItemAccessor
     {
-        private PlaylistListBoxItem _source;
+        private PlaylistItem _source;
 
-        public PlaylistItemAccessor(PlaylistListBoxItem source)
+        public PlaylistItemAccessor(PlaylistItem source)
         {
             _source = source;
         }
 
-        internal PlaylistListBoxItem Source => _source;
+        internal PlaylistItem Source => _source;
 
 
         [WordNodeMember]

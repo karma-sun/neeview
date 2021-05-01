@@ -4,16 +4,16 @@ using System.Collections.Generic;
 namespace NeeView
 {
     [Obsolete]
-    public class PlaylistV1
+    public class PlaylistSourceV1
     {
         public const string FormatVersion = "NeeViewPlaylist.1";
 
-        public PlaylistV1()
+        public PlaylistSourceV1()
         {
             Items = new List<string>();
         }
 
-        public PlaylistV1(IEnumerable<string> items)
+        public PlaylistSourceV1(IEnumerable<string> items)
         {
             Items = new List<string>(items);
         }
@@ -26,9 +26,9 @@ namespace NeeView
     [Obsolete]
     public static class PlaylistV1Extensions
     {
-        public static Playlist ToPlaylist(this PlaylistV1 self)
+        public static PlaylistSource ToPlaylist(this PlaylistSourceV1 self)
         {
-            return new Playlist(self.Items);
+            return new PlaylistSource(self.Items);
         }
     }
 }

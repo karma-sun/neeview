@@ -16,19 +16,19 @@ using System.Windows.Controls;
 
 namespace NeeView
 {
-    public class PlaylistModel : BindableBase
+    public class PlaylisHub : BindableBase
     {
-        static PlaylistModel() => Current = new PlaylistModel();
-        public static PlaylistModel Current { get; }
+        static PlaylisHub() => Current = new PlaylisHub();
+        public static PlaylisHub Current { get; }
 
         private List<object> _playlistCollection;
-        private PlaylistListBoxModel _listBoxModel;
-        private int _listBoxModelLockCount;
+        private Playlist _playlist;
+        private int _playlistLockCount;
         private CancellationTokenSource _deleteInvalidItemsCancellationToken;
-        private bool _isListBoxModeDarty;
+        private bool _isPlaylistDarty;
 
 
-        private PlaylistModel()
+        private PlaylisHub()
         {
             if (SelectedItem != Config.Current.Playlist.DefaultPlaylist)
             {
@@ -52,11 +52,11 @@ namespace NeeView
             this.AddPropertyChanged(nameof(SelectedItem),
                 (s, e) => SelectedItemChanged());
 
-            UpdateListBoxModel();
+            UpdatePlaylist();
         }
 
 
-        public event EventHandler PlaylistItemsStateChanged;
+        public event EventHandler PlaylistCollectionChanged;
 
 
         public string DefaultPlaylist => Config.Current.Playlist.DefaultPlaylist;
@@ -77,7 +77,7 @@ namespace NeeView
 
         public string SelectedItem
         {
-            get 
+            get
             { return Config.Current.Playlist.CurrentPlaylist; }
             set
             {
@@ -88,25 +88,23 @@ namespace NeeView
             }
         }
 
-        public PlaylistListBoxModel ListBoxModel
+        public Playlist Playlist
         {
-            get { return _listBoxModel; }
+            get { return _playlist; }
             set
             {
-                if (_listBoxModel != value)
+                if (_playlist != value)
                 {
-                    if (_listBoxModel != null)
+                    if (_playlist != null)
                     {
-                        _listBoxModel.ItemsStateChanged -= ListBoxModel_ItemsStateChanged;
-                        _listBoxModel.Saved -= ListBoxModel_Saved;
+                        _playlist.CollectionChanged -= Playlist_CollectionChanged;
                     }
 
-                    _listBoxModel = value;
+                    _playlist = value;
 
-                    if (_listBoxModel != null)
+                    if (_playlist != null)
                     {
-                        _listBoxModel.ItemsStateChanged += ListBoxModel_ItemsStateChanged;
-                        _listBoxModel.Saved += ListBoxModel_Saved;
+                        _playlist.CollectionChanged += Playlist_CollectionChanged;
                     }
 
                     RaisePropertyChanged();
@@ -122,15 +120,10 @@ namespace NeeView
         }
 
 
-
-        private void ListBoxModel_Saved(object sender, EventArgs e)
+        private void Playlist_CollectionChanged(object sender, EventArgs e)
         {
-            StartFileWatch(this.SelectedItem);
-        }
-
-        private void ListBoxModel_ItemsStateChanged(object sender, EventArgs e)
-        {
-            PlaylistItemsStateChanged?.Invoke(this, null);
+            this.Playlist?.DelaySave(StartPlaylistWatch);
+            PlaylistCollectionChanged?.Invoke(this, null);
         }
 
         private void SelectedItemChanged()
@@ -140,7 +133,7 @@ namespace NeeView
                 UpdatePlaylistCollection();
             }
 
-            UpdateListBoxModel();
+            UpdatePlaylist();
         }
 
 
@@ -148,16 +141,16 @@ namespace NeeView
         {
             try
             {
-                _listBoxModelLockCount++;
+                _playlistLockCount++;
                 var selectedItem = this.SelectedItem;
 
                 var list = new List<string>();
 
                 try
                 {
-                    var folder = System.IO.Path.GetFullPath(Config.Current.Playlist.PlaylistFolder);
-                    var playlists = Directory.GetFiles(folder, "*.nvpls");
-                    list = playlists.ToList();
+                    var directory = new DirectoryInfo(System.IO.Path.GetFullPath(Config.Current.Playlist.PlaylistFolder));
+                    var files = directory.GetFiles("*.nvpls");
+                    list = files.Select(e => e.FullName).ToList();
                 }
                 catch (DirectoryNotFoundException)
                 {
@@ -190,30 +183,52 @@ namespace NeeView
             }
             finally
             {
-                _listBoxModelLockCount--;
+                _playlistLockCount--;
             }
         }
 
-        private void UpdateListBoxModel()
+        private void UpdatePlaylist()
         {
-            if (_listBoxModelLockCount <= 0 && (this.ListBoxModel is null || _isListBoxModeDarty || this.ListBoxModel?.PlaylistPath != this.SelectedItem))
+            if (_playlistLockCount <= 0 && (this.Playlist is null || _isPlaylistDarty || this.Playlist?.Path != this.SelectedItem))
             {
-                if (!_isListBoxModeDarty && this.ListBoxModel != null)
+                if (!_isPlaylistDarty && this.Playlist != null)
                 {
-                    this.ListBoxModel.Flush();
+                    this.Playlist.Flush();
                 }
 
-                this.ListBoxModel = new PlaylistListBoxModel(this.SelectedItem);
-                _isListBoxModeDarty = false;
+                LoadPlaylist();
 
-                StartFileWatch(this.SelectedItem, true);
+                StartPlaylistWatch();
+
+                // NOTE: ファイルが存在しない場合、ここで保存
+                this.Playlist.DelaySave(StartPlaylistWatch);
             }
+        }
+
+        private void LoadPlaylist()
+        {
+            this.Playlist = Playlist.Load(this.SelectedItem);
+            _isPlaylistDarty = false;
+        }
+
+        private void ReloadPlaylist()
+        {
+            if (this.SelectedItem == this.Playlist?.Path)
+            {
+                LoadPlaylist();
+            }
+        }
+
+
+        private void StartPlaylistWatch()
+        {
+            StartFileWatch(this.SelectedItem);
         }
 
 
         public void Flush()
         {
-            this.ListBoxModel?.Flush();
+            this.Playlist?.Flush();
         }
 
 
@@ -247,7 +262,6 @@ namespace NeeView
             if (isSuccessed)
             {
                 SelectedItem = DefaultPlaylist;
-                //UpdatePlaylistCollection();
             }
         }
 
@@ -260,7 +274,7 @@ namespace NeeView
         {
             if (!CanRename()) return false;
 
-            this.ListBoxModel?.Save();
+            this.Playlist?.Flush();
 
             try
             {
@@ -286,23 +300,23 @@ namespace NeeView
 
         public void OpenAsBook()
         {
-            _listBoxModel?.Flush();
+            _playlist?.Flush();
             BookHub.Current.RequestLoad(this, SelectedItem, null, BookLoadOption.IsBook, true);
         }
 
 
-        #region ListBoxModel Controls
+        #region Playlist Controls
 
         public async Task DeleteInvalidItemsAsync()
         {
             _deleteInvalidItemsCancellationToken?.Cancel();
             _deleteInvalidItemsCancellationToken = new CancellationTokenSource();
-            await _listBoxModel?.DeleteInvalidItemsAsync(_deleteInvalidItemsCancellationToken.Token);
+            await _playlist?.DeleteInvalidItemsAsync(_deleteInvalidItemsCancellationToken.Token);
         }
 
         public void SortItems()
         {
-            _listBoxModel?.Sort();
+            _playlist?.Sort();
         }
 
         #endregion
@@ -335,9 +349,9 @@ namespace NeeView
 
             Debug.WriteLine($"## Watcher.Changed: {e.FullPath}");
 
-            if (_listBoxModel.LastWriteTime.AddSeconds(5.0) < DateTime.Now)
+            if (_playlist.LastWriteTime.AddSeconds(5.0) < DateTime.Now)
             {
-                _delayReloadAction.Request(() => _listBoxModel.Reload(), TimeSpan.FromSeconds(1.0));
+                _delayReloadAction.Request(() => ReloadPlaylist(), TimeSpan.FromSeconds(1.0));
             }
         }
 
@@ -356,9 +370,9 @@ namespace NeeView
 
             Debug.WriteLine($"## Watcher.Renamed: {e.OldFullPath} -> {e.FullPath}");
 
-            if (_listBoxModel.PlaylistPath != e.OldFullPath) return;
+            if (_playlist.Path != e.OldFullPath) return;
 
-            _listBoxModel.PlaylistPath = e.FullPath;
+            _playlist.Path = e.FullPath;
             SelectedItem = e.FullPath;
         }
 

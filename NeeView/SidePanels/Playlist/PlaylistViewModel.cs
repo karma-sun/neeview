@@ -19,10 +19,10 @@ namespace NeeView
 {
     public class PlaylistViewModel : BindableBase
     {
-        private PlaylistModel _model;
+        private PlaylisHub _model;
 
 
-        public PlaylistViewModel(PlaylistModel model)
+        public PlaylistViewModel(PlaylisHub model)
         {
             _model = model;
 
@@ -142,7 +142,7 @@ namespace NeeView
         private void NewCommand_Execute()
         {
             _model.CreateNew();
-            RenameRequest?.Invoke(this, null);
+            ////RenameRequest?.Invoke(this, null);
         }
 
 

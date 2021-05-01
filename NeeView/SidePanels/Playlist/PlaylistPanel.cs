@@ -17,7 +17,7 @@ namespace NeeView
         private PlaylistView _view;
         private PlaylistPresenter _presenter;
 
-        public PlaylistPanel(PlaylistModel model)
+        public PlaylistPanel(PlaylisHub model)
         {
             _view = new PlaylistView(model);
             _presenter = new PlaylistPresenter(_view, model);

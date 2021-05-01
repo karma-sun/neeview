@@ -77,7 +77,7 @@ namespace NeeView
                         {
                             try
                             {
-                                var playlist = PlaylistTools.Load(Config.Current.StartUp.LastFolderPath);
+                                var playlist = PlaylistSourceTools.Load(Config.Current.StartUp.LastFolderPath);
                                 if (playlist.Items.Any(e => e.Path == path))
                                 {
                                     _folderPath = Config.Current.StartUp.LastFolderPath;

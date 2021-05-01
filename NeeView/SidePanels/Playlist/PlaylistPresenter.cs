@@ -5,18 +5,18 @@ namespace NeeView
     public class PlaylistPresenter
     {
         private PlaylistView _playliseView;
-        private PlaylistModel _playlistModel;
+        private PlaylisHub _playlistHub;
 
         private PlaylistListBox _playlistListBox;
         private PlaylistListBoxViewModel _playlistListBoxViewModel = new PlaylistListBoxViewModel();
 
 
-        public PlaylistPresenter(PlaylistView playlistView, PlaylistModel playlistModel)
+        public PlaylistPresenter(PlaylistView playlistView, PlaylisHub playlistModel)
         {
             _playliseView = playlistView;
-            _playlistModel = playlistModel;
+            _playlistHub = playlistModel;
 
-            _playlistModel.AddPropertyChanged(nameof(PlaylistModel.ListBoxModel),
+            _playlistHub.AddPropertyChanged(nameof(PlaylistHub.Playlist),
                 (s, e) => UpdateListBox());
 
             Config.Current.Playlist.AddPropertyChanged(nameof(PlaylistConfig.PanelListItemStyle),
@@ -28,12 +28,12 @@ namespace NeeView
 
         public PlaylistView PlaylistView => _playliseView;
         public PlaylistListBox PlaylistListBox=> _playlistListBox;
-        public PlaylistModel PlaylistModel => _playlistModel;
+        public PlaylisHub PlaylistHub => _playlistHub;
 
 
         private void UpdateListBox()
         {
-            _playlistListBoxViewModel.SetModel(_playlistModel.ListBoxModel);
+            _playlistListBoxViewModel.SetModel(_playlistHub.Playlist);
             UpdateListBoxContent();
         }
 

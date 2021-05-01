@@ -25,6 +25,11 @@ namespace NeeView
                 page.Thumbnail.Touched += Thumbnail_Touched;
             }
 
+            for (int i = 0; i < Pages.Count; ++i)
+            {
+                Pages[i].EntryIndex = i;
+            }
+
             Sort();
         }
 
@@ -167,31 +172,38 @@ namespace NeeView
             if (Pages.Count <= 0) return;
 
             var isSortFileFirst = Config.Current.Book.IsSortFileFirst;
-            var pages = Pages.OrderBy(e => e.PageType);
+
+            IEnumerable<Page> pages = null;
 
             switch (SortMode)
             {
                 case PageSortMode.FileName:
-                    pages = pages.ThenBy(e => e, new ComparerFileName(isSortFileFirst));
+                    pages = Pages.OrderBy(e => e.PageType).ThenBy(e => e, new ComparerFileName(isSortFileFirst));
                     break;
                 case PageSortMode.FileNameDescending:
-                    pages = pages.ThenByDescending(e => e, new ComparerFileName(isSortFileFirst));
+                    pages = Pages.OrderBy(e => e.PageType).ThenByDescending(e => e, new ComparerFileName(isSortFileFirst));
                     break;
                 case PageSortMode.TimeStamp:
-                    pages = pages.ThenBy(e => e.Entry.LastWriteTime).ThenBy(e => e, new ComparerFileName(isSortFileFirst));
+                    pages = Pages.OrderBy(e => e.PageType).ThenBy(e => e.Entry.LastWriteTime).ThenBy(e => e, new ComparerFileName(isSortFileFirst));
                     break;
                 case PageSortMode.TimeStampDescending:
-                    pages = pages.ThenByDescending(e => e.Entry.LastWriteTime).ThenBy(e => e, new ComparerFileName(isSortFileFirst));
+                    pages = Pages.OrderBy(e => e.PageType).ThenByDescending(e => e.Entry.LastWriteTime).ThenBy(e => e, new ComparerFileName(isSortFileFirst));
                     break;
                 case PageSortMode.Size:
-                    pages = pages.ThenBy(e => e.Entry.Length).ThenBy(e => e, new ComparerFileName(isSortFileFirst));
+                    pages = Pages.OrderBy(e => e.PageType).ThenBy(e => e.Entry.Length).ThenBy(e => e, new ComparerFileName(isSortFileFirst));
                     break;
                 case PageSortMode.SizeDescending:
-                    pages = pages.ThenByDescending(e => e.Entry.Length).ThenBy(e => e, new ComparerFileName(isSortFileFirst));
+                    pages = Pages.OrderBy(e => e.PageType).ThenByDescending(e => e.Entry.Length).ThenBy(e => e, new ComparerFileName(isSortFileFirst));
                     break;
                 case PageSortMode.Random:
                     var random = new Random();
-                    pages = pages.ThenBy(e => random.Next());
+                    pages = Pages.OrderBy(e => e.PageType).ThenBy(e => random.Next());
+                    break;
+                case PageSortMode.Entry:
+                    pages = Pages.OrderBy(e => e.EntryIndex);
+                    break;
+                case PageSortMode.EntryDescending:
+                    pages = Pages.OrderByDescending(e => e.EntryIndex);
                     break;
                 default:
                     throw new NotImplementedException();
@@ -210,7 +222,10 @@ namespace NeeView
         /// </summary>
         private void PagesNumbering()
         {
-            for (int i = 0; i < Pages.Count; ++i) Pages[i].Index = i;
+            for (int i = 0; i < Pages.Count; ++i)
+            {
+                Pages[i].Index = i;
+            }
         }
 
         /// <summary>

@@ -2,7 +2,7 @@
 
 namespace NeeView
 {
-    public class PlaylistListBoxItemCollection : List<PlaylistListBoxItem>
+    public class PlaylistListBoxItemCollection : List<PlaylistItem>
     {
         public static readonly string Format = FormatVersion.CreateFormatName(Environment.ProcessId.ToString(), nameof(PlaylistListBoxItemCollection));
 
@@ -10,7 +10,7 @@ namespace NeeView
         {
         }
 
-        public PlaylistListBoxItemCollection(IEnumerable<PlaylistListBoxItem> collection) : base(collection)
+        public PlaylistListBoxItemCollection(IEnumerable<PlaylistItem> collection) : base(collection)
         {
         }
     }

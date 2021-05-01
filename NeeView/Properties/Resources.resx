@@ -4830,7 +4830,7 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Size Descending</value>
   </data>
   <data name="SetSortModeSizeDescendingCommand.Remarks" xml:space="preserve">
-    <value>Set the order of pages in descending order of file size.</value>
+    <value>Set the order of pages in descending order by file size.</value>
   </data>
   <data name="SetSortModeTimeStampCommand" xml:space="preserve">
     <value>Date Ascending</value>
@@ -7203,5 +7203,23 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="PlaylistItemAccessor.Path" xml:space="preserve">
     <value>The path corresponding to the item</value>
+  </data>
+  <data name="PageSortMode.Entry" xml:space="preserve">
+    <value>Entry↑</value>
+  </data>
+  <data name="PageSortMode.EntryDescending" xml:space="preserve">
+    <value>Entry↓</value>
+  </data>
+  <data name="SetSortModeEntryCommand" xml:space="preserve">
+    <value>Entry Ascending</value>
+  </data>
+  <data name="SetSortModeEntryCommand.Remarks" xml:space="preserve">
+    <value>Set the order of pages in ascending order by entry.</value>
+  </data>
+  <data name="SetSortModeEntryDescendingCommand" xml:space="preserve">
+    <value>Entry Descending</value>
+  </data>
+  <data name="SetSortModeEntryDescendingCommand.Remarks" xml:space="preserve">
+    <value>Set the order of pages in descending order by entry.</value>
   </data>
 </root>

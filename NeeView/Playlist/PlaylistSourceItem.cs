@@ -2,22 +2,22 @@
 
 namespace NeeView
 {
-    public class PlaylistItem
+    public class PlaylistSourceItem
     {
         [JsonInclude, JsonPropertyName(nameof(Name))]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string _name;
 
-        public PlaylistItem()
+        public PlaylistSourceItem()
         {
         }
 
-        public PlaylistItem(string path)
+        public PlaylistSourceItem(string path)
         {
             Path = path;
         }
 
-        public PlaylistItem(string path, string name)
+        public PlaylistSourceItem(string path, string name)
         {
             Path = path;
             Name = name;

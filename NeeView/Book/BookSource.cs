@@ -30,6 +30,9 @@ namespace NeeView
         // ページマークアーカイバ？
         public bool IsPagemarkFolder => ArchiveEntryCollection?.Archiver is PagemarkArchiver;
 
+        // プレイリスト？
+        public bool IsPlaylist => ArchiveEntryCollection?.Archiver is PlaylistArchive;
+
         /// <summary>
         /// 読み込まれなかったサブフォルダ数。再帰判定用
         /// </summary>

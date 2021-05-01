@@ -67,7 +67,7 @@ namespace NeeView
         {
             string name = DateTime.Now.ToString("yyyyMMddHHmmss") + PlaylistArchive.Extension;
             string path = FileIO.CreateUniquePath(System.IO.Path.Combine(outputDirectory, name));
-            PlaylistTools.Save(new Playlist(files), path, true);
+            PlaylistSourceTools.Save(new PlaylistSource(files), path, true);
             return path;
         }
     }

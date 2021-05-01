@@ -106,13 +106,15 @@ namespace NeeView
 
     public class BookChangedEventArgs : EventArgs
     {
-        public BookChangedEventArgs(string address, BookMementoType type)
+        public BookChangedEventArgs(string address, Book book,  BookMementoType type)
         {
             Address = address;
+            Book = book;
             BookMementoType = type;
         }
 
         public string Address { get; set; }
+        public Book Book { get; set; }
         public BookMementoType BookMementoType { get; set; }
     }
 
@@ -702,18 +704,23 @@ namespace NeeView
                 await LoadAsyncCore(args.Sender, address, loadOption, setting, token);
 
                 ////DebugTimer.Check("LoadCore");
+                ///
+
+                var bookSetting = BookSettingConfigExtensions.FromBookMement(BookUnit?.Book.CreateMemento());
+                var pageSortModeClass = BookUnit?.Book != null ? BookUnit.Book.PageSortModeClass: PageSortModeClass.Full;
+                bookSetting.SortMode = pageSortModeClass.ValidatePageSortMode(bookSetting.SortMode);
 
                 AppDispatcher.Invoke(() =>
                 {
                     // 本の設定を更新
-                    BookSettingPresenter.Current.SetLatestSetting(BookSettingConfigExtensions.FromBookMement(BookUnit?.Book.CreateMemento()));
+                    BookSettingPresenter.Current.SetLatestSetting(bookSetting);
 
                     // 本の変更通知
                     lock (_lock)
                     {
                         if (BookUnit != null)
                         {
-                            BookChanged?.Invoke(this, new BookChangedEventArgs(BookUnit.Book?.Address, BookUnit.GetBookMementoType()));
+                            BookChanged?.Invoke(this, new BookChangedEventArgs(BookUnit.Book?.Address, BookUnit?.Book, BookUnit.GetBookMementoType()));
                         }
                     }
                 });
@@ -757,7 +764,7 @@ namespace NeeView
                     ViewContentsChanged?.Invoke(args.Sender, new ViewContentSourceCollectionChangedEventArgs(null, new ViewContentSourceCollection()));
 
                     // 本の変更通知
-                    BookChanged?.Invoke(this, new BookChangedEventArgs(Address, BookMementoType.None));
+                    BookChanged?.Invoke(this, new BookChangedEventArgs(Address, null, BookMementoType.None));
 
                     // 履歴リスト更新
                     if ((args.Option & BookLoadOption.SelectHistoryMaybe) != 0)
@@ -946,8 +953,8 @@ namespace NeeView
                     // 現在表示されているコンテンツを無効
                     ViewContentsChanged?.Invoke(param.Sender, null);
 
-                    // 本の変更通知
-                    BookChanged?.Invoke(param.Sender, new BookChangedEventArgs(Address, BookMementoType.None));
+                    // 本の変更通
+                    BookChanged?.Invoke(param.Sender, new BookChangedEventArgs(Address, null, BookMementoType.None));
                 });
             }
 

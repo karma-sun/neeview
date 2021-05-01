@@ -29,9 +29,14 @@ namespace NeeView
         public PageListViewModel(PageList model)
         {
             _model = model;
-            _model.AddPropertyChanged(nameof(PageList.PageSortMode), (s, e) => RaisePropertyChanged(nameof(PageSortMode)));
 
-                _model.PageHistoryChanged += 
+            _model.AddPropertyChanged(nameof(PageList.PageSortModeList),
+                (s, e) => RaisePropertyChanged(nameof(PageSortModeList)));
+
+            _model.AddPropertyChanged(nameof(PageList.PageSortMode),
+                (s, e) => RaisePropertyChanged(nameof(PageSortMode)));
+
+            _model.PageHistoryChanged +=
                 (s, e) => UpdateMoveToHistoryCommandCanExecute();
 
             _model.CollectionChanged +=
@@ -44,7 +49,7 @@ namespace NeeView
 
         public Dictionary<PageNameFormat, string> FormatList { get; } = AliasNameExtensions.GetAliasNameDictionary<PageNameFormat>();
 
-        public Dictionary<PageSortMode, string> PageSortModeList { get; } = AliasNameExtensions.GetAliasNameDictionary<PageSortMode>();
+        public Dictionary<PageSortMode, string> PageSortModeList => _model.PageSortModeList;
 
         public PageSortMode PageSortMode
         {
@@ -134,7 +139,7 @@ namespace NeeView
         }
 
         private void UpdateMoveToUpCommandCanExecute()
-        { 
+        {
             this.MoveToUpCommand.RaiseCanExecuteChanged();
         }
     }

@@ -168,10 +168,10 @@ namespace NeeView
         }
 
         // ページ並び設定切り替え
-        public void ToggleSortMode()
+        public void ToggleSortMode(PageSortModeClass pageSortModeClass)
         {
             if (IsLocked) return;
-            LatestSetting.SortMode = LatestSetting.SortMode.GetToggle();
+            LatestSetting.SortMode = pageSortModeClass.GetTogglePageSortMode(LatestSetting.SortMode);
             SettingChanged?.Invoke(this, new BookSettingEventArgs(BookSettingKey.SortMode));
         }
 

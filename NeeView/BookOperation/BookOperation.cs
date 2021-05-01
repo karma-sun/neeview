@@ -113,6 +113,11 @@ namespace NeeView
             get { return _pageList; }
         }
 
+        public PageSortModeClass PageSortModeClass
+        {
+            get { return Book != null ? Book.PageSortModeClass : PageSortModeClass.Full; }
+        }
+
         #endregion
 
         #region Methods

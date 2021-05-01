@@ -316,6 +316,8 @@ namespace NeeView
                 new SetSortModeTimeStampDescendingCommand(),
                 new SetSortModeSizeCommand(),
                 new SetSortModeSizeDescendingCommand(),
+                new SetSortModeEntryCommand(),
+                new SetSortModeEntryDescendingCommand(),
                 new SetSortModeRandomCommand(),
                 new SetDefaultPageSettingCommand(),
 

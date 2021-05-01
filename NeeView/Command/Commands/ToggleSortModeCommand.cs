@@ -9,7 +9,7 @@
         }
         public override string ExecuteMessage(object sender, CommandContext e)
         {
-            return BookSettingPresenter.Current.LatestSetting.SortMode.GetToggle().ToAliasName();
+            return BookOperation.Current.PageSortModeClass.GetTogglePageSortMode(BookSettingPresenter.Current.LatestSetting.SortMode).ToAliasName();
         }
 
         public override bool CanExecute(object sender, CommandContext e)
@@ -19,7 +19,7 @@
 
         public override void Execute(object sender, CommandContext e)
         {
-            BookSettingPresenter.Current.ToggleSortMode();
+            BookSettingPresenter.Current.ToggleSortMode(BookOperation.Current.PageSortModeClass);
         }
     }
 }

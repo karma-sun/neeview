@@ -36,13 +36,19 @@ namespace NeeView.Threading
             }
         }
 
-        public void Flush()
+        public bool Flush()
         {
             lock (_lock)
             {
+                if (_action is null)
+                {
+                    return false;
+                }
+
                 _timer.Stop();
                 _action?.Invoke();
                 _action = null;
+                return true;
             }
         }
 

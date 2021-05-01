@@ -25,6 +25,12 @@
         </DrawingImage.Drawing>
     </DrawingImage>
 
+    <DrawingImage x:Key="ic_sort_entry_24px">
+        <DrawingImage.Drawing>
+            <GeometryDrawing Brush="{DynamicResource MenuBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_push_pin_24px}" />
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
     <DrawingImage x:Key="ic_sortex_up_24px">
         <DrawingImage.Drawing>
             <GeometryDrawing Brush="{DynamicResource MenuBar.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_sortex_up_24px}" />

@@ -123,7 +123,7 @@ namespace NeeView
 
         private void OpenCommand_Execute(object sender, ExecutedRoutedEventArgs e)
         {
-            var item = this.ListBox.SelectedItem as PlaylistListBoxItem;
+            var item = this.ListBox.SelectedItem as PlaylistItem;
             if (item is null) return;
             _vm.Open(item);
         }
@@ -135,7 +135,7 @@ namespace NeeView
 
         private void RenameCommand_Execute(object sender, ExecutedRoutedEventArgs e)
         {
-            var item = this.ListBox.SelectedItem as PlaylistListBoxItem;
+            var item = this.ListBox.SelectedItem as PlaylistItem;
             if (item is null) return;
 
             Rename(item);
@@ -148,14 +148,14 @@ namespace NeeView
 
         private void RemoveCommand_Execute(object sender, ExecutedRoutedEventArgs e)
         {
-            var items = this.ListBox.SelectedItems.Cast<PlaylistListBoxItem>().ToList();
+            var items = this.ListBox.SelectedItems.Cast<PlaylistItem>().ToList();
             _vm.Remove(items);
             ScrollIntoView();
             ////FocusSelectedItem(true);
         }
 
 
-        private void Rename(PlaylistListBoxItem item)
+        private void Rename(PlaylistItem item)
         {
             var listBox = this.ListBox;
             if (item != null)
@@ -246,7 +246,7 @@ namespace NeeView
         private async Task DragStartBehavior_DragBeginAsync(object sender, DragStartEventArgs e, CancellationToken token)
         {
             var items = this.ListBox.SelectedItems
-                .Cast<PlaylistListBoxItem>()
+                .Cast<PlaylistItem>()
                 .ToList();
 
             if (!items.Any())
@@ -284,7 +284,7 @@ namespace NeeView
         {
             var nearest = PointToViewItem(this.ListBox, e.GetPosition(this.ListBox));
 
-            var targetItem = nearest.item?.Content as PlaylistListBoxItem;
+            var targetItem = nearest.item?.Content as PlaylistItem;
             if (nearest.distance > 0.0 && _vm.Items.LastOrDefault() == targetItem)
             {
                 targetItem = null;
@@ -300,7 +300,7 @@ namespace NeeView
             if (e.Handled) return;
         }
 
-        private void DropToPlaylist(object sender, DragEventArgs e, bool isDrop, PlaylistListBoxItem targetItem, IEnumerable<PlaylistListBoxItem> dropItems)
+        private void DropToPlaylist(object sender, DragEventArgs e, bool isDrop, PlaylistItem targetItem, IEnumerable<PlaylistItem> dropItems)
         {
             if (dropItems == null || !dropItems.Any())
             {
@@ -326,7 +326,7 @@ namespace NeeView
             }
         }
 
-        private void DropToPlaylist(object sender, DragEventArgs e, bool isDrop, PlaylistListBoxItem targetItem, IEnumerable<QueryPath> queries)
+        private void DropToPlaylist(object sender, DragEventArgs e, bool isDrop, PlaylistItem targetItem, IEnumerable<QueryPath> queries)
         {
             if (queries == null || !queries.Any())
             {
@@ -353,7 +353,7 @@ namespace NeeView
             e.Handled = true;
         }
 
-        private void DropToPlaylist(object sender, DragEventArgs e, bool isDrop, PlaylistListBoxItem targetItem, IEnumerable<string> fileNames)
+        private void DropToPlaylist(object sender, DragEventArgs e, bool isDrop, PlaylistItem targetItem, IEnumerable<string> fileNames)
         {
             if (fileNames == null)
             {
@@ -470,7 +470,7 @@ namespace NeeView
         {
             if (Keyboard.Modifiers != ModifierKeys.None) return;
 
-            var item = ((sender as ListBoxItem)?.Content as PlaylistListBoxItem);
+            var item = ((sender as ListBoxItem)?.Content as PlaylistItem);
             if (!Config.Current.Panels.OpenWithDoubleClick)
             {
                 _vm.Open(item);
@@ -479,7 +479,7 @@ namespace NeeView
 
         private void PlaylistListItem_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            var item = ((sender as ListBoxItem)?.Content as PlaylistListBoxItem);
+            var item = ((sender as ListBoxItem)?.Content as PlaylistItem);
             if (Config.Current.Panels.OpenWithDoubleClick)
             {
                 _vm.Open(item);
@@ -491,7 +491,7 @@ namespace NeeView
         // 履歴項目決定(キー)
         private void PlaylistListItem_KeyDown(object sender, KeyEventArgs e)
         {
-            var item = ((sender as ListBoxItem)?.Content as PlaylistListBoxItem);
+            var item = ((sender as ListBoxItem)?.Content as PlaylistItem);
 
             if (Keyboard.Modifiers == ModifierKeys.None)
             {
@@ -550,17 +550,17 @@ namespace NeeView
 
         #region UI Accessor
 
-        public List<PlaylistListBoxItem> GetItems()
+        public List<PlaylistItem> GetItems()
         {
-            return this.ListBox.Items?.Cast<PlaylistListBoxItem>().ToList();
+            return this.ListBox.Items?.Cast<PlaylistItem>().ToList();
         }
 
-        public List<PlaylistListBoxItem> GetSelectedItems()
+        public List<PlaylistItem> GetSelectedItems()
         {
-            return this.ListBox.SelectedItems.Cast<PlaylistListBoxItem>().ToList();
+            return this.ListBox.SelectedItems.Cast<PlaylistItem>().ToList();
         }
 
-        public void SetSelectedItems(IEnumerable<PlaylistListBoxItem> selectedItems)
+        public void SetSelectedItems(IEnumerable<PlaylistItem> selectedItems)
         {
             var items = selectedItems?.Intersect(GetItems()).ToList();
             this.ListBox.SetSelectedItems(items);

@@ -15,7 +15,7 @@ namespace NeeView
         private bool _isSupportedSingleLastPage;
         private bool _isSupportedWidePage = true;
         private bool _isRecursiveFolder;
-        private PageSortMode _sortMode = PageSortMode.FileName;
+        private PageSortMode _sortMode = PageSortMode.Entry;
 
 
         // ページ

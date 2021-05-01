@@ -169,7 +169,7 @@ namespace NeeView
             RemoveBookmarkIfNotSave();
             RemovePagemarkIfNotSave();
 
-            PlaylistModel.Current.Flush();
+            PlaylisHub.Current.Flush();
         }
     }
 }

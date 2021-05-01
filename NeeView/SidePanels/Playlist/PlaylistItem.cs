@@ -4,21 +4,21 @@ using System;
 
 namespace NeeView
 {
-    public class PlaylistListBoxItem : BindableBase, IHasPage, IHasName
+    public class PlaylistItem : BindableBase, IHasPage, IHasName
     {
-        private PlaylistItem _item;
+        private PlaylistSourceItem _item;
         private string _place;
         private Page _archivePage;
 
 
-        public PlaylistListBoxItem(string path)
+        public PlaylistItem(string path)
         {
-            _item = new PlaylistItem(path);
+            _item = new PlaylistSourceItem(path);
         }
 
-        public PlaylistListBoxItem(PlaylistItem item)
+        public PlaylistItem(PlaylistSourceItem item)
         {
-            _item = new PlaylistItem(item.Path, item.Name);
+            _item = new PlaylistSourceItem(item.Path, item.Name);
         }
 
 
@@ -110,9 +110,9 @@ namespace NeeView
             return ArchivePage;
         }
 
-        public PlaylistItem ToPlaylistItem()
+        public PlaylistSourceItem ToPlaylistItem()
         {
-            return new PlaylistItem(Path, Name);
+            return new PlaylistSourceItem(Path, Name);
         }
 
         public override string ToString()

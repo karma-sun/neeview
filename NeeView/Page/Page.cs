@@ -82,6 +82,9 @@ namespace NeeView
         /// </summary>
         public PageContent ContentAccessor => _content;
 
+        // 登録番号
+        public int EntryIndex { get; set; }
+
         // ページ番号
         public int Index { get; set; }
 

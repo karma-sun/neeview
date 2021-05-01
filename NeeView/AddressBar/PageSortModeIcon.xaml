@@ -14,62 +14,72 @@
                 <ResourceDictionary Source="/Styles/SortIcons.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-        <Style TargetType="Image" x:Key="MainImage">
-            <Setter Property="Width" Value="12"/>
-            <Setter Property="Height" Value="12"/>
-            <Setter Property="VerticalAlignment" Value="Bottom"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-        </Style>
+            <Style TargetType="Image" x:Key="MainImage">
+                <Setter Property="Width" Value="12" />
+                <Setter Property="Height" Value="12" />
+                <Setter Property="VerticalAlignment" Value="Bottom" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+            </Style>
 
-        <Style TargetType="Image" x:Key="SubImage">
-            <Setter Property="Width" Value="8"/>
-            <Setter Property="Height" Value="8"/>
-            <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="HorizontalAlignment" Value="Right"/>
-        </Style>
+            <Style TargetType="Image" x:Key="SubImage">
+                <Setter Property="Width" Value="8" />
+                <Setter Property="Height" Value="8" />
+                <Setter Property="VerticalAlignment" Value="Top" />
+                <Setter Property="HorizontalAlignment" Value="Right" />
+            </Style>
 
-        <Style TargetType="Image" x:Key="SubImageUp" BasedOn="{StaticResource SubImage}">
-            <Setter Property="Source" Value="{StaticResource ic_sortex_up_24px}"/>
-        </Style>
+            <Style TargetType="Image" x:Key="SubImageUp" BasedOn="{StaticResource SubImage}">
+                <Setter Property="Source" Value="{StaticResource ic_sortex_up_24px}" />
+            </Style>
 
-        <Style TargetType="Image" x:Key="SubImageDown" BasedOn="{StaticResource SubImage}">
-            <Setter Property="Source" Value="{StaticResource ic_sortex_down_24px}"/>
-        </Style>
+            <Style TargetType="Image" x:Key="SubImageDown" BasedOn="{StaticResource SubImage}">
+                <Setter Property="Source" Value="{StaticResource ic_sortex_down_24px}" />
+            </Style>
 
 
-        <Grid x:Key="IconRandom">
-            <Image Style="{StaticResource MainImage}" Width="15" Height="15" Source="{StaticResource ic_shuffle_24px}" Margin="0,0,0,-1" />
-        </Grid>
+            <Grid x:Key="IconRandom">
+                <Image Style="{StaticResource MainImage}" Width="15" Height="15" Source="{StaticResource ic_shuffle_24px}" Margin="0,0,0,-1" />
+            </Grid>
 
-        <Grid x:Key="IconFileName">
-            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_name_24px}"/>
-            <Image Style="{StaticResource SubImageUp}"/>
-        </Grid>
+            <Grid x:Key="IconFileName">
+                <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_name_24px}" />
+                <Image Style="{StaticResource SubImageUp}" />
+            </Grid>
 
-        <Grid x:Key="IconFileNameDescending">
-            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_name_24px}"/>
-            <Image Style="{StaticResource SubImageDown}"/>
-        </Grid>
+            <Grid x:Key="IconFileNameDescending">
+                <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_name_24px}" />
+                <Image Style="{StaticResource SubImageDown}" />
+            </Grid>
 
-        <Grid x:Key="IconTimeStamp">
-            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_time_24px}" Width="15" Height="15" Margin="-2,0,0,-2"/>
-            <Image Style="{StaticResource SubImageUp}"/>
-        </Grid>
+            <Grid x:Key="IconTimeStamp">
+                <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_time_24px}" Width="15" Height="15" Margin="-2,0,0,-2" />
+                <Image Style="{StaticResource SubImageUp}" />
+            </Grid>
 
-        <Grid x:Key="IconTimeStampDescending">
-            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_time_24px}" Width="15" Height="15" Margin="-2,0,0,-2"/>
-            <Image Style="{StaticResource SubImageDown}"/>
-        </Grid>
+            <Grid x:Key="IconTimeStampDescending">
+                <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_time_24px}" Width="15" Height="15" Margin="-2,0,0,-2" />
+                <Image Style="{StaticResource SubImageDown}" />
+            </Grid>
 
-        <Grid x:Key="IconSize">
-            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_size_24px}" Width="15" Height="15" Margin="0,0,0,-2"/>
-            <Image Style="{StaticResource SubImageUp}"/>
-        </Grid>
+            <Grid x:Key="IconSize">
+                <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_size_24px}" Width="15" Height="15" Margin="0,0,0,-2" />
+                <Image Style="{StaticResource SubImageUp}" />
+            </Grid>
 
-        <Grid x:Key="IconSizeDescending">
-            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_size_24px}" Width="15" Height="15" Margin="0,0,0,-2"/>
-            <Image Style="{StaticResource SubImageDown}"/>
-        </Grid>
+            <Grid x:Key="IconSizeDescending">
+                <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_size_24px}" Width="15" Height="15" Margin="0,0,0,-2" />
+                <Image Style="{StaticResource SubImageDown}" />
+            </Grid>
+
+            <Grid x:Key="IconEntry">
+                <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_entry_24px}" Width="15" Height="15" Margin="-2,0,0,-2" />
+                <Image Style="{StaticResource SubImageUp}" />
+            </Grid>
+
+            <Grid x:Key="IconEntryDescending">
+                <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_entry_24px}" Width="15" Height="15" Margin="-2,0,0,-2" />
+                <Image Style="{StaticResource SubImageDown}" />
+            </Grid>
 
         </ResourceDictionary>
 

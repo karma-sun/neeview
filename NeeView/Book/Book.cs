@@ -43,6 +43,8 @@ namespace NeeView
         public string SourceAddress => _sourceAddress;
         public bool IsMedia => _source.IsMedia;
         public bool IsPagemarkFolder => _source.IsPagemarkFolder;
+        public bool IsPlaylist => _source.IsPlaylist;
+        public PageSortModeClass PageSortModeClass => IsPlaylist ? PageSortModeClass.WithEntry : PageSortModeClass.Normal;
         public BookLoadOption LoadOption => _loadOption;
 
         // はじめて開く本

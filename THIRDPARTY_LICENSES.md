@@ -24,8 +24,8 @@ DLL: SevenZipSharpNE.dll
 ICON: ic_help_24px, etc...
 
 * Google (C)
-* URL: [Icons - Style - Google design guidelines](https://www.google.com/design/spec/style/icons.html#icons-system-icons)
-* License: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+* URL: [Google Fonts](https://fonts.google.com/icons)
+* License: [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 ### WPFDragAndDropSample
 
@@ -75,7 +75,7 @@ ICON: pushpin, etc...
 * URL: [Icon Fonts](https://www.onlinewebfonts.com/icon)
 * License: [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/)
 
-### VirtualizingStackPanel
+### VirtualizingWrapPanel
 
 * URL: [uhimaniavwp](https://archive.codeplex.com/?p=uhimaniavwp)
 * License: [MS-PL](https://opensource.org/licenses/MS-PL)

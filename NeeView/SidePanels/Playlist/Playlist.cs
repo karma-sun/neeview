@@ -14,43 +14,68 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
-    public class PlaylistListBoxModel : BindableBase
+    public class Playlist : BindableBase
     {
-        private ObservableCollection<PlaylistListBoxItem> _items;
+        private ObservableCollection<PlaylistItem> _items;
         private string _playlistPath;
-        private SimpleDelayAction _delaySave = new SimpleDelayAction();
         private object _lock = new object();
         private bool _isDarty;
         private DateTime _lastWriteTime;
-        private SemaphoreSlim _saveSemaphore = new SemaphoreSlim(1, 1);
-        private CancellationTokenSource _cancellationTokenSource;
+        private bool _isEditable;
 
 
-        public PlaylistListBoxModel(string path)
+        public Playlist()
         {
-            PlaylistPath = path;
+        }
 
-            // NOTE: 非同期で読み込む
-            Task.Run(() => Load(path));
+        public Playlist(string path, PlaylistSource playlistFile)
+        {
+            this.Path = path;
+            this.Items = new ObservableCollection<PlaylistItem>(playlistFile.Items.Select(e => new PlaylistItem(e)));
+            this.IsEditable = true;
         }
 
 
-        public event EventHandler ItemsStateChanged;
 
-        public event EventHandler Saved;
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
 
 
-        public string PlaylistPath
+
+        public string Path
         {
             get { return _playlistPath; }
             set { SetProperty(ref _playlistPath, value); }
         }
 
-        ////public bool IsFileBusy { get; private set; }
+        public DateTime LastWriteTime
+        {
+            get { return _lastWriteTime; }
+            set { SetProperty(ref _lastWriteTime, value); }
+        }
 
-        public DateTime LastWriteTime => _lastWriteTime;
+        public bool IsEditable
+        {
+            get { return _isEditable && this.Items != null; }
+            set { SetProperty(ref _isEditable, value); }
+        }
 
-        public ObservableCollection<PlaylistListBoxItem> Items
+        public bool IsDarty
+        {
+            get { return _isDarty; }
+            set
+            {
+                if (_isDarty != value)
+                {
+                    lock (_lock)
+                    {
+                        _isDarty = value;
+                    }
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        public ObservableCollection<PlaylistItem> Items
         {
             get { return _items; }
             set
@@ -70,24 +95,11 @@ namespace NeeView
                     }
 
                     RaisePropertyChanged();
-                    ItemsStateChanged?.Invoke(this, null);
+                    CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
                 }
             }
         }
 
-
-        private bool _isEditable;
-        public bool IsEditable
-        {
-            get { return _isEditable && this.Items != null; }
-            set { SetProperty(ref _isEditable, value); }
-        }
-
-
-        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            ItemsStateChanged?.Invoke(this, null);
-        }
 
 
         public bool IsThumbnailVisibled
@@ -113,153 +125,21 @@ namespace NeeView
         }
 
 
-        public void Flush()
+
+        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            _delaySave.Flush();
+            CollectionChanged?.Invoke(this, e);
         }
 
-        public void Reload()
-        {
-            if (_playlistPath is null) return;
-
-            var playlist = LoadPlaylist(_playlistPath);
-            if (playlist != null)
-            {
-                SetPlaylist(_playlistPath, playlist);
-            }
-        }
-
-        private void Load(string path)
-        {
-            if (string.IsNullOrEmpty(path))
-            {
-                ResetPlaylist();
-                return;
-            }
-
-            var file = new FileInfo(path);
-
-            if (file.Exists)
-            {
-                var playlist = LoadPlaylist(path);
-                if (playlist != null)
-                {
-                    SetPlaylist(path, playlist);
-                    IsEditable = !file.Attributes.HasFlag(FileAttributes.ReadOnly);
-                }
-                else
-                {
-                    ResetPlaylist();
-                }
-            }
-            else
-            {
-                SetPlaylist(path, new Playlist());
-                IsEditable = true;
-                Save(true);
-            }
-        }
-
-        private Playlist LoadPlaylist(string path)
-        {
-            try
-            {
-                return PlaylistTools.Load(path);
-            }
-            catch (Exception ex)
-            {
-                ToastService.Current.Show(new Toast(ex.Message, Properties.Resources.Playlist_FailedToLoad, ToastIcon.Error));
-                return null;
-            }
-        }
-
-        private void SetPlaylist(string path, Playlist playlist)
-        {
-            if (path is null) throw new ArgumentNullException(nameof(path));
-            if (playlist is null) throw new ArgumentNullException(nameof(playlist));
-
-            lock (_lock)
-            {
-                this.Items = new ObservableCollection<PlaylistListBoxItem>(playlist.Items.Select(e => new PlaylistListBoxItem(e)));
-                this.PlaylistPath = path;
-                _isDarty = false;
-            }
-        }
-
-        private void ResetPlaylist()
+        public PlaylistSource CreatePlaylistSource()
         {
             lock (_lock)
             {
-                this.Items = null;
-                PlaylistPath = null;
-                IsEditable = false;
-                _isDarty = false;
+                return new PlaylistSource(this.Items.Select(e => e.ToPlaylistItem()));
             }
         }
 
-
-        public void DelaySave()
-        {
-            _delaySave.Request(() => Save(), TimeSpan.FromSeconds(0.5));
-        }
-
-        public void Save(bool isForce = false)
-        {
-            if (!IsEditable) return;
-            if (_playlistPath is null) return;
-            if (!_isDarty && !isForce) return;
-
-            Playlist playlist;
-
-            lock (_lock)
-            {
-                playlist = new Playlist(this.Items.Select(e => e.ToPlaylistItem()));
-                _isDarty = false;
-            }
-
-            // 非同期保存
-            _cancellationTokenSource?.Cancel();
-            _cancellationTokenSource = new CancellationTokenSource();
-            var async = SaveAsync(_playlistPath, playlist, _cancellationTokenSource.Token);
-        }
-
-        private async Task SaveAsync(string path, Playlist playlis, CancellationToken token)
-        {
-            await _saveSemaphore.WaitAsync();
-            try
-            {
-                if (!IsEditable) return;
-                token.ThrowIfCancellationRequested();
-
-                await RetryAction.RetryActionAsync(() =>
-                {
-                    _lastWriteTime = DateTime.Now;
-                    playlis.Save(path, true);
-                }
-                , 3, 1000, token);
-
-                Saved?.Invoke(this, null);
-            }
-            catch (OperationCanceledException)
-            {
-            }
-            catch (Exception ex)
-            {
-                if (IsEditable)
-                {
-                    IsEditable = false; // 以後編集不可
-                    ToastService.Current.Show(new Toast(ex.Message, Properties.Resources.Playlist_FailedToSave, ToastIcon.Error));
-                }
-            }
-            finally
-            {
-                _saveSemaphore.Release();
-            }
-        }
-
-
-
-        public PlaylistListBoxItem Find(string path)
+        public PlaylistItem Find(string path)
         {
             if (this.Items is null) return null;
 
@@ -269,14 +149,12 @@ namespace NeeView
             }
         }
 
-
-
-        public List<PlaylistListBoxItem> Insert(IEnumerable<string> paths, PlaylistListBoxItem targetItem)
+        public List<PlaylistItem> Insert(IEnumerable<string> paths, PlaylistItem targetItem)
         {
             if (!IsEditable) return null;
             if (paths is null) return null;
 
-            List<PlaylistListBoxItem> news = new List<PlaylistListBoxItem>();
+            List<PlaylistItem> news = new List<PlaylistItem>();
 
             lock (_lock)
             {
@@ -286,9 +164,9 @@ namespace NeeView
 
                 var entries = this.Items.Select(e => e.Path).ToList();
                 var entriesA = pathList.Intersect(entries).ToList();
-                var entriesB = pathList.Except(entries).Select(e => new PlaylistListBoxItem(e)).ToList();
+                var entriesB = pathList.Except(entries).Select(e => new PlaylistItem(e)).ToList();
 
-                this.Items = new ObservableCollection<PlaylistListBoxItem>(this.Items.Take(index).Concat(entriesB.Concat(this.Items.Skip(index))));
+                this.Items = new ObservableCollection<PlaylistItem>(this.Items.Take(index).Concat(entriesB.Concat(this.Items.Skip(index))));
 
                 var already = this.Items.Where(e => entriesA.IndexOf(e.Path) >= 0).ToList();
 
@@ -297,12 +175,10 @@ namespace NeeView
                 _isDarty = true;
             }
 
-            DelaySave();
-
             return news;
         }
 
-        public void Remove(IEnumerable<PlaylistListBoxItem> items)
+        public void Remove(IEnumerable<PlaylistItem> items)
         {
             if (!IsEditable) return;
             if (items is null) return;
@@ -316,8 +192,6 @@ namespace NeeView
 
                 _isDarty = true;
             }
-
-            DelaySave();
         }
 
         public async Task DeleteInvalidItemsAsync(CancellationToken token)
@@ -325,7 +199,7 @@ namespace NeeView
             if (!IsEditable) return;
 
             // 削除項目収集
-            var unlinked = new List<PlaylistListBoxItem>();
+            var unlinked = new List<PlaylistItem>();
             foreach (var node in this.Items)
             {
                 if (!await ArchiveEntryUtility.ExistsAsync(node.Path, token))
@@ -339,7 +213,7 @@ namespace NeeView
             ToastService.Current.Show(new Toast(string.Format(Properties.Resources.Playlist_DeleteItemsMessage, unlinked.Count)));
         }
 
-        public void Move(PlaylistListBoxItem item, PlaylistListBoxItem targetItem)
+        public void Move(PlaylistItem item, PlaylistItem targetItem)
         {
             if (!IsEditable) return;
             if (item is null) return;
@@ -353,11 +227,9 @@ namespace NeeView
 
                 _isDarty = true;
             }
-
-            DelaySave();
         }
 
-        public void Move(IEnumerable<PlaylistListBoxItem> items, PlaylistListBoxItem targetItem)
+        public void Move(IEnumerable<PlaylistItem> items, PlaylistItem targetItem)
         {
             if (!IsEditable) return;
             if (items is null || !items.Any()) return;
@@ -377,12 +249,10 @@ namespace NeeView
                 var isMoveDown = targetItem is null || this.Items.IndexOf(itemsA.First()) < this.Items.IndexOf(targetItem);
                 var index = targetItem is null ? itemsB.Count : itemsB.IndexOf(targetItem) + (isMoveDown ? 1 : 0);
 
-                this.Items = new ObservableCollection<PlaylistListBoxItem>(itemsB.Take(index).Concat(itemsA.Concat(itemsB.Skip(index))));
+                this.Items = new ObservableCollection<PlaylistItem>(itemsB.Take(index).Concat(itemsA.Concat(itemsB.Skip(index))));
 
                 _isDarty = true;
             }
-
-            DelaySave();
         }
 
         public void Sort()
@@ -392,14 +262,13 @@ namespace NeeView
             lock (_lock)
             {
                 var sorted = this.Items.OrderBy(e => e.Path, NaturalSort.Comparer);
-                this.Items = new ObservableCollection<PlaylistListBoxItem>(sorted);
+                this.Items = new ObservableCollection<PlaylistItem>(sorted);
+
                 _isDarty = true;
             }
-
-            DelaySave();
         }
 
-        public bool Rename(PlaylistListBoxItem item, string newName)
+        public bool Rename(PlaylistItem item, string newName)
         {
             if (!IsEditable) return false;
             if (item is null) return false;
@@ -408,17 +277,14 @@ namespace NeeView
             lock (_lock)
             {
                 item.Name = newName;
-
+                
                 _isDarty = true;
             }
-
-            DelaySave();
 
             return true;
         }
 
-
-        public void Open(PlaylistListBoxItem item)
+        public void Open(PlaylistItem item)
         {
             if (item is null) return;
 
@@ -434,8 +300,7 @@ namespace NeeView
             BookHub.Current.RequestLoad(this, item.Path, null, options, true);
         }
 
-
-        public bool CanMoveUp(PlaylistListBoxItem item)
+        public bool CanMoveUp(PlaylistItem item)
         {
             if (!IsEditable) return false;
             if (item is null) return false;
@@ -451,7 +316,7 @@ namespace NeeView
             return true;
         }
 
-        public void MoveUp(PlaylistListBoxItem item)
+        public void MoveUp(PlaylistItem item)
         {
             if (!CanMoveUp(item)) return;
 
@@ -462,7 +327,7 @@ namespace NeeView
             Move(item, target);
         }
 
-        public bool CanMoveDown(PlaylistListBoxItem item)
+        public bool CanMoveDown(PlaylistItem item)
         {
             if (!IsEditable) return false;
             if (item is null) return false;
@@ -479,7 +344,7 @@ namespace NeeView
             return true;
         }
 
-        public void MoveDown(PlaylistListBoxItem item)
+        public void MoveDown(PlaylistItem item)
         {
             if (!CanMoveDown(item)) return;
 
@@ -491,7 +356,134 @@ namespace NeeView
             Move(item, target);
         }
 
+
+        #region Save
+
+        private SimpleDelayAction _delaySave = new SimpleDelayAction();
+        private SemaphoreSlim _saveSemaphore = new SemaphoreSlim(1, 1);
+        private CancellationTokenSource _cancellationTokenSource;
+
+        public void DelaySave(Action savedCallback)
+        {
+            _delaySave.Request(() => Save(savedCallback), TimeSpan.FromSeconds(1.0));
+        }
+
+        public void Flush()
+        {
+            _delaySave.Flush();
+
+            // NOTE: 確実に処理の終了を待つ
+            _saveSemaphore.Wait();
+            _saveSemaphore.Release();
+        }
+
+        public void CancelSave()
+        {
+            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource = null;
+        }
+
+        public void Save(Action savedCallback, bool isForce = false)
+        {
+            if (!this.IsEditable) return;
+            if (this.Path is null) return;
+
+            PlaylistSource source;
+            lock (_lock)
+            {
+                if (!_isDarty && !isForce) return;
+                source = CreatePlaylistSource();
+                _isDarty = false;
+            }
+
+            // 非同期保存
+            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource = new CancellationTokenSource();
+            Task.Run(async () => await SaveAsync(this.Path, source, savedCallback, _cancellationTokenSource.Token));
+        }
+
+        private async Task SaveAsync(string path, PlaylistSource source, Action SavedCallback, CancellationToken token)
+        {
+            await _saveSemaphore.WaitAsync();
+            try
+            {
+                if (!this.IsEditable) return;
+                token.ThrowIfCancellationRequested();
+
+                await RetryAction.RetryActionAsync(() =>
+                {
+                    this.LastWriteTime = DateTime.Now;
+                    source.Save(path, true);
+                }
+                , 3, 1000, token);
+
+                SavedCallback?.Invoke();
+            }
+            catch (OperationCanceledException)
+            {
+            }
+            catch (Exception ex)
+            {
+                if (this.IsEditable)
+                {
+                    this.IsEditable = false; // 以後編集不可
+                    ToastService.Current.Show(new Toast(ex.Message, Properties.Resources.Playlist_FailedToSave, ToastIcon.Error));
+                }
+            }
+            finally
+            {
+                _saveSemaphore.Release();
+            }
+        }
+
+        #endregion Save
+
+        #region Load
+
+        public static Playlist Load(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                return new Playlist();
+            }
+
+            var file = new FileInfo(path);
+
+            if (file.Exists)
+            {
+                var playlistFile = LoadPlaylist(path);
+                if (playlistFile != null)
+                {
+                    var playlist = new Playlist(path, playlistFile);
+                    playlist.IsEditable = !file.Attributes.HasFlag(FileAttributes.ReadOnly);
+                    return playlist;
+                }
+                else
+                {
+                    return new Playlist();
+                }
+            }
+            else
+            {
+                var playlist = new Playlist(path, new PlaylistSource());
+                playlist.IsDarty = true;
+                return playlist;
+            }
+        }
+
+        private static PlaylistSource LoadPlaylist(string path)
+        {
+            try
+            {
+                return PlaylistSourceTools.Load(path);
+            }
+            catch (Exception ex)
+            {
+                ToastService.Current.Show(new Toast(ex.Message, Properties.Resources.Playlist_FailedToLoad, ToastIcon.Error));
+                return null;
+            }
+        }
+
+        #endregion Load
     }
-
-
 }

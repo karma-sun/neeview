@@ -19,6 +19,7 @@ namespace NeeView
 
 
         private PageSortMode _pageSortMode;
+        private PageSortModeClass _pageSortModeClass = PageSortModeClass.Full;
         private Page _selectedItem;
         private List<Page> _selectedItems;
         private List<Page> _viewItems = new List<Page>();
@@ -96,6 +97,24 @@ namespace NeeView
             set { _pageSortMode = value; BookSettingPresenter.Current.SetSortMode(value); }
         }
 
+        public Dictionary<PageSortMode, string> PageSortModeList
+        {
+            get { return _pageSortModeClass.GetPageSortModeMap(); }
+        }
+
+        public PageSortModeClass PageSortModeClass
+        {
+            get { return _pageSortModeClass; }
+            set
+            {
+                if (SetProperty(ref _pageSortModeClass, value))
+                {
+                    RaisePropertyChanged(nameof(PageSortModeList));
+                }
+            }
+        }
+
+
 
         // ページリスト(表示部用)
         public ObservableCollection<Page> PageCollection => BookOperation.Current.PageList;
@@ -172,7 +191,8 @@ namespace NeeView
             RaisePropertyChanged(nameof(PageCollection));
             RaisePropertyChanged(nameof(PlaceDispString));
 
-            _pageSortMode = BookSettingPresenter.Current.LatestSetting.SortMode;
+            PageSortModeClass = BookOperation.Current.Book != null ? BookOperation.Current.Book.PageSortModeClass : PageSortModeClass.Full;
+            PageSortMode = PageSortModeClass.ValidatePageSortMode(BookSettingPresenter.Current.LatestSetting.SortMode);
             RaisePropertyChanged(nameof(PageSortMode));
 
             RefreshSelectedItem();

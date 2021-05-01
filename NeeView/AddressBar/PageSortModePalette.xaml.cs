@@ -1,9 +1,6 @@
-﻿using NeeLaboratory.ComponentModel;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,13 +47,13 @@ namespace NeeView
         #endregion
 
 
-        private PageSortMdePaletteViewModel _vm;
+        private PageSortModePaletteViewModel _vm;
 
         public PageSortModePalette()
         {
             InitializeComponent();
 
-            _vm = new PageSortMdePaletteViewModel();
+            _vm = new PageSortModePaletteViewModel();
             this.Root.DataContext = _vm;
 
             this.Loaded += (s, e) => this.Items.Focus();
@@ -136,17 +133,6 @@ namespace NeeView
             }
 
             element.MoveFocus(new TraversalRequest(direction));
-        }
-    }
-
-    public class PageSortMdePaletteViewModel : BindableBase
-    {
-        public List<PageSortMode> PageSortModeList => Enum.GetValues(typeof(PageSortMode)).Cast<PageSortMode>().ToList();
-
-
-        public void Decide(PageSortMode mode)
-        {
-            BookSettingPresenter.Current.SetSortMode(mode);
         }
     }
 

@@ -13,28 +13,6 @@ namespace NeeView
     /// </summary>
     public class BitmapInfo
     {
-        #region Properties
-
-        public int PixelWidth { get; private set; }
-        public int PixelHeight { get; private set; }
-        public int BitsPerPixel { get; private set; }
-        public bool IsMirrorHorizontal { get; private set; }
-        public bool IsMirrorVertical { get; private set; }
-        public Rotation Rotation { get; private set; }
-        public double DpiX { get; private set; }
-        public double DpiY { get; private set; }
-        public double AspectWidth { get; private set; }
-        public double AspectHeight { get; private set; }
-        public int FrameCount { get; private set; }
-        public BitmapMetadataDatabase Metadata { get; private set; }
-
-        // 転置？
-        public bool IsTranspose => (this.Rotation == Rotation.Rotate90 || this.Rotation == Rotation.Rotate270);
-
-        #endregion
-
-        #region Constructors
-
         public BitmapInfo()
         {
         }
@@ -44,7 +22,7 @@ namespace NeeView
             this.PixelWidth = bitmapFrame.PixelWidth;
             this.PixelHeight = bitmapFrame.PixelHeight;
             this.BitsPerPixel = bitmapFrame.Format.BitsPerPixel;
-            this.Metadata = new BitmapMetadataDatabase((bitmapFrame.Decoder.Metadata ?? bitmapFrame.Metadata) as BitmapMetadata);
+            this.Metadata = new BitmapMetadataDatabase(GetBitmapMetadata(bitmapFrame));
             this.FrameCount = bitmapFrame.Decoder is GifBitmapDecoder gifBitmapDecoder ? gifBitmapDecoder.Frames.Count : 1;
             this.DpiX = bitmapFrame.DpiX;
             this.DpiY = bitmapFrame.DpiY;
@@ -85,9 +63,42 @@ namespace NeeView
             }
         }
 
-        #endregion
 
-        #region Methods
+        public int PixelWidth { get; private set; }
+        public int PixelHeight { get; private set; }
+        public int BitsPerPixel { get; private set; }
+        public bool IsMirrorHorizontal { get; private set; }
+        public bool IsMirrorVertical { get; private set; }
+        public Rotation Rotation { get; private set; }
+        public double DpiX { get; private set; }
+        public double DpiY { get; private set; }
+        public double AspectWidth { get; private set; }
+        public double AspectHeight { get; private set; }
+        public int FrameCount { get; private set; }
+        public BitmapMetadataDatabase Metadata { get; private set; }
+
+        // 転置？
+        public bool IsTranspose => (this.Rotation == Rotation.Rotate90 || this.Rotation == Rotation.Rotate270);
+
+
+
+        private BitmapMetadata GetBitmapMetadata(BitmapFrame bitmapFrame)
+        {
+            if (bitmapFrame.Decoder is GifBitmapDecoder decoder)
+            {
+                try
+                {
+                    return decoder.Metadata ?? (bitmapFrame.Metadata as BitmapMetadata);
+                }
+                catch
+                {
+                    // nop.
+                }
+            }
+
+            return bitmapFrame.Metadata as BitmapMetadata;
+        }
+
 
         public Size GetPixelSize()
         {
@@ -99,9 +110,6 @@ namespace NeeView
             return (this.AspectWidth == 0.0 || this.AspectHeight == 0.0) ? Size.Empty : new Size(this.AspectWidth, this.AspectHeight);
         }
 
-        #endregion
-
-        #region Static Methods
 
         public static BitmapInfo Create(Stream stream)
         {
@@ -119,7 +127,6 @@ namespace NeeView
             }
         }
 
-        #endregion
 
         #region 開発用
 
@@ -150,12 +157,12 @@ namespace NeeView
                     }
                     else
                     {
-                        System.Diagnostics.Debug.WriteLine($"{query}: {element?.ToString()}");
+                        Debug.WriteLine($"{query}: {element?.ToString()}");
                     }
                 }
                 else
                 {
-                    System.Diagnostics.Debug.WriteLine($"{prefix}: {name}");
+                    Debug.WriteLine($"{prefix}: {name}");
                 }
             }
         }

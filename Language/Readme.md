@@ -86,9 +86,9 @@ No dedicated script is used. Use only .NET Frameworl tools commands.
 
 1. [Open Visual Studio Developer Command Prompt](https://docs.microsoft.com/en-us/visualstudio/ide/reference/command-prompt-powershell?view=vs-2019)
 
-2. Execute the commands as follows. 
+2. Create a dll
 
-[//]: #
+Execute the commands as follows. 
 
     e.g. "Resource.de-DE.restext" to "NeeView.Resource.dll"
     > ResGen.exe Resources.de-DE.restext NeeView.Properties.Resources.de-DE.resources

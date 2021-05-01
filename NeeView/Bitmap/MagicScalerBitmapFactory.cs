@@ -14,6 +14,12 @@ namespace NeeView
     /// </summary>
     public class MagicScalerBitmapFactory : IBitmapFactory
     {
+        static MagicScalerBitmapFactory()
+        {
+            MagicImageProcessor.EnableXmpOrientation = true;
+        }
+
+
         // 注意: sourceは上書きされます
         private ProcessImageSettings CreateSetting(Size size, FileFormat format, ProcessImageSettings source)
         {
@@ -75,7 +81,7 @@ namespace NeeView
 
             setting = CreateSetting(size, CreateFormat(format), setting);
             setting.JpegQuality = quality;
-
+            
             MagicImageProcessor.ProcessImage(stream, outStream, setting);
         }
 

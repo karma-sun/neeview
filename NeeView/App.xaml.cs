@@ -189,7 +189,7 @@ namespace NeeView
             UserSettingTools.Restore(setting, new ObjectMergeOption() { IsIgnoreEnabled = false });
 
             // ページマークのプレイリスト変換
-            if (setting.Format.CompareTo(new FormatVersion(Environment.SolutionName, 39, 0, 0)) < 0)
+            if (setting?.Format != null && setting.Format.CompareTo(new FormatVersion(Environment.SolutionName, 39, 0, 0)) < 0)
             {
                 PagemarkToPlaylistConverter.PagemarkToPlaylist();
             }

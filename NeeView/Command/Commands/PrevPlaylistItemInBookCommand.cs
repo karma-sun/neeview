@@ -2,32 +2,32 @@
 
 namespace NeeView
 {
-    public class PrevPagemarkInBookCommand : CommandElement
+    public class PrevPlaylistItemInBookCommand : CommandElement
     {
-        public PrevPagemarkInBookCommand()
+        public PrevPlaylistItemInBookCommand()
         {
-            this.Group = Properties.Resources.CommandGroup_Pagemark;
+            this.Group = Properties.Resources.CommandGroup_Playlist;
             this.IsShowMessage = false;
 
-            this.ParameterSource = new CommandParameterSource(new MovePagemarkInBookCommandParameter());
+            this.ParameterSource = new CommandParameterSource(new MovePlaylsitItemInBookCommandParameter());
         }
 
         public override bool CanExecute(object sender, CommandContext e)
         {
-            return BookOperation.Current.CanPrevPagemarkInPlace((MovePagemarkInBookCommandParameter)e.Parameter);
+            return BookOperation.Current.CanPrevMarkInPlace((MovePlaylsitItemInBookCommandParameter)e.Parameter);
         }
 
         public override void Execute(object sender, CommandContext e)
         {
-            BookOperation.Current.PrevPagemarkInPlace((MovePagemarkInBookCommandParameter)e.Parameter);
+            BookOperation.Current.PrevMarkInPlace((MovePlaylsitItemInBookCommandParameter)e.Parameter);
         }
     }
 
 
     /// <summary>
-    /// ページマーク移動用パラメータ
+    /// プレイリスト項目移動用パラメータ
     /// </summary>
-    public class MovePagemarkInBookCommandParameter : CommandParameter
+    public class MovePlaylsitItemInBookCommandParameter : CommandParameter
     {
         private bool _isLoop;
         private bool _isIncludeTerminal;

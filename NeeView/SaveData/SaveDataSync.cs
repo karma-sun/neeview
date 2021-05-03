@@ -18,18 +18,15 @@ namespace NeeView
 
 
         private DelayAction _delaySaveBookmark;
-        private DelayAction _delaySavePagemark;
 
 
         private SaveDataSync()
         {
             _delaySaveBookmark = new DelayAction(App.Current.Dispatcher, TimeSpan.FromSeconds(0.2), () => SaveBookmark(true), TimeSpan.FromSeconds(0.5));
-            _delaySavePagemark = new DelayAction(App.Current.Dispatcher, TimeSpan.FromSeconds(0.2), () => SavePagemark(true), TimeSpan.FromSeconds(0.5));
 
             RemoteCommandService.Current.AddReciever("LoadUserSetting", LoadUserSetting);
             RemoteCommandService.Current.AddReciever("LoadHistory", LoadHistory);
             RemoteCommandService.Current.AddReciever("LoadBookmark", LoadBookmark);
-            RemoteCommandService.Current.AddReciever("LoadPagemark", LoadPagemark);
         }
 
 
@@ -43,7 +40,6 @@ namespace NeeView
                 if (disposing)
                 {
                     _delaySaveBookmark.Dispose();
-                    _delaySavePagemark.Dispose();
                 }
                 _disposedValue = true;
             }
@@ -59,7 +55,6 @@ namespace NeeView
         public void Initialize()
         {
             BookmarkCollection.Current.BookmarkChanged += BookmarkCollection_BookmarkChanged;
-            PagemarkCollection.Current.PagemarkChanged += PagemarkCollection_PagemarkChanged;
         }
 
         private void BookmarkCollection_BookmarkChanged(object sender, BookmarkCollectionChangedEventArgs e)
@@ -68,16 +63,9 @@ namespace NeeView
             _delaySaveBookmark.Request();
         }
 
-        private void PagemarkCollection_PagemarkChanged(object sender, PagemarkCollectionChangedEventArgs e)
-        {
-            if (e.Action == EntryCollectionChangedAction.Reset) return;
-            _delaySavePagemark.Request();
-        }
-
         public void Flush()
         {
             _delaySaveBookmark.Flush();
-            _delaySavePagemark.Flush();
         }
 
         private void LoadUserSetting(RemoteCommand command)
@@ -97,12 +85,6 @@ namespace NeeView
         {
             Debug.WriteLine($"{SaveData.BookmarkFileName} is updated by other process.");
             SaveData.Current.LoadBookmark();
-        }
-
-        private void LoadPagemark(RemoteCommand command)
-        {
-            Debug.WriteLine($"{SaveData.PagemarkFileName} is updated by other process.");
-            SaveData.Current.LoadPagemark();
         }
 
         public void SaveUserSetting(bool sync)
@@ -141,21 +123,6 @@ namespace NeeView
             SaveData.Current.RemoveBookmarkIfNotSave();
         }
 
-        public void SavePagemark(bool sync)
-        {
-            Debug.WriteLine($"Save Pagemark");
-            SaveData.Current.SavePagemark();
-            if (sync)
-            {
-                RemoteCommandService.Current.Send(new RemoteCommand("LoadPagemark"), RemoteCommandDelivery.All);
-            }
-        }
-
-        public void RemovePagemarkIfNotSave()
-        {
-            SaveData.Current.RemovePagemarkIfNotSave();
-        }
-
         /// <summary>
         /// すべてのセーブ処理を行う
         /// </summary>
@@ -165,11 +132,9 @@ namespace NeeView
             SaveUserSetting(sync);
             SaveHistory();
             SaveBookmark(sync);
-            SavePagemark(sync);
             RemoveBookmarkIfNotSave();
-            RemovePagemarkIfNotSave();
 
-            PlaylisHub.Current.Flush();
+            PlaylistHub.Current.Flush();
         }
     }
 }

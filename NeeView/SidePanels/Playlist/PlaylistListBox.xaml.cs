@@ -567,6 +567,28 @@ namespace NeeView
             this.ListBox.ScrollItemsIntoView(items);
         }
 
+        public bool CanMovePrevious()
+        {
+            return _vm.CanMovePrevious();
+        }
+
+        public void MovePrevious()
+        {
+            _vm.MovePrevious();
+            this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
+        }
+
+        public bool CanMoveNext()
+        {
+            return _vm.CanMoveNext();
+        }
+
+        public void MoveNext()
+        {
+            _vm.MoveNext();
+            this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
+        }
+
         #endregion UI Accessor
     }
 }

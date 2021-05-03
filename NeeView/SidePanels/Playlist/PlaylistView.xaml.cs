@@ -31,7 +31,7 @@ namespace NeeView
             InitializeCommand();
         }
 
-        public PlaylistView(PlaylisHub model) : this()
+        public PlaylistView(PlaylistHub model) : this()
         {
             _vm = new PlaylistViewModel(model);
             this.DockPanel.DataContext = _vm;

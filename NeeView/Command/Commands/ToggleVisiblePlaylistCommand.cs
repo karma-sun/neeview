@@ -4,9 +4,9 @@ using System.Windows.Data;
 
 namespace NeeView
 {
-    public class ToggleVisiblePagemarkListCommand : CommandElement
+    public class ToggleVisiblePlaylistCommand : CommandElement
     {
-        public ToggleVisiblePagemarkListCommand()
+        public ToggleVisiblePlaylistCommand()
         {
             this.Group = Properties.Resources.CommandGroup_Panel;
             this.ShortCutKey = "M";
@@ -15,12 +15,12 @@ namespace NeeView
 
         public override Binding CreateIsCheckedBinding()
         {
-            return new Binding(nameof(SidePanelFrame.IsVisiblePagemarkList)) { Source = SidePanelFrame.Current };
+            return new Binding(nameof(SidePanelFrame.IsVisiblePlaylist)) { Source = SidePanelFrame.Current };
         }
 
         public override string ExecuteMessage(object sender, CommandContext e)
         {
-            return SidePanelFrame.Current.IsVisiblePagemarkList ? Properties.Resources.ToggleVisiblePagemarkListCommand_Off : Properties.Resources.ToggleVisiblePagemarkListCommand_On;
+            return SidePanelFrame.Current.IsVisiblePlaylist ? Properties.Resources.ToggleVisiblePlaylistCommand_Off : Properties.Resources.ToggleVisiblePlaylistCommand_On;
         }
 
         [MethodArgument("@ToggleCommand.Execute.Remarks")]
@@ -28,11 +28,11 @@ namespace NeeView
         {
             if (e.Args.Length > 0)
             {
-                SidePanelFrame.Current.SetVisiblePagemarkList(Convert.ToBoolean(e.Args[0]), true);
+                SidePanelFrame.Current.SetVisiblePlaylist(Convert.ToBoolean(e.Args[0]), true);
             }
             else
             {
-                SidePanelFrame.Current.ToggleVisiblePagemarkList(e.Options.HasFlag(CommandOption.ByMenu));
+                SidePanelFrame.Current.ToggleVisiblePlaylist(e.Options.HasFlag(CommandOption.ByMenu));
             }
         }
     }

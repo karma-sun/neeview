@@ -34,14 +34,14 @@ namespace NeeView
         public static readonly RoutedCommand MoveToFolderCommand = new RoutedCommand(nameof(MoveToFolderCommand), typeof(FileInformationView));
         public static readonly RoutedCommand OpenDestinationFolderCommand = new RoutedCommand(nameof(OpenDestinationFolderCommand), typeof(FileInformationView));
         public static readonly RoutedCommand OpenExternalAppDialogCommand = new RoutedCommand(nameof(OpenExternalAppDialogCommand), typeof(FileInformationView));
-        public static readonly RoutedCommand PagemarkCommand = new RoutedCommand(nameof(PagemarkCommand), typeof(FileInformationView));
+        public static readonly RoutedCommand PlaylistMarkCommand = new RoutedCommand(nameof(PlaylistMarkCommand), typeof(FileInformationView));
 
         private InformationPageCommandResource _commandResource = new InformationPageCommandResource();
 
         private static void InitializeCommandStatic()
         {
             CopyCommand.InputGestures.Add(new KeyGesture(Key.C, ModifierKeys.Control));
-            PagemarkCommand.InputGestures.Add(new KeyGesture(Key.M, ModifierKeys.Control));
+            PlaylistMarkCommand.InputGestures.Add(new KeyGesture(Key.M, ModifierKeys.Control));
         }
 
         private void InitializeCommand()
@@ -53,7 +53,7 @@ namespace NeeView
             this.ThumbnailListBox.CommandBindings.Add(_commandResource.CreateCommandBinding(MoveToFolderCommand));
             this.ThumbnailListBox.CommandBindings.Add(_commandResource.CreateCommandBinding(OpenDestinationFolderCommand));
             this.ThumbnailListBox.CommandBindings.Add(_commandResource.CreateCommandBinding(OpenExternalAppDialogCommand));
-            this.ThumbnailListBox.CommandBindings.Add(_commandResource.CreateCommandBinding(PagemarkCommand));
+            this.ThumbnailListBox.CommandBindings.Add(_commandResource.CreateCommandBinding(PlaylistMarkCommand));
         }
 
         #endregion RoutedCommand
@@ -127,7 +127,7 @@ namespace NeeView
             contextMenu.Items.Clear();
 
             var listBox = this.ThumbnailListBox;
-            contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PageListItem_Menu_Pagemark, Command = PagemarkCommand, IsChecked = _commandResource.Pagemark_IsChecked(listBox) });
+            contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PageListItem_Menu_AddToPlaylist, Command = PlaylistMarkCommand, IsChecked = _commandResource.PlaylistMark_IsChecked(listBox) });
             contextMenu.Items.Add(new Separator());
             contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PageListItem_Menu_Explorer, Command = OpenExplorerCommand });
             contextMenu.Items.Add(ExternalAppCollectionUtility.CreateExternalAppItem(_commandResource.OpenExternalApp_CanExecute(listBox), OpenExternalAppCommand, OpenExternalAppDialogCommand));

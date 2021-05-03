@@ -326,7 +326,10 @@ namespace NeeView.Runtime.LayoutPanel
             Clear();
             foreach (var item in memento.Panels.Select(e => new LayoutPanelCollection(e.Where(x => LayoutPanelManager.Panels.ContainsKey(x)).Select(x => LayoutPanelManager.Panels[x]))))
             {
-                Add(item);
+                if (item.Any())
+                {
+                    Add(item);
+                }
             }
             SelectedItem = Items.FirstOrDefault(e => e.Any(x => x.Key == memento.SelectedItem));
         }

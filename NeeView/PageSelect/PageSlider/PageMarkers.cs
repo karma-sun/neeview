@@ -29,7 +29,7 @@ namespace NeeView
                 (s, e) => Update();
             _bookOperation.PageRemoved +=
                 (s, e) => Update();
-            _bookOperation.PagemarkChanged +=
+            _bookOperation.MarkersChanged +=
                 (s, e) => Update();
         }
 

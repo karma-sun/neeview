@@ -73,7 +73,6 @@ namespace NeeView
 
                 BookHistoryCollection.Current.Rename(src, dst);
                 BookmarkCollection.Current.Rename(src, dst);
-                PagemarkCollection.Current.Rename(src, dst);
             }
         }
 

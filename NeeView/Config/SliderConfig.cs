@@ -18,7 +18,7 @@ namespace NeeView
         private bool _isHidePageSliderInAutoHideMode = true;
         private bool _isSyncPageMode;
         private bool _isEnabled = true;
-        private bool _isVisiblePagemark = true;
+        private bool _isVisiblePlaylistMark = true;
         private double _thickness = 25.0;
         private Color _color = Colors.SteelBlue;
 
@@ -60,12 +60,12 @@ namespace NeeView
             set { SetProperty(ref _isHidePageSliderInAutoHideMode, value); }
         }
 
-        // ページマーク表示
+        // プレイリストマーク表示
         [PropertyMember]
-        public bool IsVisiblePagemark
+        public bool IsVisiblePlaylistMark
         {
-            get { return _isVisiblePagemark; }
-            set { SetProperty(ref _isVisiblePagemark, value); }
+            get { return _isVisiblePlaylistMark; }
+            set { SetProperty(ref _isVisiblePlaylistMark, value); }
         }
 
         // スライダーの厚さ

@@ -64,10 +64,6 @@ namespace NeeView
                     {
                         text = Properties.Resources.BookAddressInfo_Bookmark;
                     }
-                    else if (query.Scheme == QueryScheme.Pagemark)
-                    {
-                        text = Properties.Resources.BookAddressInfo_Pagemark;
-                    }
                 }
                 return text ?? Properties.Resources.BookAddressInfo_Invalid;
             }

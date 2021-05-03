@@ -74,7 +74,6 @@ namespace NeeView
             RaisePropertyChanged(nameof(IsVisibleFolderList));
             RaisePropertyChanged(nameof(IsVisibleHistoryList));
             RaisePropertyChanged(nameof(IsVisibleBookmarkList));
-            RaisePropertyChanged(nameof(IsVisiblePagemarkList));
             RaisePropertyChanged(nameof(IsVisiblePageList));
             RaisePropertyChanged(nameof(IsVisibleFileInfo));
             RaisePropertyChanged(nameof(IsVisibleEffectInfo));
@@ -236,25 +235,6 @@ namespace NeeView
         {
             return ToggleVisiblePanel(nameof(BookmarkPanel), byMenu);
         }
-
-
-        // ページマークリスト表示ON/OFF
-        public bool IsVisiblePagemarkList
-        {
-            get { return IsVisiblePanel(nameof(PagemarkPanel)); }
-            set { SetVisiblePanel(nameof(PagemarkPanel), value); }
-        }
-
-        public void SetVisiblePagemarkList(bool isVisible, bool flush)
-        {
-            SetVisiblePanel(nameof(PagemarkPanel), isVisible);
-        }
-
-        public bool ToggleVisiblePagemarkList(bool byMenu)
-        {
-            return ToggleVisiblePanel(nameof(PagemarkPanel), byMenu);
-        }
-
 
         // プレイリスト表示ON/OFF
         public bool IsVisiblePlaylist

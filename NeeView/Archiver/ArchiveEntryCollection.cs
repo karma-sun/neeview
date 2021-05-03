@@ -117,7 +117,7 @@ namespace NeeView
             }
 
             Archiver = rootArchiver;
-            Mode = (Archiver is PagemarkArchiver) ? ArchiveEntryCollectionMode.IncludeSubDirectories : (Archiver.IsFileSystem ? _mode : _modeIfArchive);
+            Mode = Archiver.IsFileSystem ? _mode : _modeIfArchive;
 
             var includeSubDirectories = Mode == ArchiveEntryCollectionMode.IncludeSubDirectories || Mode == ArchiveEntryCollectionMode.IncludeSubArchives;
             var entries = await rootArchiver.GetEntriesAsync(rootArchiverPath, includeSubDirectories, token);

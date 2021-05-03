@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace NeeView
 {
-    public static class UserSettingExcentions
+    public static class UserSettingValidator
     {
         // 互換性処理
         public static UserSetting Validate(this UserSetting self)
@@ -56,6 +56,9 @@ namespace NeeView
                     self.Config.Panels.RightPanelSeleted = null;
                 }
                 Debug.WriteLine($"PanelLayout done");
+
+                self.Commands?.ValidateRename(CommandNameValidator.RenameMap_38_0_0);
+                self.ContextMenu?.ValidateRename(CommandNameValidator.RenameMap_38_0_0);
             }
 
             // ver.39
@@ -73,6 +76,13 @@ namespace NeeView
                 {
                     self.Config.Fonts.FolderTreeFontScale = self.Config.Panels.FolderTreeFontSize_Legacy / SystemVisualParameters.Current.MessageFontSize;
                 }
+
+                if (self.Config.PagemarkLegacy != null)
+                {
+                    self.Config.Playlist.PanelListItemStyle = self.Config.PagemarkLegacy.PanelListItemStyle;
+                }
+
+                self.Config.Panels.Layout?.ValidateRename("PagemarkPanel", nameof(PlaylistPanel));
 
                 switch (self.Config.System.Language)
                 {
@@ -92,6 +102,9 @@ namespace NeeView
                 {
                     self.Config.BookSetting.SortMode = PageSortMode.EntryDescending;
                 }
+
+                self.Commands?.ValidateRename(CommandNameValidator.RenameMap_39_0_0);
+                self.ContextMenu?.ValidateRename(CommandNameValidator.RenameMap_39_0_0);
             }
 
             return self;
@@ -99,5 +112,87 @@ namespace NeeView
         }
     }
 
+
+    public static class CommandNameValidator
+    {
+        public static Dictionary<string, string> RenameMap_38_0_0 { get; } = new Dictionary<string, string>()
+        {
+            ["TogglePermitFileCommand"] = "TogglePermitFile",
+            ["FocusPrevAppCommand"] = "FocusPrevApp",
+            ["FocusNextAppCommand"] = "FocusNextApp",
+        };
+
+        public static Dictionary<string, string> RenameMap_39_0_0 { get; } = new Dictionary<string, string>()
+        {
+            ["ToggleVisiblePagemarkList"] = "ToggleVisiblePlaylist",
+            ["TogglePagemark"] = "TogglePlaylistMark",
+            ["PrevPagemark"] = "PrevPlaylistItem",
+            ["NextPagemark"] = "NextPlaylistItem",
+            ["PrevPagemarkInBook"] = "PrevPlaylistItemInBook",
+            ["NextPagemarkInBook"] = "NextPlaylistItemInBook",
+        };
+
+        public static void ValidateRename(this CommandCollection commandCollection, Dictionary<string, string> renameMap)
+        {
+            foreach (var pair in renameMap)
+            {
+                Rename(pair.Key, pair.Value);
+            }
+
+            void Rename(string oldName, string newName)
+            {
+                if (commandCollection.TryGetValue(oldName, out var element))
+                {
+                    commandCollection[newName] = element;
+                    commandCollection.Remove(oldName);
+                }
+            }
+        }
+
+        public static void ValidateRename(this MenuNode contextMenu, Dictionary<string, string> renameMap)
+        {
+            foreach (var node in contextMenu.GetEnumerator())
+            {
+                if (node.CommandName != null && renameMap.TryGetValue(node.CommandName, out var newName))
+                {
+                    node.CommandName = newName;
+                }
+            }
+        }
+    }
+
+    public static class LayoutPanelValidator
+    {
+        public static void ValidateRename(this LayoutPanelManager.Memento self, string oldName, string newName)
+        {
+            if (self is null) return;
+
+            if (self.Panels != null && self.Panels.TryGetValue(oldName, out var value))
+            {
+                self.Panels.Remove(oldName);
+                self.Panels.Add(newName, value);
+            }
+
+            if (self.Docks != null)
+            {
+                foreach (var dock in self.Docks.Values)
+                {
+                    dock.SelectedItem = dock.SelectedItem == oldName ? newName : dock.SelectedItem;
+
+                    dock.Panels = dock.Panels
+                        .Select(e => e.Select(x => x == oldName ? newName : x).ToList())
+                        .ToList();
+                }
+            }
+
+            if (self.Windows != null)
+            {
+                self.Windows.Panels = self.Windows.Panels
+                    .Select(x => x == oldName ? newName : x)
+                    .ToList();
+            }
+        }
+
+    }
 
 }

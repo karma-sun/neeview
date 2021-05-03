@@ -59,7 +59,6 @@ namespace NeeView
                 nameof(NavigatePanel),
                 nameof(ImageEffectPanel),
                 nameof(BookmarkPanel),
-                nameof(PagemarkPanel),
                 nameof(PlaylistPanel),
             };
 

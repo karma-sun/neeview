@@ -77,9 +77,6 @@ namespace NeeView
             htmlBuilder.Append(typeof(BookmarkPanelAccessor));
             htmlBuilder.Append(typeof(BookmarkItemAccessor));
 
-            htmlBuilder.Append(typeof(PagemarkPanelAccessor));
-            htmlBuilder.Append(typeof(PagemarkItemAccessor));
-
             htmlBuilder.Append(typeof(PlaylistPanelAccessor));
             htmlBuilder.Append(typeof(PlaylistItemAccessor));
 

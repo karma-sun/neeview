@@ -4,6 +4,7 @@ using NeeView.IO;
 using NeeView.Threading;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -16,10 +17,10 @@ using System.Windows.Controls;
 
 namespace NeeView
 {
-    public class PlaylisHub : BindableBase
+    public class PlaylistHub : BindableBase
     {
-        static PlaylisHub() => Current = new PlaylisHub();
-        public static PlaylisHub Current { get; }
+        static PlaylistHub() => Current = new PlaylistHub();
+        public static PlaylistHub Current { get; }
 
         private List<object> _playlistCollection;
         private Playlist _playlist;
@@ -28,7 +29,7 @@ namespace NeeView
         private bool _isPlaylistDarty;
 
 
-        private PlaylisHub()
+        private PlaylistHub()
         {
             if (SelectedItem != Config.Current.Playlist.DefaultPlaylist)
             {
@@ -49,6 +50,9 @@ namespace NeeView
             BookOperation.Current.BookChanged +=
                 (s, e) => RaisePropertyChanged(nameof(FilterMessage));
 
+            // NOTE: 応急処置
+            BookOperation.Current.LinkPlaylistHub(this);
+
             this.AddPropertyChanged(nameof(SelectedItem),
                 (s, e) => SelectedItemChanged());
 
@@ -56,13 +60,13 @@ namespace NeeView
         }
 
 
-        public event EventHandler PlaylistCollectionChanged;
+        public event NotifyCollectionChangedEventHandler PlaylistCollectionChanged;
 
 
         public string DefaultPlaylist => Config.Current.Playlist.DefaultPlaylist;
         public string NewPlaylist => Path.Combine(Config.Current.Playlist.PlaylistFolder, "NewPlaylist.nvpls");
 
-        public List<object> PlaylistCollection
+        public List<object> PlaylistFiles
         {
             get
             {
@@ -108,6 +112,7 @@ namespace NeeView
                     }
 
                     RaisePropertyChanged();
+                    PlaylistCollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
                 }
             }
         }
@@ -120,15 +125,15 @@ namespace NeeView
         }
 
 
-        private void Playlist_CollectionChanged(object sender, EventArgs e)
+        private void Playlist_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             this.Playlist?.DelaySave(StartPlaylistWatch);
-            PlaylistCollectionChanged?.Invoke(this, null);
+            PlaylistCollectionChanged?.Invoke(this, e);
         }
 
         private void SelectedItemChanged()
         {
-            if (!this.PlaylistCollection.Contains(SelectedItem))
+            if (!this.PlaylistFiles.Contains(SelectedItem))
             {
                 UpdatePlaylistCollection();
             }
@@ -178,7 +183,7 @@ namespace NeeView
                     items.AddRange(externals);
                 }
 
-                this.PlaylistCollection = items;
+                this.PlaylistFiles = items;
                 this.SelectedItem = selectedItem;
             }
             finally

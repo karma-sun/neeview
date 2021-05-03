@@ -52,7 +52,7 @@ namespace NeeView
         private PageContent _content;
         private IContentLoader _contentLoader;
         private bool _isVisibled;
-        private bool _isPagemark;
+        private bool _isMarked;
 
 
         /// <summary>
@@ -158,10 +158,10 @@ namespace NeeView
             set { SetProperty(ref _isVisibled, value); }
         }
 
-        public bool IsPagemark
+        public bool IsMarked
         {
-            get { return _isPagemark; }
-            set { SetProperty(ref _isPagemark, value); }
+            get { return _isMarked; }
+            set { SetProperty(ref _isMarked, value); }
         }
 
         /// <summary>
@@ -294,18 +294,8 @@ namespace NeeView
         public string GetFolderOpenPlace()
         {
             Debug.Assert(Entry?.Archiver != null);
-            if (Entry.Archiver is PagemarkArchiver)
-            {
-                if (Entry.Instance is ArchiveEntry archiveEntry && archiveEntry.Archiver != null)
-                {
-                    return archiveEntry.Archiver.GetSourceFileSystemPath();
-                }
-                else
-                {
-                    return Entry.GetFileSystemPath();
-                }
-            }
-            else if (Entry.Archiver is FolderArchive)
+
+            if (Entry.Archiver is FolderArchive)
             {
                 return GetFilePlace();
             }

@@ -101,6 +101,6 @@
     <SolidColorBrush x:Key="SelectedMark.Foreground" Color="#FFFFA500" />
     <SolidColorBrush x:Key="CheckIcon.Foreground" Color="#FF90EE90" />
     <SolidColorBrush x:Key="BookmarkIcon.Foreground" Color="#FFFFA500" />
-    <SolidColorBrush x:Key="PagemarkIcon.Foreground" Color="#FFFFA500" />
+    <SolidColorBrush x:Key="PlaylistItemIcon.Foreground" Color="#FFFFA500" />
 
 </ResourceDictionary>

@@ -149,6 +149,23 @@ namespace NeeView
             }
         }
 
+        // TODO: 指数的に重くなるので改善を
+        public List<PlaylistItem> Collect(IEnumerable<string> paths)
+        {
+            if (paths is null) return new List<PlaylistItem>();
+
+            lock(_lock)
+            {
+                return  paths.Select(e => this.Items.FirstOrDefault(x => x.Path == e)).Where(e => e != null).ToList();
+            }
+        }
+
+        public List<PlaylistItem> Add(IEnumerable<string> paths)
+        {
+            var targetItem = Config.Current.Playlist.IsFirstIn ? this.Items.FirstOrDefault() : null;
+            return Insert(paths, targetItem);
+        }
+
         public List<PlaylistItem> Insert(IEnumerable<string> paths, PlaylistItem targetItem)
         {
             if (!IsEditable) return null;
@@ -485,5 +502,137 @@ namespace NeeView
         }
 
         #endregion Load
+    }
+
+
+    public class BookPlaylist
+    {
+        private Book _book;
+        private Playlist _playlist;
+
+        public BookPlaylist(Book book, Playlist playlist)
+        {
+            _book = book ?? throw new ArgumentNullException(nameof(book));
+            _playlist = playlist;
+        }
+
+        public bool IsEnabled(Page page)
+        {
+            if (page is null)
+            {
+                return false;
+            }
+
+            if (_playlist is null || !_playlist.IsEditable)
+            {
+                return false;
+            }
+
+            if (_book.IsMedia || _book.IsPlaylist || _book.IsTemporary)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool Contains(Page page)
+        {
+            if (_playlist is null) return false;
+            if (page is null) return false;
+
+            return Find(page) != null;
+        }
+
+        public PlaylistItem Find(Page page)
+        {
+            if (_playlist is null) return null;
+            if (page is null) return null;
+
+            return _playlist.Find(page.SystemPath);
+        }
+
+        public PlaylistItem Add(Page page)
+        {
+            if (_playlist is null) return null;
+            if (page is null) return null;
+
+            return Add(new List<Page> { page })?.FirstOrDefault();
+        }
+
+        public List<PlaylistItem> Add(IEnumerable<Page> pages)
+        {
+            if (_playlist is null) return null;
+            if (pages is null) return null;
+
+            return _playlist.Add(pages.Select(e => e.SystemPath).ToList());
+        }
+
+
+        public bool Remove(Page page)
+        {
+            if (_playlist is null) return false;
+            if (page is null) return false;
+
+            return Remove(new List<Page> { page });
+        }
+
+        public bool Remove(IEnumerable<Page> pages)
+        {
+            if (_playlist is null) return false;
+            if (pages is null) return false;
+
+            var items = _playlist.Collect(pages.Select(e => e.SystemPath).ToList());
+            if (items.Any())
+            {
+                _playlist.Remove(items);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public PlaylistItem Set(Page page, bool isEntry)
+        {
+            if (_playlist is null) return null;
+            if (page is null) return null;
+
+            if (isEntry)
+            {
+                return Add(page);
+            }
+            else
+            {
+                Remove(page);
+                return null;
+            }
+        }
+
+        public PlaylistItem Toggle(Page page)
+        {
+            if (_playlist is null) return null;
+            if (page is null) return null;
+
+            return Set(page, Find(page) is null);
+        }
+
+        // TODO: 指数的に重くなるので対策を
+        public List<Page> Collect()
+        {
+            if (_playlist?.Items is null) return new List<Page>();
+
+            var items = _playlist.Items.Where(e => e.Path.StartsWith(_book.Address)).Select(e => e.Path).ToList();
+            if (items.Any())
+            {
+                return _book.Pages.Where(e => items.Contains(e.SystemPath)).ToList();
+            }
+            else
+            {
+                return new List<Page>();
+            }
+        }
+
     }
 }

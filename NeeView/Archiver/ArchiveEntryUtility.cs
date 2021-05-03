@@ -24,23 +24,6 @@ namespace NeeView
             {
                 return ArchiveEntry.Create(path);
             }
-            else if (query.Scheme == QueryScheme.Pagemark)
-            {
-                if (query.Path == null)
-                {
-                    return ArchiveEntry.Create(query);
-                }
-                else
-                {
-                    var archiver = await ArchiverManager.Current.CreateArchiverAsync(ArchiveEntry.Create(new QueryPath(QueryScheme.Pagemark)), false, token);
-                    var entries = await archiver.GetEntriesAsync(token);
-                    var entry = entries.FirstOrDefault(e => e.EntryName == query.FileName);
-                    if (entry != null)
-                    {
-                        return entry;
-                    }
-                }
-            }
             else
             {
                 try

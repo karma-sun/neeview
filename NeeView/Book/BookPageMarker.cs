@@ -54,11 +54,27 @@ namespace NeeView
 
             foreach (var page in oldies.Where(e => !Markers.Contains(e)))
             {
-                page.IsPagemark = false;
+                page.IsMarked = false;
             }
             foreach (var page in Markers)
             {
-                page.IsPagemark = true;
+                page.IsMarked = true;
+            }
+        }
+
+
+        public void SetMarkers(IEnumerable<Page> pages)
+        {
+            var oldies = Markers;
+            Markers = pages.ToList();
+
+            foreach (var page in oldies.Where(e => !Markers.Contains(e)))
+            {
+                page.IsMarked = false;
+            }
+            foreach (var page in Markers)
+            {
+                page.IsMarked = true;
             }
         }
 

@@ -78,15 +78,6 @@ namespace NeeView
         {
             this.SourceAddress = sourceQuery ?? query;
 
-            // ページマークはそのまま
-            if (query.Scheme == QueryScheme.Pagemark)
-            {
-                this.Address = new QueryPath(QueryScheme.Pagemark);
-                this.EntryName = entryName;
-                this.Place = new QueryPath(QueryScheme.Root);
-                return;
-            }
-
             // ブックマークは実体のパスへ
             if (query.Scheme == QueryScheme.Bookmark)
             {
@@ -212,7 +203,7 @@ namespace NeeView
             return full.Substring(address.SimplePath.Length, full.Length - address.SimplePath.Length).TrimStart(LoosePath.Separators);
         }
 
-        #endregion
+#endregion
     }
 
 }

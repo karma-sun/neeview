@@ -19,16 +19,16 @@ namespace NeeView
 {
     public class PlaylistViewModel : BindableBase
     {
-        private PlaylisHub _model;
+        private PlaylistHub _model;
 
 
-        public PlaylistViewModel(PlaylisHub model)
+        public PlaylistViewModel(PlaylistHub model)
         {
             _model = model;
 
             MoreMenuDescription = new PlaylistMoreMenuDescription(this);
 
-            _model.AddPropertyChanged(nameof(_model.PlaylistCollection), Model_PlaylistCollectionChanged);
+            _model.AddPropertyChanged(nameof(_model.PlaylistFiles), Model_PlaylistFilesChanged);
             _model.AddPropertyChanged(nameof(_model.SelectedItem), Model_SelectedItemChanged);
             _model.AddPropertyChanged(nameof(_model.FilterMessage), (s, e) => RaisePropertyChanged(nameof(FilterMessage)));
         }
@@ -42,9 +42,9 @@ namespace NeeView
         public EventHandler RenameRequest;
 
 
-        public List<object> PlaylistCollection
+        public List<object> PlaylistFiles
         {
-            get => _model.PlaylistCollection;
+            get => _model.PlaylistFiles;
         }
 
         public string SelectedItem
@@ -60,9 +60,9 @@ namespace NeeView
 
 
 
-        private void Model_PlaylistCollectionChanged(object sender, PropertyChangedEventArgs e)
+        private void Model_PlaylistFilesChanged(object sender, PropertyChangedEventArgs e)
         {
-            RaisePropertyChanged(nameof(PlaylistCollection));
+            RaisePropertyChanged(nameof(PlaylistFiles));
         }
 
         private void Model_SelectedItemChanged(object sender, PropertyChangedEventArgs e)

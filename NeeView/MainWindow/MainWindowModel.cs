@@ -251,9 +251,6 @@ namespace NeeView
             // ブックマーク読み込み
             SaveData.Current.LoadBookmark();
 
-            // ページマーク読込
-            SaveData.Current.LoadPagemark();
-
             // SaveDataSync活動開始
             SaveDataSync.Current.Initialize();
 

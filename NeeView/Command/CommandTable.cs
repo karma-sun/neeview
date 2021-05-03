@@ -79,7 +79,7 @@ namespace NeeView
 
         public Dictionary<string, CommandElement> Elements => _elements;
 
-        public List<string> ObsoleteCommands { get; private set; }
+        public Dictionary<string, string> ObsoleteCommands { get; private set; }
 
         #region IDictionary Support
 
@@ -209,7 +209,7 @@ namespace NeeView
                 new ToggleVisibleBookshelfCommand(),
                 new ToggleVisiblePageListCommand(),
                 new ToggleVisibleBookmarkListCommand(),
-                new ToggleVisiblePagemarkListCommand(),
+                new ToggleVisiblePlaylistCommand(),
                 new ToggleVisibleHistoryListCommand(),
                 new ToggleVisibleFileInfoCommand(),
                 new ToggleVisibleNavigatorCommand(),
@@ -322,11 +322,11 @@ namespace NeeView
                 new SetDefaultPageSettingCommand(),
 
                 new ToggleBookmarkCommand(),
-                new TogglePagemarkCommand(),
-                new PrevPagemarkCommand(),
-                new NextPagemarkCommand(),
-                new PrevPagemarkInBookCommand(),
-                new NextPagemarkInBookCommand(),
+                new TogglePlaylistItemCommand(),
+                new PrevPlaylistItemCommand(),
+                new NextPlaylistItemCommand(),
+                new PrevPlaylistItemInBookCommand(),
+                new NextPlaylistItemInBookCommand(),
 
                 new ToggleCustomSizeCommand(),
 
@@ -390,7 +390,7 @@ namespace NeeView
             _elements["SetStretchModeUniformToSize"].SetShare(_elements["SetStretchModeUniform"]);
             _elements["SetStretchModeUniformToVertical"].SetShare(_elements["SetStretchModeUniform"]);
             _elements["SetStretchModeUniformToHorizontal"].SetShare(_elements["SetStretchModeUniform"]);
-            _elements["NextPagemarkInBook"].SetShare(_elements["PrevPagemarkInBook"]);
+            _elements["NextPlaylistItemInBook"].SetShare(_elements["PrevPlaylistItemInBook"]);
             _elements["ViewScrollNTypeDown"].SetShare(_elements["ViewScrollNTypeUp"]);
             _elements["ViewScrollDown"].SetShare(_elements["ViewScrollUp"]);
             _elements["ViewScrollLeft"].SetShare(_elements["ViewScrollUp"]);
@@ -404,9 +404,15 @@ namespace NeeView
             DefaultMemento = CreateCommandCollectionMemento();
 
             // 廃棄されたコマンド
-            ObsoleteCommands = new List<string>()
+            ObsoleteCommands = new Dictionary<string, string>()
             {
-                "ToggleVisibleTitleBar",
+                ["ToggleVisibleTitleBar"] = null,
+                ["ToggleVisiblePagemarkList"] = "ToggleVisiblePlaylist",
+                ["TogglePagemark"] = "TogglePlaylistMark",
+                ["PrevPagemark"] = "PrevPlaylistItem",
+                ["NextPagemark"] = "NextPlaylistItem",
+                ["PrevPagemarkInBook"] = "PrevPlaylistItemInBook",
+                ["NextPagemarkInBook"] = "NextPlaylistItemInBook",
             };
         }
 
@@ -734,6 +740,16 @@ namespace NeeView
                 ["FocusNextAppCommand"] = "FocusNextApp",
             };
 
+            public static Dictionary<string, string> RenameMap_39_0_0 = new Dictionary<string, string>()
+            {
+                ["ToggleVisiblePagemarkList"] = "ToggleVisiblePlaylist",
+                ["TogglePagemark"] = "TogglePlaylistMark",
+                ["PrevPagemark"] = "PrevPlaylistItem",
+                ["NextPagemark"] = "NextPlaylistItem",
+                ["PrevPagemarkInBook"] = "PrevPlaylistItemInBook",
+                ["NextPagemarkInBook"] = "NextPlaylistItemInBook",
+            };
+
             public int _Version { get; set; } = Environment.ProductVersionNumber;
 
             [DataMember, DefaultValue(true)]
@@ -850,6 +866,14 @@ namespace NeeView
                 if (_Version < Environment.GenerateProductVersionNumber(38, 0, 0))
                 {
                     foreach (var pair in RenameMap_38_0_0)
+                    {
+                        Rename(pair.Key, pair.Value);
+                    }
+                }
+
+                if (_Version < Environment.GenerateProductVersionNumber(39, 0, 0))
+                {
+                    foreach (var pair in RenameMap_39_0_0)
                     {
                         Rename(pair.Key, pair.Value);
                     }
@@ -975,5 +999,7 @@ namespace NeeView
             }
             return clone;
         }
+
     }
+
 }

@@ -42,8 +42,8 @@ namespace NeeView
                 // アーカイブのアンロック
                 ////await Task.Run(() => BookOperation.Current.Unlock());
 
-                ////ページマーク多数登録テスト
-                ////Models.Current.BookOperation.Test_MakeManyPagemark();
+                ////プレイリスト多数登録テスト
+                ////BookOperation.Current.Test_MakeManyMarkers();
 
                 // キャッシュ削除(1分前)
                 ThumbnailCache.Current.Delete(TimeSpan.FromMinutes(1));

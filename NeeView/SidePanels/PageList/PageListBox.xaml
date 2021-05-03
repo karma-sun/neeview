@@ -35,7 +35,7 @@
             <DrawingImage.Drawing>
                 <DrawingGroup Opacity="1">
                     <DrawingGroup.Children>
-                        <GeometryDrawing Brush="{DynamicResource PagemarkIcon.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_bookmark_24px}" />
+                        <GeometryDrawing Brush="{DynamicResource PlaylistItemIcon.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_bookmark_24px}" />
                     </DrawingGroup.Children>
                 </DrawingGroup>
             </DrawingImage.Drawing>
@@ -109,11 +109,11 @@
             <Setter Property="Visibility" Value="{Binding IsVisibled, Converter={StaticResource BooleanToVisibilityHiddenConverter}}"/>
         </Style>
 
-        <Style x:Key="PagemarkIconStyle" TargetType="Image" >
+        <Style x:Key="PageMarkStyle" TargetType="Image" >
             <Setter Property="Width" Value="12"/>
             <Setter Property="Height" Value="12"/>
             <Setter Property="Source" Value="{StaticResource ic_bookmark_24px}"/>
-            <Setter Property="Visibility" Value="{Binding IsPagemark, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <Setter Property="Visibility" Value="{Binding IsMarked, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             <Setter Property="Margin" Value="3" />
         </Style>
 
@@ -129,7 +129,7 @@
             <DockPanel MinHeight="20">
                 <Rectangle Style="{StaticResource VerticalSelectedStyle}" />
                 <Image DockPanel.Dock="Right" Style="{StaticResource FolderIconStyle}" Margin="1" />
-                <Image DockPanel.Dock="Right" Style="{StaticResource PagemarkIconStyle}" Margin="1" />
+                <Image DockPanel.Dock="Right" Style="{StaticResource PageMarkStyle}" Margin="1" />
                 <TextBlock Style="{StaticResource NormalNameStyle}" Margin="5,1" />
             </DockPanel>
         </DataTemplate>
@@ -140,7 +140,7 @@
                 <DockPanel Margin="2" LastChildFill="False">
                     <local:PanelListContentImage Thumbnail="{Binding Thumbnail}" />
                     <Image DockPanel.Dock="Right" Style="{StaticResource FolderIconStyle}" />
-                    <Image DockPanel.Dock="Right" Style="{StaticResource PagemarkIconStyle}" />
+                    <Image DockPanel.Dock="Right" Style="{StaticResource PageMarkStyle}" />
                     <StackPanel VerticalAlignment="Center">
                         <TextBlock Style="{StaticResource NoteTextStyle}" Text="{Binding Converter={StaticResource PageToNoteConverter}}" />
                         <TextBlock Style="{StaticResource ContentNameStyle}" Margin="5,0" />
@@ -155,7 +155,7 @@
                 <DockPanel Margin="0,0" HorizontalAlignment="Stretch" LastChildFill="False">
                     <DockPanel DockPanel.Dock="Bottom" Margin="2">
                         <Image DockPanel.Dock="Right" Style="{StaticResource FolderIconStyle}" />
-                        <Image DockPanel.Dock="Right" Style="{StaticResource PagemarkIconStyle}" />
+                        <Image DockPanel.Dock="Right" Style="{StaticResource PageMarkStyle}" />
                         <TextBlock Style="{StaticResource BannerrNameStyle}" />
                     </DockPanel>
                     <local:PanelListBannerImage Thumbnail="{Binding Thumbnail}" />
@@ -169,7 +169,7 @@
                 <Rectangle DockPanel.Dock="Bottom" Style="{StaticResource HorizontalSelectedStyle}" Margin="-5,0,-5,2"/>
                 <DockPanel>
                     <Image DockPanel.Dock="Right" Style="{StaticResource FolderIconStyle}" VerticalAlignment="Top"/>
-                    <Image DockPanel.Dock="Right" Style="{StaticResource PagemarkIconStyle}" VerticalAlignment="Top"/>
+                    <Image DockPanel.Dock="Right" Style="{StaticResource PageMarkStyle}" VerticalAlignment="Top"/>
                     <TextBlock Style="{StaticResource ThumbnailNameStyle}" HorizontalAlignment="Center"/>
                 </DockPanel>
             </StackPanel>

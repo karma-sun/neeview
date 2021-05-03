@@ -121,10 +121,6 @@ namespace NeeView
                 {
                     return Link;
                 }
-                else if (Instance is TreeListNode<IPagemarkEntry> pagemarkEntry && pagemarkEntry.Value is Pagemark pagemark)
-                {
-                    return pagemark.FullName;
-                }
                 else
                 {
                     return EntryFullName;
@@ -260,11 +256,6 @@ namespace NeeView
                 return true;
             }
 
-            if (Instance is TreeListNode<IPagemarkEntry> node && node.Value is PagemarkFolder)
-            {
-                return true;
-            }
-
             return ArchiverManager.Current.IsSupported(EntryName, false, true);
         }
 
@@ -277,11 +268,6 @@ namespace NeeView
             if (this.IsDirectory)
             {
                 return this.IsFileSystem; // アーカイブディレクトリは除外
-            }
-
-            if (Instance is TreeListNode<IPagemarkEntry> node && node.Value is PagemarkFolder)
-            {
-                return true;
             }
 
             return ArchiverManager.Current.IsSupported(EntryName, false, false);
@@ -396,12 +382,6 @@ namespace NeeView
                         // アーカイブパス等、ファイル名に使用できない文字が含まれている場合がある
                     }
                     break;
-
-                case QueryScheme.Pagemark:
-                    Debug.Assert(query.Path == null, "Not support pagemark entry.");
-                    entry.RawEntryName = QueryScheme.Pagemark.ToSchemeString();
-                    entry.IsValid = false; // NOTE: サムネイル生成しないため、無効にしておく
-                    return entry;
             }
 
             Debug.WriteLine("ArchiveEntry.Create: Not complete.");

@@ -37,8 +37,8 @@ namespace NeeView
                     return new CommandBinding(command, OpenDestinationFolderDialog_Execute);
                 case "OpenExternalAppDialogCommand":
                     return new CommandBinding(command, OpenExternalAppDialog_Execute);
-                case "PagemarkCommand":
-                    return new CommandBinding(command, Pagemark_Execute, Pagemark_CanExecute);
+                case "PlaylistMarkCommand":
+                    return new CommandBinding(command, PlaylistMark_Execute, PlaylistMark_CanExecute);
                 default:
                     throw new ArgumentOutOfRangeException(nameof(key));
             }
@@ -358,15 +358,18 @@ namespace NeeView
             ExternalAppDialog.ShowDialog(Window.GetWindow(listBox));
         }
 
-        /// <summary>
-        /// ページマーク
-        /// </summary>
-        public void Pagemark_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+
+        public void PlaylistMark_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
+            var book = BookOperation.Current.Book;
+            if (book is null) return;
+
             var items = GetSelectedPages(sender);
+            var bookPlaylist = new BookPlaylist(book, PlaylistHub.Current.Playlist);
+
             if (items != null && items.Count > 0)
             {
-                e.CanExecute = items.All(x => PagemarkUtility.CanPagemark(x));
+                e.CanExecute = items.All(x => bookPlaylist.IsEnabled(x));
             }
             else
             {
@@ -374,32 +377,32 @@ namespace NeeView
             }
         }
 
-        public void Pagemark_Execute(object sender, ExecutedRoutedEventArgs e)
+        public void PlaylistMark_Execute(object sender, ExecutedRoutedEventArgs e)
         {
-            var items = GetSelectedPages(sender);
-            if (items != null && items.Count > 0)
+            var book = BookOperation.Current.Book;
+            if (book is null) return;
+
+            var pages = GetSelectedPages(sender);
+            var bookPlaylist = new BookPlaylist(book, PlaylistHub.Current.Playlist);
+
+            if (PlaylistMark_IsChecked(sender))
             {
-                if (items.Any(x => PagemarkUtility.GetPagemark(x) is null))
-                {
-                    foreach (var item in items)
-                    {
-                        PagemarkUtility.AddPagemark(item);
-                    }
-                }
-                else
-                {
-                    foreach (var item in items)
-                    {
-                        PagemarkUtility.RemovePagemark(item);
-                    }
-                }
+                bookPlaylist.Remove(pages);
+            }
+            else
+            {
+                bookPlaylist.Add(pages);
             }
         }
 
-        public bool Pagemark_IsChecked(object sender)
+        public bool PlaylistMark_IsChecked(object sender)
         {
-            var item = GetSelectedPage(sender);
-            return PagemarkUtility.GetPagemark(item) != null;
+            var book = BookOperation.Current.Book;
+            if (book is null) return false;
+
+            var page = GetSelectedPage(sender);
+            var bookPlaylist = new BookPlaylist(book, PlaylistHub.Current.Playlist);
+            return bookPlaylist.Find(page) != null;
         }
     }
 

@@ -188,6 +188,12 @@ namespace NeeView
             // 設定の適用
             UserSettingTools.Restore(setting, new ObjectMergeOption() { IsIgnoreEnabled = false });
 
+            // ページマークのプレイリスト変換
+            if (setting.Format.CompareTo(new FormatVersion(Environment.SolutionName, 39, 0, 0)) < 0)
+            {
+                PagemarkToPlaylistConverter.PagemarkToPlaylist();
+            }
+
             // 画像拡張子初期化
             if (Config.Current.Image.Standard.SupportFileTypes is null)
             {

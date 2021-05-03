@@ -34,14 +34,11 @@ namespace NeeView
                 case nameof(BookmarkPanel):
                     return new BookmarkPanel(BookmarkFolderList.Current);
 
-                case nameof(PagemarkPanel):
-                    return new PagemarkPanel(PagemarkList.Current);
-
                 case nameof(PageListPanel):
                     return new PageListPanel(PageList.Current);
 
                 case nameof(PlaylistPanel):
-                    return new PlaylistPanel(PlaylisHub.Current);
+                    return new PlaylistPanel(PlaylistHub.Current);
 
                 default:
                     throw new NotSupportedException();

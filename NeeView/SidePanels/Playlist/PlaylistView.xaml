@@ -54,10 +54,10 @@
         <StackPanel DockPanel.Dock="Top">
 
             <DockPanel Margin="0" KeyboardNavigation.TabNavigation="Local">
-                
+
                 <local:MoreMenuButton DockPanel.Dock="Right" Description="{Binding MoreMenuDescription}" VerticalAlignment="Center" TabIndex="2" />
 
-                <ComboBox x:Name="PlaylistComboBox" ItemsSource="{Binding PlaylistCollection}" SelectedItem="{Binding SelectedItem}" VerticalAlignment="Center"  TabIndex="1">
+                <ComboBox x:Name="PlaylistComboBox" ItemsSource="{Binding PlaylistFiles}" SelectedItem="{Binding SelectedItem}" VerticalAlignment="Center" TabIndex="1">
                     <ComboBox.Resources>
                         <DataTemplate DataType="{x:Type sys:String}">
                             <TextBlock x:Name="NameTextBlock" Text="{Binding Converter={StaticResource PathToFileNameWithoutExtensionConverter}}" />
@@ -70,10 +70,10 @@
             </DockPanel>
 
             <TextBlock Text="{Binding FilterMessage}" Margin="8,0" Visibility="{Binding FilterMessage, Converter={StaticResource StringNullOrWhiteSpaceToVisibilityConverter}}" />
-            
+
         </StackPanel>
 
-        <ContentControl x:Name="ListBoxContent" Focusable="False" Margin="0,2,0,5"/>
+        <ContentControl x:Name="ListBoxContent" Focusable="False" Margin="0,2,0,5" />
 
     </DockPanel>
 </UserControl>

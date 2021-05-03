@@ -75,7 +75,7 @@
 
     </UserControl.Resources>
 
-    <Border MinWidth="300" MaxWidth="500" MinHeight="100" Margin="20,40" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="{DynamicResource Toast.Background}"
+    <Border MinWidth="400" MaxWidth="500" MinHeight="100" Margin="20,40" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="{DynamicResource Toast.Background}"
             BorderBrush="{DynamicResource Toast.Border}" BorderThickness="1" RenderTransformOrigin="1,1">
         <Border.RenderTransform>
             <TranslateTransform X="0" />

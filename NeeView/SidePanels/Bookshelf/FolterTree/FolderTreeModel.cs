@@ -38,7 +38,6 @@ namespace NeeView
         private RootQuickAccessNode _rootQuickAccess;
         private RootDirectoryNode _rootDirectory;
         private RootBookmarkFolderNode _rootBookmarkFolder;
-        ////private RootPagemarkFolderNode _rootPagemarkFolder;
 
         // Constructors
 
@@ -168,11 +167,6 @@ namespace NeeView
         public void SelectRootBookmarkFolder()
         {
             SelectedItem = _rootBookmarkFolder;
-        }
-
-        public void SelectRootPagemarkFolder()
-        {
-            ////SelectedItem = _rootPagemarkFolder;
         }
 
         public void Decide(object item)
@@ -311,7 +305,7 @@ namespace NeeView
                     var count = item.BookmarkSource.Count(e => e.Value is Bookmark);
                     if (count > 0)
                     {
-                        var toast = new Toast(string.Format(Properties.Resources.PagemarkFolderDelete_Message, count), null, ToastIcon.Information, Properties.Resources.Word_Restore, () => BookmarkCollection.Current.Restore(memento));
+                        var toast = new Toast(string.Format(Properties.Resources.BookmarkFolderDelete_Message, count), null, ToastIcon.Information, Properties.Resources.Word_Restore, () => BookmarkCollection.Current.Restore(memento));
                         ToastService.Current.Show("FolderList", toast);
                     }
                 }
@@ -422,8 +416,6 @@ namespace NeeView
                     return _rootDirectory.GetFolderTreeNode(path.Path, createChildren, asFarAsPossible);
                 case QueryScheme.Bookmark:
                     return _rootBookmarkFolder.GetFolderTreeNode(path.Path, createChildren, asFarAsPossible);
-                ////case QueryScheme.Pagemark:
-                ////    return _rootPagemarkFolder.GetFolderTreeNode(path.Path, createChildren, asFarAsPossible);
                 case QueryScheme.QuickAccess:
                     return _rootBookmarkFolder.GetFolderTreeNode(path.Path, createChildren, asFarAsPossible);
                 default:

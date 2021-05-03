@@ -9,14 +9,16 @@ namespace NeeView
         private string _name;
 
 
-        public ObsoleteCommandAccessor(string commandName)
+        public ObsoleteCommandAccessor(string commandName, string replaceName)
         {
             _name = commandName;
+
+            ObsoleteMessage = $"Script: nv.Command.{_name} is obsolete." + (replaceName != null ? $" Use {replaceName} instead." : "");
         }
 
 
         [Obsolete]
-        public string ObsoleteMessage => $"Script: nv.Command.{_name} is obsolete.";
+        public string ObsoleteMessage { get; } 
 
         [Obsolete]
         public bool IsShowMessage

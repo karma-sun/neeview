@@ -106,6 +106,6 @@
     "SelectedMark.Foreground": "#FFFFA500",
     "CheckIcon.Foreground": "#FF90EE90",
     "BookmarkIcon.Foreground": "#FFFFA500",
-    "PagemarkIcon.Foreground": "#FFFFA500"
+    "PlaylistItemIcon.Foreground": "#FFFFA500"
   }
 }

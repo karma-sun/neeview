@@ -56,7 +56,7 @@ namespace NeeView
         [AliasName] ImageScale,
         [AliasName] Move,
         [AliasName] Other,
-        [AliasName] Pagemark,
+        [AliasName] Playlist,
         [AliasName] PageOrder,
         [AliasName] PageSetting,
         [AliasName] Panel,

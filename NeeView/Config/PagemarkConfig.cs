@@ -1,10 +1,12 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Controls;
 using NeeView.Windows.Property;
+using System;
 using System.Text.Json.Serialization;
 
 namespace NeeView
 {
+    [Obsolete]
     public class PagemarkConfig : BindableBase, IHasPanelListItemStyle
     {
         private PanelListItemStyle _panelListItemStyle = PanelListItemStyle.Content;

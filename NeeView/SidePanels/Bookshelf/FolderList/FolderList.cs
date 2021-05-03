@@ -1418,11 +1418,6 @@ namespace NeeView
             }
 
             var query = item.TargetPath;
-            if (query.Scheme != QueryScheme.Pagemark && query.Path == null)
-            {
-                return;
-            }
-
             var additionalOption = BookLoadOption.IsBook | (item.CanRemove() ? BookLoadOption.None : BookLoadOption.Undeliteable);
             BookHub.Current.RequestLoad(this, query.SimplePath, null, option | additionalOption, IsSyncBookshelfEnabled);
         }
@@ -1577,7 +1572,7 @@ namespace NeeView
 
             if (count >= 2)
             {
-                var toast = new Toast(string.Format(Properties.Resources.PagemarkFolderDelete_Message, count), null, ToastIcon.Information, Properties.Resources.Word_Restore,
+                var toast = new Toast(string.Format(Properties.Resources.BookmarkFolderDelete_Message, count), null, ToastIcon.Information, Properties.Resources.Word_Restore,
                     () => { foreach (var memento in mementos) BookmarkCollection.Current.Restore(memento); });
                 ToastService.Current.Show("BookmarkList", toast);
             }
@@ -1657,7 +1652,7 @@ namespace NeeView
 
 
 
-        #region Memento
+#region Memento
 
         [DataContract]
         public class Memento : IMemento
@@ -1696,7 +1691,7 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
     }
 
 }

@@ -31,14 +31,12 @@ namespace NeeView
         [PropertyMapLabel("@Word.Bookmark")]
         public BookmarkConfig Bookmark { get; set; } = new BookmarkConfig();
 
-        public PagemarkConfig Pagemark { get; set; } = new PagemarkConfig();
-
         public PlaylistConfig Playlist { get; set; } = new PlaylistConfig();
 
         public WindowConfig Window { get; set; } = new WindowConfig();
 
         public ThemeConfig Theme { get; set; } = new ThemeConfig();
-        
+
         public FontsConfig Fonts { get; set; } = new FontsConfig();
 
         public BackgroundConfig Background { get; set; } = new BackgroundConfig();
@@ -110,6 +108,27 @@ namespace NeeView
 
         public ScriptConfig Script { get; set; } = new ScriptConfig();
 
+
+        #region Obsolete
+
+        [Obsolete]
+        private PagemarkConfig _pagemark = new PagemarkConfig();
+
+        [Obsolete("Use Playlist instead.")] // ver.39
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public PagemarkConfig Pagemark
+        {
+            get { return null; }
+            set { _pagemark = value; }
+        }
+
+        [Obsolete, PropertyMapIgnore]
+        public PagemarkConfig PagemarkLegacy
+        {
+            get { return _pagemark; }
+        }
+
+        #endregion
 
         #region Validate
 

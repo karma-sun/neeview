@@ -42,8 +42,9 @@ namespace NeeView
         public string Address => _source.Address;
         public string SourceAddress => _sourceAddress;
         public bool IsMedia => _source.IsMedia;
-        public bool IsPagemarkFolder => _source.IsPagemarkFolder;
         public bool IsPlaylist => _source.IsPlaylist;
+        public bool IsTemporary => _source.Address.StartsWith(Temporary.Current.TempDirectory);
+
         public PageSortModeClass PageSortModeClass => IsPlaylist ? PageSortModeClass.WithEntry : PageSortModeClass.Normal;
         public BookLoadOption LoadOption => _loadOption;
 

@@ -115,10 +115,6 @@ namespace NeeView
                 }
                 return FindNode(Items, path.Path.Split(LoosePath.Separators));
             }
-            else if (path.Scheme == QueryScheme.Pagemark)
-            {
-                return Items.FirstOrDefault(e => e.Value is Bookmark bookmark && bookmark.Path == path.SimplePath);
-            }
             else if (path.Scheme == QueryScheme.File)
             {
                 return Items.FirstOrDefault(e => e.Value is Bookmark bookmark && bookmark.Path == path.SimplePath);

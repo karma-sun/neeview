@@ -71,10 +71,6 @@ namespace NeeView
                     {
                         archive.CreateEntryFromFile(SaveData.Current.BookmarkFilePath, SaveData.BookmarkFileName);
                     }
-                    if (File.Exists(SaveData.Current.PagemarkFilePath))
-                    {
-                        archive.CreateEntryFromFile(SaveData.Current.PagemarkFilePath, SaveData.PagemarkFileName);
-                    }
                 }
             }
             catch (Exception)
@@ -115,6 +111,7 @@ namespace NeeView
             }
         }
 
+#pragma warning disable CS0612 // 型またはメンバーが旧型式です
         // バックアップファイル復元
         public void LoadBackupFile(string filename)
         {
@@ -158,6 +155,7 @@ namespace NeeView
                     {
                         selector.PagemarkCheckBox.IsEnabled = true;
                         selector.PagemarkCheckBox.IsChecked = true;
+                        selector.PagemarkCheckBox.Visibility = System.Windows.Visibility.Visible;
                     }
 
                     var dialog = new MessageDialog(selector, Resources.ImportSelectDialog_Title);
@@ -190,7 +188,7 @@ namespace NeeView
                         {
                             using (var stream = historyEntryV1.Open())
                             {
-                                var historyV1 = BookHistoryCollection.Memento.LoadV1(stream); 
+                                var historyV1 = BookHistoryCollection.Memento.LoadV1(stream);
                                 historyV1.RestoreConfig(setting.Config);
                             }
                         }
@@ -289,8 +287,7 @@ namespace NeeView
             // ページマーク読込
             if (pagemark != null)
             {
-                PagemarkCollection.Current.Restore(pagemark);
-                SaveDataSync.Current.SavePagemark(true);
+                PagemarkToPlaylistConverter.SavePagemarkPlaylist(pagemark);
             }
 
             if (recoverySettingWindow)
@@ -298,5 +295,7 @@ namespace NeeView
                 MainWindowModel.Current.OpenSettingWindow();
             }
         }
+#pragma warning restore CS0612 // 型またはメンバーが旧型式です
+
     }
 }

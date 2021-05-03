@@ -192,10 +192,13 @@ namespace NeeView
 
             foreach (DictionaryEntry item in source)
             {
-                var valueType = item.Value.GetType();
-                if (valueType.GetCustomAttribute<ObsoleteAttribute>() != null)
+                var valueType = item.Value?.GetType();
+                if (valueType != null)
                 {
-                    continue;
+                    if (valueType.GetCustomAttribute<ObsoleteAttribute>() != null)
+                    {
+                        continue;
+                    }
                 }
 
                 section.Increment();

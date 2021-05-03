@@ -105,7 +105,7 @@
                     <local:MoreMenuButton Description="{Binding MoreMenuDescription}" MinHeight="{DynamicResource FontIconSize}" TabIndex="4" />
                 </StackPanel>
                 <WrapPanel Orientation="Horizontal" MinWidth="90">
-                    <Button x:Name="AddPagemark" Style="{StaticResource FolderListButtonStyle}" Command="{Binding AddBookmarkCommand}" ToolTip="{x:Static properties:Resources.BookmarkList_Add_ToolTip}" TabIndex="1">
+                    <Button x:Name="AddBookmarkButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding AddBookmarkCommand}" ToolTip="{x:Static properties:Resources.BookmarkList_Add_ToolTip}" TabIndex="1">
                         <Image Source="{StaticResource ic_add_24px_a}" />
                     </Button>
                     <Button x:Name="FolderUpButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToUp}" TabIndex="1"

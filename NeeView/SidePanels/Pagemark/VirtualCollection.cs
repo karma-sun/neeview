@@ -14,6 +14,7 @@ namespace NeeView
     /// <summary>
     /// 仮想パネル管理を行う項目
     /// </summary>
+    [Obsolete]
     public interface IVirtualItem
     {
         /// <summary>
@@ -43,6 +44,7 @@ namespace NeeView
     /// </remarks>
     /// <typeparam name="TContainer">TreeViewItem,ListBoxItem等のコンテナ</typeparam>
     /// <typeparam name="TValue">Value型</typeparam>
+    [Obsolete]
     public class VirtualCollection<TContainer, TValue>
         where TContainer : Control
     {

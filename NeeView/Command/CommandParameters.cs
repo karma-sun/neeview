@@ -86,7 +86,7 @@ namespace NeeView
             typeof(ViewScrollCommandParameter),
             typeof(ViewScaleCommandParameter),
             typeof(ViewRotateCommandParameter),
-            typeof(MovePagemarkInBookCommandParameter),
+            typeof(MovePlaylsitItemInBookCommandParameter),
             typeof(ScrollPageCommandParameter),
             typeof(FocusMainViewCommandParameter),
             typeof(ExportImageAsCommandParameter),

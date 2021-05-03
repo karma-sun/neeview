@@ -18,9 +18,6 @@ namespace NeeView
         Bookmark,
 
         [AliasName]
-        Pagemark,
-
-        [AliasName]
         QuickAccess,
     }
 
@@ -31,7 +28,6 @@ namespace NeeView
             [QueryScheme.File] = "file:",
             [QueryScheme.Root] = "root:",
             [QueryScheme.Bookmark] = "bookmark:",
-            [QueryScheme.Pagemark] = "pagemark:",
             [QueryScheme.QuickAccess] = "quickaccess:",
         };
 
@@ -49,7 +45,6 @@ namespace NeeView
                 [QueryScheme.File] = MainWindow.Current.Resources["ic_desktop_windows_24px"] as ImageSource,
                 [QueryScheme.Root] = MainWindow.Current.Resources["ic_bookshelf"] as ImageSource,
                 [QueryScheme.Bookmark] = MainWindow.Current.Resources["ic_grade_24px"] as ImageSource,
-                [QueryScheme.Pagemark] = MainWindow.Current.Resources["ic_bookmark_24px"] as ImageSource,
                 [QueryScheme.QuickAccess] = MainWindow.Current.Resources["ic_lightning"] as ImageSource,
             };
 
@@ -58,7 +53,6 @@ namespace NeeView
                 [QueryScheme.File] = MainWindow.Current.Resources["ic_desktop_windows_24px_t"] as ImageSource,
                 [QueryScheme.Root] = MainWindow.Current.Resources["ic_bookshelf"] as ImageSource,
                 [QueryScheme.Bookmark] = MainWindow.Current.Resources["ic_grade_24px_t"] as ImageSource,
-                [QueryScheme.Pagemark] = MainWindow.Current.Resources["ic_bookmark_24px_t"] as ImageSource,
                 [QueryScheme.QuickAccess] = MainWindow.Current.Resources["ic_lightning"] as ImageSource,
             };
 

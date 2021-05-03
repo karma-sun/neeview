@@ -14,7 +14,7 @@
                 <CheckBox x:Name="UserSettingCheckBox" Content="{x:Static properties:Resources.ImportControl_Setting}" IsEnabled="False"/>
                 <CheckBox x:Name="HistoryCheckBox" Content="{x:Static properties:Resources.ImportControl_History}" IsEnabled="False"/>
                 <CheckBox x:Name="BookmarkCheckBox" Content="{x:Static properties:Resources.ImportControl_Bookmark}" IsEnabled="False"/>
-                <CheckBox x:Name="PagemarkCheckBox" Content="{x:Static properties:Resources.ImportControl_Pagemark}" IsEnabled="False"/>
+                <CheckBox x:Name="PagemarkCheckBox" Content="{x:Static properties:Resources.ImportControl_Pagemark}" IsEnabled="False" Visibility="Collapsed" />
             </StackPanel>
         </StackPanel>
     </Grid>

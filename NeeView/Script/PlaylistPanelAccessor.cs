@@ -10,7 +10,7 @@ namespace NeeView
     public class PlaylistPanelAccessor : LayoutPanelAccessor
     {
         private PlaylistPanel _panel;
-        private PlaylisHub _model;
+        private PlaylistHub _model;
 
 
         public PlaylistPanelAccessor() : base(nameof(PlaylistPanel))

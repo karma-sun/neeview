@@ -48,9 +48,6 @@ namespace NeeView
         // メディアアーカイバ？
         public bool IsMedia => ArchiveEntryCollection?.Archiver is MediaArchiver;
 
-        // ページマークアーカイバ？
-        public bool IsPagemarkFolder => ArchiveEntryCollection?.Archiver is PagemarkArchiver;
-
 
         public List<Page> Pages { get; private set; }
 

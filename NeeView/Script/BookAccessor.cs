@@ -47,25 +47,25 @@ namespace NeeView
         [Obsolete] // ver.38
         public int PageSize
         {
-            get => throw new NotSupportedException("Script: PageSize is obsolete. please use ViewPages.length");
+            get => throw new NotSupportedException("Script: PageSize is obsolete. Use ViewPages.length instead.");
         }
 
         [Obsolete] // ver.38
         public int ViewPageSize
         {
-            get => throw new NotSupportedException("Script: ViewPageSize is obsolete. please use Pages.length");
+            get => throw new NotSupportedException("Script: ViewPageSize is obsolete. Use Pages.length instead.");
         }
 
         [Obsolete] // ver.38
         public PageAccessor Page(int index)
         {
-            throw new NotSupportedException("Script: Page() is obsolete. please use Pages[].");
+            throw new NotSupportedException("Script: Page() is obsolete. Use Pages[] instead.");
         }
 
         [Obsolete] // ver.38
         public PageAccessor ViewPage(int index)
         {
-            throw new NotSupportedException("Script: ViewPage() is obsolete. please use ViewPages[].");
+            throw new NotSupportedException("Script: ViewPage() is obsolete. Use ViewPages[] instead.");
         }
 
         #endregion Obsoletet

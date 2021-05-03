@@ -42,7 +42,7 @@
 
             <Grid>
                 <local:PageMarkersView x:Name="PageMarkersView" IsHitTestVisible="False" VerticalAlignment="Center"
-                        Visibility="{Binding Source={x:Static local:Config.Current}, Path=Slider.IsVisiblePagemark, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        Visibility="{Binding Source={x:Static local:Config.Current}, Path=Slider.IsVisiblePlaylistMark, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                 <nwc:SmartSlider x:Name="Slider"
                                  ThumbSize="{Binding Slider.Thickness, Source={x:Static local:Config.Current}}"

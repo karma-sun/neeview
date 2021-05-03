@@ -103,12 +103,6 @@ namespace NeeView.Setting
                 IsStretch = true,
                 IsEnabled = new IsEnabledPropertyValue(Config.Current.Bookmark, nameof(BookmarkConfig.IsSaveBookmark))
             });
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Pagemark, nameof(PagemarkConfig.IsSavePagemark))));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Pagemark, nameof(PagemarkConfig.PagemarkFilePath)))
-            {
-                IsStretch = true,
-                IsEnabled = new IsEnabledPropertyValue(Config.Current.Pagemark, nameof(PagemarkConfig.IsSavePagemark))
-            });
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.IsSyncUserSetting))));
 
             if (!Environment.IsAppxPackage)
@@ -128,7 +122,7 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>() { section };
         }
 
-#region Commands
+        #region Commands
 
         private RelayCommand<UIElement> _RemoveAllData;
         public RelayCommand<UIElement> RemoveAllData
@@ -142,7 +136,7 @@ namespace NeeView.Setting
             Environment.RemoveApplicationData(window);
         }
 
-#endregion
+        #endregion
     }
 
 
@@ -192,7 +186,7 @@ namespace NeeView.Setting
             this.Items.Add(section);
         }
 
-#region Commands
+        #region Commands
 
         private RelayCommand<UIElement> _RemoveCache;
         public RelayCommand<UIElement> RemoveCache
@@ -224,7 +218,7 @@ namespace NeeView.Setting
             }
         }
 
-#endregion
+        #endregion
 
         /// <summary>
         /// 履歴期限テーブル

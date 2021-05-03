@@ -13,7 +13,6 @@
         PdfArchiver,
         SusieArchiver,
         MediaArchiver,
-        PagemarkArchiver,
         PlaylistArchiver,
     }
 

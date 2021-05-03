@@ -25,7 +25,6 @@ namespace NeeView
             Bookshelf = new BookshelfPanelAccessor();
             PageList = new PageListPanelAccessor();
             Bookmark = new BookmarkPanelAccessor();
-            Pagemark = new PagemarkPanelAccessor();
             Playlist = new PlaylistPanelAccessor();
             History = new HistoryPanelAccessor();
             Information = new InformationPanelAccessor();
@@ -55,9 +54,6 @@ namespace NeeView
         public BookmarkPanelAccessor Bookmark { get; }
 
         [WordNodeMember(IsAutoCollect = false)]
-        public PagemarkPanelAccessor Pagemark { get; }
-
-        [WordNodeMember(IsAutoCollect = false)]
         public PlaylistPanelAccessor Playlist { get; }
 
         [WordNodeMember(IsAutoCollect = false)]
@@ -71,6 +67,11 @@ namespace NeeView
 
         [WordNodeMember(IsAutoCollect = false)]
         public NavigatorPanelAccessor Navigator { get; }
+
+        public object Pagemark
+        {
+            get => throw new NotSupportedException("Script: Pagemark is obsolete. Use PageList instead.");
+        }
 
 
         [WordNodeMember]
@@ -140,7 +141,6 @@ namespace NeeView
             node.Children.Add(Bookshelf.CreateWordNode(nameof(Bookshelf)));
             node.Children.Add(PageList.CreateWordNode(nameof(PageList)));
             node.Children.Add(Bookmark.CreateWordNode(nameof(Bookmark)));
-            node.Children.Add(Pagemark.CreateWordNode(nameof(Pagemark)));
             node.Children.Add(Playlist.CreateWordNode(nameof(Playlist)));
             node.Children.Add(History.CreateWordNode(nameof(History)));
             node.Children.Add(Information.CreateWordNode(nameof(Information)));

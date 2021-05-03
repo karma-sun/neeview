@@ -534,7 +534,7 @@ namespace NeeView
         private void OpenExplorer_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
-            e.CanExecute = item != null && !item.IsPagemark();
+            e.CanExecute = item != null;
         }
 
         public void OpenExplorer_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -829,9 +829,6 @@ namespace NeeView
                 case QueryScheme.File:
                     return CanDropToBookmark(query.SimplePath);
 
-                case QueryScheme.Pagemark:
-                    return query.IsRoot(QueryScheme.Pagemark);
-
                 default:
                     return false;
             }
@@ -881,7 +878,7 @@ namespace NeeView
             return element;
         }
 
-        #endregion
+#endregion
 
 
         private void FolderListBox_Loaded(object sender, RoutedEventArgs e)
@@ -1250,7 +1247,7 @@ namespace NeeView
         }
 
 
-        #region UI Accessor
+#region UI Accessor
 
         public List<FolderItem> GetItems()
         {
@@ -1269,7 +1266,7 @@ namespace NeeView
             this.ListBox.ScrollItemsIntoView(items);
         }
 
-        #endregion UI Accessor
+#endregion UI Accessor
     }
 
 

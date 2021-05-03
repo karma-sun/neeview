@@ -43,28 +43,6 @@ namespace NeeView
 
         #endregion
 
-        #region Fields
-
-        ////private bool _isNetworkEnalbe = true;
-        ////private bool _isSettingBackup;
-        ////private bool _isSaveWindowPlacement = true;
-        ////private string _temporaryDirectory;
-        ////private string _cacheDirectory;
-        ////private string _cacheDirectoryOld;
-        ////private bool _isSaveHistory = true;
-        ////private string _historyFilePath;
-        ////private bool _isSaveBookmark = true;
-        ////private string _bookmarkFilePath;
-        ////private bool _isSavePagemark = true;
-        ////private string _pagemarkFilePath;
-        ////private double _autoHideDelayTime = 1.0;
-        ////private double _autoHideDelayVisibleTime = 0.0;
-        ////private AutoHideFocusLockMode _autoHideFocusLockMode = AutoHideFocusLockMode.LogicalTextBoxFocusLock;
-        ////private bool _isAutoHideKeyDownDelay = true;
-        ////private double _autoHideHitTestMargin = 32.0;
-
-        #endregion
-
         #region Memento
         [DataContract]
         public class Memento : IMemento
@@ -200,8 +178,10 @@ namespace NeeView
                 config.History.HistoryFilePath = HistoryFilePath;
                 config.Bookmark.IsSaveBookmark = IsSaveBookmark;
                 config.Bookmark.BookmarkFilePath = BookmarkFilePath;
-                config.Pagemark.IsSavePagemark = IsSavePagemark;
-                config.Pagemark.PagemarkFilePath = PagemarkFilePath;
+#pragma warning disable CS0612
+                config.PagemarkLegacy.IsSavePagemark = IsSavePagemark;
+                config.PagemarkLegacy.PagemarkFilePath = PagemarkFilePath;
+#pragma warning restore CS0612
                 config.System.IsSettingBackup = IsSettingBackup;
                 config.System.IsSyncUserSetting = IsSyncUserSetting;
                 config.System.TemporaryDirectory = TemporaryDirectory;

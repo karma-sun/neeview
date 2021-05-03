@@ -98,8 +98,6 @@ namespace NeeView
             [DataMember]
             public HistoryList.Memento HistoryList { get; set; }
             [DataMember]
-            public PagemarkList.Memento PagemarkList { get; set; }
-            [DataMember]
             public FileInformation.Memento FileInformation { get; set; }
             [DataMember]
             public ImageFilter.Memento ImageFilter { get; set; }
@@ -203,7 +201,6 @@ namespace NeeView
                 BookmarkFolderList?.RestoreConfig(config);
                 PageList?.RestoreConfig(config);
                 HistoryList?.RestoreConfig(config);
-                PagemarkList?.RestoreConfig(config);
                 FileInformation?.RestoreConfig(config);
                 ImageEffect?.RestoreConfig(config);
                 SidePanel?.RestoreConfig(config);

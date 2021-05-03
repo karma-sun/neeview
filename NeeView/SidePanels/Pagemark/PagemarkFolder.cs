@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 
 namespace NeeView
 {
+    [Obsolete]
     [DataContract]
     public class PagemarkFolder : BindableBase, IPagemarkEntry
     {

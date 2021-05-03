@@ -29,7 +29,6 @@ namespace NeeView
                 ////items.Add(CreateFolderItem(QueryScheme.QuickAccess));
                 items.Add(CreateFolderItem(Place, QueryScheme.File));
                 items.Add(CreateFolderItem(Place, QueryScheme.Bookmark));
-                ////items.Add(CreateFolderItem(QueryScheme.Pagemark));
             }
 
             this.Items = items;

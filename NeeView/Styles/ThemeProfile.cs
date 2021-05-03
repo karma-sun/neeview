@@ -118,7 +118,7 @@ namespace NeeView
             "SelectedMark.Foreground",
             "CheckIcon.Foreground",
             "BookmarkIcon.Foreground",
-            "PagemarkIcon.Foreground",
+            "PlaylistItemIcon.Foreground",
         };
 
         static ThemeProfile()

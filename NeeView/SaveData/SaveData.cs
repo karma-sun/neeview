@@ -46,7 +46,6 @@ namespace NeeView
         public string UserSettingFilePath => App.Current.Option.SettingFilename;
         public string HistoryFilePath => Config.Current.History.HistoryFilePath;
         public string BookmarkFilePath => Config.Current.Bookmark.BookmarkFilePath;
-        public string PagemarkFilePath => Config.Current.Pagemark.PagemarkFilePath;
 
         public bool IsEnableSave { get; set; } = true;
 
@@ -95,9 +94,11 @@ namespace NeeView
                     var historyV1 = SafetyLoad(BookHistoryCollection.Memento.LoadV1, historyV1FilePath, null); // 一部の履歴設定を反映
                     historyV1?.RestoreConfig(settingV1Converted.Config);
 
+#pragma warning disable CS0612 // 型またはメンバーが旧型式です
                     var pagemarkV1FilePath = Path.ChangeExtension(settingV1.App.PagemarkFilePath ?? DefaultPagemarkFilePath, ".xml");
                     var pagemarkV1 = SafetyLoad(PagemarkCollection.Memento.LoadV1, pagemarkV1FilePath, null); // 一部のページマーク設定を反映
                     pagemarkV1?.RestoreConfig(settingV1Converted.Config);
+#pragma warning restore CS0612 // 型またはメンバーが旧型式です
 
                     _settingFilenameToDelete = filenameV1;
                     if (Path.GetExtension(App.Current.Option.SettingFilename).ToLower() == ".xml")
@@ -196,46 +197,7 @@ namespace NeeView
             {
                 App.Current.SemaphoreRelease();
             }
-
         }
-
-        // ページマーク読み込み
-        public void LoadPagemark()
-        {
-            try
-            {
-                App.Current.SemaphoreWait();
-
-                var filename = PagemarkFilePath;
-                var extension = Path.GetExtension(filename).ToLower();
-                var filenameV1 = Path.ChangeExtension(filename, ".xml");
-                var failedDialog = new LoadFailedDialog(Resources.Notice_LoadPagemarkFailed, Resources.Notice_LoadPagemarkFailedTitle);
-
-                if (extension == ".json" && File.Exists(filename))
-                {
-                    PagemarkCollection.Memento memento = SafetyLoad(PagemarkCollection.Memento.Load, filename, failedDialog);
-                    PagemarkCollection.Current.Restore(memento);
-                }
-                // before v.37
-                else if (File.Exists(filenameV1))
-                {
-                    PagemarkCollection.Memento memento = SafetyLoad(PagemarkCollection.Memento.LoadV1, filenameV1, failedDialog);
-                    PagemarkCollection.Current.Restore(memento);
-
-                    if (Path.GetExtension(PagemarkFilePath).ToLower() == ".xml")
-                    {
-                        Config.Current.Pagemark.PagemarkFilePath = Path.ChangeExtension(PagemarkFilePath, ".json");
-                    }
-
-                    _pagemarkFilenameToDelete = filenameV1;
-                }
-            }
-            finally
-            {
-                App.Current.SemaphoreRelease();
-            }
-        }
-
 
         /// <summary>
         /// 正規ファイルの読み込みに失敗したらバックアップからの復元を試みる。
@@ -303,9 +265,9 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
-        #region Save
+#region Save
 
         /// <summary>
         /// 設定の保存
@@ -489,32 +451,6 @@ namespace NeeView
         }
 
         /// <summary>
-        /// Pagemarkの保存
-        /// </summary>
-        public void SavePagemark()
-        {
-            if (!IsEnableSave) return;
-            if (!Config.Current.Pagemark.IsSavePagemark) return;
-
-            try
-            {
-                App.Current.SemaphoreWait();
-                var pagemarkMemento = PagemarkCollection.Current.CreateMemento();
-                SafetySave(pagemarkMemento.Save, PagemarkFilePath, false, false);
-            }
-            catch
-            {
-            }
-            finally
-            {
-                App.Current.SemaphoreRelease();
-            }
-
-            RemoveLegacyPagemark();
-        }
-
-
-        /// <summary>
         /// 必要であるならば、古い設定ファイルを削除
         /// </summary>
         public void RemoveLegacyPagemark()
@@ -523,28 +459,6 @@ namespace NeeView
 
             RemoveLegacyFile(_pagemarkFilenameToDelete);
             _pagemarkFilenameToDelete = null;
-        }
-
-        /// <summary>
-        /// 必要であるならば、Pagemarkを削除
-        /// </summary>
-        public void RemovePagemarkIfNotSave()
-        {
-            if (!IsEnableSave) return;
-            if (Config.Current.Pagemark.IsSavePagemark) return;
-
-            try
-            {
-                App.Current.SemaphoreWait();
-                FileIO.RemoveFile(PagemarkFilePath);
-            }
-            catch
-            {
-            }
-            finally
-            {
-                App.Current.SemaphoreRelease();
-            }
         }
 
         /// <summary>
@@ -596,7 +510,7 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
     }
 
 

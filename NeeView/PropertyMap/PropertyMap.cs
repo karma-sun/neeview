@@ -190,6 +190,9 @@ namespace NeeView
                 {
                     s += subMap.CreateHelpHtml(name);
                 }
+                else if (item.Value is PropertyMapObsolete)
+                {
+                }
                 else
                 {
                     string type = "";

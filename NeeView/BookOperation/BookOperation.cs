@@ -6,6 +6,7 @@ using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -45,8 +46,12 @@ namespace NeeView
         {
             BookHub.Current.BookChanging += BookHub_BookChanging;
             BookHub.Current.BookChanged += BookHub_BookChanged;
+        }
 
-            PagemarkCollection.Current.PagemarkChanged += PagemarkCollection_PagemarkChanged;
+        // NOTE: 応急処置。シングルトンコンストラクタで互いを参照してしまっているのを回避するため
+        public void LinkPlaylistHub(PlaylistHub playlistHub)
+        {
+            playlistHub.PlaylistCollectionChanged += Playlist_CollectionChanged;
         }
 
         #endregion
@@ -151,8 +156,7 @@ namespace NeeView
             RaisePropertyChanged(nameof(IsBookmark));
 
             // マーカー復元
-            // TODO: PageMarkersのしごと？
-            UpdatePagemark();
+            UpdateMarkers();
 
             // ページリスト更新
             UpdatePageList(false);
@@ -184,18 +188,13 @@ namespace NeeView
 
             AppDispatcher.Invoke(() =>
             {
-                RaisePropertyChanged(nameof(IsPagemark));
+                RaisePropertyChanged(nameof(IsMarked));
                 ViewContentsChanged?.Invoke(sender, e);
             });
         }
 
 
         // ページリスト更新
-        // TODO: クリアしてもサムネイルのListBoxは項目をキャッシュしてしまうので、なんとかせよ
-        // サムネイル用はそれに特化したパーツのみ提供する？
-        // いや、ListBoxを独立させ、それ自体を作り直す方向で？んー？
-        // 問い合わせがいいな。
-        // 問い合わせといえば、BitmapImageでOutOfMemoryが取得できない問題も。
         public void UpdatePageList(bool raisePageListChanged)
         {
             var pages = this.Book?.Pages;
@@ -209,7 +208,7 @@ namespace NeeView
                 }
             }
 
-            RaisePropertyChanged(nameof(IsPagemark));
+            RaisePropertyChanged(nameof(IsMarked));
         }
 
         // 現在ベージ取得
@@ -590,11 +589,11 @@ namespace NeeView
         // ページ削除時の処理
         private void Book_PageRemoved(object sender, PageRemovedEventArgs e)
         {
-            // ページマーカーから削除
-            foreach (var page in e.Pages)
-            {
-                PagemarkUtility.RemovePagemark(page);
-            }
+            if (this.Book is null) return;
+
+            // プレイリストから削除
+            var bookPlaylist = new BookPlaylist(this.Book, PlaylistHub.Current.Playlist);
+            bookPlaylist.Remove(e.Pages);
 
             UpdatePageList(true);
             PageRemoved?.Invoke(sender, e);
@@ -957,13 +956,13 @@ namespace NeeView
 
         #endregion
 
-        #region BookCommand : ページマーク
+        #region BookCommand : マーク
 
-        // ページマークにに追加、削除された
-        public event EventHandler PagemarkChanged;
+        // プレイリストに追加、削除された
+        public event EventHandler MarkersChanged;
 
         //
-        private void PagemarkCollection_PagemarkChanged(object sender, PagemarkCollectionChangedEventArgs e)
+        private void Playlist_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (!IsValid)
             {
@@ -971,145 +970,80 @@ namespace NeeView
             }
 
             var placeQuery = new QueryPath(Address);
-            if (placeQuery.Scheme == QueryScheme.Pagemark)
+
             {
                 switch (e.Action)
                 {
-                    case EntryCollectionChangedAction.Replace:
-                    case EntryCollectionChangedAction.Reset:
-                        BookHub.Current.RequestUnload(sender, true);
+                    case NotifyCollectionChangedAction.Replace:
+                    case NotifyCollectionChangedAction.Reset:
+                        UpdateMarkers();
                         break;
-                    case EntryCollectionChangedAction.Add:
+                    case NotifyCollectionChangedAction.Add:
+                        if (e.NewItems.Cast<PlaylistItem>().Any(x => x.Path.StartsWith(Address)))
                         {
-                            // ブックに含まれるページが追加されたら再読込 ... シャッフルで再ソートされてしまう問題あり
-                            var query = e.Item.CreateQuery(QueryScheme.Pagemark);
-                            if (Book.Source.IsRecursiveFolder && placeQuery.Include(query) || query.GetParent().Equals(placeQuery))
-                            {
-                                Debug.WriteLine($"BookOperation: Add pagemarks: {e.Item.Value.Name}");
-                                BookHub.Current.RequestReLoad(sender);
-                            }
+                            UpdateMarkers();
                         }
                         break;
-
-                    case EntryCollectionChangedAction.Remove:
+                    case NotifyCollectionChangedAction.Remove:
+                        if (e.OldItems.Cast<PlaylistItem>().Any(x => x.Path.StartsWith(Address)))
                         {
-                            var parentQuery = e.Parent.CreateQuery(QueryScheme.Pagemark);
-
-                            // 現在のページに存在している場合はその項目を削除
-                            // 自身もしくは親フォルダーから削除された場合は本を閉じる
-                            // 含まれるフォルダーが削除された場合は再読込
-                            var page = Book.Pages.FirstOrDefault(i => i.Entry.Instance is TreeListNode<IPagemarkEntry> node && node == e.Item);
-                            if (page != null)
-                            {
-                                Debug.WriteLine($"BookOperation: Remve pagemark: {e.Item.Value.Name}");
-                                Book.Control.RequestRemove(this, page);
-                            }
-                            else if (PagemarkCollection.Current.FindNode(placeQuery) == null) // 親が削除されていたら見つからない
-                            {
-                                Debug.WriteLine($"BookOperation: Remove parent pagemark: {e.Item.Value.Name}");
-                                BookHub.Current.RequestUnload(sender, true);
-                            }
-                            else if (e.Item.Value is PagemarkFolder && Book.Source.IsRecursiveFolder && placeQuery.Include(parentQuery))
-                            {
-                                Debug.WriteLine($"BookOperation: Remove pagemarks: {e.Item.Value.Name}");
-                                BookHub.Current.RequestReLoad(sender);
-                            }
-                        }
-                        break;
-
-                    case EntryCollectionChangedAction.Rename:
-                        {
-                            var parentQuery = e.Parent.CreateQuery(QueryScheme.Pagemark);
-
-                            // 自信か親の名前が変化する場合、閉じる
-                            // 含まれるフォルダー名が変化する場合、再読込
-                            if (PagemarkCollection.Current.FindNode(placeQuery) == null) // 自身もしくは親の名前が変わっていたら見つからない
-                            {
-                                Debug.WriteLine($"BookOperation: Rename parent pagemark: {e.Item.Value.Name}");
-                                BookHub.Current.RequestUnload(sender, true);
-                            }
-                            else if (e.Item.Value is PagemarkFolder && Book.Source.IsRecursiveFolder && placeQuery.Include(parentQuery))
-                            {
-                                Debug.WriteLine($"BookOperation: Rename pagemarks: {e.Item.Value.Name}");
-                                BookHub.Current.RequestReLoad(sender);
-                            }
+                            UpdateMarkers();
                         }
                         break;
                 }
             }
-
-            else
-            {
-                switch (e.Action)
-                {
-                    case EntryCollectionChangedAction.Replace:
-                    case EntryCollectionChangedAction.Reset:
-                        UpdatePagemark();
-                        break;
-                    case EntryCollectionChangedAction.Add:
-                    case EntryCollectionChangedAction.Remove:
-                        if (e.Item.Value is IPagemarkEntry pagemark && pagemark.Path == Address)
-                        {
-                            UpdatePagemark();
-                        }
-                        break;
-                }
-            }
-        }
-
-        //
-        public bool IsPagemark
-        {
-            get { return IsMarked(); }
         }
 
         // 表示ページのマーク判定
-        public bool IsMarked()
+        public bool IsMarked
         {
-            return this.Book != null ? this.Book.Marker.IsMarked(this.Book.Viewer.GetViewPage()) : false;
+            get { return this.Book != null ? this.Book.Marker.IsMarked(this.Book.Viewer.GetViewPage()) : false; }
         }
 
         // ページマーク登録可能？
-        public bool CanPagemark()
+        public bool CanMark()
         {
             if (this.Book is null) return false;
 
-            return CanPagemark(this.Book.Viewer.GetViewPage());
+            return CanMark(this.Book.Viewer.GetViewPage());
         }
 
-        public bool CanPagemark(Page page)
+        public bool CanMark(Page page)
         {
             if (this.Book is null) return false;
 
-            return PagemarkUtility.CanPagemark(page);
+            var bookPlaylist = new BookPlaylist(this.Book, PlaylistHub.Current.Playlist);
+            return bookPlaylist.IsEnabled(page);
         }
 
         // マーカー追加/削除
-        public Pagemark SetPagemark(bool isPagemark)
+        public PlaylistItem SetMark(bool isMark)
         {
             if (!_isEnabled) return null;
 
             var page = this.Book.Viewer.GetViewPage();
-            if (!CanPagemark(page))
+            if (!CanMark(page))
             {
                 return null;
             }
 
-            return PagemarkUtility.SetPagemark(page, isPagemark);
+            var bookPlaylist = new BookPlaylist(this.Book, PlaylistHub.Current.Playlist);
+            return bookPlaylist.Set(page, isMark);
         }
 
         // マーカー切り替え
-        public Pagemark TogglePagemark()
+        public PlaylistItem ToggleMark()
         {
             if (!_isEnabled) return null;
 
             var page = this.Book.Viewer.GetViewPage();
-            if (!CanPagemark(page))
+            if (!CanMark(page))
             {
                 return null;
             }
 
-            return PagemarkUtility.TogglePagemark(page);
+            var bookPlaylist = new BookPlaylist(this.Book, PlaylistHub.Current.Playlist);
+            return bookPlaylist.Toggle(page);
         }
 
         #region 開発用
@@ -1118,90 +1052,78 @@ namespace NeeView
         /// (開発用) たくさんのページマーク作成
         /// </summary>
         [Conditional("DEBUG")]
-        public void Test_MakeManyPagemark()
+        public void Test_MakeManyMarkers()
         {
             if (Book == null) return;
+            var bookPlaylist = new BookPlaylist(this.Book, PlaylistHub.Current.Playlist);
+
             for (int index = 0; index < Book.Pages.Count; index += 100)
             {
                 var page = Book.Pages[index];
-                PagemarkUtility.AddPagemark(page);
+                bookPlaylist.Add(page);
             }
         }
 
         #endregion
 
         // マーカー表示更新
-        public void UpdatePagemark()
+        public void UpdateMarkers()
         {
+            if (Book == null) return;
+
             // 本にマーカを設定
-            // TODO: これはPagemarkerの仕事？
-            this.Book?.Marker.SetMarkers(PagemarkCollection.Current.Collect(this.Book.Address).Select(e => e.EntryName));
+            var bookPlaylist = new BookPlaylist(this.Book, PlaylistHub.Current.Playlist);
+            var pages = bookPlaylist.Collect();
+
+            this.Book.Marker.SetMarkers(pages);
 
             // 表示更新
-            PagemarkChanged?.Invoke(this, null);
-            RaisePropertyChanged(nameof(IsPagemark));
+            MarkersChanged?.Invoke(this, null);
+            RaisePropertyChanged(nameof(IsMarked));
         }
 
         //
-        public bool CanPrevPagemarkInPlace(MovePagemarkInBookCommandParameter param)
+        public bool CanPrevMarkInPlace(MovePlaylsitItemInBookCommandParameter param)
         {
             return (this.Book?.Marker.Markers != null && Current.Book.Marker.Markers.Count > 0) || param.IsIncludeTerminal;
         }
 
         //
-        public bool CanNextPagemarkInPlace(MovePagemarkInBookCommandParameter param)
+        public bool CanNextMarkInPlace(MovePlaylsitItemInBookCommandParameter param)
         {
             return (this.Book?.Marker.Markers != null && Current.Book.Marker.Markers.Count > 0) || param.IsIncludeTerminal;
         }
 
         // ページマークに移動
-        public void PrevPagemarkInPlace(MovePagemarkInBookCommandParameter param)
+        public void PrevMarkInPlace(MovePlaylsitItemInBookCommandParameter param)
         {
             if (!_isEnabled || this.Book == null) return;
             var result = this.Book.Control.RequestJumpToMarker(this, -1, param.IsLoop, param.IsIncludeTerminal);
             if (result != null)
             {
                 // ページマーク更新
-                PagemarkList.Current.Jump(this.Book.Address, result.EntryName);
+                //PagemarkList.Current.Jump(this.Book.Address, result.EntryName);
             }
             else
             {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.Notice_FirstPagemark);
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.Notice_FirstPlaylistItem);
             }
         }
 
         // ページマークに移動
-        public void NextPagemarkInPlace(MovePagemarkInBookCommandParameter param)
+        public void NextMarkInPlace(MovePlaylsitItemInBookCommandParameter param)
         {
             if (!_isEnabled || this.Book == null) return;
             var result = this.Book.Control.RequestJumpToMarker(this, +1, param.IsLoop, param.IsIncludeTerminal);
             if (result != null)
             {
                 // ページマーク更新
-                PagemarkList.Current.Jump(this.Book.Address, result.EntryName);
+                //PagemarkList.Current.Jump(this.Book.Address, result.EntryName);
             }
             else
             {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.Notice_LastPagemark);
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.Notice_LastPlaylistItem);
             }
-        }
-
-        // ページマークに移動
-        public bool JumpPagemarkInPlace(object sender, Pagemark mark)
-        {
-            if (mark == null) return false;
-
-            if (mark.Path == this.Book?.Address)
-            {
-                Page page = this.Book.Pages.GetPage(mark.EntryName);
-                if (page != null)
-                {
-                    JumpPage(sender, page);
-                    return true;
-                }
-            }
-
-            return false;
         }
 
         #endregion

@@ -495,7 +495,7 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { CommandName = "ToggleVisibleBookshelf" },
                         new MenuTree(MenuElementType.Command) { CommandName = "ToggleVisiblePageList" },
                         new MenuTree(MenuElementType.Command) { CommandName = "ToggleVisibleBookmarkList" },
-                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleVisiblePagemarkList" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleVisiblePlaylist" },
                         new MenuTree(MenuElementType.Command) { CommandName = "ToggleVisibleHistoryList" },
                         new MenuTree(MenuElementType.Command) { CommandName = "ToggleVisibleFileInfo" },
                         new MenuTree(MenuElementType.Command) { CommandName = "ToggleVisibleNavigator" },
@@ -590,11 +590,11 @@ namespace NeeView
                     {
                         new MenuTree(MenuElementType.Command) { CommandName = "ToggleBookmark" },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { CommandName = "TogglePagemark" },
-                        new MenuTree(MenuElementType.Command) { CommandName = "PrevPagemark"},
-                        new MenuTree(MenuElementType.Command) { CommandName = "NextPagemark" },
-                        new MenuTree(MenuElementType.Command) { CommandName = "PrevPagemarkInBook"},
-                        new MenuTree(MenuElementType.Command) { CommandName = "NextPagemarkInBook" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "TogglePlaylistItem" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "PrevPlaylistItem"},
+                        new MenuTree(MenuElementType.Command) { CommandName = "NextPlaylistItem" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "PrevPlaylistItemInBook"},
+                        new MenuTree(MenuElementType.Command) { CommandName = "NextPlaylistItemInBook" },
                     }},
                     new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTree_Option, Children = new ObservableCollection<MenuTree>()
                     {

@@ -19,6 +19,23 @@ namespace NeeView
         public string CommandName { get; set; }
 
         public List<MenuNode> Children { get; set; }
+
+
+        public IEnumerable<MenuNode> GetEnumerator()
+        {
+            yield return this;
+
+            if (Children != null)
+            {
+                foreach (var child in Children)
+                {
+                    foreach (var subChild in child.GetEnumerator())
+                    {
+                        yield return subChild;
+                    }
+                }
+            }
+        }
     }
 
 

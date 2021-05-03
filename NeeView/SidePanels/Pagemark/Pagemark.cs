@@ -9,14 +9,16 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
+    [Obsolete]
     public interface IPagemarkEntry : IHasName
     {
         string Path { get; }
         string DispName { get; }
     }
 
+    [Obsolete]
     [DataContract]
-    public class Pagemark : BindableBase, IPagemarkEntry, IVirtualItem, IHasPage
+    public class Pagemark : BindableBase, IPagemarkEntry
     {
         private string _path;
         private string _entryName;
@@ -77,14 +79,15 @@ namespace NeeView
         public string Note => LoosePath.GetFileName(Path);
         public string Detail => EntryName;
 
+#if false
         public IThumbnail Thumbnail
         {
             get
             {
-                if (PagemarkList.Current.IsThumbnailVisibled)
-                {
-                    PagemarkListVertualCollection.Current.Attach(this);
-                }
+                //if (PagemarkList.Current.IsThumbnailVisibled)
+                //{
+                //    PagemarkListVertualCollection.Current.Attach(this);
+                //}
                 return ArchivePage.Thumbnail;
             }
         }
@@ -116,7 +119,7 @@ namespace NeeView
         }
 
 
-        #region IVirtualItem
+#region IVirtualItem
 
         public int DetachCount { get; set; }
 
@@ -128,7 +131,8 @@ namespace NeeView
         {
         }
 
-        #endregion
+#endregion
+#endif
 
 
         public bool IsEqual(IPagemarkEntry entry)
@@ -143,3 +147,4 @@ namespace NeeView
     }
 
 }
+

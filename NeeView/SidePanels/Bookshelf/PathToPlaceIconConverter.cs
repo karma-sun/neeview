@@ -40,10 +40,6 @@ namespace NeeView
                 {
                     return new SingleImageSourceCollection(path.Scheme.ToImage());
                 }
-                else if (path.Scheme == QueryScheme.Pagemark)
-                {
-                    return new SingleImageSourceCollection(path.Scheme.ToImage());
-                }
                 else if (path.Search != null)
                 {
                     return new SingleImageSourceCollection(MainWindow.Current.Resources["ic_search_24px"] as ImageSource);

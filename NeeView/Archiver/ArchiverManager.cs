@@ -208,11 +208,6 @@ namespace NeeView
         public ArchiverType GetSupportedType(string fileName, bool isArrowFileSystem = true, bool isAllowMedia = true)
         {
             var query = new QueryPath(fileName);
-            if (query.Scheme == QueryScheme.Pagemark)
-            {
-                var node = PagemarkCollection.Current.FindNode(query);
-                return node != null && node.Value is PagemarkFolder ? ArchiverType.PagemarkArchiver : ArchiverType.None;
-            }
 
             if (isArrowFileSystem && (fileName.Last() == '\\' || fileName.Last() == '/'))
             {
@@ -276,9 +271,6 @@ namespace NeeView
                     break;
                 case ArchiverType.SusieArchiver:
                     archiver = new SusieArchiver(path, source);
-                    break;
-                case ArchiverType.PagemarkArchiver:
-                    archiver = new PagemarkArchiver(path, source);
                     break;
                 case ArchiverType.PlaylistArchiver:
                     archiver = new PlaylistArchive(path, source);
@@ -433,8 +425,6 @@ namespace NeeView
                     return ArchiverType.MediaArchiver;
                 case SusieArchiver susieArchiver:
                     return ArchiverType.SusieArchiver;
-                case PagemarkArchiver pagemarkArchiver:
-                    return ArchiverType.PagemarkArchiver;
                 case PlaylistArchive playlistArchvier:
                     return ArchiverType.PlaylistArchiver;
                 default:
@@ -458,9 +448,9 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
-        #region Debug
+#region Debug
 
         [Conditional("DEBUG")]
         public void DumpCache()
@@ -469,6 +459,6 @@ namespace NeeView
             _cache.Dump();
         }
 
-        #endregion
+#endregion
     }
 }

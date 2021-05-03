@@ -14,7 +14,7 @@ namespace NeeView
         private bool _isVisibleNumber;
         private bool _isSelectedCenter;
         private bool _isManipulationBoundaryFeedbackEnabled = true;
-        private bool _isVisiblePagemark;
+        private bool _isVisiblePlaylistMark;
 
 
         /// <summary>
@@ -48,13 +48,13 @@ namespace NeeView
         }
 
         /// <summary>
-        /// ページマーク表示
+        /// プレイリストマーク表示
         /// </summary>
         [PropertyMember]
-        public bool IsVisiblePagemark
+        public bool IsVisiblePlaylistMark
         {
-            get { return _isVisiblePagemark; }
-            set { SetProperty(ref _isVisiblePagemark, value); }
+            get { return _isVisiblePlaylistMark; }
+            set { SetProperty(ref _isVisiblePlaylistMark, value); }
         }
 
 

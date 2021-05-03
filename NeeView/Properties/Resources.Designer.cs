@@ -346,15 +346,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Pagemark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ArchiveFormat_Pagemark {
-            get {
-                return ResourceManager.GetString("ArchiveFormat.Pagemark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   PDF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ArchiveFormat_Pdf {
@@ -868,15 +859,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   This is pagemark address. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BookAddressInfo_Pagemark {
-            get {
-                return ResourceManager.GetString("BookAddressInfo.Pagemark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Book page image size に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookConfig_BookPageSize {
@@ -1224,6 +1206,15 @@ namespace NeeView.Properties {
         public static string BookmarkConfig_IsSyncBookshelfEnabled {
             get {
                 return ResourceManager.GetString("BookmarkConfig.IsSyncBookshelfEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Removed {0} bookmarks. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookmarkFolderDelete_Message {
+            get {
+                return ResourceManager.GetString("BookmarkFolderDelete.Message", resourceCulture);
             }
         }
         
@@ -2864,15 +2855,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Pagemark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandGroup_Pagemark {
-            get {
-                return ResourceManager.GetString("CommandGroup.Pagemark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Page order に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandGroup_PageOrder {
@@ -2896,6 +2878,15 @@ namespace NeeView.Properties {
         public static string CommandGroup_Panel {
             get {
                 return ResourceManager.GetString("CommandGroup.Panel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Playlist に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandGroup_Playlist {
+            get {
+                return ResourceManager.GetString("CommandGroup.Playlist", resourceCulture);
             }
         }
         
@@ -3053,15 +3044,6 @@ namespace NeeView.Properties {
         public static string CommandHost_PageList {
             get {
                 return ResourceManager.GetString("CommandHost.PageList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Pagemark panel accessor に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandHost_Pagemark {
-            get {
-                return ResourceManager.GetString("CommandHost.Pagemark", resourceCulture);
             }
         }
         
@@ -3673,7 +3655,6 @@ namespace NeeView.Properties {
         ///- Setting file
         ///- History file
         ///- Bookmark file
-        ///- Pagemark file
         ///- Cache file に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string DeleteApplicationDataDialog_Message {
@@ -5179,7 +5160,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Create backups of settings, history, bookmarks, page marks. The thumbnail cache is not backed up. に類似しているローカライズされた文字列を検索します。
+        ///   Create backups of settings, history, bookmarks. The thumbnail cache is not backed up. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ExportBackupCommand_Remarks {
             get {
@@ -5793,15 +5774,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Display pagemark icon に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FilmStripConfig_IsVisiblePagemark {
-            get {
-                return ResourceManager.GetString("FilmStripConfig.IsVisiblePagemark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Show filmstrip background に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FilmStripConfig_IsVisiblePlate {
@@ -5816,6 +5788,15 @@ namespace NeeView.Properties {
         public static string FilmStripConfig_IsVisiblePlate_Remarks {
             get {
                 return ResourceManager.GetString("FilmStripConfig.IsVisiblePlate.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display playlisted mark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FilmStripConfig_IsVisiblePlaylistMark {
+            get {
+                return ResourceManager.GetString("FilmStripConfig.IsVisiblePlaylistMark", resourceCulture);
             }
         }
         
@@ -9452,18 +9433,18 @@ namespace NeeView.Properties {
         /// <summary>
         ///   Include the first and last pages に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string MovePagemarkInBookCommandParameter_IsIncludeTerminal {
+        public static string MovePlaylsitItemInBookCommandParameter_IsIncludeTerminal {
             get {
-                return ResourceManager.GetString("MovePagemarkInBookCommandParameter.IsIncludeTerminal", resourceCulture);
+                return ResourceManager.GetString("MovePlaylsitItemInBookCommandParameter.IsIncludeTerminal", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Loop に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string MovePagemarkInBookCommandParameter_IsLoop {
+        public static string MovePlaylsitItemInBookCommandParameter_IsLoop {
             get {
-                return ResourceManager.GetString("MovePagemarkInBookCommandParameter.IsLoop", resourceCulture);
+                return ResourceManager.GetString("MovePlaylsitItemInBookCommandParameter.IsLoop", resourceCulture);
             }
         }
         
@@ -9873,38 +9854,38 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Next pagemark に類似しているローカライズされた文字列を検索します。
+        ///   Next playlist item に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string NextPagemarkCommand {
+        public static string NextPlaylistItemCommand {
             get {
-                return ResourceManager.GetString("NextPagemarkCommand", resourceCulture);
+                return ResourceManager.GetString("NextPlaylistItemCommand", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Go to the next page mark. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string NextPagemarkCommand_Remarks {
+        public static string NextPlaylistItemCommand_Remarks {
             get {
-                return ResourceManager.GetString("NextPagemarkCommand.Remarks", resourceCulture);
+                return ResourceManager.GetString("NextPlaylistItemCommand.Remarks", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Next pagemark in book に類似しているローカライズされた文字列を検索します。
+        ///   Next playlist item in book に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string NextPagemarkInBookCommand {
+        public static string NextPlaylistItemInBookCommand {
             get {
-                return ResourceManager.GetString("NextPagemarkInBookCommand", resourceCulture);
+                return ResourceManager.GetString("NextPlaylistItemInBookCommand", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Move to the next page mark in the current book. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string NextPagemarkInBookCommand_Remarks {
+        public static string NextPlaylistItemInBookCommand_Remarks {
             get {
-                return ResourceManager.GetString("NextPagemarkInBookCommand.Remarks", resourceCulture);
+                return ResourceManager.GetString("NextPlaylistItemInBookCommand.Remarks", resourceCulture);
             }
         }
         
@@ -10081,11 +10062,11 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   There is no pagemark before the current page に類似しているローカライズされた文字列を検索します。
+        ///   There is no playlist item before the current page に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string Notice_FirstPagemark {
+        public static string Notice_FirstPlaylistItem {
             get {
-                return ResourceManager.GetString("Notice.FirstPagemark", resourceCulture);
+                return ResourceManager.GetString("Notice.FirstPlaylistItem", resourceCulture);
             }
         }
         
@@ -10182,11 +10163,11 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   There is no pagemark after the current page に類似しているローカライズされた文字列を検索します。
+        ///   There is no playlist item after the current page に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string Notice_LastPagemark {
+        public static string Notice_LastPlaylistItem {
             get {
-                return ResourceManager.GetString("Notice.LastPagemark", resourceCulture);
+                return ResourceManager.GetString("Notice.LastPlaylistItem", resourceCulture);
             }
         }
         
@@ -10326,24 +10307,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   No next pagemark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Notice_PagemarkNextFailed {
-            get {
-                return ResourceManager.GetString("Notice.PagemarkNextFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   No previous pagemark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Notice_PagemarkPrevFailed {
-            get {
-                return ResourceManager.GetString("Notice.PagemarkPrevFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Play failed に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Notice_PlayFailed {
@@ -10353,11 +10316,29 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   {0} pagemarks deleted. に類似しているローカライズされた文字列を検索します。
+        ///   No next playlist item に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string Notice_RemoveUnlinkedPagemark {
+        public static string Notice_PlaylistItemNextFailed {
             get {
-                return ResourceManager.GetString("Notice.RemoveUnlinkedPagemark", resourceCulture);
+                return ResourceManager.GetString("Notice.PlaylistItemNextFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   No previous playlist item に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Notice_PlaylistItemPrevFailed {
+            get {
+                return ResourceManager.GetString("Notice.PlaylistItemPrevFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   {0} playlist items removed. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Notice_RemoveUnlinkedPlaylistItem {
+            get {
+                return ResourceManager.GetString("Notice.RemoveUnlinkedPlaylistItem", resourceCulture);
             }
         }
         
@@ -11012,6 +10993,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Add to _playlist に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PageListItem_Menu_AddToPlaylist {
+            get {
+                return ResourceManager.GetString("PageListItem.Menu.AddToPlaylist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   _Copy に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string PageListItem_Menu_Copy {
@@ -11075,15 +11065,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Page_mark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string PageListItem_Menu_Pagemark {
-            get {
-                return ResourceManager.GetString("PageListItem.Menu.Pagemark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   PageList panel accessor に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string PageListPanelAccessor {
@@ -11143,231 +11124,6 @@ namespace NeeView.Properties {
         public static string PageListPanelAccessor_Style {
             get {
                 return ResourceManager.GetString("PageListPanelAccessor.Style", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Current book only に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Pagemark_MoreMenu_CurrentBook {
-            get {
-                return ResourceManager.GetString("Pagemark.MoreMenu.CurrentBook", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Remove invalid pagemark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Pagemark_MoreMenu_DeleteInvalid {
-            get {
-                return ResourceManager.GetString("Pagemark.MoreMenu.DeleteInvalid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Open as a book に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Pagemark_MoreMenu_OpenAsBook {
-            get {
-                return ResourceManager.GetString("Pagemark.MoreMenu.OpenAsBook", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Path order に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Pagemark_MoreMenu_SortPath {
-            get {
-                return ResourceManager.GetString("Pagemark.MoreMenu.SortPath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Pagemark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Pagemark_Title {
-            get {
-                return ResourceManager.GetString("Pagemark.Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Save pagemark file に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string PagemarkConfig_IsSavePagemark {
-            get {
-                return ResourceManager.GetString("PagemarkConfig.IsSavePagemark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Pagemark file location に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string PagemarkConfig_PagemarkFilePath {
-            get {
-                return ResourceManager.GetString("PagemarkConfig.PagemarkFilePath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Pagemark order に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string PagemarkConfig_PagemarkOrder {
-            get {
-                return ResourceManager.GetString("PagemarkConfig.PagemarkOrder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Pagemark item style に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string PagemarkConfig_PanelListItemStyle {
-            get {
-                return ResourceManager.GetString("PagemarkConfig.PanelListItemStyle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Temporary folders can not be pagemarked に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string PagemarkError_Message {
-            get {
-                return ResourceManager.GetString("PagemarkError.Message", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Removed {5} pagemarks. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string PagemarkFolderDelete_Message {
-            get {
-                return ResourceManager.GetString("PagemarkFolderDelete.Message", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   _Remove pagemark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string PagemarkItem_Menu_Delete {
-            get {
-                return ResourceManager.GetString("PagemarkItem.Menu.Delete", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   _Delete folder に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string PagemarkItem_Menu_DeleteFolder {
-            get {
-                return ResourceManager.GetString("PagemarkItem.Menu.DeleteFolder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   _Open に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string PagemarkItem_Menu_Open {
-            get {
-                return ResourceManager.GetString("PagemarkItem.Menu.Open", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Rena_me に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string PagemarkItem_Menu_Rename {
-            get {
-                return ResourceManager.GetString("PagemarkItem.Menu.Rename", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Pagemark item accessor に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string PagemarkItemAccessor {
-            get {
-                return ResourceManager.GetString("PagemarkItemAccessor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Item is expanded に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string PagemarkItemAccessor_IsExpanded {
-            get {
-                return ResourceManager.GetString("PagemarkItemAccessor.IsExpanded", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Item name に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string PagemarkItemAccessor_Name {
-            get {
-                return ResourceManager.GetString("PagemarkItemAccessor.Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   The path corresponding to the item に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string PagemarkItemAccessor_Path {
-            get {
-                return ResourceManager.GetString("PagemarkItemAccessor.Path", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Item type に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string PagemarkItemAccessor_Type {
-            get {
-                return ResourceManager.GetString("PagemarkItemAccessor.Type", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Add pagemark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string PagemarkList_Add_ToolTip {
-            get {
-                return ResourceManager.GetString("PagemarkList.Add.ToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Pagemark panel accessor に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string PagemarkPanelAccessor {
-            get {
-                return ResourceManager.GetString("PagemarkPanelAccessor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   List items に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string PagemarkPanelAccessor_Items {
-            get {
-                return ResourceManager.GetString("PagemarkPanelAccessor.Items", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Selected items に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string PagemarkPanelAccessor_SelectedItems {
-            get {
-                return ResourceManager.GetString("PagemarkPanelAccessor.SelectedItems", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   List item stye に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string PagemarkPanelAccessor_Style {
-            get {
-                return ResourceManager.GetString("PagemarkPanelAccessor.Style", resourceCulture);
             }
         }
         
@@ -12642,38 +12398,38 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Prev pagemark に類似しているローカライズされた文字列を検索します。
+        ///   Prev playlist item に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PrevPagemarkCommand {
+        public static string PrevPlaylistItemCommand {
             get {
-                return ResourceManager.GetString("PrevPagemarkCommand", resourceCulture);
+                return ResourceManager.GetString("PrevPlaylistItemCommand", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Go to the previous page mark. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PrevPagemarkCommand_Remarks {
+        public static string PrevPlaylistItemCommand_Remarks {
             get {
-                return ResourceManager.GetString("PrevPagemarkCommand.Remarks", resourceCulture);
+                return ResourceManager.GetString("PrevPlaylistItemCommand.Remarks", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Prev pagemark in book に類似しているローカライズされた文字列を検索します。
+        ///   Prev playlist item in book に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PrevPagemarkInBookCommand {
+        public static string PrevPlaylistItemInBookCommand {
             get {
-                return ResourceManager.GetString("PrevPagemarkInBookCommand", resourceCulture);
+                return ResourceManager.GetString("PrevPlaylistItemInBookCommand", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Move to the previous page mark in the current book. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string PrevPagemarkInBookCommand_Remarks {
+        public static string PrevPlaylistItemInBookCommand_Remarks {
             get {
-                return ResourceManager.GetString("PrevPagemarkInBookCommand.Remarks", resourceCulture);
+                return ResourceManager.GetString("PrevPlaylistItemInBookCommand.Remarks", resourceCulture);
             }
         }
         
@@ -12908,15 +12664,6 @@ namespace NeeView.Properties {
         public static string QueryScheme_File {
             get {
                 return ResourceManager.GetString("QueryScheme.File", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Pagemark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string QueryScheme_Pagemark {
-            get {
-                return ResourceManager.GetString("QueryScheme.Pagemark", resourceCulture);
             }
         }
         
@@ -15417,11 +15164,11 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Display pagemark marker に類似しているローカライズされた文字列を検索します。
+        ///   Display playlisted mark に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SliderConfig_IsVisiblePagemark {
+        public static string SliderConfig_IsVisiblePlaylistMark {
             get {
-                return ResourceManager.GetString("SliderConfig.IsVisiblePagemark", resourceCulture);
+                return ResourceManager.GetString("SliderConfig.IsVisiblePlaylistMark", resourceCulture);
             }
         }
         
@@ -17316,51 +17063,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Toggle pagemark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string TogglePagemarkCommand {
-            get {
-                return ResourceManager.GetString("TogglePagemarkCommand", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Pagemark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string TogglePagemarkCommand_Menu {
-            get {
-                return ResourceManager.GetString("TogglePagemarkCommand.Menu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Removed pagemark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string TogglePagemarkCommand_Off {
-            get {
-                return ResourceManager.GetString("TogglePagemarkCommand.Off", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Added pagemark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string TogglePagemarkCommand_On {
-            get {
-                return ResourceManager.GetString("TogglePagemarkCommand.On", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggles pagemark of currently open page. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string TogglePagemarkCommand_Remarks {
-            get {
-                return ResourceManager.GetString("TogglePagemarkCommand.Remarks", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Toggle page mode に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string TogglePageModeCommand {
@@ -17420,6 +17122,51 @@ namespace NeeView.Properties {
         public static string TogglePermitFileCommand_Remarks {
             get {
                 return ResourceManager.GetString("TogglePermitFileCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle playlist item に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TogglePlaylistItemCommand {
+            get {
+                return ResourceManager.GetString("TogglePlaylistItemCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Add to playlist に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TogglePlaylistItemCommand_Menu {
+            get {
+                return ResourceManager.GetString("TogglePlaylistItemCommand.Menu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Removed from playlist に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TogglePlaylistItemCommand_Off {
+            get {
+                return ResourceManager.GetString("TogglePlaylistItemCommand.Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Added to playlist に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TogglePlaylistItemCommand_On {
+            get {
+                return ResourceManager.GetString("TogglePlaylistItemCommand.On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Add or delete the current page to the playlist. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TogglePlaylistItemCommand_Remarks {
+            get {
+                return ResourceManager.GetString("TogglePlaylistItemCommand.Remarks", resourceCulture);
             }
         }
         
@@ -18171,51 +17918,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Toggle pagemark panel に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleVisiblePagemarkListCommand {
-            get {
-                return ResourceManager.GetString("ToggleVisiblePagemarkListCommand", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Pagemark panel に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleVisiblePagemarkListCommand_Menu {
-            get {
-                return ResourceManager.GetString("ToggleVisiblePagemarkListCommand.Menu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Pagemark panel OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleVisiblePagemarkListCommand_Off {
-            get {
-                return ResourceManager.GetString("ToggleVisiblePagemarkListCommand.Off", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Pagemark panel に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleVisiblePagemarkListCommand_On {
-            get {
-                return ResourceManager.GetString("ToggleVisiblePagemarkListCommand.On", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle vidible / hide of the pagemark panel. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ToggleVisiblePagemarkListCommand_Remarks {
-            get {
-                return ResourceManager.GetString("ToggleVisiblePagemarkListCommand.Remarks", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Toggle slider に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleVisiblePageSliderCommand {
@@ -18257,6 +17959,51 @@ namespace NeeView.Properties {
         public static string ToggleVisiblePageSliderCommand_Remarks {
             get {
                 return ResourceManager.GetString("ToggleVisiblePageSliderCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle playlist panel に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisiblePlaylistCommand {
+            get {
+                return ResourceManager.GetString("ToggleVisiblePlaylistCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Playlist panel に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisiblePlaylistCommand_Menu {
+            get {
+                return ResourceManager.GetString("ToggleVisiblePlaylistCommand.Menu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Playlist panel OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisiblePlaylistCommand_Off {
+            get {
+                return ResourceManager.GetString("ToggleVisiblePlaylistCommand.Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Playlist panel に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisiblePlaylistCommand_On {
+            get {
+                return ResourceManager.GetString("ToggleVisiblePlaylistCommand.On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle vidible / hide of the playlist panel. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ToggleVisiblePlaylistCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ToggleVisiblePlaylistCommand.Remarks", resourceCulture);
             }
         }
         
@@ -19648,15 +19395,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   All pagemark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Word_AllPagemark {
-            get {
-                return ResourceManager.GetString("Word.AllPagemark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Argument に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Word_Argument {
@@ -19806,15 +19544,6 @@ namespace NeeView.Properties {
         public static string Word_DefaultApp {
             get {
                 return ResourceManager.GetString("Word.DefaultApp", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Default pagemark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Word_DefaultPagemark {
-            get {
-                return ResourceManager.GetString("Word.DefaultPagemark", resourceCulture);
             }
         }
         

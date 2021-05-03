@@ -109,7 +109,7 @@ namespace NeeView
         // ドロップ受付判定
         private bool CheckDragContent(object sender, IDataObject data)
         {
-            if (data.GetDataPresent(PageListBox.DragDropFormat) || data.GetDataPresent(PagemarkListBox.DragDropFormat) || data.GetDataPresent(FileInformationView.DragDropFormat)) return false;
+            if (data.GetDataPresent(PageListBox.DragDropFormat) || data.GetDataPresent(FileInformationView.DragDropFormat)) return false;
 
             return (data.GetDataPresent(DataFormats.FileDrop, true) || (data.GetDataPresent("FileContents") && data.GetDataPresent("FileGroupDescriptorW")) || data.GetDataPresent(DataFormats.Bitmap) || data.GetDataPresent(typeof(QueryPath)));
         }
@@ -342,7 +342,7 @@ namespace NeeView
         public override async Task<string> DropAsync(object sender, IDataObject data, string downloadPath, Action<string> nowloading)
         {
             var query = data.GetData(typeof(QueryPath)) as QueryPath;
-            if (query != null && query.Search == null && (query.Scheme == QueryScheme.File || query.IsRoot(QueryScheme.Pagemark)))
+            if (query != null && query.Search == null && query.Scheme == QueryScheme.File)
             {
                 return query.SimplePath;
             }

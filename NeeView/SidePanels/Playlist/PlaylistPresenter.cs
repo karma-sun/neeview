@@ -4,15 +4,21 @@ namespace NeeView
 {
     public class PlaylistPresenter
     {
+        public static PlaylistPresenter Current { get; private set; }
+
+
         private PlaylistView _playliseView;
-        private PlaylisHub _playlistHub;
+        private PlaylistHub _playlistHub;
 
         private PlaylistListBox _playlistListBox;
         private PlaylistListBoxViewModel _playlistListBoxViewModel = new PlaylistListBoxViewModel();
 
 
-        public PlaylistPresenter(PlaylistView playlistView, PlaylisHub playlistModel)
+        public PlaylistPresenter(PlaylistView playlistView, PlaylistHub playlistModel)
         {
+            if (Current != null) throw new InvalidOperationException();
+            Current = this;
+
             _playliseView = playlistView;
             _playlistHub = playlistModel;
 
@@ -28,7 +34,7 @@ namespace NeeView
 
         public PlaylistView PlaylistView => _playliseView;
         public PlaylistListBox PlaylistListBox=> _playlistListBox;
-        public PlaylisHub PlaylistHub => _playlistHub;
+        public PlaylistHub PlaylistHub => _playlistHub;
 
 
         private void UpdateListBox()

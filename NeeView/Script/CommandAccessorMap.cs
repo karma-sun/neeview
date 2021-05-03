@@ -16,7 +16,7 @@ namespace NeeView
 #pragma warning disable CS0612 // 型またはメンバーが旧型式です
             foreach (var item in commandTable.ObsoleteCommands)
             {
-                this.Add(item, new ObsoleteCommandAccessor(item));
+                this.Add(item.Key, new ObsoleteCommandAccessor(item.Key, item.Value));
             }
 #pragma warning restore CS0612 // 型またはメンバーが旧型式です
         }

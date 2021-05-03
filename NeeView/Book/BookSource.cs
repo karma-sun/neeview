@@ -27,8 +27,6 @@ namespace NeeView
         // メディアアーカイバ？
         public bool IsMedia => ArchiveEntryCollection?.Archiver is MediaArchiver;
 
-        // ページマークアーカイバ？
-        public bool IsPagemarkFolder => ArchiveEntryCollection?.Archiver is PagemarkArchiver;
 
         // プレイリスト？
         public bool IsPlaylist => ArchiveEntryCollection?.Archiver is PlaylistArchive;
@@ -105,8 +103,6 @@ namespace NeeView
                     return inner + Properties.Resources.ArchiveFormat_Pdf + $"({extension})";
                 case ArchiverType.MediaArchiver:
                     return inner + Properties.Resources.ArchiveFormat_Media + $"({extension})";
-                case ArchiverType.PagemarkArchiver:
-                    return Properties.Resources.ArchiveFormat_Pagemark;
                 case ArchiverType.PlaylistArchiver:
                     return Properties.Resources.ArchiveFormat_Playlist;
                 default:

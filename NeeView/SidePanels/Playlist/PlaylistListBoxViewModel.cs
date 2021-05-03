@@ -265,5 +265,34 @@ namespace NeeView
         {
             _model.Open(item);
         }
+
+        public bool CanMovePrevious()
+        {
+            return this.Items != null;
+        }
+
+        public void MovePrevious()
+        {
+            this.CollectionViewSource.View.MoveCurrentTo(this.SelectedItem);
+            this.CollectionViewSource.View.MoveCurrentToPrevious();
+            this.SelectedItem = this.CollectionViewSource.View.CurrentItem as PlaylistItem;
+
+            _model.Open(this.SelectedItem);
+        }
+
+        public bool CanMoveNext()
+        {
+            return this.Items != null;
+        }
+
+        public void MoveNext()
+        {
+            this.CollectionViewSource.View.MoveCurrentTo(this.SelectedItem);
+            this.CollectionViewSource.View.MoveCurrentToNext();
+            this.SelectedItem = this.CollectionViewSource.View.CurrentItem as PlaylistItem;
+
+            _model.Open(this.SelectedItem);
+        }
+
     }
 }

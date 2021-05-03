@@ -122,14 +122,14 @@
 
 &lt;h2&gt; 概述 &lt;/h2&gt;
 &lt;p&gt;
-    擴展腳本指令。無論是更改設定、一併執行多個指令、已更改為其他的指令參數作為另一個指令執行也都是可以做到的。
+    擴展腳本指令。無論是更改設定、一併執行多個指令、已更改為其他的指令參數做為另一個指令執行也都是可以做到的。
 &lt;/p&gt;
 &lt;p&gt;
     腳本功能在預設下是不啟用的。可到設定的「腳本」頁面設定為啟用。
 
     &lt;ul&gt;
         &lt;li&gt;腳本以 Javascript (ECMA 5.1) 格式所撰寫。&lt;/li&gt;
-        &lt;li&gt;以 &lt;a href="https://github.com/sebastienros/jint"&gt;Jint&lt;/a&gt; 作為腳本引擎。&lt;/li&gt;
+        &lt;li&gt;以 &lt;a href="https://github.com/sebastienros/jint"&gt;Jint&lt;/a&gt; 做為腳本引擎。&lt;/li&gt;
         &lt;li&gt;檔案副檔名為 .nvjs 。&lt;/li&gt;
         &lt;li&gt;文字編碼為UTF8。推薦不含BOM。&lt;/li&gt;
     &lt;/ul&gt;
@@ -149,7 +149,7 @@
 
 &lt;h2&gt;指令腳本&lt;/h2&gt;
 &lt;p&gt;
-    腳本資料夾中配置的腳本檔案可以作為指令使用す。
+    腳本資料夾中配置的腳本檔案可以做為指令使用す。
     １檔案為１指令。
 
     &lt;ul&gt;
@@ -321,7 +321,7 @@ nv.Command.ToggleMediaPlay.Execute()
 &lt;/table&gt;
 
 &lt;p&gt;
-    標準搜尋或是單詞一致搜尋時，以下之類的會變成模稜兩可的搜尋。
+    標準搜尋或是單詞一致搜尋時，以下之類的會變成模稜兩可。
     
     &lt;ul&gt;
         &lt;li&gt;不區分半形、全形。&lt;/li&gt;
@@ -364,7 +364,7 @@ nv.Command.ToggleMediaPlay.Execute()
 
 &lt;blockquote&gt;ABC /not /word DEF&lt;/blockquote&gt;
 
-搜尋2019年4月更新的檔案
+搜尋2019年4月被更新的檔案
 
 &lt;blockquote&gt;/since 2019-04-01 /until 2019-05-01&lt;/blockquote&gt;</value>
   </data>
@@ -411,7 +411,7 @@ nv.Command.ToggleMediaPlay.Execute()
     <value>顯示版本資訊</value>
   </data>
   <data name="AppOption.ScriptFile" xml:space="preserve">
-    <value>啟動時執行指定的腳本檔案</value>
+    <value>啟動時執行被指定的腳本檔案</value>
   </data>
   <data name="AppOption.SettingFilename" xml:space="preserve">
     <value>指定設定檔案 "UserSetting.json" 的路徑</value>
@@ -420,7 +420,7 @@ nv.Command.ToggleMediaPlay.Execute()
     <value>指示選項列表的結尾。後續參數會被視為檔案名稱</value>
   </data>
   <data name="AppOption.WindowState" xml:space="preserve">
-    <value>以指定的視窗狀態啟動</value>
+    <value>以被指定的視窗狀態啟動</value>
   </data>
   <data name="ArchiveEntryCollectionMode.CurrentDirectory" xml:space="preserve">
     <value>展開每個目錄</value>
@@ -474,7 +474,7 @@ nv.Command.ToggleMediaPlay.Execute()
     <value>隱藏自動隱藏面板的時間 (秒)</value>
   </data>
   <data name="AutoHideConfig.AutoHideDelayVisibleTime" xml:space="preserve">
-    <value>顯示自動隱藏面板的持續時間 (秒)</value>
+    <value>顯示自動隱藏面板的時間 (秒)</value>
   </data>
   <data name="AutoHideConfig.AutoHideFocusLockMode" xml:space="preserve">
     <value>自動隱藏面板的焦點模式</value>
@@ -483,13 +483,13 @@ nv.Command.ToggleMediaPlay.Execute()
     <value>當有焦點時不隱藏顯示。</value>
   </data>
   <data name="AutoHideConfig.AutoHideHitTestMargin" xml:space="preserve">
-    <value>面板自動顯示判斷的區域寬度 (像素)</value>
+    <value>自動面板顯示判斷的區域寬度 (像素)</value>
   </data>
   <data name="AutoHideConfig.IsAutoHideKeyDownDelay" xml:space="preserve">
-    <value>自動隱藏面板的按鍵輸入顯示繼續</value>
+    <value>自動隱藏面板的繼續顯示按鍵輸入</value>
   </data>
   <data name="AutoHideConfig.IsAutoHideKeyDownDelay.Remarks" xml:space="preserve">
-    <value>如果有按鍵被輸入則延遲隱藏顯示。</value>
+    <value>按鍵被輸入時延遲隱藏顯示。</value>
   </data>
   <data name="AutoHideConfrictMode.Allow" xml:space="preserve">
     <value>允許</value>
@@ -537,7 +537,7 @@ nv.Command.ToggleMediaPlay.Execute()
     <value>將透明圖像的背景設為方格樣式</value>
   </data>
   <data name="BackgroundConfig.IsPageBackgroundChecker.Remarks" xml:space="preserve">
-    <value>變成「@BackgroundConfig.PageBackgroundColor」的方格樣式。</value>
+    <value>變為「@BackgroundConfig.PageBackgroundColor」的方格樣式。</value>
   </data>
   <data name="BackgroundConfig.PageBackgroundColor" xml:space="preserve">
     <value>透明圖像的背景顏色</value>
@@ -600,7 +600,7 @@ nv.Command.ToggleMediaPlay.Execute()
     <value>構成書本的頁面</value>
   </data>
   <data name="BookAccessor.Path" xml:space="preserve">
-    <value>書本的路徑。當書本沒有開啟時為 null</value>
+    <value>書本的路徑。當書本沒有被開啟時為 null</value>
   </data>
   <data name="BookAccessor.ViewPages" xml:space="preserve">
     <value>顯示中的頁面</value>
@@ -618,10 +618,10 @@ nv.Command.ToggleMediaPlay.Execute()
     <value>此為頁籤位置</value>
   </data>
   <data name="BookConfig.BookPageSize" xml:space="preserve">
-    <value>書本圖像大小</value>
+    <value>書本圖像尺寸</value>
   </data>
   <data name="BookConfig.BookPageSize.Remarks" xml:space="preserve">
-    <value>被視為書本頁面顯示的圖像大小。由於顯示縮圖，過大的值可能會有以低解析度顯示的情況。</value>
+    <value>被視為書本頁面顯示的圖像尺寸。由於顯示縮圖，過大的值可能會有以低解析度顯示的情況。</value>
   </data>
   <data name="BookConfig.ContentsSpace" xml:space="preserve">
     <value>2 頁面之間的距離 (像素)</value>
@@ -633,16 +633,16 @@ nv.Command.ToggleMediaPlay.Execute()
     <value>排除資料夾</value>
   </data>
   <data name="BookConfig.IsAutoRecursive" xml:space="preserve">
-    <value>只有單一子資料夾時不經確認直接讀入</value>
+    <value>當子資料夾為獨立時不經確認直接讀入</value>
   </data>
   <data name="BookConfig.IsAutoRecursive.Remarks" xml:space="preserve">
-    <value>在沒有頁面，而且只存在一個子資料夾時自動讀入子資料夾。</value>
+    <value>當沒有頁面且只存在一個子資料夾時自動讀入子資料夾。</value>
   </data>
   <data name="BookConfig.IsConfirmRecursive" xml:space="preserve">
-    <value>只有子資料夾時詢問是否要讀入</value>
+    <value>當只有子資料夾時，詢問是否要讀入</value>
   </data>
   <data name="BookConfig.IsConfirmRecursive.Remarks" xml:space="preserve">
-    <value>當開啟書本時沒有可以顯示的頁面，但有子資料夾存在時，顯示一併讀入資料夾的詢問讀入對話框。</value>
+    <value>當開啟書本時沒有可以顯示的頁面，且子資料夾存在時顯示一起讀入資料夾的讀入詢問對話框。</value>
   </data>
   <data name="BookConfig.IsInsertDummyPage" xml:space="preserve">
     <value>插入用於對開的虛擬頁面</value>
@@ -681,7 +681,7 @@ nv.Command.ToggleMediaPlay.Execute()
     <value>無法移動時的音效</value>
   </data>
   <data name="BookConfig.WideRatio" xml:space="preserve">
-    <value>判斷橫向圖像的寬高比 (寬/長)</value>
+    <value>為了判斷橫向圖像的寬高比 (寬/長)</value>
   </data>
   <data name="BookConfig.WideRatio.Remarks" xml:space="preserve">
     <value>使用於「分割橫向頁面」。</value>
@@ -762,7 +762,7 @@ nv.Command.ToggleMediaPlay.Execute()
     <value>目前的書籤資料夾路徑</value>
   </data>
   <data name="BookmarkPanelAccessor.SelectedItems" xml:space="preserve">
-    <value>已選擇的列表項目</value>
+    <value>被選擇的列表項目</value>
   </data>
   <data name="BookmarkPanelAccessor.Style" xml:space="preserve">
     <value>列表項目顯示格式</value>
@@ -891,7 +891,7 @@ nv.Command.ToggleMediaPlay.Execute()
     <value>複製失敗了</value>
   </data>
   <data name="Bookshelf.Home.Menu.Set" xml:space="preserve">
-    <value>將這個位置設定為主頁</value>
+    <value>將此位置設定為主頁</value>
   </data>
   <data name="Bookshelf.Home.ToolTip" xml:space="preserve">
     <value>移動到主頁 (Alt+Home)</value>
@@ -900,10 +900,10 @@ nv.Command.ToggleMediaPlay.Execute()
     <value>移動失敗了</value>
   </data>
   <data name="Bookshelf.MoreMenu.AddQuickAccess" xml:space="preserve">
-    <value>將這個位置加入到快速存取</value>
+    <value>將此位置加入到快速存取</value>
   </data>
   <data name="Bookshelf.MoreMenu.ClearHistory" xml:space="preserve">
-    <value>刪除這個位置所有的歷史記錄</value>
+    <value>刪除此位置的所有的歷史記錄</value>
   </data>
   <data name="Bookshelf.MoreMenu.ExportPlaylist" xml:space="preserve">
     <value>儲存播放列表...</value>
@@ -918,7 +918,7 @@ nv.Command.ToggleMediaPlay.Execute()
     <value>搜尋選項</value>
   </data>
   <data name="Bookshelf.MoreMenu.Subfolder" xml:space="preserve">
-    <value>在這個位置讀入子資料夾</value>
+    <value>在此位置讀入子資料夾む</value>
   </data>
   <data name="Bookshelf.Next.ToolTip" xml:space="preserve">
     <value>前進 (Alt+Right)</value>
@@ -954,7 +954,7 @@ nv.Command.ToggleMediaPlay.Execute()
     <value>書本移動設為巡回移動</value>
   </data>
   <data name="BookshelfConfig.IsCruise.Remarks" xml:space="preserve">
-    <value>進行包含資料夾父子級關係的移動。不適用於書庫的搜尋結果。</value>
+    <value>移動資料夾連同父子級關係。不適用於書庫的搜尋結果。</value>
   </data>
   <data name="BookshelfConfig.IsIncrementalSearchEnabled" xml:space="preserve">
     <value>啟用增量搜尋</value>
@@ -963,7 +963,7 @@ nv.Command.ToggleMediaPlay.Execute()
     <value>在排序位置插入加入的檔案</value>
   </data>
   <data name="BookshelfConfig.IsInsertItem.Remarks" xml:space="preserve">
-    <value>即時反應書庫的資訊。當這個設定為開啟時，被加入的檔案會插入到目前的排序位置。關閉則加入到列表的結尾。</value>
+    <value>即時反應書庫的資訊。當此設定為開啟時，被加入的檔案會插入到目前的排序位置。關閉則加入到列表的結尾。</value>
   </data>
   <data name="BookshelfConfig.IsMultipleRarFilterEnabled" xml:space="preserve">
     <value>從顯示中過濾 RAR 分割檔案</value>
@@ -987,7 +987,7 @@ nv.Command.ToggleMediaPlay.Execute()
     <value>顯示書籤標記</value>
   </data>
   <data name="BookshelfConfig.IsVisibleBookmarkMark.Remarks" xml:space="preserve">
-    <value>在已被標記的書本中以★顯示標記。</value>
+    <value>在有被標記的書本中以★顯示標記。</value>
   </data>
   <data name="BookshelfConfig.IsVisibleHistoryMark" xml:space="preserve">
     <value>顯示歷史記錄標記</value>
@@ -1072,7 +1072,7 @@ nv.Bookshelf.SelectedItems = nv.Bookshelf.Items.filter(e =&gt; e.Name.startsWith
     <value>搜尋框的文字</value>
   </data>
   <data name="BookshelfPanelAccessor.SelectedItems" xml:space="preserve">
-    <value>已選擇的列表項目</value>
+    <value>被選擇的列表項目</value>
   </data>
   <data name="BookshelfPanelAccessor.Style" xml:space="preserve">
     <value>列表項目顯示格式</value>
@@ -1147,7 +1147,7 @@ nv.Bookshelf.SelectedItems = nv.Bookshelf.Items.filter(e =&gt; e.Name.startsWith
     <value>結束(_X)</value>
   </data>
   <data name="CloseApplicationCommand.Remarks" xml:space="preserve">
-    <value>結束這個應用程式。</value>
+    <value>結束此應用程式。</value>
   </data>
   <data name="ColorSelectEffectUnit.Curve" xml:space="preserve">
     <value>曲線</value>
@@ -1238,16 +1238,16 @@ nv.Command.ViewRotateLeft.TouchGesture = "TouchCenter"</value>
     <value>允許存取按鍵</value>
   </data>
   <data name="CommandConfig.IsAccessKeyEnabled.Remarks" xml:space="preserve">
-    <value>如果為關閉，會將使用 Alt 鍵 等系統操作指令的快速鍵無效以避免誤按操作。但 Alt+F4 是總是有效的。</value>
+    <value>如果為關閉，讓使用 Alt 鍵 等系統操作指令的快速鍵無效以避免誤按操作。但 Alt+F4 是總是有效的。</value>
   </data>
   <data name="CommandConfig.IsReversePageMove" xml:space="preserve">
     <value>依照滑動條方向互換頁面移動指令的移動方向</value>
   </data>
   <data name="CommandConfig.IsReversePageMove.Remarks" xml:space="preserve">
-    <value>當滑動條是由左往右時頁面移動方向會相反。指令功能的設定可在指令參數的「@ReversibleCommandParameter.IsReverse」設定。</value>
+    <value>當滑動條為由左往右時頁面移動方向為相反。作用指令的設定為設定指令參數機能的「@ReversibleCommandParameter.IsReverse」。</value>
   </data>
   <data name="CommandConfig.IsReversePageMoveWheel" xml:space="preserve">
-    <value>滾輪操作時互換</value>
+    <value>滾輪操作時取代</value>
   </data>
   <data name="CommandConfig.IsReversePageMoveWheel.Remarks" xml:space="preserve">
     <value>可以選擇僅在滾輪操作的應對。</value>
@@ -1320,7 +1320,7 @@ nv.Command.ViewRotateLeft.TouchGesture = "TouchCenter"</value>
   </data>
   <data name="CommandHost.Command" xml:space="preserve">
     <value>指令存取器的關聯陣列。
-指令與 設定 &gt; 指令設定中顯示的指令相同。詳細情況請到 &lt;a href="#CommandList"&gt;指令列表&lt;/a&gt; 。</value>
+指令與 設定 &gt; 指令設定中被顯示的指令相同。詳細情況請到 &lt;a href="#CommandList"&gt;指令列表&lt;/a&gt; 。</value>
   </data>
   <data name="CommandHost.Command.Example" xml:space="preserve">
     <value>// "NextPage" 執行指令
@@ -1380,7 +1380,7 @@ if (isYes) {
     <value>顯示輸入對話框。</value>
   </data>
   <data name="CommandHost.ShowInputDialog.Returns" xml:space="preserve">
-    <value>已輸入的文字。被取消時為 null</value>
+    <value>被輸入的文字。被取消時為 null</value>
   </data>
   <data name="CommandHost.ShowInputDialog.text" xml:space="preserve">
     <value>預設的文字 (可省略)</value>
@@ -1437,10 +1437,10 @@ nv.Values.Test = "Hello!"</value>
     <value>重設...</value>
   </data>
   <data name="CommandListItem.Message.ShareParameter" xml:space="preserve">
-    <value>與「{0}」參數共用</value>
+    <value>「{0}」與參數共用</value>
   </data>
   <data name="CommandParameter.Share" xml:space="preserve">
-    <value>與「{0}」共通的參數。</value>
+    <value>「{0}」為共用的參數。</value>
   </data>
   <data name="CommandParameterControl.Empty" xml:space="preserve">
     <value>並沒有參數</value>
@@ -1482,7 +1482,7 @@ nv.Values.Test = "Hello!"</value>
     <value>為壓縮檔時</value>
   </data>
   <data name="CopyFileCommandParameter.MultiPagePolicy" xml:space="preserve">
-    <value>為 2 頁面時</value>
+    <value>為2 頁面時</value>
   </data>
   <data name="CopyImageCommand" xml:space="preserve">
     <value>複製圖像</value>
@@ -1627,13 +1627,13 @@ nv.Values.Test = "Hello!"</value>
     <value>手勢</value>
   </data>
   <data name="DragActionType.MarqueeZoom" xml:space="preserve">
-    <value>放大選取範圍</value>
+    <value>擴大選取範圍</value>
   </data>
   <data name="DragActionType.Move" xml:space="preserve">
     <value>移動</value>
   </data>
   <data name="DragActionType.MoveScale" xml:space="preserve">
-    <value>移動 (依照比例)</value>
+    <value>移動 (依照縮放)</value>
   </data>
   <data name="DragActionType.None" xml:space="preserve">
     <value>無</value>
@@ -1690,7 +1690,7 @@ nv.Values.Test = "Hello!"</value>
     <value>效果</value>
   </data>
   <data name="Effect.EffectType" xml:space="preserve">
-    <value>類別</value>
+    <value>種別</value>
   </data>
   <data name="Effect.Grid" xml:space="preserve">
     <value>網格</value>
@@ -2089,7 +2089,7 @@ nv.Values.Test = "Hello!"</value>
     <value>預設輸出資料夾</value>
   </data>
   <data name="ExportImageAsCommandParameter.ExportFolder.Remarks" xml:space="preserve">
-    <value>啟動時的輸出資料夾。啟動過程中遵循更改的儲存目標位置。</value>
+    <value>啟動時的輸出資料夾。啟動過程中遵循被更改的儲存目標位置。</value>
   </data>
   <data name="ExportImageAsCommandParameter.QualityLevel" xml:space="preserve">
     <value>JPEG 品質</value>
@@ -2247,10 +2247,10 @@ nv.Values.Test = "Hello!"</value>
     <value>檔案名稱中含有無法使用的文字。</value>
   </data>
   <data name="FileRenameWrongDeviceDialog.Message" xml:space="preserve">
-    <value>指定的裝置名稱無效。</value>
+    <value>被指定的裝置名稱無效。</value>
   </data>
   <data name="FileRenameWrongDialog.Message" xml:space="preserve">
-    <value>指定的檔案名稱無效。</value>
+    <value>被指定的檔案名稱無效。</value>
   </data>
   <data name="FilmStripConfig.ImageWidth" xml:space="preserve">
     <value>頁面縮圖大小</value>
@@ -2262,10 +2262,10 @@ nv.Values.Test = "Hello!"</value>
     <value>自動隱藏膠片條</value>
   </data>
   <data name="FilmStripConfig.IsManipulationBoundaryFeedbackEnabled" xml:space="preserve">
-    <value>膠片條觸控捲動邊界回彈</value>
+    <value>膠片條觸控捲動的邊界</value>
   </data>
   <data name="FilmStripConfig.IsSelectedCenter" xml:space="preserve">
-    <value>捲動選擇的項目在中央顯示</value>
+    <value>捲動被選擇的項目如同中央顯示那樣</value>
   </data>
   <data name="FilmStripConfig.IsVisibleNumber" xml:space="preserve">
     <value>顯示頁面編號</value>
@@ -2280,7 +2280,7 @@ nv.Values.Test = "Hello!"</value>
     <value>「@FilmStripConfig.IsHideFilmStrip」為啟用時，會顯示膠片條的背景。</value>
   </data>
   <data name="FirstPageCommand" xml:space="preserve">
-    <value>移動到開始的頁面</value>
+    <value>移動到最開始的頁面</value>
   </data>
   <data name="FirstPageCommand.Remarks" xml:space="preserve">
     <value>移動到第一頁。</value>
@@ -2430,7 +2430,7 @@ nv.Values.Test = "Hello!"</value>
     <value>列表項目的字型比例</value>
   </data>
   <data name="HelpCommandList.Message" xml:space="preserve">
-    <value>沒有被分配的指令操作是可以在「指令設定」設定使用的。</value>
+    <value>操作沒有被分配的指令是可以在「指令設定」設定使用的。</value>
   </data>
   <data name="HelpCommandList.Title" xml:space="preserve">
     <value>NeeView 指令列表</value>
@@ -2487,10 +2487,10 @@ nv.Values.Test = "Hello!"</value>
     <value>歷史記錄</value>
   </data>
   <data name="HistoryConfig.HistoryEntryPageCount" xml:space="preserve">
-    <value>歷史記錄為已記錄的頁面操作次數</value>
+    <value>歷史記錄為被記錄的頁面操作次數</value>
   </data>
   <data name="HistoryConfig.HistoryEntryPageCount.Remarks" xml:space="preserve">
-    <value>超過設定次數的頁面移動操作、或是以最後頁面的顯示記錄歷史記錄。</value>
+    <value>超過設定次數的頁面移動操作、或是顯示最後頁面時記錄至歷史記錄。</value>
   </data>
   <data name="HistoryConfig.HistoryFilePath" xml:space="preserve">
     <value>歷史記錄檔案的儲存位置</value>
@@ -2505,10 +2505,10 @@ nv.Values.Test = "Hello!"</value>
     <value>僅顯示目前開啟的書本資料夾的歷史記錄。</value>
   </data>
   <data name="HistoryConfig.IsForceUpdateHistory" xml:space="preserve">
-    <value>從歷史記錄開啟時一併更新最後閱覽日期</value>
+    <value>從歷史記錄開啟時也要更新最後閱覽日期</value>
   </data>
   <data name="HistoryConfig.IsInnerArchiveHistoryEnabled" xml:space="preserve">
-    <value>將多重壓縮檔儲存到歷史記錄</value>
+    <value>將多重壓縮檔儲存到歷史記錄中</value>
   </data>
   <data name="HistoryConfig.IsKeepFolderStatus" xml:space="preserve">
     <value>儲存個別資料夾的排序等資訊</value>
@@ -2523,7 +2523,7 @@ nv.Values.Test = "Hello!"</value>
     <value>儲存 UNC 路徑至歷史記錄</value>
   </data>
   <data name="HistoryConfig.IsUncHistoryEnabled.Remarks" xml:space="preserve">
-    <value>儲存 "\\電腦名稱\~"  這樣的網路路徑到歷史記錄。</value>
+    <value>儲存 "\\電腦名稱\~"  之類的網路路徑至歷史記錄。</value>
   </data>
   <data name="HistoryConfig.LimitSize" xml:space="preserve">
     <value>儲存數量上限</value>
@@ -2568,7 +2568,7 @@ nv.Values.Test = "Hello!"</value>
     <value>列表項目</value>
   </data>
   <data name="HistoryPanelAccessor.SelectedItems" xml:space="preserve">
-    <value>已選擇的列表項目</value>
+    <value>被選擇的列表項目</value>
   </data>
   <data name="HistoryPanelAccessor.Style" xml:space="preserve">
     <value>列表項目顯示格式</value>
@@ -2625,10 +2625,10 @@ nv.Values.Test = "Hello!"</value>
     <value>依照點放大</value>
   </data>
   <data name="ImageDotKeepConfig.Threshold" xml:space="preserve">
-    <value>套用於「@ImageDotKeepConfig.IsEnabled」的放大率</value>
+    <value>適用「@ImageDotKeepConfig.IsEnabled」的放大率</value>
   </data>
   <data name="ImageDotKeepConfig.Threshold.Remarks" xml:space="preserve">
-    <value>套用在比設定的放大率還要大的時候。</value>
+    <value>適用在比設定的擴大率更大的時候。</value>
   </data>
   <data name="ImageEffectConfig.EffectType" xml:space="preserve">
     <value>圖像效果類別</value>
@@ -2640,10 +2640,10 @@ nv.Values.Test = "Hello!"</value>
     <value>以 HSV 進行顏色設定</value>
   </data>
   <data name="ImageEffectConfig.IsHsvMode.Remarks" xml:space="preserve">
-    <value>以 HSV  (色相、彩度、亮度) 設定顏色參數。當關閉時使用 RGB 設定。</value>
+    <value>以 HSV  (色相、彩度、量度) 設定顏色參數。當關閉時使用 RGB 設定。</value>
   </data>
   <data name="ImageExportErrorDialog.Message" xml:space="preserve">
-    <value>無法輸出這個圖像。</value>
+    <value>無法輸出此圖像。</value>
   </data>
   <data name="ImageExportErrorDialog.Title" xml:space="preserve">
     <value>檔案儲存失敗了</value>
@@ -2679,7 +2679,7 @@ nv.Values.Test = "Hello!"</value>
     <value>將未知副檔名的檔案視為圖像檔案</value>
   </data>
   <data name="ImageStandardConfig.IsAllFileSupported.Remarks" xml:space="preserve">
-    <value>當「@SystemConfig.BookPageCollectMode」為「@BookPageCollectMode.All」時可以使用的功能</value>
+    <value>當 「@SystemConfig.BookPageCollectMode」為「@BookPageCollectMode.All」時可以使用的功能</value>
   </data>
   <data name="ImageStandardConfig.IsAnimatedGifEnabled" xml:space="preserve">
     <value>播放 GIF 動畫</value>
@@ -2832,10 +2832,10 @@ nv.Values.Test = "Hello!"</value>
     <value>程式名稱</value>
   </data>
   <data name="InformationKey.ArchivePath" xml:space="preserve">
-    <value>存檔路徑</value>
+    <value>歸檔路徑</value>
   </data>
   <data name="InformationKey.Archiver" xml:space="preserve">
-    <value>存檔者</value>
+    <value>歸檔者</value>
   </data>
   <data name="InformationKey.Author" xml:space="preserve">
     <value>作者</value>
@@ -3021,23 +3021,23 @@ nv.Values.Test = "Hello!"</value>
     <value>標準設定</value>
   </data>
   <data name="InputSceme.TypeA.Remarks" xml:space="preserve">
-    <value>使用滑鼠點擊「@PrevPageCommand」「@NextPageCommand」
-使用滾輪操作「@PrevScrollPageCommand」「@NextScrollPageCommand」</value>
+    <value>以滑鼠 點擊「@PrevPageCommand」「@NextPageCommand」
+以滾輪操作「@PrevScrollPageCommand」「@NextScrollPageCommand」</value>
   </data>
   <data name="InputSceme.TypeB" xml:space="preserve">
-    <value>優先設定使用滾輪送出頁面</value>
+    <value>優先設定以滾輪送出頁面</value>
   </data>
   <data name="InputSceme.TypeB.Remarks" xml:space="preserve">
-    <value>使用滾輪操作「@PrevPageCommand」「@NextPageCommand」
-使用滑鼠右鍵點擊「@OpenContextMenuCommand」
+    <value>以滾輪操作「@PrevPageCommand」「@NextPageCommand」
+以滑鼠右鍵點擊「@OpenContextMenuCommand」
 未定義滑鼠左鍵點擊</value>
   </data>
   <data name="InputSceme.TypeC" xml:space="preserve">
-    <value>優先設定使用點擊送出頁面</value>
+    <value>優先設定以點擊送出頁面</value>
   </data>
   <data name="InputSceme.TypeC.Remarks" xml:space="preserve">
-    <value>使用滑鼠 點擊「@PrevPageCommand」「@NextPageCommand」
-使用滾輪操作「@ViewScrollUpCommand」「@ViewScrollDownCommand」</value>
+    <value>以滑鼠 點擊「@PrevPageCommand」「@NextPageCommand」
+以滾輪操作「@ViewScrollUpCommand」「@ViewScrollDownCommand」</value>
   </data>
   <data name="InputTouchControl.Remarks" xml:space="preserve">
     <value>指定觸控區域。
@@ -3061,13 +3061,13 @@ include("Sample.nvjs")</value>
     <value>腳本執行結果</value>
   </data>
   <data name="JavascriptEngine.Log" xml:space="preserve">
-    <value>輸出訊息至主控台。從主控台執行腳本時限定。為測試腳本之用。</value>
+    <value>輸出訊息至主控台。從主控台執行腳本時限定。測試腳本之用。</value>
   </data>
   <data name="JavascriptEngine.Log.log" xml:space="preserve">
     <value>輸出訊息</value>
   </data>
   <data name="JavascriptEngine.Sleep" xml:space="preserve">
-    <value>已指定的時間，暫時停止腳本。</value>
+    <value>被指定的時間，暫時停止腳本。</value>
   </data>
   <data name="JavascriptEngine.Sleep.millisecond" xml:space="preserve">
     <value>暫時停止時間 (毫秒)</value>
@@ -3079,7 +3079,7 @@ include("Sample.nvjs")</value>
     <value>檔案執行參數 (可省略)</value>
   </data>
   <data name="JavascriptEngine.SystemCall.filename" xml:space="preserve">
-    <value>執行檔案路徑。當指定 URL 或檔案路徑時則執行關聯的應用程式。</value>
+    <value>執行檔案路徑。當指定URL 或檔案路徑時則執行關聯的應用程式。</value>
   </data>
   <data name="JumpPageCommand" xml:space="preserve">
     <value>移動到指定頁面</value>
@@ -3260,13 +3260,13 @@ include("Sample.nvjs")</value>
     <value>縮小放大鏡倍率</value>
   </data>
   <data name="LoupeScaleDownCommand.Remarks" xml:space="preserve">
-    <value>縮小放大鏡倍率。這個功能僅在使用放大鏡時有效。</value>
+    <value>縮小放大鏡倍率。此功能僅在使用放大鏡時有效。</value>
   </data>
   <data name="LoupeScaleUpCommand" xml:space="preserve">
     <value>放大放大鏡倍率</value>
   </data>
   <data name="LoupeScaleUpCommand.Remarks" xml:space="preserve">
-    <value>放大放大鏡倍率。這個功能僅在使用放大鏡時有效。</value>
+    <value>放大放大鏡倍率。此功能僅在使用放大鏡時有效。</value>
   </data>
   <data name="MagnifyEffectUnit.Amount" xml:space="preserve">
     <value>Amount</value>
@@ -3308,13 +3308,13 @@ include("Sample.nvjs")</value>
     <value>指定為 0 時畫面可能會閃爍。</value>
   </data>
   <data name="MediaArchiveConfig.PageSeconds" xml:space="preserve">
-    <value>使用頁面移動的變換時間 (秒)</value>
+    <value>以頁面移動的變換時間 (秒)</value>
   </data>
   <data name="MediaArchiveConfig.SupportFileTypes" xml:space="preserve">
     <value>影片檔案副檔名</value>
   </data>
   <data name="MediaArchiveConfig.SupportFileTypes.Remarks" xml:space="preserve">
-    <value>在 Windows Media Player 可以播放的內容，大致上都可以播放。</value>
+    <value>以 Windows Media Player 可以 播放的內容，大致上可以播放。</value>
   </data>
   <data name="MediaArchiveConfig.Volume" xml:space="preserve">
     <value>影片音量</value>
@@ -3407,10 +3407,10 @@ include("Sample.nvjs")</value>
     <value>滑鼠手勢筆畫 (像素)</value>
   </data>
   <data name="MouseConfig.GestureMinimumDistance.Remarks" xml:space="preserve">
-    <value>以這個距離的移動判斷手勢筆觸。</value>
+    <value>以此距離的移動判斷手勢筆觸。</value>
   </data>
   <data name="MouseConfig.HoverScrollDuration" xml:space="preserve">
-    <value>懸浮捲動時間 (秒)</value>
+    <value>懸停捲動時間 (秒)</value>
   </data>
   <data name="MouseConfig.HoverScrollDuration.Remarks" xml:space="preserve">
     <value>時間越長，捲動就會越平滑。</value>
@@ -3422,7 +3422,7 @@ include("Sample.nvjs")</value>
     <value>在設定的時間，沒有使用滑鼠操作時隱藏滑鼠指標。</value>
   </data>
   <data name="MouseConfig.IsCursorHideReleaseAction" xml:space="preserve">
-    <value>操作滑鼠按鍵重新顯示</value>
+    <value>以滑鼠按鍵操作重新顯示</value>
   </data>
   <data name="MouseConfig.IsDragEnabled" xml:space="preserve">
     <value>使用滑鼠拖曳功能</value>
@@ -3431,7 +3431,7 @@ include("Sample.nvjs")</value>
     <value>使用滑鼠手勢功能</value>
   </data>
   <data name="MouseConfig.IsHoverScroll" xml:space="preserve">
-    <value>懸浮捲動模式</value>
+    <value>懸停捲動模式</value>
   </data>
   <data name="MouseConfig.LongButtonDownMode" xml:space="preserve">
     <value>長按模式</value>
@@ -3513,7 +3513,7 @@ include("Sample.nvjs")</value>
     <value>當頁面為書本時，開起該書本。</value>
   </data>
   <data name="MoveToParentBookCommand" xml:space="preserve">
-    <value>開啟父級書本</value>
+    <value>開啟層級書本</value>
   </data>
   <data name="MoveToParentBookCommand.Remarks" xml:space="preserve">
     <value>將上一層級以書本方式開啟。</value>
@@ -3525,7 +3525,7 @@ include("Sample.nvjs")</value>
     <value>僅執行 1 頁面</value>
   </data>
   <data name="MultiPagePolicy.Twice" xml:space="preserve">
-    <value>同時執行 2 頁面</value>
+    <value>僅執行 2 頁面</value>
   </data>
   <data name="Navigator.Angle" xml:space="preserve">
     <value>旋轉</value>
@@ -3585,7 +3585,7 @@ include("Sample.nvjs")</value>
     <value>允許放大</value>
   </data>
   <data name="Navigator.StretchScale" xml:space="preserve">
-    <value>基礎比例</value>
+    <value>基本比例</value>
   </data>
   <data name="Navigator.Title" xml:space="preserve">
     <value>導覽</value>
@@ -3657,10 +3657,10 @@ include("Sample.nvjs")</value>
     <value>捲動圖像到頁面下一個方向。無法捲動時則移動到下一個頁面。使用放大鏡僅移動頁面。</value>
   </data>
   <data name="NextSizePageCommand" xml:space="preserve">
-    <value>前進到設定的頁面數量</value>
+    <value>設定頁面前進數量</value>
   </data>
   <data name="NextSizePageCommand.Remarks" xml:space="preserve">
-    <value>僅往下一個方向移動設定的頁面數量。</value>
+    <value>僅移動設定好的頁面數量往下一個方向。</value>
   </data>
   <data name="NoneCommand" xml:space="preserve">
     <value>(none)</value>
@@ -3691,22 +3691,22 @@ include("Sample.nvjs")</value>
     <value>{0} 為書籤資料夾</value>
   </data>
   <data name="Notice.Conflict" xml:space="preserve">
-    <value>與 {0} 衝突</value>
+    <value>與 {0} 合併</value>
   </data>
   <data name="Notice.ConflictWith" xml:space="preserve">
-    <value>{0} 和 {1} 衝突</value>
+    <value>{0} 和 {1} 合併</value>
   </data>
   <data name="Notice.ContentFailed" xml:space="preserve">
     <value>內容讀入失敗了</value>
   </data>
   <data name="Notice.DropContent" xml:space="preserve">
-    <value>已丟棄的內容</value>
+    <value>被丟棄的內容</value>
   </data>
   <data name="Notice.FirstFolderPage" xml:space="preserve">
-    <value>開始的資料夾</value>
+    <value>最開始的資料夾</value>
   </data>
   <data name="Notice.FirstPage" xml:space="preserve">
-    <value>開始的頁面</value>
+    <value>最開始的頁面</value>
   </data>
   <data name="Notice.FirstPagemark" xml:space="preserve">
     <value>在目前頁面之前沒有頁籤</value>
@@ -3828,7 +3828,7 @@ include("Sample.nvjs")</value>
     <value>書本內沒有頁面時顯示訊息</value>
   </data>
   <data name="NoticeConfig.IsOriginalScaleShowMessage" xml:space="preserve">
-    <value>將檢視操作的縮放顯示作為原始圖像大小的基準</value>
+    <value>將檢視操作的縮放顯示做為原始圖像大小的基準</value>
   </data>
   <data name="NoticeConfig.IsOriginalScaleShowMessage.Remarks" xml:space="preserve">
     <value>2 頁面顯示時以較新編號的頁面為基準。</value>
@@ -3894,7 +3894,7 @@ include("Sample.nvjs")</value>
     <value>程式</value>
   </data>
   <data name="OpenExternalAppCommandParameter.Command.Remarks" xml:space="preserve">
-    <value>沒有指定時執行關聯副檔名的應用程式。</value>
+    <value>沒有指定時執行被關聯副檔名的應用程式。</value>
   </data>
   <data name="OpenExternalAppCommandParameter.MultiPagePolicy" xml:space="preserve">
     <value>為 2 頁面時</value>
@@ -3927,7 +3927,7 @@ include("Sample.nvjs")</value>
     <value>開啟設定檔案位置</value>
   </data>
   <data name="OpenSettingFilesFolderCommand.Remarks" xml:space="preserve">
-    <value>開啟儲存設定檔案的資料夾。</value>
+    <value>設定ファイルが保存されているフォルダーを開きます。</value>
   </data>
   <data name="OpenSettingFolderErrorDialog.Message" xml:space="preserve">
     <value>無法使用商店應用程式開起這個設定檔案的位置</value>
@@ -3948,10 +3948,10 @@ include("Sample.nvjs")</value>
     <value>對於 {0} 來說引數是必要的。</value>
   </data>
   <data name="OptionArgumentException.Failed" xml:space="preserve">
-    <value>無法使用 {1} 作為 {0} 的引數。</value>
+    <value>無法使用 {1} 做為 {0} 的引數。</value>
   </data>
   <data name="OptionArgumentException.FileNotFound" xml:space="preserve">
-    <value>指定的設定檔案不存在。</value>
+    <value>被指定的設定檔案不存在。</value>
   </data>
   <data name="OptionArgumentException.NotSupportType" xml:space="preserve">
     <value>{0} 為不支援的引數類別。</value>
@@ -3963,7 +3963,7 @@ include("Sample.nvjs")</value>
     <value>頁面存取器。存取頁面資訊。</value>
   </data>
   <data name="PageAccessor.Example" xml:space="preserve">
-    <value>// 以氣泡顯示開始頁面名稱
+    <value>// 以氣泡顯示開使頁面名稱
 nv.ShowToast(nv.Book.Pages[0].Path)</value>
   </data>
   <data name="PageAccessor.LastWriteTime" xml:space="preserve">
@@ -3976,7 +3976,7 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
     <value>檔案大小 (Byte)</value>
   </data>
   <data name="PageEndAction.Dialog" xml:space="preserve">
-    <value>使用對話框選擇</value>
+    <value>以對話框選擇</value>
   </data>
   <data name="PageEndAction.Loop" xml:space="preserve">
     <value>循環</value>
@@ -4054,7 +4054,7 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
     <value>目前書本的路徑</value>
   </data>
   <data name="PageListPanelAccessor.SelectedItems" xml:space="preserve">
-    <value>已選擇的列表項目</value>
+    <value>被選擇的列表項目</value>
   </data>
   <data name="PageListPanelAccessor.SortMode" xml:space="preserve">
     <value>列表項目排序</value>
@@ -4081,7 +4081,7 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
     <value>儲存頁籤檔案</value>
   </data>
   <data name="PagemarkConfig.PagemarkFilePath" xml:space="preserve">
-    <value>頁籤檔案的位置</value>
+    <value>頁籤檔案位置</value>
   </data>
   <data name="PagemarkConfig.PagemarkOrder" xml:space="preserve">
     <value>頁籤排序</value>
@@ -4093,7 +4093,7 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
     <value>暫存資料夾無法設定頁籤</value>
   </data>
   <data name="PagemarkFolderDelete.Message" xml:space="preserve">
-    <value>已刪除 {0} 個頁籤。</value>
+    <value>{0} 個頁籤已被刪除。</value>
   </data>
   <data name="PagemarkItem.Menu.Delete" xml:space="preserve">
     <value>刪除頁籤(_R)</value>
@@ -4132,7 +4132,7 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
     <value>列表項目</value>
   </data>
   <data name="PagemarkPanelAccessor.SelectedItems" xml:space="preserve">
-    <value>已選擇的列表項目</value>
+    <value>被選擇的列表項目</value>
   </data>
   <data name="PagemarkPanelAccessor.Style" xml:space="preserve">
     <value>列表項目格式</value>
@@ -4156,10 +4156,10 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
     <value>標準顯示</value>
   </data>
   <data name="PageOperation.Landscape" xml:space="preserve">
-    <value>橫向</value>
+    <value>橫</value>
   </data>
   <data name="PageOperation.Portrait" xml:space="preserve">
-    <value>直向</value>
+    <value>縱</value>
   </data>
   <data name="PageReadOrder" xml:space="preserve">
     <value>書本開啟方向</value>
@@ -4201,7 +4201,7 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
     <value>符合視窗</value>
   </data>
   <data name="PageStretchMode.UniformToFill" xml:space="preserve">
-    <value>佈滿整個視窗</value>
+    <value>填滿整個視窗</value>
   </data>
   <data name="PageStretchMode.UniformToHorizontal" xml:space="preserve">
     <value>符合視窗寬度</value>
@@ -4222,13 +4222,13 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
     <value>當滑鼠指標位於滑動條或膠片條上時顯示。。</value>
   </data>
   <data name="PageTitleConfig.PageTitleFormat1" xml:space="preserve">
-    <value>1 頁面用</value>
+    <value>給 1 頁面使用</value>
   </data>
   <data name="PageTitleConfig.PageTitleFormat2" xml:space="preserve">
-    <value>2 頁面用</value>
+    <value>給 2 頁面使用</value>
   </data>
   <data name="PageTitleConfig.PageTitleFormatMedia" xml:space="preserve">
-    <value>影片用</value>
+    <value>給影片使用</value>
   </data>
   <data name="PageViewRecorderConfig.IsSavePageViewRecord" xml:space="preserve">
     <value>儲存頁面顯示歷史記錄到檔案中</value>
@@ -4252,7 +4252,7 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
     <value>正方形</value>
   </data>
   <data name="PanelListItemProfile.ImageShape" xml:space="preserve">
-    <value>圖示形狀</value>
+    <value>圖示形</value>
   </data>
   <data name="PanelListItemProfile.ImageWidth" xml:space="preserve">
     <value>圖示大小</value>
@@ -4294,7 +4294,7 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
     <value>格式化補充文字的路徑顯示</value>
   </data>
   <data name="PanelsConfig.IsDecoratePlace.Remarks" xml:space="preserve">
-    <value>格式化為 "AAA (C:\BBB\CCC)" 這樣的格式。</value>
+    <value>格式化為 "AAA (C:\BBB\CCC)" 之類的格式。</value>
   </data>
   <data name="PanelsConfig.IsHidePanel" xml:space="preserve">
     <value>自動隱藏側邊面板</value>
@@ -4303,13 +4303,13 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
     <value>自動隱藏模式時自動隱藏側邊面板</value>
   </data>
   <data name="PanelsConfig.IsLeftRightKeyEnabled" xml:space="preserve">
-    <value>啟用側邊面板的左右鍵輸入</value>
+    <value>在側邊面板左右鍵輸入有效</value>
   </data>
   <data name="PanelsConfig.IsLeftRightKeyEnabled.Remarks" xml:space="preserve">
-    <value>啟用側邊面板的左右鍵輸入。可用方向鍵在書庫上進行資料夾層級移動。</value>
+    <value>讓在側邊面板的左右鍵操作有效。在書庫上進行資料夾層級移動。</value>
   </data>
   <data name="PanelsConfig.IsManipulationBoundaryFeedbackEnabled" xml:space="preserve">
-    <value>側邊面板觸控捲動邊界回彈</value>
+    <value>側邊面板觸控捲動邊界</value>
   </data>
   <data name="PanelsConfig.IsSideBarEnabled" xml:space="preserve">
     <value>顯示側邊面板</value>
@@ -4345,7 +4345,7 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
     <value>PDF 頁面標準大小</value>
   </data>
   <data name="PdfArchiveConfig.RenderSize.Remarks" xml:space="preserve">
-    <value>一般會依照顯示大小渲染，下限為此處的標準大小。如果更小就會縮小顯示。</value>
+    <value>一般會符合顯示大小渲染，下限為此處的標準大小。如果更小就會縮小顯示。</value>
   </data>
   <data name="PdfArchiveConfig.SupportFileTypes" xml:space="preserve">
     <value>PDF 檔案副檔名</value>
@@ -4360,7 +4360,7 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
     <value>讀入圖像大小限制</value>
   </data>
   <data name="PerformanceConfig.IsLimitSourceSize.Remarks" xml:space="preserve">
-    <value>使用「@PerformanceConfig.MaximumSize」為上限以縮小讀入圖像。為速度、節省記憶體使用的設定。當套用這個限制讀入圖像時，會以「*」顯示在資訊的大小欄位。</value>
+    <value>以「@PerformanceConfig.MaximumSize」為上限以縮小讀入圖像。為速度、節省記憶體使用的設定。當套用這個限制讀入圖像時，會以「*」顯示在資訊的大小欄位。</value>
   </data>
   <data name="PerformanceConfig.IsLoadingPageVisible" xml:space="preserve">
     <value>顯示目前頁面直到下一個頁面讀入完成</value>
@@ -4369,7 +4369,7 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
     <value>關閉時可節省記憶體。</value>
   </data>
   <data name="PerformanceConfig.IsPreExtractToMemory" xml:space="preserve">
-    <value>預先展開結實壓縮檔到記憶體中</value>
+    <value>事先展開結實壓縮檔到記憶體中</value>
   </data>
   <data name="PerformanceConfig.IsPreExtractToMemory.Remarks" xml:space="preserve">
     <value>由於不是暫存檔案而是在記憶體中展開所以速度會變快。消耗的記憶體與書本的快取記憶體是分開的。</value>
@@ -4424,13 +4424,13 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
     <value>移動到書本內前一個資料夾的開始頁面。僅在名稱排序時有效。</value>
   </data>
   <data name="PrevHistoryCommand" xml:space="preserve">
-    <value>返回到先前的歷史記錄</value>
+    <value>返回先前的歷史記錄</value>
   </data>
   <data name="PrevHistoryCommand.Remarks" xml:space="preserve">
     <value>讀入先前舊歷史記錄的書本。</value>
   </data>
   <data name="PrevHistoryPageCommand" xml:space="preserve">
-    <value>返回到之前顯示的頁面</value>
+    <value>返回之前顯示的頁面</value>
   </data>
   <data name="PrevHistoryPageCommand.Remarks" xml:space="preserve">
     <value>移動到之前開啟的頁面。</value>
@@ -4442,7 +4442,7 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
     <value>只往先前方向移動 1 頁面。</value>
   </data>
   <data name="PrevPageCommand" xml:space="preserve">
-    <value>返回到先前的頁面</value>
+    <value>返回先前的頁面</value>
   </data>
   <data name="PrevPageCommand.Remarks" xml:space="preserve">
     <value>往頁面先前的方向移動。當 2 頁面顯示時移動 2 頁面。</value>
@@ -4460,16 +4460,16 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
     <value>移動到目前的書本內先前的頁籤。</value>
   </data>
   <data name="PrevScrollPageCommand" xml:space="preserve">
-    <value>捲動＋返回到之前的頁面</value>
+    <value>捲動＋返回之前的頁面</value>
   </data>
   <data name="PrevScrollPageCommand.Remarks" xml:space="preserve">
     <value>往頁面先前方向捲動圖像。無法捲動時移動到先前頁面。僅在頁面移動時可使用放大鏡。</value>
   </data>
   <data name="PrevSizePageCommand" xml:space="preserve">
-    <value>返回到設定的頁面數量</value>
+    <value>返回設定頁面數量</value>
   </data>
   <data name="PrevSizePageCommand.Remarks" xml:space="preserve">
-    <value>僅往先前方向移動設定的頁面數量。</value>
+    <value>只往先前方向移動設定的頁面數量。</value>
   </data>
   <data name="PrintCommand" xml:space="preserve">
     <value>列印</value>
@@ -4487,10 +4487,10 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
     <value>列印顯示</value>
   </data>
   <data name="PrintMode.ViewFill" xml:space="preserve">
-    <value>列印以紙張大小的顯示</value>
+    <value>將以紙張大小的顯示列印</value>
   </data>
   <data name="PrintMode.ViewStretch" xml:space="preserve">
-    <value>列印全部的顯示</value>
+    <value>列印全部顯示</value>
   </data>
   <data name="PrintWindow.Background" xml:space="preserve">
     <value>列印背景</value>
@@ -4499,7 +4499,7 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
     <value>列印</value>
   </data>
   <data name="PrintWindow.Column" xml:space="preserve">
-    <value>橫排</value>
+    <value>欄</value>
   </data>
   <data name="PrintWindow.Content" xml:space="preserve">
     <value>列印内容</value>
@@ -4511,7 +4511,7 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
     <value>保持點列印</value>
   </data>
   <data name="PrintWindow.Margin" xml:space="preserve">
-    <value>紙張留白 (mm)</value>
+    <value>紙張劉白 (mm)</value>
   </data>
   <data name="PrintWindow.Orientation" xml:space="preserve">
     <value>列印方向</value>
@@ -4520,7 +4520,7 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
     <value>印表機</value>
   </data>
   <data name="PrintWindow.Row" xml:space="preserve">
-    <value>直排</value>
+    <value>邊</value>
   </data>
   <data name="PrintWindow.Sheets" xml:space="preserve">
     <value>紙張張數</value>
@@ -4571,7 +4571,7 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
     <value>請僅選擇一個指令以「{0}」執行</value>
   </data>
   <data name="ResolveConflictDialog.Title" xml:space="preserve">
-    <value>消除衝突</value>
+    <value>衝突消除</value>
   </data>
   <data name="ReversibleCommandParameter.IsReverse" xml:space="preserve">
     <value>允許依照滑動條方向切換操作</value>
@@ -4625,7 +4625,7 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
     <value>捲動結尾邊距 (像素)</value>
   </data>
   <data name="ScrollPageCommandParameter.EndMargin.Remarks" xml:space="preserve">
-    <value>在達到這個捲動距離之前先優先以行移動。</value>
+    <value>在達到此捲動距離之前先優先以行移動。</value>
   </data>
   <data name="ScrollPageCommandParameter.IsNScroll" xml:space="preserve">
     <value>N字捲動</value>
@@ -4658,10 +4658,10 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
     <value>捲動類別</value>
   </data>
   <data name="SetBackgroundAutoCommand" xml:space="preserve">
-    <value>將背景設為符合圖像的顏色</value>
+    <value>使用符合圖像的背景顏色</value>
   </data>
   <data name="SetBackgroundAutoCommand.Remarks" xml:space="preserve">
-    <value>從圖像設定背景顏色。具體來說為使用圖像左上角的像素顏色。</value>
+    <value>從圖像設定背景顏色。具體來說是使用圖像左上角的像素顏色。</value>
   </data>
   <data name="SetBackgroundBlackCommand" xml:space="preserve">
     <value>將背景設定為黑色</value>
@@ -4694,52 +4694,52 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
     <value>將背景設定為白色。</value>
   </data>
   <data name="SetBookOrderByEntryTimeACommand" xml:space="preserve">
-    <value>書本列以登錄順序升冪排序</value>
+    <value>書本列以登錄順序遞增排序</value>
   </data>
   <data name="SetBookOrderByEntryTimeACommand.Remarks" xml:space="preserve">
-    <value>書本排序以登録順序 (升冪) 排序。</value>
+    <value>書本排序以登録順序 (遞增) 排序。</value>
   </data>
   <data name="SetBookOrderByEntryTimeDCommand" xml:space="preserve">
-    <value>書本列以登錄順序降冪排序</value>
+    <value>書本列以登錄順序遞減排序</value>
   </data>
   <data name="SetBookOrderByEntryTimeDCommand.Remarks" xml:space="preserve">
-    <value>書本排序以登録順序 (降冪) 排序。</value>
+    <value>書本排序以登録順序 (遞減) 排序。</value>
   </data>
   <data name="SetBookOrderByFileNameACommand" xml:space="preserve">
-    <value>書本列以檔案名稱升冪排序</value>
+    <value>書本列以檔案名稱遞增排序</value>
   </data>
   <data name="SetBookOrderByFileNameACommand.Remarks" xml:space="preserve">
-    <value>書本排序以檔案名稱順序 (升冪) 排序。</value>
+    <value>書本排序以檔案名稱順序 (遞增) 排序。</value>
   </data>
   <data name="SetBookOrderByFileNameDCommand" xml:space="preserve">
-    <value>書本列以檔案名稱降冪排序</value>
+    <value>書本列以檔案名稱遞減排序</value>
   </data>
   <data name="SetBookOrderByFileNameDCommand.Remarks" xml:space="preserve">
-    <value>書本排序以檔案名稱順序 (降冪) 排序。</value>
+    <value>書本排序以檔案名稱順序 (遞減) 排序。</value>
   </data>
   <data name="SetBookOrderByFileTypeACommand" xml:space="preserve">
-    <value>書本列以類別升冪排序</value>
+    <value>書本列以類別遞增排序</value>
   </data>
   <data name="SetBookOrderByFileTypeACommand.Remarks" xml:space="preserve">
-    <value>書本排序以檔案類別順序 (升冪) 排序。</value>
+    <value>書本排序以檔案類別順序 (遞增) 排序。</value>
   </data>
   <data name="SetBookOrderByFileTypeDCommand" xml:space="preserve">
-    <value>書本列以類別降冪排序</value>
+    <value>書本列以類別遞減排序</value>
   </data>
   <data name="SetBookOrderByFileTypeDCommand.Remarks" xml:space="preserve">
-    <value>書本排序以檔案類別順序 (降冪) 排序。</value>
+    <value>書本排序以檔案類別順序 (遞減) 排序。</value>
   </data>
   <data name="SetBookOrderByPathACommand" xml:space="preserve">
-    <value>書本列以路徑升冪排序</value>
+    <value>書本列以路徑遞增排序</value>
   </data>
   <data name="SetBookOrderByPathACommand.Remarks" xml:space="preserve">
-    <value>書本排序以路徑順序 (升冪) 排序。</value>
+    <value>書本排序以路徑順序 (遞增) 排序。</value>
   </data>
   <data name="SetBookOrderByPathDCommand" xml:space="preserve">
-    <value>書本列以路徑降冪排序</value>
+    <value>書本列以路徑遞減排序</value>
   </data>
   <data name="SetBookOrderByPathDCommand.Remarks" xml:space="preserve">
-    <value>書本排序以路徑順序 (降冪) 排序。</value>
+    <value>書本排序以路徑順序 (遞減) 排序。</value>
   </data>
   <data name="SetBookOrderByRandomCommand" xml:space="preserve">
     <value>書本列以隨機排序</value>
@@ -4748,28 +4748,28 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
     <value>書本排序以隨機排序。</value>
   </data>
   <data name="SetBookOrderBySizeACommand" xml:space="preserve">
-    <value>書本列以大小升冪排序</value>
+    <value>書本列以大小遞增排序</value>
   </data>
   <data name="SetBookOrderBySizeACommand.Remarks" xml:space="preserve">
-    <value>書本排序以大小順序 (升冪) 排序。</value>
+    <value>書本排序以大小順序 (遞增) 排序。</value>
   </data>
   <data name="SetBookOrderBySizeDCommand" xml:space="preserve">
-    <value>書本列以大小降冪排序</value>
+    <value>書本列以大小遞減排序</value>
   </data>
   <data name="SetBookOrderBySizeDCommand.Remarks" xml:space="preserve">
-    <value>書本排序以大小順序 (降冪) 排序。</value>
+    <value>書本排序以大小順序 (遞減) 排序。</value>
   </data>
   <data name="SetBookOrderByTimeStampACommand" xml:space="preserve">
-    <value>書本列以日期升冪排序</value>
+    <value>書本列以日期遞增排序</value>
   </data>
   <data name="SetBookOrderByTimeStampACommand.Remarks" xml:space="preserve">
-    <value>書本排序以日期順序 (升冪) 排序。</value>
+    <value>書本排序以日期順序 (遞增) 排序。</value>
   </data>
   <data name="SetBookOrderByTimeStampDCommand" xml:space="preserve">
-    <value>書本列以日期降冪排序</value>
+    <value>書本列以日期遞減排序</value>
   </data>
   <data name="SetBookOrderByTimeStampDCommand.Remarks" xml:space="preserve">
-    <value>書本排序以日期順序 (降冪) 排序。</value>
+    <value>書本排序以日期順序 (遞減) 排序。</value>
   </data>
   <data name="SetBookReadOrderLeftCommand" xml:space="preserve">
     <value>左開</value>
@@ -4808,46 +4808,46 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
     <value>以 2 頁面顯示。</value>
   </data>
   <data name="SetSortModeFileNameCommand" xml:space="preserve">
-    <value>檔案名稱升冪</value>
+    <value>檔案名稱遞增</value>
   </data>
   <data name="SetSortModeFileNameCommand.Remarks" xml:space="preserve">
-    <value>頁面排序以檔案名稱升冪排序。</value>
+    <value>頁面排序以檔案名稱遞增排序。</value>
   </data>
   <data name="SetSortModeFileNameDescendingCommand" xml:space="preserve">
-    <value>檔案名稱降冪</value>
+    <value>檔案名稱遞減</value>
   </data>
   <data name="SetSortModeFileNameDescendingCommand.Remarks" xml:space="preserve">
-    <value>頁面排序以檔案名稱降冪排序。</value>
+    <value>頁面排序以檔案名稱遞減排序。</value>
   </data>
   <data name="SetSortModeRandomCommand" xml:space="preserve">
-    <value>隨機</value>
+    <value>亂數</value>
   </data>
   <data name="SetSortModeRandomCommand.Remarks" xml:space="preserve">
     <value>頁面排序以隨機排序。</value>
   </data>
   <data name="SetSortModeSizeCommand" xml:space="preserve">
-    <value>檔案大小升冪</value>
+    <value>檔案大小遞增</value>
   </data>
   <data name="SetSortModeSizeCommand.Remarks" xml:space="preserve">
-    <value>頁面排序以檔案大小升冪排序。</value>
+    <value>頁面排序以檔案大小遞增排序。</value>
   </data>
   <data name="SetSortModeSizeDescendingCommand" xml:space="preserve">
-    <value>檔案大小降冪</value>
+    <value>檔案大小遞減</value>
   </data>
   <data name="SetSortModeSizeDescendingCommand.Remarks" xml:space="preserve">
-    <value>頁面排序以檔案大小降冪排序。</value>
+    <value>頁面排序以檔案大小遞減排序。</value>
   </data>
   <data name="SetSortModeTimeStampCommand" xml:space="preserve">
-    <value>檔案日期升冪</value>
+    <value>檔案日期遞增</value>
   </data>
   <data name="SetSortModeTimeStampCommand.Remarks" xml:space="preserve">
-    <value>頁面排序以檔案日期升冪排序。</value>
+    <value>頁面排序以檔案日期遞增排序。</value>
   </data>
   <data name="SetSortModeTimeStampDescendingCommand" xml:space="preserve">
-    <value>檔案日期降冪</value>
+    <value>檔案日期遞減</value>
   </data>
   <data name="SetSortModeTimeStampDescendingCommand.Remarks" xml:space="preserve">
-    <value>頁面排序以檔案日期降冪排序。</value>
+    <value>頁面排序以檔案日期遞減排序。</value>
   </data>
   <data name="SetStretchModeInsideCommand" xml:space="preserve">
     <value>圖像較大時符合視窗大小</value>
@@ -4874,7 +4874,7 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
     <value>將圖像放大縮小以符合視窗大小。</value>
   </data>
   <data name="SetStretchModeUniformToFillCommand" xml:space="preserve">
-    <value>延展符合視窗</value>
+    <value>延展視窗</value>
   </data>
   <data name="SetStretchModeUniformToFillCommand.Remarks" xml:space="preserve">
     <value>以垂直或水平放大縮小圖像以符合視窗。圖像會比視窗大小還要大。</value>
@@ -4901,10 +4901,10 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
     <value>刪除全部資料...</value>
   </data>
   <data name="SettingItem.Remove.Remarks" xml:space="preserve">
-    <value>刪除使用者資料並結束應用程式。在想要移除安裝前把歷史記錄等完全地刪除時使用。</value>
+    <value>刪除使用者資料並結束應用程式。在想要移除安裝前把歷史記錄等等完全地刪除時使用。</value>
   </data>
   <data name="SettingPage.Archive" xml:space="preserve">
-    <value>支援格式</value>
+    <value>對應格式</value>
   </data>
   <data name="SettingPage.Archive.Media" xml:space="preserve">
     <value>影片</value>
@@ -5042,7 +5042,7 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
     <value>啟動設定</value>
   </data>
   <data name="SettingPage.General.Boot.Remarks" xml:space="preserve">
-    <value>※這裡的設定會在設定視窗關閉後生效。</value>
+    <value>※這個設定會在設定視窗關閉後生效。</value>
   </data>
   <data name="SettingPage.General.BootBoot" xml:space="preserve">
     <value>啟動設定</value>
@@ -5051,7 +5051,7 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
     <value>進階設定</value>
   </data>
   <data name="SettingPage.General.BootBootDetailTips" xml:space="preserve">
-    <value>※這裡的設定會在設定視窗關閉後生效。</value>
+    <value>※這個設定會在設定視窗關閉後生效。</value>
   </data>
   <data name="SettingPage.General.Detail" xml:space="preserve">
     <value>環境</value>
@@ -5081,7 +5081,7 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
     <value>儲存資料</value>
   </data>
   <data name="SettingPage.General.SaveDataTypes.Remarks" xml:space="preserve">
-    <value>※儲存位置會在下一次啟動時套用。資料的管理請善用匯出、匯入功能。</value>
+    <value>※儲存位置會在下一次啟動時套用。資料的接管請善用匯出、匯入功能。</value>
   </data>
   <data name="SettingPage.History" xml:space="preserve">
     <value>歷史記錄</value>
@@ -5135,7 +5135,7 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
     <value>檢視操作</value>
   </data>
   <data name="SettingPage.Manipurate.HoverScroll" xml:space="preserve">
-    <value>懸浮捲動</value>
+    <value>懸停捲動</value>
   </data>
   <data name="SettingPage.Manipurate.Loupe" xml:space="preserve">
     <value>放大鏡</value>
@@ -5357,10 +5357,10 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
     <value>自動隱藏模式時自動隱藏滑動條</value>
   </data>
   <data name="SliderConfig.IsSliderLinkedFilmStrip" xml:space="preserve">
-    <value>滑動條的即時更改僅套用於膠片條</value>
+    <value>滑動條的即時更改僅適用於膠片條</value>
   </data>
   <data name="SliderConfig.IsSliderLinkedFilmStrip.Remarks" xml:space="preserve">
-    <value>當確定時切換頁面。</value>
+    <value>確定時切換頁面。</value>
   </data>
   <data name="SliderConfig.IsSyncPageMode" xml:space="preserve">
     <value>將更改量同步到顯示頁面數量</value>
@@ -5432,7 +5432,7 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
     <value>還原書庫位置</value>
   </data>
   <data name="StartUpConfig.IsOpenLastFolder.Remarks" xml:space="preserve">
-    <value>啟動時未開啟書本前的書庫位置。</value>
+    <value>啟動時沒有開啟書本的書庫位置。</value>
   </data>
   <data name="StartUpConfig.IsRestoreFullScreen" xml:space="preserve">
     <value>還原全螢幕狀態</value>
@@ -5441,7 +5441,7 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
     <value>還原第 2 視窗座標</value>
   </data>
   <data name="StartUpConfig.IsRestoreSecondWindowPlacement.Remarks" xml:space="preserve">
-    <value>重複啟動的視窗座標也一併還原。關閉時顯示初始座標。</value>
+    <value>重複啟動的視窗座標也一起還原。關閉時顯示初始座標。</value>
   </data>
   <data name="StartUpConfig.IsRestoreWindowPlacement" xml:space="preserve">
     <value>還原視窗座標</value>
@@ -5468,10 +5468,10 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
     <value>使用 Susie 擴充套件</value>
   </data>
   <data name="SusieConfig.IsFirstOrderSusieArchive" xml:space="preserve">
-    <value>使用 Susie 擴充套件優先展開壓縮檔</value>
+    <value>以 Susie 擴充套件優先展開壓縮檔</value>
   </data>
   <data name="SusieConfig.IsFirstOrderSusieImage" xml:space="preserve">
-    <value>使用 Susie 擴充套件優先顯示圖像</value>
+    <value>以 Susie 擴充套件優先顯示圖像</value>
   </data>
   <data name="SusieConfig.SusiePluginPath" xml:space="preserve">
     <value>擴充套件資料夾位置</value>
@@ -5480,7 +5480,7 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
     <value>與 Susie 的連接失敗了。</value>
   </data>
   <data name="SusieLoadFailedException.Message" xml:space="preserve">
-    <value>使用 Susie 取得圖像失敗了。</value>
+    <value>以 Susie 取得圖像失敗了。</value>
   </data>
   <data name="SusiePluginList.Config" xml:space="preserve">
     <value>設定</value>
@@ -5558,13 +5558,13 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
     <value>使用自然名稱順序</value>
   </data>
   <data name="SystemConfig.IsNaturalSortEnabled.Remarks" xml:space="preserve">
-    <value>以句點分開的數字、中文數字等等，使用比名稱排序更自然的排序排列。關閉則使用與檔案總管一樣的排序方式。</value>
+    <value>以句點分開的數字、中文數字等等，以比名稱排序更自然的排序排列。關閉則使用與檔案總管一樣的排序方式。</value>
   </data>
   <data name="SystemConfig.IsNetworkEnabled" xml:space="preserve">
     <value>允許網路存取</value>
   </data>
   <data name="SystemConfig.IsNetworkEnabled.Remarks" xml:space="preserve">
-    <value>關閉時，停止從「@VersionWindow.Title」對話框確認更新，使用 Web 瀏覽器連接網路前顯示確認對話框。</value>
+    <value>關閉時，停止從「@VersionWindow.Title」對話框確認更新，以 Web 瀏覽器連接網路前顯示確認對話框。</value>
   </data>
   <data name="SystemConfig.IsOpenbookAtCurrentPlace" xml:space="preserve">
     <value>使用「@LoadAsCommand」檔案選擇對話框的開始位置為目前開啟的書本位置</value>
@@ -5573,13 +5573,13 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
     <value>刪除檔案時顯示確認對話框</value>
   </data>
   <data name="SystemConfig.IsRemoveWantNukeWarning" xml:space="preserve">
-    <value>刪除無法放進垃圾桶的檔案時顯示確認對話框</value>
+    <value>刪除無法放進垃圾桶大小的檔案時顯示確認對話框</value>
   </data>
   <data name="SystemConfig.IsSettingBackup" xml:space="preserve">
     <value>製作使用者設定檔案備份</value>
   </data>
   <data name="SystemConfig.IsSettingBackup.Remarks" xml:space="preserve">
-    <value>製作設定檔案的備份、如果無法讀入一般的設定檔案時作為替代讀入。檔案名稱為"UserSetting.json.bak" 。更新時間點為關閉設定視窗時、結束應用程式時。</value>
+    <value>製作設定檔案的備份、如果無法讀入一般的設定檔案時作為替代讀入。檔案名稱為"UserSetting.json.bak" 。更新時間點為，關閉設定視窗時、結束應用程式時。</value>
   </data>
   <data name="SystemConfig.IsSyncUserSetting" xml:space="preserve">
     <value>同步設定</value>
@@ -5630,7 +5630,7 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
     <value>依照 Windows 設定</value>
   </data>
   <data name="ThumbnailConfig.CacheLimitSpan" xml:space="preserve">
-    <value>縮圖快取儲存期限</value>
+    <value>縮圖快取儲存時間</value>
   </data>
   <data name="ThumbnailConfig.Format" xml:space="preserve">
     <value>縮圖圖像格式</value>
@@ -5660,7 +5660,7 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
     <value>書本縮圖容量</value>
   </data>
   <data name="ThumbnailConfig.ThumbnailBookCapacity.Remarks" xml:space="preserve">
-    <value>在記憶體中維持的書本縮圖數量。</value>
+    <value>在記憶體中保持的書本縮圖數量。</value>
   </data>
   <data name="ThumbnailConfig.ThumbnailCacheFilePath" xml:space="preserve">
     <value>縮圖快取儲存位置</value>
@@ -5669,7 +5669,7 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
     <value>頁面縮圖容量</value>
   </data>
   <data name="ThumbnailConfig.ThumbnailPageCapacity.Remarks" xml:space="preserve">
-    <value>在記憶體中維持的頁面縮圖數量。關閉書本後全部都會被放棄。</value>
+    <value>在記憶體中保持的頁面縮圖數量。關閉書本後全部都會被放棄。</value>
   </data>
   <data name="ToggleBackgroundCommand" xml:space="preserve">
     <value>切換背景</value>
@@ -5780,7 +5780,7 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
     <value>啟用格線</value>
   </data>
   <data name="ToggleGridCommand.Remarks" xml:space="preserve">
-    <value>切換顯示/隱藏格線。</value>
+    <value>切換格線顯示/隱藏。</value>
   </data>
   <data name="ToggleHideMenuCommand" xml:space="preserve">
     <value>啟用/停用自動隱藏選單</value>
@@ -5843,16 +5843,16 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
     <value>只有在使用滑動條時顯示膠片條。</value>
   </data>
   <data name="ToggleHoverScrollCommand" xml:space="preserve">
-    <value>啟用/停用懸浮捲動</value>
+    <value>啟用/停用懸停捲動</value>
   </data>
   <data name="ToggleHoverScrollCommand.Menu" xml:space="preserve">
-    <value>懸浮捲動</value>
+    <value>懸停捲動</value>
   </data>
   <data name="ToggleHoverScrollCommand.Off" xml:space="preserve">
-    <value>停用懸浮捲動</value>
+    <value>停用懸停捲動</value>
   </data>
   <data name="ToggleHoverScrollCommand.On" xml:space="preserve">
-    <value>啟用懸浮捲動</value>
+    <value>啟用懸停捲動</value>
   </data>
   <data name="ToggleHoverScrollCommand.Remarks" xml:space="preserve">
     <value>根據滑鼠指標的位置捲動。</value>
@@ -6053,7 +6053,7 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
     <value>切換啟用/停用重新調整大小濾鏡。</value>
   </data>
   <data name="ToggleSlideShowCommand" xml:space="preserve">
-    <value>開始/停止幻燈片放映</value>
+    <value>播放/停止幻燈片放映</value>
   </data>
   <data name="ToggleSlideShowCommand.Menu" xml:space="preserve">
     <value>幻燈片放映</value>
@@ -6062,10 +6062,10 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
     <value>停止幻燈片放映</value>
   </data>
   <data name="ToggleSlideShowCommand.On" xml:space="preserve">
-    <value>開始幻燈片放映</value>
+    <value>播放幻燈片放映</value>
   </data>
   <data name="ToggleSlideShowCommand.Remarks" xml:space="preserve">
-    <value>切換開始/停止幻燈片放映。</value>
+    <value>切換播放/停止ス幻燈片放映。</value>
   </data>
   <data name="ToggleSortModeCommand" xml:space="preserve">
     <value>切換頁面排序</value>
@@ -6137,7 +6137,7 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
     <value>總是最上層顯示</value>
   </data>
   <data name="ToggleTopmostCommand.Remarks" xml:space="preserve">
-    <value>將視窗總是以最上層顯示。</value>
+    <value>將視窗總是最上層顯示。</value>
   </data>
   <data name="ToggleViewFlipHorizontalCommand" xml:space="preserve">
     <value>左右翻轉</value>
@@ -6386,7 +6386,7 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
     <value>單點觸控拖曳操作</value>
   </data>
   <data name="TouchConfig.GestureMinimumDistance" xml:space="preserve">
-    <value>觸控拖曳判斷的最小移動距離 (像素)</value>
+    <value>觸控拖曳判定的最小移動距離 (像素)</value>
   </data>
   <data name="TouchConfig.GestureMinimumDistance.Remarks" xml:space="preserve">
     <value>透過這個移動距離判斷首次拖曳開始。</value>
@@ -6395,16 +6395,16 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
     <value>長按觸控拖曳操作</value>
   </data>
   <data name="TouchConfig.IsAngleEnabled" xml:space="preserve">
-    <value>啟用使用多點觸控旋轉操作</value>
+    <value>啟用以多點觸控的旋轉操作</value>
   </data>
   <data name="TouchConfig.IsEnabled" xml:space="preserve">
     <value>使用觸控功能</value>
   </data>
   <data name="TouchConfig.IsEnabled.Remarks" xml:space="preserve">
-    <value>關閉時，識別為標準的滑鼠操作。</value>
+    <value>關閉時，以標準的滑鼠操作識別。</value>
   </data>
   <data name="TouchConfig.IsScaleEnabled" xml:space="preserve">
-    <value>啟用使用內推與外伸更改大小操作</value>
+    <value>啟用以內推與外伸更改大小操作</value>
   </data>
   <data name="TouchConfig.MinimumManipulationDistance" xml:space="preserve">
     <value>觸控操作推伸最小變動距離 (像素)</value>
@@ -6413,7 +6413,7 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
     <value>觸控操作的旋轉、放大縮小時有效的最小操作距離。</value>
   </data>
   <data name="TouchConfig.MinimumManipulationRadius" xml:space="preserve">
-    <value>觸控操作推伸最小判斷距離(像素)</value>
+    <value>觸控操作推伸最小判定距離(像素)</value>
   </data>
   <data name="TouchConfig.MinimumManipulationRadius.Remarks" xml:space="preserve">
     <value>觸控操作的旋轉、放大縮小時判定有效的最小 2 觸控之間的距離。</value>
@@ -6497,25 +6497,25 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
     <value>自動旋轉</value>
   </data>
   <data name="ViewConfig.BaseScale" xml:space="preserve">
-    <value>基礎比例</value>
+    <value>基本比例</value>
   </data>
   <data name="ViewConfig.BaseScale.Remarks" xml:space="preserve">
-    <value>套用延展後套用這個比例數值。</value>
+    <value>套用延展後套用此比例數值。</value>
   </data>
   <data name="ViewConfig.FlipCenter" xml:space="preserve">
     <value>旋轉的中心</value>
   </data>
   <data name="ViewConfig.IsBaseScaleEnabled" xml:space="preserve">
-    <value>啟用基礎比例</value>
+    <value>啟用基本比例</value>
   </data>
   <data name="ViewConfig.IsBaseScaleEnabled.Remarks" xml:space="preserve">
-    <value>啟用基礎比例。</value>
+    <value>啟用基本比例。</value>
   </data>
   <data name="ViewConfig.IsKeepAngle" xml:space="preserve">
     <value>頁面更改也要保持旋轉</value>
   </data>
   <data name="ViewConfig.IsKeepAngle.Remarks" xml:space="preserve">
-    <value>啟用自動旋轉時這個功能無法使用。</value>
+    <value>啟用自動旋轉時此功能無法使用。</value>
   </data>
   <data name="ViewConfig.IsKeepFlip" xml:space="preserve">
     <value>頁面更改也要保持反轉</value>
@@ -6530,7 +6530,7 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
     <value>套用對導覽的旋轉按鈕延展</value>
   </data>
   <data name="ViewConfig.IsViewStartPositionCenter" xml:space="preserve">
-    <value>以圖像的中心作為顯示開始位置的基準</value>
+    <value>以圖像的中心做為顯示開始位置的基準</value>
   </data>
   <data name="ViewConfig.IsViewStartPositionCenter.Remarks" xml:space="preserve">
     <value>關閉時，根據對開方向切換右上方、左上方。</value>
@@ -6642,7 +6642,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>允許往垂直方向捲動</value>
   </data>
   <data name="ViewScrollCommandParameter.AllowCrossScroll.Remarks" xml:space="preserve">
-    <value>無法往軸方向捲動時會使用與軸垂直的方向捲動。</value>
+    <value>無法往軸方向捲動時會以與軸垂直的方向捲動。</value>
   </data>
   <data name="ViewScrollCommandParameter.Scroll" xml:space="preserve">
     <value>移動量</value>
@@ -6741,7 +6741,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>視窗最大化有間隙時調整使用。</value>
   </data>
   <data name="WindowConfig.MouseActivateAndEat" xml:space="preserve">
-    <value>停用使用滑鼠將視窗動作化時的操作</value>
+    <value>停用以滑鼠將視窗動作化時的滑鼠操作</value>
   </data>
   <data name="WindowConfig.State" xml:space="preserve">
     <value>視窗狀態</value>
@@ -6798,7 +6798,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>原因</value>
   </data>
   <data name="Word.CDRomDrive" xml:space="preserve">
-    <value>光碟裝置</value>
+    <value>磁碟裝置</value>
   </data>
   <data name="Word.Clear" xml:space="preserve">
     <value>清除</value>
@@ -6882,7 +6882,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>開始頁面</value>
   </data>
   <data name="Word.FixedDrive" xml:space="preserve">
-    <value>本機磁碟</value>
+    <value>本地磁碟</value>
   </data>
   <data name="Word.Folder" xml:space="preserve">
     <value>資料夾</value>
@@ -7062,7 +7062,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>往下</value>
   </data>
   <data name="Word.Topmost" xml:space="preserve">
-    <value>總是最上層顯示</value>
+    <value>總是以最上層顯示</value>
   </data>
   <data name="Word.Touch" xml:space="preserve">
     <value>觸控</value>

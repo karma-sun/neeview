@@ -348,20 +348,16 @@ namespace NeeView
 #pragma warning disable CS0612 // 型またはメンバーが旧型式です
         public static PlaylistSource ConvertToPlaylist(PagemarkCollection.Memento memento)
         {
-            var paths = memento.Nodes.GetEnumerator()
+            var items = memento.Nodes.GetEnumerator()
                 .Where(e => !e.IsFolder)
-                .Select(e => LoosePath.Combine(e.Path, e.EntryName))
-                .Distinct();
+                .Select(e => new PlaylistSourceItem(LoosePath.Combine(e.Path, e.EntryName), e.DispName));
 
-            return new PlaylistSource(paths);
+            return new PlaylistSource(items);
         }
-
-        public static string PagemarkPlaylistFilename => Path.Combine(Config.Current.Playlist.PlaylistFolder, "Pagemark.nvpls");
-
 
         public static void PagemarkToPlaylist()
         {
-            var path = PagemarkPlaylistFilename;
+            var path = Config.Current.Playlist.PagemarkPlaylist;
             if (File.Exists(path))
             {
                 return;
@@ -376,7 +372,7 @@ namespace NeeView
 
             SavePagemarkPlaylist(result.pagemark);
 
-            Config.Current.Playlist.CurrentPlaylist = PagemarkPlaylistFilename;
+            Config.Current.Playlist.CurrentPlaylist = Config.Current.Playlist.PagemarkPlaylist;
 
             // remove
             FileIO.RemoveFile(result.path);
@@ -389,7 +385,7 @@ namespace NeeView
             var playlistSource = ConvertToPlaylist(pagemark);
 
             // save
-            playlistSource.Save(PagemarkPlaylistFilename, true);
+            playlistSource.Save(Config.Current.Playlist.PagemarkPlaylist, true);
         }
 
 

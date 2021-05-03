@@ -272,7 +272,7 @@ namespace NeeView
 
         public bool CanRename()
         {
-            return true;
+            return this.Playlist?.IsEditable == true;
         }
 
         public bool Rename(string newName)

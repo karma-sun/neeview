@@ -521,6 +521,11 @@ namespace NeeView
                 }
             }
 
+            if (path.StartsWith("pagemark:"))
+            {
+                path = Config.Current.Playlist.PagemarkPlaylist;
+            }
+
             path = GetNormalizePathName(path);
 
             ////DebugTimer.Start($"\nStart: {path}");

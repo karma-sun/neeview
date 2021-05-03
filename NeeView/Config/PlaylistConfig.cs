@@ -39,6 +39,10 @@ namespace NeeView
         public string DefaultPlaylist => System.IO.Path.Combine(PlaylistFolder, "Default.nvpls");
 
         [JsonIgnore]
+        [PropertyMapIgnore]
+        public string PagemarkPlaylist => System.IO.Path.Combine(PlaylistFolder, "Pagemark.nvpls");
+
+        [JsonIgnore]
         [PropertyPath(FileDialogType = FileDialogType.SaveFile, Filter = "NeeView Playlist|*.nvpls")]
         public string CurrentPlaylist
         {

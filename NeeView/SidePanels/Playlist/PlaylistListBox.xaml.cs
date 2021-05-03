@@ -560,6 +560,12 @@ namespace NeeView
             return this.ListBox.SelectedItems.Cast<PlaylistItem>().ToList();
         }
 
+        public void SetSelectedItem(PlaylistItem item)
+        {
+            this.ListBox.SelectedItem = item;
+            this.ListBox.ScrollIntoView(item);
+        }
+
         public void SetSelectedItems(IEnumerable<PlaylistItem> selectedItems)
         {
             var items = selectedItems?.Intersect(GetItems()).ToList();
@@ -588,6 +594,7 @@ namespace NeeView
             _vm.MoveNext();
             this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
         }
+
 
         #endregion UI Accessor
     }

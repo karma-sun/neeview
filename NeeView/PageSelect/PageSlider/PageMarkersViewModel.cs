@@ -92,31 +92,33 @@ namespace NeeView
             path.StrokeThickness = 3.0;
             RenderOptions.SetEdgeMode(path, EdgeMode.Aliased);
 
-            StreamGeometry geometry = new StreamGeometry();
-            geometry.FillRule = FillRule.Nonzero;
-            using (StreamGeometryContext context = geometry.Open())
+            if (_model.MarkerCollection.Maximum < 1000)
             {
-                double tumbWidth = Config.Current.Slider.Thickness;
-                double min = tumbWidth * 0.5;
-                double max = canvasWidth - tumbWidth * 0.5;
-                double valueMin = 0;
-                double valueMax = _model.MarkerCollection.Maximum;
-
-                foreach (var index in _model.MarkerCollection.Indexes)
+                StreamGeometry geometry = new StreamGeometry();
+                geometry.FillRule = FillRule.Nonzero;
+                using (StreamGeometryContext context = geometry.Open())
                 {
-                    double value = isReverse ? valueMax - index + valueMin : index;
+                    double tumbWidth = Config.Current.Slider.Thickness;
+                    double min = tumbWidth * 0.5;
+                    double max = canvasWidth - tumbWidth * 0.5;
+                    double valueMin = 0;
+                    double valueMax = _model.MarkerCollection.Maximum;
 
-                    double x = value * (max - min) / (valueMax - valueMin) + min;
-                    double y = 0.0;
+                    foreach (var index in _model.MarkerCollection.Indexes)
+                    {
+                        double value = isReverse ? valueMax - index + valueMin : index;
 
-                    context.BeginFigure(new Point(x + 0, y - 6), false, false);
-                    context.LineTo(new Point(x + 0, y + 1), true, false);
+                        double x = value * (max - min) / (valueMax - valueMin) + min;
+                        double y = 0.0;
+
+                        context.BeginFigure(new Point(x + 0, y - 6), false, false);
+                        context.LineTo(new Point(x + 0, y + 1), true, false);
+                    }
                 }
+                geometry.Freeze();
+
+                path.Data = geometry;
             }
-            geometry.Freeze();
-
-            path.Data = geometry;
-
 
             // Pathをキャンバスに登録
             _canvas.Children.Clear();

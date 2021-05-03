@@ -103,8 +103,12 @@ namespace NeeView.Setting
                 IsStretch = true,
                 IsEnabled = new IsEnabledPropertyValue(Config.Current.Bookmark, nameof(BookmarkConfig.IsSaveBookmark))
             });
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Playlist, nameof(PlaylistConfig.PlaylistFolder)))
+            {
+                IsStretch = true,
+            });
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.IsSyncUserSetting))));
-
+  
             if (!Environment.IsAppxPackage)
             {
                 section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.IsSettingBackup))));

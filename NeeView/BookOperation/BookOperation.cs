@@ -1101,8 +1101,9 @@ namespace NeeView
             var result = this.Book.Control.RequestJumpToMarker(this, -1, param.IsLoop, param.IsIncludeTerminal);
             if (result != null)
             {
-                // ページマーク更新
-                //PagemarkList.Current.Jump(this.Book.Address, result.EntryName);
+                var bookPlaylist = new BookPlaylist(this.Book, PlaylistHub.Current.Playlist);
+                var item = bookPlaylist.Find(result);
+                PlaylistPresenter.Current.PlaylistListBox?.SetSelectedItem(item);
             }
             else
             {
@@ -1117,8 +1118,9 @@ namespace NeeView
             var result = this.Book.Control.RequestJumpToMarker(this, +1, param.IsLoop, param.IsIncludeTerminal);
             if (result != null)
             {
-                // ページマーク更新
-                //PagemarkList.Current.Jump(this.Book.Address, result.EntryName);
+                var bookPlaylist = new BookPlaylist(this.Book, PlaylistHub.Current.Playlist);
+                var item = bookPlaylist.Find(result);
+                PlaylistPresenter.Current.PlaylistListBox?.SetSelectedItem(item);
             }
             else
             {

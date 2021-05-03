@@ -18,6 +18,8 @@ namespace NeeView
         public BookPageCollection(List<Page> pages, PageSortMode sortMode)
         {
             Pages = pages;
+            PageMap = Pages.ToDictionary(e => e.SystemPath, e => e);
+
             _sortMode = sortMode;
 
             foreach (var page in Pages)
@@ -50,6 +52,8 @@ namespace NeeView
 
 
         public List<Page> Pages { get; private set; }
+
+        public Dictionary<string, Page> PageMap { get; private set; }
 
         public PageSortMode SortMode
         {
@@ -277,6 +281,7 @@ namespace NeeView
             foreach (var page in removes)
             {
                 Pages.Remove(page);
+                PageMap.Remove(page.SystemPath);
             }
 
             PagesNumbering();

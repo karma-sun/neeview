@@ -76,6 +76,7 @@ namespace NeeView
         /// </summary>
         private async Task ConstructAsync(QueryPath query, QueryPath sourceQuery, string entryName, ArchiveEntryCollectionMode mode, BookLoadOption option, CancellationToken token)
         {
+            
             this.SourceAddress = sourceQuery ?? query;
 
             // ブックマークは実体のパスへ

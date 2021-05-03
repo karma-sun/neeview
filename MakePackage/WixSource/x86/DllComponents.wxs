@@ -135,6 +135,11 @@
                         <File Id="fil11ADBC8FCB3B631BAFACEAF9EF53EBD7" KeyPath="yes" Source="$(var.LibrariesDir)\x86\SQLite.Interop.dll" />
                     </Component>
                 </Directory>
+                <Directory Id="dir9E03E0A4684BCB8E645216AFE364167A" Name="zh-TW">
+                    <Component Id="cmpCAE8E30DDD8643BAD25655DD0CF0F8FE" Guid="*">
+                        <File Id="filB4BEB9158BA6D8D96B080394C29C2B01" KeyPath="yes" Source="$(var.LibrariesDir)\zh-TW\NeeView.resources.dll" />
+                    </Component>
+                </Directory>
             </Directory>
         </DirectoryRef>
     </Fragment>
@@ -182,6 +187,7 @@
             <ComponentRef Id="cmp89A427E599C85A19969C844A8D254DE8" />
             <ComponentRef Id="cmpAFD9B88727EF2AE79E3F8AFBC5A376BB" />
             <ComponentRef Id="cmp3AE14885B4F257F53834F4FFB0C5D35F" />
+            <ComponentRef Id="cmpCAE8E30DDD8643BAD25655DD0CF0F8FE" />
         </ComponentGroup>
     </Fragment>
 </Wix>

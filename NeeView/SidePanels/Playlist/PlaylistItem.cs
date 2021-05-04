@@ -49,6 +49,8 @@ namespace NeeView
             }
         }
 
+        public bool IsNameChanged => _item.IsNameChanged;
+
         public string Place
         {
             get

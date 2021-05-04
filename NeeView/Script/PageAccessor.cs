@@ -12,7 +12,7 @@
         internal Page Source => _page;
 
         [WordNodeMember]
-        public string Path => _page.SystemPath;
+        public string Path => _page.EntryFullName;
 
         [WordNodeMember]
         public long Size => _page.Length;

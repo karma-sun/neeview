@@ -22,7 +22,7 @@ namespace NeeView
         public PlaylistListBoxViewModel()
         {
             this.CollectionViewSource = new CollectionViewSource();
-            this.CollectionViewSource.Filter += CollectioonViewSourceFilter;
+            this.CollectionViewSource.Filter += CollectionViewSourceFilter;
 
             Config.Current.Playlist.AddPropertyChanged(nameof(PlaylistConfig.IsGroupBy),
                 (s, e) => UpdateGroupBy());
@@ -119,12 +119,13 @@ namespace NeeView
             UpdateItems();
         }
 
-        private void CollectioonViewSourceFilter(object sender, FilterEventArgs e)
+        private void CollectionViewSourceFilter(object sender, FilterEventArgs e)
         {
             if (Config.Current.Playlist.IsCurrentBookFilterEnabled && BookOperation.Current.IsValid)
             {
                 var item = (PlaylistItem)e.Item;
-                e.Accepted = BookOperation.Current.Book.Pages.Any(x => x.SystemPath == item.Path);
+                var book = BookOperation.Current.Book;
+                e.Accepted = book is null || (item.Path.StartsWith(book.Address) && book.Pages.PageMap.ContainsKey(item.Path));
             }
             else
             {
@@ -195,7 +196,7 @@ namespace NeeView
 
         public PlaylistItem AddCurrentPage()
         {
-            var path = BookOperation.Current.GetPage()?.SystemPath;
+            var path = BookOperation.Current.GetPage()?.EntryFullName;
             if (path is null) return null;
 
             var targetItem = this.IsFirstIn ? this.Items.FirstOrDefault() : null;
@@ -255,6 +256,20 @@ namespace NeeView
 
             _model.Move(items, targetItem);
         }
+
+        public List<string> CollectAnotherPlaylists()
+        {
+            return _model.CollectAnotherPlaylists();
+        }
+
+
+        public void MoveToAnotherPlaylist(string path, List<PlaylistItem> items)
+        {
+            if (_model.Items is null) return;
+
+            _model.MoveToAnotherPlaylist(path, items);
+        }
+
 
         public bool Rename(PlaylistItem item, string newName)
         {

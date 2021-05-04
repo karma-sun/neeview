@@ -7131,4 +7131,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="MovePlaylsitItemInBookCommandParameter.IsLoop" xml:space="preserve">
     <value>Loop</value>
   </data>
+  <data name="PlaylistItem.Menu.MoveToAnother" xml:space="preserve">
+    <value>Move to another playlist</value>
+  </data>
 </root>

@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory;
+using NeeLaboratory.Collection;
 using NeeLaboratory.ComponentModel;
 using NeeView.Threading;
 using System;
@@ -17,7 +18,7 @@ namespace NeeView
     public class Playlist : BindableBase
     {
         private ObservableCollection<PlaylistItem> _items;
-        private Dictionary<string, PlaylistItem> _itemsMap = new Dictionary<string, PlaylistItem>();
+        private MultiMap<string, PlaylistItem> _itemsMap = new MultiMap<string, PlaylistItem>();
         private string _playlistPath;
         private object _lock = new object();
         private bool _isDarty;
@@ -89,7 +90,7 @@ namespace NeeView
                     }
 
                     _items = value;
-                    _itemsMap = _items.ToDictionary(x => x.Path, x => x);
+                    _itemsMap = _items.ToMultiMap(x => x.Path, x => x);
 
                     if (_items != null)
                     {
@@ -133,20 +134,20 @@ namespace NeeView
             {
                 case NotifyCollectionChangedAction.Reset:
                 case NotifyCollectionChangedAction.Replace:
-                    _itemsMap = _items.ToDictionary(x => x.Path, x => x);
+                    _itemsMap = _items.ToMultiMap(x => x.Path, x => x);
                     break;
-            
+
                 case NotifyCollectionChangedAction.Add:
                     foreach (PlaylistItem item in e.NewItems)
                     {
                         _itemsMap.Add(item.Path, item);
                     }
                     break;
-                
+
                 case NotifyCollectionChangedAction.Remove:
                     foreach (PlaylistItem item in e.OldItems)
                     {
-                        _itemsMap.Remove(item.Path);
+                        _itemsMap.Remove(item.Path, item);
                     };
                     break;
 
@@ -157,7 +158,7 @@ namespace NeeView
                     throw new NotSupportedException();
             }
 
-            Debug.Assert(this.Items.Count == this._itemsMap.Count);
+            Debug.Assert(this.Items.Count == _itemsMap.Count);
 
             CollectionChanged?.Invoke(this, e);
         }
@@ -176,7 +177,7 @@ namespace NeeView
 
             lock (_lock)
             {
-                if (this._itemsMap.TryGetValue(path, out var item))
+                if (_itemsMap.TryGetValue(path, out var item))
                 {
                     return item;
                 }
@@ -287,7 +288,7 @@ namespace NeeView
             lock (_lock)
             {
                 this.Items = new ObservableCollection<PlaylistItem>(this.Items.Except(items));
-                
+
                 _isDarty = true;
             }
         }
@@ -397,7 +398,7 @@ namespace NeeView
             if (item is null) return;
 
             // try jump in current book.
-            var isSuccess = BookOperation.Current.JumpPageWithSystemPath(this, item.Path);
+            var isSuccess = BookOperation.Current.JumpPageWithPath(this, item.Path);
             if (isSuccess)
             {
                 return;
@@ -593,5 +594,37 @@ namespace NeeView
         }
 
         #endregion Load
+
+        #region Move to another playlist
+
+        public List<string> CollectAnotherPlaylists()
+        {
+            return System.IO.Directory.GetFiles(Config.Current.Playlist.PlaylistFolder).Where(e => e != _playlistPath).ToList();
+        }
+
+        public void MoveToAnotherPlaylist(string path, IEnumerable<PlaylistItem> items)
+        {
+            if (path is null) return;
+            if (items is null || !items.Any()) return;
+            if (path == _playlistPath) return;
+
+            var playlist = Load(path);
+            if (!playlist.IsEditable) return;
+
+            var newItems = playlist.Add(items.Select(e => e.Path).ToArray());
+
+            var map = items.Where(e => e.IsNameChanged).ToDictionary(e => e.Path, e => e);
+            foreach (var item in newItems)
+            {
+                if (map.TryGetValue(item.Path, out var mapItem))
+                {
+                    item.Name = mapItem.Name;
+                }
+            }
+
+            playlist.Save(() => AppDispatcher.Invoke(() =>Remove(items)));
+        }
+
+        #endregion Move to another playlist
     }
 }

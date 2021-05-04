@@ -121,6 +121,7 @@
                 <EventSetter Event="PreviewMouseLeftButtonDown" Handler="PlaylistListItem_MouseLeftButtonDown" />
                 <EventSetter Event="PreviewMouseDoubleClick" Handler="PlaylistListItem_MouseDoubleClick" />
                 <EventSetter Event="KeyDown" Handler="PlaylistListItem_KeyDown" />
+                <EventSetter Event="ContextMenuOpening" Handler="PlaylistItem_ContextMenuOpening" />
                 <Setter Property="FocusVisualStyle" Value="{StaticResource NVListItemFocusVisual}" />
                 <!--
                 <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
@@ -132,6 +133,8 @@
                             <Separator />
                             <MenuItem Header="{x:Static properties:Resources.PlaylistItem_Menu_Delete}" Command="{x:Static local:PlaylistListBox.RemoveCommand}" />
                             <MenuItem Header="{x:Static properties:Resources.PlaylistItem_Menu_Rename}" Command="{x:Static local:PlaylistListBox.RenameCommand}" />
+                            <Separator />
+                            <MenuItem x:Name="MoveToAnotherMenu" Header="{x:Static properties:Resources.PlaylistItem_Menu_MoveToAnother}" />
                         </ContextMenu>
                     </Setter.Value>
                 </Setter>

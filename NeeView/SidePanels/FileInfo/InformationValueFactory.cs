@@ -37,7 +37,7 @@ namespace NeeView
                 case InformationKey.FileName:
                     return page?.EntryLastName;
                 case InformationKey.FilePath:
-                    return page?.Entry?.Link ?? page?.EntryFullName;
+                    return page?.Entry?.Link ?? page?.EntryName;
                 case InformationKey.FileSize:
                     if (page is null || page.Length <= 0) return null;
                     return new FormatValue(page.Length > 0 ? (page.Length + 1023) / 1024 : 0, "{0:#,0} KB");

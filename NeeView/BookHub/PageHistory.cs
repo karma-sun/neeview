@@ -19,6 +19,8 @@ namespace NeeView
         public string BookAddress { get; private set; }
         public string PageName { get; private set; }
 
+        public string EntryFullName => LoosePath.Combine(BookAddress, PageName);
+
 
         public bool IsEmpty()
         {
@@ -88,7 +90,7 @@ namespace NeeView
             if (viewPages != null && viewPages.Count > 0)
             {
                 var page = viewPages.Select(p => (p.Index, p)).Min().Item2;
-                pageHistoryUnit = new PageHistoryUnit(e.BookAddress, page.EntryFullName);
+                pageHistoryUnit = new PageHistoryUnit(e.BookAddress, page.EntryName);
             }
             else
             {
@@ -154,7 +156,7 @@ namespace NeeView
 
             if (BookOperation.Current.Address == unit.BookAddress)
             {
-                BookOperation.Current.JumpPage(this, unit.PageName);
+                BookOperation.Current.JumpPageWithPath(this, unit.EntryFullName);
             }
             else
             {

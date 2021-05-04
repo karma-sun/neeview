@@ -54,7 +54,7 @@ namespace NeeView
                 viewContent = newViewContent;
             }
 
-            viewContent.View.SetMessage(LoosePath.GetFileName(source.Page.EntryFullName));
+            viewContent.View.SetMessage(LoosePath.GetFileName(source.Page.EntryName));
             return viewContent;
         }
     }

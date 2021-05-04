@@ -109,7 +109,7 @@ namespace NeeView
             }
             else
             {
-                int index = !string.IsNullOrEmpty(startPage.PageName) ? _source.Pages.FindIndex(e => e.EntryFullName == startPage.PageName) : 0;
+                int index = !string.IsNullOrEmpty(startPage.PageName) ? _source.Pages.FindIndex(e => e.EntryName == startPage.PageName) : 0;
                 if (index < 0)
                 {
                     this.NotFoundStartPage = startPage.PageName;
@@ -127,7 +127,7 @@ namespace NeeView
             }
 
             // 開始ページ記憶
-            this.StartEntry = _source.Pages.Count > 0 ? _source.Pages[position.Index].EntryFullName : null;
+            this.StartEntry = _source.Pages.Count > 0 ? _source.Pages[position.Index].EntryName : null;
 
             // 初期ページ設定 
             _controller.RequestSetPosition(sender, position, direction);
@@ -150,7 +150,7 @@ namespace NeeView
 
             memento.Path = _source.Address;
             memento.IsDirectorty = _source.IsDirectory;
-            memento.Page = _source.Pages.SortMode != PageSortMode.Random ? _viewer.GetViewPage()?.EntryFullName : null;
+            memento.Page = _source.Pages.SortMode != PageSortMode.Random ? _viewer.GetViewPage()?.EntryName : null;
 
             memento.PageMode = _viewer.PageMode;
             memento.BookReadOrder = _viewer.BookReadOrder;

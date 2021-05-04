@@ -43,7 +43,7 @@ namespace NeeView
                 }
                 else if (page.Entry.Instance is ArchiveEntry archiveEntry && archiveEntry.IsFileSystem)
                 {
-                    files.Add(archiveEntry.SystemPath);
+                    files.Add(archiveEntry.EntryFullName);
                 }
                 // in archive
                 else
@@ -64,12 +64,12 @@ namespace NeeView
                             }
                             else
                             {
-                                Debug.WriteLine($"CreateFilePathList: Not support archive folder: {page.EntryFullName}");
+                                Debug.WriteLine($"CreateFilePathList: Not support archive folder: {page.EntryName}");
                             }
                             break;
 
                         case ArchivePolicy.SendArchivePath:
-                            files.Add(page.Entry.SystemPath);
+                            files.Add(page.Entry.EntryFullName);
                             break;
 
                         default:

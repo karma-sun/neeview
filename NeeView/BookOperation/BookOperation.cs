@@ -791,21 +791,12 @@ namespace NeeView
             this.Book.Control.JumpPage(sender, page);
         }
 
-        // ページ名を指定して移動
-        public bool JumpPage(object sender, string name)
-        {
-            if (this.Book == null || this.Book.IsMedia) return false;
-
-            var page = this.Book.Pages.GetPage(name);
-            return this.Book.Control.JumpPage(sender, page);
-        }
-
         // パスを指定して移動
-        public bool JumpPageWithSystemPath(object sender, string path)
+        public bool JumpPageWithPath(object sender, string path)
         {
             if (this.Book == null || this.Book.IsMedia) return false;
 
-            var page = this.Book.Pages.GetPageWithSystemPath(path);
+            var page = this.Book.Pages.GetPageWithEntryFullName(path);
             return this.Book.Control.JumpPage(sender, page);
         }
 

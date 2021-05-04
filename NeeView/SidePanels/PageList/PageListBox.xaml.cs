@@ -468,7 +468,7 @@ namespace NeeView
                 {
                     default:
                     case PageNameFormat.Raw:
-                        return page.EntryFullName;
+                        return page.EntryName;
                     case PageNameFormat.Smart:
                         return page.GetSmartFullName();
                     case PageNameFormat.NameOnly:

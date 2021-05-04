@@ -31,7 +31,7 @@ namespace NeeView
 
             if (pages.Count > 0)
             {
-                data.SetData(pages.Select(x => new QueryPath(x.SystemPath)).ToQueryPathCollection());
+                data.SetData(pages.Select(x => new QueryPath(x.EntryFullName)).ToQueryPathCollection());
                 result = true;
             }
 

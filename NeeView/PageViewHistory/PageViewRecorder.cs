@@ -81,7 +81,7 @@ namespace NeeView
                     _writeBuffer.Append('\t');
                     _writeBuffer.Append(page.BookPrefix);
                     _writeBuffer.Append('\t');
-                    _writeBuffer.Append(page.EntryFullName);
+                    _writeBuffer.Append(page.EntryName);
                     _writeBuffer.AppendLine();
                 }
 

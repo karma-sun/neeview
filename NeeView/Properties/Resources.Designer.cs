@@ -12182,6 +12182,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Move to another playlist に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PlaylistItem_Menu_MoveToAnother {
+            get {
+                return ResourceManager.GetString("PlaylistItem.Menu.MoveToAnother", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   _Open に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string PlaylistItem_Menu_Open {

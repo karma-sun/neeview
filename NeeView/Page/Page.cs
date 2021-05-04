@@ -95,18 +95,18 @@ namespace NeeView
         public string Place { get; protected set; }
 
         // ページ名 : エントリ名
-        public string EntryName => Entry?.EntryName;
+        public string EntryName => Entry?.EntryFullName.Substring(BookPrefix.Length);
 
         // ページ名：ファイル名のみ
         public string EntryLastName => Entry?.EntryLastName;
 
-        // ページ名：フルネーム
-        public string EntryFullName => Entry?.EntryFullName.Substring(BookPrefix.Length);
-
         // ページ名：スマートパス
-        public string EntrySmartName => Prefix == null ? EntryFullName : EntryFullName.Substring(Prefix.Length);
+        public string EntrySmartName => Prefix == null ? EntryName : EntryName.Substring(Prefix.Length);
 
-        // ページ名：システムパス
+        // ページ名：フルパス名 (リンクはそのまま)
+        public string EntryFullName => Entry?.EntryFullName;
+
+        // ページ名：システムパス (リンクは実体に変換済)
         public string SystemPath => Entry?.SystemPath;
 
         // ページ名：ブックプレフィックス
@@ -270,7 +270,7 @@ namespace NeeView
         // ページ名：ソート用分割
         public string[] GetEntryFullNameTokens()
         {
-            return LoosePath.Split(EntryFullName);
+            return LoosePath.Split(EntryName);
         }
 
         // ページ名：プレフィックスを除いたフルパス

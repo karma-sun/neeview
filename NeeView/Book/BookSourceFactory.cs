@@ -152,10 +152,10 @@ namespace NeeView
         {
             if (pages == null || pages.Count == 0) return "";
 
-            string s = pages[0].EntryFullName;
+            string s = pages[0].EntryName;
             foreach (var page in pages)
             {
-                s = GetStartsWith(s, page.EntryFullName);
+                s = GetStartsWith(s, page.EntryName);
                 if (string.IsNullOrEmpty(s)) break;
             }
 

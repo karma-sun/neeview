@@ -63,6 +63,7 @@ namespace NeeView
         public readonly static RoutedCommand OpenCommand = new RoutedCommand(nameof(OpenCommand), typeof(PlaylistListBox));
         public readonly static RoutedCommand RenameCommand = new RoutedCommand(nameof(RenameCommand), typeof(PlaylistListBox));
         public readonly static RoutedCommand RemoveCommand = new RoutedCommand(nameof(RemoveCommand), typeof(PlaylistListBox));
+        public readonly static RoutedCommand MoveToAnotherCommand = new RoutedCommand(nameof(MoveToAnotherCommand), typeof(PlaylistListBox));
 
 
         private static void InitializeCommandStatic()
@@ -79,6 +80,7 @@ namespace NeeView
             this.ListBox.CommandBindings.Add(new CommandBinding(OpenCommand, OpenCommand_Execute, OpenCommand_CanExecute));
             this.ListBox.CommandBindings.Add(new CommandBinding(RenameCommand, RenameCommand_Execute, RenameCommand_CanExecute));
             this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, RemoveCommand_Execute, RemoveCommand_CanExecute));
+            this.ListBox.CommandBindings.Add(new CommandBinding(MoveToAnotherCommand, MoveToAnotherCommand_Execute, MoveToAnotherCommand_CanExecute));
         }
 
 
@@ -152,6 +154,18 @@ namespace NeeView
             _vm.Remove(items);
             ScrollIntoView();
             ////FocusSelectedItem(true);
+        }
+
+        private void MoveToAnotherCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = _vm.IsEditable;
+        }
+
+        private void MoveToAnotherCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            var items = this.ListBox.SelectedItems.Cast<PlaylistItem>().ToList();
+            _vm.MoveToAnotherPlaylist(e.Parameter as string, items);
+            ScrollIntoView();
         }
 
 
@@ -486,8 +500,6 @@ namespace NeeView
             }
         }
 
-
-
         // 履歴項目決定(キー)
         private void PlaylistListItem_KeyDown(object sender, KeyEventArgs e)
         {
@@ -500,6 +512,33 @@ namespace NeeView
                     _vm.Open(item);
                     e.Handled = true;
                 }
+            }
+        }
+
+        private void PlaylistItem_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            var contextMenu = (sender as ListBoxItem)?.ContextMenu;
+            if (contextMenu is null) return;
+
+            var menuItem = contextMenu.Items.OfType<MenuItem>().FirstOrDefault(x => x.Name == "MoveToAnotherMenu");
+            menuItem.Items.Clear();
+
+            var paths = _vm.CollectAnotherPlaylists();
+            if (paths.Any())
+            {
+                foreach (var path in paths)
+                {
+                    menuItem.Items.Add(new MenuItem()
+                    {
+                        Header = System.IO.Path.GetFileNameWithoutExtension(path),
+                        Command = MoveToAnotherCommand,
+                        CommandParameter = path
+                    });
+                }
+            }
+            else
+            {
+                menuItem.Items.Add(Properties.Resources.Word_ItemNone);
             }
         }
 
@@ -594,7 +633,6 @@ namespace NeeView
             _vm.MoveNext();
             this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
         }
-
 
         #endregion UI Accessor
     }

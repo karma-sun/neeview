@@ -1,4 +1,5 @@
-﻿using NeeLaboratory.ComponentModel;
+﻿using NeeLaboratory.Collection;
+using NeeLaboratory.ComponentModel;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,7 +19,8 @@ namespace NeeView
         public BookPageCollection(List<Page> pages, PageSortMode sortMode)
         {
             Pages = pages;
-            PageMap = Pages.ToDictionary(e => e.SystemPath, e => e);
+
+            PageMap = Pages.ToMultiMap(e => e.EntryFullName, e => e);
 
             _sortMode = sortMode;
 
@@ -53,7 +55,7 @@ namespace NeeView
 
         public List<Page> Pages { get; private set; }
 
-        public Dictionary<string, Page> PageMap { get; private set; }
+        public MultiMap<string, Page> PageMap { get; private set; }
 
         public PageSortMode SortMode
         {
@@ -137,9 +139,14 @@ namespace NeeView
         // ページ
         public Page GetPage(int index) => Pages.Count > 0 ? Pages[ClampPageNumber(index)] : null;
 
-        public Page GetPage(string name) => Pages.FirstOrDefault(e => e.EntryFullName == name);
+        ////public Page GetPage(string name) => Pages.FirstOrDefault(e => e.EntryName == name);
 
-        public Page GetPageWithSystemPath(string name) => Pages.FirstOrDefault(e => e.SystemPath == name);
+        public Page GetPageWithEntryFullName(string name)
+        {
+            PageMap.TryGetValue(name, out var page);
+            return page;
+        }
+
 
         // ページ番号
         public int GetIndex(Page page) => Pages.IndexOf(page);
@@ -281,7 +288,7 @@ namespace NeeView
             foreach (var page in removes)
             {
                 Pages.Remove(page);
-                PageMap.Remove(page.SystemPath);
+                PageMap.Remove(page.EntryFullName, page);
             }
 
             PagesNumbering();
@@ -335,11 +342,11 @@ namespace NeeView
                 return -1;
             }
 
-            string currentFolder = LoosePath.GetDirectoryName(Pages[start].EntryFullName);
+            string currentFolder = LoosePath.GetDirectoryName(Pages[start].EntryName);
 
             for (int index = start + 1; index < Pages.Count; ++index)
             {
-                var folder = LoosePath.GetDirectoryName(Pages[index].EntryFullName);
+                var folder = LoosePath.GetDirectoryName(Pages[index].EntryName);
                 if (currentFolder != folder)
                 {
                     return index;
@@ -361,11 +368,11 @@ namespace NeeView
                 return -1;
             }
 
-            string currentFolder = LoosePath.GetDirectoryName(Pages[start - 1].EntryFullName);
+            string currentFolder = LoosePath.GetDirectoryName(Pages[start - 1].EntryName);
 
             for (int index = start - 1; index > 0; --index)
             {
-                var folder = LoosePath.GetDirectoryName(Pages[index - 1].EntryFullName);
+                var folder = LoosePath.GetDirectoryName(Pages[index - 1].EntryName);
                 if (currentFolder != folder)
                 {
                     return index;

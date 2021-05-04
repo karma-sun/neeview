@@ -115,7 +115,7 @@ namespace NeeView
             var item = GetSelectedPage(sender);
             if (item != null)
             {
-                var path = item.SystemPath;
+                var path = item.EntryFullName;
                 ExternalProcess.Start("explorer.exe", "/select,\"" + path + "\"");
             }
         }

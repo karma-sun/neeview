@@ -48,7 +48,7 @@ namespace NeeView
             if (_playlist is null) return null;
             if (page is null) return null;
 
-            return _playlist.Find(page.SystemPath);
+            return _playlist.Find(page.EntryFullName);
         }
 
         public PlaylistItem Add(Page page)
@@ -64,7 +64,7 @@ namespace NeeView
             if (_playlist is null) return null;
             if (pages is null) return null;
 
-            return _playlist.Add(pages.Select(e => e.SystemPath).ToList());
+            return _playlist.Add(pages.Select(e => e.EntryFullName).ToList());
         }
 
 
@@ -81,7 +81,7 @@ namespace NeeView
             if (_playlist is null) return false;
             if (pages is null) return false;
 
-            var items = _playlist.Collect(pages.Select(e => e.SystemPath).ToList());
+            var items = _playlist.Collect(pages.Select(e => e.EntryFullName).ToList());
             if (items.Any())
             {
                 _playlist.Remove(items);
@@ -122,7 +122,7 @@ namespace NeeView
             if (_playlist?.Items is null) return new List<Page>();
 
             return _playlist.Items
-                .Select(e => _book.Pages.PageMap.TryGetValue(e.Path, out var page) ? page : null)
+                .Select(e => _book.Pages.PageMap.TryGetValue(e.Path, out Page page) ? page : null)
                 .Where(e => e != null).ToList();
         }
 

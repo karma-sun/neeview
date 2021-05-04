@@ -1,5 +1,6 @@
-## Resources.xlsx to *.restext
-## Usage: NVXlsxToRestext.ps1
+# Resources.xlsx to *.restext
+#
+# Usage: NVXlsxToRestext.ps1
 
 if ($null -eq $env:NVROOT)
 {

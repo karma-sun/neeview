@@ -440,9 +440,6 @@ nv.Command.ToggleMediaPlay.Execute()
   <data name="ArchiveFormat.Media" xml:space="preserve">
     <value>媒體格式</value>
   </data>
-  <data name="ArchiveFormat.Pagemark" xml:space="preserve">
-    <value>頁籤格式</value>
-  </data>
   <data name="ArchiveFormat.Pdf" xml:space="preserve">
     <value>PDF格式</value>
   </data>
@@ -614,9 +611,6 @@ nv.Command.ToggleMediaPlay.Execute()
   <data name="BookAddressInfo.Page" xml:space="preserve">
     <value>{0} 頁面</value>
   </data>
-  <data name="BookAddressInfo.Pagemark" xml:space="preserve">
-    <value>此為頁籤位置</value>
-  </data>
   <data name="BookConfig.BookPageSize" xml:space="preserve">
     <value>書本圖像大小</value>
   </data>
@@ -648,7 +642,7 @@ nv.Command.ToggleMediaPlay.Execute()
     <value>插入用於對開的虛擬頁面</value>
   </data>
   <data name="BookConfig.IsInsertDummyPage.Remarks" xml:space="preserve">
-    <value>當頁尾不足以 2 頁面顯示時，加入虛擬頁面對開對齊。</value>
+    <value>在 2 頁面顯示的結尾頁面不足時，加入虛擬頁面與對開對齊。</value>
   </data>
   <data name="BookConfig.IsMultiplePageMove" xml:space="preserve">
     <value>允許多重頁面移動指令</value>
@@ -699,10 +693,10 @@ nv.Command.ToggleMediaPlay.Execute()
     <value>分割橫向頁面</value>
   </data>
   <data name="BookConfigAccessor.IsSupportedSingleFirstPage" xml:space="preserve">
-    <value>單獨顯示開頭頁面</value>
+    <value>單獨顯示開始頁面</value>
   </data>
   <data name="BookConfigAccessor.IsSupportedSingleLastPage" xml:space="preserve">
-    <value>單獨顯示結尾頁面</value>
+    <value>單獨顯示最後頁面</value>
   </data>
   <data name="BookConfigAccessor.IsSupportedWidePage" xml:space="preserve">
     <value>將橫向頁面視為 2 頁面</value>
@@ -777,10 +771,10 @@ nv.Command.ToggleMediaPlay.Execute()
     <value>分割橫向頁面</value>
   </data>
   <data name="BookMementoFilter.IsSupportedSingleFirstPage" xml:space="preserve">
-    <value>單獨顯示開頭頁面</value>
+    <value>單獨顯示開始頁面</value>
   </data>
   <data name="BookMementoFilter.IsSupportedSingleLastPage" xml:space="preserve">
-    <value>單獨顯示結尾頁面</value>
+    <value>單獨顯示最後頁面</value>
   </data>
   <data name="BookMementoFilter.IsSupportedWidePage" xml:space="preserve">
     <value>將橫向頁面視為 2 頁面</value>
@@ -816,10 +810,10 @@ nv.Command.ToggleMediaPlay.Execute()
     <value>分割橫向頁面</value>
   </data>
   <data name="BookSettingConfig.IsSupportedSingleFirstPage" xml:space="preserve">
-    <value>單獨顯示開頭頁面</value>
+    <value>單獨顯示開始頁面</value>
   </data>
   <data name="BookSettingConfig.IsSupportedSingleLastPage" xml:space="preserve">
-    <value>單獨顯示結尾頁面</value>
+    <value>單獨顯示最後頁面</value>
   </data>
   <data name="BookSettingConfig.IsSupportedWidePage" xml:space="preserve">
     <value>將橫向頁面視為 2 頁面</value>
@@ -1282,9 +1276,6 @@ nv.Command.ViewRotateLeft.TouchGesture = "TouchCenter"</value>
   <data name="CommandGroup.Other" xml:space="preserve">
     <value>其他</value>
   </data>
-  <data name="CommandGroup.Pagemark" xml:space="preserve">
-    <value>頁籤</value>
-  </data>
   <data name="CommandGroup.PageOrder" xml:space="preserve">
     <value>頁面列</value>
   </data>
@@ -1350,9 +1341,6 @@ nv.Config.Theme.ThemeType = "Dark"</value>
   </data>
   <data name="CommandHost.PageList" xml:space="preserve">
     <value>頁面列表面板存取器</value>
-  </data>
-  <data name="CommandHost.Pagemark" xml:space="preserve">
-    <value>頁籤面板存取器</value>
   </data>
   <data name="CommandHost.ShowDialog" xml:space="preserve">
     <value>顯示對話框。</value>
@@ -1563,7 +1551,6 @@ nv.Values.Test = "Hello!"</value>
 - 設定檔案
 - 歷史記錄檔案
 - 書籤檔案
-- 頁籤檔案
 - 快取檔案</value>
   </data>
   <data name="DeleteApplicationDataDialog.Title" xml:space="preserve">
@@ -2065,7 +2052,7 @@ nv.Values.Test = "Hello!"</value>
     <value>匯出設定...</value>
   </data>
   <data name="ExportBackupCommand.Remarks" xml:space="preserve">
-    <value>製作設定、歷史記錄、書籤、頁籤的備份。不會備份縮圖快取。</value>
+    <value>製作設定、歷史記錄、書籤的備份。不會備份縮圖快取。</value>
   </data>
   <data name="ExportDialog.Title" xml:space="preserve">
     <value>匯出全部設定</value>
@@ -2270,9 +2257,6 @@ nv.Values.Test = "Hello!"</value>
   <data name="FilmStripConfig.IsVisibleNumber" xml:space="preserve">
     <value>顯示頁面編號</value>
   </data>
-  <data name="FilmStripConfig.IsVisiblePagemark" xml:space="preserve">
-    <value>顯示頁籤圖示</value>
-  </data>
   <data name="FilmStripConfig.IsVisiblePlate" xml:space="preserve">
     <value>顯示膠片條的背景</value>
   </data>
@@ -2280,10 +2264,10 @@ nv.Values.Test = "Hello!"</value>
     <value>「@FilmStripConfig.IsHideFilmStrip」為啟用時，會顯示膠片條的背景。</value>
   </data>
   <data name="FirstPageCommand" xml:space="preserve">
-    <value>移動到開始的頁面</value>
+    <value>移動到開始頁面</value>
   </data>
   <data name="FirstPageCommand.Remarks" xml:space="preserve">
-    <value>移動到第一頁。</value>
+    <value>移動到開頭頁面。</value>
   </data>
   <data name="FocusBookmarkListCommand" xml:space="preserve">
     <value>顯示書籤</value>
@@ -2523,7 +2507,7 @@ nv.Values.Test = "Hello!"</value>
     <value>儲存 UNC 路徑至歷史記錄</value>
   </data>
   <data name="HistoryConfig.IsUncHistoryEnabled.Remarks" xml:space="preserve">
-    <value>儲存 "\\電腦名稱\~"  這樣的網路路徑到歷史記錄。</value>
+    <value>儲存 "\\電腦名稱\~"  之類的網路路徑到歷史記錄。</value>
   </data>
   <data name="HistoryConfig.LimitSize" xml:space="preserve">
     <value>儲存數量上限</value>
@@ -2780,25 +2764,25 @@ nv.Values.Test = "Hello!"</value>
   <data name="InformationConfig.DateTimeFormat.Remarks" xml:space="preserve">
     <value>指定 .NET 的自訂日期時間格式文字列 。</value>
   </data>
-  <data name="InformationConfig.IsVisibleAdvancedPhotoSection" xml:space="preserve">
+  <data name="InformationConfig.IsVisibleAdvancedPhoto" xml:space="preserve">
     <value>顯示照片詳細資訊</value>
   </data>
-  <data name="InformationConfig.IsVisibleCameraSection" xml:space="preserve">
+  <data name="InformationConfig.IsVisibleCamera" xml:space="preserve">
     <value>顯示相機資訊</value>
   </data>
-  <data name="InformationConfig.IsVisibleDescriptionSection" xml:space="preserve">
+  <data name="InformationConfig.IsVisibleDescription" xml:space="preserve">
     <value>顯示描述資訊</value>
   </data>
-  <data name="InformationConfig.IsVisibleFileSection" xml:space="preserve">
+  <data name="InformationConfig.IsVisibleFile" xml:space="preserve">
     <value>顯示檔案資訊</value>
   </data>
-  <data name="InformationConfig.IsVisibleGpsSection" xml:space="preserve">
+  <data name="InformationConfig.IsVisibleGps" xml:space="preserve">
     <value>顯示GPS資訊</value>
   </data>
-  <data name="InformationConfig.IsVisibleImageSection" xml:space="preserve">
+  <data name="InformationConfig.IsVisibleImage" xml:space="preserve">
     <value>顯示影像資訊</value>
   </data>
-  <data name="InformationConfig.IsVisibleOriginSection" xml:space="preserve">
+  <data name="InformationConfig.IsVisibleOrigin" xml:space="preserve">
     <value>顯示原始資訊</value>
   </data>
   <data name="InformationConfig.MapProgramFormat" xml:space="preserve">
@@ -3497,12 +3481,6 @@ include("Sample.nvjs")</value>
 滑鼠手勢為滑鼠右鍵按著拖曳操作。
 可以把左鍵點擊登錄視為最後的手勢按鍵。</value>
   </data>
-  <data name="MovePagemarkInBookCommandParameter.IsIncludeTerminal" xml:space="preserve">
-    <value>包含開始與最後的頁面</value>
-  </data>
-  <data name="MovePagemarkInBookCommandParameter.IsLoop" xml:space="preserve">
-    <value>循環</value>
-  </data>
   <data name="MoveSizePageCommandParameter.Size" xml:space="preserve">
     <value>移動頁面數量</value>
   </data>
@@ -3638,18 +3616,6 @@ include("Sample.nvjs")</value>
   <data name="NextPageCommand.Remarks" xml:space="preserve">
     <value>往頁面下一個方向移動。2 頁面顯示時移動 2 頁面。</value>
   </data>
-  <data name="NextPagemarkCommand" xml:space="preserve">
-    <value>移動到下一個書籤</value>
-  </data>
-  <data name="NextPagemarkCommand.Remarks" xml:space="preserve">
-    <value>移動到下一個書籤。</value>
-  </data>
-  <data name="NextPagemarkInBookCommand" xml:space="preserve">
-    <value>移動到書本內下一個頁籤</value>
-  </data>
-  <data name="NextPagemarkInBookCommand.Remarks" xml:space="preserve">
-    <value>移動到目前書本內的下一個頁籤。</value>
-  </data>
   <data name="NextScrollPageCommand" xml:space="preserve">
     <value>捲動＋前進到下一個頁面</value>
   </data>
@@ -3708,9 +3674,6 @@ include("Sample.nvjs")</value>
   <data name="Notice.FirstPage" xml:space="preserve">
     <value>開始的頁面</value>
   </data>
-  <data name="Notice.FirstPagemark" xml:space="preserve">
-    <value>在目前頁面之前沒有頁籤</value>
-  </data>
   <data name="Notice.FlipHorizontal" xml:space="preserve">
     <value>左右翻轉</value>
   </data>
@@ -3738,9 +3701,6 @@ include("Sample.nvjs")</value>
   </data>
   <data name="Notice.LastPage" xml:space="preserve">
     <value>最後的頁面</value>
-  </data>
-  <data name="Notice.LastPagemark" xml:space="preserve">
-    <value>在目前頁面之後沒有頁籤</value>
   </data>
   <data name="Notice.LoadBookmarkFailed" xml:space="preserve">
     <value>書籤讀入失敗了。</value>
@@ -3787,17 +3747,8 @@ include("Sample.nvjs")</value>
   <data name="Notice.OutputFailed" xml:space="preserve">
     <value>檔案輸出失敗了。</value>
   </data>
-  <data name="Notice.PagemarkNextFailed" xml:space="preserve">
-    <value>沒有下一個頁籤</value>
-  </data>
-  <data name="Notice.PagemarkPrevFailed" xml:space="preserve">
-    <value>沒有上一個頁籤</value>
-  </data>
   <data name="Notice.PlayFailed" xml:space="preserve">
     <value>播放錯誤</value>
-  </data>
-  <data name="Notice.RemoveUnlinkedPagemark" xml:space="preserve">
-    <value>已刪除 {0} 個頁籤。</value>
   </data>
   <data name="Notice.SearchKeywordDateTimeError" xml:space="preserve">
     <value>不正確的日期時間格式</value>
@@ -4038,9 +3989,6 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="PageListItem.Menu.OpenBook" xml:space="preserve">
     <value>開啟書本(_O)</value>
   </data>
-  <data name="PageListItem.Menu.Pagemark" xml:space="preserve">
-    <value>頁籤(_M)</value>
-  </data>
   <data name="PageListPanelAccessor" xml:space="preserve">
     <value>頁面列表面板存取器</value>
   </data>
@@ -4061,81 +4009,6 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   </data>
   <data name="PageListPanelAccessor.Style" xml:space="preserve">
     <value>列表項目顯示格式</value>
-  </data>
-  <data name="Pagemark.MoreMenu.CurrentBook" xml:space="preserve">
-    <value>僅在目前的書本</value>
-  </data>
-  <data name="Pagemark.MoreMenu.DeleteInvalid" xml:space="preserve">
-    <value>刪除無效的頁籤</value>
-  </data>
-  <data name="Pagemark.MoreMenu.OpenAsBook" xml:space="preserve">
-    <value>以書本開啟</value>
-  </data>
-  <data name="Pagemark.MoreMenu.SortPath" xml:space="preserve">
-    <value>路徑順序</value>
-  </data>
-  <data name="Pagemark.Title" xml:space="preserve">
-    <value>頁籤</value>
-  </data>
-  <data name="PagemarkConfig.IsSavePagemark" xml:space="preserve">
-    <value>儲存頁籤檔案</value>
-  </data>
-  <data name="PagemarkConfig.PagemarkFilePath" xml:space="preserve">
-    <value>頁籤檔案的位置</value>
-  </data>
-  <data name="PagemarkConfig.PagemarkOrder" xml:space="preserve">
-    <value>頁籤排序</value>
-  </data>
-  <data name="PagemarkConfig.PanelListItemStyle" xml:space="preserve">
-    <value>頁籤項目格式</value>
-  </data>
-  <data name="PagemarkError.Message" xml:space="preserve">
-    <value>暫存資料夾無法設定頁籤</value>
-  </data>
-  <data name="PagemarkFolderDelete.Message" xml:space="preserve">
-    <value>已刪除 {0} 個頁籤。</value>
-  </data>
-  <data name="PagemarkItem.Menu.Delete" xml:space="preserve">
-    <value>刪除頁籤(_R)</value>
-  </data>
-  <data name="PagemarkItem.Menu.DeleteFolder" xml:space="preserve">
-    <value>刪除資料夾(_D)</value>
-  </data>
-  <data name="PagemarkItem.Menu.Open" xml:space="preserve">
-    <value>開啟(_O)</value>
-  </data>
-  <data name="PagemarkItem.Menu.Rename" xml:space="preserve">
-    <value>重新命名(_M)</value>
-  </data>
-  <data name="PagemarkItemAccessor" xml:space="preserve">
-    <value>頁籤項目存取器</value>
-  </data>
-  <data name="PagemarkItemAccessor.IsExpanded" xml:space="preserve">
-    <value>展開樹狀顯示</value>
-  </data>
-  <data name="PagemarkItemAccessor.Name" xml:space="preserve">
-    <value>項目名稱</value>
-  </data>
-  <data name="PagemarkItemAccessor.Path" xml:space="preserve">
-    <value>項目對應路徑</value>
-  </data>
-  <data name="PagemarkItemAccessor.Type" xml:space="preserve">
-    <value>類別</value>
-  </data>
-  <data name="PagemarkList.Add.ToolTip" xml:space="preserve">
-    <value>加入頁籤</value>
-  </data>
-  <data name="PagemarkPanelAccessor" xml:space="preserve">
-    <value>頁籤面板存取器</value>
-  </data>
-  <data name="PagemarkPanelAccessor.Items" xml:space="preserve">
-    <value>列表項目</value>
-  </data>
-  <data name="PagemarkPanelAccessor.SelectedItems" xml:space="preserve">
-    <value>已選擇的列表項目</value>
-  </data>
-  <data name="PagemarkPanelAccessor.Style" xml:space="preserve">
-    <value>列表項目格式</value>
   </data>
   <data name="PageMode.SinglePage" xml:space="preserve">
     <value>1 頁面顯示</value>
@@ -4294,7 +4167,7 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
     <value>格式化補充文字的路徑顯示</value>
   </data>
   <data name="PanelsConfig.IsDecoratePlace.Remarks" xml:space="preserve">
-    <value>格式化為 "AAA (C:\BBB\CCC)" 這樣的格式。</value>
+    <value>格式化為 "AAA (C:\BBB\CCC)" 之類的格式。</value>
   </data>
   <data name="PanelsConfig.IsHidePanel" xml:space="preserve">
     <value>自動隱藏側邊面板</value>
@@ -4415,7 +4288,7 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
     <value>返回前一個顯示的書本</value>
   </data>
   <data name="PrevBookHistoryCommand.Remarks" xml:space="preserve">
-    <value>開啟之前開起過的書本。</value>
+    <value>開啟之前開啟過的書本。</value>
   </data>
   <data name="PrevFolderPageCommand" xml:space="preserve">
     <value>移動到前一個資料夾</value>
@@ -4424,13 +4297,13 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
     <value>移動到書本內前一個資料夾的開始頁面。僅在名稱排序時有效。</value>
   </data>
   <data name="PrevHistoryCommand" xml:space="preserve">
-    <value>返回到先前的歷史記錄</value>
+    <value>返回到前一個歷史記錄</value>
   </data>
   <data name="PrevHistoryCommand.Remarks" xml:space="preserve">
-    <value>讀入先前舊歷史記錄的書本。</value>
+    <value>讀入前一個舊歷史記錄的書本。</value>
   </data>
   <data name="PrevHistoryPageCommand" xml:space="preserve">
-    <value>返回到之前顯示的頁面</value>
+    <value>返回到前一個顯示的頁面</value>
   </data>
   <data name="PrevHistoryPageCommand.Remarks" xml:space="preserve">
     <value>移動到之前開啟的頁面。</value>
@@ -4442,25 +4315,13 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
     <value>只往先前方向移動 1 頁面。</value>
   </data>
   <data name="PrevPageCommand" xml:space="preserve">
-    <value>返回到先前的頁面</value>
+    <value>返回到前一個頁面</value>
   </data>
   <data name="PrevPageCommand.Remarks" xml:space="preserve">
     <value>往頁面先前的方向移動。當 2 頁面顯示時移動 2 頁面。</value>
   </data>
-  <data name="PrevPagemarkCommand" xml:space="preserve">
-    <value>移動到先前的頁籤</value>
-  </data>
-  <data name="PrevPagemarkCommand.Remarks" xml:space="preserve">
-    <value>移動到先前的頁籤。</value>
-  </data>
-  <data name="PrevPagemarkInBookCommand" xml:space="preserve">
-    <value>移動到書本內先前的頁籤</value>
-  </data>
-  <data name="PrevPagemarkInBookCommand.Remarks" xml:space="preserve">
-    <value>移動到目前的書本內先前的頁籤。</value>
-  </data>
   <data name="PrevScrollPageCommand" xml:space="preserve">
-    <value>捲動＋返回到之前的頁面</value>
+    <value>捲動＋返回到前一個頁面</value>
   </data>
   <data name="PrevScrollPageCommand.Remarks" xml:space="preserve">
     <value>往頁面先前方向捲動圖像。無法捲動時移動到先前頁面。僅在頁面移動時可使用放大鏡。</value>
@@ -4536,9 +4397,6 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
   </data>
   <data name="QueryScheme.File" xml:space="preserve">
     <value>PC</value>
-  </data>
-  <data name="QueryScheme.Pagemark" xml:space="preserve">
-    <value>頁籤</value>
   </data>
   <data name="QueryScheme.QuickAccess" xml:space="preserve">
     <value>快速存取</value>
@@ -4853,7 +4711,7 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
     <value>圖像較大時符合視窗大小</value>
   </data>
   <data name="SetStretchModeInsideCommand.Remarks" xml:space="preserve">
-    <value>像是收入視窗內一般將圖像縮小顯示。</value>
+    <value>像是收進視窗內那樣將圖像縮小顯示。</value>
   </data>
   <data name="SetStretchModeNoneCommand" xml:space="preserve">
     <value>原始大小</value>
@@ -4865,7 +4723,7 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
     <value>圖像較小時符合視窗大小</value>
   </data>
   <data name="SetStretchModeOutsideCommand.Remarks" xml:space="preserve">
-    <value>像是收入視窗內一般將圖像盡量放大顯示。</value>
+    <value>像是收進視窗內那樣將圖像盡量放大顯示。</value>
   </data>
   <data name="SetStretchModeUniformCommand" xml:space="preserve">
     <value>符合視窗</value>
@@ -5357,19 +5215,16 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
     <value>自動隱藏模式時自動隱藏滑動條</value>
   </data>
   <data name="SliderConfig.IsSliderLinkedFilmStrip" xml:space="preserve">
-    <value>滑動條的即時更改僅套用於膠片條</value>
+    <value>在滑動條的即時更改僅套用於膠片條</value>
   </data>
   <data name="SliderConfig.IsSliderLinkedFilmStrip.Remarks" xml:space="preserve">
-    <value>當確定時切換頁面。</value>
+    <value>在確定後才會切換頁面。</value>
   </data>
   <data name="SliderConfig.IsSyncPageMode" xml:space="preserve">
-    <value>將更改量同步到顯示頁面數量</value>
+    <value>將更改量與顯示頁面數量同步</value>
   </data>
   <data name="SliderConfig.IsVisible" xml:space="preserve">
     <value>滑動條顯示狀態</value>
-  </data>
-  <data name="SliderConfig.IsVisiblePagemark" xml:space="preserve">
-    <value>顯示頁籤標記</value>
   </data>
   <data name="SliderConfig.Opacity" xml:space="preserve">
     <value>滑動條不透明度</value>
@@ -5414,7 +5269,7 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
     <value>循環播放</value>
   </data>
   <data name="SlideShowConfig.IsSlideShowByLoop.Remarks" xml:space="preserve">
-    <value>從最後頁面播放時回到開始頁面。</value>
+    <value>從最後頁面播放時回到開頭頁面。</value>
   </data>
   <data name="SlideShowConfig.SlideShowInterval" xml:space="preserve">
     <value>滑動切換時間 (秒)</value>
@@ -5930,28 +5785,28 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
     <value>1 頁面顯示時，將橫向頁面分割為頁面。</value>
   </data>
   <data name="ToggleIsSupportedSingleFirstPageCommand" xml:space="preserve">
-    <value>單獨顯示開頭頁面</value>
+    <value>單獨顯示開始頁面</value>
   </data>
   <data name="ToggleIsSupportedSingleFirstPageCommand.Off" xml:space="preserve">
-    <value>不區分開頭頁面</value>
+    <value>不區分開始頁面</value>
   </data>
   <data name="ToggleIsSupportedSingleFirstPageCommand.On" xml:space="preserve">
-    <value>單獨顯示開頭頁面</value>
+    <value>單獨顯示開始頁面</value>
   </data>
   <data name="ToggleIsSupportedSingleFirstPageCommand.Remarks" xml:space="preserve">
-    <value>即使在 2 頁面顯示時開頭頁面也會以 1 頁面顯示。</value>
+    <value>即使在 2 頁面顯示時開始頁面也會以 1 頁面顯示。</value>
   </data>
   <data name="ToggleIsSupportedSingleLastPageCommand" xml:space="preserve">
-    <value>單獨顯示結尾頁面</value>
+    <value>單獨顯示最後頁面</value>
   </data>
   <data name="ToggleIsSupportedSingleLastPageCommand.Off" xml:space="preserve">
-    <value>不區分結尾頁面</value>
+    <value>不區分最後頁面</value>
   </data>
   <data name="ToggleIsSupportedSingleLastPageCommand.On" xml:space="preserve">
-    <value>單獨顯示結尾頁面</value>
+    <value>單獨顯示最後頁面</value>
   </data>
   <data name="ToggleIsSupportedSingleLastPageCommand.Remarks" xml:space="preserve">
-    <value>即使在 2 頁面顯示時結尾頁面也會以 1 頁面顯示。</value>
+    <value>即使在 2 頁面顯示時最後頁面也會以 1 頁面顯示。</value>
   </data>
   <data name="ToggleIsSupportedWidePageCommand" xml:space="preserve">
     <value>將橫向頁面視為 2 頁面</value>
@@ -6000,21 +5855,6 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
   </data>
   <data name="ToggleNearestNeighborCommand.Remarks" xml:space="preserve">
     <value>啟用時放大會依照點放大。停用時進行比例轉換處理 (Fant) 。</value>
-  </data>
-  <data name="TogglePagemarkCommand" xml:space="preserve">
-    <value>加入/刪除頁籤</value>
-  </data>
-  <data name="TogglePagemarkCommand.Menu" xml:space="preserve">
-    <value>頁籤</value>
-  </data>
-  <data name="TogglePagemarkCommand.Off" xml:space="preserve">
-    <value>頁籤已刪除</value>
-  </data>
-  <data name="TogglePagemarkCommand.On" xml:space="preserve">
-    <value>頁籤已加入</value>
-  </data>
-  <data name="TogglePagemarkCommand.Remarks" xml:space="preserve">
-    <value>切換目前開啟頁面的頁籤。</value>
   </data>
   <data name="TogglePageModeCommand" xml:space="preserve">
     <value>切換頁面顯示模式</value>
@@ -6071,7 +5911,7 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
     <value>切換頁面排序</value>
   </data>
   <data name="ToggleSortModeCommand.Remarks" xml:space="preserve">
-    <value>照順序切換頁面排序。</value>
+    <value>按照順序切換頁面排序。</value>
   </data>
   <data name="ToggleStretchAllowScaleDownCommand" xml:space="preserve">
     <value>允許縮小</value>
@@ -6285,21 +6125,6 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
   </data>
   <data name="ToggleVisiblePageListCommand.Remarks" xml:space="preserve">
     <value>切換顯示/隱藏頁面列表面板。</value>
-  </data>
-  <data name="ToggleVisiblePagemarkListCommand" xml:space="preserve">
-    <value>顯示/隱藏頁籤面板</value>
-  </data>
-  <data name="ToggleVisiblePagemarkListCommand.Menu" xml:space="preserve">
-    <value>頁籤面板</value>
-  </data>
-  <data name="ToggleVisiblePagemarkListCommand.Off" xml:space="preserve">
-    <value>關閉頁籤面板</value>
-  </data>
-  <data name="ToggleVisiblePagemarkListCommand.On" xml:space="preserve">
-    <value>顯示頁籤面板</value>
-  </data>
-  <data name="ToggleVisiblePagemarkListCommand.Remarks" xml:space="preserve">
-    <value>切換顯示/隱藏頁籤面板。</value>
   </data>
   <data name="ToggleVisiblePageSliderCommand" xml:space="preserve">
     <value>顯示/隱藏滑動條</value>
@@ -6779,9 +6604,6 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="Word.AllHistory" xml:space="preserve">
     <value>全部的歷史記錄</value>
   </data>
-  <data name="Word.AllPagemark" xml:space="preserve">
-    <value>全部的頁籤</value>
-  </data>
   <data name="Word.Argument" xml:space="preserve">
     <value>引數</value>
   </data>
@@ -6832,9 +6654,6 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="Word.DefaultApp" xml:space="preserve">
     <value>預設應用程式</value>
-  </data>
-  <data name="Word.DefaultPagemark" xml:space="preserve">
-    <value>預設頁籤</value>
   </data>
   <data name="Word.Degree" xml:space="preserve">
     <value>度</value>
@@ -7101,7 +6920,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>開新檔案(_N)</value>
   </data>
   <data name="Playlist.MoreMenu.Open" xml:space="preserve">
-    <value>開啟(_O)</value>
+    <value>開啟(_O)...</value>
   </data>
   <data name="Playlist.MoreMenu.Delete" xml:space="preserve">
     <value>刪除(_D)</value>
@@ -7138,5 +6957,183 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="PlaylistItem.Menu.Rename" xml:space="preserve">
     <value>重新命名(_M)</value>
+  </data>
+  <data name="Notice.InvalidSeparatorChars" xml:space="preserve">
+    <value>無法使用以下的文字:
+\ /</value>
+  </data>
+  <data name="Playlist.FailedToLoad" xml:space="preserve">
+    <value>播放列表的讀入失敗了</value>
+  </data>
+  <data name="Playlist.DeleteItemsMessage" xml:space="preserve">
+    <value>已刪除 {0} 個項目。</value>
+  </data>
+  <data name="Playlist.FirstIn" xml:space="preserve">
+    <value>加入到開頭</value>
+  </data>
+  <data name="Playlist.LastIn" xml:space="preserve">
+    <value>加入到結尾</value>
+  </data>
+  <data name="Playlist.FailedToSave" xml:space="preserve">
+    <value>播放列表的儲存失敗了</value>
+  </data>
+  <data name="PlaylistConfig.CurrentPlaylist" xml:space="preserve">
+    <value>目前的播放列表</value>
+  </data>
+  <data name="PlaylistConfig.IsCurrentBookFilterEnabled" xml:space="preserve">
+    <value>僅顯示開啟的書本頁面</value>
+  </data>
+  <data name="PlaylistConfig.IsFirstIn" xml:space="preserve">
+    <value>加入到列表的開頭</value>
+  </data>
+  <data name="PlaylistConfig.IsFirstIn.Remarks" xml:space="preserve">
+    <value>使用加入指令的插入位置。關閉時則加入到結尾。</value>
+  </data>
+  <data name="PlaylistConfig.IsGroupBy" xml:space="preserve">
+    <value>依照檔案群組化顯示</value>
+  </data>
+  <data name="PlaylistConfig.PanelListItemStyle" xml:space="preserve">
+    <value>列表項目的樣式</value>
+  </data>
+  <data name="PlaylistConfig.PlaylistFolder" xml:space="preserve">
+    <value>播放列表檔案的儲存位置</value>
+  </data>
+  <data name="PlaylistConfig.PlaylistFolder.Remarks" xml:space="preserve">
+    <value>管理這個資料夾的播放列表檔案。</value>
+  </data>
+  <data name="CommandHost.Playlist" xml:space="preserve">
+    <value>播放列表面板存取器</value>
+  </data>
+  <data name="PlaylistPanelAccessor.Path" xml:space="preserve">
+    <value>目前播放列表的路徑</value>
+  </data>
+  <data name="PlaylistPanelAccessor.Style" xml:space="preserve">
+    <value>列表項目顯示格式</value>
+  </data>
+  <data name="PlaylistPanelAccessor.Items" xml:space="preserve">
+    <value>列表項目</value>
+  </data>
+  <data name="PlaylistPanelAccessor.SelectedItems" xml:space="preserve">
+    <value>已選擇的列表項目</value>
+  </data>
+  <data name="PlaylistPanelAccessor" xml:space="preserve">
+    <value>播放列表面板存取器</value>
+  </data>
+  <data name="PlaylistItemAccessor" xml:space="preserve">
+    <value>播放列表項目存取器</value>
+  </data>
+  <data name="PlaylistItemAccessor.Name" xml:space="preserve">
+    <value>項目名稱</value>
+  </data>
+  <data name="PlaylistItemAccessor.Path" xml:space="preserve">
+    <value>對應項目的路徑</value>
+  </data>
+  <data name="PageSortMode.Entry" xml:space="preserve">
+    <value>登録↑</value>
+  </data>
+  <data name="PageSortMode.EntryDescending" xml:space="preserve">
+    <value>登録↓</value>
+  </data>
+  <data name="SetSortModeEntryCommand" xml:space="preserve">
+    <value>檔案登錄升冪</value>
+  </data>
+  <data name="SetSortModeEntryCommand.Remarks" xml:space="preserve">
+    <value>頁面排序以登錄順序升冪排序。</value>
+  </data>
+  <data name="SetSortModeEntryDescendingCommand" xml:space="preserve">
+    <value>檔案登錄降冪</value>
+  </data>
+  <data name="SetSortModeEntryDescendingCommand.Remarks" xml:space="preserve">
+    <value>頁面排序以檔案登錄降冪排序。</value>
+  </data>
+  <data name="ToggleVisiblePlaylistCommand" xml:space="preserve">
+    <value>顯示/隱藏播放列表面板</value>
+  </data>
+  <data name="ToggleVisiblePlaylistCommand.Menu" xml:space="preserve">
+    <value>播放列表面板</value>
+  </data>
+  <data name="ToggleVisiblePlaylistCommand.Off" xml:space="preserve">
+    <value>關閉播放列表面板</value>
+  </data>
+  <data name="ToggleVisiblePlaylistCommand.On" xml:space="preserve">
+    <value>顯示播放列表面板</value>
+  </data>
+  <data name="ToggleVisiblePlaylistCommand.Remarks" xml:space="preserve">
+    <value>切換顯示/隱藏播放列表面板。</value>
+  </data>
+  <data name="TogglePlaylistItemCommand" xml:space="preserve">
+    <value>加入/刪除播放列表項目</value>
+  </data>
+  <data name="TogglePlaylistItemCommand.Menu" xml:space="preserve">
+    <value>登錄到播放列表</value>
+  </data>
+  <data name="TogglePlaylistItemCommand.Off" xml:space="preserve">
+    <value>已從播放列表刪除</value>
+  </data>
+  <data name="TogglePlaylistItemCommand.On" xml:space="preserve">
+    <value>已加入到播放列表</value>
+  </data>
+  <data name="TogglePlaylistItemCommand.Remarks" xml:space="preserve">
+    <value>在播放列表中登錄或刪除目前的頁面。</value>
+  </data>
+  <data name="PrevPlaylistItemCommand" xml:space="preserve">
+    <value>移動到前一個播放列表項目</value>
+  </data>
+  <data name="PrevPlaylistItemCommand.Remarks" xml:space="preserve">
+    <value>移動到前一個播放列表項目。</value>
+  </data>
+  <data name="PrevPlaylistItemInBookCommand" xml:space="preserve">
+    <value>移動到書本內前一個播放列表項目</value>
+  </data>
+  <data name="PrevPlaylistItemInBookCommand.Remarks" xml:space="preserve">
+    <value>移動到目前書本內的前一個播放列表項目。</value>
+  </data>
+  <data name="NextPlaylistItemCommand" xml:space="preserve">
+    <value>移動到下一個播放列表項目</value>
+  </data>
+  <data name="NextPlaylistItemCommand.Remarks" xml:space="preserve">
+    <value>移動到下一個播放列表項目。</value>
+  </data>
+  <data name="NextPlaylistItemInBookCommand" xml:space="preserve">
+    <value>移動到書本內下一個播放列表項目</value>
+  </data>
+  <data name="NextPlaylistItemInBookCommand.Remarks" xml:space="preserve">
+    <value>移動到目前書本內的下一個播放列表項目。</value>
+  </data>
+  <data name="CommandGroup.Playlist" xml:space="preserve">
+    <value>播放列表</value>
+  </data>
+  <data name="FilmStripConfig.IsVisiblePlaylistMark" xml:space="preserve">
+    <value>顯示播放列表標記</value>
+  </data>
+  <data name="Notice.FirstPlaylistItem" xml:space="preserve">
+    <value>目前頁面沒有前一個播放列表項目</value>
+  </data>
+  <data name="Notice.LastPlaylistItem" xml:space="preserve">
+    <value>目前頁面沒有下一個播放列表項目</value>
+  </data>
+  <data name="Notice.PlaylistItemNextFailed" xml:space="preserve">
+    <value>沒有下一個播放列表項目</value>
+  </data>
+  <data name="Notice.PlaylistItemPrevFailed" xml:space="preserve">
+    <value>沒有前一個播放列表項目</value>
+  </data>
+  <data name="Notice.RemoveUnlinkedPlaylistItem" xml:space="preserve">
+    <value>已刪除 {0} 個播放列表項目。</value>
+  </data>
+  <data name="PageListItem.Menu.AddToPlaylist" xml:space="preserve">
+    <value>登錄到播放列表(_M)</value>
+  </data>
+  <data name="SliderConfig.IsVisiblePlaylistMark" xml:space="preserve">
+    <value>顯示播放列表標記</value>
+  </data>
+  <data name="BookmarkFolderDelete.Message" xml:space="preserve">
+    <value>已刪除 {0} 個書籤。</value>
+  </data>
+  <data name="MovePlaylsitItemInBookCommandParameter.IsIncludeTerminal" xml:space="preserve">
+    <value>包括開始與最後頁面</value>
+  </data>
+  <data name="MovePlaylsitItemInBookCommandParameter.IsLoop" xml:space="preserve">
+    <value>循環</value>
   </data>
 </root>

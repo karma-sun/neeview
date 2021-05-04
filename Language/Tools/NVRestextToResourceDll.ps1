@@ -1,5 +1,6 @@
-## Resources.[culture].restext to Neeview.resources.dll
-## Usage: NVRestextToResourceDll.ps1 [-restext] <Resources.[culture].restext> [[-output] <Neeview.resources.dll>]
+# Resources.[culture].restext to Neeview.resources.dll
+#
+# Usage: NVRestextToResourceDll.ps1 [-restext] <Resources.[culture].restext> [[-output] <Neeview.resources.dll>]
 
 Param(
     [Parameter(Mandatory=$true)]

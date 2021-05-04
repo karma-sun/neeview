@@ -1,3 +1,15 @@
+# ReleaseBack.ps1
+#
+# ** Not used in translation work. ***
+#
+# Convert from NeeView/Properties/Resources.*.resx
+# Overwrites *.restext.
+# This is for development.
+
+Param(
+    [switch]$xlsx
+)
+
 if ($null -eq $env:NVROOT)
 {
     Write-Host "The environment is bad. Please start with Start-NVDevPowerShell.bat"
@@ -20,6 +32,10 @@ Get-ChildItem "$propertiesDir\Resources*.resx" | Foreach-Object {
     resgen.exe $_ "$sourceDir\$($_.BaseName).restext"
 }
 
-NVRestextToXlsx.ps1
+if ($xlsx)
+{
+    Write-Host "convert to Resources.xslx ..."
+    NVRestextToXlsx.ps1
+}
 
 Write-Host "done."

@@ -1,5 +1,6 @@
-## *.restext to Resources.xlsx
-## Usage: NVRestextToXlsx.ps1
+# *.restext to Resources.xlsx
+#
+# Usage: NVRestextToXlsx.ps1
 
 if ($null -eq $env:NVROOT)
 {

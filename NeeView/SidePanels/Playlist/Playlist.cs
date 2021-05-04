@@ -185,14 +185,13 @@ namespace NeeView
             return null;
         }
 
-        // TODO: 指数的に重くなるので改善を
         public List<PlaylistItem> Collect(IEnumerable<string> paths)
         {
             if (paths is null) return new List<PlaylistItem>();
 
             lock (_lock)
             {
-                return paths.Select(e => this._itemsMap.TryGetValue(e, out var item) ? item : null)
+                return paths.Select(e => _itemsMap.TryGetValue(e, out var item) ? item : null)
                     .Where(e => e != null)
                     .ToList();
             }

@@ -1,3 +1,15 @@
+# Release.ps1
+#
+# ** Not used in translation work. ***
+#
+# Convert to NeeView/Properties/Resources.*.resx
+# Overwrites project resources.
+# This is for development.
+
+Param(
+    [switch]$xlsx
+)
+
 if ($null -eq $env:NVROOT)
 {
     Write-Host "The environment is bad. Please start with Start-NVDevPowerShell.bat"
@@ -8,7 +20,11 @@ $root = $env:NVROOT
 $sourceDir = "$root\Language\Source"
 $propertiesDir = "$root\NeeView\Properties"
 
-NVXlsxToRestext.ps1
+if ($xlsx)
+{
+    Write-Host "convert from Resources.xslx ..."
+    NVXlsxToRestext.ps1
+}
 
 Get-ChildItem "$sourceDir\Resources*.restext" | Foreach-Object {
 

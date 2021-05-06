@@ -286,13 +286,21 @@ namespace NeeView
             return this.Items != null;
         }
 
-        public void MovePrevious()
+        public bool MovePrevious()
         {
             this.CollectionViewSource.View.MoveCurrentTo(this.SelectedItem);
             this.CollectionViewSource.View.MoveCurrentToPrevious();
-            this.SelectedItem = this.CollectionViewSource.View.CurrentItem as PlaylistItem;
-
-            _model.Open(this.SelectedItem);
+            var item = this.CollectionViewSource.View.CurrentItem as PlaylistItem;
+            if (item != null)
+            {
+                this.SelectedItem = item;
+                _model.Open(this.SelectedItem);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public bool CanMoveNext()
@@ -300,13 +308,21 @@ namespace NeeView
             return this.Items != null;
         }
 
-        public void MoveNext()
+        public bool MoveNext()
         {
             this.CollectionViewSource.View.MoveCurrentTo(this.SelectedItem);
             this.CollectionViewSource.View.MoveCurrentToNext();
-            this.SelectedItem = this.CollectionViewSource.View.CurrentItem as PlaylistItem;
-
-            _model.Open(this.SelectedItem);
+            var item = this.CollectionViewSource.View.CurrentItem as PlaylistItem;
+            if (item != null)
+            {
+                this.SelectedItem = item;
+                _model.Open(this.SelectedItem);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
     }

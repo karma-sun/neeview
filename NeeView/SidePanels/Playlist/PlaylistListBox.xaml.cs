@@ -617,10 +617,11 @@ namespace NeeView
             return _vm.CanMovePrevious();
         }
 
-        public void MovePrevious()
+        public bool MovePrevious()
         {
-            _vm.MovePrevious();
+            var result = _vm.MovePrevious();
             this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
+            return result;
         }
 
         public bool CanMoveNext()
@@ -628,10 +629,11 @@ namespace NeeView
             return _vm.CanMoveNext();
         }
 
-        public void MoveNext()
+        public bool MoveNext()
         {
-            _vm.MoveNext();
+            var result = _vm.MoveNext();
             this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
+            return result;
         }
 
         #endregion UI Accessor

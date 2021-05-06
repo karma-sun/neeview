@@ -15,7 +15,11 @@
 
         public override void Execute(object sender, CommandContext e)
         {
-            PlaylistPresenter.Current.PlaylistListBox?.MoveNext();
+            var isSuccess = PlaylistPresenter.Current.PlaylistListBox?.MoveNext();
+            if (isSuccess != true)
+            {
+                InfoMessage.Current.SetMessage(InfoMessageType.Command, Properties.Resources.Notice_PlaylistItemNextFailed);
+            }
         }
     }
 }

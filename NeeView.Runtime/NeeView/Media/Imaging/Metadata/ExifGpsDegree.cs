@@ -16,6 +16,15 @@ namespace NeeView.Media.Imaging.Metadata
             _value = value ?? throw new ArgumentNullException(nameof(value));
         }
 
+        public ExifGpsDegree(string reference, double degree)
+        {
+            if (reference.Length != 1 || !_references.Contains(reference.First())) throw new ArgumentException(nameof(reference));
+            if (degree < 0.0) throw new ArgumentException(nameof(degree));
+
+            _reference = reference;
+            _degree = degree;
+        }
+
 
         public bool IsValid => !double.IsNaN(ToValue());
 

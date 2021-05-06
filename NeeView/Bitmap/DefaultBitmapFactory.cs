@@ -72,7 +72,7 @@ namespace NeeView
             if (stream.Length > 100 * 1024 && bitmap.PixelHeight == 1 && bitmap.PixelWidth == 1)
             {
                 Debug.WriteLine("1x1!?");
-                throw new OutOfMemoryException();
+                throw new ApplicationException(Properties.Resources.Notice_ImageDecodeFailed);
             }
 
             return bitmap;

@@ -17,19 +17,23 @@ namespace NeeView
         {
         }
 
-        public BitmapInfo(BitmapFrame bitmapFrame)
+
+
+        public BitmapInfo(BitmapFrame bitmapFrame, Stream stream)
         {
             this.PixelWidth = bitmapFrame.PixelWidth;
             this.PixelHeight = bitmapFrame.PixelHeight;
             this.BitsPerPixel = bitmapFrame.Format.BitsPerPixel;
-            this.Metadata = new BitmapMetadataDatabase(GetBitmapMetadata(bitmapFrame));
             this.FrameCount = bitmapFrame.Decoder is GifBitmapDecoder gifBitmapDecoder ? gifBitmapDecoder.Frames.Count : 1;
             this.DpiX = bitmapFrame.DpiX;
             this.DpiY = bitmapFrame.DpiY;
             this.AspectWidth = bitmapFrame.Width;
             this.AspectHeight = bitmapFrame.Height;
+            this.Metadata = CreateMetadataDatabase(bitmapFrame, stream);
 
-            if (this.Metadata != null && this.Metadata[BitmapMetadataKey.Orientation] is ExifOrientation orientation)
+            Debug.WriteLine($"Meta.Format: {this.Metadata.Format}");
+
+            if (this.Metadata.IsValid && !this.Metadata.IsOriantationFixed && this.Metadata[BitmapMetadataKey.Orientation] is ExifOrientation orientation)
             {
                 switch (orientation)
                 {
@@ -81,6 +85,28 @@ namespace NeeView
         public bool IsTranspose => (this.Rotation == Rotation.Rotate90 || this.Rotation == Rotation.Rotate270);
 
 
+        private BitmapMetadataDatabase CreateMetadataDatabase(BitmapFrame bitmapFrame, Stream stream)
+        {
+            var database = new BitmapMetadataDatabase(GetBitmapMetadata(bitmapFrame));
+            if (database.IsValid)
+            {
+                return database;
+            }
+
+            var pos = stream.Position;
+            stream.Seek(0, SeekOrigin.Begin);
+            try
+            {
+                database = new BitmapMetadataDatabase(stream);
+            }
+            finally
+            {
+                stream.Seek(pos, SeekOrigin.Begin);
+            }
+
+            return database;
+        }
+
 
         private BitmapMetadata GetBitmapMetadata(BitmapFrame bitmapFrame)
         {
@@ -118,7 +144,7 @@ namespace NeeView
             try
             {
                 var bitmapFrame = BitmapFrame.Create(stream, BitmapCreateOptions.DelayCreation | BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.None);
-                return new BitmapInfo(bitmapFrame);
+                return new BitmapInfo(bitmapFrame, stream);
             }
             catch (Exception ex)
             {

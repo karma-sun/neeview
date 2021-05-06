@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
@@ -11,6 +12,10 @@ namespace NeeView.Media.Imaging.Metadata
     {
         private static readonly Dictionary<BitmapMetadataKey, object> _emptyMap = Enum.GetValues(typeof(BitmapMetadataKey)).Cast<BitmapMetadataKey>().ToDictionary(e => e, e => (object)null);
 
+        // NOTE: WIC側でOrientation適用であることが確認できているフォーマット
+        // TODO: ARWでもOrientationが適用されるものとされないもの(3FR)が確認されている
+        private string[] _orientationFixedFormat = new string[] { "ARW", "CR2", "NEF", "DNG" };
+
         private Dictionary<BitmapMetadataKey, object> _map;
 
 
@@ -18,7 +23,23 @@ namespace NeeView.Media.Imaging.Metadata
         {
             var accessor = BitmapMetadataAccessorFactory.Create(meta);
             _map = accessor != null ? CreateMap(accessor) : _emptyMap;
+            this.Format = accessor?.GetFormat();
         }
+
+        public BitmapMetadataDatabase(Stream stream)
+        {
+            var accessor = new MetadataExtractorAccessor(stream);
+            _map = CreateMap(accessor);
+            this.Format = accessor.GetFormat();
+            this.IsOriantationFixed = _orientationFixedFormat.Contains(this.Format);
+        }
+
+
+        public bool IsValid => _map != _emptyMap;
+
+        public string Format { get; private set; }
+
+        public bool IsOriantationFixed { get; private set; }
 
 
         private Dictionary<BitmapMetadataKey, object> CreateMap(BitmapMetadataAccessor accessor)
@@ -34,7 +55,7 @@ namespace NeeView.Media.Imaging.Metadata
                 catch (Exception ex)
                 {
 #if DEBUG
-                    map[key] = $"Exception: {ex.Message}";
+                    map[key] = $"⚠ {ex.Message}";
 #else
                     _map[key] = null;
 #endif

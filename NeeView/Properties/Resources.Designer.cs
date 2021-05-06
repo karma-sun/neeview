@@ -10116,6 +10116,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Image decoding failed. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Notice_ImageDecodeFailed {
+            get {
+                return ResourceManager.GetString("Notice.ImageDecodeFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   The following characters can not be used in the file name:
         ///\ / : * ? &quot; &lt; &gt; | に類似しているローカライズされた文字列を検索します。
         /// </summary>

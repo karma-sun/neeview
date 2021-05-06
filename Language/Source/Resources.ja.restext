@@ -2238,3 +2238,4 @@ BookmarkFolderDelete.Message={0} 個のブックマークを削除しました�
 MovePlaylsitItemInBookCommandParameter.IsIncludeTerminal=最初と最後のページを含める
 MovePlaylsitItemInBookCommandParameter.IsLoop=ループ
 PlaylistItem.Menu.MoveToAnother=ほかのプレイリストに移動
+Notice.ImageDecodeFailed=画像のデコードに失敗しました。

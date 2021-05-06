@@ -77,6 +77,11 @@ namespace NeeView.Media.Imaging.Metadata
             strings.Add(text);
         }
 
+        public override string GetFormat()
+        {
+            return _meta.Format.ToUpper();
+        }
+
         public override object GetValue(BitmapMetadataKey key)
         {
             switch (key)

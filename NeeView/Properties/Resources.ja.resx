@@ -7139,4 +7139,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="PlaylistItem.Menu.MoveToAnother" xml:space="preserve">
     <value>ほかのプレイリストに移動</value>
   </data>
+  <data name="Notice.ImageDecodeFailed" xml:space="preserve">
+    <value>画像のデコードに失敗しました。</value>
+  </data>
 </root>

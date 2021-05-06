@@ -2238,3 +2238,4 @@ BookmarkFolderDelete.Message=Removed {0} bookmarks.
 MovePlaylsitItemInBookCommandParameter.IsIncludeTerminal=Include the first and last pages
 MovePlaylsitItemInBookCommandParameter.IsLoop=Loop
 PlaylistItem.Menu.MoveToAnother=Move to another playlist
+Notice.ImageDecodeFailed=Image decoding failed.

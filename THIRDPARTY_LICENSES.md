@@ -118,3 +118,19 @@ DLL: Esprima.dll
 * URL: [Esprima .NET](https://github.com/sebastienros/esprima-dotnet)
 * License: [BSD 3-Clause License](https://github.com/sebastienros/esprima-dotnet/blob/dev/LICENSE.txt)
 
+### MetadataExtractor
+
+DLL: MetadataExtractor.dll
+
+* Copyright 2002-2019 Drew Noakes and contributors, 2014 Imazen LLC (initial conversion from Java to C#)
+* URL: [MetadataExtractor](https://github.com/drewnoakes/metadata-extractor-dotnet)
+* License: [Apache License 2.0](https://github.com/drewnoakes/metadata-extractor-dotnet/blob/master/LICENSE)
+
+DLL: XmpCore.dll
+
+* Copyright (c) 2009, Adobe Systems Incorporated  All rights reserved.
+* Copyright 2015-2017, Yakov Danila, Nathanael Jones, Drew Noakes 
+* URL: [xmp-core-dotnet](https://github.com/drewnoakes/xmp-core-dotnet/)
+* License: [BSD 3-Clause License](https://www.adobe.com/devnet/xmp/library/eula-xmp-library-java.html)
+
+ 

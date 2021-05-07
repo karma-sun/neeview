@@ -125,7 +125,7 @@ namespace NeeView
             }
 
             size = profile.GetThumbnailSize(size);
-            var setting = profile.CreateBitmapCreateSetting();
+            var setting = profile.CreateBitmapCreateSetting(true);
             return CreateImage(size, setting, Config.Current.Thumbnail.Format, Config.Current.Thumbnail.Quality, token);
         }
 

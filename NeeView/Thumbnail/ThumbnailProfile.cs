@@ -54,7 +54,7 @@ namespace NeeView
         }
 
         //
-        public BitmapCreateSetting CreateBitmapCreateSetting()
+        public BitmapCreateSetting CreateBitmapCreateSetting(bool isOrientationEnabled)
         {
             var setting = new BitmapCreateSetting();
             setting.Mode = this.CreateMode;
@@ -62,6 +62,7 @@ namespace NeeView
             {
                 HybridMode = HybridScaleMode.Turbo,
                 MatteColor = System.Drawing.Color.White,
+                OrientationMode = isOrientationEnabled ? OrientationMode.Normalize : OrientationMode.Ignore,
             };
             return setting;
         }

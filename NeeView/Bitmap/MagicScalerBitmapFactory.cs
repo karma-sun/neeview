@@ -16,7 +16,7 @@ namespace NeeView
     {
         static MagicScalerBitmapFactory()
         {
-            MagicImageProcessor.EnableXmpOrientation = true;
+            ////MagicImageProcessor.EnableXmpOrientation = true;
         }
 
 
@@ -31,7 +31,6 @@ namespace NeeView
             setting.ResizeMode = (setting.Width == 0 || setting.Height == 0) ? CropScaleMode.Crop : CropScaleMode.Stretch;
             setting.Anchor = (setting.ResizeMode == CropScaleMode.Crop) ? CropAnchor.Left | CropAnchor.Top : CropAnchor.Center;
             setting.SaveFormat = format;
-            setting.OrientationMode = OrientationMode.Normalize;
 
             return setting;
         }

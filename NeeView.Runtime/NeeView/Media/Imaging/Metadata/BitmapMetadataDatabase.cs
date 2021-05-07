@@ -12,18 +12,19 @@ namespace NeeView.Media.Imaging.Metadata
     {
         private static readonly Dictionary<BitmapMetadataKey, object> _emptyMap = Enum.GetValues(typeof(BitmapMetadataKey)).Cast<BitmapMetadataKey>().ToDictionary(e => e, e => (object)null);
 
-        // NOTE: WIC側でOrientation適用であることが確認できているフォーマット
-        // TODO: ARWでもOrientationが適用されるものとされないもの(3FR)が確認されている
-        private string[] _orientationFixedFormat = new string[] { "ARW", "CR2", "NEF", "DNG" };
-
         private Dictionary<BitmapMetadataKey, object> _map;
 
+        public BitmapMetadataDatabase()
+        {
+            _map = _emptyMap;
+        }
 
         public BitmapMetadataDatabase(BitmapMetadata meta)
         {
             var accessor = BitmapMetadataAccessorFactory.Create(meta);
             _map = accessor != null ? CreateMap(accessor) : _emptyMap;
             this.Format = accessor?.GetFormat();
+            this.IsOriantationEnabled = true;
         }
 
         public BitmapMetadataDatabase(Stream stream)
@@ -31,7 +32,10 @@ namespace NeeView.Media.Imaging.Metadata
             var accessor = new MetadataExtractorAccessor(stream);
             _map = CreateMap(accessor);
             this.Format = accessor.GetFormat();
-            this.IsOriantationFixed = _orientationFixedFormat.Contains(this.Format);
+
+            // NOTE: 既定のフォーマット以外はすべてOrientation適用済として処理する。
+            // NOTE: おそらくコーデックによって変わるが、それを判断する情報がないため。
+            this.IsOriantationEnabled = false;
         }
 
 
@@ -39,7 +43,7 @@ namespace NeeView.Media.Imaging.Metadata
 
         public string Format { get; private set; }
 
-        public bool IsOriantationFixed { get; private set; }
+        public bool IsOriantationEnabled { get; private set; }
 
 
         private Dictionary<BitmapMetadataKey, object> CreateMap(BitmapMetadataAccessor accessor)
@@ -57,7 +61,7 @@ namespace NeeView.Media.Imaging.Metadata
 #if DEBUG
                     map[key] = $"⚠ {ex.Message}";
 #else
-                    _map[key] = null;
+                    map[key] = null;
 #endif
                 }
             }

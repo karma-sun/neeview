@@ -83,7 +83,7 @@ namespace NeeView
         public override byte[] CreateThumbnail(ThumbnailProfile profile, CancellationToken token)
         {
             var size = profile.GetThumbnailSize(GetImageSize());
-            var setting = profile.CreateBitmapCreateSetting();
+            var setting = profile.CreateBitmapCreateSetting(true);
             return CreateImage(size, setting, Config.Current.Thumbnail.Format, Config.Current.Thumbnail.Quality, token);
         }
 

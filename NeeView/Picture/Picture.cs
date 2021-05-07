@@ -1,5 +1,6 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Media.Imaging;
+using PhotoSauce.MagicScaler;
 using System;
 using System.Diagnostics;
 using System.Threading;
@@ -162,6 +163,7 @@ namespace NeeView
                 {
                     setting.Mode = BitmapCreateMode.HighQuality;
                     setting.ProcessImageSettings = Config.Current.ImageResizeFilter.CreateProcessImageSetting();
+                    setting.ProcessImageSettings.OrientationMode = this.PictureInfo.Metadata.IsOriantationEnabled ? OrientationMode.Normalize : OrientationMode.Ignore;
                 }
             }
 

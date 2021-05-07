@@ -52,19 +52,9 @@ namespace NeeView.Media.Imaging.Metadata
         {
             foreach (var directory in _metadata)
             {
-                if (directory is XmpDirectory xmpDirectory)
+                foreach (var tag in directory.Tags)
                 {
-                    foreach (var property in xmpDirectory.XmpMeta.Properties)
-                    {
-                        Debug.WriteLine($"{directory.Name} - {property.Path} ({property.Namespace}) = {property.Value}");
-                    }
-                }
-                else
-                {
-                    foreach (var tag in directory.Tags)
-                    {
-                        Debug.WriteLine($"{directory.Name} - {tag.Name} = {tag.Description}");
-                    }
+                    Debug.WriteLine($"{directory.Name} - {tag.Name} = {tag.Description}");
                 }
             }
 

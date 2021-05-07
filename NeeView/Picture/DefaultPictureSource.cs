@@ -102,21 +102,23 @@ namespace NeeView
             token.ThrowIfCancellationRequested();
 
             Size size;
+            BitmapInfo bitmapInfo;
             if (PictureInfo != null)
             {
                 size = PictureInfo.Size;
+                bitmapInfo = PictureInfo.BitmapInfo;
             }
             else
             {
                 using (var stream = _streamSource.CreateStream(token))
                 {
-                    var bitmapInfo = BitmapInfo.Create(stream);
+                    bitmapInfo = BitmapInfo.Create(stream);
                     size = bitmapInfo.IsTranspose ? bitmapInfo.GetPixelSize().Transpose() : bitmapInfo.GetPixelSize();
                 }
             }
 
             size = profile.GetThumbnailSize(size);
-            var setting = profile.CreateBitmapCreateSetting();
+            var setting = profile.CreateBitmapCreateSetting(bitmapInfo.Metadata.IsOriantationEnabled);
             return CreateImage(size, setting, Config.Current.Thumbnail.Format, Config.Current.Thumbnail.Quality, token);
         }
 

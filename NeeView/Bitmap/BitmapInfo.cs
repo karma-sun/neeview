@@ -33,7 +33,7 @@ namespace NeeView
 
             Debug.WriteLine($"Meta.Format: {this.Metadata.Format}");
 
-            if (this.Metadata.IsValid && !this.Metadata.IsOriantationFixed && this.Metadata[BitmapMetadataKey.Orientation] is ExifOrientation orientation)
+            if (this.Metadata.IsValid && this.Metadata.IsOriantationEnabled && this.Metadata[BitmapMetadataKey.Orientation] is ExifOrientation orientation)
             {
                 switch (orientation)
                 {
@@ -87,10 +87,18 @@ namespace NeeView
 
         private BitmapMetadataDatabase CreateMetadataDatabase(BitmapFrame bitmapFrame, Stream stream)
         {
-            var database = new BitmapMetadataDatabase(GetBitmapMetadata(bitmapFrame));
-            if (database.IsValid)
+            BitmapMetadataDatabase database;
+
+            try
             {
-                return database;
+                database = new BitmapMetadataDatabase(GetBitmapMetadata(bitmapFrame));
+                if (database.IsValid)
+                {
+                    return database;
+                }
+            }
+            catch
+            {
             }
 
             var pos = stream.Position;
@@ -98,6 +106,10 @@ namespace NeeView
             try
             {
                 database = new BitmapMetadataDatabase(stream);
+            }
+            catch
+            {
+                database = new BitmapMetadataDatabase();
             }
             finally
             {

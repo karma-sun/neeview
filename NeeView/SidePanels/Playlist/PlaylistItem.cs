@@ -1,5 +1,6 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Collections;
+using NeeView.IO;
 using System;
 
 namespace NeeView
@@ -9,6 +10,7 @@ namespace NeeView
         private PlaylistSourceItem _item;
         private string _place;
         private Page _archivePage;
+        private bool? _isArchive;
 
 
         public PlaylistItem(string path)
@@ -82,10 +84,20 @@ namespace NeeView
 
         public bool IsArchive
         {
-            get { return ArchiverManager.Current.IsSupported(Path) || System.IO.Directory.Exists(Path); }
+            get
+            {
+                if (_isArchive is null)
+                {
+                    var targetPath = Path;
+                    if (FileShortcut.IsShortcut(Path))
+                    {
+                        targetPath = new FileShortcut(Path).TargetPath ?? Path;
+                    }
+                    _isArchive = ArchiverManager.Current.IsSupported(targetPath) || System.IO.Directory.Exists(targetPath);
+                }
+                return _isArchive.Value;
+            }
         }
-
-
 
         public Page ArchivePage
         {

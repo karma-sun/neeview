@@ -962,26 +962,35 @@ namespace NeeView
 
             var placeQuery = new QueryPath(Address);
 
+            var newItems = e.NewItems?.Cast<PlaylistItem>();
+            var oldItems = e.OldItems?.Cast<PlaylistItem>();
+
+            switch (e.Action)
             {
-                switch (e.Action)
-                {
-                    case NotifyCollectionChangedAction.Replace:
-                    case NotifyCollectionChangedAction.Reset:
+                case NotifyCollectionChangedAction.Reset:
+                    UpdateMarkers();
+                    break;
+
+                case NotifyCollectionChangedAction.Add:
+                    if (newItems.Any(x => x.Path.StartsWith(Address)))
+                    {
                         UpdateMarkers();
-                        break;
-                    case NotifyCollectionChangedAction.Add:
-                        if (e.NewItems.Cast<PlaylistItem>().Any(x => x.Path.StartsWith(Address)))
-                        {
-                            UpdateMarkers();
-                        }
-                        break;
-                    case NotifyCollectionChangedAction.Remove:
-                        if (e.OldItems.Cast<PlaylistItem>().Any(x => x.Path.StartsWith(Address)))
-                        {
-                            UpdateMarkers();
-                        }
-                        break;
-                }
+                    }
+                    break;
+
+                case NotifyCollectionChangedAction.Remove:
+                    if (oldItems.Any(x => x.Path.StartsWith(Address)))
+                    {
+                        UpdateMarkers();
+                    }
+                    break;
+
+                case NotifyCollectionChangedAction.Replace:
+                    if (!oldItems.SequenceEqual(newItems) && oldItems.Union(newItems).Any(x => x.Path.StartsWith(Address)))
+                    {
+                        UpdateMarkers();
+                    }
+                    break;
             }
         }
 

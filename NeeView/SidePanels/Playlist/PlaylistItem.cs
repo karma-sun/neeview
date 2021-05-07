@@ -16,6 +16,11 @@ namespace NeeView
             _item = new PlaylistSourceItem(path);
         }
 
+        public PlaylistItem(string path, string name)
+        {
+            _item = new PlaylistSourceItem(path, name);
+        }
+
         public PlaylistItem(PlaylistSourceItem item)
         {
             _item = new PlaylistSourceItem(item.Path, item.Name);

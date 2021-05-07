@@ -7,6 +7,9 @@
              xmlns:properties="clr-namespace:NeeView.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
     <Grid>
         <StackPanel>
             <TextBlock x:Name="FileNameTextBlock" Text="import : someone.nvzip" Margin="0"/>
@@ -14,7 +17,10 @@
                 <CheckBox x:Name="UserSettingCheckBox" Content="{x:Static properties:Resources.ImportControl_Setting}" IsEnabled="False"/>
                 <CheckBox x:Name="HistoryCheckBox" Content="{x:Static properties:Resources.ImportControl_History}" IsEnabled="False"/>
                 <CheckBox x:Name="BookmarkCheckBox" Content="{x:Static properties:Resources.ImportControl_Bookmark}" IsEnabled="False"/>
-                <CheckBox x:Name="PagemarkCheckBox" Content="{x:Static properties:Resources.ImportControl_Pagemark}" IsEnabled="False" Visibility="Collapsed" />
+                <CheckBox x:Name="PagemarkCheckBox" Content="{x:Static properties:Resources.ImportControl_Pagemark}" IsEnabled="False"
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <CheckBox x:Name="PlaylistCheckBox" Content="Playlists" IsEnabled="False"
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
             </StackPanel>
         </StackPanel>
     </Grid>

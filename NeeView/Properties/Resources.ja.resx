@@ -7065,7 +7065,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>プレイリスト項目追加/削除</value>
   </data>
   <data name="TogglePlaylistItemCommand.Menu" xml:space="preserve">
-    <value>プレイリストに登録</value>
+    <value>プレイリストに追加</value>
   </data>
   <data name="TogglePlaylistItemCommand.Off" xml:space="preserve">
     <value>プレイリストから削除しました</value>
@@ -7074,7 +7074,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>プレイリストに追加しました</value>
   </data>
   <data name="TogglePlaylistItemCommand.Remarks" xml:space="preserve">
-    <value>現在のページをプレイリストに登録または削除します。</value>
+    <value>現在のページをプレイリストに追加または削除します。</value>
   </data>
   <data name="PrevPlaylistItemCommand" xml:space="preserve">
     <value>前のプレイリスト項目に移動</value>
@@ -7122,7 +7122,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>{0} 個のプレイリスト項目を削除しました。</value>
   </data>
   <data name="PageListItem.Menu.AddToPlaylist" xml:space="preserve">
-    <value>プレイリストに登録(_M)</value>
+    <value>プレイリストに追加(_M)</value>
   </data>
   <data name="SliderConfig.IsVisiblePlaylistMark" xml:space="preserve">
     <value>プレイリストのマークを表示する</value>
@@ -7141,5 +7141,8 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="Notice.ImageDecodeFailed" xml:space="preserve">
     <value>画像のデコードに失敗しました。</value>
+  </data>
+  <data name="ImportControl.Playlist" xml:space="preserve">
+    <value>{0} 個のプレイリスト</value>
   </data>
 </root>

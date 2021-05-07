@@ -7137,4 +7137,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="Notice.ImageDecodeFailed" xml:space="preserve">
     <value>Image decoding failed.</value>
   </data>
+  <data name="ImportControl.Playlist" xml:space="preserve">
+    <value>{0} playlists</value>
+  </data>
 </root>

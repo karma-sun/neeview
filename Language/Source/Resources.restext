@@ -2239,3 +2239,4 @@ MovePlaylsitItemInBookCommandParameter.IsIncludeTerminal=Include the first and l
 MovePlaylsitItemInBookCommandParameter.IsLoop=Loop
 PlaylistItem.Menu.MoveToAnother=Move to another playlist
 Notice.ImageDecodeFailed=Image decoding failed.
+ImportControl.Playlist={0} playlists

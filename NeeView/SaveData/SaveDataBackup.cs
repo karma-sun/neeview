@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 
 namespace NeeView
 {
@@ -71,6 +72,14 @@ namespace NeeView
                     {
                         archive.CreateEntryFromFile(SaveData.Current.BookmarkFilePath, SaveData.BookmarkFileName);
                     }
+                    var playlists = PlaylistHub.GetPlaylistFiles();
+                    if (playlists.Any())
+                    {
+                        foreach (var playlist in playlists)
+                        {
+                            archive.CreateEntryFromFile(playlist.FullName, LoosePath.Combine("Playlists", playlist.Name));
+                        }
+                    }
                 }
             }
             catch (Exception)
@@ -134,6 +143,8 @@ namespace NeeView
                 var pagemarkEntry = archiver.GetEntry(SaveData.PagemarkFileName);
                 var pagemarkEntryV1 = archiver.GetEntry(Path.ChangeExtension(SaveData.PagemarkFileName, ".xml"));
 
+                var playlistEntries = archiver.Entries.Where(e => e.FullName.StartsWith(@"Playlists\")).ToList();
+
                 // 選択
                 {
                     if (settingEntry != null || settingEntryV1 != null)
@@ -155,7 +166,13 @@ namespace NeeView
                     {
                         selector.PagemarkCheckBox.IsEnabled = true;
                         selector.PagemarkCheckBox.IsChecked = true;
-                        selector.PagemarkCheckBox.Visibility = System.Windows.Visibility.Visible;
+                        //selector.PagemarkCheckBox.Visibility = System.Windows.Visibility.Visible;
+                    }
+                    else if (playlistEntries.Any())
+                    {
+                        selector.PlaylistCheckBox.IsEnabled = true;
+                        selector.PlaylistCheckBox.IsChecked = true;
+                        selector.PlaylistCheckBox.Content = string.Format(Properties.Resources.ImportControl_Playlist, playlistEntries.Count);
                     }
 
                     var dialog = new MessageDialog(selector, Resources.ImportSelectDialog_Title);
@@ -256,43 +273,55 @@ namespace NeeView
                         }
                     }
                 }
-            }
 
-            MainWindowModel.Current.CloseCommandParameterDialog();
-            bool recoverySettingWindow = MainWindowModel.Current.CloseSettingWindow();
 
-            // 適用
-            if (setting != null)
-            {
-                Setting.SettingWindow.Current?.Cancel();
                 MainWindowModel.Current.CloseCommandParameterDialog();
+                bool recoverySettingWindow = MainWindowModel.Current.CloseSettingWindow();
 
-                setting.Config.Window.State = Config.Current.Window.State; // ウィンドウ状態は維持する
-                UserSettingTools.Restore(setting);
-            }
+                // 適用
+                if (setting != null)
+                {
+                    Setting.SettingWindow.Current?.Cancel();
+                    MainWindowModel.Current.CloseCommandParameterDialog();
 
-            // 履歴読み込み
-            if (history != null)
-            {
-                BookHistoryCollection.Current.Restore(history, true);
-            }
+                    setting.Config.Window.State = Config.Current.Window.State; // ウィンドウ状態は維持する
+                    UserSettingTools.Restore(setting);
+                }
 
-            // ブックマーク読み込み
-            if (bookmark != null)
-            {
-                BookmarkCollection.Current.Restore(bookmark);
-                SaveDataSync.Current.SaveBookmark(true);
-            }
+                // 履歴読み込み
+                if (history != null)
+                {
+                    BookHistoryCollection.Current.Restore(history, true);
+                }
 
-            // ページマーク読込
-            if (pagemark != null)
-            {
-                PagemarkToPlaylistConverter.SavePagemarkPlaylist(pagemark);
-            }
+                // ブックマーク読み込み
+                if (bookmark != null)
+                {
+                    BookmarkCollection.Current.Restore(bookmark);
+                    SaveDataSync.Current.SaveBookmark(true);
+                }
 
-            if (recoverySettingWindow)
-            {
-                MainWindowModel.Current.OpenSettingWindow();
+                // ページマーク読込
+                if (pagemark != null)
+                {
+                    PagemarkToPlaylistConverter.SavePagemarkPlaylist(pagemark);
+                }
+
+                // プレイリスト読み込み
+                if (selector.PlaylistCheckBox.IsChecked == true)
+                {
+                    foreach(var entry in playlistEntries)
+                    {
+                        var path = Path.Combine(Config.Current.Playlist.PlaylistFolder, entry.Name);
+                        entry.ExtractToFile(path, true);
+                    }
+                }
+
+
+                if (recoverySettingWindow)
+                {
+                    MainWindowModel.Current.OpenSettingWindow();
+                }
             }
         }
 #pragma warning restore CS0612 // 型またはメンバーが旧型式です

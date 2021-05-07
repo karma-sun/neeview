@@ -102,6 +102,7 @@ namespace NeeView
                     if (_playlist != null)
                     {
                         _playlist.CollectionChanged -= Playlist_CollectionChanged;
+                        _playlist.ItemRenamed -= Playlist_ItemRenamed;
                     }
 
                     _playlist = value;
@@ -109,6 +110,7 @@ namespace NeeView
                     if (_playlist != null)
                     {
                         _playlist.CollectionChanged += Playlist_CollectionChanged;
+                        _playlist.ItemRenamed += Playlist_ItemRenamed;
                     }
 
                     RaisePropertyChanged();
@@ -116,7 +118,6 @@ namespace NeeView
                 }
             }
         }
-
 
 
         public string FilterMessage
@@ -131,6 +132,11 @@ namespace NeeView
             PlaylistCollectionChanged?.Invoke(this, e);
         }
 
+        private void Playlist_ItemRenamed(object sender, PlaylistItemRenamedEventArgs e)
+        {
+            this.Playlist?.DelaySave(StartPlaylistWatch);
+        }
+
         private void SelectedItemChanged()
         {
             if (!this.PlaylistFiles.Contains(SelectedItem))
@@ -141,6 +147,15 @@ namespace NeeView
             UpdatePlaylist();
         }
 
+        public static List<FileInfo> GetPlaylistFiles()
+        {
+            var directory = new DirectoryInfo(System.IO.Path.GetFullPath(Config.Current.Playlist.PlaylistFolder));
+            if (directory.Exists)
+            {
+                return directory.GetFiles("*.nvpls").ToList();
+            }
+            return new List<FileInfo>();
+        }
 
         public void UpdatePlaylistCollection()
         {
@@ -149,17 +164,7 @@ namespace NeeView
                 _playlistLockCount++;
                 var selectedItem = this.SelectedItem;
 
-                var list = new List<string>();
-
-                try
-                {
-                    var directory = new DirectoryInfo(System.IO.Path.GetFullPath(Config.Current.Playlist.PlaylistFolder));
-                    var files = directory.GetFiles("*.nvpls");
-                    list = files.Select(e => e.FullName).ToList();
-                }
-                catch (DirectoryNotFoundException)
-                {
-                }
+                var list = GetPlaylistFiles().Select(e => e.FullName).ToList();
 
                 if (!list.Contains(DefaultPlaylist))
                 {

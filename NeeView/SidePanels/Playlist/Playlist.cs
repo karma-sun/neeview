@@ -41,6 +41,7 @@ namespace NeeView
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
+        public event EventHandler<PlaylistItemRenamedEventArgs> ItemRenamed;
 
 
         public string Path
@@ -130,28 +131,41 @@ namespace NeeView
 
         private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            var oldItems = e.OldItems?.Cast<PlaylistItem>();
+            var newItems = e.NewItems?.Cast<PlaylistItem>();
+
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Reset:
-                case NotifyCollectionChangedAction.Replace:
                     _itemsMap = _items.ToMultiMap(x => x.Path, x => x);
                     break;
 
                 case NotifyCollectionChangedAction.Add:
-                    foreach (PlaylistItem item in e.NewItems)
+                    foreach (PlaylistItem item in newItems)
                     {
                         _itemsMap.Add(item.Path, item);
                     }
                     break;
 
                 case NotifyCollectionChangedAction.Remove:
-                    foreach (PlaylistItem item in e.OldItems)
+                    foreach (PlaylistItem item in oldItems)
                     {
                         _itemsMap.Remove(item.Path, item);
                     };
                     break;
 
                 case NotifyCollectionChangedAction.Move:
+                    break;
+
+                case NotifyCollectionChangedAction.Replace:
+                    foreach (PlaylistItem item in oldItems.Except(newItems))
+                    {
+                        _itemsMap.Remove(item.Path, item);
+                    }
+                    foreach (PlaylistItem item in newItems.Except(oldItems))
+                    {
+                        _itemsMap.Add(item.Path, item);
+                    }
                     break;
 
                 default:
@@ -385,7 +399,9 @@ namespace NeeView
 
             lock (_lock)
             {
+                var oldName = item.Name;
                 item.Name = newName;
+                ItemRenamed?.Invoke(this, new PlaylistItemRenamedEventArgs(item, oldName));
 
                 _isDarty = true;
             }
@@ -599,7 +615,10 @@ namespace NeeView
 
         public List<string> CollectAnotherPlaylists()
         {
-            return System.IO.Directory.GetFiles(Config.Current.Playlist.PlaylistFolder).Where(e => e != _playlistPath).ToList();
+            return PlaylistHub.GetPlaylistFiles()
+                .Select(e => e.FullName)
+                .Where(e => e != _playlistPath)
+                .ToList();
         }
 
         public void MoveToAnotherPlaylist(string path, IEnumerable<PlaylistItem> items)
@@ -622,7 +641,7 @@ namespace NeeView
                 }
             }
 
-            playlist.Save(() => AppDispatcher.Invoke(() =>Remove(items)));
+            playlist.Save(() => AppDispatcher.Invoke(() => Remove(items)));
         }
 
         #endregion Move to another playlist

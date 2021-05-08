@@ -15,7 +15,7 @@
 
         public override void Execute(object sender, CommandContext e)
         {
-            SaveDataBackup.Current.ExportBackup();
+            ExportDataPresenter.Current.Export();
         }
     }
 }

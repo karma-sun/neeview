@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,13 +15,18 @@ using System.Windows.Shapes;
 namespace NeeView
 {
     /// <summary>
-    /// BackupSelectControl.xaml の相互作用ロジック
+    /// ImportControl.xaml の相互作用ロジック
     /// </summary>
-    public partial class BackupSelectControl : UserControl
+    public partial class ImportControl : UserControl
     {
-        public BackupSelectControl()
+        public ImportControl()
         {
             InitializeComponent();
+        }
+
+        public ImportControl(ImportControlViewModel vm) : this()
+        {
+            this.DataContext = vm;
         }
     }
 }

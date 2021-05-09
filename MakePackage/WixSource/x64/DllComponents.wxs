@@ -127,6 +127,26 @@
                         <File Id="fil1764FC390724287961E0F57F91BFC939" KeyPath="yes" Source="$(var.LibrariesDir)\Susie\NeeView.Susie.Server.exe.config" />
                     </Component>
                 </Directory>
+                <Directory Id="dir1D022750F70FB8F787479EC7969256F6" Name="Themes">
+                    <Component Id="cmp3AC8D23E831266D577F64446333AF823" Guid="*">
+                        <File Id="fil1BF085D94714514ED7282403D8552A28" KeyPath="yes" Source="$(var.LibrariesDir)\Themes\CustomThemeTemplate.json" />
+                    </Component>
+                    <Component Id="cmpC55F0A8A7551ECD38ABE7E3A99BDFEF3" Guid="*">
+                        <File Id="fil2FD316804102F90D1285638649D6EDBF" KeyPath="yes" Source="$(var.LibrariesDir)\Themes\DarkMonochromeTheme.json" />
+                    </Component>
+                    <Component Id="cmp5A0B6D75A05778CEE1278749475D3328" Guid="*">
+                        <File Id="fil8A29BDB23BCD292879CFBC120217168D" KeyPath="yes" Source="$(var.LibrariesDir)\Themes\DarkTheme.json" />
+                    </Component>
+                    <Component Id="cmpA9995F6FA627E6FF58B278B0BC3743CE" Guid="*">
+                        <File Id="fil013EA4BD7D63AB8E9B1A456CC51E6E19" KeyPath="yes" Source="$(var.LibrariesDir)\Themes\HighContrastTheme.json" />
+                    </Component>
+                    <Component Id="cmp4954405E0DE9E82026857F4C3648A0ED" Guid="*">
+                        <File Id="fil6361088038CDF8EDA19B54AB3F70CC62" KeyPath="yes" Source="$(var.LibrariesDir)\Themes\LightMonochromeTheme.json" />
+                    </Component>
+                    <Component Id="cmp53B55F4D3DCFF52F9020CC3170D733C2" Guid="*">
+                        <File Id="filC8050337EA1942D3485DC8ADE445BFD5" KeyPath="yes" Source="$(var.LibrariesDir)\Themes\LightTheme.json" />
+                    </Component>
+                </Directory>
                 <Directory Id="dir0BA8EEA8E3E5FDC60EBDCD6CA689EF1F" Name="x64">
                     <Component Id="cmp9D4AE8C031DF1FC733C87DF95334A165" Guid="*">
                         <File Id="fil50D8656DA153D2BEE13D829A7DFF7A29" KeyPath="yes" Source="$(var.LibrariesDir)\x64\7z.dll" />
@@ -191,6 +211,12 @@
             <ComponentRef Id="cmp9E03F4553A7333F202040A5DF31578F3" />
             <ComponentRef Id="cmp01964A7054B7C68A143EB8EF529BB54E" />
             <ComponentRef Id="cmp03C62D012A9D6E2A1C927CC818503F75" />
+            <ComponentRef Id="cmp3AC8D23E831266D577F64446333AF823" />
+            <ComponentRef Id="cmpC55F0A8A7551ECD38ABE7E3A99BDFEF3" />
+            <ComponentRef Id="cmp5A0B6D75A05778CEE1278749475D3328" />
+            <ComponentRef Id="cmpA9995F6FA627E6FF58B278B0BC3743CE" />
+            <ComponentRef Id="cmp4954405E0DE9E82026857F4C3648A0ED" />
+            <ComponentRef Id="cmp53B55F4D3DCFF52F9020CC3170D733C2" />
             <ComponentRef Id="cmp9D4AE8C031DF1FC733C87DF95334A165" />
             <ComponentRef Id="cmp466461CEC1F96678E1C583154DA61F62" />
             <ComponentRef Id="cmp60F5CE1CFAD8CEB5380872C62BECCD6A" />

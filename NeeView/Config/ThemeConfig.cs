@@ -8,28 +8,39 @@ namespace NeeView
 {
     public class ThemeConfig : BindableBase
     {
-        private ThemeType _theme = ThemeType.Dark;
+        private TheneSource _themeType = new TheneSource(NeeView.ThemeType.Dark);
 
-        [JsonInclude, JsonPropertyName(nameof(CustomThemeFilePath))]
-        public string _customThemeFilePath;
+        [JsonInclude, JsonPropertyName(nameof(CustomThemeFolder))]
+        public string _customThemeFolder;
 
 
         // テーマ
-        [PropertyMember]
-        public ThemeType ThemeType
+        [PropertyMapIgnore]
+        public TheneSource ThemeType
         {
-            get { return _theme; }
-            set { SetProperty(ref _theme, value); }
+            get { return _themeType; }
+            set { SetProperty(ref _themeType, value); }
+        }
+
+        // テーマ (スクリプトアクセス用)
+        [JsonIgnore]
+        [ObjectMergeIgnore]
+        [PropertyMapName(nameof(ThemeType))]
+        public string ThemeString
+        {
+            get { return ThemeType.ToString(); }
+            set { ThemeType = TheneSource.Parse(value); }
         }
 
         // カスタムテーマの保存場所
         [JsonIgnore]
-        [PropertyPath(FileDialogType = FileDialogType.SaveFile, Filter = "JSON|*.json")]
-        public string CustomThemeFilePath
+        [PropertyPath(FileDialogType = FileDialogType.Directory)]
+        public string CustomThemeFolder
         {
-            get { return _customThemeFilePath ?? SaveData.DefaultCustomThemeFilePath; }
-            set { SetProperty(ref _customThemeFilePath, (string.IsNullOrWhiteSpace(value) || value.Trim() == SaveData.DefaultCustomThemeFilePath) ? null : value.Trim()); }
+            get { return _customThemeFolder ?? SaveData.DefaultCustomThemeFolder; }
+            set { SetProperty(ref _customThemeFolder, (string.IsNullOrWhiteSpace(value) || value.Trim() == SaveData.DefaultCustomThemeFolder) ? null : value.Trim()); }
         }
+
 
         #region Obsolete
 
@@ -38,7 +49,7 @@ namespace NeeView
         public string PanelColor
         {
             get { return null; }
-            set { ThemeType = value == "Light" ? ThemeType.Light : ThemeType.Dark; }
+            set { ThemeType = new TheneSource(value == "Light" ? NeeView.ThemeType.Light : NeeView.ThemeType.Dark); }
         }
 
         [Obsolete] // ver.39

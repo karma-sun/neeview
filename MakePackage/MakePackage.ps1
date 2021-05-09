@@ -206,9 +206,9 @@ function New-Package($platform, $productName, $productDir, $publishSusieDir, $pa
 
 	# copy
 	Copy-Item "$productDir\$productName.exe" $packageDir
+	Copy-Item "$productDir\Libraries\*" $packageLibraryDir -Recurse
 	Copy-Item "$productDir\*.dll" $packageLibraryDir
 	Copy-Item "$productDir\Scripts\" $packageDir -Recurse
-	Copy-Item "$productDir\Themes\" $packageDir -Recurse
 
 	# custom config
 	New-ConfigForZip $productDir "$productName.exe.config" $packageDir

@@ -5136,9 +5136,6 @@ Susie 書庫はこのサイズで判別せず、プラグインの設定での�
   <data name="SettingPage.Window.Theme" xml:space="preserve">
     <value>テーマ</value>
   </data>
-  <data name="SettingPage.Window.Theme.OpenCustomThemeFile" xml:space="preserve">
-    <value>カスタム テーマ ファイルを開く</value>
-  </data>
   <data name="SettingPage.WindowTitle" xml:space="preserve">
     <value>ウィンドウ タイトル</value>
   </data>
@@ -5453,9 +5450,6 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
   </data>
   <data name="SystemConfig.TemporaryDirectory.Remarks" xml:space="preserve">
     <value>多重圧縮ファイルの展開や事前展開に使用されます。</value>
-  </data>
-  <data name="ThemeConfig.CustomThemeFilePath" xml:space="preserve">
-    <value>カスタム テーマ ファイルの場所</value>
   </data>
   <data name="ThemeConfig.ThemeType" xml:space="preserve">
     <value>テーマの種類</value>
@@ -7144,5 +7138,14 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="ImportControl.Playlist" xml:space="preserve">
     <value>{0} 個のプレイリスト</value>
+  </data>
+  <data name="SettingPage.Window.Theme.OpenCustomThemeFolder" xml:space="preserve">
+    <value>カスタム テーマ フォルダーを開く</value>
+  </data>
+  <data name="ThemeConfig.CustomThemeFolder" xml:space="preserve">
+    <value>カスタム テーマ フォルダーの場所</value>
+  </data>
+  <data name="ImportControl.Theme" xml:space="preserve">
+    <value>{0} 個のカスタム テーマ</value>
   </data>
 </root>

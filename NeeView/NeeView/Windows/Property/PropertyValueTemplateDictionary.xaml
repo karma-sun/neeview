@@ -3,6 +3,7 @@
                     xmlns:nv="clr-namespace:NeeView"
                     xmlns:nvc="clr-namespace:NeeView.Windows.Controls" 
                     xmlns:osc="clr-namespace:OpenSourceControls"
+                    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
                     xmlns:local="clr-namespace:NeeView.Windows.Property">
 
     <nv:DoubleToPercentStringConverter x:Key="DoubleToPercentStringConverter" />
@@ -57,8 +58,15 @@
         <ComboBox ItemsSource="{Binding Map}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding SelectedValue}"/>
     </DataTemplate>
 
+
     <DataTemplate DataType="{x:Type local:PropertyValue_StringMap}">
-        <ComboBox ItemsSource="{Binding Map}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding SelectedValue}" />
+        <ComboBox ItemsSource="{Binding Map}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding SelectedValue}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="DropDownOpened">
+                    <i:CallMethodAction TargetObject="{Binding .}" MethodName="UpdateMap" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ComboBox>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type local:PropertyValue_Point}">

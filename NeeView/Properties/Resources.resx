@@ -5131,9 +5131,6 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="SettingPage.Window.Theme" xml:space="preserve">
     <value>Theme</value>
   </data>
-  <data name="SettingPage.Window.Theme.OpenCustomThemeFile" xml:space="preserve">
-    <value>Open custom theme file</value>
-  </data>
   <data name="SettingPage.WindowTitle" xml:space="preserve">
     <value>Window title</value>
   </data>
@@ -5448,9 +5445,6 @@ $Name is the main page (the smaller page number) when displaying 2 pages.</value
   </data>
   <data name="SystemConfig.TemporaryDirectory.Remarks" xml:space="preserve">
     <value>It is used for pre-extraction and recursive compression files.</value>
-  </data>
-  <data name="ThemeConfig.CustomThemeFilePath" xml:space="preserve">
-    <value>Custom theme file path</value>
   </data>
   <data name="ThemeConfig.ThemeType" xml:space="preserve">
     <value>Theme type</value>
@@ -7139,5 +7133,14 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="ImportControl.Playlist" xml:space="preserve">
     <value>{0} playlists</value>
+  </data>
+  <data name="SettingPage.Window.Theme.OpenCustomThemeFolder" xml:space="preserve">
+    <value>Open custom theme folder</value>
+  </data>
+  <data name="ThemeConfig.CustomThemeFolder" xml:space="preserve">
+    <value>Custom theme folder</value>
+  </data>
+  <data name="ImportControl.Theme" xml:space="preserve">
+    <value>{0} custom themes</value>
   </data>
 </root>

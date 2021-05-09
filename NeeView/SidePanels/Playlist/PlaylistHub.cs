@@ -197,7 +197,7 @@ namespace NeeView
             }
         }
 
-        private void UpdatePlaylist()
+        public void UpdatePlaylist()
         {
             if (_playlistLockCount <= 0 && (this.Playlist is null || _isPlaylistDarty || this.Playlist?.Path != this.SelectedItem))
             {

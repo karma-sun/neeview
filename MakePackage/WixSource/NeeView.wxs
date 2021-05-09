@@ -40,7 +40,6 @@
       <ComponentGroupRef Id="DllComponents"/>
       <ComponentGroupRef Id="DocumentComponents" />
       <ComponentGroupRef Id="ScriptsComponents" />
-      <ComponentGroupRef Id="ThemesComponents" />
       <Feature Id="ContextMenuFeature" Title="ContextMenu" Description="!(loc.contextMenuFeatureDescription)" Level="1" AllowAdvertise="no" >
         <ComponentGroupRef Id="RegistoryComponents" />
       </Feature>
@@ -71,7 +70,6 @@
         <Directory Id="PFCompanyFolder" Name="NeeLaboratory">
           <Directory Id="INSTALLFOLDER" Name="NeeView">
             <Directory Id="ScriptsFolder" Name="Scripts"/>
-            <Directory Id="ThemesFolder" Name="Themes"/>
           </Directory>
         </Directory>
       </Directory>
@@ -108,27 +106,6 @@
     <ComponentGroup Id="ScriptsComponents" Directory="ScriptsFolder">
       <Component Guid="*">
         <File Source="$(var.ContentDir)Scripts\Sample.nvjs" KeyPath="yes"/>
-      </Component>
-    </ComponentGroup>
-
-    <ComponentGroup Id="ThemesComponents" Directory="ThemesFolder">
-      <Component Guid="*">
-        <File Source="$(var.ContentDir)Themes\DarkTheme.json" KeyPath="yes"/>
-      </Component>
-      <Component>
-        <File Source="$(var.ContentDir)Themes\LightTheme.json" KeyPath="yes"/>
-      </Component>
-      <Component>
-        <File Source="$(var.ContentDir)Themes\DarkMonochromeTheme.json" KeyPath="yes"/>
-      </Component>
-      <Component>
-        <File Source="$(var.ContentDir)Themes\LightMonochromeTheme.json" KeyPath="yes"/>
-      </Component>
-      <Component>
-        <File Source="$(var.ContentDir)Themes\HighContrastTheme.json" KeyPath="yes"/>
-      </Component>
-      <Component>
-        <File Source="$(var.ContentDir)Themes\CustomThemeTemplate.json" KeyPath="yes"/>
       </Component>
     </ComponentGroup>
 

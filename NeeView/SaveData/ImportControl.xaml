@@ -19,8 +19,12 @@
                 <CheckBox x:Name="BookmarkCheckBox" Content="{x:Static properties:Resources.ImportControl_Bookmark}" IsEnabled="{Binding BookmarkExists}" IsChecked="{Binding IsBookmarkEnabled}"/>
                 <CheckBox x:Name="PagemarkCheckBox" Content="{x:Static properties:Resources.ImportControl_Pagemark}" IsEnabled="{Binding PagemarkExists}" IsChecked="{Binding IsPagemarkEnabled}"
                         Visibility="{Binding PagemarkExists, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                <CheckBox x:Name="PlaylistCheckBox" Content="{Binding PlaylistsCheckBoxContent}" IsEnabled="{Binding PlaylistsExists}" IsChecked="{Binding IsPlaylistsEnabled}"
-                        Visibility="{Binding PlaylistsExists, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <CheckBox x:Name="PlaylistCheckBox" Content="{Binding PlaylistsCheckBoxContent}" IsEnabled="{Binding PlaylistsExists}" IsChecked="{Binding IsPlaylistsEnabled}" />
+                <CheckBox x:Name="ThemeCheckBox" Content="{Binding ThemesCheckBoxContent}" IsEnabled="{Binding ThemesExists}" IsChecked="{Binding IsThemesEnabled}" />
+                <!--
+                Visibility="{Binding PlaylistsExists, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                Visibility="{Binding ThemesExists, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                -->
             </StackPanel>
         </StackPanel>
     </Grid>

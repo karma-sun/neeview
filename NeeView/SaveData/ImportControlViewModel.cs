@@ -55,5 +55,15 @@ namespace NeeView
         }
 
         public string PlaylistsCheckBoxContent => string.Format(Properties.Resources.ImportControl_Playlist, _model.PlaylistEntries.Count);
+
+        public bool ThemesExists => _model.ThemesExists;
+
+        public bool IsThemesEnabled
+        {
+            get => _model.IsThemesEnabled;
+            set => _model.IsThemesEnabled = value;
+        }
+
+        public string ThemesCheckBoxContent => string.Format(Properties.Resources.ImportControl_Theme, _model.ThemeEntries.Count);
     }
 }

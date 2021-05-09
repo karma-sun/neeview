@@ -1,8 +1,10 @@
-﻿using NeeLaboratory.ComponentModel;
+﻿using NeeLaboratory.Collection;
+using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -123,7 +125,15 @@ namespace NeeView.Windows.Property
 
     public class PropertyValue_StringMap : PropertyValue<string>
     {
-        public Dictionary<string, string> Map { get; private set; }
+        private Func<KeyValuePairList<string, string>> _getMap;
+        private KeyValuePairList<string, string> _map;
+
+        public KeyValuePairList<string, string> Map
+        {
+            get { return _map; }
+            set { SetProperty(ref _map, value); }
+        }
+
 
         public string SelectedValue
         {
@@ -133,12 +143,21 @@ namespace NeeView.Windows.Property
 
         public PropertyValue_StringMap(PropertyMemberElement setter, IEnumerable<string> strings) : base(setter)
         {
-            this.Map = setter.Options?.StringMap ?? strings.ToDictionary(e => e, e => e);
+            _getMap = setter.Options?.GetStringMapFunc;
+            this.Map = _getMap?.Invoke() ?? setter.Options?.StringMap ?? strings.ToKeyValuePairList(e => e, e => e);
         }
 
         public override void SetValueFromString(string value)
         {
             Value = value;
+        }
+
+        public void UpdateMap()
+        {
+            if (_getMap != null)
+            {
+                this.Map = _getMap.Invoke();
+            }
         }
     }
 

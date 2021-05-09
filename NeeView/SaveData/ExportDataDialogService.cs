@@ -88,7 +88,7 @@ namespace NeeView
             dialog.Commands.Add(new UICommand(Properties.Resources.Word_Import) { IsPositibe = true });
             dialog.Commands.Add(UICommands.Cancel);
             var result = dialog.ShowDialog();
-            return result.IsPositibe;
+            return result?.IsPositibe == true;
         }
     }
 }

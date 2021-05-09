@@ -24,6 +24,7 @@ namespace NeeView
         private bool _isBookmarkEnabled = true;
         private bool _isPagemarkEnabled = true;
         private bool _isPlaylistsEnabled = true;
+        private bool _isThemesEnabled = true;
 
 
         public Importer(string filename)
@@ -79,6 +80,16 @@ namespace NeeView
 
         public List<ZipArchiveEntry> PlaylistEntries { get; private set; }
 
+        public bool ThemesExists { get; set; }
+
+        public bool IsThemesEnabled
+        {
+            get => _isThemesEnabled && ThemesExists;
+            set => _isThemesEnabled = value;
+        }
+
+        public List<ZipArchiveEntry> ThemeEntries { get; private set; }
+
 
         public void Initialize()
         {
@@ -92,12 +103,14 @@ namespace NeeView
             _pagemarkEntryV1 = _archive.GetEntry(Path.ChangeExtension(SaveData.PagemarkFileName, ".xml"));
 
             this.PlaylistEntries = _archive.Entries.Where(e => e.FullName.StartsWith(@"Playlists\")).ToList();
+            this.ThemeEntries = _archive.Entries.Where(e => e.FullName.StartsWith(@"Themes\")).ToList();
 
             this.UserSettingExists = _settingEntry != null || _settingEntryV1 != null;
             this.HistoryExists = _historyEntry != null || _historyEntryV1 != null;
             this.BookmarkExists = _bookmarkEntry != null || _bookmarkEntryV1 != null;
             this.PagemarkExists = _pagemarkEntry != null || _pagemarkEntryV1 != null;
             this.PlaylistsExists = PlaylistEntries.Any();
+            this.ThemesExists = ThemeEntries.Any();
         }
 
         public void Import()
@@ -110,6 +123,7 @@ namespace NeeView
             ImportBookmark();
             ImportPagemark();
             ImportPlaylists();
+            ImportThemes();
 
             if (recoverySettingWindow)
             {
@@ -261,11 +275,37 @@ namespace NeeView
         {
             if (!IsPlaylistsEnabled) return;
 
+            var directory = new DirectoryInfo(Config.Current.Playlist.PlaylistFolder);
+            if (!directory.Exists)
+            {
+                directory.Create();
+            }
+
             foreach (var entry in this.PlaylistEntries)
             {
-                var path = Path.Combine(Config.Current.Playlist.PlaylistFolder, entry.Name);
+                var path = Path.Combine(directory.FullName, entry.Name);
                 entry.ExtractToFile(path, true);
             }
+        }
+
+        public void ImportThemes()
+        {
+            if (!IsThemesEnabled) return;
+
+            var directory = new DirectoryInfo(Config.Current.Theme.CustomThemeFolder);
+            if (!directory.Exists)
+            {
+                directory.Create();
+            }
+
+            foreach (var entry in this.ThemeEntries)
+            {
+                var path = Path.Combine(directory.FullName, entry.Name);
+                entry.ExtractToFile(path, true);
+            }
+
+            // テーマの再適用
+            ThemeManager.Current.RefreshThemeColor();
         }
 
         protected virtual void Dispose(bool disposing)

@@ -1,4 +1,5 @@
-﻿using NeeLaboratory.Windows.Input;
+﻿using NeeLaboratory.Collection;
+using NeeLaboratory.Windows.Input;
 using NeeView.Data;
 using NeeView.Windows.Property;
 using System;
@@ -29,7 +30,7 @@ namespace NeeView.Setting
 
             var section = new SettingItemSection(Properties.Resources.SettingPage_General);
 
-            var cultureMap = Environment.Cultures.Select(e => CultureInfo.GetCultureInfo(e)).OrderBy(e => e.NativeName).ToDictionary(e => e.Name, e => e.NativeName);
+            var cultureMap = Environment.Cultures.Select(e => CultureInfo.GetCultureInfo(e)).OrderBy(e => e.NativeName).ToKeyValuePairList(e => e.Name, e => e.NativeName);
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.Language), new PropertyMemberElementOptions() { StringMap = cultureMap })));
 
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.ArchiveRecursiveMode))));

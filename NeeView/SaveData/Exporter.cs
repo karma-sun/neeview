@@ -35,6 +35,14 @@ namespace NeeView
                             archive.CreateEntryFromFile(playlist.FullName, LoosePath.Combine("Playlists", playlist.Name));
                         }
                     }
+                    var themes = ThemeManager.CollectCustomThemes();
+                    if (themes.Any())
+                    {
+                        foreach (var theme in themes)
+                        {
+                            archive.CreateEntryFromFile(theme.FullName, LoosePath.Combine("Themes", theme.FileName));
+                        }
+                    }
                 }
             }
             catch (Exception)

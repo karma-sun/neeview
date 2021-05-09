@@ -43,18 +43,6 @@ namespace NeeView.Setting
     /// </summary>
     public class SettingPageWindow : SettingPage
     {
-        private RelayCommand _openCustomThemeFile;
-        public RelayCommand OpenCustomThemeFile
-        {
-            get { return _openCustomThemeFile = _openCustomThemeFile ?? new RelayCommand(OpenCustomThemeFile_Execute); }
-        }
-
-        private void OpenCustomThemeFile_Execute()
-        {
-            ThemeManager.Current.OpenCustomThemeFile();
-        }
-
-
         public SettingPageWindow() : base(Properties.Resources.SettingPage_Window)
         {
             this.Children = new List<SettingPage>
@@ -66,18 +54,12 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>();
 
             var section = new SettingItemSection(Properties.Resources.SettingPage_Window_Theme);
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Theme, nameof(ThemeConfig.ThemeType))));
-            var group = new SettingItemGroup()
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(ThemeManager.Current, nameof(ThemeManager.SelectedItem), new PropertyMemberElementOptions()
             {
-                Visibility = new VisibilityPropertyValue(new Binding(nameof(ThemeConfig.ThemeType)) { Source = Config.Current.Theme, Converter = new ObjectCompareToVisibilityConverter() { Target = ThemeType.Custom } }),
-            };
-            group.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Theme, nameof(ThemeConfig.CustomThemeFilePath)))
-            {
-                IsStretch = true,
-            });
-            group.Children.Add(new SettingItemLink(Properties.Resources.SettingPage_Window_Theme_OpenCustomThemeFile, OpenCustomThemeFile) { IsContentOnly = true });
-            section.Children.Add(group);
-
+                GetStringMapFunc = ThemeManager.CreateItemsMap
+            })));
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Theme, nameof(ThemeConfig.CustomThemeFolder))) { IsStretch = true, });
+            section.Children.Add(new SettingItemLink(Properties.Resources.SettingPage_Window_Theme_OpenCustomThemeFolder, OpenCustomThemeFolder) { IsContentOnly = true });
             this.Items.Add(section);
 
             section = new SettingItemSection(Properties.Resources.SettingPage_Window_Background);
@@ -93,7 +75,22 @@ namespace NeeView.Setting
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Window, nameof(WindowConfig.MouseActivateAndEat))));
             this.Items.Add(section);
         }
+
+        #region Commands
+        private RelayCommand _openCustomThemeFolder;
+        public RelayCommand OpenCustomThemeFolder
+        {
+            get { return _openCustomThemeFolder = _openCustomThemeFolder ?? new RelayCommand(OpenCustomThemeFolder_Execute); }
+        }
+
+        private void OpenCustomThemeFolder_Execute()
+        {
+            ThemeManager.Current.OpenCustomThemeFolder();
+        }
+        #endregion
+
     }
+
 
 
     /// <summary>

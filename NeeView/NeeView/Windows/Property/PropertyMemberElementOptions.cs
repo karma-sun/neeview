@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeLaboratory.Collection;
+using System;
 using System.Collections.Generic;
 
 namespace NeeView.Windows.Property
@@ -25,6 +26,12 @@ namespace NeeView.Windows.Property
         /// <summary>
         /// Stringsでの選択項目指定
         /// </summary>
-        public Dictionary<string, string> StringMap { get; set; }
+        public KeyValuePairList<string, string> StringMap { get; set; }
+
+        /// <summary>
+        /// Stringsでの選択項目取得
+        /// </summary>
+        public Func<KeyValuePairList<string, string>> GetStringMapFunc { get; set; }
     }
+
 }

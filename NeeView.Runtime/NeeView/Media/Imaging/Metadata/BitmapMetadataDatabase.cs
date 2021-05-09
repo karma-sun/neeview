@@ -56,14 +56,17 @@ namespace NeeView.Media.Imaging.Metadata
                 {
                     map[key] = accessor.GetValue(key);
                 }
+#if DEBUG
                 catch (Exception ex)
                 {
-#if DEBUG
                     map[key] = $"⚠ {ex.Message}";
-#else
-                    map[key] = null;
-#endif
                 }
+#else
+                catch
+                {
+                    map[key] = null;
+                }
+#endif
             }
 
             return map;

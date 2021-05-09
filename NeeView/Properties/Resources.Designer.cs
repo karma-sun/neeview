@@ -7214,6 +7214,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   {0} custom themes に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImportControl_Theme {
+            get {
+                return ResourceManager.GetString("ImportControl.Theme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Import all settings に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ImportDialog_Title {
@@ -14945,11 +14954,11 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Open custom theme file に類似しているローカライズされた文字列を検索します。
+        ///   Open custom theme folder に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SettingPage_Window_Theme_OpenCustomThemeFile {
+        public static string SettingPage_Window_Theme_OpenCustomThemeFolder {
             get {
-                return ResourceManager.GetString("SettingPage.Window.Theme.OpenCustomThemeFile", resourceCulture);
+                return ResourceManager.GetString("SettingPage.Window.Theme.OpenCustomThemeFolder", resourceCulture);
             }
         }
         
@@ -15884,11 +15893,11 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Custom theme file path に類似しているローカライズされた文字列を検索します。
+        ///   Custom theme folder に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ThemeConfig_CustomThemeFilePath {
+        public static string ThemeConfig_CustomThemeFolder {
             get {
-                return ResourceManager.GetString("ThemeConfig.CustomThemeFilePath", resourceCulture);
+                return ResourceManager.GetString("ThemeConfig.CustomThemeFolder", resourceCulture);
             }
         }
         

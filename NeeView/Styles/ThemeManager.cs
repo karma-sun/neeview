@@ -13,21 +13,10 @@ using System.Windows;
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
+using NeeLaboratory.Collection;
 
 namespace NeeView
 {
-    public enum ThemeType
-    {
-        Dark,
-        DarkMonochrome,
-        Light,
-        LightMonochrome,
-        HighContrast,
-        System,
-        Custom,
-    }
-
-
     public class ThemeManager : BindableBase
     {
         static ThemeManager() => Current = new ThemeManager();
@@ -35,31 +24,25 @@ namespace NeeView
 
         private const string _themeProtocolHeader = "themes://";
 
-        private static readonly string _darkThemeContentPath = "Themes/DarkTheme.json";
-        private static readonly string _darkMonochromeThemeContentPath = "Themes/DarkMonochromeTheme.json";
-        private static readonly string _lightThemeContentPath = "Themes/LightTheme.json";
-        private static readonly string _lightMonochromeThemeContentPath = "Themes/LightMonochromeTheme.json";
-        private static readonly string _highContrastThemeContentPath = "Themes/HighContrastTheme.json";
-        private static readonly string _customThemeTemplateContentPath = "Themes/CustomThemeTemplate.json";
+        private static readonly string _darkThemeContentPath = "Libraries/Themes/DarkTheme.json";
+        private static readonly string _darkMonochromeThemeContentPath = "Libraries/Themes/DarkMonochromeTheme.json";
+        private static readonly string _lightThemeContentPath = "Libraries/Themes/LightTheme.json";
+        private static readonly string _lightMonochromeThemeContentPath = "Libraries/Themes/LightMonochromeTheme.json";
+        private static readonly string _highContrastThemeContentPath = "Libraries/Themes/HighContrastTheme.json";
+        private static readonly string _customThemeTemplateContentPath = "Libraries/Themes/CustomThemeTemplate.json";
 
         private ThemeProfile _themeProfile;
+        private string _selectedItem;
 
 
         private ThemeManager()
         {
+            _selectedItem = Config.Current.Theme.ThemeType.ToString();
+
             RefreshThemeColor();
 
             Config.Current.Theme.AddPropertyChanged(nameof(ThemeConfig.ThemeType),
                 (s, e) => RefreshThemeColor());
-
-            Config.Current.Theme.AddPropertyChanged(nameof(ThemeConfig.CustomThemeFilePath),
-                (s, e) =>
-                {
-                    if (Config.Current.Theme.ThemeType == ThemeType.Custom)
-                    {
-                        RefreshThemeColor();
-                    }
-                });
 
             SystemVisualParameters.Current.AddPropertyChanged(nameof(SystemVisualParameters.IsHighContrast),
                 (s, e) => RefreshThemeColor());
@@ -81,6 +64,49 @@ namespace NeeView
             private set { SetProperty(ref _themeProfile, value); }
         }
 
+
+        [PropertyStrings(Name = "@ThemeConfig.ThemeType")]
+        public string SelectedItem
+        {
+            get { return _selectedItem; }
+            set
+            {
+                if (SetProperty(ref _selectedItem, value))
+                {
+                    Config.Current.Theme.ThemeType = TheneSource.Parse(_selectedItem);
+                }
+            }
+        }
+
+
+        public static KeyValuePairList<string, string> CreateItemsMap()
+        {
+            var defaultThemes = Enum.GetValues(typeof(ThemeType))
+                .Cast<ThemeType>()
+                .Where(e => e != ThemeType.Custom)
+                .Select(e => new KeyValuePair<string, string>(e.ToString(), e.ToAliasName()));
+
+            var customThemes = CollectCustomThemes()
+                .Select(e => new KeyValuePair<string, string>(e.ToString(), e.Type.ToAliasName() + ": " + Path.GetFileNameWithoutExtension(e.FileName)));
+
+            var map = defaultThemes.Concat(customThemes)
+                .ToKeyValuePairList(e => e.Key, e => e.Value);
+
+            return map;
+        }
+
+        public static List<TheneSource> CollectCustomThemes()
+        {
+            var directory = new DirectoryInfo(Config.Current.Theme.CustomThemeFolder);
+            if (directory.Exists)
+            {
+                return directory.GetFiles("*.json").Select(e => new TheneSource(ThemeType.Custom, e.Name)).ToList();
+            }
+            else
+            {
+                return new List<TheneSource>();
+            }
+        }
 
         public void Touch()
         {
@@ -118,17 +144,16 @@ namespace NeeView
                 App.Current.Resources["Button.Accent.Border"] = new SolidColorBrush(themeProfile.GetColor("Control.Accent", 1.0));
             }
 
-
             ThemeProfile = themeProfile;
             ThemeProfileChanged?.Invoke(this, null);
         }
 
 
-        private ThemeProfile GeThemeProfile(ThemeType themeType, bool isShowExceptionToast)
+        private ThemeProfile GeThemeProfile(TheneSource theneId, bool isShowExceptionToast)
         {
             try
             {
-                var themeProfile = LoadThemeProfile(themeType);
+                var themeProfile = LoadThemeProfile(theneId);
                 themeProfile.Verify();
                 return themeProfile.Validate();
             }
@@ -136,9 +161,9 @@ namespace NeeView
             {
                 ToastService.Current.Show(new Toast(ex.Message, Properties.Resources.ThemeErrorDialog_Title, ToastIcon.Error));
 
-                if (themeType is ThemeType.Custom)
+                if (theneId.Type is ThemeType.Custom)
                 {
-                    return GeThemeProfile(ThemeType.Dark, false);
+                    return GeThemeProfile(new TheneSource(ThemeType.Dark), false);
                 }
                 else
                 {
@@ -147,9 +172,9 @@ namespace NeeView
             }
         }
 
-        private ThemeProfile LoadThemeProfile(ThemeType themeType)
+        private ThemeProfile LoadThemeProfile(TheneSource themeId)
         {
-            switch (themeType)
+            switch (themeId.Type)
             {
                 case ThemeType.Dark:
                     return ThemeProfileTools.LoadFromContent(_darkThemeContentPath);
@@ -169,7 +194,7 @@ namespace NeeView
                 case ThemeType.System:
                     if (SystemVisualParameters.Current.IsHighContrast)
                     {
-                        return LoadThemeProfile(ThemeType.HighContrast);
+                        return LoadThemeProfile(new TheneSource(ThemeType.HighContrast));
                     }
                     else if (Windows10Tools.IsWindows10_OrGreater)
                     {
@@ -177,11 +202,11 @@ namespace NeeView
                         switch (SystemVisualParameters.Current.Theme)
                         {
                             case SystemThemeType.Dark:
-                                themeProfile = LoadThemeProfile(ThemeType.Dark);
+                                themeProfile = LoadThemeProfile(new TheneSource(ThemeType.Dark));
                                 break;
 
                             case SystemThemeType.Light:
-                                themeProfile = LoadThemeProfile(ThemeType.Light);
+                                themeProfile = LoadThemeProfile(new TheneSource(ThemeType.Light));
                                 break;
 
                             default:
@@ -192,22 +217,20 @@ namespace NeeView
                     }
                     else
                     {
-                        return LoadThemeProfile(ThemeType.Dark);
+                        return LoadThemeProfile(new TheneSource(ThemeType.Dark));
                     }
 
                 case ThemeType.Custom:
-                    if (File.Exists(Config.Current.Theme.CustomThemeFilePath))
+                    try
                     {
-                        try
-                        {
-                            return ValidateBasedOn(ThemeProfileTools.LoadFromFile(Config.Current.Theme.CustomThemeFilePath), Path.GetDirectoryName(Config.Current.Theme.CustomThemeFilePath));
-                        }
-                        catch (Exception ex)
-                        {
-                            ToastService.Current.Show(new Toast(ex.Message, Properties.Resources.ThemeErrorDialog_Title, ToastIcon.Error));
-                        }
+                        var path = Path.Combine(Config.Current.Theme.CustomThemeFolder, themeId.FileName);
+                        return ValidateBasedOn(ThemeProfileTools.LoadFromFile(path), Path.GetDirectoryName(path));
                     }
-                    return ValidateBasedOn(ThemeProfileTools.LoadFromContent(_customThemeTemplateContentPath), Environment.AssemblyFolder);
+                    catch (Exception ex)
+                    {
+                        ToastService.Current.Show(new Toast(ex.Message, Properties.Resources.ThemeErrorDialog_Title, ToastIcon.Error));
+                    }
+                    return LoadThemeProfile(new TheneSource(ThemeType.Dark));
 
                 default:
                     throw new NotSupportedException();
@@ -224,7 +247,7 @@ namespace NeeView
             if (themeProfile.BasedOn.StartsWith(_themeProtocolHeader))
             {
                 var path = themeProfile.BasedOn.Substring(_themeProtocolHeader.Length);
-                var baseTheme = ThemeProfileTools.LoadFromContent("Themes/" + path);
+                var baseTheme = ThemeProfileTools.LoadFromContent("Libraries/Themes/" + path);
                 return ThemeProfileTools.Merge(baseTheme, themeProfile);
             }
             else
@@ -237,16 +260,17 @@ namespace NeeView
             }
         }
 
-        public void OpenCustomThemeFile()
+        public void OpenCustomThemeFolder()
         {
             try
             {
-                if (!File.Exists(Config.Current.Theme.CustomThemeFilePath))
+                var directory = new DirectoryInfo(Config.Current.Theme.CustomThemeFolder);
+                if (!directory.Exists)
                 {
-                    ThemeProfileTools.SaveFromContent(_customThemeTemplateContentPath, Config.Current.Theme.CustomThemeFilePath);
+                    directory.Create();
+                    ThemeProfileTools.SaveFromContent(_customThemeTemplateContentPath, Path.Combine(directory.FullName, "Sample.json"));
                 }
-
-                ExternalProcess.Start(Config.Current.Theme.CustomThemeFilePath, null, ExternalProcessAtrtibute.ThrowException);
+                ExternalProcess.Start("explorer.exe", $"\"{directory.FullName}\"", ExternalProcessAtrtibute.ThrowException);
             }
             catch (Exception ex)
             {
@@ -274,7 +298,7 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
-                config.Theme.ThemeType = PanelColor;
+                config.Theme.ThemeType = new TheneSource(PanelColor);
             }
         }
 

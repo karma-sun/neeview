@@ -33,13 +33,13 @@ namespace NeeView
         public const string HistoryFileName = "History.json";
         public const string BookmarkFileName = "Bookmark.json";
         public const string PagemarkFileName = "Pagemark.json";
-        public const string CustomThemeFileName = "CustomTheme.json";
+        public const string CustomThemeFolder = "Themes";
         public const string PlaylistsFolder = "Playlists";
 
         public static string DefaultHistoryFilePath => Path.Combine(Environment.LocalApplicationDataPath, HistoryFileName);
         public static string DefaultBookmarkFilePath => Path.Combine(Environment.LocalApplicationDataPath, BookmarkFileName);
         public static string DefaultPagemarkFilePath => Path.Combine(Environment.LocalApplicationDataPath, PagemarkFileName);
-        public static string DefaultCustomThemeFilePath => Path.Combine(Environment.LocalApplicationDataPath, CustomThemeFileName);
+        public static string DefaultCustomThemeFolder => Path.Combine(Environment.LocalApplicationDataPath, CustomThemeFolder);
         public static string DefaultPlaylistsFolder => Path.Combine(Environment.LocalApplicationDataPath, PlaylistsFolder);
 
 

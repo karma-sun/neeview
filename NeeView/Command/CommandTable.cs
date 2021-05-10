@@ -623,18 +623,9 @@ namespace NeeView
                 .Reverse()
                 .ToList();
 
-            var newers = new List<string>();
-
-            try
-            {
-                newers = Directory.GetFiles(Config.Current.Script.GetCurrentScriptFolder(), "*" + ScriptCommand.Extension)
-                    .Select(e => ScriptCommand.Prefix + Path.GetFileNameWithoutExtension(e))
-                    .ToList();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            var newers = CollectScripts()
+                .Select(e => ScriptCommand.Prefix + Path.GetFileNameWithoutExtension(e.Name))
+                .ToList();
 
             foreach (var name in oldies.Except(newers))
             {
@@ -668,6 +659,19 @@ namespace NeeView
             Debug.Assert(_elements.Values.GroupBy(e => e.Order).All(e => e.Count() == 1));
 
             return true;
+        }
+
+        public static FileInfo[] CollectScripts()
+        {
+            var directory = new DirectoryInfo(Config.Current.Script.ScriptFolder);
+            if (directory.Exists)
+            {
+                return directory.GetFiles("*" + ScriptCommand.Extension);
+            }
+            else
+            {
+                return new FileInfo[0];
+            }
         }
 
         public void ClearScriptCommand()

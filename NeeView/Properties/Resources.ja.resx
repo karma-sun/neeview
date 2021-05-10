@@ -7148,4 +7148,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ImportControl.Theme" xml:space="preserve">
     <value>{0} 個のカスタム テーマ</value>
   </data>
+  <data name="ImportControl.Script" xml:space="preserve">
+    <value>{0} 個のスクリプト</value>
+  </data>
 </root>

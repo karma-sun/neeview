@@ -1,13 +1,17 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
 using System.IO;
+using System.Text.Json.Serialization;
 
 namespace NeeView
 {
     public class ScriptConfig : BindableBase
     {
         private bool _isScriptFolderEnabled;
-        private string _scriptFolder = "";
+
+        [JsonInclude]
+        [JsonPropertyName(nameof(ScriptFolder))]
+        public string _scriptFolder = null;
 
 
         [PropertyMember]
@@ -17,20 +21,17 @@ namespace NeeView
             set { SetProperty(ref _isScriptFolderEnabled, value); }
         }
 
+        [JsonIgnore]
         [PropertyPath(FileDialogType = Windows.Controls.FileDialogType.Directory)]
         public string ScriptFolder
         {
-            get { return _scriptFolder; }
-            set { SetProperty(ref _scriptFolder, (string.IsNullOrEmpty(value) || value?.Trim() == GetDefaultScriptFolder()) ? "" : value); }
+            get { return _scriptFolder ?? GetDefaultScriptFolder(); }
+            set { SetProperty(ref _scriptFolder, (string.IsNullOrEmpty(value) || value.Trim() == GetDefaultScriptFolder()) ? null : value.Trim()); }
         }
 
 
         public string GetDefaultScriptFolderName() => "Scripts";
 
-        public string GetCurrentScriptFolder()
-        {
-            return string.IsNullOrEmpty(ScriptFolder) ? GetDefaultScriptFolder() : ScriptFolder;
-        }
 
         public string GetDefaultScriptFolder()
         {

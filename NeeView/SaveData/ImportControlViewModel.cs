@@ -65,5 +65,15 @@ namespace NeeView
         }
 
         public string ThemesCheckBoxContent => string.Format(Properties.Resources.ImportControl_Theme, _model.ThemeEntries.Count);
+
+        public bool ScriptsExists => _model.ScriptsExists;
+
+        public bool IsScriptsEnabled
+        {
+            get => _model.IsScriptsEnabled;
+            set => _model.IsScriptsEnabled = value;
+        }
+
+        public string ScriptsCheckBoxContent => string.Format(Properties.Resources.ImportControl_Script, _model.ScriptEntries.Count);
     }
 }

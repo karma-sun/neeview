@@ -424,7 +424,7 @@ namespace NeeView
         // スクリプトファイルの場所を開く
         public void OpenScriptsFolder()
         {
-            var path = Config.Current.Script.GetCurrentScriptFolder();
+            var path = Config.Current.Script.ScriptFolder;
 
             try
             {

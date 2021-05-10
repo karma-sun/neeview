@@ -7,21 +7,32 @@
              xmlns:properties="clr-namespace:NeeView.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400">
+    
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <Style TargetType="CheckBox" BasedOn="{StaticResource NVCheckBox}">
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
+    
     <Grid>
         <StackPanel>
             <TextBlock x:Name="FileNameTextBlock" Text="{Binding Title}" Margin="0"/>
             <StackPanel Margin="10">
-                <CheckBox x:Name="UserSettingCheckBox" Content="{x:Static properties:Resources.ImportControl_Setting}" IsEnabled="{Binding UserSettingExists}" IsChecked="{Binding IsUserSettingEnabled}"/>
-                <CheckBox x:Name="HistoryCheckBox" Content="{x:Static properties:Resources.ImportControl_History}" IsEnabled="{Binding HistoryExists}" IsChecked="{Binding IsHistoryEnabled}"/>
-                <CheckBox x:Name="BookmarkCheckBox" Content="{x:Static properties:Resources.ImportControl_Bookmark}" IsEnabled="{Binding BookmarkExists}" IsChecked="{Binding IsBookmarkEnabled}"/>
-                <CheckBox x:Name="PagemarkCheckBox" Content="{x:Static properties:Resources.ImportControl_Pagemark}" IsEnabled="{Binding PagemarkExists}" IsChecked="{Binding IsPagemarkEnabled}"
-                        Visibility="{Binding PagemarkExists, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <CheckBox x:Name="UserSettingCheckBox" Content="{x:Static properties:Resources.ImportControl_Setting}" IsEnabled="{Binding UserSettingExists}"
+                        IsChecked="{Binding IsUserSettingEnabled}" />
+                <CheckBox x:Name="HistoryCheckBox" Content="{x:Static properties:Resources.ImportControl_History}" IsEnabled="{Binding HistoryExists}" IsChecked="{Binding IsHistoryEnabled}" />
+                <CheckBox x:Name="BookmarkCheckBox" Content="{x:Static properties:Resources.ImportControl_Bookmark}" IsEnabled="{Binding BookmarkExists}" IsChecked="{Binding IsBookmarkEnabled}" />
+                <CheckBox x:Name="PagemarkCheckBox" Content="{x:Static properties:Resources.ImportControl_Pagemark}" IsEnabled="{Binding PagemarkExists}" IsChecked="{Binding IsPagemarkEnabled}" />
                 <CheckBox x:Name="PlaylistCheckBox" Content="{Binding PlaylistsCheckBoxContent}" IsEnabled="{Binding PlaylistsExists}" IsChecked="{Binding IsPlaylistsEnabled}" />
                 <CheckBox x:Name="ThemeCheckBox" Content="{Binding ThemesCheckBoxContent}" IsEnabled="{Binding ThemesExists}" IsChecked="{Binding IsThemesEnabled}" />
+                <CheckBox x:Name="ScriptCheckBox" Content="{Binding ScriptsCheckBoxContent}" IsEnabled="{Binding ScriptsExists}" IsChecked="{Binding IsScriptsEnabled}" />
                 <!--
+                Visibility="{Binding PagemarkExists, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 Visibility="{Binding PlaylistsExists, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 Visibility="{Binding ThemesExists, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 -->

@@ -20,11 +20,12 @@ namespace NeeView
         private ZipArchiveEntry _pagemarkEntryV1;
         private bool _disposedValue;
         private bool _isUserSettingEnabled = true;
-        private bool _isHistoryEnabled = true;
-        private bool _isBookmarkEnabled = true;
-        private bool _isPagemarkEnabled = true;
-        private bool _isPlaylistsEnabled = true;
-        private bool _isThemesEnabled = true;
+        private bool _isHistoryEnabled = false;
+        private bool _isBookmarkEnabled = false;
+        private bool _isPagemarkEnabled = false;
+        private bool _isPlaylistsEnabled = false;
+        private bool _isThemesEnabled = false;
+        private bool _isScriptsEnabled = false;
 
 
         public Importer(string filename)
@@ -91,6 +92,17 @@ namespace NeeView
         public List<ZipArchiveEntry> ThemeEntries { get; private set; }
 
 
+        public bool ScriptsExists { get; set; }
+
+        public bool IsScriptsEnabled
+        {
+            get => _isScriptsEnabled && ScriptsExists;
+            set => _isScriptsEnabled = value;
+        }
+
+        public List<ZipArchiveEntry> ScriptEntries { get; private set; }
+
+
         public void Initialize()
         {
             _settingEntry = _archive.GetEntry(SaveData.UserSettingFileName);
@@ -104,6 +116,7 @@ namespace NeeView
 
             this.PlaylistEntries = _archive.Entries.Where(e => e.FullName.StartsWith(@"Playlists\")).ToList();
             this.ThemeEntries = _archive.Entries.Where(e => e.FullName.StartsWith(@"Themes\")).ToList();
+            this.ScriptEntries = _archive.Entries.Where(e => e.FullName.StartsWith(@"Scripts\")).ToList();
 
             this.UserSettingExists = _settingEntry != null || _settingEntryV1 != null;
             this.HistoryExists = _historyEntry != null || _historyEntryV1 != null;
@@ -111,6 +124,7 @@ namespace NeeView
             this.PagemarkExists = _pagemarkEntry != null || _pagemarkEntryV1 != null;
             this.PlaylistsExists = PlaylistEntries.Any();
             this.ThemesExists = ThemeEntries.Any();
+            this.ScriptsExists = ScriptEntries.Any();
         }
 
         public void Import()
@@ -124,6 +138,7 @@ namespace NeeView
             ImportPagemark();
             ImportPlaylists();
             ImportThemes();
+            ImportScripts();
 
             if (recoverySettingWindow)
             {
@@ -306,6 +321,26 @@ namespace NeeView
 
             // テーマの再適用
             ThemeManager.Current.RefreshThemeColor();
+        }
+
+        public void ImportScripts()
+        {
+            if (!IsScriptsEnabled) return;
+
+            var directory = new DirectoryInfo(Config.Current.Script.ScriptFolder);
+            if (!directory.Exists)
+            {
+                directory.Create();
+            }
+
+            foreach (var entry in this.ScriptEntries)
+            {
+                var path = Path.Combine(directory.FullName, entry.Name);
+                entry.ExtractToFile(path, true);
+            }
+
+            // スクリプトの再適用
+            CommandTable.Current.UpdateScriptCommand();
         }
 
         protected virtual void Dispose(bool disposing)

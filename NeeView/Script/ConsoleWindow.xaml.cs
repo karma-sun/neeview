@@ -41,7 +41,7 @@ namespace NeeView
             var host = new CommandHost(this, CommandTable.Current, ConfigMap.Current);
 
             _engine = new JavascriptEngine(host);
-            _engine.CurrentPath = Config.Current.Script.GetCurrentScriptFolder();
+            _engine.CurrentPath = Config.Current.Script.ScriptFolder;
             _engine.LogAction = e => Output?.Invoke(this, new ConsoleHostOutputEventArgs(ToJavascriptString(e)));
 
             var wordTreeRoot = new WordNode()

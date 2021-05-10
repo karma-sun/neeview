@@ -35,12 +35,14 @@ namespace NeeView
         public const string PagemarkFileName = "Pagemark.json";
         public const string CustomThemeFolder = "Themes";
         public const string PlaylistsFolder = "Playlists";
+        public const string ScriptsFolder = "Scripts";
 
         public static string DefaultHistoryFilePath => Path.Combine(Environment.LocalApplicationDataPath, HistoryFileName);
         public static string DefaultBookmarkFilePath => Path.Combine(Environment.LocalApplicationDataPath, BookmarkFileName);
         public static string DefaultPagemarkFilePath => Path.Combine(Environment.LocalApplicationDataPath, PagemarkFileName);
         public static string DefaultCustomThemeFolder => Path.Combine(Environment.LocalApplicationDataPath, CustomThemeFolder);
         public static string DefaultPlaylistsFolder => Path.Combine(Environment.LocalApplicationDataPath, PlaylistsFolder);
+        public static string DefaultScriptsFolder => Path.Combine(Environment.LocalApplicationDataPath, ScriptsFolder);
 
 
         public string UserSettingFilePath => App.Current.Option.SettingFilename;

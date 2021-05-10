@@ -2241,3 +2241,4 @@ ImportControl.Playlist={0} playlists
 SettingPage.Window.Theme.OpenCustomThemeFolder=Open custom theme folder
 ThemeConfig.CustomThemeFolder=Custom theme folder
 ImportControl.Theme={0} custom themes
+ImportControl.Script={0} scripts

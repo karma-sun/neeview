@@ -44,7 +44,7 @@ namespace NeeView
 
         public string GetScriptFileName()
         {
-            return Path.Combine(Config.Current.Script.GetCurrentScriptFolder(), _scriptName + Extension);
+            return Path.Combine(Config.Current.Script.ScriptFolder, _scriptName + Extension);
         }
 
         public void LoadDocComment()

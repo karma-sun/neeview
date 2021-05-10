@@ -7205,6 +7205,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   {0} scripts に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImportControl_Script {
+            get {
+                return ResourceManager.GetString("ImportControl.Script", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Setting に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ImportControl_Setting {

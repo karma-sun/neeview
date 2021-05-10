@@ -43,6 +43,14 @@ namespace NeeView
                             archive.CreateEntryFromFile(theme.FullName, LoosePath.Combine("Themes", theme.FileName));
                         }
                     }
+                    var scripts = CommandTable.CollectScripts();
+                    if (scripts.Any())
+                    {
+                        foreach (var script in scripts)
+                        {
+                            archive.CreateEntryFromFile(script.FullName, LoosePath.Combine("Scripts", script.Name));
+                        }
+                    }
                 }
             }
             catch (Exception)

@@ -2241,3 +2241,4 @@ ImportControl.Playlist={0} 個のプレイリスト
 SettingPage.Window.Theme.OpenCustomThemeFolder=カスタム テーマ フォルダーを開く
 ThemeConfig.CustomThemeFolder=カスタム テーマ フォルダーの場所
 ImportControl.Theme={0} 個のカスタム テーマ
+ImportControl.Script={0} 個のスクリプト

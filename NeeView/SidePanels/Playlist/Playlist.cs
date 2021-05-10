@@ -127,6 +127,7 @@ namespace NeeView
             set => Config.Current.Playlist.PanelListItemStyle = value;
         }
 
+        public string ErrorMessage { get; private set; }
 
 
         private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -567,32 +568,34 @@ namespace NeeView
 
         public static Playlist Load(string path)
         {
-            if (string.IsNullOrEmpty(path))
+            try
             {
-                return new Playlist();
-            }
-
-            var file = new FileInfo(path);
-
-            if (file.Exists)
-            {
-                var playlistFile = LoadPlaylist(path);
-                if (playlistFile != null)
+                var file = new FileInfo(path);
+                if (file.Exists)
                 {
-                    var playlist = new Playlist(path, playlistFile);
-                    playlist.IsEditable = !file.Attributes.HasFlag(FileAttributes.ReadOnly);
-                    return playlist;
+                    var playlistFile = LoadPlaylist(path);
+                    if (playlistFile != null)
+                    {
+                        var playlist = new Playlist(path, playlistFile);
+                        playlist.IsEditable = !file.Attributes.HasFlag(FileAttributes.ReadOnly);
+                        return playlist;
+                    }
+                    else
+                    {
+                        return new Playlist();
+                    }
                 }
                 else
                 {
-                    return new Playlist();
+                    var playlist = new Playlist(path, new PlaylistSource());
+                    playlist.IsDarty = true;
+                    return playlist;
                 }
             }
-            else
+            catch (Exception ex)
             {
-                var playlist = new Playlist(path, new PlaylistSource());
-                playlist.IsDarty = true;
-                return playlist;
+                Debug.WriteLine(ex.Message);
+                return new Playlist() { ErrorMessage = ex.Message };
             }
         }
 

@@ -64,7 +64,7 @@ namespace NeeView
 
 
         public string DefaultPlaylist => Config.Current.Playlist.DefaultPlaylist;
-        public string NewPlaylist => Path.Combine(Config.Current.Playlist.PlaylistFolder, "NewPlaylist.nvpls");
+        public string NewPlaylist => string.IsNullOrEmpty(Config.Current.Playlist.PlaylistFolder) ? "" : Path.Combine(Config.Current.Playlist.PlaylistFolder, "NewPlaylist.nvpls");
 
         public List<object> PlaylistFiles
         {
@@ -149,50 +149,51 @@ namespace NeeView
 
         public static List<FileInfo> GetPlaylistFiles()
         {
-            var directory = new DirectoryInfo(System.IO.Path.GetFullPath(Config.Current.Playlist.PlaylistFolder));
-            if (directory.Exists)
+            if (!string.IsNullOrEmpty(Config.Current.Playlist.PlaylistFolder))
             {
-                return directory.GetFiles("*.nvpls").ToList();
+                try
+                {
+                    var directory = new DirectoryInfo(System.IO.Path.GetFullPath(Config.Current.Playlist.PlaylistFolder));
+                    if (directory.Exists)
+                    {
+                        return directory.GetFiles("*.nvpls").ToList();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
             }
             return new List<FileInfo>();
         }
 
         public void UpdatePlaylistCollection()
         {
+            _playlistLockCount++;
+            var selectedItem = this.SelectedItem;
             try
             {
-                _playlistLockCount++;
-                var selectedItem = this.SelectedItem;
-
-                var list = GetPlaylistFiles().Select(e => e.FullName).ToList();
-
-                if (!list.Contains(DefaultPlaylist))
-                {
-                    list.Add(DefaultPlaylist);
-                }
-
-                if (this.SelectedItem != null && !list.Any(e => e == this.SelectedItem))
-                {
-                    list.Add(this.SelectedItem);
-                }
-
-                var groups = list.GroupBy(e => Path.GetDirectoryName(e) == Config.Current.Playlist.PlaylistFolder);
-                var normals = groups.FirstOrDefault(e => e.Key == true)?.OrderBy(e => e != DefaultPlaylist).ThenBy(e => e, NaturalSort.Comparer);
-                var externals = groups.FirstOrDefault(e => e.Key == false)?.OrderBy(e => e, NaturalSort.Comparer);
-
                 var items = new List<object>();
-                items.AddRange(normals);
-                if (externals != null)
+                items.Add(DefaultPlaylist);
+
+                var list = GetPlaylistFiles()
+                    .Select(e => e.FullName)
+                    .Where(e => e != DefaultPlaylist)
+                    .OrderBy(e => e, NaturalSort.Comparer);
+
+                items.AddRange(list);
+
+                if (selectedItem != null && !items.Any(e => selectedItem.Equals(e)))
                 {
                     items.Add(new Separator());
-                    items.AddRange(externals);
+                    items.Add(selectedItem);
                 }
 
                 this.PlaylistFiles = items;
-                this.SelectedItem = selectedItem;
             }
             finally
             {
+                this.SelectedItem = selectedItem;
                 _playlistLockCount--;
             }
         }
@@ -244,6 +245,12 @@ namespace NeeView
 
         public void CreateNew()
         {
+            if (string.IsNullOrEmpty(NewPlaylist))
+            {
+                new MessageDialog(Properties.Resources.PlaylistErrorDialog_FolderIsNotSet, Properties.Resources.Word_Error).ShowDialog();
+                return;
+            }
+
             var newPath = FileIO.CreateUniquePath(NewPlaylist);
             SelectedItem = newPath;
         }

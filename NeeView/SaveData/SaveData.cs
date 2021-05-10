@@ -41,7 +41,7 @@ namespace NeeView
         public static string DefaultBookmarkFilePath => Path.Combine(Environment.LocalApplicationDataPath, BookmarkFileName);
         public static string DefaultPagemarkFilePath => Path.Combine(Environment.LocalApplicationDataPath, PagemarkFileName);
         public static string DefaultCustomThemeFolder => Environment.GetUserDataPath(CustomThemeFolder);
-        public static string DefaultPlaylistsFolder => Path.Combine(Environment.LocalApplicationDataPath, PlaylistsFolder);
+        public static string DefaultPlaylistsFolder => Environment.GetUserDataPath(PlaylistsFolder);
         public static string DefaultScriptsFolder => Environment.GetUserDataPath(ScriptsFolder);
 
 

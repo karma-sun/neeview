@@ -7160,4 +7160,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ThemeErrorDialog.FolderIsNotSet" xml:space="preserve">
     <value>フォルダーが設定されていません。</value>
   </data>
+  <data name="PlaylistErrorDialog.FolderIsNotSet" xml:space="preserve">
+    <value>フォルダーが設定されていません。</value>
+  </data>
 </root>

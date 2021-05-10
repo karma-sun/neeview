@@ -97,6 +97,8 @@ namespace NeeView
             set { IsFirstIn = !value; }
         }
 
+        public string ErrorMessage => _model.ErrorMessage;
+
 
         private void UpdateIsFirstIn()
         {

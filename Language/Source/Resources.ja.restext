@@ -2245,3 +2245,4 @@ ImportControl.Script={0} 個のスクリプト
 OpenScriptsFolderErrorDialog.FolderIsNotSet=フォルダーが設定されていません。
 SettingPage.Script.OpenScriptFolder=スクリプト フォルダーを開く
 ThemeErrorDialog.FolderIsNotSet=フォルダーが設定されていません。
+PlaylistErrorDialog.FolderIsNotSet=フォルダーが設定されていません。

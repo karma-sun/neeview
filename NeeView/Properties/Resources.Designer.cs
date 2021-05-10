@@ -12218,6 +12218,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Folder is not set. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PlaylistErrorDialog_FolderIsNotSet {
+            get {
+                return ResourceManager.GetString("PlaylistErrorDialog.FolderIsNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   _Delete に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string PlaylistItem_Menu_Delete {

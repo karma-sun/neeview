@@ -277,6 +277,11 @@ namespace NeeView
 
             if (pagemark != null)
             {
+                if (string.IsNullOrEmpty(Config.Current.Playlist.PagemarkPlaylist))
+                {
+                    return;
+                }
+
                 PagemarkToPlaylistConverter.SavePagemarkPlaylist(pagemark);
 
                 if (PlaylistHub.Current.SelectedItem == Config.Current.Playlist.DefaultPlaylist && PlaylistHub.Current.Playlist.Items?.Any() != true)
@@ -289,6 +294,11 @@ namespace NeeView
         public void ImportPlaylists()
         {
             if (!IsPlaylistsEnabled) return;
+
+            if (string.IsNullOrEmpty(Config.Current.Playlist.PlaylistFolder))
+            {
+                return;
+            }
 
             var directory = new DirectoryInfo(Config.Current.Playlist.PlaylistFolder);
             if (!directory.Exists)

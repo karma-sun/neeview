@@ -234,7 +234,10 @@
             </nw:ListBoxExtended>
 
             <Border Background="Transparent" Visibility="{Binding Items, Converter={StaticResource NullableToVisibilityInverseConverter}}" d:IsHidden="True">
-                <TextBlock Text="{x:Static properties:Resources.Playlist_FailedToLoad}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20" />
+                <StackPanel VerticalAlignment="Top" Margin="0,20">
+                    <TextBlock Text="{x:Static properties:Resources.Playlist_FailedToLoad}" HorizontalAlignment="Center" Margin="0,5" />
+                    <TextBlock Text="{Binding ErrorMessage}" HorizontalAlignment="Center" Margin="0,5" />
+                </StackPanel>
             </Border>
         </Grid>
     </DockPanel>

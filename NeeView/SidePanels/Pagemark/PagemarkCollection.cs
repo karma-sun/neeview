@@ -358,6 +358,12 @@ namespace NeeView
         public static void PagemarkToPlaylist()
         {
             var path = Config.Current.Playlist.PagemarkPlaylist;
+
+            if (string.IsNullOrEmpty(path))
+            {
+                return;
+            }
+
             if (File.Exists(path))
             {
                 return;
@@ -372,7 +378,7 @@ namespace NeeView
 
             SavePagemarkPlaylist(result.pagemark);
 
-            Config.Current.Playlist.CurrentPlaylist = Config.Current.Playlist.PagemarkPlaylist;
+            Config.Current.Playlist.CurrentPlaylist = path;
 
             // remove
             FileIO.RemoveFile(result.path);
@@ -381,6 +387,11 @@ namespace NeeView
 
         public static void SavePagemarkPlaylist(PagemarkCollection.Memento pagemark)
         {
+            if (string.IsNullOrEmpty(Config.Current.Playlist.PagemarkPlaylist))
+            {
+                return;
+            }
+
             // convert
             var playlistSource = ConvertToPlaylist(pagemark);
 

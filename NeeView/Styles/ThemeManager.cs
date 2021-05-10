@@ -97,15 +97,23 @@ namespace NeeView
 
         public static List<TheneSource> CollectCustomThemes()
         {
-            var directory = new DirectoryInfo(Config.Current.Theme.CustomThemeFolder);
-            if (directory.Exists)
+            if (!string.IsNullOrEmpty(Config.Current.Theme.CustomThemeFolder))
             {
-                return directory.GetFiles("*.json").Select(e => new TheneSource(ThemeType.Custom, e.Name)).ToList();
+                try
+                {
+                    var directory = new DirectoryInfo(Config.Current.Theme.CustomThemeFolder);
+                    if (directory.Exists)
+                    {
+                        return directory.GetFiles("*.json").Select(e => new TheneSource(ThemeType.Custom, e.Name)).ToList();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
             }
-            else
-            {
-                return new List<TheneSource>();
-            }
+
+            return new List<TheneSource>();
         }
 
         public void Touch()
@@ -221,14 +229,21 @@ namespace NeeView
                     }
 
                 case ThemeType.Custom:
-                    try
+                    if (string.IsNullOrEmpty(Config.Current.Theme.CustomThemeFolder))
                     {
-                        var path = Path.Combine(Config.Current.Theme.CustomThemeFolder, themeId.FileName);
-                        return ValidateBasedOn(ThemeProfileTools.LoadFromFile(path), Path.GetDirectoryName(path));
+                        ToastService.Current.Show(new Toast(Properties.Resources.ThemeErrorDialog_FolderIsNotSet, Properties.Resources.ThemeErrorDialog_Title, ToastIcon.Error));
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        ToastService.Current.Show(new Toast(ex.Message, Properties.Resources.ThemeErrorDialog_Title, ToastIcon.Error));
+                        try
+                        {
+                            var path = Path.Combine(Config.Current.Theme.CustomThemeFolder, themeId.FileName);
+                            return ValidateBasedOn(ThemeProfileTools.LoadFromFile(path), Path.GetDirectoryName(path));
+                        }
+                        catch (Exception ex)
+                        {
+                            ToastService.Current.Show(new Toast(ex.Message, Properties.Resources.ThemeErrorDialog_Title, ToastIcon.Error));
+                        }
                     }
                     return LoadThemeProfile(new TheneSource(ThemeType.Dark));
 
@@ -262,6 +277,12 @@ namespace NeeView
 
         public void OpenCustomThemeFolder()
         {
+            if (string.IsNullOrEmpty(Config.Current.Theme.CustomThemeFolder))
+            {
+                new MessageDialog(Properties.Resources.ThemeErrorDialog_FolderIsNotSet, Properties.Resources.Word_Error).ShowDialog();
+                return;
+            }
+
             try
             {
                 var directory = new DirectoryInfo(Config.Current.Theme.CustomThemeFolder);
@@ -274,7 +295,7 @@ namespace NeeView
             }
             catch (Exception ex)
             {
-                new MessageDialog(ex.Message, Properties.Resources.Word_Error);
+                new MessageDialog(ex.Message, Properties.Resources.Word_Error).ShowDialog();
             }
         }
 

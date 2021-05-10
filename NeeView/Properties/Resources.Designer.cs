@@ -15938,6 +15938,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Folder is not set. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ThemeErrorDialog_FolderIsNotSet {
+            get {
+                return ResourceManager.GetString("ThemeErrorDialog.FolderIsNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Theme error に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ThemeErrorDialog_Title {

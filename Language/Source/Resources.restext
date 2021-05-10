@@ -2244,3 +2244,4 @@ ImportControl.Theme={0} custom themes
 ImportControl.Script={0} scripts
 OpenScriptsFolderErrorDialog.FolderIsNotSet=Folder is not set.
 SettingPage.Script.OpenScriptFolder=Open script folder
+ThemeErrorDialog.FolderIsNotSet=Folder is not set.

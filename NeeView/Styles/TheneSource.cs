@@ -33,7 +33,7 @@ namespace NeeView
 
         public string FileName { get; private set; }
 
-        public string FullName => (Type == ThemeType.Custom) ? Path.Combine(Config.Current.Theme.CustomThemeFolder, this.FileName) : null;
+        public string FullName => (Type == ThemeType.Custom && !string.IsNullOrEmpty(Config.Current.Theme.CustomThemeFolder)) ? Path.Combine(Config.Current.Theme.CustomThemeFolder, this.FileName) : null;
 
 
         public override string ToString()

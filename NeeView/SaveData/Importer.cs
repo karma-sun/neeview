@@ -307,6 +307,11 @@ namespace NeeView
         {
             if (!IsThemesEnabled) return;
 
+            if (string.IsNullOrEmpty(Config.Current.Theme.CustomThemeFolder))
+            {
+                return;
+            }
+
             var directory = new DirectoryInfo(Config.Current.Theme.CustomThemeFolder);
             if (!directory.Exists)
             {

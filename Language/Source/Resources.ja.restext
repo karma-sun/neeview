@@ -2242,3 +2242,5 @@ SettingPage.Window.Theme.OpenCustomThemeFolder=カスタム テーマ フォル�
 ThemeConfig.CustomThemeFolder=カスタム テーマ フォルダーの場所
 ImportControl.Theme={0} 個のカスタム テーマ
 ImportControl.Script={0} 個のスクリプト
+OpenScriptsFolderErrorDialog.FolderIsNotSet=フォルダーが設定されていません。
+SettingPage.Script.OpenScriptFolder=スクリプト フォルダーを開く

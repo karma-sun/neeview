@@ -8,16 +8,16 @@ namespace NeeView
 {
     public class ScriptUnit
     {
-        private ScriptUnitManager _manager;
+        private ScriptUnitPool _pool;
 
         private Task _task;
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
-        public ScriptUnit(ScriptUnitManager manager)
+        public ScriptUnit(ScriptUnitPool pool)
         {
-            if (manager is null) throw new ArgumentNullException();
+            if (pool is null) throw new ArgumentNullException();
 
-            _manager = manager;
+            _pool = pool;
         }
 
         public void Execute(object sender, string path)
@@ -51,7 +51,7 @@ namespace NeeView
             finally
             {
                 CommandTable.Current.FlushInputGesture();
-                _manager.Remove(this);
+                _pool.Remove(this);
                 ////Debug.WriteLine($"Script.{path} done.");
             }
 

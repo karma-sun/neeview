@@ -2242,3 +2242,5 @@ SettingPage.Window.Theme.OpenCustomThemeFolder=Open custom theme folder
 ThemeConfig.CustomThemeFolder=Custom theme folder
 ImportControl.Theme={0} custom themes
 ImportControl.Script={0} scripts
+OpenScriptsFolderErrorDialog.FolderIsNotSet=Folder is not set.
+SettingPage.Script.OpenScriptFolder=Open script folder

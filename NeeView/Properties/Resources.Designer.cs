@@ -10740,6 +10740,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Folder is not set. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OpenScriptsFolderErrorDialog_FolderIsNotSet {
+            get {
+                return ResourceManager.GetString("OpenScriptsFolderErrorDialog.FolderIsNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cannot open scripts folder に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string OpenScriptsFolderErrorDialog_Title {
@@ -14761,6 +14770,15 @@ namespace NeeView.Properties {
         public static string SettingPage_Script {
             get {
                 return ResourceManager.GetString("SettingPage.Script", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open script folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPage_Script_OpenScriptFolder {
+            get {
+                return ResourceManager.GetString("SettingPage.Script.OpenScriptFolder", resourceCulture);
             }
         }
         

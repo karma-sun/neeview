@@ -327,6 +327,11 @@ namespace NeeView
         {
             if (!IsScriptsEnabled) return;
 
+            if (string.IsNullOrEmpty(Config.Current.Script.ScriptFolder))
+            {
+                return;
+            }
+
             var directory = new DirectoryInfo(Config.Current.Script.ScriptFolder);
             if (!directory.Exists)
             {
@@ -340,7 +345,7 @@ namespace NeeView
             }
 
             // スクリプトの再適用
-            CommandTable.Current.UpdateScriptCommand();
+            CommandTable.Current.ScriptManager.UpdateScriptCommands(isForce: true, isReplace: false);
         }
 
         protected virtual void Dispose(bool disposing)

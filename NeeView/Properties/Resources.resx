@@ -7146,4 +7146,10 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ImportControl.Script" xml:space="preserve">
     <value>{0} scripts</value>
   </data>
+  <data name="OpenScriptsFolderErrorDialog.FolderIsNotSet" xml:space="preserve">
+    <value>Folder is not set.</value>
+  </data>
+  <data name="SettingPage.Script.OpenScriptFolder" xml:space="preserve">
+    <value>Open script folder</value>
+  </data>
 </root>

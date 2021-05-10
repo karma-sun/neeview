@@ -50,20 +50,15 @@ namespace NeeView
 
 
         private Dictionary<string, CommandElement> _elements;
-        private bool _isScriptFolderDarty = true;
-
-        private ScriptUnitManager _scriptUnitManager = new ScriptUnitManager();
 
 
         private CommandTable()
         {
             InitializeCommandTable();
-            CreateDefaultScriptFolder();
+
+            this.ScriptManager = new ScriptManager(this);
 
             Changed += CommandTable_Changed;
-
-            Config.Current.Script.AddPropertyChanged(nameof(ScriptConfig.IsScriptFolderEnabled), ScriptConfigChanged);
-            Config.Current.Script.AddPropertyChanged(nameof(ScriptConfig.ScriptFolder), ScriptConfigChanged);
         }
 
 
@@ -72,6 +67,8 @@ namespace NeeView
         /// </summary>
         public event EventHandler<CommandChangedEventArgs> Changed;
 
+
+        public ScriptManager ScriptManager { get; private set; }
 
         public CommandCollection DefaultMemento { get; private set; }
 
@@ -571,60 +568,28 @@ namespace NeeView
 
         #region Scripts
 
-        private void ScriptConfigChanged(object sender, PropertyChangedEventArgs e)
+
+        public void SetScriptCommands(IEnumerable<ScriptCommand> commands, bool isReplace)
         {
-            _isScriptFolderDarty = true;
-            CreateDefaultScriptFolder();
-            UpdateScriptCommand();
-            Changed?.Invoke(this, new CommandChangedEventArgs(false));
-        }
+            commands = commands ?? new List<ScriptCommand>();
 
-        public void CreateDefaultScriptFolder()
-        {
-            if (!Config.Current.Script.IsScriptFolderEnabled) return;
-            if (!string.IsNullOrEmpty(Config.Current.Script.ScriptFolder)) return;
-
-            try
-            {
-                var path = Config.Current.Script.GetDefaultScriptFolder();
-                if (!string.IsNullOrEmpty(path) && !Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-
-                    // サンプルスクリプトを生成
-                    var filename = "Sample.nvjs";
-                    var source = Path.Combine(Environment.AssemblyFolder, Config.Current.Script.GetDefaultScriptFolderName(), filename);
-                    if (File.Exists(source))
-                    {
-                        File.Copy(source, Path.Combine(path, filename));
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                ToastService.Current.Show(new Toast(ex.Message, "Warning", ToastIcon.Warning));
-            }
-        }
-
-        public bool UpdateScriptCommand()
-        {
-            if (!_isScriptFolderDarty) return false;
-            _isScriptFolderDarty = false;
-
-            if (!Config.Current.Script.IsScriptFolderEnabled)
-            {
-                ClearScriptCommand();
-                return true;
-            }
+            var map = commands.ToDictionary(e => e.Name);
 
             var oldies = _elements.Keys
                 .Where(e => e.StartsWith(ScriptCommand.Prefix))
                 .Reverse()
                 .ToList();
 
-            var newers = CollectScripts()
-                .Select(e => ScriptCommand.Prefix + Path.GetFileNameWithoutExtension(e.Name))
+            if (isReplace)
+            {
+                foreach (var name in oldies)
+                {
+                    _elements.Remove(name);
+                }
+                oldies = new List<string>();
+            }
+
+            var newers = commands.Select(e => e.Name)
                 .ToList();
 
             foreach (var name in oldies.Except(newers))
@@ -634,18 +599,7 @@ namespace NeeView
 
             foreach (var name in newers.Except(oldies))
             {
-                var command = new ScriptCommand(name);
-
-                try
-                {
-                    command.LoadDocComment();
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message);
-                }
-
-                _elements.Add(name, command);
+                _elements.Add(name, map[name]);
             }
 
             // re order
@@ -657,50 +611,11 @@ namespace NeeView
             }
 
             Debug.Assert(_elements.Values.GroupBy(e => e.Order).All(e => e.Count() == 1));
-
-            return true;
-        }
-
-        public static FileInfo[] CollectScripts()
-        {
-            var directory = new DirectoryInfo(Config.Current.Script.ScriptFolder);
-            if (directory.Exists)
-            {
-                return directory.GetFiles("*" + ScriptCommand.Extension);
-            }
-            else
-            {
-                return new FileInfo[0];
-            }
-        }
-
-        public void ClearScriptCommand()
-        {
-            var oldies = _elements.Keys
-                .Where(e => e.StartsWith(ScriptCommand.Prefix))
-                .Reverse()
-                .ToList();
-
-            foreach (var name in oldies)
-            {
-                _elements.Remove(name);
-            }
-
-            _isScriptFolderDarty = true;
-        }
-
-
-        public void ExecuteScript(object sender, string path)
-        {
-            _scriptUnitManager.Run(sender, path);
-        }
-
-        public void CancelScript()
-        {
-            _scriptUnitManager.CancelAll();
+            Changed?.Invoke(this, new CommandChangedEventArgs(false));
         }
 
         #endregion Scripts
+
 
         #region Memento
 
@@ -969,7 +884,7 @@ namespace NeeView
         {
             if (collection == null) return;
 
-            UpdateScriptCommand();
+            this.ScriptManager.UpdateScriptCommands(isForce: false, isReplace: false);
 
             foreach (var pair in collection)
             {
@@ -1005,5 +920,4 @@ namespace NeeView
         }
 
     }
-
 }

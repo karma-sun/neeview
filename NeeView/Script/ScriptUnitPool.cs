@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NeeView
 {
-    public class ScriptUnitManager
+    public class ScriptUnitPool
     {
         private List<ScriptUnit> _units = new List<ScriptUnit>();
         private object _lock = new object();

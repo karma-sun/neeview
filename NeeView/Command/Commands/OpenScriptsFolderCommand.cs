@@ -15,7 +15,7 @@
 
         public override void Execute(object sender, CommandContext e)
         {
-            MainWindowModel.Current.OpenScriptsFolder();
+            CommandTable.Current.ScriptManager.OpenScriptsFolder();
         }
     }
 }

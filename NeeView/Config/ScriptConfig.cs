@@ -25,25 +25,8 @@ namespace NeeView
         [PropertyPath(FileDialogType = Windows.Controls.FileDialogType.Directory)]
         public string ScriptFolder
         {
-            get { return _scriptFolder ?? GetDefaultScriptFolder(); }
-            set { SetProperty(ref _scriptFolder, (string.IsNullOrEmpty(value) || value.Trim() == GetDefaultScriptFolder()) ? null : value.Trim()); }
-        }
-
-
-        public string GetDefaultScriptFolderName() => "Scripts";
-
-
-        public string GetDefaultScriptFolder()
-        {
-            if (Environment.IsZipLikePackage)
-            {
-                return Path.Combine(Environment.LocalApplicationDataPath, GetDefaultScriptFolderName());
-            }
-            else
-            {
-                var myDocument = Environment.GetMyDocumentPath();
-                return string.IsNullOrEmpty(myDocument) ? "" : Path.Combine(myDocument, GetDefaultScriptFolderName());
-            }
+            get { return _scriptFolder ?? SaveData.DefaultScriptsFolder; }
+            set { SetProperty(ref _scriptFolder, (string.IsNullOrEmpty(value) || value.Trim() == SaveData.DefaultScriptsFolder) ? null : value.Trim()); }
         }
     }
 }

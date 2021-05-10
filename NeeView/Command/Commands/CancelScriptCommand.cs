@@ -10,7 +10,7 @@
 
         public override void Execute(object sender, CommandContext e)
         {
-            CommandTable.Current.CancelScript();
+            CommandTable.Current.ScriptManager.CancelAll();
         }
     }
 }

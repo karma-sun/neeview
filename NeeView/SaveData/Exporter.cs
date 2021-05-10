@@ -43,7 +43,7 @@ namespace NeeView
                             archive.CreateEntryFromFile(theme.FullName, LoosePath.Combine("Themes", theme.FileName));
                         }
                     }
-                    var scripts = CommandTable.CollectScripts();
+                    var scripts = ScriptManager.CollectScripts();
                     if (scripts.Any())
                     {
                         foreach (var script in scripts)

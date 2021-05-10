@@ -275,7 +275,7 @@ namespace NeeView
             // 起動時スクリプトの実行
             if (!string.IsNullOrWhiteSpace(App.Current.Option.ScriptFile))
             {
-                CommandTable.Current.ExecuteScript(this, App.Current.Option.ScriptFile);
+                CommandTable.Current.ScriptManager.Execute(this, App.Current.Option.ScriptFile);
             }
         }
 
@@ -421,21 +421,6 @@ namespace NeeView
             ExternalProcess.Start("explorer.exe", $"\"{Environment.LocalApplicationDataPath}\"");
         }
 
-        // スクリプトファイルの場所を開く
-        public void OpenScriptsFolder()
-        {
-            var path = Config.Current.Script.ScriptFolder;
-
-            try
-            {
-                ExternalProcess.Start("explorer.exe", $"\"{path}\"", ExternalProcessAtrtibute.ThrowException);
-            }
-            catch (Exception ex)
-            {
-                new MessageDialog(ex.Message, Resources.OpenScriptsFolderErrorDialog_Title).ShowDialog();
-            }
-        }
-
         // オンラインヘルプ
         public void OpenOnlineHelp()
         {
@@ -510,7 +495,7 @@ namespace NeeView
         }
 
 
-        #region Memento
+#region Memento
 
         [DataContract]
         public class Memento : IMemento
@@ -579,7 +564,7 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
     }
 
 }

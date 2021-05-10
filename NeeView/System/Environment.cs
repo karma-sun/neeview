@@ -130,7 +130,7 @@ namespace NeeView
         public static int ProductVersionNumber { get; private set; }
 
         /// <summary>
-        /// ユーザデータフォルダー
+        /// アプリケーションデータフォルダー
         /// </summary>
         public static string LocalApplicationDataPath
         {
@@ -152,6 +152,37 @@ namespace NeeView
                 return _localApplicationDataPath;
             }
         }
+
+
+        private static string _userDataPath;
+
+        /// <summary>
+        /// ユーザーデータフォルダー
+        /// </summary>
+        public static string UserDataPath
+        {
+            get
+            {
+                if (_userDataPath == null)
+                {
+#if true
+                    if (IsUseLocalApplicationDataFolder)
+                    {
+                        _userDataPath = GetMyDocumentPath();
+                    }
+                    else
+                    {
+                        _userDataPath = AssemblyFolder;
+                    }
+#else
+                    // [開発用] ## マイドキュメントが取得できないときの挙動検証用
+                    _userDataPath = "";
+#endif
+                }
+                return _userDataPath;
+            }
+        }
+
 
         /// <summary>
         /// ライブラリーパス
@@ -348,11 +379,28 @@ namespace NeeView
         /// <summary>
         /// マイドキュメントのアプリ専用フォルダー
         /// </summary>
-        /// <returns>マイドキュメントのパス。取得できないときは空文字列</returns>
+        /// <returns>マイドキュメントのパス。取得できないときは空文字</returns>
         public static string GetMyDocumentPath()
         {
             var myDocuments = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
             return string.IsNullOrEmpty(myDocuments) ? "" : System.IO.Path.Combine(myDocuments, CompanyName, SolutionName);
+        }
+
+        /// <summary>
+        /// データフォルダーを取得する
+        /// </summary>
+        /// <param name="name">フォルダー名</param>
+        /// <returns>フルパス。取得できない場合はEmptyを返す</returns>
+        public static string GetUserDataPath(string name)
+        {
+            if (string.IsNullOrEmpty(UserDataPath))
+            {
+                return "";
+            }
+            else
+            {
+                return Path.Combine(UserDataPath, name);
+            }
         }
 
         /// <summary>

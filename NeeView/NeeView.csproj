@@ -62,6 +62,7 @@
     <None Remove="Libraries\Themes\DarkMonochromeTheme.json" />
     <None Remove="Libraries\Themes\HighContrastTheme.json" />
     <None Remove="Libraries\Themes\LightMonochromeTheme.json" />
+    <None Remove="Resources\Scripts\Sample.nvjs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -133,6 +134,7 @@
     <Resource Include="Resources\SplashScreen.png" />
     <Resource Include="Resources\Media.png" />
     <Resource Include="Resources\Empty.png" />
+    <Resource Include="Resources\Scripts\Sample.nvjs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -174,12 +176,6 @@
     <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <None Update="Scripts\OnBookLoaded.nvjs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Scripts\Sample.nvjs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

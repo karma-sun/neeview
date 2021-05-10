@@ -39,7 +39,7 @@ namespace NeeView
 
         public override void Execute(object sender, CommandContext e)
         {
-            CommandTable.Current.ExecuteScript(sender, Path.Combine(GetScriptFileName()));
+            CommandTable.Current.ScriptManager.Execute(sender, Path.Combine(GetScriptFileName()));
         }
 
         public string GetScriptFileName()

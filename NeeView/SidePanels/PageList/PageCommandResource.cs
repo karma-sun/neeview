@@ -115,7 +115,15 @@ namespace NeeView
             var item = GetSelectedPage(sender);
             if (item != null)
             {
-                var path = item.EntryFullName;
+                string path;
+                if (FileIO.Exists(item.EntryFullName))
+                {
+                    path = item.EntryFullName;
+                }
+                else
+                {
+                    path = ArchiveEntryUtility.GetExistEntryName(item.SystemPath);
+                }
                 ExternalProcess.Start("explorer.exe", "/select,\"" + path + "\"");
             }
         }

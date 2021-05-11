@@ -182,14 +182,18 @@ namespace NeeView
 
         private void ViewModel_SelectedIdexChanged(object sender, PropertyChangedEventArgs e)
         {
-            AppDispatcher.BeginInvoke(() => ScrollIntoViewSelectedItem());
+            if (!this.IsVisible) return;
+
+            AppDispatcher.BeginInvoke(() => DartyThumbnailList());
         }
 
         private void ViewModel_ViewItemsChanged(object sender, ViewItemsChangedEventArgs e)
         {
+            if (!this.IsVisible) return;
+
             UpdateViewItems(e.ViewItems, e.Direction);
 
-            AppDispatcher.BeginInvoke(() => DartyThumbnailList());
+            ////AppDispatcher.BeginInvoke(() => DartyThumbnailList());
         }
 
         private void UpdateViewItems(List<Page> items, int direction)

@@ -199,6 +199,10 @@ namespace NeeView
                 return this;
             }
 
+            public bool IsEmpty()
+            {
+                return (Nodes.Children is null || Nodes.Children.Count == 0);
+            }
 
             #region Legacy
 
@@ -376,9 +380,11 @@ namespace NeeView
                 return;
             }
 
-            SavePagemarkPlaylist(result.pagemark);
-
-            Config.Current.Playlist.CurrentPlaylist = path;
+            if (!result.pagemark.IsEmpty())
+            {
+                SavePagemarkPlaylist(result.pagemark);
+                Config.Current.Playlist.CurrentPlaylist = path;
+            }
 
             // remove
             FileIO.RemoveFile(result.path);

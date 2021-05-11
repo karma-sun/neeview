@@ -24,17 +24,20 @@ namespace NeeView
         private bool _isDarty;
         private DateTime _lastWriteTime;
         private bool _isEditable;
+        private bool _isNew;
 
 
         public Playlist()
         {
         }
 
-        public Playlist(string path, PlaylistSource playlistFile)
+        public Playlist(string path, PlaylistSource playlistFile, bool isNew)
         {
+            _isNew = false;
             this.Path = path;
             this.Items = new ObservableCollection<PlaylistItem>(playlistFile.Items.Select(e => new PlaylistItem(e)));
             this.IsEditable = true;
+            this.IsNew = isNew;
         }
 
 
@@ -76,6 +79,12 @@ namespace NeeView
                     RaisePropertyChanged();
                 }
             }
+        }
+
+        public bool IsNew
+        {
+            get { return _isNew; }
+            private set { SetProperty(ref _isNew, value); }
         }
 
         public ObservableCollection<PlaylistItem> Items
@@ -522,6 +531,18 @@ namespace NeeView
                 _isDarty = false;
             }
 
+            if (_isNew)
+            {
+                if (source.Items.Count == 0)
+                {
+                    return;
+                }
+                _isNew = false;
+
+                this.Path = FileIO.CreateUniquePath(this.Path);
+            }
+
+
             // 非同期保存
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
@@ -576,7 +597,7 @@ namespace NeeView
                     var playlistFile = LoadPlaylist(path);
                     if (playlistFile != null)
                     {
-                        var playlist = new Playlist(path, playlistFile);
+                        var playlist = new Playlist(path, playlistFile, false);
                         playlist.IsEditable = !file.Attributes.HasFlag(FileAttributes.ReadOnly);
                         return playlist;
                     }
@@ -587,8 +608,7 @@ namespace NeeView
                 }
                 else
                 {
-                    var playlist = new Playlist(path, new PlaylistSource());
-                    playlist.IsDarty = true;
+                    var playlist = new Playlist(path, new PlaylistSource(), true);
                     return playlist;
                 }
             }

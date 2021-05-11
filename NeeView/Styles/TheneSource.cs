@@ -51,8 +51,14 @@ namespace NeeView
             var tokens = s.Split(new char[] { '.' }, 2);
             var themeType = (ThemeType)Enum.Parse(typeof(ThemeType), tokens[0]);
             var fileName = tokens.Length >= 2 ? tokens[1] : null;
-            var themeId = new TheneSource(themeType, fileName);
-            return themeId;
+
+            if (themeType == ThemeType.Custom && fileName == null)
+            {
+                themeType = ThemeType.Dark;
+            }
+
+            var themeSource = new TheneSource(themeType, fileName);
+            return themeSource;
         }
     }
 

@@ -20,6 +20,7 @@ namespace NeeView
     public static class Environment
     {
         private static string _localApplicationDataPath;
+        private static string _userDataPath;
         private static string _librariesPath;
         private static string _packageType;
         private static string _revision;
@@ -154,7 +155,6 @@ namespace NeeView
         }
 
 
-        private static string _userDataPath;
 
         /// <summary>
         /// ユーザーデータフォルダー
@@ -169,6 +169,10 @@ namespace NeeView
                     if (IsUseLocalApplicationDataFolder)
                     {
                         _userDataPath = GetMyDocumentPath();
+                        if (string.IsNullOrEmpty(_userDataPath))
+                        {
+                            _userDataPath = LocalApplicationDataPath;
+                        }
                     }
                     else
                     {
@@ -384,6 +388,19 @@ namespace NeeView
         {
             var myDocuments = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
             return string.IsNullOrEmpty(myDocuments) ? "" : System.IO.Path.Combine(myDocuments, CompanyName, SolutionName);
+
+#if false
+            if (string.IsNullOrEmpty(myDocuments))
+            {
+                myDocuments = LoosePath.TrimDirectoryEnd(System.Environment.GetEnvironmentVariable("SystemDrive"));
+            }
+            if (string.IsNullOrEmpty(myDocuments))
+            {
+                myDocuments = @"C:\";
+            }
+
+            return System.IO.Path.Combine(myDocuments, CompanyName, SolutionName);
+#endif
         }
 
         /// <summary>

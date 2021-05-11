@@ -128,13 +128,13 @@ namespace NeeView
 
         private void Playlist_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            this.Playlist?.DelaySave(StartPlaylistWatch);
+            this.Playlist?.DelaySave(OnSaved);
             PlaylistCollectionChanged?.Invoke(this, e);
         }
 
         private void Playlist_ItemRenamed(object sender, PlaylistItemRenamedEventArgs e)
         {
-            this.Playlist?.DelaySave(StartPlaylistWatch);
+            this.Playlist?.DelaySave(OnSaved);
         }
 
         private void SelectedItemChanged()
@@ -209,10 +209,14 @@ namespace NeeView
 
                 LoadPlaylist();
 
-                StartPlaylistWatch();
+                StartFileWatch(this.SelectedItem);
+
+#if false
+                OnSaved();
 
                 // NOTE: ファイルが存在しない場合、ここで保存
-                this.Playlist.DelaySave(StartPlaylistWatch);
+                this.Playlist.DelaySave(OnSaved);
+#endif
             }
         }
 
@@ -231,8 +235,9 @@ namespace NeeView
         }
 
 
-        private void StartPlaylistWatch()
+        private void OnSaved()
         {
+            this.SelectedItem = this.Playlist?.Path;
             StartFileWatch(this.SelectedItem);
         }
 
@@ -322,7 +327,7 @@ namespace NeeView
         }
 
 
-        #region Playlist Controls
+#region Playlist Controls
 
         public async Task DeleteInvalidItemsAsync()
         {
@@ -336,10 +341,10 @@ namespace NeeView
             _playlist?.Sort();
         }
 
-        #endregion
+#endregion
 
 
-        #region FileSystemWatcher
+#region FileSystemWatcher
 
         private SingleFileWatcher _watcher;
         private SimpleDelayAction _delayReloadAction;
@@ -393,6 +398,6 @@ namespace NeeView
             SelectedItem = e.FullPath;
         }
 
-        #endregion FileSystemWatcher
+#endregion FileSystemWatcher
     }
 }

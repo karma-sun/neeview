@@ -63,10 +63,19 @@ namespace NeeView
             }
 
             var grid = new Grid();
-            grid.SetBinding(Grid.BackgroundProperty, parameter.PageBackgroundBrush);
             grid.UseLayoutRounding = true;
 
             _viewImage = image;
+
+            // background
+            {
+                var rectangle = new Rectangle();
+                rectangle.SetBinding(Rectangle.FillProperty, parameter.PageBackgroundBrush);
+                rectangle.Margin = new Thickness(1);
+                rectangle.HorizontalAlignment = HorizontalAlignment.Stretch;
+                rectangle.VerticalAlignment = VerticalAlignment.Stretch;
+                grid.Children.Add(rectangle);
+            }
 
             // scale bitmap
             {

@@ -73,7 +73,8 @@ namespace NeeView
         private VirtualizingStackPanel _listPanel;
 
         private ThumbnailListViewModel _vm;
-        private bool _isDartyThumbnailList = true;
+        private bool _isThumbnailDarty;
+
 
         /// <summary>
         /// サムネイル更新要求を拒否する
@@ -152,51 +153,182 @@ namespace NeeView
 
             _vm = new ThumbnailListViewModel(this.Source);
 
-            _vm.Model.CollectionChanging += ThumbnailList_CollectionChanging;
-            _vm.Model.CollectionChanged += ThumbnailList_CollectionChanged;
+            _vm.Model.CollectionChanging += ViewModel_CollectionChanging;
+            _vm.Model.CollectionChanged += ViewModel_CollectionChanged;
             _vm.Model.ViewItemsChanged += ViewModel_ViewItemsChanged;
-            _vm.Model.AddPropertyChanged(nameof(_vm.Model.SelectedIndex), ViewModel_SelectedIdexChanged);
 
             this.ThumbnailListBox.ManipulationBoundaryFeedback += _vm.Model.ScrollViewer_ManipulationBoundaryFeedback;
+
+            this.ThumbnailListBox.SelectionChanged += ThumbnailListBox_SelectionChanged;
 
             this.Root.DataContext = _vm;
         }
 
-        private void ThumbnailList_CollectionChanging(object sender, EventArgs e)
+
+        private void ViewModel_CollectionChanging(object sender, EventArgs e)
         {
             _isFreezed = true;
         }
 
-        private void ThumbnailList_CollectionChanged(object sender, EventArgs e)
+        private void ViewModel_CollectionChanged(object sender, EventArgs e)
         {
-            // NOTE: 変更が ThumbnailListBox に反映されるまで遅延
-            // HACK: Control.UpdateLayout()で即時確定させる？
-            AppDispatcher.BeginInvoke(() =>
-            {
-                ////Debug.WriteLine("> Ensure thumbnail update.");
-                _isFreezed = false;
-                LoadThumbnailList(+1);
-            });
-        }
-
-
-        private void ViewModel_SelectedIdexChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (!this.IsVisible) return;
-
-            AppDispatcher.BeginInvoke(() => DartyThumbnailList());
+            _isFreezed = false;
         }
 
         private void ViewModel_ViewItemsChanged(object sender, ViewItemsChangedEventArgs e)
         {
             if (!this.IsVisible) return;
 
-            UpdateViewItems(e.ViewItems, e.Direction);
-
-            ////AppDispatcher.BeginInvoke(() => DartyThumbnailList());
+            ScrollIntoViewItems(e.ViewItems, e.Direction);
         }
 
-        private void UpdateViewItems(List<Page> items, int direction)
+        private void UpdateThumbnailListLayout(bool withLoadThumbnails)
+        {
+            ScrollIntoViewFixed(this.ThumbnailListBox.SelectedIndex);
+
+            // 必要であればサムネイル要求を行う
+            if (withLoadThumbnails || _isThumbnailDarty)
+            {
+                if (this.ThumbnailListBox.SelectedIndex >= 0)
+                {
+                    _isThumbnailDarty = false;
+                    LoadThumbnails(+1);
+                }
+                else
+                {
+                    _isThumbnailDarty = true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// スライダー操作によるScrollIntoView
+        /// </summary>
+        private void ScrollIntoViewFixed(int index)
+        {
+            if (_listPanel == null) return;
+            if (!this.IsVisible) return;
+            if (!Config.Current.FilmStrip.IsEnabled) return;
+
+            if (Config.Current.FilmStrip.IsSelectedCenter)
+            {
+                ScrollIntoViewIndexCenter(index);
+            }
+            else
+            {
+                this.ThumbnailListBox.Width = double.NaN;
+                ScrollIntoViewIndex(this.ThumbnailListBox.SelectedIndex);
+            }
+
+            UpdateThumbnaliListBoxAlign();
+        }
+
+        private void UpdateThumbnaliListBoxAlign()
+        {
+            if (this.ThumbnailListBox.Width > this.Root.ActualWidth)
+            {
+                if (this.ThumbnailListBox.SelectedIndex <= 0)
+                {
+                    this.ThumbnailListBox.HorizontalAlignment = HorizontalAlignment.Left;
+                }
+                else if (this.ThumbnailListBox.SelectedIndex >= this.ThumbnailListBox.Items.Count - 1)
+                {
+                    this.ThumbnailListBox.HorizontalAlignment = HorizontalAlignment.Right;
+                }
+                else
+                {
+                    this.ThumbnailListBox.HorizontalAlignment = HorizontalAlignment.Center;
+                }
+            }
+            else
+            {
+                this.ThumbnailListBox.HorizontalAlignment = HorizontalAlignment.Center;
+            }
+        }
+
+        /// <summary>
+        /// 項目を中央表示するScrollIntoView
+        /// </summary>
+        private void ScrollIntoViewIndexCenter(int index)
+        {
+            if (index < 0) return;
+
+            Debug.Assert(VirtualizingStackPanel.GetScrollUnit(this.ThumbnailListBox) == ScrollUnit.Pixel);
+
+            // 項目の幅 取得
+            double itemWidth = GetItemWidth();
+            if (itemWidth <= 0.0) return;
+
+            // 表示領域の幅
+            double panelWidth = this.Root.ActualWidth;
+
+            // 表示項目数を計算 (なるべく奇数)
+            int itemsCount = (int)(panelWidth / itemWidth) / 2 * 2 + 3;
+            if (itemsCount < 1) itemsCount = 1;
+
+            // 表示先頭項目
+            int topIndex = index - itemsCount / 2;
+            if (topIndex < 0) topIndex = 0;
+
+            // 少項目数補正
+            var totalCount = this.ThumbnailListBox.Items.Count;
+            if (totalCount < itemsCount)
+            {
+                itemsCount = totalCount;
+                topIndex = 0;
+            }
+
+            // ListBoxの幅を表示項目数にあわせる
+            this.ThumbnailListBox.Width = itemWidth * itemsCount + 18; // TODO: 余裕が必要？
+
+            // 表示項目先頭指定
+            var horizontalOffset = topIndex * itemWidth;
+            _listPanel.SetHorizontalOffset(horizontalOffset);
+        }
+
+        /// <summary>
+        /// 項目が固定幅であることを前提とした高速ScrollIntoView
+        /// </summary>
+        private void ScrollIntoViewIndex(int index)
+        {
+            if (index < 0) return;
+
+            Debug.Assert(VirtualizingStackPanel.GetScrollUnit(this.ThumbnailListBox) == ScrollUnit.Pixel);
+
+            // 項目の幅 取得
+            double itemWidth = GetItemWidth();
+            if (itemWidth <= 0.0) return;
+
+            var panelWidth = Math.Min(this.Root.ActualWidth - (_listPanel.Margin.Left + _listPanel.Margin.Right), _listPanel.ActualWidth);
+
+            var a0 = _listPanel.HorizontalOffset;
+            var a1 = a0 + panelWidth;
+
+            var x0 = itemWidth * index;
+            var x1 = x0 + itemWidth;
+
+            var x = a0;
+
+            if (a1 < x1)
+            {
+                x = Math.Max(x0 - (panelWidth - itemWidth), 0.0);
+            }
+
+            if (x0 < a0)
+            {
+                x = x0;
+            }
+
+            if (x != a0)
+            {
+                _listPanel.SetHorizontalOffset(x);
+            }
+        }
+
+        /// <summary>
+        /// 指定ページのScrillIntoView
+        /// </summary>
+        private void ScrollIntoViewItems(List<Page> items, int direction)
         {
             if (_vm == null) return;
             if (!this.ThumbnailListBox.IsLoaded) return;
@@ -221,8 +353,6 @@ namespace NeeView
                 foreach (var item in items)
                 {
                     ScrollIntoView(item);
-                    // NOTE: ScrollIntoView結果を反映させるため
-                    this.ThumbnailListBox.UpdateLayout();
                 }
             }
         }
@@ -230,142 +360,23 @@ namespace NeeView
         private void ScrollIntoView(object item)
         {
             //// Debug.WriteLine($"> ScrollInoView: {item}");
-            this.ThumbnailListBox.ScrollIntoView(item);
+            var index = this.ThumbnailListBox.Items.IndexOf(item);
+            ScrollIntoViewIndex(index);
         }
 
-        private void ThumbnailListArea_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            DartyThumbnailList();
-        }
-
-        public void DartyThumbnailList(bool isUpdateNow = false)
-        {
-            if (_vm == null) return;
-
-            _isDartyThumbnailList = true;
-
-            if (isUpdateNow || this.Root.IsVisible)
-            {
-                UpdateThumbnailList();
-            }
-        }
-
-        public void UpdateThumbnailList()
-        {
-            UpdateThumbnailList(_vm.Model.SelectedIndex, _vm.Model.PageSelector.MaxIndex);
-        }
-
-        private void UpdateThumbnailList(int index, int indexMax)
-        {
-            if (_listPanel == null) return;
-
-            if (!Config.Current.FilmStrip.IsEnabled) return;
-
-            if (!_isDartyThumbnailList) return;
-            _isDartyThumbnailList = false;
-
-            if (Config.Current.FilmStrip.IsSelectedCenter)
-            {
-                var scrollUnit = VirtualizingStackPanel.GetScrollUnit(this.ThumbnailListBox);
-
-                // 項目の幅 取得
-                double itemWidth = GetItemWidth();
-                if (itemWidth <= 0.0) return;
-
-                // 表示領域の幅
-                double panelWidth = this.Root.ActualWidth;
-
-                // 表示項目数を計算 (なるべく奇数)
-                int itemsCount = (int)(panelWidth / itemWidth) / 2 * 2 + 3;
-                if (itemsCount < 1) itemsCount = 1;
-
-                // 表示先頭項目
-                int topIndex = index - itemsCount / 2;
-                if (topIndex < 0) topIndex = 0;
-
-                // 少項目数補正
-                if (indexMax + 1 < itemsCount)
-                {
-                    itemsCount = indexMax + 1;
-                    topIndex = 0;
-                }
-
-                // ListBoxの幅を表示項目数にあわせる
-                this.ThumbnailListBox.Width = itemWidth * itemsCount + 18; // TODO: 余裕が必要？
-
-                // 表示項目先頭指定
-                var horizontalOffset = scrollUnit == ScrollUnit.Item ? topIndex : topIndex * itemWidth;
-                _listPanel.SetHorizontalOffset(horizontalOffset);
-
-            }
-            else
-            {
-                this.ThumbnailListBox.Width = double.NaN;
-                this.ThumbnailListBox.UpdateLayout();
-                ScrollIntoView(this.ThumbnailListBox.SelectedItem);
-            }
-
-            ////Debug.WriteLine(topIndex + " / " + this.ThumbnailListBox.Items.Count);
-
-            // アライメント更新
-            ThumbnailListBox_UpdateAlignment();
-        }
-
-        private void ScrollIntoViewSelectedItem()
-        {
-            if (IsOutOfViewIndex(this.ThumbnailListBox.SelectedIndex))
-            {
-                this.ThumbnailListBox.Width = double.NaN;
-                this.ThumbnailListBox.UpdateLayout();
-                ScrollIntoView(this.ThumbnailListBox.SelectedItem);
-            }
-        }
-
-        private bool IsOutOfViewItem(object item)
-        {
-            var listBoxItem = (ListBoxItem)(this.ThumbnailListBox.ItemContainerGenerator.ContainerFromItem(item));
-            return IsOutOfView(listBoxItem, this.Root);
-        }
-
-        private bool IsOutOfViewIndex(int index)
-        {
-            var listBoxItem = (ListBoxItem)(this.ThumbnailListBox.ItemContainerGenerator.ContainerFromIndex(index));
-            return IsOutOfView(listBoxItem, this.Root);
-        }
-
-        private bool IsOutOfView(ListBoxItem listBoxItem, FrameworkElement target)
-        {
-            const double margin = 8.0;
-
-            if (listBoxItem is null)
-            {
-                return true;
-            }
-
-            var leftPos = listBoxItem.TranslatePoint(new Point(0.0, 0.0), target);
-            if (leftPos.X < 0.0 + margin)
-            {
-                return true;
-            }
-
-            var rightPos = listBoxItem.TranslatePoint(new Point(listBoxItem.ActualWidth, 0.0), target);
-            if (rightPos.X > target.ActualWidth - margin)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
+        /// <summary>
+        /// 項目の幅を取得
+        /// </summary>
         private double GetItemWidth()
         {
             if (_listPanel == null || _listPanel.Children.Count <= 0) return 0.0;
 
-            return (_listPanel.Children[0] as ListBoxItem).ActualWidth;
+            return ((ListBoxItem)_listPanel.Children[0]).ActualWidth;
         }
 
+
         // サムネ更新。表示されているページのサムネの読み込み要求
-        private void LoadThumbnailList(int direction)
+        private void LoadThumbnails(int direction)
         {
             if (_vm == null) return;
             if (_isFreezed) return;
@@ -376,27 +387,17 @@ namespace NeeView
                 return;
             }
 
-            var scrollUnit = VirtualizingStackPanel.GetScrollUnit(this.ThumbnailListBox);
-
-            int start;
-            int count;
-
-            if (scrollUnit == ScrollUnit.Item)
-            {
-                start = (int)_listPanel.HorizontalOffset;
-                count = (int)_listPanel.ViewportWidth;
-            }
-            else if (scrollUnit == ScrollUnit.Pixel)
-            {
-                var itemWidth = GetItemWidth();
-                if (itemWidth <= 0.0) return; // 項目の準備ができていない？
-                start = (int)(_listPanel.HorizontalOffset / itemWidth);
-                count = (int)(_listPanel.ViewportWidth / itemWidth) + 1;
-            }
-            else
+            if (this.ThumbnailListBox.SelectedIndex < 0)
             {
                 return;
             }
+
+            Debug.Assert(VirtualizingStackPanel.GetScrollUnit(this.ThumbnailListBox) == ScrollUnit.Pixel);
+
+            var itemWidth = GetItemWidth();
+            if (itemWidth <= 0.0) return; // 項目の準備ができていない？
+            var start = (int)(_listPanel.HorizontalOffset / itemWidth);
+            var count = (int)(_listPanel.ViewportWidth / itemWidth) + 1;
 
             // タイミングにより計算値が不正になることがある対策
             // 再現性が低い
@@ -423,6 +424,11 @@ namespace NeeView
 
         #region ThunbnailList event func
 
+        private void ThumbnailListArea_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            UpdateThumbnailListLayout(false);
+        }
+
         private void ThumbnailListBox_Loaded(object sender, RoutedEventArgs e)
         {
             // nop.
@@ -432,32 +438,7 @@ namespace NeeView
         {
             // パネルコントロール取得
             _listPanel = sender as VirtualizingStackPanel;
-            DartyThumbnailList();
-            LoadThumbnailList(+1);
-        }
-
-        private void ThumbnailListBox_UpdateAlignment()
-        {
-            // 端の表示調整
-            if (this.ThumbnailListBox.Width > this.Root.ActualWidth)
-            {
-                if (_vm.Model.SelectedIndex <= 0)
-                {
-                    this.ThumbnailListBox.HorizontalAlignment = HorizontalAlignment.Left;
-                }
-                else if (_vm.Model.SelectedIndex >= this.ThumbnailListBox.Items.Count - 1)
-                {
-                    this.ThumbnailListBox.HorizontalAlignment = HorizontalAlignment.Right;
-                }
-                else
-                {
-                    this.ThumbnailListBox.HorizontalAlignment = HorizontalAlignment.Center;
-                }
-            }
-            else
-            {
-                this.ThumbnailListBox.HorizontalAlignment = HorizontalAlignment.Center;
-            }
+            UpdateThumbnailListLayout(true);
         }
 
         // リストボックスのドラッグ機能を無効化する
@@ -486,25 +467,29 @@ namespace NeeView
             {
                 // 決定
                 if (e.Key == Key.Return)
+                {
                     BookOperation.Current.JumpPage(this, ThumbnailListBox.SelectedItem as Page);
+                }
                 // 左右スクロールは自前で実装
                 else if (e.Key == Key.Right)
+                {
                     MoveSelectedIndex(+1);
+                }
                 else if (e.Key == Key.Left)
+                {
                     MoveSelectedIndex(-1);
+                }
 
                 e.Handled = (e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Return);
             }
         }
 
-
         private async void ThumbnailListBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            LoadThumbnailList(+1);
-
             if ((bool)e.NewValue == true)
             {
                 await Task.Yield();
+                UpdateThumbnailListLayout(true);
                 FocusSelectedItem();
             }
         }
@@ -515,7 +500,7 @@ namespace NeeView
             if (this.ThumbnailListBox.SelectedIndex < 0) return;
 
             // 選択項目が表示されるようにスクロール
-            this.ThumbnailListBox.ScrollIntoView(this.ThumbnailListBox.SelectedItem);
+            ScrollIntoViewIndex(this.ThumbnailListBox.SelectedIndex);
 
             // フォーカスを移動
             if (_vm.Model.IsFocusAtOnce && this.ThumbnailListBox.IsLoaded)
@@ -525,7 +510,6 @@ namespace NeeView
                 _vm.Model.IsFocusAtOnce = isFocused != true;
             }
         }
-
 
         private void ThumbnailListBox_MouseWheel(object sender, MouseWheelEventArgs e)
         {
@@ -541,7 +525,14 @@ namespace NeeView
         private void ThumbnailListBox_TargetUpdated(object sender, DataTransferEventArgs e)
         {
             if (_vm == null) return;
+            this.ThumbnailListBox.UpdateLayout();
+            UpdateThumbnailListLayout(true);
             _vm.Model.IsItemsDarty = false;
+        }
+
+        private void ThumbnailListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateThumbnailListLayout(false);
         }
 
         // スクロールしたらサムネ更新
@@ -549,7 +540,7 @@ namespace NeeView
         {
             if (_listPanel != null && this.ThumbnailListBox.Items.Count > 0)
             {
-                LoadThumbnailList(e.HorizontalChange < 0 ? -1 : +1);
+                LoadThumbnails(e.HorizontalChange < 0 ? -1 : +1);
             }
         }
 

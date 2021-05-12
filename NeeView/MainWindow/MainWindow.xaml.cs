@@ -738,7 +738,6 @@ namespace NeeView
 
             // フィルムストリップ
             this.ThumbnailListArea.Visibility = Config.Current.FilmStrip.IsEnabled && !_viewComponent.ContentCanvas.IsMediaContent ? Visibility.Visible : Visibility.Collapsed;
-            this.ThumbnailListArea.DartyThumbnailList();
         }
 
         private void ThumbnailList_Visible(object sender, VisibleEventArgs e)

@@ -5136,9 +5136,6 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
   <data name="SettingPage.Window.Theme" xml:space="preserve">
     <value>主題</value>
   </data>
-  <data name="SettingPage.Window.Theme.OpenCustomThemeFile" xml:space="preserve">
-    <value>開啟自訂主題檔案</value>
-  </data>
   <data name="SettingPage.WindowTitle" xml:space="preserve">
     <value>視窗標題</value>
   </data>
@@ -5453,9 +5450,6 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
   </data>
   <data name="SystemConfig.TemporaryDirectory.Remarks" xml:space="preserve">
     <value>在展開或預先展開多重壓縮檔案時使用。</value>
-  </data>
-  <data name="ThemeConfig.CustomThemeFilePath" xml:space="preserve">
-    <value>自訂主題檔案位置</value>
   </data>
   <data name="ThemeConfig.ThemeType" xml:space="preserve">
     <value>主題類別</value>
@@ -6566,7 +6560,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>視窗最大化有間隙時調整使用。</value>
   </data>
   <data name="WindowConfig.MouseActivateAndEat" xml:space="preserve">
-    <value>停用使用滑鼠將視窗動作化時的操作</value>
+    <value>停用以滑鼠將視窗動作化時的操作</value>
   </data>
   <data name="WindowConfig.State" xml:space="preserve">
     <value>視窗狀態</value>
@@ -7065,7 +7059,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>加入/刪除播放列表項目</value>
   </data>
   <data name="TogglePlaylistItemCommand.Menu" xml:space="preserve">
-    <value>登錄到播放列表</value>
+    <value>加入到播放列表</value>
   </data>
   <data name="TogglePlaylistItemCommand.Off" xml:space="preserve">
     <value>已從播放列表刪除</value>
@@ -7074,7 +7068,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>已加入到播放列表</value>
   </data>
   <data name="TogglePlaylistItemCommand.Remarks" xml:space="preserve">
-    <value>在播放列表中登錄或刪除目前的頁面。</value>
+    <value>在播放列表中加入或刪除目前的頁面。</value>
   </data>
   <data name="PrevPlaylistItemCommand" xml:space="preserve">
     <value>移動到前一個播放列表項目</value>
@@ -7122,7 +7116,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>已刪除 {0} 個播放列表項目。</value>
   </data>
   <data name="PageListItem.Menu.AddToPlaylist" xml:space="preserve">
-    <value>登錄到播放列表(_M)</value>
+    <value>加入到播放列表(_M)</value>
   </data>
   <data name="SliderConfig.IsVisiblePlaylistMark" xml:space="preserve">
     <value>顯示播放列表標記</value>
@@ -7135,5 +7129,23 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="MovePlaylsitItemInBookCommandParameter.IsLoop" xml:space="preserve">
     <value>循環</value>
+  </data>
+  <data name="PlaylistItem.Menu.MoveToAnother" xml:space="preserve">
+    <value>移動到別的播放列表</value>
+  </data>
+  <data name="Notice.ImageDecodeFailed" xml:space="preserve">
+    <value>圖像解碼失敗了。</value>
+  </data>
+  <data name="ImportControl.Playlist" xml:space="preserve">
+    <value>{0} 個播放列表</value>
+  </data>
+  <data name="SettingPage.Window.Theme.OpenCustomThemeFolder" xml:space="preserve">
+    <value>開啟自訂主題資料夾</value>
+  </data>
+  <data name="ThemeConfig.CustomThemeFolder" xml:space="preserve">
+    <value>自訂主題資料夾位置</value>
+  </data>
+  <data name="ImportControl.Theme" xml:space="preserve">
+    <value>{0} 個自訂主題</value>
   </data>
 </root>

@@ -45,7 +45,7 @@ namespace NeeView
             var parameter = CreateBindingParameter();
 
             // create view
-            this.View = new ViewContentControl(CreateView(this.Source, parameter));
+            this.View = new ViewContentControl(CreateView(this.Source, parameter), IsSvg);
 
             // content setting
             this.Color = bitmapContent.Color;

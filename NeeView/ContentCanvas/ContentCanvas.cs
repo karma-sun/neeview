@@ -682,7 +682,7 @@ namespace NeeView
             {
                 if (Contents.Any(e => e is BitmapViewContent bitmapViewContent && bitmapViewContent.IsSvg))
                 {
-                    this.FixedViewSize = new Size(Math.Max(this.ViewSize.Width - 1.0, 0.0), Math.Max(this.ViewSize.Height - 1.0, 0.0));
+                    this.FixedViewSize = new Size(this.ViewSize.Width, Math.Max(this.ViewSize.Height - 1.0, 0.0));
                 }
                 else
                 {

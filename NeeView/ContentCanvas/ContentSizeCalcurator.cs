@@ -64,16 +64,6 @@ namespace NeeView
     /// </summary>
     public class ContentSizeCalcurator
     {
-        private ContentCanvas _contentCanvas;
-
-
-        // TODO: ContentCanvas渡しを不要にする
-        public ContentSizeCalcurator(ContentCanvas contentCanvas)
-        {
-            _contentCanvas = contentCanvas;
-        }
-
-
         private PageStretchMode StretchMode => Config.Current.View.StretchMode;
         private double ContentsSpace => Config.Current.Book.ContentsSpace;
         private AutoRotateType AutoRotateType => Config.Current.View.AutoRotate;
@@ -88,9 +78,9 @@ namespace NeeView
         /// </summary>
         /// <param name="source">元のコンテンツサイズ</param>
         /// <returns></returns>
-        public FixedContentSize GetFixedContentSize(List<Size> source, Size viewSize, AngleResetMode angleResetMode, double defaultAngle)
+        public FixedContentSize GetFixedContentSize(List<Size> source, Size viewSize, AngleResetMode angleResetMode, double defaultAngle, DpiScale dpiScale)
         {
-            return GetFixedContentSize(source, viewSize, GetAutoRotateAngle(source, angleResetMode, defaultAngle));
+            return GetFixedContentSize(source, viewSize, GetAutoRotateAngle(source, viewSize, angleResetMode, defaultAngle), dpiScale);
         }
 
         /// <summary>
@@ -100,15 +90,13 @@ namespace NeeView
         /// <param name="viewSize">ビューエリアサイズ</param>
         /// <param name="angle">角度</param>
         /// <returns></returns>
-        public FixedContentSize GetFixedContentSize(List<Size> source, Size viewSize, double angle)
+        public FixedContentSize GetFixedContentSize(List<Size> source, Size viewSize, double angle, DpiScale dpiScale)
         {
-            var dpi = _contentCanvas.Dpi;
-
             // 2ページ表示時は重なり補正を行う
             double offsetWidth = (source[0].Width > 0.5 && source[1].Width > 0.5) ? ContentsSpace : 0.0;
 
             // Viewにあわせたコンテンツサイズ
-            var sizes = CalcContentSize(source, viewSize.Width, viewSize.Height, offsetWidth, angle);
+            var sizes = CalcContentSize(source, viewSize.Width, viewSize.Height, offsetWidth, angle, dpiScale);
 
             var result = new FixedContentSize();
             result.SourceSizeList = source;
@@ -123,7 +111,7 @@ namespace NeeView
         /// </summary>
         /// <param name="source">元のコンテンツサイズ</param>
         /// <returns></returns>
-        public double GetAutoRotateAngle(List<Size> source, AngleResetMode angleResetMode, double defaultAngle)
+        public double GetAutoRotateAngle(List<Size> source, Size viewSize, AngleResetMode angleResetMode, double defaultAngle)
         {
             switch (angleResetMode)
             {
@@ -135,8 +123,26 @@ namespace NeeView
 
                 default:
                 case AngleResetMode.Normal:
-                    return _contentCanvas.CheckAutoRotate(GetContentSize(source)).ToAngle();
+                    return CheckAutoRotate(GetContentSize(source), viewSize).ToAngle();
             }
+        }
+
+        // 自動回転する？
+        private AutoRotateType CheckAutoRotate(Size contentSize, Size viewSize)
+        {
+            if (Config.Current.View.AutoRotate == AutoRotateType.None) return AutoRotateType.None;
+
+            if (viewSize.Height <= 0.0) return AutoRotateType.None;
+            var viewRatio = viewSize.Width / viewSize.Height;
+
+            if (contentSize.IsEmptyOrZero()) return AutoRotateType.None;
+            var contentRatio = contentSize.Width / contentSize.Height;
+
+            // NOTE: サイズ指定に問題が生じるため、マージンはなし
+            double margin = 0.0;
+
+            var isAutoRotated = viewRatio >= 1.0 ? contentRatio < (1.0 - margin) : contentRatio > (1.0 + margin);
+            return isAutoRotated ? Config.Current.View.AutoRotate : AutoRotateType.None;
         }
 
         //
@@ -185,9 +191,9 @@ namespace NeeView
         }
 
         // ストレッチモードに合わせて各コンテンツのスケールを計算する。BaseScaleを適用
-        private Size[] CalcContentSize(List<Size> source, double width, double height, double margin, double angle)
+        private Size[] CalcContentSize(List<Size> source, double width, double height, double margin, double angle, DpiScale dpiScale)
         {
-            var sizes = CalcContentSizeBase(source, width, height, margin, angle);
+            var sizes = CalcContentSizeBase(source, width, height, margin, angle, dpiScale);
 
             if (Config.Current.View.IsBaseScaleEnabled)
             {
@@ -200,7 +206,7 @@ namespace NeeView
         }
 
         // ストレッチモードに合わせて各コンテンツのスケールを計算する
-        private Size[] CalcContentSizeBase(List<Size> source, double width, double height, double margin, double angle)
+        private Size[] CalcContentSizeBase(List<Size> source, double width, double height, double margin, double angle, DpiScale dpiScale)
         {
             if (width < 1.0) width = 1.0;
             if (height < 1.0) height = 1.0;
@@ -208,7 +214,7 @@ namespace NeeView
             var c0 = source[0];
             var c1 = source[1];
 
-            var dpiRate = 1.0 / _contentCanvas.Dpi.DpiScaleX;
+            var dpiRate = 1.0 / dpiScale.DpiScaleX;
             var d0 = c0.IsEmpty ? c0 : c0.Multi(dpiRate);
             var d1 = c1.IsEmpty ? c1 : c1.Multi(dpiRate);
             var originalSize = new Size[] { d0, d1 };

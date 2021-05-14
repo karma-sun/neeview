@@ -87,7 +87,7 @@ namespace NeeView
         private double _baseScale;
         private double _lastScale;
         private DpiScaleProvider _dpiProvider;
-
+        private Size _viewSize;
 
 
         public ContentCanvas(MainViewComponent viewComponent, BookHub bookHub)
@@ -99,7 +99,7 @@ namespace NeeView
             _dpiProvider = viewComponent.MainView.DpiProvider;
             _dpiProvider.DpiChanged += (s, e) => DpiChanged?.Invoke(s, e);
 
-            _contentSizeCalcurator = new ContentSizeCalcurator(this);
+            _contentSizeCalcurator = new ContentSizeCalcurator();
 
             _viewComponent.DragTransform.TransformChanged += Transform_TransformChanged;
             _viewComponent.LoupeTransform.TransformChanged += Transform_TransformChanged;
@@ -237,7 +237,21 @@ namespace NeeView
         }
 
         // ビューエリアサイズ
-        public Size ViewSize { get; private set; }
+        public Size ViewSize
+        {
+            get { return _viewSize; }
+            private set
+            {
+                if (SetProperty(ref _viewSize, value))
+                {
+                    UpdateFixedViewSize();
+                }
+            }
+
+        }
+
+        // ビューエリアサイズ(計算用)
+        public Size FixedViewSize { get; private set; }
 
         // コンテンツ
         public ObservableCollection<ViewContent> Contents { get; private set; }
@@ -355,7 +369,7 @@ namespace NeeView
 
             if (e.ActionType == TransformActionType.Angle)
             {
-                var result = _contentSizeCalcurator.GetFixedContentSize(GetContentSizeList(), GetFixedViewSize(), _viewComponent.DragTransform.Angle);
+                var result = _contentSizeCalcurator.GetFixedContentSize(GetContentSizeList(), FixedViewSize, _viewComponent.DragTransform.Angle, Dpi);
                 _lastScale = result.GetScale();
             }
         }
@@ -426,6 +440,8 @@ namespace NeeView
                 {
                     content.OnAttached();
                 }
+
+                UpdateFixedViewSize();
             }
 
             // ルーペ解除
@@ -505,8 +521,8 @@ namespace NeeView
 
             // 表示サイズ計算
             var result = MainContent is MediaViewContent
-                ? _contentSizeCalcurator.GetFixedContentSize(sizes, GetFixedViewSize(), 0.0)
-                : _contentSizeCalcurator.GetFixedContentSize(sizes, GetFixedViewSize(), GetAngleResetMode(false || Config.Current.View.IsKeepScale), _viewComponent.DragTransform.Angle);
+                ? _contentSizeCalcurator.GetFixedContentSize(sizes, FixedViewSize, 0.0, Dpi)
+                : _contentSizeCalcurator.GetFixedContentSize(sizes, FixedViewSize, GetAngleResetMode(false || Config.Current.View.IsKeepScale), _viewComponent.DragTransform.Angle, Dpi);
 
             // 表示スケール推定
             var scale = (Config.Current.View.IsKeepScale ? _viewComponent.DragTransform.Scale : 1.0) * (includeLoupeScale ? _viewComponent.LoupeTransform.FixedScale : 1.0) * _dpiProvider.DpiScale.DpiScaleX;
@@ -622,7 +638,7 @@ namespace NeeView
             }
             else
             {
-                return _contentSizeCalcurator.GetAutoRotateAngle(GetContentSizeList(), angleResetMode, _viewComponent.DragTransform.Angle);
+                return _contentSizeCalcurator.GetAutoRotateAngle(GetContentSizeList(), FixedViewSize, angleResetMode, _viewComponent.DragTransform.Angle);
             }
         }
 
@@ -652,22 +668,26 @@ namespace NeeView
         }
 
         /// <summary>
-        /// 計算用ビューエリアサイズを取得
+        /// 計算用ビューエリアサイズを更新
         /// </summary>
         /// <remarks>
         /// ビューエリア縦幅丁度にするとSVG画像が描画されないことがある謎の現象を回避するために縦幅-1。
         /// この現象はストレッチモードを縦幅依存のものにしたときに発生する。ウィンドウ最大化で発生しやすい。
-        /// 現象の発生した値を固定にしても発生せず、現象が発生しているときに表示エレメントをつけ直しするだけで表示されるので、フレームワーク依存のなんらかのタイミング不具合と思われる。
+        /// 現象の発生した値を固定にしても発生せず、現象が発生しているときに表示要素を再接続するだけで表示されるので、フレームワーク依存のなんらかのタイミング不具合と思われる。
+        /// この対策は現象の頻度を下げるだけで、根本の対策になっていない。
         /// </remarks>
-        private Size GetFixedViewSize()
+        private void UpdateFixedViewSize()
         {
-            if (CloneContents.Any(e => e is BitmapViewContent bitmapViewContent && bitmapViewContent.IsSvg))
+            lock (_lock)
             {
-                return new Size(this.ViewSize.Width, Math.Max(this.ViewSize.Height - 1.0, 0.0));
-            }
-            else
-            {
-                return this.ViewSize;
+                if (Contents.Any(e => e is BitmapViewContent bitmapViewContent && bitmapViewContent.IsSvg))
+                {
+                    this.FixedViewSize = new Size(Math.Max(this.ViewSize.Width - 1.0, 0.0), Math.Max(this.ViewSize.Height - 1.0, 0.0));
+                }
+                else
+                {
+                    this.FixedViewSize = this.ViewSize;
+                }
             }
         }
 
@@ -683,7 +703,7 @@ namespace NeeView
         {
             if (!CloneContents.Any(e => e.IsValid)) return;
 
-            var result = _contentSizeCalcurator.GetFixedContentSize(GetContentSizeList(), GetFixedViewSize(), this.ContentAngle);
+            var result = _contentSizeCalcurator.GetFixedContentSize(GetContentSizeList(), FixedViewSize, this.ContentAngle, Dpi);
 
             this.ContentsMargin = result.ContentsMargin;
             _lastScale = _baseScale = result.GetScale();
@@ -757,25 +777,6 @@ namespace NeeView
                 }
             }
         }
-
-        // 自動回転する？
-        public AutoRotateType CheckAutoRotate(Size contentSize)
-        {
-            if (Config.Current.View.AutoRotate == AutoRotateType.None) return AutoRotateType.None;
-
-            if (ViewSize.Height <= 0.0) return AutoRotateType.None;
-            var viewRatio = ViewSize.Width / ViewSize.Height;
-
-            if (contentSize.IsEmptyOrZero()) return AutoRotateType.None;
-            var contentRatio = contentSize.Width / contentSize.Height;
-
-            // NOTE: サイズ指定に問題が生じるため、マージンはなし
-            double margin = 0.0;
-
-            var isAutoRotated = viewRatio >= 1.0 ? contentRatio < (1.0 - margin) : contentRatio > (1.0 + margin);
-            return isAutoRotated ? Config.Current.View.AutoRotate : AutoRotateType.None;
-        }
-
 
         #region スケールモード
 

@@ -66,6 +66,19 @@ namespace NeeView
             }
         }
 
+        public FrameworkElement Remove()
+        {
+            if (_content is null) return null;
+
+            lock (_lock)
+            {
+                var content = _content;
+                this.Children.Remove(_content);
+                _content = null;
+                return content;
+            }
+        }
+
         public void SetMessage(string message)
         {
             if (_messageTextBlock == null)
@@ -84,7 +97,17 @@ namespace NeeView
                     ShadowDepth = 2,
                 };
 
-                this.Children.Add(_messageTextBlock);
+                var stackPanel = new StackPanel();
+                stackPanel.VerticalAlignment = VerticalAlignment.Center;
+                stackPanel.HorizontalAlignment = HorizontalAlignment.Center;
+                stackPanel.Children.Add(_messageTextBlock);
+                stackPanel.Children.Add(new ProgressRing() { IsActive = true });
+
+                var border = new Border();
+                ////border.Background = new SolidColorBrush(Color.FromArgb(0xDD, 0xAA, 0xAA, 0xAA));
+                border.Child = stackPanel;
+
+                this.Children.Add(border);
             }
 
             _messageTextBlock.Text = message;

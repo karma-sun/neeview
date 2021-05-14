@@ -355,7 +355,7 @@ namespace NeeView
 
             if (e.ActionType == TransformActionType.Angle)
             {
-                var result = _contentSizeCalcurator.GetFixedContentSize(GetContentSizeList(), _viewComponent.DragTransform.Angle);
+                var result = _contentSizeCalcurator.GetFixedContentSize(GetContentSizeList(), GetFixedViewSize(), _viewComponent.DragTransform.Angle);
                 _lastScale = result.GetScale();
             }
         }
@@ -475,7 +475,7 @@ namespace NeeView
         {
             return Contents.Any(e => e.IsViewContent);
         }
-       
+
         // 先読みコンテンツ更新
         // 表示サイズを確定し、フィルター適用時にリサイズ処理を行う
         private void OnNextContentsChanged(object sender, ViewContentSourceCollectionChangedEventArgs source)
@@ -505,8 +505,8 @@ namespace NeeView
 
             // 表示サイズ計算
             var result = MainContent is MediaViewContent
-                ? _contentSizeCalcurator.GetFixedContentSize(sizes, 0.0)
-                : _contentSizeCalcurator.GetFixedContentSize(sizes, GetAngleResetMode(false || Config.Current.View.IsKeepScale), _viewComponent.DragTransform.Angle);
+                ? _contentSizeCalcurator.GetFixedContentSize(sizes, GetFixedViewSize(), 0.0)
+                : _contentSizeCalcurator.GetFixedContentSize(sizes, GetFixedViewSize(), GetAngleResetMode(false || Config.Current.View.IsKeepScale), _viewComponent.DragTransform.Angle);
 
             // 表示スケール推定
             var scale = (Config.Current.View.IsKeepScale ? _viewComponent.DragTransform.Scale : 1.0) * (includeLoupeScale ? _viewComponent.LoupeTransform.FixedScale : 1.0) * _dpiProvider.DpiScale.DpiScaleX;
@@ -651,6 +651,25 @@ namespace NeeView
             ContentSizeChanged?.Invoke(this, null);
         }
 
+        /// <summary>
+        /// 計算用ビューエリアサイズを取得
+        /// </summary>
+        /// <remarks>
+        /// ビューエリア縦幅丁度にするとSVG画像が描画されないことがある謎の現象を回避するために縦幅-1。
+        /// この現象はストレッチモードを縦幅依存のものにしたときに発生する。ウィンドウ最大化で発生しやすい。
+        /// 現象の発生した値を固定にしても発生せず、現象が発生しているときに表示エレメントをつけ直しするだけで表示されるので、フレームワーク依存のなんらかのタイミング不具合と思われる。
+        /// </remarks>
+        private Size GetFixedViewSize()
+        {
+            if (CloneContents.Any(e => e is BitmapViewContent bitmapViewContent && bitmapViewContent.IsSvg))
+            {
+                return new Size(this.ViewSize.Width, Math.Max(this.ViewSize.Height - 1.0, 0.0));
+            }
+            else
+            {
+                return this.ViewSize;
+            }
+        }
 
         //
         public void UpdateContentSize(double angle)
@@ -664,7 +683,7 @@ namespace NeeView
         {
             if (!CloneContents.Any(e => e.IsValid)) return;
 
-            var result = _contentSizeCalcurator.GetFixedContentSize(GetContentSizeList(), this.ContentAngle);
+            var result = _contentSizeCalcurator.GetFixedContentSize(GetContentSizeList(), GetFixedViewSize(), this.ContentAngle);
 
             this.ContentsMargin = result.ContentsMargin;
             _lastScale = _baseScale = result.GetScale();

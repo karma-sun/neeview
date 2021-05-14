@@ -31,10 +31,15 @@ namespace NeeView
 
         public override bool IsViewContent => true;
 
+        public bool IsSvg { get; private set; }
+
 
         private void Initialize()
         {
             Debug.Assert(this.Content is BitmapContent bitmapContent_ && bitmapContent_.ImageSource != null);
+
+            var bitmapContent = this.Content as BitmapContent;
+            this.IsSvg = bitmapContent.PictureSource is SvgPictureSource;
 
             // binding parameter
             var parameter = CreateBindingParameter();
@@ -43,7 +48,6 @@ namespace NeeView
             this.View = new ViewContentControl(CreateView(this.Source, parameter));
 
             // content setting
-            var bitmapContent = this.Content as BitmapContent;
             this.Color = bitmapContent.Color;
         }
 

@@ -55,7 +55,7 @@ namespace NeeView
 
             if (scale0 == 0.0) return scale1;
             if (scale1 == 0.0) return scale0;
-             return Math.Min(scale0, scale1);
+            return Math.Min(scale0, scale1);
         }
     }
 
@@ -67,18 +67,16 @@ namespace NeeView
         private ContentCanvas _contentCanvas;
 
 
-        // TODO: ViewSizeの伝達方法見直し。ContentCanvas渡しを不要にする
+        // TODO: ContentCanvas渡しを不要にする
         public ContentSizeCalcurator(ContentCanvas contentCanvas)
         {
             _contentCanvas = contentCanvas;
         }
 
 
-
         private PageStretchMode StretchMode => Config.Current.View.StretchMode;
         private double ContentsSpace => Config.Current.Book.ContentsSpace;
         private AutoRotateType AutoRotateType => Config.Current.View.AutoRotate;
-        private Size ViewSize => _contentCanvas.ViewSize;
         private bool AllowEnlarge => Config.Current.View.AllowStretchScaleUp;
         private bool AllowReduce => Config.Current.View.AllowStretchScaleDown;
 
@@ -90,18 +88,19 @@ namespace NeeView
         /// </summary>
         /// <param name="source">元のコンテンツサイズ</param>
         /// <returns></returns>
-        public FixedContentSize GetFixedContentSize(List<Size> source, AngleResetMode angleResetMode, double defaultAngle)
+        public FixedContentSize GetFixedContentSize(List<Size> source, Size viewSize, AngleResetMode angleResetMode, double defaultAngle)
         {
-            return GetFixedContentSize(source, GetAutoRotateAngle(source, angleResetMode, defaultAngle));
+            return GetFixedContentSize(source, viewSize, GetAutoRotateAngle(source, angleResetMode, defaultAngle));
         }
 
         /// <summary>
         /// コンテンツ表示サイズを計算。
         /// </summary>
         /// <param name="source">元のコンテンツサイズ</param>
+        /// <param name="viewSize">ビューエリアサイズ</param>
         /// <param name="angle">角度</param>
         /// <returns></returns>
-        public FixedContentSize GetFixedContentSize(List<Size> source, double angle)
+        public FixedContentSize GetFixedContentSize(List<Size> source, Size viewSize, double angle)
         {
             var dpi = _contentCanvas.Dpi;
 
@@ -109,7 +108,7 @@ namespace NeeView
             double offsetWidth = (source[0].Width > 0.5 && source[1].Width > 0.5) ? ContentsSpace : 0.0;
 
             // Viewにあわせたコンテンツサイズ
-            var sizes = CalcContentSize(source, ViewSize.Width, ViewSize.Height, offsetWidth, angle);
+            var sizes = CalcContentSize(source, viewSize.Width, viewSize.Height, offsetWidth, angle);
 
             var result = new FixedContentSize();
             result.SourceSizeList = source;
@@ -261,11 +260,11 @@ namespace NeeView
             {
                 var rotate = new Matrix();
                 rotate.Rotate(angle);
-                
+
                 var rect = new Rect(content);
                 rect.Transform(rotate);
                 content = new Size(rect.Width, rect.Height);
-                
+
                 var marginRect = new Rect(marginSize);
                 marginRect.Transform(rotate);
                 marginSize = new Size(marginRect.Width, marginRect.Height);

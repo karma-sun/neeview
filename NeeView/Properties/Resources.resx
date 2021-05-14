@@ -2432,9 +2432,6 @@ Is it OK?</value>
   <data name="HelpMainMenuCommand.Remarks" xml:space="preserve">
     <value>Display the main menu help on the browser.</value>
   </data>
-  <data name="HelpReadMe.File" xml:space="preserve">
-    <value>README.html</value>
-  </data>
   <data name="HelpScriptCommand" xml:space="preserve">
     <value>Script Help</value>
   </data>

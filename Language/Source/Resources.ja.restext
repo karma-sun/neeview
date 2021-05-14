@@ -681,7 +681,6 @@ HelpCommandListCommand.Remarks=全コマンドのヘルプをブラウザで表�
 HelpMainMenuCommand=メイン メニューのヘルプを表示する
 HelpMainMenuCommand.Menu=メイン メニュー ヘルプ
 HelpMainMenuCommand.Remarks=メイン メニューのヘルプをブラウザで表示します。
-HelpReadMe.File=README.ja-jp.html
 HelpScriptCommand=スクリプトのヘルプを表示する
 HelpScriptCommand.Menu=スクリプト ヘルプ
 HelpScriptCommand.Remarks=スクリプト マニュアルをブラウザで表示します。

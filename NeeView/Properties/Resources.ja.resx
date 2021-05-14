@@ -2437,9 +2437,6 @@ nv.Values.Test = "Hello!"</value>
   <data name="HelpMainMenuCommand.Remarks" xml:space="preserve">
     <value>メイン メニューのヘルプをブラウザで表示します。</value>
   </data>
-  <data name="HelpReadMe.File" xml:space="preserve">
-    <value>README.ja-jp.html</value>
-  </data>
   <data name="HelpScriptCommand" xml:space="preserve">
     <value>スクリプトのヘルプを表示する</value>
   </data>

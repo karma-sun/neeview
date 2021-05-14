@@ -681,7 +681,6 @@ HelpCommandListCommand.Remarks=Displays help of all commands in the browser.
 HelpMainMenuCommand=Main menu help
 HelpMainMenuCommand.Menu=Main menu help
 HelpMainMenuCommand.Remarks=Display the main menu help on the browser.
-HelpReadMe.File=README.html
 HelpScriptCommand=Script Help
 HelpScriptCommand.Menu=Script Help
 HelpScriptCommand.Remarks=Displays the script manual in the browser.

@@ -6323,15 +6323,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   README.html に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string HelpReadMe_File {
-            get {
-                return ResourceManager.GetString("HelpReadMe.File", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Script Help に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string HelpScriptCommand {

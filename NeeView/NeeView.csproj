@@ -66,13 +66,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Jint" Version="3.0.0-beta-1914" />
+    <PackageReference Include="Jint" Version="3.0.0-beta-2031" />
     <PackageReference Include="Microsoft.DotNet.Framework.NativeImageCompiler" Version="1.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf">
-      <Version>1.1.19</Version>
+      <Version>1.1.31</Version>
     </PackageReference>
     <!--
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="3.1.0" />
@@ -87,15 +87,15 @@
       <Version>2018.4.8.256</Version>
     </PackageReference>
     <PackageReference Include="PhotoSauce.MagicScaler">
-      <Version>0.11.2</Version>
+      <Version>0.12.1</Version>
     </PackageReference>
     <PackageReference Include="SharpVectors.Reloaded">
-      <Version>1.6.0</Version>
+      <Version>1.7.1</Version>
     </PackageReference>
     <PackageReference Include="System.Data.SQLite.Core">
-      <Version>1.0.113.6</Version>
+      <Version>1.0.113.7</Version>
     </PackageReference>
-    <PackageReference Include="System.Text.Json" Version="5.0.0" />
+    <PackageReference Include="System.Text.Json" Version="5.0.2" />
   </ItemGroup>
 
   <ItemGroup>

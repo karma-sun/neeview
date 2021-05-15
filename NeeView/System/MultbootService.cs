@@ -104,7 +104,7 @@ namespace NeeView
                 // パスの指定があれば開く
                 if (command.Args != null && command.Args.Length > 0 && command.Args[0] != null)
                 {
-                    PlaylistBookLoader.Load(this, command.Args, true);
+                    BookHubTools.RequestLoad(this, command.Args);
                 }
             }
             catch { }

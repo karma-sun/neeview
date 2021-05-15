@@ -106,7 +106,7 @@ namespace NeeView
 
     public class BookChangedEventArgs : EventArgs
     {
-        public BookChangedEventArgs(string address, Book book,  BookMementoType type)
+        public BookChangedEventArgs(string address, Book book, BookMementoType type)
         {
             Address = address;
             Book = book;
@@ -712,7 +712,7 @@ namespace NeeView
                 ///
 
                 var bookSetting = BookSettingConfigExtensions.FromBookMement(BookUnit?.Book.CreateMemento());
-                var pageSortModeClass = BookUnit?.Book != null ? BookUnit.Book.PageSortModeClass: PageSortModeClass.Full;
+                var pageSortModeClass = BookUnit?.Book != null ? BookUnit.Book.PageSortModeClass : PageSortModeClass.Full;
                 bookSetting.SortMode = pageSortModeClass.ValidatePageSortMode(bookSetting.SortMode);
 
                 AppDispatcher.Invoke(() =>

@@ -1,6 +1,9 @@
 ﻿using NeeLaboratory.IO;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Threading;
 
@@ -9,6 +12,26 @@ namespace NeeView
     public static class PlaylistSourceTools
     {
         private static readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
+
+
+        public static string CreateTempPlaylist(IEnumerable<string> files)
+        {
+            if (files is null || !files.Any())
+            {
+                return null;
+            }
+
+            return CreateTmpPlaylist(files, Temporary.Current.TempDownloadDirectory);
+        }
+
+        private static string CreateTmpPlaylist(IEnumerable<string> files, string outputDirectory)
+        {
+            string name = DateTime.Now.ToString("yyyyMMddHHmmss") + PlaylistArchive.Extension;
+            string path = FileIO.CreateUniquePath(System.IO.Path.Combine(outputDirectory, name));
+            Save(new PlaylistSource(files), path, true);
+            return path;
+        }
+
 
         public static void Save(this PlaylistSource playlist, string path, bool overwrite)
         {

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace NeeView
 {
@@ -7,7 +8,7 @@ namespace NeeView
     /// </summary>
     public class FirstLoader
     {
-        private string _bookPath;
+        private List<string> _bookPaths;
         private string _folderPath;
         private bool _isFolderLink;
         private BookLoadOption _bookLoadOptions;
@@ -15,7 +16,7 @@ namespace NeeView
 
         public void Load()
         {
-            _bookPath = null;
+            _bookPaths = null;
             _folderPath = App.Current.Option.FolderList;
 
             if (Config.Current.StartUp.LastBookPath?.StartsWith(Temporary.Current.TempRootPath) == true)
@@ -38,25 +39,24 @@ namespace NeeView
         {
             if (App.Current.Option.IsBlank == SwitchOption.on)
             {
-                _bookPath = null;
+                _bookPaths = null;
                 return;
             }
 
             // 起動引数の場所で開く
-            var path = PlaylistBookLoader.CreateLoadPath(App.Current.Option.Values);
-            if (path != null)
+            if (App.Current.Option.Values.Count >= 1)
             {
-                _bookPath = path;
+                _bookPaths = App.Current.Option.Values.ToList();
                 return;
             }
 
             // 最後に開いたブックを復元する
             if (Config.Current.StartUp.IsOpenLastBook)
             {
-                path = Config.Current.StartUp.LastBookPath;
+                var path = Config.Current.StartUp.LastBookPath;
                 if (path != null)
                 {
-                    _bookPath = path;
+                    _bookPaths = new List<string> { path };
                     _bookLoadOptions = BookLoadOption.Resume | BookLoadOption.IsBook;
 
                     if (_folderPath == null && Config.Current.StartUp.LastFolderPath != null)
@@ -104,7 +104,7 @@ namespace NeeView
             }
 
             // Bookが指定されていなければ既定の場所を開く
-            if (_bookPath == null)
+            if (_bookPaths == null)
             {
                 // 前回開いていたフォルダーを復元する
                 if (Config.Current.StartUp.LastFolderPath != null)
@@ -121,16 +121,9 @@ namespace NeeView
 
         private void LoadBook()
         {
-            if (_bookPath != null)
+            if (_bookPaths != null)
             {
-                if (PlaylistArchive.IsSupportExtension(_bookPath))
-                {
-                    PlaylistBookLoader.LoadPlaylist(this, _bookPath, true);
-                }
-                else
-                {
-                    BookHub.Current.RequestLoad(this, _bookPath, null, _bookLoadOptions, _folderPath == null);
-                }
+                BookHubTools.RequestLoad(this, _bookPaths, _bookLoadOptions, _folderPath == null);
             }
         }
 
@@ -138,7 +131,7 @@ namespace NeeView
         {
             if (_folderPath != null)
             {
-                var select = _isFolderLink ? new FolderItemPosition(new QueryPath(_bookPath)) : null;
+                var select = _isFolderLink ? new FolderItemPosition(new QueryPath(_bookPaths?.FirstOrDefault())) : null;
                 BookshelfFolderList.Current.RequestPlace(new QueryPath(_folderPath), select, FolderSetPlaceOption.UpdateHistory);
             }
         }

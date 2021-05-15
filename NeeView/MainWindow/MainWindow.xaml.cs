@@ -548,11 +548,11 @@ namespace NeeView
 
         private void MainWindow_Closed(object sender, EventArgs e)
         {
+            CompositionTarget.Rendering -= OnRendering;
+
             App.Current.DisableUnhandledException();
 
             ApplicationDisposer.Current.Dispose();
-
-            CompositionTarget.Rendering -= OnRendering;
 
             // タイマー停止
             ////_nonActiveTimer.Stop();

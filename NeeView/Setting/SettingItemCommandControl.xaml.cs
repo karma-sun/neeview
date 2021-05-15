@@ -96,6 +96,7 @@ namespace NeeView.Setting
             ItemsViewSource.Filter += ItemsViewSource_Filter;
 
             this.Loaded += SettingItemCommandControl_Loaded;
+            this.Unloaded += SettingItemCommandControl_Unloaded;
         }
 
 
@@ -130,6 +131,8 @@ namespace NeeView.Setting
 
         private void SettingItemCommandControl_Loaded(object sender, RoutedEventArgs e)
         {
+            CommandTable.Current.Changed += CommandTable_Changed;
+
             if (_commandTableChangeCount != CommandTable.Current.ChangeCount)
             {
                 UpdateCommandList();
@@ -138,6 +141,17 @@ namespace NeeView.Setting
             this.SearchKeyword = "";
             Search();
         }
+
+        private void SettingItemCommandControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            CommandTable.Current.Changed -= CommandTable_Changed;
+        }
+
+        private void CommandTable_Changed(object sender, CommandChangedEventArgs e)
+        {
+            UpdateCommandList();
+        }
+
 
         // 全コマンド初期化ボタン処理
         private void ResetGestureSettingButton_Click(object sender, RoutedEventArgs e)
@@ -151,14 +165,14 @@ namespace NeeView.Setting
             {
                 CommandTable.Current.ScriptManager.UpdateScriptCommands(isForce: true, isReplace: true);
                 CommandTable.Current.RestoreCommandCollection(dialog.CreateCommandMemento());
-
-                UpdateCommandList();
             }
         }
 
         // コマンド一覧 更新
         private void UpdateCommandList()
         {
+            var selectedItem = CommandListView.SelectedItem as CommandItem;
+
             _commandTableChangeCount = CommandTable.Current.ChangeCount;
 
             _commandItems.Clear();
@@ -190,6 +204,11 @@ namespace NeeView.Setting
             UpdateCommandListTouchGesture();
 
             this.CommandListView.Items.Refresh();
+
+            if (selectedItem != null)
+            {
+                CommandListView.SelectedItem = _commandItems.FirstOrDefault(x => x.Key == selectedItem.Key);
+            }
         }
 
         // コマンド一覧 ショートカット更新
@@ -324,10 +343,7 @@ namespace NeeView.Setting
             dialog.Initialize(key, tab);
             dialog.Owner = Window.GetWindow(this);
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            if (dialog.ShowDialog() == true)
-            {
-                UpdateCommandList();
-            }
+            dialog.ShowDialog();
         }
 
         private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)

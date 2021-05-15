@@ -30,7 +30,7 @@
             </DockPanel>
 
             <Border BorderThickness="0" BorderBrush="LightGray">
-                <ListView x:Name="CommandListView" ItemsSource="{Binding ItemsViewSource.View}" BorderThickness="0" TabIndex="1"
+                <ListView x:Name="CommandListView" ItemsSource="{Binding ItemsViewSource.View}" BorderThickness="0" TabIndex="1"  SelectionMode="Single"
                         VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.ScrollUnit="Item" VirtualizingStackPanel.VirtualizationMode="Standard">
                     <ListView.Resources>
                         <DataTemplate x:Key="listGroupTemplate">

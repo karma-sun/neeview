@@ -43,13 +43,14 @@ namespace NeeView
     /// <summary>
     /// コマンド設定テーブル
     /// </summary>
-    public partial class CommandTable : BindableBase, IDictionary<string, CommandElement>
+    public partial class CommandTable : BindableBase, IDictionary<string, CommandElement>, IDisposable
     {
         static CommandTable() => Current = new CommandTable();
         public static CommandTable Current { get; }
 
 
         private Dictionary<string, CommandElement> _elements;
+        private bool _disposedValue;
 
 
         private CommandTable()
@@ -59,6 +60,8 @@ namespace NeeView
             this.ScriptManager = new ScriptManager(this);
 
             Changed += CommandTable_Changed;
+
+            ApplicationDisposer.Current.Add(this);
         }
 
 
@@ -568,7 +571,11 @@ namespace NeeView
 
         #region Scripts
 
-
+        /// <summary>
+        /// スクリプトコマンド更新要求
+        /// </summary>
+        /// <param name="commands">新しいスクリプトコマンド群</param>
+        /// <param name="isReplace">登録済コマンドも置き換える</param>
         public void SetScriptCommands(IEnumerable<ScriptCommand> commands, bool isReplace)
         {
             commands = commands ?? new List<ScriptCommand>();
@@ -616,6 +623,28 @@ namespace NeeView
 
         #endregion Scripts
 
+        #region IDisposable
+        
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    this.ScriptManager.Dispose();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion IDisposable
 
         #region Memento
 

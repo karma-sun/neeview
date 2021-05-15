@@ -8,24 +8,47 @@ using System.Linq;
 
 namespace NeeView
 {
-    public class ScriptManager
+    public class ScriptManager : IDisposable
     {
         private CommandTable _commandTable;
         private bool _isDarty = true;
         private ScriptUnitPool _pool = new ScriptUnitPool();
-
+        private ScriptFolderWatcher _watcher;
+        private bool _disposedValue;
 
         public ScriptManager(CommandTable commandTable)
         {
             _commandTable = commandTable;
-            Config.Current.Script.AddPropertyChanged(nameof(ScriptConfig.IsScriptFolderEnabled), ScriptConfigChanged);
-            Config.Current.Script.AddPropertyChanged(nameof(ScriptConfig.ScriptFolder), ScriptConfigChanged);
+
+            _watcher = new ScriptFolderWatcher();
+            _watcher.Changed += (s, e) => UpdateScriptCommands(true, false);
+
+            Config.Current.Script.AddPropertyChanged(nameof(ScriptConfig.IsScriptFolderEnabled),
+                ScriptConfigChanged);
+
+            Config.Current.Script.AddPropertyChanged(nameof(ScriptConfig.ScriptFolder),
+                ScriptConfigChanged);
+
+            UpdateWatcher();
         }
 
 
         private void ScriptConfigChanged(object sender, PropertyChangedEventArgs e)
         {
             UpdateScriptCommands(isForce: true, isReplace: false);
+            UpdateWatcher();
+        }
+
+        private void UpdateWatcher()
+        {
+            if (Config.Current.Script.IsScriptFolderEnabled)
+            {
+                _watcher.Start(Config.Current.Script.ScriptFolder);
+            }
+            else
+            {
+                _watcher.Stop();
+            }
         }
 
         public void OpenScriptsFolder()
@@ -54,7 +77,12 @@ namespace NeeView
         }
 
 
-
+        /// <summary>
+        /// コマンドテーブルのスクリプトコマンド更新要求
+        /// </summary>
+        /// <param name="isForce">強制実行</param>
+        /// <param name="isReplace">登録済スクリプトも置き換える</param>
+        /// <returns>実行した</returns>
         public bool UpdateScriptCommands(bool isForce, bool isReplace)
         {
             if (!isForce && !_isDarty) return false;
@@ -114,6 +142,26 @@ namespace NeeView
         public void CancelAll()
         {
             _pool.CancelAll();
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    CancelAll();
+                    _watcher.Dispose();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }

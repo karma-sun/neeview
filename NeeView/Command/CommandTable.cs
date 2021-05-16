@@ -428,7 +428,72 @@ namespace NeeView
             }
             else
             {
-                throw new ArgumentOutOfRangeException(key);
+                return CommandElement.None;
+            }
+        }
+
+        public CommandElement CreateCloneCommand(CommandElement source)
+        {
+            var cloneCommand = CloneCommand(source);
+
+            Changed?.Invoke(this, new CommandChangedEventArgs(false));
+
+            return cloneCommand;
+        }
+
+        public void RemoveCloneCommand(CommandElement command)
+        {
+            if (command.IsCloneCommand())
+            {
+                _elements.Remove(command.Name);
+
+                Changed?.Invoke(this, new CommandChangedEventArgs(false));
+            }
+        }
+
+        private CommandElement CloneCommand(CommandElement source)
+        {
+            var cloneCommandName = CraeteUniqueCommandName(source.NameSource);
+            return CloneCommand(source, cloneCommandName);
+        }
+
+        private CommandElement CloneCommand(CommandElement source, CommandNameSource name)
+        {
+            var cloneCommand = source.CloneCommand(name);
+            _elements.Add(cloneCommand.Name, cloneCommand);
+            ValudateOrder();
+            return cloneCommand;
+        }
+
+        private CommandNameSource CraeteUniqueCommandName(CommandNameSource name)
+        {
+            if (!_elements.ContainsKey(name.FullName))
+            {
+                return name;
+            }
+
+            for (int id = 2; ; id++)
+            {
+                var newName = new CommandNameSource(name.Name, id);
+                if (!_elements.ContainsKey(newName.FullName))
+                {
+                    return newName;
+                }
+            }
+        }
+
+        private void ValudateOrder()
+        {
+            var sorted = _elements.Values
+                .OrderBy(e => e.Order)
+                .GroupBy(e => e.GetType())
+                .Select(group => group.OrderBy(e => e.NameSource))
+                .SelectMany(e => e)
+                .ToList();
+
+            foreach (var item in sorted.Select((e, i) => (e, i)))
+            {
+                item.e.Order = item.i;
             }
         }
 
@@ -611,7 +676,7 @@ namespace NeeView
 
             // re order
             var scripts = _elements.Where(e => e.Key.StartsWith(ScriptCommand.Prefix)).Select(e => e.Value);
-            var offset = _elements.Count - scripts.Count();
+            var offset = _elements.Count;
             foreach (var item in scripts.Select((e, i) => (e, i)))
             {
                 item.e.Order = offset + item.i;
@@ -624,7 +689,7 @@ namespace NeeView
         #endregion Scripts
 
         #region IDisposable
-        
+
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposedValue)
@@ -923,7 +988,24 @@ namespace NeeView
                 }
                 else
                 {
-                    Debug.WriteLine($"Warning: No such command '{pair.Key}'");
+                    var cloneName = CommandNameSource.Parse(pair.Key);
+                    if (cloneName.IsClone)
+                    {
+                        if (_elements.TryGetValue(cloneName.Name, out var source))
+                        {
+                            var command = CloneCommand(source, cloneName);
+                            Debug.Assert(command.Name == pair.Key);
+                            command.RestoreV2(pair.Value);
+                        }
+                        else
+                        {
+                            Debug.WriteLine($"Warning: No such clone source command '{cloneName.Name}'");
+                        }
+                    }
+                    else
+                    {
+                        Debug.WriteLine($"Warning: No such command '{pair.Key}'");
+                    }
                 }
             }
 

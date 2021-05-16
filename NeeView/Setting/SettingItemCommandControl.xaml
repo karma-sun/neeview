@@ -44,9 +44,20 @@
 
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem" BasedOn="{StaticResource NVListViewItem}">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                             <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick" />
                             <EventSetter Event="KeyDown" Handler="ListViewItem_KeyDown" />
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="ContextMenu">
+                                <Setter.Value>
+                                    <ContextMenu>
+                                        <MenuItem Header="{x:Static properties:Resources.CommandListItem_Menu_Edit}" Command="{x:Static local:SettingItemCommandControl.EditCommand}" />
+                                        <Separator />
+                                        <MenuItem Header="{x:Static properties:Resources.CommandListItem_Menu_Clone}" Command="{x:Static local:SettingItemCommandControl.CloneCommand}" />
+                                        <MenuItem Header="{x:Static properties:Resources.CommandListItem_Menu_Delete}" Command="{x:Static local:SettingItemCommandControl.RemoveCommand}" />
+                                    </ContextMenu>
+                                </Setter.Value>
+                            </Setter>
+                                    
                         </Style>
                     </ListView.ItemContainerStyle>
 

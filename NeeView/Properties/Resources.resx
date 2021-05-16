@@ -7155,4 +7155,13 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="PlaylistErrorDialog.FolderIsNotSet" xml:space="preserve">
     <value>Folder is not set.</value>
   </data>
+  <data name="CommandListItem.Menu.Edit" xml:space="preserve">
+    <value>_Edit</value>
+  </data>
+  <data name="CommandListItem.Menu.Clone" xml:space="preserve">
+    <value>_Clone</value>
+  </data>
+  <data name="CommandListItem.Menu.Delete" xml:space="preserve">
+    <value>_Delete</value>
+  </data>
 </root>

@@ -80,16 +80,12 @@ namespace NeeView
             _isDarty = true;
         }
 
-        // Update RoutedCommand
-        // スクリプトコマンドは変動する可能性がある
         public void UpdateRoutedCommand()
         {
             var oldies = Commands.Keys
-                .Where(e => e.StartsWith(ScriptCommand.Prefix))
                 .ToList();
 
             var newers = CommandTable.Current.Keys
-                .Where(e => e.StartsWith(ScriptCommand.Prefix))
                 .ToList();
 
             foreach (var name in oldies.Except(newers))

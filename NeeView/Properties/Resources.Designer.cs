@@ -3289,6 +3289,33 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   _Clone に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandListItem_Menu_Clone {
+            get {
+                return ResourceManager.GetString("CommandListItem.Menu.Clone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _Delete に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandListItem_Menu_Delete {
+            get {
+                return ResourceManager.GetString("CommandListItem.Menu.Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _Edit に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandListItem_Menu_Edit {
+            get {
+                return ResourceManager.GetString("CommandListItem.Menu.Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Parameter sharing with &quot;{0}&quot; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandListItem_Message_ShareParameter {

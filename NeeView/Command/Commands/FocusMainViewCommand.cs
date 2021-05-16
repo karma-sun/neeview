@@ -10,7 +10,7 @@ namespace NeeView
             this.Group = Properties.Resources.CommandGroup_Panel;
             this.IsShowMessage = false;
 
-            this.ParameterSource = new CommandParameterSource(new FocusMainViewCommandParameter() { NeedClosePanels = false });
+            this.ParameterSource = new CommandParameterSource(new FocusMainViewCommandParameter());
         }
 
         public override void Execute(object sender, CommandContext e)

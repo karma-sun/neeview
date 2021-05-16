@@ -86,7 +86,7 @@ namespace NeeView
 
         public CommandElement(string name)
         {
-            Name = name ?? _trimCommand.Replace(this.GetType().Name, "");
+            NameSource = new CommandNameSource(name ?? _trimCommand.Replace(this.GetType().Name, ""));
 
             Text = GetResourceText(null, null, true);
             Menu = GetResourceText(nameof(Menu));
@@ -119,7 +119,11 @@ namespace NeeView
         // コマンドの並び優先度
         public int Order { get; set; }
 
-        public string Name { get; private set; }
+        // コマンド名ソース
+        public CommandNameSource NameSource { get; private set; }
+
+        // コマンド名
+        public string Name => NameSource.FullName;
 
         // コマンドのグループ
         public string Group { get; set; }
@@ -308,6 +312,49 @@ namespace NeeView
         {
             return string.Join(",", new string[] { this.Group, this.Text, this.Menu, this.Remarks, this.ShortCutKey, this.MouseGesture, new MouseGestureSequence(this.MouseGesture).ToDispString(), this.TouchGesture });
         }
+
+        // コマンドの複製
+        public CommandElement CloneCommand(CommandNameSource name)
+        {
+            var type = this.GetType();
+
+            var clone = (CommandElement)Activator.CreateInstance(type);
+
+            var memento = CreateMementoV2();
+            clone.RestoreV2(memento);
+            clone.Order = this.Order;
+            clone.ClearGestures();
+
+            clone.NameSource = name;
+
+            if (name.Number != 0)
+            {
+                clone.Text = clone.Text + " " + name.Number.ToString();
+                clone.Menu = clone.Menu + " " + name.Number.ToString();
+            }
+
+            return clone;
+        }
+
+
+        private void ClearGestures()
+        {
+            this.ShortCutKey = "";
+            this.TouchGesture = "";
+            this.MouseGesture = "";
+        }
+
+
+        public bool IsCloneCommand()
+        {
+            return NameSource.IsClone;
+        }
+
+        public bool CanClone()
+        {
+            return this.ParameterSource != null;
+        }
+
 
         #region Memento
 

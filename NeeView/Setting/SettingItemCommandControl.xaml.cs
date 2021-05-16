@@ -86,6 +86,8 @@ namespace NeeView.Setting
         public SettingItemCommandControl()
         {
             InitializeComponent();
+            InitializeCommand();
+
             this.Root.DataContext = this;
 
             // 初期化
@@ -98,6 +100,84 @@ namespace NeeView.Setting
             this.Loaded += SettingItemCommandControl_Loaded;
             this.Unloaded += SettingItemCommandControl_Unloaded;
         }
+
+
+        #region Commands
+
+        public readonly static RoutedCommand EditCommand = new RoutedCommand(nameof(EditCommand), typeof(SettingItemCommandControl));
+        public readonly static RoutedCommand CloneCommand = new RoutedCommand(nameof(CloneCommand), typeof(SettingItemCommandControl));
+        public readonly static RoutedCommand RemoveCommand = new RoutedCommand(nameof(RemoveCommand), typeof(SettingItemCommandControl));
+
+        private void InitializeCommand()
+        {
+            this.CommandListView.CommandBindings.Add(new CommandBinding(EditCommand, EditCommand_Execute, EditCommand_CanExecute));
+            this.CommandListView.CommandBindings.Add(new CommandBinding(CloneCommand, CloneCommand_Execute, CloneCommand_CanExecute));
+            this.CommandListView.CommandBindings.Add(new CommandBinding(RemoveCommand, RemoveCommand_Execute, RemoveCommand_CanExecute));
+        }
+
+        private void EditCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (this.CommandListView.SelectedItem is CommandItem item)
+            {
+                e.CanExecute = true;
+            }
+            else
+            {
+                e.CanExecute = false;
+            }
+        }
+
+        private void EditCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (this.CommandListView.SelectedItem is CommandItem item)
+            {
+                OpenEditCommandWindow(item.Key, EditCommandWindowTab.Default);
+            }
+        }
+
+        private void CloneCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (this.CommandListView.SelectedItem is CommandItem item)
+            {
+                e.CanExecute = item.Command.CanClone();
+            }
+            else
+            {
+                e.CanExecute = false;
+            }
+        }
+
+        private void CloneCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (this.CommandListView.SelectedItem is CommandItem item)
+            {
+                var command = CommandTable.Current.CreateCloneCommand(item.Command);
+                this.CommandListView.SelectedItem =_commandItems.FirstOrDefault(x => x.Command == command);
+                FocusSelectedItem();
+            }
+        }
+
+        private void RemoveCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (this.CommandListView.SelectedItem is CommandItem item)
+            {
+                e.CanExecute = item.Command.IsCloneCommand();
+            }
+            else
+            {
+                e.CanExecute = false;
+            }
+        }
+
+        private void RemoveCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (this.CommandListView.SelectedItem is CommandItem item)
+            {
+                CommandTable.Current.RemoveCloneCommand(item.Command);
+            }
+        }
+
+        #endregion Commands
 
 
         public CollectionViewSource ItemsViewSource { get; set; }
@@ -114,6 +194,21 @@ namespace NeeView.Setting
             }
         }
 
+
+        private void FocusSelectedItem()
+        {
+            var selectedItem = this.CommandListView.SelectedItem;
+            if (selectedItem is null) return;
+
+            this.CommandListView.ScrollIntoView(selectedItem);
+            this.CommandListView.UpdateLayout();
+
+            var listViewItem = (ListViewItem)this.CommandListView
+                .ItemContainerGenerator
+                .ContainerFromItem(selectedItem);
+
+            listViewItem?.Focus();
+        }
 
         private void ItemsViewSource_Filter(object sender, FilterEventArgs eventArgs)
         {
@@ -207,7 +302,8 @@ namespace NeeView.Setting
 
             if (selectedItem != null)
             {
-                CommandListView.SelectedItem = _commandItems.FirstOrDefault(x => x.Key == selectedItem.Key);
+                this.CommandListView.SelectedItem = _commandItems.FirstOrDefault(x => x.Key == selectedItem.Key);
+                FocusSelectedItem();
             }
         }
 
@@ -334,10 +430,10 @@ namespace NeeView.Setting
         private void EditCommandParameterButton_Clock(object sender, RoutedEventArgs e)
         {
             var command = (sender as Button)?.Tag as CommandItem;
-            EditCommand(command.Key, EditCommandWindowTab.Parameter);
+            OpenEditCommandWindow(command.Key, EditCommandWindowTab.Parameter);
         }
 
-        private void EditCommand(string key, EditCommandWindowTab tab)
+        private void OpenEditCommandWindow(string key, EditCommandWindowTab tab)
         {
             var dialog = new EditCommandWindow();
             dialog.Initialize(key, tab);
@@ -375,7 +471,7 @@ namespace NeeView.Setting
                     break;
             }
 
-            EditCommand(item.Key, tab);
+            OpenEditCommandWindow(item.Key, tab);
         }
 
         private void ListViewItem_KeyDown(object sender, KeyEventArgs e)
@@ -388,7 +484,7 @@ namespace NeeView.Setting
 
             if (e.Key == Key.Enter)
             {
-                EditCommand(item.Key, EditCommandWindowTab.Default);
+                OpenEditCommandWindow(item.Key, EditCommandWindowTab.Default);
                 e.Handled = true;
             }
         }

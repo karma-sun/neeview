@@ -2245,3 +2245,6 @@ OpenScriptsFolderErrorDialog.FolderIsNotSet=フォルダーが設定されてい
 SettingPage.Script.OpenScriptFolder=スクリプト フォルダーを開く
 ThemeErrorDialog.FolderIsNotSet=フォルダーが設定されていません。
 PlaylistErrorDialog.FolderIsNotSet=フォルダーが設定されていません。
+CommandListItem.Menu.Edit=編集(_E)
+CommandListItem.Menu.Clone=複製(_C)
+CommandListItem.Menu.Delete=削除(_D)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Text;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -34,23 +35,26 @@ namespace NeeView
         [Documentable(Name = "include")]
         public object ExecureFile(string path)
         {
-            return ExecureFile(path, _cancellationToken);
+            return ExecureFile(path, null, _cancellationToken);
         }
 
-        public object ExecureFile(string path, CancellationToken token)
+        public object ExecureFile(string path, string argument, CancellationToken token)
         {
             var fullpath = GetFullPath(path);
             string script = File.ReadAllText(fullpath, Encoding.UTF8);
 
             var oldPath = CurrentPath;
+            var oldArgs = _commandHost.Args;
             try
             {
                 CurrentPath = Path.GetDirectoryName(fullpath);
+                _commandHost.SetArgs(StringTools.SplitArgument(argument));
                 return Execute(script, token);
             }
             finally
             {
                 CurrentPath = oldPath;
+                _commandHost.SetArgs(oldArgs);
             }
         }
 

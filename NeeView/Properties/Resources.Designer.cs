@@ -3316,6 +3316,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   _Setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandListItem_Menu_Setting {
+            get {
+                return ResourceManager.GetString("CommandListItem.Menu.Setting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Parameter sharing with &quot;{0}&quot; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandListItem_Message_ShareParameter {
@@ -12938,6 +12947,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Argument に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ScriptCommandParameter_Argument {
+            get {
+                return ResourceManager.GetString("ScriptCommandParameter.Argument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Use scripts に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ScriptConfig_IsScriptFolderEnabled {
@@ -15943,6 +15961,24 @@ namespace NeeView.Properties {
         public static string SystemConfig_TemporaryDirectory_Remarks {
             get {
                 return ResourceManager.GetString("SystemConfig.TemporaryDirectory.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Text editor に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SystemConfig_TextEditor {
+            get {
+                return ResourceManager.GetString("SystemConfig.TextEditor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   If not set, use Notepad. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SystemConfig_TextEditor_Remarks {
+            get {
+                return ResourceManager.GetString("SystemConfig.TextEditor.Remarks", resourceCulture);
             }
         }
         

@@ -7163,10 +7163,22 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="CommandListItem.Menu.Edit" xml:space="preserve">
     <value>編集(_E)</value>
   </data>
+  <data name="CommandListItem.Menu.Setting" xml:space="preserve">
+    <value>設定(_S)</value>
+  </data>
   <data name="CommandListItem.Menu.Clone" xml:space="preserve">
     <value>複製(_C)</value>
   </data>
   <data name="CommandListItem.Menu.Delete" xml:space="preserve">
     <value>削除(_D)</value>
+  </data>
+  <data name="ScriptCommandParameter.Argument" xml:space="preserve">
+    <value>引数</value>
+  </data>
+  <data name="SystemConfig.TextEditor" xml:space="preserve">
+    <value>テキスト エディター</value>
+  </data>
+  <data name="SystemConfig.TextEditor.Remarks" xml:space="preserve">
+    <value>設定されていない場合、メモ帳を使用します。</value>
   </data>
 </root>

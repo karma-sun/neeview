@@ -666,6 +666,14 @@ namespace NeeView
 
             foreach (var name in oldies.Except(newers))
             {
+                var cloneName = CommandNameSource.Parse(name);
+                if (cloneName.IsClone)
+                {
+                    if (newers.Contains(cloneName.Name))
+                    {
+                        continue;
+                    }
+                }
                 _elements.Remove(name);
             }
 
@@ -675,7 +683,7 @@ namespace NeeView
             }
 
             // re order
-            var scripts = _elements.Where(e => e.Key.StartsWith(ScriptCommand.Prefix)).Select(e => e.Value);
+            var scripts = _elements.Where(e => e.Key.StartsWith(ScriptCommand.Prefix)).OrderBy(e => e.Key).Select(e => e.Value);
             var offset = _elements.Count;
             foreach (var item in scripts.Select((e, i) => (e, i)))
             {

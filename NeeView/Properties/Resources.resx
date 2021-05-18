@@ -7158,10 +7158,22 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="CommandListItem.Menu.Edit" xml:space="preserve">
     <value>_Edit</value>
   </data>
+  <data name="CommandListItem.Menu.Setting" xml:space="preserve">
+    <value>_Setting</value>
+  </data>
   <data name="CommandListItem.Menu.Clone" xml:space="preserve">
     <value>_Clone</value>
   </data>
   <data name="CommandListItem.Menu.Delete" xml:space="preserve">
     <value>_Delete</value>
+  </data>
+  <data name="ScriptCommandParameter.Argument" xml:space="preserve">
+    <value>Argument</value>
+  </data>
+  <data name="SystemConfig.TextEditor" xml:space="preserve">
+    <value>Text editor</value>
+  </data>
+  <data name="SystemConfig.TextEditor.Remarks" xml:space="preserve">
+    <value>If not set, use Notepad.</value>
   </data>
 </root>

@@ -28,6 +28,7 @@ namespace NeeView
         private bool _isInputMehotdEnabled;
         private DestinationFolderCollection _destinationFolderCollection = new DestinationFolderCollection();
         private ExternalAppCollection _externalAppCollection = new ExternalAppCollection() { new ExternalApp() };
+        private string _textEditor;
 
         [JsonInclude, JsonPropertyName(nameof(TemporaryDirectory))]
         public string _temporaryDirectory;
@@ -183,5 +184,14 @@ namespace NeeView
             get { return _externalAppCollection; }
             set { SetProperty(ref _externalAppCollection, value); }
         }
+
+        // テキストエディター
+        [PropertyPath(Filter = "EXE|*.exe|All|*.*")]
+        public string TextEditor
+        {
+            get { return _textEditor; }
+            set { SetProperty(ref _textEditor, string.IsNullOrWhiteSpace(value) ? null : value.Trim()); }
+        }
+
     }
 }

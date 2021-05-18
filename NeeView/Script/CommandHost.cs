@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -14,6 +15,8 @@ namespace NeeView
         private object _sender;
         private CommandTable _commandTable;
         private ConfigMap _configMap;
+        private List<string> _args = new List<string>();
+
 
         public CommandHost(object sender, CommandTable commandTable, ConfigMap configMap)
         {
@@ -31,6 +34,10 @@ namespace NeeView
             Effect = new EffectPanelAccessor();
             Navigator = new NavigatorPanelAccessor();
         }
+
+
+        [WordNodeMember(IsAutoCollect = false)]
+        public List<string> Args => _args;
 
         [WordNodeMember(IsAutoCollect = false)]
         public Dictionary<string, object> Values => _values;
@@ -68,11 +75,17 @@ namespace NeeView
         [WordNodeMember(IsAutoCollect = false)]
         public NavigatorPanelAccessor Navigator { get; }
 
+        [Obsolete]
         public object Pagemark
         {
             get => throw new NotSupportedException("Script: Pagemark is obsolete. Use PageList instead.");
         }
 
+
+        internal void SetArgs(List<string> args)
+        {
+            _args = args;
+        }
 
         [WordNodeMember]
         public void ShowMessage(string message)
@@ -134,6 +147,7 @@ namespace NeeView
         {
             var node = WordNodeHelper.CreateClassWordNode(name, this.GetType());
 
+            node.Children.Add(new WordNode(nameof(Args)));
             node.Children.Add(new WordNode(nameof(Values)));
             node.Children.Add(Config.CreateWordNode(nameof(Config)));
             node.Children.Add(Book.CreateWordNode(nameof(Book)));

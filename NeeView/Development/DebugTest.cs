@@ -1,4 +1,5 @@
-﻿using SevenZip;
+﻿using NeeView.Text;
+using SevenZip;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,6 +17,9 @@ namespace NeeView
     {
         public static async Task ExecuteTestAsync()
         {
+            StringTools.TestStringArgumentSplitter();
+            return;
+
             var sw = Stopwatch.StartNew();
             Debug.WriteLine("\n[DebugTest]...");
             await Task.CompletedTask;

@@ -104,18 +104,20 @@ namespace NeeView.Setting
 
         #region Commands
 
+        public readonly static RoutedCommand SettingCommand = new RoutedCommand(nameof(SettingCommand), typeof(SettingItemCommandControl));
         public readonly static RoutedCommand EditCommand = new RoutedCommand(nameof(EditCommand), typeof(SettingItemCommandControl));
         public readonly static RoutedCommand CloneCommand = new RoutedCommand(nameof(CloneCommand), typeof(SettingItemCommandControl));
         public readonly static RoutedCommand RemoveCommand = new RoutedCommand(nameof(RemoveCommand), typeof(SettingItemCommandControl));
 
         private void InitializeCommand()
         {
+            this.CommandListView.CommandBindings.Add(new CommandBinding(SettingCommand, SettingCommand_Execute, SettingCommand_CanExecute));
             this.CommandListView.CommandBindings.Add(new CommandBinding(EditCommand, EditCommand_Execute, EditCommand_CanExecute));
             this.CommandListView.CommandBindings.Add(new CommandBinding(CloneCommand, CloneCommand_Execute, CloneCommand_CanExecute));
             this.CommandListView.CommandBindings.Add(new CommandBinding(RemoveCommand, RemoveCommand_Execute, RemoveCommand_CanExecute));
         }
 
-        private void EditCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        private void SettingCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             if (this.CommandListView.SelectedItem is CommandItem item)
             {
@@ -127,11 +129,31 @@ namespace NeeView.Setting
             }
         }
 
-        private void EditCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        private void SettingCommand_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             if (this.CommandListView.SelectedItem is CommandItem item)
             {
                 OpenEditCommandWindow(item.Key, EditCommandWindowTab.Default);
+            }
+        }
+
+        private void EditCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (this.CommandListView.SelectedItem is CommandItem item)
+            {
+                e.CanExecute = item.Command is ScriptCommand;
+            }
+            else
+            {
+                e.CanExecute = false;
+            }
+        }
+
+        private void EditCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (this.CommandListView.SelectedItem is CommandItem item && item.Command is ScriptCommand command)
+            {
+                command.OpenFile();
             }
         }
 
@@ -299,11 +321,16 @@ namespace NeeView.Setting
             UpdateCommandListTouchGesture();
 
             this.CommandListView.Items.Refresh();
+            //this.CommandListView.UpdateLayout();
 
             if (selectedItem != null)
             {
-                this.CommandListView.SelectedItem = _commandItems.FirstOrDefault(x => x.Key == selectedItem.Key);
-                FocusSelectedItem();
+                var item = _commandItems.FirstOrDefault(x => x.Key == selectedItem.Key);
+                if (item != null)
+                {
+                    this.CommandListView.SelectedItem = item;
+                    FocusSelectedItem();
+                }
             }
         }
 
@@ -489,6 +516,20 @@ namespace NeeView.Setting
             }
         }
 
+        private void ListViewItem_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            ContextMenu contextMenu = (sender as ListViewItem)?.ContextMenu;
+            if (contextMenu is null) return;
+
+            var editMenu = contextMenu.Items.OfType<MenuItem>().FirstOrDefault(x => x.Name == "EditMenu");
+            if (editMenu is null) return;
+
+            if (this.CommandListView.SelectedItem is CommandItem item)
+            {
+                editMenu.Visibility = (item.Command is ScriptCommand) ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
         /// <summary>
         /// ビジュアルツリーの親に定義されている文字列タグを取得。
         /// </summary>
@@ -518,5 +559,7 @@ namespace NeeView.Setting
 
             ItemsViewSource.View.Refresh();
         }
+
+
     }
 }

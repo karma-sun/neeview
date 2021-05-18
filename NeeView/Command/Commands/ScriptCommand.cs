@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Windows.Property;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -34,12 +35,22 @@ namespace NeeView
             {
                 this.Remarks = Properties.Resources.ScriptCommand_Remarks;
             }
+
+            this.ParameterSource = new CommandParameterSource(new ScriptCommandParameter());
         }
 
+        protected override CommandElement CloneInstance()
+        {
+            var type = this.GetType();
+            var command =  new ScriptCommand(this.NameSource.Name);
+            command.Text = this.Text;
+            command.Remarks = this.Remarks;
+            return command;
+        }
 
         public override void Execute(object sender, CommandContext e)
         {
-            CommandTable.Current.ScriptManager.Execute(sender, Path.Combine(GetScriptFileName()));
+            CommandTable.Current.ScriptManager.Execute(sender, GetScriptFileName(), ((ScriptCommandParameter)e.Parameter).Argument);
         }
 
         public string GetScriptFileName()
@@ -89,6 +100,25 @@ namespace NeeView
                     }
                 }
             }
+        }
+
+        public void OpenFile()
+        {
+            ExternalProcess.OpenWithTextEditor(GetScriptFileName());
+        }
+    }
+
+
+
+    public class ScriptCommandParameter : CommandParameter
+    {
+        private string _argument;
+        
+        [PropertyMember]
+        public string Argument
+        {
+            get { return _argument; }
+            set { SetProperty(ref _argument, string.IsNullOrWhiteSpace(value) ? null : value.Trim()); }
         }
     }
 }

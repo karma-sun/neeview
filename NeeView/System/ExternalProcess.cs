@@ -63,5 +63,12 @@ namespace NeeView
                 }
             }
         }
+
+
+        public static void OpenWithTextEditor(string path)
+        {
+            var textEditor = Config.Current.System.TextEditor ?? "notepad.exe";
+            Start(textEditor, $"\"{path}\"");
+        }
     }
 }

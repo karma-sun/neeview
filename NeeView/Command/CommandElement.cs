@@ -313,12 +313,18 @@ namespace NeeView
             return string.Join(",", new string[] { this.Group, this.Text, this.Menu, this.Remarks, this.ShortCutKey, this.MouseGesture, new MouseGestureSequence(this.MouseGesture).ToDispString(), this.TouchGesture });
         }
 
+        protected virtual CommandElement CloneInstance()
+        {
+            var type = this.GetType();
+            return (CommandElement)Activator.CreateInstance(type);
+        }
+
         // コマンドの複製
         public CommandElement CloneCommand(CommandNameSource name)
         {
             var type = this.GetType();
 
-            var clone = (CommandElement)Activator.CreateInstance(type);
+            var clone = CloneInstance();
 
             var memento = CreateMementoV2();
             clone.RestoreV2(memento);

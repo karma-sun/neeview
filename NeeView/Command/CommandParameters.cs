@@ -94,6 +94,7 @@ namespace NeeView
             typeof(OpenExternalAppCommandParameter),
             typeof(CopyFileCommandParameter),
             typeof(ViewScrollNTypeCommandParameter),
+            typeof(ScriptCommandParameter),
         };
 
 

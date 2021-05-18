@@ -134,9 +134,9 @@ namespace NeeView
             return new List<FileInfo>();
         }
 
-        public void Execute(object sender, string path)
+        public void Execute(object sender, string path, string argument)
         {
-            _pool.Run(sender, path);
+            _pool.Run(sender, path, argument);
         }
 
         public void CancelAll()

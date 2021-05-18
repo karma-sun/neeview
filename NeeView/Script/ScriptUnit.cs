@@ -20,12 +20,12 @@ namespace NeeView
             _pool = pool;
         }
 
-        public void Execute(object sender, string path)
+        public void Execute(object sender, string path, string argument)
         {
-            _task = Task.Run(() => ExecuteInner(sender, path));
+            _task = Task.Run(() => ExecuteInner(sender, path, argument));
         }
 
-        private void ExecuteInner(object sender, string path)
+        private void ExecuteInner(object sender, string path, string argument)
         {
             JavascriptEngine commandEngine = null;
 
@@ -35,7 +35,7 @@ namespace NeeView
                 var commandHost = new CommandHost(sender, CommandTable.Current, ConfigMap.Current);
                 commandEngine = new JavascriptEngine(commandHost);
                 commandEngine.LogAction = e => Debug.WriteLine(e);
-                commandEngine.ExecureFile(path, _cancellationTokenSource.Token);
+                commandEngine.ExecureFile(path, argument, _cancellationTokenSource.Token);
             }
             catch (OperationCanceledException)
             {

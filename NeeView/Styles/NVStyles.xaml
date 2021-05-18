@@ -552,10 +552,10 @@
 
 
     <Style x:Key="NVListViewItem" TargetType="{x:Type ListViewItem}">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Padding" Value="5,2" />
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="RenderOptions.ClearTypeHint" Value="{DynamicResource Window.ClearTypeHint}" />
         <Setter Property="Template">
             <Setter.Value>

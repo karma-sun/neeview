@@ -49,6 +49,8 @@ namespace NeeView.Setting
                 section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(ExplorerContextMenu.Current, nameof(ExplorerContextMenu.IsEnabled))));
             }
 
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.TextEditor))) { IsStretch = true });
+
             this.Items = new List<SettingItem>() { section };
         }
     }

@@ -7173,12 +7173,18 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>削除(_D)</value>
   </data>
   <data name="ScriptCommandParameter.Argument" xml:space="preserve">
-    <value>引数</value>
+    <value>コマンド引数</value>
+  </data>
+  <data name="ScriptCommandParameter.Argument.Remarks" xml:space="preserve">
+    <value>スクリプトの「nv.Args」に収納されます。</value>
   </data>
   <data name="SystemConfig.TextEditor" xml:space="preserve">
     <value>テキスト エディター</value>
   </data>
   <data name="SystemConfig.TextEditor.Remarks" xml:space="preserve">
     <value>設定されていない場合、メモ帳を使用します。</value>
+  </data>
+  <data name="CommandHost.Args" xml:space="preserve">
+    <value>コマンド引数はこの配列に収納されます。</value>
   </data>
 </root>

@@ -457,6 +457,7 @@ namespace NeeView.Setting
         private void EditCommandParameterButton_Clock(object sender, RoutedEventArgs e)
         {
             var command = (sender as Button)?.Tag as CommandItem;
+            this.CommandListView.SelectedItem = command;
             OpenEditCommandWindow(command.Key, EditCommandWindowTab.Parameter);
         }
 

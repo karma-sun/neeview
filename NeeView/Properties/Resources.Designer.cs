@@ -2936,6 +2936,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Command arguments are stored in this array. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandHost_Args {
+            get {
+                return ResourceManager.GetString("CommandHost.Args", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Current book accessor に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandHost_Book {
@@ -12947,11 +12956,20 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Argument に類似しているローカライズされた文字列を検索します。
+        ///   Command arguments に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ScriptCommandParameter_Argument {
             get {
                 return ResourceManager.GetString("ScriptCommandParameter.Argument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   It is stored in the script &quot;nv.Args&quot;. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ScriptCommandParameter_Argument_Remarks {
+            get {
+                return ResourceManager.GetString("ScriptCommandParameter.Argument.Remarks", resourceCulture);
             }
         }
         

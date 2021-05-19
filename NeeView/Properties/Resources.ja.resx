@@ -3515,7 +3515,7 @@ include("Sample.nvjs")</value>
     <value>上下反転</value>
   </data>
   <data name="Navigator.IsKeepAngle" xml:space="preserve">
-    <value>角度を維持</value>
+    <value>回転を維持</value>
   </data>
   <data name="Navigator.IsKeepFlip" xml:space="preserve">
     <value>反転を維持</value>
@@ -6337,7 +6337,7 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
     <value>ページを変更しても反転を維持する</value>
   </data>
   <data name="ViewConfig.IsKeepScale" xml:space="preserve">
-    <value>ページを変更しても拡縮を維持する</value>
+    <value>ページを変更してもスケールを維持する</value>
   </data>
   <data name="ViewConfig.IsLimitMove" xml:space="preserve">
     <value>移動をウィンドウ内に制限する</value>
@@ -7186,5 +7186,26 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="CommandHost.Args" xml:space="preserve">
     <value>コマンド引数はこの配列に収納されます。</value>
+  </data>
+  <data name="Navigator.IsKeepAngleBooks" xml:space="preserve">
+    <value>ブック変更時に回転を維持</value>
+  </data>
+  <data name="Navigator.IsKeepScaleBooks" xml:space="preserve">
+    <value>ブック変更時にスケールを維持</value>
+  </data>
+  <data name="Navigator.IsKeepFlipBooks" xml:space="preserve">
+    <value>ブック変更時に反転を維持</value>
+  </data>
+  <data name="ViewConfig.IsKeepAngleBooks" xml:space="preserve">
+    <value>ブックを変更しても回転を維持する</value>
+  </data>
+  <data name="ViewConfig.IsKeepAngleBooks.Remarks" xml:space="preserve">
+    <value>「@ViewConfig.IsKeepAngle」が有効なときに機能します。</value>
+  </data>
+  <data name="ViewConfig.IsKeepScaleBooks" xml:space="preserve">
+    <value>ブックを変更してもスケールを維持する</value>
+  </data>
+  <data name="ViewConfig.IsKeepFlipBooks" xml:space="preserve">
+    <value>ブックを変更しても反転を維持する</value>
   </data>
 </root>

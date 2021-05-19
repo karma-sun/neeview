@@ -42,7 +42,7 @@ namespace NeeView
 
         public void ResetContentSizeAndTransform()
         {
-            _viewComponent.ContentCanvas.ResetContentSizeAndTransform();
+            _viewComponent.ContentCanvas.ResetContentSizeAndTransform(new ResetTransformCondition(true));
         }
 
         public void ViewRotateLeft(ViewRotateCommandParameter parameter)

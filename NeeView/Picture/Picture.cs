@@ -131,9 +131,11 @@ namespace NeeView
                 return false;
             }
 
-            ////var nowSize = new Size(this.BitmapSource.PixelWidth, this.BitmapSource.PixelHeight);
-            ////Debug.WriteLine($"Resize: {isDartyResizeParameter}: {nowSize.Truncate()} -> {size.Truncate()}");
-            ////Debug.WriteLine($"BMP: {this.PictureSource.ArchiveEntry.EntryName}: {this.PictureInfo.Size} -> {size}");
+#if false
+            var nowSize = new Size(this.PictureInfo.BitmapInfo.PixelWidth, this.PictureInfo.BitmapInfo.PixelHeight);
+            Debug.WriteLine($"Resize: {isDartyResizeParameter}: {nowSize.Truncate()} -> {size.Truncate()}");
+            Debug.WriteLine($"BMP: {this.PictureSource.ArchiveEntry.EntryName}: {this.PictureInfo.Size} -> {size}");
+#endif
 
             var image = CreateImageSource(size, keepAspectRatio, token);
             if (image == null)

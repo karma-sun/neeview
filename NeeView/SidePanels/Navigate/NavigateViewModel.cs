@@ -103,16 +103,34 @@ namespace NeeView
             set => _model.IsKeepAngle = value;
         }
 
+        public bool IsKeepAngleBooks
+        {
+            get => _model.IsKeepAngleBooks;
+            set => _model.IsKeepAngleBooks = value;
+        }
+
         public bool IsKeepScale
         {
             get => _model.IsKeepScale;
             set => _model.IsKeepScale = value;
         }
 
+        public bool IsKeepScaleBooks
+        {
+            get => _model.IsKeepScaleBooks;
+            set => _model.IsKeepScaleBooks = value;
+        }
+
         public bool IsKeepFlip
         {
             get => _model.IsKeepFlip;
             set => _model.IsKeepFlip = value;
+        }
+
+        public bool IsKeepFlipBooks
+        {
+            get => _model.IsKeepFlipBooks;
+            set => _model.IsKeepFlipBooks = value;
         }
 
         public bool AllowStretchScaleUp
@@ -166,11 +184,20 @@ namespace NeeView
                 case nameof(NavigateModel.IsKeepAngle):
                     RaisePropertyChanged(nameof(IsKeepAngle));
                     break;
+                case nameof(NavigateModel.IsKeepAngleBooks):
+                    RaisePropertyChanged(nameof(IsKeepAngleBooks));
+                    break;
                 case nameof(NavigateModel.IsKeepScale):
                     RaisePropertyChanged(nameof(IsKeepScale));
                     break;
+                case nameof(NavigateModel.IsKeepScaleBooks):
+                    RaisePropertyChanged(nameof(IsKeepScaleBooks));
+                    break;
                 case nameof(NavigateModel.IsKeepFlip):
-                    RaisePropertyChanged(nameof(IsKeepScale));
+                    RaisePropertyChanged(nameof(IsKeepFlip));
+                    break;
+                case nameof(NavigateModel.IsKeepFlipBooks):
+                    RaisePropertyChanged(nameof(IsKeepFlipBooks));
                     break;
             }
         }

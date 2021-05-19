@@ -6323,13 +6323,13 @@ $Name is the main page (the smaller page number) when displaying 2 pages.</value
     <value>Enable base scale.</value>
   </data>
   <data name="ViewConfig.IsKeepAngle" xml:space="preserve">
-    <value>Keeping rotation even if you change the page</value>
+    <value>Maintain the angle even when changing pages</value>
   </data>
   <data name="ViewConfig.IsKeepAngle.Remarks" xml:space="preserve">
     <value>This setting does not work when automatic rotation is enabled.</value>
   </data>
   <data name="ViewConfig.IsKeepFlip" xml:space="preserve">
-    <value>Maintain reversal even when changing page</value>
+    <value>Maintain reversal even when changing pages</value>
   </data>
   <data name="ViewConfig.IsKeepScale" xml:space="preserve">
     <value>Maintain scaling even when changing pages</value>
@@ -7181,5 +7181,26 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="CommandHost.Args" xml:space="preserve">
     <value>Command arguments are stored in this array.</value>
+  </data>
+  <data name="Navigator.IsKeepAngleBooks" xml:space="preserve">
+    <value>Keep angle when changing books</value>
+  </data>
+  <data name="Navigator.IsKeepScaleBooks" xml:space="preserve">
+    <value>Keep scale when changing books</value>
+  </data>
+  <data name="Navigator.IsKeepFlipBooks" xml:space="preserve">
+    <value>Keep flip when changing books</value>
+  </data>
+  <data name="ViewConfig.IsKeepAngleBooks" xml:space="preserve">
+    <value>Maintain the angle even when changing books</value>
+  </data>
+  <data name="ViewConfig.IsKeepAngleBooks.Remarks" xml:space="preserve">
+    <value>Works when "@ViewConfig.IsKeepAngle" is enabled.</value>
+  </data>
+  <data name="ViewConfig.IsKeepScaleBooks" xml:space="preserve">
+    <value>Maintain reversal even when changing books</value>
+  </data>
+  <data name="ViewConfig.IsKeepFlipBooks" xml:space="preserve">
+    <value>Maintain scaling even when changing books</value>
   </data>
 </root>

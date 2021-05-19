@@ -9629,6 +9629,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Keep angle when changing books に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Navigator_IsKeepAngleBooks {
+            get {
+                return ResourceManager.GetString("Navigator.IsKeepAngleBooks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Keep flip に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Navigator_IsKeepFlip {
@@ -9638,11 +9647,29 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Keep flip when changing books に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Navigator_IsKeepFlipBooks {
+            get {
+                return ResourceManager.GetString("Navigator.IsKeepFlipBooks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Keep scale に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Navigator_IsKeepScale {
             get {
                 return ResourceManager.GetString("Navigator.IsKeepScale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Keep scale when changing books に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Navigator_IsKeepScaleBooks {
+            get {
+                return ResourceManager.GetString("Navigator.IsKeepScaleBooks", resourceCulture);
             }
         }
         
@@ -18746,7 +18773,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Keeping rotation even if you change the page に類似しているローカライズされた文字列を検索します。
+        ///   Maintain the angle even when changing pages に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ViewConfig_IsKeepAngle {
             get {
@@ -18764,11 +18791,38 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Maintain reversal even when changing page に類似しているローカライズされた文字列を検索します。
+        ///   Maintain the angle even when changing books に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewConfig_IsKeepAngleBooks {
+            get {
+                return ResourceManager.GetString("ViewConfig.IsKeepAngleBooks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Works when &quot;@ViewConfig.IsKeepAngle&quot; is enabled. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewConfig_IsKeepAngleBooks_Remarks {
+            get {
+                return ResourceManager.GetString("ViewConfig.IsKeepAngleBooks.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Maintain reversal even when changing pages に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ViewConfig_IsKeepFlip {
             get {
                 return ResourceManager.GetString("ViewConfig.IsKeepFlip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Maintain scaling even when changing books に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewConfig_IsKeepFlipBooks {
+            get {
+                return ResourceManager.GetString("ViewConfig.IsKeepFlipBooks", resourceCulture);
             }
         }
         
@@ -18778,6 +18832,15 @@ namespace NeeView.Properties {
         public static string ViewConfig_IsKeepScale {
             get {
                 return ResourceManager.GetString("ViewConfig.IsKeepScale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Maintain reversal even when changing books に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ViewConfig_IsKeepScaleBooks {
+            get {
+                return ResourceManager.GetString("ViewConfig.IsKeepScaleBooks", resourceCulture);
             }
         }
         

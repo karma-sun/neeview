@@ -57,16 +57,34 @@ namespace NeeView
             set => Config.Current.View.IsKeepAngle = value;
         }
 
+        public bool IsKeepAngleBooks
+        {
+            get => Config.Current.View.IsKeepAngleBooks;
+            set => Config.Current.View.IsKeepAngleBooks = value;
+        }
+
         public bool IsKeepScale
         {
             get => Config.Current.View.IsKeepScale;
             set => Config.Current.View.IsKeepScale = value;
         }
 
+        public bool IsKeepScaleBooks
+        {
+            get => Config.Current.View.IsKeepScaleBooks;
+            set => Config.Current.View.IsKeepScaleBooks = value;
+        }
+
         public bool IsKeepFlip
         {
             get => Config.Current.View.IsKeepFlip;
             set => Config.Current.View.IsKeepFlip = value;
+        }
+
+        public bool IsKeepFlipBooks
+        {
+            get => Config.Current.View.IsKeepFlipBooks;
+            set => Config.Current.View.IsKeepFlipBooks = value;
         }
 
 
@@ -82,11 +100,20 @@ namespace NeeView
                 case nameof(ViewConfig.IsKeepAngle):
                     RaisePropertyChanged(nameof(IsKeepAngle));
                     break;
+                case nameof(ViewConfig.IsKeepAngleBooks):
+                    RaisePropertyChanged(nameof(IsKeepAngleBooks));
+                    break;
                 case nameof(ViewConfig.IsKeepScale):
                     RaisePropertyChanged(nameof(IsKeepScale));
                     break;
+                case nameof(ViewConfig.IsKeepScaleBooks):
+                    RaisePropertyChanged(nameof(IsKeepScaleBooks));
+                    break;
                 case nameof(ViewConfig.IsKeepFlip):
                     RaisePropertyChanged(nameof(IsKeepFlip));
+                    break;
+                case nameof(ViewConfig.IsKeepFlipBooks):
+                    RaisePropertyChanged(nameof(IsKeepFlipBooks));
                     break;
                 case nameof(ViewConfig.IsRotateStretchEnabled):
                     RaisePropertyChanged(nameof(IsRotateStretchEnabled));

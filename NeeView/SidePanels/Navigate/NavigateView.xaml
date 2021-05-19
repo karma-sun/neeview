@@ -283,6 +283,11 @@
                                             SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding AutoRotate}" />
                                     <ToggleButton Style="{StaticResource NavigateToggleButtonStyle}" IsChecked="{Binding IsKeepAngle}" ToolTip="{x:Static properties:Resources.Navigator_IsKeepAngle}">
                                         <Image Source="{StaticResource ic_pushpin_b}" />
+                                        <ToggleButton.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="{x:Static properties:Resources.Navigator_IsKeepAngleBooks}" IsCheckable="True" IsChecked="{Binding IsKeepAngleBooks}" />
+                                            </ContextMenu>
+                                        </ToggleButton.ContextMenu>
                                     </ToggleButton>
                                 </StackPanel>
                             </DockPanel>
@@ -319,6 +324,11 @@
                                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                                     <ToggleButton Style="{StaticResource NavigateToggleButtonStyle}" IsChecked="{Binding IsKeepScale}" ToolTip="{x:Static properties:Resources.Navigator_IsKeepScale}">
                                         <Image Source="{StaticResource ic_pushpin_b}" />
+                                        <ToggleButton.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="{x:Static properties:Resources.Navigator_IsKeepScaleBooks}" IsCheckable="True" IsChecked="{Binding IsKeepScaleBooks}" />
+                                            </ContextMenu>
+                                        </ToggleButton.ContextMenu>
                                     </ToggleButton>
                                 </StackPanel>
                             </DockPanel>
@@ -344,6 +354,11 @@
                                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                                     <ToggleButton Style="{StaticResource NavigateToggleButtonStyle}" IsChecked="{Binding IsKeepFlip}" ToolTip="{x:Static properties:Resources.Navigator_IsKeepFlip}">
                                         <Image Source="{StaticResource ic_pushpin_b}" />
+                                        <ToggleButton.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="{x:Static properties:Resources.Navigator_IsKeepFlipBooks}" IsCheckable="True" IsChecked="{Binding IsKeepFlipBooks}" />
+                                            </ContextMenu>
+                                        </ToggleButton.ContextMenu>
                                     </ToggleButton>
                                 </StackPanel>
                             </DockPanel>

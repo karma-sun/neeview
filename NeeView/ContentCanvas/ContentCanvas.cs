@@ -171,7 +171,7 @@ namespace NeeView
                     case nameof(ViewConfig.AutoRotate):
                         RaisePropertyChanged(nameof(IsAutoRotateLeft));
                         RaisePropertyChanged(nameof(IsAutoRotateRight));
-                        ResetContentSizeAndTransform();
+                        ResetContentSizeAndTransform(new ResetTransformCondition(true));
                         break;
                 }
             };
@@ -450,32 +450,25 @@ namespace NeeView
                 _viewComponent.ViewController.SetLoupeMode(false);
             }
 
-            if (e == null || e.IsFirst)
+            // 回転後のページ移動のスケール維持補正
+            if (Config.Current.View.IsKeepScale && _baseScale != _lastScale)
             {
-                // コンテンツサイズ更新
-                // ブック最初のページであればビューも初期化
-                ResetContentSizeAndTransform();
+                // TODO: DragTransformControl経由にせよ
+                var scaleRate = _baseScale / _lastScale;
+                _viewComponent.DragTransform.SetScale(_viewComponent.DragTransform.Scale * scaleRate, TransformActionType.None);
             }
-            else
+
+            // コンテンツサイズ更新
+            var angleResetMode = GetAngleResetMode(e.IsFirst && !(Config.Current.View.IsKeepAngle && Config.Current.View.IsKeepAngleBooks));
+            UpdateContentSize(GetAutoRotateAngle(angleResetMode));
+
+            // リザーブコンテンツでなければ座標初期化
+            // HACK: ルーペ時の挙動があやしい
+            bool isReserveContent = e?.ViewPageCollection?.Collection?.Any(x => x.GetContentType() == ViewContentType.Reserve) ?? false;
+            if (!isReserveContent)
             {
-                // 回転後のページ移動のスケール維持補正
-                if (Config.Current.View.IsKeepScale && _baseScale != _lastScale)
-                {
-                    var scaleRate = _baseScale / _lastScale;
-                    _viewComponent.DragTransform.SetScale(_viewComponent.DragTransform.Scale * scaleRate, TransformActionType.None);  // TODO: DragTransformControl経由にせよ
-                }
-
-                // コンテンツサイズ更新
-                UpdateContentSize(GetAutoRotateAngle(GetAngleResetMode(e.IsFirst)));
-
-                // リザーブコンテンツでなければ座標初期化
-                // HACK: ルーペ時の挙動があやしい
-                bool isReserveContent = e?.ViewPageCollection?.Collection?.Any(x => x.GetContentType() == ViewContentType.Reserve) ?? false;
-                if (!isReserveContent)
-                {
-                    ResetTransform(false, e != null ? e.ViewPageCollection.Range.Direction : 0, NextViewOrigin, GetAngleResetMode(e.IsFirst));
-                    NextViewOrigin = DragViewOrigin.None;
-                }
+                ResetTransform(e != null ? e.ViewPageCollection.Range.Direction : 0, NextViewOrigin, angleResetMode, ResetTransformCondition.Create(e.IsFirst));
+                NextViewOrigin = DragViewOrigin.None;
             }
 
             ContentChanged?.Invoke(this, null);
@@ -522,7 +515,7 @@ namespace NeeView
             // 表示サイズ計算
             var result = MainContent is MediaViewContent
                 ? _contentSizeCalcurator.GetFixedContentSize(sizes, FixedViewSize, 0.0, Dpi)
-                : _contentSizeCalcurator.GetFixedContentSize(sizes, FixedViewSize, GetAngleResetMode(false || Config.Current.View.IsKeepScale), _viewComponent.DragTransform.Angle, Dpi);
+                : _contentSizeCalcurator.GetFixedContentSize(sizes, FixedViewSize, GetAngleResetMode(false), _viewComponent.DragTransform.Angle, Dpi);
 
             // 表示スケール推定
             var scale = (Config.Current.View.IsKeepScale ? _viewComponent.DragTransform.Scale : 1.0) * (includeLoupeScale ? _viewComponent.LoupeTransform.FixedScale : 1.0) * _dpiProvider.DpiScale.DpiScaleX;
@@ -579,27 +572,26 @@ namespace NeeView
         /// <summary>
         /// コンテンツサイズと座標系を初期化
         /// </summary>
-        public void ResetContentSizeAndTransform()
+        public void ResetContentSizeAndTransform(ResetTransformCondition condition)
         {
             var angleResetMode = GetAngleResetMode(true);
 
             UpdateContentSize(GetAutoRotateAngle(angleResetMode));
             ContentSizeChanged?.Invoke(this, null);
-            ResetTransform(true, 0, DragViewOrigin.None, angleResetMode);
+            ResetTransform(0, DragViewOrigin.None, angleResetMode, condition);
         }
 
         // 座標系初期化
-        public void ResetTransform(bool isForce, int pageDirection, DragViewOrigin viewOrigin, AngleResetMode angleResetMode)
+        public void ResetTransform(int pageDirection, DragViewOrigin viewOrigin, AngleResetMode angleResetMode, ResetTransformCondition condition)
         {
             // NOTE: ルーペモードのときは初期化しない
             if (_viewComponent.IsLoupeMode) return;
 
             _viewComponent.DragTransformControl.SetMouseDragSetting(pageDirection, viewOrigin, BookSettingPresenter.Current.LatestSetting.BookReadOrder);
 
-            bool isResetScale = isForce || !Config.Current.View.IsKeepScale;
-            bool isResetAngle = isForce || !Config.Current.View.IsKeepAngle || angleResetMode != AngleResetMode.None;
-            bool isResetFlip = isForce || !Config.Current.View.IsKeepFlip;
-
+            bool isResetScale = condition.IsResetScale;
+            bool isResetAngle = condition.IsResetAngle || angleResetMode != AngleResetMode.None;
+            bool isResetFlip = condition.IsResetFlip;
             ResetTransformRaw(isResetScale, isResetAngle, isResetFlip, GetAutoRotateAngle(angleResetMode), false);
         }
 

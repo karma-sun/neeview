@@ -92,7 +92,7 @@ namespace NeeView
             path.StrokeThickness = 3.0;
             RenderOptions.SetEdgeMode(path, EdgeMode.Aliased);
 
-            if (_model.MarkerCollection.Maximum < 1000)
+            if (_model.MarkerCollection.Indexes.Count < 1000)
             {
                 StreamGeometry geometry = new StreamGeometry();
                 geometry.FillRule = FillRule.Nonzero;

@@ -11,6 +11,9 @@
 
         <Border.Resources>
             <Style TargetType="Button" BasedOn="{StaticResource IconButton}" />
+            <Style x:Key="{x:Type ToolTip}" TargetType="{x:Type ToolTip}">
+                <Setter Property="FontFamily" Value="{DynamicResource ArrowFontFamily}" />
+            </Style>
         </Border.Resources>
 
         <ItemsControl x:Name="Items" ItemsSource="{Binding PageSortModeList}" Margin="5" Height="68" IsTabStop="False" FocusVisualStyle="{x:Null}">

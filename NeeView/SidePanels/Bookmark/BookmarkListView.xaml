@@ -112,7 +112,7 @@
                         ToolTip="{x:Static properties:Resources.Bookmark_Up_ToolTip}">
                         <Image Source="{StaticResource ic_arrow_up_24px_a}" />
                     </Button>
-                    <ComboBox x:Name="FolderOrderComboBox" TabIndex="1"
+                    <ComboBox x:Name="FolderOrderComboBox" FontFamily="{DynamicResource ArrowFontFamily}" TabIndex="1"
                           ItemsSource="{Binding FolderOrderList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding FolderCollection.FolderParameter.FolderOrder, Delay=1}"
                           Visibility="{Binding Model.IsFolderOrderEnabled, Converter={StaticResource BooleanToHiddenVisibilityConverter}}">
                     </ComboBox>

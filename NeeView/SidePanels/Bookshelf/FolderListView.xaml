@@ -177,8 +177,9 @@
                                 ToolTip="{x:Static properties:Resources.Bookshelf_Sync_ToolTip}">
                             <Image Source="{StaticResource ic_sync_24px_a}" />
                         </Button>
-                        <ComboBox x:Name="FolderOrderComboBox" TabIndex="1" ItemsSource="{Binding FolderOrderList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                SelectedValue="{Binding FolderOrder, Delay=1}" Visibility="{Binding Model.IsFolderOrderEnabled, Converter={StaticResource BooleanToHiddenVisibilityConverter}}">
+                        <ComboBox x:Name="FolderOrderComboBox" FontFamily="{DynamicResource ArrowFontFamily}" TabIndex="1" ItemsSource="{Binding FolderOrderList}" SelectedValuePath="Key"
+                                DisplayMemberPath="Value" SelectedValue="{Binding FolderOrder, Delay=1}"
+                                Visibility="{Binding Model.IsFolderOrderEnabled, Converter={StaticResource BooleanToHiddenVisibilityConverter}}">
                         </ComboBox>
                     </WrapPanel>
                 </DockPanel>

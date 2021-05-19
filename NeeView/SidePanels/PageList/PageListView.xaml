@@ -89,7 +89,7 @@
                     <ComboBox x:Name="FormatComboBox" TabIndex="1"
                           ItemsSource="{Binding FormatList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding Source={x:Static local:Config.Current}, Path=PageList.Format, Delay=1}">
                     </ComboBox>
-                    <ComboBox x:Name="PageSortComboBox" TabIndex="1"
+                    <ComboBox x:Name="PageSortComboBox" FontFamily="{DynamicResource ArrowFontFamily}" TabIndex="1"
                           ItemsSource="{Binding PageSortModeList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding PageSortMode, Delay=1}">
                     </ComboBox>
                 </WrapPanel>

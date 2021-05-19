@@ -52,6 +52,11 @@ namespace NeeView
                 if (SetProperty(ref _defaultFontName, value))
                 {
                     App.Current.Resources["DefaultFontFamily"] = new FontFamily(_defaultFontName ?? "");
+
+                    var arrowFontFamily = new FontFamily();
+                    arrowFontFamily.FamilyMaps.Add(new FontFamilyMap() { Unicode = "2190-2193", Target = "Calibri" }); // 矢印フォントだけ變更
+                    arrowFontFamily.FamilyMaps.Add(new FontFamilyMap() { Unicode = "0000-10ffff", Target = _defaultFontName ?? "" });
+                    App.Current.Resources["ArrowFontFamily"] = arrowFontFamily;
                 }
             }
         }

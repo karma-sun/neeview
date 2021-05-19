@@ -3,7 +3,8 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <FontFamily x:Key="DefaultFontFamily" />
-    
+    <FontFamily x:Key="ArrowFontFamily" />
+
     <system:Double x:Key="SystemFontSize">12</system:Double>
     <system:Double x:Key="SystemFontSizeNormal">15</system:Double>
     <system:Double x:Key="SystemFontSizeLarge">18</system:Double>

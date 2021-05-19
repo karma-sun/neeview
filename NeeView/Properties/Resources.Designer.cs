@@ -6188,6 +6188,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   _Delete に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FolderTree_Menu_Delete {
+            get {
+                return ResourceManager.GetString("FolderTree.Menu.Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Remove invalid bookmark に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FolderTree_Menu_DeleteInvalidBookmark {
@@ -6206,6 +6215,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   New _folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FolderTree_Menu_NewFolder {
+            get {
+                return ResourceManager.GetString("FolderTree.Menu.NewFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   P_roperty に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FolderTree_Menu_Property {
+            get {
+                return ResourceManager.GetString("FolderTree.Menu.Property", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Reload に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FolderTree_Menu_RefreshFolder {
@@ -6215,11 +6242,11 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Remove quick access に類似しているローカライズされた文字列を検索します。
+        ///   Rena_me に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string FolderTree_Menu_RemoveQuickAccess {
+        public static string FolderTree_Menu_Rename {
             get {
-                return ResourceManager.GetString("FolderTree.Menu.RemoveQuickAccess", resourceCulture);
+                return ResourceManager.GetString("FolderTree.Menu.Rename", resourceCulture);
             }
         }
         
@@ -12808,6 +12835,15 @@ namespace NeeView.Properties {
         public static string QueryScheme_Root {
             get {
                 return ResourceManager.GetString("QueryScheme.Root", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Quick access property に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string QuickAccessPropertyDialog_Title {
+            get {
+                return ResourceManager.GetString("QuickAccessPropertyDialog.Title", resourceCulture);
             }
         }
         

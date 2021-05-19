@@ -19,5 +19,16 @@ namespace NeeView
         public override string DispName { get => Name; set { } }
 
         public override IImageSourceCollection Icon => PathToPlaceIconConverter.Convert(new QueryPath(QuickAccessSource.Path));
+
+
+        public void Rename(string newName)
+        {
+            if (this.DispName != newName)
+            {
+                QuickAccessSource.Name = newName;
+                RaisePropertyChanged(nameof(Name));
+                RaisePropertyChanged(nameof(DispName));
+            }
+        }
     }
 }

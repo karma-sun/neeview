@@ -122,6 +122,11 @@ namespace NeeView
         {
         }
 
+        public virtual void Refresh()
+        {
+            RaisePropertyChanged("");
+        }
+
         public virtual void RefreshIcon()
         {
             RaisePropertyChanged(nameof(Icon));

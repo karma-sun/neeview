@@ -1,13 +1,19 @@
 ﻿using NeeLaboratory.ComponentModel;
 using System;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace NeeView
 {
     [DataContract]
-    public class QuickAccess : BindableBase
+    public class QuickAccess : BindableBase, ICloneable
     {
         private string _path;
+
+        [JsonInclude, JsonPropertyName(nameof(Name))]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string _name;
+
 
         public QuickAccess()
         { 
@@ -32,7 +38,21 @@ namespace NeeView
             }
         }
 
+        [JsonIgnore]
         public string Name
+        {
+            get
+            {
+                return _name ?? DefaultName;
+            }
+            set
+            {
+                var name = value.Trim();
+                SetProperty(ref _name, string.IsNullOrEmpty(name) || name == DefaultName ? null : name); 
+            }
+        }
+
+        public string DefaultName
         {
             get
             {
@@ -55,7 +75,43 @@ namespace NeeView
             return Name;
         }
 
+        public object Clone()
+        {
+            return (QuickAccess)MemberwiseClone();
+        }
+
+
+        #region Memento
+
+        [DataContract]
+        public class Memento
+        {
+            public string Path { get; set; }
+            public string Name { get; set; }
+
+            [OnDeserializing]
+            private void Deserializing(StreamingContext c)
+            {
+                this.InitializePropertyDefaultValues();
+            }
+        }
+
+        public Memento CreateMemento()
+        {
+            var memento = new Memento();
+            memento.Path = Path;
+            memento.Name = _name;
+            return memento;
+        }
+
+        public void Restore(Memento memento)
+        {
+            if (memento == null) return;
+            Path = memento.Path;
+            _name = memento.Name;
+        }
+
+        #endregion
+
     }
-
-
 }

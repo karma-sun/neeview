@@ -119,6 +119,38 @@ namespace NeeView
             }
         }
 
+        private RelayCommand _PropertyCommand;
+        public RelayCommand PropertyCommand
+        {
+            get
+            {
+                return _PropertyCommand = _PropertyCommand ?? new RelayCommand(Execute);
+
+                void Execute()
+                {
+                    switch (this.TreeView.SelectedItem)
+                    {
+                        case QuickAccessNode quickAccessNode:
+                            {
+                                var work = (QuickAccess)quickAccessNode.QuickAccessSource.Clone();
+                                var dialog = new QuickAccessPropertyDialog(work)
+                                {
+                                    Owner = Window.GetWindow(this),
+                                    WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                                };
+                                var result = dialog.ShowDialog();
+                                if (result == true)
+                                {
+                                    quickAccessNode.QuickAccessSource.Restore(work.CreateMemento());
+                                    quickAccessNode.Refresh();
+                                }
+                            }
+                            break;
+                    }
+                }
+            }
+        }
+
         private RelayCommand _RefreshFolderCommand;
         public RelayCommand RefreshFolderCommand
         {
@@ -190,6 +222,10 @@ namespace NeeView
                 {
                     switch (this.TreeView.SelectedItem)
                     {
+                        case QuickAccessNode quickAccessNode:
+                            RenameQuickAccess(quickAccessNode);
+                            break;
+
                         case BookmarkFolderNode bookmarkFolderNode:
                             RenameBookmarkFolder(bookmarkFolderNode);
                             break;
@@ -258,6 +294,32 @@ namespace NeeView
         private void FolderTreeView_Unloaded(object sender, RoutedEventArgs e)
         {
         }
+
+        private void RenameQuickAccess(QuickAccessNode item)
+        {
+            var treetView = this.TreeView;
+            var treeViewItem = VisualTreeUtility.FindContainer<TreeViewItem>(treetView, item);
+            var textBlock = VisualTreeUtility.FindVisualChild<TextBlock>(treeViewItem, "FileNameTextBlock");
+
+            if (textBlock != null)
+            {
+                var rename = new RenameControl() { Target = textBlock };
+                rename.Closing += (s, ev) =>
+                {
+                    item.Rename(ev.NewValue);
+                };
+                rename.Closed += (s, ev) =>
+                {
+                    this.TreeView.Focus();
+                };
+                rename.Close += (s, ev) =>
+                {
+                };
+
+                MainWindow.Current.RenameManager.Open(rename);
+            }
+        }
+
 
         private void RenameBookmarkFolder(BookmarkFolderNode item)
         {
@@ -532,7 +594,10 @@ namespace NeeView
                     break;
 
                 case QuickAccessNode quickAccess:
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_RemoveQuickAccess, RemoveCommand));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_Delete, RemoveCommand));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_Rename, RenameCommand));
+                    contextMenu.Items.Add(new Separator());
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_Property, PropertyCommand));
                     break;
 
                 case RootDirectoryNode rootFolder:
@@ -547,15 +612,15 @@ namespace NeeView
                 case RootBookmarkFolderNode rootBookmarkFolder:
                     contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_DeleteInvalidBookmark, RemoveUnlinkedCommand));
                     contextMenu.Items.Add(new Separator());
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.Word_NewFolder, NewFolderCommand));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_NewFolder, NewFolderCommand));
                     contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_AddBookmark, AddBookmarkCommand));
                     break;
 
                 case BookmarkFolderNode bookmarkFolder:
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.Word_Remove, RemoveCommand));
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.Word_Rename, RenameCommand));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_Delete, RemoveCommand));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_Rename, RenameCommand));
                     contextMenu.Items.Add(new Separator());
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.Word_NewFolder, NewFolderCommand));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_NewFolder, NewFolderCommand));
                     contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_AddBookmark, AddBookmarkCommand));
                     break;
 

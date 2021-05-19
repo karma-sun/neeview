@@ -2381,9 +2381,6 @@ Is it OK?</value>
   <data name="FolderTree.Menu.RefreshFolder" xml:space="preserve">
     <value>Reload</value>
   </data>
-  <data name="FolderTree.Menu.RemoveQuickAccess" xml:space="preserve">
-    <value>Remove quick access</value>
-  </data>
   <data name="FolderTreeLayout.Left" xml:space="preserve">
     <value>Place to the left</value>
   </data>
@@ -7202,5 +7199,20 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="ViewConfig.IsKeepFlipBooks" xml:space="preserve">
     <value>Maintain scaling even when changing books</value>
+  </data>
+  <data name="FolderTree.Menu.Rename" xml:space="preserve">
+    <value>Rena_me</value>
+  </data>
+  <data name="FolderTree.Menu.Delete" xml:space="preserve">
+    <value>_Delete</value>
+  </data>
+  <data name="FolderTree.Menu.Property" xml:space="preserve">
+    <value>P_roperty</value>
+  </data>
+  <data name="FolderTree.Menu.NewFolder" xml:space="preserve">
+    <value>New _folder</value>
+  </data>
+  <data name="QuickAccessPropertyDialog.Title" xml:space="preserve">
+    <value>Quick access property</value>
   </data>
 </root>

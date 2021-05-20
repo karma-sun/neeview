@@ -16,6 +16,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using NeeLaboratory.Threading.Jobs;
 
 // TODO: コマンド類の何時でも受付。ロード中だから弾く、ではない別の方法を。
 
@@ -288,6 +289,8 @@ namespace NeeView
             _commandEngine = new BookHubCommandEngine();
             _commandEngine.Name = "BookHubJobEngine";
             _commandEngine.Log = new Log(nameof(BookHubCommandEngine), 0);
+            _commandEngine.IsBusyChanged +=
+                (s, e) => IsBusyChanged?.Invoke(s, e);
             _commandEngine.StartEngine();
 
             // アプリ終了前の開放予約
@@ -307,6 +310,9 @@ namespace NeeView
 
         // ロード中通知
         public event EventHandler<BookHubPathEventArgs> Loading;
+
+        // コマンドエンジン処理中通知
+        public event EventHandler<JobIsBusyChangedEventArgs> IsBusyChanged;
 
         // ViewContentsの変更通知
         public event EventHandler<ViewContentSourceCollectionChangedEventArgs> ViewContentsChanged;
@@ -387,7 +393,7 @@ namespace NeeView
         /// </summary>
         public string LoadingPath { get; private set; }
 
-        public bool IsBusy => _commandEngine.Count > 0;
+        public bool IsBusy => _commandEngine.IsBusy;
 
         /// <summary>
         /// ロードリクエストカウント.
@@ -557,7 +563,7 @@ namespace NeeView
         // アンロード可能?
         public bool CanUnload()
         {
-            return BookUnit != null || _commandEngine.Count > 0;
+            return BookUnit != null || _commandEngine.IsBusy;
         }
 
         /// <summary>

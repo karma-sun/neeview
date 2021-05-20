@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Windows;
 
 namespace NeeView
@@ -12,6 +13,9 @@ namespace NeeView
     /// </summary>
     public class BookAccessor
     {
+        private CancellationToken _cancellationToken;
+
+
         [WordNodeMember]
         public string Path => BookOperation.Current.Book?.Address;
 
@@ -42,6 +46,13 @@ namespace NeeView
             }
         }
 
+
+        [WordNodeMember]
+        public void Wait()
+        {
+            BookOperation.Current.Wait(_cancellationToken);
+        }
+
         #region Obsolete
 
         [Obsolete] // ver.38
@@ -69,6 +80,11 @@ namespace NeeView
         }
 
         #endregion Obsoletet
+
+        internal void SetCancellationToken(CancellationToken cancellationToken)
+        {
+            _cancellationToken = cancellationToken;
+        }
 
         internal WordNode CreateWordNode(string name)
         {

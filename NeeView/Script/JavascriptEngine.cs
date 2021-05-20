@@ -61,6 +61,7 @@ namespace NeeView
         public object Execute(string script, CancellationToken token)
         {
             _cancellationToken = token;
+            _commandHost.SetCancellationToken(token);
 
             var result = _engine.Execute(script).GetCompletionValue();
             return result?.ToObject();

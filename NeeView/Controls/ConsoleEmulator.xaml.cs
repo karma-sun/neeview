@@ -259,7 +259,7 @@ namespace NeeView
             this.InputBlock.Focus();
         }
 
-        private void WriteLine(string text)
+        public void WriteLine(string text)
         {
             //if (string.IsNullOrEmpty(text)) return;
 

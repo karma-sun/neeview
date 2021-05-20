@@ -1,4 +1,5 @@
-﻿using NeeView.Collections.Generic;
+﻿using NeeLaboratory.Threading.Jobs;
+using NeeView.Collections.Generic;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,6 +16,7 @@ namespace NeeView
         private BookSource _book;
         private BookPageViewer _viewer;
         private BookPageMarker _marker;
+        private bool _isViewContentsLoading;
 
 
         public BookController(BookSource book, BookPageViewer viewer, BookPageMarker marker)
@@ -24,7 +26,44 @@ namespace NeeView
             _marker = marker ?? throw new ArgumentNullException(nameof(marker));
 
             _book.Pages.AddPropertyChanged(nameof(BookPageCollection.SortMode), (s, e) => RequestSort(this));
-            _viewer.SettingChanged += (s, e) => RequestRefresh(this, false);
+
+            _viewer.SettingChanged +=
+                (s, e) => RequestRefresh(this, false);
+
+            _viewer.ViewContentsChanged +=
+                (s, e) => UpdateViewContentsLoading();
+
+            _commandEngine.IsBusyChanged +=
+                (s, e) =>
+                {
+                    IsBusyChanged?.Invoke(s, e);
+                    UpdateViewContentsLoading();
+                };
+        }
+
+
+        // コマンドエンジン処理中イベント
+        public event EventHandler<JobIsBusyChangedEventArgs> IsBusyChanged;
+
+        // 表示ページ読込中イベント
+        public event EventHandler<ViewContentsLoadingEventArgs> ViewContentsLoading;
+
+        // コマンドエンジン処理中
+        public bool IsBusy => _commandEngine.IsBusy;
+
+
+        // 表示ページ読込中
+        public bool IsViewContentsLoading
+        {
+            get { return _isViewContentsLoading; }
+            set
+            {
+                if (_isViewContentsLoading != value)
+                {
+                    _isViewContentsLoading = value;
+                    ViewContentsLoading?.Invoke(this, new ViewContentsLoadingEventArgs(_isViewContentsLoading));
+                }
+            }
         }
 
 
@@ -50,6 +89,10 @@ namespace NeeView
         }
         #endregion
 
+        private void UpdateViewContentsLoading()
+        {
+            IsViewContentsLoading = _commandEngine.IsBusy || !_viewer.ViewPageCollection.IsFixedContents();
+        }
 
         // 開始
         // ページ設定を行うとコンテンツ読み込みが始まるため、ロードと分離した
@@ -250,5 +293,16 @@ namespace NeeView
             }
         }
 
+    }
+
+
+    public class ViewContentsLoadingEventArgs : EventArgs
+    {
+        public ViewContentsLoadingEventArgs(bool isLoading)
+        {
+            IsLoading = isLoading;
+        }
+
+        public bool IsLoading { get; }
     }
 }

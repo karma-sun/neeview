@@ -77,6 +77,11 @@ namespace NeeLaboratory.Threading.Jobs
         /// </summary>
         public event EventHandler<JobErrorEventArgs> JobEngineError;
 
+        /// <summary>
+        /// IsBusyプロパティ變更EVENT
+        /// </summary>
+        public event EventHandler<JobIsBusyChangedEventArgs> IsBusyChanged;
+
         #endregion
 
         #region Properties
@@ -109,6 +114,11 @@ namespace NeeLaboratory.Threading.Jobs
         {
             get { return _queue.Count + (_currentJob != null ? 1 : 0); }
         }
+
+        /// <summary>
+        /// 活動中
+        /// </summary>
+        public bool IsBusy => Count > 0;
 
         /// <summary>
         /// 開発用：ログ
@@ -163,6 +173,7 @@ namespace NeeLaboratory.Threading.Jobs
                     _log?.Trace($"Job entry: {job}");
                     _queue.Enqueue(job);
                     OnEnqueued(job);
+                    IsBusyChanged?.Invoke(this, new JobIsBusyChangedEventArgs(Count));
                     _readyQueue.Set();
                 }
                 else
@@ -245,6 +256,7 @@ namespace NeeLaboratory.Threading.Jobs
                         }
 
                         Interlocked.Exchange(ref _currentJob, null);
+                        IsBusyChanged?.Invoke(this, new JobIsBusyChangedEventArgs(Count));
                     }
                 }
             }
@@ -348,5 +360,17 @@ namespace NeeLaboratory.Threading.Jobs
             Dispose(true);
         }
         #endregion
+    }
+
+    public class JobIsBusyChangedEventArgs : EventArgs
+    {
+        public JobIsBusyChangedEventArgs(int count)
+        {
+            Count = count;
+        }
+
+        public int Count { get; }
+        public bool IsBusy => Count > 0;
+
     }
 }

@@ -24,5 +24,8 @@ namespace NeeView
         public List<ViewContentSource> Collection { get; }
 
         public bool IsValid => Collection.Count > 0 && Collection.All(e => e.IsValid);
+
+        // 読込中ページではない、完全なページであるか
+        public bool IsFixedContents() => Collection?.All(x => x.GetContentType() != ViewContentType.Reserve) ?? false;
     }
 }

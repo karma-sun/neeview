@@ -832,6 +832,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Wait for the view pages to finish loading に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookAccessor_Wait {
+            get {
+                return ResourceManager.GetString("BookAccessor.Wait", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   This is bookmark address. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookAddressInfo_Bookmark {

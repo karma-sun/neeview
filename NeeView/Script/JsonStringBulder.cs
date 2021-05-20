@@ -17,6 +17,17 @@ namespace NeeView
 
         private readonly IndentStringBuilder _builder = new IndentStringBuilder();
 
+
+        public JsonStringBulder()
+        {
+        }
+
+        public JsonStringBulder(object source)
+        {
+            AppendObject(source);
+        }
+
+
         public override string ToString()
         {
             return _builder.ToString();

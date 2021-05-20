@@ -34,7 +34,7 @@ namespace NeeView
                 ////Debug.WriteLine($"Script.{path} ...");
                 var commandHost = new CommandHost(sender, CommandTable.Current, ConfigMap.Current);
                 commandEngine = new JavascriptEngine(commandHost);
-                commandEngine.LogAction = e => Debug.WriteLine(e);
+                commandEngine.LogAction = Log;
                 commandEngine.ExecureFile(path, argument, _cancellationTokenSource.Token);
             }
             catch (OperationCanceledException)
@@ -65,5 +65,13 @@ namespace NeeView
         {
             _cancellationTokenSource?.Cancel();
         }
+
+        private void Log(object obj)
+        {
+            var text = new JsonStringBulder(obj).ToString();
+            ConsoleWindow.Current?.Console.WriteLine(text);
+            Debug.WriteLine(text);
+        }
+
     }
 }

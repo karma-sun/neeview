@@ -458,8 +458,10 @@ namespace NeeView
                 _viewComponent.DragTransform.SetScale(_viewComponent.DragTransform.Scale * scaleRate, TransformActionType.None);
             }
 
+            var isNewBook = e is null || e.IsFirst;
+
             // コンテンツサイズ更新
-            var angleResetMode = GetAngleResetMode(e.IsFirst && !(Config.Current.View.IsKeepAngle && Config.Current.View.IsKeepAngleBooks));
+            var angleResetMode = GetAngleResetMode(isNewBook && !(Config.Current.View.IsKeepAngle && Config.Current.View.IsKeepAngleBooks));
             UpdateContentSize(GetAutoRotateAngle(angleResetMode));
 
             // リザーブコンテンツでなければ座標初期化
@@ -467,7 +469,7 @@ namespace NeeView
             bool isReserveContent = e?.ViewPageCollection?.Collection?.Any(x => x.GetContentType() == ViewContentType.Reserve) ?? false;
             if (!isReserveContent)
             {
-                ResetTransform(e != null ? e.ViewPageCollection.Range.Direction : 0, NextViewOrigin, angleResetMode, ResetTransformCondition.Create(e.IsFirst));
+                ResetTransform(e != null ? e.ViewPageCollection.Range.Direction : 0, NextViewOrigin, angleResetMode, ResetTransformCondition.Create(isNewBook));
                 NextViewOrigin = DragViewOrigin.None;
             }
 

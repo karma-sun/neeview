@@ -7215,4 +7215,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="QuickAccessPropertyDialog.Title" xml:space="preserve">
     <value>Quick access property</value>
   </data>
+  <data name="BookAccessor.Wait" xml:space="preserve">
+    <value>Wait for the view pages to finish loading</value>
+  </data>
 </root>

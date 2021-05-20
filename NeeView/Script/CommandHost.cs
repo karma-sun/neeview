@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -16,7 +17,7 @@ namespace NeeView
         private CommandTable _commandTable;
         private ConfigMap _configMap;
         private List<string> _args = new List<string>();
-
+        private CancellationToken _canellationToken;
 
         public CommandHost(object sender, CommandTable commandTable, ConfigMap configMap)
         {
@@ -81,6 +82,12 @@ namespace NeeView
             get => throw new NotSupportedException("Script: Pagemark is obsolete. Use PageList instead.");
         }
 
+
+        internal void SetCancellationToken(CancellationToken cancellationToken)
+        {
+            _canellationToken = cancellationToken;
+            Book.SetCancellationToken(cancellationToken);
+        }
 
         internal void SetArgs(List<string> args)
         {

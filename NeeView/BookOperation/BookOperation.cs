@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeLaboratory.Threading.Jobs;
 using NeeView.Collections;
 using NeeView.Collections.Generic;
 using NeeView.Properties;
@@ -248,6 +249,85 @@ namespace NeeView
         {
             return this.Book == null ? 0 : this.Book.Pages.Count;
         }
+
+        /// <summary>
+        /// 表示ページ読み込み完了まで待機
+        /// </summary>
+        public void Wait(CancellationToken token)
+        {
+            if (!BookHub.Current.IsBusy && Book?.Control.IsViewContentsLoading != true)
+            {
+                return;
+            }
+
+            // BookHubのコマンド処理が終わるまで待機
+            var eventFlag = new ManualResetEventSlim();
+            BookHub.Current.IsBusyChanged += BookHub_IsBusyChanged;
+            try
+            {
+                if (BookHub.Current.IsBusy)
+                {
+                    eventFlag.Wait(token);
+                }
+            }
+            finally
+            {
+                BookHub.Current.IsBusyChanged -= BookHub_IsBusyChanged;
+            }
+
+            var book = this.Book;
+            if (book is null)
+            {
+                return;
+            }
+
+            // 表示ページの読み込みが終わるまで待機
+            eventFlag.Reset();
+            bool _isBookChanged = false;
+            this.BookChanged += BookOperation_BookChanged;
+            book.Control.ViewContentsLoading += BookControl_ViewContentsLoading;
+            try
+            {
+                if (book.Control.IsViewContentsLoading)
+                {
+                    eventFlag.Wait(token);
+                }
+            }
+            finally
+            {
+                this.BookChanged -= BookOperation_BookChanged;
+                book.Control.ViewContentsLoading -= BookControl_ViewContentsLoading;
+            }
+
+            // 待機中にブックが変更された場合はそのブックで再待機
+            if (_isBookChanged)
+            {
+                Wait(token);
+            }
+
+            void BookHub_IsBusyChanged(object sender, JobIsBusyChangedEventArgs e)
+            {
+                if (!e.IsBusy)
+                {
+                    eventFlag.Set();
+                }
+            }
+
+            void BookOperation_BookChanged(object sender, BookChangedEventArgs e)
+            {
+                _isBookChanged = true;
+                eventFlag.Set();
+            }
+
+            void BookControl_ViewContentsLoading(object sender, ViewContentsLoadingEventArgs e)
+            {
+                if (!e.IsLoading)
+                {
+                    eventFlag.Set();
+                }
+            }
+        }
+
 
         #endregion
 

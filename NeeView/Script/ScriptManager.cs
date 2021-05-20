@@ -24,16 +24,16 @@ namespace NeeView
             _watcher.Changed += (s, e) => UpdateScriptCommands(true, false);
 
             Config.Current.Script.AddPropertyChanged(nameof(ScriptConfig.IsScriptFolderEnabled),
-                ScriptConfigChanged);
+                (s, e) => ScriptConfigChanged());
 
             Config.Current.Script.AddPropertyChanged(nameof(ScriptConfig.ScriptFolder),
-                ScriptConfigChanged);
+                (s, e) => ScriptConfigChanged());
 
             UpdateWatcher();
         }
 
 
-        private void ScriptConfigChanged(object sender, PropertyChangedEventArgs e)
+        private void ScriptConfigChanged()
         {
             UpdateScriptCommands(isForce: true, isReplace: false);
             UpdateWatcher();
@@ -67,6 +67,7 @@ namespace NeeView
                 {
                     directory.Create();
                     ResourceTools.ExportFileFromResource(System.IO.Path.Combine(directory.FullName, "Sample.nvjs"), "/Resources/Scripts/Sample.nvjs");
+                    ScriptConfigChanged();
                 }
                 ExternalProcess.Start("explorer.exe", $"\"{path}\"", ExternalProcessAtrtibute.ThrowException);
             }

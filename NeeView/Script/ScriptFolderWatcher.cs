@@ -41,6 +41,7 @@ namespace NeeView
             catch
             {
                 // 監視できなくても大きな問題はないので例外を無視する
+                _watcher = null;
             }
         }
 

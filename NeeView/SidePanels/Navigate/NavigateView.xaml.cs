@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -80,6 +81,26 @@ namespace NeeView
             {
                 _isFocusRequest = true;
             }
+        }
+    }
+
+
+
+    public class DoubleToGridLengthConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            double val = (double)value;
+            GridLength gridLength = new GridLength(val);
+
+            return gridLength;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            GridLength val = (GridLength)value;
+
+            return val.Value;
         }
     }
 }

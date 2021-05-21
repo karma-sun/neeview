@@ -10,14 +10,13 @@
              ClipToBounds="True">
     
     <UserControl.Resources>
-        <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityHiddenConverter" False="Hidden" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
 
-    <Border x:Name="Root" HorizontalAlignment="Center" BorderThickness="0" BorderBrush="Gray" Visibility="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" >
-        <Grid x:Name="ThumbnailGrid" Width="{Binding ThumbnailWidth}" Height="{Binding ThumbnailHeight}" Background="{Binding MainViewVisualBrush}" Margin="1">
-            <Canvas>
-                <Path Stroke="Red" StrokeThickness="1" Data="{Binding ViewboxGeometry}" RenderOptions.EdgeMode="Unspecified" />
-            </Canvas>
-        </Grid>
-    </Border>
+    <Grid x:Name="Root" Visibility="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <Grid x:Name="ThumbnailGrid" Width="{Binding ThumbnailWidth}" Height="{Binding ThumbnailHeight}" Background="{Binding MainViewVisualBrush}" />
+        <Canvas>
+            <Path Stroke="Red" StrokeThickness="1" Data="{Binding ViewboxGeometry}" RenderOptions.EdgeMode="Unspecified" />
+        </Canvas>
+    </Grid>
 </UserControl>

@@ -28,6 +28,7 @@ namespace NeeView
             _model.DragTransform.PropertyChanged += DragTransform_PropertyChanged;
 
             Config.Current.View.PropertyChanged += ViewConfig_PropertyChanged;
+            Config.Current.Navigator.PropertyChanged += NavigatorConfig_PropertyChanged;
 
             RotateLeftCommand = new RelayCommand(_model.RotateLeft);
             RotateRightCommand = new RelayCommand(_model.RotateRight);
@@ -40,6 +41,17 @@ namespace NeeView
             MoreMenuDescription = new NavigateMoreMenuDescription();
         }
 
+
+        public bool IsVisibleThumbnail
+        {
+            get => Config.Current.Navigator.IsVisibleThumbnail;
+        }
+
+        public double ThumbnailHeight
+        {
+            get => Config.Current.Navigator.ThumbnailHeight;
+            set => Config.Current.Navigator.ThumbnailHeight = value;
+        }
 
         public double Angle
         {
@@ -233,6 +245,25 @@ namespace NeeView
 
                 case nameof(ViewConfig.BaseScale):
                     RaisePropertyChanged(nameof(BaseScale));
+                    break;
+            }
+        }
+
+        private void NavigatorConfig_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case null:
+                case "":
+                    RaisePropertyChanged("");
+                    break;
+
+                case nameof(NavigatorConfig.IsVisibleThumbnail):
+                    RaisePropertyChanged(nameof(IsVisibleThumbnail));
+                    break;
+
+                case nameof(NavigatorConfig.ThumbnailHeight):
+                    RaisePropertyChanged(nameof(ThumbnailHeight));
                     break;
             }
         }

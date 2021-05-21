@@ -2266,3 +2266,4 @@ FolderTree.Menu.Property=P_roperty
 FolderTree.Menu.NewFolder=New _folder
 QuickAccessPropertyDialog.Title=Quick access property
 BookAccessor.Wait=Wait for the view pages to finish loading
+NavigatorConfig.ThumbnailHeight=Thumbnail area height

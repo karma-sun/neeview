@@ -9845,6 +9845,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Thumbnail area height に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NavigatorConfig_ThumbnailHeight {
+            get {
+                return ResourceManager.GetString("NavigatorConfig.ThumbnailHeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Navigator panel accessor に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string NavigatorPanelAccessor {

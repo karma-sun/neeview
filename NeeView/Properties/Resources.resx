@@ -7218,4 +7218,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="BookAccessor.Wait" xml:space="preserve">
     <value>Wait for the view pages to finish loading</value>
   </data>
+  <data name="NavigatorConfig.ThumbnailHeight" xml:space="preserve">
+    <value>Thumbnail area height</value>
+  </data>
 </root>

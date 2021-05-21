@@ -10,16 +10,15 @@ namespace NeeView
 {
     public class NavigateThumbnailViewModel : BindableBase
     {
-        private const double _thumbnailMaxHeight = 256.0;
-
         private MainViewComponent _mainViewComponent;
         private bool _isEnabled;
         private bool _isVisible;
         private double _rate;
         private double _thumbnailWidth;
-        private double _thumbnailHeight = _thumbnailMaxHeight;
+        private double _thumbnailHeight = 256.0;
         private Brush _mainViewVisualBrush;
         private StreamGeometry _viewboxGeometry;
+        private Size _canvasSize;
 
 
         public NavigateThumbnailViewModel(MainViewComponent mainViewComponent)
@@ -87,24 +86,34 @@ namespace NeeView
                 (s, e) => UpdateThumbnail();
         }
 
+        public void SetCanvasSize(Size newSize)
+        {
+            _canvasSize = newSize;
+            UpdateThumbnail();
+        }
+
         private void UpdateThumbnail()
         {
             if (!_isEnabled) return;
 
-            var width = _mainViewComponent.MainView.PageContents.ActualWidth;
-            var height = _mainViewComponent.MainView.PageContents.ActualHeight;
+            var sourceWidth = _mainViewComponent.MainView.PageContents.ActualWidth;
+            var sourceHeight = _mainViewComponent.MainView.PageContents.ActualHeight;
 
-            if (width <= 0.0 || height <= 0.0)
+            if (sourceWidth <= 0.0 || sourceHeight <= 0.0)
             {
+                this.ThumbnailWidth = 0.0;
+                this.ThumbnailHeight = 0.0;
                 _rate = 0.0;
             }
             else
             {
-                _rate = _thumbnailMaxHeight / height;
+                var sourceSize = new Size(sourceWidth, sourceHeight);
+                var limitSize = new Size(Math.Max(_canvasSize.Width - 1.0, 0.0), Math.Max(_canvasSize.Height - 1.0, 0.0));
+                var size = sourceSize.Limit(limitSize);
+                this.ThumbnailWidth = size.Width;
+                this.ThumbnailHeight = size.Height;
+                _rate = size.Width / sourceWidth;
             }
-
-            this.ThumbnailWidth = width * _rate;
-            this.ThumbnailHeight = _thumbnailMaxHeight;
 
             UpdateViewbox();
         }
@@ -162,7 +171,7 @@ namespace NeeView
 
             // キャンバス座標系に変換
             transformGroup.Children.Add(new ScaleTransform(_rate, _rate));
-            transformGroup.Children.Add(new TranslateTransform(ThumbnailWidth * 0.5, ThumbnailHeight * 0.5));
+            transformGroup.Children.Add(new TranslateTransform(_canvasSize.Width * 0.5, _canvasSize.Height * 0.5));
 
             _viewboxGeometry.Transform = transformGroup;
 

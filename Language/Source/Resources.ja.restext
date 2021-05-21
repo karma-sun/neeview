@@ -2266,3 +2266,4 @@ FolderTree.Menu.Property=プロパティ(_R)
 FolderTree.Menu.NewFolder=新しいフォルダー(_F)
 QuickAccessPropertyDialog.Title=クイック アクセスのプロパティ
 BookAccessor.Wait=表示ページの読み込みが完了するまで待機する
+NavigatorConfig.ThumbnailHeight=サムネイル エリアの高さ

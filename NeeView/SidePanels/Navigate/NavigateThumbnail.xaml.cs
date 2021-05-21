@@ -30,8 +30,13 @@ namespace NeeView
             this.MouseLeftButtonDown += ThumbnailGrid_MouseLeftButtonDown;
             this.PreviewMouseLeftButtonUp += ThumbnailGrid_PreviewMouseLeftButtonUp;
             this.MouseMove += ThumbnailGrid_MouseMove;
+            this.SizeChanged += NavigateThumbnail_SizeChanged;
         }
 
+        private void NavigateThumbnail_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            _vm.SetCanvasSize(e.NewSize);
+        }
 
         private void NavigateThumbnail_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {

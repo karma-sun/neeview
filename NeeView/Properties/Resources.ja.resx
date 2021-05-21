@@ -7223,4 +7223,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="BookAccessor.Wait" xml:space="preserve">
     <value>表示ページの読み込みが完了するまで待機する</value>
   </data>
+  <data name="NavigatorConfig.ThumbnailHeight" xml:space="preserve">
+    <value>サムネイル エリアの高さ</value>
+  </data>
 </root>

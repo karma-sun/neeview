@@ -18,7 +18,7 @@ namespace NeeView
 
             // 再起判定は通常のディレクトリーのみ適用
             var canAutoRecursive = System.IO.Directory.Exists(address.SimplePath);
-            
+
             // 再帰判定用サブフォルダー数カウント
             int subFolderCount = 0;
             if (canAutoRecursive && archiveEntryCollection.Mode != ArchiveEntryCollectionMode.IncludeSubArchives && pages.Where(e => e.PageType == PageType.File).Count() == 0)
@@ -33,12 +33,22 @@ namespace NeeView
             // prefix設定
             SetPagePrefix(pages);
 
-            var book = new BookSource(archiveEntryCollection, new BookPageCollection(pages, setting.SortMode));
+            // Validate sort mode
+            var sortMode = ValidatePageSortMode(setting.SortMode, archiveEntryCollection);
+
+            var book = new BookSource(archiveEntryCollection, new BookPageCollection(pages, sortMode));
             book.SubFolderCount = subFolderCount;
 
             return book;
         }
 
+        private PageSortMode ValidatePageSortMode(PageSortMode sortMode, ArchiveEntryCollection archiveEntryCollection)
+        {
+            // プレイリストならば登録順有効、それ以外は無効
+            var isPlaylist = archiveEntryCollection?.Archiver is PlaylistArchive;
+            var pageSortModeClass = isPlaylist ? PageSortModeClass.WithEntry : PageSortModeClass.Normal;
+            return pageSortModeClass.ValidatePageSortMode(sortMode);
+        }
 
         private ArchiveEntryCollection CreateArchiveEntryCollection(string place, bool isRecursived, ArchiveEntryCollectionMode archiveRecursiveMode, bool isIgnoreCache)
         {

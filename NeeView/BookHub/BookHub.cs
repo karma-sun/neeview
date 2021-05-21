@@ -718,8 +718,6 @@ namespace NeeView
                 ///
 
                 var bookSetting = BookSettingConfigExtensions.FromBookMement(BookUnit?.Book.CreateMemento());
-                var pageSortModeClass = BookUnit?.Book != null ? BookUnit.Book.PageSortModeClass : PageSortModeClass.Full;
-                bookSetting.SortMode = pageSortModeClass.ValidatePageSortMode(bookSetting.SortMode);
 
                 AppDispatcher.Invoke(() =>
                 {

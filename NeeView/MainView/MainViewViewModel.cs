@@ -84,7 +84,7 @@ namespace NeeView
             {
                 if (ContextMenuManager.Current.IsDarty)
                 {
-                    Debug.WriteLine($"new ContextMenu.");
+                    ////Debug.WriteLine($"new ContextMenu.");
                     _contextMenu = ContextMenuManager.Current.ContextMenu;
                     _contextMenu?.UpdateInputGestureText();
                 }

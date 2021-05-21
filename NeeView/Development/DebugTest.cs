@@ -17,8 +17,8 @@ namespace NeeView
     {
         public static async Task ExecuteTestAsync()
         {
-            StringTools.TestStringArgumentSplitter();
-            return;
+            ////StringTools.TestStringArgumentSplitter();
+            ////return;
 
             var sw = Stopwatch.StartNew();
             Debug.WriteLine("\n[DebugTest]...");

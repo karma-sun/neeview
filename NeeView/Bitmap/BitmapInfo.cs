@@ -31,7 +31,7 @@ namespace NeeView
             this.AspectHeight = bitmapFrame.Height;
             this.Metadata = CreateMetadataDatabase(bitmapFrame, stream);
 
-            Debug.WriteLine($"Meta.Format: {this.Metadata.Format}");
+            ////Debug.WriteLine($"Meta.Format: {this.Metadata.Format}");
 
             if (this.Metadata.IsValid && this.Metadata.IsOriantationEnabled && this.Metadata[BitmapMetadataKey.Orientation] is ExifOrientation orientation)
             {

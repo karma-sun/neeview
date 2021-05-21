@@ -327,7 +327,7 @@ namespace NeeView
         }
 
 
-#region Playlist Controls
+        #region Playlist Controls
 
         public async Task DeleteInvalidItemsAsync()
         {
@@ -341,10 +341,10 @@ namespace NeeView
             _playlist?.Sort();
         }
 
-#endregion
+        #endregion
 
 
-#region FileSystemWatcher
+        #region FileSystemWatcher
 
         private SingleFileWatcher _watcher;
         private SimpleDelayAction _delayReloadAction;
@@ -369,7 +369,7 @@ namespace NeeView
         {
             if (string.Compare(SelectedItem, e.FullPath, StringComparison.OrdinalIgnoreCase) != 0) return;
 
-            Debug.WriteLine($"## Watcher.Changed: {e.FullPath}");
+            ////Debug.WriteLine($"PlaylistHub.Watcher.Changed: {e.FullPath}");
 
             if (_playlist.LastWriteTime.AddSeconds(5.0) < DateTime.Now)
             {
@@ -381,7 +381,7 @@ namespace NeeView
         {
             if (string.Compare(SelectedItem, e.FullPath, StringComparison.OrdinalIgnoreCase) != 0) return;
 
-            Debug.WriteLine($"## Watcher.Deleted: {e.FullPath}");
+            ////Debug.WriteLine($"PlaylistHub.Watcher.Deleted: {e.FullPath}");
 
             SelectedItem = DefaultPlaylist;
         }
@@ -390,7 +390,7 @@ namespace NeeView
         {
             if (string.Compare(SelectedItem, e.OldFullPath, StringComparison.OrdinalIgnoreCase) != 0) return;
 
-            Debug.WriteLine($"## Watcher.Renamed: {e.OldFullPath} -> {e.FullPath}");
+            ////Debug.WriteLine($"PlaylistHub.Watcher.Renamed: {e.OldFullPath} -> {e.FullPath}");
 
             if (_playlist.Path != e.OldFullPath) return;
 
@@ -398,6 +398,6 @@ namespace NeeView
             SelectedItem = e.FullPath;
         }
 
-#endregion FileSystemWatcher
+        #endregion FileSystemWatcher
     }
 }

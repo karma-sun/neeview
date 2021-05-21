@@ -122,7 +122,7 @@ namespace NeeView
         {
         }
 
-        public virtual void Refresh()
+        public virtual void RefreshAllProperties()
         {
             RaisePropertyChanged("");
         }

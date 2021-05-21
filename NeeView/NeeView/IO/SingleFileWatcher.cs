@@ -32,7 +32,7 @@ namespace NeeView.IO
                 return;
             }
 
-            Debug.WriteLine($"## WatchFile: {path}");
+            ////Debug.WriteLine($"## WatchFile: {path}");
             _path = path;
 
             _watcher = new FileSystemWatcher();

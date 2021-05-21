@@ -142,7 +142,7 @@ namespace NeeView
                                 if (result == true)
                                 {
                                     quickAccessNode.QuickAccessSource.Restore(work.CreateMemento());
-                                    quickAccessNode.Refresh();
+                                    quickAccessNode.RefreshAllProperties();
                                 }
                             }
                             break;

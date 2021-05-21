@@ -91,7 +91,6 @@ namespace NeeView
         private RelayCommand _search;
         private RelayCommand _clearSearch;
         private RelayCommand _addQuickAccess;
-        private RelayCommand _exportPlaylist;
         private RelayCommand<FolderTreeLayout> _setFolderTreeLayout;
         private RelayCommand _newFolderCommand;
         private RelayCommand _addBookmarkCommand;
@@ -193,49 +192,6 @@ namespace NeeView
             }
         }
 
-        public RelayCommand ExportPlaylist
-        {
-            get
-            {
-                return _exportPlaylist = _exportPlaylist ?? new RelayCommand(Execute, CanExecute);
-
-                bool CanExecute()
-                {
-                    // プレイリスト、もしくはソート可能ならば保存可能とする
-                    return _model.FolderCollection is PlaylistFolderCollection || (_model.IsFolderOrderEnabled && !_model.FolderCollection.IsEmpty());
-                }
-
-                void Execute()
-                {
-                    var dialog = new SaveFileDialog();
-                    dialog.OverwritePrompt = true;
-                    dialog.DefaultExt = PlaylistArchive.Extension;
-                    dialog.AddExtension = true;
-                    dialog.FileName = "NeeViewPlaylist-" + DateTime.Now.ToString("yyyyMMdd") + PlaylistArchive.Extension;
-                    dialog.Filter = "NeeView Playlist|*" + PlaylistArchive.Extension + "|All|*.*";
-                    if (dialog.ShowDialog(MainWindow.Current) == true)
-                    {
-                        try
-                        {
-                            if (_model.FolderCollection is PlaylistFolderCollection playlistFolderCollection)
-                            {
-                                System.IO.File.Copy(playlistFolderCollection.Place.SimplePath, dialog.FileName, true);
-                            }
-                            else
-                            {
-                                var playlist = new PlaylistSource(_model.FolderCollection.Items.Where(e => e.TargetPath.Scheme == QueryScheme.File).Select(e => e.TargetPath.SimplePath));
-                                PlaylistSourceTools.Save(playlist, dialog.FileName, true);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            new MessageDialog(ex.Message, Properties.Resources.ExportPlaylistErrorDialog_Title).ShowDialog();
-                        }
-                    }
-                }
-            }
-        }
-
         public RelayCommand<FolderTreeLayout> SetFolderTreeLayout
         {
             get
@@ -330,7 +286,6 @@ namespace NeeView
                 items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleBanner, PanelListItemStyle.Banner));
                 items.Add(CreateListItemStyleMenuItem(Properties.Resources.Word_StyleThumbnail, PanelListItemStyle.Thumbnail));
                 items.Add(new Separator());
-                items.Add(CreateCommandMenuItem(Properties.Resources.Bookshelf_MoreMenu_ExportPlaylist, _vm.ExportPlaylist));
                 items.Add(CreateCommandMenuItem(Properties.Resources.Bookshelf_MoreMenu_AddQuickAccess, _vm.AddQuickAccess));
                 items.Add(CreateCommandMenuItem(Properties.Resources.Bookshelf_MoreMenu_ClearHistory, "ClearHistoryInPlace"));
 

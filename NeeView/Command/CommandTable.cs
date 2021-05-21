@@ -179,6 +179,7 @@ namespace NeeView
 
                 new ClearHistoryCommand(),
                 new ClearHistoryInPlaceCommand(),
+                new RemoveUnlinkedHistoryCommand(),
 
                 new ToggleStretchModeCommand(),
                 new ToggleStretchModeReverseCommand(),

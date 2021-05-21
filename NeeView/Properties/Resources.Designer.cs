@@ -6458,6 +6458,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   {0} items deleted. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string History_DeleteItemsMessage {
+            get {
+                return ResourceManager.GetString("History.DeleteItemsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Delete all に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string History_MoreMenu_DeleteAll {
@@ -12925,6 +12934,24 @@ namespace NeeView.Properties {
         public static string ReloadSettingCommand_Remarks {
             get {
                 return ResourceManager.GetString("ReloadSettingCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete invalid history items に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string RemoveUnlinkedHistoryCommand {
+            get {
+                return ResourceManager.GetString("RemoveUnlinkedHistoryCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete history items that do not exist. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string RemoveUnlinkedHistoryCommand_Remarks {
+            get {
+                return ResourceManager.GetString("RemoveUnlinkedHistoryCommand.Remarks", resourceCulture);
             }
         }
         

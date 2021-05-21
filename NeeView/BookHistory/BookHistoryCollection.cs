@@ -216,7 +216,7 @@ namespace NeeView
         }
 
         // 無効な履歴削除
-        public async Task RemoveUnlinkedAsync(CancellationToken token)
+        public async Task<int> RemoveUnlinkedAsync(CancellationToken token)
         {
             Debug.WriteLine($"BookHistory: RemoveUnlinked...");
 
@@ -250,6 +250,12 @@ namespace NeeView
             }
 
             Debug.WriteLine($"BookHistory: RemoveUnlinked done.");
+            return unlinked.Count;
+        }
+
+        public void ShowRemovedMessage(int removedCount)
+        {
+            ToastService.Current.Show(new Toast(string.Format(Properties.Resources.History_DeleteItemsMessage, removedCount)));
         }
 
 

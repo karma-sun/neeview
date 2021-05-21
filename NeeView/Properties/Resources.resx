@@ -7221,4 +7221,13 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="NavigatorConfig.ThumbnailHeight" xml:space="preserve">
     <value>Thumbnail area height</value>
   </data>
+  <data name="History.DeleteItemsMessage" xml:space="preserve">
+    <value>{0} items deleted.</value>
+  </data>
+  <data name="RemoveUnlinkedHistoryCommand" xml:space="preserve">
+    <value>Delete invalid history items</value>
+  </data>
+  <data name="RemoveUnlinkedHistoryCommand.Remarks" xml:space="preserve">
+    <value>Delete history items that do not exist.</value>
+  </data>
 </root>

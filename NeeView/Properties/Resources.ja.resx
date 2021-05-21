@@ -7226,4 +7226,13 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="NavigatorConfig.ThumbnailHeight" xml:space="preserve">
     <value>サムネイル エリアの高さ</value>
   </data>
+  <data name="History.DeleteItemsMessage" xml:space="preserve">
+    <value>{0} 個の項目を削除しました。</value>
+  </data>
+  <data name="RemoveUnlinkedHistoryCommand" xml:space="preserve">
+    <value>無効な履歴を削除</value>
+  </data>
+  <data name="RemoveUnlinkedHistoryCommand.Remarks" xml:space="preserve">
+    <value>存在しない履歴項目を削除します。</value>
+  </data>
 </root>

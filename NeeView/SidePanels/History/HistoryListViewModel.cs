@@ -126,7 +126,8 @@ namespace NeeView
             // 直前の命令はキャンセル
             _removeUnlinkedCommandCancellationToken?.Cancel();
             _removeUnlinkedCommandCancellationToken = new CancellationTokenSource();
-            await BookHistoryCollection.Current.RemoveUnlinkedAsync(_removeUnlinkedCommandCancellationToken.Token);
+            int count = await BookHistoryCollection.Current.RemoveUnlinkedAsync(_removeUnlinkedCommandCancellationToken.Token);
+            BookHistoryCollection.Current.ShowRemovedMessage(count);
         }
 
         #endregion

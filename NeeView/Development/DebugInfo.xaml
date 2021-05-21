@@ -13,7 +13,7 @@
         <local:PointToDispStringConverter x:Key="PointToDispStringConverter"/>
     </UserControl.Resources>
 
-    <DockPanel x:Name="Root" Background="White">
+    <DockPanel x:Name="Root" >
 
         <DockPanel DockPanel.Dock="Top">
             <local:DebugBusyFlag Label="JobEngine" IsBusy="{Binding JobEngine.IsBusy}" Margin="0,5"/>

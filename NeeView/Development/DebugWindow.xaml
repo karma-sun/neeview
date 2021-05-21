@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
+        Style="{StaticResource ChromeWindowStyle}"
         Title="DebugWindow" Height="640" Width="1024" ResizeMode="CanResizeWithGrip">
     <Grid>
         <Grid.RowDefinitions>
@@ -22,11 +23,11 @@
             </TabItem>
         </TabControl>
 
-        <CheckBox Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" IsChecked="{Binding Topmost, RelativeSource={RelativeSource AncestorType=Window}}"/>
+        <CheckBox Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" IsChecked="{Binding Topmost, RelativeSource={RelativeSource AncestorType=Window}}" Content="Topmost"/>
 
-        <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch"/>
+        <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" Background="{DynamicResource Control.Border}"/>
 
-        <ScrollViewer Grid.Row="2">
+        <ScrollViewer Style="{StaticResource NVScrollViewer}" Grid.Row="2" Margin="5">
             <local:DebugInfo/>
         </ScrollViewer>
     </Grid>

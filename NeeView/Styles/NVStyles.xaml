@@ -478,6 +478,7 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Foreground" Value="{DynamicResource Control.Foreground}" />
         <Setter Property="BorderBrush" Value="{DynamicResource Control.Border}" />
+        <Setter Property="RenderOptions.ClearTypeHint" Value="{DynamicResource Window.ClearTypeHint}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="GridViewColumnHeader">

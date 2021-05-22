@@ -77,14 +77,9 @@
         <StackPanel DockPanel.Dock="Top">
 
             <StackPanel HorizontalAlignment="Stretch">
-
-                <Grid x:Name="PlaceGrid" Margin="0,2">
-                    <DockPanel>
-                        <DockPanel x:Name="PlaceBar" HorizontalAlignment="Left">
-                            <TextBlock Text="{Binding FolderCollection.Place.Path}" ToolTip="{Binding FolderCollection.Place.Path}" Margin="0,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                        </DockPanel>
-                    </DockPanel>
-                </Grid>
+                <Border x:Name="PlaceGrid" Margin="0,2">
+                    <nwc:LeftTrimmingTextBlock TextSource="{Binding FolderCollection.Place.Path}" ToolTip="{Binding FolderCollection.Place.Path}" VerticalAlignment="Center" />
+                </Border>
             </StackPanel>
 
             <DockPanel KeyboardNavigation.TabNavigation="Local">

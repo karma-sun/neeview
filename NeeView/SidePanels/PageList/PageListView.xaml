@@ -60,11 +60,9 @@
 
         <StackPanel DockPanel.Dock="Top">
 
-            <StackPanel>
-                <DockPanel LastChildFill="False">
-                    <TextBlock Text="{Binding Model.PlaceDispString}" ToolTip="{Binding Model.PlaceDispString}" Margin="0,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                </DockPanel>
-            </StackPanel>
+            <Border>
+                <nwc:LeftTrimmingTextBlock TextSource="{Binding Model.PlaceDispString}" ToolTip="{Binding Model.PlaceDispString}" VerticalAlignment="Center" />
+            </Border>
 
             <DockPanel KeyboardNavigation.TabNavigation ="Local" >
                 <local:MoreMenuButton Description="{Binding MoreMenuDescription}" DockPanel.Dock="Right" VerticalAlignment="Top" Height="{DynamicResource FontIconSize}" TabIndex="2" />

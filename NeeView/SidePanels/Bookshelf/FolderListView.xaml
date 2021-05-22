@@ -1,16 +1,7 @@
-﻿<UserControl x:Class="NeeView.FolderListView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:NeeView"
-             xmlns:nwc="clr-namespace:NeeView.Windows.Controls"
-             xmlns:properties="clr-namespace:NeeView.Properties"
-             xmlns:osc="clr-namespace:OpenSourceControls"
-             mc:Ignorable="d" 
-             d:DataContext="{d:DesignInstance local:FolderListDataContext_Design, IsDesignTimeCreatable=True}"
-             d:DesignHeight="300" d:DesignWidth="300"
-             Foreground="{DynamicResource Panel.Foreground}">
+﻿<UserControl x:Class="NeeView.FolderListView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:NeeView"
+        xmlns:nwc="clr-namespace:NeeView.Windows.Controls" xmlns:properties="clr-namespace:NeeView.Properties" xmlns:osc="clr-namespace:OpenSourceControls" mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance local:FolderListDataContext_Design, IsDesignTimeCreatable=True}" d:DesignHeight="300" d:DesignWidth="300" Foreground="{DynamicResource Panel.Foreground}">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -19,7 +10,7 @@
                 <ResourceDictionary Source="/Styles/ArrowIcons.xaml" />
                 <ResourceDictionary Source="/Styles/PanelIcons.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            
+
             <!--#region Icons -->
 
             <DrawingImage x:Key="ic_search_24px_g">
@@ -106,7 +97,7 @@
                         <DockPanel>
                             <TextBlock DockPanel.Dock="Right" Text="{Binding FolderCollection.ValidCount, StringFormat={}{0}}" Foreground="{DynamicResource Panel.Foreground}" Margin="5,0"
                                     Visibility="{Binding Source={x:Static local:Config.Current}, Path=Bookshelf.IsVisibleItemsCount, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                            <DockPanel x:Name="PlaceBar" HorizontalAlignment="Left">
+                            <DockPanel x:Name="PlaceBar">
                                 <Image x:Name="PlaceIcon" DockPanel.Dock="Left" Width="16" Height="16" VerticalAlignment="Center" Margin="0,0,0,0"
                                         PreviewMouseLeftButtonDown="PlaceIcon_MouseLeftButtonDown" PreviewMouseLeftButtonUp="PlaceIcon_MouseLeftButtonUp" PreviewMouseMove="PlaceIcon_MouseMove"
                                         QueryContinueDrag="PlaceIcon_QueryContinueDrag">
@@ -120,8 +111,10 @@
                                 <Image DockPanel.Dock="Right" Source="{StaticResource fic_recursive_folder_24px}" Width="12" Height="12" VerticalAlignment="Center" Margin="0,2,0,0"
                                         ToolTip="{x:Static properties:Resources.Bookshelf_SubFolder_ToolTip}"
                                         Visibility="{Binding FolderCollection, Converter={StaticResource FolderCollectionToFolderRecursiveVisibilityConverter}}" />
-                                <TextBlock Text="{Binding FolderCollection.PlaceDispString}" ToolTip="{Binding FolderCollection.PlaceDispString}" Margin="5,0" HorizontalAlignment="Right"
-                                        VerticalAlignment="Center" />
+                                <Border Margin="5,0">
+                                    <nwc:LeftTrimmingTextBlock TextSource="{Binding FolderCollection.PlaceDispString}" ToolTip="{Binding FolderCollection.PlaceDispString}" VerticalAlignment="Center" />
+                                </Border>
+                                
                             </DockPanel>
                         </DockPanel>
                     </Grid>
@@ -228,9 +221,8 @@
                         </Button>
                         <ComboBox x:Name="SearchBox" Text="{Binding Model.InputKeyword, UpdateSourceTrigger=PropertyChanged}" TabIndex="1" TextBoxBase.TextChanged="SearchBox_TextChanged"
                                 MinHeight="{DynamicResource FontIconSize}" IsKeyboardFocusWithinChanged="SearchBox_IsKeyboardFocusWithinChanged"
-                                Background="{Binding ElementName=SearchBoxRoot, Path=Background}" VerticalAlignment="Stretch"
-                                KeyDown="SearchBox_KeyDown" ItemsSource="{Binding Source={x:Static local:BookHistoryCollection.Current}, Path=SearchHistory}" IsTextSearchCaseSensitive="True"
-                                IsEditable="True" BorderThickness="0">
+                                Background="{Binding ElementName=SearchBoxRoot, Path=Background}" VerticalAlignment="Stretch" KeyDown="SearchBox_KeyDown"
+                                ItemsSource="{Binding Source={x:Static local:BookHistoryCollection.Current}, Path=SearchHistory}" IsTextSearchCaseSensitive="True" IsEditable="True" BorderThickness="0">
 
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
@@ -240,30 +232,30 @@
                         </ComboBox>
                     </DockPanel>
                 </Border>
-                
+
             </StackPanel>
         </Border>
-        
+
         <DockPanel SizeChanged="Grid_SizeChanged">
             <local:FolderTreeView DockPanel.Dock="{Binding Model.FolderTreeDock}" x:Name="FolderTree" Margin="2"
-                                  Visibility="{Binding Model.IsFolderTreeVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    Visibility="{Binding Model.IsFolderTreeVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <local:FolderTreeView.Style>
                     <Style TargetType="{x:Type local:FolderTreeView}">
                         <Style.Triggers>
                             <Trigger Property="DockPanel.Dock" Value="Top">
-                                <Setter Property="Height" Value="{Binding Model.FolderTreeAreaHeight, Mode=TwoWay}"/>
+                                <Setter Property="Height" Value="{Binding Model.FolderTreeAreaHeight, Mode=TwoWay}" />
                             </Trigger>
                             <Trigger Property="DockPanel.Dock" Value="Left">
-                                <Setter Property="Width" Value="{Binding Model.FolderTreeAreaWidth, Mode=TwoWay}"/>
+                                <Setter Property="Width" Value="{Binding Model.FolderTreeAreaWidth, Mode=TwoWay}" />
                             </Trigger>
                         </Style.Triggers>
                     </Style>
                 </local:FolderTreeView.Style>
             </local:FolderTreeView>
 
-            <osc:DockPanelSplitter x:Name="LeftPanelSplitter" DockPanel.Dock="{Binding Model.FolderTreeDock}" Style="{StaticResource NVHorizontalBevelGrip}" ProportionalResize="False" UseLayoutRounding="True" IsTabStop="False"
-                                   Visibility="{Binding Model.IsFolderTreeVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-            
+            <osc:DockPanelSplitter x:Name="LeftPanelSplitter" DockPanel.Dock="{Binding Model.FolderTreeDock}" Style="{StaticResource NVHorizontalBevelGrip}" ProportionalResize="False"
+                    UseLayoutRounding="True" IsTabStop="False" Visibility="{Binding Model.IsFolderTreeVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
             <ContentControl x:Name="ListBoxContent" Content="{Binding FolderListBox}" Focusable="False" Margin="2" />
         </DockPanel>
 

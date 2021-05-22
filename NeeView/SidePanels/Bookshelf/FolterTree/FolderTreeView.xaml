@@ -24,6 +24,7 @@
             <Setter Property="Margin" Value="5,0,0,0"/>
             <Setter Property="Foreground" Value="{DynamicResource Panel.Foreground}"/>
             <Setter Property="FontSize" Value="{DynamicResource FolderTreeFontSize}"/>
+            <Setter Property="TextTrimming" Value="CharacterEllipsis" />
         </Style>
 
         <local:ImageSourceCollectionToImageSourceConverter x:Key="ImageSourceCollectionToImageSourceConverter" Width="16.0" />

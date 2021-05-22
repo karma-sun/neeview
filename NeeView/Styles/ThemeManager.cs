@@ -87,7 +87,7 @@ namespace NeeView
                 .Select(e => new KeyValuePair<string, string>(e.ToString(), e.ToAliasName()));
 
             var customThemes = CollectCustomThemes()
-                .Select(e => new KeyValuePair<string, string>(e.ToString(), e.Type.ToAliasName() + ": " + Path.GetFileNameWithoutExtension(e.FileName)));
+                .Select(e => new KeyValuePair<string, string>(e.ToString(), Path.GetFileNameWithoutExtension(e.FileName)));
 
             var map = defaultThemes.Concat(customThemes)
                 .ToKeyValuePairList(e => e.Key, e => e.Value);

@@ -403,7 +403,7 @@ namespace NeeView
             {
                 if (propertyIndexer.PropertyType != typeof(object) && propertyIndexer.PropertyType != typeof(string))
                 {
-                    return ToAnchor(propertyIndexer.PropertyType.Name) + "[]";
+                    return ToAnchor(GetFixedTypeName(propertyIndexer.PropertyType)) + "[]";
                 }
 
                 return "dictionary";
@@ -413,17 +413,33 @@ namespace NeeView
         }
 
         /// <summary>
+        /// 属性による名前指定を反映
+        /// </summary>
+        private string GetFixedTypeName(Type type)
+        {
+            var attribute = type.GetCustomAttribute<DocumentableAttribute>();
+            if (attribute != null && attribute.Name != null)
+            {
+                return attribute.Name;
+            }
+            else
+            {
+                return type.Name;
+            }
+        }
+
+        /// <summary>
         /// 型をアンカー付きテキストに変換
         /// </summary>
         private string TypeAnchor(Type type)
         {
             if (type.IsArray)
             {
-                return ToAnchor(type.GetElementType().Name) + "[]";
+                return ToAnchor(GetFixedTypeName(type.GetElementType())) + "[]";
             }
             else
             {
-                return ToAnchor(type.Name);
+                return ToAnchor(GetFixedTypeName(type));
             }
         }
 

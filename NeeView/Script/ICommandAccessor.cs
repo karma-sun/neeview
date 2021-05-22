@@ -2,6 +2,7 @@
 
 namespace NeeView
 {
+    [Documentable(Name = nameof(CommandAccessor))]
     public interface ICommandAccessor
     {
         bool IsShowMessage { get; set; }

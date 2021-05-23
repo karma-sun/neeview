@@ -161,7 +161,7 @@ namespace NeeView.Setting
         {
             if (this.CommandListView.SelectedItem is CommandItem item)
             {
-                e.CanExecute = item.Command.CanClone();
+                e.CanExecute = item.Command.IsCloneable;
             }
             else
             {

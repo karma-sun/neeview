@@ -2272,3 +2272,4 @@ RemoveUnlinkedHistoryCommand=無効な履歴を削除
 RemoveUnlinkedHistoryCommand.Remarks=存在しない履歴項目を削除します。
 SystemConfig.WebBrowser=Web ブラウザー
 SystemConfig.WebBrowser.Remarks=設定されていない場合、既定のWeb ブラウザーを使用します。
+ScriptOnPageChangedCommand.Remarks=スクリプト。表示ページが変更されたときに実行されます。

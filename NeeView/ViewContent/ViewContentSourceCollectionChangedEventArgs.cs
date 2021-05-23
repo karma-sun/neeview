@@ -8,7 +8,7 @@ namespace NeeView
         public ViewContentSourceCollectionChangedEventArgs(string bookAddress, ViewContentSourceCollection viewPageCollection)
         {
             BookAddress = bookAddress;
-            ViewPageCollection = viewPageCollection;
+            ViewPageCollection = viewPageCollection ?? throw new ArgumentNullException(nameof(viewPageCollection));
         }
 
         public string BookAddress { get; set; }

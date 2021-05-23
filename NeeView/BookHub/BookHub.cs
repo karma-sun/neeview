@@ -674,8 +674,6 @@ namespace NeeView
                 _bookHubToast = null;
             }
 
-            bool isNew = true;
-
             try
             {
                 // address
@@ -708,14 +706,18 @@ namespace NeeView
                     AppDispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncEventArgs() { Path = address.Address.SimplePath, Parent = address.Place.SimplePath, isKeepPlace = false }));
                 }
 
-                isNew = BookMementoCollection.Current.GetValid(address.Address.SimplePath) == null;
+                var isNew = BookMementoCollection.Current.GetValid(address.Address.SimplePath) == null;
 
                 // Load本体
                 var loadOption = args.Option | (isResetLastPage ? BookLoadOption.ResetLastPage : BookLoadOption.None);
                 await LoadAsyncCore(args.Sender, address, loadOption, setting, token);
 
                 ////DebugTimer.Check("LoadCore");
-                ///
+                
+                if (BookUnit != null)
+                {
+                    BookUnit.Book.IsNew = isNew;
+                }
 
                 var bookSetting = BookSettingConfigExtensions.FromBookMement(BookUnit?.Book.CreateMemento());
 
@@ -788,17 +790,6 @@ namespace NeeView
                 NotifyLoading(null);
 
                 ////DebugTimer.Check("Done.");
-            }
-
-            // Script fook
-            if (BookUnit != null)
-            {
-                BookUnit.Book.IsNew = isNew;
-                var commandName = ScriptCommand.Prefix + ScriptCommand.EventOnBookLoaded;
-                if (CommandTable.Current.ContainsKey(commandName))
-                {
-                    AppDispatcher.Invoke(() => CommandTable.Current.TryExecute(this, commandName, null, CommandOption.None));
-                }
             }
         }
 

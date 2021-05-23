@@ -73,12 +73,14 @@ namespace NeeView
 
         public static object[] EmptyArgs { get; } = new object[] { };
 
+        private static Regex _trimCommand = new Regex(@"Command$", RegexOptions.Compiled);
+
         private string _menuText;
         private string _shortCutKey = "";
         private string _touchGesture = "";
         private string _mouseGesture = "";
+        private bool _isCloneable = true;
 
-        private static Regex _trimCommand = new Regex(@"Command$", RegexOptions.Compiled);
 
         public CommandElement() : this(null)
         {
@@ -193,6 +195,13 @@ namespace NeeView
 
         // コマンド実行時の通知フラグ
         public bool IsShowMessage { get; set; }
+
+        // クローン可能？
+        public bool IsCloneable
+        {
+            get => _isCloneable && ParameterSource != null;
+            set => _isCloneable = value;
+        }
 
         // ペアコマンド
         // TODO: CommandElementを直接指定
@@ -354,11 +363,6 @@ namespace NeeView
         public bool IsCloneCommand()
         {
             return NameSource.IsClone;
-        }
-
-        public bool CanClone()
-        {
-            return this.ParameterSource != null;
         }
 
 

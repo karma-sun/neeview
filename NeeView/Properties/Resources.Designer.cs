@@ -13118,6 +13118,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Scrpit. Executes when the view pages is changed. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ScriptOnPageChangedCommand_Remarks {
+            get {
+                return ResourceManager.GetString("ScriptOnPageChangedCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Script reference に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ScriptReference {

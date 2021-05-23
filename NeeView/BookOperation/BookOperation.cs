@@ -47,6 +47,7 @@ namespace NeeView
         {
             BookHub.Current.BookChanging += BookHub_BookChanging;
             BookHub.Current.BookChanged += BookHub_BookChanged;
+            BookHub.Current.ViewContentsChanged += BookHub_ViewContentsChanged;
         }
 
         // NOTE: 応急処置。シングルトンコンストラクタで互いを参照してしまっているのを回避するため
@@ -168,7 +169,27 @@ namespace NeeView
             // ページリスト更新通知
             PageListChanged?.Invoke(this, null);
 
+            // Script: OnBookLoaded
+            CommandTable.Current.TryExecute(this, ScriptCommand.EventOnBookLoaded, null, CommandOption.None);
+            // Script: OnPageChanged
+            CommandTable.Current.TryExecute(this, ScriptCommand.EventOnPageChanged, null, CommandOption.None);
+
             BookChanged?.Invoke(sender, e);
+        }
+
+        private void BookHub_ViewContentsChanged(object sender, ViewContentSourceCollectionChangedEventArgs e)
+        {
+            if (e is null) return;
+
+            if (e.ViewPageCollection.IsFixedContents())
+            {
+                // NOTE: ブックが有効なときだけ呼ぶ
+                if (IsEnabled)
+                {
+                    // Script: OnPageChanged
+                    CommandTable.Current.TryExecute(this, ScriptCommand.EventOnPageChanged, null, CommandOption.None);
+                }
+            }
         }
 
         //

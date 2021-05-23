@@ -9,9 +9,10 @@ namespace NeeView
 {
     public class ScriptCommand : CommandElement
     {
-        public static string Prefix => "Script_";
-        public static string Extension => ".nvjs";
-        public static string EventOnBookLoaded => "OnBookLoaded";
+        public const string Prefix = "Script_";
+        public const string Extension = ".nvjs";
+        public const string EventOnBookLoaded = Prefix + "OnBookLoaded";
+        public const string EventOnPageChanged = Prefix + "OnPageChanged";
 
         private static Regex _regexCommentLine = new Regex(@"^\s*/{2,}");
         private static Regex _regexDocComment = new Regex(@"^\s*/{2,}\s*(@\w+)\s+(.+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -27,13 +28,21 @@ namespace NeeView
             this.Group = Properties.Resources.CommandGroup_Script;
             this.Text = _scriptName;
 
-            if (_scriptName == EventOnBookLoaded)
+            switch (name)
             {
-                this.Remarks = Properties.Resources.ScriptOnBookLoadedCommand_Remarks;
-            }
-            else
-            {
-                this.Remarks = Properties.Resources.ScriptCommand_Remarks;
+                case EventOnBookLoaded:
+                    this.IsCloneable = false;
+                    this.Remarks = Properties.Resources.ScriptOnBookLoadedCommand_Remarks;
+                    break;
+
+                case EventOnPageChanged:
+                    this.IsCloneable = false;
+                    this.Remarks = Properties.Resources.ScriptOnPageChangedCommand_Remarks;
+                    break;
+
+                default:
+                    this.Remarks = Properties.Resources.ScriptCommand_Remarks;
+                    break;
             }
 
             this.ParameterSource = new CommandParameterSource(new ScriptCommandParameter());
@@ -42,7 +51,7 @@ namespace NeeView
         protected override CommandElement CloneInstance()
         {
             var type = this.GetType();
-            var command =  new ScriptCommand(this.NameSource.Name);
+            var command = new ScriptCommand(this.NameSource.Name);
             command.Text = this.Text;
             command.Remarks = this.Remarks;
             return command;
@@ -113,7 +122,7 @@ namespace NeeView
     public class ScriptCommandParameter : CommandParameter
     {
         private string _argument;
-        
+
         [PropertyMember]
         public string Argument
         {

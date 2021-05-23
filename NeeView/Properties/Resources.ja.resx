@@ -7241,4 +7241,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="SystemConfig.WebBrowser.Remarks" xml:space="preserve">
     <value>設定されていない場合、既定のWeb ブラウザーを使用します。</value>
   </data>
+  <data name="ScriptOnPageChangedCommand.Remarks" xml:space="preserve">
+    <value>スクリプト。表示ページが変更されたときに実行されます。</value>
+  </data>
 </root>

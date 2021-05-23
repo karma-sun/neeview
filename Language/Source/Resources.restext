@@ -2270,3 +2270,5 @@ NavigatorConfig.ThumbnailHeight=Thumbnail area height
 History.DeleteItemsMessage={0} items deleted.
 RemoveUnlinkedHistoryCommand=Delete invalid history items
 RemoveUnlinkedHistoryCommand.Remarks=Delete history items that do not exist.
+SystemConfig.WebBrowser=Web browser
+SystemConfig.WebBrowser.Remarks=If not set, use default web browser.

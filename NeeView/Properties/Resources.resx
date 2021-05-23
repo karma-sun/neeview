@@ -7230,4 +7230,10 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="RemoveUnlinkedHistoryCommand.Remarks" xml:space="preserve">
     <value>Delete history items that do not exist.</value>
   </data>
+  <data name="SystemConfig.WebBrowser" xml:space="preserve">
+    <value>Web browser</value>
+  </data>
+  <data name="SystemConfig.WebBrowser.Remarks" xml:space="preserve">
+    <value>If not set, use default web browser.</value>
+  </data>
 </root>

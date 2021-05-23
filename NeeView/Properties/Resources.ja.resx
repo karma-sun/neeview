@@ -7235,4 +7235,10 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="RemoveUnlinkedHistoryCommand.Remarks" xml:space="preserve">
     <value>存在しない履歴項目を削除します。</value>
   </data>
+  <data name="SystemConfig.WebBrowser" xml:space="preserve">
+    <value>Web ブラウザー</value>
+  </data>
+  <data name="SystemConfig.WebBrowser.Remarks" xml:space="preserve">
+    <value>設定されていない場合、既定のWeb ブラウザーを使用します。</value>
+  </data>
 </root>

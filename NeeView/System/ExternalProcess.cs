@@ -13,7 +13,8 @@ namespace NeeView
 
     public static class ExternalProcess
     {
-        private static Regex _httpPrefix = new Regex(@"^\s*http[s]?:");
+        private static Regex _httpPrefix = new Regex(@"^\s*http[s]?:", RegexOptions.IgnoreCase);
+        private static Regex _htmlPostfix = new Regex(@"\.htm[l]?$", RegexOptions.IgnoreCase);
 
         public static void Start(string filename, string args = null, ExternalProcessAtrtibute attributes = ExternalProcessAtrtibute.None)
         {
@@ -46,6 +47,12 @@ namespace NeeView
                 }
             }
 
+            if (Config.Current.System.WebBrowser != null && string.IsNullOrEmpty(startInfo.Arguments) && IsBrowserContent(startInfo.FileName))
+            {
+                startInfo.Arguments = startInfo.FileName;
+                startInfo.FileName = Config.Current.System.WebBrowser;
+            }
+
             try
             {
                 Process.Start(startInfo);
@@ -69,6 +76,13 @@ namespace NeeView
         {
             var textEditor = Config.Current.System.TextEditor ?? "notepad.exe";
             Start(textEditor, $"\"{path}\"");
+        }
+
+
+        private static bool IsBrowserContent(string path)
+        {
+            var isResult = _httpPrefix.IsMatch(path) || _htmlPostfix.IsMatch(path);
+            return isResult;
         }
     }
 }

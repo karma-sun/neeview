@@ -2270,3 +2270,5 @@ NavigatorConfig.ThumbnailHeight=サムネイル エリアの高さ
 History.DeleteItemsMessage={0} 個の項目を削除しました。
 RemoveUnlinkedHistoryCommand=無効な履歴を削除
 RemoveUnlinkedHistoryCommand.Remarks=存在しない履歴項目を削除します。
+SystemConfig.WebBrowser=Web ブラウザー
+SystemConfig.WebBrowser.Remarks=設定されていない場合、既定のWeb ブラウザーを使用します。

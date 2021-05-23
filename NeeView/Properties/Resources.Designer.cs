@@ -16109,6 +16109,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Web browser に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SystemConfig_WebBrowser {
+            get {
+                return ResourceManager.GetString("SystemConfig.WebBrowser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   If not set, use default web browser. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SystemConfig_WebBrowser_Remarks {
+            get {
+                return ResourceManager.GetString("SystemConfig.WebBrowser.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Custom theme folder に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ThemeConfig_CustomThemeFolder {

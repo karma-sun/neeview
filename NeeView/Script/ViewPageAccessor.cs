@@ -7,9 +7,35 @@
         }
 
         [WordNodeMember]
-        public double Width => this.Source.Size.Width;
+        public double Width
+        {
+            get
+            {
+                if (this.Source.ContentAccessor is BitmapContent bitmapContent && bitmapContent.PictureInfo != null)
+                {
+                    return bitmapContent.PictureInfo.OriginalSize.Width;
+                }
+                else
+                {
+                    return 0.0;
+                }
+            }
+        }
 
         [WordNodeMember]
-        public double Height => this.Source.Size.Height;
+        public double Height
+        {
+            get
+            {
+                if (this.Source.ContentAccessor is BitmapContent bitmapContent && bitmapContent.PictureInfo != null)
+                {
+                    return bitmapContent.PictureInfo.OriginalSize.Height;
+                }
+                else
+                {
+                    return 0.0;
+                }
+            }
+        }
     }
 }

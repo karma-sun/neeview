@@ -2146,6 +2146,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Open in _Playlist に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfItem_Menu_OpenInPlaylist {
+            get {
+                return ResourceManager.GetString("BookshelfItem.Menu.OpenInPlaylist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Rena_me に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookshelfItem_Menu_Rename {

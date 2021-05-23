@@ -7244,4 +7244,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ScriptOnPageChangedCommand.Remarks" xml:space="preserve">
     <value>スクリプト。表示ページが変更されたときに実行されます。</value>
   </data>
+  <data name="BookshelfItem.Menu.OpenInPlaylist" xml:space="preserve">
+    <value>プレイリストで開く(_P)</value>
+  </data>
 </root>

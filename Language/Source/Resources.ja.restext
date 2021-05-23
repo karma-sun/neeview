@@ -2273,3 +2273,4 @@ RemoveUnlinkedHistoryCommand.Remarks=存在しない履歴項目を削除しま�
 SystemConfig.WebBrowser=Web ブラウザー
 SystemConfig.WebBrowser.Remarks=設定されていない場合、既定のWeb ブラウザーを使用します。
 ScriptOnPageChangedCommand.Remarks=スクリプト。表示ページが変更されたときに実行されます。
+BookshelfItem.Menu.OpenInPlaylist=プレイリストで開く(_P)

@@ -7239,4 +7239,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ScriptOnPageChangedCommand.Remarks" xml:space="preserve">
     <value>Scrpit. Executes when the view pages is changed.</value>
   </data>
+  <data name="BookshelfItem.Menu.OpenInPlaylist" xml:space="preserve">
+    <value>Open in _Playlist</value>
+  </data>
 </root>

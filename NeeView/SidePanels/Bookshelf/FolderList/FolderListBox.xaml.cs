@@ -121,7 +121,7 @@ namespace NeeView
         public static readonly RoutedCommand ToggleBookmarkCommand = new RoutedCommand("ToggleBookmarkCommand", typeof(FolderListBox));
         public static readonly RoutedCommand OpenDestinationFolderCommand = new RoutedCommand("OpenDestinationFolderCommand", typeof(FolderListBox));
         public static readonly RoutedCommand OpenExternalAppDialogCommand = new RoutedCommand("OpenExternalAppDialogCommand", typeof(FolderListBox));
-        public static readonly RoutedCommand EditPlaylistCommand = new RoutedCommand("EditPlaylistCommand", typeof(FolderListBox));
+        public static readonly RoutedCommand OpenInPlaylistCommand = new RoutedCommand("OpenInPlaylistCommand", typeof(FolderListBox));
 
         private static void InitialieCommandStatic()
         {
@@ -149,7 +149,7 @@ namespace NeeView
             this.ListBox.CommandBindings.Add(new CommandBinding(ToggleBookmarkCommand, ToggleBookmark_Executed, ToggleBookmark_CanExecute));
             this.ListBox.CommandBindings.Add(new CommandBinding(OpenDestinationFolderCommand, OpenDestinationFolderDialog_Execute));
             this.ListBox.CommandBindings.Add(new CommandBinding(OpenExternalAppDialogCommand, OpenExternalAppDialog_Execute));
-            this.ListBox.CommandBindings.Add(new CommandBinding(EditPlaylistCommand, EditPlaylistCommand_Execute));
+            this.ListBox.CommandBindings.Add(new CommandBinding(OpenInPlaylistCommand, OpenInPlaylistCommand_Execute));
         }
 
         /// <summary>
@@ -389,12 +389,12 @@ namespace NeeView
             e.CanExecute = items != null && !(_vm.FolderCollection is PlaylistFolderCollection) && items.All(x => x.CanRemove());
         }
 
-            /// <summary>
-            /// 削除コマンド実行
-            /// </summary>
-            /// <param name="sender"></param>
-            /// <param name="e"></param>
-            public async void Remove_Executed(object sender, ExecutedRoutedEventArgs e)
+        /// <summary>
+        /// 削除コマンド実行
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public async void Remove_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var items = this.ListBox.SelectedItems.Cast<FolderItem>().ToList();
             await _vm.RemoveAsync(items);
@@ -609,7 +609,7 @@ namespace NeeView
             ExternalAppDialog.ShowDialog(Window.GetWindow(this));
         }
 
-        private void EditPlaylistCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        private void OpenInPlaylistCommand_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
             if (item != null && item.IsPlaylist)
@@ -878,7 +878,7 @@ namespace NeeView
             return element;
         }
 
-#endregion
+        #endregion
 
 
         private void FolderListBox_Loaded(object sender, RoutedEventArgs e)
@@ -1205,7 +1205,7 @@ namespace NeeView
                 if (item.IsPlaylist)
                 {
                     contextMenu.Items.Add(new Separator());
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItem_Menu_Edit, Command = EditPlaylistCommand });
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItem_Menu_OpenInPlaylist, Command = OpenInPlaylistCommand });
                 }
             }
         }
@@ -1247,7 +1247,7 @@ namespace NeeView
         }
 
 
-#region UI Accessor
+        #region UI Accessor
 
         public List<FolderItem> GetItems()
         {
@@ -1266,7 +1266,7 @@ namespace NeeView
             this.ListBox.ScrollItemsIntoView(items);
         }
 
-#endregion UI Accessor
+        #endregion UI Accessor
     }
 
 

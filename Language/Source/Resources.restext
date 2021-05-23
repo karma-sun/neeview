@@ -2273,3 +2273,4 @@ RemoveUnlinkedHistoryCommand.Remarks=Delete history items that do not exist.
 SystemConfig.WebBrowser=Web browser
 SystemConfig.WebBrowser.Remarks=If not set, use default web browser.
 ScriptOnPageChangedCommand.Remarks=Scrpit. Executes when the view pages is changed.
+BookshelfItem.Menu.OpenInPlaylist=Open in _Playlist

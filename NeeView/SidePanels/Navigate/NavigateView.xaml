@@ -237,7 +237,7 @@
                     <local:NavigateThumbnail Grid.Row="0" HorizontalAlignment="Stretch" Margin="0,0,0,10"
                             Visibility="{Binding IsVisibleThumbnail, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
-                    <GridSplitter Grid.Row="0" Height="6" HorizontalAlignment="Stretch"  VerticalAlignment="Bottom" Background="{DynamicResource Panel.Splitter}"
+                    <GridSplitter Grid.Row="0" Height="6" HorizontalAlignment="Stretch"  VerticalAlignment="Bottom" Background="{DynamicResource Panel.Splitter}" IsTabStop="False"
                             Visibility="{Binding IsVisibleThumbnail, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                     <StackPanel Grid.Row="1">
@@ -282,10 +282,10 @@
                                 <TextBlock Text="{x:Static properties:Resources.Navigator_Angle}" VerticalAlignment="Center" />
                             </DockPanel>
                             <StackPanel Margin="10,5,0,5">
-                                <DockPanel Margin="0,2">
+                                <DockPanel Margin="0,2" KeyboardNavigation.TabNavigation="Local">
                                     <nvc:EnterTriggerTextBox DockPanel.Dock="Right" Text="{Binding Angle, StringFormat={}{0:F0}}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0"
-                                            ValueDeltaChanged="Angle_ValueDelta" />
-                                    <Slider Value="{Binding Angle}" Minimum="-180.0" Maximum="180.0" TickFrequency="1.0" VerticalAlignment="Center" />
+                                            ValueDeltaChanged="Angle_ValueDelta" TabIndex="2" />
+                                    <Slider Value="{Binding Angle}" Minimum="-180.0" Maximum="180.0" TickFrequency="1.0" VerticalAlignment="Center" TabIndex="1" />
                                 </DockPanel>
                                 <DockPanel Margin="0,2" LastChildFill="False">
                                     <StackPanel Orientation="Horizontal">
@@ -327,10 +327,10 @@
                                 <TextBlock Text="{x:Static properties:Resources.Navigator_Scale}" VerticalAlignment="Center" />
                             </DockPanel>
                             <StackPanel Margin="10,5,0,5">
-                                <DockPanel Margin="0,2">
+                                <DockPanel Margin="0,2" KeyboardNavigation.TabNavigation="Local">
                                     <nvc:EnterTriggerTextBox DockPanel.Dock="Right" Text="{Binding Scale, StringFormat={}{0:F0}}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0"
-                                            ValueDeltaChanged="Scale_ValueDelta" />
-                                    <Slider Value="{Binding ScaleLog}" Minimum="-5.0" Maximum="5.0" VerticalAlignment="Center" />
+                                            ValueDeltaChanged="Scale_ValueDelta" TabIndex="2" />
+                                    <Slider Value="{Binding ScaleLog}" Minimum="-5.0" Maximum="5.0" VerticalAlignment="Center" TabIndex="1" />
                                 </DockPanel>
                                 <DockPanel LastChildFill="False">
                                     <StackPanel Orientation="Horizontal">

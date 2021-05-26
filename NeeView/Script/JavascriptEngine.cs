@@ -1,7 +1,6 @@
 ﻿using NeeView.Text;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -12,14 +11,12 @@ namespace NeeView
     public class JavascriptEngine
     {
         private Jint.Engine _engine;
-        private ScriptAccessDiagnostics _accessDiagnostics;
         private CommandHost _commandHost;
         private CancellationToken _cancellationToken;
 
         public JavascriptEngine()
         {
-            _accessDiagnostics = new ScriptAccessDiagnostics(this);
-            _commandHost = new CommandHost(this, _accessDiagnostics, CommandTable.Current);
+            _commandHost = new CommandHost(this, CommandTable.Current);
             _engine = new Jint.Engine(config => config.AllowClr());
             _engine.SetValue("sleep", (Action<int>)Sleep);
             _engine.SetValue("log", (Action<object>)Log);
@@ -66,12 +63,30 @@ namespace NeeView
             _cancellationToken = token;
             _commandHost.SetCancellationToken(token);
 
-            var oldPath = path;
+            var oldPath = CurrentPath;
             try
             {
                 CurrentPath = path;
-                var result = _engine.Execute(script).GetCompletionValue();
+                var options = new Esprima.ParserOptions(path)
+                {
+                    AdaptRegexp = true,
+                    Tolerant = true,
+                    Loc = true,
+                };
+                var result = _engine.Execute(script, options).GetCompletionValue();
                 return result?.ToObject();
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
+            catch (ScriptException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ScriptException(CreateScriptErrorMessage(ex.Message), ex);
             }
             finally
             {
@@ -86,7 +101,7 @@ namespace NeeView
                 return;
             }
 
-            var message = CreateMessageWithLocation(ex.Message);
+            var message = (ex is ScriptException) ? ex.Message : CreateScriptErrorMessage(ex.Message).ToString();
             ConsoleWindowManager.Current.ErrorMessage(message, this.IsToastEnable);
         }
 
@@ -133,11 +148,13 @@ namespace NeeView
             return Path.GetFullPath(path);
         }
 
-        public string CreateMessageWithLocation(string s)
+
+        public ScriptNotice CreateScriptErrorMessage(string s)
         {
             // NOTE: GetLastSyntaxNode() はバージョンによっては使用できないので注意
             var node = _engine.GetLastSyntaxNode();
 
+            string source = null;
             int line = -1;
             string message = "";
 
@@ -150,34 +167,14 @@ namespace NeeView
             }
             else if (node != null)
             {
+                source = node.Location.Source;
                 line = node.Location.Start.Line;
                 message = s.Trim();
             }
 
-            if (CurrentPath is null)
-            {
-                if (line < 0)
-                {
-                    return message;
-                }
-                else
-                {
-                    return $"Line {line}: {message}";
-                }
-            }
-            else
-            {
-                var filename = LoosePath.GetFileName(CurrentPath);
-                if (line < 0)
-                {
-                    return $"{filename}: {message}";
-                }
-                else
-                {
-                    return $"{filename}({line}): {message}";
-                }
-            }
+            return new ScriptNotice(source, line, message);
         }
+
 
 
         internal WordNode CreateWordNode(string name)

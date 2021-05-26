@@ -11,13 +11,6 @@ namespace NeeView
     /// </summary>
     public class ScriptAccessDiagnostics : IAccessDiagnostics
     {
-        private JavascriptEngine _engine;
-
-        public ScriptAccessDiagnostics(JavascriptEngine engine)
-        {
-            _engine = engine ?? throw new ArgumentNullException(nameof(engine));
-        }
-
         public T Throw<T>(Exception ex)
         {
             Throw(ex);
@@ -32,23 +25,26 @@ namespace NeeView
 
         public void Throw(Exception ex)
         {
-            var message = _engine.CreateMessageWithLocation(ex.Message);
+            var _engine = JavascroptEngineMap.Current.GetCurrentEngine();
+
+            var message = _engine.CreateScriptErrorMessage(ex.Message);
 
             switch (Config.Current.Script.ErrorLevel)
             {
                 case ScriptErrorLevel.Info:
-                    ConsoleWindowManager.Current.InforMessage(message, false);
+                    ConsoleWindowManager.Current.InforMessage(message.ToString(), false);
                     break;
 
                 case ScriptErrorLevel.Warning:
-                    ConsoleWindowManager.Current.WarningMessage(message, _engine.IsToastEnable);
+                    ConsoleWindowManager.Current.WarningMessage(message.ToString(), _engine.IsToastEnable);
                     break;
 
                 case ScriptErrorLevel.Error:
                 default:
-                    throw new ScriptException(ex.Message, ex);
+                    throw new ScriptException(message, ex);
             }
         }
 
     }
+
 }

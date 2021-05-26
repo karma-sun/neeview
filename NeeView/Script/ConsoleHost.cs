@@ -5,7 +5,7 @@ using System.Windows;
 
 namespace NeeView
 {
-    public class ConsoleHost : IConsoleHost
+    public class ConsoleHost : IConsoleHost 
     {
         private Window _owner;
         private JavascriptEngine _engine;
@@ -34,9 +34,13 @@ namespace NeeView
             WordTree = new WordTree(wordTreeRoot);
         }
 
+#pragma warning disable CS0067
         public event EventHandler<ConsoleHostOutputEventArgs> Output;
+#pragma warning restore CS0067
+
 
         public WordTree WordTree { get; set; }
+
 
         public string Execute(string input, CancellationToken token)
         {
@@ -52,6 +56,7 @@ namespace NeeView
                     return null;
 
                 default:
+                    JavascroptEngineMap.Current.Add(_engine);
                     try
                     {
                         var result = _engine.Execute(null, input, token);
@@ -64,6 +69,7 @@ namespace NeeView
                     }
                     finally
                     {
+                        JavascroptEngineMap.Current.Remove(_engine);
                         CommandTable.Current.FlushInputGesture();
                     }
             }

@@ -9,21 +9,25 @@ namespace NeeView
     /// </summary>
     public class ScriptException : Exception
     {
-        public ScriptException()
-        {
-        }
+        public ScriptNotice ScriptNotice { get; set; }
 
-        public ScriptException(string message) : base(message)
-        {
-        }
 
-        public ScriptException(string message, Exception innerException) : base(message, innerException)
+        public ScriptException(ScriptNotice notice, Exception innerException) : base(notice.Message, innerException)
         {
+            this.ScriptNotice = notice;
         }
 
         protected ScriptException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
-    }
 
+
+        public override string Message
+        {
+            get
+            {
+                return ScriptNotice?.ToString() ?? base.Message;
+            }
+        }
+    }
 }

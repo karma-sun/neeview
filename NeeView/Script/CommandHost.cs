@@ -12,22 +12,19 @@ namespace NeeView
     public class CommandHost
     {
         private static Dictionary<string, object> _values = new Dictionary<string, object>();
+        private static ScriptAccessDiagnostics _accessDiagnostics;
+        private static ConfigMap _configMap;
 
-        private object _sender;
-        private CommandTable _commandTable;
-        private ConfigMap _configMap;
         private List<string> _args = new List<string>();
         private CancellationToken _canellationToken;
-        private IAccessDiagnostics _accessDiagnostics;
 
-        public CommandHost(object sender, IAccessDiagnostics accessDiagnostics, CommandTable commandTable)
+
+        public CommandHost(object sender, CommandTable commandTable)
         {
-            _sender = sender;
-            _accessDiagnostics = accessDiagnostics ?? throw new ArgumentNullException(nameof(accessDiagnostics));
-            _commandTable = commandTable ?? throw new ArgumentNullException(nameof(commandTable));
-            _configMap = new ConfigMap(accessDiagnostics);
-            Book = new BookAccessor(accessDiagnostics);
-            Command = new CommandAccessorMap(sender, commandTable, accessDiagnostics);
+            InitializeConfigMap();
+
+            Book = new BookAccessor(_accessDiagnostics);
+            Command = new CommandAccessorMap(sender, commandTable, _accessDiagnostics);
             Bookshelf = new BookshelfPanelAccessor();
             PageList = new PageListPanelAccessor();
             Bookmark = new BookmarkPanelAccessor();
@@ -36,6 +33,14 @@ namespace NeeView
             Information = new InformationPanelAccessor();
             Effect = new EffectPanelAccessor();
             Navigator = new NavigatorPanelAccessor();
+        }
+
+        private static void InitializeConfigMap()
+        {
+            if (_configMap != null) return;
+
+            _accessDiagnostics = new ScriptAccessDiagnostics();
+            _configMap = new ConfigMap(_accessDiagnostics);
         }
 
 

@@ -7247,4 +7247,45 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="BookshelfItem.Menu.OpenInPlaylist" xml:space="preserve">
     <value>プレイリストで開く(_P)</value>
   </data>
+  <data name="ScriptConfig.ErrorLevel" xml:space="preserve">
+    <value>廃止されたメンバー アクセスのエラー レベル</value>
+  </data>
+  <data name="ScriptConfig.ErrorLevel.Remarks" xml:space="preserve">
+    <value>デバッグ用の設定です。バージョンアップによって使用できなくなったメンバー アクセスのエラー処理を選択します。</value>
+  </data>
+  <data name="ScriptErrorLevel.Info" xml:space="preserve">
+    <value>Lv1: 情報</value>
+  </data>
+  <data name="ScriptErrorLevel.Info.Remarks" xml:space="preserve">
+    <value>情報として通知されます。スクリプト コンソールにのみ通知します。
+スクリプトは続行されます。
+廃止されたメンバーは型の既定値を返します。nullになる可能性もあり、その後の動作は保証されません。</value>
+  </data>
+  <data name="ScriptErrorLevel.Warning" xml:space="preserve">
+    <value>Lv2: 警告</value>
+  </data>
+  <data name="ScriptErrorLevel.Warning.Remarks" xml:space="preserve">
+    <value>警告として通知されます。トースト通知を行います。
+スクリプトは続行されます。
+廃止されたメンバーは型の既定値を返します。nullになる可能性もあり、その後の動作は保証されません。</value>
+  </data>
+  <data name="ScriptErrorLevel.Error" xml:space="preserve">
+    <value>Lv3: エラー</value>
+  </data>
+  <data name="ScriptErrorLevel.Error.Remarks" xml:space="preserve">
+    <value>エラーとして通知されます。トースト通知を行います。
+スクリプトは停止します。</value>
+  </data>
+  <data name="ScriptErrorDialog.Title.Error" xml:space="preserve">
+    <value>スクリプト エラー</value>
+  </data>
+  <data name="ScriptErrorDialog.Title.Warning" xml:space="preserve">
+    <value>スクリプト警告</value>
+  </data>
+  <data name="ScriptErrorDialog.Title.Info" xml:space="preserve">
+    <value>スクリプト情報</value>
+  </data>
+  <data name="ScriptErrorDialog.OpenConsole" xml:space="preserve">
+    <value>スクリプト コンソールを開く</value>
+  </data>
 </root>

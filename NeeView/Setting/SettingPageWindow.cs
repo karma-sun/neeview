@@ -58,8 +58,11 @@ namespace NeeView.Setting
             {
                 GetStringMapFunc = ThemeManager.CreateItemsMap
             })));
-            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Theme, nameof(ThemeConfig.CustomThemeFolder))) { IsStretch = true, });
-            section.Children.Add(new SettingItemLink(Properties.Resources.SettingPage_Window_Theme_OpenCustomThemeFolder, OpenCustomThemeFolder) { IsContentOnly = true });
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Theme, nameof(ThemeConfig.CustomThemeFolder)))
+            {
+                IsStretch = true,
+                SubContent = UIElementTools.CreateHyperlink(Properties.Resources.SettingPage_Window_Theme_OpenCustomThemeFolder, OpenCustomThemeFolder),
+            });
             this.Items.Add(section);
 
             section = new SettingItemSection(Properties.Resources.SettingPage_Window_Background);

@@ -149,18 +149,38 @@ namespace NeeView
 
         #region Remarks
 
-        public static string GetRemarks<T>(T value)
+        public static string GetRemarks<T>(this T value)
         {
             return GetRemarks(value, GetAliasNameAttribute(value));
         }
 
-        private static string GetRemarks<T>(T value, AliasNameAttribute attribute)
+        private static string GetRemarks<T>(this T value, AliasNameAttribute attribute)
         {
             var resourceKey = attribute?.Remarks ?? GetResourceKey(value, ".Remarks");
             return ResourceService.GetResourceString(resourceKey, true);
         }
 
-        #endregion Tips
+        public static string GetRemarks(object value)
+        {
+            return GetRemarks(value, GetAliasNameAttribute(value));
+        }
+
+        private static string GetRemarks(object value, AliasNameAttribute attribute)
+        {
+            var resourceKey = attribute?.Remarks ?? GetResourceKey(value, ".Remarks");
+            return ResourceService.GetResourceString(resourceKey, true);
+        }
+
+        public static Dictionary<Enum, string> GetRemarksDictionary(this Type type)
+        {
+            if (!type.IsEnum) throw new ArgumentException("not enum", nameof(type));
+
+            return Enum.GetValues(type)
+                .Cast<Enum>()
+                .ToDictionary(e => e, e => GetRemarks(e, null));
+        }
+
+        #endregion Remarks
     }
 }
 

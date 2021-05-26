@@ -10,12 +10,14 @@ namespace NeeView
         private object _sender;
         private CommandElement _command;
         private IDictionary<string, object> _patch;
+        private IAccessDiagnostics _accessDiagnostics;
 
-        public CommandAccessor(object sender, CommandElement command)
+        public CommandAccessor(object sender, CommandElement command, IAccessDiagnostics accessDiagnostics)
         {
             _sender = sender;
             _command = command;
-            Parameter = _command.Parameter != null ? new PropertyMap(_command.Parameter, $"nv.Command.{_command.Name}.Parameter") : null;
+            _accessDiagnostics = accessDiagnostics ?? throw new System.ArgumentNullException(nameof(accessDiagnostics));
+            Parameter = _command.Parameter != null ? new PropertyMap(_command.Parameter, _accessDiagnostics, $"nv.Command.{_command.Name}.Parameter") : null;
         }
 
         [WordNodeMember]
@@ -53,7 +55,7 @@ namespace NeeView
         [WordNodeMember]
         public bool Execute(params object[] args)
         {
-            var parameter = _command.CreateOverwriteCommandParameter(_patch);
+            var parameter = _command.CreateOverwriteCommandParameter(_patch, _accessDiagnostics);
             var context = new CommandContext(parameter, args, CommandOption.None);
             if (_command.CanExecute(_sender, context))
             {

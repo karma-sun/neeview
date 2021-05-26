@@ -105,7 +105,7 @@ namespace NeeView
             builder.Append($"<h1 class=\"sub\" id=\"ConfigList\">{Properties.Resources.Word_ConfigList}</h1>");
             builder.Append("<table class=\"table-slim table-topless\">");
             builder.Append($"<tr><th>{Properties.Resources.Word_Name}</th><th>{Properties.Resources.Word_Type}</th><th>{Properties.Resources.Word_Summary}</th></th>");
-            builder.Append(ConfigMap.Current.Map.CreateHelpHtml("nv.Config"));
+            builder.Append(new ConfigMap(null).Map.CreateHelpHtml("nv.Config"));
             builder.Append("</table>");
             return builder;
         }

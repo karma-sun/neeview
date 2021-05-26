@@ -27,37 +27,23 @@ namespace NeeView
 
         private void ExecuteInner(object sender, string path, string argument)
         {
-            JavascriptEngine commandEngine = null;
+            var engine = new JavascriptEngine() { IsToastEnable = true };
 
             try
             {
-                ////Debug.WriteLine($"Script.{path} ...");
-                var commandHost = new CommandHost(sender, CommandTable.Current, ConfigMap.Current);
-                commandEngine = new JavascriptEngine(commandHost);
-                commandEngine.LogAction = Log;
-                commandEngine.ExecureFile(path, argument, _cancellationTokenSource.Token);
-            }
-            catch (OperationCanceledException)
-            {
-                ////Debug.WriteLine($"Script.{path} canceld");
+                ////engine.Log($"Script: {LoosePath.GetFileName(path)} ...");
+                engine.ExecureFile(path, argument, _cancellationTokenSource.Token);
+                ////engine.Log($"Script: {LoosePath.GetFileName(path)} done.");
             }
             catch (Exception ex)
             {
-                var message = CreateExceptionRecursiveMessage(ex);
-                commandEngine?.Log(message);
-                ToastService.Current.Show(new Toast(message, $"Script error in {Path.GetFileName(path)}", ToastIcon.Error));
-                ////Debug.WriteLine($"Script.{path} failed");
+                engine.ExceptionPrcess(ex);
+                ////engine.Log($"Script: {LoosePath.GetFileName(path)} stopped.");
             }
             finally
             {
                 CommandTable.Current.FlushInputGesture();
                 _pool.Remove(this);
-                ////Debug.WriteLine($"Script.{path} done.");
-            }
-
-            string CreateExceptionRecursiveMessage(Exception ex)
-            {
-                return ex.Message + System.Environment.NewLine + (ex.InnerException != null ? CreateExceptionRecursiveMessage(ex.InnerException) : "");
             }
         }
 
@@ -65,13 +51,5 @@ namespace NeeView
         {
             _cancellationTokenSource?.Cancel();
         }
-
-        private void Log(object obj)
-        {
-            var text = new JsonStringBulder(obj).ToString();
-            ConsoleWindow.Current?.Console.WriteLine(text);
-            Debug.WriteLine(text);
-        }
-
     }
 }

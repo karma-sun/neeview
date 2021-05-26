@@ -263,7 +263,7 @@ namespace NeeView
         {
             //if (string.IsNullOrEmpty(text)) return;
 
-            this.Dispatcher.BeginInvoke((Action)(() =>
+            this.Dispatcher.Invoke((Action)(() =>
             {
                 if (string.IsNullOrEmpty(this.OutputBlock.Text))
                 {

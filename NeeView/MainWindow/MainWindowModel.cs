@@ -384,20 +384,6 @@ namespace NeeView
             _editCommandWindow = null;
         }
 
-        // コンソール設定ウィンドウを開く
-        public void OpenConsoleWindow()
-        {
-            if (ConsoleWindow.Current != null)
-            {
-                ConsoleWindow.Current.Activate();
-                return;
-            }
-
-            var dialog = new ConsoleWindow();
-            dialog.Owner = App.Current.MainWindow;
-            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            dialog.Show();
-        }
 
         // バージョン情報を表示する
         public void OpenVersionWindow()
@@ -495,7 +481,7 @@ namespace NeeView
         }
 
 
-#region Memento
+        #region Memento
 
         [DataContract]
         public class Memento : IMemento
@@ -564,7 +550,7 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
     }
 
 }

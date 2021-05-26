@@ -2,9 +2,13 @@
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace NeeView.Setting
 {
@@ -49,11 +53,46 @@ namespace NeeView.Setting
             section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Script, nameof(ScriptConfig.ScriptFolder), new PropertyMemberElementOptions() { EmptyValue = SaveData.DefaultScriptsFolder }))
             {
                 IsStretch = true,
+                SubContent = UIElementTools.CreateHyperlink(Properties.Resources.SettingPage_Script_OpenScriptFolder, new RelayCommand(CommandTable.Current.ScriptManager.OpenScriptsFolder)),
             });
-            section.Children.Add(new SettingItemLink(Properties.Resources.SettingPage_Script_OpenScriptFolder, new RelayCommand(CommandTable.Current.ScriptManager.OpenScriptsFolder)) { IsContentOnly = true });
+
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Script, nameof(ScriptConfig.ErrorLevel))) { SubContent = CreateScriptErrorLevelRemarks() });
 
             this.Items.Add(section);
         }
+
+
+        private TextBlock CreateScriptErrorLevelRemarks()
+        {
+            var binding = new Binding(nameof(ScriptConfig.ErrorLevel))
+            {
+                Source = Config.Current.Script,
+                Converter = new ScriptErrorLevelToRemarksConverter(),
+            };
+            var textBlock = new TextBlock();
+            textBlock.TextWrapping = TextWrapping.Wrap;
+            textBlock.SetBinding(TextBlock.TextProperty, binding);
+            textBlock.SetResourceReference(TextBlock.ForegroundProperty, "Control.GrayText");
+            return textBlock;
+        }
+
+        private class ScriptErrorLevelToRemarksConverter : IValueConverter
+        {
+            public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                if (value is ScriptErrorLevel errorLevel)
+                {
+                    return errorLevel.GetRemarks();
+                }
+                return value;
+            }
+
+            public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
     }
 
     /// <summary>

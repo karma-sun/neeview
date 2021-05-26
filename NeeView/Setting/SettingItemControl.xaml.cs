@@ -25,7 +25,7 @@ namespace NeeView.Setting
             InitializeComponent();
         }
 
-        public SettingItemControl(string header, string tips, object content, bool isContentStretch)
+        public SettingItemControl(string header, string tips, object content, object subContent, bool isContentStretch)
         {
             InitializeComponent();
 
@@ -35,6 +35,12 @@ namespace NeeView.Setting
             if (content is null)
             {
                 this.ContentValue.Visibility = Visibility.Collapsed;
+            }
+
+            if (subContent != null)
+            {
+                this.SubContent.Content = subContent;
+                this.SubContent.Visibility = Visibility.Visible;
             }
 
             if (!string.IsNullOrWhiteSpace(tips))

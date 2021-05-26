@@ -7,13 +7,13 @@ namespace NeeView
     public class ObsoleteCommandAccessor : ICommandAccessor, IHasObsoleteMessage
     {
         private string _name;
+        private IAccessDiagnostics _accessDiagnostics;
 
-
-        public ObsoleteCommandAccessor(string commandName, string replaceName)
+        public ObsoleteCommandAccessor(string commandName, string replaceName, IAccessDiagnostics accessDiagnostics)
         {
             _name = commandName;
-
-            ObsoleteMessage = $"Script: nv.Command.{_name} is obsolete." + (replaceName != null ? $" Use {replaceName} instead." : "");
+            _accessDiagnostics = accessDiagnostics;
+            ObsoleteMessage = $"nv.Command.{_name} is obsolete." + (replaceName != null ? $" Use {replaceName} instead." : "");
         }
 
 
@@ -23,45 +23,45 @@ namespace NeeView
         [Obsolete]
         public bool IsShowMessage
         {
-            get => throw new NotSupportedException(ObsoleteMessage);
-            set => throw new NotSupportedException(ObsoleteMessage);
+            get => _accessDiagnostics.Throw<bool>(new NotSupportedException(ObsoleteMessage));
+            set => _accessDiagnostics.Throw(new NotSupportedException(ObsoleteMessage));
         }
         
         [Obsolete]
         public string MouseGesture
         {
-            get => throw new NotSupportedException(ObsoleteMessage);
-            set => throw new NotSupportedException(ObsoleteMessage);
+            get => _accessDiagnostics.Throw<string>(new NotSupportedException(ObsoleteMessage));
+            set => _accessDiagnostics.Throw(new NotSupportedException(ObsoleteMessage));
         }
 
         [Obsolete]
-        public PropertyMap Parameter => throw new NotSupportedException(ObsoleteMessage);
+        public PropertyMap Parameter => _accessDiagnostics.Throw<PropertyMap>(new NotSupportedException(ObsoleteMessage));
 
         [Obsolete]
         public string ShortCutKey
         {
-            get => throw new NotSupportedException(ObsoleteMessage);
-            set => throw new NotSupportedException(ObsoleteMessage);
+            get => _accessDiagnostics.Throw<string>(new NotSupportedException(ObsoleteMessage));
+            set => _accessDiagnostics.Throw(new NotSupportedException(ObsoleteMessage));
         }
         
         [Obsolete]
         public string TouchGesture
         {
-            get => throw new NotSupportedException(ObsoleteMessage);
-            set => throw new NotSupportedException(ObsoleteMessage);
+            get => _accessDiagnostics.Throw<string>(new NotSupportedException(ObsoleteMessage));
+            set => _accessDiagnostics.Throw(new NotSupportedException(ObsoleteMessage));
         }
 
 
         [Obsolete]
         public bool Execute(params object[] args)
         {
-            throw new NotSupportedException(ObsoleteMessage);
+            return _accessDiagnostics.Throw<bool>(new NotSupportedException(ObsoleteMessage));
         }
 
         [Obsolete]
         public CommandAccessor Patch(IDictionary<string, object> patch)
         {
-            throw new NotSupportedException(ObsoleteMessage);
+            return _accessDiagnostics.Throw<CommandAccessor>(new NotSupportedException(ObsoleteMessage));
         }
     }
 }

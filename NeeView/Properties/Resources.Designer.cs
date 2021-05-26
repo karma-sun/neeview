@@ -13091,6 +13091,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Obsolete member access error level に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ScriptConfig_ErrorLevel {
+            get {
+                return ResourceManager.GetString("ScriptConfig.ErrorLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   This is a debug setting. Select the error handling of member access that can no longer be used due to version upgrade. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ScriptConfig_ErrorLevel_Remarks {
+            get {
+                return ResourceManager.GetString("ScriptConfig.ErrorLevel.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Use scripts に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ScriptConfig_IsScriptFolderEnabled {
@@ -13114,6 +13132,101 @@ namespace NeeView.Properties {
         public static string ScriptConfig_ScriptFolder_Remarks {
             get {
                 return ResourceManager.GetString("ScriptConfig.ScriptFolder.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open script console に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ScriptErrorDialog_OpenConsole {
+            get {
+                return ResourceManager.GetString("ScriptErrorDialog.OpenConsole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Script error に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ScriptErrorDialog_Title_Error {
+            get {
+                return ResourceManager.GetString("ScriptErrorDialog.Title.Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Script info に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ScriptErrorDialog_Title_Info {
+            get {
+                return ResourceManager.GetString("ScriptErrorDialog.Title.Info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Script warning に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ScriptErrorDialog_Title_Warning {
+            get {
+                return ResourceManager.GetString("ScriptErrorDialog.Title.Warning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Lv3: Error に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ScriptErrorLevel_Error {
+            get {
+                return ResourceManager.GetString("ScriptErrorLevel.Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Notify as an error. Make a toast notification.
+        ///The script will stop. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ScriptErrorLevel_Error_Remarks {
+            get {
+                return ResourceManager.GetString("ScriptErrorLevel.Error.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Lv1: Info に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ScriptErrorLevel_Info {
+            get {
+                return ResourceManager.GetString("ScriptErrorLevel.Info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Notify as information. Notify the script console only.
+        ///The script will continue.
+        ///Obsolete member access returns the default value for the type. It can be null, and its subsequent behavior is not guaranteed. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ScriptErrorLevel_Info_Remarks {
+            get {
+                return ResourceManager.GetString("ScriptErrorLevel.Info.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Lv2: Warning に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ScriptErrorLevel_Warning {
+            get {
+                return ResourceManager.GetString("ScriptErrorLevel.Warning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Notify as a warning. Make a toast notification.
+        ///The script will continue.
+        ///Obsolete member access returns the default value for the type. It can be null, and its subsequent behavior is not guaranteed. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ScriptErrorLevel_Warning_Remarks {
+            get {
+                return ResourceManager.GetString("ScriptErrorLevel.Warning.Remarks", resourceCulture);
             }
         }
         

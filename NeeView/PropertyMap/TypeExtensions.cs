@@ -27,8 +27,25 @@ namespace NeeView
                 case TypeCode.String:
                     return "string";
             }
-            
+
             return type.ToString();
+        }
+
+        /// <summary>
+        /// Get default value from Type.
+        /// </summary>
+        /// <param name="type">target type</param>
+        /// <returns>default value</returns>
+        public static object GetDefaultValue(this Type type)
+        {
+            if (type.IsValueType && Nullable.GetUnderlyingType(type) == null)
+            {
+                return Activator.CreateInstance(type);
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

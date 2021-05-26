@@ -18,14 +18,16 @@ namespace NeeView
         private ConfigMap _configMap;
         private List<string> _args = new List<string>();
         private CancellationToken _canellationToken;
+        private IAccessDiagnostics _accessDiagnostics;
 
-        public CommandHost(object sender, CommandTable commandTable, ConfigMap configMap)
+        public CommandHost(object sender, IAccessDiagnostics accessDiagnostics, CommandTable commandTable)
         {
             _sender = sender;
-            _commandTable = commandTable;
-            _configMap = configMap;
-            Book = new BookAccessor();
-            Command = new CommandAccessorMap(sender, commandTable);
+            _accessDiagnostics = accessDiagnostics ?? throw new ArgumentNullException(nameof(accessDiagnostics));
+            _commandTable = commandTable ?? throw new ArgumentNullException(nameof(commandTable));
+            _configMap = new ConfigMap(accessDiagnostics);
+            Book = new BookAccessor(accessDiagnostics);
+            Command = new CommandAccessorMap(sender, commandTable, accessDiagnostics);
             Bookshelf = new BookshelfPanelAccessor();
             PageList = new PageListPanelAccessor();
             Bookmark = new BookmarkPanelAccessor();
@@ -79,7 +81,7 @@ namespace NeeView
         [Obsolete]
         public object Pagemark
         {
-            get => throw new NotSupportedException("Script: Pagemark is obsolete. Use PageList instead.");
+            get => _accessDiagnostics.Throw<object>(new NotSupportedException("nv.Pagemark is obsolete. Use nv.Playlist instead."));
         }
 
 

@@ -263,14 +263,14 @@ namespace NeeView
         }
 
         // 一時コマンドパラメーター作成
-        public CommandParameter CreateOverwriteCommandParameter(IDictionary<string, object> args)
+        public CommandParameter CreateOverwriteCommandParameter(IDictionary<string, object> args, IAccessDiagnostics accessDiagnostics)
         {
             if (this.Parameter == null) return null;
 
             var clone = (CommandParameter)this.Parameter.Clone();
             if (args == null) return clone;
 
-            var map = new PropertyMap(clone, $"nv.Command.{this.Name}.Parameter");
+            var map = new PropertyMap(clone, accessDiagnostics, $"nv.Command.{this.Name}.Parameter");
             foreach (var arg in args)
             {
                 map[arg.Key] = arg.Value;

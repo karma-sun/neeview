@@ -6,17 +6,22 @@ namespace NeeView
 {
     public class CommandAccessorMap : Dictionary<string, ICommandAccessor>
     {
-        public CommandAccessorMap(object sender, CommandTable commandTable)
+        public CommandAccessorMap(object sender, CommandTable commandTable, IAccessDiagnostics accessDiagnostics)
         {
-            foreach(var item in commandTable)
+            if (accessDiagnostics is null)
             {
-                this.Add(item.Key, new CommandAccessor(sender, item.Value));
+                throw new ArgumentNullException(nameof(accessDiagnostics));
+            }
+
+            foreach (var item in commandTable)
+            {
+                this.Add(item.Key, new CommandAccessor(sender, item.Value, accessDiagnostics));
             }
 
 #pragma warning disable CS0612 // 型またはメンバーが旧型式です
             foreach (var item in commandTable.ObsoleteCommands)
             {
-                this.Add(item.Key, new ObsoleteCommandAccessor(item.Key, item.Value));
+                this.Add(item.Key, new ObsoleteCommandAccessor(item.Key, item.Value, accessDiagnostics));
             }
 #pragma warning restore CS0612 // 型またはメンバーが旧型式です
         }

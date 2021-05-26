@@ -24,7 +24,7 @@
             <TextBlock x:Name="Header"  DockPanel.Dock="Top" TextWrapping="Wrap" VerticalAlignment="Bottom" Margin="0,5" Style="{StaticResource EnabledTextBlockStyle}"/>
             <TextBlock x:Name="Note" DockPanel.Dock="Top" TextWrapping="Wrap" Margin="0,0,0,5" Foreground="{DynamicResource Control.GrayText}" Visibility="Collapsed" Style="{StaticResource EnabledTextBlockStyle}"/>
             <ContentControl x:Name="ContentValue" DockPanel.Dock="Top" VerticalAlignment="Center" Focusable="False" Margin="0,5" />
-
+            <ContentControl x:Name="SubContent" DockPanel.Dock="Top" VerticalAlignment="Center" Focusable="False" Margin="0,0,0,5" Visibility="Collapsed" />
         </DockPanel>
     </Border>
 </UserControl>

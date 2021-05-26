@@ -42,6 +42,7 @@ namespace NeeView.Setting
         public string Tips { get; set; }
         public IsEnabledPropertyValue IsEnabled { get; set; }
         public VisibilityPropertyValue Visibility { get; set; }
+        public object SubContent { get; set; }
 
         /// <summary>
         /// 検索結果の項目表示用
@@ -304,7 +305,7 @@ namespace NeeView.Setting
 
         protected override UIElement CreateContentInner()
         {
-            return new SettingItemControl(this.Header, this.Tips, _content ?? _element.TypeValue, this.IsStretch);
+            return new SettingItemControl(this.Header, this.Tips, _content ?? _element.TypeValue, this.SubContent, this.IsStretch);
         }
 
         public override string GetSearchText()
@@ -322,7 +323,7 @@ namespace NeeView.Setting
 
         protected override UIElement CreateContentInner()
         {
-            return new SettingItemControl(this.Header, this.Tips, null, false);
+            return new SettingItemControl(this.Header, this.Tips, null, this.SubContent, false);
         }
 
         public override string GetSearchText()
@@ -421,7 +422,7 @@ namespace NeeView.Setting
             var binding = new Binding(nameof(PropertyValue_String.Value)) { Source = _element.TypeValue as PropertyValue_String };
             BindingOperations.SetBinding(comboBox, ComboBox.SelectedItemProperty, binding);
 
-            return new SettingItemControl(_element.Name, _element.Tips ?? this.Tips, comboBox, false);
+            return new SettingItemControl(_element.Name, _element.Tips ?? this.Tips, comboBox, this.SubContent, false);
         }
 
         public override string GetSearchText()
@@ -459,7 +460,7 @@ namespace NeeView.Setting
                 IsEditable = _isEditable,
             };
 
-            return new SettingItemControl(_element.Name, _element.Tips ?? this.Tips, content, false);
+            return new SettingItemControl(_element.Name, _element.Tips ?? this.Tips, content, this.SubContent, false);
         }
 
         public override string GetSearchText()
@@ -515,7 +516,7 @@ namespace NeeView.Setting
             }
             else
             {
-                return new SettingItemControl(this.Header, this.Tips, button, true);
+                return new SettingItemControl(this.Header, this.Tips, button, this.SubContent, true);
             }
         }
     }
@@ -538,11 +539,7 @@ namespace NeeView.Setting
 
         protected override UIElement CreateContentInner()
         {
-            var textBlock = new TextBlock();
-            var link = new Hyperlink();
-            link.Inlines.Add(this.Header);
-            link.Command = _command;
-            textBlock.Inlines.Add(link);
+            var textBlock = UIElementTools.CreateHyperlink(this.Header, _command);
 
             if (this.IsContentOnly)
             {
@@ -551,7 +548,7 @@ namespace NeeView.Setting
             }
             else
             {
-                return new SettingItemControl(this.Header, this.Tips, textBlock, true);
+                return new SettingItemControl(this.Header, this.Tips, textBlock, this.SubContent, true);
             }
         }
     }
@@ -672,4 +669,23 @@ namespace NeeView.Setting
             return control;
         }
     }
+
+
+
+    /// <summary>
+    /// UIElement作成補助
+    /// </summary>
+    public static class UIElementTools
+    {
+        public static TextBlock CreateHyperlink(string text, ICommand command)
+        {
+            var textBlock = new TextBlock();
+            var link = new Hyperlink();
+            link.Inlines.Add(text);
+            link.Command = command;
+            textBlock.Inlines.Add(link);
+            return textBlock;
+        }
+    }
+
 }

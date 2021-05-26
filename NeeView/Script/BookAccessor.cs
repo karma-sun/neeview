@@ -14,7 +14,12 @@ namespace NeeView
     public class BookAccessor
     {
         private CancellationToken _cancellationToken;
+        private IAccessDiagnostics _accessDiagnostics;
 
+        public BookAccessor(IAccessDiagnostics accessDiagnostics)
+        {
+            _accessDiagnostics = accessDiagnostics ?? throw new ArgumentNullException(nameof(accessDiagnostics));
+        }
 
         [WordNodeMember]
         public string Path => BookOperation.Current.Book?.Address;
@@ -58,25 +63,25 @@ namespace NeeView
         [Obsolete] // ver.38
         public int PageSize
         {
-            get => throw new NotSupportedException("Script: PageSize is obsolete. Use ViewPages.length instead.");
+            get => _accessDiagnostics.Throw<int>(new NotSupportedException("PageSize is obsolete. Use ViewPages.length instead."));
         }
 
         [Obsolete] // ver.38
         public int ViewPageSize
         {
-            get => throw new NotSupportedException("Script: ViewPageSize is obsolete. Use Pages.length instead.");
+            get => _accessDiagnostics.Throw<int>(new NotSupportedException("ViewPageSize is obsolete. Use Pages.length instead."));
         }
 
         [Obsolete] // ver.38
         public PageAccessor Page(int index)
         {
-            throw new NotSupportedException("Script: Page() is obsolete. Use Pages[] instead.");
+            return _accessDiagnostics.Throw<PageAccessor>(new NotSupportedException("Page() is obsolete. Use Pages[] instead."));
         }
 
         [Obsolete] // ver.38
         public PageAccessor ViewPage(int index)
         {
-            throw new NotSupportedException("Script: ViewPage() is obsolete. Use ViewPages[] instead.");
+            return _accessDiagnostics.Throw<PageAccessor>(new NotSupportedException("ViewPage() is obsolete. Use ViewPages[] instead."));
         }
 
         #endregion Obsoletet

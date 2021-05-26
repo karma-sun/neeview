@@ -7242,4 +7242,45 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="BookshelfItem.Menu.OpenInPlaylist" xml:space="preserve">
     <value>Open in _Playlist</value>
   </data>
+  <data name="ScriptConfig.ErrorLevel" xml:space="preserve">
+    <value>Obsolete member access error level</value>
+  </data>
+  <data name="ScriptConfig.ErrorLevel.Remarks" xml:space="preserve">
+    <value>This is a debug setting. Select the error handling of member access that can no longer be used due to version upgrade.</value>
+  </data>
+  <data name="ScriptErrorLevel.Info" xml:space="preserve">
+    <value>Lv1: Info</value>
+  </data>
+  <data name="ScriptErrorLevel.Info.Remarks" xml:space="preserve">
+    <value>Notify as information. Notify the script console only.
+The script will continue.
+Obsolete member access returns the default value for the type. It can be null, and its subsequent behavior is not guaranteed.</value>
+  </data>
+  <data name="ScriptErrorLevel.Warning" xml:space="preserve">
+    <value>Lv2: Warning</value>
+  </data>
+  <data name="ScriptErrorLevel.Warning.Remarks" xml:space="preserve">
+    <value>Notify as a warning. Make a toast notification.
+The script will continue.
+Obsolete member access returns the default value for the type. It can be null, and its subsequent behavior is not guaranteed.</value>
+  </data>
+  <data name="ScriptErrorLevel.Error" xml:space="preserve">
+    <value>Lv3: Error</value>
+  </data>
+  <data name="ScriptErrorLevel.Error.Remarks" xml:space="preserve">
+    <value>Notify as an error. Make a toast notification.
+The script will stop.</value>
+  </data>
+  <data name="ScriptErrorDialog.Title.Error" xml:space="preserve">
+    <value>Script error</value>
+  </data>
+  <data name="ScriptErrorDialog.Title.Warning" xml:space="preserve">
+    <value>Script warning</value>
+  </data>
+  <data name="ScriptErrorDialog.Title.Info" xml:space="preserve">
+    <value>Script info</value>
+  </data>
+  <data name="ScriptErrorDialog.OpenConsole" xml:space="preserve">
+    <value>Open script console</value>
+  </data>
 </root>

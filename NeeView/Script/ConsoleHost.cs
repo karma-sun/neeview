@@ -9,13 +9,37 @@ namespace NeeView
     {
         private Window _owner;
         private JavascriptEngine _engine;
+        private WordTree _wordTree;
+
 
         public ConsoleHost(Window owner)
         {
             _owner = owner;
+            UpdateEngine();
+        }
 
-            _engine = new JavascriptEngine();
-            _engine.CurrentFolder = Config.Current.Script.ScriptFolder;
+
+#pragma warning disable CS0067
+        public event EventHandler<ConsoleHostOutputEventArgs> Output;
+#pragma warning restore CS0067
+
+
+        public WordTree WordTree
+        {
+            get
+            {
+                UpdateEngine();
+                return _wordTree;
+            }
+        }
+
+
+        private void UpdateEngine()
+        {
+            if (_engine != null && !_engine.IsDarty) return;
+
+            var engine = new JavascriptEngine();
+            engine.CurrentFolder = Config.Current.Script.ScriptFolder;
 
             var wordTreeRoot = new WordNode()
             {
@@ -27,20 +51,13 @@ namespace NeeView
                     new WordNode("log"),
                     new WordNode("system"),
                     new WordNode("include"),
-                    _engine.CreateWordNode("nv"),
+                    engine.CreateWordNode("nv"),
                 },
             };
 
-            WordTree = new WordTree(wordTreeRoot);
+            _engine = engine;
+            _wordTree = new WordTree(wordTreeRoot);
         }
-
-#pragma warning disable CS0067
-        public event EventHandler<ConsoleHostOutputEventArgs> Output;
-#pragma warning restore CS0067
-
-
-        public WordTree WordTree { get; set; }
-
 
         public string Execute(string input, CancellationToken token)
         {
@@ -56,6 +73,7 @@ namespace NeeView
                     return null;
 
                 default:
+                    UpdateEngine();
                     JavascroptEngineMap.Current.Add(_engine);
                     try
                     {

@@ -6,7 +6,7 @@ namespace NeeView
 {
     public class CommandAccessorMap : Dictionary<string, ICommandAccessor>
     {
-        public CommandAccessorMap(object sender, CommandTable commandTable, IAccessDiagnostics accessDiagnostics)
+        public CommandAccessorMap(CommandTable commandTable, IAccessDiagnostics accessDiagnostics)
         {
             if (accessDiagnostics is null)
             {
@@ -15,7 +15,7 @@ namespace NeeView
 
             foreach (var item in commandTable)
             {
-                this.Add(item.Key, new CommandAccessor(sender, item.Value, accessDiagnostics));
+                this.Add(item.Key, new CommandAccessor(item.Value, accessDiagnostics));
             }
 
 #pragma warning disable CS0612 // 型またはメンバーが旧型式です

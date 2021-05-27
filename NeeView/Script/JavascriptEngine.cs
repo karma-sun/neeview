@@ -16,7 +16,7 @@ namespace NeeView
 
         public JavascriptEngine()
         {
-            _commandHost = new CommandHost(this, CommandTable.Current);
+            _commandHost = new CommandHost();
             _engine = new Jint.Engine(config => config.AllowClr());
             _engine.SetValue("sleep", (Action<int>)Sleep);
             _engine.SetValue("log", (Action<object>)Log);
@@ -30,6 +30,8 @@ namespace NeeView
         public string CurrentFolder { get; set; }
 
         public bool IsToastEnable { get; set; }
+
+        public bool IsDarty => _commandHost.IsDarty;
 
 
         [Documentable(Name = "include")]

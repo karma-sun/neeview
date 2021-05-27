@@ -390,7 +390,7 @@ namespace NeeView
     {
         event EventHandler<ConsoleHostOutputEventArgs> Output;
 
-        WordTree WordTree { get; set; }
+        WordTree WordTree { get; }
 
         string Execute(string input, CancellationToken token);
     }

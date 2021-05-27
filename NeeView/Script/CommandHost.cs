@@ -8,23 +8,22 @@ using System.Windows.Input;
 
 namespace NeeView
 {
-
     public class CommandHost
     {
-        private static Dictionary<string, object> _values = new Dictionary<string, object>();
-        private static ScriptAccessDiagnostics _accessDiagnostics;
-        private static ConfigMap _configMap;
-
+        private CommandHostStaticResource _resource;
+        private ScriptAccessDiagnostics _accessDiagnostics;
         private List<string> _args = new List<string>();
         private CancellationToken _canellationToken;
 
 
-        public CommandHost(object sender, CommandTable commandTable)
+        public CommandHost()
         {
-            InitializeConfigMap();
+            _resource = CommandHostStaticResource.Current;
+            _accessDiagnostics = _resource.AccessDiagnostics;
 
+            Config = _resource.ConfigMap.Map;
+            Command = _resource.CommandAccessMap;
             Book = new BookAccessor(_accessDiagnostics);
-            Command = new CommandAccessorMap(sender, commandTable, _accessDiagnostics);
             Bookshelf = new BookshelfPanelAccessor();
             PageList = new PageListPanelAccessor();
             Bookmark = new BookmarkPanelAccessor();
@@ -35,23 +34,15 @@ namespace NeeView
             Navigator = new NavigatorPanelAccessor();
         }
 
-        private static void InitializeConfigMap()
-        {
-            if (_configMap != null) return;
-
-            _accessDiagnostics = new ScriptAccessDiagnostics();
-            _configMap = new ConfigMap(_accessDiagnostics);
-        }
-
 
         [WordNodeMember(IsAutoCollect = false)]
         public List<string> Args => _args;
 
         [WordNodeMember(IsAutoCollect = false)]
-        public Dictionary<string, object> Values => _values;
+        public Dictionary<string, object> Values => _resource.Values;
 
         [WordNodeMember(IsAutoCollect = false)]
-        public PropertyMap Config => _configMap.Map;
+        public PropertyMap Config { get; }
 
         [WordNodeMember(IsAutoCollect = false)]
         public CommandAccessorMap Command { get; }
@@ -88,6 +79,9 @@ namespace NeeView
         {
             get => _accessDiagnostics.Throw<object>(new NotSupportedException("nv.Pagemark is obsolete. Use nv.Playlist instead."));
         }
+
+        internal bool IsDarty => Command != _resource.CommandAccessMap;
+
 
 
         internal void SetCancellationToken(CancellationToken cancellationToken)

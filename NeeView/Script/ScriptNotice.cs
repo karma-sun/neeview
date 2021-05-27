@@ -19,7 +19,7 @@
         {
             if (Source is null)
             {
-                if (Line <= 0)
+                if (Line <= 1)
                 {
                     return Message;
                 }

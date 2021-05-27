@@ -7259,7 +7259,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ScriptErrorLevel.Info.Remarks" xml:space="preserve">
     <value>情報として通知されます。スクリプト コンソールにのみ通知します。
 スクリプトは続行されます。
-廃止されたメンバーは型の既定値を返します。nullになる可能性もあり、その後の動作は保証されません。</value>
+廃止されたメンバーは型の既定値を返します。null になる可能性もあり、その後の動作は保証されません。</value>
   </data>
   <data name="ScriptErrorLevel.Warning" xml:space="preserve">
     <value>Lv2: 警告</value>
@@ -7267,7 +7267,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ScriptErrorLevel.Warning.Remarks" xml:space="preserve">
     <value>警告として通知されます。トースト通知を行います。
 スクリプトは続行されます。
-廃止されたメンバーは型の既定値を返します。nullになる可能性もあり、その後の動作は保証されません。</value>
+廃止されたメンバーは型の既定値を返します。null になる可能性もあり、その後の動作は保証されません。</value>
   </data>
   <data name="ScriptErrorLevel.Error" xml:space="preserve">
     <value>Lv3: エラー</value>

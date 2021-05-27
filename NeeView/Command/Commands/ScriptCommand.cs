@@ -19,6 +19,7 @@ namespace NeeView
 
 
         private string _scriptName;
+        private MementoV2 _defaultMemento;
 
         public ScriptCommand(string name) : base(name)
         {
@@ -109,6 +110,32 @@ namespace NeeView
                     }
                 }
             }
+        }
+
+        public void StoreDefault()
+        {
+            _defaultMemento = CreateMementoV2();
+        }
+
+        private bool IsDefaultEquals()
+        {
+            var current = CreateMementoV2();
+            return current.MemberwiseEquals(_defaultMemento);
+        }
+
+        public void Overwrite(ScriptCommand other)
+        {
+            Text = other.Text;
+            Remarks = other.Remarks;
+
+            if (IsDefaultEquals())
+            {
+                ShortCutKey = other.ShortCutKey;
+                MouseGesture = other.MouseGesture;
+                TouchGesture = other.TouchGesture;
+            }
+
+            _defaultMemento = other._defaultMemento;
         }
 
         public void OpenFile()

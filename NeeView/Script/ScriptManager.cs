@@ -107,6 +107,7 @@ namespace NeeView
                     {
                         Debug.WriteLine(ex.Message);
                     }
+                    command.StoreDefault();
                 }
             }
 

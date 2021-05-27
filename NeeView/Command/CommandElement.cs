@@ -432,6 +432,17 @@ namespace NeeView
                     ShortCutKey = validShortCutKey;
                 }
             }
+
+            public bool MemberwiseEquals(MementoV2 other)
+            {
+                if (other is null) return false;
+                if (other.ShortCutKey != ShortCutKey) return false;
+                if (other.TouchGesture != TouchGesture) return false;
+                if (other.MouseGesture != MouseGesture) return false;
+                if (other.IsShowMessage != IsShowMessage) return false;
+                if (Parameter != null && !Parameter.MemberwiseEquals(other.Parameter)) return false;
+                return true;
+            }
         }
 
         public MementoV2 CreateMementoV2()
@@ -460,6 +471,7 @@ namespace NeeView
             IsShowMessage = memento.IsShowMessage;
             ParameterSource?.Set(memento.Parameter);
         }
+
 
         #endregion
 

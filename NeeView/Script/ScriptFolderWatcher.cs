@@ -32,10 +32,11 @@ namespace NeeView
             try
             {
                 _watcher = new FileSystemWatcher(path, "*.nvjs");
-                _watcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName;
+                _watcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite;
                 _watcher.Created += Watcher_Changed;
                 _watcher.Deleted += Watcher_Changed;
                 _watcher.Renamed += Watcher_Changed;
+                _watcher.Changed += Watcher_Changed;
                 _watcher.EnableRaisingEvents = true;
             }
             catch

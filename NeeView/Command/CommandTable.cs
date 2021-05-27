@@ -678,6 +678,14 @@ namespace NeeView
                 _elements.Remove(name);
             }
 
+            foreach(var name in oldies.Intersect(newers))
+            {
+                if (_elements.TryGetValue(name, out var e) && e is ScriptCommand scriptCommand)
+                {
+                    scriptCommand.Overwrite(map[name]);
+                }
+            }
+
             foreach (var name in newers.Except(oldies))
             {
                 _elements.Add(name, map[name]);

@@ -1,44 +1,94 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace NeeView
 {
-    public class CommandAccessorMap : Dictionary<string, ICommandAccessor>
+    public class CommandAccessorMap : IEnumerable<KeyValuePair<string, ICommandAccessor>>
     {
+        private Dictionary<string, ICommandAccessor> _map = new Dictionary<string, ICommandAccessor>();
+        private IAccessDiagnostics _accessDiagnostics;
+
+
         public CommandAccessorMap(CommandTable commandTable, IAccessDiagnostics accessDiagnostics)
         {
-            if (accessDiagnostics is null)
-            {
-                throw new ArgumentNullException(nameof(accessDiagnostics));
-            }
+            _accessDiagnostics = accessDiagnostics ?? throw new ArgumentNullException(nameof(accessDiagnostics));
 
             foreach (var item in commandTable)
             {
-                this.Add(item.Key, new CommandAccessor(item.Value, accessDiagnostics));
+                _map.Add(item.Key, new CommandAccessor(item.Value, accessDiagnostics));
             }
 
-#pragma warning disable CS0612 // 型またはメンバーが旧型式です
             foreach (var item in commandTable.ObsoleteCommands)
             {
-                this.Add(item.Key, new ObsoleteCommandAccessor(item.Key, item.Value, accessDiagnostics));
+                _map.Add(item.Key, new ObsoleteCommandAccessor(item.Key, item.Value, accessDiagnostics));
             }
-#pragma warning restore CS0612 // 型またはメンバーが旧型式です
+        }
+
+        
+        public ICommandAccessor this[string key]
+        {
+            get
+            {
+                var command = GetCommand(key);
+                if (command is ObsoleteCommandAccessor obsoleteCommand)
+                {
+                    return _accessDiagnostics.Throw<ICommandAccessor>(new NotSupportedException(obsoleteCommand.CreateObsoleteCommandMessage()));
+                }
+                return command;
+            }
+        }
+
+
+        internal ICommandAccessor GetCommand(string key)
+        {
+            return _map[key];
         }
 
         internal WordNode CreateWordNode(string name)
         {
             var node = new WordNode(name);
             node.Children = new List<WordNode>();
-            foreach (var commandName in this.Keys)
+            foreach (var commandName in _map.Keys)
             {
-                var commandAccessor = this[commandName] as CommandAccessor;
+                var commandAccessor = _map[commandName] as CommandAccessor;
                 if (commandAccessor != null)
                 {
                     node.Children.Add(commandAccessor.CreateWordNode(commandName));
                 }
             }
             return node;
+        }
+
+        internal ObsoleteAttribute GetObsolete(string key)
+        {
+            var accessor = _map[key];
+            if (accessor is ObsoleteCommandAccessor obsoleteCommand)
+            {
+                return obsoleteCommand.GetObsoleteAttribute();
+            }
+            return null;
+        }
+
+        internal AlternativeAttribute GetAlternative(string key)
+        {
+            var accessor = _map[key];
+            if (accessor is ObsoleteCommandAccessor obsoleteCommand)
+            {
+                return obsoleteCommand.GetAlternativeAttribute();
+            }
+            return null;
+        }
+
+        public IEnumerator<KeyValuePair<string, ICommandAccessor>> GetEnumerator()
+        {
+            return _map.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

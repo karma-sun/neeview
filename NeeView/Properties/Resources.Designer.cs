@@ -13231,6 +13231,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Use {0} instead. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ScriptErrorMessage_Alternative {
+            get {
+                return ResourceManager.GetString("ScriptErrorMessage.Alternative", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   {0} is obsolete. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ScriptErrorMessage_Obsolete {
+            get {
+                return ResourceManager.GetString("ScriptErrorMessage.Obsolete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Scrpit. Executes when the book is opened. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ScriptOnBookLoadedCommand_Remarks {
@@ -19841,6 +19859,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Alternative に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Word_Alternative {
+            get {
+                return ResourceManager.GetString("Word.Alternative", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Argument に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Word_Argument {
@@ -20341,6 +20368,15 @@ namespace NeeView.Properties {
         public static string Word_None {
             get {
                 return ResourceManager.GetString("Word.None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Obsolete members に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Word_ObsoleteList {
+            get {
+                return ResourceManager.GetString("Word.ObsoleteList", resourceCulture);
             }
         }
         

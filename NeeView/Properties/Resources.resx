@@ -7283,4 +7283,16 @@ The script will stop.</value>
   <data name="ScriptErrorDialog.OpenConsole" xml:space="preserve">
     <value>Open script console</value>
   </data>
+  <data name="Word.ObsoleteList" xml:space="preserve">
+    <value>Obsolete members</value>
+  </data>
+  <data name="Word.Alternative" xml:space="preserve">
+    <value>Alternative</value>
+  </data>
+  <data name="ScriptErrorMessage.Obsolete" xml:space="preserve">
+    <value>{0} is obsolete.</value>
+  </data>
+  <data name="ScriptErrorMessage.Alternative" xml:space="preserve">
+    <value>Use {0} instead.</value>
+  </data>
 </root>

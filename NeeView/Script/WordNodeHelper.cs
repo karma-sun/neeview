@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace NeeView
@@ -12,7 +13,7 @@ namespace NeeView
             node.Children = new List<WordNode>();
 
             var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            foreach (var property in properties)
+            foreach (var property in properties.Where(e => !IsObsolete(e)))
             {
                 var attribute = property.GetCustomAttribute<WordNodeMemberAttribute>();
                 if (attribute != null && attribute.IsAutoCollect)
@@ -22,7 +23,7 @@ namespace NeeView
             }
 
             var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance);
-            foreach (var method in methods)
+            foreach (var method in methods.Where(e => !IsObsolete(e)))
             {
                 var attribute = method.GetCustomAttribute<WordNodeMemberAttribute>();
                 if (attribute != null && attribute.IsAutoCollect)
@@ -34,5 +35,9 @@ namespace NeeView
             return node;
         }
 
+        private static bool IsObsolete(MemberInfo info)
+        {
+            return info.GetCustomAttribute<ObsoleteAttribute>() != null;
+        }
     }
 }

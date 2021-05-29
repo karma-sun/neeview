@@ -101,7 +101,7 @@ namespace NeeView
         /// <summary>
         /// 縦横比を固定する
         /// </summary>
-        [Obsolete("Use AspectRatio instead.")] // ver.39
+        [Obsolete, Alternative(nameof(AspectRatio), 39)] // ver.39
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool IsUniformed
         {

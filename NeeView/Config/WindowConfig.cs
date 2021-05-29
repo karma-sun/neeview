@@ -111,7 +111,7 @@ namespace NeeView
 
         #region Obsolete
 
-        [Obsolete("Use Whindow.Border in CustomTheme instead.")] // ver.39
+        [Obsolete, Alternative("Whindow.Border in the custom theme file", 39, IsFullName = true)] // ver.39
         [JsonIgnore]
         public WindowChromeFrame WindowChromeFrame
         {
@@ -119,7 +119,7 @@ namespace NeeView
             set { }
         }
 
-        [Obsolete()] // ver.39
+        [Obsolete, Alternative(null, 39)] // ver.39
         [JsonIgnore]
         public bool IsCaptionVisible
         {

@@ -92,7 +92,7 @@ namespace NeeView
 
         #region Obsolete
 
-        [Obsolete] // ver.39
+        [Obsolete, Alternative(null, 39)] // ver.39
         [JsonIgnore]
         public bool IsVisiblePlate
         {
@@ -100,7 +100,7 @@ namespace NeeView
             set { }
         }
 
-        [Obsolete("Use ImageWidth instead.")] // ver.39
+        [Obsolete, Alternative(nameof(ImageWidth), 39)] // ver.39
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public double ThumbnailSize
         {

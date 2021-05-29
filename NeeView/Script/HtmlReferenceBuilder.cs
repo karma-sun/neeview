@@ -159,6 +159,11 @@ namespace NeeView
             return this;
         }
 
+        private bool IsDocumentable(MemberInfo info)
+        {
+            return info.GetCustomAttribute<DocumentableAttribute>() != null && info.GetCustomAttribute<ObsoleteAttribute>() == null;
+        }
+
 
         /// <summary>
         /// 指定したClass型のリファレンスを作成する
@@ -175,14 +180,14 @@ namespace NeeView
 
             // property
             builder.Append($"<h4>{ResourceService.GetString("@Word.Properties")}</h4>").AppendLine();
-            var properties = type.GetProperties().Where(e => e.GetCustomAttribute<DocumentableAttribute>() != null);
+            var properties = type.GetProperties().Where(e => IsDocumentable(e));
             AppendDataTable(PropertiesToDataTable(properties), false);
 
             // examples
             AppendExamples(properties.Select(e => e.DeclaringType.Name + "." + e.Name).Prepend(type.Name));
 
             // method
-            var methods = type.GetMethods().Where(e => e.GetCustomAttribute<DocumentableAttribute>() != null);
+            var methods = type.GetMethods().Where(e => IsDocumentable(e));
             foreach (var method in methods)
             {
                 AppendMethod(method, className);
@@ -196,7 +201,7 @@ namespace NeeView
         /// </summary>
         public HtmlReferenceBuilder CreateMethods(Type type, string prefix)
         {
-            var methods = type.GetMethods().Where(e => e.GetCustomAttribute<DocumentableAttribute>() != null);
+            var methods = type.GetMethods().Where(e => IsDocumentable(e));
             foreach (var method in methods)
             {
                 AppendMethod(method, prefix);

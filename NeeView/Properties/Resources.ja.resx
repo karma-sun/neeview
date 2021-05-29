@@ -7288,4 +7288,16 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ScriptErrorDialog.OpenConsole" xml:space="preserve">
     <value>スクリプト コンソールを開く</value>
   </data>
+  <data name="Word.ObsoleteList" xml:space="preserve">
+    <value>廃止されたメンバー</value>
+  </data>
+  <data name="Word.Alternative" xml:space="preserve">
+    <value>代替案</value>
+  </data>
+  <data name="ScriptErrorMessage.Obsolete" xml:space="preserve">
+    <value>{0} は廃止されました。</value>
+  </data>
+  <data name="ScriptErrorMessage.Alternative" xml:space="preserve">
+    <value>代わりに {0} を使用してください。</value>
+  </data>
 </root>

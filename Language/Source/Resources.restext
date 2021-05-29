@@ -2286,3 +2286,7 @@ ScriptErrorDialog.Title.Error=Script error
 ScriptErrorDialog.Title.Warning=Script warning
 ScriptErrorDialog.Title.Info=Script info
 ScriptErrorDialog.OpenConsole=Open script console
+Word.ObsoleteList=Obsolete members
+Word.Alternative=Alternative
+ScriptErrorMessage.Obsolete={0} is obsolete.
+ScriptErrorMessage.Alternative=Use {0} instead.

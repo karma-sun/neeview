@@ -41,6 +41,8 @@ namespace NeeView
 
             AppendCommandList(builder);
 
+            AppendObsoleteList(builder);
+
             builder.Append(Properties.Resources._Document_ScriptManualExample_html);
 
             builder.Append("</body>");
@@ -104,7 +106,7 @@ namespace NeeView
         {
             builder.Append($"<h1 class=\"sub\" id=\"ConfigList\">{Properties.Resources.Word_ConfigList}</h1>");
             builder.Append("<table class=\"table-slim table-topless\">");
-            builder.Append($"<tr><th>{Properties.Resources.Word_Name}</th><th>{Properties.Resources.Word_Type}</th><th>{Properties.Resources.Word_Summary}</th></th>");
+            builder.Append($"<tr><th>{Properties.Resources.Word_Name}</th><th>{Properties.Resources.Word_Type}</th><th>{Properties.Resources.Word_Summary}</th></tr>");
             builder.Append(new ConfigMap(null).Map.CreateHelpHtml("nv.Config"));
             builder.Append("</table>");
             return builder;
@@ -188,6 +190,35 @@ namespace NeeView
                 builder.Append($"<tr><td>{command.Group}</td><td>{command.Text}</td><td><b>{command.Name}</b></td><td>{argument}</td><td>{properties}</td><td>{command.Remarks}</td></tr>");
             }
             builder.Append("</table>");
+
+            return builder;
+        }
+
+
+        private StringBuilder AppendObsoleteList(StringBuilder builder)
+        {
+            builder.Append($"<h1 class=\"sub\" id=\"ObsoleteList\">{Properties.Resources.Word_ObsoleteList}</h1>");
+
+            var commandHost = new CommandHost();
+            var root = ScriptNodeTreeBuilder.Create(commandHost, "nv");
+
+            var groups = root.GetUnitEnumerator(null)
+                .Where(e => e.Node.Obsolete != null)
+                .GroupBy(e => e.Node.Alternative.Version)
+                .OrderBy(e => e.Key);
+
+            // ver.39 and later
+            foreach (var group in groups.Where(e => e.Key >= 39))
+            {
+                builder.Append($"<h2>Version {group.Key}.0</h2>");
+                builder.Append("<table class=\"table-slim table-topless\">");
+                builder.Append($"<tr><th>{Properties.Resources.Word_Name}</th><th>{Properties.Resources.Word_Alternative}</th></tr>");
+                foreach (var unit in group.OrderBy(e => e.FullName))
+                {
+                    builder.Append($"<tr><td>{unit.FullName}</td><td>{unit.Alternative}</td>");
+                }
+                builder.Append("</table>");
+            }
 
             return builder;
         }

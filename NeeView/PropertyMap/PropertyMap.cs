@@ -87,7 +87,8 @@ namespace NeeView
                 if (obsolete != null)
                 {
                     ////Debug.WriteLine($"[OBSOLETE] {prefix}.{key}: {obsolete.Message}");
-                    _items.Add(key, new PropertyMapObsolete(prefix + "." + key, property.PropertyType, obsolete.Message));
+                    var alternative = property.GetCustomAttribute<AlternativeAttribute>();
+                    _items.Add(key, new PropertyMapObsolete(prefix + "." + key, property.PropertyType, obsolete.Message, obsolete, alternative));
                 }
                 else if (converter == null && property.PropertyType.IsClass && property.PropertyType != typeof(string))
                 {
@@ -114,11 +115,16 @@ namespace NeeView
             return _items.ContainsKey(key);
         }
 
+        internal PropertyMapNode GetNode(string key)
+        {
+            return _items[key];
+        }
+
         internal object GetValue(PropertyMapNode node)
         {
             if (node is PropertyMapObsolete obsolete)
             {
-                return _accessDiagnostics.Throw(new NotSupportedException($"{obsolete.PropertyName} is obsolete. {obsolete.Message}"), obsolete.PropertyType);
+                return _accessDiagnostics.Throw(new NotSupportedException(obsolete.CreateObsoleteMessage()), obsolete.PropertyType);
             }
             else if (node is PropertyMapSource source)
             {
@@ -134,7 +140,7 @@ namespace NeeView
         {
             if (node is PropertyMapObsolete obsolete)
             {
-                _accessDiagnostics.Throw(new NotSupportedException($"{obsolete.PropertyName} is obsolete. {obsolete.Message}"));
+                _accessDiagnostics.Throw(new NotSupportedException(obsolete.CreateObsoleteMessage()));
             }
             else if (node is PropertyMapSource source)
             {
@@ -217,7 +223,7 @@ namespace NeeView
 
         public IEnumerator<KeyValuePair<string, PropertyMapNode>> GetEnumerator()
         {
-            return _items.Where(e => !(e.Value is PropertyMapObsolete)).GetEnumerator();
+            return _items.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

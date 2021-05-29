@@ -2286,3 +2286,7 @@ ScriptErrorDialog.Title.Error=スクリプト エラー
 ScriptErrorDialog.Title.Warning=スクリプト警告
 ScriptErrorDialog.Title.Info=スクリプト情報
 ScriptErrorDialog.OpenConsole=スクリプト コンソールを開く
+Word.ObsoleteList=廃止されたメンバー
+Word.Alternative=代替案
+ScriptErrorMessage.Obsolete={0} は廃止されました。
+ScriptErrorMessage.Alternative=代わりに {0} を使用してください。

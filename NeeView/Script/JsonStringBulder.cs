@@ -51,7 +51,7 @@ namespace NeeView
             var obsolete = type.GetCustomAttribute<ObsoleteAttribute>();
             if (obsolete != null)
             {
-                return builder.Append((source as IHasObsoleteMessage)?.ObsoleteMessage ?? obsolete.Message ?? "This is obsolete.");
+                return builder.Append("This is obsolete.");
             }
 
             if (source is Enum enm)
@@ -84,7 +84,11 @@ namespace NeeView
             }
             else if (source is PropertyMap propertyMap)
             {
-                return AppendDictionary(builder, propertyMap.ToDictionary(e => e.Key, e => propertyMap.GetValue(e.Value)), depth);
+                return AppendDictionary(builder, propertyMap.Where(e => !(e.Value is PropertyMapObsolete)).ToDictionary(e => e.Key, e => propertyMap.GetValue(e.Value)), depth);
+            }
+            else if (source is CommandAccessorMap commandMap)
+            {
+                return AppendDictionary(builder, commandMap.Where(e => !(e.Value is ObsoleteCommandAccessor)).ToDictionary(e => e.Key, e => e.Value), depth);
             }
             else if (type.IsClass && !IsDelegate(type))
             {

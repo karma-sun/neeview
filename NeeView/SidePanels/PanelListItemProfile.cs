@@ -131,9 +131,9 @@ namespace NeeView
 
         #region Obsolete
 
-        [Obsolete("Use Panel.Note in CustomTheme instead.")] // ver.39
+        [Obsolete, Alternative("Panel.Note in the custom theme file", 39, IsFullName = true)] // ver.39
         [JsonIgnore]
-        public double NoteOpacity   
+        public double NoteOpacity
         {
             get { return 0.0; }
             set { }

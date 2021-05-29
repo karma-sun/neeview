@@ -34,6 +34,10 @@ namespace NeeView
         public bool IsDarty => _commandHost.IsDarty;
 
 
+        [Documentable(Name = "nv")]
+        public CommandHost CommandHost => _commandHost;
+
+
         [Documentable(Name = "include")]
         public object ExecureFile(string path)
         {

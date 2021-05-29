@@ -60,28 +60,38 @@ namespace NeeView
 
         #region Obsolete
 
-        [Obsolete] // ver.38
+        [WordNodeMember]
+        [Obsolete, Alternative("ViewPages.length", 38)] // ver.38
         public int PageSize
         {
-            get => _accessDiagnostics.Throw<int>(new NotSupportedException("PageSize is obsolete. Use ViewPages.length instead."));
+            get
+            {
+                return _accessDiagnostics.Throw<int>(new NotSupportedException(RefrectionTools.CreatePropertyObsoleteMessage(this.GetType())));
+            }
         }
 
-        [Obsolete] // ver.38
+        [WordNodeMember]
+        [Obsolete, Alternative("Pages.length", 38)] // ver.38
         public int ViewPageSize
         {
-            get => _accessDiagnostics.Throw<int>(new NotSupportedException("ViewPageSize is obsolete. Use Pages.length instead."));
+            get
+            {
+                return _accessDiagnostics.Throw<int>(new NotSupportedException(RefrectionTools.CreatePropertyObsoleteMessage(this.GetType())));
+            }
         }
 
-        [Obsolete] // ver.38
+        [WordNodeMember]
+        [Obsolete, Alternative("Pages[]", 38)] // ver.38
         public PageAccessor Page(int index)
         {
-            return _accessDiagnostics.Throw<PageAccessor>(new NotSupportedException("Page() is obsolete. Use Pages[] instead."));
+            return _accessDiagnostics.Throw<PageAccessor>(new NotSupportedException(RefrectionTools.CreateMethodObsoleteMessage(this.GetType())));
         }
 
-        [Obsolete] // ver.38
+        [WordNodeMember]
+        [Obsolete, Alternative("ViewPages[]", 38)] // ver.38
         public PageAccessor ViewPage(int index)
         {
-            return _accessDiagnostics.Throw<PageAccessor>(new NotSupportedException("ViewPage() is obsolete. Use ViewPages[] instead."));
+            return _accessDiagnostics.Throw<PageAccessor>(new NotSupportedException(RefrectionTools.CreateMethodObsoleteMessage(this.GetType())));
         }
 
         #endregion Obsoletet

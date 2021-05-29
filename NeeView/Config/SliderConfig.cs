@@ -126,9 +126,9 @@ namespace NeeView
         }
 
 
-#region Obsolete
+        #region Obsolete
 
-        [Obsolete("Use IsHidePageSliderInAutoHideMode instead.")] // ver.38
+        [Obsolete, Alternative(nameof(IsHidePageSliderInAutoHideMode), 38)] // ver.38
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool IsHidePageSliderInFullscreen
         {
@@ -136,6 +136,6 @@ namespace NeeView
             set { IsHidePageSliderInAutoHideMode = value; }
         }
 
-#endregion Obsoletet
+        #endregion Obsoletet
     }
 }

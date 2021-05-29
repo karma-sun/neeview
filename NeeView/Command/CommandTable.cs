@@ -41,6 +41,24 @@ namespace NeeView
     }
 
     /// <summary>
+    /// 廃棄されたコマンドの情報
+    /// </summary>
+    public class ObsoleteCommandItem
+    {
+        public ObsoleteCommandItem(string obsolete, string alternative, int version)
+        {
+            Obsolete = obsolete;
+            Alternative = alternative;
+            Version = version;
+        }
+
+        public string Obsolete { get; }
+        public string Alternative { get; }
+        public int Version { get; }
+    }
+
+
+    /// <summary>
     /// コマンド設定テーブル
     /// </summary>
     public partial class CommandTable : BindableBase, IDictionary<string, CommandElement>, IDisposable
@@ -79,7 +97,7 @@ namespace NeeView
 
         public Dictionary<string, CommandElement> Elements => _elements;
 
-        public Dictionary<string, string> ObsoleteCommands { get; private set; }
+        public Dictionary<string, ObsoleteCommandItem> ObsoleteCommands { get; private set; }
 
         #region IDictionary Support
 
@@ -404,17 +422,18 @@ namespace NeeView
             // デフォルト設定として記憶
             DefaultMemento = CreateCommandCollectionMemento();
 
-            // 廃棄されたコマンド
-            ObsoleteCommands = new Dictionary<string, string>()
+            // 廃棄されたコマンドの情報
+            var obsoleteCommands = new List<ObsoleteCommandItem>()
             {
-                ["ToggleVisibleTitleBar"] = null,
-                ["ToggleVisiblePagemarkList"] = "ToggleVisiblePlaylist",
-                ["TogglePagemark"] = "TogglePlaylistMark",
-                ["PrevPagemark"] = "PrevPlaylistItem",
-                ["NextPagemark"] = "NextPlaylistItem",
-                ["PrevPagemarkInBook"] = "PrevPlaylistItemInBook",
-                ["NextPagemarkInBook"] = "NextPlaylistItemInBook",
+                new ObsoleteCommandItem("ToggleVisibleTitleBar", null, 39),
+                new ObsoleteCommandItem("ToggleVisiblePagemarkList", "ToggleVisiblePlaylist", 39),
+                new ObsoleteCommandItem("TogglePagemark", "TogglePlaylistMark", 39),
+                new ObsoleteCommandItem("PrevPagemark", "PrevPlaylistItem", 39),
+                new ObsoleteCommandItem("NextPagemark", "NextPlaylistItem", 39),
+                new ObsoleteCommandItem("PrevPagemarkInBook", "PrevPlaylistItemInBook", 39),
+                new ObsoleteCommandItem("NextPagemarkInBook", "NextPlaylistItemInBook", 39),
             };
+            ObsoleteCommands = obsoleteCommands.ToDictionary(e => e.Obsolete);
         }
 
         #endregion
@@ -678,7 +697,7 @@ namespace NeeView
                 _elements.Remove(name);
             }
 
-            foreach(var name in oldies.Intersect(newers))
+            foreach (var name in oldies.Intersect(newers))
             {
                 if (_elements.TryGetValue(name, out var e) && e is ScriptCommand scriptCommand)
                 {

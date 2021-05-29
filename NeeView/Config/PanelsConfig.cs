@@ -155,7 +155,7 @@ namespace NeeView
         [JsonIgnore]
         public string FontName_Legacy { get; private set; }
 
-        [Obsolete("Use nv.Config.Fonts.FontName instead.")] // ver.39
+        [Obsolete, Alternative("nv.Config.Fonts.FontName", 39, IsFullName = true)] // ver.39
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string FontName
         {
@@ -167,7 +167,7 @@ namespace NeeView
         [JsonIgnore]
         public double FontSize_Legacy { get; private set; }
 
-        [Obsolete("Use nv.Config.Fonts.PanelFontScale instead.")] // ver.39
+        [Obsolete, Alternative("nv.Config.Fonts.PanelFontScale", 39, IsFullName = true)] // ver.39
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public double FontSize
         {
@@ -179,7 +179,7 @@ namespace NeeView
         [JsonIgnore]
         public double FolderTreeFontSize_Legacy { get; private set; }
 
-        [Obsolete("Use nv.Config.Fonts.FolderTreeFontScale instead.")] // ver.39
+        [Obsolete, Alternative("nv.Config.Fonts.FolderTreeFontScale", 39, IsFullName = true)] // ver.39
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public double FolderTreeFontSize
         {
@@ -187,7 +187,7 @@ namespace NeeView
             set { FolderTreeFontSize_Legacy = value; }
         }
 
-        [Obsolete("Use IsHidePanelInAutoHideMode instead.")] // ver.38
+        [Obsolete, Alternative(nameof(IsHidePanelInAutoHideMode), 38)] // ver.38
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool IsHidePanelInFullscreen
         {
@@ -195,15 +195,15 @@ namespace NeeView
             set { IsHidePanelInAutoHideMode = value; }
         }
 
-        [Obsolete] // ver.38
+        [Obsolete, Alternative(null, 38)] // ver.38
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public Dictionary<string, PanelDock> PanelDocks { get; set; }
 
-        [Obsolete] // ver.38
+        [Obsolete, Alternative(null, 38)] // ver.38
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string LeftPanelSeleted { get; set; }
 
-        [Obsolete] // ver.38
+        [Obsolete, Alternative(null, 38)] // ver.38
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string RightPanelSeleted { get; set; }
 

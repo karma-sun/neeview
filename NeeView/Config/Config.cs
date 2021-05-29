@@ -114,7 +114,7 @@ namespace NeeView
         [Obsolete]
         private PagemarkConfig _pagemark = new PagemarkConfig();
 
-        [Obsolete("Use Playlist instead.")] // ver.39
+        [Obsolete, Alternative(nameof(Playlist), 39)] // ver.39
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public PagemarkConfig Pagemark
         {
@@ -133,7 +133,7 @@ namespace NeeView
         #region Validate
 
         // 誤字修正 (WindowTittle -> WindowTitle)
-        [Obsolete("It's typo. Use WindowTitle instead.")] // ver.39
+        [Obsolete, Alternative(nameof(WindowTitle), 39)] // ver.39
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public WindowTitleConfig WindowTittle
         {

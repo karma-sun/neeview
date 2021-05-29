@@ -74,11 +74,16 @@ namespace NeeView
         [WordNodeMember(IsAutoCollect = false)]
         public NavigatorPanelAccessor Navigator { get; }
 
-        [Obsolete]
+        [WordNodeMember]
+        [Obsolete, Alternative(nameof(Playlist), 39)] // ver.39
         public object Pagemark
         {
-            get => _accessDiagnostics.Throw<object>(new NotSupportedException("nv.Pagemark is obsolete. Use nv.Playlist instead."));
+            get
+            {
+                return _accessDiagnostics.Throw<object>(new NotSupportedException(RefrectionTools.CreatePropertyObsoleteMessage(this.GetType())));
+            }
         }
+
 
         internal bool IsDarty => Command != _resource.CommandAccessMap;
 
@@ -172,7 +177,7 @@ namespace NeeView
             return node;
         }
 
-        
+
         private class InputDialogComponent : IMessageDialogContentComponent
         {
             private TextBox _textBox;

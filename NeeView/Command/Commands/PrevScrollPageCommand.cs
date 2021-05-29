@@ -92,7 +92,7 @@ namespace NeeView
 
         #region Obsolete
 
-        [Obsolete("Use ScrollType instead.")] // ver.39
+        [Obsolete, Alternative(nameof(ScrollType), 39)] // ver.39
         [DataMember]
         public bool IsNScroll
         {
@@ -100,7 +100,7 @@ namespace NeeView
             set { ScrollType = value ? NScrollType.NType : NScrollType.Diagonal; }
         }
 
-        [Obsolete("Use LineBreakStopTime instead.")] // ver.39
+        [Obsolete, Alternative(nameof(LineBreakStopTime), 39)] // ver.39
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public double PageMoveMargin
         {

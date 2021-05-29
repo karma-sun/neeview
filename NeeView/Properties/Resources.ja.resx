@@ -164,6 +164,7 @@
 
     &lt;table class="table-slim"&gt;
         &lt;tr&gt;&lt;td&gt;OnBookLoaded.nvjs&lt;/td&gt;&lt;td&gt;ブックを開いたときに実行されます。&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;OnPageChanged.nvjs&lt;/td&gt;&lt;td&gt;ページが変更されたときに実行されます。&lt;/td&gt;&lt;/tr&gt;
     &lt;/table&gt;
 &lt;/p&gt;
 

@@ -164,6 +164,7 @@
 
     &lt;table class="table-slim"&gt;
         &lt;tr&gt;&lt;td&gt;OnBookLoaded.nvjs&lt;/td&gt;&lt;td&gt;當書本開啟時執行。&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;OnPageChanged.nvjs&lt;/td&gt;&lt;td&gt;Runs when the view pages is changed.&lt;/td&gt;&lt;/tr&gt;
     &lt;/table&gt;
 &lt;/p&gt;
 

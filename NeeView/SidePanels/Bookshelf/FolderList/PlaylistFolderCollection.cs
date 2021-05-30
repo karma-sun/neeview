@@ -43,6 +43,7 @@ namespace NeeView
             var entries = await _collection.GetEntriesAsync(token);
 
             var items = entries
+                .Where(e => e.IsBook())
                 .Select(e => CreateFolderItem(e, e.Id))
                 .Where(e => e != null);
 

@@ -57,7 +57,19 @@ namespace NeeView
             get
             {
                 var query = new QueryPath(_path);
-                return query.DispName + (query.Search != null ? $" ({query.Search})" : null);
+
+                var name = query.DispName;
+                if (PlaylistArchive.IsSupportExtension(name))
+                {
+                    name = LoosePath.GetFileNameWithoutExtension(name);
+                }
+
+                if (query.Search != null)
+                {
+                    name += $" ({query.Search})";
+                }
+
+                return name;
             }
         }
 

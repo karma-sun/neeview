@@ -832,7 +832,7 @@ namespace NeeView
                 return;
             }
 
-            if ((query.Scheme == QueryScheme.File && Directory.Exists(query.SimplePath))
+            if ((query.Scheme == QueryScheme.File && (Directory.Exists(query.SimplePath) || IsPlaylistFile(query.SimplePath)))
                 || (query.Scheme == QueryScheme.Bookmark && BookmarkCollection.Current.FindNode(query)?.Value is BookmarkFolder))
             {
                 if (isDrop)
@@ -858,7 +858,7 @@ namespace NeeView
             bool isDropped = false;
             foreach (var fileName in fileNames)
             {
-                if (System.IO.Directory.Exists(fileName))
+                if (Directory.Exists(fileName) || IsPlaylistFile(fileName))
                 {
                     if (isDrop)
                     {
@@ -872,6 +872,11 @@ namespace NeeView
                 e.Effects = DragDropEffects.Copy;
                 e.Handled = true;
             }
+        }
+
+        private bool IsPlaylistFile(string path)
+        {
+            return File.Exists(path) && PlaylistArchive.IsSupportExtension(path);
         }
 
 

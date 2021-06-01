@@ -16,13 +16,14 @@ namespace NeeView
         private DispatcherTimer _timer;
         private DateTime _timeLimit;
         private Dictionary<string, Toast> _slotMap = new Dictionary<string, Toast>();
+        private object _lock = new object();
 
 
         public ToastService()
         {
             _queue = new Queue<Toast>();
 
-            _timer = new System.Windows.Threading.DispatcherTimer();
+            _timer = new DispatcherTimer();
             _timer.Tick += Timer_Tick;
         }
 
@@ -36,23 +37,30 @@ namespace NeeView
 
         public void Show(string slot, Toast toast)
         {
-            if (_slotMap.TryGetValue(slot, out Toast oldToast))
+            lock (_lock)
             {
-                oldToast.Cancel();
+                if (_slotMap.TryGetValue(slot, out Toast oldToast))
+                {
+                    oldToast.Cancel();
+                }
+
+                _slotMap[slot] = toast;
             }
 
-            _slotMap[slot] = toast;
             Show(toast);
         }
 
         public void Show(Toast toast)
         {
-            _queue.Enqueue(toast);
-
-            // ひとまず１枚だけに限定する
-            if (ToastCard != null)
+            lock (_lock)
             {
-                ToastCard.IsCanceled = true;
+                _queue.Enqueue(toast);
+
+                // ひとまず１枚だけに限定する
+                if (ToastCard != null)
+                {
+                    ToastCard.IsCanceled = true;
+                }
             }
 
             Update();
@@ -78,10 +86,13 @@ namespace NeeView
                 }
             }
 
-            while (ToastCard == null && _queue.Count > 0)
+            lock (_lock)
             {
-                var toast = _queue.Dequeue();
-                Open(toast);
+                while (ToastCard == null && _queue.Count > 0)
+                {
+                    var toast = _queue.Dequeue();
+                    Open(toast);
+                }
             }
         }
 

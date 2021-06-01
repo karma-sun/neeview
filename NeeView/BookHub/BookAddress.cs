@@ -76,7 +76,7 @@ namespace NeeView
         /// </summary>
         private async Task ConstructAsync(QueryPath query, QueryPath sourceQuery, string entryName, ArchiveEntryCollectionMode mode, BookLoadOption option, CancellationToken token)
         {
-            
+
             this.SourceAddress = sourceQuery ?? query;
 
             // ブックマークは実体のパスへ
@@ -204,7 +204,7 @@ namespace NeeView
             return full.Substring(address.SimplePath.Length, full.Length - address.SimplePath.Length).TrimStart(LoosePath.Separators);
         }
 
-#endregion
+        #endregion
     }
 
 }

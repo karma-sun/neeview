@@ -7304,4 +7304,16 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="OpenExternalAppCommandParameter.WorkingDirectory" xml:space="preserve">
     <value>作業ディレクトリ</value>
   </data>
+  <data name="CommandHost.Environment" xml:space="preserve">
+    <value>環境アクセサ</value>
+  </data>
+  <data name="EnvironmentAccessor" xml:space="preserve">
+    <value>環境アクセサ</value>
+  </data>
+  <data name="EnvironmentAccessor.NeeViewPath" xml:space="preserve">
+    <value>NeeView 実行ファイルのパス</value>
+  </data>
+  <data name="EnvironmentAccessor.UserSettingFilePath" xml:space="preserve">
+    <value>ユーザー設定ファイルのパス</value>
+  </data>
 </root>

@@ -3039,6 +3039,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Environment accessor に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandHost_Environment {
+            get {
+                return ResourceManager.GetString("CommandHost.Environment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   History panel accessor に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandHost_History {
@@ -4335,6 +4344,33 @@ namespace NeeView.Properties {
         public static string EmbossedEffectUnit_Height {
             get {
                 return ResourceManager.GetString("EmbossedEffectUnit.Height", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Environment accessor に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnvironmentAccessor {
+            get {
+                return ResourceManager.GetString("EnvironmentAccessor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   NeeView executable file path に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnvironmentAccessor_NeeViewPath {
+            get {
+                return ResourceManager.GetString("EnvironmentAccessor.NeeViewPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   User setting file path に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnvironmentAccessor_UserSettingFilePath {
+            get {
+                return ResourceManager.GetString("EnvironmentAccessor.UserSettingFilePath", resourceCulture);
             }
         }
         

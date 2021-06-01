@@ -66,6 +66,7 @@ namespace NeeView
 
             htmlBuilder.Append(typeof(CommandAccessor));
 
+            htmlBuilder.Append(typeof(EnvironmentAccessor));
             htmlBuilder.Append(typeof(BookAccessor));
             htmlBuilder.Append(typeof(BookConfigAccessor));
             htmlBuilder.Append(typeof(PageAccessor));

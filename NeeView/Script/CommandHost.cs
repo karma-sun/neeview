@@ -23,6 +23,7 @@ namespace NeeView
 
             Config = _resource.ConfigMap.Map;
             Command = _resource.CommandAccessMap;
+            Environment = new EnvironmentAccessor();
             Book = new BookAccessor(_accessDiagnostics);
             Bookshelf = new BookshelfPanelAccessor();
             PageList = new PageListPanelAccessor();
@@ -46,6 +47,9 @@ namespace NeeView
 
         [WordNodeMember(IsAutoCollect = false)]
         public CommandAccessorMap Command { get; }
+
+        [WordNodeMember(IsAutoCollect = false)]
+        public EnvironmentAccessor Environment { get; }
 
         [WordNodeMember(IsAutoCollect = false)]
         public BookAccessor Book { get; }
@@ -163,8 +167,9 @@ namespace NeeView
             node.Children.Add(new WordNode(nameof(Args)));
             node.Children.Add(new WordNode(nameof(Values)));
             node.Children.Add(Config.CreateWordNode(nameof(Config)));
-            node.Children.Add(Book.CreateWordNode(nameof(Book)));
             node.Children.Add(Command.CreateWordNode(nameof(Command)));
+            node.Children.Add(Environment.CreateWordNode(nameof(Environment)));
+            node.Children.Add(Book.CreateWordNode(nameof(Book)));
             node.Children.Add(Bookshelf.CreateWordNode(nameof(Bookshelf)));
             node.Children.Add(PageList.CreateWordNode(nameof(PageList)));
             node.Children.Add(Bookmark.CreateWordNode(nameof(Bookmark)));

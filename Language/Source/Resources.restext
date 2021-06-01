@@ -2291,3 +2291,7 @@ Word.Alternative=Alternative
 ScriptErrorMessage.Obsolete={0} is obsolete.
 ScriptErrorMessage.Alternative=Use {0} instead.
 OpenExternalAppCommandParameter.WorkingDirectory=Working directory
+CommandHost.Environment=Environment accessor
+EnvironmentAccessor=Environment accessor
+EnvironmentAccessor.NeeViewPath=NeeView executable file path
+EnvironmentAccessor.UserSettingFilePath=User setting file path

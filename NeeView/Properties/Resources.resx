@@ -7299,4 +7299,16 @@ The script will stop.</value>
   <data name="OpenExternalAppCommandParameter.WorkingDirectory" xml:space="preserve">
     <value>Working directory</value>
   </data>
+  <data name="CommandHost.Environment" xml:space="preserve">
+    <value>Environment accessor</value>
+  </data>
+  <data name="EnvironmentAccessor" xml:space="preserve">
+    <value>Environment accessor</value>
+  </data>
+  <data name="EnvironmentAccessor.NeeViewPath" xml:space="preserve">
+    <value>NeeView executable file path</value>
+  </data>
+  <data name="EnvironmentAccessor.UserSettingFilePath" xml:space="preserve">
+    <value>User setting file path</value>
+  </data>
 </root>

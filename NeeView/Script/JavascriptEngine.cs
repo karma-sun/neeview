@@ -130,7 +130,7 @@ namespace NeeView
         [Documentable(Name = "system")]
         public void SystemCall(string filename, string args = null)
         {
-            ExternalProcess.Start(filename, args, ExternalProcessAtrtibute.ThrowException);
+            ExternalProcess.Start(filename, args, new ExternalProcessOptions() { IsThrowException = true });
         }
 
 

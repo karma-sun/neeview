@@ -7301,4 +7301,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ScriptErrorMessage.Alternative" xml:space="preserve">
     <value>代わりに {0} を使用してください。</value>
   </data>
+  <data name="OpenExternalAppCommandParameter.WorkingDirectory" xml:space="preserve">
+    <value>作業ディレクトリ</value>
+  </data>
 </root>

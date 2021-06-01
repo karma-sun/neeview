@@ -291,7 +291,7 @@ namespace NeeView
                     directory.Create();
                     ThemeProfileTools.SaveFromContent(_customThemeTemplateContentPath, Path.Combine(directory.FullName, "Sample.json"));
                 }
-                ExternalProcess.Start("explorer.exe", $"\"{directory.FullName}\"", ExternalProcessAtrtibute.ThrowException);
+                ExternalProcess.Start("explorer.exe", $"\"{directory.FullName}\"", new ExternalProcessOptions() { IsThrowException = true });
             }
             catch (Exception ex)
             {

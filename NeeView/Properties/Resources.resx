@@ -7296,4 +7296,7 @@ The script will stop.</value>
   <data name="ScriptErrorMessage.Alternative" xml:space="preserve">
     <value>Use {0} instead.</value>
   </data>
+  <data name="OpenExternalAppCommandParameter.WorkingDirectory" xml:space="preserve">
+    <value>Working directory</value>
+  </data>
 </root>

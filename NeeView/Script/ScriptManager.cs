@@ -69,7 +69,7 @@ namespace NeeView
                     ResourceTools.ExportFileFromResource(System.IO.Path.Combine(directory.FullName, "Sample.nvjs"), "/Resources/Scripts/Sample.nvjs");
                     ScriptConfigChanged();
                 }
-                ExternalProcess.Start("explorer.exe", $"\"{path}\"", ExternalProcessAtrtibute.ThrowException);
+                ExternalProcess.Start("explorer.exe", $"\"{path}\"", new ExternalProcessOptions() { IsThrowException = true });
             }
             catch (Exception ex)
             {

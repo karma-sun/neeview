@@ -2290,3 +2290,4 @@ Word.ObsoleteList=Obsolete members
 Word.Alternative=Alternative
 ScriptErrorMessage.Obsolete={0} is obsolete.
 ScriptErrorMessage.Alternative=Use {0} instead.
+OpenExternalAppCommandParameter.WorkingDirectory=Working directory

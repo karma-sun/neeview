@@ -4,11 +4,10 @@ using System.Text.RegularExpressions;
 
 namespace NeeView
 {
-    [Flags]
-    public enum ExternalProcessAtrtibute
+    public class ExternalProcessOptions
     {
-        None = 0,
-        ThrowException = (1<<0),
+        public bool IsThrowException { get; set; }
+        public string WorkingDirectory { get; set; }
     }
 
     public static class ExternalProcess
@@ -16,10 +15,13 @@ namespace NeeView
         private static Regex _httpPrefix = new Regex(@"^\s*http[s]?:", RegexOptions.IgnoreCase);
         private static Regex _htmlPostfix = new Regex(@"\.htm[l]?$", RegexOptions.IgnoreCase);
 
-        public static void Start(string filename, string args = null, ExternalProcessAtrtibute attributes = ExternalProcessAtrtibute.None)
+        public static void Start(string filename, string args = null, ExternalProcessOptions options = null)
         {
+            options = options ?? new ExternalProcessOptions();
+
             var startInfo = new ProcessStartInfo();
             startInfo.UseShellExecute = true;
+            startInfo.WorkingDirectory = options.WorkingDirectory ?? startInfo.WorkingDirectory;
 
             if (string.IsNullOrWhiteSpace(filename))
             {
@@ -59,7 +61,7 @@ namespace NeeView
             }
             catch (Exception ex)
             {
-                if ((attributes & ExternalProcessAtrtibute.ThrowException) == ExternalProcessAtrtibute.ThrowException)
+                if (options.IsThrowException)
                 {
                     throw;
                 }

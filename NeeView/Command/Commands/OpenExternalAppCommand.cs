@@ -37,6 +37,7 @@ namespace NeeView
         private string _command;
         private string _parameter = DefaultParameter;
         private MultiPagePolicy _multiPagePolicy = MultiPagePolicy.Once;
+        private string _workingDirectory;
 
 
         // コマンド
@@ -56,6 +57,15 @@ namespace NeeView
         {
             get { return _parameter; }
             set { SetProperty(ref _parameter, string.IsNullOrWhiteSpace(value) ? DefaultParameter : value); }
+        }
+
+        // 作業フォルダー
+        [DataMember]
+        [PropertyPath(FileDialogType = Windows.Controls.FileDialogType.Directory)]
+        public string WorkingDirectory
+        {
+            get { return _workingDirectory; }
+            set { SetProperty(ref _workingDirectory, string.IsNullOrWhiteSpace(value) ? null : value.Trim()); }
         }
 
         // 複数ページのときの動作

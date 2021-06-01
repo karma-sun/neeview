@@ -2290,3 +2290,4 @@ Word.ObsoleteList=廃止されたメンバー
 Word.Alternative=代替案
 ScriptErrorMessage.Obsolete={0} は廃止されました。
 ScriptErrorMessage.Alternative=代わりに {0} を使用してください。
+OpenExternalAppCommandParameter.WorkingDirectory=作業ディレクトリ

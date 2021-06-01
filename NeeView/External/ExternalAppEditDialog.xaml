@@ -50,6 +50,7 @@
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Column="0" Grid.Row="0" Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.Word_Name}" />
@@ -61,11 +62,14 @@
             <TextBlock Grid.Column="0" Grid.Row="2" Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.OpenExternalAppCommandParameter_Parameter}" />
             <TextBox Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Text="{Binding Model.Parameter}" />
 
-            <TextBlock Grid.Column="0" Grid.Row="3" Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.OpenExternalAppCommandParameter_ArchivePolicy}" />
-            <ComboBox Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" ItemsSource="{Binding ArchivePolicyList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.ArchivePolicy}" />
+            <TextBlock Grid.Column="0" Grid.Row="3" Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.OpenExternalAppCommandParameter_WorkingDirectory}" />
+            <nvc:FileNameBox Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Text="{Binding Model.WorkingDirectory, Mode=TwoWay}" FileDialogType="Directory" />
 
-            <TextBlock Grid.Column="0" Grid.Row="4" Style="{StaticResource HeaderStyle}" Text="" />
-            <TextBlock Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Text="{Binding Model.ArchivePolicy, Converter={StaticResource ArchivePolicyToSampleStringConverter}}" Foreground="Gray" Padding="2" />
+            <TextBlock Grid.Column="0" Grid.Row="4" Style="{StaticResource HeaderStyle}" Text="{x:Static properties:Resources.OpenExternalAppCommandParameter_ArchivePolicy}" />
+            <ComboBox Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" ItemsSource="{Binding ArchivePolicyList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.ArchivePolicy}" />
+
+            <TextBlock Grid.Column="0" Grid.Row="5" Style="{StaticResource HeaderStyle}" Text="" />
+            <TextBlock Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" Text="{Binding Model.ArchivePolicy, Converter={StaticResource ArchivePolicyToSampleStringConverter}}" Foreground="Gray" Padding="2" />
         </Grid>
        
     </DockPanel>

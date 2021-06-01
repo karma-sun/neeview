@@ -68,13 +68,15 @@ namespace NeeView
         {
             string param = ReplaceKeyword(ValidateApplicationParam(options.Parameter), fileName);
 
+            var processOptions = new ExternalProcessOptions() { IsThrowException = true, WorkingDirectory = options.WorkingDirectory };
+
             if (string.IsNullOrWhiteSpace(options.Command))
             {
                 var sentence = $"\"{param}\"";
                 Debug.WriteLine($"CallProcess: {sentence}");
                 try
                 {
-                    ExternalProcess.Start(param, null, ExternalProcessAtrtibute.ThrowException);
+                    ExternalProcess.Start(param, null, processOptions);
                 }
                 catch (Exception ex)
                 {
@@ -89,7 +91,7 @@ namespace NeeView
                 Debug.WriteLine($"CallProcess: {sentence}");
                 try
                 {
-                    ExternalProcess.Start(command, param, ExternalProcessAtrtibute.ThrowException);
+                    ExternalProcess.Start(command, param, processOptions);
                 }
                 catch (Exception ex)
                 {

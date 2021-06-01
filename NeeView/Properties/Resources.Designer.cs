@@ -10821,6 +10821,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Working directory に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OpenExternalAppCommandParameter_WorkingDirectory {
+            get {
+                return ResourceManager.GetString("OpenExternalAppCommandParameter.WorkingDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Open settings window に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string OpenOptionsWindowCommand {

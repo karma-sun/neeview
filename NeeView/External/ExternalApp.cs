@@ -13,6 +13,7 @@ namespace NeeView
         private string _command;
         private string _parameter = OpenExternalAppCommandParameter.DefaultParameter;
         private ArchivePolicy _archivePolicy = ArchivePolicy.SendExtractFile;
+        private string _workingDirectory;
 
 
         // 表示名
@@ -48,6 +49,12 @@ namespace NeeView
             set { SetProperty(ref _archivePolicy, value); }
         }
 
+        // 作業フォルダー
+        public string WorkingDirectory
+        {
+            get { return _workingDirectory; }
+            set { SetProperty(ref _workingDirectory, string.IsNullOrWhiteSpace(value) ? null : value.Trim()); }
+        }
 
 
         private OpenExternalAppCommandParameter CreateCommandParameter()
@@ -58,6 +65,7 @@ namespace NeeView
                 Parameter = Parameter,
                 MultiPagePolicy = MultiPagePolicy.All,
                 ArchivePolicy = ArchivePolicy,
+                WorkingDirectory = WorkingDirectory,
             };
 
             return parameter;

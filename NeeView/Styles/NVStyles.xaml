@@ -1689,6 +1689,7 @@
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="Border" Property="StrokeThickness" Value="5" />
                             <Setter TargetName="Border" Property="Stroke" Value="{DynamicResource Control.Accent}" />
+                            <Setter TargetName="Border" Property="Fill" Value="{DynamicResource Control.AccentText}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="Border" Property="Stroke" Value="{DynamicResource Control.GrayText}" />

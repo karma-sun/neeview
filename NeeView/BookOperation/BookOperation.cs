@@ -465,10 +465,11 @@ namespace NeeView
         {
             if (CanOpenFilePlace())
             {
-                var external = new ExternalAppUtility();
                 try
                 {
-                    external.Call(Book?.Viewer.GetViewPages(), parameter, CancellationToken.None);
+                    var external = new ExternalAppUtility();
+                    var pages = CollectPages(this.Book, parameter.MultiPagePolicy);
+                    external.Call(pages, parameter, CancellationToken.None);
                 }
                 catch (OperationCanceledException)
                 {
@@ -480,6 +481,32 @@ namespace NeeView
             }
         }
 
+        private List<Page> CollectPages(Book book, MultiPagePolicy policy)
+        {
+            if (book is null)
+            {
+                return new List<Page>();
+            }
+
+            var pages = book.Viewer.GetViewPages().Distinct();
+
+            switch (policy)
+            {
+                case MultiPagePolicy.Once:
+                    pages = pages.Take(1);
+                    break;
+
+                case MultiPagePolicy.AllLeftToRight:
+                    if (book.Viewer.BookReadOrder == PageReadOrder.RightToLeft)
+                    {
+                        pages = pages.Reverse();
+                    }
+                    break;
+            }
+
+            return pages.ToList();
+        }
+
 
         // クリップボードにコピー
         public void CopyToClipboard(CopyFileCommandParameter parameter)
@@ -488,7 +515,8 @@ namespace NeeView
             {
                 try
                 {
-                    ClipboardUtility.Copy(Book?.Viewer.GetViewPages(), parameter);
+                    var pages = CollectPages(this.Book, parameter.MultiPagePolicy);
+                    ClipboardUtility.Copy(pages, parameter);
                 }
                 catch (Exception e)
                 {

@@ -2295,3 +2295,4 @@ CommandHost.Environment=Environment accessor
 EnvironmentAccessor=Environment accessor
 EnvironmentAccessor.NeeViewPath=NeeView executable file path
 EnvironmentAccessor.UserSettingFilePath=User setting file path
+MultiPagePolicy.All=Run all pages (Left to right)

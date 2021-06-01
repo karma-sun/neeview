@@ -2295,3 +2295,4 @@ CommandHost.Environment=環境アクセサ
 EnvironmentAccessor=環境アクセサ
 EnvironmentAccessor.NeeViewPath=NeeView 実行ファイルのパス
 EnvironmentAccessor.UserSettingFilePath=ユーザー設定ファイルのパス
+MultiPagePolicy.AllLeftToRight=全てのページを実行する (左から右)

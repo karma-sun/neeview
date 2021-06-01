@@ -7316,4 +7316,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="EnvironmentAccessor.UserSettingFilePath" xml:space="preserve">
     <value>ユーザー設定ファイルのパス</value>
   </data>
+  <data name="MultiPagePolicy.AllLeftToRight" xml:space="preserve">
+    <value>全てのページを実行する (左から右)</value>
+  </data>
 </root>

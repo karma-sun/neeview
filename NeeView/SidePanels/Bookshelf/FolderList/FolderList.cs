@@ -1029,7 +1029,7 @@ namespace NeeView
         {
             if (BookHub.Current == null) return;
             if (Place == null) return;
-            Config.Current.Bookshelf.Home = Place.SimplePath;
+            Config.Current.Bookshelf.Home = Place.SimpleQuery;
         }
 
         public async void MoveToHome()

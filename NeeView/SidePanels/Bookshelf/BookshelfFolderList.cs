@@ -139,7 +139,7 @@ namespace NeeView
                     return path;
 
                 case QueryScheme.File:
-                    if (Directory.Exists(Config.Current.Bookshelf.Home))
+                    if (Directory.Exists(path.SimplePath))
                     {
                         return path;
                     }
@@ -149,7 +149,7 @@ namespace NeeView
                     }
 
                 case QueryScheme.Bookmark:
-                    if (BookmarkCollection.Current.FindNode(Config.Current.Bookshelf.Home)?.Value is BookmarkFolder)
+                    if (BookmarkCollection.Current.FindNode(path.SimplePath)?.Value is BookmarkFolder)
                     {
                         return path;
                     }

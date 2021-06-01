@@ -164,11 +164,11 @@
 
     &lt;table class="table-slim"&gt;
         &lt;tr&gt;&lt;td&gt;OnBookLoaded.nvjs&lt;/td&gt;&lt;td&gt;當書本開啟時執行。&lt;/td&gt;&lt;/tr&gt;
-        &lt;tr&gt;&lt;td&gt;OnPageChanged.nvjs&lt;/td&gt;&lt;td&gt;Runs when the view pages is changed.&lt;/td&gt;&lt;/tr&gt;
-    &lt;/table&gt;
+        &lt;tr&gt;&lt;td&gt;OnPageChanged.nvjs&lt;/td&gt;&lt;td&gt;當頁面更改時執行。&lt;/td&gt;&lt;/tr&gt;
+        &lt;/table&gt;
 &lt;/p&gt;
 
-&lt;h2&gt;コンソール&lt;/h2&gt;
+&lt;h2&gt;主控台&lt;/h2&gt;
 &lt;p&gt;
     用於測試腳本的主控台 。可從選單的「選項 &gt; 開啟主控台」開啟。
 &lt;/p&gt;
@@ -1519,7 +1519,7 @@ nv.Values.Test = "Hello!"</value>
     <value>無限制</value>
   </data>
   <data name="CustomSizeAspectRatio.Origin" xml:space="preserve">
-    <value>保持原本的寬高比</value>
+    <value>保持原來的寬高比</value>
   </data>
   <data name="CustomSizeAspectRatio.Ratio_1_1" xml:space="preserve">
     <value>1:1</value>
@@ -2387,9 +2387,6 @@ nv.Values.Test = "Hello!"</value>
   <data name="FolderTree.Menu.RefreshFolder" xml:space="preserve">
     <value>重新讀入</value>
   </data>
-  <data name="FolderTree.Menu.RemoveQuickAccess" xml:space="preserve">
-    <value>刪除快速存取</value>
-  </data>
   <data name="FolderTreeLayout.Left" xml:space="preserve">
     <value>配置在左</value>
   </data>
@@ -2437,9 +2434,6 @@ nv.Values.Test = "Hello!"</value>
   </data>
   <data name="HelpMainMenuCommand.Remarks" xml:space="preserve">
     <value>以瀏覽器顯示主要選單的說明。</value>
-  </data>
-  <data name="HelpReadMe.File" xml:space="preserve">
-    <value>README.ja-jp.html</value>
   </data>
   <data name="HelpScriptCommand" xml:space="preserve">
     <value>顯示腳本的說明</value>
@@ -3519,7 +3513,7 @@ include("Sample.nvjs")</value>
     <value>上下翻轉</value>
   </data>
   <data name="Navigator.IsKeepAngle" xml:space="preserve">
-    <value>保持角度</value>
+    <value>保持旋轉</value>
   </data>
   <data name="Navigator.IsKeepFlip" xml:space="preserve">
     <value>保持翻轉</value>
@@ -6338,10 +6332,10 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
     <value>啟用自動旋轉時這個功能無法使用。</value>
   </data>
   <data name="ViewConfig.IsKeepFlip" xml:space="preserve">
-    <value>頁面更改也要保持反轉</value>
+    <value>頁面更改也要保持翻轉</value>
   </data>
   <data name="ViewConfig.IsKeepScale" xml:space="preserve">
-    <value>頁面更改也要保持縮放</value>
+    <value>頁面更改也要保持比例</value>
   </data>
   <data name="ViewConfig.IsLimitMove" xml:space="preserve">
     <value>限制在視窗內移動</value>
@@ -6408,7 +6402,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
     <value>重設檢視</value>
   </data>
   <data name="ViewResetCommand.Remarks" xml:space="preserve">
-    <value>重設檢視操作的旋轉、縮放、移動、反轉。</value>
+    <value>重設檢視操作的旋轉、縮放、移動、翻轉。</value>
   </data>
   <data name="ViewRotateCommandParameter.Angle" xml:space="preserve">
     <value>旋轉角度</value>
@@ -7148,5 +7142,181 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="ImportControl.Theme" xml:space="preserve">
     <value>{0} 個自訂主題</value>
+  </data>
+  <data name="ImportControl.Script" xml:space="preserve">
+    <value>{0} 個腳本</value>
+  </data>
+  <data name="OpenScriptsFolderErrorDialog.FolderIsNotSet" xml:space="preserve">
+    <value>沒有資料夾被設定。</value>
+  </data>
+  <data name="SettingPage.Script.OpenScriptFolder" xml:space="preserve">
+    <value>開啟腳本資料夾</value>
+  </data>
+  <data name="ThemeErrorDialog.FolderIsNotSet" xml:space="preserve">
+    <value>沒有資料夾被設定。</value>
+  </data>
+  <data name="PlaylistErrorDialog.FolderIsNotSet" xml:space="preserve">
+    <value>沒有資料夾被設定。</value>
+  </data>
+  <data name="CommandListItem.Menu.Edit" xml:space="preserve">
+    <value>編輯(_E)</value>
+  </data>
+  <data name="CommandListItem.Menu.Setting" xml:space="preserve">
+    <value>設定(_S)</value>
+  </data>
+  <data name="CommandListItem.Menu.Clone" xml:space="preserve">
+    <value>複製(_C)</value>
+  </data>
+  <data name="CommandListItem.Menu.Delete" xml:space="preserve">
+    <value>刪除(_D)</value>
+  </data>
+  <data name="ScriptCommandParameter.Argument" xml:space="preserve">
+    <value>指令參數</value>
+  </data>
+  <data name="ScriptCommandParameter.Argument.Remarks" xml:space="preserve">
+    <value>儲存在腳本的「nv.Args」中。</value>
+  </data>
+  <data name="SystemConfig.TextEditor" xml:space="preserve">
+    <value>文字編輯器</value>
+  </data>
+  <data name="SystemConfig.TextEditor.Remarks" xml:space="preserve">
+    <value>沒有設定時會使用記事本。</value>
+  </data>
+  <data name="CommandHost.Args" xml:space="preserve">
+    <value>指令參數儲存在這個陣列中。</value>
+  </data>
+  <data name="Navigator.IsKeepAngleBooks" xml:space="preserve">
+    <value>書本更改時保持旋轉</value>
+  </data>
+  <data name="Navigator.IsKeepScaleBooks" xml:space="preserve">
+    <value>書本更改時保持比例</value>
+  </data>
+  <data name="Navigator.IsKeepFlipBooks" xml:space="preserve">
+    <value>書本更改時保持翻轉</value>
+  </data>
+  <data name="ViewConfig.IsKeepAngleBooks" xml:space="preserve">
+    <value>書本更改也要保持旋轉</value>
+  </data>
+  <data name="ViewConfig.IsKeepAngleBooks.Remarks" xml:space="preserve">
+    <value>當「@ViewConfig.IsKeepAngle」為啟用時的功能。</value>
+  </data>
+  <data name="ViewConfig.IsKeepScaleBooks" xml:space="preserve">
+    <value>書本更改也要保持比例</value>
+  </data>
+  <data name="ViewConfig.IsKeepFlipBooks" xml:space="preserve">
+    <value>書本更改也要保持翻轉</value>
+  </data>
+  <data name="FolderTree.Menu.Rename" xml:space="preserve">
+    <value>重新命名(_M)</value>
+  </data>
+  <data name="FolderTree.Menu.Delete" xml:space="preserve">
+    <value>刪除(_D)</value>
+  </data>
+  <data name="FolderTree.Menu.Property" xml:space="preserve">
+    <value>屬性(_R)</value>
+  </data>
+  <data name="FolderTree.Menu.NewFolder" xml:space="preserve">
+    <value>新資料夾(_F)</value>
+  </data>
+  <data name="QuickAccessPropertyDialog.Title" xml:space="preserve">
+    <value>快速存取的屬性</value>
+  </data>
+  <data name="BookAccessor.Wait" xml:space="preserve">
+    <value>等待直到顯示頁面的讀入完成</value>
+  </data>
+  <data name="NavigatorConfig.ThumbnailHeight" xml:space="preserve">
+    <value>縮圖區域的高度</value>
+  </data>
+  <data name="History.DeleteItemsMessage" xml:space="preserve">
+    <value>已刪除了 {0} 個項目。</value>
+  </data>
+  <data name="RemoveUnlinkedHistoryCommand" xml:space="preserve">
+    <value>刪除無效的歷史記錄</value>
+  </data>
+  <data name="RemoveUnlinkedHistoryCommand.Remarks" xml:space="preserve">
+    <value>刪除不存在的歷史記錄項目。</value>
+  </data>
+  <data name="SystemConfig.WebBrowser" xml:space="preserve">
+    <value>Web 瀏覽器</value>
+  </data>
+  <data name="SystemConfig.WebBrowser.Remarks" xml:space="preserve">
+    <value>沒有設定時會使用預設的 Web 瀏覽器。</value>
+  </data>
+  <data name="ScriptOnPageChangedCommand.Remarks" xml:space="preserve">
+    <value>腳本。當顯示頁面被更改時執行。</value>
+  </data>
+  <data name="BookshelfItem.Menu.OpenInPlaylist" xml:space="preserve">
+    <value>開啟播放列表(_P)</value>
+  </data>
+  <data name="ScriptConfig.ErrorLevel" xml:space="preserve">
+    <value>被廢除的組件存取錯誤等級</value>
+  </data>
+  <data name="ScriptConfig.ErrorLevel.Remarks" xml:space="preserve">
+    <value>除錯用的設定。選擇因為更新版本後無法使用組件存取的錯誤處理。</value>
+  </data>
+  <data name="ScriptErrorLevel.Info" xml:space="preserve">
+    <value>Lv1: 資訊</value>
+  </data>
+  <data name="ScriptErrorLevel.Info.Remarks" xml:space="preserve">
+    <value>作為資訊通知。只在腳本主控台通知。
+繼續執行腳本。
+被廢除的組件會返回類別的預設值。為 null 也有可能，不保證在這之後的動作。</value>
+  </data>
+  <data name="ScriptErrorLevel.Warning" xml:space="preserve">
+    <value>Lv2: 警告</value>
+  </data>
+  <data name="ScriptErrorLevel.Warning.Remarks" xml:space="preserve">
+    <value>作為錯誤通知。進行氣泡通知。
+繼續執行腳本。
+被廢除的組件會返回類別的預設值。為 null 也有可能，不保證在這之後的動作。</value>
+  </data>
+  <data name="ScriptErrorLevel.Error" xml:space="preserve">
+    <value>Lv3: 錯誤</value>
+  </data>
+  <data name="ScriptErrorLevel.Error.Remarks" xml:space="preserve">
+    <value>作為錯誤通知。進行氣泡通知。
+停止腳本。</value>
+  </data>
+  <data name="ScriptErrorDialog.Title.Error" xml:space="preserve">
+    <value>腳本錯誤</value>
+  </data>
+  <data name="ScriptErrorDialog.Title.Warning" xml:space="preserve">
+    <value>腳本警告</value>
+  </data>
+  <data name="ScriptErrorDialog.Title.Info" xml:space="preserve">
+    <value>腳本資訊</value>
+  </data>
+  <data name="ScriptErrorDialog.OpenConsole" xml:space="preserve">
+    <value>開啟腳本主控台</value>
+  </data>
+  <data name="Word.ObsoleteList" xml:space="preserve">
+    <value>被廢除的組件</value>
+  </data>
+  <data name="Word.Alternative" xml:space="preserve">
+    <value>替代方案</value>
+  </data>
+  <data name="ScriptErrorMessage.Obsolete" xml:space="preserve">
+    <value>{0} 已被廢除。</value>
+  </data>
+  <data name="ScriptErrorMessage.Alternative" xml:space="preserve">
+    <value>請改用替代的 {0} 。</value>
+  </data>
+  <data name="OpenExternalAppCommandParameter.WorkingDirectory" xml:space="preserve">
+    <value>工作資料夾</value>
+  </data>
+  <data name="CommandHost.Environment" xml:space="preserve">
+    <value>環境存取器</value>
+  </data>
+  <data name="EnvironmentAccessor" xml:space="preserve">
+    <value>環境存取器</value>
+  </data>
+  <data name="EnvironmentAccessor.NeeViewPath" xml:space="preserve">
+    <value>NeeView 執行檔的路徑</value>
+  </data>
+  <data name="EnvironmentAccessor.UserSettingFilePath" xml:space="preserve">
+    <value>使用者設定檔的路徑</value>
+  </data>
+  <data name="MultiPagePolicy.AllLeftToRight" xml:space="preserve">
+    <value>執行全部的頁面 (從左到右)</value>
   </data>
 </root>

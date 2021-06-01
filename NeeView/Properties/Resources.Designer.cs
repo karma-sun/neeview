@@ -9656,6 +9656,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Run all pages (Left to right) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MultiPagePolicy_AllLeftToRight {
+            get {
+                return ResourceManager.GetString("MultiPagePolicy.AllLeftToRight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Execute only one page に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string MultiPagePolicy_Once {

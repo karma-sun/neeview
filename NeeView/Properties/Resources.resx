@@ -7311,4 +7311,7 @@ The script will stop.</value>
   <data name="EnvironmentAccessor.UserSettingFilePath" xml:space="preserve">
     <value>User setting file path</value>
   </data>
+  <data name="MultiPagePolicy.AllLeftToRight" xml:space="preserve">
+    <value>Run all pages (Left to right)</value>
+  </data>
 </root>

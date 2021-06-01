@@ -15,7 +15,7 @@ namespace NeeView
         private bool _isNetworkEnalbe = true;
         private bool _isSettingBackup;
         private bool _isHiddenFileVisibled;
-        private bool _isFileWriteAccessEnabled = true;
+        private bool _isFileWriteAccessEnabled = false;
         private string _language;
         private BookPageCollectMode _bookPageCollectMode = BookPageCollectMode.ImageAndBook;
         private bool _isRemoveConfirmed = true;

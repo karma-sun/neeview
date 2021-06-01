@@ -619,11 +619,19 @@ namespace NeeView
         /// </summary>
         public void RequestLoadParent(object sender)
         {
-            var parent = BookUnit?.BookAddress?.Place;
-            if (parent?.Path != null && parent.Scheme == QueryScheme.File)
+            var bookAddress = BookUnit?.BookAddress;
+
+            var current = bookAddress?.Address;
+            if (current is null) return;
+
+            var parent = bookAddress?.Place;
+            if (parent is null) return;
+
+            if (parent.Path != null && parent.Scheme == QueryScheme.File)
             {
-                var option = BookLoadOption.IsBook | BookLoadOption.SkipSamePlace;
-                RequestLoad(sender, parent.SimplePath, null, option, true);
+                var entryName = current.SimplePath.Substring(parent.SimplePath.Length).TrimStart(LoosePath.Separators);
+                var option = BookLoadOption.SkipSamePlace;
+                RequestLoad(sender, parent.SimplePath, entryName, option, true);
             }
         }
 

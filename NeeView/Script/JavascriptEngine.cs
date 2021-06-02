@@ -17,7 +17,7 @@ namespace NeeView
         public JavascriptEngine()
         {
             _commandHost = new CommandHost();
-            _engine = new Jint.Engine(config => config.AllowClr());
+            _engine = new Jint.Engine(config => config.AllowClr().AllowClr(typeof(System.Diagnostics.Process).Assembly));
             _engine.SetValue("sleep", (Action<int>)Sleep);
             _engine.SetValue("log", (Action<object>)Log);
             _engine.SetValue("system", (Action<string, string>)SystemCall);

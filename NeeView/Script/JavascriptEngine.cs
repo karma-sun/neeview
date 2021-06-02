@@ -38,29 +38,31 @@ namespace NeeView
         public CommandHost CommandHost => _commandHost;
 
 
+        public void SetArgs(List<string> args)
+        {
+            _commandHost.SetArgs(args);
+        }
+
         [Documentable(Name = "include")]
         public object ExecureFile(string path)
         {
-            return ExecureFile(path, null, _cancellationToken);
+            return ExecureFile(path, _cancellationToken);
         }
 
-        public object ExecureFile(string path, string argument, CancellationToken token)
+        public object ExecureFile(string path, CancellationToken token)
         {
             var fullpath = GetFullPath(path);
             string script = File.ReadAllText(fullpath, Encoding.UTF8);
 
             var oldFolder = CurrentFolder;
-            var oldArgs = _commandHost.Args;
             try
             {
                 CurrentFolder = Path.GetDirectoryName(fullpath);
-                _commandHost.SetArgs(StringTools.SplitArgument(argument));
                 return Execute(fullpath, script, token);
             }
             finally
             {
                 CurrentFolder = oldFolder;
-                _commandHost.SetArgs(oldArgs);
             }
         }
 

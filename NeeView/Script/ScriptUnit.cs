@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Text;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
@@ -33,7 +34,8 @@ namespace NeeView
             try
             {
                 ////engine.Log($"Script: {LoosePath.GetFileName(path)} ...");
-                engine.ExecureFile(path, argument, _cancellationTokenSource.Token);
+                engine.SetArgs(StringTools.SplitArgument(argument));
+                engine.ExecureFile(path, _cancellationTokenSource.Token);
                 ////engine.Log($"Script: {LoosePath.GetFileName(path)} done.");
             }
             catch (Exception ex)

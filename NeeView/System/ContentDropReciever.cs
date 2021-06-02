@@ -96,13 +96,31 @@ namespace NeeView
             {
                 var downloadPath = string.IsNullOrWhiteSpace(Config.Current.System.DownloadPath) ? Temporary.Current.TempDownloadDirectory : Config.Current.System.DownloadPath;
                 var files = await DropAsync(this, data, downloadPath, (string message) => NeeView.NowLoading.Current.SetLoading(message));
-                BookHubTools.RequestLoad(this, files);
+                LoadFiles(files);
             }
             catch (Exception ex)
             {
                 BookHub.Current.RequestUnload(this, true, ex.Message ?? Properties.Resources.Notice_ContentFailed);
                 NeeView.NowLoading.Current.ResetLoading();
             }
+        }
+
+        private void LoadFiles(List<string> files)
+        {
+            // Import
+            if (files.Count == 1)
+            {
+                var file = files[0];
+                if (LoosePath.GetExtension(file) == ".nvzip" && System.IO.File.Exists(file))
+                {
+                    var param = new ImportBackupCommandParameter() { FileName = file };
+                    ExportDataPresenter.Current.Import(param);
+                    return;
+                }
+            }
+
+            // Load Book
+            BookHubTools.RequestLoad(this, files);
         }
 
         // ドロップ受付判定

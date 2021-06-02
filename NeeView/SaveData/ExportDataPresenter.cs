@@ -16,43 +16,53 @@ namespace NeeView
         private ExportDataDialogService _dialogService = new ExportDataDialogService();
 
 
-        public void Export()
+        public void Export(ExportBackupCommandParameter parameter)
         {
-            var param = new SaveExportDataDialogParameter();
-            if (_dialogService.ShowDialog("SaveExportDataDialog", param) == true)
+            var fileName = parameter.FileName;
+            if (string.IsNullOrWhiteSpace(fileName))
             {
-                try
-                {
-                    SaveDataSync.Current.Flush();
+                var dialogParam = new SaveExportDataDialogParameter();
+                if (_dialogService.ShowDialog("SaveExportDataDialog", dialogParam) != true) return;
+                fileName = dialogParam.FileName;
+            }
 
-                    var exporter = new Exporter();
-                    exporter.Export(param.FileName);
-                }
-                catch (Exception ex)
-                {
-                    new MessageDialog($"{Resources.Word_Cause}: {ex.Message}", Resources.ExportErrorDialog_Title).ShowDialog();
-                }
+            try
+            {
+                SaveDataSync.Current.Flush();
+                var exporter = new Exporter();
+                exporter.Export(fileName);
+            }
+            catch (Exception ex)
+            {
+                new MessageDialog($"{Resources.Word_Cause}: {ex.Message}", Resources.ExportErrorDialog_Title).ShowDialog();
             }
         }
 
-        public void Import()
+
+        public void Import(ImportBackupCommandParameter parameter)
         {
-            var param = new OpenExportDataDialogParameter();
-            if (_dialogService.ShowDialog("OpenExportDataDialog", param) == true)
+            var param = (ImportBackupCommandParameter)parameter.Clone();
+            if (string.IsNullOrWhiteSpace(param.FileName) || !System.IO.File.Exists(param.FileName))
             {
-                using (var importer = new Importer(param.FileName))
+                var dialogParam = new OpenExportDataDialogParameter();
+                if (_dialogService.ShowDialog("OpenExportDataDialog", dialogParam) != true) return;
+                param.FileName = dialogParam.FileName;
+            }
+
+            using (var importer = new Importer(param))
+            {
+                if (!param.IsImportActionValid())
                 {
-                    if (_dialogService.ShowDialog("ImportDialog", importer) == true)
-                    {
-                        try
-                        {
-                            importer.Import();
-                        }
-                        catch (Exception ex)
-                        {
-                            new MessageDialog($"{Resources.Word_Cause}: {ex.Message}", Resources.ImportErrorDialog_Title).ShowDialog();
-                        }
-                    }
+                    if (_dialogService.ShowDialog("ImportDialog", importer) != true) return;
+                }
+
+                try
+                {
+                    importer.Import();
+                }
+                catch (Exception ex)
+                {
+                    new MessageDialog($"{Resources.Word_Cause}: {ex.Message}", Resources.ImportErrorDialog_Title).ShowDialog();
                 }
             }
         }

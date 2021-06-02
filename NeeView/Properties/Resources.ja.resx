@@ -2712,7 +2712,7 @@ nv.Values.Test = "Hello!"</value>
     <value>設定をインポート...</value>
   </data>
   <data name="ImportBackupCommand.Remarks" xml:space="preserve">
-    <value>バックアップ ファイルから復元項目を選んで復元します。</value>
+    <value>バックアップ ファイルから復元項目を選んで復元します。すべてのパラメーターが定義されている場合、ダイアログは表示されません。</value>
   </data>
   <data name="ImportControl.Bookmark" xml:space="preserve">
     <value>ブックマーク</value>
@@ -7318,5 +7318,38 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="MultiPagePolicy.AllLeftToRight" xml:space="preserve">
     <value>全てのページを実行する (左から右)</value>
+  </data>
+  <data name="ExportBackupCommandParameter.FileName" xml:space="preserve">
+    <value>バックアップ ファイルのパス</value>
+  </data>
+  <data name="ImportBackupCommandParameter.FileName" xml:space="preserve">
+    <value>バックアップ ファイルのパス</value>
+  </data>
+  <data name="ImportBackupCommandParameter.UserSetting" xml:space="preserve">
+    <value>ユーザー設定</value>
+  </data>
+  <data name="ImportBackupCommandParameter.History" xml:space="preserve">
+    <value>履歴</value>
+  </data>
+  <data name="ImportBackupCommandParameter.Bookmark" xml:space="preserve">
+    <value>ブックマーク</value>
+  </data>
+  <data name="ImportBackupCommandParameter.Playlists" xml:space="preserve">
+    <value>プレイリスト</value>
+  </data>
+  <data name="ImportBackupCommandParameter.Themes" xml:space="preserve">
+    <value>カスタム テーマ</value>
+  </data>
+  <data name="ImportBackupCommandParameter.Scripts" xml:space="preserve">
+    <value>スクリプト</value>
+  </data>
+  <data name="ImportAction.Undefined" xml:space="preserve">
+    <value>未定義</value>
+  </data>
+  <data name="ImportAction.Skip" xml:space="preserve">
+    <value>スキップ</value>
+  </data>
+  <data name="ImportAction.Import" xml:space="preserve">
+    <value>インポート</value>
   </data>
 </root>

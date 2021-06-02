@@ -5268,6 +5268,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Backup file path に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExportBackupCommandParameter_FileName {
+            get {
+                return ResourceManager.GetString("ExportBackupCommandParameter.FileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Export all settings に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ExportDialog_Title {
@@ -7268,6 +7277,33 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Import に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImportAction_Import {
+            get {
+                return ResourceManager.GetString("ImportAction.Import", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Skip に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImportAction_Skip {
+            get {
+                return ResourceManager.GetString("ImportAction.Skip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Undefined に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImportAction_Undefined {
+            get {
+                return ResourceManager.GetString("ImportAction.Undefined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Import settings に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ImportBackupCommand {
@@ -7286,11 +7322,74 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Select the restored item from the backup file and restore it. に類似しているローカライズされた文字列を検索します。
+        ///   Select the restored item from the backup file and restore it. If all parameters are defined, the dialog will not be displayed. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ImportBackupCommand_Remarks {
             get {
                 return ResourceManager.GetString("ImportBackupCommand.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Bookmark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImportBackupCommandParameter_Bookmark {
+            get {
+                return ResourceManager.GetString("ImportBackupCommandParameter.Bookmark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Backup file path に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImportBackupCommandParameter_FileName {
+            get {
+                return ResourceManager.GetString("ImportBackupCommandParameter.FileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   History に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImportBackupCommandParameter_History {
+            get {
+                return ResourceManager.GetString("ImportBackupCommandParameter.History", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Playlists に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImportBackupCommandParameter_Playlists {
+            get {
+                return ResourceManager.GetString("ImportBackupCommandParameter.Playlists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scripts に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImportBackupCommandParameter_Scripts {
+            get {
+                return ResourceManager.GetString("ImportBackupCommandParameter.Scripts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Custom themes に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImportBackupCommandParameter_Themes {
+            get {
+                return ResourceManager.GetString("ImportBackupCommandParameter.Themes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   User setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImportBackupCommandParameter_UserSetting {
+            get {
+                return ResourceManager.GetString("ImportBackupCommandParameter.UserSetting", resourceCulture);
             }
         }
         

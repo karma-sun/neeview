@@ -28,10 +28,18 @@ namespace NeeView
         private bool _isScriptsEnabled = false;
 
 
-        public Importer(string filename)
+        public Importer(ImportBackupCommandParameter parameter)
         {
-            this.FileName = filename;
-            _archive = ZipFile.OpenRead(filename);
+            this.FileName = parameter.FileName;
+            _archive = ZipFile.OpenRead(this.FileName);
+
+            _isUserSettingEnabled = parameter.UserSetting == ImportAction.Import;
+            _isHistoryEnabled = parameter.History == ImportAction.Import;
+            _isBookmarkEnabled = parameter.Bookmark == ImportAction.Import;
+            _isPagemarkEnabled = parameter.Playlists == ImportAction.Import;
+            _isPlaylistsEnabled = parameter.Playlists == ImportAction.Import;
+            _isThemesEnabled = parameter.Themes == ImportAction.Import;
+            _isScriptsEnabled = parameter.Scripts == ImportAction.Import;
 
             Initialize();
         }

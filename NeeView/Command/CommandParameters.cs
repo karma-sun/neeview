@@ -95,6 +95,8 @@ namespace NeeView
             typeof(CopyFileCommandParameter),
             typeof(ViewScrollNTypeCommandParameter),
             typeof(ScriptCommandParameter),
+            typeof(ImportBackupCommandParameter),
+            typeof(ExportBackupCommandParameter),
         };
 
 

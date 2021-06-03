@@ -13564,6 +13564,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Sensitivity に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SensitiveDragActionParameter_Sensitivity {
+            get {
+                return ResourceManager.GetString("SensitiveDragActionParameter.Sensitivity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Image colored background に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SetBackgroundAutoCommand {

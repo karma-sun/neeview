@@ -53,7 +53,8 @@ namespace NeeView.Setting
 
             public string Key { get; set; }
             public DragAction DragAction { get; set; }
-            public string Header => DragActionTable.Current.Elements[Key].Note;
+            public string Header => DragAction.Note;
+            public bool HasParameter => DragAction.Parameter != null;
         }
 
         // コマンド一覧
@@ -108,7 +109,7 @@ namespace NeeView.Setting
             ListViewItem targetItem = (ListViewItem)sender;
 
             var value = (DragActionParam)targetItem.DataContext;
-            OpenDragActionSettingDialog(value);
+            OpenDragActionSettingDialog(value, MouseDragSettingWindowTab.MouseGesture);
         }
 
 
@@ -119,7 +120,7 @@ namespace NeeView.Setting
                 ListViewItem targetItem = (ListViewItem)sender;
 
                 var value = (DragActionParam)targetItem.DataContext;
-                OpenDragActionSettingDialog(value);
+                OpenDragActionSettingDialog(value, MouseDragSettingWindowTab.MouseGesture);
 
                 e.Handled = true;
             }
@@ -128,10 +129,10 @@ namespace NeeView.Setting
         private void DragActionSettingButton_Click(object sender, RoutedEventArgs e)
         {
             var value = (DragActionParam)this.DragActionListView.SelectedValue;
-            OpenDragActionSettingDialog(value);
+            OpenDragActionSettingDialog(value, MouseDragSettingWindowTab.MouseGesture);
         }
 
-        private void OpenDragActionSettingDialog(DragActionParam value)
+        private void OpenDragActionSettingDialog(DragActionParam value, MouseDragSettingWindowTab tab)
         {
             if (value.DragAction.IsLocked)
             {
@@ -142,7 +143,7 @@ namespace NeeView.Setting
             }
 
             var dialog = new MouseDragSettingWindow();
-            dialog.Initialize(value.Key);
+            dialog.Initialize(value.Key, tab);
             dialog.Owner = GetOwner();
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             var result = dialog.ShowDialog();
@@ -171,5 +172,11 @@ namespace NeeView.Setting
             }
         }
 
+        private void EditCommandParameterButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dragActionParam = (sender as Button)?.Tag as DragActionParam;
+            this.DragActionListView.SelectedItem = dragActionParam;
+            OpenDragActionSettingDialog(dragActionParam, MouseDragSettingWindowTab.Parameter);
+        }
     }
 }

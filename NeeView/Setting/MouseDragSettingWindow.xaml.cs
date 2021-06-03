@@ -15,12 +15,12 @@ using System.Windows.Shapes;
 
 namespace NeeView.Setting
 {
+
     /// <summary>
     /// MouseDragSettingWindow.xaml の相互作用ロジック
     /// </summary>
     public partial class MouseDragSettingWindow : Window
     {
-        private MouseDragSettingViewModel _vm;
         private DragActionCollection _memento;
         private string _key;
 
@@ -34,7 +34,7 @@ namespace NeeView.Setting
 
 
         private void MouseDragSettingWindow_Loaded(object sender, RoutedEventArgs e)
-        {   
+        {
             this.OkButton.Focus();
         }
 
@@ -47,7 +47,7 @@ namespace NeeView.Setting
             }
         }
 
-        public void Initialize(string key)
+        public void Initialize(string key, MouseDragSettingWindowTab start)
         {
             _memento = DragActionTable.Current.CreateDragActionCollection();
             _key = key;
@@ -55,8 +55,18 @@ namespace NeeView.Setting
             var note = DragActionTable.Current.Elements[_key].Note;
             this.Title = $"{note} - {Properties.Resources.MouseDragSettingWindow_Title}";
 
-            _vm = new MouseDragSettingViewModel(_memento, _key, this.GestureBox);
-            DataContext = _vm;
+            this.MouseGesture.Initialize(_memento, key);
+            this.Parameter.Initialize(_memento, key);
+
+            switch (start)
+            {
+                case MouseDragSettingWindowTab.MouseGesture:
+                    this.MouseGestureTab.IsSelected = true;
+                    break;
+                case MouseDragSettingWindowTab.Parameter:
+                    this.ParameterTab.IsSelected = true;
+                    break;
+            }
 
             // ESCでウィンドウを閉じる
             this.InputBindings.Add(new KeyBinding(new RelayCommand(Close), new KeyGesture(Key.Escape)));
@@ -64,7 +74,7 @@ namespace NeeView.Setting
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
-            _vm.Decide();
+            this.MouseGesture.Decide();
             DragActionTable.Current.RestoreDragActionCollection(_memento);
 
             this.DialogResult = true;
@@ -79,9 +89,14 @@ namespace NeeView.Setting
 
 
 
-    /// <summary>
-    /// 
-    /// </summary>
+    public enum MouseDragSettingWindowTab
+    {
+        MouseGesture,
+        Parameter,
+    }
+
+
+
     public class DragToken
     {
         // ジェスチャー文字列（１ジェスチャー）

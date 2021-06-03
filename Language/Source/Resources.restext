@@ -2309,3 +2309,4 @@ ImportAction.Skip=Skip
 ImportAction.Import=Import
 AutoHideConfig.AutoHideHitTestHorizontalMargin=Horizontal area width for panel automatic display judgment (pixel)
 AutoHideConfig.AutoHideHitTestVerticalMargin=Vertical area width for panel automatic display judgment (pixel)
+SensitiveDragActionParameter.Sensitivity=Sensitivity

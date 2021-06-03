@@ -148,10 +148,6 @@ namespace NeeView
             _windowShape.AddPropertyChanged(nameof(WindowShape.AutoHideMode),
                 (s, e) => AutoHideModeChanged());
 
-
-            // mouse drag
-            DragActionTable.Current.SetTarget(_viewComponent.DragTransformControl);
-
             // initialize routed commands
             RoutedCommandTable.Current.UpdateInputGestures();
 

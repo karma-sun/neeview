@@ -187,7 +187,7 @@ namespace NeeView
             {
                 // excep end action
                 _endPoint = GetCenterCoordVector(point);
-                _action?.ExecEnd?.Invoke(_startPoint, _endPoint);
+                _action?.ExecuteEnd(this, new DragTransformActionArgs(_startPoint, _endPoint));
 
                 _isMouseButtonDown = false;
                 return;
@@ -201,7 +201,7 @@ namespace NeeView
             {
                 var action = DragActionTable.Current.GetAction(dragKey);
 
-                if (action != _action && action?.Exec != null)
+                if (action != _action && action?.IsDummy == false)
                 {
                     _adorner.Detach();
                     _action = action;
@@ -211,8 +211,7 @@ namespace NeeView
 
             // exec action
             _endPoint = GetCenterCoordVector(point);
-            _action?.Exec?.Invoke(_startPoint, _endPoint);
-
+            _action?.Execute(this, new DragTransformActionArgs(_startPoint, _endPoint));
         }
 
         #endregion
@@ -1031,12 +1030,12 @@ namespace NeeView
         }
 
         // 移動(速度スケール依存)
-        public void DragMoveScale(Point start, Point end)
+        public void DragMoveScale(Point start, Point end, double sencitivity)
         {
             var area = GetArea();
             var scaleX = area.Target.Width / area.View.Width;
             var scaleY = area.Target.Height / area.View.Height;
-            var scale = scaleX > scaleY ? scaleX : scaleY;
+            var scale = (scaleX > scaleY ? scaleX : scaleY) * sencitivity;
             scale = scale < 1.0 ? 1.0 : scale;
 
             DragMoveEx(start, end, scale, TimeSpan.Zero);
@@ -1112,9 +1111,9 @@ namespace NeeView
             DoRotate(angle);
         }
 
-        public void DragAngleSlider(Point start, Point end)
+        public void DragAngleSlider(Point start, Point end, double sensitivity)
         {
-            var angle = NormalizeLoopRange(_baseAngle + (start.X - end.X) * 0.5, -180, 180);
+            var angle = NormalizeLoopRange(_baseAngle + (start.X - end.X) * 0.5 * sensitivity, -180, 180);
             DoRotate(angle);
         }
 
@@ -1181,16 +1180,16 @@ namespace NeeView
         }
 
         // 拡縮 (スライダー)
-        public void DragScaleSlider(Point start, Point end)
+        public void DragScaleSlider(Point start, Point end, double sensitivity)
         {
-            var scale1 = System.Math.Pow(2, (end.X - start.X) * 0.01) * _baseScale;
+            var scale1 = System.Math.Pow(2, (end.X - start.X) * 0.01 * sensitivity) * _baseScale;
             DoScale(scale1);
         }
 
         // 拡縮 (スライダー、中央寄せ)
-        public void DragScaleSliderCentered(Point start, Point end)
+        public void DragScaleSliderCentered(Point start, Point end, double sensitivity)
         {
-            var scale1 = System.Math.Pow(2, (end.X - start.X) * 0.01) * _baseScale;
+            var scale1 = System.Math.Pow(2, (end.X - start.X) * 0.01 * sensitivity) * _baseScale;
             DoScale(scale1, false);
 
             var len0 = Math.Abs(end.X - start.X);

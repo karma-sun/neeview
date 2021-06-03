@@ -9,6 +9,20 @@
              xmlns:properties="clr-namespace:NeeView.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <DrawingImage x:Key="ic_setting_24px">
+            <DrawingImage.Drawing>
+                <DrawingGroup>
+                    <GeometryDrawing Brush="Transparent" Geometry="{StaticResource g_rect24x24}" />
+                    <GeometryDrawing Brush="{DynamicResource IconButton.Foreground}" Pen="{x:Null}" Geometry="{StaticResource g_setting_24px}" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+    
     <Grid x:Name="Root">
         <Border BorderBrush="{DynamicResource Control.Border}" BorderThickness="1" Margin="5">
             <DockPanel Margin="2" KeyboardNavigation.TabNavigation="Local">
@@ -43,7 +57,14 @@
                             <GridViewColumn Header="{x:Static properties:Resources.MouseDragList_Header_Command}" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Header}" TextTrimming="CharacterEllipsis" ToolTipService.ShowOnDisabled="True"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Grid DockPanel.Dock="Left" Width="20" VerticalAlignment="Center">
+                                                <Button Style="{StaticResource IconButton}" Click="EditCommandParameterButton_Click" Tag="{Binding}" Visibility="{Binding HasParameter, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                    <Image Width="16" Height="16" Source="{StaticResource ic_setting_24px}" />
+                                                </Button>
+                                            </Grid>
+                                            <TextBlock Text="{Binding Header}" TextTrimming="CharacterEllipsis" ToolTipService.ShowOnDisabled="True"/>
+                                        </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>

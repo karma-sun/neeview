@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="NeeView.Setting.DragActionParameterControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NeeView.Setting"
+             xmlns:nlp="clr-namespace:NeeView.Windows.Property"
+             xmlns:properties="clr-namespace:NeeView.Properties"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="512">
+    <Grid>
+
+        <Grid.Resources>
+            <Style x:Key="NormalButtonStyle" TargetType="Button" BasedOn="{StaticResource NVButton}">
+                <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
+                <Setter Property="Margin" Value="5" />
+                <Setter Property="Padding" Value="20,5" />
+                <Setter Property="MinWidth" Value="100" />
+                <Setter Property="MinHeight" Value="30" />
+            </Style>
+
+        </Grid.Resources>
+        
+        <DockPanel x:Name="MainPanel" Margin="5">
+
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Style="{StaticResource NormalButtonStyle}" Content="{x:Static properties:Resources.Word_Reset}" Click="ButtonReset_Click" TabIndex="2" />
+            </StackPanel>
+            
+            <TextBlock DockPanel.Dock="Top" Text="{Binding Note}" Foreground="Crimson" Margin="0,5">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Note}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto" >
+                <ScrollViewer.Resources>
+                    <!-- なぜかForegroundが継承されないので、強制設定する -->
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Foreground" Value="{DynamicResource Window.Foreground}" />
+                    </Style>
+                </ScrollViewer.Resources>
+                <nlp:PropertyInspector x:Name="Inspector" Document="{Binding PropertyDocument}" Margin="5" TabIndex="1" KeyboardNavigation.TabNavigation="Local" IsResetButtonVisible="False"
+                        ColumnRate="0.5"/>
+            </ScrollViewer>
+
+        </DockPanel>
+
+        <TextBlock x:Name="EmptyText" Text="{x:Static properties:Resources.CommandParameterControl_Empty}" Margin="10" Foreground="{DynamicResource Control.GrayText}"/>
+    </Grid>
+</UserControl>

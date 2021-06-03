@@ -7358,4 +7358,7 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="AutoHideConfig.AutoHideHitTestVerticalMargin" xml:space="preserve">
     <value>パネル自動表示判定の垂直方向エリア幅 (ピクセル)</value>
   </data>
+  <data name="SensitiveDragActionParameter.Sensitivity" xml:space="preserve">
+    <value>感度</value>
+  </data>
 </root>

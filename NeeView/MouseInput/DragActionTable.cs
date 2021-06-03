@@ -18,88 +18,28 @@ namespace NeeView
 
         public const string GestureDragActionName = "Gesture";
         private DragActionCollection _defaultMemento;
-
         private Dictionary<string, DragAction> _elements;
-        private DragTransformControl _drag;
 
 
         private DragActionTable()
         {
-            _elements = new Dictionary<string, DragAction>()
+            var list = new List<DragAction>()
             {
-                [GestureDragActionName] = new DragAction
-                {
-                    Note = Properties.Resources.DragActionType_Gesture,
-                    IsLocked = true,
-                    DragKey = new DragKey("RightButton"),
-                },
-
-                ["Move"] = new DragAction
-                {
-                    Note = Properties.Resources.DragActionType_Move,
-                    DragKey = new DragKey("LeftButton"),
-                    Exec = (s, e) => _drag.DragMove(s, e),
-                    Group = DragActionGroup.Move,
-                },
-                ["MoveScale"] = new DragAction
-                {
-                    Note = Properties.Resources.DragActionType_MoveScale,
-                    Exec = (s, e) => _drag.DragMoveScale(s, e),
-                    Group = DragActionGroup.Move,
-                },
-                ["Angle"] = new DragAction
-                {
-                    Note = Properties.Resources.DragActionType_Angle,
-                    DragKey = new DragKey("Shift+LeftButton"),
-                    Exec = (s, e) => _drag.DragAngle(s, e),
-                },
-                ["AngleSlider"] = new DragAction
-                {
-                    Note = Properties.Resources.DragActionType_AngleSlider,
-                    Exec = (s, e) => _drag.DragAngleSlider(s, e),
-                },
-                ["Scale"] = new DragAction
-                {
-                    Note = Properties.Resources.DragActionType_Scale,
-                    Exec = (s, e) => _drag.DragScale(s, e),
-                },
-                ["ScaleSlider"] = new DragAction
-                {
-                    Note = Properties.Resources.DragActionType_ScaleSlider,
-                    DragKey = new DragKey("Ctrl+LeftButton"),
-                    Exec = (s, e) => _drag.DragScaleSlider(s, e),
-                },
-                ["ScaleSliderCentered"] = new DragAction
-                {
-                    Note = Properties.Resources.DragActionType_ScaleSliderCentered,
-                    Exec = (s, e) => _drag.DragScaleSliderCentered(s, e),
-                },
-                ["MarqueeZoom"] = new DragAction
-                {
-                    Note = Properties.Resources.DragActionType_MarqueeZoom,
-                    Exec = (s, e) => _drag.DragMarqueeZoom(s, e),
-                    ExecEnd = (s, e) => _drag.DragMarqueeZoomEnd(s, e),
-                },
-                ["FlipHorizontal"] = new DragAction
-                {
-                    Note = Properties.Resources.DragActionType_FlipHorizontal,
-                    DragKey = new DragKey("Alt+LeftButton"),
-                    Exec = (s, e) => _drag.DragFlipHorizontal(s, e),
-                },
-                ["FlipVertical"] = new DragAction
-                {
-                    Note = Properties.Resources.DragActionType_FlipVertical,
-                    Exec = (s, e) => _drag.DragFlipVertical(s, e),
-                },
-
-                ["WindowMove"] = new DragAction
-                {
-                    Note = Properties.Resources.DragActionType_WindowMove,
-                    DragKey = new DragKey("RightButton+LeftButton"),
-                    Exec = (s, e) => _drag.DragWindowMove(s, e),
-                },
-
+                new GestureDragAction(GestureDragActionName),
+                new MoveDragAction(),
+                new MoveScaleDragAction(),
+                new AngleDragAction(),
+                new AngleSliderDragAction(),
+                new ScaleDragAction(),
+                new ScaleSliderDragAction(),
+                new ScaleSliderCenteredDragAction(),
+                new MarqueeZoomDragAction(),
+                new FlipHorizontalDragAction(),
+                new FlipVerticalDragAction(),
+                new WindowMoveDragAction(),
             };
+
+            _elements = list.ToDictionary(e => e.Name);
 
             _defaultMemento = CreateDragActionCollection();
 
@@ -151,12 +91,6 @@ namespace NeeView
         {
             _elements[GestureDragActionName].DragKey = Config.Current.Mouse.IsGestureEnabled ? new DragKey("RightButton") : new DragKey();
             GestureDragActionChanged?.Invoke(this, null);
-        }
-
-        // コマンドターゲット設定
-        public void SetTarget(DragTransformControl drag)
-        {
-            _drag = drag;
         }
 
         /// <summary>

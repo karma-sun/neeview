@@ -180,6 +180,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Setting\DragActionParameterControl.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="SidePanels\FileInfo\FileInformationContent.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>

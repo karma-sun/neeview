@@ -11,7 +11,7 @@ namespace NeeView.Setting
     /// <summary>
     /// MouseDragSetting ViewModel
     /// </summary>
-    public class MouseDragSettingViewModel : BindableBase
+    public class DragActionGestureControlViewModel : BindableBase
     {
         private DragActionCollection _sources;
         private string _key;
@@ -45,7 +45,7 @@ namespace NeeView.Setting
         /// <summary>
         /// Constructor
         /// </summary>
-        public MouseDragSettingViewModel(DragActionCollection memento, string key, FrameworkElement gestureSender)
+        public DragActionGestureControlViewModel(DragActionCollection memento, string key, FrameworkElement gestureSender)
         {
             _sources = memento;
             _key = key;

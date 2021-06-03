@@ -147,24 +147,36 @@ namespace NeeView
             UpdatePlaylist();
         }
 
-        public static List<FileInfo> GetPlaylistFiles()
+        public static List<string> GetPlaylistFiles(bool includeDefault)
         {
             if (!string.IsNullOrEmpty(Config.Current.Playlist.PlaylistFolder))
             {
                 try
                 {
+                    var items = new List<string>();
+                    if (includeDefault)
+                    {
+                        items.Add(Config.Current.Playlist.DefaultPlaylist);
+                    }
                     var directory = new DirectoryInfo(System.IO.Path.GetFullPath(Config.Current.Playlist.PlaylistFolder));
                     if (directory.Exists)
                     {
-                        return directory.GetFiles("*.nvpls").ToList();
+                        var files = directory.GetFiles("*.nvpls")
+                            .Select(e => e.FullName)
+                            .Where(e => !includeDefault || e != Config.Current.Playlist.DefaultPlaylist)
+                            .OrderBy(e => e, NaturalSort.Comparer).ToList();
+
+                        items.AddRange(files);
                     }
+                    return items;
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.Message);
                 }
             }
-            return new List<FileInfo>();
+
+            return new List<string>();
         }
 
         public void UpdatePlaylistCollection()
@@ -174,14 +186,7 @@ namespace NeeView
             try
             {
                 var items = new List<object>();
-                items.Add(DefaultPlaylist);
-
-                var list = GetPlaylistFiles()
-                    .Select(e => e.FullName)
-                    .Where(e => e != DefaultPlaylist)
-                    .OrderBy(e => e, NaturalSort.Comparer);
-
-                items.AddRange(list);
+                items.AddRange(GetPlaylistFiles(true));
 
                 if (selectedItem != null && !items.Any(e => selectedItem.Equals(e)))
                 {
@@ -210,19 +215,13 @@ namespace NeeView
                 LoadPlaylist();
 
                 StartFileWatch(this.SelectedItem);
-
-#if false
-                OnSaved();
-
-                // NOTE: ファイルが存在しない場合、ここで保存
-                this.Playlist.DelaySave(OnSaved);
-#endif
             }
         }
 
         private void LoadPlaylist()
         {
-            this.Playlist = Playlist.Load(this.SelectedItem);
+            bool isCreateNewFile = this.SelectedItem != DefaultPlaylist;
+            this.Playlist = Playlist.Load(this.SelectedItem, isCreateNewFile);
             _isPlaylistDarty = false;
         }
 

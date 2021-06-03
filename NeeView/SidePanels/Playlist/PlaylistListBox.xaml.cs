@@ -526,6 +526,7 @@ namespace NeeView
             var paths = _vm.CollectAnotherPlaylists();
             if (paths.Any())
             {
+                menuItem.IsEnabled = true;
                 foreach (var path in paths)
                 {
                     menuItem.Items.Add(new MenuItem()
@@ -538,7 +539,7 @@ namespace NeeView
             }
             else
             {
-                menuItem.Items.Add(Properties.Resources.Word_ItemNone);
+                menuItem.IsEnabled = false;
             }
         }
 

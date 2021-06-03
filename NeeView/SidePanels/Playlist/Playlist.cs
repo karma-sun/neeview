@@ -533,7 +533,7 @@ namespace NeeView
 
             if (_isNew)
             {
-                if (source.Items.Count == 0)
+                if (source.Items.Count == 0 && !isForce)
                 {
                     return;
                 }
@@ -587,7 +587,7 @@ namespace NeeView
 
         #region Load
 
-        public static Playlist Load(string path)
+        public static Playlist Load(string path, bool creteNewFile)
         {
             try
             {
@@ -609,6 +609,10 @@ namespace NeeView
                 else
                 {
                     var playlist = new Playlist(path, new PlaylistSource(), true);
+                    if (creteNewFile)
+                    {
+                        playlist.Save(null, true);
+                    }
                     return playlist;
                 }
             }
@@ -638,8 +642,7 @@ namespace NeeView
 
         public List<string> CollectAnotherPlaylists()
         {
-            return PlaylistHub.GetPlaylistFiles()
-                .Select(e => e.FullName)
+            return PlaylistHub.GetPlaylistFiles(true)
                 .Where(e => e != _playlistPath)
                 .ToList();
         }
@@ -650,7 +653,7 @@ namespace NeeView
             if (items is null || !items.Any()) return;
             if (path == _playlistPath) return;
 
-            var playlist = Load(path);
+            var playlist = Load(path, true);
             if (!playlist.IsEditable) return;
 
             var newItems = playlist.Add(items.Select(e => e.Path).ToArray());

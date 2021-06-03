@@ -27,12 +27,12 @@ namespace NeeView
                     {
                         archive.CreateEntryFromFile(SaveData.Current.BookmarkFilePath, SaveData.BookmarkFileName);
                     }
-                    var playlists = PlaylistHub.GetPlaylistFiles();
+                    var playlists = PlaylistHub.GetPlaylistFiles(false);
                     if (playlists.Any())
                     {
                         foreach (var playlist in playlists)
                         {
-                            archive.CreateEntryFromFile(playlist.FullName, LoosePath.Combine("Playlists", playlist.Name));
+                            archive.CreateEntryFromFile(playlist, LoosePath.Combine("Playlists", LoosePath.GetFileName(playlist)));
                         }
                     }
                     var themes = ThemeManager.CollectCustomThemes();

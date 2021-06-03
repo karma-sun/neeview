@@ -126,6 +126,27 @@ namespace NeeView
         }
 
         /// <summary>
+        /// 表示用バージョン (ショート)
+        /// </summary>
+        public static string DispVersionShort
+        {
+            get
+            {
+                if (IsCanaryPackage)
+                {
+                    return $"Canary {DateVersion}";
+                }
+                else if (IsBetaPackage)
+                {
+                    return ProductVersion + $".Beta {DateVersion}";
+                }
+                else
+                {
+                    return ProductVersion;
+                }
+            }
+        }
+        /// <summary>
         /// プロダクトバージョン(int)
         /// </summary>
         public static int ProductVersionNumber { get; private set; }

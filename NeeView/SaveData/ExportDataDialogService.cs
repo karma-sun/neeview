@@ -35,7 +35,7 @@ namespace NeeView
             dialog.InitialDirectory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
             dialog.OverwritePrompt = true;
             dialog.AddExtension = true;
-            dialog.FileName = $"NeeView{Environment.DispVersion}-{DateTime.Now:yyyyMMdd}";
+            dialog.FileName = $"NeeView{Environment.DispVersionShort}-{DateTime.Now:yyyyMMdd}";
             dialog.DefaultExt = ExportDataFileExtension;
             dialog.Filter = ExportDataFileDialogFilter;
             dialog.Title = Resources.ExportDialog_Title;

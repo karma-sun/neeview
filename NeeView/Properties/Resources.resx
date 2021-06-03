@@ -7347,4 +7347,10 @@ The script will stop.</value>
   <data name="ImportAction.Import" xml:space="preserve">
     <value>Import</value>
   </data>
+  <data name="AutoHideConfig.AutoHideHitTestHorizontalMargin" xml:space="preserve">
+    <value>Horizontal area width for panel automatic display judgment (pixel)</value>
+  </data>
+  <data name="AutoHideConfig.AutoHideHitTestVerticalMargin" xml:space="preserve">
+    <value>Vertical area width for panel automatic display judgment (pixel)</value>
+  </data>
 </root>

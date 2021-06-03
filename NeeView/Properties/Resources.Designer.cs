@@ -463,11 +463,29 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Horizontal area width for panel automatic display judgment (pixel) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AutoHideConfig_AutoHideHitTestHorizontalMargin {
+            get {
+                return ResourceManager.GetString("AutoHideConfig.AutoHideHitTestHorizontalMargin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Area width of automatic panel display judgment (pixel) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string AutoHideConfig_AutoHideHitTestMargin {
             get {
                 return ResourceManager.GetString("AutoHideConfig.AutoHideHitTestMargin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vertical area width for panel automatic display judgment (pixel) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AutoHideConfig_AutoHideHitTestVerticalMargin {
+            get {
+                return ResourceManager.GetString("AutoHideConfig.AutoHideHitTestVerticalMargin", resourceCulture);
             }
         }
         

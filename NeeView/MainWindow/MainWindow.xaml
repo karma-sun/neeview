@@ -148,7 +148,7 @@
                     <local:AutoHideBehavior Name="MenuBar" Screen="{Binding ElementName=Root}" Dock="Top" IsEnabled="{Binding Model.CanHideMenu}" DelayTime="{Binding AutoHideConfig.AutoHideDelayTime}"
                             DelayVisibleTime="{Binding AutoHideConfig.AutoHideDelayVisibleTime}" FocusLockMode="{Binding AutoHideConfig.AutoHideFocusLockMode}"
                             IsVisibleLocked="{Binding Model.IsPanelVisibleLocked}" IsKeyDownDelayEnabled="{Binding AutoHideConfig.IsAutoHideKeyDownDelay}"
-                            HitTestMargin="{Binding AutoHideConfig.AutoHideHitTestMargin}" Description="{Binding MenuAutoHideDescription}" />
+                            HitTestMargin="{Binding AutoHideConfig.AutoHideHitTestVerticalMargin}" Description="{Binding MenuAutoHideDescription}" />
                 </behaviors:Interaction.Behaviors>
             </ContentControl>
 
@@ -157,7 +157,7 @@
                 <behaviors:Interaction.Behaviors>
                     <local:AutoHideBehavior Screen="{Binding ElementName=Root}" Dock="Bottom" IsEnabled="{Binding Model.CanHidePageSlider}" DelayTime="{Binding AutoHideConfig.AutoHideDelayTime}"
                             DelayVisibleTime="{Binding AutoHideConfig.AutoHideDelayVisibleTime}" FocusLockMode="{Binding AutoHideConfig.AutoHideFocusLockMode}"
-                            IsKeyDownDelayEnabled="{Binding AutoHideConfig.IsAutoHideKeyDownDelay}" HitTestMargin="{Binding AutoHideConfig.AutoHideHitTestMargin}"
+                            IsKeyDownDelayEnabled="{Binding AutoHideConfig.IsAutoHideKeyDownDelay}" HitTestMargin="{Binding AutoHideConfig.AutoHideHitTestVerticalMargin}"
                             Description="{Binding StatusAutoHideDescrption}" IsVisibleLocked="{Binding Model.IsPanelVisibleLocked}" />
                 </behaviors:Interaction.Behaviors>
                 <ContentControl x:Name="LayerPageSliderSocket" DockPanel.Dock="Bottom" IsTabStop="False" />
@@ -172,7 +172,7 @@
                             <local:AutoHideBehavior.HitTestMargin>
                                 <MultiBinding Converter="{StaticResource DoubleSumConverter}">
                                     <Binding ElementName="SliderArea" Path="ActualHeight" />
-                                    <Binding Path="AutoHideConfig.AutoHideHitTestMargin" />
+                                    <Binding Path="AutoHideConfig.AutoHideHitTestVerticalMargin" />
                                 </MultiBinding>
                             </local:AutoHideBehavior.HitTestMargin>
                         </local:AutoHideBehavior>

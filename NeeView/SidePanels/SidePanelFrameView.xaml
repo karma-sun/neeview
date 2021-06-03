@@ -107,7 +107,7 @@
                             <local:AutoHideBehavior Name="LeftPanel" Screen="{Binding ElementName=Screen}" SubTarget="{Binding ElementName=LeftPanelSplitter}" Dock="Left"
                                     IsEnabled="{Binding VM.Left.IsAutoHide}" DelayTime="{Binding VM.AutoHideConfig.AutoHideDelayTime}"
                                     DelayVisibleTime="{Binding VM.AutoHideConfig.AutoHideDelayVisibleTime}" FocusLockMode="{Binding VM.AutoHideConfig.AutoHideFocusLockMode}"
-                                    IsKeyDownDelayEnabled="{Binding VM.AutoHideConfig.IsAutoHideKeyDownDelay}" HitTestMargin="{Binding VM.AutoHideConfig.AutoHideHitTestMargin}"
+                                    IsKeyDownDelayEnabled="{Binding VM.AutoHideConfig.IsAutoHideKeyDownDelay}" HitTestMargin="{Binding VM.AutoHideConfig.AutoHideHitTestHorizontalMargin}"
                                     Description="{Binding VM.Left.AutoHideDescription}">
                                 <local:AutoHideBehavior.IsVisibleLocked>
                                     <MultiBinding Converter="{StaticResource MultiBooleanOrConverter}">
@@ -136,7 +136,7 @@
                             <local:AutoHideBehavior Name="RightPanel" Screen="{Binding ElementName=Screen}" SubTarget="{Binding ElementName=RightPanelSplitter}" Dock="Right"
                                     IsEnabled="{Binding VM.Right.IsAutoHide}" DelayTime="{Binding VM.AutoHideConfig.AutoHideDelayTime}"
                                     DelayVisibleTime="{Binding VM.AutoHideConfig.AutoHideDelayVisibleTime}" FocusLockMode="{Binding VM.AutoHideConfig.AutoHideFocusLockMode}"
-                                    IsKeyDownDelayEnabled="{Binding VM.AutoHideConfig.IsAutoHideKeyDownDelay}" HitTestMargin="{Binding VM.AutoHideConfig.AutoHideHitTestMargin}"
+                                    IsKeyDownDelayEnabled="{Binding VM.AutoHideConfig.IsAutoHideKeyDownDelay}" HitTestMargin="{Binding VM.AutoHideConfig.AutoHideHitTestHorizontalMargin}"
                                     Description="{Binding VM.Right.AutoHideDescription}">
                                 <local:AutoHideBehavior.IsVisibleLocked>
                                     <MultiBinding Converter="{StaticResource MultiBooleanOrConverter}">

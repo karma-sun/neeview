@@ -7352,4 +7352,10 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ImportAction.Import" xml:space="preserve">
     <value>インポート</value>
   </data>
+  <data name="AutoHideConfig.AutoHideHitTestHorizontalMargin" xml:space="preserve">
+    <value>パネル自動表示判定の水平方向エリア幅 (ピクセル)</value>
+  </data>
+  <data name="AutoHideConfig.AutoHideHitTestVerticalMargin" xml:space="preserve">
+    <value>パネル自動表示判定の垂直方向エリア幅 (ピクセル)</value>
+  </data>
 </root>

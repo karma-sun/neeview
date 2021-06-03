@@ -1,5 +1,7 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
+using System;
+using System.Text.Json.Serialization;
 
 namespace NeeView
 {
@@ -9,7 +11,8 @@ namespace NeeView
         private double _autoHideDelayVisibleTime = 0.0;
         private AutoHideFocusLockMode _autoHideFocusLockMode = AutoHideFocusLockMode.LogicalTextBoxFocusLock;
         private bool _isAutoHideKeyDownDelay = true;
-        private double _autoHideHitTestMargin = 32.0;
+        private double _autoHideHitTestHorizontalMargin = 32.0;
+        private double _autoHideHitTestVerticalMargin = 32.0;
         private AutoHideConfrictMode _autoHideConfrictTopMargin = AutoHideConfrictMode.AllowPixel;
         private AutoHideConfrictMode _autoHideConfrictBottomMargin = AutoHideConfrictMode.Allow;
 
@@ -45,13 +48,22 @@ namespace NeeView
             set { SetProperty(ref _isAutoHideKeyDownDelay, value); }
         }
 
-        // パネル自動非表示の表示判定マージン
+        // パネル自動非表示の表示判定マージン(水平方向)
         [PropertyMember]
-        public double AutoHideHitTestMargin
+        public double AutoHideHitTestHorizontalMargin
         {
-            get { return _autoHideHitTestMargin; }
-            set { SetProperty(ref _autoHideHitTestMargin, value); }
+            get { return _autoHideHitTestHorizontalMargin; }
+            set { SetProperty(ref _autoHideHitTestHorizontalMargin, value); }
         }
+
+        // パネル自動非表示の表示判定マージン(垂直方向)
+        [PropertyMember]
+        public double AutoHideHitTestVerticalMargin
+        {
+            get { return _autoHideHitTestVerticalMargin; }
+            set { SetProperty(ref _autoHideHitTestVerticalMargin, value); }
+        }
+
 
         // サイドパネルとメニューの自動非表示判定が重なった場合
         [PropertyMember]
@@ -68,6 +80,19 @@ namespace NeeView
             get { return _autoHideConfrictBottomMargin; }
             set { SetProperty(ref _autoHideConfrictBottomMargin, value); }
         }
+
+        #region Obsolete
+
+        // パネル自動非表示の表示判定マージン(水平方向)
+        [Obsolete, Alternative("AutoHideHitTestHorizontalMargin and AutoHideHitTestVerticalMargin", 39)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public double AutoHideHitTestMargin
+        {
+            get => default;
+            set { AutoHideHitTestHorizontalMargin = value; AutoHideHitTestVerticalMargin = value; }
+        }
+
+        #endregion Obsolete
     }
 
 

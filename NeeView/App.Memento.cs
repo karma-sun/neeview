@@ -191,7 +191,8 @@ namespace NeeView
                 config.AutoHide.AutoHideDelayVisibleTime = AutoHideDelayVisibleTime;
                 config.AutoHide.AutoHideFocusLockMode = AutoHideFocusLockMode;
                 config.AutoHide.IsAutoHideKeyDownDelay = IsAutoHideKeyDownDelay;
-                config.AutoHide.AutoHideHitTestMargin = AutoHideHitTestMargin;
+                config.AutoHide.AutoHideHitTestHorizontalMargin = AutoHideHitTestMargin;
+                config.AutoHide.AutoHideHitTestVerticalMargin = AutoHideHitTestMargin;
                 config.System.DownloadPath = DownloadPath;
             }
         }

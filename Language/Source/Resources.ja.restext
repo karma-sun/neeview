@@ -2307,3 +2307,5 @@ ImportBackupCommandParameter.Scripts=スクリプト
 ImportAction.Undefined=未定義
 ImportAction.Skip=スキップ
 ImportAction.Import=インポート
+AutoHideConfig.AutoHideHitTestHorizontalMargin=パネル自動表示判定の水平方向エリア幅 (ピクセル)
+AutoHideConfig.AutoHideHitTestVerticalMargin=パネル自動表示判定の垂直方向エリア幅 (ピクセル)

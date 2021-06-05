@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>NeeLaboratory.Remote</RootNamespace>
     <Authors>NeeLaboratory</Authors>
-    <Copyright>Copyright © 2016-2020 Ito Mitsuhiro (nee)</Copyright>
+    <Copyright>Copyright © 2016-2021 Ito Mitsuhiro (nee)</Copyright>
     <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
 

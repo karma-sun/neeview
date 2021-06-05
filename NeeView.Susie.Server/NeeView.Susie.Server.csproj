@@ -8,9 +8,9 @@
 
   <PropertyGroup>
     <Product>NeeView SusiePlugin Server</Product>
-    <Version>37.0.0</Version>
+    <Version>39.0.0</Version>
     <Authors>NeeLaboratory</Authors>
-    <Copyright>Copyright © 2016-2020 Ito Mitsuhiro (nee)</Copyright>
+    <Copyright>Copyright © 2016-2021 Ito Mitsuhiro (nee)</Copyright>
     <ApplicationIcon>App.ico</ApplicationIcon>
   </PropertyGroup>
 

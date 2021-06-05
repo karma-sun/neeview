@@ -480,8 +480,14 @@ nv.Command.ToggleMediaPlay.Execute()
   <data name="AutoHideConfig.AutoHideFocusLockMode.Remarks" xml:space="preserve">
     <value>フォーカスがあるときには非表示になりません。</value>
   </data>
+  <data name="AutoHideConfig.AutoHideHitTestHorizontalMargin" xml:space="preserve">
+    <value>パネル自動表示判定の水平方向エリア幅 (ピクセル)</value>
+  </data>
   <data name="AutoHideConfig.AutoHideHitTestMargin" xml:space="preserve">
     <value>パネル自動表示判定のエリア幅 (ピクセル)</value>
+  </data>
+  <data name="AutoHideConfig.AutoHideHitTestVerticalMargin" xml:space="preserve">
+    <value>パネル自動表示判定の垂直方向エリア幅 (ピクセル)</value>
   </data>
   <data name="AutoHideConfig.IsAutoHideKeyDownDelay" xml:space="preserve">
     <value>自動非表示パネルのキー入力表示継続</value>
@@ -602,6 +608,9 @@ nv.Command.ToggleMediaPlay.Execute()
   </data>
   <data name="BookAccessor.ViewPages" xml:space="preserve">
     <value>表示中のページ</value>
+  </data>
+  <data name="BookAccessor.Wait" xml:space="preserve">
+    <value>表示ページの読み込みが完了するまで待機する</value>
   </data>
   <data name="BookAddressInfo.Bookmark" xml:space="preserve">
     <value>ブックマーク アドレスです</value>
@@ -728,6 +737,9 @@ nv.Command.ToggleMediaPlay.Execute()
   </data>
   <data name="BookmarkConfig.IsSyncBookshelfEnabled" xml:space="preserve">
     <value>ブックを開いたときに本棚と同期する</value>
+  </data>
+  <data name="BookmarkFolderDelete.Message" xml:space="preserve">
+    <value>{0} 個のブックマークを削除しました。</value>
   </data>
   <data name="BookmarkItemAccessor" xml:space="preserve">
     <value>ブックマーク パネル項目</value>
@@ -1014,6 +1026,9 @@ nv.Command.ToggleMediaPlay.Execute()
   <data name="BookshelfItem.Menu.DestinationFolderOption" xml:space="preserve">
     <value>フォルダーの登録(_A)...</value>
   </data>
+  <data name="BookshelfItem.Menu.Edit" xml:space="preserve">
+    <value>編集(_E)</value>
+  </data>
   <data name="BookshelfItem.Menu.Explorer" xml:space="preserve">
     <value>エクスプローラーで開く(_X)</value>
   </data>
@@ -1031,6 +1046,9 @@ nv.Command.ToggleMediaPlay.Execute()
   </data>
   <data name="BookshelfItem.Menu.OpenExternalApp" xml:space="preserve">
     <value>外部アプリで開く(_A)</value>
+  </data>
+  <data name="BookshelfItem.Menu.OpenInPlaylist" xml:space="preserve">
+    <value>プレイリストで開く(_P)</value>
   </data>
   <data name="BookshelfItem.Menu.Rename" xml:space="preserve">
     <value>名前の変更(_M)</value>
@@ -1286,6 +1304,9 @@ nv.Command.ViewRotateLeft.TouchGesture = "TouchCenter"</value>
   <data name="CommandGroup.Panel" xml:space="preserve">
     <value>パネル</value>
   </data>
+  <data name="CommandGroup.Playlist" xml:space="preserve">
+    <value>プレイリスト</value>
+  </data>
   <data name="CommandGroup.Script" xml:space="preserve">
     <value>スクリプト</value>
   </data>
@@ -1300,6 +1321,9 @@ nv.Command.ViewRotateLeft.TouchGesture = "TouchCenter"</value>
   </data>
   <data name="CommandHost" xml:space="preserve">
     <value>アプリに特化した機能を提供します。</value>
+  </data>
+  <data name="CommandHost.Args" xml:space="preserve">
+    <value>コマンド引数はこの配列に収納されます。</value>
   </data>
   <data name="CommandHost.Book" xml:space="preserve">
     <value>開いているブックのアクセサ</value>
@@ -1331,6 +1355,9 @@ nv.Config.Theme.ThemeType = "Dark"</value>
   <data name="CommandHost.Effect" xml:space="preserve">
     <value>エフェクト パネルのアクセサ</value>
   </data>
+  <data name="CommandHost.Environment" xml:space="preserve">
+    <value>環境アクセサ</value>
+  </data>
   <data name="CommandHost.History" xml:space="preserve">
     <value>履歴パネルのアクセサ</value>
   </data>
@@ -1342,6 +1369,9 @@ nv.Config.Theme.ThemeType = "Dark"</value>
   </data>
   <data name="CommandHost.PageList" xml:space="preserve">
     <value>ページリスト パネルのアクセサ</value>
+  </data>
+  <data name="CommandHost.Playlist" xml:space="preserve">
+    <value>プレイリスト パネルのアクセサ</value>
   </data>
   <data name="CommandHost.ShowDialog" xml:space="preserve">
     <value>ダイアログを表示します。</value>
@@ -1424,6 +1454,18 @@ nv.Values.Test = "Hello!"</value>
   </data>
   <data name="CommandList.ResetButton" xml:space="preserve">
     <value>リセット...</value>
+  </data>
+  <data name="CommandListItem.Menu.Clone" xml:space="preserve">
+    <value>複製(_C)</value>
+  </data>
+  <data name="CommandListItem.Menu.Delete" xml:space="preserve">
+    <value>削除(_D)</value>
+  </data>
+  <data name="CommandListItem.Menu.Edit" xml:space="preserve">
+    <value>編集(_E)</value>
+  </data>
+  <data name="CommandListItem.Menu.Setting" xml:space="preserve">
+    <value>設定(_S)</value>
   </data>
   <data name="CommandListItem.Message.ShareParameter" xml:space="preserve">
     <value>「{0}」とパラメーター共有です</value>
@@ -1758,6 +1800,15 @@ nv.Values.Test = "Hello!"</value>
   <data name="EmbossedEffectUnit.Height" xml:space="preserve">
     <value>Height</value>
   </data>
+  <data name="EnvironmentAccessor" xml:space="preserve">
+    <value>環境アクセサ</value>
+  </data>
+  <data name="EnvironmentAccessor.NeeViewPath" xml:space="preserve">
+    <value>NeeView 実行ファイルのパス</value>
+  </data>
+  <data name="EnvironmentAccessor.UserSettingFilePath" xml:space="preserve">
+    <value>ユーザー設定ファイルのパス</value>
+  </data>
   <data name="ExifContrast.Hard" xml:space="preserve">
     <value>ハード</value>
   </data>
@@ -2055,6 +2106,9 @@ nv.Values.Test = "Hello!"</value>
   <data name="ExportBackupCommand.Remarks" xml:space="preserve">
     <value>設定、履歴、ブックマークのバックアップを作成します。サムネイル キャッシュはバックアップされません。</value>
   </data>
+  <data name="ExportBackupCommandParameter.FileName" xml:space="preserve">
+    <value>バックアップ ファイルのパス</value>
+  </data>
   <data name="ExportDialog.Title" xml:space="preserve">
     <value>全設定をエクスポート</value>
   </data>
@@ -2264,6 +2318,9 @@ nv.Values.Test = "Hello!"</value>
   <data name="FilmStripConfig.IsVisiblePlate.Remarks" xml:space="preserve">
     <value>「@FilmStripConfig.IsHideFilmStrip」が有効なときに、フィルムストリップの背景を表示します。</value>
   </data>
+  <data name="FilmStripConfig.IsVisiblePlaylistMark" xml:space="preserve">
+    <value>プレイリストのマークを表示する</value>
+  </data>
   <data name="FirstPageCommand" xml:space="preserve">
     <value>最初のページに移動</value>
   </data>
@@ -2378,14 +2435,26 @@ nv.Values.Test = "Hello!"</value>
   <data name="FolderTree.Menu.AddQuickAccess" xml:space="preserve">
     <value>クイック アクセスに追加</value>
   </data>
+  <data name="FolderTree.Menu.Delete" xml:space="preserve">
+    <value>削除(_D)</value>
+  </data>
   <data name="FolderTree.Menu.DeleteInvalidBookmark" xml:space="preserve">
     <value>無効なブックマークを削除</value>
   </data>
   <data name="FolderTree.Menu.Explorer" xml:space="preserve">
     <value>エクスプローラーで開く</value>
   </data>
+  <data name="FolderTree.Menu.NewFolder" xml:space="preserve">
+    <value>新しいフォルダー(_F)</value>
+  </data>
+  <data name="FolderTree.Menu.Property" xml:space="preserve">
+    <value>プロパティ(_R)</value>
+  </data>
   <data name="FolderTree.Menu.RefreshFolder" xml:space="preserve">
     <value>再読み込み</value>
+  </data>
+  <data name="FolderTree.Menu.Rename" xml:space="preserve">
+    <value>名前の變更(_M)</value>
   </data>
   <data name="FolderTreeLayout.Left" xml:space="preserve">
     <value>左に配置</value>
@@ -2452,6 +2521,9 @@ nv.Values.Test = "Hello!"</value>
   </data>
   <data name="HelpSearchOptionCommand.Remarks" xml:space="preserve">
     <value>検索オプションのヘルプをブラウザーで開きます。</value>
+  </data>
+  <data name="History.DeleteItemsMessage" xml:space="preserve">
+    <value>{0} 個の項目を削除しました。</value>
   </data>
   <data name="History.MoreMenu.DeleteAll" xml:space="preserve">
     <value>すべての履歴を削除</value>
@@ -2705,6 +2777,15 @@ nv.Values.Test = "Hello!"</value>
   <data name="ImageTrimConfig.Top" xml:space="preserve">
     <value>上</value>
   </data>
+  <data name="ImportAction.Import" xml:space="preserve">
+    <value>インポート</value>
+  </data>
+  <data name="ImportAction.Skip" xml:space="preserve">
+    <value>スキップ</value>
+  </data>
+  <data name="ImportAction.Undefined" xml:space="preserve">
+    <value>未定義</value>
+  </data>
   <data name="ImportBackupCommand" xml:space="preserve">
     <value>設定をインポート</value>
   </data>
@@ -2713,6 +2794,27 @@ nv.Values.Test = "Hello!"</value>
   </data>
   <data name="ImportBackupCommand.Remarks" xml:space="preserve">
     <value>バックアップ ファイルから復元項目を選んで復元します。すべてのパラメーターが定義されている場合、ダイアログは表示されません。</value>
+  </data>
+  <data name="ImportBackupCommandParameter.Bookmark" xml:space="preserve">
+    <value>ブックマーク</value>
+  </data>
+  <data name="ImportBackupCommandParameter.FileName" xml:space="preserve">
+    <value>バックアップ ファイルのパス</value>
+  </data>
+  <data name="ImportBackupCommandParameter.History" xml:space="preserve">
+    <value>履歴</value>
+  </data>
+  <data name="ImportBackupCommandParameter.Playlists" xml:space="preserve">
+    <value>プレイリスト</value>
+  </data>
+  <data name="ImportBackupCommandParameter.Scripts" xml:space="preserve">
+    <value>スクリプト</value>
+  </data>
+  <data name="ImportBackupCommandParameter.Themes" xml:space="preserve">
+    <value>カスタム テーマ</value>
+  </data>
+  <data name="ImportBackupCommandParameter.UserSetting" xml:space="preserve">
+    <value>ユーザー設定</value>
   </data>
   <data name="ImportControl.Bookmark" xml:space="preserve">
     <value>ブックマーク</value>
@@ -2723,8 +2825,17 @@ nv.Values.Test = "Hello!"</value>
   <data name="ImportControl.Pagemark" xml:space="preserve">
     <value>ページマーク</value>
   </data>
+  <data name="ImportControl.Playlist" xml:space="preserve">
+    <value>{0} 個のプレイリスト</value>
+  </data>
+  <data name="ImportControl.Script" xml:space="preserve">
+    <value>{0} 個のスクリプト</value>
+  </data>
   <data name="ImportControl.Setting" xml:space="preserve">
     <value>設定</value>
+  </data>
+  <data name="ImportControl.Theme" xml:space="preserve">
+    <value>{0} 個のカスタム テーマ</value>
   </data>
   <data name="ImportDialog.Title" xml:space="preserve">
     <value>全設定をインポート</value>
@@ -3476,6 +3587,12 @@ include("Sample.nvjs")</value>
 マウス ジェスチャーはマウス右ボタンを押しながらのドラッグ操作です。
 左クリックを最後のジェスチャーキーとして登録可能です。</value>
   </data>
+  <data name="MovePlaylsitItemInBookCommandParameter.IsIncludeTerminal" xml:space="preserve">
+    <value>最初と最後のページを含める</value>
+  </data>
+  <data name="MovePlaylsitItemInBookCommandParameter.IsLoop" xml:space="preserve">
+    <value>ループ</value>
+  </data>
   <data name="MoveSizePageCommandParameter.Size" xml:space="preserve">
     <value>移動ページ数</value>
   </data>
@@ -3493,6 +3610,9 @@ include("Sample.nvjs")</value>
   </data>
   <data name="MultiPagePolicy.All" xml:space="preserve">
     <value>全てのページを実行する</value>
+  </data>
+  <data name="MultiPagePolicy.AllLeftToRight" xml:space="preserve">
+    <value>全てのページを実行する (左から右)</value>
   </data>
   <data name="MultiPagePolicy.Once" xml:space="preserve">
     <value>1 ページのみ実行する</value>
@@ -3515,11 +3635,20 @@ include("Sample.nvjs")</value>
   <data name="Navigator.IsKeepAngle" xml:space="preserve">
     <value>回転を維持</value>
   </data>
+  <data name="Navigator.IsKeepAngleBooks" xml:space="preserve">
+    <value>ブック変更時に回転を維持</value>
+  </data>
   <data name="Navigator.IsKeepFlip" xml:space="preserve">
     <value>反転を維持</value>
   </data>
+  <data name="Navigator.IsKeepFlipBooks" xml:space="preserve">
+    <value>ブック変更時に反転を維持</value>
+  </data>
   <data name="Navigator.IsKeepScale" xml:space="preserve">
     <value>スケールを維持</value>
+  </data>
+  <data name="Navigator.IsKeepScaleBooks" xml:space="preserve">
+    <value>ブック変更時にスケールを維持</value>
   </data>
   <data name="Navigator.MoreMenu.IsVisibleThumbnail" xml:space="preserve">
     <value>サムネイル</value>
@@ -3566,6 +3695,9 @@ include("Sample.nvjs")</value>
   <data name="NavigatorConfig.IsVisibleThumbnail" xml:space="preserve">
     <value>サムネイルを表示する</value>
   </data>
+  <data name="NavigatorConfig.ThumbnailHeight" xml:space="preserve">
+    <value>サムネイル エリアの高さ</value>
+  </data>
   <data name="NavigatorPanelAccessor" xml:space="preserve">
     <value>ナビゲーター パネルのアクセサ</value>
   </data>
@@ -3610,6 +3742,18 @@ include("Sample.nvjs")</value>
   </data>
   <data name="NextPageCommand.Remarks" xml:space="preserve">
     <value>ページ次方向に移動します。2 ページ表示の場合は 2 ページ分移動します。</value>
+  </data>
+  <data name="NextPlaylistItemCommand" xml:space="preserve">
+    <value>次のプレイリスト項目に移動</value>
+  </data>
+  <data name="NextPlaylistItemCommand.Remarks" xml:space="preserve">
+    <value>次のプレイリスト項目に移動します。</value>
+  </data>
+  <data name="NextPlaylistItemInBookCommand" xml:space="preserve">
+    <value>ブック内の次のプレイリスト項目に移動</value>
+  </data>
+  <data name="NextPlaylistItemInBookCommand.Remarks" xml:space="preserve">
+    <value>現在のブック内で次のプレイリスト項目に移動します。</value>
   </data>
   <data name="NextScrollPageCommand" xml:space="preserve">
     <value>スクロール＋次のページに進む</value>
@@ -3669,6 +3813,9 @@ include("Sample.nvjs")</value>
   <data name="Notice.FirstPage" xml:space="preserve">
     <value>最初のページです</value>
   </data>
+  <data name="Notice.FirstPlaylistItem" xml:space="preserve">
+    <value>現在ページより前のプレイリスト項目はありません</value>
+  </data>
   <data name="Notice.FlipHorizontal" xml:space="preserve">
     <value>左右反転</value>
   </data>
@@ -3684,9 +3831,16 @@ include("Sample.nvjs")</value>
   <data name="Notice.HistoryTerminal" xml:space="preserve">
     <value>これより古い履歴はありません</value>
   </data>
+  <data name="Notice.ImageDecodeFailed" xml:space="preserve">
+    <value>画像のデコードに失敗しました。</value>
+  </data>
   <data name="Notice.InvalidFileNameChars" xml:space="preserve">
     <value>ファイル名には次の文字は使えません:
 \ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="Notice.InvalidSeparatorChars" xml:space="preserve">
+    <value>次の文字は使えません:
+\ /</value>
   </data>
   <data name="Notice.JumpPageLabel" xml:space="preserve">
     <value>ページ番号 ({0} - {1})</value>
@@ -3696,6 +3850,9 @@ include("Sample.nvjs")</value>
   </data>
   <data name="Notice.LastPage" xml:space="preserve">
     <value>最後のページです</value>
+  </data>
+  <data name="Notice.LastPlaylistItem" xml:space="preserve">
+    <value>現在ページより後のプレイリスト項目はありません</value>
   </data>
   <data name="Notice.LoadBookmarkFailed" xml:space="preserve">
     <value>ブックマークの読み込みに失敗しました。</value>
@@ -3744,6 +3901,15 @@ include("Sample.nvjs")</value>
   </data>
   <data name="Notice.PlayFailed" xml:space="preserve">
     <value>再生エラー</value>
+  </data>
+  <data name="Notice.PlaylistItemNextFailed" xml:space="preserve">
+    <value>次のプレイリスト項目はありません</value>
+  </data>
+  <data name="Notice.PlaylistItemPrevFailed" xml:space="preserve">
+    <value>前のプレイリスト項目はありません</value>
+  </data>
+  <data name="Notice.RemoveUnlinkedPlaylistItem" xml:space="preserve">
+    <value>{0} 個のプレイリスト項目を削除しました。</value>
   </data>
   <data name="Notice.SearchKeywordDateTimeError" xml:space="preserve">
     <value>不正な日時形式</value>
@@ -3851,6 +4017,9 @@ include("Sample.nvjs")</value>
   <data name="OpenExternalAppCommandParameter.Parameter.Remarks" xml:space="preserve">
     <value>$File はファイルパスに置換されます。$Uri は URI エスケープされたファイル パスに置換されます。</value>
   </data>
+  <data name="OpenExternalAppCommandParameter.WorkingDirectory" xml:space="preserve">
+    <value>作業ディレクトリ</value>
+  </data>
   <data name="OpenOptionsWindowCommand" xml:space="preserve">
     <value>設定ウィンドウを開く</value>
   </data>
@@ -3865,6 +4034,9 @@ include("Sample.nvjs")</value>
   </data>
   <data name="OpenScriptsFolderCommand.Remarks" xml:space="preserve">
     <value>スクリプト フォルダーをエクスプローラーで開きます。</value>
+  </data>
+  <data name="OpenScriptsFolderErrorDialog.FolderIsNotSet" xml:space="preserve">
+    <value>フォルダーが設定されていません。</value>
   </data>
   <data name="OpenScriptsFolderErrorDialog.Title" xml:space="preserve">
     <value>スクリプト フォルダーが開けません</value>
@@ -3963,6 +4135,9 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="PageListConfig.PanelListItemStyle" xml:space="preserve">
     <value>ページリスト項目スタイル</value>
   </data>
+  <data name="PageListItem.Menu.AddToPlaylist" xml:space="preserve">
+    <value>プレイリストに追加(_M)</value>
+  </data>
   <data name="PageListItem.Menu.Copy" xml:space="preserve">
     <value>コピー(_C)</value>
   </data>
@@ -4040,6 +4215,12 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   </data>
   <data name="PageSortMode" xml:space="preserve">
     <value>ページの並び順</value>
+  </data>
+  <data name="PageSortMode.Entry" xml:space="preserve">
+    <value>登録↑</value>
+  </data>
+  <data name="PageSortMode.EntryDescending" xml:space="preserve">
+    <value>登録↓</value>
   </data>
   <data name="PageSortMode.FileName" xml:space="preserve">
     <value>名前↑</value>
@@ -4273,6 +4454,120 @@ Susie 書庫はこのサイズで判別せず、プラグインの設定での�
   <data name="PixelateEffectUnit.Pixelation" xml:space="preserve">
     <value>Pixelation</value>
   </data>
+  <data name="Playlist.DeleteDialog.Title" xml:space="preserve">
+    <value>プレイリスト ファイルの削除</value>
+  </data>
+  <data name="Playlist.DeleteItemsMessage" xml:space="preserve">
+    <value>{0} 個の項目を削除しました。</value>
+  </data>
+  <data name="Playlist.ErrorDialog.Title" xml:space="preserve">
+    <value>プレイリスト エラー</value>
+  </data>
+  <data name="Playlist.FailedToLoad" xml:space="preserve">
+    <value>プレイリストの読み込みに失敗しました</value>
+  </data>
+  <data name="Playlist.FailedToSave" xml:space="preserve">
+    <value>プレイリストの保存に失敗しました</value>
+  </data>
+  <data name="Playlist.FirstIn" xml:space="preserve">
+    <value>先頭に追加</value>
+  </data>
+  <data name="Playlist.LastIn" xml:space="preserve">
+    <value>末尾に追加</value>
+  </data>
+  <data name="Playlist.MoreMenu.CurrentBook" xml:space="preserve">
+    <value>現在のブックのみ表示</value>
+  </data>
+  <data name="Playlist.MoreMenu.Delete" xml:space="preserve">
+    <value>削除(_D)</value>
+  </data>
+  <data name="Playlist.MoreMenu.DeleteInvalid" xml:space="preserve">
+    <value>無効な項目を削除</value>
+  </data>
+  <data name="Playlist.MoreMenu.GroupBy" xml:space="preserve">
+    <value>グループで表示</value>
+  </data>
+  <data name="Playlist.MoreMenu.New" xml:space="preserve">
+    <value>新規作成(_N)</value>
+  </data>
+  <data name="Playlist.MoreMenu.Open" xml:space="preserve">
+    <value>開く(_O)...</value>
+  </data>
+  <data name="Playlist.MoreMenu.OpenAsBook" xml:space="preserve">
+    <value>ブックとして開く</value>
+  </data>
+  <data name="Playlist.MoreMenu.Rename" xml:space="preserve">
+    <value>名前の変更(_M)</value>
+  </data>
+  <data name="Playlist.MoreMenu.Sort" xml:space="preserve">
+    <value>パス順に並び替える</value>
+  </data>
+  <data name="Playlist.Title" xml:space="preserve">
+    <value>プレイリスト</value>
+  </data>
+  <data name="PlaylistConfig.CurrentPlaylist" xml:space="preserve">
+    <value>現在のプレイリスト</value>
+  </data>
+  <data name="PlaylistConfig.IsCurrentBookFilterEnabled" xml:space="preserve">
+    <value>開いているブックのページのみ表示する</value>
+  </data>
+  <data name="PlaylistConfig.IsFirstIn" xml:space="preserve">
+    <value>リストの先頭に追加する</value>
+  </data>
+  <data name="PlaylistConfig.IsFirstIn.Remarks" xml:space="preserve">
+    <value>追加コマンドでの挿入位置です。オフにすると、末尾に追加されます。</value>
+  </data>
+  <data name="PlaylistConfig.IsGroupBy" xml:space="preserve">
+    <value>フォルダごとにグループ化して表示</value>
+  </data>
+  <data name="PlaylistConfig.PanelListItemStyle" xml:space="preserve">
+    <value>リスト項目のスタイル</value>
+  </data>
+  <data name="PlaylistConfig.PlaylistFolder" xml:space="preserve">
+    <value>プレイリスト ファイルの保存場所</value>
+  </data>
+  <data name="PlaylistConfig.PlaylistFolder.Remarks" xml:space="preserve">
+    <value>このフォルダーにあるプレイリスト ファイルは管理されます。</value>
+  </data>
+  <data name="PlaylistErrorDialog.FolderIsNotSet" xml:space="preserve">
+    <value>フォルダーが設定されていません。</value>
+  </data>
+  <data name="PlaylistItem.Menu.Delete" xml:space="preserve">
+    <value>削除(_D)</value>
+  </data>
+  <data name="PlaylistItem.Menu.MoveToAnother" xml:space="preserve">
+    <value>ほかのプレイリストに移動</value>
+  </data>
+  <data name="PlaylistItem.Menu.Open" xml:space="preserve">
+    <value>開く(_O)</value>
+  </data>
+  <data name="PlaylistItem.Menu.Rename" xml:space="preserve">
+    <value>名前の変更(_M)</value>
+  </data>
+  <data name="PlaylistItemAccessor" xml:space="preserve">
+    <value>プレイリスト項目のアクセサ</value>
+  </data>
+  <data name="PlaylistItemAccessor.Name" xml:space="preserve">
+    <value>項目名</value>
+  </data>
+  <data name="PlaylistItemAccessor.Path" xml:space="preserve">
+    <value>項目に対応するパス</value>
+  </data>
+  <data name="PlaylistPanelAccessor" xml:space="preserve">
+    <value>プレイリスト パネルのアクセサ</value>
+  </data>
+  <data name="PlaylistPanelAccessor.Items" xml:space="preserve">
+    <value>リスト項目</value>
+  </data>
+  <data name="PlaylistPanelAccessor.Path" xml:space="preserve">
+    <value>現在のプレイリストのパス</value>
+  </data>
+  <data name="PlaylistPanelAccessor.SelectedItems" xml:space="preserve">
+    <value>選択されているリスト項目</value>
+  </data>
+  <data name="PlaylistPanelAccessor.Style" xml:space="preserve">
+    <value>リスト項目表示形式</value>
+  </data>
   <data name="PrevBookCommand" xml:space="preserve">
     <value>前のブックに移動</value>
   </data>
@@ -4314,6 +4609,18 @@ Susie 書庫はこのサイズで判別せず、プラグインの設定での�
   </data>
   <data name="PrevPageCommand.Remarks" xml:space="preserve">
     <value>ページ前方向に移動します。2 ページ表示の場合は 2 ページ分移動します。</value>
+  </data>
+  <data name="PrevPlaylistItemCommand" xml:space="preserve">
+    <value>前のプレイリスト項目に移動</value>
+  </data>
+  <data name="PrevPlaylistItemCommand.Remarks" xml:space="preserve">
+    <value>前のプレイリスト項目に移動します。</value>
+  </data>
+  <data name="PrevPlaylistItemInBookCommand" xml:space="preserve">
+    <value>ブック内の前のプレイリスト項目に移動</value>
+  </data>
+  <data name="PrevPlaylistItemInBookCommand.Remarks" xml:space="preserve">
+    <value>現在のブック内で前のプレイリスト項目に移動します。</value>
   </data>
   <data name="PrevScrollPageCommand" xml:space="preserve">
     <value>スクロール＋前のページに戻る</value>
@@ -4399,6 +4706,9 @@ Susie 書庫はこのサイズで判別せず、プラグインの設定での�
   <data name="QueryScheme.Root" xml:space="preserve">
     <value>本棚</value>
   </data>
+  <data name="QuickAccessPropertyDialog.Title" xml:space="preserve">
+    <value>クイック アクセスのプロパティ</value>
+  </data>
   <data name="QuickAccessTempError.Message" xml:space="preserve">
     <value>一時フォルダーはクイックアクセスに追加できません</value>
   </data>
@@ -4419,6 +4729,12 @@ Susie 書庫はこのサイズで判別せず、プラグインの設定での�
   </data>
   <data name="ReloadSettingCommand.Remarks" xml:space="preserve">
     <value>設定を再読み込みします。</value>
+  </data>
+  <data name="RemoveUnlinkedHistoryCommand" xml:space="preserve">
+    <value>無効な履歴を削除</value>
+  </data>
+  <data name="RemoveUnlinkedHistoryCommand.Remarks" xml:space="preserve">
+    <value>存在しない履歴項目を削除します。</value>
   </data>
   <data name="ResolveConflictDialog.Message" xml:space="preserve">
     <value>「{0}」で実行するコマンドを 1 つだけ選択してください</value>
@@ -4456,6 +4772,18 @@ Susie 書庫はこのサイズで判別せず、プラグインの設定での�
   <data name="ScriptCommand.Remarks" xml:space="preserve">
     <value>スクリプト。</value>
   </data>
+  <data name="ScriptCommandParameter.Argument" xml:space="preserve">
+    <value>コマンド引数</value>
+  </data>
+  <data name="ScriptCommandParameter.Argument.Remarks" xml:space="preserve">
+    <value>スクリプトの「nv.Args」に収納されます。</value>
+  </data>
+  <data name="ScriptConfig.ErrorLevel" xml:space="preserve">
+    <value>廃止されたメンバー アクセスのエラー レベル</value>
+  </data>
+  <data name="ScriptConfig.ErrorLevel.Remarks" xml:space="preserve">
+    <value>デバッグ用の設定です。バージョンアップによって使用できなくなったメンバー アクセスのエラー処理を選択します。</value>
+  </data>
   <data name="ScriptConfig.IsScriptFolderEnabled" xml:space="preserve">
     <value>スクリプトを使用する</value>
   </data>
@@ -4465,8 +4793,52 @@ Susie 書庫はこのサイズで判別せず、プラグインの設定での�
   <data name="ScriptConfig.ScriptFolder.Remarks" xml:space="preserve">
     <value>このフォルダーのスクリプトを使用します。</value>
   </data>
+  <data name="ScriptErrorDialog.OpenConsole" xml:space="preserve">
+    <value>スクリプト コンソールを開く</value>
+  </data>
+  <data name="ScriptErrorDialog.Title.Error" xml:space="preserve">
+    <value>スクリプト エラー</value>
+  </data>
+  <data name="ScriptErrorDialog.Title.Info" xml:space="preserve">
+    <value>スクリプト情報</value>
+  </data>
+  <data name="ScriptErrorDialog.Title.Warning" xml:space="preserve">
+    <value>スクリプト警告</value>
+  </data>
+  <data name="ScriptErrorLevel.Error" xml:space="preserve">
+    <value>Lv3: エラー</value>
+  </data>
+  <data name="ScriptErrorLevel.Error.Remarks" xml:space="preserve">
+    <value>エラーとして通知されます。トースト通知を行います。
+スクリプトは停止します。</value>
+  </data>
+  <data name="ScriptErrorLevel.Info" xml:space="preserve">
+    <value>Lv1: 情報</value>
+  </data>
+  <data name="ScriptErrorLevel.Info.Remarks" xml:space="preserve">
+    <value>情報として通知されます。スクリプト コンソールにのみ通知します。
+スクリプトは続行されます。
+廃止されたメンバーは型の既定値を返します。null になる可能性もあり、その後の動作は保証されません。</value>
+  </data>
+  <data name="ScriptErrorLevel.Warning" xml:space="preserve">
+    <value>Lv2: 警告</value>
+  </data>
+  <data name="ScriptErrorLevel.Warning.Remarks" xml:space="preserve">
+    <value>警告として通知されます。トースト通知を行います。
+スクリプトは続行されます。
+廃止されたメンバーは型の既定値を返します。null になる可能性もあり、その後の動作は保証されません。</value>
+  </data>
+  <data name="ScriptErrorMessage.Alternative" xml:space="preserve">
+    <value>代わりに {0} を使用してください。</value>
+  </data>
+  <data name="ScriptErrorMessage.Obsolete" xml:space="preserve">
+    <value>{0} は廃止されました。</value>
+  </data>
   <data name="ScriptOnBookLoadedCommand.Remarks" xml:space="preserve">
     <value>スクリプト。ブックを開いたときに実行されます。</value>
+  </data>
+  <data name="ScriptOnPageChangedCommand.Remarks" xml:space="preserve">
+    <value>スクリプト。表示ページが変更されたときに実行されます。</value>
   </data>
   <data name="ScriptReference" xml:space="preserve">
     <value>スクリプト リファレンス</value>
@@ -4509,6 +4881,9 @@ Susie 書庫はこのサイズで判別せず、プラグインの設定での�
   </data>
   <data name="ScrollPageCommandParameter.ScrollType" xml:space="preserve">
     <value>スクロール タイプ</value>
+  </data>
+  <data name="SensitiveDragActionParameter.Sensitivity" xml:space="preserve">
+    <value>感度</value>
   </data>
   <data name="SetBackgroundAutoCommand" xml:space="preserve">
     <value>背景を画像に合わせた色にする</value>
@@ -4659,6 +5034,18 @@ Susie 書庫はこのサイズで判別せず、プラグインの設定での�
   </data>
   <data name="SetPageModeTwoCommand.Remarks" xml:space="preserve">
     <value>2 ページ表示にします。</value>
+  </data>
+  <data name="SetSortModeEntryCommand" xml:space="preserve">
+    <value>ファイル登録昇順</value>
+  </data>
+  <data name="SetSortModeEntryCommand.Remarks" xml:space="preserve">
+    <value>ページの並び順を登録昇順にします。</value>
+  </data>
+  <data name="SetSortModeEntryDescendingCommand" xml:space="preserve">
+    <value>ファイル登録降順</value>
+  </data>
+  <data name="SetSortModeEntryDescendingCommand.Remarks" xml:space="preserve">
+    <value>ページの並び順を登録降順にします。</value>
   </data>
   <data name="SetSortModeFileNameCommand" xml:space="preserve">
     <value>ファイル名昇順</value>
@@ -5065,6 +5452,9 @@ Susie 書庫はこのサイズで判別せず、プラグインの設定での�
   <data name="SettingPage.Script" xml:space="preserve">
     <value>スクリプト</value>
   </data>
+  <data name="SettingPage.Script.OpenScriptFolder" xml:space="preserve">
+    <value>スクリプト フォルダーを開く</value>
+  </data>
   <data name="SettingPage.SearchResult" xml:space="preserve">
     <value>検索結果</value>
   </data>
@@ -5130,6 +5520,9 @@ Susie 書庫はこのサイズで判別せず、プラグインの設定での�
   </data>
   <data name="SettingPage.Window.Theme" xml:space="preserve">
     <value>テーマ</value>
+  </data>
+  <data name="SettingPage.Window.Theme.OpenCustomThemeFolder" xml:space="preserve">
+    <value>カスタム テーマ フォルダーを開く</value>
   </data>
   <data name="SettingPage.WindowTitle" xml:space="preserve">
     <value>ウィンドウ タイトル</value>
@@ -5217,6 +5610,9 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
   </data>
   <data name="SliderConfig.IsVisible" xml:space="preserve">
     <value>スライダー表示状態</value>
+  </data>
+  <data name="SliderConfig.IsVisiblePlaylistMark" xml:space="preserve">
+    <value>プレイリストのマークを表示する</value>
   </data>
   <data name="SliderConfig.Opacity" xml:space="preserve">
     <value>スライダーの不透明度</value>
@@ -5446,8 +5842,26 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
   <data name="SystemConfig.TemporaryDirectory.Remarks" xml:space="preserve">
     <value>多重圧縮ファイルの展開や事前展開に使用されます。</value>
   </data>
+  <data name="SystemConfig.TextEditor" xml:space="preserve">
+    <value>テキスト エディター</value>
+  </data>
+  <data name="SystemConfig.TextEditor.Remarks" xml:space="preserve">
+    <value>設定されていない場合、メモ帳を使用します。</value>
+  </data>
+  <data name="SystemConfig.WebBrowser" xml:space="preserve">
+    <value>Web ブラウザー</value>
+  </data>
+  <data name="SystemConfig.WebBrowser.Remarks" xml:space="preserve">
+    <value>設定されていない場合、既定のWeb ブラウザーを使用します。</value>
+  </data>
+  <data name="ThemeConfig.CustomThemeFolder" xml:space="preserve">
+    <value>カスタム テーマ フォルダーの場所</value>
+  </data>
   <data name="ThemeConfig.ThemeType" xml:space="preserve">
     <value>テーマの種類</value>
+  </data>
+  <data name="ThemeErrorDialog.FolderIsNotSet" xml:space="preserve">
+    <value>フォルダーが設定されていません。</value>
   </data>
   <data name="ThemeErrorDialog.Title" xml:space="preserve">
     <value>テーマ エラー</value>
@@ -5866,6 +6280,21 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
   <data name="TogglePermitFileCommand.Remarks" xml:space="preserve">
     <value>ファイル操作系コマンドの有効/無効を切り替えます。</value>
   </data>
+  <data name="TogglePlaylistItemCommand" xml:space="preserve">
+    <value>プレイリスト項目追加/削除</value>
+  </data>
+  <data name="TogglePlaylistItemCommand.Menu" xml:space="preserve">
+    <value>プレイリストに追加</value>
+  </data>
+  <data name="TogglePlaylistItemCommand.Off" xml:space="preserve">
+    <value>プレイリストから削除しました</value>
+  </data>
+  <data name="TogglePlaylistItemCommand.On" xml:space="preserve">
+    <value>プレイリストに追加しました</value>
+  </data>
+  <data name="TogglePlaylistItemCommand.Remarks" xml:space="preserve">
+    <value>現在のページをプレイリストに追加または削除します。</value>
+  </data>
   <data name="ToggleResizeFilterCommand" xml:space="preserve">
     <value>リサイズ フィルター有効/無効</value>
   </data>
@@ -6130,6 +6559,21 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
   <data name="ToggleVisiblePageSliderCommand.Remarks" xml:space="preserve">
     <value>スライダーの表示/非表示を切り替えます。</value>
   </data>
+  <data name="ToggleVisiblePlaylistCommand" xml:space="preserve">
+    <value>プレイリスト パネルの表示/非表示</value>
+  </data>
+  <data name="ToggleVisiblePlaylistCommand.Menu" xml:space="preserve">
+    <value>プレイリスト パネル</value>
+  </data>
+  <data name="ToggleVisiblePlaylistCommand.Off" xml:space="preserve">
+    <value>プレイリスト パネルを消す</value>
+  </data>
+  <data name="ToggleVisiblePlaylistCommand.On" xml:space="preserve">
+    <value>プレイリスト パネルを表示する</value>
+  </data>
+  <data name="ToggleVisiblePlaylistCommand.Remarks" xml:space="preserve">
+    <value>プレイリスト パネルの表示/非表示を切り替えます。</value>
+  </data>
   <data name="ToggleVisibleSideBarCommand" xml:space="preserve">
     <value>サイド バー表示/非表示</value>
   </data>
@@ -6331,11 +6775,23 @@ $Name は 2 ページ表示時には主となるページ (ページ番号の小
   <data name="ViewConfig.IsKeepAngle.Remarks" xml:space="preserve">
     <value>自動回転有効時はこの設定は機能しません。</value>
   </data>
+  <data name="ViewConfig.IsKeepAngleBooks" xml:space="preserve">
+    <value>ブックを変更しても回転を維持する</value>
+  </data>
+  <data name="ViewConfig.IsKeepAngleBooks.Remarks" xml:space="preserve">
+    <value>「@ViewConfig.IsKeepAngle」が有効なときに機能します。</value>
+  </data>
   <data name="ViewConfig.IsKeepFlip" xml:space="preserve">
     <value>ページを変更しても反転を維持する</value>
   </data>
+  <data name="ViewConfig.IsKeepFlipBooks" xml:space="preserve">
+    <value>ブックを変更しても反転を維持する</value>
+  </data>
   <data name="ViewConfig.IsKeepScale" xml:space="preserve">
     <value>ページを変更してもスケールを維持する</value>
+  </data>
+  <data name="ViewConfig.IsKeepScaleBooks" xml:space="preserve">
+    <value>ブックを変更してもスケールを維持する</value>
   </data>
   <data name="ViewConfig.IsLimitMove" xml:space="preserve">
     <value>移動をウィンドウ内に制限する</value>
@@ -6593,6 +7049,9 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="Word.AllHistory" xml:space="preserve">
     <value>すべての履歴</value>
   </data>
+  <data name="Word.Alternative" xml:space="preserve">
+    <value>代替案</value>
+  </data>
   <data name="Word.Argument" xml:space="preserve">
     <value>引数</value>
   </data>
@@ -6761,6 +7220,9 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="Word.None" xml:space="preserve">
     <value>なし</value>
   </data>
+  <data name="Word.ObsoleteList" xml:space="preserve">
+    <value>廃止されたメンバー</value>
+  </data>
   <data name="Word.Off" xml:space="preserve">
     <value>オフ</value>
   </data>
@@ -6898,467 +7360,5 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="ZipArchiveConfig.SupportFileTypes.Remarks" xml:space="preserve">
     <value>ZIP 形式のみ対応しています。</value>
-  </data>
-  <data name="Playlist.Title" xml:space="preserve">
-    <value>プレイリスト</value>
-  </data>
-  <data name="BookshelfItem.Menu.Edit" xml:space="preserve">
-    <value>編集(_E)</value>
-  </data>
-  <data name="Playlist.MoreMenu.New" xml:space="preserve">
-    <value>新規作成(_N)</value>
-  </data>
-  <data name="Playlist.MoreMenu.Open" xml:space="preserve">
-    <value>開く(_O)...</value>
-  </data>
-  <data name="Playlist.MoreMenu.Delete" xml:space="preserve">
-    <value>削除(_D)</value>
-  </data>
-  <data name="Playlist.MoreMenu.Rename" xml:space="preserve">
-    <value>名前の変更(_M)</value>
-  </data>
-  <data name="Playlist.MoreMenu.GroupBy" xml:space="preserve">
-    <value>グループで表示</value>
-  </data>
-  <data name="Playlist.MoreMenu.CurrentBook" xml:space="preserve">
-    <value>現在のブックのみ表示</value>
-  </data>
-  <data name="Playlist.MoreMenu.DeleteInvalid" xml:space="preserve">
-    <value>無効な項目を削除</value>
-  </data>
-  <data name="Playlist.MoreMenu.Sort" xml:space="preserve">
-    <value>パス順に並び替える</value>
-  </data>
-  <data name="Playlist.MoreMenu.OpenAsBook" xml:space="preserve">
-    <value>ブックとして開く</value>
-  </data>
-  <data name="Playlist.ErrorDialog.Title" xml:space="preserve">
-    <value>プレイリスト エラー</value>
-  </data>
-  <data name="Playlist.DeleteDialog.Title" xml:space="preserve">
-    <value>プレイリスト ファイルの削除</value>
-  </data>
-  <data name="PlaylistItem.Menu.Open" xml:space="preserve">
-    <value>開く(_O)</value>
-  </data>
-  <data name="PlaylistItem.Menu.Delete" xml:space="preserve">
-    <value>削除(_D)</value>
-  </data>
-  <data name="PlaylistItem.Menu.Rename" xml:space="preserve">
-    <value>名前の変更(_M)</value>
-  </data>
-  <data name="Notice.InvalidSeparatorChars" xml:space="preserve">
-    <value>次の文字は使えません:
-\ /</value>
-  </data>
-  <data name="Playlist.FailedToLoad" xml:space="preserve">
-    <value>プレイリストの読み込みに失敗しました</value>
-  </data>
-  <data name="Playlist.DeleteItemsMessage" xml:space="preserve">
-    <value>{0} 個の項目を削除しました。</value>
-  </data>
-  <data name="Playlist.FirstIn" xml:space="preserve">
-    <value>先頭に追加</value>
-  </data>
-  <data name="Playlist.LastIn" xml:space="preserve">
-    <value>末尾に追加</value>
-  </data>
-  <data name="Playlist.FailedToSave" xml:space="preserve">
-    <value>プレイリストの保存に失敗しました</value>
-  </data>
-  <data name="PlaylistConfig.CurrentPlaylist" xml:space="preserve">
-    <value>現在のプレイリスト</value>
-  </data>
-  <data name="PlaylistConfig.IsCurrentBookFilterEnabled" xml:space="preserve">
-    <value>開いているブックのページのみ表示する</value>
-  </data>
-  <data name="PlaylistConfig.IsFirstIn" xml:space="preserve">
-    <value>リストの先頭に追加する</value>
-  </data>
-  <data name="PlaylistConfig.IsFirstIn.Remarks" xml:space="preserve">
-    <value>追加コマンドでの挿入位置です。オフにすると、末尾に追加されます。</value>
-  </data>
-  <data name="PlaylistConfig.IsGroupBy" xml:space="preserve">
-    <value>フォルダごとにグループ化して表示</value>
-  </data>
-  <data name="PlaylistConfig.PanelListItemStyle" xml:space="preserve">
-    <value>リスト項目のスタイル</value>
-  </data>
-  <data name="PlaylistConfig.PlaylistFolder" xml:space="preserve">
-    <value>プレイリスト ファイルの保存場所</value>
-  </data>
-  <data name="PlaylistConfig.PlaylistFolder.Remarks" xml:space="preserve">
-    <value>このフォルダーにあるプレイリスト ファイルは管理されます。</value>
-  </data>
-  <data name="CommandHost.Playlist" xml:space="preserve">
-    <value>プレイリスト パネルのアクセサ</value>
-  </data>
-  <data name="PlaylistPanelAccessor.Path" xml:space="preserve">
-    <value>現在のプレイリストのパス</value>
-  </data>
-  <data name="PlaylistPanelAccessor.Style" xml:space="preserve">
-    <value>リスト項目表示形式</value>
-  </data>
-  <data name="PlaylistPanelAccessor.Items" xml:space="preserve">
-    <value>リスト項目</value>
-  </data>
-  <data name="PlaylistPanelAccessor.SelectedItems" xml:space="preserve">
-    <value>選択されているリスト項目</value>
-  </data>
-  <data name="PlaylistPanelAccessor" xml:space="preserve">
-    <value>プレイリスト パネルのアクセサ</value>
-  </data>
-  <data name="PlaylistItemAccessor" xml:space="preserve">
-    <value>プレイリスト項目のアクセサ</value>
-  </data>
-  <data name="PlaylistItemAccessor.Name" xml:space="preserve">
-    <value>項目名</value>
-  </data>
-  <data name="PlaylistItemAccessor.Path" xml:space="preserve">
-    <value>項目に対応するパス</value>
-  </data>
-  <data name="PageSortMode.Entry" xml:space="preserve">
-    <value>登録↑</value>
-  </data>
-  <data name="PageSortMode.EntryDescending" xml:space="preserve">
-    <value>登録↓</value>
-  </data>
-  <data name="SetSortModeEntryCommand" xml:space="preserve">
-    <value>ファイル登録昇順</value>
-  </data>
-  <data name="SetSortModeEntryCommand.Remarks" xml:space="preserve">
-    <value>ページの並び順を登録昇順にします。</value>
-  </data>
-  <data name="SetSortModeEntryDescendingCommand" xml:space="preserve">
-    <value>ファイル登録降順</value>
-  </data>
-  <data name="SetSortModeEntryDescendingCommand.Remarks" xml:space="preserve">
-    <value>ページの並び順を登録降順にします。</value>
-  </data>
-  <data name="ToggleVisiblePlaylistCommand" xml:space="preserve">
-    <value>プレイリスト パネルの表示/非表示</value>
-  </data>
-  <data name="ToggleVisiblePlaylistCommand.Menu" xml:space="preserve">
-    <value>プレイリスト パネル</value>
-  </data>
-  <data name="ToggleVisiblePlaylistCommand.Off" xml:space="preserve">
-    <value>プレイリスト パネルを消す</value>
-  </data>
-  <data name="ToggleVisiblePlaylistCommand.On" xml:space="preserve">
-    <value>プレイリスト パネルを表示する</value>
-  </data>
-  <data name="ToggleVisiblePlaylistCommand.Remarks" xml:space="preserve">
-    <value>プレイリスト パネルの表示/非表示を切り替えます。</value>
-  </data>
-  <data name="TogglePlaylistItemCommand" xml:space="preserve">
-    <value>プレイリスト項目追加/削除</value>
-  </data>
-  <data name="TogglePlaylistItemCommand.Menu" xml:space="preserve">
-    <value>プレイリストに追加</value>
-  </data>
-  <data name="TogglePlaylistItemCommand.Off" xml:space="preserve">
-    <value>プレイリストから削除しました</value>
-  </data>
-  <data name="TogglePlaylistItemCommand.On" xml:space="preserve">
-    <value>プレイリストに追加しました</value>
-  </data>
-  <data name="TogglePlaylistItemCommand.Remarks" xml:space="preserve">
-    <value>現在のページをプレイリストに追加または削除します。</value>
-  </data>
-  <data name="PrevPlaylistItemCommand" xml:space="preserve">
-    <value>前のプレイリスト項目に移動</value>
-  </data>
-  <data name="PrevPlaylistItemCommand.Remarks" xml:space="preserve">
-    <value>前のプレイリスト項目に移動します。</value>
-  </data>
-  <data name="PrevPlaylistItemInBookCommand" xml:space="preserve">
-    <value>ブック内の前のプレイリスト項目に移動</value>
-  </data>
-  <data name="PrevPlaylistItemInBookCommand.Remarks" xml:space="preserve">
-    <value>現在のブック内で前のプレイリスト項目に移動します。</value>
-  </data>
-  <data name="NextPlaylistItemCommand" xml:space="preserve">
-    <value>次のプレイリスト項目に移動</value>
-  </data>
-  <data name="NextPlaylistItemCommand.Remarks" xml:space="preserve">
-    <value>次のプレイリスト項目に移動します。</value>
-  </data>
-  <data name="NextPlaylistItemInBookCommand" xml:space="preserve">
-    <value>ブック内の次のプレイリスト項目に移動</value>
-  </data>
-  <data name="NextPlaylistItemInBookCommand.Remarks" xml:space="preserve">
-    <value>現在のブック内で次のプレイリスト項目に移動します。</value>
-  </data>
-  <data name="CommandGroup.Playlist" xml:space="preserve">
-    <value>プレイリスト</value>
-  </data>
-  <data name="FilmStripConfig.IsVisiblePlaylistMark" xml:space="preserve">
-    <value>プレイリストのマークを表示する</value>
-  </data>
-  <data name="Notice.FirstPlaylistItem" xml:space="preserve">
-    <value>現在ページより前のプレイリスト項目はありません</value>
-  </data>
-  <data name="Notice.LastPlaylistItem" xml:space="preserve">
-    <value>現在ページより後のプレイリスト項目はありません</value>
-  </data>
-  <data name="Notice.PlaylistItemNextFailed" xml:space="preserve">
-    <value>次のプレイリスト項目はありません</value>
-  </data>
-  <data name="Notice.PlaylistItemPrevFailed" xml:space="preserve">
-    <value>前のプレイリスト項目はありません</value>
-  </data>
-  <data name="Notice.RemoveUnlinkedPlaylistItem" xml:space="preserve">
-    <value>{0} 個のプレイリスト項目を削除しました。</value>
-  </data>
-  <data name="PageListItem.Menu.AddToPlaylist" xml:space="preserve">
-    <value>プレイリストに追加(_M)</value>
-  </data>
-  <data name="SliderConfig.IsVisiblePlaylistMark" xml:space="preserve">
-    <value>プレイリストのマークを表示する</value>
-  </data>
-  <data name="BookmarkFolderDelete.Message" xml:space="preserve">
-    <value>{0} 個のブックマークを削除しました。</value>
-  </data>
-  <data name="MovePlaylsitItemInBookCommandParameter.IsIncludeTerminal" xml:space="preserve">
-    <value>最初と最後のページを含める</value>
-  </data>
-  <data name="MovePlaylsitItemInBookCommandParameter.IsLoop" xml:space="preserve">
-    <value>ループ</value>
-  </data>
-  <data name="PlaylistItem.Menu.MoveToAnother" xml:space="preserve">
-    <value>ほかのプレイリストに移動</value>
-  </data>
-  <data name="Notice.ImageDecodeFailed" xml:space="preserve">
-    <value>画像のデコードに失敗しました。</value>
-  </data>
-  <data name="ImportControl.Playlist" xml:space="preserve">
-    <value>{0} 個のプレイリスト</value>
-  </data>
-  <data name="SettingPage.Window.Theme.OpenCustomThemeFolder" xml:space="preserve">
-    <value>カスタム テーマ フォルダーを開く</value>
-  </data>
-  <data name="ThemeConfig.CustomThemeFolder" xml:space="preserve">
-    <value>カスタム テーマ フォルダーの場所</value>
-  </data>
-  <data name="ImportControl.Theme" xml:space="preserve">
-    <value>{0} 個のカスタム テーマ</value>
-  </data>
-  <data name="ImportControl.Script" xml:space="preserve">
-    <value>{0} 個のスクリプト</value>
-  </data>
-  <data name="OpenScriptsFolderErrorDialog.FolderIsNotSet" xml:space="preserve">
-    <value>フォルダーが設定されていません。</value>
-  </data>
-  <data name="SettingPage.Script.OpenScriptFolder" xml:space="preserve">
-    <value>スクリプト フォルダーを開く</value>
-  </data>
-  <data name="ThemeErrorDialog.FolderIsNotSet" xml:space="preserve">
-    <value>フォルダーが設定されていません。</value>
-  </data>
-  <data name="PlaylistErrorDialog.FolderIsNotSet" xml:space="preserve">
-    <value>フォルダーが設定されていません。</value>
-  </data>
-  <data name="CommandListItem.Menu.Edit" xml:space="preserve">
-    <value>編集(_E)</value>
-  </data>
-  <data name="CommandListItem.Menu.Setting" xml:space="preserve">
-    <value>設定(_S)</value>
-  </data>
-  <data name="CommandListItem.Menu.Clone" xml:space="preserve">
-    <value>複製(_C)</value>
-  </data>
-  <data name="CommandListItem.Menu.Delete" xml:space="preserve">
-    <value>削除(_D)</value>
-  </data>
-  <data name="ScriptCommandParameter.Argument" xml:space="preserve">
-    <value>コマンド引数</value>
-  </data>
-  <data name="ScriptCommandParameter.Argument.Remarks" xml:space="preserve">
-    <value>スクリプトの「nv.Args」に収納されます。</value>
-  </data>
-  <data name="SystemConfig.TextEditor" xml:space="preserve">
-    <value>テキスト エディター</value>
-  </data>
-  <data name="SystemConfig.TextEditor.Remarks" xml:space="preserve">
-    <value>設定されていない場合、メモ帳を使用します。</value>
-  </data>
-  <data name="CommandHost.Args" xml:space="preserve">
-    <value>コマンド引数はこの配列に収納されます。</value>
-  </data>
-  <data name="Navigator.IsKeepAngleBooks" xml:space="preserve">
-    <value>ブック変更時に回転を維持</value>
-  </data>
-  <data name="Navigator.IsKeepScaleBooks" xml:space="preserve">
-    <value>ブック変更時にスケールを維持</value>
-  </data>
-  <data name="Navigator.IsKeepFlipBooks" xml:space="preserve">
-    <value>ブック変更時に反転を維持</value>
-  </data>
-  <data name="ViewConfig.IsKeepAngleBooks" xml:space="preserve">
-    <value>ブックを変更しても回転を維持する</value>
-  </data>
-  <data name="ViewConfig.IsKeepAngleBooks.Remarks" xml:space="preserve">
-    <value>「@ViewConfig.IsKeepAngle」が有効なときに機能します。</value>
-  </data>
-  <data name="ViewConfig.IsKeepScaleBooks" xml:space="preserve">
-    <value>ブックを変更してもスケールを維持する</value>
-  </data>
-  <data name="ViewConfig.IsKeepFlipBooks" xml:space="preserve">
-    <value>ブックを変更しても反転を維持する</value>
-  </data>
-  <data name="FolderTree.Menu.Rename" xml:space="preserve">
-    <value>名前の變更(_M)</value>
-  </data>
-  <data name="FolderTree.Menu.Delete" xml:space="preserve">
-    <value>削除(_D)</value>
-  </data>
-  <data name="FolderTree.Menu.Property" xml:space="preserve">
-    <value>プロパティ(_R)</value>
-  </data>
-  <data name="FolderTree.Menu.NewFolder" xml:space="preserve">
-    <value>新しいフォルダー(_F)</value>
-  </data>
-  <data name="QuickAccessPropertyDialog.Title" xml:space="preserve">
-    <value>クイック アクセスのプロパティ</value>
-  </data>
-  <data name="BookAccessor.Wait" xml:space="preserve">
-    <value>表示ページの読み込みが完了するまで待機する</value>
-  </data>
-  <data name="NavigatorConfig.ThumbnailHeight" xml:space="preserve">
-    <value>サムネイル エリアの高さ</value>
-  </data>
-  <data name="History.DeleteItemsMessage" xml:space="preserve">
-    <value>{0} 個の項目を削除しました。</value>
-  </data>
-  <data name="RemoveUnlinkedHistoryCommand" xml:space="preserve">
-    <value>無効な履歴を削除</value>
-  </data>
-  <data name="RemoveUnlinkedHistoryCommand.Remarks" xml:space="preserve">
-    <value>存在しない履歴項目を削除します。</value>
-  </data>
-  <data name="SystemConfig.WebBrowser" xml:space="preserve">
-    <value>Web ブラウザー</value>
-  </data>
-  <data name="SystemConfig.WebBrowser.Remarks" xml:space="preserve">
-    <value>設定されていない場合、既定のWeb ブラウザーを使用します。</value>
-  </data>
-  <data name="ScriptOnPageChangedCommand.Remarks" xml:space="preserve">
-    <value>スクリプト。表示ページが変更されたときに実行されます。</value>
-  </data>
-  <data name="BookshelfItem.Menu.OpenInPlaylist" xml:space="preserve">
-    <value>プレイリストで開く(_P)</value>
-  </data>
-  <data name="ScriptConfig.ErrorLevel" xml:space="preserve">
-    <value>廃止されたメンバー アクセスのエラー レベル</value>
-  </data>
-  <data name="ScriptConfig.ErrorLevel.Remarks" xml:space="preserve">
-    <value>デバッグ用の設定です。バージョンアップによって使用できなくなったメンバー アクセスのエラー処理を選択します。</value>
-  </data>
-  <data name="ScriptErrorLevel.Info" xml:space="preserve">
-    <value>Lv1: 情報</value>
-  </data>
-  <data name="ScriptErrorLevel.Info.Remarks" xml:space="preserve">
-    <value>情報として通知されます。スクリプト コンソールにのみ通知します。
-スクリプトは続行されます。
-廃止されたメンバーは型の既定値を返します。null になる可能性もあり、その後の動作は保証されません。</value>
-  </data>
-  <data name="ScriptErrorLevel.Warning" xml:space="preserve">
-    <value>Lv2: 警告</value>
-  </data>
-  <data name="ScriptErrorLevel.Warning.Remarks" xml:space="preserve">
-    <value>警告として通知されます。トースト通知を行います。
-スクリプトは続行されます。
-廃止されたメンバーは型の既定値を返します。null になる可能性もあり、その後の動作は保証されません。</value>
-  </data>
-  <data name="ScriptErrorLevel.Error" xml:space="preserve">
-    <value>Lv3: エラー</value>
-  </data>
-  <data name="ScriptErrorLevel.Error.Remarks" xml:space="preserve">
-    <value>エラーとして通知されます。トースト通知を行います。
-スクリプトは停止します。</value>
-  </data>
-  <data name="ScriptErrorDialog.Title.Error" xml:space="preserve">
-    <value>スクリプト エラー</value>
-  </data>
-  <data name="ScriptErrorDialog.Title.Warning" xml:space="preserve">
-    <value>スクリプト警告</value>
-  </data>
-  <data name="ScriptErrorDialog.Title.Info" xml:space="preserve">
-    <value>スクリプト情報</value>
-  </data>
-  <data name="ScriptErrorDialog.OpenConsole" xml:space="preserve">
-    <value>スクリプト コンソールを開く</value>
-  </data>
-  <data name="Word.ObsoleteList" xml:space="preserve">
-    <value>廃止されたメンバー</value>
-  </data>
-  <data name="Word.Alternative" xml:space="preserve">
-    <value>代替案</value>
-  </data>
-  <data name="ScriptErrorMessage.Obsolete" xml:space="preserve">
-    <value>{0} は廃止されました。</value>
-  </data>
-  <data name="ScriptErrorMessage.Alternative" xml:space="preserve">
-    <value>代わりに {0} を使用してください。</value>
-  </data>
-  <data name="OpenExternalAppCommandParameter.WorkingDirectory" xml:space="preserve">
-    <value>作業ディレクトリ</value>
-  </data>
-  <data name="CommandHost.Environment" xml:space="preserve">
-    <value>環境アクセサ</value>
-  </data>
-  <data name="EnvironmentAccessor" xml:space="preserve">
-    <value>環境アクセサ</value>
-  </data>
-  <data name="EnvironmentAccessor.NeeViewPath" xml:space="preserve">
-    <value>NeeView 実行ファイルのパス</value>
-  </data>
-  <data name="EnvironmentAccessor.UserSettingFilePath" xml:space="preserve">
-    <value>ユーザー設定ファイルのパス</value>
-  </data>
-  <data name="MultiPagePolicy.AllLeftToRight" xml:space="preserve">
-    <value>全てのページを実行する (左から右)</value>
-  </data>
-  <data name="ExportBackupCommandParameter.FileName" xml:space="preserve">
-    <value>バックアップ ファイルのパス</value>
-  </data>
-  <data name="ImportBackupCommandParameter.FileName" xml:space="preserve">
-    <value>バックアップ ファイルのパス</value>
-  </data>
-  <data name="ImportBackupCommandParameter.UserSetting" xml:space="preserve">
-    <value>ユーザー設定</value>
-  </data>
-  <data name="ImportBackupCommandParameter.History" xml:space="preserve">
-    <value>履歴</value>
-  </data>
-  <data name="ImportBackupCommandParameter.Bookmark" xml:space="preserve">
-    <value>ブックマーク</value>
-  </data>
-  <data name="ImportBackupCommandParameter.Playlists" xml:space="preserve">
-    <value>プレイリスト</value>
-  </data>
-  <data name="ImportBackupCommandParameter.Themes" xml:space="preserve">
-    <value>カスタム テーマ</value>
-  </data>
-  <data name="ImportBackupCommandParameter.Scripts" xml:space="preserve">
-    <value>スクリプト</value>
-  </data>
-  <data name="ImportAction.Undefined" xml:space="preserve">
-    <value>未定義</value>
-  </data>
-  <data name="ImportAction.Skip" xml:space="preserve">
-    <value>スキップ</value>
-  </data>
-  <data name="ImportAction.Import" xml:space="preserve">
-    <value>インポート</value>
-  </data>
-  <data name="AutoHideConfig.AutoHideHitTestHorizontalMargin" xml:space="preserve">
-    <value>パネル自動表示判定の水平方向エリア幅 (ピクセル)</value>
-  </data>
-  <data name="AutoHideConfig.AutoHideHitTestVerticalMargin" xml:space="preserve">
-    <value>パネル自動表示判定の垂直方向エリア幅 (ピクセル)</value>
-  </data>
-  <data name="SensitiveDragActionParameter.Sensitivity" xml:space="preserve">
-    <value>感度</value>
   </data>
 </root>

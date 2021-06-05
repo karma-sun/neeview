@@ -603,6 +603,9 @@ nv.Command.ToggleMediaPlay.Execute()
   <data name="BookAccessor.ViewPages" xml:space="preserve">
     <value>顯示中的頁面</value>
   </data>
+  <data name="BookAccessor.Wait" xml:space="preserve">
+    <value>等待直到顯示頁面的讀入完成</value>
+  </data>
   <data name="BookAddressInfo.Bookmark" xml:space="preserve">
     <value>此為書籤位置</value>
   </data>
@@ -728,6 +731,9 @@ nv.Command.ToggleMediaPlay.Execute()
   </data>
   <data name="BookmarkConfig.IsSyncBookshelfEnabled" xml:space="preserve">
     <value>書本開啟時與書庫同步</value>
+  </data>
+  <data name="BookmarkFolderDelete.Message" xml:space="preserve">
+    <value>已刪除 {0} 個書籤。</value>
   </data>
   <data name="BookmarkItemAccessor" xml:space="preserve">
     <value>書籤面板項目</value>
@@ -1014,6 +1020,9 @@ nv.Command.ToggleMediaPlay.Execute()
   <data name="BookshelfItem.Menu.DestinationFolderOption" xml:space="preserve">
     <value>加入資料夾(_A)...</value>
   </data>
+  <data name="BookshelfItem.Menu.Edit" xml:space="preserve">
+    <value>編輯(_E)</value>
+  </data>
   <data name="BookshelfItem.Menu.Explorer" xml:space="preserve">
     <value>以檔案總管開啟(_X)</value>
   </data>
@@ -1031,6 +1040,9 @@ nv.Command.ToggleMediaPlay.Execute()
   </data>
   <data name="BookshelfItem.Menu.OpenExternalApp" xml:space="preserve">
     <value>以外部應用程式開啟(_A)</value>
+  </data>
+  <data name="BookshelfItem.Menu.OpenInPlaylist" xml:space="preserve">
+    <value>開啟播放列表(_P)</value>
   </data>
   <data name="BookshelfItem.Menu.Rename" xml:space="preserve">
     <value>重新命名(_M)</value>
@@ -1286,6 +1298,9 @@ nv.Command.ViewRotateLeft.TouchGesture = "TouchCenter"</value>
   <data name="CommandGroup.Panel" xml:space="preserve">
     <value>面板</value>
   </data>
+  <data name="CommandGroup.Playlist" xml:space="preserve">
+    <value>播放列表</value>
+  </data>
   <data name="CommandGroup.Script" xml:space="preserve">
     <value>腳本</value>
   </data>
@@ -1300,6 +1315,9 @@ nv.Command.ViewRotateLeft.TouchGesture = "TouchCenter"</value>
   </data>
   <data name="CommandHost" xml:space="preserve">
     <value>提供給應用程式的特定功能。</value>
+  </data>
+  <data name="CommandHost.Args" xml:space="preserve">
+    <value>指令參數儲存在這個陣列中。</value>
   </data>
   <data name="CommandHost.Book" xml:space="preserve">
     <value>已開啟書本存取器</value>
@@ -1331,6 +1349,9 @@ nv.Config.Theme.ThemeType = "Dark"</value>
   <data name="CommandHost.Effect" xml:space="preserve">
     <value>效果面板存取器</value>
   </data>
+  <data name="CommandHost.Environment" xml:space="preserve">
+    <value>環境存取器</value>
+  </data>
   <data name="CommandHost.History" xml:space="preserve">
     <value>歷史記錄面板存取器</value>
   </data>
@@ -1342,6 +1363,9 @@ nv.Config.Theme.ThemeType = "Dark"</value>
   </data>
   <data name="CommandHost.PageList" xml:space="preserve">
     <value>頁面列表面板存取器</value>
+  </data>
+  <data name="CommandHost.Playlist" xml:space="preserve">
+    <value>播放列表面板存取器</value>
   </data>
   <data name="CommandHost.ShowDialog" xml:space="preserve">
     <value>顯示對話框。</value>
@@ -1424,6 +1448,18 @@ nv.Values.Test = "Hello!"</value>
   </data>
   <data name="CommandList.ResetButton" xml:space="preserve">
     <value>重設...</value>
+  </data>
+  <data name="CommandListItem.Menu.Clone" xml:space="preserve">
+    <value>複製(_C)</value>
+  </data>
+  <data name="CommandListItem.Menu.Delete" xml:space="preserve">
+    <value>刪除(_D)</value>
+  </data>
+  <data name="CommandListItem.Menu.Edit" xml:space="preserve">
+    <value>編輯(_E)</value>
+  </data>
+  <data name="CommandListItem.Menu.Setting" xml:space="preserve">
+    <value>設定(_S)</value>
   </data>
   <data name="CommandListItem.Message.ShareParameter" xml:space="preserve">
     <value>與「{0}」參數共用</value>
@@ -1757,6 +1793,15 @@ nv.Values.Test = "Hello!"</value>
   </data>
   <data name="EmbossedEffectUnit.Height" xml:space="preserve">
     <value>Height</value>
+  </data>
+  <data name="EnvironmentAccessor" xml:space="preserve">
+    <value>環境存取器</value>
+  </data>
+  <data name="EnvironmentAccessor.NeeViewPath" xml:space="preserve">
+    <value>NeeView 執行檔的路徑</value>
+  </data>
+  <data name="EnvironmentAccessor.UserSettingFilePath" xml:space="preserve">
+    <value>使用者設定檔的路徑</value>
   </data>
   <data name="ExifContrast.Hard" xml:space="preserve">
     <value>硬</value>
@@ -2264,6 +2309,9 @@ nv.Values.Test = "Hello!"</value>
   <data name="FilmStripConfig.IsVisiblePlate.Remarks" xml:space="preserve">
     <value>「@FilmStripConfig.IsHideFilmStrip」為啟用時，會顯示膠片條的背景。</value>
   </data>
+  <data name="FilmStripConfig.IsVisiblePlaylistMark" xml:space="preserve">
+    <value>顯示播放列表標記</value>
+  </data>
   <data name="FirstPageCommand" xml:space="preserve">
     <value>移動到開始頁面</value>
   </data>
@@ -2304,7 +2352,7 @@ nv.Values.Test = "Hello!"</value>
     <value>切換下一個 NeeView</value>
   </data>
   <data name="FocusNextAppCommand.Menu" xml:space="preserve">
-    <value>切換到下一個 NeeView </value>
+    <value>切換到下一個 NeeView</value>
   </data>
   <data name="FocusNextAppCommand.Remarks" xml:space="preserve">
     <value>多重啟動時切換到下一個 NeeView 。</value>
@@ -2378,14 +2426,26 @@ nv.Values.Test = "Hello!"</value>
   <data name="FolderTree.Menu.AddQuickAccess" xml:space="preserve">
     <value>加入到快速存取</value>
   </data>
+  <data name="FolderTree.Menu.Delete" xml:space="preserve">
+    <value>刪除(_D)</value>
+  </data>
   <data name="FolderTree.Menu.DeleteInvalidBookmark" xml:space="preserve">
     <value>刪除無效的書籤</value>
   </data>
   <data name="FolderTree.Menu.Explorer" xml:space="preserve">
     <value>以檔案總管開啟</value>
   </data>
+  <data name="FolderTree.Menu.NewFolder" xml:space="preserve">
+    <value>新資料夾(_F)</value>
+  </data>
+  <data name="FolderTree.Menu.Property" xml:space="preserve">
+    <value>屬性(_R)</value>
+  </data>
   <data name="FolderTree.Menu.RefreshFolder" xml:space="preserve">
     <value>重新讀入</value>
+  </data>
+  <data name="FolderTree.Menu.Rename" xml:space="preserve">
+    <value>重新命名(_M)</value>
   </data>
   <data name="FolderTreeLayout.Left" xml:space="preserve">
     <value>配置在左</value>
@@ -2452,6 +2512,9 @@ nv.Values.Test = "Hello!"</value>
   </data>
   <data name="HelpSearchOptionCommand.Remarks" xml:space="preserve">
     <value>以瀏覽器搜尋選項的說明。</value>
+  </data>
+  <data name="History.DeleteItemsMessage" xml:space="preserve">
+    <value>已刪除了 {0} 個項目。</value>
   </data>
   <data name="History.MoreMenu.DeleteAll" xml:space="preserve">
     <value>刪除所有歷史記錄</value>
@@ -2723,8 +2786,17 @@ nv.Values.Test = "Hello!"</value>
   <data name="ImportControl.Pagemark" xml:space="preserve">
     <value>頁籤</value>
   </data>
+  <data name="ImportControl.Playlist" xml:space="preserve">
+    <value>{0} 個播放列表</value>
+  </data>
+  <data name="ImportControl.Script" xml:space="preserve">
+    <value>{0} 個腳本</value>
+  </data>
   <data name="ImportControl.Setting" xml:space="preserve">
     <value>設定</value>
+  </data>
+  <data name="ImportControl.Theme" xml:space="preserve">
+    <value>{0} 個自訂主題</value>
   </data>
   <data name="ImportDialog.Title" xml:space="preserve">
     <value>匯入全部設定</value>
@@ -2979,7 +3051,7 @@ nv.Values.Test = "Hello!"</value>
     <value>資訊面板存取器</value>
   </data>
   <data name="InputGestureControl.ButtonConflict" xml:space="preserve">
-    <value>消除衝突 </value>
+    <value>消除衝突</value>
   </data>
   <data name="InputGestureControl.InputMouse" xml:space="preserve">
     <value>在這裡使用滑鼠輸入</value>
@@ -3476,6 +3548,12 @@ include("Sample.nvjs")</value>
 滑鼠手勢為滑鼠右鍵按著拖曳操作。
 可以把左鍵點擊登錄視為最後的手勢按鍵。</value>
   </data>
+  <data name="MovePlaylsitItemInBookCommandParameter.IsIncludeTerminal" xml:space="preserve">
+    <value>包括開始與最後頁面</value>
+  </data>
+  <data name="MovePlaylsitItemInBookCommandParameter.IsLoop" xml:space="preserve">
+    <value>循環</value>
+  </data>
   <data name="MoveSizePageCommandParameter.Size" xml:space="preserve">
     <value>移動頁面數量</value>
   </data>
@@ -3493,6 +3571,9 @@ include("Sample.nvjs")</value>
   </data>
   <data name="MultiPagePolicy.All" xml:space="preserve">
     <value>執行全部的頁面</value>
+  </data>
+  <data name="MultiPagePolicy.AllLeftToRight" xml:space="preserve">
+    <value>執行全部的頁面 (從左到右)</value>
   </data>
   <data name="MultiPagePolicy.Once" xml:space="preserve">
     <value>僅執行 1 頁面</value>
@@ -3515,11 +3596,20 @@ include("Sample.nvjs")</value>
   <data name="Navigator.IsKeepAngle" xml:space="preserve">
     <value>保持旋轉</value>
   </data>
+  <data name="Navigator.IsKeepAngleBooks" xml:space="preserve">
+    <value>書本更改時保持旋轉</value>
+  </data>
   <data name="Navigator.IsKeepFlip" xml:space="preserve">
     <value>保持翻轉</value>
   </data>
+  <data name="Navigator.IsKeepFlipBooks" xml:space="preserve">
+    <value>書本更改時保持翻轉</value>
+  </data>
   <data name="Navigator.IsKeepScale" xml:space="preserve">
     <value>保持比例</value>
+  </data>
+  <data name="Navigator.IsKeepScaleBooks" xml:space="preserve">
+    <value>書本更改時保持比例</value>
   </data>
   <data name="Navigator.MoreMenu.IsVisibleThumbnail" xml:space="preserve">
     <value>縮圖</value>
@@ -3566,6 +3656,9 @@ include("Sample.nvjs")</value>
   <data name="NavigatorConfig.IsVisibleThumbnail" xml:space="preserve">
     <value>顯示縮圖</value>
   </data>
+  <data name="NavigatorConfig.ThumbnailHeight" xml:space="preserve">
+    <value>縮圖區域的高度</value>
+  </data>
   <data name="NavigatorPanelAccessor" xml:space="preserve">
     <value>導覽面板存取器</value>
   </data>
@@ -3610,6 +3703,18 @@ include("Sample.nvjs")</value>
   </data>
   <data name="NextPageCommand.Remarks" xml:space="preserve">
     <value>往頁面下一個方向移動。2 頁面顯示時移動 2 頁面。</value>
+  </data>
+  <data name="NextPlaylistItemCommand" xml:space="preserve">
+    <value>移動到下一個播放列表項目</value>
+  </data>
+  <data name="NextPlaylistItemCommand.Remarks" xml:space="preserve">
+    <value>移動到下一個播放列表項目。</value>
+  </data>
+  <data name="NextPlaylistItemInBookCommand" xml:space="preserve">
+    <value>移動到書本內下一個播放列表項目</value>
+  </data>
+  <data name="NextPlaylistItemInBookCommand.Remarks" xml:space="preserve">
+    <value>移動到目前書本內的下一個播放列表項目。</value>
   </data>
   <data name="NextScrollPageCommand" xml:space="preserve">
     <value>捲動＋前進到下一個頁面</value>
@@ -3669,6 +3774,9 @@ include("Sample.nvjs")</value>
   <data name="Notice.FirstPage" xml:space="preserve">
     <value>開始的頁面</value>
   </data>
+  <data name="Notice.FirstPlaylistItem" xml:space="preserve">
+    <value>目前頁面沒有前一個播放列表項目</value>
+  </data>
   <data name="Notice.FlipHorizontal" xml:space="preserve">
     <value>左右翻轉</value>
   </data>
@@ -3684,9 +3792,16 @@ include("Sample.nvjs")</value>
   <data name="Notice.HistoryTerminal" xml:space="preserve">
     <value>沒有比這更舊的歷史記錄</value>
   </data>
+  <data name="Notice.ImageDecodeFailed" xml:space="preserve">
+    <value>圖像解碼失敗了。</value>
+  </data>
   <data name="Notice.InvalidFileNameChars" xml:space="preserve">
     <value>檔案名稱無法使用以下文字:
 \ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="Notice.InvalidSeparatorChars" xml:space="preserve">
+    <value>無法使用以下的文字:
+\ /</value>
   </data>
   <data name="Notice.JumpPageLabel" xml:space="preserve">
     <value>ページ編號 ({0} - {1})</value>
@@ -3696,6 +3811,9 @@ include("Sample.nvjs")</value>
   </data>
   <data name="Notice.LastPage" xml:space="preserve">
     <value>最後的頁面</value>
+  </data>
+  <data name="Notice.LastPlaylistItem" xml:space="preserve">
+    <value>目前頁面沒有下一個播放列表項目</value>
   </data>
   <data name="Notice.LoadBookmarkFailed" xml:space="preserve">
     <value>書籤讀入失敗了。</value>
@@ -3744,6 +3862,15 @@ include("Sample.nvjs")</value>
   </data>
   <data name="Notice.PlayFailed" xml:space="preserve">
     <value>播放錯誤</value>
+  </data>
+  <data name="Notice.PlaylistItemNextFailed" xml:space="preserve">
+    <value>沒有下一個播放列表項目</value>
+  </data>
+  <data name="Notice.PlaylistItemPrevFailed" xml:space="preserve">
+    <value>沒有前一個播放列表項目</value>
+  </data>
+  <data name="Notice.RemoveUnlinkedPlaylistItem" xml:space="preserve">
+    <value>已刪除 {0} 個播放列表項目。</value>
   </data>
   <data name="Notice.SearchKeywordDateTimeError" xml:space="preserve">
     <value>不正確的日期時間格式</value>
@@ -3851,6 +3978,9 @@ include("Sample.nvjs")</value>
   <data name="OpenExternalAppCommandParameter.Parameter.Remarks" xml:space="preserve">
     <value>$File 會被替換 為檔案路徑。$Uri 會被替換為 URI 轉義的檔案路徑。</value>
   </data>
+  <data name="OpenExternalAppCommandParameter.WorkingDirectory" xml:space="preserve">
+    <value>工作資料夾</value>
+  </data>
   <data name="OpenOptionsWindowCommand" xml:space="preserve">
     <value>開啟設定視窗</value>
   </data>
@@ -3865,6 +3995,9 @@ include("Sample.nvjs")</value>
   </data>
   <data name="OpenScriptsFolderCommand.Remarks" xml:space="preserve">
     <value>以檔案總管開啟腳本資料夾。</value>
+  </data>
+  <data name="OpenScriptsFolderErrorDialog.FolderIsNotSet" xml:space="preserve">
+    <value>沒有資料夾被設定。</value>
   </data>
   <data name="OpenScriptsFolderErrorDialog.Title" xml:space="preserve">
     <value>無法開啟腳本資料夾</value>
@@ -3963,6 +4096,9 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="PageListConfig.PanelListItemStyle" xml:space="preserve">
     <value>頁面列表項目樣式</value>
   </data>
+  <data name="PageListItem.Menu.AddToPlaylist" xml:space="preserve">
+    <value>加入到播放列表(_M)</value>
+  </data>
   <data name="PageListItem.Menu.Copy" xml:space="preserve">
     <value>複製(_C)</value>
   </data>
@@ -4040,6 +4176,12 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   </data>
   <data name="PageSortMode" xml:space="preserve">
     <value>頁面排序</value>
+  </data>
+  <data name="PageSortMode.Entry" xml:space="preserve">
+    <value>登録↑</value>
+  </data>
+  <data name="PageSortMode.EntryDescending" xml:space="preserve">
+    <value>登録↓</value>
   </data>
   <data name="PageSortMode.FileName" xml:space="preserve">
     <value>名稱↑</value>
@@ -4273,6 +4415,120 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
   <data name="PixelateEffectUnit.Pixelation" xml:space="preserve">
     <value>Pixelation</value>
   </data>
+  <data name="Playlist.DeleteDialog.Title" xml:space="preserve">
+    <value>刪除播放列表檔案</value>
+  </data>
+  <data name="Playlist.DeleteItemsMessage" xml:space="preserve">
+    <value>已刪除 {0} 個項目。</value>
+  </data>
+  <data name="Playlist.ErrorDialog.Title" xml:space="preserve">
+    <value>播放列表錯誤</value>
+  </data>
+  <data name="Playlist.FailedToLoad" xml:space="preserve">
+    <value>播放列表的讀入失敗了</value>
+  </data>
+  <data name="Playlist.FailedToSave" xml:space="preserve">
+    <value>播放列表的儲存失敗了</value>
+  </data>
+  <data name="Playlist.FirstIn" xml:space="preserve">
+    <value>加入到開頭</value>
+  </data>
+  <data name="Playlist.LastIn" xml:space="preserve">
+    <value>加入到結尾</value>
+  </data>
+  <data name="Playlist.MoreMenu.CurrentBook" xml:space="preserve">
+    <value>僅顯示目前的書本</value>
+  </data>
+  <data name="Playlist.MoreMenu.Delete" xml:space="preserve">
+    <value>刪除(_D)</value>
+  </data>
+  <data name="Playlist.MoreMenu.DeleteInvalid" xml:space="preserve">
+    <value>刪除無效的項目</value>
+  </data>
+  <data name="Playlist.MoreMenu.GroupBy" xml:space="preserve">
+    <value>以群組顯示</value>
+  </data>
+  <data name="Playlist.MoreMenu.New" xml:space="preserve">
+    <value>開新檔案(_N)</value>
+  </data>
+  <data name="Playlist.MoreMenu.Open" xml:space="preserve">
+    <value>開啟(_O)...</value>
+  </data>
+  <data name="Playlist.MoreMenu.OpenAsBook" xml:space="preserve">
+    <value>以書本開啟</value>
+  </data>
+  <data name="Playlist.MoreMenu.Rename" xml:space="preserve">
+    <value>重新命名(_M)</value>
+  </data>
+  <data name="Playlist.MoreMenu.Sort" xml:space="preserve">
+    <value>以路徑排序</value>
+  </data>
+  <data name="Playlist.Title" xml:space="preserve">
+    <value>播放列表</value>
+  </data>
+  <data name="PlaylistConfig.CurrentPlaylist" xml:space="preserve">
+    <value>目前的播放列表</value>
+  </data>
+  <data name="PlaylistConfig.IsCurrentBookFilterEnabled" xml:space="preserve">
+    <value>僅顯示開啟的書本頁面</value>
+  </data>
+  <data name="PlaylistConfig.IsFirstIn" xml:space="preserve">
+    <value>加入到列表的開頭</value>
+  </data>
+  <data name="PlaylistConfig.IsFirstIn.Remarks" xml:space="preserve">
+    <value>使用加入指令的插入位置。關閉時則加入到結尾。</value>
+  </data>
+  <data name="PlaylistConfig.IsGroupBy" xml:space="preserve">
+    <value>依照檔案群組化顯示</value>
+  </data>
+  <data name="PlaylistConfig.PanelListItemStyle" xml:space="preserve">
+    <value>列表項目的樣式</value>
+  </data>
+  <data name="PlaylistConfig.PlaylistFolder" xml:space="preserve">
+    <value>播放列表檔案的儲存位置</value>
+  </data>
+  <data name="PlaylistConfig.PlaylistFolder.Remarks" xml:space="preserve">
+    <value>管理這個資料夾的播放列表檔案。</value>
+  </data>
+  <data name="PlaylistErrorDialog.FolderIsNotSet" xml:space="preserve">
+    <value>沒有資料夾被設定。</value>
+  </data>
+  <data name="PlaylistItem.Menu.Delete" xml:space="preserve">
+    <value>刪除(_D)</value>
+  </data>
+  <data name="PlaylistItem.Menu.MoveToAnother" xml:space="preserve">
+    <value>移動到別的播放列表</value>
+  </data>
+  <data name="PlaylistItem.Menu.Open" xml:space="preserve">
+    <value>開啟(_O)</value>
+  </data>
+  <data name="PlaylistItem.Menu.Rename" xml:space="preserve">
+    <value>重新命名(_M)</value>
+  </data>
+  <data name="PlaylistItemAccessor" xml:space="preserve">
+    <value>播放列表項目存取器</value>
+  </data>
+  <data name="PlaylistItemAccessor.Name" xml:space="preserve">
+    <value>項目名稱</value>
+  </data>
+  <data name="PlaylistItemAccessor.Path" xml:space="preserve">
+    <value>對應項目的路徑</value>
+  </data>
+  <data name="PlaylistPanelAccessor" xml:space="preserve">
+    <value>播放列表面板存取器</value>
+  </data>
+  <data name="PlaylistPanelAccessor.Items" xml:space="preserve">
+    <value>列表項目</value>
+  </data>
+  <data name="PlaylistPanelAccessor.Path" xml:space="preserve">
+    <value>目前播放列表的路徑</value>
+  </data>
+  <data name="PlaylistPanelAccessor.SelectedItems" xml:space="preserve">
+    <value>已選擇的列表項目</value>
+  </data>
+  <data name="PlaylistPanelAccessor.Style" xml:space="preserve">
+    <value>列表項目顯示格式</value>
+  </data>
   <data name="PrevBookCommand" xml:space="preserve">
     <value>移動到前一個書本</value>
   </data>
@@ -4314,6 +4570,18 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
   </data>
   <data name="PrevPageCommand.Remarks" xml:space="preserve">
     <value>往頁面先前的方向移動。當 2 頁面顯示時移動 2 頁面。</value>
+  </data>
+  <data name="PrevPlaylistItemCommand" xml:space="preserve">
+    <value>移動到前一個播放列表項目</value>
+  </data>
+  <data name="PrevPlaylistItemCommand.Remarks" xml:space="preserve">
+    <value>移動到前一個播放列表項目。</value>
+  </data>
+  <data name="PrevPlaylistItemInBookCommand" xml:space="preserve">
+    <value>移動到書本內前一個播放列表項目</value>
+  </data>
+  <data name="PrevPlaylistItemInBookCommand.Remarks" xml:space="preserve">
+    <value>移動到目前書本內的前一個播放列表項目。</value>
   </data>
   <data name="PrevScrollPageCommand" xml:space="preserve">
     <value>捲動＋返回到前一個頁面</value>
@@ -4399,6 +4667,9 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
   <data name="QueryScheme.Root" xml:space="preserve">
     <value>書庫</value>
   </data>
+  <data name="QuickAccessPropertyDialog.Title" xml:space="preserve">
+    <value>快速存取的屬性</value>
+  </data>
   <data name="QuickAccessTempError.Message" xml:space="preserve">
     <value>暫存資料夾無法加入到快速存取</value>
   </data>
@@ -4419,6 +4690,12 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
   </data>
   <data name="ReloadSettingCommand.Remarks" xml:space="preserve">
     <value>將設定重新讀入。</value>
+  </data>
+  <data name="RemoveUnlinkedHistoryCommand" xml:space="preserve">
+    <value>刪除無效的歷史記錄</value>
+  </data>
+  <data name="RemoveUnlinkedHistoryCommand.Remarks" xml:space="preserve">
+    <value>刪除不存在的歷史記錄項目。</value>
   </data>
   <data name="ResolveConflictDialog.Message" xml:space="preserve">
     <value>請僅選擇一個指令以「{0}」執行</value>
@@ -4456,6 +4733,18 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
   <data name="ScriptCommand.Remarks" xml:space="preserve">
     <value>腳本。</value>
   </data>
+  <data name="ScriptCommandParameter.Argument" xml:space="preserve">
+    <value>指令參數</value>
+  </data>
+  <data name="ScriptCommandParameter.Argument.Remarks" xml:space="preserve">
+    <value>儲存在腳本的「nv.Args」中。</value>
+  </data>
+  <data name="ScriptConfig.ErrorLevel" xml:space="preserve">
+    <value>被廢除的組件存取錯誤等級</value>
+  </data>
+  <data name="ScriptConfig.ErrorLevel.Remarks" xml:space="preserve">
+    <value>除錯用的設定。選擇因為更新版本後無法使用組件存取的錯誤處理。</value>
+  </data>
   <data name="ScriptConfig.IsScriptFolderEnabled" xml:space="preserve">
     <value>使用腳本</value>
   </data>
@@ -4465,8 +4754,52 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
   <data name="ScriptConfig.ScriptFolder.Remarks" xml:space="preserve">
     <value>使用這個資料夾的腳本。</value>
   </data>
+  <data name="ScriptErrorDialog.OpenConsole" xml:space="preserve">
+    <value>開啟腳本主控台</value>
+  </data>
+  <data name="ScriptErrorDialog.Title.Error" xml:space="preserve">
+    <value>腳本錯誤</value>
+  </data>
+  <data name="ScriptErrorDialog.Title.Info" xml:space="preserve">
+    <value>腳本資訊</value>
+  </data>
+  <data name="ScriptErrorDialog.Title.Warning" xml:space="preserve">
+    <value>腳本警告</value>
+  </data>
+  <data name="ScriptErrorLevel.Error" xml:space="preserve">
+    <value>Lv3: 錯誤</value>
+  </data>
+  <data name="ScriptErrorLevel.Error.Remarks" xml:space="preserve">
+    <value>作為錯誤通知。進行氣泡通知。
+停止腳本。</value>
+  </data>
+  <data name="ScriptErrorLevel.Info" xml:space="preserve">
+    <value>Lv1: 資訊</value>
+  </data>
+  <data name="ScriptErrorLevel.Info.Remarks" xml:space="preserve">
+    <value>作為資訊通知。只在腳本主控台通知。
+繼續執行腳本。
+被廢除的組件會返回類別的預設值。為 null 也有可能，不保證在這之後的動作。</value>
+  </data>
+  <data name="ScriptErrorLevel.Warning" xml:space="preserve">
+    <value>Lv2: 警告</value>
+  </data>
+  <data name="ScriptErrorLevel.Warning.Remarks" xml:space="preserve">
+    <value>作為錯誤通知。進行氣泡通知。
+繼續執行腳本。
+被廢除的組件會返回類別的預設值。為 null 也有可能，不保證在這之後的動作。</value>
+  </data>
+  <data name="ScriptErrorMessage.Alternative" xml:space="preserve">
+    <value>請改用替代的 {0} 。</value>
+  </data>
+  <data name="ScriptErrorMessage.Obsolete" xml:space="preserve">
+    <value>{0} 已被廢除。</value>
+  </data>
   <data name="ScriptOnBookLoadedCommand.Remarks" xml:space="preserve">
     <value>腳本。當開啟書本時執行。</value>
+  </data>
+  <data name="ScriptOnPageChangedCommand.Remarks" xml:space="preserve">
+    <value>腳本。當顯示頁面被更改時執行。</value>
   </data>
   <data name="ScriptReference" xml:space="preserve">
     <value>腳本參考</value>
@@ -4659,6 +4992,18 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
   </data>
   <data name="SetPageModeTwoCommand.Remarks" xml:space="preserve">
     <value>以 2 頁面顯示。</value>
+  </data>
+  <data name="SetSortModeEntryCommand" xml:space="preserve">
+    <value>檔案登錄升冪</value>
+  </data>
+  <data name="SetSortModeEntryCommand.Remarks" xml:space="preserve">
+    <value>頁面排序以登錄順序升冪排序。</value>
+  </data>
+  <data name="SetSortModeEntryDescendingCommand" xml:space="preserve">
+    <value>檔案登錄降冪</value>
+  </data>
+  <data name="SetSortModeEntryDescendingCommand.Remarks" xml:space="preserve">
+    <value>頁面排序以檔案登錄降冪排序。</value>
   </data>
   <data name="SetSortModeFileNameCommand" xml:space="preserve">
     <value>檔案名稱升冪</value>
@@ -5065,6 +5410,9 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
   <data name="SettingPage.Script" xml:space="preserve">
     <value>腳本</value>
   </data>
+  <data name="SettingPage.Script.OpenScriptFolder" xml:space="preserve">
+    <value>開啟腳本資料夾</value>
+  </data>
   <data name="SettingPage.SearchResult" xml:space="preserve">
     <value>搜尋結果</value>
   </data>
@@ -5130,6 +5478,9 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
   </data>
   <data name="SettingPage.Window.Theme" xml:space="preserve">
     <value>主題</value>
+  </data>
+  <data name="SettingPage.Window.Theme.OpenCustomThemeFolder" xml:space="preserve">
+    <value>開啟自訂主題資料夾</value>
   </data>
   <data name="SettingPage.WindowTitle" xml:space="preserve">
     <value>視窗標題</value>
@@ -5217,6 +5568,9 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
   </data>
   <data name="SliderConfig.IsVisible" xml:space="preserve">
     <value>滑動條顯示狀態</value>
+  </data>
+  <data name="SliderConfig.IsVisiblePlaylistMark" xml:space="preserve">
+    <value>顯示播放列表標記</value>
   </data>
   <data name="SliderConfig.Opacity" xml:space="preserve">
     <value>滑動條不透明度</value>
@@ -5396,7 +5750,7 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
     <value>當以原始大小顯示時，不依照顯示器的顯示比例而是與顯示器的像素一致。</value>
   </data>
   <data name="SystemConfig.IsInputMethodEnabled" xml:space="preserve">
-    <value>在文字框之外啟用 IME </value>
+    <value>在文字框之外啟用 IME</value>
   </data>
   <data name="SystemConfig.IsInputMethodEnabled.Remarks" xml:space="preserve">
     <value>※下次啟動時套用。文字框會總是有效。</value>
@@ -5446,8 +5800,26 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
   <data name="SystemConfig.TemporaryDirectory.Remarks" xml:space="preserve">
     <value>在展開或預先展開多重壓縮檔案時使用。</value>
   </data>
+  <data name="SystemConfig.TextEditor" xml:space="preserve">
+    <value>文字編輯器</value>
+  </data>
+  <data name="SystemConfig.TextEditor.Remarks" xml:space="preserve">
+    <value>沒有設定時會使用記事本。</value>
+  </data>
+  <data name="SystemConfig.WebBrowser" xml:space="preserve">
+    <value>Web 瀏覽器</value>
+  </data>
+  <data name="SystemConfig.WebBrowser.Remarks" xml:space="preserve">
+    <value>沒有設定時會使用預設的 Web 瀏覽器。</value>
+  </data>
+  <data name="ThemeConfig.CustomThemeFolder" xml:space="preserve">
+    <value>自訂主題資料夾位置</value>
+  </data>
   <data name="ThemeConfig.ThemeType" xml:space="preserve">
     <value>主題類別</value>
+  </data>
+  <data name="ThemeErrorDialog.FolderIsNotSet" xml:space="preserve">
+    <value>沒有資料夾被設定。</value>
   </data>
   <data name="ThemeErrorDialog.Title" xml:space="preserve">
     <value>主題錯誤</value>
@@ -5866,6 +6238,21 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
   <data name="TogglePermitFileCommand.Remarks" xml:space="preserve">
     <value>切換啟用/停用檔案操作指令。</value>
   </data>
+  <data name="TogglePlaylistItemCommand" xml:space="preserve">
+    <value>加入/刪除播放列表項目</value>
+  </data>
+  <data name="TogglePlaylistItemCommand.Menu" xml:space="preserve">
+    <value>加入到播放列表</value>
+  </data>
+  <data name="TogglePlaylistItemCommand.Off" xml:space="preserve">
+    <value>已從播放列表刪除</value>
+  </data>
+  <data name="TogglePlaylistItemCommand.On" xml:space="preserve">
+    <value>已加入到播放列表</value>
+  </data>
+  <data name="TogglePlaylistItemCommand.Remarks" xml:space="preserve">
+    <value>在播放列表中加入或刪除目前的頁面。</value>
+  </data>
   <data name="ToggleResizeFilterCommand" xml:space="preserve">
     <value>啟用/停用重新調整大小濾鏡</value>
   </data>
@@ -6130,6 +6517,21 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
   <data name="ToggleVisiblePageSliderCommand.Remarks" xml:space="preserve">
     <value>切換顯示/隱藏滑動條。</value>
   </data>
+  <data name="ToggleVisiblePlaylistCommand" xml:space="preserve">
+    <value>顯示/隱藏播放列表面板</value>
+  </data>
+  <data name="ToggleVisiblePlaylistCommand.Menu" xml:space="preserve">
+    <value>播放列表面板</value>
+  </data>
+  <data name="ToggleVisiblePlaylistCommand.Off" xml:space="preserve">
+    <value>關閉播放列表面板</value>
+  </data>
+  <data name="ToggleVisiblePlaylistCommand.On" xml:space="preserve">
+    <value>顯示播放列表面板</value>
+  </data>
+  <data name="ToggleVisiblePlaylistCommand.Remarks" xml:space="preserve">
+    <value>切換顯示/隱藏播放列表面板。</value>
+  </data>
   <data name="ToggleVisibleSideBarCommand" xml:space="preserve">
     <value>顯示/隱藏側邊列</value>
   </data>
@@ -6331,11 +6733,23 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
   <data name="ViewConfig.IsKeepAngle.Remarks" xml:space="preserve">
     <value>啟用自動旋轉時這個功能無法使用。</value>
   </data>
+  <data name="ViewConfig.IsKeepAngleBooks" xml:space="preserve">
+    <value>書本更改也要保持旋轉</value>
+  </data>
+  <data name="ViewConfig.IsKeepAngleBooks.Remarks" xml:space="preserve">
+    <value>當「@ViewConfig.IsKeepAngle」為啟用時的功能。</value>
+  </data>
   <data name="ViewConfig.IsKeepFlip" xml:space="preserve">
     <value>頁面更改也要保持翻轉</value>
   </data>
+  <data name="ViewConfig.IsKeepFlipBooks" xml:space="preserve">
+    <value>書本更改也要保持翻轉</value>
+  </data>
   <data name="ViewConfig.IsKeepScale" xml:space="preserve">
     <value>頁面更改也要保持比例</value>
+  </data>
+  <data name="ViewConfig.IsKeepScaleBooks" xml:space="preserve">
+    <value>書本更改也要保持比例</value>
   </data>
   <data name="ViewConfig.IsLimitMove" xml:space="preserve">
     <value>限制在視窗內移動</value>
@@ -6593,6 +7007,9 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="Word.AllHistory" xml:space="preserve">
     <value>全部的歷史記錄</value>
   </data>
+  <data name="Word.Alternative" xml:space="preserve">
+    <value>替代方案</value>
+  </data>
   <data name="Word.Argument" xml:space="preserve">
     <value>引數</value>
   </data>
@@ -6761,6 +7178,9 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="Word.None" xml:space="preserve">
     <value>無</value>
   </data>
+  <data name="Word.ObsoleteList" xml:space="preserve">
+    <value>被廢除的組件</value>
+  </data>
   <data name="Word.Off" xml:space="preserve">
     <value>關</value>
   </data>
@@ -6898,425 +7318,5 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="ZipArchiveConfig.SupportFileTypes.Remarks" xml:space="preserve">
     <value>僅支援 ZIP 格式。</value>
-  </data>
-  <data name="Playlist.Title" xml:space="preserve">
-    <value>播放列表</value>
-  </data>
-  <data name="BookshelfItem.Menu.Edit" xml:space="preserve">
-    <value>編輯(_E)</value>
-  </data>
-  <data name="Playlist.MoreMenu.New" xml:space="preserve">
-    <value>開新檔案(_N)</value>
-  </data>
-  <data name="Playlist.MoreMenu.Open" xml:space="preserve">
-    <value>開啟(_O)...</value>
-  </data>
-  <data name="Playlist.MoreMenu.Delete" xml:space="preserve">
-    <value>刪除(_D)</value>
-  </data>
-  <data name="Playlist.MoreMenu.Rename" xml:space="preserve">
-    <value>重新命名(_M)</value>
-  </data>
-  <data name="Playlist.MoreMenu.GroupBy" xml:space="preserve">
-    <value>以群組顯示</value>
-  </data>
-  <data name="Playlist.MoreMenu.CurrentBook" xml:space="preserve">
-    <value>僅顯示目前的書本</value>
-  </data>
-  <data name="Playlist.MoreMenu.DeleteInvalid" xml:space="preserve">
-    <value>刪除無效的項目</value>
-  </data>
-  <data name="Playlist.MoreMenu.Sort" xml:space="preserve">
-    <value>以路徑排序</value>
-  </data>
-  <data name="Playlist.MoreMenu.OpenAsBook" xml:space="preserve">
-    <value>以書本開啟</value>
-  </data>
-  <data name="Playlist.ErrorDialog.Title" xml:space="preserve">
-    <value>播放列表錯誤</value>
-  </data>
-  <data name="Playlist.DeleteDialog.Title" xml:space="preserve">
-    <value>刪除播放列表檔案</value>
-  </data>
-  <data name="PlaylistItem.Menu.Open" xml:space="preserve">
-    <value>開啟(_O)</value>
-  </data>
-  <data name="PlaylistItem.Menu.Delete" xml:space="preserve">
-    <value>刪除(_D)</value>
-  </data>
-  <data name="PlaylistItem.Menu.Rename" xml:space="preserve">
-    <value>重新命名(_M)</value>
-  </data>
-  <data name="Notice.InvalidSeparatorChars" xml:space="preserve">
-    <value>無法使用以下的文字:
-\ /</value>
-  </data>
-  <data name="Playlist.FailedToLoad" xml:space="preserve">
-    <value>播放列表的讀入失敗了</value>
-  </data>
-  <data name="Playlist.DeleteItemsMessage" xml:space="preserve">
-    <value>已刪除 {0} 個項目。</value>
-  </data>
-  <data name="Playlist.FirstIn" xml:space="preserve">
-    <value>加入到開頭</value>
-  </data>
-  <data name="Playlist.LastIn" xml:space="preserve">
-    <value>加入到結尾</value>
-  </data>
-  <data name="Playlist.FailedToSave" xml:space="preserve">
-    <value>播放列表的儲存失敗了</value>
-  </data>
-  <data name="PlaylistConfig.CurrentPlaylist" xml:space="preserve">
-    <value>目前的播放列表</value>
-  </data>
-  <data name="PlaylistConfig.IsCurrentBookFilterEnabled" xml:space="preserve">
-    <value>僅顯示開啟的書本頁面</value>
-  </data>
-  <data name="PlaylistConfig.IsFirstIn" xml:space="preserve">
-    <value>加入到列表的開頭</value>
-  </data>
-  <data name="PlaylistConfig.IsFirstIn.Remarks" xml:space="preserve">
-    <value>使用加入指令的插入位置。關閉時則加入到結尾。</value>
-  </data>
-  <data name="PlaylistConfig.IsGroupBy" xml:space="preserve">
-    <value>依照檔案群組化顯示</value>
-  </data>
-  <data name="PlaylistConfig.PanelListItemStyle" xml:space="preserve">
-    <value>列表項目的樣式</value>
-  </data>
-  <data name="PlaylistConfig.PlaylistFolder" xml:space="preserve">
-    <value>播放列表檔案的儲存位置</value>
-  </data>
-  <data name="PlaylistConfig.PlaylistFolder.Remarks" xml:space="preserve">
-    <value>管理這個資料夾的播放列表檔案。</value>
-  </data>
-  <data name="CommandHost.Playlist" xml:space="preserve">
-    <value>播放列表面板存取器</value>
-  </data>
-  <data name="PlaylistPanelAccessor.Path" xml:space="preserve">
-    <value>目前播放列表的路徑</value>
-  </data>
-  <data name="PlaylistPanelAccessor.Style" xml:space="preserve">
-    <value>列表項目顯示格式</value>
-  </data>
-  <data name="PlaylistPanelAccessor.Items" xml:space="preserve">
-    <value>列表項目</value>
-  </data>
-  <data name="PlaylistPanelAccessor.SelectedItems" xml:space="preserve">
-    <value>已選擇的列表項目</value>
-  </data>
-  <data name="PlaylistPanelAccessor" xml:space="preserve">
-    <value>播放列表面板存取器</value>
-  </data>
-  <data name="PlaylistItemAccessor" xml:space="preserve">
-    <value>播放列表項目存取器</value>
-  </data>
-  <data name="PlaylistItemAccessor.Name" xml:space="preserve">
-    <value>項目名稱</value>
-  </data>
-  <data name="PlaylistItemAccessor.Path" xml:space="preserve">
-    <value>對應項目的路徑</value>
-  </data>
-  <data name="PageSortMode.Entry" xml:space="preserve">
-    <value>登録↑</value>
-  </data>
-  <data name="PageSortMode.EntryDescending" xml:space="preserve">
-    <value>登録↓</value>
-  </data>
-  <data name="SetSortModeEntryCommand" xml:space="preserve">
-    <value>檔案登錄升冪</value>
-  </data>
-  <data name="SetSortModeEntryCommand.Remarks" xml:space="preserve">
-    <value>頁面排序以登錄順序升冪排序。</value>
-  </data>
-  <data name="SetSortModeEntryDescendingCommand" xml:space="preserve">
-    <value>檔案登錄降冪</value>
-  </data>
-  <data name="SetSortModeEntryDescendingCommand.Remarks" xml:space="preserve">
-    <value>頁面排序以檔案登錄降冪排序。</value>
-  </data>
-  <data name="ToggleVisiblePlaylistCommand" xml:space="preserve">
-    <value>顯示/隱藏播放列表面板</value>
-  </data>
-  <data name="ToggleVisiblePlaylistCommand.Menu" xml:space="preserve">
-    <value>播放列表面板</value>
-  </data>
-  <data name="ToggleVisiblePlaylistCommand.Off" xml:space="preserve">
-    <value>關閉播放列表面板</value>
-  </data>
-  <data name="ToggleVisiblePlaylistCommand.On" xml:space="preserve">
-    <value>顯示播放列表面板</value>
-  </data>
-  <data name="ToggleVisiblePlaylistCommand.Remarks" xml:space="preserve">
-    <value>切換顯示/隱藏播放列表面板。</value>
-  </data>
-  <data name="TogglePlaylistItemCommand" xml:space="preserve">
-    <value>加入/刪除播放列表項目</value>
-  </data>
-  <data name="TogglePlaylistItemCommand.Menu" xml:space="preserve">
-    <value>加入到播放列表</value>
-  </data>
-  <data name="TogglePlaylistItemCommand.Off" xml:space="preserve">
-    <value>已從播放列表刪除</value>
-  </data>
-  <data name="TogglePlaylistItemCommand.On" xml:space="preserve">
-    <value>已加入到播放列表</value>
-  </data>
-  <data name="TogglePlaylistItemCommand.Remarks" xml:space="preserve">
-    <value>在播放列表中加入或刪除目前的頁面。</value>
-  </data>
-  <data name="PrevPlaylistItemCommand" xml:space="preserve">
-    <value>移動到前一個播放列表項目</value>
-  </data>
-  <data name="PrevPlaylistItemCommand.Remarks" xml:space="preserve">
-    <value>移動到前一個播放列表項目。</value>
-  </data>
-  <data name="PrevPlaylistItemInBookCommand" xml:space="preserve">
-    <value>移動到書本內前一個播放列表項目</value>
-  </data>
-  <data name="PrevPlaylistItemInBookCommand.Remarks" xml:space="preserve">
-    <value>移動到目前書本內的前一個播放列表項目。</value>
-  </data>
-  <data name="NextPlaylistItemCommand" xml:space="preserve">
-    <value>移動到下一個播放列表項目</value>
-  </data>
-  <data name="NextPlaylistItemCommand.Remarks" xml:space="preserve">
-    <value>移動到下一個播放列表項目。</value>
-  </data>
-  <data name="NextPlaylistItemInBookCommand" xml:space="preserve">
-    <value>移動到書本內下一個播放列表項目</value>
-  </data>
-  <data name="NextPlaylistItemInBookCommand.Remarks" xml:space="preserve">
-    <value>移動到目前書本內的下一個播放列表項目。</value>
-  </data>
-  <data name="CommandGroup.Playlist" xml:space="preserve">
-    <value>播放列表</value>
-  </data>
-  <data name="FilmStripConfig.IsVisiblePlaylistMark" xml:space="preserve">
-    <value>顯示播放列表標記</value>
-  </data>
-  <data name="Notice.FirstPlaylistItem" xml:space="preserve">
-    <value>目前頁面沒有前一個播放列表項目</value>
-  </data>
-  <data name="Notice.LastPlaylistItem" xml:space="preserve">
-    <value>目前頁面沒有下一個播放列表項目</value>
-  </data>
-  <data name="Notice.PlaylistItemNextFailed" xml:space="preserve">
-    <value>沒有下一個播放列表項目</value>
-  </data>
-  <data name="Notice.PlaylistItemPrevFailed" xml:space="preserve">
-    <value>沒有前一個播放列表項目</value>
-  </data>
-  <data name="Notice.RemoveUnlinkedPlaylistItem" xml:space="preserve">
-    <value>已刪除 {0} 個播放列表項目。</value>
-  </data>
-  <data name="PageListItem.Menu.AddToPlaylist" xml:space="preserve">
-    <value>加入到播放列表(_M)</value>
-  </data>
-  <data name="SliderConfig.IsVisiblePlaylistMark" xml:space="preserve">
-    <value>顯示播放列表標記</value>
-  </data>
-  <data name="BookmarkFolderDelete.Message" xml:space="preserve">
-    <value>已刪除 {0} 個書籤。</value>
-  </data>
-  <data name="MovePlaylsitItemInBookCommandParameter.IsIncludeTerminal" xml:space="preserve">
-    <value>包括開始與最後頁面</value>
-  </data>
-  <data name="MovePlaylsitItemInBookCommandParameter.IsLoop" xml:space="preserve">
-    <value>循環</value>
-  </data>
-  <data name="PlaylistItem.Menu.MoveToAnother" xml:space="preserve">
-    <value>移動到別的播放列表</value>
-  </data>
-  <data name="Notice.ImageDecodeFailed" xml:space="preserve">
-    <value>圖像解碼失敗了。</value>
-  </data>
-  <data name="ImportControl.Playlist" xml:space="preserve">
-    <value>{0} 個播放列表</value>
-  </data>
-  <data name="SettingPage.Window.Theme.OpenCustomThemeFolder" xml:space="preserve">
-    <value>開啟自訂主題資料夾</value>
-  </data>
-  <data name="ThemeConfig.CustomThemeFolder" xml:space="preserve">
-    <value>自訂主題資料夾位置</value>
-  </data>
-  <data name="ImportControl.Theme" xml:space="preserve">
-    <value>{0} 個自訂主題</value>
-  </data>
-  <data name="ImportControl.Script" xml:space="preserve">
-    <value>{0} 個腳本</value>
-  </data>
-  <data name="OpenScriptsFolderErrorDialog.FolderIsNotSet" xml:space="preserve">
-    <value>沒有資料夾被設定。</value>
-  </data>
-  <data name="SettingPage.Script.OpenScriptFolder" xml:space="preserve">
-    <value>開啟腳本資料夾</value>
-  </data>
-  <data name="ThemeErrorDialog.FolderIsNotSet" xml:space="preserve">
-    <value>沒有資料夾被設定。</value>
-  </data>
-  <data name="PlaylistErrorDialog.FolderIsNotSet" xml:space="preserve">
-    <value>沒有資料夾被設定。</value>
-  </data>
-  <data name="CommandListItem.Menu.Edit" xml:space="preserve">
-    <value>編輯(_E)</value>
-  </data>
-  <data name="CommandListItem.Menu.Setting" xml:space="preserve">
-    <value>設定(_S)</value>
-  </data>
-  <data name="CommandListItem.Menu.Clone" xml:space="preserve">
-    <value>複製(_C)</value>
-  </data>
-  <data name="CommandListItem.Menu.Delete" xml:space="preserve">
-    <value>刪除(_D)</value>
-  </data>
-  <data name="ScriptCommandParameter.Argument" xml:space="preserve">
-    <value>指令參數</value>
-  </data>
-  <data name="ScriptCommandParameter.Argument.Remarks" xml:space="preserve">
-    <value>儲存在腳本的「nv.Args」中。</value>
-  </data>
-  <data name="SystemConfig.TextEditor" xml:space="preserve">
-    <value>文字編輯器</value>
-  </data>
-  <data name="SystemConfig.TextEditor.Remarks" xml:space="preserve">
-    <value>沒有設定時會使用記事本。</value>
-  </data>
-  <data name="CommandHost.Args" xml:space="preserve">
-    <value>指令參數儲存在這個陣列中。</value>
-  </data>
-  <data name="Navigator.IsKeepAngleBooks" xml:space="preserve">
-    <value>書本更改時保持旋轉</value>
-  </data>
-  <data name="Navigator.IsKeepScaleBooks" xml:space="preserve">
-    <value>書本更改時保持比例</value>
-  </data>
-  <data name="Navigator.IsKeepFlipBooks" xml:space="preserve">
-    <value>書本更改時保持翻轉</value>
-  </data>
-  <data name="ViewConfig.IsKeepAngleBooks" xml:space="preserve">
-    <value>書本更改也要保持旋轉</value>
-  </data>
-  <data name="ViewConfig.IsKeepAngleBooks.Remarks" xml:space="preserve">
-    <value>當「@ViewConfig.IsKeepAngle」為啟用時的功能。</value>
-  </data>
-  <data name="ViewConfig.IsKeepScaleBooks" xml:space="preserve">
-    <value>書本更改也要保持比例</value>
-  </data>
-  <data name="ViewConfig.IsKeepFlipBooks" xml:space="preserve">
-    <value>書本更改也要保持翻轉</value>
-  </data>
-  <data name="FolderTree.Menu.Rename" xml:space="preserve">
-    <value>重新命名(_M)</value>
-  </data>
-  <data name="FolderTree.Menu.Delete" xml:space="preserve">
-    <value>刪除(_D)</value>
-  </data>
-  <data name="FolderTree.Menu.Property" xml:space="preserve">
-    <value>屬性(_R)</value>
-  </data>
-  <data name="FolderTree.Menu.NewFolder" xml:space="preserve">
-    <value>新資料夾(_F)</value>
-  </data>
-  <data name="QuickAccessPropertyDialog.Title" xml:space="preserve">
-    <value>快速存取的屬性</value>
-  </data>
-  <data name="BookAccessor.Wait" xml:space="preserve">
-    <value>等待直到顯示頁面的讀入完成</value>
-  </data>
-  <data name="NavigatorConfig.ThumbnailHeight" xml:space="preserve">
-    <value>縮圖區域的高度</value>
-  </data>
-  <data name="History.DeleteItemsMessage" xml:space="preserve">
-    <value>已刪除了 {0} 個項目。</value>
-  </data>
-  <data name="RemoveUnlinkedHistoryCommand" xml:space="preserve">
-    <value>刪除無效的歷史記錄</value>
-  </data>
-  <data name="RemoveUnlinkedHistoryCommand.Remarks" xml:space="preserve">
-    <value>刪除不存在的歷史記錄項目。</value>
-  </data>
-  <data name="SystemConfig.WebBrowser" xml:space="preserve">
-    <value>Web 瀏覽器</value>
-  </data>
-  <data name="SystemConfig.WebBrowser.Remarks" xml:space="preserve">
-    <value>沒有設定時會使用預設的 Web 瀏覽器。</value>
-  </data>
-  <data name="ScriptOnPageChangedCommand.Remarks" xml:space="preserve">
-    <value>腳本。當顯示頁面被更改時執行。</value>
-  </data>
-  <data name="BookshelfItem.Menu.OpenInPlaylist" xml:space="preserve">
-    <value>開啟播放列表(_P)</value>
-  </data>
-  <data name="ScriptConfig.ErrorLevel" xml:space="preserve">
-    <value>被廢除的組件存取錯誤等級</value>
-  </data>
-  <data name="ScriptConfig.ErrorLevel.Remarks" xml:space="preserve">
-    <value>除錯用的設定。選擇因為更新版本後無法使用組件存取的錯誤處理。</value>
-  </data>
-  <data name="ScriptErrorLevel.Info" xml:space="preserve">
-    <value>Lv1: 資訊</value>
-  </data>
-  <data name="ScriptErrorLevel.Info.Remarks" xml:space="preserve">
-    <value>作為資訊通知。只在腳本主控台通知。
-繼續執行腳本。
-被廢除的組件會返回類別的預設值。為 null 也有可能，不保證在這之後的動作。</value>
-  </data>
-  <data name="ScriptErrorLevel.Warning" xml:space="preserve">
-    <value>Lv2: 警告</value>
-  </data>
-  <data name="ScriptErrorLevel.Warning.Remarks" xml:space="preserve">
-    <value>作為錯誤通知。進行氣泡通知。
-繼續執行腳本。
-被廢除的組件會返回類別的預設值。為 null 也有可能，不保證在這之後的動作。</value>
-  </data>
-  <data name="ScriptErrorLevel.Error" xml:space="preserve">
-    <value>Lv3: 錯誤</value>
-  </data>
-  <data name="ScriptErrorLevel.Error.Remarks" xml:space="preserve">
-    <value>作為錯誤通知。進行氣泡通知。
-停止腳本。</value>
-  </data>
-  <data name="ScriptErrorDialog.Title.Error" xml:space="preserve">
-    <value>腳本錯誤</value>
-  </data>
-  <data name="ScriptErrorDialog.Title.Warning" xml:space="preserve">
-    <value>腳本警告</value>
-  </data>
-  <data name="ScriptErrorDialog.Title.Info" xml:space="preserve">
-    <value>腳本資訊</value>
-  </data>
-  <data name="ScriptErrorDialog.OpenConsole" xml:space="preserve">
-    <value>開啟腳本主控台</value>
-  </data>
-  <data name="Word.ObsoleteList" xml:space="preserve">
-    <value>被廢除的組件</value>
-  </data>
-  <data name="Word.Alternative" xml:space="preserve">
-    <value>替代方案</value>
-  </data>
-  <data name="ScriptErrorMessage.Obsolete" xml:space="preserve">
-    <value>{0} 已被廢除。</value>
-  </data>
-  <data name="ScriptErrorMessage.Alternative" xml:space="preserve">
-    <value>請改用替代的 {0} 。</value>
-  </data>
-  <data name="OpenExternalAppCommandParameter.WorkingDirectory" xml:space="preserve">
-    <value>工作資料夾</value>
-  </data>
-  <data name="CommandHost.Environment" xml:space="preserve">
-    <value>環境存取器</value>
-  </data>
-  <data name="EnvironmentAccessor" xml:space="preserve">
-    <value>環境存取器</value>
-  </data>
-  <data name="EnvironmentAccessor.NeeViewPath" xml:space="preserve">
-    <value>NeeView 執行檔的路徑</value>
-  </data>
-  <data name="EnvironmentAccessor.UserSettingFilePath" xml:space="preserve">
-    <value>使用者設定檔的路徑</value>
-  </data>
-  <data name="MultiPagePolicy.AllLeftToRight" xml:space="preserve">
-    <value>執行全部的頁面 (從左到右)</value>
   </data>
 </root>

@@ -478,8 +478,14 @@ Search for files updated in April 2019
   <data name="AutoHideConfig.AutoHideFocusLockMode.Remarks" xml:space="preserve">
     <value>It is not hidden when it has focus.</value>
   </data>
+  <data name="AutoHideConfig.AutoHideHitTestHorizontalMargin" xml:space="preserve">
+    <value>Horizontal area width for panel automatic display judgment (pixel)</value>
+  </data>
   <data name="AutoHideConfig.AutoHideHitTestMargin" xml:space="preserve">
     <value>Area width of automatic panel display judgment (pixel)</value>
+  </data>
+  <data name="AutoHideConfig.AutoHideHitTestVerticalMargin" xml:space="preserve">
+    <value>Vertical area width for panel automatic display judgment (pixel)</value>
   </data>
   <data name="AutoHideConfig.IsAutoHideKeyDownDelay" xml:space="preserve">
     <value>Auto-hide panel key input display continued</value>
@@ -600,6 +606,9 @@ Search for files updated in April 2019
   </data>
   <data name="BookAccessor.ViewPages" xml:space="preserve">
     <value>Displaying pages</value>
+  </data>
+  <data name="BookAccessor.Wait" xml:space="preserve">
+    <value>Wait for the view pages to finish loading</value>
   </data>
   <data name="BookAddressInfo.Bookmark" xml:space="preserve">
     <value>This is bookmark address.</value>
@@ -726,6 +735,9 @@ Search for files updated in April 2019
   </data>
   <data name="BookmarkConfig.IsSyncBookshelfEnabled" xml:space="preserve">
     <value>Sync bookshelf when book is opened</value>
+  </data>
+  <data name="BookmarkFolderDelete.Message" xml:space="preserve">
+    <value>Removed {0} bookmarks.</value>
   </data>
   <data name="BookmarkItemAccessor" xml:space="preserve">
     <value>Bookmark item accessor</value>
@@ -1012,6 +1024,9 @@ Search for files updated in April 2019
   <data name="BookshelfItem.Menu.DestinationFolderOption" xml:space="preserve">
     <value>_Add folders...</value>
   </data>
+  <data name="BookshelfItem.Menu.Edit" xml:space="preserve">
+    <value>_Edit</value>
+  </data>
   <data name="BookshelfItem.Menu.Explorer" xml:space="preserve">
     <value>Open in e_xplorer</value>
   </data>
@@ -1029,6 +1044,9 @@ Search for files updated in April 2019
   </data>
   <data name="BookshelfItem.Menu.OpenExternalApp" xml:space="preserve">
     <value>Open in external _app</value>
+  </data>
+  <data name="BookshelfItem.Menu.OpenInPlaylist" xml:space="preserve">
+    <value>Open in _Playlist</value>
   </data>
   <data name="BookshelfItem.Menu.Rename" xml:space="preserve">
     <value>Rena_me</value>
@@ -1283,6 +1301,9 @@ nv.Command.ViewRotateLeft.TouchGesture = "TouchCenter"</value>
   <data name="CommandGroup.Panel" xml:space="preserve">
     <value>Panel</value>
   </data>
+  <data name="CommandGroup.Playlist" xml:space="preserve">
+    <value>Playlist</value>
+  </data>
   <data name="CommandGroup.Script" xml:space="preserve">
     <value>Scripts</value>
   </data>
@@ -1297,6 +1318,9 @@ nv.Command.ViewRotateLeft.TouchGesture = "TouchCenter"</value>
   </data>
   <data name="CommandHost" xml:space="preserve">
     <value>Provides app-specific features.</value>
+  </data>
+  <data name="CommandHost.Args" xml:space="preserve">
+    <value>Command arguments are stored in this array.</value>
   </data>
   <data name="CommandHost.Book" xml:space="preserve">
     <value>Current book accessor</value>
@@ -1326,6 +1350,9 @@ nv.Config.Theme.ThemeType = "Dark"</value>
   <data name="CommandHost.Effect" xml:space="preserve">
     <value>Effect panel accessor</value>
   </data>
+  <data name="CommandHost.Environment" xml:space="preserve">
+    <value>Environment accessor</value>
+  </data>
   <data name="CommandHost.History" xml:space="preserve">
     <value>History panel accessor</value>
   </data>
@@ -1337,6 +1364,9 @@ nv.Config.Theme.ThemeType = "Dark"</value>
   </data>
   <data name="CommandHost.PageList" xml:space="preserve">
     <value>PageList panel accessor</value>
+  </data>
+  <data name="CommandHost.Playlist" xml:space="preserve">
+    <value>Playlist panel accessor</value>
   </data>
   <data name="CommandHost.ShowDialog" xml:space="preserve">
     <value>Display the dialog.</value>
@@ -1419,6 +1449,18 @@ nv.Values.Test = "Hello!"</value>
   </data>
   <data name="CommandList.ResetButton" xml:space="preserve">
     <value>Reset...</value>
+  </data>
+  <data name="CommandListItem.Menu.Clone" xml:space="preserve">
+    <value>_Clone</value>
+  </data>
+  <data name="CommandListItem.Menu.Delete" xml:space="preserve">
+    <value>_Delete</value>
+  </data>
+  <data name="CommandListItem.Menu.Edit" xml:space="preserve">
+    <value>_Edit</value>
+  </data>
+  <data name="CommandListItem.Menu.Setting" xml:space="preserve">
+    <value>_Setting</value>
   </data>
   <data name="CommandListItem.Message.ShareParameter" xml:space="preserve">
     <value>Parameter sharing with "{0}"</value>
@@ -1753,6 +1795,15 @@ The following data will be deleted
   <data name="EmbossedEffectUnit.Height" xml:space="preserve">
     <value>Height</value>
   </data>
+  <data name="EnvironmentAccessor" xml:space="preserve">
+    <value>Environment accessor</value>
+  </data>
+  <data name="EnvironmentAccessor.NeeViewPath" xml:space="preserve">
+    <value>NeeView executable file path</value>
+  </data>
+  <data name="EnvironmentAccessor.UserSettingFilePath" xml:space="preserve">
+    <value>User setting file path</value>
+  </data>
   <data name="ExifContrast.Hard" xml:space="preserve">
     <value>Hard</value>
   </data>
@@ -2050,6 +2101,9 @@ The following data will be deleted
   <data name="ExportBackupCommand.Remarks" xml:space="preserve">
     <value>Create backups of settings, history, bookmarks. The thumbnail cache is not backed up.</value>
   </data>
+  <data name="ExportBackupCommandParameter.FileName" xml:space="preserve">
+    <value>Backup file path</value>
+  </data>
   <data name="ExportDialog.Title" xml:space="preserve">
     <value>Export all settings</value>
   </data>
@@ -2259,6 +2313,9 @@ Is it OK?</value>
   <data name="FilmStripConfig.IsVisiblePlate.Remarks" xml:space="preserve">
     <value>Shows the background of the filmstrip when "@FilmStripConfig.IsHideFilmStrip" is enabled.</value>
   </data>
+  <data name="FilmStripConfig.IsVisiblePlaylistMark" xml:space="preserve">
+    <value>Display playlisted mark</value>
+  </data>
   <data name="FirstPageCommand" xml:space="preserve">
     <value>First page</value>
   </data>
@@ -2373,14 +2430,26 @@ Is it OK?</value>
   <data name="FolderTree.Menu.AddQuickAccess" xml:space="preserve">
     <value>Add to quick access</value>
   </data>
+  <data name="FolderTree.Menu.Delete" xml:space="preserve">
+    <value>_Delete</value>
+  </data>
   <data name="FolderTree.Menu.DeleteInvalidBookmark" xml:space="preserve">
     <value>Remove invalid bookmark</value>
   </data>
   <data name="FolderTree.Menu.Explorer" xml:space="preserve">
     <value>Open in explorer</value>
   </data>
+  <data name="FolderTree.Menu.NewFolder" xml:space="preserve">
+    <value>New _folder</value>
+  </data>
+  <data name="FolderTree.Menu.Property" xml:space="preserve">
+    <value>P_roperty</value>
+  </data>
   <data name="FolderTree.Menu.RefreshFolder" xml:space="preserve">
     <value>Reload</value>
+  </data>
+  <data name="FolderTree.Menu.Rename" xml:space="preserve">
+    <value>Rena_me</value>
   </data>
   <data name="FolderTreeLayout.Left" xml:space="preserve">
     <value>Place to the left</value>
@@ -2447,6 +2516,9 @@ Is it OK?</value>
   </data>
   <data name="HelpSearchOptionCommand.Remarks" xml:space="preserve">
     <value>Display the search options help on the browser.</value>
+  </data>
+  <data name="History.DeleteItemsMessage" xml:space="preserve">
+    <value>{0} items deleted.</value>
   </data>
   <data name="History.MoreMenu.DeleteAll" xml:space="preserve">
     <value>Delete all</value>
@@ -2700,6 +2772,15 @@ Is it OK?</value>
   <data name="ImageTrimConfig.Top" xml:space="preserve">
     <value>Top</value>
   </data>
+  <data name="ImportAction.Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="ImportAction.Skip" xml:space="preserve">
+    <value>Skip</value>
+  </data>
+  <data name="ImportAction.Undefined" xml:space="preserve">
+    <value>Undefined</value>
+  </data>
   <data name="ImportBackupCommand" xml:space="preserve">
     <value>Import settings</value>
   </data>
@@ -2708,6 +2789,27 @@ Is it OK?</value>
   </data>
   <data name="ImportBackupCommand.Remarks" xml:space="preserve">
     <value>Select the restored item from the backup file and restore it. If all parameters are defined, the dialog will not be displayed.</value>
+  </data>
+  <data name="ImportBackupCommandParameter.Bookmark" xml:space="preserve">
+    <value>Bookmark</value>
+  </data>
+  <data name="ImportBackupCommandParameter.FileName" xml:space="preserve">
+    <value>Backup file path</value>
+  </data>
+  <data name="ImportBackupCommandParameter.History" xml:space="preserve">
+    <value>History</value>
+  </data>
+  <data name="ImportBackupCommandParameter.Playlists" xml:space="preserve">
+    <value>Playlists</value>
+  </data>
+  <data name="ImportBackupCommandParameter.Scripts" xml:space="preserve">
+    <value>Scripts</value>
+  </data>
+  <data name="ImportBackupCommandParameter.Themes" xml:space="preserve">
+    <value>Custom themes</value>
+  </data>
+  <data name="ImportBackupCommandParameter.UserSetting" xml:space="preserve">
+    <value>User setting</value>
   </data>
   <data name="ImportControl.Bookmark" xml:space="preserve">
     <value>Bookmark</value>
@@ -2718,8 +2820,17 @@ Is it OK?</value>
   <data name="ImportControl.Pagemark" xml:space="preserve">
     <value>Pagemark</value>
   </data>
+  <data name="ImportControl.Playlist" xml:space="preserve">
+    <value>{0} playlists</value>
+  </data>
+  <data name="ImportControl.Script" xml:space="preserve">
+    <value>{0} scripts</value>
+  </data>
   <data name="ImportControl.Setting" xml:space="preserve">
     <value>Setting</value>
+  </data>
+  <data name="ImportControl.Theme" xml:space="preserve">
+    <value>{0} custom themes</value>
   </data>
   <data name="ImportDialog.Title" xml:space="preserve">
     <value>Import all settings</value>
@@ -3471,6 +3582,12 @@ You can not use right button drag because it is reserved with mouse gesture.</va
 Mouse gesture is a drag operation while holding down the right mouse button.
 A left click can be registered as the last gesture key.</value>
   </data>
+  <data name="MovePlaylsitItemInBookCommandParameter.IsIncludeTerminal" xml:space="preserve">
+    <value>Include the first and last pages</value>
+  </data>
+  <data name="MovePlaylsitItemInBookCommandParameter.IsLoop" xml:space="preserve">
+    <value>Loop</value>
+  </data>
   <data name="MoveSizePageCommandParameter.Size" xml:space="preserve">
     <value>Number of moved pages</value>
   </data>
@@ -3488,6 +3605,9 @@ A left click can be registered as the last gesture key.</value>
   </data>
   <data name="MultiPagePolicy.All" xml:space="preserve">
     <value>Run all pages</value>
+  </data>
+  <data name="MultiPagePolicy.AllLeftToRight" xml:space="preserve">
+    <value>Run all pages (Left to right)</value>
   </data>
   <data name="MultiPagePolicy.Once" xml:space="preserve">
     <value>Execute only one page</value>
@@ -3510,11 +3630,20 @@ A left click can be registered as the last gesture key.</value>
   <data name="Navigator.IsKeepAngle" xml:space="preserve">
     <value>Keep angle</value>
   </data>
+  <data name="Navigator.IsKeepAngleBooks" xml:space="preserve">
+    <value>Keep angle when changing books</value>
+  </data>
   <data name="Navigator.IsKeepFlip" xml:space="preserve">
     <value>Keep flip</value>
   </data>
+  <data name="Navigator.IsKeepFlipBooks" xml:space="preserve">
+    <value>Keep flip when changing books</value>
+  </data>
   <data name="Navigator.IsKeepScale" xml:space="preserve">
     <value>Keep scale</value>
+  </data>
+  <data name="Navigator.IsKeepScaleBooks" xml:space="preserve">
+    <value>Keep scale when changing books</value>
   </data>
   <data name="Navigator.MoreMenu.IsVisibleThumbnail" xml:space="preserve">
     <value>Thumbnail</value>
@@ -3561,6 +3690,9 @@ A left click can be registered as the last gesture key.</value>
   <data name="NavigatorConfig.IsVisibleThumbnail" xml:space="preserve">
     <value>Show thumbnail</value>
   </data>
+  <data name="NavigatorConfig.ThumbnailHeight" xml:space="preserve">
+    <value>Thumbnail area height</value>
+  </data>
   <data name="NavigatorPanelAccessor" xml:space="preserve">
     <value>Navigator panel accessor</value>
   </data>
@@ -3605,6 +3737,18 @@ A left click can be registered as the last gesture key.</value>
   </data>
   <data name="NextPageCommand.Remarks" xml:space="preserve">
     <value>Move to next page direction. If it is 2 page display, it moves by 2 pages.</value>
+  </data>
+  <data name="NextPlaylistItemCommand" xml:space="preserve">
+    <value>Next playlist item</value>
+  </data>
+  <data name="NextPlaylistItemCommand.Remarks" xml:space="preserve">
+    <value>Go to the next page mark.</value>
+  </data>
+  <data name="NextPlaylistItemInBookCommand" xml:space="preserve">
+    <value>Next playlist item in book</value>
+  </data>
+  <data name="NextPlaylistItemInBookCommand.Remarks" xml:space="preserve">
+    <value>Move to the next page mark in the current book.</value>
   </data>
   <data name="NextScrollPageCommand" xml:space="preserve">
     <value>Scroll + Next</value>
@@ -3664,6 +3808,9 @@ Reset the cache location.</value>
   <data name="Notice.FirstPage" xml:space="preserve">
     <value>First page</value>
   </data>
+  <data name="Notice.FirstPlaylistItem" xml:space="preserve">
+    <value>There is no playlist item before the current page</value>
+  </data>
   <data name="Notice.FlipHorizontal" xml:space="preserve">
     <value>Flip horizontal</value>
   </data>
@@ -3679,8 +3826,15 @@ Reset the cache location.</value>
   <data name="Notice.HistoryTerminal" xml:space="preserve">
     <value>There is no history older than this</value>
   </data>
+  <data name="Notice.ImageDecodeFailed" xml:space="preserve">
+    <value>Image decoding failed.</value>
+  </data>
   <data name="Notice.InvalidFileNameChars" xml:space="preserve">
     <value>The following characters can not be used in the file name:
+\ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="Notice.InvalidSeparatorChars" xml:space="preserve">
+    <value>The following characters can not be used:
 \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="Notice.JumpPageLabel" xml:space="preserve">
@@ -3691,6 +3845,9 @@ Reset the cache location.</value>
   </data>
   <data name="Notice.LastPage" xml:space="preserve">
     <value>Last page</value>
+  </data>
+  <data name="Notice.LastPlaylistItem" xml:space="preserve">
+    <value>There is no playlist item after the current page</value>
   </data>
   <data name="Notice.LoadBookmarkFailed" xml:space="preserve">
     <value>Failed to load bookmark.</value>
@@ -3739,6 +3896,15 @@ Reset the cache location.</value>
   </data>
   <data name="Notice.PlayFailed" xml:space="preserve">
     <value>Play failed</value>
+  </data>
+  <data name="Notice.PlaylistItemNextFailed" xml:space="preserve">
+    <value>No next playlist item</value>
+  </data>
+  <data name="Notice.PlaylistItemPrevFailed" xml:space="preserve">
+    <value>No previous playlist item</value>
+  </data>
+  <data name="Notice.RemoveUnlinkedPlaylistItem" xml:space="preserve">
+    <value>{0} playlist items removed.</value>
   </data>
   <data name="Notice.SearchKeywordDateTimeError" xml:space="preserve">
     <value>Illegal date-time format</value>
@@ -3846,6 +4012,9 @@ Reset the temporary location.</value>
   <data name="OpenExternalAppCommandParameter.Parameter.Remarks" xml:space="preserve">
     <value>$File will be replaced with the file path. $Uri is replaced with the URI escaped file path.</value>
   </data>
+  <data name="OpenExternalAppCommandParameter.WorkingDirectory" xml:space="preserve">
+    <value>Working directory</value>
+  </data>
   <data name="OpenOptionsWindowCommand" xml:space="preserve">
     <value>Open settings window</value>
   </data>
@@ -3860,6 +4029,9 @@ Reset the temporary location.</value>
   </data>
   <data name="OpenScriptsFolderCommand.Remarks" xml:space="preserve">
     <value>Open the scripts folder with Explorer.</value>
+  </data>
+  <data name="OpenScriptsFolderErrorDialog.FolderIsNotSet" xml:space="preserve">
+    <value>Folder is not set.</value>
   </data>
   <data name="OpenScriptsFolderErrorDialog.Title" xml:space="preserve">
     <value>Cannot open scripts folder</value>
@@ -3958,6 +4130,9 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   <data name="PageListConfig.PanelListItemStyle" xml:space="preserve">
     <value>PageList item style</value>
   </data>
+  <data name="PageListItem.Menu.AddToPlaylist" xml:space="preserve">
+    <value>Add to _playlist</value>
+  </data>
   <data name="PageListItem.Menu.Copy" xml:space="preserve">
     <value>_Copy</value>
   </data>
@@ -4035,6 +4210,12 @@ nv.ShowToast(nv.Book.Pages[0].Path)</value>
   </data>
   <data name="PageSortMode" xml:space="preserve">
     <value>Page sort mode</value>
+  </data>
+  <data name="PageSortMode.Entry" xml:space="preserve">
+    <value>Entry↑</value>
+  </data>
+  <data name="PageSortMode.EntryDescending" xml:space="preserve">
+    <value>Entry↓</value>
   </data>
   <data name="PageSortMode.FileName" xml:space="preserve">
     <value>Name↑</value>
@@ -4268,6 +4449,120 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="PixelateEffectUnit.Pixelation" xml:space="preserve">
     <value>Pixelation</value>
   </data>
+  <data name="Playlist.DeleteDialog.Title" xml:space="preserve">
+    <value>Delete playlist file</value>
+  </data>
+  <data name="Playlist.DeleteItemsMessage" xml:space="preserve">
+    <value>{0} items deleted.</value>
+  </data>
+  <data name="Playlist.ErrorDialog.Title" xml:space="preserve">
+    <value>Playlist error</value>
+  </data>
+  <data name="Playlist.FailedToLoad" xml:space="preserve">
+    <value>Failed to load the playlist</value>
+  </data>
+  <data name="Playlist.FailedToSave" xml:space="preserve">
+    <value>Failed to save the playlist</value>
+  </data>
+  <data name="Playlist.FirstIn" xml:space="preserve">
+    <value>First in</value>
+  </data>
+  <data name="Playlist.LastIn" xml:space="preserve">
+    <value>Last in</value>
+  </data>
+  <data name="Playlist.MoreMenu.CurrentBook" xml:space="preserve">
+    <value>Current book only</value>
+  </data>
+  <data name="Playlist.MoreMenu.Delete" xml:space="preserve">
+    <value>_Delete</value>
+  </data>
+  <data name="Playlist.MoreMenu.DeleteInvalid" xml:space="preserve">
+    <value>Remove invalid items</value>
+  </data>
+  <data name="Playlist.MoreMenu.GroupBy" xml:space="preserve">
+    <value>Group by</value>
+  </data>
+  <data name="Playlist.MoreMenu.New" xml:space="preserve">
+    <value>_New</value>
+  </data>
+  <data name="Playlist.MoreMenu.Open" xml:space="preserve">
+    <value>_Open...</value>
+  </data>
+  <data name="Playlist.MoreMenu.OpenAsBook" xml:space="preserve">
+    <value>Open as a book</value>
+  </data>
+  <data name="Playlist.MoreMenu.Rename" xml:space="preserve">
+    <value>Rena_me</value>
+  </data>
+  <data name="Playlist.MoreMenu.Sort" xml:space="preserve">
+    <value>Sort by path</value>
+  </data>
+  <data name="Playlist.Title" xml:space="preserve">
+    <value>Playlist</value>
+  </data>
+  <data name="PlaylistConfig.CurrentPlaylist" xml:space="preserve">
+    <value>Current playlist</value>
+  </data>
+  <data name="PlaylistConfig.IsCurrentBookFilterEnabled" xml:space="preserve">
+    <value>Show only open book pages</value>
+  </data>
+  <data name="PlaylistConfig.IsFirstIn" xml:space="preserve">
+    <value>Add to the top of the list</value>
+  </data>
+  <data name="PlaylistConfig.IsFirstIn.Remarks" xml:space="preserve">
+    <value>This is the insertion position for additional commands. If it is turned off, it will be added at the end.</value>
+  </data>
+  <data name="PlaylistConfig.IsGroupBy" xml:space="preserve">
+    <value>Group and display by folder</value>
+  </data>
+  <data name="PlaylistConfig.PanelListItemStyle" xml:space="preserve">
+    <value>List item style</value>
+  </data>
+  <data name="PlaylistConfig.PlaylistFolder" xml:space="preserve">
+    <value>Playlist file storage location</value>
+  </data>
+  <data name="PlaylistConfig.PlaylistFolder.Remarks" xml:space="preserve">
+    <value>Playlist files in this folder are managed.</value>
+  </data>
+  <data name="PlaylistErrorDialog.FolderIsNotSet" xml:space="preserve">
+    <value>Folder is not set.</value>
+  </data>
+  <data name="PlaylistItem.Menu.Delete" xml:space="preserve">
+    <value>_Delete</value>
+  </data>
+  <data name="PlaylistItem.Menu.MoveToAnother" xml:space="preserve">
+    <value>Move to another playlist</value>
+  </data>
+  <data name="PlaylistItem.Menu.Open" xml:space="preserve">
+    <value>_Open</value>
+  </data>
+  <data name="PlaylistItem.Menu.Rename" xml:space="preserve">
+    <value>Rena_me</value>
+  </data>
+  <data name="PlaylistItemAccessor" xml:space="preserve">
+    <value>Playlist item accessor</value>
+  </data>
+  <data name="PlaylistItemAccessor.Name" xml:space="preserve">
+    <value>Item name</value>
+  </data>
+  <data name="PlaylistItemAccessor.Path" xml:space="preserve">
+    <value>The path corresponding to the item</value>
+  </data>
+  <data name="PlaylistPanelAccessor" xml:space="preserve">
+    <value>Playlist panel accessor</value>
+  </data>
+  <data name="PlaylistPanelAccessor.Items" xml:space="preserve">
+    <value>List items</value>
+  </data>
+  <data name="PlaylistPanelAccessor.Path" xml:space="preserve">
+    <value>Current playlist path</value>
+  </data>
+  <data name="PlaylistPanelAccessor.SelectedItems" xml:space="preserve">
+    <value>Selected items</value>
+  </data>
+  <data name="PlaylistPanelAccessor.Style" xml:space="preserve">
+    <value>List item style</value>
+  </data>
   <data name="PrevBookCommand" xml:space="preserve">
     <value>Prev Book</value>
   </data>
@@ -4309,6 +4604,18 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   </data>
   <data name="PrevPageCommand.Remarks" xml:space="preserve">
     <value>Move to the front of the page. If it is 2 page display, it moves by 2 pages.</value>
+  </data>
+  <data name="PrevPlaylistItemCommand" xml:space="preserve">
+    <value>Prev playlist item</value>
+  </data>
+  <data name="PrevPlaylistItemCommand.Remarks" xml:space="preserve">
+    <value>Go to the previous page mark.</value>
+  </data>
+  <data name="PrevPlaylistItemInBookCommand" xml:space="preserve">
+    <value>Prev playlist item in book</value>
+  </data>
+  <data name="PrevPlaylistItemInBookCommand.Remarks" xml:space="preserve">
+    <value>Move to the previous page mark in the current book.</value>
   </data>
   <data name="PrevScrollPageCommand" xml:space="preserve">
     <value>Scroll + Prev</value>
@@ -4394,6 +4701,9 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="QueryScheme.Root" xml:space="preserve">
     <value>Bookshelf</value>
   </data>
+  <data name="QuickAccessPropertyDialog.Title" xml:space="preserve">
+    <value>Quick access property</value>
+  </data>
   <data name="QuickAccessTempError.Message" xml:space="preserve">
     <value>Temporary folders can not be added to quick access.</value>
   </data>
@@ -4414,6 +4724,12 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   </data>
   <data name="ReloadSettingCommand.Remarks" xml:space="preserve">
     <value>Reload the settings.</value>
+  </data>
+  <data name="RemoveUnlinkedHistoryCommand" xml:space="preserve">
+    <value>Delete invalid history items</value>
+  </data>
+  <data name="RemoveUnlinkedHistoryCommand.Remarks" xml:space="preserve">
+    <value>Delete history items that do not exist.</value>
   </data>
   <data name="ResolveConflictDialog.Message" xml:space="preserve">
     <value>Please select only one command to execute with "{0}"</value>
@@ -4451,6 +4767,18 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="ScriptCommand.Remarks" xml:space="preserve">
     <value>Script.</value>
   </data>
+  <data name="ScriptCommandParameter.Argument" xml:space="preserve">
+    <value>Command arguments</value>
+  </data>
+  <data name="ScriptCommandParameter.Argument.Remarks" xml:space="preserve">
+    <value>It is stored in the script "nv.Args".</value>
+  </data>
+  <data name="ScriptConfig.ErrorLevel" xml:space="preserve">
+    <value>Obsolete member access error level</value>
+  </data>
+  <data name="ScriptConfig.ErrorLevel.Remarks" xml:space="preserve">
+    <value>This is a debug setting. Select the error handling of member access that can no longer be used due to version upgrade.</value>
+  </data>
   <data name="ScriptConfig.IsScriptFolderEnabled" xml:space="preserve">
     <value>Use scripts</value>
   </data>
@@ -4460,8 +4788,52 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="ScriptConfig.ScriptFolder.Remarks" xml:space="preserve">
     <value>Use the scripts in this folder.</value>
   </data>
+  <data name="ScriptErrorDialog.OpenConsole" xml:space="preserve">
+    <value>Open script console</value>
+  </data>
+  <data name="ScriptErrorDialog.Title.Error" xml:space="preserve">
+    <value>Script error</value>
+  </data>
+  <data name="ScriptErrorDialog.Title.Info" xml:space="preserve">
+    <value>Script info</value>
+  </data>
+  <data name="ScriptErrorDialog.Title.Warning" xml:space="preserve">
+    <value>Script warning</value>
+  </data>
+  <data name="ScriptErrorLevel.Error" xml:space="preserve">
+    <value>Lv3: Error</value>
+  </data>
+  <data name="ScriptErrorLevel.Error.Remarks" xml:space="preserve">
+    <value>Notify as an error. Make a toast notification.
+The script will stop.</value>
+  </data>
+  <data name="ScriptErrorLevel.Info" xml:space="preserve">
+    <value>Lv1: Info</value>
+  </data>
+  <data name="ScriptErrorLevel.Info.Remarks" xml:space="preserve">
+    <value>Notify as information. Notify the script console only.
+The script will continue.
+Obsolete member access returns the default value for the type. It can be null, and its subsequent behavior is not guaranteed.</value>
+  </data>
+  <data name="ScriptErrorLevel.Warning" xml:space="preserve">
+    <value>Lv2: Warning</value>
+  </data>
+  <data name="ScriptErrorLevel.Warning.Remarks" xml:space="preserve">
+    <value>Notify as a warning. Make a toast notification.
+The script will continue.
+Obsolete member access returns the default value for the type. It can be null, and its subsequent behavior is not guaranteed.</value>
+  </data>
+  <data name="ScriptErrorMessage.Alternative" xml:space="preserve">
+    <value>Use {0} instead.</value>
+  </data>
+  <data name="ScriptErrorMessage.Obsolete" xml:space="preserve">
+    <value>{0} is obsolete.</value>
+  </data>
   <data name="ScriptOnBookLoadedCommand.Remarks" xml:space="preserve">
     <value>Scrpit. Executes when the book is opened.</value>
+  </data>
+  <data name="ScriptOnPageChangedCommand.Remarks" xml:space="preserve">
+    <value>Scrpit. Executes when the view pages is changed.</value>
   </data>
   <data name="ScriptReference" xml:space="preserve">
     <value>Script reference</value>
@@ -4504,6 +4876,9 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   </data>
   <data name="ScrollPageCommandParameter.ScrollType" xml:space="preserve">
     <value>Scroll type</value>
+  </data>
+  <data name="SensitiveDragActionParameter.Sensitivity" xml:space="preserve">
+    <value>Sensitivity</value>
   </data>
   <data name="SetBackgroundAutoCommand" xml:space="preserve">
     <value>Image colored background</value>
@@ -4654,6 +5029,18 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   </data>
   <data name="SetPageModeTwoCommand.Remarks" xml:space="preserve">
     <value>It makes 2 page display.</value>
+  </data>
+  <data name="SetSortModeEntryCommand" xml:space="preserve">
+    <value>Entry Ascending</value>
+  </data>
+  <data name="SetSortModeEntryCommand.Remarks" xml:space="preserve">
+    <value>Set the order of pages in ascending order by entry.</value>
+  </data>
+  <data name="SetSortModeEntryDescendingCommand" xml:space="preserve">
+    <value>Entry Descending</value>
+  </data>
+  <data name="SetSortModeEntryDescendingCommand.Remarks" xml:space="preserve">
+    <value>Set the order of pages in descending order by entry.</value>
   </data>
   <data name="SetSortModeFileNameCommand" xml:space="preserve">
     <value>Name Ascending</value>
@@ -5060,6 +5447,9 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="SettingPage.Script" xml:space="preserve">
     <value>Script</value>
   </data>
+  <data name="SettingPage.Script.OpenScriptFolder" xml:space="preserve">
+    <value>Open script folder</value>
+  </data>
   <data name="SettingPage.SearchResult" xml:space="preserve">
     <value>Search results</value>
   </data>
@@ -5125,6 +5515,9 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   </data>
   <data name="SettingPage.Window.Theme" xml:space="preserve">
     <value>Theme</value>
+  </data>
+  <data name="SettingPage.Window.Theme.OpenCustomThemeFolder" xml:space="preserve">
+    <value>Open custom theme folder</value>
   </data>
   <data name="SettingPage.WindowTitle" xml:space="preserve">
     <value>Window title</value>
@@ -5212,6 +5605,9 @@ $Name is the main page (the smaller page number) when displaying 2 pages.</value
   </data>
   <data name="SliderConfig.IsVisible" xml:space="preserve">
     <value>Slider visibility</value>
+  </data>
+  <data name="SliderConfig.IsVisiblePlaylistMark" xml:space="preserve">
+    <value>Display playlisted mark</value>
   </data>
   <data name="SliderConfig.Opacity" xml:space="preserve">
     <value>Slider opacity</value>
@@ -5441,8 +5837,26 @@ $Name is the main page (the smaller page number) when displaying 2 pages.</value
   <data name="SystemConfig.TemporaryDirectory.Remarks" xml:space="preserve">
     <value>It is used for pre-extraction and recursive compression files.</value>
   </data>
+  <data name="SystemConfig.TextEditor" xml:space="preserve">
+    <value>Text editor</value>
+  </data>
+  <data name="SystemConfig.TextEditor.Remarks" xml:space="preserve">
+    <value>If not set, use Notepad.</value>
+  </data>
+  <data name="SystemConfig.WebBrowser" xml:space="preserve">
+    <value>Web browser</value>
+  </data>
+  <data name="SystemConfig.WebBrowser.Remarks" xml:space="preserve">
+    <value>If not set, use default web browser.</value>
+  </data>
+  <data name="ThemeConfig.CustomThemeFolder" xml:space="preserve">
+    <value>Custom theme folder</value>
+  </data>
   <data name="ThemeConfig.ThemeType" xml:space="preserve">
     <value>Theme type</value>
+  </data>
+  <data name="ThemeErrorDialog.FolderIsNotSet" xml:space="preserve">
+    <value>Folder is not set.</value>
   </data>
   <data name="ThemeErrorDialog.Title" xml:space="preserve">
     <value>Theme error</value>
@@ -5861,6 +6275,21 @@ $Name is the main page (the smaller page number) when displaying 2 pages.</value
   <data name="TogglePermitFileCommand.Remarks" xml:space="preserve">
     <value>Toggle enable / disable of file operation command.</value>
   </data>
+  <data name="TogglePlaylistItemCommand" xml:space="preserve">
+    <value>Toggle playlist item</value>
+  </data>
+  <data name="TogglePlaylistItemCommand.Menu" xml:space="preserve">
+    <value>Add to playlist</value>
+  </data>
+  <data name="TogglePlaylistItemCommand.Off" xml:space="preserve">
+    <value>Removed from playlist</value>
+  </data>
+  <data name="TogglePlaylistItemCommand.On" xml:space="preserve">
+    <value>Added to playlist</value>
+  </data>
+  <data name="TogglePlaylistItemCommand.Remarks" xml:space="preserve">
+    <value>Add or delete the current page to the playlist.</value>
+  </data>
   <data name="ToggleResizeFilterCommand" xml:space="preserve">
     <value>Toggle resize filter</value>
   </data>
@@ -6125,6 +6554,21 @@ $Name is the main page (the smaller page number) when displaying 2 pages.</value
   <data name="ToggleVisiblePageSliderCommand.Remarks" xml:space="preserve">
     <value>Toggle visible / hide of the slider.</value>
   </data>
+  <data name="ToggleVisiblePlaylistCommand" xml:space="preserve">
+    <value>Toggle playlist panel</value>
+  </data>
+  <data name="ToggleVisiblePlaylistCommand.Menu" xml:space="preserve">
+    <value>Playlist panel</value>
+  </data>
+  <data name="ToggleVisiblePlaylistCommand.Off" xml:space="preserve">
+    <value>Playlist panel OFF</value>
+  </data>
+  <data name="ToggleVisiblePlaylistCommand.On" xml:space="preserve">
+    <value>Playlist panel</value>
+  </data>
+  <data name="ToggleVisiblePlaylistCommand.Remarks" xml:space="preserve">
+    <value>Toggle vidible / hide of the playlist panel.</value>
+  </data>
   <data name="ToggleVisibleSideBarCommand" xml:space="preserve">
     <value>Toggle side bar</value>
   </data>
@@ -6326,11 +6770,23 @@ $Name is the main page (the smaller page number) when displaying 2 pages.</value
   <data name="ViewConfig.IsKeepAngle.Remarks" xml:space="preserve">
     <value>This setting does not work when automatic rotation is enabled.</value>
   </data>
+  <data name="ViewConfig.IsKeepAngleBooks" xml:space="preserve">
+    <value>Maintain the angle even when changing books</value>
+  </data>
+  <data name="ViewConfig.IsKeepAngleBooks.Remarks" xml:space="preserve">
+    <value>Works when "@ViewConfig.IsKeepAngle" is enabled.</value>
+  </data>
   <data name="ViewConfig.IsKeepFlip" xml:space="preserve">
     <value>Maintain reversal even when changing pages</value>
   </data>
+  <data name="ViewConfig.IsKeepFlipBooks" xml:space="preserve">
+    <value>Maintain scaling even when changing books</value>
+  </data>
   <data name="ViewConfig.IsKeepScale" xml:space="preserve">
     <value>Maintain scaling even when changing pages</value>
+  </data>
+  <data name="ViewConfig.IsKeepScaleBooks" xml:space="preserve">
+    <value>Maintain reversal even when changing books</value>
   </data>
   <data name="ViewConfig.IsLimitMove" xml:space="preserve">
     <value>Move inside the window</value>
@@ -6588,6 +7044,9 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="Word.AllHistory" xml:space="preserve">
     <value>All history</value>
   </data>
+  <data name="Word.Alternative" xml:space="preserve">
+    <value>Alternative</value>
+  </data>
   <data name="Word.Argument" xml:space="preserve">
     <value>Argument</value>
   </data>
@@ -6756,6 +7215,9 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="Word.None" xml:space="preserve">
     <value>None</value>
   </data>
+  <data name="Word.ObsoleteList" xml:space="preserve">
+    <value>Obsolete members</value>
+  </data>
   <data name="Word.Off" xml:space="preserve">
     <value>Off</value>
   </data>
@@ -6893,467 +7355,5 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="ZipArchiveConfig.SupportFileTypes.Remarks" xml:space="preserve">
     <value>Only ZIP format is supported.</value>
-  </data>
-  <data name="Playlist.Title" xml:space="preserve">
-    <value>Playlist</value>
-  </data>
-  <data name="BookshelfItem.Menu.Edit" xml:space="preserve">
-    <value>_Edit</value>
-  </data>
-  <data name="Playlist.MoreMenu.New" xml:space="preserve">
-    <value>_New</value>
-  </data>
-  <data name="Playlist.MoreMenu.Open" xml:space="preserve">
-    <value>_Open...</value>
-  </data>
-  <data name="Playlist.MoreMenu.Delete" xml:space="preserve">
-    <value>_Delete</value>
-  </data>
-  <data name="Playlist.MoreMenu.Rename" xml:space="preserve">
-    <value>Rena_me</value>
-  </data>
-  <data name="Playlist.MoreMenu.GroupBy" xml:space="preserve">
-    <value>Group by</value>
-  </data>
-  <data name="Playlist.MoreMenu.CurrentBook" xml:space="preserve">
-    <value>Current book only</value>
-  </data>
-  <data name="Playlist.MoreMenu.DeleteInvalid" xml:space="preserve">
-    <value>Remove invalid items</value>
-  </data>
-  <data name="Playlist.MoreMenu.Sort" xml:space="preserve">
-    <value>Sort by path</value>
-  </data>
-  <data name="Playlist.MoreMenu.OpenAsBook" xml:space="preserve">
-    <value>Open as a book</value>
-  </data>
-  <data name="Playlist.ErrorDialog.Title" xml:space="preserve">
-    <value>Playlist error</value>
-  </data>
-  <data name="Playlist.DeleteDialog.Title" xml:space="preserve">
-    <value>Delete playlist file</value>
-  </data>
-  <data name="PlaylistItem.Menu.Open" xml:space="preserve">
-    <value>_Open</value>
-  </data>
-  <data name="PlaylistItem.Menu.Delete" xml:space="preserve">
-    <value>_Delete</value>
-  </data>
-  <data name="PlaylistItem.Menu.Rename" xml:space="preserve">
-    <value>Rena_me</value>
-  </data>
-  <data name="Notice.InvalidSeparatorChars" xml:space="preserve">
-    <value>The following characters can not be used:
-\ / : * ? " &lt; &gt; |</value>
-  </data>
-  <data name="Playlist.FailedToLoad" xml:space="preserve">
-    <value>Failed to load the playlist</value>
-  </data>
-  <data name="Playlist.DeleteItemsMessage" xml:space="preserve">
-    <value>{0} items deleted.</value>
-  </data>
-  <data name="Playlist.FirstIn" xml:space="preserve">
-    <value>First in</value>
-  </data>
-  <data name="Playlist.LastIn" xml:space="preserve">
-    <value>Last in</value>
-  </data>
-  <data name="Playlist.FailedToSave" xml:space="preserve">
-    <value>Failed to save the playlist</value>
-  </data>
-  <data name="PlaylistConfig.CurrentPlaylist" xml:space="preserve">
-    <value>Current playlist</value>
-  </data>
-  <data name="PlaylistConfig.IsCurrentBookFilterEnabled" xml:space="preserve">
-    <value>Show only open book pages</value>
-  </data>
-  <data name="PlaylistConfig.IsFirstIn" xml:space="preserve">
-    <value>Add to the top of the list</value>
-  </data>
-  <data name="PlaylistConfig.IsFirstIn.Remarks" xml:space="preserve">
-    <value>This is the insertion position for additional commands. If it is turned off, it will be added at the end.</value>
-  </data>
-  <data name="PlaylistConfig.IsGroupBy" xml:space="preserve">
-    <value>Group and display by folder</value>
-  </data>
-  <data name="PlaylistConfig.PanelListItemStyle" xml:space="preserve">
-    <value>List item style</value>
-  </data>
-  <data name="PlaylistConfig.PlaylistFolder" xml:space="preserve">
-    <value>Playlist file storage location</value>
-  </data>
-  <data name="PlaylistConfig.PlaylistFolder.Remarks" xml:space="preserve">
-    <value>Playlist files in this folder are managed.</value>
-  </data>
-  <data name="CommandHost.Playlist" xml:space="preserve">
-    <value>Playlist panel accessor</value>
-  </data>
-  <data name="PlaylistPanelAccessor.Path" xml:space="preserve">
-    <value>Current playlist path</value>
-  </data>
-  <data name="PlaylistPanelAccessor.Style" xml:space="preserve">
-    <value>List item style</value>
-  </data>
-  <data name="PlaylistPanelAccessor.Items" xml:space="preserve">
-    <value>List items</value>
-  </data>
-  <data name="PlaylistPanelAccessor.SelectedItems" xml:space="preserve">
-    <value>Selected items</value>
-  </data>
-  <data name="PlaylistPanelAccessor" xml:space="preserve">
-    <value>Playlist panel accessor</value>
-  </data>
-  <data name="PlaylistItemAccessor" xml:space="preserve">
-    <value>Playlist item accessor</value>
-  </data>
-  <data name="PlaylistItemAccessor.Name" xml:space="preserve">
-    <value>Item name</value>
-  </data>
-  <data name="PlaylistItemAccessor.Path" xml:space="preserve">
-    <value>The path corresponding to the item</value>
-  </data>
-  <data name="PageSortMode.Entry" xml:space="preserve">
-    <value>Entry↑</value>
-  </data>
-  <data name="PageSortMode.EntryDescending" xml:space="preserve">
-    <value>Entry↓</value>
-  </data>
-  <data name="SetSortModeEntryCommand" xml:space="preserve">
-    <value>Entry Ascending</value>
-  </data>
-  <data name="SetSortModeEntryCommand.Remarks" xml:space="preserve">
-    <value>Set the order of pages in ascending order by entry.</value>
-  </data>
-  <data name="SetSortModeEntryDescendingCommand" xml:space="preserve">
-    <value>Entry Descending</value>
-  </data>
-  <data name="SetSortModeEntryDescendingCommand.Remarks" xml:space="preserve">
-    <value>Set the order of pages in descending order by entry.</value>
-  </data>
-  <data name="ToggleVisiblePlaylistCommand" xml:space="preserve">
-    <value>Toggle playlist panel</value>
-  </data>
-  <data name="ToggleVisiblePlaylistCommand.Menu" xml:space="preserve">
-    <value>Playlist panel</value>
-  </data>
-  <data name="ToggleVisiblePlaylistCommand.Off" xml:space="preserve">
-    <value>Playlist panel OFF</value>
-  </data>
-  <data name="ToggleVisiblePlaylistCommand.On" xml:space="preserve">
-    <value>Playlist panel</value>
-  </data>
-  <data name="ToggleVisiblePlaylistCommand.Remarks" xml:space="preserve">
-    <value>Toggle vidible / hide of the playlist panel.</value>
-  </data>
-  <data name="TogglePlaylistItemCommand" xml:space="preserve">
-    <value>Toggle playlist item</value>
-  </data>
-  <data name="TogglePlaylistItemCommand.Menu" xml:space="preserve">
-    <value>Add to playlist</value>
-  </data>
-  <data name="TogglePlaylistItemCommand.Off" xml:space="preserve">
-    <value>Removed from playlist</value>
-  </data>
-  <data name="TogglePlaylistItemCommand.On" xml:space="preserve">
-    <value>Added to playlist</value>
-  </data>
-  <data name="TogglePlaylistItemCommand.Remarks" xml:space="preserve">
-    <value>Add or delete the current page to the playlist.</value>
-  </data>
-  <data name="PrevPlaylistItemCommand" xml:space="preserve">
-    <value>Prev playlist item</value>
-  </data>
-  <data name="PrevPlaylistItemCommand.Remarks" xml:space="preserve">
-    <value>Go to the previous page mark.</value>
-  </data>
-  <data name="PrevPlaylistItemInBookCommand" xml:space="preserve">
-    <value>Prev playlist item in book</value>
-  </data>
-  <data name="PrevPlaylistItemInBookCommand.Remarks" xml:space="preserve">
-    <value>Move to the previous page mark in the current book.</value>
-  </data>
-  <data name="NextPlaylistItemCommand" xml:space="preserve">
-    <value>Next playlist item</value>
-  </data>
-  <data name="NextPlaylistItemCommand.Remarks" xml:space="preserve">
-    <value>Go to the next page mark.</value>
-  </data>
-  <data name="NextPlaylistItemInBookCommand" xml:space="preserve">
-    <value>Next playlist item in book</value>
-  </data>
-  <data name="NextPlaylistItemInBookCommand.Remarks" xml:space="preserve">
-    <value>Move to the next page mark in the current book.</value>
-  </data>
-  <data name="CommandGroup.Playlist" xml:space="preserve">
-    <value>Playlist</value>
-  </data>
-  <data name="FilmStripConfig.IsVisiblePlaylistMark" xml:space="preserve">
-    <value>Display playlisted mark</value>
-  </data>
-  <data name="Notice.FirstPlaylistItem" xml:space="preserve">
-    <value>There is no playlist item before the current page</value>
-  </data>
-  <data name="Notice.LastPlaylistItem" xml:space="preserve">
-    <value>There is no playlist item after the current page</value>
-  </data>
-  <data name="Notice.PlaylistItemNextFailed" xml:space="preserve">
-    <value>No next playlist item</value>
-  </data>
-  <data name="Notice.PlaylistItemPrevFailed" xml:space="preserve">
-    <value>No previous playlist item</value>
-  </data>
-  <data name="Notice.RemoveUnlinkedPlaylistItem" xml:space="preserve">
-    <value>{0} playlist items removed.</value>
-  </data>
-  <data name="PageListItem.Menu.AddToPlaylist" xml:space="preserve">
-    <value>Add to _playlist</value>
-  </data>
-  <data name="SliderConfig.IsVisiblePlaylistMark" xml:space="preserve">
-    <value>Display playlisted mark</value>
-  </data>
-  <data name="BookmarkFolderDelete.Message" xml:space="preserve">
-    <value>Removed {0} bookmarks.</value>
-  </data>
-  <data name="MovePlaylsitItemInBookCommandParameter.IsIncludeTerminal" xml:space="preserve">
-    <value>Include the first and last pages</value>
-  </data>
-  <data name="MovePlaylsitItemInBookCommandParameter.IsLoop" xml:space="preserve">
-    <value>Loop</value>
-  </data>
-  <data name="PlaylistItem.Menu.MoveToAnother" xml:space="preserve">
-    <value>Move to another playlist</value>
-  </data>
-  <data name="Notice.ImageDecodeFailed" xml:space="preserve">
-    <value>Image decoding failed.</value>
-  </data>
-  <data name="ImportControl.Playlist" xml:space="preserve">
-    <value>{0} playlists</value>
-  </data>
-  <data name="SettingPage.Window.Theme.OpenCustomThemeFolder" xml:space="preserve">
-    <value>Open custom theme folder</value>
-  </data>
-  <data name="ThemeConfig.CustomThemeFolder" xml:space="preserve">
-    <value>Custom theme folder</value>
-  </data>
-  <data name="ImportControl.Theme" xml:space="preserve">
-    <value>{0} custom themes</value>
-  </data>
-  <data name="ImportControl.Script" xml:space="preserve">
-    <value>{0} scripts</value>
-  </data>
-  <data name="OpenScriptsFolderErrorDialog.FolderIsNotSet" xml:space="preserve">
-    <value>Folder is not set.</value>
-  </data>
-  <data name="SettingPage.Script.OpenScriptFolder" xml:space="preserve">
-    <value>Open script folder</value>
-  </data>
-  <data name="ThemeErrorDialog.FolderIsNotSet" xml:space="preserve">
-    <value>Folder is not set.</value>
-  </data>
-  <data name="PlaylistErrorDialog.FolderIsNotSet" xml:space="preserve">
-    <value>Folder is not set.</value>
-  </data>
-  <data name="CommandListItem.Menu.Edit" xml:space="preserve">
-    <value>_Edit</value>
-  </data>
-  <data name="CommandListItem.Menu.Setting" xml:space="preserve">
-    <value>_Setting</value>
-  </data>
-  <data name="CommandListItem.Menu.Clone" xml:space="preserve">
-    <value>_Clone</value>
-  </data>
-  <data name="CommandListItem.Menu.Delete" xml:space="preserve">
-    <value>_Delete</value>
-  </data>
-  <data name="ScriptCommandParameter.Argument" xml:space="preserve">
-    <value>Command arguments</value>
-  </data>
-  <data name="ScriptCommandParameter.Argument.Remarks" xml:space="preserve">
-    <value>It is stored in the script "nv.Args".</value>
-  </data>
-  <data name="SystemConfig.TextEditor" xml:space="preserve">
-    <value>Text editor</value>
-  </data>
-  <data name="SystemConfig.TextEditor.Remarks" xml:space="preserve">
-    <value>If not set, use Notepad.</value>
-  </data>
-  <data name="CommandHost.Args" xml:space="preserve">
-    <value>Command arguments are stored in this array.</value>
-  </data>
-  <data name="Navigator.IsKeepAngleBooks" xml:space="preserve">
-    <value>Keep angle when changing books</value>
-  </data>
-  <data name="Navigator.IsKeepScaleBooks" xml:space="preserve">
-    <value>Keep scale when changing books</value>
-  </data>
-  <data name="Navigator.IsKeepFlipBooks" xml:space="preserve">
-    <value>Keep flip when changing books</value>
-  </data>
-  <data name="ViewConfig.IsKeepAngleBooks" xml:space="preserve">
-    <value>Maintain the angle even when changing books</value>
-  </data>
-  <data name="ViewConfig.IsKeepAngleBooks.Remarks" xml:space="preserve">
-    <value>Works when "@ViewConfig.IsKeepAngle" is enabled.</value>
-  </data>
-  <data name="ViewConfig.IsKeepScaleBooks" xml:space="preserve">
-    <value>Maintain reversal even when changing books</value>
-  </data>
-  <data name="ViewConfig.IsKeepFlipBooks" xml:space="preserve">
-    <value>Maintain scaling even when changing books</value>
-  </data>
-  <data name="FolderTree.Menu.Rename" xml:space="preserve">
-    <value>Rena_me</value>
-  </data>
-  <data name="FolderTree.Menu.Delete" xml:space="preserve">
-    <value>_Delete</value>
-  </data>
-  <data name="FolderTree.Menu.Property" xml:space="preserve">
-    <value>P_roperty</value>
-  </data>
-  <data name="FolderTree.Menu.NewFolder" xml:space="preserve">
-    <value>New _folder</value>
-  </data>
-  <data name="QuickAccessPropertyDialog.Title" xml:space="preserve">
-    <value>Quick access property</value>
-  </data>
-  <data name="BookAccessor.Wait" xml:space="preserve">
-    <value>Wait for the view pages to finish loading</value>
-  </data>
-  <data name="NavigatorConfig.ThumbnailHeight" xml:space="preserve">
-    <value>Thumbnail area height</value>
-  </data>
-  <data name="History.DeleteItemsMessage" xml:space="preserve">
-    <value>{0} items deleted.</value>
-  </data>
-  <data name="RemoveUnlinkedHistoryCommand" xml:space="preserve">
-    <value>Delete invalid history items</value>
-  </data>
-  <data name="RemoveUnlinkedHistoryCommand.Remarks" xml:space="preserve">
-    <value>Delete history items that do not exist.</value>
-  </data>
-  <data name="SystemConfig.WebBrowser" xml:space="preserve">
-    <value>Web browser</value>
-  </data>
-  <data name="SystemConfig.WebBrowser.Remarks" xml:space="preserve">
-    <value>If not set, use default web browser.</value>
-  </data>
-  <data name="ScriptOnPageChangedCommand.Remarks" xml:space="preserve">
-    <value>Scrpit. Executes when the view pages is changed.</value>
-  </data>
-  <data name="BookshelfItem.Menu.OpenInPlaylist" xml:space="preserve">
-    <value>Open in _Playlist</value>
-  </data>
-  <data name="ScriptConfig.ErrorLevel" xml:space="preserve">
-    <value>Obsolete member access error level</value>
-  </data>
-  <data name="ScriptConfig.ErrorLevel.Remarks" xml:space="preserve">
-    <value>This is a debug setting. Select the error handling of member access that can no longer be used due to version upgrade.</value>
-  </data>
-  <data name="ScriptErrorLevel.Info" xml:space="preserve">
-    <value>Lv1: Info</value>
-  </data>
-  <data name="ScriptErrorLevel.Info.Remarks" xml:space="preserve">
-    <value>Notify as information. Notify the script console only.
-The script will continue.
-Obsolete member access returns the default value for the type. It can be null, and its subsequent behavior is not guaranteed.</value>
-  </data>
-  <data name="ScriptErrorLevel.Warning" xml:space="preserve">
-    <value>Lv2: Warning</value>
-  </data>
-  <data name="ScriptErrorLevel.Warning.Remarks" xml:space="preserve">
-    <value>Notify as a warning. Make a toast notification.
-The script will continue.
-Obsolete member access returns the default value for the type. It can be null, and its subsequent behavior is not guaranteed.</value>
-  </data>
-  <data name="ScriptErrorLevel.Error" xml:space="preserve">
-    <value>Lv3: Error</value>
-  </data>
-  <data name="ScriptErrorLevel.Error.Remarks" xml:space="preserve">
-    <value>Notify as an error. Make a toast notification.
-The script will stop.</value>
-  </data>
-  <data name="ScriptErrorDialog.Title.Error" xml:space="preserve">
-    <value>Script error</value>
-  </data>
-  <data name="ScriptErrorDialog.Title.Warning" xml:space="preserve">
-    <value>Script warning</value>
-  </data>
-  <data name="ScriptErrorDialog.Title.Info" xml:space="preserve">
-    <value>Script info</value>
-  </data>
-  <data name="ScriptErrorDialog.OpenConsole" xml:space="preserve">
-    <value>Open script console</value>
-  </data>
-  <data name="Word.ObsoleteList" xml:space="preserve">
-    <value>Obsolete members</value>
-  </data>
-  <data name="Word.Alternative" xml:space="preserve">
-    <value>Alternative</value>
-  </data>
-  <data name="ScriptErrorMessage.Obsolete" xml:space="preserve">
-    <value>{0} is obsolete.</value>
-  </data>
-  <data name="ScriptErrorMessage.Alternative" xml:space="preserve">
-    <value>Use {0} instead.</value>
-  </data>
-  <data name="OpenExternalAppCommandParameter.WorkingDirectory" xml:space="preserve">
-    <value>Working directory</value>
-  </data>
-  <data name="CommandHost.Environment" xml:space="preserve">
-    <value>Environment accessor</value>
-  </data>
-  <data name="EnvironmentAccessor" xml:space="preserve">
-    <value>Environment accessor</value>
-  </data>
-  <data name="EnvironmentAccessor.NeeViewPath" xml:space="preserve">
-    <value>NeeView executable file path</value>
-  </data>
-  <data name="EnvironmentAccessor.UserSettingFilePath" xml:space="preserve">
-    <value>User setting file path</value>
-  </data>
-  <data name="MultiPagePolicy.AllLeftToRight" xml:space="preserve">
-    <value>Run all pages (Left to right)</value>
-  </data>
-  <data name="ExportBackupCommandParameter.FileName" xml:space="preserve">
-    <value>Backup file path</value>
-  </data>
-  <data name="ImportBackupCommandParameter.FileName" xml:space="preserve">
-    <value>Backup file path</value>
-  </data>
-  <data name="ImportBackupCommandParameter.UserSetting" xml:space="preserve">
-    <value>User setting</value>
-  </data>
-  <data name="ImportBackupCommandParameter.History" xml:space="preserve">
-    <value>History</value>
-  </data>
-  <data name="ImportBackupCommandParameter.Bookmark" xml:space="preserve">
-    <value>Bookmark</value>
-  </data>
-  <data name="ImportBackupCommandParameter.Playlists" xml:space="preserve">
-    <value>Playlists</value>
-  </data>
-  <data name="ImportBackupCommandParameter.Themes" xml:space="preserve">
-    <value>Custom themes</value>
-  </data>
-  <data name="ImportBackupCommandParameter.Scripts" xml:space="preserve">
-    <value>Scripts</value>
-  </data>
-  <data name="ImportAction.Undefined" xml:space="preserve">
-    <value>Undefined</value>
-  </data>
-  <data name="ImportAction.Skip" xml:space="preserve">
-    <value>Skip</value>
-  </data>
-  <data name="ImportAction.Import" xml:space="preserve">
-    <value>Import</value>
-  </data>
-  <data name="AutoHideConfig.AutoHideHitTestHorizontalMargin" xml:space="preserve">
-    <value>Horizontal area width for panel automatic display judgment (pixel)</value>
-  </data>
-  <data name="AutoHideConfig.AutoHideHitTestVerticalMargin" xml:space="preserve">
-    <value>Vertical area width for panel automatic display judgment (pixel)</value>
-  </data>
-  <data name="SensitiveDragActionParameter.Sensitivity" xml:space="preserve">
-    <value>Sensitivity</value>
   </data>
 </root>

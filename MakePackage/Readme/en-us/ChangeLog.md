@@ -1,158 +1,103 @@
 ## ChangeLog
 
+### 39.0
+(2021-06-??)
 
-### 38.3
-(2021-01-29)
+#### Important
 
-#### Fixed
+##### Integrate Pagemark into Playlist
 
-- Fixed a bug in PDF rendering resolution.
-- Fixed a bug related to window coordinate restoration when the taskbar is on the top or left.
-- Fixed a bug that scrolling may be unnatural when multiple items are selected on a bookshelf, etc.
-- Fixed a bug that "Stretch window" may not work properly.
-- Script: Fixed a bug that the focus when selecting a panel list item may not match the keyboard focus.
-- Script: Fixed a bug that the Enter key input of the ShowInputDialog command affects the main window.
-- Script console: Fixed a bug that the application terminates illegally with the exit command.
-- Script console: Fixed a bug that the application may terminate abnormally in the object display.
+- Pagemark have been abolished. The previous pagemarks will be carried over as a playlist named "Pagemark".
+- A new playlist panel has been added.
+- You can create multiple playlists and switch between them. You can treat the selected playlist like a Pagemark.
+- The playlists managed in the Playlist panel are limited to those placed in a dedicated folder, but existing playlist files can still be used.
+- In the page mark, it was grouped by book, but in the playlist, it is grouped by folder or compressed file.
 
-#### Changed
+##### Renewal of appearance
 
-- "Stretch window" changed to work only when the window state is normal.
-- Script console: Changed to omit nested properties in object display.
+- Almost all UI controls have been tuned.
+- We increased the theme. The theme color setting in the menu section has been abolished. (Settings > Window > Theme)
+- It is now possible to freely color by creating a custom theme. See [here](https://bitbucket.org/neelabo/neeview/wiki/Theme) for the theme file format.
+- Themes are now applied to the settings window as well.
+- The font settings have been totally revised. (Settings > Fonts)
 
-----
+##### Information panel renewal
 
-### 38.2
-(2021-01-18)
-
-#### Fixed
-
-- Fixed a bug that the DPI of the display may not be applied.
-- Fixed a bug that dots may be enlarged as they are when the scale is changed in the navigator.
-- Fixed a bug that videos could not be played when switching the main view window.
-- Fixed a bug that the taskbar is displayed in full screen mode when in tablet mode.
-- Fixed a bug that the placement save setting of AeroSnap is not working.
-- Fixed a memory leak in a subwindow.
-- Corrected the text of the command initialization dialog.
-
-----
-
-### 38.1
-(2021-01-08)
-
-#### Fixed
-
-- Fixed a bug related to the state of the window at startup.
-
-----
-
-### 38.0
-(2021-01-01)
+- Changed to display a lot of EXIF information.
+- Enabled to switch the display information when displaying 2 pages.
 
 #### New
 
-- Docking side panel support. You can drag the panels to connect them.
-- Floating side panel support. Right-click the panel icon or panel title and execute "Floating" to make the panel a subwindow.
-- Main view window implementation. Makes the main view a separate window. (View > MainView window)
-- Added "Window size adjustment" command to match the window size with the display content size.
-- Added auto-hide mode setting. You can enable automatic hiding even in window states other than full screen. (Options > Panels > Auto-hide mode)
-- Added AeroSnap coordinate restore settings. (Options > Launch > Restore AeroSnap window placement)
-- Added slider movement setting according to the number of displayed pages. (Options > Page slider > Synchronize the...)
-- Added ON / OFF setting for WIC information acquisition. (Options > File types > Use WIC information)
+- Language: Compatible with Chinese(Taiwan).
+- Setting: Added settings for the web browser and text editor to be used. (Settings > General)
+- Setting: Add scripts and custom themes to your export data.
+- Command: The command can be cloned. Right-click the command in the command list of settings and select "Clone" to create it. Only commands with parameters can be cloned.
+- Command: Added "Delete invalid history items".
+- Command: Tilt wheel compatible.
+- MainView: Hover scroll. (Menu > Image > Hover scroll)
+- MainView: Added view margin settings. (Settings > Window > Main view margin)
+- MainView: Corresponds to the loupe by pressing and holding the touch.
+- QuickAccess: Enabled to change the name. You can also change the reference path from the quick access properties.
+- Navigator: Added display area thumbnails. (Detailed menu in the navigator panel)
+- Navigator: Added settings to maintain rotation expansion and contraction even when the book is changed. Change from the context menu of the pushpin button in the navigator panel.
+- PageSlider: Added slider display ON / OFF command. (Menu > View > Slider)
+- PageSlider: Added playlist registration mark display ON / OFF setting for slider. (Setting > Slider)
+- Filmstrip: Display the playlist registration mark. (Setting > Filmstrip)
+- Filmstrip: Implemented context menu on filmstrip.
+- Script: Added error level setting. (Setting > Script > Obsolete member access error level)
+- Script: Changed to monitor changes in the script folder.
+- Script: Added script command argument nv.Args[]. Specify in the command parameter of the script command.
+- Script: Added page switching event OnPageChanged.
+- Script: Added instruction nv.Book.Wait() to wait for page loading to complete.
+- Script: Added nv.Environment
+- Develop: We have prepared a multilingual development environment. See [here](https://bitbucket.org/neelabo/neeview/src/master/Language/Readme.md) for more information.
 
 #### Fixed
 
-- Fixed an issue that caused an error when trying to open the print dialog on some printers.
-- Fixed a bug that may not start depending on the state of WIC.
-- Fixed a bug that you cannot start if you delete all excluded folder settings.
-- Fixed a bug that thumbnails are not updated when changing the history style.
-- Fixed a bug that the display may not match the film strip.
-- Fixed a bug that the shortcut of the main menu may not be displayed.
-- Fixed a bug that folders in the archive could not be opened with the network path.
-- Fixed a bug that bookmark update may not be completed when importing settings.
-- Fixed a bug related to page spacing setting and stretching application by rotation.
-- Fixed a bug related to scale value continuation when page is moved after rotation.
-- Fixed a bug that playback cannot be performed if "#" is included in the video path.
-- Fixed a page movement bug when splitting horizontally long pages.
-- Suppresses the phenomenon that the page advances when the book page is opened by double-clicking.
-- Improved the problem that media without video such as MP3 may not be played.
-- Fixed shortcut key name.
+- Setting: Fixed a bug that data is incorrect when using a semicolon in the extension setting.
+- Setting: Fixed a bug that the initialization button of the extension setting does not work.
+- Setting: Fixed a bug that the list box disappears after searching for settings.
+- Other: Fixed a bug that page recording is not working.
+- Window: Fixed a bug that thumbnail images pop up in rare cases.
+- Window: Fixed a bug that the panel may also be hidden when the context menu is closed.
+- Window: Fixed a bug that the display size of certain pop-up thumbnails is incorrect.
+- Window: Fixed multiple selection behavior of list.
+- MainView: Fixed a bug that the aspect ratio may be incorrect when rotating the RAW camera image.
+- Bookshelf: Fixed a bug that the mark indicating the current book may not be displayed.
+- ScriptConsole: Fixed a bug that the application terminates abnormally with "exit".
+- Script: Fixed a bug that the image size was the value after the limit.
+- Script: Fixed a bug that the Enter key input of ShowInputDialog affects the main window.
+- Script: Enabled to get the path with the default path setting.
 
 #### Changed
 
-- Transparent side panel grip.
-- Disable IME except for text boxes.
-- Backup file generation is limited to once per startup.
-- Moved the data storage folder for the store app version from "NeeLaboratory\NeeView.a" to "NeeLavoratory-NeeView". To solve the problem that the data may not be deleted even if it is uninstalled.
-- To solve the problem that the upper folder of the opened file cannot be changed, the current directory is always in the same location as the exe.
-- Changed the order of kanji in natural sort to read aloud.
-- Changed to generate a default script folder only when scripts are enabled. If a non-default folder is specified, it will not be generated.
-- Added a detailed message to the setting loading error dialog and added an application exit button.
-- Changed the NeeView switching order to the startup order.
-- Added the option to initialize the last page in "Page Position" of the page settings.
-- Adjust the order of the "View" menu.
-- Changed "File Information" to "Information".
-- Various library updates.
+- Setting: The file operation permission in the initial state has been turned off. (Menu > Option > File operation)
+- Network: When the network access permission setting is OFF, when connecting to the Internet with a Web browser, a confirmation dialog is displayed instead of being invalid.
+- Command: Added command parameters to change N-type scroll to Z-type scroll.
+- Command: Added a stop parameter for line breaks to the N-type scroll command.
+- Command: Added working directory settings for external apps.
+- Command: Added a mode to open from the left page when opening multiple pages with an external application.
+- Command: Added command parameters to import and export commands.
+- Book: Added registration order in page order. Only works for playlists. Otherwise it works as a name order.
+- Window: Added automatic display judgment setting for the overlapping part of the side panel and menus and sliders. (Settings > Panels)
+- Window: The area width of the automatic display judgment is divided into the vertical direction and the horizontal direction. (Settings > Panels)
+- Window: The tab movement of the entire main window has been adjusted from the upper left to the lower right.
+- MainView: Changed to process non-animated GIF as an image.
+- MainView: Added parameters to mouse drag operation. (Settings > Mouse operation)
+- Bookshelf: A search path is also valid for "Home Location".
+- PageList: Changed to open the current book as a selection page by moving the parent.
+- Effect: Expanded custom size function.
+- PageSlider: Added thickness setting. (Settings > Slider)
+- PageSlider: Changed the playlist registration mark display design.
+- Script: Changed to create folders and samples when first opening the script folder.
 
 #### Removed
 
-- Abolished the setting "Do not cover the taskbar area at full screen". Substitute in auto-hide mode.
-- "Place page list on bookshelf" setting abolished. Substitute with a docking panel.
-
-#### Script
-
-- Fixed: Fixed a bug that command parameter changes were not saved.
-- Fixed: Fixed a bug that the focus did not move with "nv.Command.ToggleVisible*.Execute(true)".
-- Fixed: Fixed a bug that the focus did not move to the bookshelf in the startup script.
-- New: The default shortcut can be specified in the doc comments of the script file.
-- New: Added nv.ShowInputDialog() instruction. This is a character string input dialog.
-- New: Added sleep() instruction. Stops script processing for the specified time.
-- New: Added "Cancel script" command. Stops the operation of scripts that use sleep.
-- New: Addition of each panel accessor such as nv.Bookshelf. Added accessors for each panel such as bookshelves. You can get and set selection items.
-- Changed: Changed to output the contents of the object in the script console output.
-- Changed: Changed nv.Book page accessor acquisition from method to property.
-    - nv.Book.Page(int) -> nv.Book.Pages\[int\] (The index will start at 0)
-    - nv.Book.ViewPage(int) -> nv.Book.ViewPages\[int\]
-    - Pages[] cannot get the page size(Width,Height). You can get it in ViewPages[].
-- nv.Config
-    - New: nv.Config.Image.Standard.UseWicInformation
-    - New: nv.Config.MainView.IsFloating
-    - New: nv.Config.MainView.IsHideTitleBar
-    - New: nv.Config.MainView.IsTopmost
-    - New: nv.Config.MenuBar.IsHideMenuInAutoHideMode
-    - New: nv.Config.Slider.IsSyncPageMode
-    - New: nv.Config.System.IsInputMethodEnabled
-    - New: nv.Config.Window.IsAutoHideInFullScreen
-    - New: nv.Config.Window.IsAutoHideInNormal
-    - New: nv.Config.Window.IsAutoHidInMaximized
-    - New: nv.Config.Window.IsRestoreAeroSnapPlacement
-    - Changed: nv.Config.Bookmark.IsSelected → nv.Bookmark.IsSelected
-    - Changed: nv.Config.Bookmark.IsVisible → nv.Bookmark.IsVisible
-    - Changed: nv.Config.Bookshelf.IsSelected → nv.Bookshelf.IsSelected
-    - Changed: nv.Config.Bookshelf.IsVisible → nv.Bookshelf.IsVisible
-    - Changed: nv.Config.Effect.IsSelected → nv.Effect.IsSelected
-    - Changed: nv.Config.Effect.IsVisible → nv.Effect.IsVisible
-    - Changed: nv.Config.History.IsSelected → nv.History.IsSelected
-    - Changed: nv.Config.History.IsVisible → nv.History.IsVisible
-    - Changed: nv.Config.Information.IsSelected → nv.Information.IsSelected
-    - Changed: nv.Config.Information.IsVisible → nv.Information.IsVisible
-    - Changed: nv.Config.PageList.IsSelected → nv.PageList.IsSelected
-    - Changed: nv.Config.PageList.IsVisible → nv.PageList.IsVisible
-    - Changed: nv.Config.Pagemark.IsSelected → nv.Pagemark.IsSelected
-    - Changed: nv.Config.Pagemark.IsVisible → nv.Pagemark.Visible
-    - Changed: nv.Config.Panels.IsHidePanelInFullscreen → nv.Config.Panels.IsHidePanelInAutoHideMode
-    - Changed: nv.Config.Slider.IsHidePageSliderInFullscreen → nv.Config.Slider.IsHidePageSliderInAutoHideMode
-    - Removed: nv.Config.Bookshelf.IsPageListDocked → x
-    - Removed: nv.Config.Bookshelf.IsPageListVisible → x
-    - Removed: nv.Config.Window.IsFullScreenWithTaskBar → x
-- nv.Command
-    - New: ToggleMainViewFloating
-    - New: StretchWindow
-    - New: CancelScript
-    - Changed: FocusPrevAppCommand → FocusPrevApp
-    - Changed: FocusNextAppCommand → FocusNextApp
-    - Changed: TogglePermitFileCommand → TogglePermitFile
-    - Removed: TogglePageListPlacement → x
+- Command: Removed "Toggle title bar" command.
+- Panels: Supplemental text opacity setting is abolished. Can be set with a custom theme.
+- Bookshelf: Removed "Save playlist" from the details menu.
+- Filmstrip: Abolished the "Display background" setting. Linked to the opacity of the page slider.
+- Script: Some members have been deleted. See "Obsolete members" in Script Help for more information.
 
 ----
 

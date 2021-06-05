@@ -28,7 +28,7 @@
 
 #### New
 
-- Language: Compatible with Chinese(Taiwan).
+- Language: Compatible with Chinese(Taiwan). (Thanks to the provider!)
 - Setting: Added settings for the web browser and text editor to be used. (Settings > General)
 - Setting: Add scripts and custom themes to your export data.
 - Command: The command can be cloned. Right-click the command in the command list of settings and select "Clone" to create it. Only commands with parameters can be cloned.

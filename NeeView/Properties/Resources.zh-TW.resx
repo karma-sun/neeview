@@ -480,8 +480,14 @@ nv.Command.ToggleMediaPlay.Execute()
   <data name="AutoHideConfig.AutoHideFocusLockMode.Remarks" xml:space="preserve">
     <value>當有焦點時不隱藏顯示。</value>
   </data>
+  <data name="AutoHideConfig.AutoHideHitTestHorizontalMargin" xml:space="preserve">
+    <value>面板自動顯示判斷的水平區域寬度 (像素)</value>
+  </data>
   <data name="AutoHideConfig.AutoHideHitTestMargin" xml:space="preserve">
     <value>面板自動顯示判斷的區域寬度 (像素)</value>
+  </data>
+  <data name="AutoHideConfig.AutoHideHitTestVerticalMargin" xml:space="preserve">
+    <value>面板自動顯示判斷的垂直區域寬度 (像素)</value>
   </data>
   <data name="AutoHideConfig.IsAutoHideKeyDownDelay" xml:space="preserve">
     <value>自動隱藏面板的按鍵輸入顯示繼續</value>
@@ -2100,6 +2106,9 @@ nv.Values.Test = "Hello!"</value>
   <data name="ExportBackupCommand.Remarks" xml:space="preserve">
     <value>製作設定、歷史記錄、書籤的備份。不會備份縮圖快取。</value>
   </data>
+  <data name="ExportBackupCommandParameter.FileName" xml:space="preserve">
+    <value>備份檔案的路徑</value>
+  </data>
   <data name="ExportDialog.Title" xml:space="preserve">
     <value>匯出全部設定</value>
   </data>
@@ -2768,6 +2777,15 @@ nv.Values.Test = "Hello!"</value>
   <data name="ImageTrimConfig.Top" xml:space="preserve">
     <value>上</value>
   </data>
+  <data name="ImportAction.Import" xml:space="preserve">
+    <value>匯入</value>
+  </data>
+  <data name="ImportAction.Skip" xml:space="preserve">
+    <value>跳過</value>
+  </data>
+  <data name="ImportAction.Undefined" xml:space="preserve">
+    <value>未定義</value>
+  </data>
   <data name="ImportBackupCommand" xml:space="preserve">
     <value>匯入設定</value>
   </data>
@@ -2776,6 +2794,27 @@ nv.Values.Test = "Hello!"</value>
   </data>
   <data name="ImportBackupCommand.Remarks" xml:space="preserve">
     <value>從備份檔案選擇還原的項目做還原。</value>
+  </data>
+  <data name="ImportBackupCommandParameter.Bookmark" xml:space="preserve">
+    <value>書籤</value>
+  </data>
+  <data name="ImportBackupCommandParameter.FileName" xml:space="preserve">
+    <value>備份檔案的路徑</value>
+  </data>
+  <data name="ImportBackupCommandParameter.History" xml:space="preserve">
+    <value>歷史記錄</value>
+  </data>
+  <data name="ImportBackupCommandParameter.Playlists" xml:space="preserve">
+    <value>播放列表</value>
+  </data>
+  <data name="ImportBackupCommandParameter.Scripts" xml:space="preserve">
+    <value>腳本</value>
+  </data>
+  <data name="ImportBackupCommandParameter.Themes" xml:space="preserve">
+    <value>自訂主題</value>
+  </data>
+  <data name="ImportBackupCommandParameter.UserSetting" xml:space="preserve">
+    <value>使用者設定</value>
   </data>
   <data name="ImportControl.Bookmark" xml:space="preserve">
     <value>書籤</value>
@@ -4842,6 +4881,9 @@ Susie 檔案無法辨別這個大小，僅在擴充套件設定上辨別預先�
   </data>
   <data name="ScrollPageCommandParameter.ScrollType" xml:space="preserve">
     <value>捲動類別</value>
+  </data>
+  <data name="SensitiveDragActionParameter.Sensitivity" xml:space="preserve">
+    <value>靈敏度</value>
   </data>
   <data name="SetBackgroundAutoCommand" xml:space="preserve">
     <value>將背景設為符合圖像的顏色</value>

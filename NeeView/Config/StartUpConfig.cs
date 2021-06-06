@@ -92,14 +92,14 @@ namespace NeeView
         public string LastBookPath
         {
             get { return IsOpenLastBook ? _lastBookPath : null; }
-            set { SetProperty(ref _lastBookPath, IsOpenLastBook ? value : null); }
+            set { SetProperty(ref _lastBookPath, value); }
         }
 
         [PropertyMapIgnore]
         public string LastFolderPath
         {
             get { return IsOpenLastFolder ? _lastFolderPath : null; }
-            set { SetProperty(ref _lastFolderPath, IsOpenLastFolder ? value : null); }
+            set { SetProperty(ref _lastFolderPath, value); }
         }
 
         #endregion HiddenParameters

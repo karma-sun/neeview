@@ -10,137 +10,88 @@ namespace NeeView
     public class ScriptCommand : CommandElement
     {
         public const string Prefix = "Script_";
-        public const string Extension = ".nvjs";
-        public const string EventOnBookLoaded = Prefix + "OnBookLoaded";
-        public const string EventOnPageChanged = Prefix + "OnPageChanged";
+        public const string EventOnBookLoaded = Prefix + ScriptCommandSource.OnBookLoadedFilename;
+        public const string EventOnPageChanged = Prefix + ScriptCommandSource.OnPageChangedFilename;
 
-        private static Regex _regexCommentLine = new Regex(@"^\s*/{2,}");
-        private static Regex _regexDocComment = new Regex(@"^\s*/{2,}\s*(@\w+)\s+(.+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private string _path;
+        private ScriptCommandSourceMap _sourceMap;
+        private GesturesMemento _defaultGestures;
 
-
-        private string _scriptName;
-        private MementoV2 _defaultMemento;
-
-        public ScriptCommand(string name) : base(name)
+        public ScriptCommand(string path, ScriptCommandSourceMap sourceMap) : base(PathToScriptCommandName(path))
         {
-            if (!name.StartsWith(Prefix)) throw new ArgumentException($"{nameof(name)} must start with '{Prefix}'");
-            _scriptName = name.Substring(Prefix.Length);
-
+            _path = path;
+            _sourceMap = sourceMap ?? throw new ArgumentNullException(nameof(sourceMap));
+            
             this.Group = Properties.Resources.CommandGroup_Script;
-            this.Text = _scriptName;
-
-            switch (name)
-            {
-                case EventOnBookLoaded:
-                    this.IsCloneable = false;
-                    this.Remarks = Properties.Resources.ScriptOnBookLoadedCommand_Remarks;
-                    break;
-
-                case EventOnPageChanged:
-                    this.IsCloneable = false;
-                    this.Remarks = Properties.Resources.ScriptOnPageChangedCommand_Remarks;
-                    break;
-
-                default:
-                    this.Remarks = Properties.Resources.ScriptCommand_Remarks;
-                    break;
-            }
+            this.Text = LoosePath.GetFileNameWithoutExtension(_path);
 
             this.ParameterSource = new CommandParameterSource(new ScriptCommandParameter());
+
+            UpdateDocument(true);
+        }
+
+
+        public string Path => _path;
+
+
+        public static string PathToScriptCommandName(string path)
+        {
+            return Prefix + LoosePath.GetFileNameWithoutExtension(path);
         }
 
         protected override CommandElement CloneInstance()
         {
-            var type = this.GetType();
-            var command = new ScriptCommand(this.NameSource.Name);
-            command.Text = this.Text;
-            command.Remarks = this.Remarks;
+            var command = new ScriptCommand(_path, _sourceMap);
+            if (_sourceMap.TryGetValue(_path, out var source))
+            {
+                command.Text = source.Text;
+                command.Remarks = source.Remarks;
+                command.ShortCutKey = "";
+                command.MouseGesture = "";
+                command.TouchGesture = "";
+            }
             return command;
         }
 
         public override void Execute(object sender, CommandContext e)
         {
-            CommandTable.Current.ScriptManager.Execute(sender, GetScriptFileName(), ((ScriptCommandParameter)e.Parameter).Argument);
+            CommandTable.Current.ScriptManager.Execute(sender, _path, ((ScriptCommandParameter)e.Parameter).Argument);
         }
 
-        public string GetScriptFileName()
+        private void StoreDefault()
         {
-            return Path.Combine(Config.Current.Script.ScriptFolder, _scriptName + Extension);
+            _defaultGestures = CreateGesturesMemento();
         }
 
-        public void LoadDocComment()
+
+        public void UpdateDocument(bool isForce)
         {
-            using (var reader = new StreamReader(GetScriptFileName()))
+            if (_sourceMap.TryGetValue(_path, out var source))
             {
-                bool isComment = false;
-                string line;
-                while ((line = reader.ReadLine()) != null)
+                IsCloneable = source.IsCloneable;
+
+                Text = source.Text;
+                if (IsCloneCommand())
                 {
-                    if (_regexCommentLine.IsMatch(line))
-                    {
-                        isComment = true;
-                        var match = _regexDocComment.Match(line);
-                        if (match.Success)
-                        {
-                            var key = match.Groups[1].Value.ToLower();
-                            var value = match.Groups[2].Value.Trim();
-                            switch (key)
-                            {
-                                case "@name":
-                                    Text = value;
-                                    break;
-                                case "@description":
-                                    Remarks = value;
-                                    break;
-                                case "@shortcutkey":
-                                    ShortCutKey = value;
-                                    break;
-                                case "@mousegesture":
-                                    MouseGesture = value;
-                                    break;
-                                case "@touchgesture":
-                                    TouchGesture = value;
-                                    break;
-                            }
-                        }
-                    }
-                    else if (isComment && !string.IsNullOrWhiteSpace(line))
-                    {
-                        break;
-                    }
+                    Text += " " + NameSource.Number.ToString();
+                }
+
+                Remarks = source.Remarks;
+
+                if (isForce || (_defaultGestures.IsEquals(this) && !IsCloneCommand()))
+                {
+                   ShortCutKey = source.ShortCutKey ?? "";
+                    MouseGesture = source.MouseGesture ?? "";
+                    TouchGesture = source.TouchGesture ?? "";
+
+                    StoreDefault();
                 }
             }
         }
 
-        public void StoreDefault()
-        {
-            _defaultMemento = CreateMementoV2();
-        }
-
-        private bool IsDefaultEquals()
-        {
-            var current = CreateMementoV2();
-            return current.MemberwiseEquals(_defaultMemento);
-        }
-
-        public void Overwrite(ScriptCommand other)
-        {
-            Text = other.Text;
-            Remarks = other.Remarks;
-
-            if (IsDefaultEquals())
-            {
-                ShortCutKey = other.ShortCutKey;
-                MouseGesture = other.MouseGesture;
-                TouchGesture = other.TouchGesture;
-            }
-
-            _defaultMemento = other._defaultMemento;
-        }
-
         public void OpenFile()
         {
-            ExternalProcess.OpenWithTextEditor(GetScriptFileName());
+            ExternalProcess.OpenWithTextEditor(_path);
         }
     }
 
@@ -157,4 +108,5 @@ namespace NeeView
             set { SetProperty(ref _argument, string.IsNullOrWhiteSpace(value) ? null : value.Trim()); }
         }
     }
+
 }

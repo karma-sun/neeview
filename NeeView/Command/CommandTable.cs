@@ -663,55 +663,48 @@ namespace NeeView
         /// <param name="isReplace">登録済コマンドも置き換える</param>
         public void SetScriptCommands(IEnumerable<ScriptCommand> commands, bool isReplace)
         {
-            commands = commands ?? new List<ScriptCommand>();
-
-            var map = commands.ToDictionary(e => e.Name);
-
-            var oldies = _elements.Keys
-                .Where(e => e.StartsWith(ScriptCommand.Prefix))
-                .Reverse()
+            var newers = (commands ?? new List<ScriptCommand>())
                 .ToList();
 
+            var oldies = _elements.Values
+                .OfType<ScriptCommand>()
+                .ToList();
+
+            // 入れ替えの場合は既存の設定をすべて削除
             if (isReplace)
             {
-                foreach (var name in oldies)
+                foreach (var command in oldies)
                 {
-                    _elements.Remove(name);
+                    _elements.Remove(command.Name);
                 }
-                oldies = new List<string>();
+                oldies = new List<ScriptCommand>();
             }
 
-            var newers = commands.Select(e => e.Name)
-                .ToList();
-
-            foreach (var name in oldies.Except(newers))
+            // 存在しないものは削除
+            var newPaths = newers.Select(e => e.Path).ToList();
+            var exceps = oldies.Where(e => !newPaths.Contains(e.Path)).ToList();
+            foreach (var command in exceps)
             {
-                var cloneName = CommandNameSource.Parse(name);
-                if (cloneName.IsClone)
-                {
-                    if (newers.Contains(cloneName.Name))
-                    {
-                        continue;
-                    }
-                }
-                _elements.Remove(name);
+                _elements.Remove(command.Name);
             }
 
-            foreach (var name in oldies.Intersect(newers))
+            // 既存のものは情報更新
+            var updates = oldies.Except(exceps).ToList();
+            foreach (var command in updates)
             {
-                if (_elements.TryGetValue(name, out var e) && e is ScriptCommand scriptCommand)
-                {
-                    scriptCommand.Overwrite(map[name]);
-                }
+                command.UpdateDocument(false);
             }
 
-            foreach (var name in newers.Except(oldies))
+            // 新規のものは追加
+            var overwritesPaths = updates.Select(e => e.Path).Distinct().ToList();
+            var news = newers.Where(e => !overwritesPaths.Contains(e.Path)).ToList();
+            foreach (var command in news)
             {
-                _elements.Add(name, map[name]);
+                _elements.Add(command.Name, command);
             }
 
             // re order
-            var scripts = _elements.Where(e => e.Key.StartsWith(ScriptCommand.Prefix)).OrderBy(e => e.Key).Select(e => e.Value);
+            var scripts = _elements.Values.OfType<ScriptCommand>().OrderBy(e => e.NameSource.Name).ThenBy(e =>e.NameSource.Number);
             var offset = _elements.Count;
             foreach (var item in scripts.Select((e, i) => (e, i)))
             {

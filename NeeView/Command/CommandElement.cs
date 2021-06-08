@@ -345,7 +345,10 @@ namespace NeeView
             if (name.Number != 0)
             {
                 clone.Text = clone.Text + " " + name.Number.ToString();
-                clone.Menu = clone.Menu + " " + name.Number.ToString();
+                if (clone._menuText != null)
+                {
+                    clone.Menu = clone.Menu + " " + name.Number.ToString();
+                }
             }
 
             return clone;
@@ -363,6 +366,11 @@ namespace NeeView
         public bool IsCloneCommand()
         {
             return NameSource.IsClone;
+        }
+
+        public override string ToString()
+        {
+            return Name ?? base.ToString();
         }
 
 
@@ -396,7 +404,7 @@ namespace NeeView
             }
         }
 
-        #endregion
+        #endregion Memento
 
         #region MementoV2
 
@@ -472,9 +480,50 @@ namespace NeeView
             ParameterSource?.Set(memento.Parameter);
         }
 
+        #endregion MementoV2
 
-        #endregion
+        #region GesturesMemento
 
+        public class GesturesMemento
+        {
+            public string ShortCutKey { get; set; }
+            public string MouseGesture { get; set; }
+            public string TouchGesture { get; set; }
+
+            public bool IsGesturesEquals(GesturesMemento other)
+            {
+                return ShortCutKey == other.ShortCutKey
+                    && MouseGesture == other.MouseGesture
+                    && MouseGesture == other.TouchGesture;
+            }
+
+            public bool IsEquals(CommandElement other)
+            {
+                return IsGesturesEquals(other.CreateGesturesMemento());
+            }
+        }
+
+        public GesturesMemento CreateGesturesMemento()
+        {
+            var memento = new GesturesMemento();
+
+            memento.ShortCutKey = ShortCutKey ?? "";
+            memento.TouchGesture = TouchGesture ?? "";
+            memento.MouseGesture = MouseGesture ?? "";
+
+            return memento;
+        }
+
+        public void RestoreGestures(GesturesMemento memento)
+        {
+            if (memento == null) return;
+
+            ShortCutKey = memento.ShortCutKey?.TrimStart(',');
+            TouchGesture = memento.TouchGesture;
+            MouseGesture = memento.MouseGesture;
+        }
+
+        #endregion GesturesMemento
     }
 }
 

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-
 
 namespace NeeView
 {
@@ -15,6 +12,9 @@ namespace NeeView
         private ScriptUnitPool _pool = new ScriptUnitPool();
         private ScriptFolderWatcher _watcher;
         private bool _disposedValue;
+
+        private ScriptCommandSourceMap _sourceMap = new ScriptCommandSourceMap();
+
 
         public ScriptManager(CommandTable commandTable)
         {
@@ -89,52 +89,16 @@ namespace NeeView
             if (!isForce && !_isDarty) return false;
             _isDarty = false;
 
-            List<ScriptCommand> commands = null;
+            _sourceMap.Update();
 
-            if (Config.Current.Script.IsScriptFolderEnabled)
-            {
-                commands = CollectScripts()
-                    .Select(e => new ScriptCommand(ScriptCommand.Prefix + Path.GetFileNameWithoutExtension(e.Name)))
-                    .ToList();
-
-                foreach (var command in commands)
-                {
-                    try
-                    {
-                        command.LoadDocComment();
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine(ex.Message);
-                    }
-                    command.StoreDefault();
-                }
-            }
+            var commands = _sourceMap.Values
+                .Select(e => new ScriptCommand(e.Path, _sourceMap))
+                .ToList();
 
             _commandTable.SetScriptCommands(commands, isReplace);
             return true;
         }
 
-        public static List<FileInfo> CollectScripts()
-        {
-            if (!string.IsNullOrEmpty(Config.Current.Script.ScriptFolder))
-            {
-                try
-                {
-                    var directory = new DirectoryInfo(Config.Current.Script.ScriptFolder);
-                    if (directory.Exists)
-                    {
-                        return directory.GetFiles("*" + ScriptCommand.Extension).ToList();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message);
-                }
-            }
-
-            return new List<FileInfo>();
-        }
 
         public void Execute(object sender, string path, string argument)
         {

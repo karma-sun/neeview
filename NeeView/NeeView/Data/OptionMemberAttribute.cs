@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Reflection;
 
 namespace NeeView.Data
@@ -104,10 +105,10 @@ namespace NeeView.Data
                     _info.SetValue(_source, value);
                     break;
                 case TypeCode.Int32:
-                    _info.SetValue(_source, int.Parse(value));
+                    _info.SetValue(_source, int.Parse(value, CultureInfo.InvariantCulture));
                     break;
                 case TypeCode.Double:
-                    _info.SetValue(_source, double.Parse(value));
+                    _info.SetValue(_source, double.Parse(value, CultureInfo.InvariantCulture));
                     break;
                 default:
                     throw new NotSupportedException(string.Format(Properties.Resources.OptionArgumentException_NotSupportType, _info.PropertyType.Name));

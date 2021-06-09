@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -170,7 +171,7 @@ namespace NeeView.Windows.Property
 
         public override void SetValueFromString(string value)
         {
-            Value = int.Parse(value);
+            Value = int.Parse(value, CultureInfo.InvariantCulture);
         }
     }
 
@@ -183,7 +184,7 @@ namespace NeeView.Windows.Property
 
         public override void SetValueFromString(string value)
         {
-            Value = double.Parse(value);
+            Value = double.Parse(value, CultureInfo.InvariantCulture);
         }
     }
 

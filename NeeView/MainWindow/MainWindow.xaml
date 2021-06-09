@@ -21,8 +21,6 @@
             <local:IsNearZeroConverter x:Key="IsNearZeroConverter" />
             <local:SortModeToVisibilityConverter x:Key="SortModeToVisibilityConverter" />
             <local:SortModeToStringConverter x:Key="SortModeToStringConverter" />
-            <local:DpiScaleXInverseConverter x:Key="DpiScaleXInverseConverter" />
-            <local:DpiScaleYInverseConverter x:Key="DpiScaleYInverseConverter" />
             <local:SliderDirectionToFlowDirectionConverter x:Key="SliderDirectionToFlowDirectionConverter" />
             <local:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter" />
             <local:BooleanReverseConverter x:Key="BooleanReverseConverter" />

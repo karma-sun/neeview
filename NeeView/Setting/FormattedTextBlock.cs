@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -39,7 +40,7 @@ namespace NeeView.Setting
 
         protected string CreateFormattedString(object value)
         {
-            return this.Format != null ? string.Format(this.Format, value) : value.ToString();
+            return string.Format(CultureInfo.InvariantCulture, this.Format ?? "{0}", value);
         }
     }
 }

@@ -31,7 +31,7 @@ namespace NeeView.Windows.Controls
             var match = regex.Match(s);
             if (match.Success)
             {
-                return int.Parse(match.Value);
+                return int.Parse(match.Value, CultureInfo.InvariantCulture);
             }
 
             return value;

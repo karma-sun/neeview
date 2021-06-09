@@ -10,7 +10,7 @@ namespace NeeView.Windows.Controls
     {
         public virtual object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value;
+            return string.Format(CultureInfo.InvariantCulture, "{0}", value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -31,7 +31,7 @@ namespace NeeView.Windows.Controls
             var match = regex.Match(s);
             if (match.Success)
             {
-                return double.Parse(match.Value);
+                return double.Parse(match.Value, CultureInfo.InvariantCulture);
             }
 
             return value;

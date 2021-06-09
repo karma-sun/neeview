@@ -9,7 +9,7 @@ namespace NeeView.Windows.Controls
 
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return Format is null ? value : string.Format(Format, value);
+            return string.Format(CultureInfo.InvariantCulture, Format ?? "{0}", value);
         }
     }
 }

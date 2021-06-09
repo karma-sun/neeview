@@ -267,9 +267,9 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
-#region Save
+        #region Save
 
         /// <summary>
         /// 設定の保存
@@ -512,7 +512,7 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
     }
 
 

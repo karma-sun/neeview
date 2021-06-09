@@ -1,5 +1,6 @@
 ﻿using NeeView.Numetrics;
 using System;
+using System.Globalization;
 
 namespace NeeView.Text
 {
@@ -44,7 +45,7 @@ namespace NeeView.Text
                 }
                 else if (_format != null)
                 {
-                    return string.Format(_format, value);
+                    return string.Format(CultureInfo.InvariantCulture, _format, value);
                 }
                 else
                 {

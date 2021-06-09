@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 
 namespace NeeView.Media.Imaging.Metadata
@@ -46,7 +47,7 @@ namespace NeeView.Media.Imaging.Metadata
                     throw new FormatException();
                 }
 
-                _degree = double.Parse(tokens[0]) + double.Parse(tokens[1]) / 60.0;
+                _degree = double.Parse(tokens[0], CultureInfo.InvariantCulture) + double.Parse(tokens[1], CultureInfo.InvariantCulture) / 60.0;
                 _reference = last.ToString();
             }
             catch
@@ -71,7 +72,7 @@ namespace NeeView.Media.Imaging.Metadata
 
         public string ToValueString(string format)
         {
-            return string.Format(format, ToValue());
+            return string.Format(CultureInfo.InvariantCulture, format, ToValue());
         }
 
 
@@ -94,7 +95,7 @@ namespace NeeView.Media.Imaging.Metadata
             var minute = Math.Truncate(minutes);
             var second = (minutes - minute) * 60.0;
 
-            return string.Format(format, degree, minute, second, _reference);
+            return string.Format(CultureInfo.InvariantCulture, format, degree, minute, second, _reference);
         }
 
 

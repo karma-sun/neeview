@@ -16,7 +16,7 @@
                 <ResourceDictionary Source="/Styles/SettingTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
             
-            <Style x:Key="ButtonStyle" TargetType="Button">
+            <Style x:Key="ButtonStyle" TargetType="Button" BasedOn="{StaticResource NVButton}">
                 <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
                 <Setter Property="MinWidth" Value="80"/>
                 <Setter Property="Margin" Value="5" />

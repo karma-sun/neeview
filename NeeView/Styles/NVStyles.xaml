@@ -161,8 +161,8 @@
     </Style>
 
     <ControlTemplate x:Key="NVVerticalScrollBar" TargetType="{x:Type ScrollBar}">
-        <Grid Margin="-12,0,0,0">
-            <Border x:Name="HitArea" Width="10" HorizontalAlignment="Right" Background="Transparent" />
+        <Grid Margin="-8,0,0,0">
+            <Border x:Name="HitArea" Width="14" HorizontalAlignment="Right" Background="Transparent" />
             <Grid x:Name="root" Width="16" HorizontalAlignment="Right">
                 <Grid.LayoutTransform>
                     <ScaleTransform x:Name="Scaler" ScaleX="0.125" ScaleY="1.0" />
@@ -213,8 +213,8 @@
     </ControlTemplate>
 
     <ControlTemplate x:Key="NVHorizontalScrollBar" TargetType="{x:Type ScrollBar}">
-        <Grid Margin="0,-12,0,0">
-            <Border x:Name="HitArea" Height="10" VerticalAlignment="Bottom" Background="Transparent" />
+        <Grid Margin="0,-8,0,0">
+            <Border x:Name="HitArea" Height="14" VerticalAlignment="Bottom" Background="Transparent" />
             <Grid x:Name="root" Height="16" VerticalAlignment="Bottom">
                 <Grid.LayoutTransform>
                     <ScaleTransform x:Name="Scaler" ScaleX="1.0" ScaleY="0.125" />
@@ -273,11 +273,11 @@
         <Style.Triggers>
             <Trigger Property="Orientation" Value="Horizontal">
                 <Setter Property="Width" Value="Auto" />
-                <Setter Property="Height" Value="4" />
+                <Setter Property="Height" Value="8" />
                 <Setter Property="Template" Value="{StaticResource NVHorizontalScrollBar}" />
             </Trigger>
             <Trigger Property="Orientation" Value="Vertical">
-                <Setter Property="Width" Value="4" />
+                <Setter Property="Width" Value="8" />
                 <Setter Property="Height" Value="Auto" />
                 <Setter Property="Template" Value="{StaticResource NVVerticalScrollBar}" />
             </Trigger>

@@ -37,8 +37,6 @@ namespace NeeView
 
         private ThemeManager()
         {
-            _selectedItem = Config.Current.Theme.ThemeType.ToString();
-
             RefreshThemeColor();
 
             Config.Current.Theme.AddPropertyChanged(nameof(ThemeConfig.ThemeType),
@@ -123,6 +121,8 @@ namespace NeeView
 
         public void RefreshThemeColor()
         {
+            _selectedItem = Config.Current.Theme.ThemeType.ToString();
+
             var themeProfile = GeThemeProfile(Config.Current.Theme.ThemeType, true);
 
             foreach (var key in ThemeProfile.Keys)

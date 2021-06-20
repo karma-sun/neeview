@@ -1,5 +1,16 @@
 ## ChangeLog
 
+### 39.1
+(2021-06-20)
+
+#### Fixed
+
+- Fixed a bug that the scroll type changes to "Diagonal scroll" when the parameter of "Scroll + Prev" command is set.
+- Fixed a bug that could cause blurring when applying the resize filter.
+- Fixed a bug where the README file could not be opened when the application was placed in a path containing multibyte characters or spaces.
+
+----
+
 ### 39.0
 (2021-06-??)
 

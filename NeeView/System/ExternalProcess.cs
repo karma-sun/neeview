@@ -51,7 +51,7 @@ namespace NeeView
 
             if (Config.Current.System.WebBrowser != null && string.IsNullOrEmpty(startInfo.Arguments) && IsBrowserContent(startInfo.FileName))
             {
-                startInfo.Arguments = startInfo.FileName;
+                startInfo.Arguments = "\"" + startInfo.FileName + "\"";
                 startInfo.FileName = Config.Current.System.WebBrowser;
             }
 

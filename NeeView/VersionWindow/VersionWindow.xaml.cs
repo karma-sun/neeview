@@ -41,7 +41,8 @@ namespace NeeView
         // from http://gushwell.ldblog.jp/archives/52279481.html
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
         {
-            ExternalProcess.Start(e.Uri.AbsoluteUri);
+            var path = e.Uri.Scheme == "file" ? e.Uri.LocalPath : e.Uri.AbsoluteUri;
+            ExternalProcess.Start(path);
             e.Handled = true;
         }
     }

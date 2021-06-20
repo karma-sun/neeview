@@ -94,6 +94,7 @@ namespace NeeView
 
         [Obsolete, Alternative(nameof(ScrollType), 39)] // ver.39
         [DataMember]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool IsNScroll
         {
             get { return false; }

@@ -23,7 +23,7 @@ namespace NeeView
         private PageRange _contentRange;
         private int _contentCount;
 
-        private Task _task;
+        private ValueTask _task;
         private CancellationTokenSource _cancellationTokenSource;
         private object _lock = new object();
         private SemaphoreSlim _semaphore;
@@ -98,7 +98,7 @@ namespace NeeView
             _semaphore.Release();
         }
 
-        private async Task Worker(CancellationToken token)
+        private async ValueTask Worker(CancellationToken token)
         {
             try
             {
@@ -115,7 +115,7 @@ namespace NeeView
             }
         }
 
-        private async Task UpdateNextContentsAsync(CancellationToken token)
+        private async ValueTask UpdateNextContentsAsync(CancellationToken token)
         {
             while (true)
             {
@@ -197,7 +197,7 @@ namespace NeeView
             _visibleEvent.Set();
         }
 
-        public async Task WaitVisibleAsync(int millisecondsTimeout, CancellationToken token)
+        public async ValueTask WaitVisibleAsync(int millisecondsTimeout, CancellationToken token)
         {
             await Task.Run(() => _visibleEvent.Wait(millisecondsTimeout, token));
         }

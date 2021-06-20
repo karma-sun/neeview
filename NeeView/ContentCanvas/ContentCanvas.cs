@@ -746,9 +746,9 @@ namespace NeeView
                     var viewWidth = content.Width * finalScale;
 
                     ContentViewMode viewMode;
-                    var diff = Math.Abs(pixelHeight - viewHeight) + Math.Abs(pixelWidth - viewWidth);
+                    var diff = Math.Abs(pixelWidth - viewWidth);
                     var diffAngle = Math.Abs(_viewComponent.DragTransform.Angle % 90.0);
-                    if (diff < 2.2 && diffAngle < 0.1)
+                    if (diff < 1.1 && diffAngle < 0.1)
                     {
                         content.BitmapScalingMode = BitmapScalingMode.NearestNeighbor;
                         viewMode = Config.Current.ImageTrim.IsEnabled ? ContentViewMode.Scale : ContentViewMode.Pixeled;

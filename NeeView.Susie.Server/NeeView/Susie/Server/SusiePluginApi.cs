@@ -110,7 +110,7 @@ namespace NeeView.Susie.Server
         /// <returns>trueなら存在する</returns>
         public bool IsExistFunction(string name)
         {
-            if (hModule == null) throw new InvalidOperationException();
+            if (hModule == IntPtr.Zero) throw new InvalidOperationException();
 
             IntPtr add = NativeMethods.GetProcAddress(this.hModule, name);
             return (add != IntPtr.Zero);
@@ -163,7 +163,7 @@ namespace NeeView.Susie.Server
         /// <returns>情報の文字列。情報番号が無効の場合はnullを返す</returns>
         public string GetPluginInfo(int infono)
         {
-            if (hModule == null) throw new InvalidOperationException();
+            if (hModule == IntPtr.Zero) throw new InvalidOperationException();
             var getPluginInfo = GetApiDelegate<GetPluginInfoDelegate>("GetPluginInfo");
 
             StringBuilder strb = new StringBuilder(1024);
@@ -186,7 +186,7 @@ namespace NeeView.Susie.Server
         /// <returns>0なら正常終了、それ以外はエラーコードを返す</returns>
         public int ConfigurationDlg(IntPtr parent, int func)
         {
-            if (hModule == null) throw new InvalidOperationException();
+            if (hModule == IntPtr.Zero) throw new InvalidOperationException();
             var configurationDlg = GetApiDelegate<ConfigurationDlgDelegate>("ConfigurationDlg");
 
             return configurationDlg(parent, func);
@@ -205,7 +205,7 @@ namespace NeeView.Susie.Server
         /// <returns>サポートしていればtrue</returns>
         public bool IsSupported(string filename)
         {
-            if (hModule == null) throw new InvalidOperationException();
+            if (hModule == IntPtr.Zero) throw new InvalidOperationException();
             var isSupported = GetApiDelegate<IsSupportedFromFileDelegate>("IsSupported");
 
             using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read))
@@ -222,7 +222,7 @@ namespace NeeView.Susie.Server
         /// <returns>サポートしていればtrue</returns>
         public bool IsSupported(string filename, byte[] buff)
         {
-            if (hModule == null) throw new InvalidOperationException();
+            if (hModule == IntPtr.Zero) throw new InvalidOperationException();
             var isSupported = GetApiDelegate<IsSupportedFromMemoryDelegate>("IsSupported");
 
             return isSupported(filename, buff);
@@ -241,7 +241,7 @@ namespace NeeView.Susie.Server
         /// <returns>アーカイブエントリ情報(RAW)。失敗した場合はnull</returns>
         public List<ArchiveFileInfoRaw> GetArchiveInfo(string file)
         {
-            if (hModule == null) throw new InvalidOperationException();
+            if (hModule == IntPtr.Zero) throw new InvalidOperationException();
             var getArchiveInfo = GetApiDelegate<GetArchiveInfoFromFileDelegate>("GetArchiveInfo");
 
             IntPtr hInfo = IntPtr.Zero;
@@ -287,7 +287,7 @@ namespace NeeView.Susie.Server
         /// <returns>出力されたバッファ。失敗した場合はnull</returns>
         public byte[] GetFile(string file, int position)
         {
-            if (hModule == null) throw new InvalidOperationException();
+            if (hModule == IntPtr.Zero) throw new InvalidOperationException();
             var getFile = GetApiDelegate<GetFileFromFileHandler>("GetFile");
 
             IntPtr hBuff = IntPtr.Zero;
@@ -321,7 +321,7 @@ namespace NeeView.Susie.Server
         /// <returns>成功した場合は0</returns>
         public int GetFile(string file, int position, string extractFolder)
         {
-            if (hModule == null) throw new InvalidOperationException();
+            if (hModule == IntPtr.Zero) throw new InvalidOperationException();
             var getFile = GetApiDelegate<GetFileFromFileToFileHandler>("GetFile");
 
             return getFile(file, position, extractFolder, 0x0000, ProgressCallbackDummy, 0); // 0x0000 > File To File
@@ -343,7 +343,7 @@ namespace NeeView.Susie.Server
         /// <returns>Bitmap。失敗した場合はnull</returns>
         public byte[] GetPicture(byte[] buff)
         {
-            if (hModule == null) throw new InvalidOperationException();
+            if (hModule == IntPtr.Zero) throw new InvalidOperationException();
             var getPicture = GetApiDelegate<GetPictureFromMemoryDelegate>("GetPicture");
 
             IntPtr pHBInfo = IntPtr.Zero;
@@ -378,7 +378,7 @@ namespace NeeView.Susie.Server
         /// <returns>Bitmap。失敗した場合はnull</returns>
         public byte[] GetPicture(string filename)
         {
-            if (hModule == null) throw new InvalidOperationException();
+            if (hModule == IntPtr.Zero) throw new InvalidOperationException();
             var getPicture = GetApiDelegate<GetPictureFromFileDelegate>("GetPicture");
 
             IntPtr pHBInfo = IntPtr.Zero;

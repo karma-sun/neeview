@@ -892,7 +892,6 @@
 
     <Style x:Key="NVMenu" TargetType="{x:Type Menu}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="FocusManager.IsFocusScope" Value="False" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Foreground" Value="{DynamicResource Menu.Foreground}" />
         <Setter Property="Background" Value="{DynamicResource Menu.Background}" />

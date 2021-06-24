@@ -200,6 +200,7 @@ namespace NeeView
             {
                 var dialog = new MessageDialog(optionMap.GetCommandLineHelpText(), NeeView.Properties.Resources.BootOptionDialog_Title);
                 dialog.SizeToContent = SizeToContent.WidthAndHeight;
+                dialog.ContentRendered += (s, e) => dialog.InvalidateVisual();
                 dialog.ShowDialog();
                 throw new OperationCanceledException("Disp CommandLine Help");
             }

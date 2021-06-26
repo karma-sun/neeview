@@ -1,5 +1,18 @@
 ## ChangeLog
 
+----
+
+### 39.2
+(2021-06-26)
+
+#### Fixed
+
+- Fixed the main menu not to take focus.
+- Fixed a bug where the layout of the startup help dialog was broken.
+- Fixed tilt wheel operation to be one command. (Settings > Command > Limit tilt wheel operation to one time)
+
+----
+
 ### 39.1
 (2021-06-20)
 

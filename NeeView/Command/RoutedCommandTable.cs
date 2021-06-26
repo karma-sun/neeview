@@ -212,11 +212,25 @@ namespace NeeView
                     }
                     else if (gesture is MouseWheelGesture)
                     {
-                        mouse.MouseWheelChanged += (s, x) => { if (!x.Handled && gesture.Matches(this, x)) { WheelCommandExecute(s, x, command.Value); } };
+                        mouse.MouseWheelChanged += (s, x) =>
+                        {
+                            if (!x.Handled && gesture.Matches(this, x))
+                            {
+                                var wheelOptions = MouseWheelDeltaOption.None;
+                                WheelCommandExecute(s, x, wheelOptions, command.Value);
+                            }
+                        };
                     }
                     else if (gesture is MouseHorizontalWheelGesture)
                     {
-                        mouse.MouseHorizontalWheelChanged += (s, x) => { if (!x.Handled && gesture.Matches(this, x)) { WheelCommandExecute(s, x, command.Value); } };
+                        mouse.MouseHorizontalWheelChanged += (s, x) =>
+                        {
+                            if (!x.Handled && gesture.Matches(this, x))
+                            {
+                                var wheelOptions = Config.Current.Command.IsHorizontalWheelLimitedOnce ? MouseWheelDeltaOption.LimitOnce : MouseWheelDeltaOption.None;
+                                WheelCommandExecute(s, x, wheelOptions, command.Value);
+                            }
+                        };
                     }
                 }
             }
@@ -311,9 +325,9 @@ namespace NeeView
         }
 
         // ホイールの回転数に応じたコマンド実行
-        private void WheelCommandExecute(object sender, MouseWheelEventArgs arg, RoutedUICommand command)
+        private void WheelCommandExecute(object sender, MouseWheelEventArgs arg, MouseWheelDeltaOption wheelOoptions, RoutedUICommand command)
         {
-            int turn = Math.Abs(_mouseWheelDelta.NotchCount(arg));
+            int turn = Math.Abs(_mouseWheelDelta.NotchCount(arg, wheelOoptions));
             if (turn == 0) return;
 
             // Debug.WriteLine($"WheelCommand: {turn}({arg.Delta})");

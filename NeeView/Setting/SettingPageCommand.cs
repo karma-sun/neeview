@@ -35,6 +35,7 @@ namespace NeeView.Setting
             {
                 IsEnabled = new IsEnabledPropertyValue(Config.Current.Command, nameof(CommandConfig.IsReversePageMove)),
             });
+            section.Children.Add(new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Command, nameof(CommandConfig.IsHorizontalWheelLimitedOnce))));
             this.Items.Add(section);
         }
     }

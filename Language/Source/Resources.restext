@@ -2310,3 +2310,5 @@ Word.Yes=Yes
 ZipArchiveConfig.IsEnabled=Use ZIP compressed file expansion with standard function
 ZipArchiveConfig.SupportFileTypes=Compressed file extension
 ZipArchiveConfig.SupportFileTypes.Remarks=Only ZIP format is supported.
+CommandConfig.IsHorizontalWheelLimitedOnce=Limit tilt wheel operation to one time
+CommandConfig.IsHorizontalWheelLimitedOnce.Remarks=Tilt wheel Executes one command with one operation. If you are using a stepless mouse, turn it off.

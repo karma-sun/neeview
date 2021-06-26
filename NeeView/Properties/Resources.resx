@@ -7356,4 +7356,10 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ZipArchiveConfig.SupportFileTypes.Remarks" xml:space="preserve">
     <value>Only ZIP format is supported.</value>
   </data>
+  <data name="CommandConfig.IsHorizontalWheelLimitedOnce" xml:space="preserve">
+    <value>Limit tilt wheel operation to one time</value>
+  </data>
+  <data name="CommandConfig.IsHorizontalWheelLimitedOnce.Remarks" xml:space="preserve">
+    <value>Tilt wheel Executes one command with one operation. If you are using a stepless mouse, turn it off.</value>
+  </data>
 </root>

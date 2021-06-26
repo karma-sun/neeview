@@ -2765,6 +2765,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Limit tilt wheel operation to one time に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandConfig_IsHorizontalWheelLimitedOnce {
+            get {
+                return ResourceManager.GetString("CommandConfig.IsHorizontalWheelLimitedOnce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Tilt wheel Executes one command with one operation. If you are using a stepless mouse, turn it off. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandConfig_IsHorizontalWheelLimitedOnce_Remarks {
+            get {
+                return ResourceManager.GetString("CommandConfig.IsHorizontalWheelLimitedOnce.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Swap movement direction of page movement command according to slider direction に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandConfig_IsReversePageMove {

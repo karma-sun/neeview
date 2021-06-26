@@ -7361,4 +7361,10 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   <data name="ZipArchiveConfig.SupportFileTypes.Remarks" xml:space="preserve">
     <value>ZIP 形式のみ対応しています。</value>
   </data>
+  <data name="CommandConfig.IsHorizontalWheelLimitedOnce" xml:space="preserve">
+    <value>チルトホイール操作を 1 回に制限する</value>
+  </data>
+  <data name="CommandConfig.IsHorizontalWheelLimitedOnce.Remarks" xml:space="preserve">
+    <value>チルトホイールの 1 回の操作で 1 コマンドを実行します。無段階マウスを使用している場合はオフにしてください。</value>
+  </data>
 </root>

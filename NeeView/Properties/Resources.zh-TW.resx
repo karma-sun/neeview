@@ -1118,7 +1118,7 @@ nv.Bookshelf.SelectedItems = nv.Bookshelf.Items.filter(e =&gt; e.Name.startsWith
     <value>將圖像展開以填滿視窗</value>
   </data>
   <data name="BrushType.SolidColor" xml:space="preserve">
-    <value>單色</value>
+    <value>純色</value>
   </data>
   <data name="CacheDeletedDialog.Title" xml:space="preserve">
     <value>已刪除縮圖快取</value>
@@ -1774,7 +1774,7 @@ nv.Values.Test = "Hello!"</value>
     <value>放大鏡</value>
   </data>
   <data name="EffectType.Monochrome" xml:space="preserve">
-    <value>黑白</value>
+    <value>單色</value>
   </data>
   <data name="EffectType.None" xml:space="preserve">
     <value>無</value>
@@ -5873,7 +5873,7 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
     <value>深色</value>
   </data>
   <data name="ThemeType.DarkMonochrome" xml:space="preserve">
-    <value>黑白深色</value>
+    <value>深單色</value>
   </data>
   <data name="ThemeType.HighContrast" xml:space="preserve">
     <value>高對比</value>
@@ -5882,7 +5882,7 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
     <value>淺色</value>
   </data>
   <data name="ThemeType.LightMonochrome" xml:space="preserve">
-    <value>黑白淺色</value>
+    <value>淺單色</value>
   </data>
   <data name="ThemeType.System" xml:space="preserve">
     <value>依照 Windows 設定</value>
@@ -7360,5 +7360,11 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="ZipArchiveConfig.SupportFileTypes.Remarks" xml:space="preserve">
     <value>僅支援 ZIP 格式。</value>
+  </data>
+  <data name="CommandConfig.IsHorizontalWheelLimitedOnce" xml:space="preserve">
+    <value>將傾斜滾輪操作限制為一次</value>
+  </data>
+  <data name="CommandConfig.IsHorizontalWheelLimitedOnce.Remarks" xml:space="preserve">
+    <value>以傾斜滾輪的一次操作執行一個指令。使用無段滑鼠時請設為關閉。</value>
   </data>
 </root>

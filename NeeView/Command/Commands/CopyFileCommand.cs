@@ -35,6 +35,7 @@ namespace NeeView
     {
         private ArchivePolicy _archivePolicy = ArchivePolicy.SendExtractFile;
         private MultiPagePolicy _multiPagePolicy = MultiPagePolicy.Once;
+        private TextCopyPolicy _textCopyPolicy = TextCopyPolicy.OriginalPath;
 
 
         // 複数ページのときの動作
@@ -54,5 +55,36 @@ namespace NeeView
             get { return _archivePolicy; }
             set { SetProperty(ref _archivePolicy, value); }
         }
+
+        // テキストコピーのヒント
+        [DataMember]
+        [PropertyMember]
+        public TextCopyPolicy TextCopyPolicy
+        {
+            get { return _textCopyPolicy; }
+            set { SetProperty(ref _textCopyPolicy, value); }
+        }
+    }
+
+
+    /// <summary>
+    /// テキストコピーのヒント
+    /// </summary>
+    public enum TextCopyPolicy
+    {
+        /// <summary>
+        /// テキストにしない
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// コピーファイルの実体パス
+        /// </summary>
+        CopyFilePath,
+
+        /// <summary>
+        /// 元のパス
+        /// </summary>
+        OriginalPath,
     }
 }

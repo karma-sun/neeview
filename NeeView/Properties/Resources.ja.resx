@@ -454,13 +454,13 @@ nv.Command.ToggleMediaPlay.Execute()
     <value>実行しない</value>
   </data>
   <data name="ArchivePolicy.SendArchiveFile" xml:space="preserve">
-    <value>圧縮ファイル パス</value>
+    <value>圧縮ファイル</value>
   </data>
   <data name="ArchivePolicy.SendArchivePath" xml:space="preserve">
     <value>圧縮ファイル + ファイル名</value>
   </data>
   <data name="ArchivePolicy.SendExtractFile" xml:space="preserve">
-    <value>出力したファイルのパス (一時ファイル)</value>
+    <value>一時ファイル</value>
   </data>
   <data name="AutoHideConfig.AutoHideConfrictBottomMargin" xml:space="preserve">
     <value>サイド パネル上でのスライダーの自動表示判定</value>
@@ -7366,5 +7366,20 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="CommandConfig.IsHorizontalWheelLimitedOnce.Remarks" xml:space="preserve">
     <value>チルトホイールの 1 回の操作で 1 コマンドを実行します。無段階マウスを使用している場合はオフにしてください。</value>
+  </data>
+  <data name="TextCopyPolicy.OriginalPath" xml:space="preserve">
+    <value>もとのパス</value>
+  </data>
+  <data name="TextCopyPolicy.CopyFilePath" xml:space="preserve">
+    <value>コピーファイルのパス</value>
+  </data>
+  <data name="TextCopyPolicy.None" xml:space="preserve">
+    <value>なし</value>
+  </data>
+  <data name="CopyFileCommandParameter.TextCopyPolicy" xml:space="preserve">
+    <value>テキスト コピー</value>
+  </data>
+  <data name="CopyFileCommandParameter.TextCopyPolicy.Remarks" xml:space="preserve">
+    <value>「@TextCopyPolicy.OriginalPath」にすると、一時ファイルのテキストは元のファイルのパス名になります。</value>
   </data>
 </root>

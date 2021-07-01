@@ -41,10 +41,13 @@ namespace NeeView
             {
                 data.SetData(System.Windows.DataFormats.FileDrop, files.ToArray());
 
-                var paths = (parameter.ArchivePolicy == ArchivePolicy.SendExtractFile)
-                    ? PageUtility.CreateFilePathList(pages, parameter.MultiPagePolicy, ArchivePolicy.SendArchivePath, token)
-                    : files;
-                data.SetData(System.Windows.DataFormats.UnicodeText, string.Join(System.Environment.NewLine, paths));
+                if (parameter.TextCopyPolicy != TextCopyPolicy.None)
+                {
+                    var paths = (parameter.ArchivePolicy == ArchivePolicy.SendExtractFile && parameter.TextCopyPolicy == TextCopyPolicy.OriginalPath)
+                        ? PageUtility.CreateFilePathList(pages, parameter.MultiPagePolicy, ArchivePolicy.SendArchivePath, token)
+                        : files;
+                    data.SetData(System.Windows.DataFormats.UnicodeText, string.Join(System.Environment.NewLine, paths));
+                }
 
                 result = true;
             }

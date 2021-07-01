@@ -382,7 +382,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Compressed file path に類似しているローカライズされた文字列を検索します。
+        ///   Compressed file に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ArchivePolicy_SendArchiveFile {
             get {
@@ -400,7 +400,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Extract file path (temporary file) に類似しているローカライズされた文字列を検索します。
+        ///   Temporary file に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ArchivePolicy_SendExtractFile {
             get {
@@ -3537,6 +3537,24 @@ namespace NeeView.Properties {
         public static string CopyFileCommandParameter_MultiPagePolicy {
             get {
                 return ResourceManager.GetString("CopyFileCommandParameter.MultiPagePolicy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Text copy に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CopyFileCommandParameter_TextCopyPolicy {
+            get {
+                return ResourceManager.GetString("CopyFileCommandParameter.TextCopyPolicy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   If &quot;@TextCopyPolicy.OriginalPath&quot; is set, the text for temporary files will be the pathname of the original file. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CopyFileCommandParameter_TextCopyPolicy_Remarks {
+            get {
+                return ResourceManager.GetString("CopyFileCommandParameter.TextCopyPolicy.Remarks", resourceCulture);
             }
         }
         
@@ -16470,6 +16488,33 @@ namespace NeeView.Properties {
         public static string SystemConfig_WebBrowser_Remarks {
             get {
                 return ResourceManager.GetString("SystemConfig.WebBrowser.Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Copy file path に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TextCopyPolicy_CopyFilePath {
+            get {
+                return ResourceManager.GetString("TextCopyPolicy.CopyFilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   None に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TextCopyPolicy_None {
+            get {
+                return ResourceManager.GetString("TextCopyPolicy.None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Original path に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TextCopyPolicy_OriginalPath {
+            get {
+                return ResourceManager.GetString("TextCopyPolicy.OriginalPath", resourceCulture);
             }
         }
         

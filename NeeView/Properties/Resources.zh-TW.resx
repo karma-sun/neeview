@@ -454,13 +454,13 @@ nv.Command.ToggleMediaPlay.Execute()
     <value>不執行</value>
   </data>
   <data name="ArchivePolicy.SendArchiveFile" xml:space="preserve">
-    <value>壓縮檔路徑</value>
+    <value>壓縮檔</value>
   </data>
   <data name="ArchivePolicy.SendArchivePath" xml:space="preserve">
     <value>壓縮檔 + 檔案名稱</value>
   </data>
   <data name="ArchivePolicy.SendExtractFile" xml:space="preserve">
-    <value>輸出的檔案路徑 (暫存檔案)</value>
+    <value>暫存檔案</value>
   </data>
   <data name="AutoHideConfig.AutoHideConfrictBottomMargin" xml:space="preserve">
     <value>自動判斷顯示側邊面板上的滑動條</value>

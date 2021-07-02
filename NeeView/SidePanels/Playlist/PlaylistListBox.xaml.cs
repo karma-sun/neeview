@@ -51,6 +51,8 @@ namespace NeeView
             // タッチスクロール操作の終端挙動抑制
             this.ListBox.ManipulationBoundaryFeedback += SidePanelFrame.Current.ScrollViewer_ManipulationBoundaryFeedback;
 
+            this.ListBox.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(ListBox_ScrollChanged));
+
             this.Loaded += PlaylistListBox_Loaded;
             this.Unloaded += PlaylistListBox_Unloaded;
         }
@@ -191,7 +193,7 @@ namespace NeeView
                     };
                     rename.Closed += (s, ev) =>
                     {
-                         FocusTools.FocusIfWindowActived(listViewItem);
+                         RenameTools.RestoreFocus(listViewItem, ev.IsFocused);
                         if (ev.MoveRename != 0)
                         {
                             RenameNext(ev.MoveRename);
@@ -201,7 +203,7 @@ namespace NeeView
                     {
                     };
 
-                    RenameManager.GetRenameManager(this)?.Open(rename);
+                    RenameTools.GetRenameManager(this)?.Open(rename);
                 }
             }
         }
@@ -415,6 +417,14 @@ namespace NeeView
 
         #endregion DragDrop
 
+        /// <summary>
+        /// スクロール変更イベント処理
+        /// </summary>
+        private void ListBox_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            // リネームキャンセル
+            RenameTools.GetRenameManager(this)?.Stop();
+        }
 
         private void PlaylistListBox_Loaded(object sender, RoutedEventArgs e)
         {

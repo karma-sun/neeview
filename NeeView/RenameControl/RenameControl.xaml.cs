@@ -22,6 +22,7 @@ namespace NeeView
     {
         public string OldValue { get; set; }
         public string NewValue { get; set; }
+        public bool IsFocused { get; set; }
         public bool Cancel { get; set; }
     }
 
@@ -29,6 +30,7 @@ namespace NeeView
     {
         public string OldValue { get; set; }
         public string NewValue { get; set; }
+        public bool IsFocused { get; set; }
         public int MoveRename { get; set; }
     }
 
@@ -68,6 +70,7 @@ namespace NeeView
         private int _moveRename;
         private int _keyCount;
         private bool _closing;
+        private bool _isFocused;
 
 
         public RenameControl()
@@ -168,8 +171,9 @@ namespace NeeView
             _closing = true;
 
             _new = isSuccess ? Text.Trim() : _old;
+            _isFocused = this.RenameTextBox.IsFocused;
 
-            var args = new RenameClosingEventArgs() { OldValue = _old, NewValue = _new };
+            var args = new RenameClosingEventArgs() { OldValue = _old, NewValue = _new, IsFocused = _isFocused };
             Closing?.Invoke(this, args);
             if (args.Cancel)
             {
@@ -191,7 +195,7 @@ namespace NeeView
 
         private void RenameTextBox_Unloaded(object sender, RoutedEventArgs e)
         {
-            Closed?.Invoke(this, new RenameClosedEventArgs() { OldValue = _old, NewValue = _new, MoveRename = _moveRename });
+            Closed?.Invoke(this, new RenameClosedEventArgs() { OldValue = _old, NewValue = _new, MoveRename = _moveRename, IsFocused = _isFocused });
         }
 
         private void RenameTextBox_PreviewKeyDown(object sender, KeyEventArgs e)

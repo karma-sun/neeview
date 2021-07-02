@@ -482,7 +482,7 @@ namespace NeeView
                     };
                     rename.Closed += (s, ev) =>
                     {
-                        FocusTools.FocusIfWindowActived(listViewItem);
+                        RenameTools.RestoreFocus(listViewItem, ev.IsFocused);
                         if (ev.MoveRename != 0)
                         {
                             RenameNext(ev.MoveRename);
@@ -494,7 +494,7 @@ namespace NeeView
                     };
 
                     _vm.IsRenaming = true;
-                    RenameManager.GetRenameManager(this)?.Open(rename);
+                    RenameTools.GetRenameManager(this)?.Open(rename);
                 }
             }
         }
@@ -890,7 +890,7 @@ namespace NeeView
 
             _vm.SelectedChanged += SelectedChanged;
             _vm.BusyChanged += BusyChanged;
-            _vm.RenameManager = RenameManager.GetRenameManager(this);
+            _vm.RenameManager = RenameTools.GetRenameManager(this);
 
             Config.Current.Panels.ContentItemProfile.PropertyChanged += PanelListtemProfile_PropertyChanged;
             Config.Current.Panels.BannerItemProfile.PropertyChanged += PanelListtemProfile_PropertyChanged;
@@ -978,7 +978,7 @@ namespace NeeView
         private void ListBox_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             // リネームキャンセル
-            RenameManager.GetRenameManager(this)?.Stop();
+            RenameTools.GetRenameManager(this)?.Stop();
         }
 
         private void FolderList_Loaded(object sender, RoutedEventArgs e)

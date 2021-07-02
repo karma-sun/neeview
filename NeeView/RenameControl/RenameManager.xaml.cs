@@ -79,26 +79,6 @@ namespace NeeView
         }
 
 
-        /// <summary>
-        /// コントロールの所属するウィンドウの RenameManager を取得する
-        /// </summary>
-        /// <param name="obj">コントロール</param>
-        /// <returns>RenameManager</returns>
-        public static RenameManager GetRenameManager(DependencyObject obj)
-        {
-            RenameManager renameMabager = null;
-
-            var window = Window.GetWindow(obj);
-            if (window is IHasRenameManager hasRenameManager)
-            {
-                renameMabager = hasRenameManager.GetRenameManager();
-            }
-
-            Debug.Assert(renameMabager != null);
-            return renameMabager;
-        }
-
-
         public void Open(RenameControl rename)
         {
             rename.Close += Rename_Close;
@@ -138,10 +118,5 @@ namespace NeeView
                 }
             }
         }
-    }
-
-    public interface IHasRenameManager
-    {
-        RenameManager GetRenameManager();
     }
 }

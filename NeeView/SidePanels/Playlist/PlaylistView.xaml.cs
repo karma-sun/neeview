@@ -83,10 +83,10 @@ namespace NeeView
             };
             rename.Closed += (s, ev) =>
             {
-                FocusTools.FocusIfWindowActived(comboBox);
+                RenameTools.RestoreFocus(comboBox, ev.IsFocused);
             };
 
-            RenameManager.GetRenameManager(this)?.Open(rename);
+            RenameTools.GetRenameManager(this)?.Open(rename);
         }
     }
 }

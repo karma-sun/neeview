@@ -460,8 +460,17 @@ namespace NeeView
                 {
                     var rename = new RenameControl();
                     rename.Target = textBlock;
-                    rename.IsSeleftFileNameBody = !item.IsDirectory;
-                    rename.IsInvalidFileNameChars = item.IsFileSystem();
+
+                    if (item.IsFileSystem())
+                    {
+                        rename.IsSeleftFileNameBody = !item.IsDirectory;
+                        rename.IsInvalidFileNameChars = true;
+                    }
+                    else if (item.Attributes.HasFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.Directory))
+                    {
+                        rename.IsInvalidSeparatorChars = true;
+                    }
+
                     rename.Closing += async (s, ev) =>
                     {
                         if (item.Source is TreeListNode<IBookmarkEntry> bookmarkNode)
@@ -480,7 +489,7 @@ namespace NeeView
                             }
                         }
                     };
-                    rename.Closed += (s, ev) =>
+                        rename.Closed += (s, ev) =>
                     {
                         RenameTools.RestoreFocus(listViewItem, ev.IsFocused);
                         if (ev.MoveRename != 0)

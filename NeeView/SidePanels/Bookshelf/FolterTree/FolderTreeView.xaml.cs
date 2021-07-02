@@ -334,7 +334,7 @@ namespace NeeView
 
             if (textBlock != null)
             {
-                var rename = new RenameControl() { Target = textBlock };
+                var rename = new RenameControl() { Target = textBlock, IsInvalidSeparatorChars = true };
                 rename.Closing += (s, ev) =>
                 {
                     BookmarkCollectionService.Rename(item.BookmarkSource, ev.NewValue);

@@ -186,7 +186,7 @@ namespace NeeView
         private void RenameTextBox_Loaded(object sender, RoutedEventArgs e)
         {
             // 拡張子以外を選択状態にする
-            string name = this.IsSeleftFileNameBody ? System.IO.Path.GetFileNameWithoutExtension(Text) : System.IO.Path.GetFileName(Text);
+            string name = this.IsSeleftFileNameBody ? LoosePath.GetFileNameWithoutExtension(Text) : Text;
             this.RenameTextBox.Select(0, name.Length);
 
             // 表示とともにフォーカスする

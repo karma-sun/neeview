@@ -128,14 +128,7 @@
                 -->
                 <Setter Property="ContextMenu">
                     <Setter.Value>
-                        <ContextMenu>
-                            <MenuItem Header="{x:Static properties:Resources.PlaylistItem_Menu_Open}" Command="{x:Static local:PlaylistListBox.OpenCommand}" />
-                            <Separator />
-                            <MenuItem Header="{x:Static properties:Resources.PlaylistItem_Menu_Delete}" Command="{x:Static local:PlaylistListBox.RemoveCommand}" />
-                            <MenuItem Header="{x:Static properties:Resources.PlaylistItem_Menu_Rename}" Command="{x:Static local:PlaylistListBox.RenameCommand}" />
-                            <Separator />
-                            <MenuItem x:Name="MoveToAnotherMenu" Header="{x:Static properties:Resources.PlaylistItem_Menu_MoveToAnother}" />
-                        </ContextMenu>
+                        <ContextMenu />
                     </Setter.Value>
                 </Setter>
             </Style>

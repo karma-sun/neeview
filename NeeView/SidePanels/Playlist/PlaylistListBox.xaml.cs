@@ -193,7 +193,7 @@ namespace NeeView
                     };
                     rename.Closed += (s, ev) =>
                     {
-                         RenameTools.RestoreFocus(listViewItem, ev.IsFocused);
+                        RenameTools.RestoreFocus(listViewItem, ev.IsFocused);
                         if (ev.MoveRename != 0)
                         {
                             RenameNext(ev.MoveRename);
@@ -530,9 +530,14 @@ namespace NeeView
             var contextMenu = (sender as ListBoxItem)?.ContextMenu;
             if (contextMenu is null) return;
 
-            var menuItem = contextMenu.Items.OfType<MenuItem>().FirstOrDefault(x => x.Name == "MoveToAnotherMenu");
-            menuItem.Items.Clear();
+            contextMenu.Items.Clear();
+            contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PlaylistItem_Menu_Open, Command = OpenCommand });
+            contextMenu.Items.Add(new Separator());
+            contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PlaylistItem_Menu_Delete, Command = RemoveCommand });
+            contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PlaylistItem_Menu_Rename, Command = RenameCommand });
+            contextMenu.Items.Add(new Separator());
 
+            var menuItem = new MenuItem() { Header = Properties.Resources.PlaylistItem_Menu_MoveToAnother };
             var paths = _vm.CollectAnotherPlaylists();
             if (paths.Any())
             {
@@ -551,6 +556,7 @@ namespace NeeView
             {
                 menuItem.IsEnabled = false;
             }
+            contextMenu.Items.Add(menuItem);
         }
 
         // リストのキ入力

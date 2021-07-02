@@ -594,8 +594,8 @@ namespace NeeView
                     break;
 
                 case QuickAccessNode quickAccess:
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_Delete, RemoveCommand));
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_Rename, RenameCommand));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_Delete, RemoveCommand, Key.Delete.ToString()));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_Rename, RenameCommand, Key.F2.ToString()));
                     contextMenu.Items.Add(new Separator());
                     contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_Property, PropertyCommand));
                     break;
@@ -617,8 +617,8 @@ namespace NeeView
                     break;
 
                 case BookmarkFolderNode bookmarkFolder:
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_Delete, RemoveCommand));
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_Rename, RenameCommand));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_Delete, RemoveCommand, Key.Delete.ToString()));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_Rename, RenameCommand, Key.F2.ToString()));
                     contextMenu.Items.Add(new Separator());
                     contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_NewFolder, NewFolderCommand));
                     contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTree_Menu_AddBookmark, AddBookmarkCommand));
@@ -630,30 +630,14 @@ namespace NeeView
             }
         }
 
-        //
         private MenuItem CreateMenuItem(string header, ICommand command)
         {
-            var item = new MenuItem();
-            item.Header = header;
-            item.Command = command;
-            return item;
+            return new MenuItem() { Header = header, Command = command };
         }
 
-        //
-        private MenuItem CreateMenuItem(string header, string command, object source)
+        private MenuItem CreateMenuItem(string header, ICommand command, string inputGestureText)
         {
-            var item = new MenuItem();
-            item.Header = header;
-            item.Command = RoutedCommandTable.Current.Commands[command];
-            item.CommandParameter = MenuCommandTag.Tag; // コマンドがメニューからであることをパラメータで伝えてみる
-            var binding = CommandTable.Current.GetElement(command).CreateIsCheckedBinding();
-            if (binding != null)
-            {
-                binding.Source = source;
-                item.SetBinding(MenuItem.IsCheckedProperty, binding);
-            }
-
-            return item;
+            return new MenuItem() { Header = header, Command = command, InputGestureText = inputGestureText };
         }
 
         #region DragDrop

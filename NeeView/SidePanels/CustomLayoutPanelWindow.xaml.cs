@@ -20,7 +20,7 @@ namespace NeeView
     /// <summary>
     /// CustomLayoutPanelWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class CustomLayoutPanelWindow : LayoutPanelWindow, IDisposable
+    public partial class CustomLayoutPanelWindow : LayoutPanelWindow, IDisposable, IHasRenameManager
     {
         private WindowChromeAccessor _windowChrome;
         private WindowStateManager _windowStateManager;
@@ -46,6 +46,11 @@ namespace NeeView
             this.CaptionBar.ContextMenu = CreateContextMenu();
 
             _routedCommandBinding = new RoutedCommandBinding(this, RoutedCommandTable.Current);
+
+            // cancel rename triggers
+            this.MouseLeftButtonDown += (s, e) => this.RenameManager.Stop();
+            this.MouseRightButtonDown += (s, e) => this.RenameManager.Stop();
+            this.Deactivated += (s, e) => this.RenameManager.Stop();
         }
 
 
@@ -73,6 +78,15 @@ namespace NeeView
 
             base.OnClosed(e);
         }
+
+        #region IHasRenameManager
+
+        public RenameManager GetRenameManager()
+        {
+            return this.RenameManager;
+        }
+
+        #endregion IHasRenameManager
 
         #region IDisposable
 

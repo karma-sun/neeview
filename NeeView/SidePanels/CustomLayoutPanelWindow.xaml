@@ -27,6 +27,7 @@
         </Grid.RowDefinitions>
         <ContentControl x:Name="MainViewSocket" Grid.Row="1" Content="{Binding LayoutPanel.Content}" />
         <local:CaptionBar x:Name="CaptionBar" Grid.Row="0" MinHeight="{Binding WindowChrome.CaptionHeight}" VerticalAlignment="Top" Title="{Binding Title}" IsMinimizeEnabled="False" />
+        <local:RenameManager x:Name="RenameManager"  d:IsHidden="True" />
     </Grid>
 
 </layoutpanel:LayoutPanelWindow>

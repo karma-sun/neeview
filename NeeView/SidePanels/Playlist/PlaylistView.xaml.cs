@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -84,10 +83,10 @@ namespace NeeView
             };
             rename.Closed += (s, ev) =>
             {
-                comboBox.Focus();
+                FocusTools.FocusIfWindowActived(comboBox);
             };
 
-            MainWindow.Current.RenameManager.Open(rename);
+            RenameManager.GetRenameManager(this)?.Open(rename);
         }
     }
 }

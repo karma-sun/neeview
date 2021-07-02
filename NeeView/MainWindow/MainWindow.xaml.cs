@@ -22,7 +22,7 @@ namespace NeeView
     /// <summary>
     /// MainWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class MainWindow : Window, IDpiScaleProvider, IHasWindowController, INotifyMouseHorizontalWheelChanged
+    public partial class MainWindow : Window, IDpiScaleProvider, IHasWindowController, INotifyMouseHorizontalWheelChanged, IHasRenameManager
     {
         public static MainWindow Current { get; private set; }
 
@@ -825,14 +825,23 @@ namespace NeeView
 
         #endregion ページタイトル管理
 
-        #region IHasDpiScale support
+        #region IHasDpiScale
 
         public DpiScale GetDpiScale()
         {
             return _dpiProvider.DpiScale;
         }
 
-        #endregion
+        #endregion IHasDpiScale
+
+        #region IHasRenameManager
+
+        public RenameManager GetRenameManager()
+        {
+            return this.RenameManager;
+        }
+
+        #endregion IHasRenameManager
 
         #region [開発用]
 

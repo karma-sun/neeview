@@ -14,6 +14,7 @@ namespace NeeView
     {
         private FolderList _model;
         private bool _isRenaming;
+        private RenameManager _renameManager;
 
 
         public FolderListBoxViewModel(FolderList folderList)
@@ -54,6 +55,12 @@ namespace NeeView
         {
             get { return _isRenaming; }
             set { SetProperty(ref _isRenaming, value); }
+        }
+
+        public RenameManager RenameManager
+        {
+            get { return _renameManager; }
+            set { SetProperty(ref _renameManager, value); }
         }
 
 

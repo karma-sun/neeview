@@ -220,7 +220,7 @@ namespace NeeView
                 return _self.ElementContainsFunc(dragElement);
             }
 
-            var renameElement = RenameManager.Current.RenameElement;
+            var renameElement = MainWindow.Current.RenameManager.RenameElement;
             if (renameElement != null)
             {
                 return _self.ElementContainsFunc(renameElement);

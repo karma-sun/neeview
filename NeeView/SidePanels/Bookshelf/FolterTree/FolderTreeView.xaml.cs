@@ -310,13 +310,13 @@ namespace NeeView
                 };
                 rename.Closed += (s, ev) =>
                 {
-                    this.TreeView.Focus();
+                    FocusTools.FocusIfWindowActived(this.TreeView);
                 };
                 rename.Close += (s, ev) =>
                 {
                 };
 
-                MainWindow.Current.RenameManager.Open(rename);
+                RenameManager.GetRenameManager(this)?.Open(rename);
             }
         }
 
@@ -341,13 +341,13 @@ namespace NeeView
                 };
                 rename.Closed += (s, ev) =>
                 {
-                    this.TreeView.Focus();
+                    FocusTools.FocusIfWindowActived(this.TreeView);
                 };
                 rename.Close += (s, ev) =>
                 {
                 };
 
-                MainWindow.Current.RenameManager.Open(rename);
+                RenameManager.GetRenameManager(this)?.Open(rename);
             }
         }
 
@@ -486,7 +486,7 @@ namespace NeeView
         private void TreeView_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             if (App.Current == null) return;
-            ((MainWindow)App.Current.MainWindow).RenameManager.Stop();
+            RenameManager.GetRenameManager(this)?.Stop();
         }
 
         private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)

@@ -191,7 +191,7 @@ namespace NeeView
                     };
                     rename.Closed += (s, ev) =>
                     {
-                        listViewItem.Focus();
+                         FocusTools.FocusIfWindowActived(listViewItem);
                         if (ev.MoveRename != 0)
                         {
                             RenameNext(ev.MoveRename);
@@ -201,7 +201,7 @@ namespace NeeView
                     {
                     };
 
-                    MainWindow.Current.RenameManager.Open(rename);
+                    RenameManager.GetRenameManager(this)?.Open(rename);
                 }
             }
         }

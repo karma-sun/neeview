@@ -47,16 +47,12 @@ namespace NeeView
         #endregion
 
 
-        public static RenameManager Current { get; private set; }
-
-
         private bool _isRenaming;
 
 
         public RenameManager()
         {
             InitializeComponent();
-            Current = this;
         }
 
 
@@ -83,6 +79,26 @@ namespace NeeView
         }
 
 
+        /// <summary>
+        /// コントロールの所属するウィンドウの RenameManager を取得する
+        /// </summary>
+        /// <param name="obj">コントロール</param>
+        /// <returns>RenameManager</returns>
+        public static RenameManager GetRenameManager(DependencyObject obj)
+        {
+            RenameManager renameMabager = null;
+
+            var window = Window.GetWindow(obj);
+            if (window is IHasRenameManager hasRenameManager)
+            {
+                renameMabager = hasRenameManager.GetRenameManager();
+            }
+
+            Debug.Assert(renameMabager != null);
+            return renameMabager;
+        }
+
+
         public void Open(RenameControl rename)
         {
             rename.Close += Rename_Close;
@@ -105,7 +121,8 @@ namespace NeeView
             var rename = (RenameControl)sender;
             rename.Target.Visibility = Visibility.Visible;
 
-            this.Root.Children.Remove(sender as RenameControl);
+            // NOTE: ウィンドウのディアクティブタイミングで閉じたときに再度アクティブ化するのを防ぐためにタイミングをずらす。動作原理不明。
+            AppDispatcher.BeginInvoke(() => this.Root.Children.Remove(sender as RenameControl));
 
             IsRenaming = this.Root.Children != null && this.Root.Children.Count > 0;
         }
@@ -121,5 +138,10 @@ namespace NeeView
                 }
             }
         }
+    }
+
+    public interface IHasRenameManager
+    {
+        RenameManager GetRenameManager();
     }
 }

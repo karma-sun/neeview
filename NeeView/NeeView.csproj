@@ -37,7 +37,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
-    <OutputPath></OutputPath>
+    <OutputPath>bin\#Test\</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -59,10 +59,6 @@
     <None Remove="NeeView\Effects\Shaders\ColorSelectEffect.ps" />
     <None Remove="NeeView\Effects\Shaders\HsvEffect.ps" />
     <None Remove="NeeView\Effects\Shaders\LevelEffect.ps" />
-    <None Remove="Libraries\Themes\CustomThemeTemplate.json" />
-    <None Remove="Libraries\Themes\DarkMonochromeTheme.json" />
-    <None Remove="Libraries\Themes\HighContrastTheme.json" />
-    <None Remove="Libraries\Themes\LightMonochromeTheme.json" />
     <None Remove="Resources\Scripts\Sample.nvjs" />
   </ItemGroup>
 
@@ -139,24 +135,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Libraries\Themes\DarkMonochromeTheme.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Libraries\Themes\CustomThemeTemplate.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Libraries\Themes\DarkTheme.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Libraries\Themes\HighContrastTheme.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Libraries\Themes\LightMonochromeTheme.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-	<Content Include="Libraries\Themes\LightTheme.json">
-	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	</Content>
     <Content Include="x64\NeeView.Interop.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -174,6 +152,24 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Libraries\Themes\CustomThemeTemplate.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Libraries\Themes\DarkMonochromeTheme.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Libraries\Themes\DarkTheme.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Libraries\Themes\HighContrastTheme.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Libraries\Themes\LightMonochromeTheme.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Libraries\Themes\LightTheme.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

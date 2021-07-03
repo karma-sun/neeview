@@ -262,7 +262,7 @@ namespace NeeView
                 _window.ResizeMode = ResizeMode.CanMinimize;
             }
 
-            if (_window.WindowState == WindowState.Maximized && !_isFullScreenMode)
+            if (_window.WindowState == WindowState.Maximized)
             {
                 _window.WindowState = WindowState.Normal;
             }

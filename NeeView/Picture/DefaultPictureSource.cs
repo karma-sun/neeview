@@ -62,7 +62,7 @@ namespace NeeView
         {
             token.ThrowIfCancellationRequested();
 
-            using (var stream = _streamSource.CreateStream(token))
+            using (var stream = new WrappingStream(_streamSource.CreateStream(token)))
             {
                 if (setting.IsKeepAspectRatio && !size.IsEmpty)
                 {

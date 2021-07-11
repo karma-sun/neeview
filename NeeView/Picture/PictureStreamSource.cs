@@ -77,7 +77,7 @@ namespace NeeView
                 Initialize(token);
             }
 
-            return new MemoryStream(_rawData);
+            return new MemoryStream(_rawData, false);
         }
     }
 

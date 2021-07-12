@@ -48,7 +48,7 @@ namespace NeeView
             
             stream.Seek(0, SeekOrigin.Begin);
 
-            using (var ms = new MemoryStream())
+            using (var ms = new WrappingStream(new MemoryStream()))
             {
                 setting = CreateSetting(size, FileFormat.Bmp, setting);
                 MagicImageProcessor.ProcessImage(stream, ms, setting);

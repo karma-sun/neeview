@@ -38,6 +38,7 @@ namespace NeeView
         private bool _isFullScreenMode;
         private bool _isFullScreen;
         private bool _isProgress;
+        private WindowsSizeHotfix _adjuster = new WindowsSizeHotfix();
 
         private IWindowStateManagerDependency _dependency;
 
@@ -46,6 +47,8 @@ namespace NeeView
         {
             _window = window;
             _dependency = dependency;
+
+            _adjuster.Initialize(window);
 
             _window.StateChanged += Window_StateChanged;
 
@@ -70,6 +73,7 @@ namespace NeeView
             get { return _isFullScreen; }
             private set { SetProperty(ref _isFullScreen, value); }
         }
+
 
 
         private void UpdateIsFullScreen()
@@ -153,7 +157,6 @@ namespace NeeView
         }
 
 
-
         private void BeginEdit()
         {
             _isProgress = true;
@@ -172,17 +175,6 @@ namespace NeeView
             _isProgress = false;
         }
 
-        // NOTE: メインウィンドウ以外でも使用した場合にResizeModeが切り替わってしまう現象に対する応急処置
-        private ResizeMode ValidateResizeMode(ResizeMode resizeMode)
-        {
-            return (_previousState == WindowStateEx.FullScreen) ? resizeMode : _window.ResizeMode;
-        }
-
-        // NOTE: メインウィンドウ以外でも使用した場合にWindowStyleが切り替わってしまう現象に対する応急処置
-        private WindowStyle ValidateWindowStyle(WindowStyle windowStyle)
-        {
-            return (_window.WindowStyle == WindowStyle.None) ? windowStyle : _window.WindowStyle;
-        }
 
         public void ToMinimize()
         {
@@ -190,8 +182,10 @@ namespace NeeView
 
             BeginEdit();
 
-            _window.ResizeMode = ValidateResizeMode(ResizeMode.CanResize);
-            _window.WindowStyle = ValidateWindowStyle(WindowStyle.SingleBorderWindow);
+            _adjuster.IsEnabled = true;
+
+            _window.ResizeMode = ResizeMode.CanResize;
+            _window.WindowStyle = WindowStyle.None;
             _window.WindowState = WindowState.Minimized;
 
             EndEdit();
@@ -203,11 +197,13 @@ namespace NeeView
 
             BeginEdit();
 
+            _adjuster.IsEnabled = true;
+
             SetFullScreenMode(false);
             _resumeState = WindowStateEx.Normal;
 
-            _window.ResizeMode = ValidateResizeMode(ResizeMode.CanResize);
-            _window.WindowStyle = ValidateWindowStyle(WindowStyle.SingleBorderWindow);
+            _window.ResizeMode = ResizeMode.CanResize;
+            _window.WindowStyle = WindowStyle.None;
             _window.WindowState = WindowState.Normal;
 
             UpdateWindowChrome();
@@ -238,12 +234,24 @@ namespace NeeView
 
             BeginEdit();
 
+            _adjuster.IsEnabled = true;
+
             SetFullScreenMode(false);
             _resumeState = WindowStateEx.Maximized;
 
-            _window.ResizeMode = ValidateResizeMode(ResizeMode.CanResize);
-            _window.WindowStyle = ValidateWindowStyle(WindowStyle.SingleBorderWindow);
-            _window.WindowState = WindowState.Maximized;
+            if (TaskBarNativeTools.IsAutoHide())
+            {
+                _window.ResizeMode = ResizeMode.CanResize;
+                if (_currentState == WindowStateEx.FullScreen) _window.WindowState = WindowState.Normal;
+                _window.WindowStyle = WindowStyle.None;
+                _window.WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                _window.ResizeMode = ResizeMode.CanResize;
+                _window.WindowStyle = WindowStyle.SingleBorderWindow;
+                _window.WindowState = WindowState.Maximized;
+            }
 
             UpdateWindowChrome();
 
@@ -255,6 +263,8 @@ namespace NeeView
             if (_isProgress) return;
 
             BeginEdit();
+
+            _adjuster.IsEnabled = false;
 
             // NOTE: Windowsショートカットによる移動ができなくなるので、Windows7とタブレットに限定する
             if (Windows7Tools.IsWindows7 || _dependency.IsTabletMode)

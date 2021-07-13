@@ -104,6 +104,10 @@ namespace NeeView.Windows
 
         private void Window_StateChanged(object sender, EventArgs e)
         {
+            // NOTE: ウィンドウ最大化ではリサイズボーダーを無効にする
+            var thickness = (_window.WindowState == WindowState.Maximized) ? 0.0 : 4.0;
+            _windowChrome.ResizeBorderThickness = new Thickness(thickness);
+
             RaisePropertyChanged(nameof(CaptionHeight));
         }
 

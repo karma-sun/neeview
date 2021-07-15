@@ -17,10 +17,12 @@ namespace NeeView
 
         private string _filterPath;
         private List<BookHistory> _items;
+        private bool _isDarty = true;
 
 
         private HistoryList()
         {
+            BookHistoryCollection.Current.HistoryChanged += Current_HistoryChanged;
             BookOperation.Current.BookChanged += BookOperation_BookChanged;
 
             Config.Current.History.AddPropertyChanged(nameof(HistoryConfig.IsCurrentFolder), (s, e) => UpdateFilterPath());
@@ -54,15 +56,29 @@ namespace NeeView
         public string FilterPath
         {
             get { return _filterPath; }
-            set { SetProperty(ref _filterPath, value); }
+            set
+            {
+                if (SetProperty(ref _filterPath, value))
+                {
+                    _isDarty = true;
+                }
+            }
         }
 
         public List<BookHistory> Items
         {
-            get { return _items; }
-            set { _items = value; RaisePropertyChanged(); }
+            get
+            {
+                UpdateItems(true);
+                return _items;
+            }
         }
 
+
+        private void Current_HistoryChanged(object sender, BookMementoCollectionChangedArgs e)
+        {
+            _isDarty = true;
+        }
 
         private void BookOperation_BookChanged(object sender, BookChangedEventArgs e)
         {
@@ -74,11 +90,20 @@ namespace NeeView
             FilterPath = Config.Current.History.IsCurrentFolder ? LoosePath.GetDirectoryName(BookOperation.Current.Address) : "";
         }
 
-        public void UpdateItems()
+        public void UpdateItems(bool raisePropertyChanged = true)
         {
-            Items = BookHistoryCollection.Current.Items
-                .Where(e => string.IsNullOrEmpty(FilterPath) || FilterPath == LoosePath.GetDirectoryName(e.Path))
-                .ToList();
+            if (_isDarty)
+            {
+                _isDarty = false;
+                _items = BookHistoryCollection.Current.Items
+                    .Where(e => string.IsNullOrEmpty(FilterPath) || FilterPath == LoosePath.GetDirectoryName(e.Path))
+                    .ToList();
+
+                if (raisePropertyChanged)
+                {
+                    RaisePropertyChanged(nameof(Items));
+                }
+            }
         }
 
         // 履歴を戻ることができる？

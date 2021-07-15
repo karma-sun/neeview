@@ -31,10 +31,10 @@ namespace NeeView
             }
 
 
-            public const uint ABE_LEFT = 0;
-            public const uint ABE_TOP = 1;
-            public const uint ABE_RIGHT = 2;
-            public const uint ABE_BOTTOM = 3;
+            public const int ABE_LEFT = 0;
+            public const int ABE_TOP = 1;
+            public const int ABE_RIGHT = 2;
+            public const int ABE_BOTTOM = 3;
 
             public const int ABM_NEW = 0;
             public const int ABM_REMOVE = 1;
@@ -94,13 +94,13 @@ namespace NeeView
             return false;
         }
 
-        public static uint GetEdge()
+        public static int GetEdge()
         {
             var appBarData = NativeMethods.APPBARDATA.Create();
             var result = NativeMethods.SHAppBarMessage(NativeMethods.ABM_GETTASKBARPOS, ref appBarData);
             if (result != IntPtr.Zero)
             {
-                return appBarData.uEdge;
+                return (int)appBarData.uEdge;
             }
 
             return NativeMethods.ABE_BOTTOM;

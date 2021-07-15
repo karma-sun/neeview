@@ -38,8 +38,17 @@ namespace NeeView
                 public int right;
                 public int bottom;
 
-                public int GetWidth() => right - left;
-                public int GetHeight() => bottom - top;
+                public int Width
+                {
+                    get => right - left;
+                    set => right = left + value;
+                }
+
+                public int Height
+                {
+                    get => bottom - top;
+                    set => bottom = top + value;
+                }
             }
 
             [StructLayout(LayoutKind.Sequential)]
@@ -52,6 +61,21 @@ namespace NeeView
                 public POINT ptMaxTrackSize;
             };
 
+
+            public const int WM_GETMINMAXINFO = 0x0024;
+
+
+            [DllImport("user32")]
+            internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
+
+            public const int MONITOR_DEFAULTTONULL = 0;
+            public const int MONITOR_DEFAULTTOPRIMARY = 1;
+            public const int MONITOR_DEFAULTTONEAREST = 2;
+
+
+            [DllImport("user32")]
+            internal static extern bool GetMonitorInfo(IntPtr hMonitor, MONITORINFO lpmi);
+
             [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
             public class MONITORINFO
             {
@@ -61,19 +85,30 @@ namespace NeeView
                 public int dwFlags = 0;
             }
 
-            public const int MONITOR_DEFAULTTONULL = 0;
-            public const int MONITOR_DEFAULTTOPRIMARY = 1;
-            public const int MONITOR_DEFAULTTONEAREST = 2;
 
-            [DllImport("user32")]
-            internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
+            [DllImport("user32.dll", SetLastError = true)]
+            internal static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 
-            [DllImport("user32")]
-            internal static extern bool GetMonitorInfo(IntPtr hMonitor, MONITORINFO lpmi);
+            public const uint SWP_ASYNCWINDOWPOS = 0x4000;
+            public const uint SWP_DEFERERASE = 0x2000;
+            public const uint SWP_DRAWFRAME = 0x0020;
+            public const uint SWP_FRAMECHANGED = 0x0020;
+            public const uint SWP_HIDEWINDOW = 0x0080;
+            public const uint SWP_NOACTIVATE = 0x0010;
+            public const uint SWP_NOCOPYBITS = 0x0100;
+            public const uint SWP_NOMOVE = 0x0002;
+            public const uint SWP_NOOWNERZORDER = 0x0200;
+            public const uint SWP_NOREDRAW = 0x0008;
+            public const uint SWP_NOREPOSITION = 0x0200;
+            public const uint SWP_NOSENDCHANGING = 0x0400;
+            public const uint SWP_NOSIZE = 0x0001;
+            public const uint SWP_NOZORDER = 0x0004;
+            public const uint SWP_SHOWWINDOW = 0x0040;
         }
 
 
-        private const int WM_GETMINMAXINFO = 0x0024;
+
+        private IntPtr _hWnd;
 
 
         public bool IsEnabled { get; set; } = true;
@@ -101,8 +136,13 @@ namespace NeeView
 
         private void AddHook(Window window)
         {
-            var handle = new WindowInteropHelper(window).Handle;
-            HwndSource.FromHwnd(handle).AddHook(new HwndSourceHook(WindowProc));
+            _hWnd = new WindowInteropHelper(window).Handle;
+            if (_hWnd == IntPtr.Zero)
+            {
+                return;
+            }
+
+            HwndSource.FromHwnd(_hWnd).AddHook(new HwndSourceHook(WindowProc));
         }
 
         private IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -114,7 +154,7 @@ namespace NeeView
 
             switch (msg)
             {
-                case WM_GETMINMAXINFO:
+                case NativeMethods.WM_GETMINMAXINFO:
                     handled = WmGetMinMaxInfo(hwnd, lParam);
                     break;
             }
@@ -145,31 +185,14 @@ namespace NeeView
             mmi.ptMaxPosition.y = workArea.top - monitorArea.top;
             mmi.ptMaxSize.x = Math.Abs(workArea.right - workArea.left);
             mmi.ptMaxSize.y = Math.Abs(workArea.bottom - workArea.top);
-            mmi = AdjustWorkingAreaForAutoHide(mmi, monitor);
+            var edge = GetAutoHideTaskbarEdge(monitor);
+            mmi =AdjustMinMaxInfo(mmi, edge);
             Marshal.StructureToPtr(mmi, lParam, true);
             return true;
         }
 
-        private NativeMethods.MINMAXINFO AdjustWorkingAreaForAutoHide(NativeMethods.MINMAXINFO mmi, IntPtr monitor)
+        private NativeMethods.MINMAXINFO AdjustMinMaxInfo(NativeMethods.MINMAXINFO mmi, int edge)
         {
-            var primaryTaskBar = TaskBarNativeTools.GetPrimaryTaskBarHandle();
-            if (primaryTaskBar == IntPtr.Zero)
-            {
-                return mmi;
-            }
-
-            var primaryTaskBarMonitor = NativeMethods.MonitorFromWindow(primaryTaskBar, NativeMethods.MONITOR_DEFAULTTONEAREST);
-            if (!monitor.Equals(primaryTaskBarMonitor))
-            {
-                return mmi;
-            }
-
-            if (!TaskBarNativeTools.IsAutoHide())
-            {
-                return mmi;
-            }
-
-            var edge = TaskBarNativeTools.GetEdge();
             switch (edge)
             {
                 case TaskBarNativeTools.NativeMethods.ABE_LEFT:
@@ -191,9 +214,70 @@ namespace NeeView
                     mmi.ptMaxTrackSize.y -= 2;
                     break;
             }
-
             return mmi;
         }
 
+        private NativeMethods.RECT AdjustRect(NativeMethods.RECT rect, int edge)
+        {
+            switch (edge)
+            {
+                case TaskBarNativeTools.NativeMethods.ABE_LEFT:
+                    rect.left += 2;
+                    break;
+                case TaskBarNativeTools.NativeMethods.ABE_RIGHT:
+                    rect.right -= 2;
+                    break;
+                case TaskBarNativeTools.NativeMethods.ABE_TOP:
+                    rect.top += 2;
+                    break;
+                case TaskBarNativeTools.NativeMethods.ABE_BOTTOM:
+                    rect.bottom -= 2;
+                    break;
+            }
+            return rect;
+        }
+
+        private int GetAutoHideTaskbarEdge(IntPtr monitor)
+        {
+            if (!TaskBarNativeTools.IsAutoHide())
+            {
+                return -1;
+            }
+
+            var primaryTaskBar = TaskBarNativeTools.GetPrimaryTaskBarHandle();
+            if (primaryTaskBar == IntPtr.Zero)
+            {
+                return -1;
+            }
+
+            var primaryTaskBarMonitor = NativeMethods.MonitorFromWindow(primaryTaskBar, NativeMethods.MONITOR_DEFAULTTONEAREST);
+            if (!monitor.Equals(primaryTaskBarMonitor))
+            {
+                return -1;
+            }
+
+            return TaskBarNativeTools.GetEdge();
+        }
+
+        public void SetMaximizedWindowPos()
+        {
+            if (_hWnd == IntPtr.Zero)
+            {
+                return;
+            }
+
+            var monitor = NativeMethods.MonitorFromWindow(_hWnd, NativeMethods.MONITOR_DEFAULTTONEAREST);
+            if (monitor == IntPtr.Zero)
+            {
+                return;
+            }
+
+            var monitorInfo = new NativeMethods.MONITORINFO();
+            NativeMethods.GetMonitorInfo(monitor, monitorInfo);
+
+            var edge = GetAutoHideTaskbarEdge(monitor);
+            var rect = AdjustRect(monitorInfo.rcWork, edge);
+            NativeMethods.SetWindowPos(_hWnd, IntPtr.Zero, rect.left, rect.top, rect.Width, rect.Height, NativeMethods.SWP_NOZORDER);
+        }
     }
 }

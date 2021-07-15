@@ -242,7 +242,10 @@ namespace NeeView
             if (TaskBarNativeTools.IsAutoHide())
             {
                 _window.ResizeMode = ResizeMode.CanResize;
-                if (_currentState == WindowStateEx.FullScreen) _window.WindowState = WindowState.Normal;
+                if (_currentState == WindowStateEx.FullScreen)
+                {
+                    _adjuster.SetMaximizedWindowPos();
+                }
                 _window.WindowStyle = WindowStyle.None;
                 _window.WindowState = WindowState.Maximized;
             }

@@ -13,7 +13,7 @@ namespace NeeView
     /// 完全な対処になっていない。モニターの解像度変更やタスクバーの位置に追従できていない。
     /// このため、タスクバーが非表示の場合に限り限定的に機能するようにしている。
     /// </remarks>
-    public class WindowsSizeHotfix
+    public class WindowSizeTools
     {
         internal static class NativeMethods
         {
@@ -107,10 +107,6 @@ namespace NeeView
         }
 
 
-
-        private IntPtr _hWnd;
-
-
         public bool IsEnabled { get; set; } = true;
 
 
@@ -136,13 +132,13 @@ namespace NeeView
 
         private void AddHook(Window window)
         {
-            _hWnd = new WindowInteropHelper(window).Handle;
-            if (_hWnd == IntPtr.Zero)
+            var hWnd = new WindowInteropHelper(window).Handle;
+            if (hWnd == IntPtr.Zero)
             {
                 return;
             }
 
-            HwndSource.FromHwnd(_hWnd).AddHook(new HwndSourceHook(WindowProc));
+            HwndSource.FromHwnd(hWnd).AddHook(new HwndSourceHook(WindowProc));
         }
 
         private IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -162,7 +158,7 @@ namespace NeeView
             return IntPtr.Zero;
         }
 
-        private bool WmGetMinMaxInfo(IntPtr hwnd, IntPtr lParam)
+        private static bool WmGetMinMaxInfo(IntPtr hwnd, IntPtr lParam)
         {
             if (!TaskBarNativeTools.IsAutoHide())
             {
@@ -186,12 +182,12 @@ namespace NeeView
             mmi.ptMaxSize.x = Math.Abs(workArea.right - workArea.left);
             mmi.ptMaxSize.y = Math.Abs(workArea.bottom - workArea.top);
             var edge = GetAutoHideTaskbarEdge(monitor);
-            mmi =AdjustMinMaxInfo(mmi, edge);
+            mmi = AdjustMinMaxInfo(mmi, edge);
             Marshal.StructureToPtr(mmi, lParam, true);
             return true;
         }
 
-        private NativeMethods.MINMAXINFO AdjustMinMaxInfo(NativeMethods.MINMAXINFO mmi, int edge)
+        private static NativeMethods.MINMAXINFO AdjustMinMaxInfo(NativeMethods.MINMAXINFO mmi, int edge)
         {
             switch (edge)
             {
@@ -217,7 +213,7 @@ namespace NeeView
             return mmi;
         }
 
-        private NativeMethods.RECT AdjustRect(NativeMethods.RECT rect, int edge)
+        private static NativeMethods.RECT AdjustRect(NativeMethods.RECT rect, int edge)
         {
             switch (edge)
             {
@@ -237,7 +233,7 @@ namespace NeeView
             return rect;
         }
 
-        private int GetAutoHideTaskbarEdge(IntPtr monitor)
+        private static int GetAutoHideTaskbarEdge(IntPtr monitor)
         {
             if (!TaskBarNativeTools.IsAutoHide())
             {
@@ -259,14 +255,15 @@ namespace NeeView
             return TaskBarNativeTools.GetEdge();
         }
 
-        public void SetMaximizedWindowPos()
+        public static void SetMaximizedWindowPos(Window window)
         {
-            if (_hWnd == IntPtr.Zero)
+            var hWnd = new WindowInteropHelper(window).Handle;
+            if (hWnd == IntPtr.Zero)
             {
                 return;
             }
 
-            var monitor = NativeMethods.MonitorFromWindow(_hWnd, NativeMethods.MONITOR_DEFAULTTONEAREST);
+            var monitor = NativeMethods.MonitorFromWindow(hWnd, NativeMethods.MONITOR_DEFAULTTONEAREST);
             if (monitor == IntPtr.Zero)
             {
                 return;
@@ -277,7 +274,30 @@ namespace NeeView
 
             var edge = GetAutoHideTaskbarEdge(monitor);
             var rect = AdjustRect(monitorInfo.rcWork, edge);
-            NativeMethods.SetWindowPos(_hWnd, IntPtr.Zero, rect.left, rect.top, rect.Width, rect.Height, NativeMethods.SWP_NOZORDER);
+            NativeMethods.SetWindowPos(hWnd, IntPtr.Zero, rect.left, rect.top, rect.Width, rect.Height, NativeMethods.SWP_NOZORDER);
+        }
+
+        public static void SetFullScreenWindowPos(Window window)
+        {
+            var hWnd = new WindowInteropHelper(window).Handle;
+            if (hWnd == IntPtr.Zero)
+            {
+                return;
+            }
+
+            var monitor = NativeMethods.MonitorFromWindow(hWnd, NativeMethods.MONITOR_DEFAULTTONEAREST);
+            if (monitor == IntPtr.Zero)
+            {
+                return;
+            }
+
+            var monitorInfo = new NativeMethods.MONITORINFO();
+            NativeMethods.GetMonitorInfo(monitor, monitorInfo);
+            var rect = monitorInfo.rcMonitor;
+
+            // NOTE: モニターサイズに指定すると、.NET Framework がサイズ補正してしまうようだ
+            // NOTE: タブレットモードでは更に補正されて丁度モニターサイズになる？
+            NativeMethods.SetWindowPos(hWnd, IntPtr.Zero, rect.left, rect.top, rect.Width, rect.Height, NativeMethods.SWP_NOZORDER);
         }
     }
 }

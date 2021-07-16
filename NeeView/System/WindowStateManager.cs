@@ -38,7 +38,6 @@ namespace NeeView
         private bool _isFullScreenMode;
         private bool _isFullScreen;
         private bool _isProgress;
-        private WindowsSizeHotfix _adjuster = new WindowsSizeHotfix();
 
         private IWindowStateManagerDependency _dependency;
 
@@ -47,8 +46,6 @@ namespace NeeView
         {
             _window = window;
             _dependency = dependency;
-
-            _adjuster.Initialize(window);
 
             _window.StateChanged += Window_StateChanged;
 
@@ -182,8 +179,6 @@ namespace NeeView
 
             BeginEdit();
 
-            _adjuster.IsEnabled = true;
-
             _window.ResizeMode = ResizeMode.CanResize;
             _window.WindowStyle = WindowStyle.None;
             _window.WindowState = WindowState.Minimized;
@@ -196,8 +191,6 @@ namespace NeeView
             if (_isProgress) return;
 
             BeginEdit();
-
-            _adjuster.IsEnabled = true;
 
             SetFullScreenMode(false);
             _resumeState = WindowStateEx.Normal;
@@ -234,20 +227,16 @@ namespace NeeView
 
             BeginEdit();
 
-            _adjuster.IsEnabled = true;
-
             SetFullScreenMode(false);
             _resumeState = WindowStateEx.Maximized;
 
+            // NOTE: タスクバー自動非表示モードでは直接ウィンドウサイズを変更する
             if (TaskBarNativeTools.IsAutoHide())
             {
                 _window.ResizeMode = ResizeMode.CanResize;
-                if (_currentState == WindowStateEx.FullScreen)
-                {
-                    _adjuster.SetMaximizedWindowPos();
-                }
                 _window.WindowStyle = WindowStyle.None;
                 _window.WindowState = WindowState.Maximized;
+                WindowSizeTools.SetMaximizedWindowPos(_window);
             }
             else
             {
@@ -267,8 +256,6 @@ namespace NeeView
 
             BeginEdit();
 
-            _adjuster.IsEnabled = false;
-
             // NOTE: Windowsショートカットによる移動ができなくなるので、Windows7とタブレットに限定する
             if (Windows7Tools.IsWindows7 || _dependency.IsTabletMode)
             {
@@ -277,7 +264,15 @@ namespace NeeView
 
             if (_window.WindowState == WindowState.Maximized)
             {
-                _window.WindowState = WindowState.Normal;
+                // NOTE: タブレットモードでは通常ウィンドウを経由できないので直接ウィンドウサイズを変更する
+                if (_dependency.IsTabletMode)
+                {
+                    WindowSizeTools.SetFullScreenWindowPos(_window);
+                }
+                else
+                {
+                    _window.WindowState = WindowState.Normal;
+                }
             }
 
             _window.WindowStyle = WindowStyle.None;

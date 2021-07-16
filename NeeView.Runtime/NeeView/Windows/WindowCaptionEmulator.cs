@@ -45,7 +45,7 @@ namespace NeeView.Windows
             if (e.Handled) return;
             if (!IsEnabled) return;
 
-            if (IsMaximizeEnabled && e.ClickCount == 2)
+            if (IsMaximizeEnabled && e.ClickCount == 2 && !TabletModeWatcher.Current.IsTabletMode)
             {
                 switch (_window.WindowState)
                 {

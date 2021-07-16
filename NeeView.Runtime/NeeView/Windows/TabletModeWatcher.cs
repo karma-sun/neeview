@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 
-namespace NeeView
+namespace NeeView.Windows
 {
     /// <summary>
     /// タブレットモード判定 (Windows10)
     /// </summary>
     public class TabletModeWatcher
     {
+        // TODO: このプロジェクトでシングルトンはあまりよろしくないので、static にする。
         static TabletModeWatcher() => Current = new TabletModeWatcher();
         public static TabletModeWatcher Current { get; }
 

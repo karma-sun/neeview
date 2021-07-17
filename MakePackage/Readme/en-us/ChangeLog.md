@@ -2,6 +2,29 @@
 
 ----
 
+### 39.3
+(2021-07-17)
+
+####  New
+
+- Language: Supports 中文(中国)
+
+#### Fixed
+
+- Fixed a bug that the taskbar is displayed when returning from minimization to full screen
+- Improved the problem that the taskbar is not displayed when the window is maximized when the taskbar is set to be hidden automatically.
+- Fixed a bug that an error occurs in the "Prev/Next History" command.
+- Fixed a bug where you couldn't rename in a floating panel
+- Fixed initial selection bug when renaming Quick Access
+- Fixed a bug that shortcut keys are not displayed in the context menu of the folder tree
+- Fixed a bug that theme loading fails when the app is placed in the path containing "#"
+
+#### Changed
+
+- Added "Text copy" setting to "Copy file" command parameter. Select the type of text that will be copied to the clipboard.
+
+----
+
 ### 39.2
 (2021-06-26)
 

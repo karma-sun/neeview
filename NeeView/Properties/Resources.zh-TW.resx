@@ -454,13 +454,13 @@ nv.Command.ToggleMediaPlay.Execute()
     <value>不執行</value>
   </data>
   <data name="ArchivePolicy.SendArchiveFile" xml:space="preserve">
-    <value>壓縮檔</value>
+    <value>壓縮檔路徑</value>
   </data>
   <data name="ArchivePolicy.SendArchivePath" xml:space="preserve">
     <value>壓縮檔 + 檔案名稱</value>
   </data>
   <data name="ArchivePolicy.SendExtractFile" xml:space="preserve">
-    <value>暫存檔案</value>
+    <value>輸出的檔案路徑 (暫存檔案)</value>
   </data>
   <data name="AutoHideConfig.AutoHideConfrictBottomMargin" xml:space="preserve">
     <value>自動判斷顯示側邊面板上的滑動條</value>
@@ -7366,5 +7366,20 @@ nv.ShowToast(nv.Book.ViewPages[0].Path)</value>
   </data>
   <data name="CommandConfig.IsHorizontalWheelLimitedOnce.Remarks" xml:space="preserve">
     <value>以傾斜滾輪的一次操作執行一個指令。使用無段滑鼠時請設為關閉。</value>
+  </data>
+  <data name="TextCopyPolicy.OriginalPath" xml:space="preserve">
+    <value>原始路徑</value>
+  </data>
+  <data name="TextCopyPolicy.CopyFilePath" xml:space="preserve">
+    <value>複製檔案路徑</value>
+  </data>
+  <data name="TextCopyPolicy.None" xml:space="preserve">
+    <value>無</value>
+  </data>
+  <data name="CopyFileCommandParameter.TextCopyPolicy" xml:space="preserve">
+    <value>複製文字</value>
+  </data>
+  <data name="CopyFileCommandParameter.TextCopyPolicy.Remarks" xml:space="preserve">
+    <value>設定為「@TextCopyPolicy.OriginalPath」時，暫存檔案的文字會是原始檔案的路徑名稱。</value>
   </data>
 </root>

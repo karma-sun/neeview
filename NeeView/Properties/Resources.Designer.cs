@@ -17356,7 +17356,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Toggle auto rithg rotation に類似しているローカライズされた文字列を検索します。
+        ///   Toggle auto right rotation に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ToggleIsAutoRotateRightCommand {
             get {

@@ -643,7 +643,7 @@ nv.Command.ToggleMediaPlay.Execute()
     <value>ページがなく、サブフォルダーが 1 つだけ存在する場合にサブフォルダーを自動的に読み込みます。</value>
   </data>
   <data name="BookConfig.IsConfirmRecursive" xml:space="preserve">
-    <value>サブフォルダーしかなかいときに、それを読み込むか問い合わせる</value>
+    <value>サブフォルダーしかないときに、それを読み込むか問い合わせる</value>
   </data>
   <data name="BookConfig.IsConfirmRecursive.Remarks" xml:space="preserve">
     <value>ブックを開いた時に表示可能なページがなく、かつサブフォルダーが存在する場合にサブフォルダーも読み込むかを問い合わせるダイアログを表示します。</value>
@@ -2454,7 +2454,7 @@ nv.Values.Test = "Hello!"</value>
     <value>再読み込み</value>
   </data>
   <data name="FolderTree.Menu.Rename" xml:space="preserve">
-    <value>名前の變更(_M)</value>
+    <value>名前の変更(_M)</value>
   </data>
   <data name="FolderTreeLayout.Left" xml:space="preserve">
     <value>左に配置</value>

@@ -123,7 +123,11 @@ namespace NeeView
 
         private void CollectionViewSourceFilter(object sender, FilterEventArgs e)
         {
-            if (Config.Current.Playlist.IsCurrentBookFilterEnabled && BookOperation.Current.IsValid)
+            if (e.Item is null)
+            {
+                e.Accepted = false;
+            }
+            else if (Config.Current.Playlist.IsCurrentBookFilterEnabled && BookOperation.Current.IsValid)
             {
                 var item = (PlaylistItem)e.Item;
                 var book = BookOperation.Current.Book;

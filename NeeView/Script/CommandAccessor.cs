@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace NeeView
 {
@@ -8,8 +9,9 @@ namespace NeeView
     public class CommandAccessor : ICommandAccessor
     {
         private CommandElement _command;
-        private IDictionary<string, object> _patch;
+        private ImmutableDictionary<string, object> _patch = ImmutableDictionary<string, object>.Empty;
         private IAccessDiagnostics _accessDiagnostics;
+
 
         public CommandAccessor(CommandElement command, IAccessDiagnostics accessDiagnostics)
         {
@@ -17,6 +19,7 @@ namespace NeeView
             _accessDiagnostics = accessDiagnostics ?? throw new System.ArgumentNullException(nameof(accessDiagnostics));
             Parameter = _command.Parameter != null ? new PropertyMap(_command.Parameter, _accessDiagnostics, $"nv.Command.{_command.Name}.Parameter") : null;
         }
+
 
         [WordNodeMember]
         public bool IsShowMessage
@@ -69,18 +72,18 @@ namespace NeeView
         [WordNodeMember]
         public CommandAccessor Patch(IDictionary<string, object> patch)
         {
-            if (_patch == null)
-            {
-                _patch = patch;
-            }
-            else
-            {
-                foreach (var pair in patch)
-                {
-                    _patch[pair.Key] = pair.Value;
-                }
-            }
+            return Clone().AddPatch(patch);
+        }
 
+
+        internal CommandAccessor Clone()
+        {
+            return (CommandAccessor)this.MemberwiseClone();
+        }
+
+        internal CommandAccessor AddPatch(IDictionary<string, object> patch)
+        {
+            _patch = _patch.AddRange(patch);
             return this;
         }
 

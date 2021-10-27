@@ -72,6 +72,9 @@
                 <Component Id="cmpB71736D52F6C6C28DC09A1D54BF9C7BA" Guid="*">
                     <File Id="fil5614F01B74C840F8D8A0B4AD0D0533AD" KeyPath="yes" Source="$(var.LibrariesDir)\System.Buffers.dll" />
                 </Component>
+                <Component Id="cmp6AF7B568CD3FC0D3CC8B5EBF544623A3" Guid="*">
+                    <File Id="fil7451C509AB19C556DA7907DFE239B6A9" KeyPath="yes" Source="$(var.LibrariesDir)\System.Collections.Immutable.dll" />
+                </Component>
                 <Component Id="cmp3DCCEA2975E18FD4C2DA5E81BF1C60B0" Guid="*">
                     <File Id="fil1F8EF309A2151F48D57716B34F4C5562" KeyPath="yes" Source="$(var.LibrariesDir)\System.Data.SQLite.dll" />
                 </Component>
@@ -199,6 +202,7 @@
             <ComponentRef Id="cmp502D7244065F45E37F677A30D29A4D26" />
             <ComponentRef Id="cmpE473ED87055187ABAC9B0465FBBE823A" />
             <ComponentRef Id="cmpB71736D52F6C6C28DC09A1D54BF9C7BA" />
+            <ComponentRef Id="cmp6AF7B568CD3FC0D3CC8B5EBF544623A3" />
             <ComponentRef Id="cmp3DCCEA2975E18FD4C2DA5E81BF1C60B0" />
             <ComponentRef Id="cmp6201B94C484932AF1231EF41617BC1F9" />
             <ComponentRef Id="cmpE8FAEF65B0E2CD298FD9F28330592354" />

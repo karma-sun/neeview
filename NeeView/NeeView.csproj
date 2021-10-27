@@ -89,6 +89,7 @@
     <PackageReference Include="SharpVectors.Reloaded">
       <Version>1.7.1</Version>
     </PackageReference>
+    <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
     <PackageReference Include="System.Data.SQLite.Core">
       <Version>1.0.113.7</Version>
     </PackageReference>

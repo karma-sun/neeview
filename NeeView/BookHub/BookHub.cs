@@ -456,7 +456,7 @@ namespace NeeView
                 if (BookUnit == null) return;
 
                 // 履歴削除されたものを履歴登録しないようにする
-                if (e.HistoryChangedType == BookMementoCollectionChangedType.Remove && this.BookUnit.Book.Address == e.Key)
+                if (e.HistoryChangedType == BookMementoCollectionChangedType.Remove && (this.BookUnit.Book.Address == e.Key || e.Key == null))
                 {
                     _historyRemoved = true;
                 }
@@ -470,6 +470,8 @@ namespace NeeView
                 bool allowUpdateHistory;
                 lock (_lock)
                 {
+                    _historyRemoved = false;
+
                     if (BookUnit == null) return;
                     allowUpdateHistory = !BookUnit.IsKeepHistoryOrder || Config.Current.History.IsForceUpdateHistory;
                 }

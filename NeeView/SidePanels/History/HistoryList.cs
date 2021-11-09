@@ -18,11 +18,11 @@ namespace NeeView
         private string _filterPath;
         private List<BookHistory> _items;
         private bool _isDarty = true;
+        private int _serialNumber = -1;
 
 
         private HistoryList()
         {
-            BookHistoryCollection.Current.HistoryChanged += Current_HistoryChanged;
             BookOperation.Current.BookChanged += BookOperation_BookChanged;
 
             Config.Current.History.AddPropertyChanged(nameof(HistoryConfig.IsCurrentFolder), (s, e) => UpdateFilterPath());
@@ -60,7 +60,7 @@ namespace NeeView
             {
                 if (SetProperty(ref _filterPath, value))
                 {
-                    _isDarty = true;
+                    SetDarty();
                 }
             }
         }
@@ -75,11 +75,6 @@ namespace NeeView
         }
 
 
-        private void Current_HistoryChanged(object sender, BookMementoCollectionChangedArgs e)
-        {
-            _isDarty = true;
-        }
-
         private void BookOperation_BookChanged(object sender, BookChangedEventArgs e)
         {
             UpdateFilterPath();
@@ -92,18 +87,38 @@ namespace NeeView
 
         public void UpdateItems(bool raisePropertyChanged = true)
         {
-            if (_isDarty)
+            if (IsDarty())
             {
-                _isDarty = false;
-                _items = BookHistoryCollection.Current.Items
-                    .Where(e => string.IsNullOrEmpty(FilterPath) || FilterPath == LoosePath.GetDirectoryName(e.Path))
-                    .ToList();
+                ResetDarty();
+                _items = CreateItems();
 
                 if (raisePropertyChanged)
                 {
                     RaisePropertyChanged(nameof(Items));
                 }
             }
+        }
+
+        private void SetDarty()
+        {
+            _isDarty = true;
+        }
+
+        private void ResetDarty()
+        {
+            _isDarty = false;
+            _serialNumber = BookHistoryCollection.Current.SerialNumber;
+        }
+        private bool IsDarty()
+        {
+            return _isDarty || _serialNumber != BookHistoryCollection.Current.SerialNumber;
+        }
+
+        private List<BookHistory> CreateItems()
+        {
+            return BookHistoryCollection.Current.Items
+                .Where(e => string.IsNullOrEmpty(FilterPath) || FilterPath == LoosePath.GetDirectoryName(e.Path))
+                .ToList();
         }
 
         // 履歴を戻ることができる？

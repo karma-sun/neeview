@@ -28,7 +28,7 @@ namespace NeeView
 
         private BookHistoryCollection()
         {
-            HistoryChanged += (s, e) => RaisePropertyChanged(nameof(Count));
+            HistoryChanged += BookHistoryCollection_HistoryChanged;
         }
 
 
@@ -41,10 +41,18 @@ namespace NeeView
         // 要素数
         public int Count => Items.Count;
 
+        // 更新番号
+        public int SerialNumber { get; private set; }
+
         // 先頭の要素
         public LinkedListNode<BookHistory> First => Items.First;
 
 
+        private void BookHistoryCollection_HistoryChanged(object sender, BookMementoCollectionChangedArgs e)
+        {
+            SerialNumber++;
+            RaisePropertyChanged(nameof(Count));
+        }
 
         // 履歴クリア
         public void Clear()

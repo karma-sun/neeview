@@ -381,7 +381,7 @@ namespace NeeView
         {
             if (Items == null) return;
 
-            if (path == null)
+            if (path == null || path.IsEmpty)
             {
                 foreach (var item in Items)
                 {

@@ -153,6 +153,8 @@ namespace NeeView
             private set { _search = value; }
         }
 
+        public bool IsEmpty => _path is null;
+
 
         /// <summary>
         /// 完全クエリ

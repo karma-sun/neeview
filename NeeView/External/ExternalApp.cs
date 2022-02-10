@@ -31,7 +31,7 @@ namespace NeeView
         public string Command
         {
             get { return _command; }
-            set { if (SetProperty(ref _command, value)) RaisePropertyChanged(nameof(DispName)); }
+            set { if (SetProperty(ref _command, value?.Trim())) RaisePropertyChanged(nameof(DispName)); }
         }
 
         // コマンドパラメータ

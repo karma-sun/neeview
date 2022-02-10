@@ -211,13 +211,22 @@ namespace NeeView.Windows.Controls
 
         private void ButtonOpenDialog_Click(object sender, RoutedEventArgs e)
         {
+            var path = Text;
             var owner = new FileIO.Win32Window(Window.GetWindow(this));
+
+            // check path chars
+            var invalidChars = System.IO.Path.GetInvalidPathChars();
+            var invalidCharsIndex = path.IndexOfAny(invalidChars);
+            if (invalidCharsIndex >= 0)
+            {
+                path = "";
+            }
 
             if (FileDialogType == FileDialogType.Directory)
             {
                 var dialog = new System.Windows.Forms.FolderBrowserDialog();
                 dialog.Description = Title ?? Properties.Resources.FileNameBox_SelectDirectory;
-                dialog.SelectedPath = Text;
+                dialog.SelectedPath = path;
 
                 if (string.IsNullOrWhiteSpace(dialog.SelectedPath))
                 {
@@ -227,15 +236,15 @@ namespace NeeView.Windows.Controls
                 var result = dialog.ShowDialog(owner);
                 if (result == System.Windows.Forms.DialogResult.OK)
                 {
-                    Text = dialog.SelectedPath;
+                    path = dialog.SelectedPath;
                 }
             }
             else if (FileDialogType == FileDialogType.SaveFile)
             {
                 var dialog = new System.Windows.Forms.SaveFileDialog();
                 dialog.Title = Title ?? Properties.Resources.FileNameBox_SelectFile;
-                dialog.InitialDirectory = string.IsNullOrEmpty(Text) ? null : Path.GetDirectoryName(Text);
-                dialog.FileName = string.IsNullOrEmpty(Text) ? DefaultText : Path.GetFileName(Text);
+                dialog.InitialDirectory = string.IsNullOrWhiteSpace(path) ? null : Path.GetDirectoryName(path);
+                dialog.FileName = string.IsNullOrWhiteSpace(path) ? DefaultText : Path.GetFileName(path);
                 dialog.Filter = Filter;
                 dialog.OverwritePrompt = false;
                 dialog.CreatePrompt = false;
@@ -243,23 +252,25 @@ namespace NeeView.Windows.Controls
                 var result = dialog.ShowDialog(owner);
                 if (result == System.Windows.Forms.DialogResult.OK)
                 {
-                    Text = dialog.FileName;
+                    path = dialog.FileName;
                 }
             }
             else
             {
                 var dialog = new System.Windows.Forms.OpenFileDialog();
                 dialog.Title = Title ?? Properties.Resources.FileNameBox_SelectFile;
-                dialog.InitialDirectory = string.IsNullOrEmpty(Text) ? null : Path.GetDirectoryName(Text);
-                dialog.FileName = string.IsNullOrEmpty(Text) ? DefaultText : Path.GetFileName(Text);
+                dialog.InitialDirectory = string.IsNullOrWhiteSpace(path) ? null : Path.GetDirectoryName(path);
+                dialog.FileName = string.IsNullOrWhiteSpace(path) ? DefaultText : Path.GetFileName(path);
                 dialog.Filter = Filter;
 
                 var result = dialog.ShowDialog(owner);
                 if (result == System.Windows.Forms.DialogResult.OK)
                 {
-                    Text = dialog.FileName;
+                    path = dialog.FileName;
                 }
             }
+
+            Text = path;
         }
 
         //

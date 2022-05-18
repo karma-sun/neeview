@@ -33,6 +33,32 @@ namespace NeeView
             return App.Current.Dispatcher.Invoke(callback);
         }
 
+        public static void InvokeSTA(Action action)
+        {
+            if (System.Threading.Thread.CurrentThread.GetApartmentState() == System.Threading.ApartmentState.STA)
+            {
+                action.Invoke();
+            }
+            else
+            {
+                if (Application.Current == null) throw new InvalidOperationException();
+                App.Current.Dispatcher.Invoke(action);
+            }
+        }
+
+        public static TResult InvokeSTA<TResult>(Func<TResult> callback)
+        {
+            if (System.Threading.Thread.CurrentThread.GetApartmentState() == System.Threading.ApartmentState.STA)
+            {
+                return callback.Invoke();
+            }
+            else
+            {
+                if (Application.Current == null) throw new InvalidOperationException();
+                return App.Current.Dispatcher.Invoke(callback);
+            }
+        }
+
         public static async Task InvokeAsync(Action action)
         {
             if (Application.Current == null) return;

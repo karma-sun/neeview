@@ -155,14 +155,11 @@ namespace NeeView
                 var shortcut = new FileShortcut(e);
                 if (shortcut.IsValid)
                 {
-                    if ((shortcut.Target.Attributes & FileAttributes.Directory) != 0)
-                    {
-                        return CreateFolderItem(shortcut);
-                    }
-                    else
-                    {
-                        return CreateFolderItem(shortcut);
-                    }
+                    return CreateFolderItem(shortcut);
+                }
+                else
+                {
+                    return null;
                 }
             }
 

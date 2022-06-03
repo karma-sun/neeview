@@ -83,7 +83,18 @@ namespace NeeView
 
         private async Task<ArchiveEntry> CreateEntryAsync(PlaylistSourceItem item, int id, CancellationToken token)
         {
-            var innterEntry = await ArchiveEntryUtility.CreateAsync(item.Path, token);
+            var targetPath = item.Path;
+
+            if (FileShortcut.IsShortcut(item.Path))
+            {
+                var shortcut = new FileShortcut(item.Path);
+                if (shortcut.IsValid)
+                {
+                    targetPath = shortcut.TargetPath;
+                }
+            }
+
+            var innterEntry = await ArchiveEntryUtility.CreateAsync(targetPath, token);
 
             ArchiveEntry entry = new ArchiveEntry()
             {
@@ -91,7 +102,7 @@ namespace NeeView
                 Archiver = this,
                 Id = id,
                 RawEntryName = item.Name,
-                Link = item.Path,
+                Link = targetPath,
                 Instance = innterEntry,
                 Length = innterEntry.Length,
                 CreationTime = innterEntry.CreationTime,

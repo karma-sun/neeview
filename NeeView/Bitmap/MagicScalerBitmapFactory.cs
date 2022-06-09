@@ -1,7 +1,5 @@
 ﻿using PhotoSauce.MagicScaler;
 using System;
-using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Windows;
@@ -21,7 +19,7 @@ namespace NeeView
 
 
         // 注意: sourceは上書きされます
-        private ProcessImageSettings CreateSetting(Size size, FileFormat format, ProcessImageSettings source)
+        private ProcessImageSettings CreateSetting(Size size, string mimeType, ProcessImageSettings source)
         {
             var setting = source ?? new ProcessImageSettings();
 
@@ -30,7 +28,8 @@ namespace NeeView
             setting.Height = size.IsEmpty ? 0 : Convert.ToInt32(size.Height);
             setting.ResizeMode = (setting.Width == 0 || setting.Height == 0) ? CropScaleMode.Crop : CropScaleMode.Stretch;
             setting.Anchor = (setting.ResizeMode == CropScaleMode.Crop) ? CropAnchor.Left | CropAnchor.Top : CropAnchor.Center;
-            setting.SaveFormat = format;
+            
+            setting.TrySetEncoderFormat(mimeType) ;
 
             return setting;
         }
@@ -50,7 +49,7 @@ namespace NeeView
 
             using (var ms = new WrappingStream(new MemoryStream()))
             {
-                setting = CreateSetting(size, FileFormat.Bmp, setting);
+                setting = CreateSetting(size, ImageMimeTypes.Bmp, setting);
                 MagicImageProcessor.ProcessImage(stream, ms, setting);
 
                 ms.Seek(0, SeekOrigin.Begin);
@@ -80,21 +79,25 @@ namespace NeeView
             stream.Seek(0, SeekOrigin.Begin);
 
             setting = CreateSetting(size, CreateFormat(format), setting);
-            setting.JpegQuality = quality;
-            
+
+            if (format == BitmapImageFormat.Jpeg)
+            {
+                setting.EncoderOptions = new JpegEncoderOptions(quality, JpegEncoderOptions.Default.Subsample, JpegEncoderOptions.Default.SuppressApp0);
+            }
+
             MagicImageProcessor.ProcessImage(stream, outStream, setting);
         }
 
         //
-        private FileFormat CreateFormat(BitmapImageFormat format)
+        private string CreateFormat(BitmapImageFormat format)
         {
             switch (format)
             {
                 default:
                 case BitmapImageFormat.Jpeg:
-                    return FileFormat.Jpeg;
+                    return ImageMimeTypes.Jpeg;
                 case BitmapImageFormat.Png:
-                    return FileFormat.Png;
+                    return ImageMimeTypes.Png;
             }
         }
     }

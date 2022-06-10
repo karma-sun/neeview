@@ -1,10 +1,10 @@
-﻿using NeeView.Text;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using Jint;
 
 namespace NeeView
 {
@@ -17,7 +17,10 @@ namespace NeeView
         public JavascriptEngine()
         {
             _commandHost = new CommandHost();
-            _engine = new Jint.Engine(config => config.AllowClr().AllowClr(typeof(System.Diagnostics.Process).Assembly));
+            _engine = new Jint.Engine(config => config
+                .DebugMode(true)
+                .AllowClr(typeof(System.Diagnostics.Process).Assembly));
+
             _engine.SetValue("sleep", (Action<int>)Sleep);
             _engine.SetValue("log", (Action<object>)Log);
             _engine.SetValue("system", (Action<string, string>)SystemCall);
@@ -75,13 +78,7 @@ namespace NeeView
             try
             {
                 CurrentPath = path;
-                var options = new Esprima.ParserOptions(path)
-                {
-                    AdaptRegexp = true,
-                    Tolerant = true,
-                    Loc = true,
-                };
-                var result = _engine.Execute(script, options).GetCompletionValue();
+                var result = _engine.Evaluate(script, new Esprima.ParserOptions(path));
                 return result?.ToObject();
             }
             catch (OperationCanceledException)
@@ -159,12 +156,11 @@ namespace NeeView
 
         public ScriptNotice CreateScriptErrorMessage(string s)
         {
-            // NOTE: GetLastSyntaxNode() はバージョンによっては使用できないので注意
-            var node = _engine.GetLastSyntaxNode();
+            var location = _engine.DebugHandler?.CurrentLocation;
 
             string source = null;
             int line = -1;
-            string message = "";
+            string message = s.Trim();
 
             var regex = new Regex(@"^Line\s*(\d+):(.+)$", RegexOptions.IgnoreCase);
             var match = regex.Match(s);
@@ -173,11 +169,10 @@ namespace NeeView
                 line = int.Parse(match.Groups[1].Value);
                 message = match.Groups[2].Value.Trim();
             }
-            else if (node != null)
+            if (location.HasValue)
             {
-                source = node.Location.Source;
-                line = node.Location.Start.Line;
-                message = s.Trim();
+                source = location.Value.Source;
+                line = location.Value.Start.Line;
             }
 
             return new ScriptNotice(source, line, message);

@@ -211,7 +211,7 @@ namespace NeeView.Windows.Controls
 
         private void ButtonOpenDialog_Click(object sender, RoutedEventArgs e)
         {
-            var path = Text;
+            var path = Text ?? "";
             var owner = new FileIO.Win32Window(Window.GetWindow(this));
 
             // check path chars

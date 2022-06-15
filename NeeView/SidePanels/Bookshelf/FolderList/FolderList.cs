@@ -911,8 +911,19 @@ namespace NeeView
 
         private void RequestLoad(FolderItem item, string start, BookLoadOption option, bool isRefreshFolderList)
         {
-            var additionalOption = BookLoadOption.IsBook | (item.CanRemove() ? BookLoadOption.None : BookLoadOption.Undeliteable);
-            BookHub.Current.RequestLoad(this, item.TargetPath.SimplePath, start, option | additionalOption, isRefreshFolderList);
+            var defaultRecursiveOptionFlag = IsFolderRecoursive(item.Place) ? BookLoadOption.DefaultRecursive : BookLoadOption.None;
+            var undeliteableOptionFlag = item.CanRemove() ? BookLoadOption.None : BookLoadOption.Undeliteable;
+            var options = option | BookLoadOption.IsBook | defaultRecursiveOptionFlag | undeliteableOptionFlag;
+            BookHub.Current.RequestLoad(this, item.TargetPath.SimplePath, start, options, isRefreshFolderList);
+        }
+
+        /// <summary>
+        /// 再帰フォルダーが既定の場所であるか
+        /// </summary>
+        private static bool IsFolderRecoursive(QueryPath path)
+        {
+            var memento = BookHistoryCollection.Current.GetFolderMemento(path.SimplePath);
+            return memento.IsFolderRecursive;
         }
 
         #endregion MoveFolder
@@ -1652,7 +1663,7 @@ namespace NeeView
 
 
 
-#region Memento
+        #region Memento
 
         [DataContract]
         public class Memento : IMemento
@@ -1691,7 +1702,7 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
     }
 
 }

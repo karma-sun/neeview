@@ -43,6 +43,36 @@ namespace NeeView
                 return path;
             }
         }
+
+        /// <summary>
+        /// このブックはサブフォルダーを読み込む設定？
+        /// </summary>
+        public static bool IsRecursiveBook(QueryPath query)
+        {
+            if (query is null) return false;
+
+            // 開いているブックは現状の設定を返す ... これいらない？下の計算でやってる？
+            var book = BookHub.Current.Book;
+            if (book != null && book.Address == query.SimplePath)
+            {
+                return book.Source.IsRecursiveFolder;
+            }
+
+            // 開いていないブックは履歴と設定から計算する
+            var lastBookMemento = book?.Address != null ? book.CreateMemento() : null;
+            var loadOption = BookLoadOption.Resume | (IsFolderRecoursive(query.GetParent()) ? BookLoadOption.DefaultRecursive : BookLoadOption.None);
+            var setting = BookHub.CreateOpenBookMemento(query.SimplePath, lastBookMemento, loadOption);
+            return setting.IsRecursiveFolder;
+        }
+
+        /// <summary>
+        /// この場所のブックは既定でサブフォルダーを読み込む設定？
+        /// </summary>
+        public static bool IsFolderRecoursive(QueryPath query)
+        {
+            var memento = BookHistoryCollection.Current.GetFolderMemento(query.SimplePath);
+            return memento.IsFolderRecursive;
+        }
     }
 }
 

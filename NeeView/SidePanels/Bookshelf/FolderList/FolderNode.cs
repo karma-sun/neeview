@@ -152,6 +152,37 @@ namespace NeeView
         }
 
 
+        public async Task<FolderNode> GetPrev(CancellationToken token)
+        {
+            var parent = await GetParent(token);
+            if (parent == null) return null;
+
+            var brother = await parent.GetChildren(token);
+            var index = brother.IndexOf(this);
+            if (index - 1 >= 0)
+            {
+                return brother[index - 1];
+            }
+
+            return null;
+        }
+
+        public async Task<FolderNode> GetNext(CancellationToken token)
+        {
+            var parent = await GetParent(token);
+            if (parent == null) return null;
+
+            var brother = await parent.GetChildren(token);
+            var index = brother.IndexOf(this);
+            if (index + 1 < brother.Count)
+            {
+                return brother[index + 1];
+            }
+
+            return null;
+        }
+
+
         public async Task<List<FolderNode>> GetChildren(CancellationToken token)
         {
             if (!_isChildrenValid)
@@ -199,8 +230,26 @@ namespace NeeView
             }
         }
 
+        private bool HasAncestor(FolderNode target)
+        {
+            return this.FullName.StartsWith(LoosePath.TrimDirectoryEnd(target.FullName));
+        }
+
 
         public async Task<FolderNode> CruisePrev(CancellationToken token)
+        {
+            var prev = await GetPrev(token);
+            var cruse = await GetCruisePrev(token);
+
+            if (prev != null && cruse.HasAncestor(prev) && BookHubTools.IsRecursiveBook(new QueryPath(prev.FullName)))
+            {
+                return prev;
+            }
+
+            return cruse;
+        }
+
+        public async Task<FolderNode> GetCruisePrev(CancellationToken token)
         {
             var parent = await GetParent(token);
             if (parent == null) return null;
@@ -239,6 +288,19 @@ namespace NeeView
         }
 
         public async Task<FolderNode> CruiseNext(CancellationToken token)
+        {
+            var next = await GetNext(token);
+            var cruse = await GetCruiseNext(token);
+
+            if (next != null && cruse.HasAncestor(this) && BookHubTools.IsRecursiveBook(new QueryPath(this.FullName)))
+            {
+                return next;
+            }
+
+            return cruse;
+        }
+
+        public async Task<FolderNode> GetCruiseNext(CancellationToken token)
         {
             if (CanCruiseChildren(this))
             {

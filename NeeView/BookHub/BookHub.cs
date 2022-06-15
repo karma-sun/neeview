@@ -1017,7 +1017,7 @@ namespace NeeView
         /// </summary>
         /// <param name="path">場所</param>
         /// <param name="lastest">現在の情報</param>
-        private Book.Memento CreateLastestBookMemento(string path, Book.Memento lastest)
+        private static Book.Memento CreateLastestBookMemento(string path, Book.Memento lastest)
         {
             Book.Memento memento = null;
 
@@ -1037,7 +1037,13 @@ namespace NeeView
             return memento;
         }
 
-        private Book.Memento CreateOpenBookMemento(string path, Book.Memento lastest, BookLoadOption option)
+        /// <summary>
+        /// 適切な設定を作成
+        /// </summary>
+        /// <param name="path">場所</param>
+        /// <param name="lastest">現在の情報</param>
+        /// <param name="option">読み込みオプション</param>
+        public static Book.Memento CreateOpenBookMemento(string path, Book.Memento lastest, BookLoadOption option)
         {
             var memory = CreateLastestBookMemento(path, lastest);
             Debug.Assert(memory == null || memory.Path == path);

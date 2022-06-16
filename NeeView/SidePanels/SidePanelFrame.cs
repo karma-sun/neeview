@@ -93,9 +93,9 @@ namespace NeeView
             return CustomLayoutPanelManager.Current.IsPanelSelected(key);
         }
 
-        private void SetVisiblePanel(string key, bool isVisible)
+        private void SetVisiblePanel(string key, bool isVisible, bool isFocus = true)
         {
-            CustomLayoutPanelManager.Current.SelectPanel(key, isVisible);
+            CustomLayoutPanelManager.Current.SelectPanel(key, isVisible, isFocus);
             RaisePanelPropertyChanged();
         }
 
@@ -172,9 +172,9 @@ namespace NeeView
             set { SetVisiblePanel(nameof(FolderPanel), value); }
         }
 
-        public void SetVisibleFolderList(bool isVisible, bool flush)
+        public void SetVisibleFolderList(bool isVisible, bool flush, bool isFocus)
         {
-            SetVisiblePanel(nameof(FolderPanel), isVisible);
+            SetVisiblePanel(nameof(FolderPanel), isVisible, isFocus);
         }
 
         public bool ToggleVisibleFolderList(bool byMenu)
@@ -289,7 +289,7 @@ namespace NeeView
         /// </summary>
         public void FocusBookshelfSearchBox(bool byMenu)
         {
-            SetVisibleFolderList(true, true);
+            SetVisibleFolderList(true, true, false);
             BookshelfFolderList.Current.RaiseSearchBoxFocus();
         }
 

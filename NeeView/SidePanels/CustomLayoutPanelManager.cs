@@ -98,13 +98,13 @@ namespace NeeView
             return PanelsSource[key];
         }
 
-        public void SelectPanel(string key, bool isSelected)
+        public void SelectPanel(string key, bool isSelected, bool isFocus)
         {
             if (!_initialized) throw new InvalidOperationException();
 
             if (isSelected)
             {
-                Open(key, true);
+                Open(key, isFocus);
             }
             else
             {

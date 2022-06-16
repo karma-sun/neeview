@@ -28,7 +28,7 @@ namespace NeeView
         {
             if (e.Args.Length > 0)
             {
-                SidePanelFrame.Current.SetVisibleFolderList(Convert.ToBoolean(e.Args[0]), true);
+                SidePanelFrame.Current.SetVisibleFolderList(Convert.ToBoolean(e.Args[0]), true, true);
             }
             else
             {

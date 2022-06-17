@@ -132,8 +132,10 @@ namespace NeeView
                 return;
             }
 #endif
+            // NOTE: ディレクトリは更新日をサイズとする
+            var length = entry.IsDirectory ? entry.LastWriteTime.ToBinary() : entry.Length;
 
-            _header = new ThumbnailCacheHeader(entry.SystemPath, entry.Length, appendix, Config.Current.Thumbnail.GetThumbnailImageGenerateHash());
+            _header = new ThumbnailCacheHeader(entry.SystemPath, length, appendix, Config.Current.Thumbnail.GetThumbnailImageGenerateHash());
             var image = ThumbnailCache.Current.Load(_header);
             ////Debug.WriteLine($"ThumbnailCache.Load: {_header.Key}: {(image == null ? "Miss" : "Hit!")}");
             Image = image;

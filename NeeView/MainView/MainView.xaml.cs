@@ -338,7 +338,18 @@ namespace NeeView
         private object _windowSizeChangedLock = new object();
         private Size _oldWindowSize;
         private Size _newWindowSize;
+        private bool _isResizeLocked;
 
+        public void SetResizeLock(bool locked)
+        {
+            lock (_windowSizeChangedLock)
+            {
+                if (_isResizeLocked == locked) return;
+                _isResizeLocked = locked;
+            }
+
+            UpdateViewSize();
+        }
 
         private void MainView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -350,26 +361,30 @@ namespace NeeView
             // 最小化では処理しない
             if (window.WindowState == WindowState.Minimized) return;
 
+            bool isResizeLocked;
             lock (_windowSizeChangedLock)
             {
                 _newWindowSize = e.NewSize;
+                isResizeLocked = _isResizeLocked;
             }
 
-            // 最小化からフルスクリーン復帰時に一時的にサイズ変更されるため、遅延評価する
-            if (windowStateManager.CurrentState == WindowStateEx.FullScreen && windowStateManager.PreviousState == WindowStateEx.Minimized)
+            if (!isResizeLocked)
             {
-                ////Debug.WriteLine($"ViewSizeChange.Delay: {windowStateManager.CurrentState} ");
-                AppDispatcher.BeginInvoke(async () =>
-                {
-                    await Task.Delay(100);
-                    SizeChangedCore();
-                });
+                //Debug.WriteLine($"ViewSizeChange: {windowStateManager.CurrentState} {e.NewSize} ");
+                SizeChangedCore();
             }
             else
             {
-                ////Debug.WriteLine($"ViewSizeChange: {windowStateManager.CurrentState} ");
-                SizeChangedCore();
+                //Debug.WriteLine($"ViewSizeChange: Locked");
             }
+        }
+
+        public void UpdateViewSize()
+        {
+            var window = Window.GetWindow(this);
+            if (window is null) return;
+
+            SizeChangedCore();
         }
 
         private void SizeChangedCore()

@@ -67,6 +67,18 @@ namespace NeeView.Windows.Data
 
         #region Methods
 
+        /// <summary>
+        /// タイマー精度変更
+        /// </summary>
+        /// <remarks>
+        /// TODO: 遅延時間で自動で変更されるようにする
+        /// </remarks>
+        /// <param name="ms"></param>
+        public void SetInterval(double ms)
+        {
+            _timer.Interval = TimeSpan.FromMilliseconds(ms);
+        }
+
         public void SetValue(T value)
         {
             SetValue(value, 0.0);

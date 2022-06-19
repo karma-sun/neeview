@@ -54,6 +54,8 @@ namespace NeeView
 
 
         public event EventHandler<WindowStateChangedEventArgs> StateChanged;
+        public event EventHandler<WindowStateChangedEventArgs> StateEditing;
+        public event EventHandler<WindowStateChangedEventArgs> StateEdited;
 
         public Window Window => _window;
         public WindowStateEx CurrentState => _currentState;
@@ -154,12 +156,13 @@ namespace NeeView
         }
 
 
-        private void BeginEdit()
+        private void BeginEdit(WindowStateChangedEventArgs editArgs)
         {
+            StateEditing?.Invoke(this, editArgs);
             _isProgress = true;
         }
 
-        private void EndEdit()
+        private void EndEdit(WindowStateChangedEventArgs editArgs)
         {
             var nowState = GetWindowState();
             if (nowState != _currentState)
@@ -170,6 +173,7 @@ namespace NeeView
             }
 
             _isProgress = false;
+            StateEdited?.Invoke(this, editArgs);
         }
 
 
@@ -177,20 +181,22 @@ namespace NeeView
         {
             if (_isProgress) return;
 
-            BeginEdit();
+            var editArgs = new WindowStateChangedEventArgs(_currentState, WindowStateEx.Minimized);
+            BeginEdit(editArgs);
 
             _window.ResizeMode = ResizeMode.CanResize;
             _window.WindowStyle = WindowStyle.None;
             _window.WindowState = WindowState.Minimized;
 
-            EndEdit();
+            EndEdit(editArgs);
         }
 
         public void ToNormalize()
         {
             if (_isProgress) return;
 
-            BeginEdit();
+            var editArgs = new WindowStateChangedEventArgs(_currentState, WindowStateEx.Normal);
+            BeginEdit(editArgs);
 
             SetFullScreenMode(false);
             _resumeState = WindowStateEx.Normal;
@@ -206,7 +212,7 @@ namespace NeeView
                 Windows7Tools.RecoveryTaskBar(_window);
             }
 
-            EndEdit();
+            EndEdit(editArgs);
         }
 
         public void ToMximizeMaybe()
@@ -225,7 +231,8 @@ namespace NeeView
         {
             if (_isProgress) return;
 
-            BeginEdit();
+            var editArgs = new WindowStateChangedEventArgs(_currentState, WindowStateEx.Maximized);
+            BeginEdit(editArgs);
 
             SetFullScreenMode(false);
             _resumeState = WindowStateEx.Maximized;
@@ -247,14 +254,15 @@ namespace NeeView
 
             UpdateWindowChrome();
 
-            EndEdit();
+            EndEdit(editArgs);
         }
 
         public void ToFullScreen()
         {
             if (_isProgress) return;
 
-            BeginEdit();
+            var editArgs = new WindowStateChangedEventArgs(_currentState, WindowStateEx.FullScreen);
+            BeginEdit(editArgs);
 
             // NOTE: Windowsショートカットによる移動ができなくなるので、Windows7とタブレットに限定する
             if (Windows7Tools.IsWindows7 || _dependency.IsTabletMode)
@@ -282,7 +290,7 @@ namespace NeeView
 
             UpdateWindowChrome();
 
-            EndEdit();
+            EndEdit(editArgs);
         }
 
 

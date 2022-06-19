@@ -26,6 +26,9 @@ namespace NeeView
 
         private bool _isStoreEnabled = true;
 
+        private MainViewLockerMediator _mediator;
+        private MainViewLocker _dockingLocker;
+        private MainViewLocker _floatingLocker;
 
         public MainViewWindow Window => _window;
         public MainView MainView => _mainView;
@@ -46,6 +49,10 @@ namespace NeeView
             BookHub.Current.BookChanging += BookHub_BookChanging;
 
             Config.Current.MainView.AddPropertyChanged(nameof(MainViewConfig.IsFloating), (s, e) => Update());
+
+            _mediator = new MainViewLockerMediator(_mainView);
+            _dockingLocker = new MainViewLocker(_mediator, MainWindow.Current);
+            _dockingLocker.Activate();
         }
 
         private void BookHub_BookChanging(object sender, BookChangingEventArgs e)
@@ -92,6 +99,8 @@ namespace NeeView
                 Config.Current.MainView.WindowPlacement = new WindowPlacement(WindowState.Normal, (int)point.X + 32, (int)point.Y + 32, (int)_mainView.ActualWidth, (int)_mainView.ActualHeight);
             }
 
+            _dockingLocker.Deactivate();
+
             _defaultSocket.Content = _mainViewBay;
 
             InfoMessage.Current.ClearMessage(ShowMessageStyle.Normal);
@@ -104,6 +113,9 @@ namespace NeeView
 
             _window.Show();
             _window.Activate();
+
+            _floatingLocker = new MainViewLocker(_mediator, _window);
+            _floatingLocker.Activate();
         }
 
 
@@ -111,12 +123,21 @@ namespace NeeView
         {
             if (_window is null) return;
 
+            if (_floatingLocker != null)
+            {
+                _floatingLocker.Deactivate();
+                _floatingLocker.Dispose();
+                _floatingLocker = null;
+            }
+
             _window.Close();
             _window.Content = null;
             _window = null;
 
             // NOTE: コンテンツの差し替えでLoadedイベントが呼ばれないことがあるため、新規コントロールをはさむことで確実にLoadedイベントが呼ばれるようにする。
             _defaultSocket.Content = new ContentControl() { Content = _mainView, IsTabStop = false, Focusable = false };
+
+            _dockingLocker.Activate();
         }
 
 

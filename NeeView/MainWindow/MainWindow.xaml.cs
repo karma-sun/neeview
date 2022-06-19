@@ -22,7 +22,7 @@ namespace NeeView
     /// <summary>
     /// MainWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class MainWindow : Window, IDpiScaleProvider, IHasWindowController, INotifyMouseHorizontalWheelChanged, IHasRenameManager
+    public partial class MainWindow : Window, IDpiScaleProvider, IHasWindowController, INotifyMouseHorizontalWheelChanged, IHasRenameManager, IMainViewWindow
     {
         public static MainWindow Current { get; private set; }
 

@@ -17,13 +17,17 @@ using System.Windows.Shapes;
 
 namespace NeeView.Windows.Controls
 {
-    public partial class WindowCaptionButtons : UserControl
+    public partial class WindowCaptionButtons : UserControl, IHasMaximizeButton
     {
         private Window _window;
+        private SnapLayoutPresenter _snapLayoutPresenter;
+
 
         public WindowCaptionButtons()
         {
             InitializeComponent();
+            _snapLayoutPresenter = new SnapLayoutPresenter(this);
+
             this.Loaded += (s, e) => InitializeWindow(Window.GetWindow(this));
             this.Root.DataContext = this;
         }
@@ -78,10 +82,12 @@ namespace NeeView.Windows.Controls
             if (_window != null)
             {
                 _window.StateChanged -= Window_StateChanged;
+                _snapLayoutPresenter.Detach(_window);
             }
 
             _window = window;
             _window.StateChanged += Window_StateChanged;
+            _snapLayoutPresenter.Attach(_window);
 
             Window_StateChanged(this, null);
         }
@@ -116,7 +122,23 @@ namespace NeeView.Windows.Controls
             }
         }
 
+        /// <summary>
+        /// 現在の最大化ボタンを取得
+        /// </summary>
+        /// <returns></returns>
+        public Button GetMaximizeButton()
+        {
+            return IsMaximizeEnabled
+                ? this.CaptionMaximizeButton.IsVisible ? this.CaptionMaximizeButton : this.CaptionRestoreButton
+                : null;
+        }
 
-
+        /// <summary>
+        /// 最大化ボタンの背景変更 (別手段)
+        /// </summary>
+        public void SetMaximizeButtonBackground(Brush brush)
+        {
+            this.CaptionMaximizeButtonBase.Background = brush;
+        }
     }
 }

@@ -419,9 +419,10 @@ namespace OpenSourceControls
 
                 for (int i = children.Count - 1; i >= 0; i--)
                 {
+                    var child = (UIElement)children[i];
                     var childPos = new GeneratorPosition(i, 0);
                     var index = generator.IndexFromGeneratorPosition(childPos);
-                    if (index < this.firstGeneratedIndex || index > this.lastGeneratedIndex)
+                    if ((index < this.firstGeneratedIndex || index > this.lastGeneratedIndex) && !child.IsKeyboardFocusWithin)
                     {
                         this.generator.Remove(childPos, 1);
                         this.owner.RemoveInternalChildRange(i, 1);

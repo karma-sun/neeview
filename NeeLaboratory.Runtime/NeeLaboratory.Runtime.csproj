@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>NeeLaboratory</Authors>
-    <Copyright>Copyright © 2016-2021 Ito Mitsuhiro (nee)</Copyright>
+    <Copyright>Copyright © 2016-2022 Ito Mitsuhiro (nee)</Copyright>
   </PropertyGroup>
 
 </Project>

@@ -231,6 +231,13 @@ namespace NeeView
         /// <param name="e"></param>
         private void Watcher_Creaded(object sender, FileSystemEventArgs e)
         {
+            // 除外フィルター
+            var excludeRegex = BookshelfFolderList.Current.ExcludeRegex;
+            if (excludeRegex != null && excludeRegex.IsMatch(e.Name))
+            {
+                return;
+            }
+
             RequestCreate(new QueryPath(e.FullPath));
         }
 

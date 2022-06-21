@@ -2,6 +2,37 @@
 
 ----
 
+### 39.4
+(2022-06-??)
+
+#### New
+- Supports Windows 11 snap layouts
+
+#### Fixed
+- Fixed a bug that the bookshelf exclusion filter does not work when adding files
+- Fixed a bug that caused the thumbnail operation to become very slow due to certain operations.
+- Fixed a bug that the coordinates of the image shift when returning from minimization to full screen.
+- Fixed a bug that folder thumbnails are not updated.
+- Fixed a bug that the "Move focus to search box" command may not be focused.
+- Fixed a bug that the "Load subfolders at this location" setting does not work when opening previous or next workbooks.
+- Fixed a bug when cruising from a book loading a subfolder.
+- Fixed a bug when an invalid path is passed to the path specification dialog.
+- Fixed a bug that shortcut files are not recognized when opening playlists as books.
+- Fixed a bug when dragging and dropping shortcuts for multiple archive files.
+- Fixed a bug that the shortcut of UNICODE name could not be recognized.
+- Fixed a bug that may not be reflected even if deleted from the history list.
+- Fixed a bug that an error occurs in the "Prev(Next) playlist item" command when the playlist is "Current book only".
+- Fixed the problem that the brightness may change when applying the resize filter.
+- Script: Fixed a bug where the effects of Patch() would continue to remain.
+- Script: Fixed an issue with large arrays.
+- Correcting typographical errors.
+- Language file update (zh-TW).
+
+#### Changed
+- Libraries update.
+
+----
+
 ### 39.3
 (2021-07-17)
 

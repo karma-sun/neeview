@@ -6,6 +6,9 @@
                 <Component Id="cmp87FDDA2C12B2DA20D2EB11C8D910E8B1" Guid="*">
                     <File Id="fil4C0437FF5451D7D7875A8AC703D6D7E5" KeyPath="yes" Source="$(var.LibrariesDir)\Esprima.dll" />
                 </Component>
+                <Component Id="cmp4E5433C97D5A0E2210DDAE7B151DEE03" Guid="*">
+                    <File Id="filFEEC7C1202A6119D000CDB8B56355FC0" KeyPath="yes" Source="$(var.LibrariesDir)\IndexRange.dll" />
+                </Component>
                 <Component Id="cmp55D781A4459ED29F2B613B2B749AA35F" Guid="*">
                     <File Id="filCFE286BFB3B8C5219FD9C039C1806747" KeyPath="yes" Source="$(var.LibrariesDir)\Jint.dll" />
                 </Component>
@@ -180,6 +183,7 @@
     <Fragment>
         <ComponentGroup Id="DllComponents">
             <ComponentRef Id="cmp87FDDA2C12B2DA20D2EB11C8D910E8B1" />
+            <ComponentRef Id="cmp4E5433C97D5A0E2210DDAE7B151DEE03" />
             <ComponentRef Id="cmp55D781A4459ED29F2B613B2B749AA35F" />
             <ComponentRef Id="cmpC94B5355C56FB4178C0C3F07A501CDC2" />
             <ComponentRef Id="cmpF9EB8C6A750913FB2F0F36260AC2AD17" />

@@ -137,6 +137,11 @@ namespace NeeView.Windows.Controls
         /// <returns></returns>
         private static bool HitTest(FrameworkElement element, IntPtr lParam)
         {
+            if (element is null || !element.IsVisible)
+            {
+                return false;
+            }
+
             var dpi = VisualTreeHelper.GetDpi(element);
             var rect = new Rect(element.PointToScreen(new Point()), new Size(element.ActualWidth * dpi.DpiScaleX, element.ActualHeight * dpi.DpiScaleY));
             short x = GET_X_LPARAM(lParam);

@@ -301,7 +301,7 @@ namespace NeeView
             }
             else
             {
-                if (this.View.Cursor == null && Window.GetWindow(this)?.IsActive == true)
+                if (this.View.Cursor == null)
                 {
                     this.View.Cursor = Cursors.None;
                 }

@@ -3,10 +3,10 @@
 ----
 
 ### 39.4
-(2022-06-??)
+(2022-07-04)
 
 #### New
-- Supports Windows 11 snap layouts
+- Supports Windows11 snap layouts
 
 #### Fixed
 - Fixed a bug that the bookshelf exclusion filter does not work when adding files
@@ -26,10 +26,10 @@
 - Script: Fixed a bug where the effects of Patch() would continue to remain.
 - Script: Fixed an issue with large arrays.
 - Correcting typographical errors.
-- Language file update (zh-TW).
 
 #### Changed
 - Libraries update.
+- Language file update (zh-TW).
 
 ----
 

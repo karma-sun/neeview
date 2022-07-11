@@ -6272,10 +6272,10 @@ $Name 為 2 頁面顯示時的主要頁面 (頁面編號較小者) 。</value>
     <value>允許檔案操作(_P)</value>
   </data>
   <data name="TogglePermitFileCommand.Off" xml:space="preserve">
-    <value>啟用檔案操作</value>
+    <value>停用檔案操作</value>
   </data>
   <data name="TogglePermitFileCommand.On" xml:space="preserve">
-    <value>停用檔案操作</value>
+    <value>啟用檔案操作</value>
   </data>
   <data name="TogglePermitFileCommand.Remarks" xml:space="preserve">
     <value>切換啟用/停用檔案操作指令。</value>
